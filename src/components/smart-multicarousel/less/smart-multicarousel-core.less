@@ -1,0 +1,48 @@
+
+.smart-multicarousel {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  justify-content: center;
+  [data-slide-area] {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 71px;
+    width: 780px;
+  }
+  [data-slide-item] {
+    display: inline-block;
+    min-width: 250px;
+    z-index: 1;
+    margin: 0 5px;
+    min-height: 150px;
+    background-color: aliceblue;
+    transition: transform 2s ease-in-out;
+  }
+
+  .active-slide {
+  //  display: flex;
+    opacity: 1;
+  }
+
+  .prev-slide {
+    transform: translateX(-100%);
+    z-index: 1;
+    display: block;
+  }
+
+  .left-sibling {
+    transform: translateX(-150%);
+  }
+
+  .right-sibling {
+   //  position: absolute;
+    transform: translateX(-300%);
+    display: inline-block;
+  }
+
+}
+
+
+
