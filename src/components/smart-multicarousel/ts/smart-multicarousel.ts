@@ -1,6 +1,7 @@
 class SmartMulticarousel extends HTMLElement {
 
     private config: {};
+    private circleNum: number;
 
     static get is() {
         return 'smart-multicarousel';
@@ -22,9 +23,7 @@ class SmartMulticarousel extends HTMLElement {
 
     private _bindEvents() {
         this.addEventListener('click', (event) => this._onClick(event), false);
-        // this.addEventListener('smart-mc-animstart', this._onAnimateStart, false);
         this.addEventListener('smart-mc-anim', this._onAnimate, false);
-        // this.addEventListener('smart-mc-animend', this._onAnimateEnd, false);
     }
 
     private _onClick(event: MouseEvent) {
@@ -34,26 +33,45 @@ class SmartMulticarousel extends HTMLElement {
         }
     }
 
-    // private _onAnimateStart(event: MouseEvent) {
-    //     // @ts-ignore
-    //     const className: string = event.detail.numNextSlide > event.detail.index ? 'left-sibling' : 'right-sibling';
-    //     // @ts-ignore
-    //     this.slides[event.detail.numNextSlide].classList.add(className);
-    // }
-
     private _onAnimate(event: MouseEvent) {
         // @ts-ignore
-        this.slides[event.detail.index].classList.add('right-sibling');
+        const firstIndex = event.detail.firstIndex;
         // @ts-ignore
-        this.slides[event.detail.numNextSlide].classList.add('left-sibling');
-    }
+        const shiftSlidesCount = event.detail.countSlides;
 
-    // private _onAnimateEnd(event: MouseEvent) {
-    //     // @ts-ignore
-    //     this.slides[event.detail.index].classList.add('prev');
-    //     // @ts-ignore
-    //     // this.slides[event.detail.numNextSlide].classList.add('left-sibling');
-    // }
+        const visibleSlidesCount = 3;
+        const visibleAreaWidth = 780 * this.slides.length / visibleSlidesCount;
+        const slideWidth = 780;
+
+        let trans = 0;
+        let left = 0;
+
+        const currentTrans = +this.slides[firstIndex].style.transform.replace(/[^0-9\-]/ig, '');
+        const currentLeft = +this.slides[firstIndex].style.left.replace(/[^0-9\-]/ig, '');
+
+        trans = currentTrans - (shiftSlidesCount / visibleSlidesCount) * slideWidth;
+        left = currentLeft;
+
+        if ((this.activeIndexes[0] === 0 && shiftSlidesCount > 0) || (firstIndex === 0 && shiftSlidesCount < 0)) {
+            left = (shiftSlidesCount > 0) ? currentLeft + visibleAreaWidth : currentLeft - visibleAreaWidth;
+            this.activeIndexes.forEach((el) => {
+                this.slides[el].style.left = left + 'px';
+            });
+        } else {
+            const startIndex = (firstIndex + visibleSlidesCount + this.slides.length) % this.slides.length;
+            const endIndex = shiftSlidesCount > 0 ?
+                this.activeIndexes[this.activeIndexes.length - 1] :
+                (firstIndex - 1 + this.slides.length) % this.slides.length;
+
+            for (let i = startIndex; i <= endIndex; i++) {
+                this.slides[i].style.left = left + 'px';
+            }
+        }
+
+        this.slides.forEach((el) => {
+            el.style.transform = `translateX(${trans}px)`;
+        });
+    }
 
     get slides(): HTMLElement[] {
         const els = this.querySelectorAll('[data-slide-item]') as NodeListOf<HTMLElement>;
@@ -65,25 +83,30 @@ class SmartMulticarousel extends HTMLElement {
     }
 
     get activeIndexes(): number[] {
-        const indexes: number[] = [];
-        this.slides.forEach((el, index) => {
+        return this.slides.reduce((indexes: number[], el, index) => {
             if (el.classList.contains(this.activeClass)) {
                 indexes.push(index);
             }
-        });
-        return indexes;
+            return indexes;
+        }, []);
     }
 
     public goTo(countSlides: number) {
-        this.activeIndexes.forEach((index) => {
-            const numNextSlide = (index + countSlides + this.slides.length) % this.slides.length;
-            this.triggerAnimationStart(index, numNextSlide);
-            this.slides[index].classList.remove(this.activeClass);
-            this.slides[numNextSlide].classList.add(this.activeClass);
-            this.triggerAnimation(index, numNextSlide);
-            this.triggerAnimationEnd(index, numNextSlide);
-        });
-        // this.triggerSlidesChange(countSlides);
+        const firstIndex = this.activeIndexes[0];
+        let numNextSlide = (firstIndex + countSlides + this.slides.length) % this.slides.length;
+        const obj = {
+            firstIndex,
+            countSlides
+        };
+        if (numNextSlide !== firstIndex) {
+            this.activeIndexes.forEach((index) => {
+                numNextSlide = (index + countSlides + this.slides.length) % this.slides.length;
+                this.slides[index].classList.remove(this.activeClass);
+                this.slides[numNextSlide].classList.add(this.activeClass);
+            });
+            this.triggerAnimation(obj);
+            this.triggerSlidesChange();
+        }
     }
 
     public setActiveIndexes(target: number | string) {
@@ -100,35 +123,17 @@ class SmartMulticarousel extends HTMLElement {
         this.goTo(countSlides);
     }
 
-    private triggerAnimation(index: number, numNextSlide: number) {
+    private triggerAnimation(obj: object) {
         const event = new CustomEvent('smart-mc-anim', {
             bubbles: true,
-            detail: {
-                index,
-                numNextSlide
-            }
+            detail: obj
         });
         this.dispatchEvent(event);
     }
 
-    private triggerAnimationStart(index: number, numNextSlide: number) {
-        const event = new CustomEvent('smart-mc-animstart', {
+    private triggerSlidesChange() {
+        const event = new CustomEvent('smart-mc-slideschanged', {
             bubbles: true,
-            detail: {
-                index,
-                numNextSlide
-            }
-        });
-        this.dispatchEvent(event);
-    }
-
-    private triggerAnimationEnd(index: number, numNextSlide: number) {
-        const event = new CustomEvent('smart-mc-animend', {
-            bubbles: true,
-            detail: {
-                index,
-                numNextSlide
-            }
         });
         this.dispatchEvent(event);
     }
