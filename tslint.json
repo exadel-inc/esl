@@ -7,7 +7,8 @@
     "tslint:recommended",
     "tslint-eslint-rules"
   ],
-  "jsRules": {},
+  "jsRules": {
+  },
   "rules": {
     "quotemark" : [true, "single"],
     "max-line-length": [true, 200],
@@ -29,5 +30,11 @@
     "interface-name": [true, "never-prefix"],
     "member-ordering": false
   },
-  "rulesDirectory": []
+  "linterOptions": {
+    "exclude": [
+      "node_modules",
+      "lib/*.js",
+      "test-server/**/*.js"
+    ]
+  }
 }
