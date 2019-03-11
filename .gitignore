@@ -11,3 +11,4 @@ npm-debug.log
 .eslintrc.json
 test-server/static/
 edmtp-modules/
+package-lock.json
