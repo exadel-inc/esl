@@ -17,9 +17,9 @@ gulp.task('less-lib', function () {
 // local dev assets
 gulp.task('less-local', function () {
     return task.less([
-        'test-pages/assets/*.less'
+        'test-server/assets/*.less'
     ]).pipe(gulp.dest(
-        'test-pages/static'
+        'test-server/static'
     ));
 });
 
@@ -33,12 +33,20 @@ gulp.task('ts-lib', function () {
         'lib'
     ));
 });
+// local dev assets
+gulp.task('ts-local', function () {
+	return task.ts({
+		src: ['test-server/assets/*.ts'],
+		context: 'src/components'
+	}).pipe(gulp.dest(
+		'test-server/static'
+	));
+});
 
 
 // === BUILD TASKS ===
-
 gulp.task('build', gulp.parallel('less-lib', 'ts-lib'));
-gulp.task('build-local', gulp.parallel('build', 'less-local'));
+gulp.task('build-local', gulp.parallel('less-local', 'ts-local'));
 
 // default -> build
 gulp.task('default', gulp.series('build'));

@@ -11,3 +11,4 @@ npm-debug.log
 .eslintrc.json
 test-pages/dist
 test-pages/static
+server/
