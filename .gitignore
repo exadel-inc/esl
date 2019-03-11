@@ -9,6 +9,5 @@ target
 npm-debug.log
 .gitconfig
 .eslintrc.json
-test-pages/dist
-test-pages/static
-server/
+test-server/static/
+edmtp-modules/
