@@ -46,7 +46,8 @@ gulp.task('ts-local', function () {
 
 // === BUILD TASKS ===
 gulp.task('build', gulp.parallel('less-lib', 'ts-lib'));
-gulp.task('build-local', gulp.parallel('less-local', 'ts-local'));
+// Main assets + local assets
+gulp.task('build-local', gulp.series('build', gulp.parallel('less-local', 'ts-local')));
 
 // default -> build
 gulp.task('default', gulp.series('build'));

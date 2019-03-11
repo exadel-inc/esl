@@ -5,10 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
     <meta name="mobile-web-app-capable" content="yes">
+
+    <link type="text/css" rel="stylesheet" href="/all.css">
+    <link type="text/css" rel="stylesheet" href="/localdev-styles.css">
+
     <title>{{= page.getPageTitle(layout.title) }} | HPE.com</title>
-    {{= layout.head || '' }}
+
+    <script>
+        if (!('customElements' in window)) {
+	        var polyscript = document.createElement('script');
+	        polyscript.type = 'text/javascript';
+	        polyscript.src = '/polyfills.js';
+	        document.head.appendChild(polyscript);
+        }
+    </script>
 </head>
 <body class="{{= layout.bodyClass || '' }}">
-{{= layout.content || 'No content.' }}
+    {{= layout.content || 'No content.' }}
+    <script src="/all.js"></script>
 </body>
 </html>
