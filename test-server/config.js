@@ -4,5 +4,6 @@ module.exports = {
 	proxy: {},
 	public: [
 		'static/',
+		'../lib/'
 	]
 };
