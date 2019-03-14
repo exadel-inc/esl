@@ -1,7 +1,6 @@
 class SmartMulticarousel extends HTMLElement {
 
     private config: {};
-    private circleNum: number;
 
     static get is() {
         return 'smart-multicarousel';
@@ -37,7 +36,8 @@ class SmartMulticarousel extends HTMLElement {
         // @ts-ignore
         const firstIndex = event.detail.firstIndex;
         // @ts-ignore
-        const shiftSlidesCount = event.detail.countSlides;
+        const countShiftSlides = event.detail.countShiftSlides;
+        let numNextSlide = 0;
 
         const visibleSlidesCount = 3;
         const visibleAreaWidth = 780 * this.slides.length / visibleSlidesCount;
@@ -48,26 +48,33 @@ class SmartMulticarousel extends HTMLElement {
 
         const currentTrans = +this.slides[firstIndex].style.transform.replace(/[^0-9\-]/ig, '');
         const currentLeft = +this.slides[firstIndex].style.left.replace(/[^0-9\-]/ig, '');
+        trans = currentTrans - (countShiftSlides / visibleSlidesCount) * slideWidth;
 
-        trans = currentTrans - (shiftSlidesCount / visibleSlidesCount) * slideWidth;
-        left = currentLeft;
-
-        if ((this.activeIndexes[0] === 0 && shiftSlidesCount > 0) || (firstIndex === 0 && shiftSlidesCount < 0)) {
-            left = (shiftSlidesCount > 0) ? currentLeft + visibleAreaWidth : currentLeft - visibleAreaWidth;
-            this.activeIndexes.forEach((el) => {
-                this.slides[el].style.left = left + 'px';
-            });
-        } else {
-            const startIndex = (firstIndex + visibleSlidesCount + this.slides.length) % this.slides.length;
-            const endIndex = shiftSlidesCount > 0 ?
-                this.activeIndexes[this.activeIndexes.length - 1] :
-                (firstIndex - 1 + this.slides.length) % this.slides.length;
-
-            for (let i = startIndex; i <= endIndex; i++) {
-                this.slides[i].style.left = left + 'px';
+        this.activeIndexes.forEach((el) => {
+            numNextSlide = (el + countShiftSlides + this.slides.length) % this.slides.length;
+            // move to the next circle of slides
+            // rearrange next active slides
+            if ((numNextSlide < el && countShiftSlides > 0) || (firstIndex === 0 && countShiftSlides < 0)) {
+                left = (countShiftSlides > 0) ? currentLeft + visibleAreaWidth : currentLeft - visibleAreaWidth;
+                this.slides[numNextSlide].style.left = left + 'px';
+            } else {
+                this.slides[numNextSlide].style.left = currentLeft + 'px';
             }
+        });
+
+        // rearrange slides that have to be between current active indexes and next active indexes
+        const startIndex = countShiftSlides > 0 ?
+            this.activeIndexes[this.activeIndexes.length - 1] :
+            (this.activeIndexes[0] + 1 + countShiftSlides + this.slides.length) % this.slides.length;
+        const endIndex = countShiftSlides > 0 ?
+            (this.activeIndexes[0] + countShiftSlides + this.slides.length) % this.slides.length :
+            this.activeIndexes[0];
+
+        for (let i = startIndex; i <= endIndex; i++) {
+            this.slides[i].style.left = currentLeft + 'px';
         }
 
+        // show animation
         this.slides.forEach((el) => {
             el.style.transform = `translateX(${trans}px)`;
         });
@@ -91,39 +98,59 @@ class SmartMulticarousel extends HTMLElement {
         }, []);
     }
 
-    public goTo(countSlides: number) {
+    public goTo(countShiftSlides: number) {
         const firstIndex = this.activeIndexes[0];
-        let numNextSlide = (firstIndex + countSlides + this.slides.length) % this.slides.length;
+        const nextActiveIndexes: number[] = [];
+        let numNextSlide = (firstIndex + countShiftSlides + this.slides.length) % this.slides.length;
         const obj = {
             firstIndex,
-            countSlides
+            countShiftSlides
         };
         if (numNextSlide !== firstIndex) {
-            this.activeIndexes.forEach((index) => {
-                numNextSlide = (index + countSlides + this.slides.length) % this.slides.length;
-                this.slides[index].classList.remove(this.activeClass);
-                this.slides[numNextSlide].classList.add(this.activeClass);
-            });
             this.triggerAnimation(obj);
-            this.triggerSlidesChange();
+            this.activeIndexes.forEach((el) => {
+                this.slides[el].classList.remove(this.activeClass);
+                numNextSlide = (el + countShiftSlides + this.slides.length) % this.slides.length;
+                nextActiveIndexes.push(numNextSlide);
+            });
+
+            nextActiveIndexes.forEach((el) => {
+                this.slides[el].classList.add(this.activeClass);
+            });
+
+            this.triggerSlidesChange({
+                countShiftSlides: countShiftSlides + firstIndex
+            });
         }
     }
 
     public setActiveIndexes(target: number | string) {
         const countConfig: number = 3;
-        let countSlides: number = 0;
+        let countShiftSlides: number = 0;
+
         if ('prev' === target) {
-            countSlides = -countConfig;
+            countShiftSlides = -countConfig;
+            // move to previous slides if the count of slides isn't enough and the last slide is active
+            if (this.slides.length % countConfig !== 0 && (this.activeIndexes.indexOf(this.slides.length - 1) !== -1)) {
+                countShiftSlides = -this.slides.length % countConfig;
+            }
         } else if ('next' === target) {
-            countSlides = countConfig;
+            countShiftSlides = countConfig;
         } else {
-            countSlides = countConfig * +target - this.activeIndexes[0];
+            countShiftSlides = countConfig * +target - this.activeIndexes[0];
         }
 
-        this.goTo(countSlides);
+        // moving to the last slide if the count of slides isn't enough
+        const firstNextIndex = (this.activeIndexes[0] + countShiftSlides + this.slides.length) % this.slides.length;
+        const countNextSlides = this.slides.length - firstNextIndex;
+        if (countNextSlides < countConfig) {
+            countShiftSlides = countShiftSlides - countConfig + countNextSlides;
+        }
+
+        this.goTo(countShiftSlides);
     }
 
-    private triggerAnimation(obj: object) {
+    private triggerAnimation(obj: {}) {
         const event = new CustomEvent('smart-mc-anim', {
             bubbles: true,
             detail: obj
@@ -131,9 +158,10 @@ class SmartMulticarousel extends HTMLElement {
         this.dispatchEvent(event);
     }
 
-    private triggerSlidesChange() {
+    private triggerSlidesChange(obj: {}) {
         const event = new CustomEvent('smart-mc-slideschanged', {
             bubbles: true,
+            detail: obj
         });
         this.dispatchEvent(event);
     }
