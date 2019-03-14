@@ -12,12 +12,12 @@
  * - Mobile / full browser detection (@MOBILE|@DESKTOP)
  */
 
-import {BREAKPOINTS} from '../../helpers/constants';
 import {isMobile} from '../../helpers/utils';
+import {BreakpointRegistry} from './smart-query-breakpoints';
 
 const QUERY_CACHE: any = {};
 
-function getQuery(query: string) {
+function getQuery(query: string): MediaQueryList {
 	if (query) {
 		const matcher = QUERY_CACHE[query] ? QUERY_CACHE[query] : window.matchMedia(query);
 		if (matcher) {
@@ -29,21 +29,28 @@ function getQuery(query: string) {
 }
 
 export class SmartQuery {
+	static get BreakpointRegistry() {
+		return BreakpointRegistry;
+	}
 
-	public _dpr: number;
-	public _mobileOnly: boolean;
-	public _query: any;
+	private _dpr: number;
+	private _mobileOnly: boolean;
+	private readonly _query: MediaQueryList;
 
 	constructor(query: string) {
 		query = query.replace(/@([+-]{0,1})(XS|SM|MD|XL|LG)/ig, (match, sign, bp) => {
-			bp = bp.toLowerCase();
+			const shortcut = BreakpointRegistry.getBreakpoint(bp.toLowerCase());
+			if (!shortcut) {
+				console.error(`[SmartQuery] shortcut ${match} not found`);
+				return 'not all';
+			}
 			switch (sign) {
 				case '+':
-					return BREAKPOINTS[bp].mediaQueryGE;
+					return shortcut.mediaQueryGE;
 				case '-':
-					return BREAKPOINTS[bp].mediaQueryLE;
+					return shortcut.mediaQueryLE;
 				default:
-					return BREAKPOINTS[bp].mediaQuery;
+					return shortcut.mediaQuery;
 			}
 		});
 
@@ -59,7 +66,7 @@ export class SmartQuery {
 		query = query.replace(/(and ){0,1}(@MOBILE|@DESKTOP)( and){0,1}/i, (match, pre, type, post) => {
 			this._mobileOnly = (type.toUpperCase() === '@MOBILE');
 			if (isMobile !== this._mobileOnly) {
-				return 'not all'
+				return 'not all';
 			}
 			return pre && post ? ' and ' : '';
 		});
@@ -87,11 +94,11 @@ export class SmartQuery {
 		return this.query && this.query.matches;
 	}
 
-	public addListener(listener: string) {
-		this.query && this.query.addListener(listener);
+	public addListener(listener: ()=>void) {
+		this.query && this.query.addEventListener('change', listener);
 	}
 
-	public removeListener(listener: string) {
-		this.query && this.query.removeListener(listener);
+	public removeListener(listener: ()=>void)  {
+		this.query && this.query.removeEventListener('change', listener);
 	}
 }
