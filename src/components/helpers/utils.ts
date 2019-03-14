@@ -1,5 +1,5 @@
-export function defer(fn : any, time = 10, scope: any = null) {
-	let timeout: any = null;
+export function defer(fn : Function, time = 10, scope: Array<any> = null) {
+	let timeout: ReturnType<typeof setTimeout> = null;
 	return function () {
 		let args = arguments;
 		if (timeout) clearTimeout(timeout);
@@ -10,8 +10,8 @@ export function defer(fn : any, time = 10, scope: any = null) {
 	};
 }
 
-export function throttle(fn: any, threshold = 250, scope: any = null) {
-	let last: number, deferTimer: any;
+export function throttle(fn: Function, threshold = 250, scope: Array<any> = null) {
+	let last: number, deferTimer: ReturnType<typeof setTimeout>;
 	return function () {
 		let context = scope || this;
 		let now = Date.now(), args = arguments;
@@ -29,7 +29,7 @@ export function throttle(fn: any, threshold = 250, scope: any = null) {
 	};
 }
 
-export function triggerComponentEvent(target: any, eventName: string, args: any) {
+export function triggerComponentEvent(target: any, eventName: string, args: Array<any>) {
 	let eventHandlerName = 'on' + eventName,
 		eventHandlerAttr = target.getAttribute(eventHandlerName);
 	if (eventHandlerAttr) {

@@ -13,7 +13,7 @@
  */
 
 import {BREAKPOINTS} from '../../helpers/constants';
-import {isMobile} from '../../helpers/utills';
+import {isMobile} from '../../helpers/utils';
 
 const QUERY_CACHE: any = {};
 
