@@ -9,6 +9,7 @@ class SmartMulticarouselDots extends HTMLElement {
     constructor() {
         super();
     }
+
     private _onUpdate = () => this.rerender();
 
     private connectedCallback() {
@@ -25,16 +26,15 @@ class SmartMulticarouselDots extends HTMLElement {
     public rerender() {
         let html = '';
         const countSlides = 3;
-        const count = this._parent.slides.length;
-        const activeDot = Math.floor(this._parent.activeIndexes[0] / countSlides);
-        for (let i = 0; i < Math.floor(count / countSlides); ++i) {
+        const activeDot =  Math.floor(this._parent.activeIndexes[countSlides - 1] / countSlides);
+        for (let i = 0; i < Math.ceil(this._parent.slides.length / countSlides); ++i) {
             html += this.buildDot(i, i === activeDot);
         }
         this.innerHTML = html;
     }
 
     public buildDot(index: number, isActive: boolean) {
-        return `<button role="button" class="carousel-dot ${isActive ? 'active-dot' : ''}" data-slide-target="${index}" onclick="void 0">
+        return `<button role="button" class="carousel-dot ${isActive ? 'active-dot' : ''}" data-slide-target="${index}">
                 <span > </span>
             </button>`;
     }
