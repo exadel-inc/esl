@@ -28,6 +28,11 @@ function getQuery(query: string): MediaQueryList {
 	return null;
 }
 
+function getDprMediaQuery(ratio: number) {
+	const isWebkit = navigator.userAgent.indexOf('AppleWebKit') !== -1;
+	return isWebkit ? `(-webkit-min-device-pixel-ratio: ${ratio})` : `(min-resolution: ${Math.round(96 * ratio)}dpi)`;
+}
+
 export class SmartQuery {
 	static get BreakpointRegistry() {
 		return BreakpointRegistry;
@@ -38,31 +43,18 @@ export class SmartQuery {
 	private readonly _query: MediaQueryList;
 
 	constructor(query: string) {
-		query = query.replace(/@([+-]{0,1})(XS|SM|MD|XL|LG)/ig, (match, sign, bp) => {
-			const shortcut = BreakpointRegistry.getBreakpoint(bp.toLowerCase());
-			if (!shortcut) {
-				console.error(`[SmartQuery] shortcut ${match} not found`);
-				return 'not all';
-			}
-			switch (sign) {
-				case '+':
-					return shortcut.mediaQueryGE;
-				case '-':
-					return shortcut.mediaQueryLE;
-				default:
-					return shortcut.mediaQuery;
-			}
-		});
 
+		// Applying known breakpoints shortcut
+		query = BreakpointRegistry.apply(query);
+
+		// Applying dpr shortcut
 		this._dpr = 1;
-
-		const isWebkit = navigator.userAgent.indexOf('AppleWebKit') !== -1;
-
 		query = query.replace(/@(1|2|3)x/, (match, ratio) => {
 			this._dpr = Math.floor(ratio);
-			return isWebkit ? `(-webkit-min-device-pixel-ratio: ${ratio})` : `(min-resolution: ${Math.round(96 * ratio)}dpi)`;
+			return getDprMediaQuery(ratio);
 		});
 
+		// Applying dpr shortcut for device detection
 		query = query.replace(/(and ){0,1}(@MOBILE|@DESKTOP)( and){0,1}/i, (match, pre, type, post) => {
 			this._mobileOnly = (type.toUpperCase() === '@MOBILE');
 			if (isMobile !== this._mobileOnly) {
@@ -102,3 +94,4 @@ export class SmartQuery {
 		this.query && this.query.removeEventListener('change', listener);
 	}
 }
+export default SmartQuery;

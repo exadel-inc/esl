@@ -1,4 +1,4 @@
-export function defer(fn : Function, time = 10, scope: Array<any> = null) {
+ export function defer(fn : Function, time = 10, scope: object = null) {
 	let timeout: ReturnType<typeof setTimeout> = null;
 	return function () {
 		let args = arguments;
@@ -10,7 +10,7 @@ export function defer(fn : Function, time = 10, scope: Array<any> = null) {
 	};
 }
 
-export function throttle(fn: Function, threshold = 250, scope: Array<any> = null) {
+export function throttle(fn: Function, threshold = 250, scope: object = null) {
 	let last: number, deferTimer: ReturnType<typeof setTimeout>;
 	return function () {
 		let context = scope || this;
@@ -29,7 +29,12 @@ export function throttle(fn: Function, threshold = 250, scope: Array<any> = null
 	};
 }
 
-export function triggerComponentEvent(target: any, eventName: string, args: Array<any>) {
+interface HandlerMap {
+	[propName: string]: Function
+}
+type TargetElem = HTMLElement & HandlerMap;
+
+export function triggerComponentEvent(target: TargetElem, eventName: string, args: Array<string>) {
 	let eventHandlerName = 'on' + eventName,
 		eventHandlerAttr = target.getAttribute(eventHandlerName);
 	if (eventHandlerAttr) {
@@ -65,17 +70,21 @@ export function loadScript(id: string, src: string) {
  * Generate unique id
  * @returns {String}
  * */
-export function generateUId() {
+export function generateUId(): string {
 	let fp = Date.now().toString(32);
 	let sp = Math.round(Math.random() * 1024 * 1024).toString(32);
 	return fp + '-' + sp;
 }
 
+export interface LanguageCode {
+	lang: string,
+	code: string
+}
 /**
  * get page language code
  * @returns {Object}
  * */
-export function getPageLanguageCode() {
+export function getPageLanguageCode(): LanguageCode {
 	const lang = (document.documentElement.lang || 'en').toLowerCase();
 	const metaCountry = document.querySelector('meta[name="target_country"]');
 	const country = (metaCountry && metaCountry.getAttribute('content') || 'us').toLowerCase();

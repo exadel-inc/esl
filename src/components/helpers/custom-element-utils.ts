@@ -1,4 +1,8 @@
-export function buildProperties(proto: object, attrList: Array<any>) {
+interface PropertyDefinition {
+	name: string;
+	conditional?: boolean;
+}
+export function buildProperties(proto: object, attrList: Array<string | PropertyDefinition>) {
 	attrList.forEach(function (attr: any) {
 		let name = attr.name || attr;
 		if (attr.conditional) {

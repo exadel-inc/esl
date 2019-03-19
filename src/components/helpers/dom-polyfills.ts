@@ -1,14 +1,18 @@
 /**
  * Element.closest polyfill
  * */
-interface Element {
+
+/**
+ * Cross-browser Element interface
+ * */
+interface ElementEx extends Element{
 	msMatchesSelector(selectors: string): boolean;
 	mozMatchesSelector(selectors: string): boolean;
 }
 
-(function (e:Element ) {
+(function (e: ElementEx) {
 	e.matches = e.matches || e.msMatchesSelector || e.mozMatchesSelector || e.webkitMatchesSelector;
-	e.closest = e.closest || function (css: any) {
+	e.closest = e.closest || function (css: string) {
 		let node = this;
 		while (node) {
 			if (node.matches(css)) return node;
@@ -16,4 +20,4 @@ interface Element {
 		}
 		return null;
 	};
-})(Element.prototype);
+})(Element.prototype as ElementEx);
