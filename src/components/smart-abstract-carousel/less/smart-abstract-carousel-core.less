@@ -1,5 +1,5 @@
-
-.smart-multicarousel {
+// CORE styles
+.smart-carousel {
   display: flex;
   position: relative;
   overflow: hidden;
@@ -22,35 +22,11 @@
     transition: transform 2s ease-in-out;
   }
 
-  .left {
-    transform: translateX(-780px);
-  }
-
-  .right {
-    position: absolute;
-    transform: translateX(-780px);
-  }
-
   .active-slide {
     display: block;
     position: relative;
     visibility: visible;
     z-index: 2;
     opacity: 1;
-  }
-
-  .prev-slide {
-    transform: translateX(-780px);
-    z-index: 1;
-    display: block;
-  }
-
-  .left-sibling {
-    transform: translateX(-1560px);
-  }
-
-  .prev {
-    visibility: visible;
-    position: relative;
   }
 }

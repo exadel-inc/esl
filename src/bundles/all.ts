@@ -1,2 +1,2 @@
 import '../components/example/example.ts';
-import '../components/smart-multicarousel/smart-multicarousel.ts';
+import '../components/smart-multi-carousel/smart-multi-carousel.ts';
