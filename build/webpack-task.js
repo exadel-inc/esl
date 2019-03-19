@@ -44,7 +44,10 @@ module.exports = function tsBuild(config) {
 		plugins: [
 			new ForkTsCheckerWebpackPlugin({
 				tslint: TS_LINT,
-				tsconfig: TS_CONFIG
+				tsconfig: TS_CONFIG,
+				reportFiles: [
+					'src/**/*.{ts,tsx}'
+				]
 			})
 		]
 	});
