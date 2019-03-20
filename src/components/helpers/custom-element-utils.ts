@@ -2,9 +2,39 @@ interface PropertyDefinition {
 	name: string;
 	conditional?: boolean;
 }
-export function buildProperties(proto: object, attrList: Array<string | PropertyDefinition>) {
+
+function buildSimpleProperty(proto: HTMLElement, attrName: string) {
+	const propName = attrName.replace(/-([a-zA-Z])/g, (lex: string, symbol: string) => symbol.toUpperCase());
+	Object.defineProperty(proto, propName, {
+		get() {
+			return this.getAttribute(attrName);
+		},
+		set(val) {
+			this.setAttribute(attrName, val);
+		}
+	});
+}
+
+function buildConditionalProperty(proto: HTMLElement, attrName: string) {
+	const propName = attrName.replace(/-([a-zA-Z])/g, (lex: string, symbol: string) => symbol.toUpperCase());
+	Object.defineProperty(proto, propName, {
+		get() {
+			return this.hasAttribute(attrName);
+		},
+		set(val) {
+			val ? this.setAttribute(attrName, 'true') : this.removeAttribute(attrName);
+		}
+	});
+}
+
+/**
+ * Define attribute accessors on html element
+ * @param proto - html element prototype
+ * @param attrList - attributes config, could be just properties name or PropertyDefinition
+ */
+export function buildProperties(proto: HTMLElement, attrList: Array<string | PropertyDefinition>) {
 	attrList.forEach(function (attr: any) {
-		let name = attr.name || attr;
+		const name = attr.name || attr;
 		if (attr.conditional) {
 			buildConditionalProperty(proto, name);
 		} else {
@@ -12,28 +42,3 @@ export function buildProperties(proto: object, attrList: Array<string | Property
 		}
 	});
 }
-
-export function buildSimpleProperty(proto: object, attrName: string) {
-	let propName = attrName.replace(/-([a-zA-Z])/g, (lex: string, symbol: string) => symbol.toUpperCase());
-	Object.defineProperty(proto, propName, {
-		get: function () {
-			return this.getAttribute(attrName);
-		},
-		set: function (val) {
-			this.setAttribute(attrName, val);
-		}
-	});
-}
-
-export function buildConditionalProperty(proto: object, attrName: string) {
-	let propName = attrName.replace(/-([a-zA-Z])/g, (lex: string, symbol: string) => symbol.toUpperCase());
-	Object.defineProperty(proto, propName, {
-		get: function () {
-			return this.hasAttribute(attrName);
-		},
-		set: function (val) {
-			val ? this.setAttribute(attrName, 'true') : this.removeAttribute(attrName);
-		}
-	});
-}
-

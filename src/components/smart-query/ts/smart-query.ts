@@ -12,7 +12,7 @@
  * - Mobile / full browser detection (@MOBILE|@DESKTOP)
  */
 
-import {isMobile} from '../../helpers/utils';
+import {isMobile} from '../../helpers/device-utils';
 import {BreakpointRegistry} from './smart-query-breakpoints';
 
 const QUERY_CACHE: any = {};
@@ -86,11 +86,11 @@ export class SmartQuery {
 		return this.query && this.query.matches;
 	}
 
-	public addListener(listener: ()=>void) {
+	public addListener(listener: () => void) {
 		this.query && this.query.addEventListener('change', listener);
 	}
 
-	public removeListener(listener: ()=>void)  {
+	public removeListener(listener: () => void)  {
 		this.query && this.query.removeEventListener('change', listener);
 	}
 }

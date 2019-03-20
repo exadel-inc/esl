@@ -1,13 +1,13 @@
 /**
  * Element.closest polyfill
- * */
+ */
 
 /**
  * Cross-browser Element interface
- * */
-interface ElementEx extends Element{
-	msMatchesSelector(selectors: string): boolean;
-	mozMatchesSelector(selectors: string): boolean;
+ */
+interface ElementEx extends Element {
+	msMatchesSelector?(selectors: string): boolean;
+	mozMatchesSelector?(selectors: string): boolean;
 }
 
 (function (e: ElementEx) {
