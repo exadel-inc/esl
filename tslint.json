@@ -7,16 +7,25 @@
     "tslint:recommended",
     "tslint-eslint-rules"
   ],
-  "jsRules": {
-  },
   "rules": {
-    "quotemark" : [true, "single"],
-    "max-line-length": [true, 200],
+    "curly": [
+      true,
+      "ignore-same-line"
+    ],
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "max-line-length": [
+      true,
+      200
+    ],
     "no-console": false,
     "adjacent-overload-signatures": true,
     "trailing-comma": false,
     "new-parens": true,
     "no-arg": true,
+    "no-eval": false,
     "no-bitwise": true,
     "no-conditional-assignment": true,
     "no-consecutive-blank-lines": false,
@@ -24,17 +33,32 @@
     "variable-name": false,
     "semicolon": false,
     "no-unused-expression": false,
+    "ordered-imports": false,
     "object-literal-sort-keys": false,
     "prefer-for-of": false,
-    "max-classes-per-file": 3,
-    "interface-name": [true, "never-prefix"],
-    "member-ordering": false
+    "max-classes-per-file": [
+      true,
+      3
+    ],
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
+    "member-ordering": false,
+    "only-arrow-functions": false,
+    "space-before-function-paren": [
+      true,
+      {
+        "anonymous": "always",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ]
   },
   "linterOptions": {
     "exclude": [
       "node_modules",
-      "lib/*.js",
-      "test-server/**/*.js"
+      "*.js"
     ]
   }
 }

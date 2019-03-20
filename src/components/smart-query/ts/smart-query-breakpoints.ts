@@ -1,5 +1,4 @@
 class ScreenBreakpoint {
-
 	public min: number;
 	public max: number;
 
@@ -21,11 +20,12 @@ class ScreenBreakpoint {
 	}
 }
 
-type BreakpoinsMapping = {
+interface BreakpointsMapping {
 	[key: string]: ScreenBreakpoint
-};
+}
 
-const registry: BreakpoinsMapping = {
+// Default breakpoints provided in registry
+const registry: BreakpointsMapping = {
 	xs: new ScreenBreakpoint(1, 767),
 	sm: new ScreenBreakpoint(768, 991),
 	md: new ScreenBreakpoint(992, 1199),
@@ -37,12 +37,15 @@ const BP_NAME_REGEXP = /^[a-z]{1,}/i;
 
 export abstract class BreakpointRegistry {
 	/**
-	 * addCustomBreakpoint method add or replace breakpoint shortcut that could be used inside of SmartQuery
-	 * */
+	 * Add or replace breakpoint shortcut that could be used inside of SmartQuery
+	 * @param name - name of shortcut
+	 * @param minWidth - min width for breakpoint
+	 * @param maxWidth - max width for breakpoint
+	 */
 	public static addCustomBreakpoint(name: string, minWidth: number, maxWidth: number): ScreenBreakpoint {
 		name = name.toLowerCase();
 		if (BP_NAME_REGEXP.test(name)) {
-			let current = registry[name];
+			const current = registry[name];
 			registry[name] = new ScreenBreakpoint(minWidth, maxWidth);
 			return current;
 		}
@@ -51,19 +54,25 @@ export abstract class BreakpointRegistry {
 
 	/**
 	 * @return known breakpoint shortcut instance
-	 * */
+	 */
 	public static getBreakpoint(name: string): ScreenBreakpoint {
 		return registry[(name || '').toLowerCase()];
 	}
 
+	/**
+	 * @returns all available breakpoints shortcuts
+	 */
 	public static getAllBreakpointsNames() {
 		return Object.keys(registry);
 	}
 
-	// todo doc
+	/**
+	 * Replaces known breakpoints shortcuts to the real media queries
+	 * @param query - original query string
+	 */
 	public static apply(query: string) {
 		const breakpoints = Object.keys(registry);
-		const breakpointRegex = new RegExp(`@([+-]{0,1})(${breakpoints.join('|')})`,'ig');
+		const breakpointRegex = new RegExp(`@([+-]{0,1})(${breakpoints.join('|')})`, 'ig');
 
 		return query.replace(breakpointRegex, (match, sign, bp) => {
 			const shortcut = BreakpointRegistry.getBreakpoint(bp);
