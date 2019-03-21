@@ -91,9 +91,9 @@
  *      data-src='..defaultPath [| @1x => src [| ...]]'
  *  ></smart-image>
  */
-import {isMobile} from '../../helpers/device-utils';
-import {triggerComponentEvent} from '../../helpers/component-utils';
 import SmartImageSrcRule from './smart-image-rule';
+import {isMobile} from '../../../helpers/device-utils';
+import {triggerComponentEvent} from '../../../helpers/component-utils';
 
 // Mods configurations
 
@@ -151,13 +151,7 @@ export class SmartImage extends HTMLElement {
 	private _detachLazyTrigger: () => void;
 	private _shadowImageElement: ShadowImageElement;
 	private _listenersAttached: boolean;
-	private _SmartImageSrcRule: SmartImageSrcRule;
 
-	// public static SmartImageSrcRule: SmartImageSrcRule;
-
-	static get SmartImageSrcRule() {
-		return SmartImageSrcRule;
-	}
 	static get is() {
 		return 'smart-image';
 	}
@@ -172,7 +166,6 @@ export class SmartImage extends HTMLElement {
 		this._onLoad = this._onLoad.bind(this);
 		this._onError = this._onError.bind(this);
 		this._onMatchChanged = this._onMatchChanged.bind(this);
-		this._SmartImageSrcRule = SmartImage.SmartImageSrcRule;
 	}
 
 	get lazy(): boolean {
