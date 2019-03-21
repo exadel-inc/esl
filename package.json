@@ -7,13 +7,16 @@
     "type": "git",
     "url": "git+https://gitlab.exadel.com/EDMTP/smart-wc-library.git"
   },
+  "main": "./lib/all.js",
+  "types": "./lib/declaration/bundles/all.d.ts",
   "scripts": {
     "build": "gulp build",
     "build-local": "gulp build-local",
     "local-serv": "cd test-server && node server.js"
   },
   "dependencies": {
-    "@webcomponents/custom-elements": "1.2.1"
+    "@webcomponents/custom-elements": "1.2.1",
+    "@webcomponents/webcomponents-platform": "^1.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^9.4.7",
