@@ -5,3 +5,8 @@ import SmartMulticarouselDots from './ts/smart-multicarousel-dots';
 [SmartMulticarousel, SmartMulticarouselDots].forEach((Component) => {
 	const component = new Component();
 });
+
+export {
+	SmartMulticarousel,
+	SmartMulticarouselDots
+};

@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const task = {
-    ts: require('./build/webpack-task'),
+    ts: require('./build/webpack-task').buildAll,
     less: require('./build/less-task'),
 };
 
@@ -27,7 +27,10 @@ gulp.task('less-local', function () {
 // all components
 gulp.task('ts-lib', function () {
     return task.ts({
-        src: ['src/bundles/all.ts'],
+        src: [
+            'src/bundles/all.ts',
+            'src/bundles/polyfill-prebuild.ts'
+        ],
         context: 'src/components'
     }).pipe(gulp.dest(
         'lib'
