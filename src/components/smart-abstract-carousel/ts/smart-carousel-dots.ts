@@ -1,6 +1,6 @@
 import SmartAbstractCarousel from './smart-abstract-carousel';
 
-class SmartAbstractCarouselDots extends HTMLElement {
+class SmartCarouselDots extends HTMLElement {
 
     static get is() {
         return 'smart-carousel-dots';
@@ -11,7 +11,7 @@ class SmartAbstractCarouselDots extends HTMLElement {
     }
 
     protected connectedCallback() {
-        this.classList.add(SmartAbstractCarouselDots.is);
+        this.classList.add(SmartCarouselDots.is);
         this.rerender();
         this._bindEvents();
     }
@@ -31,7 +31,7 @@ class SmartAbstractCarouselDots extends HTMLElement {
     private _onUpdate = () => this.rerender();
 
     get _parent(): SmartAbstractCarousel {
-        return this.closest(SmartAbstractCarousel.is) as SmartAbstractCarousel;
+        return this.closest('.' + SmartAbstractCarousel.is) as SmartAbstractCarousel;
     }
 
     public rerender() {
@@ -50,5 +50,5 @@ class SmartAbstractCarouselDots extends HTMLElement {
     }
 }
 
-customElements.define(SmartAbstractCarouselDots.is, SmartAbstractCarouselDots);
-export default SmartAbstractCarouselDots;
+customElements.define(SmartCarouselDots.is, SmartCarouselDots);
+export default SmartCarouselDots;

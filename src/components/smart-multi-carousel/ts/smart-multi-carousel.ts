@@ -1,42 +1,26 @@
-class SmartMultiCarousel extends HTMLElement {
+import SmartAbstractCarousel from '../../smart-abstract-carousel/ts/smart-abstract-carousel';
 
-    private config: {};
+class SmartMultiCarousel extends SmartAbstractCarousel {
 
     static get is() {
-        return 'smart-multicarousel';
+        return 'smart-multi-carousel';
     }
 
     constructor() {
         super();
     }
 
-    private connectedCallback() {
-        this.classList.add('smart-carousel');
-        this.config = this.dataset.config;
-        this._bindEvents();
-    }
-
-    private disconnectedCallback() {
-        this.removeEventListener('click', this._onClick, false);
-    }
-
-    private _bindEvents() {
-        this.addEventListener('click', (event) => this._onClick(event), false);
-        this.addEventListener('smart-mc-anim', this._onAnimate, false);
-    }
-
-    private _onClick(event: MouseEvent) {
+    protected _onClick(event: MouseEvent) {
         const target = event.target as HTMLElement;
         if (target && target.dataset.slideTarget) {
             this.setActiveIndexes(target.dataset.slideTarget);
         }
     }
 
-    private _onAnimate(event: MouseEvent) {
-        // @ts-ignore
-        const firstIndex = event.detail.firstIndex;
+    protected _onAnimate(event: MouseEvent) {
         // @ts-ignore
         const countShiftSlides = event.detail.countShiftSlides;
+        const firstIndex = this.firstIndex;
         let numNextSlide = 0;
 
         const visibleSlidesCount = 3;
@@ -80,24 +64,6 @@ class SmartMultiCarousel extends HTMLElement {
         });
     }
 
-    get slides(): HTMLElement[] {
-        const els = this.querySelectorAll('[data-slide-item]') as NodeListOf<HTMLElement>;
-        return els ? Array.from(els) : [];
-    }
-
-    get activeClass() {
-        return this.getAttribute('active-slide-class') || 'active-slide';
-    }
-
-    get activeIndexes(): number[] {
-        return this.slides.reduce((indexes: number[], el, index) => {
-            if (el.classList.contains(this.activeClass)) {
-                indexes.push(index);
-            }
-            return indexes;
-        }, []);
-    }
-
     public goTo(countShiftSlides: number) {
         const firstIndex = this.activeIndexes[0];
         const nextActiveIndexes: number[] = [];
@@ -107,7 +73,7 @@ class SmartMultiCarousel extends HTMLElement {
             countShiftSlides
         };
         if (numNextSlide !== firstIndex) {
-            this.triggerAnimation(obj);
+            this.triggerSlidesAnimate(obj);
             this.activeIndexes.forEach((el) => {
                 this.slides[el].classList.remove(this.activeClass);
                 numNextSlide = (el + countShiftSlides + this.slides.length) % this.slides.length;
@@ -148,22 +114,6 @@ class SmartMultiCarousel extends HTMLElement {
         }
 
         this.goTo(countShiftSlides);
-    }
-
-    private triggerAnimation(obj: {}) {
-        const event = new CustomEvent('smart-mc-anim', {
-            bubbles: true,
-            detail: obj
-        });
-        this.dispatchEvent(event);
-    }
-
-    private triggerSlidesChange(obj: {}) {
-        const event = new CustomEvent('smart-mc-slideschanged', {
-            bubbles: true,
-            detail: obj
-        });
-        this.dispatchEvent(event);
     }
 }
 

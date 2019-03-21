@@ -1,18 +1,11 @@
-export function triggerCustomEvent(name: string, detail: object) {
-    const event = new CustomEvent(name, {
-        bubbles: true,
-        detail
-    });
-    this.dispatchEvent(event);
-}
-
+import {triggerComponentEvent} from '../../helpers/component-utils';
 
 class SmartAbstractCarousel extends HTMLElement {
 
     public config: { count: number };
 
     static get is() {
-        return 'smart-carousel';
+        return 'smart-abstract-carousel';
     }
 
     constructor() {
@@ -65,17 +58,14 @@ class SmartAbstractCarousel extends HTMLElement {
 
     /**
      * @returns {number} first index of current active slides
-     * */
+     */
     get firstIndex(): number {
-        this.slides.forEach((el, index) => {
-            if (el.classList.contains(this.activeClass)) {
-                return index;
-            }
+        return this.slides.findIndex((el) => {
+            return el.classList.contains(this.activeClass);
         });
-        return null;
     }
 
-    protected goTo(nextIndex: number) {
+    public goTo(nextIndex: number) {
         this.activeIndexes.forEach((el, index) => {
             nextIndex = (nextIndex + this.size) % this.size;
             this.slides[el].classList.remove(this.activeClass);
@@ -83,11 +73,11 @@ class SmartAbstractCarousel extends HTMLElement {
         });
     }
 
-    protected prev() {
+    public prev() {
         this.goTo(this.firstIndex - this.config.count);
     }
 
-    protected next() {
+    public next() {
         this.goTo(this.firstIndex + this.config.count);
     }
 
@@ -100,14 +90,13 @@ class SmartAbstractCarousel extends HTMLElement {
     }
 
     // ???
-    protected triggerSlidesAnimate(obj: {}) {
-        triggerCustomEvent.call(this, 'sc-slidesanimated', obj);
+    protected triggerSlidesAnimate(detail: {}) {
+        triggerComponentEvent(this, 'sc-slidesanimated', {bubbles: true, detail})
     }
 
-    protected triggerSlidesChange(obj: {}) {
-        triggerCustomEvent.call(this, 'sc-slideschanged', obj);
+    protected triggerSlidesChange(detail: {}) {
+        triggerComponentEvent(this, 'sc-slideschanged', {bubbles: true, detail})
     }
 }
 
-customElements.define(SmartAbstractCarousel.is, SmartAbstractCarousel);
 export default SmartAbstractCarousel;
