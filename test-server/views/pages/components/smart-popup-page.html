@@ -2,10 +2,30 @@
 layout: ../../layouts/basic.html
 ---
 
-{{##content:
+{{##demoResources:
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-<smart-popup id="my-uniq-id" class="" data-active-class="open">
-    Hello World
+<!-- CUSTOM STYLES -->
+<style></style>
+#}}
+
+{{##content:
+{{= layout.demoResources}}
+
+
+<smart-popup id="my-uniq-id" class="fade" active-class="show">
+    <div class="alert alert-warning" role="alert">
+        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+        <button type="button" class="close" onclick="this.parentElement.parentElement.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 </smart-popup>
 
+<button type="button" onclick="document.getElementById('my-uniq-id').toggle()" class="btn btn-primary">Toggle</button>
+<button type="button" onclick="document.getElementById('my-uniq-id').show()" class="btn btn-success">Show</button>
+<button type="button" onclick="document.getElementById('my-uniq-id').hide()" class="btn btn-dark">Hide</button>
+
 #}}
+
