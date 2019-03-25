@@ -3,155 +3,179 @@ layout: ../../layouts/basic.html
 ---
 
 {{##content:
-<smart-multi-carousel>
+<div class="row">
+    <h2>Demo 1: </h2>
+    <smart-multi-carousel>
 
-    <button type="button" role="presentation" class="arrow-prev" onclick="void 0">
-        <span class="icon-arrow-left" data-slide-target="prev"></span>
-    </button>
+        <button type="button" role="presentation" class="arrow-prev" onclick="void 0">
+            <span class="icon-arrow-left" data-slide-target="prev"></span>
+        </button>
 
-    <div data-slide-area>
-
-        <!-- CAROUSEL-ITEM -->
-        <div data-slide-item class="active-slide">
-            <div class="post-text">
-                <p>
-                    aaa
-                </p>
+        <div data-slide-area>
+            <!-- CAROUSEL-ITEM -->
+            <div data-slide-item class="active-slide" style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>aaa</p>
+                </div>
             </div>
+            <div data-slide-item class="active-slide" style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>bbb</p>
+                </div>
+            </div>
+            <div data-slide-item class="active-slide" style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>ccc</p>
+                </div>
+            </div>
+            <div data-slide-item style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>ddd</p>
+                </div>
+            </div>
+            <div data-slide-item style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>eee</p>
+                </div>
+            </div>
+            <div data-slide-item style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>
+                        fff
+                    </p>
+                </div>
+            </div>
+
+            <div data-slide-item style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>
+                        kkk
+                    </p>
+                </div>
+            </div>
+
+            <div data-slide-item style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>
+                        lll
+                    </p>
+                </div>
+            </div>
+
+            <div data-slide-item style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>
+                        mmm
+                    </p>
+                </div>
+            </div>
+
+
+            <div data-slide-item style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>
+                        nnn
+                    </p>
+                </div>
+            </div>
+
+            <div data-slide-item style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>
+                        ooo
+                    </p>
+                </div>
+            </div>
+
+            <div data-slide-item style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>
+                        ppp
+                    </p>
+                </div>
+            </div>
+
+
+            <div data-slide-item style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>
+                        rrr
+                    </p>
+                </div>
+            </div>
+
+            <div data-slide-item style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>
+                        sss
+                    </p>
+                </div>
+            </div>
+
+            <div data-slide-item style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>
+                        ttt
+                    </p>
+                </div>
+            </div>
+
+            <div data-slide-item style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <div class="post-text">
+                    <p>
+                        www
+                    </p>
+                </div>
+            </div>
+            <!-- /CAROUSEL-ITEM -->
         </div>
 
-        <div data-slide-item class="active-slide">
-            <div class="post-text">
-                <p>
-                    bbb
-                </p>
+        <button type="button" role="presentation" class="arrow-next" onclick="void 0">
+            <span class="icon-arrow-right" data-slide-target="next"></span>
+        </button>
+
+        <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
+
+    </smart-multi-carousel>
+</div>
+
+<div class="row">
+    <h2>Demo 2: </h2>
+    <smart-multi-carousel>
+        <button type="button" role="presentation" class="arrow-prev" onclick="void 0">
+            <span class="icon-arrow-left" data-slide-target="prev"></span>
+        </button>
+
+        <div data-slide-area>
+            <!-- CAROUSEL-ITEM -->
+            <div data-slide-item class="active-slide"  style="background-color: #aaf;">
+                <div class="post-text">
+                    <p>aaa</p>
+                </div>
             </div>
+            <div data-slide-item class="active-slide" style="background-color: #afa;">
+                <div class="post-text">
+                    <p>bbb</p>
+                </div>
+            </div>
+            <div data-slide-item class="active-slide" style="background-color: #ffa;">
+                <div class="post-text">
+                    <p>ccc</p>
+                </div>
+            </div>
+            <div data-slide-item class="">
+                <div class="post-text" style="background-color: #faa;">
+                    <p>ddd</p>
+                </div>
+            </div>
+            <!-- /CAROUSEL-ITEM -->
         </div>
 
-        <div data-slide-item class="active-slide">
-            <div class="post-text">
-                <p>
-                    ccc
-                </p>
-            </div>
-        </div>
+        <button type="button" role="presentation" class="arrow-next" onclick="void 0">
+            <span class="icon-arrow-right" data-slide-target="next"></span>
+        </button>
 
-
-        <div data-slide-item>
-            <div class="post-text">
-                <p>
-                    ddd
-                </p>
-            </div>
-        </div>
-
-        <div data-slide-item>
-            <div class="post-text">
-                <p>
-                    eee
-                </p>
-            </div>
-        </div>
-
-        <div data-slide-item>
-            <div class="post-text">
-                <p>
-                    fff
-                </p>
-            </div>
-        </div>
-
-        <div data-slide-item>
-            <div class="post-text">
-                <p>
-                    kkk
-                </p>
-            </div>
-        </div>
-
-        <div data-slide-item>
-            <div class="post-text">
-                <p>
-                    lll
-                </p>
-            </div>
-        </div>
-
-        <div data-slide-item>
-            <div class="post-text">
-                <p>
-                    mmm
-                </p>
-            </div>
-        </div>
-
-
-        <div data-slide-item>
-            <div class="post-text">
-                <p>
-                    nnn
-                </p>
-            </div>
-        </div>
-
-        <div data-slide-item>
-            <div class="post-text">
-                <p>
-                    ooo
-                </p>
-            </div>
-        </div>
-
-        <div data-slide-item>
-            <div class="post-text">
-                <p>
-                    ppp
-                </p>
-            </div>
-        </div>
-
-
-        <div data-slide-item>
-            <div class="post-text">
-                <p>
-                    rrr
-                </p>
-            </div>
-        </div>
-
-        <div data-slide-item>
-            <div class="post-text">
-                <p>
-                    sss
-                </p>
-            </div>
-        </div>
-
-        <div data-slide-item>
-            <div class="post-text">
-                <p>
-                    ttt
-                </p>
-            </div>
-        </div>
-
-        <div data-slide-item>
-            <div class="post-text">
-                <p>
-                    www
-                </p>
-            </div>
-        </div>
-
-        <!-- /CAROUSEL-ITEM -->
-
-    </div>
-
-    <button type="button" role="presentation" class="arrow-next" onclick="void 0">
-        <span class="icon-arrow-right" data-slide-target="next"></span>
-    </button>
-
-    <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
-
-</smart-multi-carousel>
+        <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
+    </smart-multi-carousel>
+</div>
 #}}
