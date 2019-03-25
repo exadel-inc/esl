@@ -19,40 +19,33 @@ class SmartMultiCarousel extends SmartAbstractCarousel {
 
     protected _onAnimate(event: MouseEvent) {
         // @ts-ignore
-        const countShiftSlides = event.detail.countShiftSlides;
-        const firstIndex = this.firstIndex;
-        let numNextSlide = 0;
+        const firstIndex = event.detail.firstIndex;
+        // @ts-ignore
+        const direction = event.detail.direction;
 
-        const visibleSlidesCount = 3;
-        const visibleAreaWidth = 780 * this.slides.length / visibleSlidesCount;
-        const slideWidth = 780;
+        const slideWidth = 260;
+        const visibleAreaWidth = slideWidth * this.slides.length;
 
-        let trans = 0;
         let left = 0;
-
-        const currentTrans = +this.slides[firstIndex].style.transform.replace(/[^0-9\-]/ig, '');
         const currentLeft = +this.slides[firstIndex].style.left.replace(/[^0-9\-]/ig, '');
-        trans = currentTrans - (countShiftSlides / visibleSlidesCount) * slideWidth;
 
         this.activeIndexes.forEach((el) => {
-            numNextSlide = (el + countShiftSlides + this.slides.length) % this.slides.length;
             // move to the next circle of slides
             // rearrange next active slides
-            if ((numNextSlide < el && countShiftSlides > 0) || (firstIndex === 0 && countShiftSlides < 0)) {
-                left = (countShiftSlides > 0) ? currentLeft + visibleAreaWidth : currentLeft - visibleAreaWidth;
-                this.slides[numNextSlide].style.left = left + 'px';
+            if ((this.firstIndex === 0 && direction === 'right') || (firstIndex === 0 && direction === 'left')) {
+                left = (direction === 'right') ? currentLeft + visibleAreaWidth : currentLeft - visibleAreaWidth;
+                this.slides[el].style.left = left + 'px';
             } else {
-                this.slides[numNextSlide].style.left = currentLeft + 'px';
+                this.slides[el].style.left = currentLeft + 'px';
+                left = currentLeft;
             }
         });
 
+        const trans = -this.firstIndex * slideWidth - left;
+
         // rearrange slides that have to be between current active indexes and next active indexes
-        const startIndex = countShiftSlides > 0 ?
-            this.activeIndexes[this.activeIndexes.length - 1] :
-            (this.activeIndexes[0] + 1 + countShiftSlides + this.slides.length) % this.slides.length;
-        const endIndex = countShiftSlides > 0 ?
-            (this.activeIndexes[0] + countShiftSlides + this.slides.length) % this.slides.length :
-            this.activeIndexes[0];
+        const startIndex = (direction === 'right') ? firstIndex + this.config.count - 1 : this.firstIndex + this.config.count - 1;
+        const endIndex = (direction === 'right') ? this.firstIndex : firstIndex;
 
         for (let i = startIndex; i <= endIndex; i++) {
             this.slides[i].style.left = currentLeft + 'px';
@@ -64,56 +57,27 @@ class SmartMultiCarousel extends SmartAbstractCarousel {
         });
     }
 
-    public goTo(countShiftSlides: number) {
-        const firstIndex = this.activeIndexes[0];
-        const nextActiveIndexes: number[] = [];
-        let numNextSlide = (firstIndex + countShiftSlides + this.slides.length) % this.slides.length;
-        const obj = {
-            firstIndex,
-            countShiftSlides
-        };
-        if (numNextSlide !== firstIndex) {
-            this.triggerSlidesAnimate(obj);
-            this.activeIndexes.forEach((el) => {
-                this.slides[el].classList.remove(this.activeClass);
-                numNextSlide = (el + countShiftSlides + this.slides.length) % this.slides.length;
-                nextActiveIndexes.push(numNextSlide);
-            });
-
-            nextActiveIndexes.forEach((el) => {
-                this.slides[el].classList.add(this.activeClass);
-            });
-
-            this.triggerSlidesChange({
-                countShiftSlides: countShiftSlides + firstIndex
-            });
-        }
-    }
-
     public setActiveIndexes(target: number | string) {
-        const countConfig: number = 3;
-        let countShiftSlides: number = 0;
+        const firstIndex = this.firstIndex;
+        let direction = '';
 
         if ('prev' === target) {
-            countShiftSlides = -countConfig;
-            // move to previous slides if the count of slides isn't enough and the last slide is active
-            if (this.slides.length % countConfig !== 0 && (this.activeIndexes.indexOf(this.slides.length - 1) !== -1)) {
-                countShiftSlides = -this.slides.length % countConfig;
-            }
+            this.prev();
+            direction = (this.size / this.config.count < 2) ? 'right' : 'left';
         } else if ('next' === target) {
-            countShiftSlides = countConfig;
+            this.next();
+            direction = (this.size / this.config.count < 2) ? 'left' : 'right';
         } else {
-            countShiftSlides = countConfig * +target - this.activeIndexes[0];
+            this.goTo(this.config.count * +target);
+            direction = (firstIndex < this.config.count * +target) ? 'right' : 'left';
         }
 
-        // moving to the last slide if the count of slides isn't enough
-        const firstNextIndex = (this.activeIndexes[0] + countShiftSlides + this.slides.length) % this.slides.length;
-        const countNextSlides = this.slides.length - firstNextIndex;
-        if (countNextSlides < countConfig) {
-            countShiftSlides = countShiftSlides - countConfig + countNextSlides;
-        }
+        this.triggerSlidesAnimate({
+            firstIndex,
+            direction
+        });
 
-        this.goTo(countShiftSlides);
+        this.triggerSlidesChange();
     }
 }
 

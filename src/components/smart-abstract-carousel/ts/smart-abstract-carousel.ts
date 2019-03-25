@@ -1,4 +1,4 @@
-import {triggerComponentEvent} from '../../helpers/component-utils';
+import {triggerComponentEvent} from '../../../helpers/component-utils';
 
 class SmartAbstractCarousel extends HTMLElement {
 
@@ -65,20 +65,34 @@ class SmartAbstractCarousel extends HTMLElement {
         });
     }
 
-    public goTo(nextIndex: number) {
-        this.activeIndexes.forEach((el, index) => {
-            nextIndex = (nextIndex + this.size) % this.size;
-            this.slides[el].classList.remove(this.activeClass);
-            this.slides[nextIndex + index].classList.add(this.activeClass);
-        });
+    public goTo(firstNextIndex: number) {
+        let nextIndex = 0;
+        if (this.firstIndex !== firstNextIndex) {
+            this.activeIndexes.forEach((el) => {
+                this.slides[el].classList.remove(this.activeClass);
+            });
+
+            for (let index = 0; index < this.config.count; ++index) {
+                if (firstNextIndex + index >= this.size) {
+                    nextIndex = this.size - 1 - index;
+                } else {
+                    nextIndex = firstNextIndex + index;
+                }
+                this.slides[nextIndex].classList.add(this.activeClass);
+            }
+        }
     }
 
     public prev() {
-        this.goTo(this.firstIndex - this.config.count);
+        const currentGroup = Math.floor((this.activeIndexes[this.activeIndexes.length - 1] / this.config.count));
+        const countGroups = Math.ceil(this.size / this.config.count);
+        this.goTo((((currentGroup - 1 + countGroups) % countGroups) * this.config.count));
     }
 
     public next() {
-        this.goTo(this.firstIndex + this.config.count);
+        const currentGroup = Math.floor((this.activeIndexes[this.activeIndexes.length - 1] / this.config.count));
+        const countGroups = Math.ceil(this.size / this.config.count);
+        this.goTo((((currentGroup + 1 + countGroups) % countGroups) * this.config.count));
     }
 
     protected _onClick(event: MouseEvent) {
@@ -90,11 +104,11 @@ class SmartAbstractCarousel extends HTMLElement {
     }
 
     // ???
-    protected triggerSlidesAnimate(detail: {}) {
+    protected triggerSlidesAnimate(detail?: {}) {
         triggerComponentEvent(this, 'sc-slidesanimated', {bubbles: true, detail})
     }
 
-    protected triggerSlidesChange(detail: {}) {
+    protected triggerSlidesChange(detail?: {}) {
         triggerComponentEvent(this, 'sc-slideschanged', {bubbles: true, detail})
     }
 }
