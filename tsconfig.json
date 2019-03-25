@@ -1,11 +1,27 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
+    "outDir": "lib",
+
+    "alwaysStrict": true,
     "noImplicitAny": true,
-    "module": "es6",
-    "target": "es6",
+    "esModuleInterop": true,
     "removeComments": true,
-    "allowJs": true
-  }
+
+    "target": "es5",
+    "module": "es6",
+    "sourceMap": true,
+    "declaration": true,
+    "lib": [
+      "dom",
+      "es6",
+      "dom.iterable"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "edmtp-modules",
+    "lib",
+    "test-server"
+  ]
 }
