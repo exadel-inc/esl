@@ -96,14 +96,45 @@ class SmartAbstractCarousel extends HTMLElement {
     }
 
     protected _onClick(event: MouseEvent) {
+        const target = event.target as HTMLElement;
+        const markedTarget = target.closest('[data-slide-target]') as HTMLElement;
+        if (markedTarget && markedTarget.dataset.slideTarget) {
+            this.setActiveIndexes(markedTarget.dataset.slideTarget);
+        }
+    }
+
+    public setActiveIndexes(target: string) {
+        const firstIndex = this.firstIndex;
+        let direction = '';
+
+        if (this.dataset.isAnimated) {
+            return;
+        }
+
+        if ('prev' === target) {
+            this.prev();
+            direction = 'left';
+        } else if ('next' === target) {
+            this.next();
+            direction = 'right';
+        } else {
+            this.goTo(this.config.count * +target);
+            direction = (firstIndex < this.config.count * +target) ? 'right' : 'left';
+        }
+
+        this.triggerSlidesAnimate({
+            firstIndex,
+            direction
+        });
+
+        this.triggerSlidesChange();
+    }
+
+    protected _onAnimate(event: CustomEvent) {
 
     }
 
-    protected _onAnimate(event: MouseEvent) {
-
-    }
-
-    // ???
+    // ??? to utility class
     protected triggerSlidesAnimate(detail?: {}) {
         triggerComponentEvent(this, 'sc-slidesanimated', {bubbles: true, detail})
     }

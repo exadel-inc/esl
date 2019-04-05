@@ -10,74 +10,56 @@ class SmartMultiCarousel extends SmartAbstractCarousel {
         super();
     }
 
-    protected _onClick(event: MouseEvent) {
-        const target = event.target as HTMLElement;
-        if (target && target.dataset.slideTarget) {
-            this.setActiveIndexes(target.dataset.slideTarget);
-        }
-    }
-
-    protected _onAnimate(event: MouseEvent) {
-        // @ts-ignore
+    protected _onAnimate(event: CustomEvent) {
         const firstIndex = event.detail.firstIndex;
-        // @ts-ignore
         const direction = event.detail.direction;
+        const slideStyles = getComputedStyle(this.slides[firstIndex]);
+        const slideWidth = parseFloat(slideStyles.width) +
+            parseFloat(slideStyles.marginLeft) +
+            parseFloat(slideStyles.marginRight);
+        const areaWidth = slideWidth * this.slides.length;
 
-        const slideWidth = 260;
-        const visibleAreaWidth = slideWidth * this.slides.length;
+        const transitionDuration =  parseFloat(slideStyles.transitionDuration) * 1000; // ms
+        const currentLeft = parseFloat(slideStyles.left);
 
-        let left = 0;
-        const currentLeft = +this.slides[firstIndex].style.left.replace(/[^0-9\-]/ig, '');
+        let trans = 0;
 
-        this.activeIndexes.forEach((el) => {
-            // move to the next circle of slides
-            // rearrange next active slides
-            if ((this.firstIndex === 0 && direction === 'right') || (firstIndex === 0 && direction === 'left')) {
-                left = (direction === 'right') ? currentLeft + visibleAreaWidth : currentLeft - visibleAreaWidth;
+        if ((this.firstIndex === 0 && direction === 'right') || (firstIndex === 0 && direction === 'left')) {
+            const left = (direction === 'right') ? currentLeft + areaWidth : currentLeft - areaWidth;
+
+            this.activeIndexes.forEach((el) => {
                 this.slides[el].style.left = left + 'px';
-            } else {
-                this.slides[el].style.left = currentLeft + 'px';
-                left = currentLeft;
+            });
+
+            trans = -this.firstIndex * slideWidth - left;
+            this.slides.forEach((el) => {
+                el.style.transform = `translateX(${trans}px)`;
+            });
+
+            for (let i = 0; i < this.config.count; i++) {
+                this.slides[firstIndex + i].style.left = currentLeft + 'px';
+                const time = (direction === 'right') ? (transitionDuration / this.config.count) * (i + 1) : (transitionDuration / this.config.count) * (this.config.count - i);
+                if (this.activeIndexes.indexOf(firstIndex + i) !== -1) {
+                    setTimeout(() => {
+                        this.slides[firstIndex + i].style.left = left + 'px';
+                        const nextTrans = -this.firstIndex * slideWidth - left;
+                        this.slides[firstIndex + i].style.transform = `translateX(${nextTrans}px)`;
+                    }, time);
+                }
             }
-        });
-
-        const trans = -this.firstIndex * slideWidth - left;
-
-        // rearrange slides that have to be between current active indexes and next active indexes
-        const startIndex = (direction === 'right') ? firstIndex + this.config.count - 1 : this.firstIndex + this.config.count - 1;
-        const endIndex = (direction === 'right') ? this.firstIndex : firstIndex;
-
-        for (let i = startIndex; i <= endIndex; i++) {
-            this.slides[i].style.left = currentLeft + 'px';
-        }
-
-        // show animation
-        this.slides.forEach((el) => {
-            el.style.transform = `translateX(${trans}px)`;
-        });
-    }
-
-    public setActiveIndexes(target: number | string) {
-        const firstIndex = this.firstIndex;
-        let direction = '';
-
-        if ('prev' === target) {
-            this.prev();
-            direction = (this.size / this.config.count < 2) ? 'right' : 'left';
-        } else if ('next' === target) {
-            this.next();
-            direction = (this.size / this.config.count < 2) ? 'left' : 'right';
         } else {
-            this.goTo(this.config.count * +target);
-            direction = (firstIndex < this.config.count * +target) ? 'right' : 'left';
+            trans = -this.firstIndex * slideWidth - currentLeft;
+            this.slides.forEach((el) => {
+                el.style.transform = `translateX(${trans}px)`;
+                el.style.left = currentLeft + 'px';
+            });
         }
 
-        this.triggerSlidesAnimate({
-            firstIndex,
-            direction
-        });
+        this.setAttribute('data-is-animated', 'true');
 
-        this.triggerSlidesChange();
+        setTimeout(() => {
+            this.removeAttribute('data-is-animated');
+        }, transitionDuration);
     }
 }
 

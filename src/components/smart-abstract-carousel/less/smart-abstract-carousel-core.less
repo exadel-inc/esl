@@ -4,6 +4,7 @@
   position: relative;
   overflow: hidden;
   justify-content: center;
+
   [data-slide-area] {
     display: flex;
     position: relative;
@@ -14,12 +15,13 @@
 
   [data-slide-item] {
     position: relative;
+    left: 0;
     min-width: 250px;
+    min-height: 150px;
     z-index: 1;
     margin: 0 5px;
-    min-height: 150px;
     background-color: aliceblue;
-    transition: transform 2s ease-in-out;
+    transition: transform 2s linear;
   }
 
   .active-slide {
