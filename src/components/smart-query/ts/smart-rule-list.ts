@@ -23,7 +23,8 @@ class SmartRule extends SmartQuery {
 		// todo: review
 		if (valueTerm[0] === '{') {
 			try {
-				const value = eval(valueTerm);
+				const value = eval('(' + valueTerm + ')');
+				// JSON.parse(valueTerm.replace(/'/g, "\""))
 				return new SmartRule(value, query.trim());
 			} catch (e) {
 				return null;
@@ -43,7 +44,7 @@ class SmartRule extends SmartQuery {
 
 export default class SmartRuleList extends Observable {
 	private readonly _rules: SmartRule[];
-	private _value: string|object;
+	private _value: string | object;
 
 	constructor(query: string) {
 		super();
@@ -72,16 +73,17 @@ export default class SmartRuleList extends Observable {
 	get rules() {
 		return this._rules;
 	}
+
 	get targetRule() {
 		const satisfied = this.rules.filter((rule) => rule.matches);
 		return satisfied.length > 0 ? satisfied[satisfied.length - 1] : SmartRule.empty();
 	}
 
-	get value(): string|object {
+	get value(): string | object {
 		if (typeof this._value === 'undefined') {
 			this._value = this.targetRule.payload;
 		}
- 		return this._value;
+		return this._value;
 	}
 
 	private _onMatchChanged = () => {
