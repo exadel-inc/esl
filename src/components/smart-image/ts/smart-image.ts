@@ -1,6 +1,6 @@
 /**
  * Smart Image
- * @version 3.8.0
+ * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n)
  *
  * @description:
@@ -91,9 +91,9 @@
  *      data-src='..defaultPath [| @1x => src [| ...]]'
  *  ></smart-image>
  */
-import SmartImageSrcRule from './smart-image-rule';
 import {isMobile} from '../../../helpers/device-utils';
 import {triggerComponentEvent} from '../../../helpers/component-utils';
+import SmartRuleList from '../../smart-query/ts/smart-rule-list';
 
 // Mods configurations
 
@@ -133,11 +133,12 @@ function getIObserver() {
 	if (!intersectionObserver) {
 		intersectionObserver = new IntersectionObserver(function intersectionCallback(entries) {
 			(entries || []).forEach(function (entry) {
-				if (entry.isIntersecting && entry.target instanceof SmartImage) {
+				if ((entry.isIntersecting || entry.intersectionRatio > 0) && entry.target instanceof SmartImage) {
 					entry.target.triggerLoad();
 				}
 			});
 		}, {
+			threshold: [0.01],
 			rootMargin: isMobile ? '250px' : '500px'// rootMargin value for IntersectionObserver
 		});
 	}
@@ -146,14 +147,18 @@ function getIObserver() {
 
 export class SmartImage extends HTMLElement {
 	private _innerImg: HTMLImageElement;
-	private _rules: SmartImageSrcRule[];
+	private _rules: SmartRuleList;
 	private _currentSrc: string;
 	private _detachLazyTrigger: () => void;
 	private _shadowImageElement: ShadowImageElement;
-	private _listenersAttached: boolean;
+	private readonly _onMatchChange: () => void;
 
 	static get is() {
 		return 'smart-image';
+	}
+
+	static get EMPTY_IMAGE() {
+		return 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 	}
 
 	static get observedAttributes() {
@@ -162,10 +167,9 @@ export class SmartImage extends HTMLElement {
 
 	constructor() {
 		super();
-
 		this._onLoad = this._onLoad.bind(this);
 		this._onError = this._onError.bind(this);
-		this._onMatchChanged = this._onMatchChanged.bind(this);
+		this._onMatchChange = this.update.bind(this, false);
 	}
 
 	get lazy(): boolean {
@@ -225,15 +229,14 @@ export class SmartImage extends HTMLElement {
 	get alt() {
 		return this.getAttribute('data-alt') || this.getAttribute('alt') || '';
 	}
-
 	set alt(text) {
 		this.setAttribute('data-alt', text);
 	}
 
+	// Rename to ~query sttr
 	get src() {
 		return this.getAttribute('data-src');
 	}
-
 	set src(src) {
 		this.setAttribute('data-src', src);
 	}
@@ -241,34 +244,23 @@ export class SmartImage extends HTMLElement {
 	get srcBase() {
 		return this.getAttribute('data-src-base') || '';
 	}
-
 	set srcBase(baseSrc) {
 		this.setAttribute('data-src-base', baseSrc);
 	}
 
+	// private or rename ????
 	get rules() {
 		if (!this._rules) {
-			this.rules = SmartImage.parseRules(this.src);
+			this.rules = SmartRuleList.parse(this.src);
 		}
 		return this._rules;
 	}
-
-	set rules(rules) {
-		if (Array.isArray(rules)) {
-			this._detachRuleListeners();
-			this._rules = rules.filter((rule) => rule instanceof SmartImageSrcRule);
-			this._attachRuleListeners();
-			return;
+	set rules(rules: SmartRuleList) {
+		if (this._rules) {
+			this._rules.removeListener(this._onMatchChange);
 		}
-		throw new Error('Rules must be an array of rules');
-	}
-
-	get targetRule() {
-		if (Array.isArray(this.rules)) {
-			const satisfied = this.rules.filter((rule) => rule.matches);
-			return satisfied.length > 0 ? satisfied[satisfied.length - 1] : SmartImageSrcRule.empty();
-		}
-		return SmartImageSrcRule.empty();
+		this._rules = rules;
+		this._rules.addListener(this._onMatchChange);
 	}
 
 	get currentSrc() {
@@ -276,20 +268,20 @@ export class SmartImage extends HTMLElement {
 	}
 
 	get empty() {
-		return !this._currentSrc || SmartImageSrcRule.isEmptyImage(this._currentSrc);
+		return !this._currentSrc || SmartImage.isEmptyImage(this._currentSrc);
 	}
 
 	public triggerLoad() {
 		this.setAttribute('lazy-triggered', '');
 	}
 
-	private update(force: boolean = null) {
+	private update(force: boolean = false) {
 		if (this.lazy && !this.lazyTriggered) {
 			return;
 		}
 
-		const rule = this.targetRule;
-		const src = rule.getPath(this.srcBase);
+		const rule = this.rules.targetRule;
+		const src = SmartImage.getPath(rule.payload as string, this.srcBase);
 		const dpr = rule.DPR;
 
 		if (this._currentSrc !== src || force) {
@@ -314,7 +306,7 @@ export class SmartImage extends HTMLElement {
 	private syncImage() {
 		const shadowImg = this._shadowImg;
 		const src = shadowImg.src;
-		const isEmpty = !src || SmartImageSrcRule.isEmptyImage(src);
+		const isEmpty = !src || SmartImage.isEmptyImage(src);
 
 		if (STRATEGIES[this.mode].useInnerImg) {
 			this._innerImage.src = src;
@@ -333,9 +325,7 @@ export class SmartImage extends HTMLElement {
 		if (!this.hasAttribute('role')) {
 			this.setAttribute('role', 'img');
 		}
-
 		this.update(true);
-		this._attachRuleListeners();
 		if (this.lazyAuto && !this.lazyTriggered) {
 			getIObserver().observe(this);
 			this._detachLazyTrigger = function () {
@@ -347,7 +337,6 @@ export class SmartImage extends HTMLElement {
 
 	private disconnectedCallback() {
 		this.removeAttribute('lazy-triggered');
-		this._detachRuleListeners();
 		this._detachLazyTrigger && this._detachLazyTrigger();
 	}
 
@@ -357,7 +346,7 @@ export class SmartImage extends HTMLElement {
 				this.setAttribute('alt', newVal);
 				break;
 			case 'data-src':
-				this.rules = SmartImage.parseRules(newVal);
+				this.rules = SmartRuleList.parse(newVal);
 				this.refresh();
 				break;
 			case 'data-src-base':
@@ -426,35 +415,15 @@ export class SmartImage extends HTMLElement {
 		}
 	}
 
-	private _onMatchChanged() {
-		this.update();
-	}
-
-	private _attachRuleListeners() {
-		if (!this._listenersAttached) {
-			this._rules.forEach((rule) => rule.addListener(this._onMatchChanged));
-			this._listenersAttached = true;
+	private static getPath(src: string, basePath = '') {
+		if ( !src || src === '0' || src === 'none') {
+			return SmartImage.EMPTY_IMAGE;
 		}
+		return basePath + src;
 	}
 
-	private _detachRuleListeners() {
-		if (this._listenersAttached) {
-			this._rules.forEach((rule) => rule.removeListener(this._onMatchChanged));
-			this._listenersAttached = false;
-		}
-	}
-
-	private static parseRules(str: string) {
-		const parts = (str || '').split('|');
-		const rules: SmartImageSrcRule[] = [];
-		parts.forEach((lex: string) => {
-			if (lex.indexOf('=>') === -1) {
-				rules.unshift(SmartImageSrcRule.all(lex.trim())); // fallback image first
-			} else {
-				rules.push(SmartImageSrcRule.parse(lex));
-			}
-		});
-		return rules;
+	private static isEmptyImage(src: string) {
+		return src === SmartImage.EMPTY_IMAGE;
 	}
 }
 

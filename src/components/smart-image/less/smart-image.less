@@ -19,6 +19,9 @@ smart-image {
   }
   &[mode='save-ratio'] {
     height: 0;
+    &:not([loaded]) {
+      min-height: 1px;
+    }
   }
 
   &:after {
