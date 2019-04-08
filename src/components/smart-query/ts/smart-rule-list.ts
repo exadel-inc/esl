@@ -60,11 +60,13 @@ export default class SmartRuleList extends Observable {
 		const rules: SmartRule[] = [];
 		parts.forEach((lex: string) => {
 			// Default rule should have lower priority
-			if (lex.indexOf('=>') === -1) {
-				rules.unshift(SmartRule.all(lex.trim()));
-			} else {
-				const rule = SmartRule.parse(lex);
-				rule && rules.push(rule);
+			if (lex && lex.trim().length) {
+				if (lex.indexOf('=>') === -1) {
+					rules.unshift(SmartRule.all(lex.trim()));
+				} else {
+					const rule = SmartRule.parse(lex);
+					rule && rules.push(rule);
+				}
 			}
 		});
 		return rules;
