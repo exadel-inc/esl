@@ -107,7 +107,10 @@ interface ShadowImageElement extends HTMLImageElement {
 
 const STRATEGIES: Strategy = {
 	'cover': {
-		useInnerImg: false
+		useInnerImg: false,
+		afterLoad() {
+			this.style.paddingTop = null;
+		}
 	},
 	'save-ratio': {
 		useInnerImg: false,
@@ -116,11 +119,15 @@ const STRATEGIES: Strategy = {
 		}
 	},
 	'fit': {
-		useInnerImg: true
+		useInnerImg: true,
+		afterLoad() {
+			this.style.paddingTop = null;
+		}
 	},
 	'origin': {
 		useInnerImg: true,
 		afterLoad(shadowImg) {
+			this.style.paddingTop = null;
 			this._innerImage.width = shadowImg.width / shadowImg.dpr;
 		}
 	}

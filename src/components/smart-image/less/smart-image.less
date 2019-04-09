@@ -68,6 +68,8 @@ smart-image {
 }
 
 .img-container {
+  position: relative;
+  overflow: hidden;
   smart-image {
     position: absolute;
     top: 0;
@@ -93,5 +95,13 @@ smart-image {
       -webkit-transition: opacity 0.4s;
       transition: opacity 0.4s;
     }
+  }
+  &.img-container-no-rat {
+    smart-image {
+      position: relative;
+    }
+  }
+  &.img-container-16-9 {
+    padding-top: 9/16*100%;
   }
 }
