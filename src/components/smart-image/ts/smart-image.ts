@@ -154,7 +154,7 @@ function getIObserver() {
 
 export class SmartImage extends HTMLElement {
 	private _innerImg: HTMLImageElement;
-	private _rules: SmartRuleList;
+	private _rules: SmartRuleList<string>;
 	private _currentSrc: string;
 	private _detachLazyTrigger: () => void;
 	private _shadowImageElement: ShadowImageElement;
@@ -258,11 +258,11 @@ export class SmartImage extends HTMLElement {
 	// private or rename ????
 	get rules() {
 		if (!this._rules) {
-			this.rules = SmartRuleList.parse(this.src);
+			this.rules = SmartRuleList.parse<string>(this.src);
 		}
 		return this._rules;
 	}
-	set rules(rules: SmartRuleList) {
+	set rules(rules: SmartRuleList<string>) {
 		if (this._rules) {
 			this._rules.removeListener(this._onMatchChange);
 		}
@@ -288,7 +288,7 @@ export class SmartImage extends HTMLElement {
 		}
 
 		const rule = this.rules.targetRule;
-		const src = SmartImage.getPath(rule.payload as string, this.srcBase);
+		const src = SmartImage.getPath(rule.payload, this.srcBase);
 		const dpr = rule.DPR;
 
 		if (this._currentSrc !== src || force) {
@@ -353,7 +353,7 @@ export class SmartImage extends HTMLElement {
 				this.setAttribute('alt', newVal);
 				break;
 			case 'data-src':
-				this.rules = SmartRuleList.parse(newVal);
+				this.rules = SmartRuleList.parse<string>(newVal);
 				this.refresh();
 				break;
 			case 'data-src-base':
