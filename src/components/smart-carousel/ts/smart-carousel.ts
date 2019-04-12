@@ -1,11 +1,13 @@
 import {triggerComponentEvent} from '../../../helpers/component-utils';
+import SmartCarouselStrategy from "./smart-carousel-strategy";
 
-class SmartAbstractCarousel extends HTMLElement {
+class SmartCarousel extends HTMLElement {
 
     public config: { count: number };
+    private strategy: SmartCarouselStrategy;
 
     static get is() {
-        return 'smart-abstract-carousel';
+        return 'smart-carousel';
     }
 
     constructor() {
@@ -13,8 +15,9 @@ class SmartAbstractCarousel extends HTMLElement {
     }
 
     protected connectedCallback() {
-        this.classList.add(SmartAbstractCarousel.is);
+        this.classList.add(SmartCarousel.is);
         this.config = {count: 3};
+        this.strategy = new SmartCarouselStrategy(this);
         this._bindEvents();
     }
 
@@ -131,7 +134,8 @@ class SmartAbstractCarousel extends HTMLElement {
     }
 
     protected _onAnimate(event: CustomEvent) {
-
+        this.strategy.setStrategy((this.config.count === 1) ? 'single': 'multi');
+        this.strategy.animate(event);
     }
 
     // ??? to utility class
@@ -144,4 +148,5 @@ class SmartAbstractCarousel extends HTMLElement {
     }
 }
 
-export default SmartAbstractCarousel;
+customElements.define(SmartCarousel.is, SmartCarousel);
+export default SmartCarousel;

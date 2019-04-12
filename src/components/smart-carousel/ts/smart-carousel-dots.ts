@@ -1,4 +1,4 @@
-import SmartAbstractCarousel from './smart-abstract-carousel';
+import SmartCarousel from './smart-carousel';
 
 class SmartCarouselDots extends HTMLElement {
 
@@ -30,8 +30,8 @@ class SmartCarouselDots extends HTMLElement {
 
     private _onUpdate = () => this.rerender();
 
-    get _parent(): SmartAbstractCarousel {
-        return this.closest('.' + SmartAbstractCarousel.is) as SmartAbstractCarousel;
+    get _parent(): SmartCarousel {
+        return this.closest('.' + SmartCarousel.is) as SmartCarousel;
     }
 
     public rerender() {

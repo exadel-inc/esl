@@ -5,10 +5,10 @@ import '../helpers/es5-support/es6-htmlelement-shim';
 import '../helpers/builtin-polyfils/closest-polyfill';
 
 import * as SmartQuery from '../components/smart-query/smart-query';
-import {SmartMultiCarousel, SmartCarouselDots} from '../components/smart-multi-carousel/smart-multi-carousel';
+import {SmartCarousel, SmartCarouselDots} from '../components/smart-carousel/smart-carousel';
 
 export {
     SmartQuery,
-    SmartMultiCarousel,
+    SmartCarousel,
     SmartCarouselDots
 };
