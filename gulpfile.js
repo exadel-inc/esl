@@ -17,7 +17,7 @@ gulp.task('less-lib', function () {
 // local dev assets
 gulp.task('less-local', function () {
     return task.less([
-        'test-server/assets/*.less',
+        'test-server/local-build/*.less',
     ]).pipe(gulp.dest(
         'test-server/static'
     ));
@@ -39,7 +39,7 @@ gulp.task('ts-lib', function () {
 // local dev assets
 gulp.task('ts-local', function () {
 	return task.ts({
-		src: ['test-server/assets/*.ts'],
+		src: ['test-server/local-build/*.ts'],
 		context: 'src/components'
 	}).pipe(gulp.dest(
 		'test-server/static'

@@ -1,2 +1,4 @@
 import SmartQuery from './ts/smart-query';
-export { SmartQuery };
+import SmartRuleList from './ts/smart-rule-list';
+
+export {SmartQuery, SmartRuleList};
