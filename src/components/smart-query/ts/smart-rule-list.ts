@@ -1,6 +1,8 @@
 import SmartQuery from './smart-query';
 import {Observable} from '../../../helpers/classes/observable';
 
+type PayloadParser<T> = (val: string) => T;
+
 class SmartRule<T> extends SmartQuery {
 	private readonly _payload: T;
 
@@ -17,86 +19,89 @@ class SmartRule<T> extends SmartQuery {
 		return this._payload;
 	}
 
-	public static parse(lex: string) {
+	public static parse<T>(lex: string, parser: PayloadParser<T>) {
 		const [query, payload] = lex.split('=>');
-		const valueTerm = payload.trim();
-		// todo: review
-		if (valueTerm[0] === '{') {
-			try {
-				const value = eval('(' + valueTerm + ')');
-				// JSON.parse(valueTerm.replace(/'/g, "\""))
-				return new SmartRule<object>(value, query.trim());
-			} catch (e) {
-				return null;
-			}
-		}
-		return new SmartRule<string>(valueTerm, query.trim());
+		return new SmartRule<T>(parser(payload.trim()), query.trim());
 	}
 
-	public static all(payload: string | null) {
-		return new SmartRule<string>(payload, 'all');
+	public static all<T>(payload: T) {
+		return new SmartRule<T>(payload, 'all');
 	}
-
 	public static empty() {
 		return SmartRule.all(null);
 	}
 }
 
 export default class SmartRuleList<T extends string | object> extends Observable {
+	private _active: SmartRule<T>;
 	private readonly _rules: Array<SmartRule<T>>;
-	private _value: T;
 
-	constructor(query: string) {
+	public static STRING_PARSER = (val: string) => val;
+	public static OBJECT_PARSER = (val: string): object => {
+		try {
+			return eval('(' + val + ')');
+		} catch (e) {
+			return null;
+		}
+	};
+
+	private static parseRules<T>(str: string, parser: PayloadParser<T>): Array<SmartRule<T>> {
+		const parts = str.split('|');
+		const rules: Array<SmartRule<T>> = [];
+		parts.forEach((_lex: string) => {
+			const lex = _lex.trim();
+			if (!lex) {
+				return;
+			}
+			if (lex.indexOf('=>') === -1) {
+				// Default rule should have lower priority
+				rules.unshift(SmartRule.all(parser(lex)));
+			} else {
+				const rule = SmartRule.parse(lex, parser);
+				rule && rules.push(rule);
+			}
+		});
+		return rules;
+	}
+
+	public static parse<T extends string | object>(query: string, parser: PayloadParser<T>) {
+		return new SmartRuleList<T>(query, parser);
+	}
+
+	private constructor(query: string, parser: PayloadParser<T>) {
 		super();
 		if (typeof query !== 'string') {
 			throw new Error('SmartRuleList require first parameter (query) typeof string');
 		}
-		this._rules = this.parseRules(query);
+		this._rules = SmartRuleList.parseRules(query, parser);
 		this._rules.forEach((rule) => rule.addListener(this._onMatchChanged));
-	}
-
-	private parseRules(str: string) {
-		const parts = str.split('|');
-		const rules: Array<SmartRule<T>> = [];
-		parts.forEach((lex: string) => {
-			// Default rule should have lower priority
-			if (lex && lex.trim().length) {
-				if (lex.indexOf('=>') === -1) {
-					rules.unshift(SmartRule.all(lex.trim()) as SmartRule<T>);
-				} else {
-					const rule = SmartRule.parse(lex);
-					rule && rules.push(rule as SmartRule<T>);
-				}
-			}
-		});
-		return rules;
 	}
 
 	get rules() {
 		return this._rules;
 	}
 
-	get targetRule() {
+	get _activeRule() {
 		const satisfied = this.rules.filter((rule) => rule.matches);
 		return satisfied.length > 0 ? satisfied[satisfied.length - 1] : SmartRule.empty();
 	}
 
-	get value(): T {
-		if (typeof this._value === 'undefined') {
-			this._value = this.targetRule.payload as T;
+	get active() {
+		if (!this._active) {
+			this._active = this._activeRule;
 		}
-		return this._value;
+		return this._active;
+	}
+
+	get activeValue(): T {
+		return this.active.payload;
 	}
 
 	private _onMatchChanged = () => {
-		const rule = this.targetRule;
-		if (this._value !== rule.payload) {
-			this._value = rule.payload as T;
-			this.fire(this._value);
+		const rule = this._activeRule;
+		if (this._active !== rule) {
+			this._active = rule;
+			this.fire(rule);
 		}
 	};
-
-	public static parse<T extends string | object>(query: string) {
-		return new SmartRuleList<T>(query);
-	}
 }

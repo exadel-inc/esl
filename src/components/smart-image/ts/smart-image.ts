@@ -63,7 +63,7 @@
  *  {String} srcBase - base path (see data-src-base attribute for details)
  *  {String} alt - alt text
  *  {'origin' | 'cover' | 'save-ratio' | 'fit'} mode - mode of image renderer
- *  {Array} rules - array of rules parsed from src
+ *  {Array} srcRules - array of srcRules parsed from src
  *  {Boolean} refreshOnUpdate - see proactive-update attribute
  *
  *  @readonly {Function} triggerLoad - shortcut function for manually adding lazy-triggered marker
@@ -94,6 +94,7 @@
 import {isMobile} from '../../../helpers/device-utils';
 import {triggerComponentEvent} from '../../../helpers/component-utils';
 import SmartRuleList from '../../smart-query/ts/smart-rule-list';
+import {buildProperties} from '../../../helpers/custom-element-utils';
 
 // Mods configurations
 
@@ -154,7 +155,7 @@ function getIObserver() {
 
 export class SmartImage extends HTMLElement {
 	private _innerImg: HTMLImageElement;
-	private _rules: SmartRuleList<string>;
+	private _srcRules: SmartRuleList<string>;
 	private _currentSrc: string;
 	private _detachLazyTrigger: () => void;
 	private _shadowImageElement: ShadowImageElement;
@@ -236,6 +237,7 @@ export class SmartImage extends HTMLElement {
 	get alt() {
 		return this.getAttribute('data-alt') || this.getAttribute('alt') || '';
 	}
+
 	set alt(text) {
 		this.setAttribute('data-alt', text);
 	}
@@ -255,19 +257,18 @@ export class SmartImage extends HTMLElement {
 		this.setAttribute('data-src-base', baseSrc);
 	}
 
-	// private or rename ????
-	get rules() {
-		if (!this._rules) {
-			this.rules = SmartRuleList.parse<string>(this.src);
+	get srcRules() {
+		if (!this._srcRules) {
+			this.srcRules = SmartRuleList.parse<string>(this.src, SmartRuleList.STRING_PARSER);
 		}
-		return this._rules;
+		return this._srcRules;
 	}
-	set rules(rules: SmartRuleList<string>) {
-		if (this._rules) {
-			this._rules.removeListener(this._onMatchChange);
+	set srcRules(rules: SmartRuleList<string>) {
+		if (this._srcRules) {
+			this._srcRules.removeListener(this._onMatchChange);
 		}
-		this._rules = rules;
-		this._rules.addListener(this._onMatchChange);
+		this._srcRules = rules;
+		this._srcRules.addListener(this._onMatchChange);
 	}
 
 	get currentSrc() {
@@ -287,7 +288,7 @@ export class SmartImage extends HTMLElement {
 			return;
 		}
 
-		const rule = this.rules.targetRule;
+		const rule = this.srcRules.active;
 		const src = SmartImage.getPath(rule.payload, this.srcBase);
 		const dpr = rule.DPR;
 
@@ -353,7 +354,7 @@ export class SmartImage extends HTMLElement {
 				this.setAttribute('alt', newVal);
 				break;
 			case 'data-src':
-				this.rules = SmartRuleList.parse<string>(newVal);
+				this.srcRules = SmartRuleList.parse<string>(newVal, SmartRuleList.STRING_PARSER);
 				this.refresh();
 				break;
 			case 'data-src-base':
@@ -393,7 +394,6 @@ export class SmartImage extends HTMLElement {
 		}
 		return this._shadowImageElement;
 	}
-
 	private _onLoad() {
 		this.syncImage();
 		this.removeAttribute('error');
@@ -423,7 +423,7 @@ export class SmartImage extends HTMLElement {
 	}
 
 	private static getPath(src: string, basePath = '') {
-		if ( !src || src === '0' || src === 'none') {
+		if (!src || src === '0' || src === 'none') {
 			return SmartImage.EMPTY_IMAGE;
 		}
 		return basePath + src;
