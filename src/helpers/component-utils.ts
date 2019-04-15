@@ -4,7 +4,7 @@
  * @param eventName - name of event
  * @param args - arguments for custom event
  */
-export function triggerComponentEvent(target: HTMLElement, eventName: string, args: any) {
+export function triggerComponentEvent(target: HTMLElement, eventName: string, args?: any) {
     const eventHandlerName = 'on' + eventName;
     const eventHandlerAttr = target.getAttribute(eventHandlerName);
     if (eventHandlerAttr) {
