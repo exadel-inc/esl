@@ -1,4 +1,4 @@
-import SmartCarouselAnimation from "./smart-carousel-animation";
+import SmartCarouselAnimation from './smart-carousel-animation';
 
 class SmartSingleCarouselAnimation  extends SmartCarouselAnimation {
 

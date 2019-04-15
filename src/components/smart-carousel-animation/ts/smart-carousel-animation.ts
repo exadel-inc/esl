@@ -1,4 +1,4 @@
-import SmartCarousel from "../../smart-carousel/ts/smart-carousel";
+import SmartCarousel from '../../smart-carousel/ts/smart-carousel';
 
 class SmartCarouselAnimation {
 
@@ -9,7 +9,7 @@ class SmartCarouselAnimation {
     }
 
     public animate(event: CustomEvent) {
-
+        // common function
     }
 }
 

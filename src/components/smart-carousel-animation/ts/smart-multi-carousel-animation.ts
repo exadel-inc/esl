@@ -1,8 +1,10 @@
-import SmartCarouselAnimation from "./smart-carousel-animation";
+import SmartCarouselAnimation from './smart-carousel-animation';
 
 class SmartMultiCarouselAnimation extends SmartCarouselAnimation {
 
-    animate(event: CustomEvent) {
+    private animationProperty: {};
+
+    public animate(event: CustomEvent) {
             const firstIndex = event.detail.firstIndex;
             const direction = event.detail.direction;
             const slideStyles = getComputedStyle(this._carousel.slides[firstIndex]);

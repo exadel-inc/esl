@@ -1,5 +1,5 @@
 import {triggerComponentEvent} from '../../../helpers/component-utils';
-import SmartCarouselStrategy from "./smart-carousel-strategy";
+import SmartCarouselStrategy from './smart-carousel-strategy';
 
 class SmartCarousel extends HTMLElement {
 
@@ -134,7 +134,7 @@ class SmartCarousel extends HTMLElement {
     }
 
     protected _onAnimate(event: CustomEvent) {
-        this.strategy.setStrategy((this.config.count === 1) ? 'single': 'multi');
+        this.strategy.setStrategy((this.config.count === 1) ? 'single' : 'multi');
         this.strategy.animate(event);
     }
 
