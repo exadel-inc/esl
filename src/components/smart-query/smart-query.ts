@@ -1,12 +1,4 @@
 import SmartQuery from './ts/smart-query';
+import SmartRuleList from './ts/smart-rule-list';
 
-/**
- * SmartQuery.BreakpointRegistry used to define breakpoints shortcuts.
- * todo: move to library scope
- */
-// @ts-ignore
-window.SmartQuery = SmartQuery;
-
-export default {
-	SmartQuery
-};
+export {SmartQuery, SmartRuleList};
