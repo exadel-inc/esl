@@ -78,4 +78,4 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
 
 customElements.define(SmartPopup.is, SmartPopup);
 
-export default SmartPopup;
+export {SmartPopup};
