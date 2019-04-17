@@ -1,3 +1,4 @@
+import {triggerComponentEvent} from "../../helpers/component-utils";
 import {ISmartTrigger} from "../smart-trigger/smart-triger-interface";
 
 export enum STATES { CLOSE, OPEN }
@@ -27,11 +28,11 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
     attributeChangedCallback(attr: string, prevValue: string, value: string) {
         switch (attr) {
             case 'class':
-                if (prevValue !== value) {
-                    if (this.isOpen && prevValue.split(' ').indexOf(this.activeClass) === -1) {
-
+                if (prevValue !== null && prevValue !== value) {
+                    const wasClosed = prevValue.split(' ').indexOf(this.activeClass) === -1;
+                    if (this.isOpen && wasClosed || !this.isOpen && !wasClosed) {
+                        triggerComponentEvent(this,'popupStateChange');
                     }
-                    console.log(this.classList.contains(this.activeClass), prevValue, '~~~~~~~~~~~~', value);
                 }
         }
     }
@@ -73,7 +74,6 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
         }
         return this;
     }
-
 }
 
 customElements.define(SmartPopup.is, SmartPopup);
