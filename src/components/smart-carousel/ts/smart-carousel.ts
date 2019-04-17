@@ -1,10 +1,21 @@
 import {triggerComponentEvent} from '../../../helpers/component-utils';
-import SmartCarouselStrategy from './smart-carousel-strategy';
+import SmartCarouselAnimation from "../../smart-carousel-animation/ts/smart-carousel-animation";
+import SmartSingleCarouselAnimation from "../../smart-carousel-animation/ts/smart-single-carousel-animation";
+import SmartMultiCarouselAnimation from "../../smart-carousel-animation/ts/smart-multi-carousel-animation";
+
+interface Strategy {
+    [type: string]: (carousel: SmartCarousel) => SmartCarouselAnimation
+}
 
 class SmartCarousel extends HTMLElement {
 
     public config: { count: number };
-    private strategy: SmartCarouselStrategy;
+    private animation: SmartCarouselAnimation;
+
+    private STRATEGIES: Strategy = {
+        single: (carousel: SmartCarousel) => new SmartSingleCarouselAnimation(carousel),
+        multi: (carousel: SmartCarousel) => new SmartMultiCarouselAnimation(carousel),
+    };
 
     static get is() {
         return 'smart-carousel';
@@ -17,7 +28,10 @@ class SmartCarousel extends HTMLElement {
     protected connectedCallback() {
         this.classList.add(SmartCarousel.is);
         this.config = {count: 3};
-        this.strategy = new SmartCarouselStrategy(this);
+
+        const type = (this.config.count === 1) ? 'single' : 'multi';
+        this.animation = this.STRATEGIES[type](this);
+
         this._bindEvents();
     }
 
@@ -27,14 +41,10 @@ class SmartCarousel extends HTMLElement {
 
     protected _bindEvents() {
         this.addEventListener('click', this._onClick, false);
-        // ??
-        this.addEventListener('sc-slidesanimated', this._onAnimate, false);
     }
 
     protected _unbindEvents() {
         this.removeEventListener('click', this._onClick, false);
-        // ??
-        this.removeEventListener('sc-slidesanimated', this._onAnimate, false);
     }
 
     get activeClass() {
@@ -43,7 +53,9 @@ class SmartCarousel extends HTMLElement {
 
     get slides(): HTMLElement[] {
         const els = this.querySelectorAll('[data-slide-item]') as NodeListOf<HTMLElement>;
-        return els ? Array.from(els) : [];
+        const slides = els ? Array.from(els) : [];
+        Object.defineProperty(this, 'slides', {value: slides});
+        return slides;
     }
 
     get size(): number {
@@ -52,7 +64,7 @@ class SmartCarousel extends HTMLElement {
 
     get activeIndexes(): number[] {
         return this.slides.reduce((activeIndexes: number[], el, index) => {
-            if (el.classList.contains(this.activeClass)) {
+            if (this.isActive(index)) {
                 activeIndexes.push(index);
             }
             return activeIndexes;
@@ -60,7 +72,7 @@ class SmartCarousel extends HTMLElement {
     }
 
     /**
-     * @returns {number} first index of current active slides
+     * @returns {number} first active index
      */
     get firstIndex(): number {
         return this.slides.findIndex((el) => {
@@ -68,83 +80,74 @@ class SmartCarousel extends HTMLElement {
         });
     }
 
-    public goTo(firstNextIndex: number) {
-        let nextIndex = 0;
-        if (this.firstIndex !== firstNextIndex) {
-            this.activeIndexes.forEach((el) => {
-                this.slides[el].classList.remove(this.activeClass);
-            });
+    public isActive(index: number): boolean {
+        return this.slides[index].classList.contains(this.activeClass);
+    }
 
-            for (let index = 0; index < this.config.count; ++index) {
-                if (firstNextIndex + index >= this.size) {
-                    nextIndex = this.size - 1 - index;
-                } else {
-                    nextIndex = firstNextIndex + index;
-                }
-                this.slides[nextIndex].classList.add(this.activeClass);
-            }
+    public goTo(nextIndex: number, direction?: string) {
+        if (this.dataset.isAnimated) {
+            return;
         }
+
+        // show last slides if count of slides isn't enough
+        if (nextIndex + this.config.count > this.size || nextIndex < 0) {
+            nextIndex = this.size - this.config.count;
+        }
+
+        if (this.firstIndex === nextIndex) {
+            return;
+        }
+
+        if (!direction) {
+            direction = (nextIndex > this.firstIndex) ? 'right' : 'left';
+        }
+
+        this.animation.animate(nextIndex, direction);
+
+        this.slides.forEach((el) => {
+            el.classList.remove(this.activeClass);
+        });
+
+        for (let index = 0; index < this.config.count; ++index) {
+            this.slides[nextIndex + index].classList.add(this.activeClass);
+        }
+
+        triggerComponentEvent(this, 'sc-slideschanged', {bubbles: true})
+    }
+
+    private getNextGroup(shiftGroupsCount: number) {
+        // get number of current active slides group by last index of this group
+        const lastIndex = this.activeIndexes.length - 1;
+        const currentGroup = Math.floor(this.activeIndexes[lastIndex] / this.config.count);
+        // get count of slides groups
+        const countGroups = Math.ceil(this.size / this.config.count);
+        // get number of next active slides group
+        return (currentGroup + shiftGroupsCount + countGroups) % countGroups;
     }
 
     public prev() {
-        const currentGroup = Math.floor((this.activeIndexes[this.activeIndexes.length - 1] / this.config.count));
-        const countGroups = Math.ceil(this.size / this.config.count);
-        this.goTo((((currentGroup - 1 + countGroups) % countGroups) * this.config.count));
+        const nextGroup = this.getNextGroup(-1);
+        this.goTo(nextGroup * this.config.count, 'left');
     }
 
     public next() {
-        const currentGroup = Math.floor((this.activeIndexes[this.activeIndexes.length - 1] / this.config.count));
-        const countGroups = Math.ceil(this.size / this.config.count);
-        this.goTo((((currentGroup + 1 + countGroups) % countGroups) * this.config.count));
+        const nextGroup = this.getNextGroup(1);
+        this.goTo(nextGroup * this.config.count, 'right');
     }
 
     protected _onClick(event: MouseEvent) {
         const target = event.target as HTMLElement;
         const markedTarget = target.closest('[data-slide-target]') as HTMLElement;
         if (markedTarget && markedTarget.dataset.slideTarget) {
-            this.setActiveIndexes(markedTarget.dataset.slideTarget);
+            const target = markedTarget.dataset.slideTarget;
+            if ('prev' === target) {
+                this.prev();
+            } else if ('next' === target) {
+                this.next();
+            } else {
+                this.goTo(this.config.count * +target);
+            }
         }
-    }
-
-    public setActiveIndexes(target: string) {
-        const firstIndex = this.firstIndex;
-        let direction = '';
-
-        if (this.dataset.isAnimated) {
-            return;
-        }
-
-        if ('prev' === target) {
-            this.prev();
-            direction = 'left';
-        } else if ('next' === target) {
-            this.next();
-            direction = 'right';
-        } else {
-            this.goTo(this.config.count * +target);
-            direction = (firstIndex < this.config.count * +target) ? 'right' : 'left';
-        }
-
-        this.triggerSlidesAnimate({
-            firstIndex,
-            direction
-        });
-
-        this.triggerSlidesChange();
-    }
-
-    protected _onAnimate(event: CustomEvent) {
-        this.strategy.setStrategy((this.config.count === 1) ? 'single' : 'multi');
-        this.strategy.animate(event);
-    }
-
-    // ??? to utility class
-    protected triggerSlidesAnimate(detail?: {}) {
-        triggerComponentEvent(this, 'sc-slidesanimated', {bubbles: true, detail})
-    }
-
-    protected triggerSlidesChange(detail?: {}) {
-        triggerComponentEvent(this, 'sc-slideschanged', {bubbles: true, detail})
     }
 }
 

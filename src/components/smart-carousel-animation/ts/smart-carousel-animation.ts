@@ -8,7 +8,7 @@ class SmartCarouselAnimation {
         this._carousel = carousel;
     }
 
-    public animate(event: CustomEvent) {
+    public animate(nextIndex: number, direction: string) {
         // common function
     }
 }
