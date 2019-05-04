@@ -76,18 +76,13 @@ smart-image {
     left: 0;
     width: 100%;
     display: block;
-  }
-  smart-image[mode="origin"] {
-    position: relative;
-    width: auto;
-    height: auto;
-  }
-  &.img-noratio {
-    smart-image {
+    &[mode="origin"] {
+      position: relative;
+    }
+    &[mode='save-ratio'] {
       position: relative;
     }
   }
-
   smart-image[lazy] {
     opacity: 0;
     &[ready] {
@@ -103,5 +98,8 @@ smart-image {
   }
   &.img-container-16-9 {
     padding-top: 9/16*100%;
+    smart-image {
+      position: absolute;
+    }
   }
 }
