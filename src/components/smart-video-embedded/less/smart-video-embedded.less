@@ -1,0 +1,46 @@
+smart-video-embedded {
+  display: block;
+}
+
+.smart-video-embedded {
+  .sev-inner {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  iframe {
+    border: 0;
+  }
+
+  .video-js {
+    height: 100%;
+    width: 100%;
+  }
+
+  // It overrides the pinkish color int he caption list
+  .vjs-menu-button .vjs-texttrack-settings {
+    border-color: #01A982;
+  }
+  // It hides the text for the player buttons
+  .vjs-control-text {
+    display: none;
+  }
+}
+
+.img-container > smart-video-embedded {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.video-embedded-buttons-row {
+  text-align: center;
+    .btn{
+      background: #01A982;
+      text-transform: uppercase;
+      padding: 10px 30px;
+    }
+}

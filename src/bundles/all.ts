@@ -7,6 +7,7 @@ import '../helpers/builtin-polyfils/closest-polyfill';
 import {SmartQuery, SmartRuleList} from '../components/smart-query/smart-query';
 import {SmartMulticarousel, SmartMulticarouselDots} from '../components/smart-multicarousel/smart-multicarousel';
 import {SmartImage} from '../components/smart-image/smart-image';
+import {SmartVideoEmbedded} from '../components/smart-video-embedded/smart-video-embedded';
 
 export {
 	SmartQuery,
@@ -14,4 +15,5 @@ export {
 	SmartMulticarousel,
 	SmartMulticarouselDots,
 	SmartImage,
+	SmartVideoEmbedded
 };
