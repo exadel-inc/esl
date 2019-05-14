@@ -36,8 +36,8 @@ class SmartCarouselDots extends HTMLElement {
 
     public rerender() {
         let html = '';
-        const activeDot = Math.floor(this._parent.activeIndexes[this._parent.config.count - 1] / this._parent.config.count);
-        for (let i = 0; i < Math.ceil(this._parent.size / this._parent.config.count); ++i) {
+        const activeDot = Math.floor(this._parent.activeIndexes[this._parent.count - 1] / this._parent.count);
+        for (let i = 0; i < Math.ceil(this._parent.size / this._parent.count); ++i) {
             html += this.buildDot(i, i === activeDot);
         }
         this.innerHTML = html;

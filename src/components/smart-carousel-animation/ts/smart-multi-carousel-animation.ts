@@ -14,10 +14,10 @@ class SmartMultiCarouselAnimation extends SmartCarouselAnimation {
 
         let trans = 0;
 
-        if ((nextIndex === 0 && direction === 'right') || (this._carousel.firstIndex === 0 && direction === 'left')) {
+        if ((nextIndex === 0 && direction === 'right' && this._carousel.firstIndex !== 0) || (this._carousel.firstIndex === 0 && direction === 'left')) {
             const left = (direction === 'right') ? currentLeft + areaWidth : currentLeft - areaWidth;
 
-            for (let index = 0; index < this._carousel.config.count; ++index) {
+            for (let index = 0; index < this._carousel.count; ++index) {
                 this._carousel.slides[nextIndex + index].style.left = left + 'px';
             }
 
@@ -26,11 +26,11 @@ class SmartMultiCarouselAnimation extends SmartCarouselAnimation {
                 el.style.transform = `translateX(${trans}px)`;
             });
 
-            for (let i = 0; i < this._carousel.config.count; i++) {
+            for (let i = 0; i < this._carousel.count; i++) {
                 this._carousel.slides[this._carousel.firstIndex + i].style.left = currentLeft + 'px';
                 const time = (direction === 'right') ?
-                    (transitionDuration / this._carousel.config.count) * i :
-                    (transitionDuration / this._carousel.config.count) * (this._carousel.config.count - i - 1);
+                    (transitionDuration / this._carousel.count) * i :
+                    (transitionDuration / this._carousel.count) * (this._carousel.count - i - 1);
                 if (this._carousel.activeIndexes.indexOf(nextIndex + i) !== -1) {
                     setTimeout(() => {
                         this._carousel.slides[this._carousel.firstIndex + i].style.left = left + 'px';

@@ -5,12 +5,8 @@ layout: ../../layouts/basic.html
 {{##content:
 <div class="row">
     <h2>Demo 1: </h2>
-    <smart-carousel  data-config="
-                                    {count: 6, className: ''} |
-                                    @LG => {count: 5} |
-                                    @MD => {count: 4} |
-                                    @SM => {count: 3} |
-                                    @XS => {count: 2} |
+    <smart-carousel data-config="
+                                    {count: 3, className: ''}
                          ">
 
         <button type="button" role="presentation" class="arrow-prev" onclick="void 0">
@@ -19,17 +15,20 @@ layout: ../../layouts/basic.html
 
         <div data-slides-area>
             <!-- CAROUSEL-ITEM -->
-            <div data-slide-item class="active-slide" style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+            <div data-slide-item class="active-slide"
+                 style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                 <div class="post-text">
                     <p>aaa</p>
                 </div>
             </div>
-            <div data-slide-item class="active-slide" style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+            <div data-slide-item class="active-slide"
+                 style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                 <div class="post-text">
                     <p>bbb</p>
                 </div>
             </div>
-            <div data-slide-item class="active-slide" style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+            <div data-slide-item class="active-slide"
+                 style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                 <div class="post-text">
                     <p>ccc</p>
                 </div>
@@ -144,89 +143,5 @@ layout: ../../layouts/basic.html
 
     </smart-carousel>
 </div>
-
-<div class="row">
-    <h2>Demo 2: </h2>
-    <smart-carousel>
-        <button type="button" role="presentation" class="arrow-prev" onclick="void 0">
-            <span class="icon-arrow-left" data-slide-target="prev"></span>
-        </button>
-
-        <div data-slides-area>
-            <!-- CAROUSEL-ITEM -->
-            <div data-slide-item class="active-slide"  style="background-color: #aaf;">
-                <div class="post-text">
-                    <p>aaa</p>
-                </div>
-            </div>
-            <div data-slide-item class="active-slide" style="background-color: #afa;">
-                <div class="post-text">
-                    <p>bbb</p>
-                </div>
-            </div>
-            <div data-slide-item class="active-slide" style="background-color: #ffa;">
-                <div class="post-text">
-                    <p>ccc</p>
-                </div>
-            </div>
-            <div data-slide-item class="">
-                <div class="post-text" style="background-color: #faa;">
-                    <p>ddd</p>
-                </div>
-            </div>
-            <!-- /CAROUSEL-ITEM -->
-        </div>
-
-        <button type="button" role="presentation" class="arrow-next" onclick="void 0">
-            <span class="icon-arrow-right" data-slide-target="next"></span>
-        </button>
-
-        <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
-    </smart-carousel>
-</div>
-
-<div class="row">
-    <h2>Demo 3: </h2>
-    <smart-carousel>
-        <button type="button" role="presentation" class="arrow-prev" onclick="void 0">
-            <span class="icon-arrow-left" data-slide-target="prev"></span>
-        </button>
-
-        <div data-slides-area>
-            <!-- CAROUSEL-ITEM -->
-            <div data-slide-item class="active-slide"  style="background-color: #aaf;">
-                <div class="post-text">
-                    <p>aaa</p>
-                </div>
-            </div>
-            <div data-slide-item class="active-slide" style="background-color: #afa;">
-                <div class="post-text">
-                    <p>bbb</p>
-                </div>
-            </div>
-            <div data-slide-item class="active-slide" style="background-color: #ffa;">
-                <div class="post-text">
-                    <p>ccc</p>
-                </div>
-            </div>
-            <div data-slide-item class="">
-                <div class="post-text" style="background-color: #faa;">
-                    <p>ddd</p>
-                </div>
-            </div>
-            <div data-slide-item class="">
-                <div class="post-text" style="background-color: #faa;">
-                    <p>eee</p>
-                </div>
-            </div>
-            <!-- /CAROUSEL-ITEM -->
-        </div>
-
-        <button type="button" role="presentation" class="arrow-next" onclick="void 0">
-            <span class="icon-arrow-right" data-slide-target="next"></span>
-        </button>
-
-        <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
-    </smart-carousel>
 </div>
 #}}

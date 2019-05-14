@@ -5,7 +5,7 @@
   overflow: hidden;
   justify-content: center;
 
-  [data-slide-area] {
+  [data-slides-area] {
     display: flex;
     position: relative;
     overflow: hidden;
@@ -15,6 +15,7 @@
 
   [data-slide-item] {
     position: relative;
+    visibility: hidden;
     left: 0;
     min-width: 250px;
     min-height: 150px;
@@ -30,5 +31,10 @@
     visibility: visible;
     z-index: 2;
     opacity: 1;
+  }
+
+  .sibling-slide {
+    position: absolute;
+    visibility: visible;
   }
 }
