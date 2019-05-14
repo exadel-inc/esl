@@ -94,7 +94,7 @@
 import {isMobile} from '../../../helpers/device-utils';
 import {triggerComponentEvent} from '../../../helpers/component-utils';
 import SmartRuleList from '../../smart-query/ts/smart-rule-list';
-import {buildProperties} from '../../../helpers/custom-element-utils';
+import {attr} from '../../../helpers/custom-element-utils';
 
 // Mods configurations
 
@@ -109,9 +109,6 @@ interface ShadowImageElement extends HTMLImageElement {
 const STRATEGIES: Strategy = {
 	'cover': {
 		useInnerImg: false,
-		afterLoad() {
-			this.style.paddingTop = null;
-		}
 	},
 	'save-ratio': {
 		useInnerImg: false,
@@ -154,6 +151,17 @@ function getIObserver() {
 }
 
 export class SmartImage extends HTMLElement {
+	@attr({dataAttr: true}) private src: string;
+	@attr({dataAttr: true}) private srcBase: string;
+	@attr({dataAttr: true}) private alt: string;
+	@attr({defaultValue: 'save-ratio'}) private mode: string;
+	@attr({conditional: true}) private refreshOnUpdate: boolean;
+	@attr({conditional: true, readonly: true}) private lazyManual: boolean;
+	@attr({conditional: true, readonly: true}) private lazyTriggered: boolean;
+	@attr({conditional: true, readonly: true}) private ready: boolean;
+	@attr({conditional: true, readonly: true}) private loaded: boolean;
+	@attr({conditional: true, readonly: true}) private error: boolean;
+
 	private _innerImg: HTMLImageElement;
 	private _srcRules: SmartRuleList<string>;
 	private _currentSrc: string;
@@ -181,80 +189,11 @@ export class SmartImage extends HTMLElement {
 	}
 
 	get lazy(): boolean {
-		return this.hasAttribute('lazy') || this.hasAttribute('lazy-manual');
+		return this.hasAttribute('lazy') || this.lazyManual;
 	}
 
 	get lazyAuto(): boolean {
-		return this.hasAttribute('lazy') && !this.hasAttribute('lazy-manual');
-	}
-
-	get lazyManual(): boolean {
-		return this.hasAttribute('lazy-manual');
-	}
-
-	get lazyTriggered(): boolean {
-		return this.hasAttribute('lazy-triggered');
-	}
-
-	get ready(): boolean {
-		return this.hasAttribute('ready');
-	}
-
-	get loaded(): boolean {
-		return this.hasAttribute('loaded');
-	}
-
-	get error(): boolean {
-		return this.hasAttribute('error');
-	}
-
-	get mode(): string {
-		return this.getAttribute('mode') || 'save-ratio';
-	}
-
-	set mode(mode: string) {
-		if (!STRATEGIES[mode]) {
-			throw new Error('Smart Image: Unsupported mode: ' + mode);
-		}
-		if (this.mode !== mode) {
-			this.setAttribute('mode', mode);
-		}
-		if (this.mode !== 'origin' && this._innerImg) {
-			this.removeChild(this._innerImg);
-			this._innerImg = null;
-		}
-		this.update(true);
-	}
-
-	get refreshOnUpdate() {
-		return this.hasAttribute('refresh-on-update');
-	}
-
-	set refreshOnUpdate(val) {
-		val ? this.setAttribute('refresh-on-update', 'true') : this.removeAttribute('refresh-on-update');
-	}
-
-	get alt() {
-		return this.getAttribute('data-alt') || this.getAttribute('alt') || '';
-	}
-
-	set alt(text) {
-		this.setAttribute('data-alt', text);
-	}
-
-	// Rename to ~query sttr
-	get src() {
-		return this.getAttribute('data-src');
-	}
-	set src(src) {
-		this.setAttribute('data-src', src);
-	}
-
-	get srcBase() {
-		return this.getAttribute('data-src-base') || '';
-	}
-	set srcBase(baseSrc) {
-		this.setAttribute('data-src-base', baseSrc);
+		return this.hasAttribute('lazy') && !this.lazyManual;
 	}
 
 	get srcRules() {
@@ -263,6 +202,7 @@ export class SmartImage extends HTMLElement {
 		}
 		return this._srcRules;
 	}
+
 	set srcRules(rules: SmartRuleList<string>) {
 		if (this._srcRules) {
 			this._srcRules.removeListener(this._onMatchChange);
@@ -281,6 +221,24 @@ export class SmartImage extends HTMLElement {
 
 	public triggerLoad() {
 		this.setAttribute('lazy-triggered', '');
+	}
+
+	private changeMode(oldVal: string, newVal: string) {
+		oldVal = oldVal || 'save-ratio';
+		newVal = newVal || 'save-ratio';
+		if (oldVal !== newVal) {
+			if (!STRATEGIES[newVal]) {
+				throw new Error('Smart Image: Unsupported mode: ' + newVal);
+			}
+			if (this.mode !== newVal) {
+				this.mode = newVal;
+			}
+			if (this.mode !== 'origin' && this._innerImg) {
+				this.removeChild(this._innerImg);
+				this._innerImg = null;
+			}
+			this.update(true);
+		}
 	}
 
 	private update(force: boolean = false) {
@@ -361,11 +319,7 @@ export class SmartImage extends HTMLElement {
 				this.refresh();
 				break;
 			case 'mode':
-				oldVal = oldVal || 'save-ratio';
-				newVal = newVal || 'save-ratio';
-				if (oldVal !== newVal) {
-					this.mode = newVal;
-				}
+				this.changeMode(oldVal, newVal);
 				break;
 			case 'lazy-triggered':
 				this.update(true);
@@ -394,6 +348,7 @@ export class SmartImage extends HTMLElement {
 		}
 		return this._shadowImageElement;
 	}
+
 	private _onLoad() {
 		this.syncImage();
 		this.removeAttribute('error');
