@@ -5,7 +5,7 @@ layout: ../../layouts/basic.html
 {{##content:
 <div class="row">
     <h2>Demo 1: </h2>
-    <smart-carousel  data-config="
+    <smart-carousel  strategy="multi" config="
                                     {count: 6, className: ''} |
                                     @LG => {count: 5} |
                                     @MD => {count: 4} |
@@ -147,7 +147,7 @@ layout: ../../layouts/basic.html
 
 <div class="row">
     <h2>Demo 2: </h2>
-    <smart-carousel>
+    <smart-carousel strategy="multi">
         <button type="button" role="presentation" class="arrow-prev" onclick="void 0">
             <span class="icon-arrow-left" data-slide-target="prev"></span>
         </button>
@@ -187,7 +187,7 @@ layout: ../../layouts/basic.html
 
 <div class="row">
     <h2>Demo 3: </h2>
-    <smart-carousel>
+    <smart-carousel strategy="multi" >
         <button type="button" role="presentation" class="arrow-prev" onclick="void 0">
             <span class="icon-arrow-left" data-slide-target="prev"></span>
         </button>

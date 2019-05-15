@@ -1,10 +1,11 @@
 import SmartCarousel from './smart-carousel';
 
 class SmartCarouselDots extends HTMLElement {
-
     static get is() {
         return 'smart-carousel-dots';
     }
+
+    private _onUpdate = () => this.rerender();
 
     constructor() {
         super();
@@ -15,29 +16,26 @@ class SmartCarouselDots extends HTMLElement {
         this.rerender();
         this._bindEvents();
     }
-
     protected disconnectedCallback() {
         this._unbindEvents();
     }
 
     protected _bindEvents() {
-        this._parent.addEventListener('sc-slideschanged', this._onUpdate);
+        this.parent.addEventListener('sc:slide:changed', this._onUpdate);
     }
-
     protected _unbindEvents() {
-        this._parent.removeEventListener('sc-slideschanged', this._onUpdate);
+        this.parent.removeEventListener('sc:slide:changed', this._onUpdate);
     }
 
-    private _onUpdate = () => this.rerender();
 
-    get _parent(): SmartCarousel {
+    get parent(): SmartCarousel {
         return this.closest('.' + SmartCarousel.is) as SmartCarousel;
     }
 
     public rerender() {
         let html = '';
-        const activeDot = Math.floor(this._parent.activeIndexes[this._parent.count - 1] / this._parent.count);
-        for (let i = 0; i < Math.ceil(this._parent.size / this._parent.count); ++i) {
+        const activeDot = Math.floor(this.parent.activeIndexes[this.parent.activeCount - 1] / this.parent.activeCount);
+        for (let i = 0; i < Math.ceil(this.parent.count / this.parent.activeCount); ++i) {
             html += this.buildDot(i, i === activeDot);
         }
         this.innerHTML = html;

@@ -1,10 +1,15 @@
 import SmartCarouselAnimation from './smart-carousel-animation';
+import SmartCarousel from '../../smart-carousel/ts/smart-carousel';
 
 class SmartSingleCarouselAnimation extends SmartCarouselAnimation {
 
+    constructor(carousel: SmartCarousel) {
+        super(carousel);
+    }
+
     public animate(nextIndex: number, direction: string) {
-        const nextSlide = this._carousel.slides[nextIndex];
-        const activeSlide = this._carousel.slides[this._carousel.firstIndex];
+        const nextSlide = this.carousel.$slides[nextIndex];
+        const activeSlide = this.carousel.$slides[this.carousel.firstIndex];
 
         const activeSlideStyles = getComputedStyle(activeSlide);
         const slideWidth = parseFloat(activeSlideStyles.width) +
@@ -18,9 +23,9 @@ class SmartSingleCarouselAnimation extends SmartCarouselAnimation {
         const nextLeft = shiftLength - nextTrans;
         const activeLeft = activeTrans + shiftLength;
 
-        this._carousel.setAttribute('direction', direction);
+        this.carousel.setAttribute('direction', direction);
 
-        this._carousel.slides.forEach((el) => el.classList.remove('sibling-slide'));
+        this.carousel.$slides.forEach((el) => el.classList.remove('sibling-slide'));
 
         activeSlide.classList.add('sibling-slide');
         nextSlide.classList.add('sibling-slide');
@@ -32,7 +37,7 @@ class SmartSingleCarouselAnimation extends SmartCarouselAnimation {
         nextSlide.style.transform = `translateX(${-shiftLength}px)`;
 
         activeSlide.addEventListener('transitionend', (e) => this._clearAnimation(e), {once: true});
-        this._carousel.setAttribute('data-is-animated', 'true');
+        this.carousel.setAttribute('data-is-animated', 'true');
     }
 
     private _clearAnimation(event: Event) {
@@ -41,14 +46,14 @@ class SmartSingleCarouselAnimation extends SmartCarouselAnimation {
         const slideWidth = parseFloat(activeSlideStyles.width) +
             parseFloat(activeSlideStyles.marginLeft) +
             parseFloat(activeSlideStyles.marginRight);
-        const direction = this._carousel.getAttribute('direction');
+        const direction = this.carousel.getAttribute('direction');
 
         target.style.transform = 'translateX(0)';
 
         target.style.left = (direction === 'right') ? -slideWidth + 'px' : slideWidth + 'px';
 
         // target.classList.remove('sibling-slide');
-        this._carousel.removeAttribute('data-is-animated');
+        this.carousel.removeAttribute('data-is-animated');
 
     }
 }

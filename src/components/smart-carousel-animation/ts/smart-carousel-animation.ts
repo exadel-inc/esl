@@ -1,16 +1,14 @@
 import SmartCarousel from '../../smart-carousel/ts/smart-carousel';
 
-class SmartCarouselAnimation {
+abstract class SmartCarouselAnimation {
 
-    protected _carousel: SmartCarousel;
+    protected carousel: SmartCarousel;
 
-    constructor(carousel: SmartCarousel) {
-        this._carousel = carousel;
+    protected constructor(carousel: SmartCarousel) {
+        this.carousel = carousel;
     }
 
-    public animate(nextIndex: number, direction: string) {
-        // common function
-    }
+    public abstract animate(nextIndex: number, direction: string): void;
 }
 
 export default SmartCarouselAnimation;

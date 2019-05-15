@@ -1,59 +1,67 @@
 import SmartCarouselAnimation from './smart-carousel-animation';
+import SmartCarousel from '../../smart-carousel/ts/smart-carousel';
+
 
 class SmartMultiCarouselAnimation extends SmartCarouselAnimation {
 
-    public animate(nextIndex: number, direction: string) {
-        const slideStyles = getComputedStyle(this._carousel.slides[this._carousel.firstIndex]);
-        const slideWidth = parseFloat(slideStyles.width) +
-            parseFloat(slideStyles.marginLeft) +
-            parseFloat(slideStyles.marginRight);
-        const areaWidth = slideWidth * this._carousel.slides.length;
+	constructor(carousel: SmartCarousel) {
+		super(carousel);
+	}
 
-        const transitionDuration = parseFloat(slideStyles.transitionDuration) * 1000; // ms
-        const currentLeft = parseFloat(slideStyles.left);
+	public animate(nextIndex: number, direction: string) {
+		const slideStyles = getComputedStyle(this.carousel.$slides[this.carousel.firstIndex]);
+		const slideWidth = parseFloat(slideStyles.width) +
+			parseFloat(slideStyles.marginLeft) +
+			parseFloat(slideStyles.marginRight);
+		const areaWidth = slideWidth * this.carousel.$slides.length;
 
-        let trans = 0;
+		const transitionDuration = parseFloat(slideStyles.transitionDuration) * 1000; // ms
+		const currentLeft = parseFloat(slideStyles.left);
 
-        if ((nextIndex === 0 && direction === 'right' && this._carousel.firstIndex !== 0) || (this._carousel.firstIndex === 0 && direction === 'left')) {
-            const left = (direction === 'right') ? currentLeft + areaWidth : currentLeft - areaWidth;
+		let trans = 0;
 
-            for (let index = 0; index < this._carousel.count; ++index) {
-                this._carousel.slides[nextIndex + index].style.left = left + 'px';
-            }
+		if ((nextIndex === 0 && direction === 'right' && this.carousel.firstIndex !== 0) || (this.carousel.firstIndex === 0 && direction === 'left')) {
+			const left = (direction === 'right') ? currentLeft + areaWidth : currentLeft - areaWidth;
 
-            trans = -nextIndex * slideWidth - left;
-            this._carousel.slides.forEach((el) => {
-                el.style.transform = `translateX(${trans}px)`;
-            });
+			for (let index = 0; index < this.carousel.activeCount; ++index) {
+				this.carousel.$slides[nextIndex + index].style.left = left + 'px';
+			}
 
-            for (let i = 0; i < this._carousel.count; i++) {
-                this._carousel.slides[this._carousel.firstIndex + i].style.left = currentLeft + 'px';
-                const time = (direction === 'right') ?
-                    (transitionDuration / this._carousel.count) * i :
-                    (transitionDuration / this._carousel.count) * (this._carousel.count - i - 1);
-                if (this._carousel.activeIndexes.indexOf(nextIndex + i) !== -1) {
-                    setTimeout(() => {
-                        this._carousel.slides[this._carousel.firstIndex + i].style.left = left + 'px';
-                        const nextTrans = -nextIndex * slideWidth - left;
-                        this._carousel.slides[this._carousel.firstIndex + i].style.transform = `translateX(${nextTrans}px)`;
-                    }, time);
-                }
-            }
-        } else {
-            trans = -nextIndex * slideWidth - currentLeft;
-            this._carousel.slides.forEach((el) => {
-                el.style.transform = `translateX(${trans}px)`;
-                el.style.left = currentLeft + 'px';
-            });
-        }
+			trans = -nextIndex * slideWidth - left;
+			this.carousel.$slides.forEach((el) => {
+				el.style.transform = `translateX(${trans}px)`;
+			});
 
-        this._carousel.setAttribute('data-is-animated', 'true');
+			for (let i = 0; i < this.carousel.activeCount; i++) {
+				this.carousel.$slides[this.carousel.firstIndex + i].style.left = currentLeft + 'px';
+				const time = (direction === 'right') ?
+					(transitionDuration / this.carousel.activeCount) * i :
+					(transitionDuration / this.carousel.activeCount) * (this.carousel.activeCount - i - 1);
+				if (this.carousel.activeIndexes.indexOf(nextIndex + i) !== -1) {
+					setTimeout(() => {
+						this.carousel.$slides[this.carousel.firstIndex + i].style.left = left + 'px';
+						const nextTrans = -nextIndex * slideWidth - left;
+						this.carousel.$slides[this.carousel.firstIndex + i].style.transform = `translateX(${nextTrans}px)`;
+					}, time);
+				}
+			}
+		} else {
+			trans = -nextIndex * slideWidth - currentLeft;
+			this.carousel.$slides.forEach((el) => {
+				el.style.transform = `translateX(${trans}px)`;
+				el.addEventListener('transitionstart', (e) => (e.target as HTMLElement).classList.add('visible-sibling-slide'));
+				el.addEventListener('transitionend', (e) => (e.target as HTMLElement).classList.remove('visible-sibling-slide'));
+				el.style.left = currentLeft + 'px';
+			});
+		}
 
-        setTimeout(() => {
-            this._carousel.removeAttribute('data-is-animated');
-        }, transitionDuration);
+		this.carousel.setAttribute('data-is-animated', 'true');
 
-    }
+		setTimeout(() => {
+			this.carousel.removeAttribute('data-is-animated');
+		}, transitionDuration);
+
+	}
 }
 
 export default SmartMultiCarouselAnimation;
