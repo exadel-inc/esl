@@ -171,9 +171,8 @@ class SmartCarousel extends HTMLElement {
 					parseFloat(slideStyles.marginLeft) -
 					parseFloat(slideStyles.marginRight) + 'px';
 			});
+			this.goTo(this.firstIndex, '', true);
 		}
-
-		this.goTo(this.firstIndex, '', true);
 	}
 
     private getNextGroup(shiftGroupsCount: number) {

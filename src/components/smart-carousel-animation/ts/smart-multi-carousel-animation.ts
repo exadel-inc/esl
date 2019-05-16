@@ -49,8 +49,6 @@ class SmartMultiCarouselAnimation extends SmartCarouselAnimation {
 			trans = -nextIndex * slideWidth - currentLeft;
 			this.carousel.$slides.forEach((el) => {
 				el.style.transform = `translateX(${trans}px)`;
-				el.addEventListener('transitionstart', (e) => (e.target as HTMLElement).classList.add('visible-sibling-slide'));
-				el.addEventListener('transitionend', (e) => (e.target as HTMLElement).classList.remove('visible-sibling-slide'));
 				el.style.left = currentLeft + 'px';
 			});
 		}
