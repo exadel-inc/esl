@@ -20,7 +20,7 @@ class SmartMultiCarouselAnimation extends SmartCarouselAnimation {
 
 		let trans = 0;
 
-		if ((nextIndex === 0 && direction === 'right' && this.carousel.firstIndex !== 0) || (this.carousel.firstIndex === 0 && direction === 'left')) {
+		if ((nextIndex === 0 && direction === 'right' && this.carousel.firstIndex !== 0) || (this.carousel.firstIndex === 0 && direction === 'left') && this.carousel.firstIndex !== nextIndex) {
 			const left = (direction === 'right') ? currentLeft + areaWidth : currentLeft - areaWidth;
 
 			for (let index = 0; index < this.carousel.activeCount; ++index) {

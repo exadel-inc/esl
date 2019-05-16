@@ -131,6 +131,7 @@ class SmartCarousel extends HTMLElement {
 		}
 	}
 
+
     protected _bindEvents() {
         this.addEventListener('click', this._onClick, false);
     }
