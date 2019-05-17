@@ -1,0 +1,56 @@
+
+.smart-multicarousel {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  justify-content: center;
+  [data-slide-area] {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 71px;
+    width: 780px;
+  }
+
+  [data-slide-item] {
+    position: relative;
+    min-width: 250px;
+    z-index: 1;
+    margin: 0 5px;
+    min-height: 150px;
+    background-color: aliceblue;
+    transition: transform 2s ease-in-out;
+  }
+
+  .left {
+    transform: translateX(-780px);
+  }
+
+  .right {
+    position: absolute;
+    transform: translateX(-780px);
+  }
+
+  .active-slide {
+    display: block;
+    position: relative;
+    visibility: visible;
+    z-index: 2;
+    opacity: 1;
+  }
+
+  .prev-slide {
+    transform: translateX(-780px);
+    z-index: 1;
+    display: block;
+  }
+
+  .left-sibling {
+    transform: translateX(-1560px);
+  }
+
+  .prev {
+    visibility: visible;
+    position: relative;
+  }
+}
