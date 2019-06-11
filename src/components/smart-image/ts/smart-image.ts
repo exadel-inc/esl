@@ -304,6 +304,9 @@ export class SmartImage extends HTMLElement {
 	private disconnectedCallback() {
 		this.removeAttribute('lazy-triggered');
 		this._detachLazyTrigger && this._detachLazyTrigger();
+		if (this._srcRules) {
+			this._srcRules.removeListener(this._onMatchChange);
+		}
 	}
 
 	private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
