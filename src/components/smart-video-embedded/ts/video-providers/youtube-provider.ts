@@ -8,6 +8,7 @@
 import {generateUId, loadScript} from '../../../../helpers/common-utils';
 import SmartVideoEmbedded from '../smart-video-embedded';
 import {BaseProvider, PlayerStates} from '../smart-video-provider';
+import EmbeddedVideoProviderRegistry from '../smart-video-registry';
 
 interface YT extends Promise<void> {
 	Player: YT.Player,
@@ -90,7 +91,7 @@ export class YouTubeProvider extends BaseProvider {
 			() => (new Promise((resolve, reject) => {
 				this._api = new YT.Player(this._el, {
 					events: {
-						onError: () => reject(this),
+						onError: () => reject(this), // TODO do smth with it
 						onReady: () => resolve(this),
 						onStateChange: this._onStateChange
 					}
@@ -147,6 +148,13 @@ export class YouTubeProvider extends BaseProvider {
 			this._api.seekTo(0, false);
 		}
 		this._api.playVideo();
+
+		setTimeout(() => {
+			if (this.getState() !== PlayerStates.PLAYING) {
+				this._api.mute();
+				this._api.playVideo();
+			}
+		}, 100)
 	}
 
 	public pause() {
@@ -158,4 +166,5 @@ export class YouTubeProvider extends BaseProvider {
 	}
 }
 
-// EmbeddedVideoProviderRegistry.register(YouTubeProvider);
+EmbeddedVideoProviderRegistry.register(YouTubeProvider, YouTubeProvider.videoName);
+

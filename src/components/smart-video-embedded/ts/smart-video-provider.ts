@@ -16,11 +16,13 @@ export enum PlayerStates {
 	UNINITIALIZED = null
 }
 
+export type BaseProviderConstructor = new(component: SmartVideoEmbedded) => BaseProvider;
+
 export abstract class BaseProvider {
 	protected component: SmartVideoEmbedded;
 	protected _ready: Promise<any>;
 
-	protected constructor(component: SmartVideoEmbedded) {
+	public constructor(component: SmartVideoEmbedded) {
 		this.component = component;
 	}
 

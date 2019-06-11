@@ -50,29 +50,20 @@ import {debounce} from '../../../helpers/function-utils';
 
 import VideoGroupRestrictionManager from './smart-video-manager';
 
-// Providers
-import {YouTubeProvider} from './video-providers/youtube-provider';
-
 import {attr} from '../../../helpers/custom-element-utils';
 import {BaseProvider, PlayerStates} from './smart-video-provider';
-
-const PROVIDERS = [
-	YouTubeProvider
-];
-
-const providersMap: any = {};
-PROVIDERS.forEach((provider) => providersMap[provider.videoName] = provider);
+import providerRegistry from './smart-video-registry';
 
 export class SmartVideoEmbedded extends HTMLElement {
 	@attr() public videoId: string;
 	@attr() public videoType: string;
 	@attr() public group: string;
-	@attr({conditional: true}) private disabled: boolean;
+	@attr({conditional: true}) public disabled: boolean;
 	@attr({conditional: true}) private autoplay: boolean;
 	@attr({conditional: true}) private autofocus: boolean;
 	@attr({conditional: true}) private hideControls: boolean;
 	@attr({conditional: true}) private hideSubtitles: boolean;
-	@attr({conditional: true, readonly: true}) private ready: boolean;
+	@attr({conditional: true, readonly: true}) public ready: boolean;
 	@attr({conditional: true, readonly: true}) public active: boolean;
 
 	private _provider: BaseProvider;
@@ -93,18 +84,16 @@ export class SmartVideoEmbedded extends HTMLElement {
 		return ['video-id', 'video-type', 'disabled'];
 	}
 
-	protected static getProvider(name: string) {
-		return providersMap[name.toLowerCase()];
-	}
-
 	private connectedCallback() {
 		this.classList.add(SmartVideoEmbedded.is);
 		this.setAttribute('role', 'application');
 		this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
+		providerRegistry.addListener(this._onRegistryStateChange);
 		!this.disabled && this.reinitInstance();
 	}
 
 	private disconnectedCallback() {
+		providerRegistry.removeListener(this._onRegistryStateChange);
 		this._provider && this._provider.unbind();
 	}
 
@@ -129,7 +118,7 @@ export class SmartVideoEmbedded extends HTMLElement {
 		if (!this.disabled) {
 			this._provider && this._provider.unbind();
 
-			const provider = SmartVideoEmbedded.getProvider(this.videoType);
+			const provider = providerRegistry.getProvider(this.videoType);
 			if (provider) {
 				this._provider = new provider(this);
 				this._provider.bind();
@@ -244,9 +233,13 @@ export class SmartVideoEmbedded extends HTMLElement {
 	get state() {
 		return this._provider ? this._provider.getState() : PlayerStates.UNINITIALIZED;
 	}
+
+	private _onRegistryStateChange = (name: string) => {
+		if (name === this.videoType) {
+			this.reinitInstance();
+		}
+	};
 }
 
-export const GroupRestrictionManager = VideoGroupRestrictionManager;
-Object.assign(SmartVideoEmbedded, GroupRestrictionManager);
 customElements.define(SmartVideoEmbedded.is, SmartVideoEmbedded);
 export default SmartVideoEmbedded;
