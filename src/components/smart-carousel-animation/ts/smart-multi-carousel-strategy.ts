@@ -1,14 +1,18 @@
-import SmartCarouselAnimation from './smart-carousel-animation';
+import SmartCarouselStrategy from './smart-carousel-strategy';
 import SmartCarousel from '../../smart-carousel/ts/smart-carousel';
 
 
-class SmartMultiCarouselAnimation extends SmartCarouselAnimation {
+class SmartMultiCarouselStrategy extends SmartCarouselStrategy {
 
 	constructor(carousel: SmartCarousel) {
 		super(carousel);
 	}
 
-	public animate(nextIndex: number, direction: string) {
+	public onAnimate(nextIndex: number, direction: string) {
+		console.log('firstIndex: ', this.carousel.firstIndex);
+		console.log('nextIndex: ', nextIndex);
+
+
 		const slideStyles = getComputedStyle(this.carousel.$slides[this.carousel.firstIndex]);
 		const slideWidth = parseFloat(slideStyles.width) +
 			parseFloat(slideStyles.marginLeft) +
@@ -17,10 +21,16 @@ class SmartMultiCarouselAnimation extends SmartCarouselAnimation {
 
 		const transitionDuration = parseFloat(slideStyles.transitionDuration) * 1000; // ms
 		const currentLeft = parseFloat(slideStyles.left);
+		const currentTrans = parseFloat(slideStyles.transform.split(',')[4]);
+
+		if (this.carousel.firstIndex === nextIndex) {
+			this.carousel.$slides.forEach((el)=> el.style.left = currentTrans + slideWidth * nextIndex + 'px');
+			return;
+		}
 
 		let trans = 0;
 
-		if ((nextIndex === 0 && direction === 'right' && this.carousel.firstIndex !== 0) || (this.carousel.firstIndex === 0 && direction === 'left') && this.carousel.firstIndex !== nextIndex) {
+		if ((nextIndex === 0 && direction === 'right' && this.carousel.firstIndex !== 0) || (this.carousel.firstIndex === 0 && direction === 'left')) {
 			const left = (direction === 'right') ? currentLeft + areaWidth : currentLeft - areaWidth;
 
 			for (let index = 0; index < this.carousel.activeCount; ++index) {
@@ -60,6 +70,10 @@ class SmartMultiCarouselAnimation extends SmartCarouselAnimation {
 		}, transitionDuration);
 
 	}
+
+	public cleanStyles() {
+
+	}
 }
 
-export default SmartMultiCarouselAnimation;
+export default SmartMultiCarouselStrategy;

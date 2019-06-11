@@ -1,13 +1,13 @@
-import SmartCarouselAnimation from './smart-carousel-animation';
+import SmartCarouselStrategy from './smart-carousel-strategy';
 import SmartCarousel from '../../smart-carousel/ts/smart-carousel';
 
-class SmartSingleCarouselAnimation extends SmartCarouselAnimation {
+class SmartSingleCarouselStrategy extends SmartCarouselStrategy {
 
 	constructor(carousel: SmartCarousel) {
 		super(carousel);
 	}
 
-	public animate(nextIndex: number, direction: string) {
+	public onAnimate(nextIndex: number, direction: string) {
 		if (this.carousel.firstIndex === nextIndex) {
 			return;
 		}
@@ -36,6 +36,10 @@ class SmartSingleCarouselAnimation extends SmartCarouselAnimation {
 
 		this.carousel.removeAttribute('data-is-animated');
 	}
+
+	public cleanStyles() {
+
+	}
 }
 
-export default SmartSingleCarouselAnimation;
+export default SmartSingleCarouselStrategy;
