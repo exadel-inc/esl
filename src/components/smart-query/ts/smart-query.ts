@@ -7,7 +7,7 @@
  * Supports
  * - CSS query matching check
  * - DPR display queries (@x1 | @x2 | @x3)
- * - Screen HPE default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
+ * - Screen default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
  * - Query matching change listeners
  * - Mobile / full browser detection (@MOBILE|@DESKTOP)
  */
