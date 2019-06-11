@@ -1,3 +1,11 @@
+/**
+ * Smart Query Breakpoint Registry
+ * @version 1.0.0
+ * @author Yuliya Adamskaya
+ *
+ * Breakpoint Registry is used to provide custom breakpoints for Smart Query
+ */
+
 class ScreenBreakpoint {
 	public min: number;
 	public max: number;
@@ -87,3 +95,5 @@ export abstract class BreakpointRegistry {
 		});
 	}
 }
+
+export default BreakpointRegistry;
