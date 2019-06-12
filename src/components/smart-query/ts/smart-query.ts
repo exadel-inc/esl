@@ -87,11 +87,21 @@ export class SmartQuery {
 	}
 
 	public addListener(listener: () => void) {
-		this.query && this.query.addEventListener('change', listener);
+		if (!this.query) return;
+		if (typeof this.query.addEventListener === 'function') {
+			this.query.addEventListener('change', listener);
+		} else {
+			this.query.addListener(listener);
+		}
 	}
 
 	public removeListener(listener: () => void)  {
-		this.query && this.query.removeEventListener('change', listener);
+		if (!this.query) return;
+		if (typeof this.query.removeEventListener === 'function') {
+			this.query.removeEventListener('change', listener);
+		} else {
+			this.query.removeListener(listener);
+		}
 	}
 }
 export default SmartQuery;
