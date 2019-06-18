@@ -1,7 +1,7 @@
 /**
  * Smart Video Embedded
  * @version 1.0.2
- * @author Alexey Stsefanovich (ala'n)
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * @description:
  * SmartVideoEmbedded - custom element, that provides ability to add and configure embedded video using one tag.
@@ -59,10 +59,10 @@ export class SmartVideoEmbedded extends HTMLElement {
 	@attr() public videoType: string;
 	@attr() public group: string;
 	@attr({conditional: true}) public disabled: boolean;
-	@attr({conditional: true}) private autoplay: boolean;
-	@attr({conditional: true}) private autofocus: boolean;
-	@attr({conditional: true}) private hideControls: boolean;
-	@attr({conditional: true}) private hideSubtitles: boolean;
+	@attr({conditional: true}) public autoplay: boolean;
+	@attr({conditional: true}) public autofocus: boolean;
+	@attr({conditional: true}) public hideControls: boolean;
+	@attr({conditional: true}) public hideSubtitles: boolean;
 	@attr({conditional: true, readonly: true}) public ready: boolean;
 	@attr({conditional: true, readonly: true}) public active: boolean;
 
