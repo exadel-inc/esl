@@ -1,7 +1,7 @@
 /**
  * Smart Image
  * @version 1.0.0
- * @author Alexey Stsefanovich (ala'n)
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * @description:
  * SmartImage - custom element, that provide flexible abilities to include images on web pages.
@@ -11,9 +11,9 @@
  * - manual loading (start loading image by manually provided marker)
  * - lazy loading (image start loading only if it is visible and in or closer to browser viewport area
  * - SmartQuery (special syntax that allows define different sources for different media queries, also supports shortcuts for media-queries)
- * - flexible class markers. smart-image can add specific class on any parent element when image is ready,
- * the smart-image itself also has markers that indicate it state
- * - provides events on state change (also support inline syntax like <smart-image onload="">)
+ * - flexible class markers. Smart Image can add specific class on any parent element when image is ready,
+ * the Smart Image itself also has markers that indicate it state
+ * - provides events on state change (also support inline syntax like <smart-image-tag onload="">)
  * - hot changes
  *
  * @attr:
@@ -55,7 +55,7 @@
  *  @readonly {Boolean} loaded - appears once when image first time loaded
  *  @readonly {Boolean} error - appears when current src isn't load
  *
- *  NOTE: smart-image supports title attribute as any html element, no additional reflection for that attribute needed
+ *  NOTE: Smart Image supports title attribute as any html element, no additional reflection for that attribute needed
  *  it will work correctly according to HTML5.* REC
  *
  * @param:
@@ -79,25 +79,24 @@
  *  error - emits every time when current source loading fails.
  *
  * @example:
- *  <smart-image mode="save-ratio"
+ *  <smart-image-tag mode="save-ratio"
  *      data-src='..defaultPath [| mediaQuery => src [| ...]]'
- *  ></smart-image>
+ *  ></smart-image-tag>
  *  // also instead of mediaQuery you could use breakpoint shortcut like:
- *  <smart-image mode="save-ratio"
+ *  <smart-image-tag mode="save-ratio"
  *      data-src='..defaultPath [| @+MD => src [| ...]]'
- *  ></smart-image>
+ *  ></smart-image-tag>
  *  or
- *  <smart-image mode="save-ratio"
+ *  <smart-image-tag mode="save-ratio"
  *      data-src='..defaultPath [| @1x => src [| ...]]'
- *  ></smart-image>
+ *  ></smart-image-tag>
  */
 import {isMobile} from '../../../helpers/device-utils';
 import {triggerComponentEvent} from '../../../helpers/component-utils';
 import SmartRuleList from '../../smart-query/ts/smart-rule-list';
-import {attr} from '../../../helpers/custom-element-utils';
+import {attr} from '../../../helpers/decorators/attr';
 
 // Mods configurations
-
 interface Strategy {
 	[mode: string]: { useInnerImg: boolean, afterLoad?: (shadowImg: ShadowImageElement, empty: boolean) => void }
 }
@@ -169,16 +168,19 @@ export class SmartImage extends HTMLElement {
 	private _shadowImageElement: ShadowImageElement;
 	private readonly _onMatchChange: () => void;
 
-	static get is() {
-		return 'smart-image';
-	}
-
 	static get EMPTY_IMAGE() {
 		return 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 	}
 
 	static get observedAttributes() {
 		return ['data-alt', 'data-src', 'data-src-base', 'mode', 'lazy-triggered'];
+	}
+
+	private static className: string;
+
+	public static register(tagName: string, className: string = tagName) {
+		SmartImage.className = className;
+		customElements.define(tagName, SmartImage);
 	}
 
 	constructor() {
@@ -286,7 +288,7 @@ export class SmartImage extends HTMLElement {
 	}
 
 	private connectedCallback() {
-		this.classList.add(SmartImage.is);
+		this.classList.add(SmartImage.className);
 		this.setAttribute('alt', this.alt);
 		if (!this.hasAttribute('role')) {
 			this.setAttribute('role', 'img');
@@ -304,6 +306,9 @@ export class SmartImage extends HTMLElement {
 	private disconnectedCallback() {
 		this.removeAttribute('lazy-triggered');
 		this._detachLazyTrigger && this._detachLazyTrigger();
+		if (this._srcRules) {
+			this._srcRules.removeListener(this._onMatchChange);
+		}
 	}
 
 	private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
@@ -389,5 +394,4 @@ export class SmartImage extends HTMLElement {
 	}
 }
 
-customElements.define(SmartImage.is, SmartImage);
 export default SmartImage;

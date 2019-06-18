@@ -1,5 +1,19 @@
+/**
+ * Smart Rule List
+ * @version 1.0.0
+ * @author Yuliya Adamskaya
+ *
+ * Helper class that extend provide Observable Rule Handler that resolve payload based on current device configuration.
+ * Supports
+ * - CSS query matching check
+ * - DPR display queries (@x1 | @x2 | @x3)
+ * - Screen default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
+ * - Query matching change listeners
+ * - Mobile / full browser detection (@MOBILE|@DESKTOP)
+ */
+
 import SmartQuery from './smart-query';
-import {Observable} from '../../../helpers/classes/observable';
+import {Observable} from '../../../helpers/abstract/observable';
 
 type PayloadParser<T> = (val: string) => T;
 
