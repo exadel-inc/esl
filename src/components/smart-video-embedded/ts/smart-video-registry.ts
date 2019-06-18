@@ -1,4 +1,4 @@
-import {Observable} from '../../../helpers/classes/observable';
+import {Observable} from '../../../helpers/abstract/observable';
 import {BaseProviderConstructor} from './smart-video-provider';
 
 interface ProviderMap {

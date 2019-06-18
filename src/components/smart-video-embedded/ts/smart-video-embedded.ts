@@ -50,7 +50,7 @@ import {debounce} from '../../../helpers/function-utils';
 
 import VideoGroupRestrictionManager from './smart-video-manager';
 
-import {attr} from '../../../helpers/custom-element-utils';
+import {attr} from '../../../helpers/decorators/attr';
 import {BaseProvider, PlayerStates} from './smart-video-provider';
 import providerRegistry from './smart-video-registry';
 
