@@ -147,7 +147,6 @@ export class YouTubeProvider extends BaseProvider {
 		if (this.getState() === PlayerStates.ENDED) {
 			this._api.seekTo(0, false);
 		}
-		this._api.mute();
 		this._api.playVideo();
 	}
 
