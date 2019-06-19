@@ -15,6 +15,7 @@
     "local-serv": "cd test-server && node server.js"
   },
   "dependencies": {
+    "@types/youtube": "0.0.37",
     "@webcomponents/custom-elements": "1.2.1",
     "@webcomponents/webcomponents-platform": "^1.0.0"
   },
