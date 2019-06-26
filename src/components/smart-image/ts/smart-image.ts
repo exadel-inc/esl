@@ -116,15 +116,11 @@ const STRATEGIES: Strategy = {
 		}
 	},
 	'fit': {
-		useInnerImg: true,
-		afterLoad() {
-			this.style.paddingTop = null;
-		}
+		useInnerImg: true
 	},
 	'origin': {
 		useInnerImg: true,
 		afterLoad(shadowImg) {
-			this.style.paddingTop = null;
 			this._innerImage.width = shadowImg.width / shadowImg.dpr;
 		}
 	}
