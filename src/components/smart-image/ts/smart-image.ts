@@ -258,7 +258,7 @@ export class SmartImage extends HTMLElement {
 			}
 		}
 
-        this._detachLazyTrigger && this._detachLazyTrigger();
+		this._detachLazyTrigger && this._detachLazyTrigger();
     }
 
 	protected getPath(src: string) {
@@ -293,7 +293,9 @@ export class SmartImage extends HTMLElement {
 	}
 
 	protected connectedCallback() {
-		this.classList.add(SmartImage.className);
+		if ((this.constructor as typeof SmartImage).className) {
+			this.classList.add((this.constructor as typeof SmartImage).className);
+		}
 		this.alt = this.alt || this.getAttribute('data-alt') || '';
 		if (!this.hasAttribute('role')) {
 			this.setAttribute('role', 'img');
@@ -318,9 +320,10 @@ export class SmartImage extends HTMLElement {
 
 	protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
 		switch (attrName) {
-			case 'alt':
 			case 'data-alt':
 				this.alt = this.alt || this.getAttribute('data-alt') || '';
+				break;
+			case 'alt':
 				this._innerImg && (this._innerImg.alt = this.alt);
 				break;
 			case 'data-src':
