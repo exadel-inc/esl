@@ -1,0 +1,71 @@
+---
+layout: ../../layouts/basic.html
+---
+
+{{##content:
+<div class="container-gutter">
+
+    <h2 class="pl-title grln-title center">&lt;smart-video-embedded&gt; component</h2>
+
+    <div class="row">
+        <div style="width: 80%;">
+            <div class="img-container img-container-16-9 img-container-loaded">
+                <smart-video-embedded id="sve-target" video-id="8tbNdGa2iS0"
+                                      video-type="youtube"></smart-video-embedded>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-embedded-buttons" style="width: 80%;">
+        <div id="sve-test-actions">
+            <div class="row">
+                    <button class="btn" data-action="play">Play</button>
+                    <button class="btn" data-action="pause">Pause</button>
+                    <button class="btn" data-action="stop">Stop</button>
+            </div>
+            <hr/>
+            <script>
+				(function () {
+					var sve = document.getElementById('sve-target');
+					var container = document.getElementById('sve-test-actions');
+					container.addEventListener('click', function (e) {
+						var target = e.target && e.target.dataset.action;
+						switch (target) {
+							case 'play':
+								sve.play();
+								break;
+							case 'pause':
+								sve.pause();
+								break;
+							case 'stop':
+								sve.stop();
+								break;
+							case 'changeID':
+								sve.setAttribute('video-id', container.querySelector('input.video-id-field').value);
+								break;
+							case 'changeType':
+								let curType = sve.getAttribute('video-type');
+								let idsContainer = document.querySelector('#ids-list');
+								container.querySelector('input.video-id-field').value = '';
+								if (curType === 'youtube') {
+									sve.setAttribute('video-type', 'brightcove');
+									idsContainer.classList.remove('yt-videos');
+									idsContainer.classList.add('bc-videos');
+									let firstId = document.querySelector('.bc-id').textContent;
+									sve.setAttribute('video-id', firstId);
+								} else {
+									sve.setAttribute('video-type', 'youtube');
+									idsContainer.classList.remove('bc-videos');
+									idsContainer.classList.add('yt-videos');
+									let firstId = document.querySelector('.yt-id').textContent;
+									sve.setAttribute('video-id', firstId);
+								}
+								break;
+						}
+					});
+				})();
+            </script>
+        </div>
+    </div>
+</div>
+#}}
