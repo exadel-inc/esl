@@ -8,7 +8,7 @@ layout: ../../layouts/basic.html
     <h2 class="pl-title grln-title center">Smart Video Embedded | YT</h2>
 
     <div class="row">
-        <div style="width: 80%;">
+        <div style="width: 60%;">
             <div class="img-container img-container-16-9 img-container-loaded">
                 <smart-video-embedded id="sve-target" video-id="8tbNdGa2iS0"
                                       video-type="youtube"></smart-video-embedded>
@@ -16,7 +16,7 @@ layout: ../../layouts/basic.html
         </div>
     </div>
 
-    <div class="video-embedded-buttons" style="width: 80%;">
+    <div class="video-embedded-buttons" style="width: 60%;">
         <div id="sve-test-actions">
             <div class="row">
                 <button class="btn" data-action="play">Play</button>
@@ -50,16 +50,16 @@ layout: ../../layouts/basic.html
     <h2 class="pl-title grln-title center">Smart Video Embedded | Video</h2>
 
     <div class="row">
-        <div style="width: 80%;">
+        <div style="width: 60%;">
             <div class="img-container img-container-16-9 img-container-loaded">
-                <smart-video-embedded id="sve-target-2" video-src="blob:http://localhost:3000/08200f7d-84b1-4e5b-9808-c89a95116f9c"
+                <smart-video-embedded id="sve-target-2" video-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
                                       video-type="video">
                 </smart-video-embedded>
             </div>
         </div>
     </div>
 
-    <div class="video-embedded-buttons" style="width: 80%;">
+    <div class="video-embedded-buttons" style="width: 60%;">
         <div id="sve-test-actions-2">
             <div class="row">
                 <button class="btn" data-action="play">Play</button>
@@ -70,7 +70,6 @@ layout: ../../layouts/basic.html
             <script>
                 (function () {
                     var sve = document.getElementById('sve-target-2');
-                    console.log(sve);
                     var container = document.getElementById('sve-test-actions-2');
                     container.addEventListener('click', function (e) {
                         var target = e.target && e.target.dataset.action;
