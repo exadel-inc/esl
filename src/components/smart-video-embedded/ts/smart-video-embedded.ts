@@ -56,6 +56,7 @@ import providerRegistry from './smart-video-registry';
 
 export class SmartVideoEmbedded extends HTMLElement {
 	@attr() public videoId: string;
+    @attr() public videoSrc: string;
 	@attr() public videoType: string;
 	@attr() public group: string;
 	@attr({conditional: true}) public disabled: boolean;
@@ -81,7 +82,7 @@ export class SmartVideoEmbedded extends HTMLElement {
 	}
 
 	static get observedAttributes() {
-		return ['video-id', 'video-type', 'disabled'];
+		return ['video-id', 'video-type', 'disabled', 'video-src'];
 	}
 
 	private connectedCallback() {
@@ -101,6 +102,7 @@ export class SmartVideoEmbedded extends HTMLElement {
 		if (oldVal === newVal) return;
 		switch (attrName) {
 			case 'video-id':
+            case 'video-src':
 			case 'video-type':
 				if (this._provider || this._provider === null) {
 					this.deferedReinit();
@@ -134,6 +136,7 @@ export class SmartVideoEmbedded extends HTMLElement {
 		return {
 			title: this.title,
 			videoId: this.videoId,
+            videoSrc: this.videoSrc,
 			autoplay: this.autoplay,
 			hideControls: this.hideControls
 		};
