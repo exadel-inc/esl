@@ -51,7 +51,7 @@ class SmartCarousel extends HTMLElement {
 
     get $slides(): SmartCarouselSlide[] {
         // TODO cache
-        const els = this.$slidesArea.querySelectorAll(SmartCarouselSlide.is) as NodeListOf<SmartCarouselSlide>;
+        const els = this.$slidesArea.querySelectorAll('.' + SmartCarouselSlide.is) as NodeListOf<SmartCarouselSlide>;
         return els ? Array.from(els) : [];
     }
 
@@ -120,6 +120,7 @@ class SmartCarousel extends HTMLElement {
 
     protected connectedCallback() {
         this.classList.add(SmartCarousel.is);
+        this.$slides.forEach((slide: SmartCarouselSlide, index) => slide.index = index);
 
         this.update(true);
         this._bindEvents();

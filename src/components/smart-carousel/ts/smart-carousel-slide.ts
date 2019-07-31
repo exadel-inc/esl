@@ -1,6 +1,9 @@
-import SmartCarousel from './smart-carousel';
-
 class SmartCarouselSlide extends HTMLElement {
+
+    private _index: number;
+
+    public static get ACTIVE_CLASS() { return 'active-slide';}
+
     static get is() {
         return 'smart-carousel-slide';
     }
@@ -10,27 +13,21 @@ class SmartCarouselSlide extends HTMLElement {
     }
 
     protected connectedCallback() {
-        this.setAttribute('data-slide-item', '');
+       this.classList.add(SmartCarouselSlide.is);
     }
 
-    public get $parent(): SmartCarousel {
-        return this.closest('.' + SmartCarousel.is) as SmartCarousel;
+    public get index() : number {
+        return this._index;
     }
-
-    public get index(): number {
-        return this.$parent.$slides.indexOf(this);
+    public set index(i: number) {
+        this._index = i;
     }
 
     public get isActive(): boolean {
-        return this.classList.contains(this.activeClass);
+        return this.classList.contains(SmartCarouselSlide.ACTIVE_CLASS);
     }
-
     public set isActive(makeActive: boolean) {
-        makeActive ? this.classList.add(this.activeClass) : this.classList.remove(this.activeClass);
-    }
-
-    public get activeClass(): string {
-        return 'active-slide';
+        this.classList.toggle(SmartCarouselSlide.ACTIVE_CLASS, makeActive);
     }
 }
 
