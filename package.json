@@ -1,5 +1,5 @@
 {
-  "name": "hpe-components",
+  "name": "ewc-library",
   "version": "1.0.0",
   "description": "",
   "homepage": "https://gitlab.exadel.com/EDMTP/smart-wc-library#readme",
@@ -14,12 +14,19 @@
     "build-local": "gulp build-local",
     "local-serv": "cd test-server && node server.js"
   },
+  "browserslist": [
+    "last 3 version",
+    "> 1%",
+    "not dead"
+  ],
   "dependencies": {
+    "@types/youtube": "0.0.37",
     "@webcomponents/custom-elements": "1.2.1",
     "@webcomponents/webcomponents-platform": "^1.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^9.4.7",
+    "bootstrap": "^4.3.1",
     "browser-sync": "^2.26.3",
     "cssnano": "^4.1.8",
     "express": "^4.16.4",
