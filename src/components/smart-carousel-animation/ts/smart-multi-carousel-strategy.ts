@@ -9,10 +9,6 @@ class SmartMultiCarouselStrategy extends SmartCarouselStrategy {
 	}
 
 	public onAnimate(nextIndex: number, direction: string) {
-		console.log('firstIndex: ', this.carousel.firstIndex);
-		console.log('nextIndex: ', nextIndex);
-
-
 		const slideStyles = getComputedStyle(this.carousel.$slides[this.carousel.firstIndex]);
 		const slideWidth = parseFloat(slideStyles.width) +
 			parseFloat(slideStyles.marginLeft) +
@@ -21,11 +17,9 @@ class SmartMultiCarouselStrategy extends SmartCarouselStrategy {
 
 		const transitionDuration = parseFloat(slideStyles.transitionDuration) * 1000; // ms
 		const currentLeft = parseFloat(slideStyles.left);
-		const currentTrans = parseFloat(slideStyles.transform.split(',')[4]);
 
 		if (this.carousel.firstIndex === nextIndex) {
-			this.carousel.$slides.forEach((el)=> el.style.left = currentTrans + slideWidth * nextIndex + 'px');
-			return;
+			return 0;
 		}
 
 		let trans = 0;

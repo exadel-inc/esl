@@ -16,26 +16,28 @@ class SmartCarouselDots extends HTMLElement {
         this.rerender();
         this._bindEvents();
     }
+
     protected disconnectedCallback() {
         this._unbindEvents();
     }
 
     protected _bindEvents() {
-        this.parent.addEventListener('sc:slide:changed', this._onUpdate);
+        this.$parent.addEventListener('sc:slide:changed', this._onUpdate);
     }
+
     protected _unbindEvents() {
-        this.parent.removeEventListener('sc:slide:changed', this._onUpdate);
+        this.$parent.removeEventListener('sc:slide:changed', this._onUpdate);
     }
 
 
-    get parent(): SmartCarousel {
+    get $parent(): SmartCarousel {
         return this.closest('.' + SmartCarousel.is) as SmartCarousel;
     }
 
     public rerender() {
         let html = '';
-        const activeDot = Math.floor(this.parent.activeIndexes[this.parent.activeCount - 1] / this.parent.activeCount);
-        for (let i = 0; i < Math.ceil(this.parent.count / this.parent.activeCount); ++i) {
+        const activeDot = Math.floor(this.$parent.activeIndexes[this.$parent.activeCount - 1] / this.$parent.activeCount);
+        for (let i = 0; i < Math.ceil(this.$parent.count / this.$parent.activeCount); ++i) {
             html += this.buildDot(i, i === activeDot);
         }
         this.innerHTML = html;
