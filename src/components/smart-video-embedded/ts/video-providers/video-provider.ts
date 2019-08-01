@@ -7,9 +7,12 @@ import {BaseProvider, PlayerStates} from '../smart-video-provider';
 import EmbeddedVideoProviderRegistry from '../smart-video-registry';
 
 interface VideoOptions {
-    videoSrc: string,
-    videoType?: string;
+    autoplay: boolean,
+    muted: boolean,
     hideControls: boolean,
+    dataSrc: string,
+    dataType?: string,
+    dataScale: string,
 }
 
 export class VideoProvider extends BaseProvider {
@@ -19,23 +22,35 @@ export class VideoProvider extends BaseProvider {
         return 'video';
     }
 
-    protected static buildSrc(src: string, type?: string) {
+    protected static buildSrc(src: string, type: string) {
         return `<source src=${src} type="${type ? type : 'video/mp4'}">`;
     }
 
-    protected static buildIframe(data: VideoOptions) {
+    protected static build(data: VideoOptions) {
         const el = document.createElement('video');
-        el.innerHTML = VideoProvider.buildSrc(data.videoSrc);
-        el.style.width = '100%;';
-        el.style.height = '100%;';
+        el.innerHTML = VideoProvider.buildSrc(data.dataSrc, data.dataType);
         el.className = 'sev-inner';
-        el.setAttribute('controls', '');
+        el.autoplay = data.autoplay;
+        el.preload = 'auto';
+        el.loop = false;
+        el.tabIndex = 0;
+        el.muted = data.muted;
+        if (!data.hideControls) {
+            el.controls = true;
+        }
         return el;
     }
 
     public bind() {
-        this._el = VideoProvider.buildIframe(this.component.buildOptions());
+        this._el = VideoProvider.build(this.component.buildOptions());
         this.component.appendChild(this._el);
+        // if (this.component.buildOptions().dataScale === 'fill') {
+        //     window.addEventListener('resize', this.recalculatePosition);
+        // }
+        // if (playInViewport) {
+        //     this.attachViewportConstraint();
+        // }
+        this._el.addEventListener('loadedmetadata', () => this.component._onReady());
     }
 
     public unbind() {
@@ -49,9 +64,21 @@ export class VideoProvider extends BaseProvider {
         return Promise.resolve();
     }
 
+    // public recalculatePosition() {
+    //     if (this._el ) {
+    //         if (this._el.videoWidth > 0 && this.component.offsetWidth * this._el .videoHeight < this.component.offsetHeight * this._el .videoWidth) {
+    //             this._el.style.width = 'auto';
+    //             this._el.style.height = '100%';
+    //         } else {
+    //             this._el.style.width = '100%';
+    //             this._el.style.height = 'auto';
+    //         }
+    //     }
+    // }
+
     public focus() {
         if (this._el) {
-        	this._el.focus();
+            this._el.focus();
         }
     }
 
@@ -60,18 +87,22 @@ export class VideoProvider extends BaseProvider {
     }
 
     public seekTo(pos: number) {
+        this._el.currentTime = pos;
     }
 
     public play() {
-        this._el.play();
+        return this._el.play();
     }
 
     public pause() {
-        this._el.pause()
+        return this._el.pause()
     }
 
     public stop() {
-        this._el.load();
+        return new Promise(() => {
+            this._el.pause();
+            this._el.currentTime = 0;
+        })
     }
 }
 

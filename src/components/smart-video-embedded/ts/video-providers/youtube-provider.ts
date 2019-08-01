@@ -23,7 +23,7 @@ declare global {
 
 interface VideoOptions {
 	title: string,
-	videoId: string,
+	dataId: string,
 	autoplay: boolean,
 	hideControls: boolean
 }
@@ -74,7 +74,7 @@ export class YouTubeProvider extends BaseProvider {
 		el.setAttribute('frameborder', '0');
 		el.setAttribute('tabindex', '0');
 		el.setAttribute('allowfullscreen', 'yes');
-		el.src = YouTubeProvider.buildIframeUrl(data.videoId, data.autoplay);
+		el.src = YouTubeProvider.buildIframeUrl(data.dataId, data.autoplay);
 		return el;
 	}
 

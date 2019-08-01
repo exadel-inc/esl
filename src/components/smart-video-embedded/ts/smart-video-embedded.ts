@@ -43,10 +43,10 @@
  *    [disabled]
  *    title="Video Title"
  *    [group="videoGroup"]
- *    video-type="youtube|brightcove"
- *    video-id="##VIDEOID##"></smart-video-embedded>
+ *    video-type="youtube|brightcove|video"
+ *    data-id="##VIDEOID##"></smart-video-embedded>
  */
-import {debounce} from '../../../helpers/function-utils';
+import {debounce, throttle} from '../../../helpers/function-utils';
 
 import VideoGroupRestrictionManager from './smart-video-manager';
 
@@ -55,13 +55,14 @@ import {BaseProvider, PlayerStates} from './smart-video-provider';
 import providerRegistry from './smart-video-registry';
 
 export class SmartVideoEmbedded extends HTMLElement {
-	@attr() public videoId: string;
-    @attr() public videoSrc: string;
 	@attr() public videoType: string;
 	@attr() public group: string;
 	@attr({conditional: true}) public disabled: boolean;
 	@attr({conditional: true}) public autoplay: boolean;
 	@attr({conditional: true}) public autofocus: boolean;
+    @attr({conditional: true}) public preload: boolean;
+    @attr({conditional: true}) public muted: boolean;
+    @attr({conditional: true}) public loop: boolean;
 	@attr({conditional: true}) public hideControls: boolean;
 	@attr({conditional: true}) public hideSubtitles: boolean;
 	@attr({conditional: true, readonly: true}) public ready: boolean;
@@ -82,7 +83,7 @@ export class SmartVideoEmbedded extends HTMLElement {
 	}
 
 	static get observedAttributes() {
-		return ['video-id', 'video-type', 'disabled', 'video-src'];
+		return ['video-type', 'disabled', 'data-id', 'data-src', 'data-type', 'data-scale'];
 	}
 
 	private connectedCallback() {
@@ -101,8 +102,8 @@ export class SmartVideoEmbedded extends HTMLElement {
 	private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
 		if (oldVal === newVal) return;
 		switch (attrName) {
-			case 'video-id':
-            case 'video-src':
+			case 'data-id':
+            case 'data-src':
 			case 'video-type':
 				if (this._provider || this._provider === null) {
 					this.deferedReinit();
@@ -131,14 +132,18 @@ export class SmartVideoEmbedded extends HTMLElement {
 	}
 
 	public deferedReinit = debounce(() => this.reinitInstance());
+    // public throttleReinit = throttle(() => this.reinitInstance());
 
 	public buildOptions() {
 		return {
 			title: this.title,
-			videoId: this.videoId,
-            videoSrc: this.videoSrc,
 			autoplay: this.autoplay,
-			hideControls: this.hideControls
+            muted: this.muted,
+			hideControls: this.hideControls,
+            dataId: this.dataset.id,
+            dataSrc: this.dataset.src,
+            dataType: this.dataset.type,
+            dataScale: this.dataset.scale,
 		};
 	}
 
