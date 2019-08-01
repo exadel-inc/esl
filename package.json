@@ -14,6 +14,11 @@
     "build-local": "gulp build-local",
     "local-serv": "cd test-server && node server.js"
   },
+  "browserslist": [
+    "last 3 version",
+    "> 1%",
+    "not dead"
+  ],
   "dependencies": {
     "@types/youtube": "0.0.37",
     "@webcomponents/custom-elements": "1.2.1",
@@ -21,6 +26,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^9.4.7",
+    "bootstrap": "^4.3.1",
     "browser-sync": "^2.26.3",
     "cssnano": "^4.1.8",
     "express": "^4.16.4",

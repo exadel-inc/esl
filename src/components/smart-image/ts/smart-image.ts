@@ -1,6 +1,6 @@
 /**
  * Smart Image
- * @version 1.0.0
+ * @version 1.1.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * @description:
@@ -116,15 +116,11 @@ const STRATEGIES: Strategy = {
 		}
 	},
 	'fit': {
-		useInnerImg: true,
-		afterLoad() {
-			this.style.paddingTop = null;
-		}
+		useInnerImg: true
 	},
 	'origin': {
 		useInnerImg: true,
 		afterLoad(shadowImg) {
-			this.style.paddingTop = null;
 			this._innerImage.width = shadowImg.width / shadowImg.dpr;
 		}
 	}
@@ -150,9 +146,9 @@ function getIObserver() {
 }
 
 export class SmartImage extends HTMLElement {
-	@attr({dataAttr: true}) private src: string;
-	@attr({dataAttr: true}) private srcBase: string;
-	@attr({dataAttr: true}) private alt: string;
+	@attr({dataAttr: true, defaultValue: ''}) private src: string;
+	@attr({dataAttr: true, defaultValue: ''}) private srcBase: string;
+	@attr({defaultValue: ''}) private alt: string;
 	@attr({defaultValue: 'save-ratio'}) private mode: string;
 	@attr({conditional: true}) private refreshOnUpdate: boolean;
 	@attr({conditional: true, readonly: true}) private lazyManual: boolean;
@@ -173,7 +169,7 @@ export class SmartImage extends HTMLElement {
 	}
 
 	static get observedAttributes() {
-		return ['data-alt', 'data-src', 'data-src-base', 'mode', 'lazy-triggered'];
+		return ['alt', 'data-alt', 'data-src', 'data-src-base', 'mode', 'lazy-triggered'];
 	}
 
 	private static className: string;
@@ -225,7 +221,7 @@ export class SmartImage extends HTMLElement {
 		this.setAttribute('lazy-triggered', '');
 	}
 
-	private changeMode(oldVal: string, newVal: string) {
+	protected changeMode(oldVal: string, newVal: string) {
 		oldVal = oldVal || 'save-ratio';
 		newVal = newVal || 'save-ratio';
 		if (oldVal !== newVal) {
@@ -243,13 +239,13 @@ export class SmartImage extends HTMLElement {
 		}
 	}
 
-	private update(force: boolean = false) {
+	protected update(force: boolean = false) {
 		if (this.lazy && !this.lazyTriggered) {
 			return;
 		}
 
 		const rule = this.srcRules.active;
-		const src = SmartImage.getPath(rule.payload, this.srcBase);
+		const src = this.getPath(rule.payload);
 		const dpr = rule.DPR;
 
 		if (this._currentSrc !== src || force) {
@@ -261,9 +257,18 @@ export class SmartImage extends HTMLElement {
 				this.syncImage();
 			}
 		}
+
+		this._detachLazyTrigger && this._detachLazyTrigger();
+    }
+
+	protected getPath(src: string) {
+		if (!src || src === '0' || src === 'none') {
+			return SmartImage.EMPTY_IMAGE;
+		}
+		return this.srcBase + src;
 	}
 
-	private refresh() {
+	public refresh() {
 		this.removeAttribute('loaded');
 		this.removeAttribute('ready');
 		this.style.paddingTop = null;
@@ -287,9 +292,11 @@ export class SmartImage extends HTMLElement {
 		}
 	}
 
-	private connectedCallback() {
-		this.classList.add(SmartImage.className);
-		this.setAttribute('alt', this.alt);
+	protected connectedCallback() {
+		if ((this.constructor as typeof SmartImage).className) {
+			this.classList.add((this.constructor as typeof SmartImage).className);
+		}
+		this.alt = this.alt || this.getAttribute('data-alt') || '';
 		if (!this.hasAttribute('role')) {
 			this.setAttribute('role', 'img');
 		}
@@ -303,7 +310,7 @@ export class SmartImage extends HTMLElement {
 		}
 	}
 
-	private disconnectedCallback() {
+	protected disconnectedCallback() {
 		this.removeAttribute('lazy-triggered');
 		this._detachLazyTrigger && this._detachLazyTrigger();
 		if (this._srcRules) {
@@ -311,10 +318,13 @@ export class SmartImage extends HTMLElement {
 		}
 	}
 
-	private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+	protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
 		switch (attrName) {
 			case 'data-alt':
-				this.setAttribute('alt', newVal);
+				this.alt = this.alt || this.getAttribute('data-alt') || '';
+				break;
+			case 'alt':
+				this._innerImg && (this._innerImg.alt = this.alt);
 				break;
 			case 'data-src':
 				this.srcRules = SmartRuleList.parse<string>(newVal, SmartRuleList.STRING_PARSER);
@@ -332,7 +342,7 @@ export class SmartImage extends HTMLElement {
 		}
 	}
 
-	get _innerImage() {
+	protected get _innerImage() {
 		if (!this._innerImg) {
 			this._innerImg = this.querySelector('img');
 			if (!this._innerImg) {
@@ -340,12 +350,12 @@ export class SmartImage extends HTMLElement {
 				this.appendChild(this._innerImg);
 			}
 			this._innerImg.className = 'inner-image';
-			this._innerImg.alt = '';
+			this._innerImg.alt = this.alt;
 		}
 		return this._innerImg;
 	}
 
-	get _shadowImg() {
+	protected get _shadowImg() {
 		if (!this._shadowImageElement) {
 			this._shadowImageElement = new Image();
 			this._shadowImageElement.onload = this._onLoad;
@@ -382,14 +392,7 @@ export class SmartImage extends HTMLElement {
 		}
 	}
 
-	private static getPath(src: string, basePath = '') {
-		if (!src || src === '0' || src === 'none') {
-			return SmartImage.EMPTY_IMAGE;
-		}
-		return basePath + src;
-	}
-
-	private static isEmptyImage(src: string) {
+	public static isEmptyImage(src: string) {
 		return src === SmartImage.EMPTY_IMAGE;
 	}
 }
