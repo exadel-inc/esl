@@ -3,91 +3,97 @@ layout: ../../layouts/basic.html
 ---
 
 {{##content:
-<div class="container-gutter">
+<div class="container">
 
-    <h2 class="pl-title grln-title center">Smart Video Embedded | YT</h2>
+    <h2 class="text-center">&lt;smart-video-embedded&gt; component | YT</h2>
+    <hr/>
 
-    <div class="row">
-        <div style="width: 60%;">
+    <section class="row">
+        <div style="width: 100%;">
             <div class="img-container img-container-16-9 img-container-loaded">
-                <smart-video-embedded id="sve-target" video-id="8tbNdGa2iS0"
-                                      video-type="youtube"></smart-video-embedded>
-            </div>
-        </div>
-    </div>
-
-    <div class="video-embedded-buttons" style="width: 60%;">
-        <div id="sve-test-actions">
-            <div class="row">
-                <button class="btn" data-action="play">Play</button>
-                <button class="btn" data-action="pause">Pause</button>
-                <button class="btn" data-action="stop">Stop</button>
-            </div>
-            <hr/>
-            <script>
-                (function () {
-                    var sve = document.getElementById('sve-target');
-                    var container = document.getElementById('sve-test-actions');
-                    container.addEventListener('click', function (e) {
-                        var target = e.target && e.target.dataset.action;
-                        switch (target) {
-                            case 'play':
-                                sve.play();
-                                break;
-                            case 'pause':
-                                sve.pause();
-                                break;
-                            case 'stop':
-                                sve.stop();
-                                break;
-                        }
-                    });
-                })();
-            </script>
-        </div>
-    </div>
-
-    <h2 class="pl-title grln-title center">Smart Video Embedded | Video</h2>
-
-    <div class="row">
-        <div style="width: 60%;">
-            <div class="img-container img-container-16-9 img-container-loaded">
-                <smart-video-embedded id="sve-target-2" video-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
-                                      video-type="video">
+                <smart-video-embedded id="sve-target"
+                                      video-type="youtube"
+                                      data-id="8tbNdGa2iS0"
+                                      autoplay="true">
                 </smart-video-embedded>
             </div>
         </div>
+    </section>
+
+    <div id="sve-test-actions">
+        <div class="row smart-video-embedded-buttons">
+            <button class="btn" data-action="play">Play</button>
+            <button class="btn" data-action="pause">Pause</button>
+            <button class="btn" data-action="stop">Stop</button>
+        </div>
+        <hr/>
+        <script>
+            (function () {
+                var sve = document.getElementById('sve-target');
+                var container = document.getElementById('sve-test-actions');
+                container.addEventListener('click', function (e) {
+                    var target = e.target && e.target.dataset.action;
+                    switch (target) {
+                        case 'play':
+                            sve.play();
+                            break;
+                        case 'pause':
+                            sve.pause();
+                            break;
+                        case 'stop':
+                            sve.stop();
+                            break;
+                    }
+                });
+            })();
+        </script>
     </div>
 
-    <div class="video-embedded-buttons" style="width: 60%;">
-        <div id="sve-test-actions-2">
-            <div class="row">
-                <button class="btn" data-action="play">Play</button>
-                <button class="btn" data-action="pause">Pause</button>
-                <button class="btn" data-action="stop">Stop</button>
+    <h2 class="text-center">&lt;smart-video-embedded&gt; component | Video</h2>
+    <hr/>
+
+    <section class="row">
+        <div style="width: 100%;">
+            <div class="img-container img-container-16-9 img-container-loaded">
+                <smart-video-embedded id="sve-target-2"
+                                      video-type="video"
+                                      load-condition="@DESKTOP"
+                                      load-condition-declined-marker="hide-video"
+                                      data-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
+                                      autoplay="true"
+                                      muted="true">
+                </smart-video-embedded>
             </div>
-            <hr/>
-            <script>
-                (function () {
-                    var sve = document.getElementById('sve-target-2');
-                    var container = document.getElementById('sve-test-actions-2');
-                    container.addEventListener('click', function (e) {
-                        var target = e.target && e.target.dataset.action;
-                        switch (target) {
-                            case 'play':
-                                sve.play();
-                                break;
-                            case 'pause':
-                                sve.pause();
-                                break;
-                            case 'stop':
-                                sve.stop();
-                                break;
-                        }
-                    });
-                })();
-            </script>
         </div>
+    </section>
+
+    <div id="sve-test-actions-2">
+        <div class="row smart-video-embedded-buttons">
+            <button class="btn" data-action="play">Play</button>
+            <button class="btn" data-action="pause">Pause</button>
+            <button class="btn" data-action="stop">Stop</button>
+        </div>
+        <hr/>
+        <script>
+            (function () {
+                var sve = document.getElementById('sve-target-2');
+                var container = document.getElementById('sve-test-actions-2');
+                container.addEventListener('click', function (e) {
+                    var target = e.target && e.target.dataset.action;
+                    switch (target) {
+                        case 'play':
+                            sve.play();
+                            break;
+                        case 'pause':
+                            sve.pause();
+                            break;
+                        case 'stop':
+                            sve.stop();
+                            break;
+                    }
+                });
+            })();
+        </script>
     </div>
 </div>
 #}}
