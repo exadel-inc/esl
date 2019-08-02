@@ -17,17 +17,15 @@ class SmartCarouselSlide extends HTMLElement {
     }
 
     public get index() : number {
-        return this._index;
-    }
-    public set index(i: number) {
-        this._index = i;
+        return Array.prototype.indexOf.call(this.parentNode.childNodes, this);
     }
 
-    public get isActive(): boolean {
-        return this.classList.contains(SmartCarouselSlide.ACTIVE_CLASS);
+    public get active(): boolean {
+        return this.hasAttribute(SmartCarouselSlide.ACTIVE_CLASS);
     }
-    public set isActive(makeActive: boolean) {
-        this.classList.toggle(SmartCarouselSlide.ACTIVE_CLASS, makeActive);
+
+    _setActive(active: boolean) {
+        this.toggleAttribute(SmartCarouselSlide.ACTIVE_CLASS, active);
     }
 }
 

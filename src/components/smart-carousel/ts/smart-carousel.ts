@@ -1,9 +1,10 @@
-import {attr} from '../../../helpers/custom-element-utils';
-import SmartRuleList from '../../smart-query/ts/smart-rule-list';
+import {attr} from '../../../helpers/decorators/attr';
+import {deepCompare} from "../../../helpers/common-utils";
 import {triggerComponentEvent} from '../../../helpers/component-utils';
-import SmartCarouselStrategy from '../../smart-carousel-animation/ts/smart-carousel-strategy';
-import SmartSingleCarouselStrategy from '../../smart-carousel-animation/ts/smart-single-carousel-strategy';
-import SmartMultiCarouselStrategy from '../../smart-carousel-animation/ts/smart-multi-carousel-strategy';
+import SmartRuleList from '../../smart-query/ts/smart-rule-list';
+import SmartCarouselStrategy from './strategy/smart-carousel-strategy';
+import SmartSingleCarouselStrategy from './strategy/smart-single-carousel-strategy';
+import SmartMultiCarouselStrategy from './strategy/smart-multi-carousel-strategy';
 import SmartCarouselSlide from './smart-carousel-slide';
 
 interface StrategyMap {
@@ -11,8 +12,9 @@ interface StrategyMap {
 }
 
 interface CarouselCurrentConfig {
-    count: number,
-    className: string
+    strategy?: 'single' | 'multiple',
+    count?: number,
+    className?: string
 }
 
 const STRATEGIES: StrategyMap = { // TODO registry
@@ -43,6 +45,7 @@ class SmartCarousel extends HTMLElement {
     constructor() {
         super();
         this._onMatchChange = this.update.bind(this, false);
+        this._currentConfig = {};
     }
 
     get $slidesArea(): HTMLElement {
@@ -51,7 +54,7 @@ class SmartCarousel extends HTMLElement {
 
     get $slides(): SmartCarouselSlide[] {
         // TODO cache
-        const els = this.$slidesArea.querySelectorAll('.' + SmartCarouselSlide.is) as NodeListOf<SmartCarouselSlide>;
+        const els = this.$slidesArea.querySelectorAll(SmartCarouselSlide.is) as NodeListOf<SmartCarouselSlide>;
         return els ? Array.from(els) : [];
     }
 
@@ -61,7 +64,7 @@ class SmartCarousel extends HTMLElement {
 
     get activeIndexes(): number[] {
         return this.$slides.reduce((activeIndexes: number[], el, index) => {
-            if (el.isActive) {
+            if (el.active) {
                 activeIndexes.push(index);
             }
             return activeIndexes;
@@ -101,7 +104,7 @@ class SmartCarousel extends HTMLElement {
 
         if (this._strategy && approved) {
             this.$slides.forEach((el, index) => {
-                el.isActive = (nextIndex <= index) && (index < nextIndex + this.activeCount);
+                el._setActive((nextIndex <= index) && (index < nextIndex + this.activeCount));
             });
         }
 
@@ -120,7 +123,7 @@ class SmartCarousel extends HTMLElement {
 
     protected connectedCallback() {
         this.classList.add(SmartCarousel.is);
-        this.$slides.forEach((slide: SmartCarouselSlide, index) => slide.index = index);
+       // this.$slides.forEach((slide: SmartCarouselSlide, index) => slide.index = index);
 
         this.update(true);
         this._bindEvents();
@@ -155,7 +158,7 @@ class SmartCarousel extends HTMLElement {
 
     get configRules() {
         if (!this._configRules) {
-            this.configRules = SmartRuleList.parse<object>(this.config, SmartRuleList.OBJECT_PARSER) as SmartRuleList<CarouselCurrentConfig>;
+            this.configRules = SmartRuleList.parse<CarouselCurrentConfig>(this.config, SmartRuleList.OBJECT_PARSER);
         }
         return this._configRules;
     }
@@ -169,10 +172,12 @@ class SmartCarousel extends HTMLElement {
     }
 
     private update(force: boolean = false) {
-        const rule = this.configRules.active;
-        const config = rule.payload;
-        if (this._currentConfig !== config || force) {
-            this._currentConfig = config;
+        let config : CarouselCurrentConfig = Object.assign(
+            {strategy: 'single', count: 1},
+            this.configRules.activeValue
+        );
+        if (deepCompare(this._currentConfig, config) || !force) {
+           return;
         }
         const count = (this._currentConfig) ? this._currentConfig.count : config.count;
         if (force || this.activeIndexes.length !== count || count !== config.count) {
@@ -203,8 +208,8 @@ class SmartCarousel extends HTMLElement {
      * @returns {number} first active index
      */
     get firstIndex(): number {
-        return this.$slides.findIndex((el) => {
-            return el.isActive;
+        return this.$slides.findIndex((slide) => {
+            return slide.active;
         });
     }
 

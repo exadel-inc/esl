@@ -45,8 +45,8 @@ class SmartCarouselDots extends HTMLElement {
 
     public buildDot(index: number, isActive: boolean) {
         return `<button role="button" class="carousel-dot ${isActive ? 'active-dot' : ''}" data-slide-target="${index}">
-                <span > </span>
-            </button>`;
+                    <span > </span>
+                </button>`;
     }
 }
 
