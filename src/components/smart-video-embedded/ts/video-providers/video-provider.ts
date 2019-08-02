@@ -11,8 +11,6 @@ interface VideoOptions {
     muted: boolean,
     hideControls: boolean,
     dataSrc: string,
-    dataType?: string,
-    dataScale: string,
 }
 
 export class VideoProvider extends BaseProvider {
@@ -22,13 +20,13 @@ export class VideoProvider extends BaseProvider {
         return 'video';
     }
 
-    protected static buildSrc(src: string, type: string) {
+    protected static buildSrc(src: string, type?: string) {
         return `<source src=${src} type="${type ? type : 'video/mp4'}">`;
     }
 
     protected static build(data: VideoOptions) {
         const el = document.createElement('video');
-        el.innerHTML = VideoProvider.buildSrc(data.dataSrc, data.dataType);
+        el.innerHTML = VideoProvider.buildSrc(data.dataSrc);
         el.className = 'sev-inner';
         el.autoplay = data.autoplay;
         el.preload = 'auto';
@@ -44,12 +42,7 @@ export class VideoProvider extends BaseProvider {
     public bind() {
         this._el = VideoProvider.build(this.component.buildOptions());
         this.component.appendChild(this._el);
-        // if (this.component.buildOptions().dataScale === 'fill') {
-        //     window.addEventListener('resize', this.recalculatePosition);
-        // }
-        // if (playInViewport) {
-        //     this.attachViewportConstraint();
-        // }
+        this._el.onerror = this.component._onError;
         this._el.addEventListener('loadedmetadata', () => this.component._onReady());
     }
 
@@ -63,18 +56,6 @@ export class VideoProvider extends BaseProvider {
     get ready() {
         return Promise.resolve();
     }
-
-    // public recalculatePosition() {
-    //     if (this._el ) {
-    //         if (this._el.videoWidth > 0 && this.component.offsetWidth * this._el .videoHeight < this.component.offsetHeight * this._el .videoWidth) {
-    //             this._el.style.width = 'auto';
-    //             this._el.style.height = '100%';
-    //         } else {
-    //             this._el.style.width = '100%';
-    //             this._el.style.height = 'auto';
-    //         }
-    //     }
-    // }
 
     public focus() {
         if (this._el) {

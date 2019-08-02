@@ -46,207 +46,305 @@
  *    video-type="youtube|brightcove|video"
  *    data-id="##VIDEOID##"></smart-video-embedded>
  */
-import {debounce, throttle} from '../../../helpers/function-utils';
+import {debounce} from '../../../helpers/function-utils';
 
 import VideoGroupRestrictionManager from './smart-video-manager';
 
 import {attr} from '../../../helpers/decorators/attr';
 import {BaseProvider, PlayerStates} from './smart-video-provider';
 import providerRegistry from './smart-video-registry';
+import SmartQuery from '../../smart-query/ts/smart-query';
+import {triggerComponentEvent} from '../../../helpers/component-utils';
+
+
+const RATIO_TO_ACTIVATE = 0.75;
+const RATIO_TO_DEACTIVATE = 0.20;
+
+let iObserver: IntersectionObserver;
+
+function getIObserver(lazy: boolean = false) {
+    if (!iObserver && !lazy) {
+        iObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(handleViewport);
+        }, {
+            threshold: [RATIO_TO_DEACTIVATE, RATIO_TO_ACTIVATE]
+        });
+    }
+    return iObserver;
+}
+
+function handleViewport(entire: IntersectionObserverEntry) {
+    if (!(entire.target instanceof SmartVideoEmbedded)) return;
+    // Videos that playing and out of min ratio RATIO_TO_DEACTIVATE should be stopped
+    if (entire.target.onplaying && entire.intersectionRatio <= RATIO_TO_DEACTIVATE) {
+        entire.target.pause();
+    }
+    // Play should starts only for inactive and background(muted) videos that are visible more then on RATIO_TO_ACTIVATE
+    if (!entire.target.onplaying && entire.target.muted && entire.intersectionRatio >= RATIO_TO_ACTIVATE) {
+        entire.target.play(true);
+    }
+}
 
 export class SmartVideoEmbedded extends HTMLElement {
-	@attr() public videoType: string;
-	@attr() public group: string;
-	@attr({conditional: true}) public disabled: boolean;
-	@attr({conditional: true}) public autoplay: boolean;
-	@attr({conditional: true}) public autofocus: boolean;
+    @attr() public videoType: string;
+    @attr() public group: string;
+    @attr({conditional: true}) public disabled: boolean;
+    @attr({conditional: true}) public autoplay: boolean;
+    @attr({conditional: true}) public autofocus: boolean;
     @attr({conditional: true}) public preload: boolean;
     @attr({conditional: true}) public muted: boolean;
     @attr({conditional: true}) public loop: boolean;
-	@attr({conditional: true}) public hideControls: boolean;
-	@attr({conditional: true}) public hideSubtitles: boolean;
-	@attr({conditional: true, readonly: true}) public ready: boolean;
-	@attr({conditional: true, readonly: true}) public active: boolean;
+    @attr({conditional: true}) public hideControls: boolean;
+    @attr({conditional: true}) public hideSubtitles: boolean;
+    @attr({conditional: true, readonly: true}) public ready: boolean;
+    @attr({conditional: true, readonly: true}) public active: boolean;
+    @attr({conditional: true, readonly: true}) public playInViewport: boolean;
 
-	private _provider: BaseProvider;
+    private _provider: BaseProvider;
+    private _conditionQuery: SmartQuery;
 
-	static get is() {
-		return 'smart-video-embedded';
-	}
+    static get is() {
+        return 'smart-video-embedded';
+    }
 
-	/**
-	 * @enum Map with possible Player States
-	 * values: BUFFERING, ENDED, PAUSED, PLAYING, UNSTARTED, VIDEO_CUED, UNINITIALIZED
-	 */
-	static get PLAYER_STATES() {
-		return PlayerStates;
-	}
+    /**
+     * @enum Map with possible Player States
+     * values: BUFFERING, ENDED, PAUSED, PLAYING, UNSTARTED, VIDEO_CUED, UNINITIALIZED
+     */
+    static get PLAYER_STATES() {
+        return PlayerStates;
+    }
 
-	static get observedAttributes() {
-		return ['video-type', 'disabled', 'data-id', 'data-src', 'data-type', 'data-scale'];
-	}
+    static get observedAttributes() {
+        return ['video-type', 'disabled', 'data-id', 'data-src'];
+    }
 
-	private connectedCallback() {
-		this.classList.add(SmartVideoEmbedded.is);
-		this.setAttribute('role', 'application');
-		this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
-		providerRegistry.addListener(this._onRegistryStateChange);
-		!this.disabled && this.reinitInstance();
-	}
+    constructor() {
+        super();
 
-	private disconnectedCallback() {
-		providerRegistry.removeListener(this._onRegistryStateChange);
-		this._provider && this._provider.unbind();
-	}
+        this._onError = this._onError.bind(this);
+        this._onConditionStateChange = this._onConditionStateChange.bind(this);
+    }
 
-	private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-		if (oldVal === newVal) return;
-		switch (attrName) {
-			case 'data-id':
+    private connectedCallback() {
+        this.classList.add(SmartVideoEmbedded.is);
+        this.setAttribute('role', 'application');
+        this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
+        providerRegistry.addListener(this._onRegistryStateChange);
+        this._onConditionStateChange();
+        if (this.conditionQuery) {
+            this.conditionQuery.addListener(this._onConditionStateChange);
+        }
+        !this.disabled && this.reinitInstance();
+    }
+
+    private disconnectedCallback() {
+        providerRegistry.removeListener(this._onRegistryStateChange);
+        if (this.conditionQuery) {
+            this.conditionQuery.removeListener(this._onConditionStateChange);
+        }
+        this.detachViewportConstraint();
+        this._provider && this._provider.unbind();
+    }
+
+    private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+        if (oldVal === newVal) return;
+        switch (attrName) {
+            case 'data-id':
             case 'data-src':
-			case 'video-type':
-				if (this._provider || this._provider === null) {
-					this.deferedReinit();
-				}
-				break;
-			case 'disabled':
-				if (!this._provider) {
-					this.deferedReinit();
-				}
-				break;
-		}
-	}
+            case 'video-type':
+                if (this._provider || this._provider === null) {
+                    this.deferedReinit();
+                }
+                break;
+            case 'disabled':
+                if (!this._provider) {
+                    this.deferedReinit();
+                }
+                break;
+        }
+    }
 
-	private reinitInstance() {
-		if (!this.disabled) {
-			this._provider && this._provider.unbind();
+    private reinitInstance() {
+        if (!this.disabled) {
+            this._provider && this._provider.unbind();
 
-			const provider = providerRegistry.getProvider(this.videoType);
-			if (provider) {
-				this._provider = new provider(this);
-				this._provider.bind();
-			} else {
-				this._provider = null;
-			}
-		}
-	}
+            const provider = providerRegistry.getProvider(this.videoType);
+            if (provider) {
+                this._provider = new provider(this);
+                this._provider.bind();
+                if (this.playInViewport) {
+                    this.attachViewportConstraint();
+                }
+            } else {
+                this._provider = null;
+            }
+        }
+    }
 
-	public deferedReinit = debounce(() => this.reinitInstance());
-    // public throttleReinit = throttle(() => this.reinitInstance());
+    public deferedReinit = debounce(() => this.reinitInstance());
 
-	public buildOptions() {
-		return {
-			title: this.title,
-			autoplay: this.autoplay,
+    public buildOptions() {
+        return {
+            title: this.title,
+            autoplay: this.autoplay,
             muted: this.muted,
-			hideControls: this.hideControls,
+            hideControls: this.hideControls,
             dataId: this.dataset.id,
             dataSrc: this.dataset.src,
-            dataType: this.dataset.type,
-            dataScale: this.dataset.scale,
-		};
-	}
+        };
+    }
 
-	/**
-	 * Seek to given position of video
-	 * @returns {Promise | void}
-	 */
-	public seekTo(pos: number) {
-		return this._provider && this._provider.safeSeekTo(pos);
-	}
+    private _updateMarkers(addValue: string, removeValue: string) {
+        const target = this.getAttribute('marker-target');
+        const targetEl = target ? this.closest(target) : this;
+        (targetEl && addValue) && targetEl.classList.add(addValue);
+        (targetEl && removeValue) && targetEl.classList.remove(removeValue);
+    }
 
-	/**
-	 * Start playing video
-	 * @returns {Promise | void}
-	 */
-	public play() {
-		if (this.disabled) {
-			this.disabled = false;
-		}
-		return this._provider && this._provider.safePlay();
-	}
+    private _onConditionStateChange() {
+        if (!this.conditionQuery || this.conditionQuery.matches) {
+            this.deferedReinit();
+            if (this.state === PlayerStates.PAUSED) {
+                this.play(true);
+            }
+            this._updateMarkers(
+                this.getAttribute('load-condition-marker'),
+                this.getAttribute('load-condition-declined-marker')
+            );
+        } else {
+            this.pause();
+            this._updateMarkers(
+                this.getAttribute('load-condition-declined-marker'),
+                this.getAttribute('load-condition-marker')
+            );
+        }
+    }
 
-	/**
-	 * Pause playing video
-	 * @returns {Promise | void}
-	 */
-	public pause() {
-		return this._provider && this._provider.safePause();
-	}
+    /**
+     * Seek to given position of video
+     * @returns {Promise | void}
+     */
+    public seekTo(pos: number) {
+        return this._provider && this._provider.safeSeekTo(pos);
+    }
 
-	/**
-	 * Stop playing video
-	 * @returns {Promise | void}
-	 */
-	public stop() {
-		return this._provider && this._provider.safeStop();
-	}
+    /**
+     * Start playing video
+     * @returns {Promise | void}
+     */
+    public play(reset: boolean = false) {
+        if (this.disabled && reset) {
+            this.disabled = false;
+        }
+        return this._provider && this._provider.safePlay();
+    }
 
-	/**
-	 * Toggle play/pause state of the video
-	 * @returns {Promise | void}
-	 */
-	public toggle() {
-		return this._provider && this._provider.safeToggle();
-	}
+    /**
+     * Pause playing video
+     * @returns {Promise | void}
+     */
+    public pause() {
+        return this._provider && this._provider.safePause();
+    }
 
-	/**
-	 * @override
-	 */
-	public focus() {
-		this._provider && this._provider.focus();
-	}
+    /**
+     * Stop playing video
+     * @returns {Promise | void}
+     */
+    public stop() {
+        return this._provider && this._provider.safeStop();
+    }
 
-	// Video live-cycle handlers
-	public _onReady() {
-		this.setAttribute('ready', 'true');
-		if (this.hasAttribute('ready-class')) {
-			this.classList.add(this.getAttribute('ready-class'));
-		}
-		this.dispatchEvent(new Event('evideo:ready', {bubbles: true}));
-	}
+    /**
+     * Toggle play/pause state of the video
+     * @returns {Promise | void}
+     */
+    public toggle() {
+        return this._provider && this._provider.safeToggle();
+    }
 
-	public _onDetach() {
-		this.removeAttribute('active');
-		this.removeAttribute('ready');
-		if (this.hasAttribute('ready-class')) {
-			this.classList.remove(this.getAttribute('ready-class'));
-		}
-	}
+    /**
+     * @override
+     */
+    public focus() {
+        this._provider && this._provider.focus();
+    }
 
-	public _onPlay() {
-		if (this.autofocus) {
-			this.focus();
-		}
-		this.setAttribute('active', '');
-		this.dispatchEvent(new Event('evideo:play', {bubbles: true}));
-		VideoGroupRestrictionManager.registerPlay(this);
-	}
+    // Video live-cycle handlers
+    public _onReady() {
+        this.setAttribute('ready', 'true');
+        if (this.hasAttribute('ready-class')) {
+            this.classList.add(this.getAttribute('ready-class'));
+        }
+        this.dispatchEvent(new Event('evideo:ready', {bubbles: true}));
+    }
 
-	public _onPaused() {
-		this.removeAttribute('active');
-		this.dispatchEvent(new Event('evideo:paused', {bubbles: true}));
-		VideoGroupRestrictionManager.unregister(this);
-	}
+    public _onError() {
+        this.setAttribute('ready', '');
+        this.setAttribute('error', '');
+        triggerComponentEvent(this, 'error');
+        triggerComponentEvent(this, 'ready');
+    }
 
-	public _onEnded() {
-		this.removeAttribute('active');
-		this.dispatchEvent(new Event('evideo:ended', {bubbles: true}));
-		VideoGroupRestrictionManager.unregister(this);
-	}
+    public _onDetach() {
+        this.removeAttribute('active');
+        this.removeAttribute('ready');
+        if (this.hasAttribute('ready-class')) {
+            this.classList.remove(this.getAttribute('ready-class'));
+        }
+    }
 
-	/**
-	 * Current player state, see {@link SmartVideoEmbedded.PLAYER_STATES} values
-	 */
-	get state() {
-		return this._provider ? this._provider.getState() : PlayerStates.UNINITIALIZED;
-	}
+    public _onPlay() {
+        if (this.autofocus) {
+            this.focus();
+        }
+        this.setAttribute('active', '');
+        this.dispatchEvent(new Event('evideo:play', {bubbles: true}));
+        VideoGroupRestrictionManager.registerPlay(this);
+    }
 
-	private _onRegistryStateChange = (name: string) => {
-		if (name === this.videoType) {
-			this.reinitInstance();
-		}
-	};
+    public _onPaused() {
+        this.removeAttribute('active');
+        this.dispatchEvent(new Event('evideo:paused', {bubbles: true}));
+        VideoGroupRestrictionManager.unregister(this);
+    }
+
+    public _onEnded() {
+        this.removeAttribute('active');
+        this.dispatchEvent(new Event('evideo:ended', {bubbles: true}));
+        VideoGroupRestrictionManager.unregister(this);
+    }
+
+    /**
+     * Current player state, see {@link SmartVideoEmbedded.PLAYER_STATES} values
+     */
+    get state() {
+        return this._provider ? this._provider.getState() : PlayerStates.UNINITIALIZED;
+    }
+
+    get conditionQuery() {
+        if (!this._conditionQuery && this._conditionQuery !== null) {
+            const query = this.getAttribute('load-condition');
+            this._conditionQuery = query ? new SmartQuery(query) : null;
+        }
+        return this._conditionQuery;
+    }
+
+    private _onRegistryStateChange = (name: string) => {
+        if (name === this.videoType) {
+            this.reinitInstance();
+        }
+    };
+
+    public attachViewportConstraint() {
+        getIObserver().observe(this);
+    }
+
+    public detachViewportConstraint() {
+        const observer = getIObserver(true);
+        observer && observer.unobserve(this);
+    }
 }
 
 customElements.define(SmartVideoEmbedded.is, SmartVideoEmbedded);
