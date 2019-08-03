@@ -1,2 +1,5 @@
+import BreakpointRegistry from './ts/smart-query-breakpoints';
 import SmartQuery from './ts/smart-query';
-export { SmartQuery };
+import SmartRuleList from './ts/smart-rule-list';
+
+export {SmartQuery, SmartRuleList, BreakpointRegistry};

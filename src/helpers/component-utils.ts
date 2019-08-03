@@ -4,7 +4,7 @@
  * @param eventName - name of event
  * @param args - arguments for custom event
  */
-export function triggerComponentEvent(target: HTMLElement, eventName: string, args: any) {
+export function triggerComponentEvent(target: HTMLElement, eventName: string, args?: any): boolean {
     const eventHandlerName = 'on' + eventName;
     const eventHandlerAttr = target.getAttribute(eventHandlerName);
     if (eventHandlerAttr) {
@@ -17,5 +17,5 @@ export function triggerComponentEvent(target: HTMLElement, eventName: string, ar
             console.log(`Error executing ${target.tagName} ${eventName} hook function.\n ${e}`);
         }
     }
-    target.dispatchEvent(new CustomEvent(eventName, args)); // TODO: check args usage
+    return target.dispatchEvent(new CustomEvent(eventName, args)); // TODO: check args usage
 }

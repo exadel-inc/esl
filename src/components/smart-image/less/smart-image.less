@@ -1,0 +1,71 @@
+// Smart Image core definition mixin
+.smart-image-init(@tagName) {
+  @{tagName} {
+    display: block;
+    width: 100%;
+    height: 0;
+    padding: 0;
+    text-align: center;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    &[mode='origin'] {
+      display: inline-block;
+      width: auto;
+      height: auto;
+    }
+    &[mode='cover'] {
+      height: 100%;
+    }
+    &[mode='save-ratio'] {
+      height: 0;
+      &:not([loaded]) {
+        min-height: 1px;
+      }
+    }
+
+    &:after {
+      display: none;
+      content: attr(alt);
+    }
+    &[error]:after {
+      display: inline-block;
+    }
+    &[loaded]:after {
+      display: none;
+    }
+
+    // Flex mode make image cover available box without saving ration
+    &.bg-flex {
+      background-size: 100% 100%;
+    }
+    // Inscribe mode inscribe image inside container
+    &.bg-inscribe {
+      background-size: contain;
+    }
+
+    // Vertical background position
+    &.bg-v-top {
+      background-position-y: top;
+    }
+    &.bg-v-center {
+      background-position-y: center;
+    }
+    &.bg-v-bottom {
+      background-position-y: bottom;
+    }
+
+    // Horizontal background position
+    &.bg-h-left {
+      background-position-x: left;
+    }
+    &.bg-h-center {
+      background-position-x: center;
+    }
+    &.bg-h-right {
+      background-position-x: right;
+    }
+  }
+}
