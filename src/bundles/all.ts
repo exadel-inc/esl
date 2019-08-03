@@ -2,11 +2,13 @@
 import '../helpers/es5-support/es6-htmlelement-shim';
 
 // Builtin polyfills
+import '../helpers/builtin-polyfils/object-polyfils';
 import '../helpers/builtin-polyfils/closest-polyfill';
 
 import {BreakpointRegistry, SmartQuery, SmartRuleList} from '../components/smart-query/smart-query';
 import {SmartImage} from '../components/smart-image/smart-image';
 import {SmartVideo} from '../components/smart-video/smart-video';
+import {SmartCarousel, SmartCarouselDots} from '../components/smart-carousel/smart-carousel';
 
 
 // BreakpointRegistry.addCustomBreakpoint('xxs', 300, 600); // Definition
@@ -17,8 +19,10 @@ SmartImage.register('smart-image');
 
 export {
     BreakpointRegistry,
-	SmartQuery,
+    SmartQuery,
 	SmartRuleList,
 	SmartImage,
-	SmartVideo
+	SmartVideo,
+    SmartCarousel,
+    SmartCarouselDots
 };
