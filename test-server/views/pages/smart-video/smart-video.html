@@ -4,27 +4,26 @@ layout: ../../layouts/basic.html
 
 {{##content:
 <div class="container">
-
-    <h2 class="text-center">&lt;smart-video-embedded&gt; component | YT</h2>
+    <h2 class="text-center">&lt;smart-video&gt; component | YT</h2>
     <hr/>
 
     <section class="row">
         <div style="width: 100%;">
             <div class="img-container img-container-16-9 img-container-loaded">
-                <smart-video-embedded id="sve-target"
+                <smart-video id="sve-target"
                                       video-type="youtube"
-                                      data-id="8tbNdGa2iS0"
+                                      data-id="kbIQ070E57k"
                                       autoplay="true">
-                </smart-video-embedded>
+                </smart-video>
             </div>
         </div>
     </section>
 
     <div id="sve-test-actions">
-        <div class="row smart-video-embedded-buttons">
-            <button class="btn" data-action="play">Play</button>
-            <button class="btn" data-action="pause">Pause</button>
-            <button class="btn" data-action="stop">Stop</button>
+        <div class="row btn-group-centered">
+            <button class="btn btn-light" data-action="play">Play</button>
+            <button class="btn btn-light" data-action="pause">Pause</button>
+            <button class="btn btn-light" data-action="stop">Stop</button>
         </div>
         <hr/>
         <script>
@@ -49,13 +48,13 @@ layout: ../../layouts/basic.html
         </script>
     </div>
 
-    <h2 class="text-center">&lt;smart-video-embedded&gt; component | Video</h2>
+    <h2 class="text-center">&lt;smart-video&gt; component | Video</h2>
     <hr/>
 
     <section class="row">
         <div style="width: 100%;">
             <div class="img-container img-container-16-9 img-container-loaded">
-                <smart-video-embedded id="sve-target-2"
+                <smart-video id="sve-target-2"
                                       video-type="video"
                                       load-condition="@DESKTOP"
                                       load-condition-declined-marker="hide-video"
@@ -63,16 +62,16 @@ layout: ../../layouts/basic.html
                                       autoplay="true"
                                       play-in-viewport
                                       muted="true">
-                </smart-video-embedded>
+                </smart-video>
             </div>
         </div>
     </section>
 
     <div id="sve-test-actions-2">
-        <div class="row smart-video-embedded-buttons">
-            <button class="btn" data-action="play">Play</button>
-            <button class="btn" data-action="pause">Pause</button>
-            <button class="btn" data-action="stop">Stop</button>
+        <div class="row btn-group-centered">
+            <button class="btn btn-light" data-action="play">Play</button>
+            <button class="btn btn-light" data-action="pause">Pause</button>
+            <button class="btn btn-light" data-action="stop">Stop</button>
         </div>
         <hr/>
         <script>

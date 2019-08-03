@@ -74,7 +74,7 @@ function getIObserver(lazy: boolean = false) {
 }
 
 function handleViewport(entire: IntersectionObserverEntry) {
-    if (!(entire.target instanceof SmartVideoEmbedded)) return;
+    if (!(entire.target instanceof SmartVideo)) return;
     // Videos that playing and out of min ratio RATIO_TO_DEACTIVATE should be stopped
     if (entire.target.onplaying && entire.intersectionRatio <= RATIO_TO_DEACTIVATE) {
         entire.target.pause();
@@ -85,7 +85,7 @@ function handleViewport(entire: IntersectionObserverEntry) {
     }
 }
 
-export class SmartVideoEmbedded extends HTMLElement {
+export class SmartVideo extends HTMLElement {
     @attr() public videoType: string;
     @attr() public group: string;
     @attr({conditional: true}) public disabled: boolean;
@@ -104,7 +104,7 @@ export class SmartVideoEmbedded extends HTMLElement {
     private _conditionQuery: SmartQuery;
 
     static get is() {
-        return 'smart-video-embedded';
+        return 'smart-video';
     }
 
     /**
@@ -127,7 +127,7 @@ export class SmartVideoEmbedded extends HTMLElement {
     }
 
     private connectedCallback() {
-        this.classList.add(SmartVideoEmbedded.is);
+        this.classList.add(SmartVideo.is);
         this.setAttribute('role', 'application');
         this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
         providerRegistry.addListener(this._onRegistryStateChange);
@@ -347,5 +347,5 @@ export class SmartVideoEmbedded extends HTMLElement {
     }
 }
 
-customElements.define(SmartVideoEmbedded.is, SmartVideoEmbedded);
-export default SmartVideoEmbedded;
+customElements.define(SmartVideo.is, SmartVideo);
+export default SmartVideo;

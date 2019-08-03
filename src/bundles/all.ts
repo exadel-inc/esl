@@ -6,7 +6,7 @@ import '../helpers/builtin-polyfils/closest-polyfill';
 
 import {BreakpointRegistry, SmartQuery, SmartRuleList} from '../components/smart-query/smart-query';
 import {SmartImage} from '../components/smart-image/smart-image';
-import {SmartVideoEmbedded} from '../components/smart-video-embedded/smart-video-embedded';
+import {SmartVideo} from '../components/smart-video/smart-video';
 
 
 // BreakpointRegistry.addCustomBreakpoint('xxs', 300, 600); // Definition
@@ -20,5 +20,5 @@ export {
 	SmartQuery,
 	SmartRuleList,
 	SmartImage,
-	SmartVideoEmbedded
+	SmartVideo
 };

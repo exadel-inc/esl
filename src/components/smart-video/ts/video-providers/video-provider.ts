@@ -1,8 +1,8 @@
 /**
- * Video API provider for {@link SmartVideoEmbedded}
+ * Video API provider for {@link SmartVideo}
  */
 
-import SmartVideoEmbedded from '../smart-video-embedded';
+import SmartVideo from '../smart-video';
 import {BaseProvider, PlayerStates} from '../smart-video-provider';
 import EmbeddedVideoProviderRegistry from '../smart-video-registry';
 

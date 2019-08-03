@@ -1,12 +1,12 @@
 /**
- * Youtube API provider for {@link SmartVideoEmbedded}
+ * Youtube API provider for {@link SmartVideo}
  * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n)
  * @extends BaseProvider
  * @protected
  */
 import {generateUId, loadScript} from '../../../../helpers/common-utils';
-import SmartVideoEmbedded from '../smart-video-embedded';
+import SmartVideo from '../smart-video';
 import {BaseProvider, PlayerStates} from '../smart-video-provider';
 import EmbeddedVideoProviderRegistry from '../smart-video-registry';
 
