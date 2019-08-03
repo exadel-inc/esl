@@ -3,17 +3,15 @@
  * Only one video in group can be played
  * Empty group is ignored
  * @version 1.0.1
- * @author Alexey Stsefanovich (ala'n)
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 import SmartVideo from './smart-video';
-
 
 interface VideoManager {
 	[key: string]: SmartVideo
 }
 
 const managerMap: VideoManager = {};
-
 
 export class VideoGroupRestrictionManager {
 	/**

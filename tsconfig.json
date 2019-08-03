@@ -14,7 +14,12 @@
       "dom",
       "es6",
       "dom.iterable"
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@helpers/*": ["src/helpers/*"],
+      "@components/*": ["src/components/*"]
+    }
   },
   "exclude": [
     "node_modules",

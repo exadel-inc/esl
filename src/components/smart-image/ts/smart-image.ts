@@ -91,10 +91,10 @@
  *      data-src='..defaultPath [| @1x => src [| ...]]'
  *  ></smart-image-tag>
  */
-import {isMobile} from '../../../helpers/device-utils';
-import {triggerComponentEvent} from '../../../helpers/component-utils';
-import SmartRuleList from '../../smart-query/ts/smart-rule-list';
-import {attr} from '../../../helpers/decorators/attr';
+import {attr} from '@helpers/decorators/attr';
+import {isMobile} from '@helpers/device-utils';
+import {triggerComponentEvent} from '@helpers/component-utils';
+import SmartRuleList from '@components/smart-query/ts/smart-rule-list';
 
 // Mods configurations
 interface Strategy {

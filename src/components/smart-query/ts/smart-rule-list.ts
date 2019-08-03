@@ -12,8 +12,8 @@
  * - Mobile / full browser detection (@MOBILE|@DESKTOP)
  */
 
+import {Observable} from '@helpers/abstract/observable';
 import SmartQuery from './smart-query';
-import {Observable} from '../../../helpers/abstract/observable';
 
 type PayloadParser<T> = (val: string) => T;
 

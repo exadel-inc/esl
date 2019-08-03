@@ -3,6 +3,7 @@ const gulp = require('gulp');
 
 const named = require('vinyl-named');
 const webpackStream = require('webpack-stream');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const TS_LINT = path.join(__dirname, '../tslint.json');
@@ -43,7 +44,8 @@ module.exports.buildAll = function tsBuildAll(config) {
 		},
 		resolve: {
 			// Should be both: 'ts' for source, 'js' for referenced libs
-			extensions: ['.ts', '.js']
+			extensions: ['.ts', '.js'],
+			plugins: [new TsconfigPathsPlugin({ configFile: TS_CONFIG })],
 		},
 		mode: 'production',
 		plugins: [
@@ -53,7 +55,7 @@ module.exports.buildAll = function tsBuildAll(config) {
 				reportFiles: [
 					'src/**/*.{ts,tsx}'
 				]
-			})
+			}),
 		]
 	});
 	return gulp.src(config.src)
