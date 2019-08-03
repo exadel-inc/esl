@@ -3,7 +3,7 @@
  * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n)
  */
-import SmartVideoEmbedded from './smart-video-embedded';
+import SmartVideo from './smart-video';
 import PlayerState = YT.PlayerState;
 
 export enum PlayerStates {
@@ -16,13 +16,13 @@ export enum PlayerStates {
 	UNINITIALIZED = null
 }
 
-export type BaseProviderConstructor = new(component: SmartVideoEmbedded) => BaseProvider;
+export type BaseProviderConstructor = new(component: SmartVideo) => BaseProvider;
 
 export abstract class BaseProvider {
-	protected component: SmartVideoEmbedded;
+	protected component: SmartVideo;
 	protected _ready: Promise<any>;
 
-	public constructor(component: SmartVideoEmbedded) {
+	public constructor(component: SmartVideo) {
 		this.component = component;
 	}
 

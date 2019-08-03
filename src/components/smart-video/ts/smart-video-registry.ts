@@ -1,3 +1,8 @@
+/**
+ * Video Registry class to store video API providers
+ * @version 1.0.0
+ * @author Yuliya Adamskaya
+ */
 import {Observable} from '../../../helpers/abstract/observable';
 import {BaseProviderConstructor} from './smart-video-provider';
 
