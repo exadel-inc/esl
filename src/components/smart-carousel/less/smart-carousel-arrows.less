@@ -1,19 +1,28 @@
 // ARROWS navigation
+smart-carousel {
+  button.arrow-prev,
+  button.arrow-next {
+    display: none;
+  }
+}
 .smart-carousel {
   button.arrow-prev,
   button.arrow-next {
+    display: block;
     position: absolute;
     top: 50%;
-    display: block;
-    z-index: 1;
+    z-index: 2;
     width: 68px;
     height: 68px;
     margin-top: -69.5px;
     background: none;
     border: none;
     opacity: .5;
-    -webkit-appearance: button;
     cursor: pointer;
+
+    // TODO: IE11 support
+    -webkit-appearance: none;
+    appearance: none;
   }
   button.arrow-next {
     right: 0;

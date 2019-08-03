@@ -14,9 +14,11 @@ smart-carousel {
     overflow: hidden;
     padding-bottom: 71px;
     width: 780px;
+    z-index: 0;
   }
 
   smart-carousel-slide {
+    display: none;
     position: relative;
     left: 0;
     box-sizing: border-box;
@@ -28,7 +30,7 @@ smart-carousel {
     transition: transform 1s linear;
   }
 
-  .active-slide {
+  [active] {
     display: block;
     position: relative;
     visibility: visible;
@@ -37,11 +39,7 @@ smart-carousel {
   }
 
   // Single Carousel Animation
-  [data-slide-item] {
-    display: none;
-  }
-
-  .active-slide, .left, .right {
+  .left, .right {
     display: block;
   }
   .prev {
@@ -95,7 +93,7 @@ smart-carousel {
   }
 
   // Multi Carousel Animation
-  &[strategy="multi"] [data-slide-item] {
+  &[strategy="multi"] smart-carousel-slide {
     display: block;
     transition: transform 1s linear;
   }

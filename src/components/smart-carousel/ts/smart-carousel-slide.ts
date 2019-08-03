@@ -1,32 +1,25 @@
 class SmartCarouselSlide extends HTMLElement {
+	static get is() { return 'smart-carousel-slide'; }
 
-    private _index: number;
+	constructor() {
+		super();
+	}
 
-    public static get ACTIVE_CLASS() { return 'active-slide';}
+	protected connectedCallback() {
+		//
+	}
 
-    static get is() {
-        return 'smart-carousel-slide';
-    }
+	public get index(): number {
+		return Array.prototype.indexOf.call(this.parentNode.childNodes, this);
+	}
 
-    constructor() {
-        super();
-    }
+	public get active(): boolean {
+		return this.hasAttribute('active');
+	}
 
-    protected connectedCallback() {
-       this.classList.add(SmartCarouselSlide.is);
-    }
-
-    public get index() : number {
-        return Array.prototype.indexOf.call(this.parentNode.childNodes, this);
-    }
-
-    public get active(): boolean {
-        return this.hasAttribute(SmartCarouselSlide.ACTIVE_CLASS);
-    }
-
-    _setActive(active: boolean) {
-        this.toggleAttribute(SmartCarouselSlide.ACTIVE_CLASS, active);
-    }
+	public _setActive(active: boolean) {
+		this.toggleAttribute('active', active);
+	}
 }
 
 customElements.define(SmartCarouselSlide.is, SmartCarouselSlide);
