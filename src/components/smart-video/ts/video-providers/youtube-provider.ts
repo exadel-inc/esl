@@ -1,7 +1,7 @@
 /**
  * Youtube API provider for {@link SmartVideo}
  * @version 1.0.0
- * @author Alexey Stsefanovich (ala'n)
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  * @extends BaseProvider
  * @protected
  */
@@ -10,11 +10,10 @@ import SmartVideo from '../smart-video';
 import {BaseProvider, PlayerStates} from '../smart-video-provider';
 import EmbeddedVideoProviderRegistry from '../smart-video-registry';
 
-interface YT extends Promise<void> {
-	Player: YT.Player,
-}
-
 declare global {
+	interface YT extends Promise<void> {
+		Player: YT.Player,
+	}
 	interface Window {
 		YT?: YT;
 		onYouTubeIframeAPIReady?: () => void;

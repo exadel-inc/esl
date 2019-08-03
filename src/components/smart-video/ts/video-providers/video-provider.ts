@@ -1,5 +1,6 @@
 /**
- * Video API provider for {@link SmartVideo}
+ * Simple Video API provider for {@link SmartVideo}
+ * @author Yuliya Adamskaya
  */
 
 import SmartVideo from '../smart-video';

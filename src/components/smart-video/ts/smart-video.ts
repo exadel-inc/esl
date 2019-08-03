@@ -15,7 +15,7 @@
  *
  * Attributes:
  * {String} video-id - id of embedded video
- * {String} video-type - type of video provider ('youtube', 'brightcove')
+ * {String} video-type - type of video provider ('youtube', 'video')
  *
  * {String} [group] - group name, only one video player in group can be active
  *
@@ -39,51 +39,23 @@
  * @event evideo:mangedpause - (bubbles) happens when video paused by video group restriction manager
  *
  * @example:
- * <smart-video-embedded
+ * <smart-video
  *    [disabled]
  *    title="Video Title"
  *    [group="videoGroup"]
- *    video-type="youtube|brightcove|video"
+ *    video-type="youtube|video"
  *    data-id="##VIDEOID##"></smart-video-embedded>
  */
 import {debounce} from '../../../helpers/function-utils';
 
 import VideoGroupRestrictionManager from './smart-video-manager';
 
+import {getIObserver} from './smart-video-iobserver';
 import {attr} from '../../../helpers/decorators/attr';
 import {BaseProvider, PlayerStates} from './smart-video-provider';
 import providerRegistry from './smart-video-registry';
 import SmartQuery from '../../smart-query/ts/smart-query';
 import {triggerComponentEvent} from '../../../helpers/component-utils';
-
-
-const RATIO_TO_ACTIVATE = 0.75;
-const RATIO_TO_DEACTIVATE = 0.20;
-
-let iObserver: IntersectionObserver;
-
-function getIObserver(lazy: boolean = false) {
-    if (!iObserver && !lazy) {
-        iObserver = new IntersectionObserver(function (entries) {
-            entries.forEach(handleViewport);
-        }, {
-            threshold: [RATIO_TO_DEACTIVATE, RATIO_TO_ACTIVATE]
-        });
-    }
-    return iObserver;
-}
-
-function handleViewport(entire: IntersectionObserverEntry) {
-    if (!(entire.target instanceof SmartVideo)) return;
-    // Videos that playing and out of min ratio RATIO_TO_DEACTIVATE should be stopped
-    if (entire.target.onplaying && entire.intersectionRatio <= RATIO_TO_DEACTIVATE) {
-        entire.target.pause();
-    }
-    // Play should starts only for inactive and background(muted) videos that are visible more then on RATIO_TO_ACTIVATE
-    if (!entire.target.onplaying && entire.target.muted && entire.intersectionRatio >= RATIO_TO_ACTIVATE) {
-        entire.target.play(true);
-    }
-}
 
 export class SmartVideo extends HTMLElement {
     @attr() public videoType: string;
@@ -317,7 +289,7 @@ export class SmartVideo extends HTMLElement {
     }
 
     /**
-     * Current player state, see {@link SmartVideoEmbedded.PLAYER_STATES} values
+     * Current player state, see {@link SmartVideo.PLAYER_STATES} values
      */
     get state() {
         return this._provider ? this._provider.getState() : PlayerStates.UNINITIALIZED;
