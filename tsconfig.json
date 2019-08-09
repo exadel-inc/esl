@@ -26,6 +26,7 @@
     "build",
     "edmtp-modules",
     "lib",
+    "lib-es6",
     "test-server"
   ]
 }
