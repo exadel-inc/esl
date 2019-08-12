@@ -9,7 +9,8 @@ const TS_CONFIG = path.join(__dirname, '../tsconfig.json');
 module.exports.buildES6 = function tsBuildES6(config) {
   var tsProject = ts.createProject(TS_CONFIG, {
     outDir: "lib-es6",
-    target: "es6"
+    target: "es6",
+    removeComments: false
   });
   return gulp.src(config.src)
     .pipe(named(config.nameFunction))
