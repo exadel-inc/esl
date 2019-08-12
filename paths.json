@@ -1,11 +1,20 @@
 {
-  "bundles": {
+  "bundle": {
     "less": "src/bundles/all.less",
     "ts": [
       "src/bundles/all.ts",
       "src/bundles/polyfill-prebuild.ts"
     ],
-    "context": "src/components"
+    "context": "src/components",
+    "target": "lib"
+  },
+  "es6": {
+    "less": "src/**/*.less",
+    "ts": [
+      "src/**/*.ts"
+    ],
+    "context": "src/components",
+    "target": "lib-es6"
   },
   "watch": {
     "ts": ["src/components/**/*.ts", "src/helpers/**/*.ts"],
@@ -22,5 +31,5 @@
     ],
     "target": "test-server/static"
   },
-  "target": "lib"
+  "clean": ["lib/", "lib-es6/", "test-server/static/"]
 }

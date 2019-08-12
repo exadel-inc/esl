@@ -37,7 +37,7 @@ module.exports.buildAll = function tsBuildAll(config) {
 						],
 						// TODO: that property blocks typing generation
 						// disable type checker - we will use it in fork plugin
-						transpileOnly: true,
+						transpileOnly: true
 					}
 				}
 			]
@@ -45,7 +45,7 @@ module.exports.buildAll = function tsBuildAll(config) {
 		resolve: {
 			// Should be both: 'ts' for source, 'js' for referenced libs
 			extensions: ['.ts', '.js'],
-			plugins: [new TsconfigPathsPlugin({ configFile: TS_CONFIG })],
+			plugins: [new TsconfigPathsPlugin({ configFile: TS_CONFIG })]
 		},
 		mode: 'production',
 		plugins: [
@@ -55,7 +55,7 @@ module.exports.buildAll = function tsBuildAll(config) {
 				reportFiles: [
 					'src/**/*.{ts,tsx}'
 				]
-			}),
+			})
 		]
 	});
 	return gulp.src(config.src)
