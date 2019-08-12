@@ -2,7 +2,8 @@ const gulp = require('gulp');
 const task = {
     bundle: require('./build/webpack-task').buildAll,
     es6: require('./build/es6-task').buildES6,
-    less: require('./build/less-task')
+    less: require('./build/less-task'),
+    clean: require('./build/clean-task')
 };
 const paths = require('./paths');
 
@@ -41,6 +42,13 @@ gulp.task('ts-local', function () {
 	}).pipe(gulp.dest(paths.test.target));
 });
 
+// === CLEAN TASK ===
+gulp.task('clean', function () {
+    return task.clean({
+        src: paths.clean
+    });
+});
+
 // === WATCH TASKS ===
 gulp.task('watch', function () {
     gulp.watch(paths.watch.ts, {}, gulp.series((cb) => {
@@ -64,7 +72,7 @@ gulp.task('watch', function () {
 });
 
 // === BUILD TASKS ===
-gulp.task('build', gulp.parallel('less-lib', 'ts-lib'));
+gulp.task('build', gulp.series('clean', gulp.parallel('less-lib', 'ts-lib')));
 gulp.task('build-es6', gulp.parallel('less-lib-es6', 'ts-lib-es6'));
 // Main assets + local assets
 gulp.task('build-local', gulp.series('build', gulp.parallel('less-local', 'ts-local')));

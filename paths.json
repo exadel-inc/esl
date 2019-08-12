@@ -30,5 +30,6 @@
       "test-server/local-build/*.ts"
     ],
     "target": "test-server/static"
-  }
+  },
+  "clean": ["lib/", "lib-es6/", "test-server/static/"]
 }
