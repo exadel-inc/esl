@@ -3,34 +3,61 @@ layout: ../../layouts/basic.html
 ---
 
 {{##content:
-<div class="container">
-    <h2 class="text-center">&lt;smart-video&gt; component | YT</h2>
+<div class="container-fluid">
+    <h2 class="text-center"><code>&lt;smart-video&gt;</code> component</h2>
     <hr/>
-
-    <section class="row">
-        <div style="width: 100%;">
-            <div class="img-container img-container-16-9 img-container-loaded">
-                <smart-video id="sve-target"
-                                      video-type="youtube"
-                                      data-id="kbIQ070E57k"
-                                      autoplay="true">
-                </smart-video>
+    <div class="description">
+        <p>Smart Video - is the smart container that gives you same API for different providers under the hood
+            along with helpers like lazy loading, activate query, picture cropping.</p>
+    </div>
+    <hr/>
+    <div class="row">
+        <section class="col-6" data-demo>
+            <div class="demo">
+                <div class="img-container img-container-16-9 img-container-loaded">
+                    <smart-video video-type="youtube"
+                                 video-src="kbIQ070E57k"
+                                 load-condition="@DESKTOP"
+                                 load-condition-declined-marker="hide-video"
+                                 autoplay="true" muted="true"
+                                 play-in-viewport>
+                    </smart-video>
+                </div>
             </div>
-        </div>
-    </section>
+            <div class="row btn-group-centered" data-demo-controls>
+                <button class="btn btn-light" data-action="play">Play</button>
+                <button class="btn btn-light" data-action="pause">Pause</button>
+                <button class="btn btn-light" data-action="stop">Stop</button>
+            </div>
+        </section>
+        <section class="col-6" data-demo>
+            <div class="demo">
+                <div class="img-container img-container-16-9 img-container-loaded">
+                    <smart-video
+                            video-type="video"
+                            load-condition="@DESKTOP"
+                            load-condition-declined-marker="hide-video"
+                            data-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
+                            autoplay="true"
+                            play-in-viewport
+                            muted="true">
+                    </smart-video>
+                </div>
+            </div>
+            <div class="row btn-group-centered" data-demo-controls>
+                <button class="btn btn-light" data-action="play">Play</button>
+                <button class="btn btn-light" data-action="pause">Pause</button>
+                <button class="btn btn-light" data-action="stop">Stop</button>
+            </div>
+        </section>
+    </div>
 
-    <div id="sve-test-actions">
-        <div class="row btn-group-centered">
-            <button class="btn btn-light" data-action="play">Play</button>
-            <button class="btn btn-light" data-action="pause">Pause</button>
-            <button class="btn btn-light" data-action="stop">Stop</button>
-        </div>
-        <hr/>
-        <script>
-            (function () {
-                var sve = document.getElementById('sve-target');
-                var container = document.getElementById('sve-test-actions');
-                container.addEventListener('click', function (e) {
+
+    <script>
+        (function () {
+            [].forEach.call(document.querySelectorAll('[data-demo]'), function (demoContainer) {
+                var sve = demoContainer.querySelector('smart-video');
+                demoContainer.querySelector('[data-demo-controls]').addEventListener('click', function (e) {
                     var target = e.target && e.target.dataset.action;
                     switch (target) {
                         case 'play':
@@ -44,56 +71,8 @@ layout: ../../layouts/basic.html
                             break;
                     }
                 });
-            })();
-        </script>
-    </div>
-
-    <h2 class="text-center">&lt;smart-video&gt; component | Video</h2>
-    <hr/>
-
-    <section class="row">
-        <div style="width: 100%;">
-            <div class="img-container img-container-16-9 img-container-loaded">
-                <smart-video id="sve-target-2"
-                                      video-type="video"
-                                      load-condition="@DESKTOP"
-                                      load-condition-declined-marker="hide-video"
-                                      data-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
-                                      autoplay="true"
-                                      play-in-viewport
-                                      muted="true">
-                </smart-video>
-            </div>
-        </div>
-    </section>
-
-    <div id="sve-test-actions-2">
-        <div class="row btn-group-centered">
-            <button class="btn btn-light" data-action="play">Play</button>
-            <button class="btn btn-light" data-action="pause">Pause</button>
-            <button class="btn btn-light" data-action="stop">Stop</button>
-        </div>
-        <hr/>
-        <script>
-            (function () {
-                var sve = document.getElementById('sve-target-2');
-                var container = document.getElementById('sve-test-actions-2');
-                container.addEventListener('click', function (e) {
-                    var target = e.target && e.target.dataset.action;
-                    switch (target) {
-                        case 'play':
-                            sve.play();
-                            break;
-                        case 'pause':
-                            sve.pause();
-                            break;
-                        case 'stop':
-                            sve.stop();
-                            break;
-                    }
-                });
-            })();
-        </script>
-    </div>
+            });
+        })();
+    </script>
 </div>
 #}}
