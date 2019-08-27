@@ -1,0 +1,51 @@
+// Image Container declaration mixin
+.smart-image-container-init(@tagName, @containerClass) {
+  .@{containerClass} {
+    position: relative;
+    overflow: hidden;
+    @{tagName} {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: block;
+      &[mode="origin"] {
+        position: relative;
+      }
+      &[mode='save-ratio'] {
+        position: relative;
+      }
+    }
+    @{tagName}[lazy] {
+      opacity: 0;
+      &[ready] {
+        opacity: 1;
+        -webkit-transition: opacity 0.4s;
+        transition: opacity 0.4s;
+      }
+    }
+    &.@{containerClass}-no-rat {
+      @{tagName} {
+        position: relative;
+      }
+    }
+    &.@{containerClass}-1-1 {
+      padding-top: 100%;
+      @{tagName} {
+        position: absolute;
+      }
+    }
+    &.@{containerClass}-4-3 {
+      padding-top: 75%;
+      @{tagName} {
+        position: absolute;
+      }
+    }
+    &.@{containerClass}-16-9 {
+      padding-top: 9/16*100%;
+      @{tagName} {
+        position: absolute;
+      }
+    }
+  }
+}

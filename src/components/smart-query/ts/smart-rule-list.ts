@@ -1,13 +1,29 @@
+/**
+ * Smart Rule List
+ * @version 1.0.0
+ * @author Yuliya Adamskaya
+ *
+ * Helper class that extend provide Observable Rule Handler that resolve payload based on current device configuration.
+ * Supports
+ * - CSS query matching check
+ * - DPR display queries (@x1 | @x2 | @x3)
+ * - Screen default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
+ * - Query matching change listeners
+ * - Mobile / full browser detection (@MOBILE|@DESKTOP)
+ */
+
+import {Observable} from '@helpers/abstract/observable';
 import SmartQuery from './smart-query';
-import {Observable} from '../../../helpers/classes/observable';
 
 type PayloadParser<T> = (val: string) => T;
 
 class SmartRule<T> extends SmartQuery {
 	private readonly _payload: T;
+	private readonly _default: boolean;
 
 	constructor(payload: T, query: string) {
 		super(query);
+		this._default = !query;
 		this._payload = payload;
 	}
 
@@ -17,6 +33,9 @@ class SmartRule<T> extends SmartQuery {
 
 	get payload(): T {
 		return this._payload;
+	}
+	get default(): boolean {
+		return this._default;
 	}
 
 	public static parse<T>(lex: string, parser: PayloadParser<T>) {
@@ -34,12 +53,13 @@ class SmartRule<T> extends SmartQuery {
 
 export default class SmartRuleList<T extends string | object> extends Observable {
 	private _active: SmartRule<T>;
+	private _default: SmartRule<T>;
 	private readonly _rules: Array<SmartRule<T>>;
 
 	public static STRING_PARSER = (val: string) => val;
-	public static OBJECT_PARSER = (val: string): object => {
+	public static OBJECT_PARSER = <T extends object> (val: string): T => {
 		try {
-			return eval('(' + val + ')');
+			return eval('(' + val + ')') as T;
 		} catch (e) {
 			return null;
 		}
@@ -75,6 +95,7 @@ export default class SmartRuleList<T extends string | object> extends Observable
 		}
 		this._rules = SmartRuleList.parseRules(query, parser);
 		this._rules.forEach((rule) => rule.addListener(this._onMatchChanged));
+		this._default = this._rules.filter((rule) => rule.default)[0];
 	}
 
 	get rules() {
@@ -94,7 +115,11 @@ export default class SmartRuleList<T extends string | object> extends Observable
 	}
 
 	get activeValue(): T {
-		return this.active.payload;
+		const value = this.active.payload;
+		if (typeof value === 'string' || !this._default) {
+			return value;
+		}
+		return Object.assign({}, this._default.payload || {}, value);
 	}
 
 	private _onMatchChanged = () => {

@@ -17,11 +17,7 @@ module.exports = function buildLessStream(paths) {
 		.pipe(sourcemaps.init())
 		.pipe(less())
 		.pipe(postcss([
-			autoprefixer({
-				browsers: [
-					'last 3 version'
-				]
-			}),
+			autoprefixer(),
 			cssnano()
 		]))
 		.pipe(sourcemaps.write('/'));

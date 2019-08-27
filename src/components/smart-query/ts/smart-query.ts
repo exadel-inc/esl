@@ -7,12 +7,12 @@
  * Supports
  * - CSS query matching check
  * - DPR display queries (@x1 | @x2 | @x3)
- * - Screen HPE default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
+ * - Screen default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
  * - Query matching change listeners
  * - Mobile / full browser detection (@MOBILE|@DESKTOP)
  */
 
-import {isMobile} from '../../../helpers/device-utils';
+import {isMobile} from '@helpers/device-utils';
 import {BreakpointRegistry} from './smart-query-breakpoints';
 
 const QUERY_CACHE: any = {};
@@ -87,11 +87,21 @@ export class SmartQuery {
 	}
 
 	public addListener(listener: () => void) {
-		this.query && this.query.addEventListener('change', listener);
+		if (!this.query) return;
+		if (typeof this.query.addEventListener === 'function') {
+			this.query.addEventListener('change', listener);
+		} else {
+			this.query.addListener(listener);
+		}
 	}
 
 	public removeListener(listener: () => void)  {
-		this.query && this.query.removeEventListener('change', listener);
+		if (!this.query) return;
+		if (typeof this.query.removeEventListener === 'function') {
+			this.query.removeEventListener('change', listener);
+		} else {
+			this.query.removeListener(listener);
+		}
 	}
 }
 export default SmartQuery;
