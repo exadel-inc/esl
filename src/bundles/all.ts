@@ -12,6 +12,8 @@ import {
 } from '@components/smart-query/smart-query';
 import {SmartImage} from '@components/smart-image/smart-image';
 import {SmartVideo} from '@components/smart-video/smart-video';
+import  {SmartPopup} from '@components/smart-popup/smart-popup';
+import {SmartPopupTrigger} from '@components/smart-trigger/smart-popup-trigger';
 import {SmartCarousel, SmartCarouselDots} from '@components/smart-carousel/smart-carousel';
 
 // TODO separate config
@@ -26,6 +28,8 @@ export {
     SmartQuery,
 	SmartRuleList,
 	SmartImage,
+	SmartPopup,
+	SmartPopupTrigger,
 	SmartVideo,
     SmartCarousel,
     SmartCarouselDots
