@@ -9,13 +9,13 @@ layout: ../../layouts/basic.html
         <p>The first slide is active (1 slide)</p>
         <smart-carousel>
 
-            <button type="button" role="presentation" class="arrow-prev" onclick="void 0">
-                <span class="icon-arrow-left" data-slide-target="prev"></span>
+            <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
+                <span class="icon-arrow-prev" ></span>
             </button>
 
             <div data-slides-area>
                 <!-- CAROUSEL-ITEM -->
-                <smart-carousel-slide data-active-slide
+                <smart-carousel-slide active
                                       style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>111</p>
@@ -114,8 +114,8 @@ layout: ../../layouts/basic.html
                 <!-- /CAROUSEL-ITEM -->
             </div>
 
-            <button type="button" role="presentation" class="arrow-next" onclick="void 0">
-                <span class="icon-arrow-right" data-slide-target="next"></span>
+            <button class="arrow-next" onclick="void 0" data-slide-target="next">
+                <span class="icon-arrow-next"></span>
             </button>
 
             <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
@@ -130,8 +130,8 @@ layout: ../../layouts/basic.html
         <p>The second slide is active (1 slide) !!!</p>
         <smart-carousel>
 
-            <button type="button" role="presentation" class="arrow-prev" onclick="void 0">
-                <span class="icon-arrow-left" data-slide-target="prev"></span>
+            <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
+                <span class="icon-arrow-prev"></span>
             </button>
 
             <div data-slides-area>
@@ -142,7 +142,7 @@ layout: ../../layouts/basic.html
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide data-active-slide
+                <smart-carousel-slide active
                                       style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>222</p>
@@ -235,8 +235,8 @@ layout: ../../layouts/basic.html
                 <!-- /CAROUSEL-ITEM -->
             </div>
 
-            <button type="button" role="presentation" class="arrow-next" onclick="void 0">
-                <span class="icon-arrow-right" data-slide-target="next"></span>
+            <button class="arrow-next" onclick="void 0" data-slide-target="next">
+                <span class="icon-arrow-next"></span>
             </button>
 
             <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
