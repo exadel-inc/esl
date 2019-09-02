@@ -91,7 +91,7 @@
  *      data-src='..defaultPath [| @1x => src [| ...]]'
  *  ></smart-image-tag>
  */
-import {isMobile} from '../../../helpers/device-utils';
+import {DeviceDetector} from '../../../helpers/device-utils';
 import {triggerComponentEvent} from '../../../helpers/component-utils';
 import SmartRuleList from '../../smart-query/ts/smart-rule-list';
 import {attr} from '../../../helpers/decorators/attr';
@@ -139,7 +139,7 @@ function getIObserver() {
 			});
 		}, {
 			threshold: [0.01],
-			rootMargin: isMobile ? '250px' : '500px'// rootMargin value for IntersectionObserver
+			rootMargin: DeviceDetector.isMobile() ? '250px' : '500px'// rootMargin value for IntersectionObserver
 		});
 	}
 	return intersectionObserver;

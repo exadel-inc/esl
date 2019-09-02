@@ -12,7 +12,7 @@
  * - Mobile / full browser detection (@MOBILE|@DESKTOP)
  */
 
-import {isMobile} from '../../../helpers/device-utils';
+import {DeviceDetector} from '../../../helpers/device-utils';
 import {BreakpointRegistry} from './smart-query-breakpoints';
 
 const QUERY_CACHE: any = {};
@@ -57,7 +57,7 @@ export class SmartQuery {
 		// Applying dpr shortcut for device detection
 		query = query.replace(/(and ){0,1}(@MOBILE|@DESKTOP)( and){0,1}/i, (match, pre, type, post) => {
 			this._mobileOnly = (type.toUpperCase() === '@MOBILE');
-			if (isMobile !== this._mobileOnly) {
+			if (DeviceDetector.isMobile() !== this._mobileOnly) {
 				return 'not all';
 			}
 			return pre && post ? ' and ' : '';

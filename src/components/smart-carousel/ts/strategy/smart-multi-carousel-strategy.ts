@@ -66,7 +66,6 @@ class SmartMultiCarouselStrategy extends SmartCarouselStrategy {
 	}
 
 	public cleanStyles() {
-
 	}
 }
 

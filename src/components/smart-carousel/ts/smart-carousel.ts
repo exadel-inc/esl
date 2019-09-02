@@ -1,11 +1,12 @@
 import {attr} from '../../../helpers/decorators/attr';
 import {deepCompare} from '../../../helpers/common-utils';
 import {triggerComponentEvent} from '../../../helpers/component-utils';
+import SmartCarouselSlide from './smart-carousel-slide';
 import SmartRuleList from '../../smart-query/ts/smart-rule-list';
 import SmartCarouselStrategy from './strategy/smart-carousel-strategy';
 import SmartSingleCarouselStrategy from './strategy/smart-single-carousel-strategy';
 import SmartMultiCarouselStrategy from './strategy/smart-multi-carousel-strategy';
-import SmartCarouselSlide from './smart-carousel-slide';
+import SmartCarouselPlugin from './plugin/smart-carousel-plugin';
 
 interface StrategyMap {
 	[type: string]: (carousel: SmartCarousel) => SmartCarouselStrategy
@@ -21,6 +22,12 @@ const STRATEGIES: StrategyMap = { // TODO registry
 	single: (carousel: SmartCarousel) => new SmartSingleCarouselStrategy(carousel),
     multiple: (carousel: SmartCarousel) => new SmartMultiCarouselStrategy(carousel),
 };
+
+export interface SmartCarouselPluginConstructor {
+	new(owner: SmartCarousel): SmartCarouselPlugin;
+}
+
+const pluginRegistry : {[key: string]: SmartCarouselPluginConstructor} = {};
 
 // TODO: add ability to choose the number of an active slide
 
@@ -39,6 +46,7 @@ class SmartCarousel extends HTMLElement {
 	private _configRules: SmartRuleList<CarouselConfig>;
 	private _currentConfig: CarouselConfig;
 	private _strategy: SmartCarouselStrategy;
+	private _plugins: {[key: string]: SmartCarouselPlugin};
 
 	private readonly _onMatchChange: () => void;
 
@@ -123,8 +131,8 @@ class SmartCarousel extends HTMLElement {
 
 	protected connectedCallback() {
 		this.classList.add(SmartCarousel.is);
-		// this.$slides.forEach((slide: SmartCarouselSlide, index) => slide.index = index);
 
+		this._initPlugins();
 		this.update(true);
 		this._bindEvents();
 	}
@@ -144,12 +152,22 @@ class SmartCarousel extends HTMLElement {
 		}
 	}
 
+	private _initPlugins() {
+		this._plugins = {};
+		Object.keys(pluginRegistry).forEach((pluginName) => {
+			const Constructor = pluginRegistry[pluginName] ;
+			this._plugins[pluginName] = new Constructor(this);
+		});
+	}
+
 	protected _bindEvents() {
 		this.addEventListener('click', this._onClick, false);
+		Object.keys(this._plugins).forEach((key: string) => this._plugins[key].bind());
 	}
 
 	protected _unbindEvents() {
 		this.removeEventListener('click', this._onClick, false);
+		Object.keys(this._plugins).forEach((key: string) => this._plugins[key].destroy());
 	}
 
 	protected updateStrategy() {
@@ -219,6 +237,11 @@ class SmartCarousel extends HTMLElement {
 		return this.$slides.findIndex((slide) => {
 			return slide.active;
 		});
+	}
+
+	// Global Config
+	public static registerPlugin(pluginName: string, plugin: SmartCarouselPluginConstructor) {
+		pluginRegistry[pluginName] = plugin;
 	}
 
 	protected _onClick(event: MouseEvent) {
