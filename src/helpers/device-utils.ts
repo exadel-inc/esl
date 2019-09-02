@@ -6,11 +6,6 @@ export const isTouch = function isTouchDevice() {
     return window.matchMedia(query).matches;
   }
 
-  console.log('ontouchstart' in window);
-  console.log('TouchEvent ' in window);
-  console.log('DocumentTouch' in window);
-  console.log(document instanceof Touch);
-
   if (('ontouchstart' in window) || 'TouchEvent ' in window || 'DocumentTouch' in window && document instanceof Touch) {
     return true;
   }
