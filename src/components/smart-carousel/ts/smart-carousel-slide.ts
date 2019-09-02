@@ -2,7 +2,7 @@ class SmartCarouselSlide extends HTMLElement {
 
     private _index: number;
 
-    public static get ACTIVE_CLASS() { return 'active-slide';}
+    public static get ACTIVE_ATTRIBUTE() { return 'data-active-slide';}
 
     static get is() {
         return 'smart-carousel-slide';
@@ -21,11 +21,11 @@ class SmartCarouselSlide extends HTMLElement {
     }
 
     public get active(): boolean {
-        return this.hasAttribute(SmartCarouselSlide.ACTIVE_CLASS);
+        return this.hasAttribute(SmartCarouselSlide.ACTIVE_ATTRIBUTE);
     }
 
     _setActive(active: boolean) {
-        this.toggleAttribute(SmartCarouselSlide.ACTIVE_CLASS, active);
+        this.toggleAttribute(SmartCarouselSlide.ACTIVE_ATTRIBUTE, active);
     }
 }
 

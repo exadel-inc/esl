@@ -37,12 +37,15 @@ smart-carousel {
   }
 
   // Single Carousel Animation
-  [data-slide-item] {
-    display: none;
+  smart-carousel-slide {
+    // visibility: hidden;
   }
 
-  .active-slide, .left, .right {
+  [data-active-slide],
+  .left,
+  .right {
     display: block;
+    visibility: visible;
   }
   .prev {
     position: absolute;
@@ -95,7 +98,7 @@ smart-carousel {
   }
 
   // Multi Carousel Animation
-  &[strategy="multi"] [data-slide-item] {
+  &[strategy="multi"] smart-carousel-slide {
     display: block;
     transition: transform 1s linear;
   }

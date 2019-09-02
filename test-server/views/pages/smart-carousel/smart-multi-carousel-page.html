@@ -6,12 +6,8 @@ layout: ../../layouts/basic.html
 <div class="container-fluid">
     <div class="row flex-column">
         <h2>Demo 1: </h2>
-        <smart-carousel strategy="multi" config="
-                                    {count: 6, className: ''} |
-                                    @LG => {count: 5} |
-                                    @MD => {count: 4} |
-                                    @SM => {count: 3} |
-                                    @XS => {count: 2} |">
+        <p>The first slide is active (1 slide)</p>
+        <smart-carousel>
 
             <button type="button" role="presentation" class="arrow-prev" onclick="void 0">
                 <span class="icon-arrow-left" data-slide-target="prev"></span>
@@ -19,22 +15,20 @@ layout: ../../layouts/basic.html
 
             <div data-slides-area>
                 <!-- CAROUSEL-ITEM -->
-                <smart-carousel-slide class="active-slide"
+                <smart-carousel-slide data-active-slide
                                       style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>111</p>
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide class="active-slide"
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>222</p>
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide class="active-slide"
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>333</p>
                     </div>
@@ -46,85 +40,73 @@ layout: ../../layouts/basic.html
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide class="active-slide"
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>555</p>
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide class="active-slide"
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>666</p>
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide class="active-slide"
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>777</p>
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide class="active-slide"
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>888</p>
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide class="active-slide"
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>999</p>
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide class="active-slide"
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>101010</p>
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide class="active-slide"
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>111111</p>
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide class="active-slide"
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>121212</p>
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide class="active-slide"
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>131313</p>
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide class="active-slide"
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>141414</p>
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide class="active-slide"
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>151515</p>
                     </div>
                 </smart-carousel-slide>
 
-                <smart-carousel-slide class="active-slide"
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
                         <p>161616</p>
                     </div>
@@ -140,34 +122,114 @@ layout: ../../layouts/basic.html
 
         </smart-carousel>
     </div>
+</div>
 
+<div class="container-fluid">
     <div class="row flex-column">
         <h2>Demo 2: </h2>
-        <smart-carousel strategy="multi">
+        <p>The second slide is active (1 slide) !!!</p>
+        <smart-carousel>
+
             <button type="button" role="presentation" class="arrow-prev" onclick="void 0">
                 <span class="icon-arrow-left" data-slide-target="prev"></span>
             </button>
 
             <div data-slides-area>
                 <!-- CAROUSEL-ITEM -->
-                <smart-carousel-slide class="active-slide" style="background-color: #aaf;">
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>aaa</p>
+                        <p>111</p>
                     </div>
                 </smart-carousel-slide>
-                <smart-carousel-slide class="active-slide" style="background-color: #afa;">
+
+                <smart-carousel-slide data-active-slide
+                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>bbb</p>
+                        <p>222</p>
                     </div>
                 </smart-carousel-slide>
-                <smart-carousel-slide class="active-slide" style="background-color: #ffa;">
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>ccc</p>
+                        <p>333</p>
                     </div>
                 </smart-carousel-slide>
-                <smart-carousel-slide class="">
-                    <div class="post-text" style="background-color: #faa;">
-                        <p>ddd</p>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>444</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>555</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>666</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>777</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>888</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>999</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>101010</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>111111</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>121212</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>131313</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>141414</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>151515</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>161616</p>
                     </div>
                 </smart-carousel-slide>
                 <!-- /CAROUSEL-ITEM -->
@@ -178,51 +240,7 @@ layout: ../../layouts/basic.html
             </button>
 
             <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
-        </smart-carousel>
-    </div>
 
-    <div class="row flex-column">
-        <h2>Demo 3: </h2>
-        <smart-carousel strategy="multi">
-            <button type="button" role="presentation" class="arrow-prev" onclick="void 0">
-                <span class="icon-arrow-left" data-slide-target="prev"></span>
-            </button>
-
-            <div data-slides-area>
-                <!-- CAROUSEL-ITEM -->
-                <smart-carousel-slide class="active-slide" style="background-color: #aaf;">
-                    <div class="post-text">
-                        <p>aaa</p>
-                    </div>
-                </smart-carousel-slide>
-                <smart-carousel-slide class="active-slide" style="background-color: #afa;">
-                    <div class="post-text">
-                        <p>bbb</p>
-                    </div>
-                </smart-carousel-slide>
-                <smart-carousel-slide class="active-slide" style="background-color: #ffa;">
-                    <div class="post-text">
-                        <p>ccc</p>
-                    </div>
-                </smart-carousel-slide>
-                <smart-carousel-slide class="">
-                    <div class="post-text" style="background-color: #faa;">
-                        <p>ddd</p>
-                    </div>
-                </smart-carousel-slide>
-                <smart-carousel-slide class="">
-                    <div class="post-text" style="background-color: #faa;">
-                        <p>eee</p>
-                    </div>
-                </smart-carousel-slide>
-                <!-- /CAROUSEL-ITEM -->
-            </div>
-
-            <button type="button" role="presentation" class="arrow-next" onclick="void 0">
-                <span class="icon-arrow-right" data-slide-target="next"></span>
-            </button>
-
-            <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
         </smart-carousel>
     </div>
 </div>
