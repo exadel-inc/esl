@@ -14,6 +14,7 @@ smart-carousel {
     overflow: hidden;
     padding-bottom: 71px;
     width: 780px;
+    z-index: 0;
   }
 
   smart-carousel-slide {
@@ -28,7 +29,7 @@ smart-carousel {
     transition: transform 1s linear;
   }
 
-  .active-slide {
+  [active] {
     display: block;
     position: relative;
     visibility: visible;
@@ -37,11 +38,7 @@ smart-carousel {
   }
 
   // Single Carousel Animation
-  smart-carousel-slide {
-    // visibility: hidden;
-  }
-
-  [data-active-slide],
+  [active],
   .left,
   .right {
     display: block;

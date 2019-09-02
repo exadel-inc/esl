@@ -16,7 +16,7 @@
 	        var polyscript = document.createElement('script');
 	        polyscript.type = 'text/javascript';
 	        polyscript.src = '/polyfill-prebuild.js';
-            document.write(polyscript.outerHTML);
+	        document.head.appendChild(polyscript);
         }
     </script>
 </head>

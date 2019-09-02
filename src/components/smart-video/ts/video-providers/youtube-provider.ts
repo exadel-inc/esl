@@ -1,20 +1,19 @@
 /**
- * Youtube API provider for {@link SmartVideoEmbedded}
+ * Youtube API provider for {@link SmartVideo}
  * @version 1.0.0
- * @author Alexey Stsefanovich (ala'n)
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  * @extends BaseProvider
  * @protected
  */
 import {generateUId, loadScript} from '../../../../helpers/common-utils';
-import SmartVideoEmbedded from '../smart-video-embedded';
+import SmartVideo from '../smart-video';
 import {BaseProvider, PlayerStates} from '../smart-video-provider';
 import EmbeddedVideoProviderRegistry from '../smart-video-registry';
 
-interface YT extends Promise<void> {
-	Player: YT.Player,
-}
-
 declare global {
+	interface YT extends Promise<void> {
+		Player: YT.Player,
+	}
 	interface Window {
 		YT?: YT;
 		onYouTubeIframeAPIReady?: () => void;
@@ -23,7 +22,7 @@ declare global {
 
 interface VideoOptions {
 	title: string,
-	videoId: string,
+	dataId: string,
 	autoplay: boolean,
 	hideControls: boolean
 }
@@ -74,7 +73,7 @@ export class YouTubeProvider extends BaseProvider {
 		el.setAttribute('frameborder', '0');
 		el.setAttribute('tabindex', '0');
 		el.setAttribute('allowfullscreen', 'yes');
-		el.src = YouTubeProvider.buildIframeUrl(data.videoId, data.autoplay);
+		el.src = YouTubeProvider.buildIframeUrl(data.dataId, data.autoplay);
 		return el;
 	}
 

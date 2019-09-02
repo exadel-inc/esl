@@ -57,7 +57,7 @@ export default class SmartRuleList<T extends string | object> extends Observable
 	private readonly _rules: Array<SmartRule<T>>;
 
 	public static STRING_PARSER = (val: string) => val;
-	public static OBJECT_PARSER = <T extends object> (val: string) : T => {
+	public static OBJECT_PARSER = <T extends object> (val: string): T => {
 		try {
 			return eval('(' + val + ')') as T;
 		} catch (e) {

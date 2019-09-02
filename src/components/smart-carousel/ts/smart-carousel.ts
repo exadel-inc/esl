@@ -1,5 +1,5 @@
 import {attr} from '../../../helpers/decorators/attr';
-import {deepCompare} from "../../../helpers/common-utils";
+import {deepCompare} from '../../../helpers/common-utils';
 import {triggerComponentEvent} from '../../../helpers/component-utils';
 import SmartRuleList from '../../smart-query/ts/smart-rule-list';
 import SmartCarouselStrategy from './strategy/smart-carousel-strategy';
@@ -35,7 +35,6 @@ class SmartCarousel extends HTMLElement {
 	}
 
 	@attr() public config: string;
-	@attr({defaultValue: 'active-slide'}) public activeClass: string;
 
 	private _configRules: SmartRuleList<CarouselConfig>;
 	private _currentConfig: CarouselConfig;
@@ -184,7 +183,6 @@ class SmartCarousel extends HTMLElement {
 		this._currentConfig = Object.assign({}, config);
 
 		this.updateStrategy();
-		console.log("this._currentConfig: ", this._currentConfig.strategy);
 		if (force || this.activeIndexes.length !== this._currentConfig.count) {
 			this.updateSlidesCount();
 		}
