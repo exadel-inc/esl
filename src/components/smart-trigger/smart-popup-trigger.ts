@@ -16,18 +16,16 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
 
   static observedAttributes: Array<string> = ['data-target-id-toggle', 'data-target-id-show', 'data-target-id-hide'];
 
-  private connectedCallback() {
-    if(!!'data-target-id-toggle'){
-      this.addEventListener(ToggleEventType, () => {
-        (this.popup as SmartPopup).toggle();
-      })
-    }
+  protected connectedCallback() {
+    this.addEventListener(ToggleEventType, () => {
+      (this.popup as SmartPopup).toggle();
+    })
   }
 
   //private disconnectedCallback() { }
 
 
-  attributeChangedCallback(attr: string, prevValue: string, value: string) {
+  protected attributeChangedCallback(attr: string, prevValue: string, value: string) {
     switch (attr) {
       case 'data-target-id-toggle':
       case 'data-target-id-show':
