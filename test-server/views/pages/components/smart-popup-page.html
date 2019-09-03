@@ -23,21 +23,15 @@ layout: ../../layouts/basic.html
     </div>
 </smart-popup>
 
-<smart-popup-trigger data-target-id-toggle="my-uniq-id">
+<smart-popup-trigger data-target-id="my-uniq-id" data-event="click" data-mode="toggle">
     <span class="badge badge-info"> Toggle! </span>
 </smart-popup-trigger>
 
-<smart-popup-trigger data-target-id-show="my-uniq-id">
-    <span class="badge badge-info"> Show! </span>
-</smart-popup-trigger>
-
-<smart-popup-trigger data-target-id-hide="my-uniq-id">
-    <span class="badge badge-info"> Hide! </span>
-</smart-popup-trigger>
 
 <button type="button" onclick="document.getElementById('my-uniq-id').toggle()" class="btn btn-primary">Toggle</button>
 <button type="button" onclick="document.getElementById('my-uniq-id').show()" class="btn btn-success">Show</button>
 <button type="button" onclick="document.getElementById('my-uniq-id').hide()" class="btn btn-dark">Hide</button>
+
 
 #}}
 
