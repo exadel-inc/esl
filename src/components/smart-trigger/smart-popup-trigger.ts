@@ -2,15 +2,13 @@ import { isTouch } from '../../helpers/device-utils';
 import { ISmartTrigger } from './smart-triger-interface';
 import { SmartPopup } from '../smart-popup/smart-popup';
 
-// const HoverHideDelay = isTouch() ? 0 : 1000;
-// const ShowEventType = isTouch() ? 'click' : 'mouseleave';
-let eventType = isTouch() ? 'click' : 'mouseenter';
-let modeType = function () {
-  (this.popup as SmartPopup).toggle();
-}
+const hoverHideDelay = isTouch() ? 0 : 5000;
+let showEventType = isTouch() ? 'click' : 'mouseenter';
+const hideEventType = isTouch() ? 'click' : 'mouseleave';
+let modeType: any;
 
 export interface ISmartPopupActionParams {
-  trigger?: ISmartTrigger
+  trigger?: ISmartTrigger,
 }
 
 class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
@@ -20,13 +18,11 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
   static observedAttributes: Array<string> = ['data-target-id', 'data-event', 'data-mode'];
 
   protected connectedCallback() {
-    this.addEventListener(eventType, modeType)
+    this.attachEvent()
   }
 
-  //private disconnectedCallback() { }
-
-
   protected attributeChangedCallback(attr: string, prevValue: string, value: string) {
+    const pop = this.popup;
     switch (attr) {
       case 'data-target-id':
         if (prevValue !== value) {
@@ -34,13 +30,45 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
         }
         break;
       case 'data-event':
-        value === 'click' ? eventType = 'click' : value === 'mouseleave' ? eventType = 'mouseleave' : eventType;
+        this.removeEvent();
+        value === 'click' ? showEventType = 'click' :
+          value === 'mouseleave' ? hideEventType :
+             value === 'hover' ? this.attachEvent() :
+               showEventType;
+        this.attachEvent();
         break;
       case 'data-mode':
-        value === 'show' ? modeType = function () {(this.popup as SmartPopup).show(); } : value === 'hide' ? modeType = function () {(this.popup as SmartPopup).hide(); } : modeType;
+        this.removeEvent();
+        value === 'show' ? this.isShow(pop) :
+          value === 'hide' ? this.isHide(pop) :
+            this.isToggle(pop);
+        this.attachEvent();
         break;
     }
   }
+
+  attachEvent() {
+    this.addEventListener(showEventType, modeType);
+    this.addEventListener(hideEventType, modeType)
+  }
+
+  removeEvent() {
+    this.removeEventListener(showEventType, modeType);
+    this.removeEventListener(hideEventType, modeType);
+  }
+
+  isShow(pop: SmartPopup) {
+    return modeType = () => pop.show()
+  }
+
+  isHide(pop: SmartPopup) {
+    return modeType = () => pop.hide()
+  }
+
+  isToggle(pop: SmartPopup) {
+    return modeType = () => pop.toggle()
+  }
+
 }
 
 customElements.define(SmartPopupTrigger.is, SmartPopupTrigger);
