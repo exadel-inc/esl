@@ -3,26 +3,34 @@ import { ISmartTrigger } from './smart-triger-interface';
 import { SmartPopup } from '../smart-popup/smart-popup';
 
 const hoverHideDelay = isTouch() ? 0 : 5000;
-let showEventType = isTouch() ? 'click' : 'mouseenter';
-const hideEventType = isTouch() ? 'click' : 'mouseleave';
+const hoverShowEvent = isTouch() ? 'click' : 'mouseenter';
+const hoverHideEvent = isTouch() ? 'click' : 'mouseleave';
 let modeType: any;
+
+const events: Array<Object> = [];
 
 export interface ISmartPopupActionParams {
   trigger?: ISmartTrigger,
 }
 
 class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
+  protected eventType = {
+    showEvent: '',
+    hideEvent: '',
+    hideDelay: 0,
+    showDelay: 0,
+  };
+
   static readonly is: string = 'smart-popup-trigger';
   public popup: SmartPopup;
 
   static observedAttributes: Array<string> = ['data-target-id', 'data-event', 'data-mode'];
 
   protected connectedCallback() {
-    this.attachEvent()
   }
 
   protected attributeChangedCallback(attr: string, prevValue: string, value: string) {
-    const pop = this.popup;
+    // this.removeEvents();
     switch (attr) {
       case 'data-target-id':
         if (prevValue !== value) {
@@ -30,46 +38,65 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
         }
         break;
       case 'data-event':
-        this.removeEvent();
-        value === 'click' ? showEventType = 'click' :
-          value === 'mouseleave' ? hideEventType :
-             value === 'hover' ? this.attachEvent() :
-               showEventType;
-        this.attachEvent();
+        this.setEvents(value);
         break;
       case 'data-mode':
-        this.removeEvent();
-        value === 'show' ? this.isShow(pop) :
-          value === 'hide' ? this.isHide(pop) :
-            this.isToggle(pop);
-        this.attachEvent();
+        this.setMode(value);
         break;
     }
   }
 
-  attachEvent() {
-    this.addEventListener(showEventType, modeType);
-    this.addEventListener(hideEventType, modeType)
+  setEvents(value: string) {
+
+    switch (value) {
+      case 'hover':
+        this.eventType.showEvent = hoverShowEvent;
+        this.eventType.hideEvent = hoverHideEvent;
+        break;
+      default:
+        this.eventType.showEvent = this.eventType.hideEvent = value;
+    }
+
+    if (this.eventType.hideEvent === hoverHideEvent && isNaN(hoverHideDelay)) {
+      this.eventType.hideDelay = hoverHideDelay;
+    }
   }
 
-  removeEvent() {
-    this.removeEventListener(showEventType, modeType);
-    this.removeEventListener(hideEventType, modeType);
+  setMode(value: string) {
+    this.removeEvents();
+    const options = this.popup;
+    switch (value) {
+      case 'show':
+        this.addEventListener(this.eventType.showEvent, modeType = () => options.show());
+        events.push({ event: this.eventType.showEvent, handler: options.show });
+        break;
+      case 'hide':
+        this.addEventListener(this.eventType.hideEvent, modeType = () => options.hide());
+        events.push({ event: this.eventType.hideEvent, handler: options.hide });
+        break;
+      default:
+        if (this.eventType.showEvent === this.eventType.hideEvent) {
+          this.addEventListener(this.eventType.showEvent, modeType = () => options.toggle());
+        } else {
+          this.addEventListener(this.eventType.showEvent, modeType = () => options.show());
+          this.addEventListener(this.eventType.hideEvent, modeType = () => options.hide());
+        }
+    }
+    events.forEach((event: any) => {
+      this.addEventListener(event.event, event.handler);
+    })
   }
 
-  isShow(pop: SmartPopup) {
-    return modeType = () => pop.show()
-  }
 
-  isHide(pop: SmartPopup) {
-    return modeType = () => pop.hide()
+  removeEvents() {
+    events.forEach((event: any) => {
+      this.removeEventListener(event.event, event.handler);
+    })
   }
-
-  isToggle(pop: SmartPopup) {
-    return modeType = () => pop.toggle()
-  }
-
 }
 
+
 customElements.define(SmartPopupTrigger.is, SmartPopupTrigger);
-export { SmartPopupTrigger }
+export {
+  SmartPopupTrigger
+}
