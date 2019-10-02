@@ -7,8 +7,6 @@ const hoverShowEvent = isTouch() ? 'click' : 'mouseenter';
 const hoverHideEvent = isTouch() ? 'click' : 'mouseleave';
 let modeType: any;
 
-const events: Array<Object> = [];
-
 export interface ISmartPopupActionParams {
   trigger?: ISmartTrigger,
 }
@@ -24,10 +22,8 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
 
   static observedAttributes: Array<string> = ['data-target-id', 'data-event', 'data-mode'];
 
-  protected connectedCallback() {
-  }
-
   protected attributeChangedCallback(attr: string, prevValue: string, value: string) {
+    this.removeEvent();
     switch (attr) {
       case 'data-target-id':
         if (prevValue !== value) {
@@ -44,7 +40,6 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
   }
 
   setEvents(value: string) {
-
     switch (value) {
       case 'hover':
         this.eventType.showEvent = hoverShowEvent;
@@ -60,11 +55,9 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
     switch (value) {
       case 'show':
         this.showPopup(options);
-        events.push({ event: this.eventType.showEvent, handler: options.show });
         break;
       case 'hide':
         this.hidePopup(options);
-        events.push({ event: this.eventType.hideEvent, handler: options.hide });
         break;
       default:
         if (this.eventType.showEvent === this.eventType.hideEvent) {
@@ -74,20 +67,20 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
           this.hidePopup(options);
         }
     }
-    events.forEach((event: any) => {
-      this.addEventListener(event.event, event.handler);
-    })
+  }
+
+  protected removeEvent () {
+    this.removeEventListener(this.eventType.showEvent, modeType);
+    this.removeEventListener(this.eventType.hideEvent, modeType);
   }
 
   protected showPopup(options: SmartPopup) {
     modeType = () => options.show();
-    this.removeEventListener(this.eventType.showEvent, modeType);
     this.addEventListener(this.eventType.showEvent, modeType)
   }
 
   protected hidePopup(options: SmartPopup) {
     modeType = () => options.hide();
-    this.removeEventListener(this.eventType.hideEvent, modeType);
     this.addEventListener(this.eventType.hideEvent, () => {
       setTimeout(() => {
         modeType();
