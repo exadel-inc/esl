@@ -25,17 +25,6 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
 
   static observedAttributes: Array<string> = ['class'];
 
-  protected connectedCallback() {
-    this.addEventListener('keypress', function (event) {
-      if ( event.keyCode === 27 ) {
-            console.log('sdf');
-            return this;
-          }
-    })
-  }
-
-  private disconnectedCallback() {}
-
   attributeChangedCallback(attr: string, prevValue: string, value: string) {
     switch (attr) {
       case 'class':
