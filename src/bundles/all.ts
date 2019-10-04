@@ -15,7 +15,6 @@ import {SmartVideo} from '@components/smart-video/smart-video';
 import  {SmartPopup} from '@components/smart-popup/smart-popup';
 import {SmartPopupTrigger} from '@components/smart-trigger/smart-popup-trigger';
 import {SmartCarousel, SmartCarouselDots} from '@components/smart-carousel/smart-carousel';
-import {SmartPopupManager} from '@components/smart-popup-manager/smart-popup-manager';
 
 // TODO separate config
 // BreakpointRegistry.addCustomBreakpoint('xxs', 300, 600); // Definition
@@ -31,7 +30,6 @@ export {
 	SmartImage,
 	SmartPopup,
 	SmartPopupTrigger,
-	SmartPopupManager,
 	SmartVideo,
     SmartCarousel,
     SmartCarouselDots
