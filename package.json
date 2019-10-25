@@ -32,7 +32,8 @@
   "dependencies": {
     "@types/youtube": "0.0.37",
     "@webcomponents/custom-elements": "1.2.1",
-    "@webcomponents/webcomponents-platform": "^1.0.1"
+    "@webcomponents/webcomponents-platform": "^1.0.1",
+    "npm": "^6.11.3"
   },
   "devDependencies": {
     "autoprefixer": "^9.6.1",

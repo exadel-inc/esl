@@ -1,10 +1,11 @@
 import { triggerComponentEvent } from '../../helpers/component-utils';
 import { ISmartTrigger } from '../smart-trigger/smart-triger-interface';
+import Manager from '../smart-manager/smart-popup-manager';
 
 export enum STATES { CLOSE, OPEN }
 
 export interface ISmartPopupActionParams {
-  trigger?: ISmartTrigger
+  trigger?: ISmartTrigger;
 }
 
 export interface ISmartPopup {
@@ -20,10 +21,15 @@ export interface ISmartPopup {
 }
 
 class SmartPopup extends HTMLElement implements ISmartPopup {
+  protected options = {
+    closeOnBodyClick: false,
+    closeOnEsc: false
+  };
+  // protected Manager = Manager;
 
   static readonly is: string = 'smart-popup';
 
-  static observedAttributes: Array<string> = ['class'];
+  static observedAttributes: Array<string> = ['class', 'data-close-on-esc'];
 
   attributeChangedCallback(attr: string, prevValue: string, value: string) {
     switch (attr) {
@@ -34,6 +40,9 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
             triggerComponentEvent(this, 'popupStateChange');
           }
         }
+        break;
+      case 'data-close-on-esc':
+        this.closeOnEsc();
     }
   }
 
@@ -52,6 +61,14 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
   get newState(): STATES {
     return this.isOpen ? STATES.CLOSE : STATES.OPEN;
   }
+
+  closeOnEsc () {
+    document.onkeydown = (evt: KeyboardEvent) => {
+      if (evt.keyCode === 27) {
+        this.classList.remove(this.activeClass);
+      }
+    };
+  };
 
   show(params: ISmartPopupActionParams = {}) {
     this.classList.add(this.activeClass);

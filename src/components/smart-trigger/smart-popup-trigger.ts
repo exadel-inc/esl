@@ -5,17 +5,21 @@ import { SmartPopup } from '../smart-popup/smart-popup';
 const hoverHideDelay = isTouch() ? 0 : 1000;
 const hoverShowEvent = isTouch() ? 'click' : 'mouseenter';
 const hoverHideEvent = isTouch() ? 'click' : 'mouseleave';
-let modeType: any;
 
 export interface ISmartPopupActionParams {
   trigger?: ISmartTrigger,
 }
 
 class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
-  protected eventType = {
+  protected options = {
     showEvent: '',
-    hideEvent: ''
+    hideEvent: '',
+    closeOnBodyClick: false,
+    mode: '',
   };
+  protected popupShow: any;
+  protected popupHide: any;
+  protected timerId: number;
 
   static readonly is: string = 'smart-popup-trigger';
   public popup: SmartPopup;
@@ -35,61 +39,78 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
         break;
       case 'data-mode':
         this.setMode(value);
-        break;
+    }
+    if (this.popup && this.options.showEvent && this.options.mode) {
+      this.attachEvents();
     }
   }
 
-  setEvents(value: string) {
+  protected setEvents(value: string) {
     switch (value) {
       case 'hover':
-        this.eventType.showEvent = hoverShowEvent;
-        this.eventType.hideEvent = hoverHideEvent;
+        this.options.showEvent = hoverShowEvent;
+        this.options.hideEvent = hoverHideEvent;
         break;
       default:
-        this.eventType.showEvent = this.eventType.hideEvent = value;
+        this.options.showEvent = this.options.hideEvent = value;
     }
   }
 
   setMode(value: string) {
+    this.options.mode = value;
+  }
+
+  attachEvents() {
     const options = this.popup;
-    switch (value) {
+    switch (this.options.mode) {
       case 'show':
-        this.showPopup(options);
+        this.addShowEvent(options);
         break;
       case 'hide':
-        this.hidePopup(options);
+        this.addHideEvent(options);
         break;
       default:
-        if (this.eventType.showEvent === this.eventType.hideEvent) {
-          this.addEventListener(this.eventType.showEvent, this.togglePopup(options));
+        if (this.options.showEvent === this.options.hideEvent) {
+          this.addEventListener(this.options.showEvent, this.togglePopup(options));
         } else {
-          this.showPopup(options);
-          this.hidePopup(options);
+          if (this.options.hideEvent === 'mouseleave') {
+            this.hoverSubEvents();
+          }
+          this.addShowEvent(options);
+          this.addHideEvent(options);
         }
+    }
+    if (this.options.closeOnBodyClick && (this.options.showEvent === 'click' || this.options.hideEvent === 'click')) {
+      event.stopPropagation()
     }
   }
 
-  protected removeEvent () {
-    this.removeEventListener(this.eventType.showEvent, modeType);
-    this.removeEventListener(this.eventType.hideEvent, modeType);
+  protected hoverSubEvents() {
+    this.popup.addEventListener('mouseenter', () => clearTimeout(this.timerId));
+    this.popup.addEventListener('mouseleave', () => this.popupHide());
   }
 
-  protected showPopup(options: SmartPopup) {
-    modeType = () => options.show();
-    this.addEventListener(this.eventType.showEvent, modeType)
+  protected removeEvent() {
+    this.removeEventListener(this.options.showEvent, this.popupShow);
+    this.removeEventListener(this.options.hideEvent, this.popupHide);
   }
 
-  protected hidePopup(options: SmartPopup) {
-    modeType = () => options.hide();
-    this.addEventListener(this.eventType.hideEvent, () => {
-      setTimeout(() => {
-        modeType();
-      }, hoverHideDelay)
-    });
+  protected addShowEvent(options: SmartPopup) {
+    this.popupShow = () => options.show();
+    this.addEventListener(this.options.showEvent, this.popupShow)
+  }
+
+  protected addHideEvent(options: SmartPopup) {
+    this.popupHide = () => {
+      this.timerId = setTimeout(() => {
+        options.hide();
+      }, hoverHideDelay);
+    };
+    this.addEventListener(this.options.hideEvent, this.popupHide);
   }
 
   protected togglePopup(options: SmartPopup) {
-    return modeType = () => options.toggle()
+    return this.popupShow = () => options.toggle();
   }
 }
 

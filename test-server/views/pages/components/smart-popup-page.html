@@ -14,7 +14,7 @@ layout: ../../layouts/basic.html
 {{= layout.demoResources}}
 
 
-<smart-popup id="my-uniq-id" class="fade" active-class="show">
+<smart-popup id="my-uniq-id" class="fade" active-class="show" data-close-on-esc>
     <div class="alert alert-warning" role="alert">
         <strong>Holy guacamole!</strong> You should check in on some of those fields below.
         <button type="button" class="close" onclick="this.parentElement.parentElement.hide()" aria-label="Close">
@@ -23,14 +23,27 @@ layout: ../../layouts/basic.html
     </div>
 </smart-popup>
 
-
-<smart-popup-trigger data-target-id="my-uniq-id" data-event="hover" data-mode="toggle">
-    <span class="badge badge-info"> Trigger ! </span>
-</smart-popup-trigger>
+<div>
+    <smart-popup-trigger data-target-id="my-uniq-id" data-mode="show" data-event="hover" >
+        <span class="badge badge-info"> Trigger 1 </span>
+    </smart-popup-trigger>
+    <smart-popup-trigger data-target-id="my-uniq-id-1" data-mode="show" data-event="hover">
+        <span class="badge badge-info"> Trigger 2 </span>
+    </smart-popup-trigger>
+</div>
 
 <button type="button" onclick="document.getElementById('my-uniq-id').toggle()" class="btn btn-primary">Toggle</button>
 <button type="button" onclick="document.getElementById('my-uniq-id').show()" class="btn btn-success">Show</button>
 <button type="button" onclick="document.getElementById('my-uniq-id').hide()" class="btn btn-dark">Hide</button>
+
+<smart-popup id="my-uniq-id-1" class="fade" active-class="show" data-close-on-esc>
+    <div class="alert alert-warning" role="alert">
+        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+        <button type="button" class="close" onclick="this.parentElement.parentElement.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</smart-popup>
 
 #}}
 
