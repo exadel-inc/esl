@@ -13,6 +13,8 @@ export interface ISmartPopup {
 
   show(params?: ISmartPopupActionParams): this;
 
+  _show(params?: ISmartPopupActionParams): this;
+
   hide(params?: ISmartPopupActionParams): this;
 
   toggle(newState?: STATES): this;
@@ -24,12 +26,13 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
   protected options = {
     closeOnEsc: false,
     closeOnBodyClick: false,
+    group: ''
   };
   protected Manager = Manager;
 
   static readonly is: string = 'smart-popup';
 
-  static observedAttributes: Array<string> = ['class', 'data-close-popup'];
+  static observedAttributes: Array<string> = ['class', 'data-close-on-esc', 'data-group'];
 
   protected attributeChangedCallback(attr: string, prevValue: string, value: string) {
     switch (attr) {
@@ -41,10 +44,14 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
           }
         }
         break;
-      case 'data-close-popup':
-        // document.body.addEventListener('click', (evt) => {evt.stopPropagation()});
+      case 'data-close-on-esc':
+        // document.body.addEventListener('click', () => {event.stopPropagation()});
         this.closeOnEsc();
         break;
+      case 'data-group':
+        this.options.group = value;
+        this.Manager.remove(this);
+        this.Manager.register(this);
     }
   }
 
@@ -65,7 +72,6 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
   }
 
   protected closeOnEsc() {
-    this.Manager.register(this);
     document.addEventListener('keydown', (evt) => {
       if (evt.key === 'Escape') {
         this.classList.remove(this.activeClass);
@@ -74,10 +80,15 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
   };
 
   public show(params: ISmartPopupActionParams = {}) {
-    this.classList.add(this.activeClass);
+    // this.classList.add(this.activeClass);
     if (!this.isOpen) {
       this.Manager.show(this, params);
     }
+    return this;
+  }
+
+  public _show(params: ISmartPopupActionParams = {}) {
+    this.classList.add(this.activeClass);
     return this;
   }
 

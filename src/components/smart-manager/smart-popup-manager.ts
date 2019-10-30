@@ -42,7 +42,7 @@ export default {
     if (this.groups[group]) {
       this.groups[group].show(popup, params);
     } else {
-      popup._show(params);
+      popup.show(params);
     }
   },
   bindTriggerAndTarget: (trigger: any, target: any) => {
