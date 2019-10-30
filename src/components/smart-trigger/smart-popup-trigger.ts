@@ -14,8 +14,8 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
   protected options = {
     showEvent: '',
     hideEvent: '',
-    closeOnBodyClick: false,
     mode: '',
+    closeOnBodyClick: false,
   };
   protected popupShow: any;
   protected popupHide: any;
@@ -76,12 +76,12 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
           if (this.options.hideEvent === 'mouseleave') {
             this.hoverSubEvents();
           }
+          if (this.options.showEvent === 'click' || this.options.hideEvent === 'click') {
+            // this.preventDefault ()
+          }
           this.addShowEvent(options);
           this.addHideEvent(options);
         }
-    }
-    if (this.options.closeOnBodyClick && (this.options.showEvent === 'click' || this.options.hideEvent === 'click')) {
-      event.stopPropagation()
     }
   }
 

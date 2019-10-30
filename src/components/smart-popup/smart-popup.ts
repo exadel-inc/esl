@@ -22,16 +22,16 @@ export interface ISmartPopup {
 
 class SmartPopup extends HTMLElement implements ISmartPopup {
   protected options = {
+    closeOnEsc: false,
     closeOnBodyClick: false,
-    closeOnEsc: false
   };
-  // protected Manager = Manager;
+  protected Manager = Manager;
 
   static readonly is: string = 'smart-popup';
 
-  static observedAttributes: Array<string> = ['class', 'data-close-on-esc'];
+  static observedAttributes: Array<string> = ['class', 'data-close-popup'];
 
-  attributeChangedCallback(attr: string, prevValue: string, value: string) {
+  protected attributeChangedCallback(attr: string, prevValue: string, value: string) {
     switch (attr) {
       case 'class':
         if (prevValue !== null && prevValue !== value) {
@@ -41,8 +41,10 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
           }
         }
         break;
-      case 'data-close-on-esc':
+      case 'data-close-popup':
+        // document.body.addEventListener('click', (evt) => {evt.stopPropagation()});
         this.closeOnEsc();
+        break;
     }
   }
 
@@ -62,25 +64,29 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
     return this.isOpen ? STATES.CLOSE : STATES.OPEN;
   }
 
-  closeOnEsc () {
-    document.onkeydown = (evt: KeyboardEvent) => {
-      if (evt.keyCode === 27) {
+  protected closeOnEsc() {
+    this.Manager.register(this);
+    document.addEventListener('keydown', (evt) => {
+      if (evt.key === 'Escape') {
         this.classList.remove(this.activeClass);
       }
-    };
+    })
   };
 
-  show(params: ISmartPopupActionParams = {}) {
+  public show(params: ISmartPopupActionParams = {}) {
     this.classList.add(this.activeClass);
+    if (!this.isOpen) {
+      this.Manager.show(this, params);
+    }
     return this;
   }
 
-  hide(params: ISmartPopupActionParams = {}) {
+  public hide(params: ISmartPopupActionParams = {}) {
     this.classList.remove(this.activeClass);
     return this;
   }
 
-  toggle(newState: STATES = this.newState, params?: ISmartPopupActionParams) {
+  public toggle(newState: STATES = this.newState, params?: ISmartPopupActionParams) {
     switch (newState) {
       case STATES.OPEN:
         this.show(params);
