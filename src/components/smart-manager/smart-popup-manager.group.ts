@@ -1,7 +1,7 @@
 import { ISmartPopupActionParams, SmartPopup } from '@components/smart-popup/smart-popup';
 
 export default class Group {
-  protected popups: Array<any> = [];
+  protected popups: object[] = [];
 
   protected register(popup: SmartPopup) {
     this.popups.push(popup);

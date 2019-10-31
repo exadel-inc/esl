@@ -1,12 +1,10 @@
-import { ISmartPopupActionParams } from '@components/smart-popup/smart-popup';
+import { ISmartPopupActionParams, SmartPopup } from '@components/smart-popup/smart-popup';
 import Group from './smart-popup-manager.group';
 
-const all: any[] = [];
+const all: SmartPopup[] = [];
 
 document.body.onclick = () => all.forEach((popup) => {
-  if (popup.options.closeOnBodyClick) {
-      popup.hide();
-  }
+  popup.hide();
 });
 
 function uniqueId(prefix: any) {
@@ -17,7 +15,7 @@ function uniqueId(prefix: any) {
 
 export default {
   groups: {},
-  register: function (popup: any) {
+  register(popup: any) {
     const { options: { group } } = popup;
     if (group) {
       this.groups[group] = this.groups[group] || new Group();
@@ -25,7 +23,7 @@ export default {
     }
     all.push(popup);
   },
-  remove: function (popup: any) {
+  remove(popup: any) {
     const index = all.indexOf(popup);
     if (index < 0) return;
     all.splice(index, 1);
@@ -37,7 +35,7 @@ export default {
       }
     }
   },
-  show: function (popup: any, params: ISmartPopupActionParams) {
+  show(popup: any, params: ISmartPopupActionParams) {
     const { options: { group } } = popup;
     if (this.groups[group]) {
       this.groups[group].show(popup, params);
@@ -45,7 +43,7 @@ export default {
       popup.show(params);
     }
   },
-  bindTriggerAndTarget: (trigger: any, target: any) => {
+  bindTriggerAndTarget(trigger: any, target: any) {
     const uid = target.attr('id') || uniqueId('smart-popup-');
     trigger.attr('data-target-id', uid);
     target.attr('id', uid);

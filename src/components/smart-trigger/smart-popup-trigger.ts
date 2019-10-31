@@ -6,19 +6,14 @@ const hoverHideDelay = isTouch() ? 0 : 1000;
 const hoverShowEvent = isTouch() ? 'click' : 'mouseenter';
 const hoverHideEvent = isTouch() ? 'click' : 'mouseleave';
 
-export interface ISmartPopupActionParams {
-  trigger?: ISmartTrigger,
-}
-
 class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
   protected options = {
     showEvent: '',
     hideEvent: '',
-    mode: '',
-    closeOnBodyClick: false,
+    mode: ''
   };
-  protected popupShow: any;
-  protected popupHide: any;
+  protected popupShow: EventListener;
+  protected popupHide: EventListener;
   protected timerId: number;
 
   static readonly is: string = 'smart-popup-trigger';
@@ -87,7 +82,7 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
 
   protected hoverSubEvents() {
     this.popup.addEventListener('mouseenter', () => clearTimeout(this.timerId));
-    this.popup.addEventListener('mouseleave', () => this.popupHide());
+    this.popup.addEventListener('mouseleave', (evt: Event) => this.popupHide(evt))
   }
 
   protected removeEvent() {

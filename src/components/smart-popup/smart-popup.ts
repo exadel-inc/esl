@@ -24,8 +24,6 @@ export interface ISmartPopup {
 
 class SmartPopup extends HTMLElement implements ISmartPopup {
   protected options = {
-    closeOnEsc: false,
-    closeOnBodyClick: false,
     group: ''
   };
   protected Manager = Manager;
@@ -45,7 +43,6 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
         }
         break;
       case 'data-close-on-esc':
-        // document.body.addEventListener('click', () => {event.stopPropagation()});
         this.closeOnEsc();
         break;
       case 'data-group':
@@ -80,7 +77,6 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
   };
 
   public show(params: ISmartPopupActionParams = {}) {
-    // this.classList.add(this.activeClass);
     if (!this.isOpen) {
       this.Manager.show(this, params);
     }
