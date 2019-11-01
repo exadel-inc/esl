@@ -71,9 +71,6 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
           if (this.options.hideEvent === 'mouseleave') {
             this.hoverSubEvents();
           }
-          if (this.options.showEvent === 'click' || this.options.hideEvent === 'click') {
-            // this.preventDefault ()
-          }
           this.addShowEvent(options);
           this.addHideEvent(options);
         }

@@ -14,7 +14,7 @@ layout: ../../layouts/basic.html
 {{= layout.demoResources}}
 
 
-<smart-popup id="my-uniq-id-1" class="fade" active-class="show" data-close-popup data-group="group">
+<smart-popup id="my-uniq-id-1" class="fade" active-class="show" data-close-on-esc data-group="group">
     <div class="alert alert-warning" role="alert">
         <strong>Holy guacamole!</strong> You should check in on some of those fields below.
         <button type="button" class="close" onclick="this.parentElement.parentElement.hide()" aria-label="Close">
@@ -33,7 +33,7 @@ layout: ../../layouts/basic.html
 </smart-popup>
 
 <div>
-    <smart-popup-trigger data-target-id="my-uniq-id-1" data-mode="toggle" data-event="hover" >
+    <smart-popup-trigger data-target-id="my-uniq-id-1" data-mode="show" data-event="hover" >
         <span class="badge badge-info"> Trigger 1 </span>
     </smart-popup-trigger>
     <smart-popup-trigger data-target-id="my-uniq-id-2" data-mode="show" data-event="hover" >
