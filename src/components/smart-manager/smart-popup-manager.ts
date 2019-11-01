@@ -3,9 +3,9 @@ import Group from './smart-popup-manager.group';
 
 const all: SmartPopup[] = [];
 
-document.body.onclick = () => all.forEach((popup) => {
-  popup.hide();
-});
+// document.body.onclick = () => all.forEach((popup) => {
+//   popup.hide();
+// });
 
 function uniqueId(prefix: any) {
   let idCounter = 0;
