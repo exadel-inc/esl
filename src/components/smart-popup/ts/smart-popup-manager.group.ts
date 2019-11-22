@@ -1,4 +1,4 @@
-import { ISmartPopupActionParams, SmartPopup } from '@components/smart-popup/smart-popup';
+import SmartPopup from './smart-popup';
 
 export default class Group {
   protected popups: SmartPopup[] = [];

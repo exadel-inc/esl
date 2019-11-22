@@ -1,10 +1,12 @@
-import { isTouch } from '../../helpers/device-utils';
-import { ISmartTrigger } from './smart-triger-interface';
-import { SmartPopup } from '../smart-popup/smart-popup';
+import { isTouch } from '@helpers/device-utils';
+import SmartPopup from './smart-popup';
 
 const hoverHideDelay = isTouch() ? 0 : 1000;
 const hoverShowEvent = isTouch() ? 'click' : 'mouseenter';
 const hoverHideEvent = isTouch() ? 'click' : 'mouseleave';
+
+export interface ISmartTrigger extends HTMLElement {
+}
 
 class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
   protected options = {
@@ -111,6 +113,4 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
 }
 
 customElements.define(SmartPopupTrigger.is, SmartPopupTrigger);
-export {
-  SmartPopupTrigger
-}
+export default SmartPopupTrigger;
