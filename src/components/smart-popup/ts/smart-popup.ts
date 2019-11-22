@@ -20,10 +20,6 @@ export interface ISmartPopup {
 }
 
 class SmartPopup extends HTMLElement implements ISmartPopup {
-  protected options = {
-    group: ''
-  };
-  protected Manager = Manager;
 
   static get is() {
     return 'smart-popup';
@@ -32,6 +28,11 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
   static get observedAttributes() {
     return ['class', 'data-close-on-esc', 'data-group'];
   }
+
+  protected Manager = Manager;
+  protected options = {
+    group: ''
+  };
 
   protected attributeChangedCallback(attr: string, prevValue: string, value: string) {
     switch (attr) {

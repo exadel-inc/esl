@@ -1,14 +1,25 @@
 import { isTouch } from '@helpers/device-utils';
 import SmartPopup from './smart-popup';
 
-const hoverHideDelay = isTouch() ? 0 : 1000;
-const hoverShowEvent = isTouch() ? 'click' : 'mouseenter';
-const hoverHideEvent = isTouch() ? 'click' : 'mouseleave';
+const HOVER_HIDE_DELAY = isTouch() ? 0 : 1000;
+const HOVER_SHOW_EVENT = isTouch() ? 'click' : 'mouseenter';
+const HOVER_HIDE_EVENT = isTouch() ? 'click' : 'mouseleave';
 
 export interface ISmartTrigger extends HTMLElement {
 }
 
 class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
+
+  static get is() {
+    return 'smart-popup-trigger';
+  }
+
+  static get observedAttributes() {
+    return ['data-target-id', 'data-event', 'data-mode'];
+  }
+
+  public popup: SmartPopup;
+
   protected options = {
     showEvent: '',
     hideEvent: '',
@@ -17,18 +28,10 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
   protected popupShow: EventListener;
   protected popupHide: EventListener;
   protected timerId: number;
-
-  static get is() {
-    return 'smart-popup-trigger';
-  }
-  public popup: SmartPopup;
-
-  static get observedAttributes() {
-    return ['data-target-id', 'data-event', 'data-mode'];
-  }
+  protected hideDelay = 0;
 
   protected attributeChangedCallback(attr: string, prevValue: string, value: string) {
-    this.removeEvent();
+    this.removeEvents();
     switch (attr) {
       case 'data-target-id':
         if (prevValue !== value) {
@@ -49,11 +52,17 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
   protected setEvents(value: string) {
     switch (value) {
       case 'hover':
-        this.options.showEvent = hoverShowEvent;
-        this.options.hideEvent = hoverHideEvent;
+        this.options.showEvent = HOVER_SHOW_EVENT;
+        this.options.hideEvent = HOVER_HIDE_EVENT;
         break;
       default:
         this.options.showEvent = this.options.hideEvent = value;
+    }
+
+    if (this.options.hideEvent === HOVER_HIDE_EVENT) {
+      this.hideDelay = HOVER_HIDE_DELAY;
+    } else {
+      this.hideDelay = 0;
     }
   }
 
@@ -62,53 +71,53 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
   }
 
   protected attachEvents() {
-    const options = this.popup;
     switch (this.options.mode) {
       case 'show':
-        this.addShowEvent(options);
+        this.addShowEvent();
         break;
       case 'hide':
-        this.addHideEvent(options);
+        this.addHideEvent();
         break;
       default:
         if (this.options.showEvent === this.options.hideEvent) {
-          this.addEventListener(this.options.showEvent, this.togglePopup(options));
+          this.addToggleEvent();
         } else {
-          if (this.options.hideEvent === 'mouseleave') {
-            this.hoverSubEvents();
-          }
-          this.addShowEvent(options);
-          this.addHideEvent(options);
+          this.addShowEvent();
+          this.addHideEvent();
         }
+    }
+    if (this.options.hideEvent === 'mouseleave') {
+      this.hoverSubEvents();
     }
   }
 
   protected hoverSubEvents() {
     this.popup.addEventListener('mouseenter', () => clearTimeout(this.timerId));
-    this.popup.addEventListener('mouseleave', (evt: Event) => this.popupHide(evt))
+    this.popup.addEventListener('mouseleave', (e: Event) => this.popupHide(e));
   }
 
-  protected removeEvent() {
+  protected removeEvents() {
     this.removeEventListener(this.options.showEvent, this.popupShow);
     this.removeEventListener(this.options.hideEvent, this.popupHide);
   }
 
-  protected addShowEvent(options: SmartPopup) {
-    this.popupShow = () => options.show();
-    this.addEventListener(this.options.showEvent, this.popupShow)
+  protected addShowEvent() {
+    this.popupShow = () => this.popup.show();
+    this.addEventListener(this.options.showEvent, this.popupShow);
   }
 
-  protected addHideEvent(options: SmartPopup) {
+  protected addHideEvent() {
     this.popupHide = () => {
       this.timerId = setTimeout(() => {
-        options.hide();
-      }, hoverHideDelay);
+        this.popup.hide();
+      }, this.hideDelay);
     };
     this.addEventListener(this.options.hideEvent, this.popupHide);
   }
 
-  protected togglePopup(options: SmartPopup) {
-    return this.popupShow = () => options.toggle();
+  protected addToggleEvent() {
+    this.popupShow = () => this.popup.toggle();
+    this.addEventListener(this.options.showEvent, this.popupShow);
   }
 }
 
