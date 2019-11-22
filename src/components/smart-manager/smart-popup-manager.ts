@@ -7,12 +7,6 @@ const all: SmartPopup[] = [];
 //   popup.hide();
 // });
 
-function uniqueId(prefix: any) {
-  let idCounter = 0;
-  const id = ++idCounter;
-  return prefix.toString + id;
-}
-
 export default {
   groups: {},
   register(popup: any) {
@@ -35,18 +29,11 @@ export default {
       }
     }
   },
-  show(popup: any, params: ISmartPopupActionParams) {
+  hidePopupsInGroup(popup: any) {
     const { options: { group } } = popup;
     if (this.groups[group]) {
-      this.groups[group].show(popup, params);
-    } else {
-      popup.show(params);
+      this.groups[group].hidePopups();
     }
-  },
-  bindTriggerAndTarget(trigger: any, target: any) {
-    const uid = target.attr('id') || uniqueId('smart-popup-');
-    trigger.attr('data-target-id', uid);
-    target.attr('id', uid);
   }
 };
 

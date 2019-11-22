@@ -1,7 +1,7 @@
 import { ISmartPopupActionParams, SmartPopup } from '@components/smart-popup/smart-popup';
 
 export default class Group {
-  protected popups: object[] = [];
+  protected popups: SmartPopup[] = [];
 
   protected register(popup: SmartPopup) {
     this.popups.push(popup);
@@ -12,9 +12,8 @@ export default class Group {
     (index >= 0) && this.popups.splice(index, 1);
   }
 
-  protected show(popup: SmartPopup, params: ISmartPopupActionParams) {
+  protected hidePopups() {
     this.popups.forEach((p: SmartPopup) => p.hide());
-    popup._show(params);
   }
 
   get size() {

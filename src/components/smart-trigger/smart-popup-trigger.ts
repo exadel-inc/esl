@@ -16,10 +16,14 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
   protected popupHide: EventListener;
   protected timerId: number;
 
-  static readonly is: string = 'smart-popup-trigger';
+  static get is() {
+    return 'smart-popup-trigger';
+  }
   public popup: SmartPopup;
 
-  static observedAttributes: Array<string> = ['data-target-id', 'data-event', 'data-mode'];
+  static get observedAttributes() {
+    return ['data-target-id', 'data-event', 'data-mode'];
+  }
 
   protected attributeChangedCallback(attr: string, prevValue: string, value: string) {
     this.removeEvent();
@@ -51,11 +55,11 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
     }
   }
 
-  setMode(value: string) {
+  protected setMode(value: string) {
     this.options.mode = value;
   }
 
-  attachEvents() {
+  protected attachEvents() {
     const options = this.popup;
     switch (this.options.mode) {
       case 'show':

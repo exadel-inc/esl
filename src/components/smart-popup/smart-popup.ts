@@ -1,8 +1,7 @@
 import { triggerComponentEvent } from '../../helpers/component-utils';
 import { ISmartTrigger } from '../smart-trigger/smart-triger-interface';
 import Manager from '../smart-manager/smart-popup-manager';
-
-export enum STATES { CLOSE, OPEN }
+import {ESC} from '@helpers/keycodes';
 
 export interface ISmartPopupActionParams {
   trigger?: ISmartTrigger;
@@ -13,11 +12,9 @@ export interface ISmartPopup {
 
   show(params?: ISmartPopupActionParams): this;
 
-  _show(params?: ISmartPopupActionParams): this;
-
   hide(params?: ISmartPopupActionParams): this;
 
-  toggle(newState?: STATES): this;
+  toggle(newState?: boolean): this;
 
   lazyInit?(): Promise<boolean> | void;
 }
@@ -28,9 +25,13 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
   };
   protected Manager = Manager;
 
-  static readonly is: string = 'smart-popup';
+  static get is() {
+    return 'smart-popup';
+  }
 
-  static observedAttributes: Array<string> = ['class', 'data-close-on-esc', 'data-group'];
+  static get observedAttributes() {
+    return ['class', 'data-close-on-esc', 'data-group'];
+  }
 
   protected attributeChangedCallback(attr: string, prevValue: string, value: string) {
     switch (attr) {
@@ -43,7 +44,10 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
         }
         break;
       case 'data-close-on-esc':
-        this.closeOnEsc();
+        this.unbindCloseOnEsc();
+        if (value !== null) {
+          this.bindCloseOnEsc();
+        }
         break;
       case 'data-group':
         this.options.group = value;
@@ -60,48 +64,45 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
     return this.classList.contains(this.activeClass);
   }
 
-  get state(): STATES {
-    return this.isOpen ? STATES.OPEN : STATES.CLOSE;
+  get state(): boolean {
+    return this.isOpen;
   }
 
-  get newState(): STATES {
-    return this.isOpen ? STATES.CLOSE : STATES.OPEN;
+  get newState(): boolean {
+    return !this.isOpen;
   }
 
-  protected closeOnEsc() {
-    document.addEventListener('keydown', (evt) => {
-      if (evt.key === 'Escape') {
-        this.classList.remove(this.activeClass);
-      }
-    })
+  protected bindCloseOnEsc() {
+    this.addEventListener('keydown', this.closeOnEsc);
+  }
+
+  protected unbindCloseOnEsc() {
+    this.removeEventListener('keydown', this.closeOnEsc);
+  }
+
+  protected closeOnEsc(e: any) {
+    if (e.which === ESC) {
+      this.classList.remove(this.activeClass);
+    }
   };
 
   public show(params: ISmartPopupActionParams = {}) {
     if (!this.isOpen) {
-      this.Manager.show(this, params);
+      this.Manager.hidePopupsInGroup(this);
+      this.classList.add(this.activeClass);
     }
-    return this;
-  }
-
-  public _show(params: ISmartPopupActionParams = {}) {
-    this.classList.add(this.activeClass);
     return this;
   }
 
   public hide(params: ISmartPopupActionParams = {}) {
-    this.classList.remove(this.activeClass);
+    if (this.isOpen) {
+      this.classList.remove(this.activeClass);
+    }
     return this;
   }
 
-  public toggle(newState: STATES = this.newState, params?: ISmartPopupActionParams) {
-    switch (newState) {
-      case STATES.OPEN:
-        this.show(params);
-        break;
-      case STATES.CLOSE:
-        this.hide(params);
-        break;
-    }
+  public toggle(newState: boolean = this.newState, params?: ISmartPopupActionParams) {
+    newState ? this.show(params) : this.hide(params);
     return this;
   }
 }
