@@ -12,8 +12,12 @@ export default class Group {
     (index >= 0) && this.popups.splice(index, 1);
   }
 
-  protected hidePopups() {
-    this.popups.forEach((p: SmartPopup) => p.hide());
+  protected hidePopups(popup: SmartPopup) {
+    this.popups.forEach((p: SmartPopup) => {
+      if (popup !== p) {
+        p.hide();
+      }
+    });
   }
 
   get size() {
