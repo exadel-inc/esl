@@ -20,7 +20,7 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
       'target-id',
       'event',
       'mode',
-      'active-class',
+      'active',
       'show-delay',
       'hide-delay'
     ];
@@ -35,7 +35,7 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
   protected hideTimerId: number;
   protected showDelay = 0;
   protected hideDelay = 0;
-  protected activeClass = 'active';
+  protected activeAttr = 'active';
 
   protected attributeChangedCallback(attr: string, prevValue: string, value: string) {
     this._unbindEvents();
@@ -43,14 +43,14 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
       case 'target-id':
         this.setPopup(value);
         break;
+      case 'active':
+        this.setState();
+        break;
       case 'event':
         this.setEvents(value);
         break;
       case 'mode':
         this.setMode(value);
-        break;
-      case 'active-class':
-        this.setActiveClass(value);
         break;
       case 'show-delay':
         this.setShowDelay(value);
@@ -75,10 +75,17 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
     this.unbindHoverSubEvents();
   }
 
+  get isActive(): boolean {
+    return this.hasAttribute(this.activeAttr);
+  }
+
   protected setPopup(value: string) {
     this.unbindPopupEvents();
     if (value) {
       this.popup = document.getElementById(value) as SmartPopup;
+      if (this.popup && this.popup.isOpen) {
+        this.setAttribute(this.activeAttr, '');
+      }
       this.bindPopupEvents();
     }
   }
@@ -98,11 +105,11 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
   }
 
   protected onPopupShown = () => {
-    this.classList.add(this.activeClass);
+    this.setAttribute(this.activeAttr, '');
   };
 
   protected onPopupHidden = () => {
-    this.classList.remove(this.activeClass);
+    this.removeAttribute(this.activeAttr);
   };
 
   protected setEvents(value: string) {
@@ -125,8 +132,10 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
     this.mode = value || 'toggle';
   }
 
-  protected setActiveClass(value: string) {
-    this.activeClass = value || 'active';
+  protected setState() {
+    if (this.popup) {
+      this.isActive ? this.popup.show() : this.popup.hide();
+    }
   }
 
   protected setShowDelay(value: string) {
