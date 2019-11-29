@@ -5,10 +5,11 @@ const HOVER_HIDE_DELAY = isTouch() ? 0 : 1000;
 const HOVER_SHOW_EVENT = isTouch() ? 'click' : 'mouseenter';
 const HOVER_HIDE_EVENT = isTouch() ? 'click' : 'mouseleave';
 
-export interface ISmartTrigger extends HTMLElement {
+export interface ISmartPopupTrigger extends HTMLElement {
+  popup: SmartPopup;
 }
 
-class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
+class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
 
   static get is() {
     return 'smart-popup-trigger';
@@ -27,9 +28,9 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
 
   public popup: SmartPopup;
 
-  protected showEvent = '';
-  protected hideEvent = '';
-  protected mode = '';
+  protected showEvent = 'click';
+  protected hideEvent = 'click';
+  protected mode = 'toggle';
   protected showTimerId: number;
   protected hideTimerId: number;
   protected showDelay = 0;
@@ -58,18 +59,41 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
         this.setHideDelay(value);
         break;
     }
-    if (this.popup && this.showEvent && this.mode && this.activeClass) {
+    if (this.popup && this.showEvent && this.mode) {
       this._bindEvents();
     }
   }
 
+  protected connectedCallback() {
+    this.classList.add(SmartPopupTrigger.is);
+    this.bindPopupEvents();
+    this.bindHoverSubEvents();
+  }
+
+  protected disconnectedCallback() {
+    this.unbindPopupEvents();
+    this.unbindHoverSubEvents();
+  }
+
   protected setPopup(value: string) {
-    this.popup && this.popup.removeEventListener('show', this.onPopupShown);
-    this.popup && this.popup.removeEventListener('hide', this.onPopupHidden);
+    this.unbindPopupEvents();
     if (value) {
       this.popup = document.getElementById(value) as SmartPopup;
+      this.bindPopupEvents();
+    }
+  }
+
+  protected bindPopupEvents() {
+    if (this.popup) {
       this.popup.addEventListener('show', this.onPopupShown);
       this.popup.addEventListener('hide', this.onPopupHidden);
+    }
+  }
+
+  protected unbindPopupEvents() {
+    if (this.popup) {
+      this.popup.removeEventListener('show', this.onPopupShown);
+      this.popup.removeEventListener('hide', this.onPopupHidden);
     }
   }
 
@@ -106,11 +130,11 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
   }
 
   protected setShowDelay(value: string) {
-    this.showDelay = parseInt(value) || 0;
+    this.showDelay = parseInt(value, 10) || 0;
   }
 
   protected setHideDelay(value: string) {
-    this.hideDelay = parseInt(value) || 0;
+    this.hideDelay = parseInt(value, 10) || 0;
     if (this.hideEvent === HOVER_HIDE_EVENT) {
       this.hideDelay = HOVER_HIDE_DELAY;
     }
@@ -132,14 +156,22 @@ class SmartPopupTrigger extends HTMLElement implements ISmartTrigger {
           this.bindHideEvent();
         }
     }
-    if (this.hideEvent === 'mouseleave') {
-      this.bindHoverSubEvents();
+    this.unbindHoverSubEvents();
+    this.bindHoverSubEvents();
+  }
+
+  protected unbindHoverSubEvents() {
+    if (this.popup) {
+      this.popup.removeEventListener('mouseenter', this.onPopupMouseEnter);
+      this.popup.removeEventListener('mouseleave', this.onPopupMouseLeave);
     }
   }
 
   protected bindHoverSubEvents() {
-    this.popup.addEventListener('mouseenter', this.onPopupMouseEnter);
-    this.popup.addEventListener('mouseleave', this.onPopupMouseLeave);
+    if (this.popup && this.hideEvent === 'mouseleave') {
+      this.popup.addEventListener('mouseenter', this.onPopupMouseEnter);
+      this.popup.addEventListener('mouseleave', this.onPopupMouseLeave);
+    }
   }
 
   protected onPopupMouseEnter = () => {

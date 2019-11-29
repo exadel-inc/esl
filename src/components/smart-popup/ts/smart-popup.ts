@@ -1,10 +1,10 @@
 import { triggerComponentEvent } from '@helpers/component-utils';
 import { ESC } from '@helpers/keycodes';
-import { ISmartTrigger } from './smart-popup-trigger';
+import { ISmartPopupTrigger } from './smart-popup-trigger';
 import Manager from './smart-popup-manager';
 
 export interface ISmartPopupActionParams {
-  trigger?: ISmartTrigger;
+  trigger?: ISmartPopupTrigger;
 }
 
 export interface ISmartPopup {
@@ -67,6 +67,15 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
       case 'data-close-button':
         this.setCloseButton(value);
     }
+  }
+
+  protected connectedCallback() {
+    this.classList.add(SmartPopup.is);
+    this.Manager.register(this);
+  }
+
+  protected disconnectedCallback() {
+    this.Manager.remove(this);
   }
 
   get isOpen(): boolean {
