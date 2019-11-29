@@ -2,8 +2,8 @@ export const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Oper
 
 export const isTouch = function isTouchDevice() {
   const prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
-  const mq = function (query: string) {
-    return window.matchMedia(query).matches;
+  const mq = function (q: string) {
+    return window.matchMedia(q).matches;
   };
 
   if (('ontouchstart' in window) || 'TouchEvent ' in window || 'DocumentTouch' in window && document instanceof Touch) {
