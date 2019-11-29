@@ -7,53 +7,50 @@ layout: ../../layouts/basic.html
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
 <!-- CUSTOM STYLES -->
-<style>
-    smart-popup {
-        display: block;
-    }
-</style>
+<style></style>
 #}}
 
 {{##content:
 {{= layout.demoResources}}
 
 <div class="container">
-    <smart-popup id="my-uniq-id-1"
-                 class="fade show"
-                 data-active-class="show"
-                 data-group="group"
-                 data-body-class="popup-opened"
-                 data-close-button=".close-button"
-                 data-close-on-esc>
-        <div class="alert alert-warning" role="alert">
-            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-            <button type="button" class="close close-button" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    </smart-popup>
+    <div style="height: 55px;">
+        <smart-popup id="my-uniq-id-1"
+                     group="group"
+                     body-class="popup-opened"
+                     close-button=".close-button"
+                     close-on-esc
+                     active>
+            <div class="alert alert-warning" role="alert">
+                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                <button type="button" class="close close-button" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </smart-popup>
+    </div>
 
-    <smart-popup id="my-uniq-id-2"
-                 class="fade"
-                 data-active-class="show"
-                 data-group="group"
-                 data-close-button=".close-button"
-                 data-close-on-esc
-                 data-close-on-body-click>
-        <div class="alert alert-warning" role="alert">
-            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-            <button type="button" class="close close-button" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    </smart-popup>
+    <div style="height: 55px;">
+        <smart-popup id="my-uniq-id-2"
+                     group="group"
+                     close-button=".close-button"
+                     close-on-esc
+                     close-on-body-click>
+            <div class="alert alert-warning" role="alert">
+                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                <button type="button" class="close close-button" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </smart-popup>
+    </div>
 
     Triggers
     <p>
-        <smart-popup-trigger data-target-id="my-uniq-id-1" data-mode="show" data-event="click">
+        <smart-popup-trigger target-id="my-uniq-id-1" mode="show" event="click">
             <button type="button" class="btn btn-info">Trigger 1</button>
         </smart-popup-trigger>
-        <smart-popup-trigger data-target-id="my-uniq-id-2" data-mode="toggle" data-event="hover">
+        <smart-popup-trigger target-id="my-uniq-id-2" mode="toggle" event="hover">
             <button type="button" class="btn btn-info">Trigger 2</button>
         </smart-popup-trigger>
     </p>

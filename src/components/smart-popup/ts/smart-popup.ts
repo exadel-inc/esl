@@ -27,18 +27,17 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
 
   static get observedAttributes() {
     return [
-      'class',
-      'data-close-on-esc',
-      'data-close-on-body-click',
-      'data-group',
-      'data-active-class',
-      'data-body-class',
-      'data-close-button'
+      'active',
+      'close-on-esc',
+      'close-on-body-click',
+      'group',
+      'body-class',
+      'close-button'
     ];
   }
 
   protected Manager = Manager;
-  protected activeClass = 'opened';
+  protected activeAttr = 'active';
   protected bodyClass = '';
   protected closeButton: Element;
   public closeOnBodyClick = false;
@@ -46,25 +45,22 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
 
   protected attributeChangedCallback(attr: string, prevValue: string, value: string) {
     switch (attr) {
-      case 'class':
-        this.setClass();
+      case 'active':
+        this.setState();
         break;
-      case 'data-close-on-esc':
+      case 'close-on-esc':
         this.bindCloseOnEsc(value);
         break;
-      case 'data-close-on-body-click':
+      case 'close-on-body-click':
         this.setCloseOnBodyClick(value);
         break;
-      case 'data-group':
+      case 'group':
         this.setGroup(value);
         break;
-      case 'data-active-class':
-        this.setActiveClass(value);
-        break;
-      case 'data-body-class':
+      case 'body-class':
         this.setBodyClass(value);
         break;
-      case 'data-close-button':
+      case 'close-button':
         this.setCloseButton(value);
     }
   }
@@ -79,10 +75,10 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
   }
 
   get isOpen(): boolean {
-    return this.classList.contains(this.activeClass);
+    return this.hasAttribute(this.activeAttr);
   }
 
-  protected setClass() {
+  protected setState() {
     this.isOpen ? this.onShown() : this.onHidden();
   }
 
@@ -117,10 +113,6 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
     this.Manager.register(this);
   }
 
-  protected setActiveClass(value: string) {
-    this.activeClass = value || 'opened';
-  }
-
   protected setBodyClass(value: string) {
     this.bodyClass = value;
   }
@@ -150,14 +142,14 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
 
   public show(params: ISmartPopupActionParams = {}) {
     if (!this.isOpen) {
-      this.classList.add(this.activeClass);
+      this.setAttribute(this.activeAttr, '');
     }
     return this;
   }
 
   public hide(params: ISmartPopupActionParams = {}) {
     if (this.isOpen) {
-      this.classList.remove(this.activeClass);
+      this.removeAttribute(this.activeAttr);
     }
     return this;
   }

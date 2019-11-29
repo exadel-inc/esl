@@ -17,12 +17,12 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
 
   static get observedAttributes() {
     return [
-      'data-target-id',
-      'data-event',
-      'data-mode',
-      'data-active-class',
-      'data-show-delay',
-      'data-hide-delay'
+      'target-id',
+      'event',
+      'mode',
+      'active-class',
+      'show-delay',
+      'hide-delay'
     ];
   }
 
@@ -40,22 +40,22 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
   protected attributeChangedCallback(attr: string, prevValue: string, value: string) {
     this._unbindEvents();
     switch (attr) {
-      case 'data-target-id':
+      case 'target-id':
         this.setPopup(value);
         break;
-      case 'data-event':
+      case 'event':
         this.setEvents(value);
         break;
-      case 'data-mode':
+      case 'mode':
         this.setMode(value);
         break;
-      case 'data-active-class':
+      case 'active-class':
         this.setActiveClass(value);
         break;
-      case 'data-show-delay':
+      case 'show-delay':
         this.setShowDelay(value);
         break;
-      case 'data-hide-delay':
+      case 'hide-delay':
         this.setHideDelay(value);
         break;
     }

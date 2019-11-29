@@ -1,5 +1,5 @@
 import SmartPopup from './smart-popup';
-import Group from './smart-popup-manager.group';
+import Group from './smart-popup-manager-group';
 
 const all: SmartPopup[] = [];
 
