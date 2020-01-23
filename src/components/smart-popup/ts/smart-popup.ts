@@ -1,6 +1,7 @@
 import { triggerComponentEvent } from '@helpers/component-utils';
 import { ESC } from '@helpers/keycodes';
 import { ISmartPopupTrigger } from './smart-popup-trigger';
+import { attr } from '@helpers/decorators/attr';
 import Manager from './smart-popup-manager';
 
 export interface ISmartPopupActionParams {
@@ -8,7 +9,6 @@ export interface ISmartPopupActionParams {
 }
 
 export interface ISmartPopup {
-  isOpen: boolean;
 
   show(params?: ISmartPopupActionParams): this;
 
@@ -37,31 +37,31 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
   }
 
   protected Manager = Manager;
-  protected activeAttr = 'active';
-  protected bodyClass = '';
-  protected closeButton: Element;
-  public closeOnBodyClick = false;
-  public group = '';
+  protected _closeButtonEl: Element;
 
-  protected attributeChangedCallback(attr: string, prevValue: string, value: string) {
-    switch (attr) {
+  @attr() public group: string;
+  @attr() protected bodyClass: string;
+  @attr() protected closeButton: string;
+  @attr({conditional: true}) protected closeOnEsc: boolean;
+  @attr({conditional: true}) public closeOnBodyClick: boolean;
+  @attr({conditional: true}) public active: boolean;
+
+  protected attributeChangedCallback(attrName: string) {
+    switch (attrName) {
       case 'active':
         this.setState();
         break;
       case 'close-on-esc':
-        this.bindCloseOnEsc(value);
+        this.bindCloseOnEscHandler();
         break;
       case 'close-on-body-click':
-        this.setCloseOnBodyClick(value);
+        this.setCloseOnBodyClick();
         break;
       case 'group':
-        this.setGroup(value);
-        break;
-      case 'body-class':
-        this.setBodyClass(value);
+        this.setGroup();
         break;
       case 'close-button':
-        this.setCloseButton(value);
+        this.setCloseButton();
     }
   }
 
@@ -74,29 +74,24 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
     this.Manager.remove(this);
   }
 
-  get isOpen(): boolean {
-    return this.hasAttribute(this.activeAttr);
-  }
-
   protected setState() {
-    this.isOpen ? this.onShown() : this.onHidden();
+    this.active ? this.onShown() : this.onHidden();
   }
 
-  protected bindCloseOnEsc(value: string) {
-    this.removeEventListener('keydown', this.closeOnEsc);
-    if (value !== null) {
-      this.addEventListener('keydown', this.closeOnEsc);
+  protected bindCloseOnEscHandler() {
+    this.removeEventListener('keydown', this.closeOnEscHandler);
+    if (this.closeOnEsc) {
+      this.addEventListener('keydown', this.closeOnEscHandler);
     }
   }
 
-  protected closeOnEsc(e: KeyboardEvent) {
+  protected closeOnEscHandler(e: KeyboardEvent) {
     if (e.which === ESC) {
       this.hide();
     }
   };
 
-  protected setCloseOnBodyClick(value: string) {
-    this.closeOnBodyClick = (value !== null);
+  protected setCloseOnBodyClick() {
     this.removeEventListener('click', this.stopEventPropagation);
     if (this.closeOnBodyClick) {
       this.addEventListener('click', this.stopEventPropagation);
@@ -107,20 +102,15 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
     e.stopPropagation();
   }
 
-  protected setGroup(value: string) {
-    this.group = value;
+  protected setGroup() {
     this.Manager.remove(this);
     this.Manager.register(this);
   }
 
-  protected setBodyClass(value: string) {
-    this.bodyClass = value;
-  }
-
-  protected setCloseButton(value: string) {
-    this.closeButton && this.closeButton.removeEventListener('click', this.closeButtonHandler);
-    this.closeButton = this.querySelector(value);
-    this.closeButton && this.closeButton.addEventListener('click', this.closeButtonHandler);
+  protected setCloseButton() {
+    this._closeButtonEl && this._closeButtonEl.removeEventListener('click', this.closeButtonHandler);
+    this._closeButtonEl = this.querySelector(this.closeButton);
+    this._closeButtonEl && this._closeButtonEl.addEventListener('click', this.closeButtonHandler);
   }
 
   protected closeButtonHandler: EventListener = () => {
@@ -141,20 +131,20 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
   }
 
   public show(params: ISmartPopupActionParams = {}) {
-    if (!this.isOpen) {
-      this.setAttribute(this.activeAttr, '');
+    if (!this.active) {
+      this.active = true;
     }
     return this;
   }
 
   public hide(params: ISmartPopupActionParams = {}) {
-    if (this.isOpen) {
-      this.removeAttribute(this.activeAttr);
+    if (this.active) {
+      this.active = false;
     }
     return this;
   }
 
-  public toggle(newState: boolean = !this.isOpen, params?: ISmartPopupActionParams) {
+  public toggle(newState: boolean = !this.active, params?: ISmartPopupActionParams) {
     newState ? this.show(params) : this.hide(params);
     return this;
   }

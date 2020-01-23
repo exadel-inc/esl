@@ -4,7 +4,8 @@ export default class Group {
   protected popups: SmartPopup[] = [];
 
   protected register(popup: SmartPopup) {
-    this.popups.push(popup);
+    const index = this.popups.indexOf(popup);
+    (index === -1) && this.popups.push(popup);
   }
 
   protected remove(popup: SmartPopup) {
