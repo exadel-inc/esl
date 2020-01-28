@@ -12,7 +12,7 @@ interface StrategyMap {
 	[type: string]: (carousel: SmartCarousel) => SmartCarouselStrategy
 }
 
-interface CarouselConfig {
+interface CarouselConfig { // Registry
 	strategy?: 'single' | 'multiple',
 	count?: number,
 	className?: string
@@ -83,8 +83,17 @@ class SmartCarousel extends HTMLElement {
 		return this._currentConfig.count || 0;
 	}
 
-	get customClass(): string {
-		return this._currentConfig.className;
+	/**
+	 * @returns {number} first active index
+	 */
+	get firstIndex(): number {
+		return this.$slides.findIndex((slide) => {
+			return slide.active;
+		});
+	}
+
+	get activeConfig(): CarouselConfig {
+		return this._currentConfig;
 	}
 
 	public goTo(nextIndex: number, direction?: string, force: boolean = false) {
@@ -170,10 +179,6 @@ class SmartCarousel extends HTMLElement {
 		Object.keys(this._plugins).forEach((key: string) => this._plugins[key].destroy());
 	}
 
-	protected updateStrategy() {
-		this._strategy = STRATEGIES[this._currentConfig.strategy](this);
-	}
-
 	get configRules() {
 		if (!this._configRules) {
 			this.configRules = SmartRuleList.parse<CarouselConfig>(this.config, SmartRuleList.OBJECT_PARSER);
@@ -200,19 +205,21 @@ class SmartCarousel extends HTMLElement {
 		}
 		this._currentConfig = Object.assign({}, config);
 
-		this.updateStrategy();
+		this._strategy = STRATEGIES[this.activeConfig.strategy](this);
 		if (force || this.activeIndexes.length !== this._currentConfig.count) {
 			this.updateSlidesCount();
 		}
 	}
 
 	private updateSlidesCount() {
-		const count = this._currentConfig.strategy === 'single'? 1 : this._currentConfig.count;
+		// move to renderer
+		const count = this._currentConfig.strategy === 'single' ? 1 : this._currentConfig.count; // somehow we need to get rid of specific strategy check
 		const slideStyles = getComputedStyle(this.$slides[this.firstIndex]);
 		const currentTrans = parseFloat(slideStyles.transform.split(',')[4]);
 		const slidesAreaStyles = getComputedStyle(this.$slidesArea);
 		const slideWidth = parseFloat(slidesAreaStyles.width) / count - parseFloat(slideStyles.marginLeft) - parseFloat(slideStyles.marginRight);
 		const computedLeft = -(parseFloat(slidesAreaStyles.width) / count * this.firstIndex) - (currentTrans);
+
 		this.$slides.forEach((slide) => {
 			slide.style.minWidth = slideWidth + 'px';
 			slide.style.left = computedLeft + 'px';
@@ -230,21 +237,14 @@ class SmartCarousel extends HTMLElement {
 		return (currentGroup + shiftGroupsCount + countGroups) % countGroups;
 	}
 
-	/**
-	 * @returns {number} first active index
-	 */
-	get firstIndex(): number {
-		return this.$slides.findIndex((slide) => {
-			return slide.active;
-		});
-	}
-
 	// Global Config
 	public static registerPlugin(pluginName: string, plugin: SmartCarouselPluginConstructor) {
 		pluginRegistry[pluginName] = plugin;
 	}
 
+	// move to core plugin
 	protected _onClick(event: MouseEvent) {
+
 		const eventTarget = event.target as HTMLElement;
 		const markedTarget = eventTarget.closest('[data-slide-target]') as HTMLElement;
 		if (markedTarget && markedTarget.dataset.slideTarget) {

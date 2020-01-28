@@ -1,3 +1,7 @@
+/***
+ * Slide controller
+ * @author Julia Murashko
+ */
 class SmartCarouselSlide extends HTMLElement {
 	static get is() { return 'smart-carousel-slide'; }
 
@@ -18,6 +22,7 @@ class SmartCarouselSlide extends HTMLElement {
 	}
 
 	public _setActive(active: boolean) {
+		// TODO: think about public ?
 		this.toggleAttribute('active', active);
 	}
 }
