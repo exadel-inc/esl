@@ -1,0 +1,35 @@
+{
+  "bundle": {
+    "less": "src/bundles/all.less",
+    "ts": [
+      "src/bundles/all.ts",
+      "src/bundles/polyfill-prebuild.ts"
+    ],
+    "context": "src/components",
+    "target": "lib"
+  },
+  "es6": {
+    "less": "src/**/*.less",
+    "ts": [
+      "src/**/*.ts"
+    ],
+    "context": "src/components",
+    "target": "lib-es6"
+  },
+  "watch": {
+    "ts": ["src/components/**/*.ts", "src/helpers/**/*.ts"],
+    "less": ["src/components/**/*.less", "src/helpers/**/*.less"],
+    "local": {
+      "ts": "test-server/local-build/**/*.ts",
+      "less": "test-server/local-build/**/*.less"
+    }
+  },
+  "test": {
+    "less": "test-server/local-build/*.less",
+    "ts": [
+      "test-server/local-build/*.ts"
+    ],
+    "target": "test-server/static"
+  },
+  "clean": ["lib/", "lib-es6/", "test-server/static/"]
+}

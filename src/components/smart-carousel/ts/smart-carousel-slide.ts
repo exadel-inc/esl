@@ -20,7 +20,6 @@ class SmartCarouselSlide extends HTMLElement {
 	public get active(): boolean {
 		return this.hasAttribute('active');
 	}
-
 	public _setActive(active: boolean) {
 		// TODO: think about public ?
 		this.toggleAttribute('active', active);

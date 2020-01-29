@@ -5,7 +5,7 @@
  * @extends BaseProvider
  * @protected
  */
-import {generateUId, loadScript} from '../../../../helpers/common-utils';
+import {generateUId, loadScript} from '@helpers/common-utils';
 import SmartVideo from '../smart-video';
 import {BaseProvider, PlayerStates} from '../smart-video-provider';
 import EmbeddedVideoProviderRegistry from '../smart-video-registry';
@@ -159,4 +159,3 @@ export class YouTubeProvider extends BaseProvider {
 }
 
 EmbeddedVideoProviderRegistry.register(YouTubeProvider, YouTubeProvider.videoName);
-

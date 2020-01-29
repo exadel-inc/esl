@@ -14,13 +14,19 @@
       "dom",
       "es6",
       "dom.iterable"
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@helpers/*": ["src/helpers/*"],
+      "@components/*": ["src/components/*"]
+    }
   },
   "exclude": [
     "node_modules",
     "build",
     "edmtp-modules",
     "lib",
+    "lib-es6",
     "test-server"
   ]
 }

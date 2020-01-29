@@ -46,16 +46,16 @@
  *    video-type="youtube|video"
  *    data-id="##VIDEOID##"></smart-video-embedded>
  */
-import {debounce} from '../../../helpers/function-utils';
+import {debounce} from '@helpers/function-utils';
 
 import VideoGroupRestrictionManager from './smart-video-manager';
 
 import {getIObserver} from './smart-video-iobserver';
-import {attr} from '../../../helpers/decorators/attr';
+import {attr} from '@helpers/decorators/attr';
 import {BaseProvider, PlayerStates} from './smart-video-provider';
 import providerRegistry from './smart-video-registry';
 import SmartQuery from '../../smart-query/ts/smart-query';
-import {triggerComponentEvent} from '../../../helpers/component-utils';
+import {triggerComponentEvent} from '@helpers/component-utils';
 
 export class SmartVideo extends HTMLElement {
     @attr() public videoType: string;

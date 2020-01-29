@@ -3,6 +3,7 @@ const gulp = require('gulp');
 
 const named = require('vinyl-named');
 const webpackStream = require('webpack-stream');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const TS_LINT = path.join(__dirname, '../tslint.json');
@@ -36,14 +37,15 @@ module.exports.buildAll = function tsBuildAll(config) {
 						],
 						// TODO: that property blocks typing generation
 						// disable type checker - we will use it in fork plugin
-						transpileOnly: true,
+						transpileOnly: true
 					}
 				}
 			]
 		},
 		resolve: {
 			// Should be both: 'ts' for source, 'js' for referenced libs
-			extensions: ['.ts', '.js']
+			extensions: ['.ts', '.js'],
+			plugins: [new TsconfigPathsPlugin({ configFile: TS_CONFIG })]
 		},
 		mode: 'production',
 		plugins: [
