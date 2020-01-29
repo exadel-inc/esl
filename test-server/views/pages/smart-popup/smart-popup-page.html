@@ -14,53 +14,199 @@ layout: ../../layouts/basic.html
 {{= layout.demoResources}}
 
 <div class="container">
-    <div style="height: 55px;">
-        <smart-popup id="my-uniq-id-1"
-                     group="group"
-                     body-class="popup-opened"
-                     close-button=".close-button"
-                     close-on-esc
-                     active>
-            <div class="alert alert-warning" role="alert">
-                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-                <button type="button" class="close close-button" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+    <h1 class="text-center"><code>&lt;smart-popup&gt;</code> and <code>&lt;smart-popup-trigger&gt;</code> components</h1>
+    <hr/>
+
+    <section class="row">
+        <div class="col-12">
+            <h4>Click event</h4>
+            <div style="height: 70px;">
+                <smart-popup id="popup1"
+                             body-class="popup-opened"
+                             close-button=".close-button"
+                             close-on-body-click
+                             close-on-esc
+                             active>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>This is a popup.</strong> You can control it using the triggers below.
+                        <button type="button" class="close close-button" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </smart-popup>
             </div>
-        </smart-popup>
-    </div>
+            <p>Triggers</p>
+            <p>
+                <smart-popup-trigger target-id="popup1" mode="toggle" event="click">
+                    <button type="button" class="btn btn-primary">Toggle</button>
+                </smart-popup-trigger>
+                <smart-popup-trigger target-id="popup1" mode="show" event="click">
+                    <button type="button" class="btn btn-success">Show</button>
+                </smart-popup-trigger>
+                <smart-popup-trigger target-id="popup1" mode="hide" event="click">
+                    <button type="button" class="btn btn-dark">Hide</button>
+                </smart-popup-trigger>
+            </p>
+        </div>
+    </section>
+    <hr/>
 
-    <div style="height: 55px;">
-        <smart-popup id="my-uniq-id-2"
-                     group="group"
-                     close-button=".close-button"
-                     close-on-esc
-                     close-on-body-click>
-            <div class="alert alert-warning" role="alert">
-                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-                <button type="button" class="close close-button" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+    <section class="row">
+        <div class="col-12">
+            <h4>Hover event</h4>
+            <div style="height: 70px;">
+                <smart-popup id="popup2"
+                             body-class="popup-opened"
+                             close-button=".close-button"
+                             close-on-esc
+                             active>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>This is a popup.</strong> You can control it using the triggers below.
+                        <button type="button" class="close close-button" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </smart-popup>
             </div>
-        </smart-popup>
-    </div>
+            <p>Triggers</p>
+            <p>
+                <smart-popup-trigger target-id="popup2" mode="toggle" event="hover">
+                    <button type="button" class="btn btn-primary">Toggle</button>
+                </smart-popup-trigger>
+                <smart-popup-trigger target-id="popup2" mode="show" event="hover">
+                    <button type="button" class="btn btn-success">Show</button>
+                </smart-popup-trigger>
+                <smart-popup-trigger target-id="popup2" mode="hide" event="hover">
+                    <button type="button" class="btn btn-dark">Hide</button>
+                </smart-popup-trigger>
+            </p>
+        </div>
+    </section>
+    <hr/>
 
-    Triggers
-    <p>
-        <smart-popup-trigger target-id="my-uniq-id-1" mode="show" event="click">
-            <button type="button" class="btn btn-info">Trigger 1</button>
-        </smart-popup-trigger>
-        <smart-popup-trigger target-id="my-uniq-id-2" mode="toggle" event="hover">
-            <button type="button" class="btn btn-info">Trigger 2</button>
-        </smart-popup-trigger>
-    </p>
+    <section class="row">
+        <div class="col-12">
+            <h4>Group of popups (click event)</h4>
+            <div style="height: 70px;">
+                <smart-popup id="popup3"
+                             group="group1"
+                             body-class="popup-opened"
+                             close-button=".close-button"
+                             close-on-esc
+                             active>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>This is a popup.</strong> You can control it using the triggers below.
+                        <button type="button" class="close close-button" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </smart-popup>
+            </div>
+            <div style="height: 70px;">
+                <smart-popup id="popup4"
+                             group="group1"
+                             body-class="popup-opened"
+                             close-button=".close-button"
+                             close-on-esc>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>This is a popup.</strong> You can control it using the triggers below.
+                        <button type="button" class="close close-button" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </smart-popup>
+            </div>
+            <div style="height: 70px;">
+                <smart-popup id="popup5"
+                             group="group1"
+                             body-class="popup-opened"
+                             close-button=".close-button"
+                             close-on-esc>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>This is a popup.</strong> You can control it using the triggers below.
+                        <button type="button" class="close close-button" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </smart-popup>
+            </div>
+            <p>Triggers</p>
+            <p>
+                <smart-popup-trigger target-id="popup3" mode="toggle" event="click">
+                    <button type="button" class="btn btn-info">Toggle 1</button>
+                </smart-popup-trigger>
+                <smart-popup-trigger target-id="popup4" mode="toggle" event="click">
+                    <button type="button" class="btn btn-info">Toggle 2</button>
+                </smart-popup-trigger>
+                <smart-popup-trigger target-id="popup5" mode="toggle" event="click">
+                    <button type="button" class="btn btn-info">Toggle 3</button>
+                </smart-popup-trigger>
+            </p>
+        </div>
+    </section>
+    <hr/>
 
-    Buttons
-    <p>
-        <button type="button" onclick="document.getElementById('my-uniq-id-1').toggle()" class="btn btn-primary">Toggle</button>
-        <button type="button" onclick="document.getElementById('my-uniq-id-1').show()" class="btn btn-success">Show</button>
-        <button type="button" onclick="document.getElementById('my-uniq-id-1').hide()" class="btn btn-dark">Hide</button>
-    </p>
+    <section class="row">
+        <div class="col-12">
+            <h4>Group of popups (hover event)</h4>
+            <div style="height: 70px;">
+                <smart-popup id="popup6"
+                             group="group2"
+                             body-class="popup-opened"
+                             close-button=".close-button"
+                             close-on-esc
+                             active>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>This is a popup.</strong> You can control it using the triggers below.
+                        <button type="button" class="close close-button" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </smart-popup>
+            </div>
+            <div style="height: 70px;">
+                <smart-popup id="popup7"
+                             group="group2"
+                             body-class="popup-opened"
+                             close-button=".close-button"
+                             close-on-esc>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>This is a popup.</strong> You can control it using the triggers below.
+                        <button type="button" class="close close-button" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </smart-popup>
+            </div>
+            <div style="height: 70px;">
+                <smart-popup id="popup8"
+                             group="group2"
+                             body-class="popup-opened"
+                             close-button=".close-button"
+                             close-on-esc>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>This is a popup.</strong> You can control it using the triggers below.
+                        <button type="button" class="close close-button" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </smart-popup>
+            </div>
+            <p>Triggers</p>
+            <p>
+                <smart-popup-trigger target-id="popup6" mode="toggle" event="hover">
+                    <button type="button" class="btn btn-info">Toggle 1</button>
+                </smart-popup-trigger>
+                <smart-popup-trigger target-id="popup7" mode="toggle" event="hover">
+                    <button type="button" class="btn btn-info">Toggle 2</button>
+                </smart-popup-trigger>
+                <smart-popup-trigger target-id="popup8" mode="toggle" event="hover">
+                    <button type="button" class="btn btn-info">Toggle 3</button>
+                </smart-popup-trigger>
+            </p>
+        </div>
+    </section>
+
 </div>
 
 #}}
