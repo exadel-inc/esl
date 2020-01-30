@@ -46,18 +46,18 @@
  *    video-type="youtube|video"
  *    data-id="##VIDEOID##"></smart-video-embedded>
  */
+import {attr} from '@helpers/decorators/attr';
 import {debounce} from '@helpers/function-utils';
-
+import {getIObserver} from './smart-video-iobserver';
+import SmartQuery from '@components/smart-query/ts/smart-query';
+import {BaseProvider, PlayerStates} from './smart-video-provider';
+import SmartVideoRegistry from './smart-video-registry';
+import {triggerComponentEvent} from '@helpers/component-utils';
 import VideoGroupRestrictionManager from './smart-video-manager';
 
-import {getIObserver} from './smart-video-iobserver';
-import {attr} from '@helpers/decorators/attr';
-import {BaseProvider, PlayerStates} from './smart-video-provider';
-import providerRegistry from './smart-video-registry';
-import SmartQuery from '../../smart-query/ts/smart-query';
-import {triggerComponentEvent} from '@helpers/component-utils';
-
 export class SmartVideo extends HTMLElement {
+    @attr() public videoId: string;
+    @attr() public videoSrc: string;
     @attr() public videoType: string;
     @attr() public group: string;
     @attr({conditional: true}) public disabled: boolean;
@@ -102,7 +102,7 @@ export class SmartVideo extends HTMLElement {
         this.classList.add(SmartVideo.is);
         this.setAttribute('role', 'application');
         this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
-        providerRegistry.addListener(this._onRegistryStateChange);
+        SmartVideoRegistry.addListener(this._onRegistryStateChange);
         this._onConditionStateChange();
         if (this.conditionQuery) {
             this.conditionQuery.addListener(this._onConditionStateChange);
@@ -111,7 +111,7 @@ export class SmartVideo extends HTMLElement {
     }
 
     private disconnectedCallback() {
-        providerRegistry.removeListener(this._onRegistryStateChange);
+        SmartVideoRegistry.removeListener(this._onRegistryStateChange);
         if (this.conditionQuery) {
             this.conditionQuery.removeListener(this._onConditionStateChange);
         }
@@ -141,7 +141,7 @@ export class SmartVideo extends HTMLElement {
         if (!this.disabled) {
             this._provider && this._provider.unbind();
 
-            const provider = providerRegistry.getProvider(this.videoType);
+            const provider = SmartVideoRegistry.getProvider(this.videoType);
             if (provider) {
                 this._provider = new provider(this);
                 this._provider.bind();
@@ -162,8 +162,8 @@ export class SmartVideo extends HTMLElement {
             autoplay: this.autoplay,
             muted: this.muted,
             hideControls: this.hideControls,
-            dataId: this.dataset.id,
-            dataSrc: this.dataset.src,
+            dataId: this.videoId,
+            dataSrc: this.videoSrc,
         };
     }
 

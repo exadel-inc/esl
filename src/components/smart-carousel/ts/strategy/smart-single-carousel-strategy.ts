@@ -37,8 +37,8 @@ class SmartSingleCarouselStrategy extends SmartCarouselStrategy {
 		this.carousel.removeAttribute('data-is-animated');
 	}
 
+	// tslint:disable-next-line:no-empty
 	public cleanStyles() {
-
 	}
 }
 

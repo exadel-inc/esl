@@ -1,8 +1,8 @@
-import {attr} from '../../../helpers/decorators/attr';
-import {deepCompare} from '../../../helpers/common-utils';
-import {triggerComponentEvent} from '../../../helpers/component-utils';
+import {attr} from '@helpers/decorators/attr';
+import {deepCompare} from '@helpers/common-utils';
+import {triggerComponentEvent} from '@helpers/component-utils';
+import SmartRuleList from '@components/smart-query/ts/smart-rule-list';
 import SmartCarouselSlide from './smart-carousel-slide';
-import SmartRuleList from '../../smart-query/ts/smart-rule-list';
 import SmartCarouselStrategy from './strategy/smart-carousel-strategy';
 import SmartSingleCarouselStrategy from './strategy/smart-single-carousel-strategy';
 import SmartMultiCarouselStrategy from './strategy/smart-multi-carousel-strategy';
@@ -23,11 +23,9 @@ const STRATEGIES: StrategyMap = { // TODO registry
     multiple: (carousel: SmartCarousel) => new SmartMultiCarouselStrategy(carousel),
 };
 
-export interface SmartCarouselPluginConstructor {
-	new(owner: SmartCarousel): SmartCarouselPlugin;
-}
+export type SmartCarouselPluginConstructor = new (owner: SmartCarousel) => SmartCarouselPlugin;
 
-const pluginRegistry : {[key: string]: SmartCarouselPluginConstructor} = {};
+const pluginRegistry: {[key: string]: SmartCarouselPluginConstructor} = {};
 
 // TODO: add ability to choose the number of an active slide
 
@@ -87,9 +85,10 @@ class SmartCarousel extends HTMLElement {
 	 * @returns {number} first active index
 	 */
 	get firstIndex(): number {
-		return this.$slides.findIndex((slide) => {
+		const index = this.$slides.findIndex((slide) => {
 			return slide.active;
 		});
+		return Math.max(index, 0);
 	}
 
 	get activeConfig(): CarouselConfig {
@@ -195,7 +194,7 @@ class SmartCarousel extends HTMLElement {
 	}
 
 	private update(force: boolean = false) {
-		let config: CarouselConfig = Object.assign(
+		const config: CarouselConfig = Object.assign(
 			{strategy: 'multiple', count: 1},
 			this.configRules.activeValue
 		);

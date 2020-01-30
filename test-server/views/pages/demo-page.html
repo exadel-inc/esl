@@ -1,0 +1,255 @@
+---
+layout: ../layouts/basic.html
+---
+
+{{##content:
+<div class="container-fluid">
+    <style>
+        .main-carousel [data-slides-area] {
+            width: calc(100% - 150px);
+        }
+        .main-carousel smart-carousel-slide {
+            flex: 0 0 auto;
+            width: 50%;
+        }
+    </style>
+
+    <h1>Demo Page</h1>
+    <smart-carousel class="main-carousel" config="{count: 2} | @-SM => {count: 1}">
+
+        <button class="arrow-prev" data-slide-target="prev">
+            <span class="icon-arrow-prev"></span>
+        </button>
+
+        <div data-slides-area>
+            <!-- CAROUSEL-ITEM -->
+            <smart-carousel-slide data-active-slide>
+                <div class="container-fluid">
+                    <h3>Smart Image</h3>
+                    <div class="text-body">
+                        <p>Smart Image - is the first Smart Library component. It simplify work with images.</p>
+                        <p>Smart Image Features:</p>
+                        <ul class="list-group m-4">
+                            <li>Smart Query</li>
+                            <li>Lazy Loading</li>
+                            <li>Native-like API</li>
+                        </ul>
+                    </div>
+                    <div class="img-container img-container-16-9">
+                        <smart-image lazy mode="cover"
+                                     data-alt="Alt Text Test"
+                                     data-src="
+                                                img-1-carousel-9-6.jpg |
+                                                @LG => img-2-carousel-9-6.jpg |
+                                                @MD => img-3-carousel-9-6.jpg |
+                                                @SM => img-4-carousel-9-6.jpg |
+                                                @XS => img-5-carousel-9-6.jpg
+                                         "
+                                     data-src-base="/images/"></smart-image>
+                    </div>
+                </div>
+            </smart-carousel-slide>
+            <smart-carousel-slide>
+                <div class="container-fluid">
+                    <h3>Doesn't Smart Image Config looks simple?</h3>
+                    <code style="overflow:auto;width:auto;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #007700">&lt;smart</span><span style="color: #0000CC">-image</span> <span style="color: #0000CC">lazy</span> <span style="color: #0000CC">mode=</span><span style="background-color: #fff0f0">&quot;cover&quot;</span>
+             <span style="color: #0000CC">data-alt=</span><span style="background-color: #fff0f0">&quot;Alt Text Test&quot;</span>
+             <span style="color: #0000CC">data-src=</span><span style="background-color: #fff0f0">&quot;</span>
+<span style="background-color: #fff0f0">               img-1-carousel-9-6.jpg |</span>
+<span style="background-color: #fff0f0">               @LG =&gt; img-2-carousel-9-6.jpg |</span>
+<span style="background-color: #fff0f0">               @MD =&gt; img-3-carousel-9-6.jpg |</span>
+<span style="background-color: #fff0f0">               @SM =&gt; img-4-carousel-9-6.jpg |</span>
+<span style="background-color: #fff0f0">               @XS =&gt; img-5-carousel-9-6.jpg</span>
+<span style="background-color: #fff0f0">             &quot;</span>
+             <span style="color: #0000CC">data-src-base=</span><span style="background-color: #fff0f0">&quot;/images/&quot;</span><span style="color: #007700">&gt;</span><span style="color: #FF0000; background-color: #FFAAAA">&lt;</span>/smart-image&gt;
+</pre>
+                    </code>
+                </div>
+            </smart-carousel-slide>
+            <smart-carousel-slide>
+                <div class="container-fluid">
+                    <h3>Smart Video</h3>
+                    <div class="text-body">
+                        <p>Smart Video - is the component that simplify the things with videos</p>
+                        <p>Smart Video Features:</p>
+                        <ul class="list-group m-4">
+                            <li>Smart Video Providers</li>
+                            <li>Lazy Loading</li>
+                            <li>Smart Query conditions</li>
+                        </ul>
+                    </div>
+                    <div class="img-container img-container-16-9 img-container-loaded">
+                        <smart-video
+                                video-type="video"
+                                video-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
+                                autoplay="true"
+                                play-in-viewport
+                                muted="true">
+                        </smart-video>
+                    </div>
+                </div>
+            </smart-carousel-slide>
+            <smart-carousel-slide>
+                <div class="container-fluid">
+                    <h3>Smart Video Providers</h3>
+                    <div class="text-body">
+                        <ul class="list-group m-4">
+                            <li>Built-in simple video support</li>
+                            <li>Built-in YouTube video support</li>
+                        </ul>
+                    </div>
+                    <div class="img-container img-container-4-3 img-container-loaded">
+                        <smart-video video-type="youtube"
+                                     video-id="d-diB65scQU"
+                                     autoplay="true"
+                                     muted="true"
+                                     play-in-viewport>
+                        </smart-video>
+                    </div>
+                </div>
+            </smart-carousel-slide>
+            <smart-carousel-slide>
+                <div class="post-text">
+                    <p>eee</p>
+                </div>
+            </smart-carousel-slide>
+            <smart-carousel-slide>
+                <div class="post-text">
+                    <p>eee</p>
+                </div>
+            </smart-carousel-slide>
+            <smart-carousel-slide>
+                <div class="post-text">
+                    <p>eee</p>
+                </div>
+            </smart-carousel-slide>
+            <!-- /CAROUSEL-ITEM -->
+        </div>
+
+        <button class="arrow-next" data-slide-target="next">
+            <span class="icon-arrow-next"></span>
+        </button>
+
+        <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
+    </smart-carousel>
+    <smart-carousel class="main-carousel" config="{count: 2} | @-SM => {count: 1}">
+
+        <button class="arrow-prev" data-slide-target="prev">
+            <span class="icon-arrow-prev"></span>
+        </button>
+
+        <div data-slides-area>
+            <!-- CAROUSEL-ITEM -->
+            <smart-carousel-slide data-active-slide>
+                <div class="container-fluid">
+                    <h3>Smart Image</h3>
+                    <div class="text-body">
+                        <p>Smart Image - is the first Smart Library component. It simplify work with images.</p>
+                        <p>Smart Image Features:</p>
+                        <ul class="list-group m-4">
+                            <li>Smart Query</li>
+                            <li>Lazy Loading</li>
+                            <li>Native-like API</li>
+                        </ul>
+                    </div>
+                    <div class="img-container img-container-16-9">
+                        <smart-image lazy mode="cover"
+                                     data-alt="Alt Text Test"
+                                     data-src="
+                                                img-1-carousel-9-6.jpg |
+                                                @LG => img-2-carousel-9-6.jpg |
+                                                @MD => img-3-carousel-9-6.jpg |
+                                                @SM => img-4-carousel-9-6.jpg |
+                                                @XS => img-5-carousel-9-6.jpg
+                                         "
+                                     data-src-base="/images/"></smart-image>
+                    </div>
+                </div>
+            </smart-carousel-slide>
+            <smart-carousel-slide>
+                <div class="container-fluid">
+                    <h3>Doesn't Smart Image Config looks simple?</h3>
+                    <code style="overflow:auto;width:auto;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #007700">&lt;smart</span><span style="color: #0000CC">-image</span> <span style="color: #0000CC">lazy</span> <span style="color: #0000CC">mode=</span><span style="background-color: #fff0f0">&quot;cover&quot;</span>
+             <span style="color: #0000CC">data-alt=</span><span style="background-color: #fff0f0">&quot;Alt Text Test&quot;</span>
+             <span style="color: #0000CC">data-src=</span><span style="background-color: #fff0f0">&quot;</span>
+<span style="background-color: #fff0f0">               img-1-carousel-9-6.jpg |</span>
+<span style="background-color: #fff0f0">               @LG =&gt; img-2-carousel-9-6.jpg |</span>
+<span style="background-color: #fff0f0">               @MD =&gt; img-3-carousel-9-6.jpg |</span>
+<span style="background-color: #fff0f0">               @SM =&gt; img-4-carousel-9-6.jpg |</span>
+<span style="background-color: #fff0f0">               @XS =&gt; img-5-carousel-9-6.jpg</span>
+<span style="background-color: #fff0f0">             &quot;</span>
+             <span style="color: #0000CC">data-src-base=</span><span style="background-color: #fff0f0">&quot;/images/&quot;</span><span style="color: #007700">&gt;</span><span style="color: #FF0000; background-color: #FFAAAA">&lt;</span>/smart-image&gt;
+</pre>
+                    </code>
+                </div>
+            </smart-carousel-slide>
+            <smart-carousel-slide>
+                <div class="container-fluid">
+                    <h3>Smart Video</h3>
+                    <div class="text-body">
+                        <p>Smart Video - is the component that simplify the things with videos</p>
+                        <p>Smart Video Features:</p>
+                        <ul class="list-group m-4">
+                            <li>Smart Video Providers</li>
+                            <li>Lazy Loading</li>
+                            <li>Smart Query conditions</li>
+                        </ul>
+                    </div>
+                    <div class="img-container img-container-16-9 img-container-loaded">
+                        <smart-video
+                                video-type="video"
+                                video-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
+                                autoplay="true"
+                                play-in-viewport
+                                muted="true">
+                        </smart-video>
+                    </div>
+                </div>
+            </smart-carousel-slide>
+            <smart-carousel-slide>
+                <div class="container-fluid">
+                    <h3>Smart Video Providers</h3>
+                    <div class="text-body">
+                        <ul class="list-group m-4">
+                            <li>Built-in simple video support</li>
+                            <li>Built-in YouTube video support</li>
+                        </ul>
+                    </div>
+                    <div class="img-container img-container-4-3 img-container-loaded">
+                        <smart-video video-type="youtube"
+                                     video-id="d-diB65scQU"
+                                     autoplay="true"
+                                     muted="true"
+                                     play-in-viewport>
+                        </smart-video>
+                    </div>
+                </div>
+            </smart-carousel-slide>
+            <smart-carousel-slide>
+                <div class="post-text">
+                    <p>eee</p>
+                </div>
+            </smart-carousel-slide>
+            <smart-carousel-slide>
+                <div class="post-text">
+                    <p>eee</p>
+                </div>
+            </smart-carousel-slide>
+            <smart-carousel-slide>
+                <div class="post-text">
+                    <p>eee</p>
+                </div>
+            </smart-carousel-slide>
+            <!-- /CAROUSEL-ITEM -->
+        </div>
+
+        <button class="arrow-next" data-slide-target="next">
+            <span class="icon-arrow-next"></span>
+        </button>
+
+        <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
+    </smart-carousel>
+</div>
+#}}

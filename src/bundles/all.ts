@@ -2,8 +2,9 @@
 import '@helpers/es5-support/es6-htmlelement-shim';
 
 // Builtin polyfills
-import '@helpers/builtin-polyfils/object-polyfils';
-import '@helpers/builtin-polyfils/closest-polyfill';
+import '@helpers/builtin-polyfills/array-polyfills';
+import '@helpers/builtin-polyfills/object-polyfills';
+import '@helpers/builtin-polyfills/closest-polyfills';
 
 import {
 	BreakpointRegistry,

@@ -8,9 +8,9 @@ abstract class SmartCarouselPlugin {
 		this._carousel = carousel;
 	}
 
-	abstract bind(): void;
+	public abstract bind(): void;
 
-	abstract destroy(): void;
+	public abstract destroy(): void;
 }
 
 export default SmartCarouselPlugin;

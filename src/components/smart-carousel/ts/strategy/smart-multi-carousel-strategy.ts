@@ -65,6 +65,7 @@ class SmartMultiCarouselStrategy extends SmartCarouselStrategy {
 
 	}
 
+	// tslint:disable-next-line:no-empty
 	public cleanStyles() {
 	}
 }
