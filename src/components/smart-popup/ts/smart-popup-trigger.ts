@@ -2,7 +2,6 @@ import { isTouch } from '@helpers/device-utils';
 import SmartPopup from './smart-popup';
 import { attr } from '@helpers/decorators/attr';
 
-const HOVER_HIDE_DELAY = isTouch() ? 0 : 1000;
 const HOVER_SHOW_EVENT = isTouch() ? 'click' : 'mouseenter';
 const HOVER_HIDE_EVENT = isTouch() ? 'click' : 'mouseleave';
 
@@ -23,7 +22,9 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
       'mode',
       'active',
       'show-delay',
-      'hide-delay'
+      'hide-delay',
+      'show-delay-on-touch',
+      'hide-delay-on-touch'
     ];
   }
 
@@ -34,14 +35,16 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
   @attr({defaultValue: 'toggle'}) protected mode: string;
   @attr({defaultValue: '0'}) protected showDelay: string;
   @attr({defaultValue: '0'}) protected hideDelay: string;
+  @attr({conditional: true}) protected showDelayOnTouch: boolean;
+  @attr({conditional: true}) protected hideDelayOnTouch: boolean;
   @attr({conditional: true}) protected active: boolean;
 
   protected _showTimerId: number;
   protected _hideTimerId: number;
   protected _showEvent: string;
   protected _hideEvent: string;
-  protected _showDelay: number;
-  protected _hideDelay: number;
+  protected _showDelay: number = 0;
+  protected _hideDelay: number = 0;
 
   protected attributeChangedCallback(attrName: string) {
     this._unbindEvents();
@@ -56,9 +59,11 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
         this.setEvents();
         break;
       case 'show-delay':
+      case 'show-delay-on-touch':
         this.setShowDelay();
         break;
       case 'hide-delay':
+      case 'hide-delay-on-touch':
         this.setHideDelay();
         break;
     }
@@ -120,7 +125,6 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
       default:
         this._showEvent = this._hideEvent = this.event;
     }
-    this.updateHideDelay();
   }
 
   protected setState() {
@@ -130,17 +134,18 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
   }
 
   protected setShowDelay() {
-    this._showDelay = parseInt(this.showDelay, 10);
+    if (!this.showDelayOnTouch && isTouch()) {
+      this._showDelay = 0;
+    } else {
+      this._showDelay = parseInt(this.showDelay, 10);
+    }
   }
 
   protected setHideDelay() {
-    this._hideDelay = parseInt(this.hideDelay, 10);
-    this.updateHideDelay();
-  }
-
-  protected updateHideDelay() {
-    if (this._hideEvent === HOVER_HIDE_EVENT && isNaN(this._hideDelay)) {
-      this._hideDelay = HOVER_HIDE_DELAY;
+    if (!this.hideDelayOnTouch && isTouch()) {
+      this._hideDelay = 0;
+    } else {
+      this._hideDelay = parseInt(this.hideDelay, 10);
     }
   }
 
