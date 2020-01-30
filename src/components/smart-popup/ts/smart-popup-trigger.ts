@@ -120,10 +120,7 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
       default:
         this._showEvent = this._hideEvent = this.event;
     }
-
-    if (this._hideEvent === HOVER_HIDE_EVENT) {
-      this._hideDelay = HOVER_HIDE_DELAY;
-    }
+    this.updateHideDelay();
   }
 
   protected setState() {
@@ -138,7 +135,11 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
 
   protected setHideDelay() {
     this._hideDelay = parseInt(this.hideDelay, 10);
-    if (this._hideEvent === HOVER_HIDE_EVENT) {
+    this.updateHideDelay();
+  }
+
+  protected updateHideDelay() {
+    if (this._hideEvent === HOVER_HIDE_EVENT && isNaN(this._hideDelay)) {
       this._hideDelay = HOVER_HIDE_DELAY;
     }
   }
@@ -214,8 +215,7 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
   }
 
   protected togglePopup(e: Event) {
-    this.stopEventPropagation(e);
-    this.popup.toggle();
+    this.active ? this.hidePopup(e) : this.showPopup(e);
   }
 
   protected bindShowEvent() {
