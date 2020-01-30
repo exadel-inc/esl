@@ -2,7 +2,7 @@ import { triggerComponentEvent } from '@helpers/component-utils';
 import { ESC } from '@helpers/keycodes';
 import { ISmartPopupTrigger } from './smart-popup-trigger';
 import { attr } from '@helpers/decorators/attr';
-import Manager from './smart-popup-manager';
+import PopupManager from './smart-popup-manager';
 
 export interface ISmartPopupActionParams {
   trigger?: ISmartPopupTrigger;
@@ -36,7 +36,6 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
     ];
   }
 
-  protected Manager = Manager;
   protected _closeButtonEl: Element;
 
   @attr() public group: string;
@@ -46,7 +45,7 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
   @attr({conditional: true}) public closeOnBodyClick: boolean;
   @attr({conditional: true}) public active: boolean;
 
-  protected attributeChangedCallback(attrName: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     switch (attrName) {
       case 'active':
         this.setState();
@@ -55,10 +54,10 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
         this.bindCloseOnEscHandler();
         break;
       case 'close-on-body-click':
-        this.setCloseOnBodyClick();
+        this.bindCloseOnBodyClickHandler();
         break;
       case 'group':
-        this.setGroup();
+        this.setGroup(oldVal, newVal);
         break;
       case 'close-button':
         this.setCloseButton();
@@ -67,11 +66,11 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
 
   protected connectedCallback() {
     this.classList.add(SmartPopup.is);
-    this.Manager.register(this);
+    PopupManager.register(this);
   }
 
   protected disconnectedCallback() {
-    this.Manager.remove(this);
+    PopupManager.remove(this);
   }
 
   protected setState() {
@@ -91,7 +90,7 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
     }
   };
 
-  protected setCloseOnBodyClick() {
+  protected bindCloseOnBodyClickHandler() {
     this.removeEventListener('click', this.stopEventPropagation);
     if (this.closeOnBodyClick) {
       this.addEventListener('click', this.stopEventPropagation);
@@ -102,9 +101,9 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
     e.stopPropagation();
   }
 
-  protected setGroup() {
-    this.Manager.remove(this);
-    this.Manager.register(this);
+  protected setGroup(oldGroup: string, newGroup: string) {
+    PopupManager.remove(this, oldGroup);
+    PopupManager.register(this, newGroup);
   }
 
   protected setCloseButton() {
@@ -118,7 +117,7 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
   };
 
   protected onShown() {
-    this.Manager.hidePopupsInGroup(this);
+    PopupManager.hidePopupsInGroup(this);
     this.bodyClass && document.body.classList.add(this.bodyClass);
     this.setAttribute('aria-hidden', 'false');
     triggerComponentEvent(this, 'show');

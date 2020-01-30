@@ -1,6 +1,6 @@
 import { isTouch } from '@helpers/device-utils';
-import SmartPopup from './smart-popup';
 import { attr } from '@helpers/decorators/attr';
+import SmartPopup from './smart-popup';
 
 const HOVER_SHOW_EVENT = isTouch() ? 'click' : 'mouseenter';
 const HOVER_HIDE_EVENT = isTouch() ? 'click' : 'mouseleave';
