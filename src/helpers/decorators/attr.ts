@@ -27,7 +27,7 @@ function buildConditionalMapping(target: object, propName: string, attrName: str
 		return this.hasAttribute(attrName);
 	}
 	function set(value: string) {
-		value ? this.setAttribute(attrName, 'true') : this.removeAttribute(attrName);
+		value ? this.setAttribute(attrName, '') : this.removeAttribute(attrName);
 	}
 
 	readOnly ? Object.defineProperty(target, propName, {get}) : Object.defineProperty(target, propName, {get, set});
