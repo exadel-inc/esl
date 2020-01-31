@@ -18,12 +18,16 @@ abstract class PopupManager {
     }
 
     private static updateCloseOnBodyClickHandler() {
-        if (allPopups.size > 0 && !hasCloseOnBodyClickHandler) {
-            document.addEventListener('click', PopupManager.closeOnBodyClickHandler);
-            hasCloseOnBodyClickHandler = true;
+        if (allPopups.size > 0) {
+            if (!hasCloseOnBodyClickHandler) {
+                document.addEventListener('click', PopupManager.closeOnBodyClickHandler);
+                hasCloseOnBodyClickHandler = true;
+            }
         } else {
-            document.removeEventListener('click', PopupManager.closeOnBodyClickHandler);
-            hasCloseOnBodyClickHandler = false;
+            if (hasCloseOnBodyClickHandler) {
+                document.removeEventListener('click', PopupManager.closeOnBodyClickHandler);
+                hasCloseOnBodyClickHandler = false;
+            }
         }
     }
 
