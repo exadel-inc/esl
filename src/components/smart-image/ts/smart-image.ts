@@ -139,7 +139,7 @@ function getIObserver() {
 			});
 		}, {
 			threshold: [0.01],
-			rootMargin: DeviceDetector.isMobile() ? '250px' : '500px'// rootMargin value for IntersectionObserver
+			rootMargin: DeviceDetector.isMobile ? '250px' : '500px'// rootMargin value for IntersectionObserver
 		});
 	}
 	return intersectionObserver;

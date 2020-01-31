@@ -1,9 +1,9 @@
-import { isTouch } from '@helpers/device-utils';
+import {DeviceDetector} from '@helpers/device-utils';
 import { attr } from '@helpers/decorators/attr';
 import SmartPopup from './smart-popup';
 
-const HOVER_SHOW_EVENT = isTouch() ? 'click' : 'mouseenter';
-const HOVER_HIDE_EVENT = isTouch() ? 'click' : 'mouseleave';
+const HOVER_SHOW_EVENT = DeviceDetector.isTouchDevice ? 'click' : 'mouseenter';
+const HOVER_HIDE_EVENT = DeviceDetector.isTouchDevice ? 'click' : 'mouseleave';
 
 export interface ISmartPopupTrigger extends HTMLElement {
   popup: SmartPopup;
@@ -134,7 +134,7 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
   }
 
   protected setShowDelay() {
-    if (!this.showDelayOnTouch && isTouch()) {
+    if (!this.showDelayOnTouch && DeviceDetector.isTouchDevice) {
       this._showDelay = 0;
     } else {
       this._showDelay = parseInt(this.showDelay, 10);
@@ -142,7 +142,7 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
   }
 
   protected setHideDelay() {
-    if (!this.hideDelayOnTouch && isTouch()) {
+    if (!this.hideDelayOnTouch && DeviceDetector.isTouchDevice) {
       this._hideDelay = 0;
     } else {
       this._hideDelay = parseInt(this.hideDelay, 10);

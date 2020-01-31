@@ -57,7 +57,7 @@ export class SmartQuery {
 		// Applying dpr shortcut for device detection
 		query = query.replace(/(and ){0,1}(@MOBILE|@DESKTOP)( and){0,1}/i, (match, pre, type, post) => {
 			this._mobileOnly = (type.toUpperCase() === '@MOBILE');
-			if (DeviceDetector.isMobile() !== this._mobileOnly) {
+			if (DeviceDetector.isMobile !== this._mobileOnly) {
 				return 'not all';
 			}
 			return pre && post ? ' and ' : '';
