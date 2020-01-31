@@ -7,13 +7,14 @@ import '@helpers/builtin-polyfills/object-polyfills';
 import '@helpers/builtin-polyfills/closest-polyfills';
 
 import {
-	BreakpointRegistry,
-	SmartQuery,
-	SmartRuleList
+  BreakpointRegistry,
+  SmartQuery,
+  SmartRuleList
 } from '@components/smart-query/smart-query';
-import {SmartImage} from '@components/smart-image/smart-image';
-import {SmartVideo} from '@components/smart-video/smart-video';
-import {SmartCarousel, SmartCarouselDots} from '@components/smart-carousel/smart-carousel';
+import { SmartImage } from '@components/smart-image/smart-image';
+import { SmartVideo } from '@components/smart-video/smart-video';
+import { SmartPopup, SmartPopupTrigger } from '@components/smart-popup/smart-popup';
+import { SmartCarousel, SmartCarouselDots } from '@components/smart-carousel/smart-carousel';
 
 // TODO separate config
 // BreakpointRegistry.addCustomBreakpoint('xxs', 300, 600); // Definition
@@ -23,11 +24,13 @@ import {SmartCarousel, SmartCarouselDots} from '@components/smart-carousel/smart
 SmartImage.register('smart-image');
 
 export {
-    BreakpointRegistry,
-    SmartQuery,
-	SmartRuleList,
-	SmartImage,
-	SmartVideo,
-    SmartCarousel,
-    SmartCarouselDots
+  BreakpointRegistry,
+  SmartQuery,
+  SmartRuleList,
+  SmartImage,
+  SmartPopup,
+  SmartPopupTrigger,
+  SmartVideo,
+  SmartCarousel,
+  SmartCarouselDots
 };
