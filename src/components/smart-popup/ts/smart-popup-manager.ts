@@ -1,8 +1,9 @@
 import SmartPopup from './smart-popup';
 import Group from './smart-popup-manager-group';
 
-const all = new Set<SmartPopup>();
+const allPopups = new Set<SmartPopup>();
 const groups = new Map<string, Group>();
+let hasCloseOnBodyClickHandler = false;
 
 abstract class PopupManager {
 
@@ -12,20 +13,22 @@ abstract class PopupManager {
             groups.get(groupName) || groups.set(groupName, new Group());
             groups.get(groupName).register(popup);
         }
-        all.add(popup);
+        allPopups.add(popup);
         PopupManager.updateCloseOnBodyClickHandler();
     }
 
     private static updateCloseOnBodyClickHandler() {
-        if (all.size > 0) {
+        if (allPopups.size > 0 && !hasCloseOnBodyClickHandler) {
             document.addEventListener('click', PopupManager.closeOnBodyClickHandler);
+            hasCloseOnBodyClickHandler = true;
         } else {
             document.removeEventListener('click', PopupManager.closeOnBodyClickHandler);
+            hasCloseOnBodyClickHandler = false;
         }
     }
 
     private static closeOnBodyClickHandler() {
-        all.forEach((popup) => {
+        allPopups.forEach((popup) => {
             if (popup.closeOnBodyClick) {
                 popup.hide();
             }
@@ -33,10 +36,10 @@ abstract class PopupManager {
     }
 
     public static remove(popup: SmartPopup, groupName?: string) {
-        if (!all.has(popup)) {
+        if (!allPopups.has(popup)) {
             return;
         }
-        all.delete(popup);
+        allPopups.delete(popup);
         PopupManager.updateCloseOnBodyClickHandler();
         groupName = groupName || popup.group;
         const group = groups.get(groupName);

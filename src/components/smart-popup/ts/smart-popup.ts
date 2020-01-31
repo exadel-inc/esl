@@ -91,13 +91,13 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
   };
 
   protected bindCloseOnBodyClickHandler() {
-    this.removeEventListener('click', this.stopEventPropagation);
+    this.removeEventListener('click', this.closeOnBodyClickHandler);
     if (this.closeOnBodyClick) {
-      this.addEventListener('click', this.stopEventPropagation);
+      this.addEventListener('click', this.closeOnBodyClickHandler);
     }
   }
 
-  protected stopEventPropagation(e: Event) {
+  protected closeOnBodyClickHandler(e: Event) {
     e.stopPropagation();
   }
 
