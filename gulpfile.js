@@ -74,8 +74,9 @@ gulp.task('watch', function () {
 // === BUILD TASKS ===
 gulp.task('build', gulp.series('clean', gulp.parallel('less-lib', 'ts-lib')));
 gulp.task('build-es6', gulp.parallel('less-lib-es6', 'ts-lib-es6'));
-// Main assets + local assets
-gulp.task('build-local', gulp.series('build', gulp.parallel('less-local', 'ts-local')));
+
+// Local assets
+gulp.task('build-local', gulp.parallel('less-local', 'ts-local'));
 
 // default -> build
-gulp.task('default', gulp.series('build'));
+gulp.task('default', gulp.parallel('build', 'build-local'));

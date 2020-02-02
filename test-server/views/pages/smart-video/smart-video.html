@@ -12,67 +12,70 @@ layout: ../../layouts/basic.html
     </div>
     <hr/>
     <div class="row">
-        <section class="col-6" data-demo>
+        <section class="col-6" data-demo="1">
             <div class="demo">
                 <div class="img-container img-container-16-9 img-container-loaded">
-                    <smart-video video-type="youtube"
-                                 video-id="kbIQ070E57k"
+                    <smart-video group="demo-media"
+                                 video-type="youtube"
+                                 video-id="5LD-EoiTjuY"
                                  load-condition="@DESKTOP"
                                  load-condition-declined-marker="hide-video"
-                                 autoplay="true" muted="true"
-                                 play-in-viewport>
+                                 controls>
                     </smart-video>
                 </div>
             </div>
-            <div class="row btn-group-centered" data-demo-controls>
-                <button class="btn btn-light" data-action="play">Play</button>
-                <button class="btn btn-light" data-action="pause">Pause</button>
-                <button class="btn btn-light" data-action="stop">Stop</button>
+            <div class="row btn-group-centered">
+                <test-media-controls target="[data-demo='1'] smart-video"></test-media-controls>
             </div>
         </section>
-        <section class="col-6" data-demo>
+        <section class="col-6" data-demo="2">
             <div class="demo">
                 <div class="img-container img-container-16-9 img-container-loaded">
-                    <smart-video
-                            video-type="video"
-                            load-condition="@DESKTOP"
-                            load-condition-declined-marker="hide-video"
-                            video-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
-                            autoplay="true"
-                            play-in-viewport
-                            muted="true">
+                    <smart-video group="demo-media"
+                                 video-type="video"
+                                 load-condition="@DESKTOP"
+                                 load-condition-declined-marker="hide-video"
+                                 video-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
+                                 controls>
                     </smart-video>
                 </div>
             </div>
-            <div class="row btn-group-centered" data-demo-controls>
-                <button class="btn btn-light" data-action="play">Play</button>
-                <button class="btn btn-light" data-action="pause">Pause</button>
-                <button class="btn btn-light" data-action="stop">Stop</button>
+            <div class="row btn-group-centered">
+                <test-media-controls target="[data-demo='2'] smart-video"></test-media-controls>
+            </div>
+        </section>
+
+        <section class="col-12" data-demo="3">
+            <div class="demo-marquee">
+                <smart-video class="bg-content sv-bg"
+                             video-type="video"
+                             video-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
+                             autoplay="true"
+                             play-in-viewport
+                             muted loop>
+                </smart-video>
+                <div class="demo-content contrast">
+                    <h2>Background media</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="col-12" data-demo="4">
+            <div class="demo-marquee">
+                <smart-video class="bg-content sv-bg"
+                             video-type="youtube"
+                             video-id="e1omOSkYltw"
+                             autoplay="true"
+                             play-in-viewport
+                             muted loop>
+                </smart-video>
+                <div class="demo-content contrast">
+                    <h2>Background media</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
             </div>
         </section>
     </div>
-
-
-    <script>
-        (function () {
-            [].forEach.call(document.querySelectorAll('[data-demo]'), function (demoContainer) {
-                var sve = demoContainer.querySelector('smart-video');
-                demoContainer.querySelector('[data-demo-controls]').addEventListener('click', function (e) {
-                    var target = e.target && e.target.dataset.action;
-                    switch (target) {
-                        case 'play':
-                            sve.play();
-                            break;
-                        case 'pause':
-                            sve.pause();
-                            break;
-                        case 'stop':
-                            sve.stop();
-                            break;
-                    }
-                });
-            });
-        })();
-    </script>
 </div>
 #}}

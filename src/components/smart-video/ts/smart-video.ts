@@ -55,6 +55,16 @@ import SmartVideoRegistry from './smart-video-registry';
 import {triggerComponentEvent} from '@helpers/component-utils';
 import VideoGroupRestrictionManager from './smart-video-manager';
 
+export interface VideoOptions {
+    title: string,
+    autoplay: boolean,
+    muted: boolean,
+    loop: boolean,
+    controls: boolean,
+    videoSrc?: string,
+    videoId?: string
+}
+
 export class SmartVideo extends HTMLElement {
     @attr() public videoId: string;
     @attr() public videoSrc: string;
@@ -66,7 +76,7 @@ export class SmartVideo extends HTMLElement {
     @attr({conditional: true}) public preload: boolean;
     @attr({conditional: true}) public muted: boolean;
     @attr({conditional: true}) public loop: boolean;
-    @attr({conditional: true}) public hideControls: boolean;
+    @attr({conditional: true}) public controls: boolean;
     @attr({conditional: true}) public hideSubtitles: boolean;
     @attr({conditional: true, readonly: true}) public ready: boolean;
     @attr({conditional: true, readonly: true}) public active: boolean;
@@ -156,14 +166,15 @@ export class SmartVideo extends HTMLElement {
 
     public deferedReinit = debounce(() => this.reinitInstance());
 
-    public buildOptions() {
+    public buildOptions(): VideoOptions {
         return {
             title: this.title,
             autoplay: this.autoplay,
             muted: this.muted,
-            hideControls: this.hideControls,
-            dataId: this.videoId,
-            dataSrc: this.videoSrc,
+            loop: this.loop,
+            controls: this.controls,
+            videoId: this.videoId,
+            videoSrc: this.videoSrc,
         };
     }
 

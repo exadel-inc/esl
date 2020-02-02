@@ -40,10 +40,7 @@
       true,
       3
     ],
-    "interface-name": [
-      true,
-      "never-prefix"
-    ],
+    "interface-name": false,
     "member-ordering": false,
     "only-arrow-functions": false,
     "space-before-function-paren": [

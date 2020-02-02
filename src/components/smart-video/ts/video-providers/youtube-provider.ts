@@ -6,9 +6,10 @@
  * @protected
  */
 import {generateUId, loadScript} from '@helpers/common-utils';
-import SmartVideo from '../smart-video';
+import {SmartVideo, VideoOptions} from '../smart-video';
 import {BaseProvider, PlayerStates} from '../smart-video-provider';
 import EmbeddedVideoProviderRegistry from '../smart-video-registry';
+import PlayerVars = YT.PlayerVars;
 
 declare global {
 	interface YT extends Promise<void> {
@@ -20,15 +21,8 @@ declare global {
 	}
 }
 
-interface VideoOptions {
-	title: string,
-	dataId: string,
-	autoplay: boolean,
-	hideControls: boolean
-}
-
 export class YouTubeProvider extends BaseProvider {
-	private _el: HTMLIFrameElement;
+	private _el: HTMLDivElement | HTMLIFrameElement;
 	private _api: YT.Player;
 
 	static get videoName() {
@@ -58,46 +52,54 @@ export class YouTubeProvider extends BaseProvider {
 		return YouTubeProvider._coreApiPromise;
 	}
 
-	protected static buildIframeUrl(id: string, autoplay: boolean) {
-		return `//www.youtube.com/embed/${id}?wmode=transparent&rel=0&showinfo=0&iv_load_policy=3&enablejsapi=1&autoplay=${Number(autoplay)}`;
+	protected static mapOptions(options: VideoOptions): PlayerVars {
+		return {
+			enablejsapi: 1,
+			origin: location.origin,
+			rel: 0,
+			showinfo: 0,
+			iv_load_policy: 0,
+			autoplay: Number(options.autoplay),
+			controls: Number(options.controls),
+			disablekb: Number(!options.controls), // TODO: criteria
+			autohide: Number(!options.controls) // TODO: criteria
+		};
 	}
-
 	protected static buildIframe(data: VideoOptions) {
-		const el = document.createElement('iframe');
+		const el = document.createElement('div');
 		el.id = 'yt-video-' + generateUId();
 		el.className = 'sev-inner sev-youtube';
-		el.style.width = '100%';
-		el.style.height = '100%';
 		el.title = data.title;
 		el.setAttribute('aria-label', data.title);
 		el.setAttribute('frameborder', '0');
 		el.setAttribute('tabindex', '0');
 		el.setAttribute('allowfullscreen', 'yes');
-		el.src = YouTubeProvider.buildIframeUrl(data.dataId, data.autoplay);
 		return el;
 	}
 
 	public bind() {
-		const iframeLoad = new Promise((resolve) => {
-			this._el = YouTubeProvider.buildIframe(this.component.buildOptions());
-			this._el.onload = function () {
-				resolve();
-			};
-			this.component.appendChild(this._el);
-		});
-
-		this._ready = Promise.all([YouTubeProvider.getCoreApi(), iframeLoad]).then(
+		this._el = YouTubeProvider.buildIframe(this.component.buildOptions());
+		this.component.appendChild(this._el);
+		this._ready = YouTubeProvider.getCoreApi().then(
 			() => (new Promise((resolve, reject) => {
-				this._api = new YT.Player(this._el, {
+				this._api = new YT.Player(this._el.id, {
+					videoId: this.component.videoId,
 					events: {
 						onError: () => reject(this), // TODO do smth with it
 						onReady: () => resolve(this),
 						onStateChange: this._onStateChange
-					}
+					},
+					playerVars: YouTubeProvider.mapOptions(this.component.buildOptions())
 				});
 			}))
 		);
-		this._ready.then(() => this.component._onReady());
+		this._ready.then(() => {
+			this._el = this._api.getIframe();
+			if (this.component.muted) {
+				this._api.mute()
+			}
+			this.component._onReady()
+		});
 	}
 
 	public unbind() {
@@ -120,13 +122,17 @@ export class YouTubeProvider extends BaseProvider {
 				this.component._onPaused();
 				break;
 			case PlayerStates.ENDED:
-				this.component._onEnded();
+				if (this.component.loop) {
+					this._api.playVideo();
+				} else {
+					this.component._onEnded();
+				}
 				break;
 		}
 	};
 
 	public focus() {
-		if (this._el && this._el.contentWindow) {
+		if (this._el instanceof HTMLIFrameElement && this._el.contentWindow) {
 			this._el.contentWindow.focus();
 		}
 	}
