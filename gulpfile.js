@@ -45,7 +45,12 @@ gulp.task('ts-local', function () {
 // === CLEAN TASK ===
 gulp.task('clean', function () {
     return task.clean({
-        src: paths.clean
+        src: [paths.bundle.target, paths.es6.target].map((path) => `${path}/`)
+    });
+});
+gulp.task('clean-local', function () {
+    return task.clean({
+        src: `${paths.test.target}/`
     });
 });
 
@@ -76,7 +81,7 @@ gulp.task('build', gulp.series('clean', gulp.parallel('less-lib', 'ts-lib')));
 gulp.task('build-es6', gulp.parallel('less-lib-es6', 'ts-lib-es6'));
 
 // Local assets
-gulp.task('build-local', gulp.parallel('less-local', 'ts-local'));
+gulp.task('build-local', gulp.series('clean-local', gulp.parallel('less-local', 'ts-local')));
 
 // default -> build
 gulp.task('default', gulp.parallel('build', 'build-local'));
