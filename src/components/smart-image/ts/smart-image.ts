@@ -1,6 +1,6 @@
 /**
  * Smart Image
- * @version 1.1.0
+ * @version 1.2.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * @description:
@@ -98,7 +98,10 @@ import SmartRuleList from '@components/smart-query/ts/smart-rule-list';
 
 // Mods configurations
 interface Strategy {
-	[mode: string]: { useInnerImg: boolean, afterLoad?: (shadowImg: ShadowImageElement, empty: boolean) => void }
+	[mode: string]: {
+		useInnerImg?: boolean,
+		apply: (img: SmartImage, shadowImg: ShadowImageElement) => void
+	}
 }
 
 interface ShadowImageElement extends HTMLImageElement {
@@ -108,20 +111,37 @@ interface ShadowImageElement extends HTMLImageElement {
 const STRATEGIES: Strategy = {
 	'cover': {
 		useInnerImg: false,
+		apply(img, shadowImg) {
+			const src = shadowImg.src;
+			const isEmpty = !src || SmartImage.isEmptyImage(src);
+			img.style.backgroundImage = isEmpty ? null : `url("${src}")`;
+			img.style.paddingTop = null;
+		}
 	},
 	'save-ratio': {
 		useInnerImg: false,
-		afterLoad(shadowImg, empty) {
-			this.style.paddingTop = empty ? null : `${(shadowImg.height * 100 / shadowImg.width)}%`;
+		apply(img, shadowImg) {
+			const src = shadowImg.src;
+			const isEmpty = !src || SmartImage.isEmptyImage(src);
+			img.style.backgroundImage = isEmpty ? null : `url("${src}")`;
+			img.style.paddingTop = isEmpty ? null : `${(shadowImg.height * 100 / shadowImg.width)}%`;
 		}
 	},
 	'fit': {
-		useInnerImg: true
+		useInnerImg: true,
+		apply(img, shadowImg) {
+			img.style.backgroundImage = null;
+			img.style.paddingTop = null;
+			img.innerImage.src = shadowImg.src;
+		}
 	},
 	'origin': {
 		useInnerImg: true,
-		afterLoad(shadowImg) {
-			this._innerImage.width = shadowImg.width / shadowImg.dpr;
+		apply(img, shadowImg) {
+			img.style.backgroundImage = null;
+			img.style.paddingTop = null;
+			img.innerImage.src = shadowImg.src;
+			img.innerImage.width = shadowImg.width / shadowImg.dpr;
 		}
 	}
 };
@@ -231,7 +251,7 @@ export class SmartImage extends HTMLElement {
 			if (this.mode !== newVal) {
 				this.mode = newVal;
 			}
-			if (this.mode !== 'origin' && this._innerImg) {
+			if (!STRATEGIES[this.mode].useInnerImg && this._innerImg) {
 				this.removeChild(this._innerImg);
 				this._innerImg = null;
 			}
@@ -277,19 +297,9 @@ export class SmartImage extends HTMLElement {
 	}
 
 	private syncImage() {
-		const shadowImg = this._shadowImg;
-		const src = shadowImg.src;
-		const isEmpty = !src || SmartImage.isEmptyImage(src);
-
-		if (STRATEGIES[this.mode].useInnerImg) {
-			this._innerImage.src = src;
-			this.style.backgroundImage = null;
-		} else {
-			this.style.backgroundImage = isEmpty ? null : `url("${src}")`;
-		}
-		if (STRATEGIES[this.mode].afterLoad) {
-			STRATEGIES[this.mode].afterLoad.call(this, shadowImg, isEmpty);
-		}
+		const strategy = STRATEGIES[this.mode];
+		if (!strategy) return;
+		strategy.apply(this, this._shadowImg);
 	}
 
 	protected connectedCallback() {
@@ -342,7 +352,7 @@ export class SmartImage extends HTMLElement {
 		}
 	}
 
-	protected get _innerImage() {
+	public get innerImage() {
 		if (!this._innerImg) {
 			this._innerImg = this.querySelector('img');
 			if (!this._innerImg) {
