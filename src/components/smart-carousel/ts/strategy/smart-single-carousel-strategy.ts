@@ -1,4 +1,4 @@
-import SmartCarouselStrategy from './smart-carousel-strategy';
+import {SmartCarouselStrategy, SmartCarouselStrategyRegistry} from './smart-carousel-strategy';
 import SmartCarousel from '../smart-carousel';
 
 class SmartSingleCarouselStrategy extends SmartCarouselStrategy {
@@ -41,5 +41,7 @@ class SmartSingleCarouselStrategy extends SmartCarouselStrategy {
 	public cleanStyles() {
 	}
 }
+
+SmartCarouselStrategyRegistry.registerStrategy('single', SmartSingleCarouselStrategy);
 
 export default SmartSingleCarouselStrategy;

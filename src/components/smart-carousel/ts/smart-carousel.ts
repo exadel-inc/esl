@@ -3,25 +3,14 @@ import {deepCompare} from '@helpers/common-utils';
 import {triggerComponentEvent} from '@helpers/component-utils';
 import SmartRuleList from '@components/smart-query/ts/smart-rule-list';
 import SmartCarouselSlide from './smart-carousel-slide';
-import SmartCarouselStrategy from './strategy/smart-carousel-strategy';
-import SmartSingleCarouselStrategy from './strategy/smart-single-carousel-strategy';
-import SmartMultiCarouselStrategy from './strategy/smart-multi-carousel-strategy';
+import {SmartCarouselStrategy, SmartCarouselStrategyRegistry} from './strategy/smart-carousel-strategy';
 import SmartCarouselPlugin from './plugin/smart-carousel-plugin';
 
-interface StrategyMap {
-	[type: string]: (carousel: SmartCarousel) => SmartCarouselStrategy
-}
-
 interface CarouselConfig { // Registry
-	strategy?: 'single' | 'multiple',
+	strategy?: string,
 	count?: number,
 	className?: string
 }
-
-const STRATEGIES: StrategyMap = { // TODO registry
-	single: (carousel: SmartCarousel) => new SmartSingleCarouselStrategy(carousel),
-    multiple: (carousel: SmartCarousel) => new SmartMultiCarouselStrategy(carousel),
-};
 
 export type SmartCarouselPluginConstructor = new (owner: SmartCarousel) => SmartCarouselPlugin;
 
@@ -30,7 +19,6 @@ const pluginRegistry: {[key: string]: SmartCarouselPluginConstructor} = {};
 // TODO: add ability to choose the number of an active slide
 
 class SmartCarousel extends HTMLElement {
-
 	static get is() {
 		return 'smart-carousel';
 	}
@@ -44,7 +32,7 @@ class SmartCarousel extends HTMLElement {
 	private _configRules: SmartRuleList<CarouselConfig>;
 	private _currentConfig: CarouselConfig;
 	private _strategy: SmartCarouselStrategy;
-	private _plugins: {[key: string]: SmartCarouselPlugin};
+	private _plugins: {[key: string]: SmartCarouselPlugin} = {};
 
 	private readonly _onMatchChange: () => void;
 
@@ -140,7 +128,6 @@ class SmartCarousel extends HTMLElement {
 	protected connectedCallback() {
 		this.classList.add(SmartCarousel.is);
 
-		this._initPlugins();
 		this.update(true);
 		this._bindEvents();
 	}
@@ -153,19 +140,23 @@ class SmartCarousel extends HTMLElement {
 		// TODO: change observed attributes
 		switch (attrName) {
 			case 'config':
-			case 'smth-else':
 				this.configRules = SmartRuleList.parse<object>(this.config, SmartRuleList.OBJECT_PARSER) as SmartRuleList<CarouselConfig>;
 				this.update(true);
 				break;
 		}
 	}
 
-	private _initPlugins() {
-		this._plugins = {};
-		Object.keys(pluginRegistry).forEach((pluginName) => {
-			const Constructor = pluginRegistry[pluginName] ;
-			this._plugins[pluginName] = new Constructor(this);
-		});
+	public addPlugin(plugin: SmartCarouselPlugin) {
+		this._plugins[plugin.key] = plugin;
+		if (this.isConnected) {
+			plugin.bind();
+		}
+	}
+	public removePlugin(plugin: SmartCarouselPlugin) {
+		if (this._plugins[plugin.key] === plugin) {
+			this._plugins[plugin.key].unbind();
+			delete this._plugins[plugin.key];
+		}
 	}
 
 	protected _bindEvents() {
@@ -175,7 +166,7 @@ class SmartCarousel extends HTMLElement {
 
 	protected _unbindEvents() {
 		this.removeEventListener('click', this._onClick, false);
-		Object.keys(this._plugins).forEach((key: string) => this._plugins[key].destroy());
+		Object.keys(this._plugins).forEach((key: string) => this._plugins[key].unbind());
 	}
 
 	get configRules() {
@@ -204,7 +195,7 @@ class SmartCarousel extends HTMLElement {
 		}
 		this._currentConfig = Object.assign({}, config);
 
-		this._strategy = STRATEGIES[this.activeConfig.strategy](this);
+		this._strategy = SmartCarouselStrategyRegistry.createStrategyInstance(this.activeConfig.strategy, this);
 		if (force || this.activeIndexes.length !== this._currentConfig.count) {
 			this.updateSlidesCount();
 		}

@@ -1,9 +1,8 @@
-import SmartCarouselStrategy from './smart-carousel-strategy';
+import {SmartCarouselStrategy, SmartCarouselStrategyRegistry} from './smart-carousel-strategy';
 import SmartCarousel from '../smart-carousel';
 
 
 class SmartMultiCarouselStrategy extends SmartCarouselStrategy {
-
 	constructor(carousel: SmartCarousel) {
 		super(carousel);
 	}
@@ -69,5 +68,7 @@ class SmartMultiCarouselStrategy extends SmartCarouselStrategy {
 	public cleanStyles() {
 	}
 }
+
+SmartCarouselStrategyRegistry.registerStrategy('multiple', SmartMultiCarouselStrategy);
 
 export default SmartMultiCarouselStrategy;
