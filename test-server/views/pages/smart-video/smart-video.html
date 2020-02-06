@@ -7,14 +7,16 @@ layout: ../../layouts/basic.html
     <h2 class="text-center"><code>&lt;smart-video&gt;</code> component</h2>
     <hr/>
     <div class="description">
-        <p>Smart Video - is the smart container that gives you same API for different providers under the hood
-            along with helpers like lazy loading, activate query, picture cropping.</p>
+        <p>Smart Video - is the smart container that gives you the same API for different providers under the hood
+            along with helpers like <em>lazy loading</em>, <em>activate query</em>, <em>picture cropping</em>.</p>
     </div>
     <hr/>
     <div class="row justify-content-around">
         <section class="col-6" data-demo="1">
             <div class="demo">
                 <h3 class="text-center">YouTube video</h3>
+                <p>Smart Video have a full support of the YouTube provider.
+                    And you can act with the smart video component in the same way as with native video element</p>
                 <hr/>
                 <div class="img-container img-container-16-9 img-container-loaded">
                     <smart-video group="demo-media"
@@ -33,6 +35,8 @@ layout: ../../layouts/basic.html
         <section class="col-6" data-demo="2">
             <div class="demo">
                 <h3 class="text-center">HTML video</h3>
+                <p>Smart Video could be used for the simple HTML video.
+                    It brings us ability to use extra features (like lazy loading or cropping) for the simple videos.</p>
                 <hr/>
                 <div class="img-container img-container-16-9 img-container-loaded">
                     <smart-video group="demo-media"
@@ -50,7 +54,8 @@ layout: ../../layouts/basic.html
         </section>
         <section class="col-6" data-demo="3">
             <div class="demo">
-                <h3 class="text-center">Basic Iframe Example (vimeo)</h3>
+                <h3 class="text-center">Basic Iframe Example</h3>
+                <p>Smart Video also have build-in provider to wrap abstract iframe source. Here is the simple example for the vimeo media source</p>
                 <hr/>
                 <div class="img-container img-container-16-9 img-container-loaded">
                     <smart-video group="demo-media"
@@ -67,6 +72,7 @@ layout: ../../layouts/basic.html
 
         <section class="col-12" data-demo="3">
             <h3 class="text-center">HTML video background</h3>
+            <p class="text-center">Cropping and decorations features of Smart Video allows us to use it as an active background for the block.</p>
             <hr/>
             <div class="demo-marquee">
                 <smart-video class="bg-content sv-bg"
@@ -85,6 +91,7 @@ layout: ../../layouts/basic.html
 
         <section class="col-12" data-demo="4">
             <h3 class="text-center">YouTube video background</h3>
+            <p class="text-center">We still can use any source in the background mode</p>
             <hr/>
             <div class="demo-marquee">
                 <smart-video class="bg-content sv-bg"
@@ -97,6 +104,23 @@ layout: ../../layouts/basic.html
                 <div class="demo-content contrast">
                     <h2>Background media</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="col-12" data-demo="4">
+            <h3 class="text-center">Load condition</h3>
+            <p class="text-center">Load condition feature allows us to define using SmartQuery when the video source should be loaded.</p>
+            <hr/>
+            <div class="demo">
+                <div class="alert alert-info">Video bellow will be loading only on XS breakpoint</div>
+                <div class="img-container img-container-16-9">
+                    <smart-video load-condition="@XS"
+                                 video-type="youtube"
+                                 video-id="e1omOSkYltw"
+                                 autoplay="true"
+                                 muted loop>
+                    </smart-video>
                 </div>
             </div>
         </section>
