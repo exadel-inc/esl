@@ -2,9 +2,7 @@
  * Function that do nothing
  */
 /* tslint:disable-next-line no-empty */
-export function noop() {
-
-}
+export function noop() {}
 
 /***
  * Creates a debounced function that delays invoking func until after wait milliseconds have elapsed
