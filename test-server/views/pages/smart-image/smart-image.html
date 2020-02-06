@@ -20,9 +20,9 @@ layout: ../../layouts/basic.html
                 </div>
                 <div class="col-xs-12 col-sm-6 p-2 d-flex">
                     <div class="m-auto">
-                        <h5> Mode: save-ration </h5>
-                        <p>Smart Image use entire available width and occupies the height according to image aspect ratio. </p>
-                        <p>No inner image, background using to render image.</p>
+                        <h5>Mode: save-ratio</h5>
+                        <p>Smart Image uses entire available width and occupies the height according to image aspect ratio.</p>
+                        <p>No inner image, css background is used to render the image.</p>
                     </div>
                 </div>
             </div>
@@ -30,9 +30,9 @@ layout: ../../layouts/basic.html
             <div class="demo row">
                 <div class="col-xs-12 col-sm-6 p-2 d-flex">
                     <div class="m-auto">
-                        <h5> Mode: cover </h5>
-                        <p>No inner image, image rendered by background image.</p>
-                        <p>Smart Image have no own size. Can be used with the img-container classes</p>
+                        <h5>Mode: cover</h5>
+                        <p>No inner image, image is rendered by background image.</p>
+                        <p>Smart Image has no own size. Can be used with img-container classes</p>
                         <p><i>Example:</i></p>
                         <code>&lt;div class="img-container img-container-4-3"&gt; &lt;smart-image ...</code>
                     </div>
@@ -59,8 +59,8 @@ layout: ../../layouts/basic.html
                 <div class="col-xs-12 col-sm-6 p-2 d-flex">
                     <div class="m-auto">
                         <h5>Mode: cover (additional classes: vertical alignment)</h5>
-                        <p>As the background-image used to render image in cover mode we can control image cropping options throw the css.</p>
-                        <p>The following options available to control image vertical position:</p>
+                        <p>As background-image is used to render image in cover mode we can control image cropping options through the css.</p>
+                        <p>The following options are available to control image vertical position:</p>
                         <ul>
                             <li><input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-top"/> .bg-v-top</li>
                             <li><input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-center" checked/> .bg-v-center <b>(default)</b></li>
@@ -95,8 +95,8 @@ layout: ../../layouts/basic.html
                 </div>
                 <div class="col-xs-12 col-sm-6 p-2 d-flex">
                     <div class="m-auto">
-                        <h5> Mode: cover (additional classes: horizontal alignment)</h5>
-                        <p>Same as the following options available to control image horizontal position:</p>
+                        <h5>Mode: cover (additional classes: horizontal alignment)</h5>
+                        <p>The following options available to control image horizontal position:</p>
                         <ul>
                             <li><input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-left"/> .bg-h-left</li>
                             <li><input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-center" checked/> .bg-h-center <b>(default)</b></li>
@@ -131,8 +131,8 @@ layout: ../../layouts/basic.html
                 </div>
                 <div class="col-xs-12 col-sm-6 p-2 d-flex">
                     <div class="m-auto">
-                        <h5> Mode: cover (additional classes: inscribe)</h5>
-                        <p>bg-inscribe can be used to declare inscribe image behaviour</p>
+                        <h5>Mode: cover (additional classes: inscribe)</h5>
+                        <p><em>bg-inscribe</em> can be used to declare inscribe image behaviour</p>
                         <div><b>Container:</b><span class="value">size: 300 x 150px; gray border</span></div>
                     </div>
                 </div>
@@ -150,8 +150,8 @@ layout: ../../layouts/basic.html
                 </div>
                 <div class="col-xs-12 col-sm-6 p-2 d-flex">
                     <div class="m-auto">
-                        <h5> Mode: fit </h5>
-                        <p>Smart Image use inner img to render picture and used as a wrapper that controls image source and state.</p>
+                        <h5>Mode: fit</h5>
+                        <p>Smart Image uses inner <em>img</em> to render picture and is used as a wrapper that controls image source and state.</p>
                     </div>
                 </div>
             </div>
@@ -166,8 +166,8 @@ layout: ../../layouts/basic.html
                 </div>
                 <div class="col-xs-12 col-sm-6 p-2 d-flex">
                     <div class="m-auto">
-                        <h5> Mode: origin </h5>
-                        <p>Origin mode do the same as fit but set smart-image size according inner image original size</p>
+                        <h5>Mode: origin</h5>
+                        <p>Origin mode behaves similarly to the fit mode but sets smart-image size according to inner image original size.</p>
                     </div>
                 </div>
             </div>
@@ -183,7 +183,7 @@ layout: ../../layouts/basic.html
             <div class="d-flex p-2">
                 <div class="mx-auto">
                     <h5>Mode: save-ration, lazy mode</h5>
-                    <p>Lazy marker allows to start image loading only when it is close to the viewport and visible</p>
+                    <p>Lazy marker allows to start image loading only when it is close to (or in) the viewport and is visible</p>
                 </div>
             </div>
             <div class="img-container img-container-16-9">
@@ -199,7 +199,7 @@ layout: ../../layouts/basic.html
             <div class="d-flex p-2">
                 <div class="mx-auto">
                     <h5>Mode: fit, lazy mode</h5>
-                    <p>Lazy loading available for all rendering mode</p>
+                    <p>Lazy loading is available for all rendering modes</p>
                 </div>
             </div>
             <div class="img-container img-container-16-9">
@@ -218,8 +218,8 @@ layout: ../../layouts/basic.html
             <div class="d-flex p-2">
                 <div class="mx-auto">
                     <h5>Mode: inner-svg, lazy mode</h5>
-                    <p>Smart Image inner-svg mode that loading svg content inline.</p>
-                    <p class="alert alert-warning">NOTE: requesting svg endpoint should accept CORS polycy restrictions</p>
+                    <p>Smart Image inner-svg mode that loads svg content inline.</p>
+                    <p class="alert alert-warning">NOTE: requesting svg endpoint should accept CORS policy restrictions</p>
                 </div>
             </div>
             <div class="img-container img-container-4-3">

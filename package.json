@@ -13,7 +13,7 @@
     "watch": "gulp watch",
     "build": "gulp build",
     "build-es6": "gulp build-es6",
-    "local-serv": "npm run local-serv-build && npm run local-serv-quick",
+    "local-serv": "npm run build && npm run local-serv-build && npm run local-serv-quick",
     "local-serv-build": "gulp build-local",
     "local-serv-quick": "cd test-server && node server.js",
     "local-serv-watch": "npm run local-serv | npm run watch",
