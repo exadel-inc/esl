@@ -1,13 +1,20 @@
 import {attr} from '@helpers/decorators/attr';
 import SmartCarouselPlugin from './smart-carousel-plugin';
 
-export class SmartCarouselAutoAdvancePlugin extends SmartCarouselPlugin {
-	public static is = 'smart-carousel-auto-advance-plugin';
+/**
+ * Slide Carousel Autoplay (Auto-Advance) plugin
+ * Automatically switch slides by timeout
+ *
+ * @author Alexey Stsefanovich (ala'n)
+ */
+export class SmartCarouselAutoplayPlugin extends SmartCarouselPlugin {
+	public static is = 'smart-carousel-autoplay-plugin';
 
 	@attr({defaultValue: 'next'}) public direction: string;
-	@attr({defaultValue: '1000'}) public timeout: number;
+	@attr({defaultValue: '5000'}) public timeout: number;
 
-	private _interval: number;
+	private _active: boolean;
+	private _timeout: number;
 
 	constructor() {
 		super();
@@ -15,27 +22,45 @@ export class SmartCarouselAutoAdvancePlugin extends SmartCarouselPlugin {
 		this._onInteract = this._onInteract.bind(this);
 	}
 
+	public get active() {
+		return this._active;
+	}
+
 	public bind(): void {
-		this._interval = setInterval(this._onInterval, this.timeout);
 		this.carousel.addEventListener('mouseover', this._onInteract);
 		this.carousel.addEventListener('mouseout', this._onInteract);
 		this.carousel.addEventListener('focusin', this._onInteract);
 		this.carousel.addEventListener('focusout', this._onInteract);
 		this.carousel.addEventListener('sc:slide:changed', this._onInteract);
+		this.start();
 		console.log('Auto-advance plugin attached successfully to ', this.carousel);
 	}
-
 	public unbind(): void {
-		clearInterval(this._interval);
 		this.carousel.removeEventListener('mouseover', this._onInteract);
 		this.carousel.removeEventListener('mouseout', this._onInteract);
 		this.carousel.removeEventListener('focusin', this._onInteract);
 		this.carousel.removeEventListener('focusout', this._onInteract);
 		this.carousel.removeEventListener('sc:slide:changed', this._onInteract);
+		this.stop();
 		console.log('Auto-advance plugin detached successfully from ', this.carousel);
 	}
 
+	public start() {
+		this._active = true;
+		this.reset();
+	}
+	public stop() {
+		this._active = false;
+		this.reset()
+	}
+
+	public reset() {
+		if (this._timeout) clearTimeout(this._timeout);
+		this._timeout = this._active ? setTimeout(this._onInterval, this.timeout) : null;
+	}
+
 	protected _onInterval() {
+		if (!this._active) return;
 		switch (this.direction) {
 			case 'next':
 				this.carousel.next();
@@ -44,24 +69,26 @@ export class SmartCarouselAutoAdvancePlugin extends SmartCarouselPlugin {
 				this.carousel.prev();
 				return
 		}
+		this.reset();
 	}
 
 	protected _onInteract(e: Event) {
 		switch (e.type) {
 			case 'mouseover':
 			case 'focusin':
-				clearInterval(this._interval);
+				this.stop();
 				return;
 			case 'mouseout':
 			case 'focusout':
-				this._interval = setInterval(this._onInterval, this.timeout);
+				this.start();
 				return;
 			case 'sc:slide:changed':
-				clearInterval(this._interval);
-				this._interval = setInterval(this._onInterval, this.timeout);
+				this.reset();
 				return;
 		}
 	}
 }
 
-customElements.define(SmartCarouselAutoAdvancePlugin.is, SmartCarouselAutoAdvancePlugin);
+customElements.define(SmartCarouselAutoplayPlugin.is, SmartCarouselAutoplayPlugin);
+
+export default SmartCarouselAutoplayPlugin;

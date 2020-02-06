@@ -6,20 +6,24 @@ abstract class SmartCarouselPlugin extends HTMLElement {
 	public get key() {
 		return this.nodeName.toLowerCase();
 	}
-	protected get carousel(): SmartCarousel {
+	public get carousel(): SmartCarousel {
 		return this._carousel;
 	}
 
 	protected connectedCallback() {
-		if (this.parentNode instanceof SmartCarousel) {
-			this._carousel = this.parentNode;
+		const carousel = (this.constructor as any).freePlacement ? this.closest(SmartCarousel.is) : this.parentNode;
+		if (carousel instanceof SmartCarousel) {
+			this._carousel = carousel;
 		} else {
 			throw new Error('Invalid smart-carousel-plugin placement: plugin element should be placed under the smart-carousel node');
 		}
-		this.carousel.addPlugin(this);
+		this.carousel._addPlugin(this);
 	}
 	protected disconnectedCallback() {
-		this.carousel.removePlugin(this);
+		if (this.carousel) {
+			this.carousel._removePlugin(this);
+			this._carousel = null;
+		}
 	}
 
 	public abstract bind(): void;

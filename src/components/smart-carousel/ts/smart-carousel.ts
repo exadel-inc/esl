@@ -27,7 +27,7 @@ class SmartCarousel extends HTMLElement {
 	private _configRules: SmartRuleList<CarouselConfig>;
 	private _currentConfig: CarouselConfig = {};
 	private _strategy: SmartCarouselStrategy;
-	private _plugins: {[key: string]: SmartCarouselPlugin} = {};
+	private readonly _plugins = new Map<string, SmartCarouselPlugin>();
 
 	private readonly _onMatchChange: () => void;
 
@@ -145,46 +145,12 @@ class SmartCarousel extends HTMLElement {
 		}
 	}
 
-	// TODO: possibly it will be better to separate inner registration interface
-	/**
-	 * Add and register {@link SmartCarouselPlugin}
-	 * Plugin is attaching as a sub-node to carousel and registered in the inner carousel instance registry
-	 */
-	public addPlugin(plugin: SmartCarouselPlugin) {
-		if (this._plugins[plugin.key]) return;
-		if (plugin.parentNode !== this) {
-			this.appendChild(plugin);
-			return;
-		}
-		this._plugins[plugin.key] = plugin;
-		if (this.isConnected) {
-			plugin.bind();
-		}
-	}
-	/**
-	 * Remove plugin from carousel registry
-	 * NOTE: node will not be removed
-	 */
-	public removePlugin(plugin: SmartCarouselPlugin | string) {
-		if (plugin instanceof SmartCarouselPlugin &&
-			this._plugins[plugin.key] === plugin) {
-			this.removePlugin(plugin.key);
-			return;
-		}
-		if (typeof plugin === 'string' && this._plugins[plugin]) {
-			this._plugins[plugin].unbind();
-			delete this._plugins[plugin];
-		}
-	}
-
 	protected _bindEvents() {
 		this.addEventListener('click', this._onClick, false);
-		Object.keys(this._plugins).forEach((key: string) => this._plugins[key].bind());
 	}
 
 	protected _unbindEvents() {
 		this.removeEventListener('click', this._onClick, false);
-		Object.keys(this._plugins).forEach((key: string) => this._plugins[key].unbind());
 	}
 
 	get configRules() {
@@ -263,6 +229,28 @@ class SmartCarousel extends HTMLElement {
 
 	protected _onRegistryChange() {
 		if (!this._strategy) this.update(true);
+	}
+
+	// Plugin management
+	public addPlugin(plugin: SmartCarouselPlugin) {
+		if (plugin.carousel) return;
+		this.appendChild(plugin);
+	}
+	public removePlugin(plugin: SmartCarouselPlugin | string) {
+		if (typeof plugin === 'string') plugin = this._plugins.get(plugin);
+		if (!plugin || plugin.carousel !== this) return;
+		plugin.parentNode.removeChild(plugin);
+	}
+
+	public _addPlugin(plugin: SmartCarouselPlugin) {
+		if (this._plugins.has(plugin.key)) return;
+		this._plugins.set(plugin.key, plugin);
+		if (this.isConnected) plugin.bind();
+	}
+	public _removePlugin(plugin: SmartCarouselPlugin) {
+		if (!this._plugins.has(plugin.key)) return;
+		plugin.unbind();
+		this._plugins.delete(plugin.key);
 	}
 }
 
