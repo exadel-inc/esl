@@ -4,7 +4,6 @@
  * @author Alexey Stsefanovich (ala'n)
  */
 import SmartVideo from './smart-video';
-import PlayerState = YT.PlayerState;
 
 export enum PlayerStates {
 	BUFFERING = 3,
@@ -40,44 +39,75 @@ export abstract class BaseProvider {
 		return this._ready;
 	}
 
+	/**
+	 * Bind the provider instance to the component
+	 */
 	public abstract bind(): void;
+	/**
+	 * Unbind the provider instance from the component
+	 */
 	public abstract unbind(): void;
 
-	public abstract getState(): PlayerStates | PlayerState;
+	/**
+	 * @returns {PlayerStates} - current state of the player
+	 */
+	public abstract getState(): PlayerStates;
 
-	protected abstract seekTo(pos?: number): void;
-	protected abstract play(): void;
-	protected abstract pause(): void;
-	protected abstract stop(): void;
+	protected abstract seekTo(pos?: number): void | Promise<any>;
+	protected abstract play(): void | Promise<any>;
+	protected abstract pause(): void | Promise<any>;
+	protected abstract stop(): void | Promise<any>;
 
+	/**
+	 * Action to set focus to the inner content
+	 */
 	public abstract focus(): void;
 
+	/**
+	 * Executes toggle action:
+	 * If the player is PAUSED then it starts playing otherwise it pause playing
+	 */
 	protected toggle() {
 		if (this.getState() === PlayerStates.PAUSED) {
-			this.play();
+			return this.play();
 		} else {
-			this.pause();
+			return this.pause();
 		}
 	}
 
-	// Safe methods executed after api ready
+	/**
+	 * Executes seekTo action when api is ready
+	 * @returns Promise
+	 */
 	public safeSeekTo(pos: number) {
 		this.ready.then(() => this.seekTo(pos));
 	}
-
+	/**
+	 * Executes play when api is ready
+	 * @returns Promise
+	 */
 	public safePlay() {
 		this.ready.then(() => this.play());
 	}
-
+	/**
+	 * Executes pause when api is ready
+	 * @returns Promise
+	 */
 	public safePause() {
 		this.ready.then(() => this.pause());
 	}
-
+	/**
+	 * Executes stop when api is ready
+	 * @returns Promise
+	 */
 	public safeStop() {
 		this.ready.then(() => this.stop());
 	}
-
+	/**
+	 * Executes toggle when api is ready
+	 * @returns Promise
+	 */
 	public safeToggle() {
-		this.ready.then(() => this.toggle());
+		return this.ready.then(() => this.toggle());
 	}
 }

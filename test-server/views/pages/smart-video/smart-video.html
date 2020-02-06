@@ -11,9 +11,11 @@ layout: ../../layouts/basic.html
             along with helpers like lazy loading, activate query, picture cropping.</p>
     </div>
     <hr/>
-    <div class="row">
+    <div class="row justify-content-around">
         <section class="col-6" data-demo="1">
             <div class="demo">
+                <h3 class="text-center">YouTube video</h3>
+                <hr/>
                 <div class="img-container img-container-16-9 img-container-loaded">
                     <smart-video group="demo-media"
                                  video-type="youtube"
@@ -30,6 +32,8 @@ layout: ../../layouts/basic.html
         </section>
         <section class="col-6" data-demo="2">
             <div class="demo">
+                <h3 class="text-center">HTML video</h3>
+                <hr/>
                 <div class="img-container img-container-16-9 img-container-loaded">
                     <smart-video group="demo-media"
                                  video-type="video"
@@ -44,8 +48,26 @@ layout: ../../layouts/basic.html
                 <test-media-controls target="[data-demo='2'] smart-video"></test-media-controls>
             </div>
         </section>
+        <section class="col-6" data-demo="3">
+            <div class="demo">
+                <h3 class="text-center">Basic Iframe Example (vimeo)</h3>
+                <hr/>
+                <div class="img-container img-container-16-9 img-container-loaded">
+                    <smart-video group="demo-media"
+                                 video-type="iframe"
+                                 video-src="https://player.vimeo.com/video/1084537"
+                                 controls>
+                    </smart-video>
+                </div>
+            </div>
+            <div class="row btn-group-centered">
+                <test-media-controls target="[data-demo='3'] smart-video" actions="play,stop"></test-media-controls>
+            </div>
+        </section>
 
         <section class="col-12" data-demo="3">
+            <h3 class="text-center">HTML video background</h3>
+            <hr/>
             <div class="demo-marquee">
                 <smart-video class="bg-content sv-bg"
                              video-type="video"
@@ -62,6 +84,8 @@ layout: ../../layouts/basic.html
         </section>
 
         <section class="col-12" data-demo="4">
+            <h3 class="text-center">YouTube video background</h3>
+            <hr/>
             <div class="demo-marquee">
                 <smart-video class="bg-content sv-bg"
                              video-type="youtube"

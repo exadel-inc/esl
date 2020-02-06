@@ -25,7 +25,7 @@ export class YouTubeProvider extends BaseProvider {
 	private _el: HTMLDivElement | HTMLIFrameElement;
 	private _api: YT.Player;
 
-	static get videoName() {
+	static get providerName() {
 		return 'youtube';
 	}
 
@@ -67,7 +67,7 @@ export class YouTubeProvider extends BaseProvider {
 	}
 	protected static buildIframe(data: VideoOptions) {
 		const el = document.createElement('div');
-		el.id = 'yt-video-' + generateUId();
+		el.id = 'sev-yt-' + generateUId();
 		el.className = 'sev-inner sev-youtube';
 		el.title = data.title;
 		el.setAttribute('aria-label', data.title);
@@ -139,7 +139,7 @@ export class YouTubeProvider extends BaseProvider {
 
 	public getState() {
 		if (this._api && typeof this._api.getPlayerState === 'function') {
-			return this._api.getPlayerState();
+			return this._api.getPlayerState() as number as PlayerStates;
 		}
 		return PlayerStates.UNINITIALIZED;
 	}
@@ -164,4 +164,4 @@ export class YouTubeProvider extends BaseProvider {
 	}
 }
 
-EmbeddedVideoProviderRegistry.register(YouTubeProvider, YouTubeProvider.videoName);
+EmbeddedVideoProviderRegistry.register(YouTubeProvider, YouTubeProvider.providerName);

@@ -10,7 +10,7 @@ import EmbeddedVideoProviderRegistry from '../smart-video-registry';
 export class VideoProvider extends BaseProvider {
     private _el: HTMLVideoElement;
 
-    static get videoName() {
+    static get providerName() {
         return 'video';
     }
 
@@ -83,5 +83,5 @@ export class VideoProvider extends BaseProvider {
     }
 }
 
-EmbeddedVideoProviderRegistry.register(VideoProvider, VideoProvider.videoName);
+EmbeddedVideoProviderRegistry.register(VideoProvider, VideoProvider.providerName);
 
