@@ -42,6 +42,6 @@ class SmartSingleCarouselStrategy extends SmartCarouselStrategy {
 	}
 }
 
-SmartCarouselStrategyRegistry.registerStrategy('single', SmartSingleCarouselStrategy);
+SmartCarouselStrategyRegistry.instance.registerStrategy('single', SmartSingleCarouselStrategy);
 
 export default SmartSingleCarouselStrategy;

@@ -69,6 +69,6 @@ class SmartMultiCarouselStrategy extends SmartCarouselStrategy {
 	}
 }
 
-SmartCarouselStrategyRegistry.registerStrategy('multiple', SmartMultiCarouselStrategy);
+SmartCarouselStrategyRegistry.instance.registerStrategy('multiple', SmartMultiCarouselStrategy);
 
 export default SmartMultiCarouselStrategy;

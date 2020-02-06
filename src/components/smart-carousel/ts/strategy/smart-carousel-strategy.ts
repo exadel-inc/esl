@@ -1,4 +1,5 @@
 import SmartCarousel from '../smart-carousel';
+import {Observable} from '@helpers/abstract/observable';
 
 // TODO: rename? possibly SmartCarouselView
 export abstract class SmartCarouselStrategy {
@@ -15,17 +16,28 @@ export abstract class SmartCarouselStrategy {
 
 export type SmartCarouselStrategyConstructor = new(carousel: SmartCarousel) => SmartCarouselStrategy;
 
-const strategiesRegistry = new Map<string, SmartCarouselStrategyConstructor>();
-export class SmartCarouselStrategyRegistry {
-	public static createStrategyInstance(name: string, carousel: SmartCarousel): SmartCarouselStrategy {
-		const Strategy = strategiesRegistry.get(name);
+let scRegistryInstance: SmartCarouselStrategyRegistry = null;
+export class SmartCarouselStrategyRegistry extends Observable {
+	private registry = new Map<string, SmartCarouselStrategyConstructor>();
+
+	public static get instance() {
+		if (scRegistryInstance === null) {
+			scRegistryInstance = new SmartCarouselStrategyRegistry();
+		}
+		return scRegistryInstance;
+	}
+
+	public createStrategyInstance(name: string, carousel: SmartCarousel): SmartCarouselStrategy {
+		const Strategy = this.registry.get(name);
 		return Strategy ? new Strategy(carousel) : null;
 	}
-	public static registerStrategy(name: string, strategy: SmartCarouselStrategyConstructor) {
-		if (strategiesRegistry.has(name)) {
+
+	public registerStrategy(name: string, strategy: SmartCarouselStrategyConstructor) {
+		if (this.registry.has(name)) {
 			throw new Error(`Strategy with name ${name} already defined`);
 		}
-		strategiesRegistry.set(name, strategy);
+		this.registry.set(name, strategy);
+		this.fire(name, strategy);
 	}
 }
 

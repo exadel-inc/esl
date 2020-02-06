@@ -12,12 +12,7 @@ interface CarouselConfig { // Registry
 	className?: string
 }
 
-export type SmartCarouselPluginConstructor = new (owner: SmartCarousel) => SmartCarouselPlugin;
-
-const pluginRegistry: {[key: string]: SmartCarouselPluginConstructor} = {};
-
 // TODO: add ability to choose the number of an active slide
-
 class SmartCarousel extends HTMLElement {
 	static get is() {
 		return 'smart-carousel';
@@ -30,7 +25,7 @@ class SmartCarousel extends HTMLElement {
 	@attr() public config: string;
 
 	private _configRules: SmartRuleList<CarouselConfig>;
-	private _currentConfig: CarouselConfig;
+	private _currentConfig: CarouselConfig = {};
 	private _strategy: SmartCarouselStrategy;
 	private _plugins: {[key: string]: SmartCarouselPlugin} = {};
 
@@ -39,7 +34,7 @@ class SmartCarousel extends HTMLElement {
 	constructor() {
 		super();
 		this._onMatchChange = this.update.bind(this, false);
-		this._currentConfig = {};
+		this._onRegistryChange = this._onRegistryChange.bind(this);
 	}
 
 	get $slidesArea(): HTMLElement {
@@ -48,8 +43,8 @@ class SmartCarousel extends HTMLElement {
 
 	get $slides(): SmartCarouselSlide[] {
 		// TODO cache
-		const els = this.$slidesArea.querySelectorAll(SmartCarouselSlide.is) as NodeListOf<SmartCarouselSlide>;
-		return els ? Array.from(els) : [];
+		const els = this.$slidesArea.querySelectorAll(SmartCarouselSlide.is);
+		return els ? Array.from(els) as SmartCarouselSlide[] : [];
 	}
 
 	get count(): number {
@@ -130,10 +125,14 @@ class SmartCarousel extends HTMLElement {
 
 		this.update(true);
 		this._bindEvents();
+
+		SmartCarouselStrategyRegistry.instance.addListener(this._onRegistryChange);
 	}
 
 	protected disconnectedCallback() {
 		this._unbindEvents();
+
+		SmartCarouselStrategyRegistry.instance.removeListener(this._onRegistryChange);
 	}
 
 	private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
@@ -190,12 +189,12 @@ class SmartCarousel extends HTMLElement {
 			this.configRules.activeValue
 		);
 
-		if (deepCompare(this._currentConfig, config) && !force) {
+		if (!force && deepCompare(this._currentConfig, config)) {
 			return;
 		}
 		this._currentConfig = Object.assign({}, config);
 
-		this._strategy = SmartCarouselStrategyRegistry.createStrategyInstance(this.activeConfig.strategy, this);
+		this._strategy = SmartCarouselStrategyRegistry.instance.createStrategyInstance(this.activeConfig.strategy, this);
 		if (force || this.activeIndexes.length !== this._currentConfig.count) {
 			this.updateSlidesCount();
 		}
@@ -227,14 +226,8 @@ class SmartCarousel extends HTMLElement {
 		return (currentGroup + shiftGroupsCount + countGroups) % countGroups;
 	}
 
-	// Global Config
-	public static registerPlugin(pluginName: string, plugin: SmartCarouselPluginConstructor) {
-		pluginRegistry[pluginName] = plugin;
-	}
-
 	// move to core plugin
 	protected _onClick(event: MouseEvent) {
-
 		const eventTarget = event.target as HTMLElement;
 		const markedTarget = eventTarget.closest('[data-slide-target]') as HTMLElement;
 		if (markedTarget && markedTarget.dataset.slideTarget) {
@@ -247,6 +240,10 @@ class SmartCarousel extends HTMLElement {
 				this.goTo(this.activeCount * +target);
 			}
 		}
+	}
+
+	protected _onRegistryChange() {
+		if (!this._strategy) this.update(true);
 	}
 }
 

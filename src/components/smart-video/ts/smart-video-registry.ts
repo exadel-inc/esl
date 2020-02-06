@@ -10,16 +10,15 @@ interface ProviderMap {
 	[name: string]: BaseProviderConstructor;
 }
 
+let evRegistryInstance: EmbeddedVideoProviderRegistry = null;
 export class EmbeddedVideoProviderRegistry extends Observable {
-	private static _instance: EmbeddedVideoProviderRegistry = null;
-
 	private providers: ProviderMap = {};
 
 	public static get instance() {
-		if (!EmbeddedVideoProviderRegistry._instance) {
-			EmbeddedVideoProviderRegistry._instance = new EmbeddedVideoProviderRegistry();
+		if (!evRegistryInstance) {
+			evRegistryInstance = new EmbeddedVideoProviderRegistry();
 		}
-		return EmbeddedVideoProviderRegistry._instance;
+		return evRegistryInstance;
 	}
 
 	public register(provider: BaseProviderConstructor, name: string) {

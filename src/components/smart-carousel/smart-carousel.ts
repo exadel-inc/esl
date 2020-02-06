@@ -6,7 +6,7 @@ import './ts/strategy/smart-single-carousel-strategy';
 import './ts/strategy/smart-multi-carousel-strategy';
 
 // Plugins
-import './ts/plugin/smart-carousel-touch.plugin';
+import './ts/plugin/smart-carousel-auto-advance.plugin';
 
 export {
     SmartCarousel,
