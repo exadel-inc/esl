@@ -143,6 +143,21 @@ const STRATEGIES: Strategy = {
 			img.innerImage.src = shadowImg.src;
 			img.innerImage.width = shadowImg.width / shadowImg.dpr;
 		}
+	},
+	'inner-svg': {
+		useInnerImg: false,
+		apply(img, shadowImg) {
+			const request = new XMLHttpRequest();
+			request.open('GET', shadowImg.src, true);
+			request.onreadystatechange = () => {
+				if (request.readyState !== 4 || request.status !== 200) return;
+				const tmp = document.createElement('div');
+				tmp.innerHTML = request.responseText;
+				tmp.querySelectorAll('script').forEach((node) => node.remove());
+				img.innerHTML = tmp.innerHTML;
+			};
+			request.send();
+		}
 	}
 };
 
@@ -166,6 +181,10 @@ function getIObserver() {
 }
 
 export class SmartImage extends HTMLElement {
+	public static get STRATEGIES() {
+		return STRATEGIES;
+	}
+
 	@attr({dataAttr: true, defaultValue: ''}) private src: string;
 	@attr({dataAttr: true, defaultValue: ''}) private srcBase: string;
 	@attr({defaultValue: ''}) private alt: string;
