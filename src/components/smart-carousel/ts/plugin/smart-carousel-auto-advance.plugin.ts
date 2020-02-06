@@ -16,7 +16,7 @@ export class SmartCarouselAutoAdvancePlugin extends SmartCarouselPlugin {
 	}
 
 	public bind(): void {
-		this._interval = setTimeout(this._onInterval, this.timeout);
+		this._interval = setInterval(this._onInterval, this.timeout);
 		this.carousel.addEventListener('mouseover', this._onInteract);
 		this.carousel.addEventListener('mouseout', this._onInteract);
 		this.carousel.addEventListener('focusin', this._onInteract);
@@ -50,15 +50,15 @@ export class SmartCarouselAutoAdvancePlugin extends SmartCarouselPlugin {
 		switch (e.type) {
 			case 'mouseover':
 			case 'focusin':
-				clearTimeout(this._interval);
+				clearInterval(this._interval);
 				return;
 			case 'mouseout':
 			case 'focusout':
-				this._interval = setTimeout(this._onInterval, this.timeout);
+				this._interval = setInterval(this._onInterval, this.timeout);
 				return;
 			case 'sc:slide:changed':
-				clearTimeout(this._interval);
-				this._interval = setTimeout(this._onInterval, this.timeout);
+				clearInterval(this._interval);
+				this._interval = setInterval(this._onInterval, this.timeout);
 				return;
 		}
 	}

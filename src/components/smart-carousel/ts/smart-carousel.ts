@@ -145,16 +145,35 @@ class SmartCarousel extends HTMLElement {
 		}
 	}
 
+	// TODO: possibly it will be better to separate inner registration interface
+	/**
+	 * Add and register {@link SmartCarouselPlugin}
+	 * Plugin is attaching as a sub-node to carousel and registered in the inner carousel instance registry
+	 */
 	public addPlugin(plugin: SmartCarouselPlugin) {
+		if (this._plugins[plugin.key]) return;
+		if (plugin.parentNode !== this) {
+			this.appendChild(plugin);
+			return;
+		}
 		this._plugins[plugin.key] = plugin;
 		if (this.isConnected) {
 			plugin.bind();
 		}
 	}
-	public removePlugin(plugin: SmartCarouselPlugin) {
-		if (this._plugins[plugin.key] === plugin) {
-			this._plugins[plugin.key].unbind();
-			delete this._plugins[plugin.key];
+	/**
+	 * Remove plugin from carousel registry
+	 * NOTE: node will not be removed
+	 */
+	public removePlugin(plugin: SmartCarouselPlugin | string) {
+		if (plugin instanceof SmartCarouselPlugin &&
+			this._plugins[plugin.key] === plugin) {
+			this.removePlugin(plugin.key);
+			return;
+		}
+		if (typeof plugin === 'string' && this._plugins[plugin]) {
+			this._plugins[plugin].unbind();
+			delete this._plugins[plugin];
 		}
 	}
 
