@@ -44,7 +44,7 @@
  *    title="Video Title"
  *    [group="videoGroup"]
  *    video-type="youtube|video"
- *    data-id="##VIDEOID##"></smart-video-embedded>
+ *    video-id="##VIDEOID##"></smart-video-embedded>
  */
 import {attr} from '@helpers/decorators/attr';
 import {debounce} from '@helpers/function-utils';
@@ -63,6 +63,7 @@ export interface VideoOptions {
     controls: boolean,
     videoSrc?: string,
     videoId?: string
+    fillMode?: string
 }
 
 export class SmartVideo extends HTMLElement {
@@ -70,6 +71,7 @@ export class SmartVideo extends HTMLElement {
     @attr() public videoSrc: string;
     @attr() public videoType: string;
     @attr() public group: string;
+    @attr() public fillMode: string;
     @attr({conditional: true}) public disabled: boolean;
     @attr({conditional: true}) public autoplay: boolean;
     @attr({conditional: true}) public autofocus: boolean;
@@ -98,7 +100,7 @@ export class SmartVideo extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['video-type', 'disabled', 'data-id', 'data-src'];
+        return ['video-type', 'disabled', 'video-id', 'video-src'];
     }
 
     constructor() {
@@ -106,6 +108,7 @@ export class SmartVideo extends HTMLElement {
 
         this._onError = this._onError.bind(this);
         this._onConditionStateChange = this._onConditionStateChange.bind(this);
+        this._onChangeFillMode = this._onChangeFillMode.bind(this);
     }
 
     private connectedCallback() {
@@ -117,6 +120,7 @@ export class SmartVideo extends HTMLElement {
         if (this.conditionQuery) {
             this.conditionQuery.addListener(this._onConditionStateChange);
         }
+        window.addEventListener('resize', this._onChangeFillMode);
         !this.disabled && this.reinitInstance();
     }
 
@@ -132,8 +136,8 @@ export class SmartVideo extends HTMLElement {
     private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
         if (oldVal === newVal) return;
         switch (attrName) {
-            case 'data-id':
-            case 'data-src':
+            case 'video-id':
+            case 'video-src':
             case 'video-type':
                 if (this._provider || this._provider === null) {
                     this.deferedReinit();
@@ -175,6 +179,7 @@ export class SmartVideo extends HTMLElement {
             controls: this.controls,
             videoId: this.videoId,
             videoSrc: this.videoSrc,
+            fillMode: this.fillMode
         };
     }
 
@@ -298,7 +303,11 @@ export class SmartVideo extends HTMLElement {
         this.dispatchEvent(new Event('evideo:ended', {bubbles: true}));
         VideoGroupRestrictionManager.unregister(this);
     }
-
+    public _onChangeFillMode() {
+        if (this.fillMode) {
+            this.classList.add('fill');
+        }
+    }
     /**
      * Current player state, see {@link SmartVideo.PLAYER_STATES} values
      */
