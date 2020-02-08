@@ -21,20 +21,27 @@ smart-video {
   }
 
   &[fill-mode='cover'] {
+    overflow: hidden;
     .sev-inner {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
-  }
-  &.fill {
-    overflow: hidden;
-    .sev-inner {
+    video.sev-inner {
+      object-fit: cover;
+    }
+    .v-scale {
+      width: auto;
+      height: 100%;
+    }
+    .h-scale {
       height: auto;
+      width: 100%;
     }
   }
 }
+
 .img-container > smart-video {
   position: absolute;
   top: 0;

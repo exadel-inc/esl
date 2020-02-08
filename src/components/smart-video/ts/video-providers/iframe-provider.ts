@@ -3,7 +3,7 @@
  * @author Alexey Stsefanovich (ala'n)
  */
 import {generateUId} from '@helpers/common-utils';
-import {SmartVideo, VideoOptions} from '../smart-video';
+import {SmartVideo} from '../smart-video';
 import {BaseProvider, PlayerStates} from '../smart-video-provider';
 import EmbeddedVideoProviderRegistry from '../smart-video-registry';
 
@@ -16,23 +16,23 @@ export class IframeBasicProvider extends BaseProvider {
 		return 'iframe';
 	}
 
-	protected static buildIframe(data: VideoOptions) {
+	protected static buildIframe(sv: SmartVideo) {
 		const el = document.createElement('iframe');
 		el.id = 'sev-iframe-' + generateUId();
 		el.className = 'sev-inner sev-iframe';
-		el.title = data.title;
-		el.setAttribute('aria-label', data.title);
+		el.title = sv.title;
+		el.setAttribute('aria-label', sv.title);
 		el.setAttribute('frameborder', '0');
 		el.setAttribute('tabindex', '0');
 		el.setAttribute('allowfullscreen', 'yes');
-		el.src = data.videoSrc;
+		el.src = sv.videoSrc;
 		return el;
 	}
 
 	public bind() {
 		if (this._state !== PlayerStates.UNINITIALIZED) return;
 		this._ready = new Promise((resolve, reject) => {
-			this._el = IframeBasicProvider.buildIframe(this.component.buildOptions());
+			this._el = IframeBasicProvider.buildIframe(this.component);
 			this._el.onload = () => resolve();
 			this._el.onerror = () => reject();
 			this.component.appendChild(this._el);

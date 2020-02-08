@@ -3,7 +3,7 @@
  * @author Yuliya Adamskaya
  */
 
-import {SmartVideo, VideoOptions} from '../smart-video';
+import {SmartVideo} from '../smart-video';
 import {BaseProvider, PlayerStates} from '../smart-video-provider';
 import EmbeddedVideoProviderRegistry from '../smart-video-registry';
 
@@ -18,21 +18,21 @@ export class VideoProvider extends BaseProvider {
         return `<source src=${src} type="${type ? type : 'video/mp4'}">`;
     }
 
-    protected static build(data: VideoOptions) {
+    protected static build(sv: SmartVideo) {
         const el = document.createElement('video');
-        el.innerHTML = VideoProvider.buildSrc(data.videoSrc);
+        el.innerHTML = VideoProvider.buildSrc(sv.videoSrc);
         el.className = 'sev-inner';
-        el.autoplay = data.autoplay;
+        el.autoplay = sv.autoplay;
         el.preload = 'auto';
-        el.loop = data.loop;
+        el.loop = sv.loop;
         el.tabIndex = 0;
-        el.muted = data.muted;
-        el.controls = data.controls;
+        el.muted = sv.muted;
+        el.controls = sv.controls;
         return el;
     }
 
     public bind() {
-        this._el = VideoProvider.build(this.component.buildOptions());
+        this._el = VideoProvider.build(this.component);
         this.component.appendChild(this._el);
         this._el.onerror = this.component._onError;
         this._el.addEventListener('loadedmetadata', () => this.component._onReady());

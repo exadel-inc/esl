@@ -55,17 +55,6 @@ import SmartVideoRegistry from './smart-video-registry';
 import {triggerComponentEvent} from '@helpers/component-utils';
 import VideoGroupRestrictionManager from './smart-video-manager';
 
-export interface VideoOptions {
-    title: string,
-    autoplay: boolean,
-    muted: boolean,
-    loop: boolean,
-    controls: boolean,
-    videoSrc?: string,
-    videoId?: string
-    fillMode?: string
-}
-
 export class SmartVideo extends HTMLElement {
     @attr() public videoId: string;
     @attr() public videoSrc: string;
@@ -120,7 +109,11 @@ export class SmartVideo extends HTMLElement {
         if (this.conditionQuery) {
             this.conditionQuery.addListener(this._onConditionStateChange);
         }
-        window.addEventListener('resize', this._onChangeFillMode);
+
+        // TODO: window throttled resize manager
+        // TODO: subscribe only if needed
+        // TODO: remove on unbind
+        // window.addEventListener('resize', this._onChangeFillMode);
         !this.disabled && this.reinitInstance();
     }
 
@@ -169,19 +162,6 @@ export class SmartVideo extends HTMLElement {
     }
 
     public deferedReinit = debounce(() => this.reinitInstance());
-
-    public buildOptions(): VideoOptions {
-        return {
-            title: this.title,
-            autoplay: this.autoplay,
-            muted: this.muted,
-            loop: this.loop,
-            controls: this.controls,
-            videoId: this.videoId,
-            videoSrc: this.videoSrc,
-            fillMode: this.fillMode
-        };
-    }
 
     private _updateMarkers(addValue: string, removeValue: string) {
         const target = this.getAttribute('marker-target');
@@ -303,6 +283,9 @@ export class SmartVideo extends HTMLElement {
         this.dispatchEvent(new Event('evideo:ended', {bubbles: true}));
         VideoGroupRestrictionManager.unregister(this);
     }
+
+    // consider IE/EDGE detection + object-fit and JS fallback (old smart-video) for videos and just JS option for iframes
+    // for you-tube it definitely will be a aspect-ratio based calculation
     public _onChangeFillMode() {
         if (this.fillMode) {
             this.classList.add('fill');

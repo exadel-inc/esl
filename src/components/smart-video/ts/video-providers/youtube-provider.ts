@@ -6,7 +6,7 @@
  * @protected
  */
 import {generateUId, loadScript} from '@helpers/common-utils';
-import {SmartVideo, VideoOptions} from '../smart-video';
+import {SmartVideo} from '../smart-video';
 import {BaseProvider, PlayerStates} from '../smart-video-provider';
 import EmbeddedVideoProviderRegistry from '../smart-video-registry';
 import PlayerVars = YT.PlayerVars;
@@ -52,25 +52,25 @@ export class YouTubeProvider extends BaseProvider {
 		return YouTubeProvider._coreApiPromise;
 	}
 
-	protected static mapOptions(options: VideoOptions): PlayerVars {
+	protected static mapOptions(sv: SmartVideo): PlayerVars {
 		return {
 			enablejsapi: 1,
 			origin: location.origin,
 			rel: 0,
 			showinfo: 0,
 			iv_load_policy: 0,
-			autoplay: Number(options.autoplay),
-			controls: Number(options.controls),
-			disablekb: Number(!options.controls), // TODO: criteria
-			autohide: Number(!options.controls) // TODO: criteria
+			autoplay: Number(sv.autoplay),
+			controls: Number(sv.controls),
+			disablekb: Number(!sv.controls), // TODO: criteria
+			autohide: Number(!sv.controls) // TODO: criteria
 		};
 	}
-	protected static buildIframe(data: VideoOptions) {
+	protected static buildIframe(sv: SmartVideo) {
 		const el = document.createElement('div');
 		el.id = 'sev-yt-' + generateUId();
 		el.className = 'sev-inner sev-youtube';
-		el.title = data.title;
-		el.setAttribute('aria-label', data.title);
+		el.title = sv.title;
+		el.setAttribute('aria-label', el.title);
 		el.setAttribute('frameborder', '0');
 		el.setAttribute('tabindex', '0');
 		el.setAttribute('allowfullscreen', 'yes');
@@ -78,7 +78,7 @@ export class YouTubeProvider extends BaseProvider {
 	}
 
 	public bind() {
-		this._el = YouTubeProvider.buildIframe(this.component.buildOptions());
+		this._el = YouTubeProvider.buildIframe(this.component);
 		this.component.appendChild(this._el);
 		this._ready = YouTubeProvider.getCoreApi().then(
 			() => (new Promise((resolve, reject) => {
@@ -89,7 +89,7 @@ export class YouTubeProvider extends BaseProvider {
 						onReady: () => resolve(this),
 						onStateChange: this._onStateChange
 					},
-					playerVars: YouTubeProvider.mapOptions(this.component.buildOptions())
+					playerVars: YouTubeProvider.mapOptions(this.component)
 				});
 			}))
 		);
