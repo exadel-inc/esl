@@ -46,6 +46,7 @@
  *    video-type="youtube|video"
  *    video-id="##VIDEOID##"></smart-video-embedded>
  */
+import {CustomElement} from '@helpers/custom-element';
 import {attr} from '@helpers/decorators/attr';
 import {debounce} from '@helpers/function-utils';
 import {getIObserver} from './smart-video-iobserver';
@@ -55,7 +56,9 @@ import SmartVideoRegistry from './smart-video-registry';
 import {triggerComponentEvent} from '@helpers/component-utils';
 import VideoGroupRestrictionManager from './smart-video-manager';
 
-export class SmartVideo extends HTMLElement {
+export class SmartVideo extends CustomElement {
+    public static is = 'smart-video';
+
     @attr() public videoId: string;
     @attr() public videoSrc: string;
     @attr() public videoType: string;
@@ -75,10 +78,6 @@ export class SmartVideo extends HTMLElement {
 
     private _provider: BaseProvider;
     private _conditionQuery: SmartQuery;
-
-    static get is() {
-        return 'smart-video';
-    }
 
     /**
      * @enum Map with possible Player States
@@ -322,5 +321,4 @@ export class SmartVideo extends HTMLElement {
     }
 }
 
-customElements.define(SmartVideo.is, SmartVideo);
 export default SmartVideo;

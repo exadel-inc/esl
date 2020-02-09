@@ -33,7 +33,7 @@ export class SmartCarouselAutoplayPlugin extends SmartCarouselPlugin {
 		this.carousel.addEventListener('focusout', this._onInteract);
 		this.carousel.addEventListener('sc:slide:changed', this._onInteract);
 		this.start();
-		console.log('Auto-advance plugin attached successfully to ', this.carousel);
+		// console.log('Auto-advance plugin attached successfully to ', this.carousel);
 	}
 	public unbind(): void {
 		this.carousel.removeEventListener('mouseover', this._onInteract);
@@ -42,7 +42,7 @@ export class SmartCarouselAutoplayPlugin extends SmartCarouselPlugin {
 		this.carousel.removeEventListener('focusout', this._onInteract);
 		this.carousel.removeEventListener('sc:slide:changed', this._onInteract);
 		this.stop();
-		console.log('Auto-advance plugin detached successfully from ', this.carousel);
+		// console.log('Auto-advance plugin detached successfully from ', this.carousel);
 	}
 
 	public start() {
@@ -88,7 +88,5 @@ export class SmartCarouselAutoplayPlugin extends SmartCarouselPlugin {
 		}
 	}
 }
-
-customElements.define(SmartCarouselAutoplayPlugin.is, SmartCarouselAutoplayPlugin);
 
 export default SmartCarouselAutoplayPlugin;

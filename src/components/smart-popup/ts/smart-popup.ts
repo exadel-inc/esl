@@ -1,3 +1,4 @@
+import {CustomElement} from '@helpers/custom-element';
 import { triggerComponentEvent } from '@helpers/component-utils';
 import { ESC } from '@helpers/keycodes';
 import { ISmartPopupTrigger } from './smart-popup-trigger';
@@ -19,11 +20,8 @@ export interface ISmartPopup {
   lazyInit?(): Promise<boolean> | void;
 }
 
-class SmartPopup extends HTMLElement implements ISmartPopup {
-
-  static get is() {
-    return 'smart-popup';
-  }
+class SmartPopup extends CustomElement implements ISmartPopup {
+  public static is = 'smart-popup';
 
   static get observedAttributes() {
     return [
@@ -88,7 +86,7 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
     if (e.which === ESC) {
       this.hide();
     }
-  };
+  }
 
   protected bindCloseOnBodyClickHandler() {
     this.removeEventListener('click', this.closeOnBodyClickHandler);
@@ -149,5 +147,4 @@ class SmartPopup extends HTMLElement implements ISmartPopup {
   }
 }
 
-customElements.define(SmartPopup.is, SmartPopup);
 export default SmartPopup;

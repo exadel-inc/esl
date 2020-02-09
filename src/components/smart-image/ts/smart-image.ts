@@ -91,6 +91,7 @@
  *      data-src='..defaultPath [| @1x => src [| ...]]'
  *  ></smart-image-tag>
  */
+import {CustomElement} from '@helpers/custom-element';
 import {attr} from '@helpers/decorators/attr';
 import {DeviceDetector} from '@helpers/device-utils';
 import {triggerComponentEvent} from '@helpers/component-utils';
@@ -180,7 +181,9 @@ function getIObserver() {
 	return intersectionObserver;
 }
 
-export class SmartImage extends HTMLElement {
+export class SmartImage extends CustomElement {
+	public static is = 'smart-image';
+
 	public static get STRATEGIES() {
 		return STRATEGIES;
 	}
@@ -209,13 +212,6 @@ export class SmartImage extends HTMLElement {
 
 	static get observedAttributes() {
 		return ['alt', 'data-alt', 'data-src', 'data-src-base', 'mode', 'lazy-triggered'];
-	}
-
-	private static className: string;
-
-	public static register(tagName: string, className: string = tagName) {
-		SmartImage.className = className;
-		customElements.define(tagName, SmartImage);
 	}
 
 	constructor() {
@@ -322,9 +318,7 @@ export class SmartImage extends HTMLElement {
 	}
 
 	protected connectedCallback() {
-		if ((this.constructor as typeof SmartImage).className) {
-			this.classList.add((this.constructor as typeof SmartImage).className);
-		}
+		this.classList.add((this.constructor as any).is);
 		this.alt = this.alt || this.getAttribute('data-alt') || '';
 		if (!this.hasAttribute('role')) {
 			this.setAttribute('role', 'img');

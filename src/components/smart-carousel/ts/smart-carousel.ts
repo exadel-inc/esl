@@ -1,3 +1,4 @@
+import {CustomElement} from '@helpers/custom-element';
 import {attr} from '@helpers/decorators/attr';
 import {deepCompare} from '@helpers/common-utils';
 import {triggerComponentEvent} from '@helpers/component-utils';
@@ -13,10 +14,8 @@ interface CarouselConfig { // Registry
 }
 
 // TODO: add ability to choose the number of an active slide
-class SmartCarousel extends HTMLElement {
-	static get is() {
-		return 'smart-carousel';
-	}
+class SmartCarousel extends CustomElement {
+	public static is = 'smart-carousel';
 
 	static get observedAttributes() {
 		return ['config'];
@@ -254,5 +253,4 @@ class SmartCarousel extends HTMLElement {
 	}
 }
 
-customElements.define(SmartCarousel.is, SmartCarousel);
 export default SmartCarousel;

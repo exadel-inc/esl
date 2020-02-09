@@ -1,17 +1,48 @@
+import {CustomElement} from '@helpers/custom-element';
 import SmartCarousel from '../smart-carousel';
 
-abstract class SmartCarouselPlugin extends HTMLElement {
+/**
+ * {@link SmartCarousel} Plugin base class.
+ * The Smart Carousel Plugin should have the dom representation so it's {@extends HTMLElement}.
+ * Use the attributes to path the plugin options, the same as with any custom elements.
+ * @abstract
+ */
+abstract class SmartCarouselPlugin extends CustomElement {
+	/**
+	 * {boolean} freePlacement marker define the restriction for the plugin placement.
+	 * If freePlacement is false - plugin element should be child of SmartCarousel element.
+	 * If freePlacement is true - plugin can be placed anywhere inside of carousel.
+	 */
+	public static freePlacement = false;
+
+	/**
+	 * @returns carousel owner of the plugin
+	 */
+	protected findCarouselOwner(): SmartCarousel {
+		if ((this.constructor as any).freePlacement) {
+			return this.closest(SmartCarousel.is) as SmartCarousel;
+		} else {
+			return this.parentNode as SmartCarousel;
+		}
+	}
+
 	private _carousel: SmartCarousel;
 
+	/**
+	 * @returns {string} plugin unique key, SmartCarousel can not own more then one plugin with the same key
+	 */
 	public get key() {
 		return this.nodeName.toLowerCase();
 	}
+	/**
+	 * @returns {SmartCarousel} owner of plugin
+	 */
 	public get carousel(): SmartCarousel {
 		return this._carousel;
 	}
 
 	protected connectedCallback() {
-		const carousel = (this.constructor as any).freePlacement ? this.closest(SmartCarousel.is) : this.parentNode;
+		const carousel = this.findCarouselOwner();
 		if (carousel instanceof SmartCarousel) {
 			this._carousel = carousel;
 		} else {
@@ -26,8 +57,16 @@ abstract class SmartCarouselPlugin extends HTMLElement {
 		}
 	}
 
+	/**
+	 * Define the plugin bind lifecycle hook.
+	 * Unlike {@link connectedCallback}, bind is called by owner Smart Carousel when the plugin can be attached.
+	 */
 	public abstract bind(): void;
 
+	/**
+	 * Define the plugin unbind lifecycle hook.
+	 * Unlike {@link disconnectedCallback}, unbind is called by owner Smart Carousel when the plugin should be detached.
+	 */
 	public abstract unbind(): void;
 }
 

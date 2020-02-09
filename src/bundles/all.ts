@@ -6,22 +6,28 @@ import '@helpers/builtin-polyfills/array-polyfills';
 import '@helpers/builtin-polyfills/object-polyfills';
 import '@helpers/builtin-polyfills/closest-polyfills';
 
-import {
-  BreakpointRegistry,
-  SmartQuery,
-  SmartRuleList
-} from '@components/smart-query/smart-query';
+import { BreakpointRegistry, SmartQuery, SmartRuleList } from '@components/smart-query/smart-query';
 import { SmartImage } from '@components/smart-image/smart-image';
 import { SmartVideo } from '@components/smart-video/smart-video';
 import { SmartPopup, SmartPopupTrigger } from '@components/smart-popup/smart-popup';
-import { SmartCarousel, SmartCarouselDots } from '@components/smart-carousel/smart-carousel';
+import { SmartCarousel, SmartCarouselDots, SmartCarouselAutoplayPlugin} from '@components/smart-carousel/smart-carousel';
 
 // TODO separate config
 // BreakpointRegistry.addCustomBreakpoint('xxs', 300, 600); // Definition
 // BreakpointRegistry.addCustomBreakpoint('xl', 1600, 2000); // Redefinition
 
 // Default definition
-SmartImage.register('smart-image');
+SmartImage.register();
+// or SmartImage.register('my-image');
+
+SmartVideo.register();
+
+SmartCarousel.register();
+SmartCarouselDots.register();
+SmartCarouselAutoplayPlugin.register();
+
+SmartPopup.register();
+SmartPopupTrigger.register();
 
 export {
   BreakpointRegistry,
@@ -32,5 +38,6 @@ export {
   SmartPopupTrigger,
   SmartVideo,
   SmartCarousel,
-  SmartCarouselDots
+  SmartCarouselDots,
+  SmartCarouselAutoplayPlugin
 };

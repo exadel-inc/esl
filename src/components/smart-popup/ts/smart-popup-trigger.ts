@@ -1,3 +1,4 @@
+import {CustomElement} from '@helpers/custom-element';
 import {DeviceDetector} from '@helpers/device-utils';
 import { attr } from '@helpers/decorators/attr';
 import SmartPopup from './smart-popup';
@@ -9,11 +10,8 @@ export interface ISmartPopupTrigger extends HTMLElement {
   popup: SmartPopup;
 }
 
-class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
-
-  static get is() {
-    return 'smart-popup-trigger';
-  }
+class SmartPopupTrigger extends CustomElement implements ISmartPopupTrigger {
+  public static is = 'smart-popup-trigger';
 
   static get observedAttributes() {
     return [
@@ -236,5 +234,4 @@ class SmartPopupTrigger extends HTMLElement implements ISmartPopupTrigger {
   }
 }
 
-customElements.define(SmartPopupTrigger.is, SmartPopupTrigger);
 export default SmartPopupTrigger;

@@ -7,11 +7,8 @@ import SmartCarouselPlugin from './smart-carousel-plugin';
  * @author Julia Murashko
  */
 class SmartCarouselDotsPlugin extends SmartCarouselPlugin {
+    public static is = 'smart-carousel-dots';
     public static freePlacement = true;
-
-    static get is() {
-        return 'smart-carousel-dots';
-    }
 
     private _onUpdate = () => this.rerender();
 
@@ -38,8 +35,6 @@ class SmartCarouselDotsPlugin extends SmartCarouselPlugin {
         return `<button role="button" class="carousel-dot ${isActive ? 'active-dot' : ''}" data-slide-target="${index}"></button>`;
     }
 }
-
-customElements.define(SmartCarouselDotsPlugin.is, SmartCarouselDotsPlugin);
 
 export default SmartCarouselDotsPlugin;
 
