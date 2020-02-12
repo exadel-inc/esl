@@ -1,0 +1,35 @@
+---
+layout: ../../layouts/basic.html
+title: Slide Carousel Component
+---
+
+{{##content:
+<div class="container-fluid">
+    <div class="row flex-column">
+        <smart-carousel config="{strategy: single}">
+            <smart-carousel-autoplay-plugin timeout="5000"></smart-carousel-autoplay-plugin>
+
+            <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
+                <span class="icon-arrow-prev"></span>
+            </button>
+
+            <div data-slides-area style="width: 80%;">
+                <!-- CAROUSEL-ITEM -->
+                <smart-carousel-slide>
+                    <div class="row align-items-center">
+                        <div class="col-6">{{=partial('./_parts/code1.html')}}</div>
+                        <div class="col-6">Smart Carousel Config Looks Pretty Simple</div>
+                    </div>
+                </smart-carousel-slide>
+                <!-- /CAROUSEL-ITEM -->
+            </div>
+
+            <button class="arrow-next" onclick="void 0" data-slide-target="next">
+                <span class="icon-arrow-next"></span>
+            </button>
+
+            <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
+        </smart-carousel>
+    </div>
+</div>
+#}}
