@@ -25,7 +25,7 @@ export class IframeBasicProvider extends BaseProvider {
 		el.setAttribute('frameborder', '0');
 		el.setAttribute('tabindex', '0');
 		el.setAttribute('allowfullscreen', 'yes');
-		el.src = sv.videoSrc;
+		el.src = sv.mediaSrc;
 		return el;
 	}
 

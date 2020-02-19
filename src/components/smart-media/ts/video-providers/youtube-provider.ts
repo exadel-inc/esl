@@ -83,7 +83,7 @@ export class YouTubeProvider extends BaseProvider {
 		this._ready = YouTubeProvider.getCoreApi().then(
 			() => (new Promise((resolve, reject) => {
 				this._api = new YT.Player(this._el.id, {
-					videoId: this.component.videoId,
+					videoId: this.component.mediaId,
 					events: {
 						onError: () => reject(this), // TODO do smth with it
 						onReady: () => resolve(this),

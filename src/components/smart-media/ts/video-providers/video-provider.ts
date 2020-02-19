@@ -20,7 +20,7 @@ export class VideoProvider extends BaseProvider {
 
     protected static build(sv: SmartMedia) {
         const el = document.createElement('video');
-        el.innerHTML = VideoProvider.buildSrc(sv.videoSrc);
+        el.innerHTML = VideoProvider.buildSrc(sv.mediaSrc);
         el.className = 'sev-inner';
         el.autoplay = sv.autoplay;
         el.preload = 'auto';

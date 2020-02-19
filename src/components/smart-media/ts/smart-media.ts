@@ -44,7 +44,7 @@
  *    title="Video Title"
  *    [group="videoGroup"]
  *    media-type="youtube|video"
- *    media-id="##VIDEOID##"></smart-media-embedded>
+ *    media-id="##MEDIAID##"></smart-media-embedded>
  */
 import {CustomElement} from '@helpers/custom-element';
 import {attr} from '@helpers/decorators/attr';
@@ -59,9 +59,9 @@ import VideoGroupRestrictionManager from './smart-media-manager';
 export class SmartMedia extends CustomElement {
     public static is = 'smart-media';
 
-    @attr() public videoId: string;
-    @attr() public videoSrc: string;
-    @attr() public videoType: string;
+    @attr() public mediaId: string;
+    @attr() public mediaSrc: string;
+    @attr() public mediaType: string;
     @attr() public group: string;
     @attr() public fillMode: string;
     @attr({conditional: true}) public disabled: boolean;
@@ -147,7 +147,7 @@ export class SmartMedia extends CustomElement {
         if (!this.disabled) {
             this._provider && this._provider.unbind();
 
-            const provider = SmartMediaRegistry.getProvider(this.videoType);
+            const provider = SmartMediaRegistry.getProvider(this.mediaType);
             if (provider) {
                 this._provider = new provider(this);
                 this._provider.bind();
@@ -306,7 +306,7 @@ export class SmartMedia extends CustomElement {
     }
 
     private _onRegistryStateChange = (name: string) => {
-        if (name === this.videoType) {
+        if (name === this.mediaType) {
             this.reinitInstance();
         }
     };
