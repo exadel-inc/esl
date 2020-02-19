@@ -32,7 +32,7 @@ class SmartCarouselDotsPlugin extends SmartCarouselPlugin {
     }
 
     public buildDot(index: number, isActive: boolean) {
-        return `<button role="button" class="carousel-dot ${isActive ? 'active-dot' : ''}" data-slide-target="${index}"></button>`;
+        return `<button role="button" class="carousel-dot ${isActive ? 'active-dot' : ''}" data-slide-target="g${index + 1}"></button>`;
     }
 }
 

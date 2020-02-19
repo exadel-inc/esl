@@ -220,8 +220,11 @@ class SmartCarousel extends CustomElement {
 				this.prev();
 			} else if ('next' === target) {
 				this.next();
+			} else if ('g' === target[0]) {
+				const group = +(target.substr(1)) - 1;
+				this.goTo(this.activeCount * group);
 			} else {
-				this.goTo(this.activeCount * +target);
+				this.goTo(+target - 1);
 			}
 		}
 	}
