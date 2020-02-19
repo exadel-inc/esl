@@ -14,8 +14,8 @@
  * - hot changes
  *
  * Attributes:
- * {String} video-id - id of embedded video
- * {String} video-type - type of video provider ('youtube', 'video')
+ * {String} media-id - id of embedded video
+ * {String} media-type - type of video provider ('youtube', 'video')
  *
  * {String} [group] - group name, only one video player in group can be active
  *
@@ -43,8 +43,8 @@
  *    [disabled]
  *    title="Video Title"
  *    [group="videoGroup"]
- *    video-type="youtube|video"
- *    video-id="##VIDEOID##"></smart-media-embedded>
+ *    media-type="youtube|video"
+ *    media-id="##VIDEOID##"></smart-media-embedded>
  */
 import {CustomElement} from '@helpers/custom-element';
 import {attr} from '@helpers/decorators/attr';
@@ -88,7 +88,7 @@ export class SmartMedia extends CustomElement {
     }
 
     static get observedAttributes() {
-        return ['video-type', 'disabled', 'video-id', 'video-src'];
+        return ['media-type', 'disabled', 'media-id', 'media-src', 'fill-mode', 'video-aspect-ratio'];
     }
 
     constructor() {
@@ -128,9 +128,9 @@ export class SmartMedia extends CustomElement {
     private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
         if (oldVal === newVal) return;
         switch (attrName) {
-            case 'video-id':
-            case 'video-src':
-            case 'video-type':
+            case 'media-id':
+            case 'media-src':
+            case 'media-type':
                 if (this._provider || this._provider === null) {
                     this.deferedReinit();
                 }

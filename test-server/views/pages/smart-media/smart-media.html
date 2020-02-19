@@ -20,8 +20,8 @@ layout: ../../layouts/basic.html
                 <hr/>
                 <div class="img-container img-container-16-9 img-container-loaded">
                     <smart-media group="demo-media"
-                                 video-type="youtube"
-                                 video-id="5LD-EoiTjuY"
+                                 media-type="youtube"
+                                 media-id="5LD-EoiTjuY"
                                  load-condition="@DESKTOP"
                                  load-condition-declined-marker="hide-video"
                                  controls>
@@ -40,10 +40,11 @@ layout: ../../layouts/basic.html
                 <hr/>
                 <div class="img-container img-container-16-9 img-container-loaded">
                     <smart-media group="demo-media"
-                                 video-type="video"
+                                 media-type="video"
                                  load-condition="@DESKTOP"
                                  load-condition-declined-marker="hide-video"
-                                 video-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
+                                 media-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
+                                 video-aspect-ratio="16:9"
                                  controls>
                     </smart-media>
                 </div>
@@ -59,8 +60,8 @@ layout: ../../layouts/basic.html
                 <p class="alert alert-warning">Basic Iframe provider has limited API so you can only show/hide/reinitialize inner iframe</p>
                 <hr/>
                 <div class="img-container img-container-16-9 img-container-loaded">
-                    <smart-media video-type="iframe"
-                                 video-src="https://player.vimeo.com/video/1084537">
+                    <smart-media media-type="iframe"
+                                 media-src="https://player.vimeo.com/video/1084537">
                     </smart-media>
                 </div>
             </div>
@@ -75,8 +76,8 @@ layout: ../../layouts/basic.html
             <hr/>
             <div class="demo-marquee">
                 <smart-media class="bg-content sv-bg"
-                             video-type="video"
-                             video-src="https://pixabay.com/videos/download/video-5200_large.mp4"
+                             media-type="video"
+                             media-src="https://pixabay.com/videos/download/video-5200_large.mp4"
                              autoplay="true"
                              fill-mode="cover"
                              play-in-viewport
@@ -96,8 +97,8 @@ layout: ../../layouts/basic.html
             <div class="demo-marquee">
                 <smart-media class="bg-content sv-bg"
                              fill-mode="cover"
-                             video-type="youtube"
-                             video-id="inadorMBFEI"
+                             media-type="youtube"
+                             media-id="inadorMBFEI"
                              autoplay="true"
                              play-in-viewport
                              muted loop>
@@ -117,8 +118,8 @@ layout: ../../layouts/basic.html
                 <div class="alert alert-info">Video bellow will be loading only on XS breakpoint</div>
                 <div class="img-container img-container-16-9">
 <!--                    <smart-media load-condition="@XS"-->
-<!--                                 video-type="youtube"-->
-<!--                                 video-id="e1omOSkYltw"-->
+<!--                                 media-type="youtube"-->
+<!--                                 media-id="e1omOSkYltw"-->
 <!--                                 autoplay="true"-->
 <!--                                 muted loop>-->
 <!--                    </smart-media>-->
