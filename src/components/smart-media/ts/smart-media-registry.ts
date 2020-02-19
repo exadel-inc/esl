@@ -4,7 +4,7 @@
  * @author Yuliya Adamskaya
  */
 import {Observable} from '@helpers/abstract/observable';
-import {BaseProviderConstructor} from './smart-video-provider';
+import {BaseProviderConstructor} from './smart-media-provider';
 
 interface ProviderMap {
 	[name: string]: BaseProviderConstructor;

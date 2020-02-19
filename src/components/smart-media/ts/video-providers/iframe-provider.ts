@@ -1,11 +1,11 @@
 /**
- * Simple Video Basic Iframe provider for {@link SmartVideo}
+ * Simple Media Basic Iframe provider for {@link SmartMedia}
  * @author Alexey Stsefanovich (ala'n)
  */
 import {generateUId} from '@helpers/common-utils';
-import {SmartVideo} from '../smart-video';
-import {BaseProvider, PlayerStates} from '../smart-video-provider';
-import EmbeddedVideoProviderRegistry from '../smart-video-registry';
+import {SmartMedia} from '../smart-media';
+import {BaseProvider, PlayerStates} from '../smart-media-provider';
+import EmbeddedVideoProviderRegistry from '../smart-media-registry';
 
 
 export class IframeBasicProvider extends BaseProvider {
@@ -16,7 +16,7 @@ export class IframeBasicProvider extends BaseProvider {
 		return 'iframe';
 	}
 
-	protected static buildIframe(sv: SmartVideo) {
+	protected static buildIframe(sv: SmartMedia) {
 		const el = document.createElement('iframe');
 		el.id = 'sev-iframe-' + generateUId();
 		el.className = 'sev-inner sev-iframe';
@@ -68,7 +68,7 @@ export class IframeBasicProvider extends BaseProvider {
 	}
 
 	public seekTo(pos: number) {
-		console.error(`[SmartVideo] Unsupported action: can not execute seekTo on abstract iframe provider`);
+		console.error(`[SmartMedia] Unsupported action: can not execute seekTo on abstract iframe provider`);
 	}
 
 	public play() {

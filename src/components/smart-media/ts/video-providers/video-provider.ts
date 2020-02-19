@@ -1,11 +1,11 @@
 /**
- * Simple Video API provider for {@link SmartVideo}
+ * Simple Media API provider for {@link SmartMedia}
  * @author Yuliya Adamskaya
  */
 
-import {SmartVideo} from '../smart-video';
-import {BaseProvider, PlayerStates} from '../smart-video-provider';
-import EmbeddedVideoProviderRegistry from '../smart-video-registry';
+import {SmartMedia} from '../smart-media';
+import {BaseProvider, PlayerStates} from '../smart-media-provider';
+import EmbeddedVideoProviderRegistry from '../smart-media-registry';
 
 export class VideoProvider extends BaseProvider {
     private _el: HTMLVideoElement;
@@ -18,7 +18,7 @@ export class VideoProvider extends BaseProvider {
         return `<source src=${src} type="${type ? type : 'video/mp4'}">`;
     }
 
-    protected static build(sv: SmartVideo) {
+    protected static build(sv: SmartMedia) {
         const el = document.createElement('video');
         el.innerHTML = VideoProvider.buildSrc(sv.videoSrc);
         el.className = 'sev-inner';

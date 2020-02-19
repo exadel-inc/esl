@@ -1,10 +1,10 @@
 /**
- * Smart Video Embedded
+ * Smart Media Embedded
  * @version 1.0.2
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * @description:
- * SmartVideoEmbedded - custom element, that provides ability to add and configure embedded video using one tag.
+ * SmartMediaEmbedded - custom element, that provides ability to add and configure embedded video using one tag.
  * Supported features:
  * - extendable 'Providers' realization for different video types, support 'youtube' and 'brightcove' out of box
  * - single active player restriction by grouping elements
@@ -39,25 +39,25 @@
  * @event evideo:mangedpause - (bubbles) happens when video paused by video group restriction manager
  *
  * @example:
- * <smart-video
+ * <smart-media
  *    [disabled]
  *    title="Video Title"
  *    [group="videoGroup"]
  *    video-type="youtube|video"
- *    video-id="##VIDEOID##"></smart-video-embedded>
+ *    video-id="##VIDEOID##"></smart-media-embedded>
  */
 import {CustomElement} from '@helpers/custom-element';
 import {attr} from '@helpers/decorators/attr';
 import {debounce} from '@helpers/function-utils';
-import {getIObserver} from './smart-video-iobserver';
+import {getIObserver} from './smart-media-iobserver';
 import SmartQuery from '@components/smart-query/ts/smart-query';
-import {BaseProvider, PlayerStates} from './smart-video-provider';
-import SmartVideoRegistry from './smart-video-registry';
+import {BaseProvider, PlayerStates} from './smart-media-provider';
+import SmartMediaRegistry from './smart-media-registry';
 import {triggerComponentEvent} from '@helpers/component-utils';
-import VideoGroupRestrictionManager from './smart-video-manager';
+import VideoGroupRestrictionManager from './smart-media-manager';
 
-export class SmartVideo extends CustomElement {
-    public static is = 'smart-video';
+export class SmartMedia extends CustomElement {
+    public static is = 'smart-media';
 
     @attr() public videoId: string;
     @attr() public videoSrc: string;
@@ -100,10 +100,10 @@ export class SmartVideo extends CustomElement {
     }
 
     private connectedCallback() {
-        this.classList.add(SmartVideo.is);
+        this.classList.add(SmartMedia.is);
         this.setAttribute('role', 'application');
         this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
-        SmartVideoRegistry.addListener(this._onRegistryStateChange);
+        SmartMediaRegistry.addListener(this._onRegistryStateChange);
         this._onConditionStateChange();
         if (this.conditionQuery) {
             this.conditionQuery.addListener(this._onConditionStateChange);
@@ -117,7 +117,7 @@ export class SmartVideo extends CustomElement {
     }
 
     private disconnectedCallback() {
-        SmartVideoRegistry.removeListener(this._onRegistryStateChange);
+        SmartMediaRegistry.removeListener(this._onRegistryStateChange);
         if (this.conditionQuery) {
             this.conditionQuery.removeListener(this._onConditionStateChange);
         }
@@ -147,7 +147,7 @@ export class SmartVideo extends CustomElement {
         if (!this.disabled) {
             this._provider && this._provider.unbind();
 
-            const provider = SmartVideoRegistry.getProvider(this.videoType);
+            const provider = SmartMediaRegistry.getProvider(this.videoType);
             if (provider) {
                 this._provider = new provider(this);
                 this._provider.bind();
@@ -283,7 +283,7 @@ export class SmartVideo extends CustomElement {
         VideoGroupRestrictionManager.unregister(this);
     }
 
-    // consider IE/EDGE detection + object-fit and JS fallback (old smart-video) for videos and just JS option for iframes
+    // consider IE/EDGE detection + object-fit and JS fallback (old smart-media) for videos and just JS option for iframes
     // for you-tube it definitely will be a aspect-ratio based calculation
     public _onChangeFillMode() {
         if (this.fillMode) {
@@ -291,7 +291,7 @@ export class SmartVideo extends CustomElement {
         }
     }
     /**
-     * Current player state, see {@link SmartVideo.PLAYER_STATES} values
+     * Current player state, see {@link SmartMedia.PLAYER_STATES} values
      */
     get state() {
         return this._provider ? this._provider.getState() : PlayerStates.UNINITIALIZED;
@@ -321,4 +321,4 @@ export class SmartVideo extends CustomElement {
     }
 }
 
-export default SmartVideo;
+export default SmartMedia;

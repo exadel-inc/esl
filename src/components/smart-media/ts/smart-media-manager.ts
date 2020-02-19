@@ -1,14 +1,14 @@
 /**
- * Group restriction manager for {@link SmartVideo}
+ * Group restriction manager for {@link SmartMedia}
  * Only one video in group can be played
  * Empty group is ignored
  * @version 1.0.1
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
-import SmartVideo from './smart-video';
+import SmartMedia from './smart-media';
 
 interface VideoManager {
-	[key: string]: SmartVideo
+	[key: string]: SmartMedia
 }
 
 const managerMap: VideoManager = {};
@@ -24,7 +24,7 @@ export class VideoGroupRestrictionManager {
 	/**
 	 * Register instance play state in group
 	 */
-	public static registerPlay(instance: SmartVideo) {
+	public static registerPlay(instance: SmartMedia) {
 		if (instance.group) {
 			const current = managerMap[instance.group];
 			if (current && current !== instance && current.active) {
@@ -39,7 +39,7 @@ export class VideoGroupRestrictionManager {
 	/**
 	 * Unregister instance
 	 */
-	public static unregister(instance: SmartVideo) {
+	public static unregister(instance: SmartMedia) {
 		if (instance.group) {
 			const reg = managerMap[instance.group];
 			if (reg === instance) {

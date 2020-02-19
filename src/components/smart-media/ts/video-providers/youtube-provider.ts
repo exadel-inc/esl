@@ -1,14 +1,14 @@
 /**
- * Youtube API provider for {@link SmartVideo}
+ * Youtube API provider for {@link SmartMedia}
  * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  * @extends BaseProvider
  * @protected
  */
 import {generateUId, loadScript} from '@helpers/common-utils';
-import {SmartVideo} from '../smart-video';
-import {BaseProvider, PlayerStates} from '../smart-video-provider';
-import EmbeddedVideoProviderRegistry from '../smart-video-registry';
+import {SmartMedia} from '../smart-media';
+import {BaseProvider, PlayerStates} from '../smart-media-provider';
+import EmbeddedVideoProviderRegistry from '../smart-media-registry';
 import PlayerVars = YT.PlayerVars;
 
 declare global {
@@ -52,7 +52,7 @@ export class YouTubeProvider extends BaseProvider {
 		return YouTubeProvider._coreApiPromise;
 	}
 
-	protected static mapOptions(sv: SmartVideo): PlayerVars {
+	protected static mapOptions(sv: SmartMedia): PlayerVars {
 		return {
 			enablejsapi: 1,
 			origin: location.origin,
@@ -65,7 +65,7 @@ export class YouTubeProvider extends BaseProvider {
 			autohide: Number(!sv.controls) // TODO: criteria
 		};
 	}
-	protected static buildIframe(sv: SmartVideo) {
+	protected static buildIframe(sv: SmartMedia) {
 		const el = document.createElement('div');
 		el.id = 'sev-yt-' + generateUId();
 		el.className = 'sev-inner sev-youtube';

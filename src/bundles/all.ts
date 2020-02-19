@@ -8,7 +8,7 @@ import '@helpers/builtin-polyfills/closest-polyfills';
 
 import { BreakpointRegistry, SmartQuery, SmartRuleList } from '@components/smart-query/smart-query';
 import { SmartImage } from '@components/smart-image/smart-image';
-import { SmartVideo } from '@components/smart-video/smart-video';
+import { SmartMedia } from '@components/smart-media/smart-media';
 import { SmartPopup, SmartPopupTrigger } from '@components/smart-popup/smart-popup';
 import { SmartCarousel, SmartCarouselDots, SmartCarouselAutoplayPlugin} from '@components/smart-carousel/smart-carousel';
 
@@ -20,7 +20,7 @@ import { SmartCarousel, SmartCarouselDots, SmartCarouselAutoplayPlugin} from '@c
 SmartImage.register();
 // or SmartImage.register('my-image');
 
-SmartVideo.register();
+SmartMedia.register();
 
 SmartCarousel.register();
 SmartCarouselDots.register();
@@ -36,7 +36,7 @@ export {
   SmartImage,
   SmartPopup,
   SmartPopupTrigger,
-  SmartVideo,
+  SmartMedia,
   SmartCarousel,
   SmartCarouselDots,
   SmartCarouselAutoplayPlugin

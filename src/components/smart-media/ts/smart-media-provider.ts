@@ -3,7 +3,7 @@
  * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n)
  */
-import SmartVideo from './smart-video';
+import SmartMedia from './smart-media';
 
 export enum PlayerStates {
 	BUFFERING = 3,
@@ -15,13 +15,13 @@ export enum PlayerStates {
 	UNINITIALIZED = null
 }
 
-export type BaseProviderConstructor = new(component: SmartVideo) => BaseProvider;
+export type BaseProviderConstructor = new(component: SmartMedia) => BaseProvider;
 
 export abstract class BaseProvider {
-	protected component: SmartVideo;
+	protected component: SmartMedia;
 	protected _ready: Promise<any>;
 
-	public constructor(component: SmartVideo) {
+	public constructor(component: SmartMedia) {
 		this.component = component;
 	}
 

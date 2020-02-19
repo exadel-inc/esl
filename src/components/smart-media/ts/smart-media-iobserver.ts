@@ -1,4 +1,4 @@
-import SmartVideo from './smart-video';
+import SmartMedia from './smart-media';
 
 const RATIO_TO_ACTIVATE = 0.75; // TODO: customizable
 const RATIO_TO_DEACTIVATE = 0.20; // TODO: customizable
@@ -18,7 +18,7 @@ export function getIObserver(lazy: boolean = false) {
 
 function handleViewport(entire: IntersectionObserverEntry) {
 	const {target: video} = entire;
-	if (!(video instanceof SmartVideo)) return;
+	if (!(video instanceof SmartMedia)) return;
 
 	// Videos that playing and out of min ratio RATIO_TO_DEACTIVATE should be stopped
 	if (video.active && entire.intersectionRatio <= RATIO_TO_DEACTIVATE) {

@@ -1,7 +1,7 @@
-import SmartVideo from './ts/smart-video';
+import SmartMedia from './ts/smart-media';
 
 import './ts/video-providers/youtube-provider';
 import './ts/video-providers/video-provider';
 import './ts/video-providers/iframe-provider';
 
-export {SmartVideo};
+export {SmartMedia};
