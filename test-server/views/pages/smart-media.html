@@ -1,11 +1,11 @@
 ---
 layout: ../layouts/basic.html
-title: <code>&lt;smart-video&gt;</code> component
+title: <code>&lt;smart-media&gt;</code> component
 ---
 
 {{##content:
 <div class="description">
-    <p>Smart Video - is a smart container that gives you the same API for different providers under the hood
+    <p>Smart Media - is a smart container that gives you the same API for different providers under the hood
         along with helpers like <em>lazy loading</em>, <em>activate query</em>, <em>picture cropping</em>.</p>
 </div>
 <hr/>
@@ -13,76 +13,76 @@ title: <code>&lt;smart-video&gt;</code> component
     <section class="col-6" data-demo="1">
         <div class="demo">
             <h3 class="text-center">YouTube video</h3>
-            <p>Smart Video has full support of YouTube provider.
-                And you can use smart video component the same way as a native video element</p>
+            <p>Smart Media has full support of YouTube provider.
+                And you can use smart media component the same way as a native video element</p>
             <hr/>
             <div class="img-container img-container-16-9 img-container-loaded">
-                <smart-video group="demo-media"
-                             video-type="youtube"
-                             video-id="5LD-EoiTjuY"
+                <smart-media group="demo-media"
+                             media-type="youtube"
+                             media-id="5LD-EoiTjuY"
                              load-condition="@DESKTOP"
                              load-condition-declined-marker="hide-video"
                              controls>
-                </smart-video>
+                </smart-media>
             </div>
         </div>
         <div class="row btn-group-centered">
-            <test-media-controls target="[data-demo='1'] smart-video"></test-media-controls>
+            <test-media-controls target="[data-demo='1'] smart-media"></test-media-controls>
         </div>
     </section>
     <section class="col-6" data-demo="2">
         <div class="demo">
             <h3 class="text-center">HTML video</h3>
-            <p>Smart Video can be used for simple HTML videos.
+            <p>Smart Media can be used for simple HTML videos.
                 It brings us the ability to use extra features (like lazy loading or cropping) for simple videos.</p>
             <hr/>
             <div class="img-container img-container-16-9 img-container-loaded">
-                <smart-video group="demo-media"
-                             video-type="video"
+                <smart-media group="demo-media"
+                             media-type="video"
                              load-condition="@DESKTOP"
                              load-condition-declined-marker="hide-video"
-                             video-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
+                             media-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
+                             video-aspect-ratio="16:9"
                              controls>
-                </smart-video>
+                </smart-media>
             </div>
         </div>
         <div class="row btn-group-centered">
-            <test-media-controls target="[data-demo='2'] smart-video"></test-media-controls>
+            <test-media-controls target="[data-demo='2'] smart-media"></test-media-controls>
         </div>
     </section>
     <section class="col-6" data-demo="3">
         <div class="demo">
             <h3 class="text-center">Basic Iframe Example</h3>
-            <p>Smart Video also has build-in provider to wrap abstract iframe source. Here is a simple example for Vimeo
+            <p>Smart Media also has build-in provider to wrap abstract iframe source. Here is a simple example for Vimeo
                 media source</p>
             <p class="alert alert-warning">Basic Iframe provider has limited API so you can only show/hide/reinitialize
                 inner iframe</p>
             <hr/>
             <div class="img-container img-container-16-9 img-container-loaded">
-                <smart-video video-type="iframe"
-                             video-src="https://player.vimeo.com/video/1084537">
-                </smart-video>
+                <smart-media media-type="iframe"
+                             media-src="https://player.vimeo.com/video/1084537">
+                </smart-media>
             </div>
         </div>
         <div class="row btn-group-centered">
-            <test-media-controls target="[data-demo='3'] smart-video" actions="play,stop"></test-media-controls>
+            <test-media-controls target="[data-demo='3'] smart-media" actions="play,stop"></test-media-controls>
         </div>
     </section>
 
     <section class="col-12" data-demo="3">
         <h3 class="text-center">HTML video background</h3>
-        <p class="text-center">Cropping and decorations features of Smart Video allows us to use it as an active
-            background for the block.</p>
+        <p class="text-center">Cropping and decorations features of Smart Media allows us to use it as an active background for the block.</p>
         <hr/>
         <div class="demo-marquee">
-            <smart-video class="bg-content sv-bg"
-                         video-type="video"
-                         video-src="https://pixabay.com/videos/download/video-5200_large.mp4"
+            <smart-media class="bg-content sv-bg"
+                         media-type="video"
+                         media-src="https://pixabay.com/videos/download/video-5200_large.mp4"
                          autoplay="true"
                          fill-mode="cover"
                          play-in-viewport
                          muted loop>
-            </smart-video>
+            </smart-media>
             <div class="demo-content contrast">
                 <h2>Background media</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
@@ -97,14 +97,14 @@ title: <code>&lt;smart-video&gt;</code> component
         <p class="text-center">We still can use any source in background mode</p>
         <hr/>
         <div class="demo-marquee">
-            <smart-video class="bg-content sv-bg"
+            <smart-media class="bg-content sv-bg"
                          fill-mode="cover"
-                         video-type="youtube"
-                         video-id="inadorMBFEI"
+                         media-type="youtube"
+                         media-id="inadorMBFEI"
                          autoplay="true"
                          play-in-viewport
                          muted loop>
-            </smart-video>
+            </smart-media>
             <div class="demo-content contrast">
                 <h2>Background media</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
@@ -122,12 +122,12 @@ title: <code>&lt;smart-video&gt;</code> component
         <div class="demo">
             <div class="alert alert-info">Video bellow will be loading only on XS breakpoint</div>
             <div class="img-container img-container-16-9">
-                <!--                    <smart-video load-condition="@XS"-->
-                <!--                                 video-type="youtube"-->
-                <!--                                 video-id="e1omOSkYltw"-->
+                <!--                    <smart-media load-condition="@XS"-->
+                <!--                                 media-type="youtube"-->
+                <!--                                 media-id="e1omOSkYltw"-->
                 <!--                                 autoplay="true"-->
                 <!--                                 muted loop>-->
-                <!--                    </smart-video>-->
+                <!--                    </smart-media>-->
             </div>
         </div>
     </section>
