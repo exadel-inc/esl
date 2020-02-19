@@ -14,6 +14,7 @@
  * - hot changes
  *
  * Attributes:
+ * {String} media-src - media resource src
  * {String} media-id - id of embedded video
  * {String} media-type - type of video provider ('youtube', 'video')
  *
