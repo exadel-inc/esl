@@ -6,16 +6,14 @@
     .sev-inner {
       display: block;
       width: 100%;
+    }
+
+    .sev-inner:not(audio) {
       height: 100%;
     }
 
-    iframe {
+    iframe.sev-inner {
       border: 0;
-    }
-
-    .video-js {
-      height: 100%;
-      width: 100%;
     }
 
     &.sv-bg {
@@ -54,5 +52,11 @@
       width: 100%;
       height: 100%;
     }
+
+    // BC support
+    //.video-js {
+    //  height: 100%;
+    //  width: 100%;
+    //}
   }
 }
