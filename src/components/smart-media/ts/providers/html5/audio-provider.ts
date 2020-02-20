@@ -14,7 +14,7 @@ export class AudioProvider extends HTMLMediaProvider<HTMLAudioElement> {
 
 	protected createElement(): HTMLAudioElement {
 		const el = document.createElement('audio');
-		el.innerHTML = HTMLMediaProvider.buildSrc(this.component.mediaSrc, 'video/mp3');
+		el.innerHTML = HTMLMediaProvider.buildSrc(this.component.mediaSrc, 'audio/mpeg');
 		return el;
 	}
 }

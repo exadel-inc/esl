@@ -2,14 +2,18 @@ import {attr} from '@helpers/decorators/attr';
 import SmartCarouselPlugin from './smart-carousel-plugin';
 import SmartCarousel from '@components/smart-carousel/ts/smart-carousel';
 
-
 /**
- * Slide Carousel Link plugin [beta]
+ * Slide Carousel Link plugin. Allows to bind carousel positions.
  */
 class SmartCarouselLinkPlugin extends SmartCarouselPlugin {
 	public static is = 'smart-carousel-link-plugin';
 
+	public static get observedAttributes() {
+		return ['to', 'direction'];
+	}
+
 	@attr() public to: string;
+	@attr({defaultValue: 'both'}) public direction: string;
 
 	private _target: SmartCarousel;
 
@@ -24,22 +28,34 @@ class SmartCarouselLinkPlugin extends SmartCarouselPlugin {
 		}
 		if (!(this.target instanceof SmartCarousel)) return;
 
-		console.log('[Smart Carousel Link Plugin]: Carousels linked: ', this.carousel, this.target);
-		// TODO: Should be on before slide change
-		this.target.addEventListener('sc:slide:changed', this._onSlideChange);
-		this.carousel.addEventListener('sc:slide:changed', this._onSlideChange);
+		if (this.direction === 'both' || this.direction === 'reverse') {
+			this.target.addEventListener('sc:slide:changed', this._onSlideChange);
+		}
+		if (this.direction === 'both' || this.direction === 'target') {
+			this.carousel.addEventListener('sc:slide:changed', this._onSlideChange);
+		}
 	}
 
 	public unbind() {
 		this.target && this.target.removeEventListener('sc:slide:changed', this._onSlideChange);
-		this.carousel.removeEventListener('sc:slide:changed', this._onSlideChange);
+		this.carousel && this.carousel.removeEventListener('sc:slide:changed', this._onSlideChange);
 	}
 
 	protected _onSlideChange(e: Event) {
 		const $target = e.target === this.carousel ? this.target : this.carousel;
 		const $source = e.target === this.carousel ? this.carousel : this.target;
-		// TODO: link action more accurate
+		// TODO: link action more accurate with direction
 		$target.goTo($source.firstIndex);
+	}
+
+	private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+		if (this.carousel && oldVal !== newVal) {
+			this.unbind();
+			if (attrName === 'to') {
+				this._target = null;
+			}
+			this.bind();
+		}
 	}
 
 	get target() {
