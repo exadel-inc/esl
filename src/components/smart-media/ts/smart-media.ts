@@ -56,6 +56,7 @@ import {BaseProvider, PlayerStates} from './smart-media-provider';
 import SmartMediaRegistry from './smart-media-registry';
 import {triggerComponentEvent} from '@helpers/component-utils';
 import VideoGroupRestrictionManager from './smart-media-manager';
+import {coefficientAspectRatio, DEFAULT_ASPECT_RATIO} from '@helpers/format-utils';
 
 export class SmartMedia extends CustomElement {
     public static is = 'smart-media';
@@ -65,6 +66,7 @@ export class SmartMedia extends CustomElement {
     @attr() public mediaType: string;
     @attr() public group: string;
     @attr() public fillMode: string;
+    @attr() public videoAspectRatio: string;
     @attr({conditional: true}) public disabled: boolean;
     @attr({conditional: true}) public autoplay: boolean;
     @attr({conditional: true}) public autofocus: boolean;
@@ -109,11 +111,10 @@ export class SmartMedia extends CustomElement {
         if (this.conditionQuery) {
             this.conditionQuery.addListener(this._onConditionStateChange);
         }
-
+        if (this.fillModeCover) {
+            window.addEventListener('resize', this.deferedChangeFillMode);
+        }
         // TODO: window throttled resize manager
-        // TODO: subscribe only if needed
-        // TODO: remove on unbind
-        // window.addEventListener('resize', this._onChangeFillMode);
         !this.disabled && this.reinitInstance();
     }
 
@@ -121,6 +122,9 @@ export class SmartMedia extends CustomElement {
         SmartMediaRegistry.removeListener(this._onRegistryStateChange);
         if (this.conditionQuery) {
             this.conditionQuery.removeListener(this._onConditionStateChange);
+        }
+        if (this.fillModeCover) {
+            window.removeEventListener('resize', this.deferedChangeFillMode);
         }
         this.detachViewportConstraint();
         this._provider && this._provider.unbind();
@@ -139,6 +143,11 @@ export class SmartMedia extends CustomElement {
             case 'disabled':
                 if (!this._provider) {
                     this.deferedReinit();
+                }
+                break;
+            case 'fill-mode':
+                if (this.fillModeCover) {
+                    this.deferedChangeFillMode();
                 }
                 break;
         }
@@ -162,6 +171,8 @@ export class SmartMedia extends CustomElement {
     }
 
     public deferedReinit = debounce(() => this.reinitInstance());
+
+    public deferedChangeFillMode = debounce(() => this._onChangeFillMode());
 
     private _updateMarkers(addValue: string, removeValue: string) {
         const target = this.getAttribute('marker-target');
@@ -287,10 +298,13 @@ export class SmartMedia extends CustomElement {
     // consider IE/EDGE detection + object-fit and JS fallback (old smart-media) for videos and just JS option for iframes
     // for you-tube it definitely will be a aspect-ratio based calculation
     public _onChangeFillMode() {
-        if (this.fillMode) {
-            this.classList.add('fill');
+        if (coefficientAspectRatio(this.videoAspectRatio) < DEFAULT_ASPECT_RATIO) {
+            // this.classList.add('w-scale');
+        } else {
+            // this.classList.add('h-scale');
         }
     }
+
     /**
      * Current player state, see {@link SmartMedia.PLAYER_STATES} values
      */
@@ -304,6 +318,10 @@ export class SmartMedia extends CustomElement {
             this._conditionQuery = query ? new SmartQuery(query) : null;
         }
         return this._conditionQuery;
+    }
+
+    get fillModeCover() {
+        return this.fillMode === 'cover';
     }
 
     private _onRegistryStateChange = (name: string) => {
