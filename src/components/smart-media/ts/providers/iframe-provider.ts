@@ -1,5 +1,5 @@
 /**
- * Simple Media Basic Iframe provider for {@link SmartMedia}
+ * Simple Basic Iframe provider for {@link SmartMedia}
  * @author Alexey Stsefanovich (ala'n)
  */
 import {generateUId} from '@helpers/common-utils';
