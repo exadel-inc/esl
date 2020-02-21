@@ -20,8 +20,10 @@ title: <code>&lt;smart-media&gt;</code> component
                 <smart-media group="demo-media"
                              media-type="youtube"
                              media-id="5LD-EoiTjuY"
-                             load-condition="@DESKTOP"
-                             load-condition-declined-marker="hide-video"
+                             load-condition="@DESKTOP and (min-width: 500px)"
+                             load-cls-target="section"
+                             load-accepted-cls="show-video"
+                             load-declined-cls="hide-video"
                              controls>
                 </smart-media>
             </div>
@@ -39,11 +41,11 @@ title: <code>&lt;smart-media&gt;</code> component
             <div class="img-container img-container-16-9 img-container-loaded">
                 <smart-media group="demo-media"
                              media-type="video"
-                             load-condition="@DESKTOP"
-                             load-condition-declined-marker="hide-video"
                              media-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
-                             fill-mode="cover"
-                             video-aspect-ratio="16:9"
+                             load-condition="@DESKTOP and (min-width: 500px)"
+                             load-cls-target="section"
+                             load-accepted-cls="show-video"
+                             load-declined-cls="hide-video"
                              controls>
                 </smart-media>
             </div>
@@ -120,6 +122,7 @@ title: <code>&lt;smart-media&gt;</code> component
                          media-type="youtube"
                          media-id="inadorMBFEI"
                          autoplay="true"
+                         video-aspect-ratio="16:9"
                          play-in-viewport
                          muted loop>
             </smart-media>
@@ -140,9 +143,7 @@ title: <code>&lt;smart-media&gt;</code> component
         <div class="demo">
             <div class="alert alert-info">Video bellow will be loading only on XS breakpoint</div>
             <div class="img-container img-container-16-9">
-                <smart-media load-condition="@XS"
-                             load-condition-marker="allow-video"
-                             load-condition-declined-marker="disallow-video"
+                <smart-media load-condition="@XS, @MOBILE"
                              media-type="youtube"
                              media-id="e1omOSkYltw"
                              autoplay="true"

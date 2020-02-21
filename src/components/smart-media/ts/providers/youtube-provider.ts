@@ -34,9 +34,7 @@ export class YouTubeProvider extends BaseProvider {
 	protected static getCoreApi() {
 		if (!YouTubeProvider._coreApiPromise) {
 			YouTubeProvider._coreApiPromise = new Promise((resolve) => {
-				if (window.YT && window.YT.Player) {
-					return resolve(window.YT);
-				}
+				if (window.YT && window.YT.Player) return resolve(window.YT);
 				loadScript('YT_API_SOURCE', '//www.youtube.com/iframe_api');
 				const cbOrigin = window.onYouTubeIframeAPIReady;
 				window.onYouTubeIframeAPIReady = () => {

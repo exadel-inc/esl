@@ -6,6 +6,7 @@
  * @description:
  * SmartMediaEmbedded - custom element, that provides ability to add and configure embedded video using one tag.
  * Supported features:
+ * TODO: update
  * - extendable 'Providers' realization for different video types, support 'youtube' and 'brightcove' out of box
  * - single active player restriction by grouping elements
  * - provides events on state change
@@ -24,14 +25,18 @@
  *
  * {Boolean} [autofocus] - set focus to player on play
  * {Boolean} [autoplay] - start play automatically on initialization (note initialization not happens until video is disabled)
- * {Boolean} [hide-controls] - hiding video player controls
- * {Boolean} [hide-subtitles] - disable subtitles settings if player supports subtitles
+ * {Boolean} [controls] - show video player controls
+ *
+ * // [no support] {Boolean} [hide-subtitles] - disable subtitles settings if player supports subtitles
  *
  *
+ * @readonly {Boolean} error - marker that indicates that video initialized with error
  * @readonly {Boolean} ready - marker that indicates that video api loaded
+ * @readonly {Boolean} played - marker that indicates that video payed
  * @readonly {Boolean} active - marker that indicates that video paying
  *
  *
+ * @event error - (bubbles) happens when video api is initialized with error
  * @event evideo:ready - (bubbles) happens when video api is ready
  * @event evideo:play - (bubbles) happens when video starts playing
  * @event evideo:paused - (bubbles) happens when video paused
@@ -74,10 +79,11 @@ export class SmartMedia extends CustomElement {
     @attr({conditional: true}) public muted: boolean;
     @attr({conditional: true}) public loop: boolean;
     @attr({conditional: true}) public controls: boolean;
-    @attr({conditional: true}) public hideSubtitles: boolean;
+    @attr({conditional: true}) public playInViewport: boolean;
     @attr({conditional: true, readonly: true}) public ready: boolean;
     @attr({conditional: true, readonly: true}) public active: boolean;
-    @attr({conditional: true, readonly: true}) public playInViewport: boolean;
+    @attr({conditional: true, readonly: true}) public played: boolean;
+    @attr({conditional: true, readonly: true}) public error: boolean;
 
     private _provider: BaseProvider;
     private _conditionQuery: SmartQuery;
@@ -94,7 +100,7 @@ export class SmartMedia extends CustomElement {
     }
 
     static get observedAttributes() {
-        return ['media-type', 'disabled', 'media-id', 'media-src', 'fill-mode', 'video-aspect-ratio'];
+        return ['media-type', 'disabled', 'media-id', 'media-src', 'fill-mode', 'video-aspect-ratio', 'play-in-viewport'];
     }
 
     constructor() {
@@ -106,11 +112,16 @@ export class SmartMedia extends CustomElement {
 
     private connectedCallback() {
         this.classList.add(SmartMedia.is);
-        this.setAttribute('role', 'application');
+        if (!this.hasAttribute('role')) {
+            this.setAttribute('role', 'application');
+        }
         this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
         SmartMediaRegistry.addListener(this._onRegistryStateChange);
         if (this.conditionQuery) {
             this.conditionQuery.addListener(this.deferredReinit);
+        }
+        if (this.playInViewport) {
+            this.attachViewportConstraint();
         }
         if (this.fillModeCover) {
             window.addEventListener('resize', this.deferredChangeFillMode);
@@ -140,14 +151,15 @@ export class SmartMedia extends CustomElement {
                 this.deferredReinit();
                 break;
             case 'fill-mode':
-                if (this.fillModeCover) {
-                    this.deferredChangeFillMode();
-                }
-                break;
             case 'video-aspect-ratio':
                 if (this.fillModeCover) {
                     this.deferredChangeFillMode();
                 }
+                break;
+            case 'play-in-viewport':
+                this.playInViewport ?
+                    this.attachViewportConstraint() :
+                    this.detachViewportConstraint();
                 break;
         }
     }
@@ -168,21 +180,21 @@ export class SmartMedia extends CustomElement {
             if (provider) {
                 this._provider = new provider(this);
                 this._provider.bind();
-                if (this.playInViewport) {
-                    this.attachViewportConstraint();
-                }
+            } else {
+                this._onError();
             }
         }
-        this._updateMarkers();
+        this._updateContainerMarkers();
     }
 
-    private _updateMarkers() {
-        const active = this.canActivate();
-        const target = this.getAttribute('marker-target');
+    private _updateContainerMarkers() {
+        const target = this.getAttribute('load-cls-target');
         const targetEl = !target || target === 'parent' ? this.parentNode as HTMLElement : this.closest(target);
-        const activeCls = this.getAttribute('load-condition-marker');
-        const inactiveCls = this.getAttribute('load-condition-declined-marker');
 
+        const activeCls = this.getAttribute('load-accepted-cls');
+        const inactiveCls = this.getAttribute('load-declined-cls');
+
+        const active = this.canActivate();
         (targetEl && activeCls) && targetEl.classList.toggle(activeCls, active);
         (targetEl && inactiveCls) && targetEl.classList.toggle(inactiveCls, !active);
     }
@@ -258,16 +270,16 @@ export class SmartMedia extends CustomElement {
     public _onDetach() {
         this.removeAttribute('active');
         this.removeAttribute('ready');
+        this.removeAttribute('played');
         if (this.hasAttribute('ready-class')) {
             this.classList.remove(this.getAttribute('ready-class'));
         }
     }
 
     public _onPlay() {
-        if (this.autofocus) {
-            this.focus();
-        }
+        if (this.autofocus) this.focus();
         this.setAttribute('active', '');
+        this.setAttribute('played', '');
         this.dispatchEvent(new Event('evideo:play', {bubbles: true}));
         VideoGroupRestrictionManager.registerPlay(this);
     }
