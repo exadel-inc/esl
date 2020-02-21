@@ -115,7 +115,6 @@ export class SmartMedia extends CustomElement {
         if (this.fillModeCover) {
             window.addEventListener('resize', this.deferredChangeFillMode);
         }
-        // TODO: window throttled resize manager
         this.deferredReinit();
     }
 
@@ -141,6 +140,11 @@ export class SmartMedia extends CustomElement {
                 this.deferredReinit();
                 break;
             case 'fill-mode':
+                if (this.fillModeCover) {
+                    this.deferredChangeFillMode();
+                }
+                break;
+            case 'video-aspect-ratio':
                 if (this.fillModeCover) {
                     this.deferredChangeFillMode();
                 }
@@ -283,11 +287,9 @@ export class SmartMedia extends CustomElement {
     // consider IE/EDGE detection + object-fit and JS fallback (old smart-media) for videos and just JS option for iframes
     // for you-tube it definitely will be a aspect-ratio based calculation
     public _onChangeFillMode() {
-        if (coefficientAspectRatio(this.videoAspectRatio) < DEFAULT_ASPECT_RATIO) {
-            // this.classList.add('w-scale');
-        } else {
-            // this.classList.add('h-scale');
-        }
+        const coefficient = this.videoAspectRatio ? coefficientAspectRatio(this.videoAspectRatio)  : this.offsetWidth / this.offsetHeight;
+        coefficient < DEFAULT_ASPECT_RATIO ? this.firstElementChild.classList.add('w-scale') : this.firstElementChild.classList.add('h-scale');
+        // console.log(this.videoAspectRatio, coefficient);
     }
 
     /**

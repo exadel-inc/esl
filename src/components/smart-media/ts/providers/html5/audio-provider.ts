@@ -3,7 +3,6 @@
  * @author Alexey Stsefanovich (ala'n)
  */
 
-import {SmartMedia} from '../../smart-media';
 import {HTMLMediaProvider} from './media-provider';
 import EmbeddedVideoProviderRegistry from '../../smart-media-registry';
 
