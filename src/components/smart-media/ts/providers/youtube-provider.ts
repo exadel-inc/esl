@@ -108,9 +108,8 @@ export class YouTubeProvider extends BaseProvider {
 			this._api.destroy();
 			this._api = null;
 		}
-		if (this._el && this._el.parentNode) {
-			this._el.parentNode.removeChild(this._el);
-		}
+		const embedded = this.component.querySelectorAll('.sev-youtube');
+		(embedded || []).forEach((el: Node) => el.parentNode.removeChild(el));
 	}
 
 	private _onStateChange = (event: YT.OnStateChangeEvent) => {

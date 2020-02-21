@@ -139,12 +139,14 @@ title: <code>&lt;smart-media&gt;</code> component
         <div class="demo">
             <div class="alert alert-info">Video bellow will be loading only on XS breakpoint</div>
             <div class="img-container img-container-16-9">
-                <!--                    <smart-media load-condition="@XS"-->
-                <!--                                 media-type="youtube"-->
-                <!--                                 media-id="e1omOSkYltw"-->
-                <!--                                 autoplay="true"-->
-                <!--                                 muted loop>-->
-                <!--                    </smart-media>-->
+                <smart-media load-condition="@XS"
+                             load-condition-marker="allow-video"
+                             load-condition-declined-marker="disallow-video"
+                             media-type="youtube"
+                             media-id="e1omOSkYltw"
+                             autoplay="true"
+                             muted loop>
+                </smart-media>
             </div>
         </div>
     </section>

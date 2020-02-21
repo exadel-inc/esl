@@ -82,6 +82,9 @@ export class SmartMedia extends CustomElement {
     private _provider: BaseProvider;
     private _conditionQuery: SmartQuery;
 
+    private deferredReinit = debounce(() => this.reinitInstance());
+    private deferredChangeFillMode = debounce(() => this._onChangeFillMode(), 200);
+
     /**
      * @enum Map with possible Player States
      * values: BUFFERING, ENDED, PAUSED, PLAYING, UNSTARTED, VIDEO_CUED, UNINITIALIZED
@@ -98,7 +101,6 @@ export class SmartMedia extends CustomElement {
         super();
 
         this._onError = this._onError.bind(this);
-        this._onConditionStateChange = this._onConditionStateChange.bind(this);
         this._onChangeFillMode = this._onChangeFillMode.bind(this);
     }
 
@@ -107,24 +109,23 @@ export class SmartMedia extends CustomElement {
         this.setAttribute('role', 'application');
         this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
         SmartMediaRegistry.addListener(this._onRegistryStateChange);
-        this._onConditionStateChange();
         if (this.conditionQuery) {
-            this.conditionQuery.addListener(this._onConditionStateChange);
+            this.conditionQuery.addListener(this.deferredReinit);
         }
         if (this.fillModeCover) {
-            window.addEventListener('resize', this.deferedChangeFillMode);
+            window.addEventListener('resize', this.deferredChangeFillMode);
         }
         // TODO: window throttled resize manager
-        !this.disabled && this.reinitInstance();
+        this.deferredReinit();
     }
 
     private disconnectedCallback() {
         SmartMediaRegistry.removeListener(this._onRegistryStateChange);
         if (this.conditionQuery) {
-            this.conditionQuery.removeListener(this._onConditionStateChange);
+            this.conditionQuery.removeListener(this.deferredReinit);
         }
         if (this.fillModeCover) {
-            window.removeEventListener('resize', this.deferedChangeFillMode);
+            window.removeEventListener('resize', this.deferredChangeFillMode);
         }
         this.detachViewportConstraint();
         this._provider && this._provider.unbind();
@@ -136,27 +137,29 @@ export class SmartMedia extends CustomElement {
             case 'media-id':
             case 'media-src':
             case 'media-type':
-                if (this._provider || this._provider === null) {
-                    this.deferedReinit();
-                }
-                break;
             case 'disabled':
-                if (!this._provider) {
-                    this.deferedReinit();
-                }
+                this.deferredReinit();
                 break;
             case 'fill-mode':
                 if (this.fillModeCover) {
-                    this.deferedChangeFillMode();
+                    this.deferredChangeFillMode();
                 }
                 break;
         }
     }
 
-    private reinitInstance() {
-        if (!this.disabled) {
-            this._provider && this._provider.unbind();
+    public canActivate() {
+        if (this.disabled) return false;
+        if (this.conditionQuery) return this.conditionQuery.matches;
+        return true;
+    }
 
+    private reinitInstance() {
+        // TODO: optimize, constraint for simple changes
+        this._provider && this._provider.unbind();
+        this._provider = null;
+
+        if (this.canActivate()) {
             const provider = SmartMediaRegistry.getProvider(this.mediaType);
             if (provider) {
                 this._provider = new provider(this);
@@ -164,40 +167,20 @@ export class SmartMedia extends CustomElement {
                 if (this.playInViewport) {
                     this.attachViewportConstraint();
                 }
-            } else {
-                this._provider = null;
             }
         }
+        this._updateMarkers();
     }
 
-    public deferedReinit = debounce(() => this.reinitInstance());
-
-    public deferedChangeFillMode = debounce(() => this._onChangeFillMode());
-
-    private _updateMarkers(addValue: string, removeValue: string) {
+    private _updateMarkers() {
+        const active = this.canActivate();
         const target = this.getAttribute('marker-target');
-        const targetEl = target ? this.closest(target) : this;
-        (targetEl && addValue) && targetEl.classList.add(addValue);
-        (targetEl && removeValue) && targetEl.classList.remove(removeValue);
-    }
+        const targetEl = !target || target === 'parent' ? this.parentNode as HTMLElement : this.closest(target);
+        const activeCls = this.getAttribute('load-condition-marker');
+        const inactiveCls = this.getAttribute('load-condition-declined-marker');
 
-    private _onConditionStateChange() {
-        if (!this.conditionQuery || this.conditionQuery.matches) {
-            this.deferedReinit();
-            if (this.state === PlayerStates.PAUSED) {
-                this.play(true);
-            }
-            this._updateMarkers(
-                this.getAttribute('load-condition-marker'),
-                this.getAttribute('load-condition-declined-marker')
-            );
-        } else {
-            this.pause();
-            this._updateMarkers(
-                this.getAttribute('load-condition-declined-marker'),
-                this.getAttribute('load-condition-marker')
-            );
-        }
+        (targetEl && activeCls) && targetEl.classList.toggle(activeCls, active);
+        (targetEl && inactiveCls) && targetEl.classList.toggle(inactiveCls, !active);
     }
 
     /**
@@ -210,12 +193,14 @@ export class SmartMedia extends CustomElement {
 
     /**
      * Start playing video
+     * @param {boolean} allowActivate
      * @returns {Promise | void}
      */
-    public play(reset: boolean = false) {
-        if (this.disabled && reset) {
+    public play(allowActivate: boolean = false) {
+        if (this.disabled && allowActivate) {
             this.disabled = false;
         }
+        if (!this.canActivate()) return;
         return this._provider && this._provider.safePlay();
     }
 
@@ -252,7 +237,7 @@ export class SmartMedia extends CustomElement {
 
     // Video live-cycle handlers
     public _onReady() {
-        this.setAttribute('ready', 'true');
+        this.setAttribute('ready', '');
         if (this.hasAttribute('ready-class')) {
             this.classList.add(this.getAttribute('ready-class'));
         }
