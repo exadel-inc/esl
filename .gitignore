@@ -10,7 +10,6 @@ npm-debug.log
 .gitconfig
 .eslintrc.json
 test-server/static/
-edmtp-modules/
 lib/
 lib-es6/
 package-lock.json

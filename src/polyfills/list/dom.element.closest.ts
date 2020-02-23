@@ -1,5 +1,5 @@
 /**
- * Group: Dom shims ~ ES6 shim group
+ * Group: DOM API shims ~ ES6 shim group
  * Target Browsers: IE11, Edge < 14
  * Element.closest polyfill
  */

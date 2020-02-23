@@ -3,7 +3,7 @@ import '@polyfills/es5-target-shim';
 // Builtin polyfills
 import '@polyfills/polyfills.es6';
 
-// import { BreakpointRegistry, SmartQuery, SmartRuleList } from '@components/smart-query/smart-query';
+import { BreakpointRegistry, SmartQuery, SmartRuleList } from '@components/smart-query/smart-query';
 import { SmartImage } from '@components/smart-image/smart-image';
 import { SmartMedia } from '@components/smart-media/smart-media';
 import { SmartPopup, SmartPopupTrigger } from '@components/smart-popup/smart-popup';
@@ -30,3 +30,16 @@ SmartCarouselAutoplayPlugin.register();
 
 SmartPopup.register();
 SmartPopupTrigger.register();
+
+export {
+  BreakpointRegistry,
+  SmartQuery,
+  SmartRuleList,
+  SmartImage,
+  SmartPopup,
+  SmartPopupTrigger,
+  SmartMedia,
+  SmartCarousel,
+  SmartCarouselDots,
+  SmartCarouselAutoplayPlugin
+};
