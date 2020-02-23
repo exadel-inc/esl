@@ -7,8 +7,13 @@ layout: ./html5.html
 <script>
     /* Polyfill */
     (function () {
-        if (('getRootNode' in Element.prototype) && window.customElements) return;
-        document.write('<script type="text/javascript" src="/polyfill-prebuild.js"><\/script>');
+        let version = '';
+        if (!window.Promise || !window.CustomEvent) {
+            version = 'full';
+        } else if (!('getRootNode' in Element.prototype) || !window.customElements || !window.IntersectionObserver) {
+            version = 'light';
+        }
+        (version) && document.write('<script type="text/javascript" src="/polyfill-' + version + '.js"><\/script>');
     })();
 </script>
 

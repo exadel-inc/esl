@@ -1,15 +1,8 @@
 /**
+ * Group: Dom shims ~ ES6 shim group
+ * Target Browsers: IE11, Edge < 14
  * Element.closest polyfill
  */
-
-/**
- * Cross-browser Element interface
- */
-interface ElementEx extends Element {
-	msMatchesSelector?(selectors: string): boolean;
-	mozMatchesSelector?(selectors: string): boolean;
-}
-
 (function (e: ElementEx) {
 	e.matches = e.matches || e.msMatchesSelector || e.mozMatchesSelector || e.webkitMatchesSelector;
 	e.closest = e.closest || function (css: string) {
@@ -21,3 +14,8 @@ interface ElementEx extends Element {
 		return null;
 	};
 })(Element.prototype as ElementEx);
+
+interface ElementEx extends Element {
+	msMatchesSelector?(selectors: string): boolean;
+	mozMatchesSelector?(selectors: string): boolean;
+}

@@ -19,7 +19,7 @@ module.exports.buildAll = function tsBuildAll(config) {
 		output: Object.assign({
 			sourceMapFilename: '[name].js.map',
 			filename: '[name].js',
-			library: 'EWC',
+			library: 'SmartLibrary',
 			libraryTarget: 'umd'
 		}, config.output),
 		watch: false,

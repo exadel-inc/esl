@@ -1,7 +1,7 @@
-// HTMLElement ES6 extends shim
+// Support for ES5 bundle target
 import '@polyfills/es5-target-shim';
 // Builtin polyfills
-import '@polyfills/polyfills'
+import '@polyfills/polyfills.es6';
 
 // import { BreakpointRegistry, SmartQuery, SmartRuleList } from '@components/smart-query/smart-query';
 import { SmartImage } from '@components/smart-image/smart-image';

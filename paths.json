@@ -3,7 +3,8 @@
     "less": "src/bundles/all.less",
     "ts": [
       "src/bundles/all.ts",
-      "src/bundles/polyfill-prebuild.ts"
+      "src/bundles/polyfill-light.ts",
+      "src/bundles/polyfill-full.ts"
     ],
     "context": "src/components",
     "target": "lib"
