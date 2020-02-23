@@ -1,11 +1,7 @@
 {
   "bundle": {
     "less": "src/bundles/all.less",
-    "ts": [
-      "src/bundles/all.ts",
-      "src/bundles/polyfill-light.ts",
-      "src/bundles/polyfill-full.ts"
-    ],
+    "ts": "src/bundles/all.ts",
     "context": "src/components",
     "target": "lib"
   },
@@ -16,6 +12,14 @@
     ],
     "context": "src/components",
     "target": "lib-es6"
+  },
+  "polyfills": {
+    "ts": [
+      "src/bundles/polyfill-light.ts",
+      "src/bundles/polyfill-full.ts"
+    ],
+    "context": "src/polyfills",
+    "target": "lib"
   },
   "watch": {
     "ts": ["src/components/**/*.ts", "src/helpers/**/*.ts"],

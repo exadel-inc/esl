@@ -18,9 +18,7 @@ module.exports.buildAll = function tsBuildAll(config) {
 		context: config.content,
 		output: Object.assign({
 			sourceMapFilename: '[name].js.map',
-			filename: '[name].js',
-			library: 'SmartLibrary',
-			libraryTarget: 'umd'
+			filename: '[name].js'
 		}, config.output),
 		watch: false,
 		devtool: 'source-map',

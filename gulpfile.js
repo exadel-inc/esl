@@ -25,7 +25,11 @@ gulp.task('less-local', function () {
 gulp.task('ts-lib', function () {
     return task.bundle({
         src: paths.bundle.ts,
-        context: paths.bundle.context
+        context: paths.bundle.context,
+        output: {
+            library: 'SmartLibrary',
+            libraryTarget: 'umd'
+        }
     }).pipe(gulp.dest(paths.bundle.target));
 });
 gulp.task('ts-lib-es6', function () {
@@ -34,6 +38,18 @@ gulp.task('ts-lib-es6', function () {
         context: paths.es6.context
     }).pipe(gulp.dest(paths.es6.target));
 });
+gulp.task('ts-lib-polyfills', function () {
+    return task.bundle({
+        src: paths.polyfills.ts,
+        context: paths.polyfills.context
+    }).pipe(gulp.dest(paths.polyfills.target));
+});
+// gulp.task('ts-lib-granular', function () {
+//     return task.bundle({
+//         src: 'src/components/*/*.ts',
+//         context: paths.polyfills.context
+//     }).pipe(gulp.dest(paths.bundle.target));
+// });
 // local dev assets
 gulp.task('ts-local', function () {
 	return task.bundle({
@@ -77,7 +93,7 @@ gulp.task('watch', function () {
 });
 
 // === BUILD TASKS ===
-gulp.task('build', gulp.series('clean', gulp.parallel('less-lib', 'ts-lib')));
+gulp.task('build', gulp.series('clean', gulp.parallel('less-lib', gulp.series('ts-lib', 'ts-lib-polyfills'))));
 gulp.task('build-es6', gulp.parallel('less-lib-es6', 'ts-lib-es6'));
 
 // Local assets
