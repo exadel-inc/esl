@@ -91,6 +91,7 @@
  *      data-src='..defaultPath [| @1x => src [| ...]]'
  *  ></smart-image-tag>
  */
+
 import {CustomElement} from '@helpers/custom-element';
 import {attr} from '@helpers/decorators/attr';
 import {DeviceDetector} from '@helpers/device-utils';
@@ -154,7 +155,8 @@ const STRATEGIES: Strategy = {
 				if (request.readyState !== 4 || request.status !== 200) return;
 				const tmp = document.createElement('div');
 				tmp.innerHTML = request.responseText;
-				tmp.querySelectorAll('script').forEach((node) => node.remove());
+				Array.from(tmp.querySelectorAll('script') || [])
+					.forEach((node: Element) => node.remove());
 				img.innerHTML = tmp.innerHTML;
 			};
 			request.send();

@@ -5,13 +5,13 @@ layout: ./html5.html
 {{##head:
 
 <script>
-    if (!('customElements' in window)) {
-        var polyscript = document.createElement('script');
-        polyscript.type = 'text/javascript';
-        polyscript.src = '/polyfill-prebuild.js';
-        document.head.appendChild(polyscript);
-    }
+    /* Polyfill */
+    (function () {
+        if (('getRootNode' in Element.prototype) && window.customElements) return;
+        document.write('<script type="text/javascript" src="/polyfill-prebuild.js"><\/script>');
+    })();
 </script>
+
 <link type="text/css" rel="stylesheet" href="/all.css">
 <link type="text/css" rel="stylesheet" href="/localdev-styles.css">
 
@@ -36,6 +36,6 @@ layout: ./html5.html
     {{= partial('./footer.html')}}
 </footer>
 
-<script src="/all.js"></script>
+<script defer src="/all.js"></script>
 <script defer src="/localdev-ts.js"></script>
 #}}

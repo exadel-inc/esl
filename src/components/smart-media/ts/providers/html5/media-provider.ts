@@ -45,7 +45,6 @@ export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends Base
 		this.component._onDetach();
 		if (this._el && this._el.parentNode) {
 			this._el.parentNode.removeChild(this._el);
-			this._el.remove();
 		}
 	}
 

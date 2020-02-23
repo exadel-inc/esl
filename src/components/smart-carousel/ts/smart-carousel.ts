@@ -254,6 +254,11 @@ class SmartCarousel extends CustomElement {
 		plugin.unbind();
 		this._plugins.delete(plugin.key);
 	}
+
+	public static register(tagName?: string) {
+		SmartCarouselSlide.register((tagName || SmartCarousel.is) + '-slide');
+		customElements.whenDefined(SmartCarouselSlide.is).then(() => super.register(tagName));
+	}
 }
 
 export default SmartCarousel;

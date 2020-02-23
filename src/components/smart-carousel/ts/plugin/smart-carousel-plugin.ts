@@ -68,6 +68,10 @@ abstract class SmartCarouselPlugin extends CustomElement {
 	 * Unlike {@link disconnectedCallback}, unbind is called by owner Smart Carousel when the plugin should be detached.
 	 */
 	public abstract unbind(): void;
+
+	public static register(tagName?: string) {
+		customElements.whenDefined(SmartCarousel.is).then(() => super.register(tagName));
+	}
 }
 
 export default SmartCarouselPlugin;

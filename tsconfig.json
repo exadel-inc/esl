@@ -18,7 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "@helpers/*": ["src/helpers/*"],
-      "@components/*": ["src/components/*"]
+      "@components/*": ["src/components/*"],
+      "@polyfills/*": ["src/polyfills/*"]
     }
   },
   "exclude": [
