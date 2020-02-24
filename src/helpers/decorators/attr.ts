@@ -1,13 +1,11 @@
+import { toKebabCase } from "@helpers/format-utils";
+
 interface AttrDescriptor {
 	conditional?: boolean;
 	readonly?: boolean;
 	dataAttr?: boolean;
 	defaultValue?: string;
 }
-
-export const toKebabCase = (str: string) => {
-	return str.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase();
-};
 
 function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string) {
 	function get() {
