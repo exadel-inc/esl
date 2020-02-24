@@ -16,6 +16,14 @@ export class AudioProvider extends HTMLMediaProvider<HTMLAudioElement> {
 		el.innerHTML = HTMLMediaProvider.buildSrc(this.component.mediaSrc, 'audio/mpeg');
 		return el;
 	}
+
+    get defaultAspectRatio(): number {
+        return 0;
+    }
+
+    setSize(width: number | 'auto', height: number | 'auto'): void {
+	    return;
+    }
 }
 
 EmbeddedVideoProviderRegistry.register(AudioProvider, AudioProvider.providerName);

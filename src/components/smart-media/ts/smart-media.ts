@@ -61,7 +61,7 @@ import {BaseProvider, PlayerStates} from './smart-media-provider';
 import SmartMediaRegistry from './smart-media-registry';
 import {triggerComponentEvent} from '@helpers/component-utils';
 import VideoGroupRestrictionManager from './smart-media-manager';
-import {coefficientAspectRatio, DEFAULT_ASPECT_RATIO} from '@helpers/format-utils';
+import {parseAspectRatio, DEFAULT_ASPECT_RATIO} from '@helpers/format-utils';
 
 export class SmartMedia extends CustomElement {
     public static is = 'smart-media';
@@ -71,7 +71,7 @@ export class SmartMedia extends CustomElement {
     @attr() public mediaType: string;
     @attr() public group: string;
     @attr() public fillMode: string;
-    @attr() public videoAspectRatio: string;
+    @attr() public aspectRatio: string;
     @attr({conditional: true}) public disabled: boolean;
     @attr({conditional: true}) public autoplay: boolean;
     @attr({conditional: true}) public autofocus: boolean;
@@ -100,7 +100,7 @@ export class SmartMedia extends CustomElement {
     }
 
     static get observedAttributes() {
-        return ['media-type', 'disabled', 'media-id', 'media-src', 'fill-mode', 'video-aspect-ratio', 'play-in-viewport'];
+        return ['media-type', 'disabled', 'media-id', 'media-src', 'fill-mode', 'aspect-ratio', 'play-in-viewport'];
     }
 
     constructor() {
@@ -151,7 +151,7 @@ export class SmartMedia extends CustomElement {
                 this.deferredReinit();
                 break;
             case 'fill-mode':
-            case 'video-aspect-ratio':
+            case 'aspect-ratio':
                 if (this.fillModeCover) {
                     this.deferredChangeFillMode();
                 }
@@ -299,9 +299,15 @@ export class SmartMedia extends CustomElement {
     // consider IE/EDGE detection + object-fit and JS fallback (old smart-media) for videos and just JS option for iframes
     // for you-tube it definitely will be a aspect-ratio based calculation
     public _onChangeFillMode() {
-        const coefficient = this.videoAspectRatio ? coefficientAspectRatio(this.videoAspectRatio)  : this.offsetWidth / this.offsetHeight;
-        coefficient < DEFAULT_ASPECT_RATIO ? this.firstElementChild.classList.add('w-scale') : this.firstElementChild.classList.add('h-scale');
-        // console.log(this.videoAspectRatio, coefficient);
+        // TODO
+        if (this._provider) {
+            if (!this.actualAspectRatio) {
+                this._provider.setSize('auto', 'auto');
+            } else {
+                this.actualAspectRatio < DEFAULT_ASPECT_RATIO ? this._provider.setSize(100, 100) : this._provider.setSize(this.offsetWidth, this.offsetWidth / this.actualAspectRatio);
+                console.log(this._provider.defaultAspectRatio);
+            }
+        }
     }
 
     /**
@@ -321,6 +327,13 @@ export class SmartMedia extends CustomElement {
 
     get fillModeCover() {
         return this.fillMode === 'cover';
+    }
+
+    get actualAspectRatio() {
+        if (this.aspectRatio) {
+            return parseAspectRatio(this.aspectRatio);
+        }
+        return this._provider ? this._provider.defaultAspectRatio : 0;
     }
 
     private _onRegistryStateChange = (name: string) => {

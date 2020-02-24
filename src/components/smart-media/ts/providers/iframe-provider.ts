@@ -63,9 +63,17 @@ export class IframeBasicProvider extends BaseProvider {
 		}
 	}
 
+    setSize(width: number | 'auto', height: number | 'auto'): void {
+	    return;
+    }
+
 	public getState() {
 		return this._state;
 	}
+
+    get defaultAspectRatio(): number {
+        return 0;
+    }
 
 	public seekTo(pos: number) {
 		console.error(`[SmartMedia] Unsupported action: can not execute seekTo on abstract iframe provider`);
