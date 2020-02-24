@@ -304,7 +304,9 @@ export class SmartMedia extends CustomElement {
             if (!this.actualAspectRatio) {
                 this._provider.setSize('auto', 'auto');
             } else {
-                this.actualAspectRatio < DEFAULT_ASPECT_RATIO ? this._provider.setSize(100, 100) : this._provider.setSize(this.offsetWidth, this.offsetWidth / this.actualAspectRatio);
+                this.actualAspectRatio < DEFAULT_ASPECT_RATIO ?
+                    this._provider.setSize(this.actualAspectRatio * this.offsetHeight, this.offsetHeight) :
+                    this._provider.setSize(this.offsetWidth, this.offsetWidth / this.actualAspectRatio);
                 console.log(this._provider.defaultAspectRatio);
             }
         }
