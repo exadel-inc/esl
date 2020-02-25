@@ -6,9 +6,7 @@
 import {SmartMedia} from '../../smart-media';
 import {BaseProvider, PlayerStates} from '../../smart-media-provider';
 
-export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends BaseProvider {
-	protected _el: T;
-
+export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends BaseProvider<T> {
 	protected static buildSrc(src: string, type: string) {
 		return `<source src=${src} type="${type}">`;
 	}

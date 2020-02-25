@@ -85,7 +85,7 @@ export class SmartMedia extends CustomElement {
     @attr({conditional: true, readonly: true}) public played: boolean;
     @attr({conditional: true, readonly: true}) public error: boolean;
 
-    private _provider: BaseProvider;
+    private _provider: BaseProvider<HTMLElement>;
     private _conditionQuery: SmartQuery;
 
     private deferredReinit = debounce(() => this.reinitInstance());

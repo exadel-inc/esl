@@ -8,8 +8,7 @@ import {BaseProvider, PlayerStates} from '../smart-media-provider';
 import EmbeddedVideoProviderRegistry from '../smart-media-registry';
 
 
-export class IframeBasicProvider extends BaseProvider {
-	private _el: HTMLIFrameElement;
+export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 	private _state: PlayerStates = PlayerStates.UNINITIALIZED;
 
 	static get providerName() {

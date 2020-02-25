@@ -15,10 +15,11 @@ export enum PlayerStates {
     UNINITIALIZED = null
 }
 
-export type BaseProviderConstructor = new(component: SmartMedia) => BaseProvider;
+export type BaseProviderConstructor = new(component: SmartMedia) => BaseProvider<HTMLElement>;
 
-export abstract class BaseProvider {
+export abstract class BaseProvider<T extends HTMLElement> {
     protected component: SmartMedia;
+    protected _el: T;
     protected _ready: Promise<any>;
 
     public constructor(component: SmartMedia) {

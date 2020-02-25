@@ -10,7 +10,7 @@ import {SmartMedia} from '../smart-media';
 import {BaseProvider, PlayerStates} from '../smart-media-provider';
 import EmbeddedVideoProviderRegistry from '../smart-media-registry';
 import PlayerVars = YT.PlayerVars;
-import {DEFAULT_ASPECT_RATIO} from "@helpers/format-utils";
+import {DEFAULT_ASPECT_RATIO} from '@helpers/format-utils';
 
 declare global {
 	interface YT extends Promise<void> {
@@ -22,8 +22,7 @@ declare global {
 	}
 }
 
-export class YouTubeProvider extends BaseProvider {
-	private _el: HTMLDivElement | HTMLIFrameElement;
+export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameElement> {
 	private _api: YT.Player;
 
 	static get providerName() {
