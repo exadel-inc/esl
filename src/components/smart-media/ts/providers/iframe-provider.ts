@@ -62,10 +62,6 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 		}
 	}
 
-    setSize(width: number | 'auto', height: number | 'auto'): void {
-	    return;
-    }
-
 	public getState() {
 		return this._state;
 	}

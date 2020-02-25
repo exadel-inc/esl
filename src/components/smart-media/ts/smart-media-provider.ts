@@ -76,8 +76,11 @@ export abstract class BaseProvider<T extends HTMLElement> {
     /**
      * Set size for inner content
      */
-    public abstract setSize(width: number | 'auto', height: number | 'auto'): void;
-
+    setSize(width: number | 'auto', height: number | 'auto'): void {
+        if (!this._el) return;
+        this._el.style.setProperty('width', width === 'auto' ? null : `${width}px`);
+        this._el.style.setProperty('height', height === 'auto' ? null : `${height}px`);
+    }
     /**
      * Executes toggle action:
      * If the player is PAUSED then it starts playing otherwise it pause playing

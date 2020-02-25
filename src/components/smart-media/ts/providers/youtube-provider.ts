@@ -134,14 +134,6 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
 		}
 	}
 
-    setSize(width: number | 'auto', height: number | 'auto'): void {
-	   if (this._api && width !== 'auto' && height !== 'auto') {
-	       // this._api.setSize(width, height);
-	       this._el.style.width = width+'px';
-           this._el.style.height = height+'px';
-       }
-    }
-
 	public getState() {
 		if (this._api && typeof this._api.getPlayerState === 'function') {
 			return this._api.getPlayerState() as number as PlayerStates;

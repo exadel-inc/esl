@@ -20,10 +20,6 @@ export class AudioProvider extends HTMLMediaProvider<HTMLAudioElement> {
     get defaultAspectRatio(): number {
         return 0;
     }
-
-    setSize(width: number | 'auto', height: number | 'auto'): void {
-	    return;
-    }
 }
 
 EmbeddedVideoProviderRegistry.register(AudioProvider, AudioProvider.providerName);
