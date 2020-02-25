@@ -226,6 +226,25 @@ title: <code>&lt;smart-image&gt;</code> component
 <hr/>
 <section class="row">
     <div class="col-12">
+        <h3 class="text-center">Smart Query Rules</h3>
+    </div>
+    <div class="col-12">
+        <div class="img-container img-container-16-9">
+            <smart-image lazy
+                         mode="cover"
+                         data-alt="Alt Text Test"
+                         data-src="@XS => img-1-carousel-9-6.jpg |
+                                   @SM => img-2-carousel-9-6.jpg |
+                                   @MD => img-3-carousel-9-6.jpg |
+                                   @LG => img-4-carousel-9-6.jpg |
+                                   @XL => img-5-carousel-9-6.jpg"
+                         data-src-base="/images/"></smart-image>
+        </div>
+    </div>
+</section>
+<hr/>
+<section class="row">
+    <div class="col-12">
         <h3 class="text-center">SVG Inline loading <span class="badge badge-warning">Beta</span></h3>
         <div class="d-flex p-2">
             <div class="mx-auto">

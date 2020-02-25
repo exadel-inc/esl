@@ -325,18 +325,19 @@ export class SmartImage extends CustomElement {
 		if (!this.hasAttribute('role')) {
 			this.setAttribute('role', 'img');
 		}
-		this.update(true);
-		if (this.lazyAuto && !this.lazyTriggered) {
+		this.srcRules.addListener(this._onMatchChange);
+		if (this.lazyAuto) {
+			this.removeAttribute('lazy-triggered');
 			getIObserver().observe(this);
 			this._detachLazyTrigger = function () {
 				getIObserver().unobserve(this);
 				this._detachLazyTrigger = null;
 			};
 		}
+		this.refresh();
 	}
 
 	protected disconnectedCallback() {
-		this.removeAttribute('lazy-triggered');
 		this._detachLazyTrigger && this._detachLazyTrigger();
 		if (this._srcRules) {
 			this._srcRules.removeListener(this._onMatchChange);
@@ -362,7 +363,7 @@ export class SmartImage extends CustomElement {
 				this.changeMode(oldVal, newVal);
 				break;
 			case 'lazy-triggered':
-				this.update(true);
+				this.lazyTriggered && this.update(true);
 				break;
 		}
 	}
