@@ -56,3 +56,28 @@ export function throttle <T extends Function>(fn: T, threshold: number = 250): T
         }
     } as any as T;
 }
+
+/**
+ * Postpone action after next render
+ * @param {function} callback
+ */
+export const afterNextRender = (callback: () => void) => requestAnimationFrame(() => requestAnimationFrame(callback));
+
+/**
+ * Decorate function to schedule execution after next render
+ * @param {function} fn
+ * @returns {function} - decorated function
+ */
+/* tslint:disable-next-line ban-types */
+export const rafDecorator = (fn: Function) => {
+    let rafScheduled = false;
+    return function (...args: any) {
+        if (!rafScheduled) {
+            requestAnimationFrame(() => {
+                fn.call(this, ...args);
+                rafScheduled = false;
+            });
+        }
+        rafScheduled = true;
+    };
+};
