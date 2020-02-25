@@ -8,8 +8,7 @@ import {BaseProvider, PlayerStates} from '../smart-media-provider';
 import EmbeddedVideoProviderRegistry from '../smart-media-registry';
 
 
-export class IframeBasicProvider extends BaseProvider {
-	private _el: HTMLIFrameElement;
+export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 	private _state: PlayerStates = PlayerStates.UNINITIALIZED;
 
 	static get providerName() {
@@ -63,9 +62,17 @@ export class IframeBasicProvider extends BaseProvider {
 		}
 	}
 
+    setSize(width: number | 'auto', height: number | 'auto'): void {
+	    return;
+    }
+
 	public getState() {
 		return this._state;
 	}
+
+    get defaultAspectRatio(): number {
+        return 0;
+    }
 
 	public seekTo(pos: number) {
 		console.error(`[SmartMedia] Unsupported action: can not execute seekTo on abstract iframe provider`);

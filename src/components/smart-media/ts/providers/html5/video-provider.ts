@@ -16,6 +16,14 @@ export class VideoProvider extends HTMLMediaProvider<HTMLVideoElement> {
         el.innerHTML = HTMLMediaProvider.buildSrc(this.component.mediaSrc, 'video/mp4');
         return el;
     }
+
+    get defaultAspectRatio(): number {
+        return this._el.offsetWidth / this._el.offsetHeight;
+    }
+
+    setSize(width: number | 'auto', height: number | 'auto'): void {
+        return;
+    }
 }
 
 EmbeddedVideoProviderRegistry.register(VideoProvider, VideoProvider.providerName);

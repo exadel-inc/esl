@@ -10,6 +10,7 @@ import {SmartMedia} from '../smart-media';
 import {BaseProvider, PlayerStates} from '../smart-media-provider';
 import EmbeddedVideoProviderRegistry from '../smart-media-registry';
 import PlayerVars = YT.PlayerVars;
+import {DEFAULT_ASPECT_RATIO} from '@helpers/format-utils';
 
 declare global {
 	interface YT extends Promise<void> {
@@ -21,8 +22,7 @@ declare global {
 	}
 }
 
-export class YouTubeProvider extends BaseProvider {
-	private _el: HTMLDivElement | HTMLIFrameElement;
+export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameElement> {
 	private _api: YT.Player;
 
 	static get providerName() {
@@ -134,12 +134,24 @@ export class YouTubeProvider extends BaseProvider {
 		}
 	}
 
+    setSize(width: number | 'auto', height: number | 'auto'): void {
+	   if (this._api && width !== 'auto' && height !== 'auto') {
+	       // this._api.setSize(width, height);
+	       this._el.style.width = width+'px';
+           this._el.style.height = height+'px';
+       }
+    }
+
 	public getState() {
 		if (this._api && typeof this._api.getPlayerState === 'function') {
 			return this._api.getPlayerState() as number as PlayerStates;
 		}
 		return PlayerStates.UNINITIALIZED;
 	}
+
+    get defaultAspectRatio(): number {
+        return DEFAULT_ASPECT_RATIO;
+    }
 
 	public seekTo(pos: number) {
 		this._api.seekTo(pos, false);
