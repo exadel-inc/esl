@@ -18,7 +18,7 @@ export class VideoProvider extends HTMLMediaProvider<HTMLVideoElement> {
     }
 
     get defaultAspectRatio(): number {
-        return this._el.offsetWidth / this._el.offsetHeight;
+        return this._el.videoWidth / this._el.videoHeight;
     }
 }
 

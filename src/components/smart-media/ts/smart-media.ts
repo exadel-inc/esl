@@ -54,7 +54,7 @@
  */
 import {CustomElement} from '@helpers/custom-element';
 import {attr} from '@helpers/decorators/attr';
-import {debounce} from '@helpers/function-utils';
+import {debounce, rafDecorator} from '@helpers/function-utils';
 import {getIObserver} from './smart-media-iobserver';
 import SmartQuery from '@components/smart-query/ts/smart-query';
 import {BaseProvider, PlayerStates} from './smart-media-provider';
@@ -89,7 +89,7 @@ export class SmartMedia extends CustomElement {
     private _conditionQuery: SmartQuery;
 
     private deferredReinit = debounce(() => this.reinitInstance());
-    private deferredChangeFillMode = debounce(() => this._onChangeFillMode(), 200);
+    private deferredChangeFillMode = rafDecorator(() => this._onChangeFillMode());
 
     /**
      * @enum Map with possible Player States
@@ -154,6 +154,8 @@ export class SmartMedia extends CustomElement {
             case 'aspect-ratio':
                 if (this.fillModeCover) {
                     this.deferredChangeFillMode();
+                } else {
+                    this._provider.setSize('auto', 'auto');
                 }
                 break;
             case 'play-in-viewport':
@@ -257,6 +259,9 @@ export class SmartMedia extends CustomElement {
         if (this.hasAttribute('ready-class')) {
             this.classList.add(this.getAttribute('ready-class'));
         }
+        if (this.fillModeCover) {
+            this.deferredChangeFillMode();
+        }
         this.dispatchEvent(new Event('evideo:ready', {bubbles: true}));
     }
 
@@ -299,16 +304,13 @@ export class SmartMedia extends CustomElement {
     // consider IE/EDGE detection + object-fit and JS fallback (old smart-media) for videos and just JS option for iframes
     // for you-tube it definitely will be a aspect-ratio based calculation
     public _onChangeFillMode() {
-        // TODO
-        if (this._provider) {
-            if (!this.actualAspectRatio) {
-                this._provider.setSize('auto', 'auto');
-            } else {
-                this.actualAspectRatio < DEFAULT_ASPECT_RATIO ?
-                    this._provider.setSize(this.actualAspectRatio * this.offsetHeight, this.offsetHeight) :
-                    this._provider.setSize(this.offsetWidth, this.offsetWidth / this.actualAspectRatio);
-                console.log(this._provider.defaultAspectRatio);
-            }
+        if (!this._provider) return;
+        if (!this.actualAspectRatio) {
+            this._provider.setSize('auto', 'auto');
+        } else {
+            this.actualAspectRatio < DEFAULT_ASPECT_RATIO ?
+                this._provider.setSize(this.actualAspectRatio * this.offsetHeight, this.offsetHeight) :
+                this._provider.setSize(this.offsetWidth, this.offsetWidth / this.actualAspectRatio);
         }
     }
 
