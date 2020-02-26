@@ -61,7 +61,7 @@ import {BaseProvider, PlayerStates} from './smart-media-provider';
 import SmartMediaRegistry from './smart-media-registry';
 import {triggerComponentEvent} from '@helpers/component-utils';
 import VideoGroupRestrictionManager from './smart-media-manager';
-import {parseAspectRatio, DEFAULT_ASPECT_RATIO} from '@helpers/format-utils';
+import {parseAspectRatio} from '@helpers/format-utils';
 
 export class SmartMedia extends CustomElement {
     public static is = 'smart-media';
@@ -123,7 +123,7 @@ export class SmartMedia extends CustomElement {
         if (this.playInViewport) {
             this.attachViewportConstraint();
         }
-        if (this.fillModeCover) {
+        if (this.isFillModeEnabled()) {
             window.addEventListener('resize', this.deferredChangeFillMode);
         }
         this.deferredReinit();
@@ -134,7 +134,7 @@ export class SmartMedia extends CustomElement {
         if (this.conditionQuery) {
             this.conditionQuery.removeListener(this.deferredReinit);
         }
-        if (this.fillModeCover) {
+        if (this.isFillModeEnabled()) {
             window.removeEventListener('resize', this.deferredChangeFillMode);
         }
         this.detachViewportConstraint();
@@ -152,7 +152,7 @@ export class SmartMedia extends CustomElement {
                 break;
             case 'fill-mode':
             case 'aspect-ratio':
-                if (this.fillModeCover) {
+                if (this.isFillModeEnabled()) {
                     this.deferredChangeFillMode();
                 } else {
                     this._provider.setSize('auto', 'auto');
@@ -259,7 +259,7 @@ export class SmartMedia extends CustomElement {
         if (this.hasAttribute('ready-class')) {
             this.classList.add(this.getAttribute('ready-class'));
         }
-        if (this.fillModeCover) {
+        if (this.isFillModeEnabled()) {
             this.deferredChangeFillMode();
         }
         this.dispatchEvent(new Event('evideo:ready', {bubbles: true}));
@@ -301,16 +301,16 @@ export class SmartMedia extends CustomElement {
         VideoGroupRestrictionManager.unregister(this);
     }
 
-    // consider IE/EDGE detection + object-fit and JS fallback (old smart-media) for videos and just JS option for iframes
-    // for you-tube it definitely will be a aspect-ratio based calculation
     public _onChangeFillMode() {
         if (!this._provider) return;
-        if (!this.actualAspectRatio) {
+        if (this.actualAspectRatio <= 0) {
             this._provider.setSize('auto', 'auto');
         } else {
-            this.actualAspectRatio < DEFAULT_ASPECT_RATIO ?
-                this._provider.setSize(this.actualAspectRatio * this.offsetHeight, this.offsetHeight) :
-                this._provider.setSize(this.offsetWidth, this.offsetWidth / this.actualAspectRatio);
+            let stretchVertically = this.offsetWidth / this.offsetHeight < this.actualAspectRatio;
+            if (this.fillMode === 'inscribe') stretchVertically = !stretchVertically; // Inscribe behaves inversely
+            stretchVertically ?
+                this._provider.setSize(this.actualAspectRatio * this.offsetHeight, this.offsetHeight) : // h
+                this._provider.setSize(this.offsetWidth, this.offsetWidth / this.actualAspectRatio);   // w
         }
     }
 
@@ -329,8 +329,8 @@ export class SmartMedia extends CustomElement {
         return this._conditionQuery;
     }
 
-    get fillModeCover() {
-        return this.fillMode === 'cover';
+    isFillModeEnabled() {
+        return this.fillMode === 'cover' || this.fillMode === 'inscribe';
     }
 
     get actualAspectRatio() {

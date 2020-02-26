@@ -15,16 +15,16 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 		return 'iframe';
 	}
 
-	protected static buildIframe(sv: SmartMedia) {
+	protected static buildIframe(sm: SmartMedia) {
 		const el = document.createElement('iframe');
-		el.id = 'sev-iframe-' + generateUId();
-		el.className = 'sev-inner sev-iframe';
-		el.title = sv.title;
-		el.setAttribute('aria-label', sv.title);
+		el.id = 'smedia-iframe-' + generateUId();
+		el.className = 'smedia-inner smedia-iframe';
+		el.title = sm.title;
+		el.setAttribute('aria-label', sm.title);
 		el.setAttribute('frameborder', '0');
 		el.setAttribute('tabindex', '0');
 		el.setAttribute('allowfullscreen', 'yes');
-		el.src = sv.mediaSrc;
+		el.src = sm.mediaSrc;
 		return el;
 	}
 

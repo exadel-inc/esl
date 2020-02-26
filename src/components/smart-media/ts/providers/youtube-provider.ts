@@ -50,24 +50,24 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
 		return YouTubeProvider._coreApiPromise;
 	}
 
-	protected static mapOptions(sv: SmartMedia): PlayerVars {
+	protected static mapOptions(sm: SmartMedia): PlayerVars {
 		return {
 			enablejsapi: 1,
 			origin: location.origin,
 			rel: 0,
 			showinfo: 0,
 			iv_load_policy: 0,
-			autoplay: Number(sv.autoplay),
-			controls: Number(sv.controls),
-			disablekb: Number(!sv.controls), // TODO: criteria
-			autohide: Number(!sv.controls) // TODO: criteria
+			autoplay: Number(sm.autoplay),
+			controls: Number(sm.controls),
+			disablekb: Number(!sm.controls), // TODO: criteria
+			autohide: Number(!sm.controls) // TODO: criteria
 		};
 	}
-	protected static buildIframe(sv: SmartMedia) {
+	protected static buildIframe(sm: SmartMedia) {
 		const el = document.createElement('div');
-		el.id = 'sev-yt-' + generateUId();
-		el.className = 'sev-inner sev-youtube';
-		el.title = sv.title;
+		el.id = 'smedia-yt-' + generateUId();
+		el.className = 'smedia-inner smedia-youtube';
+		el.title = sm.title;
 		el.setAttribute('aria-label', el.title);
 		el.setAttribute('frameborder', '0');
 		el.setAttribute('tabindex', '0');
@@ -106,7 +106,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
 			this._api.destroy();
 			this._api = null;
 		}
-		const embedded = this.component.querySelectorAll('.sev-youtube');
+		const embedded = this.component.querySelectorAll('.smedia-youtube');
 		Array.from(embedded || []).forEach((el: Node) => el.parentNode.removeChild(el));
 	}
 

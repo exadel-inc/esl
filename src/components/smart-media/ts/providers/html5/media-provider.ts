@@ -11,13 +11,13 @@ export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends Base
 		return `<source src=${src} type="${type}">`;
 	}
 
-	protected static applyElementSettings(el: HTMLMediaElement, sv: SmartMedia) {
-		el.classList.add('sev-inner');
-		el.autoplay = sv.autoplay;
+	protected static applyElementSettings(el: HTMLMediaElement, sm: SmartMedia) {
+		el.classList.add('smedia-inner');
+		el.autoplay = sm.autoplay;
 		el.preload = 'auto';
-		el.loop = sv.loop;
-		el.muted = sv.muted;
-		el.controls = sv.controls;
+		el.loop = sm.loop;
+		el.muted = sm.muted;
+		el.controls = sm.controls;
 		el.tabIndex = 0;
 		return el;
 	}

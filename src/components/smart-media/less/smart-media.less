@@ -3,35 +3,32 @@
   @{tagName} {
     display: block;
 
-    .sev-inner {
+    .smedia-inner {
       display: block;
       width: 100%;
     }
 
-    .sev-inner:not(audio) {
+    .smedia-inner:not(audio) {
       height: 100%;
     }
 
-    iframe.sev-inner {
+    iframe.smedia-inner {
       border: 0;
     }
 
-    &.sv-bg {
+    &.smedia-bg {
       pointer-events: none;
     }
 
-    &[fill-mode='cover'] {
+    &[fill-mode='cover'],
+    &[fill-mode='inscribe'] {
       overflow: hidden;
 
-      .sev-inner {
+      .smedia-inner {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-      }
-
-      video.sev-inner {
-        object-fit: cover;
       }
     }
 
@@ -43,10 +40,11 @@
       height: 100%;
     }
 
-    // BC support
-    //.video-js {
-    //  height: 100%;
-    //  width: 100%;
-    //}
+    &.smedia-bottom {
+      video.smedia-inner {
+        top: 100%;
+        transform: translate(-50%, -100%);
+      }
+    }
   }
 }
