@@ -1,7 +1,6 @@
 import {CustomElement} from '@helpers/custom-element';
 import {attr} from '@helpers/decorators/attr';
 import {deepCompare} from '@helpers/common-utils';
-import {triggerComponentEvent} from '@helpers/component-utils';
 import SmartRuleList from '@components/smart-query/ts/smart-rule-list';
 import SmartCarouselSlide from './smart-carousel-slide';
 import {SmartCarouselStrategy, SmartCarouselStrategyRegistry} from './strategy/smart-carousel-strategy';
@@ -16,6 +15,7 @@ interface CarouselConfig { // Registry
 // TODO: add ability to choose the number of an active slide
 class SmartCarousel extends CustomElement {
 	public static is = 'smart-carousel';
+	public static eventNs = 'sc';
 
 	static get observedAttributes() {
 		return ['config'];
@@ -94,7 +94,14 @@ class SmartCarousel extends CustomElement {
 			direction = (nextIndex > this.firstIndex) ? 'right' : 'left';
 		}
 
-		const approved = triggerComponentEvent(this, 'sc:slide:change', {bubbles: true}); // Todo change info
+		const eventDetails = { // Todo change info
+			bubbles: true,
+			detail: {
+				direction
+			}
+		};
+
+		const approved = this.dispatchCustomEvent('slide:change', eventDetails);
 
 		if (this._strategy && approved && this.firstIndex !== nextIndex) {
 			this._strategy.onAnimate(nextIndex, direction);
@@ -106,7 +113,7 @@ class SmartCarousel extends CustomElement {
 			});
 		}
 
-		triggerComponentEvent(this, 'sc:slide:changed', {bubbles: true}); // Todo change info
+		this.dispatchCustomEvent('slide:changed', eventDetails);
 	}
 
 	public prev() {

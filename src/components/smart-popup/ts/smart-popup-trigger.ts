@@ -94,15 +94,15 @@ class SmartPopupTrigger extends CustomElement implements ISmartPopupTrigger {
 
   protected bindPopupEvents() {
     if (this.popup) {
-      this.popup.addEventListener('show', this.onPopupShown);
-      this.popup.addEventListener('hide', this.onPopupHidden);
+      this.popup.addEventListener(`${SmartPopup.eventNs}:show`, this.onPopupShown);
+      this.popup.addEventListener(`${SmartPopup.eventNs}:hide`, this.onPopupHidden);
     }
   }
 
   protected unbindPopupEvents() {
     if (this.popup) {
-      this.popup.removeEventListener('show', this.onPopupShown);
-      this.popup.removeEventListener('hide', this.onPopupHidden);
+      this.popup.removeEventListener(`${SmartPopup.eventNs}:show`, this.onPopupShown);
+      this.popup.removeEventListener(`${SmartPopup.eventNs}:hide`, this.onPopupHidden);
     }
   }
 

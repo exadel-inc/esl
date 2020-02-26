@@ -232,6 +232,8 @@ title: <code>&lt;smart-image&gt;</code> component
         <div class="img-container img-container-16-9">
             <smart-image lazy
                          mode="cover"
+                         onload="console.log('SImage Load Track', event)"
+                         onready="console.log('SImage Ready Track', event)"
                          data-alt="Alt Text Test"
                          data-src="@XS => img-1-carousel-9-6.jpg |
                                    @SM => img-2-carousel-9-6.jpg |

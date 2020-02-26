@@ -1,5 +1,4 @@
 import {CustomElement} from '@helpers/custom-element';
-import { triggerComponentEvent } from '@helpers/component-utils';
 import { ESC } from '@helpers/keycodes';
 import { ISmartPopupTrigger } from './smart-popup-trigger';
 import { attr } from '@helpers/decorators/attr';
@@ -22,6 +21,7 @@ export interface ISmartPopup {
 
 class SmartPopup extends CustomElement implements ISmartPopup {
   public static is = 'smart-popup';
+  public static eventNs = 'spopup';
 
   static get observedAttributes() {
     return [
@@ -118,13 +118,13 @@ class SmartPopup extends CustomElement implements ISmartPopup {
     PopupManager.hidePopupsInGroup(this);
     this.bodyClass && document.body.classList.add(this.bodyClass);
     this.setAttribute('aria-hidden', 'false');
-    triggerComponentEvent(this, 'show');
+    this.dispatchCustomEvent('show');
   }
 
   protected onHidden() {
     this.bodyClass && document.body.classList.remove(this.bodyClass);
     this.setAttribute('aria-hidden', 'true');
-    triggerComponentEvent(this, 'hide');
+    this.dispatchCustomEvent('hide');
   }
 
   public show(params: ISmartPopupActionParams = {}) {

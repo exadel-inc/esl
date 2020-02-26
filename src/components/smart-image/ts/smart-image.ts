@@ -95,7 +95,6 @@
 import {CustomElement} from '@helpers/custom-element';
 import {attr} from '@helpers/decorators/attr';
 import {DeviceDetector} from '@helpers/device-utils';
-import {triggerComponentEvent} from '@helpers/component-utils';
 import SmartRuleList from '@components/smart-query/ts/smart-rule-list';
 
 // Mods configurations
@@ -394,20 +393,20 @@ export class SmartImage extends CustomElement {
 		this.syncImage();
 		this.removeAttribute('error');
 		this.setAttribute('loaded', '');
-		triggerComponentEvent(this, 'load');
+		this.dispatchCustomEvent('load', {bubbles: false}, true);
 		this._onReady();
 	}
 
 	private _onError() {
 		this.setAttribute('error', '');
-		triggerComponentEvent(this, 'error');
+		this.dispatchCustomEvent('error', {bubbles: false}, true);
 		this._onReady();
 	}
 
 	private _onReady() {
 		if (!this.ready) {
 			this.setAttribute('ready', '');
-			triggerComponentEvent(this, 'ready');
+			this.dispatchCustomEvent( 'ready', {bubbles: false}, true);
 			if (this.hasAttribute('container-class') || this.hasAttribute('container-class-target')) {
 				if (this.hasAttribute('container-class-onload') && this.error) return;
 				const containerCls = this.getAttribute('container-class') || 'img-container-loaded';

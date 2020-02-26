@@ -28,7 +28,7 @@ export class VideoGroupRestrictionManager {
 		if (instance.group) {
 			const current = managerMap[instance.group];
 			if (current && current !== instance && current.active) {
-				if (current.dispatchEvent(new Event('evideo:mangedpause', {bubbles: true}))) {
+				if (current.dispatchCustomEvent('mangedpause')) {
 					current.pause();
 				}
 			}

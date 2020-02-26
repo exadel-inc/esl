@@ -59,12 +59,12 @@ import {getIObserver} from './smart-media-iobserver';
 import SmartQuery from '@components/smart-query/ts/smart-query';
 import {BaseProvider, PlayerStates} from './smart-media-provider';
 import SmartMediaRegistry from './smart-media-registry';
-import {triggerComponentEvent} from '@helpers/component-utils';
 import VideoGroupRestrictionManager from './smart-media-manager';
 import {parseAspectRatio} from '@helpers/format-utils';
 
 export class SmartMedia extends CustomElement {
     public static is = 'smart-media';
+    public static eventNs = 'smedia';
 
     @attr() public mediaId: string;
     @attr() public mediaSrc: string;
@@ -262,14 +262,14 @@ export class SmartMedia extends CustomElement {
         if (this.isFillModeEnabled()) {
             this.deferredChangeFillMode();
         }
-        this.dispatchEvent(new Event('evideo:ready', {bubbles: true}));
+        this.dispatchCustomEvent('ready');
     }
 
     public _onError() {
         this.setAttribute('ready', '');
         this.setAttribute('error', '');
-        triggerComponentEvent(this, 'error');
-        triggerComponentEvent(this, 'ready');
+        this.dispatchCustomEvent('error');
+        this.dispatchCustomEvent('ready');
     }
 
     public _onDetach() {
@@ -285,19 +285,19 @@ export class SmartMedia extends CustomElement {
         if (this.autofocus) this.focus();
         this.setAttribute('active', '');
         this.setAttribute('played', '');
-        this.dispatchEvent(new Event('evideo:play', {bubbles: true}));
+        this.dispatchCustomEvent('play');
         VideoGroupRestrictionManager.registerPlay(this);
     }
 
     public _onPaused() {
         this.removeAttribute('active');
-        this.dispatchEvent(new Event('evideo:paused', {bubbles: true}));
+        this.dispatchCustomEvent('paused');
         VideoGroupRestrictionManager.unregister(this);
     }
 
     public _onEnded() {
         this.removeAttribute('active');
-        this.dispatchEvent(new Event('evideo:ended', {bubbles: true}));
+        this.dispatchCustomEvent('ended');
         VideoGroupRestrictionManager.unregister(this);
     }
 

@@ -41,11 +41,10 @@ class SmartCarouselLinkPlugin extends SmartCarouselPlugin {
 		this.carousel && this.carousel.removeEventListener('sc:slide:changed', this._onSlideChange);
 	}
 
-	protected _onSlideChange(e: Event) {
+	protected _onSlideChange(e: CustomEvent) {
 		const $target = e.target === this.carousel ? this.target : this.carousel;
 		const $source = e.target === this.carousel ? this.carousel : this.target;
-		// TODO: link action more accurate with direction
-		$target.goTo($source.firstIndex);
+		$target.goTo($source.firstIndex, e.detail.direction);
 	}
 
 	private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
