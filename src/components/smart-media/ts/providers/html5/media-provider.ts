@@ -36,7 +36,7 @@ export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends Base
 		this._el.addEventListener('play', () => this.component._onPlay());
 		this._el.addEventListener('pause', () => this.component._onPaused());
 		this._el.addEventListener('ended', () => this.component._onEnded());
-		this._el.addEventListener('error', () => this.component._onError());
+		this._el.addEventListener('error', (e) => this.component._onError(e));
 	}
 
 	public unbind() {

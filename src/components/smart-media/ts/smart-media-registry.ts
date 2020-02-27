@@ -1,5 +1,5 @@
 /**
- * Video Registry class to store video API providers
+ * SmartMediaProviderRegistry class to store media API providers
  * @version 1.0.0
  * @author Yuliya Adamskaya
  */
@@ -10,13 +10,13 @@ interface ProviderMap {
 	[name: string]: BaseProviderConstructor;
 }
 
-let evRegistryInstance: EmbeddedVideoProviderRegistry = null;
-export class EmbeddedVideoProviderRegistry extends Observable {
+let evRegistryInstance: SmartMediaProviderRegistry = null;
+export class SmartMediaProviderRegistry extends Observable {
 	private providers: ProviderMap = {};
 
 	public static get instance() {
 		if (!evRegistryInstance) {
-			evRegistryInstance = new EmbeddedVideoProviderRegistry();
+			evRegistryInstance = new SmartMediaProviderRegistry();
 		}
 		return evRegistryInstance;
 	}
@@ -31,4 +31,4 @@ export class EmbeddedVideoProviderRegistry extends Observable {
 	}
 }
 
-export default EmbeddedVideoProviderRegistry.instance;
+export default SmartMediaProviderRegistry.instance;

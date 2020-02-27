@@ -1,13 +1,13 @@
 /**
- * Smart Media Embedded
+ * Smart Media
  * @version 1.0.2
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * @description:
- * SmartMediaEmbedded - custom element, that provides ability to add and configure embedded video using one tag.
+ * SmartMedia - custom element, that provides ability to add and configure media using one tag.
  * Supported features:
  * TODO: update
- * - extendable 'Providers' realization for different video types, support 'youtube' and 'brightcove' out of box
+ * - extendable 'Providers' realization for different media types, support 'youtube' and 'brightcove' out of box
  * - single active player restriction by grouping elements
  * - provides events on state change
  * - provides 'HTMLMedia like' API that is safe and will executed after real api will be ready
@@ -16,39 +16,39 @@
  *
  * Attributes:
  * {String} media-src - media resource src
- * {String} media-id - id of embedded video
- * {String} media-type - type of video provider ('youtube', 'video')
+ * {String} media-id - id of media
+ * {String} media-type - type of media provider ('youtube', 'video')
  *
- * {String} [group] - group name, only one video player in group can be active
+ * {String} [group] - group name, only one media player in group can be active
  *
- * {Boolean} [disabled] - prevents video api initialization
+ * {Boolean} [disabled] - prevents media api initialization
  *
  * {Boolean} [autofocus] - set focus to player on play
- * {Boolean} [autoplay] - start play automatically on initialization (note initialization not happens until video is disabled)
- * {Boolean} [controls] - show video player controls
+ * {Boolean} [autoplay] - start play automatically on initialization (note initialization not happens until media is disabled)
+ * {Boolean} [controls] - show media player controls
  *
  * // [no support] {Boolean} [hide-subtitles] - disable subtitles settings if player supports subtitles
  *
  *
- * @readonly {Boolean} error - marker that indicates that video initialized with error
- * @readonly {Boolean} ready - marker that indicates that video api loaded
- * @readonly {Boolean} played - marker that indicates that video payed
- * @readonly {Boolean} active - marker that indicates that video paying
+ * @readonly {Boolean} error - marker that indicates that media initialized with error
+ * @readonly {Boolean} ready - marker that indicates that media api loaded
+ * @readonly {Boolean} played - marker that indicates that media payed
+ * @readonly {Boolean} active - marker that indicates that media paying
  *
  *
- * @event error - (bubbles) happens when video api is initialized with error
- * @event evideo:ready - (bubbles) happens when video api is ready
- * @event evideo:play - (bubbles) happens when video starts playing
- * @event evideo:paused - (bubbles) happens when video paused
- * @event evideo:ended - (bubbles) happens when video ends
+ * @event error - (bubbles) happens when media api is initialized with error
+ * @event smedia:ready - (bubbles) happens when media api is ready
+ * @event smedia:play - (bubbles) happens when media starts playing
+ * @event smedia:paused - (bubbles) happens when media paused
+ * @event smedia:ended - (bubbles) happens when media ends
  *
- * @event evideo:mangedpause - (bubbles) happens when video paused by video group restriction manager
+ * @event smedia:mangedpause - (bubbles) happens when media paused by media group restriction manager
  *
  * @example:
  * <smart-media
  *    [disabled]
  *    title="Video Title"
- *    [group="videoGroup"]
+ *    [group="mediaGroup"]
  *    media-type="youtube|video"
  *    media-id="##MEDIAID##"></smart-media-embedded>
  */
@@ -59,7 +59,7 @@ import {getIObserver} from './smart-media-iobserver';
 import SmartQuery from '@components/smart-query/ts/smart-query';
 import {BaseProvider, PlayerStates} from './smart-media-provider';
 import SmartMediaRegistry from './smart-media-registry';
-import VideoGroupRestrictionManager from './smart-media-manager';
+import MediaGroupRestrictionManager from './smart-media-manager';
 import {parseAspectRatio} from '@helpers/format-utils';
 
 export class SmartMedia extends CustomElement {
@@ -202,7 +202,7 @@ export class SmartMedia extends CustomElement {
     }
 
     /**
-     * Seek to given position of video
+     * Seek to given position of media
      * @returns {Promise | void}
      */
     public seekTo(pos: number) {
@@ -210,7 +210,7 @@ export class SmartMedia extends CustomElement {
     }
 
     /**
-     * Start playing video
+     * Start playing media
      * @param {boolean} allowActivate
      * @returns {Promise | void}
      */
@@ -223,7 +223,7 @@ export class SmartMedia extends CustomElement {
     }
 
     /**
-     * Pause playing video
+     * Pause playing media
      * @returns {Promise | void}
      */
     public pause() {
@@ -231,7 +231,7 @@ export class SmartMedia extends CustomElement {
     }
 
     /**
-     * Stop playing video
+     * Stop playing media
      * @returns {Promise | void}
      */
     public stop() {
@@ -239,7 +239,7 @@ export class SmartMedia extends CustomElement {
     }
 
     /**
-     * Toggle play/pause state of the video
+     * Toggle play/pause state of the media
      * @returns {Promise | void}
      */
     public toggle() {
@@ -253,7 +253,7 @@ export class SmartMedia extends CustomElement {
         this._provider && this._provider.focus();
     }
 
-    // Video live-cycle handlers
+    // media live-cycle handlers
     public _onReady() {
         this.setAttribute('ready', '');
         if (this.hasAttribute('ready-class')) {
@@ -265,10 +265,13 @@ export class SmartMedia extends CustomElement {
         this.dispatchCustomEvent('ready');
     }
 
-    public _onError() {
+    public _onError(originEvent?:any) {
         this.setAttribute('ready', '');
         this.setAttribute('error', '');
-        this.dispatchCustomEvent('error');
+        this.dispatchCustomEvent('error', {
+            bubbles: true,
+            detail: {originEvent}
+        });
         this.dispatchCustomEvent('ready');
     }
 
@@ -286,19 +289,19 @@ export class SmartMedia extends CustomElement {
         this.setAttribute('active', '');
         this.setAttribute('played', '');
         this.dispatchCustomEvent('play');
-        VideoGroupRestrictionManager.registerPlay(this);
+        MediaGroupRestrictionManager.registerPlay(this);
     }
 
     public _onPaused() {
         this.removeAttribute('active');
         this.dispatchCustomEvent('paused');
-        VideoGroupRestrictionManager.unregister(this);
+        MediaGroupRestrictionManager.unregister(this);
     }
 
     public _onEnded() {
         this.removeAttribute('active');
         this.dispatchCustomEvent('ended');
-        VideoGroupRestrictionManager.unregister(this);
+        MediaGroupRestrictionManager.unregister(this);
     }
 
     public _onChangeFillMode() {

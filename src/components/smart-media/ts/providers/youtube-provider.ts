@@ -8,7 +8,7 @@
 import {generateUId, loadScript} from '@helpers/common-utils';
 import {SmartMedia} from '../smart-media';
 import {BaseProvider, PlayerStates} from '../smart-media-provider';
-import EmbeddedVideoProviderRegistry from '../smart-media-registry';
+import SmartMediaProviderRegistry from '../smart-media-registry';
 import PlayerVars = YT.PlayerVars;
 import {DEFAULT_ASPECT_RATIO} from '@helpers/format-utils';
 
@@ -83,7 +83,10 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
 				this._api = new YT.Player(this._el.id, {
 					videoId: this.component.mediaId,
 					events: {
-						onError: () => reject(this), // TODO do smth with it
+						onError: (e) => {
+						    this.component._onError(e);
+						    reject(this);
+                        },
 						onReady: () => resolve(this),
 						onStateChange: this._onStateChange
 					},
@@ -165,4 +168,4 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
 	}
 }
 
-EmbeddedVideoProviderRegistry.register(YouTubeProvider, YouTubeProvider.providerName);
+SmartMediaProviderRegistry.register(YouTubeProvider, YouTubeProvider.providerName);

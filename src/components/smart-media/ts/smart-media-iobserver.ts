@@ -24,7 +24,6 @@ function handleViewport(entire: IntersectionObserverEntry) {
 	if (video.active && entire.intersectionRatio <= RATIO_TO_DEACTIVATE) {
 		video.pause();
 	}
-	// TODO: muted control ? do we need
 	// Play should starts only for inactive and background(muted) videos that are visible more then on RATIO_TO_ACTIVATE
 	if (!video.active && video.autoplay && entire.intersectionRatio >= RATIO_TO_ACTIVATE) {
 		video.play();

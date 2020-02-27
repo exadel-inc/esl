@@ -5,7 +5,7 @@
 import {generateUId} from '@helpers/common-utils';
 import {SmartMedia} from '../smart-media';
 import {BaseProvider, PlayerStates} from '../smart-media-provider';
-import EmbeddedVideoProviderRegistry from '../smart-media-registry';
+import SmartMediaProviderRegistry from '../smart-media-registry';
 
 
 export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
@@ -33,7 +33,7 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 		this._ready = new Promise((resolve, reject) => {
 			this._el = IframeBasicProvider.buildIframe(this.component);
 			this._el.onload = () => resolve();
-			this._el.onerror = () => reject();
+			this._el.onerror = (e) => reject(e);
 			this.component.appendChild(this._el);
 		});
 		this._ready.then(() => {
@@ -41,7 +41,7 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 			this.component._onReady();
 			this.component._onPlay();
 		});
-		this._ready.catch(() => this.component._onError());
+		this._ready.catch((e) => this.component._onError(e));
 	}
 
 	public unbind() {
@@ -87,4 +87,4 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 	}
 }
 
-EmbeddedVideoProviderRegistry.register(IframeBasicProvider, IframeBasicProvider.providerName);
+SmartMediaProviderRegistry.register(IframeBasicProvider, IframeBasicProvider.providerName);

@@ -1,19 +1,19 @@
 /**
  * Group restriction manager for {@link SmartMedia}
- * Only one video in group can be played
+ * Only one media in group can be played
  * Empty group is ignored
  * @version 1.0.1
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 import SmartMedia from './smart-media';
 
-interface VideoManager {
+interface SmartMediaManager {
 	[key: string]: SmartMedia
 }
 
-const managerMap: VideoManager = {};
+const managerMap: SmartMediaManager = {};
 
-export class VideoGroupRestrictionManager {
+export class MediaGroupRestrictionManager {
 	/**
 	 * @debug info
 	 */
@@ -49,4 +49,4 @@ export class VideoGroupRestrictionManager {
 	}
 }
 
-export default VideoGroupRestrictionManager;
+export default MediaGroupRestrictionManager;

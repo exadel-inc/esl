@@ -4,7 +4,7 @@
  */
 
 import {HTMLMediaProvider} from './media-provider';
-import EmbeddedVideoProviderRegistry from '../../smart-media-registry';
+import SmartMediaProviderRegistry from '../../smart-media-registry';
 
 export class AudioProvider extends HTMLMediaProvider<HTMLAudioElement> {
 	static get providerName() {
@@ -22,4 +22,4 @@ export class AudioProvider extends HTMLMediaProvider<HTMLAudioElement> {
     }
 }
 
-EmbeddedVideoProviderRegistry.register(AudioProvider, AudioProvider.providerName);
+SmartMediaProviderRegistry.register(AudioProvider, AudioProvider.providerName);

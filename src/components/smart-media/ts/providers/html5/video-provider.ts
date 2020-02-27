@@ -4,7 +4,7 @@
  */
 
 import {HTMLMediaProvider} from './media-provider';
-import EmbeddedVideoProviderRegistry from '../../smart-media-registry';
+import SmartMediaProviderRegistry from '../../smart-media-registry';
 
 export class VideoProvider extends HTMLMediaProvider<HTMLVideoElement> {
     static get providerName() {
@@ -22,4 +22,4 @@ export class VideoProvider extends HTMLMediaProvider<HTMLVideoElement> {
     }
 }
 
-EmbeddedVideoProviderRegistry.register(VideoProvider, VideoProvider.providerName);
+SmartMediaProviderRegistry.register(VideoProvider, VideoProvider.providerName);

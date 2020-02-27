@@ -1,5 +1,5 @@
 /**
- * BaseProvider class for video API providers
+ * BaseProvider class for media API providers
  * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n)
  */
@@ -34,7 +34,7 @@ export abstract class BaseProvider<T extends HTMLElement> {
         if (!this._ready) {
             const res = Promise.reject('Not Initialized');
             // eslint-disable-next-line no-console
-            res.catch((e) => console.log('Rejected Video Operation: ', e));
+            res.catch((e) => console.log('Rejected Media Operation: ', e));
             return res;
         }
         return this._ready;
