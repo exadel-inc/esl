@@ -41,7 +41,7 @@ const registry: BreakpointsMapping = {
 	xl: new ScreenBreakpoint(1600, 999999)
 };
 
-const BP_NAME_REGEXP = /^[a-z]{1,}/i;
+const BP_NAME_REGEXP = /^[a-z]+/i;
 
 export abstract class BreakpointRegistry {
 	/**
@@ -80,7 +80,7 @@ export abstract class BreakpointRegistry {
 	 */
 	public static apply(query: string) {
 		const breakpoints = Object.keys(registry);
-		const breakpointRegex = new RegExp(`@([+-]{0,1})(${breakpoints.join('|')})`, 'ig');
+		const breakpointRegex = new RegExp(`@([+-]?)(${breakpoints.join('|')})`, 'ig');
 
 		return query.replace(breakpointRegex, (match, sign, bp) => {
 			const shortcut = BreakpointRegistry.getBreakpoint(bp);

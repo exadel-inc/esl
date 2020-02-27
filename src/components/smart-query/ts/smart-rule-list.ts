@@ -53,8 +53,8 @@ class SmartRule<T> extends SmartQuery {
 
 export default class SmartRuleList<T extends string | object> extends Observable {
 	private _active: SmartRule<T>;
-	private _default: SmartRule<T>;
-	private readonly _rules: Array<SmartRule<T>>;
+	private readonly _default: SmartRule<T>;
+	private readonly _rules: SmartRule<T>[];
 
 	public static STRING_PARSER = (val: string) => val;
 	public static OBJECT_PARSER = <T extends object> (val: string): T => {
@@ -65,9 +65,9 @@ export default class SmartRuleList<T extends string | object> extends Observable
 		}
 	};
 
-	private static parseRules<T>(str: string, parser: PayloadParser<T>): Array<SmartRule<T>> {
+	private static parseRules<T>(str: string, parser: PayloadParser<T>): SmartRule<T>[] {
 		const parts = str.split('|');
-		const rules: Array<SmartRule<T>> = [];
+		const rules: SmartRule<T>[] = [];
 		parts.forEach((_lex: string) => {
 			const lex = _lex.trim();
 			if (!lex) {

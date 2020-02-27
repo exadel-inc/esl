@@ -49,13 +49,13 @@ export class SmartQuery {
 
 		// Applying dpr shortcut
 		this._dpr = 1;
-		query = query.replace(/@(1|2|3)x/, (match, ratio) => {
+		query = query.replace(/@([123])x/, (match, ratio) => {
 			this._dpr = Math.floor(ratio);
 			return getDprMediaQuery(ratio);
 		});
 
 		// Applying dpr shortcut for device detection
-		query = query.replace(/(and ){0,1}(@MOBILE|@DESKTOP)( and){0,1}/i, (match, pre, type, post) => {
+		query = query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/i, (match, pre, type, post) => {
 			this._mobileOnly = (type.toUpperCase() === '@MOBILE');
 			if (DeviceDetector.isMobile !== this._mobileOnly) {
 				return 'not all';
@@ -66,23 +66,23 @@ export class SmartQuery {
 		this._query = getQuery(query.trim() || 'all');
 	}
 
-	get isMobileOnly() {
+	public get isMobileOnly() {
 		return this._mobileOnly === true;
 	}
 
-	get isFullOnly() {
+	public get isFullOnly() {
 		return this._mobileOnly === false;
 	}
 
-	get DPR() {
+	public get DPR() {
 		return this._dpr;
 	}
 
-	get query() {
+	public get query() {
 		return this._query;
 	}
 
-	get matches() {
+	public get matches() {
 		return this.query && this.query.matches;
 	}
 
