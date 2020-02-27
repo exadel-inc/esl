@@ -28,7 +28,8 @@ gulp.task('ts-lib', function () {
         context: paths.bundle.context,
         output: {
             library: 'SmartLibrary',
-            libraryTarget: 'umd'
+            libraryTarget: 'umd',
+            umdNamedDefine: true
         }
     }).pipe(gulp.dest(paths.bundle.target));
 });

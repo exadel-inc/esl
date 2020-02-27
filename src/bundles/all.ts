@@ -18,18 +18,18 @@ if (!('customElements' in window)) {
 // BreakpointRegistry.addCustomBreakpoint('xl', 1600, 2000); // Redefinition
 
 // Default definition
-SmartImage.register();
+// SmartImage.register();
 // or SmartImage.register('my-image');
-
-SmartMedia.register();
-
-SmartCarousel.register();
-SmartCarouselDots.register();
-SmartCarouselLinkPlugin.register();
-SmartCarouselAutoplayPlugin.register();
-
-SmartPopup.register();
-SmartPopupTrigger.register();
+//
+// SmartMedia.register();
+//
+// SmartCarousel.register();
+// SmartCarouselDots.register();
+// SmartCarouselLinkPlugin.register();
+// SmartCarouselAutoplayPlugin.register();
+//
+// SmartPopup.register();
+// SmartPopupTrigger.register();
 
 export {
   BreakpointRegistry,
@@ -41,5 +41,6 @@ export {
   SmartMedia,
   SmartCarousel,
   SmartCarouselDots,
+  SmartCarouselLinkPlugin,
   SmartCarouselAutoplayPlugin
 };
