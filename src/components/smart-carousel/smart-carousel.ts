@@ -1,8 +1,8 @@
 import SmartCarousel from './ts/smart-carousel';
 
-// Strategies
-import './ts/strategy/smart-single-carousel-strategy';
-import './ts/strategy/smart-multi-carousel-strategy';
+// Views
+import './ts/view/smart-single-carousel-view';
+import './ts/view/smart-multi-carousel-view';
 
 // Plugins
 import SmartCarouselDots from './ts/plugin/smart-carousel-dots.plugin';

@@ -1,7 +1,7 @@
-import {SmartCarouselStrategy, SmartCarouselStrategyRegistry} from './smart-carousel-strategy';
+import {SmartCarouselView, SmartCarouselViewRegistry} from './smart-carousel-view';
 import SmartCarousel from '../smart-carousel';
 
-class SmartSingleCarouselStrategy extends SmartCarouselStrategy {
+class SmartSingleCarouselView extends SmartCarouselView {
 
 	constructor(carousel: SmartCarousel) {
 		super(carousel);
@@ -42,6 +42,6 @@ class SmartSingleCarouselStrategy extends SmartCarouselStrategy {
 	}
 }
 
-SmartCarouselStrategyRegistry.instance.registerStrategy('single', SmartSingleCarouselStrategy);
+SmartCarouselViewRegistry.instance.registerView('single', SmartSingleCarouselView);
 
-export default SmartSingleCarouselStrategy;
+export default SmartSingleCarouselView;

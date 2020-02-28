@@ -3,11 +3,11 @@ import {attr} from '@helpers/decorators/attr';
 import {deepCompare} from '@helpers/common-utils';
 import SmartRuleList from '@components/smart-query/ts/smart-rule-list';
 import SmartCarouselSlide from './smart-carousel-slide';
-import {SmartCarouselStrategy, SmartCarouselStrategyRegistry} from './strategy/smart-carousel-strategy';
+import {SmartCarouselView, SmartCarouselViewRegistry} from './view/smart-carousel-view';
 import SmartCarouselPlugin from './plugin/smart-carousel-plugin';
 
 interface CarouselConfig { // Registry
-	strategy?: string,
+	view?: string,
 	count?: number,
 	className?: string
 }
@@ -25,7 +25,7 @@ class SmartCarousel extends CustomElement {
 
 	private _configRules: SmartRuleList<CarouselConfig>;
 	private _currentConfig: CarouselConfig = {};
-	private _strategy: SmartCarouselStrategy;
+	private _view: SmartCarouselView;
 	private readonly _plugins = new Map<string, SmartCarouselPlugin>();
 
 	private readonly _onMatchChange: () => void;
@@ -103,11 +103,11 @@ class SmartCarousel extends CustomElement {
 
 		const approved = this.dispatchCustomEvent('slide:change', eventDetails);
 
-		if (this._strategy && approved && this.firstIndex !== nextIndex) {
-			this._strategy.onAnimate(nextIndex, direction);
+		if (this._view && approved && this.firstIndex !== nextIndex) {
+			this._view.onAnimate(nextIndex, direction);
 		}
 
-		if (this._strategy && approved) {
+		if (this._view && approved) {
 			this.$slides.forEach((el, index) => {
 				el._setActive((nextIndex <= index) && (index < nextIndex + this.activeCount));
 			});
@@ -132,13 +132,13 @@ class SmartCarousel extends CustomElement {
 		this.update(true);
 		this._bindEvents();
 
-		SmartCarouselStrategyRegistry.instance.addListener(this._onRegistryChange);
+		SmartCarouselViewRegistry.instance.addListener(this._onRegistryChange);
 	}
 
 	protected disconnectedCallback() {
 		this._unbindEvents();
 
-		SmartCarouselStrategyRegistry.instance.removeListener(this._onRegistryChange);
+		SmartCarouselViewRegistry.instance.removeListener(this._onRegistryChange);
 	}
 
 	private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
@@ -176,7 +176,7 @@ class SmartCarousel extends CustomElement {
 
 	private update(force: boolean = false) {
 		const config: CarouselConfig = Object.assign(
-			{strategy: 'multiple', count: 1},
+			{view: 'multiple', count: 1},
 			this.configRules.activeValue
 		);
 
@@ -185,7 +185,7 @@ class SmartCarousel extends CustomElement {
 		}
 		this._currentConfig = Object.assign({}, config);
 
-		this._strategy = SmartCarouselStrategyRegistry.instance.createStrategyInstance(this.activeConfig.strategy, this);
+		this._view = SmartCarouselViewRegistry.instance.createViewInstance(this.activeConfig.view, this);
 		if (force || this.activeIndexes.length !== this._currentConfig.count) {
 			this.updateSlidesCount();
 		}
@@ -193,7 +193,7 @@ class SmartCarousel extends CustomElement {
 
 	private updateSlidesCount() {
 		// move to renderer
-		const count = this._currentConfig.strategy === 'single' ? 1 : this._currentConfig.count; // somehow we need to get rid of specific strategy check
+		const count = this._currentConfig.view === 'single' ? 1 : this._currentConfig.count; // somehow we need to get rid of specific view check
 		const slideStyles = getComputedStyle(this.$slides[this.firstIndex]);
 		const currentTrans = parseFloat(slideStyles.transform.split(',')[4]);
 		const slidesAreaStyles = getComputedStyle(this.$slidesArea);
@@ -237,7 +237,7 @@ class SmartCarousel extends CustomElement {
 	}
 
 	protected _onRegistryChange() {
-		if (!this._strategy) this.update(true);
+		if (!this._view) this.update(true);
 	}
 
 	// Plugin management
