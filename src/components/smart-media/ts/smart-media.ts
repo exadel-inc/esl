@@ -6,42 +6,45 @@
  * @description:
  * SmartMedia - custom element, that provides ability to add and configure media using one tag.
  * Supported features:
- * TODO: update
- * - extendable 'Providers' realization for different media types, support 'youtube' and 'brightcove' out of box
- * - single active player restriction by grouping elements
- * - provides events on state change
- * - provides 'HTMLMedia like' API that is safe and will executed after real api will be ready
+ * - extendable 'Providers' realization for different media types, support HTMLAudio, HTMLVideo, Youtube and AbstractIframe out of the box
+ * - load-conditions - restriction to load smart-media can be defined via SmartQuery syntax
+ * - play-in-viewport feature restrict active state for only visible components on the page
  * - manual initialization - disabled component will not be initialized until it not enabled or play action triggered
- * - hot changes
+ * - group manager to allow single active player restriction
+ * - fill mode feature allows to cover area by video saving ratio or inscribe video inside of the area
+ * - provides unified state change events
+ * - provides 'HTMLMedia like' API that is safe and will executed after real api will be ready
  *
  * Attributes:
- * {String} media-src - media resource src
- * {String} media-id - id of media
- * {String} media-type - type of media provider ('youtube', 'video')
+ * {string} media-src - media resource src
+ * {string} media-id - id of media
+ * {string} media-type - type of media provider
  *
- * {String} [group] - group name, only one media player in group can be active
+ * {string} [group] - group name, only one media player in group can be active
  *
- * {Boolean} [disabled] - prevents media api initialization
+ * {boolean} [disabled] - prevents media api initialization
  *
- * {Boolean} [autofocus] - set focus to player on play
- * {Boolean} [autoplay] - start play automatically on initialization (note initialization not happens until media is disabled)
- * {Boolean} [controls] - show media player controls
+ * {'auto'|'cover'|'inscribe'} [fill-mode] - enables resource size management
+ * {string | number} [aspect-ratio] - aspect ratio to use for inner resource
  *
- * // [no support] {Boolean} [hide-subtitles] - disable subtitles settings if player supports subtitles
+ * {boolean} [play-in-viewport] - auto stop video that out ov viewport area
+ * {boolean} [autofocus] - set focus to player on play
+ * {boolean} [autoplay] - start play automatically on initialization (note initialization not happens until media is disabled)
+ * {boolean} [controls] - show media player controls
+ * {boolean} [loop] - loop video
+ * {boolean} [mute] - mute the video
+ *
+ * @readonly {boolean} error - marker that indicates that media initialized with error
+ * @readonly {boolean} ready - marker that indicates that media api loaded
+ * @readonly {boolean} played - marker that indicates that media payed
+ * @readonly {boolean} active - marker that indicates that media paying
  *
  *
- * @readonly {Boolean} error - marker that indicates that media initialized with error
- * @readonly {Boolean} ready - marker that indicates that media api loaded
- * @readonly {Boolean} played - marker that indicates that media payed
- * @readonly {Boolean} active - marker that indicates that media paying
- *
- *
- * @event error - (bubbles) happens when media api is initialized with error
+ * @event smedia:error - (bubbles) happens when media api is initialized with error
  * @event smedia:ready - (bubbles) happens when media api is ready
  * @event smedia:play - (bubbles) happens when media starts playing
  * @event smedia:paused - (bubbles) happens when media paused
  * @event smedia:ended - (bubbles) happens when media ends
- *
  * @event smedia:mangedpause - (bubbles) happens when media paused by media group restriction manager
  *
  * @example:

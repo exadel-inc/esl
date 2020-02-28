@@ -1,5 +1,8 @@
 const ua = window.navigator.userAgent;
 
+/**
+ * Device detection utility
+ */
 export class DeviceDetector {
 	public static readonly isAndroid = /Android/i.test(ua);
 	public static readonly isMobileIOS = /iPad|iPhone|iPod/i.test(ua);
