@@ -1,13 +1,30 @@
 import {SmartCarouselView, SmartCarouselViewRegistry} from './smart-carousel-view';
 import SmartCarousel from '../smart-carousel';
 
-
 class SmartMultiCarouselView extends SmartCarouselView {
 	constructor(carousel: SmartCarousel) {
 		super(carousel);
 	}
 
-	public onAnimate(nextIndex: number, direction: string) {
+	// tslint:disable-next-line:no-empty
+	public bind() {
+	}
+
+	public draw() {
+		const slideStyles = getComputedStyle(this.carousel.$slides[this.carousel.firstIndex]);
+		const currentTrans = parseFloat(slideStyles.transform.split(',')[4]);
+		const slidesAreaStyles = getComputedStyle(this.carousel.$slidesArea);
+
+		const slideWidth = parseFloat(slidesAreaStyles.width) / this.carousel.activeCount - parseFloat(slideStyles.marginLeft) - parseFloat(slideStyles.marginRight);
+		const computedLeft = -(parseFloat(slidesAreaStyles.width) / this.carousel.activeCount * this.carousel.firstIndex) - (currentTrans);
+
+		this.carousel.$slides.forEach((slide) => {
+			slide.style.minWidth = slideWidth + 'px';
+			slide.style.left = computedLeft + 'px';
+		});
+	}
+
+	public goTo(nextIndex: number, direction: string) {
 		const slideStyles = getComputedStyle(this.carousel.$slides[this.carousel.firstIndex]);
 		const slideWidth = parseFloat(slideStyles.width) +
 			parseFloat(slideStyles.marginLeft) +
@@ -37,9 +54,11 @@ class SmartMultiCarouselView extends SmartCarouselView {
 
 			for (let i = 0; i < this.carousel.activeCount; i++) {
 				this.carousel.$slides[this.carousel.firstIndex + i].style.left = currentLeft + 'px';
+
 				const time = (direction === 'right') ?
 					(transitionDuration / this.carousel.activeCount) * i :
 					(transitionDuration / this.carousel.activeCount) * (this.carousel.activeCount - i - 1);
+				// make slides animated if they were active before
 				if (this.carousel.activeIndexes.indexOf(nextIndex + i) !== -1) {
 					setTimeout(() => {
 						this.carousel.$slides[this.carousel.firstIndex + i].style.left = left + 'px';
@@ -64,8 +83,11 @@ class SmartMultiCarouselView extends SmartCarouselView {
 
 	}
 
-	// tslint:disable-next-line:no-empty
-	public cleanStyles() {
+	public unbind() {
+		this.carousel.$slides.forEach((el) => {
+			el.style.transform = 'none';
+			el.style.left = 'none';
+		})
 	}
 }
 

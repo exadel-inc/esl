@@ -7,7 +7,25 @@ class SmartSingleCarouselView extends SmartCarouselView {
 		super(carousel);
 	}
 
-	public onAnimate(nextIndex: number, direction: string) {
+	// tslint:disable-next-line:no-empty
+	public bind() {
+	}
+
+	// TODO: check
+	public draw() {
+		const slideStyles = getComputedStyle(this.carousel.$slides[this.carousel.firstIndex]);
+		const slidesAreaStyles = getComputedStyle(this.carousel.$slidesArea);
+
+		const slideWidth = parseFloat(slidesAreaStyles.width) - parseFloat(slideStyles.marginLeft) - parseFloat(slideStyles.marginRight);
+		const computedLeft = -(parseFloat(slidesAreaStyles.width) / this.carousel.firstIndex);
+
+		this.carousel.$slides.forEach((slide) => {
+			slide.style.minWidth = slideWidth + 'px';
+			slide.style.left = computedLeft + 'px';
+		});
+	}
+
+	public goTo(nextIndex: number, direction: string) {
 		if (this.carousel.firstIndex === nextIndex) {
 			return;
 		}
@@ -38,7 +56,7 @@ class SmartSingleCarouselView extends SmartCarouselView {
 	}
 
 	// tslint:disable-next-line:no-empty
-	public cleanStyles() {
+	public unbind() {
 	}
 }
 

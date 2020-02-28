@@ -1,0 +1,61 @@
+---
+layout: ../../layouts/basic.html
+title: Multi Slide Carousel
+---
+
+{{##content:
+<div class="container-fluid">
+    <div class="row flex-column">
+        <h2>Demo 1: </h2>
+        <p>5 slides with 3 active slides to check if RAF helps to animate first one</p>
+        <smart-carousel config="{count: 3}">
+
+            <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
+                <span class="icon-arrow-prev" ></span>
+            </button>
+
+            <div data-slides-area>
+                <!-- CAROUSEL-ITEM -->
+                <smart-carousel-slide active
+                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>111</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide active style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>222</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide active style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>333</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>444</p>
+                    </div>
+                </smart-carousel-slide>
+
+                <smart-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>555</p>
+                    </div>
+                </smart-carousel-slide>
+                <!-- /CAROUSEL-ITEM -->
+            </div>
+
+            <button class="arrow-next" onclick="void 0" data-slide-target="next">
+                <span class="icon-arrow-next"></span>
+            </button>
+
+            <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
+
+        </smart-carousel>
+    </div>
+</div>
+#}}

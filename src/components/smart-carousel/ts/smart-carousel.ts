@@ -60,7 +60,7 @@ class SmartCarousel extends CustomElement {
 	}
 
 	get activeCount(): number {
-		return this._currentConfig.count || 0;
+		return this.activeConfig.count || 0;
 	}
 
 	/**
@@ -75,6 +75,9 @@ class SmartCarousel extends CustomElement {
 
 	get activeConfig(): CarouselConfig {
 		return this._currentConfig;
+	}
+	set activeConfig(config) {
+		this._currentConfig = Object.assign({}, config);
 	}
 
 	public goTo(nextIndex: number, direction?: string, force: boolean = false) {
@@ -104,7 +107,7 @@ class SmartCarousel extends CustomElement {
 		const approved = this.dispatchCustomEvent('slide:change', eventDetails);
 
 		if (this._view && approved && this.firstIndex !== nextIndex) {
-			this._view.onAnimate(nextIndex, direction);
+			this._view.goTo(nextIndex, direction);
 		}
 
 		if (this._view && approved) {
@@ -180,20 +183,24 @@ class SmartCarousel extends CustomElement {
 			this.configRules.activeValue
 		);
 
-		if (!force && deepCompare(this._currentConfig, config)) {
+		if (!force && deepCompare(this.activeConfig, config)) {
 			return;
 		}
-		this._currentConfig = Object.assign({}, config);
+		this.activeConfig = config;
 
+		// TODO: somehow compare active view & selected view
+		this._view && this._view.unbind();
 		this._view = SmartCarouselViewRegistry.instance.createViewInstance(this.activeConfig.view, this);
-		if (force || this.activeIndexes.length !== this._currentConfig.count) {
-			this.updateSlidesCount();
+		this._view && this._view.bind();
+		if (force || this.activeIndexes.length !== this.activeConfig.count) {
+			this._view.draw();
+			this.goTo(this.firstIndex, '', true);
 		}
 	}
 
 	private updateSlidesCount() {
 		// move to renderer
-		const count = this._currentConfig.view === 'single' ? 1 : this._currentConfig.count; // somehow we need to get rid of specific view check
+		const count = this.activeConfig.view === 'single' ? 1 : this.activeCount; // somehow we need to get rid of specific view check
 		const slideStyles = getComputedStyle(this.$slides[this.firstIndex]);
 		const currentTrans = parseFloat(slideStyles.transform.split(',')[4]);
 		const slidesAreaStyles = getComputedStyle(this.$slidesArea);
@@ -204,7 +211,6 @@ class SmartCarousel extends CustomElement {
 			slide.style.minWidth = slideWidth + 'px';
 			slide.style.left = computedLeft + 'px';
 		});
-		this.goTo(this.firstIndex, '', true);
 	}
 
 	private getNextGroup(shiftGroupsCount: number) {
