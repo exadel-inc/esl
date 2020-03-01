@@ -7,7 +7,7 @@ import { BreakpointRegistry, SmartQuery, SmartRuleList } from '@components/smart
 import { SmartImage } from '@components/smart-image/smart-image';
 import { SmartMedia } from '@components/smart-media/smart-media';
 import { SmartPopup, SmartPopupTrigger } from '@components/smart-popup/smart-popup';
-import { SmartCarousel, SmartCarouselDots, SmartCarouselLinkPlugin, SmartCarouselAutoplayPlugin} from '@components/smart-carousel/smart-carousel';
+import { SmartCarousel, SmartCarouselDots, SmartCarouselLinkPlugin, SmartCarouselTouchPlugin, SmartCarouselAutoplayPlugin} from '@components/smart-carousel/smart-carousel';
 
 if (!('customElements' in window)) {
   throw new Error('Browser is not support customElements, load polyfills before');
@@ -42,5 +42,6 @@ export {
   SmartCarousel,
   SmartCarouselDots,
   SmartCarouselLinkPlugin,
+  SmartCarouselTouchPlugin,
   SmartCarouselAutoplayPlugin
 };
