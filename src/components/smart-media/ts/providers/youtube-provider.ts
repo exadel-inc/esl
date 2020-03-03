@@ -137,14 +137,22 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
 		}
 	}
 
-	public getState() {
+	public get state() {
 		if (this._api && typeof this._api.getPlayerState === 'function') {
 			return this._api.getPlayerState() as number as PlayerStates;
 		}
 		return PlayerStates.UNINITIALIZED;
 	}
 
-    get defaultAspectRatio(): number {
+	public get duration() {
+		return this._api ? this._api.getDuration() : 0;
+	}
+
+	public get currentTime() {
+		return this._api ? this._api.getCurrentTime() : 0;
+	}
+
+    public get defaultAspectRatio(): number {
         return DEFAULT_ASPECT_RATIO;
     }
 
@@ -153,7 +161,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
 	}
 
 	public play() {
-		if (this.getState() === PlayerStates.ENDED) {
+		if (this.state === PlayerStates.ENDED) {
 			this._api.seekTo(0, false);
 		}
 		this._api.playVideo();

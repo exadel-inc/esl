@@ -28,6 +28,7 @@ class SmartCarouselTouchPlugin extends SmartCarouselPlugin {
 	}
 
 	onTouchStart = (event: TouchEvent | PointerEvent) => {
+		// TODO: precondition for focused element ?
 		if ((event instanceof TouchEvent && event.touches.length !== 1) ||
 			(event instanceof PointerEvent && event.pointerType !== 'touch')) {
 			this.isTouchStarted = false;

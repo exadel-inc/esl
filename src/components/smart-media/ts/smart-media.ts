@@ -324,7 +324,21 @@ export class SmartMedia extends CustomElement {
      * Current player state, see {@link SmartMedia.PLAYER_STATES} values
      */
     get state() {
-        return this._provider ? this._provider.getState() : PlayerStates.UNINITIALIZED;
+        return this._provider ? this._provider.state : PlayerStates.UNINITIALIZED;
+    }
+
+    /**
+     * Duration of the media resource
+     */
+    public get duration() {
+        return this._provider ? this._provider.duration : 0;
+    }
+
+    /**
+     * Current time of media resource
+     */
+    public get currentTime() {
+        return this._provider ? this._provider.currentTime : 0;
     }
 
     get conditionQuery() {

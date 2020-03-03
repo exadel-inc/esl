@@ -53,12 +53,22 @@ export abstract class BaseProvider<T extends HTMLElement> {
     /**
      * @returns {PlayerStates} - current state of the player
      */
-    public abstract getState(): PlayerStates;
+    public abstract get state(): PlayerStates;
 
     /**
      * @returns {number} - recommended aspect ratio
      */
     public abstract get defaultAspectRatio(): number;
+
+    /**
+     * @returns {number} - resource duration
+     */
+    public abstract get duration(): number;
+
+    /**
+     * @returns {number} - resource current time
+     */
+    public abstract get currentTime(): number;
 
     protected abstract seekTo(pos?: number): void | Promise<any>;
 
@@ -86,7 +96,7 @@ export abstract class BaseProvider<T extends HTMLElement> {
      * If the player is PAUSED then it starts playing otherwise it pause playing
      */
     protected toggle() {
-        if (this.getState() === PlayerStates.PAUSED) {
+        if (this.state === PlayerStates.PAUSED) {
             return this.play();
         } else {
             return this.pause();
