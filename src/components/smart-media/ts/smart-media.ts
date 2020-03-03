@@ -341,7 +341,7 @@ export class SmartMedia extends CustomElement {
 
     get actualAspectRatio() {
         if (this.aspectRatio) {
-            return parseAspectRatio(this.aspectRatio);
+            return parseAspectRatio(this.aspectRatio) || this._provider.defaultAspectRatio;
         }
         return this._provider ? this._provider.defaultAspectRatio : 0;
     }
