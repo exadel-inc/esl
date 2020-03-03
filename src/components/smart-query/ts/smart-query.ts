@@ -1,7 +1,7 @@
 /**
  * Smart Query
  * @version 1.2.0
- * @author Alexey Stsefanovich (ala'n)
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * Helper class that extend MediaQueryList class
  * Supports

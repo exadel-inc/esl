@@ -4,12 +4,11 @@
     position: relative;
     overflow: hidden;
 
-    @{tagName} {
+    &:not(.@{containerClass}-auto) @{tagName} {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      display: block;
 
       &[mode="origin"],
       &[mode='save-ratio'] {
@@ -17,17 +16,25 @@
       }
 
       &[mode="fit"] {
-        position: absolute;
-        height: 100%;
+        position: static;
         overflow: hidden;
       }
       &[mode="fit"] > .inner-image {
         position: absolute;
         top: 50%;
         left: 50%;
-        max-width: 100%;
-        max-height: 100%;
+        min-width: 100%;
+        min-height: 100%;
         transform: translate(-50%, -50%);
+
+        @supports (object-fit: cover) {
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          transform: none;
+          object-fit: cover;
+        }
       }
     }
 
@@ -35,16 +42,10 @@
       opacity: 0;
       &[ready] {
         opacity: 1;
-        -webkit-transition: opacity 0.4s;
         transition: opacity 0.4s;
       }
     }
 
-    &.@{containerClass}-no-rat {
-      @{tagName} {
-        position: relative;
-      }
-    }
     &.@{containerClass}-1-1 {
       padding-top: 100%;
     }

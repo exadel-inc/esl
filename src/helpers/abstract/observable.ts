@@ -1,5 +1,6 @@
+// TODO: revisit update to Set based solution
 export class Observable {
-	private _listeners: Array<() => void> = [];
+	private _listeners: (() => void)[] = [];
 
 	public addListener(listener: (...args: any) => void) {
 		const index = this._listeners.indexOf(listener);
@@ -21,6 +22,7 @@ export class Observable {
 				listener.apply(this, args);
 			} catch (e) {
 				// Don't care
+				// TODO: console.error log
 			}
 		});
 	}
