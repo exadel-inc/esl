@@ -9,8 +9,8 @@ import {generateUId, loadScript} from '@helpers/common-utils';
 import {SmartMedia} from '../smart-media';
 import {BaseProvider, PlayerStates} from '../smart-media-provider';
 import SmartMediaProviderRegistry from '../smart-media-registry';
-import PlayerVars = YT.PlayerVars;
 import {DEFAULT_ASPECT_RATIO} from '@helpers/format-utils';
+import PlayerVars = YT.PlayerVars;
 
 declare global {
 	interface YT extends Promise<void> {
@@ -33,15 +33,15 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
 
 	protected static getCoreApi() {
 		if (!YouTubeProvider._coreApiPromise) {
-			YouTubeProvider._coreApiPromise = new Promise((resolve) => {
+			YouTubeProvider._coreApiPromise = new Promise((resolve, reject) => {
 				if (window.YT && window.YT.Player) return resolve(window.YT);
 				loadScript('YT_API_SOURCE', '//www.youtube.com/iframe_api');
 				const cbOrigin = window.onYouTubeIframeAPIReady;
 				window.onYouTubeIframeAPIReady = () => {
 					try {
 						(typeof cbOrigin === 'function') && cbOrigin.apply(window);
-					} catch (err) { // eslint-disable-line
-						// Do Nothing
+					} catch (err) {
+						reject(err);
 					}
 					return resolve(window.YT);
 				};
@@ -85,7 +85,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
 					events: {
 						onError: (e) => {
 						    this.component._onError(e);
-						    reject(this);
+						    reject(e);
                         },
 						onReady: () => resolve(this),
 						onStateChange: this._onStateChange
@@ -99,6 +99,9 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
 			if (this.component.muted) {
 				this._api.mute()
 			}
+			if (this._api.getVideoUrl().indexOf('?') === -1 && this.component.autoplay) {
+			    this.component._onError(new Error('Player state is incorrect'), false);
+            }
 			this.component._onReady()
 		});
 	}

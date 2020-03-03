@@ -265,14 +265,14 @@ export class SmartMedia extends CustomElement {
         this.dispatchCustomEvent('ready');
     }
 
-    public _onError(originEvent?:any) {
+    public _onError(detail?: any, setReadyState = true) {
         this.setAttribute('ready', '');
         this.setAttribute('error', '');
         this.dispatchCustomEvent('error', {
             bubbles: true,
-            detail: {originEvent}
+            detail
         });
-        this.dispatchCustomEvent('ready');
+        setReadyState && this.dispatchCustomEvent('ready');
     }
 
     public _onDetach() {
