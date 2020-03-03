@@ -1,19 +1,12 @@
-// TODO: revisit update to Set based solution
 export class Observable {
-	private _listeners: (() => void)[] = [];
+	private _listeners: Set<(() => void)> = new Set<(() => void)>();
 
 	public addListener(listener: (...args: any) => void) {
-		const index = this._listeners.indexOf(listener);
-		if (index === -1) {
-			this._listeners.push(listener);
-		}
+	    if (!this._listeners.has(listener)) this._listeners.add(listener);
 	}
 
 	public removeListener(listener: (...args: any) => void) {
-		const index = this._listeners.indexOf(listener);
-		if (index !== -1) {
-			this._listeners.splice(index);
-		}
+        if (this._listeners.has(listener)) this._listeners.delete(listener);
 	}
 
 	protected fire(...args: any) {
@@ -21,8 +14,7 @@ export class Observable {
 			try {
 				listener.apply(this, args);
 			} catch (e) {
-				// Don't care
-				// TODO: console.error log
+				console.log(e);
 			}
 		});
 	}
