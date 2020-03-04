@@ -1,7 +1,7 @@
 /**
  * BaseProvider class for media API providers
  * @version 1.0.0
- * @author Alexey Stsefanovich (ala'n)
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 import SmartMedia from './smart-media';
 

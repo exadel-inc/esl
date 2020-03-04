@@ -1,7 +1,12 @@
+/**
+ * Smart Media Play-In-Viewport helper
+ * @version 1.0.0
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ */
 import SmartMedia from './smart-media';
 
-const RATIO_TO_ACTIVATE = 0.75; // TODO: customizable
-const RATIO_TO_DEACTIVATE = 0.20; // TODO: customizable
+const RATIO_TO_ACTIVATE = 0.75; // TODO: customizable, at least global
+const RATIO_TO_DEACTIVATE = 0.20; // TODO: customizable, at least global
 
 let iObserver: IntersectionObserver;
 
