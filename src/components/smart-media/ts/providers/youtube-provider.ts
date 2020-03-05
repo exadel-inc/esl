@@ -3,7 +3,6 @@
  * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  * @extends BaseProvider
- * @protected
  */
 import {generateUId, loadScript} from '@helpers/common-utils';
 import {SmartMedia} from '../smart-media';

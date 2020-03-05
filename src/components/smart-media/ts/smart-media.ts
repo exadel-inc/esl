@@ -1,6 +1,6 @@
 /**
  * Smart Media
- * @version 1.0.2
+ * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * @description:
@@ -39,12 +39,12 @@
  * @readonly {boolean} played - marker that indicates that media payed
  * @readonly {boolean} active - marker that indicates that media paying
  *
- *
  * @event smedia:error - (bubbles) happens when media api is initialized with error
  * @event smedia:ready - (bubbles) happens when media api is ready
  * @event smedia:play - (bubbles) happens when media starts playing
  * @event smedia:paused - (bubbles) happens when media paused
  * @event smedia:ended - (bubbles) happens when media ends
+ * @event smedia:detach - (bubbles) happens after media provider detach (reinitialization / disconnect from the DOM)
  * @event smedia:mangedpause - (bubbles) happens when media paused by media group restriction manager
  *
  * @example:
@@ -285,6 +285,7 @@ export class SmartMedia extends CustomElement {
         if (this.hasAttribute('ready-class')) {
             this.classList.remove(this.getAttribute('ready-class'));
         }
+        this.dispatchCustomEvent('detach');
     }
 
     public _onPlay() {

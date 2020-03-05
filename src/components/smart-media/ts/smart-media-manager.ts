@@ -2,7 +2,7 @@
  * Group restriction manager for {@link SmartMedia}
  * Only one media in group can be played
  * Empty group is ignored
- * @version 1.0.1
+ * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 import SmartMedia from './smart-media';
