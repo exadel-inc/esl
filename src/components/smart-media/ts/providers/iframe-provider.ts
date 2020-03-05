@@ -7,7 +7,6 @@ import {SmartMedia} from '../smart-media';
 import {BaseProvider, PlayerStates} from '../smart-media-provider';
 import SmartMediaProviderRegistry from '../smart-media-registry';
 
-
 export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 	private _state: PlayerStates = PlayerStates.UNINITIALIZED;
 
@@ -62,8 +61,16 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 		}
 	}
 
-	public getState() {
+	public get state() {
 		return this._state;
+	}
+
+	public get duration() {
+		return 0;
+	}
+
+	public get currentTime() {
+		return 0;
 	}
 
     get defaultAspectRatio(): number {
@@ -75,7 +82,7 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 	}
 
 	public play() {
-		if (this.getState() === PlayerStates.UNINITIALIZED) {
+		if (this.state === PlayerStates.UNINITIALIZED) {
 			this.bind();
 		}
 	}

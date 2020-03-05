@@ -1,6 +1,6 @@
 /**
  * Smart Media
- * @version 1.0.2
+ * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * @description:
@@ -39,12 +39,12 @@
  * @readonly {boolean} played - marker that indicates that media payed
  * @readonly {boolean} active - marker that indicates that media paying
  *
- *
  * @event smedia:error - (bubbles) happens when media api is initialized with error
  * @event smedia:ready - (bubbles) happens when media api is ready
  * @event smedia:play - (bubbles) happens when media starts playing
  * @event smedia:paused - (bubbles) happens when media paused
  * @event smedia:ended - (bubbles) happens when media ends
+ * @event smedia:detach - (bubbles) happens after media provider detach (reinitialization / disconnect from the DOM)
  * @event smedia:mangedpause - (bubbles) happens when media paused by media group restriction manager
  *
  * @example:
@@ -268,14 +268,14 @@ export class SmartMedia extends CustomElement {
         this.dispatchCustomEvent('ready');
     }
 
-    public _onError(originEvent?:any) {
+    public _onError(detail?: any, setReadyState = true) {
         this.setAttribute('ready', '');
         this.setAttribute('error', '');
         this.dispatchCustomEvent('error', {
             bubbles: true,
-            detail: {originEvent}
+            detail
         });
-        this.dispatchCustomEvent('ready');
+        setReadyState && this.dispatchCustomEvent('ready');
     }
 
     public _onDetach() {
@@ -285,6 +285,7 @@ export class SmartMedia extends CustomElement {
         if (this.hasAttribute('ready-class')) {
             this.classList.remove(this.getAttribute('ready-class'));
         }
+        this.dispatchCustomEvent('detach');
     }
 
     public _onPlay() {
@@ -324,7 +325,21 @@ export class SmartMedia extends CustomElement {
      * Current player state, see {@link SmartMedia.PLAYER_STATES} values
      */
     get state() {
-        return this._provider ? this._provider.getState() : PlayerStates.UNINITIALIZED;
+        return this._provider ? this._provider.state : PlayerStates.UNINITIALIZED;
+    }
+
+    /**
+     * Duration of the media resource
+     */
+    public get duration() {
+        return this._provider ? this._provider.duration : 0;
+    }
+
+    /**
+     * Current time of media resource
+     */
+    public get currentTime() {
+        return this._provider ? this._provider.currentTime : 0;
     }
 
     get conditionQuery() {
@@ -341,7 +356,7 @@ export class SmartMedia extends CustomElement {
 
     get actualAspectRatio() {
         if (this.aspectRatio) {
-            return parseAspectRatio(this.aspectRatio);
+            return parseAspectRatio(this.aspectRatio) || this._provider.defaultAspectRatio;
         }
         return this._provider ? this._provider.defaultAspectRatio : 0;
     }

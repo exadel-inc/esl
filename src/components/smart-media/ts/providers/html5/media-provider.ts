@@ -7,10 +7,6 @@ import {SmartMedia} from '../../smart-media';
 import {BaseProvider, PlayerStates} from '../../smart-media-provider';
 
 export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends BaseProvider<T> {
-	protected static buildSrc(src: string, type: string) {
-		return `<source src=${src} type="${type}">`;
-	}
-
 	protected static applyElementSettings(el: HTMLMediaElement, sm: SmartMedia) {
 		el.classList.add('smedia-inner');
 		el.autoplay = sm.autoplay;
@@ -56,8 +52,20 @@ export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends Base
 		}
 	}
 
-	public getState() {
-		return PlayerStates.UNINITIALIZED;
+	public get state() {
+		if (!this._el) return PlayerStates.UNINITIALIZED;
+		if (this._el.ended) return PlayerStates.ENDED;
+		if (!this._el.played || !this._el.played.length) return PlayerStates.UNSTARTED;
+		if (this._el.paused) return PlayerStates.PAUSED;
+		return PlayerStates.PLAYING;
+	}
+
+	public get duration() {
+		return this._el ? this._el.duration : 0;
+	}
+
+	public get currentTime() {
+		return this._el ? this._el.currentTime : 0;
 	}
 
 	public seekTo(pos: number) {

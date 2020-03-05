@@ -16,9 +16,19 @@ export class DeviceDetector {
 		return ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
 	})();
 	public static get isTouchDevice() {
+		// TODO: simplify
 		if (('ontouchstart' in window) || 'TouchEvent ' in window || 'DocumentTouch' in window && document instanceof Touch) {
 			return true;
 		}
 		return matchMedia(DeviceDetector.touchMQ).matches;
+	}
+
+	static get TOUCH_EVENTS() {
+		const isTouch = DeviceDetector.isTouchDevice;
+		return {
+			START: isTouch ? 'touchstart' : 'pointerdown',
+			MOVE: isTouch ? 'touchmove' : 'pointermove',
+			END: isTouch ? 'touchend' : 'pointerup'
+		};
 	}
 }

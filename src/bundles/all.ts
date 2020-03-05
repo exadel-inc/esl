@@ -13,7 +13,6 @@ if (!('customElements' in window)) {
   throw new Error('Browser is not support customElements, load polyfills before');
 }
 
-// TODO separate config
 // BreakpointRegistry.addCustomBreakpoint('xxs', 300, 600); // Definition
 // BreakpointRegistry.addCustomBreakpoint('xl', 1600, 2000); // Redefinition
 

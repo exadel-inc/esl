@@ -13,7 +13,7 @@ export class VideoProvider extends HTMLMediaProvider<HTMLVideoElement> {
 
     protected createElement(): HTMLVideoElement {
         const el = document.createElement('video');
-        el.innerHTML = HTMLMediaProvider.buildSrc(this.component.mediaSrc, 'video/mp4');
+        el.src = this.component.mediaSrc;
         return el;
     }
 

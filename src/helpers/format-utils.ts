@@ -1,6 +1,3 @@
-// TODO: move to constants, or possibly we even need one accessible place for constants to simplify initial configuration
-export const DEFAULT_ASPECT_RATIO = 16 / 9;
-
 /**
  * Convert string to kebab-case notation
  */
@@ -21,5 +18,5 @@ export function parseAspectRatio(str: string): number {
         const [, w, h] = res;
         return +w / +h;
     }
-    return +str || DEFAULT_ASPECT_RATIO; // TODO: revisit logic, most likely we should not have default here
+    return +str || 0;
 }
