@@ -65,7 +65,8 @@ class SmartMultiCarouselView extends SmartCarouselView {
 		});
 
 		let left = 0;
-		for (let i = 0; i < shiftCount; ++i) {
+		const animatedCount = shiftCount < this.carousel.activeCount ? this.carousel.activeCount : shiftCount;
+		for (let i = 0; i < animatedCount; ++i) {
 			const computedIndex = (nextIndex + i + this.carousel.count) % this.carousel.count;
 			const minActive = Math.min(...this.carousel.activeIndexes);
 			// make next active slides be in one line
