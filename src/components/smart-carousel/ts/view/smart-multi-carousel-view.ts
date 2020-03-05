@@ -12,11 +12,14 @@ class SmartMultiCarouselView extends SmartCarouselView {
 
 	public draw() {
 		const slideStyles = getComputedStyle(this.carousel.$slides[this.carousel.firstIndex]);
-		const currentTrans = parseFloat(slideStyles.transform.split(',')[4]);
+		const currentTrans = slideStyles.transform !== 'none' ? parseFloat(slideStyles.transform.split(',')[4]) : 0;
 		const slidesAreaStyles = getComputedStyle(this.carousel.$slidesArea);
 
 		const slideWidth = parseFloat(slidesAreaStyles.width) / this.carousel.activeCount - parseFloat(slideStyles.marginLeft) - parseFloat(slideStyles.marginRight);
-		const computedLeft = -(parseFloat(slidesAreaStyles.width) / this.carousel.activeCount * this.carousel.firstIndex) - (currentTrans);
+		const computedLeft = this.carousel.firstIndex === 0 ?
+			-currentTrans :
+			-(parseFloat(slidesAreaStyles.width) / this.carousel.activeCount * this.carousel.firstIndex) - currentTrans;
+
 
 		this.carousel.$slides.forEach((slide) => {
 			slide.style.minWidth = slideWidth + 'px';
@@ -25,7 +28,8 @@ class SmartMultiCarouselView extends SmartCarouselView {
 	}
 
 	public goTo(nextIndex: number, direction: string) {
-		const slideStyles = getComputedStyle(this.carousel.$slides[this.carousel.firstIndex]);
+		const slideIndex = direction === 'right' ? this.carousel.activeIndexes[0] : this.carousel.firstIndex;
+		const slideStyles = getComputedStyle(this.carousel.$slides[slideIndex]);
 		const slideWidth = parseFloat(slideStyles.width) +
 			parseFloat(slideStyles.marginLeft) +
 			parseFloat(slideStyles.marginRight);
@@ -33,47 +37,82 @@ class SmartMultiCarouselView extends SmartCarouselView {
 
 		const transitionDuration = parseFloat(slideStyles.transitionDuration) * 1000; // ms
 		const currentLeft = parseFloat(slideStyles.left);
+		const currentTrans = parseFloat(slideStyles.transform.split(',')[4]) || 0;
 
 		if (this.carousel.firstIndex === nextIndex) {
 			return 0;
 		}
 
-		let trans = 0;
-
-		if ((nextIndex === 0 && direction === 'right' && this.carousel.firstIndex !== 0) || (this.carousel.firstIndex === 0 && direction === 'left')) {
-			const left = (direction === 'right') ? currentLeft + areaWidth : currentLeft - areaWidth;
-
-			for (let index = 0; index < this.carousel.activeCount; ++index) {
-				this.carousel.$slides[nextIndex + index].style.left = left + 'px';
-			}
-
-			trans = -nextIndex * slideWidth - left;
-			this.carousel.$slides.forEach((el) => {
-				el.style.transform = `translateX(${trans}px)`;
-			});
-
-			for (let i = 0; i < this.carousel.activeCount; i++) {
-				this.carousel.$slides[this.carousel.firstIndex + i].style.left = currentLeft + 'px';
-
-				const time = (direction === 'right') ?
-					(transitionDuration / this.carousel.activeCount) * i :
-					(transitionDuration / this.carousel.activeCount) * (this.carousel.activeCount - i - 1);
-				// make slides animated if they were active before
-				if (this.carousel.activeIndexes.indexOf(nextIndex + i) !== -1) {
-					setTimeout(() => {
-						this.carousel.$slides[this.carousel.firstIndex + i].style.left = left + 'px';
-						const nextTrans = -nextIndex * slideWidth - left;
-						this.carousel.$slides[this.carousel.firstIndex + i].style.transform = `translateX(${nextTrans}px)`;
-					}, time);
-				}
-			}
-		} else {
-			trans = -nextIndex * slideWidth - currentLeft;
-			this.carousel.$slides.forEach((el) => {
-				el.style.transform = `translateX(${trans}px)`;
-				el.style.left = currentLeft + 'px';
-			});
+		let shiftCount = 0;
+		if (direction === 'left') {
+			shiftCount = (this.carousel.firstIndex - nextIndex + this.carousel.count) % this.carousel.count;
+		} else if (direction === 'right') {
+			shiftCount = (this.carousel.count - this.carousel.firstIndex + nextIndex) % this.carousel.count;
 		}
+		const direct = direction == 'left' ? -1 : 1;
+		const trans = currentTrans - (shiftCount * slideWidth) * direct;
+
+		const nextActiveIndexes: number[] = [];
+		for (let i = 0; i < this.carousel.activeCount; ++i) {
+			nextActiveIndexes.push((nextIndex + i + this.carousel.count) % this.carousel.count);
+		}
+
+		const intersectionArr: number[] = [];
+		nextActiveIndexes.forEach((nextIndex) => {
+			if (this.carousel.activeIndexes.indexOf(nextIndex) !== -1) {
+				intersectionArr.push(nextIndex);
+			}
+		});
+
+		let left = 0;
+		for (let i = 0; i < shiftCount; ++i) {
+			const computedIndex = (nextIndex + i + this.carousel.count) % this.carousel.count;
+			const minActive = Math.min(...this.carousel.activeIndexes);
+			// make next active slides be in one line
+			if (computedIndex >= this.carousel.firstIndex && direction === 'left') {
+				left = currentLeft - areaWidth;
+			} else if (computedIndex <= minActive && direction === 'right') {
+				left = currentLeft + areaWidth;
+			} else {
+				left = currentLeft;
+			}
+
+			// exclude slides that are active now and have to be active then
+			if (intersectionArr.indexOf(computedIndex) === -1) {
+				this.carousel.$slides[computedIndex].style.left = left + 'px';
+			}
+
+			// handle slides that are active now and have to be active then
+			if (intersectionArr.indexOf(computedIndex) !== -1) {
+				const orderIndex = nextActiveIndexes.indexOf(computedIndex);
+				const time = (direction === 'right') ?
+					(transitionDuration / this.carousel.activeCount) * orderIndex :
+					(transitionDuration / this.carousel.activeCount) * (this.carousel.activeCount - orderIndex - 1);
+				const copyLeft = left;
+				setTimeout(() => {
+					this.carousel.$slides[computedIndex].style.left = copyLeft + 'px';
+				}, time);
+			}
+
+		}
+
+		this.carousel.$slides.forEach((slide) => {
+			// exclude slides that are active now and have to be active then
+
+			slide.style.transform = `translateX(${trans}px)`;
+
+			// handle slides that are active now and have to be active then
+			const slideIndex = slide.index;
+			if (intersectionArr.indexOf(slideIndex) !== -1) {
+				const orderIndex = nextActiveIndexes.indexOf(slideIndex);
+				const time = (direction === 'right') ?
+					(transitionDuration / this.carousel.activeCount) * orderIndex :
+					(transitionDuration / this.carousel.activeCount) * (this.carousel.activeCount - orderIndex - 1);
+				setTimeout(() => {
+					this.carousel.$slides[slideIndex].style.transform = `translateX(${trans}px)`;
+				}, time);
+			}
+		});
 
 		this.carousel.setAttribute('data-is-animated', 'true');
 

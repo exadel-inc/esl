@@ -68,7 +68,7 @@ class SmartCarousel extends CustomElement {
 	 */
 	get firstIndex(): number {
 		const index = this.$slides.findIndex((slide) => {
-			return slide.active;
+			return slide.first;
 		});
 		return Math.max(index, 0);
 	}
@@ -76,6 +76,7 @@ class SmartCarousel extends CustomElement {
 	get activeConfig(): CarouselConfig {
 		return this._currentConfig;
 	}
+
 	set activeConfig(config) {
 		this._currentConfig = Object.assign({}, config);
 	}
@@ -84,9 +85,9 @@ class SmartCarousel extends CustomElement {
 		if (this.dataset.isAnimated) {
 			return;
 		}
-		// show last slides if count of slides isn't enough
-		if (nextIndex + this.activeCount > this.count || nextIndex < 0) {
-			nextIndex = this.count - this.activeCount;
+
+		if (nextIndex < 0) {
+			nextIndex = 0;
 		}
 
 		if (this.firstIndex === nextIndex && !force) {
@@ -94,7 +95,13 @@ class SmartCarousel extends CustomElement {
 		}
 
 		if (!direction) {
-			direction = (nextIndex > this.firstIndex) ? 'right' : 'left';
+			// calculate and compare how much slides we have to go due to direction (left or right)
+			// choose less
+			if (nextIndex > this.firstIndex) {
+				direction = nextIndex - this.firstIndex > (this.firstIndex - nextIndex + this.count) % this.count ? 'left' : 'right';
+			} else {
+				direction = this.firstIndex - nextIndex >= (nextIndex - this.firstIndex - nextIndex + this.count) % this.count ? 'right' : 'left';
+			}
 		}
 
 		const eventDetails = { // Todo change info
@@ -109,30 +116,42 @@ class SmartCarousel extends CustomElement {
 		if (this._view && approved && this.firstIndex !== nextIndex) {
 			this._view.goTo(nextIndex, direction);
 		}
-
 		if (this._view && approved) {
+			let i = 0;
 			this.$slides.forEach((el, index) => {
-				el._setActive((nextIndex <= index) && (index < nextIndex + this.activeCount));
+				el._setActive(((nextIndex + this.count) % this.count <= index) && (index < (nextIndex + this.activeCount + this.count) % this.count));
 			});
+
+			while (i < this.activeCount) {
+				const computedIndex = (nextIndex + i + this.count) % this.count;
+				this.$slides[computedIndex]._setActive(true);
+				++i;
+			}
+
+			if (this.activeConfig.view === 'multiple') {
+				this.$slides[this.firstIndex]._setFirst(false);
+				this.$slides[nextIndex]._setFirst(true);
+			}
 		}
 
 		this.dispatchCustomEvent('slide:changed', eventDetails);
 	}
 
 	public prev() {
-		const nextGroup = this.getNextGroup(-1);
-		this.goTo(nextGroup * this.activeCount, 'left');
+		// const nextGroup = this.getNextGroup(-1);
+		this.goTo((this.firstIndex - this.activeCount + this.count) % this.count, 'left');
 	}
 
 	public next() {
-		const nextGroup = this.getNextGroup(1);
-		this.goTo(nextGroup * this.activeCount, 'right');
+		// const nextGroup = this.getNextGroup(1);
+		this.goTo((this.firstIndex + this.activeCount + this.count) % this.count, 'right');
 	}
 
 	protected connectedCallback() {
 		this.classList.add(SmartCarousel.is);
 
 		this.update(true);
+		this.goTo(this.firstIndex, '', true);
 		this._bindEvents();
 
 		SmartCarouselViewRegistry.instance.addListener(this._onRegistryChange);
@@ -189,28 +208,14 @@ class SmartCarousel extends CustomElement {
 		this.activeConfig = config;
 
 		// TODO: somehow compare active view & selected view
-		this._view && this._view.unbind();
+		// this._view && this._view.unbind();
 		this._view = SmartCarouselViewRegistry.instance.createViewInstance(this.activeConfig.view, this);
-		this._view && this._view.bind();
+		// this._view && this._view.bind();
+
 		if (force || this.activeIndexes.length !== this.activeConfig.count) {
 			this._view.draw();
-			this.goTo(this.firstIndex, '', true);
+			// this.goTo(this.firstIndex, '', true);
 		}
-	}
-
-	private updateSlidesCount() {
-		// move to renderer
-		const count = this.activeConfig.view === 'single' ? 1 : this.activeCount; // somehow we need to get rid of specific view check
-		const slideStyles = getComputedStyle(this.$slides[this.firstIndex]);
-		const currentTrans = parseFloat(slideStyles.transform.split(',')[4]);
-		const slidesAreaStyles = getComputedStyle(this.$slidesArea);
-		const slideWidth = parseFloat(slidesAreaStyles.width) / count - parseFloat(slideStyles.marginLeft) - parseFloat(slideStyles.marginRight);
-		const computedLeft = -(parseFloat(slidesAreaStyles.width) / count * this.firstIndex) - (currentTrans);
-
-		this.$slides.forEach((slide) => {
-			slide.style.minWidth = slideWidth + 'px';
-			slide.style.left = computedLeft + 'px';
-		});
 	}
 
 	private getNextGroup(shiftGroupsCount: number) {
@@ -235,7 +240,8 @@ class SmartCarousel extends CustomElement {
 				this.next();
 			} else if ('g' === target[0]) {
 				const group = +(target.substr(1)) - 1;
-				this.goTo(this.activeCount * group);
+				const lastGroup = Math.floor(this.count / this.activeCount);
+				this.goTo(group === lastGroup ? this.count - this.activeCount : this.activeCount * group);
 			} else {
 				this.goTo(+target - 1);
 			}
@@ -251,6 +257,7 @@ class SmartCarousel extends CustomElement {
 		if (plugin.carousel) return;
 		this.appendChild(plugin);
 	}
+
 	public removePlugin(plugin: SmartCarouselPlugin | string) {
 		if (typeof plugin === 'string') plugin = this._plugins.get(plugin);
 		if (!plugin || plugin.carousel !== this) return;
@@ -262,6 +269,7 @@ class SmartCarousel extends CustomElement {
 		this._plugins.set(plugin.key, plugin);
 		if (this.isConnected) plugin.bind();
 	}
+
 	public _removePlugin(plugin: SmartCarouselPlugin) {
 		if (!this._plugins.has(plugin.key)) return;
 		plugin.unbind();
