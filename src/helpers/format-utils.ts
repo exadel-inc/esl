@@ -18,5 +18,5 @@ export function parseAspectRatio(str: string): number {
         const [, w, h] = res;
         return +w / +h;
     }
-    return +str || null;
+    return +str || 0;
 }

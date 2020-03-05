@@ -33,7 +33,6 @@ module.exports.buildAll = function tsBuildAll(config) {
 						reportFiles: [
 							'src/**/*.{ts,tsx}'
 						],
-						// TODO: that property blocks typing generation
 						// disable type checker - we will use it in fork plugin
 						transpileOnly: true
 					}
