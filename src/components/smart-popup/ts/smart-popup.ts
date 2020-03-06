@@ -64,11 +64,13 @@ class SmartPopup extends CustomElement implements ISmartPopup {
 
   protected connectedCallback() {
     this.classList.add(SmartPopup.is);
-    PopupManager.register(this);
+    PopupManager.registerInGroup(this);
+    PopupManager.registerCloseOnBodyClickPopup(this);
   }
 
   protected disconnectedCallback() {
-    PopupManager.remove(this);
+    PopupManager.removeFromGroup(this);
+    PopupManager.removeCloseOnBodyClickPopup(this);
   }
 
   protected setState() {
@@ -89,6 +91,8 @@ class SmartPopup extends CustomElement implements ISmartPopup {
   }
 
   protected bindCloseOnBodyClickHandler() {
+    PopupManager.removeCloseOnBodyClickPopup(this);
+    PopupManager.registerCloseOnBodyClickPopup(this);
     this.removeEventListener('click', this.closeOnBodyClickHandler);
     if (this.closeOnBodyClick) {
       this.addEventListener('click', this.closeOnBodyClickHandler);
@@ -100,8 +104,8 @@ class SmartPopup extends CustomElement implements ISmartPopup {
   }
 
   protected setGroup(oldGroup: string, newGroup: string) {
-    PopupManager.remove(this, oldGroup);
-    PopupManager.register(this, newGroup);
+    PopupManager.removeFromGroup(this, oldGroup);
+    PopupManager.registerInGroup(this, newGroup);
   }
 
   protected setCloseButton() {
