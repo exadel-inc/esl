@@ -55,15 +55,16 @@
  *    media-type="youtube|video"
  *    media-id="##MEDIAID##"></smart-media-embedded>
  */
-import {CustomElement} from '@helpers/custom-element';
 import {attr} from '@helpers/decorators/attr';
+import SmartQuery from '@helpers/media/smart-query';
+import {CustomElement} from '@helpers/custom-element';
+import {parseAspectRatio} from '@helpers/format-utils';
 import {debounce, rafDecorator} from '@helpers/function-utils';
+
 import {getIObserver} from './smart-media-iobserver';
-import SmartQuery from '@components/smart-query/ts/smart-query';
 import {BaseProvider, PlayerStates} from './smart-media-provider';
 import SmartMediaRegistry from './smart-media-registry';
 import MediaGroupRestrictionManager from './smart-media-manager';
-import {parseAspectRatio} from '@helpers/format-utils';
 
 export class SmartMedia extends CustomElement {
     public static is = 'smart-media';

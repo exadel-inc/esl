@@ -95,7 +95,7 @@
 import {CustomElement} from '@helpers/custom-element';
 import {attr} from '@helpers/decorators/attr';
 import {DeviceDetector} from '@helpers/device-utils';
-import SmartRuleList from '@components/smart-query/ts/smart-rule-list';
+import SmartRuleList from '@helpers/media/smart-rule-list';
 
 // Mods configurations
 interface Strategy {

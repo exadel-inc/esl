@@ -3,7 +3,10 @@ import '@polyfills/es5-target-shim';
 // Builtin polyfills
 import '@polyfills/polyfills.es6';
 
-import { BreakpointRegistry, SmartQuery, SmartRuleList } from '@components/smart-query/smart-query';
+import BreakpointRegistry from '@helpers/media/smart-query-breakpoints';
+import SmartQuery from '@helpers/media/smart-query';
+import SmartRuleList from '@helpers/media/smart-rule-list';
+
 import { SmartImage } from '@components/smart-image/smart-image';
 import { SmartMedia } from '@components/smart-media/smart-media';
 import { SmartPopup, SmartPopupTrigger } from '@components/smart-popup/smart-popup';
