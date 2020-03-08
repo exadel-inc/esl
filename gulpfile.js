@@ -13,6 +13,7 @@ gulp.task('less-lib', function () {
     return task.less(paths.bundle.less).pipe(gulp.dest(paths.bundle.target));
 });
 gulp.task('less-lib-es6', function () {
+    // TODO: doesnt work properly in the current state
     return gulp.src(paths.es6.less).pipe(gulp.dest(paths.es6.target));
 });
 // local dev assets
@@ -34,10 +35,15 @@ gulp.task('ts-lib', function () {
     }).pipe(gulp.dest(paths.bundle.target));
 });
 gulp.task('ts-lib-es6', function () {
-    return task.es6({
-        src: paths.es6.ts,
-        context: paths.es6.context
-    }).pipe(gulp.dest(paths.es6.target));
+    // return task.es6({
+    //     src: paths.es6.ts,
+    //     context: paths.es6.context
+    // }).pipe(gulp.dest(paths.es6.target));
+    return task.bundle({
+        src: ['src/components/*/*.ts'],
+        context: paths.bundle.context,
+        commonChunk: 'smart-core'
+    }).pipe(gulp.dest(paths.es6.target))
 });
 gulp.task('ts-lib-polyfills', function () {
     return task.bundle({
@@ -45,12 +51,6 @@ gulp.task('ts-lib-polyfills', function () {
         context: paths.polyfills.context
     }).pipe(gulp.dest(paths.polyfills.target));
 });
-// gulp.task('ts-lib-granular', function () {
-//     return task.bundle({
-//         src: 'src/components/*/*.ts',
-//         context: paths.polyfills.context
-//     }).pipe(gulp.dest(paths.bundle.target));
-// });
 // local dev assets
 gulp.task('ts-local', function () {
 	return task.bundle({
