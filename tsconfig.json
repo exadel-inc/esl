@@ -1,33 +1,31 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
     "experimentalDecorators": true,
     "alwaysStrict": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
     "removeComments": true,
-    "target": "es5",
-    "module": "es6",
+    "target": "ES5",
+    "module": "ES6",
     "sourceMap": true,
     "declaration": true,
     "lib": [
-      "dom",
-      "es6",
-      "dom.iterable"
+      "DOM",
+      "DOM.Iterable",
+      "ES5",
+      "ES6"
     ],
-    "baseUrl": ".",
+    "baseUrl": "src/",
     "paths": {
-      "@helpers/*": ["src/helpers/*"],
-      "@components/*": ["src/components/*"],
-      "@polyfills/*": ["src/polyfills/*"]
+      "@helpers/*": ["helpers/*"],
+      "@components/*": ["components/*"],
+      "@polyfills/*": ["polyfills/*"]
     }
   },
   "exclude": [
     "node_modules",
     "build",
     "edmtp-modules",
-    "lib",
-    "lib-es6",
     "test-server"
   ]
 }

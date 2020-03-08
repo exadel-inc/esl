@@ -56,7 +56,7 @@ export class SmartCarouselAutoplayPlugin extends SmartCarouselPlugin {
 
 	public reset() {
 		if (this._timeout) clearTimeout(this._timeout);
-		this._timeout = this._active ? setTimeout(this._onInterval, this.timeout) : null;
+		this._timeout = this._active ? window.setTimeout(this._onInterval, this.timeout) : null;
 	}
 
 	protected _onInterval() {

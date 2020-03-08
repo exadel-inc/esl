@@ -204,7 +204,7 @@ class SmartPopupTrigger extends CustomElement implements ISmartPopupTrigger {
   protected showPopup(e: Event) {
     this.stopEventPropagation(e);
     clearTimeout(this._hideTimerId);
-    this._showTimerId = setTimeout(() => {
+    this._showTimerId = window.setTimeout(() => {
       this.popup.show();
     }, this._showDelay);
   }
@@ -212,7 +212,7 @@ class SmartPopupTrigger extends CustomElement implements ISmartPopupTrigger {
   protected hidePopup(e: Event) {
     this.stopEventPropagation(e);
     clearTimeout(this._showTimerId);
-    this._hideTimerId = setTimeout(() => {
+    this._hideTimerId = window.setTimeout(() => {
       this.popup.hide();
     }, this._hideDelay);
   }
