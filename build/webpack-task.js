@@ -66,6 +66,7 @@ module.exports.buildAll = function tsBuildAll(config) {
 	if (config.commonChunk) {
 		webpackConfig.optimization.splitChunks = {
 			chunks: 'all',
+			minSize: 90 * 1024,
 			cacheGroups: {
 				commons: {
 					test: /[\\/]helpers[\\/]/,

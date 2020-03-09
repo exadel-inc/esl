@@ -1,7 +1,8 @@
 {
   "bundle": {
     "less": "src/bundles/all.less",
-    "lessComponents": "src/components/*/*.less",
+    "lessComponents": ["src/components/*/*.less", "!src/components/*/*.default.less"],
+    "lessComponentsDefaults": "src/components/*/*.default.less",
     "ts": "src/bundles/all.ts",
     "tsComponents": "src/components/*/*.ts",
     "context": "src/components",

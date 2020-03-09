@@ -1,25 +1,31 @@
 const gulp = require('gulp');
+const rename = require('gulp-rename');
 const task = {
     bundle: require('./build/webpack-task').buildAll,
-    es6: require('./build/es6-task').buildES6,
+   // es6: require('./build/es6-task').buildES6,
     less: require('./build/less-task'),
     lessBundle: require('./build/lessbundle-task'),
     clean: require('./build/clean-task')
 };
+
 const paths = require('./paths');
 
 // === LESS ===
 // all components
 gulp.task('less-lib', function () {
-    return task.less(paths.bundle.less).pipe(gulp.dest(paths.bundle.target));
+    return task.less(paths.bundle.less)
+        .pipe(rename({dirname: ''}))
+        .pipe(gulp.dest(paths.bundle.target));
 });
 gulp.task('less-lib-bundles', function () {
     return task.lessBundle(paths.bundle.lessComponents, paths.bundle.target);
 });
-// gulp.task('less-lib-granular-build', function () {
-// TODO: prebuild versions
-//     //return gulp.src(paths.bundle.lessCompoentns).pipe(gulp.dest(paths.bundle.target));
-// });
+gulp.task('less-lib-bundles-defaults', function () {
+    return task.less(paths.bundle.lessComponentsDefaults, false)
+        .pipe(rename({dirname: ''}))
+        .pipe(gulp.dest(paths.bundle.target));
+});
+
 // local dev assets
 gulp.task('less-local', function () {
     return task.less(paths.test.less).pipe(gulp.dest(paths.test.target));
@@ -95,7 +101,7 @@ gulp.task('watch', function () {
 
 // === BUILD TASKS ===
 gulp.task('build-main', gulp.parallel('less-lib', gulp.series('ts-lib', 'ts-lib-polyfills')));
-gulp.task('build-granular', gulp.parallel('less-lib-bundles', 'ts-lib-bundles'));
+gulp.task('build-granular', gulp.parallel('less-lib-bundles', 'less-lib-bundles-defaults', 'ts-lib-bundles'));
 gulp.task('build', gulp.series('clean', 'build-main'));
 
 // Local assets
