@@ -18,7 +18,9 @@ gulp.task('less-lib', function () {
         .pipe(gulp.dest(paths.bundle.target));
 });
 gulp.task('less-lib-bundles', function () {
-    return task.lessBundle(paths.bundle.lessComponents, paths.bundle.target);
+    return task.lessBundle(paths.bundle.lessComponents)
+        .pipe(rename({dirname: ''}))
+        .pipe(gulp.dest(paths.bundle.target));;
 });
 gulp.task('less-lib-bundles-defaults', function () {
     return task.less(paths.bundle.lessComponentsDefaults, false)
