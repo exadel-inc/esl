@@ -1,15 +1,13 @@
 node_modules
-node
 .idea
 *.iml
 *.ipr
 *.iws
 .DS_Store
-target
 npm-debug.log
 .gitconfig
 .eslintrc.json
 test-server/static/
-lib/
 @types/
 package-lock.json
+lib/
