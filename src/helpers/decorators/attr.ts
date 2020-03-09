@@ -1,4 +1,4 @@
-import { toKebabCase } from "@helpers/format-utils";
+import { toKebabCase } from '@helpers/format-utils';
 
 interface AttrDescriptor {
 	conditional?: boolean;

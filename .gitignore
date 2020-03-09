@@ -11,5 +11,5 @@ npm-debug.log
 .eslintrc.json
 test-server/static/
 lib/
-lib-es6/
+@types/
 package-lock.json

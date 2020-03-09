@@ -3,6 +3,7 @@ const task = {
     bundle: require('./build/webpack-task').buildAll,
     es6: require('./build/es6-task').buildES6,
     less: require('./build/less-task'),
+    lessBundle: require('./build/lessbundle-task'),
     clean: require('./build/clean-task')
 };
 const paths = require('./paths');
@@ -12,10 +13,13 @@ const paths = require('./paths');
 gulp.task('less-lib', function () {
     return task.less(paths.bundle.less).pipe(gulp.dest(paths.bundle.target));
 });
-gulp.task('less-lib-es6', function () {
-    // TODO: doesnt work properly in the current state
-    return gulp.src(paths.es6.less).pipe(gulp.dest(paths.es6.target));
+gulp.task('less-lib-bundles', function () {
+    return task.lessBundle(paths.bundle.lessComponents, paths.bundle.target);
 });
+// gulp.task('less-lib-granular-build', function () {
+// TODO: prebuild versions
+//     //return gulp.src(paths.bundle.lessCompoentns).pipe(gulp.dest(paths.bundle.target));
+// });
 // local dev assets
 gulp.task('less-local', function () {
     return task.less(paths.test.less).pipe(gulp.dest(paths.test.target));
@@ -34,16 +38,12 @@ gulp.task('ts-lib', function () {
         }
     }).pipe(gulp.dest(paths.bundle.target));
 });
-gulp.task('ts-lib-es6', function () {
-    // return task.es6({
-    //     src: paths.es6.ts,
-    //     context: paths.es6.context
-    // }).pipe(gulp.dest(paths.es6.target));
+gulp.task('ts-lib-bundles', function () {
     return task.bundle({
-        src: ['src/components/*/*.ts'],
+        src: paths.bundle.tsComponents,
         context: paths.bundle.context,
         commonChunk: 'smart-core'
-    }).pipe(gulp.dest(paths.es6.target))
+    }).pipe(gulp.dest(paths.bundle.target))
 });
 gulp.task('ts-lib-polyfills', function () {
     return task.bundle({
@@ -62,7 +62,7 @@ gulp.task('ts-local', function () {
 // === CLEAN TASK ===
 gulp.task('clean', function () {
     return task.clean({
-        src: [paths.bundle.target, paths.es6.target].map((path) => `${path}/`)
+        src: [paths.bundle.target].map((path) => `${path}/`)
     });
 });
 gulp.task('clean-local', function () {
@@ -94,8 +94,9 @@ gulp.task('watch', function () {
 });
 
 // === BUILD TASKS ===
-gulp.task('build', gulp.series('clean', gulp.parallel('less-lib', gulp.series('ts-lib', 'ts-lib-polyfills'))));
-gulp.task('build-es6', gulp.parallel('less-lib-es6', 'ts-lib-es6'));
+gulp.task('build-main', gulp.parallel('less-lib', gulp.series('ts-lib', 'ts-lib-polyfills')));
+gulp.task('build-granular', gulp.parallel('less-lib-bundles', 'ts-lib-bundles'));
+gulp.task('build', gulp.series('clean', 'build-main'));
 
 // Local assets
 gulp.task('build-local', gulp.series('clean-local', gulp.parallel('less-local', 'ts-local')));

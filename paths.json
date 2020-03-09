@@ -1,17 +1,11 @@
 {
   "bundle": {
     "less": "src/bundles/all.less",
+    "lessComponents": "src/components/*/*.less",
     "ts": "src/bundles/all.ts",
+    "tsComponents": "src/components/*/*.ts",
     "context": "src/components",
     "target": "lib"
-  },
-  "es6": {
-    "less": "src/**/*.less",
-    "ts": [
-      "src/**/*.ts"
-    ],
-    "context": "src/components",
-    "target": "lib-es6"
   },
   "polyfills": {
     "ts": [
