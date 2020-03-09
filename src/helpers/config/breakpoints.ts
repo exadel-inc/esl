@@ -45,7 +45,7 @@ const BP_NAME_REGEXP = /^[a-z]+/i;
 
 export abstract class BreakpointRegistry {
 	/**
-	 * Add or replace breakpoint shortcut that could be used inside of SmartQuery
+	 * Add or replace breakpoint shortcut that could be used inside of SmartMediaQuery
 	 * @param name - name of shortcut
 	 * @param minWidth - min width for breakpoint
 	 * @param maxWidth - max width for breakpoint

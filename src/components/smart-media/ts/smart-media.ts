@@ -7,7 +7,7 @@
  * SmartMedia - custom element, that provides ability to add and configure media using one tag.
  * Supported features:
  * - extendable 'Providers' realization for different media types, support HTMLAudio, HTMLVideo, Youtube and AbstractIframe out of the box
- * - load-conditions - restriction to load smart-media can be defined via SmartQuery syntax
+ * - load-conditions - restriction to load smart-media can be defined via SmartMediaQuery syntax
  * - play-in-viewport feature restrict active state for only visible components on the page
  * - manual initialization - disabled component will not be initialized until it not enabled or play action triggered
  * - group manager to allow single active player restriction
@@ -56,7 +56,7 @@
  *    media-id="##MEDIAID##"></smart-media-embedded>
  */
 import {attr} from '@helpers/decorators/attr';
-import SmartQuery from '@helpers/media/smart-query';
+import SmartMediaQuery from '@helpers/conditions/smart-media-query';
 import {CustomElement} from '@helpers/custom-element';
 import {parseAspectRatio} from '@helpers/format-utils';
 import {debounce, rafDecorator} from '@helpers/function-utils';
@@ -90,7 +90,7 @@ export class SmartMedia extends CustomElement {
     @attr({conditional: true, readonly: true}) public error: boolean;
 
     private _provider: BaseProvider<HTMLElement>;
-    private _conditionQuery: SmartQuery;
+    private _conditionQuery: SmartMediaQuery;
 
     private deferredReinit = debounce(() => this.reinitInstance());
     private deferredChangeFillMode = rafDecorator(() => this._onChangeFillMode());
@@ -346,7 +346,7 @@ export class SmartMedia extends CustomElement {
     get conditionQuery() {
         if (!this._conditionQuery && this._conditionQuery !== null) {
             const query = this.getAttribute('load-condition');
-            this._conditionQuery = query ? new SmartQuery(query) : null;
+            this._conditionQuery = query ? new SmartMediaQuery(query) : null;
         }
         return this._conditionQuery;
     }

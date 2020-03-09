@@ -13,11 +13,11 @@
  */
 
 import {Observable} from '@helpers/abstract/observable';
-import SmartQuery from './smart-query';
+import SmartMediaQuery from './smart-media-query';
 
 type PayloadParser<T> = (val: string) => T;
 
-class SmartRule<T> extends SmartQuery {
+class SmartMediaRule<T> extends SmartMediaQuery {
 	private readonly _payload: T;
 	private readonly _default: boolean;
 
@@ -40,21 +40,21 @@ class SmartRule<T> extends SmartQuery {
 
 	public static parse<T>(lex: string, parser: PayloadParser<T>) {
 		const [query, payload] = lex.split('=>');
-		return new SmartRule<T>(parser(payload.trim()), query.trim());
+		return new SmartMediaRule<T>(parser(payload.trim()), query.trim());
 	}
 
 	public static all<T>(payload: T) {
-		return new SmartRule<T>(payload, 'all');
+		return new SmartMediaRule<T>(payload, 'all');
 	}
 	public static empty() {
-		return SmartRule.all(null);
+		return SmartMediaRule.all(null);
 	}
 }
 
-export default class SmartRuleList<T extends string | object> extends Observable {
-	private _active: SmartRule<T>;
-	private readonly _default: SmartRule<T>;
-	private readonly _rules: SmartRule<T>[];
+export default class SmartMediaRuleList<T> extends Observable {
+	private _active: SmartMediaRule<T>;
+	private readonly _default: SmartMediaRule<T>;
+	private readonly _rules: SmartMediaRule<T>[];
 
 	public static STRING_PARSER = (val: string) => val;
 	public static OBJECT_PARSER = <T extends object> (val: string): T => {
@@ -65,9 +65,9 @@ export default class SmartRuleList<T extends string | object> extends Observable
 		}
 	};
 
-	private static parseRules<T>(str: string, parser: PayloadParser<T>): SmartRule<T>[] {
+	private static parseRules<T>(str: string, parser: PayloadParser<T>): SmartMediaRule<T>[] {
 		const parts = str.split('|');
-		const rules: SmartRule<T>[] = [];
+		const rules: SmartMediaRule<T>[] = [];
 		parts.forEach((_lex: string) => {
 			const lex = _lex.trim();
 			if (!lex) {
@@ -75,17 +75,17 @@ export default class SmartRuleList<T extends string | object> extends Observable
 			}
 			if (lex.indexOf('=>') === -1) {
 				// Default rule should have lower priority
-				rules.unshift(SmartRule.all(parser(lex)));
+				rules.unshift(SmartMediaRule.all(parser(lex)));
 			} else {
-				const rule = SmartRule.parse(lex, parser);
+				const rule = SmartMediaRule.parse(lex, parser);
 				rule && rules.push(rule);
 			}
 		});
 		return rules;
 	}
 
-	public static parse<T extends string | object>(query: string, parser: PayloadParser<T>) {
-		return new SmartRuleList<T>(query, parser);
+	public static parse<T>(query: string, parser: PayloadParser<T>) {
+		return new SmartMediaRuleList<T>(query, parser);
 	}
 
 	private constructor(query: string, parser: PayloadParser<T>) {
@@ -93,7 +93,7 @@ export default class SmartRuleList<T extends string | object> extends Observable
 		if (typeof query !== 'string') {
 			throw new Error('SmartRuleList require first parameter (query) typeof string');
 		}
-		this._rules = SmartRuleList.parseRules(query, parser);
+		this._rules = SmartMediaRuleList.parseRules(query, parser);
 		this._rules.forEach((rule) => rule.addListener(this._onMatchChanged));
 		this._default = this._rules.filter((rule) => rule.default)[0];
 	}
@@ -104,7 +104,7 @@ export default class SmartRuleList<T extends string | object> extends Observable
 
 	get _activeRule() {
 		const satisfied = this.rules.filter((rule) => rule.matches);
-		return satisfied.length > 0 ? satisfied[satisfied.length - 1] : SmartRule.empty();
+		return satisfied.length > 0 ? satisfied[satisfied.length - 1] : SmartMediaRule.empty();
 	}
 
 	get active() {

@@ -10,7 +10,7 @@
  * - different render modes: with or without inner img tag; object-fit options emulation like cover, inscribe, etc.
  * - manual loading (start loading image by manually provided marker)
  * - lazy loading (image start loading only if it is visible and in or closer to browser viewport area
- * - SmartQuery (special syntax that allows define different sources for different media queries, also supports shortcuts for media-queries)
+ * - SmartMediaQuery (special syntax that allows define different sources for different media queries, also supports shortcuts for media-queries)
  * - flexible class markers. Smart Image can add specific class on any parent element when image is ready,
  * the Smart Image itself also has markers that indicate it state
  * - provides events on state change (also support inline syntax like <smart-image-tag onload="">)
@@ -95,7 +95,7 @@
 import {CustomElement} from '@helpers/custom-element';
 import {attr} from '@helpers/decorators/attr';
 import {DeviceDetector} from '@helpers/device-utils';
-import SmartRuleList from '@helpers/media/smart-rule-list';
+import SmartMediaRuleList from '@helpers/conditions/smart-media-rule-list';
 
 // Mods configurations
 interface Strategy {
@@ -201,7 +201,7 @@ export class SmartImage extends CustomElement {
 	@attr({conditional: true, readonly: true}) private error: boolean;
 
 	private _innerImg: HTMLImageElement;
-	private _srcRules: SmartRuleList<string>;
+	private _srcRules: SmartMediaRuleList<string>;
 	private _currentSrc: string;
 	private _detachLazyTrigger: () => void;
 	private _shadowImageElement: ShadowImageElement;
@@ -232,12 +232,12 @@ export class SmartImage extends CustomElement {
 
 	get srcRules() {
 		if (!this._srcRules) {
-			this.srcRules = SmartRuleList.parse<string>(this.src, SmartRuleList.STRING_PARSER);
+			this.srcRules = SmartMediaRuleList.parse<string>(this.src, SmartMediaRuleList.STRING_PARSER);
 		}
 		return this._srcRules;
 	}
 
-	set srcRules(rules: SmartRuleList<string>) {
+	set srcRules(rules: SmartMediaRuleList<string>) {
 		if (this._srcRules) {
 			this._srcRules.removeListener(this._onMatchChange);
 		}
@@ -352,7 +352,7 @@ export class SmartImage extends CustomElement {
 				this._innerImg && (this._innerImg.alt = this.alt);
 				break;
 			case 'data-src':
-				this.srcRules = SmartRuleList.parse<string>(newVal, SmartRuleList.STRING_PARSER);
+				this.srcRules = SmartMediaRuleList.parse<string>(newVal, SmartMediaRuleList.STRING_PARSER);
 				this.refresh();
 				break;
 			case 'data-src-base':

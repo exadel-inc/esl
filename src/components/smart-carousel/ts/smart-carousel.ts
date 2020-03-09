@@ -1,7 +1,7 @@
 import {CustomElement} from '@helpers/custom-element';
 import {attr} from '@helpers/decorators/attr';
 import {deepCompare} from '@helpers/common-utils';
-import SmartRuleList from '@helpers/media/smart-rule-list';
+import SmartMediaRuleList from '@helpers/conditions/smart-media-rule-list';
 import SmartCarouselSlide from './smart-carousel-slide';
 import {SmartCarouselView, SmartCarouselViewRegistry} from './view/smart-carousel-view';
 import SmartCarouselPlugin from './plugin/smart-carousel-plugin';
@@ -23,7 +23,7 @@ class SmartCarousel extends CustomElement {
 
 	@attr() public config: string;
 
-	private _configRules: SmartRuleList<CarouselConfig>;
+	private _configRules: SmartMediaRuleList<CarouselConfig>;
 	private _currentConfig: CarouselConfig = {};
 	private _view: SmartCarouselView;
 	private readonly _plugins = new Map<string, SmartCarouselPlugin>();
@@ -167,7 +167,7 @@ class SmartCarousel extends CustomElement {
 		// TODO: change observed attributes
 		switch (attrName) {
 			case 'config':
-				this.configRules = SmartRuleList.parse<object>(this.config, SmartRuleList.OBJECT_PARSER) as SmartRuleList<CarouselConfig>;
+				this.configRules = SmartMediaRuleList.parse<object>(this.config, SmartMediaRuleList.OBJECT_PARSER) as SmartMediaRuleList<CarouselConfig>;
 				this.update(true);
 				break;
 		}
@@ -183,12 +183,12 @@ class SmartCarousel extends CustomElement {
 
 	get configRules() {
 		if (!this._configRules) {
-			this.configRules = SmartRuleList.parse<CarouselConfig>(this.config, SmartRuleList.OBJECT_PARSER);
+			this.configRules = SmartMediaRuleList.parse<CarouselConfig>(this.config, SmartMediaRuleList.OBJECT_PARSER);
 		}
 		return this._configRules;
 	}
 
-	set configRules(rules: SmartRuleList<CarouselConfig>) {
+	set configRules(rules: SmartMediaRuleList<CarouselConfig>) {
 		if (this._configRules) {
 			this._configRules.removeListener(this._onMatchChange);
 		}
