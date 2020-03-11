@@ -5,5 +5,6 @@ import './ts/providers/html5/audio-provider';
 
 import './ts/providers/youtube-provider';
 import './ts/providers/iframe-provider';
+import './ts/providers/brightcove/brightcove-provider';
 
 export {SmartMedia};
