@@ -8,7 +8,7 @@
     "url": "git+https://gitlab.exadel.com/EDMTP/smart-wc-library.git"
   },
   "main": "./lib/all.js",
-  "types": "./@types/index.d.ts",
+  "types": "./src/types.d.ts",
   "scripts": {
     "watch": "gulp watch",
     "build": "gulp build",
@@ -30,8 +30,8 @@
     "not dead"
   ],
   "dependencies": {
+    "@types/video.js": "7.3.3",
     "@types/youtube": "0.0.38",
-    "@types/video.js": "^7.3.3",
     "@webcomponents/custom-elements": "^1.3.2",
     "@webcomponents/webcomponents-platform": "^1.0.1",
     "intersection-observer": "^0.7.0",

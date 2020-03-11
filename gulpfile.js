@@ -43,7 +43,8 @@ gulp.task('ts-lib', function () {
             library: 'SmartLibrary',
             libraryTarget: 'umd',
             umdNamedDefine: true
-        }
+        },
+        declarations: true
     }).pipe(gulp.dest(paths.bundle.target));
 });
 gulp.task('ts-lib-bundles', function () {
