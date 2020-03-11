@@ -4,7 +4,6 @@ const gulp = require('gulp');
 const named = require('vinyl-named');
 const webpackStream = require('webpack-stream');
 const TsLintPlugin = require('tslint-webpack-plugin');
-const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const DeclarationBundlerPlugin = require('./declaration-webpack-plugin');
 
