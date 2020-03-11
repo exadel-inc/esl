@@ -52,7 +52,6 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-tslint": "^8.1.4",
     "gulp-typescript": "^5.0.1",
-    "tar-pack": "^3.4.1",
     "tslint": "^6.0.0",
     "tslint-eslint-rules": "^5.4.0",
     "tslint-webpack-plugin": "^2.1.0",
