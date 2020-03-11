@@ -3,15 +3,21 @@
  * @param {String} id - unique script id that used as a marker to prevent feature load
  * @param {String} src - script src (url) to load
  */
-export function loadScript(id: string, src: string) {
-	if (!document.getElementById(id)) {
+export function loadScript(id: string, src: string): Promise<Event> {
+	return new Promise((resolve, reject) => {
+		if (document.getElementById(id)) {
+			resolve();
+			return;
+		}
 		const tag = document.createElement('script');
 		tag.id = id;
 		tag.async = true;
+		tag.onload = resolve;
+		tag.onerror = reject;
 		tag.src = src;
 		const firstScriptTag = document.getElementsByTagName('script')[0];
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-	}
+	});
 }
 
 /**

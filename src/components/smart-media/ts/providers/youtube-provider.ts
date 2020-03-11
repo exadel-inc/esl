@@ -11,16 +11,6 @@ import SmartMediaProviderRegistry from '../smart-media-registry';
 import PlayerVars = YT.PlayerVars;
 
 const DEFAULT_ASPECT_RATIO = 16 / 9;
-declare global {
-    interface YT extends Promise<void> {
-        Player: YT.Player,
-    }
-
-    interface Window {
-        YT?: YT;
-        onYouTubeIframeAPIReady?: () => void;
-    }
-}
 
 export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameElement> {
     private _api: YT.Player;
@@ -178,3 +168,15 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
 }
 
 SmartMediaProviderRegistry.register(YouTubeProvider, YouTubeProvider.providerName);
+
+// typings
+declare global {
+    interface YT extends Promise<void> {
+        Player: YT.Player,
+    }
+
+    interface Window {
+        YT?: YT;
+        onYouTubeIframeAPIReady?: () => void;
+    }
+}
