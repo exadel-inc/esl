@@ -1,6 +1,6 @@
-import {CustomElement} from '@helpers/custom-element';
-import {DeviceDetector} from '@helpers/device-utils';
-import { attr } from '@helpers/decorators/attr';
+import { CustomElement } from '../../../helpers/custom-element';
+import { DeviceDetector } from '../../../helpers/device-utils';
+import { attr } from '../../../helpers/decorators/attr';
 import SmartPopup from './smart-popup';
 
 const HOVER_SHOW_EVENT = DeviceDetector.isTouchDevice ? 'click' : 'mouseenter';

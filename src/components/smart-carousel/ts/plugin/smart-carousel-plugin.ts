@@ -1,4 +1,4 @@
-import {CustomElement} from '@helpers/custom-element';
+import {CustomElement} from '../../../../helpers/custom-element';
 import SmartCarousel from '../smart-carousel';
 
 /**

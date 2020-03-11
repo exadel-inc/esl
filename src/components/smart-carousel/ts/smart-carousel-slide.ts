@@ -2,7 +2,7 @@
  * Slide controller
  * @author Julia Murashko
  */
-import {CustomElement} from '@helpers/custom-element';
+import {CustomElement} from '../../../helpers/custom-element';
 
 class SmartCarouselSlide extends CustomElement {
 	constructor() {

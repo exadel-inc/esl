@@ -33,8 +33,7 @@ module.exports.buildAll = function tsBuildAll(config) {
     webpackConfig.context = config.content;
     webpackConfig.output = Object.assign({}, OUTPUT_DEFAULT, config.output);
     webpackConfig.resolve = {
-		extensions: ['.ts', '.js'],
-		plugins: [new TsConfigPathsPlugin({configFile: TS_CONFIG})]
+		extensions: ['.ts', '.js']
 	};
     webpackConfig.module.rules.push({
 		test: /\.ts?$/,

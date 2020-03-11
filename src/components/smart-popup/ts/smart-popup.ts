@@ -1,7 +1,7 @@
-import {CustomElement} from '@helpers/custom-element';
-import { ESC } from '@helpers/keycodes';
+import {CustomElement} from '../../../helpers/custom-element';
+import { ESC } from '../../../helpers/keycodes';
 import { ISmartPopupTrigger } from './smart-popup-trigger';
-import { attr } from '@helpers/decorators/attr';
+import { attr } from '../../../helpers/decorators/attr';
 import PopupManager from './smart-popup-manager';
 
 export interface ISmartPopupActionParams {

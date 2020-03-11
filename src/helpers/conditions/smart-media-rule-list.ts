@@ -12,7 +12,7 @@
  * - Mobile / full browser detection (@MOBILE|@DESKTOP)
  */
 
-import {Observable} from '@helpers/abstract/observable';
+import {Observable} from '../abstract/observable';
 import SmartMediaQuery from './smart-media-query';
 
 type PayloadParser<T> = (val: string) => T;

@@ -15,12 +15,7 @@
       "ES5",
       "ES6"
     ],
-    "baseUrl": "src/",
-    "paths": {
-      "@helpers/*": ["helpers/*"],
-      "@components/*": ["components/*"],
-      "@polyfills/*": ["polyfills/*"]
-    }
+    "baseUrl": "src/"
   },
   "exclude": [
     "node_modules",

@@ -1,7 +1,7 @@
-import {CustomElement} from '@helpers/custom-element';
-import {attr} from '@helpers/decorators/attr';
-import {deepCompare} from '@helpers/common-utils';
-import SmartMediaRuleList from '@helpers/conditions/smart-media-rule-list';
+import {CustomElement} from '../../../helpers/custom-element';
+import {attr} from '../../../helpers/decorators/attr';
+import {deepCompare} from '../../../helpers/common-utils';
+import SmartMediaRuleList from '../../../helpers/conditions/smart-media-rule-list';
 import SmartCarouselSlide from './smart-carousel-slide';
 import {SmartCarouselView, SmartCarouselViewRegistry} from './view/smart-carousel-view';
 import SmartCarouselPlugin from './plugin/smart-carousel-plugin';

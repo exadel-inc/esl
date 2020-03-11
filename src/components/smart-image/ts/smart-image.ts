@@ -92,10 +92,10 @@
  *  ></smart-image-tag>
  */
 
-import {CustomElement} from '@helpers/custom-element';
-import {attr} from '@helpers/decorators/attr';
-import {DeviceDetector} from '@helpers/device-utils';
-import SmartMediaRuleList from '@helpers/conditions/smart-media-rule-list';
+import {attr} from '../../../helpers/decorators/attr';
+import {CustomElement} from '../../../helpers/custom-element';
+import {DeviceDetector} from '../../../helpers/device-utils';
+import SmartMediaRuleList from '../../../helpers/conditions/smart-media-rule-list';
 
 // Mods configurations
 interface Strategy {

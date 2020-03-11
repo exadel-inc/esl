@@ -13,8 +13,8 @@
  * - Mobile / full browser detection (@MOBILE|@DESKTOP)
  */
 
-import {DeviceDetector} from '@helpers/device-utils';
-import {BreakpointRegistry} from '@helpers/config/breakpoints';
+import {DeviceDetector} from '../device-utils';
+import {BreakpointRegistry} from '../config/breakpoints';
 
 const QUERY_CACHE: any = {};
 

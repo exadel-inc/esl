@@ -55,11 +55,11 @@
  *    media-type="youtube|video"
  *    media-id="##MEDIAID##"></smart-media-embedded>
  */
-import {attr} from '@helpers/decorators/attr';
-import SmartMediaQuery from '@helpers/conditions/smart-media-query';
-import {CustomElement} from '@helpers/custom-element';
-import {parseAspectRatio} from '@helpers/format-utils';
-import {debounce, rafDecorator} from '@helpers/function-utils';
+import {attr} from '../../../helpers/decorators/attr';
+import SmartMediaQuery from '../../../helpers/conditions/smart-media-query';
+import {CustomElement} from '../../../helpers/custom-element';
+import {parseAspectRatio} from '../../../helpers/format-utils';
+import {debounce, rafDecorator} from '../../../helpers/function-utils';
 
 import {getIObserver} from './smart-media-iobserver';
 import {BaseProvider, PlayerStates} from './smart-media-provider';

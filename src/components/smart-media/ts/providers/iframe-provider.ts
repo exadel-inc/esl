@@ -2,7 +2,7 @@
  * Simple Basic Iframe provider for {@link SmartMedia}
  * @author Alexey Stsefanovich (ala'n)
  */
-import {generateUId} from '@helpers/common-utils';
+import {generateUId} from '../../../../helpers/common-utils';
 import {SmartMedia} from '../smart-media';
 import {BaseProvider, PlayerStates} from '../smart-media-provider';
 import SmartMediaProviderRegistry from '../smart-media-registry';

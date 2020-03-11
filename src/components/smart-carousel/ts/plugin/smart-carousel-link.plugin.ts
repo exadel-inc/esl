@@ -1,6 +1,6 @@
-import {attr} from '@helpers/decorators/attr';
+import {attr} from '../../../../helpers/decorators/attr';
+import SmartCarousel from '../smart-carousel';
 import SmartCarouselPlugin from './smart-carousel-plugin';
-import SmartCarousel from '@components/smart-carousel/ts/smart-carousel';
 
 /**
  * Slide Carousel Link plugin. Allows to bind carousel positions.

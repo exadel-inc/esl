@@ -1,16 +1,16 @@
 // Support for ES5 bundle target
-import '@polyfills/es5-target-shim';
+import './../polyfills/es5-target-shim';
 // Builtin polyfills
-import '@polyfills/polyfills.es6';
+import './../polyfills/polyfills.es6';
 
-import BreakpointRegistry from '@helpers/config/breakpoints';
-import SmartMediaQuery from '@helpers/conditions/smart-media-query';
-import SmartMediaRuleList from '@helpers/conditions/smart-media-rule-list';
+import BreakpointRegistry from './../helpers/config/breakpoints';
+import SmartMediaQuery from './../helpers/conditions/smart-media-query';
+import SmartMediaRuleList from './../helpers/conditions/smart-media-rule-list';
 
-import { SmartImage } from '@components/smart-image/smart-image';
-import { SmartMedia } from '@components/smart-media/smart-media';
-import { SmartPopup, SmartPopupTrigger } from '@components/smart-popup/smart-popup';
-import { SmartCarousel, SmartCarouselDots, SmartCarouselLinkPlugin, SmartCarouselTouchPlugin, SmartCarouselAutoplayPlugin} from '@components/smart-carousel/smart-carousel';
+import { SmartImage } from './../components/smart-image/smart-image';
+import { SmartMedia } from './../components/smart-media/smart-media';
+import { SmartPopup, SmartPopupTrigger } from './../components/smart-popup/smart-popup';
+import { SmartCarousel, SmartCarouselDots, SmartCarouselLinkPlugin, SmartCarouselTouchPlugin, SmartCarouselAutoplayPlugin} from './../components/smart-carousel/smart-carousel';
 
 if (!('customElements' in window)) {
   throw new Error('Browser is not support customElements, load polyfills before');
