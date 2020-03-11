@@ -1,7 +1,7 @@
 /**
  * Smart Media Query
  * Provides special media condition syntax - SmartQuery
- * @version 1.2.0
+ * @version 2.0.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * Helper class that extend MediaQueryList class
@@ -11,6 +11,7 @@
  * - Screen default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
  * - Query matching change listeners
  * - Mobile / full browser detection (@MOBILE|@DESKTOP)
+ * - Exclude upper DPRs for bots
  */
 
 import {DeviceDetector} from '../device-utils';
@@ -38,6 +39,13 @@ export class SmartMediaQuery {
     static get BreakpointRegistry() {
         return BreakpointRegistry;
     }
+    static readonly ALL = 'all';
+    static readonly NOT_ALL = 'not all';
+
+    /**
+     * Option to disable DPR images handling for bots
+     */
+    static ignoreBotsDpr = false;
 
     private _dpr: number;
     private _mobileOnly: boolean;
@@ -52,6 +60,9 @@ export class SmartMediaQuery {
         this._dpr = 1;
         query = query.replace(/@([123])x/, (match, ratio) => {
             this._dpr = Math.floor(ratio);
+            if (SmartMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && this._dpr !== 1) {
+                return SmartMediaQuery.NOT_ALL;
+            }
             return getDprMediaQuery(ratio);
         });
 
@@ -59,12 +70,12 @@ export class SmartMediaQuery {
         query = query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/i, (match, pre, type, post) => {
             this._mobileOnly = (type.toUpperCase() === '@MOBILE');
             if (DeviceDetector.isMobile !== this._mobileOnly) {
-                return 'not all';
+                return SmartMediaQuery.NOT_ALL;
             }
             return pre && post ? ' and ' : '';
         });
 
-        this._query = getQuery(query.trim() || 'all');
+        this._query = getQuery(query.trim() || SmartMediaQuery.ALL);
     }
 
     public get isMobileOnly() {

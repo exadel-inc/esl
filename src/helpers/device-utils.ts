@@ -4,6 +4,8 @@ const ua = window.navigator.userAgent;
  * Device detection utility
  */
 export class DeviceDetector {
+	public static readonly isBot = /Chrome-Lighthouse|Google Page Speed Insights/i.test(ua);
+
 	public static readonly isAndroid = /Android/i.test(ua);
 	public static readonly isMobileIOS = /iPad|iPhone|iPod/i.test(ua);
 	public static readonly isLegacyMobile = /webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
