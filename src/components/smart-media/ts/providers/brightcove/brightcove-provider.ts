@@ -5,16 +5,17 @@
  * @extends BaseProvider
  * @protected
  */
+import type {VideoJsPlayer} from 'video.js';
 import {generateUId, loadScript} from '../../../../../helpers/common-utils';
 import {SmartMedia} from '../../smart-media';
 import {BaseProvider, PlayerStates} from '../../smart-media-provider';
-import SmartMediaProviderRegistry from "../../smart-media-registry";
+import SmartMediaProviderRegistry from '../../smart-media-registry';
 
 export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 	static accountId = '1160438707001';
 	static defaultPlayerId = 'rke4ZwuFNe';
 
-	private _api: videojs.VideoJsPlayer;
+	private _api: VideoJsPlayer;
 
 	static get providerName() {
 		return 'brightcove';
@@ -44,6 +45,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 
 	protected initializePlayer(playerId: string) {
 		const uniqueId = playerId + '-ts' + new Date().getTime();
+		// TODO: Every time loads script even for the same type of account and player
 		this._ready = loadScript(
 			'BC_API_SOURCE-' + uniqueId,
 			`//players.brightcove.net/${BrightcoveProvider.accountId}/${playerId}_default/index.min.js`
@@ -56,6 +58,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 
 			const that = this;
 			return new Promise((resolve) => {
+				// TODO: check if we can use result of videojs function as api
 				window.videojs(that._el).ready(function () {
 					that._api = this;
 					resolve(that);
@@ -143,8 +146,7 @@ SmartMediaProviderRegistry.register(BrightcoveProvider, BrightcoveProvider.provi
 // typings
 declare global {
 	interface Window {
-		bc?: Function;
-		videojs?: Function;
-		bc_lastLoadedAPIId: string;
+		bc?: (el: HTMLElement) => void;
+		videojs?: (el: HTMLElement) => VideoJsPlayer;
 	}
 }
