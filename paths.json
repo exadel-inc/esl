@@ -8,14 +8,6 @@
     "context": "src/components",
     "target": "lib"
   },
-  "polyfills": {
-    "ts": [
-      "src/bundles/polyfill-light.ts",
-      "src/bundles/polyfill-full.ts"
-    ],
-    "context": "src/polyfills",
-    "target": "lib"
-  },
   "watch": {
     "ts": ["src/components/**/*.ts", "src/helpers/**/*.ts"],
     "less": ["src/components/**/*.less", "src/helpers/**/*.less"],

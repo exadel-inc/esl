@@ -43,7 +43,8 @@ gulp.task('ts-lib', function () {
             library: 'SmartLibrary',
             libraryTarget: 'umd',
             umdNamedDefine: true
-        }
+        },
+        declarations: true
     }).pipe(gulp.dest(paths.bundle.target));
 });
 gulp.task('ts-lib-bundles', function () {
@@ -52,12 +53,6 @@ gulp.task('ts-lib-bundles', function () {
         context: paths.bundle.context,
         commonChunk: 'smart-core'
     }).pipe(gulp.dest(paths.bundle.target))
-});
-gulp.task('ts-lib-polyfills', function () {
-    return task.bundle({
-        src: paths.polyfills.ts,
-        context: paths.polyfills.context
-    }).pipe(gulp.dest(paths.polyfills.target));
 });
 // local dev assets
 gulp.task('ts-local', function () {
@@ -102,7 +97,7 @@ gulp.task('watch', function () {
 });
 
 // === BUILD TASKS ===
-gulp.task('build-main', gulp.parallel('less-lib', gulp.series('ts-lib', 'ts-lib-polyfills')));
+gulp.task('build-main', gulp.parallel('less-lib', 'ts-lib'));
 gulp.task('build-granular', gulp.parallel('less-lib-bundles', 'less-lib-bundles-defaults', 'ts-lib-bundles'));
 gulp.task('build', gulp.series('clean', 'build-main'));
 
