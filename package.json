@@ -1,8 +1,10 @@
 {
   "name": "exadel-smart-library",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
+  "private": true,
   "homepage": "https://gitlab.exadel.com/EDMTP/smart-wc-library#readme",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.exadel.com/EDMTP/smart-wc-library.git"
@@ -31,18 +33,17 @@
   ],
   "dependencies": {
     "@types/video.js": "7.3.3",
-    "@types/youtube": "0.0.38",
-    "@webcomponents/custom-elements": "^1.3.2",
-    "@webcomponents/webcomponents-platform": "^1.0.1",
-    "intersection-observer": "^0.7.0",
-    "promise-polyfill": "^8.1.3"
+    "@types/youtube": "0.0.38"
   },
   "devDependencies": {
+    "@webcomponents/custom-elements": "^1.3.2",
+    "@webcomponents/webcomponents-platform": "^1.0.1",
     "autoprefixer": "^9.7.4",
     "awesome-typescript-loader": "^5.2.1",
     "bootstrap": "^4.4.1",
     "cssnano": "^4.1.10",
     "declaration-bundler-webpack-plugin": "^1.0.3",
+    "intersection-observer": "^0.7.0",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-copy": "^4.0.1",
@@ -53,6 +54,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-tslint": "^8.1.4",
     "gulp-typescript": "^5.0.1",
+    "promise-polyfill": "^8.1.3",
     "tslint": "^6.0.0",
     "tslint-eslint-rules": "^5.4.0",
     "tslint-webpack-plugin": "^2.1.0",

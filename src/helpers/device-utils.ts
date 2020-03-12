@@ -18,7 +18,6 @@ export class DeviceDetector {
 		return ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
 	})();
 	public static get isTouchDevice() {
-		// TODO: simplify
 		if (('ontouchstart' in window) || 'TouchEvent ' in window || 'DocumentTouch' in window && document instanceof Touch) {
 			return true;
 		}
