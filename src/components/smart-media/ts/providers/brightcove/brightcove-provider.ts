@@ -11,9 +11,7 @@ import {SmartMedia} from '../../smart-media';
 import {BaseProvider, PlayerStates} from '../../smart-media-provider';
 import SmartMediaProviderRegistry from '../../smart-media-registry';
 
-let lastPlayerId = '';
-let lastAccountId = '';
-let uniqueId = '';
+const API_SCRIPT_ID = 'BC_API_SOURCE';
 
 export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 	static accountId = '1160438707001';
@@ -48,13 +46,12 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 	}
 
 	protected initializePlayer(playerId: string, accountId: string) {
-		this._ready = loadScript(
-			'BC_API_SOURCE-' + uniqueId,
-			`//players.brightcove.net/${accountId}/${playerId}_default/index.min.js`
-		);
-
-		lastPlayerId = playerId;
-		lastAccountId = accountId;
+		const apiSrc = `//players.brightcove.net/${accountId}/${playerId}_default/index.min.js`;
+		const apiScript = document.getElementById(API_SCRIPT_ID);
+		if (apiScript && apiScript.getAttribute('src') !== apiSrc) {
+			apiScript.parentNode.removeChild(apiScript);
+		}
+		this._ready = loadScript(API_SCRIPT_ID, apiSrc);
 
 		this._ready = this._ready.then(() => {
 			this.onAPIReady();
@@ -74,9 +71,6 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 		const playerId = this.component.getAttribute('player-id');
 		const {accountId} = (this.constructor as typeof BrightcoveProvider);
 
-		if (lastPlayerId !== playerId || lastAccountId !== accountId || uniqueId === undefined) {
-			uniqueId = playerId + '-ts' + new Date().getTime();
-		}
 		this.initializePlayer(playerId, accountId);
 	}
 

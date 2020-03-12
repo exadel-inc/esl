@@ -1,7 +1,7 @@
 /**
  * Common function that loads script async
- * @param {String} id - unique script id that used as a marker to prevent feature load
- * @param {String} src - script src (url) to load
+ * @param {string} id - unique script id that used as a marker to prevent feature load
+ * @param {string} src - script src (url) to load
  */
 export function loadScript(id: string, src: string): Promise<Event> {
 	return new Promise((resolve, reject) => {
@@ -22,7 +22,7 @@ export function loadScript(id: string, src: string): Promise<Event> {
 
 /**
  * Generate unique id
- * @returns {String} - random id
+ * @returns {string} - random id
  */
 export function generateUId(): string {
 	const fp = Date.now().toString(32);
