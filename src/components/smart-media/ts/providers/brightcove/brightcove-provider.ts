@@ -5,11 +5,15 @@
  * @extends BaseProvider
  * @protected
  */
-import type {VideoJsPlayer} from 'video.js';
+import {VideoJsPlayer} from 'video.js';
 import {generateUId, loadScript} from '../../../../../helpers/common-utils';
 import {SmartMedia} from '../../smart-media';
 import {BaseProvider, PlayerStates} from '../../smart-media-provider';
 import SmartMediaProviderRegistry from '../../smart-media-registry';
+
+let lastPlayerId = '';
+let lastAccountId = '';
+let uniqueId = '';
 
 export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 	static accountId = '1160438707001';
@@ -43,34 +47,24 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 		return el;
 	}
 
-	protected initializePlayer(playerId: string) {
-		const uniqueId = playerId + '-ts' + new Date().getTime();
-		// TODO: Every time loads script even for the same type of account and player
+	protected initializePlayer(playerId: string, accountId: string) {
 		this._ready = loadScript(
 			'BC_API_SOURCE-' + uniqueId,
-			`//players.brightcove.net/${BrightcoveProvider.accountId}/${playerId}_default/index.min.js`
+			`//players.brightcove.net/${accountId}/${playerId}_default/index.min.js`
 		);
-		this._ready = this._ready.then(() => {
-			if (typeof window.bc !== 'function' || typeof window.videojs !== 'function') {
-				throw new Error('Brightcove API is not in the global scope');
-			}
-			this.onAPIReady();
 
-			const that = this;
-			return new Promise((resolve) => {
-				// TODO: check if we can use result of videojs function as api
-				window.videojs(that._el).ready(function () {
-					that._api = this;
-					resolve(that);
-				});
-			});
+		lastPlayerId = playerId;
+		lastAccountId = accountId;
+
+		this._ready = this._ready.then(() => {
+			this.onAPIReady();
 		});
 
 		this._ready.then(() => {
 			this._api.on('play', () => this.component._onPlay());
 			this._api.on('pause', () => this.component._onPaused());
 			this._api.on('ended', () => this.component._onEnded());
-			this.component._onReady()
+			this.component._onReady();
 		});
 	}
 
@@ -78,11 +72,20 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 		this._el = this.buildVideo(this.component);
 		this.component.appendChild(this._el);
 		const playerId = this.component.getAttribute('player-id');
-		this.initializePlayer(playerId, );
+		const {accountId} = (this.constructor as typeof BrightcoveProvider);
+
+		if (lastPlayerId !== playerId || lastAccountId !== accountId || uniqueId === undefined) {
+			uniqueId = playerId + '-ts' + new Date().getTime();
+		}
+		this.initializePlayer(playerId, accountId);
 	}
 
 	protected onAPIReady() {
+		if (typeof window.bc !== 'function' || typeof window.videojs !== 'function') {
+			throw new Error('Brightcove API is not in the global scope');
+		}
 		window.bc(this._el);
+		this._api = window.videojs(this._el);
 	}
 
 	public unbind() {
