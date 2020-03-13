@@ -49,7 +49,7 @@ class SmartMultiCarouselView extends SmartCarouselView {
 		} else if (direction === 'right') {
 			shiftCount = (this.carousel.count - this.carousel.firstIndex + nextIndex) % this.carousel.count;
 		}
-		const direct = direction == 'left' ? -1 : 1;
+		const direct = direction === 'left' ? -1 : 1;
 		const trans = currentTrans - (shiftCount * slideWidth) * direct;
 
 		const nextActiveIndexes: number[] = [];
@@ -57,12 +57,9 @@ class SmartMultiCarouselView extends SmartCarouselView {
 			nextActiveIndexes.push((nextIndex + i + this.carousel.count) % this.carousel.count);
 		}
 
-		const intersectionArr: number[] = [];
-		nextActiveIndexes.forEach((nextIndex) => {
-			if (this.carousel.activeIndexes.indexOf(nextIndex) !== -1) {
-				intersectionArr.push(nextIndex);
-			}
-		});
+		const intersectionArr = nextActiveIndexes.filter(
+			(index: number) => this.carousel.activeIndexes.indexOf(index) !== -1
+		);
 
 		let left = 0;
 		const animatedCount = shiftCount < this.carousel.activeCount ? this.carousel.activeCount : shiftCount;

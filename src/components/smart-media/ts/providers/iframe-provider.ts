@@ -78,7 +78,7 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
     }
 
 	public seekTo(pos: number) {
-		console.error(`[SmartMedia] Unsupported action: can not execute seekTo on abstract iframe provider`);
+		console.error('[SmartMedia] Unsupported action: can not execute seekTo on abstract iframe provider');
 	}
 
 	public play() {

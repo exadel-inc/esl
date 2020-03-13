@@ -7,9 +7,9 @@ import {SmartCarouselView, SmartCarouselViewRegistry} from './view/smart-carouse
 import SmartCarouselPlugin from './plugin/smart-carousel-plugin';
 
 interface CarouselConfig { // Registry
-	view?: string,
-	count?: number,
-	className?: string
+	view?: string;
+	count?: number;
+	className?: string;
 }
 
 // TODO: add ability to choose the number of an active slide
@@ -230,8 +230,8 @@ class SmartCarousel extends CustomElement {
 
 	// move to core plugin
 	protected _onClick(event: MouseEvent) {
-		const eventTarget = event.target as HTMLElement;
-		const markedTarget = eventTarget.closest('[data-slide-target]') as HTMLElement;
+		const eventTarget: HTMLElement = event.target as HTMLElement;
+		const markedTarget: HTMLElement = eventTarget.closest('[data-slide-target]');
 		if (markedTarget && markedTarget.dataset.slideTarget) {
 			const target = markedTarget.dataset.slideTarget;
 			if ('prev' === target) {

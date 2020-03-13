@@ -1,11 +1,8 @@
-const path = require('path');
 const gulp = require('gulp');
 
 const named = require('vinyl-named');
 const webpackStream = require('webpack-stream');
-const TsLintPlugin = require('tslint-webpack-plugin');
 const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
-const DeclarationBundlerPlugin = require('./declaration-webpack-plugin');
 
 const INITIAL_CONFIG = {
 	watch: false,
@@ -35,7 +32,7 @@ module.exports.buildAll = function tsBuildAll(config) {
 		test: /\.ts?$/,
 		loader: 'awesome-typescript-loader',
 		options: {
-			configFileName: `tsconfig${config.declarations ? '-d' : ''}.json`,
+			configFileName: 'tsconfig.json',
 			reportFiles: [
 				'src/helpers/**/*.ts',
 				'src/components/**/*.ts'
@@ -43,19 +40,24 @@ module.exports.buildAll = function tsBuildAll(config) {
 		}
 	});
 
-	if (config.declarations) {
-		webpackConfig.plugins.push(new DeclarationBundlerPlugin({
-			moduleName: '"smart-library"',
-			out: '../@types/index.d.ts'
-		}));
-	}
+	// if (config.declarations) {
+	// 	webpackConfig.plugins.push(new DeclarationBundlerPlugin({
+	// 		moduleName: '"smart-library"',
+	// 		out: '../@types/index.d.ts'
+	// 	}));
+	// }
 
 	if (config.check) {
 		webpackConfig.plugins.push(new CheckerPlugin());
-		webpackConfig.plugins.push(new TsLintPlugin({
-			config: path.join(__dirname, '../tslint.json'),
-			files: ["src/components/**/*.ts", "src/helpers/**/*.ts"]
-		}));
+		webpackConfig.module.rules.push({
+			enforce: 'pre',
+			test: /\.ts$/,
+			exclude: /node_modules/,
+			loader: 'eslint-loader',
+			options: {
+				emitWarning: true
+			}
+		});
 	}
 
 	if (config.commonChunk) {

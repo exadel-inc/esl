@@ -40,7 +40,6 @@ class SmartCarouselTouchPlugin extends SmartCarouselPlugin {
 
 	onTouchMove = (event: TouchEvent | PointerEvent) => {
 		if (!this.isTouchStarted) return;
-
 		// const point = normalizeTouchPoint(event);
 		// const offset = {
 		// 	x: point.x - this.startPoint.x,

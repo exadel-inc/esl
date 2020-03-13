@@ -1,4 +1,4 @@
-/***
+/**
  * Slide controller
  * @author Julia Murashko
  */

@@ -13,7 +13,7 @@ export const toKebabCase = (str: string) => {
  * @returns {Number} - aspect ratio coefficient
  */
 export function parseAspectRatio(str: string): number {
-    const res = str.match(/(\d+)[:\/](\d+)/);
+    const res = str.match(/(\d+)[:/](\d+)/);
     if (res) {
         const [, w, h] = res;
         return +w / +h;

@@ -19,8 +19,8 @@ abstract class SmartCarouselPlugin extends CustomElement {
 	 * @returns carousel owner of the plugin
 	 */
 	protected findCarouselOwner(): SmartCarousel {
-		if ((this.constructor as any).freePlacement) {
-			return this.closest(SmartCarousel.is) as SmartCarousel;
+		if ((this.constructor as typeof SmartCarouselPlugin).freePlacement) {
+			return this.closest(SmartCarousel.is);
 		} else {
 			return this.parentNode as SmartCarousel;
 		}
