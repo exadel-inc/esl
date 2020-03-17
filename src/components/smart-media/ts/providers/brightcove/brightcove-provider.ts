@@ -51,10 +51,15 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 		this._ready = loadScript(API_SCRIPT_ID, apiSrc);
 
 		this._ready = this._ready.then(() => {
+            if (typeof window.bc !== 'function' || typeof window.videojs !== 'function') {
+                throw new Error('Brightcove API is not in the global scope');
+            }
+            this._api = window.videojs(this._el);
+            this.onAPIReady();
+
             this._api.on('play', () => this.component._onPlay());
             this._api.on('pause', () => this.component._onPaused());
             this._api.on('ended', () => this.component._onEnded());
-            this.onAPIReady();
 			// API replaced element
 			this._el = this._api.el() as HTMLDivElement;
             this.component._onReady();
@@ -71,11 +76,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	}
 
 	protected onAPIReady() {
-		if (typeof window.bc !== 'function' || typeof window.videojs !== 'function') {
-			throw new Error('Brightcove API is not in the global scope');
-		}
 		window.bc(this._el);
-		this._api = window.videojs(this._el);
 	}
 
 	public unbind() {
