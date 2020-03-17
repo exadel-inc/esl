@@ -14,17 +14,16 @@ import SmartMediaProviderRegistry from '../../smart-media-registry';
 const API_SCRIPT_ID = 'BC_API_SOURCE';
 
 export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
-	static accountId = '1160438707001';
-	static defaultPlayerId = 'rke4ZwuFNe';
 
 	private _api: VideoJsPlayer;
+	private _playerId: string;
+	private _accountId: string;
 
 	static get providerName() {
 		return 'brightcove';
 	}
 
 	protected buildVideo(sm: SmartMedia) {
-		const {accountId, defaultPlayerId} = (this.constructor as typeof BrightcoveProvider);
 		const el = document.createElement('video');
 		el.id = 'smedia-brightcove-' + generateUId();
 		el.className = 'smedia-inner smedia-brightcove video-js vjs-default-skin video-js-brightcove';
@@ -37,16 +36,16 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 		el.controls = sm.controls;
 		el.setAttribute('aria-label', el.title);
 		el.setAttribute('data-embed', 'default');
-		el.setAttribute('data-account', accountId);
-		el.setAttribute('data-player', sm.getAttribute('player-id') || defaultPlayerId);
+		el.setAttribute('data-account', this._accountId);
+		el.setAttribute('data-player', sm.getAttribute('player-id') || this._playerId);
 		el.setAttribute('data-video-id', `ref:${sm.mediaId}`);
 		// TODO
 		//  el.setAttribute('analytics-id', sm.getAttribute('analytics-id'));
 		return el;
 	}
 
-	protected initializePlayer(playerId: string, accountId: string) {
-		const apiSrc = `//players.brightcove.net/${accountId}/${playerId}_default/index.min.js`;
+	protected initializePlayer() {
+		const apiSrc = `//players.brightcove.net/${this._accountId}/${this._playerId}_default/index.min.js`;
 		const apiScript = document.getElementById(API_SCRIPT_ID);
 		if (apiScript && apiScript.getAttribute('src') !== apiSrc) {
 			apiScript.parentNode.removeChild(apiScript);
@@ -66,12 +65,12 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 	}
 
 	public bind() {
+        this._playerId = this.component.getAttribute('player-id');
+        this._accountId = this.component.getAttribute('account-id');
 		this._el = this.buildVideo(this.component);
 		this.component.appendChild(this._el);
-		const playerId = this.component.getAttribute('player-id');
-		const {accountId} = (this.constructor as typeof BrightcoveProvider);
 
-		this.initializePlayer(playerId, accountId);
+		this.initializePlayer();
 	}
 
 	protected onAPIReady() {
