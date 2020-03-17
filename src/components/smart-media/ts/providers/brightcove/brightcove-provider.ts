@@ -37,7 +37,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 		el.setAttribute('aria-label', el.title);
 		el.setAttribute('data-embed', 'default');
 		el.setAttribute('data-account', this._accountId);
-		el.setAttribute('data-player', sm.getAttribute('player-id') || this._playerId);
+		el.setAttribute('data-player', sm.getAttribute('player-id'));
 		el.setAttribute('data-video-id', `ref:${sm.mediaId}`);
 		// TODO
 		//  el.setAttribute('analytics-id', sm.getAttribute('analytics-id'));
