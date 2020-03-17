@@ -2,6 +2,7 @@ import type {SmartLibrary} from '../../src/bundles/lib';
 
 import './common/back-button';
 import './common/test-media';
+import './common/test-media-source';
 
 SmartLibrary.SmartImage.register();
 SmartLibrary.SmartMedia.register();

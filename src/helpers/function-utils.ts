@@ -15,7 +15,7 @@ export function noop() {}
  */
 export function debounce<T extends Function>(fn: T, wait = 10, immediate = false): T {
     let timeout: ReturnType<typeof setTimeout> = null;
-    return function (...args: any) {
+    return function (...args: any[]) {
         const later = () => {
             timeout = null;
             if (!immediate) fn.apply(this, args);
@@ -37,7 +37,7 @@ export function debounce<T extends Function>(fn: T, wait = 10, immediate = false
 export function throttle <T extends Function>(fn: T, threshold = 250): T {
     let last: number;
     let deferTimer: ReturnType<typeof setTimeout>;
-    return function (...args: any) {
+    return function (...args: any[]) {
         const now = Date.now();
         if (last && now < last + threshold) {
             // hold on to it

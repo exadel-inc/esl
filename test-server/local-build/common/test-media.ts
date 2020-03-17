@@ -1,4 +1,3 @@
-
 interface MediaTarget {
 	play(): any;
 	pause(): any;
@@ -6,22 +5,27 @@ interface MediaTarget {
 }
 interface TestMediaAction {
 	title: string;
-	action: (target: MediaTarget) => void;
+	action: (target: MediaTarget, actionName: string, action: TestMediaAction) => void;
+	render: (actionName: string, action: TestMediaAction) => HTMLElement;
 }
+
 class TestMediaControls extends HTMLElement {
 
 	public static ACTIONS: {[key: string]: TestMediaAction} = {
 		play: {
 			title: 'Play',
-			action: (target: any) => target.play()
+			action: (target: any) => target.play(),
+			render: renderButton
 		},
 		pause: {
 			title: 'Pause',
-			action: (target: any) => target.pause()
+			action: (target: any) => target.pause(),
+			render: renderButton
 		},
 		stop: {
 			title: 'Stop',
-			action: (target: any) => target.stop()
+			action: (target: any) => target.stop(),
+			render: renderButton
 		}
 	};
 	public static ACTIONS_ALL = Object.keys(TestMediaControls.ACTIONS).join(',');
@@ -42,13 +46,7 @@ class TestMediaControls extends HTMLElement {
 		for (const actionName of actionList) {
 			const action: TestMediaAction = TestMediaControls.ACTIONS[actionName];
 			if (!action) return;
-
-			const btn = document.createElement('button');
-			btn.className = 'btn btn-primary';
-			btn.dataset.action = actionName;
-			btn.textContent = action.title;
-
-			this.appendChild(btn);
+			this.appendChild(action.render(actionName, action));
 		}
 	}
 
@@ -56,8 +54,9 @@ class TestMediaControls extends HTMLElement {
 		const target = e.target as HTMLElement;
 		const actionName = target.dataset.action;
 		if (actionName && TestMediaControls.ACTIONS[actionName]) {
-			const actionFn = TestMediaControls.ACTIONS[actionName].action;
-			this.target.forEach(($el) => actionFn.call($el, $el));
+			const actionDesc = TestMediaControls.ACTIONS[actionName];
+			const actionFn = actionDesc.action;
+			this.target.forEach(($el) => actionFn.call($el, $el, actionName, actionDesc));
 		}
 	}
 
@@ -65,6 +64,14 @@ class TestMediaControls extends HTMLElement {
 		this.render();
 		this.addEventListener('click', this.onClick.bind(this));
 	}
+}
+
+function renderButton (actionName: string, action: TestMediaAction) {
+	const btn = document.createElement('button');
+	btn.className = 'btn btn-primary';
+	btn.dataset.action = actionName;
+	btn.textContent = action.title;
+	return btn;
 }
 
 customElements.define('test-media-controls', TestMediaControls);
