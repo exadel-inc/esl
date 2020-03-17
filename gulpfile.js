@@ -63,7 +63,8 @@ gulp.task('ts-lib-bundles', function () {
 gulp.task('ts-local', function () {
 	return task.bundle({
 		src: paths.test.ts,
-        context: paths.bundle.context
+        context: paths.bundle.context,
+        check: false
 	}).pipe(gulp.dest(paths.test.target));
 });
 
