@@ -15,9 +15,9 @@ const API_SCRIPT_ID = 'BC_API_SOURCE';
 
 export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 
-	private _api: VideoJsPlayer;
-	private _playerId: string;
-	private _accountId: string;
+	protected _api: VideoJsPlayer;
+	protected _playerId: string;
+	protected _accountId: string;
 
 	static get providerName() {
 		return 'brightcove';
@@ -53,15 +53,12 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 		this._ready = loadScript(API_SCRIPT_ID, apiSrc);
 
 		this._ready = this._ready.then(() => {
-			this.onAPIReady();
-		});
-
-		this._ready.then(() => {
-			this._api.on('play', () => this.component._onPlay());
-			this._api.on('pause', () => this.component._onPaused());
-			this._api.on('ended', () => this.component._onEnded());
-			this.component._onReady();
-		});
+            this._api.on('play', () => this.component._onPlay());
+            this._api.on('pause', () => this.component._onPaused());
+            this._api.on('ended', () => this.component._onEnded());
+            this.onAPIReady();
+            this.component._onReady();
+        });
 	}
 
 	public bind() {
