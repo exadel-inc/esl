@@ -5,7 +5,7 @@
     "custom elements",
     "component library"
   ],
-  "version": "1.0.7",
+  "version": "1.0.8",
   "private": true,
   "homepage": "https://gitlab.exadel.com/EDMTP/smart-wc-library#readme",
   "license": "MIT",
@@ -63,7 +63,7 @@
     "typescript": "^3.8.2",
     "ui-project-server": "./edmtp-modules/ui-project-server.tar",
     "vinyl-named": "^1.1.0",
-    "webpack": "^4.41.6",
+    "webpack": "^4.42.0",
     "webpack-stream": "^5.2.1"
   }
 }
