@@ -1,7 +1,11 @@
 {
   "name": "exadel-smart-library",
-  "version": "1.0.4",
-  "description": "",
+  "description": "Exadel Smart Library - is the lightweight custom elements library that provide a set of super-flexible components",
+  "keywords": [
+    "custom elements",
+    "component library"
+  ],
+  "version": "1.0.7",
   "private": true,
   "homepage": "https://gitlab.exadel.com/EDMTP/smart-wc-library#readme",
   "license": "MIT",
@@ -19,7 +23,7 @@
     "local-serv-build": "gulp build-local",
     "local-serv-quick": "cd test-server && node server.js",
     "local-serv-watch": "npm run local-serv | npm run watch",
-    "prepare": "npm run build && npm run build-granular"
+    "prepare": "npm run build -- --fast && npm run build-granular -- --fast"
   },
   "files": [
     "src/**/*",
@@ -36,14 +40,15 @@
     "@types/youtube": "0.0.38"
   },
   "devDependencies": {
-    "@webcomponents/custom-elements": "^1.3.2",
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/parser": "^2.24.0",
+    "@webcomponents/custom-elements": "^1.4.1",
     "@webcomponents/webcomponents-platform": "^1.0.1",
     "autoprefixer": "^9.7.4",
     "awesome-typescript-loader": "^5.2.1",
-    "bootstrap": "^4.4.1",
     "cssnano": "^4.1.10",
-    "declaration-bundler-webpack-plugin": "^1.0.3",
-    "intersection-observer": "^0.7.0",
+    "eslint": "^6.8.0",
+    "eslint-loader": "^3.0.3",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-copy": "^4.0.1",
@@ -52,12 +57,9 @@
     "gulp-postcss": "^8.0.0",
     "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^2.6.5",
-    "gulp-tslint": "^8.1.4",
     "gulp-typescript": "^5.0.1",
+    "intersection-observer": "^0.7.0",
     "promise-polyfill": "^8.1.3",
-    "tslint": "^6.0.0",
-    "tslint-eslint-rules": "^5.4.0",
-    "tslint-webpack-plugin": "^2.1.0",
     "typescript": "^3.8.2",
     "ui-project-server": "./edmtp-modules/ui-project-server.tar",
     "vinyl-named": "^1.1.0",

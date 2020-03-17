@@ -46,7 +46,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
             origin: location.origin,
             rel: 0,
             showinfo: 0,
-            iv_load_policy: 0,
+            iv_load_policy: 0, // eslint-disable-line
             autoplay: Number(sm.autoplay),
             controls: Number(sm.controls),
             disablekb: Number(!sm.controls), // TODO: criteria

@@ -7,9 +7,7 @@ class SmartSingleCarouselView extends SmartCarouselView {
 		super(carousel);
 	}
 
-	// tslint:disable-next-line:no-empty
-	public bind() {
-	}
+	public bind() {}
 
 	// TODO: check
 	public draw() {

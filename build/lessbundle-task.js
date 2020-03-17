@@ -3,7 +3,7 @@ const path = require('path');
 const gulp = require('gulp');
 const gulpEach = require('gulp-each');
 
-const IMPORT_REGEXP = /@import\s+(?:'|")(.*)(?:'|")\s*;?/gm;
+const IMPORT_REGEXP = /@import\s+['"](.*)['"]\s*;?/gm;
 const LESS_FILE_REGEX = /.less$/;
 const CSS_FILE_REGEX = /.css$/;
 

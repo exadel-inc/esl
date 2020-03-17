@@ -10,21 +10,16 @@ title: <code>&lt;smart-media&gt;</code> component
 </div>
 <hr/>
 <div class="row justify-content-around">
-    <section class="col-6" data-demo="8">
-        <div class="demo">
-            <h3 class="text-center">Basic Brightcove Example</h3>
-            <div class="img-container img-container-16-9 img-container-loaded">
-                <smart-media group="demo-media"
-                             media-type="brightcove"
-                             media-id="f22b39fd-e9a9-40d7-8f95-0587b70cb27c"
-                             player-id="rke4ZwuFNe"
-                             controls
-                             muted>
-                </smart-media>
+    <section class="col-12 row" data-demo="0">
+        <div class="demo col-6">
+            <div class="img-container img-container-16-9 img-container-loaded" style="background: black;">
+                <smart-media group="demo-media" controls></smart-media>
             </div>
         </div>
-        <div class="row btn-group-centered">
-            <test-media-controls target="[data-demo='8'] smart-media"></test-media-controls>
+        <div class="col-6">
+            <h3 class="text-center">SmartMedia Playgroud </h3>
+            <test-media-controls target="[data-demo='0'] smart-media"></test-media-controls>
+            <test-media-source target="[data-demo='0'] smart-media"></test-media-source>
         </div>
     </section>
 

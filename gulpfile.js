@@ -9,6 +9,10 @@ const task = {
 };
 
 const paths = require('./paths');
+const FAST_BUILD = process.argv.includes('--fast');
+
+console.log('=== Running Smart Library Build ===');
+console.log(`[SETTINGS]: Fast Build \t= ${FAST_BUILD}`);
 
 // === LESS ===
 // all components
@@ -44,21 +48,23 @@ gulp.task('ts-lib', function () {
             libraryTarget: 'umd',
             umdNamedDefine: true
         },
-        declarations: true
+        check: !FAST_BUILD
     }).pipe(gulp.dest(paths.bundle.target));
 });
 gulp.task('ts-lib-bundles', function () {
     return task.bundle({
         src: paths.bundle.tsComponents,
         context: paths.bundle.context,
-        commonChunk: 'smart-core'
+        commonChunk: 'smart-core',
+        check: !FAST_BUILD
     }).pipe(gulp.dest(paths.bundle.target))
 });
 // local dev assets
 gulp.task('ts-local', function () {
 	return task.bundle({
 		src: paths.test.ts,
-        context: paths.bundle.context
+        context: paths.bundle.context,
+        check: false
 	}).pipe(gulp.dest(paths.test.target));
 });
 

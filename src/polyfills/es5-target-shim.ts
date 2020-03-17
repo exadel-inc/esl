@@ -21,7 +21,7 @@
  *  requirements with the latest version of popular transpilers.
  */
 // @ts-ignore
-if ('customElements' in window && !window.es5HTMLElemeentInheritanceShim) {
+if ('customElements' in window && !window.es5HTMLElementInheritanceShim) {
   try {
     eval('(()=>{\'use strict\';const a=window.HTMLElement,b=window.customElements.define,' +
       'c=window.customElements.get,d=new Map,e=new Map;let f=!1,g=!1;window.HTMLElement=function(){if(!f){' +
@@ -35,7 +35,7 @@ if ('customElements' in window && !window.es5HTMLElemeentInheritanceShim) {
       'e.set(j,k),b.call(window.customElements,j,m)},configurable:!0,writable:!0}),Object.defineProperty(' +
       'window.customElements,\'get\',{value:j=>e.get(j),configurable:!0,writable:!0})})();');
     // @ts-ignore-file
-    window.es5HTMLElemeentInheritanceShim = true;
+    window.es5HTMLElementInheritanceShim = true;
   } catch (e) {
     //
   }
