@@ -63,7 +63,7 @@
     "typescript": "^3.8.2",
     "ui-project-server": "./edmtp-modules/ui-project-server.tar",
     "vinyl-named": "^1.1.0",
-    "webpack": "^4.41.6",
+    "webpack": "^4.42.0",
     "webpack-stream": "^5.2.1"
   }
 }

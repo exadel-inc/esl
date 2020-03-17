@@ -13,7 +13,7 @@ import SmartMediaProviderRegistry from '../../smart-media-registry';
 
 const API_SCRIPT_ID = 'BC_API_SOURCE';
 
-export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
+export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDivElement> {
 
 	protected _api: VideoJsPlayer;
 	protected _playerId: string;
@@ -39,8 +39,6 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 		el.setAttribute('data-account', this._accountId);
 		el.setAttribute('data-player', sm.getAttribute('player-id'));
 		el.setAttribute('data-video-id', `ref:${sm.mediaId}`);
-		// TODO
-		//  el.setAttribute('analytics-id', sm.getAttribute('analytics-id'));
 		return el;
 	}
 
@@ -57,6 +55,8 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
             this._api.on('pause', () => this.component._onPaused());
             this._api.on('ended', () => this.component._onEnded());
             this.onAPIReady();
+			// API replaced element
+			this._el = this._api.el() as HTMLDivElement;
             this.component._onReady();
         });
 	}
@@ -84,9 +84,8 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement> {
 			this._api.dispose();
 			this._api = null;
 		}
-		if (this._el && this._el.parentNode) {
-			this._el.parentNode.removeChild(this._el);
-		}
+		const embedded = this.component.querySelectorAll('.smedia-brightcove');
+		Array.from(embedded || []).forEach((el: Node) => el.parentNode.removeChild(el));
 	}
 
 	public focus() {
