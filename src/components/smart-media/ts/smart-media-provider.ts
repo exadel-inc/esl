@@ -18,6 +18,8 @@ export enum PlayerStates {
 export type BaseProviderConstructor = new(component: SmartMedia) => BaseProvider<HTMLElement>;
 
 export abstract class BaseProvider<T extends HTMLElement> {
+    static readonly providerName: string;
+
     protected component: SmartMedia;
     protected _el: T;
     protected _ready: Promise<any>;
@@ -142,4 +144,9 @@ export abstract class BaseProvider<T extends HTMLElement> {
     public safeToggle() {
         return this.ready.then(() => this.toggle());
     }
+
+    // public static register() {
+    //     const provider = (this as typeof BaseProvider & BaseProviderConstructor);
+    //     SmartMediaProviderRegistry.instance.register(provider, provider.providerName);
+    // }
 }

@@ -6,44 +6,49 @@
  * @protected
  */
 import {VideoJsPlayer} from 'video.js';
-import {generateUId, loadScript} from '../../../../../helpers/common-utils';
-import {SmartMedia} from '../../smart-media';
-import {BaseProvider, PlayerStates} from '../../smart-media-provider';
-import SmartMediaProviderRegistry from '../../smart-media-registry';
+import {generateUId, loadScript} from '../../../../helpers/common-utils';
+import {SmartMedia} from '../smart-media';
+import {BaseProvider, PlayerStates} from '../smart-media-provider';
+import SmartMediaProviderRegistry from '../smart-media-registry';
 
 const API_SCRIPT_ID = 'BC_API_SOURCE';
 
 export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDivElement> {
 
-	protected _api: VideoJsPlayer;
-	protected _playerId: string;
-	protected _accountId: string;
-
 	static get providerName() {
 		return 'brightcove';
 	}
+
+	/**
+	 * @returns brightcove player script endpoint
+	 */
+	protected buildAPISrc = () => `//players.brightcove.net/${this._accountId}/${this._playerId}_default/index.min.js`;
+
+	protected _api: VideoJsPlayer;
+	protected _playerId: string;
+	protected _accountId: string;
 
 	protected buildVideo(sm: SmartMedia) {
 		const el = document.createElement('video');
 		el.id = 'smedia-brightcove-' + generateUId();
 		el.className = 'smedia-inner smedia-brightcove video-js vjs-default-skin video-js-brightcove';
-		el.title = sm.title;
 		el.style.width = '100%';
 		el.style.height = '100%';
+		el.title = sm.title;
 		el.autoplay = sm.autoplay;
 		el.loop = sm.loop;
 		el.muted = sm.muted;
 		el.controls = sm.controls;
 		el.setAttribute('aria-label', el.title);
 		el.setAttribute('data-embed', 'default');
+		el.setAttribute('data-player', this._playerId);
 		el.setAttribute('data-account', this._accountId);
-		el.setAttribute('data-player', sm.getAttribute('player-id'));
 		el.setAttribute('data-video-id', `ref:${sm.mediaId}`);
 		return el;
 	}
 
 	protected initializePlayer() {
-		const apiSrc = `//players.brightcove.net/${this._accountId}/${this._playerId}_default/index.min.js`;
+		const apiSrc = this.buildAPISrc();
 		const apiScript = document.getElementById(API_SCRIPT_ID);
 		if (apiScript && apiScript.getAttribute('src') !== apiSrc) {
 			apiScript.parentNode.removeChild(apiScript);
@@ -60,8 +65,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
             this._api.on('play', () => this.component._onPlay());
             this._api.on('pause', () => this.component._onPaused());
             this._api.on('ended', () => this.component._onEnded());
-			// API replaced element
-			this._el = this._api.el() as HTMLDivElement;
+
             this.component._onReady();
         });
 	}
@@ -69,6 +73,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	public bind() {
         this._playerId = this.component.getAttribute('player-id');
         this._accountId = this.component.getAttribute('account-id');
+
 		this._el = this.buildVideo(this.component);
 		this.component.appendChild(this._el);
 
@@ -90,7 +95,9 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	}
 
 	public focus() {
-		this._el && this._el.focus();
+		if (this._api && typeof this._api.el === 'function') {
+			(this._api.el() as HTMLElement).focus();
+		}
 	}
 
 	get state() {
