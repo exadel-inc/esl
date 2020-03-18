@@ -31,7 +31,11 @@
         transform: translate(-50%, -50%);
       }
     }
+  }
+}
 
+.smart-media-container-init(@tagName: smart-media) {
+  @{tagName} {
     .img-container > & {
       position: absolute;
       top: 0;
