@@ -146,7 +146,7 @@ SmartMediaProviderRegistry.register(BrightcoveProvider, BrightcoveProvider.provi
 // typings
 declare global {
 	interface Window {
-		bc?: (el: HTMLElement) => void;
-		videojs?: (el: HTMLElement) => VideoJsPlayer;
+		bc?: (el: HTMLElement, ...args : any[]) => any;
+		videojs?: (el: HTMLElement, ...args : any[]) => VideoJsPlayer;
 	}
 }
