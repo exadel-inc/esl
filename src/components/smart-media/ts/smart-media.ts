@@ -109,9 +109,7 @@ export class SmartMedia extends CustomElement {
 
     constructor() {
         super();
-
         this._onError = this._onError.bind(this);
-        this._onChangeFillMode = this._onChangeFillMode.bind(this);
     }
 
     private connectedCallback() {
@@ -127,7 +125,7 @@ export class SmartMedia extends CustomElement {
         if (this.playInViewport) {
             this.attachViewportConstraint();
         }
-        if (this.isFillModeEnabled()) {
+        if (this.fillModeEnabled) {
             window.addEventListener('resize', this.deferredChangeFillMode);
         }
         this.deferredReinit();
@@ -138,7 +136,7 @@ export class SmartMedia extends CustomElement {
         if (this.conditionQuery) {
             this.conditionQuery.removeListener(this.deferredReinit);
         }
-        if (this.isFillModeEnabled()) {
+        if (this.fillModeEnabled) {
             window.removeEventListener('resize', this.deferredChangeFillMode);
         }
         this.detachViewportConstraint();
@@ -156,11 +154,7 @@ export class SmartMedia extends CustomElement {
                 break;
             case 'fill-mode':
             case 'aspect-ratio':
-                if (this.isFillModeEnabled()) {
-                    this.deferredChangeFillMode();
-                } else {
-                    this._provider.setSize('auto', 'auto');
-                }
+                this.deferredChangeFillMode();
                 break;
             case 'play-in-viewport':
                 this.playInViewport ?
@@ -263,9 +257,7 @@ export class SmartMedia extends CustomElement {
         if (this.hasAttribute('ready-class')) {
             this.classList.add(this.getAttribute('ready-class'));
         }
-        if (this.isFillModeEnabled()) {
-            this.deferredChangeFillMode();
-        }
+        this.deferredChangeFillMode();
         this.dispatchCustomEvent('ready');
     }
 
@@ -311,7 +303,7 @@ export class SmartMedia extends CustomElement {
 
     public _onChangeFillMode() {
         if (!this._provider) return;
-        if (this.actualAspectRatio <= 0) {
+        if (!this.fillModeEnabled || this.actualAspectRatio <= 0) {
             this._provider.setSize('auto', 'auto');
         } else {
             let stretchVertically = this.offsetWidth / this.offsetHeight < this.actualAspectRatio;
@@ -351,7 +343,7 @@ export class SmartMedia extends CustomElement {
         return this._conditionQuery;
     }
 
-    isFillModeEnabled() {
+    get fillModeEnabled() {
         return this.fillMode === 'cover' || this.fillMode === 'inscribe';
     }
 
