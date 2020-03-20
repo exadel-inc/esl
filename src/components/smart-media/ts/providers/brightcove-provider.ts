@@ -1,6 +1,6 @@
 /**
  * Brightcove API provider for {@link SmartMedia}
- * @version 1.0.0
+ * @version 1.1.0
  * @author Julia Murashko
  * @extends BaseProvider
  * @protected
@@ -33,7 +33,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	protected static getAccount(el: SmartMedia): BCPlayerAccount {
 		return {
 			playerId: el.getAttribute('player-id'),
-			accountId: el.getAttribute('account-id')
+			accountId: el.getAttribute('player-account')
 		};
 	}
 
@@ -57,8 +57,6 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 		const el = document.createElement('video');
 		el.id = 'smedia-brightcove-' + generateUId();
 		el.className = 'smedia-inner smedia-brightcove video-js vjs-default-skin video-js-brightcove';
-		el.style.width = '100%';
-		el.style.height = '100%';
 		el.title = sm.title;
 		el.autoplay = sm.autoplay;
 		el.loop = sm.loop;
@@ -72,21 +70,29 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 		return el;
 	}
 
-	protected onAPILoaded() {
+	/**
+	 * Executes as soon as api script detected or loaded.
+	 * @returns {Promise<VideoJsPlayer>} - promise with provided API
+	 */
+	protected onAPILoaded(): Promise<VideoJsPlayer> {
 		if (typeof window.bc !== 'function' || typeof window.videojs !== 'function') {
 			throw new Error('Brightcove API is not in the global scope');
 		}
+		window.bc(this._el);
 		this._api = window.videojs(this._el);
-		this.onAPIReady();
+		return new Promise((resolve) => this._api.ready(resolve))
+	}
 
+	/**
+	 * Executes after API ready state resolved
+	 * Basic onAPIReady should be called to subscribe to API state
+	 * @returns {Promise | void}
+	 */
+	protected onAPIReady() {
+		this.component._onReady();
 		this._api.on('play', () => this.component._onPlay());
 		this._api.on('pause', () => this.component._onPaused());
 		this._api.on('ended', () => this.component._onEnded());
-
-		this.component._onReady();
-	}
-	protected onAPIReady() {
-		window.bc(this._el);
 	}
 
 	public bind() {
@@ -97,6 +103,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 
 		this._ready = Provider.loadAPI(this._account)
 			.then(() => this.onAPILoaded())
+			.then(() => this.onAPIReady())
 			.catch((e) => this.component._onError(e));
 	}
 
