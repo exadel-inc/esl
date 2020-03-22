@@ -15,10 +15,7 @@
     ],
     "baseUrl": "src/"
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "edmtp-modules",
-    "test-server"
+  "include": [
+    "src"
   ]
 }

@@ -1,12 +1,18 @@
-node_modules
+# IDE
 .idea
 *.iml
 *.ipr
 *.iws
 .DS_Store
-npm-debug.log
-.gitconfig
-test-server/static/
-@types/
-package-lock.json
+
+# Libs
+node_modules
+
+# Build output
 lib/
+test-server/static/
+
+# Logs & Tmp
+npm-debug.log
+package-lock.json
+.gitconfig

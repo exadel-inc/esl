@@ -76,6 +76,7 @@ export class SmartMedia extends CustomElement {
     @attr() public group: string;
     @attr() public fillMode: string;
     @attr() public aspectRatio: string;
+
     @attr({conditional: true}) public disabled: boolean;
     @attr({conditional: true}) public autoplay: boolean;
     @attr({conditional: true}) public autofocus: boolean;
@@ -84,6 +85,7 @@ export class SmartMedia extends CustomElement {
     @attr({conditional: true}) public loop: boolean;
     @attr({conditional: true}) public controls: boolean;
     @attr({conditional: true}) public playInViewport: boolean;
+
     @attr({conditional: true, readonly: true}) public ready: boolean;
     @attr({conditional: true, readonly: true}) public active: boolean;
     @attr({conditional: true, readonly: true}) public played: boolean;
@@ -109,7 +111,6 @@ export class SmartMedia extends CustomElement {
 
     constructor() {
         super();
-        this._onError = this._onError.bind(this);
     }
 
     private connectedCallback() {
