@@ -58,7 +58,6 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 		el.id = 'smedia-brightcove-' + generateUId();
 		el.className = 'smedia-inner smedia-brightcove video-js vjs-default-skin video-js-brightcove';
 		el.title = sm.title;
-		el.autoplay = sm.autoplay;
 		el.loop = sm.loop;
 		el.muted = sm.muted;
 		el.controls = sm.controls;
@@ -89,10 +88,13 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	 * @returns {Promise | void}
 	 */
 	protected onAPIReady() {
-		this.component._onReady();
+		// Set autoplay though js because BC is unresponsive while processing it natively
+		this._api.autoplay(this.component.autoplay);
+
 		this._api.on('play', () => this.component._onPlay());
 		this._api.on('pause', () => this.component._onPaused());
 		this._api.on('ended', () => this.component._onEnded());
+		this.component._onReady();
 	}
 
 	public bind() {
