@@ -1,4 +1,4 @@
-import {debounce} from '../../../src/helpers/function-utils';
+import {deferred} from '../../../src/helpers/function-utils';
 
 class TestMediaSource extends HTMLElement {
 	get target() {
@@ -49,7 +49,7 @@ class TestMediaSource extends HTMLElement {
 
 	protected connectedCallback() {
 		this.render();
-		this.addEventListener('change', debounce(() => this.onChange(), 750));
+		this.addEventListener('change', deferred(() => this.onChange(), 750));
 		this.onChange();
 	}
 }

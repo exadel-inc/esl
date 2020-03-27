@@ -59,7 +59,7 @@ import {attr} from '../../../helpers/decorators/attr';
 import SmartMediaQuery from '../../../helpers/conditions/smart-media-query';
 import {CustomElement} from '../../../helpers/custom-element';
 import {parseAspectRatio} from '../../../helpers/format-utils';
-import {debounce, rafDecorator} from '../../../helpers/function-utils';
+import {deferred, rafDecorator} from '../../../helpers/function-utils';
 
 import {getIObserver} from './smart-media-iobserver';
 import {BaseProvider, PlayerStates} from './smart-media-provider';
@@ -94,7 +94,7 @@ export class SmartMedia extends CustomElement {
     private _provider: BaseProvider<HTMLElement>;
     private _conditionQuery: SmartMediaQuery;
 
-    private deferredReinit = debounce(() => this.reinitInstance());
+    private deferredReinitialize = deferred(() => this.reinitInstance());
     private deferredChangeFillMode = rafDecorator(() => this._onChangeFillMode());
 
     /**
@@ -121,7 +121,7 @@ export class SmartMedia extends CustomElement {
         this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
         SmartMediaRegistry.addListener(this._onRegistryStateChange);
         if (this.conditionQuery) {
-            this.conditionQuery.addListener(this.deferredReinit);
+            this.conditionQuery.addListener(this.deferredReinitialize);
         }
         if (this.playInViewport) {
             this.attachViewportConstraint();
@@ -129,13 +129,13 @@ export class SmartMedia extends CustomElement {
         if (this.fillModeEnabled) {
             window.addEventListener('resize', this.deferredChangeFillMode);
         }
-        this.deferredReinit();
+        this.deferredReinitialize();
     }
 
     private disconnectedCallback() {
         SmartMediaRegistry.removeListener(this._onRegistryStateChange);
         if (this.conditionQuery) {
-            this.conditionQuery.removeListener(this.deferredReinit);
+            this.conditionQuery.removeListener(this.deferredReinitialize);
         }
         if (this.fillModeEnabled) {
             window.removeEventListener('resize', this.deferredChangeFillMode);
@@ -147,11 +147,13 @@ export class SmartMedia extends CustomElement {
     private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
         if (oldVal === newVal) return;
         switch (attrName) {
+            case 'disabled':
+                (oldVal !== null) && this.deferredReinitialize();
+                break;
             case 'media-id':
             case 'media-src':
             case 'media-type':
-            case 'disabled':
-                this.deferredReinit();
+                this.deferredReinitialize();
                 break;
             case 'fill-mode':
             case 'aspect-ratio':
@@ -218,7 +220,9 @@ export class SmartMedia extends CustomElement {
             this.disabled = false;
         }
         if (!this.canActivate()) return;
-        return this._provider && this._provider.safePlay();
+        this.deferredReinitialize.then(() => {
+            this._provider && this._provider.safePlay()
+        }, true);
     }
 
     /**
