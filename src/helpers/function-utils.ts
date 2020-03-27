@@ -38,7 +38,7 @@ export function deferred<T extends Function>(fn: T, wait = 10): (T & CallableSub
     });
     Object.defineProperty(callableDeferedSubject, 'then', {
         value: (cb: Function, invokeIfNoDeferred = false) => {
-            (invokeIfNoDeferred && timeout !== null) ? cb() : observers.add(cb);
+            (invokeIfNoDeferred && timeout === null) ? cb() : observers.add(cb);
             return callableDeferedSubject;
         }
     });

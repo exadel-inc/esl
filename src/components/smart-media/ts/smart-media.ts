@@ -340,6 +340,13 @@ export class SmartMedia extends CustomElement {
         return this._provider ? this._provider.currentTime : 0;
     }
 
+    /**
+     * Set current time of media resource
+     */
+    public set currentTime(time: number) {
+        (this._provider) && this._provider.safeSeekTo(time);
+    }
+
     get conditionQuery() {
         if (!this._conditionQuery && this._conditionQuery !== null) {
             const query = this.getAttribute('load-condition');
