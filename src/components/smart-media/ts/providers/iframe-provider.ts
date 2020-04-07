@@ -33,6 +33,7 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 			this._el = IframeBasicProvider.buildIframe(this.component);
 			this._el.onload = () => resolve();
 			this._el.onerror = (e) => reject(e);
+			this._state = PlayerStates.UNSTARTED;
 			this.component.appendChild(this._el);
 		});
 		this._ready.then(() => {
