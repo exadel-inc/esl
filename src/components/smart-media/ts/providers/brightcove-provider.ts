@@ -1,6 +1,6 @@
 /**
  * Brightcove API provider for {@link SmartMedia}
- * @version 1.1.0
+ * @version 1.2.0
  * @author Julia Murashko
  * @extends BaseProvider
  * @protected
@@ -70,6 +70,13 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	}
 
 	/**
+	 * Utility method to convert api event to promise
+ 	 */
+	protected $$fromEvent(eventName: string) {
+		return new Promise((resolve) => this._api.one(eventName, resolve));
+	}
+
+	/**
 	 * Executes as soon as api script detected or loaded.
 	 * @returns {Promise<VideoJsPlayer>} - promise with provided API
 	 */
@@ -95,6 +102,8 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 		this._api.on('pause', () => this.component._onPaused());
 		this._api.on('ended', () => this.component._onEnded());
 		this.component._onReady();
+
+		return this.$$fromEvent('loadstart');
 	}
 
 	public bind() {
@@ -120,9 +129,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	}
 
 	public focus() {
-		if (this._api && typeof this._api.el === 'function') {
-			(this._api.el() as HTMLElement).focus();
-		}
+		this._api && this._api.focus();
 	}
 
 	public get state() {
