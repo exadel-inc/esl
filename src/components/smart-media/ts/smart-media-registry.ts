@@ -29,6 +29,10 @@ export class SmartMediaProviderRegistry extends Observable {
 	public getProvider(name: string) {
 		return this.providers[name.toLowerCase()];
 	}
+
+	public has(name: string) {
+		return Object.prototype.hasOwnProperty.call(this.providers, name);
+	}
 }
 
 export default SmartMediaProviderRegistry.instance;

@@ -109,6 +109,10 @@ export class SmartMedia extends CustomElement {
         return ['media-type', 'disabled', 'media-id', 'media-src', 'fill-mode', 'aspect-ratio', 'play-in-viewport'];
     }
 
+    static support(name: string): boolean {
+        return SmartMediaRegistry.has(name);
+    }
+
     constructor() {
         super();
     }
