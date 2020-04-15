@@ -1,6 +1,6 @@
 /**
  * Brightcove API provider for {@link SmartMedia}
- * @version 1.2.0
+ * @version 1.3.0
  * @author Julia Murashko
  * @extends BaseProvider
  * @protected
@@ -103,7 +103,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 		this._api.on('ended', () => this.component._onEnded());
 		this.component._onReady();
 
-		return this.$$fromEvent('loadstart');
+		return this.$$fromEvent('loadedmetadata');
 	}
 
 	public bind() {
