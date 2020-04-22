@@ -222,6 +222,7 @@ export class SmartMedia extends CustomElement {
     public play(allowActivate: boolean = false) {
         if (this.disabled && allowActivate) {
             this.disabled = false;
+            this.autoplay = true;
         }
         if (!this.canActivate()) return;
         this.deferredReinitialize.then(() => {
