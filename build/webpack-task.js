@@ -2,7 +2,12 @@ const gulp = require('gulp');
 
 const named = require('vinyl-named');
 const webpackStream = require('webpack-stream');
-const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
+
+const OPTIONS_DEFAULT = {
+	dev: false,
+	check: true,
+	target: 'ES5'
+};
 
 const INITIAL_CONFIG = {
 	watch: false,
@@ -20,8 +25,7 @@ const OUTPUT_DEFAULT = {
 
 module.exports.buildAll = function tsBuildAll(config) {
 	const webpackConfig = Object.assign({}, INITIAL_CONFIG);
-
-    config = Object.assign({dev: false, check: true}, config);
+	config = Object.assign({}, OPTIONS_DEFAULT, config);
 
     webpackConfig.context = config.content;
     webpackConfig.output = Object.assign({}, OUTPUT_DEFAULT, config.output);
@@ -30,25 +34,26 @@ module.exports.buildAll = function tsBuildAll(config) {
 	};
     webpackConfig.module.rules.push({
 		test: /\.ts?$/,
-		loader: 'awesome-typescript-loader',
+		loader: 'ts-loader',
 		options: {
-			configFileName: 'tsconfig.json',
+			compilerOptions: {
+				declaration: config.declarations,
+				target: config.target
+			},
 			reportFiles: [
 				'src/helpers/**/*.ts',
 				'src/components/**/*.ts'
-			]
+			],
+			transpileOnly: !config.check && !config.declarations
 		}
 	});
 
-	// if (config.declarations) {
-	// 	webpackConfig.plugins.push(new DeclarationBundlerPlugin({
-	// 		moduleName: '"smart-library"',
-	// 		out: '../@types/index.d.ts'
-	// 	}));
-	// }
+	if (config.declarations) {
+		const DeclarationPlugin = require('./plugins/declaration-webpack-plugin');
+		webpackConfig.plugins.push(new DeclarationPlugin());
+	}
 
 	if (config.check) {
-		webpackConfig.plugins.push(new CheckerPlugin());
 		webpackConfig.module.rules.push({
 			enforce: 'pre',
 			test: /\.ts$/,
@@ -61,6 +66,7 @@ module.exports.buildAll = function tsBuildAll(config) {
 	}
 
 	if (config.commonChunk) {
+		webpackConfig.optimization.namedChunks = true;
 		webpackConfig.optimization.splitChunks = {
 			chunks: 'all',
 			minSize: 90 * 1024,

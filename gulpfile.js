@@ -44,7 +44,7 @@ gulp.task('ts-lib', function () {
         src: paths.bundle.ts,
         context: paths.bundle.context,
         output: {
-            library: 'SmartLibrary',
+            library: 'ESL',
             libraryTarget: 'umd',
             umdNamedDefine: true
         },
@@ -54,6 +54,13 @@ gulp.task('ts-lib', function () {
 gulp.task('ts-lib-bundles', function () {
     return task.bundle({
         src: paths.bundle.tsComponents,
+        output: {
+            library: 'ESL',
+            libraryTarget: 'umd',
+            umdNamedDefine: true,
+            jsonpFunction: '~ESLCore~'
+        },
+        target: 'ES6',
         context: paths.bundle.context,
         commonChunk: 'smart-core',
         check: !FAST_BUILD

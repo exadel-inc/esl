@@ -1,17 +1,17 @@
-import type {SmartLibrary} from '../../src/bundles/lib';
+import type {ESL} from '../../src/bundles/lib';
 
 import './common/back-button';
 import './common/test-media';
 import './common/test-media-source';
 
-SmartLibrary.SmartImage.register();
-SmartLibrary.SmartMedia.register();
+ESL.SmartImage.register();
+ESL.SmartMedia.register();
 
-SmartLibrary.SmartCarousel.register();
-SmartLibrary.SmartCarouselDots.register();
-SmartLibrary.SmartCarouselLinkPlugin.register();
-SmartLibrary.SmartCarouselTouchPlugin.register();
-SmartLibrary.SmartCarouselAutoplayPlugin.register();
+ESL.SmartCarousel.register();
+ESL.SmartCarouselDots.register();
+ESL.SmartCarouselLinkPlugin.register();
+ESL.SmartCarouselTouchPlugin.register();
+ESL.SmartCarouselAutoplayPlugin.register();
 
-SmartLibrary.SmartPopup.register();
-SmartLibrary.SmartPopupTrigger.register();
+ESL.SmartPopup.register();
+ESL.SmartPopupTrigger.register();

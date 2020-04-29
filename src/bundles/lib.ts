@@ -1,7 +1,7 @@
 import * as Lib from './all';
 
-export type SmartLibrary = typeof Lib;
+export type ESL = typeof Lib;
 
 declare global {
-	const SmartLibrary: SmartLibrary
+	const ESL: ESL
 }

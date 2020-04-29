@@ -100,14 +100,14 @@ class SmartMultiCarouselView extends SmartCarouselView {
 			slide.style.transform = `translateX(${trans}px)`;
 
 			// handle slides that are active now and have to be active then
-			const slideIndex = slide.index;
-			if (intersectionArr.indexOf(slideIndex) !== -1) {
-				const orderIndex = nextActiveIndexes.indexOf(slideIndex);
+			const sIndex = slide.index;
+			if (intersectionArr.indexOf(sIndex) !== -1) {
+				const orderIndex = nextActiveIndexes.indexOf(sIndex);
 				const time = (direction === 'right') ?
 					(transitionDuration / this.carousel.activeCount) * orderIndex :
 					(transitionDuration / this.carousel.activeCount) * (this.carousel.activeCount - orderIndex - 1);
 				setTimeout(() => {
-					this.carousel.$slides[slideIndex].style.transform = `translateX(${trans}px)`;
+					this.carousel.$slides[sIndex].style.transform = `translateX(${trans}px)`;
 				}, time);
 			}
 		});
