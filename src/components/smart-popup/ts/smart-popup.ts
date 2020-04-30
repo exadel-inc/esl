@@ -19,7 +19,7 @@ export interface ISmartPopup {
   lazyInit?(): Promise<boolean> | void;
 }
 
-class SmartPopup extends CustomElement implements ISmartPopup {
+export class SmartPopup extends CustomElement implements ISmartPopup {
   public static is = 'smart-popup';
   public static eventNs = 'spopup';
 

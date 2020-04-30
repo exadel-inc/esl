@@ -5,7 +5,7 @@ import SmartCarouselPlugin from './smart-carousel-plugin';
 /**
  * Slide Carousel Link plugin. Allows to bind carousel positions.
  */
-class SmartCarouselLinkPlugin extends SmartCarouselPlugin {
+export class SmartCarouselLinkPlugin extends SmartCarouselPlugin {
 	public static is = 'smart-carousel-link-plugin';
 
 	public static get observedAttributes() {

@@ -10,7 +10,7 @@ export interface ISmartPopupTrigger extends HTMLElement {
   popup: SmartPopup;
 }
 
-class SmartPopupTrigger extends CustomElement implements ISmartPopupTrigger {
+export class SmartPopupTrigger extends CustomElement implements ISmartPopupTrigger {
   public static is = 'smart-popup-trigger';
 
   static get observedAttributes() {

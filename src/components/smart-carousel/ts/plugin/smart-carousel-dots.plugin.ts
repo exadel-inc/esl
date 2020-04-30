@@ -6,7 +6,7 @@ import SmartCarouselPlugin from './smart-carousel-plugin';
  *
  * @author Julia Murashko
  */
-class SmartCarouselDotsPlugin extends SmartCarouselPlugin {
+export class SmartCarouselDotsPlugin extends SmartCarouselPlugin {
     public static is = 'smart-carousel-dots';
     public static freePlacement = true;
 

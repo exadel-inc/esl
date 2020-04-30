@@ -4,7 +4,7 @@
  */
 import {CustomElement} from '../../../helpers/custom-element';
 
-class SmartCarouselSlide extends CustomElement {
+export class SmartCarouselSlide extends CustomElement {
 	constructor() {
 		super();
 	}

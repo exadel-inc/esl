@@ -1,19 +1,10 @@
-import SmartCarousel from './ts/smart-carousel';
-
 // Views
 import './ts/view/smart-single-carousel-view';
 import './ts/view/smart-multi-carousel-view';
 
+export * from './ts/smart-carousel';
 // Plugins
-import SmartCarouselDots from './ts/plugin/smart-carousel-dots.plugin';
-import SmartCarouselLinkPlugin from './ts/plugin/smart-carousel-link.plugin';
-import SmartCarouselTouchPlugin from './ts/plugin/smart-carousel-touch.plugin';
-import SmartCarouselAutoplayPlugin from './ts/plugin/smart-carousel-autoplay.plugin';
-
-export {
-    SmartCarousel,
-    SmartCarouselDots,
-    SmartCarouselLinkPlugin,
-    SmartCarouselTouchPlugin,
-    SmartCarouselAutoplayPlugin
-}
+export * from './ts/plugin/smart-carousel-dots.plugin';
+export * from './ts/plugin/smart-carousel-link.plugin';
+export * from './ts/plugin/smart-carousel-touch.plugin';
+export * from './ts/plugin/smart-carousel-autoplay.plugin';

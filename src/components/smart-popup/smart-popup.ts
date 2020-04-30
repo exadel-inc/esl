@@ -1,7 +1,2 @@
-import SmartPopup from './ts/smart-popup';
-import SmartPopupTrigger from './ts/smart-popup-trigger';
-
-export {
-    SmartPopup,
-    SmartPopupTrigger
-};
+export * from './ts/smart-popup';
+export * from './ts/smart-popup-trigger';

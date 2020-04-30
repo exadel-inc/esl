@@ -13,7 +13,7 @@ interface CarouselConfig { // Registry
 }
 
 // TODO: add ability to choose the number of an active slide
-class SmartCarousel extends CustomElement {
+export class SmartCarousel extends CustomElement {
 	public static is = 'smart-carousel';
 	public static eventNs = 'sc';
 

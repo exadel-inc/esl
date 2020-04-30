@@ -5,7 +5,7 @@ import {normalizeTouchPoint, Point} from '../../../../helpers/dom-utils';
 /**
  * Slide Carousel Touch plugin
  */
-class SmartCarouselTouchPlugin extends SmartCarouselPlugin {
+export class SmartCarouselTouchPlugin extends SmartCarouselPlugin {
 	public static is = 'smart-carousel-touch-plugin';
 
 	private isTouchStarted = false;

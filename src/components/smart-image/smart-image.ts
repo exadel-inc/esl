@@ -1,3 +1,1 @@
-import SmartImage from './ts/smart-image';
-
-export {SmartImage};
+export * from './ts/smart-image';

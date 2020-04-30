@@ -1,7 +1,5 @@
-import * as Lib from './all';
-
-export type ESL = typeof Lib;
+import type * as Lib from './all';
 
 declare global {
-	const ESL: ESL
+	const ESL: typeof Lib
 }
