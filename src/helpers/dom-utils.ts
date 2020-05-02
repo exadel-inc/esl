@@ -14,3 +14,13 @@ export function normalizeTouchPoint(event: TouchEvent | PointerEvent): Point {
 		y: source.pageY
 	};
 }
+
+/**
+ * Extended selector support
+ */
+export function findTarget(query: string, root: HTMLElement = document.body) {
+	if (query === 'parent') return root.parentElement;
+	if (query === 'next') return root.nextElementSibling;
+	if (query === 'prev') return root.previousElementSibling;
+	return document.querySelector(query);
+}

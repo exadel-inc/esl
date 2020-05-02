@@ -1,21 +1,16 @@
 import {CustomElement} from '../../../helpers/custom-element';
 import { ESC } from '../../../helpers/keycodes';
-import { ISmartPopupTrigger } from './smart-popup-trigger';
 import { attr } from '../../../helpers/decorators/attr';
 import PopupManager from './smart-popup-manager';
 
 export interface ISmartPopupActionParams {
-  trigger?: ISmartPopupTrigger;
+  trigger?: HTMLElement;
 }
 
 export interface ISmartPopup {
-
   show(params?: ISmartPopupActionParams): this;
-
   hide(params?: ISmartPopupActionParams): this;
-
   toggle(newState?: boolean): this;
-
   lazyInit?(): Promise<boolean> | void;
 }
 
@@ -34,12 +29,12 @@ export class SmartPopup extends CustomElement implements ISmartPopup {
     ];
   }
 
-  protected _closeButtonEl: Element;
-
   @attr() public group: string;
-  @attr() protected bodyClass: string;
-  @attr() protected closeButton: string;
-  @attr({conditional: true}) protected closeOnEsc: boolean;
+  @attr() public bodyClass: string;
+  @attr() public activeClass: string;
+  @attr() public closeButton: string;
+
+  @attr({conditional: true}) public closeOnEsc: boolean;
   @attr({conditional: true}) public closeOnBodyClick: boolean;
   @attr({conditional: true}) public active: boolean;
 
@@ -63,7 +58,7 @@ export class SmartPopup extends CustomElement implements ISmartPopup {
   }
 
   protected connectedCallback() {
-    this.classList.add(SmartPopup.is);
+    this.classList.add((this.constructor as typeof SmartPopup).is);
     PopupManager.registerInGroup(this);
     PopupManager.registerCloseOnBodyClickPopup(this);
   }
@@ -74,7 +69,7 @@ export class SmartPopup extends CustomElement implements ISmartPopup {
   }
 
   protected setState() {
-    this.active ? this.onShown() : this.onHidden();
+    this.active ? this.onShow() : this.onHide();
   }
 
   protected bindCloseOnEscHandler() {
@@ -109,23 +104,30 @@ export class SmartPopup extends CustomElement implements ISmartPopup {
   }
 
   protected setCloseButton() {
-    this._closeButtonEl && this._closeButtonEl.removeEventListener('click', this.closeButtonHandler);
-    this._closeButtonEl = this.querySelector(this.closeButton);
-    this._closeButtonEl && this._closeButtonEl.addEventListener('click', this.closeButtonHandler);
+    if (this.closeButton) {
+      this.addEventListener('click', this.closeButtonHandler);
+    } else {
+      this.removeEventListener('click', this.closeButtonHandler);
+    }
   }
 
-  protected closeButtonHandler: EventListener = () => {
-    this.hide();
+  protected closeButtonHandler: EventListener = (e: Event) => {
+    const target = e.target as HTMLElement;
+    if (target.closest(this.closeButton)) {
+      this.hide();
+    }
   };
 
-  protected onShown() {
+  protected onShow() {
     PopupManager.hidePopupsInGroup(this);
+    this.activeClass && this.classList.add(this.activeClass);
     this.bodyClass && document.body.classList.add(this.bodyClass);
     this.setAttribute('aria-hidden', 'false');
     this.dispatchCustomEvent('show');
   }
 
-  protected onHidden() {
+  protected onHide() {
+    this.activeClass && this.classList.remove(this.activeClass);
     this.bodyClass && document.body.classList.remove(this.bodyClass);
     this.setAttribute('aria-hidden', 'true');
     this.dispatchCustomEvent('hide');

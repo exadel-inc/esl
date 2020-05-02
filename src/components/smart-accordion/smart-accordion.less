@@ -1,0 +1,11 @@
+smart-accordion {
+  display: block;
+  max-height: none;
+
+  transition: max-height ease-in-out 1s;
+
+  &:not([active]) {
+    display: none;
+    max-height: 0;
+  }
+}

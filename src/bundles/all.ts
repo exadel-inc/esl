@@ -15,3 +15,4 @@ export * from './../components/smart-image/smart-image';
 export * from './../components/smart-media/smart-media';
 export * from './../components/smart-popup/smart-popup';
 export * from './../components/smart-carousel/smart-carousel';
+export * from './../components/smart-accordion/smart-accordion';
