@@ -1,28 +1,34 @@
 import SmartPopup from '../../smart-popup/ts/smart-popup';
 
 import {attr} from '../../../helpers/decorators/attr';
-import {PromiseUtils} from '../../../helpers/promise-utils';
 import {afterNextRender} from '../../../helpers/function-utils';
 
 export class SmartAccordion extends SmartPopup {
 	public static is = 'smart-accordion';
 	public static eventNs = 'saccordion';
 
-	@attr() public animationDuration: number;
+	@attr({defaultValue: 'open'}) public activeClass: string;
+	@attr({defaultValue: 'auto'}) public fallbackDuration: number;
 
-	constructor() {
-		super();
+	protected connectedCallback() {
+		super.connectedCallback();
+		this.addEventListener('transitionend', this.onTransitionEnd);
+	}
+
+	protected disconnectedCallback() {
+		super.connectedCallback();
+		this.removeEventListener('transitionend', this.onTransitionEnd);
 	}
 
 	protected onShow() {
 		super.onShow();
-		this.style.setProperty('max-height', `${this.scrollHeight}px`);
+		this.style.setProperty('max-height', '0');
 
-		PromiseUtils.fromEventWithTimeout(this.animationDuration, this, 'transitionend')
-			.then((e: TransitionEvent) => {
-				if (e && e.propertyName !== 'max-height') return;
-				this.style.removeProperty('height');
-			});
+		// make sure that browser apply initial height for animation
+		afterNextRender(() => {
+			this.style.setProperty('max-height', `${this.scrollHeight}px`);
+		});
+		(this.fallbackDuration >= 0) && setTimeout(this.onTransitionEnd, this.fallbackDuration);
 	}
 
 	protected onHide() {
@@ -30,6 +36,15 @@ export class SmartAccordion extends SmartPopup {
 		super.onHide();
 
 		// make sure that browser apply initial height for animation
-		afterNextRender(() => this.style.removeProperty('max-height'));
+		afterNextRender(() => {
+			this.style.setProperty('max-height', '0');
+		});
+		(this.fallbackDuration >= 0) && setTimeout(this.onTransitionEnd, this.fallbackDuration);
 	}
+
+	protected onTransitionEnd = (e?: TransitionEvent) => {
+		if (!e || e.propertyName === 'max-height') {
+			this.style.removeProperty('max-height');
+		}
+	};
 }

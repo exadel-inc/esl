@@ -1,11 +1,15 @@
 smart-accordion {
   display: block;
-  max-height: none;
+  height: auto;
+  overflow: hidden;
 
-  transition: max-height ease-in-out 1s;
+  visibility: hidden;
+  max-height: 0;
+  transition: max-height 2s ease-in-out, visibility 0s linear 2s;
 
-  &:not([active]) {
-    display: none;
-    max-height: 0;
+  &.open {
+    visibility: visible;
+    max-height: none;
+    transition: max-height 2s ease-in-out, visibility 0s linear;
   }
 }
