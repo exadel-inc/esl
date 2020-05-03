@@ -7,12 +7,16 @@ if (!('customElements' in window)) {
   throw new Error('Browser is not support customElements, load polyfills before');
 }
 
+export * from './../helpers/custom-element';
 export * from './../helpers/config/breakpoints';
 export * from './../helpers/conditions/smart-media-query';
 export * from './../helpers/conditions/smart-media-rule-list';
 
 export * from './../components/smart-image/smart-image';
 export * from './../components/smart-media/smart-media';
-export * from './../components/smart-popup/smart-popup';
+
 export * from './../components/smart-carousel/smart-carousel';
+
+export * from './../components/smart-popup/smart-popup';
 export * from './../components/smart-accordion/smart-accordion';
+export * from './../components/smart-trigger/smart-trigger';
