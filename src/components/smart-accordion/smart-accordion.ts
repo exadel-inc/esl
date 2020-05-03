@@ -1,1 +1,1 @@
-export * from './ui/smart-accordion';
+export * from './ts/smart-accordion';

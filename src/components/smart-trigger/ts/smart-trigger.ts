@@ -1,21 +1,19 @@
 import { CustomElement } from '../../../helpers/custom-element';
 import { DeviceDetector } from '../../../helpers/device-utils';
 import { attr } from '../../../helpers/decorators/attr';
-import SmartPopup from './smart-popup';
+import { SmartPopup } from '../../smart-popup/smart-popup';
+import { findTarget } from '../../../helpers/dom-utils';
 
 const HOVER_SHOW_EVENT = DeviceDetector.isTouchDevice ? 'click' : 'mouseenter';
 const HOVER_HIDE_EVENT = DeviceDetector.isTouchDevice ? 'click' : 'mouseleave';
 
-export interface ISmartPopupTrigger extends HTMLElement {
-  popup: SmartPopup;
-}
-
-export class SmartPopupTrigger extends CustomElement implements ISmartPopupTrigger {
-  public static is = 'smart-popup-trigger';
+// TODO: simplify, unify, cleanup, extend (group as a target)
+export class SmartTrigger extends CustomElement {
+  public static is = 'smart-trigger';
 
   static get observedAttributes() {
     return [
-      'target-id',
+      'target',
       'event',
       'mode',
       'active',
@@ -26,15 +24,19 @@ export class SmartPopupTrigger extends CustomElement implements ISmartPopupTrigg
     ];
   }
 
-  public popup: SmartPopup;
+  public _popup: SmartPopup;
 
-  @attr() protected targetId: string;
+  @attr({defaultValue: 'parent'}) protected target: string;
+
   @attr({defaultValue: 'click'}) protected event: string;
   @attr({defaultValue: 'toggle'}) protected mode: string;
+
   @attr({defaultValue: '0'}) protected showDelay: string;
   @attr({defaultValue: '0'}) protected hideDelay: string;
   @attr({conditional: true}) protected showDelayOnTouch: boolean;
   @attr({conditional: true}) protected hideDelayOnTouch: boolean;
+
+  // TODO: is it state of true ?
   @attr({conditional: true}) protected active: boolean;
 
   protected _showTimerId: number;
@@ -47,8 +49,8 @@ export class SmartPopupTrigger extends CustomElement implements ISmartPopupTrigg
   protected attributeChangedCallback(attrName: string) {
     this._unbindEvents();
     switch (attrName) {
-      case 'target-id':
-        this.setPopup();
+      case 'target':
+        this.updatePopupFromTarget();
         break;
       case 'active':
         this.setState();
@@ -71,7 +73,7 @@ export class SmartPopupTrigger extends CustomElement implements ISmartPopupTrigg
   }
 
   protected connectedCallback() {
-    this.classList.add(SmartPopupTrigger.is);
+    this.classList.add(SmartTrigger.is);
     this.bindPopupEvents();
     this.bindHoverSubEvents();
   }
@@ -81,47 +83,57 @@ export class SmartPopupTrigger extends CustomElement implements ISmartPopupTrigg
     this.unbindHoverSubEvents();
   }
 
-  protected setPopup() {
-    this.unbindPopupEvents();
-    if (this.targetId) {
-      this.popup = document.getElementById(this.targetId) as SmartPopup;
-      if (this.popup && this.popup.active) {
-        this.active = true;
-      }
+  public get popup() {
+    if (this._popup === undefined) {
+      this.updatePopupFromTarget();
+    }
+    return this._popup;
+  }
+  public set popup(newPopupInstance) {
+    this._popup && this.unbindPopupEvents();
+    this._popup = newPopupInstance;
+    if (this._popup) {
+      this.active = this._popup.active;
       this.bindPopupEvents();
     }
   }
 
+  get popupClass(): typeof SmartPopup {
+    return this._popup && this._popup.constructor as typeof SmartPopup;
+  }
+
+  protected updatePopupFromTarget() {
+    if (!this.target) return;
+    this.popup = findTarget(this.target, this) as SmartPopup;
+  }
+
   protected bindPopupEvents() {
     if (this.popup) {
-      this.popup.addEventListener(`${SmartPopup.eventNs}:show`, this.onPopupShown);
-      this.popup.addEventListener(`${SmartPopup.eventNs}:hide`, this.onPopupHidden);
+      this.popup.addEventListener(`${this.popupClass.eventNs}:show`, this.onPopupShown);
+      this.popup.addEventListener(`${this.popupClass.eventNs}:hide`, this.onPopupHidden);
     }
   }
 
   protected unbindPopupEvents() {
     if (this.popup) {
-      this.popup.removeEventListener(`${SmartPopup.eventNs}:show`, this.onPopupShown);
-      this.popup.removeEventListener(`${SmartPopup.eventNs}:hide`, this.onPopupHidden);
+      this.popup.removeEventListener(`${this.popupClass.eventNs}:show`, this.onPopupShown);
+      this.popup.removeEventListener(`${this.popupClass.eventNs}:hide`, this.onPopupHidden);
     }
   }
 
   protected onPopupShown = () => {
     this.active = true;
   };
-
   protected onPopupHidden = () => {
     this.active = false;
   };
 
   protected setEvents() {
-    switch (this.event) {
-      case 'hover':
-        this._showEvent = HOVER_SHOW_EVENT;
-        this._hideEvent = HOVER_HIDE_EVENT;
-        break;
-      default:
-        this._showEvent = this._hideEvent = this.event;
+    if (this.event === 'hover') {
+      this._showEvent = HOVER_SHOW_EVENT;
+      this._hideEvent = HOVER_HIDE_EVENT;
+    } else {
+      this._showEvent = this._hideEvent = this.event;
     }
   }
 
@@ -220,7 +232,7 @@ export class SmartPopupTrigger extends CustomElement implements ISmartPopupTrigg
   protected togglePopup(e: Event) {
     this.active ? this.hidePopup(e) : this.showPopup(e);
   }
-
+  // TODO: unify
   protected bindShowEvent() {
     this.addEventListener(this._showEvent, this.showPopup);
   }
@@ -234,4 +246,4 @@ export class SmartPopupTrigger extends CustomElement implements ISmartPopupTrigg
   }
 }
 
-export default SmartPopupTrigger;
+export default SmartTrigger;
