@@ -2,6 +2,7 @@ import {CustomElement} from '../../../helpers/custom-element';
 import {ESC} from '../../../helpers/keycodes';
 import {attr} from '../../../helpers/decorators/attr';
 import PopupManager from './smart-popup-manager';
+import {jsonAttr} from '../../../helpers/decorators/json-attr';
 
 export interface PopupActionParams {
 	force?: boolean;
@@ -17,8 +18,9 @@ export interface ISmartPopup {
 
 export class SmartPopup extends CustomElement implements ISmartPopup {
 	public static is = 'smart-popup';
-	public static eventNs = 'spopup';
+	public static eventNs = 'esl:popup';
 
+	protected static defaultParams = {};
 	protected static initialParams = {silent: true};
 
 	static get observedAttributes() {
@@ -32,7 +34,7 @@ export class SmartPopup extends CustomElement implements ISmartPopup {
 	}
 
 	private _ready: boolean = false;
-	private _active: boolean = false;
+	private _open: boolean = false;
 
 	@attr() public group: string;
 	@attr() public bodyClass: string;
@@ -42,13 +44,16 @@ export class SmartPopup extends CustomElement implements ISmartPopup {
 	@attr({conditional: true}) public closeOnEsc: boolean;
 	@attr({conditional: true}) public closeOnBodyClick: boolean;
 
-	@attr({conditional: true}) public active: boolean;
+	@attr({conditional: true}) public open: boolean;
+
+	@jsonAttr({staticDefault: 'defaultParams', default: {}}) public defaultParams: PopupActionParams;
+	@jsonAttr({staticDefault: 'initialParams', default: {}}) public initialParams: PopupActionParams;
 
 	protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
 		if (!this._ready || newVal === oldVal) return;
 		switch (attrName) {
-			case 'active':
-				this.toggle(this.active);
+			case 'open':
+				this.toggle(this.open);
 				break;
 			case 'close-on-esc':
 				this.bindCloseOnEscHandler();
@@ -63,16 +68,13 @@ export class SmartPopup extends CustomElement implements ISmartPopup {
 	}
 
 	protected connectedCallback() {
-		const popupClass = this.constructor as typeof SmartPopup;
-		this.classList.add(popupClass.is);
+		this.classList.add((this.constructor as typeof SmartPopup).is);
 		this.setGroup();
 		this.bindEvents();
 		this.bindBodyClickHandler();
 		this._ready = true;
 		// Force initial state
-		if (popupClass.initialParams) {
-			this.toggle(this.active, popupClass.initialParams);
-		}
+		this.toggle(this.open, Object.assign({}, this.defaultParams, this.initialParams));
 	}
 
 	protected disconnectedCallback() {
@@ -98,23 +100,23 @@ export class SmartPopup extends CustomElement implements ISmartPopup {
 	/**
 	 * Changes popup state to active
 	 */
-	public show(params: PopupActionParams = {}) {
-		if (params.force || !this._active) this.onShow(params);
+	public show(params: PopupActionParams = this.defaultParams) {
+		if (params.force || !this._open) this.onShow(params);
 		return this;
 	}
 
 	/**
 	 * Changes popup state to inactive
 	 */
-	public hide(params: PopupActionParams = {}) {
-		if (params.force || this._active) this.onHide(params);
+	public hide(params: PopupActionParams = this.defaultParams) {
+		if (params.force || this._open) this.onHide(params);
 		return this;
 	}
 
 	/**
 	 * Toggle popup state
 	 */
-	public toggle(state: boolean = !this.active, params?: PopupActionParams) {
+	public toggle(state: boolean = !this.open, params: PopupActionParams = this.defaultParams) {
 		state ? this.show(params) : this.hide(params);
 		return this;
 	}
@@ -132,10 +134,10 @@ export class SmartPopup extends CustomElement implements ISmartPopup {
 	}
 
 	protected onShow(params: PopupActionParams) {
-		this._active = true;
+		this._open = true;
 
 		PopupManager.hidePopupsInGroup(this);
-		this.setAttribute('active', '');
+		this.setAttribute('open', '');
 		this.setAttribute('aria-hidden', 'false');
 		this.activeClass && this.classList.add(this.activeClass);
 		this.bodyClass && document.body.classList.add(this.bodyClass);
@@ -146,9 +148,9 @@ export class SmartPopup extends CustomElement implements ISmartPopup {
 	}
 
 	protected onHide(params: PopupActionParams) {
-		this._active = false;
+		this._open = false;
 
-		this.removeAttribute('active');
+		this.removeAttribute('open');
 		this.setAttribute('aria-hidden', 'true');
 		this.activeClass && this.classList.remove(this.activeClass);
 		this.bodyClass && document.body.classList.remove(this.bodyClass);

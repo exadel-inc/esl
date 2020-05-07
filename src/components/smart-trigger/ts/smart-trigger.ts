@@ -93,7 +93,7 @@ export class SmartTrigger extends CustomElement {
     this._popup && this.unbindPopupEvents();
     this._popup = newPopupInstance;
     if (this._popup) {
-      this.active = this._popup.active;
+      this.active = this._popup.open;
       this.bindPopupEvents();
     }
   }

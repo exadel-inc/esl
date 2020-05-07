@@ -14,5 +14,5 @@ ESL.SmartCarouselTouchPlugin.register();
 ESL.SmartCarouselAutoplayPlugin.register();
 
 ESL.SmartPopup.register();
-ESL.SmartAccordion.register();
+ESL.SmartCollapsible.register();
 ESL.SmartTrigger.register();

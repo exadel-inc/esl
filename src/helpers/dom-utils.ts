@@ -23,4 +23,6 @@ export function findTarget(query: string, root: HTMLElement = document.body) {
 	if (query === 'next') return root.nextElementSibling;
 	if (query === 'prev') return root.previousElementSibling;
 	return document.querySelector(query);
+	// .parent |> .child
+	// group:groupName
 }

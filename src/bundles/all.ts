@@ -18,5 +18,5 @@ export * from './../components/smart-media/smart-media';
 export * from './../components/smart-carousel/smart-carousel';
 
 export * from './../components/smart-popup/smart-popup';
-export * from './../components/smart-accordion/smart-accordion';
+export * from './../components/smart-collapsible/smart-collapsible';
 export * from './../components/smart-trigger/smart-trigger';
