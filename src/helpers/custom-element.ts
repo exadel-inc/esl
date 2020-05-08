@@ -21,6 +21,10 @@ export abstract class CustomElement extends HTMLElement {
 		customElements.define(tagName, this);
 	}
 
+	protected connectedCallback() {
+		this.classList.add((this.constructor as typeof CustomElement).is);
+	}
+
 	/**
 	 * Dispatch component custom event.
 	 * Will append prefix from static property {eventNs} if it is defined.

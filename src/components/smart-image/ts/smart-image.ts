@@ -319,7 +319,7 @@ export class SmartImage extends CustomElement {
 	}
 
 	protected connectedCallback() {
-		this.classList.add((this.constructor as any).is);
+		super.connectedCallback();
 		this.alt = this.alt || this.getAttribute('data-alt') || '';
 		if (!this.hasAttribute('role')) {
 			this.setAttribute('role', 'img');

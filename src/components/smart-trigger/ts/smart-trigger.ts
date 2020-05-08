@@ -73,7 +73,7 @@ export class SmartTrigger extends CustomElement {
   }
 
   protected connectedCallback() {
-    this.classList.add(SmartTrigger.is);
+    super.connectedCallback();
     this.bindPopupEvents();
     this.bindHoverSubEvents();
   }
@@ -104,7 +104,7 @@ export class SmartTrigger extends CustomElement {
 
   protected updatePopupFromTarget() {
     if (!this.target) return;
-    this.popup = findTarget(this.target, this) as SmartPopup;
+    this.popup = findTarget(this, this.target) as SmartPopup;
   }
 
   protected bindPopupEvents() {

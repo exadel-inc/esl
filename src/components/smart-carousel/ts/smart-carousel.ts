@@ -148,7 +148,7 @@ export class SmartCarousel extends CustomElement {
 	}
 
 	protected connectedCallback() {
-		this.classList.add(SmartCarousel.is);
+		super.connectedCallback();
 
 		this.update(true);
 		this.goTo(this.firstIndex, '', true);

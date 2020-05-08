@@ -68,7 +68,7 @@ export class SmartPopup extends CustomElement implements ISmartPopup {
 	}
 
 	protected connectedCallback() {
-		this.classList.add((this.constructor as typeof SmartPopup).is);
+		super.connectedCallback();
 		this.setGroup();
 		this.bindEvents();
 		this.bindBodyClickHandler();
