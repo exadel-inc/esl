@@ -95,7 +95,7 @@ export class SmartTrigger extends CustomElement {
     if (!this.popup) return;
     const popupClass = this._popup.constructor as typeof SmartPopup;
     this.popup.addEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
-    if (!DeviceDetector.isTouchDevice && this.event === 'hover') {
+    if (!DeviceDetector.isTouchDevice && this.event === 'hover' && this.mode === 'toggle') {
       this.popup.addEventListener('mouseenter', this.onPopupMouseEnter);
       this.popup.addEventListener('mouseleave', this.onPopupMouseLeave);
     }
@@ -131,8 +131,12 @@ export class SmartTrigger extends CustomElement {
   }
 
   protected bindEvents() {
-    this.attachEventListener(this.showEvent, this.onShowEvent);
-    this.attachEventListener(this.hideEvent, this.onHideEvent);
+    if (this.showEvent === this.hideEvent) {
+      this.attachEventListener(this.showEvent, this.onToggleEvent);
+    } else {
+      this.attachEventListener(this.showEvent, this.onShowEvent);
+      this.attachEventListener(this.hideEvent, this.onHideEvent);
+    }
   }
   protected attachEventListener(eventName: string, callback: (e: Event) => void) {
     if (!eventName) return;
@@ -146,32 +150,43 @@ export class SmartTrigger extends CustomElement {
 
   protected onShowEvent = (e: Event) => {
     this.stopEventPropagation(e);
-    if (this.active) return;
     this.showPopup();
   };
   protected onHideEvent = (e: Event) => {
     this.stopEventPropagation(e);
-    if (!this.active) return;
     this.hidePopup();
   };
+  protected onToggleEvent = (e: Event) => {
+    if (this.active || this._showTimerId) {
+      this.hidePopup();
+    } else {
+      this.showPopup();
+    }
+  };
   protected stopEventPropagation(e: Event) {
-    if (this.popup.closeOnBodyClick && (this.showEvent === 'click' || this.hideEvent === 'click')) {
+    if (this.popup.closeOnBodyClick && e.type === 'click') {
       e.stopPropagation();
     }
   }
 
   public showPopup() {
     clearTimeout(this._hideTimerId);
-    if (this.active) return;
-    this._showTimerId = window.setTimeout(() => {
-      this.popup.show();
+    this._hideTimerId = null;
+    this._showTimerId = this._showTimerId || window.setTimeout(() => {
+      this._showTimerId = null;
+      this.popup.show({
+        trigger: this
+      });
     }, this._showDelay);
   }
   public hidePopup() {
     clearTimeout(this._showTimerId);
-    if (!this.active) return;
-    this._hideTimerId = window.setTimeout(() => {
-      this.popup.hide();
+    this._showTimerId = null;
+    this._hideTimerId = this._hideTimerId || window.setTimeout(() => {
+      this._hideTimerId = null;
+      this.popup.hide({
+        trigger: this
+      });
     }, this._hideDelay);
   }
 
