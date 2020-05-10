@@ -52,10 +52,11 @@ export const isBFSelector = (query: string) => /^\s*<<|>>/.test(query);
  * @example "<< .parent >> .child" - find child element(s) that match class in the
  * closest parent component with class .parent
  */
-export function findTarget(root: HTMLElement, query: string) {
+export function findTarget(root: HTMLElement, query: string, multiple = false) {
 	query = query.trim();
 	if (!query) return root;
 	if (query === 'next') return root.nextElementSibling;
 	if (query === 'prev') return root.previousElementSibling
-	return isBFSelector(query) ? findBackForward(root, query) : document.querySelector(query);
+	if (isBFSelector(query)) return findBackForward(root, query, multiple);
+	return multiple ? document.querySelectorAll(query) : document.querySelector(query);
 }

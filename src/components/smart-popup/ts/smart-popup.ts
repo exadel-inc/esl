@@ -10,13 +10,7 @@ export interface PopupActionParams {
 	trigger?: HTMLElement;
 }
 
-export interface ISmartPopup {
-	show(params?: PopupActionParams): this;
-	hide(params?: PopupActionParams): this;
-	toggle(newState?: boolean): this;
-}
-
-export class SmartPopup extends CustomElement implements ISmartPopup {
+export class SmartPopup extends CustomElement {
 	public static is = 'smart-popup';
 	public static eventNs = 'esl:popup';
 
@@ -142,9 +136,7 @@ export class SmartPopup extends CustomElement implements ISmartPopup {
 		this.activeClass && this.classList.add(this.activeClass);
 		this.bodyClass && document.body.classList.add(this.bodyClass);
 
-		if (!params.silent) {
-			this.dispatchCustomEvent('show');
-		}
+		if (!params.silent) this.fireStateChange();
 	}
 
 	protected onHide(params: PopupActionParams) {
@@ -155,9 +147,13 @@ export class SmartPopup extends CustomElement implements ISmartPopup {
 		this.activeClass && this.classList.remove(this.activeClass);
 		this.bodyClass && document.body.classList.remove(this.bodyClass);
 
-		if (!params.silent) {
-			this.dispatchCustomEvent('hide');
-		}
+		if (!params.silent) this.fireStateChange();
+	}
+
+	protected fireStateChange() {
+		this.dispatchCustomEvent('statechange', {
+			detail: { open: this._open }
+		});
 	}
 
 	protected onClick: EventListener = (e: Event) => {

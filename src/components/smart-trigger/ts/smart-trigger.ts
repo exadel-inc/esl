@@ -4,10 +4,7 @@ import { attr } from '../../../helpers/decorators/attr';
 import { SmartPopup } from '../../smart-popup/smart-popup';
 import { findTarget } from '../../../helpers/dom-utils';
 
-const HOVER_SHOW_EVENT = DeviceDetector.isTouchDevice ? 'click' : 'mouseenter';
-const HOVER_HIDE_EVENT = DeviceDetector.isTouchDevice ? 'click' : 'mouseleave';
 
-// TODO: simplify, unify, cleanup, extend (group as a target)
 export class SmartTrigger extends CustomElement {
   public static is = 'smart-trigger';
 
@@ -24,39 +21,34 @@ export class SmartTrigger extends CustomElement {
     ];
   }
 
-  public _popup: SmartPopup;
+  // Markers
+  @attr({conditional: true}) protected active: boolean;
 
-  @attr({defaultValue: 'parent'}) protected target: string;
-
+  // Main setting
+  @attr({defaultValue: 'next'}) protected target: string;
   @attr({defaultValue: 'click'}) protected event: string;
   @attr({defaultValue: 'toggle'}) protected mode: string;
 
+  // Common properties
   @attr({defaultValue: '0'}) protected showDelay: string;
   @attr({defaultValue: '0'}) protected hideDelay: string;
   @attr({conditional: true}) protected showDelayOnTouch: boolean;
   @attr({conditional: true}) protected hideDelayOnTouch: boolean;
 
-  // TODO: is it state of true ?
-  @attr({conditional: true}) protected active: boolean;
-
+  protected _popup: SmartPopup;
   protected _showTimerId: number;
   protected _hideTimerId: number;
-  protected _showEvent: string;
-  protected _hideEvent: string;
   protected _showDelay: number = 0;
   protected _hideDelay: number = 0;
 
+  protected __unsubscribers: Function[];
+
   protected attributeChangedCallback(attrName: string) {
-    this._unbindEvents();
     switch (attrName) {
       case 'target':
         this.updatePopupFromTarget();
         break;
-      case 'active':
-        this.setState();
-        break;
       case 'event':
-        this.setEvents();
         break;
       case 'show-delay':
       case 'show-delay-on-touch':
@@ -67,20 +59,17 @@ export class SmartTrigger extends CustomElement {
         this.setHideDelay();
         break;
     }
-    if (this.popup && this._showEvent && this.mode) {
-      this._bindEvents();
-    }
   }
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.bindPopupEvents();
-    this.bindHoverSubEvents();
+    this.updatePopupFromTarget();
+    this.bindEvents();
   }
 
   protected disconnectedCallback() {
+    this.unbindEvents();
     this.unbindPopupEvents();
-    this.unbindHoverSubEvents();
   }
 
   public get popup() {
@@ -97,50 +86,93 @@ export class SmartTrigger extends CustomElement {
       this.bindPopupEvents();
     }
   }
-
-  get popupClass(): typeof SmartPopup {
-    return this._popup && this._popup.constructor as typeof SmartPopup;
-  }
-
   protected updatePopupFromTarget() {
     if (!this.target) return;
     this.popup = findTarget(this, this.target) as SmartPopup;
   }
 
   protected bindPopupEvents() {
-    if (this.popup) {
-      this.popup.addEventListener(`${this.popupClass.eventNs}:show`, this.onPopupShown);
-      this.popup.addEventListener(`${this.popupClass.eventNs}:hide`, this.onPopupHidden);
+    if (!this.popup) return;
+    const popupClass = this._popup.constructor as typeof SmartPopup;
+    this.popup.addEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
+    if (!DeviceDetector.isTouchDevice && this.event === 'hover') {
+      this.popup.addEventListener('mouseenter', this.onPopupMouseEnter);
+      this.popup.addEventListener('mouseleave', this.onPopupMouseLeave);
     }
   }
-
   protected unbindPopupEvents() {
-    if (this.popup) {
-      this.popup.removeEventListener(`${this.popupClass.eventNs}:show`, this.onPopupShown);
-      this.popup.removeEventListener(`${this.popupClass.eventNs}:hide`, this.onPopupHidden);
-    }
+    if (!this.popup) return;
+    const popupClass = this._popup.constructor as typeof SmartPopup;
+    this.popup.removeEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
+    this.popup.removeEventListener('mouseenter', this.onPopupMouseEnter);
+    this.popup.removeEventListener('mouseleave', this.onPopupMouseLeave);
   }
 
-  protected onPopupShown = () => {
-    this.active = true;
-  };
-  protected onPopupHidden = () => {
-    this.active = false;
+  protected onPopupMouseEnter = () => this.showPopup();
+  protected onPopupMouseLeave = () => this.hidePopup();
+  protected onPopupStateChanged = () => {
+    this.active = this.popup.open;
   };
 
-  protected setEvents() {
+  public get showEvent() {
+    if (this.mode === 'hide') return null;
     if (this.event === 'hover') {
-      this._showEvent = HOVER_SHOW_EVENT;
-      this._hideEvent = HOVER_HIDE_EVENT;
-    } else {
-      this._showEvent = this._hideEvent = this.event;
+      return DeviceDetector.isTouchDevice ? 'click' : 'mouseenter';
+    }
+    return this.event;
+  }
+  public get hideEvent() {
+    if (this.mode === 'show') return null;
+    if (this.event === 'hover') {
+      if (DeviceDetector.isTouchDevice) return 'click';
+      return this.mode === 'hide' ? 'mouseenter' : 'mouseleave';
+    }
+    return this.event;
+  }
+
+  protected bindEvents() {
+    this.attachEventListener(this.showEvent, this.onShowEvent);
+    this.attachEventListener(this.hideEvent, this.onHideEvent);
+  }
+  protected attachEventListener(eventName: string, callback: (e: Event) => void) {
+    if (!eventName) return;
+    this.addEventListener(eventName, callback);
+    this.__unsubscribers = this.__unsubscribers || [];
+    this.__unsubscribers.push(() => this.removeEventListener(eventName, callback));
+  }
+  protected unbindEvents() {
+    (this.__unsubscribers || []).forEach((off) => off());
+  }
+
+  protected onShowEvent = (e: Event) => {
+    this.stopEventPropagation(e);
+    if (this.active) return;
+    this.showPopup();
+  };
+  protected onHideEvent = (e: Event) => {
+    this.stopEventPropagation(e);
+    if (!this.active) return;
+    this.hidePopup();
+  };
+  protected stopEventPropagation(e: Event) {
+    if (this.popup.closeOnBodyClick && (this.showEvent === 'click' || this.hideEvent === 'click')) {
+      e.stopPropagation();
     }
   }
 
-  protected setState() {
-    if (this.popup) {
-      this.active ? this.popup.show() : this.popup.hide();
-    }
+  public showPopup() {
+    clearTimeout(this._hideTimerId);
+    if (this.active) return;
+    this._showTimerId = window.setTimeout(() => {
+      this.popup.show();
+    }, this._showDelay);
+  }
+  public hidePopup() {
+    clearTimeout(this._showTimerId);
+    if (!this.active) return;
+    this._hideTimerId = window.setTimeout(() => {
+      this.popup.hide();
+    }, this._hideDelay);
   }
 
   protected setShowDelay() {
@@ -150,99 +182,12 @@ export class SmartTrigger extends CustomElement {
       this._showDelay = parseInt(this.showDelay, 10);
     }
   }
-
   protected setHideDelay() {
     if (!this.hideDelayOnTouch && DeviceDetector.isTouchDevice) {
       this._hideDelay = 0;
     } else {
       this._hideDelay = parseInt(this.hideDelay, 10);
     }
-  }
-
-  protected _bindEvents() {
-    switch (this.mode) {
-      case 'show':
-        this.bindShowEvent();
-        break;
-      case 'hide':
-        this.bindHideEvent();
-        break;
-      default:
-        if (this._showEvent === this._hideEvent) {
-          this.bindToggleEvent();
-        } else {
-          this.bindShowEvent();
-          this.bindHideEvent();
-        }
-    }
-    this.unbindHoverSubEvents();
-    this.bindHoverSubEvents();
-  }
-
-  protected unbindHoverSubEvents() {
-    if (this.popup) {
-      this.popup.removeEventListener('mouseenter', this.onPopupMouseEnter);
-      this.popup.removeEventListener('mouseleave', this.onPopupMouseLeave);
-    }
-  }
-
-  protected bindHoverSubEvents() {
-    if (this.popup && this._hideEvent === 'mouseleave') {
-      this.popup.addEventListener('mouseenter', this.onPopupMouseEnter);
-      this.popup.addEventListener('mouseleave', this.onPopupMouseLeave);
-    }
-  }
-
-  protected onPopupMouseEnter = () => {
-    clearTimeout(this._hideTimerId);
-  };
-
-  protected onPopupMouseLeave = (e: Event) => {
-    this.hidePopup(e);
-  };
-
-  protected _unbindEvents() {
-    this.removeEventListener(this._showEvent, this.togglePopup);
-    this.removeEventListener(this._showEvent, this.showPopup);
-    this.removeEventListener(this._hideEvent, this.hidePopup);
-  }
-
-  protected stopEventPropagation(e: Event) {
-    if (this.popup.closeOnBodyClick && (this._showEvent === 'click' || this._hideEvent === 'click')) {
-      e.stopPropagation();
-    }
-  }
-
-  protected showPopup(e: Event) {
-    this.stopEventPropagation(e);
-    clearTimeout(this._hideTimerId);
-    this._showTimerId = window.setTimeout(() => {
-      this.popup.show();
-    }, this._showDelay);
-  }
-
-  protected hidePopup(e: Event) {
-    this.stopEventPropagation(e);
-    clearTimeout(this._showTimerId);
-    this._hideTimerId = window.setTimeout(() => {
-      this.popup.hide();
-    }, this._hideDelay);
-  }
-
-  protected togglePopup(e: Event) {
-    this.active ? this.hidePopup(e) : this.showPopup(e);
-  }
-  // TODO: unify
-  protected bindShowEvent() {
-    this.addEventListener(this._showEvent, this.showPopup);
-  }
-
-  protected bindHideEvent() {
-    this.addEventListener(this._hideEvent, this.hidePopup);
-  }
-
-  protected bindToggleEvent() {
-    this.addEventListener(this._showEvent, this.togglePopup);
   }
 }
 
