@@ -3,7 +3,7 @@ import {ESC} from '../../../helpers/keycodes';
 import {attr} from '../../../helpers/decorators/attr';
 import PopupManager from './smart-popup-manager';
 import {jsonAttr} from '../../../helpers/decorators/json-attr';
-import {SingleTaskPlanner} from '../../../helpers/common/single-task-planner';
+import {SingleTaskManager} from '../../../helpers/common/single-task-manager';
 import {DeviceDetector} from '../../../helpers/device-utils';
 
 export interface PopupActionParams {
@@ -30,8 +30,8 @@ export class SmartPopup extends CustomElement {
 
 	private _ready: boolean = false;
 	private _open: boolean = false;
-	private _task: SingleTaskPlanner = new SingleTaskPlanner();
 	private _trackHover: boolean = false;
+	private _taskManager: SingleTaskManager = new SingleTaskManager();
 
 	@attr() public group: string;
 	@attr() public bodyClass: string;
@@ -128,7 +128,7 @@ export class SmartPopup extends CustomElement {
 	 * Changes popup state to active
 	 */
 	public show(params: PopupActionParams = this.defaultParams) {
-		this._task.push(() => {
+		this._taskManager.push(() => {
 			if (!params.force && this._open) return;
 			this.onShow(params)
 		}, params.showDelay || params.delay);
@@ -140,7 +140,7 @@ export class SmartPopup extends CustomElement {
 	 * Changes popup state to inactive
 	 */
 	public hide(params: PopupActionParams = this.defaultParams) {
-		this._task.push(() => {
+		this._taskManager.push(() => {
 			if (!params.force && !this._open) return
 			this.onHide(params)
 		}, params.hideDelay || params.delay);

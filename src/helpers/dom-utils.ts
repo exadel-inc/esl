@@ -46,11 +46,12 @@ export const isBFSelector = (query: string) => /^\s*<<|>>/.test(query);
  * @example "#id .class [attr]" - find by CSS selector in current document
  * @example "<<" - get target parent
  * @example "<< .parent" - find closest parent matching class .parent
- * @example "::parent()::child()" - get child(ren)
  * @example ">> some-tag" - find child element(s) that match tag some-tag
  * @example "<< >> some-tag" - find child element(s) that match tag some-tag in the parent
  * @example "<< .parent >> .child" - find child element(s) that match class in the
  * closest parent component with class .parent
+ *
+ * PS: most likely syntax will use {@example "::parent()::child()"} in the future
  */
 export function findTarget(root: HTMLElement, query: string, multiple = false) {
 	query = query.trim();

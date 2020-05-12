@@ -23,8 +23,8 @@ export class SmartTrigger extends CustomElement {
   // Common properties
   @attr({defaultValue: '0'}) protected showDelay: string;
   @attr({defaultValue: '0'}) protected hideDelay: string;
-  @attr({defaultValue: '0'}) protected touchShowDelay: boolean;
-  @attr({defaultValue: '0'}) protected touchHideDelay: boolean;
+  @attr({defaultValue: '0'}) protected touchShowDelay: string;
+  @attr({defaultValue: '0'}) protected touchHideDelay: string;
 
   protected _popup: SmartPopup;
   protected __unsubscribers: Function[];

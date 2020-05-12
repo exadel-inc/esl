@@ -1,4 +1,4 @@
-export class SingleTaskPlanner {
+export class SingleTaskManager {
 	private _payload: Function;
 	private _timeout: number;
 
