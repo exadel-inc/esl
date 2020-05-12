@@ -117,8 +117,8 @@ export class SmartMedia extends CustomElement {
         super();
     }
 
-    private connectedCallback() {
-        this.classList.add(SmartMedia.is);
+    protected connectedCallback() {
+        super.connectedCallback();
         if (!this.hasAttribute('role')) {
             this.setAttribute('role', 'application');
         }

@@ -61,9 +61,7 @@ abstract class PopupManager {
     }
 
     private static closeOnBodyClickHandler() {
-        closeOnBodyClickPopups.forEach((popup) => {
-            popup.hide();
-        });
+        closeOnBodyClickPopups.forEach((popup) => popup.hide());
     }
 }
 

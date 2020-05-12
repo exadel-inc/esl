@@ -1,154 +1,201 @@
 import {CustomElement} from '../../../helpers/custom-element';
-import { ESC } from '../../../helpers/keycodes';
-import { ISmartPopupTrigger } from './smart-popup-trigger';
-import { attr } from '../../../helpers/decorators/attr';
+import {ESC} from '../../../helpers/keycodes';
+import {attr} from '../../../helpers/decorators/attr';
 import PopupManager from './smart-popup-manager';
+import {jsonAttr} from '../../../helpers/decorators/json-attr';
+import {SingleTaskPlanner} from '../../../helpers/common/single-task-planner';
+import {DeviceDetector} from '../../../helpers/device-utils';
 
-export interface ISmartPopupActionParams {
-  trigger?: ISmartPopupTrigger;
+export interface PopupActionParams {
+	initiator?: string;
+	delay?: number;
+	showDelay?: number;
+	hideDelay?: number;
+	force?: boolean;
+	silent?: boolean;
+	trackHover?: boolean;
+	trigger?: HTMLElement;
 }
 
-export interface ISmartPopup {
+export class SmartPopup extends CustomElement {
+	public static is = 'smart-popup';
+	public static eventNs = 'esl:popup';
 
-  show(params?: ISmartPopupActionParams): this;
+	protected static defaultParams = {};
+	protected static initialParams = {silent: true};
 
-  hide(params?: ISmartPopupActionParams): this;
+	static get observedAttributes() {
+		return ['active', 'group', 'close-on-esc', 'close-on-body-click'];
+	}
 
-  toggle(newState?: boolean): this;
+	private _ready: boolean = false;
+	private _open: boolean = false;
+	private _task: SingleTaskPlanner = new SingleTaskPlanner();
+	private _trackHover: boolean = false;
 
-  lazyInit?(): Promise<boolean> | void;
-}
+	@attr() public group: string;
+	@attr() public bodyClass: string;
+	@attr() public activeClass: string;
+	@attr() public closeButton: string;
 
-export class SmartPopup extends CustomElement implements ISmartPopup {
-  public static is = 'smart-popup';
-  public static eventNs = 'spopup';
+	@attr({conditional: true}) public closeOnEsc: boolean;
+	@attr({conditional: true}) public closeOnBodyClick: boolean;
 
-  static get observedAttributes() {
-    return [
-      'active',
-      'close-on-esc',
-      'close-on-body-click',
-      'group',
-      'body-class',
-      'close-button'
-    ];
-  }
+	@attr({conditional: true}) public open: boolean;
 
-  protected _closeButtonEl: Element;
+	@jsonAttr({staticDefault: 'defaultParams', default: {}}) public defaultParams: PopupActionParams;
+	@jsonAttr({staticDefault: 'initialParams', default: {}}) public initialParams: PopupActionParams;
 
-  @attr() public group: string;
-  @attr() protected bodyClass: string;
-  @attr() protected closeButton: string;
-  @attr({conditional: true}) protected closeOnEsc: boolean;
-  @attr({conditional: true}) public closeOnBodyClick: boolean;
-  @attr({conditional: true}) public active: boolean;
+	protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+		if (!this._ready || newVal === oldVal) return;
+		switch (attrName) {
+			case 'open':
+				this.toggle(this.open, Object.assign({ initiator: 'attribute' }, this.defaultParams));
+				break;
+			case 'group':
+				oldVal && PopupManager.removeFromGroup(this, oldVal);
+				newVal && PopupManager.registerInGroup(this, newVal);
+				break;
+			case 'close-on-esc':
+				this.bindCloseOnEscHandler();
+				break;
+			case 'close-on-body-click':
+				this.bindBodyClickHandler();
+				break;
+		}
+	}
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-    switch (attrName) {
-      case 'active':
-        this.setState();
-        break;
-      case 'close-on-esc':
-        this.bindCloseOnEscHandler();
-        break;
-      case 'close-on-body-click':
-        this.bindCloseOnBodyClickHandler();
-        break;
-      case 'group':
-        this.setGroup(oldVal, newVal);
-        break;
-      case 'close-button':
-        this.setCloseButton();
-    }
-  }
+	protected connectedCallback() {
+		super.connectedCallback();
+		this.bindEvents();
+		this.bindBodyClickHandler();
+		PopupManager.registerInGroup(this, this.group);
+		this._ready = true;
 
-  protected connectedCallback() {
-    this.classList.add(SmartPopup.is);
-    PopupManager.registerInGroup(this);
-    PopupManager.registerCloseOnBodyClickPopup(this);
-  }
+		// Force initial state
+		this.toggle(this.open, Object.assign({}, this.defaultParams, this.initialParams));
+	}
+	protected disconnectedCallback() {
+		this._ready = false;
+		PopupManager.removeFromGroup(this);
+		this.unbindEvents();
+		PopupManager.removeCloseOnBodyClickPopup(this);
+	}
 
-  protected disconnectedCallback() {
-    PopupManager.removeFromGroup(this);
-    PopupManager.removeCloseOnBodyClickPopup(this);
-  }
+	protected bindEvents() {
+		this.addEventListener('click', this.onClick);
+		this.bindCloseOnEscHandler();
+	}
+	protected unbindEvents() {
+		this.removeEventListener('click', this.onClick);
+		this.removeEventListener('keydown', this.onKeyboardEvent);
+	}
 
-  protected setState() {
-    this.active ? this.onShown() : this.onHidden();
-  }
+	protected bindBodyClickHandler() {
+		PopupManager.removeCloseOnBodyClickPopup(this);
+		PopupManager.registerCloseOnBodyClickPopup(this);
+	}
 
-  protected bindCloseOnEscHandler() {
-    this.removeEventListener('keydown', this.closeOnEscHandler);
-    if (this.closeOnEsc) {
-      this.addEventListener('keydown', this.closeOnEscHandler);
-    }
-  }
+	protected bindCloseOnEscHandler() {
+		this.removeEventListener('keydown', this.onKeyboardEvent);
+		if (this.closeOnEsc) {
+			this.addEventListener('keydown', this.onKeyboardEvent);
+		}
+	}
 
-  protected closeOnEscHandler(e: KeyboardEvent) {
-    if (e.which === ESC) {
-      this.hide();
-    }
-  }
+	protected bindHoverStateTracking(track: boolean) {
+		if (DeviceDetector.isTouchDevice) return;
+		if (this._trackHover === track) return;
+		this._trackHover = track
+		if (this._trackHover) {
+			this.addEventListener('mouseenter', this.onMouseEnter);
+			this.addEventListener('mouseleave', this.onMouseLeave);
+		} else {
+			this.removeEventListener('mouseenter', this.onMouseEnter);
+			this.removeEventListener('mouseleave', this.onMouseLeave);
+		}
+	}
 
-  protected bindCloseOnBodyClickHandler() {
-    PopupManager.removeCloseOnBodyClickPopup(this);
-    PopupManager.registerCloseOnBodyClickPopup(this);
-    this.removeEventListener('click', this.closeOnBodyClickHandler);
-    if (this.closeOnBodyClick) {
-      this.addEventListener('click', this.closeOnBodyClickHandler);
-    }
-  }
+	/**
+	 * Toggle popup state
+	 */
+	public toggle(state: boolean = !this.open, params: PopupActionParams = this.defaultParams) {
+		state ? this.show(params) : this.hide(params);
+		return this;
+	}
 
-  protected closeOnBodyClickHandler(e: Event) {
-    e.stopPropagation();
-  }
+	/**
+	 * Changes popup state to active
+	 */
+	public show(params: PopupActionParams = this.defaultParams) {
+		this._task.push(() => {
+			if (!params.force && this._open) return;
+			this.onShow(params)
+		}, params.showDelay || params.delay);
+		this.bindHoverStateTracking(params.trackHover);
+		return this;
+	}
 
-  protected setGroup(oldGroup: string, newGroup: string) {
-    PopupManager.removeFromGroup(this, oldGroup);
-    PopupManager.registerInGroup(this, newGroup);
-  }
+	/**
+	 * Changes popup state to inactive
+	 */
+	public hide(params: PopupActionParams = this.defaultParams) {
+		this._task.push(() => {
+			if (!params.force && !this._open) return
+			this.onHide(params)
+		}, params.hideDelay || params.delay);
+		this.bindHoverStateTracking(params.trackHover);
+		return this;
+	}
 
-  protected setCloseButton() {
-    this._closeButtonEl && this._closeButtonEl.removeEventListener('click', this.closeButtonHandler);
-    this._closeButtonEl = this.querySelector(this.closeButton);
-    this._closeButtonEl && this._closeButtonEl.addEventListener('click', this.closeButtonHandler);
-  }
+	protected onShow(params: PopupActionParams) {
+		this._open = true;
 
-  protected closeButtonHandler: EventListener = () => {
-    this.hide();
-  };
+		PopupManager.hidePopupsInGroup(this);
+		this.setAttribute('open', '');
+		this.setAttribute('aria-hidden', 'false');
+		this.activeClass && this.classList.add(this.activeClass);
+		this.bodyClass && document.body.classList.add(this.bodyClass);
 
-  protected onShown() {
-    PopupManager.hidePopupsInGroup(this);
-    this.bodyClass && document.body.classList.add(this.bodyClass);
-    this.setAttribute('aria-hidden', 'false');
-    this.dispatchCustomEvent('show');
-  }
+		if (!params.silent) this.fireStateChange();
+	}
+	protected onHide(params: PopupActionParams) {
+		this._open = false;
 
-  protected onHidden() {
-    this.bodyClass && document.body.classList.remove(this.bodyClass);
-    this.setAttribute('aria-hidden', 'true');
-    this.dispatchCustomEvent('hide');
-  }
+		this.removeAttribute('open');
+		this.setAttribute('aria-hidden', 'true');
+		this.activeClass && this.classList.remove(this.activeClass);
+		this.bodyClass && document.body.classList.remove(this.bodyClass);
 
-  public show(params: ISmartPopupActionParams = {}) {
-    if (!this.active) {
-      this.active = true;
-    }
-    return this;
-  }
+		if (!params.silent) this.fireStateChange();
+	}
 
-  public hide(params: ISmartPopupActionParams = {}) {
-    if (this.active) {
-      this.active = false;
-    }
-    return this;
-  }
+	protected fireStateChange() {
+		this.dispatchCustomEvent('statechange', {
+			detail: { open: this._open }
+		});
+	}
 
-  public toggle(newState: boolean = !this.active, params?: ISmartPopupActionParams) {
-    newState ? this.show(params) : this.hide(params);
-    return this;
-  }
+	protected onClick = (e: Event) => {
+		const target = e.target as HTMLElement;
+		if (this.closeButton && target.closest(this.closeButton)) {
+			this.hide(Object.assign({}, this.defaultParams, { initiator: 'close' }));
+		}
+		if (this.closeOnBodyClick) {
+			e.stopPropagation();
+		}
+	};
+	protected onMouseEnter = (e: MouseEvent) => {
+		this.show(Object.assign({}, this.defaultParams, { initiator: 'mouseenter', trackHover: true }));
+	};
+	protected onMouseLeave = (e: MouseEvent) => {
+		this.hide(Object.assign({}, this.defaultParams, { initiator: 'mouseleave' }));
+	};
+	protected onKeyboardEvent = (e: KeyboardEvent) => {
+		if (this.closeOnEsc && e.which === ESC) {
+			this.hide(Object.assign({}, this.defaultParams, { initiator: 'keyboard' }));
+		}
+	};
 }
 
 export default SmartPopup;

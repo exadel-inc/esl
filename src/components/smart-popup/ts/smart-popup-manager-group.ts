@@ -13,13 +13,11 @@ export default class Group {
 
   public hidePopups(popup: SmartPopup) {
     this.popups.forEach((p: SmartPopup) => {
-      if (popup !== p) {
-        p.hide();
-      }
+      if (popup !== p) p.hide();
     });
   }
 
-  get size() {
+  public get size() {
     return this.popups.size;
   }
 }
