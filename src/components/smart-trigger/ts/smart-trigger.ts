@@ -120,7 +120,7 @@ export class SmartTrigger extends CustomElement {
     this.popup.hide({
       trigger: this,
       delay: this.hideDelayValue,
-      requestTrackHover: this.event === 'hover' && this.mode === 'toggle'
+      trackHover: this.event === 'hover' && this.mode === 'toggle'
     });
   };
   protected onToggleEvent = (e: Event) => (this.active ? this.onHideEvent : this.onShowEvent)(e);

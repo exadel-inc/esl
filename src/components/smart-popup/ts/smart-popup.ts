@@ -8,13 +8,13 @@ import {DeviceDetector} from '../../../helpers/device-utils';
 
 export interface PopupActionParams {
 	initiator?: string;
-	delay?: number | false;
-	showDelay?: number | false;
-	hideDelay?: number | false;
+	delay?: number;
+	showDelay?: number;
+	hideDelay?: number;
 	force?: boolean;
 	silent?: boolean;
+	trackHover?: boolean;
 	trigger?: HTMLElement;
-	requestTrackHover?: boolean;
 }
 
 export class SmartPopup extends CustomElement {
@@ -71,10 +71,10 @@ export class SmartPopup extends CustomElement {
 		this.bindBodyClickHandler();
 		PopupManager.registerInGroup(this, this.group);
 		this._ready = true;
+
 		// Force initial state
 		this.toggle(this.open, Object.assign({}, this.defaultParams, this.initialParams));
 	}
-
 	protected disconnectedCallback() {
 		this._ready = false;
 		PopupManager.removeFromGroup(this);
@@ -103,7 +103,7 @@ export class SmartPopup extends CustomElement {
 		}
 	}
 
-	protected bindHoverStateTrack(track: boolean) {
+	protected bindHoverStateTracking(track: boolean) {
 		if (DeviceDetector.isTouchDevice) return;
 		if (this._trackHover === track) return;
 		this._trackHover = track
@@ -132,7 +132,7 @@ export class SmartPopup extends CustomElement {
 			if (!params.force && this._open) return;
 			this.onShow(params)
 		}, params.showDelay || params.delay);
-		this.bindHoverStateTrack(params.requestTrackHover);
+		this.bindHoverStateTracking(params.trackHover);
 		return this;
 	}
 
@@ -144,7 +144,7 @@ export class SmartPopup extends CustomElement {
 			if (!params.force && !this._open) return
 			this.onHide(params)
 		}, params.hideDelay || params.delay);
-		this.bindHoverStateTrack(params.requestTrackHover);
+		this.bindHoverStateTracking(params.trackHover);
 		return this;
 	}
 
@@ -176,7 +176,7 @@ export class SmartPopup extends CustomElement {
 		});
 	}
 
-	protected onClick: EventListener = (e: Event) => {
+	protected onClick = (e: Event) => {
 		const target = e.target as HTMLElement;
 		if (this.closeButton && target.closest(this.closeButton)) {
 			this.hide(Object.assign({}, this.defaultParams, { initiator: 'close' }));
@@ -185,14 +185,12 @@ export class SmartPopup extends CustomElement {
 			e.stopPropagation();
 		}
 	};
-
 	protected onMouseEnter = (e: MouseEvent) => {
-		this.show(Object.assign({}, this.defaultParams, { initiator: 'mouseenter', requestTrackHover: true }));
+		this.show(Object.assign({}, this.defaultParams, { initiator: 'mouseenter', trackHover: true }));
 	};
 	protected onMouseLeave = (e: MouseEvent) => {
 		this.hide(Object.assign({}, this.defaultParams, { initiator: 'mouseleave' }));
 	};
-
 	protected onKeyboardEvent = (e: KeyboardEvent) => {
 		if (this.closeOnEsc && e.which === ESC) {
 			this.hide(Object.assign({}, this.defaultParams, { initiator: 'keyboard' }));
