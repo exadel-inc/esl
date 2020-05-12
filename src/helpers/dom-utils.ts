@@ -45,8 +45,8 @@ export const isBFSelector = (query: string) => /^\s*<<|>>/.test(query);
  * @example "prev" - get previous element
  * @example "#id .class [attr]" - find by CSS selector in current document
  * @example "<<" - get target parent
- * @example ">>" - get child(ren)
  * @example "<< .parent" - find closest parent matching class .parent
+ * @example "::parent()::child()" - get child(ren)
  * @example ">> some-tag" - find child element(s) that match tag some-tag
  * @example "<< >> some-tag" - find child element(s) that match tag some-tag in the parent
  * @example "<< .parent >> .child" - find child element(s) that match class in the
@@ -57,6 +57,9 @@ export function findTarget(root: HTMLElement, query: string, multiple = false) {
 	if (!query) return root;
 	if (query === 'next') return root.nextElementSibling;
 	if (query === 'prev') return root.previousElementSibling
-	if (isBFSelector(query)) return findBackForward(root, query, multiple);
+	if (isBFSelector(query)) {
+		console.warn(`You use "back-forward" syntax in "${query}" query, it is experimental feature and could be changed or removed without major release`);
+		return findBackForward(root, query, multiple);
+	}
 	return multiple ? document.querySelectorAll(query) : document.querySelector(query);
 }

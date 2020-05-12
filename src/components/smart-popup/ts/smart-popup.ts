@@ -3,11 +3,18 @@ import {ESC} from '../../../helpers/keycodes';
 import {attr} from '../../../helpers/decorators/attr';
 import PopupManager from './smart-popup-manager';
 import {jsonAttr} from '../../../helpers/decorators/json-attr';
+import {SingleTaskPlanner} from '../../../helpers/common/single-task-planner';
+import {DeviceDetector} from '../../../helpers/device-utils';
 
 export interface PopupActionParams {
+	initiator?: string;
+	delay?: number | false;
+	showDelay?: number | false;
+	hideDelay?: number | false;
 	force?: boolean;
 	silent?: boolean;
 	trigger?: HTMLElement;
+	requestTrackHover?: boolean;
 }
 
 export class SmartPopup extends CustomElement {
@@ -18,17 +25,13 @@ export class SmartPopup extends CustomElement {
 	protected static initialParams = {silent: true};
 
 	static get observedAttributes() {
-		return [
-			'active',
-			'close-on-esc',
-			'close-on-body-click',
-			'group',
-			'body-class'
-		];
+		return ['active', 'group', 'close-on-esc', 'close-on-body-click'];
 	}
 
 	private _ready: boolean = false;
 	private _open: boolean = false;
+	private _task: SingleTaskPlanner = new SingleTaskPlanner();
+	private _trackHover: boolean = false;
 
 	@attr() public group: string;
 	@attr() public bodyClass: string;
@@ -47,7 +50,11 @@ export class SmartPopup extends CustomElement {
 		if (!this._ready || newVal === oldVal) return;
 		switch (attrName) {
 			case 'open':
-				this.toggle(this.open);
+				this.toggle(this.open, Object.assign({ initiator: 'attribute' }, this.defaultParams));
+				break;
+			case 'group':
+				oldVal && PopupManager.removeFromGroup(this, oldVal);
+				newVal && PopupManager.registerInGroup(this, newVal);
 				break;
 			case 'close-on-esc':
 				this.bindCloseOnEscHandler();
@@ -55,23 +62,21 @@ export class SmartPopup extends CustomElement {
 			case 'close-on-body-click':
 				this.bindBodyClickHandler();
 				break;
-			case 'group':
-				this.setGroup(newVal, oldVal);
-				break;
 		}
 	}
 
 	protected connectedCallback() {
 		super.connectedCallback();
-		this.setGroup();
 		this.bindEvents();
 		this.bindBodyClickHandler();
+		PopupManager.registerInGroup(this, this.group);
 		this._ready = true;
 		// Force initial state
 		this.toggle(this.open, Object.assign({}, this.defaultParams, this.initialParams));
 	}
 
 	protected disconnectedCallback() {
+		this._ready = false;
 		PopupManager.removeFromGroup(this);
 		this.unbindEvents();
 		PopupManager.removeCloseOnBodyClickPopup(this);
@@ -81,38 +86,9 @@ export class SmartPopup extends CustomElement {
 		this.addEventListener('click', this.onClick);
 		this.bindCloseOnEscHandler();
 	}
-
 	protected unbindEvents() {
 		this.removeEventListener('click', this.onClick);
-	}
-
-	protected setGroup(newGroup?: string, oldGroup?: string) {
-		oldGroup && PopupManager.removeFromGroup(this, oldGroup);
-		PopupManager.registerInGroup(this, newGroup);
-	}
-
-	/**
-	 * Changes popup state to active
-	 */
-	public show(params: PopupActionParams = this.defaultParams) {
-		if (params.force || !this._open) this.onShow(params);
-		return this;
-	}
-
-	/**
-	 * Changes popup state to inactive
-	 */
-	public hide(params: PopupActionParams = this.defaultParams) {
-		if (params.force || this._open) this.onHide(params);
-		return this;
-	}
-
-	/**
-	 * Toggle popup state
-	 */
-	public toggle(state: boolean = !this.open, params: PopupActionParams = this.defaultParams) {
-		state ? this.show(params) : this.hide(params);
-		return this;
+		this.removeEventListener('keydown', this.onKeyboardEvent);
 	}
 
 	protected bindBodyClickHandler() {
@@ -127,6 +103,51 @@ export class SmartPopup extends CustomElement {
 		}
 	}
 
+	protected bindHoverStateTrack(track: boolean) {
+		if (DeviceDetector.isTouchDevice) return;
+		if (this._trackHover === track) return;
+		this._trackHover = track
+		if (this._trackHover) {
+			this.addEventListener('mouseenter', this.onMouseEnter);
+			this.addEventListener('mouseleave', this.onMouseLeave);
+		} else {
+			this.removeEventListener('mouseenter', this.onMouseEnter);
+			this.removeEventListener('mouseleave', this.onMouseLeave);
+		}
+	}
+
+	/**
+	 * Toggle popup state
+	 */
+	public toggle(state: boolean = !this.open, params: PopupActionParams = this.defaultParams) {
+		state ? this.show(params) : this.hide(params);
+		return this;
+	}
+
+	/**
+	 * Changes popup state to active
+	 */
+	public show(params: PopupActionParams = this.defaultParams) {
+		this._task.push(() => {
+			if (!params.force && this._open) return;
+			this.onShow(params)
+		}, params.showDelay || params.delay);
+		this.bindHoverStateTrack(params.requestTrackHover);
+		return this;
+	}
+
+	/**
+	 * Changes popup state to inactive
+	 */
+	public hide(params: PopupActionParams = this.defaultParams) {
+		this._task.push(() => {
+			if (!params.force && !this._open) return
+			this.onHide(params)
+		}, params.hideDelay || params.delay);
+		this.bindHoverStateTrack(params.requestTrackHover);
+		return this;
+	}
+
 	protected onShow(params: PopupActionParams) {
 		this._open = true;
 
@@ -138,7 +159,6 @@ export class SmartPopup extends CustomElement {
 
 		if (!params.silent) this.fireStateChange();
 	}
-
 	protected onHide(params: PopupActionParams) {
 		this._open = false;
 
@@ -159,16 +179,23 @@ export class SmartPopup extends CustomElement {
 	protected onClick: EventListener = (e: Event) => {
 		const target = e.target as HTMLElement;
 		if (this.closeButton && target.closest(this.closeButton)) {
-			this.hide();
+			this.hide(Object.assign({}, this.defaultParams, { initiator: 'close' }));
 		}
 		if (this.closeOnBodyClick) {
 			e.stopPropagation();
 		}
 	};
 
+	protected onMouseEnter = (e: MouseEvent) => {
+		this.show(Object.assign({}, this.defaultParams, { initiator: 'mouseenter', requestTrackHover: true }));
+	};
+	protected onMouseLeave = (e: MouseEvent) => {
+		this.hide(Object.assign({}, this.defaultParams, { initiator: 'mouseleave' }));
+	};
+
 	protected onKeyboardEvent = (e: KeyboardEvent) => {
 		if (this.closeOnEsc && e.which === ESC) {
-			this.hide();
+			this.hide(Object.assign({}, this.defaultParams, { initiator: 'keyboard' }));
 		}
 	};
 }
