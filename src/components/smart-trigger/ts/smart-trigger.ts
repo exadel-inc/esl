@@ -27,7 +27,6 @@ export class SmartTrigger extends CustomElement {
   @attr({defaultValue: '0'}) protected touchHideDelay: boolean;
 
   protected _popup: SmartPopup;
-
   protected __unsubscribers: Function[];
 
   protected attributeChangedCallback(attrName: string) {
@@ -38,9 +37,7 @@ export class SmartTrigger extends CustomElement {
       case 'mode':
       case 'event':
         this.unbindEvents();
-        this.unbindPopupEvents();
         this.bindEvents();
-        this.bindPopupEvents();
         break;
     }
   }
@@ -50,45 +47,26 @@ export class SmartTrigger extends CustomElement {
     this.updatePopupFromTarget();
     this.bindEvents();
   }
-
   protected disconnectedCallback() {
     this.unbindEvents();
-    this.unbindPopupEvents();
   }
 
   public get popup() {
-    if (this._popup === undefined) {
-      this.updatePopupFromTarget();
-    }
     return this._popup;
   }
   public set popup(newPopupInstance) {
-    this._popup && this.unbindPopupEvents();
+    this.unbindEvents();
     this._popup = newPopupInstance;
     if (this._popup) {
       this.active = this._popup.open;
-      this.bindPopupEvents();
+      this.bindEvents();
     }
   }
   protected updatePopupFromTarget() {
     if (!this.target) return;
-    this.popup = findTarget(this, this.target) as SmartPopup;
+    const popup = findTarget(this, this.target) as SmartPopup;
+    this.popup = (popup instanceof SmartPopup) ? popup : null;
   }
-
-  protected bindPopupEvents() {
-    if (!this.popup) return;
-    const popupClass = this._popup.constructor as typeof SmartPopup;
-    this.popup.addEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
-  }
-  protected unbindPopupEvents() {
-    if (!this.popup) return;
-    const popupClass = this._popup.constructor as typeof SmartPopup;
-    this.popup.removeEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
-  }
-
-  protected onPopupStateChanged = () => {
-    this.active = this.popup.open;
-  };
 
   public get showEvent() {
     if (this.mode === 'hide') return null;
@@ -107,21 +85,27 @@ export class SmartTrigger extends CustomElement {
   }
 
   protected bindEvents() {
+    if (!this.popup) return;
     if (this.showEvent === this.hideEvent) {
       this.attachEventListener(this.showEvent, this.onToggleEvent);
     } else {
       this.attachEventListener(this.showEvent, this.onShowEvent);
       this.attachEventListener(this.hideEvent, this.onHideEvent);
     }
+    const popupClass = this._popup.constructor as typeof SmartPopup;
+    this.popup.addEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
+  }
+  protected unbindEvents() {
+    (this.__unsubscribers || []).forEach((off) => off());
+    if (!this.popup) return;
+    const popupClass = this._popup.constructor as typeof SmartPopup;
+    this.popup.removeEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
   }
   protected attachEventListener(eventName: string, callback: (e: Event) => void) {
     if (!eventName) return;
     this.addEventListener(eventName, callback);
     this.__unsubscribers = this.__unsubscribers || [];
     this.__unsubscribers.push(() => this.removeEventListener(eventName, callback));
-  }
-  protected unbindEvents() {
-    (this.__unsubscribers || []).forEach((off) => off());
   }
 
   protected onShowEvent = (e: Event) => {
@@ -140,6 +124,9 @@ export class SmartTrigger extends CustomElement {
     });
   };
   protected onToggleEvent = (e: Event) => (this.active ? this.onHideEvent : this.onShowEvent)(e);
+  protected onPopupStateChanged = () => {
+    this.active = this.popup.open;
+  };
 
   protected stopEventPropagation(e: Event) {
     if (this.popup.closeOnBodyClick && e.type === 'click') {
