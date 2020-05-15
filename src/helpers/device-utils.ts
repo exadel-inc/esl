@@ -4,6 +4,7 @@ const ua = window.navigator.userAgent;
  * Device detection utility
  */
 export class DeviceDetector {
+	public static readonly isIE = /Trident.*rv[ :]*11\./.test(ua);
 	public static readonly isBot = /Chrome-Lighthouse|Google Page Speed Insights/i.test(ua);
 
 	public static readonly isAndroid = /Android/i.test(ua);
@@ -15,13 +16,14 @@ export class DeviceDetector {
 
 	protected static touchMQ = (() => {
 		const prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
-		return ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
+		const mediaQuery = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('')
+		return matchMedia(mediaQuery);
 	})();
 	public static get isTouchDevice() {
 		if (('ontouchstart' in window) || 'TouchEvent ' in window || 'DocumentTouch' in window && document instanceof Touch) {
 			return true;
 		}
-		return matchMedia(DeviceDetector.touchMQ).matches;
+		return DeviceDetector.touchMQ.matches;
 	}
 
 	static get TOUCH_EVENTS() {

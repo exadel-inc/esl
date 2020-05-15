@@ -4,7 +4,8 @@
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  * @extends BaseProvider
  */
-import {generateUId, loadScript} from '../../../../helpers/common-utils';
+import {loadScript} from '../../../../helpers/load-utils';
+import {generateUId} from '../../../../helpers/common-utils';
 import {SmartMedia} from '../smart-media';
 import {BaseProvider, PlayerStates} from '../smart-media-provider';
 import SmartMediaProviderRegistry from '../smart-media-registry';
