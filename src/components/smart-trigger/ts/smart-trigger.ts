@@ -30,6 +30,7 @@ export class SmartTrigger extends CustomElement {
   protected __unsubscribers: Function[];
 
   protected attributeChangedCallback(attrName: string) {
+    if (!this.connected) return;
     switch (attrName) {
       case 'target':
         this.updatePopupFromTarget();

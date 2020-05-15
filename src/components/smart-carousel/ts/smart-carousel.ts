@@ -158,6 +158,7 @@ export class SmartCarousel extends CustomElement {
 	}
 
 	protected disconnectedCallback() {
+		super.disconnectedCallback();
 		this._unbindEvents();
 
 		SmartCarouselViewRegistry.instance.removeListener(this._onRegistryChange);
