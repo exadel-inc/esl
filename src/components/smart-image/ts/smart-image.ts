@@ -1,6 +1,6 @@
 /**
  * Smart Image
- * @version 1.2.0
+ * @version 2.0.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * @description:
@@ -97,56 +97,74 @@ import {CustomElement} from '../../../helpers/custom-element';
 import {DeviceDetector} from '../../../helpers/device-utils';
 import SmartMediaRuleList from '../../../helpers/conditions/smart-media-rule-list';
 
-// Mods configurations
-interface Strategy {
-	[mode: string]: {
-		useInnerImg?: boolean,
-		apply: (img: SmartImage, shadowImg: ShadowImageElement) => void
-	}
+/**
+ * Describe mods configurations
+ */
+interface SmartImageRenderStrategy {
+	/** Apply image from shadow loader */
+	apply: (img: SmartImage, shadowImg: ShadowImageElement) => void;
+	/** Clean strategy specific changes from SmartImage */
+	clear?: (img: SmartImage) => void;
+}
+/**
+ * Describes object that contains strategies mapping
+ */
+interface SmartImageStrategyMap {
+	[mode: string]: SmartImageRenderStrategy;
 }
 
+/**
+ * Mixed image element that used as shadow loader for SmartImage
+ */
 interface ShadowImageElement extends HTMLImageElement {
 	dpr?: number
 }
 
-const STRATEGIES: Strategy = {
+const STRATEGIES: SmartImageStrategyMap = {
 	'cover': {
-		useInnerImg: false,
 		apply(img, shadowImg) {
 			const src = shadowImg.src;
 			const isEmpty = !src || SmartImage.isEmptyImage(src);
 			img.style.backgroundImage = isEmpty ? null : `url("${src}")`;
-			img.style.paddingTop = null;
+		},
+		clear(img) {
+			img.style.backgroundImage = null;
 		}
 	},
 	'save-ratio': {
-		useInnerImg: false,
 		apply(img, shadowImg) {
 			const src = shadowImg.src;
 			const isEmpty = !src || SmartImage.isEmptyImage(src);
 			img.style.backgroundImage = isEmpty ? null : `url("${src}")`;
+			if (!this.loaded && shadowImg.width === 0) return;
 			img.style.paddingTop = isEmpty ? null : `${(shadowImg.height * 100 / shadowImg.width)}%`;
+		},
+		clear(img) {
+			img.style.paddingTop = null;
+			img.style.backgroundImage = null;
 		}
 	},
 	'fit': {
-		useInnerImg: true,
 		apply(img, shadowImg) {
-			img.style.backgroundImage = null;
-			img.style.paddingTop = null;
+			img.attachInnerImage();
 			img.innerImage.src = shadowImg.src;
+			img.innerImage.removeAttribute('width');
+		},
+		clear(img) {
+			img.removeInnerImage();
 		}
 	},
 	'origin': {
-		useInnerImg: true,
 		apply(img, shadowImg) {
-			img.style.backgroundImage = null;
-			img.style.paddingTop = null;
+			img.attachInnerImage();
 			img.innerImage.src = shadowImg.src;
 			img.innerImage.width = shadowImg.width / shadowImg.dpr;
+		},
+		clear(img) {
+			img.removeInnerImage();
 		}
 	},
 	'inner-svg': {
-		useInnerImg: false,
 		apply(img, shadowImg) {
 			const request = new XMLHttpRequest();
 			request.open('GET', shadowImg.src, true);
@@ -159,6 +177,9 @@ const STRATEGIES: Strategy = {
 				img.innerHTML = tmp.innerHTML;
 			};
 			request.send();
+		},
+		clear(img) {
+			img.innerHTML = '';
 		}
 	}
 };
@@ -200,6 +221,7 @@ export class SmartImage extends CustomElement {
 	@attr({conditional: true, readonly: true}) private loaded: boolean;
 	@attr({conditional: true, readonly: true}) private error: boolean;
 
+	private _strategy: SmartImageRenderStrategy;
 	private _innerImg: HTMLImageElement;
 	private _srcRules: SmartMediaRuleList<string>;
 	private _currentSrc: string;
@@ -260,19 +282,13 @@ export class SmartImage extends CustomElement {
 	protected changeMode(oldVal: string, newVal: string) {
 		oldVal = oldVal || 'save-ratio';
 		newVal = newVal || 'save-ratio';
-		if (oldVal !== newVal) {
-			if (!STRATEGIES[newVal]) {
-				throw new Error('Smart Image: Unsupported mode: ' + newVal);
-			}
-			if (this.mode !== newVal) {
-				this.mode = newVal;
-			}
-			if (!STRATEGIES[this.mode].useInnerImg && this._innerImg) {
-				this.removeChild(this._innerImg);
-				this._innerImg = null;
-			}
-			this.update(true);
+		if (oldVal === newVal) return;
+		if (!STRATEGIES[newVal]) {
+			this.mode = oldVal;
+			throw new Error('Smart Image: Unsupported mode: ' + newVal);
 		}
+		this.clearImage();
+		if (this.loaded) this.syncImage();
 	}
 
 	protected update(force: boolean = false) {
@@ -305,17 +321,20 @@ export class SmartImage extends CustomElement {
 	}
 
 	public refresh() {
+		this.clearImage();
 		this.removeAttribute('loaded');
 		this.removeAttribute('ready');
-		this.style.paddingTop = null;
-		this.style.background = null;
 		this.update(true);
 	}
 
 	private syncImage() {
 		const strategy = STRATEGIES[this.mode];
-		if (!strategy) return;
-		strategy.apply(this, this._shadowImg);
+		this._strategy = strategy;
+		strategy && strategy.apply(this, this._shadowImg);
+	}
+	private clearImage() {
+		this._strategy && this._strategy.clear(this);
+		this._strategy = null;
 	}
 
 	protected connectedCallback() {
@@ -337,6 +356,7 @@ export class SmartImage extends CustomElement {
 	}
 
 	protected disconnectedCallback() {
+		super.disconnectedCallback();
 		this._detachLazyTrigger && this._detachLazyTrigger();
 		if (this._srcRules) {
 			this._srcRules.removeListener(this._onMatchChange);
@@ -344,12 +364,13 @@ export class SmartImage extends CustomElement {
 	}
 
 	protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+		if (!this.connected) return;
 		switch (attrName) {
 			case 'data-alt':
 				this.alt = this.alt || this.getAttribute('data-alt') || '';
 				break;
 			case 'alt':
-				this._innerImg && (this._innerImg.alt = this.alt);
+				this.innerImage && (this.innerImage.alt = this.alt);
 				break;
 			case 'data-src':
 				this.srcRules = SmartMediaRuleList.parse<string>(newVal, SmartMediaRuleList.STRING_PARSER);
@@ -368,16 +389,27 @@ export class SmartImage extends CustomElement {
 	}
 
 	public get innerImage() {
-		if (!this._innerImg) {
-			this._innerImg = this.querySelector('img');
-			if (!this._innerImg) {
-				this._innerImg = document.createElement('img');
-				this.appendChild(this._innerImg);
-			}
-			this._innerImg.className = 'inner-image';
-			this._innerImg.alt = this.alt;
-		}
 		return this._innerImg;
+	}
+	public attachInnerImage() {
+		if (!this.innerImage) {
+			this._innerImg = this.querySelector('img.inner-image') ||
+				this._shadowImg.cloneNode() as HTMLImageElement;
+			this._innerImg.className = 'inner-image';
+		}
+		if (!this.innerImage.parentNode) {
+			this.appendChild(this.innerImage);
+		}
+		this.innerImage.alt = this.alt;
+	}
+	public removeInnerImage() {
+		if (!this.innerImage) return;
+		this.removeChild(this.innerImage);
+		setTimeout(() => {
+			if (this._innerImg && !this._innerImg.parentNode) {
+				this._innerImg = null;
+			}
+		});
 	}
 
 	protected get _shadowImg() {
@@ -390,9 +422,9 @@ export class SmartImage extends CustomElement {
 	}
 
 	private _onLoad() {
-		this.syncImage();
 		this.removeAttribute('error');
 		this.setAttribute('loaded', '');
+		this.syncImage();
 		this.dispatchCustomEvent('load', {bubbles: false});
 		this._onReady();
 	}
