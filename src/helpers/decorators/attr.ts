@@ -12,7 +12,12 @@ function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue
 		return this.getAttribute(attrName) || defaultValue;
 	}
 	function set(value: string) {
-		this.setAttribute(attrName, value);
+		// @ts-ignore
+		if (value === null || value === false) {
+			this.removeAttribute(attrName);
+		} else {
+			this.setAttribute(attrName, value);
+		}
 	}
 	return readOnly ? {get} : {get, set};
 }
