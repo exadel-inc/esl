@@ -1,6 +1,6 @@
 /**
  * Smart Image
- * @version 1.2.0
+ * @version 2.0.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * @description:
@@ -17,15 +17,15 @@
  * - hot changes
  *
  * @attr:
- *  {String} data-src - src paths per queries (watched value)
+ *  {string} data-src - src paths per queries (watched value)
  *    NOTE: query support shortcuts for
  *     - Breakpoints like @MD, @SM (defined), @+SM (SM and larger), @-LG(LG and smaller)
  *     - Device point resolutions: @1x, @2x, @3x
  *    all conditions must be separated by conjunction ('and')
  *    @example: '@+MD and @2x'
- *  {String} [data-src-base] - base src path for pathes described in data-src
+ *  {string} [data-src-base] - base src path for pathes described in data-src
  *
- *  {String} alt | data-alt - alt text (watched value)
+ *  {string} alt | data-alt - alt text (watched value)
  *
  *  {'origin' | 'cover' | 'save-ratio' | 'fit'} mode - rendering mode (default 'save-ratio') (watched value)
  *    WHEN mode is 'origin' - save origin image size
@@ -36,42 +36,43 @@
  *    WHEN mode is 'save-ratio' - fill 100% of container width and set self height according to image ratio
  *                                (use background-image for rendering)
  *
- *  {Boolean} [lazy] - enable lazy loading triggered by IntersectionObserver by default
- *                    (image start loading as soon as it becomes visible in visual area)
- *  {Boolean} [lazy-manual] - just says not to load image until lazy-triggered attribute appears
+ *  {'auto'|'manual'| boolean} [lazy] - enable lazy loading triggered by IntersectionObserver by default
+ *                    'auto' - IntersectionObserver mode: image start loading as soon as it becomes visible in visual area)
+ *                    'manual' mode is not mark lazyTriggered automatically
  *
- *  {Boolean} [refresh-on-update] - Always update original image as soon as image source changed
+ *  {boolean} [refresh-on-update] - Always update original image as soon as image source changed
+ *  {string} [inner-image-class] - Class to mark and search inner image, 'inner-image' by default
  *
- *  {String}  [container-class] - class that will be added to container when image will be ready
- *  {String}  [container-class-onload] - marks that container-class shouldn't be added if image load ends with exception
- *  {String}  [container-class-target] - target parent selector to add container-class (parentNode by default).
+ *  {string}  [container-class] - class that will be added to container when image will be ready
+ *  {string}  [container-class-onload] - marks that container-class shouldn't be added if image load ends with exception
+ *  {string}  [container-class-target] - target parent selector to add container-class (parentNode by default).
  *
  *  Events html connection points (see @events section)
- *  {Function | Evaluated Expression} onready
- *  {Function | Evaluated Expression} onload
- *  {Function | Evaluated Expression} onerror
+ *  {function | string} onready (Evaluated Expression)
+ *  {function | string} onload (Evaluated Expression)
+ *  {function | string} onerror (Evaluated Expression)
  *
- *  @readonly {Boolean} ready - appears once when image first time loaded
- *  @readonly {Boolean} loaded - appears once when image first time loaded
- *  @readonly {Boolean} error - appears when current src isn't load
+ *  @readonly {boolean} ready - appears once when image first time loaded
+ *  @readonly {boolean} loaded - appears once when image first time loaded
+ *  @readonly {boolean} error - appears when current src isn't load
  *
  *  NOTE: Smart Image supports title attribute as any html element, no additional reflection for that attribute needed
  *  it will work correctly according to HTML5.* REC
  *
  * @param:
- *  {String} src - srcset (see data-src attribute for details)
- *  {String} srcBase - base path (see data-src-base attribute for details)
- *  {String} alt - alt text
+ *  {string} src - srcset (see data-src attribute for details)
+ *  {string} srcBase - base path (see data-src-base attribute for details)
+ *  {string} alt - alt text
  *  {'origin' | 'cover' | 'save-ratio' | 'fit'} mode - mode of image renderer
- *  {Array} srcRules - array of srcRules parsed from src
- *  {Boolean} refreshOnUpdate - see proactive-update attribute
+ *  {SmartMediaRuleList} srcRules - array of srcRules parsed from src
+ *  {boolean} refreshOnUpdate - see proactive-update attribute
  *
  *  @readonly {Function} triggerLoad - shortcut function for manually adding lazy-triggered marker
  *
- *  @readonly {SmartImageSrcRule} targetRule - satisfied rule that need to be applied in current state
- *  @readonly {Boolean} ready
- *  @readonly {Boolean} loaded
- *  @readonly {Boolean} error
+ *  @readonly {SmartMediaRule} targetRule - satisfied rule that need to be applied in current state
+ *  @readonly {boolean} ready
+ *  @readonly {boolean} loaded
+ *  @readonly {boolean} error
  *
  * @event:
  *  ready - emits when image ready (loaded or load fail)
@@ -97,56 +98,74 @@ import {CustomElement} from '../../../helpers/custom-element';
 import {DeviceDetector} from '../../../helpers/device-utils';
 import SmartMediaRuleList from '../../../helpers/conditions/smart-media-rule-list';
 
-// Mods configurations
-interface Strategy {
-	[mode: string]: {
-		useInnerImg?: boolean,
-		apply: (img: SmartImage, shadowImg: ShadowImageElement) => void
-	}
+/**
+ * Describe mods configurations
+ */
+interface SmartImageRenderStrategy {
+	/** Apply image from shadow loader */
+	apply: (img: SmartImage, shadowImg: ShadowImageElement) => void;
+	/** Clean strategy specific changes from SmartImage */
+	clear?: (img: SmartImage) => void;
+}
+/**
+ * Describes object that contains strategies mapping
+ */
+interface SmartImageStrategyMap {
+	[mode: string]: SmartImageRenderStrategy;
 }
 
+/**
+ * Mixed image element that used as shadow loader for SmartImage
+ */
 interface ShadowImageElement extends HTMLImageElement {
 	dpr?: number
 }
 
-const STRATEGIES: Strategy = {
+const STRATEGIES: SmartImageStrategyMap = {
 	'cover': {
-		useInnerImg: false,
 		apply(img, shadowImg) {
 			const src = shadowImg.src;
 			const isEmpty = !src || SmartImage.isEmptyImage(src);
 			img.style.backgroundImage = isEmpty ? null : `url("${src}")`;
-			img.style.paddingTop = null;
+		},
+		clear(img) {
+			img.style.backgroundImage = null;
 		}
 	},
 	'save-ratio': {
-		useInnerImg: false,
 		apply(img, shadowImg) {
 			const src = shadowImg.src;
 			const isEmpty = !src || SmartImage.isEmptyImage(src);
 			img.style.backgroundImage = isEmpty ? null : `url("${src}")`;
+			if (shadowImg.width === 0) return;
 			img.style.paddingTop = isEmpty ? null : `${(shadowImg.height * 100 / shadowImg.width)}%`;
+		},
+		clear(img) {
+			img.style.paddingTop = null;
+			img.style.backgroundImage = null;
 		}
 	},
 	'fit': {
-		useInnerImg: true,
 		apply(img, shadowImg) {
-			img.style.backgroundImage = null;
-			img.style.paddingTop = null;
+			img.attachInnerImage();
 			img.innerImage.src = shadowImg.src;
+			img.innerImage.removeAttribute('width');
+		},
+		clear(img) {
+			img.removeInnerImage();
 		}
 	},
 	'origin': {
-		useInnerImg: true,
 		apply(img, shadowImg) {
-			img.style.backgroundImage = null;
-			img.style.paddingTop = null;
+			img.attachInnerImage();
 			img.innerImage.src = shadowImg.src;
 			img.innerImage.width = shadowImg.width / shadowImg.dpr;
+		},
+		clear(img) {
+			img.removeInnerImage();
 		}
 	},
 	'inner-svg': {
-		useInnerImg: false,
 		apply(img, shadowImg) {
 			const request = new XMLHttpRequest();
 			request.open('GET', shadowImg.src, true);
@@ -159,6 +178,9 @@ const STRATEGIES: Strategy = {
 				img.innerHTML = tmp.innerHTML;
 			};
 			request.send();
+		},
+		clear(img) {
+			img.innerHTML = '';
 		}
 	}
 };
@@ -189,24 +211,6 @@ export class SmartImage extends CustomElement {
 		return STRATEGIES;
 	}
 
-	@attr({dataAttr: true, defaultValue: ''}) private src: string;
-	@attr({dataAttr: true, defaultValue: ''}) private srcBase: string;
-	@attr({defaultValue: ''}) private alt: string;
-	@attr({defaultValue: 'save-ratio'}) private mode: string;
-	@attr({conditional: true}) private refreshOnUpdate: boolean;
-	@attr({conditional: true, readonly: true}) private lazyManual: boolean;
-	@attr({conditional: true, readonly: true}) private lazyTriggered: boolean;
-	@attr({conditional: true, readonly: true}) private ready: boolean;
-	@attr({conditional: true, readonly: true}) private loaded: boolean;
-	@attr({conditional: true, readonly: true}) private error: boolean;
-
-	private _innerImg: HTMLImageElement;
-	private _srcRules: SmartMediaRuleList<string>;
-	private _currentSrc: string;
-	private _detachLazyTrigger: () => void;
-	private _shadowImageElement: ShadowImageElement;
-	private readonly _onMatchChange: () => void;
-
 	static get EMPTY_IMAGE() {
 		return 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 	}
@@ -215,19 +219,34 @@ export class SmartImage extends CustomElement {
 		return ['alt', 'data-alt', 'data-src', 'data-src-base', 'mode', 'lazy-triggered'];
 	}
 
+	@attr({defaultValue: ''}) public alt: string;
+	@attr({defaultValue: 'save-ratio'}) public mode: string;
+	@attr({dataAttr: true, defaultValue: ''}) public src: string;
+	@attr({dataAttr: true, defaultValue: ''}) public srcBase: string;
+
+	@attr({}) public lazy: 'auto' | 'manual' | null;
+	@attr({conditional: true}) public lazyTriggered: boolean;
+
+	@attr({conditional: true}) public refreshOnUpdate: boolean;
+	@attr({defaultValue: 'inner-image'}) public innerImageClass: string;
+
+	@attr({conditional: true, readonly: true}) public readonly ready: boolean;
+	@attr({conditional: true, readonly: true}) public readonly loaded: boolean;
+	@attr({conditional: true, readonly: true}) public readonly error: boolean;
+
+	private _strategy: SmartImageRenderStrategy;
+	private _innerImg: HTMLImageElement;
+	private _srcRules: SmartMediaRuleList<string>;
+	private _currentSrc: string;
+	private _detachLazyTrigger: () => void;
+	private _shadowImageElement: ShadowImageElement;
+	private readonly _onMatchChange: () => void;
+
 	constructor() {
 		super();
 		this._onLoad = this._onLoad.bind(this);
 		this._onError = this._onError.bind(this);
 		this._onMatchChange = this.update.bind(this, false);
-	}
-
-	get lazy(): boolean {
-		return this.hasAttribute('lazy') || this.lazyManual;
-	}
-
-	get lazyAuto(): boolean {
-		return this.hasAttribute('lazy') && !this.lazyManual;
 	}
 
 	get srcRules() {
@@ -260,23 +279,17 @@ export class SmartImage extends CustomElement {
 	protected changeMode(oldVal: string, newVal: string) {
 		oldVal = oldVal || 'save-ratio';
 		newVal = newVal || 'save-ratio';
-		if (oldVal !== newVal) {
-			if (!STRATEGIES[newVal]) {
-				throw new Error('Smart Image: Unsupported mode: ' + newVal);
-			}
-			if (this.mode !== newVal) {
-				this.mode = newVal;
-			}
-			if (!STRATEGIES[this.mode].useInnerImg && this._innerImg) {
-				this.removeChild(this._innerImg);
-				this._innerImg = null;
-			}
-			this.update(true);
+		if (oldVal === newVal) return;
+		if (!STRATEGIES[newVal]) {
+			this.mode = oldVal;
+			throw new Error('Smart Image: Unsupported mode: ' + newVal);
 		}
+		this.clearImage();
+		if (this.loaded) this.syncImage();
 	}
 
 	protected update(force: boolean = false) {
-		if (this.lazy && !this.lazyTriggered) {
+		if (this.lazy !== null && !this.lazyTriggered) {
 			return;
 		}
 
@@ -305,17 +318,20 @@ export class SmartImage extends CustomElement {
 	}
 
 	public refresh() {
+		this.clearImage();
 		this.removeAttribute('loaded');
 		this.removeAttribute('ready');
-		this.style.paddingTop = null;
-		this.style.background = null;
 		this.update(true);
 	}
 
 	private syncImage() {
 		const strategy = STRATEGIES[this.mode];
-		if (!strategy) return;
-		strategy.apply(this, this._shadowImg);
+		this._strategy = strategy;
+		strategy && strategy.apply(this, this._shadowImg);
+	}
+	private clearImage() {
+		this._strategy && this._strategy.clear(this);
+		this._strategy = null;
 	}
 
 	protected connectedCallback() {
@@ -325,7 +341,7 @@ export class SmartImage extends CustomElement {
 			this.setAttribute('role', 'img');
 		}
 		this.srcRules.addListener(this._onMatchChange);
-		if (this.lazyAuto) {
+		if (this.lazy !== 'manual') {
 			this.removeAttribute('lazy-triggered');
 			getIObserver().observe(this);
 			this._detachLazyTrigger = function () {
@@ -337,6 +353,7 @@ export class SmartImage extends CustomElement {
 	}
 
 	protected disconnectedCallback() {
+		super.disconnectedCallback();
 		this._detachLazyTrigger && this._detachLazyTrigger();
 		if (this._srcRules) {
 			this._srcRules.removeListener(this._onMatchChange);
@@ -344,12 +361,13 @@ export class SmartImage extends CustomElement {
 	}
 
 	protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+		if (!this.connected) return;
 		switch (attrName) {
 			case 'data-alt':
 				this.alt = this.alt || this.getAttribute('data-alt') || '';
 				break;
 			case 'alt':
-				this._innerImg && (this._innerImg.alt = this.alt);
+				this.innerImage && (this.innerImage.alt = this.alt);
 				break;
 			case 'data-src':
 				this.srcRules = SmartMediaRuleList.parse<string>(newVal, SmartMediaRuleList.STRING_PARSER);
@@ -368,16 +386,27 @@ export class SmartImage extends CustomElement {
 	}
 
 	public get innerImage() {
-		if (!this._innerImg) {
-			this._innerImg = this.querySelector('img');
-			if (!this._innerImg) {
-				this._innerImg = document.createElement('img');
-				this.appendChild(this._innerImg);
-			}
-			this._innerImg.className = 'inner-image';
-			this._innerImg.alt = this.alt;
-		}
 		return this._innerImg;
+	}
+	public attachInnerImage() {
+		if (!this.innerImage) {
+			this._innerImg = this.querySelector(`img.${this.innerImageClass}`) ||
+				this._shadowImg.cloneNode() as HTMLImageElement;
+			this._innerImg.className = this.innerImageClass;
+		}
+		if (!this.innerImage.parentNode) {
+			this.appendChild(this.innerImage);
+		}
+		this.innerImage.alt = this.alt;
+	}
+	public removeInnerImage() {
+		if (!this.innerImage) return;
+		this.removeChild(this.innerImage);
+		setTimeout(() => {
+			if (this._innerImg && !this._innerImg.parentNode) {
+				this._innerImg = null;
+			}
+		});
 	}
 
 	protected get _shadowImg() {

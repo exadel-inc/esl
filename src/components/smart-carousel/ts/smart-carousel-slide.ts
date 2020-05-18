@@ -5,14 +5,6 @@
 import {CustomElement} from '../../../helpers/custom-element';
 
 export class SmartCarouselSlide extends CustomElement {
-	constructor() {
-		super();
-	}
-
-	protected connectedCallback() {
-		//
-	}
-
 	// TODO: refactor (check type of Element)
 	public get index(): number {
 		return Array.prototype.indexOf.call(this.parentNode.children, this);

@@ -7,22 +7,18 @@ export abstract class CustomElement extends HTMLElement {
 	public static is = '';
 	public static eventNs = '';
 
-	/**
-	 * Register component in a {customElements} registry
-	 * @param {string} tagName - tag name to register custom element
-	 */
-	// tslint:disable-next-line:ban-types
-	public static register(this: Function & typeof CustomElement, tagName?: string) {
-		tagName = tagName || this.is;
-		if (!tagName) throw new Error('Can not define custom element');
-		if (this.is !== tagName) {
-			this.is = tagName;
-		}
-		customElements.define(tagName, this);
-	}
+	protected _connected: boolean = false;
 
 	protected connectedCallback() {
+		this._connected = true;
 		this.classList.add((this.constructor as typeof CustomElement).is);
+	}
+	protected disconnectedCallback() {
+		this._connected = false;
+	}
+
+	protected get connected() {
+		return this._connected;
 	}
 
 	/**
@@ -37,5 +33,18 @@ export abstract class CustomElement extends HTMLElement {
 		const eventFullName = (component.eventNs ? `${component.eventNs}:` : '') + eventName;
 		const event = new CustomEvent(eventFullName, eventInit);
 		return this.dispatchEvent(event);
+	}
+
+	/**
+	 * Register component in a {customElements} registry
+	 * @param {string} tagName - tag name to register custom element
+	 */
+	public static register(this: Function & typeof CustomElement, tagName?: string) {
+		tagName = tagName || this.is;
+		if (!tagName) throw new Error('Can not define custom element');
+		if (this.is !== tagName) {
+			this.is = tagName;
+		}
+		customElements.define(tagName, this);
 	}
 }

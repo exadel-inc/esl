@@ -28,7 +28,6 @@ export class SmartPopup extends CustomElement {
 		return ['active', 'group', 'close-on-esc', 'close-on-body-click'];
 	}
 
-	private _ready: boolean = false;
 	private _open: boolean = false;
 	private _trackHover: boolean = false;
 	private _taskManager: SingleTaskManager = new SingleTaskManager();
@@ -47,7 +46,7 @@ export class SmartPopup extends CustomElement {
 	@jsonAttr({staticDefault: 'initialParams', default: {}}) public initialParams: PopupActionParams;
 
 	protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-		if (!this._ready || newVal === oldVal) return;
+		if (!this.connected || newVal === oldVal) return;
 		switch (attrName) {
 			case 'open':
 				this.toggle(this.open, Object.assign({ initiator: 'attribute' }, this.defaultParams));
@@ -70,13 +69,12 @@ export class SmartPopup extends CustomElement {
 		this.bindEvents();
 		this.bindBodyClickHandler();
 		PopupManager.registerInGroup(this, this.group);
-		this._ready = true;
 
 		// Force initial state
 		this.toggle(this.open, Object.assign({}, this.defaultParams, this.initialParams));
 	}
 	protected disconnectedCallback() {
-		this._ready = false;
+		super.disconnectedCallback();
 		PopupManager.removeFromGroup(this);
 		this.unbindEvents();
 		PopupManager.removeCloseOnBodyClickPopup(this);

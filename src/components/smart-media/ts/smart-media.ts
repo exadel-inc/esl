@@ -1,6 +1,6 @@
 /**
  * Smart Media
- * @version 1.0.0
+ * @version 1.0.1
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * @description:
@@ -113,10 +113,6 @@ export class SmartMedia extends CustomElement {
         return SmartMediaRegistry.has(name);
     }
 
-    constructor() {
-        super();
-    }
-
     protected connectedCallback() {
         super.connectedCallback();
         if (!this.hasAttribute('role')) {
@@ -136,7 +132,8 @@ export class SmartMedia extends CustomElement {
         this.deferredReinitialize();
     }
 
-    private disconnectedCallback() {
+    protected disconnectedCallback() {
+        super.disconnectedCallback()
         SmartMediaRegistry.removeListener(this._onRegistryStateChange);
         if (this.conditionQuery) {
             this.conditionQuery.removeListener(this.deferredReinitialize);
