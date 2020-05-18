@@ -8,6 +8,18 @@ type PseudoProcessor = (base: Element, sel?: string, multiple?: boolean) => Elem
 type PseudoProcessorMap = {[key: string]: PseudoProcessor};
 
 const SELECTORS: PseudoProcessorMap = {
+	'::next': (base: Element, sel?: string) => {
+		for(let target = base; (target = target.nextElementSibling);) {
+			if (!sel || target.matches(sel)) return target;
+		}
+		return null;
+	},
+	'::prev': (base: Element, sel?: string) => {
+		for(let target = base; (target = target.previousElementSibling);) {
+			if (!sel || target.matches(sel)) return target;
+		}
+		return null;
+	},
 	'::child': (base: Element, sel?: string, multiple = false) => {
 		if (multiple) {
 			return Array.from(sel ? base.querySelectorAll(sel) : base.children);
@@ -36,13 +48,14 @@ const PSEUDO_SELECTORS_REGEX = new RegExp(`(${Object.keys(SELECTORS).join('|')})
  * @example "::parent::child(some-tag)" - find child element(s) that match tag 'some-tag' in the parent
  * @example "#id .class [attr]::parent" - find parent of element matching selector '#id .class [attr]' in document
  */
-export function findTarget(query: string, current?: HTMLElement, multiple = false) {
+export function findTarget(query: string, current: HTMLElement, multiple = false) {
 	const parts = query.split(PSEUDO_SELECTORS_REGEX).map((term) => term.trim());
 	const rootSel = parts.shift();
-	if (rootSel === '::next') return current.nextElementSibling;
-	if (rootSel === '::prev') return current.previousElementSibling;
 	const initialEl = rootSel ? document.querySelector(rootSel): current;
-	if (!current && parts.length) return null; // TODO: log error
+	if (!current && parts.length) {
+		console.warn(`root is not specified for extended selector '${query}'`);
+		return null;
+	}
 	return tuple(parts).reduce((target, [name, selString]) => {
 		if (!target) return null;
 		const base = Array.isArray(target) ? target[0] : target;
