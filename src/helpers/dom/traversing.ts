@@ -31,7 +31,7 @@ const SELECTORS: PseudoProcessorMap = {
 		return sel ? base.parentElement.closest(sel) : base.parentElement;
 	}
 };
-// /(::parent|::child)/
+// /(::parent|::child|::next|::prev)/
 const PSEUDO_SELECTORS_REGEX = new RegExp(`(${Object.keys(SELECTORS).join('|')})`, 'g');
 
 /**

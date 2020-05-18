@@ -3,6 +3,7 @@
  * @param {function} callback
  */
 export const afterNextRender = (callback: () => void) => requestAnimationFrame(() => requestAnimationFrame(callback));
+
 /**
  * Decorate function to schedule execution after next render
  * @param {function} fn

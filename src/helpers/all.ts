@@ -28,8 +28,3 @@ export * from './config/breakpoints';
 // Smart Media Query
 export * from './conditions/smart-media-query';
 export * from './conditions/smart-media-rule-list';
-export {deferred} from './function/defered';
-export {CallableSubject} from './function/defered';
-export {throttle} from './function/trottled';
-export {rafDecorator} from './function/raf';
-export {afterNextRender} from './function/raf';
