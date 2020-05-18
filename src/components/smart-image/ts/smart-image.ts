@@ -136,7 +136,7 @@ const STRATEGIES: SmartImageStrategyMap = {
 			const src = shadowImg.src;
 			const isEmpty = !src || SmartImage.isEmptyImage(src);
 			img.style.backgroundImage = isEmpty ? null : `url("${src}")`;
-			if (!this.loaded && shadowImg.width === 0) return;
+			if (shadowImg.width === 0) return;
 			img.style.paddingTop = isEmpty ? null : `${(shadowImg.height * 100 / shadowImg.width)}%`;
 		},
 		clear(img) {
@@ -422,9 +422,9 @@ export class SmartImage extends CustomElement {
 	}
 
 	private _onLoad() {
+		this.syncImage();
 		this.removeAttribute('error');
 		this.setAttribute('loaded', '');
-		this.syncImage();
 		this.dispatchCustomEvent('load', {bubbles: false});
 		this._onReady();
 	}
