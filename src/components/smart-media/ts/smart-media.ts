@@ -59,12 +59,13 @@ import {attr} from '../../../helpers/decorators/attr';
 import SmartMediaQuery from '../../../helpers/conditions/smart-media-query';
 import {CustomElement} from '../../../helpers/custom-element';
 import {parseAspectRatio} from '../../../helpers/format-utils';
-import {deferred, rafDecorator} from '../../../helpers/function-utils';
 
 import {getIObserver} from './smart-media-iobserver';
 import {BaseProvider, PlayerStates} from './smart-media-provider';
 import SmartMediaRegistry from './smart-media-registry';
 import MediaGroupRestrictionManager from './smart-media-manager';
+import {deferred} from '../../../helpers/function/defered';
+import {rafDecorator} from '../../../helpers/function/raf';
 
 export class SmartMedia extends CustomElement {
     public static is = 'smart-media';
