@@ -1,10 +1,18 @@
 // Common
 export * from './abstract/observable';
 export * from './promise-utils';
-export * from './function-utils';
-export * from './dom-utils';
 export * from './load-utils';
 export * from './common-utils';
+
+// Function
+export * from './function/raf';
+export * from './function/defered';
+export * from './function/trottled';
+export * from './function/utils';
+
+// DOM
+export * from './dom/events';
+export * from './dom/traversing';
 
 // Custom Element helpers
 export * from './custom-element';

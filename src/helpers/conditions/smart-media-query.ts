@@ -4,7 +4,7 @@
  * @version 2.0.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
- * Helper class that extend MediaQueryList class
+ * Helper class that extends MediaQueryList class
  * Supports
  * - CSS query matching check
  * - DPR display queries (@x1 | @x2 | @x3)
@@ -17,7 +17,7 @@
 import {DeviceDetector} from '../device-utils';
 import {BreakpointRegistry} from '../config/breakpoints';
 
-const QUERY_CACHE: any = {};
+const QUERY_CACHE: {[onkeypress: string]: MediaQueryList} = {};
 
 function getQuery(query: string): MediaQueryList {
     if (query) {
@@ -82,7 +82,7 @@ export class SmartMediaQuery {
         return this._mobileOnly === true;
     }
 
-    public get isFullOnly() {
+    public get isDesktopOnly() {
         return this._mobileOnly === false;
     }
 
