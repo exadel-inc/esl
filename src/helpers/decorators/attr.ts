@@ -9,7 +9,8 @@ interface AttrDescriptor {
 
 function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string) {
 	function get() {
-		return this.getAttribute(attrName) || defaultValue;
+		const value = this.getAttribute(attrName);
+		return typeof value === 'string' ? value : defaultValue;
 	}
 	function set(value: string) {
 		// @ts-ignore
