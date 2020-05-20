@@ -12,8 +12,7 @@ function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue
 		const value = this.getAttribute(attrName);
 		return typeof value === 'string' ? value : defaultValue;
 	}
-	function set(value: string) {
-		// @ts-ignore
+	function set(value: string | false | null | undefined ) {
 		if (value === undefined || value === null || value === false) {
 			this.removeAttribute(attrName);
 		} else {
