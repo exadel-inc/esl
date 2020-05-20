@@ -41,8 +41,8 @@ module.exports.buildAll = function tsBuildAll(config) {
 				target: config.target
 			},
 			reportFiles: [
-				'src/helpers/**/*.ts',
-				'src/components/**/*.ts'
+				'core/**/*.ts',
+				'components/**/*.ts'
 			],
 			transpileOnly: !config.check && !config.declarations
 		}
@@ -72,7 +72,7 @@ module.exports.buildAll = function tsBuildAll(config) {
 			minSize: 90 * 1024,
 			cacheGroups: {
 				commons: {
-					test: /[\\/]helpers[\\/]/,
+					test: /[\\/]core[\\/]/,
 					name: config.commonChunk,
 					enforce: true
 				}

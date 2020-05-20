@@ -16,7 +16,7 @@ title: Smart Accordion <span class="badge badge-warning">Beta</span>
         <div class="accordion-group">
             <h2> Hover accordion </h2>
             <div class="card">
-                <smart-trigger class="card-header" target="<< >> .clps" event="hover" hide-delay="250">
+                <smart-trigger class="card-header" target="::parent::child(.clps)" event="hover" hide-delay="250">
                     <h5 class="mb-0">
                         <button class="btn btn-link">
                             Toggle Accordion #1
@@ -32,7 +32,7 @@ title: Smart Accordion <span class="badge badge-warning">Beta</span>
                 </div>
             </div>
             <div class="card">
-                <smart-trigger class="card-header" target="next" event="hover" hide-delay="250">
+                <smart-trigger class="card-header" target="::next" event="hover" hide-delay="250">
                     <h5 class="mb-0">
                         <button class="btn btn-link">
                             Toggle Accordion #2
@@ -46,7 +46,7 @@ title: Smart Accordion <span class="badge badge-warning">Beta</span>
                 </smart-collapsible>
             </div>
             <div class="card">
-                <smart-trigger class="card-header" target="next" event="hover" hide-delay="250">
+                <smart-trigger class="card-header" target="::next" event="hover" hide-delay="250">
                     <h5 class="mb-0">
                         <button class="btn btn-link">
                             Toggle Accordion #3
@@ -64,7 +64,7 @@ title: Smart Accordion <span class="badge badge-warning">Beta</span>
         <div class="accordion-group">
             <h2> Simple accordion </h2>
             <div class="card">
-                <smart-trigger class="card-header" target="next">
+                <smart-trigger class="card-header" target="::next">
                     <h5 class="mb-0">
                         <button class="btn btn-link">
                             Toggle Accordion #1
@@ -78,7 +78,7 @@ title: Smart Accordion <span class="badge badge-warning">Beta</span>
                 </smart-collapsible>
             </div>
             <div class="card">
-                <smart-trigger class="card-header" target="next">
+                <smart-trigger class="card-header" target="::next">
                     <h5 class="mb-0">
                         <button class="btn btn-link">
                             Toggle Accordion #2
@@ -93,7 +93,7 @@ title: Smart Accordion <span class="badge badge-warning">Beta</span>
                 </smart-collapsible>
             </div>
             <div class="card">
-                <smart-trigger class="card-header" target="next">
+                <smart-trigger class="card-header" target="::next">
                     <h5 class="mb-0">
                         <button class="btn btn-link">
                             Toggle Accordion #3
