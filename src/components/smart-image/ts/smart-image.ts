@@ -1,6 +1,6 @@
 /**
  * Smart Image
- * @version 2.0.0
+ * @version 2.0.1
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * @description:
@@ -224,7 +224,7 @@ export class SmartImage extends CustomElement {
 	@attr({dataAttr: true, defaultValue: ''}) public src: string;
 	@attr({dataAttr: true, defaultValue: ''}) public srcBase: string;
 
-	@attr({}) public lazy: 'auto' | 'manual' | null;
+	@attr({defaultValue: null}) public lazy: 'auto' | 'manual' | null;
 	@attr({conditional: true}) public lazyTriggered: boolean;
 
 	@attr({conditional: true}) public refreshOnUpdate: boolean;

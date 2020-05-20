@@ -45,6 +45,11 @@
       display: none;
     }
 
+    &[mode="fit"][error]::after,
+    &[mode="origin"][error]::after {
+        display: none;
+    }
+
     // Flex mode make image cover available box without saving ration
     &.bg-flex {
       background-size: 100% 100%;

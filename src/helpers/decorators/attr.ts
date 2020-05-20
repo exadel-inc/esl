@@ -13,7 +13,7 @@ function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue
 	}
 	function set(value: string) {
 		// @ts-ignore
-		if (value === null || value === false) {
+		if (value === undefined || value === null || value === false) {
 			this.removeAttribute(attrName);
 		} else {
 			this.setAttribute(attrName, value);
