@@ -188,7 +188,7 @@ export class SmartImage extends CustomElement {
 	}
 
 	protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-		if (!this.connected) return;
+		if (!this.connected || oldVal === newVal) return;
 		switch (attrName) {
 			case 'data-alt':
 				this.alt = this.alt || this.getAttribute('data-alt') || '';
