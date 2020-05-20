@@ -7,25 +7,24 @@ const tuple = <T> (arr: T[]): [T,T][] => arr.reduce((acc, el) => {
 type PseudoProcessor = (base: Element, sel?: string, multiple?: boolean) => Element | Element[] | null;
 type PseudoProcessorMap = {[key: string]: PseudoProcessor};
 
+/**
+ * Find sibling element by selector and direction
+ * */
+export const findSibling = (base: Element, sel?: string, backward = false) => {
+	for(let target = base; (target = backward ? target.previousElementSibling : target.nextElementSibling);) {
+		if (!sel || target.matches(sel)) return target;
+	}
+	return null;
+}
+
 const SELECTORS: PseudoProcessorMap = {
-	'::next': (base: Element, sel?: string) => {
-		for(let target = base; (target = target.nextElementSibling);) {
-			if (!sel || target.matches(sel)) return target;
-		}
-		return null;
-	},
-	'::prev': (base: Element, sel?: string) => {
-		for(let target = base; (target = target.previousElementSibling);) {
-			if (!sel || target.matches(sel)) return target;
-		}
-		return null;
-	},
+	'::next': (base: Element, sel?: string) => findSibling(base, sel, false),
+	'::prev': (base: Element, sel?: string) => findSibling(base, sel, true),
 	'::child': (base: Element, sel?: string, multiple = false) => {
 		if (multiple) {
 			return Array.from(sel ? base.querySelectorAll(sel) : base.children);
-		} else {
-			return sel ? base.querySelector(sel) : base.firstElementChild;
 		}
+		return sel ? base.querySelector(sel) : base.firstElementChild;
 	},
 	'::parent': (base: Element, sel?: string) => {
 		return sel ? base.parentElement.closest(sel) : base.parentElement;
