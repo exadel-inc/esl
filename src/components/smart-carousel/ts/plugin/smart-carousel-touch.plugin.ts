@@ -1,6 +1,6 @@
 import SmartCarouselPlugin from './smart-carousel-plugin';
 import {DeviceDetector} from '../../../../helpers/device-utils';
-import {normalizeTouchPoint, Point} from '../../../../helpers/dom-utils';
+import {normalizeTouchPoint, Point} from '../../../../helpers/dom/events';
 
 /**
  * Slide Carousel Touch plugin

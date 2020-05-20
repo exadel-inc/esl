@@ -1,4 +1,4 @@
-import {deferred} from '../../../src/helpers/function-utils';
+import {deferred} from '../../../src/helpers/function/defered';
 
 class TestMediaSource extends HTMLElement {
 	get target() {

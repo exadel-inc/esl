@@ -2,7 +2,7 @@ import { CustomElement } from '../../../helpers/custom-element';
 import { DeviceDetector } from '../../../helpers/device-utils';
 import { attr } from '../../../helpers/decorators/attr';
 import { SmartPopup } from '../../smart-popup/smart-popup';
-import { findTarget } from '../../../helpers/dom-utils';
+import { findTarget } from '../../../helpers/dom/traversing';
 
 
 export class SmartTrigger extends CustomElement {
@@ -65,7 +65,7 @@ export class SmartTrigger extends CustomElement {
   }
   protected updatePopupFromTarget() {
     if (!this.target) return;
-    const popup = findTarget(this, this.target) as SmartPopup;
+    const popup = findTarget(this.target, this) as SmartPopup;
     this.popup = (popup instanceof SmartPopup) ? popup : null;
   }
 
