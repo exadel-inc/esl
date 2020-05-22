@@ -1,4 +1,4 @@
-import { toKebabCase } from '../common/format';
+import { toKebabCase } from '../misc/format';
 
 interface AttrDescriptor {
 	conditional?: boolean;

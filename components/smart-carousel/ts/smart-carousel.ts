@@ -1,6 +1,6 @@
 import {CustomElement} from '../../smart-utils/abstract/custom-element';
 import {attr} from '../../smart-utils/decorators/attr';
-import {deepCompare} from '../../smart-utils/common/compare';
+import {deepCompare} from '../../smart-utils/misc/compare';
 import SmartMediaRuleList from '../../smart-utils/conditions/smart-media-rule-list';
 import SmartCarouselSlide from './smart-carousel-slide';
 import {SmartCarouselView, SmartCarouselViewRegistry} from './view/smart-carousel-view';

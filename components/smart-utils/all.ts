@@ -1,14 +1,14 @@
 // Common
 export * from './abstract/observable';
 export * from './async/promise';
-export * from './async/load';
-export * from './common/compare';
+export * from './dom/script';
+export * from './misc/compare';
 
 // Function
-export * from './function/raf';
-export * from './function/defered';
-export * from './function/trottled';
-export * from './function/utils';
+export * from './async/raf';
+export * from './async/debounce';
+export * from './async/trottle';
+export * from './misc/functions';
 
 // DOM
 export * from './dom/events';
@@ -26,4 +26,4 @@ export * from './enviroment/breakpoints';
 // Smart Media Query
 export * from './conditions/smart-media-query';
 export * from './conditions/smart-media-rule-list';
-export {generateUId} from './common/uid';
+export {generateUId} from './misc/uid';

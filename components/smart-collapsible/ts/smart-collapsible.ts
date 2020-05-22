@@ -1,7 +1,7 @@
 import {SmartPopup, PopupActionParams} from '../../smart-popup/ts/smart-popup';
 
 import {attr} from '../../smart-utils/decorators/attr';
-import {afterNextRender} from '../../smart-utils/function/raf';
+import {afterNextRender} from '../../smart-utils/async/raf';
 
 interface CollapsibleActionParams extends PopupActionParams{
 	noAnimation?: boolean;

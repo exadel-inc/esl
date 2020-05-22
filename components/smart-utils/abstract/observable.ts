@@ -4,7 +4,7 @@
  */
 export type ObserverCallback = (...args: any) => void;
 
-export class Observable {
+export abstract class Observable {
     private _listeners = new Set<ObserverCallback>();
 
     public addListener(listener: ObserverCallback) {

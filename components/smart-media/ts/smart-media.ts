@@ -58,14 +58,14 @@
 import {attr} from '../../smart-utils/decorators/attr';
 import SmartMediaQuery from '../../smart-utils/conditions/smart-media-query';
 import {CustomElement} from '../../smart-utils/abstract/custom-element';
-import {parseAspectRatio} from '../../smart-utils/common/format';
+import {parseAspectRatio} from '../../smart-utils/misc/format';
 
 import {getIObserver} from './smart-media-iobserver';
 import {BaseProvider, PlayerStates} from './smart-media-provider';
 import SmartMediaRegistry from './smart-media-registry';
 import MediaGroupRestrictionManager from './smart-media-manager';
-import {deferred} from '../../smart-utils/function/defered';
-import {rafDecorator} from '../../smart-utils/function/raf';
+import {debounce} from '../../smart-utils/async/debounce';
+import {rafDecorator} from '../../smart-utils/async/raf';
 
 export class SmartMedia extends CustomElement {
     public static is = 'smart-media';
@@ -95,7 +95,7 @@ export class SmartMedia extends CustomElement {
     private _provider: BaseProvider<HTMLElement>;
     private _conditionQuery: SmartMediaQuery;
 
-    private deferredReinitialize = deferred(() => this.reinitInstance());
+    private deferredReinitialize = debounce(() => this.reinitInstance());
     private deferredChangeFillMode = rafDecorator(() => this._onChangeFillMode());
 
     /**

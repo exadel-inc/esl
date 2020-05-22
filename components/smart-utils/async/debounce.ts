@@ -1,5 +1,5 @@
 /**
- * CallableSubject is a {Function} that can be lisened to continue execution
+ * CallableSubject is a {Function} that can be listened to continue execution
  */
 export interface CallableSubject extends Function {
 	requested: boolean;
@@ -16,11 +16,11 @@ export interface CallableSubject extends Function {
  * @param [wait]
  * @returns {Function}
  */
-export function deferred<T extends Function>(fn: T, wait = 10): (T & CallableSubject) {
+export function debounce<T extends Function>(fn: T, wait = 10): (T & CallableSubject) {
 	let timeout: ReturnType<typeof setTimeout> = null;
 	const observers: Set<Function> = new Set();
 
-	function callableDeferedSubject(...args: any[]) {
+	function callableDebouncedSubject(...args: any[]) {
 		clearTimeout(timeout);
 		timeout = setTimeout(() => {
 			timeout = null;
@@ -30,14 +30,14 @@ export function deferred<T extends Function>(fn: T, wait = 10): (T & CallableSub
 		}, wait);
 	}
 
-	Object.defineProperty(callableDeferedSubject, 'requested', {
+	Object.defineProperty(callableDebouncedSubject, 'requested', {
 		get: () => timeout !== null
 	});
-	Object.defineProperty(callableDeferedSubject, 'then', {
+	Object.defineProperty(callableDebouncedSubject, 'then', {
 		value: (cb: Function, invokeIfNoDeferred = false) => {
 			(invokeIfNoDeferred && timeout === null) ? cb() : observers.add(cb);
-			return callableDeferedSubject;
+			return callableDebouncedSubject;
 		}
 	});
-	return callableDeferedSubject as any as (T & CallableSubject);
+	return callableDebouncedSubject as any as (T & CallableSubject);
 }

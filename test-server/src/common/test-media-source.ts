@@ -1,4 +1,4 @@
-import {deferred} from '../../../components/smart-utils/function/defered';
+import {debounce} from '../../../components/smart-utils/async/debounce';
 
 class TestMediaSource extends HTMLElement {
 	get target() {
@@ -49,7 +49,7 @@ class TestMediaSource extends HTMLElement {
 
 	protected connectedCallback() {
 		this.render();
-		this.addEventListener('change', deferred(() => this.onChange(), 750));
+		this.addEventListener('change', debounce(() => this.onChange(), 750));
 		this.onChange();
 	}
 }

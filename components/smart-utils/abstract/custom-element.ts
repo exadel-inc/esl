@@ -1,7 +1,6 @@
 /**
  * Base class for SmartLibrary custom elements.
  * Allows to define custom element with the optional custom tag name.
- * @abstract
  */
 export abstract class CustomElement extends HTMLElement {
 	public static is = '';
