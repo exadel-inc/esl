@@ -1,10 +1,10 @@
-import {CustomElement} from '../../../core/custom-element';
-import {ESC} from '../../../core/keycodes';
-import {attr} from '../../../core/decorators/attr';
+import {CustomElement} from '../../smart-utils/abstract/custom-element';
+import {ESC} from '../../smart-utils/dom/keycodes';
+import {attr} from '../../smart-utils/decorators/attr';
 import PopupManager from './smart-popup-manager';
-import {jsonAttr} from '../../../core/decorators/json-attr';
-import {SingleTaskManager} from '../../../core/common/single-task-manager';
-import {DeviceDetector} from '../../../core/device-utils';
+import {jsonAttr} from '../../smart-utils/decorators/json-attr';
+import {SingleTaskManager} from '../../smart-utils/async/single-task-manager';
+import {DeviceDetector} from '../../smart-utils/enviroment/device-detector';
 
 export interface PopupActionParams {
 	initiator?: string;

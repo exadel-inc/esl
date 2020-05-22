@@ -1,8 +1,8 @@
-import { CustomElement } from '../../../core/custom-element';
-import { DeviceDetector } from '../../../core/device-utils';
-import { attr } from '../../../core/decorators/attr';
+import { CustomElement } from '../../smart-utils/abstract/custom-element';
+import { DeviceDetector } from '../../smart-utils/enviroment/device-detector';
+import { attr } from '../../smart-utils/decorators/attr';
 import { SmartPopup } from '../../smart-popup/smart-popup';
-import { findTarget } from '../../../core/dom/traversing';
+import { findTarget } from '../../smart-utils/dom/traversing';
 
 
 export class SmartTrigger extends CustomElement {

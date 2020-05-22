@@ -2,10 +2,10 @@
  * Simple Basic Iframe provider for {@link SmartMedia}
  * @author Alexey Stsefanovich (ala'n)
  */
-import {generateUId} from '../../../../core/common-utils';
 import {SmartMedia} from '../smart-media';
 import {BaseProvider, PlayerStates} from '../smart-media-provider';
 import SmartMediaProviderRegistry from '../smart-media-registry';
+import {generateUId} from '../../../smart-utils/common/uid';
 
 export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 	private _state: PlayerStates = PlayerStates.UNINITIALIZED;

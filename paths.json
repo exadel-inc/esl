@@ -9,8 +9,8 @@
     "target": "lib"
   },
   "watch": {
-    "ts": ["components/**/*.ts", "core/**/*.ts"],
-    "less": ["components/**/*.less", "core/**/*.less"],
+    "ts": ["components/**/*.ts"],
+    "less": ["components/**/*.less"],
     "local": {
       "ts": "test-server/src/**/*.ts",
       "less": "test-server/src/**/*.less"

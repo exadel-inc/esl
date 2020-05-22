@@ -55,17 +55,17 @@
  *    media-type="youtube|video"
  *    media-id="##MEDIAID##"></smart-media-embedded>
  */
-import {attr} from '../../../core/decorators/attr';
-import SmartMediaQuery from '../../../core/conditions/smart-media-query';
-import {CustomElement} from '../../../core/custom-element';
-import {parseAspectRatio} from '../../../core/format-utils';
+import {attr} from '../../smart-utils/decorators/attr';
+import SmartMediaQuery from '../../smart-utils/conditions/smart-media-query';
+import {CustomElement} from '../../smart-utils/abstract/custom-element';
+import {parseAspectRatio} from '../../smart-utils/common/format';
 
 import {getIObserver} from './smart-media-iobserver';
 import {BaseProvider, PlayerStates} from './smart-media-provider';
 import SmartMediaRegistry from './smart-media-registry';
 import MediaGroupRestrictionManager from './smart-media-manager';
-import {deferred} from '../../../core/function/defered';
-import {rafDecorator} from '../../../core/function/raf';
+import {deferred} from '../../smart-utils/function/defered';
+import {rafDecorator} from '../../smart-utils/function/raf';
 
 export class SmartMedia extends CustomElement {
     public static is = 'smart-media';

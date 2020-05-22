@@ -4,10 +4,10 @@
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
-import {attr} from '../../../core/decorators/attr';
-import {CustomElement} from '../../../core/custom-element';
-import {DeviceDetector} from '../../../core/device-utils';
-import SmartMediaRuleList from '../../../core/conditions/smart-media-rule-list';
+import {attr} from '../../smart-utils/decorators/attr';
+import {CustomElement} from '../../smart-utils/abstract/custom-element';
+import {DeviceDetector} from '../../smart-utils/enviroment/device-detector';
+import SmartMediaRuleList from '../../smart-utils/conditions/smart-media-rule-list';
 
 /**
  * Describe mods configurations

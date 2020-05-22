@@ -62,7 +62,7 @@ gulp.task('ts-lib-bundles', function () {
         },
         target: 'ES6',
         context: paths.bundle.context,
-        commonChunk: 'smart-core',
+        commonChunk: true,
         check: !FAST_BUILD
     }).pipe(gulp.dest(paths.bundle.target))
 });

@@ -64,18 +64,17 @@ module.exports.buildAll = function tsBuildAll(config) {
 			}
 		});
 	}
-
+	webpackConfig.optimization.namedChunks = true;
 	if (config.commonChunk) {
-		webpackConfig.optimization.namedChunks = true;
 		webpackConfig.optimization.splitChunks = {
 			chunks: 'all',
 			minSize: 90 * 1024,
 			cacheGroups: {
-				commons: {
-					test: /[\\/]core[\\/]/,
-					name: config.commonChunk,
-					enforce: true
-				}
+				// commons: {
+				// 	test: /[\\/]smart-utils[\\/]/,
+				// 	name: 'smart-utils',
+				// 	enforce: true
+				// }
 			}
 		};
 	}

@@ -7,11 +7,11 @@
  */
 import {VideoJsPlayer} from 'video.js';
 
-import {loadScript} from '../../../../core/load-utils';
-import {generateUId} from '../../../../core/common-utils';
+import {loadScript} from '../../../smart-utils/async/load';
 import {SmartMedia} from '../smart-media';
 import {BaseProvider, PlayerStates} from '../smart-media-provider';
 import SmartMediaProviderRegistry from '../smart-media-registry';
+import {generateUId} from '../../../smart-utils/common/uid';
 
 const API_SCRIPT_ID = 'BC_API_SOURCE';
 

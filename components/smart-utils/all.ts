@@ -1,8 +1,8 @@
 // Common
 export * from './abstract/observable';
-export * from './promise-utils';
-export * from './load-utils';
-export * from './common-utils';
+export * from './async/promise';
+export * from './async/load';
+export * from './common/compare';
 
 // Function
 export * from './function/raf';
@@ -15,16 +15,15 @@ export * from './dom/events';
 export * from './dom/traversing';
 
 // Custom Element helpers
-export * from './custom-element';
+export * from './abstract/custom-element';
 export * from './decorators/attr';
 export * from './decorators/json-attr';
 
-// Device detection
-export * from './device-utils';
-
-// User configs
-export * from './config/breakpoints';
+// Device detection & user configs
+export * from './enviroment/device-detector';
+export * from './enviroment/breakpoints';
 
 // Smart Media Query
 export * from './conditions/smart-media-query';
 export * from './conditions/smart-media-rule-list';
+export {generateUId} from './common/uid';

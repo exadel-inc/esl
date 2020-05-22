@@ -14,8 +14,8 @@
  * - Exclude upper DPRs for bots
  */
 
-import {DeviceDetector} from '../device-utils';
-import {BreakpointRegistry} from '../config/breakpoints';
+import {DeviceDetector} from '../enviroment/device-detector';
+import {BreakpointRegistry} from '../enviroment/breakpoints';
 
 const QUERY_CACHE: {[onkeypress: string]: MediaQueryList} = {};
 

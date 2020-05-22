@@ -1,5 +1,5 @@
 import SmartCarousel from '../smart-carousel';
-import {Observable} from '../../../../core/abstract/observable';
+import {Observable} from '../../../smart-utils/abstract/observable';
 
 export abstract class SmartCarouselView {
 	protected readonly carousel: SmartCarousel;

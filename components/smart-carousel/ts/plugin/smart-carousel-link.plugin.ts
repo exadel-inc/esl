@@ -1,4 +1,4 @@
-import {attr} from '../../../../core/decorators/attr';
+import {attr} from '../../../smart-utils/decorators/attr';
 import SmartCarousel from '../smart-carousel';
 import SmartCarouselPlugin from './smart-carousel-plugin';
 

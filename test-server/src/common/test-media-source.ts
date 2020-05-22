@@ -1,4 +1,4 @@
-import {deferred} from '../../../core/function/defered';
+import {deferred} from '../../../components/smart-utils/function/defered';
 
 class TestMediaSource extends HTMLElement {
 	get target() {

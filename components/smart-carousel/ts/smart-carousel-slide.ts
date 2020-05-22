@@ -2,7 +2,7 @@
  * Slide controller
  * @author Julia Murashko
  */
-import {CustomElement} from '../../../core/custom-element';
+import {CustomElement} from '../../smart-utils/abstract/custom-element';
 
 export class SmartCarouselSlide extends CustomElement {
 	// TODO: refactor (check type of Element)

@@ -3,7 +3,7 @@
  * @version 1.0.0
  * @author Yuliya Adamskaya
  */
-import {Observable} from '../../../core/abstract/observable';
+import {Observable} from '../../smart-utils/abstract/observable';
 import {BaseProviderConstructor} from './smart-media-provider';
 
 interface ProviderMap {

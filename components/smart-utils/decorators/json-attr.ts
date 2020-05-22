@@ -1,4 +1,4 @@
-import {toKebabCase} from '../format-utils';
+import {toKebabCase} from '../common/format';
 
 interface JsonAttrDescriptor {
 	default?: object;
