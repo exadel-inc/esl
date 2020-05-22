@@ -1,6 +1,6 @@
 /**
  * Smart Image
- * @version 2.1.0
+ * @version 2.1.1
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
@@ -260,7 +260,7 @@ export class SmartImage extends CustomElement {
 		const src = this.getPath(rule.payload);
 		const dpr = rule.DPR;
 
-		if (this._currentSrc !== src || force) {
+		if (this._currentSrc !== src || !this.ready || force) {
 			this._currentSrc = src;
 			this._shadowImg.src = src;
 			this._shadowImg.dpr = dpr;
