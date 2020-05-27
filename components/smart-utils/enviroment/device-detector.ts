@@ -5,6 +5,7 @@ const ua = window.navigator.userAgent;
  */
 export class DeviceDetector {
 	public static readonly isIE = /Trident.*rv[ :]*11\./.test(ua);
+	public static readonly isSafari = /^((?!chrome|android).)*safari/i.test(ua);
 	public static readonly isBot = /Chrome-Lighthouse|Google Page Speed Insights/i.test(ua);
 
 	public static readonly isAndroid = /Android/i.test(ua);
