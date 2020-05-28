@@ -22,7 +22,7 @@ export class SmartPopup extends CustomElement {
 	public static eventNs = 'esl:popup';
 
 	protected static defaultParams = {};
-	protected static initialParams = {silent: true};
+	protected static initialParams = {silent: true, force: true};
 
 	static get observedAttributes() {
 		return ['active', 'group', 'close-on-esc', 'close-on-body-click'];
@@ -37,6 +37,7 @@ export class SmartPopup extends CustomElement {
 	@attr() public activeClass: string;
 	@attr() public closeButton: string;
 
+	@attr({conditional: true}) public disableA11y: boolean;
 	@attr({conditional: true}) public closeOnEsc: boolean;
 	@attr({conditional: true}) public closeOnBodyClick: boolean;
 
@@ -151,7 +152,7 @@ export class SmartPopup extends CustomElement {
 
 		PopupManager.hidePopupsInGroup(this);
 		this.setAttribute('open', '');
-		this.setAttribute('aria-hidden', 'false');
+		(!this.disableA11y) && this.setAttribute('aria-hidden', 'false');
 		this.activeClass && this.classList.add(this.activeClass);
 		this.bodyClass && document.body.classList.add(this.bodyClass);
 
@@ -161,7 +162,7 @@ export class SmartPopup extends CustomElement {
 		this._open = false;
 
 		this.removeAttribute('open');
-		this.setAttribute('aria-hidden', 'true');
+		(!this.disableA11y) && this.setAttribute('aria-hidden', 'true');
 		this.activeClass && this.classList.remove(this.activeClass);
 		this.bodyClass && document.body.classList.remove(this.bodyClass);
 
