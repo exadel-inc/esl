@@ -1,64 +1,85 @@
-const path = require('path');
 const gulp = require('gulp');
 
 const named = require('vinyl-named');
 const webpackStream = require('webpack-stream');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-const TS_LINT = path.join(__dirname, '../tslint.json');
-const TS_CONFIG = path.join(__dirname, '../tsconfig.json');
+const OPTIONS_DEFAULT = {
+	dev: false,
+	check: true,
+	target: 'ES5'
+};
+
+const INITIAL_CONFIG = {
+	watch: false,
+	devtool: 'source-map',
+	module: { rules: [] },
+	mode: 'production',
+	plugins: [],
+	optimization: {}
+};
+
+const OUTPUT_DEFAULT = {
+	filename: '[name].js',
+	sourceMapFilename: '[name].js.map'
+};
 
 module.exports.buildAll = function tsBuildAll(config) {
-	config = Object.assign({
-		dev: false
-	}, config);
+	const webpackConfig = Object.assign({}, INITIAL_CONFIG);
+	config = Object.assign({}, OPTIONS_DEFAULT, config);
 
-	const webpackConfig = Object({
-		context: config.content,
-		output: Object.assign({
-			sourceMapFilename: '[name].js.map',
-			filename: '[name].js',
-			library: 'EWC',
-			libraryTarget: 'umd'
-		}, config.output),
-		watch: false,
-		devtool: 'source-map',
-		module: {
-			rules: [
-				{
-					test: /\.ts?$/,
-					loader: 'ts-loader',
-					exclude: /node_modules/,
-					options: {
-						configFile: TS_CONFIG,
-						reportFiles: [
-							'src/**/*.{ts,tsx}'
-						],
-						// TODO: that property blocks typing generation
-						// disable type checker - we will use it in fork plugin
-						transpileOnly: true
-					}
-				}
-			]
-		},
-		resolve: {
-			// Should be both: 'ts' for source, 'js' for referenced libs
-			extensions: ['.ts', '.js'],
-			plugins: [new TsconfigPathsPlugin({ configFile: TS_CONFIG })]
-		},
-		mode: 'production',
-		plugins: [
-			new ForkTsCheckerWebpackPlugin({
-				tslint: TS_LINT,
-				tsconfig: TS_CONFIG,
-				reportFiles: [
-					'src/**/*.{ts,tsx}'
-				]
-			})
-		]
+    webpackConfig.context = config.content;
+    webpackConfig.output = Object.assign({}, OUTPUT_DEFAULT, config.output);
+    webpackConfig.resolve = {
+		extensions: ['.ts', '.js']
+	};
+    webpackConfig.module.rules.push({
+		test: /\.ts?$/,
+		loader: 'ts-loader',
+		options: {
+			compilerOptions: {
+				declaration: config.declarations,
+				target: config.target
+			},
+			reportFiles: [
+				'core/**/*.ts',
+				'components/**/*.ts'
+			],
+			transpileOnly: !config.check && !config.declarations
+		}
 	});
-	return gulp.src(config.src)
-		.pipe(named(config.nameFunction))
-		.pipe(webpackStream(webpackConfig));
+
+	if (config.declarations) {
+		const DeclarationPlugin = require('./plugins/declaration-webpack-plugin');
+		webpackConfig.plugins.push(new DeclarationPlugin());
+	}
+
+	if (config.check) {
+		webpackConfig.module.rules.push({
+			enforce: 'pre',
+			test: /\.ts$/,
+			exclude: /node_modules/,
+			loader: 'eslint-loader',
+			options: {
+				emitWarning: true
+			}
+		});
+	}
+	webpackConfig.optimization.namedChunks = true;
+	if (config.commonChunk) {
+		webpackConfig.optimization.splitChunks = {
+			chunks: 'all',
+			minSize: 90 * 1024,
+			cacheGroups: {
+				// commons: {
+				// 	test: /[\\/]smart-utils[\\/]/,
+				// 	name: 'smart-utils',
+				// 	enforce: true
+				// }
+			}
+		};
+	}
+
+    return gulp.src(config.src)
+        .pipe(named(config.nameFunction))
+        .pipe(webpackStream(webpackConfig));
 };

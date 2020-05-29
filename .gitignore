@@ -1,16 +1,18 @@
-node_modules
-node
+# IDE
 .idea
 *.iml
 *.ipr
 *.iws
 .DS_Store
-target
-npm-debug.log
-.gitconfig
-.eslintrc.json
-test-server/static/
-edmtp-modules/
+
+# Libs
+node_modules
+
+# Build output
 lib/
-lib-es6/
+test-server/static/
+
+# Logs & Tmp
+npm-debug.log
 package-lock.json
+.gitconfig

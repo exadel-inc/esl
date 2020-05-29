@@ -1,32 +1,22 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
     "experimentalDecorators": true,
     "alwaysStrict": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
     "removeComments": true,
-    "target": "es5",
-    "module": "es6",
+    "target": "ES5",
+    "module": "ES2015",
     "sourceMap": true,
-    "declaration": true,
     "lib": [
-      "dom",
-      "es6",
-      "dom.iterable"
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "@helpers/*": ["src/helpers/*"],
-      "@components/*": ["src/components/*"]
-    }
+      "ES2015",
+      "DOM",
+      "DOM.Iterable"
+    ]
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "edmtp-modules",
-    "lib",
-    "lib-es6",
-    "test-server"
+  "include": [
+    "core",
+    "components",
+    "bundles"
   ]
 }

@@ -12,13 +12,14 @@ const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
 
 
-module.exports = function buildLessStream(paths) {
-	return gulp.src(paths)
-		.pipe(sourcemaps.init())
-		.pipe(less())
-		.pipe(postcss([
-			autoprefixer(),
-			cssnano()
-		]))
-		.pipe(sourcemaps.write('/'));
+module.exports = function buildLessStream(paths, sourceMaps = true) {
+	let files = gulp.src(paths);
+	files = sourceMaps ? files.pipe(sourcemaps.init()) : files;
+	files = files.pipe(less());
+	files = files.pipe(postcss([
+		autoprefixer(),
+		cssnano()
+	]));
+	files = sourceMaps ? files.pipe(sourcemaps.write('/')) : files;
+	return files;
 };

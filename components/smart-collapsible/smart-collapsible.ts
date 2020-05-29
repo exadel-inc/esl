@@ -1,0 +1,1 @@
+export * from './ts/smart-collapsible';
