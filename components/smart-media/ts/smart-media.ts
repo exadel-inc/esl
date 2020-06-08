@@ -81,11 +81,11 @@ export class SmartMedia extends CustomElement {
     @attr({conditional: true}) public disabled: boolean;
     @attr({conditional: true}) public autoplay: boolean;
     @attr({conditional: true}) public autofocus: boolean;
-    @attr({conditional: true}) public preload: boolean;
     @attr({conditional: true}) public muted: boolean;
     @attr({conditional: true}) public loop: boolean;
     @attr({conditional: true}) public controls: boolean;
     @attr({conditional: true}) public playInViewport: boolean;
+    @attr({conditional: true, defaultValue: 'auto'}) public preload: string;
 
     @attr({conditional: true, readonly: true}) public ready: boolean;
     @attr({conditional: true, readonly: true}) public active: boolean;
