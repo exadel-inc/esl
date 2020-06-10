@@ -2,61 +2,12 @@
  * Smart Media
  * @version 1.1.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- *
- * @description:
- * SmartMedia - custom element, that provides ability to add and configure media using one tag.
- * Supported features:
- * - extendable 'Providers' realization for different media types, support HTMLAudio, HTMLVideo, Youtube and AbstractIframe out of the box
- * - load-conditions - restriction to load smart-media can be defined via SmartMediaQuery syntax
- * - play-in-viewport feature restrict active state for only visible components on the page
- * - manual initialization - disabled component will not be initialized until it not enabled or play action triggered
- * - group manager to allow single active player restriction
- * - fill mode feature allows to cover area by video saving ratio or inscribe video inside of the area
- * - provides unified state change events
- * - provides 'HTMLMedia like' API that is safe and will executed after real api will be ready
- *
- * Attributes:
- * {string} media-src - media resource src
- * {string} media-id - id of media
- * {string} media-type - type of media provider
- *
- * {string} [group] - group name, only one media player in group can be active
- *
- * {boolean} [disabled] - prevents media api initialization
- *
- * {'auto'|'cover'|'inscribe'} [fill-mode] - enables resource size management
- * {string | number} [aspect-ratio] - aspect ratio to use for inner resource
- *
- * {boolean} [play-in-viewport] - auto stop video that out ov viewport area
- * {boolean} [autofocus] - set focus to player on play
- * {boolean} [autoplay] - start play automatically on initialization (note initialization not happens until media is disabled)
- * {boolean} [controls] - show media player controls
- * {boolean} [loop] - loop video
- * {boolean} [mute] - mute the video
- *
- * @readonly {boolean} error - marker that indicates that media initialized with error
- * @readonly {boolean} ready - marker that indicates that media api loaded
- * @readonly {boolean} played - marker that indicates that media payed
- * @readonly {boolean} active - marker that indicates that media paying
- *
- * @event smedia:error - (bubbles) happens when media api is initialized with error
- * @event smedia:ready - (bubbles) happens when media api is ready
- * @event smedia:play - (bubbles) happens when media starts playing
- * @event smedia:paused - (bubbles) happens when media paused
- * @event smedia:ended - (bubbles) happens when media ends
- * @event smedia:detach - (bubbles) happens after media provider detach (reinitialization / disconnect from the DOM)
- * @event smedia:mangedpause - (bubbles) happens when media paused by media group restriction manager
- *
- * @example:
- * <smart-media
- *    [disabled]
- *    title="Video Title"
- *    [group="mediaGroup"]
- *    media-type="youtube|video"
- *    media-id="##MEDIAID##"></smart-media-embedded>
  */
+
 import {attr} from '../../smart-utils/decorators/attr';
-import SmartMediaQuery from '../../smart-utils/conditions/smart-media-query';
+import {debounce} from '../../smart-utils/async/debounce';
+import {rafDecorator} from '../../smart-utils/async/raf';
+import {SmartMediaQuery} from '../../smart-utils/conditions/smart-media-query';
 import {CustomElement} from '../../smart-utils/abstract/custom-element';
 import {parseAspectRatio} from '../../smart-utils/misc/format';
 
@@ -64,8 +15,6 @@ import {getIObserver} from './smart-media-iobserver';
 import {BaseProvider, PlayerStates} from './smart-media-provider';
 import SmartMediaRegistry from './smart-media-registry';
 import MediaGroupRestrictionManager from './smart-media-manager';
-import {debounce} from '../../smart-utils/async/debounce';
-import {rafDecorator} from '../../smart-utils/async/raf';
 
 export class SmartMedia extends CustomElement {
     public static is = 'smart-media';
