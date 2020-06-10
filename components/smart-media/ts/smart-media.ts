@@ -1,6 +1,6 @@
 /**
  * Smart Media
- * @version 1.0.1
+ * @version 1.1.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * @description:
@@ -95,8 +95,8 @@ export class SmartMedia extends CustomElement {
     private _provider: BaseProvider<HTMLElement>;
     private _conditionQuery: SmartMediaQuery;
 
+    private deferredResize = rafDecorator(() => this._onResize());
     private deferredReinitialize = debounce(() => this.reinitInstance());
-    private deferredChangeFillMode = rafDecorator(() => this._onChangeFillMode());
 
     /**
      * @enum Map with possible Player States
@@ -128,7 +128,7 @@ export class SmartMedia extends CustomElement {
             this.attachViewportConstraint();
         }
         if (this.fillModeEnabled) {
-            window.addEventListener('resize', this.deferredChangeFillMode);
+            window.addEventListener('resize', this.deferredResize);
         }
         this.deferredReinitialize();
     }
@@ -140,14 +140,14 @@ export class SmartMedia extends CustomElement {
             this.conditionQuery.removeListener(this.deferredReinitialize);
         }
         if (this.fillModeEnabled) {
-            window.removeEventListener('resize', this.deferredChangeFillMode);
+            window.removeEventListener('resize', this.deferredResize);
         }
         this.detachViewportConstraint();
         this._provider && this._provider.unbind();
     }
 
     private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-        if (oldVal === newVal) return;
+        if (!this.connected && oldVal === newVal) return;
         switch (attrName) {
             case 'disabled':
                 (oldVal !== null) && this.deferredReinitialize();
@@ -159,7 +159,7 @@ export class SmartMedia extends CustomElement {
                 break;
             case 'fill-mode':
             case 'aspect-ratio':
-                this.deferredChangeFillMode();
+                this.deferredResize();
                 break;
             case 'play-in-viewport':
                 this.playInViewport ?
@@ -185,6 +185,7 @@ export class SmartMedia extends CustomElement {
             if (provider) {
                 this._provider = new provider(this);
                 this._provider.bind();
+                this.deferredResize();
             } else {
                 this._onError();
             }
@@ -265,7 +266,7 @@ export class SmartMedia extends CustomElement {
         if (this.hasAttribute('ready-class')) {
             this.classList.add(this.getAttribute('ready-class'));
         }
-        this.deferredChangeFillMode();
+        this.deferredResize();
         this.dispatchCustomEvent('ready');
     }
 
@@ -309,7 +310,7 @@ export class SmartMedia extends CustomElement {
         MediaGroupRestrictionManager.unregister(this);
     }
 
-    public _onChangeFillMode() {
+    public _onResize() {
         if (!this._provider) return;
         if (!this.fillModeEnabled || this.actualAspectRatio <= 0) {
             this._provider.setSize('auto', 'auto');
