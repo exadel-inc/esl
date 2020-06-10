@@ -10,7 +10,7 @@ export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends Base
 	protected static applyElementSettings(el: HTMLMediaElement, sm: SmartMedia) {
 		el.classList.add('smedia-inner');
 		el.autoplay = sm.autoplay;
-		el.preload = 'auto';
+		el.preload = sm.preload;
 		el.loop = sm.loop;
 		el.muted = sm.muted;
 		el.controls = sm.controls;
