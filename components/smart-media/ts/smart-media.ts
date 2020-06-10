@@ -185,7 +185,6 @@ export class SmartMedia extends CustomElement {
             if (provider) {
                 this._provider = new provider(this);
                 this._provider.bind();
-                this.deferredResize();
             } else {
                 this._onError();
             }
@@ -292,6 +291,7 @@ export class SmartMedia extends CustomElement {
 
     public _onPlay() {
         if (this.autofocus) this.focus();
+        this.deferredResize();
         this.setAttribute('active', '');
         this.setAttribute('played', '');
         this.dispatchCustomEvent('play');
