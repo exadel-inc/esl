@@ -8,7 +8,6 @@ import {attr} from '../../smart-utils/decorators/attr';
 import {CustomElement} from '../../smart-utils/abstract/custom-element';
 import {DeviceDetector} from '../../smart-utils/enviroment/device-detector';
 import SmartMediaRuleList from '../../smart-utils/conditions/smart-media-rule-list';
-import {ElementTarget, htmlElement} from '../../smart-utils/decorators/html-element';
 
 /**
  * Describe mods configurations
