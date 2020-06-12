@@ -1,4 +1,4 @@
-import SmartPopup from './smart-popup';
+import SmartPopup, {PopupActionParams} from './smart-popup';
 import Group from './smart-popup-manager-group';
 
 const closeOnBodyClickPopups = new Set<SmartPopup>();
@@ -26,12 +26,19 @@ abstract class PopupManager {
         }
     }
 
-    public static hidePopupsInGroup(popup: SmartPopup) {
+    public static hidePopupsInGroup(popup: SmartPopup, params: PopupActionParams): SmartPopup {
         const groupName = popup.group;
         const group = groups.get(groupName);
+        if (!group) return null;
+        return group.hidePopups(popup, params);
+    }
+
+    public static getOpenedPopupInGroup(groupName: string) {
+        const group = groups.get(groupName);
         if (group) {
-            group.hidePopups(popup);
+            return group.openedPopup;
         }
+        return null;
     }
 
     public static registerCloseOnBodyClickPopup(popup: SmartPopup) {

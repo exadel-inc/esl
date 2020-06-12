@@ -21,10 +21,10 @@ export class SmartTrigger extends CustomElement {
   @attr({defaultValue: 'toggle'}) protected mode: string;
 
   // Common properties
-  @attr({defaultValue: '0'}) protected showDelay: string;
-  @attr({defaultValue: '0'}) protected hideDelay: string;
-  @attr({defaultValue: '0'}) protected touchShowDelay: string;
-  @attr({defaultValue: '0'}) protected touchHideDelay: string;
+  @attr({}) protected showDelay: string;
+  @attr({}) protected hideDelay: string;
+  @attr({}) protected touchShowDelay: string;
+  @attr({}) protected touchHideDelay: string;
 
   protected _popup: SmartPopup;
   protected __unsubscribers: Function[];
@@ -65,8 +65,7 @@ export class SmartTrigger extends CustomElement {
   }
   protected updatePopupFromTarget() {
     if (!this.target) return;
-    const popup = findTarget(this.target, this) as SmartPopup;
-    this.popup = (popup instanceof SmartPopup) ? popup : null;
+    this.popup = findTarget(this.target, this) as SmartPopup;
   }
 
   public get showEvent() {
@@ -136,10 +135,12 @@ export class SmartTrigger extends CustomElement {
   }
 
   protected get showDelayValue() {
-    return DeviceDetector.isTouchDevice ? +this.touchShowDelay : +this.showDelay;
+    const showDelay = DeviceDetector.isTouchDevice ? +this.touchShowDelay : +this.showDelay;
+    return isNaN(showDelay) ? undefined : showDelay;
   }
   protected get hideDelayValue() {
-    return DeviceDetector.isTouchDevice ? +this.touchHideDelay : +this.hideDelay;
+    const hideDelay = DeviceDetector.isTouchDevice ? +this.touchHideDelay : +this.hideDelay;
+    return isNaN(hideDelay) ? undefined : hideDelay;
   }
 }
 

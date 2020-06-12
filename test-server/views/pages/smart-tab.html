@@ -1,0 +1,127 @@
+---
+layout: ../layouts/basic.html
+containerCls: container
+title: Smart Accordion <span class="badge badge-warning">Beta</span>
+---
+
+{{##content:
+<section class="row">
+    <style>
+        .tabs-container {
+            display: flex;
+        }
+
+        .tab-item {
+            list-style: none;
+        }
+
+        .tab-item:not(:last-child) {
+            margin-right: 10px;
+        }
+    </style>
+    <div class="tabs col-12">
+        <ul class="tabs-container">
+            <li class="tab-item">
+                <smart-trigger class="tab-trigger" target="::parent(.tabs)::child(.tab-1)">
+                    <h5 class="tab-title">
+                        <button class="btn btn-primary">
+                            TAB 1
+                        </button>
+                    </h5>
+                </smart-trigger>
+            </li>
+            <li class="tab-item">
+                <smart-trigger class="tab-trigger" target="::parent(.tabs)::child(.tab-2)">
+                    <h5 class="tab-title">
+                        <button class="btn btn-success">
+                            TAB 2
+                        </button>
+                    </h5>
+                </smart-trigger>
+            </li>
+            <li class="tab-item">
+                <smart-trigger class="tab-trigger" target="::parent(.tabs)::child(.tab-3)">
+                    <h5 class="tab-title">
+                        <button class="btn btn-dark">
+                            TAB 3
+                        </button>
+                    </h5>
+                </smart-trigger>
+            </li>
+        </ul>
+
+        <div class="tabs-content">
+            <smart-tab class="tab tab-1" group="tabs-group" accordion-transformation="">
+                <div class="tab-body">
+                    <p> 1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                        squid. 3 wolf moon
+                        officia aute, non cupidatat skateboard dolor brunch. </p>
+                </div>
+            </smart-tab>
+            <smart-tab open class="tab tab-2" group="tabs-group">
+                <div class="tab-body">
+                    <p> 2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                        squid. 3 wolf moon
+                        officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                        Brunch 3 wolf
+                        moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch
+                        et. Nihil anim
+                        keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan
+                        excepteur
+                        butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
+                        nesciunt you probably
+                        haven't heard of them accusamus labore sustainable VHS.</p>
+                </div>
+            </smart-tab>
+            <smart-tab class="tab tab-3" group="tabs-group">
+                <div class="tab-body">
+                    <p> 3 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                        squid. 3 wolf moon
+                        officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                        Brunch 3 wolf
+                        moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch
+                        et. Nihil anim
+                        keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan
+                        excepteur
+                        butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
+                        nesciunt you probably
+                        haven't heard of them accusamus labore sustainable VHS. Food truck quinoa nesciunt laborum
+                        eiusmod. Brunch 3 wolf
+                        moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch
+                        et. Nihil anim
+                        keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan
+                        excepteur
+                        butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
+                        nesciunt you probably
+                        haven't heard of them accusamus labore sustainable VHS.</p>
+                </div>
+            </smart-tab>
+        </div>
+        <hr>
+
+        <div class="demo row">
+            <div class="col-xs-12 col-sm-6 p-2 d-flex">
+                <div class="m-auto">
+                    <h5>Mode: cover</h5>
+                    <p>No inner image, image is rendered by background image.</p>
+                    <p>Smart Image has no own size. Can be used with img-container classes</p>
+                    <p><i>Example:</i></p>
+                    <code>&lt;div class="img-container img-container-4-3"&gt; &lt;smart-image ...</code>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 p-2">
+                <div class="img-container img-container-4-3">
+                    <smart-image mode="cover"
+                                 data-alt="Alt Text"
+                                 data-src="img-5-carousel-9-6.jpg"
+                                 data-src-base="/images/"></smart-image>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+#}}
+
+
+
+
