@@ -17,3 +17,5 @@ export * from './smart-carousel/smart-carousel';
 export * from './smart-popup/smart-popup';
 export * from './smart-collapsible/smart-collapsible';
 export * from './smart-trigger/smart-trigger';
+
+export * from './smart-scrollbar/smart-scrollbar';

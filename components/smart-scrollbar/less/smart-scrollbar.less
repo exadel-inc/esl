@@ -1,0 +1,49 @@
+.smart-scrollable-content {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+smart-scrollbar {
+  position: absolute;
+  cursor: default;
+  background: #f1f1f1;
+
+  .scrollbar-track {
+    background: #939393;
+  }
+
+  .scrollbar-thumb {
+    position: absolute;
+    cursor: pointer;
+    background: #ccc;
+  }
+
+  &[direction="vertical"] {
+    width: 16px;
+    top: 0;
+    bottom: 0;
+    right: 15px;
+
+    .scrollbar-track {
+      width: 6px;
+      top: 0;
+      bottom: 0;
+    }
+
+    .scrollbar-thumb {
+      height: 100px;
+      width: 100%;
+    }
+  }
+
+  // hide-scrollbar
+  &::-webkit-scrollbar {
+    display: none; // Chrome, Safari
+  }
+
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // IE, Edge
+}
+
+
+
