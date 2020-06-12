@@ -18,6 +18,7 @@ export * from './dom/traversing';
 export * from './abstract/custom-element';
 export * from './decorators/attr';
 export * from './decorators/json-attr';
+export * from './decorators/html-element';
 
 // Device detection & user configs
 export * from './enviroment/device-detector';

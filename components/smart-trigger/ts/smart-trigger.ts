@@ -2,7 +2,7 @@ import { CustomElement } from '../../smart-utils/abstract/custom-element';
 import { DeviceDetector } from '../../smart-utils/enviroment/device-detector';
 import { attr } from '../../smart-utils/decorators/attr';
 import { SmartPopup } from '../../smart-popup/smart-popup';
-import { findTarget } from '../../smart-utils/dom/traversing';
+import {ElementTarget, htmlElement} from '../../smart-utils/decorators/html-element';
 
 
 export class SmartTrigger extends CustomElement {
@@ -26,15 +26,13 @@ export class SmartTrigger extends CustomElement {
   @attr({defaultValue: '0'}) protected touchShowDelay: string;
   @attr({defaultValue: '0'}) protected touchHideDelay: string;
 
-  protected _popup: SmartPopup;
+  @htmlElement({via: 'target', cache: true}) protected _popup: ElementTarget<SmartPopup>;
   protected __unsubscribers: Function[];
 
   protected attributeChangedCallback(attrName: string) {
     if (!this.connected) return;
     switch (attrName) {
       case 'target':
-        this.updatePopupFromTarget();
-        break;
       case 'mode':
       case 'event':
         this.unbindEvents();
@@ -45,7 +43,6 @@ export class SmartTrigger extends CustomElement {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.updatePopupFromTarget();
     this.bindEvents();
   }
   protected disconnectedCallback() {
@@ -53,20 +50,7 @@ export class SmartTrigger extends CustomElement {
   }
 
   public get popup() {
-    return this._popup;
-  }
-  public set popup(newPopupInstance) {
-    this.unbindEvents();
-    this._popup = newPopupInstance;
-    if (this._popup) {
-      this.active = this._popup.open;
-      this.bindEvents();
-    }
-  }
-  protected updatePopupFromTarget() {
-    if (!this.target) return;
-    const popup = findTarget(this.target, this) as SmartPopup;
-    this.popup = (popup instanceof SmartPopup) ? popup : null;
+    return this._popup.el;
   }
 
   public get showEvent() {
