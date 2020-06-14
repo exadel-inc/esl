@@ -26,11 +26,12 @@ abstract class PopupManager {
         }
     }
 
-    public static hidePopupsInGroup(popup: SmartPopup, params: PopupActionParams): SmartPopup {
+    public static hidePopupsInGroup(popup: SmartPopup, params: PopupActionParams) {
         const groupName = popup.group;
         const group = groups.get(groupName);
-        if (!group) return null;
-        return group.hidePopups(popup, params);
+        if (group) {
+            group.hidePopups(popup, params);
+        }
     }
 
     public static getOpenedPopupInGroup(groupName: string) {

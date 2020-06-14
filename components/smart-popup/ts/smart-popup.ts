@@ -132,7 +132,7 @@ export class SmartPopup extends CustomElement {
 	 */
 	public show(params?: PopupActionParams) {
         params = Object.assign({}, this.defaultParams, params || {});
-        params.previousPopup = PopupManager.hidePopupsInGroup(this, params);
+        PopupManager.hidePopupsInGroup(this, params);
         this._taskManager.push(() => {
 			if (!params.force && this._open) return;
 			this.onShow(params)

@@ -27,13 +27,15 @@ export class SmartTab extends SmartCollapsible {
 
     protected onAnimate(action: string, params: TabActionParams) {
         let from;
-        let to = action === 'hide' ? 0 : this.initialHeight;
+        const to = action === 'hide' ? 0 : this.initialHeight;
 
         if (!this.isAccordion()) {
             const previousTab = params && params.previousPopup as SmartTab;
             const previousHeight = previousTab ? previousTab.initialHeight : 0;
             from = action === 'hide' ? this.initialHeight : previousHeight;
             this.classList.remove('accordion-transformation');
+
+            // To animate max-height when the previous tab's height is smaller than the selected one
             if (previousHeight > this.initialHeight) {
                 this.style.setProperty('height', `${previousHeight}px`);
             }

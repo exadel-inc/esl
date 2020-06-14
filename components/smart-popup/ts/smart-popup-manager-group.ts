@@ -1,4 +1,4 @@
-import SmartPopup, {PopupActionParams} from './smart-popup';
+import {SmartPopup, PopupActionParams} from './smart-popup';
 
 export default class Group {
   protected popups = new Set<SmartPopup>();
@@ -11,18 +11,14 @@ export default class Group {
     this.popups.delete(popup);
   }
 
-  public hidePopups(popup: SmartPopup, params: PopupActionParams): SmartPopup {
+  public hidePopups(popup: SmartPopup, params: PopupActionParams) {
     params.nextPopup = popup;
-    let previousPopup = null;
-    params.previousPopup = null;
     this.popups.forEach((p: SmartPopup) => {
       if (popup !== p && p.open) {
-          params.previousPopup = p;
           p.hide(params);
-          previousPopup = p;
+          params.previousPopup = p;
       }
     });
-    return previousPopup;
   }
 
   public get size() {
@@ -30,7 +26,6 @@ export default class Group {
   }
 
   public get openedPopup() {
-      // @ts-ignore
       for (let popup of this.popups) {
           if (popup.open) {
               return popup;
