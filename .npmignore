@@ -1,0 +1,25 @@
+# IDE
+.idea
+*.iml
+*.ipr
+*.iws
+.DS_Store
+
+# Libs
+node_modules
+edmtp-modules
+
+# Build Config
+build/
+gulpfile.js
+path.json
+
+# Test Sources
+test-server/
+
+# Linter
+.eslintrc.json
+.eslintignore
+
+# VCS
+.gitignore

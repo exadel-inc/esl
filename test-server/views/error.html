@@ -1,0 +1,14 @@
+---
+layout: ./layouts/basic.html
+containerCls: container
+---
+{{##content:
+<h1 class="text-center text-danger">Unknown Error</h1>
+<hr/>
+<h5>{{= page.data.message }}</h5>
+<hr/>
+<pre class="error-details">
+  {{= page.data.stack }}
+</pre>
+#}}
+

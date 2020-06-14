@@ -1,27 +1,46 @@
-<!doctype html>
-<html {{= layout.htmlAttrs}} lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-    <meta name="mobile-web-app-capable" content="yes">
+---
+layout: ./html5.html
+---
 
-    <link type="text/css" rel="stylesheet" href="/all.css">
-    <link type="text/css" rel="stylesheet" href="/localdev-styles.css">
+{{##head:
 
-    <title>{{= page.getPageTitle(layout.title) }} | EWC Library</title>
-
-    <script>
-        if (!('customElements' in window)) {
-	        var polyscript = document.createElement('script');
-	        polyscript.type = 'text/javascript';
-	        polyscript.src = '/polyfill-prebuild.js';
-	        document.head.appendChild(polyscript);
+<script>
+    /* Polyfill */
+    (function () {
+        let version = '';
+        if (!window.Promise || !window.CustomEvent) {
+            version = 'full';
+        } else if (!('getRootNode' in Element.prototype) || !window.customElements || !window.IntersectionObserver) {
+            version = 'light';
         }
-    </script>
-</head>
-<body class="{{= layout.bodyClass || '' }}">
-    {{= layout.content || 'No content.' }}
-    <script src="/all.js"></script>
-</body>
-</html>
+        (version) && document.write('<script type="text/javascript" src="/polyfill-' + version + '.js"><\/script>');
+    })();
+</script>
+
+<link type="text/css" rel="stylesheet" href="/all.css">
+<link type="text/css" rel="stylesheet" href="/localdev-styles.css">
+
+{{= layout.head || '' }}
+#}}
+
+
+{{##body:
+<header class="header">
+    {{= partial('./header.html')}}
+</header>
+<main role="main">
+    {{?layout.title}}
+    <h1 class="text-center pt-2">{{= page.getPageTitle(layout.title)}}</h1>
+    <hr/>
+    {{?}}
+    <div class="conetent {{= layout.containerCls || 'container-fluid'}}">
+        {{= layout.content || 'No content.' }}
+    </div>
+</main>
+<footer class="footer bg-dark">
+    {{= partial('./footer.html')}}
+</footer>
+
+<script defer src="/all.js"></script>
+<script defer src="/localdev-ts.js"></script>
+#}}

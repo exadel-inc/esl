@@ -1,8 +1,7 @@
-// const path = require('path');
-// const dir = 'test-pages/dist/';
-//
-// const gulp = require('gulp');
-//
-// module.exports = function cleanPath() {
-// 	return gulp.src(path.join(dir, '*.*'), {read: false}).pipe(clean({force: true}));
-// }
+const gulp = require('gulp');
+const clean = require('gulp-clean');
+
+module.exports = function cleanPath(config) {
+	return gulp.src(config.src, {read: false, allowEmpty: true})
+		.pipe(clean({force: true}));
+};
