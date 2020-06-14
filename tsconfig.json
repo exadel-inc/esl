@@ -6,6 +6,7 @@
     "esModuleInterop": true,
     "removeComments": true,
     "target": "ES5",
+    "downlevelIteration": true,
     "module": "ES2015",
     "sourceMap": true,
     "lib": [
