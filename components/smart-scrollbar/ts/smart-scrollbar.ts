@@ -1,161 +1,159 @@
 import {CustomElement} from '../../smart-utils/abstract/custom-element';
 import {attr} from '../../smart-utils/decorators/attr';
 import {findTarget} from '../../smart-utils/dom/traversing';
+import {rafDecorator} from '../../smart-utils/async/raf';
 
 export class SmartScrollbar extends CustomElement {
     public static is = 'smart-scrollbar';
 
-    private _scrollableContent: HTMLDivElement;
-    private _scrollbarThumb: HTMLDivElement;
+    protected $scrollableContent: HTMLDivElement;
+    protected $scrollbarThumb: HTMLDivElement;
+    protected $scrollbarTrack: HTMLDivElement;
 
-    private draggingStarted: boolean;
-    private lastMousePosition: number;
-    private isScrolling: boolean;
+    protected _draggingStarted: boolean;
+    protected _initialMousePosition: number;
+    protected _initialPosition: number;
 
     @attr({conditional: true}) protected inactive: boolean;
 
     @attr({defaultValue: 'vertical'}) protected direction: string;
-    @attr({defaultValue: 'smart-scrollable-content'}) protected target: string;
+    @attr({defaultValue: '::parent'}) protected target: string;
+    @attr({defaultValue: 'scrollbar-thumb'}) protected thumbClass: string;
+    @attr({defaultValue: 'scrollbar-track'}) protected trackClass: string;
 
     protected connectedCallback() {
         super.connectedCallback();
 
         this.updateScrollableTarget();
-        this.buildScrollbarWrapper();
 
-        this.updateThumbSize();
+        this.render();
+        this.refresh();
+
         this.bindEvents();
-
-        this.setAttribute('inactive', '');
     }
 
     protected disconnectedCallback() {
         this.unbindEvents();
     }
 
-    protected bindEvents() {
-        this._scrollableContent.addEventListener('scroll', this.onScroll.bind(this));
-        window.addEventListener('mousemove', this.onMousemove.bind(this));
-        this._scrollbarThumb.addEventListener('click', this.onClick.bind(this));
-        this._scrollbarThumb.addEventListener('mousedown', this.onMousedown.bind(this));
+    protected render() {
+        this.$scrollbarTrack = document.createElement('div');
+        this.$scrollbarTrack.className = this.trackClass;
+        this.$scrollbarThumb = document.createElement('div');
+        this.$scrollbarThumb.className = this.thumbClass;
 
-        window.addEventListener('mouseup', this.onMouseup);
-        window.addEventListener('resize', this.refresh);
+        this.$scrollbarTrack.appendChild(this.$scrollbarThumb);
+        this.appendChild(this.$scrollbarTrack);
+    }
+
+    protected bindEvents() {
+        this.addEventListener('click', this.onClick);
+        this.$scrollbarThumb.addEventListener('mousedown', this.onMouseDown);
+        window.addEventListener('mousemove', this.onMouseMove);
+        window.addEventListener('resize', this.onResize, {passive: true});
     }
 
     protected unbindEvents() {
-        this._scrollableContent.removeEventListener('scroll', this.onScroll);
-        this.removeEventListener('mousemove', this.onMousemove);
         this.removeEventListener('click', this.onClick);
-        this._scrollbarThumb.removeEventListener('mousedown', this.onMousedown);
-
-        window.removeEventListener('mouseup', this.onMouseup);
-        window.removeEventListener('resize', this.refresh);
+        this.$scrollbarThumb.removeEventListener('mousedown', this.onMouseDown);
+        window.removeEventListener('mousemove', this.onMouseMove);
+        window.removeEventListener('resize', this.onResize);
+        this.$scrollableContent.removeEventListener('scroll', this.onScroll);
     }
 
-    protected  refresh() {
-        this.updateThumbSize();
-        this.updateThumbPosition();
-        this.updateContentPosition();
-    }
-
-    protected onMousemove(event: MouseEvent) {
-        if (this.draggingStarted) {
-            const currentMousePosition = event.clientY - this._scrollableContent.offsetTop;
-            const positionChange = currentMousePosition - this.lastMousePosition;
-            this.lastMousePosition = currentMousePosition;
-
-            const newThumbPosition = this.limitThumbPosition(this.getThumbPosition() + positionChange);
-            this.setThumbPosition(newThumbPosition);
-            this.updateContentPosition();
-            event.preventDefault();
+    protected set scrollableContent (content: HTMLDivElement) {
+        if (this.$scrollableContent) {
+            this.$scrollableContent.removeEventListener('scroll', this.onScroll);
         }
+        this.$scrollableContent = content;
+        this.$scrollableContent.addEventListener('scroll', this.onScroll, {passive: true});
+    }
+    public refresh() {
+        this.update();
+        this.updateMarkers();
     }
 
-    protected onMousedown = (event: MouseEvent) => {
-        this.draggingStarted = true;
-        this.lastMousePosition = event.clientY - this._scrollableContent.offsetTop;
-        event.preventDefault();
-        event.stopPropagation();
-    };
-
-    private onMouseup() {
-        this.draggingStarted = false;
+    public get active() {
+        return this.thumbSize === 1;
+    }
+    public get thumbSize() {
+        // behave as native scroll
+        if (!this.$scrollableContent) return 1;
+        return this.$scrollableContent.offsetHeight / this.$scrollableContent.scrollHeight;
+    }
+    /**
+     * Convert value in px to absolute position
+     */
+    protected static toAbsolutePosition(value: number, relativeTarget: HTMLElement) {
+        return value / (relativeTarget.scrollHeight - relativeTarget.offsetHeight);
+    }
+    public get position() {
+        if (!this.$scrollableContent) return 0;
+        return SmartScrollbar.toAbsolutePosition(this.$scrollableContent.scrollTop, this.$scrollableContent);
+    }
+    public set position(position) {
+        const normalizedPosition = Math.min(1, Math.max(0, position));
+        this.$scrollableContent.scrollTop = this.$scrollableContent.scrollHeight * normalizedPosition;
+        this.update();
     }
 
-    protected onScroll = () => {
-        if (!this.draggingStarted && !this.isScrolling) {
-            this.updateThumbPosition();
-            this.draggingStarted = false;
-        }
-    };
+    public update() {
+        if (!this.$scrollbarThumb || !this.$scrollbarTrack) return;
+        const trackSize = this.$scrollbarTrack.offsetHeight;
+        const thumbSize = trackSize * this.thumbSize;
+        const thumbTop = (trackSize - thumbSize) * this.position;
 
-    private onClick(event: MouseEvent) {
-        const position = event.clientY;
-        if (position < this.getThumbPosition() || position > this.getThumbPosition() + this.getThumbSize()) {
-            const newThumbPosition = this.limitThumbPosition(position - this.getThumbSize() / 2);
-            this.setThumbPosition(newThumbPosition);
-        }
-        this.draggingStarted = false;
-    }
-
-    protected limitThumbPosition(position: number) {
-        if (position < 0) {
-            return 0;
-        } else if (position > this.getScrollbarSize() - this.getThumbSize()) {
-            return this.getScrollbarSize() - this.getThumbSize();
-        }
-        return position;
-    }
-
-    protected updateThumbPosition() {
-        const position = this._scrollableContent.scrollTop / this.getContentSize() * this.getScrollbarSize();
-        this._scrollbarThumb.style.top = `${position}px`;
-    }
-
-    protected setThumbPosition(position: number) {
-        this._scrollbarThumb.style.top = `${position}px`;
-    }
-
-    protected getThumbPosition() {
-        return this._scrollbarThumb.offsetTop;
-    }
-
-    protected updateThumbSize() {
-        this._scrollbarThumb.style.height = `${this._scrollableContent.offsetHeight / this.getContentSize() * this.getScrollbarSize()}px`;
-    }
-
-    protected getThumbSize() {
-        return this._scrollbarThumb.offsetHeight;
+        this.$scrollbarThumb.style.top = `${thumbTop}px`;
+        this.$scrollbarThumb.style.height = `${thumbSize}px`;
     }
 
     protected updateScrollableTarget() {
         if (!this.target) return;
         const content = findTarget(this.target, this) as HTMLDivElement;
-        this._scrollableContent = content ? content : null;
+        this.scrollableContent = content ? content : null;
     }
 
-    protected getScrollbarSize() {
-        return this._scrollableContent.offsetHeight /*- +this.top - +this.bottom*/;
+    protected updateMarkers() {
+        if (this.active) {
+            this.setAttribute('active', '')
+        } else {
+            this.removeAttribute('active');
+        }
     }
 
-    protected updateContentPosition() {
-        this._scrollableContent.scrollTop = this.getThumbPosition() / this.getScrollbarSize() * this.getContentSize();
-    }
+    protected onMouseDown = (event: MouseEvent) => {
+        this._draggingStarted = true;
+        this._initialPosition = this.position;
+        this._initialMousePosition = event.clientY;
+        event.preventDefault();
+        event.stopPropagation();
+    };
+    protected onMouseMove = rafDecorator((event: MouseEvent) => {
+        if (!this._draggingStarted) return;
+        console.log(this.position, 'position');
+        const positionChange = event.clientY - this._initialMousePosition;
+        this._initialMousePosition = positionChange;
+        const absChange = positionChange / (this.$scrollbarTrack.offsetHeight - this.$scrollbarThumb.offsetHeight);
+        if (absChange) this.position += absChange;
+        console.log(positionChange, 'positiionchange');
+        console.log(absChange, 'absolutechange');
+        console.log(this.position, 'position');
+        event.preventDefault();
+    });
 
-    protected getContentSize() {
-        return this._scrollableContent.scrollHeight;
-    }
+    // tracking click event to prevent loss of mouseup event outside the area
+    protected onClick = (event: MouseEvent) => {
+        this.onMouseMove(event);
+        this._draggingStarted = false;
+    };
 
-    protected buildScrollbarWrapper() {
-        const scrollbarTrack = document.createElement('div');
-        scrollbarTrack.className = 'scrollbar-track';
-        this._scrollbarThumb =  document.createElement('div');
-        this._scrollbarThumb.className = 'scrollbar-thumb';
+    protected onScroll = rafDecorator(() => {
+        if (!this._draggingStarted) {
+            this.update();
+        }
+    });
 
-        this.appendChild(scrollbarTrack);
-        this.appendChild(this._scrollbarThumb);
-    }
+    protected onResize = rafDecorator(() => this.refresh());
 }
 
 export default SmartScrollbar;

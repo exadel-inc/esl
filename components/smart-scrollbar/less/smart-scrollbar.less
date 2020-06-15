@@ -1,40 +1,6 @@
 .smart-scrollable-content {
   overflow-y: scroll;
   overflow-x: hidden;
-}
-
-smart-scrollbar {
-  position: absolute;
-  cursor: default;
-  background: #f1f1f1;
-
-  .scrollbar-track {
-    background: #939393;
-  }
-
-  .scrollbar-thumb {
-    position: absolute;
-    cursor: pointer;
-    background: #ccc;
-  }
-
-  &[direction="vertical"] {
-    width: 16px;
-    top: 0;
-    bottom: 0;
-    right: 15px;
-
-    .scrollbar-track {
-      width: 6px;
-      top: 0;
-      bottom: 0;
-    }
-
-    .scrollbar-thumb {
-      height: 100px;
-      width: 100%;
-    }
-  }
 
   // hide-scrollbar
   &::-webkit-scrollbar {
@@ -43,6 +9,45 @@ smart-scrollbar {
 
   scrollbar-width: none; // Firefox
   -ms-overflow-style: none; // IE, Edge
+}
+
+smart-scrollbar {
+  display: inline-block;
+  position: absolute;
+  cursor: default;
+
+  .scrollbar-track {
+    position: relative;
+    border-radius: 3px;
+    background: #E7E7E7;
+  }
+
+  .scrollbar-thumb {
+    position: absolute;
+    cursor: pointer;
+    border-radius: 3px;
+    background: #b5b5b5;
+  }
+
+  &[direction="vertical"] {
+    width: 16px;
+    top: 0;
+    bottom: 0;
+    right: 16px;
+
+    .scrollbar-track {
+      height: 100%;
+      width: 6px;
+      top: 0;
+      bottom: 0;
+      margin: 0 5px;
+    }
+
+    .scrollbar-thumb {
+      height: 100px;
+      width: 100%;
+    }
+  }
 }
 
 
