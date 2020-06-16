@@ -49,14 +49,12 @@ export class SmartScrollbar extends CustomElement {
     protected bindEvents() {
         this.addEventListener('click', this.onClick);
         this.$scrollbarThumb.addEventListener('mousedown', this.onMouseDown);
-        window.addEventListener('mousemove', this.onMouseMove);
         window.addEventListener('resize', this.onResize, {passive: true});
     }
 
     protected unbindEvents() {
         this.removeEventListener('click', this.onClick);
         this.$scrollbarThumb.removeEventListener('mousedown', this.onMouseDown);
-        window.removeEventListener('mousemove', this.onMouseMove);
         window.removeEventListener('resize', this.onResize);
         this.$scrollableContent.removeEventListener('scroll', this.onScroll);
     }
@@ -81,19 +79,14 @@ export class SmartScrollbar extends CustomElement {
         if (!this.$scrollableContent) return 1;
         return this.$scrollableContent.offsetHeight / this.$scrollableContent.scrollHeight;
     }
-    /**
-     * Convert value in px to absolute position
-     */
-    protected static toAbsolutePosition(value: number, relativeTarget: HTMLElement) {
-        return value / (relativeTarget.scrollHeight - relativeTarget.offsetHeight);
-    }
+
     public get position() {
         if (!this.$scrollableContent) return 0;
-        return SmartScrollbar.toAbsolutePosition(this.$scrollableContent.scrollTop, this.$scrollableContent);
+        return this.$scrollableContent.scrollTop / (this.$scrollableContent.scrollHeight - this.$scrollableContent.offsetHeight);
     }
     public set position(position) {
         const normalizedPosition = Math.min(1, Math.max(0, position));
-        this.$scrollableContent.scrollTop = this.$scrollableContent.scrollHeight * normalizedPosition;
+        this.$scrollableContent.scrollTop = (this.$scrollableContent.scrollHeight - this.$scrollableContent.offsetHeight) * normalizedPosition;
         this.update();
     }
 
@@ -127,24 +120,34 @@ export class SmartScrollbar extends CustomElement {
         this._initialMousePosition = event.clientY;
         event.preventDefault();
         event.stopPropagation();
+        window.addEventListener('mousemove', this.onMouseMove);
+        window.addEventListener('mouseup', this.onMouseUp);
     };
+
     protected onMouseMove = rafDecorator((event: MouseEvent) => {
         if (!this._draggingStarted) return;
-        console.log(this.position, 'position');
         const positionChange = event.clientY - this._initialMousePosition;
-        this._initialMousePosition = positionChange;
         const absChange = positionChange / (this.$scrollbarTrack.offsetHeight - this.$scrollbarThumb.offsetHeight);
-        if (absChange) this.position += absChange;
-        console.log(positionChange, 'positiionchange');
-        console.log(absChange, 'absolutechange');
-        console.log(this.position, 'position');
+        this.position = this._initialPosition + absChange;
         event.preventDefault();
     });
 
-    // tracking click event to prevent loss of mouseup event outside the area
-    protected onClick = (event: MouseEvent) => {
-        this.onMouseMove(event);
+    protected onMouseUp = (event: MouseEvent) => {
+        if (this._draggingStarted) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
         this._draggingStarted = false;
+        window.removeEventListener('mousemove', this.onMouseMove);
+        window.removeEventListener('mouseup', this.onMouseUp);
+    };
+
+    protected onClick = (event: MouseEvent) => {
+        if (event.target !== this.$scrollbarTrack) return;
+        const thumbHeight = this.$scrollbarThumb.offsetHeight;
+        const trackOffset = this.$scrollbarTrack.getBoundingClientRect().top + document.body.scrollTop;
+        const positionChange = event.pageY - trackOffset - thumbHeight / 2;
+        this.position = positionChange / (this.$scrollbarTrack.offsetHeight - thumbHeight);
     };
 
     protected onScroll = rafDecorator(() => {
