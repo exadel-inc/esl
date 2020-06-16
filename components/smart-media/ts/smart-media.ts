@@ -83,7 +83,7 @@ export class SmartMedia extends CustomElement {
     }
 
     protected disconnectedCallback() {
-        super.disconnectedCallback()
+        super.disconnectedCallback();
         SmartMediaRegistry.removeListener(this._onRegistryStateChange);
         if (this.conditionQuery) {
             this.conditionQuery.removeListener(this.deferredReinitialize);

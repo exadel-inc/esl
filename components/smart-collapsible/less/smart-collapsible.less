@@ -6,28 +6,12 @@ smart-collapsible {
   overflow: hidden;
 
   visibility: hidden;
+  max-height: 0;
+  transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime;
 
   &.open {
     visibility: visible;
-  }
-
-  &:not([direction="horizontal"]) {
-    max-height: 0;
-    transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime;
-
-    &.open {
-      max-height: none;
-      transition: max-height @animationTime ease-in-out, visibility 0s linear;
-    }
-  }
-
-  &[direction="horizontal"] {
-    max-width: 0;
-    transition: max-width @animationTime ease-in-out, visibility 0s linear @animationTime;
-
-    &.open {
-      max-width: none;
-      transition: max-width @animationTime ease-in-out, visibility 0s linear;
-    }
+    max-height: none;
+    transition: max-height @animationTime ease-in-out, visibility 0s linear;
   }
 }
