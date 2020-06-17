@@ -6,7 +6,6 @@ import {jsonAttr} from '../../smart-utils/decorators/json-attr';
 import {SingleTaskManager} from '../../smart-utils/async/single-task-manager';
 import {DeviceDetector} from '../../smart-utils/enviroment/device-detector';
 import {defined} from '../../smart-utils/misc/compare';
-import {afterNextRender} from "../../smart-utils/async/raf";
 
 export interface PopupActionParams {
 	initiator?: string;
