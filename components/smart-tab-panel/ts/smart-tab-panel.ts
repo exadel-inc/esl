@@ -3,8 +3,7 @@ import {CollapsibleActionParams, SmartCollapsible} from '../../smart-collapsible
 import {SmartMediaQuery} from '../../smart-utils/conditions/smart-media-query';
 import {attr} from '../../smart-utils/decorators/attr';
 
-export interface TabActionParams extends CollapsibleActionParams {
-}
+export type TabActionParams = CollapsibleActionParams;
 
 export class SmartTabPanel extends SmartCollapsible {
     public static is = 'smart-tab-panel';
