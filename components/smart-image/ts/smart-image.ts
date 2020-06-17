@@ -1,6 +1,6 @@
 /**
  * Smart Image
- * @version 2.1.1
+ * @version 2.2.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
@@ -268,6 +268,13 @@ export class SmartImage extends CustomElement {
 			if (this.refreshOnUpdate || !this.ready) {
 				this.syncImage();
 			}
+
+			if (this._shadowImg.complete && this._shadowImg.naturalHeight > 0) {
+				this._onLoad();
+			}
+			if (this._shadowImg.complete && this._shadowImg.naturalHeight <= 0) {
+				this._onError();
+			}
 		}
 
 		this._detachLazyTrigger && this._detachLazyTrigger();
@@ -281,9 +288,9 @@ export class SmartImage extends CustomElement {
 	}
 
 	public refresh() {
-		this.clearImage();
 		this.removeAttribute('loaded');
 		this.removeAttribute('ready');
+		this.clearImage();
 		this.update(true);
 	}
 

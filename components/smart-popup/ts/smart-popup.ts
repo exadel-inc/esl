@@ -134,7 +134,7 @@ export class SmartPopup extends CustomElement {
         PopupManager.hidePopupsInGroup(this, params);
         this._taskManager.push(() => {
 			if (!params.force && this._open) return;
-			this.onShow(params)
+			this.onShow(params);
 		}, defined(params.showDelay, params.delay));
 		this.bindHoverStateTracking(params.trackHover);
 		return this;

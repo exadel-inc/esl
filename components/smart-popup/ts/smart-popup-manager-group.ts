@@ -26,7 +26,7 @@ export default class Group {
   }
 
   public get openedPopup() {
-      for (let popup of this.popups) {
+      for (const popup of this.popups) {
           if (popup.open) {
               return popup;
           }

@@ -51,7 +51,7 @@ export class SmartCarouselAutoplayPlugin extends SmartCarouselPlugin {
 	}
 	public stop() {
 		this._active = false;
-		this.reset()
+		this.reset();
 	}
 
 	public reset() {
@@ -67,7 +67,7 @@ export class SmartCarouselAutoplayPlugin extends SmartCarouselPlugin {
 				return;
 			case 'prev':
 				this.carousel.prev();
-				return
+				return;
 		}
 		this.reset();
 	}

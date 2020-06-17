@@ -9,7 +9,7 @@ if (!Object.getOwnPropertyDescriptor(Node.prototype, 'isConnected')) {
 				if (!ancestorParent) return ancestor;
 			}
 			return node;
-		}
+		};
 	}
 	Object.defineProperty(Node.prototype, 'isConnected', {
 		get() { return rootNode(this).nodeType === Node.DOCUMENT_NODE; },
