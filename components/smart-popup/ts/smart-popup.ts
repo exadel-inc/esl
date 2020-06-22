@@ -5,6 +5,7 @@ import PopupManager from './smart-popup-manager';
 import {jsonAttr} from '../../smart-utils/decorators/json-attr';
 import {SingleTaskManager} from '../../smart-utils/async/single-task-manager';
 import {DeviceDetector} from '../../smart-utils/enviroment/device-detector';
+import {defined} from '../../smart-utils/misc/compare';
 
 export interface PopupActionParams {
 	initiator?: string;
@@ -15,6 +16,8 @@ export interface PopupActionParams {
 	silent?: boolean;
 	trackHover?: boolean;
 	trigger?: HTMLElement;
+	previousPopup?: SmartPopup;
+    nextPopup?: SmartPopup;
 }
 
 export class SmartPopup extends CustomElement {
@@ -25,7 +28,7 @@ export class SmartPopup extends CustomElement {
 	protected static initialParams = {silent: true, force: true};
 
 	static get observedAttributes() {
-		return ['active', 'group', 'close-on-esc', 'close-on-body-click'];
+		return ['open', 'group', 'close-on-esc', 'close-on-body-click'];
 	}
 
 	private _open: boolean = false;
@@ -105,7 +108,7 @@ export class SmartPopup extends CustomElement {
 	protected bindHoverStateTracking(track: boolean) {
 		if (DeviceDetector.isTouchDevice) return;
 		if (this._trackHover === track) return;
-		this._trackHover = track
+		this._trackHover = track;
 		if (this._trackHover) {
 			this.addEventListener('mouseenter', this.onMouseEnter);
 			this.addEventListener('mouseleave', this.onMouseLeave);
@@ -118,7 +121,7 @@ export class SmartPopup extends CustomElement {
 	/**
 	 * Toggle popup state
 	 */
-	public toggle(state: boolean = !this.open, params: PopupActionParams = this.defaultParams) {
+	public toggle(state: boolean = !this.open, params?: PopupActionParams) {
 		state ? this.show(params) : this.hide(params);
 		return this;
 	}
@@ -126,11 +129,13 @@ export class SmartPopup extends CustomElement {
 	/**
 	 * Changes popup state to active
 	 */
-	public show(params: PopupActionParams = this.defaultParams) {
-		this._taskManager.push(() => {
+	public show(params?: PopupActionParams) {
+        params = Object.assign({}, this.defaultParams, params || {});
+        PopupManager.hidePopupsInGroup(this, params);
+        this._taskManager.push(() => {
 			if (!params.force && this._open) return;
-			this.onShow(params)
-		}, params.showDelay || params.delay);
+			this.onShow(params);
+		}, defined(params.showDelay, params.delay));
 		this.bindHoverStateTracking(params.trackHover);
 		return this;
 	}
@@ -138,11 +143,12 @@ export class SmartPopup extends CustomElement {
 	/**
 	 * Changes popup state to inactive
 	 */
-	public hide(params: PopupActionParams = this.defaultParams) {
-		this._taskManager.push(() => {
-			if (!params.force && !this._open) return
-			this.onHide(params)
-		}, params.hideDelay || params.delay);
+	public hide(params?: PopupActionParams) {
+        params = Object.assign({}, this.defaultParams, params || {});
+        this._taskManager.push(() => {
+			if (!params.force && !this._open) return;
+			this.onHide(params);
+		}, defined(params.hideDelay, params.delay));
 		this.bindHoverStateTracking(params.trackHover);
 		return this;
 	}
@@ -150,21 +156,21 @@ export class SmartPopup extends CustomElement {
 	protected onShow(params: PopupActionParams) {
 		this._open = true;
 
-		PopupManager.hidePopupsInGroup(this);
 		this.setAttribute('open', '');
 		(!this.disableA11y) && this.setAttribute('aria-hidden', 'false');
-		this.activeClass && this.classList.add(this.activeClass);
-		this.bodyClass && document.body.classList.add(this.bodyClass);
+        this.activeClass && this.classList.add(this.activeClass);
+        this.bodyClass && document.body.classList.add(this.bodyClass);
 
 		if (!params.silent) this.fireStateChange();
 	}
+
 	protected onHide(params: PopupActionParams) {
 		this._open = false;
 
 		this.removeAttribute('open');
 		(!this.disableA11y) && this.setAttribute('aria-hidden', 'true');
-		this.activeClass && this.classList.remove(this.activeClass);
-		this.bodyClass && document.body.classList.remove(this.bodyClass);
+        this.activeClass && this.classList.remove(this.activeClass);
+        this.bodyClass && document.body.classList.remove(this.bodyClass);
 
 		if (!params.silent) this.fireStateChange();
 	}

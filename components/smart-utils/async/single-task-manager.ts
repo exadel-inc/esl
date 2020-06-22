@@ -5,7 +5,7 @@ export class SingleTaskManager {
 	private execute = () => {
 		this._timeout = null;
 		this._payload && this._payload();
-	}
+	};
 
 	public push(task: Function, delay: number | boolean = false) {
 		if (typeof task !== 'function') return false;

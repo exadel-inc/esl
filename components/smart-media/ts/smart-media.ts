@@ -1,62 +1,13 @@
 /**
  * Smart Media
- * @version 1.0.1
+ * @version 1.1.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- *
- * @description:
- * SmartMedia - custom element, that provides ability to add and configure media using one tag.
- * Supported features:
- * - extendable 'Providers' realization for different media types, support HTMLAudio, HTMLVideo, Youtube and AbstractIframe out of the box
- * - load-conditions - restriction to load smart-media can be defined via SmartMediaQuery syntax
- * - play-in-viewport feature restrict active state for only visible components on the page
- * - manual initialization - disabled component will not be initialized until it not enabled or play action triggered
- * - group manager to allow single active player restriction
- * - fill mode feature allows to cover area by video saving ratio or inscribe video inside of the area
- * - provides unified state change events
- * - provides 'HTMLMedia like' API that is safe and will executed after real api will be ready
- *
- * Attributes:
- * {string} media-src - media resource src
- * {string} media-id - id of media
- * {string} media-type - type of media provider
- *
- * {string} [group] - group name, only one media player in group can be active
- *
- * {boolean} [disabled] - prevents media api initialization
- *
- * {'auto'|'cover'|'inscribe'} [fill-mode] - enables resource size management
- * {string | number} [aspect-ratio] - aspect ratio to use for inner resource
- *
- * {boolean} [play-in-viewport] - auto stop video that out ov viewport area
- * {boolean} [autofocus] - set focus to player on play
- * {boolean} [autoplay] - start play automatically on initialization (note initialization not happens until media is disabled)
- * {boolean} [controls] - show media player controls
- * {boolean} [loop] - loop video
- * {boolean} [mute] - mute the video
- *
- * @readonly {boolean} error - marker that indicates that media initialized with error
- * @readonly {boolean} ready - marker that indicates that media api loaded
- * @readonly {boolean} played - marker that indicates that media payed
- * @readonly {boolean} active - marker that indicates that media paying
- *
- * @event smedia:error - (bubbles) happens when media api is initialized with error
- * @event smedia:ready - (bubbles) happens when media api is ready
- * @event smedia:play - (bubbles) happens when media starts playing
- * @event smedia:paused - (bubbles) happens when media paused
- * @event smedia:ended - (bubbles) happens when media ends
- * @event smedia:detach - (bubbles) happens after media provider detach (reinitialization / disconnect from the DOM)
- * @event smedia:mangedpause - (bubbles) happens when media paused by media group restriction manager
- *
- * @example:
- * <smart-media
- *    [disabled]
- *    title="Video Title"
- *    [group="mediaGroup"]
- *    media-type="youtube|video"
- *    media-id="##MEDIAID##"></smart-media-embedded>
  */
+
 import {attr} from '../../smart-utils/decorators/attr';
-import SmartMediaQuery from '../../smart-utils/conditions/smart-media-query';
+import {debounce} from '../../smart-utils/async/debounce';
+import {rafDecorator} from '../../smart-utils/async/raf';
+import {SmartMediaQuery} from '../../smart-utils/conditions/smart-media-query';
 import {CustomElement} from '../../smart-utils/abstract/custom-element';
 import {parseAspectRatio} from '../../smart-utils/misc/format';
 
@@ -64,8 +15,6 @@ import {getIObserver} from './smart-media-iobserver';
 import {BaseProvider, PlayerStates} from './smart-media-provider';
 import SmartMediaRegistry from './smart-media-registry';
 import MediaGroupRestrictionManager from './smart-media-manager';
-import {debounce} from '../../smart-utils/async/debounce';
-import {rafDecorator} from '../../smart-utils/async/raf';
 
 export class SmartMedia extends CustomElement {
     public static is = 'smart-media';
@@ -81,11 +30,11 @@ export class SmartMedia extends CustomElement {
     @attr({conditional: true}) public disabled: boolean;
     @attr({conditional: true}) public autoplay: boolean;
     @attr({conditional: true}) public autofocus: boolean;
-    @attr({conditional: true}) public preload: boolean;
     @attr({conditional: true}) public muted: boolean;
     @attr({conditional: true}) public loop: boolean;
     @attr({conditional: true}) public controls: boolean;
     @attr({conditional: true}) public playInViewport: boolean;
+    @attr({conditional: true, defaultValue: 'auto'}) public preload: string;
 
     @attr({conditional: true, readonly: true}) public ready: boolean;
     @attr({conditional: true, readonly: true}) public active: boolean;
@@ -95,8 +44,8 @@ export class SmartMedia extends CustomElement {
     private _provider: BaseProvider<HTMLElement>;
     private _conditionQuery: SmartMediaQuery;
 
+    private deferredResize = rafDecorator(() => this._onResize());
     private deferredReinitialize = debounce(() => this.reinitInstance());
-    private deferredChangeFillMode = rafDecorator(() => this._onChangeFillMode());
 
     /**
      * @enum Map with possible Player States
@@ -128,26 +77,26 @@ export class SmartMedia extends CustomElement {
             this.attachViewportConstraint();
         }
         if (this.fillModeEnabled) {
-            window.addEventListener('resize', this.deferredChangeFillMode);
+            window.addEventListener('resize', this.deferredResize);
         }
         this.deferredReinitialize();
     }
 
     protected disconnectedCallback() {
-        super.disconnectedCallback()
+        super.disconnectedCallback();
         SmartMediaRegistry.removeListener(this._onRegistryStateChange);
         if (this.conditionQuery) {
             this.conditionQuery.removeListener(this.deferredReinitialize);
         }
         if (this.fillModeEnabled) {
-            window.removeEventListener('resize', this.deferredChangeFillMode);
+            window.removeEventListener('resize', this.deferredResize);
         }
         this.detachViewportConstraint();
         this._provider && this._provider.unbind();
     }
 
     private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-        if (oldVal === newVal) return;
+        if (!this.connected && oldVal === newVal) return;
         switch (attrName) {
             case 'disabled':
                 (oldVal !== null) && this.deferredReinitialize();
@@ -159,7 +108,7 @@ export class SmartMedia extends CustomElement {
                 break;
             case 'fill-mode':
             case 'aspect-ratio':
-                this.deferredChangeFillMode();
+                this.deferredResize();
                 break;
             case 'play-in-viewport':
                 this.playInViewport ?
@@ -224,7 +173,7 @@ export class SmartMedia extends CustomElement {
         }
         if (!this.canActivate()) return;
         this.deferredReinitialize.then(() => {
-            this._provider && this._provider.safePlay()
+            this._provider && this._provider.safePlay();
         }, true);
     }
 
@@ -265,7 +214,7 @@ export class SmartMedia extends CustomElement {
         if (this.hasAttribute('ready-class')) {
             this.classList.add(this.getAttribute('ready-class'));
         }
-        this.deferredChangeFillMode();
+        this.deferredResize();
         this.dispatchCustomEvent('ready');
     }
 
@@ -291,6 +240,7 @@ export class SmartMedia extends CustomElement {
 
     public _onPlay() {
         if (this.autofocus) this.focus();
+        this.deferredResize();
         this.setAttribute('active', '');
         this.setAttribute('played', '');
         this.dispatchCustomEvent('play');
@@ -309,7 +259,7 @@ export class SmartMedia extends CustomElement {
         MediaGroupRestrictionManager.unregister(this);
     }
 
-    public _onChangeFillMode() {
+    public _onResize() {
         if (!this._provider) return;
         if (!this.fillModeEnabled || this.actualAspectRatio <= 0) {
             this._provider.setSize('auto', 'auto');

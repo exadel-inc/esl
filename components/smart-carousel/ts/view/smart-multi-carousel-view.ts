@@ -124,7 +124,7 @@ class SmartMultiCarouselView extends SmartCarouselView {
 		this.carousel.$slides.forEach((el) => {
 			el.style.transform = 'none';
 			el.style.left = 'none';
-		})
+		});
 	}
 }
 

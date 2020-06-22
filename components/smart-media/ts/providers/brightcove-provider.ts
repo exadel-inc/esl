@@ -88,7 +88,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 		}
 		window.bc(this._el);
 		this._api = window.videojs(this._el);
-		return new Promise((resolve) => this._api.ready(resolve))
+		return new Promise((resolve) => this._api.ready(resolve));
 	}
 
 	/**

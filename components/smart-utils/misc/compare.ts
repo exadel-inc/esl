@@ -12,3 +12,12 @@ export function deepCompare(obj1: any, obj2: any): boolean {
 	}
 	return false;
 }
+
+/**
+ * Find the first defined param
+ */
+export function defined<T>(...params: T[]) {
+    for (const param of params) {
+        if (param !== undefined) return param;
+    }
+}

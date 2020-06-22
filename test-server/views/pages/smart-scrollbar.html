@@ -1,0 +1,138 @@
+---
+layout: ../layouts/basic.html
+title: Smart Scrollbar <span class="badge badge-warning">Beta</span>
+---
+
+{{##content:
+<section class="row">
+    <style>
+        .test-popup {
+            position: absolute;
+            height: 500px;
+            width: 400px;
+            z-index: 100;
+            box-shadow: 0 0 16px 8px rgba(0,0,0,.4);
+        }
+        .test-popup .smart-scrollable-content {
+            max-height: 100%;
+            padding: 20px;
+        }
+        .test-popup smart-scrollbar {
+            right: 4px;
+        }
+    </style>
+    <div class="col-8 m-auto">
+        <smart-trigger target="::next"><button class="btn btn-primary">Toggle Modal</button></smart-trigger>
+        <smart-popup class="test-popup"
+                     close-on-body-click
+                     style="background: #e6c3c3;">
+            <div class="smart-scrollable-content">
+                <p>At the current rate of rainfall, when will your local reservoir overflow its banks? If you shoot a
+                    rocket at an angle of 60 degrees into a headwind, how far will it fly with 40 pounds of propellant
+                    and a 5-pound payload? Assuming a 100-month loan for $75,000 at 5.11 percent, what will the payoff
+                    balance be after four years? If a lab culture is doubling every 14 hours, how many viruses will
+                    there be in a week?</p>
+
+                <p>Those sorts of questions aren’t asked by mathematicians, who are the people who derive equations to
+                    solve problems in a general way. Rather, they are asked by working engineers, technicians, military
+                    ballistics officers, and financiers, all of whom need an actual number: Given this set of inputs,
+                    tell me the answer.
+                    At the current rate of rainfall, when will your local reservoir overflow its banks? If you shoot a
+                    rocket at an angle of 60 degrees into a headwind, how far will it fly with 40 pounds of propellant
+                    and a 5-pound payload? Assuming a 100-month loan for $75,000 at 5.11 percent, what will the payoff
+                    balance be after four years? If a lab culture is doubling every 14 hours, how many viruses will
+                    there be in a week?</p>
+
+                <p>Those sorts of questions aren’t asked by mathematicians, who are the people who derive equations to
+                    solve problems in a general way. Rather, they are asked by working engineers, technicians, military
+                    ballistics officers, and financiers, all of whom need an actual number: Given this set of inputs,
+                    tell me the answer.</p>
+
+                <p>At the current rate of rainfall, when will your local reservoir overflow its banks? If you shoot a
+                    rocket at an angle of 60 degrees into a headwind, how far will it fly with 40 pounds of propellant
+                    and a 5-pound payload? Assuming a 100-month loan for $75,000 at 5.11 percent, what will the payoff
+                    balance be after four years? If a lab culture is doubling every 14 hours, how many viruses will
+                    there be in a week?</p>
+            </div>
+            <smart-scrollbar target="::prev"
+                             direction="vertical"></smart-scrollbar>
+        </smart-popup>
+    </div>
+</section>
+<section class="row">
+    <div class="col-8 m-auto">
+        <div class="content smart-scrollable-content" style="height: 500px; background: #c3d4e6;">
+            <div style="padding: 30px 60px;">
+                <p>At the current rate of rainfall, when will your local reservoir overflow its banks? If you shoot a
+                    rocket at an angle of 60 degrees into a headwind, how far will it fly with 40 pounds of propellant
+                    and a 5-pound payload? Assuming a 100-month loan for $75,000 at 5.11 percent, what will the payoff
+                    balance be after four years? If a lab culture is doubling every 14 hours, how many viruses will
+                    there be in a week?</p>
+
+                <p>Those sorts of questions aren’t asked by mathematicians, who are the people who derive equations to
+                    solve problems in a general way. Rather, they are asked by working engineers, technicians, military
+                    ballistics officers, and financiers, all of whom need an actual number: Given this set of inputs,
+                    tell me the answer.
+                    At the current rate of rainfall, when will your local reservoir overflow its banks? If you shoot a
+                    rocket at an angle of 60 degrees into a headwind, how far will it fly with 40 pounds of propellant
+                    and a 5-pound payload? Assuming a 100-month loan for $75,000 at 5.11 percent, what will the payoff
+                    balance be after four years? If a lab culture is doubling every 14 hours, how many viruses will
+                    there be in a week?</p>
+            </div>
+            <smart-scrollbar target="::parent"
+                             direction="vertical"></smart-scrollbar>
+        </div>
+    </div>
+</section>
+<section class="row">
+    <div class="col-8 m-auto">
+        <div class="content smart-scrollable-content" style="height: 500px; background: #c3e6cb;">
+            <div style="padding: 30px 60px;">
+                <p>At the current rate of rainfall, when will your local reservoir overflow its banks? If you shoot a
+                rocket at an angle of 60 degrees into a headwind, how far will it fly with 40 pounds of propellant
+                and a 5-pound payload? Assuming a 100-month loan for $75,000 at 5.11 percent, what will the payoff
+                balance be after four years? If a lab culture is doubling every 14 hours, how many viruses will
+                    there be in a week?</p>
+
+                <p>Those sorts of questions aren’t asked by mathematicians, who are the people who derive equations to
+                solve problems in a general way. Rather, they are asked by working engineers, technicians, military
+                ballistics officers, and financiers, all of whom need an actual number: Given this set of inputs,
+                tell me the answer.
+                At the current rate of rainfall, when will your local reservoir overflow its banks? If you shoot a
+                rocket at an angle of 60 degrees into a headwind, how far will it fly with 40 pounds of propellant
+                and a 5-pound payload? Assuming a 100-month loan for $75,000 at 5.11 percent, what will the payoff
+                balance be after four years? If a lab culture is doubling every 14 hours, how many viruses will
+                    there be in a week?</p>
+
+                <p>Those sorts of questions aren’t asked by mathematicians, who are the people who derive equations to
+                solve problems in a general way. Rather, they are asked by working engineers, technicians, military
+                ballistics officers, and financiers, all of whom need an actual number: Given this set of inputs,
+                    tell me the answer.</p>
+
+                <p>At the current rate of rainfall, when will your local reservoir overflow its banks? If you shoot a
+                    rocket at an angle of 60 degrees into a headwind, how far will it fly with 40 pounds of propellant
+                    and a 5-pound payload? Assuming a 100-month loan for $75,000 at 5.11 percent, what will the payoff
+                    balance be after four years? If a lab culture is doubling every 14 hours, how many viruses will
+                    there be in a week?</p>
+
+                <p>Those sorts of questions aren’t asked by mathematicians, who are the people who derive equations to
+                    solve problems in a general way. Rather, they are asked by working engineers, technicians, military
+                    ballistics officers, and financiers, all of whom need an actual number: Given this set of inputs,
+                    tell me the answer.
+                    At the current rate of rainfall, when will your local reservoir overflow its banks? If you shoot a
+                    rocket at an angle of 60 degrees into a headwind, how far will it fly with 40 pounds of propellant
+                    and a 5-pound payload? Assuming a 100-month loan for $75,000 at 5.11 percent, what will the payoff
+                    balance be after four years? If a lab culture is doubling every 14 hours, how many viruses will
+                    there be in a week?</p>
+
+                <p>Those sorts of questions aren’t asked by mathematicians, who are the people who derive equations to
+                    solve problems in a general way. Rather, they are asked by working engineers, technicians, military
+                    ballistics officers, and financiers, all of whom need an actual number: Given this set of inputs,
+                    tell me the answer.</p>
+            </div>
+            <smart-scrollbar target="::parent"
+                             direction="vertical"></smart-scrollbar>
+        </div>
+    </div>
+</section>
+#}}
