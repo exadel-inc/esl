@@ -70,7 +70,7 @@ export class SmartTrigger extends CustomElement {
   }
 
   protected bindEvents() {
-    if (!this.popup) return;
+    if (!this.popup && !this._popup.el) return;
     if (this.showEvent === this.hideEvent) {
       this.attachEventListener(this.showEvent, this.onToggleEvent);
     } else {
@@ -78,13 +78,13 @@ export class SmartTrigger extends CustomElement {
       this.attachEventListener(this.hideEvent, this.onHideEvent);
     }
     const popupClass = this._popup.constructor as typeof SmartPopup;
-    this.popup.addEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
+    this._popup.el.addEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
   }
   protected unbindEvents() {
     (this.__unsubscribers || []).forEach((off) => off());
-    if (!this.popup) return;
+    if (!this.popup && !this._popup.el) return;
     const popupClass = this._popup.constructor as typeof SmartPopup;
-    this.popup.removeEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
+    this._popup.el.removeEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
   }
   protected attachEventListener(eventName: string, callback: (e: Event) => void) {
     if (!eventName) return;
@@ -95,14 +95,14 @@ export class SmartTrigger extends CustomElement {
 
   protected onShowEvent = (e: Event) => {
     this.stopEventPropagation(e);
-    this.popup.show({
+    this._popup.el.show({
       trigger: this,
       delay: this.showDelayValue
     });
   };
   protected onHideEvent = (e: Event) => {
     this.stopEventPropagation(e);
-    this.popup.hide({
+    this._popup.el.hide({
       trigger: this,
       delay: this.hideDelayValue,
       trackHover: this.event === 'hover' && this.mode === 'toggle'
@@ -110,11 +110,11 @@ export class SmartTrigger extends CustomElement {
   };
   protected onToggleEvent = (e: Event) => (this.active ? this.onHideEvent : this.onShowEvent)(e);
   protected onPopupStateChanged = () => {
-    this.active = this.popup.open;
+    this.active = this._popup.el.open;
   };
 
   protected stopEventPropagation(e: Event) {
-    if (this.popup.closeOnBodyClick && e.type === 'click') {
+    if (this._popup.el.closeOnBodyClick && e.type === 'click') {
       e.stopPropagation();
     }
   }
