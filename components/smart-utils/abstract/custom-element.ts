@@ -41,6 +41,11 @@ export abstract class CustomElement extends HTMLElement {
 	public static register(this: Function & typeof CustomElement, tagName?: string) {
 		tagName = tagName || this.is;
 		if (!tagName) throw new Error('Can not define custom element');
+		const constructor = customElements.get(tagName);
+		if (constructor) {
+            if (constructor.is !== tagName) throw new Error('Element declaration tag inconsistency');
+            return;
+		}
 		if (this.is !== tagName) {
 			this.is = tagName;
 		}

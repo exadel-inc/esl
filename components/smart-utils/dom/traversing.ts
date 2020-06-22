@@ -15,7 +15,7 @@ export const findSibling = (base: Element, sel?: string, backward = false) => {
 		if (!sel || target.matches(sel)) return target;
 	}
 	return null;
-}
+};
 
 const SELECTORS: PseudoProcessorMap = {
 	'::next': (base: Element, sel?: string) => findSibling(base, sel, false),

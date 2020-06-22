@@ -77,13 +77,13 @@ export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends Base
 	}
 
 	public pause() {
-		return this._el.pause()
+		return this._el.pause();
 	}
 
 	public stop() {
 		return new Promise(() => {
 			this._el.pause();
 			this._el.currentTime = 0;
-		})
+		});
 	}
 }
