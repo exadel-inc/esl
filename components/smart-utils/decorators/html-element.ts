@@ -25,35 +25,35 @@ export class ElementTarget<T extends HTMLElement> {
         return this._targetProperty ? (this._targetInstance)[this._targetProperty] : '';
     }
 
-    get el(): T | null {
-        this._query = this._getQuery();
+    private _getElement(query: string, multiply: boolean): T | T[] | null  {
+        let element: T | T[] = null;
+        if (this._cache.has(query)) {
+            element = multiply ? this._cache.get(query) : this._cache.get(query)[0];
+        }
 
-        let element: T = this._cache.has(this._query) ? this._cache.get(this._query)[0] : null;
-        if (!this._cache.has(this._query)) {
-            element = findTarget(this._query, this._targetInstance) as T;
-            if (this._cacheable && element) this._cache.set(this._query, [element]);
+        if (!this._cache.has(query)) {
+            element = findTarget(query, this._targetInstance, multiply) as T | T[] | null;
+            const isList: boolean = NodeList.prototype.isPrototypeOf(element);
+            if (element && multiply) isList ? element = Array.from(element as T[]) : element = [element as T];
+            if (element && this._cacheable) this._cache.set(query, multiply ? (element as T[]) : [element as T]);
         }
 
         return element;
     }
 
+    get el(): T | null {
+        this._query = this._getQuery();
+        return (this._getElement(this._query, false) as T | null);
+    }
+
     get els(): T[] {
         this._query = this._getQuery();
-        let elements: any = [];
-        const queries = this._query.split(',');
-
-        queries.forEach((query) => {
-            if (this._cache.has(query.trim())) {
-                elements = elements.concat(this._cache.get(query));
-            } else {
-                const tmpElements: T[] = findTarget(query, this._targetInstance, true) as T[] || [];
-                elements = elements.concat(tmpElements instanceof HTMLElement
-                    ? [tmpElements]
-                    : Array.from(tmpElements));
-                if (this._cacheable && tmpElements.length > 0) this._cache.set(query, tmpElements);
-            }
-        })
-
+        let elements: T[] = [];
+        this._query
+            .split(',')
+            .forEach((query) => {
+                elements = elements.concat(this._getElement(query, true) as T[])
+            });
         return elements;
     }
 
@@ -71,6 +71,7 @@ export const htmlElement = (config: ElementDescriptor = {via: '', cache: false})
             Object.defineProperty(this, propertyName, {value: new ElementTarget(config.via, config.cache, this)});
             return this[propertyName];
         }
+
         Object.defineProperty(target, propertyName, {get});
     };
 };
