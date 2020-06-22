@@ -1,7 +1,7 @@
-smart-tab {
+smart-tab-panel {
   @animationTime: 1s;
 
-  &:not(.accordion-transformation) {
+  &:not(.accordion) {
     display: block;
     height: auto;
     overflow: hidden;
@@ -18,7 +18,7 @@ smart-tab {
       transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime;
     }
 
-    &.fade {
+    &.fade-animate {
       opacity: 0;
       transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime, opacity @animationTime/2 linear;
     }
@@ -34,14 +34,14 @@ smart-tab {
         transition: max-height @animationTime ease-in-out, visibility 0s linear;
       }
 
-      &.fade {
+      &.fade-animate {
         opacity: 1;
         transition: max-height @animationTime ease-in-out, visibility 0s linear, opacity @animationTime/2 linear @animationTime/2;
       }
     }
   }
 
-  &.accordion-transformation {
+  &.accordion {
     display: block;
     height: auto;
     overflow: hidden;
@@ -58,6 +58,6 @@ smart-tab {
   }
 }
 
-.tabs-content {
+.smart-tabs-content {
   position: relative;
 }

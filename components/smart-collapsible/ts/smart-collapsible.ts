@@ -12,7 +12,9 @@ export class SmartCollapsible extends SmartPopup {
 	public static eventNs = 'esl:collapsible';
 
 	@attr({defaultValue: 'open'}) public activeClass: string;
-	@attr({defaultValue: 'auto'}) public fallbackDuration: number;
+    @attr({defaultValue: 'animate'}) public animateClass: string;
+    @attr({defaultValue: 'fade-animate'}) public postAnimateClass: string;
+    @attr({defaultValue: 'auto'}) public fallbackDuration: number;
 
 	protected initialHeight: number;
 
@@ -55,10 +57,8 @@ export class SmartCollapsible extends SmartPopup {
 	};
 
     protected beforeAnimate(params: CollapsibleActionParams) {
-        this.classList.add('animate');
-        afterNextRender(() => {
-            this.classList.add('fade');
-        });
+        this.animateClass && this.classList.add(this.animateClass);
+        this.postAnimateClass && afterNextRender(() => this.classList.add(this.postAnimateClass));
     }
 
     protected onAnimate(action: string, params: CollapsibleActionParams) {
@@ -71,9 +71,9 @@ export class SmartCollapsible extends SmartPopup {
     }
 
     protected afterAnimate() {
-        this.classList.remove('animate');
-        this.classList.remove('fade');
-        this.dispatchCustomEvent('end', {
+        this.animateClass && this.classList.remove(this.animateClass);
+        this.postAnimateClass && this.classList.remove(this.postAnimateClass);
+        this.dispatchCustomEvent('transitionend', {
             detail: { open: this.open }
         });
     }

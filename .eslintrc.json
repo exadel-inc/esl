@@ -58,10 +58,7 @@
             "warn",
             "single"
         ],
-        "@typescript-eslint/semi": [
-            "off",
-            null
-        ],
+        "@typescript-eslint/semi": ["error"],
         "@typescript-eslint/triple-slash-reference": "warn",
         "@typescript-eslint/unified-signatures": "warn",
         "comma-dangle": "off",
@@ -125,6 +122,8 @@
         "prefer-arrow/prefer-arrow-functions": "off",
         "prefer-const": "warn",
         "radix": "warn",
+        "semi": ["error", "always"],
+        "semi-style": ["error", "last"],
         "space-before-function-paren": [
             "warn",
             {

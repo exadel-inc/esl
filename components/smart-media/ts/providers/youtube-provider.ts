@@ -89,9 +89,9 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
         this._ready.then(() => {
             this._el = this._api.getIframe();
             if (this.component.muted) {
-                this._api.mute()
+                this._api.mute();
             }
-            this.component._onReady()
+            this.component._onReady();
         });
     }
 

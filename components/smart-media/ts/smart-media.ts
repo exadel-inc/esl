@@ -173,7 +173,7 @@ export class SmartMedia extends CustomElement {
         }
         if (!this.canActivate()) return;
         this.deferredReinitialize.then(() => {
-            this._provider && this._provider.safePlay()
+            this._provider && this._provider.safePlay();
         }, true);
     }
 

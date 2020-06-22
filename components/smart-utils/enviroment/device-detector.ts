@@ -45,7 +45,7 @@ export abstract class DeviceDetector {
 	// Touch Detection
 	protected static touchMQ = (() => {
 		const prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
-		const mediaQuery = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('')
+		const mediaQuery = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
 		return matchMedia(mediaQuery);
 	})();
 	public static get isTouchDevice() {
