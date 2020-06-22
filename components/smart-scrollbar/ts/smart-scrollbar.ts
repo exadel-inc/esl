@@ -1,6 +1,6 @@
 /**
  * Smart Scrollbar
- * @version 1.0.0
+ * @version 1.1.0
  * @author Yuliya Adamskaya
  */
 import {CustomElement} from '../../smart-utils/abstract/custom-element';
@@ -62,6 +62,7 @@ export class SmartScrollbar extends CustomElement {
     }
 
     protected render() {
+        this.innerHTML = '';
         this.$scrollbarTrack = document.createElement('div');
         this.$scrollbarTrack.className = this.trackClass;
         this.$scrollbarThumb = document.createElement('div');
@@ -104,6 +105,9 @@ export class SmartScrollbar extends CustomElement {
         this.update();
     }
 
+    /**
+     * Update thumb size and position
+     */
     public update() {
         if (!this.$scrollbarThumb || !this.$scrollbarTrack) return;
         const trackSize = this.$scrollbarTrack.offsetHeight;
@@ -113,6 +117,9 @@ export class SmartScrollbar extends CustomElement {
         this.$scrollbarThumb.style.top = `${thumbTop}px`;
         this.$scrollbarThumb.style.height = `${thumbSize}px`;
     }
+    /**
+     * Update auxiliary markers
+     */
     public updateMarkers() {
         if (this.thumbSize === 1) {
             this.setAttribute('inactive', '');
@@ -120,41 +127,71 @@ export class SmartScrollbar extends CustomElement {
             this.removeAttribute('inactive');
         }
     }
+    /**
+     * Refresh scroll state and position
+     */
     public refresh() {
         this.update();
         this.updateMarkers();
     }
 
     // Event listeners
+    /**
+     * Mousedown event to track thumb drag start.
+     */
     protected onMouseDown = (event: MouseEvent) => {
         this.dragging = true;
         this._initialPosition = this.position;
         this._initialMousePosition = event.clientY;
-        event.preventDefault();
-        event.stopPropagation();
+
+        // Attach drag listeners
         window.addEventListener('mousemove', this.onMouseMove);
         window.addEventListener('mouseup', this.onMouseUp);
+        window.addEventListener('click', this.onBodyClick, { capture: true });
+
+        // Prevents default text selection, etc.
+        event.preventDefault();
     };
 
+    /**
+     * Mousemove document chandler for thumb drag event. Active only if drag action is active.
+     */
     protected onMouseMove = rafDecorator((event: MouseEvent) => {
         if (!this.dragging) return;
+
         const positionChange = event.clientY - this._initialMousePosition;
         const scrollableAreaHeight = this.$scrollbarTrack.offsetHeight - this.$scrollbarThumb.offsetHeight;
         const absChange = scrollableAreaHeight ? (positionChange / scrollableAreaHeight) : 0;
         this.position = this._initialPosition + absChange;
+
+        // Prevents default text selection, etc.
         event.preventDefault();
+        event.stopPropagation();
     });
 
+    /**
+     * Mouse up short time document handler to handle drag end
+     */
     protected onMouseUp = (event: MouseEvent) => {
-        if (this.dragging) {
-            event.stopPropagation();
-            event.preventDefault();
-        }
         this.dragging = false;
+
+        // Unbind drag listeners
         window.removeEventListener('mousemove', this.onMouseMove);
         window.removeEventListener('mouseup', this.onMouseUp);
     };
 
+    /**
+     * Body click short time handler to prevent clicks event on thumb drag. Handles capture phase.
+     */
+    protected onBodyClick = (event: MouseEvent) => {
+        event.stopImmediatePropagation();
+
+        window.removeEventListener('click', this.onBodyClick, { capture: true });
+    };
+
+    /**
+     * Handler for track clicks. Move scroll to selected position.
+     */
     protected onClick = (event: MouseEvent) => {
         if (event.target !== this.$scrollbarTrack) return;
 
@@ -164,10 +201,16 @@ export class SmartScrollbar extends CustomElement {
         this.position = positionChange / (this.$scrollbarTrack.offsetHeight - thumbHeight);
     };
 
+    /**
+     * Handler to redraw scroll on element native scroll events
+     */
     protected onScroll = rafDecorator(() => {
         if (!this.dragging) this.update();
     });
 
+    /**
+     * Handler for document resize events to redraw scroll.
+     */
     protected onResize = rafDecorator(() => this.refresh());
 }
 
