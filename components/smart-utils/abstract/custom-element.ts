@@ -37,8 +37,9 @@ export abstract class CustomElement extends HTMLElement {
 	/**
 	 * Register component in a {customElements} registry
 	 * @param {string} tagName - tag name to register custom element
+	 * NOTE: use super.register.call(T extends CustomElement, tagName) in overwritten register method in TS
 	 */
-	public static register(this: Function & typeof CustomElement, tagName?: string) {
+	public static register(this: typeof CustomElement & CustomElementConstructor, tagName?: string) {
 		tagName = tagName || this.is;
 		if (!tagName) throw new Error('Can not define custom element');
 		const constructor = customElements.get(tagName);

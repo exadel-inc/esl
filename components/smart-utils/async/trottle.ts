@@ -1,3 +1,5 @@
+import type {AnyToVoidFnSignature} from '../misc/functions';
+
 /**
  * Creates a throttled executed function.
  * The func is invoked with the last arguments provided to the throttled function.
@@ -5,7 +7,7 @@
  * @param threshold - indicates how often function could be called
  * @returns {Function}
  */
-export function throttle<T extends Function>(fn: T, threshold = 250): T {
+export function throttle<T extends AnyToVoidFnSignature>(fn: T, threshold = 250): T {
 	let last: number;
 	let deferTimer: ReturnType<typeof setTimeout>;
 	return function (...args: any[]) {
@@ -21,5 +23,5 @@ export function throttle<T extends Function>(fn: T, threshold = 250): T {
 			last = now;
 			fn.apply(this, args);
 		}
-	} as any as T;
+	} as T;
 }

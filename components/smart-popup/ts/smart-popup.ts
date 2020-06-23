@@ -46,8 +46,8 @@ export class SmartPopup extends CustomElement {
 
 	@attr({conditional: true}) public open: boolean;
 
-	@jsonAttr({staticDefault: 'defaultParams', default: {}}) public defaultParams: PopupActionParams;
-	@jsonAttr({staticDefault: 'initialParams', default: {}}) public initialParams: PopupActionParams;
+	@jsonAttr<PopupActionParams>({staticDefault: 'defaultParams', default: {}}) public defaultParams: PopupActionParams;
+	@jsonAttr<PopupActionParams>({staticDefault: 'initialParams', default: {}}) public initialParams: PopupActionParams;
 
 	protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
 		if (!this.connected || newVal === oldVal) return;

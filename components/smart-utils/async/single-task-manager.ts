@@ -1,5 +1,7 @@
+import type {AnyToVoidFnSignature} from '../misc/functions';
+
 export class SingleTaskManager {
-	private _payload: Function;
+	private _payload: AnyToVoidFnSignature;
 	private _timeout: number;
 
 	private execute = () => {
@@ -7,7 +9,7 @@ export class SingleTaskManager {
 		this._payload && this._payload();
 	};
 
-	public push(task: Function, delay: number | boolean = false) {
+	public push(task: AnyToVoidFnSignature, delay: number | boolean = false) {
 		if (typeof task !== 'function') return false;
 		this.clear();
 		if (typeof delay === 'number' && delay >= 0) {

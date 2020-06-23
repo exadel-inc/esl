@@ -1,7 +1,8 @@
 import {toKebabCase} from '../misc/format';
+import type {CustomElement} from '../abstract/custom-element';
 
-interface JsonAttrDescriptor {
-	default?: object;
+interface JsonAttrDescriptor<T> {
+	default?: T;
 	readonly?: boolean;
 	dataAttr?: boolean;
 	staticDefault?: string;
@@ -19,10 +20,10 @@ function getJsonAttr(target: HTMLElement, attrName: string) {
 	}
 }
 
-export const jsonAttr = (config: JsonAttrDescriptor = {}) => {
-	return (target: object, propName: string) => {
+export const jsonAttr = <T> (config: JsonAttrDescriptor<T> = {}) => {
+	return (target: CustomElement, propName: string) => {
 		const attrName = config.dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
-		function get(): object {
+		function get(): T {
 			const value = this[JSON_ATTR_HOLDER] && this[JSON_ATTR_HOLDER][propName];
 			if (value) return value;
 			const attrValue = getJsonAttr(this, attrName);
@@ -30,7 +31,7 @@ export const jsonAttr = (config: JsonAttrDescriptor = {}) => {
 			if (config.staticDefault) return this.constructor[config.staticDefault];
 			return config.default;
 		}
-		function set(value: string) {
+		function set(value: T) {
 			this[JSON_ATTR_HOLDER] = this[JSON_ATTR_HOLDER] || {};
 			this[JSON_ATTR_HOLDER][propName] = value;
 		}

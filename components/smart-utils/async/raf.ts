@@ -1,3 +1,5 @@
+import type {AnyToVoidFnSignature} from '../misc/functions';
+
 /**
  * Postpone action after next render
  * @param {function} callback
@@ -9,10 +11,9 @@ export const afterNextRender = (callback: () => void) => requestAnimationFrame((
  * @param {function} fn
  * @returns {function} - decorated function
  */
-
-export const rafDecorator = (fn: Function) => {
+export const rafDecorator = <T extends AnyToVoidFnSignature> (fn: T): T => {
 	let rafScheduled = false;
-	return function (...args: any) {
+	return function (...args: any[]) {
 		if (!rafScheduled) {
 			requestAnimationFrame(() => {
 				fn.call(this, ...args);
@@ -20,5 +21,5 @@ export const rafDecorator = (fn: Function) => {
 			});
 		}
 		rafScheduled = true;
-	};
+	} as T;
 };

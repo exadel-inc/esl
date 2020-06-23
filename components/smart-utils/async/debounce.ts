@@ -1,10 +1,12 @@
+import type {NoopFnSignature} from '../misc/functions';
+
 /**
  * CallableSubject is a {Function} that can be listened to continue execution
  */
 export interface CallableSubject extends Function {
 	requested: boolean;
 
-	then(cb: Function, invokeIfNoDeferred?: boolean): CallableSubject;
+	then(cb: NoopFnSignature, invokeIfNoDeferred?: boolean): CallableSubject;
 }
 
 /**
@@ -16,9 +18,9 @@ export interface CallableSubject extends Function {
  * @param [wait]
  * @returns {Function}
  */
-export function debounce<T extends Function>(fn: T, wait = 10): (T & CallableSubject) {
+export function debounce<T extends NoopFnSignature>(fn: T, wait = 10): (T & CallableSubject) {
 	let timeout: ReturnType<typeof setTimeout> = null;
-	const observers: Set<Function> = new Set();
+	const observers: Set<NoopFnSignature> = new Set();
 
 	function callableDebouncedSubject(...args: any[]) {
 		clearTimeout(timeout);
@@ -34,7 +36,7 @@ export function debounce<T extends Function>(fn: T, wait = 10): (T & CallableSub
 		get: () => timeout !== null
 	});
 	Object.defineProperty(callableDebouncedSubject, 'then', {
-		value: (cb: Function, invokeIfNoDeferred = false) => {
+		value: (cb: NoopFnSignature, invokeIfNoDeferred = false) => {
 			(invokeIfNoDeferred && timeout === null) ? cb() : observers.add(cb);
 			return callableDebouncedSubject;
 		}

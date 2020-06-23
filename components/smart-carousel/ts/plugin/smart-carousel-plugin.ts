@@ -70,7 +70,7 @@ export abstract class SmartCarouselPlugin extends CustomElement {
 	public abstract unbind(): void;
 
 	public static register(tagName?: string) {
-		customElements.whenDefined(SmartCarousel.is).then(() => super.register(tagName));
+		customElements.whenDefined(SmartCarousel.is).then(() => super.register.call(this, tagName));
 	}
 }
 

@@ -168,7 +168,7 @@ export class SmartCarousel extends CustomElement {
 		// TODO: change observed attributes
 		switch (attrName) {
 			case 'config':
-				this.configRules = SmartMediaRuleList.parse<object>(this.config, SmartMediaRuleList.OBJECT_PARSER) as SmartMediaRuleList<CarouselConfig>;
+				this.configRules = SmartMediaRuleList.parse<CarouselConfig>(this.config, SmartMediaRuleList.OBJECT_PARSER);
 				this.update(true);
 				break;
 		}
@@ -279,7 +279,7 @@ export class SmartCarousel extends CustomElement {
 
 	public static register(tagName?: string) {
 		SmartCarouselSlide.register((tagName || SmartCarousel.is) + '-slide');
-		customElements.whenDefined(SmartCarouselSlide.is).then(() => super.register(tagName));
+		customElements.whenDefined(SmartCarouselSlide.is).then(() => super.register.call(this, tagName));
 	}
 }
 
