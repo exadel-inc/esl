@@ -2,9 +2,9 @@
  * Slide controller
  * @author Julia Murashko
  */
-import {CustomElement} from '../../smart-utils/abstract/custom-element';
+import {SmartElement} from '../../smart-element/smart-element';
 
-export class SmartCarouselSlide extends CustomElement {
+export class SmartCarouselSlide extends SmartElement {
 	// TODO: refactor (check type of Element)
 	public get index(): number {
 		return Array.prototype.indexOf.call(this.parentNode.children, this);

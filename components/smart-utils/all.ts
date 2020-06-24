@@ -14,11 +14,6 @@ export * from './misc/functions';
 export * from './dom/events';
 export * from './dom/traversing';
 
-// Custom Element helpers
-export * from './abstract/custom-element';
-export * from './decorators/attr';
-export * from './decorators/json-attr';
-
 // Device detection & user configs
 export * from './enviroment/device-detector';
 export * from './enviroment/breakpoints';

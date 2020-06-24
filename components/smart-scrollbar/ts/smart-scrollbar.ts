@@ -3,12 +3,11 @@
  * @version 1.1.0
  * @author Yuliya Adamskaya
  */
-import {CustomElement} from '../../smart-utils/abstract/custom-element';
-import {attr} from '../../smart-utils/decorators/attr';
+import {SmartElement, attr} from '../../smart-element/smart-element';
 import {findTarget} from '../../smart-utils/dom/traversing';
 import {rafDecorator} from '../../smart-utils/async/raf';
 
-export class SmartScrollbar extends CustomElement {
+export class SmartScrollbar extends SmartElement {
     public static is = 'smart-scrollbar';
 
     protected $scrollbarThumb: HTMLElement;

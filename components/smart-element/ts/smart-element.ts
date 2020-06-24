@@ -2,7 +2,7 @@
  * Base class for SmartLibrary custom elements.
  * Allows to define custom element with the optional custom tag name.
  */
-export abstract class CustomElement extends HTMLElement {
+export abstract class SmartElement extends HTMLElement {
 	public static is = '';
 	public static eventNs = '';
 
@@ -10,7 +10,7 @@ export abstract class CustomElement extends HTMLElement {
 
 	protected connectedCallback() {
 		this._connected = true;
-		this.classList.add((this.constructor as typeof CustomElement).is);
+		this.classList.add((this.constructor as typeof SmartElement).is);
 	}
 	protected disconnectedCallback() {
 		this._connected = false;
@@ -28,7 +28,7 @@ export abstract class CustomElement extends HTMLElement {
 	 */
 	public dispatchCustomEvent(eventName: string,
 	                           eventInit: CustomEventInit = {bubbles: true}): boolean {
-		const component = this.constructor as typeof CustomElement;
+		const component = this.constructor as typeof SmartElement;
 		const eventFullName = (component.eventNs ? `${component.eventNs}:` : '') + eventName;
 		const event = new CustomEvent(eventFullName, eventInit);
 		return this.dispatchEvent(event);
@@ -39,7 +39,7 @@ export abstract class CustomElement extends HTMLElement {
 	 * @param {string} tagName - tag name to register custom element
 	 * NOTE: use super.register.call(T extends CustomElement, tagName) in overwritten register method in TS
 	 */
-	public static register(this: typeof CustomElement & CustomElementConstructor, tagName?: string) {
+	public static register(this: typeof SmartElement & CustomElementConstructor, tagName?: string) {
 		tagName = tagName || this.is;
 		if (!tagName) throw new Error('Can not define custom element');
 		const constructor = customElements.get(tagName);

@@ -1,4 +1,4 @@
-import {CustomElement} from '../../../smart-utils/abstract/custom-element';
+import {SmartElement} from '../../../smart-element/smart-element';
 import SmartCarousel from '../smart-carousel';
 
 /**
@@ -7,7 +7,7 @@ import SmartCarousel from '../smart-carousel';
  * Use the attributes to path the plugin options, the same as with any custom elements.
  * @abstract
  */
-export abstract class SmartCarouselPlugin extends CustomElement {
+export abstract class SmartCarouselPlugin extends SmartElement {
 	/**
 	 * {boolean} freePlacement marker define the restriction for the plugin placement.
 	 * If freePlacement is false - plugin element should be child of SmartCarousel element.

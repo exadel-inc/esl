@@ -1,11 +1,10 @@
-import { CustomElement } from '../../smart-utils/abstract/custom-element';
+import { SmartElement, attr } from '../../smart-element/smart-element';
 import { DeviceDetector } from '../../smart-utils/enviroment/device-detector';
-import { attr } from '../../smart-utils/decorators/attr';
 import { SmartPopup } from '../../smart-popup/smart-popup';
 import { findTarget } from '../../smart-utils/dom/traversing';
 import type { NoopFnSignature } from '../../smart-utils/misc/functions';
 
-export class SmartTrigger extends CustomElement {
+export class SmartTrigger extends SmartElement {
   public static is = 'smart-trigger';
 
   static get observedAttributes() {

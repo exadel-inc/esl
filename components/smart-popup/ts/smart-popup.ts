@@ -1,8 +1,6 @@
-import {CustomElement} from '../../smart-utils/abstract/custom-element';
+import {SmartElement, attr, jsonAttr} from '../../smart-element/smart-element';
 import {ESC} from '../../smart-utils/dom/keycodes';
-import {attr} from '../../smart-utils/decorators/attr';
 import PopupManager from './smart-popup-manager';
-import {jsonAttr} from '../../smart-utils/decorators/json-attr';
 import {SingleTaskManager} from '../../smart-utils/async/single-task-manager';
 import {DeviceDetector} from '../../smart-utils/enviroment/device-detector';
 import {defined} from '../../smart-utils/misc/compare';
@@ -20,7 +18,7 @@ export interface PopupActionParams {
     nextPopup?: SmartPopup;
 }
 
-export class SmartPopup extends CustomElement {
+export class SmartPopup extends SmartElement {
 	public static is = 'smart-popup';
 	public static eventNs = 'esl:popup';
 
