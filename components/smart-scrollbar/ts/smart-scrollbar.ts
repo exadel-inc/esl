@@ -26,6 +26,10 @@ export class SmartScrollbar extends CustomElement {
     @attr({defaultValue: 'scrollbar-thumb'}) public thumbClass: string;
     @attr({defaultValue: 'scrollbar-track'}) public trackClass: string;
 
+    static get observedAttributes() {
+        return ['target'];
+    }
+
     protected connectedCallback() {
         super.connectedCallback();
 
@@ -53,6 +57,11 @@ export class SmartScrollbar extends CustomElement {
         const content = findTarget(this.target, this) as HTMLDivElement;
         this.targetElement = content ? content : null;
     }
+
+    public get targetElement() {
+        return this.$scrollableContent || null;
+    }
+
     public set targetElement(content: HTMLElement) {
         if (this.$scrollableContent) {
             this.$scrollableContent.removeEventListener('scroll', this.onScroll);
@@ -99,6 +108,7 @@ export class SmartScrollbar extends CustomElement {
         const scrollableHeight = this.$scrollableContent.scrollHeight - this.$scrollableContent.offsetHeight;
         return scrollableHeight ? (this.$scrollableContent.scrollTop / scrollableHeight) : 0;
     }
+
     public set position(position) {
         const normalizedPosition = Math.min(1, Math.max(0, position));
         this.$scrollableContent.scrollTop = (this.$scrollableContent.scrollHeight - this.$scrollableContent.offsetHeight) * normalizedPosition;
@@ -117,6 +127,7 @@ export class SmartScrollbar extends CustomElement {
         this.$scrollbarThumb.style.top = `${thumbTop}px`;
         this.$scrollbarThumb.style.height = `${thumbSize}px`;
     }
+
     /**
      * Update auxiliary markers
      */
@@ -127,6 +138,7 @@ export class SmartScrollbar extends CustomElement {
             this.removeAttribute('inactive');
         }
     }
+
     /**
      * Refresh scroll state and position
      */
@@ -147,14 +159,14 @@ export class SmartScrollbar extends CustomElement {
         // Attach drag listeners
         window.addEventListener('mousemove', this.onMouseMove);
         window.addEventListener('mouseup', this.onMouseUp);
-        window.addEventListener('click', this.onBodyClick, { capture: true });
+        window.addEventListener('click', this.onBodyClick, {capture: true});
 
         // Prevents default text selection, etc.
         event.preventDefault();
     };
 
     /**
-     * Mousemove document chandler for thumb drag event. Active only if drag action is active.
+     * Mousemove document handler for thumb drag event. Active only if drag action is active.
      */
     protected onMouseMove = rafDecorator((event: MouseEvent) => {
         if (!this.dragging) return;
@@ -186,7 +198,7 @@ export class SmartScrollbar extends CustomElement {
     protected onBodyClick = (event: MouseEvent) => {
         event.stopImmediatePropagation();
 
-        window.removeEventListener('click', this.onBodyClick, { capture: true });
+        window.removeEventListener('click', this.onBodyClick, {capture: true});
     };
 
     /**
