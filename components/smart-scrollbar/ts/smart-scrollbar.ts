@@ -59,7 +59,7 @@ export class SmartScrollbar extends CustomElement {
     }
 
     public get targetElement() {
-        return this.$scrollableContent ? this.$scrollableContent : null;
+        return this.$scrollableContent || null;
     }
 
     public set targetElement(content: HTMLElement) {
