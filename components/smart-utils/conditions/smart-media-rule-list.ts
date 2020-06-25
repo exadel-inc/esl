@@ -57,7 +57,7 @@ export default class SmartMediaRuleList<T> extends Observable {
 	private readonly _rules: SmartMediaRule<T>[];
 
 	public static STRING_PARSER = (val: string) => val;
-	public static OBJECT_PARSER = <T extends object> (val: string): T => {
+	public static OBJECT_PARSER = <T> (val: string): T => {
 		try {
 			return eval('(' + val + ')') as T;
 		} catch (e) {

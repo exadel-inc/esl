@@ -1,5 +1,4 @@
-import {CustomElement} from '../../smart-utils/abstract/custom-element';
-import {attr} from '../../smart-utils/decorators/attr';
+import {SmartElement, attr} from '../../smart-element/smart-element';
 import {deepCompare} from '../../smart-utils/misc/compare';
 import SmartMediaRuleList from '../../smart-utils/conditions/smart-media-rule-list';
 import SmartCarouselSlide from './smart-carousel-slide';
@@ -13,7 +12,7 @@ interface CarouselConfig { // Registry
 }
 
 // TODO: add ability to choose the number of an active slide
-export class SmartCarousel extends CustomElement {
+export class SmartCarousel extends SmartElement {
 	public static is = 'smart-carousel';
 	public static eventNs = 'sc';
 
@@ -168,7 +167,7 @@ export class SmartCarousel extends CustomElement {
 		// TODO: change observed attributes
 		switch (attrName) {
 			case 'config':
-				this.configRules = SmartMediaRuleList.parse<object>(this.config, SmartMediaRuleList.OBJECT_PARSER) as SmartMediaRuleList<CarouselConfig>;
+				this.configRules = SmartMediaRuleList.parse<CarouselConfig>(this.config, SmartMediaRuleList.OBJECT_PARSER);
 				this.update(true);
 				break;
 		}
@@ -279,7 +278,7 @@ export class SmartCarousel extends CustomElement {
 
 	public static register(tagName?: string) {
 		SmartCarouselSlide.register((tagName || SmartCarousel.is) + '-slide');
-		customElements.whenDefined(SmartCarouselSlide.is).then(() => super.register(tagName));
+		customElements.whenDefined(SmartCarouselSlide.is).then(() => super.register.call(this, tagName));
 	}
 }
 

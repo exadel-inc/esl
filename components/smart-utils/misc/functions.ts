@@ -8,3 +8,8 @@ export const noop = (): void => undefined;
  */
 export const identity = <T> (arg: T): T => arg;
 
+export type NoopFnSignature = () => void;
+
+export type AnyToVoidFnSignature = (...args: any[]) => void;
+
+export type AnyToAnyFnSignature = (...args: any[]) => any;

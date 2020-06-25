@@ -1,4 +1,5 @@
-import { toKebabCase } from '../misc/format';
+import { toKebabCase } from '../../../smart-utils/misc/format';
+import type { SmartElement } from '../smart-element';
 
 interface AttrDescriptor {
 	conditional?: boolean;
@@ -33,7 +34,7 @@ function buildConditionalDescriptor(attrName: string, readOnly: boolean) {
 }
 
 export const attr = (config: AttrDescriptor = {defaultValue: '', readonly: false}) => {
-	return (target: object, propName: string) => {
+	return (target: SmartElement, propName: string) => {
 		const attrName = config.dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 		const descriptorBuilder = config.conditional ? buildConditionalDescriptor : buildSimpleDescriptor;
 		Object.defineProperty(target, propName, descriptorBuilder(attrName, config.readonly, config.defaultValue));
