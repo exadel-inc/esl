@@ -12,11 +12,11 @@ export * from './smart-utils/all';
 export * from './smart-image/smart-image';
 export * from './smart-media/smart-media';
 
-export * from './smart-carousel/smart-carousel';
+export * from './esl-carousel/smart-carousel';
 
 export * from './smart-popup/smart-popup';
 export * from './smart-collapsible/smart-collapsible';
 export * from './smart-tab-panel/smart-tab-panel';
 export * from './smart-trigger/smart-trigger';
 
-export * from './smart-scrollbar/smart-scrollbar';
+export * from './esl-scrollbar/esl-scrollbar';

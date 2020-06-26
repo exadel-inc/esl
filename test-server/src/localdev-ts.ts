@@ -7,15 +7,15 @@ import './common/test-media-source';
 ESL.SmartImage.register();
 ESL.SmartMedia.register();
 
-ESL.SmartCarousel.register();
-ESL.SmartCarouselDotsPlugin.register();
-ESL.SmartCarouselLinkPlugin.register();
-ESL.SmartCarouselTouchPlugin.register();
-ESL.SmartCarouselAutoplayPlugin.register();
+ESL.ESLCarousel.register();
+ESL.ESLCarouselDotsPlugin.register();
+ESL.ESLCarouselLinkPlugin.register();
+ESL.ESLCarouselTouchPlugin.register();
+ESL.ESLCarouselAutoplayPlugin.register();
 
 ESL.SmartPopup.register();
 ESL.SmartCollapsible.register();
 ESL.SmartTrigger.register();
 ESL.SmartTabPanel.register();
 
-ESL.SmartScrollbar.register();
+ESL.ESLScrollbar.register();
