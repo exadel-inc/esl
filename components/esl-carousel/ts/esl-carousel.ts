@@ -14,7 +14,7 @@ interface CarouselConfig { // Registry
 // TODO: add ability to choose the number of an active slide
 export class ESLCarousel extends ESLBaseElement {
 	public static is = 'esl-carousel';
-	public static eventNs = 'eslcarousel';
+	public static eventNs = 'esl:carousel';
 
 	static get observedAttributes() {
 		return ['config'];

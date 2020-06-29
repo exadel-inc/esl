@@ -117,8 +117,9 @@ function getIObserver() {
 
 export class ESLImage extends ESLBaseElement {
 	public static is = 'esl-image';
+    public static eventNs = 'esl:image';
 
-	public static get STRATEGIES() {
+    public static get STRATEGIES() {
 		return STRATEGIES;
 	}
 

@@ -17,7 +17,7 @@ import MediaGroupRestrictionManager from './smart-media-manager';
 
 export class SmartMedia extends ESLBaseElement {
     public static is = 'smart-media';
-    public static eventNs = 'smedia';
+    public static eventNs = 'esl:media';
 
     @attr() public mediaId: string;
     @attr() public mediaSrc: string;

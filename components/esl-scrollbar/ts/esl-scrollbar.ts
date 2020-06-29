@@ -9,7 +9,7 @@ import {rafDecorator} from '../../esl-utils/async/raf';
 
 export class ESLScrollbar extends ESLBaseElement {
     public static is = 'esl-scrollbar';
-    public static eventNs = 'eslscrollbar';
+    public static eventNs = 'esl:scrollbar';
 
     protected $scrollbarThumb: HTMLElement;
     protected $scrollbarTrack: HTMLElement;
