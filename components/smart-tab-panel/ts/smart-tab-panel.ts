@@ -1,4 +1,4 @@
-import {attr} from '../../smart-element/smart-element';
+import {attr} from '../../esl-base-element/esl-base-element';
 import {afterNextRender} from '../../smart-utils/async/raf';
 import {CollapsibleActionParams, SmartCollapsible} from '../../smart-collapsible/ts/smart-collapsible';
 import {SmartMediaQuery} from '../../smart-utils/conditions/smart-media-query';

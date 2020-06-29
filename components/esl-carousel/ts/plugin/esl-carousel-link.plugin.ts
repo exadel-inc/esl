@@ -1,4 +1,4 @@
-import {attr} from '../../../smart-element/smart-element';
+import {attr} from '../../../esl-base-element/esl-base-element';
 import ESLCarousel from '../esl-carousel';
 import ESLCarouselPlugin from './esl-carousel-plugin';
 

@@ -1,4 +1,4 @@
-import {SmartElement, attr} from '../../smart-element/smart-element';
+import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
 import {deepCompare} from '../../smart-utils/misc/compare';
 import ESLMediaRuleList from '../../smart-utils/conditions/smart-media-rule-list';
 import ESLCarouselSlide from './esl-carousel-slide';
@@ -12,7 +12,7 @@ interface CarouselConfig { // Registry
 }
 
 // TODO: add ability to choose the number of an active slide
-export class ESLCarousel extends SmartElement {
+export class ESLCarousel extends ESLBaseElement {
 	public static is = 'esl-carousel';
 	public static eventNs = 'eslcarousel';
 

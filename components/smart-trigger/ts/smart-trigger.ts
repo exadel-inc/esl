@@ -1,10 +1,10 @@
-import { SmartElement, attr } from '../../smart-element/smart-element';
+import { ESLBaseElement, attr } from '../../esl-base-element/esl-base-element';
 import { DeviceDetector } from '../../smart-utils/enviroment/device-detector';
 import { SmartPopup } from '../../smart-popup/smart-popup';
 import { findTarget } from '../../smart-utils/dom/traversing';
 import type { NoopFnSignature } from '../../smart-utils/misc/functions';
 
-export class SmartTrigger extends SmartElement {
+export class SmartTrigger extends ESLBaseElement {
   public static is = 'smart-trigger';
 
   static get observedAttributes() {

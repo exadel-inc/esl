@@ -1,4 +1,4 @@
-import {SmartElement, attr, jsonAttr} from '../../smart-element/smart-element';
+import {ESLBaseElement, attr, jsonAttr} from '../../esl-base-element/esl-base-element';
 import {ESC} from '../../smart-utils/dom/keycodes';
 import PopupManager from './smart-popup-manager';
 import {SingleTaskManager} from '../../smart-utils/async/single-task-manager';
@@ -18,7 +18,7 @@ export interface PopupActionParams {
     nextPopup?: SmartPopup;
 }
 
-export class SmartPopup extends SmartElement {
+export class SmartPopup extends ESLBaseElement {
 	public static is = 'smart-popup';
 	public static eventNs = 'esl:popup';
 

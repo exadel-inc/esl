@@ -3,11 +3,11 @@
  * @version 1.1.0
  * @author Yuliya Adamskaya
  */
-import {SmartElement, attr} from '../../smart-element/smart-element';
+import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
 import {findTarget} from '../../smart-utils/dom/traversing';
 import {rafDecorator} from '../../smart-utils/async/raf';
 
-export class ESLScrollbar extends SmartElement {
+export class ESLScrollbar extends ESLBaseElement {
     public static is = 'esl-scrollbar';
     public static eventNs = 'eslscrollbar';
 

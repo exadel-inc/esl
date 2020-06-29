@@ -1,4 +1,4 @@
-import {SmartElement} from '../../../smart-element/smart-element';
+import {ESLBaseElement} from '../../../esl-base-element/esl-base-element';
 import ESLCarousel from '../esl-carousel';
 
 /**
@@ -7,7 +7,7 @@ import ESLCarousel from '../esl-carousel';
  * Use the attributes to path the plugin options, the same as with any custom elements.
  * @abstract
  */
-export abstract class ESLCarouselPlugin extends SmartElement {
+export abstract class ESLCarouselPlugin extends ESLBaseElement {
 	/**
 	 * {boolean} freePlacement marker define the restriction for the plugin placement.
 	 * If freePlacement is false - plugin element should be child of ESLCarousel element.

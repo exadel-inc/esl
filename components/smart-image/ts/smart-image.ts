@@ -4,7 +4,7 @@
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
-import {SmartElement, attr} from '../../smart-element/smart-element';
+import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
 import {DeviceDetector} from '../../smart-utils/enviroment/device-detector';
 import SmartMediaRuleList from '../../smart-utils/conditions/smart-media-rule-list';
 
@@ -115,7 +115,7 @@ function getIObserver() {
 	return intersectionObserver;
 }
 
-export class SmartImage extends SmartElement {
+export class SmartImage extends ESLBaseElement {
 	public static is = 'smart-image';
 
 	public static get STRATEGIES() {

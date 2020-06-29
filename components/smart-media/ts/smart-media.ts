@@ -4,7 +4,7 @@
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
-import {SmartElement, attr} from '../../smart-element/smart-element';
+import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
 import {debounce} from '../../smart-utils/async/debounce';
 import {rafDecorator} from '../../smart-utils/async/raf';
 import {SmartMediaQuery} from '../../smart-utils/conditions/smart-media-query';
@@ -15,7 +15,7 @@ import {BaseProvider, PlayerStates} from './smart-media-provider';
 import SmartMediaRegistry from './smart-media-registry';
 import MediaGroupRestrictionManager from './smart-media-manager';
 
-export class SmartMedia extends SmartElement {
+export class SmartMedia extends ESLBaseElement {
     public static is = 'smart-media';
     public static eventNs = 'smedia';
 

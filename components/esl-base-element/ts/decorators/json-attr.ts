@@ -1,5 +1,5 @@
 import { toKebabCase } from '../../../smart-utils/misc/format';
-import type { SmartElement } from '../smart-element';
+import type { ESLBaseElement } from '../esl-base-element';
 
 interface JsonAttrDescriptor<T> {
 	default?: T;
@@ -21,7 +21,7 @@ function getJsonAttr(target: HTMLElement, attrName: string) {
 }
 
 export const jsonAttr = <T> (config: JsonAttrDescriptor<T> = {}) => {
-	return (target: SmartElement, propName: string) => {
+	return (target: ESLBaseElement, propName: string) => {
 		const attrName = config.dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 		function get(): T {
 			const value = this[JSON_ATTR_HOLDER] && this[JSON_ATTR_HOLDER][propName];
