@@ -1,5 +1,5 @@
 import ESLCarousel from '../esl-carousel';
-import {Observable} from '../../../smart-utils/abstract/observable';
+import {Observable} from '../../../esl-utils/abstract/observable';
 
 export abstract class ESLCarouselView {
 	protected readonly carousel: ESLCarousel;

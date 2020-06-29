@@ -18,7 +18,7 @@ export * from './dom/traversing';
 export * from './enviroment/device-detector';
 export * from './enviroment/breakpoints';
 
-// Smart Media Query
-export * from './conditions/smart-media-query';
-export * from './conditions/smart-media-rule-list';
+// ESL Media Query
+export * from './conditions/esl-media-query';
+export * from './conditions/esl-media-rule-list';
 export {generateUId} from './misc/uid';

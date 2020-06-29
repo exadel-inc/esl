@@ -4,8 +4,8 @@
  * @author Yuliya Adamskaya
  */
 import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
-import {findTarget} from '../../smart-utils/dom/traversing';
-import {rafDecorator} from '../../smart-utils/async/raf';
+import {findTarget} from '../../esl-utils/dom/traversing';
+import {rafDecorator} from '../../esl-utils/async/raf';
 
 export class ESLScrollbar extends ESLBaseElement {
     public static is = 'esl-scrollbar';

@@ -5,7 +5,7 @@
 import {SmartMedia} from '../smart-media';
 import {BaseProvider, PlayerStates} from '../smart-media-provider';
 import SmartMediaProviderRegistry from '../smart-media-registry';
-import {generateUId} from '../../../smart-utils/misc/uid';
+import {generateUId} from '../../../esl-utils/misc/uid';
 
 export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 	private _state: PlayerStates = PlayerStates.UNINITIALIZED;

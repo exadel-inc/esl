@@ -1,8 +1,8 @@
 /**
- * Smart Media Query
- * Provides special media condition syntax - SmartQuery
+ * ESL Media Query
+ * Provides special media condition syntax - ESLQuery
  * @version 2.0.0
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ * @author Alexey Stsefanovich (ala'n), Yuliya AdamskayaR
  *
  * Helper class that extends MediaQueryList class
  * Supports
@@ -35,7 +35,7 @@ function getDprMediaQuery(ratio: number) {
     return isWebkit ? `(-webkit-min-device-pixel-ratio: ${ratio})` : `(min-resolution: ${Math.round(96 * ratio)}dpi)`;
 }
 
-export class SmartMediaQuery {
+export class ESLMediaQuery {
     static get BreakpointRegistry() {
         return BreakpointRegistry;
     }
@@ -60,8 +60,8 @@ export class SmartMediaQuery {
         this._dpr = 1;
         query = query.replace(/@([123])x/, (match, ratio) => {
             this._dpr = Math.floor(ratio);
-            if (SmartMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && this._dpr !== 1) {
-                return SmartMediaQuery.NOT_ALL;
+            if (ESLMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && this._dpr !== 1) {
+                return ESLMediaQuery.NOT_ALL;
             }
             return getDprMediaQuery(ratio);
         });
@@ -70,12 +70,12 @@ export class SmartMediaQuery {
         query = query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/i, (match, pre, type, post) => {
             this._mobileOnly = (type.toUpperCase() === '@MOBILE');
             if (DeviceDetector.isMobile !== this._mobileOnly) {
-                return SmartMediaQuery.NOT_ALL;
+                return ESLMediaQuery.NOT_ALL;
             }
             return pre && post ? ' and ' : '';
         });
 
-        this._query = getQuery(query.trim() || SmartMediaQuery.ALL);
+        this._query = getQuery(query.trim() || ESLMediaQuery.ALL);
     }
 
     public get isMobileOnly() {
@@ -117,4 +117,4 @@ export class SmartMediaQuery {
     }
 }
 
-export default SmartMediaQuery;
+export default ESLMediaQuery;

@@ -1,7 +1,7 @@
 import {attr} from '../../esl-base-element/esl-base-element';
-import {afterNextRender} from '../../smart-utils/async/raf';
+import {afterNextRender} from '../../esl-utils/async/raf';
 import {CollapsibleActionParams, SmartCollapsible} from '../../smart-collapsible/ts/smart-collapsible';
-import {SmartMediaQuery} from '../../smart-utils/conditions/smart-media-query';
+import {ESLMediaQuery} from '../../esl-utils/conditions/esl-media-query';
 
 export type TabActionParams = CollapsibleActionParams;
 
@@ -13,7 +13,7 @@ export class SmartTabPanel extends SmartCollapsible {
     @attr({defaultValue: 'accordion'}) public accordionClass: string;
     @attr() public accordionTransformation: string;
 
-    private _accordionTransformationQuery: SmartMediaQuery;
+    private _accordionTransformationQuery: ESLMediaQuery;
 
     protected connectedCallback() {
         super.connectedCallback();
@@ -22,8 +22,8 @@ export class SmartTabPanel extends SmartCollapsible {
 
     get transformationQuery() {
         if (!this._accordionTransformationQuery) {
-            const query = this.accordionTransformation || SmartMediaQuery.NOT_ALL;
-            this.transformationQuery = new SmartMediaQuery(query);
+            const query = this.accordionTransformation || ESLMediaQuery.NOT_ALL;
+            this.transformationQuery = new ESLMediaQuery(query);
         }
         return this._accordionTransformationQuery;
     }

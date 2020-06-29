@@ -5,8 +5,8 @@
  */
 
 import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
-import {DeviceDetector} from '../../smart-utils/enviroment/device-detector';
-import SmartMediaRuleList from '../../smart-utils/conditions/smart-media-rule-list';
+import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
+import ESLMediaRuleList from '../../esl-utils/conditions/esl-media-rule-list';
 
 /**
  * Describe mods configurations
@@ -147,7 +147,7 @@ export class SmartImage extends ESLBaseElement {
 
 	private _strategy: SmartImageRenderStrategy;
 	private _innerImg: HTMLImageElement;
-	private _srcRules: SmartMediaRuleList<string>;
+	private _srcRules: ESLMediaRuleList<string>;
 	private _currentSrc: string;
 	private _detachLazyTrigger: () => void;
 	private _shadowImageElement: ShadowImageElement;
@@ -196,7 +196,7 @@ export class SmartImage extends ESLBaseElement {
 				this.innerImage && (this.innerImage.alt = this.alt);
 				break;
 			case 'data-src':
-				this.srcRules = SmartMediaRuleList.parse<string>(newVal, SmartMediaRuleList.STRING_PARSER);
+				this.srcRules = ESLMediaRuleList.parse<string>(newVal, ESLMediaRuleList.STRING_PARSER);
 				this.refresh();
 				break;
 			case 'data-src-base':
@@ -213,12 +213,12 @@ export class SmartImage extends ESLBaseElement {
 
 	get srcRules() {
 		if (!this._srcRules) {
-			this.srcRules = SmartMediaRuleList.parse<string>(this.src, SmartMediaRuleList.STRING_PARSER);
+			this.srcRules = ESLMediaRuleList.parse<string>(this.src, ESLMediaRuleList.STRING_PARSER);
 		}
 		return this._srcRules;
 	}
 
-	set srcRules(rules: SmartMediaRuleList<string>) {
+	set srcRules(rules: ESLMediaRuleList<string>) {
 		if (this._srcRules) {
 			this._srcRules.removeListener(this._onMatchChange);
 		}

@@ -1,8 +1,8 @@
 import { ESLBaseElement, attr } from '../../esl-base-element/esl-base-element';
-import { DeviceDetector } from '../../smart-utils/enviroment/device-detector';
+import { DeviceDetector } from '../../esl-utils/enviroment/device-detector';
 import { SmartPopup } from '../../smart-popup/smart-popup';
-import { findTarget } from '../../smart-utils/dom/traversing';
-import type { NoopFnSignature } from '../../smart-utils/misc/functions';
+import { findTarget } from '../../esl-utils/dom/traversing';
+import type { NoopFnSignature } from '../../esl-utils/misc/functions';
 
 export class SmartTrigger extends ESLBaseElement {
   public static is = 'smart-trigger';

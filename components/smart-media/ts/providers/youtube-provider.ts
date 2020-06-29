@@ -4,12 +4,12 @@
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  * @extends BaseProvider
  */
-import {loadScript} from '../../../smart-utils/dom/script';
+import {loadScript} from '../../../esl-utils/dom/script';
 import {SmartMedia} from '../smart-media';
 import {BaseProvider, PlayerStates} from '../smart-media-provider';
 import SmartMediaProviderRegistry from '../smart-media-registry';
 import PlayerVars = YT.PlayerVars;
-import {generateUId} from '../../../smart-utils/misc/uid';
+import {generateUId} from '../../../esl-utils/misc/uid';
 
 const DEFAULT_ASPECT_RATIO = 16 / 9;
 

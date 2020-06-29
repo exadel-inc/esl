@@ -1,9 +1,9 @@
 import {ESLBaseElement, attr, jsonAttr} from '../../esl-base-element/esl-base-element';
-import {ESC} from '../../smart-utils/dom/keycodes';
+import {ESC} from '../../esl-utils/dom/keycodes';
 import PopupManager from './smart-popup-manager';
-import {SingleTaskManager} from '../../smart-utils/async/single-task-manager';
-import {DeviceDetector} from '../../smart-utils/enviroment/device-detector';
-import {defined} from '../../smart-utils/misc/compare';
+import {SingleTaskManager} from '../../esl-utils/async/single-task-manager';
+import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
+import {defined} from '../../esl-utils/misc/compare';
 
 export interface PopupActionParams {
 	initiator?: string;

@@ -1,6 +1,6 @@
 import ESLCarouselPlugin from './esl-carousel-plugin';
-import {DeviceDetector} from '../../../smart-utils/enviroment/device-detector';
-import {normalizeTouchPoint, Point} from '../../../smart-utils/dom/events';
+import {DeviceDetector} from '../../../esl-utils/enviroment/device-detector';
+import {normalizeTouchPoint, Point} from '../../../esl-utils/dom/events';
 
 /**
  * Slide Carousel Touch plugin

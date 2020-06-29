@@ -1,4 +1,4 @@
-import { toKebabCase } from '../../../smart-utils/misc/format';
+import { toKebabCase } from '../../../esl-utils/misc/format';
 import type { ESLBaseElement } from '../esl-base-element';
 
 interface AttrDescriptor {

@@ -1,6 +1,6 @@
 import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
-import {deepCompare} from '../../smart-utils/misc/compare';
-import ESLMediaRuleList from '../../smart-utils/conditions/smart-media-rule-list';
+import {deepCompare} from '../../esl-utils/misc/compare';
+import ESLMediaRuleList from '../../esl-utils/conditions/esl-media-rule-list';
 import ESLCarouselSlide from './esl-carousel-slide';
 import {ESLCarouselView, ESLCarouselViewRegistry} from './view/esl-carousel-view';
 import ESLCarouselPlugin from './plugin/esl-carousel-plugin';

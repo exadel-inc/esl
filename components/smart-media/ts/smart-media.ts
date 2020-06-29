@@ -5,10 +5,10 @@
  */
 
 import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
-import {debounce} from '../../smart-utils/async/debounce';
-import {rafDecorator} from '../../smart-utils/async/raf';
-import {SmartMediaQuery} from '../../smart-utils/conditions/smart-media-query';
-import {parseAspectRatio} from '../../smart-utils/misc/format';
+import {debounce} from '../../esl-utils/async/debounce';
+import {rafDecorator} from '../../esl-utils/async/raf';
+import {ESLMediaQuery} from '../../esl-utils/conditions/esl-media-query';
+import {parseAspectRatio} from '../../esl-utils/misc/format';
 
 import {getIObserver} from './smart-media-iobserver';
 import {BaseProvider, PlayerStates} from './smart-media-provider';
@@ -41,7 +41,7 @@ export class SmartMedia extends ESLBaseElement {
     @attr({conditional: true, readonly: true}) public error: boolean;
 
     private _provider: BaseProvider<HTMLElement>;
-    private _conditionQuery: SmartMediaQuery;
+    private _conditionQuery: ESLMediaQuery;
 
     private deferredResize = rafDecorator(() => this._onResize());
     private deferredReinitialize = debounce(() => this.reinitInstance());
@@ -302,7 +302,7 @@ export class SmartMedia extends ESLBaseElement {
     get conditionQuery() {
         if (!this._conditionQuery && this._conditionQuery !== null) {
             const query = this.getAttribute('load-condition');
-            this._conditionQuery = query ? new SmartMediaQuery(query) : null;
+            this._conditionQuery = query ? new ESLMediaQuery(query) : null;
         }
         return this._conditionQuery;
     }

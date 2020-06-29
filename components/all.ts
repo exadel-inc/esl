@@ -7,7 +7,7 @@ if (!('customElements' in window)) {
   throw new Error('Browser is not support customElements, load polyfills before');
 }
 
-export * from './smart-utils/all';
+export * from './esl-utils/all';
 
 export * from './smart-image/smart-image';
 export * from './smart-media/smart-media';

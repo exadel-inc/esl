@@ -1,9 +1,9 @@
 /**
- * Smart Query Breakpoint Registry
+ * ESL Query Breakpoint Registry
  * @version 1.0.0
  * @author Yuliya Adamskaya
  *
- * Breakpoint Registry is used to provide custom breakpoints for Smart Query
+ * Breakpoint Registry is used to provide custom breakpoints for ESL Query
  */
 
 class ScreenBreakpoint {
@@ -45,7 +45,7 @@ const BP_NAME_REGEXP = /^[a-z]+/i;
 
 export abstract class BreakpointRegistry {
 	/**
-	 * Add or replace breakpoint shortcut that could be used inside of SmartMediaQuery
+	 * Add or replace breakpoint shortcut that could be used inside of ESLMediaQuery
 	 * @param name - name of shortcut
 	 * @param minWidth - min width for breakpoint
 	 * @param maxWidth - max width for breakpoint
