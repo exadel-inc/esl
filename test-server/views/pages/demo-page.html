@@ -9,12 +9,12 @@ title: Demo Page
         .main-carousel [data-slides-area] {
             width: calc(100% - 150px);
         }
-        .main-carousel smart-carousel-slide {
+        .main-carousel esl-carousel-slide {
             flex: 0 0 auto;
             width: 50%;
         }
     </style>
-    <smart-carousel class="main-carousel" config="{count: 2} | @-SM => {count: 1}">
+    <esl-carousel class="main-carousel" config="{count: 2} | @-SM => {count: 1}">
 
         <button class="arrow-prev" data-slide-target="prev">
             <span class="icon-arrow-prev"></span>
@@ -22,20 +22,20 @@ title: Demo Page
 
         <div data-slides-area>
             <!-- CAROUSEL-ITEM -->
-            <smart-carousel-slide data-active-slide>
+            <esl-carousel-slide data-active-slide>
                 <div class="container-fluid">
-                    <h3>Smart Image</h3>
+                    <h3>ESL Image</h3>
                     <div class="text-body">
-                        <p>Smart Image - is the first Smart Library component. It simplify work with images.</p>
-                        <p>Smart Image Features:</p>
+                        <p>ESL Image - is the first ESL Library component. It simplify work with images.</p>
+                        <p>ESL Image Features:</p>
                         <ul class="list-group m-4">
-                            <li>Smart Query</li>
+                            <li>ESL Query</li>
                             <li>Lazy Loading</li>
                             <li>Native-like API</li>
                         </ul>
                     </div>
                     <div class="img-container img-container-16-9">
-                        <smart-image lazy mode="cover"
+                        <esl-image lazy mode="cover"
                                      data-alt="Alt Text Test"
                                      data-src="
                                                 img-1-carousel-9-6.jpg |
@@ -44,15 +44,15 @@ title: Demo Page
                                                 @SM => img-4-carousel-9-6.jpg |
                                                 @XS => img-5-carousel-9-6.jpg
                                          "
-                                     data-src-base="/images/"></smart-image>
+                                     data-src-base="/images/"></esl-image>
                     </div>
                 </div>
-            </smart-carousel-slide>
-            <smart-carousel-slide>
+            </esl-carousel-slide>
+            <esl-carousel-slide>
                 <div class="container-fluid">
-                    <h3>Doesn't Smart Image Config looks simple?</h3>
+                    <h3>Doesn't ESL Image Config looks simple?</h3>
                     <code style="overflow:auto;width:auto;padding:.2em .6em;">
-<pre style="margin: 0; line-height: 125%"><span style="color: #007700">&lt;smart</span><span style="color: #0000CC">-image</span> <span style="color: #0000CC">lazy</span> <span style="color: #0000CC">mode=</span><span style="background-color: #fff0f0">&quot;cover&quot;</span>
+<pre style="margin: 0; line-height: 125%"><span style="color: #007700">&lt;esl</span><span style="color: #0000CC">-image</span> <span style="color: #0000CC">lazy</span> <span style="color: #0000CC">mode=</span><span style="background-color: #fff0f0">&quot;cover&quot;</span>
              <span style="color: #0000CC">data-alt=</span><span style="background-color: #fff0f0">&quot;Alt Text Test&quot;</span>
              <span style="color: #0000CC">data-src=</span><span style="background-color: #fff0f0">&quot;</span>
 <span style="background-color: #fff0f0">               img-1-carousel-9-6.jpg |</span>
@@ -61,37 +61,37 @@ title: Demo Page
 <span style="background-color: #fff0f0">               @SM =&gt; img-4-carousel-9-6.jpg |</span>
 <span style="background-color: #fff0f0">               @XS =&gt; img-5-carousel-9-6.jpg</span>
 <span style="background-color: #fff0f0">             &quot;</span>
-             <span style="color: #0000CC">data-src-base=</span><span style="background-color: #fff0f0">&quot;/images/&quot;</span><span style="color: #007700">&gt;</span><span style="color: #FF0000; background-color: #FFAAAA">&lt;</span>/smart-image&gt;
+             <span style="color: #0000CC">data-src-base=</span><span style="background-color: #fff0f0">&quot;/images/&quot;</span><span style="color: #007700">&gt;</span><span style="color: #FF0000; background-color: #FFAAAA">&lt;</span>/esl-image&gt;
 </pre>
                     </code>
                 </div>
-            </smart-carousel-slide>
-            <smart-carousel-slide>
+            </esl-carousel-slide>
+            <esl-carousel-slide>
                 <div class="container-fluid">
-                    <h3>Smart Media</h3>
+                    <h3>ESL Media</h3>
                     <div class="text-body">
-                        <p>Smart Media - is the component that simplify the things with videos</p>
-                        <p>Smart Media Features:</p>
+                        <p>ESL Media - is the component that simplify the things with videos</p>
+                        <p>ESL Media Features:</p>
                         <ul class="list-group m-4">
-                            <li>Smart Media Providers</li>
+                            <li>ESL Media Providers</li>
                             <li>Lazy Loading</li>
-                            <li>Smart Query conditions</li>
+                            <li>ESL Query conditions</li>
                         </ul>
                     </div>
                     <div class="img-container img-container-16-9 img-container-loaded">
-                        <smart-media
+                        <esl-media
                                 media-type="video"
                                 media-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
                                 autoplay="true"
                                 play-in-viewport
                                 muted="true">
-                        </smart-media>
+                        </esl-media>
                     </div>
                 </div>
-            </smart-carousel-slide>
-            <smart-carousel-slide>
+            </esl-carousel-slide>
+            <esl-carousel-slide>
                 <div class="container-fluid">
-                    <h3>Smart Media Providers</h3>
+                    <h3>ESL Media Providers</h3>
                     <div class="text-body">
                         <ul class="list-group m-4">
                             <li>Built-in simple video support</li>
@@ -99,30 +99,30 @@ title: Demo Page
                         </ul>
                     </div>
                     <div class="img-container img-container-4-3 img-container-loaded">
-                        <smart-media media-type="youtube"
+                        <esl-media media-type="youtube"
                                      media-id="d-diB65scQU"
                                      autoplay="true"
                                      muted="true"
                                      play-in-viewport>
-                        </smart-media>
+                        </esl-media>
                     </div>
                 </div>
-            </smart-carousel-slide>
-            <smart-carousel-slide>
+            </esl-carousel-slide>
+            <esl-carousel-slide>
                 <div class="post-text">
                     <p>eee</p>
                 </div>
-            </smart-carousel-slide>
-            <smart-carousel-slide>
+            </esl-carousel-slide>
+            <esl-carousel-slide>
                 <div class="post-text">
                     <p>eee</p>
                 </div>
-            </smart-carousel-slide>
-            <smart-carousel-slide>
+            </esl-carousel-slide>
+            <esl-carousel-slide>
                 <div class="post-text">
                     <p>eee</p>
                 </div>
-            </smart-carousel-slide>
+            </esl-carousel-slide>
             <!-- /CAROUSEL-ITEM -->
         </div>
 
@@ -130,9 +130,9 @@ title: Demo Page
             <span class="icon-arrow-next"></span>
         </button>
 
-        <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
-    </smart-carousel>
-    <smart-carousel class="main-carousel" config="{count: 2} | @-SM => {count: 1}">
+        <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </esl-carousel>
+    <esl-carousel class="main-carousel" config="{count: 2} | @-SM => {count: 1}">
 
         <button class="arrow-prev" data-slide-target="prev">
             <span class="icon-arrow-prev"></span>
@@ -140,20 +140,20 @@ title: Demo Page
 
         <div data-slides-area>
             <!-- CAROUSEL-ITEM -->
-            <smart-carousel-slide data-active-slide>
+            <esl-carousel-slide data-active-slide>
                 <div class="container-fluid">
-                    <h3>Smart Image</h3>
+                    <h3>ESL Image</h3>
                     <div class="text-body">
-                        <p>Smart Image - is the first Smart Library component. It simplify work with images.</p>
-                        <p>Smart Image Features:</p>
+                        <p>ESL Image - is the first ESL Library component. It simplify work with images.</p>
+                        <p>ESL Image Features:</p>
                         <ul class="list-group m-4">
-                            <li>Smart Query</li>
+                            <li>ESL Query</li>
                             <li>Lazy Loading</li>
                             <li>Native-like API</li>
                         </ul>
                     </div>
                     <div class="img-container img-container-16-9">
-                        <smart-image lazy mode="cover"
+                        <esl-image lazy mode="cover"
                                      data-alt="Alt Text Test"
                                      data-src="
                                                 img-1-carousel-9-6.jpg |
@@ -162,15 +162,15 @@ title: Demo Page
                                                 @SM => img-4-carousel-9-6.jpg |
                                                 @XS => img-5-carousel-9-6.jpg
                                          "
-                                     data-src-base="/images/"></smart-image>
+                                     data-src-base="/images/"></esl-image>
                     </div>
                 </div>
-            </smart-carousel-slide>
-            <smart-carousel-slide>
+            </esl-carousel-slide>
+            <esl-carousel-slide>
                 <div class="container-fluid">
-                    <h3>Doesn't Smart Image Config looks simple?</h3>
+                    <h3>Doesn't ESL Image Config looks simple?</h3>
                     <code style="overflow:auto;width:auto;padding:.2em .6em;">
-<pre style="margin: 0; line-height: 125%"><span style="color: #007700">&lt;smart</span><span style="color: #0000CC">-image</span> <span style="color: #0000CC">lazy</span> <span style="color: #0000CC">mode=</span><span style="background-color: #fff0f0">&quot;cover&quot;</span>
+<pre style="margin: 0; line-height: 125%"><span style="color: #007700">&lt;esl</span><span style="color: #0000CC">-image</span> <span style="color: #0000CC">lazy</span> <span style="color: #0000CC">mode=</span><span style="background-color: #fff0f0">&quot;cover&quot;</span>
              <span style="color: #0000CC">data-alt=</span><span style="background-color: #fff0f0">&quot;Alt Text Test&quot;</span>
              <span style="color: #0000CC">data-src=</span><span style="background-color: #fff0f0">&quot;</span>
 <span style="background-color: #fff0f0">               img-1-carousel-9-6.jpg |</span>
@@ -179,37 +179,37 @@ title: Demo Page
 <span style="background-color: #fff0f0">               @SM =&gt; img-4-carousel-9-6.jpg |</span>
 <span style="background-color: #fff0f0">               @XS =&gt; img-5-carousel-9-6.jpg</span>
 <span style="background-color: #fff0f0">             &quot;</span>
-             <span style="color: #0000CC">data-src-base=</span><span style="background-color: #fff0f0">&quot;/images/&quot;</span><span style="color: #007700">&gt;</span><span style="color: #FF0000; background-color: #FFAAAA">&lt;</span>/smart-image&gt;
+             <span style="color: #0000CC">data-src-base=</span><span style="background-color: #fff0f0">&quot;/images/&quot;</span><span style="color: #007700">&gt;</span><span style="color: #FF0000; background-color: #FFAAAA">&lt;</span>/esl-image&gt;
 </pre>
                     </code>
                 </div>
-            </smart-carousel-slide>
-            <smart-carousel-slide>
+            </esl-carousel-slide>
+            <esl-carousel-slide>
                 <div class="container-fluid">
-                    <h3>Smart Media</h3>
+                    <h3>ESL Media</h3>
                     <div class="text-body">
-                        <p>Smart Media - is the component that simplify the things with videos</p>
-                        <p>Smart Media Features:</p>
+                        <p>ESL Media - is the component that simplify the things with videos</p>
+                        <p>ESL Media Features:</p>
                         <ul class="list-group m-4">
-                            <li>Smart Media Providers</li>
+                            <li>ESL Media Providers</li>
                             <li>Lazy Loading</li>
-                            <li>Smart Query conditions</li>
+                            <li>ESL Query conditions</li>
                         </ul>
                     </div>
                     <div class="img-container img-container-16-9 img-container-loaded">
-                        <smart-media
+                        <esl-media
                                 media-type="video"
                                 media-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
                                 autoplay="true"
                                 play-in-viewport
                                 muted="true">
-                        </smart-media>
+                        </esl-media>
                     </div>
                 </div>
-            </smart-carousel-slide>
-            <smart-carousel-slide>
+            </esl-carousel-slide>
+            <esl-carousel-slide>
                 <div class="container-fluid">
-                    <h3>Smart Media Providers</h3>
+                    <h3>ESL Media Providers</h3>
                     <div class="text-body">
                         <ul class="list-group m-4">
                             <li>Built-in simple video support</li>
@@ -217,30 +217,30 @@ title: Demo Page
                         </ul>
                     </div>
                     <div class="img-container img-container-4-3 img-container-loaded">
-                        <smart-media media-type="youtube"
+                        <esl-media media-type="youtube"
                                      media-id="d-diB65scQU"
                                      autoplay="true"
                                      muted="true"
                                      play-in-viewport>
-                        </smart-media>
+                        </esl-media>
                     </div>
                 </div>
-            </smart-carousel-slide>
-            <smart-carousel-slide>
+            </esl-carousel-slide>
+            <esl-carousel-slide>
                 <div class="post-text">
                     <p>eee</p>
                 </div>
-            </smart-carousel-slide>
-            <smart-carousel-slide>
+            </esl-carousel-slide>
+            <esl-carousel-slide>
                 <div class="post-text">
                     <p>eee</p>
                 </div>
-            </smart-carousel-slide>
-            <smart-carousel-slide>
+            </esl-carousel-slide>
+            <esl-carousel-slide>
                 <div class="post-text">
                     <p>eee</p>
                 </div>
-            </smart-carousel-slide>
+            </esl-carousel-slide>
             <!-- /CAROUSEL-ITEM -->
         </div>
 
@@ -248,7 +248,7 @@ title: Demo Page
             <span class="icon-arrow-next"></span>
         </button>
 
-        <smart-carousel-dots class="carousel-dots-wrapper"></smart-carousel-dots>
-    </smart-carousel>
+        <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </esl-carousel>
 </div>
 #}}

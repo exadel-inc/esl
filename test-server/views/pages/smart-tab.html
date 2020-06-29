@@ -1,7 +1,7 @@
 ---
 layout: ../layouts/basic.html
 containerCls: container
-title: Smart Accordion <span class="badge badge-warning">Beta</span>
+title: ESL Accordion <span class="badge badge-warning">Beta</span>
 ---
 
 {{##content:
@@ -37,61 +37,61 @@ title: Smart Accordion <span class="badge badge-warning">Beta</span>
         <div class="tabs">
             <ul class="tabs-container">
                 <li class="tab-item">
-                    <smart-trigger class="tab-trigger" target="::parent(.tabs)::child(.tab-1)">
+                    <esl-trigger class="tab-trigger" target="::parent(.tabs)::child(.tab-1)">
                         <h5 class="mb-0">
                             <button class="btn btn-primary">
                                 Toggle Accordion #1
                             </button>
                         </h5>
-                    </smart-trigger>
+                    </esl-trigger>
                 </li>
                 <li class="tab-item">
-                    <smart-trigger class="tab-trigger" target="::parent(.tabs)::child(.tab-2)">
+                    <esl-trigger class="tab-trigger" target="::parent(.tabs)::child(.tab-2)">
                         <h5 class="mb-0">
                             <button class="btn btn-secondary">
                                 Toggle Accordion #2
                             </button>
                         </h5>
-                    </smart-trigger>
+                    </esl-trigger>
                 </li>
                 <li class="tab-item">
-                    <smart-trigger class="tab-trigger" target="::parent(.tabs)::child(.tab-3)">
+                    <esl-trigger class="tab-trigger" target="::parent(.tabs)::child(.tab-3)">
                         <h5 class="mb-0">
                             <button class="btn btn-dark">
                                 Tab #3
                             </button>
                         </h5>
-                    </smart-trigger>
+                    </esl-trigger>
                 </li>
             </ul>
 
-            <div class="smart-tabs-content">
+            <div class="esl-tabs-content">
                 <div>
-                    <smart-trigger class="card-header accordion-trigger" target="::next">
+                    <esl-trigger class="card-header accordion-trigger" target="::next">
                         <h5 class="mb-0">
                             <button class="btn btn-link">
                                 Toggle Accordion #1
                             </button>
                         </h5>
-                    </smart-trigger>
-                    <smart-tab-panel class="tab tab-1" group="tab-group" accordion-transformation="@XS, @MOBILE, @DESKTOP">
+                    </esl-trigger>
+                    <esl-tab-panel class="tab tab-1" group="tab-group" accordion-transformation="@XS, @MOBILE, @DESKTOP">
                         <div class="tab-body">
                             <p> 1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
                                 ad
                                 squid. 3 wolf moon
                                 officia aute, non cupidatat skateboard dolor brunch. </p>
                         </div>
-                    </smart-tab-panel>
+                    </esl-tab-panel>
                 </div>
                 <div>
-                    <smart-trigger class="card-header accordion-trigger" target="::next">
+                    <esl-trigger class="card-header accordion-trigger" target="::next">
                         <h5 class="mb-0">
                             <button class="btn btn-link">
                                 Toggle Accordion #2
                             </button>
                         </h5>
-                    </smart-trigger>
-                    <smart-tab-panel open class="tab tab-2" group="tab-group"
+                    </esl-trigger>
+                    <esl-tab-panel open class="tab tab-2" group="tab-group"
                                accordion-transformation="@XS, @MOBILE, @DESKTOP">
                         <div class="tab-body">
                             <p> 2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
@@ -110,17 +110,17 @@ title: Smart Accordion <span class="badge badge-warning">Beta</span>
                                 nesciunt you probably
                                 haven't heard of them accusamus labore sustainable VHS.</p>
                         </div>
-                    </smart-tab-panel>
+                    </esl-tab-panel>
                 </div>
                 <div>
-                    <smart-trigger class="card-header accordion-trigger" target="::next">
+                    <esl-trigger class="card-header accordion-trigger" target="::next">
                         <h5 class="mb-0">
                             <button class="btn btn-link">
                                 Tab #3
                             </button>
                         </h5>
-                    </smart-trigger>
-                    <smart-tab-panel class="tab tab-3" group="tab-group" accordion-transformation="@XS, @MOBILE, @DESKTOP">
+                    </esl-trigger>
+                    <esl-tab-panel class="tab tab-3" group="tab-group" accordion-transformation="@XS, @MOBILE, @DESKTOP">
                         <div class="tab-body">
                             <p> 3 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
                                 ad
@@ -149,7 +149,7 @@ title: Smart Accordion <span class="badge badge-warning">Beta</span>
                                 nesciunt you probably
                                 haven't heard of them accusamus labore sustainable VHS.</p>
                         </div>
-                    </smart-tab-panel>
+                    </esl-tab-panel>
                 </div>
             </div>
         </div>
@@ -162,17 +162,17 @@ title: Smart Accordion <span class="badge badge-warning">Beta</span>
             <div class="m-auto">
                 <h5>Mode: cover</h5>
                 <p>No inner image, image is rendered by background image.</p>
-                <p>Smart Image has no own size. Can be used with img-container classes</p>
+                <p>ESL Image has no own size. Can be used with img-container classes</p>
                 <p><i>Example:</i></p>
-                <code>&lt;div class="img-container img-container-4-3"&gt; &lt;smart-image ...</code>
+                <code>&lt;div class="img-container img-container-4-3"&gt; &lt;esl-image ...</code>
             </div>
         </div>
         <div class="col-xs-12 col-sm-6 p-2">
             <div class="img-container img-container-4-3">
-                <smart-image mode="cover"
+                <esl-image mode="cover"
                              data-alt="Alt Text"
                              data-src="img-5-carousel-9-6.jpg"
-                             data-src-base="/images/"></smart-image>
+                             data-src-base="/images/"></esl-image>
             </div>
         </div>
     </div>

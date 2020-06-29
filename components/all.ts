@@ -9,10 +9,10 @@ if (!('customElements' in window)) {
 
 export * from './esl-utils/all';
 
-export * from './smart-image/smart-image';
+export * from './esl-image/esl-image';
 export * from './smart-media/smart-media';
 
-export * from './esl-carousel/smart-carousel';
+export * from './esl-carousel/esl-carousel';
 
 export * from './smart-popup/smart-popup';
 export * from './smart-collapsible/smart-collapsible';

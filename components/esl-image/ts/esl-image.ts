@@ -1,5 +1,5 @@
 /**
- * Smart Image
+ * ESL Image
  * @version 2.2.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
@@ -11,32 +11,32 @@ import ESLMediaRuleList from '../../esl-utils/conditions/esl-media-rule-list';
 /**
  * Describe mods configurations
  */
-interface SmartImageRenderStrategy {
+interface ESLImageRenderStrategy {
 	/** Apply image from shadow loader */
-	apply: (img: SmartImage, shadowImg: ShadowImageElement) => void;
-	/** Clean strategy specific changes from SmartImage */
-	clear?: (img: SmartImage) => void;
+	apply: (img: ESLImage, shadowImg: ShadowImageElement) => void;
+	/** Clean strategy specific changes from ESLImage */
+	clear?: (img: ESLImage) => void;
 }
 
 /**
  * Describes object that contains strategies mapping
  */
-interface SmartImageStrategyMap {
-	[mode: string]: SmartImageRenderStrategy;
+interface ESLImageStrategyMap {
+	[mode: string]: ESLImageRenderStrategy;
 }
 
 /**
- * Mixed image element that used as shadow loader for SmartImage
+ * Mixed image element that used as shadow loader for ESLImage
  */
 interface ShadowImageElement extends HTMLImageElement {
 	dpr?: number
 }
 
-const STRATEGIES: SmartImageStrategyMap = {
+const STRATEGIES: ESLImageStrategyMap = {
 	'cover': {
 		apply(img, shadowImg) {
 			const src = shadowImg.src;
-			const isEmpty = !src || SmartImage.isEmptyImage(src);
+			const isEmpty = !src || ESLImage.isEmptyImage(src);
 			img.style.backgroundImage = isEmpty ? null : `url("${src}")`;
 		},
 		clear(img) {
@@ -46,7 +46,7 @@ const STRATEGIES: SmartImageStrategyMap = {
 	'save-ratio': {
 		apply(img, shadowImg) {
 			const src = shadowImg.src;
-			const isEmpty = !src || SmartImage.isEmptyImage(src);
+			const isEmpty = !src || ESLImage.isEmptyImage(src);
 			img.style.backgroundImage = isEmpty ? null : `url("${src}")`;
 			if (shadowImg.width === 0) return;
 			img.style.paddingTop = isEmpty ? null : `${(shadowImg.height * 100 / shadowImg.width)}%`;
@@ -103,7 +103,7 @@ function getIObserver() {
 	if (!intersectionObserver) {
 		intersectionObserver = new IntersectionObserver(function intersectionCallback(entries) {
 			(entries || []).forEach(function (entry) {
-				if ((entry.isIntersecting || entry.intersectionRatio > 0) && entry.target instanceof SmartImage) {
+				if ((entry.isIntersecting || entry.intersectionRatio > 0) && entry.target instanceof ESLImage) {
 					entry.target.triggerLoad();
 				}
 			});
@@ -115,8 +115,8 @@ function getIObserver() {
 	return intersectionObserver;
 }
 
-export class SmartImage extends ESLBaseElement {
-	public static is = 'smart-image';
+export class ESLImage extends ESLBaseElement {
+	public static is = 'esl-image';
 
 	public static get STRATEGIES() {
 		return STRATEGIES;
@@ -145,7 +145,7 @@ export class SmartImage extends ESLBaseElement {
 	@attr({conditional: true, readonly: true}) public readonly loaded: boolean;
 	@attr({conditional: true, readonly: true}) public readonly error: boolean;
 
-	private _strategy: SmartImageRenderStrategy;
+	private _strategy: ESLImageRenderStrategy;
 	private _innerImg: HTMLImageElement;
 	private _srcRules: ESLMediaRuleList<string>;
 	private _currentSrc: string;
@@ -231,7 +231,7 @@ export class SmartImage extends ESLBaseElement {
 	}
 
 	get empty() {
-		return !this._currentSrc || SmartImage.isEmptyImage(this._currentSrc);
+		return !this._currentSrc || ESLImage.isEmptyImage(this._currentSrc);
 	}
 
 	public triggerLoad() {
@@ -244,7 +244,7 @@ export class SmartImage extends ESLBaseElement {
 		if (oldVal === newVal) return;
 		if (!STRATEGIES[newVal]) {
 			this.mode = oldVal;
-			throw new Error('Smart Image: Unsupported mode: ' + newVal);
+			throw new Error('ESL Image: Unsupported mode: ' + newVal);
 		}
 		this.clearImage();
 		if (this.loaded) this.syncImage();
@@ -281,7 +281,7 @@ export class SmartImage extends ESLBaseElement {
 
 	protected getPath(src: string) {
 		if (!src || src === '0' || src === 'none') {
-			return SmartImage.EMPTY_IMAGE;
+			return ESLImage.EMPTY_IMAGE;
 		}
 		return this.srcBase + src;
 	}
@@ -368,8 +368,8 @@ export class SmartImage extends ESLBaseElement {
 	}
 
 	public static isEmptyImage(src: string) {
-		return src === SmartImage.EMPTY_IMAGE;
+		return src === ESLImage.EMPTY_IMAGE;
 	}
 }
 
-export default SmartImage;
+export default ESLImage;

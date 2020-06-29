@@ -4,7 +4,7 @@ import './common/back-button';
 import './common/test-media';
 import './common/test-media-source';
 
-ESL.SmartImage.register();
+ESL.ESLImage.register();
 ESL.SmartMedia.register();
 
 ESL.ESLCarousel.register();
