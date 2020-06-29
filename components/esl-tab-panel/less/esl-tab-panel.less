@@ -1,0 +1,63 @@
+esl-tab-panel {
+  @animationTime: 1s;
+
+  &:not(.accordion) {
+    display: block;
+    height: auto;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    visibility: hidden;
+    max-height: 0;
+
+    &.animate {
+      opacity: 1;
+      transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime;
+    }
+
+    &.fade-animate {
+      opacity: 0;
+      transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime, opacity @animationTime/2 linear;
+    }
+
+
+    &.open {
+      visibility: visible;
+      max-height: none;
+      position: relative;
+
+      &.animate {
+        opacity: 0;
+        transition: max-height @animationTime ease-in-out, visibility 0s linear;
+      }
+
+      &.fade-animate {
+        opacity: 1;
+        transition: max-height @animationTime ease-in-out, visibility 0s linear, opacity @animationTime/2 linear @animationTime/2;
+      }
+    }
+  }
+
+  &.accordion {
+    display: block;
+    height: auto;
+    overflow: hidden;
+
+    visibility: hidden;
+    max-height: 0;
+    transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime;
+
+    &.open {
+      visibility: visible;
+      max-height: none;
+      transition: max-height @animationTime ease-in-out, visibility 0s linear;
+    }
+  }
+}
+
+.esl-tabs-content {
+  position: relative;
+}

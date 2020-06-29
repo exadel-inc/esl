@@ -1,0 +1,198 @@
+---
+layout: ../layouts/basic.html
+containerCls: container
+title: ESL Popup and ESL Popup Trigger components <span class="badge badge-warning">Beta</span>
+---
+
+{{##content:
+<section class="row">
+    <div class="col-12">
+        <h4>Click event</h4>
+        <div style="height: 70px;">
+            <esl-popup id="popup1"
+                         body-class="popup-opened"
+                         close-button=".close-button"
+                         close-on-body-click
+                         close-on-esc
+                         open>
+                <div class="alert alert-warning" role="alert">
+                    <strong>This is a popup.</strong> You can control it using the triggers below.
+                    <button type="button" class="close close-button" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </esl-popup>
+        </div>
+        <p>Triggers</p>
+        <p>
+            <esl-trigger target="#popup1" mode="toggle" event="click">
+                <button type="button" class="btn btn-primary">Toggle</button>
+            </esl-trigger>
+            <esl-trigger target="#popup1" mode="show" event="click">
+                <button type="button" class="btn btn-success">Show</button>
+            </esl-trigger>
+            <esl-trigger target="#popup1" mode="hide" event="click">
+                <button type="button" class="btn btn-dark">Hide</button>
+            </esl-trigger>
+        </p>
+    </div>
+</section>
+<hr/>
+
+<section class="row">
+    <div class="col-12">
+        <h4>Hover event</h4>
+        <div style="height: 70px;">
+            <esl-popup id="popup2"
+                         body-class="popup-opened"
+                         close-button=".close-button"
+                         close-on-esc
+                         open>
+                <div class="alert alert-warning" role="alert">
+                    <strong>This is a popup.</strong> You can control it using the triggers below.
+                    <button type="button" class="close close-button" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </esl-popup>
+        </div>
+        <p>Triggers</p>
+        <p>
+            <esl-trigger target="#popup2" mode="toggle" event="hover">
+                <button type="button" class="btn btn-primary">Toggle</button>
+            </esl-trigger>
+            <esl-trigger target="#popup2" mode="show" event="hover">
+                <button type="button" class="btn btn-success">Show</button>
+            </esl-trigger>
+            <esl-trigger target="#popup2" mode="hide" event="hover">
+                <button type="button" class="btn btn-dark">Hide</button>
+            </esl-trigger>
+        </p>
+    </div>
+</section>
+<hr/>
+
+<section class="row">
+    <div class="col-12">
+        <h4>Group of popups (click event)</h4>
+        <div style="height: 70px;">
+            <esl-popup id="popup3"
+                         group="group1"
+                         body-class="popup-opened"
+                         close-button=".close-button"
+                         close-on-esc
+                         open>
+                <div class="alert alert-warning" role="alert">
+                    <strong>This is a popup.</strong> You can control it using the triggers below.
+                    <button type="button" class="close close-button" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </esl-popup>
+        </div>
+        <div style="height: 70px;">
+            <esl-popup id="popup4"
+                         group="group1"
+                         body-class="popup-opened"
+                         close-button=".close-button"
+                         close-on-esc>
+                <div class="alert alert-warning" role="alert">
+                    <strong>This is a popup.</strong> You can control it using the triggers below.
+                    <button type="button" class="close close-button" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </esl-popup>
+        </div>
+        <div style="height: 70px;">
+            <esl-popup id="popup5"
+                         group="group1"
+                         body-class="popup-opened"
+                         close-button=".close-button"
+                         close-on-esc>
+                <div class="alert alert-warning" role="alert">
+                    <strong>This is a popup.</strong> You can control it using the triggers below.
+                    <button type="button" class="close close-button" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </esl-popup>
+        </div>
+        <p>Triggers</p>
+        <p>
+            <esl-trigger target="#popup3" mode="toggle" event="click">
+                <button type="button" class="btn btn-info">Toggle 1</button>
+            </esl-trigger>
+            <esl-trigger target="#popup4" mode="toggle" event="click">
+                <button type="button" class="btn btn-info">Toggle 2</button>
+            </esl-trigger>
+            <esl-trigger target="#popup5" mode="toggle" event="click">
+                <button type="button" class="btn btn-info">Toggle 3</button>
+            </esl-trigger>
+        </p>
+    </div>
+</section>
+<hr/>
+
+<section class="row">
+    <div class="col-12">
+        <h4>Group of popups (hover event)</h4>
+        <div style="height: 70px;">
+            <esl-popup id="popup6"
+                         group="group2"
+                         body-class="popup-opened"
+                         close-button=".close-button"
+                         close-on-esc
+                         active>
+                <div class="alert alert-warning" role="alert">
+                    <strong>This is a popup.</strong> You can control it using the triggers below.
+                    <button type="button" class="close close-button" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </esl-popup>
+        </div>
+        <div style="height: 70px;">
+            <esl-popup id="popup7"
+                         group="group2"
+                         body-class="popup-opened"
+                         close-button=".close-button"
+                         close-on-esc>
+                <div class="alert alert-warning" role="alert">
+                    <strong>This is a popup.</strong> You can control it using the triggers below.
+                    <button type="button" class="close close-button" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </esl-popup>
+        </div>
+        <div style="height: 70px;">
+            <esl-popup id="popup8"
+                         group="group2"
+                         body-class="popup-opened"
+                         close-button=".close-button"
+                         close-on-esc>
+                <div class="alert alert-warning" role="alert">
+                    <strong>This is a popup.</strong> You can control it using the triggers below.
+                    <button type="button" class="close close-button" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </esl-popup>
+        </div>
+        <p>Triggers</p>
+        <p>
+            <esl-trigger target="#popup6" mode="toggle" event="hover" hide-delay="500">
+                <button type="button" class="btn btn-info">Toggle 1</button>
+            </esl-trigger>
+            <esl-trigger target="#popup7" mode="toggle" event="hover" hide-delay="500">
+                <button type="button" class="btn btn-info">Toggle 2</button>
+            </esl-trigger>
+            <esl-trigger target="#popup8" mode="toggle" event="hover" hide-delay="500">
+                <button type="button" class="btn btn-info">Toggle 3</button>
+            </esl-trigger>
+        </p>
+    </div>
+</section>
+#}}
+

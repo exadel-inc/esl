@@ -13,9 +13,9 @@ ESL.ESLCarouselLinkPlugin.register();
 ESL.ESLCarouselTouchPlugin.register();
 ESL.ESLCarouselAutoplayPlugin.register();
 
-ESL.SmartPopup.register();
-ESL.SmartCollapsible.register();
-ESL.SmartTrigger.register();
-ESL.SmartTabPanel.register();
+ESL.ESLPopup.register();
+ESL.ESLCollapsible.register();
+ESL.ESLTrigger.register();
+ESL.ESLTabPanel.register();
 
 ESL.ESLScrollbar.register();

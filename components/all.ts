@@ -14,9 +14,9 @@ export * from './smart-media/smart-media';
 
 export * from './esl-carousel/esl-carousel';
 
-export * from './smart-popup/smart-popup';
-export * from './smart-collapsible/smart-collapsible';
-export * from './smart-tab-panel/smart-tab-panel';
-export * from './smart-trigger/smart-trigger';
+export * from './esl-popup/esl-popup';
+export * from './esl-collapsible/esl-collapsible';
+export * from './esl-tab-panel/esl-tab-panel';
+export * from './esl-trigger/esl-trigger';
 
 export * from './esl-scrollbar/esl-scrollbar';
