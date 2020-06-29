@@ -11,7 +11,7 @@ const task = {
 const paths = require('./paths');
 const FAST_BUILD = process.argv.includes('--fast');
 
-console.log('=== Running Smart Library Build ===');
+console.log('=== Running Exadel Smart Library Build ===');
 console.log(`[SETTINGS]: Fast Build \t= ${FAST_BUILD}`);
 
 // === LESS ===

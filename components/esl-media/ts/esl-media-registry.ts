@@ -1,22 +1,22 @@
 /**
- * SmartMediaProviderRegistry class to store media API providers
+ * ESLMediaProviderRegistry class to store media API providers
  * @version 1.0.0
  * @author Yuliya Adamskaya
  */
 import {Observable} from '../../esl-utils/abstract/observable';
-import {BaseProviderConstructor} from './smart-media-provider';
+import {BaseProviderConstructor} from './esl-media-provider';
 
 interface ProviderMap {
 	[name: string]: BaseProviderConstructor;
 }
 
-let evRegistryInstance: SmartMediaProviderRegistry = null;
-export class SmartMediaProviderRegistry extends Observable {
+let evRegistryInstance: ESLMediaProviderRegistry = null;
+export class ESLMediaProviderRegistry extends Observable {
 	private providers: ProviderMap = {};
 
 	public static get instance() {
 		if (!evRegistryInstance) {
-			evRegistryInstance = new SmartMediaProviderRegistry();
+			evRegistryInstance = new ESLMediaProviderRegistry();
 		}
 		return evRegistryInstance;
 	}
@@ -35,4 +35,4 @@ export class SmartMediaProviderRegistry extends Observable {
 	}
 }
 
-export default SmartMediaProviderRegistry.instance;
+export default ESLMediaProviderRegistry.instance;

@@ -1,9 +1,9 @@
 /**
- * Smart Media Play-In-Viewport helper
+ * ESL Media Play-In-Viewport helper
  * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
-import SmartMedia from './smart-media';
+import ESLMedia from './esl-media';
 
 const RATIO_TO_ACTIVATE = 0.75; // TODO: customizable, at least global
 const RATIO_TO_DEACTIVATE = 0.20; // TODO: customizable, at least global
@@ -23,7 +23,7 @@ export function getIObserver(lazy: boolean = false) {
 
 function handleViewport(entire: IntersectionObserverEntry) {
 	const {target: video} = entire;
-	if (!(video instanceof SmartMedia)) return;
+	if (!(video instanceof ESLMedia)) return;
 
 	// Videos that playing and out of min ratio RATIO_TO_DEACTIVATE should be stopped
 	if (video.active && entire.intersectionRatio <= RATIO_TO_DEACTIVATE) {

@@ -1,10 +1,10 @@
 /**
- * Simple Video API provider for {@link SmartMedia}
+ * Simple Video API provider for {@link ESLMedia}
  * @author Yuliya Adamskaya
  */
 
 import {HTMLMediaProvider} from './media-provider';
-import SmartMediaProviderRegistry from '../../smart-media-registry';
+import ESLMediaProviderRegistry from '../../esl-media-registry';
 
 export class VideoProvider extends HTMLMediaProvider<HTMLVideoElement> {
     static get providerName() {
@@ -22,4 +22,4 @@ export class VideoProvider extends HTMLMediaProvider<HTMLVideoElement> {
     }
 }
 
-SmartMediaProviderRegistry.register(VideoProvider, VideoProvider.providerName);
+ESLMediaProviderRegistry.register(VideoProvider, VideoProvider.providerName);

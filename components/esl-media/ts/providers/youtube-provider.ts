@@ -1,13 +1,13 @@
 /**
- * Youtube API provider for {@link SmartMedia}
+ * Youtube API provider for {@link ESLMedia}
  * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  * @extends BaseProvider
  */
 import {loadScript} from '../../../esl-utils/dom/script';
-import {SmartMedia} from '../smart-media';
-import {BaseProvider, PlayerStates} from '../smart-media-provider';
-import SmartMediaProviderRegistry from '../smart-media-registry';
+import {ESLMedia} from '../esl-media';
+import {BaseProvider, PlayerStates} from '../esl-media-provider';
+import ESLMediaProviderRegistry from '../esl-media-registry';
 import PlayerVars = YT.PlayerVars;
 import {generateUId} from '../../../esl-utils/misc/uid';
 
@@ -41,7 +41,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
         return YouTubeProvider._coreApiPromise;
     }
 
-    protected static mapOptions(sm: SmartMedia): PlayerVars {
+    protected static mapOptions(sm: ESLMedia): PlayerVars {
         return {
             enablejsapi: 1,
             origin: location.origin,
@@ -55,7 +55,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
         };
     }
 
-    protected static buildIframe(sm: SmartMedia) {
+    protected static buildIframe(sm: ESLMedia) {
         const el = document.createElement('div');
         el.id = 'smedia-yt-' + generateUId();
         el.className = 'smedia-inner smedia-youtube';
@@ -168,7 +168,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
     }
 }
 
-SmartMediaProviderRegistry.register(YouTubeProvider, YouTubeProvider.providerName);
+ESLMediaProviderRegistry.register(YouTubeProvider, YouTubeProvider.providerName);
 
 // typings
 declare global {

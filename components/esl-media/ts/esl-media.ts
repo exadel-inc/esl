@@ -1,5 +1,5 @@
 /**
- * Smart Media
+ * ESL Media
  * @version 1.1.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
@@ -10,13 +10,13 @@ import {rafDecorator} from '../../esl-utils/async/raf';
 import {ESLMediaQuery} from '../../esl-utils/conditions/esl-media-query';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
-import {getIObserver} from './smart-media-iobserver';
-import {BaseProvider, PlayerStates} from './smart-media-provider';
-import SmartMediaRegistry from './smart-media-registry';
-import MediaGroupRestrictionManager from './smart-media-manager';
+import {getIObserver} from './esl-media-iobserver';
+import {BaseProvider, PlayerStates} from './esl-media-provider';
+import ESLMediaRegistry from './esl-media-registry';
+import MediaGroupRestrictionManager from './esl-media-manager';
 
-export class SmartMedia extends ESLBaseElement {
-    public static is = 'smart-media';
+export class ESLMedia extends ESLBaseElement {
+    public static is = 'esl-media';
     public static eventNs = 'esl:media';
 
     @attr() public mediaId: string;
@@ -59,7 +59,7 @@ export class SmartMedia extends ESLBaseElement {
     }
 
     static support(name: string): boolean {
-        return SmartMediaRegistry.has(name);
+        return ESLMediaRegistry.has(name);
     }
 
     protected connectedCallback() {
@@ -68,7 +68,7 @@ export class SmartMedia extends ESLBaseElement {
             this.setAttribute('role', 'application');
         }
         this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
-        SmartMediaRegistry.addListener(this._onRegistryStateChange);
+        ESLMediaRegistry.addListener(this._onRegistryStateChange);
         if (this.conditionQuery) {
             this.conditionQuery.addListener(this.deferredReinitialize);
         }
@@ -83,7 +83,7 @@ export class SmartMedia extends ESLBaseElement {
 
     protected disconnectedCallback() {
         super.disconnectedCallback();
-        SmartMediaRegistry.removeListener(this._onRegistryStateChange);
+        ESLMediaRegistry.removeListener(this._onRegistryStateChange);
         if (this.conditionQuery) {
             this.conditionQuery.removeListener(this.deferredReinitialize);
         }
@@ -129,7 +129,7 @@ export class SmartMedia extends ESLBaseElement {
         this._provider = null;
 
         if (this.canActivate()) {
-            const provider = SmartMediaRegistry.getProvider(this.mediaType);
+            const provider = ESLMediaRegistry.getProvider(this.mediaType);
             if (provider) {
                 this._provider = new provider(this);
                 this._provider.bind();
@@ -272,7 +272,7 @@ export class SmartMedia extends ESLBaseElement {
     }
 
     /**
-     * Current player state, see {@link SmartMedia.PLAYER_STATES} values
+     * Current player state, see {@link ESLMedia.PLAYER_STATES} values
      */
     get state() {
         return this._provider ? this._provider.state : PlayerStates.UNINITIALIZED;
@@ -334,4 +334,4 @@ export class SmartMedia extends ESLBaseElement {
     }
 }
 
-export default SmartMedia;
+export default ESLMedia;

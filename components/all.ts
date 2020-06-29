@@ -10,7 +10,7 @@ if (!('customElements' in window)) {
 export * from './esl-utils/all';
 
 export * from './esl-image/esl-image';
-export * from './smart-media/smart-media';
+export * from './esl-media/esl-media';
 
 export * from './esl-carousel/esl-carousel';
 

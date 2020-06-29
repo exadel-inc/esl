@@ -1,10 +1,10 @@
 /**
- * Simple Audio API provider for {@link SmartMedia}
+ * Simple Audio API provider for {@link ESLMedia}
  * @author Alexey Stsefanovich (ala'n)
  */
 
 import {HTMLMediaProvider} from './media-provider';
-import SmartMediaProviderRegistry from '../../smart-media-registry';
+import ESLMediaProviderRegistry from '../../esl-media-registry';
 
 export class AudioProvider extends HTMLMediaProvider<HTMLAudioElement> {
 	static get providerName() {
@@ -22,4 +22,4 @@ export class AudioProvider extends HTMLMediaProvider<HTMLAudioElement> {
     }
 }
 
-SmartMediaProviderRegistry.register(AudioProvider, AudioProvider.providerName);
+ESLMediaProviderRegistry.register(AudioProvider, AudioProvider.providerName);

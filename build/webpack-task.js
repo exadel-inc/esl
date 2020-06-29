@@ -71,8 +71,8 @@ module.exports.buildAll = function tsBuildAll(config) {
 			minSize: 90 * 1024,
 			cacheGroups: {
 				// commons: {
-				// 	test: /[\\/]smart-utils[\\/]/,
-				// 	name: 'smart-utils',
+				// 	test: /[\\/]esl-utils[\\/]/,
+				// 	name: 'esl-utils',
 				// 	enforce: true
 				// }
 			}

@@ -1,10 +1,10 @@
-# Smart Media
+# ESl Media
 
 Version: *1.1.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*
 
-SmartMedia - custom element, that provides ability to add and configure media (video / audio)
+ESlMedia - custom element, that provides ability to add and configure media (video / audio)
 using a single tag as well as work with external providers using simple native-like API.
  
 --- 
@@ -18,7 +18,7 @@ using a single tag as well as work with external providers using simple native-l
    - Brightcove (`brightcove` type)
    - Abstract Iframe (`iframe` type)
  
- - load-conditions - restriction to load smart-media. Uses SmartMediaQuery syntax.
+ - load-conditions - restriction to load esl-media. Uses ESLMediaQuery syntax.
  
  - play-in-viewport - feature that restricts active state to only visible components on the page.
  
@@ -75,20 +75,19 @@ using a single tag as well as work with external providers using simple native-l
 ### Events: 
  - `smedia:error` - (bubbles) fires when API is initialized with error
  - `smedia:ready` - (bubbles) fires when API is ready
- - `smedia:play` - (bubbles) fires when smart-media starts playing
- - `smedia:paused` - (bubbles) fires when smart-media is paused
- - `smedia:ended` - (bubbles) fires when smart-media ends
- - `smedia:detach` - (bubbles) fires after smart-media provider is detached (reinitialized / disconnected from the DOM)
- - `smedia:mangedpause` - (bubbles) fires when media paused by smart-media group restriction manager
+ - `smedia:play` - (bubbles) fires when esl-media starts playing
+ - `smedia:paused` - (bubbles) fires when esl-media is paused
+ - `smedia:ended` - (bubbles) fires when esl-media ends
+ - `smedia:detach` - (bubbles) fires after esl-media provider is detached (reinitialized / disconnected from the DOM)
+ - `smedia:mangedpause` - (bubbles) fires when media paused by esl-media group restriction manager
  
 ### Examples:
 ```html
-<smart-media
+<esl-media
      media-type="youtube"
      media-id="##MEDIAID##"
      title="Video Title"     
      [disabled]    
      [group="mediaGroup"]
-></smart-media-embedded>
+></esl-media-embedded>
 ```
-  

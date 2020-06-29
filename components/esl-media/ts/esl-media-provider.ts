@@ -3,7 +3,7 @@
  * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
-import SmartMedia from './smart-media';
+import ESLMedia from './esl-media';
 
 export enum PlayerStates {
     BUFFERING = 3,
@@ -15,16 +15,16 @@ export enum PlayerStates {
     UNINITIALIZED = null
 }
 
-export type BaseProviderConstructor = new(component: SmartMedia) => BaseProvider<HTMLElement>;
+export type BaseProviderConstructor = new(component: ESLMedia) => BaseProvider<HTMLElement>;
 
 export abstract class BaseProvider<T extends HTMLElement> {
     static readonly providerName: string;
 
-    protected component: SmartMedia;
+    protected component: ESLMedia;
     protected _el: T;
     protected _ready: Promise<any>;
 
-    public constructor(component: SmartMedia) {
+    public constructor(component: ESLMedia) {
         this.component = component;
     }
 
@@ -147,6 +147,6 @@ export abstract class BaseProvider<T extends HTMLElement> {
 
     // public static register() {
     //     const provider = (this as typeof BaseProvider & BaseProviderConstructor);
-    //     SmartMediaProviderRegistry.instance.register(provider, provider.providerName);
+    //     ESLMediaProviderRegistry.instance.register(provider, provider.providerName);
     // }
 }

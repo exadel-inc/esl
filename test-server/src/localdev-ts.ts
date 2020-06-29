@@ -5,7 +5,7 @@ import './common/test-media';
 import './common/test-media-source';
 
 ESL.ESLImage.register();
-ESL.SmartMedia.register();
+ESL.ESLMedia.register();
 
 ESL.ESLCarousel.register();
 ESL.ESLCarouselDotsPlugin.register();

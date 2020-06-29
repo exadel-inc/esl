@@ -1,17 +1,17 @@
 /**
- * Group restriction manager for {@link SmartMedia}
+ * Group restriction manager for {@link ESLMedia}
  * Only one media in group can be played
  * Empty group is ignored
  * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
-import SmartMedia from './smart-media';
+import ESLMedia from './esl-media';
 
-interface SmartMediaManager {
-	[key: string]: SmartMedia
+interface ESLMediaManager {
+	[key: string]: ESLMedia
 }
 
-const managerMap: SmartMediaManager = {};
+const managerMap: ESLMediaManager = {};
 
 export class MediaGroupRestrictionManager {
 	/**
@@ -24,7 +24,7 @@ export class MediaGroupRestrictionManager {
 	/**
 	 * Register instance play state in group
 	 */
-	public static registerPlay(instance: SmartMedia) {
+	public static registerPlay(instance: ESLMedia) {
 		if (instance.group) {
 			const current = managerMap[instance.group];
 			if (current && current !== instance && current.active) {
@@ -39,7 +39,7 @@ export class MediaGroupRestrictionManager {
 	/**
 	 * Unregister instance
 	 */
-	public static unregister(instance: SmartMedia) {
+	public static unregister(instance: ESLMedia) {
 		if (instance.group) {
 			const reg = managerMap[instance.group];
 			if (reg === instance) {

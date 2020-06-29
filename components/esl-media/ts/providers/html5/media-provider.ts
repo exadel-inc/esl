@@ -1,13 +1,13 @@
 /**
- * Simple Native Media API provider for {@link SmartMedia}
+ * Simple Native Media API provider for {@link ESLMedia}
  * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
  */
 
-import {SmartMedia} from '../../smart-media';
-import {BaseProvider, PlayerStates} from '../../smart-media-provider';
+import {ESLMedia} from '../../esl-media';
+import {BaseProvider, PlayerStates} from '../../esl-media-provider';
 
 export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends BaseProvider<T> {
-	protected static applyElementSettings(el: HTMLMediaElement, sm: SmartMedia) {
+	protected static applyElementSettings(el: HTMLMediaElement, sm: ESLMedia) {
 		el.classList.add('smedia-inner');
 		el.autoplay = sm.autoplay;
 		el.preload = sm.preload;

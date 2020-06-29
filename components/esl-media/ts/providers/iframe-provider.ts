@@ -1,10 +1,10 @@
 /**
- * Simple Basic Iframe provider for {@link SmartMedia}
+ * Simple Basic Iframe provider for {@link ESLMedia}
  * @author Alexey Stsefanovich (ala'n)
  */
-import {SmartMedia} from '../smart-media';
-import {BaseProvider, PlayerStates} from '../smart-media-provider';
-import SmartMediaProviderRegistry from '../smart-media-registry';
+import {ESLMedia} from '../esl-media';
+import {BaseProvider, PlayerStates} from '../esl-media-provider';
+import ESLMediaProviderRegistry from '../esl-media-registry';
 import {generateUId} from '../../../esl-utils/misc/uid';
 
 export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
@@ -14,7 +14,7 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 		return 'iframe';
 	}
 
-	protected static buildIframe(sm: SmartMedia) {
+	protected static buildIframe(sm: ESLMedia) {
 		const el = document.createElement('iframe');
 		el.id = 'smedia-iframe-' + generateUId();
 		el.className = 'smedia-inner smedia-iframe';
@@ -79,7 +79,7 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
     }
 
 	public seekTo(pos: number) {
-		console.error('[SmartMedia] Unsupported action: can not execute seekTo on abstract iframe provider');
+		console.error('[ESLMedia] Unsupported action: can not execute seekTo on abstract iframe provider');
 	}
 
 	public play() {
@@ -95,4 +95,4 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 	}
 }
 
-SmartMediaProviderRegistry.register(IframeBasicProvider, IframeBasicProvider.providerName);
+ESLMediaProviderRegistry.register(IframeBasicProvider, IframeBasicProvider.providerName);

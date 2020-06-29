@@ -1,5 +1,5 @@
 /**
- * Brightcove API provider for {@link SmartMedia}
+ * Brightcove API provider for {@link ESLMedia}
  * @version 1.3.0
  * @author Julia Murashko
  * @extends BaseProvider
@@ -8,9 +8,9 @@
 import {VideoJsPlayer} from 'video.js';
 
 import {loadScript} from '../../../esl-utils/dom/script';
-import {SmartMedia} from '../smart-media';
-import {BaseProvider, PlayerStates} from '../smart-media-provider';
-import SmartMediaProviderRegistry from '../smart-media-registry';
+import {ESLMedia} from '../esl-media';
+import {BaseProvider, PlayerStates} from '../esl-media-provider';
+import ESLMediaProviderRegistry from '../esl-media-registry';
 import {generateUId} from '../../../esl-utils/misc/uid';
 
 const API_SCRIPT_ID = 'BC_API_SOURCE';
@@ -32,7 +32,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	/**
 	 * @returns {BCPlayerAccount} settings, get from element by default
 	 */
-	protected static getAccount(el: SmartMedia): BCPlayerAccount {
+	protected static getAccount(el: ESLMedia): BCPlayerAccount {
 		return {
 			playerId: el.getAttribute('player-id'),
 			accountId: el.getAttribute('player-account')
@@ -55,7 +55,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	/**
 	 * Build video brightcove element
 	 */
-	protected static buildVideo(sm: SmartMedia, account: BCPlayerAccount) {
+	protected static buildVideo(sm: ESLMedia, account: BCPlayerAccount) {
 		const el = document.createElement('video');
 		el.id = 'smedia-brightcove-' + generateUId();
 		el.className = 'smedia-inner smedia-brightcove video-js vjs-default-skin video-js-brightcove';
@@ -175,7 +175,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	}
 }
 
-SmartMediaProviderRegistry.register(BrightcoveProvider, BrightcoveProvider.providerName);
+ESLMediaProviderRegistry.register(BrightcoveProvider, BrightcoveProvider.providerName);
 
 // typings
 declare global {

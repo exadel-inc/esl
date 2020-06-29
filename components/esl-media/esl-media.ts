@@ -5,4 +5,4 @@ import './ts/providers/youtube-provider';
 import './ts/providers/iframe-provider';
 import './ts/providers/brightcove-provider';
 
-export * from './ts/smart-media';
+export * from './ts/esl-media';
