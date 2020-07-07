@@ -6,7 +6,6 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
@@ -22,27 +21,13 @@
         "@typescript-eslint/array-type": "warn",
         "@typescript-eslint/ban-types": "warn",
         "@typescript-eslint/ban-ts-comment": "warn",
-        "@typescript-eslint/consistent-type-assertions": "warn",
-        "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/indent": "off",
-        "@typescript-eslint/interface-name-prefix": "off",
         "@typescript-eslint/no-inferrable-types": "off",
-        "@typescript-eslint/member-delimiter-style": [
-            "off",
-            {
-                "multiline": {
-                    "delimiter": "none",
-                    "requireLast": true
-                },
-                "singleline": {
-                    "delimiter": "semi",
-                    "requireLast": false
-                }
-            }
-        ],
         "@typescript-eslint/member-ordering": "off",
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-empty-interface": "warn",
+        "@typescript-eslint/prefer-as-const": "warn",
+        "@typescript-eslint/no-extra-semi": "warn",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-misused-new": "warn",
         "@typescript-eslint/no-namespace": "warn",
@@ -50,17 +35,19 @@
         "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/no-use-before-define": "off",
         "@typescript-eslint/no-var-requires": "warn",
+        "@typescript-eslint/no-extra-non-null-assertion": "error",
+        "@typescript-eslint/no-non-null-asserted-optional-chain": "error",
         "@typescript-eslint/prefer-for-of": "off",
         "@typescript-eslint/prefer-function-type": "warn",
         "@typescript-eslint/prefer-namespace-keyword": "warn",
-        "@typescript-eslint/quotes": [
-            "warn",
-            "single"
-        ],
+        "@typescript-eslint/quotes": [ "warn", "single" ],
         "@typescript-eslint/semi": ["error"],
         "@typescript-eslint/triple-slash-reference": "warn",
         "@typescript-eslint/unified-signatures": "warn",
         "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-for-in-array": "error",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unnecessary-type-assertion": "warn",
         "comma-dangle": "off",
         "complexity": "off",
         "constructor-super": "warn",
@@ -83,9 +70,7 @@
         ],
         "max-len": [
             "warn",
-            {
-                "code": 200
-            }
+            { "code": 200 }
         ],
         "new-parens": "warn",
         "no-bitwise": "warn",
@@ -102,9 +87,7 @@
         "no-new-wrappers": "warn",
         "no-shadow": [
             "warn",
-            {
-                "hoist": "all"
-            }
+            { "hoist": "all" }
         ],
         "no-throw-literal": "warn",
         "no-trailing-spaces": "warn",
