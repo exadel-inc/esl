@@ -72,12 +72,10 @@ export class ESLMedia extends ESLBaseElement {
         if (this.conditionQuery) {
             this.conditionQuery.addListener(this.deferredReinitialize);
         }
-        if (this.playInViewport) {
-            this.attachViewportConstraint();
-        }
         if (this.fillModeEnabled) {
             window.addEventListener('resize', this.deferredResize);
         }
+        this.attachViewportConstraint();
         this.deferredReinitialize();
     }
 
@@ -325,7 +323,9 @@ export class ESLMedia extends ESLBaseElement {
     };
 
     public attachViewportConstraint() {
-        getIObserver().observe(this);
+        if (this.playInViewport) {
+            getIObserver().observe(this);
+        }
     }
 
     public detachViewportConstraint() {
