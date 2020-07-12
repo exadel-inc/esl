@@ -2,10 +2,8 @@
 import './../polyfills/es5-target-shim';
 // Builtin polyfills
 import './../polyfills/polyfills.es6';
-
-if (!('customElements' in window)) {
-  throw new Error('Browser is not support customElements, load polyfills before');
-}
+// Validate environment
+import './../polyfills/polyfills.validate';
 
 export * from './esl-utils/all';
 
