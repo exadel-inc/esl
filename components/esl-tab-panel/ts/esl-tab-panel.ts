@@ -1,3 +1,4 @@
+import {Export} from '../../esl-utils/enviroment/export-ns';
 import {attr} from '../../esl-base-element/esl-base-element';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {CollapsibleActionParams, ESLCollapsible} from '../../esl-collapsible/ts/esl-collapsible';
@@ -5,6 +6,7 @@ import {ESLMediaQuery} from '../../esl-utils/conditions/esl-media-query';
 
 export type TabActionParams = CollapsibleActionParams;
 
+@Export('TabPanel')
 export class ESLTabPanel extends ESLCollapsible {
     public static is = 'esl-tab-panel';
     public static eventNs = 'esl:tabs';
@@ -73,3 +75,5 @@ export class ESLTabPanel extends ESLCollapsible {
 
     protected onTransformationChange = () => this.classList.toggle(this.accordionClass, this.isAccordion);
 }
+
+export default ESLTabPanel;

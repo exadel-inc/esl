@@ -5,6 +5,7 @@
  *
  * Breakpoint Registry is used to provide custom breakpoints for ESL Query
  */
+import {Export} from './export-ns';
 
 class ScreenBreakpoint {
 	public min: number;
@@ -43,6 +44,7 @@ const registry: BreakpointsMapping = {
 
 const BP_NAME_REGEXP = /^[a-z]+/i;
 
+@Export('BreakpointRegistry')
 export abstract class BreakpointRegistry {
 	/**
 	 * Add or replace breakpoint shortcut that could be used inside of ESLMediaQuery

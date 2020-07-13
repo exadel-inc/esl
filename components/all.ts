@@ -5,6 +5,8 @@ import './../polyfills/polyfills.es6';
 // Validate environment
 import './../polyfills/polyfills.validate';
 
+export * from './lib';
+
 export * from './esl-utils/all';
 
 export * from './esl-image/esl-image';

@@ -1,3 +1,4 @@
+import {Export} from '../../../esl-utils/enviroment/export-ns';
 import ESLCarouselPlugin from './esl-carousel-plugin';
 
 /**
@@ -6,6 +7,7 @@ import ESLCarouselPlugin from './esl-carousel-plugin';
  *
  * @author Julia Murashko
  */
+@Export('Carousel.DotsPlugin')
 export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
     public static is = 'esl-carousel-dots';
     public static freePlacement = true;
