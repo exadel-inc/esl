@@ -1,4 +1,4 @@
-import {Export} from '../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {attr} from '../../esl-base-element/esl-base-element';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {CollapsibleActionParams, ESLCollapsible} from '../../esl-collapsible/ts/esl-collapsible';
@@ -6,7 +6,7 @@ import {ESLMediaQuery} from '../../esl-utils/conditions/esl-media-query';
 
 export type TabActionParams = CollapsibleActionParams;
 
-@Export('TabPanel')
+@ExportNs('TabPanel')
 export class ESLTabPanel extends ESLCollapsible {
     public static is = 'esl-tab-panel';
     public static eventNs = 'esl:tabs';

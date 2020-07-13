@@ -4,7 +4,7 @@
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
-import {Export} from '../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import ESLMediaRuleList from '../../esl-utils/conditions/esl-media-rule-list';
@@ -116,7 +116,7 @@ function getIObserver() {
 	return intersectionObserver;
 }
 
-@Export('Image')
+@ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
 	public static is = 'esl-image';
     public static eventNs = 'esl:image';

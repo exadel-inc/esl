@@ -1,4 +1,4 @@
-import {Export} from '../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLPopup, PopupActionParams} from '../../esl-popup/ts/esl-popup';
 
 import {attr} from '../../esl-base-element/esl-base-element';
@@ -8,7 +8,7 @@ export interface CollapsibleActionParams extends PopupActionParams {
 	noAnimation?: boolean;
 }
 
-@Export('Collapsible')
+@ExportNs('Collapsible')
 export class ESLCollapsible extends ESLPopup {
 	public static is = 'esl-collapsible';
 	public static eventNs = 'esl:collapsible';

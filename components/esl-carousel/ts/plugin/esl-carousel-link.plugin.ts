@@ -1,4 +1,4 @@
-import {Export} from '../../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../../esl-utils/enviroment/export-ns';
 import {attr} from '../../../esl-base-element/esl-base-element';
 import ESLCarousel from '../esl-carousel';
 import ESLCarouselPlugin from './esl-carousel-plugin';
@@ -6,7 +6,7 @@ import ESLCarouselPlugin from './esl-carousel-plugin';
 /**
  * Slide Carousel Link plugin. Allows to bind carousel positions.
  */
-@Export('Carousel.LinkPlugin')
+@ExportNs('Carousel.LinkPlugin')
 export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
 	public static is = 'esl-carousel-link-plugin';
 

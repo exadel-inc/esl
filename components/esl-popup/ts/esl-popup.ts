@@ -1,4 +1,4 @@
-import {Export} from '../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr, jsonAttr} from '../../esl-base-element/esl-base-element';
 import {ESC} from '../../esl-utils/dom/keycodes';
 import PopupManager from './esl-popup-manager';
@@ -19,7 +19,7 @@ export interface PopupActionParams {
     nextPopup?: ESLPopup;
 }
 
-@Export('Popup')
+@ExportNs('Popup')
 export class ESLPopup extends ESLBaseElement {
 	public static is = 'esl-popup';
 	public static eventNs = 'esl:popup';

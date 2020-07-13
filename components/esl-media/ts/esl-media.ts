@@ -4,7 +4,7 @@
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
-import {Export} from '../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
 import {debounce} from '../../esl-utils/async/debounce';
 import {rafDecorator} from '../../esl-utils/async/raf';
@@ -16,7 +16,7 @@ import {BaseProvider, PlayerStates} from './esl-media-provider';
 import ESLMediaRegistry from './esl-media-registry';
 import MediaGroupRestrictionManager from './esl-media-manager';
 
-@Export('Media')
+@ExportNs('Media')
 export class ESLMedia extends ESLBaseElement {
     public static is = 'esl-media';
     public static eventNs = 'esl:media';

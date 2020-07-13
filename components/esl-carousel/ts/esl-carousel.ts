@@ -1,4 +1,4 @@
-import {Export} from '../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
 import {deepCompare} from '../../esl-utils/misc/compare';
 import ESLMediaRuleList from '../../esl-utils/conditions/esl-media-rule-list';
@@ -13,7 +13,7 @@ interface CarouselConfig { // Registry
 }
 
 // TODO: add ability to choose the number of an active slide
-@Export('Carousel')
+@ExportNs('Carousel')
 export class ESLCarousel extends ESLBaseElement {
 	public static Slide = ESLCarouselSlide;
 

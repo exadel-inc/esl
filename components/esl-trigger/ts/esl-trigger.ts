@@ -1,11 +1,11 @@
-import { Export } from '../../esl-utils/enviroment/export-ns';
+import { ExportNs } from '../../esl-utils/enviroment/export-ns';
 import { ESLBaseElement, attr } from '../../esl-base-element/esl-base-element';
 import { DeviceDetector } from '../../esl-utils/enviroment/device-detector';
 import { ESLPopup } from '../../esl-popup/esl-popup';
 import { findTarget } from '../../esl-utils/dom/traversing';
 import type { NoopFnSignature } from '../../esl-utils/misc/functions';
 
-@Export('Trigger')
+@ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
   public static is = 'esl-trigger';
     public static eventNs = 'esl:trigger';
