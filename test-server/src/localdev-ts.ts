@@ -15,7 +15,7 @@ ESL.TabPanel.register();
 ESL.Scrollbar.register();
 
 ESL.Carousel.register();
-ESL.Carousel.DotsPlugin.register();
-ESL.Carousel.LinkPlugin.register();
-ESL.Carousel.TouchPlugin.register();
-ESL.Carousel.AutoplayPlugin.register();
+ESL.CarouselPlugins.Dots.register();
+ESL.CarouselPlugins.Link.register();
+ESL.CarouselPlugins.Touch.register();
+ESL.CarouselPlugins.Autoplay.register();

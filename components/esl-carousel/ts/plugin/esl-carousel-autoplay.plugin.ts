@@ -8,7 +8,7 @@ import ESLCarouselPlugin from './esl-carousel-plugin';
  *
  * @author Alexey Stsefanovich (ala'n)
  */
-@ExportNs('Carousel.AutoplayPlugin')
+@ExportNs('CarouselPlugins.Autoplay')
 export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
 	public static is = 'esl-carousel-autoplay-plugin';
 

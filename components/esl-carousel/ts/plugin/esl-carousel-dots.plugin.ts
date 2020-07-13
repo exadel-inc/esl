@@ -7,7 +7,7 @@ import ESLCarouselPlugin from './esl-carousel-plugin';
  *
  * @author Julia Murashko
  */
-@ExportNs('Carousel.DotsPlugin')
+@ExportNs('CarouselPlugins.Dots')
 export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
     public static is = 'esl-carousel-dots';
     public static freePlacement = true;

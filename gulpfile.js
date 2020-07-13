@@ -27,6 +27,7 @@ const buildLib = gulp.parallel(buildLessLib, buildTsLib);
 const buildLocal = gulp.series(cleanLocal, gulp.parallel(buildLessLocal, buildTsLocal));
 const buildGranular = gulp.parallel(buildTsBundles, buildLessBundles, buildLessBundlesDefaults);
 const build = gulp.series(clean, buildLib);
+const prepare = gulp.series(buildLocal, buildGranular);
 
 printBuildStart();
 
@@ -34,6 +35,7 @@ module.exports = {
     clean,
     build,
     watch,
+    prepare,
     buildLib,
     buildGranular,
     buildLocal

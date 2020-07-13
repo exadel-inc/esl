@@ -15,7 +15,9 @@ import type {ESLCarouselTouchPlugin} from './esl-carousel/ts/plugin/esl-carousel
 import type {ESLCarouselAutoplayPlugin} from './esl-carousel/ts/plugin/esl-carousel-autoplay.plugin';
 
 // Define global namespace
-(typeof ESL !== 'object') && Object.defineProperty(window, 'ESL', { value: {}});
+if (!('ESL' in window)) {
+	Object.defineProperty(window, 'ESL', { value: {}});
+}
 
 declare global {
 	const ESL: ESLLibrary;
@@ -34,11 +36,12 @@ declare global {
 
 		Scrollbar?: typeof ESLScrollbar;
 
-		Carousel?: typeof ESLCarousel & {
-			DotsPlugin?: typeof ESLCarouselDotsPlugin;
-			LinkPlugin?: typeof ESLCarouselLinkPlugin;
-			TouchPlugin?: typeof ESLCarouselTouchPlugin;
-			AutoplayPlugin?: typeof ESLCarouselAutoplayPlugin;
+		Carousel?: typeof ESLCarousel;
+		CarouselPlugins: {
+			Dots?: typeof ESLCarouselDotsPlugin;
+			Link?: typeof ESLCarouselLinkPlugin;
+			Touch?: typeof ESLCarouselTouchPlugin;
+			Autoplay?: typeof ESLCarouselAutoplayPlugin;
 		};
 	}
 }

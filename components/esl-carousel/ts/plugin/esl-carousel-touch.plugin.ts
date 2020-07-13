@@ -6,7 +6,7 @@ import {normalizeTouchPoint, Point} from '../../../esl-utils/dom/events';
 /**
  * Slide Carousel Touch plugin
  */
-@ExportNs('Carousel.TouchPlugin')
+@ExportNs('CarouselPlugins.Touch')
 export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
 	public static is = 'esl-carousel-touch-plugin';
 
