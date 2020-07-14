@@ -1,21 +1,21 @@
-import '../../components/lib';
+import './../../components/lib';
 
 import './common/back-button';
 import './common/test-media';
 import './common/test-media-source';
 
-ESL.SmartImage.register();
-ESL.SmartMedia.register();
+ESL.Image.register();
+ESL.Media.register();
 
-ESL.SmartCarousel.register();
-ESL.SmartCarouselDotsPlugin.register();
-ESL.SmartCarouselLinkPlugin.register();
-ESL.SmartCarouselTouchPlugin.register();
-ESL.SmartCarouselAutoplayPlugin.register();
+ESL.Popup.register();
+ESL.Collapsible.register();
+ESL.Trigger.register();
+ESL.TabPanel.register();
 
-ESL.SmartPopup.register();
-ESL.SmartCollapsible.register();
-ESL.SmartTrigger.register();
-ESL.SmartTabPanel.register();
+ESL.Scrollbar.register();
 
-ESL.SmartScrollbar.register();
+ESL.Carousel.register();
+ESL.CarouselPlugins.Dots.register();
+ESL.CarouselPlugins.Link.register();
+ESL.CarouselPlugins.Touch.register();
+ESL.CarouselPlugins.Autoplay.register();

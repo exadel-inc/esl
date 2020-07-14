@@ -2,21 +2,19 @@
 import './../polyfills/es5-target-shim';
 // Builtin polyfills
 import './../polyfills/polyfills.es6';
+// Validate environment
+import './../polyfills/polyfills.validate';
 
-if (!('customElements' in window)) {
-  throw new Error('Browser is not support customElements, load polyfills before');
-}
+export * as Utils from './esl-utils/all';
 
-export * from './smart-utils/all';
+export {ESLImage as Image} from './esl-image/esl-image';
+export {ESLMedia as Media} from './esl-media/esl-media';
 
-export * from './smart-image/smart-image';
-export * from './smart-media/smart-media';
+export {ESLPopup as Popup} from './esl-popup/esl-popup';
+export {ESLCollapsible as Collapsible} from './esl-collapsible/esl-collapsible';
+export {ESLTabPanel as TabPanel} from './esl-tab-panel/esl-tab-panel';
+export {ESLTrigger as Trigger} from './esl-trigger/esl-trigger';
 
-export * from './smart-carousel/smart-carousel';
+export {ESLScrollbar as Scrollbar} from './esl-scrollbar/esl-scrollbar';
 
-export * from './smart-popup/smart-popup';
-export * from './smart-collapsible/smart-collapsible';
-export * from './smart-tab-panel/smart-tab-panel';
-export * from './smart-trigger/smart-trigger';
-
-export * from './smart-scrollbar/smart-scrollbar';
+export {ESLCarousel as Carousel, CarouselPlugins} from './esl-carousel/esl-carousel';

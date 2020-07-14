@@ -1,11 +1,11 @@
-# smart-wc-library
+# exadel-smart-library
 
 Custom web components library
 
 
 ## Browser support
 
-Smart Library does not have dependencies but use the following list of native browser features:
+Exadel Smart Library does not have dependencies but use the following list of native browser features:
 
 - (ES6) Promises
 - (ES6) Custom Events

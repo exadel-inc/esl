@@ -4,7 +4,7 @@
     "lessComponents": ["components/*/*.less", "!components/*/*.default.less"],
     "lessComponentsDefaults": "components/*/*.default.less",
     "ts": "components/all.ts",
-    "tsComponents": "components/*/*.ts",
+    "tsComponents": ["components/*/*.ts", "!components/esl-base-element/*.ts"],
     "context": "components",
     "target": "lib"
   },

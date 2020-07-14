@@ -1,7 +1,10 @@
 const gulp = require('gulp');
+const paths = require('../paths');
 
 const named = require('vinyl-named');
 const webpackStream = require('webpack-stream');
+
+const { FAST_BUILD } = require('./config');
 
 const OPTIONS_DEFAULT = {
 	dev: false,
@@ -19,11 +22,16 @@ const INITIAL_CONFIG = {
 };
 
 const OUTPUT_DEFAULT = {
+	library: 'ESL',
+	libraryTarget: 'umd',
+	umdNamedDefine: true,
+	globalObject: 'window',
+	jsonpFunction: '~ESLCore~',
 	filename: '[name].js',
 	sourceMapFilename: '[name].js.map'
 };
 
-module.exports.buildAll = function tsBuildAll(config) {
+function buildTs(config) {
 	const webpackConfig = Object.assign({}, INITIAL_CONFIG);
 	config = Object.assign({}, OPTIONS_DEFAULT, config);
 
@@ -41,7 +49,6 @@ module.exports.buildAll = function tsBuildAll(config) {
 				target: config.target
 			},
 			reportFiles: [
-				'core/**/*.ts',
 				'components/**/*.ts'
 			],
 			transpileOnly: !config.check && !config.declarations
@@ -60,6 +67,7 @@ module.exports.buildAll = function tsBuildAll(config) {
 			exclude: /node_modules/,
 			loader: 'eslint-loader',
 			options: {
+				formatter: 'unix',
 				emitWarning: true
 			}
 		});
@@ -70,11 +78,11 @@ module.exports.buildAll = function tsBuildAll(config) {
 			chunks: 'all',
 			minSize: 90 * 1024,
 			cacheGroups: {
-				// commons: {
-				// 	test: /[\\/]smart-utils[\\/]/,
-				// 	name: 'smart-utils',
-				// 	enforce: true
-				// }
+				commons: {
+					name: 'esl-core',
+					test: /[\\/](esl-utils|esl-base-element)[\\/]/,
+					enforce: true
+				}
 			}
 		};
 	}
@@ -82,4 +90,32 @@ module.exports.buildAll = function tsBuildAll(config) {
     return gulp.src(config.src)
         .pipe(named(config.nameFunction))
         .pipe(webpackStream(webpackConfig));
+}
+
+module.exports.default = buildTs;
+
+module.exports.buildTsLib = function buildTsLib() {
+	return buildTs({
+		src: paths.bundle.ts,
+		context: paths.bundle.context,
+		check: !FAST_BUILD
+	}).pipe(gulp.dest(paths.bundle.target));
+};
+
+module.exports.buildTsBundles = function buildBundles() {
+	return buildTs({
+		src: paths.bundle.tsComponents,
+		target: 'ES6',
+		context: paths.bundle.context,
+		commonChunk: true,
+		check: !FAST_BUILD
+	}).pipe(gulp.dest(paths.bundle.target));
+};
+
+module.exports.buildTsLocal = function buildTsLocal() {
+	return buildTs({
+		src: paths.test.ts,
+		context: paths.bundle.context,
+		check: false
+	}).pipe(gulp.dest(paths.test.target));
 };

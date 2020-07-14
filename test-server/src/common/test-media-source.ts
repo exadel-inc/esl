@@ -1,4 +1,4 @@
-import {debounce} from '../../../components/smart-utils/async/debounce';
+import {debounce} from '../../../components/esl-utils/async/debounce';
 
 class TestMediaSource extends HTMLElement {
 	get target() {
