@@ -59,10 +59,8 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	 */
 	protected static buildVideo(sm: ESLMedia, account: BCPlayerAccount) {
 		const el = document.createElement('video');
-		const provider = this.constructor as typeof BrightcoveProvider;
-
 		el.id = 'esl-media-brightcove-' + generateUId();
-		el.className = 'esl-media-inner esl-media-brightcove ' + provider.videojsClasses;
+		el.className = 'esl-media-inner esl-media-brightcove ' + this.videojsClasses;
 		el.title = sm.title;
 		el.loop = sm.loop;
 		el.muted = sm.muted;
