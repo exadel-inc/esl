@@ -119,7 +119,8 @@ function getIObserver() {
 @ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
 	public static is = 'esl-image';
-    public static eventNs = 'esl:image';
+	// Should not have own namespace for events to be native image compatible
+    public static eventNs = '';
 
     public static get STRATEGIES() {
 		return STRATEGIES;
