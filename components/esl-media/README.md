@@ -28,7 +28,7 @@ using a single tag as well as work with external providers using simple native-l
  
  - fill mode - feature that allows managing video player rendering option in bounds of given element area.
  
- - state change events (`smedia:load`, `smedia:error`, `smedia:play`, etc)
+ - state change events (`esl:media:load`, `esl:media:error`, `esl:media:play`, etc)
  
  - provides 'HTMLMedia like' API that is safe and will be executed after real API is ready
 
@@ -73,13 +73,13 @@ using a single tag as well as work with external providers using simple native-l
  - **active** (boolean) - marker that indicates that media is playing
  
 ### Events: 
- - `smedia:error` - (bubbles) fires when API is initialized with error
- - `smedia:ready` - (bubbles) fires when API is ready
- - `smedia:play` - (bubbles) fires when esl-media starts playing
- - `smedia:paused` - (bubbles) fires when esl-media is paused
- - `smedia:ended` - (bubbles) fires when esl-media ends
- - `smedia:detach` - (bubbles) fires after esl-media provider is detached (reinitialized / disconnected from the DOM)
- - `smedia:mangedpause` - (bubbles) fires when media paused by esl-media group restriction manager
+ - `esl:media:error` - (bubbles) fires when API is initialized with error
+ - `esl:media:ready` - (bubbles) fires when API is ready
+ - `esl:media:play` - (bubbles) fires when esl-media starts playing
+ - `esl:media:paused` - (bubbles) fires when esl-media is paused
+ - `esl:media:ended` - (bubbles) fires when esl-media ends
+ - `esl:media:detach` - (bubbles) fires after esl-media provider is detached (reinitialized / disconnected from the DOM)
+ - `esl:media:mangedpause` - (bubbles) fires when media paused by esl-media group restriction manager
  
 ### Examples:
 ```html
@@ -87,7 +87,7 @@ using a single tag as well as work with external providers using simple native-l
      media-type="youtube"
      media-id="##MEDIAID##"
      title="Video Title"     
-     [disabled]    
-     [group="mediaGroup"]
+     [ disabled ]    
+     [ group="mediaGroup" ]
 ></esl-media-embedded>
 ```

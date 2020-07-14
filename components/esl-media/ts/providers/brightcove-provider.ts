@@ -26,6 +26,8 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 		return 'brightcove';
 	}
 
+	static videojsClasses = 'video-js vjs-default-skin video-js-brightcove';
+
 	protected _api: VideoJsPlayer;
 	protected _account: BCPlayerAccount;
 
@@ -57,8 +59,10 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	 */
 	protected static buildVideo(sm: ESLMedia, account: BCPlayerAccount) {
 		const el = document.createElement('video');
-		el.id = 'smedia-brightcove-' + generateUId();
-		el.className = 'smedia-inner smedia-brightcove video-js vjs-default-skin video-js-brightcove';
+		const provider = this.constructor as typeof BrightcoveProvider;
+
+		el.id = 'esl-media-brightcove-' + generateUId();
+		el.className = 'esl-media-inner esl-media-brightcove ' + provider.videojsClasses;
 		el.title = sm.title;
 		el.loop = sm.loop;
 		el.muted = sm.muted;
@@ -126,7 +130,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 			this._api.dispose();
 			this._api = null;
 		}
-		const embedded = this.component.querySelectorAll('.smedia-brightcove');
+		const embedded = this.component.querySelectorAll('.esl-media-brightcove');
 		Array.from(embedded || []).forEach((el: Node) => el.parentNode.removeChild(el));
 	}
 

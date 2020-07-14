@@ -16,8 +16,8 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 
 	protected static buildIframe(sm: ESLMedia) {
 		const el = document.createElement('iframe');
-		el.id = 'smedia-iframe-' + generateUId();
-		el.className = 'smedia-inner smedia-iframe';
+		el.id = 'esl-media-iframe-' + generateUId();
+		el.className = 'esl-media-inner esl-media-iframe';
 		el.title = sm.title;
 		el.setAttribute('aria-label', sm.title);
 		el.setAttribute('frameborder', '0');

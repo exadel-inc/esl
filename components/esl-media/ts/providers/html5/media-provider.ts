@@ -8,7 +8,7 @@ import {BaseProvider, PlayerStates} from '../../esl-media-provider';
 
 export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends BaseProvider<T> {
 	protected static applyElementSettings(el: HTMLMediaElement, sm: ESLMedia) {
-		el.classList.add('smedia-inner');
+		el.classList.add('esl-media-inner');
 		el.autoplay = sm.autoplay;
 		el.preload = sm.preload;
 		el.loop = sm.loop;
