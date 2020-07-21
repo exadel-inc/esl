@@ -9,8 +9,9 @@ ESL.Media.register();
 
 ESL.Popup.register();
 ESL.Collapsible.register();
-ESL.Trigger.register();
 ESL.TabPanel.register();
+ESL.TriggersContainer.register();
+ESL.Trigger.register();
 
 ESL.Scrollbar.register();
 

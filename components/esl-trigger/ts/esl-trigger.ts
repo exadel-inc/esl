@@ -1,26 +1,32 @@
-import { ExportNs } from '../../esl-utils/enviroment/export-ns';
-import { ESLBaseElement, attr } from '../../esl-base-element/esl-base-element';
-import { DeviceDetector } from '../../esl-utils/enviroment/device-detector';
-import { ESLPopup } from '../../esl-popup/esl-popup';
-import { findTarget } from '../../esl-utils/dom/traversing';
-import type { NoopFnSignature } from '../../esl-utils/misc/functions';
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
+import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
+import {ESLPopup} from '../../esl-popup/esl-popup';
+import {findTarget} from '../../esl-utils/dom/traversing';
+import type {NoopFnSignature} from '../../esl-utils/misc/functions';
+import ESLTriggersContainer from "./esl-triggers-container";
+import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ENTER, SPACE, TAB} from "../../esl-utils/dom/keycodes";
+
+type GroupTarget = 'next' | 'previous' | 'active';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
   public static is = 'esl-trigger';
-    public static eventNs = 'esl:trigger';
+  public static eventNs = 'esl:trigger';
 
-    static get observedAttributes() {
+  static get observedAttributes() {
     return ['target', 'event', 'mode', 'active'];
   }
 
   // Markers
-  @attr({conditional: true}) protected active: boolean;
+  @attr({conditional: true}) public active: boolean;
 
   // Main setting
-  @attr({defaultValue: 'next'}) protected target: string;
-  @attr({defaultValue: 'click'}) protected event: string;
-  @attr({defaultValue: 'toggle'}) protected mode: string;
+  @attr({defaultValue: 'next'}) public target: string;
+  @attr({defaultValue: 'click'}) public event: string;
+  @attr({defaultValue: 'toggle'}) public mode: string;
+  @attr({defaultValue: ''}) public a11yTarget: string;
+  @attr({defaultValue: ''}) public activeClass: string;
 
   // Common properties
   @attr({}) protected showDelay: string;
@@ -54,6 +60,14 @@ export class ESLTrigger extends ESLBaseElement {
     this.unbindEvents();
   }
 
+  public get a11yRole() {
+    if (this.hasAttribute('a11y-role')) {
+      return this.getAttribute('a11y-role');
+    }
+    const container = this.container;
+    return container ? container.a11yRole : 'button';
+  }
+
   public get popup() {
     return this._popup;
   }
@@ -61,10 +75,15 @@ export class ESLTrigger extends ESLBaseElement {
     this.unbindEvents();
     this._popup = newPopupInstance;
     if (this._popup) {
-      this.active = this._popup.open;
       this.bindEvents();
+      this.onPopupStateChanged();
     }
   }
+
+  public get container() {
+    return this.closest(ESLTriggersContainer.is) as ESLTriggersContainer;
+  }
+
   protected updatePopupFromTarget() {
     if (!this.target) return;
     this.popup = findTarget(this.target, this) as ESLPopup;
@@ -77,6 +96,7 @@ export class ESLTrigger extends ESLBaseElement {
     }
     return this.event;
   }
+
   public get hideEvent() {
     if (this.mode === 'show') return null;
     if (this.event === 'hover') {
@@ -96,13 +116,18 @@ export class ESLTrigger extends ESLBaseElement {
     }
     const popupClass = this._popup.constructor as typeof ESLPopup;
     this.popup.addEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
+
+    this.addEventListener('keydown', this.onKeydown);
   }
+
   protected unbindEvents() {
     (this.__unsubscribers || []).forEach((off) => off());
     if (!this.popup) return;
     const popupClass = this._popup.constructor as typeof ESLPopup;
     this.popup.removeEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
+    this.removeEventListener('keydown', this.onKeydown);
   }
+
   protected attachEventListener(eventName: string, callback: (e: Event) => void) {
     if (!eventName) return;
     this.addEventListener(eventName, callback);
@@ -128,6 +153,8 @@ export class ESLTrigger extends ESLBaseElement {
   protected onToggleEvent = (e: Event) => (this.active ? this.onHideEvent : this.onShowEvent)(e);
   protected onPopupStateChanged = () => {
     this.active = this.popup.open;
+    this.activeClass && this.classList.toggle(this.activeClass, this.active);
+    this.updateA11y();
   };
 
   protected stopEventPropagation(e: Event) {
@@ -140,9 +167,61 @@ export class ESLTrigger extends ESLBaseElement {
     const showDelay = DeviceDetector.isTouchDevice ? +this.touchShowDelay : +this.showDelay;
     return isNaN(showDelay) ? undefined : showDelay;
   }
+
   protected get hideDelayValue() {
     const hideDelay = DeviceDetector.isTouchDevice ? +this.touchHideDelay : +this.hideDelay;
     return isNaN(hideDelay) ? undefined : hideDelay;
+  }
+
+  protected onKeydown = (e: KeyboardEvent) => {
+    switch (e.which || e.keyCode) {
+      case ENTER:
+      case SPACE:
+        this.click();
+        e.preventDefault();
+        break;
+      case ARROW_UP:
+      case ARROW_LEFT:
+        this.moveInGroup('previous', this.a11yRole === 'tab');
+        e.preventDefault();
+        break;
+      case ARROW_DOWN:
+      case ARROW_RIGHT:
+        this.moveInGroup('next', this.a11yRole === 'tab');
+        e.preventDefault();
+        break;
+    }
+  };
+
+  public moveInGroup(target: GroupTarget, activate = false) {
+    const container = this.container;
+    if (!container) return false;
+    const targetEl =  container[target](this);
+    if (!targetEl) return false;
+    targetEl.focus();
+    activate && targetEl.click();
+  }
+
+  protected updateA11y() {
+    const target = this.$a11yTarget;
+    switch (this.a11yRole) {
+      case 'tab':
+        target.setAttribute('aria-selected', this.active ? 'true' : 'false');
+        target.setAttribute('tabindex', this.active ? '0' : '-1');
+        break;
+      default:
+        target.setAttribute('aria-expanded', this.active ? 'true' : 'false');
+        break;
+    }
+
+    // TODO: auto generate
+    if (this.popup.id) {
+      this.setAttribute('aria-controls', this.popup.id);
+    }
+  }
+
+  protected get $a11yTarget() {
+    return this.a11yTarget ? this.querySelector(this.a11yTarget) : this;
   }
 }
 
