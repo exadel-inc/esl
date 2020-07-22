@@ -177,6 +177,7 @@ export class ESLPopup extends ESLBaseElement {
 		this.dispatchCustomEvent('statechange', {
 			detail: { open: this._open }
 		});
+        if (this._open) this.dispatchCustomEvent('esl:refresh', {bubbles: true}, false);
 	}
 
 	protected onClick = (e: Event) => {

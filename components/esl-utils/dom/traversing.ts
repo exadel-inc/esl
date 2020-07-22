@@ -62,3 +62,19 @@ export function findTarget(query: string, current: HTMLElement, multiple = false
 		return SELECTORS[name](base, sel, multiple);
 	}, initialEl);
 }
+
+/**
+ * Find parent element
+ * */
+export  function isParent (parent: Node, child: Node) {
+    let current = child;
+    while (current) {
+        if (current === parent) return true;
+        current = current.parentNode;
+    }
+    return false;
+}
+
+export  function isRelative (nodeA: Node, nodeB: Node) {
+    return isParent(nodeA, nodeB) || isParent(nodeB, nodeA)
+}

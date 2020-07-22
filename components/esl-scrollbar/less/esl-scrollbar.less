@@ -46,6 +46,7 @@
         height: 33.33%;
       }
     }
+
     &[direction="horizontal"] {
       left: 0;
       right: 0;
@@ -64,19 +65,23 @@
         width: 33.33%;
       }
     }
+
+    &.animate[direction="vertical"] {
+      .scrollbar-thumb {
+        transition: ease-out 0.2s;
+      }
+    }
   }
 }
 
-.esl-scrollable-content-init() {
-  .esl-scrollable-content {
-    overflow: auto;
+.esl-scrollable-content {
+  overflow: auto;
 
-    // hide-scrollbar
-    &::-webkit-scrollbar {
-      display: none; // Chrome, Safari
-    }
-
-    scrollbar-width: none; // Firefox
-    -ms-overflow-style: none; // IE, Edge
+  // hide-scrollbar
+  &::-webkit-scrollbar {
+    display: none; // Chrome, Safari
   }
+
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // IE, Edge
 }

@@ -4,8 +4,9 @@
  * @author Yuliya Adamskaya
  */
 import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
-import {findTarget} from '../../esl-utils/dom/traversing';
+import {findTarget, isRelative} from '../../esl-utils/dom/traversing';
 import {rafDecorator} from '../../esl-utils/async/raf';
+import {normalizeCoordinates} from '../../esl-utils/dom/events';
 
 export class ESLScrollbar extends ESLBaseElement {
     public static is = 'esl-scrollbar';
@@ -84,8 +85,8 @@ export class ESLScrollbar extends ESLBaseElement {
     protected bindEvents() {
         this.addEventListener('click', this.onClick);
         this.$scrollbarThumb.addEventListener('mousedown', this.onMouseDown);
-
         window.addEventListener('resize', this.onResize, {passive: true});
+        window.addEventListener('esl:refresh', this.onRefresh);
     }
 
     protected unbindEvents() {
@@ -93,36 +94,45 @@ export class ESLScrollbar extends ESLBaseElement {
         this.$scrollbarThumb.removeEventListener('mousedown', this.onMouseDown);
 
         window.removeEventListener('resize', this.onResize);
+        window.removeEventListener('esl:refresh', this.onRefresh);
 
-        this.$scrollableContent.removeEventListener('scroll', this.onScroll);
+        this.targetElement.removeEventListener('scroll', this.onScroll);
     }
 
     public isHorizontal() {
         return this.direction === 'horizontal';
     }
 
+    public get trackOffset() {
+        return this.isHorizontal() ? this.$scrollbarTrack.offsetWidth : this.$scrollbarTrack.offsetHeight;
+    }
+
+    public get thumbOffset() {
+        return this.isHorizontal() ? this.$scrollbarThumb.offsetWidth : this.$scrollbarThumb.offsetHeight;
+    }
+
     public get thumbSize() {
         // behave as native scroll
-        if (!this.$scrollableContent) return 1;
-        return this.isHorizontal() ? this.$scrollableContent.offsetWidth / this.$scrollableContent.scrollWidth : this.$scrollableContent.offsetHeight / this.$scrollableContent.scrollHeight;
+        if (!this.targetElement || !this.targetElement.scrollWidth || !this.targetElement.scrollHeight) return 1;
+        return this.isHorizontal() ? this.targetElement.offsetWidth / this.targetElement.scrollWidth : this.targetElement.offsetHeight / this.targetElement.scrollHeight;
     }
 
     public get position() {
-        if (!this.$scrollableContent) return 0;
+        if (!this.targetElement) return 0;
         if (this.isHorizontal()) {
-            const scrollableWidth = this.$scrollableContent.scrollWidth - this.$scrollableContent.offsetWidth;
-            return scrollableWidth ? (this.$scrollableContent.scrollLeft / scrollableWidth) : 0;
+            const scrollableWidth = this.targetElement.scrollWidth - this.targetElement.offsetWidth;
+            return scrollableWidth ? (this.targetElement.scrollLeft / scrollableWidth) : 0;
         }
-        const scrollableHeight = this.$scrollableContent.scrollHeight - this.$scrollableContent.offsetHeight;
-        return scrollableHeight ? (this.$scrollableContent.scrollTop / scrollableHeight) : 0;
+        const scrollableHeight = this.targetElement.scrollHeight - this.targetElement.offsetHeight;
+        return scrollableHeight ? (this.targetElement.scrollTop / scrollableHeight) : 0;
     }
 
     public set position(position) {
         const normalizedPosition = Math.min(1, Math.max(0, position));
         if (this.isHorizontal()) {
-            this.$scrollableContent.scrollLeft = (this.$scrollableContent.scrollWidth - this.$scrollableContent.offsetWidth) * normalizedPosition;
+            this.targetElement.scrollLeft = (this.targetElement.scrollWidth - this.targetElement.offsetWidth) * normalizedPosition;
         } else {
-            this.$scrollableContent.scrollTop = (this.$scrollableContent.scrollHeight - this.$scrollableContent.offsetHeight) * normalizedPosition;
+            this.targetElement.scrollTop = (this.targetElement.scrollHeight - this.targetElement.offsetHeight) * normalizedPosition;
         }
         this.update();
     }
@@ -132,9 +142,8 @@ export class ESLScrollbar extends ESLBaseElement {
      */
     public update() {
         if (!this.$scrollbarThumb || !this.$scrollbarTrack) return;
-        const trackSize = this.isHorizontal() ? this.$scrollbarTrack.offsetWidth : this.$scrollbarTrack.offsetHeight;
-        const thumbSize = trackSize * this.thumbSize;
-        const thumb = (trackSize - thumbSize) * this.position;
+        const thumbSize = this.trackOffset * this.thumbSize;
+        const thumb = (this.trackOffset - thumbSize) * this.position;
         if (this.isHorizontal()) {
 
             this.$scrollbarThumb.style.left = `${thumb}px`;
@@ -189,7 +198,7 @@ export class ESLScrollbar extends ESLBaseElement {
         if (!this.dragging) return;
 
         const positionChange = this.isHorizontal() ? event.clientX - this._initialMousePosition : event.clientY - this._initialMousePosition;
-        const scrollableAreaHeight = this.isHorizontal() ? this.$scrollbarTrack.offsetWidth - this.$scrollbarThumb.offsetWidth : this.$scrollbarTrack.offsetHeight - this.$scrollbarThumb.offsetHeight;
+        const scrollableAreaHeight = this.trackOffset - this.thumbOffset;
         const absChange = scrollableAreaHeight ? (positionChange / scrollableAreaHeight) : 0;
         this.position = this._initialPosition + absChange;
 
@@ -224,10 +233,15 @@ export class ESLScrollbar extends ESLBaseElement {
     protected onClick = (event: MouseEvent) => {
         if (event.target !== this.$scrollbarTrack) return;
 
-        const thumb = this.isHorizontal() ? this.$scrollbarThumb.offsetWidth : this.$scrollbarThumb.offsetHeight;
-        const trackOffset = this.isHorizontal() ? this.$scrollbarTrack.getBoundingClientRect().left + window.pageXOffset : this.$scrollbarTrack.getBoundingClientRect().top + window.pageYOffset;
-        const positionChange = this.isHorizontal() ? event.pageX - trackOffset - thumb / 2 : event.pageY - trackOffset - thumb / 2;
-        this.position = this.isHorizontal() ? positionChange / (this.$scrollbarTrack.offsetWidth - thumb) : positionChange / (this.$scrollbarTrack.offsetHeight - thumb);
+        const clickCoordinates = normalizeCoordinates(event, this.$scrollbarTrack);
+        const clickPosition = this.isHorizontal() ? clickCoordinates.x : clickCoordinates.y;
+
+        const freeTrackArea = this.trackOffset - this.thumbOffset; // px
+        const clickPositionNoOffset = clickPosition - this.thumbOffset / 2;
+        const newPosition = clickPositionNoOffset / freeTrackArea;  // abs % to track
+
+        this.position = Math.min(this.position + this.thumbSize,
+            Math.max(this.position - this.thumbSize, newPosition));
     };
 
     /**
@@ -241,6 +255,11 @@ export class ESLScrollbar extends ESLBaseElement {
      * Handler for document resize events to redraw scroll.
      */
     protected onResize = rafDecorator(() => this.refresh());
+
+    private onRefresh = (event: Event) => {
+        const target = event.target as HTMLElement;
+        if (isRelative(target.parentNode, this.targetElement)) this.refresh();
+    }
 }
 
 export default ESLScrollbar;
