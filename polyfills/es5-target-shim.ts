@@ -1,40 +1,20 @@
-/**
- * Shim based on https://github.com/webcomponents/custom-elements/blob/master/src/native-shim.js
- *
- * This shim allows elements written in, or compiled to, ES5 to work on native
- * implementations of Custom Elements.
- *
- * There are some restrictions and requirements on ES5 constructors:
- *   1. All constructors in a inheritance hierarchy must be ES5-style, so that
- *      they can be called with Function.call(). This effectively means that the
- *      whole application must be compiled to ES5.
- *   2. Constructors must return the value of the emulated super() call. Like
- *      `return SuperClass.call(this)`
- *   3. The `this` reference should not be used before the emulated super() call
- *      just like `this` is illegal to use before super() in ES6.
- *   4. Constructors should not create other custom elements before the emulated
- *      super() call. This is the same restriction as with native custom
- *      elements.
- *   5. Code inside of eval mustn't be compiled to ES5 syntax
- *
- *  Compiling valid class-based custom elements to ES5 will satisfy these
- *  requirements with the latest version of popular transpilers.
- */
-if ('customElements' in window && !(window as any).es5HTMLElementInheritanceShim) {
-  try {
-    eval('(()=>{\'use strict\';const a=window.HTMLElement,b=window.customElements.define,' +
-      'c=window.customElements.get,d=new Map,e=new Map;let f=!1,g=!1;window.HTMLElement=function(){if(!f){' +
-      'const j=d.get(this.constructor),k=c.call(window.customElements,j);g=!0;const l=new k;return l}f=!1},' +
-      'window.HTMLElement.prototype=a.prototype;Object.defineProperty(window,\'customElements\',' +
-      '{value:window.customElements,configurable:!0,writable:!0}),Object.defineProperty(window.customElements,' +
-      '\'define\',{value:(j,k)=>{const l=k.prototype,m=class extends a{constructor(){super(),Object.setPrototypeOf(this,l),' +
-      'g||(f=!0,k.call(this)),g=!1}},n=m.prototype;m.observedAttributes=k.observedAttributes,' +
-      'n.connectedCallback=l.connectedCallback,n.disconnectedCallback=l.disconnectedCallback,' +
-      'n.attributeChangedCallback=l.attributeChangedCallback,n.adoptedCallback=l.adoptedCallback,d.set(k,j),' +
-      'e.set(j,k),b.call(window.customElements,j,m)},configurable:!0,writable:!0}),Object.defineProperty(' +
-      'window.customElements,\'get\',{value:j=>e.get(j),configurable:!0,writable:!0})})();');
-    (window as any).es5HTMLElementInheritanceShim = true;
-  } catch (e) {
-    //
-  }
-}
+// Shim for modern browsers with ES6 class syntax support
+// Shim based on https://github.com/webcomponents/polyfills/blob/master/packages/custom-elements/ts_src/custom-elements.ts
+(function (BuiltInHTMLElement) {
+	if (
+		// No Reflect, no classes, no need for shim because native custom elements require ES2015 classes or Reflect.
+		window.Reflect === undefined || window.customElements === undefined ||
+		// The webcomponentsjs custom elements polyfill doesn't require ES2015-compatible construction (`super()` or `Reflect.construct`).
+		(window.customElements as any).polyfillWrapFlushCallback) {
+		return;
+	}
+
+	Object.defineProperty(window, 'HTMLElement', {
+		value: function HTMLElement() {
+			return Reflect.construct(BuiltInHTMLElement, [], this.constructor);
+		}
+	});
+	HTMLElement.prototype = BuiltInHTMLElement.prototype;
+	HTMLElement.prototype.constructor = HTMLElement;
+	Object.setPrototypeOf(HTMLElement, BuiltInHTMLElement);
+})(HTMLElement);

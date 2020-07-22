@@ -3,11 +3,13 @@
  * @version 1.1.0
  * @author Yuliya Adamskaya
  */
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
 import {findTarget, isRelative} from '../../esl-utils/dom/traversing';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {normalizeCoordinates} from '../../esl-utils/dom/events';
 
+@ExportNs('Scrollbar')
 export class ESLScrollbar extends ESLBaseElement {
     public static is = 'esl-scrollbar';
     public static eventNs = 'esl:scrollbar';

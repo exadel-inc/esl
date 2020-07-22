@@ -57,8 +57,8 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
 
     protected static buildIframe(sm: ESLMedia) {
         const el = document.createElement('div');
-        el.id = 'smedia-yt-' + generateUId();
-        el.className = 'smedia-inner smedia-youtube';
+        el.id = 'esl-media-yt-' + generateUId();
+        el.className = 'esl-media-inner esl-media-youtube';
         el.title = sm.title;
         el.setAttribute('aria-label', el.title);
         el.setAttribute('frameborder', '0');
@@ -101,7 +101,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
             this._api.destroy();
             this._api = null;
         }
-        const embedded = this.component.querySelectorAll('.smedia-youtube');
+        const embedded = this.component.querySelectorAll('.esl-media-youtube');
         Array.from(embedded || []).forEach((el: Node) => el.parentNode.removeChild(el));
     }
 

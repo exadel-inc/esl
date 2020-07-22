@@ -1,3 +1,5 @@
+import {ExportNs} from './export-ns';
+
 const ua = window.navigator.userAgent;
 const vendor = window.navigator.vendor;
 
@@ -5,6 +7,7 @@ const vendor = window.navigator.vendor;
  * Device detection utility
  * @readonly
  */
+@ExportNs('DeviceDetector')
 export abstract class DeviceDetector {
 	// IE Detection
 	public static readonly isTrident = /trident/i.test(ua);

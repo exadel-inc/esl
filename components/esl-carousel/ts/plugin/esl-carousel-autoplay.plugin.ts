@@ -1,3 +1,4 @@
+import {ExportNs} from '../../../esl-utils/enviroment/export-ns';
 import {attr} from '../../../esl-base-element/esl-base-element';
 import ESLCarouselPlugin from './esl-carousel-plugin';
 
@@ -7,6 +8,7 @@ import ESLCarouselPlugin from './esl-carousel-plugin';
  *
  * @author Alexey Stsefanovich (ala'n)
  */
+@ExportNs('CarouselPlugins.Autoplay')
 export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
 	public static is = 'esl-carousel-autoplay-plugin';
 

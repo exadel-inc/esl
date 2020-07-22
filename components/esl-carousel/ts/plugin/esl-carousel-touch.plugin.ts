@@ -1,3 +1,4 @@
+import {ExportNs} from '../../../esl-utils/enviroment/export-ns';
 import ESLCarouselPlugin from './esl-carousel-plugin';
 import {DeviceDetector} from '../../../esl-utils/enviroment/device-detector';
 import {normalizeTouchPoint, Point} from '../../../esl-utils/dom/events';
@@ -5,6 +6,7 @@ import {normalizeTouchPoint, Point} from '../../../esl-utils/dom/events';
 /**
  * Slide Carousel Touch plugin
  */
+@ExportNs('CarouselPlugins.Touch')
 export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
 	public static is = 'esl-carousel-touch-plugin';
 

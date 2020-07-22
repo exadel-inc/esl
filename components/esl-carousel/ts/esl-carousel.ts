@@ -1,3 +1,4 @@
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
 import {deepCompare} from '../../esl-utils/misc/compare';
 import ESLMediaRuleList from '../../esl-utils/conditions/esl-media-rule-list';
@@ -12,7 +13,10 @@ interface CarouselConfig { // Registry
 }
 
 // TODO: add ability to choose the number of an active slide
+@ExportNs('Carousel')
 export class ESLCarousel extends ESLBaseElement {
+	public static Slide = ESLCarouselSlide;
+
 	public static is = 'esl-carousel';
 	public static eventNs = 'esl:carousel';
 
@@ -96,6 +100,7 @@ export class ESLCarousel extends ESLBaseElement {
 		if (!direction) {
 			// calculate and compare how much slides we have to go due to direction (left or right)
 			// choose less
+			// TODO: optimize
 			if (nextIndex > this.firstIndex) {
 				direction = nextIndex - this.firstIndex > (this.firstIndex - nextIndex + this.count) % this.count ? 'left' : 'right';
 			} else {

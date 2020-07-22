@@ -5,7 +5,7 @@
     "custom elements",
     "component library"
   ],
-  "version": "1.15.3-alpha",
+  "version": "1.17.1-alpha",
   "private": true,
   "homepage": "https://gitlab.exadel.com/EDMTP/smart-wc-library#readme",
   "license": "MIT",
@@ -17,12 +17,11 @@
   "scripts": {
     "watch": "gulp watch",
     "build": "gulp build",
-    "build-granular": "gulp build-granular",
-    "local-serv": "npm run build && npm run local-serv-build && npm run local-serv-quick",
-    "local-serv-build": "gulp build-local",
-    "local-serv-quick": "cd test-server && node server.js",
-    "local-serv-watch": "npm run local-serv | npm run watch",
-    "prepare": "npm run build -- --fast && npm run build-granular -- --fast"
+    "prepare": "gulp prepare --fast",
+    "local-serv": "npm run build && npm run local-serv-build && npm run local-serv-start",
+    "local-serv-start": "cd test-server && node server.js",
+    "local-serv-build": "gulp buildLocal",
+    "local-serv-watch": "npm run local-serv | npm run watch"
   },
   "files": [
     "src/**/*",
@@ -39,13 +38,13 @@
     "@types/youtube": "0.0.39"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^3.4.0",
-    "@typescript-eslint/parser": "^3.4.0",
+    "@typescript-eslint/eslint-plugin": "^3.6.0",
+    "@typescript-eslint/parser": "^3.6.0",
     "@webcomponents/custom-elements": "^1.4.1",
     "@webcomponents/webcomponents-platform": "^1.0.1",
-    "autoprefixer": "^9.7.4",
+    "autoprefixer": "^9.8.4",
     "cssnano": "^4.1.10",
-    "eslint": "^7.3.1",
+    "eslint": "^7.4.0",
     "eslint-loader": "^4.0.2",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
@@ -56,13 +55,13 @@
     "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^5.0.1",
-    "intersection-observer": "^0.10.0",
+    "intersection-observer": "^0.11.0",
     "promise-polyfill": "^8.1.3",
-    "ts-loader": "^7.0.5",
-    "typescript": "^3.8.2",
+    "ts-loader": "^8.0.0",
+    "typescript": "^3.9.6",
     "ui-project-server": "./test-server/edmtp-modules/ui-project-server.tar",
     "vinyl-named": "^1.1.0",
-    "webpack": "^4.42.0",
+    "webpack": "^4.43.0",
     "webpack-stream": "^5.2.1"
   }
 }
