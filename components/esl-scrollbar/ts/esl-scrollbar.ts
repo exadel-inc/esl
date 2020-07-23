@@ -131,10 +131,18 @@ export class ESLScrollbar extends ESLBaseElement {
 
     public set position(position) {
         const normalizedPosition = Math.min(1, Math.max(0, position));
-        if (this.isHorizontal()) {
-            this.targetElement.scrollLeft = (this.targetElement.scrollWidth - this.targetElement.offsetWidth) * normalizedPosition;
-        } else {
-            this.targetElement.scrollTop = (this.targetElement.scrollHeight - this.targetElement.offsetHeight) * normalizedPosition;
+        if (this.dragging) { // Mousemove event
+            if (this.isHorizontal()) {
+                this.targetElement.scrollLeft = (this.targetElement.scrollWidth - this.targetElement.offsetWidth) * normalizedPosition;
+            } else {
+                this.targetElement.scrollTop = (this.targetElement.scrollHeight - this.targetElement.offsetHeight) * normalizedPosition;
+            }
+        } else { // Click event
+            this.$scrollableContent.scrollTo({
+                top: this.isHorizontal() ? 0 : (this.targetElement.scrollHeight - this.targetElement.offsetHeight) * normalizedPosition,
+                left: this.isHorizontal() ? (this.targetElement.scrollWidth - this.targetElement.offsetWidth) * normalizedPosition : 0,
+                behavior: 'smooth',
+            });
         }
         this.update();
     }
@@ -147,7 +155,6 @@ export class ESLScrollbar extends ESLBaseElement {
         const thumbSize = this.trackOffset * this.thumbSize;
         const thumb = (this.trackOffset - thumbSize) * this.position;
         if (this.isHorizontal()) {
-
             this.$scrollbarThumb.style.left = `${thumb}px`;
             this.$scrollbarThumb.style.width = `${thumbSize}px`;
         } else {
@@ -234,7 +241,6 @@ export class ESLScrollbar extends ESLBaseElement {
      */
     protected onClick = (event: MouseEvent) => {
         if (event.target !== this.$scrollbarTrack) return;
-
         const clickCoordinates = normalizeCoordinates(event, this.$scrollbarTrack);
         const clickPosition = this.isHorizontal() ? clickCoordinates.x : clickCoordinates.y;
 
