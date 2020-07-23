@@ -4,10 +4,10 @@ import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {ESLPopup} from '../../esl-popup/esl-popup';
 import {findTarget} from '../../esl-utils/dom/traversing';
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
-import ESLTriggersContainer from "./esl-triggers-container";
-import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ENTER, SPACE, TAB} from "../../esl-utils/dom/keycodes";
+import ESLTriggersContainer from './esl-triggers-container';
+import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ENTER, SPACE, TAB} from '../../esl-utils/dom/keycodes';
 
-type GroupTarget = 'next' | 'previous' | 'active';
+export type GroupTarget = 'next' | 'previous' | 'active';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
@@ -29,10 +29,10 @@ export class ESLTrigger extends ESLBaseElement {
   @attr({defaultValue: ''}) public activeClass: string;
 
   // Common properties
-  @attr({}) protected showDelay: string;
-  @attr({}) protected hideDelay: string;
-  @attr({}) protected touchShowDelay: string;
-  @attr({}) protected touchHideDelay: string;
+  @attr({}) public showDelay: string;
+  @attr({}) public hideDelay: string;
+  @attr({}) public touchShowDelay: string;
+  @attr({}) public touchHideDelay: string;
 
   protected _popup: ESLPopup;
   protected __unsubscribers: NoopFnSignature[];
@@ -80,8 +80,8 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
 
-  public get container() {
-    return this.closest(ESLTriggersContainer.is) as ESLTriggersContainer;
+  public get container(): ESLTriggersContainer {
+    return this.closest(ESLTriggersContainer.is);
   }
 
   protected updatePopupFromTarget() {
@@ -206,11 +206,11 @@ export class ESLTrigger extends ESLBaseElement {
     const target = this.$a11yTarget;
     switch (this.a11yRole) {
       case 'tab':
-        target.setAttribute('aria-selected', this.active ? 'true' : 'false');
+        target.setAttribute('aria-selected', String(this.active));
         target.setAttribute('tabindex', this.active ? '0' : '-1');
         break;
       default:
-        target.setAttribute('aria-expanded', this.active ? 'true' : 'false');
+        target.setAttribute('aria-expanded',  String(this.active));
         break;
     }
 
