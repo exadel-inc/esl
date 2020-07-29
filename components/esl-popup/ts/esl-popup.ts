@@ -5,6 +5,7 @@ import PopupManager from './esl-popup-manager';
 import {SingleTaskManager} from '../../esl-utils/async/single-task-manager';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {defined} from '../../esl-utils/misc/compare';
+import {ScrollUtility} from '../../esl-utils/dom/scroll';
 
 export interface PopupActionParams {
 	initiator?: string;
@@ -41,7 +42,8 @@ export class ESLPopup extends ESLBaseElement {
 	@attr() public closeButton: string;
 
 	@attr({conditional: true}) public disableA11y: boolean;
-	@attr({conditional: true}) public closeOnEsc: boolean;
+    @attr({conditional: true}) public disableScroll: boolean;
+    @attr({conditional: true}) public closeOnEsc: boolean;
 	@attr({conditional: true}) public closeOnBodyClick: boolean;
 
 	@attr({conditional: true}) public open: boolean;
@@ -160,6 +162,7 @@ export class ESLPopup extends ESLBaseElement {
 		(!this.disableA11y) && this.setAttribute('aria-hidden', 'false');
         this.activeClass && this.classList.add(this.activeClass);
         this.bodyClass && document.body.classList.add(this.bodyClass);
+        this.disableScroll && ScrollUtility.toggleScroll(false);
 
 		if (!params.silent) this.fireStateChange();
 	}
@@ -171,8 +174,9 @@ export class ESLPopup extends ESLBaseElement {
 		(!this.disableA11y) && this.setAttribute('aria-hidden', 'true');
         this.activeClass && this.classList.remove(this.activeClass);
         this.bodyClass && document.body.classList.remove(this.bodyClass);
+        this.disableScroll && ScrollUtility.toggleScroll(true);
 
-		if (!params.silent) this.fireStateChange();
+        if (!params.silent) this.fireStateChange();
 	}
 
 	protected fireStateChange() {
