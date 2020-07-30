@@ -1,0 +1,37 @@
+html.esl-disable-scroll {
+  // Simple scroll blocking
+  body {
+    overflow: hidden !important;
+  }
+
+  // Shows page scroll
+  &.esl-native-scroll {
+    overflow-y: scroll !important;
+
+    body {
+      max-height: 100vh !important;
+    }
+  }
+
+  // Show native like scroll in the content of the page
+  &.esl-pseudo-scroll {
+    display: flex !important;
+    align-items: stretch !important;
+
+    body {
+      flex: 1 1 auto !important;
+      max-height: 100vh !important;
+    }
+
+    &::after {
+      content: '';
+      overflow-y: scroll;
+      flex: 0 0 auto;
+    }
+
+    // hide analytics utilities
+    & > img {
+      flex: 0 1 auto !important;
+    }
+  }
+}
