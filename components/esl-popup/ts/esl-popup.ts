@@ -176,7 +176,8 @@ export class ESLPopup extends ESLBaseElement {
 
 	protected fireStateChange() {
 		this.dispatchCustomEvent('statechange', {
-			detail: { open: this._open }
+			detail: { open: this._open },
+      bubbles: true
 		});
 	}
 

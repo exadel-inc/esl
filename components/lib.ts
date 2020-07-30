@@ -13,6 +13,7 @@ import type {ESLCarouselDotsPlugin} from './esl-carousel/ts/plugin/esl-carousel-
 import type {ESLCarouselLinkPlugin} from './esl-carousel/ts/plugin/esl-carousel-link.plugin';
 import type {ESLCarouselTouchPlugin} from './esl-carousel/ts/plugin/esl-carousel-touch.plugin';
 import type {ESLCarouselAutoplayPlugin} from './esl-carousel/ts/plugin/esl-carousel-autoplay.plugin';
+import type {ESLTriggersContainer} from "./esl-trigger/ts/esl-triggers-container";
 
 // Define global namespace
 if (!('ESL' in window)) {
@@ -33,6 +34,7 @@ declare global {
 		Trigger?: typeof ESLTrigger;
 		Collapsible?: typeof ESLCollapsible;
 		TabPanel?: typeof ESLTabPanel;
+    TriggersContainer?: typeof ESLTriggersContainer;
 
 		Scrollbar?: typeof ESLScrollbar;
 
