@@ -1,9 +1,7 @@
 import ESLPopup, {PopupActionParams} from './esl-popup';
 import Group from './esl-popup-manager-group';
 
-const closeOnBodyClickPopups = new Set<ESLPopup>();
 const groups = new Map<string, Group>();
-let hasCloseOnBodyClickHandler = false;
 
 abstract class PopupManager {
 
@@ -40,36 +38,6 @@ abstract class PopupManager {
             return group.openedPopup;
         }
         return null;
-    }
-
-    public static registerCloseOnBodyClickPopup(popup: ESLPopup) {
-        if (popup.closeOnBodyClick) {
-            closeOnBodyClickPopups.add(popup);
-            PopupManager.updateCloseOnBodyClickHandler();
-        }
-    }
-
-    public static removeCloseOnBodyClickPopup(popup: ESLPopup) {
-        closeOnBodyClickPopups.delete(popup);
-        PopupManager.updateCloseOnBodyClickHandler();
-    }
-
-    private static updateCloseOnBodyClickHandler() {
-        if (closeOnBodyClickPopups.size > 0) {
-            if (!hasCloseOnBodyClickHandler) {
-                document.addEventListener('click', PopupManager.closeOnBodyClickHandler);
-                hasCloseOnBodyClickHandler = true;
-            }
-        } else {
-            if (hasCloseOnBodyClickHandler) {
-                document.removeEventListener('click', PopupManager.closeOnBodyClickHandler);
-                hasCloseOnBodyClickHandler = false;
-            }
-        }
-    }
-
-    private static closeOnBodyClickHandler() {
-        closeOnBodyClickPopups.forEach((popup) => popup.hide());
     }
 }
 

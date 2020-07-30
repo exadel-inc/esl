@@ -19,6 +19,8 @@ export interface PopupActionParams {
     nextPopup?: ESLPopup;
 }
 
+const $body = document.body;
+
 @ExportNs('Popup')
 export class ESLPopup extends ESLBaseElement {
 	public static is = 'esl-popup';
@@ -28,7 +30,7 @@ export class ESLPopup extends ESLBaseElement {
 	protected static initialParams = {silent: true, force: true};
 
 	static get observedAttributes() {
-		return ['open', 'group', 'close-on-esc', 'close-on-body-click'];
+		return ['open', 'group', 'close-on-esc'];
 	}
 
 	private _open: boolean = false;
@@ -62,16 +64,12 @@ export class ESLPopup extends ESLBaseElement {
 			case 'close-on-esc':
 				this.bindCloseOnEscHandler();
 				break;
-			case 'close-on-body-click':
-				this.bindBodyClickHandler();
-				break;
 		}
 	}
 
 	protected connectedCallback() {
 		super.connectedCallback();
 		this.bindEvents();
-		this.bindBodyClickHandler();
 		PopupManager.registerInGroup(this, this.group);
 
 		// Force initial state
@@ -81,21 +79,18 @@ export class ESLPopup extends ESLBaseElement {
 		super.disconnectedCallback();
 		PopupManager.removeFromGroup(this);
 		this.unbindEvents();
-		PopupManager.removeCloseOnBodyClickPopup(this);
 	}
 
 	protected bindEvents() {
-		this.addEventListener('click', this.onClick);
+		if (this.closeButton) {
+			this.addEventListener('click', this.onClick);
+		}
 		this.bindCloseOnEscHandler();
 	}
 	protected unbindEvents() {
 		this.removeEventListener('click', this.onClick);
 		this.removeEventListener('keydown', this.onKeyboardEvent);
-	}
-
-	protected bindBodyClickHandler() {
-		PopupManager.removeCloseOnBodyClickPopup(this);
-		PopupManager.registerCloseOnBodyClickPopup(this);
+		$body.removeEventListener('click', this.onBodyClick);
 	}
 
 	protected bindCloseOnEscHandler() {
@@ -137,6 +132,9 @@ export class ESLPopup extends ESLBaseElement {
 			this.onShow(params);
 		}, defined(params.showDelay, params.delay));
 		this.bindHoverStateTracking(params.trackHover);
+		if (this.closeOnBodyClick) {
+			$body.addEventListener('click', this.onBodyClick);
+		}
 		return this;
 	}
 
@@ -150,6 +148,7 @@ export class ESLPopup extends ESLBaseElement {
 			this.onHide(params);
 		}, defined(params.hideDelay, params.delay));
 		this.bindHoverStateTracking(params.trackHover);
+		$body.removeEventListener('click', this.onBodyClick);
 		return this;
 	}
 
@@ -159,7 +158,7 @@ export class ESLPopup extends ESLBaseElement {
 		this.setAttribute('open', '');
 		(!this.disableA11y) && this.setAttribute('aria-hidden', 'false');
         this.activeClass && this.classList.add(this.activeClass);
-        this.bodyClass && document.body.classList.add(this.bodyClass);
+        this.bodyClass && $body.classList.add(this.bodyClass);
 
 		if (!params.silent) this.fireStateChange();
 	}
@@ -170,7 +169,7 @@ export class ESLPopup extends ESLBaseElement {
 		this.removeAttribute('open');
 		(!this.disableA11y) && this.setAttribute('aria-hidden', 'true');
         this.activeClass && this.classList.remove(this.activeClass);
-        this.bodyClass && document.body.classList.remove(this.bodyClass);
+        this.bodyClass && $body.classList.remove(this.bodyClass);
 
 		if (!params.silent) this.fireStateChange();
 	}
@@ -181,13 +180,16 @@ export class ESLPopup extends ESLBaseElement {
 		});
 	}
 
-	protected onClick = (e: Event) => {
+	protected onClick = (e: MouseEvent) => {
 		const target = e.target as HTMLElement;
 		if (this.closeButton && target.closest(this.closeButton)) {
 			this.hide(Object.assign({}, this.defaultParams, { initiator: 'close' }));
 		}
-		if (this.closeOnBodyClick) {
-			e.stopPropagation();
+	};
+	protected onBodyClick = (e: MouseEvent) => {
+		const target = e.target as HTMLElement;
+		if (!this.contains(target)) {
+			this.hide({ initiator: 'bodyclick', trigger: target });
 		}
 	};
 	protected onMouseEnter = (e: MouseEvent) => {
