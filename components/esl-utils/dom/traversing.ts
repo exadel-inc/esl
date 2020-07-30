@@ -1,22 +1,17 @@
-const tuple = <T> (arr: T[]): [T,T][] => arr.reduce((acc, el) => {
-	if (acc.length === 0 || acc[acc.length - 1].length >= 2) acc.push([]);
-	acc[acc.length - 1].push(el);
-	return acc;
-}, []);
-
-type PseudoProcessor = (base: Element, sel?: string, multiple?: boolean) => Element | Element[] | null;
-type PseudoProcessorMap = {[key: string]: PseudoProcessor};
+import { tuple } from '../misc/functions';
 
 /**
  * Find sibling element by selector and direction
  * */
-export const findSibling = (base: Element, sel?: string, backward = false) => {
+export function findSibling(base: Element, sel?: string, backward = false) {
 	for(let target = base; (target = backward ? target.previousElementSibling : target.nextElementSibling);) {
 		if (!sel || target.matches(sel)) return target;
 	}
 	return null;
-};
+}
 
+type PseudoProcessor = (base: Element, sel?: string, multiple?: boolean) => Element | Element[] | null;
+type PseudoProcessorMap = {[key: string]: PseudoProcessor};
 const SELECTORS: PseudoProcessorMap = {
 	'::next': (base: Element, sel?: string) => findSibling(base, sel, false),
 	'::prev': (base: Element, sel?: string) => findSibling(base, sel, true),
