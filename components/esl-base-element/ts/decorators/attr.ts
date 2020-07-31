@@ -2,6 +2,7 @@ import { toKebabCase } from '../../../esl-utils/misc/format';
 import type { ESLBaseElement } from '../esl-base-element';
 
 interface AttrDescriptor {
+	name?: string;
 	conditional?: boolean;
 	readonly?: boolean;
 	dataAttr?: boolean;
@@ -33,9 +34,12 @@ function buildConditionalDescriptor(attrName: string, readOnly: boolean) {
 	return readOnly ? {get} : {get, set};
 }
 
+const buildAttrName =
+	(propName: string, dataAttr: boolean) => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
+
 export const attr = (config: AttrDescriptor = {defaultValue: '', readonly: false}) => {
 	return (target: ESLBaseElement, propName: string) => {
-		const attrName = config.dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
+		const attrName = config.name || buildAttrName(propName, config.dataAttr);
 		const descriptorBuilder = config.conditional ? buildConditionalDescriptor : buildSimpleDescriptor;
 		Object.defineProperty(target, propName, descriptorBuilder(attrName, config.readonly, config.defaultValue));
 	};
