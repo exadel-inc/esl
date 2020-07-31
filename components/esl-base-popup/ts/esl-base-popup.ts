@@ -144,6 +144,7 @@ export class ESLBasePopup extends ESLBaseElement {
 		this._taskManager.push(() => {
 			if (!params.force && this._open) return;
 			this.onShow(params);
+			if (!params.silent) this.fireStateChange();
 		}, defined(params.showDelay, params.delay));
 	}
 
@@ -161,6 +162,7 @@ export class ESLBasePopup extends ESLBaseElement {
 		this._taskManager.push(() => {
 			if (!params.force && !this._open) return;
 			this.onHide(params);
+			if (!params.silent) this.fireStateChange();
 		}, defined(params.hideDelay, params.delay));
 	}
 
@@ -192,8 +194,6 @@ export class ESLBasePopup extends ESLBaseElement {
 		this.activeClass && this.classList.add(this.activeClass);
 		this.bodyClass && $body.classList.add(this.bodyClass);
 		this.updateA11y();
-
-		if (!params.silent) this.fireStateChange();
 	}
 
 	/**
@@ -206,8 +206,6 @@ export class ESLBasePopup extends ESLBaseElement {
 		this.activeClass && this.classList.remove(this.activeClass);
 		this.bodyClass && $body.classList.remove(this.bodyClass);
 		this.updateA11y();
-
-		if (!params.silent) this.fireStateChange();
 	}
 
 	/**
