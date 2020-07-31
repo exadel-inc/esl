@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {attr, ESLBaseElement} from '../../esl-base-element/esl-base-element';
-import ESLTrigger from './esl-trigger';
+import {ESLTrigger} from './esl-trigger';
 
 @ExportNs('TriggersContainer')
 export class ESLTriggersContainer extends ESLBaseElement {
