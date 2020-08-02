@@ -86,21 +86,21 @@ export class ESLBasePopup extends ESLBaseElement {
 	}
 
 	protected bindEvents() {
-		this.addEventListener('click', this.onClick);
-		this.addEventListener('keydown', this.onKeyboardEvent);
+		this.addEventListener('click', this._onClick);
+		this.addEventListener('keydown', this._onKeyboardEvent);
 	}
 
 	protected unbindEvents() {
-		this.removeEventListener('click', this.onClick);
-		this.removeEventListener('keydown', this.onKeyboardEvent);
+		this.removeEventListener('click', this._onClick);
+		this.removeEventListener('keydown', this._onKeyboardEvent);
 		this.bindBodyClickTracking(false);
 		this.bindHoverStateTracking(false);
 	}
 
 	protected bindBodyClickTracking(track: boolean) {
-		$body.removeEventListener('click', this.onBodyClick);
+		$body.removeEventListener('click', this._onBodyClick);
 		if (track) {
-			$body.addEventListener('click', this.onBodyClick);
+			$body.addEventListener('click', this._onBodyClick);
 		}
 	}
 	protected bindHoverStateTracking(track: boolean) {
@@ -108,11 +108,11 @@ export class ESLBasePopup extends ESLBaseElement {
 		if (this._trackHover === track) return;
 		this._trackHover = track;
 
-		this.removeEventListener('mouseenter', this.onMouseEnter);
-		this.removeEventListener('mouseleave', this.onMouseLeave);
+		this.removeEventListener('mouseenter', this._onMouseEnter);
+		this.removeEventListener('mouseleave', this._onMouseLeave);
 		if (this._trackHover) {
-			this.addEventListener('mouseenter', this.onMouseEnter);
-			this.addEventListener('mouseleave', this.onMouseLeave);
+			this.addEventListener('mouseenter', this._onMouseEnter);
+			this.addEventListener('mouseleave', this._onMouseLeave);
 		}
 	}
 
@@ -216,29 +216,28 @@ export class ESLBasePopup extends ESLBaseElement {
 		});
 	}
 
-	// Handlers
-	protected onClick = (e: MouseEvent) => {
+	// "Private" Handlers
+	protected _onClick = (e: MouseEvent) => {
 		const target = e.target as HTMLElement;
 		if (this.closeButton && target.closest(this.closeButton)) {
 			this.hide({initiator: 'close', trigger: target});
 		}
 	};
-	protected onKeyboardEvent = (e: KeyboardEvent) => {
+	protected _onKeyboardEvent = (e: KeyboardEvent) => {
 		if (this.closeOnEsc && e.which === ESC) {
 			this.hide({initiator: 'keyboard'});
 		}
 	};
-	// Conditional handlers
-	protected onBodyClick = (e: MouseEvent) => {
+	protected _onBodyClick = (e: MouseEvent) => {
 		const target = e.target as HTMLElement;
 		if (!this.contains(target)) {
 			this.hide({initiator: 'bodyclick', trigger: target});
 		}
 	};
-	protected onMouseEnter = (e: MouseEvent) => {
+	protected _onMouseEnter = (e: MouseEvent) => {
 		this.show({initiator: 'mouseenter', trackHover: true});
 	};
-	protected onMouseLeave = (e: MouseEvent) => {
+	protected _onMouseLeave = (e: MouseEvent) => {
 		this.hide({initiator: 'mouseleave', trackHover: true});
 	};
 }
