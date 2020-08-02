@@ -10,6 +10,7 @@ export type TabActionParams = CollapsibleActionParams;
 export class ESLTabPanel extends ESLCollapsible {
     public static is = 'esl-tab-panel';
     public static eventNs = 'esl:tab-panel';
+
     protected static initialParams = {silent: true, force: true, noAnimation: true};
 
     @attr({defaultValue: 'accordion'}) public accordionClass: string;

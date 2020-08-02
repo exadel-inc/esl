@@ -28,7 +28,7 @@ export class ESLBasePopup extends ESLBaseElement {
 	protected static initialParams = {silent: true, force: true};
 
 	static get observedAttributes() {
-		return ['open', 'group', 'close-on-esc'];
+		return ['open', 'group'];
 	}
 
 	protected _open: boolean = false;
@@ -63,18 +63,14 @@ export class ESLBasePopup extends ESLBaseElement {
 				oldVal && ESLBasePopupGroup.unregister(this, oldVal);
 				newVal && ESLBasePopupGroup.register(this, newVal);
 				break;
-			case 'close-on-esc':
-				this.bindCloseOnEscHandler();
-				break;
 		}
 	}
 
 	protected connectedCallback() {
 		super.connectedCallback();
-		this.bindEvents();
 		ESLBasePopupGroup.register(this, this.groupName);
-		// Force initial state
-		this.toggle(this.open, Object.assign({}, this.defaultParams, this.initialParams));
+		this.bindEvents();
+		this.setInitialState();
 	}
 
 	protected disconnectedCallback() {
@@ -83,26 +79,30 @@ export class ESLBasePopup extends ESLBaseElement {
 		this.unbindEvents();
 	}
 
-	protected bindEvents() {
-		if (this.closeButton) {
-			this.addEventListener('click', this.onClick);
+	protected setInitialState() {
+		if (this.initialParams) {
+			this.toggle(this.open, this.initialParams);
 		}
-		this.bindCloseOnEscHandler();
+	}
+
+	protected bindEvents() {
+		this.addEventListener('click', this.onClick);
+		this.addEventListener('keydown', this.onKeyboardEvent);
 	}
 
 	protected unbindEvents() {
 		this.removeEventListener('click', this.onClick);
 		this.removeEventListener('keydown', this.onKeyboardEvent);
-		$body.removeEventListener('click', this.onBodyClick);
+		this.bindBodyClickTracking(false);
+		this.bindHoverStateTracking(false);
 	}
 
-	protected bindCloseOnEscHandler() {
-		this.removeEventListener('keydown', this.onKeyboardEvent);
-		if (this.closeOnEsc) {
-			this.addEventListener('keydown', this.onKeyboardEvent);
+	protected bindBodyClickTracking(track: boolean) {
+		$body.removeEventListener('click', this.onBodyClick);
+		if (track) {
+			$body.addEventListener('click', this.onBodyClick);
 		}
 	}
-
 	protected bindHoverStateTracking(track: boolean) {
 		if (DeviceDetector.isTouchDevice) return;
 		if (this._trackHover === track) return;
@@ -134,10 +134,8 @@ export class ESLBasePopup extends ESLBaseElement {
 		params = this.mergeDefaultParams(params);
 		this.group.activate(this, params);
 		this.planShowTask(params);
+		this.bindBodyClickTracking(this.closeOnBodyClick);
 		this.bindHoverStateTracking(params.trackHover);
-		if (this.closeOnBodyClick) {
-			$body.addEventListener('click', this.onBodyClick);
-		}
 		return this;
 	}
 	private planShowTask(params: PopupActionParams) {
@@ -154,8 +152,8 @@ export class ESLBasePopup extends ESLBaseElement {
 	public hide(params?: PopupActionParams) {
 		params = this.mergeDefaultParams(params);
 		this.planHideTask(params);
+		this.bindBodyClickTracking(false);
 		this.bindHoverStateTracking(params.trackHover);
-		$body.removeEventListener('click', this.onBodyClick);
 		return this;
 	}
 	private planHideTask(params: PopupActionParams) {
@@ -222,9 +220,15 @@ export class ESLBasePopup extends ESLBaseElement {
 	protected onClick = (e: MouseEvent) => {
 		const target = e.target as HTMLElement;
 		if (this.closeButton && target.closest(this.closeButton)) {
-			this.hide(Object.assign({}, this.defaultParams, {initiator: 'close'}));
+			this.hide({initiator: 'close', trigger: target});
 		}
 	};
+	protected onKeyboardEvent = (e: KeyboardEvent) => {
+		if (this.closeOnEsc && e.which === ESC) {
+			this.hide({initiator: 'keyboard'});
+		}
+	};
+	// Conditional handlers
 	protected onBodyClick = (e: MouseEvent) => {
 		const target = e.target as HTMLElement;
 		if (!this.contains(target)) {
@@ -236,10 +240,5 @@ export class ESLBasePopup extends ESLBaseElement {
 	};
 	protected onMouseLeave = (e: MouseEvent) => {
 		this.hide({initiator: 'mouseleave', trackHover: true});
-	};
-	protected onKeyboardEvent = (e: KeyboardEvent) => {
-		if (this.closeOnEsc && e.which === ESC) {
-			this.hide(Object.assign({}, this.defaultParams, {initiator: 'keyboard'}));
-		}
 	};
 }
