@@ -1,4 +1,5 @@
 import {ESC} from '../../esl-utils/dom/keycodes';
+import {CSSUtil} from '../../esl-utils/dom/styles';
 import {defined} from '../../esl-utils/misc/compare';
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
@@ -24,8 +25,8 @@ const $body = document.body;
 
 @ExportNs('BasePopup')
 export class ESLBasePopup extends ESLBaseElement {
-	protected static defaultParams = {};
-	protected static initialParams = {silent: true, force: true};
+	protected static defaultParams: PopupActionParams = {};
+	protected static initialParams: PopupActionParams = {silent: true, force: true, initiator: 'init'};
 
 	static get observedAttributes() {
 		return ['open', 'group'];
@@ -37,9 +38,9 @@ export class ESLBasePopup extends ESLBaseElement {
 
 	@attr() public bodyClass: string;
 	@attr() public activeClass: string;
-	@attr() public closeButton: string;
 
 	@attr({name: 'group'}) public groupName: string;
+	@attr({name: 'close-on'}) public closeTrigger: string;
 
 	@attr({conditional: true}) public closeOnEsc: boolean;
 	@attr({conditional: true}) public closeOnBodyClick: boolean;
@@ -80,9 +81,8 @@ export class ESLBasePopup extends ESLBaseElement {
 	}
 
 	protected setInitialState() {
-		if (this.initialParams) {
-			this.toggle(this.open, this.initialParams);
-		}
+		if (!this.initialParams) return;
+		this.toggle(this.open, this.initialParams);
 	}
 
 	protected bindEvents() {
@@ -189,8 +189,8 @@ export class ESLBasePopup extends ESLBaseElement {
 		this._open = true;
 
 		this.setAttribute('open', '');
-		this.activeClass && this.classList.add(this.activeClass);
-		this.bodyClass && $body.classList.add(this.bodyClass);
+		CSSUtil.addClasses(this, this.activeClass);
+		CSSUtil.addClasses($body, this.bodyClass);
 		this.updateA11y();
 	}
 
@@ -201,8 +201,8 @@ export class ESLBasePopup extends ESLBaseElement {
 		this._open = false;
 
 		this.removeAttribute('open');
-		this.activeClass && this.classList.remove(this.activeClass);
-		this.bodyClass && $body.classList.remove(this.bodyClass);
+		CSSUtil.removeClasses(this, this.activeClass);
+		CSSUtil.removeClasses($body, this.bodyClass);
 		this.updateA11y();
 	}
 
@@ -219,7 +219,7 @@ export class ESLBasePopup extends ESLBaseElement {
 	// "Private" Handlers
 	protected _onClick = (e: MouseEvent) => {
 		const target = e.target as HTMLElement;
-		if (this.closeButton && target.closest(this.closeButton)) {
+		if (this.closeTrigger && target.closest(this.closeTrigger)) {
 			this.hide({initiator: 'close', trigger: target});
 		}
 	};

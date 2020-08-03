@@ -25,6 +25,7 @@ export class ESLBasePopupGroup {
 	 * Hide all popup in group except passed active one
 	 */
 	public activate(popup: ESLBasePopup, params: PopupActionParams) {
+		params.initiator = params.initiator || 'group';
 		params.nextPopup = popup;
 		params.previousPopup = this.active;
 		if (params.previousPopup && params.nextPopup !== params.previousPopup) {

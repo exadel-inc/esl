@@ -11,7 +11,8 @@ export class ESLTabPanel extends ESLCollapsible {
     public static is = 'esl-tab-panel';
     public static eventNs = 'esl:tab-panel';
 
-    protected static initialParams = {silent: true, force: true, noAnimation: true};
+    protected static initialParams: TabActionParams =
+        Object.assign({noAnimation: true}, ESLCollapsible.initialParams);
 
     @attr({defaultValue: 'accordion'}) public accordionClass: string;
     @attr() public accordionTransformation: string;

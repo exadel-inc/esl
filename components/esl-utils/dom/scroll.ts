@@ -1,29 +1,55 @@
 export type ScrollStrategy = 'none' | 'native' | 'pseudo';
 
 const $html = document.documentElement;
-export class ScrollUtility {
+const initiatorSet = new Set();
+
+export abstract class ScrollUtility {
     /**
      * Check vertical scroll based on content height
      * */
     static hasVerticalScroll(target = $html) {
         return target.scrollHeight > target.clientHeight;
     }
+
     /**
-     * Disable/enable scroll on the page.
-     * @param state - true to disable scroll
+     * Disable scroll on the page.
      * @param [strategy] - to make scroll visually disabled
-     * (currently use padding hack, gray color for scroll can be used instead)
      * */
-    public static toggleScroll(state: boolean, strategy?: ScrollStrategy) {
+    public static lock(strategy?: ScrollStrategy) {
         strategy = strategy || 'pseudo';
         const hasScroll = ScrollUtility.hasVerticalScroll();
         if (strategy !== 'none' && hasScroll) {
-            $html.classList.toggle(`esl-${strategy}-scroll`, !state);
+            $html.classList.add(`esl-${strategy}-scroll`);
         }
-        $html.classList.toggle('esl-disable-scroll', !state);
+        $html.classList.add('esl-disable-scroll');
+    }
+
+    /**
+     * Enable scroll on the page.
+     * */
+    public static unlock() {
+        $html.classList.remove('esl-disable-scroll', 'esl-pseudo-scroll', 'esl-native-scroll');
+    }
+
+    /**
+     * Disable scroll on the page.
+     * @param initiator - object to associate request with
+     * @param [strategy] - to make scroll visually disabled
+     *
+     * TODO: currently requests with different strategy is not taken into account
+     * */
+    public static requestLock(initiator: any, strategy?: ScrollStrategy) {
+        initiator && initiatorSet.add(initiator);
+        (initiatorSet.size > 0) && ScrollUtility.lock(strategy);
+    }
+
+    /**
+     * Enable scroll on the page in case it was requested with given initiator.
+     * @param initiator - object to associate request with
+     * @param [strategy] - to make scroll visually disabled
+     * */
+    public static requestUnlock(initiator: any, strategy?: ScrollStrategy) {
+        initiator && initiatorSet.delete(initiator);
+        (initiatorSet.size === 0) && ScrollUtility.unlock();
     }
 }
-
-
-
-

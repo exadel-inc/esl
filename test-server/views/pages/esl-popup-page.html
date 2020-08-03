@@ -10,11 +10,11 @@ title: ESL Popup and ESL Popup Trigger components <span class="badge badge-warni
         <h4>Click event</h4>
         <div style="height: 70px;">
             <esl-popup id="popup1"
-                         body-class="popup-opened"
-                         close-button=".close-button"
-                         close-on-body-click
-                         close-on-esc
-                         open>
+                       body-class="popup-opened"
+                       close-on=".close-button"
+                       close-on-body-click
+                       close-on-esc
+                       open>
                 <div class="alert alert-warning" role="alert">
                     <strong>This is a popup.</strong> You can control it using the triggers below.
                     <button type="button" class="close close-button" aria-label="Close">
@@ -44,10 +44,9 @@ title: ESL Popup and ESL Popup Trigger components <span class="badge badge-warni
         <h4>Hover event</h4>
         <div style="height: 70px;">
             <esl-popup id="popup2"
-                         body-class="popup-opened"
-                         close-button=".close-button"
-                         close-on-esc
-                         open>
+                       body-class="popup-opened"
+                       close-on=".close-button"
+                       close-on-esc>
                 <div class="alert alert-warning" role="alert">
                     <strong>This is a popup.</strong> You can control it using the triggers below.
                     <button type="button" class="close close-button" aria-label="Close">
@@ -108,11 +107,10 @@ title: ESL Popup and ESL Popup Trigger components <span class="badge badge-warni
         <h4>Group of popups (click event)</h4>
         <div style="height: 70px;">
             <esl-popup id="popup3"
-                         group="group1"
-                         body-class="popup-opened"
-                         close-button=".close-button"
-                         close-on-esc
-                         open>
+                       group="group1"
+                       close-on=".close-button"
+                       close-on-esc
+                       open>
                 <div class="alert alert-warning" role="alert">
                     <strong>This is a popup.</strong> You can control it using the triggers below.
                     <button type="button" class="close close-button" aria-label="Close">
@@ -123,10 +121,9 @@ title: ESL Popup and ESL Popup Trigger components <span class="badge badge-warni
         </div>
         <div style="height: 70px;">
             <esl-popup id="popup4"
-                         group="group1"
-                         body-class="popup-opened"
-                         close-button=".close-button"
-                         close-on-esc>
+                       group="group1"
+                       close-on=".close-button"
+                       close-on-esc>
                 <div class="alert alert-warning" role="alert">
                     <strong>This is a popup.</strong> You can control it using the triggers below.
                     <button type="button" class="close close-button" aria-label="Close">
@@ -137,10 +134,9 @@ title: ESL Popup and ESL Popup Trigger components <span class="badge badge-warni
         </div>
         <div style="height: 70px;">
             <esl-popup id="popup5"
-                         group="group1"
-                         body-class="popup-opened"
-                         close-button=".close-button"
-                         close-on-esc>
+                       group="group1"
+                       close-on=".close-button"
+                       close-on-esc>
                 <div class="alert alert-warning" role="alert">
                     <strong>This is a popup.</strong> You can control it using the triggers below.
                     <button type="button" class="close close-button" aria-label="Close">
@@ -171,9 +167,9 @@ title: ESL Popup and ESL Popup Trigger components <span class="badge badge-warni
         <div style="height: 70px;">
             <esl-popup id="popup6"
                        group="group2"
-                       body-class="popup-opened"
+                       body-class="popup-group-opened"
                        default-params="{hideDelay: 500}"
-                       close-button=".close-button"
+                       close-on=".close-button"
                        close-on-esc
                        active>
                 <div class="alert alert-warning" role="alert">
@@ -187,9 +183,9 @@ title: ESL Popup and ESL Popup Trigger components <span class="badge badge-warni
         <div style="height: 70px;">
             <esl-popup id="popup7"
                        group="group2"
-                       body-class="popup-opened"
+                       body-class="popup-group-opened"
                        default-params="{hideDelay: 500}"
-                       close-button=".close-button"
+                       close-on=".close-button"
                        close-on-esc>
                 <div class="alert alert-warning" role="alert">
                     <strong>This is a popup.</strong> You can control it using the triggers below.
@@ -202,9 +198,9 @@ title: ESL Popup and ESL Popup Trigger components <span class="badge badge-warni
         <div style="height: 70px;">
             <esl-popup id="popup8"
                        group="group2"
-                       body-class="popup-opened"
+                       body-class="popup-group-opened"
                        default-params="{hideDelay: 500}"
-                       close-button=".close-button"
+                       close-on=".close-button"
                        close-on-esc>
                 <div class="alert alert-warning" role="alert">
                     <strong>This is a popup.</strong> You can control it using the triggers below.
