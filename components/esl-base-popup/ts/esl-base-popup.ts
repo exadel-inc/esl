@@ -21,8 +21,6 @@ export interface PopupActionParams {
 	nextPopup?: ESLBasePopup;
 }
 
-const $body = document.body;
-
 @ExportNs('BasePopup')
 export class ESLBasePopup extends ESLBaseElement {
 	protected static defaultParams: PopupActionParams = {};
@@ -98,9 +96,9 @@ export class ESLBasePopup extends ESLBaseElement {
 	}
 
 	protected bindBodyClickTracking(track: boolean) {
-		$body.removeEventListener('click', this._onBodyClick);
+		document.body.removeEventListener('click', this._onBodyClick);
 		if (track) {
-			$body.addEventListener('click', this._onBodyClick);
+			document.body.addEventListener('click', this._onBodyClick);
 		}
 	}
 	protected bindHoverStateTracking(track: boolean) {
@@ -190,7 +188,7 @@ export class ESLBasePopup extends ESLBaseElement {
 
 		this.setAttribute('open', '');
 		CSSUtil.addClasses(this, this.activeClass);
-		CSSUtil.addClasses($body, this.bodyClass);
+		CSSUtil.addClasses(document.body, this.bodyClass);
 		this.updateA11y();
 	}
 
@@ -202,7 +200,7 @@ export class ESLBasePopup extends ESLBaseElement {
 
 		this.removeAttribute('open');
 		CSSUtil.removeClasses(this, this.activeClass);
-		CSSUtil.removeClasses($body, this.bodyClass);
+		CSSUtil.removeClasses(document.body, this.bodyClass);
 		this.updateA11y();
 	}
 

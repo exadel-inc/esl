@@ -16,8 +16,6 @@
     ]
   },
   "include": [
-    "core",
-    "components",
-    "bundles"
+    "components"
   ]
 }
