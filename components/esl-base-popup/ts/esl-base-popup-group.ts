@@ -27,10 +27,11 @@ export class ESLBasePopupGroup {
 	public activate(popup: ESLBasePopup, params: PopupActionParams) {
 		params.initiator = params.initiator || 'group';
 		params.nextPopup = popup;
-		params.previousPopup = this.active;
-		if (params.previousPopup && params.nextPopup !== params.previousPopup) {
-			params.previousPopup.hide(params);
-		}
+		this.popups.forEach((p: ESLBasePopup) => {
+			if (popup === p || !p.open) return;
+			params.previousPopup = p;
+			p.hide(params);
+		});
 		return this;
 	}
 
