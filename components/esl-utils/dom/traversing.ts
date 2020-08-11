@@ -59,17 +59,8 @@ export function findTarget(query: string, current: HTMLElement, multiple = false
 }
 
 /**
- * Find parent element
- * */
-export  function isParent (parent: Node, child: Node) {
-    let current = child;
-    while (current) {
-        if (current === parent) return true;
-        current = current.parentNode;
-    }
-    return false;
-}
-
-export  function isRelative (nodeA: Node, nodeB: Node) {
-    return isParent(nodeA, nodeB) || isParent(nodeB, nodeA)
+ * Check that {@param nodeA} and {@param nodeB} is from the same tree path.
+ */
+export  function isRelative(nodeA: Node, nodeB: Node) {
+    return nodeA.contains(nodeB) || nodeB.contains(nodeA);
 }

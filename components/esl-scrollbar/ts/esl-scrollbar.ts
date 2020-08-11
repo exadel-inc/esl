@@ -264,10 +264,15 @@ export class ESLScrollbar extends ESLBaseElement {
      */
     protected onResize = rafDecorator(() => this.refresh());
 
-    private onRefresh = (event: Event) => {
+    /**
+     * Handler for document refresh events to update the scroll.
+     */
+    protected onRefresh = (event: Event) => {
         const target = event.target as HTMLElement;
-        if (isRelative(target.parentNode, this.targetElement)) this.refresh();
-    }
+        if (isRelative(target.parentNode, this.targetElement)) {
+            this.refresh();
+        }
+    };
 }
 
 export default ESLScrollbar;
