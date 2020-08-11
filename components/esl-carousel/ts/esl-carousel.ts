@@ -115,7 +115,7 @@ export class ESLCarousel extends ESLBaseElement {
 			}
 		};
 
-		const approved = this.dispatchCustomEvent('slide:change', eventDetails);
+		const approved = this.$$fireNs('slide:change', eventDetails);
 
 		if (this._view && approved && this.firstIndex !== nextIndex) {
 			this._view.goTo(nextIndex, direction);
@@ -138,7 +138,7 @@ export class ESLCarousel extends ESLBaseElement {
 			}
 		}
 
-		this.dispatchCustomEvent('slide:changed', eventDetails);
+		this.$$fireNs('slide:changed', eventDetails);
 	}
 
 	public prev() {

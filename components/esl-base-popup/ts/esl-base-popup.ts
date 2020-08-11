@@ -204,9 +204,8 @@ export class ESLBasePopup extends ESLBaseElement {
 	 * Fires component state change event
 	 */
 	protected fireStateChange() {
-		this.dispatchCustomEvent('statechange', {
-			detail: {open: this._open},
-			bubbles: true
+		this.$$fireNs('statechange', {
+			detail: {open: this._open}
 		});
 	}
 

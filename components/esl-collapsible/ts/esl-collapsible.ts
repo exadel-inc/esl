@@ -77,7 +77,7 @@ export class ESLCollapsible extends ESLBasePopup {
     protected afterAnimate() {
         this.animateClass && this.classList.remove(this.animateClass);
         this.postAnimateClass && this.classList.remove(this.postAnimateClass);
-        this.dispatchCustomEvent('transitionend', {
+        this.$$fireNs('transitionend', {
             detail: { open: this.open }
         });
     }

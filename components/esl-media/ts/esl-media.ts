@@ -214,17 +214,14 @@ export class ESLMedia extends ESLBaseElement {
             this.classList.add(this.getAttribute('ready-class'));
         }
         this.deferredResize();
-        this.dispatchCustomEvent('ready');
+        this.$$fireNs('ready');
     }
 
     public _onError(detail?: any, setReadyState = true) {
         this.setAttribute('ready', '');
         this.setAttribute('error', '');
-        this.dispatchCustomEvent('error', {
-            bubbles: true,
-            detail
-        });
-        setReadyState && this.dispatchCustomEvent('ready');
+        this.$$fireNs('error', { detail });
+        setReadyState && this.$$fireNs('ready');
     }
 
     public _onDetach() {
@@ -234,7 +231,7 @@ export class ESLMedia extends ESLBaseElement {
         if (this.hasAttribute('ready-class')) {
             this.classList.remove(this.getAttribute('ready-class'));
         }
-        this.dispatchCustomEvent('detach');
+        this.$$fireNs('detach');
     }
 
     public _onPlay() {
@@ -242,19 +239,19 @@ export class ESLMedia extends ESLBaseElement {
         this.deferredResize();
         this.setAttribute('active', '');
         this.setAttribute('played', '');
-        this.dispatchCustomEvent('play');
+        this.$$fireNs('play');
         MediaGroupRestrictionManager.registerPlay(this);
     }
 
     public _onPaused() {
         this.removeAttribute('active');
-        this.dispatchCustomEvent('paused');
+        this.$$fireNs('paused');
         MediaGroupRestrictionManager.unregister(this);
     }
 
     public _onEnded() {
         this.removeAttribute('active');
-        this.dispatchCustomEvent('ended');
+        this.$$fireNs('ended');
         MediaGroupRestrictionManager.unregister(this);
     }
 

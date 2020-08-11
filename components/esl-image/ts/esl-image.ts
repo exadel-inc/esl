@@ -347,20 +347,20 @@ export class ESLImage extends ESLBaseElement {
 		this.syncImage();
 		this.removeAttribute('error');
 		this.setAttribute('loaded', '');
-		this.dispatchCustomEvent('load', {bubbles: false});
+		this.$$fireNs('load', {bubbles: false});
 		this._onReady();
 	}
 
 	private _onError() {
 		this.setAttribute('error', '');
-		this.dispatchCustomEvent('error', {bubbles: false});
+		this.$$fireNs('error', {bubbles: false});
 		this._onReady();
 	}
 
 	private _onReady() {
 		if (!this.ready) {
 			this.setAttribute('ready', '');
-			this.dispatchCustomEvent('ready', {bubbles: false});
+			this.$$fireNs('ready', {bubbles: false});
 			if (this.hasAttribute('container-class') || this.hasAttribute('container-class-target')) {
 				if (this.hasAttribute('container-class-onload') && this.error) return;
 				const containerCls = this.getAttribute('container-class') || 'img-container-loaded';
