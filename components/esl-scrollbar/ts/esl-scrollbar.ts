@@ -134,11 +134,7 @@ export class ESLScrollbar extends ESLBaseElement {
      * Update auxiliary markers
      */
     public updateMarkers() {
-        if (this.thumbSize === 1) {
-            this.setAttribute('inactive', '');
-        } else {
-            this.removeAttribute('inactive');
-        }
+        this.toggleAttribute('inactive', this.thumbSize === 1);
     }
 
     /**

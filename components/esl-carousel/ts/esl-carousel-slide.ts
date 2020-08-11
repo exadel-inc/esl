@@ -13,25 +13,15 @@ export class ESLCarouselSlide extends ESLBaseElement {
 	public get active(): boolean {
 		return this.hasAttribute('active');
 	}
-
 	public _setActive(active: boolean) {
-		// TODO: think about public ?
-		if (active) {
-			this.setAttribute('active', '');
-		} else {
-			this.removeAttribute('active');
-		}
+		this.toggleAttribute('active', active);
 	}
 
 	public get first(): boolean {
 		return this.hasAttribute('first');
 	}
 	public _setFirst(first: boolean) {
-		if (first) {
-			this.setAttribute('first', '');
-		} else {
-			this.removeAttribute('first');
-		}
+		this.toggleAttribute('first', first);
 	}
 }
 

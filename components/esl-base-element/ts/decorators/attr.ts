@@ -29,7 +29,7 @@ function buildConditionalDescriptor(attrName: string, readOnly: boolean) {
 		return this.hasAttribute(attrName);
 	}
 	function set(value: boolean) {
-		value ? this.setAttribute(attrName, '') : this.removeAttribute(attrName);
+		this.toggleAttribute(attrName, value);
 	}
 	return readOnly ? {get} : {get, set};
 }
