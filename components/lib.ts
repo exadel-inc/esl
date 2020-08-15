@@ -3,11 +3,16 @@ import type {BreakpointRegistry} from './esl-utils/enviroment/breakpoints';
 
 import type {ESLImage} from './esl-image/ts/esl-image';
 import type {ESLMedia} from './esl-media/ts/esl-media';
+
 import type {ESLScrollbar} from './esl-scrollbar/ts/esl-scrollbar';
+
+import type {ESLBasePopup} from './esl-base-popup/ts/esl-base-popup';
 import type {ESLPopup} from './esl-popup/ts/esl-popup';
 import type {ESLTrigger} from './esl-trigger/ts/esl-trigger';
+import type {ESLTriggersContainer} from './esl-trigger/ts/esl-triggers-container';
 import type {ESLCollapsible} from './esl-collapsible/ts/esl-collapsible';
 import type {ESLTabPanel} from './esl-tab-panel/ts/esl-tab-panel';
+
 import type {ESLCarousel} from './esl-carousel/ts/esl-carousel';
 import type {ESLCarouselDotsPlugin} from './esl-carousel/ts/plugin/esl-carousel-dots.plugin';
 import type {ESLCarouselLinkPlugin} from './esl-carousel/ts/plugin/esl-carousel-link.plugin';
@@ -29,10 +34,12 @@ declare global {
 		Image?: typeof ESLImage;
 		Media?: typeof ESLMedia;
 
+		BasePopup?: typeof ESLBasePopup;
 		Popup?: typeof ESLPopup;
 		Trigger?: typeof ESLTrigger;
 		Collapsible?: typeof ESLCollapsible;
 		TabPanel?: typeof ESLTabPanel;
+        TriggersContainer?: typeof ESLTriggersContainer;
 
 		Scrollbar?: typeof ESLScrollbar;
 
