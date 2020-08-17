@@ -27,7 +27,7 @@
       background: #9a9a9a;
     }
 
-    &[direction="vertical"] {
+    &:not([horizontal]) {
       top: 0;
       bottom: 0;
       right: 0;
@@ -47,7 +47,7 @@
       }
     }
 
-    &[direction="horizontal"] {
+    &[horizontal] {
       left: 0;
       right: 0;
       bottom: 0;
