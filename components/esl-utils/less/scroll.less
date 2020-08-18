@@ -2,6 +2,11 @@ html.esl-disable-scroll {
   // Simple scroll blocking
   body {
     overflow: hidden !important;
+
+    // hide-scrollbar
+    &::-webkit-scrollbar {
+      display: none; // Chrome, Safari
+    }
   }
 
   // Shows page scroll
