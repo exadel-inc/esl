@@ -68,10 +68,14 @@ export class ESLScrollbar extends ESLBaseElement {
 
     public set targetElement(content: HTMLElement) {
         if (this.$scrollableContent) {
-            this.$scrollableContent.removeEventListener('scroll', this.onScroll);
+            this.isPageScroll() ?
+                window.removeEventListener('scroll', this.onScroll) :
+                this.$scrollableContent.removeEventListener('scroll', this.onScroll);
         }
         this.$scrollableContent = content;
-        this.$scrollableContent.addEventListener('scroll', this.onScroll, {passive: true});
+        this.isPageScroll() ?
+            window.addEventListener('scroll', this.onScroll, {passive: true}) :
+            this.$scrollableContent.addEventListener('scroll', this.onScroll, {passive: true});
     }
 
     protected render() {
@@ -102,10 +106,18 @@ export class ESLScrollbar extends ESLBaseElement {
         this.targetElement.removeEventListener('scroll', this.onScroll);
     }
 
+    public isPageScroll() {
+        return this.targetElement === document.documentElement;
+    }
+
+    public get heightTargetElement() {
+        return this.isPageScroll() ? this.targetElement.clientHeight : this.targetElement.offsetHeight;
+    }
+
     public get scrollableSize() {
         return this.horizontal ?
             this.targetElement.scrollWidth - this.targetElement.offsetWidth :
-            this.targetElement.scrollHeight - this.targetElement.offsetHeight;
+            this.targetElement.scrollHeight - this.heightTargetElement;
     }
 
     public get trackOffset() {
@@ -121,7 +133,7 @@ export class ESLScrollbar extends ESLBaseElement {
         if (!this.targetElement || !this.targetElement.scrollWidth || !this.targetElement.scrollHeight) return 1;
         return this.horizontal ?
             this.targetElement.offsetWidth / this.targetElement.scrollWidth :
-            this.targetElement.offsetHeight / this.targetElement.scrollHeight;
+            this.heightTargetElement / this.targetElement.scrollHeight;
     }
 
     public get position() {
