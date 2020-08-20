@@ -68,12 +68,12 @@ export class ESLScrollbar extends ESLBaseElement {
 
     public set targetElement(content: HTMLElement) {
         if (this.$scrollableContent) {
-            this.isPageScroll() ?
+            this.isPageScroll ?
                 window.removeEventListener('scroll', this.onScroll) :
                 this.$scrollableContent.removeEventListener('scroll', this.onScroll);
         }
         this.$scrollableContent = content;
-        this.isPageScroll() ?
+        this.isPageScroll ?
             window.addEventListener('scroll', this.onScroll, {passive: true}) :
             this.$scrollableContent.addEventListener('scroll', this.onScroll, {passive: true});
     }
@@ -106,18 +106,14 @@ export class ESLScrollbar extends ESLBaseElement {
         this.targetElement.removeEventListener('scroll', this.onScroll);
     }
 
-    public isPageScroll() {
+    public get isPageScroll() {
         return this.targetElement === document.documentElement;
-    }
-
-    public get heightTargetElement() {
-        return this.isPageScroll() ? this.targetElement.clientHeight : this.targetElement.offsetHeight;
     }
 
     public get scrollableSize() {
         return this.horizontal ?
-            this.targetElement.scrollWidth - this.targetElement.offsetWidth :
-            this.targetElement.scrollHeight - this.heightTargetElement;
+            this.targetElement.scrollWidth - this.targetElement.clientWidth :
+            this.targetElement.scrollHeight - this.targetElement.clientHeight;
     }
 
     public get trackOffset() {
@@ -132,8 +128,8 @@ export class ESLScrollbar extends ESLBaseElement {
         // behave as native scroll
         if (!this.targetElement || !this.targetElement.scrollWidth || !this.targetElement.scrollHeight) return 1;
         return this.horizontal ?
-            this.targetElement.offsetWidth / this.targetElement.scrollWidth :
-            this.heightTargetElement / this.targetElement.scrollHeight;
+            this.targetElement.clientWidth / this.targetElement.scrollWidth :
+            this.targetElement.clientHeight / this.targetElement.scrollHeight;
     }
 
     public get position() {
@@ -162,9 +158,9 @@ export class ESLScrollbar extends ESLBaseElement {
     public update() {
         if (!this.$scrollbarThumb || !this.$scrollbarTrack) return;
         const thumbSize = this.trackOffset * this.thumbSize;
-        const thumb = (this.trackOffset - thumbSize) * this.position;
+        const thumbPosition = (this.trackOffset - thumbSize) * this.position;
         const style = {
-            [this.horizontal ? 'left' : 'top'] : `${thumb}px`,
+            [this.horizontal ? 'left' : 'top'] : `${thumbPosition}px`,
             [this.horizontal ? 'width' : 'height'] : `${thumbSize}px`
         };
         Object.assign(this.$scrollbarThumb.style, style);
