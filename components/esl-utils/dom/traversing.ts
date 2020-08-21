@@ -57,3 +57,10 @@ export function findTarget(query: string, current: HTMLElement, multiple = false
 		return SELECTORS[name](base, sel, multiple);
 	}, initialEl);
 }
+
+/**
+ * Check that {@param nodeA} and {@param nodeB} is from the same tree path.
+ */
+export  function isRelative(nodeA: Node, nodeB: Node) {
+    return nodeA.contains(nodeB) || nodeB.contains(nodeA);
+}
