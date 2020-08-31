@@ -26,9 +26,9 @@ export class ESLCarousel extends ESLBaseElement {
 
 	@attr() public config: string;
 
-	private _configRules: ESLMediaRuleList<CarouselConfig>;
+	private _configRules: ESLMediaRuleList<CarouselConfig | null>;
 	private _currentConfig: CarouselConfig = {};
-	private _view: ESLCarouselView;
+	private _view: ESLCarouselView | null;
 	private readonly _plugins = new Map<string, ESLCarouselPlugin>();
 
 	private readonly _onMatchChange: () => void;
@@ -39,13 +39,13 @@ export class ESLCarousel extends ESLBaseElement {
 		this._onRegistryChange = this._onRegistryChange.bind(this);
 	}
 
-	get $slidesArea(): HTMLElement {
+	get $slidesArea(): HTMLElement | null {
 		return this.querySelector('[data-slides-area]');
 	}
 
 	get $slides(): ESLCarouselSlide[] {
 		// TODO cache
-		const els = this.$slidesArea.querySelectorAll(ESLCarouselSlide.is);
+		const els = this.$slidesArea && this.$slidesArea.querySelectorAll(ESLCarouselSlide.is);
 		return els ? Array.from(els) as ESLCarouselSlide[] : [];
 	}
 
@@ -193,7 +193,7 @@ export class ESLCarousel extends ESLBaseElement {
 		return this._configRules;
 	}
 
-	set configRules(rules: ESLMediaRuleList<CarouselConfig>) {
+	set configRules(rules: ESLMediaRuleList<CarouselConfig | null>) {
 		if (this._configRules) {
 			this._configRules.removeListener(this._onMatchChange);
 		}
@@ -212,13 +212,16 @@ export class ESLCarousel extends ESLBaseElement {
 		}
 		this.activeConfig = config;
 
+		const viewType= this.activeConfig.view;
+		if (!viewType) return;
+
 		// TODO: somehow compare active view & selected view
 		// this._view && this._view.unbind();
-		this._view = ESLCarouselViewRegistry.instance.createViewInstance(this.activeConfig.view, this);
+		this._view = ESLCarouselViewRegistry.instance.createViewInstance(viewType, this);
 		// this._view && this._view.bind();
 
 		if (force || this.activeIndexes.length !== this.activeConfig.count) {
-			this._view.draw();
+			this._view && this._view.draw();
 			// this.goTo(this.firstIndex, '', true);
 		}
 	}
@@ -236,7 +239,7 @@ export class ESLCarousel extends ESLBaseElement {
 	// move to core plugin
 	protected _onClick(event: MouseEvent) {
 		const eventTarget: HTMLElement = event.target as HTMLElement;
-		const markedTarget: HTMLElement = eventTarget.closest('[data-slide-target]');
+		const markedTarget: HTMLElement | null = eventTarget.closest('[data-slide-target]');
 		if (markedTarget && markedTarget.dataset.slideTarget) {
 			const target = markedTarget.dataset.slideTarget;
 			if ('prev' === target) {
@@ -263,10 +266,10 @@ export class ESLCarousel extends ESLBaseElement {
 		this.appendChild(plugin);
 	}
 
-	public removePlugin(plugin: ESLCarouselPlugin | string) {
+	public removePlugin(plugin: ESLCarouselPlugin | string | undefined) {
 		if (typeof plugin === 'string') plugin = this._plugins.get(plugin);
 		if (!plugin || plugin.carousel !== this) return;
-		plugin.parentNode.removeChild(plugin);
+		plugin.parentNode && plugin.parentNode.removeChild(plugin);
 	}
 
 	public _addPlugin(plugin: ESLCarouselPlugin) {
