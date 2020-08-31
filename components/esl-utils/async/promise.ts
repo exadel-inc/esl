@@ -11,7 +11,7 @@ export class PromiseUtils {
 		);
 	}
 
-	static fromEventWithTimeout(timeout: number, target: HTMLElement, eventName: string): Promise<Event> {
+	static fromEventWithTimeout(timeout: number, target: HTMLElement, eventName: string): Promise<Event | null> {
 		return new Promise((resolve) => {
 			if (timeout === 0) {
 				resolve(null);
