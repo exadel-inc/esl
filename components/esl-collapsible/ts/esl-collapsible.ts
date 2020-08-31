@@ -2,6 +2,7 @@ import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 
 import {attr} from '../../esl-base-element/esl-base-element';
 import {afterNextRender} from '../../esl-utils/async/raf';
+import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/ts/esl-base-popup';
 
 export interface CollapsibleActionParams extends PopupActionParams {
@@ -61,8 +62,8 @@ export class ESLCollapsible extends ESLBasePopup {
 	};
 
     protected beforeAnimate(params: CollapsibleActionParams) {
-        this.animateClass && this.classList.add(this.animateClass);
-        this.postAnimateClass && afterNextRender(() => this.classList.add(this.postAnimateClass));
+	    CSSUtil.addClasses(this, this.animateClass);
+        this.postAnimateClass && afterNextRender(() => CSSUtil.addClasses(this, this.postAnimateClass));
     }
 
     protected onAnimate(action: string, params: CollapsibleActionParams) {
@@ -75,8 +76,8 @@ export class ESLCollapsible extends ESLBasePopup {
     }
 
     protected afterAnimate() {
-        this.animateClass && this.classList.remove(this.animateClass);
-        this.postAnimateClass && this.classList.remove(this.postAnimateClass);
+    	CSSUtil.removeClasses(this, this.animateClass);
+	    CSSUtil.removeClasses(this, this.postAnimateClass);
         this.$$fireNs('transitionend', {
             detail: { open: this.open }
         });
