@@ -133,7 +133,7 @@ export class ESLBasePopup extends ESLBaseElement {
 		this.group.activate(this, params);
 		this.planShowTask(params);
 		this.bindBodyClickTracking(this.closeOnBodyClick);
-		this.bindHoverStateTracking(params.trackHover);
+		this.bindHoverStateTracking(!!params.trackHover);
 		return this;
 	}
 	private planShowTask(params: PopupActionParams) {
@@ -151,7 +151,7 @@ export class ESLBasePopup extends ESLBaseElement {
 		params = this.mergeDefaultParams(params);
 		this.planHideTask(params);
 		this.bindBodyClickTracking(false);
-		this.bindHoverStateTracking(params.trackHover);
+		this.bindHoverStateTracking(!!params.trackHover);
 		return this;
 	}
 	private planHideTask(params: PopupActionParams) {

@@ -80,7 +80,7 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
 
-  public get container(): ESLTriggersContainer {
+  public get container(): ESLTriggersContainer | null {
     return this.closest(ESLTriggersContainer.is);
   }
 
@@ -128,7 +128,7 @@ export class ESLTrigger extends ESLBaseElement {
     this.removeEventListener('keydown', this.onKeydown);
   }
 
-  protected attachEventListener(eventName: string, callback: (e: Event) => void) {
+  protected attachEventListener(eventName: string | null, callback: (e: Event) => void) {
     if (!eventName) return;
     this.addEventListener(eventName, callback);
     this.__unsubscribers = this.__unsubscribers || [];
@@ -204,6 +204,8 @@ export class ESLTrigger extends ESLBaseElement {
 
   protected updateA11y() {
     const target = this.$a11yTarget;
+    if (!target) return;
+
     switch (this.a11yRole) {
       case 'tab':
         target.setAttribute('aria-selected', String(this.active));
@@ -213,10 +215,9 @@ export class ESLTrigger extends ESLBaseElement {
         target.setAttribute('aria-expanded',  String(this.active));
         break;
     }
-
     // TODO: auto generate
     if (this.popup.id) {
-      this.setAttribute('aria-controls', this.popup.id);
+      target.setAttribute('aria-controls', this.popup.id);
     }
   }
 
