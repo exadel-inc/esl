@@ -23,13 +23,13 @@ function getJsonAttr(target: HTMLElement, attrName: string) {
 export const jsonAttr = <T> (config: JsonAttrDescriptor<T> = {}) => {
 	return (target: ESLBaseElement, propName: string) => {
 		const attrName = config.dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
-		function get(): T {
+		function get(): T | null {
 			const value = this[JSON_ATTR_HOLDER] && this[JSON_ATTR_HOLDER][propName];
 			if (value) return value;
 			const attrValue = getJsonAttr(this, attrName);
 			if (attrValue) return attrValue;
 			if (config.staticDefault) return this.constructor[config.staticDefault];
-			return config.default;
+			return config.default || null;
 		}
 		function set(value: T) {
 			this[JSON_ATTR_HOLDER] = this[JSON_ATTR_HOLDER] || {};

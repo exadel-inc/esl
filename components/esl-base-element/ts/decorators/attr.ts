@@ -6,10 +6,10 @@ interface AttrDescriptor {
 	conditional?: boolean;
 	readonly?: boolean;
 	dataAttr?: boolean;
-	defaultValue?: string;
+	defaultValue?: string | null;
 }
 
-function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string) {
+function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string | null) {
 	function get() {
 		const value = this.getAttribute(attrName);
 		return typeof value === 'string' ? value : defaultValue;
@@ -37,10 +37,11 @@ function buildConditionalDescriptor(attrName: string, readOnly: boolean) {
 const buildAttrName =
 	(propName: string, dataAttr: boolean) => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 
-export const attr = (config: AttrDescriptor = {defaultValue: '', readonly: false}) => {
+export const attr = (config: AttrDescriptor = {}) => {
+	config = Object.assign({defaultValue: '', readonly: false}, config);
 	return (target: ESLBaseElement, propName: string) => {
-		const attrName = config.name || buildAttrName(propName, config.dataAttr);
+		const attrName = config.name || buildAttrName(propName, !!config.dataAttr);
 		const descriptorBuilder = config.conditional ? buildConditionalDescriptor : buildSimpleDescriptor;
-		Object.defineProperty(target, propName, descriptorBuilder(attrName, config.readonly, config.defaultValue));
+		Object.defineProperty(target, propName, descriptorBuilder(attrName, !!config.readonly, config.defaultValue));
 	};
 };
