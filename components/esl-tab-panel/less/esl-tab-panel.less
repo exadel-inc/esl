@@ -1,51 +1,13 @@
 esl-tab-panel {
   @animationTime: 1s;
 
-  &:not(.accordion) {
-    display: block;
-    height: auto;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+  display: block;
+  position: relative;
 
-    visibility: hidden;
-    max-height: 0;
-
-    &.animate {
-      opacity: 1;
-      transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime;
-    }
-
-    &.fade-animate {
-      opacity: 0;
-      transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime, opacity @animationTime/2 linear;
-    }
-
-
-    &.open {
-      visibility: visible;
-      max-height: none;
-      position: relative;
-
-      &.animate {
-        opacity: 0;
-        transition: max-height @animationTime ease-in-out, visibility 0s linear;
-      }
-
-      &.fade-animate {
-        opacity: 1;
-        transition: max-height @animationTime ease-in-out, visibility 0s linear, opacity @animationTime/2 linear @animationTime/2;
-      }
-    }
-  }
+  overflow: hidden;
+  height: auto;
 
   &.accordion {
-    display: block;
-    height: auto;
-    overflow: hidden;
-
     visibility: hidden;
     max-height: 0;
     transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime;
@@ -56,8 +18,49 @@ esl-tab-panel {
       transition: max-height @animationTime ease-in-out, visibility 0s linear;
     }
   }
+
+  &:not(.accordion) {
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    position: absolute;
+    visibility: hidden;
+    max-height: 0;
+
+    &.open {
+      position: relative;
+      visibility: visible;
+      max-height: none;
+    }
+
+    &.animate {
+      opacity: 1;
+      transition: max-height @animationTime ease-in-out,
+                  visibility 0s linear @animationTime;
+    }
+    &.fade-animate {
+      opacity: 0;
+      transition: max-height @animationTime ease-in-out,
+                  visibility 0s linear @animationTime,
+                  opacity @animationTime/4 linear;
+    }
+
+    &.open.animate {
+      opacity: 0;
+      transition: max-height @animationTime ease-in-out,
+                  visibility 0s linear;
+    }
+    &.open.fade-animate {
+      opacity: 1;
+      transition: max-height @animationTime ease-in-out,
+                  visibility 0s linear,
+                  opacity @animationTime*3/4 linear @animationTime/4;
+    }
+  }
 }
 
 .esl-tabs-content {
+  display: block;
   position: relative;
 }

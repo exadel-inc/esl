@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {attr, ESLBaseElement} from '../../esl-base-element/esl-base-element';
-import ESLTrigger from './esl-trigger';
+import {ESLTrigger} from './esl-trigger';
 
 @ExportNs('TriggersContainer')
 export class ESLTriggersContainer extends ESLBaseElement {
@@ -16,13 +16,13 @@ export class ESLTriggersContainer extends ESLBaseElement {
 
   public next(trigger: ESLTrigger) {
     const triggers = this.$triggers;
-    const index = triggers.findIndex((el) => el === trigger);
+    const index = triggers.indexOf(trigger);
     return triggers[(index + 1) % triggers.length];
   }
 
   public previous(trigger: ESLTrigger) {
     const triggers = this.$triggers;
-    const index = triggers.findIndex((el) => el === trigger);
+    const index = triggers.indexOf(trigger);
     return triggers[(index - 1 + triggers.length) % triggers.length];
   }
 

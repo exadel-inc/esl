@@ -1,15 +1,15 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {ESLPopup, PopupActionParams} from '../../esl-popup/ts/esl-popup';
 
 import {attr} from '../../esl-base-element/esl-base-element';
 import {afterNextRender} from '../../esl-utils/async/raf';
+import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/ts/esl-base-popup';
 
 export interface CollapsibleActionParams extends PopupActionParams {
 	noAnimation?: boolean;
 }
 
 @ExportNs('Collapsible')
-export class ESLCollapsible extends ESLPopup {
+export class ESLCollapsible extends ESLBasePopup {
 	public static is = 'esl-collapsible';
 	public static eventNs = 'esl:collapsible';
 
@@ -24,7 +24,6 @@ export class ESLCollapsible extends ESLPopup {
 		super.bindEvents();
 		this.addEventListener('transitionend', this.onTransitionEnd);
     }
-
 	protected unbindEvents() {
 		super.unbindEvents();
 		this.removeEventListener('transitionend', this.onTransitionEnd);
@@ -37,7 +36,9 @@ export class ESLCollapsible extends ESLPopup {
 		if (params.noAnimation) return;
         this.beforeAnimate(params);
         this.onAnimate('show', params);
-		(this.fallbackDuration >= 0) && setTimeout(this.onTransitionEnd, this.fallbackDuration);
+		if (this.fallbackDuration >= 0) {
+			setTimeout(this.onTransitionEnd, this.fallbackDuration);
+		}
     }
 
 	protected onHide(params: CollapsibleActionParams) {
@@ -47,8 +48,9 @@ export class ESLCollapsible extends ESLPopup {
         if (params.noAnimation) return;
         this.beforeAnimate(params);
 		this.onAnimate('hide', params);
-		// this.afterAnimate();
-		(this.fallbackDuration >= 0) && setTimeout(this.onTransitionEnd, this.fallbackDuration);
+		if (this.fallbackDuration >= 0) {
+			setTimeout(this.onTransitionEnd, this.fallbackDuration);
+		}
 	}
 
 	protected onTransitionEnd = (e?: TransitionEvent) => {

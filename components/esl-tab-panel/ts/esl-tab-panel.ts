@@ -10,7 +10,9 @@ export type TabActionParams = CollapsibleActionParams;
 export class ESLTabPanel extends ESLCollapsible {
     public static is = 'esl-tab-panel';
     public static eventNs = 'esl:tab-panel';
-    protected static initialParams = {silent: true, force: true, noAnimation: true};
+
+    protected static initialParams: TabActionParams =
+        Object.assign({noAnimation: true}, ESLCollapsible.initialParams);
 
     @attr({defaultValue: 'accordion'}) public accordionClass: string;
     @attr() public accordionTransformation: string;
@@ -42,23 +44,20 @@ export class ESLTabPanel extends ESLCollapsible {
         return this.transformationQuery.matches;
     }
 
+    protected getPrevHeight(params: TabActionParams) {
+        const previousTab = params && params.previousPopup as ESLTabPanel;
+        return previousTab ? previousTab.initialHeight : 0;
+    }
+
     protected onAnimate(action: string, params: TabActionParams) {
-        let from;
         const to = action === 'hide' ? 0 : this.initialHeight;
+        const from = action === 'hide' ? this.initialHeight : (this.isAccordion ? 0 : this.getPrevHeight(params));
 
-        if (this.isAccordion) {
-            from = action === 'hide' ? this.initialHeight : 0;
-        } else {
-            const previousTab = params && params.previousPopup as ESLTabPanel;
-            const previousHeight = previousTab ? previousTab.initialHeight : 0;
-            from = action === 'hide' ? this.initialHeight : previousHeight;
 
-            // To animate max-height when the previous tab's height is smaller than the selected one
-            if (previousHeight > this.initialHeight) {
-                this.style.setProperty('height', `${previousHeight}px`);
-            }
+        // To animate max-height when the previous tab's height is smaller than the selected one
+        if (from > to) {
+            this.style.setProperty('height', `${from}px`);
         }
-
         // set initial height
         this.style.setProperty('max-height', `${from}px`);
         // make sure that browser apply initial height for animation

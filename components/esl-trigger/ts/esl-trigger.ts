@@ -5,7 +5,7 @@ import {ESLPopup} from '../../esl-popup/esl-popup';
 import {findTarget} from '../../esl-utils/dom/traversing';
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
 import ESLTriggersContainer from './esl-triggers-container';
-import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ENTER, SPACE, TAB} from '../../esl-utils/dom/keycodes';
+import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ENTER, SPACE} from '../../esl-utils/dom/keycodes';
 
 export type GroupTarget = 'next' | 'previous' | 'active';
 

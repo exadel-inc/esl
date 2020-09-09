@@ -21,15 +21,17 @@ export abstract class ESLBaseElement extends HTMLElement {
 	}
 
 	/**
-	 * Dispatch component custom event.
-	 * Will append prefix from static property {eventNs} if it is defined.
-	 * @param {string} eventName -  event name
-	 * @param {CustomEventInit} eventInit - event init
-	 */
+     * Dispatch component custom event.
+     * Will append prefix from static property {eventNs} if it is defined.
+     * @param {string} eventName -  event name
+     * @param {CustomEventInit} eventInit - event init
+     * @param {boolean} eventNs
+     */
 	public dispatchCustomEvent(eventName: string,
-	                           eventInit: CustomEventInit = {bubbles: true}): boolean {
+	                           eventInit: CustomEventInit = {bubbles: true},
+                               eventNs: boolean = true): boolean {
 		const component = this.constructor as typeof ESLBaseElement;
-		const eventFullName = (component.eventNs ? `${component.eventNs}:` : '') + eventName;
+		const eventFullName = (eventNs && component.eventNs ? `${component.eventNs}:` : '') + eventName;
 		const event = new CustomEvent(eventFullName, eventInit);
 		return this.dispatchEvent(event);
 	}

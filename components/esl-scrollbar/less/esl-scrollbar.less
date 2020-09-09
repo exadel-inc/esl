@@ -27,11 +27,11 @@
       background: #9a9a9a;
     }
 
-    &[direction="vertical"] {
-      width: 16px;
+    &:not([horizontal]) {
       top: 0;
       bottom: 0;
-      right: 16px;
+      right: 0;
+      width: 16px;
 
       .scrollbar-track {
         width: 6px;
@@ -46,19 +46,40 @@
         height: 33.33%;
       }
     }
+
+    &[horizontal] {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 16px;
+
+      .scrollbar-track {
+        height: 6px;
+        width: 100%;
+        bottom: 0;
+        margin-top: 5px;
+      }
+
+      .scrollbar-thumb {
+        height: 100%;
+        width: 33.33%;
+      }
+    }
   }
 }
 
-.esl-scrollable-content-init() {
-  .esl-scrollable-content {
-    overflow: auto;
+.esl-scrollable-content {
+  overflow: auto;
 
-    // hide-scrollbar
-    &::-webkit-scrollbar {
-      display: none; // Chrome, Safari
-    }
-
-    scrollbar-width: none; // Firefox
-    -ms-overflow-style: none; // IE, Edge
+  // hide-scrollbar
+  &::-webkit-scrollbar {
+    display: none; // Chrome, Safari
   }
+
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // IE, Edge
+}
+
+.page-scrollbar {
+  position: fixed;
 }
