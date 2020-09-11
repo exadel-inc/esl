@@ -62,8 +62,8 @@ export class ESLCollapsible extends ESLBasePopup {
 	};
 
     protected beforeAnimate(params: CollapsibleActionParams) {
-	    CSSUtil.addClasses(this, this.animateClass);
-        this.postAnimateClass && afterNextRender(() => CSSUtil.addClasses(this, this.postAnimateClass));
+	    CSSUtil.addCls(this, this.animateClass);
+        this.postAnimateClass && afterNextRender(() => CSSUtil.addCls(this, this.postAnimateClass));
     }
 
     protected onAnimate(action: string, params: CollapsibleActionParams) {
@@ -76,8 +76,8 @@ export class ESLCollapsible extends ESLBasePopup {
     }
 
     protected afterAnimate() {
-    	CSSUtil.removeClasses(this, this.animateClass);
-	    CSSUtil.removeClasses(this, this.postAnimateClass);
+    	CSSUtil.removeCls(this, this.animateClass);
+	    CSSUtil.removeCls(this, this.postAnimateClass);
         this.$$fireNs('transitionend', {
             detail: { open: this.open }
         });

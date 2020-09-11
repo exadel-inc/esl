@@ -73,7 +73,7 @@ export class ESLTabPanel extends ESLCollapsible {
         super.afterAnimate();
     }
 
-    protected onTransformationChange = () => CSSUtil.toggleClassesTo(this, this.accordionClass, this.isAccordion);
+    protected onTransformationChange = () => CSSUtil.toggleClsTo(this, this.accordionClass, this.isAccordion);
 }
 
 export default ESLTabPanel;

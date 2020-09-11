@@ -185,8 +185,8 @@ export class ESLBasePopup extends ESLBaseElement {
 	 */
 	protected onShow(params: PopupActionParams) {
 		this.open = this._open = true;
-		CSSUtil.addClasses(this, this.activeClass);
-		CSSUtil.addClasses(document.body, this.bodyClass);
+		CSSUtil.addCls(this, this.activeClass);
+		CSSUtil.addCls(document.body, this.bodyClass);
 		this.updateA11y();
 	}
 
@@ -195,8 +195,8 @@ export class ESLBasePopup extends ESLBaseElement {
 	 */
 	protected onHide(params: PopupActionParams) {
 		this.open = this._open = false;
-		CSSUtil.removeClasses(this, this.activeClass);
-		CSSUtil.removeClasses(document.body, this.bodyClass);
+		CSSUtil.removeCls(this, this.activeClass);
+		CSSUtil.removeCls(document.body, this.bodyClass);
 		this.updateA11y();
 	}
 
