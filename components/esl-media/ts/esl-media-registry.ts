@@ -10,7 +10,7 @@ interface ProviderMap {
 	[name: string]: BaseProviderConstructor;
 }
 
-let evRegistryInstance: ESLMediaProviderRegistry = null;
+let evRegistryInstance: ESLMediaProviderRegistry | null = null;
 export class ESLMediaProviderRegistry extends Observable {
 	private providers: ProviderMap = {};
 

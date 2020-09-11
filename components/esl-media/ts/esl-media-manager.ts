@@ -7,17 +7,13 @@
  */
 import ESLMedia from './esl-media';
 
-interface ESLMediaManager {
-	[key: string]: ESLMedia
-}
-
-const managerMap: ESLMediaManager = {};
+const managerMap = new Map<string, ESLMedia>();
 
 export class MediaGroupRestrictionManager {
 	/**
 	 * @debug info
 	 */
-	static get _managerMap() {
+	static get managerMap() {
 		return managerMap;
 	}
 
@@ -26,13 +22,12 @@ export class MediaGroupRestrictionManager {
 	 */
 	public static registerPlay(instance: ESLMedia) {
 		if (instance.group) {
-			const current = managerMap[instance.group];
-			if (current && current !== instance && current.active) {
-				if (current.$$fireNs('mangedpause')) {
-					current.pause();
-				}
+			const current = managerMap.get(instance.group);
+			managerMap.set(instance.group, instance);
+			if (!current || current === instance || !current.active) return;
+			if (current.$$fireNs('mangedpause')) {
+				current.pause();
 			}
-			managerMap[instance.group] = instance;
 		}
 	}
 
@@ -41,10 +36,8 @@ export class MediaGroupRestrictionManager {
 	 */
 	public static unregister(instance: ESLMedia) {
 		if (instance.group) {
-			const reg = managerMap[instance.group];
-			if (reg === instance) {
-				managerMap[instance.group] = null;
-			}
+			const reg = managerMap.get(instance.group);
+			if (reg === instance) managerMap.delete(instance.group);
 		}
 	}
 }

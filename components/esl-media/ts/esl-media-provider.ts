@@ -12,7 +12,7 @@ export enum PlayerStates {
     PLAYING = 1,
     UNSTARTED = -1,
     VIDEO_CUED = 5,
-    UNINITIALIZED = null
+    UNINITIALIZED = NaN
 }
 
 export type BaseProviderConstructor = new(component: ESLMedia) => BaseProvider<HTMLElement>;
