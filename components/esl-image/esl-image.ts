@@ -21,7 +21,8 @@ export interface ESLImageTag {
 	'refresh-on-update'?: boolean;
 	/** Define CSS class for inner image */
 	'inner-image-class'?: string;
-	/* Allowed children */
+
+	/** Allowed children */
 	children: [];
 }
 
