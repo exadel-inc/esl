@@ -16,7 +16,7 @@ interface ESLImageRenderStrategy {
 	/** Apply image from shadow loader */
 	apply: (img: ESLImage, shadowImg: ShadowImageElement) => void;
 	/** Clean strategy specific changes from ESLImage */
-	clear?: (img: ESLImage) => void;
+	clear: (img: ESLImage) => void;
 }
 
 /**
@@ -38,30 +38,30 @@ const STRATEGIES: ESLImageStrategyMap = {
 		apply(img, shadowImg) {
 			const src = shadowImg.src;
 			const isEmpty = !src || ESLImage.isEmptyImage(src);
-			img.style.backgroundImage = isEmpty ? null : `url("${src}")`;
+			img.style.backgroundImage = isEmpty ? '' : `url("${src}")`;
 		},
 		clear(img) {
-			img.style.backgroundImage = null;
+			img.style.backgroundImage = '';
 		}
 	},
 	'save-ratio': {
 		apply(img, shadowImg) {
 			const src = shadowImg.src;
 			const isEmpty = !src || ESLImage.isEmptyImage(src);
-			img.style.backgroundImage = isEmpty ? null : `url("${src}")`;
+			img.style.backgroundImage = isEmpty ? '' : `url("${src}")`;
 			if (shadowImg.width === 0) return;
-			img.style.paddingTop = isEmpty ? null : `${(shadowImg.height * 100 / shadowImg.width)}%`;
+			img.style.paddingTop = isEmpty ? '' : `${(shadowImg.height * 100 / shadowImg.width)}%`;
 		},
 		clear(img) {
-			img.style.paddingTop = null;
-			img.style.backgroundImage = null;
+			img.style.paddingTop = '';
+			img.style.backgroundImage = '';
 		}
 	},
 	'fit': {
 		apply(img, shadowImg) {
-			img.attachInnerImage();
-			img.innerImage.src = shadowImg.src;
-			img.innerImage.removeAttribute('width');
+			const innerImg = img.attachInnerImage();
+			innerImg.src = shadowImg.src;
+			innerImg.removeAttribute('width');
 		},
 		clear(img) {
 			img.removeInnerImage();
@@ -69,9 +69,9 @@ const STRATEGIES: ESLImageStrategyMap = {
 	},
 	'origin': {
 		apply(img, shadowImg) {
-			img.attachInnerImage();
-			img.innerImage.src = shadowImg.src;
-			img.innerImage.width = shadowImg.width / shadowImg.dpr;
+			const innerImg = img.attachInnerImage();
+			innerImg.src = shadowImg.src;
+			innerImg.width = shadowImg.width / (shadowImg.dpr || 1);
 		},
 		clear(img) {
 			img.removeInnerImage();
@@ -149,8 +149,8 @@ export class ESLImage extends ESLBaseElement {
 	@attr({conditional: true, readonly: true}) public readonly loaded: boolean;
 	@attr({conditional: true, readonly: true}) public readonly error: boolean;
 
-	private _strategy: ESLImageRenderStrategy;
-	private _innerImg: HTMLImageElement;
+	private _strategy: ESLImageRenderStrategy | null;
+	private _innerImg: HTMLImageElement | null;
 	private _srcRules: ESLMediaRuleList<string>;
 	private _currentSrc: string;
 	private _detachLazyTrigger: () => void;
@@ -283,7 +283,7 @@ export class ESLImage extends ESLBaseElement {
 		this._detachLazyTrigger && this._detachLazyTrigger();
 	}
 
-	protected getPath(src: string) {
+	protected getPath(src: string | null) {
 		if (!src || src === '0' || src === 'none') {
 			return ESLImage.EMPTY_IMAGE;
 		}
@@ -312,16 +312,17 @@ export class ESLImage extends ESLBaseElement {
 		return this._innerImg;
 	}
 
-	public attachInnerImage() {
-		if (!this.innerImage) {
+	public attachInnerImage(): HTMLImageElement {
+		if (!this._innerImg) {
 			this._innerImg = this.querySelector(`img.${this.innerImageClass}`) ||
 				this._shadowImg.cloneNode() as HTMLImageElement;
 			this._innerImg.className = this.innerImageClass;
 		}
-		if (!this.innerImage.parentNode) {
-			this.appendChild(this.innerImage);
+		if (!this._innerImg.parentNode) {
+			this.appendChild(this._innerImg);
 		}
-		this.innerImage.alt = this.alt;
+		this._innerImg.alt = this.alt;
+		return this._innerImg;
 	}
 
 	public removeInnerImage() {
