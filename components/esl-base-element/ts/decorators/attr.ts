@@ -6,19 +6,19 @@ interface AttrDescriptor {
 	conditional?: boolean;
 	readonly?: boolean;
 	dataAttr?: boolean;
-	defaultValue?: string | null;
+	defaultValue?: string | boolean | null;
 }
 
-function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string | null) {
+function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string | boolean | null | undefined) {
 	function get() {
 		const value = this.getAttribute(attrName);
 		return typeof value === 'string' ? value : defaultValue;
 	}
-	function set(value: string | false | null | undefined ) {
+	function set(value: string | boolean | null | undefined ) {
 		if (value === undefined || value === null || value === false) {
 			this.removeAttribute(attrName);
 		} else {
-			this.setAttribute(attrName, value);
+			this.setAttribute(attrName, value === true ? '' : value);
 		}
 	}
 	return readOnly ? {get} : {get, set};

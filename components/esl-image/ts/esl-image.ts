@@ -1,6 +1,6 @@
 /**
  * ESL Image
- * @version 2.2.0
+ * @version 2.3.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
@@ -9,93 +9,7 @@ import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import ESLMediaRuleList from '../../esl-utils/conditions/esl-media-rule-list';
 
-/**
- * Describe mods configurations
- */
-interface ESLImageRenderStrategy {
-	/** Apply image from shadow loader */
-	apply: (img: ESLImage, shadowImg: ShadowImageElement) => void;
-	/** Clean strategy specific changes from ESLImage */
-	clear: (img: ESLImage) => void;
-}
-
-/**
- * Describes object that contains strategies mapping
- */
-interface ESLImageStrategyMap {
-	[mode: string]: ESLImageRenderStrategy;
-}
-
-/**
- * Mixed image element that used as shadow loader for ESLImage
- */
-interface ShadowImageElement extends HTMLImageElement {
-	dpr?: number
-}
-
-const STRATEGIES: ESLImageStrategyMap = {
-	'cover': {
-		apply(img, shadowImg) {
-			const src = shadowImg.src;
-			const isEmpty = !src || ESLImage.isEmptyImage(src);
-			img.style.backgroundImage = isEmpty ? '' : `url("${src}")`;
-		},
-		clear(img) {
-			img.style.backgroundImage = '';
-		}
-	},
-	'save-ratio': {
-		apply(img, shadowImg) {
-			const src = shadowImg.src;
-			const isEmpty = !src || ESLImage.isEmptyImage(src);
-			img.style.backgroundImage = isEmpty ? '' : `url("${src}")`;
-			if (shadowImg.width === 0) return;
-			img.style.paddingTop = isEmpty ? '' : `${(shadowImg.height * 100 / shadowImg.width)}%`;
-		},
-		clear(img) {
-			img.style.paddingTop = '';
-			img.style.backgroundImage = '';
-		}
-	},
-	'fit': {
-		apply(img, shadowImg) {
-			const innerImg = img.attachInnerImage();
-			innerImg.src = shadowImg.src;
-			innerImg.removeAttribute('width');
-		},
-		clear(img) {
-			img.removeInnerImage();
-		}
-	},
-	'origin': {
-		apply(img, shadowImg) {
-			const innerImg = img.attachInnerImage();
-			innerImg.src = shadowImg.src;
-			innerImg.width = shadowImg.width / (shadowImg.dpr || 1);
-		},
-		clear(img) {
-			img.removeInnerImage();
-		}
-	},
-	'inner-svg': {
-		apply(img, shadowImg) {
-			const request = new XMLHttpRequest();
-			request.open('GET', shadowImg.src, true);
-			request.onreadystatechange = () => {
-				if (request.readyState !== 4 || request.status !== 200) return;
-				const tmp = document.createElement('div');
-				tmp.innerHTML = request.responseText;
-				Array.from(tmp.querySelectorAll('script') || [])
-					.forEach((node: Element) => node.remove());
-				img.innerHTML = tmp.innerHTML;
-			};
-			request.send();
-		},
-		clear(img) {
-			img.innerHTML = '';
-		}
-	}
-};
+import {ESLImageRenderStrategy, ShadowImageElement, STRATEGIES} from './esl-image-strategies';
 
 // Intersection Observer for lazy init functionality
 let intersectionObserver: IntersectionObserver;
@@ -137,9 +51,9 @@ export class ESLImage extends ESLBaseElement {
 	@attr({defaultValue: ''}) public alt: string;
 	@attr({defaultValue: 'save-ratio'}) public mode: string;
 	@attr({dataAttr: true, defaultValue: ''}) public src: string;
-	@attr({dataAttr: true, defaultValue: ''}) public srcBase: string;
+	@attr({dataAttr: true, defaultValue: ''}) public srcBase?: string;
 
-	@attr({defaultValue: null}) public lazy: 'auto' | 'manual' | null;
+	@attr({defaultValue: false}) public lazy: 'auto' | 'manual' | boolean;
 	@attr({conditional: true}) public lazyTriggered: boolean;
 
 	@attr({conditional: true}) public refreshOnUpdate: boolean;
@@ -171,7 +85,7 @@ export class ESLImage extends ESLBaseElement {
 			this.setAttribute('role', 'img');
 		}
 		this.srcRules.addListener(this._onMatchChange);
-		if (this.lazy !== 'manual') {
+		if (this.lazyObservable) {
 			this.removeAttribute('lazy-triggered');
 			getIObserver().observe(this);
 			this._detachLazyTrigger = function () {
@@ -215,14 +129,14 @@ export class ESLImage extends ESLBaseElement {
 		}
 	}
 
-	get srcRules() {
+	public get srcRules() {
 		if (!this._srcRules) {
 			this.srcRules = ESLMediaRuleList.parse<string>(this.src, ESLMediaRuleList.STRING_PARSER);
 		}
 		return this._srcRules;
 	}
 
-	set srcRules(rules: ESLMediaRuleList<string>) {
+	public set srcRules(rules: ESLMediaRuleList<string>) {
 		if (this._srcRules) {
 			this._srcRules.removeListener(this._onMatchChange);
 		}
@@ -230,12 +144,19 @@ export class ESLImage extends ESLBaseElement {
 		this._srcRules.addListener(this._onMatchChange);
 	}
 
-	get currentSrc() {
+	public get currentSrc() {
 		return this._currentSrc;
 	}
 
-	get empty() {
+	public get empty() {
 		return !this._currentSrc || ESLImage.isEmptyImage(this._currentSrc);
+	}
+
+	public get canUpdate() {
+		return this.lazyTriggered || this.lazy === false || this.lazy === null;
+	}
+	public get lazyObservable() {
+		return this.lazy === true || this.lazy === 'auto';
 	}
 
 	public triggerLoad() {
@@ -255,9 +176,7 @@ export class ESLImage extends ESLBaseElement {
 	}
 
 	protected update(force: boolean = false) {
-		if (this.lazy !== null && !this.lazyTriggered) {
-			return;
-		}
+		if (!this.canUpdate) return;
 
 		const rule = this.srcRules.active;
 		const src = this.getPath(rule.payload);
