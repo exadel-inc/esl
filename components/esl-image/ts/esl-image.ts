@@ -51,9 +51,9 @@ export class ESLImage extends ESLBaseElement {
 	@attr({defaultValue: ''}) public alt: string;
 	@attr({defaultValue: 'save-ratio'}) public mode: string;
 	@attr({dataAttr: true, defaultValue: ''}) public src: string;
-	@attr({dataAttr: true, defaultValue: ''}) public srcBase?: string;
+	@attr({dataAttr: true, defaultValue: ''}) public srcBase: string;
 
-	@attr({defaultValue: false}) public lazy: 'auto' | 'manual' | boolean;
+	@attr({defaultValue: 'none'}) public lazy: 'auto' | 'manual' | 'none' | '' | boolean;
 	@attr({conditional: true}) public lazyTriggered: boolean;
 
 	@attr({conditional: true}) public refreshOnUpdate: boolean;
@@ -156,7 +156,7 @@ export class ESLImage extends ESLBaseElement {
 		return this.lazyTriggered || this.lazy === false || this.lazy === null;
 	}
 	public get lazyObservable() {
-		return this.lazy === true || this.lazy === 'auto';
+		return this.lazy === '' || this.lazy === true || this.lazy === 'auto';
 	}
 
 	public triggerLoad() {

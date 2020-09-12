@@ -1,4 +1,3 @@
-type StyleMap = {[key: string]: string | null};
 export abstract class CSSUtil {
 	public static splitTokens(tokenString: string | null | undefined) {
 		return (tokenString || '').split(' ').filter((str) => !!str);
