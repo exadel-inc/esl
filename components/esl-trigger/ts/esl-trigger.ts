@@ -1,9 +1,10 @@
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
-import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
-import {ESLPopup} from '../../esl-popup/esl-popup';
-import {findTarget} from '../../esl-utils/dom/traversing';
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
+import {CSSUtil} from '../../esl-utils/dom/styles';
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {findTarget} from '../../esl-utils/dom/traversing';
+import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
+import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
+import {ESLPopup} from '../../esl-popup/esl-popup';
 import ESLTriggersContainer from './esl-triggers-container';
 import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ENTER, SPACE} from '../../esl-utils/dom/keycodes';
 
@@ -153,7 +154,7 @@ export class ESLTrigger extends ESLBaseElement {
   protected onToggleEvent = (e: Event) => (this.active ? this.onHideEvent : this.onShowEvent)(e);
   protected onPopupStateChanged = () => {
     this.active = this.popup.open;
-    this.activeClass && this.classList.toggle(this.activeClass, this.active);
+    CSSUtil.toggleClsTo(this, this.activeClass, this.active);
     this.updateA11y();
   };
 

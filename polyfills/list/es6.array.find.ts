@@ -4,7 +4,7 @@
  * Array.prototype.findIndex && Array.prototype.findIndex
  */
 if (typeof Array.prototype.findIndex !== 'function') {
-	const findHelper = function <T>(predicate: Predicate<T>): { item: T, index: number } {
+	const findHelper = function <T>(predicate: Predicate<T>): { item: T | null, index: number } {
 		if (!this) {
 			throw new TypeError('Array.prototype.findIndex called on null or undefined');
 		}
@@ -24,7 +24,7 @@ if (typeof Array.prototype.findIndex !== 'function') {
 		return {item: null, index: -1};
 	};
 
-	Array.prototype.find = function <T>(predicate: Predicate<T>): T {
+	Array.prototype.find = function <T>(predicate: Predicate<T>): T | null {
 		return findHelper(predicate).item;
 	};
 	Array.prototype.findIndex = function <T>(predicate: Predicate<T>): number {

@@ -1,6 +1,7 @@
 /**
  * Group: DOM API shims
  * Target Browsers: IE11, Edge < 18, Safari < 13
+ * Element.toggleAttribute polyfill
  */
 if (!Element.prototype.toggleAttribute) {
 	Element.prototype.toggleAttribute = function (name: string, force: boolean | undefined): boolean {

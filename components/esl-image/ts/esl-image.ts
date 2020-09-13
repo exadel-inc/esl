@@ -53,7 +53,7 @@ export class ESLImage extends ESLBaseElement {
 	@attr({dataAttr: true, defaultValue: ''}) public src: string;
 	@attr({dataAttr: true, defaultValue: ''}) public srcBase: string;
 
-	@attr({defaultValue: 'none'}) public lazy: 'auto' | 'manual' | 'none' | '' | boolean;
+	@attr({defaultValue: 'none'}) public lazy: 'auto' | 'manual' | 'none' | '';
 	@attr({conditional: true}) public lazyTriggered: boolean;
 
 	@attr({conditional: true}) public refreshOnUpdate: boolean;
@@ -153,10 +153,10 @@ export class ESLImage extends ESLBaseElement {
 	}
 
 	public get canUpdate() {
-		return this.lazyTriggered || this.lazy === false || this.lazy === null;
+		return this.lazyTriggered || this.lazy === 'none';
 	}
 	public get lazyObservable() {
-		return this.lazy === '' || this.lazy === true || this.lazy === 'auto';
+		return this.lazy === '' || this.lazy === 'auto';
 	}
 
 	public triggerLoad() {
