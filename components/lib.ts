@@ -12,6 +12,7 @@ import type {ESLTrigger} from './esl-trigger/ts/esl-trigger';
 import type {ESLTriggersContainer} from './esl-trigger/ts/esl-triggers-container';
 import type {ESLCollapsible} from './esl-collapsible/ts/esl-collapsible';
 import type {ESLTabPanel} from './esl-tab-panel/ts/esl-tab-panel';
+import type {ESLTabsContainer} from './esl-tab/ts/esl-tabs-container';
 
 import type {ESLCarousel} from './esl-carousel/ts/esl-carousel';
 import type {ESLCarouselDotsPlugin} from './esl-carousel/ts/plugin/esl-carousel-dots.plugin';
@@ -40,6 +41,7 @@ declare global {
 		Collapsible?: typeof ESLCollapsible;
 		TabPanel?: typeof ESLTabPanel;
         TriggersContainer?: typeof ESLTriggersContainer;
+        TabsContainer?: typeof ESLTabsContainer;
 
 		Scrollbar?: typeof ESLScrollbar;
 

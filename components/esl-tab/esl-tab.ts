@@ -1,0 +1,1 @@
+export * from './ts/esl-tabs-container';

@@ -15,6 +15,7 @@ export {ESLCollapsible as Collapsible} from './esl-collapsible/esl-collapsible';
 export {ESLTabPanel as TabPanel} from './esl-tab-panel/esl-tab-panel';
 export {ESLTrigger as Trigger} from './esl-trigger/esl-trigger';
 export {ESLTriggersContainer as TriggersContainer} from './esl-trigger/ts/esl-triggers-container';
+export {ESLTabsContainer as TabsContainer} from './esl-tab/ts/esl-tabs-container';
 
 export {ESLScrollbar as Scrollbar} from './esl-scrollbar/esl-scrollbar';
 
