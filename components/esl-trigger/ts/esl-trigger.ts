@@ -155,6 +155,9 @@ export class ESLTrigger extends ESLBaseElement {
     this.active = this.popup.open;
     this.activeClass && this.classList.toggle(this.activeClass, this.active);
     this.updateA11y();
+    this.dispatchCustomEvent('statechange', {
+      bubbles: true
+    });
   };
 
   protected stopEventPropagation(e: Event) {
@@ -220,7 +223,7 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
 
-  protected get $a11yTarget() {
+  public get $a11yTarget() {
     return this.a11yTarget ? this.querySelector(this.a11yTarget) : this;
   }
 }
