@@ -13,3 +13,16 @@ export function normalizeTouchPoint(event: TouchEvent | PointerEvent): Point {
 		y: source.pageY
 	};
 }
+
+/**
+ * Normalize MouseEvent
+ */
+export function normalizeCoordinates(event: MouseEvent, elem: HTMLElement): Point {
+    const props = elem.getBoundingClientRect();
+    const top = props.top + window.pageYOffset;
+    const left = props.left + window.pageXOffset;
+    return {
+        x: event.pageX - left,
+        y: event.pageY - top
+    };
+}
