@@ -34,6 +34,7 @@ export class ESLMedia extends ESLBaseElement {
     @attr({conditional: true}) public muted: boolean;
     @attr({conditional: true}) public loop: boolean;
     @attr({conditional: true}) public controls: boolean;
+    @attr({conditional: true}) public playsinline: boolean;
     @attr({conditional: true}) public playInViewport: boolean;
     @attr({conditional: true, defaultValue: 'auto'}) public preload: string;
 

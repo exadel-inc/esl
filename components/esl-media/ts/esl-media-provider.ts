@@ -15,6 +15,16 @@ export enum PlayerStates {
     UNINITIALIZED = null
 }
 
+export interface MediaProviderConfig {
+    loop: boolean;
+    muted: boolean;
+    controls: boolean;
+    autoplay: boolean;
+    title: string;
+    preload?: string;
+    playsinline?: boolean;
+}
+
 export type BaseProviderConstructor = new(component: ESLMedia) => BaseProvider<HTMLElement>;
 
 export abstract class BaseProvider<T extends HTMLElement> {

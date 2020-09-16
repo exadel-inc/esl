@@ -9,7 +9,7 @@ import {VideoJsPlayer} from 'video.js';
 
 import {loadScript} from '../../../esl-utils/dom/script';
 import {ESLMedia} from '../esl-media';
-import {BaseProvider, PlayerStates} from '../esl-media-provider';
+import {BaseProvider, MediaProviderConfig, PlayerStates} from '../esl-media-provider';
 import ESLMediaProviderRegistry from '../esl-media-registry';
 import {generateUId} from '../../../esl-utils/misc/uid';
 
@@ -18,6 +18,10 @@ const API_SCRIPT_ID = 'BC_API_SOURCE';
 export interface BCPlayerAccount {
 	playerId: string;
 	accountId: string;
+}
+
+export interface BCProviderConfig extends MediaProviderConfig {
+	mediaId: string;
 }
 
 export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDivElement> {
@@ -57,19 +61,20 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	/**
 	 * Build video brightcove element
 	 */
-	protected static buildVideo(sm: ESLMedia, account: BCPlayerAccount) {
+	protected static buildVideo(cfg: BCProviderConfig, account: BCPlayerAccount) {
 		const el = document.createElement('video');
 		el.id = 'esl-media-brightcove-' + generateUId();
 		el.className = 'esl-media-inner esl-media-brightcove ' + this.videojsClasses;
-		el.title = sm.title;
-		el.loop = sm.loop;
-		el.muted = sm.muted;
-		el.controls = sm.controls;
+		el.title = cfg.title;
+		el.loop = cfg.loop;
+		el.muted = cfg.muted;
+		el.controls = cfg.controls;
 		el.setAttribute('aria-label', el.title);
 		el.setAttribute('data-embed', 'default');
 		el.setAttribute('data-player', account.playerId);
 		el.setAttribute('data-account', account.accountId);
-		el.setAttribute('data-video-id', `ref:${sm.mediaId}`);
+		el.setAttribute('data-video-id', `ref:${cfg.mediaId}`);
+		el.toggleAttribute('playsinline', cfg.playsinline);
 		return el;
 	}
 

@@ -6,7 +6,7 @@
  */
 import {loadScript} from '../../../esl-utils/dom/script';
 import {ESLMedia} from '../esl-media';
-import {BaseProvider, PlayerStates} from '../esl-media-provider';
+import {BaseProvider, MediaProviderConfig, PlayerStates} from '../esl-media-provider';
 import ESLMediaProviderRegistry from '../esl-media-registry';
 import PlayerVars = YT.PlayerVars;
 import {generateUId} from '../../../esl-utils/misc/uid';
@@ -41,17 +41,18 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
         return YouTubeProvider._coreApiPromise;
     }
 
-    protected static mapOptions(sm: ESLMedia): PlayerVars {
+    protected static mapOptions(cfg: MediaProviderConfig): PlayerVars {
         return {
             enablejsapi: 1,
             origin: location.origin,
             rel: 0,
             showinfo: 0,
             iv_load_policy: 0, // eslint-disable-line
-            autoplay: Number(sm.autoplay),
-            controls: Number(sm.controls),
-            disablekb: Number(!sm.controls), // TODO: criteria
-            autohide: Number(!sm.controls) // TODO: criteria
+            autoplay: Number(cfg.autoplay),
+            controls: Number(cfg.controls),
+            playsinline: Number(cfg.playsinline),
+            disablekb: Number(!cfg.controls), // TODO: criteria
+            autohide: Number(!cfg.controls) // TODO: criteria
         };
     }
 
