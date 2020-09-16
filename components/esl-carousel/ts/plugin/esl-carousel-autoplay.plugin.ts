@@ -33,7 +33,7 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
 		this.carousel.addEventListener('mouseout', this._onInteract);
 		this.carousel.addEventListener('focusin', this._onInteract);
 		this.carousel.addEventListener('focusout', this._onInteract);
-		this.carousel.addEventListener('eslc:slide:changed', this._onInteract);
+		this.carousel.addEventListener('esl:carousel:slide:changed', this._onInteract);
 		this.start();
 		// console.log('Auto-advance plugin attached successfully to ', this.carousel);
 	}
@@ -42,7 +42,7 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
 		this.carousel.removeEventListener('mouseout', this._onInteract);
 		this.carousel.removeEventListener('focusin', this._onInteract);
 		this.carousel.removeEventListener('focusout', this._onInteract);
-		this.carousel.removeEventListener('eslc:slide:changed', this._onInteract);
+		this.carousel.removeEventListener('esl:carousel:slide:changed', this._onInteract);
 		this.stop();
 		// console.log('Auto-advance plugin detached successfully from ', this.carousel);
 	}

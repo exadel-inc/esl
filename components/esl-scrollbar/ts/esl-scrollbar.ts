@@ -1,6 +1,6 @@
 /**
  * ESL Scrollbar
- * @version 1.1.0
+ * @version 1.2.0
  * @author Yuliya Adamskaya
  */
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
@@ -8,6 +8,8 @@ import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
 import {findTarget, isRelative} from '../../esl-utils/dom/traversing';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {normalizeCoordinates} from '../../esl-utils/dom/events';
+
+const observableTarget = (target: HTMLElement) => document.documentElement === target ? window : target;
 
 @ExportNs('Scrollbar')
 export class ESLScrollbar extends ESLBaseElement {
@@ -66,16 +68,14 @@ export class ESLScrollbar extends ESLBaseElement {
         return this.$scrollableContent || null;
     }
 
-    public set targetElement(content: HTMLElement) {
+    public set targetElement(content: HTMLElement | null) {
         if (this.$scrollableContent) {
-            this.isPageScroll ?
-                window.removeEventListener('scroll', this.onScroll) :
-                this.$scrollableContent.removeEventListener('scroll', this.onScroll);
+            observableTarget(this.$scrollableContent).removeEventListener('scroll', this.onScroll);
         }
         this.$scrollableContent = content;
-        this.isPageScroll ?
-            window.addEventListener('scroll', this.onScroll, {passive: true}) :
-            this.$scrollableContent.addEventListener('scroll', this.onScroll, {passive: true});
+        if (this.$scrollableContent) {
+            observableTarget(this.$scrollableContent).addEventListener('scroll', this.onScroll, {passive: true});
+        }
     }
 
     protected render() {
@@ -103,14 +103,11 @@ export class ESLScrollbar extends ESLBaseElement {
         window.removeEventListener('resize', this.onResize);
         window.removeEventListener('esl:refresh', this.onRefresh);
 
-        this.targetElement.removeEventListener('scroll', this.onScroll);
-    }
-
-    public get isPageScroll() {
-        return this.targetElement === document.documentElement;
+        this.targetElement && this.targetElement.removeEventListener('scroll', this.onScroll);
     }
 
     public get scrollableSize() {
+        if (!this.targetElement) return 0;
         return this.horizontal ?
             this.targetElement.scrollWidth - this.targetElement.clientWidth :
             this.targetElement.scrollHeight - this.targetElement.clientHeight;
@@ -145,7 +142,7 @@ export class ESLScrollbar extends ESLBaseElement {
         if (this.dragging) { // Mousemove event
             this.targetElement[this.horizontal ? 'scrollLeft' : 'scrollTop'] = targetPosition;
         } else { // Click event
-            this.$scrollableContent.scrollTo({
+            this.targetElement.scrollTo({
                 [this.horizontal ? 'left' : 'top'] : targetPosition,
                 behavior: 'smooth',
             });

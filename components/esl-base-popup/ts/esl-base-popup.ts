@@ -207,7 +207,7 @@ export class ESLBasePopup extends ESLBaseElement {
 		this.$$fireNs('statechange', {
 			detail: {open: this._open}
 		});
-        this.dispatchCustomEvent('esl:refresh', {bubbles: true}, false);
+        this.$$fire('esl:refresh');
 	}
 
 	// "Private" Handlers
