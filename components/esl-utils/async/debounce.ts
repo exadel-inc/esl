@@ -19,11 +19,11 @@ export interface CallableSubject extends Function {
  * @returns {Function}
  */
 export function debounce<T extends NoopFnSignature>(fn: T, wait = 10): (T & CallableSubject) {
-	let timeout: ReturnType<typeof setTimeout> = null;
+	let timeout: number | null = null;
 	const observers: Set<NoopFnSignature> = new Set();
 
 	function callableDebouncedSubject(...args: any[]) {
-		clearTimeout(timeout);
+		(typeof timeout === 'number') && clearTimeout(timeout);
 		timeout = setTimeout(() => {
 			timeout = null;
 			fn.apply(this, args);

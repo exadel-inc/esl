@@ -3,6 +3,11 @@ html.esl-disable-scroll {
   body {
     max-height: 100vh !important;
     overflow: hidden !important;
+
+    // hide-scrollbar
+    &::-webkit-scrollbar {
+      display: none; // Chrome, Safari
+    }
   }
 
   // Shows page scroll

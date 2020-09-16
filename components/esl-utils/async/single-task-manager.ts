@@ -1,8 +1,8 @@
 import type {AnyToVoidFnSignature} from '../misc/functions';
 
 export class SingleTaskManager {
-	private _payload: AnyToVoidFnSignature;
-	private _timeout: number;
+	private _payload: AnyToVoidFnSignature | null;
+	private _timeout: number | null;
 
 	private execute = () => {
 		this._timeout = null;
@@ -22,7 +22,7 @@ export class SingleTaskManager {
 	}
 	public clear() {
 		this._payload = null;
-		(this._timeout) && clearTimeout(this._timeout);
+		(typeof this._timeout === 'number') && clearTimeout(this._timeout);
 		this._timeout = null;
 	}
 }

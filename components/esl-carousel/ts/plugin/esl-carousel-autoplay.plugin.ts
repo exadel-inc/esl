@@ -16,7 +16,7 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
 	@attr({defaultValue: '5000'}) public timeout: number;
 
 	private _active: boolean;
-	private _timeout: number;
+	private _timeout: number | null = null;
 
 	constructor() {
 		super();
@@ -57,7 +57,7 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
 	}
 
 	public reset() {
-		if (this._timeout) clearTimeout(this._timeout);
+		if (typeof this._timeout === 'number') clearTimeout(this._timeout);
 		this._timeout = this._active ? window.setTimeout(this._onInterval, this.timeout) : null;
 	}
 

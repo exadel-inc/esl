@@ -1,9 +1,10 @@
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
-import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
-import {ESLPopup} from '../../esl-popup/esl-popup';
-import {findTarget} from '../../esl-utils/dom/traversing';
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
+import {CSSUtil} from '../../esl-utils/dom/styles';
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {findTarget} from '../../esl-utils/dom/traversing';
+import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
+import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
+import {ESLPopup} from '../../esl-popup/esl-popup';
 import ESLTriggersContainer from './esl-triggers-container';
 import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ENTER, SPACE} from '../../esl-utils/dom/keycodes';
 
@@ -80,7 +81,7 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
 
-  public get container(): ESLTriggersContainer {
+  public get container(): ESLTriggersContainer | null {
     return this.closest(ESLTriggersContainer.is);
   }
 
@@ -128,7 +129,7 @@ export class ESLTrigger extends ESLBaseElement {
     this.removeEventListener('keydown', this.onKeydown);
   }
 
-  protected attachEventListener(eventName: string, callback: (e: Event) => void) {
+  protected attachEventListener(eventName: string | null, callback: (e: Event) => void) {
     if (!eventName) return;
     this.addEventListener(eventName, callback);
     this.__unsubscribers = this.__unsubscribers || [];
@@ -153,7 +154,7 @@ export class ESLTrigger extends ESLBaseElement {
   protected onToggleEvent = (e: Event) => (this.active ? this.onHideEvent : this.onShowEvent)(e);
   protected onPopupStateChanged = () => {
     this.active = this.popup.open;
-    this.activeClass && this.classList.toggle(this.activeClass, this.active);
+    CSSUtil.toggleClsTo(this, this.activeClass, this.active);
     this.updateA11y();
   };
 
@@ -204,6 +205,8 @@ export class ESLTrigger extends ESLBaseElement {
 
   protected updateA11y() {
     const target = this.$a11yTarget;
+    if (!target) return;
+
     switch (this.a11yRole) {
       case 'tab':
         target.setAttribute('aria-selected', String(this.active));
@@ -213,10 +216,9 @@ export class ESLTrigger extends ESLBaseElement {
         target.setAttribute('aria-expanded',  String(this.active));
         break;
     }
-
     // TODO: auto generate
     if (this.popup.id) {
-      this.setAttribute('aria-controls', this.popup.id);
+      target.setAttribute('aria-controls', this.popup.id);
     }
   }
 

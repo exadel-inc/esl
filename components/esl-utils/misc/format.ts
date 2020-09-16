@@ -6,6 +6,13 @@ export const toKebabCase = (str: string) => {
 };
 
 /**
+ * Convert string to camelCase notation
+ */
+export const toCamelCase = (str: string) => {
+    return str.trim().replace(/[\s-,_]+([a-zA-Z0-9]?)/g, (match: string, word: string) => (word || '').toUpperCase());
+};
+
+/**
  * Common function that returns coefficient aspect ratio
  * Supported formats: w:h, w/h, coefficient
  * @example '16:9', '16/9', '1.77'

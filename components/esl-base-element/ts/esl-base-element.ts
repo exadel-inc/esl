@@ -21,19 +21,25 @@ export abstract class ESLBaseElement extends HTMLElement {
 	}
 
 	/**
-     * Dispatch component custom event.
-     * Will append prefix from static property {eventNs} if it is defined.
-     * @param {string} eventName -  event name
-     * @param {CustomEventInit} eventInit - event init
-     * @param {boolean} eventNs
-     */
-	public dispatchCustomEvent(eventName: string,
-	                           eventInit: CustomEventInit = {bubbles: true},
-                               eventNs: boolean = true): boolean {
+	 * Dispatch component custom event.
+	 * @param {string} eventName -  event name
+	 * @param {CustomEventInit} eventInit - event init
+	 */
+	public $$fire(eventName: string, eventInit: CustomEventInit = {}): boolean {
+		const init = Object.assign({bubbles: true, cancelable: true}, eventInit);
+		return this.dispatchEvent(new CustomEvent(eventName, init));
+	}
+
+	/**
+	 * Dispatch component custom event.
+	 * Will append prefix from static property {eventNs} if it is defined.
+	 * @param {string} eventName -  event name
+	 * @param {CustomEventInit} eventInit - event init
+	 */
+	public $$fireNs(eventName: string, eventInit: CustomEventInit = {}): boolean {
 		const component = this.constructor as typeof ESLBaseElement;
-		const eventFullName = (eventNs && component.eventNs ? `${component.eventNs}:` : '') + eventName;
-		const event = new CustomEvent(eventFullName, eventInit);
-		return this.dispatchEvent(event);
+		const eventFullName = (component.eventNs ? `${component.eventNs}:` : '') + eventName;
+		return this.$$fire(eventFullName, eventInit);
 	}
 
 	/**

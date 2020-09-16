@@ -16,7 +16,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
     protected $scrollbarThumb: HTMLElement;
     protected $scrollbarTrack: HTMLElement;
-    protected $scrollableContent: HTMLElement;
+    protected $scrollableContent: HTMLElement | null;
 
     protected _initialMousePosition: number;
     protected _initialPosition: number;
@@ -139,6 +139,7 @@ export class ESLScrollbar extends ESLBaseElement {
     }
 
     public set position(position) {
+        if (!this.targetElement) return;
         const normalizedPosition = Math.min(1, Math.max(0, position));
         const targetPosition = this.scrollableSize * normalizedPosition;
         if (this.dragging) { // Mousemove event

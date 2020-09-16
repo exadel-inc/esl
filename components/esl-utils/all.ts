@@ -1,4 +1,5 @@
 // Common
+export * from './misc/uid';
 export * from './abstract/observable';
 export * from './async/promise';
 export * from './dom/script';
@@ -21,4 +22,4 @@ export * from './enviroment/breakpoints';
 // ESL Media Query
 export * from './conditions/esl-media-query';
 export * from './conditions/esl-media-rule-list';
-export {generateUId} from './misc/uid';
+
