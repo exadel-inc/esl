@@ -133,7 +133,7 @@ export class ESLBasePopup extends ESLBaseElement {
 		this.group.activate(this, params);
 		this.planShowTask(params);
 		this.bindBodyClickTracking(this.closeOnBodyClick);
-		this.bindHoverStateTracking(params.trackHover);
+		this.bindHoverStateTracking(!!params.trackHover);
 		return this;
 	}
 	private planShowTask(params: PopupActionParams) {
@@ -151,7 +151,7 @@ export class ESLBasePopup extends ESLBaseElement {
 		params = this.mergeDefaultParams(params);
 		this.planHideTask(params);
 		this.bindBodyClickTracking(false);
-		this.bindHoverStateTracking(params.trackHover);
+		this.bindHoverStateTracking(!!params.trackHover);
 		return this;
 	}
 	private planHideTask(params: PopupActionParams) {
@@ -184,11 +184,9 @@ export class ESLBasePopup extends ESLBaseElement {
 	 * Action to show popup
 	 */
 	protected onShow(params: PopupActionParams) {
-		this._open = true;
-
-		this.setAttribute('open', '');
-		CSSUtil.addClasses(this, this.activeClass);
-		CSSUtil.addClasses(document.body, this.bodyClass);
+		this.open = this._open = true;
+		CSSUtil.addCls(this, this.activeClass);
+		CSSUtil.addCls(document.body, this.bodyClass);
 		this.updateA11y();
 	}
 
@@ -196,11 +194,9 @@ export class ESLBasePopup extends ESLBaseElement {
 	 * Action to hide popup
 	 */
 	protected onHide(params: PopupActionParams) {
-		this._open = false;
-
-		this.removeAttribute('open');
-		CSSUtil.removeClasses(this, this.activeClass);
-		CSSUtil.removeClasses(document.body, this.bodyClass);
+		this.open = this._open = false;
+		CSSUtil.removeCls(this, this.activeClass);
+		CSSUtil.removeCls(document.body, this.bodyClass);
 		this.updateA11y();
 	}
 
@@ -208,9 +204,8 @@ export class ESLBasePopup extends ESLBaseElement {
 	 * Fires component state change event
 	 */
 	protected fireStateChange() {
-		this.dispatchCustomEvent('statechange', {
-			detail: {open: this._open},
-			bubbles: true
+		this.$$fireNs('statechange', {
+			detail: {open: this._open}
 		});
 	}
 

@@ -24,19 +24,23 @@ export function loadScript(id: string, src: string): Promise<Event> {
 			case 'success': resolve(); break;
 			case 'error': reject(); break;
 			default:
-				script.addEventListener('load', () => {
+				script.addEventListener('load', (e: Event) => {
 					script.setAttribute('state', 'success');
-					resolve();
+					resolve(e);
 				});
-				script.addEventListener('error', () => {
+				script.addEventListener('error', (e: Event) => {
 					script.setAttribute('state', 'error');
-					reject();
+					reject(e);
 				});
 		}
 		if (!script.parentNode) {
 			const firstScriptTag = document.querySelector('script') ||
 				document.querySelector('head title');
-			firstScriptTag.parentNode.insertBefore(script, firstScriptTag);
+			if (firstScriptTag && firstScriptTag.parentNode) {
+				firstScriptTag.parentNode.insertBefore(script, firstScriptTag);
+			} else {
+				reject('Page document structure is incorrect');
+			}
 		}
 	});
 }

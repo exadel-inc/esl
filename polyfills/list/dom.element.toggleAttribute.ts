@@ -1,19 +1,16 @@
 /**
  * Group: DOM API shims
  * Target Browsers: IE11, Edge < 18, Safari < 13
+ * Element.toggleAttribute polyfill
  */
 if (!Element.prototype.toggleAttribute) {
 	Element.prototype.toggleAttribute = function (name: string, force: boolean | undefined): boolean {
-		if (force !== void 0) force = !!force;
+		const has = this.hasAttribute(name);
+		const state = force === void 0 ? !has : !!force;
 
-		if (this.hasAttribute(name)) {
-			if (force) return true;
-			this.removeAttribute(name);
-			return false;
+		if (has !== state) {
+			(state) ? this.setAttribute(name, '') : this.removeAttribute(name);
 		}
-
-		if (force === false) return false;
-		this.setAttribute(name, '');
-		return true;
+		return state;
 	};
 }

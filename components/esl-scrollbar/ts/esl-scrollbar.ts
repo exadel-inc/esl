@@ -15,7 +15,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
     protected $scrollbarThumb: HTMLElement;
     protected $scrollbarTrack: HTMLElement;
-    protected $scrollableContent: HTMLElement;
+    protected $scrollableContent: HTMLElement | null;
 
     protected _initialMousePosition: number;
     protected _initialPosition: number;
@@ -64,12 +64,10 @@ export class ESLScrollbar extends ESLBaseElement {
         return this.$scrollableContent || null;
     }
 
-    public set targetElement(content: HTMLElement) {
-        if (this.$scrollableContent) {
-            this.$scrollableContent.removeEventListener('scroll', this.onScroll);
-        }
+    public set targetElement(content: HTMLElement | null) {
+        this.$scrollableContent && this.$scrollableContent.removeEventListener('scroll', this.onScroll);
         this.$scrollableContent = content;
-        this.$scrollableContent.addEventListener('scroll', this.onScroll, {passive: true});
+        this.$scrollableContent && this.$scrollableContent.addEventListener('scroll', this.onScroll, {passive: true});
     }
 
     protected render() {
@@ -96,7 +94,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
         window.removeEventListener('resize', this.onResize);
 
-        this.$scrollableContent.removeEventListener('scroll', this.onScroll);
+        this.$scrollableContent && this.$scrollableContent.removeEventListener('scroll', this.onScroll);
     }
 
     public get thumbSize() {
@@ -112,6 +110,7 @@ export class ESLScrollbar extends ESLBaseElement {
     }
 
     public set position(position) {
+        if (!this.$scrollableContent) return;
         const normalizedPosition = Math.min(1, Math.max(0, position));
         this.$scrollableContent.scrollTop = (this.$scrollableContent.scrollHeight - this.$scrollableContent.offsetHeight) * normalizedPosition;
         this.update();
@@ -134,11 +133,7 @@ export class ESLScrollbar extends ESLBaseElement {
      * Update auxiliary markers
      */
     public updateMarkers() {
-        if (this.thumbSize === 1) {
-            this.setAttribute('inactive', '');
-        } else {
-            this.removeAttribute('inactive');
-        }
+        this.toggleAttribute('inactive', this.thumbSize === 1);
     }
 
     /**

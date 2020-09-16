@@ -11,17 +11,21 @@ class ESLMultiCarouselView extends ESLCarouselView {
 	}
 
 	public draw() {
-		const slideStyles = getComputedStyle(this.carousel.$slides[this.carousel.firstIndex]);
-		const currentTrans = slideStyles.transform !== 'none' ? parseFloat(slideStyles.transform.split(',')[4]) : 0;
-		const slidesAreaStyles = getComputedStyle(this.carousel.$slidesArea);
+		const { $slides, $slidesArea } = this.carousel;
+		if (!$slidesArea || !$slides.length) return;
 
-		const slideWidth = parseFloat(slidesAreaStyles.width) / this.carousel.activeCount - parseFloat(slideStyles.marginLeft) - parseFloat(slideStyles.marginRight);
+		const slideStyles = getComputedStyle($slides[this.carousel.firstIndex]);
+		const currentTrans = slideStyles.transform !== 'none' ? parseFloat(slideStyles.transform.split(',')[4]) : 0;
+		const slidesAreaStyles = getComputedStyle($slidesArea);
+
+		const slideWidth = parseFloat(slidesAreaStyles.width) / this.carousel.activeCount
+			- parseFloat(slideStyles.marginLeft) - parseFloat(slideStyles.marginRight);
 		const computedLeft = this.carousel.firstIndex === 0 ?
 			-currentTrans :
 			-(parseFloat(slidesAreaStyles.width) / this.carousel.activeCount * this.carousel.firstIndex) - currentTrans;
 
 
-		this.carousel.$slides.forEach((slide) => {
+		$slides.forEach((slide) => {
 			slide.style.minWidth = slideWidth + 'px';
 			slide.style.left = computedLeft + 'px';
 		});

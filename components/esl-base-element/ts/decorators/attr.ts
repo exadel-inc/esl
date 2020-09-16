@@ -6,19 +6,19 @@ interface AttrDescriptor {
 	conditional?: boolean;
 	readonly?: boolean;
 	dataAttr?: boolean;
-	defaultValue?: string;
+	defaultValue?: string | boolean | null;
 }
 
-function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string) {
+function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string | boolean | null | undefined) {
 	function get() {
 		const value = this.getAttribute(attrName);
 		return typeof value === 'string' ? value : defaultValue;
 	}
-	function set(value: string | false | null | undefined ) {
+	function set(value: string | boolean | null | undefined ) {
 		if (value === undefined || value === null || value === false) {
 			this.removeAttribute(attrName);
 		} else {
-			this.setAttribute(attrName, value);
+			this.setAttribute(attrName, value === true ? '' : value);
 		}
 	}
 	return readOnly ? {get} : {get, set};
@@ -29,7 +29,7 @@ function buildConditionalDescriptor(attrName: string, readOnly: boolean) {
 		return this.hasAttribute(attrName);
 	}
 	function set(value: boolean) {
-		value ? this.setAttribute(attrName, '') : this.removeAttribute(attrName);
+		this.toggleAttribute(attrName, value);
 	}
 	return readOnly ? {get} : {get, set};
 }
@@ -37,10 +37,11 @@ function buildConditionalDescriptor(attrName: string, readOnly: boolean) {
 const buildAttrName =
 	(propName: string, dataAttr: boolean) => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 
-export const attr = (config: AttrDescriptor = {defaultValue: '', readonly: false}) => {
+export const attr = (config: AttrDescriptor = {}) => {
+	config = Object.assign({defaultValue: '', readonly: false}, config);
 	return (target: ESLBaseElement, propName: string) => {
-		const attrName = config.name || buildAttrName(propName, config.dataAttr);
+		const attrName = config.name || buildAttrName(propName, !!config.dataAttr);
 		const descriptorBuilder = config.conditional ? buildConditionalDescriptor : buildSimpleDescriptor;
-		Object.defineProperty(target, propName, descriptorBuilder(attrName, config.readonly, config.defaultValue));
+		Object.defineProperty(target, propName, descriptorBuilder(attrName, !!config.readonly, config.defaultValue));
 	};
 };

@@ -8,10 +8,11 @@ export const noop = (): void => undefined;
  */
 export const identity = <T> (arg: T): T => arg;
 
+type Tuple<T> = [T?, T?];
 /**
  * Function to split array into tuples
  */
-export const tuple = <T>(arr: T[]): [T, T][] => arr.reduce((acc, el) => {
+export const tuple = <T>(arr: T[]): Tuple<T>[] => arr.reduce((acc: Tuple<T>[], el) => {
 	if (acc.length === 0 || acc[acc.length - 1].length >= 2) acc.push([]);
 	acc[acc.length - 1].push(el);
 	return acc;

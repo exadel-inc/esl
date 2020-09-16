@@ -17,7 +17,7 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
 	@attr() public to: string;
 	@attr({defaultValue: 'both'}) public direction: string;
 
-	private _target: ESLCarousel;
+	private _target: ESLCarousel | null;
 
 	constructor() {
 		super();
@@ -44,6 +44,7 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
 	}
 
 	protected _onSlideChange(e: CustomEvent) {
+		if (!this.target || !this.carousel) return;
 		const $target = e.target === this.carousel ? this.target : this.carousel;
 		const $source = e.target === this.carousel ? this.carousel : this.target;
 		$target.goTo($source.firstIndex, e.detail.direction);

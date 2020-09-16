@@ -18,7 +18,7 @@ export abstract class ESLCarouselPlugin extends ESLBaseElement {
 	/**
 	 * @returns carousel owner of the plugin
 	 */
-	protected findCarouselOwner(): ESLCarousel {
+	protected findCarouselOwner(): ESLCarousel | null {
 		if ((this.constructor as typeof ESLCarouselPlugin).freePlacement) {
 			return this.closest(ESLCarousel.is);
 		} else {
@@ -53,7 +53,7 @@ export abstract class ESLCarouselPlugin extends ESLBaseElement {
 	protected disconnectedCallback() {
 		if (this.carousel) {
 			this.carousel._removePlugin(this);
-			this._carousel = null;
+			delete this._carousel;
 		}
 	}
 
