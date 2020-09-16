@@ -1,5 +1,5 @@
 import {ESLCarouselView, ESLCarouselViewRegistry} from './esl-carousel-view';
-import ESLCarousel from '../ESL-carousel';
+import ESLCarousel from '../esl-carousel';
 
 class ESLMultiCarouselView extends ESLCarouselView {
 	constructor(carousel: ESLCarousel) {
