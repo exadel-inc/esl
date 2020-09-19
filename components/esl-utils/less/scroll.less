@@ -1,16 +1,18 @@
 html.esl-disable-scroll {
   // Simple scroll blocking
   body {
+    max-height: 100vh !important;
     overflow: hidden !important;
+
+    // hide-scrollbar
+    &::-webkit-scrollbar {
+      display: none; // Chrome, Safari
+    }
   }
 
   // Shows page scroll
   &.esl-native-scroll {
     overflow-y: scroll !important;
-
-    body {
-      max-height: 100vh !important;
-    }
   }
 
   // Show native like scroll in the content of the page

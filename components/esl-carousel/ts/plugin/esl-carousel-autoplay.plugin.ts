@@ -16,7 +16,7 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
 	@attr({defaultValue: '5000'}) public timeout: number;
 
 	private _active: boolean;
-	private _timeout: number;
+	private _timeout: number | null = null;
 
 	constructor() {
 		super();
@@ -33,7 +33,7 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
 		this.carousel.addEventListener('mouseout', this._onInteract);
 		this.carousel.addEventListener('focusin', this._onInteract);
 		this.carousel.addEventListener('focusout', this._onInteract);
-		this.carousel.addEventListener('eslc:slide:changed', this._onInteract);
+		this.carousel.addEventListener('esl:carousel:slide:changed', this._onInteract);
 		this.start();
 		// console.log('Auto-advance plugin attached successfully to ', this.carousel);
 	}
@@ -42,7 +42,7 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
 		this.carousel.removeEventListener('mouseout', this._onInteract);
 		this.carousel.removeEventListener('focusin', this._onInteract);
 		this.carousel.removeEventListener('focusout', this._onInteract);
-		this.carousel.removeEventListener('eslc:slide:changed', this._onInteract);
+		this.carousel.removeEventListener('esl:carousel:slide:changed', this._onInteract);
 		this.stop();
 		// console.log('Auto-advance plugin detached successfully from ', this.carousel);
 	}
@@ -57,7 +57,7 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
 	}
 
 	public reset() {
-		if (this._timeout) clearTimeout(this._timeout);
+		if (typeof this._timeout === 'number') clearTimeout(this._timeout);
 		this._timeout = this._active ? window.setTimeout(this._onInterval, this.timeout) : null;
 	}
 

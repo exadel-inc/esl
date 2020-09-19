@@ -16,12 +16,12 @@ export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
 
     public bind() {
         this.rerender();
-        this.carousel.addEventListener('eslc:slide:changed', this._onUpdate);
+        this.carousel.addEventListener('esl:carousel:slide:changed', this._onUpdate);
     }
 
     public unbind() {
         this.innerHTML = '';
-        this.carousel.removeEventListener('eslc:slide:changed', this._onUpdate);
+        this.carousel.removeEventListener('esl:carousel:slide:changed', this._onUpdate);
     }
 
     public rerender() {

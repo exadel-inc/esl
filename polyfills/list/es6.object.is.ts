@@ -10,8 +10,6 @@ if (!Object.is) {
 		value(x: any, y: any) {
 			return (x === y) ? (x !== 0 || 1 / x === 1 / y) : (x !== x && y !== y);
 		},
-		configurable: true,
-		enumerable: false,
-		writable: true
+		enumerable: false
 	});
 }

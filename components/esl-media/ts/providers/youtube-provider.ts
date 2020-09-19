@@ -100,10 +100,10 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
         this.component._onDetach();
         if (this._api) {
             this._api.destroy();
-            this._api = null;
+            delete this._api;
         }
         const embedded = this.component.querySelectorAll('.esl-media-youtube');
-        Array.from(embedded || []).forEach((el: Node) => el.parentNode.removeChild(el));
+        Array.from(embedded || []).forEach((el: Node) => el.parentNode && el.parentNode.removeChild(el));
     }
 
     private _onStateChange = (event: YT.OnStateChangeEvent) => {

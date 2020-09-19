@@ -1,6 +1,6 @@
 /**
  * ESL Media
- * @version 1.1.0
+ * @version 1.2.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
@@ -15,6 +15,7 @@ import {getIObserver} from './esl-media-iobserver';
 import {BaseProvider, PlayerStates} from './esl-media-provider';
 import ESLMediaRegistry from './esl-media-registry';
 import MediaGroupRestrictionManager from './esl-media-manager';
+import {CSSUtil} from '../../esl-utils/dom/styles';
 
 @ExportNs('Media')
 export class ESLMedia extends ESLBaseElement {
@@ -43,8 +44,8 @@ export class ESLMedia extends ESLBaseElement {
     @attr({conditional: true, readonly: true}) public played: boolean;
     @attr({conditional: true, readonly: true}) public error: boolean;
 
-    private _provider: BaseProvider<HTMLElement>;
-    private _conditionQuery: ESLMediaQuery;
+    private _provider: BaseProvider<HTMLElement> | null;
+    private _conditionQuery: ESLMediaQuery | null;
 
     private deferredResize = rafDecorator(() => this._onResize());
     private deferredReinitialize = debounce(() => this.reinitInstance());
@@ -211,31 +212,24 @@ export class ESLMedia extends ESLBaseElement {
     // media live-cycle handlers
     public _onReady() {
         this.setAttribute('ready', '');
-        if (this.hasAttribute('ready-class')) {
-            this.classList.add(this.getAttribute('ready-class'));
-        }
+        CSSUtil.addCls(this, this.getAttribute('ready-class'));
         this.deferredResize();
-        this.dispatchCustomEvent('ready');
+        this.$$fireNs('ready');
     }
 
     public _onError(detail?: any, setReadyState = true) {
         this.setAttribute('ready', '');
         this.setAttribute('error', '');
-        this.dispatchCustomEvent('error', {
-            bubbles: true,
-            detail
-        });
-        setReadyState && this.dispatchCustomEvent('ready');
+        this.$$fireNs('error', { detail });
+        setReadyState && this.$$fireNs('ready');
     }
 
     public _onDetach() {
         this.removeAttribute('active');
         this.removeAttribute('ready');
         this.removeAttribute('played');
-        if (this.hasAttribute('ready-class')) {
-            this.classList.remove(this.getAttribute('ready-class'));
-        }
-        this.dispatchCustomEvent('detach');
+        CSSUtil.removeCls(this, this.getAttribute('ready-class'));
+        this.$$fireNs('detach');
     }
 
     public _onPlay() {
@@ -243,19 +237,19 @@ export class ESLMedia extends ESLBaseElement {
         this.deferredResize();
         this.setAttribute('active', '');
         this.setAttribute('played', '');
-        this.dispatchCustomEvent('play');
+        this.$$fireNs('play');
         MediaGroupRestrictionManager.registerPlay(this);
     }
 
     public _onPaused() {
         this.removeAttribute('active');
-        this.dispatchCustomEvent('paused');
+        this.$$fireNs('paused');
         MediaGroupRestrictionManager.unregister(this);
     }
 
     public _onEnded() {
         this.removeAttribute('active');
-        this.dispatchCustomEvent('ended');
+        this.$$fireNs('ended');
         MediaGroupRestrictionManager.unregister(this);
     }
 
@@ -313,9 +307,7 @@ export class ESLMedia extends ESLBaseElement {
     }
 
     get actualAspectRatio() {
-        if (this.aspectRatio) {
-            return parseAspectRatio(this.aspectRatio) || this._provider.defaultAspectRatio;
-        }
+        if (this.aspectRatio && this.aspectRatio !== 'auto') return parseAspectRatio(this.aspectRatio);
         return this._provider ? this._provider.defaultAspectRatio : 0;
     }
 

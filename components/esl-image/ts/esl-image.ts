@@ -1,6 +1,6 @@
 /**
  * ESL Image
- * @version 2.2.0
+ * @version 2.3.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
@@ -9,93 +9,7 @@ import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import ESLMediaRuleList from '../../esl-utils/conditions/esl-media-rule-list';
 
-/**
- * Describe mods configurations
- */
-interface ESLImageRenderStrategy {
-	/** Apply image from shadow loader */
-	apply: (img: ESLImage, shadowImg: ShadowImageElement) => void;
-	/** Clean strategy specific changes from ESLImage */
-	clear?: (img: ESLImage) => void;
-}
-
-/**
- * Describes object that contains strategies mapping
- */
-interface ESLImageStrategyMap {
-	[mode: string]: ESLImageRenderStrategy;
-}
-
-/**
- * Mixed image element that used as shadow loader for ESLImage
- */
-interface ShadowImageElement extends HTMLImageElement {
-	dpr?: number
-}
-
-const STRATEGIES: ESLImageStrategyMap = {
-	'cover': {
-		apply(img, shadowImg) {
-			const src = shadowImg.src;
-			const isEmpty = !src || ESLImage.isEmptyImage(src);
-			img.style.backgroundImage = isEmpty ? null : `url("${src}")`;
-		},
-		clear(img) {
-			img.style.backgroundImage = null;
-		}
-	},
-	'save-ratio': {
-		apply(img, shadowImg) {
-			const src = shadowImg.src;
-			const isEmpty = !src || ESLImage.isEmptyImage(src);
-			img.style.backgroundImage = isEmpty ? null : `url("${src}")`;
-			if (shadowImg.width === 0) return;
-			img.style.paddingTop = isEmpty ? null : `${(shadowImg.height * 100 / shadowImg.width)}%`;
-		},
-		clear(img) {
-			img.style.paddingTop = null;
-			img.style.backgroundImage = null;
-		}
-	},
-	'fit': {
-		apply(img, shadowImg) {
-			img.attachInnerImage();
-			img.innerImage.src = shadowImg.src;
-			img.innerImage.removeAttribute('width');
-		},
-		clear(img) {
-			img.removeInnerImage();
-		}
-	},
-	'origin': {
-		apply(img, shadowImg) {
-			img.attachInnerImage();
-			img.innerImage.src = shadowImg.src;
-			img.innerImage.width = shadowImg.width / shadowImg.dpr;
-		},
-		clear(img) {
-			img.removeInnerImage();
-		}
-	},
-	'inner-svg': {
-		apply(img, shadowImg) {
-			const request = new XMLHttpRequest();
-			request.open('GET', shadowImg.src, true);
-			request.onreadystatechange = () => {
-				if (request.readyState !== 4 || request.status !== 200) return;
-				const tmp = document.createElement('div');
-				tmp.innerHTML = request.responseText;
-				Array.from(tmp.querySelectorAll('script') || [])
-					.forEach((node: Element) => node.remove());
-				img.innerHTML = tmp.innerHTML;
-			};
-			request.send();
-		},
-		clear(img) {
-			img.innerHTML = '';
-		}
-	}
-};
+import {ESLImageRenderStrategy, ShadowImageElement, STRATEGIES} from './esl-image-strategies';
 
 // Intersection Observer for lazy init functionality
 let intersectionObserver: IntersectionObserver;
@@ -139,7 +53,7 @@ export class ESLImage extends ESLBaseElement {
 	@attr({dataAttr: true, defaultValue: ''}) public src: string;
 	@attr({dataAttr: true, defaultValue: ''}) public srcBase: string;
 
-	@attr({defaultValue: null}) public lazy: 'auto' | 'manual' | null;
+	@attr({defaultValue: 'none'}) public lazy: 'auto' | 'manual' | 'none' | '';
 	@attr({conditional: true}) public lazyTriggered: boolean;
 
 	@attr({conditional: true}) public refreshOnUpdate: boolean;
@@ -149,8 +63,8 @@ export class ESLImage extends ESLBaseElement {
 	@attr({conditional: true, readonly: true}) public readonly loaded: boolean;
 	@attr({conditional: true, readonly: true}) public readonly error: boolean;
 
-	private _strategy: ESLImageRenderStrategy;
-	private _innerImg: HTMLImageElement;
+	private _strategy: ESLImageRenderStrategy | null;
+	private _innerImg: HTMLImageElement | null;
 	private _srcRules: ESLMediaRuleList<string>;
 	private _currentSrc: string;
 	private _detachLazyTrigger: () => void;
@@ -171,7 +85,7 @@ export class ESLImage extends ESLBaseElement {
 			this.setAttribute('role', 'img');
 		}
 		this.srcRules.addListener(this._onMatchChange);
-		if (this.lazy !== 'manual') {
+		if (this.lazyObservable) {
 			this.removeAttribute('lazy-triggered');
 			getIObserver().observe(this);
 			this._detachLazyTrigger = function () {
@@ -215,14 +129,14 @@ export class ESLImage extends ESLBaseElement {
 		}
 	}
 
-	get srcRules() {
+	public get srcRules() {
 		if (!this._srcRules) {
 			this.srcRules = ESLMediaRuleList.parse<string>(this.src, ESLMediaRuleList.STRING_PARSER);
 		}
 		return this._srcRules;
 	}
 
-	set srcRules(rules: ESLMediaRuleList<string>) {
+	public set srcRules(rules: ESLMediaRuleList<string>) {
 		if (this._srcRules) {
 			this._srcRules.removeListener(this._onMatchChange);
 		}
@@ -230,12 +144,19 @@ export class ESLImage extends ESLBaseElement {
 		this._srcRules.addListener(this._onMatchChange);
 	}
 
-	get currentSrc() {
+	public get currentSrc() {
 		return this._currentSrc;
 	}
 
-	get empty() {
+	public get empty() {
 		return !this._currentSrc || ESLImage.isEmptyImage(this._currentSrc);
+	}
+
+	public get canUpdate() {
+		return this.lazyTriggered || this.lazy === 'none';
+	}
+	public get lazyObservable() {
+		return this.lazy === '' || this.lazy === 'auto';
 	}
 
 	public triggerLoad() {
@@ -255,9 +176,7 @@ export class ESLImage extends ESLBaseElement {
 	}
 
 	protected update(force: boolean = false) {
-		if (this.lazy !== null && !this.lazyTriggered) {
-			return;
-		}
+		if (!this.canUpdate) return;
 
 		const rule = this.srcRules.active;
 		const src = this.getPath(rule.payload);
@@ -283,7 +202,7 @@ export class ESLImage extends ESLBaseElement {
 		this._detachLazyTrigger && this._detachLazyTrigger();
 	}
 
-	protected getPath(src: string) {
+	protected getPath(src: string | null) {
 		if (!src || src === '0' || src === 'none') {
 			return ESLImage.EMPTY_IMAGE;
 		}
@@ -312,16 +231,17 @@ export class ESLImage extends ESLBaseElement {
 		return this._innerImg;
 	}
 
-	public attachInnerImage() {
-		if (!this.innerImage) {
+	public attachInnerImage(): HTMLImageElement {
+		if (!this._innerImg) {
 			this._innerImg = this.querySelector(`img.${this.innerImageClass}`) ||
 				this._shadowImg.cloneNode() as HTMLImageElement;
 			this._innerImg.className = this.innerImageClass;
 		}
-		if (!this.innerImage.parentNode) {
-			this.appendChild(this.innerImage);
+		if (!this._innerImg.parentNode) {
+			this.appendChild(this._innerImg);
 		}
-		this.innerImage.alt = this.alt;
+		this._innerImg.alt = this.alt;
+		return this._innerImg;
 	}
 
 	public removeInnerImage() {
@@ -347,20 +267,20 @@ export class ESLImage extends ESLBaseElement {
 		this.syncImage();
 		this.removeAttribute('error');
 		this.setAttribute('loaded', '');
-		this.dispatchCustomEvent('load', {bubbles: false});
+		this.$$fireNs('load', {bubbles: false});
 		this._onReady();
 	}
 
 	private _onError() {
 		this.setAttribute('error', '');
-		this.dispatchCustomEvent('error', {bubbles: false});
+		this.$$fireNs('error', {bubbles: false});
 		this._onReady();
 	}
 
 	private _onReady() {
 		if (!this.ready) {
 			this.setAttribute('ready', '');
-			this.dispatchCustomEvent('ready', {bubbles: false});
+			this.$$fireNs('ready', {bubbles: false});
 			if (this.hasAttribute('container-class') || this.hasAttribute('container-class-target')) {
 				if (this.hasAttribute('container-class-onload') && this.error) return;
 				const containerCls = this.getAttribute('container-class') || 'img-container-loaded';

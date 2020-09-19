@@ -1,6 +1,6 @@
 # ESL Image
 
-Version: *1.0.0*
+Version: *2.3.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*
 
@@ -34,7 +34,7 @@ Originally developed as alternative for picture component, but with more feature
    - Device point resolutions: @1x, @2x, @3x all conditions must be separated by conjunction ('and')
 @example: '@+MD and @2x'
 
-- **data-src-base** (optional) - base src path for pathes described in data-src
+- **data-src-base** - base src path for pathes described in data-src
 
 - **alt** - alt image text
 

@@ -11,7 +11,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
 	public static is = 'esl-carousel-touch-plugin';
 
 	private isTouchStarted = false;
-	private startPoint: Point = null;
+	private startPoint: Point = {x: 0, y: 0};
 
 	public bind() {
 		const events = DeviceDetector.TOUCH_EVENTS;

@@ -16,8 +16,8 @@ import {generateUId} from '../../../esl-utils/misc/uid';
 const API_SCRIPT_ID = 'BC_API_SOURCE';
 
 export interface BCPlayerAccount {
-	playerId: string;
-	accountId: string;
+	playerId: string | null;
+	accountId: string | null;
 }
 
 export interface BCProviderConfig extends MediaProviderConfig {
@@ -52,7 +52,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 		const apiSrc =
 			`//players.brightcove.net/${account.accountId}/${account.playerId}_default/index.min.js`;
 		const apiScript = document.getElementById(API_SCRIPT_ID);
-		if (apiScript && apiScript.getAttribute('src') !== apiSrc) {
+		if (apiScript && apiScript.parentNode && apiScript.getAttribute('src') !== apiSrc) {
 			apiScript.parentNode.removeChild(apiScript);
 		}
 		return loadScript(API_SCRIPT_ID, apiSrc);
@@ -71,10 +71,10 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 		el.controls = cfg.controls;
 		el.setAttribute('aria-label', el.title);
 		el.setAttribute('data-embed', 'default');
-		el.setAttribute('data-player', account.playerId);
-		el.setAttribute('data-account', account.accountId);
 		el.setAttribute('data-video-id', `ref:${cfg.mediaId}`);
 		el.toggleAttribute('playsinline', cfg.playsinline);
+		account.playerId && el.setAttribute('data-player', account.playerId);
+		account.accountId && el.setAttribute('data-account', account.accountId);
 		return el;
 	}
 
@@ -131,10 +131,10 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 		this.component._onDetach();
 		if (this._api) {
 			this._api.dispose();
-			this._api = null;
+			delete this._api;
 		}
 		const embedded = this.component.querySelectorAll('.esl-media-brightcove');
-		Array.from(embedded || []).forEach((el: Node) => el.parentNode.removeChild(el));
+		Array.from(embedded || []).forEach((el: Node) => el.parentNode && el.parentNode.removeChild(el));
 	}
 
 	public focus() {

@@ -16,9 +16,8 @@ export abstract class ScrollUtility {
      * @param [strategy] - to make scroll visually disabled
      * */
     public static lock(strategy?: ScrollStrategy) {
-        strategy = strategy || 'pseudo';
         const hasScroll = ScrollUtility.hasVerticalScroll();
-        if (strategy !== 'none' && hasScroll) {
+        if (strategy && strategy !== 'none' && hasScroll) {
             $html.classList.add(`esl-${strategy}-scroll`);
         }
         $html.classList.add('esl-disable-scroll');
