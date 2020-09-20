@@ -133,8 +133,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 			this._api.dispose();
 			delete this._api;
 		}
-		const embedded = this.component.querySelectorAll('.esl-media-brightcove');
-		Array.from(embedded || []).forEach((el: Node) => el.parentNode && el.parentNode.removeChild(el));
+		super.unbind();
 	}
 
 	public focus() {

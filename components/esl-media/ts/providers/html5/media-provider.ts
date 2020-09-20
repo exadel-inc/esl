@@ -9,7 +9,7 @@ export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends Base
 	protected static applyElementSettings(el: HTMLMediaElement, cfg: MediaProviderConfig) {
 		el.classList.add('esl-media-inner');
 		el.autoplay = cfg.autoplay;
-		el.preload = cfg.preload;
+		el.preload = cfg.preload || 'auto';
 		el.loop = cfg.loop;
 		el.muted = cfg.muted;
 		el.controls = cfg.controls;
@@ -37,9 +37,7 @@ export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends Base
 
 	public unbind() {
 		this.component._onDetach();
-		if (this._el && this._el.parentNode) {
-			this._el.parentNode.removeChild(this._el);
-		}
+		super.unbind();
 	}
 
 	get ready() {

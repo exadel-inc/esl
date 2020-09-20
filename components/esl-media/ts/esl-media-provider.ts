@@ -60,7 +60,10 @@ export abstract class BaseProvider<T extends HTMLElement> {
     /**
      * Unbind the provider instance from the component
      */
-    public abstract unbind(): void;
+    public unbind(): void {
+        Array.from(this.component.querySelectorAll('.esl-media-inner'))
+            .forEach((el: Node) => el.parentNode && el.parentNode.removeChild(el));
+    }
 
     /**
      * @returns {PlayerStates} - current state of the player

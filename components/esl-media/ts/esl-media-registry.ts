@@ -6,13 +6,9 @@
 import {Observable} from '../../esl-utils/abstract/observable';
 import {BaseProviderConstructor} from './esl-media-provider';
 
-interface ProviderMap {
-	[name: string]: BaseProviderConstructor;
-}
-
 let evRegistryInstance: ESLMediaProviderRegistry | null = null;
 export class ESLMediaProviderRegistry extends Observable {
-	private providers: ProviderMap = {};
+	private providers: Map<string, BaseProviderConstructor> = new Map();
 
 	public static get instance() {
 		if (!evRegistryInstance) {
@@ -22,16 +18,16 @@ export class ESLMediaProviderRegistry extends Observable {
 	}
 
 	public register(provider: BaseProviderConstructor, name: string) {
-		this.providers[name] = provider;
+		this.providers.set(name, provider);
 		this.fire(name, provider);
 	}
 
 	public getProvider(name: string) {
-		return this.providers[name.toLowerCase()];
+		return this.providers.get(name.toLowerCase());
 	}
 
 	public has(name: string) {
-		return Object.prototype.hasOwnProperty.call(this.providers, name);
+		return this.providers.has(name);
 	}
 }
 

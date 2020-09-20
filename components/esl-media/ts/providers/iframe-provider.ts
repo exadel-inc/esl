@@ -50,10 +50,8 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
 
 	public unbind() {
 		this.component._onDetach();
-		if (this._el && this._el.parentNode) {
-			this._el.parentNode.removeChild(this._el);
-		}
 		this._state = PlayerStates.UNINITIALIZED;
+		super.unbind();
 	}
 
 	get ready() {
