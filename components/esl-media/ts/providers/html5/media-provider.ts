@@ -3,18 +3,18 @@
  * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
  */
 
-import {ESLMedia} from '../../esl-media';
-import {BaseProvider, PlayerStates} from '../../esl-media-provider';
+import {BaseProvider, MediaProviderConfig, PlayerStates} from '../../esl-media-provider';
 
 export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends BaseProvider<T> {
-	protected static applyElementSettings(el: HTMLMediaElement, sm: ESLMedia) {
+	protected static applyElementSettings(el: HTMLMediaElement, cfg: MediaProviderConfig) {
 		el.classList.add('esl-media-inner');
-		el.autoplay = sm.autoplay;
-		el.preload = sm.preload;
-		el.loop = sm.loop;
-		el.muted = sm.muted;
-		el.controls = sm.controls;
+		el.autoplay = cfg.autoplay;
+		el.preload = cfg.preload || 'auto';
+		el.loop = cfg.loop;
+		el.muted = cfg.muted;
+		el.controls = cfg.controls;
 		el.tabIndex = 0;
+		el.toggleAttribute('playsinline', cfg.playsinline);
 		return el;
 	}
 
@@ -37,9 +37,7 @@ export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends Base
 
 	public unbind() {
 		this.component._onDetach();
-		if (this._el && this._el.parentNode) {
-			this._el.parentNode.removeChild(this._el);
-		}
+		super.unbind();
 	}
 
 	get ready() {

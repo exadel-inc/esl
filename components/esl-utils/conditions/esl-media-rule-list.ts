@@ -38,15 +38,15 @@ class ESLMediaRule<T> extends ESLMediaQuery {
 		return this._default;
 	}
 
-	public static parse<T>(lex: string, parser: PayloadParser<T>) {
+	public static parse<U>(lex: string, parser: PayloadParser<U>) {
 		const [query, payload] = lex.split('=>');
 		const payloadValue = parser(payload.trim());
 		if (typeof payloadValue === 'undefined') return null;
-		return new ESLMediaRule<T>(payloadValue, query.trim());
+		return new ESLMediaRule<U>(payloadValue, query.trim());
 	}
 
-	public static all<T>(payload: T) {
-		return new ESLMediaRule<T>(payload, 'all');
+	public static all<U>(payload: U) {
+		return new ESLMediaRule<U>(payload, 'all');
 	}
 	public static empty(): ESLMediaRule<null> {
 		return new ESLMediaRule(null, 'all');
@@ -59,17 +59,17 @@ export default class ESLMediaRuleList<T> extends Observable {
 	private readonly _rules: ESLMediaRule<T>[];
 
 	public static STRING_PARSER = (val: string) => val;
-	public static OBJECT_PARSER = <T> (val: string): T | undefined => {
+	public static OBJECT_PARSER = <U> (val: string): U | undefined => {
 		try {
-			return eval('(' + val + ')') as T;
+			return eval('(' + val + ')') as U;
 		} catch (e) {
 			return undefined;
 		}
 	};
 
-	private static parseRules<T>(str: string, parser: PayloadParser<T>): ESLMediaRule<T>[] {
+	private static parseRules<U>(str: string, parser: PayloadParser<U>): ESLMediaRule<U>[] {
 		const parts = str.split('|');
-		const rules: ESLMediaRule<T>[] = [];
+		const rules: ESLMediaRule<U>[] = [];
 		parts.forEach((_lex: string) => {
 			const lex = _lex.trim();
 			if (!lex) {
@@ -87,8 +87,8 @@ export default class ESLMediaRuleList<T> extends Observable {
 		return rules;
 	}
 
-	public static parse<T>(query: string, parser: PayloadParser<T>) {
-		return new ESLMediaRuleList<T>(query, parser);
+	public static parse<U>(query: string, parser: PayloadParser<U>) {
+		return new ESLMediaRuleList<U>(query, parser);
 	}
 
 	private constructor(query: string, parser: PayloadParser<T>) {

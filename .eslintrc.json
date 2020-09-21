@@ -48,6 +48,7 @@
         "@typescript-eslint/no-for-in-array": "error",
         "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/no-unnecessary-type-assertion": "warn",
+        "@typescript-eslint/no-shadow": "warn",
         "comma-dangle": "off",
         "complexity": "off",
         "constructor-super": "warn",
@@ -85,10 +86,7 @@
         "no-mixed-spaces-and-tabs": "off",
         "no-multiple-empty-lines": "off",
         "no-new-wrappers": "warn",
-        "no-shadow": [
-            "warn",
-            { "hoist": "all" }
-        ],
+        "no-shadow": ["off"],
         "no-throw-literal": "warn",
         "no-trailing-spaces": "warn",
         "no-undef-init": "warn",

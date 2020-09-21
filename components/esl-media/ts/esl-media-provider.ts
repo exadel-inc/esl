@@ -15,6 +15,16 @@ export enum PlayerStates {
     UNINITIALIZED = -2
 }
 
+export interface MediaProviderConfig {
+    loop: boolean;
+    muted: boolean;
+    controls: boolean;
+    autoplay: boolean;
+    title: string;
+    preload?: string;
+    playsinline?: boolean;
+}
+
 export type BaseProviderConstructor = new(component: ESLMedia) => BaseProvider<HTMLElement>;
 
 export abstract class BaseProvider<T extends HTMLElement> {
@@ -50,7 +60,10 @@ export abstract class BaseProvider<T extends HTMLElement> {
     /**
      * Unbind the provider instance from the component
      */
-    public abstract unbind(): void;
+    public unbind(): void {
+        Array.from(this.component.querySelectorAll('.esl-media-inner'))
+            .forEach((el: Node) => el.parentNode && el.parentNode.removeChild(el));
+    }
 
     /**
      * @returns {PlayerStates} - current state of the player

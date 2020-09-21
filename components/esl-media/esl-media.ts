@@ -43,6 +43,8 @@ export type ESLMediaTag = ({
 	'play-in-viewport'?: boolean;
 	/** Define preload media param */
 	'preload'?: string;
+	/** Allow play media inline */
+	'playsinline'?: boolean;
 
 	/** Optional BC provider player id */
 	'data-player-id'?: string;
