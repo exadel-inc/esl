@@ -98,10 +98,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
 
     public unbind() {
         this.component._onDetach();
-        if (this._api) {
-            this._api.destroy();
-            delete this._api;
-        }
+        this._api?.destroy();
         super.unbind();
     }
 

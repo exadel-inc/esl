@@ -82,7 +82,8 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	 * Utility method to convert api event to promise
  	 */
 	protected $$fromEvent(eventName: string) {
-		return new Promise((resolve) => this._api.one(eventName, resolve));
+		if (!this._api) return Promise.reject();
+		return new Promise((resolve, reject) => this._api ? this._api.one(eventName, resolve) : reject());
 	}
 
 	/**
@@ -95,7 +96,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 		}
 		window.bc(this._el);
 		this._api = window.videojs(this._el);
-		return new Promise((resolve) => this._api.ready(resolve));
+		return new Promise((resolve, reject) => this._api ? this._api.ready(resolve) : reject());
 	}
 
 	/**
@@ -129,10 +130,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 
 	public unbind() {
 		this.component._onDetach();
-		if (this._api) {
-			this._api.dispose();
-			delete this._api;
-		}
+		this._api?.dispose();
 		super.unbind();
 	}
 
