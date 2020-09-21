@@ -48,6 +48,7 @@
         "@typescript-eslint/no-for-in-array": "error",
         "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/no-unnecessary-type-assertion": "warn",
+        "@typescript-eslint/no-shadow": "warn",
         "comma-dangle": "off",
         "complexity": "off",
         "constructor-super": "warn",
