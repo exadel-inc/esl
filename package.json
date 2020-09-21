@@ -1,6 +1,6 @@
 {
   "name": "exadel-smart-library",
-  "description": "Exadel Smart Library - is the lightweight custom elements library that provide a set of super-flexible components",
+  "description": "Exadel Smart Library (ESL) - is the lightweight custom elements library that provide a set of super-flexible components",
   "keywords": [
     "custom elements",
     "component library"
@@ -38,13 +38,13 @@
     "@types/youtube": "0.0.39"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^3.6.0",
-    "@typescript-eslint/parser": "^3.6.0",
-    "@webcomponents/custom-elements": "^1.4.1",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
+    "@webcomponents/custom-elements": "^1.4.2",
     "@webcomponents/webcomponents-platform": "^1.0.1",
-    "autoprefixer": "^9.8.4",
+    "autoprefixer": "^9.0.0",
     "cssnano": "^4.1.10",
-    "eslint": "^7.4.0",
+    "eslint": "^7.9.0",
     "eslint-loader": "^4.0.2",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
@@ -57,11 +57,11 @@
     "gulp-typescript": "^5.0.1",
     "intersection-observer": "^0.11.0",
     "promise-polyfill": "^8.1.3",
-    "ts-loader": "^8.0.0",
-    "typescript": "^3.9.6",
+    "ts-loader": "^8.0.4",
+    "typescript": "^4.0.3",
     "ui-project-server": "./test-server/edmtp-modules/ui-project-server.tar",
     "vinyl-named": "^1.1.0",
-    "webpack": "^4.43.0",
-    "webpack-stream": "^5.2.1"
+    "webpack": "^4.44.2",
+    "webpack-stream": "^6.1.0"
   }
 }

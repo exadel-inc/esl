@@ -85,10 +85,7 @@
         "no-mixed-spaces-and-tabs": "off",
         "no-multiple-empty-lines": "off",
         "no-new-wrappers": "warn",
-        "no-shadow": [
-            "warn",
-            { "hoist": "all" }
-        ],
+        "no-shadow": ["off"],
         "no-throw-literal": "warn",
         "no-trailing-spaces": "warn",
         "no-undef-init": "warn",
