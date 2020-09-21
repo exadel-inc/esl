@@ -1,4 +1,4 @@
-import {NoopFnSignature} from '../../esl-utils/misc/functions';
+import type {NoopFnSignature} from '../../esl-utils/misc/functions';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {findTarget} from '../../esl-utils/dom/traversing';
