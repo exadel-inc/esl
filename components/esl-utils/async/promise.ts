@@ -44,7 +44,7 @@ export abstract class PromiseUtils {
 
 			target.addEventListener(event, eventCallback, options);
 			if (typeof timeout === 'number' && timeout >= 0) {
-				setTimeout(() => reject('Event timeout'), timeout);
+				setTimeout(() => reject(new Error('Rejected by timeout')), timeout);
 			}
 		});
 	}
@@ -76,5 +76,26 @@ export abstract class PromiseUtils {
 	 */
 	static reject<T = never>(arg?: T | PromiseLike<T>): Promise<T> {
 		return Promise.reject(arg);
+	}
+
+	/**
+	 * Call {@param callback} limited by {@param tryCount} amount of times with interval in {@param timeout} ms
+	 * @return {Promise} that will be resolved as soon as callback returns truthy value, or reject it by limit.
+	 */
+	static tryUntil<T>(callback: () => T, tryCount = 2, timeout = 100): Promise<T> {
+		return new Promise((resolve, reject) => {
+			const interval = setInterval(() => {
+				let result: T | undefined;
+				try {
+					result = callback();
+				} catch {
+					result = undefined;
+				}
+				if (result || --tryCount < 0) {
+					clearInterval(interval);
+					result ? resolve(result) : reject(new Error('Rejected by limit of tries'));
+				}
+			}, timeout);
+		});
 	}
 }
