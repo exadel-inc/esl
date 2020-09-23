@@ -65,11 +65,12 @@ export class ESLTriggersContainer extends ESLBaseElement {
     return triggers[(index - 1 + triggers.length) % triggers.length];
   }
 
-  public current() {
+  public current(): ESLTrigger | undefined {
     return this.$triggers.find((el) => el.active);
   }
 
-  public goTo(target: GroupTarget, from: ESLTrigger = this.current()) {
+  public goTo(target: GroupTarget, from: ESLTrigger | undefined = this.current()) {
+    if (!from) return;
     const targetEl = this[target](from);
     if (!targetEl) return;
     targetEl.focus();

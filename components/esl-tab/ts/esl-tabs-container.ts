@@ -28,7 +28,7 @@ export class ESLTabsContainer extends ESLTriggersContainer {
     super.bindEvents();
     this.addEventListener('click', this.onClick, false);
     this.addEventListener(`${ESLTab.eventNs}:statechange`, this.onTriggerStateChange);
-    this.$list.addEventListener('scroll', this.onScroll, {passive: true});
+    this.$list && this.$list.addEventListener('scroll', this.onScroll, {passive: true});
     this.addEventListener('focusin', this.onFocus);
     window.addEventListener('resize', this.onResize);
   }
@@ -37,7 +37,7 @@ export class ESLTabsContainer extends ESLTriggersContainer {
     super.unbindEvents();
     this.removeEventListener('click', this.onClick, false);
     this.removeEventListener(`${ESLTab.eventNs}:statechange`, this.onTriggerStateChange);
-    this.$list.removeEventListener('scroll', this.onScroll);
+    this.$list && this.$list.removeEventListener('scroll', this.onScroll);
     window.removeEventListener('resize', this.onResize);
   }
 
@@ -52,6 +52,7 @@ export class ESLTabsContainer extends ESLTriggersContainer {
 
   public moveTo(direction: string, behavior: ScrollBehavior = 'smooth') {
     const list = this.$list;
+    if (!list) return;
     const widthToScroll = list.offsetWidth;
 
     list.scrollBy({
@@ -60,13 +61,15 @@ export class ESLTabsContainer extends ESLTriggersContainer {
     });
   }
 
-  public goTo(target: GroupTarget, from: ESLTrigger = this.current()) {
+  public goTo(target: GroupTarget, from: ESLTrigger | undefined = this.current()) {
+    if (!from) return;
     super.goTo(target, from);
     const targetEl = this[target](from);
+    if (!targetEl) return;
     targetEl.click();
   }
 
-  protected fitToViewport(trigger: ESLTab, behavior: ScrollBehavior = 'smooth'): void {
+  protected fitToViewport(trigger: ESLTab | undefined, behavior: ScrollBehavior = 'smooth'): void {
     if (!trigger) return;
 
     const list = this.$list;
@@ -107,7 +110,7 @@ export class ESLTabsContainer extends ESLTriggersContainer {
 
     const hasScroll = lastLeft + lastWidth > listWidth;
     this.toggleAttribute('has-scroll', hasScroll);
-    if (!hasScroll) return;
+    if (!hasScroll || !rightArrow || !leftArrow) return;
 
     // clear to go back to the initial state
     rightArrow.removeAttribute('disabled');
@@ -128,7 +131,7 @@ export class ESLTabsContainer extends ESLTriggersContainer {
 
   protected onClick = (event: Event) => {
     const eventTarget: HTMLElement = event.target as HTMLElement;
-    const target: HTMLElement = eventTarget.closest('[data-tab-direction]');
+    const target: HTMLElement | null = eventTarget.closest('[data-tab-direction]');
     const direction = target && target.dataset.tabDirection;
 
     if (!direction) return;

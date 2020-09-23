@@ -8,6 +8,7 @@ export class ESLTab extends ESLTrigger {
 
   public updateA11y() {
     const target = this.$a11yTarget;
+    if (!target) return;
     target.setAttribute('aria-selected', String(this.active));
     target.setAttribute('tabindex', this.active ? '0' : '-1');
 

@@ -141,7 +141,7 @@ export class ESLTrigger extends ESLBaseElement {
     this.active = this.popup.open;
     CSSUtil.toggleClsTo(this, this.activeClass, this.active);
     this.updateA11y();
-    this.dispatchCustomEvent('statechange', {
+    this.$$fireNs('statechange', {
       bubbles: true
     });
   };
@@ -174,6 +174,7 @@ export class ESLTrigger extends ESLBaseElement {
 
   public updateA11y() {
     const target = this.$a11yTarget;
+    if (!target) return;
     target.setAttribute('aria-expanded',  String(this.active));
 
     // TODO: auto generate
@@ -182,7 +183,7 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
 
-  public get $a11yTarget() {
+  public get $a11yTarget(): HTMLElement | null {
     return this.a11yTarget ? this.querySelector(this.a11yTarget) : this;
   }
 }
