@@ -4,10 +4,7 @@ import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {ESLPopup} from '../../esl-popup/esl-popup';
 import {findTarget} from '../../esl-utils/dom/traversing';
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
-import ESLTriggersContainer from './esl-triggers-container';
-import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ENTER, SPACE} from '../../esl-utils/dom/keycodes';
-
-export type GroupTarget = 'next' | 'previous' | 'active';
+import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
@@ -60,14 +57,6 @@ export class ESLTrigger extends ESLBaseElement {
     this.unbindEvents();
   }
 
-  public get a11yRole() {
-    if (this.hasAttribute('a11y-role')) {
-      return this.getAttribute('a11y-role');
-    }
-    const container = this.container;
-    return container ? container.a11yRole : 'button';
-  }
-
   public get popup() {
     return this._popup;
   }
@@ -78,10 +67,6 @@ export class ESLTrigger extends ESLBaseElement {
       this.bindEvents();
       this.onPopupStateChanged();
     }
-  }
-
-  public get container(): ESLTriggersContainer {
-    return this.closest(ESLTriggersContainer.is);
   }
 
   protected updatePopupFromTarget() {
@@ -183,39 +168,11 @@ export class ESLTrigger extends ESLBaseElement {
         this.click();
         e.preventDefault();
         break;
-      case ARROW_UP:
-      case ARROW_LEFT:
-        this.moveInGroup('previous', this.a11yRole === 'tab');
-        e.preventDefault();
-        break;
-      case ARROW_DOWN:
-      case ARROW_RIGHT:
-        this.moveInGroup('next', this.a11yRole === 'tab');
-        e.preventDefault();
-        break;
     }
   };
 
-  public moveInGroup(target: GroupTarget, activate = false) {
-    const container = this.container;
-    if (!container) return false;
-    const targetEl =  container[target](this);
-    if (!targetEl) return false;
-    targetEl.focus();
-    activate && targetEl.click();
-  }
-
-  protected updateA11y() {
-    const target = this.$a11yTarget;
-    switch (this.a11yRole) {
-      case 'tab':
-        target.setAttribute('aria-selected', String(this.active));
-        target.setAttribute('tabindex', this.active ? '0' : '-1');
-        break;
-      default:
-        target.setAttribute('aria-expanded',  String(this.active));
-        break;
-    }
+  public updateA11y() {
+    this.$a11yTarget.setAttribute('aria-expanded',  String(this.active));
 
     // TODO: auto generate
     if (this.popup.id) {

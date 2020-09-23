@@ -9,6 +9,7 @@ import type {ESLScrollbar} from './esl-scrollbar/ts/esl-scrollbar';
 import type {ESLBasePopup} from './esl-base-popup/ts/esl-base-popup';
 import type {ESLPopup} from './esl-popup/ts/esl-popup';
 import type {ESLTrigger} from './esl-trigger/ts/esl-trigger';
+import type {ESLTab} from './esl-tab/ts/esl-tab';
 import type {ESLTriggersContainer} from './esl-trigger/ts/esl-triggers-container';
 import type {ESLCollapsible} from './esl-collapsible/ts/esl-collapsible';
 import type {ESLTabPanel} from './esl-tab-panel/ts/esl-tab-panel';
@@ -38,7 +39,8 @@ declare global {
 		BasePopup?: typeof ESLBasePopup;
 		Popup?: typeof ESLPopup;
 		Trigger?: typeof ESLTrigger;
-		Collapsible?: typeof ESLCollapsible;
+    Tab?: typeof ESLTab;
+    Collapsible?: typeof ESLCollapsible;
 		TabPanel?: typeof ESLTabPanel;
         TriggersContainer?: typeof ESLTriggersContainer;
         TabsContainer?: typeof ESLTabsContainer;
