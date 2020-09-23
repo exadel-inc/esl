@@ -1,19 +1,14 @@
-if (!Object.getOwnPropertyDescriptor(Node.prototype, 'isConnected')) {
-	let rootNode: (node: Node) => Node = null;
-	if (Node.prototype.getRootNode) {
-		rootNode  = (node) => node.getRootNode({composed: true});
-	} else {
-		rootNode = (node) => {
-			for (let ancestor = node, ancestorParent; ancestor; ancestor = ancestorParent) {
-				ancestorParent = ancestor.parentNode || (ancestor as any).host;
-				if (!ancestorParent) return ancestor;
-			}
-			return node;
-		};
-	}
+/**
+ * Group: DOM polyfills
+ * Target browsers: IE11, Edge <= 18
+ * Node.isConnected polyfill
+ */
+if (!('isConnected' in Node.prototype)) {
 	Object.defineProperty(Node.prototype, 'isConnected', {
-		get() { return rootNode(this).nodeType === Node.DOCUMENT_NODE; },
-		enumerable: true,
-		configurable: true
+		get() {
+			return !this.ownerDocument ||
+				// eslint-disable-next-line no-bitwise
+				!(this.ownerDocument.compareDocumentPosition(this) & this.DOCUMENT_POSITION_DISCONNECTED);
+		}
 	});
 }

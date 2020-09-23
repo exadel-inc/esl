@@ -2,6 +2,7 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "alwaysStrict": true,
+    "strictNullChecks": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
     "removeComments": true,

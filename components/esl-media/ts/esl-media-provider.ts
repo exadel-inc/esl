@@ -1,6 +1,6 @@
 /**
  * BaseProvider class for media API providers
- * @version 1.0.0
+ * @version 1.2.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 import ESLMedia from './esl-media';
@@ -12,7 +12,7 @@ export enum PlayerStates {
     PLAYING = 1,
     UNSTARTED = -1,
     VIDEO_CUED = 5,
-    UNINITIALIZED = null
+    UNINITIALIZED = -2
 }
 
 export type BaseProviderConstructor = new(component: ESLMedia) => BaseProvider<HTMLElement>;

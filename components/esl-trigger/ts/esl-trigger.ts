@@ -1,9 +1,10 @@
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
-import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {ESLPopup} from '../../esl-popup/esl-popup';
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {findTarget} from '../../esl-utils/dom/traversing';
+import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
+import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
 
 @ExportNs('Trigger')
@@ -113,7 +114,7 @@ export class ESLTrigger extends ESLBaseElement {
     this.removeEventListener('keydown', this.onKeydown);
   }
 
-  protected attachEventListener(eventName: string, callback: (e: Event) => void) {
+  protected attachEventListener(eventName: string | null, callback: (e: Event) => void) {
     if (!eventName) return;
     this.addEventListener(eventName, callback);
     this.__unsubscribers = this.__unsubscribers || [];
@@ -138,7 +139,7 @@ export class ESLTrigger extends ESLBaseElement {
   protected onToggleEvent = (e: Event) => (this.active ? this.onHideEvent : this.onShowEvent)(e);
   protected onPopupStateChanged = () => {
     this.active = this.popup.open;
-    this.activeClass && this.classList.toggle(this.activeClass, this.active);
+    CSSUtil.toggleClsTo(this, this.activeClass, this.active);
     this.updateA11y();
     this.dispatchCustomEvent('statechange', {
       bubbles: true
@@ -172,11 +173,12 @@ export class ESLTrigger extends ESLBaseElement {
   };
 
   public updateA11y() {
-    this.$a11yTarget.setAttribute('aria-expanded',  String(this.active));
+    const target = this.$a11yTarget;
+    target.setAttribute('aria-expanded',  String(this.active));
 
     // TODO: auto generate
     if (this.popup.id) {
-      this.setAttribute('aria-controls', this.popup.id);
+      target.setAttribute('aria-controls', this.popup.id);
     }
   }
 

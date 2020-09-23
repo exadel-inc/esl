@@ -1,6 +1,6 @@
 /**
  * ESLMediaProviderRegistry class to store media API providers
- * @version 1.0.0
+ * @version 1.2.0
  * @author Yuliya Adamskaya
  */
 import {Observable} from '../../esl-utils/abstract/observable';
@@ -10,7 +10,7 @@ interface ProviderMap {
 	[name: string]: BaseProviderConstructor;
 }
 
-let evRegistryInstance: ESLMediaProviderRegistry = null;
+let evRegistryInstance: ESLMediaProviderRegistry | null = null;
 export class ESLMediaProviderRegistry extends Observable {
 	private providers: ProviderMap = {};
 

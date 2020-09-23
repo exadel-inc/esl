@@ -4,7 +4,7 @@ import { tuple } from '../misc/functions';
  * Find sibling element by selector and direction
  * */
 export function findSibling(base: Element, sel?: string, backward = false) {
-	for(let target = base; (target = backward ? target.previousElementSibling : target.nextElementSibling);) {
+	for(let target: Element | null = base; (target = backward ? target.previousElementSibling : target.nextElementSibling);) {
 		if (!sel || target.matches(sel)) return target;
 	}
 	return null;
@@ -22,7 +22,7 @@ const SELECTORS: PseudoProcessorMap = {
 		return sel ? base.querySelector(sel) : base.firstElementChild;
 	},
 	'::parent': (base: Element, sel?: string) => {
-		return sel ? base.parentElement.closest(sel) : base.parentElement;
+		return sel && base.parentElement ? base.parentElement.closest(sel) : base.parentElement;
 	}
 };
 // /(::parent|::child|::next|::prev)/
@@ -51,7 +51,7 @@ export function findTarget(query: string, current: HTMLElement, multiple = false
 		return null;
 	}
 	return tuple(parts).reduce((target, [name, selString]) => {
-		if (!target) return null;
+		if (!target || !name) return null;
 		const base = Array.isArray(target) ? target[0] : target;
 		const sel = (selString || '').replace(/^\(/, '').replace(/\)$/, '');
 		return SELECTORS[name](base, sel, multiple);
@@ -61,8 +61,8 @@ export function findTarget(query: string, current: HTMLElement, multiple = false
 /**
  * Check that {@param nodeA} and {@param nodeB} is from the same tree path.
  */
-export  function isRelative(nodeA: Node, nodeB: Node) {
-    return nodeA.contains(nodeB) || nodeB.contains(nodeA);
+export  function isRelative(nodeA: Node | null, nodeB: Node | null) {
+    return nodeA && nodeB && (nodeA.contains(nodeB) || nodeB.contains(nodeA));
 }
 
 /**

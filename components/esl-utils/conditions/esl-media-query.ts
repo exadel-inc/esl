@@ -2,7 +2,7 @@
  * ESL Media Query
  * Provides special media condition syntax - ESLQuery
  * @version 2.0.0
- * @author Alexey Stsefanovich (ala'n), Yuliya AdamskayaR
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * Helper class that extends MediaQueryList class
  * Supports
@@ -17,17 +17,14 @@
 import {DeviceDetector} from '../enviroment/device-detector';
 import {BreakpointRegistry} from '../enviroment/breakpoints';
 
-const QUERY_CACHE: {[onkeypress: string]: MediaQueryList} = {};
-
-function getQuery(query: string): MediaQueryList {
-    if (query) {
-        const matcher = QUERY_CACHE[query] ? QUERY_CACHE[query] : window.matchMedia(query);
-        if (matcher) {
-            QUERY_CACHE[query] = matcher;
-        }
-        return matcher;
+const QUERY_CACHE: {[q: string]: MediaQueryList} = {};
+function getQuery(query: string): MediaQueryList | null {
+    if (!query) return null;
+    const matcher = QUERY_CACHE[query] ? QUERY_CACHE[query] : window.matchMedia(query);
+    if (matcher) {
+        QUERY_CACHE[query] = matcher;
     }
-    return null;
+    return matcher;
 }
 
 function getDprMediaQuery(ratio: number) {
@@ -48,8 +45,8 @@ export class ESLMediaQuery {
     static ignoreBotsDpr = false;
 
     private _dpr: number;
-    private _mobileOnly: boolean;
-    private readonly _query: MediaQueryList;
+    private _mobileOnly: boolean | undefined;
+    private readonly _query: MediaQueryList | null;
 
     constructor(query: string) {
 
@@ -78,24 +75,24 @@ export class ESLMediaQuery {
         this._query = getQuery(query.trim() || ESLMediaQuery.ALL);
     }
 
-    public get isMobileOnly() {
+    public get isMobileOnly(): boolean {
         return this._mobileOnly === true;
     }
 
-    public get isDesktopOnly() {
+    public get isDesktopOnly(): boolean {
         return this._mobileOnly === false;
     }
 
-    public get DPR() {
+    public get DPR(): number {
         return this._dpr;
     }
 
-    public get query() {
+    public get query(): MediaQueryList | null {
         return this._query;
     }
 
-    public get matches() {
-        return this.query && this.query.matches;
+    public get matches(): boolean {
+        return !!(this.query && this.query.matches);
     }
 
     public addListener(listener: () => void) {
@@ -114,6 +111,11 @@ export class ESLMediaQuery {
         } else {
             this.query.removeListener(listener);
         }
+    }
+
+    public toString(): string {
+        if (!this.query) return 'NULL RULE';
+        return this.query.media;
     }
 }
 

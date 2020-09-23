@@ -46,7 +46,7 @@ export class ESLBasePopupGroup {
 	 * Get active popup in group
 	 */
 	public get active() {
-		let active: ESLBasePopup = null;
+		let active: ESLBasePopup | null = null;
 		// Symbols & Iterators are not required by minimum environment preconditions
 		this.popups.forEach((popup) => {
 			active = (!active && popup.open) ? popup : active;

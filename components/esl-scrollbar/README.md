@@ -1,6 +1,6 @@
 # ESL Scrollbar
 
-Version: *1.0.0*
+Version: *1.2.0*
 
 Authors: *Yuliya Adamskaya*
 
@@ -9,12 +9,11 @@ ESLScrollbar - custom element, that replaces the browser's default scrollbar wit
 --- 
  
 ### Supported Features:
-- direction: 
-  - `vertical` - renders by css for a vertical orientation (default)
+- directions : `vertical` and `horisontal` mode
 
 ### Attributes:
 
-- **direction** - scroll orientation (default 'vertical')
+- **horizontal** - horizontal scroll orientation marker
 
 - **target** - class scrollable content
 
@@ -45,14 +44,12 @@ ESLScrollbar - custom element, that replaces the browser's default scrollbar wit
     <div>
         <p>Content...</p>
     </div>
-    <esl-scrollbar target="::parent"
-                     direction="vertical"></esl-scrollbar>
+    <esl-scrollbar target="::parent"></esl-scrollbar>
 </div>
 ```
 ```html
 <div class="esl-scrollable-content">
     <p>Content...</p>
 </div>
-<esl-scrollbar target="::prev"
-                 direction="vertical"></esl-scrollbar>
+<esl-scrollbar target="::prev" vertical></esl-scrollbar>
 ```

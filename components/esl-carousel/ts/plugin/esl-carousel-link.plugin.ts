@@ -17,7 +17,7 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
 	@attr() public to: string;
 	@attr({defaultValue: 'both'}) public direction: string;
 
-	private _target: ESLCarousel;
+	private _target: ESLCarousel | null;
 
 	constructor() {
 		super();
@@ -31,19 +31,20 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
 		if (!(this.target instanceof ESLCarousel)) return;
 
 		if (this.direction === 'both' || this.direction === 'reverse') {
-			this.target.addEventListener('eslc:slide:changed', this._onSlideChange);
+			this.target.addEventListener('esl:carousel:slide:changed', this._onSlideChange);
 		}
 		if (this.direction === 'both' || this.direction === 'target') {
-			this.carousel.addEventListener('eslc:slide:changed', this._onSlideChange);
+			this.carousel.addEventListener('esl:carousel:slide:changed', this._onSlideChange);
 		}
 	}
 
 	public unbind() {
-		this.target && this.target.removeEventListener('eslc:slide:changed', this._onSlideChange);
-		this.carousel && this.carousel.removeEventListener('eslc:slide:changed', this._onSlideChange);
+		this.target && this.target.removeEventListener('esl:carousel:slide:changed', this._onSlideChange);
+		this.carousel && this.carousel.removeEventListener('esl:carousel:slide:changed', this._onSlideChange);
 	}
 
 	protected _onSlideChange(e: CustomEvent) {
+		if (!this.target || !this.carousel) return;
 		const $target = e.target === this.carousel ? this.target : this.carousel;
 		const $source = e.target === this.carousel ? this.carousel : this.target;
 		$target.goTo($source.firstIndex, e.detail.direction);
