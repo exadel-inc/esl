@@ -5,7 +5,7 @@
  */
 
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
+import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
 import {debounce} from '../../esl-utils/async/debounce';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {ESLMediaQuery} from '../../esl-utils/conditions/esl-media-query';
@@ -29,20 +29,21 @@ export class ESLMedia extends ESLBaseElement {
     @attr() public fillMode: string;
     @attr() public aspectRatio: string;
 
-    @attr({conditional: true}) public disabled: boolean;
-    @attr({conditional: true}) public autoplay: boolean;
-    @attr({conditional: true}) public autofocus: boolean;
-    @attr({conditional: true}) public muted: boolean;
-    @attr({conditional: true}) public loop: boolean;
-    @attr({conditional: true}) public controls: boolean;
-    @attr({conditional: true}) public playsinline: boolean;
-    @attr({conditional: true}) public playInViewport: boolean;
-    @attr({conditional: true, defaultValue: 'auto'}) public preload: string;
+    @boolAttr() public disabled: boolean;
+    @boolAttr() public autoplay: boolean;
+    @boolAttr() public autofocus: boolean;
+    @boolAttr() public muted: boolean;
+    @boolAttr() public loop: boolean;
+    @boolAttr() public controls: boolean;
+    @boolAttr() public playsinline: boolean;
+    @boolAttr() public playInViewport: boolean;
 
-    @attr({conditional: true, readonly: true}) public ready: boolean;
-    @attr({conditional: true, readonly: true}) public active: boolean;
-    @attr({conditional: true, readonly: true}) public played: boolean;
-    @attr({conditional: true, readonly: true}) public error: boolean;
+    @attr({defaultValue: 'auto'}) public preload: string;
+
+    @boolAttr({readonly: true}) public ready: boolean;
+    @boolAttr({readonly: true}) public active: boolean;
+    @boolAttr({readonly: true}) public played: boolean;
+    @boolAttr({readonly: true}) public error: boolean;
 
     private _provider: BaseProvider<HTMLElement> | null;
     private _conditionQuery: ESLMediaQuery | null;

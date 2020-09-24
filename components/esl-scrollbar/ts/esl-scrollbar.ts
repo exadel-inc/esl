@@ -4,7 +4,7 @@
  * @author Yuliya Adamskaya
  */
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
+import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
 import {findTarget, isRelative} from '../../esl-utils/dom/traversing';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {normalizeCoordinates} from '../../esl-utils/dom/events';
@@ -23,14 +23,14 @@ export class ESLScrollbar extends ESLBaseElement {
     protected _initialMousePosition: number;
     protected _initialPosition: number;
 
-    @attr({conditional: true}) protected dragging: boolean;
-    @attr({conditional: true, readonly: true}) public inactive: boolean;
-
-    @attr({conditional: true}) public horizontal: boolean;
+    @boolAttr() public horizontal: boolean;
 
     @attr({defaultValue: '::parent'}) public target: string;
     @attr({defaultValue: 'scrollbar-thumb'}) public thumbClass: string;
     @attr({defaultValue: 'scrollbar-track'}) public trackClass: string;
+
+    @boolAttr() protected dragging: boolean;
+    @boolAttr({readonly: true}) public inactive: boolean;
 
     static get observedAttributes() {
         return ['target'];
