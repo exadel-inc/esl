@@ -61,7 +61,7 @@ export function findTarget(query: string, current: HTMLElement, multiple = false
 /**
  * Check that {@param nodeA} and {@param nodeB} is from the same tree path.
  */
-export  function isRelative(nodeA: Node | null, nodeB: Node | null) {
+export function isRelative(nodeA: Node | null, nodeB: Node | null) {
     return nodeA && nodeB && (nodeA.contains(nodeB) || nodeB.contains(nodeA));
 }
 

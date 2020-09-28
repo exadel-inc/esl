@@ -64,6 +64,8 @@ using a single tag as well as work with external providers using simple native-l
  - **loop** (boolean) - play media in loop
  
  - **mute** (boolean) - mute media
+ 
+ - **playsinline** (boolean) - allow play media inline
 
 ### Readonly Attributes:
  

@@ -9,7 +9,7 @@ import {VideoJsPlayer} from 'video.js';
 
 import {loadScript} from '../../../esl-utils/dom/script';
 import {ESLMedia} from '../esl-media';
-import {BaseProvider, PlayerStates} from '../esl-media-provider';
+import {BaseProvider, MediaProviderConfig, PlayerStates} from '../esl-media-provider';
 import ESLMediaProviderRegistry from '../esl-media-registry';
 import {generateUId} from '../../../esl-utils/misc/uid';
 
@@ -18,6 +18,10 @@ const API_SCRIPT_ID = 'BC_API_SOURCE';
 export interface BCPlayerAccount {
 	playerId: string | null;
 	accountId: string | null;
+}
+
+export interface BCProviderConfig extends MediaProviderConfig {
+	mediaId: string;
 }
 
 export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDivElement> {
@@ -57,17 +61,18 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	/**
 	 * Build video brightcove element
 	 */
-	protected static buildVideo(sm: ESLMedia, account: BCPlayerAccount) {
+	protected static buildVideo(cfg: BCProviderConfig, account: BCPlayerAccount) {
 		const el = document.createElement('video');
 		el.id = 'esl-media-brightcove-' + generateUId();
 		el.className = 'esl-media-inner esl-media-brightcove ' + this.videojsClasses;
-		el.title = sm.title;
-		el.loop = sm.loop;
-		el.muted = sm.muted;
-		el.controls = sm.controls;
+		el.title = cfg.title;
+		el.loop = cfg.loop;
+		el.muted = cfg.muted;
+		el.controls = cfg.controls;
 		el.setAttribute('aria-label', el.title);
 		el.setAttribute('data-embed', 'default');
-		el.setAttribute('data-video-id', `ref:${sm.mediaId}`);
+		el.setAttribute('data-video-id', `ref:${cfg.mediaId}`);
+		el.toggleAttribute('playsinline', cfg.playsinline);
 		account.playerId && el.setAttribute('data-player', account.playerId);
 		account.accountId && el.setAttribute('data-account', account.accountId);
 		return el;
@@ -77,7 +82,8 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 	 * Utility method to convert api event to promise
  	 */
 	protected $$fromEvent(eventName: string) {
-		return new Promise((resolve) => this._api.one(eventName, resolve));
+		if (!this._api) return Promise.reject();
+		return new Promise((resolve, reject) => this._api ? this._api.one(eventName, resolve) : reject());
 	}
 
 	/**
@@ -90,7 +96,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 		}
 		window.bc(this._el);
 		this._api = window.videojs(this._el);
-		return new Promise((resolve) => this._api.ready(resolve));
+		return new Promise((resolve, reject) => this._api ? this._api.ready(resolve) : reject());
 	}
 
 	/**
@@ -124,12 +130,8 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement |  HTMLDiv
 
 	public unbind() {
 		this.component._onDetach();
-		if (this._api) {
-			this._api.dispose();
-			delete this._api;
-		}
-		const embedded = this.component.querySelectorAll('.esl-media-brightcove');
-		Array.from(embedded || []).forEach((el: Node) => el.parentNode && el.parentNode.removeChild(el));
+		this._api?.dispose();
+		super.unbind();
 	}
 
 	public focus() {

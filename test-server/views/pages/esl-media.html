@@ -33,7 +33,7 @@ title: ESL Media Component
                 <esl-media group="demo-media"
                              media-type="youtube"
                              media-id="5LD-EoiTjuY"
-                             load-condition="@DESKTOP and (min-width: 500px)"
+                             load-condition="(min-width: 500px)"
                              load-cls-target="section"
                              load-accepted-cls="show-video"
                              load-declined-cls="hide-video"
@@ -55,7 +55,7 @@ title: ESL Media Component
                 <esl-media group="demo-media"
                              media-type="video"
                              media-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
-                             load-condition="@DESKTOP and (min-width: 500px)"
+                             load-condition="(min-width: 500px)"
                              load-cls-target="section"
                              load-accepted-cls="show-video"
                              load-declined-cls="hide-video"
@@ -77,7 +77,7 @@ title: ESL Media Component
             <hr/>
             <div class="img-container img-container-16-9 img-container-loaded">
                 <esl-media media-type="iframe"
-                             media-src="https://player.vimeo.com/video/1084537">
+                           media-src="https://player.vimeo.com/video/1084537">
                 </esl-media>
             </div>
         </div>
@@ -92,9 +92,9 @@ title: ESL Media Component
             <p>ESL Media is also support simple HTML audio.</p>
             <hr/>
             <esl-media group="demo-media"
-                         controls
-                         media-type="audio"
-                         media-src="https://html5book.ru/examples/media/track.mp3">
+                       controls
+                       media-type="audio"
+                       media-src="https://html5book.ru/examples/media/track.mp3">
             </esl-media>
         </div>
         <div class="row btn-group-centered">
@@ -108,12 +108,11 @@ title: ESL Media Component
         <hr/>
         <div class="demo-marquee" style="height: 400px">
             <esl-media class="bg-content esl-media-bg"
-                         media-type="video"
-                         media-src="https://pixabay.com/videos/download/video-5200_large.mp4"
-                         autoplay="true"
-                         fill-mode="cover"
-                         play-in-viewport
-                         muted loop>
+                       media-type="video"
+                       media-src="https://pixabay.com/videos/download/video-5200_large.mp4"
+                       fill-mode="cover"
+                       play-in-viewport
+                       autoplay muted loop playsinline>
             </esl-media>
             <div class="demo-content contrast">
                 <h2>Background media</h2>
@@ -130,13 +129,12 @@ title: ESL Media Component
         <hr/>
         <div class="demo-marquee" style="height: 400px">
             <esl-media class="bg-content esl-media-bg"
-                         fill-mode="cover"
-                         media-type="youtube"
-                         media-id="inadorMBFEI"
-                         autoplay="true"
-                         aspect-ratio="4:3"
-                         play-in-viewport
-                         muted loop>
+                       media-type="youtube"
+                       media-id="inadorMBFEI"
+                       fill-mode="cover"
+                       aspect-ratio="4:3"
+                       play-in-viewport
+                       autoplay muted loop playsinline>
             </esl-media>
             <div class="demo-content contrast">
                 <h2>Background media</h2>
@@ -156,10 +154,10 @@ title: ESL Media Component
             <div class="alert alert-info">Video bellow will be loading only on XS breakpoint</div>
             <div class="img-container img-container-16-9">
                 <esl-media load-condition="@XS, @MOBILE"
-                             media-type="youtube"
-                             media-id="e1omOSkYltw"
-                             autoplay="true"
-                             muted loop>
+                           media-type="youtube"
+                           media-id="e1omOSkYltw"
+                           autoplay="true"
+                           muted loop>
                 </esl-media>
             </div>
         </div>

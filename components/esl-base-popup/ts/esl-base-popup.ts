@@ -4,7 +4,7 @@ import {defined} from '../../esl-utils/misc/compare';
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {SingleTaskManager} from '../../esl-utils/async/single-task-manager';
-import {ESLBaseElement, attr, jsonAttr} from '../../esl-base-element/esl-base-element';
+import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/esl-base-element';
 
 import {ESLBasePopupGroup} from './esl-base-popup-group';
 
@@ -34,16 +34,16 @@ export class ESLBasePopup extends ESLBaseElement {
 	protected _trackHover: boolean = false;
 	protected _taskManager: SingleTaskManager = new SingleTaskManager();
 
+	@boolAttr() public open: boolean;
+
 	@attr() public bodyClass: string;
 	@attr() public activeClass: string;
 
 	@attr({name: 'group'}) public groupName: string;
 	@attr({name: 'close-on'}) public closeTrigger: string;
 
-	@attr({conditional: true}) public closeOnEsc: boolean;
-	@attr({conditional: true}) public closeOnBodyClick: boolean;
-
-	@attr({conditional: true}) public open: boolean;
+	@boolAttr() public closeOnEsc: boolean;
+	@boolAttr() public closeOnBodyClick: boolean;
 
 	@jsonAttr<PopupActionParams>({staticDefault: 'initialParams', default: {}}) public initialParams: PopupActionParams;
 	@jsonAttr<PopupActionParams>({staticDefault: 'defaultParams', default: {}}) public defaultParams: PopupActionParams;

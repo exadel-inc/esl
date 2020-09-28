@@ -24,7 +24,7 @@ export function debounce<T extends NoopFnSignature>(fn: T, wait = 10): (T & Call
 
 	function callableDebouncedSubject(...args: any[]) {
 		(typeof timeout === 'number') && clearTimeout(timeout);
-		timeout = setTimeout(() => {
+		timeout = window.setTimeout(() => {
 			timeout = null;
 			fn.apply(this, args);
 			observers.forEach((cb) => cb());

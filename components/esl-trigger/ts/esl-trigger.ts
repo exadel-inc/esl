@@ -1,4 +1,4 @@
-import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
+import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
 import {ESLPopup} from '../../esl-popup/esl-popup';
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {findTarget} from '../../esl-utils/dom/traversing';
@@ -17,7 +17,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   // Markers
-  @attr({conditional: true}) public active: boolean;
+  @boolAttr() public active: boolean;
 
   // Main setting
   @attr({defaultValue: 'next'}) public target: string;
@@ -27,10 +27,10 @@ export class ESLTrigger extends ESLBaseElement {
   @attr({defaultValue: ''}) public activeClass: string;
 
   // Common properties
-  @attr({}) public showDelay: string;
-  @attr({}) public hideDelay: string;
-  @attr({}) public touchShowDelay: string;
-  @attr({}) public touchHideDelay: string;
+  @attr() public showDelay: string;
+  @attr() public hideDelay: string;
+  @attr() public touchShowDelay: string;
+  @attr() public touchHideDelay: string;
 
   protected _popup: ESLPopup;
   protected __unsubscribers: NoopFnSignature[];
@@ -152,14 +152,14 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
 
-  protected get showDelayValue() {
-    const showDelay = DeviceDetector.isTouchDevice ? +this.touchShowDelay : +this.showDelay;
-    return isNaN(showDelay) ? undefined : showDelay;
+  protected get showDelayValue(): number | undefined {
+    const showDelay = DeviceDetector.isTouchDevice ? this.touchShowDelay : this.showDelay;
+    return !showDelay || isNaN(+showDelay) ? undefined : +showDelay;
   }
 
-  protected get hideDelayValue() {
-    const hideDelay = DeviceDetector.isTouchDevice ? +this.touchHideDelay : +this.hideDelay;
-    return isNaN(hideDelay) ? undefined : hideDelay;
+  protected get hideDelayValue(): number | undefined{
+    const hideDelay = DeviceDetector.isTouchDevice ? this.touchHideDelay : this.hideDelay;
+    return !hideDelay || isNaN(+hideDelay) ? undefined : +hideDelay;
   }
 
   protected onKeydown = (e: KeyboardEvent) => {

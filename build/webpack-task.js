@@ -22,8 +22,6 @@ const INITIAL_CONFIG = {
 };
 
 const OUTPUT_DEFAULT = {
-	library: 'ESL',
-	libraryTarget: 'umd',
 	umdNamedDefine: true,
 	globalObject: 'window',
 	jsonpFunction: '~ESLCore~',
@@ -98,7 +96,11 @@ module.exports.buildTsLib = function buildTsLib() {
 	return buildTs({
 		src: paths.bundle.ts,
 		context: paths.bundle.context,
-		check: !FAST_BUILD
+		check: !FAST_BUILD,
+		output: {
+			library: 'ESL',
+			libraryTarget: 'umd'
+		}
 	}).pipe(gulp.dest(paths.bundle.target));
 };
 
@@ -108,7 +110,11 @@ module.exports.buildTsBundles = function buildBundles() {
 		target: 'ES6',
 		context: paths.bundle.context,
 		commonChunk: true,
-		check: !FAST_BUILD
+		check: !FAST_BUILD,
+		output: {
+			library: 'ESL',
+			libraryTarget: 'umd'
+		}
 	}).pipe(gulp.dest(paths.bundle.target));
 };
 

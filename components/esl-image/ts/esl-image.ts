@@ -5,7 +5,7 @@
  */
 
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
+import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import ESLMediaRuleList from '../../esl-utils/conditions/esl-media-rule-list';
 
@@ -48,20 +48,20 @@ export class ESLImage extends ESLBaseElement {
 		return ['alt', 'data-alt', 'data-src', 'data-src-base', 'mode', 'lazy-triggered'];
 	}
 
-	@attr({defaultValue: ''}) public alt: string;
+	@attr() public alt: string;
 	@attr({defaultValue: 'save-ratio'}) public mode: string;
-	@attr({dataAttr: true, defaultValue: ''}) public src: string;
-	@attr({dataAttr: true, defaultValue: ''}) public srcBase: string;
+	@attr({dataAttr: true}) public src: string;
+	@attr({dataAttr: true}) public srcBase: string;
 
 	@attr({defaultValue: 'none'}) public lazy: 'auto' | 'manual' | 'none' | '';
-	@attr({conditional: true}) public lazyTriggered: boolean;
+	@boolAttr() public lazyTriggered: boolean;
 
-	@attr({conditional: true}) public refreshOnUpdate: boolean;
+	@boolAttr() public refreshOnUpdate: boolean;
 	@attr({defaultValue: 'inner-image'}) public innerImageClass: string;
 
-	@attr({conditional: true, readonly: true}) public readonly ready: boolean;
-	@attr({conditional: true, readonly: true}) public readonly loaded: boolean;
-	@attr({conditional: true, readonly: true}) public readonly error: boolean;
+	@boolAttr({readonly: true}) public readonly ready: boolean;
+	@boolAttr({readonly: true}) public readonly loaded: boolean;
+	@boolAttr({readonly: true}) public readonly error: boolean;
 
 	private _strategy: ESLImageRenderStrategy | null;
 	private _innerImg: HTMLImageElement | null;
