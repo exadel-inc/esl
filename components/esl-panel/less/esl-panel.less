@@ -1,4 +1,4 @@
-esl-collapsible {
+esl-panel {
   @animationTime: .5s;
 
   display: block;
@@ -13,5 +13,14 @@ esl-collapsible {
     visibility: visible;
     max-height: none;
     transition: max-height @animationTime ease-in-out, visibility 0s linear;
+  }
+
+  &.esl-fade {
+    opacity: 0;
+    transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime, opacity @animationTime ease-in-out;
+    &.open {
+      opacity: 1;
+      transition: max-height @animationTime ease-in-out, visibility 0s linear, opacity @animationTime ease-in-out;
+    }
   }
 }

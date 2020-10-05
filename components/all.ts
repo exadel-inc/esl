@@ -11,8 +11,7 @@ export {ESLImage as Image} from './esl-image/esl-image';
 export {ESLMedia as Media} from './esl-media/esl-media';
 
 export {ESLPopup as Popup} from './esl-popup/esl-popup';
-export {ESLCollapsible as Collapsible} from './esl-collapsible/esl-collapsible';
-export {ESLTabPanel as TabPanel} from './esl-tab-panel/esl-tab-panel';
+export {ESLPanel as Panel, ESLPanelStack as PanelStack} from './esl-panel/esl-panel';
 export {ESLTrigger as Trigger, ESLTriggersContainer as TriggersContainer} from './esl-trigger/esl-trigger';
 export {ESLTab as Tab, ESLTabsContainer as TabsContainer} from './esl-tab/esl-tab';
 export {ESLScrollableTabsContainer as ScrollableTabsContainer} from './esl-scrollable-tab/esl-scrollable-tab';
