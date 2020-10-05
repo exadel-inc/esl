@@ -1,6 +1,6 @@
 /**
  * ESL Image
- * @version 2.3.0
+ * @version 2.3.1
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
@@ -156,7 +156,7 @@ export class ESLImage extends ESLBaseElement {
 		return this.lazyTriggered || this.lazy === 'none';
 	}
 	public get lazyObservable() {
-		return this.lazy === '' || this.lazy === 'auto';
+		return this.lazy !== 'none' && this.lazy !== 'manual';
 	}
 
 	public triggerLoad() {
