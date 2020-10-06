@@ -1,1 +1,1 @@
-export * from './ts/esl-scrollable-tabs-container';
+export * from './ts/esl-scrollable-tabs';

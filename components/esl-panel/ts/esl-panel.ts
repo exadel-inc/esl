@@ -37,7 +37,7 @@ export class ESLPanel extends ESLBasePopup {
   protected onShow(params: PanelActionParams) {
     super.onShow(params);
     this.initialHeight = this.scrollHeight;
-    // Skip max-height animation
+
     this.beforeAnimate(params);
     if (!params.noCollapse) {
       this.onHeightAnimate('show', params);
@@ -50,7 +50,6 @@ export class ESLPanel extends ESLBasePopup {
     this.initialHeight = this.scrollHeight;
     super.onHide(params);
 
-    // Skip max-height animation
     this.beforeAnimate(params);
     if (!params.noCollapse) {
       this.onHeightAnimate('hide', params);
@@ -88,6 +87,9 @@ export class ESLPanel extends ESLBasePopup {
     CSSUtil.removeCls(this, this.postAnimateClass);
   }
 
+  /**
+   * the panels use panel stack config for actions
+   */
   protected mergeDefaultParams(params?: PopupActionParams): PopupActionParams {
     const stackConfig = this.stack?.panelConfig || {};
     return Object.assign({}, stackConfig, this.defaultParams, params || {});

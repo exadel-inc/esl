@@ -4,12 +4,11 @@ import {rafDecorator} from '../../esl-utils/async/raf';
 import ESLTabsContainer from '../../esl-tab/ts/esl-tabs-container';
 import ESLTab from '../../esl-tab/ts/esl-tab';
 
-@ExportNs('TabsContainer')
-export class ESLScrollableTabsContainer extends ESLTabsContainer {
-  public static is = 'esl-scrollable-tabs-container';
+@ExportNs('ScrollableTabs')
+export class ESLScrollableTabs extends ESLTabsContainer {
+  public static is = 'esl-scrollable-tabs';
   public static eventNs = 'esl:sc-tabs';
 
-  @attr({defaultValue: 'tab'}) public a11yRole: string;
   @attr({defaultValue: '.esl-tab-list'}) public tabList: string;
 
   protected connectedCallback() {
@@ -30,6 +29,7 @@ export class ESLScrollableTabsContainer extends ESLTabsContainer {
     super.unbindEvents();
     this.removeEventListener('click', this.onClick, false);
     this.$list && this.$list.removeEventListener('scroll', this.onScroll);
+    this.removeEventListener('focusin', this.onFocus);
     window.removeEventListener('resize', this.onResize);
   }
 
@@ -135,4 +135,4 @@ export class ESLScrollableTabsContainer extends ESLTabsContainer {
   };
 }
 
-export default ESLScrollableTabsContainer;
+export default ESLScrollableTabs;

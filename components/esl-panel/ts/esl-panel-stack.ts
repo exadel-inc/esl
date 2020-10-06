@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/esl-base-element';
+import {attr, ESLBaseElement} from '../../esl-base-element/esl-base-element';
 import ESLPanel from './esl-panel';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {CSSUtil} from '../../esl-utils/dom/styles';
@@ -36,8 +36,8 @@ export class ESLPanelStack extends ESLBaseElement {
 
   protected unbindEvents() {
     this.removeEventListener(`${ESLPanel.eventNs}:statechange`, this.onStateChange);
-    this.addEventListener(`${ESLPanel.eventNs}:beforestatechange`, this.onBeforeStateChange);
-    this.addEventListener('transitionend', this.onTransitionEnd);
+    this.removeEventListener(`${ESLPanel.eventNs}:beforestatechange`, this.onBeforeStateChange);
+    this.removeEventListener('transitionend', this.onTransitionEnd);
   }
 
   public get panels(): ESLPanel[] {
@@ -55,6 +55,7 @@ export class ESLPanelStack extends ESLBaseElement {
     const panel = e.target as ESLPanel;
     this.beforeAnimate();
     this.onAnimate(this.previousHeight, panel.initialHeight);
+    // TODO: fallbackDuration
   };
 
   protected onBeforeStateChange = (e: CustomEvent) => {
@@ -109,6 +110,9 @@ export class ESLPanelStack extends ESLBaseElement {
     return this.transformationQuery.matches;
   }
 
+  /**
+   * config that used to form result panel action params
+   */
   get panelConfig() {
     return {
       noCollapse: !this.isAccordion

@@ -16,7 +16,7 @@ ESL.Tab.register();
 
 ESL.TriggersContainer.register();
 ESL.TabsContainer.register();
-ESL.ScrollableTabsContainer.register();
+ESL.ScrollableTabs.register();
 
 ESL.Scrollbar.register();
 
