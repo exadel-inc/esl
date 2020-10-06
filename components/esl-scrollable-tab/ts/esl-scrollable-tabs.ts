@@ -13,7 +13,7 @@ export class ESLScrollableTabs extends ESLTabsContainer {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.fitToViewport(this.current(), 'auto');
+    this.fitToViewport(this.current() as ESLTab, 'auto');
     this.updateArrows();
   }
 
@@ -79,32 +79,19 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     const lastTrigger = this.$triggers[this.$triggers.length - 1];
     if (!list) return;
 
-    const scrollLeft = list.scrollLeft;
-    const listWidth = list.offsetWidth;
-    const lastLeft = lastTrigger.offsetLeft;
-    const lastWidth = lastTrigger.offsetWidth;
+    const tabsWidth = list.offsetWidth;
+    const tabsLeft = list.scrollLeft;
+    const tabsRight = lastTrigger.offsetLeft + lastTrigger.offsetWidth;
 
     const rightArrow = this.querySelector('[data-tab-direction="right"]');
     const leftArrow = this.querySelector('[data-tab-direction="left"]');
 
-    const hasScroll = lastLeft + lastWidth > listWidth;
-    if (hasScroll) {
-      this.setAttribute('has-scroll', 'true');
-    } else {
-      this.removeAttribute('has-scroll');
-    }
+    const hasLeftArrow = tabsLeft > 0;
+    const hasRightArrow = tabsLeft + tabsWidth + 1 < tabsRight;
 
-    if (!hasScroll || !rightArrow || !leftArrow) return;
-
-    // clear to go back to the initial state
-    rightArrow.removeAttribute('disabled');
-    leftArrow.removeAttribute('disabled');
-
-    if (scrollLeft + listWidth + 1 >= lastLeft + lastWidth) {
-      rightArrow.setAttribute('disabled', '');
-    } else if (scrollLeft === 0) {
-      leftArrow.setAttribute('disabled', '');
-    }
+    leftArrow && leftArrow.toggleAttribute('disabled', !hasLeftArrow);
+    rightArrow && rightArrow.toggleAttribute('disabled', !hasRightArrow);
+    this.toggleAttribute('has-scroll', hasLeftArrow || hasRightArrow);
   }
 
   protected onClick = (event: Event) => {
@@ -118,7 +105,7 @@ export class ESLScrollableTabs extends ESLTabsContainer {
 
   protected onTriggerStateChange(event: CustomEvent) {
     super.onTriggerStateChange(event);
-    this.fitToViewport(this.current());
+    this.fitToViewport(this.current() as ESLTab);
   }
 
   protected onScroll = rafDecorator(() => this.updateArrows());
@@ -130,9 +117,10 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     }
   };
 
-  protected onResize = () => {
-    this.fitToViewport(this.current(), 'auto');
-  };
+  protected onResize = rafDecorator(() => {
+    this.fitToViewport(this.current() as ESLTab, 'auto');
+    this.updateArrows();
+  });
 }
 
 export default ESLScrollableTabs;
