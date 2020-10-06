@@ -139,6 +139,7 @@ export class ESLBasePopup extends ESLBaseElement {
 	private planShowTask(params: PopupActionParams) {
 		this._taskManager.push(() => {
 			if (!params.force && this._open) return;
+      if (!params.silent) this.fireBeforeStateChange();
 			this.onShow(params);
 			if (!params.silent) this.fireStateChange();
 		}, defined(params.showDelay, params.delay));
@@ -157,7 +158,8 @@ export class ESLBasePopup extends ESLBaseElement {
 	private planHideTask(params: PopupActionParams) {
 		this._taskManager.push(() => {
 			if (!params.force && !this._open) return;
-			this.onHide(params);
+      if (!params.silent) this.fireBeforeStateChange();
+      this.onHide(params);
 			if (!params.silent) this.fireStateChange();
 		}, defined(params.hideDelay, params.delay));
 	}
@@ -200,6 +202,15 @@ export class ESLBasePopup extends ESLBaseElement {
 		this.updateA11y();
 	}
 
+  /**
+   * Fires before component state change event
+   */
+  protected fireBeforeStateChange() {
+    this.$$fireNs('beforestatechange', {
+      detail: {open: this._open}
+    });
+  }
+
 	/**
 	 * Fires component state change event
 	 */
@@ -207,7 +218,7 @@ export class ESLBasePopup extends ESLBaseElement {
 		this.$$fireNs('statechange', {
 			detail: {open: this._open}
 		});
-        this.$$fire('esl:refresh');
+		this.$$fire('esl:refresh');
 	}
 
 	// "Private" Handlers

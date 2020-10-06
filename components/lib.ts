@@ -9,9 +9,12 @@ import type {ESLScrollbar} from './esl-scrollbar/ts/esl-scrollbar';
 import type {ESLBasePopup} from './esl-base-popup/ts/esl-base-popup';
 import type {ESLPopup} from './esl-popup/ts/esl-popup';
 import type {ESLTrigger} from './esl-trigger/ts/esl-trigger';
+import type {ESLTab} from './esl-tab/ts/esl-tab';
 import type {ESLTriggersContainer} from './esl-trigger/ts/esl-triggers-container';
-import type {ESLCollapsible} from './esl-collapsible/ts/esl-collapsible';
-import type {ESLTabPanel} from './esl-tab-panel/ts/esl-tab-panel';
+import type {ESLPanel} from './esl-panel/ts/esl-panel';
+import type {ESLPanelStack} from './esl-panel/ts/esl-panel-stack';
+import type {ESLTabsContainer} from './esl-tab/ts/esl-tabs-container';
+import type {ESLScrollableTabsContainer} from './esl-scrollable-tab/ts/esl-scrollable-tabs-container';
 
 import type {ESLCarousel} from './esl-carousel/ts/esl-carousel';
 import type {ESLCarouselDotsPlugin} from './esl-carousel/ts/plugin/esl-carousel-dots.plugin';
@@ -37,9 +40,12 @@ declare global {
 		BasePopup?: typeof ESLBasePopup;
 		Popup?: typeof ESLPopup;
 		Trigger?: typeof ESLTrigger;
-		Collapsible?: typeof ESLCollapsible;
-		TabPanel?: typeof ESLTabPanel;
+    Tab?: typeof ESLTab;
+		Panel?: typeof ESLPanel;
+    PanelStack?: typeof ESLPanelStack;
         TriggersContainer?: typeof ESLTriggersContainer;
+        TabsContainer?: typeof ESLTabsContainer;
+        ScrollableTabsContainer?: typeof ESLScrollableTabsContainer;
 
 		Scrollbar?: typeof ESLScrollbar;
 

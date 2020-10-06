@@ -64,3 +64,16 @@ export function findTarget(query: string, current: HTMLElement, multiple = false
 export function isRelative(nodeA: Node | null, nodeB: Node | null) {
     return nodeA && nodeB && (nodeA.contains(nodeB) || nodeB.contains(nodeA));
 }
+
+/**
+ * Find closest parent node of {@param node} by {@param predicate}.
+ * {@param skipSelf} to skip initial node
+ */
+export function closestBy(node: Node, predicate: (node: Node) => boolean, skipSelf = false): Node | null {
+  let current = skipSelf && node ? node.parentNode : node;
+  while (current) {
+    if (predicate(current)) return current;
+    current = current.parentNode;
+  }
+  return null;
+}
