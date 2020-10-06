@@ -44,7 +44,7 @@ export class ESLScrollableTabsContainer extends ESLTabsContainer {
 
     list.scrollBy({
       left: direction === 'left' ? -widthToScroll - 1 : widthToScroll + 1,
-      behavior: behavior
+      behavior
     });
   }
 
@@ -69,7 +69,7 @@ export class ESLScrollableTabsContainer extends ESLTabsContainer {
 
     list.scrollBy({
       left: shiftLeft,
-      behavior: behavior
+      behavior
     });
   }
 
@@ -116,10 +116,10 @@ export class ESLScrollableTabsContainer extends ESLTabsContainer {
     this.moveTo(direction);
   };
 
-  protected onTriggerStateChange (event: CustomEvent) {
+  protected onTriggerStateChange(event: CustomEvent) {
     super.onTriggerStateChange(event);
     this.fitToViewport(this.current());
-  };
+  }
 
   protected onScroll = rafDecorator(() => this.updateArrows());
 

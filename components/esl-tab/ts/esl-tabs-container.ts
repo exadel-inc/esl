@@ -44,7 +44,7 @@ export class ESLTabsContainer extends ESLTriggersContainer {
   protected onTriggerStateChange(event: CustomEvent) {
     const trigger = event.target as ESLTab;
     this.updateA11y(trigger);
-  };
+  }
 }
 
 export default ESLTabsContainer;

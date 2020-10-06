@@ -1,9 +1,9 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/esl-base-element';
 import ESLPanel from './esl-panel';
-import {afterNextRender} from "../../esl-utils/async/raf";
+import {afterNextRender} from '../../esl-utils/async/raf';
 import {CSSUtil} from '../../esl-utils/dom/styles';
-import {ESLMediaQuery} from "../../esl-utils/conditions/esl-media-query";
+import {ESLMediaQuery} from '../../esl-utils/conditions/esl-media-query';
 
 @ExportNs('PanelStack')
 export class ESLPanelStack extends ESLBaseElement {
@@ -117,7 +117,7 @@ export class ESLPanelStack extends ESLBaseElement {
 
   protected onModeChange = () => {
     CSSUtil.toggleClsTo(this, this.accordionClass, this.isAccordion);
-  }
+  };
 }
 
 export default ESLPanelStack;
