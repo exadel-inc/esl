@@ -13,15 +13,13 @@ export class ESLPanelStack extends ESLBaseElement {
   @attr() public accordionTransformation: string;
   @attr({defaultValue: 'animate'}) public animateClass: string;
   @attr({defaultValue: 'accordion'}) public accordionClass: string;
-  @boolAttr() public fadeAnimation: boolean;
 
   protected previousHeight: number;
-  protected accordionTransformationQuery: ESLMediaQuery;
+  protected _transformationQuery: ESLMediaQuery;
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.onTransformationChange();
-    this.updatePanels();
+    this.onModeChange();
     this.bindEvents();
   }
 
@@ -42,21 +40,18 @@ export class ESLPanelStack extends ESLBaseElement {
     this.addEventListener('transitionend', this.onTransitionEnd);
   }
 
-  get $panels(): ESLPanel[] {
-    const els = this.querySelectorAll(ESLPanel.is);
-    return els ? Array.from(els) as ESLPanel[] : [];
+  public get panels(): ESLPanel[] {
+    const els = Array.from(this.children);
+    return els.filter((el) => el instanceof ESLPanel) as ESLPanel[];
   }
 
   public get current(): ESLPanel | undefined {
-    return this.$panels.find((el: ESLPanel) => el.open);
-  }
-
-  protected updatePanels() {
-    this.$panels.forEach((el: ESLPanel) => el.noAnimation = true);
+    return this.panels.find((el: ESLPanel) => el.open);
   }
 
   protected onStateChange = (e: CustomEvent) => {
     if (!e.detail.open) return;
+    if (this.isAccordion) return;
     const panel = e.target as ESLPanel;
     this.beforeAnimate();
     this.onAnimate(this.previousHeight, panel.initialHeight);
@@ -95,26 +90,34 @@ export class ESLPanelStack extends ESLBaseElement {
   };
 
   get transformationQuery() {
-    if (!this.accordionTransformationQuery) {
-      const query = this.accordionTransformationQuery || ESLMediaQuery.NOT_ALL;
+    if (!this._transformationQuery) {
+      const query = this.accordionTransformation || ESLMediaQuery.NOT_ALL;
       this.transformationQuery = new ESLMediaQuery(query);
     }
-    return this.accordionTransformationQuery;
+    return this._transformationQuery;
   }
 
   set transformationQuery(query) {
-    if (this.accordionTransformationQuery) {
-      this.accordionTransformationQuery.removeListener(() => this.onTransformationChange());
+    if (this._transformationQuery) {
+      this._transformationQuery.removeListener(this.onModeChange);
     }
-    this.accordionTransformationQuery = query;
-    this.accordionTransformationQuery.addListener(() => this.onTransformationChange());
+    this._transformationQuery = query;
+    this._transformationQuery.addListener(this.onModeChange);
   }
 
   get isAccordion() {
     return this.transformationQuery.matches;
   }
 
-  protected onTransformationChange() {}
+  get panelConfig() {
+    return {
+      noCollapse: !this.isAccordion
+    };
+  }
+
+  protected onModeChange = () => {
+    CSSUtil.toggleClsTo(this, this.accordionClass, this.isAccordion);
+  }
 }
 
 export default ESLPanelStack;

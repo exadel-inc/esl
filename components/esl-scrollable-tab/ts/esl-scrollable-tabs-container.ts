@@ -7,15 +7,15 @@ import ESLTab from '../../esl-tab/ts/esl-tab';
 @ExportNs('TabsContainer')
 export class ESLScrollableTabsContainer extends ESLTabsContainer {
   public static is = 'esl-scrollable-tabs-container';
-  public static eventNs = 'esl:scrollable-tabs-container';
+  public static eventNs = 'esl:sc-tabs';
 
   @attr({defaultValue: 'tab'}) public a11yRole: string;
   @attr({defaultValue: '.esl-tab-list'}) public tabList: string;
 
   protected connectedCallback() {
+    super.connectedCallback();
     this.fitToViewport(this.current(), 'auto');
     this.updateArrows();
-    super.connectedCallback();
   }
 
   protected bindEvents() {
@@ -88,7 +88,12 @@ export class ESLScrollableTabsContainer extends ESLTabsContainer {
     const leftArrow = this.querySelector('[data-tab-direction="left"]');
 
     const hasScroll = lastLeft + lastWidth > listWidth;
-    this.toggleAttribute('has-scroll', hasScroll);
+    if (hasScroll) {
+      this.setAttribute('has-scroll', 'true');
+    } else {
+      this.removeAttribute('has-scroll');
+    }
+
     if (!hasScroll || !rightArrow || !leftArrow) return;
 
     // clear to go back to the initial state
