@@ -8,7 +8,7 @@ import ESLPanelStack from './esl-panel-stack';
 
 export interface PanelActionParams extends PopupActionParams {
   noCollapse?: boolean;
-  startAnimation?: boolean;
+  noAnimation?: boolean;
 }
 
 @ExportNs('Panel')
@@ -16,7 +16,7 @@ export class ESLPanel extends ESLBasePopup {
   public static is = 'esl-panel';
   public static eventNs = 'esl:panel';
 
-  protected static initialParams: PanelActionParams = {silent: true, force: true, initiator: 'init', startAnimation: false};
+  protected static initialParams: PanelActionParams = {silent: true, force: true, initiator: 'init', noAnimation: true};
 
   @attr({defaultValue: 'open'}) public activeClass: string;
   @attr({defaultValue: 'animate'}) public animateClass: string;
@@ -42,7 +42,7 @@ export class ESLPanel extends ESLBasePopup {
     super.onShow(params);
     this.initialHeight = this.scrollHeight;
 
-    if (!params.startAnimation && params.initiator === 'init') return;
+    if (params.noAnimation) return;
 
     this.beforeAnimate(params);
     if (!params.noCollapse) {
@@ -56,7 +56,7 @@ export class ESLPanel extends ESLBasePopup {
     this.initialHeight = this.scrollHeight;
     super.onHide(params);
 
-    if (!params.startAnimation && params.initiator === 'init') return;
+    if (params.noAnimation) return;
 
     this.beforeAnimate(params);
     if (!params.noCollapse) {
