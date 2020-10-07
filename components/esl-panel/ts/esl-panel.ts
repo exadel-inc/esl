@@ -100,7 +100,7 @@ export class ESLPanel extends ESLBasePopup {
    */
   protected mergeDefaultParams(params?: PopupActionParams): PopupActionParams {
     const stackConfig = this.stack?.panelConfig || {};
-    return Object.assign({}, this.defaultParams, stackConfig, params || {});
+    return Object.assign({}, stackConfig, this.defaultParams, params || {});
   }
 
   public get stack(): ESLPanelStack | null {
