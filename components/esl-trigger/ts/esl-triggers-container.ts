@@ -10,8 +10,6 @@ export class ESLTriggersContainer extends ESLBaseElement {
   public static is = 'esl-triggers-container';
   public static eventNs = 'esl:triggers-container';
 
-  @attr({defaultValue: 'button'}) public a11yRole: string;
-
   protected connectedCallback() {
     super.connectedCallback();
     this.bindEvents();

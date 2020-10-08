@@ -9,7 +9,6 @@ export class ESLTabsContainer extends ESLTriggersContainer {
   public static is = 'esl-tabs-container';
   public static eventNs = 'esl:tabs-container';
 
-  @attr({defaultValue: 'tab'}) public a11yRole: string;
   @attr({defaultValue: '.esl-tab-list'}) public tabList: string;
 
   protected bindEvents() {
