@@ -3,6 +3,7 @@ import {attr} from '../../esl-base-element/ts/decorators/attr';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import ESLTabsContainer from '../../esl-tab/ts/esl-tabs-container';
 import ESLTab from '../../esl-tab/ts/esl-tab';
+import {isRtl} from '../../esl-utils/dom/rtl';
 
 @ExportNs('ScrollableTabs')
 export class ESLScrollableTabs extends ESLTabsContainer {
@@ -11,8 +12,10 @@ export class ESLScrollableTabs extends ESLTabsContainer {
 
   @attr({defaultValue: '.esl-tab-list'}) public tabList: string;
 
+  // TODO: think about update of arrows
   protected connectedCallback() {
     super.connectedCallback();
+    this.updateArrows();
     this.fitToViewport(this.current() as ESLTab, 'auto');
     this.updateArrows();
   }
@@ -40,12 +43,11 @@ export class ESLScrollableTabs extends ESLTabsContainer {
   public moveTo(direction: string, behavior: ScrollBehavior = 'smooth') {
     const list = this.$list;
     if (!list) return;
-    const widthToScroll = list.offsetWidth;
+    let left = list.offsetWidth + 1;
+    left = isRtl(this) ? -left : left;
+    left = direction === 'left' ? -left : left;
 
-    list.scrollBy({
-      left: direction === 'left' ? -widthToScroll - 1 : widthToScroll + 1,
-      behavior
-    });
+    list.scrollBy({left, behavior});
   }
 
   protected fitToViewport(trigger: ESLTab | undefined, behavior: ScrollBehavior = 'smooth'): void {
@@ -80,18 +82,18 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     if (!list) return;
 
     const tabsWidth = list.offsetWidth;
-    const tabsLeft = list.scrollLeft;
-    const tabsRight = lastTrigger.offsetLeft + lastTrigger.offsetWidth;
+    const tabsLeft = Math.abs(list.scrollLeft);
+    const tabsRight = Math.abs(lastTrigger.offsetLeft) + lastTrigger.offsetWidth;
 
     const rightArrow = this.querySelector('[data-tab-direction="right"]');
     const leftArrow = this.querySelector('[data-tab-direction="left"]');
 
-    const hasLeftArrow = tabsLeft > 0;
-    const hasRightArrow = tabsLeft + tabsWidth + 1 < tabsRight;
+    const hasScrollBefore = tabsLeft > 1;
+    const hasScrollAfter = tabsLeft + tabsWidth + 1 < tabsRight;
 
-    leftArrow && leftArrow.toggleAttribute('disabled', !hasLeftArrow);
-    rightArrow && rightArrow.toggleAttribute('disabled', !hasRightArrow);
-    this.toggleAttribute('has-scroll', hasLeftArrow || hasRightArrow);
+    leftArrow && leftArrow.toggleAttribute('disabled', !hasScrollBefore);
+    rightArrow && rightArrow.toggleAttribute('disabled', !hasScrollAfter);
+    this.toggleAttribute('has-scroll', hasScrollBefore || hasScrollAfter);
   }
 
   protected onClick = (event: Event) => {
