@@ -5,7 +5,7 @@
     "custom elements",
     "component library"
   ],
-  "version": "1.25.4-alpha",
+  "version": "1.25.5-alpha",
   "private": true,
   "homepage": "https://gitlab.exadel.com/EDMTP/smart-wc-library#readme",
   "license": "MIT",
