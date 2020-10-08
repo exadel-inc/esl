@@ -3,7 +3,7 @@ import {attr} from '../../esl-base-element/ts/decorators/attr';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import ESLTabsContainer from '../../esl-tab/ts/esl-tabs-container';
 import ESLTab from '../../esl-tab/ts/esl-tab';
-import {isRtl} from '../../esl-utils/dom/rtl';
+import {isNegativeScroll, isRtl} from '../../esl-utils/dom/rtl';
 
 @ExportNs('ScrollableTabs')
 export class ESLScrollableTabs extends ESLTabsContainer {
@@ -17,7 +17,6 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     super.connectedCallback();
     this.updateArrows();
     this.fitToViewport(this.current() as ESLTab, 'auto');
-    this.updateArrows();
   }
 
   protected bindEvents() {
@@ -73,27 +72,28 @@ export class ESLScrollableTabs extends ESLTabsContainer {
       left: shiftLeft,
       behavior
     });
+
+    this.updateArrows();
   }
 
   protected updateArrows() {
     const list = this.$list;
-    // cache
-    const lastTrigger = this.$triggers[this.$triggers.length - 1];
     if (!list) return;
 
-    const tabsWidth = list.offsetWidth;
-    const tabsLeft = Math.abs(list.scrollLeft);
-    const tabsRight = Math.abs(lastTrigger.offsetLeft) + lastTrigger.offsetWidth;
+    const hasScroll = list.scrollWidth > this.clientWidth;
+    const scrollStart = Math.abs(list.scrollLeft) > 1;
+    const scrollEnd = Math.abs(list.scrollLeft) + list.clientWidth + 1 < list.scrollWidth;
+
+    const swapChecks = isRtl(this) && !isNegativeScroll();
+    const hasScrollBefore = swapChecks ? scrollEnd : scrollStart;
+    const hasScrollAfter = swapChecks ? scrollStart : scrollEnd;
 
     const rightArrow = this.querySelector('[data-tab-direction="right"]');
     const leftArrow = this.querySelector('[data-tab-direction="left"]');
 
-    const hasScrollBefore = tabsLeft > 1;
-    const hasScrollAfter = tabsLeft + tabsWidth + 1 < tabsRight;
-
+    this.toggleAttribute('has-scroll', hasScroll);
     leftArrow && leftArrow.toggleAttribute('disabled', !hasScrollBefore);
     rightArrow && rightArrow.toggleAttribute('disabled', !hasScrollAfter);
-    this.toggleAttribute('has-scroll', hasScrollBefore || hasScrollAfter);
   }
 
   protected onClick = (event: Event) => {
@@ -121,7 +121,6 @@ export class ESLScrollableTabs extends ESLTabsContainer {
 
   protected onResize = rafDecorator(() => {
     this.fitToViewport(this.current() as ESLTab, 'auto');
-    this.updateArrows();
   });
 }
 
