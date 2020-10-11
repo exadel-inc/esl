@@ -9,7 +9,7 @@ export const toKebabCase = (str: string) => {
  * Convert string to camelCase notation
  */
 export const toCamelCase = (str: string) => {
-    return str.trim().replace(/[\s-,_]+([a-zA-Z0-9]?)/g, (match: string, word: string) => (word || '').toUpperCase());
+    return str.trim().replace(/[\s-,_]+([a-zA-Z0-9]?)/g, (match: string, word: string) => word.toUpperCase());
 };
 
 /**
@@ -20,7 +20,7 @@ export const toCamelCase = (str: string) => {
  * @return aspect ratio coefficient
  */
 export function parseAspectRatio(str: string): number {
-    const res = str.match(/(\d+)[:/](\d+)/);
+    const res = str.match(/(\d+)\s*[:/]\s*(\d+)/);
     if (res) {
         const [, w, h] = res;
         return +w / +h;

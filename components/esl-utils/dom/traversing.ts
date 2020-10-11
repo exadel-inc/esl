@@ -15,7 +15,7 @@ type PseudoProcessorMap = {[key: string]: PseudoProcessor};
 const SELECTORS: PseudoProcessorMap = {
 	'::next': (base: Element, sel?: string) => findSibling(base, sel, false),
 	'::prev': (base: Element, sel?: string) => findSibling(base, sel, true),
-	'::child': (base: Element, sel?: string, multiple = false) => {
+	'::child': (base: Element, sel?: string, multiple?: boolean) => {
 		if (multiple) {
 			return Array.from(sel ? base.querySelectorAll(sel) : base.children);
 		}
@@ -42,11 +42,11 @@ const PSEUDO_SELECTORS_REGEX = new RegExp(`(${Object.keys(SELECTORS).join('|')})
  * @example "::parent::child(some-tag)" - find child element(s) that match tag 'some-tag' in the parent
  * @example "#id .class [attr]::parent" - find parent of element matching selector '#id .class [attr]' in document
  */
-export function findTarget(query: string, current: HTMLElement, multiple = false) {
+export function findTarget(query: string, current: HTMLElement | null = null, multiple = false) {
 	const parts = query.split(PSEUDO_SELECTORS_REGEX).map((term) => term.trim());
 	const rootSel = parts.shift();
 	const initialEl = rootSel ? document.querySelector(rootSel): current;
-	if (!current && parts.length) {
+	if (!current && !rootSel && parts.length) {
 		console.warn(`root is not specified for extended selector '${query}'`);
 		return null;
 	}

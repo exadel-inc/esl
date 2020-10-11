@@ -16,3 +16,6 @@ test-server/static/
 npm-debug.log
 package-lock.json
 .gitconfig
+
+# Jest coverage
+coverage
