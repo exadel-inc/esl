@@ -8,6 +8,7 @@ root = true
 # Project settings
 indent_style = space
 indent_size = 2
+ij_any_blank_lines_around_method = 0
 
 # Unchanged settings
 end_of_line = lf

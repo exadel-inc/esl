@@ -4,16 +4,16 @@ const NS_NAME = 'ESL';
  * Nested declaration helper
  */
 function define(root: any, name: string, value: any) {
-	return name.split('.').reduce((obj: any, key, index, parts) => {
-		if (parts.length === index + 1) {
-			return (obj[key] = obj[key] || value);
-		}
-		const type = typeof obj[key];
-		if (type !== 'undefined' && type !== 'object' && type !== 'function') {
-			throw new Error(`Can not define ${value} on ${name}`);
-		}
-		return (obj[key] = obj[key] || {});
-	}, root);
+  return name.split('.').reduce((obj: any, key, index, parts) => {
+    if (parts.length === index + 1) {
+      return (obj[key] = obj[key] || value);
+    }
+    const type = typeof obj[key];
+    if (type !== 'undefined' && type !== 'object' && type !== 'function') {
+      throw new Error(`Can not define ${value} on ${name}`);
+    }
+    return (obj[key] = obj[key] || {});
+  }, root);
 }
 
 /**
@@ -21,8 +21,8 @@ function define(root: any, name: string, value: any) {
  * See {@link ExportNs} decorator for details
  */
 export const exportNs = (name: string, module: any) => {
-	if (!(NS_NAME in window)) return;
-	define((window as any)[NS_NAME], name, module);
+  if (!(NS_NAME in window)) return;
+  define((window as any)[NS_NAME], name, module);
 };
 
 /**
@@ -34,5 +34,5 @@ export const exportNs = (name: string, module: any) => {
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function ExportNs<T extends Function>(name?: string) {
-	return (module: T) => exportNs(name || module.name, module);
+  return (module: T) => exportNs(name || module.name, module);
 }

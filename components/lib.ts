@@ -24,37 +24,37 @@ import type {ESLCarouselAutoplayPlugin} from './esl-carousel/ts/plugin/esl-carou
 
 // Define global namespace
 if (!('ESL' in window)) {
-	Object.defineProperty(window, 'ESL', { value: {}});
+  Object.defineProperty(window, 'ESL', {value: {}});
 }
 
 declare global {
-	const ESL: ESLLibrary;
+  const ESL: ESLLibrary;
 
-	export interface ESLLibrary {
-		DeviceDetector?: typeof DeviceDetector;
-		BreakpointRegistry?: typeof BreakpointRegistry;
+  export interface ESLLibrary {
+    DeviceDetector?: typeof DeviceDetector;
+    BreakpointRegistry?: typeof BreakpointRegistry;
 
-		Image?: typeof ESLImage;
-		Media?: typeof ESLMedia;
+    Image?: typeof ESLImage;
+    Media?: typeof ESLMedia;
 
-		BasePopup?: typeof ESLBasePopup;
-		Popup?: typeof ESLPopup;
-		Trigger?: typeof ESLTrigger;
+    BasePopup?: typeof ESLBasePopup;
+    Popup?: typeof ESLPopup;
+    Trigger?: typeof ESLTrigger;
     Tab?: typeof ESLTab;
-		Panel?: typeof ESLPanel;
+    Panel?: typeof ESLPanel;
     PanelStack?: typeof ESLPanelStack;
-        TriggersContainer?: typeof ESLTriggersContainer;
-        TabsContainer?: typeof ESLTabsContainer;
-        ScrollableTabs?: typeof ESLScrollableTabs;
+    TriggersContainer?: typeof ESLTriggersContainer;
+    TabsContainer?: typeof ESLTabsContainer;
+    ScrollableTabs?: typeof ESLScrollableTabs;
 
-		Scrollbar?: typeof ESLScrollbar;
+    Scrollbar?: typeof ESLScrollbar;
 
-		Carousel?: typeof ESLCarousel;
-		CarouselPlugins: {
-			Dots?: typeof ESLCarouselDotsPlugin;
-			Link?: typeof ESLCarouselLinkPlugin;
-			Touch?: typeof ESLCarouselTouchPlugin;
-			Autoplay?: typeof ESLCarouselAutoplayPlugin;
-		};
-	}
+    Carousel?: typeof ESLCarousel;
+    CarouselPlugins: {
+      Dots?: typeof ESLCarouselDotsPlugin;
+      Link?: typeof ESLCarouselLinkPlugin;
+      Touch?: typeof ESLCarouselTouchPlugin;
+      Autoplay?: typeof ESLCarouselAutoplayPlugin;
+    };
+  }
 }

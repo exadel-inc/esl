@@ -11,15 +11,15 @@ export const afterNextRender = (callback: () => void) => requestAnimationFrame((
  * @param {function} fn
  * @returns {function} - decorated function
  */
-export const rafDecorator = <T extends AnyToVoidFnSignature> (fn: T): T => {
-	let rafScheduled = false;
-	return function (...args: any[]) {
-		if (!rafScheduled) {
-			requestAnimationFrame(() => {
-				fn.call(this, ...args);
-				rafScheduled = false;
-			});
-		}
-		rafScheduled = true;
-	} as T;
+export const rafDecorator = <T extends AnyToVoidFnSignature>(fn: T): T => {
+  let rafScheduled = false;
+  return function (...args: any[]) {
+    if (!rafScheduled) {
+      requestAnimationFrame(() => {
+        fn.call(this, ...args);
+        rafScheduled = false;
+      });
+    }
+    rafScheduled = true;
+  } as T;
 };
