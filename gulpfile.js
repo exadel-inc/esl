@@ -1,25 +1,25 @@
 const gulp = require('gulp');
 
 const {
-    printBuildStart
+  printBuildStart
 } = require('./build/config');
 const {
-    clean,
-    cleanLocal
+  clean,
+  cleanLocal
 } = require('./build/clean-task');
 const {
-    buildLessLib,
-    buildLessLocal,
-    buildLessBundles,
-    buildLessBundlesDefaults
+  buildLessLib,
+  buildLessLocal,
+  buildLessBundles,
+  buildLessBundlesDefaults
 } = require('./build/less-task');
 const {
-    buildTsLib,
-    buildTsLocal,
-    buildTsBundles
+  buildTsLib,
+  buildTsLocal,
+  buildTsBundles
 } = require('./build/webpack-task');
 const {
-    watch
+  watch
 } = require('./build/watch-task');
 
 // === BUILD TASKS ===
@@ -32,11 +32,11 @@ const prepare = gulp.series(buildLib, buildGranular);
 printBuildStart();
 
 module.exports = {
-    clean,
-    build,
-    watch,
-    prepare,
-    buildLib,
-    buildGranular,
-    buildLocal
+  clean,
+  build,
+  watch,
+  prepare,
+  buildLib,
+  buildGranular,
+  buildLocal
 };
