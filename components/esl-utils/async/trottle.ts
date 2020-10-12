@@ -8,20 +8,20 @@ import type {AnyToVoidFnSignature} from '../misc/functions';
  * @returns {Function}
  */
 export function throttle<T extends AnyToVoidFnSignature>(fn: T, threshold = 250): T {
-	let last: number;
-	let deferTimer: ReturnType<typeof setTimeout>;
-	return function (...args: any[]) {
-		const now = Date.now();
-		if (last && now < last + threshold) {
-			// hold on to it
-			clearTimeout(deferTimer);
-			deferTimer = setTimeout(() => {
-				last = now;
-				fn.apply(this, args);
-			}, threshold);
-		} else {
-			last = now;
-			fn.apply(this, args);
-		}
-	} as T;
+  let last: number;
+  let deferTimer: ReturnType<typeof setTimeout>;
+  return function (...args: any[]) {
+    const now = Date.now();
+    if (last && now < last + threshold) {
+      // hold on to it
+      clearTimeout(deferTimer);
+      deferTimer = setTimeout(() => {
+        last = now;
+        fn.apply(this, args);
+      }, threshold);
+    } else {
+      last = now;
+      fn.apply(this, args);
+    }
+  } as T;
 }

@@ -12,8 +12,8 @@ import {ESLCarouselAutoplayPlugin} from './ts/plugin/esl-carousel-autoplay.plugi
 
 // TODO: ??
 export const CarouselPlugins = {
-	Dots: ESLCarouselDotsPlugin,
-	Link: ESLCarouselLinkPlugin,
-	Touch: ESLCarouselTouchPlugin,
-	Autoplay: ESLCarouselAutoplayPlugin
+  Dots: ESLCarouselDotsPlugin,
+  Link: ESLCarouselLinkPlugin,
+  Touch: ESLCarouselTouchPlugin,
+  Autoplay: ESLCarouselAutoplayPlugin
 };

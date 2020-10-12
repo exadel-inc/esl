@@ -4,9 +4,9 @@ import type {NoopFnSignature} from '../misc/functions';
  * CallableSubject is a {Function} that can be listened to continue execution
  */
 export interface CallableSubject extends Function {
-	requested: boolean;
+  requested: boolean;
 
-	then(cb: NoopFnSignature, invokeIfNoDeferred?: boolean): CallableSubject;
+  then(cb: NoopFnSignature, invokeIfNoDeferred?: boolean): CallableSubject;
 }
 
 /**
@@ -19,27 +19,27 @@ export interface CallableSubject extends Function {
  * @returns {Function}
  */
 export function debounce<T extends NoopFnSignature>(fn: T, wait = 10): (T & CallableSubject) {
-	let timeout: number | null = null;
-	const observers: Set<NoopFnSignature> = new Set();
+  let timeout: number | null = null;
+  const observers: Set<NoopFnSignature> = new Set();
 
-	function callableDebouncedSubject(...args: any[]) {
-		(typeof timeout === 'number') && clearTimeout(timeout);
-		timeout = window.setTimeout(() => {
-			timeout = null;
-			fn.apply(this, args);
-			observers.forEach((cb) => cb());
-			observers.clear();
-		}, wait);
-	}
+  function callableDebouncedSubject(...args: any[]) {
+    (typeof timeout === 'number') && clearTimeout(timeout);
+    timeout = window.setTimeout(() => {
+      timeout = null;
+      fn.apply(this, args);
+      observers.forEach((cb) => cb());
+      observers.clear();
+    }, wait);
+  }
 
-	Object.defineProperty(callableDebouncedSubject, 'requested', {
-		get: () => timeout !== null
-	});
-	Object.defineProperty(callableDebouncedSubject, 'then', {
-		value: (cb: NoopFnSignature, invokeIfNoDeferred = false) => {
-			(invokeIfNoDeferred && timeout === null) ? cb() : observers.add(cb);
-			return callableDebouncedSubject;
-		}
-	});
-	return callableDebouncedSubject as any as (T & CallableSubject);
+  Object.defineProperty(callableDebouncedSubject, 'requested', {
+    get: () => timeout !== null
+  });
+  Object.defineProperty(callableDebouncedSubject, 'then', {
+    value: (cb: NoopFnSignature, invokeIfNoDeferred = false) => {
+      (invokeIfNoDeferred && timeout === null) ? cb() : observers.add(cb);
+      return callableDebouncedSubject;
+    }
+  });
+  return callableDebouncedSubject as any as (T & CallableSubject);
 }

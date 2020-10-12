@@ -8,64 +8,64 @@ import ESLCarouselPlugin from './esl-carousel-plugin';
  */
 @ExportNs('CarouselPlugins.Link')
 export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
-	public static is = 'esl-carousel-link-plugin';
+  public static is = 'esl-carousel-link-plugin';
 
-	public static get observedAttributes() {
-		return ['to', 'direction'];
-	}
+  public static get observedAttributes() {
+    return ['to', 'direction'];
+  }
 
-	@attr() public to: string;
-	@attr({defaultValue: 'both'}) public direction: string;
+  @attr() public to: string;
+  @attr({defaultValue: 'both'}) public direction: string;
 
-	private _target: ESLCarousel | null;
+  private _target: ESLCarousel | null;
 
-	constructor() {
-		super();
-		this._onSlideChange = this._onSlideChange.bind(this);
-	}
+  constructor() {
+    super();
+    this._onSlideChange = this._onSlideChange.bind(this);
+  }
 
-	public bind() {
-		if (!this.target) {
-			this.target = document.querySelector(this.to);
-		}
-		if (!(this.target instanceof ESLCarousel)) return;
+  public bind() {
+    if (!this.target) {
+      this.target = document.querySelector(this.to);
+    }
+    if (!(this.target instanceof ESLCarousel)) return;
 
-		if (this.direction === 'both' || this.direction === 'reverse') {
-			this.target.addEventListener('esl:carousel:slide:changed', this._onSlideChange);
-		}
-		if (this.direction === 'both' || this.direction === 'target') {
-			this.carousel.addEventListener('esl:carousel:slide:changed', this._onSlideChange);
-		}
-	}
+    if (this.direction === 'both' || this.direction === 'reverse') {
+      this.target.addEventListener('esl:carousel:slide:changed', this._onSlideChange);
+    }
+    if (this.direction === 'both' || this.direction === 'target') {
+      this.carousel.addEventListener('esl:carousel:slide:changed', this._onSlideChange);
+    }
+  }
 
-	public unbind() {
-		this.target && this.target.removeEventListener('esl:carousel:slide:changed', this._onSlideChange);
-		this.carousel && this.carousel.removeEventListener('esl:carousel:slide:changed', this._onSlideChange);
-	}
+  public unbind() {
+    this.target && this.target.removeEventListener('esl:carousel:slide:changed', this._onSlideChange);
+    this.carousel && this.carousel.removeEventListener('esl:carousel:slide:changed', this._onSlideChange);
+  }
 
-	protected _onSlideChange(e: CustomEvent) {
-		if (!this.target || !this.carousel) return;
-		const $target = e.target === this.carousel ? this.target : this.carousel;
-		const $source = e.target === this.carousel ? this.carousel : this.target;
-		$target.goTo($source.firstIndex, e.detail.direction);
-	}
+  protected _onSlideChange(e: CustomEvent) {
+    if (!this.target || !this.carousel) return;
+    const $target = e.target === this.carousel ? this.target : this.carousel;
+    const $source = e.target === this.carousel ? this.carousel : this.target;
+    $target.goTo($source.firstIndex, e.detail.direction);
+  }
 
-	private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-		if (this.carousel && oldVal !== newVal) {
-			this.unbind();
-			if (attrName === 'to') {
-				this._target = null;
-			}
-			this.bind();
-		}
-	}
+  private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+    if (this.carousel && oldVal !== newVal) {
+      this.unbind();
+      if (attrName === 'to') {
+        this._target = null;
+      }
+      this.bind();
+    }
+  }
 
-	get target() {
-		return this._target;
-	}
-	set target(target) {
-		this._target = target;
-	}
+  get target() {
+    return this._target;
+  }
+  set target(target) {
+    this._target = target;
+  }
 }
 
 export default ESLCarouselLinkPlugin;
