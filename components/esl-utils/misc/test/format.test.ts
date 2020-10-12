@@ -1,4 +1,4 @@
-import {toCamelCase, toKebabCase, parseAspectRatio} from './format';
+import {toCamelCase, toKebabCase, parseAspectRatio} from '../format';
 
 describe('misc/format helper tests', () => {
 	test('toKebabCase', () => {

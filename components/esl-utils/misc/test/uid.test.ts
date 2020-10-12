@@ -1,4 +1,4 @@
-import {generateUId} from './uid';
+import {generateUId} from '../uid';
 
 const TRY_COUNT = 5;
 

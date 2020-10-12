@@ -1,4 +1,4 @@
-import {identity, noop, tuple} from './functions';
+import {identity, noop, tuple} from '../functions';
 
 describe('misc/functions helper tests', () => {
 	test('basic', () => {

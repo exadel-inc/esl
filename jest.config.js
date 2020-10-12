@@ -3,4 +3,3 @@ module.exports = {
   testRegex: "/(.+).test\\.ts$",
   coverageReporters: ['html']
 };
-

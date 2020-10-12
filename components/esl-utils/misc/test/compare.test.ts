@@ -1,4 +1,4 @@
-import {defined, deepCompare} from './compare';
+import {defined, deepCompare} from '../compare';
 
 describe('misc/compare helper tests', () => {
 	test('deepCompare simple tests', () => {

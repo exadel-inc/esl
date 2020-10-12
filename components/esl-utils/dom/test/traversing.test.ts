@@ -1,4 +1,4 @@
-import {closestBy, findTarget, isRelative} from './traversing';
+import {closestBy, findTarget, isRelative} from '../traversing';
 
 describe('dom/traversing helper tests', () => {
 	document.body.innerHTML = `
