@@ -7,15 +7,15 @@ import {HTMLMediaProvider} from './media-provider';
 import ESLMediaProviderRegistry from '../../esl-media-registry';
 
 export class AudioProvider extends HTMLMediaProvider<HTMLAudioElement> {
-	static get providerName() {
-		return 'audio';
-	}
+    static get providerName() {
+        return 'audio';
+    }
 
-	protected createElement(): HTMLAudioElement {
-		const el = document.createElement('audio');
-		el.src = this.component.mediaSrc;
-		return el;
-	}
+    protected createElement(): HTMLAudioElement {
+        const el = document.createElement('audio');
+        el.src = this.component.mediaSrc;
+        return el;
+    }
 
     get defaultAspectRatio(): number {
         return 0;

@@ -106,6 +106,7 @@ export abstract class BaseProvider<T extends HTMLElement> {
         this._el.style.setProperty('width', width === 'auto' ? null : `${width}px`);
         this._el.style.setProperty('height', height === 'auto' ? null : `${height}px`);
     }
+
     /**
      * Executes toggle action:
      * If the player is PAUSED then it starts playing otherwise it pause playing

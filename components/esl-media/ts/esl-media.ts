@@ -221,7 +221,7 @@ export class ESLMedia extends ESLBaseElement {
     public _onError(detail?: any, setReadyState = true) {
         this.setAttribute('ready', '');
         this.setAttribute('error', '');
-        this.$$fireNs('error', { detail });
+        this.$$fireNs('error', {detail});
         setReadyState && this.$$fireNs('ready');
     }
 
