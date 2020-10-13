@@ -18,7 +18,7 @@ export class ESLTabsContainer extends ESLTriggersContainer {
 
   protected unbindEvents() {
     super.unbindEvents();
-    this.removeEventListener(`${ESLTab.eventNs}:statechange`, (e:CustomEvent) => this.onTriggerStateChange(e));
+    this.removeEventListener(`${ESLTab.eventNs}:statechange`, (e: CustomEvent) => this.onTriggerStateChange(e));
   }
 
   get $triggers(): ESLTab[] {
