@@ -143,7 +143,7 @@ export class ESLScrollbar extends ESLBaseElement {
             this.targetElement[this.horizontal ? 'scrollLeft' : 'scrollTop'] = targetPosition;
         } else { // Click event
             this.targetElement.scrollTo({
-                [this.horizontal ? 'left' : 'top'] : targetPosition,
+                [this.horizontal ? 'left' : 'top']: targetPosition,
                 behavior: 'smooth',
             });
         }
@@ -158,8 +158,8 @@ export class ESLScrollbar extends ESLBaseElement {
         const thumbSize = this.trackOffset * this.thumbSize;
         const thumbPosition = (this.trackOffset - thumbSize) * this.position;
         const style = {
-            [this.horizontal ? 'left' : 'top'] : `${thumbPosition}px`,
-            [this.horizontal ? 'width' : 'height'] : `${thumbSize}px`
+            [this.horizontal ? 'left' : 'top']: `${thumbPosition}px`,
+            [this.horizontal ? 'width' : 'height']: `${thumbSize}px`
         };
         Object.assign(this.$scrollbarThumb.style, style);
     }
