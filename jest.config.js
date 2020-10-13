@@ -3,6 +3,6 @@ module.exports = {
   // testEnvironment: 'jest-electron/environment',
   preset: 'ts-jest',
   roots: ['components'],
-  testRegex: "/(.+).test\\.ts$",
+  testRegex: '/(.+).test\\.ts$',
   coverageReporters: ['html']
 };

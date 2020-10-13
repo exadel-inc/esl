@@ -16,6 +16,7 @@ describe('esl-trigger', () => {
     @attr({defaultValue: 'def'})
     public defField: string;
   }
+
   TestElement.register('test-el');
 
   const el = new TestElement();
