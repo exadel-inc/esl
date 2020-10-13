@@ -157,7 +157,7 @@ export class ESLTrigger extends ESLBaseElement {
     return !showDelay || isNaN(+showDelay) ? undefined : +showDelay;
   }
 
-  protected get hideDelayValue(): number | undefined{
+  protected get hideDelayValue(): number | undefined {
     const hideDelay = DeviceDetector.isTouchDevice ? this.touchHideDelay : this.hideDelay;
     return !hideDelay || isNaN(+hideDelay) ? undefined : +hideDelay;
   }
@@ -175,7 +175,7 @@ export class ESLTrigger extends ESLBaseElement {
   public updateA11y() {
     const target = this.$a11yTarget;
     if (!target) return;
-    target.setAttribute('aria-expanded',  String(this.active));
+    target.setAttribute('aria-expanded', String(this.active));
 
     // TODO: auto generate
     if (this.popup.id) {
