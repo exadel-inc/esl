@@ -18,7 +18,10 @@ describe('Decorator: boolAttr', () => {
   TestElement.register('test-el-bool');
 
   const el = new TestElement();
-  document.body.append(el);
+
+  beforeAll(() => {
+    document.body.append(el);
+  });
 
   test('Decorator: boolAttr - simple', () => {
     expect(el.fieldDefault).toBe(false);
@@ -57,5 +60,9 @@ describe('Decorator: boolAttr', () => {
     expect(el.hasAttribute('readonly-field')).toBeFalsy();
     el.setAttribute('readonly-field', '1');
     expect(el.readonlyField).toBe(true);
+  });
+
+  afterAll(() => {
+    document.body.removeChild(el);
   });
 });

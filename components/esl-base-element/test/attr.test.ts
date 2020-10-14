@@ -18,9 +18,11 @@ describe('Decorator: attr', () => {
   }
 
   TestElement.register('test-el-attr');
-
   const el = new TestElement();
-  document.body.append(el);
+
+  beforeAll(() => {
+    document.body.append(el);
+  });
 
   test('Decorator: attr - simple', () => {
     expect(el.fieldDefault).toBe('');
@@ -75,5 +77,9 @@ describe('Decorator: attr', () => {
     el.defField = false;
     expect(el.defField).toBe('def');
     expect(el.hasAttribute('def-field')).toBe(false);
+  });
+
+  afterAll(() => {
+    document.body.removeChild(el);
   });
 });

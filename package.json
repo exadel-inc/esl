@@ -16,7 +16,7 @@
   "main": "./lib/all.js",
   "scripts": {
     "test": "jest",
-    "test-coverege": "jest --coverage",
+    "test-coverage": "jest --coverage",
     "watch": "gulp watch",
     "build": "gulp build",
     "prepare": "gulp prepare --fast",
