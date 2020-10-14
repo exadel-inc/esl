@@ -5,7 +5,7 @@
     "custom elements",
     "component library"
   ],
-  "version": "1.25.6-alpha",
+  "version": "1.27.0-alpha",
   "private": true,
   "homepage": "https://gitlab.exadel.com/EDMTP/smart-wc-library#readme",
   "license": "MIT",
@@ -13,6 +13,11 @@
     "type": "git",
     "url": "git+https://gitlab.exadel.com/EDMTP/smart-wc-library.git"
   },
+  "contributors": [
+    "Alexey Stsefanovich <astsefanovich@exadel.com>",
+    "Julia Murashko <ymurashka@exadel.com>",
+    "Yuliya Adamskaya <yadamska@exadel.com>"
+  ],
   "main": "./lib/all.js",
   "scripts": {
     "watch": "gulp watch",
