@@ -7,6 +7,10 @@ module.exports = {
   coverageReporters: ['html'],
   collectCoverageFrom: [
     'components/**/*.ts',
+    // cumulative exclude
+    '!components/*.ts',
+    '!components/*/*.ts',
+    // libs exclude
     '!**/node_modules/**'
   ]
 };
