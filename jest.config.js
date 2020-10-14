@@ -4,5 +4,9 @@ module.exports = {
   preset: 'ts-jest',
   roots: ['components'],
   testRegex: '/(.+).test\\.ts$',
-  coverageReporters: ['html']
+  coverageReporters: ['html'],
+  collectCoverageFrom: [
+    'components/**/*.ts',
+    '!**/node_modules/**'
+  ]
 };
