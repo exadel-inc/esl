@@ -23,9 +23,6 @@ export interface PopupActionParams {
 
 @ExportNs('BasePopup')
 export class ESLBasePopup extends ESLBaseElement {
-  protected static defaultParams: PopupActionParams = {};
-  protected static initialParams: PopupActionParams = {silent: true, force: true, initiator: 'init'};
-
   static get observedAttributes() {
     return ['open', 'group'];
   }
@@ -45,8 +42,10 @@ export class ESLBasePopup extends ESLBaseElement {
   @boolAttr() public closeOnEsc: boolean;
   @boolAttr() public closeOnBodyClick: boolean;
 
-  @jsonAttr<PopupActionParams>({staticDefault: 'initialParams', default: {}}) public initialParams: PopupActionParams;
-  @jsonAttr<PopupActionParams>({staticDefault: 'defaultParams', default: {}}) public defaultParams: PopupActionParams;
+  @jsonAttr<PopupActionParams>({default: {silent: true, force: true, initiator: 'init'}})
+  public initialParams: PopupActionParams;
+  @jsonAttr<PopupActionParams>({default: {}})
+  public defaultParams: PopupActionParams;
 
   public get group() {
     return ESLBasePopupGroup.find(this.groupName);

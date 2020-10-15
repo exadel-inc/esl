@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 
-import {attr, boolAttr} from '../../esl-base-element/esl-base-element';
+import {attr, boolAttr, jsonAttr} from '../../esl-base-element/esl-base-element';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/ts/esl-base-popup';
@@ -16,8 +16,6 @@ export class ESLPanel extends ESLBasePopup {
   public static is = 'esl-panel';
   public static eventNs = 'esl:panel';
 
-  protected static initialParams: PanelActionParams = {silent: true, force: true, initiator: 'init', noAnimation: true};
-
   @attr({defaultValue: 'open'}) public activeClass: string;
   @attr({defaultValue: 'animate'}) public animateClass: string;
   @attr({defaultValue: 'post-animate'}) public postAnimateClass: string;
@@ -25,6 +23,9 @@ export class ESLPanel extends ESLBasePopup {
 
   @boolAttr() public isAccordion: boolean;
   @boolAttr() public startAnimation: boolean;
+
+  @jsonAttr<PanelActionParams>({default: {silent: true, force: true, initiator: 'init', noAnimation: true}})
+  public initialParams: PopupActionParams;
 
   public initialHeight: number;
 
