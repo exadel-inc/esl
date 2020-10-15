@@ -19,8 +19,8 @@ describe('async/debounce tests', () => {
     setTimeout(() => {
       expect(log).toBe(1);
       done();
-    }, 50);
-  }, 100);
+    }, 100);
+  }, 200);
 
   // TODO: more tests
 });
