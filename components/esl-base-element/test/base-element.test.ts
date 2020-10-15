@@ -6,6 +6,7 @@ describe('ESLBaseElement test', () => {
   class TestElement extends ESLBaseElement {
     public static eventNs = 'esl:test';
   }
+  class TestElement2 extends ESLBaseElement {}
 
   TestElement.register('test-el-basic');
   const el = new TestElement();
@@ -18,14 +19,29 @@ describe('ESLBaseElement test', () => {
     document.body.removeChild(el);
   });
 
-  test('Livecycle', () => {
+  test('ESLBaseElement livecycle', () => {
     expect(el).toBeInstanceOf(HTMLElement);
-    expect(el.isConnected).toBe(true);
+    expect(el.connected).toBe(true);
     document.body.removeChild(el);
     setTimeout(() => {
-      expect(el.isConnected).toBe(false);
+      expect(el.connected).toBe(false);
     }, 0);
   }, 100);
+
+  test('ESLBaseElement register validate', () => {
+    // Tag is not empty
+    expect(() => TestElement2.register('')).toThrowError();
+
+    TestElement2.register('test-test');
+
+    return customElements.whenDefined('test-test')
+      .then(() => {
+        expect(() => TestElement2.register('test-test')).not.toThrowError();
+        TestElement2.is = 'test-test-2';
+        // Tag inconsistency
+        expect(() => TestElement2.register('test-test')).toThrowError();
+      });
+  });
 
   test('FireEvent - simple', (done) => {
     el.addEventListener('testevent', (e) => {
