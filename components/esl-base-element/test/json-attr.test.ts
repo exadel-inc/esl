@@ -79,8 +79,8 @@ describe('Decorator: jsonAttr', () => {
   });
 
   test('Decorator: jsonAttr - error test', () => {
-    jest.spyOn(console, 'error')
-      .mockImplementation(() => expect(true).toBe(true));
+    let throwError = false;
+    jest.spyOn(console, 'error').mockImplementation(() => {throwError = true;});
     el.simple = {};
     expect(el.simple).toEqual({});
     const t: any = {};
@@ -88,14 +88,16 @@ describe('Decorator: jsonAttr', () => {
     el.simple = t;
     expect(el.simple).toEqual({});
     expect(el.getAttribute('simple')).toBe('{}');
+    expect(throwError).toBe(true);
   });
 
   test('Decorator: jsonAttr - error test 2', () => {
-    jest.spyOn(console, 'error')
-      .mockImplementation(() => expect(true).toBe(true));
+    let throwError = false;
+    jest.spyOn(console, 'error').mockImplementation(() => {throwError = true;});
     el.simple = {};
     el.simple = NaN;
     expect(el.simple).toEqual({});
+    expect(throwError).toBe(true);
   });
 
   test('Decorator: jsonAttr - remove', () => {
@@ -103,6 +105,16 @@ describe('Decorator: jsonAttr', () => {
     expect(el.hasAttribute('simple')).toBe(true);
     el.simple = null;
     expect(el.hasAttribute('simple')).toBe(false);
+  });
+
+  test('Decorator: jsonAttr - parse test', () => {
+    let throwWarn = false;
+    jest.spyOn(console, 'warn').mockImplementation(() => {throwWarn = true;});
+    el.simple = {};
+    expect(el.getAttribute('simple')).toBe('{}');
+    el.setAttribute('simple', '{');
+    expect(el.simple).toEqual({});
+    expect(throwWarn).toBe(true);
   });
 });
 

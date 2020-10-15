@@ -12,7 +12,7 @@ function evaluate(str: string, defaultValue: any = null): any {
   try {
     return str ? (new Function(`return ${str}`))() : defaultValue;
   } catch (e) {
-    console.debug('Cannot parse value ', str, e);
+    console.warn('Cannot parse value ', str, e);
     return defaultValue;
   }
 }
