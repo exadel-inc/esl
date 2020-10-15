@@ -14,5 +14,7 @@ test-server/static/
 
 # Logs & Tmp
 npm-debug.log
-package-lock.json
 .gitconfig
+
+# Jest coverage
+coverage

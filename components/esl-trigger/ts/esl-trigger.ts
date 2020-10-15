@@ -1,14 +1,11 @@
-import type {NoopFnSignature} from '../../esl-utils/misc/functions';
-import {CSSUtil} from '../../esl-utils/dom/styles';
+import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
+import {ESLPopup} from '../../esl-popup/esl-popup';
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {findTarget} from '../../esl-utils/dom/traversing';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
-import {ESLPopup} from '../../esl-popup/esl-popup';
-import ESLTriggersContainer from './esl-triggers-container';
-import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ENTER, SPACE} from '../../esl-utils/dom/keycodes';
-
-export type GroupTarget = 'next' | 'previous' | 'active';
+import type {NoopFnSignature} from '../../esl-utils/misc/functions';
+import {CSSUtil} from '../../esl-utils/dom/styles';
+import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
@@ -61,14 +58,6 @@ export class ESLTrigger extends ESLBaseElement {
     this.unbindEvents();
   }
 
-  public get a11yRole() {
-    if (this.hasAttribute('a11y-role')) {
-      return this.getAttribute('a11y-role');
-    }
-    const container = this.container;
-    return container ? container.a11yRole : 'button';
-  }
-
   public get popup() {
     return this._popup;
   }
@@ -79,10 +68,6 @@ export class ESLTrigger extends ESLBaseElement {
       this.bindEvents();
       this.onPopupStateChanged();
     }
-  }
-
-  public get container(): ESLTriggersContainer | null {
-    return this.closest(ESLTriggersContainer.is);
   }
 
   protected updatePopupFromTarget() {
@@ -156,6 +141,9 @@ export class ESLTrigger extends ESLBaseElement {
     this.active = this.popup.open;
     CSSUtil.toggleClsTo(this, this.activeClass, this.active);
     this.updateA11y();
+    this.$$fireNs('statechange', {
+      bubbles: true
+    });
   };
 
   protected stopEventPropagation(e: Event) {
@@ -169,7 +157,7 @@ export class ESLTrigger extends ESLBaseElement {
     return !showDelay || isNaN(+showDelay) ? undefined : +showDelay;
   }
 
-  protected get hideDelayValue(): number | undefined{
+  protected get hideDelayValue(): number | undefined {
     const hideDelay = DeviceDetector.isTouchDevice ? this.touchHideDelay : this.hideDelay;
     return !hideDelay || isNaN(+hideDelay) ? undefined : +hideDelay;
   }
@@ -181,48 +169,21 @@ export class ESLTrigger extends ESLBaseElement {
         this.click();
         e.preventDefault();
         break;
-      case ARROW_UP:
-      case ARROW_LEFT:
-        this.moveInGroup('previous', this.a11yRole === 'tab');
-        e.preventDefault();
-        break;
-      case ARROW_DOWN:
-      case ARROW_RIGHT:
-        this.moveInGroup('next', this.a11yRole === 'tab');
-        e.preventDefault();
-        break;
     }
   };
 
-  public moveInGroup(target: GroupTarget, activate = false) {
-    const container = this.container;
-    if (!container) return false;
-    const targetEl =  container[target](this);
-    if (!targetEl) return false;
-    targetEl.focus();
-    activate && targetEl.click();
-  }
-
-  protected updateA11y() {
+  public updateA11y() {
     const target = this.$a11yTarget;
     if (!target) return;
+    target.setAttribute('aria-expanded', String(this.active));
 
-    switch (this.a11yRole) {
-      case 'tab':
-        target.setAttribute('aria-selected', String(this.active));
-        target.setAttribute('tabindex', this.active ? '0' : '-1');
-        break;
-      default:
-        target.setAttribute('aria-expanded',  String(this.active));
-        break;
-    }
     // TODO: auto generate
     if (this.popup.id) {
       target.setAttribute('aria-controls', this.popup.id);
     }
   }
 
-  protected get $a11yTarget() {
+  public get $a11yTarget(): HTMLElement | null {
     return this.a11yTarget ? this.querySelector(this.a11yTarget) : this;
   }
 }

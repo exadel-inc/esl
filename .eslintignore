@@ -1,5 +1,6 @@
 /lib
 /node_modules
-/edmtp-modules
+/test-server/edmtp-modules
 /build
 gulpfile.js
+jest.config.js
