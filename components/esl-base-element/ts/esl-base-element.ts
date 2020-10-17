@@ -16,7 +16,7 @@ export abstract class ESLBaseElement extends HTMLElement {
     this._connected = false;
   }
 
-  protected get connected() {
+  public get connected() {
     return this._connected;
   }
 

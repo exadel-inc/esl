@@ -4,5 +4,13 @@ module.exports = {
   preset: 'ts-jest',
   roots: ['components'],
   testRegex: '/(.+).test\\.ts$',
-  coverageReporters: ['html']
+  coverageReporters: ['html'],
+  collectCoverageFrom: [
+    'components/**/*.ts',
+    // cumulative exclude
+    '!components/*.ts',
+    '!components/*/*.ts',
+    // libs exclude
+    '!**/node_modules/**'
+  ]
 };
