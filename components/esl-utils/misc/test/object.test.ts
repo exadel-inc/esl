@@ -1,4 +1,4 @@
-import {defined, deepCompare} from '../compare';
+import {deepCompare} from '../object';
 
 describe('misc/compare helper tests', () => {
   test('deepCompare simple tests', () => {
@@ -27,14 +27,5 @@ describe('misc/compare helper tests', () => {
     expect(deepCompare({a: {c: {b: 1}}}, {a: {b: {c: 1}}})).toBeFalsy();
     expect(deepCompare({a: {a: 1, b: 1}}, {a: {b: 1}})).toBeFalsy();
     expect(deepCompare({a: {b: 1}}, {a: {a: 1, b: 1}})).toBeFalsy();
-  });
-  test('defined', () => {
-    expect(defined('a')).toBe('a');
-    expect(defined('', 'a')).toBe('');
-    expect(defined('a', '')).toBe('a');
-    expect(defined(undefined, 'a')).toBe('a');
-    expect(defined(null, 'a')).toBe(null);
-    const obj = {};
-    expect(defined(obj, null)).toBe(obj);
   });
 });

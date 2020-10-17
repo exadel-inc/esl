@@ -1,4 +1,4 @@
-import {tuple} from '../misc/functions';
+import {tuple} from '../misc/array';
 
 /**
  * Find sibling element by selector and direction

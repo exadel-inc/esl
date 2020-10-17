@@ -1,6 +1,6 @@
 import {ESC} from '../../esl-utils/dom/keycodes';
 import {CSSUtil} from '../../esl-utils/dom/styles';
-import {defined} from '../../esl-utils/misc/compare';
+import {defined} from '../../esl-utils/misc/functions';
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {SingleTaskManager} from '../../esl-utils/async/single-task-manager';
@@ -238,10 +238,10 @@ export class ESLBasePopup extends ESLBaseElement {
       this.hide({initiator: 'bodyclick', trigger: target});
     }
   };
-  protected _onMouseEnter = (e: MouseEvent) => {
+  protected _onMouseEnter = () => {
     this.show({initiator: 'mouseenter', trackHover: true});
   };
-  protected _onMouseLeave = (e: MouseEvent) => {
+  protected _onMouseLeave = () => {
     this.hide({initiator: 'mouseleave', trackHover: true});
   };
 }
