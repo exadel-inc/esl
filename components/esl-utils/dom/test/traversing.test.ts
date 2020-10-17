@@ -1,6 +1,6 @@
-import {closestBy, findTarget, isRelative} from '../traversing';
+import {TraversingUtil} from '../traversing';
 
-describe('dom/traversing helper tests', () => {
+describe('dom/traversing-query helper tests', () => {
   document.body.innerHTML = `
 		<section class="container">
 			<div id="row1" class="row" data-test="1">
@@ -9,15 +9,15 @@ describe('dom/traversing helper tests', () => {
 				<button id="btn3" class="btn btn-3"></button>
 				<button id="btn4" class="btn btn-4"></button>
 				<button id="btn5" class="btn btn-5" data-test="next"></button>
+
+				<article class="col-1">Hello!</article>
 			</div>
 			<div id="row2" class="row">
-				<article class="col-1">Hello!</article>
+				<article class="col-2">Hello 2!</article>
+				<button id="btn6" class="btn btn-6" data-test="next"></button>
 			</div>
 		</section>
 	`;
-
-  const body = document.body;
-  const detached = document.createElement('div');
 
   const root = document.querySelector('section') as HTMLSelectElement;
   const row1 = document.querySelector('#row1') as HTMLDivElement;
@@ -27,60 +27,67 @@ describe('dom/traversing helper tests', () => {
   const btn3 = document.querySelector('#btn3') as HTMLButtonElement;
   const btn4 = document.querySelector('#btn4') as HTMLButtonElement;
   const btn5 = document.querySelector('#btn5') as HTMLButtonElement;
+  const btn6 = document.querySelector('#btn6') as HTMLButtonElement;
   const article1 = document.querySelector('.col-1') as HTMLButtonElement;
+  const article2 = document.querySelector('.col-2') as HTMLButtonElement;
 
-  test('findTarget: direct', () => {
-    jest.spyOn(console, 'warn').mockImplementation(() => {});
+  test.each([
+    // Simple queries
+    ['section', root],
+    ['section > .row', row1],
+    ['section > .row:first-child', row1],
+    ['#btn3', btn3],
+    ['#null', null]
+  ])('query("%s")', (sel, expected) => expect(TraversingUtil.query(sel)).toBe(expected));
 
-    expect(findTarget('', btn1)).toBe(btn1);
-    expect(findTarget('::next')).toBe(null);
-    expect(findTarget('section')).toBe(root);
-    expect(findTarget('#btn3')).toBe(btn3);
-    expect(findTarget('#null')).toBe(null);
+  test.each([
+    // Nest query test
+    ['::next', null, null],
+    ['::next', btn1, btn2],
+    ['::next', btn6, null],
+    ['::next(article)', btn1, article1],
+    ['::next(article.col-1)', btn1, article1],
+    ['::next(article.col-2)', btn1, null],
 
-    // FIXME: expect(findTarget('.btn', btn1, true)).toContain(btn4);
-  });
+    // Prev query test
+    ['::prev', null, null],
+    ['::prev', btn2, btn1],
+    ['::prev', btn1, null],
+    ['::prev(.btn)', article1, btn5],
+    ['::prev(#btn2)', article1, btn2],
+    ['::prev(#btn6)', article1, null],
 
-  test('findTarget: siblings', () => {
-    expect(findTarget('::next', btn1)).toBe(btn2);
-    expect(findTarget('::next(.btn-4)', btn1)).toBe(btn4);
-    expect(findTarget('::next::next()', btn1)).toBe(btn3);
-    expect(findTarget('::prev(.btn-2)', btn5)).toBe(btn2);
-    expect(findTarget('::next::prev()', btn1)).toBe(btn1);
-  });
+    // Child query test
+    ['::child', null, null],
+    ['::child', article1, null],
+    ['::child', row1, btn1],
+    ['::child(#btn2)', row1, btn2],
+    ['::child(.btn)', article1, null],
 
-  test('findTarget: child', () => {
-    expect(findTarget('::child', row1)).toBe(btn1);
-    expect(findTarget('::child', row1, true)).toContain(btn4);
-    expect(findTarget('::child(.btn.btn-3)', row1)).toBe(btn3);
-    expect(findTarget('::child(.btn.btn-3)::next', row1)).toBe(btn4);
-  });
+    // Parent query test
+    ['::parent', null, null],
+    ['::parent', article1, row1],
+    ['::parent', root, document.body],
+    ['::parent(.container)', btn1, root],
+    ['::parent(.btn)', btn1, null],
 
-  test('findTarget: parent', () => {
-    expect(findTarget('::parent', row1)).toBe(root);
-    expect(findTarget('::parent', row2)).toBe(root);
-    expect(findTarget('::parent(.container)', btn1)).toBe(root);
-    expect(findTarget('::parent(.container)::child(.row .btn-3)', article1)).toBe(btn3);
-    expect(findTarget('::parent(.container)::next::child(.row .btn-3)', article1)).toBe(null);
-  });
-
-  test('findTarget: combination', () => {
-    expect(findTarget('#row2::parent')).toBe(root);
-    expect(findTarget('#row2::prev')).toBe(row1);
-    expect(findTarget('#row2::prev::prev')).toBe(null);
-    expect(findTarget('#row2::prev::child', null, true)).toContain(btn2);
-  });
+    // Find query test
+    ['::find', null, null],
+    ['::find', root, root],
+    ['::find(.btn)', root, btn1],
+    ['::find(.container)', root, null]
+  ])('query("%s", base)', (sel, base, expected) => expect(TraversingUtil.query(sel, base as Element)).toBe(expected));
 
   test('isRelative', () => {
-    expect(isRelative(body, btn1)).toBeTruthy();
-    expect(isRelative(btn1, root)).toBeTruthy();
-    expect(isRelative(body, detached)).toBeFalsy();
-    expect(isRelative(btn1, btn2)).toBeFalsy();
+    expect(TraversingUtil.isRelative(document.body, btn1)).toBeTruthy();
+    expect(TraversingUtil.isRelative(btn1, root)).toBeTruthy();
+    expect(TraversingUtil.isRelative(document.body, document.createElement('div'))).toBeFalsy();
+    expect(TraversingUtil.isRelative(btn1, btn2)).toBeFalsy();
   });
 
   test('closestBy', () => {
-    expect(closestBy(btn2, (el: HTMLElement) => el.dataset.test === '1')).toBe(row1);
-    expect(closestBy(btn2, (el: HTMLElement) => el.tagName.toLowerCase() === 'section')).toBeTruthy();
-    expect(closestBy(article1, () => false)).toBe(null);
+    expect(TraversingUtil.closestBy(btn2, (el: HTMLElement) => el.dataset.test === '1')).toBe(row1);
+    expect(TraversingUtil.closestBy(btn2, (el: HTMLElement) => el.tagName.toLowerCase() === 'section')).toBeTruthy();
+    expect(TraversingUtil.closestBy(article1, () => false)).toBe(null);
   });
 });

@@ -1,11 +1,11 @@
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
 import {ESLPopup} from '../../esl-popup/esl-popup';
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {findTarget} from '../../esl-utils/dom/traversing';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
+import {TraversingUtil} from '../../esl-utils/dom/traversing';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
@@ -72,7 +72,7 @@ export class ESLTrigger extends ESLBaseElement {
 
   protected updatePopupFromTarget() {
     if (!this.target) return;
-    this.popup = findTarget(this.target, this) as ESLPopup;
+    this.popup = TraversingUtil.query(this.target, this) as ESLPopup;
   }
 
   public get showEvent() {

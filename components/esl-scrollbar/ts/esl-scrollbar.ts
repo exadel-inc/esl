@@ -5,7 +5,7 @@
  */
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
-import {findTarget, isRelative} from '../../esl-utils/dom/traversing';
+import {TraversingUtil} from '../../esl-utils/dom/traversing';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {normalizeCoordinates} from '../../esl-utils/dom/events';
 
@@ -60,8 +60,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   protected findTarget() {
     if (!this.target) return;
-    const content = findTarget(this.target, this) as HTMLDivElement;
-    this.targetElement = content ? content : null;
+    this.targetElement = TraversingUtil.query(this.target, this) as HTMLElement;
   }
 
   public get targetElement() {
@@ -266,7 +265,7 @@ export class ESLScrollbar extends ESLBaseElement {
    */
   protected onRefresh = (event: Event) => {
     const target = event.target as HTMLElement;
-    if (isRelative(target.parentNode, this.targetElement)) {
+    if (TraversingUtil.isRelative(target.parentNode, this.targetElement)) {
       this.refresh();
     }
   };
