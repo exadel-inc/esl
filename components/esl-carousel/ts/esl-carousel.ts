@@ -170,11 +170,9 @@ export class ESLCarousel extends ESLBaseElement {
 
   private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     // TODO: change observed attributes
-    switch (attrName) {
-      case 'config':
-        this.configRules = ESLMediaRuleList.parse<CarouselConfig>(this.config, ESLMediaRuleList.OBJECT_PARSER);
-        this.update(true);
-        break;
+    if (attrName === 'config') {
+      this.configRules = ESLMediaRuleList.parse<CarouselConfig>(this.config, ESLMediaRuleList.OBJECT_PARSER);
+      this.update(true);
     }
   }
 
