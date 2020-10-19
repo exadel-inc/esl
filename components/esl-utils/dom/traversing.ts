@@ -1,6 +1,7 @@
-import {flat, tuple} from '../misc/array';
+import {tuple, wrap} from '../misc/array';
 
 type PseudoProcessor = (base: Element, sel: string, multiple?: boolean) => Element | Element[] | null;
+type ProcessorDescriptor = [string?, string?];
 
 export abstract class TraversingUtil {
   /**
@@ -57,7 +58,7 @@ export abstract class TraversingUtil {
     '::child': TraversingUtil.findChild
   };
 
-  static POST_PROCESSORS: Record<string, (els: Element[]) => Element[]> = {
+  static POST_PROCESSORS: Record<string, (els: Element[], sel?:string) => Element[]> = {
     '::first': (list: Element[]) => list.slice(0, 1),
     '::last': (list: Element[]) => list.slice(-1),
     '::nth': (list: Element[], sel?: string) => {
@@ -71,24 +72,35 @@ export abstract class TraversingUtil {
   // /(::parent|::child|::next|::prev)/
   static PROCESSOR_REGEX = new RegExp(`(${TraversingUtil.PROCESSOR_KEYS.join('|')})`, 'g');
 
+  static traverse(collection: Element[], processors: ProcessorDescriptor[], findFirst: boolean): Element[] {
+    if (!processors.length || !collection.length) return collection;
+    const [[name, selString], ...rest] = processors;
+    if (!name) return [];
+    const sel = (selString || '').replace(/^\(/, '').replace(/\)$/, '');
+    if (name in TraversingUtil.POST_PROCESSORS) return TraversingUtil.POST_PROCESSORS[name](collection, sel);
+    let result: Element[] = [];
+    for(const target of collection) {
+      const processedItem: Element[] = wrap(TraversingUtil.PROCESSORS[name](target, sel, true));
+      const resultItem: Element[] = TraversingUtil.traverse(processedItem, rest, findFirst);
+      if (resultItem.length && findFirst) return resultItem;
+      result = result.concat(resultItem);
+    }
+    return result;
+  }
+
   static query(query: string, base?: Element): Element | null {
-    return TraversingUtil.queryAll(query, base)[0] || null;
+    const parts = query.split(TraversingUtil.PROCESSOR_REGEX).map((term) => term.trim());
+    const rootSel = parts.shift();
+    const initial: Element[] = rootSel ? Array.from(document.querySelectorAll(rootSel)) : (base ? [base] : []);
+    const processors: ProcessorDescriptor[] = tuple(parts);
+    const result = TraversingUtil.traverse(initial, processors, true);
+    return result[0] || null;
   }
   static queryAll(query: string, base?: Element): Element[] {
     const parts = query.split(TraversingUtil.PROCESSOR_REGEX).map((term) => term.trim());
     const rootSel = parts.shift();
     const initial: Element[] = rootSel ? Array.from(document.querySelectorAll(rootSel)) : (base ? [base] : []);
-    if (!initial.length) return [];
-    return tuple(parts).reduce((state: Element[], [name, selString]) => {
-      if (!name) return [];
-      const sel = (selString || '').replace(/^\(/, '').replace(/\)$/, '');
-      if (name in TraversingUtil.POST_PROCESSORS) {
-        return TraversingUtil.POST_PROCESSORS[name](state);
-      }
-      const results = state.map(
-        (target: Element) => TraversingUtil.PROCESSORS[name](target, sel, true)
-      );
-      return flat(results);
-    }, initial);
+    const processors: ProcessorDescriptor[] = tuple(parts);
+    return TraversingUtil.traverse(initial, processors, false);
   }
 }
