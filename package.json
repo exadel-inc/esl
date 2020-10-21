@@ -26,7 +26,7 @@
     "local-serv": "npm run local-serv-build && npm run local-serv-start",
     "local-serv-start": "cd test-server && node server.js",
     "local-serv-build": "gulp buildLocal",
-    "local-serv-watch": "npm run local-serv | npm run watch",
+    "local-serv-watch": "npm run local-serv | gulp watchLocal",
     "prepare": "npm run build",
     "preversion": "npm run test"
   },

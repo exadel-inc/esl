@@ -34,11 +34,11 @@ const buildLocal = gulp.series(
   )
 );
 
-const watchLess = function watchLess() {
+const watchLess = gulp.series(buildLocalLess, function watchLess() {
   gulp.watch(cfg.watch.less, {},
     gulp.series(print('LESS Changed ...'), buildLocalLess)
   );
-};
+});
 const watchTs = buildTsBundle({
   src: cfg.test.ts,
   watch: true
