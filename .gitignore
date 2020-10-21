@@ -9,12 +9,14 @@
 node_modules
 
 # Build output
-lib/
+components-es5/
+components-es6/
 test-server/static/
 
 # Logs & Tmp
 npm-debug.log
 .gitconfig
 
-# Jest coverage
-coverage
+# Jest & Sonar
+.coverage
+.scannerwork

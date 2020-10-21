@@ -23,3 +23,7 @@ test-server/
 
 # VCS
 .gitignore
+
+# reports
+.coverage
+.scannerwork

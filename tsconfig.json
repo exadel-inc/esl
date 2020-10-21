@@ -5,10 +5,10 @@
     "strictNullChecks": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
-    "removeComments": true,
     "target": "ES5",
     "downlevelIteration": true,
     "module": "ES2015",
+    "moduleResolution": "Node",
     "sourceMap": true,
     "lib": [
       "ES2015",
@@ -18,5 +18,9 @@
   },
   "include": [
     "components"
+  ],
+  "exclude": [
+    "*.test.ts",
+    "node_modules"
   ]
 }

@@ -1,6 +1,8 @@
-/lib
-/node_modules
-/test-server/edmtp-modules
-/build
+*.test.ts
 gulpfile.js
 jest.config.js
+/build
+/node_modules
+/components-es5
+/components-es6
+/test-server/static

@@ -4,6 +4,7 @@ module.exports = {
   preset: 'ts-jest',
   roots: ['components'],
   testRegex: '/(.+).test\\.ts$',
+  coverageDirectory: '.coverage',
   coverageReporters: ['lcov', 'html'],
   collectCoverageFrom: [
     'components/**/*.ts',
