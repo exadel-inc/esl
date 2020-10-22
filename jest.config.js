@@ -4,7 +4,8 @@ module.exports = {
   preset: 'ts-jest',
   roots: ['components'],
   testRegex: '/(.+).test\\.ts$',
-  coverageReporters: ['html'],
+  coverageDirectory: '.coverage',
+  coverageReporters: ['lcov', 'html'],
   collectCoverageFrom: [
     'components/**/*.ts',
     // cumulative exclude

@@ -1,4 +1,11 @@
-import './../../components/lib';
+// Support for ES5 bundle target
+import './../../polyfills/es5-target-shim';
+// Builtin polyfills
+import './../../polyfills/polyfills.es6';
+// Validate environment
+import './../../polyfills/polyfills.validate';
+// ELS
+import * as ESL from './../../components/all';
 
 import './common/back-button';
 import './common/test-media';
