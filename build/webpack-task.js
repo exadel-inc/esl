@@ -3,14 +3,8 @@ const gulp = require('gulp');
 const named = require('vinyl-named');
 const webpackStream = require('webpack-stream');
 
-const OPTIONS_DEFAULT = {
-  watch: false,
-  check: true
-};
-
-function buildConfig(config) {
-  config = Object.assign({}, OPTIONS_DEFAULT, config);
-  const webpackConfig = Object.assign({}, {
+function buildConfig(config = {}) {
+  return Object.assign({}, {
     watch: !!config.watch,
     devtool: 'source-map',
     module: {
@@ -33,18 +27,6 @@ function buildConfig(config) {
     mode: 'development',
     plugins: []
   });
-
-  if (config.check) {
-    const ESLintPlugin = require('eslint-webpack-plugin');
-    webpackConfig.plugins.push(new ESLintPlugin({
-      context: 'components',
-      extensions: 'ts',
-      formatter: 'unix',
-      emitWarning: true
-    }));
-  }
-
-  return webpackConfig;
 }
 
 module.exports.buildTsBundle = (config, out) => function buildTsLocal() {

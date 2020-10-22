@@ -38,8 +38,7 @@ export abstract class ESLCarouselPlugin extends ESLBaseElement {
    * @returns {ESLCarousel} owner of plugin
    */
   public get carousel(): ESLCarousel {
-    // @ts-ignore
-    return this._carousel;
+    return this._carousel as ESLCarousel;
   }
 
   protected connectedCallback() {

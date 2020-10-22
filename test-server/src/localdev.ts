@@ -4,7 +4,7 @@ import './../../polyfills/es5-target-shim';
 import './../../polyfills/polyfills.es6';
 // Validate environment
 import './../../polyfills/polyfills.validate';
-// ELS
+// ESL
 import * as ESL from './../../components/all';
 
 import './common/back-button';
