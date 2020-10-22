@@ -1,4 +1,4 @@
-import {flat, tuple} from '../array';
+import {flat, tuple, wrap} from '../array';
 
 describe('misc/functions helper tests', () => {
   test('tuple', () => {
@@ -19,5 +19,14 @@ describe('misc/functions helper tests', () => {
     expect(flat([[1, 2], [3, 4]])).toEqual([1, 2, 3, 4]);
     expect(flat([[1], [2, 3, 4], [], [5]])).toEqual([1, 2, 3, 4, 5]);
     expect(flat([null, 1, 2, 3, [4, 5], null, [6]])).toEqual([1, 2, 3, 4, 5, 6]);
+  });
+
+  test('wrap', () => {
+    expect(wrap(null)).toEqual([]);
+    expect(wrap(undefined)).toEqual([]);
+    expect(wrap([])).toEqual([]);
+    expect(wrap(1)).toEqual([1]);
+    expect(wrap([1])).toEqual([1]);
+    expect(wrap([1, 2])).toEqual([1, 2]);
   });
 });

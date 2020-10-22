@@ -20,10 +20,19 @@ export const toCamelCase = (str: string) => {
  * @return aspect ratio coefficient
  */
 export function parseAspectRatio(str: string): number {
-  const res = str.match(/(\d+)\s*[:/]\s*(\d+)/);
-  if (res) {
-    const [, w, h] = res;
-    return +w / +h;
+  const [w, h] = str.split(/[:/]/);
+  if (typeof h !== 'undefined') return +w / +h;
+  return +w || 0;
+}
+
+/**
+ * Evaluate value
+ */
+export function evaluate(str: string, defaultValue: any = undefined): any {
+  try {
+    return str ? (new Function(`return ${str}`))() : defaultValue;
+  } catch (e) {
+    console.warn('Cannot parse value ', str, e);
+    return defaultValue;
   }
-  return +str || 0;
 }
