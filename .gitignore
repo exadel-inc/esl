@@ -18,5 +18,5 @@ npm-debug.log
 .gitconfig
 
 # Jest & Sonar
-.coverage
+.report
 .scannerwork

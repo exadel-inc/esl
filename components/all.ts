@@ -11,4 +11,4 @@ export {ESLScrollableTabs as ScrollableTabs} from './esl-scrollable-tab/esl-scro
 
 export {ESLScrollbar as Scrollbar} from './esl-scrollbar/esl-scrollbar';
 
-export {ESLCarousel as Carousel, CarouselPlugins} from './esl-carousel/esl-carousel';
+export {ESLCarousel as Carousel, CarouselPlugins} from './beta/esl-carousel/esl-carousel';

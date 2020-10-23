@@ -3,8 +3,8 @@ module.exports = {
   // testEnvironment: 'jest-electron/environment',
   preset: 'ts-jest',
   roots: ['components'],
-  testRegex: '/(.+).test\\.ts$',
-  coverageDirectory: '.coverage',
+  testRegex: '/test/(.+)\\.test\\.ts$',
+  coverageDirectory: '.report',
   coverageReporters: ['lcov', 'html'],
   collectCoverageFrom: [
     'components/**/*.ts',

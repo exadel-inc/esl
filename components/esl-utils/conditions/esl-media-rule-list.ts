@@ -14,6 +14,7 @@
 
 import {Observable} from '../abstract/observable';
 import ESLMediaQuery from './esl-media-query';
+import {evaluate} from '../misc/format';
 
 type PayloadParser<T> = (val: string) => T | undefined;
 
@@ -59,13 +60,7 @@ export default class ESLMediaRuleList<T> extends Observable {
   private readonly _rules: ESLMediaRule<T>[];
 
   public static STRING_PARSER = (val: string) => val;
-  public static OBJECT_PARSER = <U>(val: string): U | undefined => {
-    try {
-      return eval('(' + val + ')') as U;
-    } catch (e) {
-      return undefined;
-    }
-  };
+  public static OBJECT_PARSER = <U>(val: string): U | undefined => evaluate(val);
 
   private static parseRules<U>(str: string, parser: PayloadParser<U>): ESLMediaRule<U>[] {
     const parts = str.split('|');

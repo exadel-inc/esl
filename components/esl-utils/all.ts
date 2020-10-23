@@ -1,15 +1,17 @@
 // Common
 export * from './misc/uid';
+export * from './misc/array';
+export * from './misc/object';
+export * from './misc/functions';
+
 export * from './abstract/observable';
 export * from './async/promise';
 export * from './dom/script';
-export * from './misc/compare';
 
 // Function
 export * from './async/raf';
 export * from './async/debounce';
 export * from './async/trottle';
-export * from './misc/functions';
 
 // DOM
 export * from './dom/events';

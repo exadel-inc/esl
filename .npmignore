@@ -25,5 +25,5 @@ test-server/
 .gitignore
 
 # reports
-.coverage
+.report
 .scannerwork

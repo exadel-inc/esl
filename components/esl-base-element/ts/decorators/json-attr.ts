@@ -1,20 +1,11 @@
-import {toKebabCase} from '../../../esl-utils/misc/format';
 import type {ESLBaseElement} from '../esl-base-element';
+import {toKebabCase, evaluate} from '../../../esl-utils/misc/format';
 
 interface JsonAttrDescriptor<T> {
   name?: string;
   default?: T;
   readonly?: boolean;
   dataAttr?: boolean;
-}
-
-function evaluate(str: string, defaultValue: any = null): any {
-  try {
-    return str ? (new Function(`return ${str}`))() : defaultValue;
-  } catch (e) {
-    console.warn('Cannot parse value ', str, e);
-    return defaultValue;
-  }
 }
 
 function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, defaultValue: T | null) {
