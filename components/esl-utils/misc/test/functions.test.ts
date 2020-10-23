@@ -1,6 +1,6 @@
 import {defined} from '../functions';
 
-describe('misc/compare helper tests', () => {
+describe('misc/functions helper tests', () => {
   test('defined', () => {
     expect(defined('a')).toBe('a');
     expect(defined('', 'a')).toBe('');

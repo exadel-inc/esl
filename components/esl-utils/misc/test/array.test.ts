@@ -1,6 +1,6 @@
 import {flat, tuple, wrap} from '../array';
 
-describe('misc/functions helper tests', () => {
+describe('misc/array helper tests', () => {
   test('tuple', () => {
     expect(tuple([])).toEqual([]);
     expect(tuple([1])).toEqual([[1]]);

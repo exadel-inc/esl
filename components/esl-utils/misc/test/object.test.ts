@@ -1,6 +1,6 @@
 import {deepCompare} from '../object';
 
-describe('misc/compare helper tests', () => {
+describe('misc/object helper tests', () => {
   test('deepCompare simple tests', () => {
     expect(deepCompare({}, {})).toBeTruthy();
     expect(deepCompare({a: 1}, {a: 1})).toBeTruthy();
