@@ -17,8 +17,8 @@ module.exports.lintStyle = (src) => {
     return gulp.src(src)
       .pipe(stylelint({
         reporters: [
-          {formatter: 'string', console: true}
-          // {formatter: 'json', save: 'eslint-report.json'}
+          {formatter: 'string', console: true},
+          {formatter: 'json', save: '.report/stylelint-report.json'}
         ]
       }));
   };
