@@ -28,7 +28,7 @@ export function parseAspectRatio(str: string): number {
 /**
  * Evaluate value
  */
-export function evaluate(str: string, defaultValue: any = undefined): any {
+export function evaluate(str: string, defaultValue?: any): any {
   try {
     return str ? (new Function(`return ${str}`))() : defaultValue;
   } catch (e) {
