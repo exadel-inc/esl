@@ -18,7 +18,6 @@
     "Julia Murashko <ymurashka@exadel.com>",
     "Yuliya Adamskaya <yadamska@exadel.com>"
   ],
-  "main": "./lib/all.js",
   "scripts": {
     "build": "gulp build",
     "test": "jest",
