@@ -16,11 +16,11 @@ import type {ESLPanelStack} from './esl-panel/ts/esl-panel-stack';
 import type {ESLTabsContainer} from './esl-tab/ts/esl-tabs-container';
 import type {ESLScrollableTabs} from './esl-scrollable-tab/ts/esl-scrollable-tabs';
 
-import type {ESLCarousel} from './esl-carousel/ts/esl-carousel';
-import type {ESLCarouselDotsPlugin} from './esl-carousel/ts/plugin/esl-carousel-dots.plugin';
-import type {ESLCarouselLinkPlugin} from './esl-carousel/ts/plugin/esl-carousel-link.plugin';
-import type {ESLCarouselTouchPlugin} from './esl-carousel/ts/plugin/esl-carousel-touch.plugin';
-import type {ESLCarouselAutoplayPlugin} from './esl-carousel/ts/plugin/esl-carousel-autoplay.plugin';
+import type {ESLCarousel} from './beta/esl-carousel/ts/esl-carousel';
+import type {ESLCarouselDotsPlugin} from './beta/esl-carousel/ts/plugin/esl-carousel-dots.plugin';
+import type {ESLCarouselLinkPlugin} from './beta/esl-carousel/ts/plugin/esl-carousel-link.plugin';
+import type {ESLCarouselTouchPlugin} from './beta/esl-carousel/ts/plugin/esl-carousel-touch.plugin';
+import type {ESLCarouselAutoplayPlugin} from './beta/esl-carousel/ts/plugin/esl-carousel-autoplay.plugin';
 
 // Define global namespace
 if (!('ESL' in window)) {
