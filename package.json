@@ -28,6 +28,7 @@
     "local-serv-build": "gulp buildLocal",
     "local-serv-watch": "npm run local-serv | gulp watchLocal",
     "prepare": "npm run build",
+    "postinstall": "npm run build",
     "preversion": "npm run test | npm run test-lint"
   },
   "files": [
