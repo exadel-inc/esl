@@ -3,6 +3,7 @@ const cfg = require('./paths.json');
 
 const {clean} = require('./build/clean-task');
 const {tscBuild} = require('./build/tsc-task');
+const {tarBuild} = require('./build/tar-task');
 const {buildTsBundle} = require('./build/webpack-task');
 const {lessCopy, lessBuild} = require('./build/less-task');
 const {print, printBuildStart} = require('./build/common');
@@ -20,6 +21,8 @@ const build = gulp.series(
     lessBuild(cfg.src.css, ['components-es5', 'components-es6'])
   )
 );
+
+const tar = gulp.series(clean('target/*'), build, tarBuild());
 
 // === LINTER TASKS ===
 const lintTS = lintTypeScript(cfg.lint.ts);
@@ -57,6 +60,7 @@ const watchTsLint = function watchTsLint() {
 const watchLocal = gulp.parallel(watchLess, watchTs, watchTsLint);
 
 module.exports = {
+  tar,
   lint,
   clean,
   build,

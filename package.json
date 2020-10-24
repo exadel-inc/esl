@@ -19,6 +19,7 @@
     "Yuliya Adamskaya <yadamska@exadel.com>"
   ],
   "scripts": {
+    "tar": "gulp tar",
     "build": "gulp build",
     "test": "jest",
     "test-lint": "gulp lint",
@@ -28,7 +29,6 @@
     "local-serv-build": "gulp buildLocal",
     "local-serv-watch": "npm run local-serv | gulp watchLocal",
     "prepare": "npm run build",
-    "postinstall": "npm run build",
     "preversion": "npm run test | npm run test-lint"
   },
   "files": [
@@ -57,10 +57,14 @@
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-eslint": "^6.0.0",
+    "gulp-exclude-gitignore": "^1.2.0",
+    "gulp-gzip": "^1.4.2",
     "gulp-less": "^4.0.1",
     "gulp-postcss": "^9.0.0",
+    "gulp-print": "^5.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-stylelint": "^13.0.0",
+    "gulp-tar": "^3.1.0",
     "gulp-typescript": "^5.0.1",
     "intersection-observer": "^0.11.0",
     "jest": "^26.6.0",

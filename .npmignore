@@ -7,19 +7,26 @@
 
 # Libs
 node_modules
-edmtp-modules
 
 # Build Config
-build/
+build
 gulpfile.js
-path.json
+paths.json
 
-# Test Sources
-test-server/
+# Target
+target
+
+# Test
+jest.config.js
+**/test/*.test.ts
+
+# Test Server
+test-server
 
 # Linter
 .eslintrc.json
 .eslintignore
+.stylelintrc.json
 
 # VCS
 .gitignore
@@ -27,3 +34,4 @@ test-server/
 # reports
 .report
 .scannerwork
+sonar-project.properties

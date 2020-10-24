@@ -9,9 +9,10 @@
 node_modules
 
 # Build output
-components-es5/
-components-es6/
-test-server/static/
+target
+components-es5
+components-es6
+test-server/static
 
 # Logs & Tmp
 npm-debug.log
