@@ -1,6 +1,6 @@
 import {tuple, wrap} from '../misc/array';
 
-type PseudoProcessor = (base: Element, sel: string, multiple?: boolean) => Element | Element[] | null;
+type PseudoProcessor = (base: Element, sel: string) => Element | Element[] | null;
 type ProcessorDescriptor = [string?, string?];
 
 export abstract class TraversingUtil {
@@ -15,7 +15,7 @@ export abstract class TraversingUtil {
    * Find closest parent node of {@param node} by {@param predicate}.
    * {@param skipSelf} to skip initial node
    */
-  static closestBy(node: Node, predicate: (node: Node) => boolean, skipSelf = false): Node | null {
+  static closestBy(node: Node | null, predicate: (node: Node) => boolean, skipSelf = false): Node | null {
     let current = skipSelf && node ? node.parentNode : node;
     while (current) {
       if (predicate(current)) return current;
@@ -36,71 +36,64 @@ export abstract class TraversingUtil {
   static findPrev = TraversingUtil.buildIterableFinder((el) => el.previousElementSibling);
   static findParent = TraversingUtil.buildIterableFinder((el) => el.parentElement);
 
-  static find(base: Element, sel: string, multiple: true): Element[];
-  static find(base: Element, sel: string, multiple: false): Element | null;
-  static find(base: Element, sel: string, multiple = false): Element[] | Element | null {
-    if (!sel) return multiple ? [base] : base;
-    return multiple ? Array.from(base.querySelectorAll(sel)): base.querySelector(sel);
+  static findAll(base: Element, sel: string): Element[] {
+    return sel ? Array.from(base.querySelectorAll(sel)): [base];
   }
-
-  static findChild(base: Element, sel: string, multiple: true): Element[];
-  static findChild(base: Element, sel: string, multiple: false): Element | null;
-  static findChild(base: Element, sel: string, multiple = false): Element[] | Element | null {
-    const children = Array.from(base.children).filter((el: Element) => !sel || el.matches(sel));
-    return multiple ? children : children[0];
+  static findChildren(base: Element, sel: string): Element[]{
+    return Array.from(base.children).filter((el: Element) => !sel || el.matches(sel));
   }
 
   static PROCESSORS: Record<string, PseudoProcessor> = {
+    '::find': TraversingUtil.findAll,
     '::next': TraversingUtil.findNext,
     '::prev': TraversingUtil.findPrev,
     '::parent': TraversingUtil.findParent,
-    '::find': TraversingUtil.find,
-    '::child': TraversingUtil.findChild
+    '::child': TraversingUtil.findChildren
   };
 
   static POST_PROCESSORS: Record<string, (els: Element[], sel?:string) => Element[]> = {
     '::first': (list: Element[]) => list.slice(0, 1),
     '::last': (list: Element[]) => list.slice(-1),
     '::nth': (list: Element[], sel?: string) => {
-      const i = sel ? +sel: NaN;
+      const i = (sel ? +sel: NaN) - 1;
       if (isNaN(i) || i >= list.length || i < 0) return [];
       return [ list[i] ];
     }
   };
 
-  static PROCESSOR_KEYS = Object.keys(TraversingUtil.PROCESSORS).concat(Object.keys(TraversingUtil.POST_PROCESSORS));
+  private static PROCESSOR_KEYS = Object.keys(TraversingUtil.PROCESSORS).concat(Object.keys(TraversingUtil.POST_PROCESSORS));
   // /(::parent|::child|::next|::prev)/
-  static PROCESSOR_REGEX = new RegExp(`(${TraversingUtil.PROCESSOR_KEYS.join('|')})`, 'g');
+  private static PROCESSOR_REGEX = new RegExp(`(${TraversingUtil.PROCESSOR_KEYS.join('|')})`, 'g');
 
-  static traverse(collection: Element[], processors: ProcessorDescriptor[], findFirst: boolean): Element[] {
+  private static traverse(collection: Element[], processors: ProcessorDescriptor[], findFirst: boolean = false): Element[] {
     if (!processors.length || !collection.length) return collection;
     const [[name, selString], ...rest] = processors;
     if (!name) return [];
     const sel = (selString || '').replace(/^\(/, '').replace(/\)$/, '');
     if (name in TraversingUtil.POST_PROCESSORS) return TraversingUtil.POST_PROCESSORS[name](collection, sel);
-    let result: Element[] = [];
+    const result: Element[] = [];
     for(const target of collection) {
-      const processedItem: Element[] = wrap(TraversingUtil.PROCESSORS[name](target, sel, true));
-      const resultItem: Element[] = TraversingUtil.traverse(processedItem, rest, findFirst);
-      if (resultItem.length && findFirst) return resultItem;
-      result = result.concat(resultItem);
+      const processedItem: Element[] = wrap(TraversingUtil.PROCESSORS[name](target, sel));
+      const resultCollection: Element[] = TraversingUtil.traverse(processedItem, rest, findFirst);
+      if (!resultCollection.length) continue;
+      if (findFirst) return resultCollection;
+      resultCollection.forEach((item) => (result.indexOf(item) === -1) && result.push(item));
     }
     return result;
   }
+  private static traverseQuery(query: string, base?: Element, findFirst = false) {
+    const parts = query.split(TraversingUtil.PROCESSOR_REGEX).map((term) => term.trim());
+    const rootSel = parts.shift();
+    const baseCollection = base ? [base] : [];
+    const initial: Element[] = rootSel ? Array.from(document.querySelectorAll(rootSel)) : baseCollection;
+    const processors: ProcessorDescriptor[] = tuple(parts);
+    return TraversingUtil.traverse(initial, processors, findFirst);
+  }
 
   static query(query: string, base?: Element): Element | null {
-    const parts = query.split(TraversingUtil.PROCESSOR_REGEX).map((term) => term.trim());
-    const rootSel = parts.shift();
-    const initial: Element[] = rootSel ? Array.from(document.querySelectorAll(rootSel)) : (base ? [base] : []);
-    const processors: ProcessorDescriptor[] = tuple(parts);
-    const result = TraversingUtil.traverse(initial, processors, true);
-    return result[0] || null;
+    return TraversingUtil.traverseQuery(query, base, true)[0] || null;
   }
   static queryAll(query: string, base?: Element): Element[] {
-    const parts = query.split(TraversingUtil.PROCESSOR_REGEX).map((term) => term.trim());
-    const rootSel = parts.shift();
-    const initial: Element[] = rootSel ? Array.from(document.querySelectorAll(rootSel)) : (base ? [base] : []);
-    const processors: ProcessorDescriptor[] = tuple(parts);
-    return TraversingUtil.traverse(initial, processors, false);
+    return TraversingUtil.traverseQuery(query, base, false);
   }
 }

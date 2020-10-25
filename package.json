@@ -23,7 +23,7 @@
     "build": "gulp build",
     "test": "jest",
     "test-lint": "gulp lint",
-    "test-report": "jest --coverage | npm run test-lint",
+    "test-report": "jest --coverage",
     "local-serv": "npm run local-serv-build && npm run local-serv-start",
     "local-serv-start": "cd test-server && node server.js",
     "local-serv-build": "gulp buildLocal",

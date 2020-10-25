@@ -33,15 +33,13 @@ describe('dom/traversing-query helper tests', () => {
 
   test.each([
     // Simple queries
-    ['section', root],
-    ['section > .row', row1],
-    ['section > .row:first-child', row1],
-    ['#btn3', btn3],
-    ['#null', null]
-  ])('query("%s")', (sel, expected) => expect(TraversingUtil.query(sel)).toBe(expected));
+    ['section', undefined, root],
+    ['section > .row', undefined, row1],
+    ['section > .row:first-child', undefined, row1],
+    ['#btn3', undefined, btn3],
+    ['#null', undefined, null],
 
-  test.each([
-    // Nest query test
+    // Next query test
     ['::next', null, null],
     ['::next', btn1, btn2],
     ['::next', btn6, null],
@@ -75,8 +73,73 @@ describe('dom/traversing-query helper tests', () => {
     ['::find', null, null],
     ['::find', root, root],
     ['::find(.btn)', root, btn1],
-    ['::find(.container)', root, null]
+    ['::find(.container)', root, null],
+    ['::find(.row .btn)', root, btn1],
+
+    // Postprocessors
+    ['::find(.btn)::first', null, null],
+    ['::find(.btn)::last', null, null],
+    ['::find(.btn)::nth(1)', null, null],
+    ['::find(.btn)::first', root, btn1],
+    ['::find(.btn)::last', root, btn6],
+    ['::find(.btn)::nth(1)', root, btn1],
+    ['::find(.btn)::nth(4)', root, btn4],
+    ['::find(.btn)::nth(6)', root, btn6],
+    ['::find(.btn)::nth', root, null],
+    ['::find(.btn)::nth(8)', root, null],
+    ['::find(.btn)::nth(bla bla)', root, null],
+
+    // Complex query test
+    ['::parent:child', null, null],
+    ['::parent::child', root, root],
+    ['::parent::next::find(.col-2)', article1, article2],
+    ['::parent(.container)::find(.btn)::last', btn5, btn6],
   ])('query("%s", base)', (sel, base, expected) => expect(TraversingUtil.query(sel, base as Element)).toBe(expected));
+
+  test.each([
+    // Simple queries
+    ['#null', undefined, []],
+    ['section > .row', undefined, [row1, row2]],
+    ['#btn3', undefined, [btn3]],
+
+    // Next query test
+    ['::next', btn1, [btn2]],
+    ['::next', btn6, []],
+    ['::next(article)', btn1, [article1]],
+    ['::next(article.col-1)', btn1, [article1]],
+
+    // Prev query test
+    ['::prev', btn2, [btn1]],
+    ['::prev', btn1, []],
+    ['::prev(.btn)', article1, [btn5]],
+    ['::prev(#btn2)', article1, [btn2]],
+
+    // Child query test
+    ['::child', article1, []],
+    ['::child', row1, [btn1, btn2, btn3, btn4, btn5, article1]],
+    ['::child(#btn2)', row1, [btn2]],
+
+    // Parent query test
+    ['::parent', article1, [row1]],
+    ['::parent', root, [document.body]],
+    ['::parent(.container)', btn1, [root]],
+
+    // Find query test
+    ['::find', root, [root]],
+    ['::find(.btn)', root, [btn1, btn2, btn3, btn4, btn5, btn6]],
+    ['::find(.container)', root, []],
+    ['::find(#row1 .btn)', root, [btn1, btn2, btn3, btn4, btn5]],
+
+    // Postprocessors
+    ['::find(.btn)::first', root, [btn1]],
+    ['::find(.btn)::last', root, [btn6]],
+    ['::find(.btn)::nth(4)', root, [btn4]],
+
+    // Complex query test
+    ['::parent::child', root, [root]],
+    ['::parent::next::find(.col-2)', article1, [article2]],
+    ['::parent::find(.btn)', btn5, [btn1, btn2, btn3, btn4, btn5]],
+  ])('queryAll("%s", base)', (sel, base, expected) => expect(TraversingUtil.queryAll(sel, base as Element)).toEqual(expected));
 
   test('isRelative', () => {
     expect(TraversingUtil.isRelative(document.body, btn1)).toBeTruthy();
@@ -86,7 +149,11 @@ describe('dom/traversing-query helper tests', () => {
   });
 
   test('closestBy', () => {
+    expect(TraversingUtil.closestBy(null, (el: HTMLElement) => el.dataset.test === '1')).toBe(null);
+    expect(TraversingUtil.closestBy(document.createElement('div'), (el: HTMLElement) => el.dataset.test === '1')).toBe(null);
+    expect(TraversingUtil.closestBy(btn2, (el: HTMLElement) => el.classList.contains('btn'))).toBe(btn2);
     expect(TraversingUtil.closestBy(btn2, (el: HTMLElement) => el.dataset.test === '1')).toBe(row1);
+    expect(TraversingUtil.closestBy(btn2, (el: HTMLElement) => el.dataset.test === '1', true)).toBe(row1);
     expect(TraversingUtil.closestBy(btn2, (el: HTMLElement) => el.tagName.toLowerCase() === 'section')).toBeTruthy();
     expect(TraversingUtil.closestBy(article1, () => false)).toBe(null);
   });
