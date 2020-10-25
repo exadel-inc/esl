@@ -1,4 +1,4 @@
-import {ESLBaseElement} from '../../../esl-base-element/esl-base-element';
+import {ESLBaseElement} from '../../../../esl-base-element/esl-base-element';
 import ESLCarousel from '../esl-carousel';
 
 /**
@@ -38,8 +38,7 @@ export abstract class ESLCarouselPlugin extends ESLBaseElement {
    * @returns {ESLCarousel} owner of plugin
    */
   public get carousel(): ESLCarousel {
-    // @ts-ignore
-    return this._carousel;
+    return this._carousel as ESLCarousel;
   }
 
   protected connectedCallback() {

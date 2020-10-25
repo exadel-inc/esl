@@ -1,7 +1,7 @@
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {ESLBaseElement, attr} from '../../esl-base-element/esl-base-element';
-import {deepCompare} from '../../esl-utils/misc/object';
-import ESLMediaRuleList from '../../esl-utils/conditions/esl-media-rule-list';
+import {ExportNs} from '../../../esl-utils/enviroment/export-ns';
+import {ESLBaseElement, attr} from '../../../esl-base-element/esl-base-element';
+import {deepCompare} from '../../../esl-utils/misc/object';
+import ESLMediaRuleList from '../../../esl-utils/conditions/esl-media-rule-list';
 import ESLCarouselSlide from './esl-carousel-slide';
 import {ESLCarouselView, ESLCarouselViewRegistry} from './view/esl-carousel-view';
 import ESLCarouselPlugin from './plugin/esl-carousel-plugin';
@@ -170,11 +170,9 @@ export class ESLCarousel extends ESLBaseElement {
 
   private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     // TODO: change observed attributes
-    switch (attrName) {
-      case 'config':
-        this.configRules = ESLMediaRuleList.parse<CarouselConfig>(this.config, ESLMediaRuleList.OBJECT_PARSER);
-        this.update(true);
-        break;
+    if (attrName === 'config') {
+      this.configRules = ESLMediaRuleList.parse<CarouselConfig>(this.config, ESLMediaRuleList.OBJECT_PARSER);
+      this.update(true);
     }
   }
 

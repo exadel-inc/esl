@@ -130,7 +130,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
 
   public unbind() {
     this.component._onDetach();
-    this._api?.dispose();
+    this._api && this._api.dispose();
     super.unbind();
   }
 

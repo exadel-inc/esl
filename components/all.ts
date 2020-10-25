@@ -1,10 +1,3 @@
-// Support for ES5 bundle target
-import './../polyfills/es5-target-shim';
-// Builtin polyfills
-import './../polyfills/polyfills.es6';
-// Validate environment
-import './../polyfills/polyfills.validate';
-
 export * as Utils from './esl-utils/all';
 
 export {ESLImage as Image} from './esl-image/esl-image';
@@ -18,4 +11,4 @@ export {ESLScrollableTabs as ScrollableTabs} from './esl-scrollable-tab/esl-scro
 
 export {ESLScrollbar as Scrollbar} from './esl-scrollbar/esl-scrollbar';
 
-export {ESLCarousel as Carousel, CarouselPlugins} from './esl-carousel/esl-carousel';
+export {ESLCarousel as Carousel, CarouselPlugins} from './beta/esl-carousel/esl-carousel';

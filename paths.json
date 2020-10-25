@@ -1,20 +1,16 @@
 {
-  "bundle": {
-    "less": "components/all.less",
-    "lessComponents": ["components/*/*.less", "!components/*/*.default.less"],
-    "lessComponentsDefaults": "components/*/*.default.less",
-    "ts": "components/all.ts",
-    "tsComponents": ["components/*/*.ts", "!components/esl-base-element/*.ts"],
-    "context": "components",
-    "target": "lib"
+  "src": {
+    "ts": ["components/**/*.ts", "!components/**/*.test.ts"],
+    "css": ["components/**/*.default.less"],
+    "less": ["components/**/*.less", "!components/**/*.default.less"]
+  },
+  "lint": {
+    "ts": ["components/**/*.ts", "!components/**/*.test.ts"],
+    "less": ["components/**/*.less"]
   },
   "watch": {
-    "ts": ["components/**/*.ts"],
-    "less": ["components/**/*.less"],
-    "local": {
-      "ts": "test-server/src/**/*.ts",
-      "less": "test-server/src/**/*.less"
-    }
+    "ts": ["components/**/*.ts", "test-server/src/**/*.ts"],
+    "less": ["components/**/*.less", "test-server/src/**/*.less"]
   },
   "test": {
     "less": "test-server/src/*.less",
