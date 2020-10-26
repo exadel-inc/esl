@@ -1,4 +1,4 @@
-import {toCamelCase, toKebabCase, parseAspectRatio, evaluate} from '../format';
+import {toCamelCase, toKebabCase, unwrapParenthesis, parseAspectRatio, evaluate} from '../format';
 
 describe('misc/format helper tests', () => {
   test('toKebabCase', () => {
@@ -16,6 +16,18 @@ describe('misc/format helper tests', () => {
     expect(toCamelCase('hello world')).toBe('helloWorld');
     expect(toCamelCase('hello-world')).toBe('helloWorld');
     expect(toCamelCase('hi-hi-world')).toBe('hiHiWorld');
+  });
+  test('unwrapParenthesis', () => {
+    expect(unwrapParenthesis('')).toBe('');
+    expect(unwrapParenthesis(' ')).toBe('');
+    expect(unwrapParenthesis('test')).toBe('test');
+    expect(unwrapParenthesis('(test)')).toBe('test');
+    expect(unwrapParenthesis('((test))')).toBe('(test)');
+    expect(unwrapParenthesis('(test))')).toBe('test)');
+    expect(unwrapParenthesis(' ( test ) ) ')).toBe('test )');
+    expect(unwrapParenthesis('{(test)}')).toBe('{(test)}');
+    expect(unwrapParenthesis(' {(test)}')).toBe('{(test)}');
+    expect(unwrapParenthesis('(test()())')).toBe('test()()');
   });
   test('parseAspectRatio', () => {
     expect(parseAspectRatio('0')).toBe(0);

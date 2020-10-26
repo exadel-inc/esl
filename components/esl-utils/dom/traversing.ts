@@ -1,4 +1,5 @@
 import {tuple, wrap} from '../misc/array';
+import {unwrapParenthesis} from '../misc/format';
 
 type PseudoProcessor = (base: Element, sel: string) => Element | Element[] | null;
 type ProcessorDescriptor = [string?, string?];
@@ -65,14 +66,17 @@ export abstract class TraversingUtil {
   // /(::parent|::child|::next|::prev)/
   private static PROCESSOR_REGEX = new RegExp(`(${TraversingUtil.PROCESSOR_KEYS.join('|')})`, 'g');
 
-  private static traverse(collection: Element[], processors: ProcessorDescriptor[], findFirst: boolean = false): Element[] {
+  private static traverse(collection: Element[], processors: ProcessorDescriptor[], findFirst: boolean): Element[] {
     if (!processors.length || !collection.length) return collection;
     const [[name, selString], ...rest] = processors;
     if (!name) return [];
-    const sel = (selString || '').replace(/^\(/, '').replace(/\)$/, '');
-    if (name in TraversingUtil.POST_PROCESSORS) return TraversingUtil.POST_PROCESSORS[name](collection, sel);
+    const sel = unwrapParenthesis(selString || '');
+    if (name in TraversingUtil.POST_PROCESSORS) {
+      const processedItem: Element[] = wrap(TraversingUtil.POST_PROCESSORS[name](collection, sel));
+      return TraversingUtil.traverse(processedItem, rest, findFirst);
+    }
     const result: Element[] = [];
-    for(const target of collection) {
+    for (const target of collection) {
       const processedItem: Element[] = wrap(TraversingUtil.PROCESSORS[name](target, sel));
       const resultCollection: Element[] = TraversingUtil.traverse(processedItem, rest, findFirst);
       if (!resultCollection.length) continue;
@@ -81,7 +85,7 @@ export abstract class TraversingUtil {
     }
     return result;
   }
-  private static traverseQuery(query: string, base?: Element, findFirst = false) {
+  private static traverseQuery(query: string, findFirst: boolean, base?: Element) {
     const parts = query.split(TraversingUtil.PROCESSOR_REGEX).map((term) => term.trim());
     const rootSel = parts.shift();
     const baseCollection = base ? [base] : [];
@@ -91,9 +95,9 @@ export abstract class TraversingUtil {
   }
 
   static query(query: string, base?: Element): Element | null {
-    return TraversingUtil.traverseQuery(query, base, true)[0] || null;
+    return TraversingUtil.traverseQuery(query, true, base)[0] || null;
   }
   static queryAll(query: string, base?: Element): Element[] {
-    return TraversingUtil.traverseQuery(query, base, false);
+    return TraversingUtil.traverseQuery(query, false, base);
   }
 }

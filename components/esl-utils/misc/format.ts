@@ -13,6 +13,13 @@ export const toCamelCase = (str: string) => {
 };
 
 /**
+ * Unwrap string from parenthesis
+ */
+export const unwrapParenthesis = (str: string) => {
+  return str.trim().replace(/^\((.*)\)$/, '$1').trim();
+};
+
+/**
  * Common function that returns coefficient aspect ratio
  * Supported formats: w:h, w/h, coefficient
  * @example '16:9', '16/9', '1.77'
