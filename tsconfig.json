@@ -17,7 +17,7 @@
     ]
   },
   "include": [
-    "components"
+    "modules"
   ],
   "exclude": [
     "*.test.ts",
