@@ -16,6 +16,8 @@ export enum PlayerStates {
 }
 
 export interface MediaProviderConfig {
+  mediaSrc?: string;
+  mediaId?: string;
   loop: boolean;
   muted: boolean;
   controls: boolean;
@@ -25,16 +27,34 @@ export interface MediaProviderConfig {
   playsinline?: boolean;
 }
 
-export type BaseProviderConstructor = new(component: ESLMedia) => BaseProvider<HTMLElement>;
+export type ProviderType = {
+  new(component: ESLMedia, config: MediaProviderConfig): BaseProvider<HTMLElement>
+  parseURL: URLParser;
+  providerName: string;
+  parseConfig: (component: ESLMedia) => MediaProviderConfig;
+};
+
+export type URLParser = (mediaSrc: string) => Partial<MediaProviderConfig> | null;
 
 export abstract class BaseProvider<T extends HTMLElement> {
   static readonly providerName: string;
 
+  static readonly parseURL: URLParser = () => null;
+  static parseConfig(component: ESLMedia): MediaProviderConfig {
+    const {loop, muted, controls, autoplay, title, preload, playsinline, mediaId, mediaSrc} = component;
+    const config = {loop, muted, controls, autoplay, title, preload, playsinline};
+    if (mediaId) Object.assign(config, {mediaId});
+    if (mediaSrc) Object.assign(config, {mediaSrc});
+    return config;
+  }
+
+  protected config: MediaProviderConfig;
   protected component: ESLMedia;
   protected _el: T;
   protected _ready: Promise<any>;
 
-  public constructor(component: ESLMedia) {
+  public constructor(component: ESLMedia, config: MediaProviderConfig) {
+    this.config = config;
     this.component = component;
   }
 
@@ -160,7 +180,7 @@ export abstract class BaseProvider<T extends HTMLElement> {
   }
 
   // public static register() {
-  //     const provider = (this as typeof BaseProvider & BaseProviderConstructor);
-  //     ESLMediaProviderRegistry.instance.register(provider, provider.providerName);
+  //   const provider = (this as typeof BaseProvider & ProviderType);
+  //   ESLMediaProviderRegistry.instance.register(provider, provider.providerName);
   // }
 }

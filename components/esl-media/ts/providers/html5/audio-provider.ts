@@ -13,7 +13,7 @@ export class AudioProvider extends HTMLMediaProvider<HTMLAudioElement> {
 
   protected createElement(): HTMLAudioElement {
     const el = document.createElement('audio');
-    el.src = this.component.mediaSrc;
+    el.src = this.config.mediaSrc || '';
     return el;
   }
 

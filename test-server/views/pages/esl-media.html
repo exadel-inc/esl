@@ -45,6 +45,26 @@ title: ESL Media Component
             <test-media-controls target="[data-demo='1'] esl-media"></test-media-controls>
         </div>
     </section>
+    <section class="col-6" data-demo="8">
+        <div class="demo">
+            <h3 class="text-center">YouTube video</h3>
+            <p>ESL Media has  support of YouTube videos by urls:<br>
+                e.g. https://www.youtube.com/watch?v=_aAI_-8Yq5g</p>
+            <hr/>
+            <div class="img-container img-container-16-9 img-container-loaded">
+                <esl-media group="demo-media"
+                           media-src="https://www.youtube.com/watch?v=_aAI_-8Yq5g"
+                           load-cls-target="section"
+                           load-accepted-cls="show-video"
+                           load-declined-cls="hide-video"
+                           controls>
+                </esl-media>
+            </div>
+        </div>
+        <div class="row btn-group-centered">
+            <test-media-controls target="[data-demo='8'] esl-media"></test-media-controls>
+        </div>
+    </section>
     <section class="col-6" data-demo="2">
         <div class="demo">
             <h3 class="text-center">HTML video</h3>
@@ -154,10 +174,10 @@ title: ESL Media Component
             <div class="alert alert-info">Video bellow will be loading only on XS breakpoint</div>
             <div class="img-container img-container-16-9">
                 <esl-media load-condition="@XS, @MOBILE"
-                           media-type="youtube"
-                           media-id="e1omOSkYltw"
-                           autoplay="true"
-                           muted loop>
+                             media-type="youtube"
+                             media-id="e1omOSkYltw"
+                             autoplay="true"
+                             muted loop>
                 </esl-media>
             </div>
         </div>
