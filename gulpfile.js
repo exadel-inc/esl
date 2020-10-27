@@ -13,12 +13,12 @@ printBuildStart();
 
 // === BUILD TASKS ===
 const build = gulp.series(
-  clean(['components-es5/*', 'components-es6/*']),
+  clean(['modules-es5/*', 'modules-es6/*']),
   gulp.parallel(
-    tscBuild({target: 'es5'}, cfg.src.ts, 'components-es5'),
-    tscBuild({target: 'es6'}, cfg.src.ts, 'components-es6'),
-    lessCopy(cfg.src.less, ['components-es5', 'components-es6']),
-    lessBuild(cfg.src.css, ['components-es5', 'components-es6'])
+    tscBuild({target: 'es5'}, cfg.src.ts, 'modules-es5'),
+    tscBuild({target: 'es6'}, cfg.src.ts, 'modules-es6'),
+    lessCopy(cfg.src.less, ['modules-es5', 'modules-es6']),
+    lessBuild(cfg.src.css, ['modules-es5', 'modules-es6'])
   )
 );
 

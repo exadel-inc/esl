@@ -5,7 +5,7 @@
     "custom elements",
     "component library"
   ],
-  "version": "1.28.1-alpha",
+  "version": "1.29.0-alpha",
   "private": true,
   "homepage": "https://gitlab.exadel.com/EDMTP/smart-wc-library#readme",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "build": "gulp build",
     "test": "jest",
     "test-lint": "gulp lint",
-    "test-report": "jest --coverage | npm run test-lint",
+    "test-report": "jest --coverage",
     "local-serv": "npm run local-serv-build && npm run local-serv-start",
     "local-serv-start": "cd test-server && node server.js",
     "local-serv-build": "gulp buildLocal",
@@ -32,9 +32,9 @@
     "preversion": "npm run test | npm run test-lint"
   },
   "files": [
-    "components/**/*",
-    "!components/**/*.test.ts",
-    "components-es6/**/*"
+    "modules/**/*",
+    "!modules/**/*.test.ts",
+    "modules-es6/**/*"
   ],
   "browserslist": [
     "last 3 version",
