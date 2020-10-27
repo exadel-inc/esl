@@ -15,9 +15,19 @@ const DEFAULT_ASPECT_RATIO = 16 / 9;
 
 export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameElement> {
   private _api: YT.Player;
+  static readonly idRegexp = /(?:v\/|v=|vi=|vi\/|e\/|embed\/|user\/.*\/u\/\d+\/)([_0-9a-zA-Z-]+)/;
+  static readonly providerRegexp = /(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be|youtube(-nocookie)?\.com)/;
 
   static get providerName() {
     return 'youtube';
+  }
+
+  static parseURL(url: string) {
+    if (this.providerRegexp.test(url)) {
+      const [, id] = url.match(this.idRegexp) || [];
+      return id ? {mediaId: id} : null;
+    }
+    return null;
   }
 
   private static _coreApiPromise: Promise<void>;
@@ -56,7 +66,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
     };
   }
 
-  protected static buildIframe(sm: ESLMedia) {
+  protected static buildIframe(sm: MediaProviderConfig) {
     const el = document.createElement('div');
     el.id = 'esl-media-yt-' + generateUId();
     el.className = 'esl-media-inner esl-media-youtube';
@@ -69,12 +79,12 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
   }
 
   public bind() {
-    this._el = YouTubeProvider.buildIframe(this.component);
+    this._el = YouTubeProvider.buildIframe(this.config);
     this.component.appendChild(this._el);
     this._ready = YouTubeProvider.getCoreApi().then(
       () => (new Promise((resolve, reject) => {
         this._api = new YT.Player(this._el.id, {
-          videoId: this.component.mediaId,
+          videoId: this.config.mediaId,
           events: {
             onError: (e) => {
               this.component._onError(e);
@@ -83,13 +93,13 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
             onReady: () => resolve(this),
             onStateChange: this._onStateChange
           },
-          playerVars: YouTubeProvider.mapOptions(this.component)
+          playerVars: YouTubeProvider.mapOptions(this.config)
         });
       }))
     );
     this._ready.then(() => {
       this._el = this._api.getIframe();
-      if (this.component.muted) {
+      if (this.config.muted) {
         this._api.mute();
       }
       this.component._onReady();
@@ -111,7 +121,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
         this.component._onPaused();
         break;
       case PlayerStates.ENDED:
-        if (this.component.loop) {
+        if (this.config.loop) {
           this._api.playVideo();
         } else {
           this.component._onEnded();

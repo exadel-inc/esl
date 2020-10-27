@@ -13,6 +13,7 @@ class TestMediaSource extends HTMLElement {
 				<legend>Video Settings:</legend>
 		        <div class="input-group mb-2 mr-sm-2">
 			        <select class="form-control" name="media-type">
+			            <option value="auto">- Auto -</option>
 			            <option value="audio">HTML Audio</option>
 			            <option value="video">HTML Video</option>
 			            <option value="youtube">Youtube</option>

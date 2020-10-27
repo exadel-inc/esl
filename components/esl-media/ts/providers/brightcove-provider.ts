@@ -9,7 +9,7 @@ import {VideoJsPlayer} from 'video.js';
 
 import {loadScript} from '../../../esl-utils/dom/script';
 import {ESLMedia} from '../esl-media';
-import {BaseProvider, MediaProviderConfig, PlayerStates} from '../esl-media-provider';
+import {BaseProvider, PlayerStates} from '../esl-media-provider';
 import ESLMediaProviderRegistry from '../esl-media-registry';
 import {generateUId} from '../../../esl-utils/misc/uid';
 
@@ -20,17 +20,27 @@ export interface BCPlayerAccount {
   accountId: string | null;
 }
 
-export interface BCProviderConfig extends MediaProviderConfig {
-  mediaId: string;
-}
-
 export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivElement> {
-
   static get providerName() {
     return 'brightcove';
   }
 
-  static videojsClasses = 'video-js vjs-default-skin video-js-brightcove';
+  static readonly providerRegexp = /(?:http(?:s)?:\/\/)(?:www\.)?players.brightcove/;
+  static readonly idParam = 'videoId';
+
+  static parseURL(url: string) {
+    if (this.providerRegexp.test(url)) {
+      try {
+        const id = new URL(url).searchParams.get(this.idParam) || null;
+        return id ? {mediaId: id} : null;
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  protected videojsClasses = 'video-js vjs-default-skin video-js-brightcove';
 
   protected _api: VideoJsPlayer;
   protected _account: BCPlayerAccount;
@@ -61,20 +71,20 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
   /**
    * Build video brightcove element
    */
-  protected static buildVideo(cfg: BCProviderConfig, account: BCPlayerAccount) {
+  protected buildVideo() {
     const el = document.createElement('video');
     el.id = 'esl-media-brightcove-' + generateUId();
     el.className = 'esl-media-inner esl-media-brightcove ' + this.videojsClasses;
-    el.title = cfg.title;
-    el.loop = cfg.loop;
-    el.muted = cfg.muted;
-    el.controls = cfg.controls;
+    el.title = this.config.title;
+    el.loop = this.config.loop;
+    el.muted = this.config.muted;
+    el.controls = this.config.controls;
     el.setAttribute('aria-label', el.title);
     el.setAttribute('data-embed', 'default');
-    el.setAttribute('data-video-id', `ref:${cfg.mediaId}`);
-    el.toggleAttribute('playsinline', cfg.playsinline);
-    account.playerId && el.setAttribute('data-player', account.playerId);
-    account.accountId && el.setAttribute('data-account', account.accountId);
+    el.setAttribute('data-video-id', `ref:${this.config.mediaId}`);
+    el.toggleAttribute('playsinline', this.config.playsinline);
+    this._account.playerId && el.setAttribute('data-player', this._account.playerId);
+    this._account.accountId && el.setAttribute('data-account', this._account.accountId);
     return el;
   }
 
@@ -106,7 +116,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
    */
   protected onAPIReady() {
     // Set autoplay though js because BC is unresponsive while processing it natively
-    this._api.autoplay(this.component.autoplay);
+    this._api.autoplay(this.config.autoplay);
 
     this._api.on('play', () => this.component._onPlay());
     this._api.on('pause', () => this.component._onPaused());
@@ -119,7 +129,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
   public bind() {
     const Provider = (this.constructor as typeof BrightcoveProvider);
     this._account = Provider.getAccount(this.component);
-    this._el = Provider.buildVideo(this.component, this._account);
+    this._el = this.buildVideo();
     this.component.appendChild(this._el);
 
     this._ready = Provider.loadAPI(this._account)

@@ -130,15 +130,14 @@ export class ESLMedia extends ESLBaseElement {
     // TODO: optimize, constraint for simple changes
     this._provider && this._provider.unbind();
     this._provider = null;
-
     if (this.canActivate()) {
-      const provider = ESLMediaRegistry.getProvider(this.mediaType);
-      if (provider) {
-        this._provider = new provider(this);
+      this._provider = ESLMediaRegistry.createProvider(this);
+      if (this._provider) {
         this._provider.bind();
       } else {
         this._onError();
       }
+
     }
     this._updateContainerMarkers();
   }
