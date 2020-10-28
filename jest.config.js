@@ -11,6 +11,8 @@ module.exports = {
     // cumulative exclude
     '!modules/*.ts',
     '!modules/*/*.ts',
+    // beta modules exclude
+    '!modules/beta/**',
     // libs exclude
     '!**/node_modules/**'
   ]
