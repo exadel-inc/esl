@@ -5,7 +5,7 @@ import './../../polyfills/polyfills.es6';
 // Validate environment
 import './../../polyfills/polyfills.validate';
 // ESL
-import * as ESL from './../../components/all';
+import * as ESL from '../../modules/all';
 
 import './common/back-button';
 import './common/test-media';

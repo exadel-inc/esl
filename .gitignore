@@ -10,8 +10,8 @@ node_modules
 
 # Build output
 target
-components-es5
-components-es6
+modules-es5
+modules-es6
 test-server/static
 
 # Logs & Tmp

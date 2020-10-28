@@ -1,16 +1,16 @@
 {
   "src": {
-    "ts": ["components/**/*.ts", "!components/**/*.test.ts"],
-    "css": ["components/**/*.default.less"],
-    "less": ["components/**/*.less", "!components/**/*.default.less"]
+    "ts": ["modules/**/*.ts", "!modules/**/*.test.ts"],
+    "css": ["modules/**/*.default.less"],
+    "less": ["modules/**/*.less", "!modules/**/*.default.less"]
   },
   "lint": {
-    "ts": ["components/**/*.ts", "!components/**/*.test.ts"],
-    "less": ["components/**/*.less"]
+    "ts": ["modules/**/*.ts", "!modules/**/*.test.ts"],
+    "less": ["modules/**/*.less"]
   },
   "watch": {
-    "ts": ["components/**/*.ts", "test-server/src/**/*.ts"],
-    "less": ["components/**/*.less", "test-server/src/**/*.less"]
+    "ts": ["modules/**/*.ts", "test-server/src/**/*.ts"],
+    "less": ["modules/**/*.less", "test-server/src/**/*.less"]
   },
   "test": {
     "less": "test-server/src/*.less",

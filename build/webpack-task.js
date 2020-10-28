@@ -16,7 +16,7 @@ function buildConfig(config = {}) {
             target: 'ES5'
           },
           reportFiles: [
-            'components/**/*.ts'
+            'modules/**/*.ts'
           ]
         }
       }]
