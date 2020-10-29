@@ -1,10 +1,10 @@
 # ESL Image
 
-Version: *2.3.1*
+Version: *1.0.0-alpha*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*
 
-ESLImage - custom element, that provide flexible abilities to include images on web pages. 
+ESLImage - custom element, that provide flexible ways to include images on web pages. 
 Originally developed as alternative for picture component, but with more features inside.
  
 --- 
@@ -80,20 +80,3 @@ Events html connection points (see events section)
 - ready - emits when image ready (loaded or load fail)
 - load - emits every time when image loaded (including on path change)
 - error - emits every time when current source loading fails.
-
-### Examples
-```html
- <esl-image-tag mode="save-ratio"
-      data-src='..defaultPath [| mediaQuery => src [| ...]]'
- ></esl-image-tag>
-```
-```html
- <esl-image-tag mode="save-ratio"
-    data-src='..defaultPath [| @+MD => src [| ...]]'
- ></esl-image-tag>
-```
-```html
- <esl-image-tag mode="save-ratio"
-    data-src='..defaultPath [| @1x => src [| ...]]'
- ></esl-image-tag>
-```

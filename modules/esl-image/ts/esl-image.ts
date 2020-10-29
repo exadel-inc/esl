@@ -1,6 +1,6 @@
 /**
  * ESL Image
- * @version 2.3.1
+ * @version 1.0.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
