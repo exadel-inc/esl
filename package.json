@@ -21,9 +21,10 @@
   "scripts": {
     "tar": "gulp tar",
     "build": "gulp build",
-    "test": "jest",
-    "test-lint": "gulp lint",
+    "test": "jest && gulp lint",
+    "test-only": "jest",
     "test-report": "jest --coverage",
+    "test-ci": "gulp lint --silent && jest --bail --silent",
     "local-serv": "npm run local-serv-build && npm run local-serv-start",
     "local-serv-start": "cd test-server && node server.js",
     "local-serv-build": "gulp buildLocal",
@@ -66,6 +67,7 @@
     "gulp-stylelint": "^13.0.0",
     "gulp-tar": "^3.1.0",
     "gulp-typescript": "^5.0.1",
+    "husky": "^4.3.0",
     "intersection-observer": "^0.11.0",
     "jest": "^26.6.0",
     "postcss": "^8.1.2",
@@ -79,5 +81,10 @@
     "vinyl-named": "^1.1.0",
     "webpack": "^4.44.2",
     "webpack-stream": "^6.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run test-ci"
+    }
   }
 }

@@ -6,10 +6,10 @@ const {tscBuild} = require('./build/tsc-task');
 const {tarBuild} = require('./build/tar-task');
 const {buildTsBundle} = require('./build/webpack-task');
 const {lessCopy, lessBuild} = require('./build/less-task');
-const {print, printBuildStart} = require('./build/common');
+const {print, catLog} = require('./build/common');
 const {lintStyle, lintTypeScript} = require('./build/linting-task');
 
-printBuildStart();
+print('=== Running ESL Build ===')();
 
 // === BUILD TASKS ===
 const build = gulp.series(
@@ -27,7 +27,7 @@ const tar = gulp.series(clean('target/*'), build, tarBuild());
 // === LINTER TASKS ===
 const lintTS = lintTypeScript(cfg.lint.ts);
 const lintCSS = lintStyle(cfg.lint.less)
-const lint = gulp.parallel(lintTS, lintCSS);
+const lint = gulp.series(gulp.parallel(lintTS, lintCSS), catLog('Linting passed'));
 
 // === Local Build ===
 const buildLocalTs = buildTsBundle({
