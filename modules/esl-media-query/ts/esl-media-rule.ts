@@ -52,4 +52,4 @@ export class ESLMediaRule<T> extends ESLMediaQuery {
   }
 }
 
-export default ESLMediaRule
+export default ESLMediaRule;
