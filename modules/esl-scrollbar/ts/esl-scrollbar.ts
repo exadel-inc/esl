@@ -5,9 +5,10 @@
  */
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
-import {TraversingUtils} from '../../esl-utils/dom/traversing';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {normalizeCoordinates} from '../../esl-utils/dom/events';
+import {TraversingUtils} from '../../esl-utils/dom/traversing';
+import {TraversingQuery} from '../../esl-utils/dom/traversing.query';
 
 const observableTarget = (target: HTMLElement) => document.documentElement === target ? window : target;
 
@@ -60,7 +61,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   protected findTarget() {
     if (!this.target) return;
-    this.targetElement = TraversingUtils.query(this.target, this) as HTMLElement;
+    this.targetElement = TraversingQuery.one(this.target, this) as HTMLElement;
   }
 
   public get targetElement() {
