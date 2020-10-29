@@ -1,5 +1,5 @@
 module.exports.printBuildStart = function () {
-  console.log('=== Running Exadel Smart Library Build ===');
+  console.log('=== Running ESL Build ===');
 };
 
 module.exports.print = (...logArgs) => (cb) => {
