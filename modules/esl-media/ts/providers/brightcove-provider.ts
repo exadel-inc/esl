@@ -144,8 +144,24 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
     super.unbind();
   }
 
-  public onConfigChange(cfgParam: string, newVal: string) {
-
+  public onConfigChange(cfgParam: string, newVal: boolean) {
+    switch (cfgParam) {
+      case 'autoplay':
+        this._api.autoplay(newVal);
+        break;
+      case 'muted':
+        this._api.muted(newVal);
+        break;
+      case 'loop':
+        this._api.loop(newVal);
+        break;
+      case 'controls':
+        this._api.controls(newVal);
+        break;
+      case 'playsinline':
+        this._api.playsinline(newVal);
+        break;
+    }
   }
 
   public focus() {

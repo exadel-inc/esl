@@ -128,14 +128,17 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
     }
   };
 
-  public onConfigChange(cfgParam: string) {
+  public onConfigChange(cfgParam: string, newVal: boolean) {
     switch (cfgParam) {
       case 'muted':
-        this._api.mute(); // or this.ready.then(()=> muted
+        newVal ? this._api.mute() : this._api.unMute();  // or this.ready.then(()=> muted
         break;
-      case 'autoplay':
+      case 'loop':
+        this._api.setLoop(newVal);
+        break;
     }
   }
+
   public focus() {
     if (this._el instanceof HTMLIFrameElement && this._el.contentWindow) {
       this._el.contentWindow.focus();

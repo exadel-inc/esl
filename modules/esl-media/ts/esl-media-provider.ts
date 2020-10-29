@@ -84,7 +84,7 @@ export abstract class BaseProvider<T extends HTMLElement> {
     Array.from(this.component.querySelectorAll('.esl-media-inner'))
       .forEach((el: Node) => el.parentNode && el.parentNode.removeChild(el));
   }
-  public abstract onConfigChange(cfgParam: string, newVal: string): void;
+  public abstract onConfigChange(cfgParam: string, newVal: boolean): void;
   /**
    * @returns {PlayerStates} - current state of the player
    */

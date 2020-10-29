@@ -60,7 +60,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   static get observedAttributes() {
-    return ['media-type', 'disabled', 'media-id', 'media-src', 'fill-mode', 'aspect-ratio', 'play-in-viewport', 'muted', 'loop', 'autoplay'];
+    return ['media-type', 'disabled', 'media-id', 'media-src', 'fill-mode', 'aspect-ratio', 'play-in-viewport', 'playsinline', 'muted', 'loop', 'autoplay', 'controls'];
   }
 
   static support(name: string): boolean {
@@ -106,7 +106,12 @@ export class ESLMedia extends ESLBaseElement {
       case 'loop':
       case 'muted':
       case 'autoplay':
-        this._provider?.onConfigChange(attrName, newVal);
+      case 'controls':
+      case 'playsinline':
+        // eslint-disable-next-line no-case-declarations
+        let result: boolean;
+        (newVal === '') ? result = true : result = false;
+        this._provider?.onConfigChange(attrName, result);
         break;
       case 'media-id':
       case 'media-src':
