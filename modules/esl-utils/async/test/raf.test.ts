@@ -7,30 +7,28 @@ describe('async/raf helper tests', () => {
 
   test('afterNextRender', () => {
     RAFMock.instance.reset();
-    let counter = 0;
-    const increment = () => counter++;
+    const fn = jest.fn();
 
-    afterNextRender(increment);
-    expect(counter).toBe(0);
+    afterNextRender(fn);
+    expect(fn).not.toBeCalled();
     RAFMock.instance.triggerNextAnimationFrame();
-    expect(counter).toBe(0);
+    expect(fn).not.toBeCalled();
     RAFMock.instance.triggerNextAnimationFrame();
-    expect(counter).toBe(1);
+    expect(fn).toBeCalled();
   });
 
   test('rafDecorator', () => {
     RAFMock.instance.reset();
-    let counter = 0;
-    const increment = () => counter++;
-    const rafInc = rafDecorator(increment);
+    const fn = jest.fn();
+    const rafInc = rafDecorator(fn);
 
-    expect(counter).toBe(0);
+    expect(fn).not.toBeCalled();
     rafInc();
     rafInc();
     rafInc();
     rafInc();
-    expect(counter).toBe(0);
+    expect(fn).not.toBeCalled();
     RAFMock.instance.triggerNextAnimationFrame();
-    expect(counter).toBe(1);
+    expect(fn).toBeCalled();
   });
 });
