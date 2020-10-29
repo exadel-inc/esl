@@ -1,7 +1,7 @@
 import {ExportNs} from '../../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr} from '../../../esl-base-element/esl-base-element';
 import {deepCompare} from '../../../esl-utils/misc/object';
-import ESLMediaRuleList from '../../../esl-utils/conditions/esl-media-rule-list';
+import {ESLMediaRuleList} from '../../../esl-media-query/esl-media-query';
 import ESLCarouselSlide from './esl-carousel-slide';
 import {ESLCarouselView, ESLCarouselViewRegistry} from './view/esl-carousel-view';
 import ESLCarouselPlugin from './plugin/esl-carousel-plugin';
