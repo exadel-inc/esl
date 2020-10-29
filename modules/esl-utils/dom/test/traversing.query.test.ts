@@ -1,4 +1,4 @@
-import {TraversingUtil} from '../traversing';
+import {TraversingUtils} from '../traversing';
 
 describe('Traversing Query (dom/traversing) tests', () => {
   document.body.innerHTML = `
@@ -41,8 +41,8 @@ describe('Traversing Query (dom/traversing) tests', () => {
     '::parent',
     '::parent(body)'
   ])('Null check: query[All]("%s", null)', (sel) => {
-    expect(TraversingUtil.query(sel)).toBe(null);
-    expect(TraversingUtil.queryAll(sel)).toEqual([]);
+    expect(TraversingUtils.query(sel)).toBe(null);
+    expect(TraversingUtils.queryAll(sel)).toEqual([]);
   });
 
   test.each([
@@ -102,9 +102,9 @@ describe('Traversing Query (dom/traversing) tests', () => {
     ['::parent(.container)::find(.btn)::last', btn5, [btn6]],
     ['::parent(.container)::child(.row)::last::find(.col-2)', article1, [article2]],
   ])('Main query & queryAll test. Sel: "%s", Base: %p.', (sel, base, expectedCollection) => {
-    expect(TraversingUtil.query(sel, base as Element))
+    expect(TraversingUtils.query(sel, base as Element))
       .toBe(expectedCollection.length > 0 ? expectedCollection[0] : null);
-    expect(TraversingUtil.queryAll(sel, base as Element))
+    expect(TraversingUtils.queryAll(sel, base as Element))
       .toEqual(expectedCollection);
   });
 });

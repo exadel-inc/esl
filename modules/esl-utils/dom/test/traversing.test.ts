@@ -1,4 +1,4 @@
-import {TraversingUtil} from '../traversing';
+import {TraversingUtils} from '../traversing';
 
 describe('Common: dom/traversing helper tests', () => {
   document.body.innerHTML = `
@@ -26,19 +26,19 @@ describe('Common: dom/traversing helper tests', () => {
   const article1 = document.querySelector('.col-1') as HTMLElement;
 
   test('isRelative', () => {
-    expect(TraversingUtil.isRelative(document.body, btn1)).toBeTruthy();
-    expect(TraversingUtil.isRelative(btn1, root)).toBeTruthy();
-    expect(TraversingUtil.isRelative(document.body, document.createElement('div'))).toBeFalsy();
-    expect(TraversingUtil.isRelative(btn1, btn2)).toBeFalsy();
+    expect(TraversingUtils.isRelative(document.body, btn1)).toBeTruthy();
+    expect(TraversingUtils.isRelative(btn1, root)).toBeTruthy();
+    expect(TraversingUtils.isRelative(document.body, document.createElement('div'))).toBeFalsy();
+    expect(TraversingUtils.isRelative(btn1, btn2)).toBeFalsy();
   });
 
   test('closestBy', () => {
-    expect(TraversingUtil.closestBy(null, (el: HTMLElement) => el.dataset.test === '1')).toBe(null);
-    expect(TraversingUtil.closestBy(document.createElement('div'), (el: HTMLElement) => el.dataset.test === '1')).toBe(null);
-    expect(TraversingUtil.closestBy(btn2, (el: HTMLElement) => el.classList.contains('btn'))).toBe(btn2);
-    expect(TraversingUtil.closestBy(btn2, (el: HTMLElement) => el.dataset.test === '1')).toBe(row1);
-    expect(TraversingUtil.closestBy(btn2, (el: HTMLElement) => el.dataset.test === '1', true)).toBe(row1);
-    expect(TraversingUtil.closestBy(btn2, (el: HTMLElement) => el.tagName.toLowerCase() === 'section')).toBeTruthy();
-    expect(TraversingUtil.closestBy(article1, () => false)).toBe(null);
+    expect(TraversingUtils.closestBy(null, (el: HTMLElement) => el.dataset.test === '1')).toBe(null);
+    expect(TraversingUtils.closestBy(document.createElement('div'), (el: HTMLElement) => el.dataset.test === '1')).toBe(null);
+    expect(TraversingUtils.closestBy(btn2, (el: HTMLElement) => el.classList.contains('btn'))).toBe(btn2);
+    expect(TraversingUtils.closestBy(btn2, (el: HTMLElement) => el.dataset.test === '1')).toBe(row1);
+    expect(TraversingUtils.closestBy(btn2, (el: HTMLElement) => el.dataset.test === '1', true)).toBe(row1);
+    expect(TraversingUtils.closestBy(btn2, (el: HTMLElement) => el.tagName.toLowerCase() === 'section')).toBeTruthy();
+    expect(TraversingUtils.closestBy(article1, () => false)).toBe(null);
   });
 });

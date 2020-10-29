@@ -1,10 +1,7 @@
 import {tuple, wrap} from '../misc/array';
 import {unwrapParenthesis} from '../misc/format';
 
-type PseudoProcessor = (base: Element, sel: string) => Element | Element[] | null;
-type ProcessorDescriptor = [string, string];
-
-export abstract class TraversingUtil {
+export abstract class TraversingUtils {
   /**
    * Check that {@param nodeA} and {@param nodeB} is from the same tree path.
    */
@@ -14,7 +11,7 @@ export abstract class TraversingUtil {
 
   /**
    * Find closest parent node of {@param node} by {@param predicate}.
-   * {@param skipSelf} to skip initial node
+   * Optional {@param skipSelf} to skip initial node
    */
   static closestBy(node: Node | null, predicate: (node: Node) => boolean, skipSelf = false): Node | null {
     let current = skipSelf && node ? node.parentNode : node;
@@ -26,9 +23,9 @@ export abstract class TraversingUtil {
   }
 
   /**
-   * Build finder that find first matching element in the element chain declared by {@param next}
+   * Create function that find next dom element, that matches selector, in the sequence declared by {@param next} function
    */
-  static buildIterableFinder(next: (el: Element) => Element | null) {
+  static createSequenceFinder(next: (el: Element) => Element | null) {
     return function (base: Element, sel: string): Element | null {
       for (let target: Element | null = next(base); target; target = next(target)) {
         if (!sel || target.matches(sel)) return target;
@@ -38,11 +35,11 @@ export abstract class TraversingUtil {
   }
 
   /** @return first matching next sibling or null*/
-  static findNext = TraversingUtil.buildIterableFinder((el) => el.nextElementSibling);
+  static findNext = TraversingUtils.createSequenceFinder((el) => el.nextElementSibling);
   /** @return first matching previous sibling or null*/
-  static findPrev = TraversingUtil.buildIterableFinder((el) => el.previousElementSibling);
+  static findPrev = TraversingUtils.createSequenceFinder((el) => el.previousElementSibling);
   /** @return first matching parent or null*/
-  static findParent = TraversingUtil.buildIterableFinder((el) => el.parentElement);
+  static findParent = TraversingUtils.createSequenceFinder((el) => el.parentElement);
 
   /** @return Array of all matching elements in subtree or empty array*/
   static findAll(base: Element, sel: string): Element[] {
@@ -62,6 +59,10 @@ export abstract class TraversingUtil {
     return TraversingQuery.traverseQuery(query, false, base);
   }
 }
+
+type ProcessorDescriptor = [string?, string?];
+type ElementProcessor = (base: Element, sel: string) => Element | Element[] | null;
+type CollectionProcessor = (els: Element[], sel: string) => Element[];
 
 /**
  * Traversing Query utility to find element via extended selector query
@@ -86,20 +87,19 @@ export abstract class TraversingUtil {
  * @example "::find(.row)::last::parent" - find parent of the last element matching selector '.row' from the base element subtree
  */
 class TraversingQuery {
-  private static PROCESSORS: Record<string, PseudoProcessor> = {
-    '::find': TraversingUtil.findAll,
-    '::next': TraversingUtil.findNext,
-    '::prev': TraversingUtil.findPrev,
-    '::parent': TraversingUtil.findParent,
-    '::child': TraversingUtil.findChildren
+  private static ELEMENT_PROCESSORS: Record<string, ElementProcessor> = {
+    '::find': TraversingUtils.findAll,
+    '::next': TraversingUtils.findNext,
+    '::prev': TraversingUtils.findPrev,
+    '::child': TraversingUtils.findChildren,
+    '::parent': TraversingUtils.findParent
   };
-  private static COLLECTION_PROCESSORS: Record<string, (els: Element[], sel?:string) => Element[]> = {
+  private static COLLECTION_PROCESSORS: Record<string, CollectionProcessor> = {
     '::first': (list: Element[]) => list.slice(0, 1),
     '::last': (list: Element[]) => list.slice(-1),
     '::nth': (list: Element[], sel?: string) => {
-      const i = (sel ? +sel: NaN) - 1;
-      if (isNaN(i) || i >= list.length || i < 0) return [];
-      return [ list[i] ];
+      const index = sel ? +sel : NaN;
+      return wrap(list[index - 1]);
     }
   };
 
@@ -107,21 +107,35 @@ class TraversingQuery {
    * @return RegExp that selects all known processors in query string
    * e.g. /(::parent|::child|::next|::prev)/
    */
-  private static get PROCESSOR_REGEX() {
-    const keys = Object.keys(this.PROCESSORS).concat(Object.keys(this.COLLECTION_PROCESSORS));
+  private static get PROCESSORS_REGEX() {
+    const keys = Object.keys(this.ELEMENT_PROCESSORS).concat(Object.keys(this.COLLECTION_PROCESSORS));
     return new RegExp(`(${keys.join('|')})`, 'g');
+  }
+
+  private static processElement(el: Element, [name, selString]: ProcessorDescriptor): Element[] {
+    const sel = unwrapParenthesis(selString || '');
+    if (!name || !(name in this.ELEMENT_PROCESSORS)) return [];
+    return wrap(this.ELEMENT_PROCESSORS[name](el, sel));
+  }
+  private static processCollection(els: Element[], [name, selString]: ProcessorDescriptor): Element[] {
+    const sel = unwrapParenthesis(selString || '');
+    if (!name || !(name in this.COLLECTION_PROCESSORS)) return [];
+    return wrap(this.COLLECTION_PROCESSORS[name](els, sel));
+  }
+  private static isCollectionProcessor([name]: ProcessorDescriptor) {
+    return name && (name in this.COLLECTION_PROCESSORS);
   }
 
   private static traverse(collection: Element[], processors: ProcessorDescriptor[], findFirst: boolean): Element[] {
     if (!processors.length || !collection.length) return collection;
-    const [[name, sel], ...rest] = processors;
-    if (name in this.COLLECTION_PROCESSORS) {
-      const processedItem: Element[] = this.COLLECTION_PROCESSORS[name](collection, sel);
+    const [processor, ...rest] = processors;
+    if (this.isCollectionProcessor(processor)) {
+      const processedItem = this.processCollection(collection, processor);
       return this.traverse(processedItem, rest, findFirst);
     }
     const result: Element[] = [];
     for (const target of collection) {
-      const processedItem: Element[] = wrap(this.PROCESSORS[name](target, sel));
+      const processedItem = this.processElement(target, processor);
       const resultCollection: Element[] = this.traverse(processedItem, rest, findFirst);
       if (!resultCollection.length) continue;
       if (findFirst) return resultCollection;
@@ -129,15 +143,12 @@ class TraversingQuery {
     }
     return result;
   }
+
   static traverseQuery(query: string, findFirst: boolean, base?: Element) {
-    const parts = query.split(this.PROCESSOR_REGEX).map((term) => term.trim());
+    const parts = query.split(this.PROCESSORS_REGEX).map((term) => term.trim());
     const rootSel = parts.shift();
     const baseCollection = base ? [base] : [];
     const initial: Element[] = rootSel ? Array.from(document.querySelectorAll(rootSel)) : baseCollection;
-    const processors: ProcessorDescriptor[] = tuple(parts).map(([name, selString]) => {
-      const sel = unwrapParenthesis(selString || '');
-      return [name || '', sel];
-    });
-    return this.traverse(initial, processors, findFirst);
+    return this.traverse(initial, tuple(parts), findFirst);
   }
 }
