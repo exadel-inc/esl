@@ -144,6 +144,10 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
     super.unbind();
   }
 
+  public onConfigChange(cfgParam: string, newVal: string) {
+
+  }
+
   public focus() {
     this._api && this._api.focus();
   }

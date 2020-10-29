@@ -50,6 +50,9 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
     super.unbind();
   }
 
+  public onConfigChange(cfgParam: string, newVal: string) {
+
+  }
   get ready() {
     return Promise.resolve();
   }

@@ -59,6 +59,8 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
       showinfo: 0,
       iv_load_policy: 0, // eslint-disable-line
       autoplay: Number(cfg.autoplay),
+      loop: Number(cfg.loop),
+      playlist: cfg.mediaId || '',
       controls: Number(cfg.controls),
       playsinline: Number(cfg.playsinline),
       disablekb: Number(!cfg.controls), // TODO: criteria
@@ -121,15 +123,19 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
         this.component._onPaused();
         break;
       case PlayerStates.ENDED:
-        if (this.config.loop) {
-          this._api.playVideo();
-        } else {
-          this.component._onEnded();
-        }
+        this.component._onEnded();
         break;
     }
   };
 
+  public onConfigChange(cfgParam: string) {
+    switch (cfgParam) {
+      case 'muted':
+        this._api.mute(); // or this.ready.then(()=> muted
+        break;
+      case 'autoplay':
+    }
+  }
   public focus() {
     if (this._el instanceof HTMLIFrameElement && this._el.contentWindow) {
       this._el.contentWindow.focus();
