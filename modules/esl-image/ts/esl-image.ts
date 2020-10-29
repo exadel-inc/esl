@@ -7,7 +7,7 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
-import ESLMediaRuleList from '../../esl-utils/conditions/esl-media-rule-list';
+import {ESLMediaRuleList} from '../../esl-media-query/esl-media-query';
 
 import {ESLImageRenderStrategy, ShadowImageElement, STRATEGIES} from './esl-image-strategies';
 

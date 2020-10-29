@@ -3,7 +3,7 @@ import {attr, ESLBaseElement} from '../../esl-base-element/esl-base-element';
 import ESLPanel from './esl-panel';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {CSSUtil} from '../../esl-utils/dom/styles';
-import {ESLMediaQuery} from '../../esl-utils/conditions/esl-media-query';
+import {ESLMediaQuery} from '../../esl-media-query/esl-media-query';
 
 @ExportNs('PanelStack')
 export class ESLPanelStack extends ESLBaseElement {

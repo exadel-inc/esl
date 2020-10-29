@@ -22,5 +22,4 @@ export * from './enviroment/device-detector';
 export * from './enviroment/breakpoints';
 
 // ESL Media Query
-export * from './conditions/esl-media-query';
-export * from './conditions/esl-media-rule-list';
+export * from '../esl-media-query/esl-media-query';
