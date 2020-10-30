@@ -16,7 +16,7 @@ export class ESLScrollableTabs extends ESLTabsContainer {
   protected connectedCallback() {
     super.connectedCallback();
     this.updateArrows();
-    this.fitToViewport(this.current() as ESLTab, 'auto');
+    this.fitToViewportRAF(this.current() as ESLTab, 'auto');
   }
 
   protected bindEvents() {
@@ -42,7 +42,7 @@ export class ESLScrollableTabs extends ESLTabsContainer {
   public moveTo(direction: string, behavior: ScrollBehavior = 'smooth') {
     const list = this.$list;
     if (!list) return;
-    let left = list.offsetWidth + 1;
+    let left = list.offsetWidth;
     left = isRtl(this) ? -left : left;
     left = direction === 'left' ? -left : left;
 
@@ -50,26 +50,24 @@ export class ESLScrollableTabs extends ESLTabsContainer {
   }
 
   protected fitToViewport(trigger: ESLTab | undefined, behavior: ScrollBehavior = 'smooth'): void {
-    if (!trigger) return;
-
     const list = this.$list;
-    if (!list) return;
+    if (!list || !trigger) return;
 
-    const scrollLeft = list.scrollLeft;
-    const listWidth = list.offsetWidth;
-    const left = trigger.offsetLeft;
-    const width = trigger.offsetWidth;
+    const areaRect = list.getBoundingClientRect();
+    const itemRect = trigger.getBoundingClientRect();
 
-    let shiftLeft = 0;
+    let shift = 0;
 
-    if (Math.abs(left - scrollLeft + width) > listWidth) {
-      shiftLeft = (listWidth - (left + width)) * -1 - scrollLeft;
-    } else if (scrollLeft > left) {
-      shiftLeft = (scrollLeft - left) * -1;
+    // item out of area from the right side
+    // else item out of area from the left side
+    if (itemRect.right > areaRect.right) {
+      shift = Math.ceil(itemRect.right - areaRect.right);
+    } else if (itemRect.left < areaRect.left) {
+      shift = Math.floor(itemRect.left - areaRect.left);
     }
 
     list.scrollBy({
-      left: shiftLeft,
+      left: shift,
       behavior
     });
 
@@ -107,20 +105,22 @@ export class ESLScrollableTabs extends ESLTabsContainer {
 
   protected onTriggerStateChange(event: CustomEvent) {
     super.onTriggerStateChange(event);
-    this.fitToViewport(this.current() as ESLTab);
+    this.fitToViewportRAF(this.current() as ESLTab);
   }
 
   protected onScroll = rafDecorator(() => this.updateArrows());
 
+  protected fitToViewportRAF = rafDecorator(this.fitToViewport.bind(this));
+
   protected onFocus = (e: FocusEvent) => {
     const target = e.target;
     if (target instanceof ESLTab) {
-      this.fitToViewport(target);
+      this.fitToViewportRAF(target);
     }
   };
 
   protected onResize = rafDecorator(() => {
-    this.fitToViewport(this.current() as ESLTab, 'auto');
+    this.fitToViewportRAF(this.current() as ESLTab, 'auto');
   });
 }
 
