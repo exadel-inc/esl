@@ -1,4 +1,4 @@
-import {tuple, wrap} from '../misc/array';
+import {tuple, wrap, uniq} from '../misc/array';
 import {unwrapParenthesis} from '../misc/format';
 import {TraversingUtils} from './traversing';
 
@@ -10,9 +10,9 @@ type CollectionProcessor = (els: Element[], sel: string) => Element[];
  * Traversing Query utility to find element via extended selector query
  * Extended query supports
  * - plain CSS selectors
- * - relative selector (selector that have no "root" part with the plain CSS selector will use base Element as a root)
+ * - relative selectors (selectors that don't start from a plain selector will use passed base Element as a root)
  * - ::next and ::prev sibling pseudo-selectors
- * - ::parent & ::child pseudo-selectors
+ * - ::parent and ::child pseudo-selectors
  * - ::find pseudo-selector
  * - ::first, ::last and :nth(#) limitation pseudo-selectors
  *
@@ -54,6 +54,9 @@ export class TraversingQuery {
     return new RegExp(`(${keys.join('|')})`, 'g');
   }
 
+  private static isCollectionProcessor([name]: ProcessorDescriptor) {
+    return name && (name in this.COLLECTION_PROCESSORS);
+  }
   private static processElement(el: Element, [name, selString]: ProcessorDescriptor): Element[] {
     const sel = unwrapParenthesis(selString || '');
     if (!name || !(name in this.ELEMENT_PROCESSORS)) return [];
@@ -63,9 +66,6 @@ export class TraversingQuery {
     const sel = unwrapParenthesis(selString || '');
     if (!name || !(name in this.COLLECTION_PROCESSORS)) return [];
     return wrap(this.COLLECTION_PROCESSORS[name](els, sel));
-  }
-  private static isCollectionProcessor([name]: ProcessorDescriptor) {
-    return name && (name in this.COLLECTION_PROCESSORS);
   }
 
   private static traverseChain(collection: Element[], processors: ProcessorDescriptor[], findFirst: boolean): Element[] {
@@ -80,10 +80,10 @@ export class TraversingQuery {
       const processedItem = this.processElement(target, processor);
       const resultCollection: Element[] = this.traverseChain(processedItem, rest, findFirst);
       if (!resultCollection.length) continue;
-      if (findFirst) return resultCollection;
-      resultCollection.forEach((item) => (result.indexOf(item) === -1) && result.push(item));
+      if (findFirst) return resultCollection.slice(0, 1);
+      result.push(...resultCollection);
     }
-    return result;
+    return uniq(result);
   }
 
   static traverse(query: string, findFirst: boolean, base?: Element) {
@@ -94,11 +94,11 @@ export class TraversingQuery {
     return this.traverseChain(initial, tuple(parts), findFirst);
   }
 
-  /** @return first matching element reached via {@class TraversingQuery}*/
-  static one(query: string, base?: Element): Element | null {
+  /** @return first matching element reached via {@class TraversingQuery} rules */
+  static first(query: string, base?: Element): Element | null {
     return TraversingQuery.traverse(query, true, base)[0] || null;
   }
-  /** @return Array of all matching elements reached via {@class TraversingQuery}*/
+  /** @return Array of all matching elements reached via {@class TraversingQuery} rules */
   static all(query: string, base?: Element): Element[] {
     return TraversingQuery.traverse(query, false, base);
   }

@@ -72,7 +72,7 @@ export class ESLTrigger extends ESLBaseElement {
 
   protected updatePopupFromTarget() {
     if (!this.target) return;
-    this.popup = TraversingQuery.one(this.target, this) as ESLPopup;
+    this.popup = TraversingQuery.first(this.target, this) as ESLPopup;
   }
 
   public get showEvent() {

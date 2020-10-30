@@ -1,4 +1,4 @@
-import {flat, tuple, wrap} from '../array';
+import {flat, tuple, uniq, wrap} from '../array';
 
 describe('misc/array helper tests', () => {
   test('tuple', () => {
@@ -28,5 +28,15 @@ describe('misc/array helper tests', () => {
     expect(wrap(1)).toEqual([1]);
     expect(wrap([1])).toEqual([1]);
     expect(wrap([1, 2])).toEqual([1, 2]);
+  });
+
+  test('uniq', () => {
+    expect(uniq([])).toEqual([]);
+    expect(uniq([1])).toEqual([1]);
+    expect(uniq([1, 1, 1, 1])).toEqual([1]);
+    expect(uniq([1, 2, 3, 4])).toEqual([1, 2, 3, 4]);
+    expect(uniq([1, 2, 1, 3, 2])).toEqual([1, 2, 3]);
+    expect(uniq([NaN, NaN])).toEqual([NaN]);
+    expect(uniq([[1], [2], [1]])).toEqual([[1], [2], [1]]);
   });
 });

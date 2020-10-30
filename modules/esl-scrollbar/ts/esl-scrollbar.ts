@@ -61,7 +61,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   protected findTarget() {
     if (!this.target) return;
-    this.targetElement = TraversingQuery.one(this.target, this) as HTMLElement;
+    this.targetElement = TraversingQuery.first(this.target, this) as HTMLElement;
   }
 
   public get targetElement() {

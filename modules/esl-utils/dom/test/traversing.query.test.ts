@@ -41,7 +41,7 @@ describe('Traversing Query tests', () => {
     '::parent',
     '::parent(body)'
   ])('Null check: TraversingQuery.all/one("%s", null)', (sel) => {
-    expect(TraversingQuery.one(sel)).toBe(null);
+    expect(TraversingQuery.first(sel)).toBe(null);
     expect(TraversingQuery.all(sel)).toEqual([]);
   });
 
@@ -102,7 +102,7 @@ describe('Traversing Query tests', () => {
     ['::parent(.container)::find(.btn)::last', btn5, [btn6]],
     ['::parent(.container)::child(.row)::last::find(.col-2)', article1, [article2]],
   ])('Main check: TraversingQuery.all/one, Sel: "%s", Base: %p.', (sel, base, expectedCollection) => {
-    expect(TraversingQuery.one(sel, base as Element))
+    expect(TraversingQuery.first(sel, base as Element))
       .toBe(expectedCollection.length > 0 ? expectedCollection[0] : null);
     expect(TraversingQuery.all(sel, base as Element))
       .toEqual(expectedCollection);
