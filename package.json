@@ -35,7 +35,7 @@
   "files": [
     "modules/**/*",
     "!modules/**/*.test.ts",
-    "modules-es6/**/*"K
+    "modules-es6/**/*"
   ],
   "browserslist": [
     "last 3 version",
