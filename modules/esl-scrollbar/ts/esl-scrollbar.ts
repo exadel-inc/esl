@@ -5,9 +5,10 @@
  */
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
-import {findTarget, isRelative} from '../../esl-utils/dom/traversing';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {normalizeCoordinates} from '../../esl-utils/dom/events';
+import {TraversingUtils} from '../../esl-utils/dom/traversing';
+import {TraversingQuery} from '../../esl-utils/dom/traversing.query';
 
 const observableTarget = (target: HTMLElement) => document.documentElement === target ? window : target;
 
@@ -51,7 +52,7 @@ export class ESLScrollbar extends ESLBaseElement {
     this.unbindEvents();
   }
 
-  private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected && oldVal === newVal) return;
     if (attrName === 'target') {
       this.findTarget();
@@ -60,8 +61,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   protected findTarget() {
     if (!this.target) return;
-    const content = findTarget(this.target, this) as HTMLDivElement;
-    this.targetElement = content ? content : null;
+    this.targetElement = TraversingQuery.first(this.target, this) as HTMLElement;
   }
 
   public get targetElement() {
@@ -266,7 +266,7 @@ export class ESLScrollbar extends ESLBaseElement {
    */
   protected onRefresh = (event: Event) => {
     const target = event.target as HTMLElement;
-    if (isRelative(target.parentNode, this.targetElement)) {
+    if (TraversingUtils.isRelative(target.parentNode, this.targetElement)) {
       this.refresh();
     }
   };
