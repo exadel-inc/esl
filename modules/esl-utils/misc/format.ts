@@ -16,7 +16,7 @@ export const toCamelCase = (str: string) => {
  * Unwrap string from parenthesis
  */
 export const unwrapParenthesis = (str: string) => {
-  return str.replace(/^\s*\((.*)\)\s*$/, '$1').trim();
+  return str.trim().replace(/^\((.*)\)$/, '$1').trim();
 };
 
 /**
