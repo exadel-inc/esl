@@ -1,4 +1,4 @@
-import {TraversingQuery} from '../traversing.query';
+import {TraversingQuery} from '../esl-traversing-query';
 
 describe('Traversing Query tests', () => {
   document.body.innerHTML = `

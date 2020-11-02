@@ -5,7 +5,7 @@ import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
-import {TraversingQuery} from '../../esl-utils/dom/traversing.query';
+import {TraversingQuery} from '../../esl-traversing-query/esl-traversing-query';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {

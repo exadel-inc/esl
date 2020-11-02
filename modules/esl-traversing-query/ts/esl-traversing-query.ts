@@ -1,6 +1,6 @@
-import {tuple, wrap, uniq} from '../misc/array';
-import {unwrapParenthesis} from '../misc/format';
-import {TraversingUtils} from './traversing';
+import {tuple, wrap, uniq} from '../../esl-utils/misc/array';
+import {unwrapParenthesis} from '../../esl-utils/misc/format';
+import {TraversingUtils} from '../../esl-utils/dom/traversing';
 
 type ProcessorDescriptor = [string?, string?];
 type ElementProcessor = (base: Element, sel: string) => Element | Element[] | null;
