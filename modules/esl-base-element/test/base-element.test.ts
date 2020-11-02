@@ -1,5 +1,5 @@
 import '../../../polyfills/es5-target-shim';
-import {ESLBaseElement} from '../ts/esl-base-element';
+import {ESLBaseElement} from '../all';
 
 describe('ESLBaseElement test', () => {
 

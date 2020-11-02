@@ -1,4 +1,4 @@
-import {ESLBasePopup, PopupActionParams} from './esl-base-popup';
+import type {ESLBasePopup, PopupActionParams} from './esl-base-popup';
 
 const groups = new Map<string, ESLBasePopupGroup>();
 

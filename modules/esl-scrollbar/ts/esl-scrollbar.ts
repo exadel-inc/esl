@@ -4,11 +4,11 @@
  * @author Yuliya Adamskaya
  */
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
+import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/all';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {normalizeCoordinates} from '../../esl-utils/dom/events';
 import {TraversingUtils} from '../../esl-utils/dom/traversing';
-import {TraversingQuery} from '../../esl-traversing-query/esl-traversing-query';
+import {TraversingQuery} from '../../esl-traversing-query/all';
 
 const observableTarget = (target: HTMLElement) => document.documentElement === target ? window : target;
 

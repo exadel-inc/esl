@@ -1,11 +1,11 @@
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
-import {ESLPopup} from '../../esl-popup/esl-popup';
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/all';
+import {ESLPopup} from '../../esl-popup/all';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
-import {TraversingQuery} from '../../esl-traversing-query/esl-traversing-query';
+import {TraversingQuery} from '../../esl-traversing-query/all';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {

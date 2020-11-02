@@ -1,15 +1,8 @@
-import './ts/providers/html5/video-provider';
-import './ts/providers/html5/audio-provider';
-
-import './ts/providers/youtube-provider';
-import './ts/providers/iframe-provider';
-import './ts/providers/brightcove-provider';
-
 /**
  * Tag declaration interface of ESLMedia element
  * Used for JSX declaration
  */
-export type ESLMediaTag = ({
+export type ESLMediaTagShape = ({
   /** Define media player id */
   'media-id': string;
   /** Define media player type */
@@ -54,5 +47,3 @@ export type ESLMediaTag = ({
   /** Allowed children */
   children: [];
 };
-
-export * from './ts/esl-media';

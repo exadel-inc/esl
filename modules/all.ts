@@ -1,14 +1,14 @@
 export * as Utils from './esl-utils/all';
 
-export {ESLImage as Image} from './esl-image/esl-image';
-export {ESLMedia as Media} from './esl-media/esl-media';
+export * from './esl-image/all';
+export * from './esl-media/all';
 
-export {ESLPopup as Popup} from './esl-popup/esl-popup';
-export {ESLPanel as Panel, ESLPanelStack as PanelStack} from './esl-panel/esl-panel';
-export {ESLTrigger as Trigger, ESLTriggersContainer as TriggersContainer} from './esl-trigger/esl-trigger';
-export {ESLTab as Tab, ESLTabsContainer as TabsContainer} from './esl-tab/esl-tab';
-export {ESLScrollableTabs as ScrollableTabs} from './esl-scrollable-tab/esl-scrollable-tab';
+export * from './esl-popup/all';
+export * from './esl-trigger/all';
 
-export {ESLScrollbar as Scrollbar} from './esl-scrollbar/esl-scrollbar';
+export * from './esl-panel/all';
 
-export {ESLCarousel as Carousel, CarouselPlugins} from './beta/esl-carousel/esl-carousel';
+export * from './esl-tab/all';
+export * from './esl-scrollable-tab/all';
+
+export * from './esl-scrollbar/all';

@@ -1,8 +1,8 @@
 {
   "src": {
     "ts": ["modules/**/*.ts", "!modules/**/*.test.ts"],
-    "css": ["modules/**/*.default.less"],
-    "less": ["modules/**/*.less", "!modules/**/*.default.less"]
+    "css": ["modules/**/default.less"],
+    "less": ["modules/**/*.less", "!modules/**/default.less"]
   },
   "lint": {
     "ts": ["modules/**/*.ts", "!modules/**/*.test.ts"],

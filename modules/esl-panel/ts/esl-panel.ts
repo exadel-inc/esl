@@ -1,9 +1,9 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-
-import {attr, boolAttr, jsonAttr} from '../../esl-base-element/esl-base-element';
+import {attr, boolAttr, jsonAttr} from '../../esl-base-element/all';
+import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/all';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {CSSUtil} from '../../esl-utils/dom/styles';
-import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/ts/esl-base-popup';
+
 import ESLPanelStack from './esl-panel-stack';
 
 export interface PanelActionParams extends PopupActionParams {

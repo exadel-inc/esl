@@ -18,7 +18,6 @@ export * from './async/trottle';
 export * from './dom/styles';
 export * from './dom/events';
 export * from './dom/traversing';
-export * from '../esl-traversing-query/ts/ESLTraversingQuery';
 
 // Device detection & user configs
 export * from './enviroment/device-detector';

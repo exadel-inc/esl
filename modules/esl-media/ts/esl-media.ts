@@ -5,10 +5,10 @@
  */
 
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
+import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/all';
 import {debounce} from '../../esl-utils/async/debounce';
 import {rafDecorator} from '../../esl-utils/async/raf';
-import {ESLMediaQuery} from '../../esl-media-query/esl-media-query';
+import {ESLMediaQuery} from '../../esl-media-query/all';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
 import {getIObserver} from './esl-media-iobserver';

@@ -1,10 +1,10 @@
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESC} from '../../esl-utils/dom/keycodes';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {defined} from '../../esl-utils/misc/functions';
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {SingleTaskManager} from '../../esl-utils/async/single-task-manager';
-import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/esl-base-element';
+import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/all';
 
 import {ESLBasePopupGroup} from './esl-base-popup-group';
 

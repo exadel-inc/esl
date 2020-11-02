@@ -1,6 +1,6 @@
-import {attr} from '../../esl-base-element/ts/decorators/attr';
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/ts/esl-base-popup';
+import {attr} from '../../esl-base-element/all';
+import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/all';
 import {ScrollStrategy, ScrollUtility} from '../../esl-utils/dom/scroll';
 
 @ExportNs('Popup')

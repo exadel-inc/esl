@@ -1,9 +1,9 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {attr} from '../../esl-base-element/ts/decorators/attr';
+import {attr} from '../../esl-base-element/all';
 import {rafDecorator} from '../../esl-utils/async/raf';
-import ESLTabsContainer from '../../esl-tab/ts/esl-tabs-container';
-import ESLTab from '../../esl-tab/ts/esl-tab';
 import {isNegativeScroll, isRtl} from '../../esl-utils/dom/rtl';
+
+import {ESLTab, ESLTabsContainer} from '../../esl-tab/all';
 
 @ExportNs('ScrollableTabs')
 export class ESLScrollableTabs extends ESLTabsContainer {

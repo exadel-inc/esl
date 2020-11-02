@@ -1,9 +1,10 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {attr, ESLBaseElement} from '../../esl-base-element/esl-base-element';
-import ESLPanel from './esl-panel';
+import {attr, ESLBaseElement} from '../../esl-base-element/all';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {CSSUtil} from '../../esl-utils/dom/styles';
-import {ESLMediaQuery} from '../../esl-media-query/esl-media-query';
+import {ESLMediaQuery} from '../../esl-media-query/all';
+
+import ESLPanel from './esl-panel';
 
 @ExportNs('PanelStack')
 export class ESLPanelStack extends ESLBaseElement {

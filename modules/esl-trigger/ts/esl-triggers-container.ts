@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {ESLBaseElement} from '../../esl-base-element/esl-base-element';
+import {ESLBaseElement} from '../../esl-base-element/all';
 import {ESLTrigger} from './esl-trigger';
 import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP} from '../../esl-utils/dom/keycodes';
 

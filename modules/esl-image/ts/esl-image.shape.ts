@@ -25,5 +25,3 @@ export interface ESLImageTag {
   /** Allowed children */
   children: [];
 }
-
-export * from './ts/esl-image';
