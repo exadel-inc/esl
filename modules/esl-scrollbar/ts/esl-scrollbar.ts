@@ -7,8 +7,10 @@ import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/esl-base-element';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {normalizeCoordinates} from '../../esl-utils/dom/events';
-import {TraversingUtils} from '../../esl-utils/dom/traversing';
+// import {TraversingUtils} from '../../esl-utils/dom/traversing';
 import {TraversingQuery} from '../../esl-utils/dom/traversing.query';
+
+import {ResizeObserver} from '@juggle/resize-observer';
 
 const observableTarget = (target: HTMLElement) => document.documentElement === target ? window : target;
 
@@ -43,13 +45,22 @@ export class ESLScrollbar extends ESLBaseElement {
     this.findTarget();
 
     this.render();
-    this.refresh();
+
+    if (this.targetElement) {
+      this.getRObserver().observe(this.targetElement);
+    } else {
+      this.refresh();
+    }
 
     this.bindEvents();
   }
 
   protected disconnectedCallback() {
     this.unbindEvents();
+
+    if (this.targetElement) {
+      this.getRObserver().unobserve(this.targetElement);
+    }
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
@@ -78,6 +89,12 @@ export class ESLScrollbar extends ESLBaseElement {
     }
   }
 
+  protected getRObserver() {
+    return new ResizeObserver(() => {
+      this.refresh();
+    });
+  }
+
   protected render() {
     this.innerHTML = '';
     this.$scrollbarTrack = document.createElement('div');
@@ -92,16 +109,14 @@ export class ESLScrollbar extends ESLBaseElement {
   protected bindEvents() {
     this.addEventListener('click', this.onClick);
     this.$scrollbarThumb.addEventListener('mousedown', this.onMouseDown);
-    window.addEventListener('resize', this.onResize, {passive: true});
-    window.addEventListener('esl:refresh', this.onRefresh);
+    // window.addEventListener('resize', this.onResize, {passive: true});
   }
 
   protected unbindEvents() {
     this.removeEventListener('click', this.onClick);
     this.$scrollbarThumb.removeEventListener('mousedown', this.onMouseDown);
 
-    window.removeEventListener('resize', this.onResize);
-    window.removeEventListener('esl:refresh', this.onRefresh);
+    // window.removeEventListener('resize', this.onResize);
 
     this.targetElement && this.targetElement.removeEventListener('scroll', this.onScroll);
   }
@@ -256,20 +271,10 @@ export class ESLScrollbar extends ESLBaseElement {
     if (!this.dragging) this.update();
   });
 
-  /**
-   * Handler for document resize events to redraw scroll.
-   */
-  protected onResize = rafDecorator(() => this.refresh());
-
-  /**
-   * Handler for document refresh events to update the scroll.
-   */
-  protected onRefresh = (event: Event) => {
-    const target = event.target as HTMLElement;
-    if (TraversingUtils.isRelative(target.parentNode, this.targetElement)) {
-      this.refresh();
-    }
-  };
+  // /**
+  //  * Handler for document resize events to redraw scroll.
+  //  */
+  // protected onResize = rafDecorator(() => this.refresh());
 }
 
 export default ESLScrollbar;

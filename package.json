@@ -43,6 +43,7 @@
     "not dead"
   ],
   "dependencies": {
+    "@juggle/resize-observer": "^3.2.0",
     "@types/video.js": "7.3.10",
     "@types/youtube": "0.0.39"
   },
