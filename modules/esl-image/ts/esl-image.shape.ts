@@ -2,7 +2,7 @@
  * Tag declaration interface of ESL Image element
  * Used for JSX declaration
  */
-export interface ESLImageTag {
+export interface ESLImageTagShape {
   /** Define {SmartRule} query for image source */
   'data-src': string;
   /** Define image alt text */
