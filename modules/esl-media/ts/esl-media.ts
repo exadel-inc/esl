@@ -108,10 +108,7 @@ export class ESLMedia extends ESLBaseElement {
       case 'autoplay':
       case 'controls':
       case 'playsinline':
-        // eslint-disable-next-line no-case-declarations
-        let result: boolean;
-        (newVal === '') ? result = true : result = false;
-        this._provider?.onConfigChange(attrName, result);
+        this._provider?.onConfigChange(attrName, !!newVal);
         break;
       case 'media-id':
       case 'media-src':
