@@ -1,0 +1,13 @@
+.esl-scrollable-content-init(@selector: '.esl-scrollable-content') {
+  @{selector} {
+    overflow: auto;
+
+    // hide-scrollbar
+    &::-webkit-scrollbar {
+      display: none; // Chrome, Safari
+    }
+
+    scrollbar-width: none; // Firefox
+    -ms-overflow-style: none; // IE, Edge
+  }
+}

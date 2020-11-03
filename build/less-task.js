@@ -28,9 +28,6 @@ const multiDist = (inpStream, outs) => [].concat(outs).reduce(
     inpStream
 );
 
-module.exports.lessCopy = (src, outs) => function lessCopy() {
-  return multiDist(gulp.src(src), outs);
-};
 module.exports.lessBuild = (src, outs) => function lessBuild() {
   return multiDist(buildLess(src), outs);
 };

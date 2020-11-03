@@ -17,7 +17,8 @@
     ]
   },
   "include": [
-    "modules"
+    "modules",
+    "test-server/src"
   ],
   "exclude": [
     "*.test.ts",

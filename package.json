@@ -5,7 +5,7 @@
     "custom elements",
     "component library"
   ],
-  "version": "1.29.1-alpha",
+  "version": "1.31.0-alpha",
   "private": true,
   "homepage": "https://gitlab.exadel.com/EDMTP/smart-wc-library#readme",
   "license": "MIT",
@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",
+    "@types/smoothscroll-polyfill": "^0.3.1",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "@webcomponents/custom-elements": "^1.4.3",

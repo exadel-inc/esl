@@ -9,6 +9,6 @@ document.body.addEventListener('click', (e) => {
 
 if (window.history.length < 2) {
   document.querySelectorAll('.gn-back').forEach((el) => {
-    el.classList.add('d-none')
+    el.classList.add('d-none');
   });
 }

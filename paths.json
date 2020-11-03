@@ -1,8 +1,7 @@
 {
   "src": {
     "ts": ["modules/**/*.ts", "!modules/**/*.test.ts"],
-    "css": ["modules/**/default.less"],
-    "less": ["modules/**/*.less", "!modules/**/default.less"]
+    "less": ["modules/*/all.less", "modules/all.less"]
   },
   "lint": {
     "ts": ["modules/**/*.ts", "!modules/**/*.test.ts"],
@@ -12,7 +11,7 @@
     "ts": ["modules/**/*.ts", "test-server/src/**/*.ts"],
     "less": ["modules/**/*.less", "test-server/src/**/*.less"]
   },
-  "test": {
+  "server": {
     "less": "test-server/src/*.less",
     "ts": ["test-server/src/*.ts"],
     "target": "test-server/static"

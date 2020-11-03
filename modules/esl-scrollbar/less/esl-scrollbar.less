@@ -10,6 +10,10 @@
       visibility: hidden;
     }
 
+    &.page-scrollbar {
+      position: fixed;
+    }
+
     .scrollbar-track {
       position: relative;
       border-radius: 3px;
@@ -66,20 +70,4 @@
       }
     }
   }
-}
-
-.esl-scrollable-content {
-  overflow: auto;
-
-  // hide-scrollbar
-  &::-webkit-scrollbar {
-    display: none; // Chrome, Safari
-  }
-
-  scrollbar-width: none; // Firefox
-  -ms-overflow-style: none; // IE, Edge
-}
-
-.page-scrollbar {
-  position: fixed;
 }
