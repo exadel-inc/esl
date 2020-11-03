@@ -5,7 +5,7 @@ const {clean} = require('./build/clean-task');
 const {tscBuild} = require('./build/tsc-task');
 const {tarBuild} = require('./build/tar-task');
 const {buildTsBundle} = require('./build/webpack-task');
-const {lessBuild} = require('./build/less-task');
+const {lessBuild, lessBuildProd} = require('./build/less-task');
 const {print, catLog} = require('./build/common');
 const {lintStyle, lintTypeScript} = require('./build/linting-task');
 
@@ -17,7 +17,7 @@ const build = gulp.series(
   gulp.parallel(
     tscBuild({target: 'es5'}, cfg.src.ts, 'modules-es5'),
     tscBuild({target: 'es6'}, cfg.src.ts, 'modules-es6'),
-    lessBuild(cfg.src.less, ['modules-es5', 'modules-es6'], false)
+    lessBuildProd(cfg.src.less, ['modules-es5', 'modules-es6'])
   )
 );
 
