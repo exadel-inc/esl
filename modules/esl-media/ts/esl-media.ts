@@ -116,6 +116,8 @@ export class ESLMedia extends ESLBaseElement {
       case 'media-id':
       case 'media-src':
       case 'media-type':
+        this.deferredReinitialize();
+        break;
       case 'fill-mode':
       case 'aspect-ratio':
         this.deferredResize();

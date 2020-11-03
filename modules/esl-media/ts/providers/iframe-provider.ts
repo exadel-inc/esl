@@ -50,10 +50,6 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
     super.unbind();
   }
 
-  public onConfigChange(cfgParam: string, newVal: boolean) {
-    console.error('iframe doesn\'t support ' + cfgParam);
-  }
-
   get ready() {
     return Promise.resolve();
   }

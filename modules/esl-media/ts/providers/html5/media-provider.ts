@@ -19,16 +19,12 @@ export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends Base
   }
 
   protected abstract createElement(): T;
-  public onConfigChange(cfgParam: string, newVal: boolean) {
-    const propertyDescriptor = {
-      value: newVal,
-      writable: true,
-      enumerable: true,
-      configurable: true
-    };
-    Object.defineProperty(this.config, cfgParam, propertyDescriptor);
+
+  public onConfigChange(param: string, value: boolean) {
+    super.onConfigChange(param, value);
     HTMLMediaProvider.applyElementSettings(this._el, this.config);
   }
+
   public bind() {
     this._el = this.createElement();
     HTMLMediaProvider.applyElementSettings(this._el, this.component);

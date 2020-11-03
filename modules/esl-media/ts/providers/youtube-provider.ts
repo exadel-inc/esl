@@ -129,22 +129,18 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
     }
   };
 
-  public onConfigChange(cfgParam: string, newVal: boolean) {
-    switch (cfgParam) {
+  public onConfigChange(param: string, value: boolean) {
+    super.onConfigChange(param, value);
+    switch (param) {
       case 'muted':
-        this.config.muted = newVal;
-        newVal ? this._api.mute() : this._api.unMute();  // or this.ready.then(()=> muted
+        value ? this._api.mute() : this._api.unMute();
         break;
       case 'loop':
-        this.config.loop = newVal;
-        this._api.setLoop(newVal);
+        this._api.setLoop(value);
         break;
       case 'autoplay':
-        this.config.autoplay = newVal;
       case 'playsinline':
-        this.config.playsinline = newVal;
       case 'controls':
-        this.config.controls = newVal;
         this.bind();
         break;
     }

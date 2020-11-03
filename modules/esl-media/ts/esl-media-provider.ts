@@ -15,7 +15,7 @@ export enum PlayerStates {
   UNINITIALIZED = -2
 }
 
-export interface MediaProviderConfig {
+export interface MediaProviderConfig extends Record<string, any> {
   mediaSrc?: string;
   mediaId?: string;
   loop: boolean;
@@ -84,7 +84,7 @@ export abstract class BaseProvider<T extends HTMLElement> {
     Array.from(this.component.querySelectorAll('.esl-media-inner'))
       .forEach((el: Node) => el.parentNode && el.parentNode.removeChild(el));
   }
-  public abstract onConfigChange(cfgParam: string, newVal: boolean): void;
+
   /**
    * @returns {PlayerStates} - current state of the player
    */
@@ -117,6 +117,11 @@ export abstract class BaseProvider<T extends HTMLElement> {
    * Set focus to the inner content
    */
   public abstract focus(): void;
+
+  public onConfigChange(param: string, value: boolean) {
+    this.config[param] = value;
+  }
+
 
   /**
    * Set size for inner content
