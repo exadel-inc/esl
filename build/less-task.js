@@ -28,6 +28,6 @@ const multiDist = (inpStream, outs) => [].concat(outs).reduce(
     inpStream
 );
 
-module.exports.lessBuild = (src, outs) => function lessBuild() {
-  return multiDist(buildLess(src), outs);
+module.exports.lessBuild = (src, outs, sourceMaps = true) => function lessBuild() {
+  return multiDist(buildLess(src, sourceMaps), outs);
 };

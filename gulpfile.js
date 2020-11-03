@@ -17,7 +17,7 @@ const build = gulp.series(
   gulp.parallel(
     tscBuild({target: 'es5'}, cfg.src.ts, 'modules-es5'),
     tscBuild({target: 'es6'}, cfg.src.ts, 'modules-es6'),
-    lessBuild(cfg.src.less, ['modules-es5', 'modules-es6'])
+    lessBuild(cfg.src.less, ['modules-es5', 'modules-es6'], false)
   )
 );
 
