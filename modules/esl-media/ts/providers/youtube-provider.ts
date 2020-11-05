@@ -82,7 +82,6 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
 
   public bind() {
     this._el = YouTubeProvider.buildIframe(this.config);
-    this.component.textContent = '';
     this.component.appendChild(this._el);
     this._ready = YouTubeProvider.getCoreApi().then(
       () => (new Promise((resolve, reject) => {
@@ -129,7 +128,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
     }
   };
 
-  public onConfigChange(param: string, value: boolean) {
+  protected onConfigChange(param: string, value: boolean) {
     super.onConfigChange(param, value);
     switch (param) {
       case 'muted':
@@ -141,6 +140,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
       case 'autoplay':
       case 'playsinline':
       case 'controls':
+        this.unbind();
         this.bind();
         break;
     }

@@ -144,7 +144,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
     super.unbind();
   }
 
-  public onConfigChange(param: string, value: boolean) {
+  protected onConfigChange(param: string, value: boolean) {
     super.onConfigChange(param, value);
     switch (param) {
       case 'autoplay':

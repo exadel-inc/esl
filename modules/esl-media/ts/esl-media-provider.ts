@@ -118,10 +118,9 @@ export abstract class BaseProvider<T extends HTMLElement> {
    */
   public abstract focus(): void;
 
-  public onConfigChange(param: string, value: boolean) {
+  protected onConfigChange(param: string, value: boolean) {
     this.config[param] = value;
   }
-
 
   /**
    * Set size for inner content
@@ -142,6 +141,14 @@ export abstract class BaseProvider<T extends HTMLElement> {
     } else {
       return this.pause();
     }
+  }
+
+  /**
+   * Executes onConfigChange action when api is ready
+   * @returns Promise
+   */
+  public safeConfigChange(param: string, value: boolean) {
+    this.ready.then(() => this.onConfigChange(param, value));
   }
 
   /**
