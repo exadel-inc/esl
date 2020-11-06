@@ -43,7 +43,7 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     const list = this.$list;
     if (!list) return;
     let left = list.offsetWidth;
-    left = isRtl(this) ? -left : left;
+    left = isRtl(this) && isNegativeScroll() ? -left : left;
     left = direction === 'left' ? -left : left;
 
     list.scrollBy({left, behavior});
@@ -61,9 +61,13 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     // item out of area from the right side
     // else item out of area from the left side
     if (itemRect.right > areaRect.right) {
-      shift = Math.ceil(itemRect.right - areaRect.right);
+      shift = isRtl(this) && !isNegativeScroll() ?
+        Math.floor(areaRect.right - itemRect.right) :
+        Math.ceil(itemRect.right - areaRect.right);
     } else if (itemRect.left < areaRect.left) {
-      shift = Math.floor(itemRect.left - areaRect.left);
+      shift = isRtl(this) && !isNegativeScroll() ?
+        Math.ceil(areaRect.left - itemRect.left) :
+        Math.floor(itemRect.left - areaRect.left);
     }
 
     list.scrollBy({
@@ -82,16 +86,12 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     const scrollStart = Math.abs(list.scrollLeft) > 1;
     const scrollEnd = Math.abs(list.scrollLeft) + list.clientWidth + 1 < list.scrollWidth;
 
-    const swapChecks = isRtl(this) && !isNegativeScroll();
-    const hasScrollBefore = swapChecks ? scrollEnd : scrollStart;
-    const hasScrollAfter = swapChecks ? scrollStart : scrollEnd;
-
     const rightArrow = this.querySelector('[data-tab-direction="right"]');
     const leftArrow = this.querySelector('[data-tab-direction="left"]');
 
     this.toggleAttribute('has-scroll', hasScroll);
-    leftArrow && leftArrow.toggleAttribute('disabled', !hasScrollBefore);
-    rightArrow && rightArrow.toggleAttribute('disabled', !hasScrollAfter);
+    leftArrow && leftArrow.toggleAttribute('disabled', !scrollStart);
+    rightArrow && rightArrow.toggleAttribute('disabled', !scrollEnd);
   }
 
   protected onClick = (event: Event) => {

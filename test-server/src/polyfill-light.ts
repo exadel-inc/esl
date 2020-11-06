@@ -9,3 +9,7 @@ if ('ResizeObserver' in window) {
 }
 
 import '@webcomponents/custom-elements/custom-elements.min';
+
+// @ts-ignore
+import smoothscroll from 'smoothscroll-polyfill';
+smoothscroll.polyfill();
