@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "experimentalDecorators": true,
     "alwaysStrict": true,
     "strictNullChecks": true,

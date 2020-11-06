@@ -1,2 +1,2 @@
-export * from './ts/esl-trigger';
-export * from './ts/esl-triggers-container';
+export * from './core/esl-trigger';
+export * from './core/esl-triggers-container';

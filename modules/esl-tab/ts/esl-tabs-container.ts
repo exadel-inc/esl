@@ -1,8 +1,8 @@
-import {ESLTriggersContainer, GroupTarget} from '../../esl-trigger/ts/esl-triggers-container';
+import {ESLTriggersContainer, GroupTarget} from '../../esl-trigger/core/esl-triggers-container';
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import ESLTab from './esl-tab';
-import ESLTrigger from '../../esl-trigger/ts/esl-trigger';
-import {attr} from '../../esl-base-element/ts/decorators/attr';
+import ESLTrigger from '../../esl-trigger/core/esl-trigger';
+import {attr} from '../../esl-base-element/decorators/attr';
 
 @ExportNs('TabsContainer')
 export class ESLTabsContainer extends ESLTriggersContainer {

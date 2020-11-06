@@ -1,14 +1,14 @@
 {
   "src": {
     "ts": ["modules/**/*.ts", "!modules/**/*.test.ts"],
-    "less": ["modules/*/all.less", "modules/all.less"]
+    "less": ["modules/*.less", "modules/*/*.less", "modules/utils/*/*.less", "modules/beta/*/*.less", "!**/*.mixin.less"]
   },
   "lint": {
     "ts": ["modules/**/*.ts", "!modules/**/*.test.ts"],
     "less": ["modules/**/*.less"]
   },
   "watch": {
-    "ts": ["modules/**/*.ts", "test-server/src/**/*.ts"],
+    "ts": ["modules/**/*.ts", "test-server/src/**/*.ts", "!**/*.test.ts"],
     "less": ["modules/**/*.less", "test-server/src/**/*.less"]
   },
   "server": {

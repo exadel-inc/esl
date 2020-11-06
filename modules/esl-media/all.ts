@@ -1,9 +1,8 @@
-import './ts/providers/html5/video-provider';
-import './ts/providers/html5/audio-provider';
+import './providers/html5/video-provider';
+import './providers/html5/audio-provider';
 
-import './ts/providers/youtube-provider';
-import './ts/providers/iframe-provider';
-import './ts/providers/brightcove-provider';
+import './providers/youtube-provider';
+import './providers/iframe-provider';
+import './providers/brightcove-provider';
 
-export * from './ts/esl-media.shape';
-export * from './ts/esl-media';
+export * from './core';

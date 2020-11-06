@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import ESLTrigger from '../../esl-trigger/ts/esl-trigger';
+import ESLTrigger from '../../esl-trigger/core/esl-trigger';
 
 @ExportNs('Tab')
 export class ESLTab extends ESLTrigger {

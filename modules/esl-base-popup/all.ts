@@ -1,1 +1,1 @@
-export * from './ts/esl-base-popup';
+export * from './core/esl-base-popup';

@@ -8,7 +8,7 @@ import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/all';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {normalizeCoordinates} from '../../esl-utils/dom/events';
 import {TraversingUtils} from '../../esl-utils/dom/traversing';
-import {TraversingQuery} from '../../esl-traversing-query/all';
+import {TraversingQuery} from '../../esl-traversing-query/core';
 
 const observableTarget = (target: HTMLElement) => document.documentElement === target ? window : target;
 

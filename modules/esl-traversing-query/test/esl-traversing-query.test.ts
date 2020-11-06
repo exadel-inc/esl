@@ -1,4 +1,4 @@
-import {TraversingQuery} from '../all';
+import {TraversingQuery} from '../core';
 
 describe('Traversing Query tests', () => {
   document.body.innerHTML = `
