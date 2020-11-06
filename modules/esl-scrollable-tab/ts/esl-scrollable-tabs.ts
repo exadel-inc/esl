@@ -84,7 +84,7 @@ export class ESLScrollableTabs extends ESLTabsContainer {
 
     const hasScroll = list.scrollWidth > this.clientWidth;
     const scrollStart = Math.abs(list.scrollLeft) > 1;
-    const scrollEnd = Math.ceil(Math.abs(list.scrollLeft)) + list.clientWidth + 1 < list.scrollWidth;
+    const scrollEnd = Math.abs(list.scrollLeft) + list.clientWidth + 1 < list.scrollWidth;
 
     const rightArrow = this.querySelector('[data-tab-direction="right"]');
     const leftArrow = this.querySelector('[data-tab-direction="left"]');
