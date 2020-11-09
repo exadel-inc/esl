@@ -12,26 +12,21 @@ const sourcemaps = require('gulp-sourcemaps');
 const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
 
-const multiDist = (inpStream, outs) => [].concat(outs).reduce(
-    (stream, out) => stream.pipe(gulp.dest(out)),
-    inpStream
-);
-
-module.exports.lessBuild = (src, outs) => function lessBuild() {
-  let files = gulp.src(src);
-  files = files.pipe(sourcemaps.init());
-  files = files.pipe(less());
-  files = files.pipe(postcss([autoprefixer()]));
-  files = files.pipe(sourcemaps.write('/'));
-  return multiDist(files, outs);
+module.exports.lessBuild = (src, out) => function lessBuild() {
+  return gulp.src(src, {base: './modules/'})
+    .pipe(sourcemaps.init())
+    .pipe(less())
+    .pipe(postcss([autoprefixer()]))
+    .pipe(sourcemaps.write('/'))
+    .pipe(gulp.dest(out));
 };
 
-module.exports.lessBuildProd = (src, outs) => function lessBuildProd() {
-  let files = gulp.src(src)
+module.exports.lessBuildProd = (src, out) => function lessBuildProd() {
+  return gulp.src(src, {base: './modules/'})
     .pipe(less())
-    .pipe(postcss([autoprefixer()]));
-  files = multiDist(files, outs)
-      .pipe(postcss([cssnano()]))
-      .pipe(rename({suffix: '.min'}));
-  return multiDist(files, outs);
+    .pipe(postcss([autoprefixer()]))
+    .pipe(gulp.dest(out))
+    .pipe(postcss([cssnano()]))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest(out));
 };

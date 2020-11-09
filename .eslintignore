@@ -3,6 +3,5 @@ gulpfile.js
 jest.config.js
 /build
 /node_modules
-/modules-es5
-/modules-es6
+/modules-dist
 /test-server/static

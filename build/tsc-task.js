@@ -10,7 +10,7 @@ module.exports.tscBuild = (config, src, out) => {
     declaration: true
   }, config));
   return function tsc() {
-    return gulp.src(src)
+    return gulp.src(src, {base: './modules/'})
       .pipe(tsProject())
       .pipe(gulp.dest(out));
   };
