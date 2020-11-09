@@ -1,5 +1,5 @@
 import '../../../polyfills/es5-target-shim';
-import {ESLBaseElement, boolAttr} from '../all';
+import {ESLBaseElement, boolAttr} from '../core';
 
 describe('Decorator: boolAttr', () => {
 

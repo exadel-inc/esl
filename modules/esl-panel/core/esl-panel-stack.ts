@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {attr, ESLBaseElement} from '../../esl-base-element/all';
+import {attr, ESLBaseElement} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ESLMediaQuery} from '../../esl-media-query/core';

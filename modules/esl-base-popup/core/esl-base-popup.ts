@@ -4,7 +4,7 @@ import {CSSUtil} from '../../esl-utils/dom/styles';
 import {defined} from '../../esl-utils/misc/functions';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {SingleTaskManager} from '../../esl-utils/async/single-task-manager';
-import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/all';
+import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
 
 import {ESLBasePopupGroup} from './esl-base-popup-group';
 

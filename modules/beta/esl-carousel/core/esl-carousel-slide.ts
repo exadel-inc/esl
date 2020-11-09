@@ -2,7 +2,7 @@
  * Slide controller
  * @author Julia Murashko
  */
-import {ESLBaseElement} from '../../../esl-base-element/all';
+import {ESLBaseElement} from '../../../esl-base-element/core';
 
 export class ESLCarouselSlide extends ESLBaseElement {
   // TODO: refactor (check type of Element)

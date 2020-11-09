@@ -1,5 +1,5 @@
 import {ExportNs} from '../../../esl-utils/enviroment/export-ns';
-import {ESLBaseElement, attr} from '../../../esl-base-element/all';
+import {ESLBaseElement, attr} from '../../../esl-base-element/core';
 import {deepCompare} from '../../../esl-utils/misc/object';
 import {ESLMediaRuleList} from '../../../esl-media-query/core';
 import ESLCarouselSlide from './esl-carousel-slide';

@@ -7,11 +7,11 @@ export * from './esl-image/core';
 export * from './esl-media/all';
 
 export * from './esl-popup/core';
-export * from './esl-trigger/all';
+export * from './esl-trigger/core';
 
 export * from './esl-panel/core';
 
-export * from './esl-tab/all';
-export * from './esl-scrollable-tab/all';
+export * from './esl-tab/core';
+export * from './esl-scrollable-tab/core';
 
-export * from './esl-scrollbar/all';
+export * from './esl-scrollbar/core';

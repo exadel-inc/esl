@@ -5,7 +5,7 @@
  */
 
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/all';
+import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {debounce} from '../../esl-utils/async/debounce';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {ESLMediaQuery} from '../../esl-media-query/core';

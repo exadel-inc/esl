@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {attr, boolAttr, jsonAttr} from '../../esl-base-element/all';
-import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/all';
+import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
+import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 

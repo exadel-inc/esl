@@ -5,7 +5,7 @@
  */
 
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/all';
+import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 

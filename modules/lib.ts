@@ -4,17 +4,17 @@ import type {BreakpointRegistry} from './esl-utils/enviroment/breakpoints';
 import type {ESLImage} from './esl-image/core/esl-image';
 import type {ESLMedia} from './esl-media/core/esl-media';
 
-import type {ESLScrollbar} from './esl-scrollbar/ts/esl-scrollbar';
+import type {ESLScrollbar} from './esl-scrollbar/core/esl-scrollbar';
 
 import type {ESLBasePopup} from './esl-base-popup/core/esl-base-popup';
 import type {ESLPopup} from './esl-popup/core/esl-popup';
 import type {ESLTrigger} from './esl-trigger/core/esl-trigger';
-import type {ESLTab} from './esl-tab/ts/esl-tab';
+import type {ESLTab} from './esl-tab/core/esl-tab';
 import type {ESLTriggersContainer} from './esl-trigger/core/esl-triggers-container';
 import type {ESLPanel} from './esl-panel/core/esl-panel';
 import type {ESLPanelStack} from './esl-panel/core/esl-panel-stack';
-import type {ESLTabsContainer} from './esl-tab/ts/esl-tabs-container';
-import type {ESLScrollableTabs} from './esl-scrollable-tab/ts/esl-scrollable-tabs';
+import type {ESLTabsContainer} from './esl-tab/core/esl-tabs-container';
+import type {ESLScrollableTabs} from './esl-scrollable-tab/core/esl-scrollable-tabs';
 
 import type {ESLCarousel} from './beta/esl-carousel/core/esl-carousel';
 import type {ESLCarouselDotsPlugin} from './beta/esl-carousel/plugin/esl-carousel-dots.plugin';
