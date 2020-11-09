@@ -128,8 +128,8 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
     }
   };
 
-  protected onConfigChange(param: string, value: boolean) {
-    super.onConfigChange(param, value);
+  protected configChange(param: string, value: boolean) {
+    super.configChange(param, value);
     switch (param) {
       case 'muted':
         value ? this._api.mute() : this._api.unMute();

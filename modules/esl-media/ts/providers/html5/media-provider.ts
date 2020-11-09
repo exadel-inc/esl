@@ -20,8 +20,8 @@ export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends Base
 
   protected abstract createElement(): T;
 
-  public onConfigChange(param: string, value: boolean) {
-    super.onConfigChange(param, value);
+  public configChange(param: string, value: boolean) {
+    super.configChange(param, value);
     HTMLMediaProvider.applyElementSettings(this._el, this.config);
   }
 

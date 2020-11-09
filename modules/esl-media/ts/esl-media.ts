@@ -98,7 +98,6 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-    console.log(attrName,newVal);
     if (!this.connected && oldVal === newVal) return;
     switch (attrName) {
       case 'disabled':
@@ -109,7 +108,7 @@ export class ESLMedia extends ESLBaseElement {
       case 'autoplay':
       case 'controls':
       case 'playsinline':
-        this._provider && this._provider.safeConfigChange(attrName, newVal !== null);
+        this._provider && this._provider.safeChangeConfig(attrName, newVal !== null);
         break;
       case 'media-id':
       case 'media-src':

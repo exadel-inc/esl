@@ -118,7 +118,7 @@ export abstract class BaseProvider<T extends HTMLElement> {
    */
   public abstract focus(): void;
 
-  protected onConfigChange(param: string, value: boolean) {
+  protected configChange(param: string, value: boolean) {
     this.config[param] = value;
   }
 
@@ -147,8 +147,8 @@ export abstract class BaseProvider<T extends HTMLElement> {
    * Executes onConfigChange action when api is ready
    * @returns Promise
    */
-  public safeConfigChange(param: string, value: boolean) {
-    this.ready.then(() => this.onConfigChange(param, value));
+  public safeChangeConfig(param: string, value: boolean) {
+    this.ready.then(() => this.configChange(param, value));
   }
 
   /**
