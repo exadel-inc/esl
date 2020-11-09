@@ -49,7 +49,7 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     list.scrollBy({left, behavior});
   }
 
-  protected fitToViewport(trigger: ESLTab | undefined, behavior: ScrollBehavior = 'smooth'): void {
+  protected fitToViewport(trigger?: ESLTab, behavior: ScrollBehavior = 'smooth'): void {
     const list = this.$list;
     if (!list || !trigger) return;
 
