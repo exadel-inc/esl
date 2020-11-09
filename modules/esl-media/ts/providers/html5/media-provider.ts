@@ -3,7 +3,7 @@
  * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
  */
 
-import {BaseProvider, MediaProviderConfig, PlayerStates} from '../../esl-media-provider';
+import {BaseProvider, MediaProviderConfig, PlayerStates, ProviderObservedParams} from '../../esl-media-provider';
 
 export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends BaseProvider<T> {
   protected static applyElementSettings(el: HTMLMediaElement, cfg: MediaProviderConfig) {
@@ -20,14 +20,14 @@ export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends Base
 
   protected abstract createElement(): T;
 
-  public configChange(param: string, value: boolean) {
-    super.configChange(param, value);
+  public onConfigChange(param: ProviderObservedParams, value: boolean) {
+    super.onConfigChange(param, value);
     HTMLMediaProvider.applyElementSettings(this._el, this.config);
   }
 
   public bind() {
     this._el = this.createElement();
-    HTMLMediaProvider.applyElementSettings(this._el, this.component);
+    HTMLMediaProvider.applyElementSettings(this._el, this.config);
     this.component.appendChild(this._el);
     this.bindListeners();
   }

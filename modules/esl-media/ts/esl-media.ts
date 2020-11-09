@@ -108,7 +108,7 @@ export class ESLMedia extends ESLBaseElement {
       case 'autoplay':
       case 'controls':
       case 'playsinline':
-        this._provider && this._provider.safeChangeConfig(attrName, newVal !== null);
+        this._provider && this._provider.onSafeConfigChange(attrName, newVal !== null);
         break;
       case 'media-id':
       case 'media-src':

@@ -42,6 +42,7 @@ export class ESLMediaProviderRegistry extends Observable {
   public createProvider(media: ESLMedia): BaseProvider<HTMLElement> | null {
     return this.createProviderByType(media) || this.createProviderBySrc(media);
   }
+
   private createProviderByType(media: ESLMedia): BaseProvider<HTMLElement> | null {
     const {mediaType, mediaSrc} = media;
     const providerByType = this.getProviderByType(mediaType);
@@ -51,6 +52,7 @@ export class ESLMediaProviderRegistry extends Observable {
     }
     return null;
   }
+
   private createProviderBySrc(media: ESLMedia): BaseProvider<HTMLElement> | null {
     const {mediaSrc} = media;
     for (const provider of this.providers) {

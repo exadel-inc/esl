@@ -9,7 +9,7 @@ import {VideoJsPlayer} from 'video.js';
 
 import {loadScript} from '../../../esl-utils/dom/script';
 import {ESLMedia} from '../esl-media';
-import {BaseProvider, PlayerStates} from '../esl-media-provider';
+import {BaseProvider, PlayerStates, ProviderObservedParams} from '../esl-media-provider';
 import ESLMediaProviderRegistry from '../esl-media-registry';
 import {generateUId} from '../../../esl-utils/misc/uid';
 
@@ -42,7 +42,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
 
   protected videojsClasses = 'video-js vjs-default-skin video-js-brightcove';
 
-  protected _api: VideoJsPlayer;
+  protected _api: VideoJsPlayer & Record<string, any>;
   protected _account: BCPlayerAccount;
 
   /**
@@ -144,24 +144,10 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
     super.unbind();
   }
 
-  protected configChange(param: string, value: boolean) {
-    super.configChange(param, value);
-    switch (param) {
-      case 'autoplay':
-        this._api.autoplay(value);
-        break;
-      case 'muted':
-        this._api.muted(value);
-        break;
-      case 'loop':
-        this._api.loop(value);
-        break;
-      case 'controls':
-        this._api.controls(value);
-        break;
-      case 'playsinline':
-        this._api.playsinline(value);
-        break;
+  protected onConfigChange(param: ProviderObservedParams, value: boolean) {
+    super.onConfigChange(param, value);
+    if (typeof this._api[param] === 'function') {
+      this._api[param](value);
     }
   }
 

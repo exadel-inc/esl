@@ -36,6 +36,8 @@ export type ProviderType = {
 
 export type URLParser = (mediaSrc: string) => Partial<MediaProviderConfig> | null;
 
+export type ProviderObservedParams = 'autoplay' | 'loop' | 'muted' | 'playsinline' | 'controls';
+
 export abstract class BaseProvider<T extends HTMLElement> {
   static readonly providerName: string;
 
@@ -118,7 +120,7 @@ export abstract class BaseProvider<T extends HTMLElement> {
    */
   public abstract focus(): void;
 
-  protected configChange(param: string, value: boolean) {
+  protected onConfigChange(param: ProviderObservedParams, value: boolean) {
     this.config[param] = value;
   }
 
@@ -147,8 +149,8 @@ export abstract class BaseProvider<T extends HTMLElement> {
    * Executes onConfigChange action when api is ready
    * @returns Promise
    */
-  public safeChangeConfig(param: string, value: boolean) {
-    this.ready.then(() => this.configChange(param, value));
+  public onSafeConfigChange(param: ProviderObservedParams, value: boolean) {
+    this.ready.then(() => this.onConfigChange(param, value));
   }
 
   /**
