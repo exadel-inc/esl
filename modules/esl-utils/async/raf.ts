@@ -12,14 +12,14 @@ export const afterNextRender = (callback: () => void) => requestAnimationFrame((
  * @returns {function} - decorated function
  */
 export const rafDecorator = <T extends AnyToVoidFnSignature>(fn: T): T => {
-  let rafScheduled = false;
+  let lastArgs: any[] | null = null; // null if no calls requested
   return function (...args: any[]) {
-    if (!rafScheduled) {
+    if (lastArgs === null) {
       requestAnimationFrame(() => {
-        fn.call(this, ...args);
-        rafScheduled = false;
+        fn.call(this, ...lastArgs!);
+        lastArgs = null;
       });
     }
-    rafScheduled = true;
+    lastArgs = args;
   } as T;
 };

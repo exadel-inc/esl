@@ -10,19 +10,10 @@ import {normalizeCoordinates} from '../../esl-utils/dom/events';
 import {TraversingUtils} from '../../esl-utils/dom/traversing';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
-const observableTarget = (target: HTMLElement) => document.documentElement === target ? window : target;
-
 @ExportNs('Scrollbar')
 export class ESLScrollbar extends ESLBaseElement {
   public static is = 'esl-scrollbar';
   public static eventNs = 'esl:scrollbar';
-
-  protected $scrollbarThumb: HTMLElement;
-  protected $scrollbarTrack: HTMLElement;
-  protected $scrollableContent: HTMLElement | null;
-
-  protected _initialMousePosition: number;
-  protected _initialPosition: number;
 
   @boolAttr() public horizontal: boolean;
 
@@ -32,6 +23,15 @@ export class ESLScrollbar extends ESLBaseElement {
 
   @boolAttr() protected dragging: boolean;
   @boolAttr({readonly: true}) public inactive: boolean;
+
+  protected $scrollbarThumb: HTMLElement;
+  protected $scrollbarTrack: HTMLElement;
+  protected $scrollableContent: HTMLElement | null;
+
+  protected _initialMousePosition: number;
+  protected _initialPosition: number;
+
+  protected _resizeObserver = new ResizeObserver(() => this.refresh());
 
   static get observedAttributes() {
     return ['target'];
@@ -69,13 +69,9 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   public set targetElement(content: HTMLElement | null) {
-    if (this.$scrollableContent) {
-      observableTarget(this.$scrollableContent).removeEventListener('scroll', this.onScroll);
-    }
+    this.unbindTargetEvents();
     this.$scrollableContent = content;
-    if (this.$scrollableContent) {
-      observableTarget(this.$scrollableContent).addEventListener('scroll', this.onScroll, {passive: true});
-    }
+    this.bindTargetEvents();
   }
 
   protected render() {
@@ -92,18 +88,36 @@ export class ESLScrollbar extends ESLBaseElement {
   protected bindEvents() {
     this.addEventListener('click', this.onClick);
     this.$scrollbarThumb.addEventListener('mousedown', this.onMouseDown);
-    window.addEventListener('resize', this.onResize, {passive: true});
     window.addEventListener('esl:refresh', this.onRefresh);
+  }
+
+  protected bindTargetEvents() {
+    if (!this.$scrollableContent) return;
+    if (document.documentElement === this.$scrollableContent) {
+      window.addEventListener('resize', this.onRefresh, {passive: true});
+      window.addEventListener('scroll', this.onRefresh, {passive: true});
+    } else {
+      this._resizeObserver.observe(this.$scrollableContent);
+      this.$scrollableContent.addEventListener('scroll', this.onRefresh, {passive: true});
+    }
   }
 
   protected unbindEvents() {
     this.removeEventListener('click', this.onClick);
     this.$scrollbarThumb.removeEventListener('mousedown', this.onMouseDown);
-
-    window.removeEventListener('resize', this.onResize);
+    this.unbindTargetEvents();
     window.removeEventListener('esl:refresh', this.onRefresh);
+  }
 
-    this.targetElement && this.targetElement.removeEventListener('scroll', this.onScroll);
+  protected unbindTargetEvents() {
+    if (!this.$scrollableContent) return;
+    if (document.documentElement === this.$scrollableContent) {
+      window.removeEventListener('resize', this.onRefresh);
+      window.removeEventListener('scroll', this.onRefresh);
+    } else {
+      this._resizeObserver.unobserve(this.$scrollableContent);
+      this.$scrollableContent.removeEventListener('scroll', this.onRefresh);
+    }
   }
 
   public get scrollableSize() {
@@ -250,25 +264,19 @@ export class ESLScrollbar extends ESLBaseElement {
   };
 
   /**
-   * Handler to redraw scroll on element native scroll events
+   * RAF deferred scroll refresh.
    */
-  protected onScroll = rafDecorator(() => {
-    if (!this.dragging) this.update();
-  });
+  protected refreshDeferred = rafDecorator(() => this.refresh());
 
   /**
-   * Handler for document resize events to redraw scroll.
-   */
-  protected onResize = rafDecorator(() => this.refresh());
-
-  /**
-   * Handler for document refresh events to update the scroll.
+   * Handler for refresh events to update the scroll.
+   * @param event - instance of 'resize' or 'scroll' or 'esl:refresh' event.
    */
   protected onRefresh = (event: Event) => {
     const target = event.target as HTMLElement;
-    if (TraversingUtils.isRelative(target.parentNode, this.targetElement)) {
-      this.refresh();
-    }
+    if (event.type === 'scroll' && this.dragging) return;
+    if (event.type === 'esl:refresh' && !TraversingUtils.isRelative(target.parentNode, this.targetElement)) return;
+    this.refreshDeferred();
   };
 }
 

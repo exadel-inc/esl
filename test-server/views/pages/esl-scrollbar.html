@@ -5,24 +5,26 @@ title: ESL Scrollbar <span class="badge badge-warning">Beta</span>
 
 {{##content:
 <section class="row">
-    <style>
-        .test-popup {
-            position: absolute;
-            height: 500px;
-            width: 400px;
-            z-index: 100;
-            box-shadow: 0 0 16px 8px rgba(0, 0, 0, .4);
-        }
+  <style>
+    .test-popup {
+      position: absolute;
+      height: 500px;
+      width: 400px;
+      z-index: 100;
+      box-shadow: 0 0 16px 8px rgba(0, 0, 0, .4);
+      overflow: hidden;
+      resize: both;
+    }
 
-        .test-popup .esl-scrollable-content {
-            max-height: 100%;
-            padding: 20px;
-        }
+    .test-popup .esl-scrollable-content {
+      max-height: 100%;
+      padding: 20px;
+    }
 
-        .test-popup esl-scrollbar {
-            right: 4px;
-        }
-    </style>
+    .test-popup esl-scrollbar {
+      right: 4px;
+    }
+  </style>
     <div class="col-8 m-auto">
         <esl-trigger target="::next">
             <button class="btn btn-primary">Toggle Modal</button>
