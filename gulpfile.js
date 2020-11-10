@@ -12,7 +12,8 @@ const {lintStyle, lintTypeScript} = require('./build/linting-task');
 print('=== Running ESL Build ===')();
 
 // === BUILD TASKS ===
-const clean = cleanAll([...cfg.src.destPaths, ...cfg.polyfills.destPaths]);
+const LEGACY_PATHS = ['modules-es5/*', 'modules-es6/*'];
+const clean = cleanAll([...cfg.src.destPaths, ...cfg.polyfills.destPaths, ...LEGACY_PATHS]);
 const build = gulp.series(
   clean,
   gulp.parallel(
