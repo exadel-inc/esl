@@ -1,5 +1,6 @@
 const path = require('path');
 const gulp = require('gulp');
+const {srcExt} = require('./common');
 
 const ts = require('gulp-typescript');
 
@@ -10,7 +11,7 @@ module.exports.tscBuild = (config, src, out) => {
     declaration: true
   }, config));
   return function tsc() {
-    return gulp.src(src, {base: './modules/'})
+    return srcExt(src)
       .pipe(tsProject())
       .pipe(gulp.dest(out));
   };

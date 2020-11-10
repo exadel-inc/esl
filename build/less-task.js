@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const {srcExt} = require('./common');
 
 // STYLES
 const less = require('gulp-less');
@@ -13,7 +14,7 @@ const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
 
 module.exports.lessBuild = (src, out) => function lessBuild() {
-  return gulp.src(src, {base: './modules/'})
+  return srcExt(src)
     .pipe(sourcemaps.init())
     .pipe(less())
     .pipe(postcss([autoprefixer()]))
@@ -22,7 +23,7 @@ module.exports.lessBuild = (src, out) => function lessBuild() {
 };
 
 module.exports.lessBuildProd = (src, out) => function lessBuildProd() {
-  return gulp.src(src, {base: './modules/'})
+  return srcExt(src)
     .pipe(less())
     .pipe(postcss([autoprefixer()]))
     .pipe(gulp.dest(out))

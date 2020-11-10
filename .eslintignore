@@ -1,7 +1,13 @@
 *.test.ts
 gulpfile.js
 jest.config.js
-/build
-/node_modules
-/modules-dist
-/test-server/static
+build
+node_modules
+test-server/static
+
+# Generated surces
+modules/**/*.js
+modules/**/*.d.ts
+modules/*.css
+modules/*/*.css
+modules/beta/*/*.css

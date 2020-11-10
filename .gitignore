@@ -10,8 +10,14 @@ node_modules
 
 # Build output
 target
-modules-dist
 test-server/static
+
+# Generated surces
+modules/**/*.js
+modules/**/*.d.ts
+modules/*.css
+modules/*/*.css
+modules/beta/*/*.css
 
 # Logs & Tmp
 npm-debug.log
