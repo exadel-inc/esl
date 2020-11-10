@@ -1,6 +1,11 @@
+# Exclude tests
 *.test.ts
+
+# Common configuration
 gulpfile.js
 jest.config.js
+
+# Common directories
 build
 node_modules
 test-server/static
@@ -11,3 +16,5 @@ modules/**/*.d.ts
 modules/*.css
 modules/*/*.css
 modules/beta/*/*.css
+polyfills/**/*.js
+polyfills/**/*.d.ts

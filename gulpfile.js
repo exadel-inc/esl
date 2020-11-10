@@ -13,10 +13,11 @@ print('=== Running ESL Build ===')();
 
 // === BUILD TASKS ===
 const build = gulp.series(
- // clean(['modules-dist/*']),
+  //clean(['modules/**/*.d.ts', 'modules/**/*.js', 'polyfills/**/*.d.ts', 'polyfills/**/*.js']),
   gulp.parallel(
-    tscBuild({target: 'es6'}, cfg.src.ts, 'modules'),
-    lessBuildProd({src: cfg.src.less, base: './modules/'}, 'modules')
+    tscBuild({src: cfg.src.ts, base: './modules/'}, 'modules'),
+    lessBuildProd({src: cfg.src.less, base: './modules/'}, 'modules'),
+    tscBuild({src: cfg.polyfills.ts, base: './polyfills/'}, 'polyfills')
   )
 );
 

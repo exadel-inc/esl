@@ -1,7 +1,10 @@
 {
   "src": {
-    "ts": ["modules/**/*.ts", "!modules/**/*.test.ts"],
+    "ts": ["modules/**/*.ts", "!modules/**/*.test.ts", "!modules/**/*.d.ts"],
     "less": ["modules/*.less", "modules/*/*.less", "modules/utils/*/*.less", "modules/beta/*/*.less", "!**/*.mixin.less"]
+  },
+  "polyfills": {
+    "ts": ["polyfills/**/*.ts", "!polyfills/**/*.d.ts"]
   },
   "lint": {
     "ts": ["modules/**/*.ts", "!modules/**/*.test.ts"],

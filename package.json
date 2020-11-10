@@ -34,8 +34,7 @@
   },
   "files": [
     "modules/**/*",
-    "!modules/**/*.test.ts",
-    "modules-es6/**/*"
+    "!modules/**/*.test.ts"
   ],
   "browserslist": [
     "last 3 version",
@@ -48,13 +47,13 @@
     "@types/youtube": "0.0.39"
   },
   "devDependencies": {
+    "@juggle/resize-observer": "^3.2.0",
     "@types/jest": "^26.0.15",
     "@types/smoothscroll-polyfill": "^0.3.1",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "@webcomponents/custom-elements": "^1.4.3",
     "@webcomponents/webcomponents-platform": "^1.0.1",
-    "@juggle/resize-observer": "^3.2.0",
     "autoprefixer": "^10.0.1",
     "cssnano": "^4.1.10",
     "eslint": "^7.11.0",

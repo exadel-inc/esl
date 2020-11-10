@@ -18,6 +18,8 @@ modules/**/*.d.ts
 modules/*.css
 modules/*/*.css
 modules/beta/*/*.css
+polyfills/**/*.js
+polyfills/**/*.d.ts
 
 # Logs & Tmp
 npm-debug.log
