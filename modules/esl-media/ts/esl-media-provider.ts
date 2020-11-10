@@ -15,7 +15,7 @@ export enum PlayerStates {
   UNINITIALIZED = -2
 }
 
-export interface MediaProviderConfig extends Record<string, any> {
+export interface MediaProviderConfig {
   mediaSrc?: string;
   mediaId?: string;
   loop: boolean;

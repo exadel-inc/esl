@@ -42,7 +42,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
 
   protected videojsClasses = 'video-js vjs-default-skin video-js-brightcove';
 
-  protected _api: VideoJsPlayer & Record<string, any>;
+  protected _api: VideoJsPlayer;
   protected _account: BCPlayerAccount;
 
   /**
