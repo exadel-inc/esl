@@ -3,7 +3,9 @@
   "description": "Exadel Smart Library (ESL) - is the lightweight custom elements library that provide a set of super-flexible components",
   "keywords": [
     "custom elements",
-    "component library"
+    "components library",
+    "lightweight",
+    "flexible"
   ],
   "version": "1.32.0-alpha",
   "private": true,
@@ -13,13 +15,25 @@
     "type": "git",
     "url": "git+https://gitlab.exadel.com/EDMTP/smart-wc-library.git"
   },
+  "files": [
+    "modules/**/*",
+    "!modules/**/*.test.ts"
+  ],
+  "main": "./modules/all.js",
+  "types": "./modules/all.d.ts",
   "contributors": [
     "Alexey Stsefanovich <astsefanovich@exadel.com>",
     "Julia Murashko <ymurashka@exadel.com>",
     "Yuliya Adamskaya <yadamska@exadel.com>"
   ],
+  "browserslist": [
+    "last 3 version",
+    "> 1%",
+    "not dead"
+  ],
   "scripts": {
     "tar": "gulp tar",
+    "clean": "gulp clean",
     "build": "gulp build",
     "test": "jest && gulp lint",
     "test-only": "jest",
@@ -32,15 +46,6 @@
     "prepare": "npm run build",
     "preversion": "npm run test | npm run test-lint"
   },
-  "files": [
-    "modules/**/*",
-    "!modules/**/*.test.ts"
-  ],
-  "browserslist": [
-    "last 3 version",
-    "> 1%",
-    "not dead"
-  ],
   "dependencies": {
     "@types/resize-observer-browser": "^0.1.4",
     "@types/video.js": "7.3.10",
