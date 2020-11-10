@@ -1,22 +1,32 @@
 {
   "src": {
+    "base": "./modules/",
     "ts": ["modules/**/*.ts", "!modules/**/*.test.ts", "!modules/**/*.d.ts"],
-    "less": ["modules/*.less", "modules/*/*.less", "modules/utils/*/*.less", "modules/beta/*/*.less", "!**/*.mixin.less"]
+    "less": ["modules/*.less", "modules/*/*.less", "modules/utils/*/*.less", "modules/beta/*/*.less", "!**/*.mixin.less"],
+    "dest": "modules",
+    "destPaths": ["modules/**/*.d.ts", "modules/**/*.js", "modules/*.css", "modules/*/*.css", "modules/beta/*/*.css"]
   },
   "polyfills": {
-    "ts": ["polyfills/**/*.ts", "!polyfills/**/*.d.ts"]
+    "base": "./polyfills/",
+    "ts": ["polyfills/**/*.ts", "!polyfills/**/*.d.ts"],
+    "dest": "polyfills",
+    "destPaths": ["polyfills/**/*.d.ts", "polyfills/**/*.js"]
   },
   "lint": {
-    "ts": ["modules/**/*.ts", "!modules/**/*.test.ts"],
+    "ts": ["modules/**/*.ts", "!modules/**/*.test.ts", "!modules/**/*.d.ts"],
     "less": ["modules/**/*.less"]
   },
   "watch": {
-    "ts": ["modules/**/*.ts", "test-server/src/**/*.ts", "!**/*.test.ts"],
+    "ts": ["modules/**/*.ts", "test-server/src/**/*.ts", "!**/*.test.ts", "!**/*.d.ts"],
     "less": ["modules/**/*.less", "test-server/src/**/*.less"]
   },
   "server": {
     "less": "test-server/src/*.less",
     "ts": ["test-server/src/*.ts"],
     "target": "test-server/static"
+  },
+  "tar": {
+    "dest": "target",
+    "destPaths": ["target/*"]
   }
 }

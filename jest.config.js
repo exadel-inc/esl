@@ -4,6 +4,7 @@ module.exports = {
   preset: 'ts-jest',
   roots: ['modules'],
   testRegex: '/test/(.+)\\.test\\.ts$',
+  moduleFileExtensions: ["ts", "js", "json"], // Prefer ts sources over js
   coverageDirectory: '.report',
   coverageReporters: ['lcov', 'html'],
   collectCoverageFrom: [

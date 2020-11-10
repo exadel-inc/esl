@@ -1,7 +1,7 @@
 const gulp = require('gulp');
 const cfg = require('./paths.json');
 
-const {clean} = require('./build/clean-task');
+const {cleanAll} = require('./build/clean-task');
 const {tscBuild} = require('./build/tsc-task');
 const {tarBuild} = require('./build/tar-task');
 const {buildTsBundle} = require('./build/webpack-task');
@@ -12,16 +12,17 @@ const {lintStyle, lintTypeScript} = require('./build/linting-task');
 print('=== Running ESL Build ===')();
 
 // === BUILD TASKS ===
+const clean = cleanAll([...cfg.src.destPaths, ...cfg.polyfills.destPaths]);
 const build = gulp.series(
-  //clean(['modules/**/*.d.ts', 'modules/**/*.js', 'polyfills/**/*.d.ts', 'polyfills/**/*.js']),
+  clean,
   gulp.parallel(
-    tscBuild({src: cfg.src.ts, base: './modules/'}, 'modules'),
-    lessBuildProd({src: cfg.src.less, base: './modules/'}, 'modules'),
-    tscBuild({src: cfg.polyfills.ts, base: './polyfills/'}, 'polyfills')
+    tscBuild({src: cfg.src.ts, base: cfg.src.base}, cfg.src.dest),
+    lessBuildProd({src: cfg.src.less, base: cfg.src.base}, cfg.src.dest),
+    tscBuild({src: cfg.polyfills.ts, base: cfg.polyfills.base}, cfg.polyfills.dest)
   )
 );
 
-const tar = gulp.series(clean('target/*'), build, tarBuild());
+const tar = gulp.series(cleanAll(cfg.tar.destPaths), build, tarBuild(cfg.tar.dest));
 
 // === LINTER TASKS ===
 const lintTS = lintTypeScript(cfg.lint.ts);
@@ -34,7 +35,7 @@ const buildLocalTs = buildTsBundle({
 }, cfg.server.target);
 const buildLocalLess = lessBuild(cfg.server.less, cfg.server.target);
 const buildLocal = gulp.series(
-  clean(cfg.server.target),
+  cleanAll(cfg.server.target),
   gulp.parallel(
     buildLocalTs,
     buildLocalLess
