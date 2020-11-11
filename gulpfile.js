@@ -1,28 +1,29 @@
 const gulp = require('gulp');
 const cfg = require('./paths.json');
 
-const {clean} = require('./build/clean-task');
+const {cleanAll} = require('./build/clean-task');
 const {tscBuild} = require('./build/tsc-task');
 const {tarBuild} = require('./build/tar-task');
 const {buildTsBundle} = require('./build/webpack-task');
-const {lessCopy, lessBuild} = require('./build/less-task');
+const {lessBuild, lessBuildProd} = require('./build/less-task');
 const {print, catLog} = require('./build/common');
 const {lintStyle, lintTypeScript} = require('./build/linting-task');
 
 print('=== Running ESL Build ===')();
 
 // === BUILD TASKS ===
+const LEGACY_PATHS = ['modules-es5/*', 'modules-es6/*'];
+const clean = cleanAll([...cfg.src.destPaths, ...cfg.polyfills.destPaths, ...LEGACY_PATHS]);
 const build = gulp.series(
-  clean(['modules-es5/*', 'modules-es6/*']),
+  clean,
   gulp.parallel(
-    tscBuild({target: 'es5'}, cfg.src.ts, 'modules-es5'),
-    tscBuild({target: 'es6'}, cfg.src.ts, 'modules-es6'),
-    lessCopy(cfg.src.less, ['modules-es5', 'modules-es6']),
-    lessBuild(cfg.src.css, ['modules-es5', 'modules-es6'])
+    tscBuild({src: cfg.src.ts, base: cfg.src.base}, cfg.src.dest),
+    lessBuildProd({src: cfg.src.less, base: cfg.src.base}, cfg.src.dest),
+    tscBuild({src: cfg.polyfills.ts, base: cfg.polyfills.base}, cfg.polyfills.dest)
   )
 );
 
-const tar = gulp.series(clean('target/*'), build, tarBuild());
+const tar = gulp.series(cleanAll(cfg.tar.destPaths), build, tarBuild(cfg.tar.dest));
 
 // === LINTER TASKS ===
 const lintTS = lintTypeScript(cfg.lint.ts);
@@ -31,11 +32,11 @@ const lint = gulp.series(gulp.parallel(lintTS, lintCSS), catLog('Linting passed'
 
 // === Local Build ===
 const buildLocalTs = buildTsBundle({
-  src: cfg.test.ts
-}, cfg.test.target);
-const buildLocalLess = lessBuild(cfg.test.less, cfg.test.target);
+  src: cfg.server.ts
+}, cfg.server.target);
+const buildLocalLess = lessBuild(cfg.server.less, cfg.server.target);
 const buildLocal = gulp.series(
-  clean(cfg.test.target),
+  cleanAll(cfg.server.target),
   gulp.parallel(
     buildLocalTs,
     buildLocalLess
@@ -48,9 +49,9 @@ const watchLess = gulp.series(buildLocalLess, function watchLess() {
   );
 });
 const watchTs = buildTsBundle({
-  src: cfg.test.ts,
+  src: cfg.server.ts,
   watch: true
-}, cfg.test.target);
+}, cfg.server.target);
 const watchTsLint = function watchTsLint() {
   gulp.watch(cfg.watch.ts, {},
     gulp.series(print('TS Changed ...'), lintTS)

@@ -1,6 +1,5 @@
 import '../../../polyfills/es5-target-shim';
-import {ESLBaseElement} from '../ts/esl-base-element';
-import {jsonAttr} from '../ts/decorators/json-attr';
+import {ESLBaseElement, jsonAttr} from '../core';
 
 describe('Decorator: jsonAttr', () => {
 

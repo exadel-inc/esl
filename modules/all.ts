@@ -1,14 +1,23 @@
 export * as Utils from './esl-utils/all';
 
-export {ESLImage as Image} from './esl-image/esl-image';
-export {ESLMedia as Media} from './esl-media/esl-media';
+export * from './esl-media-query/core';
+export * from './esl-traversing-query/core';
 
-export {ESLPopup as Popup} from './esl-popup/esl-popup';
-export {ESLPanel as Panel, ESLPanelStack as PanelStack} from './esl-panel/esl-panel';
-export {ESLTrigger as Trigger, ESLTriggersContainer as TriggersContainer} from './esl-trigger/esl-trigger';
-export {ESLTab as Tab, ESLTabsContainer as TabsContainer} from './esl-tab/esl-tab';
-export {ESLScrollableTabs as ScrollableTabs} from './esl-scrollable-tab/esl-scrollable-tab';
+export * from './esl-image/core';
 
-export {ESLScrollbar as Scrollbar} from './esl-scrollbar/esl-scrollbar';
+import './esl-media/providers/iframe-provider';
+import './esl-media/providers/html5/audio-provider';
+import './esl-media/providers/html5/video-provider';
+import './esl-media/providers/youtube-provider';
+import './esl-media/providers/brightcove-provider';
+export * from './esl-media/core';
 
-export {ESLCarousel as Carousel, CarouselPlugins} from './beta/esl-carousel/esl-carousel';
+export * from './esl-popup/core';
+export * from './esl-trigger/core';
+
+export * from './esl-panel/core';
+
+export * from './esl-tab/core';
+export * from './esl-scrollable-tab/core';
+
+export * from './esl-scrollbar/core';

@@ -16,7 +16,7 @@ export const rafDecorator = <T extends AnyToVoidFnSignature>(fn: T): T => {
   return function (...args: any[]) {
     if (lastArgs === null) {
       requestAnimationFrame(() => {
-        fn.call(this, ...lastArgs!);
+        lastArgs && fn.call(this, ...lastArgs);
         lastArgs = null;
       });
     }
