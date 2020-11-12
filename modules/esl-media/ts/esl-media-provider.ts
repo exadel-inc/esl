@@ -36,6 +36,8 @@ export type ProviderType = {
 
 export type URLParser = (mediaSrc: string) => Partial<MediaProviderConfig> | null;
 
+export type ProviderObservedParams = 'autoplay' | 'loop' | 'muted' | 'playsinline' | 'controls';
+
 export abstract class BaseProvider<T extends HTMLElement> {
   static readonly providerName: string;
 
@@ -118,6 +120,10 @@ export abstract class BaseProvider<T extends HTMLElement> {
    */
   public abstract focus(): void;
 
+  protected onConfigChange(param: ProviderObservedParams, value: boolean) {
+    this.config[param] = value;
+  }
+
   /**
    * Set size for inner content
    */
@@ -137,6 +143,14 @@ export abstract class BaseProvider<T extends HTMLElement> {
     } else {
       return this.pause();
     }
+  }
+
+  /**
+   * Executes onConfigChange action when api is ready
+   * @returns Promise
+   */
+  public onSafeConfigChange(param: ProviderObservedParams, value: boolean) {
+    this.ready.then(() => this.onConfigChange(param, value));
   }
 
   /**

@@ -6,7 +6,7 @@
  */
 import {loadScript} from '../../../esl-utils/dom/script';
 import {ESLMedia} from '../esl-media';
-import {BaseProvider, MediaProviderConfig, PlayerStates} from '../esl-media-provider';
+import {BaseProvider, MediaProviderConfig, PlayerStates, ProviderObservedParams} from '../esl-media-provider';
 import ESLMediaProviderRegistry from '../esl-media-registry';
 import PlayerVars = YT.PlayerVars;
 import {generateUId} from '../../../esl-utils/misc/uid';
@@ -129,6 +129,21 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
         break;
     }
   };
+
+  protected onConfigChange(param: ProviderObservedParams, value: boolean) {
+    super.onConfigChange(param, value);
+    switch (param) {
+      case 'muted':
+        value ? this._api.mute() : this._api.unMute();
+        break;
+      case 'autoplay':
+      case 'playsinline':
+      case 'controls':
+        this.unbind();
+        this.bind();
+        break;
+    }
+  }
 
   public focus() {
     if (this._el instanceof HTMLIFrameElement && this._el.contentWindow) {

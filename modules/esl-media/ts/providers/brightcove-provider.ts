@@ -9,7 +9,7 @@ import {VideoJsPlayer} from 'video.js';
 
 import {loadScript} from '../../../esl-utils/dom/script';
 import {ESLMedia} from '../esl-media';
-import {BaseProvider, PlayerStates} from '../esl-media-provider';
+import {BaseProvider, PlayerStates, ProviderObservedParams} from '../esl-media-provider';
 import ESLMediaProviderRegistry from '../esl-media-registry';
 import {generateUId} from '../../../esl-utils/misc/uid';
 
@@ -142,6 +142,13 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
     this.component._onDetach();
     this._api && this._api.dispose();
     super.unbind();
+  }
+
+  protected onConfigChange(param: ProviderObservedParams, value: boolean) {
+    super.onConfigChange(param, value);
+    if (typeof this._api[param] === 'function') {
+      this._api[param](value);
+    }
   }
 
   public focus() {
