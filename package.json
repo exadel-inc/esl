@@ -7,7 +7,7 @@
     "lightweight",
     "flexible"
   ],
-  "version": "1.32.0-alpha",
+  "version": "1.32.1-alpha",
   "private": true,
   "homepage": "https://gitlab.exadel.com/EDMTP/smart-wc-library#readme",
   "license": "MIT",
