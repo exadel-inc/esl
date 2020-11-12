@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "experimentalDecorators": true,
     "alwaysStrict": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
-    "target": "ES5",
+    "target": "ES6",
     "downlevelIteration": true,
     "module": "ES2015",
     "moduleResolution": "Node",
@@ -17,10 +18,13 @@
     ]
   },
   "include": [
-    "modules"
+    "src/modules",
+    "test-server/src"
   ],
   "exclude": [
     "*.test.ts",
+    "modules",
+    "polyfills",
     "node_modules"
   ]
 }

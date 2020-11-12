@@ -3,9 +3,11 @@
   "description": "Exadel Smart Library (ESL) - is the lightweight custom elements library that provide a set of super-flexible components",
   "keywords": [
     "custom elements",
-    "component library"
+    "components library",
+    "lightweight",
+    "flexible"
   ],
-  "version": "1.29.0-alpha",
+  "version": "1.32.1-alpha",
   "private": true,
   "homepage": "https://gitlab.exadel.com/EDMTP/smart-wc-library#readme",
   "license": "MIT",
@@ -13,17 +15,29 @@
     "type": "git",
     "url": "git+https://gitlab.exadel.com/EDMTP/smart-wc-library.git"
   },
+  "files": [
+    "modules/**/*"
+  ],
+  "main": "modules/all.js",
+  "types": "modules/all.d.ts",
   "contributors": [
     "Alexey Stsefanovich <astsefanovich@exadel.com>",
     "Julia Murashko <ymurashka@exadel.com>",
     "Yuliya Adamskaya <yadamska@exadel.com>"
   ],
+  "browserslist": [
+    "last 3 version",
+    "> 1%",
+    "not dead"
+  ],
   "scripts": {
     "tar": "gulp tar",
+    "clean": "gulp clean",
     "build": "gulp build",
-    "test": "jest",
-    "test-lint": "gulp lint",
+    "test": "jest && gulp lint",
+    "test-only": "jest",
     "test-report": "jest --coverage",
+    "test-ci": "gulp lint --silent && jest --bail --silent",
     "local-serv": "npm run local-serv-build && npm run local-serv-start",
     "local-serv-start": "cd test-server && node server.js",
     "local-serv-build": "gulp buildLocal",
@@ -31,22 +45,15 @@
     "prepare": "npm run build",
     "preversion": "npm run test | npm run test-lint"
   },
-  "files": [
-    "modules/**/*",
-    "!modules/**/*.test.ts",
-    "modules-es6/**/*"
-  ],
-  "browserslist": [
-    "last 3 version",
-    "> 1%",
-    "not dead"
-  ],
   "dependencies": {
+    "@types/resize-observer-browser": "^0.1.4",
     "@types/video.js": "7.3.10",
     "@types/youtube": "0.0.39"
   },
   "devDependencies": {
+    "@juggle/resize-observer": "^3.2.0",
     "@types/jest": "^26.0.15",
+    "@types/smoothscroll-polyfill": "^0.3.1",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "@webcomponents/custom-elements": "^1.4.3",
@@ -62,10 +69,12 @@
     "gulp-less": "^4.0.1",
     "gulp-postcss": "^9.0.0",
     "gulp-print": "^5.0.2",
+    "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-stylelint": "^13.0.0",
     "gulp-tar": "^3.1.0",
     "gulp-typescript": "^5.0.1",
+    "husky": "^4.3.0",
     "intersection-observer": "^0.11.0",
     "jest": "^26.6.0",
     "postcss": "^8.1.2",
@@ -79,5 +88,10 @@
     "vinyl-named": "^1.1.0",
     "webpack": "^4.44.2",
     "webpack-stream": "^6.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run test-ci"
+    }
   }
 }

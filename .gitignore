@@ -10,9 +10,13 @@ node_modules
 
 # Build output
 target
-modules-es5
-modules-es6
 test-server/static
+
+# Generated surces
+modules
+polyfills
+!src/modules
+!src/polyfills
 
 # Logs & Tmp
 npm-debug.log

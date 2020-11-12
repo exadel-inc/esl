@@ -1,34 +1,51 @@
 // Support for ES5 bundle target
-import './../../polyfills/es5-target-shim';
+import '../../src/polyfills/es5-target-shim';
 // Builtin polyfills
-import './../../polyfills/polyfills.es6';
+import '../../src/polyfills/polyfills.es6';
 // Validate environment
-import './../../polyfills/polyfills.validate';
-// ESL
-import * as ESL from '../../modules/all';
+import '../../src/polyfills/polyfills.validate';
 
 import './common/back-button';
 import './common/test-media';
 import './common/test-media-source';
 
-ESL.Image.register();
-ESL.Media.register();
+import {
+  ESLImage,
+  ESLMedia,
+  ESLPopup,
+  ESLPanel,
+  ESLPanelStack,
+  ESLTrigger,
+  ESLTriggersContainer,
+  ESLTab,
+  ESLTabsContainer,
+  ESLScrollableTabs,
+  ESLScrollbar
+} from '../../src/modules/all';
 
-ESL.Popup.register();
-ESL.Panel.register();
-ESL.PanelStack.register();
+import {
+  ESLCarousel,
+  CarouselPlugins
+} from '../../src/modules/beta/all';
 
-ESL.Trigger.register();
-ESL.Tab.register();
+ESLImage.register();
+ESLMedia.register();
 
-ESL.TriggersContainer.register();
-ESL.TabsContainer.register();
-ESL.ScrollableTabs.register();
+ESLPopup.register();
+ESLPanel.register();
+ESLPanelStack.register();
 
-ESL.Scrollbar.register();
+ESLTrigger.register();
+ESLTab.register();
 
-ESL.Carousel.register();
-ESL.CarouselPlugins.Dots.register();
-ESL.CarouselPlugins.Link.register();
-ESL.CarouselPlugins.Touch.register();
-ESL.CarouselPlugins.Autoplay.register();
+ESLTriggersContainer.register();
+ESLTabsContainer.register();
+ESLScrollableTabs.register();
+
+ESLScrollbar.register();
+
+ESLCarousel.register();
+CarouselPlugins.Dots.register();
+CarouselPlugins.Link.register();
+CarouselPlugins.Touch.register();
+CarouselPlugins.Autoplay.register();

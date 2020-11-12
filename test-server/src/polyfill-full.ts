@@ -1,14 +1,13 @@
 /**
  * Target: IE11, Edge < 14
  */
-import 'promise-polyfill/dist/polyfill'
+import 'promise-polyfill/dist/polyfill';
 
-import './../../polyfills/polyfills.es5';
+import '../../src/polyfills/polyfills.es5';
 
 import '@webcomponents/webcomponents-platform';
 
-// @ts-ignore
-import smoothscroll from 'smoothscroll-polyfill';
-smoothscroll.polyfill();
+import SmoothScroll from 'smoothscroll-polyfill';
+SmoothScroll.polyfill();
 
 import './polyfill-light';
