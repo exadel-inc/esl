@@ -1,24 +1,25 @@
 {
   "src": {
-    "base": "./modules/",
-    "ts": ["modules/**/*.ts", "!modules/**/*.test.ts", "!modules/**/*.d.ts"],
-    "less": ["modules/*.less", "modules/*/*.less", "modules/utils/*/*.less", "modules/beta/*/*.less", "!**/*.mixin.less"],
+    "base": "./src/modules/",
+    "ts": ["src/modules/**/*.ts", "!**/test/*.test.ts"],
+    "less": ["src/modules/**/*.less"],
+    "css": ["src/modules/*.less", "src/modules/*/*.less", "src/modules/utils/*/*.less", "src/modules/beta/*/*.less", "!**/*.mixin.less"],
     "dest": "modules",
-    "destPaths": ["modules/**/*.d.ts", "modules/**/*.js", "modules/*.css", "modules/*/*.css", "modules/beta/*/*.css"]
+    "destPaths": ["modules/*"]
   },
   "polyfills": {
-    "base": "./polyfills/",
-    "ts": ["polyfills/**/*.ts", "!polyfills/**/*.d.ts"],
+    "base": "./src/polyfills/",
+    "ts": ["src/polyfills/**/*.ts"],
     "dest": "polyfills",
-    "destPaths": ["polyfills/**/*.d.ts", "polyfills/**/*.js"]
+    "destPaths": ["polyfills/*"]
   },
   "lint": {
-    "ts": ["modules/**/*.ts", "!modules/**/*.test.ts", "!modules/**/*.d.ts"],
-    "less": ["modules/**/*.less"]
+    "ts": ["src/modules/**/*.ts", "!**/test/*.test.ts"],
+    "less": ["src/modules/**/*.less"]
   },
   "watch": {
-    "ts": ["modules/**/*.ts", "test-server/src/**/*.ts", "!**/*.test.ts", "!**/*.d.ts"],
-    "less": ["modules/**/*.less", "test-server/src/**/*.less"]
+    "ts": ["src/modules/**/*.ts", "test-server/src/**/*.ts", "!**/test/*.test.ts"],
+    "less": ["src/modules/**/*.less", "test-server/src/**/*.less"]
   },
   "server": {
     "less": "test-server/src/*.less",

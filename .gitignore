@@ -13,13 +13,10 @@ target
 test-server/static
 
 # Generated surces
-modules/**/*.js
-modules/**/*.d.ts
-modules/*.css
-modules/*/*.css
-modules/beta/*/*.css
-polyfills/**/*.js
-polyfills/**/*.d.ts
+modules
+polyfills
+!src/modules
+!src/polyfills
 
 # Logs & Tmp
 npm-debug.log

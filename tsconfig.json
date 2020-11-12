@@ -18,14 +18,13 @@
     ]
   },
   "include": [
-    "modules",
-    "polyfills",
+    "src/modules",
     "test-server/src"
   ],
   "exclude": [
-    "*.js",
-    "*.d.ts",
     "*.test.ts",
+    "modules",
+    "polyfills",
     "node_modules"
   ]
 }

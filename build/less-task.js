@@ -13,6 +13,10 @@ const sourcemaps = require('gulp-sourcemaps');
 const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
 
+module.exports.lessCopy = (src, out) => function lessCopy() {
+  return srcExt(src).pipe(gulp.dest(out));
+};
+
 module.exports.lessBuild = (src, out) => function lessBuild() {
   return srcExt(src)
     .pipe(sourcemaps.init())

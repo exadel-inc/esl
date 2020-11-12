@@ -3,7 +3,7 @@
  */
 import 'promise-polyfill/dist/polyfill';
 
-import './../../polyfills/polyfills.es5';
+import '../../src/polyfills/polyfills.es5';
 
 import '@webcomponents/webcomponents-platform';
 

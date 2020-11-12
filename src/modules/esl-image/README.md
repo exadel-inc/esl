@@ -20,7 +20,7 @@ Originally developed as alternative for picture component, but with more feature
    - *none* - image start loading immediately
    - *manual* - start loading image by manually provided marker
    - *auto* - image start loading only if it is visible and in or closer to browser viewport area (Use IntersectionObserverAPI)
- - `ESLMediaQuery` special syntax that allows define different sources for different media queries, also supports shortcuts for media-queries
+ - `ESLMediaQuery` special syntax that allows defining different sources for different media queries, also supports shortcuts for media-queries
  - marker class. ESL Image can add specific class on specified parent element when image is ready, the ESL Image itself also has markers that indicate its state.
  - provides events on state change (also support inline syntax like `<esl-image-tag onload="">`)
  - attribute observing
@@ -50,11 +50,11 @@ Originally developed as alternative for picture component, but with more feature
   - `auto` - IntersectionObserver mode: image start loading as soon as it becomes visible in visual area)
   - `manual` - start loading when lazy-triggered marker set manually
   
-- **refresh-on-update** \[boolean] (optional) - Always update original image as soon as image source changed
+- **refresh-on-update** \[boolean] (optional) - Always update the original image as soon as image source changed
 
-- **inner-image-class** (optional) - class to mark and search inner image, 'inner-image' by default
+- **inner-image-class** (optional) - class to mark and search the inner image, 'inner-image' by default
 
-- **container-class** (optional) - class that will be added to container when image will be ready
+- **container-class** (optional) - class, that will be added to container when image will be ready
 
 - **container-class-onload** (optional) - marks that container-class shouldn't be added if image load ends with exception
 

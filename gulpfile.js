@@ -5,7 +5,7 @@ const {cleanAll} = require('./build/clean-task');
 const {tscBuild} = require('./build/tsc-task');
 const {tarBuild} = require('./build/tar-task');
 const {buildTsBundle} = require('./build/webpack-task');
-const {lessBuild, lessBuildProd} = require('./build/less-task');
+const {lessCopy, lessBuild, lessBuildProd} = require('./build/less-task');
 const {print, catLog} = require('./build/common');
 const {lintStyle, lintTypeScript} = require('./build/linting-task');
 
@@ -13,15 +13,14 @@ print('=== Running ESL Build ===')();
 
 // === BUILD TASKS ===
 const LEGACY_PATHS = ['modules-es5/*', 'modules-es6/*'];
+
+const buildModules = tscBuild({src: cfg.src.ts, base: cfg.src.base}, cfg.src.dest);
+const buildPolyfills = tscBuild({src: cfg.polyfills.ts, base: cfg.polyfills.base}, cfg.polyfills.dest);
+const buildLess = lessCopy({src: cfg.src.less, base: cfg.src.base}, cfg.src.dest);
+const buildCss = lessBuildProd({src: cfg.src.css, base: cfg.src.base}, cfg.src.dest);
+
 const clean = cleanAll([...cfg.src.destPaths, ...cfg.polyfills.destPaths, ...LEGACY_PATHS]);
-const build = gulp.series(
-  clean,
-  gulp.parallel(
-    tscBuild({src: cfg.src.ts, base: cfg.src.base}, cfg.src.dest),
-    lessBuildProd({src: cfg.src.less, base: cfg.src.base}, cfg.src.dest),
-    tscBuild({src: cfg.polyfills.ts, base: cfg.polyfills.base}, cfg.polyfills.dest)
-  )
-);
+const build = gulp.series(clean, gulp.parallel(buildModules, buildPolyfills, buildLess, buildCss));
 
 const tar = gulp.series(cleanAll(cfg.tar.destPaths), build, tarBuild(cfg.tar.dest));
 
