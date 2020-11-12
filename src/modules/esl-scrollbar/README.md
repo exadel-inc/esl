@@ -17,11 +17,11 @@ ESLScrollbar - custom element, that replaces the browser's default scrollbar wit
 
 - **target** - class scrollable content
 
-- **dragging** \[boolean] - always will be changed when track thumb drag is started or finished
+- **dragging** \[boolean] - will always be changed when track thumb drag is started or finished
 
-- **thumb-class** (default 'scrollbar-thumb') - class that will be added to scrollbar container
+- **thumb-class** (default 'scrollbar-thumb') - class, that will be added to scrollbar container
 
-- **track-class** (default 'scrollbar-track') - class that will be added to scrollbar container
+- **track-class** (default 'scrollbar-track') - class, that will be added to scrollbar container
 
 ### Readonly Attributes
 - inactive \[boolean] - appears when scroll state and position are refreshed

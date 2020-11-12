@@ -13,11 +13,9 @@ function buildConfig(config = {}) {
         loader: 'ts-loader',
         options: {
           compilerOptions: {
-            target: 'ES5'
-          },
-          reportFiles: [
-            'modules/**/*.ts'
-          ]
+            target: 'ES5',
+            declaration: false
+          }
         }
       }]
     },

@@ -11,10 +11,5 @@ node_modules
 test-server/static
 
 # Generated surces
-modules/**/*.js
-modules/**/*.d.ts
-modules/*.css
-modules/*/*.css
-modules/beta/*/*.css
-polyfills/**/*.js
-polyfills/**/*.d.ts
+!src/modules
+!src/polyfills

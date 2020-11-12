@@ -16,11 +16,10 @@
     "url": "git+https://gitlab.exadel.com/EDMTP/smart-wc-library.git"
   },
   "files": [
-    "modules/**/*",
-    "!modules/**/*.test.ts"
+    "modules/**/*"
   ],
-  "main": "./modules/all.js",
-  "types": "./modules/all.d.ts",
+  "main": "modules/all.js",
+  "types": "modules/all.d.ts",
   "contributors": [
     "Alexey Stsefanovich <astsefanovich@exadel.com>",
     "Julia Murashko <ymurashka@exadel.com>",

@@ -2,18 +2,18 @@ module.exports = {
   // runner: 'jest-electron/runner',
   // testEnvironment: 'jest-electron/environment',
   preset: 'ts-jest',
-  roots: ['modules'],
+  roots: ['src/modules'],
   testRegex: '/test/(.+)\\.test\\.ts$',
-  moduleFileExtensions: ["ts", "js", "json"], // Prefer ts sources over js
+  moduleFileExtensions: ["ts", "js", "json"],
   coverageDirectory: '.report',
   coverageReporters: ['lcov', 'html'],
   collectCoverageFrom: [
-    'modules/**/*.ts',
+    'src/modules/**/*.ts',
     // cumulative exclude
-    '!modules/*.ts',
-    '!modules/*/*.ts',
+    '!src/modules/*.ts',
+    '!src/modules/*/*.ts',
     // beta modules exclude
-    '!modules/beta/**',
+    '!src/modules/beta/**',
     // libs exclude
     '!**/node_modules/**'
   ]
