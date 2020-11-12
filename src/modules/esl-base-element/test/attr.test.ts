@@ -6,6 +6,8 @@ describe('Decorator: attr', () => {
   class TestElement extends ESLBaseElement {
     @attr()
     public fieldDefault: string | boolean;
+    @attr({defaultValue: null})
+    public noDefault: string | boolean;
     @attr({dataAttr: true})
     public dataField: string;
     @attr({name: 'test-attr'})
@@ -34,6 +36,16 @@ describe('Decorator: attr', () => {
     el.fieldDefault = false;
     expect(el.fieldDefault).toBe('');
     expect(el.hasAttribute('field-default')).toBe(false);
+  });
+
+  test('Decorator: attr - bool', () => {
+    expect(el.noDefault).toBe(null);
+    el.noDefault = true;
+    expect(el.noDefault).toBe('');
+    expect(el.hasAttribute('no-default')).toBe(true);
+    el.noDefault = false;
+    expect(el.noDefault).toBe(null);
+    expect(el.hasAttribute('no-default')).toBe(false);
   });
 
   test('Decorator: attr - data attr', () => {
