@@ -1,6 +1,6 @@
 /**
  * ESL Media
- * @version 1.2.0
+ * @version 1.2.1
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
@@ -98,7 +98,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-    if (!this.connected && oldVal === newVal) return;
+    if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
       case 'disabled':
         (oldVal !== null) && this.deferredReinitialize();
@@ -135,7 +135,7 @@ export class ESLMedia extends ESLBaseElement {
       const provider = ESLMediaRegistry.getProvider(this.mediaType);
       if (provider) {
         this._provider = new provider(this);
-        this._provider.bind();
+        this._provider!.bind();
       } else {
         this._onError();
       }
