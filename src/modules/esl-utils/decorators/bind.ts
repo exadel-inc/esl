@@ -1,4 +1,4 @@
-const BINDING_STORE_KEY = '__fnBindings';
+const BINDINGS_STORE_KEY = '__fnBindings';
 /** Decorator "bind" allows to bind prototype method context to class instance */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function bind<T extends Function>(target: object,
@@ -22,18 +22,18 @@ export function bind<T extends Function>(target: object,
       }
 
       // Bounded functions store
-      let binding = this[BINDING_STORE_KEY];
-      if (!binding) {
-        binding = this[BINDING_STORE_KEY] = new WeakMap<T, T>();
+      let bindings = this[BINDINGS_STORE_KEY];
+      if (!bindings) {
+        bindings = this[BINDINGS_STORE_KEY] = new WeakMap<T, T>();
       }
 
-      // Store binding if it's not exist
-      if (!binding.has(fn)) {
-        binding.set(fn, fn.bind(this));
+      // Store binding if it does not exist
+      if (!bindings.has(fn)) {
+        bindings.set(fn, fn.bind(this));
       }
 
       // Return binding
-      return binding.get(fn);
+      return bindings.get(fn);
     },
     set(value: T) {
       Object.defineProperty(this, propertyKey, {
