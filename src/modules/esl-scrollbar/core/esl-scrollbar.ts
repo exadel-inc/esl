@@ -1,10 +1,11 @@
 /**
  * ESL Scrollbar
- * @version 1.2.0
+ * @version 1.3.0
  * @author Yuliya Adamskaya
  */
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
+import {bind} from '../../esl-utils/decorator/bind';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {normalizeCoordinates} from '../../esl-utils/dom/events';
 import {TraversingUtils} from '../../esl-utils/dom/traversing';
@@ -31,7 +32,8 @@ export class ESLScrollbar extends ESLBaseElement {
   protected _initialMousePosition: number;
   protected _initialPosition: number;
 
-  protected _resizeObserver = new ResizeObserver(() => this.refresh());
+  protected deferredRefresh = rafDecorator(() => this.refresh());
+  protected _resizeObserver = new ResizeObserver(this.deferredRefresh);
 
   static get observedAttributes() {
     return ['target'];
@@ -86,37 +88,37 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    this.addEventListener('click', this.onClick);
-    this.$scrollbarThumb.addEventListener('mousedown', this.onMouseDown);
-    window.addEventListener('esl:refresh', this.onRefresh);
+    this.addEventListener('click', this._onClick);
+    this.$scrollbarThumb.addEventListener('mousedown', this._onMouseDown);
+    window.addEventListener('esl:refresh', this._onRefresh);
   }
 
   protected bindTargetEvents() {
     if (!this.$scrollableContent) return;
     if (document.documentElement === this.$scrollableContent) {
-      window.addEventListener('resize', this.onRefresh, {passive: true});
-      window.addEventListener('scroll', this.onRefresh, {passive: true});
+      window.addEventListener('resize', this._onRefresh, {passive: true});
+      window.addEventListener('scroll', this._onRefresh, {passive: true});
     } else {
       this._resizeObserver.observe(this.$scrollableContent);
-      this.$scrollableContent.addEventListener('scroll', this.onRefresh, {passive: true});
+      this.$scrollableContent.addEventListener('scroll', this._onRefresh, {passive: true});
     }
   }
 
   protected unbindEvents() {
-    this.removeEventListener('click', this.onClick);
-    this.$scrollbarThumb.removeEventListener('mousedown', this.onMouseDown);
+    this.removeEventListener('click', this._onClick);
+    this.$scrollbarThumb.removeEventListener('mousedown', this._onMouseDown);
     this.unbindTargetEvents();
-    window.removeEventListener('esl:refresh', this.onRefresh);
+    window.removeEventListener('esl:refresh', this._onRefresh);
   }
 
   protected unbindTargetEvents() {
     if (!this.$scrollableContent) return;
     if (document.documentElement === this.$scrollableContent) {
-      window.removeEventListener('resize', this.onRefresh);
-      window.removeEventListener('scroll', this.onRefresh);
+      window.removeEventListener('resize', this._onRefresh);
+      window.removeEventListener('scroll', this._onRefresh);
     } else {
       this._resizeObserver.unobserve(this.$scrollableContent);
-      this.$scrollableContent.removeEventListener('scroll', this.onRefresh);
+      this.$scrollableContent.removeEventListener('scroll', this._onRefresh);
     }
   }
 
@@ -197,61 +199,75 @@ export class ESLScrollbar extends ESLBaseElement {
   /**
    * Mousedown event to track thumb drag start.
    */
-  protected onMouseDown = (event: MouseEvent) => {
+  @bind
+  protected _onMouseDown(event: MouseEvent) {
     this.dragging = true;
     this._initialPosition = this.position;
     this._initialMousePosition = this.horizontal ? event.clientX : event.clientY;
 
     // Attach drag listeners
-    window.addEventListener('mousemove', this.onMouseMove);
-    window.addEventListener('mouseup', this.onMouseUp);
-    window.addEventListener('click', this.onBodyClick, {capture: true});
+    window.addEventListener('mousemove', this._onMouseMove);
+    window.addEventListener('mouseup', this._onMouseUp);
+    window.addEventListener('click', this._onBodyClick, {capture: true});
 
     // Prevents default text selection, etc.
     event.preventDefault();
-  };
+  }
+
+  /**
+   * Set position on drug
+   */
+  protected _dragToCoordinate(mousePosition: number) {
+    const positionChange = mousePosition - this._initialMousePosition;
+    const scrollableAreaHeight = this.trackOffset - this.thumbOffset;
+    const absChange = scrollableAreaHeight ? (positionChange / scrollableAreaHeight) : 0;
+    this.position = this._initialPosition + absChange;
+  }
+  protected _deferredDragToCoordinate = rafDecorator(this._dragToCoordinate);
 
   /**
    * Mousemove document handler for thumb drag event. Active only if drag action is active.
    */
-  protected onMouseMove = rafDecorator((event: MouseEvent) => {
+  @bind
+  protected _onMouseMove(event: MouseEvent) {
     if (!this.dragging) return;
 
-    const positionChange = (this.horizontal ? event.clientX : event.clientY) - this._initialMousePosition;
-    const scrollableAreaHeight = this.trackOffset - this.thumbOffset;
-    const absChange = scrollableAreaHeight ? (positionChange / scrollableAreaHeight) : 0;
-    this.position = this._initialPosition + absChange;
+    // Request position update
+    this._deferredDragToCoordinate(this.horizontal ? event.clientX : event.clientY);
 
     // Prevents default text selection, etc.
     event.preventDefault();
     event.stopPropagation();
-  });
+  }
 
   /**
    * Mouse up short time document handler to handle drag end
    */
-  protected onMouseUp = () => {
+  @bind
+  protected _onMouseUp() {
     this.dragging = false;
 
     // Unbind drag listeners
-    window.removeEventListener('mousemove', this.onMouseMove);
-    window.removeEventListener('mouseup', this.onMouseUp);
-  };
+    window.removeEventListener('mousemove', this._onMouseMove);
+    window.removeEventListener('mouseup', this._onMouseUp);
+  }
 
   /**
    * Body click short time handler to prevent clicks event on thumb drag. Handles capture phase.
    */
-  protected onBodyClick = (event: MouseEvent) => {
+  @bind
+  protected _onBodyClick(event: MouseEvent) {
     event.stopImmediatePropagation();
 
-    window.removeEventListener('click', this.onBodyClick, {capture: true});
-  };
+    window.removeEventListener('click', this._onBodyClick, {capture: true});
+  }
 
   /**
    * Handler for track clicks. Move scroll to selected position.
    */
-  protected onClick = (event: MouseEvent) => {
-    if (event.target !== this.$scrollbarTrack) return;
+  @bind
+  protected _onClick(event: MouseEvent) {
+    if (event.target !== this.$scrollbarTrack && event.target !== this) return;
     const clickCoordinates = normalizeCoordinates(event, this.$scrollbarTrack);
     const clickPosition = this.horizontal ? clickCoordinates.x : clickCoordinates.y;
 
@@ -261,23 +277,19 @@ export class ESLScrollbar extends ESLBaseElement {
 
     this.position = Math.min(this.position + this.thumbSize,
       Math.max(this.position - this.thumbSize, newPosition));
-  };
-
-  /**
-   * RAF deferred scroll refresh.
-   */
-  protected refreshDeferred = rafDecorator(() => this.refresh());
+  }
 
   /**
    * Handler for refresh events to update the scroll.
    * @param event - instance of 'resize' or 'scroll' or 'esl:refresh' event.
    */
-  protected onRefresh = (event: Event) => {
+  @bind
+  protected _onRefresh(event: Event) {
     const target = event.target as HTMLElement;
     if (event.type === 'scroll' && this.dragging) return;
     if (event.type === 'esl:refresh' && !TraversingUtils.isRelative(target.parentNode, this.targetElement)) return;
-    this.refreshDeferred();
-  };
+    this.deferredRefresh();
+  }
 }
 
 export default ESLScrollbar;
