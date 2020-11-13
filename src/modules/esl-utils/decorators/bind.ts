@@ -1,4 +1,5 @@
 const BINDING_STORE_KEY = '__fnBindings';
+/** Decorator "bind" allows to bind prototype method context to class instance */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function bind<T extends Function>(target: object,
                                          propertyKey: string,
@@ -18,11 +19,6 @@ export function bind<T extends Function>(target: object,
       // Accessing via prototype returns original function
       if (this === target) {
         return fn;
-      }
-
-      // If object have own definition then it has priority
-      if (Object.prototype.hasOwnProperty.call(this, propertyKey)) {
-        return this[propertyKey];
       }
 
       // Bounded functions store

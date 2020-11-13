@@ -5,7 +5,7 @@
  */
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorator/bind';
+import {bind} from '../../esl-utils/decorators/bind';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {normalizeCoordinates} from '../../esl-utils/dom/events';
 import {TraversingUtils} from '../../esl-utils/dom/traversing';

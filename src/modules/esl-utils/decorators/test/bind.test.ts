@@ -1,18 +1,6 @@
 import {bind} from '../bind';
 
-class TestClass {
-  constructor(public name: string) {}
-  @bind
-  getThis() {
-    return this;
-  }
-  @bind
-  getThisName(): any {
-    return this.name;
-  }
-}
-
-describe('common bind decorator test', () => {
+describe('common @bind decorator test', () => {
   test('basic binding test', () => {
     const test = new TestClass('1');
     const test2 = new TestClass('2');
@@ -38,7 +26,8 @@ describe('common bind decorator test', () => {
   });
 
   test('inheritance basic binding test', () => {
-    class TestChildClass extends TestClass {}
+    class TestChildClass extends TestClass {
+    }
 
     const test = new TestChildClass('3');
     expect(test.getThis.call(null)).toBe(test);
@@ -46,11 +35,26 @@ describe('common bind decorator test', () => {
     expect(test.getThis).toBe(test.getThis);
   });
 
+  test('inheritance prototype binding test', () => {
+    const test = new TestClass('1');
+    const test2 = new TestClass('2');
+    expect(TestClass.prototype.getThis.call(test)).toBe(test);
+    expect(TestClass.prototype.getThis.call(test2)).toBe(test2);
+  });
+
+  test('inheritance override binding test', () => {
+    const test = new TestClass('1');
+    const test2 = new TestClass('2');
+    expect(test.getThis.call(null)).toBe(test);
+    test.getThis = () => test2;
+    expect(test.getThis.call(null)).toBe(test2);
+  });
+
   test('inheritance super binding test', () => {
     class TestChildClass extends TestClass {
       @bind
       getThisName() {
-        return '!' + this.name;
+        return '!' + super.getThisName();
       }
       getThisSuperName() {
         return super.getThisName();
@@ -62,4 +66,28 @@ describe('common bind decorator test', () => {
     expect(test.getThisName.call(null)).toBe('!4');
     expect(test.getThisSuperName()).toBe('4');
   });
+
+  test('validation check', () => {
+    expect(() => {
+      class Test {
+        // @ts-ignore
+        @bind public a = 1;
+      }
+    }).toThrowError();
+  })
 });
+
+class TestClass {
+  constructor(public name: string) {
+  }
+
+  @bind
+  getThis() {
+    return this;
+  }
+
+  @bind
+  getThisName(): any {
+    return this.name;
+  }
+}
