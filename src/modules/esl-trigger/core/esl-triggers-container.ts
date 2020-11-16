@@ -22,15 +22,15 @@ export class ESLTriggersContainer extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    this.addEventListener('keydown', this.onKeydown);
+    this.addEventListener('keydown', this._onKeydown);
   }
 
   protected unbindEvents() {
-    this.removeEventListener('keydown', this.onKeydown);
+    this.removeEventListener('keydown', this._onKeydown);
   }
 
   @bind
-  protected onKeydown(e: KeyboardEvent) {
+  protected _onKeydown(e: KeyboardEvent) {
     const target = e.target;
     if (!(target instanceof ESLTrigger)) return;
 
