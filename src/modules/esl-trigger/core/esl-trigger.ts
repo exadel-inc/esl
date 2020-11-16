@@ -131,7 +131,7 @@ export class ESLTrigger extends ESLBaseElement {
     });
   }
   @bind
-  protected _onHideEvent(e: Event){
+  protected _onHideEvent(e: Event) {
     (e.type === 'click' && this.popup.closeOnBodyClick) && e.stopPropagation();
     this.popup.hide({
       trigger: this,

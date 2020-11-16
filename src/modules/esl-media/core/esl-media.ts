@@ -135,7 +135,7 @@ export class ESLMedia extends ESLBaseElement {
       const provider = ESLMediaRegistry.getProvider(this.mediaType);
       if (provider) {
         this._provider = new provider(this);
-        this._provider!.bind();
+        this._provider.bind();
       } else {
         this._onError();
       }
