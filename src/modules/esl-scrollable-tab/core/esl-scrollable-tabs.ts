@@ -1,5 +1,6 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {attr} from '../../esl-base-element/core';
+import {bind} from '../../esl-utils/decorators/bind';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {isNegativeScroll, isRtl} from '../../esl-utils/dom/rtl';
 
@@ -16,22 +17,22 @@ export class ESLScrollableTabs extends ESLTabsContainer {
   protected connectedCallback() {
     super.connectedCallback();
     this.updateArrows();
-    this.fitToViewportRAF(this.current() as ESLTab, 'auto');
+    this.deferredFitToViewport(this.current() as ESLTab, 'auto');
   }
 
   protected bindEvents() {
     super.bindEvents();
-    this.addEventListener('click', this.onClick, false);
-    this.$list && this.$list.addEventListener('scroll', this.onScroll, {passive: true});
-    this.addEventListener('focusin', this.onFocus);
+    this.addEventListener('click', this._onClick, false);
+    this.$list?.addEventListener('scroll', this._onScroll, {passive: true});
+    this.addEventListener('focusin', this._onFocus);
     window.addEventListener('resize', this.onResize);
   }
 
   protected unbindEvents() {
     super.unbindEvents();
-    this.removeEventListener('click', this.onClick, false);
-    this.$list && this.$list.removeEventListener('scroll', this.onScroll);
-    this.removeEventListener('focusin', this.onFocus);
+    this.removeEventListener('click', this._onClick, false);
+    this.$list?.removeEventListener('scroll', this._onScroll);
+    this.removeEventListener('focusin', this._onFocus);
     window.removeEventListener('resize', this.onResize);
   }
 
@@ -94,33 +95,42 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     rightArrow && rightArrow.toggleAttribute('disabled', !scrollEnd);
   }
 
-  protected onClick = (event: Event) => {
+  protected deferredUpdateArrows = rafDecorator(this.updateArrows.bind(this));
+
+  protected deferredFitToViewport = rafDecorator(this.fitToViewport.bind(this));
+
+  @bind
+  protected _onScroll() {
+    this.deferredUpdateArrows();
+  }
+
+  @bind
+  protected _onClick(event: Event) {
     const eventTarget: HTMLElement = event.target as HTMLElement;
     const target: HTMLElement | null = eventTarget.closest('[data-tab-direction]');
     const direction = target && target.dataset.tabDirection;
 
     if (!direction) return;
     this.moveTo(direction);
-  };
-
-  protected onTriggerStateChange(event: CustomEvent) {
-    super.onTriggerStateChange(event);
-    this.fitToViewportRAF(this.current() as ESLTab);
   }
 
-  protected onScroll = rafDecorator(() => this.updateArrows());
+  @bind
+  protected _onTriggerStateChange(event: CustomEvent) {
+    super._onTriggerStateChange(event);
+    this.deferredFitToViewport(this.current() as ESLTab);
+  }
 
-  protected fitToViewportRAF = rafDecorator(this.fitToViewport.bind(this));
-
-  protected onFocus = (e: FocusEvent) => {
+  @bind
+  protected _onFocus(e: FocusEvent) {
     const target = e.target;
     if (target instanceof ESLTab) {
-      this.fitToViewportRAF(target);
+      this.deferredFitToViewport(target);
     }
-  };
+  }
 
+  // FIXME
   protected onResize = rafDecorator(() => {
-    this.fitToViewportRAF(this.current() as ESLTab, 'auto');
+    this.deferredFitToViewport(this.current() as ESLTab, 'auto');
   });
 }
 

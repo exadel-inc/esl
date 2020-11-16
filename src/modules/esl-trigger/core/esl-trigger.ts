@@ -4,6 +4,7 @@ import {ESLPopup} from '../../esl-popup/core';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
 import {CSSUtil} from '../../esl-utils/dom/styles';
+import {bind} from '../../esl-utils/decorators/bind';
 import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
@@ -66,7 +67,7 @@ export class ESLTrigger extends ESLBaseElement {
     this._popup = newPopupInstance;
     if (this._popup) {
       this.bindEvents();
-      this.onPopupStateChanged();
+      this._onPopupStateChange();
     }
   }
 
@@ -95,23 +96,23 @@ export class ESLTrigger extends ESLBaseElement {
   protected bindEvents() {
     if (!this.popup) return;
     if (this.showEvent === this.hideEvent) {
-      this.attachEventListener(this.showEvent, this.onToggleEvent);
+      this.attachEventListener(this.showEvent, this._onToggleEvent);
     } else {
-      this.attachEventListener(this.showEvent, this.onShowEvent);
-      this.attachEventListener(this.hideEvent, this.onHideEvent);
+      this.attachEventListener(this.showEvent, this._onShowEvent);
+      this.attachEventListener(this.hideEvent, this._onHideEvent);
     }
     const popupClass = this._popup.constructor as typeof ESLPopup;
-    this.popup.addEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
+    this.popup.addEventListener(`${popupClass.eventNs}:statechange`, this._onPopupStateChange);
 
-    this.addEventListener('keydown', this.onKeydown);
+    this.addEventListener('keydown', this._onKeydown);
   }
 
   protected unbindEvents() {
     (this.__unsubscribers || []).forEach((off) => off());
     if (!this.popup) return;
     const popupClass = this._popup.constructor as typeof ESLPopup;
-    this.popup.removeEventListener(`${popupClass.eventNs}:statechange`, this.onPopupStateChanged);
-    this.removeEventListener('keydown', this.onKeydown);
+    this.popup.removeEventListener(`${popupClass.eventNs}:statechange`, this._onPopupStateChange);
+    this.removeEventListener('keydown', this._onKeydown);
   }
 
   protected attachEventListener(eventName: string | null, callback: (e: Event) => void) {
@@ -121,35 +122,36 @@ export class ESLTrigger extends ESLBaseElement {
     this.__unsubscribers.push(() => this.removeEventListener(eventName, callback));
   }
 
-  protected onShowEvent = (e: Event) => {
-    this.stopEventPropagation(e);
+  @bind
+  protected _onShowEvent(e: Event) {
+    (e.type === 'click' && this.popup.closeOnBodyClick) && e.stopPropagation();
     this.popup.show({
       trigger: this,
       delay: this.showDelayValue
     });
-  };
-  protected onHideEvent = (e: Event) => {
-    this.stopEventPropagation(e);
+  }
+  @bind
+  protected _onHideEvent(e: Event){
+    (e.type === 'click' && this.popup.closeOnBodyClick) && e.stopPropagation();
     this.popup.hide({
       trigger: this,
       delay: this.hideDelayValue,
       trackHover: this.event === 'hover' && this.mode === 'toggle'
     });
-  };
-  protected onToggleEvent = (e: Event) => (this.active ? this.onHideEvent : this.onShowEvent)(e);
-  protected onPopupStateChanged = () => {
+  }
+  @bind
+  protected _onToggleEvent(e: Event) {
+    return (this.active ? this._onHideEvent : this._onShowEvent)(e);
+  }
+
+  @bind
+  protected _onPopupStateChange() {
     this.active = this.popup.open;
     CSSUtil.toggleClsTo(this, this.activeClass, this.active);
     this.updateA11y();
     this.$$fireNs('statechange', {
       bubbles: true
     });
-  };
-
-  protected stopEventPropagation(e: Event) {
-    if (this.popup.closeOnBodyClick && e.type === 'click') {
-      e.stopPropagation();
-    }
   }
 
   protected get showDelayValue(): number | undefined {
@@ -162,7 +164,8 @@ export class ESLTrigger extends ESLBaseElement {
     return !hideDelay || isNaN(+hideDelay) ? undefined : +hideDelay;
   }
 
-  protected onKeydown = (e: KeyboardEvent) => {
+  @bind
+  protected _onKeydown(e: KeyboardEvent) {
     switch (e.which || e.keyCode) {
       case ENTER:
       case SPACE:
@@ -170,7 +173,7 @@ export class ESLTrigger extends ESLBaseElement {
         e.preventDefault();
         break;
     }
-  };
+  }
 
   public updateA11y() {
     const target = this.$a11yTarget;

@@ -1,6 +1,7 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESC} from '../../esl-utils/dom/keycodes';
 import {CSSUtil} from '../../esl-utils/dom/styles';
+import {bind} from '../../esl-utils/decorators/bind';
 import {defined} from '../../esl-utils/misc/functions';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {SingleTaskManager} from '../../esl-utils/async/single-task-manager';
@@ -221,27 +222,34 @@ export class ESLBasePopup extends ESLBaseElement {
   }
 
   // "Private" Handlers
-  protected _onClick = (e: MouseEvent) => {
+  @bind
+  protected _onClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (this.closeTrigger && target.closest(this.closeTrigger)) {
       this.hide({initiator: 'close', trigger: target});
     }
-  };
-  protected _onKeyboardEvent = (e: KeyboardEvent) => {
-    if (this.closeOnEsc && e.which === ESC) {
-      this.hide({initiator: 'keyboard'});
-    }
-  };
-  protected _onBodyClick = (e: MouseEvent) => {
+  }
+  @bind
+  protected _onBodyClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (!this.contains(target)) {
       this.hide({initiator: 'bodyclick', trigger: target});
     }
-  };
-  protected _onMouseEnter = () => {
+  }
+
+  @bind
+  protected _onKeyboardEvent(e: KeyboardEvent) {
+    if (this.closeOnEsc && e.which === ESC) {
+      this.hide({initiator: 'keyboard'});
+    }
+  }
+
+  @bind
+  protected _onMouseEnter() {
     this.show({initiator: 'mouseenter', trackHover: true});
-  };
-  protected _onMouseLeave = () => {
+  }
+  @bind
+  protected _onMouseLeave() {
     this.hide({initiator: 'mouseleave', trackHover: true});
-  };
+  }
 }
