@@ -6,7 +6,6 @@
 import {loadScript} from '../../esl-utils/dom/script';
 import {ESLMedia} from '../core/esl-media';
 import {BaseProvider, MediaProviderConfig, PlayerStates} from '../core/esl-media-provider';
-import ESLMediaProviderRegistry from '../core/esl-media-registry';
 import {generateUId} from '../../esl-utils/misc/uid';
 
 import type {VideoJsPlayer} from 'video.js';
@@ -22,8 +21,8 @@ export interface BCProviderConfig extends MediaProviderConfig {
   mediaId: string;
 }
 
-export class BrightcoveProvider extends BaseProvider<HTMLElement> {
-
+@BaseProvider.register
+export class BrightcoveProvider extends BaseProvider {
   static get providerName() {
     return 'brightcove';
   }
@@ -175,8 +174,6 @@ export class BrightcoveProvider extends BaseProvider<HTMLElement> {
     this._api.currentTime(0);
   }
 }
-
-ESLMediaProviderRegistry.register(BrightcoveProvider, BrightcoveProvider.providerName);
 
 // root typing
 declare global {

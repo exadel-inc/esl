@@ -4,19 +4,20 @@
  * @author Alexey Stsefanovich (ala'n)
  */
 import {BaseProvider, MediaProviderConfig, PlayerStates} from '../core/esl-media-provider';
-import ESLMediaProviderRegistry from '../core/esl-media-registry';
 import {generateUId} from '../../esl-utils/misc/uid';
 
 export interface IframeProviderConfig extends MediaProviderConfig {
   mediaSrc: string;
 }
 
-export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
-  private _state: PlayerStates = PlayerStates.UNINITIALIZED;
-
+@BaseProvider.register
+export class IframeBasicProvider extends BaseProvider {
   static get providerName() {
     return 'iframe';
   }
+
+  private _state: PlayerStates = PlayerStates.UNINITIALIZED;
+  protected _el: HTMLIFrameElement;
 
   protected static buildIframe(cfg: IframeProviderConfig) {
     const el = document.createElement('iframe');
@@ -99,5 +100,3 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
     this.unbind();
   }
 }
-
-ESLMediaProviderRegistry.register(IframeBasicProvider, IframeBasicProvider.providerName);
