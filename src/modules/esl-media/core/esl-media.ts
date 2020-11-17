@@ -98,7 +98,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-    if (!this.connected && oldVal === newVal) return;
+    if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
       case 'disabled':
         (oldVal !== null) && this.deferredReinitialize();
