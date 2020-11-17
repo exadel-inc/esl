@@ -1,15 +1,19 @@
 /**
  * Simple Video API provider for {@link ESLMedia}
+ * @version 1.0.0-alpha
  * @author Yuliya Adamskaya
  */
 
 import {HTMLMediaProvider} from './media-provider';
-import ESLMediaProviderRegistry from '../../core/esl-media-registry';
+import {BaseProvider} from '../../core/esl-media-provider';
 
-export class VideoProvider extends HTMLMediaProvider<HTMLVideoElement> {
+@BaseProvider.register
+export class VideoProvider extends HTMLMediaProvider {
   static get providerName() {
     return 'video';
   }
+
+  protected _el: HTMLVideoElement;
 
   protected createElement(): HTMLVideoElement {
     const el = document.createElement('video');
@@ -21,5 +25,3 @@ export class VideoProvider extends HTMLMediaProvider<HTMLVideoElement> {
     return this._el.videoWidth / this._el.videoHeight;
   }
 }
-
-ESLMediaProviderRegistry.register(VideoProvider, VideoProvider.providerName);

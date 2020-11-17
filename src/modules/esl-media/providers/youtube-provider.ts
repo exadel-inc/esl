@@ -1,24 +1,24 @@
 /**
  * Youtube API provider for {@link ESLMedia}
- * @version 1.0.0
+ * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- * @extends BaseProvider
  */
 import {loadScript} from '../../esl-utils/dom/script';
 import {ESLMedia} from '../core/esl-media';
 import {BaseProvider, MediaProviderConfig, PlayerStates} from '../core/esl-media-provider';
-import ESLMediaProviderRegistry from '../core/esl-media-registry';
 import PlayerVars = YT.PlayerVars;
 import {generateUId} from '../../esl-utils/misc/uid';
 
 const DEFAULT_ASPECT_RATIO = 16 / 9;
 
-export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameElement> {
-  private _api: YT.Player;
-
+@BaseProvider.register
+export class YouTubeProvider extends BaseProvider {
   static get providerName() {
     return 'youtube';
   }
+
+  protected _el: HTMLDivElement | HTMLIFrameElement;
+  protected _api: YT.Player;
 
   private static _coreApiPromise: Promise<void>;
 
@@ -164,8 +164,6 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
     this._api.stopVideo();
   }
 }
-
-ESLMediaProviderRegistry.register(YouTubeProvider, YouTubeProvider.providerName);
 
 // typings
 declare global {

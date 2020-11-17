@@ -1,15 +1,19 @@
 /**
  * Simple Audio API provider for {@link ESLMedia}
+ * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n)
  */
 
 import {HTMLMediaProvider} from './media-provider';
-import ESLMediaProviderRegistry from '../../core/esl-media-registry';
+import {BaseProvider} from '../../core/esl-media-provider';
 
-export class AudioProvider extends HTMLMediaProvider<HTMLAudioElement> {
+@BaseProvider.register
+export class AudioProvider extends HTMLMediaProvider {
   static get providerName() {
     return 'audio';
   }
+
+  protected _el: HTMLAudioElement;
 
   protected createElement(): HTMLAudioElement {
     const el = document.createElement('audio');
@@ -21,5 +25,3 @@ export class AudioProvider extends HTMLMediaProvider<HTMLAudioElement> {
     return 0;
   }
 }
-
-ESLMediaProviderRegistry.register(AudioProvider, AudioProvider.providerName);

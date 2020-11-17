@@ -1,6 +1,6 @@
 /**
  * ESL Media
- * @version 1.2.1
+ * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
@@ -45,7 +45,7 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr({readonly: true}) public played: boolean;
   @boolAttr({readonly: true}) public error: boolean;
 
-  private _provider: BaseProvider<HTMLElement> | null;
+  private _provider: BaseProvider | null;
   private _conditionQuery: ESLMediaQuery | null;
 
   private deferredResize = rafDecorator(() => this._onResize());

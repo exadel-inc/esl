@@ -1,9 +1,10 @@
 /**
  * BaseProvider class for media API providers
- * @version 1.2.0
+ * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
-import ESLMedia from './esl-media';
+import {ESLMedia} from './esl-media';
+import {ESLMediaProviderRegistry} from './esl-media-registry';
 
 export enum PlayerStates {
   BUFFERING = 3,
@@ -25,13 +26,13 @@ export interface MediaProviderConfig {
   playsinline?: boolean;
 }
 
-export type BaseProviderConstructor = new(component: ESLMedia) => BaseProvider<HTMLElement>;
+export type ProviderType = (new(component: ESLMedia, config: MediaProviderConfig) => BaseProvider) & typeof BaseProvider;
 
-export abstract class BaseProvider<T extends HTMLElement> {
+export abstract class BaseProvider {
   static readonly providerName: string;
 
   protected component: ESLMedia;
-  protected _el: T;
+  protected _el: HTMLElement;
   protected _ready: Promise<any>;
 
   public constructor(component: ESLMedia) {
@@ -85,18 +86,32 @@ export abstract class BaseProvider<T extends HTMLElement> {
    */
   public abstract get currentTime(): number;
 
+  /**
+   * Low-level provider 'seek to' method implementation
+   */
   protected abstract seekTo(pos?: number): void | Promise<any>;
 
+  /**
+   * Low-level provider 'play' method implementation
+   */
   protected abstract play(): void | Promise<any>;
 
+  /**
+   * Low-level provider 'pause' method implementation
+   */
   protected abstract pause(): void | Promise<any>;
 
+  /**
+   * Low-level provider 'stop' method implementation
+   */
   protected abstract stop(): void | Promise<any>;
 
   /**
    * Set focus to the inner content
    */
-  public abstract focus(): void;
+  public focus() {
+    this._el?.focus();
+  }
 
   /**
    * Set size for inner content
@@ -159,8 +174,16 @@ export abstract class BaseProvider<T extends HTMLElement> {
     return this.ready.then(() => this.toggle());
   }
 
-  // public static register() {
-  //     const provider = (this as typeof BaseProvider & BaseProviderConstructor);
-  //     ESLMediaProviderRegistry.instance.register(provider, provider.providerName);
-  // }
+  /**
+   * Register current provider.
+   * Can be used as a decorator.
+   */
+  public static register(this: ProviderType): void;
+  public static register(this: unknown, provider?: ProviderType): void;
+  public static register(this: any, provider?: ProviderType): void {
+    provider = provider || this;
+    if (provider === BaseProvider) throw new Error('`BaseProvider` can\'t be registered.');
+    if (!(provider?.prototype instanceof BaseProvider)) throw new Error('Provider should be instanceof `BaseProvider`');
+    ESLMediaProviderRegistry.instance.register(provider, provider.providerName);
+  }
 }
