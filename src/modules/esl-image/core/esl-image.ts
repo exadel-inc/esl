@@ -5,10 +5,12 @@
  */
 
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {bind} from '../../esl-utils/decorators/bind';
+import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
-
+import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 import {ESLImageRenderStrategy, ShadowImageElement, STRATEGIES} from './esl-image-strategies';
 
 // Intersection Observer for lazy init functionality
@@ -30,11 +32,17 @@ function getIObserver() {
   return intersectionObserver;
 }
 
+type LoadState = 'error' | 'loaded' | 'ready';
+const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].indexOf(state) !== -1;
+
 @ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
   public static is = 'esl-image';
   // Should not have own namespace for events to be native image compatible
   public static eventNs = '';
+
+  // Default container class value
+  public static DEFAULT_CONTAINER_CLS = 'img-container-loaded';
 
   public static get STRATEGIES() {
     return STRATEGIES;
@@ -59,6 +67,10 @@ export class ESLImage extends ESLBaseElement {
   @boolAttr() public refreshOnUpdate: boolean;
   @attr({defaultValue: 'inner-image'}) public innerImageClass: string;
 
+  @attr({defaultValue: null}) public containerClass: string | null;
+  @attr({defaultValue: '::parent'}) public containerClassTarget: string;
+  @attr({defaultValue: 'ready'}) public containerClassState: string;
+
   @boolAttr({readonly: true}) public readonly ready: boolean;
   @boolAttr({readonly: true}) public readonly loaded: boolean;
   @boolAttr({readonly: true}) public readonly error: boolean;
@@ -69,14 +81,6 @@ export class ESLImage extends ESLBaseElement {
   private _currentSrc: string;
   private _detachLazyTrigger: () => void;
   private _shadowImageElement: ShadowImageElement;
-  private readonly _onMatchChange: () => void;
-
-  constructor() {
-    super();
-    this._onLoad = this._onLoad.bind(this);
-    this._onError = this._onError.bind(this);
-    this._onMatchChange = this.update.bind(this, false);
-  }
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -84,7 +88,7 @@ export class ESLImage extends ESLBaseElement {
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'img');
     }
-    this.srcRules.addListener(this._onMatchChange);
+    this.srcRules.addListener(this._onMediaMatchChange);
     if (this.lazyObservable) {
       this.removeAttribute('lazy-triggered');
       getIObserver().observe(this);
@@ -100,7 +104,7 @@ export class ESLImage extends ESLBaseElement {
     super.disconnectedCallback();
     this._detachLazyTrigger && this._detachLazyTrigger();
     if (this._srcRules) {
-      this._srcRules.removeListener(this._onMatchChange);
+      this._srcRules.removeListener(this._onMediaMatchChange);
     }
   }
 
@@ -138,10 +142,10 @@ export class ESLImage extends ESLBaseElement {
 
   public set srcRules(rules: ESLMediaRuleList<string>) {
     if (this._srcRules) {
-      this._srcRules.removeListener(this._onMatchChange);
+      this._srcRules.removeListener(this._onMediaMatchChange);
     }
     this._srcRules = rules;
-    this._srcRules.addListener(this._onMatchChange);
+    this._srcRules.addListener(this._onMediaMatchChange);
   }
 
   public get currentSrc() {
@@ -213,6 +217,7 @@ export class ESLImage extends ESLBaseElement {
   public refresh() {
     this.removeAttribute('loaded');
     this.removeAttribute('ready');
+    this.updateContainerClasses();
     this.clearImage();
     this.update(true);
   }
@@ -264,32 +269,39 @@ export class ESLImage extends ESLBaseElement {
     return this._shadowImageElement;
   }
 
+  @bind
   private _onLoad() {
     this.syncImage();
-    this.removeAttribute('error');
-    this.setAttribute('loaded', '');
-    this.$$fireNs('load', {bubbles: false});
-    this._onReady();
+    this._onReadyState(true);
+    this.updateContainerClasses();
   }
 
+  @bind
   private _onError() {
-    this.setAttribute('error', '');
-    this.$$fireNs('error', {bubbles: false});
-    this._onReady();
+    this._onReadyState(false);
+    this.updateContainerClasses();
   }
 
-  private _onReady() {
-    if (!this.ready) {
-      this.setAttribute('ready', '');
-      this.$$fireNs('ready', {bubbles: false});
-      if (this.hasAttribute('container-class') || this.hasAttribute('container-class-target')) {
-        if (this.hasAttribute('container-class-onload') && this.error) return;
-        const containerCls = this.getAttribute('container-class') || 'img-container-loaded';
-        const target = this.getAttribute('container-class-target');
-        const targetEl = target ? this.closest(target) : this.parentNode;
-        (targetEl) && (targetEl as HTMLElement).classList.add(containerCls);
-      }
-    }
+  @bind
+  private _onMediaMatchChange() {
+    this.update();
+  }
+
+  private _onReadyState(successful: boolean) {
+    if (this.ready) return;
+    this.toggleAttribute('loaded', successful);
+    this.toggleAttribute('error', !successful);
+    this.toggleAttribute('ready', true);
+    this.$$fire(successful ? 'loaded' : 'error', {bubbles: false});
+    this.$$fireNs('ready', {bubbles: false});
+  }
+
+  public updateContainerClasses() {
+    if (this.containerClass == null) return;
+    const cls = this.containerClass || (this.constructor as typeof ESLImage).DEFAULT_CONTAINER_CLS;
+    const state = isLoadState(this.containerClassState) && this[this.containerClassState];
+    const targetEl = TraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
+    targetEl && CSSUtil.toggleClsTo(targetEl, cls, state);
   }
 
   public static isEmptyImage(src: string) {
