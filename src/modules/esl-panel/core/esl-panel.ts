@@ -1,8 +1,9 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {CSSUtil} from '../../esl-utils/dom/styles';
+import {bind} from '../../esl-utils/decorators/bind';
+import {afterNextRender} from '../../esl-utils/async/raf';
 import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
 import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/core';
-import {afterNextRender} from '../../esl-utils/async/raf';
-import {CSSUtil} from '../../esl-utils/dom/styles';
 
 import ESLPanelStack from './esl-panel-stack';
 
@@ -31,12 +32,12 @@ export class ESLPanel extends ESLBasePopup {
 
   protected bindEvents() {
     super.bindEvents();
-    this.addEventListener('transitionend', this.onTransitionEnd);
+    this.addEventListener('transitionend', this._onTransitionEnd);
   }
 
   protected unbindEvents() {
     super.unbindEvents();
-    this.removeEventListener('transitionend', this.onTransitionEnd);
+    this.removeEventListener('transitionend', this._onTransitionEnd);
   }
 
   protected onShow(params: PanelActionParams) {
@@ -48,7 +49,7 @@ export class ESLPanel extends ESLBasePopup {
     this.beforeAnimate(params);
     if (!params.noCollapse) {
       this.onHeightAnimate('show', params);
-      this.fallbackDuration >= 0 && setTimeout(this.onTransitionEnd, this.fallbackDuration);
+      this.fallbackDuration >= 0 && setTimeout(this._onTransitionEnd, this.fallbackDuration);
     }
     this.afterAnimate(params);
   }
@@ -62,19 +63,20 @@ export class ESLPanel extends ESLBasePopup {
     this.beforeAnimate(params);
     if (!params.noCollapse) {
       this.onHeightAnimate('hide', params);
-      this.fallbackDuration >= 0 && setTimeout(this.onTransitionEnd, this.fallbackDuration);
+      this.fallbackDuration >= 0 && setTimeout(this._onTransitionEnd, this.fallbackDuration);
     }
     this.afterAnimate(params);
   }
 
-  protected onTransitionEnd = (e?: TransitionEvent) => {
+  @bind
+  protected _onTransitionEnd(e?: TransitionEvent) {
     if (!e || e.propertyName === 'max-height') {
       this.style.removeProperty('max-height');
       this.$$fireNs('transitionend', {
         detail: {open: this.open}
       });
     }
-  };
+  }
 
   protected beforeAnimate(params: PanelActionParams) {
     CSSUtil.addCls(this, this.animateClass);

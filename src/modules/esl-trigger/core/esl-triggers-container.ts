@@ -2,6 +2,7 @@ import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLTrigger} from './esl-trigger';
 import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP} from '../../esl-utils/dom/keycodes';
+import {bind} from '../../esl-utils/decorators/bind';
 
 export type GroupTarget = 'next' | 'prev' | 'current';
 
@@ -21,14 +22,15 @@ export class ESLTriggersContainer extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    this.addEventListener('keydown', this.onKeydown);
+    this.addEventListener('keydown', this._onKeydown);
   }
 
   protected unbindEvents() {
-    this.removeEventListener('keydown', this.onKeydown);
+    this.removeEventListener('keydown', this._onKeydown);
   }
 
-  protected onKeydown = (e: KeyboardEvent) => {
+  @bind
+  protected _onKeydown(e: KeyboardEvent) {
     const target = e.target;
     if (!(target instanceof ESLTrigger)) return;
 
@@ -44,7 +46,7 @@ export class ESLTriggersContainer extends ESLBaseElement {
         e.preventDefault();
         break;
     }
-  };
+  }
 
   get $triggers(): ESLTrigger[] {
     const els = this.querySelectorAll(ESLTrigger.is);
@@ -63,11 +65,11 @@ export class ESLTriggersContainer extends ESLBaseElement {
     return triggers[(index - 1 + triggers.length) % triggers.length];
   }
 
-  public current(): ESLTrigger | undefined {
-    return this.$triggers.find((el) => el.active);
+  public current(): ESLTrigger | null {
+    return this.$triggers.find((el) => el.active) || null;
   }
 
-  public goTo(target: GroupTarget, from: ESLTrigger | undefined = this.current()) {
+  public goTo(target: GroupTarget, from: ESLTrigger | null = this.current()) {
     if (!from) return;
     const targetEl = this[target](from);
     if (!targetEl) return;

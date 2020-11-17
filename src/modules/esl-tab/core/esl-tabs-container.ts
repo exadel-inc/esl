@@ -2,6 +2,7 @@ import {ESLTriggersContainer, GroupTarget} from '../../esl-trigger/core/esl-trig
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import ESLTab from './esl-tab';
 import ESLTrigger from '../../esl-trigger/core/esl-trigger';
+import {bind} from '../../esl-utils/decorators/bind';
 import {attr} from '../../esl-base-element/decorators/attr';
 
 @ExportNs('TabsContainer')
@@ -13,12 +14,12 @@ export class ESLTabsContainer extends ESLTriggersContainer {
 
   protected bindEvents() {
     super.bindEvents();
-    this.addEventListener(`${ESLTab.eventNs}:statechange`, (e: CustomEvent) => this.onTriggerStateChange(e));
+    this.addEventListener(`${ESLTab.eventNs}:statechange`, this._onTriggerStateChange);
   }
 
   protected unbindEvents() {
     super.unbindEvents();
-    this.removeEventListener(`${ESLTab.eventNs}:statechange`, (e: CustomEvent) => this.onTriggerStateChange(e));
+    this.removeEventListener(`${ESLTab.eventNs}:statechange`, this._onTriggerStateChange);
   }
 
   get $triggers(): ESLTab[] {
@@ -26,7 +27,7 @@ export class ESLTabsContainer extends ESLTriggersContainer {
     return els ? Array.from(els) as ESLTab[] : [];
   }
 
-  public goTo(target: GroupTarget, from: ESLTrigger | undefined = this.current()) {
+  public goTo(target: GroupTarget, from: ESLTrigger | null = this.current()) {
     if (!from) return;
     super.goTo(target, from);
     const targetEl = this[target](from);
@@ -40,7 +41,8 @@ export class ESLTabsContainer extends ESLTriggersContainer {
     target.setAttribute('tabindex', trigger.active ? '0' : '-1');
   }
 
-  protected onTriggerStateChange(event: CustomEvent) {
+  @bind
+  protected _onTriggerStateChange(event: CustomEvent) {
     const trigger = event.target as ESLTab;
     this.updateA11y(trigger);
   }
