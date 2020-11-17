@@ -2,12 +2,12 @@ import {BaseProvider, PlayerStates, ProviderType} from '../core/esl-media-provid
 import {ESLMediaProviderRegistry} from '../core/esl-media-registry';
 
 describe('ESLMedia: BaseProvider tests', () => {
-  test('BaseProvider can\'t be register', () => {
+  test('BaseProvider can\'t be registered', () => {
     expect(() => (BaseProvider as ProviderType).register()).toThrowError();
   });
 
-  test('Not provider can\'t be register', () => {
-    expect(() => ([] as any as ProviderType).register()).toThrowError();
+  test('Not provider can\'t be registered', () => {
+    expect(() => BaseProvider.register([] as any)).toThrowError();
   });
 
   test('Provider should have correct name', () => {
@@ -20,20 +20,18 @@ describe('ESLMedia: BaseProvider tests', () => {
     }
     expect(ESLMediaProviderRegistry.instance.has('test-provider')).toBe(false);
     expect(ESLMediaProviderRegistry.instance.getProvider('test-provider')).toBe(null);
-    expect(() => TestProvider.register()).not.toThrowError();
+    TestProvider.register();
     expect(ESLMediaProviderRegistry.instance.has('test-provider')).toBe(true);
     expect(ESLMediaProviderRegistry.instance.getProvider('test-provider')).toBe(TestProvider);
   });
 
   test('Test provider registered via decorator', () => {
-    expect(() => {
-      @BaseProvider.register
-      class TestProvider extends TestBaseProvider {
-        static readonly providerName = 'test-provider-2';
-      }
-    }).not.toThrowError();
+    @BaseProvider.register
+    class TestProvider extends TestBaseProvider {
+      static readonly providerName = 'test-provider-2';
+    }
     expect(ESLMediaProviderRegistry.instance.has('test-provider-2')).toBe(true);
-    expect(ESLMediaProviderRegistry.instance.getProvider('test-provider-2')).not.toBeNull();
+    expect(ESLMediaProviderRegistry.instance.getProvider('test-provider-2')).toBe(TestProvider);
   });
 });
 

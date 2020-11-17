@@ -1,6 +1,7 @@
 ### 1.0.0-alpha (internal 1.3.0)
 * Version reset
 * Brightcove API update
+* Providers API changed
 
 ### 0.4.0-alpha (internal 1.1.# - 1.2.#)
 * ESL structure change updates
@@ -22,9 +23,9 @@
 ### 0.1.0-alpha (internal 1.0.1)
 * SmartVideoEmbedded embedded renamed to SmartVideo
 * Add ability to render HTML sources
-* Basic bg video support
+* Basic background / "attract loop" video support
 * fill mode support
 
 ### 0.0.0-alpha (internal 1.0.0)
-* Initial ESLSmartViedoEmbedded version
+* Initial ESLSmartVideoEmbedded version
 * Initial Registry version
