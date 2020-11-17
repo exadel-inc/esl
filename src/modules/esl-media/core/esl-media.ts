@@ -1,6 +1,6 @@
 /**
  * ESL Media
- * @version 1.2.0
+ * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 

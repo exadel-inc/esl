@@ -1,6 +1,6 @@
 /**
  * BaseProvider class for media API providers
- * @version 1.2.0
+ * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 import ESLMedia from './esl-media';

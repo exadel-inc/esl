@@ -1,5 +1,6 @@
 /**
  * Simple Native Media API provider for {@link ESLMedia}
+ * @version 1.0.0-alpha
  * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
  */
 

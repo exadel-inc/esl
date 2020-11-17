@@ -1,8 +1,7 @@
 /**
  * Youtube API provider for {@link ESLMedia}
- * @version 1.0.0
+ * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- * @extends BaseProvider
  */
 import {loadScript} from '../../esl-utils/dom/script';
 import {ESLMedia} from '../core/esl-media';

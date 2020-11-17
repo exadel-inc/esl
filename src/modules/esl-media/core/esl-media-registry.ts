@@ -1,6 +1,6 @@
 /**
  * ESLMediaProviderRegistry class to store media API providers
- * @version 1.2.0
+ * @version 1.0.0-alpha
  * @author Yuliya Adamskaya
  */
 import {Observable} from '../../esl-utils/abstract/observable';

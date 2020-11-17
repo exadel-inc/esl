@@ -1,5 +1,6 @@
 /**
  * Simple Basic Iframe provider for {@link ESLMedia}
+ * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n)
  */
 import {BaseProvider, MediaProviderConfig, PlayerStates} from '../core/esl-media-provider';
