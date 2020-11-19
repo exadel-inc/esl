@@ -1,17 +1,14 @@
 /**
  * Brightcove API provider for {@link ESLMedia}
- * @version 1.3.0
+ * @version 1.0.0-alpha
  * @author Julia Murashko
- * @extends BaseProvider
- * @protected
  */
-import {VideoJsPlayer} from 'video.js';
-
 import {loadScript} from '../../esl-utils/dom/script';
 import {ESLMedia} from '../core/esl-media';
 import {BaseProvider, MediaProviderConfig, PlayerStates} from '../core/esl-media-provider';
-import ESLMediaProviderRegistry from '../core/esl-media-registry';
 import {generateUId} from '../../esl-utils/misc/uid';
+
+import type {VideoJsPlayer} from 'video.js';
 
 const API_SCRIPT_ID = 'BC_API_SOURCE';
 
@@ -24,8 +21,8 @@ export interface BCProviderConfig extends MediaProviderConfig {
   mediaId: string;
 }
 
-export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivElement> {
-
+@BaseProvider.register
+export class BrightcoveProvider extends BaseProvider {
   static get providerName() {
     return 'brightcove';
   }
@@ -36,7 +33,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
   protected _account: BCPlayerAccount;
 
   /**
-   * @returns {BCPlayerAccount} settings, get from element by default
+   * @returns settings, get from element by default
    */
   protected static getAccount(el: ESLMedia): BCPlayerAccount {
     return {
@@ -62,13 +59,13 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
    * Build video brightcove element
    */
   protected static buildVideo(cfg: BCProviderConfig, account: BCPlayerAccount) {
-    const el = document.createElement('video');
+    const el = document.createElement('video-js');
     el.id = 'esl-media-brightcove-' + generateUId();
     el.className = 'esl-media-inner esl-media-brightcove ' + this.videojsClasses;
     el.title = cfg.title;
-    el.loop = cfg.loop;
-    el.muted = cfg.muted;
-    el.controls = cfg.controls;
+    el.toggleAttribute('loop', cfg.loop);
+    el.toggleAttribute('muted', cfg.muted);
+    el.toggleAttribute('controls', cfg.controls);
     el.setAttribute('aria-label', el.title);
     el.setAttribute('data-embed', 'default');
     el.setAttribute('data-video-id', `ref:${cfg.mediaId}`);
@@ -81,7 +78,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
   /**
    * Utility method to convert api event to promise
    */
-  protected $$fromEvent(eventName: string) {
+  protected $$fromEvent(eventName: string): Promise<void> {
     if (!this._api) return Promise.reject();
     return new Promise((resolve, reject) => this._api ? this._api.one(eventName, resolve) : reject());
   }
@@ -90,12 +87,11 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
    * Executes as soon as api script detected or loaded.
    * @returns {Promise<VideoJsPlayer>} - promise with provided API
    */
-  protected onAPILoaded(): Promise<VideoJsPlayer> {
+  protected onAPILoaded(): Promise<void> | void {
     if (typeof window.bc !== 'function' || typeof window.videojs !== 'function') {
       throw new Error('Brightcove API is not in the global scope');
     }
-    window.bc(this._el);
-    this._api = window.videojs(this._el);
+    this._api = window.bc(this._el);
     return new Promise((resolve, reject) => this._api ? this._api.ready(resolve) : reject());
   }
 
@@ -104,7 +100,7 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
    * Basic onAPIReady should be called to subscribe to API state
    * @returns {Promise | void}
    */
-  protected onAPIReady() {
+  protected onAPIReady(): Promise<void> | void {
     // Set autoplay though js because BC is unresponsive while processing it natively
     this._api.autoplay(this.component.autoplay);
 
@@ -179,12 +175,9 @@ export class BrightcoveProvider extends BaseProvider<HTMLVideoElement | HTMLDivE
   }
 }
 
-ESLMediaProviderRegistry.register(BrightcoveProvider, BrightcoveProvider.providerName);
-
-// typings
+// root typing
 declare global {
   interface Window {
-    bc?: (el: HTMLElement, ...args: any[]) => any;
-    videojs?: (el: HTMLElement, ...args: any[]) => VideoJsPlayer;
+    bc?: (el: HTMLElement, ...args: any[]) => VideoJsPlayer;
   }
 }

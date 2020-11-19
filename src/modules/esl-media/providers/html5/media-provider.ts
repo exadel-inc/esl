@@ -1,11 +1,14 @@
 /**
  * Simple Native Media API provider for {@link ESLMedia}
+ * @version 1.0.0-alpha
  * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
  */
 
 import {BaseProvider, MediaProviderConfig, PlayerStates} from '../../core/esl-media-provider';
 
-export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends BaseProvider<T> {
+export abstract class HTMLMediaProvider extends BaseProvider {
+  protected _el: HTMLMediaElement;
+
   protected static applyElementSettings(el: HTMLMediaElement, cfg: MediaProviderConfig) {
     el.classList.add('esl-media-inner');
     el.autoplay = cfg.autoplay;
@@ -18,7 +21,7 @@ export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends Base
     return el;
   }
 
-  protected abstract createElement(): T;
+  protected abstract createElement(): HTMLMediaElement;
 
   public bind() {
     this._el = this.createElement();
@@ -42,12 +45,6 @@ export abstract class HTMLMediaProvider<T extends HTMLMediaElement> extends Base
 
   get ready() {
     return Promise.resolve();
-  }
-
-  public focus() {
-    if (this._el) {
-      this._el.focus();
-    }
   }
 
   public get state() {

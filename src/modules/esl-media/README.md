@@ -1,6 +1,6 @@
 # ESl Media
 
-Version: *1.2.1*
+Version: *1.0.0-alpha*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*
 

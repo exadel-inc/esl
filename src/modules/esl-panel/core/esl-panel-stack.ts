@@ -1,6 +1,7 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {attr, ESLBaseElement} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
+import {bind} from '../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 
@@ -30,15 +31,15 @@ export class ESLPanelStack extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    this.addEventListener(`${ESLPanel.eventNs}:statechange`, this.onStateChange);
-    this.addEventListener(`${ESLPanel.eventNs}:beforestatechange`, this.onBeforeStateChange);
-    this.addEventListener('transitionend', this.onTransitionEnd);
+    this.addEventListener(`${ESLPanel.eventNs}:statechange`, this._onStateChange);
+    this.addEventListener(`${ESLPanel.eventNs}:beforestatechange`, this._onBeforeStateChange);
+    this.addEventListener('transitionend', this._onTransitionEnd);
   }
 
   protected unbindEvents() {
-    this.removeEventListener(`${ESLPanel.eventNs}:statechange`, this.onStateChange);
-    this.removeEventListener(`${ESLPanel.eventNs}:beforestatechange`, this.onBeforeStateChange);
-    this.removeEventListener('transitionend', this.onTransitionEnd);
+    this.removeEventListener(`${ESLPanel.eventNs}:statechange`, this._onStateChange);
+    this.removeEventListener(`${ESLPanel.eventNs}:beforestatechange`, this._onBeforeStateChange);
+    this.removeEventListener('transitionend', this._onTransitionEnd);
   }
 
   public get panels(): ESLPanel[] {
@@ -50,20 +51,22 @@ export class ESLPanelStack extends ESLBaseElement {
     return this.panels.find((el: ESLPanel) => el.open);
   }
 
-  protected onStateChange = (e: CustomEvent) => {
+  @bind
+  protected _onStateChange(e: CustomEvent) {
     if (!e.detail.open) return;
     if (this.isAccordion) return;
     const panel = e.target as ESLPanel;
     this.beforeAnimate();
     this.onAnimate(this.previousHeight, panel.initialHeight);
     // TODO: fallbackDuration
-  };
+  }
 
-  protected onBeforeStateChange = (e: CustomEvent) => {
+  @bind
+  protected _onBeforeStateChange(e: CustomEvent) {
     if (e.detail.open) {
       this.previousHeight = this.offsetHeight;
     }
-  };
+  }
 
   protected onAnimate(from?: number, to?: number) {
     // set initial height
@@ -84,12 +87,13 @@ export class ESLPanelStack extends ESLBaseElement {
     CSSUtil.removeCls(this, this.animateClass);
   }
 
-  protected onTransitionEnd = (e?: TransitionEvent) => {
+  @bind
+  protected _onTransitionEnd(e?: TransitionEvent) {
     if (!e || e.propertyName === 'height') {
       this.style.removeProperty('height');
       this.afterAnimate();
     }
-  };
+  }
 
   get transformationQuery() {
     if (!this._transformationQuery) {
