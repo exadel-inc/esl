@@ -1,6 +1,15 @@
-import {defined} from '../functions';
+import {defined, identity, noop} from '../functions';
 
 describe('misc/functions helper tests', () => {
+  test('noop/identity', () => {
+    expect(noop()).toBeUndefined();
+    expect(noop(1, 2, 3)).toBeUndefined();
+
+    expect(identity(1)).toBe(1);
+    const test = Symbol('test');
+    expect(identity(test)).toBe(test);
+  });
+
   test('defined', () => {
     expect(defined('a')).toBe('a');
     expect(defined('', 'a')).toBe('');

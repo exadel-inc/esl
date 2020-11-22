@@ -1,7 +1,7 @@
 /**
  * Function that do nothing
  */
-export const noop = (): void => undefined;
+export const noop = (...args: any[]): void => undefined;
 
 /**
  * Function that return first argument
