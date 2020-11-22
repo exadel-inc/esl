@@ -8,29 +8,11 @@ import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
-import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
+
+import {getIObserver} from './esl-image-iobserver';
 import {ESLImageRenderStrategy, ShadowImageElement, STRATEGIES} from './esl-image-strategies';
-
-// Intersection Observer for lazy init functionality
-let intersectionObserver: IntersectionObserver;
-
-function getIObserver() {
-  if (!intersectionObserver) {
-    intersectionObserver = new IntersectionObserver(function intersectionCallback(entries) {
-      (entries || []).forEach(function (entry) {
-        if ((entry.isIntersecting || entry.intersectionRatio > 0) && entry.target instanceof ESLImage) {
-          entry.target.triggerLoad();
-        }
-      });
-    }, {
-      threshold: [0.01],
-      rootMargin: DeviceDetector.isMobile ? '250px' : '500px'// rootMargin value for IntersectionObserver
-    });
-  }
-  return intersectionObserver;
-}
 
 type LoadState = 'error' | 'loaded' | 'ready';
 const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].indexOf(state) !== -1;
