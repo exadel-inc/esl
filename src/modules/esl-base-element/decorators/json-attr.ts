@@ -1,11 +1,16 @@
 import type {ESLBaseElement} from '../core/esl-base-element';
 import {toKebabCase, evaluate} from '../../esl-utils/misc/format';
 
+/** HTML attribute to object property mapping configuration */
 interface JsonAttrDescriptor<T> {
+  /** HTML attribute name. Use kebab-cased variable name by default */
   name?: string;
-  default?: T;
+  /** Create getter only */
   readonly?: boolean;
+  /** Use data-* attribute */
   dataAttr?: boolean;
+  /** Default property value. Used if no attribute presented on the element. Empty string by default. */
+  defaultValue?: T;
 }
 
 function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, defaultValue: T | null) {
@@ -36,10 +41,15 @@ function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, default
 const buildAttrName =
   (propName: string, dataAttr: boolean) => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 
+/**
+ * Decorator to map current property to element attribute value using JSON (de-)serialization rules.
+ * Maps object type property.
+ * @param [config] - mapping configuration. See {@link JsonAttrDescriptor}
+ */
 export const jsonAttr = <T>(config: JsonAttrDescriptor<T> = {}) => {
-  config = Object.assign({default: {}}, config);
+  config = Object.assign({defaultValue: {}}, config);
   return (target: ESLBaseElement, propName: string) => {
-    const attrName = config.name || buildAttrName(propName, !!config.dataAttr);
-    Object.defineProperty(target, propName, buildJsonAttrDescriptor(attrName, !!config.readonly, config.default));
+    const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
+    Object.defineProperty(target, propName, buildJsonAttrDescriptor(attrName, !!config.readonly, config.defaultValue));
   };
 };

@@ -12,6 +12,8 @@ describe('Decorator: attr', () => {
     public dataField: string;
     @attr({name: 'test-attr'})
     public renamedField: string;
+    @attr({name: 'testAttr', dataAttr: true})
+    public renamedField2: string;
     @attr({readonly: true})
     public readonlyField: string;
     @attr({defaultValue: 'def'})
@@ -58,7 +60,7 @@ describe('Decorator: attr', () => {
     expect(el.dataset.dataField).toBe('1');
   });
 
-  test('Decorator: attr - renamed attr', () => {
+  test('Decorator: attr - renamed attr 1', () => {
     expect(el.renamedField).toBe('');
     el.renamedField = '';
     expect(el.renamedField).toBe('');
@@ -66,6 +68,16 @@ describe('Decorator: attr', () => {
     el.renamedField = '1';
     expect(el.renamedField).toBe('1');
     expect(el.getAttribute('test-attr')).toBe('1');
+  });
+
+  test('Decorator: attr - renamed attr 2', () => {
+    expect(el.renamedField2).toBe('');
+    el.renamedField2 = '';
+    expect(el.renamedField2).toBe('');
+    expect(el.getAttribute('data-test-attr')).toBe('');
+    el.renamedField2 = '1';
+    expect(el.renamedField2).toBe('1');
+    expect(el.getAttribute('data-test-attr')).toBe('1');
   });
 
   test('Decorator: attr - readonly attr', () => {
