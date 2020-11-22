@@ -15,7 +15,7 @@
 
             {{~ rootPages :innerPage}}
             <li class="nav-item hd-dropdown-item {{? innerPage.href === page.location.pathname}}active{{?}}">
-              <a class="nav-link hd-dropdown-link" href="{{= page.resolveURL(innerPage.href)}}">{{= innerPage.title }}</a>
+              <a class="hd-dropdown-link" href="{{= page.resolveURL(innerPage.href)}}">{{= innerPage.title }}</a>
             </li>
             {{~}}
           </ul>

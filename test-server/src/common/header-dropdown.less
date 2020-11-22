@@ -34,8 +34,16 @@
     top: @TRIGGER_HEIGHT;
     left: 0;
     right: 0;
+    min-width: 230px;
     z-index: 99;
     background-color: #343a40;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.25);
+
+    transition: max-height .3s ease-in-out, visibility 0s linear .3s;
+
+    &.open {
+      transition: max-height .3s ease-in-out, visibility 0s linear;
+    }
   }
 
   .hd-dropdown-list {
@@ -44,6 +52,7 @@
 
   .hd-dropdown-item {
     white-space: nowrap;
+    min-height: 50px;
 
     &:not(:first-child) {
       border-top: 1px solid #dee2e657;
@@ -59,6 +68,8 @@
   }
 
   .hd-dropdown-link {
+    display: block;
+    padding: 15px 15px;
     color: white;
   }
 }
