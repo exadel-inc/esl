@@ -21,16 +21,16 @@ export function getIObserver(lazy: boolean = false) {
   return iObserver;
 }
 
-function handleViewport(entire: IntersectionObserverEntry) {
-  const {target: video} = entire;
+function handleViewport(entry: IntersectionObserverEntry) {
+  const {target: video} = entry;
   if (!(video instanceof ESLMedia)) return;
 
   // Videos that playing and out of min ratio RATIO_TO_DEACTIVATE should be stopped
-  if (video.active && entire.intersectionRatio <= RATIO_TO_DEACTIVATE) {
+  if (video.active && entry.intersectionRatio <= RATIO_TO_DEACTIVATE) {
     video.pause();
   }
   // Play should starts only for inactive and background(muted) videos that are visible more then on RATIO_TO_ACTIVATE
-  if (!video.active && video.autoplay && entire.intersectionRatio >= RATIO_TO_ACTIVATE) {
+  if (!video.active && video.autoplay && entry.intersectionRatio >= RATIO_TO_ACTIVATE) {
     video.play();
   }
 }

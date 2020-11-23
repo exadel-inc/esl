@@ -140,10 +140,10 @@ export class ESLMedia extends ESLBaseElement {
         this._onError();
       }
     }
-    this._updateContainerMarkers();
+    this.updateContainerMarkers();
   }
 
-  private _updateContainerMarkers() {
+  public updateContainerMarkers() {
     const target = this.getAttribute('load-cls-target');
     const targetEl = !target || target === 'parent' ? this.parentNode as HTMLElement : this.closest(target);
 
