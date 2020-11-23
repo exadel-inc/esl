@@ -1,3 +1,6 @@
+### 1.0.0-alpha
+* Update and extend API for container class feature
+
 ### 0.2.3-alpha (internal 2.3.#)
 * ESL Image moved to new modules structure
 * Feature: lazy attribute cleanup and default value

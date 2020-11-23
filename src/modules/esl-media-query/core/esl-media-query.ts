@@ -57,7 +57,7 @@ export class ESLMediaQuery {
     // Applying dpr shortcut
     this._dpr = 1;
     query = query.replace(/@([123])x/, (match, ratio) => {
-      this._dpr = Math.floor(ratio);
+      this._dpr = Math.floor(ratio); // FIXME
       if (ESLMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && this._dpr !== 1) {
         return ESLMediaQuery.NOT_ALL;
       }
@@ -68,7 +68,7 @@ export class ESLMediaQuery {
     query = query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/i, (match, pre, type, post) => {
       this._mobileOnly = (type.toUpperCase() === '@MOBILE');
       if (DeviceDetector.isMobile !== this._mobileOnly) {
-        return ESLMediaQuery.NOT_ALL;
+        return ESLMediaQuery.NOT_ALL; // whole query became invalid
       }
       return pre && post ? ' and ' : '';
     });
