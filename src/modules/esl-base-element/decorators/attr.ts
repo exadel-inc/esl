@@ -3,13 +3,13 @@ import type {ESLBaseElement} from '../core/esl-base-element';
 
 /** HTML attribute mapping configuration */
 type AttrDescriptor = {
-  /** HTML attribute name. Use kebab-cased variable name by default */
+  /** HTML attribute name. Uses kebab-cased variable name by default */
   name?: string;
   /** Create getter only */
   readonly?: boolean;
   /** Use data-* attribute */
   dataAttr?: boolean;
-  /** Default property value. Used if no attribute presented on the element. Empty string by default. */
+  /** Default property value. Used if no attribute is present on the element. Empty string by default. */
   defaultValue?: string | boolean | null;
 };
 

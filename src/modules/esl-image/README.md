@@ -56,9 +56,9 @@ Originally developed as alternative for picture component, but with more feature
 
 - **container-class** (optional) - class, that will be added to container when image will be ready
 
-- **container-class-onload** (optional) - marks that container-class shouldn't be added if image load ends with exception
+- **container-class-state** (optional) - image state in which the container will be marked with `container-class` (can be 'ready', 'loaded' or 'error')
 
-- **container-class-target** (optional) - target parent selector to add container-class (parentNode by default).
+- **container-class-target** (optional) - [TraversingQuery](./../esl-traversing-query/README.md) to find the target to add `container-class` to ('::parent' by default).
 
 NOTE: ESL Image supports title attribute as any html element, no additional reflection for that attribute needed it will work correctly according to HTML5.* REC
 

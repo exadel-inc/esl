@@ -3,13 +3,13 @@ import {toKebabCase, evaluate} from '../../esl-utils/misc/format';
 
 /** HTML attribute to object property mapping configuration */
 interface JsonAttrDescriptor<T> {
-  /** HTML attribute name. Use kebab-cased variable name by default */
+  /** HTML attribute name. Uses kebab-cased variable name by default */
   name?: string;
   /** Create getter only */
   readonly?: boolean;
   /** Use data-* attribute */
   dataAttr?: boolean;
-  /** Default property value. Used if no attribute presented on the element. Empty string by default. */
+  /** Default property value. Used if no attribute is present on the element. Empty string by default. */
   defaultValue?: T;
 }
 
@@ -31,7 +31,7 @@ function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, default
         this.removeAttribute(attrName);
       }
     } catch (e) {
-      console.error('Can not set json value ', e);
+      console.error('[ESL] jsonAttr: Can not set json value ', e);
     }
   }
 

@@ -3,7 +3,7 @@ import type {ESLBaseElement} from '../core/esl-base-element';
 
 /** HTML boolean (marker) attribute mapping configuration */
 type BoolAttrDescriptor = {
-  /** HTML attribute name. Use kebab-cased variable name by default */
+  /** HTML attribute name. Uses kebab-cased variable name by default */
   name?: string;
   /** Create getter only */
   readonly?: boolean;

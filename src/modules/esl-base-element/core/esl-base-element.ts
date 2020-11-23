@@ -19,7 +19,7 @@ export abstract class ESLBaseElement extends HTMLElement {
   }
 
   /**
-   * Check that element is connected and connectedCallback happens.
+   * Check that element is connected and connectedCallback has been executed.
    */
   public get connected() {
     return this._connected;
@@ -27,7 +27,7 @@ export abstract class ESLBaseElement extends HTMLElement {
 
   /**
    * Dispatch component custom event.
-   * Event is bubbles and cancelable by default, use {@param eventInit} to override that.
+   * Event bubbles and is cancelable by default, use {@param eventInit} to override that.
    * @param eventName - event name
    * @param [eventInit] - custom event init. See {@link CustomEventInit}
    */
@@ -38,7 +38,7 @@ export abstract class ESLBaseElement extends HTMLElement {
 
   /**
    * Dispatch component custom event.
-   * Event is bubbles and cancelable by default, use {@param eventInit} to override that.
+   * Event bubbles and is cancelable by default, use {@param eventInit} to override that.
    * Will append prefix from static property {@link eventNs} if it is defined.
    * @param eventName - event name
    * @param [eventInit] - custom event init. See {@link CustomEventInit}
@@ -50,7 +50,7 @@ export abstract class ESLBaseElement extends HTMLElement {
   }
 
   /**
-   * Register component in a {@link customElements} registry
+   * Register component in the {@link customElements} registry
    * @param [tagName] - custom tag name to register custom element
    */
   public static register(this: typeof ESLBaseElement & CustomElementConstructor, tagName?: string) {

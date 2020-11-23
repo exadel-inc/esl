@@ -11,6 +11,8 @@ and **flexible** custom elements to make basic UX modules fast and leave your si
 
 ### Utilities
 - ##### [ESL Base Element](./src/modules/esl-base-element/README.md)
+- ##### [ESL Media Query](./src/modules/esl-media-query/README.md)
+- ##### [ESL Traversing Query](./src/modules/esl-traversing-query/README.md)
 - ##### ESL Utils
   - TBD
 
@@ -18,7 +20,7 @@ and **flexible** custom elements to make basic UX modules fast and leave your si
 
 ## Browser support & Polyfills
 
-Exadel Smart Library does not have dependencies but use the following list of native browser features:
+Exadel Smart Library does not have dependencies but uses the following list of native browser features:
 
 - Ecma Script 6 features
   - [Array.from](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/from) (no Iterable Objects support required)
@@ -37,13 +39,13 @@ Exadel Smart Library does not have dependencies but use the following list of na
   - [Custom Elements](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements)
 
 
-All of them completely supported by modern browsers like Chrome, Firefox, Safari or Edge (>43).
+All of them are fully supported by modern browsers like Chrome, Firefox, Safari or Edge (>43).
 
-To ESL work in older browser you can use the light polyfills list for IntersectionObserver, ResizeObserver and Custom Elements
+In order to make ESL work in older browsers you can use a "light" polyfills list for IntersectionObserver, ResizeObserver and Custom Elements
 (Older versions of Edge and Safari)
 
-Or make them work in IE11 or Edge (<14) using full polyfills list provided.
+Or make the library work in IE11 or Edge (<14) using "full" polyfills list provided.
 
-See more details how the polyfilling approach might look like in the test-server examples.
+See more details on what the polyfill approach might look like in the test-server examples.
 
-Also, the library built-in polyfills for some of DOM and ES6 features available under [./polyfills](./src/polyfills) directory.
+Also, the library built-in polyfills for some of DOM and ES6 features are available under [./polyfills](./src/polyfills) directory.
