@@ -1,10 +1,15 @@
 import {toKebabCase} from '../../esl-utils/misc/format';
 import type {ESLBaseElement} from '../core/esl-base-element';
 
+/** HTML attribute mapping configuration */
 type AttrDescriptor = {
+  /** HTML attribute name. Uses kebab-cased variable name by default */
   name?: string;
+  /** Create getter only */
   readonly?: boolean;
+  /** Use data-* attribute */
   dataAttr?: boolean;
+  /** Default property value. Used if no attribute is present on the element. Empty string by default. */
   defaultValue?: string | boolean | null;
 };
 
@@ -28,10 +33,15 @@ function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue
 const buildAttrName =
   (propName: string, dataAttr: boolean) => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 
+/**
+ * Decorator to map current property to element attribute value.
+ * Maps string type property.
+ * @param [config] - mapping configuration. See {@link AttrDescriptor}
+ */
 export const attr = (config: AttrDescriptor = {}) => {
   config = Object.assign({defaultValue: ''}, config);
   return (target: ESLBaseElement, propName: string) => {
-    const attrName = config.name || buildAttrName(propName, !!config.dataAttr);
+    const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildSimpleDescriptor(attrName, !!config.readonly, config.defaultValue));
   };
 };

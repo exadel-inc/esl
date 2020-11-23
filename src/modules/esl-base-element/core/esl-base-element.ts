@@ -3,7 +3,9 @@
  * Allows to define custom element with the optional custom tag name.
  */
 export abstract class ESLBaseElement extends HTMLElement {
+  /** Custom element tag name */
   public static is = '';
+  /** ESL custom element event prefix (namespace) */
   public static eventNs = '';
 
   protected _connected: boolean = false;
@@ -16,14 +18,18 @@ export abstract class ESLBaseElement extends HTMLElement {
     this._connected = false;
   }
 
+  /**
+   * Check that element is connected and connectedCallback has been executed.
+   */
   public get connected() {
     return this._connected;
   }
 
   /**
    * Dispatch component custom event.
-   * @param {string} eventName -  event name
-   * @param {CustomEventInit} eventInit - event init
+   * Event bubbles and is cancelable by default, use {@param eventInit} to override that.
+   * @param eventName - event name
+   * @param [eventInit] - custom event init. See {@link CustomEventInit}
    */
   public $$fire(eventName: string, eventInit: CustomEventInit = {}): boolean {
     const init = Object.assign({bubbles: true, cancelable: true}, eventInit);
@@ -32,9 +38,10 @@ export abstract class ESLBaseElement extends HTMLElement {
 
   /**
    * Dispatch component custom event.
-   * Will append prefix from static property {eventNs} if it is defined.
-   * @param {string} eventName -  event name
-   * @param {CustomEventInit} eventInit - event init
+   * Event bubbles and is cancelable by default, use {@param eventInit} to override that.
+   * Will append prefix from static property {@link eventNs} if it is defined.
+   * @param eventName - event name
+   * @param [eventInit] - custom event init. See {@link CustomEventInit}
    */
   public $$fireNs(eventName: string, eventInit: CustomEventInit = {}): boolean {
     const component = this.constructor as typeof ESLBaseElement;
@@ -43,9 +50,8 @@ export abstract class ESLBaseElement extends HTMLElement {
   }
 
   /**
-   * Register component in a {customElements} registry
-   * @param {string} tagName - tag name to register custom element
-   * NOTE: use super.register.call(T extends CustomElement, tagName) in overwritten register method in TS
+   * Register component in the {@link customElements} registry
+   * @param [tagName] - custom tag name to register custom element
    */
   public static register(this: typeof ESLBaseElement & CustomElementConstructor, tagName?: string) {
     tagName = tagName || this.is;

@@ -43,9 +43,9 @@ export class ESLBasePopup extends ESLBaseElement {
   @boolAttr() public closeOnEsc: boolean;
   @boolAttr() public closeOnBodyClick: boolean;
 
-  @jsonAttr<PopupActionParams>({default: {silent: true, force: true, initiator: 'init'}})
+  @jsonAttr<PopupActionParams>({defaultValue: {silent: true, force: true, initiator: 'init'}})
   public initialParams: PopupActionParams;
-  @jsonAttr<PopupActionParams>({default: {}})
+  @jsonAttr<PopupActionParams>({defaultValue: {}})
   public defaultParams: PopupActionParams;
 
   public get group() {

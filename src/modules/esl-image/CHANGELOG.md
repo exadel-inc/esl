@@ -1,5 +1,7 @@
 ### 1.0.0-alpha
-* Update and extend API for container class feature
+* Update and extend API for container class feature. 
+* container-class-onload -> container-class-state
+* TraversingQuery for container-class-target.
 
 ### 0.2.3-alpha (internal 2.3.#)
 * ESL Image moved to new modules structure
