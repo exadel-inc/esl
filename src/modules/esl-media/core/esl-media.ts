@@ -40,6 +40,8 @@ export class ESLMedia extends ESLBaseElement {
 
   @attr({defaultValue: 'auto'}) public preload: string;
 
+  @attr() public readyClass: string;
+
   @boolAttr({readonly: true}) public ready: boolean;
   @boolAttr({readonly: true}) public active: boolean;
   @boolAttr({readonly: true}) public played: boolean;
@@ -101,8 +103,6 @@ export class ESLMedia extends ESLBaseElement {
     if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
       case 'disabled':
-        (oldVal !== null) && this.deferredReinitialize();
-        break;
       case 'media-id':
       case 'media-src':
       case 'media-type':
@@ -171,6 +171,7 @@ export class ESLMedia extends ESLBaseElement {
   public play(allowActivate: boolean = false) {
     if (this.disabled && allowActivate) {
       this.disabled = false;
+      // FIXME: used to force initial buffing of the video.
       this.autoplay = true;
     }
     if (!this.canActivate()) return;
@@ -212,15 +213,16 @@ export class ESLMedia extends ESLBaseElement {
 
   // media live-cycle handlers
   public _onReady() {
-    this.setAttribute('ready', '');
-    CSSUtil.addCls(this, this.getAttribute('ready-class'));
+    this.toggleAttribute('ready', true);
+    this.toggleAttribute('error', false);
+    CSSUtil.addCls(this, this.readyClass);
     this.deferredResize();
     this.$$fireNs('ready');
   }
 
   public _onError(detail?: any, setReadyState = true) {
-    this.setAttribute('ready', '');
-    this.setAttribute('error', '');
+    this.toggleAttribute('ready', true);
+    this.toggleAttribute('error', true);
     this.$$fireNs('error', {detail});
     setReadyState && this.$$fireNs('ready');
   }
@@ -229,7 +231,7 @@ export class ESLMedia extends ESLBaseElement {
     this.removeAttribute('active');
     this.removeAttribute('ready');
     this.removeAttribute('played');
-    CSSUtil.removeCls(this, this.getAttribute('ready-class'));
+    CSSUtil.removeCls(this, this.readyClass);
     this.$$fireNs('detach');
   }
 
