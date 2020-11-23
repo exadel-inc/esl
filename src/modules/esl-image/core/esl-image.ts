@@ -279,7 +279,7 @@ export class ESLImage extends ESLBaseElement {
   }
 
   public updateContainerClasses() {
-    if (this.containerClass == null) return;
+    if (this.containerClass === null) return;
     const cls = this.containerClass || (this.constructor as typeof ESLImage).DEFAULT_CONTAINER_CLS;
     const state = isLoadState(this.containerClassState) && this[this.containerClassState];
     const targetEl = TraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
