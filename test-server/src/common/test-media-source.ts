@@ -21,17 +21,21 @@ class TestMediaSource extends HTMLElement {
 					</select>
 			    </div>
 			    <div class="input-group mb-2 mr-sm-2">
-			        <input type="text" class="form-control" placeholder="Media src" name="media-src" autocomplete="on" />
+			        <input type="text" class="form-control" placeholder="Media src" name="media-src" autocomplete="on"/>
 			    </div>
 			    <div class="input-group mb-2 mr-sm-2">
-			        <input type="text" class="form-control" placeholder="Media id" name="media-id" autocomplete="on" />
+			        <input type="text" class="form-control" placeholder="Media id" name="media-id" autocomplete="on"/>
 			    </div>
 			    <div class="input-group mb-2 mr-sm-2">
-			        <input type="text" class="form-control" placeholder="Player id" name="player-id" autocomplete="on" />
+			        <input type="text" class="form-control" placeholder="Player id" name="player-id" autocomplete="on"/>
 			    </div>
 			    <div class="input-group mb-2 mr-sm-2">
-			        <input type="text" class="form-control" placeholder="Player account" name="player-account" autocomplete="on" />
+			        <input type="text" class="form-control" placeholder="Player account" name="player-account" autocomplete="on"/>
 			    </div>
+
+          <div class="form-group form-check">
+            <label class="form-check-label"><input type="checkbox" name="disabled" class="form-check-input"/> Disabled</label>
+          </div>
 			</fieldset>
 		`;
     form.action = 'javascript: void 0;';
@@ -43,7 +47,12 @@ class TestMediaSource extends HTMLElement {
     const target = this.target;
     const inputs = this.querySelectorAll('input[name], select[name]');
     Array.from(inputs).forEach((input: HTMLInputElement | HTMLSelectElement) => {
-      target && target.setAttribute(input.name, input.value);
+      if (!target) return;
+      if (input instanceof HTMLInputElement && input.type === 'checkbox') {
+        target.toggleAttribute(input.name, input.checked);
+      } else {
+        target.setAttribute(input.name, input.value);
+      }
     });
   }
 

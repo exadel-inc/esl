@@ -170,8 +170,8 @@ export class BrightcoveProvider extends BaseProvider {
   }
 
   public stop() {
-    this._api.pause();
     this._api.currentTime(0);
+    this._api.pause();
   }
 }
 
