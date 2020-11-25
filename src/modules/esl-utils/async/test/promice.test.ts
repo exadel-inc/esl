@@ -39,4 +39,16 @@ describe('PromiseUtils tests', () => {
     (el as any).test = true;
     return PromiseUtils.fromMarker(el, 'test').then((e) => expect(true).toBe(true));
   });
+
+  test('deferred resolve', () => {
+    const def$$ = PromiseUtils.deferred();
+    def$$.resolve(1);
+    return def$$.promise.then((n) => expect(n).toBe(1));
+  })
+
+  test('deferred reject', () => {
+    const def$$ = PromiseUtils.deferred();
+    def$$.reject(1);
+    return def$$.promise.catch((n) => expect(n).toBe(1));
+  })
 });

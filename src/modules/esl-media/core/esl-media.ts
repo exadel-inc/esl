@@ -175,9 +175,8 @@ export class ESLMedia extends ESLBaseElement {
       this.autoplay = true;
     }
     if (!this.canActivate()) return;
-    this.deferredReinitialize.then(() => {
-      this._provider && this._provider.safePlay();
-    }, true);
+    return this.deferredReinitialize.promise
+      .then(() => this._provider && this._provider.safePlay());
   }
 
   /**
