@@ -12,6 +12,12 @@ export type ListenableTarget = {
   ) => void;
 };
 
+export type Deferred<T> = {
+  promise: Promise<T>;
+  resolve: (arg: T) => void;
+  reject: (arg?: any) => void;
+};
+
 /**
  * Promise utils helper class
  */
@@ -97,5 +103,19 @@ export abstract class PromiseUtils {
         }
       }, timeout);
     });
+  }
+
+  /**
+   * Create Deferred Object that wraps promise and it's resolve and reject callbacks
+   */
+  static deferred<T>(): Deferred<T> {
+    let reject: any;
+    let resolve: any;
+    // Both reject and resolve will be assigned anyway while the Promise constructing.
+    const promise = new Promise<T>((res, rej) => {
+      resolve = res;
+      reject = rej;
+    });
+    return {promise, resolve, reject};
   }
 }
