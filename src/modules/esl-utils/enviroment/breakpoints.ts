@@ -82,7 +82,7 @@ export abstract class BreakpointRegistry {
    */
   public static apply(query: string) {
     const breakpoints = Object.keys(registry);
-    const breakpointRegex = new RegExp(`@([+-]?)(${breakpoints.join('|')})`, 'ig');
+    const breakpointRegex = new RegExp(`@([+-]?)(${breakpoints.join('|')})\\b`, 'ig');
 
     return query.replace(breakpointRegex, (match, sign, bp) => {
       const shortcut = BreakpointRegistry.getBreakpoint(bp);
