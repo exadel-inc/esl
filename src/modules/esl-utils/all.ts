@@ -12,7 +12,7 @@ export * from './dom/script';
 // Function
 export * from './async/raf';
 export * from './async/debounce';
-export * from './async/trottle';
+export * from './async/throttle';
 
 // DOM
 export * from './dom/styles';

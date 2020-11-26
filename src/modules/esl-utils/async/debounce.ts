@@ -1,11 +1,12 @@
 import type {AnyToAnyFnSignature} from '../misc/functions';
-import {Deferred, PromiseUtils} from './promise';
+import {Deferred, PromisifyResultFn, PromiseUtils} from './promise';
 
-type PromisifiedFn<F extends AnyToAnyFnSignature> = ((...args: Parameters<F>) => Promise<ReturnType<F> | void>);
 /** Debounced<F> is a function wrapper type for a function decorated via debounce */
-export interface Debounced<F extends AnyToAnyFnSignature> extends PromisifiedFn<F> {
-  /** {Promise} that represents */
+export interface Debounced<F extends AnyToAnyFnSignature> extends PromisifyResultFn<F> {
+  /** {Promise} of deferred function call */
   promise: Promise<ReturnType<F> | void>;
+  /** Cancel debounced call */
+  cancel(): void;
 }
 
 /**
@@ -26,13 +27,26 @@ export function debounce<F extends AnyToAnyFnSignature>(fn: F, wait = 10): Debou
     (typeof timeout === 'number') && clearTimeout(timeout);
     timeout = window.setTimeout(() => {
       timeout = null;
-      deferred!.resolve(fn(...args));
+      // fn.apply to save call context
+      deferred!.resolve(fn.apply(this, args));
       deferred = null;
     }, wait);
     return deferred.promise;
   }
+  function cancel() {
+    (typeof timeout === 'number') && clearTimeout(timeout);
+    timeout = null;
+    deferred?.reject();
+    deferred = null;
+  }
+
   Object.defineProperty(debouncedSubject, 'promise', {
     get: () => deferred ? deferred.promise : Promise.resolve()
+  });
+  Object.defineProperty(debouncedSubject, 'cancel', {
+    writable: false,
+    enumerable: false,
+    value: cancel
   });
 
   return debouncedSubject as Debounced<F>;
