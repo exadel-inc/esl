@@ -1,0 +1,59 @@
+---
+layout: ../../layouts/basic.html
+title: Single Slide Carousel
+---
+
+{{##content:
+<div class="container-fluid">
+    <div class="row flex-column">
+        <a href="javascript:void 0" class="sr-only">Fake anchor</a>
+        <h2>Demo 1: </h2>
+        <esl-carousel config="{view: single}">
+            <esl-carousel-autoplay-plugin timeout="5000"></esl-carousel-autoplay-plugin>
+
+            <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
+                <span class="icon-arrow-prev"></span>
+            </button>
+
+            <div data-slides-area>
+                <!-- CAROUSEL-ITEM -->
+                <esl-carousel-slide data-active-slide
+                                style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>aaa</p>
+                    </div>
+                </esl-carousel-slide>
+                <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>bbb</p>
+                    </div>
+                </esl-carousel-slide>
+                <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>ccc</p>
+                    </div>
+                </esl-carousel-slide>
+                <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>ddd</p>
+                    </div>
+                </esl-carousel-slide>
+                <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>eee</p>
+                    </div>
+                </esl-carousel-slide>
+
+                <!-- /CAROUSEL-ITEM -->
+            </div>
+
+            <button class="arrow-next" onclick="void 0" data-slide-target="next">
+                <span class="icon-arrow-next"></span>
+            </button>
+
+            <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+
+        </esl-carousel>
+    </div>
+</div>
+#}}

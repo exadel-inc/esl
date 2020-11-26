@@ -1,5 +1,6 @@
 ---
 layout: ./html5.html
+scrollbar: true
 ---
 
 {{##head:
@@ -17,8 +18,7 @@ layout: ./html5.html
     })();
 </script>
 
-<link type="text/css" rel="stylesheet" href="/all.css">
-<link type="text/css" rel="stylesheet" href="/localdev-styles.css">
+<link type="text/css" rel="stylesheet" href="/localdev.css">
 
 {{= layout.head || '' }}
 #}}
@@ -33,7 +33,7 @@ layout: ./html5.html
     <h1 class="text-center pt-2">{{= page.getPageTitle(layout.title)}}</h1>
     <hr/>
     {{?}}
-    <div class="conetent {{= layout.containerCls || 'container-fluid'}}">
+    <div class="content {{= layout.containerCls || 'container-fluid'}}">
         {{= layout.content || 'No content.' }}
     </div>
 </main>
@@ -41,6 +41,5 @@ layout: ./html5.html
     {{= partial('./footer.html')}}
 </footer>
 
-<script defer src="/all.js"></script>
-<script defer src="/localdev-ts.js"></script>
+<script src="/localdev.js"></script>
 #}}

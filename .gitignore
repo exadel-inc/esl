@@ -9,10 +9,17 @@
 node_modules
 
 # Build output
-lib/
-test-server/static/
+target
+test-server/static
+
+# Generated surces
+/modules
+/polyfills
 
 # Logs & Tmp
 npm-debug.log
-package-lock.json
 .gitconfig
+
+# Jest & Sonar
+.report
+.scannerwork

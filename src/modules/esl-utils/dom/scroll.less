@@ -1,0 +1,50 @@
+html.esl-disable-scroll {
+  // Simple scroll blocking
+  body {
+    max-height: 100vh !important;
+    overflow: hidden !important;
+
+    // hide-scrollbar
+    &::-webkit-scrollbar {
+      display: none; // Chrome, Safari
+    }
+  }
+
+  // Shows page scroll
+  &.esl-native-scroll {
+    overflow-y: scroll !important;
+  }
+
+  // Show native like scroll in the content of the page
+  &.esl-pseudo-scroll {
+    display: flex !important;
+    align-items: stretch !important;
+
+    body {
+      flex: 1 1 auto !important;
+      max-height: 100vh !important;
+    }
+
+    &::before {
+      content: '';
+      overflow-y: scroll;
+      flex: 0 0 auto;
+      order: 2;
+      visibility: hidden;
+    }
+
+    &::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      overflow-y: scroll;
+    }
+
+    // hide analytics utilities
+    & > img {
+      flex: 0 1 auto !important;
+    }
+  }
+}

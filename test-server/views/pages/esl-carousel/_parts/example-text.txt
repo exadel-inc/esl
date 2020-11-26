@@ -1,0 +1,16 @@
+<esl-carousel class="my-carousel-style"
+   config="@+SM => {count: 2, view: 'multislide', cls: 'multi'} | @XS => {view: 'single'}">
+
+   <button class="arrow-prev" data-slide-target="prev">Previous</button>
+   <div data-slides-area>
+     <esl-carousel-slide active>Slide 1 Content</esl-carousel-slide>
+     <esl-carousel-slide active>Slide 2 Content</esl-carousel-slide>
+     <esl-carousel-slide>Slide 3 Content</esl-carousel-slide>
+     <esl-carousel-slide>Slide 4 Content</esl-carousel-slide>
+     <esl-carousel-slide>Slide 5 Content</esl-carousel-slide>
+   </div>
+   <button class="arrow-next" data-slide-target="next">Next</button>
+
+   <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+   <esl-carousel-autoplay-plugin timeout="5000"></esl-carousel-autoplay-plugin>
+</esl-carousel>
