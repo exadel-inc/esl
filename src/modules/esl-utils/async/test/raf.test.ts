@@ -1,7 +1,7 @@
 import {RAFMock} from '../../test/raf.mock';
 import {rafDecorator, afterNextRender} from '../raf';
 
-describe('async/raf helper tests', () => {
+describe('async/raf', () => {
   beforeAll(() => {
     RAFMock.applyMock();
     RAFMock.instance.reset();

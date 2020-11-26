@@ -24,7 +24,7 @@ export function throttle<F extends AnyToAnyFnSignature>(fn: F, threshold = 250):
 
     if (!last || now >= last + threshold) {
       last = now;
-      return Promise.resolve(fn.apply(this, ...args));
+      return Promise.resolve(fn.apply(this, args));
     }
 
     deferred = deferred || PromiseUtils.deferred();
