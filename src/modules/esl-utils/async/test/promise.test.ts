@@ -53,7 +53,7 @@ describe('PromiseUtils', () => {
     });
   });
 
-  describe('tryUntil tests', () => {
+  describe('tryUntil', () => {
     test('successful', () => {
       let i = 0;
 

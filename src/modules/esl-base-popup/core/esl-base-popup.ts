@@ -4,7 +4,7 @@ import {CSSUtil} from '../../esl-utils/dom/styles';
 import {bind} from '../../esl-utils/decorators/bind';
 import {defined} from '../../esl-utils/misc/functions';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
-import {SingleTaskManager} from '../../esl-utils/async/single-task-manager';
+import {TaskPlanner} from '../../esl-utils/async/task-planner';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
 
 import {ESLBasePopupGroup} from './esl-base-popup-group';
@@ -30,7 +30,7 @@ export class ESLBasePopup extends ESLBaseElement {
 
   protected _open: boolean = false;
   protected _trackHover: boolean = false;
-  protected _taskManager: SingleTaskManager = new SingleTaskManager();
+  protected _queue: TaskPlanner = new TaskPlanner();
 
   @boolAttr() public open: boolean;
 
@@ -137,7 +137,7 @@ export class ESLBasePopup extends ESLBaseElement {
     return this;
   }
   private planShowTask(params: PopupActionParams) {
-    this._taskManager.push(() => {
+    this._queue.push(() => {
       if (!params.force && this._open) return;
       if (!params.silent) this.fireBeforeStateChange();
       this.onShow(params);
@@ -156,7 +156,7 @@ export class ESLBasePopup extends ESLBaseElement {
     return this;
   }
   private planHideTask(params: PopupActionParams) {
-    this._taskManager.push(() => {
+    this._queue.push(() => {
       if (!params.force && !this._open) return;
       if (!params.silent) this.fireBeforeStateChange();
       this.onHide(params);
