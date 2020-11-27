@@ -16,6 +16,7 @@ import {BaseProvider, PlayerStates} from './esl-media-provider';
 import ESLMediaRegistry from './esl-media-registry';
 import MediaGroupRestrictionManager from './esl-media-manager';
 import {CSSUtil} from '../../esl-utils/dom/styles';
+import {TraversingQuery} from '../../esl-traversing-query/core';
 
 @ExportNs('Media')
 export class ESLMedia extends ESLBaseElement {
@@ -41,6 +42,9 @@ export class ESLMedia extends ESLBaseElement {
   @attr({defaultValue: 'auto'}) public preload: string;
 
   @attr() public readyClass: string;
+  @attr() public loadClsAccepted: string;
+  @attr() public loadClsDeclined: string;
+  @attr({defaultValue: '::parent'}) public loadClsTarget: string;
 
   @boolAttr({readonly: true}) public ready: boolean;
   @boolAttr({readonly: true}) public active: boolean;
@@ -146,15 +150,12 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public updateContainerMarkers() {
-    const target = this.getAttribute('load-cls-target');
-    const targetEl = !target || target === 'parent' ? this.parentNode as HTMLElement : this.closest(target);
-
-    const activeCls = this.getAttribute('load-accepted-cls');
-    const inactiveCls = this.getAttribute('load-declined-cls');
+    const targetEl = TraversingQuery.first(this.loadClsTarget, this) as HTMLElement;
+    if (!targetEl) return;
 
     const active = this.canActivate();
-    (targetEl && activeCls) && targetEl.classList.toggle(activeCls, active);
-    (targetEl && inactiveCls) && targetEl.classList.toggle(inactiveCls, !active);
+    CSSUtil.toggleClsTo(targetEl, this.loadClsAccepted, active);
+    CSSUtil.toggleClsTo(targetEl, this.loadClsDeclined, !active);
   }
 
   /**

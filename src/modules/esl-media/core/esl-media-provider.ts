@@ -138,7 +138,7 @@ export abstract class BaseProvider {
    * Executes seekTo action when api is ready
    * @returns Promise
    */
-  public safeSeekTo(pos: number) {
+  public safeSeekTo(pos: number): Promise<void> {
     return this.ready.then(() => this.seekTo(pos));
   }
 
@@ -146,7 +146,7 @@ export abstract class BaseProvider {
    * Executes play when api is ready
    * @returns Promise
    */
-  public safePlay() {
+  public safePlay(): Promise<void> {
     return this.ready.then(() => this.play());
   }
 
@@ -154,7 +154,7 @@ export abstract class BaseProvider {
    * Executes pause when api is ready
    * @returns Promise
    */
-  public safePause() {
+  public safePause(): Promise<void> {
     return this.ready.then(() => this.pause());
   }
 
@@ -162,7 +162,7 @@ export abstract class BaseProvider {
    * Executes stop when api is ready
    * @returns Promise
    */
-  public safeStop() {
+  public safeStop(): Promise<void> {
     return this.ready.then(() => this.stop());
   }
 
@@ -170,7 +170,7 @@ export abstract class BaseProvider {
    * Executes toggle when api is ready
    * @returns Promise
    */
-  public safeToggle() {
+  public safeToggle(): Promise<void> {
     return this.ready.then(() => this.toggle());
   }
 
