@@ -127,6 +127,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   private reinitInstance() {
+    console.debug('[ESL] Media reinitialize ', this);
     // TODO: optimize, constraint for simple changes
     this._provider && this._provider.unbind();
     this._provider = null;
@@ -136,6 +137,7 @@ export class ESLMedia extends ESLBaseElement {
       if (provider) {
         this._provider = new provider(this);
         this._provider.bind();
+        console.debug('[ESL] Media provider bound', this._provider);
       } else {
         this._onError();
       }
@@ -171,12 +173,11 @@ export class ESLMedia extends ESLBaseElement {
   public play(allowActivate: boolean = false) {
     if (this.disabled && allowActivate) {
       this.disabled = false;
-      // FIXME: used to force initial buffing of the video.
-      this.autoplay = true;
+      this.deferredReinitialize.cancel();
+      this.reinitInstance();
     }
     if (!this.canActivate()) return;
-    return this.deferredReinitialize.promise
-      .then(() => this._provider && this._provider.safePlay());
+    return this._provider && this._provider.safePlay();
   }
 
   /**

@@ -139,7 +139,7 @@ export abstract class BaseProvider {
    * @returns Promise
    */
   public safeSeekTo(pos: number) {
-    this.ready.then(() => this.seekTo(pos));
+    return this.ready.then(() => this.seekTo(pos));
   }
 
   /**
@@ -147,7 +147,7 @@ export abstract class BaseProvider {
    * @returns Promise
    */
   public safePlay() {
-    this.ready.then(() => this.play());
+    return this.ready.then(() => this.play());
   }
 
   /**
@@ -155,7 +155,7 @@ export abstract class BaseProvider {
    * @returns Promise
    */
   public safePause() {
-    this.ready.then(() => this.pause());
+    return this.ready.then(() => this.pause());
   }
 
   /**
@@ -163,7 +163,7 @@ export abstract class BaseProvider {
    * @returns Promise
    */
   public safeStop() {
-    this.ready.then(() => this.stop());
+    return this.ready.then(() => this.stop());
   }
 
   /**
