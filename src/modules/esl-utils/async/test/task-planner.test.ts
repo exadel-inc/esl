@@ -80,7 +80,7 @@ describe('async/task-planner', () => {
     const planner = new TaskPlanner();
 
     planner.push(fn1, 0);
-    expect(planner.top).toBe(fn1);
+    expect(planner.task).toBe(fn1);
     planner.clear();
     expect(fn1).toBeCalledTimes(0);
     setTimeout(() => {
@@ -94,6 +94,6 @@ describe('async/task-planner', () => {
 
     expect(planner.push(function () {}, 0)).toBeTruthy();
     expect(planner.push('something' as any)).toBeFalsy();
-    expect(typeof planner.top).toBe('function')
+    expect(typeof planner.task).toBe('function')
   });
 });
