@@ -1,11 +1,13 @@
 import type {AnyToVoidFnSignature} from '../misc/functions';
 
 /**
- * Task planner with a single place evicting query.
+ * Task placeholder with a single place for executing deferred task.
+ * Only one task can be planed per DelayedTask instance.
+ * @see put DelayedTask.put behaviour description.
  */
-export class TaskPlanner {
-  protected _fn: AnyToVoidFnSignature | null;
-  protected _timeout: number | null;
+export class DelayedTask {
+  protected _fn: AnyToVoidFnSignature | null = null;
+  protected _timeout: number | null = null;
 
   /** Execute deferred task immediately */
   protected run = () => {
@@ -13,8 +15,8 @@ export class TaskPlanner {
     this._fn && this._fn();
   };
 
-  /** @return {Function} of currently deferred (planned) task*/
-  public get task() {
+  /** @return {Function} of currently deferred (planned) task */
+  public get fn() {
     return this._fn;
   }
 
@@ -25,22 +27,23 @@ export class TaskPlanner {
    *  - pass 0 to plan task to the macrotask
    *  - pass positive number x to delay task on x ms.
    * */
-  public push(task: AnyToVoidFnSignature, delay: number | boolean = false) {
-    if (typeof task !== 'function') return false;
-    this.clear();
+  public put(task: AnyToVoidFnSignature, delay: number | boolean = false) {
+    const prev = this.cancel();
+    if (typeof task !== 'function') return prev;
     if (typeof delay === 'number' && delay >= 0) {
       this._fn = task;
       this._timeout = window.setTimeout(this.run, delay);
     } else {
       task();
     }
-    return true;
+    return prev;
   }
 
   /** Cancel deferred (planned) task */
-  public clear() {
-    this._fn = null;
+  public cancel() {
+    const prev = this._fn;
     (typeof this._timeout === 'number') && clearTimeout(this._timeout);
-    this._timeout = null;
+    this._fn = this._timeout = null;
+    return prev;
   }
 }

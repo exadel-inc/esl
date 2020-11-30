@@ -1,19 +1,19 @@
-import {TaskPlanner} from '../task-planner';
+import {DelayedTask} from '../delayed-task';
 
-describe('async/task-planner', () => {
+describe('async/delayed-task', () => {
   test('basic intimidate run', () => {
     const fn1 = jest.fn();
     const fn2 = jest.fn();
 
-    const planner = new TaskPlanner();
+    const task = new DelayedTask();
 
-    planner.push(fn1);
+    task.put(fn1);
     expect(fn1).toBeCalledTimes(1);
-    planner.push(fn2, -1);
+    task.put(fn2, -1);
     expect(fn2).toBeCalledTimes(1);
-    planner.push(fn2);
+    task.put(fn2);
     expect(fn2).toBeCalledTimes(2);
-    planner.push(fn1)
+    task.put(fn1)
     expect(fn1).toBeCalledTimes(2);
     expect(fn2).toBeCalledTimes(2);
   });
@@ -21,10 +21,10 @@ describe('async/task-planner', () => {
   test('simple microtask', (done) => {
     const fn1 = jest.fn();
 
-    const planner = new TaskPlanner();
+    const task = new DelayedTask();
 
-    planner.push(fn1, 0);
-    planner.push(fn1, 0);
+    task.put(fn1, 0);
+    task.put(fn1, 0);
     expect(fn1).toBeCalledTimes(0);
     setTimeout(() => {
       expect(fn1).toBeCalledTimes(1);
@@ -35,10 +35,10 @@ describe('async/task-planner', () => {
   test('simple eviction', (done) => {
     const fn1 = jest.fn();
 
-    const planner = new TaskPlanner();
+    const task = new DelayedTask();
 
-    planner.push(fn1, 0);
-    planner.push(fn1);
+    task.put(fn1, 0);
+    task.put(fn1);
     expect(fn1).toBeCalledTimes(1);
     setTimeout(() => {
       expect(fn1).toBeCalledTimes(1);
@@ -50,22 +50,22 @@ describe('async/task-planner', () => {
     const fn1 = jest.fn();
     const fn2 = jest.fn();
 
-    const planner = new TaskPlanner();
+    const task = new DelayedTask();
 
-    planner.push(fn2, 50);
-    planner.push(fn1, 40);
+    task.put(fn2, 50);
+    task.put(fn1, 40);
     expect(fn1).toBeCalledTimes(0);
     expect(fn2).toBeCalledTimes(0);
 
     setTimeout(() => {
-      planner.push(fn2, 20);
+      task.put(fn2, 20);
       expect(fn1).toBeCalledTimes(0);
       expect(fn2).toBeCalledTimes(0);
 
       setTimeout(() => {
         expect(fn1).toBeCalledTimes(0);
         expect(fn2).toBeCalledTimes(1);
-        planner.push(fn1, false);
+        task.put(fn1, false);
         expect(fn1).toBeCalledTimes(1);
         expect(fn2).toBeCalledTimes(1);
         done();
@@ -74,14 +74,14 @@ describe('async/task-planner', () => {
   });
 
 
-  test('cancel/top', (done) => {
+  test('cancel / fn', (done) => {
     const fn1 = jest.fn();
 
-    const planner = new TaskPlanner();
+    const task = new DelayedTask();
 
-    planner.push(fn1, 0);
-    expect(planner.task).toBe(fn1);
-    planner.clear();
+    task.put(fn1, 0);
+    expect(task.fn).toBe(fn1);
+    task.cancel();
     expect(fn1).toBeCalledTimes(0);
     setTimeout(() => {
       expect(fn1).toBeCalledTimes(0);
@@ -89,11 +89,16 @@ describe('async/task-planner', () => {
     }, 10);
   });
 
-  test('test ', () => {
-    const planner = new TaskPlanner();
+  test('put/cancel return value', () => {
+    const fn1 = function () {};
+    const fn2 = function () {};
+    const task = new DelayedTask();
 
-    expect(planner.push(function () {}, 0)).toBeTruthy();
-    expect(planner.push('something' as any)).toBeFalsy();
-    expect(typeof planner.task).toBe('function')
+    expect(task.put(fn1, 0)).toBeNull();
+    expect(task.put(fn2, 0)).toBe(fn1);
+    expect(typeof task.fn).toBe('function')
+    expect(task.put(fn1, 0)).toBe(fn2);
+    expect(task.cancel()).toBe(fn1);
+    expect(task.fn).toBeNull();
   });
 });
