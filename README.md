@@ -49,3 +49,15 @@ Or make the library work in IE11 or Edge (<14) using "full" polyfills list provi
 See more details on what the polyfill approach might look like in the test-server examples.
 
 Also, the library built-in polyfills for some of DOM and ES6 features are available under [./polyfills](./src/polyfills) directory.
+
+---
+
+### Development: NPM scripts
+There is a list of available npm scripts for local development:
+ - `npm start` or `npm run start` - start demo server locally. Runs local build, watch and browsersync. Uses `:3001` port (BrowserSync) and `:3002` port (origin).
+ - `npm run tar` - build project and tarball archive with npm state of the project
+ - `npm run build` - build project to CJS output
+ - `npm run clear` - clear output folders
+ - `npm test` or `npm run test` - run linters and tests (silent task, used in CI/DI)
+ - `npm run test-only` - just run all tests
+ - `npm run test-report` - run tests and create coverage report
