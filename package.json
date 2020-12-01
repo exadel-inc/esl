@@ -46,6 +46,7 @@
     "@types/youtube": "0.0.40"
   },
   "devDependencies": {
+    "@exadel/server-sketch": "git+https://github.com/exadel-inc/server-sketch.git",
     "@juggle/resize-observer": "^3.2.0",
     "@types/jest": "^26.0.15",
     "@types/smoothscroll-polyfill": "^0.3.1",
@@ -54,6 +55,7 @@
     "@webcomponents/custom-elements": "^1.4.3",
     "@webcomponents/webcomponents-platform": "^1.0.1",
     "autoprefixer": "^10.0.4",
+    "browser-sync": "^2.26.13",
     "cssnano": "^4.1.10",
     "eslint": "^7.14.0",
     "gulp": "^4.0.2",
@@ -79,7 +81,6 @@
     "ts-jest": "^26.4.4",
     "ts-loader": "^8.0.11",
     "typescript": "4.1.2",
-    "ui-project-server": "./test-server/edmtp-modules/ui-project-server.tar",
     "vinyl-named": "^1.1.0",
     "webpack": "^4.44.2",
     "webpack-stream": "^6.1.1"

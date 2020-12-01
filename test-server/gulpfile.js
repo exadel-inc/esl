@@ -39,7 +39,16 @@ const watchTsLint = function watchTsLint() {
 
 const watchLocal = gulp.parallel(watchLess, watchTs, watchTsLint);
 
+const serverSketch = require('@exadel/server-sketch/localdev');
+const startServer = (done) => {
+  serverSketch.start(require('./config'));
+  done();
+};
+const start = gulp.series(startServer, watchLocal);
+
 module.exports = {
+  start,
+  startServer,
   watchLocal,
   buildLocal,
   buildLocalTs,
