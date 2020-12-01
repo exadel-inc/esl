@@ -35,7 +35,7 @@
     "tar": "gulp tar",
     "clean": "gulp clean",
     "build": "gulp build",
-    "test": "gulp lint --silent && jest --bail --silent",
+    "test": "gulp lint --silent && jest --silent --noStackTrace",
     "test-only": "jest",
     "test-report": "jest --coverage",
     "preversion": "npm test"
