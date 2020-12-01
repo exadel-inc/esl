@@ -20,7 +20,7 @@ export type Deferred<T> = {
   promise: Promise<T>;
   /** Function that resolves wrapped promise */
   resolve: (arg: T) => void;
-  /** Function that reject wrapped promise */
+  /** Function that rejects wrapped promise */
   reject: (arg?: any) => void;
 };
 
@@ -116,7 +116,7 @@ export abstract class PromiseUtils {
   }
 
   /**
-   * Create Deferred Object that wraps promise and it's resolve and reject callbacks
+   * Create Deferred Object that wraps promise and its resolve and reject callbacks
    */
   static deferred<T>(): Deferred<T> {
     let reject: any;
