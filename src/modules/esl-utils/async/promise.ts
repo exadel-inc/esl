@@ -53,9 +53,9 @@ export abstract class PromiseUtils {
     options?: boolean | AddEventListenerOptions
   ): Promise<Event> {
     return new Promise((resolve, reject) => {
-      function eventCallback(...args: any) {
+      function eventCallback(e: Event) {
         target.removeEventListener(event, eventCallback, options);
-        resolve(...args);
+        resolve(e);
       }
 
       target.addEventListener(event, eventCallback, options);

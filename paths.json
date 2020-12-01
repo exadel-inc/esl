@@ -17,15 +17,6 @@
     "ts": ["src/modules/**/*.ts", "!**/test/*.test.ts"],
     "less": ["src/modules/**/*.less"]
   },
-  "watch": {
-    "ts": ["src/modules/**/*.ts", "test-server/src/**/*.ts", "!**/test/*.test.ts"],
-    "less": ["src/modules/**/*.less", "test-server/src/**/*.less"]
-  },
-  "server": {
-    "less": "test-server/src/*.less",
-    "ts": ["test-server/src/*.ts"],
-    "target": "test-server/static"
-  },
   "tar": {
     "dest": "target",
     "destPaths": ["target/*"]
