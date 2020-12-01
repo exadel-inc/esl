@@ -1,3 +1,5 @@
+import type {AnyToAnyFnSignature} from '../misc/functions';
+
 /** Interface to describe abstract listenable target */
 export type ListenableTarget = {
   addEventListener: (
@@ -12,11 +14,19 @@ export type ListenableTarget = {
   ) => void;
 };
 
+/** Deferred object represents promise with it's resolve/reject methods */
 export type Deferred<T> = {
+  /** Wrapped promise */
   promise: Promise<T>;
+  /** Function that resolves wrapped promise */
   resolve: (arg: T) => void;
+  /** Function that reject wrapped promise */
   reject: (arg?: any) => void;
 };
+
+/** Return function type with the same signature but with the result type wrapped into promise */
+export type PromisifyResultFn<F extends AnyToAnyFnSignature> =
+  ((...args: Parameters<F>) => Promise<ReturnType<F> | void>);
 
 /**
  * Promise utils helper class
