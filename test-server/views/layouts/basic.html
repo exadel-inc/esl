@@ -14,11 +14,11 @@ scrollbar: true
         } else if (!('getRootNode' in Element.prototype) || !window.customElements || !window.IntersectionObserver) {
             version = 'light';
         }
-        (version) && document.write('<script type="text/javascript" src="/polyfill-' + version + '.js"><\/script>');
+        (version) && document.write('<script type="text/javascript" src="/bundles/polyfill-' + version + '.js"><\/script>');
     })();
 </script>
 
-<link type="text/css" rel="stylesheet" href="/localdev.css">
+<link type="text/css" rel="stylesheet" href="/bundles/localdev.css">
 
 {{= layout.head || '' }}
 #}}
@@ -41,5 +41,5 @@ scrollbar: true
     {{= partial('./footer.html')}}
 </footer>
 
-<script src="/localdev.js"></script>
+<script src="/bundles/localdev.js"></script>
 #}}

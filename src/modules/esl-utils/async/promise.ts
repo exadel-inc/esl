@@ -20,7 +20,7 @@ export type Deferred<T> = {
   promise: Promise<T>;
   /** Function that resolves wrapped promise */
   resolve: (arg: T) => void;
-  /** Function that reject wrapped promise */
+  /** Function that rejects wrapped promise */
   reject: (arg?: any) => void;
 };
 
@@ -53,9 +53,9 @@ export abstract class PromiseUtils {
     options?: boolean | AddEventListenerOptions
   ): Promise<Event> {
     return new Promise((resolve, reject) => {
-      function eventCallback(...args: any) {
+      function eventCallback(e: Event) {
         target.removeEventListener(event, eventCallback, options);
-        resolve(...args);
+        resolve(e);
       }
 
       target.addEventListener(event, eventCallback, options);
@@ -116,7 +116,7 @@ export abstract class PromiseUtils {
   }
 
   /**
-   * Create Deferred Object that wraps promise and it's resolve and reject callbacks
+   * Create Deferred Object that wraps promise and its resolve and reject callbacks
    */
   static deferred<T>(): Deferred<T> {
     let reject: any;

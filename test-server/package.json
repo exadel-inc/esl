@@ -1,0 +1,15 @@
+{
+  "name": "exadel-smart-library-samples",
+  "version": "1.0.0",
+  "description": "Samples static server for ESL documentation, playground and local development",
+  "main": "server.js",
+  "scripts": {
+    "dev": "gulp start",
+    "watch": "gulp watchLocal",
+    "start": "node server.js",
+    "build": "gulp buildLocal",
+    "build-and-start": "npm run build && npm run start"
+  },
+  "private": true,
+  "license": "MIT"
+}

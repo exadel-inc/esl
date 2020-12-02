@@ -37,7 +37,7 @@ export class IframeBasicProvider extends BaseProvider {
     if (this._state !== PlayerStates.UNINITIALIZED) return;
     this._ready = new Promise((resolve, reject) => {
       this._el = IframeBasicProvider.buildIframe(this.component);
-      this._el.onload = () => resolve();
+      this._el.onload = () => resolve(this);
       this._el.onerror = (e) => reject(e);
       this._state = PlayerStates.UNSTARTED;
       this.component.appendChild(this._el);
