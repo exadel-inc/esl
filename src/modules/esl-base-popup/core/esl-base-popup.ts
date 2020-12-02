@@ -1,9 +1,10 @@
 import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {ESC} from '../../esl-utils/dom/keycodes';
 import {CSSUtil} from '../../esl-utils/dom/styles';
+import {bind} from '../../esl-utils/decorators/bind';
 import {defined} from '../../esl-utils/misc/functions';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
-import {SingleTaskManager} from '../../esl-utils/async/single-task-manager';
+import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
 
 import {ESLBasePopupGroup} from './esl-base-popup-group';
@@ -29,7 +30,7 @@ export class ESLBasePopup extends ESLBaseElement {
 
   protected _open: boolean = false;
   protected _trackHover: boolean = false;
-  protected _taskManager: SingleTaskManager = new SingleTaskManager();
+  protected _task: DelayedTask = new DelayedTask();
 
   @boolAttr() public open: boolean;
 
@@ -42,9 +43,9 @@ export class ESLBasePopup extends ESLBaseElement {
   @boolAttr() public closeOnEsc: boolean;
   @boolAttr() public closeOnBodyClick: boolean;
 
-  @jsonAttr<PopupActionParams>({default: {silent: true, force: true, initiator: 'init'}})
+  @jsonAttr<PopupActionParams>({defaultValue: {silent: true, force: true, initiator: 'init'}})
   public initialParams: PopupActionParams;
-  @jsonAttr<PopupActionParams>({default: {}})
+  @jsonAttr<PopupActionParams>({defaultValue: {}})
   public defaultParams: PopupActionParams;
 
   public get group() {
@@ -136,7 +137,7 @@ export class ESLBasePopup extends ESLBaseElement {
     return this;
   }
   private planShowTask(params: PopupActionParams) {
-    this._taskManager.push(() => {
+    this._task.put(() => {
       if (!params.force && this._open) return;
       if (!params.silent) this.fireBeforeStateChange();
       this.onShow(params);
@@ -155,7 +156,7 @@ export class ESLBasePopup extends ESLBaseElement {
     return this;
   }
   private planHideTask(params: PopupActionParams) {
-    this._taskManager.push(() => {
+    this._task.put(() => {
       if (!params.force && !this._open) return;
       if (!params.silent) this.fireBeforeStateChange();
       this.onHide(params);
@@ -221,27 +222,34 @@ export class ESLBasePopup extends ESLBaseElement {
   }
 
   // "Private" Handlers
-  protected _onClick = (e: MouseEvent) => {
+  @bind
+  protected _onClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (this.closeTrigger && target.closest(this.closeTrigger)) {
       this.hide({initiator: 'close', trigger: target});
     }
-  };
-  protected _onKeyboardEvent = (e: KeyboardEvent) => {
-    if (this.closeOnEsc && e.which === ESC) {
-      this.hide({initiator: 'keyboard'});
-    }
-  };
-  protected _onBodyClick = (e: MouseEvent) => {
+  }
+  @bind
+  protected _onBodyClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (!this.contains(target)) {
       this.hide({initiator: 'bodyclick', trigger: target});
     }
-  };
-  protected _onMouseEnter = () => {
+  }
+
+  @bind
+  protected _onKeyboardEvent(e: KeyboardEvent) {
+    if (this.closeOnEsc && e.which === ESC) {
+      this.hide({initiator: 'keyboard'});
+    }
+  }
+
+  @bind
+  protected _onMouseEnter() {
     this.show({initiator: 'mouseenter', trackHover: true});
-  };
-  protected _onMouseLeave = () => {
+  }
+  @bind
+  protected _onMouseLeave() {
     this.hide({initiator: 'mouseleave', trackHover: true});
-  };
+  }
 }

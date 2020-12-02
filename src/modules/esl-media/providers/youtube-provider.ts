@@ -1,26 +1,27 @@
 /**
  * Youtube API provider for {@link ESLMedia}
- * @version 1.0.0
+ * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- * @extends BaseProvider
  */
 import {loadScript} from '../../esl-utils/dom/script';
 import {ESLMedia} from '../core/esl-media';
 import {BaseProvider, MediaProviderConfig, PlayerStates, ProviderObservedParams} from '../core/esl-media-provider';
-import ESLMediaProviderRegistry from '../core/esl-media-registry';
 import PlayerVars = YT.PlayerVars;
 import {generateUId} from '../../esl-utils/misc/uid';
 
 const DEFAULT_ASPECT_RATIO = 16 / 9;
 
-export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameElement> {
-  private _api: YT.Player;
+@BaseProvider.register
+export class YouTubeProvider extends BaseProvider {
   static readonly idRegexp = /(?:v\/|v=|vi=|vi\/|e\/|embed\/|user\/.*\/u\/\d+\/)([_0-9a-zA-Z-]+)/;
   static readonly providerRegexp = /(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be|youtube(-nocookie)?\.com)/;
 
   static get providerName() {
     return 'youtube';
   }
+
+  protected _el: HTMLDivElement | HTMLIFrameElement;
+  protected _api: YT.Player;
 
   static parseURL(url: string) {
     if (this.providerRegexp.test(url)) {
@@ -31,7 +32,6 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
   }
 
   private static _coreApiPromise: Promise<void>;
-
   protected static getCoreApi() {
     if (!YouTubeProvider._coreApiPromise) {
       YouTubeProvider._coreApiPromise = new Promise((resolve) => {
@@ -81,29 +81,35 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
   public bind() {
     this._el = YouTubeProvider.buildIframe(this.config);
     this.component.appendChild(this._el);
-    this._ready = YouTubeProvider.getCoreApi().then(
-      () => (new Promise((resolve, reject) => {
-        this._api = new YT.Player(this._el.id, {
+    this._ready = YouTubeProvider.getCoreApi()
+      .then(() => this.onCoreApiReady())
+      .then(() => this.onPlayerReady())
+      .catch((e) => this.component._onError(e));
+  }
+
+  /** Init YT.Player on target element */
+  protected onCoreApiReady() {
+    return new Promise((resolve, reject) => {
+      console.debug('[ESL]: Media Youtube Player initialization for ', this);
+      this._api = new YT.Player(this._el.id, {
           videoId: this.config.mediaId,
-          events: {
-            onError: (e) => {
-              this.component._onError(e);
-              reject(this);
-            },
-            onReady: () => resolve(this),
-            onStateChange: this._onStateChange
-          },
+        events: {
+          onError: (e) => reject(e),
+          onReady: () => resolve(this),
+          onStateChange: (e) => this._onStateChange(e)
+        },
           playerVars: YouTubeProvider.mapOptions(this.config)
-        });
-      }))
-    );
-    this._ready.then(() => {
-      this._el = this._api.getIframe();
-      if (this.config.muted) {
-        this._api.mute();
-      }
-      this.component._onReady();
+      });
     });
+  }
+  /** Post YT.Player init actions */
+  protected onPlayerReady() {
+    console.debug('[ESL]: Media Youtube Player ready ', this);
+    this._el = this._api.getIframe();
+      if (this.config.muted) {
+      this._api.mute();
+    }
+    this.component._onReady();
   }
 
   public unbind() {
@@ -112,7 +118,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
     super.unbind();
   }
 
-  private _onStateChange = (event: YT.OnStateChangeEvent) => {
+  private _onStateChange(event: YT.OnStateChangeEvent) {
     switch (+event.data) {
       case PlayerStates.PLAYING:
         this.component._onPlay();
@@ -128,7 +134,7 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
         }
         break;
     }
-  };
+  }
 
   protected onConfigChange(param: ProviderObservedParams, value: boolean) {
     super.onConfigChange(param, value);
@@ -189,8 +195,6 @@ export class YouTubeProvider extends BaseProvider<HTMLDivElement | HTMLIFrameEle
     this._api.stopVideo();
   }
 }
-
-ESLMediaProviderRegistry.register(YouTubeProvider, YouTubeProvider.providerName);
 
 // typings
 declare global {

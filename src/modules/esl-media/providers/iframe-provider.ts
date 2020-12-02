@@ -1,17 +1,19 @@
 /**
  * Simple Basic Iframe provider for {@link ESLMedia}
+ * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n)
  */
 import {BaseProvider, PlayerStates} from '../core/esl-media-provider';
-import ESLMediaProviderRegistry from '../core/esl-media-registry';
 import {generateUId} from '../../esl-utils/misc/uid';
 
-export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
-  private _state: PlayerStates = PlayerStates.UNINITIALIZED;
-
+@BaseProvider.register
+export class IframeBasicProvider extends BaseProvider {
   static get providerName() {
     return 'iframe';
   }
+
+  private _state: PlayerStates = PlayerStates.UNINITIALIZED;
+  protected _el: HTMLIFrameElement;
 
   protected buildIframe() {
     const el = document.createElement('iframe');
@@ -31,7 +33,7 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
     if (this._state !== PlayerStates.UNINITIALIZED) return;
     this._ready = new Promise((resolve, reject) => {
       this._el = this.buildIframe();
-      this._el.onload = () => resolve();
+      this._el.onload = () => resolve(this);
       this._el.onerror = (e) => reject(e);
       this._state = PlayerStates.UNSTARTED;
       this.component.appendChild(this._el);
@@ -94,5 +96,3 @@ export class IframeBasicProvider extends BaseProvider<HTMLIFrameElement> {
     this.unbind();
   }
 }
-
-ESLMediaProviderRegistry.register(IframeBasicProvider, IframeBasicProvider.providerName);

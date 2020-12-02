@@ -1,26 +1,29 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="{{= page.resolveURL('/' + SERVER_CONFIG.defaultPageUrl) }}">Exadel Smart Library</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-                aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+  <div class="container">
+    <div class="hd-content">
+      <a class="navbar-brand" href="{{= page.resolveURL('/' + SERVER_CONFIG.defaultPageUrl)}}">Exadel Smart Library</a>
 
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav mr-auto">
-                {{ let rootPages = page.invokeController('InnerPages', '/'); }}
+      <div class="hd-dropdown">
+        <esl-trigger class="hd-dropdown-trigger" event="hover" target="::next">
+          <button class="btn btn-link hd-dropdown-btn">Components List</button>
+          <span class="hd-dropdown-arrow-icon"></span>
+        </esl-trigger>
 
-                {{~ rootPages :innerPage }}
-                <li class="nav-item {{? innerPage.href === page.location.pathname }}active{{?}}">
-                    <a class="nav-link" href="{{= page.resolveURL(innerPage.href) }}">{{= innerPage.title }}</a>
-                </li>
-                {{~}}
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item gn-back">
-                    <button class="btn btn-outline-info gn-back-trigger">← Back</button>
-                </li>
-            </ul>
-        </div>
+        <esl-panel class="hd-dropdown-content">
+          <ul class="hd-dropdown-list">
+            {{ let rootPages = page.invokeController('InnerPages', '/'); }}
+
+            {{~ rootPages :innerPage}}
+            <li class="nav-item hd-dropdown-item {{? innerPage.href === page.location.pathname}}active{{?}}">
+              <a class="hd-dropdown-link" href="{{= page.resolveURL(innerPage.href)}}">{{= innerPage.title }}</a>
+            </li>
+            {{~}}
+          </ul>
+        </esl-panel>
+      </div>
     </div>
+
+    <button class="btn btn-outline-info gn-back-trigger">← Back</button>
+
+  </div>
 </nav>

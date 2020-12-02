@@ -1,9 +1,10 @@
 /**
  * BaseProvider class for media API providers
- * @version 1.2.0
+ * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
-import ESLMedia from './esl-media';
+import {ESLMedia} from './esl-media';
+import {ESLMediaProviderRegistry} from './esl-media-registry';
 
 export enum PlayerStates {
   BUFFERING = 3,
@@ -27,18 +28,13 @@ export interface MediaProviderConfig {
   playsinline?: boolean;
 }
 
-export type ProviderType = {
-  new(component: ESLMedia, config: MediaProviderConfig): BaseProvider<HTMLElement>
-  parseURL: URLParser;
-  providerName: string;
-  parseConfig: (component: ESLMedia) => MediaProviderConfig;
-};
+export type ProviderType = (new(component: ESLMedia, config: MediaProviderConfig) => BaseProvider) & typeof BaseProvider;
 
 export type URLParser = (mediaSrc: string) => Partial<MediaProviderConfig> | null;
 
 export type ProviderObservedParams = 'autoplay' | 'loop' | 'muted' | 'playsinline' | 'controls';
 
-export abstract class BaseProvider<T extends HTMLElement> {
+export abstract class BaseProvider {
   static readonly providerName: string;
 
   static readonly parseURL: URLParser = () => null;
@@ -52,7 +48,7 @@ export abstract class BaseProvider<T extends HTMLElement> {
 
   protected config: MediaProviderConfig;
   protected component: ESLMedia;
-  protected _el: T;
+  protected _el: HTMLElement;
   protected _ready: Promise<any>;
 
   public constructor(component: ESLMedia, config: MediaProviderConfig) {
@@ -107,18 +103,32 @@ export abstract class BaseProvider<T extends HTMLElement> {
    */
   public abstract get currentTime(): number;
 
+  /**
+   * Low-level provider 'seek to' method implementation
+   */
   protected abstract seekTo(pos?: number): void | Promise<any>;
 
+  /**
+   * Low-level provider 'play' method implementation
+   */
   protected abstract play(): void | Promise<any>;
 
+  /**
+   * Low-level provider 'pause' method implementation
+   */
   protected abstract pause(): void | Promise<any>;
 
+  /**
+   * Low-level provider 'stop' method implementation
+   */
   protected abstract stop(): void | Promise<any>;
 
   /**
    * Set focus to the inner content
    */
-  public abstract focus(): void;
+  public focus() {
+    this._el?.focus();
+  }
 
   protected onConfigChange(param: ProviderObservedParams, value: boolean) {
     this.config[param] = value;
@@ -157,44 +167,52 @@ export abstract class BaseProvider<T extends HTMLElement> {
    * Executes seekTo action when api is ready
    * @returns Promise
    */
-  public safeSeekTo(pos: number) {
-    this.ready.then(() => this.seekTo(pos));
+  public safeSeekTo(pos: number): Promise<void> {
+    return this.ready.then(() => this.seekTo(pos));
   }
 
   /**
    * Executes play when api is ready
    * @returns Promise
    */
-  public safePlay() {
-    this.ready.then(() => this.play());
+  public safePlay(): Promise<void> {
+    return this.ready.then(() => this.play());
   }
 
   /**
    * Executes pause when api is ready
    * @returns Promise
    */
-  public safePause() {
-    this.ready.then(() => this.pause());
+  public safePause(): Promise<void> {
+    return this.ready.then(() => this.pause());
   }
 
   /**
    * Executes stop when api is ready
    * @returns Promise
    */
-  public safeStop() {
-    this.ready.then(() => this.stop());
+  public safeStop(): Promise<void> {
+    return this.ready.then(() => this.stop());
   }
 
   /**
    * Executes toggle when api is ready
    * @returns Promise
    */
-  public safeToggle() {
+  public safeToggle(): Promise<void> {
     return this.ready.then(() => this.toggle());
   }
 
-  // public static register() {
-  //   const provider = (this as typeof BaseProvider & ProviderType);
-  //   ESLMediaProviderRegistry.instance.register(provider, provider.providerName);
-  // }
+  /**
+   * Register current provider.
+   * Can be used as a decorator.
+   */
+  public static register(this: ProviderType): void;
+  public static register(this: unknown, provider?: ProviderType): void;
+  public static register(this: any, provider?: ProviderType): void {
+    provider = provider || this;
+    if (provider === BaseProvider) throw new Error('`BaseProvider` can\'t be registered.');
+    if (!(provider?.prototype instanceof BaseProvider)) throw new Error('Provider should be instanceof `BaseProvider`');
+    ESLMediaProviderRegistry.instance.register(provider, provider.providerName);
+  }
 }

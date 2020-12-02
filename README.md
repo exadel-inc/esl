@@ -3,26 +3,62 @@
 ESL is a web components based library that gives you a set of **lightweight**
 and **flexible** custom elements to make basic UX modules fast and leave your sites super performable.
 
+### Components
+- ##### [ESL Image](./src/modules/esl-image/README.md)
+- ##### [ESL Media](./src/modules/esl-media/README.md)
+- ##### [ESL Scrollbar](./src/modules/esl-scrollbar/README.md)
+- TBD: Popups category
+
+### Utilities
+- ##### [ESL Base Element](./src/modules/esl-base-element/README.md)
+- ##### [ESL Media Query](./src/modules/esl-media-query/README.md)
+- ##### [ESL Traversing Query](./src/modules/esl-traversing-query/README.md)
+- ##### ESL Utils
+  - TBD
+
 ---
 
-## Browser support
+## Browser support & Polyfills
 
-Exadel Smart Library does not have dependencies but use the following list of native browser features:
+Exadel Smart Library does not have dependencies but uses the following list of native browser features:
 
-- (ES6) Array.from, Array.prototype.find, Array.prototype.findIndex, Object.is
-- (ES6) Promises
-- (DOM) Custom Events
-- (DOM) Node.isConnected, Element.closest, Element.toggleAttribute
-- IntersectionObserver
-- Custom Elements
+- Ecma Script 6 features
+  - [Array.from](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/from) (no Iterable Objects support required)
+  - [Array.prototype.find](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/find) 
+  - [Array.prototype.findIndex](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex) 
+  - [Object.is](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/is)
+  - [ES6 Promises](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+- Web API
+  - [Custom Events](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent)
+  - [Node.isConnected](https://developer.mozilla.org/en-US/docs/Web/API/Node/isConnected)
+  - [Element.matches](https://developer.mozilla.org/ru/docs/Web/API/Element/matches)
+  - [Element.closest](https://developer.mozilla.org/ru/docs/Web/API/Element/closest)
+  - [Element.toggleAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/toggleAttribute)
+  - [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver)
+  - [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
+  - [Custom Elements](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements)
 
-All of them completely supported by modern browsers like Chrome, Firefox, Safari or Edge >43.
 
-To make library work in older browser you can use the light polyfill for IntersectionObserver, Custom Elements
+All of them are fully supported by modern browsers like Chrome, Firefox, Safari or Edge (>43).
+
+In order to make ESL work in older browsers you can use a "light" polyfills list for IntersectionObserver, ResizeObserver and Custom Elements
 (Older versions of Edge and Safari)
 
-Or make them work in IE11 or Edge<14 by using full polyfill with the whole list of polyfills.
+Or make the library work in IE11 or Edge (<14) using "full" polyfills list provided.
 
-See more details how the polyfilling approach might look like in the test-server example.
+See more details on what the polyfill approach might look like in the test-server examples.
 
-Builtin polyfills for DOM and ES6 features available under polyfills directory.
+Also, the library built-in polyfills for some of DOM and ES6 features are available under [./polyfills](./src/polyfills) directory.
+
+---
+
+### Development: NPM scripts
+Here is a list of available npm scripts for local development:
+ - `npm start` or `npm run start` - start demo server locally. Runs local build, watch and browsersync. 
+ Uses `:3001` port (BrowserSync) and `:3002` port (origin).
+ - `npm run tar` - build project and tarball archive with npm state of the project
+ - `npm run build` - build project to CJS output
+ - `npm run clear` - clear output folders
+ - `npm test` or `npm run test` - run linters and tests (silent task, used in CI/CD)
+ - `npm run test-only` - just run all tests
+ - `npm run test-report` - run tests and create coverage report

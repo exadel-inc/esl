@@ -1,6 +1,6 @@
 /**
  * ESL Media
- * @version 1.2.0
+ * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
@@ -16,6 +16,7 @@ import {BaseProvider, PlayerStates} from './esl-media-provider';
 import ESLMediaRegistry from './esl-media-registry';
 import MediaGroupRestrictionManager from './esl-media-manager';
 import {CSSUtil} from '../../esl-utils/dom/styles';
+import {TraversingQuery} from '../../esl-traversing-query/core';
 
 @ExportNs('Media')
 export class ESLMedia extends ESLBaseElement {
@@ -40,12 +41,17 @@ export class ESLMedia extends ESLBaseElement {
 
   @attr({defaultValue: 'auto'}) public preload: string;
 
+  @attr() public readyClass: string;
+  @attr() public loadClsAccepted: string;
+  @attr() public loadClsDeclined: string;
+  @attr({defaultValue: '::parent'}) public loadClsTarget: string;
+
   @boolAttr({readonly: true}) public ready: boolean;
   @boolAttr({readonly: true}) public active: boolean;
   @boolAttr({readonly: true}) public played: boolean;
   @boolAttr({readonly: true}) public error: boolean;
 
-  private _provider: BaseProvider<HTMLElement> | null;
+  private _provider: BaseProvider | null;
   private _conditionQuery: ESLMediaQuery | null;
 
   private deferredResize = rafDecorator(() => this._onResize());
@@ -98,10 +104,13 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-    if (!this.connected && oldVal === newVal) return;
+    if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
       case 'disabled':
-        (oldVal !== null) && this.deferredReinitialize();
+      case 'media-id':
+      case 'media-src':
+      case 'media-type':
+        this.deferredReinitialize();
         break;
       case 'loop':
       case 'muted':
@@ -109,11 +118,6 @@ export class ESLMedia extends ESLBaseElement {
       case 'controls':
       case 'playsinline':
         this._provider && this._provider.onSafeConfigChange(attrName, newVal !== null);
-        break;
-      case 'media-id':
-      case 'media-src':
-      case 'media-type':
-        this.deferredReinitialize();
         break;
       case 'fill-mode':
       case 'aspect-ratio':
@@ -134,31 +138,31 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   private reinitInstance() {
+    console.debug('[ESL] Media reinitialize ', this);
     // TODO: optimize, constraint for simple changes
     this._provider && this._provider.unbind();
     this._provider = null;
+
     if (this.canActivate()) {
       this._provider = ESLMediaRegistry.createProvider(this);
       if (this._provider) {
         this._provider.bind();
+        console.debug('[ESL] Media provider bound', this._provider);
       } else {
         this._onError();
       }
-
     }
-    this._updateContainerMarkers();
+
+    this.updateContainerMarkers();
   }
 
-  private _updateContainerMarkers() {
-    const target = this.getAttribute('load-cls-target');
-    const targetEl = !target || target === 'parent' ? this.parentNode as HTMLElement : this.closest(target);
-
-    const activeCls = this.getAttribute('load-accepted-cls');
-    const inactiveCls = this.getAttribute('load-declined-cls');
+  public updateContainerMarkers() {
+    const targetEl = TraversingQuery.first(this.loadClsTarget, this) as HTMLElement;
+    if (!targetEl) return;
 
     const active = this.canActivate();
-    (targetEl && activeCls) && targetEl.classList.toggle(activeCls, active);
-    (targetEl && inactiveCls) && targetEl.classList.toggle(inactiveCls, !active);
+    CSSUtil.toggleClsTo(targetEl, this.loadClsAccepted, active);
+    CSSUtil.toggleClsTo(targetEl, this.loadClsDeclined, !active);
   }
 
   /**
@@ -177,12 +181,11 @@ export class ESLMedia extends ESLBaseElement {
   public play(allowActivate: boolean = false) {
     if (this.disabled && allowActivate) {
       this.disabled = false;
-      this.autoplay = true;
+      this.deferredReinitialize.cancel();
+      this.reinitInstance();
     }
     if (!this.canActivate()) return;
-    this.deferredReinitialize.then(() => {
-      this._provider && this._provider.safePlay();
-    }, true);
+    return this._provider && this._provider.safePlay();
   }
 
   /**
@@ -218,15 +221,16 @@ export class ESLMedia extends ESLBaseElement {
 
   // media live-cycle handlers
   public _onReady() {
-    this.setAttribute('ready', '');
-    CSSUtil.addCls(this, this.getAttribute('ready-class'));
+    this.toggleAttribute('ready', true);
+    this.toggleAttribute('error', false);
+    CSSUtil.addCls(this, this.readyClass);
     this.deferredResize();
     this.$$fireNs('ready');
   }
 
   public _onError(detail?: any, setReadyState = true) {
-    this.setAttribute('ready', '');
-    this.setAttribute('error', '');
+    this.toggleAttribute('ready', true);
+    this.toggleAttribute('error', true);
     this.$$fireNs('error', {detail});
     setReadyState && this.$$fireNs('ready');
   }
@@ -235,7 +239,7 @@ export class ESLMedia extends ESLBaseElement {
     this.removeAttribute('active');
     this.removeAttribute('ready');
     this.removeAttribute('played');
-    CSSUtil.removeCls(this, this.getAttribute('ready-class'));
+    CSSUtil.removeCls(this, this.readyClass);
     this.$$fireNs('detach');
   }
 

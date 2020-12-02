@@ -21,8 +21,8 @@ export function loadScript(id: string, src: string): Promise<Event> {
     const state = script.getAttribute('state');
 
     switch (state) {
-      case 'success': resolve(); break;
-      case 'error': reject(); break;
+      case 'success': resolve(new Event('load')); break;
+      case 'error': reject(new Event('error')); break;
       default:
         script.addEventListener('load', (e: Event) => {
           script.setAttribute('state', 'success');

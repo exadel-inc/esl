@@ -8,8 +8,11 @@ jest.config.js
 # Common directories
 build
 node_modules
+
+# Test server
+test-server/*.js
 test-server/static
 
 # Generated surces
-!src/modules
-!src/polyfills
+/modules
+/polyfills

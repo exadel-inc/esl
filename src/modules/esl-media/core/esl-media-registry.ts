@@ -1,11 +1,11 @@
 /**
  * ESLMediaProviderRegistry class to store media API providers
- * @version 1.2.0
+ * @version 1.0.0-alpha
  * @author Yuliya Adamskaya
  */
 import ESLMedia from './esl-media';
 import {Observable} from '../../esl-utils/abstract/observable';
-import {BaseProvider, ProviderType} from './esl-media-provider';
+import type {BaseProvider, ProviderType} from './esl-media-provider';
 
 let evRegistryInstance: ESLMediaProviderRegistry | null = null;
 
@@ -26,6 +26,7 @@ export class ESLMediaProviderRegistry extends Observable {
   }
 
   public register(provider: ProviderType, name: string) {
+    if (!name) throw new Error('Provider should have name');
     this.providersMap.set(name, provider);
     this.fire(name, provider);
   }
@@ -39,11 +40,11 @@ export class ESLMediaProviderRegistry extends Observable {
     return this.providersMap.get(type.toLowerCase()) || null;
   }
 
-  public createProvider(media: ESLMedia): BaseProvider<HTMLElement> | null {
+  public createProvider(media: ESLMedia): BaseProvider | null {
     return this.createProviderByType(media) || this.createProviderBySrc(media);
   }
 
-  private createProviderByType(media: ESLMedia): BaseProvider<HTMLElement> | null {
+  private createProviderByType(media: ESLMedia): BaseProvider | null {
     const {mediaType, mediaSrc} = media;
     const providerByType = this.getProviderByType(mediaType);
     if (providerByType) {
@@ -53,7 +54,7 @@ export class ESLMediaProviderRegistry extends Observable {
     return null;
   }
 
-  private createProviderBySrc(media: ESLMedia): BaseProvider<HTMLElement> | null {
+  private createProviderBySrc(media: ESLMedia): BaseProvider | null {
     const {mediaSrc} = media;
     for (const provider of this.providers) {
       const parsedConfig = provider.parseURL(mediaSrc);

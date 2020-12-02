@@ -10,9 +10,11 @@ describe('Decorator: jsonAttr', () => {
     public dataField: any;
     @jsonAttr({name: 'test-attr'})
     public renamedField: any;
+    @jsonAttr({name: 'testAttr', dataAttr: true})
+    public renamedField2: any;
     @jsonAttr({readonly: true})
     public readonlyField: any;
-    @jsonAttr({default: {a: 1}})
+    @jsonAttr({defaultValue: {a: 1}})
     public defSimple: any;
   }
 
@@ -45,7 +47,7 @@ describe('Decorator: jsonAttr', () => {
     expect(el.dataField).toEqual({b: 2});
   });
 
-  test('Decorator: jsonAttr - renamed attr', () => {
+  test('Decorator: jsonAttr - renamed attr 1', () => {
     expect(el.renamedField).toEqual({});
     el.renamedField = {};
     expect(el.renamedField).toEqual({});
@@ -55,6 +57,18 @@ describe('Decorator: jsonAttr', () => {
     expect(el.getAttribute('test-attr')).toBe('{"a":1}');
     el.setAttribute('test-attr', '{b: 2}');
     expect(el.renamedField).toEqual({b: 2});
+  });
+
+  test('Decorator: jsonAttr - renamed attr 2', () => {
+    expect(el.renamedField2).toEqual({});
+    el.renamedField2 = {};
+    expect(el.renamedField2).toEqual({});
+    expect(el.getAttribute('data-test-attr')).toBe('{}');
+    el.renamedField2 = {a: 1};
+    expect(el.renamedField2).toEqual({a: 1});
+    expect(el.getAttribute('data-test-attr')).toBe('{"a":1}');
+    el.setAttribute('data-test-attr', '{b: 2}');
+    expect(el.renamedField2).toEqual({b: 2});
   });
 
   test('Decorator: jsonAttr - readonly attr', () => {

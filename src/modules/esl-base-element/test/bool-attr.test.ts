@@ -10,6 +10,8 @@ describe('Decorator: boolAttr', () => {
     public dataField: boolean;
     @boolAttr({name: 'test-attr'})
     public renamedField: boolean;
+    @boolAttr({name: 'testAttr', dataAttr: true})
+    public renamedField2: boolean;
     @boolAttr({readonly: true})
     public readonlyField: boolean;
   }
@@ -42,7 +44,7 @@ describe('Decorator: boolAttr', () => {
     expect(el.hasAttribute('data-data-field')).toBe(false);
   });
 
-  test('Decorator: boolAttr - renamed attr', () => {
+  test('Decorator: boolAttr - renamed attr 1', () => {
     expect(el.renamedField).toBe(false);
     el.renamedField = true;
     expect(el.renamedField).toBe(true);
@@ -50,6 +52,16 @@ describe('Decorator: boolAttr', () => {
     el.renamedField = false;
     expect(el.renamedField).toBe(false);
     expect(el.hasAttribute('test-attr')).toBe(false);
+  });
+
+  test('Decorator: boolAttr - renamed attr 2', () => {
+    expect(el.renamedField2).toBe(false);
+    el.renamedField2 = true;
+    expect(el.renamedField2).toBe(true);
+    expect(el.hasAttribute('data-test-attr')).toBe(true);
+    el.renamedField2 = false;
+    expect(el.renamedField2).toBe(false);
+    expect(el.hasAttribute('data-test-attr')).toBe(false);
   });
 
   test('Decorator: boolAttr - readonly attr', () => {
