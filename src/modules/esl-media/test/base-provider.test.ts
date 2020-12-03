@@ -19,10 +19,10 @@ describe('ESLMedia: BaseProvider tests', () => {
       static readonly providerName = 'test-provider';
     }
     expect(ESLMediaProviderRegistry.instance.has('test-provider')).toBe(false);
-    expect(ESLMediaProviderRegistry.instance.getProvider('test-provider')).toBe(null);
+    expect(ESLMediaProviderRegistry.instance.getProviderByType('test-provider')).toBe(null);
     TestProvider.register();
     expect(ESLMediaProviderRegistry.instance.has('test-provider')).toBe(true);
-    expect(ESLMediaProviderRegistry.instance.getProvider('test-provider')).toBe(TestProvider);
+    expect(ESLMediaProviderRegistry.instance.getProviderByType('test-provider')).toBe(TestProvider);
   });
 
   test('Test provider registered via decorator', () => {
