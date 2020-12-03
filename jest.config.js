@@ -7,6 +7,10 @@ module.exports = {
   moduleFileExtensions: ["ts", "js", "json"],
   coverageDirectory: '.report',
   coverageReporters: ['lcov', 'html'],
+  setupFiles: [
+    './src/modules/esl-utils/test/deviceDetector.mock.ts',
+    './src/modules/esl-utils/test/matchMedia.mock.ts'
+  ],
   collectCoverageFrom: [
     'src/modules/**/*.ts',
     // cumulative exclude
