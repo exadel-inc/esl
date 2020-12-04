@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 import {attr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {rafDecorator} from '../../esl-utils/async/raf';
-import {isNegativeScroll, isRtl} from '../../esl-utils/dom/rtl';
+import {RTLUtils} from '../../esl-utils/dom/rtl';
 
 import {ESLTab, ESLTabsContainer} from '../../esl-tab/core';
 
@@ -44,7 +44,7 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     const list = this.$list;
     if (!list) return;
     let left = list.offsetWidth;
-    left = isRtl(this) && isNegativeScroll() ? -left : left;
+    left = RTLUtils.isRtl(this) && RTLUtils.scrollType !== 'reverse' ? -left : left;
     left = direction === 'left' ? -left : left;
 
     list.scrollBy({left, behavior});
@@ -62,11 +62,11 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     // item out of area from the right side
     // else item out of area from the left side
     if (itemRect.right > areaRect.right) {
-      shift = isRtl(this) && !isNegativeScroll() ?
+      shift = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'reverse' ?
         Math.floor(areaRect.right - itemRect.right) :
         Math.ceil(itemRect.right - areaRect.right);
     } else if (itemRect.left < areaRect.left) {
-      shift = isRtl(this) && !isNegativeScroll() ?
+      shift = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'reverse' ?
         Math.ceil(areaRect.left - itemRect.left) :
         Math.floor(itemRect.left - areaRect.left);
     }
