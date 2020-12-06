@@ -66,10 +66,23 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   static get observedAttributes() {
-    return ['media-type', 'disabled', 'media-id', 'media-src', 'fill-mode', 'aspect-ratio', 'play-in-viewport', 'playsinline', 'muted', 'loop', 'autoplay', 'controls'];
+    return [
+      'disabled',
+      'media-type',
+      'media-id',
+      'media-src',
+      'fill-mode',
+      'aspect-ratio',
+      'play-in-viewport',
+      'playsinline',
+      'muted',
+      'loop',
+      'autoplay',
+      'controls'
+    ];
   }
 
-  static support(name: string): boolean {
+  static supports(name: string): boolean {
     return ESLMediaRegistry.has(name);
   }
 
@@ -139,7 +152,6 @@ export class ESLMedia extends ESLBaseElement {
 
   private reinitInstance() {
     console.debug('[ESL] Media reinitialize ', this);
-    // TODO: optimize, constraint for simple changes
     this._provider && this._provider.unbind();
     this._provider = null;
 
