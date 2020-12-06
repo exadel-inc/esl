@@ -19,8 +19,7 @@ import {BreakpointRegistry} from '../../esl-utils/enviroment/breakpoints';
 
 const QUERY_CACHE: { [q: string]: MediaQueryList } = {};
 
-function getQuery(query: string): MediaQueryList | null {
-  if (!query) return null;
+function getQuery(query: string): MediaQueryList {
   const matcher = QUERY_CACHE[query] ? QUERY_CACHE[query] : window.matchMedia(query);
   if (matcher) {
     QUERY_CACHE[query] = matcher;
@@ -29,8 +28,10 @@ function getQuery(query: string): MediaQueryList | null {
 }
 
 function getDprMediaQuery(ratio: number) {
-  const isWebkit = navigator.userAgent.indexOf('AppleWebKit') !== -1;
-  return isWebkit ? `(-webkit-min-device-pixel-ratio: ${ratio})` : `(min-resolution: ${Math.round(96 * ratio)}dpi)`;
+  if (DeviceDetector.isSafari) {
+    return `(-webkit-min-device-pixel-ratio: ${ratio})`;
+  }
+  return `(min-resolution: ${(96 * ratio).toFixed(1)}dpi)`;
 }
 
 export class ESLMediaQuery {
@@ -47,7 +48,7 @@ export class ESLMediaQuery {
 
   private _dpr: number;
   private _mobileOnly: boolean | undefined;
-  private readonly _query: MediaQueryList | null;
+  private readonly _query: MediaQueryList;
 
   constructor(query: string) {
 
@@ -56,8 +57,8 @@ export class ESLMediaQuery {
 
     // Applying dpr shortcut
     this._dpr = 1;
-    query = query.replace(/@([123])x/, (match, ratio) => {
-      this._dpr = Math.floor(ratio); // FIXME
+    query = query.replace(/@(\d(\.\d)?)x/g, (match, ratio) => {
+      this._dpr = Number.parseFloat(ratio);
       if (ESLMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && this._dpr !== 1) {
         return ESLMediaQuery.NOT_ALL;
       }
@@ -65,12 +66,12 @@ export class ESLMediaQuery {
     });
 
     // Applying dpr shortcut for device detection
-    query = query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/i, (match, pre, type, post) => {
+    query = query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/ig, (match, pre, type, post) => {
       this._mobileOnly = (type.toUpperCase() === '@MOBILE');
       if (DeviceDetector.isMobile !== this._mobileOnly) {
         return ESLMediaQuery.NOT_ALL; // whole query became invalid
       }
-      return pre && post ? ' and ' : '';
+      return pre && post ? 'and' : '';
     });
 
     this._query = getQuery(query.trim() || ESLMediaQuery.ALL);
@@ -88,16 +89,15 @@ export class ESLMediaQuery {
     return this._dpr;
   }
 
-  public get query(): MediaQueryList | null {
+  public get query(): MediaQueryList {
     return this._query;
   }
 
   public get matches(): boolean {
-    return !!(this.query && this.query.matches);
+    return this.query.matches;
   }
 
   public addListener(listener: () => void) {
-    if (!this.query) return;
     if (typeof this.query.addEventListener === 'function') {
       this.query.addEventListener('change', listener);
     } else {
@@ -106,7 +106,6 @@ export class ESLMediaQuery {
   }
 
   public removeListener(listener: () => void) {
-    if (!this.query) return;
     if (typeof this.query.removeEventListener === 'function') {
       this.query.removeEventListener('change', listener);
     } else {
@@ -115,7 +114,6 @@ export class ESLMediaQuery {
   }
 
   public toString(): string {
-    if (!this.query) return 'NULL RULE';
     return this.query.media;
   }
 }
