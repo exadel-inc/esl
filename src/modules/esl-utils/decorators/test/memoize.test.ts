@@ -1,10 +1,10 @@
-import {memoize, memoizeFn} from '../memoize';
+import {memoize} from '../memoize';
 
 describe('common @memoize decorator test', () => {
   describe('accessor', () => {
     const fn = jest.fn();
     class TestClass {
-      @memoize
+      @memoize()
       get test() {
         return fn(this);
       }
@@ -26,7 +26,7 @@ describe('common @memoize decorator test', () => {
   describe('static accessor', () => {
     const fn = jest.fn();
     class TestClass {
-      @memoize
+      @memoize()
       static get test() {
         return fn();
       }
@@ -47,9 +47,9 @@ describe('common @memoize decorator test', () => {
   describe('cache / clear', () => {
     const fn = jest.fn();
     class TestClass {
-      @memoize
-      test(...args: any[]) {
-        return fn(args);
+      @memoize()
+      test() {
+        return fn();
       }
     }
     const instance = new TestClass();
@@ -70,9 +70,9 @@ describe('common @memoize decorator test', () => {
   describe('static method', () => {
     const fn = jest.fn();
     class TestClass {
-      @memoize
-      static test(...args: any[]) {
-        return fn(args);
+      @memoize()
+      static test() {
+        return fn();
       }
     }
 
@@ -85,35 +85,6 @@ describe('common @memoize decorator test', () => {
       memoize.clear(TestClass, 'test');
       expect(TestClass.test()).toBe('a');
       expect(TestClass.test()).toBe('a');
-      expect(fn).toBeCalledTimes(2);
-    });
-  });
-
-  describe('function', () => {
-    test('cache / clear', () => {
-      const fn = jest.fn();
-      const memoFn = memoizeFn(fn);
-      fn.mockReturnValue(null);
-      expect(memoFn()).toBe(null);
-      expect(memoFn()).toBe(null);
-      expect(fn).toBeCalledTimes(1);
-
-      memoFn.clear();
-      fn.mockReturnValue(1);
-      expect(memoFn()).toBe(1);
-      expect(memoFn()).toBe(1);
-      expect(fn).toBeCalledTimes(2);
-    });
-
-    test('multi-arg', () => {
-      const fn = jest.fn((a) => a + 1);
-      const memoFn = memoizeFn(fn);
-      expect(memoFn(1)).toBe(2);
-      expect(memoFn(1)).toBe(2);
-      expect(fn).toBeCalledTimes(1);
-
-      expect(memoFn(2)).toBe(3);
-      expect(memoFn(2)).toBe(3);
       expect(fn).toBeCalledTimes(2);
     });
   });

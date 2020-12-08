@@ -11,7 +11,7 @@ export function deepCompare(obj1: any, obj2: any): boolean {
   return false;
 }
 
-/** Find closed property descriptor */
+/** Find the closest property descriptor */
 export function getPropertyDescriptor(o: any, prop: PropertyKey) {
   let proto = o;
   while (proto) {

@@ -1,10 +1,12 @@
-import {defined, identity, noop} from '../functions';
+import {defined, identity, noop, memoizeFn} from '../functions';
 
-describe('misc/functions helper tests', () => {
-  test('noop/identity', () => {
+describe('misc/functions', () => {
+  test('noop', () => {
     expect(noop()).toBeUndefined();
     expect(noop(1, 2, 3)).toBeUndefined();
+  });
 
+  test('identity', () => {
     expect(identity(1)).toBe(1);
     const test = Symbol('test');
     expect(identity(test)).toBe(test);
@@ -18,5 +20,45 @@ describe('misc/functions helper tests', () => {
     expect(defined(null, 'a')).toBe(null);
     const obj = {};
     expect(defined(obj, null)).toBe(obj);
+  });
+
+  describe('memoizeFn', () => {
+    test('cache / clear', () => {
+      const fn = jest.fn();
+      const memoFn = memoizeFn(fn);
+      fn.mockReturnValue(null);
+      expect(memoFn()).toBe(null);
+      expect(memoFn()).toBe(null);
+      expect(fn).toBeCalledTimes(1);
+
+      memoFn.clear();
+      fn.mockReturnValue(1);
+      expect(memoFn()).toBe(1);
+      expect(memoFn()).toBe(1);
+      expect(fn).toBeCalledTimes(2);
+    });
+
+    test('multi-arg', () => {
+      const fn = jest.fn((a) => a + 1);
+      const memoFn = memoizeFn(fn);
+      expect(memoFn(1)).toBe(2);
+      expect(memoFn(1)).toBe(2);
+      expect(fn).toBeCalledTimes(1);
+
+      expect(memoFn(2)).toBe(3);
+      expect(memoFn(2)).toBe(3);
+      expect(fn).toBeCalledTimes(2);
+    });
+
+    test('multi-arg hashFn', () => {
+      const fn = jest.fn((a, b) => a + b);
+      const memoFn = memoizeFn(fn, (a, b) => `${a}+${b}`);
+      expect(memoFn(1, 2)).toBe(3);
+      expect(memoFn(1, 1)).toBe(2);
+      expect(memoFn(1, 2)).toBe(3);
+      expect(fn).toBeCalledTimes(2);
+      expect(memoFn(1, 1)).toBe(2);
+      expect(fn).toBeCalledTimes(2);
+    });
   });
 });
