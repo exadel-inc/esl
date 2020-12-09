@@ -38,4 +38,14 @@ describe('misc/memoize', () => {
     expect(memoFn(1, 1)).toBe(2);
     expect(fn).toBeCalledTimes(2);
   });
+
+  test('declined hash', () => {
+    jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const fn = jest.fn((a, b) => a + b);
+    const memoFn = memoizeFn(fn);
+    expect(memoFn(1, 2)).toBe(3);
+    expect(memoFn(1, 1)).toBe(2);
+    expect(memoFn(1, 2)).toBe(3);
+    expect(fn).toBeCalledTimes(3);
+  });
 });

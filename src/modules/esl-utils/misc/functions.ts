@@ -1,10 +1,10 @@
 /**
- * Function that do nothing
+ * Function that does nothing
  */
-export const noop = (...args: any[]): void => undefined;
+export const noop: AnyToVoidFnSignature = () => undefined;
 
 /**
- * Function that return first argument
+ * Function that returns the first argument
  */
 export const identity = <T>(arg: T): T => arg;
 

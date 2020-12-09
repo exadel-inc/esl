@@ -88,4 +88,15 @@ describe('common @memoize decorator test', () => {
       expect(fn).toBeCalledTimes(2);
     });
   });
+
+  test('deprecated target',  () => {
+    expect(function() {
+      class TestClass {
+        // @ts-ignore
+        @memoize()
+        test = 'a';
+      }
+      new TestClass();
+    }).toThrowError();
+  });
 });

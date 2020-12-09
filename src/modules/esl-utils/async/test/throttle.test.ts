@@ -1,5 +1,6 @@
 import {throttle} from '../throttle';
 
+// TODO: sometimes test timeouts is ont ok!
 describe('async/throttle', () => {
   test('basic scenario', (done) => {
     const fn = jest.fn();
