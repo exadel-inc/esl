@@ -1,5 +1,6 @@
 import {getPropertyDescriptor} from '../misc/object';
-import {memoizeFn, MemoHashFn, defaultArgsHashFn, MethodTypedDecorator} from '../misc/functions';
+import {MethodTypedDecorator} from '../misc/functions';
+import {defaultArgsHashFn, MemoHashFn, memoizeFn} from '../misc/memoize';
 
 export function memoize(): PropertyDecorator | MethodDecorator;
 export function memoize<H extends MemoHashFn>(hashFn: H): MethodTypedDecorator<(...args: Parameters<H>) => any>;
