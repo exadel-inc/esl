@@ -17,7 +17,9 @@
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {BreakpointRegistry} from '../../esl-utils/enviroment/breakpoints';
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 
+@ExportNs('MediaQuery')
 export class ESLMediaQuery {
   static get BreakpointRegistry() {
     return BreakpointRegistry;
