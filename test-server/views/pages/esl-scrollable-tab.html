@@ -6,36 +6,25 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
 
 {{##content:
 <section class="row">
-    <style>
-        .accordion-trigger {
-            display: none;
-        }
+  <style>
+    .accordion-trigger {
+      display: none;
+    }
+    .accordion .accordion-trigger {
+      display: block;
+    }
 
-        /*esl-tab.nav-link:not(#kljlkj) {*/
-        /*  outline: none;*/
-        /*  border: 1px solid green;*/
-        /*  background-color: lightgreen;*/
-        /*}*/
-
-        @media only screen and (max-width: 767px) {
-            .accordion-trigger {
-                display: block;
-            }
-
-            .esl-tabs-container {
-                display: none;
-            }
-        }
-        @media (max-width: 767px) {
-            .esl-scrollable-tabs {
-                display: none;
-            }
-        }
-
-      esl-tab {
-        border: 1px solid black;
+    @media (max-width: 767px) {
+      .esl-tabs-container,
+      .esl-scrollable-tabs {
+        display: none;
       }
-    </style>
+    }
+
+    esl-tab {
+      border: 1px solid black;
+    }
+  </style>
 
     <div class="col-12" dir="rtl">
         <h2> Tabs Component </h2>
@@ -348,8 +337,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
             </esl-scrollable-tabs>
 
             <esl-triggers-container class="esl-tabs-content">
-                <esl-panel-stack>
-
+                <esl-panel-stack accordion-transformation="@XS">
                     <esl-trigger class="card-header accordion-trigger"
                                  target="::next"
                                  role="button"
@@ -552,7 +540,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
             </esl-scrollable-tabs>
 
             <esl-triggers-container class="esl-tabs-content">
-                <esl-panel-stack>
+                <esl-panel-stack accordion-transformation="@XS">
 
                     <esl-trigger class="card-header accordion-trigger"
                                  target="::next"
@@ -681,7 +669,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
             </esl-scrollable-tabs>
 
             <esl-triggers-container class="esl-tabs-content">
-                <esl-panel-stack>
+                <esl-panel-stack accordion-transformation="@XS">
 
                     <esl-trigger class="card-header accordion-trigger"
                                  target="::next"
