@@ -1,7 +1,7 @@
 /**
  * ESL Media Query
  * Provides special media condition syntax - ESLQuery
- * @version 2.0.0
+ * @version 2.1.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * Helper class that extends MediaQueryList class
@@ -14,30 +14,25 @@
  * - Exclude upper DPRs for bots
  */
 
+import {memoize} from '../../esl-utils/decorators/memoize';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {BreakpointRegistry} from '../../esl-utils/enviroment/breakpoints';
-
-const QUERY_CACHE: { [q: string]: MediaQueryList } = {};
-
-function getQuery(query: string): MediaQueryList {
-  const matcher = QUERY_CACHE[query] ? QUERY_CACHE[query] : window.matchMedia(query);
-  if (matcher) {
-    QUERY_CACHE[query] = matcher;
-  }
-  return matcher;
-}
-
-function getDprMediaQuery(ratio: number) {
-  if (DeviceDetector.isSafari) {
-    return `(-webkit-min-device-pixel-ratio: ${ratio})`;
-  }
-  return `(min-resolution: ${(96 * ratio).toFixed(1)}dpi)`;
-}
 
 export class ESLMediaQuery {
   static get BreakpointRegistry() {
     return BreakpointRegistry;
   }
+
+  @memoize()
+  static matchMediaCached(query: string) {
+    return matchMedia(query);
+  }
+
+  static buildDprQuery(dpr: number) {
+    if (DeviceDetector.isSafari) return `(-webkit-min-device-pixel-ratio: ${dpr})`;
+    return `(min-resolution: ${(96 * dpr).toFixed(1)}dpi)`;
+  }
+
   static readonly ALL = 'all';
   static readonly NOT_ALL = 'not all';
 
@@ -51,7 +46,6 @@ export class ESLMediaQuery {
   private readonly _query: MediaQueryList;
 
   constructor(query: string) {
-
     // Applying known breakpoints shortcut
     query = BreakpointRegistry.apply(query);
 
@@ -62,7 +56,7 @@ export class ESLMediaQuery {
       if (ESLMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && this._dpr !== 1) {
         return ESLMediaQuery.NOT_ALL;
       }
-      return getDprMediaQuery(ratio);
+      return ESLMediaQuery.buildDprQuery(ratio);
     });
 
     // Applying dpr shortcut for device detection
@@ -74,29 +68,35 @@ export class ESLMediaQuery {
       return pre && post ? 'and' : '';
     });
 
-    this._query = getQuery(query.trim() || ESLMediaQuery.ALL);
+    this._query = ESLMediaQuery.matchMediaCached(query.trim() || ESLMediaQuery.ALL);
   }
 
+  /** Accepts only mobile devices */
   public get isMobileOnly(): boolean {
     return this._mobileOnly === true;
   }
 
+  /** Accepts only desktop devices */
   public get isDesktopOnly(): boolean {
     return this._mobileOnly === false;
   }
 
-  public get DPR(): number {
+  /** Current query dpr */
+  public get dpr(): number {
     return this._dpr;
   }
 
+  /** inner MediaQueryList instance */
   public get query(): MediaQueryList {
     return this._query;
   }
 
+  /** true if current environment satisfies query */
   public get matches(): boolean {
     return this.query.matches;
   }
 
+  /** Attach listener to wrapped media query list */
   public addListener(listener: () => void) {
     if (typeof this.query.addEventListener === 'function') {
       this.query.addEventListener('change', listener);
@@ -105,6 +105,7 @@ export class ESLMediaQuery {
     }
   }
 
+  /** Detach listener from wrapped media query list */
   public removeListener(listener: () => void) {
     if (typeof this.query.removeEventListener === 'function') {
       this.query.removeEventListener('change', listener);
@@ -114,7 +115,7 @@ export class ESLMediaQuery {
   }
 
   public toString(): string {
-    return this.query.media;
+    return '[ESL MQ] (' + this.query.media + ')';
   }
 }
 
