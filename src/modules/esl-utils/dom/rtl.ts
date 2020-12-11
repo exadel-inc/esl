@@ -1,8 +1,8 @@
 import {ExportNs} from '../enviroment/export-ns';
+import {memoize} from '../decorators/memoize';
 
 export type ScrollType = 'default' | 'negative' | 'reverse';
 
-let scrollType: ScrollType;
 @ExportNs('RTLUtils')
 export abstract class RTLUtils {
   /** Check if the element in a RTL direction context */
@@ -15,13 +15,12 @@ export abstract class RTLUtils {
    * @returns {ScrollType} RTL scroll type
    * Lazy, memoized.
    */
+  @memoize()
   static get scrollType(): ScrollType {
-    if (scrollType) return scrollType;
+    let scrollType: ScrollType = 'default';
     const el = createDummyEl();
     document.body.appendChild(el);
-    if (el.scrollLeft > 0) {
-      scrollType = 'default';
-    } else {
+    if (el.scrollLeft <= 0) {
       el.scrollLeft = 2;
       scrollType = el.scrollLeft < 2 ? 'negative' : 'reverse';
     }

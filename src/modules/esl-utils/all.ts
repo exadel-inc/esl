@@ -4,17 +4,23 @@ export * from './misc/array';
 export * from './misc/object';
 export * from './misc/format';
 export * from './misc/functions';
+export * from './misc/memoize';
 
+// Common
 export * from './abstract/observable';
-export * from './async/promise';
-export * from './dom/script';
+
+// Decorators
+export * from './decorators/bind';
+export * from './decorators/memoize';
 
 // Function
+export * from './async/promise';
 export * from './async/raf';
 export * from './async/debounce';
 export * from './async/throttle';
 
 // DOM
+export * from './dom/script';
 export * from './dom/styles';
 export * from './dom/events';
 export * from './dom/traversing';
