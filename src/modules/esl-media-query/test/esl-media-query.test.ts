@@ -110,9 +110,9 @@ describe('ESLMediaQuery tests', () => {
 
   describe('API tests', () => {
     test('DPR getters', () => {
-      expect(new ESLMediaQuery('@sm').DPR).toBe(1);
-      expect(new ESLMediaQuery('@2x').DPR).toBe(2);
-      expect(new ESLMediaQuery('@2.3x').DPR).toBe(2.3);
+      expect(new ESLMediaQuery('@sm').dpr).toBe(1);
+      expect(new ESLMediaQuery('@2x').dpr).toBe(2);
+      expect(new ESLMediaQuery('@2.3x').dpr).toBe(2.3);
     });
 
     test('Mobile/Desktop getters', () => {
@@ -142,7 +142,7 @@ describe('ESLMediaQuery tests', () => {
     });
 
     test('toString', () => {
-      expect(new ESLMediaQuery('@1x, @+sm').toString()).toBe('(min-resolution: 96.0dpi), (min-width: 768px)')
+      expect(new ESLMediaQuery('@1x, @+sm').toString()).toContain('(min-resolution: 96.0dpi), (min-width: 768px)')
     });
   })
 

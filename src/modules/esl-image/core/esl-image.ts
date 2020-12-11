@@ -167,7 +167,7 @@ export class ESLImage extends ESLBaseElement {
 
     const rule = this.srcRules.active;
     const src = this.getPath(rule.payload);
-    const dpr = rule.DPR;
+    const dpr = rule.dpr;
 
     if (this._currentSrc !== src || !this.ready || force) {
       this._currentSrc = src;

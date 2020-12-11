@@ -6,7 +6,7 @@ export function bind<T extends Function>(target: object,
                                          descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> {
   // Validation check
   if (!descriptor || (typeof descriptor.value !== 'function')) {
-    throw new TypeError(`${propertyKey} is not a function. Only class methods can be decorated via @bind`);
+    throw new TypeError('Only class methods can be decorated via @bind');
   }
   // Original function
   const fn = descriptor.value;
