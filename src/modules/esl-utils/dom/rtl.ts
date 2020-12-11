@@ -30,17 +30,17 @@ export abstract class RTLUtils {
   }
 
   // Potentially can be useful in future
-  // static normalizeScrollLeft(el: HTMLElement, value: number | null = null, isRtl: boolean = RTLUtils.isRtl(el)): number {
-  //   value = (value === null) ? el.scrollLeft: value;
-  //   switch (isRtl ? RTLUtils.type : '') {
-  //     case 'negative':
-  //       return el.scrollWidth - el.clientWidth + value;
-  //     case 'reverse':
-  //       return el.scrollWidth - el.clientWidth - value;
-  //     default:
-  //       return value;
-  //   }
-  // }
+  static normalizeScrollLeft(el: HTMLElement, value: number | null = null, isRtl: boolean = RTLUtils.isRtl(el)): number {
+    value = (value === null) ? el.scrollLeft: value;
+    switch (isRtl ? RTLUtils.scrollType : '') {
+      case 'negative':
+        return el.scrollWidth - el.clientWidth + value;
+      case 'reverse':
+        return el.scrollWidth - el.clientWidth - value;
+      default:
+        return value;
+    }
+  }
 }
 
 /** Creates the dummy test element with a horizontal scroll presented */
