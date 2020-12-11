@@ -84,6 +84,7 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     if (!list) return;
 
     const hasScroll = list.scrollWidth > this.clientWidth;
+    const swapSides = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'default';
     const scrollStart = Math.abs(list.scrollLeft) > 1;
     const scrollEnd = Math.abs(list.scrollLeft) + list.clientWidth + 1 < list.scrollWidth;
 
@@ -91,8 +92,8 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     const leftArrow = this.querySelector('[data-tab-direction="left"]');
 
     this.toggleAttribute('has-scroll', hasScroll);
-    leftArrow && leftArrow.toggleAttribute('disabled', !scrollStart);
-    rightArrow && rightArrow.toggleAttribute('disabled', !scrollEnd);
+    leftArrow && leftArrow.toggleAttribute('disabled', !(swapSides ? scrollEnd : scrollStart));
+    rightArrow && rightArrow.toggleAttribute('disabled', !(swapSides ? scrollStart : scrollEnd));
   }
 
   protected deferredUpdateArrows = rafDecorator(this.updateArrows.bind(this));
