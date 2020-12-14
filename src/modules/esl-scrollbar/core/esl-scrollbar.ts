@@ -164,7 +164,7 @@ export class ESLScrollbar extends ESLBaseElement {
     if (!this.targetElement) return;
     this.targetElement.scrollTo({
       [this.horizontal ? 'left' : 'top']: pos,
-      behavior: this.dragging ? undefined : 'smooth'
+      behavior: this.dragging ? 'auto' : 'smooth'
     });
   }
 
