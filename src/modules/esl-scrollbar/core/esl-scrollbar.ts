@@ -152,18 +152,20 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   public set position(position) {
-    if (!this.targetElement) return;
     const normalizedPosition = Math.min(1, Math.max(0, position));
-    const targetPosition = this.scrollableSize * normalizedPosition;
-    if (this.dragging) { // Mousemove event
-      this.targetElement[this.horizontal ? 'scrollLeft' : 'scrollTop'] = targetPosition;
-    } else { // Click event
-      this.targetElement.scrollTo({
-        [this.horizontal ? 'left' : 'top']: targetPosition,
-        behavior: 'smooth',
-      });
-    }
+    this.scrollTargetTo(this.scrollableSize * normalizedPosition);
     this.update();
+  }
+
+  /**
+   * Scroll target element to passed position
+   */
+  protected scrollTargetTo(pos: number) {
+    if (!this.targetElement) return;
+    this.targetElement.scrollTo({
+      [this.horizontal ? 'left' : 'top']: pos,
+      behavior: this.dragging ? undefined : 'smooth'
+    });
   }
 
   /**
