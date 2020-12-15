@@ -24,6 +24,13 @@ Originally developed as alternative for picture component, but with more feature
  - marker class. ESL Image can add specific class on specified parent element when image is ready, the ESL Image itself also has markers that indicate its state.
  - provides events on state change (also support inline syntax like `<esl-image-tag onload="">`)
  - attribute observing
+ - a11y
+
+### Accessibility behaviour
+ESL Image use role 'img' if role is not explicitly provided.
+If role is 'img' then `alt` attribute used as an aria-label for the image.  
+In case `alt` is not provided then empty value used as a fallback.
+`data-alt` considered as legacy and used only on wen image connected to dom without `alt` or `aria-label` attribute.
 
 ### Attributes:
 
@@ -38,7 +45,7 @@ Originally developed as alternative for picture component, but with more feature
 
 - **alt** - alt image text
 
-- ~~**data-alt**~~(Deprecated) - alt image text
+- ~~**data-alt**~~(Deprecated) - alt image text, not observable
 
 - **mode** - rendering mode (default 'save-ratio') (watched value)  
   - `origin` - save origin image size (use inner img tag for rendering)
