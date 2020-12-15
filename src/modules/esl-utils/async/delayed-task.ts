@@ -29,12 +29,13 @@ export class DelayedTask {
    * */
   public put(task: AnyToVoidFnSignature, delay: number | boolean = false) {
     const prev = this.cancel();
-    if (typeof task !== 'function') return prev;
-    if (typeof delay === 'number' && delay >= 0) {
-      this._fn = task;
-      this._timeout = window.setTimeout(this.run, delay);
-    } else {
-      task();
+    if (typeof task === 'function') {
+      if (typeof delay === 'number' && delay >= 0) {
+        this._fn = task;
+        this._timeout = window.setTimeout(this.run, delay);
+      } else {
+        task();
+      }
     }
     return prev;
   }

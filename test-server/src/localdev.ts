@@ -1,3 +1,5 @@
+// With Namespace
+import '../../src/modules/lib';
 // Support for ES5 bundle target
 import '../../src/polyfills/es5-target-shim';
 // Builtin polyfills

@@ -1,7 +1,7 @@
 /**
  * ESL Media Query
  * Provides special media condition syntax - ESLQuery
- * @version 2.0.0
+ * @version 2.1.0
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  *
  * Helper class that extends MediaQueryList class
@@ -14,29 +14,27 @@
  * - Exclude upper DPRs for bots
  */
 
+import {memoize} from '../../esl-utils/decorators/memoize';
 import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
 import {BreakpointRegistry} from '../../esl-utils/enviroment/breakpoints';
+import {ExportNs} from '../../esl-utils/enviroment/export-ns';
 
-const QUERY_CACHE: { [q: string]: MediaQueryList } = {};
-
-function getQuery(query: string): MediaQueryList | null {
-  if (!query) return null;
-  const matcher = QUERY_CACHE[query] ? QUERY_CACHE[query] : window.matchMedia(query);
-  if (matcher) {
-    QUERY_CACHE[query] = matcher;
-  }
-  return matcher;
-}
-
-function getDprMediaQuery(ratio: number) {
-  const isWebkit = navigator.userAgent.indexOf('AppleWebKit') !== -1;
-  return isWebkit ? `(-webkit-min-device-pixel-ratio: ${ratio})` : `(min-resolution: ${Math.round(96 * ratio)}dpi)`;
-}
-
+@ExportNs('MediaQuery')
 export class ESLMediaQuery {
   static get BreakpointRegistry() {
     return BreakpointRegistry;
   }
+
+  @memoize()
+  static matchMediaCached(query: string) {
+    return matchMedia(query);
+  }
+
+  static buildDprQuery(dpr: number) {
+    if (DeviceDetector.isSafari) return `(-webkit-min-device-pixel-ratio: ${dpr})`;
+    return `(min-resolution: ${(96 * dpr).toFixed(1)}dpi)`;
+  }
+
   static readonly ALL = 'all';
   static readonly NOT_ALL = 'not all';
 
@@ -47,57 +45,61 @@ export class ESLMediaQuery {
 
   private _dpr: number;
   private _mobileOnly: boolean | undefined;
-  private readonly _query: MediaQueryList | null;
+  private readonly _query: MediaQueryList;
 
   constructor(query: string) {
-
     // Applying known breakpoints shortcut
     query = BreakpointRegistry.apply(query);
 
     // Applying dpr shortcut
     this._dpr = 1;
-    query = query.replace(/@([123])x/, (match, ratio) => {
-      this._dpr = Math.floor(ratio); // FIXME
+    query = query.replace(/@(\d(\.\d)?)x/g, (match, ratio) => {
+      this._dpr = Number.parseFloat(ratio);
       if (ESLMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && this._dpr !== 1) {
         return ESLMediaQuery.NOT_ALL;
       }
-      return getDprMediaQuery(ratio);
+      return ESLMediaQuery.buildDprQuery(ratio);
     });
 
     // Applying dpr shortcut for device detection
-    query = query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/i, (match, pre, type, post) => {
+    query = query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/ig, (match, pre, type, post) => {
       this._mobileOnly = (type.toUpperCase() === '@MOBILE');
       if (DeviceDetector.isMobile !== this._mobileOnly) {
         return ESLMediaQuery.NOT_ALL; // whole query became invalid
       }
-      return pre && post ? ' and ' : '';
+      return pre && post ? 'and' : '';
     });
 
-    this._query = getQuery(query.trim() || ESLMediaQuery.ALL);
+    this._query = ESLMediaQuery.matchMediaCached(query.trim() || ESLMediaQuery.ALL);
   }
 
+  /** Accepts only mobile devices */
   public get isMobileOnly(): boolean {
     return this._mobileOnly === true;
   }
 
+  /** Accepts only desktop devices */
   public get isDesktopOnly(): boolean {
     return this._mobileOnly === false;
   }
 
-  public get DPR(): number {
+  /** Current query dpr */
+  public get dpr(): number {
     return this._dpr;
   }
 
-  public get query(): MediaQueryList | null {
+  /** inner MediaQueryList instance */
+  public get query(): MediaQueryList {
     return this._query;
   }
 
+  /** true if current environment satisfies query */
   public get matches(): boolean {
-    return !!(this.query && this.query.matches);
+    return this.query.matches;
   }
 
+  /** Attach listener to wrapped media query list */
   public addListener(listener: () => void) {
-    if (!this.query) return;
     if (typeof this.query.addEventListener === 'function') {
       this.query.addEventListener('change', listener);
     } else {
@@ -105,8 +107,8 @@ export class ESLMediaQuery {
     }
   }
 
+  /** Detach listener from wrapped media query list */
   public removeListener(listener: () => void) {
-    if (!this.query) return;
     if (typeof this.query.removeEventListener === 'function') {
       this.query.removeEventListener('change', listener);
     } else {
@@ -115,8 +117,7 @@ export class ESLMediaQuery {
   }
 
   public toString(): string {
-    if (!this.query) return 'NULL RULE';
-    return this.query.media;
+    return '[ESL MQ] (' + this.query.media + ')';
   }
 }
 
