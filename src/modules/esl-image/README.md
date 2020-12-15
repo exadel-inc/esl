@@ -27,10 +27,10 @@ Originally developed as alternative for picture component, but with more feature
  - a11y
 
 ### Accessibility behaviour
-ESL Image use role 'img' if role is not explicitly provided.
-If role is 'img' then `alt` attribute used as an aria-label for the image.  
-In case `alt` is not provided then empty value used as a fallback.
-`data-alt` considered as legacy and used only on wen image connected to dom without `alt` or `aria-label` attribute.
+ESL Image uses role 'img' if the role is not explicitly provided.
+If the role is 'img' then `alt` attribute is used as an aria-label for the image.
+In case `alt` is not provided then an empty value is used as a fallback.
+`data-alt` is considered as legacy and used only on wen image connected to dom without `alt` or `aria-label` attribute.
 
 ### Attributes:
 
