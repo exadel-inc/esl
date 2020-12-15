@@ -32,7 +32,7 @@ export type ProviderType = (new(component: ESLMedia, config: MediaProviderConfig
 
 export type URLParser = (mediaSrc: string) => Partial<MediaProviderConfig> | null;
 
-export type ProviderObservedParams = 'autoplay' | 'loop' | 'muted' | 'playsinline' | 'controls';
+export type ProviderObservedParams = 'loop' | 'muted' | 'controls';
 
 export abstract class BaseProvider {
   static readonly providerName: string;
