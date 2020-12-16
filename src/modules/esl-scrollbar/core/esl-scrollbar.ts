@@ -100,7 +100,6 @@ export class ESLScrollbar extends ESLBaseElement {
       this._resizeObserver.observe(this.$scrollableContent);
       this._mutationObserver.observe(this.$scrollableContent, {childList: true});
       Array.from(this.$scrollableContent.children).forEach((el) => this._resizeObserver.observe(el));
-      this.updateContentObserve();
       this.$scrollableContent.addEventListener('scroll', this._onRefresh, {passive: true});
     }
   }
