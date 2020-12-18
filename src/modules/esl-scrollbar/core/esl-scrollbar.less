@@ -4,6 +4,7 @@
     display: inline-block;
     position: absolute;
     cursor: default;
+    overflow: hidden;
 
     &[inactive] {
       visibility: hidden;
@@ -24,6 +25,15 @@
       cursor: pointer;
       border-radius: 3px;
       background: #b5b5b5;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        width: calc(~'100% + 10px');
+        height: calc(~'100% + 10px');
+      }
     }
 
     &[dragging] .scrollbar-thumb {
