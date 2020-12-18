@@ -54,7 +54,7 @@ export class ESLMediaQuery {
     // Applying dpr shortcut
     this._dpr = 1;
     query = query.replace(/@(\d(\.\d)?)x/g, (match, ratio) => {
-      this._dpr = Number.parseFloat(ratio);
+      this._dpr = +ratio;
       if (ESLMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && this._dpr !== 1) {
         return ESLMediaQuery.NOT_ALL;
       }
