@@ -25,7 +25,9 @@ export class ESLTrigger extends ESLBaseElement {
   @attr({defaultValue: 'click'}) public event: string;
   @attr({defaultValue: 'toggle'}) public mode: string;
   @attr({defaultValue: ''}) public a11yTarget: string;
+
   @attr({defaultValue: ''}) public activeClass: string;
+  @attr({defaultValue: ''}) public activeClassTarget: string;
 
   // Common properties
   @attr() public showDelay: string;
@@ -147,7 +149,8 @@ export class ESLTrigger extends ESLBaseElement {
   @bind
   protected _onPopupStateChange() {
     this.active = this.popup.open;
-    CSSUtil.toggleClsTo(this, this.activeClass, this.active);
+    const clsTarget = TraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
+    clsTarget && CSSUtil.toggleClsTo(clsTarget, this.activeClass, this.active);
     this.updateA11y();
     this.$$fireNs('statechange', {
       bubbles: true

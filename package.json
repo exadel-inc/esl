@@ -16,7 +16,8 @@
     "url": "git+https://gitlab.exadel.com/EDMTP/smart-wc-library.git"
   },
   "files": [
-    "modules/**/*"
+    "modules/**/*.{js,ts}",
+    "polyfills/**/*.{js,ts}"
   ],
   "main": "modules/all.js",
   "types": "modules/all.d.ts",

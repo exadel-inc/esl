@@ -2,7 +2,7 @@
  * Tag declaration interface of ESL Scrollbar
  * Used for JSX declaration
  */
-export interface ESLScrollbarShape {
+export interface ESLScrollbarTagShape {
   /** Define ESL Traversing Query for container element to observe with ESL Scrollbar */
   target: string;
 
