@@ -44,6 +44,16 @@ export type ESLMediaTagShape = ({
   /** Optional BC provider account id */
   'data-account-id'?: string;
 
+  /** Define ready state class for ESl Media element */
+  'ready-class'?: string;
+
+  /** Define ESL Traversing Query to find target for load-cls-accepted / load-cls-declined */
+  'load-cls-target'?: string;
+  /** Define class to mark player accepted state */
+  'load-cls-accepted'?: string;
+  /** Define class to mark player declined state */
+  'load-cls-declined'?: string;
+
   /** Allowed children */
   children: [];
 };
