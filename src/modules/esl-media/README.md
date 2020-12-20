@@ -6,8 +6,8 @@ Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*
 
 ESlMedia - custom element, that provides ability to add and configure media (video / audio)
 using a single tag as well as work with external providers using simple native-like API.
- 
---- 
+
+---
 
 ### Supported Features:
  

@@ -15,7 +15,7 @@ import type {ESLTriggersContainer} from './esl-trigger/core/esl-triggers-contain
 import type {ESLPanel} from './esl-panel/core/esl-panel';
 import type {ESLPanelStack} from './esl-panel/core/esl-panel-stack';
 import type {ESLTabsContainer} from './esl-tab/core/esl-tabs-container';
-import type {ESLScrollableTabs} from './esl-scrollable-tab/core/esl-scrollable-tabs';
+import type {ESLScrollableTabs} from './esl-scrollable-tabs/core/esl-scrollable-tabs';
 
 import type {ESLCarousel} from './draft/esl-carousel/core/esl-carousel';
 import type {ESLCarouselDotsPlugin} from './draft/esl-carousel/plugin/esl-carousel-dots.plugin';

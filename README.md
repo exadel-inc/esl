@@ -16,9 +16,9 @@ and **flexible** custom elements to make basic UX modules fast and leave your si
 - ##### [ESL Base Popup](./src/modules/esl-base-popup/README.md)
 - ##### [ESL Popup](./src/modules/esl-popup/README.md)
 - ##### [ESL Trigger](./src/modules/esl-trigger/README.md)
-- ##### [ESL Panel](./src/modules/esl-panel/README.md)
-- ##### [ESL Tab](./src/modules/esl-tab/README.md)
-- ##### [ESL Scrollable Tab](./src/modules/esl-scrollable-tab/README.md)
+- ##### [ESL Panel and ESL Panel Stack](./src/modules/esl-panel/README.md)
+- ##### [ESL Tab and ESL Tab Container](./src/modules/esl-tab/README.md)
+- ##### [ESL Scrollable Tabs](src/modules/esl-scrollable-tabs/README.md)
 
 ### Utilities
 - ##### [ESL Base Element](./src/modules/esl-base-element/README.md)
@@ -94,7 +94,7 @@ Or make the library work in IE11 or Edge (<14) using "full" polyfills list provi
 
 See more details on what the polyfill approach might look like in the test-server examples.
 
-Also, the library built-in polyfills for some of DOM and ES6 features are available under [./polyfills](./src/polyfills) directory.
+There is also, the library built-in polyfills for some of DOM and ES6 features are available under [./polyfills](./src/polyfills) directory.
 
 ---
 
