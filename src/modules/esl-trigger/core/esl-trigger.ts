@@ -1,7 +1,7 @@
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
-import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
+import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {bind} from '../../esl-utils/decorators/bind';

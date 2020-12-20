@@ -1,4 +1,4 @@
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr} from '../../esl-base-element/core';
 import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/core';
 import {ScrollStrategy, ScrollUtility} from '../../esl-utils/dom/scroll';

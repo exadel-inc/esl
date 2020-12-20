@@ -18,7 +18,7 @@
 import {mmMock} from "../../esl-utils/test/matchMedia.mock";
 import {DDMock} from "../../esl-utils/test/deviceDetector.mock";
 
-import BreakpointRegistry from '../../esl-utils/enviroment/breakpoints';
+import BreakpointRegistry from '../../esl-utils/environment/breakpoints';
 import ESLMediaQuery from '../core/esl-media-query';
 
 describe('ESLMediaQuery tests', () => {

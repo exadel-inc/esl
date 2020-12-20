@@ -15,9 +15,9 @@
  */
 
 import {memoize} from '../../esl-utils/decorators/memoize';
-import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
-import {BreakpointRegistry} from '../../esl-utils/enviroment/breakpoints';
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {BreakpointRegistry} from '../../esl-utils/environment/breakpoints';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 
 @ExportNs('MediaQuery')
 export class ESLMediaQuery {

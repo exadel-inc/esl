@@ -1,4 +1,4 @@
-import {ExportNs} from '../enviroment/export-ns';
+import {ExportNs} from '../environment/export-ns';
 import {memoize} from '../decorators/memoize';
 
 export type ScrollType = 'default' | 'negative' | 'reverse';

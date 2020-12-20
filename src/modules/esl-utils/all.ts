@@ -26,5 +26,5 @@ export * from './dom/events';
 export * from './dom/traversing';
 
 // Device detection & user configs
-export * from './enviroment/device-detector';
-export * from './enviroment/breakpoints';
+export * from './environment/device-detector';
+export * from './environment/breakpoints';

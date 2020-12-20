@@ -1,5 +1,5 @@
-import type {DeviceDetector} from './esl-utils/enviroment/device-detector';
-import type {BreakpointRegistry} from './esl-utils/enviroment/breakpoints';
+import type {DeviceDetector} from './esl-utils/environment/device-detector';
+import type {BreakpointRegistry} from './esl-utils/environment/breakpoints';
 
 import type {ESLImage} from './esl-image/core/esl-image';
 import type {ESLMedia} from './esl-media/core/esl-media';
