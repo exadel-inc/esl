@@ -4,6 +4,6 @@ export const DDMock = {
   isBot: false
 };
 
-jest.mock('../enviroment/device-detector', () => ({
+jest.mock('../environment/device-detector', () => ({
   DeviceDetector: DDMock
 }));

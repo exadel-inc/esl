@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESC} from '../../esl-utils/dom/keycodes';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {bind} from '../../esl-utils/decorators/bind';
-import {defined} from '../../esl-utils/misc/functions';
+import {defined} from '../../esl-utils/misc/object';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';

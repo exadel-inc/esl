@@ -1,5 +1,7 @@
 # Exadel Smart Library (ESL) &#9881;
 
+![npm](https://img.shields.io/npm/v/exadel/esl)
+![dependencies](https://img.shields.io/badge/dependencies-free-green)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ESL is a web components based library that gives you a set of **lightweight**
@@ -25,6 +27,42 @@ and **flexible** custom elements to make basic UX modules fast and leave your si
 - ##### [ESL Utils](./src/modules/esl-utils/README.md)
 
 ---
+## Installation Guide
+
+0. Preconditions:
+   - Make sure you have all needed polyfills to support browsers from your browser-support list. 
+   See [Browser support & Polyfills](#browser-suppor-polyfills) for details.
+   - Use bundler to build your project. Only ESL modules consuming available for now.
+  
+1. Import Components/Modules you need.
+
+```javascript
+import '@exadel/esl/modules/esl-component/core';
+```
+- `core` module entry usually represents main part of the module
+- include optional sub-features directly. See component's documentation for details.
+```javascript
+import '@exadel/esl/modules/esl-media/providers/iframe-provider';
+```
+- Some modules contain cummulative `all` entries.
+- Styles distributed in a two versions: 
+  - 'ready to use' `core.css` or `core.less`
+  - mixin version `core.mixin.less` for custom tagname definition
+
+2. [Optional] Setup environment configuration, e.g. custom screen breakpoints.
+
+```javascript
+import {ESLMediaBreakpoints} from '@exadel/esl/modules/esl-media-query/core';
+
+// define XS screen breakpoint for up to 800px screen width
+ESLMediaBreakpoints.addCustomBreakpoint('XS', 1, 800); 
+```
+
+3.  Register components via `register` static method call
+```javascript
+ESLImage.register();
+```
+*You can pass custom tag name to register function, but use this option only in an exceptional situation.*
 
 ## Browser support & Polyfills
 

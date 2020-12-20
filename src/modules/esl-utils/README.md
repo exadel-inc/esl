@@ -44,38 +44,35 @@ Even if you use the whole utils module, it is still tiny.
 
 
 - ### DOM Helpers
-
-    - #### [Events Helper](./dom/events.ts)
   
     - #### [Keycodes](./dom/keycodes.ts) - keyboard key-codes constants
   
-    - #### [RTL Utils](./dom/rtl.ts)
+    - #### [RTL Utils](./dom/rtl.ts) - Utils to detect RTL and RTL specific browsers behavior
   
     - #### [Scripts](./dom/script.ts) - script loading utility to limit and track loading
   
-    - #### [Scroll](./dom/scroll.ts)
+    - #### [Scroll](./dom/scroll.ts) - scroll locking methods
+      *Note: uses [scroll.less](./dom/scroll.less) styles* 
   
     - #### [Styles](./dom/styles.ts) - small utility to work with CSS classes in a JQuery manner
   
-    - #### [DOM Traversing](./dom/traversing.ts)
+    - #### [DOM Traversing](./dom/traversing.ts) - a set of utils to find DOM elements or check their relations. 
   
 - ### Environment
-
-    - #### [Breakpoints Registry](src/modules/esl-utils/environment/breakpoints.ts)
   
-    - #### [Device Detector](src/modules/esl-utils/environment/device-detector.ts)
+    - #### [Device Detector](src/modules/esl-utils/environment/device-detector.ts) - set of user agent based checks like engine or device type
   
 - ### Miscellaneous Utils
 
-    - #### [Array](./misc/array.ts)
+    - #### [Array](./misc/array.ts) - array utils (uniq, flat, wrap, etc)
   
-    - #### [Format](./misc/format.ts)
+    - #### [Format](./misc/format.ts) - string format utils
   
-    - #### [Function](./misc/functions.ts)
+    - #### [Function](./misc/functions.ts) - simple functions and types 
   
-    - #### [Memoize](./misc/memoize.ts)
+    - #### [Memoize](./misc/memoize.ts) - memoization function decorator
+      Memoization patten allows executing pure function once and then use cached result. 
   
-    - #### [Object](./misc/object.ts)
+    - #### [Object](./misc/object.ts) - object common utils
   
-    - #### [UID](./misc/uid.ts)
-  
+    - #### [UID](./misc/uid.ts) - unique identifier generation util 

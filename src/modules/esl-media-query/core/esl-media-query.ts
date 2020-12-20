@@ -16,13 +16,14 @@
 
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
-import {BreakpointRegistry} from '../../esl-utils/environment/breakpoints';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
+
+import {ESLMediaBreakpoints} from './esl-media-breakpoints';
 
 @ExportNs('MediaQuery')
 export class ESLMediaQuery {
   static get BreakpointRegistry() {
-    return BreakpointRegistry;
+    return ESLMediaBreakpoints;
   }
 
   @memoize()
@@ -49,7 +50,7 @@ export class ESLMediaQuery {
 
   constructor(query: string) {
     // Applying known breakpoints shortcut
-    query = BreakpointRegistry.apply(query);
+    query = ESLMediaBreakpoints.apply(query);
 
     // Applying dpr shortcut
     this._dpr = 1;

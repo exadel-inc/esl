@@ -16,15 +16,22 @@ In addition to native Media Query features ESL Media Query allows special shortc
 - Can disallow queries for queries with dpr > 1 for page speed bots
 - Screen breakpoints shortcuts  
   (e.g. `@XS`, `@md`, `@+LG`, `@-MD`)  
-  Supports breakpoints declared in `esl-utils/environment/breakpoints` registry. 
+  Supports breakpoints declared in ESLMediaBreakpoints registry. 
   Accepts modifiers like `+` to accept upper breakpoints and `-` to accept lover breakpoints.
 - `@MOBILE` and `@DESKTOP` shortcuts for device detection
 ---
 
 Util contains the following utils:
+- ESLMediaBreakpoints
 - ESLMediaQuery
 - ESLMediaRule
 - ESLMediaRuleList
+
+---
+### ESLMediaBreakpoints
+Custom screen breakpoints registry. Allows to define a named screen width range.
+
+To change default or define you own Screen Breakpoint use `ESLMediaBreakpoints.addCustomBreakpoint` static method.
 
 ---
 ### ESLMediaQuery 
