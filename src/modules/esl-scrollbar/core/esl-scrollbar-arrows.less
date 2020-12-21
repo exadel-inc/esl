@@ -1,7 +1,8 @@
 .esl-scrollbar-arrows-init(@tagName: esl-scrollbar) {
   @{tagName} {
     &:not([horizontal]) {
-      padding: 15px 0;
+      padding-top: 15px;
+      padding-bottom: 15px;
       .scrollbar-track {
         &:before,
         &:after {
@@ -25,7 +26,8 @@
     }
 
     &[horizontal] {
-      padding: 0 15px;
+      padding-left: 15px;
+      padding-right: 15px;
       .scrollbar-track {
         &:before,
         &:after {
