@@ -1,12 +1,13 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
-import {ESLPopup} from '../../esl-popup/core';
+import {ESLBasePopup} from '../../esl-base-popup/core/esl-base-popup';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
-import type {NoopFnSignature} from '../../esl-utils/misc/functions';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
 import {TraversingQuery} from '../../esl-traversing-query/core';
+
+import type {NoopFnSignature} from '../../esl-utils/misc/functions';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
@@ -35,7 +36,7 @@ export class ESLTrigger extends ESLBaseElement {
   @attr() public touchShowDelay: string;
   @attr() public touchHideDelay: string;
 
-  protected _popup: ESLPopup;
+  protected _popup: ESLBasePopup;
   protected __unsubscribers: NoopFnSignature[];
 
   protected attributeChangedCallback(attrName: string) {
@@ -75,7 +76,7 @@ export class ESLTrigger extends ESLBaseElement {
 
   protected updatePopupFromTarget() {
     if (!this.target) return;
-    this.popup = TraversingQuery.first(this.target, this) as ESLPopup;
+    this.popup = TraversingQuery.first(this.target, this) as ESLBasePopup;
   }
 
   public get showEvent() {
@@ -103,7 +104,7 @@ export class ESLTrigger extends ESLBaseElement {
       this.attachEventListener(this.showEvent, this._onShowEvent);
       this.attachEventListener(this.hideEvent, this._onHideEvent);
     }
-    const popupClass = this._popup.constructor as typeof ESLPopup;
+    const popupClass = this._popup.constructor as typeof ESLBasePopup;
     this.popup.addEventListener(`${popupClass.eventNs}:statechange`, this._onPopupStateChange);
 
     this.addEventListener('keydown', this._onKeydown);
@@ -112,7 +113,7 @@ export class ESLTrigger extends ESLBaseElement {
   protected unbindEvents() {
     (this.__unsubscribers || []).forEach((off) => off());
     if (!this.popup) return;
-    const popupClass = this._popup.constructor as typeof ESLPopup;
+    const popupClass = this._popup.constructor as typeof ESLBasePopup;
     this.popup.removeEventListener(`${popupClass.eventNs}:statechange`, this._onPopupStateChange);
     this.removeEventListener('keydown', this._onKeydown);
   }

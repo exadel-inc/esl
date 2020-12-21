@@ -60,7 +60,7 @@ Even if you use the whole utils module, it is still tiny.
   
 - ### Environment
   
-    - #### [Device Detector](src/modules/esl-utils/environment/device-detector.ts) - set of user agent based checks like engine or device type
+    - #### [Device Detector](./environment/device-detector.ts) - set of user agent based checks like engine or device type
   
 - ### Miscellaneous Utils
 
