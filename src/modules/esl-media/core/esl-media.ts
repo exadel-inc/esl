@@ -4,7 +4,7 @@
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {debounce} from '../../esl-utils/async/debounce';
 import {rafDecorator} from '../../esl-utils/async/raf';

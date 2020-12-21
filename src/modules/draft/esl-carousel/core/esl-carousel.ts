@@ -1,4 +1,4 @@
-import {ExportNs} from '../../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr} from '../../../esl-base-element/core';
 import {deepCompare} from '../../../esl-utils/misc/object';
 import {ESLMediaRuleList} from '../../../esl-media-query/core';

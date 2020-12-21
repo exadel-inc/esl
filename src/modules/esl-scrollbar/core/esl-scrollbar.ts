@@ -3,7 +3,7 @@
  * @version 1.0.0-alpha
  * @author Yuliya Adamskaya
  */
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {rafDecorator} from '../../esl-utils/async/raf';

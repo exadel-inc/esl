@@ -36,3 +36,6 @@ test-server
 .report
 .scannerwork
 sonar-project.properties
+
+# Docs Assets
+docs

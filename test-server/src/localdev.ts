@@ -28,7 +28,7 @@ import {
 import {
   ESLCarousel,
   CarouselPlugins
-} from '../../src/modules/beta/all';
+} from '../../src/modules/draft/all';
 
 ESLImage.register();
 ESLMedia.register();

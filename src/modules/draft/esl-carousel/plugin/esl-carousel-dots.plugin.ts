@@ -1,4 +1,4 @@
-import {ExportNs} from '../../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import ESLCarouselPlugin from './esl-carousel-plugin';
 
 /**

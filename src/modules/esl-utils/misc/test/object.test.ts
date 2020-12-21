@@ -1,4 +1,4 @@
-import {deepCompare, getPropertyDescriptor} from '../object';
+import {defined, deepCompare, getPropertyDescriptor} from '../object';
 
 describe('misc/object', () => {
   describe('deepCompare', () => {
@@ -81,5 +81,15 @@ describe('misc/object', () => {
       expect(getPropertyDescriptor(obj, 'a')).toBeTruthy();
       expect(getPropertyDescriptor(obj, 'b')).toBeTruthy();
     });
+  });
+
+  test('defined', () => {
+    expect(defined('a')).toBe('a');
+    expect(defined('', 'a')).toBe('');
+    expect(defined('a', '')).toBe('a');
+    expect(defined(undefined, 'a')).toBe('a');
+    expect(defined(null, 'a')).toBe(null);
+    const obj = {};
+    expect(defined(obj, null)).toBe(obj);
   });
 });

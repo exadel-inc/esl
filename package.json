@@ -1,5 +1,5 @@
 {
-  "name": "exadel-smart-library",
+  "name": "@exadel/esl",
   "description": "Exadel Smart Library (ESL) - is the lightweight custom elements library that provide a set of super-flexible components",
   "keywords": [
     "custom elements",
@@ -7,7 +7,7 @@
     "lightweight",
     "flexible"
   ],
-  "version": "1.38.0-alpha",
+  "version": "1.40.0-alpha",
   "private": true,
   "homepage": "https://gitlab.exadel.com/EDMTP/smart-wc-library#readme",
   "license": "MIT",
@@ -16,7 +16,8 @@
     "url": "git+https://gitlab.exadel.com/EDMTP/smart-wc-library.git"
   },
   "files": [
-    "modules/**/*"
+    "modules/**/*.{js,ts}",
+    "polyfills/**/*.{js,ts}"
   ],
   "main": "modules/all.js",
   "types": "modules/all.d.ts",

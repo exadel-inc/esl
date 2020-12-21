@@ -25,6 +25,5 @@ export * from './dom/styles';
 export * from './dom/events';
 export * from './dom/traversing';
 
-// Device detection & user configs
-export * from './enviroment/device-detector';
-export * from './enviroment/breakpoints';
+// Device detection
+export * from './environment/device-detector';
