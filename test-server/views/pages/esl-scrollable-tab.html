@@ -10,12 +10,24 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
     .accordion-trigger {
       display: none;
     }
-    .accordion .accordion-trigger {
-      display: block;
+
+    /*esl-tab.nav-link:not(#kljlkj) {*/
+    /*  outline: none;*/
+    /*  border: 1px solid green;*/
+    /*  background-color: lightgreen;*/
+    /*}*/
+
+    @media only screen and (max-width: 767px) {
+      .accordion-trigger {
+        display: block;
+      }
+
+      .esl-tabs-container {
+        display: none;
+      }
     }
 
     @media (max-width: 767px) {
-      .esl-tabs-container,
       .esl-scrollable-tabs {
         display: none;
       }
@@ -26,760 +38,758 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
     }
   </style>
 
-    <div class="col-12" dir="rtl">
-        <h2> Tabs Component </h2>
-        <div class="tabs">
-            <esl-scrollable-tabs a11y-role="tab" class="tabs-container" scroll-timeout="500">
+  <div class="col-12" dir="rtl">
+    <h2> Tabs Component </h2>
+    <div class="tabs">
+      <esl-scrollable-tabs a11y-role="tab" class="tabs-container" scroll-timeout="500">
 
-                <div class="arrow-prev" data-tab-direction="left">
-                    <span class="icon-arrow-prev"></span>
-                </div>
-
-                <ul class="nav nav-pills esl-tab-list" role="tablist">
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-1)">
-                            <h5 class="mb-0">Tab #1 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-2)">
-                            <h5 class="mb-0">Tab #2 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-3)">
-                            <h5 class="mb-0">Tab #3 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-4)">
-                            <h5 class="mb-0">Tab #4 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-5)">
-                            <h5 class="mb-0">Tab #5 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-6)">
-                            <h5 class="mb-0">Tab #6 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-7)">
-                            <h5 class="mb-0">Tab #7 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                        </esl-tab>
-                    </li>
-                </ul>
-
-                <div class="arrow-next" data-tab-direction="right">
-                    <span class="icon-arrow-next"></span>
-                </div>
-
-            </esl-scrollable-tabs>
-
-            <esl-triggers-container class="esl-tabs-content">
-                <esl-panel-stack accordion-transformation="@XS">
-
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #1</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-1"
-                               group="tab-group-1"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                        </div>
-                    </esl-panel>
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #2</h5>
-                    </esl-trigger>
-                    <esl-panel open class="tab tab-2"
-                               group="tab-group-1"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p> 2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                quinoa
-                                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
-                                single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
-                                beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-                                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
-                                nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
-                        </div>
-                    </esl-panel>
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #3</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-3"
-                               group="tab-group-1"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p> 3 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                quinoa
-                                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
-                                single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
-                                beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-                                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
-                                synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put
-                                a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim
-                                keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                                Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw
-                                denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
-                                sustainable VHS.</p>
-                        </div>
-                    </esl-panel>
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #4</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-4"
-                               group="tab-group-1"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p>4 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>4 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>4 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                        </div>
-                    </esl-panel>
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #5</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-5"
-                               group="tab-group-1"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p>5 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>5 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>5 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                        </div>
-                    </esl-panel>
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #6</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-6"
-                               group="tab-group-1"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p>6 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>6 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>6 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                        </div>
-                    </esl-panel>
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #7</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-7"
-                               group="tab-group-1"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p>7 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>7 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>7 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                        </div>
-                    </esl-panel>
-
-                </esl-panel-stack>
-            </esl-triggers-container>
+        <div class="arrow-prev" data-tab-direction="left">
+          <span class="icon-arrow-prev"></span>
         </div>
-    </div>
-    <hr>
-    <div class="col-12">
-        <h2> Tabs Component </h2>
-        <div class="tabs tabs-2">
-            <esl-scrollable-tabs  a11y-role="tab" class="tabs-container">
 
-                <div class="arrow-prev" data-tab-direction="left">
-                    <span class="icon-arrow-prev"></span>
-                </div>
+        <ul class="nav nav-pills esl-tab-list" role="tablist">
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-1)">
+              <h5 class="mb-0">Tab #1 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-2)">
+              <h5 class="mb-0">Tab #2 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-3)">
+              <h5 class="mb-0">Tab #3 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-4)">
+              <h5 class="mb-0">Tab #4 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-5)">
+              <h5 class="mb-0">Tab #5 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-6)">
+              <h5 class="mb-0">Tab #6 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-7)">
+              <h5 class="mb-0">Tab #7 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+        </ul>
 
-                <ul class="nav nav-pills esl-tab-list" role="tablist">
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-1)">
-                            <h5 class="mb-0">Tab #1 Lorem ipsum </h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-2)">
-                            <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-3)">
-                            <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-4)">
-                            <h5 class="mb-0">Tab #4 Lorem ipsum</h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-5)">
-                            <h5 class="mb-0">Tab #5 Lorem ipsum</h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-6)">
-                            <h5 class="mb-0">Tab #6 Lorem ipsum</h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-7)">
-                            <h5 class="mb-0">Tab #7 Lorem ipsum</h5>
-                        </esl-tab>
-                    </li>
-                </ul>
-
-                <div class="arrow-next" data-tab-direction="right">
-                    <span class="icon-arrow-next"></span>
-                </div>
-
-            </esl-scrollable-tabs>
-
-            <esl-triggers-container class="esl-tabs-content">
-                <esl-panel-stack accordion-transformation="@XS">
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #1</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-1"
-                               group="tab-group-2"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                        </div>
-                    </esl-panel>
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #2</h5>
-                    </esl-trigger>
-                    <esl-panel open class="tab tab-2"
-                               group="tab-group-2"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p> 2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                quinoa
-                                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
-                                single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
-                                beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-                                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
-                                nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
-                        </div>
-                    </esl-panel>
-
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #3</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-3"
-                               group="tab-group-2"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p> 3 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                quinoa
-                                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
-                                single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
-                                beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-                                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
-                                synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put
-                                a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim
-                                keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                                Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw
-                                denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
-                                sustainable VHS.</p>
-                        </div>
-                    </esl-panel>
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #4</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-4"
-                               group="tab-group-2"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p>4 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>4 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>4 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                        </div>
-                    </esl-panel>
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #5</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-5"
-                               group="tab-group-2"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p>5 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>5 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>5 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                        </div>
-                    </esl-panel>
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #6</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-6"
-                               group="tab-group-2"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p>6 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>6 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>6 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                        </div>
-                    </esl-panel>
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #7</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-7"
-                               group="tab-group-2"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p>7 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>7 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>7 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                        </div>
-                    </esl-panel>
-                </esl-panel-stack>
-            </esl-triggers-container>
+        <div class="arrow-next" data-tab-direction="right">
+          <span class="icon-arrow-next"></span>
         </div>
-    </div>
 
-    <div class="col-12">
-        <h2> Tabs Component </h2>
-        <div class="tabs tabs-3">
-            <esl-scrollable-tabs a11y-role="tab" class="tabs-container">
+      </esl-scrollable-tabs>
 
-                <div class="arrow-prev" data-tab-direction="left">
-                    <span class="icon-arrow-prev"></span>
-                </div>
+      <esl-triggers-container class="esl-tabs-content">
+        <esl-panel-stack accordion-transformation="@XS">
 
-                <ul class="nav nav-pills esl-tab-list" role="tablist">
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-1)">
-                            <h5 class="mb-0">Tab #1 Lorem ipsum </h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-2)">
-                            <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-3)">
-                            <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
-                        </esl-tab>
-                    </li>
-                </ul>
-
-                <div class="arrow-next" data-tab-direction="right">
-                    <span class="icon-arrow-next"></span>
-                </div>
-
-            </esl-scrollable-tabs>
-
-            <esl-triggers-container class="esl-tabs-content">
-                <esl-panel-stack accordion-transformation="@XS">
-
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #1</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-1"
-                               group="tab-group-3"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                        </div>
-                    </esl-panel>
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #2</h5>
-                    </esl-trigger>
-                    <esl-panel open class="tab tab-2"
-                               group="tab-group-3"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p> 2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                quinoa
-                                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
-                                single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
-                                beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-                                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
-                                nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
-                        </div>
-                    </esl-panel>
-
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #3</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-3"
-                               group="tab-group-3"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p> 3 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                quinoa
-                                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
-                                single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
-                                beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-                                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
-                                synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put
-                                a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim
-                                keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                                Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw
-                                denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
-                                sustainable VHS.</p>
-                        </div>
-                    </esl-panel>
-
-                </esl-panel-stack>
-            </esl-triggers-container>
-        </div>
-    </div>
-
-    <div class="col-12">
-        <h2> Tabs Component </h2>
-        <div class="tabs tabs-4">
-            <esl-scrollable-tabs a11y-role="tab" class="tabs-container">
-
-                <div class="arrow-prev" data-tab-direction="left">
-                    <span class="icon-arrow-prev"></span>
-                </div>
-
-                <ul class="nav nav-pills esl-tab-list" role="tablist">
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-1)">
-                            <h5 class="mb-0">Tab #1 Lorem ipsum </h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-2)">
-                            <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-3)">
-                            <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
-                        </esl-tab>
-                    </li>
-                    <li class="nav-item">
-                        <esl-tab class="esl-tab nav-link"
-                                 active-class="active"
-                                 mode="show"
-                                 target="::parent(.tabs)::find(.tab-4)">
-                            <h5 class="mb-0">Tab #4 Lorem ipsum 232</h5>
-                        </esl-tab>
-                    </li>
-                </ul>
-
-                <div class="arrow-next" data-tab-direction="right">
-                    <span class="icon-arrow-next"></span>
-                </div>
-
-            </esl-scrollable-tabs>
-
-            <esl-triggers-container class="esl-tabs-content">
-                <esl-panel-stack accordion-transformation="@XS">
-
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #1</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-1"
-                               group="tab-group-4"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                        </div>
-                    </esl-panel>
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #2</h5>
-                    </esl-trigger>
-                    <esl-panel open class="tab tab-2"
-                               group="tab-group-4"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p> 2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                quinoa
-                                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
-                                single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
-                                beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-                                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
-                                nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
-                        </div>
-                    </esl-panel>
-
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #3</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-3"
-                               group="tab-group-4"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p> 3 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                quinoa
-                                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
-                                single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
-                                beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-                                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
-                                synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put
-                                a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim
-                                keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                                Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw
-                                denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
-                                sustainable VHS.</p>
-                        </div>
-                    </esl-panel>
-
-                    <esl-trigger class="card-header accordion-trigger"
-                                 target="::next"
-                                 role="button"
-                                 tabindex="0">
-                        <h5 class="mb-0">Toggle Accordion #4</h5>
-                    </esl-trigger>
-                    <esl-panel class="tab tab-4"
-                               group="tab-group-4"
-                               tabindex="0">
-                        <div class="tab-body">
-                            <p> 4 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-                                ad
-                                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                                quinoa</p>
-                        </div>
-                    </esl-panel>
-                </esl-panel-stack>
-            </esl-triggers-container>
-        </div>
-    </div>
-
-    <div class="demo row">
-        <div class="col-12 p-2 d-flex">
-            <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. </p>
-            <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. </p>
-            <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                3 wolf moon officia aute, non cupidatat skateboard dolor brunch. </p>
-        </div>
-        <div class="col-12 p-2">
-            <div class="img-container img-container-16-9">
-                <esl-image mode="cover"
-                           data-alt="Alt Text"
-                           data-src="img-5-carousel-9-6.jpg"
-                           data-src-base="/images/"></esl-image>
+          <esl-trigger class="card-header accordion-trigger"
+                       target="::next"
+                       role="button"
+                       tabindex="0">
+            <h5 class="mb-0">Toggle Accordion #1</h5>
+          </esl-trigger>
+          <esl-panel class="tab tab-1"
+                     group="tab-group-1"
+                     tabindex="0">
+            <div class="tab-body">
+              <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+              <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+              <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
             </div>
-        </div>
+          </esl-panel>
+          <esl-trigger class="card-header accordion-trigger"
+                       target="::next"
+                       role="button"
+                       tabindex="0">
+            <h5 class="mb-0">Toggle Accordion #2</h5>
+          </esl-trigger>
+          <esl-panel open class="tab tab-2"
+                     group="tab-group-1"
+                     tabindex="0">
+            <div class="tab-body">
+              <p> 2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                quinoa
+                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+                single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
+                beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
+                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
+                nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+            </div>
+          </esl-panel>
+          <esl-trigger class="card-header accordion-trigger"
+                       target="::next"
+                       role="button"
+                       tabindex="0">
+            <h5 class="mb-0">Toggle Accordion #3</h5>
+          </esl-trigger>
+          <esl-panel class="tab tab-3"
+                     group="tab-group-1"
+                     tabindex="0">
+            <div class="tab-body">
+              <p> 3 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                quinoa
+                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+                single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
+                beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
+                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put
+                a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim
+                keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw
+                denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
+                sustainable VHS.</p>
+            </div>
+          </esl-panel>
+          <esl-trigger class="card-header accordion-trigger"
+                       target="::next"
+                       role="button"
+                       tabindex="0">
+            <h5 class="mb-0">Toggle Accordion #4</h5>
+          </esl-trigger>
+          <esl-panel class="tab tab-4"
+                     group="tab-group-1"
+                     tabindex="0">
+            <div class="tab-body">
+              <p>4 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+              <p>4 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+              <p>4 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            </div>
+          </esl-panel>
+          <esl-trigger class="card-header accordion-trigger"
+                       target="::next"
+                       role="button"
+                       tabindex="0">
+            <h5 class="mb-0">Toggle Accordion #5</h5>
+          </esl-trigger>
+          <esl-panel class="tab tab-5"
+                     group="tab-group-1"
+                     tabindex="0">
+            <div class="tab-body">
+              <p>5 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+              <p>5 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+              <p>5 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            </div>
+          </esl-panel>
+          <esl-trigger class="card-header accordion-trigger"
+                       target="::next"
+                       role="button"
+                       tabindex="0">
+            <h5 class="mb-0">Toggle Accordion #6</h5>
+          </esl-trigger>
+          <esl-panel class="tab tab-6"
+                     group="tab-group-1"
+                     tabindex="0">
+            <div class="tab-body">
+              <p>6 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+              <p>6 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+              <p>6 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            </div>
+          </esl-panel>
+          <esl-trigger class="card-header accordion-trigger"
+                       target="::next"
+                       role="button"
+                       tabindex="0">
+            <h5 class="mb-0">Toggle Accordion #7</h5>
+          </esl-trigger>
+          <esl-panel class="tab tab-7"
+                     group="tab-group-1"
+                     tabindex="0">
+            <div class="tab-body">
+              <p>7 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+              <p>7 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+              <p>7 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            </div>
+          </esl-panel>
+
+        </esl-panel-stack>
+      </esl-triggers-container>
     </div>
+  </div>
+  <hr>
+  <div class="col-12">
+    <h2> Tabs Component </h2>
+    <div class="tabs tabs-2">
+      <esl-scrollable-tabs a11y-role="tab" class="tabs-container">
+
+        <div class="arrow-prev" data-tab-direction="left">
+          <span class="icon-arrow-prev"></span>
+        </div>
+
+        <ul class="nav nav-pills esl-tab-list" role="tablist">
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-1)">
+              <h5 class="mb-0">Tab #1 Lorem ipsum </h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-2)">
+              <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-3)">
+              <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-4)">
+              <h5 class="mb-0">Tab #4 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-5)">
+              <h5 class="mb-0">Tab #5 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-6)">
+              <h5 class="mb-0">Tab #6 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-7)">
+              <h5 class="mb-0">Tab #7 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+        </ul>
+
+        <div class="arrow-next" data-tab-direction="right">
+          <span class="icon-arrow-next"></span>
+        </div>
+
+      </esl-scrollable-tabs>
+
+      <esl-panel-stack>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #1</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-1"
+                   group="tab-group-2"
+                   tabindex="0">
+          <div class="tab-body">
+            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #2</h5>
+        </esl-trigger>
+        <esl-panel open class="tab tab-2"
+                   group="tab-group-2"
+                   tabindex="0">
+          <div class="tab-body">
+            <p> 2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+              quinoa
+              nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+              single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
+              beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
+              butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
+              nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+          </div>
+        </esl-panel>
+
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #3</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-3"
+                   group="tab-group-2"
+                   tabindex="0">
+          <div class="tab-body">
+            <p> 3 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+              quinoa
+              nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+              single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
+              beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
+              butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+              synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put
+              a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim
+              keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+              Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw
+              denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
+              sustainable VHS.</p>
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #4</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-4"
+                   group="tab-group-2"
+                   tabindex="0">
+          <div class="tab-body">
+            <p>4 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            <p>4 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            <p>4 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #5</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-5"
+                   group="tab-group-2"
+                   tabindex="0">
+          <div class="tab-body">
+            <p>5 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            <p>5 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            <p>5 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #6</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-6"
+                   group="tab-group-2"
+                   tabindex="0">
+          <div class="tab-body">
+            <p>6 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            <p>6 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            <p>6 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #7</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-7"
+                   group="tab-group-2"
+                   tabindex="0">
+          <div class="tab-body">
+            <p>7 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            <p>7 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            <p>7 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad
+              squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+          </div>
+        </esl-panel>
+      </esl-panel-stack>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <h2> Tabs Component </h2>
+    <div class="tabs tabs-3">
+      <esl-scrollable-tabs a11y-role="tab" class="tabs-container">
+
+        <div class="arrow-prev" data-tab-direction="left">
+          <span class="icon-arrow-prev"></span>
+        </div>
+
+        <ul class="nav nav-pills esl-tab-list" role="tablist">
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-1)">
+              <h5 class="mb-0">Tab #1 Lorem ipsum </h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-2)">
+              <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-3)">
+              <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+        </ul>
+
+        <div class="arrow-next" data-tab-direction="right">
+          <span class="icon-arrow-next"></span>
+        </div>
+
+      </esl-scrollable-tabs>
+
+      <esl-triggers-container class="esl-tabs-content">
+        <esl-panel-stack>
+
+          <esl-trigger class="card-header accordion-trigger"
+                       target="::next"
+                       role="button"
+                       tabindex="0">
+            <h5 class="mb-0">Toggle Accordion #1</h5>
+          </esl-trigger>
+          <esl-panel class="tab tab-1"
+                     group="tab-group-3"
+                     tabindex="0">
+            <div class="tab-body">
+              <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+              <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+              <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            </div>
+          </esl-panel>
+          <esl-trigger class="card-header accordion-trigger"
+                       target="::next"
+                       role="button"
+                       tabindex="0">
+            <h5 class="mb-0">Toggle Accordion #2</h5>
+          </esl-trigger>
+          <esl-panel open class="tab tab-2"
+                     group="tab-group-3"
+                     tabindex="0">
+            <div class="tab-body">
+              <p> 2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                quinoa
+                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+                single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
+                beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
+                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
+                nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+            </div>
+          </esl-panel>
+
+          <esl-trigger class="card-header accordion-trigger"
+                       target="::next"
+                       role="button"
+                       tabindex="0">
+            <h5 class="mb-0">Toggle Accordion #3</h5>
+          </esl-trigger>
+          <esl-panel class="tab tab-3"
+                     group="tab-group-3"
+                     tabindex="0">
+            <div class="tab-body">
+              <p> 3 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                quinoa
+                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+                single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
+                beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
+                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put
+                a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim
+                keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw
+                denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
+                sustainable VHS.</p>
+            </div>
+          </esl-panel>
+
+        </esl-panel-stack>
+      </esl-triggers-container>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <h2> Tabs Component </h2>
+    <div class="tabs tabs-4">
+      <esl-scrollable-tabs a11y-role="tab" class="tabs-container">
+
+        <div class="arrow-prev" data-tab-direction="left">
+          <span class="icon-arrow-prev"></span>
+        </div>
+
+        <ul class="nav nav-pills esl-tab-list" role="tablist">
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-1)">
+              <h5 class="mb-0">Tab #1 Lorem ipsum </h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-2)">
+              <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-3)">
+              <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     active-class="active"
+                     mode="show"
+                     target="::parent(.tabs)::find(.tab-4)">
+              <h5 class="mb-0">Tab #4 Lorem ipsum 232</h5>
+            </esl-tab>
+          </li>
+        </ul>
+
+        <div class="arrow-next" data-tab-direction="right">
+          <span class="icon-arrow-next"></span>
+        </div>
+
+      </esl-scrollable-tabs>
+
+      <esl-triggers-container class="esl-tabs-content">
+        <esl-panel-stack>
+
+          <esl-trigger class="card-header accordion-trigger"
+                       target="::next"
+                       role="button"
+                       tabindex="0">
+            <h5 class="mb-0">Toggle Accordion #1</h5>
+          </esl-trigger>
+          <esl-panel class="tab tab-1"
+                     group="tab-group-4"
+                     tabindex="0">
+            <div class="tab-body">
+              <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+              <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+              <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
+            </div>
+          </esl-panel>
+          <esl-trigger class="card-header accordion-trigger"
+                       target="::next"
+                       role="button"
+                       tabindex="0">
+            <h5 class="mb-0">Toggle Accordion #2</h5>
+          </esl-trigger>
+          <esl-panel open class="tab tab-2"
+                     group="tab-group-4"
+                     tabindex="0">
+            <div class="tab-body">
+              <p> 2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                quinoa
+                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+                single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
+                beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
+                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
+                nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+            </div>
+          </esl-panel>
+
+          <esl-trigger class="card-header accordion-trigger"
+                       target="::next"
+                       role="button"
+                       tabindex="0">
+            <h5 class="mb-0">Toggle Accordion #3</h5>
+          </esl-trigger>
+          <esl-panel class="tab tab-3"
+                     group="tab-group-4"
+                     tabindex="0">
+            <div class="tab-body">
+              <p> 3 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                quinoa
+                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+                single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
+                beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
+                butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put
+                a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim
+                keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw
+                denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
+                sustainable VHS.</p>
+            </div>
+          </esl-panel>
+
+          <esl-trigger class="card-header accordion-trigger"
+                       target="::next"
+                       role="button"
+                       tabindex="0">
+            <h5 class="mb-0">Toggle Accordion #4</h5>
+          </esl-trigger>
+          <esl-panel class="tab tab-4"
+                     group="tab-group-4"
+                     tabindex="0">
+            <div class="tab-body">
+              <p> 4 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+                ad
+                squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                quinoa</p>
+            </div>
+          </esl-panel>
+        </esl-panel-stack>
+      </esl-triggers-container>
+    </div>
+  </div>
+
+  <div class="demo row">
+    <div class="col-12 p-2 d-flex">
+      <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+        3 wolf moon officia aute, non cupidatat skateboard dolor brunch. </p>
+      <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+        3 wolf moon officia aute, non cupidatat skateboard dolor brunch. </p>
+      <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+        3 wolf moon officia aute, non cupidatat skateboard dolor brunch. </p>
+    </div>
+    <div class="col-12 p-2">
+      <div class="img-container img-container-16-9">
+        <esl-image mode="cover"
+                   data-alt="Alt Text"
+                   data-src="img-5-carousel-9-6.jpg"
+                   data-src-base="/images/"></esl-image>
+      </div>
+    </div>
+  </div>
 </section>
 #}}
