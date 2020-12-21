@@ -1,10 +1,10 @@
-# Exadel Smart Library (ESL) &#9881;
+# Exadel Smart Library &#9881;
 
 ![npm](https://img.shields.io/npm/v/exadel/esl)
 ![dependencies](https://img.shields.io/badge/dependencies-free-green)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-ESL is a web components based library that gives you a set of **lightweight**
+Exadel Smart Library (**ESL**) is a web components based library that gives you a set of **lightweight**
 and **flexible** custom elements to make basic UX modules fast and leave your sites super performable.
 
 ## Library Structure
@@ -16,8 +16,8 @@ and **flexible** custom elements to make basic UX modules fast and leave your si
 - ##### [ESL Base Popup](./src/modules/esl-base-popup/README.md)
 - ##### [ESL Popup](./src/modules/esl-popup/README.md)
 - ##### [ESL Trigger](./src/modules/esl-trigger/README.md)
-- ##### [ESL Panel and ESL Panel Stack](./src/modules/esl-panel/README.md)
-- ##### [ESL Tab and ESL Tab Container](./src/modules/esl-tab/README.md)
+- ##### [ESL Panel and Panel Stack](./src/modules/esl-panel/README.md)
+- ##### [ESL Tab and Tab Container](./src/modules/esl-tab/README.md)
 - ##### [ESL Scrollable Tabs](src/modules/esl-scrollable-tabs/README.md)
 
 ### Utilities
