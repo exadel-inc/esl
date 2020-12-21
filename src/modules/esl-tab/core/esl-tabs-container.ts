@@ -1,5 +1,5 @@
 import {ESLTriggersContainer, GroupTarget} from '../../esl-trigger/core/esl-triggers-container';
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import ESLTab from './esl-tab';
 import ESLTrigger from '../../esl-trigger/core/esl-trigger';
 import {bind} from '../../esl-utils/decorators/bind';

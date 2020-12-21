@@ -31,6 +31,7 @@ export class BrightcoveProvider extends BaseProvider {
 
   protected _api: VideoJsPlayer;
   protected _account: BCPlayerAccount;
+  protected _autoplay: boolean;
 
   /**
    * @returns settings, get from element by default
@@ -91,6 +92,7 @@ export class BrightcoveProvider extends BaseProvider {
     if (typeof window.bc !== 'function' || typeof window.videojs !== 'function') {
       throw new Error('Brightcove API is not in the global scope');
     }
+    console.debug('ESL Media: Brightcove API init for ', this);
     this._api = window.bc(this._el);
     return new Promise((resolve, reject) => this._api ? this._api.ready(resolve) : reject());
   }
@@ -101,14 +103,17 @@ export class BrightcoveProvider extends BaseProvider {
    * @returns {Promise | void}
    */
   protected onAPIReady(): Promise<void> | void {
+    console.debug('ESL Media: Brightcove API is ready ', this);
     // Set autoplay though js because BC is unresponsive while processing it natively
-    this._api.autoplay(this.component.autoplay);
+    this._api.autoplay(this._autoplay || this.component.autoplay);
 
+    // Listeners to control player state
     this._api.on('play', () => this.component._onPlay());
     this._api.on('pause', () => this.component._onPaused());
     this._api.on('ended', () => this.component._onEnded());
     this.component._onReady();
 
+    // Can handle query only when loadedmetadata have happened
     return this.$$fromEvent('loadedmetadata');
   }
 
@@ -172,6 +177,16 @@ export class BrightcoveProvider extends BaseProvider {
   public stop() {
     this._api.currentTime(0);
     this._api.pause();
+  }
+
+  // Overrides to set tech autoplay marker
+  public safePlay() {
+    this._autoplay = true;
+    return super.safePlay();
+  }
+  public safeStop() {
+    this._autoplay = true;
+    return super.safeStop();
   }
 }
 

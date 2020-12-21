@@ -1,10 +1,6 @@
 module.exports = {
-  port: 3001,
+  port: 3002,
   serverRoot: './',
-  proxy: {},
-  public: [
-    'static/',
-    'assets/',
-    '../lib/'
-  ]
+  public: ['static/'],
+  jscssDestFolders: ['static/bundles']
 };

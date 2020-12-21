@@ -1,3 +1,5 @@
+// With Namespace
+import '../../src/modules/lib';
 // Support for ES5 bundle target
 import '../../src/polyfills/es5-target-shim';
 // Builtin polyfills
@@ -26,7 +28,7 @@ import {
 import {
   ESLCarousel,
   CarouselPlugins
-} from '../../src/modules/beta/all';
+} from '../../src/modules/draft/all';
 
 ESLImage.register();
 ESLMedia.register();

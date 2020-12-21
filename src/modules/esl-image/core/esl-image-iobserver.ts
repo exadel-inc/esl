@@ -4,7 +4,7 @@
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 import ESLImage from './esl-image';
-import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
+import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 
 let iObserver: IntersectionObserver;
 

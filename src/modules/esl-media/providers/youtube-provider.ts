@@ -71,29 +71,35 @@ export class YouTubeProvider extends BaseProvider {
   public bind() {
     this._el = YouTubeProvider.buildIframe(this.component);
     this.component.appendChild(this._el);
-    this._ready = YouTubeProvider.getCoreApi().then(
-      () => (new Promise((resolve, reject) => {
-        this._api = new YT.Player(this._el.id, {
-          videoId: this.component.mediaId,
-          events: {
-            onError: (e) => {
-              this.component._onError(e);
-              reject(this);
-            },
-            onReady: () => resolve(this),
-            onStateChange: this._onStateChange
-          },
-          playerVars: YouTubeProvider.mapOptions(this.component)
-        });
-      }))
-    );
-    this._ready.then(() => {
-      this._el = this._api.getIframe();
-      if (this.component.muted) {
-        this._api.mute();
-      }
-      this.component._onReady();
+    this._ready = YouTubeProvider.getCoreApi()
+      .then(() => this.onCoreApiReady())
+      .then(() => this.onPlayerReady())
+      .catch((e) => this.component._onError(e));
+  }
+
+  /** Init YT.Player on target element */
+  protected onCoreApiReady() {
+    return new Promise((resolve, reject) => {
+      console.debug('[ESL]: Media Youtube Player initialization for ', this);
+      this._api = new YT.Player(this._el.id, {
+        videoId: this.component.mediaId,
+        events: {
+          onError: (e) => reject(e),
+          onReady: () => resolve(this),
+          onStateChange: (e) => this._onStateChange(e)
+        },
+        playerVars: YouTubeProvider.mapOptions(this.component)
+      });
     });
+  }
+  /** Post YT.Player init actions */
+  protected onPlayerReady() {
+    console.debug('[ESL]: Media Youtube Player ready ', this);
+    this._el = this._api.getIframe();
+    if (this.component.muted) {
+      this._api.mute();
+    }
+    this.component._onReady();
   }
 
   public unbind() {
@@ -102,7 +108,7 @@ export class YouTubeProvider extends BaseProvider {
     super.unbind();
   }
 
-  private _onStateChange = (event: YT.OnStateChangeEvent) => {
+  private _onStateChange(event: YT.OnStateChangeEvent) {
     switch (+event.data) {
       case PlayerStates.PLAYING:
         this.component._onPlay();
@@ -118,7 +124,7 @@ export class YouTubeProvider extends BaseProvider {
         }
         break;
     }
-  };
+  }
 
   public focus() {
     if (this._el instanceof HTMLIFrameElement && this._el.contentWindow) {

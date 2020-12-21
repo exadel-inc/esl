@@ -3,6 +3,7 @@
 * Brigtcove Provider stop action fix
 * Update disabled marker behaviour
 * Fix error state when the last init state is successful
+* Fix autoplay side effect
 
 ### 0.4.0-alpha (internal 1.1.# - 1.2.#)
 * Brightcove API update

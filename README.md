@@ -1,22 +1,68 @@
-# Exadel Smart Library (ESL) &#9881;
+# Exadel Smart Library &#9881;
 
-ESL is a web components based library that gives you a set of **lightweight**
+![npm](https://img.shields.io/npm/v/exadel/esl)
+![dependencies](https://img.shields.io/badge/dependencies-free-green)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
+Exadel Smart Library (**ESL**) is a web components based library that gives you a set of **lightweight**
 and **flexible** custom elements to make basic UX modules fast and leave your sites super performable.
 
+## Library Structure
 ### Components
 - ##### [ESL Image](./src/modules/esl-image/README.md)
 - ##### [ESL Media](./src/modules/esl-media/README.md)
 - ##### [ESL Scrollbar](./src/modules/esl-scrollbar/README.md)
-- TBD: Popups category
+
+- ##### [ESL Base Popup](./src/modules/esl-base-popup/README.md)
+- ##### [ESL Popup](./src/modules/esl-popup/README.md)
+- ##### [ESL Trigger](./src/modules/esl-trigger/README.md)
+- ##### [ESL Panel and Panel Stack](./src/modules/esl-panel/README.md)
+- ##### [ESL Tab and Tab Container](./src/modules/esl-tab/README.md)
+- ##### [ESL Scrollable Tabs](src/modules/esl-scrollable-tabs/README.md)
 
 ### Utilities
 - ##### [ESL Base Element](./src/modules/esl-base-element/README.md)
 - ##### [ESL Media Query](./src/modules/esl-media-query/README.md)
 - ##### [ESL Traversing Query](./src/modules/esl-traversing-query/README.md)
-- ##### ESL Utils
-  - TBD
+- ##### [ESL Utils](./src/modules/esl-utils/README.md)
 
 ---
+## Installation Guide
+
+0. Preconditions:
+   - Make sure you have all needed polyfills to support browsers from your browser-support list. 
+   See [Browser support & Polyfills](#browser-suppor-polyfills) for details.
+   - Use bundler to build your project. Only ESL modules consuming available for now.
+  
+1. Import Components/Modules you need.
+
+```javascript
+import '@exadel/esl/modules/esl-component/core';
+```
+- `core` module entry usually represents main part of the module
+- include optional sub-features directly. See component's documentation for details.
+```javascript
+import '@exadel/esl/modules/esl-media/providers/iframe-provider';
+```
+- Some modules contain cummulative `all` entries.
+- Styles distributed in a two versions: 
+  - 'ready to use' `core.css` or `core.less`
+  - mixin version `core.mixin.less` for custom tagname definition
+
+2. [Optional] Setup environment configuration, e.g. custom screen breakpoints.
+
+```javascript
+import {ESLMediaBreakpoints} from '@exadel/esl/modules/esl-media-query/core';
+
+// define XS screen breakpoint for up to 800px screen width
+ESLMediaBreakpoints.addCustomBreakpoint('XS', 1, 800); 
+```
+
+3.  Register components via `register` static method call
+```javascript
+ESLImage.register();
+```
+*You can pass custom tag name to register function, but use this option only in an exceptional situation.*
 
 ## Browser support & Polyfills
 
@@ -48,4 +94,28 @@ Or make the library work in IE11 or Edge (<14) using "full" polyfills list provi
 
 See more details on what the polyfill approach might look like in the test-server examples.
 
-Also, the library built-in polyfills for some of DOM and ES6 features are available under [./polyfills](./src/polyfills) directory.
+There is also, the library built-in polyfills for some of DOM and ES6 features are available under [./polyfills](./src/polyfills) directory.
+
+---
+
+## Development: NPM scripts
+Here is a list of available npm scripts for local development:
+ - `npm start` or `npm run start` - start demo server locally. Runs local build, watch and browsersync. 
+ Uses `:3001` port (BrowserSync) and `:3002` port (origin).
+ - `npm run tar` - build project and tarball archive with npm state of the project
+ - `npm run build` - build project to CJS output
+ - `npm run clear` - clear output folders
+ - `npm test` or `npm run test` - run linters and tests (silent task, used in CI/CD)
+ - `npm run test-only` - just run all tests
+ - `npm run test-report` - run tests and create coverage report
+
+
+---
+
+ESL Core Team: [Alexey Stsefanovich](mailto://astsefanovich@exadel.com), [Julia Murashko](mailto://ymurashka@exadel.com), [Yuliya Adamskaya](mailto://yadamska@exadel.com)
+
+ESL Contributors: Aliaksandr Auseyeu, Andrey Belous, Dmytro Shovchko, Dzianis Mantsevich, Natallia Harshunova, Yana Bernatskaya  
+
+**Exadel, Inc.**
+
+[![](docs/images/exadel-logo.png)](https://exadel.com)

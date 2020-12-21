@@ -1,20 +1,14 @@
-/**
- * Convert string to kebab-case notation
- */
+/** Convert string to kebab-case notation */
 export const toKebabCase = (str: string) => {
   return str.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase();
 };
 
-/**
- * Convert string to camelCase notation
- */
+/** Convert string to camelCase notation */
 export const toCamelCase = (str: string) => {
   return str.trim().replace(/[\s-,_]+([a-zA-Z0-9]?)/g, (match: string, word: string) => word.toUpperCase());
 };
 
-/**
- * Unwrap string from parenthesis
- */
+/** Unwrap string from parenthesis */
 export const unwrapParenthesis = (str: string) => {
   return str.trim().replace(/^\((.*)\)$/, '$1').trim();
 };
@@ -32,9 +26,7 @@ export function parseAspectRatio(str: string): number {
   return +w || 0;
 }
 
-/**
- * Evaluate value
- */
+/** Evaluate passed string or returns `defaultValue` */
 export function evaluate(str: string, defaultValue?: any): any {
   try {
     return str ? (new Function(`return ${str}`))() : defaultValue;
