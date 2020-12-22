@@ -155,9 +155,9 @@ export class ESLScrollbar extends ESLBaseElement {
   public get thumbSize() {
     // behave as native scroll
     if (!this.targetElement || !this.targetElement.scrollWidth || !this.targetElement.scrollHeight) return 1;
-    return this.horizontal ?
-      this.targetElement.clientWidth / this.targetElement.scrollWidth :
-      this.targetElement.clientHeight / this.targetElement.scrollHeight;
+    const areaSize = this.horizontal ? this.targetElement.clientWidth : this.targetElement.clientHeight;
+    const scrollSize = this.horizontal ? this.targetElement.scrollWidth : this.targetElement.scrollHeight;
+    return Math.min((areaSize + 1) / scrollSize, 1);
   }
 
   public get position() {
@@ -201,7 +201,7 @@ export class ESLScrollbar extends ESLBaseElement {
    * Update auxiliary markers
    */
   public updateMarkers() {
-    this.toggleAttribute('inactive', this.thumbSize === 1);
+    this.toggleAttribute('inactive', this.thumbSize >= 1);
   }
 
   /**
