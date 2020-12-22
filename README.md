@@ -112,9 +112,9 @@ Here is a list of available npm scripts for local development:
 
 ---
 
-ESL Core Team: [Alexey Stsefanovich](mailto://astsefanovich@exadel.com), [Julia Murashko](mailto://ymurashka@exadel.com), [Yuliya Adamskaya](mailto://yadamska@exadel.com)
+**ESL Core Team**: [Alexey Stsefanovich](https://github.com/ala-n), [Julia Murashko](https://github.com/julia-murashko), [Yuliya Adamskaya](https://github.com/yadamskaya)
 
-ESL Contributors: Aliaksandr Auseyeu, Andrey Belous, Dmytro Shovchko, Dzianis Mantsevich, Natallia Harshunova, Yana Bernatskaya  
+**ESL Contributors**: Aliaksandr Auseyeu, Andrey Belous, Dmytro Shovchko, Dzianis Mantsevich, Liubou Masiuk, Natallia Harshunova, Yana Bernatskaya  
 
 **Exadel, Inc.**
 
