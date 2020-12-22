@@ -2,10 +2,10 @@
 
 ![npm](https://img.shields.io/npm/v/exadel/esl)
 ![dependencies](https://img.shields.io/badge/dependencies-free-green)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 Exadel Smart Library (**ESL**) is a web components based library that gives you a set of **lightweight**
-and **flexible** custom elements to make basic UX modules fast and leave your sites super performable.
+and **flexible** custom elements to easily create basic UX modules and make your sites super fast.
 
 ## Library Structure
 ### Components
@@ -31,21 +31,21 @@ and **flexible** custom elements to make basic UX modules fast and leave your si
 
 0. Preconditions:
    - Make sure you have all needed polyfills to support browsers from your browser-support list. 
-   See [Browser support & Polyfills](#browser-suppor-polyfills) for details.
-   - Use bundler to build your project. Only ESL modules consuming available for now.
+   See [Browser support & Polyfills](#browser-support-polyfills) for details.
+   - Use bundler to build your project. Currently, only ESL modules are available for consumption.
   
 1. Import Components/Modules you need.
 
 ```javascript
 import '@exadel/esl/modules/esl-component/core';
 ```
-- `core` module entry usually represents main part of the module
+- `core` module entry usually represents main part of the module;
 - include optional sub-features directly. See component's documentation for details.
 ```javascript
 import '@exadel/esl/modules/esl-media/providers/iframe-provider';
 ```
-- Some modules contain cummulative `all` entries.
-- Styles distributed in a two versions: 
+- Some modules contain cumulative `all` entries.
+- Styles are distributed in two versions: 
   - 'ready to use' `core.css` or `core.less`
   - mixin version `core.mixin.less` for custom tagname definition
 
@@ -62,39 +62,39 @@ ESLMediaBreakpoints.addCustomBreakpoint('XS', 1, 800);
 ```javascript
 ESLImage.register();
 ```
-*You can pass custom tag name to register function, but use this option only in an exceptional situation.*
+*You can pass custom tag name to 'register' function, but use this option only in an exceptional situation.*
 
 ## Browser support & Polyfills
 
 Exadel Smart Library does not have dependencies but uses the following list of native browser features:
 
 - Ecma Script 6 features
-  - [Array.from](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/from) (no Iterable Objects support required)
-  - [Array.prototype.find](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/find) 
-  - [Array.prototype.findIndex](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex) 
-  - [Object.is](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/is)
-  - [ES6 Promises](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+  - [Array.from](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from) (no Iterable Objects support required)
+  - [Array.prototype.find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) 
+  - [Array.prototype.findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex) 
+  - [Object.is](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is)
+  - [ES6 Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 - Web API
   - [Custom Events](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent)
   - [Node.isConnected](https://developer.mozilla.org/en-US/docs/Web/API/Node/isConnected)
-  - [Element.matches](https://developer.mozilla.org/ru/docs/Web/API/Element/matches)
-  - [Element.closest](https://developer.mozilla.org/ru/docs/Web/API/Element/closest)
+  - [Element.matches](https://developer.mozilla.org/en-US/docs/Web/API/Element/matches)
+  - [Element.closest](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest)
   - [Element.toggleAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/toggleAttribute)
   - [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver)
   - [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
   - [Custom Elements](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements)
 
 
-All of them are fully supported by modern browsers like Chrome, Firefox, Safari or Edge (>43).
+All of them are fully supported by modern browsers, such as Chrome, Firefox, Safari or Edge (>43).
 
-In order to make ESL work in older browsers you can use a "light" polyfills list for IntersectionObserver, ResizeObserver and Custom Elements
+In order to make ESL work in older browsers you can use a "light" polyfills list of IntersectionObserver, ResizeObserver and Custom Elements
 (Older versions of Edge and Safari)
 
-Or make the library work in IE11 or Edge (<14) using "full" polyfills list provided.
+Or make the library work in IE11 or Edge (<14) by using the "full" polyfills list provided.
 
-See more details on what the polyfill approach might look like in the test-server examples.
+See more details on what polyfill approach might look like in the test-server examples.
 
-There is also, the library built-in polyfills for some of DOM and ES6 features are available under [./polyfills](./src/polyfills) directory.
+Also, ESL has built-in polyfills for some of DOM and ES6 features. They are available under [./polyfills](./src/polyfills) directory.
 
 ---
 
