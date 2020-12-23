@@ -1,19 +1,19 @@
 # [ESL](../../../README.md) Traversing Query
 
-Version: *1.0.0-beta*
+Version: *1.0.0-alpha*
 
 Authors: *Alexey Stsefanovich (ala'n)*
 
-ESLTraversingQuery - is utility to find element via extended selector query
+ESLTraversingQuery - is a utility to find element via extended selector query
 
-Extended query supports
- - plain CSS selectors
- - relative selectors  
+Extended query supports:
+ - plain CSS selectors;
+ - relative selectors;
    Note: Selectors that don't start from a plain selector will use passed base Element as a root)
- - `::next` and `::prev` sibling pseudo-selectors
- - `::parent` and `::child` pseudo-selectors
- - `::find` pseudo-selector
- - `::first`, `::last` and `:nth(#)` limitation pseudo-selectors
+ - `::next` and `::prev` sibling pseudo-selectors;
+ - `::parent` and `::child` pseudo-selectors;
+ - `::find` pseudo-selector;
+ - `::first`, `::last` and `:nth(#)` limitation pseudo-selectors.
 
 ---
 
