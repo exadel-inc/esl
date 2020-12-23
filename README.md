@@ -109,6 +109,16 @@ Here is a list of available npm scripts for local development:
  - `npm run test-only` - just run all tests
  - `npm run test-report` - run tests and create coverage report
 
+---
+
+## Roadmap
+
+- Releasable state for beta components (ESL Base Popup group)
+- "Playground" demo server 
+- npm release
+- ESLCarousel component release
+- More components in the library
+- Extension of esl-utils
 
 ---
 
