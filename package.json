@@ -9,11 +9,10 @@
   ],
   "version": "1.40.0-alpha",
   "private": true,
-  "homepage": "https://gitlab.exadel.com/EDMTP/smart-wc-library#readme",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.exadel.com/EDMTP/smart-wc-library.git"
+    "url": "git+https://github.com/exadel-inc/esl.git"
   },
   "files": [
     "modules/**/*.{js,ts}",
