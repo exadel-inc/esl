@@ -46,6 +46,7 @@
     "@types/youtube": "0.0.41"
   },
   "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
     "@exadel/server-sketch": "git+https://github.com/exadel-inc/server-sketch.git",
     "@juggle/resize-observer": "^3.2.0",
     "@types/jest": "^26.0.17",
@@ -87,7 +88,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm test"
+      "pre-push": "npm test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }
 }
