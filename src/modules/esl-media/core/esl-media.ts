@@ -74,10 +74,8 @@ export class ESLMedia extends ESLBaseElement {
       'fill-mode',
       'aspect-ratio',
       'play-in-viewport',
-      'playsinline',
       'muted',
       'loop',
-      'autoplay',
       'controls'
     ];
   }
@@ -127,9 +125,7 @@ export class ESLMedia extends ESLBaseElement {
         break;
       case 'loop':
       case 'muted':
-      case 'autoplay':
       case 'controls':
-      case 'playsinline':
         this._provider && this._provider.onSafeConfigChange(attrName, newVal !== null);
         break;
       case 'fill-mode':

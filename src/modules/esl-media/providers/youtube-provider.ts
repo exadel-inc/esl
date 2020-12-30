@@ -4,7 +4,6 @@
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 import {loadScript} from '../../esl-utils/dom/script';
-import {ESLMedia} from '../core/esl-media';
 import {BaseProvider, MediaProviderConfig, PlayerStates, ProviderObservedParams} from '../core/esl-media-provider';
 import PlayerVars = YT.PlayerVars;
 import {generateUId} from '../../esl-utils/misc/uid';
@@ -138,16 +137,8 @@ export class YouTubeProvider extends BaseProvider {
 
   protected onConfigChange(param: ProviderObservedParams, value: boolean) {
     super.onConfigChange(param, value);
-    switch (param) {
-      case 'muted':
-        value ? this._api.mute() : this._api.unMute();
-        break;
-      case 'autoplay':
-      case 'playsinline':
-      case 'controls':
-        this.unbind();
-        this.bind();
-        break;
+    if (param === 'muted') {
+      value ? this._api.mute() : this._api.unMute();
     }
   }
 

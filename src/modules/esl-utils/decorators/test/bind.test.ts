@@ -74,7 +74,7 @@ describe('common @bind decorator test', () => {
         @bind public a = 1;
       }
     }).toThrowError();
-  })
+  });
 });
 
 class TestClass {
