@@ -1,4 +1,4 @@
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {rafDecorator} from '../../esl-utils/async/raf';

@@ -15,14 +15,14 @@ describe('async/throttle', () => {
     setTimeout(() => {
       throttled();
       expect(fn).toBeCalledTimes(1);
-    });
+    }, 20);
     setTimeout(() => {
       expect(fn).toBeCalledTimes(2);
       throttled();
       expect(fn).toBeCalledTimes(3);
       done();
-    }, 75);
-  }, 150);
+    }, 120);
+  }, 200);
 
   test('test context', () => {
     const fn = function () { return this; };

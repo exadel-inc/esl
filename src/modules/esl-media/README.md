@@ -1,36 +1,36 @@
-# ESl Media
+# [ESL](../../../README.md) Media
 
 Version: *1.0.0-alpha*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*
 
-ESlMedia - custom element, that provides ability to add and configure media (video / audio)
+ESlMedia - custom element, that provides an ability to add and configure media (video / audio)
 using a single tag as well as work with external providers using simple native-like API.
- 
---- 
+
+---
 
 ### Supported Features:
  
- - extendable **MediaProviders** implementation for different media types. Supports out of the box:
+ - extendable **MediaProviders** implementation for different media types. Out-of-the-box support of:
    - HTMLAudio (`audio` type)
    - HTMLVideo (`video` type)
    - Youtube (`youtube` type)
    - Brightcove (`brightcove` type)
    - Abstract Iframe (`iframe` type)
  
- - load-conditions - restriction to load esl-media. Uses ESLMediaQuery syntax.
+ - **load-conditions** - restriction to load esl-media. Uses [ESLMediaQuery](../esl-media-query/README.md) syntax.
  
- - play-in-viewport - feature that restricts active state to only visible components on the page.
+ - **play-in-viewport** - feature that restricts active state to only visible components on the page.
  
- - manual initialization - component will not be initialized until disable marker is removed.
+ - **manual initialization** - component will not be initialized until `disable` marker is removed.
  
- - group manager - to allow single active player in group restriction.
+ - **group manager** - to allow single active player in group restriction.
  
- - fill mode - feature that allows managing video player rendering option in bounds of given element area.
+ - **fill mode** - feature that allows managing player rendering option in bounds of given element area.
  
- - state change events (`esl:media:load`, `esl:media:error`, `esl:media:play`, etc)
+ - **state change events** (`esl:media:load`, `esl:media:error`, `esl:media:play`, etc).
  
- - provides 'HTMLMedia like' API that is safe and will be executed after real API is ready
+ - provides **'HTMLMedia like' API** that is safe and will be executed after real API is ready
 
 ### Attributes:
 
@@ -38,7 +38,7 @@ using a single tag as well as work with external providers using simple native-l
  - **media-id** (for youtube/brightcove) - id of media resource
  - **media-type** - type of media provider
  
- - **group** (optional) - group name, only one media player can be active in bounds of the group.
+ - **group** (optional) - group name, only one media player can be active in bounds of the group
  
  - **disabled** (boolean) - marker that prevents media api initialization
  
@@ -52,12 +52,12 @@ using a single tag as well as work with external providers using simple native-l
    - `16:9` - colon-separated proportion
    - `16/9` - slash-separated proportion
 
- - **play-in-viewport** (boolean) - auto stop video which is out of viewport area
+ - **play-in-viewport** (boolean) - auto stop media which is out of viewport area
  
- - **autofocus** (boolean) - set focus to player when media starts playing
+ - **autofocus** (boolean) - set focus to the player when the media starts playing
  
  - **autoplay** (boolean) - start to play automatically on initialization 
- *(note: initialization doesn't happen until media has `disabled` attribute)*
+ *(note: initialization doesn't happen until `disabled` attribute is removed from the element)*
  
  - **controls** (boolean) - show media player controls
  
@@ -65,7 +65,7 @@ using a single tag as well as work with external providers using simple native-l
  
  - **mute** (boolean) - mute media
  
- - **playsinline** (boolean) - allow play media inline
+ - **playsinline** (boolean) - allow playing media inline (media player will not request speciall control over device)
 
 ### Readonly Attributes:
  
@@ -79,9 +79,9 @@ using a single tag as well as work with external providers using simple native-l
  - `esl:media:ready` - (bubbles) fires when API is ready
  - `esl:media:play` - (bubbles) fires when esl-media starts playing
  - `esl:media:paused` - (bubbles) fires when esl-media is paused
- - `esl:media:ended` - (bubbles) fires when esl-media ends
+ - `esl:media:ended` - (bubbles) fires when esl-media is ended
  - `esl:media:detach` - (bubbles) fires after esl-media provider is detached (reinitialized / disconnected from the DOM)
- - `esl:media:mangedpause` - (bubbles) fires when media paused by esl-media group restriction manager
+ - `esl:media:mangedpause` - (bubbles) fires when media was paused by esl-media group restriction manager
  
 ### Examples:
 ```html

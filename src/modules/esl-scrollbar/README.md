@@ -1,6 +1,6 @@
-# ESL Scrollbar
+# [ESL](../../../README.md) Scrollbar
 
-Version: *1.3.0*
+Version: *1.0.0-alpha*
 
 Authors: *Yuliya Adamskaya*
 
@@ -15,28 +15,19 @@ ESLScrollbar - custom element, that replaces the browser's default scrollbar wit
 
 - **horizontal** - horizontal scroll orientation marker
 
-- **target** - class scrollable content
+- **target** - [TraversingQuery](./../esl-traversing-query/README.md) to find scrollable content
 
-- **dragging** \[boolean] - will always be changed when track thumb drag is started or finished
+- **thumb-class** (default 'scrollbar-thumb') - class that will be added to scroll thumb
 
-- **thumb-class** (default 'scrollbar-thumb') - class, that will be added to scrollbar container
-
-- **track-class** (default 'scrollbar-track') - class, that will be added to scrollbar container
+- **track-class** (default 'scrollbar-track') - class that will be added to scroll track
 
 ### Readonly Attributes
 - inactive \[boolean] - appears when scroll state and position are refreshed
+  
+- dragging \[boolean] - indicates that thumb is currently being dragged
 
 ### API
 - refresh - shortcut function for refreshing scroll state and position
-
-### Events
-- scroll - emits every time when current source loading fails
-- click - emits every time when track clicks
-- body click - emits every time when track clicks to prevent clicks event on thumb drag
-- mousedown - emits every time when track thumb drag is started
-- mousemove - emits every time when thumb drag is moved
-- mouseup - emits every time when thumb drag is ended
-- resize - emits every time when document is resized
 
 ### Examples
 ```html

@@ -1,9 +1,9 @@
 /**
  * ESL Scrollbar
- * @version 1.3.0
+ * @version 1.0.0-alpha
  * @author Yuliya Adamskaya
  */
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {rafDecorator} from '../../esl-utils/async/raf';
@@ -34,19 +34,16 @@ export class ESLScrollbar extends ESLBaseElement {
 
   protected deferredRefresh = rafDecorator(() => this.refresh());
   protected _resizeObserver = new ResizeObserver(this.deferredRefresh);
+  protected _mutationObserver = new MutationObserver((rec) => this.updateContentObserve(rec));
 
   static get observedAttributes() {
-    return ['target'];
+    return ['target', 'horizontal'];
   }
 
   protected connectedCallback() {
     super.connectedCallback();
-
     this.findTarget();
-
     this.render();
-    this.refresh();
-
     this.bindEvents();
   }
 
@@ -56,14 +53,14 @@ export class ESLScrollbar extends ESLBaseElement {
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected && oldVal === newVal) return;
-    if (attrName === 'target') {
-      this.findTarget();
-    }
+    if (attrName === 'target') this.findTarget();
+    if (attrName === 'horizontal') this.refresh();
   }
 
   protected findTarget() {
-    if (!this.target) return;
-    this.targetElement = TraversingQuery.first(this.target, this) as HTMLElement;
+    this.targetElement = this.target ?
+      TraversingQuery.first(this.target, this) as HTMLElement :
+      null;
   }
 
   public get targetElement() {
@@ -74,6 +71,7 @@ export class ESLScrollbar extends ESLBaseElement {
     this.unbindTargetEvents();
     this.$scrollableContent = content;
     this.bindTargetEvents();
+    this.deferredRefresh();
   }
 
   protected render() {
@@ -100,8 +98,24 @@ export class ESLScrollbar extends ESLBaseElement {
       window.addEventListener('scroll', this._onRefresh, {passive: true});
     } else {
       this._resizeObserver.observe(this.$scrollableContent);
+      this._mutationObserver.observe(this.$scrollableContent, {childList: true});
+      Array.from(this.$scrollableContent.children).forEach((el) => this._resizeObserver.observe(el));
       this.$scrollableContent.addEventListener('scroll', this._onRefresh, {passive: true});
     }
+  }
+
+  protected updateContentObserve(recs: MutationRecord[] = []) {
+    if (!this.$scrollableContent) return;
+    const contentChanges = recs.filter((rec) => rec.type === 'childList');
+    contentChanges.forEach((rec) => {
+      Array.from(rec.addedNodes)
+        .filter((el) => el instanceof Element)
+        .forEach((el: Element) => this._resizeObserver.observe(el));
+      Array.from(rec.removedNodes)
+        .filter((el) => el instanceof Element)
+        .forEach((el: Element) => this._resizeObserver.unobserve(el));
+    });
+    if (contentChanges.length) this.deferredRefresh();
   }
 
   protected unbindEvents() {
@@ -117,7 +131,8 @@ export class ESLScrollbar extends ESLBaseElement {
       window.removeEventListener('resize', this._onRefresh);
       window.removeEventListener('scroll', this._onRefresh);
     } else {
-      this._resizeObserver.unobserve(this.$scrollableContent);
+      this._resizeObserver.disconnect();
+      this._mutationObserver.disconnect();
       this.$scrollableContent.removeEventListener('scroll', this._onRefresh);
     }
   }
@@ -140,9 +155,9 @@ export class ESLScrollbar extends ESLBaseElement {
   public get thumbSize() {
     // behave as native scroll
     if (!this.targetElement || !this.targetElement.scrollWidth || !this.targetElement.scrollHeight) return 1;
-    return this.horizontal ?
-      this.targetElement.clientWidth / this.targetElement.scrollWidth :
-      this.targetElement.clientHeight / this.targetElement.scrollHeight;
+    const areaSize = this.horizontal ? this.targetElement.clientWidth : this.targetElement.clientHeight;
+    const scrollSize = this.horizontal ? this.targetElement.scrollWidth : this.targetElement.scrollHeight;
+    return Math.min((areaSize + 1) / scrollSize, 1);
   }
 
   public get position() {
@@ -186,7 +201,7 @@ export class ESLScrollbar extends ESLBaseElement {
    * Update auxiliary markers
    */
   public updateMarkers() {
-    this.toggleAttribute('inactive', this.thumbSize === 1);
+    this.toggleAttribute('inactive', this.thumbSize >= 1);
   }
 
   /**

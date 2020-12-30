@@ -4,7 +4,7 @@
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
@@ -35,7 +35,7 @@ export class ESLImage extends ESLBaseElement {
   }
 
   static get observedAttributes() {
-    return ['alt', 'data-alt', 'data-src', 'data-src-base', 'mode', 'lazy-triggered'];
+    return ['alt', 'role', 'mode', 'aria-label', 'data-src', 'data-src-base', 'lazy-triggered'];
   }
 
   @attr() public alt: string;
@@ -66,10 +66,9 @@ export class ESLImage extends ESLBaseElement {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.alt = this.alt || this.getAttribute('data-alt') || '';
-    if (!this.hasAttribute('role')) {
-      this.setAttribute('role', 'img');
-    }
+    this.alt =
+      this.alt || this.getAttribute('aria-label') || this.getAttribute('data-alt') || '';
+    this.updateA11y();
     this.srcRules.addListener(this._onMediaMatchChange);
     if (this.lazyObservable) {
       this.removeAttribute('lazy-triggered');
@@ -93,11 +92,12 @@ export class ESLImage extends ESLBaseElement {
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
-      case 'data-alt':
-        this.alt = this.alt || this.getAttribute('data-alt') || '';
+      case 'aria-label':
+        this.alt = newVal || '';
         break;
       case 'alt':
-        this.innerImage && (this.innerImage.alt = this.alt);
+      case 'role':
+        this.updateA11y();
         break;
       case 'data-src':
         this.srcRules = ESLMediaRuleList.parse<string>(newVal, ESLMediaRuleList.STRING_PARSER);
@@ -187,6 +187,13 @@ export class ESLImage extends ESLBaseElement {
     }
 
     this._detachLazyTrigger && this._detachLazyTrigger();
+  }
+
+  protected updateA11y() {
+    const role = this.getAttribute('role') || 'img';
+    this.setAttribute('role', role);
+    this.innerImage && (this.innerImage.alt = this.alt);
+    if (role === 'img') this.setAttribute('aria-label', this.alt);
   }
 
   protected getPath(src: string | null) {

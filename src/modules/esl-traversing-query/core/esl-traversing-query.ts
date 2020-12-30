@@ -16,12 +16,12 @@ type CollectionProcessor = (els: Element[], sel: string) => Element[];
  * - ::find pseudo-selector
  * - ::first, ::last and :nth(#) limitation pseudo-selectors
  *
- * @example "#id .class [attr]" - find by CSS selector in current document
+ * @example "#id .class [attr]" - find by CSS selector in a current document
  * @example "" - get current base element
  * @example "::next" - get next sibling element
  * @example "::prev" - get previous sibling element
  * @example "::parent" - get base element parent
- * @example "::parent(#id .class [attr])" - find closest parent matching passed selector
+ * @example "::parent(#id .class [attr])" - find the closest parent matching passed selector
  * @example "::child(#id .class [attr])" - find direct child element(s) that match passed selector
  * @example "::find(#id .class [attr])" - find child element(s) that match passed selector
  * @example "::parent::child(some-tag)" - find direct child element(s) that match tag 'some-tag' in the parent

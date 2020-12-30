@@ -1,82 +1,80 @@
-# ESL Image
+# [ESL](../../../README.md) Image
 
 Version: *1.0.0-alpha*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*
 
-ESLImage - custom element, that provide flexible ways to include images on web pages. 
-Originally developed as alternative for picture component, but with more features inside.
- 
+ESLImage - custom element, that provides flexible ways to include images on web pages. 
+Was originally developed as an alternative to `<picture>` element, but with more features inside.
+
 --- 
  
 ### Supported Features:
- - different render modes: 
-   - `cover` - renders by css background-image, background-size: cover by default, w/h:100% by default
-   - `safe-ratio` - renders by css background-image but also set height using 'padding-top: aspectRatio%;' trick
-   - `fit` - renders using inner `<img>` element
-   - `origin` - renders using inner `<img>` element, set width/height attributes using image original size
-   - `svg-inline` - renders svg content inside (loads using XHR request)
- - lazy loading modes
-   - *none* - image start loading immediately
-   - *manual* - start loading image by manually provided marker
-   - *auto* - image start loading only if it is visible and in or closer to browser viewport area (Use IntersectionObserverAPI)
- - `ESLMediaQuery` special syntax that allows defining different sources for different media queries, also supports shortcuts for media-queries
- - marker class. ESL Image can add specific class on specified parent element when image is ready, the ESL Image itself also has markers that indicate its state.
- - provides events on state change (also support inline syntax like `<esl-image-tag onload="">`)
- - attribute observing
+ - Different rendering modes: 
+   - `cover` - renders the image via `background-image` CSS property, `background-size` is `cover` by default, `width` and `height` are `100%` by default;
+   - `safe-ratio` - renders the image via `background-image` CSS property, but also sets height using `padding-top: {aspectRatio}%;` trick;
+   - `fit` - renders the image using inner `<img>` element;
+   - `origin` - renders the image using inner `<img>` element, sets width/height attributes using image's original size;
+   - `svg-inline` - renders svg content inside (the content is loaded via XHR request).
+ - Lazy loading modes:
+   - *none* - image starts loading immediately;
+   - *manual* - starts loading image when a marker is provided manually;
+   - *auto* - image starts loading only if it's visible and is inside or close to browser viewport area (determined using Intersection Observer API).
+ - `ESLMediaQuery` - special syntax that allows defining different sources for different media queries. Supports media-query shortcuts.
+ - Marker class. ESL Image can add a specific class on the specified parent element when the image is ready. ESL Image itself also has markers that indicate its state.
+ - Provides events on state change (also supports inline syntax, e.g. `<esl-image-tag onload="">`)
+ - Attributes observing
+ - A11y
+
+### Accessibility behaviour
+ESL Image uses 'img' role if the role is not explicitly provided.
+If the role is 'img' then `alt` attribute is used as the `aria-label` for the image.
+In case `alt` is not provided then an empty value is used as a fallback.
+`data-alt` is considered a legacy attribute and is used only when the image was connected to DOM without `alt` or `aria-label` attribute.
 
 ### Attributes:
 
- - **data-src** - src paths per queries (watched value)
+- **data-src** - src paths with queriy congitions. See [ESLMediaQuery](../esl-media-query/README.md) (watched value)
 
-   *NOTE*: ESLMediaQuery support shortcuts for
-   - Breakpoints like @MD, @SM (defined), @+SM (SM and larger), @-LG(LG and smaller)
-   - Device point resolutions: @1x, @2x, @3x all conditions must be separated by conjunction ('and')
-@example: '@+MD and @2x'
+- **data-src-base** - base src path for paths described in data-src (watched value)
 
-- **data-src-base** - base src path for pathes described in data-src
+- **alt** - alt image text (watched value)
 
-- **alt** - alt image text
+- ~~**data-alt**~~ (Deprecated) - alt image text, not observable
 
-- ~~**data-alt**~~(Deprecated) - alt image text
+- **mode** - rendering mode. Default - `save-ratio` (watched value):
+  - `origin` - save origin image size (use inner `img` tag for rendering);
+  - `fit` - use inner `img`, but do not force its width;
+  - `cover` - do not set self width/height; use 100% w/h of the container (use `background-image` for rendering);
+  - `save-ratio` - fill 100% of container width and set the self height according to image ratio (use `background-image` for rendering);
+  - `svg-inline` - load SVG content via XHR request and render inside.
 
-- **mode** - rendering mode (default 'save-ratio') (watched value)  
-  - `origin` - save origin image size (use inner img tag for rendering)
-  - `fit` - use inner img but not force it width
-  - `cover` - didn't have self size use 100% w/h of container (use background-image for rendering)
-  - `save-ratio` - fill 100% of container width and set self height according to image ratio (use background-image for rendering)
-
-- **lazy** (optional) - enable lazy loading
-  - `auto` - IntersectionObserver mode: image start loading as soon as it becomes visible in visual area)
-  - `manual` - start loading when lazy-triggered marker set manually
+- **lazy** (optional) - enable lazy loading:
+  - `auto` - IntersectionObserver mode: image starts loading as soon as it becomes visible in visual area
+  - `manual` - start loading when `lazy-triggered` marker is set manually
   
-- **refresh-on-update** \[boolean] (optional) - Always update the original image as soon as image source changed
+- **refresh-on-update** \[boolean] (optional) - Always update the original image as soon as image source is changed
 
 - **inner-image-class** (optional) - class to mark and search the inner image, 'inner-image' by default
 
-- **container-class** (optional) - class, that will be added to container when image will be ready
+- **container-class** (optional) - class that will be added to the container when the image is ready
 
 - **container-class-state** (optional) - image state in which the container will be marked with `container-class` (can be 'ready', 'loaded' or 'error')
 
 - **container-class-target** (optional) - [TraversingQuery](./../esl-traversing-query/README.md) to find the target to add `container-class` to ('::parent' by default).
 
-NOTE: ESL Image supports title attribute as any html element, no additional reflection for that attribute needed it will work correctly according to HTML5.* REC
-
-Events html connection points (see events section)
-- onready (Evaluated Expression) \[function | string]
-- onload (Evaluated Expression) \[function | string]
-- onerror (Evaluated Expression) \[function | string]
+NOTE: ESL Image supports `title` attribute like any HTML element, no additional reflection for that attribute is needed - it will work correctly according to HTML5.* REC
 
 ### Readonly Attributes
-- ready \[boolean] - appears once when image first time loaded
-- loaded \[boolean] - appears once when image first time loaded
-- error \[boolean] - appears when current src isn't load
+- ready \[boolean] - appears when the image is ready (either loaded or failed to load)
+- loaded \[boolean] - appears when the image is loaded for the first time
+- error \[boolean] - appears when current image failed to load
 
 ### API
-- triggerLoad - shortcut function for manually adding lazy-triggered marker
-- targetRule - satisfied rule that need to be applied in current state
+- triggerLoad - shortcut function for manually adding `lazy-triggered` marker
+- currentSrc - image URL that is currently in use
 
 ### Events
-- ready - emits when image ready (loaded or load fail)
-- load - emits every time when image loaded (including on path change)
-- error - emits every time when current source loading fails.
+- ready - emits when the image is ready (either loaded or failed to load)
+- load - emits when the image is loaded (also when the path is changed)
+- error - emits when the current source failed to load.
