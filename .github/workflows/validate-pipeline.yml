@@ -25,6 +25,6 @@ jobs:
         with:
           node-version: ${{ env.node-version }}
       - name: Install NPM Dependencies
-      - run: npm ci
+        run: npm ci
       - name: Run Linting & Tests
-      - run: npm test
+        run: npm test
