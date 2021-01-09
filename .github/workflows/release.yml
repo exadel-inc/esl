@@ -1,0 +1,59 @@
+#-----------------------------
+# Release CI Github Action
+#-----------------------------
+
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag'
+        required: true
+
+env:
+  node-version: 12.x
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node v${{ env.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.node-version }}
+      - name: Install NPM Dependencies
+        run: npm ci
+
+      - name: Build project and tarball
+        run: npm tar
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifact.tar
+          path: ./target/*.tar
+
+#      - name: Create Release
+#        id: create_release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: v-${{ github.event.inputs.tag }}
+#          release_name: Release ${{ github.event.inputs.tag }}
+#          draft: true
+#          prerelease: false
+#
+#      - name: Upload Tarball to Release Assets
+#        id: upload-release-asset
+#        uses: actions/upload-release-asset@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          upload_url: ${{ steps.create_release.outputs.upload_url }}
+#          asset_path: ./target/esl-${{ github.event.inputs.tag }}.zip
+#          asset_name: esl-${{ github.event.inputs.tag }}.zip
+#          asset_content_type: application/zip
