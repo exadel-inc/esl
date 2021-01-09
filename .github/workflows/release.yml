@@ -28,12 +28,12 @@ jobs:
         run: npm ci
 
       - name: Build project and tarball
-        run: npm tar
+        run: npm run tar
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: artifact.tar
+          name: ${{ github.event.inputs.tag }}.tar
           path: ./target/*.tar
 
 #      - name: Create Release
