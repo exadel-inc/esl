@@ -30,7 +30,7 @@ jobs:
       - name: Build project and tarball
         run: npm run tar
 
-      - name: Create Release
+      - name: Create Draft Release
         id: createRelease
         uses: actions/create-release@v1
         env:
@@ -48,6 +48,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.createRelease.outputs.upload_url }}
-          asset_path: ./target/esl-${{ github.event.inputs.tag }}.zip
-          asset_name: esl-${{ github.event.inputs.tag }}.zip
-          asset_content_type: application/zip
+          asset_path: ./target/esl-${{ github.event.inputs.tag }}.tar
+          asset_name: esl-${{ github.event.inputs.tag }}.tar
+          asset_content_type: application/x-tar
