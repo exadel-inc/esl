@@ -2,6 +2,7 @@
 
 ![npm](https://img.shields.io/npm/v/exadel/esl)
 ![dependencies](https://img.shields.io/badge/dependencies-free-green)
+![tests](https://github.com/exadel-inc/esl/workflows/tests/badge.svg?branch=main)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 Exadel Smart Library (**ESL**) is a web components based library that gives you a set of **lightweight**
