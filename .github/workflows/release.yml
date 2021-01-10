@@ -1,5 +1,5 @@
 #-----------------------------
-# Release CI Github Action
+# CI Github Action: Release
 #-----------------------------
 
 name: release
