@@ -11,7 +11,7 @@ import {ESLCarouselTouchPlugin} from './plugin/esl-carousel-touch.plugin';
 import {ESLCarouselAutoplayPlugin} from './plugin/esl-carousel-autoplay.plugin';
 
 // TODO: ??
-export const CarouselPlugins = {
+export const ESLCarouselPlugins = {
   Dots: ESLCarouselDotsPlugin,
   Link: ESLCarouselLinkPlugin,
   Touch: ESLCarouselTouchPlugin,
