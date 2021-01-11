@@ -1,5 +1,3 @@
-// With Namespace
-import '../../src/modules/lib';
 // Support for ES5 bundle target
 import '../../src/polyfills/es5-target-shim';
 // Builtin polyfills
@@ -10,6 +8,9 @@ import '../../src/polyfills/polyfills.validate';
 import './common/back-button';
 import './common/test-media';
 import './common/test-media-source';
+
+// With Namespace
+import '../../src/modules/lib';
 
 import {
   ESLImage,
@@ -25,9 +26,15 @@ import {
   ESLScrollbar
 } from '../../src/modules/all';
 
+import '../../src/modules/esl-media/providers/iframe-provider';
+import '../../src/modules/esl-media/providers/html5/audio-provider';
+import '../../src/modules/esl-media/providers/html5/video-provider';
+import '../../src/modules/esl-media/providers/youtube-provider';
+import '../../src/modules/esl-media/providers/brightcove-provider';
+
 import {
   ESLCarousel,
-  CarouselPlugins
+  ESLCarouselPlugins
 } from '../../src/modules/draft/all';
 
 ESLImage.register();
@@ -47,7 +54,7 @@ ESLScrollableTabs.register();
 ESLScrollbar.register();
 
 ESLCarousel.register();
-CarouselPlugins.Dots.register();
-CarouselPlugins.Link.register();
-CarouselPlugins.Touch.register();
-CarouselPlugins.Autoplay.register();
+ESLCarouselPlugins.Dots.register();
+ESLCarouselPlugins.Link.register();
+ESLCarouselPlugins.Touch.register();
+ESLCarouselPlugins.Autoplay.register();
