@@ -10,6 +10,9 @@
     "build": "gulp buildLocal",
     "build-and-start": "npm run build && npm run start"
   },
+  "sideEffects": [
+    "src/common/*.ts"
+  ],
   "private": true,
   "license": "MIT"
 }
