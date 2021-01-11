@@ -1,7 +1,9 @@
 # Exadel Smart Library &#9881;
 
 ![npm](https://img.shields.io/npm/v/exadel/esl)
+![version](https://img.shields.io/github/package-json/v/exadel-inc/esl)
 ![dependencies](https://img.shields.io/badge/dependencies-free-green)
+![tests](https://github.com/exadel-inc/esl/workflows/tests/badge.svg?branch=main)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 Exadel Smart Library (**ESL**) is a web components based library that gives you a set of **lightweight**
@@ -31,7 +33,7 @@ and **flexible** custom elements to easily create basic UX modules and make your
 
 0. Preconditions:
    - Make sure you have all needed polyfills to support browsers from your browser-support list. 
-   See [Browser support & Polyfills](#browser-support-polyfills) for details.
+   See [Browser support & Polyfills](#browser-support--polyfills) for details.
    - Use bundler to build your project. Currently, only ESL modules are available for consumption.
   
 1. Import Components/Modules you need.
