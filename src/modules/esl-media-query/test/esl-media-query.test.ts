@@ -18,12 +18,12 @@
 import {mmMock} from "../../esl-utils/test/matchMedia.mock";
 import {DDMock} from "../../esl-utils/test/deviceDetector.mock";
 
-import BreakpointRegistry from '../../esl-utils/enviroment/breakpoints';
+import ESLMediaBreakpoints from '../core/esl-media-breakpoints';
 import ESLMediaQuery from '../core/esl-media-query';
 
 describe('ESLMediaQuery tests', () => {
   beforeAll(() => {
-    BreakpointRegistry.addCustomBreakpoint('small', 100, 200);
+    ESLMediaBreakpoints.addCustomBreakpoint('small', 100, 200);
   });
 
   describe('Constructor tests', () => {

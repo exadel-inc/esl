@@ -1,13 +1,13 @@
-import BreakpointRegistry from '../breakpoints';
+import ESLMediaBreakpoints from '../core/esl-media-breakpoints';
 
 describe('esl breakpoints test', () => {
   test('Get all breakpoints', () => {
-    expect(new Set(BreakpointRegistry.getAllBreakpointsNames())).toEqual(new Set(['xs', 'sm', 'md', 'lg', 'xl']));
+    expect(new Set(ESLMediaBreakpoints.getAllBreakpointsNames())).toEqual(new Set(['xs', 'sm', 'md', 'lg', 'xl']));
   })
 
   test('add and get custom breakpoints tests', () => {
-    const getBp = BreakpointRegistry.getBreakpoint;
-    const addBp = BreakpointRegistry.addCustomBreakpoint;
+    const getBp = ESLMediaBreakpoints.getBreakpoint;
+    const addBp = ESLMediaBreakpoints.addCustomBreakpoint;
     expect(addBp('SMALL', 300, 400)).toBeUndefined();
     expect(getBp('SMALL').mediaQuery).toBe('(min-width: 300px) and (max-width: 400px)');
     expect(getBp('SMALL').mediaQueryGE).toBe('(min-width: 300px)');
@@ -19,17 +19,17 @@ describe('esl breakpoints test', () => {
   });
 
   test('Get all breakpoints after adding custom', () => {
-    expect(new Set(BreakpointRegistry.getAllBreakpointsNames())).toEqual(new Set(['xs', 'sm', 'md', 'lg', 'xl', 'small']));
+    expect(new Set(ESLMediaBreakpoints.getAllBreakpointsNames())).toEqual(new Set(['xs', 'sm', 'md', 'lg', 'xl', 'small']));
   })
 
   test('Error tests', () => {
-    const testFn = BreakpointRegistry.addCustomBreakpoint;
+    const testFn = ESLMediaBreakpoints.addCustomBreakpoint;
     expect(() => testFn('небольшой', 200, 300)).toThrowError();
     expect(() => testFn('@XS', 200, 300)).toThrowError();
     expect(() => testFn('', 200, 300)).toThrowError();
     expect(() => testFn('234', 200, 300)).toThrowError();
     expect(() => testFn('XS2', 200, 300)).not.toThrowError();
-    expect(BreakpointRegistry.getBreakpoint('some')).toBeUndefined();
+    expect(ESLMediaBreakpoints.getBreakpoint('some')).toBeUndefined();
   });
 
   test.each([
@@ -49,7 +49,7 @@ describe('esl breakpoints test', () => {
     {query: '@Mobile, @xl', queryString: '@Mobile, (min-width: 1600px) and (max-width: 999999px)'},
     {query: '@Xl, @MOBILE', queryString: '(min-width: 1600px) and (max-width: 999999px), @MOBILE'}
   ])('Apply tests for %p breakpoint', ({query, queryString}) => {
-    expect(BreakpointRegistry.apply(query)).toBe(queryString);
+    expect(ESLMediaBreakpoints.apply(query)).toBe(queryString);
   })
 });
 

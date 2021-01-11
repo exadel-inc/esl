@@ -15,14 +15,15 @@
  */
 
 import {memoize} from '../../esl-utils/decorators/memoize';
-import {DeviceDetector} from '../../esl-utils/enviroment/device-detector';
-import {BreakpointRegistry} from '../../esl-utils/enviroment/breakpoints';
-import {ExportNs} from '../../esl-utils/enviroment/export-ns';
+import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
+
+import {ESLMediaBreakpoints} from './esl-media-breakpoints';
 
 @ExportNs('MediaQuery')
 export class ESLMediaQuery {
   static get BreakpointRegistry() {
-    return BreakpointRegistry;
+    return ESLMediaBreakpoints;
   }
 
   @memoize()
@@ -49,12 +50,12 @@ export class ESLMediaQuery {
 
   constructor(query: string) {
     // Applying known breakpoints shortcut
-    query = BreakpointRegistry.apply(query);
+    query = ESLMediaBreakpoints.apply(query);
 
     // Applying dpr shortcut
     this._dpr = 1;
     query = query.replace(/@(\d(\.\d)?)x/g, (match, ratio) => {
-      this._dpr = Number.parseFloat(ratio);
+      this._dpr = +ratio;
       if (ESLMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && this._dpr !== 1) {
         return ESLMediaQuery.NOT_ALL;
       }
