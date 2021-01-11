@@ -24,8 +24,8 @@ jobs:
         with:
           path-to-signatures: 'signatures/cla.json'
           path-to-cla-document: 'https://github.com/exadel-inc/esl/blob/main/CLA.md'
-          branch: 'history/cla'
 
+          branch: 'history/cla'
           allowlist: ala-n,julia-murashko,yadamskaya,bot*
 
           signed-commit-message: 'chore: $contributorName has signed the CLA in #$pullRequestNo'
