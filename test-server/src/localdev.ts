@@ -23,7 +23,8 @@ import {
   ESLTab,
   ESLTabsContainer,
   ESLScrollableTabs,
-  ESLScrollbar
+  ESLScrollbar,
+  ESLAlert
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -52,6 +53,7 @@ ESLTabsContainer.register();
 ESLScrollableTabs.register();
 
 ESLScrollbar.register();
+ESLAlert.init();
 
 ESLCarousel.register();
 ESLCarouselPlugins.Dots.register();

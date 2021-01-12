@@ -16,3 +16,6 @@ export * from './esl-tab/core';
 export * from './esl-scrollable-tabs/core';
 
 export * from './esl-scrollbar/core';
+
+export * from './esl-alert/core';
+
