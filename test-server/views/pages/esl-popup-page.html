@@ -96,6 +96,15 @@ title: ESL Popup and ESL Popup Trigger components <span class="badge badge-warni
             <esl-trigger target="::parent(section)::find(.popup)">
                 <button type="button" class="btn btn-dark">Toggle popup</button>
             </esl-trigger>
+            <button id="prevArea" class="btn btn-danger">
+              Prevent Click Zone
+            </button>
+            <script>
+              document.querySelector('#prevArea').addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+              });
+            </script>
         </div>
     </div>
 </section>
