@@ -7,10 +7,23 @@
     ["@semantic-release/commit-analyzer", {
       "preset": "angular"
     }],
-    "@semantic-release/release-notes-generator",
+    ["@semantic-release/release-notes-generator", {
+      "preset": "angular"
+    }],
+    ["@semantic-release/changelog", {
+      "changelogFile": "CHANGELOG.md"
+    }],
+    ["@semantic-release/npm", {
+      "npmPublish": false,
+      "tarballDir": "target"
+    }],
+    ["@semantic-release/git", {
+      "assets": ["CHANGELOG.md"],
+      "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+    }],
     ["@semantic-release/github", {
       "assets": [
-        {"path": "target/esl.tar", "label": "Release NPM Tarball"},
+        {"path": "target/*.tgz", "label": "Released NPM Tarball"},
         {"path": "CHANGELOG.md", "label": "Changelog"}
       ]
     }]

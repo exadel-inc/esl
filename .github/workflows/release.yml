@@ -20,13 +20,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.node-version }}
+
       - name: Install NPM Dependencies
         run: npm ci
-
-      - name: Build project and tarball
-        run: npm run tar
 
       - name: Run Semantic Release
         uses: codfish/semantic-release-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
