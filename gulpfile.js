@@ -3,7 +3,6 @@ const cfg = require('./paths.json');
 
 const {cleanAll} = require('./build/clean-task');
 const {tscBuild} = require('./build/tsc-task');
-const {tarBuild} = require('./build/tar-task');
 const {lessCopy, lessBuildProd} = require('./build/less-task');
 const {catLog} = require('./build/common');
 const {lintStyle, lintTypeScript} = require('./build/linting-task');
@@ -17,15 +16,12 @@ const buildCss = lessBuildProd({src: cfg.src.css, base: cfg.src.base}, cfg.src.d
 const clean = cleanAll([...cfg.src.destPaths, ...cfg.polyfills.destPaths, ...cfg.tar.destPaths]);
 const build = gulp.series(clean, gulp.parallel(buildModules, buildPolyfills, buildLess, buildCss));
 
-const tar = gulp.series(build, tarBuild(cfg.tar.dest));
-
 // === LINTER TASKS ===
 const lintTS = lintTypeScript(cfg.lint.ts);
 const lintCSS = lintStyle(cfg.lint.less)
 const lint = gulp.series(gulp.parallel(lintTS, lintCSS), catLog('Linting passed'));
 
 module.exports = {
-  tar,
   lint,
   lintTS,
   lintCSS,

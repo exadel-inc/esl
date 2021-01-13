@@ -15,10 +15,6 @@
     "type": "git",
     "url": "git+https://github.com/exadel-inc/esl.git"
   },
-  "files": [
-    "modules/**/*.{js,ts}",
-    "polyfills/**/*.{js,ts}"
-  ],
   "module": "modules/all.js",
   "sideEffects": [
     "modules/lib.js",
@@ -48,8 +44,8 @@
     "test": "gulp lint --silent && jest --silent --noStackTrace",
     "test-only": "jest",
     "test-report": "jest --coverage",
-    "preversion": "npm test",
-    "prepublish": "npm run build"
+    "prepare": "npm run build",
+    "preversion": "npm test"
   },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.5",
@@ -80,14 +76,11 @@
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-eslint": "^6.0.0",
-    "gulp-exclude-gitignore": "^1.2.0",
     "gulp-less": "^4.0.1",
     "gulp-postcss": "^9.0.0",
-    "gulp-print": "^5.0.2",
     "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-stylelint": "^13.0.0",
-    "gulp-tar": "^3.1.0",
     "gulp-typescript": "^5.0.1",
     "husky": "^4.3.7",
     "intersection-observer": "^0.12.0",
