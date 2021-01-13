@@ -1,6 +1,5 @@
 {
   "debug": true,
-  "dryRun": true,
   "branches": ["main"],
   "tagFormat": "v${version}-alpha",
   "plugins": [
