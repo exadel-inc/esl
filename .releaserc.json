@@ -1,0 +1,18 @@
+{
+  "debug": true,
+  "dryRun": true,
+  "branches": ["main"],
+  "tagFormat": "v${version}-alpha",
+  "plugins": [
+    ["@semantic-release/commit-analyzer", {
+      "preset": "angular"
+    }],
+    "@semantic-release/release-notes-generator",
+    ["@semantic-release/github", {
+      "assets": [
+        {"path": "target/esl.tar", "label": "Release NPM Tarball"},
+        {"path": "CHANGELOG.md", "label": "Changelog"}
+      ]
+    }]
+  ]
+}

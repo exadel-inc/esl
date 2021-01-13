@@ -8,8 +8,7 @@ const gulpIgnore = require('gulp-exclude-gitignore');
 
 const root = path.resolve(__dirname, './..');
 const ignoreFile = path.join(root, '.npmignore');
-const packageJson = require('../package.json');
-const tarPackageName = `esl-${packageJson.version}`;
+const tarPackageName = 'esl';
 
 module.exports.tarBuild = (dest) => {
   return function buildTar() {
