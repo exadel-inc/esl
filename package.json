@@ -43,7 +43,6 @@
   ],
   "scripts": {
     "start": "cd test-server && npm run dev",
-    "tar": "gulp tar",
     "clean": "gulp clean",
     "build": "gulp build",
     "test": "gulp lint --silent && jest --silent --noStackTrace",
