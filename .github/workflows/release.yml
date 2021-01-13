@@ -16,6 +16,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
       - name: Use Node v${{ env.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -27,7 +30,5 @@ jobs:
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          GIT_AUTHOR_NAME: ala-n
-          GIT_AUTHOR_EMAIL: astsefanovich@exadel.com
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
