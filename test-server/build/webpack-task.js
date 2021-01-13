@@ -1,6 +1,5 @@
 const gulp = require('gulp');
 
-const bs = require('browser-sync');
 const named = require('vinyl-named');
 const webpackStream = require('webpack-stream');
 
@@ -31,13 +30,6 @@ function buildConfig(config = {}) {
 module.exports.buildTsBundle = (config, out) => function buildTsLocal() {
   return gulp.src(config.src)
     .pipe(named(config.nameFunction))
-    .pipe(webpackStream(buildConfig(config), null, function(err, stats) {
-      try {
-        bs.get('server-sketch').reload();
-        console.info('BS force updated via webpack build');
-      } catch {
-        console.debug('Can\'t update BS instance');
-      }
-    }))
+    .pipe(webpackStream(buildConfig(config)))
     .pipe(gulp.dest(out));
 };
