@@ -25,8 +25,7 @@ jobs:
         run: npm ci
 
       - name: Run Semantic Release
+        uses: codfish/semantic-release-action@master
         env:
-          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
