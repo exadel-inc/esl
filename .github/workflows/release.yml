@@ -25,7 +25,9 @@ jobs:
         run: npm ci
 
       - name: Run Semantic Release
-        uses: codfish/semantic-release-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GIT_AUTHOR_NAME: ala-n
+          GIT_AUTHOR_EMAIL: astsefanovich@exadel.com
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
