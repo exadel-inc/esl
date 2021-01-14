@@ -3,21 +3,18 @@
   "description": "Exadel Smart Library (ESL) - is the lightweight custom elements library that provide a set of super-flexible components",
   "keywords": [
     "custom elements",
-    "components library",
+    "typescript",
+    "component library",
     "lightweight",
     "flexible"
   ],
-  "version": "1.41.0-alpha",
+  "version": "1.41.2",
   "private": true,
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/exadel-inc/esl.git"
   },
-  "files": [
-    "modules/**/*.{js,ts}",
-    "polyfills/**/*.{js,ts}"
-  ],
   "module": "modules/all.js",
   "sideEffects": [
     "modules/lib.js",
@@ -36,18 +33,18 @@
     "Yuliya Adamskaya <yadamska@exadel.com>"
   ],
   "browserslist": [
-    "last 3 version",
+    "last 3 versions",
     "> 1%",
     "not dead"
   ],
   "scripts": {
     "start": "cd test-server && npm run dev",
-    "tar": "gulp tar",
     "clean": "gulp clean",
     "build": "gulp build",
     "test": "gulp lint --silent && jest --silent --noStackTrace",
     "test-only": "jest",
     "test-report": "jest --coverage",
+    "prepare": "npm run build",
     "preversion": "npm test"
   },
   "dependencies": {
@@ -56,8 +53,16 @@
     "@types/youtube": "0.0.41"
   },
   "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@exadel/server-sketch": "git+https://github.com/exadel-inc/server-sketch.git",
     "@juggle/resize-observer": "^3.2.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/github": "^7.2.0",
+    "@semantic-release/npm": "^7.0.9",
+    "@semantic-release/release-notes-generator": "^9.0.1",
     "@types/jest": "^26.0.20",
     "@types/smoothscroll-polyfill": "^0.3.1",
     "@typescript-eslint/eslint-plugin": "^4.12.0",
@@ -72,21 +77,18 @@
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-eslint": "^6.0.0",
-    "gulp-exclude-gitignore": "^1.2.0",
-    "gulp-gzip": "^1.4.2",
     "gulp-less": "^4.0.1",
     "gulp-postcss": "^9.0.0",
-    "gulp-print": "^5.0.2",
     "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-stylelint": "^13.0.0",
-    "gulp-tar": "^3.1.0",
     "gulp-typescript": "^5.0.1",
     "husky": "^4.3.7",
     "intersection-observer": "^0.12.0",
     "jest": "^26.6.3",
     "postcss": "^8.2.4",
     "promise-polyfill": "^8.2.0",
+    "semantic-release": "^17.3.1",
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^13.8.0",
     "ts-jest": "^26.4.4",
@@ -96,7 +98,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm test"
+      "pre-push": "npm test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }
 }

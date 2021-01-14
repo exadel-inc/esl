@@ -6,10 +6,6 @@ name: release
 
 on:
   workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Tag'
-        required: true
 
 env:
   node-version: 12.x
@@ -20,34 +16,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
       - name: Use Node v${{ env.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.node-version }}
+
       - name: Install NPM Dependencies
         run: npm ci
 
-      - name: Build project and tarball
-        run: npm run tar
-
-      - name: Create Draft Release
-        id: createRelease
-        uses: actions/create-release@v1
+      - name: Run Semantic Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ github.event.inputs.tag }}
-          release_name: Release ${{ github.event.inputs.tag }}
-          draft: true
-          prerelease: false
-
-      - name: Upload Tarball to Release Assets
-        id: uploadReleaseAsset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.createRelease.outputs.upload_url }}
-          asset_path: ./target/esl-${{ github.event.inputs.tag }}.tar
-          asset_name: esl-${{ github.event.inputs.tag }}.tar
-          asset_content_type: application/x-tar
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release

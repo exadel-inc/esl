@@ -101,6 +101,7 @@ Also, ESL has built-in polyfills for some of DOM and ES6 features. They are avai
 ---
 
 ## Development: NPM scripts
+
 Here is a list of available npm scripts for local development:
  - `npm start` or `npm run start` - start demo server locally. Runs local build, watch and browsersync. 
  Uses `:3001` port (BrowserSync) and `:3002` port (origin).
@@ -110,6 +111,16 @@ Here is a list of available npm scripts for local development:
  - `npm test` or `npm run test` - run linters and tests (silent task, used in CI/CD)
  - `npm run test-only` - just run all tests
  - `npm run test-report` - run tests and create coverage report
+
+## Development: Commit Convention
+
+Project is using `@commitlint/config-conventional` commit message rules.
+Please check it out in case you want to contribute to ESL.
+
+You can use this [short note](./docs/commit.md) to renew commit message rules.
+
+In case you are using JetBrains IDE (IDEA or WebStorm) you can use this 
+[plugin](https://plugins.jetbrains.com/plugin/13389-conventional-commit) to simplify commit validation.
 
 ---
 
