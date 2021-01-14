@@ -13,7 +13,7 @@ const buildPolyfills = tscBuild({src: cfg.polyfills.ts, base: cfg.polyfills.base
 const buildLess = lessCopy({src: cfg.src.less, base: cfg.src.base}, cfg.src.dest);
 const buildCss = lessBuildProd({src: cfg.src.css, base: cfg.src.base}, cfg.src.dest);
 
-const clean = cleanAll([...cfg.src.destPaths, ...cfg.polyfills.destPaths, ...cfg.tar.destPaths]);
+const clean = cleanAll([...cfg.src.destPaths, ...cfg.polyfills.destPaths]);
 const build = gulp.series(clean, gulp.parallel(buildModules, buildPolyfills, buildLess, buildCss));
 
 // === LINTER TASKS ===

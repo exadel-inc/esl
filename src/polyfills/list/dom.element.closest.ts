@@ -6,6 +6,7 @@
 (function (e: ElementEx) {
   e.matches = e.matches || e.msMatchesSelector || e.mozMatchesSelector || e.webkitMatchesSelector;
   e.closest = e.closest || function (css: string) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     let node = this;
     while (node) {
       if (node.matches(css)) return node;
