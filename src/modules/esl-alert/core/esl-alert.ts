@@ -1,11 +1,15 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
-import {attr, jsonAttr} from '../../esl-base-element/core';
+import {jsonAttr} from '../../esl-base-element/core';
 import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {CSSUtil} from '../../esl-utils/dom/styles';
+import {createIframe} from '../../esl-utils/fixes/ie-fixes';
 
 export interface AlertActionParams extends PopupActionParams {
-  text: string;
+  /** text to be shown; pass empty string or null to hide */
+  text?: string;
+  /** classes to add to alert element */
   cls?: string;
 }
 
@@ -14,12 +18,16 @@ export class ESLAlert extends ESLBasePopup {
   static is = 'esl-alert';
   static eventNs = 'esl:alert';
 
-  @jsonAttr<AlertActionParams>({defaultValue: {text: '', cls: ''}})
+  static defaultConfig: AlertActionParams = {
+    hideDelay: 2500
+  };
+
+  @jsonAttr<AlertActionParams>({defaultValue: ESLAlert.defaultConfig})
   public defaultParams: AlertActionParams;
 
-  @attr({defaultValue: ''}) public cls: string;
-  protected text: HTMLElement;
+  protected textEl: HTMLElement;
 
+  /** Register and create global alert instance */
   public static init() {
     if (document.querySelector(ESLAlert.is)) return;
     ESLAlert.register();
@@ -27,10 +35,11 @@ export class ESLAlert extends ESLBasePopup {
     document.body.appendChild(alert);
   }
 
+  /** Global event handler */
   @bind
-  onTriggerHandler(e: CustomEvent) {
+  onWindowEvent(e: CustomEvent) {
     if (e.type === `${ESLAlert.eventNs}:show`) {
-      const params = Object.assign({}, {hideDelay: 2500}, e.detail, {force: true});
+      const params = Object.assign({}, e.detail, {force: true});
       this.show(params);
     }
     if (e.type === `${ESLAlert.eventNs}:hide`) {
@@ -41,20 +50,25 @@ export class ESLAlert extends ESLBasePopup {
 
   public onShow(params: AlertActionParams) {
     if (params.text) {
-      this.cls = params.cls || this.cls;
-      this.text.textContent = params.text;
+      CSSUtil.addCls(this, params.cls);
+      this.textEl.textContent = params.text;
       super.onShow(params);
     }
     this.hide(params);
     return this;
   }
 
+  public onHide(params: AlertActionParams) {
+    super.onHide(params);
+    CSSUtil.removeCls(this, params.cls);
+  }
+
   protected connectedCallback() {
     super.connectedCallback();
-    this.text = document.createElement('span');
-    this.text.className = 'hpe-alert-text';
+    this.textEl = document.createElement('span');
+    this.textEl.className = 'esl-alert-text';
     this.innerHTML = '';
-    this.appendChild(this.text);
+    this.appendChild(this.textEl);
     if (DeviceDetector.isIE) {
       this.appendChild(createIframe());
     }
@@ -63,23 +77,16 @@ export class ESLAlert extends ESLBasePopup {
   protected bindEvents() {
     super.bindEvents();
 
-    window.addEventListener(`${ESLAlert.eventNs}:show`, this.onTriggerHandler);
-    window.addEventListener(`${ESLAlert.eventNs}:hide`, this.onTriggerHandler);
+    window.addEventListener(`${ESLAlert.eventNs}:show`, this.onWindowEvent);
+    window.addEventListener(`${ESLAlert.eventNs}:hide`, this.onWindowEvent);
   }
 
   protected unbindEvents() {
     super.unbindEvents();
 
-    window.removeEventListener(`${ESLAlert.eventNs}:show`, this.onTriggerHandler);
-    window.removeEventListener(`${ESLAlert.eventNs}:hide`, this.onTriggerHandler);
+    window.removeEventListener(`${ESLAlert.eventNs}:show`, this.onWindowEvent);
+    window.removeEventListener(`${ESLAlert.eventNs}:hide`, this.onWindowEvent);
   }
-}
-
-function createIframe() {
-  const iframe = document.createElement('iframe');
-  iframe.className = 'ie-zindex-fix';
-  iframe.src = 'about:blank';
-  return iframe;
 }
 
 export default ESLAlert;

@@ -1,17 +1,22 @@
+@import "../../esl-utils/fixes/ie-fixes";
+
 esl-alert {
   display: flex;
-  position: fixed;
   justify-content: center;
-  width: 30%;
+  position: fixed;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease .05s, visibility 0s linear .35s;
+
+  z-index: 10002;
+
   right: 35%;
   bottom: 20px;
   padding: 20px;
-  opacity: 0;
-  visibility: hidden;
+  width: 30%;
+
   background-color: #008000;
-  transition: opacity .3s ease .05s, visibility 0s linear .35s;
   color: #fff;
-  z-index: 10002;
 
   &[open] {
     opacity: 1;
