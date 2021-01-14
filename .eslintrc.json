@@ -26,28 +26,23 @@
     "@typescript-eslint/member-ordering": "off",
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-empty-interface": "warn",
-    "@typescript-eslint/prefer-as-const": "warn",
-    "@typescript-eslint/no-extra-semi": "warn",
+    "@typescript-eslint/prefer-as-const": "error",
+    "@typescript-eslint/no-extra-semi": "error",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-misused-new": "warn",
-    "@typescript-eslint/no-namespace": "warn",
+    "@typescript-eslint/no-namespace": "error",
     "@typescript-eslint/no-parameter-properties": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/no-var-requires": "warn",
+    "@typescript-eslint/no-var-requires": "error",
     "@typescript-eslint/no-extra-non-null-assertion": "error",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-non-null-asserted-optional-chain": "error",
     "@typescript-eslint/prefer-for-of": "off",
     "@typescript-eslint/prefer-function-type": "warn",
     "@typescript-eslint/prefer-namespace-keyword": "warn",
-    "@typescript-eslint/quotes": [
-      "warn",
-      "single"
-    ],
-    "@typescript-eslint/semi": [
-      "error"
-    ],
+    "@typescript-eslint/quotes": ["error", "single"],
+    "@typescript-eslint/semi": ["error"],
     "@typescript-eslint/triple-slash-reference": "warn",
     "@typescript-eslint/unified-signatures": "warn",
     "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -56,34 +51,20 @@
     "@typescript-eslint/no-unnecessary-type-assertion": "warn",
     "@typescript-eslint/no-shadow": "warn",
     "comma-dangle": "off",
-    "complexity": "off",
+    "complexity": "warn",
     "constructor-super": "warn",
-    "curly": [
-      "warn",
-      "multi-line"
-    ],
+    "curly": ["warn", "multi-line"],
     "dot-notation": "warn",
-    "eqeqeq": [
-      "warn",
-      "smart"
-    ],
+    "eqeqeq": ["warn", "smart"],
     "guard-for-in": "warn",
     "id-blacklist": "off",
     "id-match": "off",
     "import/order": "off",
-    "max-classes-per-file": [
-      "warn",
-      3
-    ],
-    "max-len": [
-      "warn",
-      {
-        "code": 200
-      }
-    ],
+    "max-classes-per-file": ["warn", 3],
+    "max-len": ["warn", {"code": 200}],
     "new-parens": "warn",
     "no-bitwise": "warn",
-    "no-caller": "warn",
+    "no-caller": "error",
     "no-cond-assign": "warn",
     "no-console": "off",
     "no-debugger": "warn",
@@ -91,12 +72,10 @@
     "no-eval": "off",
     "no-fallthrough": "off",
     "no-invalid-this": "off",
-    "no-mixed-spaces-and-tabs": "off",
+    "no-mixed-spaces-and-tabs": "warn",
     "no-multiple-empty-lines": "off",
     "no-new-wrappers": "warn",
-    "no-shadow": [
-      "off"
-    ],
+    "no-shadow": ["off"],
     "no-throw-literal": "warn",
     "no-trailing-spaces": "warn",
     "no-undef-init": "warn",
@@ -104,23 +83,14 @@
     "no-unsafe-finally": "warn",
     "no-unused-expressions": "off",
     "no-unused-labels": "warn",
-    "no-var": "warn",
+    "no-var": "error",
     "object-shorthand": "warn",
-    "one-var": [
-      "warn",
-      "never"
-    ],
+    "one-var": ["warn", "never"],
     "prefer-arrow/prefer-arrow-functions": "off",
-    "prefer-const": "warn",
+    "prefer-const": "error",
     "radix": "warn",
-    "semi": [
-      "error",
-      "always"
-    ],
-    "semi-style": [
-      "error",
-      "last"
-    ],
+    "semi": ["error", "always"],
+    "semi-style": ["error", "last"],
     "space-before-function-paren": [
       "warn",
       {

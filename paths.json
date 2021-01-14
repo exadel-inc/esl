@@ -16,9 +16,5 @@
   "lint": {
     "ts": ["src/modules/**/*.ts", "!**/test/*.test.ts"],
     "less": ["src/modules/**/*.less"]
-  },
-  "tar": {
-    "dest": "target",
-    "destPaths": ["target/*"]
   }
 }
