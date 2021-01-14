@@ -21,6 +21,7 @@ and **flexible** custom elements to easily create basic UX modules and make your
 - ##### [ESL Panel and Panel Stack](./src/modules/esl-panel/README.md)
 - ##### [ESL Tab and Tab Container](./src/modules/esl-tab/README.md)
 - ##### [ESL Scrollable Tabs](src/modules/esl-scrollable-tabs/README.md)
+- ##### [ESL Alert](src/modules/esl-alert/README.md)
 
 ### Utilities
 - ##### [ESL Base Element](./src/modules/esl-base-element/README.md)
