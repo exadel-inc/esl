@@ -42,8 +42,7 @@
     "clean": "gulp clean",
     "build": "gulp build",
     "test": "concurrently \"gulp lint --silent\" \"jest --silent --noStackTrace\"",
-    "test-only": "jest",
-    "test-report": "jest --coverage",
+    "test:report": "jest --coverage",
     "prepare": "npm run build",
     "preversion": "npm test"
   },

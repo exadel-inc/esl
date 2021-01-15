@@ -15,7 +15,8 @@
       "ES2015",
       "DOM",
       "DOM.Iterable"
-    ]
+    ],
+    "outDir": "./"
   },
   "include": [
     "src/modules",
