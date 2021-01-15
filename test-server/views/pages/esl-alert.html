@@ -1,0 +1,39 @@
+---
+layout: ../layouts/basic.html
+containerCls: container
+title: ESL Alert component
+---
+
+{{##content:
+<section class="row">
+  <div class="col-12">
+    <h3 class="text-center">Triggers</h3>
+    <div class="demo row">
+
+      <div>
+        <button type="button" class="btn btn-primary esl-alert-show" text="ESL Alert 1">Show 1</button>
+        <button type="button" class="btn btn-success esl-alert-show" text="ESL Alert 2">Show 2</button>
+        <button type="button" class="btn btn-dark esl-alert-hide">Hide</button>
+      </div>
+
+      <script type="text/javascript">
+        var showBtn = document.querySelectorAll('.esl-alert-show');
+        var hideBtn = document.querySelector('.esl-alert-hide');
+        var params = {};
+        showBtn[0].onclick = function (e) {
+          params.text = e.target.getAttribute('text');
+          window.dispatchEvent(new CustomEvent(`esl:alert:show`, {detail: params}));
+        };
+        showBtn[1].onclick = function(e) {
+          params.text = e.target.getAttribute('text');
+          params.hideDelay = 3000;
+          window.dispatchEvent(new CustomEvent(`esl:alert:show`, {detail: params}));
+        };
+        hideBtn.onclick = function () {
+          window.dispatchEvent(new CustomEvent(`esl:alert:hide`, {}));
+        };
+      </script>
+    </div>
+  </div>
+</section>
+#}}

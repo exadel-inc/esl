@@ -13,21 +13,25 @@ package-lock.json
 build
 paths.json
 gulpfile.js
+.releaserc.json
 
 # Target
-target
+*.tar
+*.tgz
 
-# Test
+# Tests
 jest.config.js
 **/test/*.test.ts
 
-# Test Server
+# Demo Server
 test-server
 
 # Linter
+.editorconfig
 .eslintrc.json
 .eslintignore
 .stylelintrc.json
+.commitlintrc.json
 
 # VCS
 .gitignore
@@ -39,3 +43,6 @@ sonar-project.properties
 
 # Docs Assets
 docs
+
+# GitHub
+.github

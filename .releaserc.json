@@ -1,0 +1,39 @@
+{
+  "debug": true,
+  "branches": ["main"],
+  "tagFormat": "v${version}",
+  "plugins": [
+    ["@semantic-release/commit-analyzer", {
+      "preset": "angular",
+      "releaseRules": [
+        {"type": "build", "release": "patch"},
+        {"type": "ci", "release": "patch"},
+        {"type": "chore", "release": "patch"},
+        {"type": "docs", "release": "patch"},
+        {"type": "refactor", "release": "patch"},
+        {"type": "style", "release": "patch"},
+        {"type": "test", "release": "patch"}
+      ]
+    }],
+    ["@semantic-release/release-notes-generator", {
+      "preset": "angular"
+    }],
+    ["@semantic-release/changelog", {
+      "changelogFile": "CHANGELOG.md"
+    }],
+    ["@semantic-release/npm", {
+      "npmPublish": false,
+      "tarballDir": "target"
+    }],
+    ["@semantic-release/git", {
+      "assets": ["CHANGELOG.md", "package.json", "package-lock.json"],
+      "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+    }],
+    ["@semantic-release/github", {
+      "assets": [
+        {"path": "target/*.tgz", "label": "Released NPM Tarball"},
+        {"path": "CHANGELOG.md", "label": "Changelog"}
+      ]
+    }]
+  ]
+}

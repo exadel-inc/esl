@@ -1,7 +1,9 @@
 # Exadel Smart Library &#9881;
 
 ![npm](https://img.shields.io/npm/v/exadel/esl)
+![version](https://img.shields.io/github/package-json/v/exadel-inc/esl)
 ![dependencies](https://img.shields.io/badge/dependencies-free-green)
+![tests](https://github.com/exadel-inc/esl/workflows/tests/badge.svg?branch=main)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 Exadel Smart Library (**ESL**) is a web components based library that gives you a set of **lightweight**
@@ -19,6 +21,7 @@ and **flexible** custom elements to easily create basic UX modules and make your
 - ##### [ESL Panel and Panel Stack](./src/modules/esl-panel/README.md)
 - ##### [ESL Tab and Tab Container](./src/modules/esl-tab/README.md)
 - ##### [ESL Scrollable Tabs](src/modules/esl-scrollable-tabs/README.md)
+- ##### [ESL Alert](src/modules/esl-alert/README.md)
 
 ### Utilities
 - ##### [ESL Base Element](./src/modules/esl-base-element/README.md)
@@ -31,7 +34,7 @@ and **flexible** custom elements to easily create basic UX modules and make your
 
 0. Preconditions:
    - Make sure you have all needed polyfills to support browsers from your browser-support list. 
-   See [Browser support & Polyfills](#browser-support-polyfills) for details.
+   See [Browser support & Polyfills](#browser-support--polyfills) for details.
    - Use bundler to build your project. Currently, only ESL modules are available for consumption.
   
 1. Import Components/Modules you need.
@@ -99,6 +102,7 @@ Also, ESL has built-in polyfills for some of DOM and ES6 features. They are avai
 ---
 
 ## Development: NPM scripts
+
 Here is a list of available npm scripts for local development:
  - `npm start` or `npm run start` - start demo server locally. Runs local build, watch and browsersync. 
  Uses `:3001` port (BrowserSync) and `:3002` port (origin).
@@ -108,6 +112,16 @@ Here is a list of available npm scripts for local development:
  - `npm test` or `npm run test` - run linters and tests (silent task, used in CI/CD)
  - `npm run test-only` - just run all tests
  - `npm run test-report` - run tests and create coverage report
+
+## Development: Commit Convention
+
+Project is using `@commitlint/config-conventional` commit message rules.
+Please check it out in case you want to contribute to ESL.
+
+You can use this [short note](./docs/commit.md) to renew commit message rules.
+
+In case you are using JetBrains IDE (IDEA or WebStorm) you can use this 
+[plugin](https://plugins.jetbrains.com/plugin/13389-conventional-commit) to simplify commit validation.
 
 ---
 

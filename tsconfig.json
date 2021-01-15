@@ -15,10 +15,12 @@
       "ES2015",
       "DOM",
       "DOM.Iterable"
-    ]
+    ],
+    "outDir": "./"
   },
   "include": [
     "src/modules",
+    "src/polyfills",
     "test-server/src"
   ],
   "exclude": [

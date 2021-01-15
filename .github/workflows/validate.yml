@@ -1,0 +1,31 @@
+#-----------------------------
+# CI Github Action: Validate
+#-----------------------------
+
+name: validate
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+  workflow_dispatch:
+
+env:
+  node-version: 12.x
+
+jobs:
+  validate:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node v${{ env.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.node-version }}
+      - name: Install NPM Dependencies
+        run: npm ci
+      - name: Run Linting & Tests
+        run: npm test
