@@ -152,7 +152,7 @@ export class ESLMedia extends ESLBaseElement {
     this._provider = null;
 
     if (this.canActivate()) {
-      this._provider = ESLMediaRegistry.createProvider(this);
+      this._provider = ESLMediaRegistry.createFor(this);
       if (this._provider) {
         this._provider.bind();
         console.debug('[ESL] Media provider bound', this._provider);
@@ -220,9 +220,7 @@ export class ESLMedia extends ESLBaseElement {
     return this._provider && this._provider.safeToggle();
   }
 
-  /**
-   * @override
-   */
+  /** @override */
   public focus() {
     this._provider && this._provider.focus();
   }
@@ -285,30 +283,27 @@ export class ESLMedia extends ESLBaseElement {
     }
   }
 
-  /**
-   * Current player state, see {@link ESLMedia.PLAYER_STATES} values
-   */
+  /** Applied provider */
+  get providerType() {
+    return this._provider ? this._provider.name : '';
+  }
+
+  /** Current player state, see {@link ESLMedia.PLAYER_STATES} values */
   get state() {
     return this._provider ? this._provider.state : PlayerStates.UNINITIALIZED;
   }
 
-  /**
-   * Duration of the media resource
-   */
+  /** Duration of the media resource */
   public get duration() {
     return this._provider ? this._provider.duration : 0;
   }
 
-  /**
-   * Current time of media resource
-   */
+  /** Current time of media resource */
   public get currentTime() {
     return this._provider ? this._provider.currentTime : 0;
   }
 
-  /**
-   * Set current time of media resource
-   */
+  /** Set current time of media resource */
   public set currentTime(time: number) {
     (this._provider) && this._provider.safeSeekTo(time);
   }

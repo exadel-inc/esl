@@ -8,7 +8,6 @@ import {Observable} from '../../esl-utils/abstract/observable';
 import type {BaseProvider, ProviderType} from './esl-media-provider';
 
 let evRegistryInstance: ESLMediaProviderRegistry | null = null;
-
 export class ESLMediaProviderRegistry extends Observable {
   private providersMap: Map<string, ProviderType> = new Map();
 
@@ -19,45 +18,50 @@ export class ESLMediaProviderRegistry extends Observable {
     return evRegistryInstance;
   }
 
+  /** List of registered providers */
   public get providers(): ProviderType[] {
     const list: ProviderType[] = [];
     this.providersMap.forEach((provider) => list.push(provider));
     return list;
   }
 
-  public register(provider: ProviderType, name: string) {
-    if (!name) throw new Error('Provider should have name');
-    this.providersMap.set(name, provider);
-    this.fire(name, provider);
+  /** Register provider */
+  public register(provider: ProviderType) {
+    if (!provider.providerName) throw new Error('Provider should have name');
+    this.providersMap.set(provider.providerName, provider);
+    this.fire(provider.providerName, provider);
   }
 
+  /** Check that provider is registered for passed name */
   public has(name: string) {
     return this.providersMap.has(name);
   }
 
-  public getProviderByType(type: string) {
-    if (!type || type === 'auto') return null;
-    return this.providersMap.get(type.toLowerCase()) || null;
+  /** Find provider by name */
+  public viaName(name: string) {
+    if (!name || name === 'auto') return null;
+    return this.providersMap.get(name.toLowerCase()) || null;
   }
 
-  public createProvider(media: ESLMedia): BaseProvider | null {
-    return this.createProviderByType(media) || this.createProviderBySrc(media);
+  /** Create provider instance for passed ESLMedia instance */
+  public createFor(media: ESLMedia): BaseProvider | null {
+    return this.createByType(media) || this.createBySrc(media);
   }
 
-  private createProviderByType(media: ESLMedia): BaseProvider | null {
-    const {mediaType, mediaSrc} = media;
-    const providerByType = this.getProviderByType(mediaType);
+  /** Create provider instance for passed ESLMedia instance via provider name */
+  private createByType(media: ESLMedia): BaseProvider | null {
+    const providerByType = this.viaName(media.mediaType);
     if (providerByType) {
-      const config = Object.assign({}, providerByType.parseURL(mediaSrc), providerByType.parseConfig(media));
+      const config = Object.assign({}, providerByType.parseUrl(media.mediaSrc), providerByType.parseConfig(media));
       return new providerByType(media, config);
     }
     return null;
   }
 
-  private createProviderBySrc(media: ESLMedia): BaseProvider | null {
-    const {mediaSrc} = media;
+  /** Create provider instance for passed ESLMedia instance via url */
+  private createBySrc(media: ESLMedia): BaseProvider | null {
     for (const provider of this.providers) {
-      const parsedConfig = provider.parseURL(mediaSrc);
+      const parsedConfig = provider.parseUrl(media.mediaSrc);
       if (!parsedConfig) continue;
       const config = Object.assign({}, parsedConfig, provider.parseConfig(media));
       return new provider(media, config);
