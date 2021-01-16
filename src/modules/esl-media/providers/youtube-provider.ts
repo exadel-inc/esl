@@ -12,17 +12,14 @@ const DEFAULT_ASPECT_RATIO = 16 / 9;
 
 @BaseProvider.register
 export class YouTubeProvider extends BaseProvider {
+  static readonly providerName = 'youtube';
   static readonly idRegexp = /(?:v\/|v=|vi=|vi\/|e\/|embed\/|user\/.*\/u\/\d+\/)([_0-9a-zA-Z-]+)/;
   static readonly providerRegexp = /(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be|youtube(-nocookie)?\.com)/;
-
-  static get providerName() {
-    return 'youtube';
-  }
 
   protected _el: HTMLDivElement | HTMLIFrameElement;
   protected _api: YT.Player;
 
-  static parseURL(url: string) {
+  static parseUrl(url: string) {
     if (this.providerRegexp.test(url)) {
       const [, id] = url.match(this.idRegexp) || [];
       return id ? {mediaId: id} : null;
@@ -91,13 +88,13 @@ export class YouTubeProvider extends BaseProvider {
     return new Promise((resolve, reject) => {
       console.debug('[ESL]: Media Youtube Player initialization for ', this);
       this._api = new YT.Player(this._el.id, {
-          videoId: this.config.mediaId,
+        videoId: this.config.mediaId,
         events: {
           onError: (e) => reject(e),
           onReady: () => resolve(this),
           onStateChange: (e) => this._onStateChange(e)
         },
-          playerVars: YouTubeProvider.mapOptions(this.config)
+        playerVars: YouTubeProvider.mapOptions(this.config)
       });
     });
   }

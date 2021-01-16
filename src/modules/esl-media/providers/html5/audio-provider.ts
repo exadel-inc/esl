@@ -9,9 +9,8 @@ import {BaseProvider} from '../../core/esl-media-provider';
 
 @BaseProvider.register
 export class AudioProvider extends HTMLMediaProvider {
-  static get providerName() {
-    return 'audio';
-  }
+  static readonly providerName = 'audio';
+  static readonly urlPattern = /\.(mp3|wav|aac)(\?|$)/;
 
   protected _el: HTMLAudioElement;
 
@@ -21,7 +20,7 @@ export class AudioProvider extends HTMLMediaProvider {
     return el;
   }
 
-  get defaultAspectRatio(): number {
+  public get defaultAspectRatio(): number {
     return 0;
   }
 }

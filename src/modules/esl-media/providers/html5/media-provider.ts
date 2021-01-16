@@ -7,6 +7,15 @@
 import {BaseProvider, MediaProviderConfig, PlayerStates, ProviderObservedParams} from '../../core/esl-media-provider';
 
 export abstract class HTMLMediaProvider extends BaseProvider {
+  static readonly urlPattern: RegExp;
+
+  static parseUrl(mediaSrc: string) {
+    if (this.urlPattern.test(mediaSrc)) {
+      return {mediaSrc};
+    }
+    return null;
+  }
+
   protected _el: HTMLMediaElement;
 
   protected static applyElementSettings(el: HTMLMediaElement, cfg: MediaProviderConfig) {
@@ -81,9 +90,7 @@ export abstract class HTMLMediaProvider extends BaseProvider {
   }
 
   public stop() {
-    return new Promise(() => {
-      this._el.pause();
-      this._el.currentTime = 0;
-    });
+    this._el.pause();
+    this._el.currentTime = 0;
   }
 }
