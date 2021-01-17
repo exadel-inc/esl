@@ -50,10 +50,10 @@ export class ESLMediaProviderRegistry extends Observable {
 
   /** Create provider instance for passed ESLMedia instance via provider name */
   private createByType(media: ESLMedia): BaseProvider | null {
-    const providerByType = this.viaName(media.mediaType);
-    if (providerByType) {
-      const config = Object.assign({}, providerByType.parseUrl(media.mediaSrc), providerByType.parseConfig(media));
-      return new providerByType(media, config);
+    const provider = this.viaName(media.mediaType);
+    if (provider) {
+      const config = Object.assign({}, provider.parseUrl(media.mediaSrc), provider.parseConfig(media));
+      return new provider(media, config);
     }
     return null;
   }
