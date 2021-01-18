@@ -14,7 +14,7 @@ module.exports = {
   collectCoverageFrom: [
     'src/modules/**/*.ts',
     // test dir
-    '!src/**/test/*ts',
+    '!src/**/test/*.ts',
     // cumulative exclude
     '!src/modules/*.ts',
     '!src/modules/*/*.ts',
