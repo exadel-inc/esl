@@ -8,7 +8,7 @@ import {generateUId} from '../../esl-utils/misc/uid';
 
 @BaseProvider.register
 export class IframeBasicProvider extends BaseProvider {
-  static readonly providerName = 'iframe';
+  static readonly providerName: string = 'iframe';
 
   private _state: PlayerStates = PlayerStates.UNINITIALIZED;
   protected _el: HTMLIFrameElement;

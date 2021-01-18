@@ -9,7 +9,7 @@ import {BaseProvider} from '../../core/esl-media-provider';
 
 @BaseProvider.register
 export class VideoProvider extends HTMLMediaProvider {
-  static readonly providerName = 'video';
+  static readonly providerName: string = 'video';
   static readonly urlPattern = /\.(mp4|webm|ogv|mov)(\?|$)/;
 
   protected _el: HTMLVideoElement;
