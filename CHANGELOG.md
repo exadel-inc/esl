@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/exadel-inc/esl/compare/v1.0.0...v1.0.1) (2021-01-18)
+
+
+### Bug Fixes
+
+* fix providerName type to allow user to extend default providers ([4b6e67e](https://github.com/exadel-inc/esl/commit/4b6e67eb2895f327fec7f45abb539d4217ba7757))
+
 # 1.0.0 (2021-01-18)
 
 
