@@ -66,10 +66,21 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   static get observedAttributes() {
-    return ['media-type', 'disabled', 'media-id', 'media-src', 'fill-mode', 'aspect-ratio', 'play-in-viewport'];
+    return [
+      'disabled',
+      'media-type',
+      'media-id',
+      'media-src',
+      'fill-mode',
+      'aspect-ratio',
+      'play-in-viewport',
+      'muted',
+      'loop',
+      'controls'
+    ];
   }
 
-  static support(name: string): boolean {
+  static supports(name: string): boolean {
     return ESLMediaRegistry.has(name);
   }
 
@@ -112,6 +123,11 @@ export class ESLMedia extends ESLBaseElement {
       case 'media-type':
         this.deferredReinitialize();
         break;
+      case 'loop':
+      case 'muted':
+      case 'controls':
+        this._provider && this._provider.onSafeConfigChange(attrName, newVal !== null);
+        break;
       case 'fill-mode':
       case 'aspect-ratio':
         this.deferredResize();
@@ -132,20 +148,19 @@ export class ESLMedia extends ESLBaseElement {
 
   private reinitInstance() {
     console.debug('[ESL] Media reinitialize ', this);
-    // TODO: optimize, constraint for simple changes
     this._provider && this._provider.unbind();
     this._provider = null;
 
     if (this.canActivate()) {
-      const provider = ESLMediaRegistry.getProvider(this.mediaType);
-      if (provider) {
-        this._provider = new provider(this);
+      this._provider = ESLMediaRegistry.createFor(this);
+      if (this._provider) {
         this._provider.bind();
         console.debug('[ESL] Media provider bound', this._provider);
       } else {
         this._onError();
       }
     }
+
     this.updateContainerMarkers();
   }
 
@@ -205,9 +220,7 @@ export class ESLMedia extends ESLBaseElement {
     return this._provider && this._provider.safeToggle();
   }
 
-  /**
-   * @override
-   */
+  /** @override */
   public focus() {
     this._provider && this._provider.focus();
   }
@@ -270,30 +283,27 @@ export class ESLMedia extends ESLBaseElement {
     }
   }
 
-  /**
-   * Current player state, see {@link ESLMedia.PLAYER_STATES} values
-   */
+  /** Applied provider */
+  get providerType() {
+    return this._provider ? this._provider.name : '';
+  }
+
+  /** Current player state, see {@link ESLMedia.PLAYER_STATES} values */
   get state() {
     return this._provider ? this._provider.state : PlayerStates.UNINITIALIZED;
   }
 
-  /**
-   * Duration of the media resource
-   */
+  /** Duration of the media resource */
   public get duration() {
     return this._provider ? this._provider.duration : 0;
   }
 
-  /**
-   * Current time of media resource
-   */
+  /** Current time of media resource */
   public get currentTime() {
     return this._provider ? this._provider.currentTime : 0;
   }
 
-  /**
-   * Set current time of media resource
-   */
+  /** Set current time of media resource */
   public set currentTime(time: number) {
     (this._provider) && this._provider.safeSeekTo(time);
   }

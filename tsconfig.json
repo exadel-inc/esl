@@ -25,6 +25,7 @@
   ],
   "exclude": [
     "*.test.ts",
+    "**/test/*.ts",
     "modules",
     "polyfills",
     "node_modules"

@@ -1,6 +1,6 @@
 {
   "watch": {
-    "ts": ["../src/modules/**/*.ts", "src/**/*.ts", "!**/test/*.test.ts"],
+    "ts": ["../src/modules/**/*.ts", "src/**/*.ts", "!**/test/*.ts"],
     "less": ["../src/modules/**/*.less", "src/**/*.less"]
   },
   "server": {
