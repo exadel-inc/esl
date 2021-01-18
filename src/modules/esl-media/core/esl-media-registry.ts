@@ -27,7 +27,7 @@ export class ESLMediaProviderRegistry extends Observable {
 
   /** Register provider */
   public register(provider: ProviderType) {
-    if (!provider.providerName) throw new Error('Provider should have name');
+    if (!provider.providerName) throw new Error('Provider should have a name');
     this.providersMap.set(provider.providerName, provider);
     this.fire(provider.providerName, provider);
   }
