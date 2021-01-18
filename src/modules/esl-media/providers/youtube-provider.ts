@@ -12,7 +12,7 @@ const DEFAULT_ASPECT_RATIO = 16 / 9;
 
 @BaseProvider.register
 export class YouTubeProvider extends BaseProvider {
-  static readonly providerName = 'youtube';
+  static readonly providerName: string = 'youtube';
   static readonly idRegexp = /(?:v\/|v=|vi=|vi\/|e\/|embed\/|user\/.*\/u\/\d+\/)([_0-9a-zA-Z-]+)/i;
   static readonly providerRegexp = /^\s*(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be|youtube(-nocookie)?\.com)/i;
 

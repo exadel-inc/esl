@@ -9,7 +9,7 @@ import {BaseProvider} from '../../core/esl-media-provider';
 
 @BaseProvider.register
 export class AudioProvider extends HTMLMediaProvider {
-  static readonly providerName = 'audio';
+  static readonly providerName: string = 'audio';
   static readonly urlPattern = /\.(mp3|wav|aac)(\?|$)/;
 
   protected _el: HTMLAudioElement;

@@ -19,7 +19,7 @@ export interface BCPlayerAccount {
 
 @BaseProvider.register
 export class BrightcoveProvider extends BaseProvider {
-  static readonly providerName = 'brightcove';
+  static readonly providerName: string = 'brightcove';
 
   protected videojsClasses = 'video-js vjs-default-skin video-js-brightcove';
 
