@@ -1,3 +1,5 @@
+import {get} from './object';
+
 /** Convert string to kebab-case notation */
 export const toKebabCase = (str: string) => {
   return str.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase();
@@ -34,4 +36,12 @@ export function evaluate(str: string, defaultValue?: any): any {
     console.warn('Cannot parse value ', str, e);
     return defaultValue;
   }
+}
+
+/** Replace '{key}' pattens in the string from the source object */
+export function compile(str: string, source: Record<string, any>) {
+  return str.replace(/{([\w.]+)}/, (match, key) => {
+    const val = get(source, key);
+    return val === undefined ? match : val;
+  });
 }

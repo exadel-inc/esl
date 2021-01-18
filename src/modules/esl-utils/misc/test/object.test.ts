@@ -1,4 +1,4 @@
-import {defined, deepCompare, getPropertyDescriptor} from '../object';
+import {defined, deepCompare, getPropertyDescriptor, get, set} from '../object';
 
 describe('misc/object', () => {
   describe('deepCompare', () => {
@@ -83,13 +83,45 @@ describe('misc/object', () => {
     });
   });
 
-  test('defined', () => {
-    expect(defined('a')).toBe('a');
-    expect(defined('', 'a')).toBe('');
-    expect(defined('a', '')).toBe('a');
-    expect(defined(undefined, 'a')).toBe('a');
-    expect(defined(null, 'a')).toBe(null);
-    const obj = {};
-    expect(defined(obj, null)).toBe(obj);
+  describe('access utils', () => {
+    test('defined', () => {
+      expect(defined('a')).toBe('a');
+      expect(defined('', 'a')).toBe('');
+      expect(defined('a', '')).toBe('a');
+      expect(defined(undefined, 'a')).toBe('a');
+      expect(defined(null, 'a')).toBe(null);
+      const obj = {};
+      expect(defined(obj, null)).toBe(obj);
+    });
+  });
+
+  describe('get', () => {
+    test.each([
+      ['', {a: 1}, undefined],
+      ['a', undefined, undefined],
+      ['a', null, undefined],
+      ['a', 'a', undefined],
+      ['a', {}, undefined],
+      ['a', {a: 1}, 1],
+      ['a.b', {a: 1}, undefined],
+      ['a.b', {a: {b: 2}}, 2],
+      ['a.b.c', {a: {b: {c: {}}}}, {}],
+      ['a.b.d', {a: {b: {c: {}}}}, undefined]
+    ])('get key "%s" from %p', (key: string, source: any, expVal: any) => {
+      expect(get(source, key)).toEqual(expVal)
+    });
+  });
+
+  describe('set', () => {
+    test.each([
+      [{}, 'a', 1, {a: 1}],
+      [{}, 'a.b', 1, {a: {b: 1}}],
+      [{c: 1}, 'a.b', 1, {a: {b: 1}, c: 1}],
+      [{a: {c: 1}}, 'a.b', 1, {a: {b: 1, c: 1}}],
+      [{a: 1}, 'a.b', 1, {a: {b: 1}}]
+    ])('get key "%s" from %p', (targ: any, key: string, val: any, expVal: any) => {
+      set(targ, key, val);
+      expect(targ).toEqual(expVal)
+    });
   });
 });
