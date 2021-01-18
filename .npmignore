@@ -21,7 +21,8 @@ gulpfile.js
 
 # Tests
 jest.config.js
-**/test/*.test.ts
+*.test.ts
+**/test/*.ts
 
 # Demo Server
 test-server

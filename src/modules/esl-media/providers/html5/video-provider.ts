@@ -9,15 +9,14 @@ import {BaseProvider} from '../../core/esl-media-provider';
 
 @BaseProvider.register
 export class VideoProvider extends HTMLMediaProvider {
-  static get providerName() {
-    return 'video';
-  }
+  static readonly providerName = 'video';
+  static readonly urlPattern = /\.(mp4|webm|ogv|mov)(\?|$)/;
 
   protected _el: HTMLVideoElement;
 
   protected createElement(): HTMLVideoElement {
     const el = document.createElement('video');
-    el.src = this.component.mediaSrc;
+    el.src = this.config.mediaSrc || '';
     return el;
   }
 

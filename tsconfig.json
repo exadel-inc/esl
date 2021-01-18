@@ -15,7 +15,8 @@
       "ES2015",
       "DOM",
       "DOM.Iterable"
-    ]
+    ],
+    "outDir": "./"
   },
   "include": [
     "src/modules",
@@ -24,6 +25,7 @@
   ],
   "exclude": [
     "*.test.ts",
+    "**/test/*.ts",
     "modules",
     "polyfills",
     "node_modules"

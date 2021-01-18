@@ -4,9 +4,18 @@
  * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
  */
 
-import {BaseProvider, MediaProviderConfig, PlayerStates} from '../../core/esl-media-provider';
+import {BaseProvider, MediaProviderConfig, PlayerStates, ProviderObservedParams} from '../../core/esl-media-provider';
 
 export abstract class HTMLMediaProvider extends BaseProvider {
+  static readonly urlPattern: RegExp;
+
+  static parseUrl(mediaSrc: string) {
+    if (this.urlPattern.test(mediaSrc)) {
+      return {mediaSrc};
+    }
+    return null;
+  }
+
   protected _el: HTMLMediaElement;
 
   protected static applyElementSettings(el: HTMLMediaElement, cfg: MediaProviderConfig) {
@@ -23,9 +32,14 @@ export abstract class HTMLMediaProvider extends BaseProvider {
 
   protected abstract createElement(): HTMLMediaElement;
 
+  public onConfigChange(param: ProviderObservedParams, value: boolean) {
+    super.onConfigChange(param, value);
+    HTMLMediaProvider.applyElementSettings(this._el, this.config);
+  }
+
   public bind() {
     this._el = this.createElement();
-    HTMLMediaProvider.applyElementSettings(this._el, this.component);
+    HTMLMediaProvider.applyElementSettings(this._el, this.config);
     this.component.appendChild(this._el);
     this.bindListeners();
   }
@@ -76,9 +90,7 @@ export abstract class HTMLMediaProvider extends BaseProvider {
   }
 
   public stop() {
-    return new Promise(() => {
-      this._el.pause();
-      this._el.currentTime = 0;
-    });
+    this._el.pause();
+    this._el.currentTime = 0;
   }
 }

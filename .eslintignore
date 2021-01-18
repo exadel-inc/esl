@@ -1,5 +1,6 @@
 # Exclude tests
 *.test.ts
+**/test/*.ts
 
 # Common configuration
 gulpfile.js

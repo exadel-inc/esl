@@ -1,7 +1,7 @@
 {
   "src": {
     "base": "./src/modules/",
-    "ts": ["src/modules/**/*.ts", "!**/test/*.test.ts"],
+    "ts": ["src/modules/**/*.ts", "!**/test/*.ts"],
     "less": ["src/modules/**/*.less"],
     "css": ["src/modules/*.less", "src/modules/*/*.less", "src/modules/utils/*/*.less", "src/modules/beta/*/*.less", "!**/*.mixin.less"],
     "dest": "modules",
@@ -14,11 +14,7 @@
     "destPaths": ["polyfills/*"]
   },
   "lint": {
-    "ts": ["src/modules/**/*.ts", "!**/test/*.test.ts"],
+    "ts": ["src/modules/**/*.ts", "!**/test/*.test.ts", "!**/*.test.ts"],
     "less": ["src/modules/**/*.less"]
-  },
-  "tar": {
-    "dest": "target",
-    "destPaths": ["target/*"]
   }
 }

@@ -4,9 +4,9 @@
   "description": "Samples static server for ESL documentation, playground and local development",
   "main": "server.js",
   "scripts": {
-    "dev": "gulp start",
-    "watch": "gulp watchLocal",
+    "dev": "concurrently --kill-others \"npm run start\" \"npm run watch\"",
     "start": "node server.js",
+    "watch": "gulp watchLocal",
     "build": "gulp buildLocal",
     "build-and-start": "npm run build && npm run start"
   },

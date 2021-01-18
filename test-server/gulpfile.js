@@ -1,17 +1,19 @@
 const gulp = require('gulp');
 const cfg = require('./paths.json');
 
-const {buildTsBundle} = require('./build/webpack-task');
-
 const {print} = require('../build/common');
 const {cleanAll} = require('../build/clean-task');
 const {lessBuild} = require('../build/less-task');
 const {lintTS, lintCSS} = require('../gulpfile');
 
+const webpack = require('webpack');
+const webpackCfg = require('./webpack.config');
+const webpackInstance = webpack(webpackCfg);
+
 // === BUILD TASKS ===
-const buildLocalTs = buildTsBundle({
-  src: cfg.server.ts
-}, cfg.server.target);
+const buildLocalTs = ((cb) => {
+  webpackInstance.run(() => cb());
+});
 const buildLocalLess = lessBuild(cfg.server.less, cfg.server.target);
 const buildLocal = gulp.series(
   print('=== Running ESL Demo Server Build ==='),
@@ -27,28 +29,22 @@ const watchLess = gulp.series(buildLocalLess, function watchLess() {
     gulp.series(print('LESS Changed ...'), buildLocalLess, lintCSS)
   );
 });
-const watchTs = buildTsBundle({
-  src: cfg.server.ts,
-  watch: true
-}, cfg.server.target);
-const watchTsLint = function watchTsLint() {
+
+const watchSources = function watchTsLint() {
   gulp.watch(cfg.watch.ts, {},
     gulp.series(print('TS Changed ...'), lintTS)
   );
+  webpackInstance.watch({}, (err, stats) => {
+    console.log(stats.toString({
+      chunks: false,  // Makes the build much quieter
+      colors: true    // Shows colors in the console
+    }));
+  });
 };
 
-const watchLocal = gulp.parallel(watchLess, watchTs, watchTsLint);
-
-const serverSketch = require('@exadel/server-sketch/localdev');
-const startServer = (done) => {
-  serverSketch.start(require('./config'));
-  done();
-};
-const start = gulp.series(startServer, watchLocal);
+const watchLocal = gulp.parallel(watchLess, watchSources);
 
 module.exports = {
-  start,
-  startServer,
   watchLocal,
   buildLocal,
   buildLocalTs,

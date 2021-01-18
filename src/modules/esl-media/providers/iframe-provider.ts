@@ -3,40 +3,34 @@
  * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n)
  */
-import {BaseProvider, MediaProviderConfig, PlayerStates} from '../core/esl-media-provider';
+import {BaseProvider, PlayerStates} from '../core/esl-media-provider';
 import {generateUId} from '../../esl-utils/misc/uid';
-
-export interface IframeProviderConfig extends MediaProviderConfig {
-  mediaSrc: string;
-}
 
 @BaseProvider.register
 export class IframeBasicProvider extends BaseProvider {
-  static get providerName() {
-    return 'iframe';
-  }
+  static readonly providerName = 'iframe';
 
   private _state: PlayerStates = PlayerStates.UNINITIALIZED;
   protected _el: HTMLIFrameElement;
 
-  protected static buildIframe(cfg: IframeProviderConfig) {
+  protected buildIframe() {
     const el = document.createElement('iframe');
     el.id = 'esl-media-iframe-' + generateUId();
     el.className = 'esl-media-inner esl-media-iframe';
-    el.title = cfg.title;
-    el.setAttribute('aria-label', cfg.title);
+    el.title = this.config.title;
+    el.setAttribute('aria-label', this.config.title);
     el.setAttribute('frameborder', '0');
     el.setAttribute('tabindex', '0');
     el.setAttribute('allowfullscreen', 'yes');
-    el.toggleAttribute('playsinline', cfg.playsinline);
-    el.src = cfg.mediaSrc;
+    el.toggleAttribute('playsinline', this.config.playsinline);
+    el.src = this.config.mediaSrc || '';
     return el;
   }
 
   public bind() {
     if (this._state !== PlayerStates.UNINITIALIZED) return;
     this._ready = new Promise((resolve, reject) => {
-      this._el = IframeBasicProvider.buildIframe(this.component);
+      this._el = this.buildIframe();
       this._el.onload = () => resolve(this);
       this._el.onerror = (e) => reject(e);
       this._state = PlayerStates.UNSTARTED;

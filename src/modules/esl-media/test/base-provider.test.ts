@@ -1,7 +1,10 @@
-import {BaseProvider, PlayerStates, ProviderType} from '../core/esl-media-provider';
+import {BaseProvider, ProviderType} from '../core/esl-media-provider';
 import {ESLMediaProviderRegistry} from '../core/esl-media-registry';
+import {BaseProviderMock} from './base-provider.mock';
 
 describe('ESLMedia: BaseProvider tests', () => {
+  const {instance} = ESLMediaProviderRegistry;
+
   test('BaseProvider can\'t be registered', () => {
     expect(() => (BaseProvider as ProviderType).register()).toThrowError();
   });
@@ -11,50 +14,27 @@ describe('ESLMedia: BaseProvider tests', () => {
   });
 
   test('Provider should have correct name', () => {
-    expect(() => TestBaseProvider.register()).toThrowError();
+    expect(() => BaseProviderMock.register()).toThrowError();
   });
 
   test('Test provider registered', () => {
-    class TestProvider extends TestBaseProvider {
+    class TestProvider extends BaseProviderMock {
       static readonly providerName = 'test-provider';
     }
-    expect(ESLMediaProviderRegistry.instance.has('test-provider')).toBe(false);
-    expect(ESLMediaProviderRegistry.instance.getProvider('test-provider')).toBe(null);
+    expect(instance.has('test-provider')).toBe(false);
+    expect(instance.findByName('test-provider')).toBe(null);
     TestProvider.register();
-    expect(ESLMediaProviderRegistry.instance.has('test-provider')).toBe(true);
-    expect(ESLMediaProviderRegistry.instance.getProvider('test-provider')).toBe(TestProvider);
+    expect(instance.has('test-provider')).toBe(true);
+    expect(instance.findByName('test-provider')).toBe(TestProvider);
   });
 
   test('Test provider registered via decorator', () => {
     @BaseProvider.register
-    class TestProvider extends TestBaseProvider {
+    class TestProvider extends BaseProviderMock {
       static readonly providerName = 'test-provider-2';
     }
-    expect(ESLMediaProviderRegistry.instance.has('test-provider-2')).toBe(true);
-    expect(ESLMediaProviderRegistry.instance.getProvider('test-provider-2')).toBe(TestProvider);
+    expect(instance.has('test-provider-2')).toBe(true);
+    expect(instance.findByName('test-provider-2')).toBe(TestProvider);
   });
 });
 
-class TestBaseProvider extends BaseProvider {
-  public bind(): void {}
-
-  public get duration(): number {
-    return 0;
-  }
-  public get currentTime(): number {
-    return 0;
-  }
-  public get defaultAspectRatio(): number {
-    return 0;
-  }
-
-  protected pause(): void | Promise<any> {}
-  protected play(): void | Promise<any> {}
-  protected stop(): void | Promise<any> {}
-
-  protected seekTo(pos?: number): void | Promise<any> {}
-
-  public get state() {
-    return PlayerStates.UNINITIALIZED;
-  }
-}

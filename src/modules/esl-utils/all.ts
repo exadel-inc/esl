@@ -27,3 +27,6 @@ export * from './dom/traversing';
 
 // Device detection
 export * from './environment/device-detector';
+
+// Fixes
+export * from './fixes/ie-fixes';
