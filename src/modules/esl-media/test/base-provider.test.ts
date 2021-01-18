@@ -22,10 +22,10 @@ describe('ESLMedia: BaseProvider tests', () => {
       static readonly providerName = 'test-provider';
     }
     expect(instance.has('test-provider')).toBe(false);
-    expect(instance.viaName('test-provider')).toBe(null);
+    expect(instance.findByName('test-provider')).toBe(null);
     TestProvider.register();
     expect(instance.has('test-provider')).toBe(true);
-    expect(instance.viaName('test-provider')).toBe(TestProvider);
+    expect(instance.findByName('test-provider')).toBe(TestProvider);
   });
 
   test('Test provider registered via decorator', () => {
@@ -34,7 +34,7 @@ describe('ESLMedia: BaseProvider tests', () => {
       static readonly providerName = 'test-provider-2';
     }
     expect(instance.has('test-provider-2')).toBe(true);
-    expect(instance.viaName('test-provider-2')).toBe(TestProvider);
+    expect(instance.findByName('test-provider-2')).toBe(TestProvider);
   });
 });
 

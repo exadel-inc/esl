@@ -1,7 +1,7 @@
 /**
  * BaseProvider class for media API providers
  * @version 1.0.0-alpha
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya, Natallia Harshunova
  */
 import {ESLMedia} from './esl-media';
 import {ESLMediaProviderRegistry} from './esl-media-registry';

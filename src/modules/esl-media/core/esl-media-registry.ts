@@ -1,7 +1,7 @@
 /**
  * ESLMediaProviderRegistry class to store media API providers
  * @version 1.0.0-alpha
- * @author Yuliya Adamskaya
+ * @author Yuliya Adamskaya, Natallia Harshunova
  */
 import ESLMedia from './esl-media';
 import {Observable} from '../../esl-utils/abstract/observable';
@@ -38,7 +38,7 @@ export class ESLMediaProviderRegistry extends Observable {
   }
 
   /** Find provider by name */
-  public viaName(name: string) {
+  public findByName(name: string) {
     if (!name || name === 'auto') return null;
     return this.providersMap.get(name.toLowerCase()) || null;
   }
@@ -50,23 +50,23 @@ export class ESLMediaProviderRegistry extends Observable {
 
   /** Create provider instance for passed ESLMedia instance via provider name */
   private createByType(media: ESLMedia): BaseProvider | null {
-    const provider = this.viaName(media.mediaType);
-    if (provider) {
-      const config = Object.assign({}, provider.parseUrl(media.mediaSrc), provider.parseConfig(media));
-      return new provider(media, config);
-    }
-    return null;
+    const provider = this.findByName(media.mediaType);
+    return provider ? ESLMediaProviderRegistry._create(provider, media) : null;
   }
 
   /** Create provider instance for passed ESLMedia instance via url */
   private createBySrc(media: ESLMedia): BaseProvider | null {
-    for (const provider of this.providers) {
-      const parsedConfig = provider.parseUrl(media.mediaSrc);
-      if (!parsedConfig) continue;
-      const config = Object.assign({}, parsedConfig, provider.parseConfig(media));
-      return new provider(media, config);
+    for (const provider of this.providers.reverse()) {
+      const cfg = provider.parseUrl(media.mediaSrc);
+      if (cfg) return ESLMediaProviderRegistry._create(provider, media, cfg);
     }
     return null;
+  }
+
+  /** Create provider instance for passed configuration */
+  private static _create(provider: ProviderType, media: ESLMedia, cfg = provider.parseUrl(media.mediaSrc)) {
+    const config = Object.assign({}, cfg || {}, provider.parseConfig(media));
+    return new provider(media, config);
   }
 }
 

@@ -21,21 +21,6 @@ export interface BCPlayerAccount {
 export class BrightcoveProvider extends BaseProvider {
   static readonly providerName = 'brightcove';
 
-  // static readonly providerRegexp = /(?:http(?:s)?:\/\/)(?:www\.)?players.brightcove/;
-  // static readonly idParam = 'videoId';
-  //
-  // static parseURL(url: string) {
-  //   if (this.providerRegexp.test(url)) {
-  //     try {
-  //       const id = new URL(url).searchParams.get(this.idParam) || null;
-  //       return id ? {mediaId: id} : null;
-  //     } catch {
-  //       return null;
-  //     }
-  //   }
-  //   return null;
-  // }
-
   protected videojsClasses = 'video-js vjs-default-skin video-js-brightcove';
 
   protected _api: VideoJsPlayer;
