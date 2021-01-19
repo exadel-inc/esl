@@ -127,7 +127,7 @@ export class ESLTrigger extends ESLBaseElement {
 
   @bind
   protected _onShowEvent(e: Event) {
-    (e.type === 'click' && this.popup.closeOnBodyClick) && e.stopPropagation();
+    (e.type === 'click' && this.popup.closeOnOutsideAction) && e.stopPropagation();
     this.popup.show({
       trigger: this,
       delay: this.showDelayValue
@@ -135,7 +135,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
   @bind
   protected _onHideEvent(e: Event) {
-    (e.type === 'click' && this.popup.closeOnBodyClick) && e.stopPropagation();
+    (e.type === 'click' && this.popup.closeOnOutsideAction) && e.stopPropagation();
     this.popup.hide({
       trigger: this,
       delay: this.hideDelayValue,

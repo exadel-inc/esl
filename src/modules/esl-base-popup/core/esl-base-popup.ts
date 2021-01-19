@@ -41,7 +41,7 @@ export class ESLBasePopup extends ESLBaseElement {
   @attr({name: 'close-on'}) public closeTrigger: string;
 
   @boolAttr() public closeOnEsc: boolean;
-  @boolAttr() public closeOnBodyClick: boolean;
+  @boolAttr() public closeOnOutsideAction: boolean;
 
   @jsonAttr<PopupActionParams>({defaultValue: {silent: true, force: true, initiator: 'init'}})
   public initialParams: PopupActionParams;
@@ -91,16 +91,16 @@ export class ESLBasePopup extends ESLBaseElement {
   protected unbindEvents() {
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('keydown', this._onKeyboardEvent);
-    this.bindBodyClickTracking(false);
+    this.bindOutsideEventTracking(false);
     this.bindHoverStateTracking(false);
   }
 
-  protected bindBodyClickTracking(track: boolean) {
-    document.body.removeEventListener('mousedown', this._onBodyClick);
-    document.body.removeEventListener('touchstart', this._onBodyClick);
+  protected bindOutsideEventTracking(track: boolean) {
+    document.body.removeEventListener('mousedown', this._onOutsideAction);
+    document.body.removeEventListener('touchstart', this._onOutsideAction);
     if (track) {
-      document.body.addEventListener('mousedown', this._onBodyClick, true);
-      document.body.addEventListener('touchstart', this._onBodyClick, true);
+      document.body.addEventListener('mousedown', this._onOutsideAction, true);
+      document.body.addEventListener('touchstart', this._onOutsideAction, true);
     }
   }
   protected bindHoverStateTracking(track: boolean) {
@@ -134,7 +134,7 @@ export class ESLBasePopup extends ESLBaseElement {
     params = this.mergeDefaultParams(params);
     this.group.activate(this, params);
     this.planShowTask(params);
-    this.bindBodyClickTracking(this.closeOnBodyClick);
+    this.bindOutsideEventTracking(this.closeOnOutsideAction);
     this.bindHoverStateTracking(!!params.trackHover);
     return this;
   }
@@ -153,7 +153,7 @@ export class ESLBasePopup extends ESLBaseElement {
   public hide(params?: PopupActionParams) {
     params = this.mergeDefaultParams(params);
     this.planHideTask(params);
-    this.bindBodyClickTracking(false);
+    this.bindOutsideEventTracking(false);
     this.bindHoverStateTracking(!!params.trackHover);
     return this;
   }
@@ -232,7 +232,7 @@ export class ESLBasePopup extends ESLBaseElement {
     }
   }
   @bind
-  protected _onBodyClick(e: MouseEvent) {
+  protected _onOutsideAction(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (!this.contains(target)) {
       this.hide({initiator: 'bodyclick', trigger: target});
