@@ -96,9 +96,11 @@ export class ESLBasePopup extends ESLBaseElement {
   }
 
   protected bindBodyClickTracking(track: boolean) {
-    document.body.removeEventListener('click', this._onBodyClick);
+    document.body.removeEventListener('mousedown', this._onBodyClick);
+    document.body.removeEventListener('touchstart', this._onBodyClick);
     if (track) {
-      document.body.addEventListener('click', this._onBodyClick, true);
+      document.body.addEventListener('mousedown', this._onBodyClick, true);
+      document.body.addEventListener('touchstart', this._onBodyClick, true);
     }
   }
   protected bindHoverStateTracking(track: boolean) {
