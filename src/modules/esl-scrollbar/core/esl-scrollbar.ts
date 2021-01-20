@@ -6,6 +6,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
+import {ready} from '../../esl-utils/decorators/ready';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {normalizeCoordinates} from '../../esl-utils/dom/events';
 import {TraversingUtils} from '../../esl-utils/dom/traversing';
@@ -40,6 +41,7 @@ export class ESLScrollbar extends ESLBaseElement {
     return ['target', 'horizontal'];
   }
 
+  @ready
   protected connectedCallback() {
     super.connectedCallback();
     this.findTarget();
@@ -47,6 +49,7 @@ export class ESLScrollbar extends ESLBaseElement {
     this.bindEvents();
   }
 
+  @ready
   protected disconnectedCallback() {
     this.unbindEvents();
   }
