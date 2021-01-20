@@ -75,7 +75,7 @@ title: ESL Popup and ESL Popup Trigger components <span class="badge badge-warni
         <div style="height: 130px;">
             <esl-popup class="popup"
                        close-on-esc
-                       close-on-body-click>
+                       close-on-outside-action>
                 <div class="alert alert-warning" role="alert">
                     <strong>This is a popup.</strong> You can close it if you click outside.
                     <esl-trigger target="::parent(esl-popup)::find(.child-popup)">
@@ -83,7 +83,7 @@ title: ESL Popup and ESL Popup Trigger components <span class="badge badge-warni
                     </esl-trigger>
                     <esl-popup class="child-popup"
                                close-on-esc
-                               close-on-body-click>
+                               close-on-outside-action>
                         <div class="alert alert-info" role="alert">
                             <strong>This is inner popup.</strong> You can also close it if you click outside.
                         </div>
