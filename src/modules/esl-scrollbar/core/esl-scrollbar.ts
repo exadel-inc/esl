@@ -15,7 +15,6 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 @ExportNs('Scrollbar')
 export class ESLScrollbar extends ESLBaseElement {
   public static is = 'esl-scrollbar';
-  public static eventNs = 'esl:scrollbar';
 
   @boolAttr() public horizontal: boolean;
 
