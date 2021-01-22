@@ -91,5 +91,5 @@ using a single tag as well as work with external providers using simple native-l
      title="Video Title"     
      [ disabled ]    
      [ group="mediaGroup" ]
-></esl-media-embedded>
+></esl-media>
 ```

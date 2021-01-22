@@ -4,6 +4,7 @@ import {ESLBasePopup} from '../../esl-base-popup/core/esl-base-popup';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {bind} from '../../esl-utils/decorators/bind';
+import {ready} from '../../esl-utils/decorators/ready';
 import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
@@ -53,11 +54,13 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
 
+  @ready
   protected connectedCallback() {
     super.connectedCallback();
     this.updatePopupFromTarget();
     this.bindEvents();
   }
+  @ready
   protected disconnectedCallback() {
     this.unbindEvents();
   }
