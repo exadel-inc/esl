@@ -1,8 +1,8 @@
 # [ESL](../../../README.md) Image
 
-Version: *1.0.0-alpha*
+Version: *1.0.0-alpha*.
 
-Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*
+Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*.
 
 ESLImage - custom element, that provides flexible ways to include images on web pages. 
 Was originally developed as an alternative to `<picture>` element, but with more features inside.
@@ -22,9 +22,9 @@ Was originally developed as an alternative to `<picture>` element, but with more
    - *auto* - image starts loading only if it's visible and is inside or close to browser viewport area (determined using Intersection Observer API).
  - `ESLMediaQuery` - special syntax that allows defining different sources for different media queries. Supports media-query shortcuts.
  - Marker class. ESL Image can add a specific class on the specified parent element when the image is ready. ESL Image itself also has markers that indicate its state.
- - Provides events on state change (also supports inline syntax, e.g. `<esl-image-tag onload="">`)
- - Attributes observing
- - A11y
+ - Provides events on state change (also supports inline syntax, e.g. `<esl-image-tag onload="">`).
+ - Attributes observing.
+ - A11y.
 
 ### Accessibility behaviour
 ESL Image uses 'img' role if the role is not explicitly provided.
@@ -47,7 +47,7 @@ In case `alt` is not provided then an empty value is used as a fallback.
   - `fit` - use inner `img`, but do not force its width;
   - `cover` - do not set self width/height; use 100% w/h of the container (use `background-image` for rendering);
   - `save-ratio` - fill 100% of container width and set the self height according to image ratio (use `background-image` for rendering);
-  - `svg-inline` - load SVG content via XHR request and render inside.
+  - `svg-inline` - load an SVG content via XHR request and render it inside.
 
 - **lazy** (optional) - enable lazy loading:
   - `auto` - IntersectionObserver mode: image starts loading as soon as it becomes visible in visual area
@@ -71,7 +71,7 @@ NOTE: ESL Image supports `title` attribute like any HTML element, no additional 
 - error \[boolean] - appears when current image failed to load
 
 ### API
-- triggerLoad - shortcut function for manually adding `lazy-triggered` marker
+- triggerLoad - shortcut function for manual adding `lazy-triggered` marker
 - currentSrc - image URL that is currently in use
 
 ### Events
