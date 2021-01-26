@@ -70,11 +70,10 @@ export class ESLPanel extends ESLBasePopup {
   @bind
   protected _onTransitionEnd(e?: TransitionEvent) {
     if (!e || e.propertyName === 'max-height') {
+      // TODO: state is not 'safe' as we can not be sure in caller
       this.style.removeProperty('max-height');
-      // TODO: rename
-      this.$$fire('transitionend', {
-        detail: {open: this.open}
-      });
+      // TODO: move to afterAnimate!
+      this.$$fire(this.open ? 'after:show' : 'after:hide');
     }
   }
 
@@ -93,6 +92,7 @@ export class ESLPanel extends ESLBasePopup {
   }
 
   protected afterAnimate(params: PanelActionParams) {
+    // FIXME: that is not working!!!
     params.noCollapse && this.style.removeProperty('max-height');
     CSSUtil.removeCls(this, this.animateClass);
     CSSUtil.removeCls(this, this.postAnimateClass);

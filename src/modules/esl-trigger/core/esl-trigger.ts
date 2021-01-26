@@ -159,7 +159,7 @@ export class ESLTrigger extends ESLBaseElement {
     const clsTarget = TraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
     clsTarget && CSSUtil.toggleClsTo(clsTarget, this.activeClass, this.active);
     this.updateA11y();
-    this.$$fire('activestatechange');
+    this.$$fire('change:active');
   }
 
   protected get showDelayValue(): number | undefined {

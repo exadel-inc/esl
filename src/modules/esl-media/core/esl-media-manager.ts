@@ -25,7 +25,7 @@ export class MediaGroupRestrictionManager {
       const current = managerMap.get(instance.group);
       managerMap.set(instance.group, instance);
       if (!current || current === instance || !current.active) return;
-      if (current.$$fireNs('mangedpause')) {
+      if (current.$$fire('mangedpause')) {
         current.pause();
       }
     }
