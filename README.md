@@ -6,8 +6,7 @@
 ![tests](https://github.com/exadel-inc/esl/workflows/tests/badge.svg?branch=main)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-Exadel Smart Library (**ESL**) is a web components based library that gives you a set of **lightweight**
-and **flexible** custom elements to easily create basic UX modules and make your sites super fast.
+Exadel Smart Library (**ESL**) is a web components based library that gives you a set of **lightweight** and **flexible** custom elements to easily create basic UX modules and make your websites super fast.
 
 ## Library Structure
 ### Components
@@ -39,33 +38,33 @@ and **flexible** custom elements to easily create basic UX modules and make your
   
 1. Import Components/Modules you need.
 
-```javascript
-import '@exadel/esl/modules/esl-component/core';
-```
-- `core` module entry usually represents main part of the module;
-- include optional sub-features directly. See component's documentation for details.
-```javascript
-import '@exadel/esl/modules/esl-media/providers/iframe-provider';
-```
-- Some modules contain cumulative `all` entries.
-- Styles are distributed in two versions: 
-  - 'ready to use' `core.css` or `core.less`
-  - mixin version `core.mixin.less` for custom tagname definition
+    ```javascript
+    import '@exadel/esl/modules/esl-component/core';
+    ```
+   - `core` module entry usually represents main part of the module;
+   - include optional sub-features directly. See component's documentation for details.
+    ```javascript
+    import '@exadel/esl/modules/esl-media/providers/iframe-provider';
+    ```
+    - Some modules contain cumulative `all` entries.
+    - Styles are distributed in two versions: 
+      - 'ready to use' `core.css` or `core.less`
+      - mixin version `core.mixin.less` for custom tagname definition
 
 2. [Optional] Setup environment configuration, e.g. custom screen breakpoints.
 
-```javascript
-import {ESLMediaBreakpoints} from '@exadel/esl/modules/esl-media-query/core';
+    ```javascript
+    import {ESLMediaBreakpoints} from '@exadel/esl/modules/esl-media-query/core';
 
-// define XS screen breakpoint for up to 800px screen width
-ESLMediaBreakpoints.addCustomBreakpoint('XS', 1, 800); 
-```
+    // define XS screen breakpoint for up to 800px screen width
+    ESLMediaBreakpoints.addCustomBreakpoint('XS', 1, 800); 
+    ```
 
 3.  Register components via `register` static method call
-```javascript
-ESLImage.register();
-```
-*You can pass custom tag name to 'register' function, but use this option only in an exceptional situation.*
+    ```javascript
+    ESLImage.register();
+    ```
+    *You can pass custom tag name to 'register' function, but use this option only in an exceptional situation.*
 
 ## Browser support & Polyfills
 
@@ -104,8 +103,8 @@ Also, ESL has built-in polyfills for some of DOM and ES6 features. They are avai
 ## Development: NPM scripts
 
 Here is a list of available npm scripts for local development:
- - `npm start` or `npm run start` - start demo server locally. Runs local build, watch and browsersync. 
- Uses `:3001` port (BrowserSync) and `:3002` port (origin).
+ - `npm start` or `npm run start` - start demo server locally. Runs local build, watch and browsersync.  
+ Uses `:3001` port (BrowserSync) and `:3002` port (origin)
  - `npm run tar` - build project and tarball archive with npm state of the project
  - `npm run build` - build project to CJS output
  - `npm run clear` - clear output folders
@@ -128,7 +127,7 @@ In case you are using JetBrains IDE (IDEA or WebStorm) you can use this
 ## Roadmap
 
 - Releasable state for beta components (ESL Base Popup group)
-- "Playground" demo server 
+- "Playground" demo server
 - npm release
 - ESLCarousel component release
 - More components in the library
@@ -136,9 +135,9 @@ In case you are using JetBrains IDE (IDEA or WebStorm) you can use this
 
 ---
 
-**ESL Core Team**: [Alexey Stsefanovich](https://github.com/ala-n), [Julia Murashko](https://github.com/julia-murashko), [Yuliya Adamskaya](https://github.com/yadamskaya)
+**ESL Core Team**: [Alexey Stsefanovich](https://github.com/ala-n), [Julia Murashko](https://github.com/julia-murashko), [Yuliya Adamskaya](https://github.com/yadamskaya).
 
-**ESL Contributors**: Aliaksandr Auseyeu, Andrey Belous, Dmytro Shovchko, Dzianis Mantsevich, Liubou Masiuk, Natallia Harshunova, Yana Bernatskaya  
+**ESL Contributors**: Aliaksandr Auseyeu, Andrey Belous, Dmytro Shovchko, Dzianis Mantsevich, Liubou Masiuk, Natallia Harshunova, Yana Bernatskaya.
 
 **Exadel, Inc.**
 

@@ -1,11 +1,10 @@
 # [ESL](../../../README.md) Media
 
-Version: *1.0.0-alpha*
+Version: *1.0.0-alpha*.
 
-Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*
+Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*.
 
-ESlMedia - custom element, that provides an ability to add and configure media (video / audio)
-using a single tag as well as work with external providers using simple native-like API.
+ESlMedia - custom element, that provides an ability to add and configure media (video / audio) using a single tag as well as work with external providers using simple native-like API.
 
 ---
 
@@ -30,7 +29,7 @@ using a single tag as well as work with external providers using simple native-l
  
  - **state change events** (`esl:media:load`, `esl:media:error`, `esl:media:play`, etc).
  
- - provides **'HTMLMedia like' API** that is safe and will be executed after real API is ready
+ - provides **'HTMLMedia like' API** that is safe and will be executed after real API is ready.
 
 ### Attributes:
 
@@ -65,7 +64,7 @@ using a single tag as well as work with external providers using simple native-l
  
  - **mute** (boolean) - mute media
  
- - **playsinline** (boolean) - allow playing media inline (media player will not request speciall control over device)
+ - **playsinline** (boolean) - allow playing media inline (media player will not request special control over device)
 
 ### Readonly Attributes:
  
