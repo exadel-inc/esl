@@ -5,8 +5,6 @@
 export abstract class ESLBaseElement extends HTMLElement {
   /** Custom element tag name */
   public static is = '';
-  /** ESL custom element event prefix (namespace) */
-  public static eventNs = '';
 
   protected _connected: boolean = false;
 
@@ -31,22 +29,13 @@ export abstract class ESLBaseElement extends HTMLElement {
    * @param eventName - event name
    * @param [eventInit] - custom event init. See {@link CustomEventInit}
    */
-  public $$fire(eventName: string, eventInit: CustomEventInit = {}): boolean {
-    const init = Object.assign({bubbles: true, cancelable: true}, eventInit);
+  public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
+    const init = Object.assign({
+      bubbles: true,
+      composed: true,
+      cancelable: true
+    }, eventInit || {});
     return this.dispatchEvent(new CustomEvent(eventName, init));
-  }
-
-  /**
-   * Dispatch component custom event.
-   * Event bubbles and is cancelable by default, use {@param eventInit} to override that.
-   * Will append prefix from static property {@link eventNs} if it is defined.
-   * @param eventName - event name
-   * @param [eventInit] - custom event init. See {@link CustomEventInit}
-   */
-  public $$fireNs(eventName: string, eventInit: CustomEventInit = {}): boolean {
-    const component = this.constructor as typeof ESLBaseElement;
-    const eventFullName = (component.eventNs ? `${component.eventNs}:` : '') + eventName;
-    return this.$$fire(eventFullName, eventInit);
   }
 
   /**

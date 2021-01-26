@@ -59,12 +59,4 @@ describe('ESLBaseElement test', () => {
 
     el.$$fire('testevent');
   }, 10);
-
-  test('FireEvent - bubbling', (done) => {
-    document.addEventListener('esl:test:testevent', (e) => {
-      expect(e).toBeInstanceOf(CustomEvent);
-      done();
-    }, { once: true });
-    el.$$fireNs('testevent');
-  }, 10);
 });

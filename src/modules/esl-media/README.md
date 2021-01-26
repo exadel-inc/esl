@@ -90,5 +90,5 @@ ESlMedia - custom element, that provides an ability to add and configure media (
      title="Video Title"     
      [ disabled ]    
      [ group="mediaGroup" ]
-></esl-media-embedded>
+></esl-media>
 ```

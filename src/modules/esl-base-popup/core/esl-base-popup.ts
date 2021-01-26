@@ -41,7 +41,7 @@ export class ESLBasePopup extends ESLBaseElement {
   @attr({name: 'close-on'}) public closeTrigger: string;
 
   @boolAttr() public closeOnEsc: boolean;
-  @boolAttr() public closeOnBodyClick: boolean;
+  @boolAttr() public closeOnOutsideAction: boolean;
 
   @jsonAttr<PopupActionParams>({defaultValue: {silent: true, force: true, initiator: 'init'}})
   public initialParams: PopupActionParams;
@@ -91,14 +91,16 @@ export class ESLBasePopup extends ESLBaseElement {
   protected unbindEvents() {
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('keydown', this._onKeyboardEvent);
-    this.bindBodyClickTracking(false);
+    this.bindOutsideEventTracking(false);
     this.bindHoverStateTracking(false);
   }
 
-  protected bindBodyClickTracking(track: boolean) {
-    document.body.removeEventListener('click', this._onBodyClick);
+  protected bindOutsideEventTracking(track: boolean) {
+    document.body.removeEventListener('mouseup', this._onOutsideAction);
+    document.body.removeEventListener('touchend', this._onOutsideAction);
     if (track) {
-      document.body.addEventListener('click', this._onBodyClick, true);
+      document.body.addEventListener('mouseup', this._onOutsideAction, true);
+      document.body.addEventListener('touchend', this._onOutsideAction, true);
     }
   }
   protected bindHoverStateTracking(track: boolean) {
@@ -132,16 +134,16 @@ export class ESLBasePopup extends ESLBaseElement {
     params = this.mergeDefaultParams(params);
     this.group.activate(this, params);
     this.planShowTask(params);
-    this.bindBodyClickTracking(this.closeOnBodyClick);
+    this.bindOutsideEventTracking(this.closeOnOutsideAction);
     this.bindHoverStateTracking(!!params.trackHover);
     return this;
   }
   private planShowTask(params: PopupActionParams) {
     this._task.put(() => {
       if (!params.force && this._open) return;
-      if (!params.silent) this.fireBeforeStateChange();
+      if (!params.silent && !this.$$fire('before:show')) return;
       this.onShow(params);
-      if (!params.silent) this.fireStateChange();
+      if (!params.silent && !this.$$fire('show')) return;
     }, defined(params.showDelay, params.delay));
   }
 
@@ -151,16 +153,16 @@ export class ESLBasePopup extends ESLBaseElement {
   public hide(params?: PopupActionParams) {
     params = this.mergeDefaultParams(params);
     this.planHideTask(params);
-    this.bindBodyClickTracking(false);
+    this.bindOutsideEventTracking(false);
     this.bindHoverStateTracking(!!params.trackHover);
     return this;
   }
   private planHideTask(params: PopupActionParams) {
     this._task.put(() => {
       if (!params.force && !this._open) return;
-      if (!params.silent) this.fireBeforeStateChange();
+      if (!params.silent && !this.$$fire('before:hide')) return;
       this.onHide(params);
-      if (!params.silent) this.fireStateChange();
+      if (!params.silent && !this.$$fire('hide')) return;
     }, defined(params.hideDelay, params.delay));
   }
 
@@ -190,6 +192,7 @@ export class ESLBasePopup extends ESLBaseElement {
     CSSUtil.addCls(this, this.activeClass);
     CSSUtil.addCls(document.body, this.bodyClass);
     this.updateA11y();
+    this.$$fire('esl:refresh');
   }
 
   /**
@@ -202,25 +205,6 @@ export class ESLBasePopup extends ESLBaseElement {
     this.updateA11y();
   }
 
-  /**
-   * Fires before component state change event
-   */
-  protected fireBeforeStateChange() {
-    this.$$fireNs('beforestatechange', {
-      detail: {open: this._open}
-    });
-  }
-
-  /**
-   * Fires component state change event
-   */
-  protected fireStateChange() {
-    this.$$fireNs('statechange', {
-      detail: {open: this._open}
-    });
-    this.$$fire('esl:refresh');
-  }
-
   // "Private" Handlers
   @bind
   protected _onClick(e: MouseEvent) {
@@ -230,10 +214,10 @@ export class ESLBasePopup extends ESLBaseElement {
     }
   }
   @bind
-  protected _onBodyClick(e: MouseEvent) {
+  protected _onOutsideAction(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (!this.contains(target)) {
-      this.hide({initiator: 'bodyclick', trigger: target});
+      this.hide({initiator: 'outsideclick', trigger: target});
     }
   }
 

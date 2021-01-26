@@ -15,7 +15,6 @@ export interface PanelActionParams extends PopupActionParams {
 @ExportNs('Panel')
 export class ESLPanel extends ESLBasePopup {
   public static is = 'esl-panel';
-  public static eventNs = 'esl:panel';
 
   @attr({defaultValue: 'open'}) public activeClass: string;
   @attr({defaultValue: 'animate'}) public animateClass: string;
@@ -71,10 +70,10 @@ export class ESLPanel extends ESLBasePopup {
   @bind
   protected _onTransitionEnd(e?: TransitionEvent) {
     if (!e || e.propertyName === 'max-height') {
+      // TODO: state is not 'safe' as we can not be sure in caller
       this.style.removeProperty('max-height');
-      this.$$fireNs('transitionend', {
-        detail: {open: this.open}
-      });
+      // TODO: move to afterAnimate!
+      this.$$fire(this.open ? 'after:show' : 'after:hide');
     }
   }
 
@@ -93,6 +92,7 @@ export class ESLPanel extends ESLBasePopup {
   }
 
   protected afterAnimate(params: PanelActionParams) {
+    // FIXME: that is not working!!!
     params.noCollapse && this.style.removeProperty('max-height');
     CSSUtil.removeCls(this, this.animateClass);
     CSSUtil.removeCls(this, this.postAnimateClass);

@@ -4,6 +4,7 @@ import {ESLBasePopup} from '../../esl-base-popup/core/esl-base-popup';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {bind} from '../../esl-utils/decorators/bind';
+import {ready} from '../../esl-utils/decorators/ready';
 import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
@@ -12,7 +13,6 @@ import type {NoopFnSignature} from '../../esl-utils/misc/functions';
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
   public static is = 'esl-trigger';
-  public static eventNs = 'esl:trigger';
 
   static get observedAttributes() {
     return ['target', 'event', 'mode', 'active'];
@@ -53,11 +53,13 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
 
+  @ready
   protected connectedCallback() {
     super.connectedCallback();
     this.updatePopupFromTarget();
     this.bindEvents();
   }
+  @ready
   protected disconnectedCallback() {
     this.unbindEvents();
   }
@@ -105,7 +107,8 @@ export class ESLTrigger extends ESLBaseElement {
       this.attachEventListener(this.hideEvent, this._onHideEvent);
     }
     const popupClass = this._popup.constructor as typeof ESLBasePopup;
-    this.popup.addEventListener(`${popupClass.eventNs}:statechange`, this._onPopupStateChange);
+    this.popup.addEventListener('show', this._onPopupStateChange);
+    this.popup.addEventListener('hide', this._onPopupStateChange);
 
     this.addEventListener('keydown', this._onKeydown);
   }
@@ -113,8 +116,11 @@ export class ESLTrigger extends ESLBaseElement {
   protected unbindEvents() {
     (this.__unsubscribers || []).forEach((off) => off());
     if (!this.popup) return;
+
     const popupClass = this._popup.constructor as typeof ESLBasePopup;
-    this.popup.removeEventListener(`${popupClass.eventNs}:statechange`, this._onPopupStateChange);
+    this.popup.removeEventListener('show', this._onPopupStateChange);
+    this.popup.removeEventListener('hide', this._onPopupStateChange);
+
     this.removeEventListener('keydown', this._onKeydown);
   }
 
@@ -127,7 +133,7 @@ export class ESLTrigger extends ESLBaseElement {
 
   @bind
   protected _onShowEvent(e: Event) {
-    (e.type === 'click' && this.popup.closeOnBodyClick) && e.stopPropagation();
+    (e.type === 'click' && this.popup.closeOnOutsideAction) && e.stopPropagation();
     this.popup.show({
       trigger: this,
       delay: this.showDelayValue
@@ -135,7 +141,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
   @bind
   protected _onHideEvent(e: Event) {
-    (e.type === 'click' && this.popup.closeOnBodyClick) && e.stopPropagation();
+    (e.type === 'click' && this.popup.closeOnOutsideAction) && e.stopPropagation();
     this.popup.hide({
       trigger: this,
       delay: this.hideDelayValue,
@@ -153,9 +159,7 @@ export class ESLTrigger extends ESLBaseElement {
     const clsTarget = TraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
     clsTarget && CSSUtil.toggleClsTo(clsTarget, this.activeClass, this.active);
     this.updateA11y();
-    this.$$fireNs('statechange', {
-      bubbles: true
-    });
+    this.$$fire('change:active');
   }
 
   protected get showDelayValue(): number | undefined {

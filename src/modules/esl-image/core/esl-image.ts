@@ -20,8 +20,6 @@ const isLoadState = (state: string): state is LoadState => ['error', 'loaded', '
 @ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
   public static is = 'esl-image';
-  // Should not have own namespace for events to be native image compatible
-  public static eventNs = '';
 
   // Default container class value
   public static DEFAULT_CONTAINER_CLS = 'img-container-loaded';
@@ -281,8 +279,8 @@ export class ESLImage extends ESLBaseElement {
     this.toggleAttribute('loaded', successful);
     this.toggleAttribute('error', !successful);
     this.toggleAttribute('ready', true);
-    this.$$fire(successful ? 'loaded' : 'error', {bubbles: false});
-    this.$$fireNs('ready', {bubbles: false});
+    this.$$fire(successful ? 'loaded' : 'error');
+    this.$$fire('ready');
   }
 
   public updateContainerClasses() {
@@ -291,6 +289,10 @@ export class ESLImage extends ESLBaseElement {
     const state = isLoadState(this.containerClassState) && this[this.containerClassState];
     const targetEl = TraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
     targetEl && CSSUtil.toggleClsTo(targetEl, cls, state);
+  }
+
+  public $$fire(eventName: string, eventInit: CustomEventInit = {bubbles: false}): boolean {
+    return super.$$fire(eventName, eventInit);
   }
 
   public static isEmptyImage(src: string) {
