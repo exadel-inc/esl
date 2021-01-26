@@ -31,16 +31,16 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
     if (!(this.target instanceof ESLCarousel)) return;
 
     if (this.direction === 'both' || this.direction === 'reverse') {
-      this.target.addEventListener('esl:carousel:slide:changed', this._onSlideChange);
+      this.target.addEventListener('slide:changed', this._onSlideChange);
     }
     if (this.direction === 'both' || this.direction === 'target') {
-      this.carousel.addEventListener('esl:carousel:slide:changed', this._onSlideChange);
+      this.carousel.addEventListener('slide:changed', this._onSlideChange);
     }
   }
 
   public unbind() {
-    this.target && this.target.removeEventListener('esl:carousel:slide:changed', this._onSlideChange);
-    this.carousel && this.carousel.removeEventListener('esl:carousel:slide:changed', this._onSlideChange);
+    this.target && this.target.removeEventListener('slide:changed', this._onSlideChange);
+    this.carousel && this.carousel.removeEventListener('slide:changed', this._onSlideChange);
   }
 
   protected _onSlideChange(e: CustomEvent) {

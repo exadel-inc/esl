@@ -30,14 +30,14 @@ export class ESLPanelStack extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    this.addEventListener(`${ESLPanel.eventNs}:show`, this._onShowPanel);
-    this.addEventListener(`${ESLPanel.eventNs}:before:hide`, this._onBeforeHide);
+    this.addEventListener('show', this._onShowPanel);
+    this.addEventListener('before:hide', this._onBeforeHide);
     this.addEventListener('transitionend', this._onTransitionEnd);
   }
 
   protected unbindEvents() {
-    this.removeEventListener(`${ESLPanel.eventNs}:show`, this._onShowPanel);
-    this.removeEventListener(`${ESLPanel.eventNs}:before:hide`, this._onBeforeHide);
+    this.removeEventListener('show', this._onShowPanel);
+    this.removeEventListener('before:hide', this._onBeforeHide);
     this.removeEventListener('transitionend', this._onTransitionEnd);
   }
 

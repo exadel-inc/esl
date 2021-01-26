@@ -18,7 +18,6 @@ export class ESLCarousel extends ESLBaseElement {
   public static Slide = ESLCarouselSlide;
 
   public static is = 'esl-carousel';
-  public static eventNs = 'esl:carousel';
 
   static get observedAttributes() {
     return ['config'];
@@ -115,7 +114,7 @@ export class ESLCarousel extends ESLBaseElement {
       }
     };
 
-    const approved = this.$$fireNs('slide:change', eventDetails);
+    const approved = this.$$fire('slide:change', eventDetails);
 
     if (this._view && approved && this.firstIndex !== nextIndex) {
       this._view.goTo(nextIndex, direction);
@@ -138,7 +137,7 @@ export class ESLCarousel extends ESLBaseElement {
       }
     }
 
-    this.$$fireNs('slide:changed', eventDetails);
+    this.$$fire('slide:changed', eventDetails);
   }
 
   public prev() {

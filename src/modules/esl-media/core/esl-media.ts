@@ -231,14 +231,14 @@ export class ESLMedia extends ESLBaseElement {
     this.toggleAttribute('error', false);
     CSSUtil.addCls(this, this.readyClass);
     this.deferredResize();
-    this.$$fireNs('ready');
+    this.$$fire('ready');
   }
 
   public _onError(detail?: any, setReadyState = true) {
     this.toggleAttribute('ready', true);
     this.toggleAttribute('error', true);
-    this.$$fireNs('error', {detail});
-    setReadyState && this.$$fireNs('ready');
+    this.$$fire('error', {detail});
+    setReadyState && this.$$fire('ready');
   }
 
   public _onDetach() {
@@ -246,7 +246,7 @@ export class ESLMedia extends ESLBaseElement {
     this.removeAttribute('ready');
     this.removeAttribute('played');
     CSSUtil.removeCls(this, this.readyClass);
-    this.$$fireNs('detach');
+    this.$$fire('detach');
   }
 
   public _onPlay() {
@@ -254,19 +254,19 @@ export class ESLMedia extends ESLBaseElement {
     this.deferredResize();
     this.setAttribute('active', '');
     this.setAttribute('played', '');
-    this.$$fireNs('play');
+    this.$$fire('play');
     MediaGroupRestrictionManager.registerPlay(this);
   }
 
   public _onPaused() {
     this.removeAttribute('active');
-    this.$$fireNs('paused');
+    this.$$fire('paused');
     MediaGroupRestrictionManager.unregister(this);
   }
 
   public _onEnded() {
     this.removeAttribute('active');
-    this.$$fireNs('ended');
+    this.$$fire('ended');
     MediaGroupRestrictionManager.unregister(this);
   }
 
@@ -340,6 +340,11 @@ export class ESLMedia extends ESLBaseElement {
   public detachViewportConstraint() {
     const observer = getIObserver(true);
     observer && observer.unobserve(this);
+  }
+
+  public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
+    const name = (this.constructor as typeof ESLMedia).eventNs + eventName;
+    return super.$$fire(name, eventInit);
   }
 }
 

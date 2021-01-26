@@ -9,7 +9,6 @@ import {ESLTab, ESLTabsContainer} from '../../esl-tab/core';
 @ExportNs('ScrollableTabs')
 export class ESLScrollableTabs extends ESLTabsContainer {
   public static is = 'esl-scrollable-tabs';
-  public static eventNs = 'esl:sc-tabs';
 
   @attr({defaultValue: '.esl-tab-list'}) public tabList: string;
 

@@ -15,7 +15,7 @@ and **flexible** custom elements to easily create basic UX modules and make your
 - ##### [ESL Media](./src/modules/esl-media/README.md)
 - ##### [ESL Scrollbar](./src/modules/esl-scrollbar/README.md)
 
-- ##### [ESL Base Popup](src/modules/esl-base-popup/README.md)
+- ##### [ESL Base Popup](./src/modules/esl-base-popup/README.md)
 - ##### [ESL Popup](./src/modules/esl-popup/README.md)
 - ##### [ESL Trigger](./src/modules/esl-trigger/README.md)
 - ##### [ESL Panel and Panel Stack](./src/modules/esl-panel/README.md)

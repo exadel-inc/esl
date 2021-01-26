@@ -8,18 +8,17 @@ import {attr} from '../../esl-base-element/decorators/attr';
 @ExportNs('TabsContainer')
 export class ESLTabsContainer extends ESLTriggersContainer {
   public static is = 'esl-tabs-container';
-  public static eventNs = 'esl:tabs-container';
 
   @attr({defaultValue: '.esl-tab-list'}) public tabList: string;
 
   protected bindEvents() {
     super.bindEvents();
-    this.addEventListener(`${ESLTab.eventNs}:statechange`, this._onTriggerStateChange);
+    this.addEventListener('activestatechange', this._onTriggerStateChange);
   }
 
   protected unbindEvents() {
     super.unbindEvents();
-    this.removeEventListener(`${ESLTab.eventNs}:statechange`, this._onTriggerStateChange);
+    this.removeEventListener('activestatechange', this._onTriggerStateChange);
   }
 
   get $triggers(): ESLTab[] {
@@ -43,7 +42,8 @@ export class ESLTabsContainer extends ESLTriggersContainer {
 
   @bind
   protected _onTriggerStateChange(event: CustomEvent) {
-    const trigger = event.target as ESLTab;
+    const trigger = event.target;
+    if (!(trigger instanceof ESLTab)) return;
     this.updateA11y(trigger);
   }
 }
