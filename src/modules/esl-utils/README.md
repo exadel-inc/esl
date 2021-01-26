@@ -1,7 +1,6 @@
 # [ESL](../../../README.md) Utils
 
-ESL Utils - is a module that contains a set of common utilities for working with DOM,
-BOM and other simple but handy things that are used by ESL components, but can also be used in client code.
+ESL Utils - is a module that contains a set of common utilities for working with DOM, BOM and other simple but handy things that are used by ESL components, but can also be used in client code.
 
 All ESL Utils helpers are super simple and atomic, be sure that none of the utilities requires the whole library. 
 Even if you use the whole utils module, it is still tiny.
@@ -44,34 +43,34 @@ Even if you use the whole utils module, it is still tiny.
 
 - ### DOM Helpers
   
-    - #### [Keycodes](./dom/keycodes.ts) - keyboard key-codes constants
+    - #### [Keycodes](./dom/keycodes.ts) - keyboard key-codes constants.
   
-    - #### [RTL Utils](./dom/rtl.ts) - Utils to detect RTL and RTL-specific browsers behavior
+    - #### [RTL Utils](./dom/rtl.ts) - Utils to detect RTL and RTL-specific browsers behavior.
   
-    - #### [Scripts](./dom/script.ts) - script loading utility to limit and track loading
+    - #### [Scripts](./dom/script.ts) - script loading utility to limit and track loading.
   
-    - #### [Scroll](./dom/scroll.ts) - scroll locking methods
-      *Note: uses [scroll.less](./dom/scroll.less) styles* 
+    - #### [Scroll](./dom/scroll.ts) - scroll locking methods. 
+      *Note: uses [scroll.less](./dom/scroll.less) styles.*
   
-    - #### [Styles](./dom/styles.ts) - small utility to work with CSS classes in a JQuery manner
+    - #### [Styles](./dom/styles.ts) - small utility to work with CSS classes in a JQuery manner.
   
-    - #### [DOM Traversing](./dom/traversing.ts) - a set of utils to find DOM elements or check their relations. 
+    - #### [DOM Traversing](./dom/traversing.ts) - a set of utils to find DOM elements or check their relations.
   
 - ### Environment
   
-    - #### [Device Detector](./environment/device-detector.ts) - set of user agent based checks such as engine or device type
+    - #### [Device Detector](./environment/device-detector.ts) - set of user agent based checks such as engine or device type.
   
 - ### Miscellaneous Utils
 
-    - #### [Array](./misc/array.ts) - array utils (uniq, flat, wrap, etc.)
+    - #### [Array](./misc/array.ts) - array utils (uniq, flat, wrap, etc.).
   
-    - #### [Format](./misc/format.ts) - string format utils
+    - #### [Format](./misc/format.ts) - string format utils.
   
-    - #### [Function](./misc/functions.ts) - simple functions and types 
+    - #### [Function](./misc/functions.ts) - simple functions and types.
   
-    - #### [Memoize](./misc/memoize.ts) - memoization function decorator
-      Memoization patten allows executing pure function once and then use the cached result. 
+    - #### [Memoize](./misc/memoize.ts) - memoization function decorator. 
+      Memoization patten allows executing pure function once and then use the cached result.
   
-    - #### [Object](./misc/object.ts) - object common utils
+    - #### [Object](./misc/object.ts) - object common utils.
   
-    - #### [UID](./misc/uid.ts) - unique identifier generation util 
+    - #### [UID](./misc/uid.ts) - unique identifier generation util.

@@ -1,10 +1,10 @@
 # [ESL](../../../README.md) Scrollbar
 
-Version: *1.0.0-alpha*
+Version: *1.0.0-alpha*.
 
-Authors: *Yuliya Adamskaya*
+Authors: *Yuliya Adamskaya*.
 
-ESLScrollbar - custom element, that replaces the browser's default scrollbar without losing performances.
+ESLScrollbar - custom element, that replaces the browser's default scrollbar without loss in performance.
  
 --- 
  
