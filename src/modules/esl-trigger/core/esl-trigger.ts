@@ -13,7 +13,6 @@ import type {NoopFnSignature} from '../../esl-utils/misc/functions';
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
   public static is = 'esl-trigger';
-  public static eventNs = 'esl:trigger';
 
   static get observedAttributes() {
     return ['target', 'event', 'mode', 'active'];
@@ -108,7 +107,8 @@ export class ESLTrigger extends ESLBaseElement {
       this.attachEventListener(this.hideEvent, this._onHideEvent);
     }
     const popupClass = this._popup.constructor as typeof ESLBasePopup;
-    this.popup.addEventListener(`${popupClass.eventNs}:statechange`, this._onPopupStateChange);
+    this.popup.addEventListener('show', this._onPopupStateChange);
+    this.popup.addEventListener('hide', this._onPopupStateChange);
 
     this.addEventListener('keydown', this._onKeydown);
   }
@@ -116,8 +116,11 @@ export class ESLTrigger extends ESLBaseElement {
   protected unbindEvents() {
     (this.__unsubscribers || []).forEach((off) => off());
     if (!this.popup) return;
+
     const popupClass = this._popup.constructor as typeof ESLBasePopup;
-    this.popup.removeEventListener(`${popupClass.eventNs}:statechange`, this._onPopupStateChange);
+    this.popup.removeEventListener('show', this._onPopupStateChange);
+    this.popup.removeEventListener('hide', this._onPopupStateChange);
+
     this.removeEventListener('keydown', this._onKeydown);
   }
 
@@ -156,9 +159,7 @@ export class ESLTrigger extends ESLBaseElement {
     const clsTarget = TraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
     clsTarget && CSSUtil.toggleClsTo(clsTarget, this.activeClass, this.active);
     this.updateA11y();
-    this.$$fireNs('statechange', {
-      bubbles: true
-    });
+    this.$$fire('change:active');
   }
 
   protected get showDelayValue(): number | undefined {

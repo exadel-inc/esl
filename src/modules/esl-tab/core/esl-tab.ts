@@ -4,7 +4,6 @@ import ESLTrigger from '../../esl-trigger/core/esl-trigger';
 @ExportNs('Tab')
 export class ESLTab extends ESLTrigger {
   public static is = 'esl-tab';
-  public static eventNs = 'esl:tab';
 
   public updateA11y() {
     const target = this.$a11yTarget;

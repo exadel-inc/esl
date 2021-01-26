@@ -9,7 +9,6 @@ import {ESLTab, ESLTabsContainer} from '../../esl-tab/core';
 @ExportNs('ScrollableTabs')
 export class ESLScrollableTabs extends ESLTabsContainer {
   public static is = 'esl-scrollable-tabs';
-  public static eventNs = 'esl:sc-tabs';
 
   @attr({defaultValue: '.esl-tab-list'}) public tabList: string;
 
@@ -25,6 +24,7 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     this.addEventListener('click', this._onClick, false);
     this.$list?.addEventListener('scroll', this._onScroll, {passive: true});
     this.addEventListener('focusin', this._onFocus);
+    this.addEventListener('change:active', this._onTriggerStateChange);
     window.addEventListener('resize', this.onResize);
   }
 
@@ -33,6 +33,7 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     this.removeEventListener('click', this._onClick, false);
     this.$list?.removeEventListener('scroll', this._onScroll);
     this.removeEventListener('focusin', this._onFocus);
+    this.removeEventListener('change:active', this._onTriggerStateChange);
     window.removeEventListener('resize', this.onResize);
   }
 
@@ -117,7 +118,6 @@ export class ESLScrollableTabs extends ESLTabsContainer {
 
   @bind
   protected _onTriggerStateChange(event: CustomEvent) {
-    super._onTriggerStateChange(event);
     this.deferredFitToViewport(this.current() as ESLTab);
   }
 

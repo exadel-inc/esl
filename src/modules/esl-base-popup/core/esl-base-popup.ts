@@ -141,9 +141,9 @@ export class ESLBasePopup extends ESLBaseElement {
   private planShowTask(params: PopupActionParams) {
     this._task.put(() => {
       if (!params.force && this._open) return;
-      if (!params.silent) this.fireBeforeStateChange();
+      if (!params.silent && !this.$$fire('before:show')) return;
       this.onShow(params);
-      if (!params.silent) this.fireStateChange();
+      if (!params.silent && !this.$$fire('show')) return;
     }, defined(params.showDelay, params.delay));
   }
 
@@ -160,9 +160,9 @@ export class ESLBasePopup extends ESLBaseElement {
   private planHideTask(params: PopupActionParams) {
     this._task.put(() => {
       if (!params.force && !this._open) return;
-      if (!params.silent) this.fireBeforeStateChange();
+      if (!params.silent && !this.$$fire('before:hide')) return;
       this.onHide(params);
-      if (!params.silent) this.fireStateChange();
+      if (!params.silent && !this.$$fire('hide')) return;
     }, defined(params.hideDelay, params.delay));
   }
 
@@ -192,6 +192,7 @@ export class ESLBasePopup extends ESLBaseElement {
     CSSUtil.addCls(this, this.activeClass);
     CSSUtil.addCls(document.body, this.bodyClass);
     this.updateA11y();
+    this.$$fire('esl:refresh');
   }
 
   /**
@@ -202,25 +203,6 @@ export class ESLBasePopup extends ESLBaseElement {
     CSSUtil.removeCls(this, this.activeClass);
     CSSUtil.removeCls(document.body, this.bodyClass);
     this.updateA11y();
-  }
-
-  /**
-   * Fires before component state change event
-   */
-  protected fireBeforeStateChange() {
-    this.$$fireNs('beforestatechange', {
-      detail: {open: this._open}
-    });
-  }
-
-  /**
-   * Fires component state change event
-   */
-  protected fireStateChange() {
-    this.$$fireNs('statechange', {
-      detail: {open: this._open}
-    });
-    this.$$fire('esl:refresh');
   }
 
   // "Private" Handlers
@@ -235,7 +217,7 @@ export class ESLBasePopup extends ESLBaseElement {
   protected _onOutsideAction(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (!this.contains(target)) {
-      this.hide({initiator: 'bodyclick', trigger: target});
+      this.hide({initiator: 'outsideclick', trigger: target});
     }
   }
 

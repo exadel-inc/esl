@@ -10,7 +10,6 @@ import ESLPanel from './esl-panel';
 @ExportNs('PanelStack')
 export class ESLPanelStack extends ESLBaseElement {
   public static is = 'esl-panel-stack';
-  public static eventNs = 'esl:panel-stack';
 
   @attr() public accordionTransformation: string;
   @attr({defaultValue: 'animate'}) public animateClass: string;
@@ -31,14 +30,14 @@ export class ESLPanelStack extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    this.addEventListener(`${ESLPanel.eventNs}:statechange`, this._onStateChange);
-    this.addEventListener(`${ESLPanel.eventNs}:beforestatechange`, this._onBeforeStateChange);
+    this.addEventListener('show', this._onShowPanel);
+    this.addEventListener('before:hide', this._onBeforeHide);
     this.addEventListener('transitionend', this._onTransitionEnd);
   }
 
   protected unbindEvents() {
-    this.removeEventListener(`${ESLPanel.eventNs}:statechange`, this._onStateChange);
-    this.removeEventListener(`${ESLPanel.eventNs}:beforestatechange`, this._onBeforeStateChange);
+    this.removeEventListener('show', this._onShowPanel);
+    this.removeEventListener('before:hide', this._onBeforeHide);
     this.removeEventListener('transitionend', this._onTransitionEnd);
   }
 
@@ -52,8 +51,7 @@ export class ESLPanelStack extends ESLBaseElement {
   }
 
   @bind
-  protected _onStateChange(e: CustomEvent) {
-    if (!e.detail.open) return;
+  protected _onShowPanel(e: CustomEvent) {
     if (this.isAccordion) return;
     const panel = e.target as ESLPanel;
     this.beforeAnimate();
@@ -62,10 +60,9 @@ export class ESLPanelStack extends ESLBaseElement {
   }
 
   @bind
-  protected _onBeforeStateChange(e: CustomEvent) {
-    if (e.detail.open) {
-      this.previousHeight = this.offsetHeight;
-    }
+  protected _onBeforeHide(e: Event) {
+    if (!(e.target as ESLPanel).open) return;
+    this.previousHeight = this.offsetHeight;
   }
 
   protected onAnimate(from?: number, to?: number) {

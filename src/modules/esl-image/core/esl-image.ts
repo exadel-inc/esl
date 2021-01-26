@@ -279,8 +279,8 @@ export class ESLImage extends ESLBaseElement {
     this.toggleAttribute('loaded', successful);
     this.toggleAttribute('error', !successful);
     this.toggleAttribute('ready', true);
-    this.$$fire(successful ? 'loaded' : 'error', {bubbles: false});
-    this.$$fire('ready', {bubbles: false});
+    this.$$fire(successful ? 'loaded' : 'error');
+    this.$$fire('ready');
   }
 
   public updateContainerClasses() {
@@ -289,6 +289,10 @@ export class ESLImage extends ESLBaseElement {
     const state = isLoadState(this.containerClassState) && this[this.containerClassState];
     const targetEl = TraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
     targetEl && CSSUtil.toggleClsTo(targetEl, cls, state);
+  }
+
+  public $$fire(eventName: string, eventInit: CustomEventInit = {bubbles: false}): boolean {
+    return super.$$fire(eventName, eventInit);
   }
 
   public static isEmptyImage(src: string) {

@@ -6,7 +6,6 @@ import {ScrollStrategy, ScrollUtility} from '../../esl-utils/dom/scroll';
 @ExportNs('Popup')
 export class ESLPopup extends ESLBasePopup {
   public static is = 'esl-popup';
-  public static eventNs = 'esl:popup';
 
   @attr({defaultValue: null}) public disableScroll: ScrollStrategy;
 
