@@ -146,6 +146,14 @@ export class ESLImage extends ESLBaseElement {
     return this.lazy !== 'none' && this.lazy !== 'manual';
   }
 
+  public get originalWidth() {
+    return this._shadowImageElement ? this._shadowImageElement.width : 0;
+  }
+
+  public get originalHeight() {
+    return this._shadowImageElement ? this._shadowImageElement.height : 0;
+  }
+
   public triggerLoad() {
     this.setAttribute('lazy-triggered', '');
   }
