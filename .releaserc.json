@@ -1,6 +1,9 @@
 {
   "debug": true,
-  "branches": ["main"],
+  "branches": [
+    "main",
+    {"name": "main-beta", "channel": "beta", "prerelease": "beta"}
+  ],
   "tagFormat": "v${version}",
   "plugins": [
     ["@semantic-release/commit-analyzer", {
