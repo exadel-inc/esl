@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/exadel-inc/esl/compare/v1.0.1...v1.1.0) (2021-01-27)
+
+
+### Features
+
+* add originalWidth / originalHeight accessors to ESLImage ([365e31b](https://github.com/exadel-inc/esl/commit/365e31b78db67b4bbc335c17078b117459753aa4))
+
 ## [1.0.1](https://github.com/exadel-inc/esl/compare/v1.0.0...v1.0.1) (2021-01-18)
 
 
