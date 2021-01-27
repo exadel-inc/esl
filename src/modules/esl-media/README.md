@@ -27,7 +27,7 @@ ESlMedia - custom element, that provides an ability to add and configure media (
  
  - **fill mode** - feature that allows managing player rendering option in bounds of given element area.
  
- - **state change events** (`esl:media:load`, `esl:media:error`, `esl:media:play`, etc).
+ - **state change events** (`media:load`, `media:error`, `media:play`, etc).
  
  - provides **'HTMLMedia like' API** that is safe and will be executed after real API is ready.
 
@@ -74,13 +74,13 @@ ESlMedia - custom element, that provides an ability to add and configure media (
  - **active** (boolean) - marker that indicates that media is playing
  
 ### Events: 
- - `esl:media:error` - (bubbles) fires when API is initialized with error
- - `esl:media:ready` - (bubbles) fires when API is ready
- - `esl:media:play` - (bubbles) fires when esl-media starts playing
- - `esl:media:paused` - (bubbles) fires when esl-media is paused
- - `esl:media:ended` - (bubbles) fires when esl-media is ended
- - `esl:media:detach` - (bubbles) fires after esl-media provider is detached (reinitialized / disconnected from the DOM)
- - `esl:media:mangedpause` - (bubbles) fires when media was paused by esl-media group restriction manager
+ - `media:error` - (bubbles) fires when API is initialized with error
+ - `media:ready` - (bubbles) fires when API is ready
+ - `media:play` - (bubbles) fires when esl-media starts playing
+ - `media:paused` - (bubbles) fires when esl-media is paused
+ - `media:ended` - (bubbles) fires when esl-media is ended
+ - `media:detach` - (bubbles) fires after esl-media provider is detached (reinitialized / disconnected from the DOM)
+ - `media:mangedpause` - (bubbles) fires when media was paused by esl-media group restriction manager
  
 ### Examples:
 ```html
