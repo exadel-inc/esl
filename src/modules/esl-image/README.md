@@ -1,6 +1,6 @@
 # [ESL](../../../README.md) Image
 
-Version: *1.0.0*
+Version: *1.1.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*.
 

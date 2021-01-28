@@ -344,7 +344,7 @@ export class ESLMedia extends ESLBaseElement {
 
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
     const name = (this.constructor as typeof ESLMedia).eventNs + eventName;
-    return super.$$fire(name, eventInit);
+    return ESLBaseElement.$$fire(this, name, eventInit);
   }
 }
 

@@ -144,6 +144,14 @@ export class ESLImage extends ESLBaseElement {
     return this.lazy !== 'none' && this.lazy !== 'manual';
   }
 
+  public get originalWidth() {
+    return this._shadowImageElement ? this._shadowImageElement.width : 0;
+  }
+
+  public get originalHeight() {
+    return this._shadowImageElement ? this._shadowImageElement.height : 0;
+  }
+
   public triggerLoad() {
     this.setAttribute('lazy-triggered', '');
   }
@@ -292,7 +300,7 @@ export class ESLImage extends ESLBaseElement {
   }
 
   public $$fire(eventName: string, eventInit: CustomEventInit = {bubbles: false}): boolean {
-    return super.$$fire(eventName, eventInit);
+    return ESLBaseElement.$$fire(this, eventName, eventInit);
   }
 
   public static isEmptyImage(src: string) {
