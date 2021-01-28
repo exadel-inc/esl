@@ -1,3 +1,21 @@
+# [2.0.0-beta.2](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2021-01-28)
+
+
+### Features
+
+* !revert back esl prefix for events ([adef294](https://github.com/exadel-inc/esl/commit/adef294f76ef6b9c9a46cd743fd26d65b45cbfdf))
+* add originalWidth / originalHeight accessors to ESLImage ([365e31b](https://github.com/exadel-inc/esl/commit/365e31b78db67b4bbc335c17078b117459753aa4))
+
+
+### BREAKING CHANGES
+
+*  events of BasePopup now have esl prefix
+('esl:hide' / 'esl:show' / 'esl:before:hide' / 'esl:before:show')
+
+ events of Trigger now have esl prefix:  'esl:change:active'
+
+ events of Panel now have esl prefix: 'esl:after:hide' / 'esl:after:show'
+
 # [2.0.0-beta.1](https://github.com/exadel-inc/esl/compare/v1.0.1...v2.0.0-beta.1) (2021-01-26)
 
 
