@@ -4,7 +4,7 @@ import {throttle} from '../throttle';
 describe('async/throttle', () => {
   test('basic scenario', (done) => {
     const fn = jest.fn();
-    const throttled = throttle(fn, 50);
+    const throttled = throttle(fn, 60);
 
     expect(typeof throttled).toBe('function');
 
@@ -21,8 +21,8 @@ describe('async/throttle', () => {
       throttled();
       expect(fn).toBeCalledTimes(3);
       done();
-    }, 120);
-  }, 200);
+    }, 150);
+  }, 250);
 
   test('test context', () => {
     const fn = function () { return this; };
