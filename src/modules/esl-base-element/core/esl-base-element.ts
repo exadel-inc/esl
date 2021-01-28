@@ -41,7 +41,7 @@ export abstract class ESLBaseElement extends HTMLElement {
    * @param eventName - event name
    * @param [eventInit] - custom event init. See {@link CustomEventInit}
    */
-  protected static $$fire(el: ESLBaseElement, eventName: string, eventInit?: CustomEventInit) {
+  public static $$fire(el: ESLBaseElement, eventName: string, eventInit?: CustomEventInit) {
     const init = Object.assign({
       bubbles: true,
       composed: true,
