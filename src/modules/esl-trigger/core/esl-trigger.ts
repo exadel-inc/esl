@@ -107,8 +107,8 @@ export class ESLTrigger extends ESLBaseElement {
       this.attachEventListener(this.hideEvent, this._onHideEvent);
     }
     const popupClass = this._popup.constructor as typeof ESLBasePopup;
-    this.popup.addEventListener('show', this._onPopupStateChange);
-    this.popup.addEventListener('hide', this._onPopupStateChange);
+    this.popup.addEventListener('esl:show', this._onPopupStateChange);
+    this.popup.addEventListener('esl:hide', this._onPopupStateChange);
 
     this.addEventListener('keydown', this._onKeydown);
   }
@@ -118,8 +118,8 @@ export class ESLTrigger extends ESLBaseElement {
     if (!this.popup) return;
 
     const popupClass = this._popup.constructor as typeof ESLBasePopup;
-    this.popup.removeEventListener('show', this._onPopupStateChange);
-    this.popup.removeEventListener('hide', this._onPopupStateChange);
+    this.popup.removeEventListener('esl:show', this._onPopupStateChange);
+    this.popup.removeEventListener('esl:hide', this._onPopupStateChange);
 
     this.removeEventListener('keydown', this._onKeydown);
   }

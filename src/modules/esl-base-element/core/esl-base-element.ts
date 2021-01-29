@@ -25,17 +25,29 @@ export abstract class ESLBaseElement extends HTMLElement {
 
   /**
    * Dispatch component custom event.
+   * Uses 'esl:' prefix for event name, overridable to customize event namespaces.
+   * @param eventName - event name
+   * @param [eventInit] - custom event init. See {@link CustomEventInit}
+   * @see ESLBaseElement.$$fire
+   */
+  public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
+    return ESLBaseElement.$$fire(this, 'esl:' + eventName, eventInit);
+  }
+
+  /**
+   * Dispatch custom event.
    * Event bubbles and is cancelable by default, use {@param eventInit} to override that.
+   * @param el - element target
    * @param eventName - event name
    * @param [eventInit] - custom event init. See {@link CustomEventInit}
    */
-  public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
+  public static $$fire(el: ESLBaseElement, eventName: string, eventInit?: CustomEventInit) {
     const init = Object.assign({
       bubbles: true,
       composed: true,
       cancelable: true
     }, eventInit || {});
-    return this.dispatchEvent(new CustomEvent(eventName, init));
+    return el.dispatchEvent(new CustomEvent(eventName, init));
   }
 
   /**

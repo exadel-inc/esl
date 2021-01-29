@@ -300,7 +300,7 @@ export class ESLImage extends ESLBaseElement {
   }
 
   public $$fire(eventName: string, eventInit: CustomEventInit = {bubbles: false}): boolean {
-    return super.$$fire(eventName, eventInit);
+    return ESLBaseElement.$$fire(this, eventName, eventInit);
   }
 
   public static isEmptyImage(src: string) {

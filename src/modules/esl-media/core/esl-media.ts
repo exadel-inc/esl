@@ -21,7 +21,7 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 @ExportNs('Media')
 export class ESLMedia extends ESLBaseElement {
   public static is = 'esl-media';
-  public static eventNs = 'esl:media';
+  public static eventNs = 'esl:media:';
 
   @attr() public mediaId: string;
   @attr() public mediaSrc: string;
@@ -343,8 +343,8 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
-    const name = (this.constructor as typeof ESLMedia).eventNs + eventName;
-    return super.$$fire(name, eventInit);
+    const ns = (this.constructor as typeof ESLMedia).eventNs;
+    return ESLBaseElement.$$fire(this, ns + eventName, eventInit);
   }
 }
 
