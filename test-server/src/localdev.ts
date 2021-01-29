@@ -24,7 +24,8 @@ import {
   ESLTabsContainer,
   ESLScrollableTabs,
   ESLScrollbar,
-  ESLAlert
+  ESLAlert,
+  ESLBasePopupGroupManager
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -41,6 +42,7 @@ import {
 ESLImage.register();
 ESLMedia.register();
 
+ESLBasePopupGroupManager.init();
 ESLPopup.register();
 ESLPanel.register();
 ESLPanelStack.register();

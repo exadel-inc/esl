@@ -52,6 +52,7 @@ export class ESLPanelStack extends ESLBaseElement {
 
   @bind
   protected _onShowPanel(e: CustomEvent) {
+    if (!e.detail.open) return; // TODO check
     if (this.isAccordion) return;
     const panel = e.target as ESLPanel;
     this.beforeAnimate();
@@ -60,7 +61,7 @@ export class ESLPanelStack extends ESLBaseElement {
   }
 
   @bind
-  protected _onBeforeHide(e: Event) {
+  protected _onBeforeHide(e: CustomEvent) {
     if (!(e.target as ESLPanel).open) return;
     this.previousHeight = this.offsetHeight;
   }
@@ -113,7 +114,7 @@ export class ESLPanelStack extends ESLBaseElement {
   }
 
   /**
-   * config that used to form result panel action params
+   * config that is used to form result panel action params
    */
   get panelConfig() {
     return {

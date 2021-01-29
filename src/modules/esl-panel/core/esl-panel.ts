@@ -24,7 +24,7 @@ export class ESLPanel extends ESLBasePopup {
   @boolAttr() public isAccordion: boolean;
   @boolAttr() public startAnimation: boolean;
 
-  @jsonAttr<PanelActionParams>({defaultValue: {silent: true, force: true, initiator: 'init', noAnimation: true}})
+  @jsonAttr<PanelActionParams>({defaultValue: {silent: false, force: true, initiator: 'init', noAnimation: true}})
   public initialParams: PopupActionParams;
 
   public initialHeight: number;
