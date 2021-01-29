@@ -40,7 +40,7 @@ export class ESLBasePopup extends ESLBaseElement {
   @boolAttr() public closeOnEsc: boolean;
   @boolAttr() public closeOnOutsideAction: boolean;
 
-  @jsonAttr<PopupActionParams>({defaultValue: {silent: false, force: true, initiator: 'init'}})
+  @jsonAttr<PopupActionParams>({defaultValue: {force: true, initiator: 'init'}})
   public initialParams: PopupActionParams;
   @jsonAttr<PopupActionParams>({defaultValue: {}})
   public defaultParams: PopupActionParams;
@@ -53,9 +53,6 @@ export class ESLBasePopup extends ESLBaseElement {
         break;
       case 'group':
         this.$$fire('change:group',  {
-          bubbles: true,
-          composed: true,
-          cancelable: true,
           detail: {oldGroupName: oldVal, newGroupName: newVal}
         });
         break;
