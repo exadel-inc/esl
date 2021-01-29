@@ -1,68 +1,85 @@
 import {ESLBasePopup} from './esl-base-popup';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-
-const popups = new Map<string, ESLBasePopup>(); // name of group and active popup
-
-let rootEl: HTMLElement;
-let instance: ESLBasePopupGroupManager;
-
+import {memoize} from '../../esl-utils/decorators/memoize';
 
 @ExportNs('BasePopupGroupManager')
 export class ESLBasePopupGroupManager {
 
-  public static init(root: HTMLElement = document.body) {
-    rootEl = root;
-    return instance ? instance : new ESLBasePopupGroupManager();
+  @memoize()
+  public static get instance() {
+    return new ESLBasePopupGroupManager();
   }
 
-  constructor() {
-    this.bindEvents();
+  public static init(root: HTMLElement = document.body) {
+    const instance = ESLBasePopupGroupManager.instance;
+    instance.root = root;
+  }
+
+  protected _root: HTMLElement;
+  protected _popups: Map<string, ESLBasePopup> = new Map<string, ESLBasePopup>();
+
+  public get root(): HTMLElement {
+    return this._root;
+  }
+  public set root(root: HTMLElement) {
+    if (this._root) this.unbindEvents();
+    this._root = root;
+    if (this._root) this.bindEvents();
   }
 
   protected bindEvents() {
-    rootEl.addEventListener('before:show', this.onBeforeShow);
-    rootEl.addEventListener('before:hide', this.onBeforeHide);
+    this.root.addEventListener('esl:before:show', this.onBeforeShow);
 
-    rootEl.addEventListener('show', this.onShow);
-    rootEl.addEventListener('hide', this.onHide);
+    this.root.addEventListener('esl:show', this.onShow);
+    this.root.addEventListener('esl:hide', this.onHide);
 
-    rootEl.addEventListener('change:group', this.onChangeGroup);
+    this.root.addEventListener('esl:change:group', this.onChangeGroup);
+  }
+
+  protected unbindEvents() {
+    this.root.removeEventListener('esl:before:show', this.onBeforeShow);
+
+    this.root.removeEventListener('esl:show', this.onShow);
+    this.root.removeEventListener('esl:hide', this.onHide);
+
+    this.root.removeEventListener('esl:change:group', this.onChangeGroup);
+  }
+
+  public isAcceptable(target: any): target is ESLBasePopup {
+    if (!(target instanceof ESLBasePopup)) return false;
+    return !!target.groupName;
   }
 
   /**
    * Hide active popup in group
    */
-  public hide(groupName: string): boolean {
-    if (!popups.has(groupName)) return false;
-    popups.get(groupName)?.hide();
-    return true;
+  public hide(groupName: string) {
+    this.get(groupName)?.hide();
   }
 
   /**
    * Set active popup in group
    */
-  public set(groupName: string, popup: ESLBasePopup): boolean {
-    if (!groupName) return false;
-    popups.get(groupName)?.hide();
-    popups.set(groupName, popup);
-    return true;
+  public set(groupName: string, popup: ESLBasePopup) {
+    if (!groupName) return;
+    this.hide(groupName);
+    this._popups.set(groupName, popup);
   }
 
   /**
    * Get active popup in group or undefined if group doesn't exist
    */
   public get(groupName: string): ESLBasePopup | undefined {
-    return popups.get(groupName);
+    return this._popups.get(groupName);
   }
 
   /**
    * Delete popup in group if this popup is active
    */
-  public delete(groupName: string, popup: ESLBasePopup): boolean {
-    if (popups.get(groupName) !== popup) return false;
-    popups.delete(groupName);
-    return true;
+  public delete(groupName: string, popup: ESLBasePopup) {
+    if (this.get(groupName) !== popup) return;
+    this._popups.delete(groupName);
   }
 
   /**
@@ -71,31 +88,19 @@ export class ESLBasePopupGroupManager {
   @bind
   protected onBeforeShow(e: CustomEvent) {
     const target = e.target;
-    if (!(target instanceof ESLBasePopup)) return true;
-
+    if (!this.isAcceptable(target)) return;
     this.hide(target.groupName);
-
-    return true;
-  }
-
-  @bind
-  protected onBeforeHide(e: CustomEvent) {
-    return true;
   }
 
   /**
-   *  Update group state after a new popup is shown
+   *  Update active popup after a new popup is shown
    */
   @bind
   protected onShow(e: CustomEvent) {
     const target = e.target;
-    if (!(target instanceof ESLBasePopup)) return true;
+    if (!this.isAcceptable(target)) return;
 
-    const groupName = target.groupName;
-    if (!groupName) return true;
-
-    this.set(groupName, target);
-    return true;
+    this.set(target.groupName, target);
   }
 
   /**
@@ -104,10 +109,9 @@ export class ESLBasePopupGroupManager {
   @bind
   protected onHide(e: CustomEvent) {
     const target = e.target;
-    if (!(target instanceof ESLBasePopup)) return true;
+    if (!this.isAcceptable(target)) return;
 
     this.delete(target.groupName, target);
-    return true;
   }
 
   /**
@@ -116,7 +120,7 @@ export class ESLBasePopupGroupManager {
   @bind
   protected onChangeGroup(e: CustomEvent) {
     const target = e.target;
-    if (!(target instanceof ESLBasePopup)) return true;
+    if (!this.isAcceptable(target)) return;
 
     const {oldGroupName, newGroupName} = e.detail;
     this.delete(oldGroupName, target);
