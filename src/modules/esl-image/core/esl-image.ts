@@ -8,6 +8,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
+import {EventUtils} from '../../esl-utils/dom/events';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
@@ -300,7 +301,7 @@ export class ESLImage extends ESLBaseElement {
   }
 
   public $$fire(eventName: string, eventInit: CustomEventInit = {bubbles: false}): boolean {
-    return ESLBaseElement.$$fire(this, eventName, eventInit);
+    return EventUtils.dispatch(this, eventName, eventInit);
   }
 
   public static isEmptyImage(src: string) {

@@ -7,7 +7,6 @@ import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
 
-import {ESLBasePopupGroup} from './esl-base-popup-group';
 
 export interface PopupActionParams {
   initiator?: string;
@@ -18,8 +17,6 @@ export interface PopupActionParams {
   silent?: boolean;
   trackHover?: boolean;
   trigger?: HTMLElement;
-  previousPopup?: ESLBasePopup;
-  nextPopup?: ESLBasePopup;
 }
 
 @ExportNs('BasePopup')
@@ -43,14 +40,10 @@ export class ESLBasePopup extends ESLBaseElement {
   @boolAttr() public closeOnEsc: boolean;
   @boolAttr() public closeOnOutsideAction: boolean;
 
-  @jsonAttr<PopupActionParams>({defaultValue: {silent: true, force: true, initiator: 'init'}})
+  @jsonAttr<PopupActionParams>({defaultValue: {force: true, initiator: 'init'}})
   public initialParams: PopupActionParams;
   @jsonAttr<PopupActionParams>({defaultValue: {}})
   public defaultParams: PopupActionParams;
-
-  public get group() {
-    return ESLBasePopupGroup.find(this.groupName);
-  }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected || newVal === oldVal) return;
@@ -59,22 +52,21 @@ export class ESLBasePopup extends ESLBaseElement {
         this.toggle(this.open, Object.assign({initiator: 'attribute'}, this.defaultParams));
         break;
       case 'group':
-        oldVal && ESLBasePopupGroup.unregister(this, oldVal);
-        newVal && ESLBasePopupGroup.register(this, newVal);
+        this.$$fire('change:group',  {
+          detail: {oldGroupName: oldVal, newGroupName: newVal}
+        });
         break;
     }
   }
 
   protected connectedCallback() {
     super.connectedCallback();
-    ESLBasePopupGroup.register(this, this.groupName);
     this.bindEvents();
     this.setInitialState();
   }
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
-    ESLBasePopupGroup.unregister(this);
     this.unbindEvents();
   }
 
@@ -132,7 +124,6 @@ export class ESLBasePopup extends ESLBaseElement {
    */
   public show(params?: PopupActionParams) {
     params = this.mergeDefaultParams(params);
-    this.group.activate(this, params);
     this.planShowTask(params);
     this.bindOutsideEventTracking(this.closeOnOutsideAction);
     this.bindHoverStateTracking(!!params.trackHover);

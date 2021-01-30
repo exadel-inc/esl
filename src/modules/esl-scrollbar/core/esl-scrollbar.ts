@@ -8,7 +8,7 @@ import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {rafDecorator} from '../../esl-utils/async/raf';
-import {normalizeCoordinates} from '../../esl-utils/dom/events';
+import {EventUtils} from '../../esl-utils/dom/events';
 import {TraversingUtils} from '../../esl-utils/dom/traversing';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
@@ -287,7 +287,7 @@ export class ESLScrollbar extends ESLBaseElement {
   @bind
   protected _onClick(event: MouseEvent) {
     if (event.target !== this.$scrollbarTrack && event.target !== this) return;
-    const clickCoordinates = normalizeCoordinates(event, this.$scrollbarTrack);
+    const clickCoordinates = EventUtils.normalizeCoordinates(event, this.$scrollbarTrack);
     const clickPosition = this.horizontal ? clickCoordinates.x : clickCoordinates.y;
 
     const freeTrackArea = this.trackOffset - this.thumbOffset; // px
