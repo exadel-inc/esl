@@ -24,7 +24,7 @@ export class ESLPanel extends ESLBasePopup {
   @boolAttr() public isAccordion: boolean;
   @boolAttr() public startAnimation: boolean;
 
-  @jsonAttr<PanelActionParams>({defaultValue: {silent: false, force: true, initiator: 'init', noAnimation: true}})
+  @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init', noAnimation: true}})
   public initialParams: PopupActionParams;
 
   public initialHeight: number;
@@ -98,9 +98,7 @@ export class ESLPanel extends ESLBasePopup {
     CSSUtil.removeCls(this, this.postAnimateClass);
   }
 
-  /**
-   * the panels use panel stack config for actions
-   */
+  /** The panels use panel stack config for actions */
   protected mergeDefaultParams(params?: PopupActionParams): PopupActionParams {
     const stackConfig = this.stack?.panelConfig || {};
     return Object.assign({}, stackConfig, this.defaultParams, params || {});

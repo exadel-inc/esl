@@ -52,7 +52,6 @@ export class ESLPanelStack extends ESLBaseElement {
 
   @bind
   protected _onShowPanel(e: CustomEvent) {
-    if (!e.detail.open) return; // TODO check
     if (this.isAccordion) return;
     const panel = e.target as ESLPanel;
     this.beforeAnimate();
@@ -113,9 +112,7 @@ export class ESLPanelStack extends ESLBaseElement {
     return this.transformationQuery.matches;
   }
 
-  /**
-   * config that is used to form result panel action params
-   */
+  /** Config that is used to form result panel action params */
   get panelConfig() {
     return {
       noCollapse: !this.isAccordion
