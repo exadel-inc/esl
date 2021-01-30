@@ -1,7 +1,7 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import ESLCarouselPlugin from './esl-carousel-plugin';
 import {DeviceDetector} from '../../../esl-utils/environment/device-detector';
-import {normalizeTouchPoint, Point} from '../../../esl-utils/dom/events';
+import {EventUtils, Point} from '../../../esl-utils/dom/events';
 
 /**
  * Slide Carousel Touch plugin
@@ -37,12 +37,12 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
       return;
     }
     this.isTouchStarted = true;
-    this.startPoint = normalizeTouchPoint(event);
+    this.startPoint = EventUtils.normalizeTouchPoint(event);
   };
 
   onTouchMove = (event: TouchEvent | PointerEvent) => {
     if (!this.isTouchStarted) return;
-    // const point = normalizeTouchPoint(event);
+    // const point = EventUtils.normalizeTouchPoint(event);
     // const offset = {
     // 	x: point.x - this.startPoint.x,
     // 	y: point.y - this.startPoint.y
@@ -51,7 +51,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
 
   onTouchEnd = (event: TouchEvent | PointerEvent) => {
     if (!this.isTouchStarted) return;
-    const point = normalizeTouchPoint(event);
+    const point = EventUtils.normalizeTouchPoint(event);
     const offset = {
       x: point.x - this.startPoint.x,
       y: point.y - this.startPoint.y
