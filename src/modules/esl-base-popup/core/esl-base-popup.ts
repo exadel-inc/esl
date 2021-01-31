@@ -7,7 +7,6 @@ import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
 
-
 export interface PopupActionParams {
   initiator?: string;
   delay?: number;
@@ -16,8 +15,10 @@ export interface PopupActionParams {
   force?: boolean;
   silent?: boolean;
   trackHover?: boolean;
-  trigger?: HTMLElement;
+  activator?: HTMLElement;
 }
+
+const activators: WeakMap<ESLBasePopup, HTMLElement | undefined> = new WeakMap();
 
 @ExportNs('BasePopup')
 export class ESLBasePopup extends ESLBaseElement {
@@ -68,6 +69,7 @@ export class ESLBasePopup extends ESLBaseElement {
   protected disconnectedCallback() {
     super.disconnectedCallback();
     this.unbindEvents();
+    activators.delete(this);
   }
 
   protected setInitialState() {
@@ -157,6 +159,11 @@ export class ESLBasePopup extends ESLBaseElement {
     }, defined(params.hideDelay, params.delay));
   }
 
+  /** Last element that activate popup. Uses {@link PopupActionParams.activator}*/
+  public get activator() {
+    return activators.get(this);
+  }
+
   /**
    * Returns element to apply a11y attributes
    */
@@ -179,6 +186,7 @@ export class ESLBasePopup extends ESLBaseElement {
    * Action to show popup
    */
   protected onShow(params: PopupActionParams) {
+    activators.set(this, params.activator);
     this.open = this._open = true;
     CSSUtil.addCls(this, this.activeClass);
     CSSUtil.addCls(document.body, this.bodyClass);
@@ -190,6 +198,7 @@ export class ESLBasePopup extends ESLBaseElement {
    * Action to hide popup
    */
   protected onHide(params: PopupActionParams) {
+    activators.delete(this);
     this.open = this._open = false;
     CSSUtil.removeCls(this, this.activeClass);
     CSSUtil.removeCls(document.body, this.bodyClass);
@@ -201,15 +210,15 @@ export class ESLBasePopup extends ESLBaseElement {
   protected _onClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (this.closeTrigger && target.closest(this.closeTrigger)) {
-      this.hide({initiator: 'close', trigger: target});
+      this.hide({initiator: 'close', activator: target});
     }
   }
   @bind
   protected _onOutsideAction(e: MouseEvent) {
     const target = e.target as HTMLElement;
-    if (!this.contains(target)) {
-      this.hide({initiator: 'outsideclick', trigger: target});
-    }
+    if (this.contains(target)) return;
+    if (this.activator && this.activator.contains(target)) return;
+    this.hide({initiator: 'outsideaction', activator: target});
   }
 
   @bind

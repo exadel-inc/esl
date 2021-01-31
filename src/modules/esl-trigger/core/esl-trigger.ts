@@ -106,7 +106,7 @@ export class ESLTrigger extends ESLBaseElement {
       this.attachEventListener(this.showEvent, this._onShowEvent);
       this.attachEventListener(this.hideEvent, this._onHideEvent);
     }
-    const popupClass = this._popup.constructor as typeof ESLBasePopup;
+
     this.popup.addEventListener('esl:show', this._onPopupStateChange);
     this.popup.addEventListener('esl:hide', this._onPopupStateChange);
 
@@ -117,7 +117,6 @@ export class ESLTrigger extends ESLBaseElement {
     (this.__unsubscribers || []).forEach((off) => off());
     if (!this.popup) return;
 
-    const popupClass = this._popup.constructor as typeof ESLBasePopup;
     this.popup.removeEventListener('esl:show', this._onPopupStateChange);
     this.popup.removeEventListener('esl:hide', this._onPopupStateChange);
 
@@ -135,7 +134,7 @@ export class ESLTrigger extends ESLBaseElement {
   protected _onShowEvent(e: Event) {
     (e.type === 'click' && this.popup.closeOnOutsideAction) && e.stopPropagation();
     this.popup.show({
-      trigger: this,
+      activator: this,
       delay: this.showDelayValue
     });
   }
@@ -143,7 +142,7 @@ export class ESLTrigger extends ESLBaseElement {
   protected _onHideEvent(e: Event) {
     (e.type === 'click' && this.popup.closeOnOutsideAction) && e.stopPropagation();
     this.popup.hide({
-      trigger: this,
+      activator: this,
       delay: this.hideDelayValue,
       trackHover: this.event === 'hover' && this.mode === 'toggle'
     });
