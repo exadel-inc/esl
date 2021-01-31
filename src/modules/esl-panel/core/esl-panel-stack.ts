@@ -60,7 +60,7 @@ export class ESLPanelStack extends ESLBaseElement {
   }
 
   @bind
-  protected _onBeforeHide(e: Event) {
+  protected _onBeforeHide(e: CustomEvent) {
     if (!(e.target as ESLPanel).open) return;
     this.previousHeight = this.offsetHeight;
   }
@@ -112,9 +112,7 @@ export class ESLPanelStack extends ESLBaseElement {
     return this.transformationQuery.matches;
   }
 
-  /**
-   * config that used to form result panel action params
-   */
+  /** Config that is used to form result panel action params */
   get panelConfig() {
     return {
       noCollapse: !this.isAccordion

@@ -7,6 +7,7 @@ import type {ESLMedia} from './esl-media/core/esl-media';
 
 import type {ESLScrollbar} from './esl-scrollbar/core/esl-scrollbar';
 
+import type {ESLBasePopupGroupManager} from './esl-base-popup/core/esl-base-popup-group-manager';
 import type {ESLBasePopup} from './esl-base-popup/core/esl-base-popup';
 import type {ESLPopup} from './esl-popup/core/esl-popup';
 import type {ESLTrigger} from './esl-trigger/core/esl-trigger';
@@ -32,6 +33,7 @@ declare global {
   const ESL: ESLLibrary;
 
   export interface ESLLibrary {
+    BasePopupGroupManager?: typeof ESLBasePopupGroupManager;
     DeviceDetector?: typeof DeviceDetector;
 
     MediaBreakpoints?: typeof ESLMediaBreakpoints;

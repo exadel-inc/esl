@@ -7,8 +7,6 @@ import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
 
-import {ESLBasePopupGroup} from './esl-base-popup-group';
-
 export interface PopupActionParams {
   initiator?: string;
   delay?: number;
@@ -17,10 +15,10 @@ export interface PopupActionParams {
   force?: boolean;
   silent?: boolean;
   trackHover?: boolean;
-  trigger?: HTMLElement;
-  previousPopup?: ESLBasePopup;
-  nextPopup?: ESLBasePopup;
+  activator?: HTMLElement;
 }
+
+const activators: WeakMap<ESLBasePopup, HTMLElement | undefined> = new WeakMap();
 
 @ExportNs('BasePopup')
 export class ESLBasePopup extends ESLBaseElement {
@@ -43,14 +41,10 @@ export class ESLBasePopup extends ESLBaseElement {
   @boolAttr() public closeOnEsc: boolean;
   @boolAttr() public closeOnOutsideAction: boolean;
 
-  @jsonAttr<PopupActionParams>({defaultValue: {silent: true, force: true, initiator: 'init'}})
+  @jsonAttr<PopupActionParams>({defaultValue: {force: true, initiator: 'init'}})
   public initialParams: PopupActionParams;
   @jsonAttr<PopupActionParams>({defaultValue: {}})
   public defaultParams: PopupActionParams;
-
-  public get group() {
-    return ESLBasePopupGroup.find(this.groupName);
-  }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected || newVal === oldVal) return;
@@ -59,23 +53,23 @@ export class ESLBasePopup extends ESLBaseElement {
         this.toggle(this.open, Object.assign({initiator: 'attribute'}, this.defaultParams));
         break;
       case 'group':
-        oldVal && ESLBasePopupGroup.unregister(this, oldVal);
-        newVal && ESLBasePopupGroup.register(this, newVal);
+        this.$$fire('change:group',  {
+          detail: {oldGroupName: oldVal, newGroupName: newVal}
+        });
         break;
     }
   }
 
   protected connectedCallback() {
     super.connectedCallback();
-    ESLBasePopupGroup.register(this, this.groupName);
     this.bindEvents();
     this.setInitialState();
   }
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
-    ESLBasePopupGroup.unregister(this);
     this.unbindEvents();
+    activators.delete(this);
   }
 
   protected setInitialState() {
@@ -132,7 +126,6 @@ export class ESLBasePopup extends ESLBaseElement {
    */
   public show(params?: PopupActionParams) {
     params = this.mergeDefaultParams(params);
-    this.group.activate(this, params);
     this.planShowTask(params);
     this.bindOutsideEventTracking(this.closeOnOutsideAction);
     this.bindHoverStateTracking(!!params.trackHover);
@@ -166,6 +159,11 @@ export class ESLBasePopup extends ESLBaseElement {
     }, defined(params.hideDelay, params.delay));
   }
 
+  /** Last element that activate popup. Uses {@link PopupActionParams.activator}*/
+  public get activator() {
+    return activators.get(this);
+  }
+
   /**
    * Returns element to apply a11y attributes
    */
@@ -188,6 +186,7 @@ export class ESLBasePopup extends ESLBaseElement {
    * Action to show popup
    */
   protected onShow(params: PopupActionParams) {
+    activators.set(this, params.activator);
     this.open = this._open = true;
     CSSUtil.addCls(this, this.activeClass);
     CSSUtil.addCls(document.body, this.bodyClass);
@@ -199,6 +198,7 @@ export class ESLBasePopup extends ESLBaseElement {
    * Action to hide popup
    */
   protected onHide(params: PopupActionParams) {
+    activators.delete(this);
     this.open = this._open = false;
     CSSUtil.removeCls(this, this.activeClass);
     CSSUtil.removeCls(document.body, this.bodyClass);
@@ -210,15 +210,15 @@ export class ESLBasePopup extends ESLBaseElement {
   protected _onClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (this.closeTrigger && target.closest(this.closeTrigger)) {
-      this.hide({initiator: 'close', trigger: target});
+      this.hide({initiator: 'close', activator: target});
     }
   }
   @bind
   protected _onOutsideAction(e: MouseEvent) {
     const target = e.target as HTMLElement;
-    if (!this.contains(target)) {
-      this.hide({initiator: 'outsideclick', trigger: target});
-    }
+    if (this.contains(target)) return;
+    if (this.activator && this.activator.contains(target)) return;
+    this.hide({initiator: 'outsideaction', activator: target});
   }
 
   @bind
