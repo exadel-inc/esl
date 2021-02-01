@@ -288,7 +288,7 @@ export class ESLImage extends ESLBaseElement {
     this.toggleAttribute('loaded', successful);
     this.toggleAttribute('error', !successful);
     this.toggleAttribute('ready', true);
-    this.$$fire(successful ? 'loaded' : 'error');
+    this.$$fire(successful ? 'load' : 'error');
     this.$$fire('ready');
   }
 
