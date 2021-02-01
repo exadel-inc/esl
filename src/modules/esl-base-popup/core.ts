@@ -1,2 +1,2 @@
 export * from './core/esl-base-popup';
-export * from './core/esl-base-popup-group-manager';
+export * from './core/esl-popup-dispatcher';
