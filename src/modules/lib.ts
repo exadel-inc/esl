@@ -7,7 +7,7 @@ import type {ESLMedia} from './esl-media/core/esl-media';
 
 import type {ESLScrollbar} from './esl-scrollbar/core/esl-scrollbar';
 
-import type {ESLBasePopupGroupManager} from './esl-base-popup/core/esl-base-popup-group-manager';
+import type {ESLPopupDispatcher} from './esl-base-popup/core/esl-popup-dispatcher';
 import type {ESLBasePopup} from './esl-base-popup/core/esl-base-popup';
 import type {ESLPopup} from './esl-popup/core/esl-popup';
 import type {ESLTrigger} from './esl-trigger/core/esl-trigger';
@@ -33,14 +33,14 @@ declare global {
   const ESL: ESLLibrary;
 
   export interface ESLLibrary {
-    BasePopupGroupManager?: typeof ESLBasePopupGroupManager;
     DeviceDetector?: typeof DeviceDetector;
-
     MediaBreakpoints?: typeof ESLMediaBreakpoints;
 
     Image?: typeof ESLImage;
     Media?: typeof ESLMedia;
+    Scrollbar?: typeof ESLScrollbar;
 
+    PopupGroupDispatcher?: typeof ESLPopupDispatcher;
     BasePopup?: typeof ESLBasePopup;
     Popup?: typeof ESLPopup;
     Trigger?: typeof ESLTrigger;
@@ -50,8 +50,6 @@ declare global {
     TriggersContainer?: typeof ESLTriggersContainer;
     TabsContainer?: typeof ESLTabsContainer;
     ScrollableTabs?: typeof ESLScrollableTabs;
-
-    Scrollbar?: typeof ESLScrollbar;
 
     Carousel?: typeof ESLCarousel;
     CarouselPlugins: {
