@@ -102,9 +102,7 @@ export class ESLPanel extends ESLBasePopup {
     }
   }
 
-  /**
-   * the panels use panel stack config for actions
-   */
+  /** The panels use panel stack config for actions */
   protected mergeDefaultParams(params?: PopupActionParams): PopupActionParams {
     const stackConfig = this.stack?.panelConfig || {};
     return Object.assign({}, stackConfig, this.defaultParams, params || {});

@@ -15,6 +15,7 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
 - ##### [ESL Scrollbar](./src/modules/esl-scrollbar/README.md)
 
 - ##### [ESL Base Popup](./src/modules/esl-base-popup/README.md)
+- ##### [ESL Base Trigger](./src/modules/esl-base-trigger/README.md)
 - ##### [ESL Popup](./src/modules/esl-popup/README.md)
 - ##### [ESL Trigger](./src/modules/esl-trigger/README.md)
 - ##### [ESL Panel and Panel Stack](./src/modules/esl-panel/README.md)

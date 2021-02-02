@@ -11,7 +11,9 @@
     "build-and-start": "npm run build && npm run start"
   },
   "sideEffects": [
-    "src/common/*.ts"
+    "src/common/*.ts",
+    "src/polyfill-light.ts",
+    "src/polyfill-full.ts"
   ],
   "private": true,
   "license": "MIT"

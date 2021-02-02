@@ -6,17 +6,19 @@
 
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
-import {debounce} from '../../esl-utils/async/debounce';
+import {CSSUtil} from '../../esl-utils/dom/styles';
 import {rafDecorator} from '../../esl-utils/async/raf';
-import {ESLMediaQuery} from '../../esl-media-query/core';
+import {debounce} from '../../esl-utils/async/debounce';
+import {EventUtils} from '../../esl-utils/dom/events';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
+
+import {ESLMediaQuery} from '../../esl-media-query/core';
+import {TraversingQuery} from '../../esl-traversing-query/core';
 
 import {getIObserver} from './esl-media-iobserver';
 import {BaseProvider, PlayerStates} from './esl-media-provider';
 import ESLMediaRegistry from './esl-media-registry';
 import MediaGroupRestrictionManager from './esl-media-manager';
-import {CSSUtil} from '../../esl-utils/dom/styles';
-import {TraversingQuery} from '../../esl-traversing-query/core';
 
 @ExportNs('Media')
 export class ESLMedia extends ESLBaseElement {
@@ -344,7 +346,7 @@ export class ESLMedia extends ESLBaseElement {
 
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
     const ns = (this.constructor as typeof ESLMedia).eventNs;
-    return ESLBaseElement.$$fire(this, ns + eventName, eventInit);
+    return EventUtils.dispatch(this, ns + eventName, eventInit);
   }
 }
 

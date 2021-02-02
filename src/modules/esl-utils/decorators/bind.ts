@@ -17,7 +17,8 @@ export function bind<T extends Function>(target: object,
 
     get() {
       // Accessing via prototype returns original function
-      if (this === target) {
+      // If the constructor property is in the context then it's not an instance
+      if (!this || this === target || Object.hasOwnProperty.call(this, 'constructor')) {
         return fn;
       }
 
