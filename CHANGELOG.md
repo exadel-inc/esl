@@ -1,3 +1,20 @@
+# [2.0.0-beta.7](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.6...v2.0.0-beta.7) (2021-02-02)
+
+
+* feat!: refactor of Panel & PanelStack ([d819259](https://github.com/exadel-inc/esl/commit/d8192599333101b46bab930326b2b2ef8eef6292))
+
+
+### Features
+
+* upgrade BasePopupGroupManager ([07aa02a](https://github.com/exadel-inc/esl/commit/07aa02a65173b85bbcf6076d7861a5950fc26e63))
+
+
+### BREAKING CHANGES
+
+* Panel Stack uses self group management.
+Group attribute should be removed to reach collapsible behavior.
+Panel Stack & Panel inner API changes.
+
 # [2.0.0-beta.6](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.5...v2.0.0-beta.6) (2021-02-01)
 
 
