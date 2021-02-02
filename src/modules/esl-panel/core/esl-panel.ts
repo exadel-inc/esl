@@ -57,7 +57,7 @@ export class ESLPanel extends ESLBasePopup {
     if (!params.noCollapse) {
       this.onAnimate('show');
     }
-    this.fallbackDuration >= 0 && setTimeout(this.afterAnimate, this.fallbackDuration);
+    this.fallbackDuration >= 0 && setTimeout(() => this.afterAnimate(), this.fallbackDuration);
   }
 
   protected onHide(params: PanelActionParams) {
@@ -70,7 +70,7 @@ export class ESLPanel extends ESLBasePopup {
     if (!params.noCollapse) {
       this.onAnimate('hide');
     }
-    this.fallbackDuration >= 0 && setTimeout(this.afterAnimate, this.fallbackDuration);
+    this.fallbackDuration >= 0 && setTimeout(() => this.afterAnimate(), this.fallbackDuration);
   }
 
   protected beforeAnimate() {
