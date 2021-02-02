@@ -134,9 +134,9 @@ export class ESLBasePopup extends ESLBaseElement {
   private planShowTask(params: PopupActionParams) {
     this._task.put(() => {
       if (!params.force && this._open) return;
-      if (!params.silent && !this.$$fire('before:show')) return;
+      if (!params.silent && !this.$$fire('before:show', {detail: {params}})) return;
       this.onShow(params);
-      if (!params.silent && !this.$$fire('show')) return;
+      if (!params.silent && !this.$$fire('show', {detail: {params}})) return;
     }, defined(params.showDelay, params.delay));
   }
 
@@ -153,9 +153,9 @@ export class ESLBasePopup extends ESLBaseElement {
   private planHideTask(params: PopupActionParams) {
     this._task.put(() => {
       if (!params.force && !this._open) return;
-      if (!params.silent && !this.$$fire('before:hide')) return;
+      if (!params.silent && !this.$$fire('before:hide',{detail: {params}})) return;
       this.onHide(params);
-      if (!params.silent && !this.$$fire('hide')) return;
+      if (!params.silent && !this.$$fire('hide', {detail: {params}})) return;
     }, defined(params.hideDelay, params.delay));
   }
 
