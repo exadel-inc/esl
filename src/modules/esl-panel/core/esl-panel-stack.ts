@@ -84,7 +84,6 @@ export class ESLPanelStack extends ESLBaseElement {
   protected _onBeforeHide(e: CustomEvent) {
     const target = e.target;
     if (!this.includesPanel(target)) return;
-    if (!target.open) return;
     this._previousHeight = this.scrollHeight;
   }
 

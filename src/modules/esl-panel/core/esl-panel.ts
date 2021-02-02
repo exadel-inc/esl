@@ -27,7 +27,7 @@ export class ESLPanel extends ESLBasePopup {
   @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init', noAnimation: true}})
   public initialParams: PopupActionParams;
 
-  protected _initialHeight: number;
+  protected _initialHeight: number = 0;
 
   public get initialHeight() {
     return this._initialHeight;
