@@ -77,7 +77,7 @@ export class ESLPanelStack extends ESLBaseElement {
 
     this.beforeAnimate();
     this.onAnimate(this._previousHeight, panel.initialHeight);
-    this.fallbackDuration >= 0 && setTimeout(this.afterAnimate, this.fallbackDuration);
+    this.fallbackDuration >= 0 && setTimeout(() => this.afterAnimate(), this.fallbackDuration);
   }
 
   @bind
