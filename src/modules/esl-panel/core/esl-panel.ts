@@ -49,7 +49,7 @@ export class ESLPanel extends ESLBasePopup {
 
   protected onShow(params: PanelActionParams) {
     super.onShow(params);
-    this._initialHeight = this.scrollHeight;
+    this._initialHeight = this.offsetHeight;
 
     if (params.noAnimation) return;
 
@@ -63,7 +63,7 @@ export class ESLPanel extends ESLBasePopup {
   }
 
   protected onHide(params: PanelActionParams) {
-    this._initialHeight = this.scrollHeight;
+    this._initialHeight = this.offsetHeight;
     super.onHide(params);
 
     if (params.noAnimation) return;
