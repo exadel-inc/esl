@@ -86,7 +86,6 @@ export class ESLBaseTrigger extends ESLBaseElement {
       activator: this,
       delay: this.showDelayValue
     });
-    e.preventDefault();
   }
   @bind
   protected _onHideEvent(e: Event) {
@@ -94,7 +93,6 @@ export class ESLBaseTrigger extends ESLBaseElement {
       activator: this,
       delay: this.hideDelayValue
     });
-    e.preventDefault();
   }
   @bind
   protected _onToggleEvent(e: Event) {
