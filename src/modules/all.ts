@@ -19,4 +19,4 @@ export * from './esl-scrollable-tabs/core';
 export * from './esl-scrollbar/core';
 
 export * from './esl-alert/core';
-
+export * from './esl-toast/core';

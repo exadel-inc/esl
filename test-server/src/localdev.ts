@@ -25,6 +25,7 @@ import {
   ESLScrollableTabs,
   ESLScrollbar,
   ESLAlert,
+  ESLToastService,
   ESLBasePopupGroupManager
 } from '../../src/modules/all';
 
@@ -56,6 +57,7 @@ ESLScrollableTabs.register();
 
 ESLScrollbar.register();
 ESLAlert.init();
+ESLToastService.init();
 
 ESLCarousel.register();
 ESLCarouselPlugins.Dots.register();

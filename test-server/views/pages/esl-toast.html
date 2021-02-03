@@ -1,0 +1,33 @@
+---
+layout: ../layouts/basic.html
+containerCls: container
+title: ESL Toast component
+---
+
+{{##content:
+<section class="row">
+  <div class="col-12">
+    <h3 class="text-center">Triggers</h3>
+    <div class="demo row">
+
+      <div>
+        <button type="button" class="btn btn-primary esl-toast-show" text="ESL Toast 1">Show 1</button>
+        <button type="button" class="btn btn-primary esl-toast-show" text="ESL Toast 2">Show 2</button>
+      </div>
+
+      <script type="text/javascript">
+        var showBtn = document.querySelectorAll('.esl-toast-show');
+        var params = {};
+        showBtn[0].onclick = function (e) {
+          params.text = e.target.getAttribute('text');
+          window.dispatchEvent(new CustomEvent(`esl:toast:show`, {detail: params}));
+        };
+        showBtn[1].onclick = function (e) {
+          params.text = e.target.getAttribute('text');
+          window.dispatchEvent(new CustomEvent(`esl:toast:show`, {detail: params}));
+        };
+      </script>
+    </div>
+  </div>
+</section>
+#}}
