@@ -1,0 +1,204 @@
+---
+layout: ../layouts/basic.html
+containerCls: container
+title: ESL Alert component
+---
+
+{{##content:
+<section class="row">
+  <div class="col-12">
+    <style>
+      .form {
+        display: block;
+        width: 100%;
+      }
+    </style>
+    <h3 class="text-center">Triggers</h3>
+    <div class="row demo">
+      <form class="form bg-white border border-primary p-4" action="javascript: void 0;" >
+        <div>
+          <esl-select class="form-group"
+                      style="display: block"
+                      placeholder="Role"
+                      select-all="Select All">
+            <label for="role_field" class="form-label">Role</label>
+            <select esl-select-target
+                    multiple
+                    id="role_field"
+                    name="role_field"
+                    class="form-control">
+              <option value="#800000">Тёмно-бордовый</option>
+              <option value="#8B0000">Тёмно-красный</option>
+              <option value="#B22222">Огнеупорный кирпич</option>
+              <option value="#FF0000">Красный</option>
+              <option value="#FA8072">Лососевый</option>
+              <option value="#FF6347">Томатный</option>
+              <option value="#FF7F50">Коралловый</option>
+              <option value="#FF4500">Оранжево-красный</option>
+              <option value="#D2691E" selected>Шоколадный</option>
+              <option value="#F4A460">Песочно-коричневый</option>
+              <option value="#FF8C00">Тёмно-оранжевый</option>
+              <option value="#FFA500">Оранжевый</option>
+              <option value="#B8860B">Тёмный золотарник</option>
+              <option value="#DAA520">Золотарниковый</option>
+              <option value="#FFD700" selected>Золотой</option>
+              <option value="#808000">Оливковый</option>
+              <option value="#FFFF00">Жёлтый</option>
+              <option value="#9ACD32">Жёлто-зелёный</option>
+              <option value="#ADFF2F">Зелёно-жёлтый</option>
+              <option value="#7FFF00">Шартрёз (ликёр)</option>
+              <option value="#7CFC00">Зелёный газон</option>
+              <option value="#008000">Зелёный</option>
+              <option value="#00FF00">Лаймовый</option>
+              <option value="#32CD32">Зелёный лайм</option>
+              <option value="#00FF7F">Весенне зелёный</option>
+              <option value="#00FA9A">Весенне-зелёный нейтральный</option>
+              <option value="#40E0D0">Бирюзовый</option>
+              <option value="#20B2AA">Светло-зелёное море</option>
+              <option value="#48D1CC">Бирюзовый нейтральный</option>
+              <option value="#008B8B">Тёмный циан</option>
+              <option value="#00FFFF">Морская волна</option>
+              <option value="#00CED1">Тёмно-бирюзовый</option>
+              <option value="#00BFFF">Небесно-голубой тёмный</option>
+              <option value="#1E90FF">Обманчивый синий</option>
+              <option value="#4169E1">Королевский синий</option>
+              <option value="#000080">Военно-морского флота</option>
+              <option value="#00008B">Тёмно-синий</option>
+              <option value="#0000CD">Cиний нейтральный</option>
+              <option value="#0000FF">Синий</option>
+              <option value="#8A2BE2">Сине-фиолетовый</option>
+              <option value="#9932CC">Тёмная орхидея</option>
+              <option value="#9400D3">Тёмно-фиолетовый</option>
+              <option value="#800080">Фиолетовый</option>
+              <option value="#8B008B">Тёмный маджента</option>
+              <option value="#FF00FF">Маджента</option>
+              <option value="#C71585">Фиолетово-красный нейтральный</option>
+              <option value="#FF1493">Насыщенный розовый</option>
+              <option value="#FF69B4">Ярко-розовый</option>
+              <option value="#DC143C">Малиновый</option>
+              <option value="#A52A2A">Коричневый</option>
+              <option value="#CD5C5C">Красный индийский</option>
+              <option value="#BC8F8F">Розово-коричневый</option>
+              <option value="#F08080">Светло-коралловый</option>
+              <option value="#FFFAFA">Снег</option>
+              <option value="#FFE4E1">Туманная роза</option>
+              <option value="#E9967A">Тёмный лосось</option>
+              <option value="#FFA07A">Светлый лосось</option>
+              <option value="#A0522D">Охра</option>
+              <option value="#FFF5EE">Морская ракушка</option>
+              <option value="#8B4513">Седло Браун</option>
+              <option value="#FFDAB9">Персиковая пудра</option>
+              <option value="#CD853F">Перу</option>
+              <option value="#FAF0E6">Текстильный</option>
+              <option value="#FFE4C4">Бисквит</option>
+              <option value="#DEB887">Плотное дерево</option>
+              <option value="#D2B48C">Загар</option>
+              <option value="#FAEBD7">Античный белый</option>
+              <option value="#FFDEAD">Белый навахо</option>
+              <option value="#FFEBCD">Бланшированный миндаль</option>
+              <option value="#FFEFD5">Побег папайи</option>
+              <option value="#FFE4B5">Мокасиновый</option>
+              <option value="#F5DEB3">Пшеничный</option>
+              <option value="#FDF5E6">Старое кружево</option>
+              <option value="#FFFAF0">Цветочный белый</option>
+              <option value="#FFF8DC">Кукурузный волос</option>
+              <option value="#F0E68C">Хаки</option>
+              <option value="#FFFACD">Лимонный шифон</option>
+              <option value="#EEE8AA">Бледный золотарник</option>
+              <option value="#BDB76B">Тёмный хаки</option>
+              <option value="#F5F5DC">Бежевый</option>
+              <option value="#FAFAD2">Светло-жёлтый золотарник</option>
+              <option value="#FFFFE0">Светло-жёлтый</option>
+              <option value="#FFFFF0">Слоновая кость</option>
+              <option value="#6B8E23">Тёмно-оливковый</option>
+              <option value="#556B2F">Тёмно-оливковый зелёный</option>
+              <option value="#8FBC8F">Тёмно-зелёное море</option>
+              <option value="#006400">Тёмно-зелёный</option>
+              <option value="#228B22">Зелёный лесной</option>
+              <option value="#90EE90">Светло-зелёный</option>
+              <option value="#98FB98">Бледно-зелёный</option>
+              <option value="#F0FFF0">Медвяная роса</option>
+              <option value="#2E8B57">Зелёное море</option>
+              <option value="#3CB371">Зелёное море, нейтральный</option>
+              <option value="#F5FFFA">Мятный крем</option>
+              <option value="#66CDAA">Аквамариновый нейтральный</option>
+              <option value="#7FFFD4">Аквамариновый</option>
+              <option value="#2F4F4F">Тёмный грифельно-серый</option>
+              <option value="#AFEEEE">Бледно-бирюзовый</option>
+              <option value="#E0FFFF">Светло-голубой</option>
+              <option value="#F0FFFF">Лазурный</option>
+              <option value="#5F9EA0">Серо-синий</option>
+              <option value="#B0E0E6">Пыльный голубой</option>
+              <option value="#ADD8E6">Светло-синий</option>
+              <option value="#87CEEB">Небесно-голубой</option>
+              <option value="#87CEFA">Небесно-голубой светлый</option>
+              <option value="#4682B4">Синяя сталь</option>
+              <option value="#F0F8FF">Синяя Элис</option>
+              <option value="#708090">Серый шифер</option>
+              <option value="#778899">Светло-серый шифер</option>
+              <option value="#B0C4DE">Светло-стальной синий</option>
+              <option value="#6495ED">Васильковый голубой</option>
+              <option value="#E6E6FA">Лаванда</option>
+              <option value="#F8F8FF">Призрачно-белый</option>
+              <option value="#191970">Полуночный синий</option>
+              <option value="#6A5ACD">Аспидно-синий</option>
+              <option value="#483D8B">Тёмный аспидно-синий</option>
+              <option value="#7B68EE">Нейтральный аспидно-синий</option>
+              <option value="#9370DB">Фиолетовый нейтральный</option>
+              <option value="#4B0082">Индиго</option>
+              <option value="#BA55D3">Нейтральный цвет орхидеи</option>
+              <option value="#DDA0DD">Слива светлая</option>
+              <option value="#EE82EE">Розово-фиолетовый</option>
+              <option value="#D8BFD8">Чертополох</option>
+              <option value="#DA70D6">Орхидея</option>
+              <option value="#FFF0F5">Розово-лавандовый</option>
+              <option value="#DB7093">Лиловый</option>
+              <option value="#FFC0CB">Розовый</option>
+              <option value="#FFB6C1">Светло-розовый</option>
+              <option value="#000000">Чёрный</option>
+              <option value="#696969">Тускло-серый</option>
+              <option value="#808080">Серый</option>
+              <option value="#A9A9A9">Тёмно-серый</option>
+              <option value="#C0C0C0">Серебряный</option>
+              <option value="#D3D3D3">Светло-серый</option>
+              <option value="#DCDCDC">Геинсборо</option>
+              <option value="#F5F5F5">Белый дым</option>
+              <option value="#FFFFFF">Белый</option>
+            </select>
+          </esl-select>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="demo-info panel panel-info">
+    </div>
+    <script>
+      (function () {
+        var form = document.querySelector('form');
+        var info = document.querySelector('.demo-info');
+        if (!info) return;
+
+        function upd() {
+          var data = {};
+          var formData = new FormData(form);
+          formData.forEach(((value, key) => {
+            if (key in data) {
+              data[key] = [].concat(data[key]).concat(value);
+            } else {
+              data[key] = value;
+            }
+          }));
+
+          info.textContent = JSON.stringify(data, null, 2);
+          info.removeAttribute('hidden');
+        }
+
+        form.addEventListener('submit', upd);
+      })();
+    </script>
+  </div>
+</section>
+#}}

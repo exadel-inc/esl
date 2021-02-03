@@ -1,0 +1,58 @@
+esl-select-item {
+  display: block;
+  cursor: pointer;
+  position: relative;
+  padding: 15px 15px 15px 72px;
+  line-height: 20px;
+  vertical-align: middle;
+
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible {
+    outline: solid 1px lightblue;
+  }
+
+  &::before {
+    content: '';
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid @esl-select-primary;
+    border-radius: 4px;
+    background-color: @esl-select-background;
+  }
+  &::after {
+    content: '';
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 19px;
+    width: 12px;
+    height: 6px;
+
+    border: 2px solid @esl-select-check;
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg);
+
+    opacity: 0;
+    transition: opacity 0.4s ease-in;
+  }
+
+  &[selected] {
+    &::before {
+      background-color: @esl-select-primary;
+    }
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  &.separator {
+    border-bottom: 1px solid @esl-select-secondary;
+  }
+}

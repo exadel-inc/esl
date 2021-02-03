@@ -136,5 +136,3 @@ export class ESLBaseTrigger extends ESLBaseElement {
     return this.a11yTarget ? this.querySelector(this.a11yTarget) : this;
   }
 }
-
-export default ESLBaseTrigger;

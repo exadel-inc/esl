@@ -35,6 +35,7 @@ import '../../src/modules/esl-media/providers/youtube-provider';
 import '../../src/modules/esl-media/providers/brightcove-provider';
 
 import {
+  ESLSelect,
   ESLCarousel,
   ESLCarouselPlugins
 } from '../../src/modules/draft/all';
@@ -56,6 +57,8 @@ ESLScrollableTabs.register();
 
 ESLScrollbar.register();
 ESLAlert.init();
+
+ESLSelect.register();
 
 ESLCarousel.register();
 ESLCarouselPlugins.Dots.register();
