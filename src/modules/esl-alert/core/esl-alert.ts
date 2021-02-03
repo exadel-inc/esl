@@ -4,7 +4,7 @@ import {jsonAttr} from '../../esl-base-element/core';
 import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {CSSUtil} from '../../esl-utils/dom/styles';
-import {createIframe} from '../../esl-utils/fixes/ie-fixes';
+import {createZIndexIframe} from '../../esl-utils/fixes/ie-fixes';
 
 export interface AlertActionParams extends PopupActionParams {
   /** text to be shown; pass empty string or null to hide */
@@ -70,7 +70,7 @@ export class ESLAlert extends ESLBasePopup {
     this.innerHTML = '';
     this.appendChild(this.textEl);
     if (DeviceDetector.isIE) {
-      this.appendChild(createIframe());
+      this.appendChild(createZIndexIframe());
     }
   }
 
