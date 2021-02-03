@@ -2,10 +2,10 @@ esl-panel-stack {
   @animationTime: .5s;
 
   display: block;
-  overflow: hidden;
 
   &.animate {
     transition: height @animationTime ease-in-out;
+    overflow: hidden;
   }
 
   &:not(.accordion) {
@@ -18,5 +18,14 @@ esl-panel-stack {
         transition: max-height @animationTime ease-in-out, visibility 0s linear, opacity @animationTime ease-in-out;
       }
     }
+  }
+}
+
+@keyframes postponedHide {
+  0%, 99% {
+    display: block;
+  }
+  100% {
+    display: none;
   }
 }
