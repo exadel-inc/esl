@@ -1,3 +1,10 @@
+# [2.0.0-beta.11](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.10...v2.0.0-beta.11) (2021-02-03)
+
+
+### Bug Fixes
+
+* bouncing up when crossing between tabs ([ea7053b](https://github.com/exadel-inc/esl/commit/ea7053b64b97865f3768ba298d906a82da0a0e5e))
+
 # [2.0.0-beta.10](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.9...v2.0.0-beta.10) (2021-02-03)
 
 # [2.0.0-beta.9](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.8...v2.0.0-beta.9) (2021-02-03)
