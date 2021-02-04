@@ -9,7 +9,7 @@ Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*.
 ESLBasePopup - is a custom element, that is used as a base for "Popup like" components creation.
 
 ESLPopupDispatcher - plugin component, that prevents activation of multiple ESLBasePopup instances in bounds of managed container.
-Usually (and by default) binds to document.body. Use native dom events to manage controlled instances state.
+Usually (and by default) binds to document.body. Use native DOM events to manage controlled instances state.
 
 Use `ESLPopupDispatcher.init()` to initialize (and bind) ESLPopupDispatcher.
 

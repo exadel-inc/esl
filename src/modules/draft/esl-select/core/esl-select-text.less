@@ -5,6 +5,11 @@ esl-select-text {
     align-items: center;
   }
 
+  &[empty]::before {
+    content: attr(empty-text);
+    color: @esl-select-empty-color;
+  }
+
   .esl-select-text {
     display: inline-block;
     white-space: nowrap;

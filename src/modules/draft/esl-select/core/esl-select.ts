@@ -1,5 +1,6 @@
 import {attr} from '../../../esl-base-element/core';
 import {bind} from '../../../esl-utils/decorators/bind';
+import {CSSUtil} from '../../../esl-utils/dom/styles';
 
 import {ESLBaseTrigger} from '../../../esl-base-trigger/core/esl-base-trigger';
 import {ESLBasePopup} from '../../../esl-base-popup/core/esl-base-popup';
@@ -8,12 +9,15 @@ import {ESLSelectModel} from './esl-select-model';
 import {ESLSelectList} from './esl-select-list';
 import {ESLSelectItem} from './esl-select-item';
 import {ESLSelectDropdown} from './esl-select-dropdown';
+import {EventUtils} from '../../../esl-utils/dom/events';
 
 export class ESLSelect extends ESLBaseTrigger {
   public static readonly is = 'esl-select';
 
   @attr() public name: string;
-  @attr() public placeholder: string;
+  @attr() public emptyText: string;
+  @attr() public hasValueClass: string;
+  @attr() public hasFocusClass: string;
   @attr() public selectAllLabel: string;
 
   protected _model?: ESLSelectModel;
@@ -48,6 +52,7 @@ export class ESLSelect extends ESLBaseTrigger {
   protected prepare() {
     this.$text.model = this.model;
     this.$text.className = this.$select.className;
+    this.$text.emptyText = this.emptyText;
     this.$popup.model = this.model;
     this.$popup.selectAllLabel = this.selectAllLabel;
     this.appendChild(this.$text);
@@ -67,6 +72,7 @@ export class ESLSelect extends ESLBaseTrigger {
   public get model(): ESLSelectModel {
     if (!this._model) {
       this._model = new ESLSelectModel(this.options);
+      this._model.addListener(this._onChange);
     }
     return this._model;
   }
@@ -82,10 +88,18 @@ export class ESLSelect extends ESLBaseTrigger {
 
   @bind
   public update() {
-    this.classList.toggle('has-value', this.model.fill);
+    const hasValue = this.model.fill;
+    this.toggleAttribute('has-value', hasValue);
+    CSSUtil.toggleClsTo(this, this.hasValueClass, hasValue);
     const focusEl = document.activeElement;
     const hasFocus = this.$popup.open || focusEl && this.contains(focusEl);
-    this.classList.toggle('has-focus', !!hasFocus);
+    CSSUtil.toggleClsTo(this, this.hasFocusClass, !!hasFocus);
+  }
+
+  @bind
+  public _onChange() {
+    this.update();
+    EventUtils.dispatch(this, 'change');
   }
 
   public updateA11y() {}
