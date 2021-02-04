@@ -56,7 +56,7 @@ export class ESLSelectDropdown extends ESLBasePopup {
 
     super.onShow(params);
     const focusable = this.querySelector('[tabindex]') as HTMLElement;
-    focusable && focusable.focus();
+    focusable && focusable.focus( { preventScroll: true } );
     this.updatePosition();
   }
   protected onHide(params: PopupActionParams) {
