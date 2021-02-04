@@ -1,0 +1,42 @@
+esl-select-text {
+  // Specific
+  &.esl-select-text.esl-select-text {
+    display: flex;
+    align-items: center;
+  }
+
+  .esl-select-text {
+    display: inline-block;
+    white-space: nowrap;
+    max-height: 100%;
+  }
+
+  .esl-select-text + .esl-select-text {
+    margin-left: 10px;
+  }
+
+  .esl-select-text-container {
+    display: block;
+    flex: 1 1 auto;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .esl-select-clear-btn {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin: 0 10px;
+
+    font-size: 14px;
+    line-height: 14px;
+
+    border: none;
+    background: transparent;
+
+    &::before {
+      content: '\2715';
+    }
+  }
+}

@@ -1,0 +1,27 @@
+esl-select-dropdown {
+  display: block;
+  position: absolute;
+  top: 0;
+
+  height: 50vh;
+  min-height: 350px;
+
+  z-index: 100;
+
+  border: 1px solid @esl-select-secondary;
+  background: @esl-select-background;
+
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity .25s linear, visibility 0s linear .25s;
+
+  &[open] {
+    visibility: visible;
+    pointer-events: all;
+    opacity: 1;
+
+    transition: opacity .25s linear, visibility 0s linear 0s;
+  }
+}

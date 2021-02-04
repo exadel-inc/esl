@@ -1,0 +1,23 @@
+esl-select-list {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+  max-height: 100%;
+  overflow: hidden;
+
+  esl-scrollbar.esl-scrollbar {
+    top: 56px;
+    bottom: 6px;
+  }
+
+  .esl-select-list-container {
+    flex: 1 1 auto;
+    height: 100%;
+    margin-right: 16px;
+  }
+
+  .esl-select-item.esl-select-all-item {
+    flex: 0 0 auto;
+    border-bottom: 1px solid @esl-select-secondary;
+  }
+}

@@ -1,0 +1,40 @@
+esl-select {
+  display: inline-block;
+  position: relative;
+
+  min-width: 300px;
+  max-width: 100%;
+
+  &.esl-select [esl-select-target] {
+    /* Visually hidden */
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+  }
+
+  esl-select-text:after {
+    content: '\2BC6';
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 20px;
+    height: 25px;
+    z-index: 1;
+
+    padding: 0;
+    pointer-events: none;
+
+    color: @esl-select-primary;
+    vertical-align: middle;
+    text-align: center;
+    font-weight: bold !important;
+
+    transition: transform .2s linear;
+    transform-origin: center center;
+  }
+  &[active] esl-select-text:after {
+    transform: rotateX(180deg);
+  }
+}
