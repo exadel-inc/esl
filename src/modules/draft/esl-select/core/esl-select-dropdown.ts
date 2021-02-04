@@ -61,7 +61,7 @@ export class ESLSelectDropdown extends ESLBasePopup {
   }
   protected onHide(params: PopupActionParams) {
     const select = this.activator;
-    select && setTimeout(() => select.focus(), 0);
+    select && setTimeout(() => select.focus({ preventScroll: true }), 0);
     super.onHide(params);
     this._disposeTimeout = window.setTimeout(() => {
       document.body.removeChild(this);
@@ -74,7 +74,7 @@ export class ESLSelectDropdown extends ESLBasePopup {
     const windowY = window.scrollY || window.pageYOffset;
     const rect = this.activator.getBoundingClientRect();
 
-    this.style.top = `${windowY + rect.y + rect.height}px`;
+    this.style.top = `${windowY + rect.top + rect.height}px`;
     this.style.left = `${rect.left}px`;
     this.style.width = `${rect.width}px`;
   }
