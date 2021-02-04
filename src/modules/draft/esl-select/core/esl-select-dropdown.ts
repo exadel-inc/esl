@@ -1,14 +1,15 @@
 import {ESLBasePopup, PopupActionParams} from '../../../esl-base-popup/core/esl-base-popup';
-import {ESLSelectList} from './esl-select-list';
-import {rafDecorator} from '../../../esl-utils/async/raf';
 import {bind} from '../../../esl-utils/decorators/bind';
-
-import type {ESLSelect} from './esl-select';
+import {rafDecorator} from '../../../esl-utils/async/raf';
+import {ESLSelectList} from './esl-select-list';
+import {ESLSelectModel} from './esl-select-model';
+import {attr} from '../../../esl-base-element/decorators/attr';
 
 export class ESLSelectDropdown extends ESLBasePopup {
   public static readonly is = 'esl-select-dropdown';
 
-  public origin: ESLSelect;
+  @attr() public selectAllLabel: string;
+  public model: ESLSelectModel;
 
   protected $list: ESLSelectList;
   protected _disposeTimeout: number;
@@ -50,8 +51,8 @@ export class ESLSelectDropdown extends ESLBasePopup {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
-    this.$list.model = this.origin.model;
-    this.$list.selectAllLabel = this.origin.selectAll;
+    this.$list.model = this.model;
+    this.$list.selectAllLabel = this.selectAllLabel;
 
     super.onShow(params);
     const focusable = this.querySelector('[tabindex]') as HTMLElement;

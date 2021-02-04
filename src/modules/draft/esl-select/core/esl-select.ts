@@ -1,6 +1,5 @@
 import {attr} from '../../../esl-base-element/core';
 import {bind} from '../../../esl-utils/decorators/bind';
-import {memoize} from '../../../esl-utils/decorators/memoize';
 
 import {ESLBaseTrigger} from '../../../esl-base-trigger/core/esl-base-trigger';
 import {ESLBasePopup} from '../../../esl-base-popup/core/esl-base-popup';
@@ -15,7 +14,9 @@ export class ESLSelect extends ESLBaseTrigger {
 
   @attr() public name: string;
   @attr() public placeholder: string;
-  @attr() public selectAll: string;
+  @attr() public selectAllLabel: string;
+
+  protected _model?: ESLSelectModel;
 
   protected $text: ESLSelectText;
   protected $select: HTMLSelectElement;
@@ -26,7 +27,6 @@ export class ESLSelect extends ESLBaseTrigger {
 
     this.$text = document.createElement(ESLSelectText.is) as ESLSelectText;
     this.$popup = document.createElement(ESLSelectDropdown.is) as ESLSelectDropdown;
-    this.$popup.origin = this;
   }
 
   protected connectedCallback() {
@@ -48,6 +48,8 @@ export class ESLSelect extends ESLBaseTrigger {
   protected prepare() {
     this.$text.model = this.model;
     this.$text.className = this.$select.className;
+    this.$popup.model = this.model;
+    this.$popup.selectAllLabel = this.selectAllLabel;
     this.appendChild(this.$text);
   }
   protected dispose() {
@@ -62,14 +64,14 @@ export class ESLSelect extends ESLBaseTrigger {
     throw new Error('Method is not supported');
   }
 
-  @memoize()
   public get model(): ESLSelectModel {
-    return new ESLSelectModel(this.options);
+    if (!this._model) {
+      this._model = new ESLSelectModel(this.options);
+    }
+    return this._model;
   }
   public get options(): HTMLOptionElement[] {
-    if (!this.$select) return [];
-    const items = this.$select.getElementsByTagName('option');
-    return Array.from(items);
+    return this.$select ? Array.from(this.$select.options) : [];
   }
 
   @bind

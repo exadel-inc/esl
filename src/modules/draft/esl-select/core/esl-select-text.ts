@@ -79,17 +79,19 @@ export class ESLSelectText extends ESLBaseElement {
   @bind
   public render() {
     if (!this.model) return;
-    const active = this.model.options.filter((item) => item.selected);
-    const activeText = active.map((item) => item.text);
-    let size = activeText.length;
+    const activeText = this.model.selected.map((item) => item.text);
+    let size = 0;
     do {
-      this.apply(activeText, size);
-      size--;
-    } while (size > 0 && this.$container.scrollWidth > this.$container.clientWidth);
+      this.apply(activeText, ++size); // Render with extended limit while it not fits to the container
+    } while (size <= activeText.length && this.$container.scrollWidth <= this.$container.clientWidth);
+    this.apply(activeText, size - 1); // Render last limit that fits
   }
-  protected apply(items: string[], size: number) {
-    const rest = items.length - size;
-    this.$text.textContent = items.slice(0, size).join(', ');
+  /**
+   * Render item with a visible items limit limit
+   */
+  protected apply(items: string[], limit: number) {
+    const rest = items.length - limit;
+    this.$text.textContent = items.slice(0, limit).join(', ');
     this.$rest.textContent = rest > 0 ? `${rest} more...` : '';
   }
 }

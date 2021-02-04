@@ -11,7 +11,8 @@ export class ESLSelectList extends ESLBaseElement {
 
   protected _model: ESLSelectModel;
 
-  @attr() public selectAllLabel: string;
+  @attr({defaultValue: 'Select All'})
+  public selectAllLabel: string;
 
   protected $items: ESLSelectItem[];
   protected $list: HTMLDivElement;
@@ -99,7 +100,7 @@ export class ESLSelectList extends ESLBaseElement {
   @bind
   public sync() {
     this.$items.forEach((item) => {
-      item.selected = this.model.selected(item.value);
+      item.selected = this.model.check(item.value);
     });
     this.$selectAll.selected = this.$items.every((item) => item.selected);
   }
