@@ -21,6 +21,13 @@ esl-panel-stack {
   }
 }
 
+// fix a11y
+esl-panel-stack:not(.animate) esl-panel:not(.open) {
+  * {
+    visibility: hidden !important;
+  }
+}
+
 @keyframes postponedHide {
   0%, 99% {
     display: block;
