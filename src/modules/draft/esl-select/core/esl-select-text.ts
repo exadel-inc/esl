@@ -2,9 +2,14 @@ import {ESLBaseElement} from '../../../esl-base-element/core/esl-base-element';
 import {ESLSelectModel} from './esl-select-model';
 import {rafDecorator} from '../../../esl-utils/async/raf';
 import {bind} from '../../../esl-utils/decorators/bind';
+import {attr} from '../../../esl-base-element/decorators/attr';
+import {boolAttr} from '../../../esl-base-element/decorators/bool-attr';
 
 export class ESLSelectText extends ESLBaseElement {
   public static readonly is = 'esl-select-text';
+
+  @attr() public emptyText: string;
+  @boolAttr({name: 'empty'}) public isEmpty: boolean;
 
   protected $container: HTMLDivElement;
   protected $rest: HTMLElement;
@@ -79,19 +84,23 @@ export class ESLSelectText extends ESLBaseElement {
   @bind
   public render() {
     if (!this.model) return;
-    const activeText = this.model.selected.map((item) => item.text);
-    let size = 0;
-    do {
-      this.apply(activeText, ++size); // Render with extended limit while it not fits to the container
-    } while (size <= activeText.length && this.$container.scrollWidth <= this.$container.clientWidth);
-    this.apply(activeText, size - 1); // Render last limit that fits
+    const selected = this.model.selected;
+    this.isEmpty = !selected.length;
+    this.applyItems(selected.map((item) => item.text));
   }
-  /**
-   * Render item with a visible items limit limit
-   */
+
+  /** Render item with a visible items limit */
   protected apply(items: string[], limit: number) {
     const rest = items.length - limit;
     this.$text.textContent = items.slice(0, limit).join(', ');
     this.$rest.textContent = rest > 0 ? `${rest} more...` : '';
+  }
+  /** Render items using adaptive algorithm */
+  protected applyItems(items: string[]) {
+    let size = 0;
+    do {
+      this.apply(items, ++size); // Render with extended limit while it not fits to the container
+    } while (size <= items.length && this.$container.scrollWidth <= this.$container.clientWidth);
+    this.apply(items, size - 1); // Render last limit that fits
   }
 }
