@@ -1,3 +1,15 @@
+# [2.0.0-beta.13](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.12...v2.0.0-beta.13) (2021-02-04)
+
+
+### Bug Fixes
+
+* a11y ([8d1085b](https://github.com/exadel-inc/esl/commit/8d1085ba0d9e8e05e2633e8e943a50539972e279))
+
+
+### Features
+
+* add empty text for select. update select events and flow ([3435ae9](https://github.com/exadel-inc/esl/commit/3435ae9460853ceb64f9c51b44bb5a4e913c0afc))
+
 # [2.0.0-beta.12](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.11...v2.0.0-beta.12) (2021-02-04)
 
 
