@@ -18,7 +18,8 @@ export class ESLSelect extends ESLBaseTrigger {
   @attr() public emptyText: string;
   @attr() public hasValueClass: string;
   @attr() public hasFocusClass: string;
-  @attr() public selectAllLabel: string;
+  @attr({defaultValue: 'Select All'}) public selectAllLabel: string;
+  @attr({defaultValue: '+ {rest} more...'}) public moreLabelFormat: string;
 
   protected _model?: ESLSelectModel;
 
@@ -53,6 +54,7 @@ export class ESLSelect extends ESLBaseTrigger {
     this.$text.model = this.model;
     this.$text.className = this.$select.className;
     this.$text.emptyText = this.emptyText;
+    this.$text.moreLabelFormat = this.moreLabelFormat;
     this.$popup.model = this.model;
     this.$popup.selectAllLabel = this.selectAllLabel;
     this.appendChild(this.$text);
