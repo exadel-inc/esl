@@ -4,12 +4,14 @@ import {rafDecorator} from '../../../esl-utils/async/raf';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {attr} from '../../../esl-base-element/decorators/attr';
 import {boolAttr} from '../../../esl-base-element/decorators/bool-attr';
+import {compile} from '../../../esl-utils/misc/format';
 
 export class ESLSelectText extends ESLBaseElement {
   public static readonly is = 'esl-select-text';
 
   @attr() public emptyText: string;
-  @boolAttr({name: 'empty'}) public isEmpty: boolean;
+  @attr() public moreLabelFormat: string;
+  @boolAttr() public hasValue: boolean;
 
   protected $container: HTMLDivElement;
   protected $rest: HTMLElement;
@@ -85,15 +87,21 @@ export class ESLSelectText extends ESLBaseElement {
   public render() {
     if (!this.model) return;
     const selected = this.model.selected;
-    this.isEmpty = !selected.length;
+    this.hasValue = !!selected.length;
     this.applyItems(selected.map((item) => item.text));
   }
 
   /** Render item with a visible items limit */
   protected apply(items: string[], limit: number) {
-    const rest = items.length - limit;
+    const length = items.length;
+    const rest = length - limit;
+    const options = {rest, length, limit};
     this.$text.textContent = items.slice(0, limit).join(', ');
-    this.$rest.textContent = rest > 0 ? `${rest} more...` : '';
+    if (rest > 0) {
+      this.$rest.textContent = compile(this.moreLabelFormat || '', options);
+    } else {
+      this.$rest.textContent = '';
+    }
   }
   /** Render items using adaptive algorithm */
   protected applyItems(items: string[]) {
