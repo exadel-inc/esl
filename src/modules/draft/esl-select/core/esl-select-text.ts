@@ -9,7 +9,7 @@ export class ESLSelectText extends ESLBaseElement {
   public static readonly is = 'esl-select-text';
 
   @attr() public emptyText: string;
-  @boolAttr() public empty: boolean;
+  @boolAttr({name: 'empty'}) public isEmpty: boolean;
 
   protected $container: HTMLDivElement;
   protected $rest: HTMLElement;
@@ -85,7 +85,7 @@ export class ESLSelectText extends ESLBaseElement {
   public render() {
     if (!this.model) return;
     const selected = this.model.selected;
-    this.empty = !selected.length;
+    this.isEmpty = !selected.length;
     this.applyItems(selected.map((item) => item.text));
   }
 
