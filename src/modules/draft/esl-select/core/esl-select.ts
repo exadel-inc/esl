@@ -1,11 +1,10 @@
 import {attr, boolAttr} from '../../../esl-base-element/core';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../../esl-utils/dom/styles';
-import {EventUtils} from '../../../esl-utils/dom/events';
 
 import {ESLSelectText} from './esl-select-text';
 import {ESLSelectDropdown} from './esl-select-dropdown';
-import {ESLSelectWrapper} from './esl-select-wrapper';
+import {ESLSelectWrapper} from '../../esl-select-list/core/esl-select-wrapper';
 
 export class ESLSelect extends ESLSelectWrapper {
   public static readonly is = 'esl-select';
@@ -43,8 +42,8 @@ export class ESLSelect extends ESLSelectWrapper {
   protected connectedCallback() {
     super.connectedCallback();
 
-    this.$select = this.querySelector('[esl-select-target]') as HTMLSelectElement;
-    if (!this.$select) return;
+    this.select = this.querySelector('[esl-select-target]') as HTMLSelectElement;
+    if (!this.select) return;
 
     this.prepare();
     this.bindEvents();
@@ -71,15 +70,20 @@ export class ESLSelect extends ESLSelectWrapper {
 
   protected prepare() {
     this.$text.model = this;
-    this.$text.className = this.$select.className;
+    this.$text.className = this.select.className;
     this.$text.emptyText = this.emptyText;
     this.$text.moreLabelFormat = this.moreLabelFormat;
     this.$dropdown.owner = this;
     this.appendChild(this.$text);
   }
   protected dispose() {
-    this.$select.className = this.$text.className;
+    this.select.className = this.$text.className;
     this.removeChild(this.$text);
+  }
+
+  @bind
+  protected _onChange(event: Event) {
+    this._onUpdate();
   }
 
   @bind
@@ -106,11 +110,5 @@ export class ESLSelect extends ESLSelectWrapper {
     if (e.target !== this.$dropdown) return;
     this.open = this.$dropdown.open;
     this._onUpdate();
-  }
-
-  @bind
-  protected _onChange() {
-    this._onUpdate();
-    EventUtils.dispatch(this.$select, 'change');
   }
 }

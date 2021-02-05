@@ -81,7 +81,7 @@ export class ESLSelectText extends ESLBaseElement {
   protected _onClear(e: MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
-    this.model && this.model.setAll(false);
+    this.model && this.model.setAllSelected(false);
   }
 
   @bind

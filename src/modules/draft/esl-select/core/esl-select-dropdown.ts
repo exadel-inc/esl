@@ -1,7 +1,7 @@
 import {ESLBasePopup, PopupActionParams} from '../../../esl-base-popup/core/esl-base-popup';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {rafDecorator} from '../../../esl-utils/async/raf';
-import {ESLSelectList} from './esl-select-list';
+import {ESLSelectList} from '../../esl-select-list/core';
 
 import type {ESLSelect} from './esl-select';
 
@@ -55,7 +55,7 @@ export class ESLSelectDropdown extends ESLBasePopup {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
-    this.$list.owner = this.owner;
+    this.$list.select = this.owner.select;
     this.$list.selectAllLabel = this.owner.selectAllLabel;
 
     super.onShow(params);

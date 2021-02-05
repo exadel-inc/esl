@@ -2,8 +2,22 @@ esl-select-list {
   display: flex;
   flex-flow: column;
   position: relative;
-  max-height: 100%;
   overflow: hidden;
+  border: 1px solid @esl-select-secondary;
+
+  min-height: 50px;
+  height: 400px;
+  max-height: 100%;
+
+  &.esl-select-list [esl-select-target] {
+    /* Visually hidden */
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+  }
 
   esl-scrollbar.esl-scrollbar {
     top: 56px;

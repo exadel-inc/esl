@@ -1,23 +1,23 @@
-import {attr, ESLBaseElement} from '../../../esl-base-element/core';
+import {attr, boolAttr, ESLBaseElement} from '../../../esl-base-element/core';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {ESLScrollbar} from '../../../esl-scrollbar/core';
 import {ESLSelectItem} from './esl-select-item';
 
-import type {ESLSelect} from './esl-select';
+import {ESLSelectWrapper} from './esl-select-wrapper';
 
-export class ESLSelectList extends ESLBaseElement {
+export class ESLSelectList extends ESLSelectWrapper {
   public static readonly is = 'esl-select-list';
-  public static get observedAttributes() { return ['select-all-label']; }
+  public static get observedAttributes() {
+    return ['select-all-label'];
+  }
 
   public static register() {
     ESLSelectItem.register();
     super.register();
   }
 
-  protected _owner: ESLSelect;
-
-  @attr({defaultValue: 'Select All'})
-  public selectAllLabel: string;
+  @attr({defaultValue: 'Select All'}) public selectAllLabel: string;
+  @boolAttr() public pinSelected: string;
 
   protected $items: ESLSelectItem[];
   protected $list: HTMLDivElement;
@@ -36,16 +36,6 @@ export class ESLSelectList extends ESLBaseElement {
     this.$selectAll.classList.add('esl-select-all-item');
   }
 
-  get owner() {
-    return this._owner;
-  }
-  set owner(mod: ESLSelect) {
-    this.unbindEvents();
-    this._owner = mod;
-    this.bindEvents();
-    this.rerender();
-  }
-
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected || newVal === oldVal) return;
     if (attrName === 'select-all-label') {
@@ -60,7 +50,7 @@ export class ESLSelectList extends ESLBaseElement {
     this.appendChild(this.$list);
     this.appendChild(this.$scroll);
 
-    this.rerender();
+    this.bindSelect();
     this.bindEvents();
   }
   protected disconnectedCallback() {
@@ -73,26 +63,25 @@ export class ESLSelectList extends ESLBaseElement {
     this.unbindEvents();
   }
 
+  protected bindSelect() {
+    const target = this.querySelector('[esl-select-target]') as HTMLSelectElement;
+    if (!target || !(target instanceof HTMLSelectElement)) return;
+    this.select = target;
+  }
+
   public bindEvents() {
-    if (!this.owner) return;
-    this.owner.addEventListener('change', this._onChange);
+    if (!this.select) return;
     this.addEventListener('click', this._onClick);
     this.addEventListener('keypress', this._onKeyboard);
   }
   public unbindEvents() {
-    if (!this.owner) return;
-    this.owner.removeEventListener('change', this._onChange);
+    if (!this.select) return;
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('keypress', this._onKeyboard);
   }
 
-  @bind
-  public rerender() {
-    if (!this.owner) return;
-    this.$items = this.owner.options.map(ESLSelectItem.build);
-    this.$selectAll.selected = this.$items.every((item) => item.selected);
-    this.$selectAll.textContent = this.selectAllLabel;
-
+  protected renderItems() {
+    if (!this.select) return;
     this.$list.innerHTML = '';
     const activeItems = this.$items.filter((option) => option.selected);
     const inactiveItems = this.$items.filter((option) => !option.selected);
@@ -101,11 +90,25 @@ export class ESLSelectList extends ESLBaseElement {
     activeItems.slice(-1).forEach((item) => item.classList.add('separator'));
     inactiveItems.forEach((item) => this.$list.appendChild(item));
   }
+  protected renderAllOption() {
+    if (!this.select) return;
+    this.$items = this.options.map(ESLSelectItem.build);
+    this.$selectAll.textContent = this.selectAllLabel;
+    this.$selectAll.selected = this.$items.every((item) => item.selected);
+  }
+
+  @bind
+  protected _onSelectChange(newTarget: HTMLSelectElement | undefined, oldTarget: HTMLSelectElement | undefined) {
+    super._onSelectChange(newTarget, oldTarget);
+    this.bindEvents();
+    this.renderAllOption();
+    this.renderItems();
+  }
 
   @bind
   public _onChange() {
     this.$items.forEach((item) => {
-      item.selected = this.owner.isSelected(item.value);
+      item.selected = this.isSelected(item.value);
     });
     this.$selectAll.selected = this.$items.every((item) => item.selected);
   }
@@ -115,9 +118,9 @@ export class ESLSelectList extends ESLBaseElement {
     const target = e.target;
     if (!target || !(target instanceof ESLSelectItem)) return;
     if (target.classList.contains('esl-select-all-item')) {
-      this.owner.setAll(!target.selected);
+      this.setAllSelected(!target.selected);
     } else {
-      this.owner.set(target.value, !target.selected);
+      this.setSelected(target.value, !target.selected);
     }
   }
 
