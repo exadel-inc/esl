@@ -1,12 +1,12 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {jsonAttr} from '../../esl-base-element/core';
-import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/core';
+import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {createZIndexIframe} from '../../esl-utils/fixes/ie-fixes';
 
-export interface AlertActionParams extends PopupActionParams {
+export interface AlertActionParams extends ToggleableActionParams {
   /** text to be shown; pass empty string or null to hide */
   text?: string;
   /** classes to add to alert element */
@@ -14,7 +14,7 @@ export interface AlertActionParams extends PopupActionParams {
 }
 
 @ExportNs('Alert')
-export class ESLAlert extends ESLBasePopup {
+export class ESLAlert extends ESLToggleable {
   static is = 'esl-alert';
   static eventNs = 'esl:alert';
 

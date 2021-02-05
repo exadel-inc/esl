@@ -6,7 +6,8 @@ import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
-import type {ESLBasePopup} from '../../esl-base-popup/core/esl-base-popup';
+import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
+
 
 @ExportNs('BaseTrigger')
 export class ESLBaseTrigger extends ESLBaseElement {
@@ -19,7 +20,7 @@ export class ESLBaseTrigger extends ESLBaseElement {
   @attr({defaultValue: ''}) public activeClass: string;
   @attr({defaultValue: ''}) public activeClassTarget: string;
 
-  protected _popup: ESLBasePopup;
+  protected _popup: ESLToggleable;
   protected __unsubscribers: NoopFnSignature[];
 
   public get popup() {

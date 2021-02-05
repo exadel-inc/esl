@@ -3,7 +3,7 @@ import {bind} from '../../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../../esl-utils/dom/styles';
 
 import {ESLBaseTrigger} from '../../../esl-base-trigger/core/esl-base-trigger';
-import {ESLBasePopup} from '../../../esl-base-popup/core/esl-base-popup';
+import {ESLToggleable} from '../../../esl-toggleable/core/esl-toggleable';
 import {ESLSelectText} from './esl-select-text';
 import {ESLSelectModel} from './esl-select-model';
 import {ESLSelectList} from './esl-select-list';
@@ -64,10 +64,10 @@ export class ESLSelect extends ESLBaseTrigger {
     this.removeChild(this.$text);
   }
 
-  public get popup(): ESLBasePopup {
+  public get popup(): ESLToggleable {
     return this.$popup;
   }
-  public set popup(val: ESLBasePopup) {
+  public set popup(val: ESLToggleable) {
     throw new Error('Method is not supported');
   }
 

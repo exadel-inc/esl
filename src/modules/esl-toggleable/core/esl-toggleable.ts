@@ -7,7 +7,7 @@ import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
 
-export interface PopupActionParams {
+export interface ToggleableActionParams {
   initiator?: string;
   delay?: number;
   showDelay?: number;
@@ -18,10 +18,10 @@ export interface PopupActionParams {
   activator?: HTMLElement;
 }
 
-const activators: WeakMap<ESLBasePopup, HTMLElement | undefined> = new WeakMap();
+const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap();
 
-@ExportNs('BasePopup')
-export class ESLBasePopup extends ESLBaseElement {
+@ExportNs('Toggleable')
+export class ESLToggleable extends ESLBaseElement {
   static get observedAttributes() {
     return ['open', 'group'];
   }
@@ -41,10 +41,10 @@ export class ESLBasePopup extends ESLBaseElement {
   @boolAttr() public closeOnEsc: boolean;
   @boolAttr() public closeOnOutsideAction: boolean;
 
-  @jsonAttr<PopupActionParams>({defaultValue: {force: true, initiator: 'init'}})
-  public initialParams: PopupActionParams;
-  @jsonAttr<PopupActionParams>({defaultValue: {}})
-  public defaultParams: PopupActionParams;
+  @jsonAttr<ToggleableActionParams>({defaultValue: {force: true, initiator: 'init'}})
+  public initialParams: ToggleableActionParams;
+  @jsonAttr<ToggleableActionParams>({defaultValue: {}})
+  public defaultParams: ToggleableActionParams;
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected || newVal === oldVal) return;
@@ -110,28 +110,28 @@ export class ESLBasePopup extends ESLBaseElement {
     }
   }
 
-  protected mergeDefaultParams(params?: PopupActionParams): PopupActionParams {
+  protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
     return Object.assign({}, this.defaultParams, params || {});
   }
 
   /**
-   * Toggle popup state
+   * Toggle element state
    */
-  public toggle(state: boolean = !this.open, params?: PopupActionParams) {
+  public toggle(state: boolean = !this.open, params?: ToggleableActionParams) {
     return state ? this.show(params) : this.hide(params);
   }
 
   /**
-   * Changes popup state to active
+   * Changes element state to active
    */
-  public show(params?: PopupActionParams) {
+  public show(params?: ToggleableActionParams) {
     params = this.mergeDefaultParams(params);
     this.planShowTask(params);
     this.bindOutsideEventTracking(this.closeOnOutsideAction);
     this.bindHoverStateTracking(!!params.trackHover);
     return this;
   }
-  private planShowTask(params: PopupActionParams) {
+  private planShowTask(params: ToggleableActionParams) {
     this._task.put(() => {
       if (!params.force && this._open) return;
       if (!params.silent && !this.$$fire('before:show', {detail: {params}})) return;
@@ -141,16 +141,16 @@ export class ESLBasePopup extends ESLBaseElement {
   }
 
   /**
-   * Changes popup state to inactive
+   * Changes element state to inactive
    */
-  public hide(params?: PopupActionParams) {
+  public hide(params?: ToggleableActionParams) {
     params = this.mergeDefaultParams(params);
     this.planHideTask(params);
     this.bindOutsideEventTracking(false);
     this.bindHoverStateTracking(!!params.trackHover);
     return this;
   }
-  private planHideTask(params: PopupActionParams) {
+  private planHideTask(params: ToggleableActionParams) {
     this._task.put(() => {
       if (!params.force && !this._open) return;
       if (!params.silent && !this.$$fire('before:hide',{detail: {params}})) return;
@@ -159,7 +159,7 @@ export class ESLBasePopup extends ESLBaseElement {
     }, defined(params.hideDelay, params.delay));
   }
 
-  /** Last element that activate popup. Uses {@link PopupActionParams.activator}*/
+  /** Last component that activate element. Uses {@link ToggleableActionParams.activator}*/
   public get activator() {
     return activators.get(this);
   }
@@ -183,9 +183,9 @@ export class ESLBasePopup extends ESLBaseElement {
   }
 
   /**
-   * Action to show popup
+   * Action to show element
    */
-  protected onShow(params: PopupActionParams) {
+  protected onShow(params: ToggleableActionParams) {
     activators.set(this, params.activator);
     this.open = this._open = true;
     CSSUtil.addCls(this, this.activeClass);
@@ -195,9 +195,9 @@ export class ESLBasePopup extends ESLBaseElement {
   }
 
   /**
-   * Action to hide popup
+   * Action to hide element
    */
-  protected onHide(params: PopupActionParams) {
+  protected onHide(params: ToggleableActionParams) {
     activators.delete(this);
     this.open = this._open = false;
     CSSUtil.removeCls(this, this.activeClass);

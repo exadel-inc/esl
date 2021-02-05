@@ -1,11 +1,11 @@
-import {ESLBasePopup, PopupActionParams} from '../../../esl-base-popup/core/esl-base-popup';
+import {ESLToggleable, ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from './esl-select-list';
 import {ESLSelectModel} from './esl-select-model';
 import {attr} from '../../../esl-base-element/decorators/attr';
 
-export class ESLSelectDropdown extends ESLBasePopup {
+export class ESLSelectDropdown extends ESLToggleable {
   public static readonly is = 'esl-select-dropdown';
 
   @attr() public selectAllLabel: string;
@@ -47,7 +47,7 @@ export class ESLSelectDropdown extends ESLBasePopup {
     window.removeEventListener('resize', this._deferredUpdatePosition);
   }
 
-  protected onShow(params: PopupActionParams) {
+  protected onShow(params: ToggleableActionParams) {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
@@ -59,7 +59,7 @@ export class ESLSelectDropdown extends ESLBasePopup {
     focusable && focusable.focus( { preventScroll: true } );
     this.updatePosition();
   }
-  protected onHide(params: PopupActionParams) {
+  protected onHide(params: ToggleableActionParams) {
     const select = this.activator;
     select && setTimeout(() => select.focus({ preventScroll: true }), 0);
     super.onHide(params);
