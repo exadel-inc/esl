@@ -17,7 +17,7 @@ export class ESLSelectList extends ESLSelectWrapper {
   }
 
   @attr({defaultValue: 'Select All'}) public selectAllLabel: string;
-  @boolAttr() public pinSelected: string;
+  @boolAttr() public pinSelected: boolean;
 
   protected $items: ESLSelectItem[];
   protected $list: HTMLDivElement;
@@ -83,18 +83,22 @@ export class ESLSelectList extends ESLSelectWrapper {
   protected renderItems() {
     if (!this.select) return;
     this.$list.innerHTML = '';
-    const activeItems = this.$items.filter((option) => option.selected);
-    const inactiveItems = this.$items.filter((option) => !option.selected);
-
-    activeItems.forEach((item) => this.$list.appendChild(item));
-    activeItems.slice(-1).forEach((item) => item.classList.add('separator'));
-    inactiveItems.forEach((item) => this.$list.appendChild(item));
+    this.$items = this.options.map(ESLSelectItem.build);
+    if (this.pinSelected) {
+      this.renderGroup(this.$items.filter((option) => option.selected));
+      this.renderGroup(this.$items.filter((option) => !option.selected));
+    } else {
+      this.renderGroup(this.$items);
+    }
+  }
+  protected renderGroup(items: ESLSelectItem[]) {
+    items.forEach((item) => this.$list.appendChild(item));
+    const [last] = items.slice(-1);
+    last && last.classList.add('last-in-group');
   }
   protected renderAllOption() {
-    if (!this.select) return;
-    this.$items = this.options.map(ESLSelectItem.build);
+    this.$selectAll.selected = this.isAllSelected();
     this.$selectAll.textContent = this.selectAllLabel;
-    this.$selectAll.selected = this.$items.every((item) => item.selected);
   }
 
   @bind
@@ -107,10 +111,10 @@ export class ESLSelectList extends ESLSelectWrapper {
 
   @bind
   public _onChange() {
+    this.$selectAll.selected = this.isAllSelected();
     this.$items.forEach((item) => {
-      item.selected = this.isSelected(item.value);
+      item.selected = item.original.selected;
     });
-    this.$selectAll.selected = this.$items.every((item) => item.selected);
   }
 
   @bind

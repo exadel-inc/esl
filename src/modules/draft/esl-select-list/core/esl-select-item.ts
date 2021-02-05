@@ -10,6 +10,8 @@ export class ESLSelectItem extends ESLBaseElement {
   @attr() public value: string;
   @boolAttr() public selected: boolean;
 
+  public original: HTMLOptionElement;
+
   protected connectedCallback() {
     super.connectedCallback();
     this.tabIndex = 0;
@@ -25,6 +27,7 @@ export class ESLSelectItem extends ESLBaseElement {
 
   public static build(option: HTMLOptionElement) {
     const item = document.createElement(ESLSelectItem.is) as ESLSelectItem;
+    item.original = option;
     item.value = option.value;
     item.selected = option.selected;
     item.textContent = option.text;

@@ -56,6 +56,10 @@ export abstract class ESLSelectWrapper extends ESLBaseElement {
     return !!opt && opt.selected;
   }
 
+  /** Check that all options are selected */
+  public isAllSelected(): boolean {
+    return this.options.every((item) => item.selected);
+  }
   /** Toggle all options to the state */
   public setAllSelected(state: boolean) {
     this.options.forEach((item) => item.selected = state);

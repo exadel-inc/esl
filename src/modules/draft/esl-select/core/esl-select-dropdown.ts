@@ -29,6 +29,7 @@ export class ESLSelectDropdown extends ESLBasePopup {
   constructor() {
     super();
     this.$list = document.createElement(ESLSelectList.is) as ESLSelectList;
+    this.$list.pinSelected = true;
   }
 
   protected setInitialState() {}

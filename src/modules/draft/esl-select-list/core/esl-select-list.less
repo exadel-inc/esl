@@ -1,4 +1,4 @@
-esl-select-list {
+.esl-select-list {
   display: flex;
   flex-flow: column;
   position: relative;
@@ -11,7 +11,7 @@ esl-select-list {
   height: 400px;
   max-height: 100%;
 
-  &.esl-select-list [esl-select-target] {
+  & > [esl-select-target] {
     /* Visually hidden */
     position: absolute;
     width: 0;
@@ -22,8 +22,9 @@ esl-select-list {
   }
 
   esl-scrollbar.esl-scrollbar {
-    top: 56px;
-    bottom: 6px;
+    top: 60px;
+    bottom: 5px;
+    right: 10px;
   }
 
   .esl-select-list-container {
