@@ -1,15 +1,15 @@
 import {attr, ESLBaseElement} from '../../../esl-base-element/core';
-import {ESLScrollbar} from '../../../esl-scrollbar/core';
-import {ESLSelectModel} from './esl-select-model';
-import {ESLSelectItem} from './esl-select-item';
 import {bind} from '../../../esl-utils/decorators/bind';
-import {ENTER, SPACE} from '../../../esl-utils/dom/keycodes';
+import {ESLScrollbar} from '../../../esl-scrollbar/core';
+import {ESLSelectItem} from './esl-select-item';
+
+import type {ESLSelect} from './esl-select';
 
 export class ESLSelectList extends ESLBaseElement {
   public static readonly is = 'esl-select-list';
   public static get observedAttributes() { return ['select-all-label']; }
 
-  protected _model: ESLSelectModel;
+  protected _owner: ESLSelect;
 
   @attr({defaultValue: 'Select All'})
   public selectAllLabel: string;
@@ -31,12 +31,12 @@ export class ESLSelectList extends ESLBaseElement {
     this.$selectAll.classList.add('esl-select-all-item');
   }
 
-  get model() {
-    return this._model;
+  get owner() {
+    return this._owner;
   }
-  set model(mod: ESLSelectModel) {
+  set owner(mod: ESLSelect) {
     this.unbindEvents();
-    this._model = mod;
+    this._owner = mod;
     this.bindEvents();
     this.rerender();
   }
@@ -69,22 +69,22 @@ export class ESLSelectList extends ESLBaseElement {
   }
 
   public bindEvents() {
-    if (!this.model) return;
-    this.model.addListener(this.sync);
+    if (!this.owner) return;
+    this.owner.addEventListener('change', this._onChange);
     this.addEventListener('click', this._onClick);
     this.addEventListener('keypress', this._onKeyboard);
   }
   public unbindEvents() {
-    if (!this.model) return;
-    this.model.removeListener(this.sync);
+    if (!this.owner) return;
+    this.owner.removeEventListener('change', this._onChange);
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('keypress', this._onKeyboard);
   }
 
   @bind
   public rerender() {
-    if (!this.model) return;
-    this.$items = this.model.options.map(ESLSelectItem.build);
+    if (!this.owner) return;
+    this.$items = this.owner.options.map(ESLSelectItem.build);
     this.$selectAll.selected = this.$items.every((item) => item.selected);
     this.$selectAll.textContent = this.selectAllLabel;
 
@@ -98,9 +98,9 @@ export class ESLSelectList extends ESLBaseElement {
   }
 
   @bind
-  public sync() {
+  public _onChange() {
     this.$items.forEach((item) => {
-      item.selected = this.model.check(item.value);
+      item.selected = this.owner.isSelected(item.value);
     });
     this.$selectAll.selected = this.$items.every((item) => item.selected);
   }
@@ -110,16 +110,15 @@ export class ESLSelectList extends ESLBaseElement {
     const target = e.target;
     if (!target || !(target instanceof ESLSelectItem)) return;
     if (target.classList.contains('esl-select-all-item')) {
-      this.model.toggleAll(!target.selected);
+      this.owner.setAll(!target.selected);
     } else {
-      this.model.toggle(target.value, !target.selected);
+      this.owner.set(target.value, !target.selected);
     }
   }
 
   @bind
   protected _onKeyboard(e: KeyboardEvent) {
-    const keycode = e.which || e.keyCode;
-    if (SPACE === keycode || ENTER === keycode) {
+    if (e.key === 'Enter' || e.key === ' ') {
       this._onClick(e);
       e.preventDefault();
     }

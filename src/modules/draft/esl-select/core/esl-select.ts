@@ -4,13 +4,20 @@ import {CSSUtil} from '../../../esl-utils/dom/styles';
 import {EventUtils} from '../../../esl-utils/dom/events';
 
 import {ESLSelectText} from './esl-select-text';
-import {ESLSelectModel} from './esl-select-model';
 import {ESLSelectList} from './esl-select-list';
 import {ESLSelectItem} from './esl-select-item';
 import {ESLSelectDropdown} from './esl-select-dropdown';
 
 export class ESLSelect extends ESLBaseElement {
   public static readonly is = 'esl-select';
+
+  public static register() {
+    ESLSelectItem.register();
+    ESLSelectList.register();
+    ESLSelectDropdown.register();
+    ESLSelectText.register();
+    super.register();
+  }
 
   /** Placeholder text property */
   @attr() public emptyText: string;
@@ -25,8 +32,6 @@ export class ESLSelect extends ESLBaseElement {
 
   /** Dropdown open marker */
   @boolAttr() public open: boolean;
-
-  protected _model?: ESLSelectModel;
 
   protected $text: ESLSelectText;
   protected $select: HTMLSelectElement;
@@ -69,34 +74,21 @@ export class ESLSelect extends ESLBaseElement {
   }
 
   protected prepare() {
-    this.$text.model = this.model;
+    this.$text.model = this;
     this.$text.className = this.$select.className;
     this.$text.emptyText = this.emptyText;
     this.$text.moreLabelFormat = this.moreLabelFormat;
-    this.$dropdown.model = this.model;
-    this.$dropdown.selectAllLabel = this.selectAllLabel;
+    this.$dropdown.owner = this;
     this.appendChild(this.$text);
   }
   protected dispose() {
     this.$select.className = this.$text.className;
     this.removeChild(this.$text);
-    this.model.removeListener(this._onChange);
-  }
-
-  public get model(): ESLSelectModel {
-    if (!this._model) {
-      this._model = new ESLSelectModel(this.options);
-      this._model.addListener(this._onChange);
-    }
-    return this._model;
-  }
-  public get options(): HTMLOptionElement[] {
-    return this.$select ? Array.from(this.$select.options) : [];
   }
 
   @bind
   protected _onUpdate() {
-    const hasValue = this.model.fill;
+    const hasValue = this.hasValue;
     this.toggleAttribute('has-value', hasValue);
     CSSUtil.toggleClsTo(this, this.hasValueClass, hasValue);
 
@@ -123,14 +115,43 @@ export class ESLSelect extends ESLBaseElement {
   @bind
   protected _onChange() {
     this._onUpdate();
-    EventUtils.dispatch(this, 'change');
+    EventUtils.dispatch(this.$select, 'change');
   }
 
-  public static register() {
-    ESLSelectItem.register();
-    ESLSelectList.register();
-    ESLSelectDropdown.register();
-    ESLSelectText.register();
-    super.register();
+  // Model methods
+  /** Get list of options */
+  public get options(): HTMLOptionElement[] {
+    return this.$select ? Array.from(this.$select.options) : [];
+  }
+  /** Get list of selected options */
+  public get selected(): HTMLOptionElement[] {
+    return this.options.filter((item) => item.selected);
+  }
+
+  /** Has selected options */
+  public get hasValue(): boolean {
+    return this.options.some((item) => item.selected);
+  }
+
+  /** Get option with passed value */
+  public get(value: string): HTMLOptionElement | undefined {
+    return this.options.find((item) => item.value === value);
+  }
+  /** Toggle option with passed value to the state */
+  public set(value: string, state: boolean) {
+    const option = this.get(value);
+    option && (option.selected = state);
+    this._onChange();
+  }
+  /** Check selected state*/
+  public isSelected(value: string): boolean {
+    const opt = this.get(value);
+    return !!opt && opt.selected;
+  }
+
+  /** Toggle all options to the state */
+  public setAll(state: boolean) {
+    this.options.forEach((item) => item.selected = state);
+    this._onChange();
   }
 }

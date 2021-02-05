@@ -1,10 +1,11 @@
 import {ESLBaseElement} from '../../../esl-base-element/core/esl-base-element';
-import {ESLSelectModel} from './esl-select-model';
 import {rafDecorator} from '../../../esl-utils/async/raf';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {attr} from '../../../esl-base-element/decorators/attr';
 import {boolAttr} from '../../../esl-base-element/decorators/bool-attr';
 import {compile} from '../../../esl-utils/misc/format';
+
+import type {ESLSelect} from './esl-select';
 
 export class ESLSelectText extends ESLBaseElement {
   public static readonly is = 'esl-select-text';
@@ -18,7 +19,7 @@ export class ESLSelectText extends ESLBaseElement {
   protected $text: HTMLElement;
   protected $remove: HTMLButtonElement;
 
-  protected _model: ESLSelectModel;
+  protected _select: ESLSelect;
   protected _deferredRerender = rafDecorator(() => this.render());
 
   constructor() {
@@ -41,11 +42,11 @@ export class ESLSelectText extends ESLBaseElement {
   }
 
   get model() {
-    return this._model;
+    return this._select;
   }
-  set model(mod: ESLSelectModel) {
+  set model(mod: ESLSelect) {
     this.unbindEvents();
-    this._model = mod;
+    this._select = mod;
     this.bindEvents();
     this.render();
   }
@@ -65,13 +66,13 @@ export class ESLSelectText extends ESLBaseElement {
 
   protected bindEvents() {
     if (!this.model) return;
-    this.model.addListener(this.render);
+    this.model.addEventListener('change', this.render);
     this.$remove.addEventListener('click', this._onClear);
     window.addEventListener('resize', this._deferredRerender);
   }
   protected unbindEvents() {
     if (!this.model) return;
-    this.model.removeListener(this.render);
+    this.model.removeEventListener('change', this.render);
     this.$remove.removeEventListener('click', this._onClear);
     window.removeEventListener('resize', this._deferredRerender);
   }
@@ -80,7 +81,7 @@ export class ESLSelectText extends ESLBaseElement {
   protected _onClear(e: MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
-    this.model && this.model.toggleAll(false);
+    this.model && this.model.setAll(false);
   }
 
   @bind
