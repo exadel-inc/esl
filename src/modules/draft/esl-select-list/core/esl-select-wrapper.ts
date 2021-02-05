@@ -10,7 +10,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement {
   public set select(select: HTMLSelectElement) {
     const prev = this._$select;
     this._$select = select;
-    this._onSelectChange(select, prev);
+    this._onTargetChange(select, prev);
   }
 
   protected disconnectedCallback() {
@@ -19,7 +19,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement {
   }
 
   protected _onChange(event?: Event) {}
-  protected _onSelectChange(newTarget: HTMLSelectElement | undefined,
+  protected _onTargetChange(newTarget: HTMLSelectElement | undefined,
                             oldTarget: HTMLSelectElement | undefined) {
     if (oldTarget) oldTarget.removeEventListener('change', this._onChange);
     if (newTarget) newTarget.addEventListener('change', this._onChange);

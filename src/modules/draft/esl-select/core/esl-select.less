@@ -15,7 +15,7 @@ esl-select {
     clip: rect(0,0,0,0);
   }
 
-  esl-select-text:after {
+  esl-select-renderer:after {
     content: '\2BC6';
     display: inline-block;
     flex: 0 0 auto;
@@ -34,7 +34,7 @@ esl-select {
     transition: transform .2s linear;
     transform-origin: center center;
   }
-  &[open] esl-select-text:after {
+  &[open] esl-select-renderer:after {
     transform: rotateX(180deg);
   }
 }

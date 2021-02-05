@@ -98,8 +98,8 @@ export class ESLSelectList extends ESLSelectWrapper {
   }
 
   @bind
-  protected _onSelectChange(newTarget: HTMLSelectElement | undefined, oldTarget: HTMLSelectElement | undefined) {
-    super._onSelectChange(newTarget, oldTarget);
+  protected _onTargetChange(newTarget: HTMLSelectElement | undefined, oldTarget: HTMLSelectElement | undefined) {
+    super._onTargetChange(newTarget, oldTarget);
     this.bindEvents();
     this.renderAllOption();
     this.renderItems();

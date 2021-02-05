@@ -8,9 +8,6 @@ esl-select-dropdown {
 
   z-index: 100;
 
-  border: 1px solid @esl-select-secondary;
-  background: @esl-select-background;
-
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
@@ -23,5 +20,10 @@ esl-select-dropdown {
     opacity: 1;
 
     transition: opacity .25s linear, visibility 0s linear 0s;
+  }
+
+  > esl-select-list {
+    height: 100%;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
   }
 }

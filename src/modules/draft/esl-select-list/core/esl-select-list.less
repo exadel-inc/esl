@@ -3,7 +3,9 @@ esl-select-list {
   flex-flow: column;
   position: relative;
   overflow: hidden;
-  border: 1px solid @esl-select-secondary;
+
+  background: @esl-select-list-background;
+  border: 1px solid @esl-select-list-secondary;
 
   min-height: 50px;
   height: 400px;
@@ -32,6 +34,6 @@ esl-select-list {
 
   .esl-select-item.esl-select-all-item {
     flex: 0 0 auto;
-    border-bottom: 1px solid @esl-select-secondary;
+    border-bottom: 1px solid @esl-select-list-secondary;
   }
 }

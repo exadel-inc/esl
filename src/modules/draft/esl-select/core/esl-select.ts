@@ -2,7 +2,7 @@ import {attr, boolAttr} from '../../../esl-base-element/core';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../../esl-utils/dom/styles';
 
-import {ESLSelectText} from './esl-select-text';
+import {ESLSelectRenderer} from './esl-select-renderer';
 import {ESLSelectDropdown} from './esl-select-dropdown';
 import {ESLSelectWrapper} from '../../esl-select-list/core/esl-select-wrapper';
 
@@ -11,7 +11,7 @@ export class ESLSelect extends ESLSelectWrapper {
 
   public static register() {
     ESLSelectDropdown.register();
-    ESLSelectText.register();
+    ESLSelectRenderer.register();
     super.register();
   }
 
@@ -29,13 +29,13 @@ export class ESLSelect extends ESLSelectWrapper {
   /** Dropdown open marker */
   @boolAttr() public open: boolean;
 
-  protected $text: ESLSelectText;
+  protected $text: ESLSelectRenderer;
   protected $dropdown: ESLSelectDropdown;
 
   constructor() {
     super();
 
-    this.$text = document.createElement(ESLSelectText.is) as ESLSelectText;
+    this.$text = document.createElement(ESLSelectRenderer.is) as ESLSelectRenderer;
     this.$dropdown = document.createElement(ESLSelectDropdown.is) as ESLSelectDropdown;
   }
 
@@ -57,19 +57,20 @@ export class ESLSelect extends ESLSelectWrapper {
 
   protected bindEvents() {
     this.addEventListener('click', this._onClick);
+    this.addEventListener('keydown', this._onKeydown);
     this.addEventListener('focusout', this._onUpdate);
     this.$dropdown.addEventListener('esl:show', this._onPopupStateChange);
     this.$dropdown.addEventListener('esl:hide', this._onPopupStateChange);
   }
   protected unbindEvents() {
     this.removeEventListener('click', this._onClick);
+    this.removeEventListener('keydown', this._onKeydown);
     this.removeEventListener('focusout', this._onUpdate);
     this.$dropdown.removeEventListener('esl:show', this._onPopupStateChange);
     this.$dropdown.removeEventListener('esl:hide', this._onPopupStateChange);
   }
 
   protected prepare() {
-    this.$text.model = this;
     this.$text.className = this.select.className;
     this.$text.emptyText = this.emptyText;
     this.$text.moreLabelFormat = this.moreLabelFormat;
@@ -103,6 +104,14 @@ export class ESLSelect extends ESLSelectWrapper {
       activator: this,
       initiator: 'select'
     });
+  }
+
+  @bind
+  protected _onKeydown(e: KeyboardEvent) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      this.click();
+      e.preventDefault();
+    }
   }
 
   @bind
