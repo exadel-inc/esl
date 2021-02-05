@@ -9,6 +9,7 @@ export class ESLSelectDropdown extends ESLBasePopup {
   public static readonly is = 'esl-select-dropdown';
 
   @attr() public selectAllLabel: string;
+
   public model: ESLSelectModel;
 
   protected $list: ESLSelectList;
@@ -66,6 +67,19 @@ export class ESLSelectDropdown extends ESLBasePopup {
     this._disposeTimeout = window.setTimeout(() => {
       document.body.removeChild(this);
     }, 1000);
+  }
+
+  protected _onKeyboardEvent(e: KeyboardEvent) {
+    super._onKeyboardEvent(e);
+    if (e.key === 'Tab') this._onTabKey(e);
+  }
+
+  protected _onTabKey(e: KeyboardEvent) {
+    const els = this.querySelectorAll('[tabindex]');
+    const first = els[0] as HTMLElement;
+    const last = els[els.length - 1] as HTMLElement;
+    if (first && e.target === last && !e.shiftKey) first.focus();
+    if (last && e.target === first && e.shiftKey) last.focus();
   }
 
   @bind
