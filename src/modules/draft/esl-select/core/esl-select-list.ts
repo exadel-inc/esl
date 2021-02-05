@@ -9,6 +9,11 @@ export class ESLSelectList extends ESLBaseElement {
   public static readonly is = 'esl-select-list';
   public static get observedAttributes() { return ['select-all-label']; }
 
+  public static register() {
+    ESLSelectItem.register();
+    super.register();
+  }
+
   protected _owner: ESLSelect;
 
   @attr({defaultValue: 'Select All'})

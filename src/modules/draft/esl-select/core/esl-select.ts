@@ -1,19 +1,16 @@
-import {attr, boolAttr, ESLBaseElement} from '../../../esl-base-element/core';
+import {attr, boolAttr} from '../../../esl-base-element/core';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../../esl-utils/dom/styles';
 import {EventUtils} from '../../../esl-utils/dom/events';
 
 import {ESLSelectText} from './esl-select-text';
-import {ESLSelectList} from './esl-select-list';
-import {ESLSelectItem} from './esl-select-item';
 import {ESLSelectDropdown} from './esl-select-dropdown';
+import {ESLSelectWrapper} from './esl-select-wrapper';
 
-export class ESLSelect extends ESLBaseElement {
+export class ESLSelect extends ESLSelectWrapper {
   public static readonly is = 'esl-select';
 
   public static register() {
-    ESLSelectItem.register();
-    ESLSelectList.register();
     ESLSelectDropdown.register();
     ESLSelectText.register();
     super.register();
@@ -34,7 +31,6 @@ export class ESLSelect extends ESLBaseElement {
   @boolAttr() public open: boolean;
 
   protected $text: ESLSelectText;
-  protected $select: HTMLSelectElement;
   protected $dropdown: ESLSelectDropdown;
 
   constructor() {
@@ -116,42 +112,5 @@ export class ESLSelect extends ESLBaseElement {
   protected _onChange() {
     this._onUpdate();
     EventUtils.dispatch(this.$select, 'change');
-  }
-
-  // Model methods
-  /** Get list of options */
-  public get options(): HTMLOptionElement[] {
-    return this.$select ? Array.from(this.$select.options) : [];
-  }
-  /** Get list of selected options */
-  public get selected(): HTMLOptionElement[] {
-    return this.options.filter((item) => item.selected);
-  }
-
-  /** Has selected options */
-  public get hasValue(): boolean {
-    return this.options.some((item) => item.selected);
-  }
-
-  /** Get option with passed value */
-  public get(value: string): HTMLOptionElement | undefined {
-    return this.options.find((item) => item.value === value);
-  }
-  /** Toggle option with passed value to the state */
-  public set(value: string, state: boolean) {
-    const option = this.get(value);
-    option && (option.selected = state);
-    this._onChange();
-  }
-  /** Check selected state*/
-  public isSelected(value: string): boolean {
-    const opt = this.get(value);
-    return !!opt && opt.selected;
-  }
-
-  /** Toggle all options to the state */
-  public setAll(state: boolean) {
-    this.options.forEach((item) => item.selected = state);
-    this._onChange();
   }
 }

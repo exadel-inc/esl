@@ -8,6 +8,11 @@ import type {ESLSelect} from './esl-select';
 export class ESLSelectDropdown extends ESLBasePopup {
   public static readonly is = 'esl-select-dropdown';
 
+  public static register() {
+    ESLSelectList.register();
+    super.register();
+  }
+
   public owner: ESLSelect;
 
   protected $list: ESLSelectList;
