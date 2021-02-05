@@ -1,14 +1,16 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
-import {ESLBaseElement, jsonAttr} from '../../esl-base-element/core';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {attr, ESLBaseElement, jsonAttr} from '../../esl-base-element/core';
 import {CSSUtil} from '../../esl-utils/dom/styles';
-import {createIframe} from '../../esl-utils/fixes/ie-fixes';
+import {DelayedTask} from '../../esl-utils/async/delayed-task';
+import {defined} from '../../esl-utils/misc/object';
 
 export interface ToastActionParams {
   delay?: number;
   showDelay?: number;
   hideDelay?: number;
+  force?: boolean;
+  open?: boolean
   /** text to be shown; pass empty string or null to hide */
   text?: string;
   /** classes to add to toast element */
@@ -23,11 +25,14 @@ export class ESLToastService extends ESLBaseElement {
   static defaultConfig: ToastActionParams = {
     hideDelay: 2500
   };
+  static toastItems: Map<ToastActionParams, HTMLElement | undefined> = new Map();
+
+  protected _task: DelayedTask = new DelayedTask();
+
+  @attr({defaultValue: 'open'}) public activeClass: string;
 
   @jsonAttr<ToastActionParams>({defaultValue: ESLToastService.defaultConfig})
   public defaultParams: ToastActionParams;
-
-  protected _toastItems: HTMLElement[] = [];
 
   /** Register and create global alert instance */
   public static init() {
@@ -42,37 +47,52 @@ export class ESLToastService extends ESLBaseElement {
   @bind
   onWindowEvent(e: CustomEvent) {
     if (e.type === `${ESLToastService.eventNs}:show`) {
-      const params = Object.assign({}, e.detail, {force: true});
-      this.onShow(params);
+      const params = Object.assign({}, e.detail, {force: true, open: true});
+      this.planShowTask(Object.assign({}, this.defaultParams, params || {}));
     }
     if (e.type === `${ESLToastService.eventNs}:hide`) {
       const params = Object.assign({}, {hideDelay: 0}, e.detail, {force: true});
-      this.onHide(params);
+      this.planHideTask(Object.assign({}, this.defaultParams, params || {}));
     }
   }
 
   public onShow(params: ToastActionParams) {
     if (params.text) {
       const item = document.createElement('div');
-      item.className = 'toast-item open';
+      CSSUtil.addCls(item, 'toast-item open');
       item.textContent = params.text;
-      this._toastItems.push(item);
-
-      this.appendChild(this._toastItems.pop() as HTMLElement);
-      if (DeviceDetector.isIE) {
-        this.appendChild(createIframe());
-      }
-
-      CSSUtil.addCls(this, params.cls);
+      ESLToastService.toastItems.set(params, item);
+      // CSSUtil.addCls(this, params.cls);
+      this.appendChild(item);
     }
-    this.onHide(params);
+    this.planHideTask(params);
     return this;
   }
 
-  public onHide(params: ToastActionParams) {
-    CSSUtil.removeCls(this, params.cls);
+  private planShowTask(params: ToastActionParams) {
+    this._task.put(() => {
+      if (!params.force && params.open) return;
+      this.onShow(params);
+    }, defined(params.showDelay, params.delay));
   }
 
+  public onHide() {
+    ESLToastService.toastItems.forEach((item, itemParams) => {
+      if (!itemParams.open) return;
+      itemParams.open = false;
+      CSSUtil.removeCls(item as HTMLElement, this.activeClass);
+      // todo remove from html as well
+      ESLToastService.toastItems.delete(itemParams);
+    });
+    // CSSUtil.removeCls(this, params.cls);
+  }
+
+  private planHideTask(params: ToastActionParams) {
+    this._task.put(() => {
+      if (!params.force && !params.open) return;
+      this.onHide();
+    }, defined(params.hideDelay, params.delay));
+  }
   protected connectedCallback() {
     super.connectedCallback();
     this.bindEvents();
