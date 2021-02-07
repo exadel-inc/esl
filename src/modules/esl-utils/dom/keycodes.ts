@@ -1,16 +1,24 @@
-export const TAB = 9;
-export const ENTER = 13;
-export const ESC = 27;
-export const SPACE = 32;
+export const TAB = 'Tab';
+export const ENTER = 'Enter';
+export const ESC = 'Escape';
+export const SPACE = ' ';
 
-export const PAUSE = 19;
-export const END = 35;
-export const HOME = 36;
+export const ESC_IE = 'Esc';
+export const SPACE_IE = 'Spacebar';
 
-export const PAGE_UP = 33;
-export const PAGE_DOWN = 34;
+export const PAUSE = 'Pause';
+export const END = 'End';
+export const HOME = 'Home';
 
-export const ARROW_LEFT = 37;
-export const ARROW_UP = 38;
-export const ARROW_RIGHT = 39;
-export const ARROW_DOWN = 40;
+export const PAGE_UP = 'PageUp';
+export const PAGE_DOWN = 'PageDown';
+
+export const ARROW_LEFT = 'ArrowLeft';
+export const ARROW_UP = 'ArrowUp';
+export const ARROW_RIGHT = 'ArrowRight';
+export const ARROW_DOWN = 'ArrowDown';
+
+export const ARROW_LEFT_IE = 'Left';
+export const ARROW_UP_IE = 'Up';
+export const ARROW_RIGHT_IE = 'Right';
+export const ARROW_DOWN_IE = 'Down';

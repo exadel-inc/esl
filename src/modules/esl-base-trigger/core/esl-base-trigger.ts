@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {bind} from '../../esl-utils/decorators/bind';
-import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
+import {ENTER, SPACE, SPACE_IE} from '../../esl-utils/dom/keycodes';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
@@ -110,9 +110,10 @@ export class ESLBaseTrigger extends ESLBaseElement {
 
   @bind
   protected _onKeydown(e: KeyboardEvent) {
-    switch (e.which || e.keyCode) {
+    switch (e.key) {
       case ENTER:
       case SPACE:
+      case SPACE_IE:
         this.click();
         e.preventDefault();
         break;

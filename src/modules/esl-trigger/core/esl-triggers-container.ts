@@ -1,8 +1,14 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLTrigger} from './esl-trigger';
-import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP} from '../../esl-utils/dom/keycodes';
 import {bind} from '../../esl-utils/decorators/bind';
+import {
+  ARROW_DOWN, ARROW_DOWN_IE,
+  ARROW_LEFT, ARROW_LEFT_IE,
+  ARROW_RIGHT, ARROW_RIGHT_IE,
+  ARROW_UP, ARROW_UP_IE
+} from '../../esl-utils/dom/keycodes';
+
 
 export type GroupTarget = 'next' | 'prev' | 'current';
 
@@ -34,14 +40,18 @@ export class ESLTriggersContainer extends ESLBaseElement {
     const target = e.target;
     if (!(target instanceof ESLTrigger)) return;
 
-    switch (e.which || e.keyCode) {
+    switch (e.key) {
       case ARROW_UP:
+      case ARROW_UP_IE:
       case ARROW_LEFT:
+      case ARROW_LEFT_IE:
         this.goTo('prev', target);
         e.preventDefault();
         break;
       case ARROW_DOWN:
+      case ARROW_DOWN_IE:
       case ARROW_RIGHT:
+      case ARROW_RIGHT_IE:
         this.goTo('next', target);
         e.preventDefault();
         break;

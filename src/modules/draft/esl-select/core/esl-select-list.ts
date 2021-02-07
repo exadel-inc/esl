@@ -3,7 +3,7 @@ import {ESLScrollbar} from '../../../esl-scrollbar/core';
 import {ESLSelectModel} from './esl-select-model';
 import {ESLSelectItem} from './esl-select-item';
 import {bind} from '../../../esl-utils/decorators/bind';
-import {ENTER, SPACE} from '../../../esl-utils/dom/keycodes';
+import {ENTER, SPACE, SPACE_IE} from '../../../esl-utils/dom/keycodes';
 
 export class ESLSelectList extends ESLBaseElement {
   public static readonly is = 'esl-select-list';
@@ -118,10 +118,13 @@ export class ESLSelectList extends ESLBaseElement {
 
   @bind
   protected _onKeyboard(e: KeyboardEvent) {
-    const keycode = e.which || e.keyCode;
-    if (SPACE === keycode || ENTER === keycode) {
-      this._onClick(e);
-      e.preventDefault();
+    switch (e.key) {
+      case ENTER:
+      case SPACE:
+      case SPACE_IE:
+        this._onClick(e);
+        e.preventDefault();
+        break;
     }
   }
 }
