@@ -1,7 +1,32 @@
 import {ESLBaseElement} from '../../../esl-base-element/core';
 import {EventUtils} from '../../../esl-utils/dom/events';
 
-export abstract class ESLSelectWrapper extends ESLBaseElement {
+export interface ESLSelectOption {
+  text: string;
+  value: string;
+  selected: boolean;
+}
+
+export interface ESLSelectModel {
+  /** Get list of options */
+  options: ESLSelectOption[];
+  /** Get list of selected options */
+  selected: ESLSelectOption[];
+
+  /** Toggle option with passed value to the state */
+  setSelected(value: string, state: boolean): void;
+  /** Check selected state*/
+  isSelected(value: string): boolean;
+  /** Has selected options */
+  hasSelected(): boolean;
+
+  /** Check that all options are selected */
+  isAllSelected(): boolean;
+  /** Toggle all options to the state */
+  setAllSelected(state: boolean): void;
+}
+
+export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSelectModel {
   private _$select: HTMLSelectElement;
 
   public get select() {
@@ -25,42 +50,34 @@ export abstract class ESLSelectWrapper extends ESLBaseElement {
     if (newTarget) newTarget.addEventListener('change', this._onChange);
   }
 
-  // Model methods
-  /** Get list of options */
-  public get options(): HTMLOptionElement[] {
+  public get options(): ESLSelectOption[] {
     return this._$select ? Array.from(this._$select.options) : [];
   }
-  /** Get list of selected options */
-  public get selected(): HTMLOptionElement[] {
+  public get selected(): ESLSelectOption[] {
     return this.options.filter((item) => item.selected);
   }
 
-  /** Has selected options */
-  public get hasValue(): boolean {
-    return this.options.some((item) => item.selected);
-  }
-
-  /** Get option with passed value */
-  public getOption(value: string): HTMLOptionElement | undefined {
+  protected getOption(value: string): ESLSelectOption | undefined {
     return this.options.find((item) => item.value === value);
   }
-  /** Toggle option with passed value to the state */
+
   public setSelected(value: string, state: boolean) {
     const option = this.getOption(value);
     option && (option.selected = state);
     EventUtils.dispatch(this._$select, 'change');
   }
-  /** Check selected state*/
   public isSelected(value: string): boolean {
     const opt = this.getOption(value);
     return !!opt && opt.selected;
   }
+  public hasSelected(): boolean {
+    return this.options.some((item) => item.selected);
+  }
 
-  /** Check that all options are selected */
   public isAllSelected(): boolean {
     return this.options.every((item) => item.selected);
   }
-  /** Toggle all options to the state */
+
   public setAllSelected(state: boolean) {
     this.options.forEach((item) => item.selected = state);
     EventUtils.dispatch(this._$select, 'change');

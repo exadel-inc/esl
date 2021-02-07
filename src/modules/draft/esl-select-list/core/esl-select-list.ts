@@ -1,4 +1,4 @@
-import {attr, boolAttr, ESLBaseElement} from '../../../esl-base-element/core';
+import {attr, boolAttr} from '../../../esl-base-element/core';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {ESLScrollbar} from '../../../esl-scrollbar/core';
 import {ESLSelectItem} from './esl-select-item';

@@ -89,7 +89,7 @@ export class ESLSelect extends ESLSelectWrapper {
 
   @bind
   protected _onUpdate() {
-    const hasValue = this.hasValue;
+    const hasValue = this.hasSelected();
     this.toggleAttribute('has-value', hasValue);
     CSSUtil.toggleClsTo(this, this.hasValueClass, hasValue);
 
