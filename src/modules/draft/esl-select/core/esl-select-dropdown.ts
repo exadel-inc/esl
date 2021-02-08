@@ -7,7 +7,6 @@ import type {ESLSelect} from './esl-select';
 
 export class ESLSelectDropdown extends ESLBasePopup {
   public static readonly is = 'esl-select-dropdown';
-
   public static register() {
     ESLSelectList.register();
     super.register();
@@ -73,6 +72,7 @@ export class ESLSelectDropdown extends ESLBasePopup {
     }, 1000);
   }
 
+  @bind
   protected _onKeyboardEvent(e: KeyboardEvent) {
     super._onKeyboardEvent(e);
     if (e.key === 'Tab') this._onTabKey(e);

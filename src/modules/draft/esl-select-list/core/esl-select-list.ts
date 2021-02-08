@@ -102,11 +102,11 @@ export class ESLSelectList extends ESLSelectWrapper {
     const [last] = items.slice(-1);
     last && last.classList.add('last-in-group');
   }
-  protected _renderAllOption() {
+
+  protected _updateSelectAll() {
     this.$selectAll.selected = this.isAllSelected();
     this.$selectAll.textContent = this.selectAllLabel;
   }
-
   protected _updateDisabled() {
     this.setAttribute('aria-disabled', String(this.disabled));
     if (!this.select) return;
@@ -116,7 +116,7 @@ export class ESLSelectList extends ESLSelectWrapper {
   @bind
   protected _onTargetChange(newTarget: HTMLSelectElement | undefined, oldTarget: HTMLSelectElement | undefined) {
     super._onTargetChange(newTarget, oldTarget);
-    this._renderAllOption();
+    this._updateSelectAll();
     this._renderItems();
 
     this.bindEvents();
@@ -124,7 +124,7 @@ export class ESLSelectList extends ESLSelectWrapper {
 
   @bind
   public _onChange() {
-    this.$selectAll.selected = this.isAllSelected();
+    this._updateSelectAll();
     this.$items.forEach((item) => {
       item.selected = item.original.selected;
     });
@@ -144,7 +144,7 @@ export class ESLSelectList extends ESLSelectWrapper {
 
   @bind
   protected _onKeyboard(e: KeyboardEvent) {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
       this._onClick(e);
       e.preventDefault();
     }
