@@ -1,3 +1,10 @@
+# [2.0.0-beta.16](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.15...v2.0.0-beta.16) (2021-02-08)
+
+
+### Bug Fixes
+
+* allow super.register call for esl-base-element instances ([19e8e05](https://github.com/exadel-inc/esl/commit/19e8e051d413c28e1ecd74b2b636e1a3281d2d08))
+
 # [2.0.0-beta.15](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.14...v2.0.0-beta.15) (2021-02-04)
 
 
