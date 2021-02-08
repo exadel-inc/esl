@@ -39,7 +39,7 @@ export abstract class ESLBaseElement extends HTMLElement {
    * Register component in the {@link customElements} registry
    * @param [tagName] - custom tag name to register custom element
    */
-  public static register(this: typeof ESLBaseElement & CustomElementConstructor, tagName?: string) {
+  public static register(this: typeof ESLBaseElement, tagName?: string) {
     tagName = tagName || this.is;
     if (!tagName) throw new Error('Can not define custom element');
     const constructor = customElements.get(tagName);
@@ -50,6 +50,6 @@ export abstract class ESLBaseElement extends HTMLElement {
     if (this.is !== tagName) {
       this.is = tagName;
     }
-    customElements.define(tagName, this);
+    customElements.define(tagName, this as any as CustomElementConstructor);
   }
 }

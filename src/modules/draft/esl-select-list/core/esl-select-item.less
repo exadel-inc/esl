@@ -21,9 +21,9 @@ esl-select-item {
     left: 15px;
     width: 20px;
     height: 20px;
-    border: 2px solid @esl-select-primary;
+    border: 2px solid @esl-select-list-primary;
     border-radius: 4px;
-    background-color: @esl-select-background;
+    background-color: @esl-select-list-background;
   }
   &::after {
     content: '';
@@ -34,7 +34,7 @@ esl-select-item {
     width: 12px;
     height: 6px;
 
-    border: 2px solid @esl-select-check;
+    border: 2px solid @esl-select-list-check;
     border-top: none;
     border-right: none;
     transform: rotate(-45deg);
@@ -45,14 +45,24 @@ esl-select-item {
 
   &[selected] {
     &::before {
-      background-color: @esl-select-primary;
+      background-color: @esl-select-list-primary;
     }
     &::after {
       opacity: 1;
     }
   }
 
-  &.separator {
-    border-bottom: 1px solid @esl-select-secondary;
+  &.last-in-group:not(:last-of-type) {
+    border-bottom: 1px solid @esl-select-list-secondary;
+  }
+}
+
+[disabled] esl-select-item {
+  pointer-events: none;
+  color: @esl-select-list-disabled;
+
+  &[selected]::before {
+    border-color: @esl-select-list-disabled;
+    background-color: @esl-select-list-disabled;
   }
 }
