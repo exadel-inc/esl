@@ -8,7 +8,9 @@ import {ESLSelectWrapper} from '../../esl-select-list/core/esl-select-wrapper';
 
 export class ESLSelect extends ESLSelectWrapper {
   public static readonly is = 'esl-select';
-
+  public static get observedAttributes() {
+    return ['disabled'];
+  }
   public static register() {
     ESLSelectDropdown.register();
     ESLSelectRenderer.register();
@@ -28,6 +30,8 @@ export class ESLSelect extends ESLSelectWrapper {
 
   /** Dropdown open marker */
   @boolAttr() public open: boolean;
+  /** Disabled state marker */
+  @boolAttr() public disabled: boolean;
 
   protected $text: ESLSelectRenderer;
   protected $dropdown: ESLSelectDropdown;
@@ -39,20 +43,25 @@ export class ESLSelect extends ESLSelectWrapper {
     this.$dropdown = document.createElement(ESLSelectDropdown.is) as ESLSelectDropdown;
   }
 
+  protected attributeChangedCallback(attrName: string) {
+    if (attrName === 'disabled') this._updateDisabled();
+  }
+
   protected connectedCallback() {
     super.connectedCallback();
 
     this.select = this.querySelector('[esl-select-target]') as HTMLSelectElement;
     if (!this.select) return;
 
-    this.prepare();
+    this._prepare();
+    this._updateDisabled();
     this.bindEvents();
     this._onUpdate();
   }
   protected disconnectedCallback() {
     super.disconnectedCallback();
     this.unbindEvents();
-    this.dispose();
+    this._dispose();
   }
 
   protected bindEvents() {
@@ -70,16 +79,23 @@ export class ESLSelect extends ESLSelectWrapper {
     this.$dropdown.removeEventListener('esl:hide', this._onPopupStateChange);
   }
 
-  protected prepare() {
+  protected _prepare() {
     this.$text.className = this.select.className;
     this.$text.emptyText = this.emptyText;
     this.$text.moreLabelFormat = this.moreLabelFormat;
     this.$dropdown.owner = this;
     this.appendChild(this.$text);
   }
-  protected dispose() {
+  protected _dispose() {
     this.select.className = this.$text.className;
     this.removeChild(this.$text);
+  }
+
+  protected _updateDisabled() {
+    this.setAttribute('aria-disabled', String(this.disabled));
+    if (!this.select) return;
+    this.select.disabled = this.disabled;
+    if (this.disabled && this.open) this.$dropdown.hide();
   }
 
   @bind
@@ -100,6 +116,7 @@ export class ESLSelect extends ESLSelectWrapper {
 
   @bind
   protected _onClick() {
+    if (this.disabled) return;
     this.$dropdown.toggle(!this.$dropdown.open, {
       activator: this,
       initiator: 'select'

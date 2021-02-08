@@ -56,3 +56,13 @@ esl-select-item {
     border-bottom: 1px solid @esl-select-list-secondary;
   }
 }
+
+[disabled] esl-select-item {
+  pointer-events: none;
+  color: @esl-select-list-disabled;
+
+  &[selected]::before {
+    border-color: @esl-select-list-disabled;
+    background-color: @esl-select-list-disabled;
+  }
+}

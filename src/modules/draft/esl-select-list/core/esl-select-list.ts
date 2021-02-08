@@ -8,7 +8,7 @@ import {ESLSelectWrapper} from './esl-select-wrapper';
 export class ESLSelectList extends ESLSelectWrapper {
   public static readonly is = 'esl-select-list';
   public static get observedAttributes() {
-    return ['select-all-label'];
+    return ['select-all-label', 'disabled'];
   }
 
   public static register() {
@@ -17,6 +17,7 @@ export class ESLSelectList extends ESLSelectWrapper {
   }
 
   @attr({defaultValue: 'Select All'}) public selectAllLabel: string;
+  @boolAttr() public disabled: boolean;
   @boolAttr() public pinSelected: boolean;
 
   protected $items: ESLSelectItem[];
@@ -41,6 +42,9 @@ export class ESLSelectList extends ESLSelectWrapper {
     if (attrName === 'select-all-label') {
       this.$selectAll.textContent = newVal;
     }
+    if (attrName === 'disabled') {
+      this._updateDisabled();
+    }
   }
 
   protected connectedCallback() {
@@ -52,6 +56,8 @@ export class ESLSelectList extends ESLSelectWrapper {
 
     this.bindSelect();
     this.bindEvents();
+
+    this._updateDisabled();
   }
   protected disconnectedCallback() {
     super.disconnectedCallback();
@@ -80,33 +86,40 @@ export class ESLSelectList extends ESLSelectWrapper {
     this.removeEventListener('keypress', this._onKeyboard);
   }
 
-  protected renderItems() {
+  protected _renderItems() {
     if (!this.select) return;
     this.$list.innerHTML = '';
     this.$items = this.options.map(ESLSelectItem.build);
     if (this.pinSelected) {
-      this.renderGroup(this.$items.filter((option) => option.selected));
-      this.renderGroup(this.$items.filter((option) => !option.selected));
+      this._renderGroup(this.$items.filter((option) => option.selected));
+      this._renderGroup(this.$items.filter((option) => !option.selected));
     } else {
-      this.renderGroup(this.$items);
+      this._renderGroup(this.$items);
     }
   }
-  protected renderGroup(items: ESLSelectItem[]) {
+  protected _renderGroup(items: ESLSelectItem[]) {
     items.forEach((item) => this.$list.appendChild(item));
     const [last] = items.slice(-1);
     last && last.classList.add('last-in-group');
   }
-  protected renderAllOption() {
+  protected _renderAllOption() {
     this.$selectAll.selected = this.isAllSelected();
     this.$selectAll.textContent = this.selectAllLabel;
+  }
+
+  protected _updateDisabled() {
+    this.setAttribute('aria-disabled', String(this.disabled));
+    if (!this.select) return;
+    this.select.disabled = this.disabled;
   }
 
   @bind
   protected _onTargetChange(newTarget: HTMLSelectElement | undefined, oldTarget: HTMLSelectElement | undefined) {
     super._onTargetChange(newTarget, oldTarget);
+    this._renderAllOption();
+    this._renderItems();
+
     this.bindEvents();
-    this.renderAllOption();
-    this.renderItems();
   }
 
   @bind
@@ -119,6 +132,7 @@ export class ESLSelectList extends ESLSelectWrapper {
 
   @bind
   protected _onClick(e: MouseEvent | KeyboardEvent) {
+    if (this.disabled) return;
     const target = e.target;
     if (!target || !(target instanceof ESLSelectItem)) return;
     if (target.classList.contains('esl-select-all-item')) {
