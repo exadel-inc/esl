@@ -1,4 +1,4 @@
-esl-select-dropdown {
+.esl-select-dropdown {
   display: block;
   position: absolute;
   top: 0;
@@ -7,9 +7,6 @@ esl-select-dropdown {
   min-height: 350px;
 
   z-index: 100;
-
-  border: 1px solid @esl-select-secondary;
-  background: @esl-select-background;
 
   visibility: hidden;
   opacity: 0;
@@ -23,5 +20,20 @@ esl-select-dropdown {
     opacity: 1;
 
     transition: opacity .25s linear, visibility 0s linear 0s;
+  }
+
+  .esl-select-list {
+    height: 100%;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
+
+    .esl-select-list-container {
+      margin-right: 20px;
+    }
+
+    esl-scrollbar.esl-scrollbar {
+      top: 56px;
+      bottom: 6px;
+      right: 2px;
+    }
   }
 }

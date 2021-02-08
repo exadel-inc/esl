@@ -1,4 +1,4 @@
-import {toCamelCase, toKebabCase, unwrapParenthesis, parseAspectRatio, evaluate, compile} from '../format';
+import {toCamelCase, toKebabCase, unwrapParenthesis, parseAspectRatio, evaluate, format} from '../format';
 
 describe('misc/format helper tests', () => {
   test('toKebabCase', () => {
@@ -66,7 +66,7 @@ describe('misc/format helper tests', () => {
       ['{a.b.c}', {a: {b: {c: 'hi'}}}, 'hi'],
       ['{a}', {}, '{a}'],
     ])('\'%s\' using %p to \'%s\'', (tmp: string, source: any, res: string) => {
-      expect(compile(tmp, source)).toBe(res);
+      expect(format(tmp, source)).toBe(res);
     });
   });
 });
