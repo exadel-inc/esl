@@ -14,6 +14,7 @@
     "sourceType": "module"
   },
   "plugins": [
+    "import",
     "@typescript-eslint"
   ],
   "rules": {
@@ -101,6 +102,10 @@
     ],
     "spaced-comment": "warn",
     "use-isnan": "warn",
-    "valid-typeof": "off"
+    "valid-typeof": "off",
+
+    "import/export": "warn",
+    "import/named": "error",
+    "import/no-default-export": "warn"
   }
 }
