@@ -69,5 +69,3 @@ export class ESLMediaProviderRegistry extends Observable {
     return new provider(media, config);
   }
 }
-
-export default ESLMediaProviderRegistry.instance;

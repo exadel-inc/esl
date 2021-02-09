@@ -17,8 +17,8 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 
 import {getIObserver} from './esl-media-iobserver';
 import {BaseProvider, PlayerStates} from './esl-media-provider';
-import ESLMediaRegistry from './esl-media-registry';
-import MediaGroupRestrictionManager from './esl-media-manager';
+import {ESLMediaProviderRegistry} from './esl-media-registry';
+import {MediaGroupRestrictionManager} from './esl-media-manager';
 
 @ExportNs('Media')
 export class ESLMedia extends ESLBaseElement {
@@ -83,7 +83,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   static supports(name: string): boolean {
-    return ESLMediaRegistry.has(name);
+    return ESLMediaProviderRegistry.instance.has(name);
   }
 
   protected connectedCallback() {
@@ -92,7 +92,7 @@ export class ESLMedia extends ESLBaseElement {
       this.setAttribute('role', 'application');
     }
     this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
-    ESLMediaRegistry.addListener(this._onRegistryStateChange);
+    ESLMediaProviderRegistry.instance.addListener(this._onRegistryStateChange);
     if (this.conditionQuery) {
       this.conditionQuery.addListener(this.deferredReinitialize);
     }
@@ -105,7 +105,7 @@ export class ESLMedia extends ESLBaseElement {
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
-    ESLMediaRegistry.removeListener(this._onRegistryStateChange);
+    ESLMediaProviderRegistry.instance.removeListener(this._onRegistryStateChange);
     if (this.conditionQuery) {
       this.conditionQuery.removeListener(this.deferredReinitialize);
     }
@@ -154,7 +154,7 @@ export class ESLMedia extends ESLBaseElement {
     this._provider = null;
 
     if (this.canActivate()) {
-      this._provider = ESLMediaRegistry.createFor(this);
+      this._provider = ESLMediaProviderRegistry.instance.createFor(this);
       if (this._provider) {
         this._provider.bind();
         console.debug('[ESL] Media provider bound', this._provider);
