@@ -1,0 +1,41 @@
+.esl-select-list {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+  overflow: hidden;
+
+  background: @esl-select-list-background;
+  border: 1px solid @esl-select-list-secondary;
+
+  min-height: 50px;
+  height: 400px;
+  max-height: 100%;
+
+  & > [esl-select-target] {
+    /* Visually hidden */
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 0;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+  }
+
+  esl-scrollbar.esl-scrollbar {
+    top: 60px;
+    bottom: 5px;
+    right: 10px;
+  }
+
+  .esl-select-list-container {
+    flex: 1 1 auto;
+    height: 100%;
+    margin-right: 16px;
+  }
+
+  .esl-select-item.esl-select-all-item {
+    flex: 0 0 auto;
+    border-bottom: 1px solid @esl-select-list-secondary;
+  }
+}

@@ -1,15 +1,18 @@
 import {ESLToggleable, ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {rafDecorator} from '../../../esl-utils/async/raf';
-import {ESLSelectList} from './esl-select-list';
-import {ESLSelectModel} from './esl-select-model';
-import {attr} from '../../../esl-base-element/decorators/attr';
+import {ESLSelectList} from '../../esl-select-list/core';
+
+import type {ESLSelect} from './esl-select';
 
 export class ESLSelectDropdown extends ESLToggleable {
   public static readonly is = 'esl-select-dropdown';
+  public static register() {
+    ESLSelectList.register();
+    super.register();
+  }
 
-  @attr() public selectAllLabel: string;
-  public model: ESLSelectModel;
+  public owner: ESLSelect;
 
   protected $list: ESLSelectList;
   protected _disposeTimeout: number;
@@ -25,6 +28,7 @@ export class ESLSelectDropdown extends ESLToggleable {
   constructor() {
     super();
     this.$list = document.createElement(ESLSelectList.is) as ESLSelectList;
+    this.$list.pinSelected = true;
   }
 
   protected setInitialState() {}
@@ -51,8 +55,8 @@ export class ESLSelectDropdown extends ESLToggleable {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
-    this.$list.model = this.model;
-    this.$list.selectAllLabel = this.selectAllLabel;
+    this.$list.$select = this.owner.$select;
+    this.$list.selectAllLabel = this.owner.selectAllLabel;
 
     super.onShow(params);
     const focusable = this.querySelector('[tabindex]') as HTMLElement;
@@ -66,6 +70,20 @@ export class ESLSelectDropdown extends ESLToggleable {
     this._disposeTimeout = window.setTimeout(() => {
       document.body.removeChild(this);
     }, 1000);
+  }
+
+  @bind
+  protected _onKeyboardEvent(e: KeyboardEvent) {
+    super._onKeyboardEvent(e);
+    if (e.key === 'Tab') this._onTabKey(e);
+  }
+
+  protected _onTabKey(e: KeyboardEvent) {
+    const els = this.querySelectorAll('[tabindex]');
+    const first = els[0] as HTMLElement;
+    const last = els[els.length - 1] as HTMLElement;
+    if (first && e.target === last && !e.shiftKey) first.focus();
+    if (last && e.target === first && e.shiftKey) last.focus();
   }
 
   @bind

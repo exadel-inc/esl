@@ -1,37 +1,50 @@
-import {attr} from '../../../esl-base-element/core';
+import {attr, boolAttr} from '../../../esl-base-element/core';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../../esl-utils/dom/styles';
 
-import {ESLBaseTrigger} from '../../../esl-base-trigger/core/esl-base-trigger';
-import {ESLToggleable} from '../../../esl-toggleable/core/esl-toggleable';
-import {ESLSelectText} from './esl-select-text';
-import {ESLSelectModel} from './esl-select-model';
-import {ESLSelectList} from './esl-select-list';
-import {ESLSelectItem} from './esl-select-item';
+import {ESLSelectRenderer} from './esl-select-renderer';
 import {ESLSelectDropdown} from './esl-select-dropdown';
-import {EventUtils} from '../../../esl-utils/dom/events';
+import {ESLSelectWrapper} from '../../esl-select-list/core/esl-select-wrapper';
 
-export class ESLSelect extends ESLBaseTrigger {
+export class ESLSelect extends ESLSelectWrapper {
   public static readonly is = 'esl-select';
+  public static get observedAttributes() {
+    return ['disabled'];
+  }
+  public static register() {
+    ESLSelectDropdown.register();
+    ESLSelectRenderer.register();
+    super.register();
+  }
 
-  @attr() public name: string;
+  /** Placeholder text property */
   @attr() public emptyText: string;
+  /** Classes for filled stated */
   @attr() public hasValueClass: string;
+  /** Classes for focused state. Select focused also if dropdown list is opened */
   @attr() public hasFocusClass: string;
+  /** Select all text */
   @attr({defaultValue: 'Select All'}) public selectAllLabel: string;
+  /** Additional text for field renderer */
   @attr({defaultValue: '+ {rest} more...'}) public moreLabelFormat: string;
 
-  protected _model?: ESLSelectModel;
+  /** Dropdown open marker */
+  @boolAttr() public open: boolean;
+  /** Disabled state marker */
+  @boolAttr() public disabled: boolean;
 
-  protected $text: ESLSelectText;
-  protected $select: HTMLSelectElement;
-  protected $popup: ESLSelectDropdown;
+  protected $text: ESLSelectRenderer;
+  protected $dropdown: ESLSelectDropdown;
 
   constructor() {
     super();
 
-    this.$text = document.createElement(ESLSelectText.is) as ESLSelectText;
-    this.$popup = document.createElement(ESLSelectDropdown.is) as ESLSelectDropdown;
+    this.$text = document.createElement(ESLSelectRenderer.is) as ESLSelectRenderer;
+    this.$dropdown = document.createElement(ESLSelectDropdown.is) as ESLSelectDropdown;
+  }
+
+  protected attributeChangedCallback(attrName: string) {
+    if (attrName === 'disabled') this._updateDisabled();
   }
 
   protected connectedCallback() {
@@ -40,77 +53,88 @@ export class ESLSelect extends ESLBaseTrigger {
     this.$select = this.querySelector('[esl-select-target]') as HTMLSelectElement;
     if (!this.$select) return;
 
-    this.prepare();
+    this._prepare();
+    this._updateDisabled();
     this.bindEvents();
-    this.update();
+    this._onUpdate();
   }
   protected disconnectedCallback() {
     super.disconnectedCallback();
     this.unbindEvents();
-    this.dispose();
+    this._dispose();
   }
 
-  protected prepare() {
-    this.$text.model = this.model;
+  protected bindEvents() {
+    this.addEventListener('click', this._onClick);
+    this.addEventListener('keydown', this._onKeydown);
+    this.addEventListener('focusout', this._onUpdate);
+    this.$dropdown.addEventListener('esl:show', this._onPopupStateChange);
+    this.$dropdown.addEventListener('esl:hide', this._onPopupStateChange);
+  }
+  protected unbindEvents() {
+    this.removeEventListener('click', this._onClick);
+    this.removeEventListener('keydown', this._onKeydown);
+    this.removeEventListener('focusout', this._onUpdate);
+    this.$dropdown.removeEventListener('esl:show', this._onPopupStateChange);
+    this.$dropdown.removeEventListener('esl:hide', this._onPopupStateChange);
+  }
+
+  protected _prepare() {
     this.$text.className = this.$select.className;
     this.$text.emptyText = this.emptyText;
     this.$text.moreLabelFormat = this.moreLabelFormat;
-    this.$popup.model = this.model;
-    this.$popup.selectAllLabel = this.selectAllLabel;
+    this.$dropdown.owner = this;
     this.appendChild(this.$text);
   }
-  protected dispose() {
+  protected _dispose() {
     this.$select.className = this.$text.className;
     this.removeChild(this.$text);
   }
 
-  public get popup(): ESLToggleable {
-    return this.$popup;
-  }
-  public set popup(val: ESLToggleable) {
-    throw new Error('Method is not supported');
-  }
-
-  public get model(): ESLSelectModel {
-    if (!this._model) {
-      this._model = new ESLSelectModel(this.options);
-      this._model.addListener(this._onChange);
-    }
-    return this._model;
-  }
-  public get options(): HTMLOptionElement[] {
-    return this.$select ? Array.from(this.$select.options) : [];
+  protected _updateDisabled() {
+    this.setAttribute('aria-disabled', String(this.disabled));
+    if (!this.$select) return;
+    this.$select.disabled = this.disabled;
+    if (this.disabled && this.open) this.$dropdown.hide();
   }
 
   @bind
-  protected _onPopupStateChange() {
-    super._onPopupStateChange();
-    this.update();
+  protected _onChange(event: Event) {
+    this._onUpdate();
   }
 
   @bind
-  public update() {
-    const hasValue = this.model.fill;
+  protected _onUpdate() {
+    const hasValue = this.hasSelected();
     this.toggleAttribute('has-value', hasValue);
     CSSUtil.toggleClsTo(this, this.hasValueClass, hasValue);
+
     const focusEl = document.activeElement;
-    const hasFocus = this.$popup.open || focusEl && this.contains(focusEl);
+    const hasFocus = this.open || (focusEl && this.contains(focusEl));
     CSSUtil.toggleClsTo(this, this.hasFocusClass, !!hasFocus);
   }
 
   @bind
-  public _onChange() {
-    this.update();
-    EventUtils.dispatch(this, 'change');
+  protected _onClick() {
+    if (this.disabled) return;
+    this.$dropdown.toggle(!this.$dropdown.open, {
+      activator: this,
+      initiator: 'select'
+    });
   }
 
-  public updateA11y() {}
+  @bind
+  protected _onKeydown(e: KeyboardEvent) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      this.click();
+      e.preventDefault();
+    }
+  }
 
-  public static register() {
-    ESLSelectItem.register();
-    ESLSelectList.register();
-    ESLSelectDropdown.register();
-    ESLSelectText.register();
-    super.register();
+  @bind
+  protected _onPopupStateChange(e: CustomEvent) {
+    if (e.target !== this.$dropdown) return;
+    this.open = this.$dropdown.open;
+    this._onUpdate();
   }
 }

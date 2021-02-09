@@ -1,16 +1,21 @@
-import {ESLBaseElement} from '../../../esl-base-element/core/esl-base-element';
-import {ESLSelectModel} from './esl-select-model';
+import {attr, boolAttr, ESLBaseElement} from '../../../esl-base-element/core';
 import {rafDecorator} from '../../../esl-utils/async/raf';
 import {bind} from '../../../esl-utils/decorators/bind';
-import {attr} from '../../../esl-base-element/decorators/attr';
-import {boolAttr} from '../../../esl-base-element/decorators/bool-attr';
-import {compile} from '../../../esl-utils/misc/format';
+import {format} from '../../../esl-utils/misc/format';
 
-export class ESLSelectText extends ESLBaseElement {
-  public static readonly is = 'esl-select-text';
+import {ESLSelect} from './esl-select';
 
+/**
+ * Auxiliary custom element to render select field
+ */
+export class ESLSelectRenderer extends ESLBaseElement {
+  public static readonly is = 'esl-select-renderer';
+
+  /** Attribute for empty text value */
   @attr() public emptyText: string;
+  /** Attribute for more label format */
   @attr() public moreLabelFormat: string;
+  /** Marker attribute to reflect filled state */
   @boolAttr() public hasValue: boolean;
 
   protected $container: HTMLDivElement;
@@ -18,7 +23,6 @@ export class ESLSelectText extends ESLBaseElement {
   protected $text: HTMLElement;
   protected $remove: HTMLButtonElement;
 
-  protected _model: ESLSelectModel;
   protected _deferredRerender = rafDecorator(() => this.render());
 
   constructor() {
@@ -40,14 +44,9 @@ export class ESLSelectText extends ESLBaseElement {
     this.$container.appendChild(this.$rest);
   }
 
-  get model() {
-    return this._model;
-  }
-  set model(mod: ESLSelectModel) {
-    this.unbindEvents();
-    this._model = mod;
-    this.bindEvents();
-    this.render();
+  /** ESLSelect owner */
+  get owner(): ESLSelect | null {
+    return this.parentElement instanceof ESLSelect ? this.parentElement : null;
   }
 
   protected connectedCallback() {
@@ -55,6 +54,8 @@ export class ESLSelectText extends ESLBaseElement {
     this.appendChild(this.$container);
     this.appendChild(this.$remove);
     this.bindEvents();
+
+    customElements.whenDefined(ESLSelectRenderer.is).then(() => this.render());
   }
   protected disconnectedCallback() {
     super.disconnectedCallback();
@@ -64,29 +65,23 @@ export class ESLSelectText extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    if (!this.model) return;
-    this.model.addListener(this.render);
+    if (!this.owner) return;
+    this.owner.addEventListener('change', this.render);
     this.$remove.addEventListener('click', this._onClear);
     window.addEventListener('resize', this._deferredRerender);
   }
   protected unbindEvents() {
-    if (!this.model) return;
-    this.model.removeListener(this.render);
+    if (!this.owner) return;
+    this.owner.removeEventListener('change', this.render);
     this.$remove.removeEventListener('click', this._onClear);
     window.removeEventListener('resize', this._deferredRerender);
   }
 
-  @bind
-  protected _onClear(e: MouseEvent) {
-    e.stopPropagation();
-    e.preventDefault();
-    this.model && this.model.toggleAll(false);
-  }
-
+  /** Rerender component with markers */
   @bind
   public render() {
-    if (!this.model) return;
-    const selected = this.model.selected;
+    if (!this.owner) return;
+    const selected = this.owner.selected;
     this.hasValue = !!selected.length;
     this.applyItems(selected.map((item) => item.text));
   }
@@ -98,7 +93,7 @@ export class ESLSelectText extends ESLBaseElement {
     const options = {rest, length, limit};
     this.$text.textContent = items.slice(0, limit).join(', ');
     if (rest > 0) {
-      this.$rest.textContent = compile(this.moreLabelFormat || '', options);
+      this.$rest.textContent = format(this.moreLabelFormat || '', options);
     } else {
       this.$rest.textContent = '';
     }
@@ -110,5 +105,14 @@ export class ESLSelectText extends ESLBaseElement {
       this.apply(items, ++size); // Render with extended limit while it not fits to the container
     } while (size <= items.length && this.$container.scrollWidth <= this.$container.clientWidth);
     this.apply(items, size - 1); // Render last limit that fits
+  }
+
+  /** Handle clear button click */
+  @bind
+  protected _onClear(e: MouseEvent) {
+    if (!this.owner) return;
+    this.owner.setAllSelected(false);
+    e.stopPropagation();
+    e.preventDefault();
   }
 }

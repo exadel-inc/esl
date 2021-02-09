@@ -36,6 +36,7 @@ import '../../src/modules/esl-media/providers/brightcove-provider';
 
 import {
   ESLSelect,
+  ESLSelectList,
   ESLCarousel,
   ESLCarouselPlugins
 } from '../../src/modules/draft/all';
@@ -58,6 +59,7 @@ ESLScrollableTabs.register();
 ESLScrollbar.register();
 ESLAlert.init();
 
+ESLSelectList.register();
 ESLSelect.register();
 
 ESLCarousel.register();
