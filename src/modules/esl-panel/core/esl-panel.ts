@@ -5,7 +5,7 @@ import {afterNextRender} from '../../esl-utils/async/raf';
 import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
 import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/core';
 
-import ESLPanelStack from './esl-panel-stack';
+import {ESLPanelStack} from './esl-panel-stack';
 
 export interface PanelActionParams extends PopupActionParams {
   noCollapse?: boolean;

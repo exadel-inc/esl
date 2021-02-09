@@ -61,8 +61,11 @@ esl-select-item {
   pointer-events: none;
   color: @esl-select-list-disabled;
 
-  &[selected]::before {
+  &::before {
     border-color: @esl-select-list-disabled;
+  }
+
+  &[selected]::before {
     background-color: @esl-select-list-disabled;
   }
 }
