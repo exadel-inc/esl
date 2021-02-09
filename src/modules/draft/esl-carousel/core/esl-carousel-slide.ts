@@ -25,5 +25,3 @@ export class ESLCarouselSlide extends ESLBaseElement {
     this.toggleAttribute('first', first);
   }
 }
-
-export default ESLCarouselSlide;

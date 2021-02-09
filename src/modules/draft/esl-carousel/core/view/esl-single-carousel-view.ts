@@ -1,5 +1,5 @@
+import {ESLCarousel} from '../esl-carousel';
 import {ESLCarouselView, ESLCarouselViewRegistry} from './esl-carousel-view';
-import ESLCarousel from '../esl-carousel';
 
 class ESLSingleCarouselView extends ESLCarouselView {
 
@@ -62,5 +62,3 @@ class ESLSingleCarouselView extends ESLCarouselView {
 }
 
 ESLCarouselViewRegistry.instance.registerView('single', ESLSingleCarouselView);
-
-export default ESLSingleCarouselView;

@@ -21,5 +21,3 @@ export class ESLPopup extends ESLBasePopup {
     this.disableScroll !== null && ScrollUtility.requestUnlock(this, this.disableScroll);
   }
 }
-
-export default ESLPopup;

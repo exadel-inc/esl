@@ -50,8 +50,8 @@ export class ESLSelect extends ESLSelectWrapper {
   protected connectedCallback() {
     super.connectedCallback();
 
-    this.select = this.querySelector('[esl-select-target]') as HTMLSelectElement;
-    if (!this.select) return;
+    this.$select = this.querySelector('[esl-select-target]') as HTMLSelectElement;
+    if (!this.$select) return;
 
     this._prepare();
     this._updateDisabled();
@@ -80,21 +80,21 @@ export class ESLSelect extends ESLSelectWrapper {
   }
 
   protected _prepare() {
-    this.$text.className = this.select.className;
+    this.$text.className = this.$select.className;
     this.$text.emptyText = this.emptyText;
     this.$text.moreLabelFormat = this.moreLabelFormat;
     this.$dropdown.owner = this;
     this.appendChild(this.$text);
   }
   protected _dispose() {
-    this.select.className = this.$text.className;
+    this.$select.className = this.$text.className;
     this.removeChild(this.$text);
   }
 
   protected _updateDisabled() {
     this.setAttribute('aria-disabled', String(this.disabled));
-    if (!this.select) return;
-    this.select.disabled = this.disabled;
+    if (!this.$select) return;
+    this.$select.disabled = this.disabled;
     if (this.disabled && this.open) this.$dropdown.hide();
   }
 

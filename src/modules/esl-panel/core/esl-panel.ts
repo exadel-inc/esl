@@ -112,5 +112,3 @@ export class ESLPanel extends ESLBasePopup {
     return Object.assign({}, stackConfig, this.defaultParams, params || {});
   }
 }
-
-export default ESLPanel;

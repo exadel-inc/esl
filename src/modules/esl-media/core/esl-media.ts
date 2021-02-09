@@ -349,5 +349,3 @@ export class ESLMedia extends ESLBaseElement {
     return EventUtils.dispatch(this, ns + eventName, eventInit);
   }
 }
-
-export default ESLMedia;
