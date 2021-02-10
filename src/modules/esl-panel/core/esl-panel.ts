@@ -112,5 +112,3 @@ export class ESLPanel extends ESLToggleable {
     return Object.assign({}, stackConfig, this.defaultParams, params || {});
   }
 }
-
-export default ESLPanel;

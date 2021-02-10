@@ -1,5 +1,5 @@
+import {ESLCarousel} from '../esl-carousel';
 import {ESLCarouselView, ESLCarouselViewRegistry} from './esl-carousel-view';
-import ESLCarousel from '../esl-carousel';
 
 class ESLMultiCarouselView extends ESLCarouselView {
   constructor(carousel: ESLCarousel) {
@@ -133,5 +133,3 @@ class ESLMultiCarouselView extends ESLCarouselView {
 }
 
 ESLCarouselViewRegistry.instance.registerView('multiple', ESLMultiCarouselView);
-
-export default ESLMultiCarouselView;

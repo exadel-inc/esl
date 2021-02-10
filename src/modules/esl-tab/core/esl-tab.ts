@@ -17,5 +17,3 @@ export class ESLTab extends ESLTrigger {
     }
   }
 }
-
-export default ESLTab;

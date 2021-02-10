@@ -93,5 +93,3 @@ export class ESLTrigger extends ESLBaseTrigger {
     return !hideDelay || isNaN(+hideDelay) ? undefined : +hideDelay;
   }
 }
-
-export default ESLTrigger;

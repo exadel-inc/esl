@@ -88,5 +88,3 @@ export class ESLAlert extends ESLToggleable {
     window.removeEventListener(`${ESLAlert.eventNs}:hide`, this.onWindowEvent);
   }
 }
-
-export default ESLAlert;

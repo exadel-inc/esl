@@ -134,5 +134,3 @@ export class ESLScrollableTabs extends ESLTabsContainer {
     this.deferredFitToViewport(this.current() as ESLTab, 'auto');
   });
 }
-
-export default ESLScrollableTabs;

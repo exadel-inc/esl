@@ -1,7 +1,7 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {attr} from '../../../esl-base-element/core';
-import ESLCarousel from '../core/esl-carousel';
-import ESLCarouselPlugin from './esl-carousel-plugin';
+import {ESLCarousel} from '../core/esl-carousel';
+import {ESLCarouselPlugin} from './esl-carousel-plugin';
 
 /**
  * Slide Carousel Link plugin. Allows to bind carousel positions.
@@ -67,5 +67,3 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
     this._target = target;
   }
 }
-
-export default ESLCarouselLinkPlugin;

@@ -1,6 +1,6 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {attr} from '../../../esl-base-element/core';
-import ESLCarouselPlugin from './esl-carousel-plugin';
+import {ESLCarouselPlugin} from './esl-carousel-plugin';
 
 /**
  * Slide Carousel Autoplay (Auto-Advance) plugin
@@ -90,5 +90,3 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
     }
   }
 }
-
-export default ESLCarouselAutoplayPlugin;

@@ -51,7 +51,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
   }
 
   public get options(): ESLSelectOption[] {
-    return this._$select ? Array.from(this._$select.options) : [];
+    return this.$select ? Array.from(this.$select.options) : [];
   }
   public get selected(): ESLSelectOption[] {
     return this.options.filter((item) => item.selected);
@@ -64,7 +64,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
   public setSelected(value: string, state: boolean) {
     const option = this.getOption(value);
     option && (option.selected = state);
-    EventUtils.dispatch(this._$select, 'change');
+    EventUtils.dispatch(this.$select, 'change');
   }
   public isSelected(value: string): boolean {
     const opt = this.getOption(value);
@@ -80,6 +80,6 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
 
   public setAllSelected(state: boolean) {
     this.options.forEach((item) => item.selected = state);
-    EventUtils.dispatch(this._$select, 'change');
+    EventUtils.dispatch(this.$select, 'change');
   }
 }

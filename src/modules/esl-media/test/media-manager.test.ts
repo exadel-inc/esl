@@ -1,6 +1,6 @@
 import '../../../polyfills/es5-target-shim';
-import ESLMedia from '../core/esl-media';
-import MediaGroupRestrictionManager from '../core/esl-media-manager';
+import {ESLMedia} from '../core/esl-media';
+import {MediaGroupRestrictionManager} from '../core/esl-media-manager';
 
 describe('ESLMedia: MediaGroupRestrictionManager tests', () => {
   ESLMedia.register();

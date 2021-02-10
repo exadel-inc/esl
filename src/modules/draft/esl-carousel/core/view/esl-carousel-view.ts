@@ -1,4 +1,4 @@
-import ESLCarousel from '../esl-carousel';
+import {ESLCarousel} from '../esl-carousel';
 import {Observable} from '../../../../esl-utils/abstract/observable';
 
 export abstract class ESLCarouselView {
@@ -43,5 +43,3 @@ export class ESLCarouselViewRegistry extends Observable {
     this.fire(name, view);
   }
 }
-
-export default ESLCarouselView;
