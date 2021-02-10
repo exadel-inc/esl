@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESC, ESC_IE} from '../../esl-utils/dom/keycodes';
+import {ESC} from '../../esl-utils/dom/keycodes';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {bind} from '../../esl-utils/decorators/bind';
 import {defined} from '../../esl-utils/misc/object';
@@ -223,7 +223,7 @@ export class ESLBasePopup extends ESLBaseElement {
 
   @bind
   protected _onKeyboardEvent(e: KeyboardEvent) {
-    if (this.closeOnEsc && (e.key === ESC || e.key === ESC_IE)) {
+    if (this.closeOnEsc && e.key === ESC) {
       this.hide({initiator: 'keyboard'});
     }
   }
