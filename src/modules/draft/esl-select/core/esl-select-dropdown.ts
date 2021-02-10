@@ -55,7 +55,7 @@ export class ESLSelectDropdown extends ESLBasePopup {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
-    this.$list.select = this.owner.select;
+    this.$list.$select = this.owner.$select;
     this.$list.selectAllLabel = this.owner.selectAllLabel;
 
     super.onShow(params);

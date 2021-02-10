@@ -72,22 +72,22 @@ export class ESLSelectList extends ESLSelectWrapper {
   protected bindSelect() {
     const target = this.querySelector('[esl-select-target]') as HTMLSelectElement;
     if (!target || !(target instanceof HTMLSelectElement)) return;
-    this.select = target;
+    this.$select = target;
   }
 
   public bindEvents() {
-    if (!this.select) return;
+    if (!this.$select) return;
     this.addEventListener('click', this._onClick);
     this.addEventListener('keypress', this._onKeyboard);
   }
   public unbindEvents() {
-    if (!this.select) return;
+    if (!this.$select) return;
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('keypress', this._onKeyboard);
   }
 
   protected _renderItems() {
-    if (!this.select) return;
+    if (!this.$select) return;
     this.$list.innerHTML = '';
     this.$items = this.options.map(ESLSelectItem.build);
     if (this.pinSelected) {
@@ -109,8 +109,8 @@ export class ESLSelectList extends ESLSelectWrapper {
   }
   protected _updateDisabled() {
     this.setAttribute('aria-disabled', String(this.disabled));
-    if (!this.select) return;
-    this.select.disabled = this.disabled;
+    if (!this.$select) return;
+    this.$select.disabled = this.disabled;
   }
 
   @bind

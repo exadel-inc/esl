@@ -310,5 +310,3 @@ export class ESLScrollbar extends ESLBaseElement {
     this.deferredRefresh();
   }
 }
-
-export default ESLScrollbar;

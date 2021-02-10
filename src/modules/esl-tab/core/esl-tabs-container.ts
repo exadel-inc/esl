@@ -22,5 +22,3 @@ export class ESLTabsContainer extends ESLTriggersContainer {
     targetEl.click();
   }
 }
-
-export default ESLTabsContainer;

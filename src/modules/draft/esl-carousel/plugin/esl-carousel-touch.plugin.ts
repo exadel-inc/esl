@@ -1,5 +1,5 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import ESLCarouselPlugin from './esl-carousel-plugin';
+import {ESLCarouselPlugin} from './esl-carousel-plugin';
 import {DeviceDetector} from '../../../esl-utils/environment/device-detector';
 import {EventUtils, Point} from '../../../esl-utils/dom/events';
 
@@ -72,5 +72,3 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     event.stopPropagation();
   };
 }
-
-export default ESLCarouselTouchPlugin;

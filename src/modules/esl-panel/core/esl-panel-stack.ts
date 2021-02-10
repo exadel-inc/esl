@@ -150,5 +150,3 @@ export class ESLPanelStack extends ESLBaseElement {
     CSSUtil.toggleClsTo(this, this.accordionClass, this.isAccordion);
   };
 }
-
-export default ESLPanelStack;
