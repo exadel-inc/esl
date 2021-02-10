@@ -8,7 +8,6 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
 import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 
-
 @ExportNs('BaseTrigger')
 export class ESLBaseTrigger extends ESLBaseElement {
   // Markers

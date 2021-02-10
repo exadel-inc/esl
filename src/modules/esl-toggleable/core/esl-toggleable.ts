@@ -122,7 +122,7 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /**
-   * Changes element state to active
+   * Change element state to active
    */
   public show(params?: ToggleableActionParams) {
     params = this.mergeDefaultParams(params);
@@ -141,7 +141,7 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /**
-   * Changes element state to inactive
+   * Change element state to inactive
    */
   public hide(params?: ToggleableActionParams) {
     params = this.mergeDefaultParams(params);
@@ -167,7 +167,7 @@ export class ESLToggleable extends ESLBaseElement {
   /**
    * Returns element to apply a11y attributes
    */
-  protected get a11yTarget() {
+  protected get $a11yTarget() {
     const target = this.getAttribute('a11y-target');
     if (target === 'none') return;
     return target ? this.querySelector(target) : this;
@@ -177,7 +177,7 @@ export class ESLToggleable extends ESLBaseElement {
    * Called on show and on hide actions to update a11y state accordingly
    */
   protected updateA11y() {
-    const targetEl = this.a11yTarget;
+    const targetEl = this.$a11yTarget;
     if (!targetEl) return;
     targetEl.setAttribute('aria-hidden', String(!this._open));
   }
