@@ -1,5 +1,5 @@
-import {ESLBaseElement} from '../../../esl-base-element/core';
-import {EventUtils} from '../../../esl-utils/dom/events';
+import {ESLBaseElement} from '../../esl-base-element/core';
+import {EventUtils} from '../../esl-utils/dom/events';
 
 export interface ESLSelectOption {
   text: string;

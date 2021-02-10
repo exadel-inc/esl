@@ -18,6 +18,9 @@ import type {ESLPanelStack} from './esl-panel/core/esl-panel-stack';
 import type {ESLTabsContainer} from './esl-tab/core/esl-tabs-container';
 import type {ESLScrollableTabs} from './esl-scrollable-tabs/core/esl-scrollable-tabs';
 
+import type {ESLSelect} from './esl-select/core';
+import type {ESLSelectList, ESLSelectItem} from './esl-select-list/core';
+
 import type {ESLCarousel} from './draft/esl-carousel/core/esl-carousel';
 import type {ESLCarouselDotsPlugin} from './draft/esl-carousel/plugin/esl-carousel-dots.plugin';
 import type {ESLCarouselLinkPlugin} from './draft/esl-carousel/plugin/esl-carousel-link.plugin';
@@ -50,6 +53,10 @@ declare global {
     TriggersContainer?: typeof ESLTriggersContainer;
     TabsContainer?: typeof ESLTabsContainer;
     ScrollableTabs?: typeof ESLScrollableTabs;
+
+    Select?: typeof ESLSelect;
+    SelectList?: typeof ESLSelectList;
+    SelectItem?: typeof ESLSelectItem;
 
     Carousel?: typeof ESLCarousel;
     CarouselPlugins: {

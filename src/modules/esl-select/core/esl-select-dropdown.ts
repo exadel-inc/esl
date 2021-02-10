@@ -1,6 +1,6 @@
-import {ESLToggleable, ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
-import {bind} from '../../../esl-utils/decorators/bind';
-import {rafDecorator} from '../../../esl-utils/async/raf';
+import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
+import {bind} from '../../esl-utils/decorators/bind';
+import {rafDecorator} from '../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';
 
 import type {ESLSelect} from './esl-select';
