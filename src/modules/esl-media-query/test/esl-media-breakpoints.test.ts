@@ -1,4 +1,4 @@
-import ESLMediaBreakpoints from '../core/esl-media-breakpoints';
+import {ESLMediaBreakpoints} from '../core/esl-media-breakpoints';
 
 describe('esl breakpoints test', () => {
   test('Get all breakpoints', () => {

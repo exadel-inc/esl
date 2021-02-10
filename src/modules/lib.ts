@@ -7,8 +7,8 @@ import type {ESLMedia} from './esl-media/core/esl-media';
 
 import type {ESLScrollbar} from './esl-scrollbar/core/esl-scrollbar';
 
-import type {ESLPopupDispatcher} from './esl-base-popup/core/esl-popup-dispatcher';
-import type {ESLBasePopup} from './esl-base-popup/core/esl-base-popup';
+import type {ESLToggleableDispatcher} from './esl-toggleable/core/esl-toggleable-dispatcher';
+import type {ESLToggleable} from './esl-toggleable/core/esl-toggleable';
 import type {ESLPopup} from './esl-popup/core/esl-popup';
 import type {ESLTrigger} from './esl-trigger/core/esl-trigger';
 import type {ESLTab} from './esl-tab/core/esl-tab';
@@ -40,8 +40,8 @@ declare global {
     Media?: typeof ESLMedia;
     Scrollbar?: typeof ESLScrollbar;
 
-    PopupGroupDispatcher?: typeof ESLPopupDispatcher;
-    BasePopup?: typeof ESLBasePopup;
+    ToggleableGroupDispatcher?: typeof ESLToggleableDispatcher;
+    Toggleable?: typeof ESLToggleable;
     Popup?: typeof ESLPopup;
     Trigger?: typeof ESLTrigger;
     Tab?: typeof ESLTab;

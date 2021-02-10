@@ -6,7 +6,7 @@
 
 import {Observable} from '../../esl-utils/abstract/observable';
 import {evaluate} from '../../esl-utils/misc/format';
-import ESLMediaRule from './esl-media-rule';
+import {ESLMediaRule} from './esl-media-rule';
 
 type PayloadParser<T> = (val: string) => T | undefined;
 
@@ -84,5 +84,3 @@ export class ESLMediaRuleList<T> extends Observable {
     }
   };
 }
-
-export default ESLMediaRuleList;

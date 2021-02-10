@@ -25,7 +25,7 @@ import {
   ESLScrollableTabs,
   ESLScrollbar,
   ESLAlert,
-  ESLPopupDispatcher
+  ESLToggleableDispatcher
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -44,7 +44,7 @@ import {
 ESLImage.register();
 ESLMedia.register();
 
-ESLPopupDispatcher.init();
+ESLToggleableDispatcher.init();
 ESLPopup.register();
 ESLPanel.register();
 ESLPanelStack.register();

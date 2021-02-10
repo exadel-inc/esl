@@ -12,8 +12,8 @@ export class ESLTab extends ESLTrigger {
     target.setAttribute('tabindex', this.active ? '0' : '-1');
 
     // TODO: auto generate
-    if (this.popup.id) {
-      this.setAttribute('aria-controls', this.popup.id);
+    if (this.$target.id) {
+      this.setAttribute('aria-controls', this.$target.id);
     }
   }
 }

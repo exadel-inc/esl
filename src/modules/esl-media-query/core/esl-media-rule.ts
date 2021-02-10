@@ -12,7 +12,7 @@
  * - Mobile / full browser detection (@MOBILE|@DESKTOP)
  */
 
-import ESLMediaQuery from './esl-media-query';
+import {ESLMediaQuery} from './esl-media-query';
 
 type PayloadParser<T> = (val: string) => T | undefined;
 
@@ -51,5 +51,3 @@ export class ESLMediaRule<T> extends ESLMediaQuery {
     return new ESLMediaRule(null, 'all');
   }
 }
-
-export default ESLMediaRule;

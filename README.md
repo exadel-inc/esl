@@ -14,7 +14,7 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
 - ##### [ESL Media](./src/modules/esl-media/README.md)
 - ##### [ESL Scrollbar](./src/modules/esl-scrollbar/README.md)
 
-- ##### [ESL Base Popup](./src/modules/esl-base-popup/README.md)
+- ##### [ESL Toggleable](src/modules/esl-toggleable/README.md)
 - ##### [ESL Base Trigger](./src/modules/esl-base-trigger/README.md)
 - ##### [ESL Popup](./src/modules/esl-popup/README.md)
 - ##### [ESL Trigger](./src/modules/esl-trigger/README.md)
@@ -127,7 +127,7 @@ In case you are using JetBrains IDE (IDEA or WebStorm) you can use this
 
 ## Roadmap
 
-- Releasable state for beta components (ESL Base Popup group)
+- Releasable state for beta components (ESL Toggleable group)
 - "Playground" demo server
 - npm release
 - ESLCarousel component release

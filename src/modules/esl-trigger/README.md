@@ -5,6 +5,6 @@ Version: *1.0.0-beta*.
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 
-ESLTrigger - custom element, that allows to trigger ESLBasePopup instances state changes.
+ESLTrigger - custom element, that allows to trigger ESLToggleable instances state changes.
 
 Description TBD.

@@ -1,4 +1,4 @@
-# [ESL](../../../README.md) Base Popup
+# [ESL](../../../README.md) Toggleable
 
 Version: *1.0.0-beta*.
 
@@ -6,12 +6,12 @@ Version: *1.0.0-beta*.
 
 Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*.
 
-ESLBasePopup - is a custom element, that is used as a base for "Popup like" components creation.
+ESLToggleable - is a custom element, that is used as a base for "Popup like" components creation.
 
-ESLPopupDispatcher - plugin component, that prevents activation of multiple ESLBasePopup instances in bounds of managed container.
+ESLToggleableDispatcher - plugin component, that prevents activation of multiple ESLToggleable instances in bounds of managed container.
 Usually (and by default) binds to document.body. Use native DOM events to manage controlled instances state.
 
-Use `ESLPopupDispatcher.init()` to initialize (and bind) ESLPopupDispatcher.
+Use `ESLToggleableDispatcher.init()` to initialize (and bind) ESLToggleableDispatcher.
 
 ---
 
@@ -20,8 +20,8 @@ Use `ESLPopupDispatcher.init()` to initialize (and bind) ESLPopupDispatcher.
  - onHide - 'hide' actions to execute when instance becomes inactive
  
 ### Public API:
- - show - trigger popup activation
- - hide - trigger popup deactivation
- - toggle - toggle popup state
+ - show - trigger element activation
+ - hide - trigger element deactivation
+ - toggle - toggle element state
 
 Description TBD.
