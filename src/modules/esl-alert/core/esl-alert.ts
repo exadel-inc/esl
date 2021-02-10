@@ -9,6 +9,8 @@ import {createZIndexIframe} from '../../esl-utils/fixes/ie-fixes';
 export interface AlertActionParams extends ToggleableActionParams {
   /** text to be shown; pass empty string or null to hide */
   text?: string;
+  /** html content */
+  html?: string;
   /** classes to add to alert element */
   cls?: string;
 }
@@ -25,7 +27,7 @@ export class ESLAlert extends ESLToggleable {
   @jsonAttr<AlertActionParams>({defaultValue: ESLAlert.defaultConfig})
   public defaultParams: AlertActionParams;
 
-  protected textEl: HTMLElement;
+  protected $text: HTMLElement;
 
   /** Register and create global alert instance */
   public static init() {
@@ -49,9 +51,13 @@ export class ESLAlert extends ESLToggleable {
   }
 
   public onShow(params: AlertActionParams) {
-    if (params.text) {
+    if (params.text || params.html) {
       CSSUtil.addCls(this, params.cls);
-      this.textEl.textContent = params.text;
+      if (params.text) {
+        this.$text.textContent = params.text;
+      } else if (params.html) {
+        this.$text.innerHTML = params.html;
+      }
       super.onShow(params);
     }
     this.hide(params);
@@ -65,10 +71,10 @@ export class ESLAlert extends ESLToggleable {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.textEl = document.createElement('span');
-    this.textEl.className = 'esl-alert-text';
+    this.$text = document.createElement('div');
+    this.$text.className = 'esl-alert-text';
     this.innerHTML = '';
-    this.appendChild(this.textEl);
+    this.appendChild(this.$text);
     if (DeviceDetector.isIE) {
       this.appendChild(createZIndexIframe());
     }
