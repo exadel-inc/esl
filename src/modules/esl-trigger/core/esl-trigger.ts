@@ -56,7 +56,7 @@ export class ESLTrigger extends ESLBaseTrigger {
 
   protected updatePopupFromTarget() {
     if (!this.target) return;
-    this.popup = TraversingQuery.first(this.target, this) as ESLToggleable;
+    this.$target = TraversingQuery.first(this.target, this) as ESLToggleable;
   }
 
   public get showEvent() {
@@ -77,7 +77,7 @@ export class ESLTrigger extends ESLBaseTrigger {
 
   @bind
   protected _onHideEvent(e: Event) {
-    this.popup.hide({
+    this.$target.hide({
       activator: this,
       delay: this.hideDelayValue,
       trackHover: this.event === 'hover' && this.mode === 'toggle'
