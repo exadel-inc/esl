@@ -20,6 +20,4 @@ export * from './esl-scrollbar/core';
 
 export * from './esl-alert/core';
 
-export * from './esl-select/core';
-export * from './esl-select-list/core';
-
+export * from './forms/all';

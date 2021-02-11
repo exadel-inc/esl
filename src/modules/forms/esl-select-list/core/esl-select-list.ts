@@ -1,7 +1,7 @@
-import {attr, boolAttr} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLScrollbar} from '../../esl-scrollbar/core';
+import {attr, boolAttr} from '../../../esl-base-element/core';
+import {bind} from '../../../esl-utils/decorators/bind';
+import {ExportNs} from '../../../esl-utils/environment/export-ns';
+import {ESLScrollbar} from '../../../esl-scrollbar/core';
 import {ESLSelectItem} from './esl-select-item';
 import {ESLSelectWrapper} from './esl-select-wrapper';
 
