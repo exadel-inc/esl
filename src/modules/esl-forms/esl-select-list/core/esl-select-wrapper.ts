@@ -8,6 +8,8 @@ export interface ESLSelectOption {
 }
 
 export interface ESLSelectModel {
+  /** Allow multiple items */
+  multiple: boolean;
   /** Get list of options */
   options: ESLSelectOption[];
   /** Get list of selected options */
@@ -50,6 +52,10 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
     if (newTarget) newTarget.addEventListener('change', this._onChange);
   }
 
+  public get multiple() {
+    return this.$select && this.$select.multiple;
+  }
+
   public get options(): ESLSelectOption[] {
     return this.$select ? Array.from(this.$select.options) : [];
   }
@@ -79,6 +85,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
   }
 
   public setAllSelected(state: boolean) {
+    if (!this.multiple) return false;
     this.options.forEach((item) => item.selected = state);
     EventUtils.dispatch(this.$select, 'change');
   }

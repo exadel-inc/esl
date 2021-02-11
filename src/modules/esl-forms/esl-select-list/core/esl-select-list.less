@@ -22,10 +22,14 @@
     clip: rect(0,0,0,0);
   }
 
-  esl-scrollbar.esl-scrollbar {
-    top: 60px;
+  esl-scrollbar {
+    top: 5px;
     bottom: 5px;
     right: 10px;
+  }
+
+  &[multiple] esl-scrollbar {
+    top: 60px;
   }
 
   .esl-select-list-container {
@@ -37,5 +41,8 @@
   .esl-select-item.esl-select-all-item {
     flex: 0 0 auto;
     border-bottom: 1px solid @esl-select-list-secondary;
+  }
+  &:not([multiple]) .esl-select-all-item {
+    display: none;
   }
 }

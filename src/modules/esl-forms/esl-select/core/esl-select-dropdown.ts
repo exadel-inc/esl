@@ -28,7 +28,6 @@ export class ESLSelectDropdown extends ESLToggleable {
   constructor() {
     super();
     this.$list = document.createElement(ESLSelectList.is) as ESLSelectList;
-    this.$list.pinSelected = true;
   }
 
   protected setInitialState() {}
@@ -55,8 +54,9 @@ export class ESLSelectDropdown extends ESLToggleable {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
-    this.$list.$select = this.owner.$select;
+    this.$list.pinSelected = this.owner.pinSelected;
     this.$list.selectAllLabel = this.owner.selectAllLabel;
+    this.$list.$select = this.owner.$select;
 
     super.onShow(params);
     const focusable = this.querySelector('[tabindex]') as HTMLElement;

@@ -25,7 +25,9 @@ import {
   ESLScrollableTabs,
   ESLScrollbar,
   ESLAlert,
-  ESLToggleableDispatcher
+  ESLToggleableDispatcher,
+  ESLSelect,
+  ESLSelectList
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -35,8 +37,6 @@ import '../../src/modules/esl-media/providers/youtube-provider';
 import '../../src/modules/esl-media/providers/brightcove-provider';
 
 import {
-  ESLSelect,
-  ESLSelectList,
   ESLCarousel,
   ESLCarouselPlugins
 } from '../../src/modules/draft/all';

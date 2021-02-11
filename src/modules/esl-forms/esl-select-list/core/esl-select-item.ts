@@ -1,6 +1,9 @@
-import type {ESLSelectOption} from './esl-select-wrapper';
 import {attr, boolAttr, ESLBaseElement} from '../../../esl-base-element/core';
+import {ExportNs} from '../../../esl-utils/environment/export-ns';
 
+import type {ESLSelectOption} from './esl-select-wrapper';
+
+@ExportNs('SelectItem')
 export class ESLSelectItem extends ESLBaseElement {
   public static readonly is: string = 'esl-select-item';
 

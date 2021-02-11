@@ -1,11 +1,13 @@
 import {attr, boolAttr} from '../../../esl-base-element/core';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../../esl-utils/dom/styles';
+import {ExportNs} from '../../../esl-utils/environment/export-ns';
 
 import {ESLSelectRenderer} from './esl-select-renderer';
 import {ESLSelectDropdown} from './esl-select-dropdown';
 import {ESLSelectWrapper} from '../../esl-select-list/core/esl-select-wrapper';
 
+@ExportNs('Select')
 export class ESLSelect extends ESLSelectWrapper {
   public static readonly is = 'esl-select';
   public static get observedAttributes() {
@@ -32,6 +34,8 @@ export class ESLSelect extends ESLSelectWrapper {
   @boolAttr() public open: boolean;
   /** Disabled state marker */
   @boolAttr() public disabled: boolean;
+  /** Pin to top marker */
+  @boolAttr() public pinSelected: boolean;
 
   protected $text: ESLSelectRenderer;
   protected $dropdown: ESLSelectDropdown;

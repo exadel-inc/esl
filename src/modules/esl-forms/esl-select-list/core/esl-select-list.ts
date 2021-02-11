@@ -1,10 +1,11 @@
 import {attr, boolAttr} from '../../../esl-base-element/core';
 import {bind} from '../../../esl-utils/decorators/bind';
+import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {ESLScrollbar} from '../../../esl-scrollbar/core';
 import {ESLSelectItem} from './esl-select-item';
-
 import {ESLSelectWrapper} from './esl-select-wrapper';
 
+@ExportNs('SelectList')
 export class ESLSelectList extends ESLSelectWrapper {
   public static readonly is = 'esl-select-list';
   public static get observedAttributes() {
@@ -96,6 +97,7 @@ export class ESLSelectList extends ESLSelectWrapper {
     } else {
       this._renderGroup(this.$items);
     }
+    this.toggleAttribute('multiple', this.multiple);
   }
   protected _renderGroup(items: ESLSelectItem[]) {
     items.forEach((item) => this.$list.appendChild(item));
@@ -104,6 +106,7 @@ export class ESLSelectList extends ESLSelectWrapper {
   }
 
   protected _updateSelectAll() {
+    if (!this.multiple) return;
     this.$selectAll.selected = this.isAllSelected();
     this.$selectAll.textContent = this.selectAllLabel;
   }
