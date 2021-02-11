@@ -3,7 +3,14 @@
     "base": "./src/modules/",
     "ts": ["src/modules/**/*.ts", "!**/test/*.ts"],
     "less": ["src/modules/**/*.less"],
-    "css": ["src/modules/*.less", "src/modules/*/*.less", "src/modules/utils/*/*.less", "src/modules/beta/*/*.less", "!**/*.mixin.less"],
+    "css": [
+      "src/modules/*.less",
+      "src/modules/*/*.less",
+      "src/modules/esl-forms/*/*.less",
+      "src/modules/utils/*/*.less",
+      "src/modules/beta/*/*.less",
+      "!**/*.mixin.less"
+    ],
     "dest": "modules",
     "destPaths": ["modules/*"]
   },

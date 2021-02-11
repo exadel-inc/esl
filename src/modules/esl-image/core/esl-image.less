@@ -34,14 +34,14 @@
       max-width: 100%;
     }
 
-    &:after {
+    &::after {
       display: none;
       content: attr(alt);
     }
-    &[error]:after {
+    &[error]::after {
       display: inline-block;
     }
-    &[loaded]:after {
+    &[loaded]::after {
       display: none;
     }
 

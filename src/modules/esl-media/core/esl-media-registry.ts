@@ -3,7 +3,7 @@
  * @version 1.0.0-alpha
  * @author Yuliya Adamskaya, Natallia Harshunova
  */
-import ESLMedia from './esl-media';
+import {ESLMedia} from './esl-media';
 import {Observable} from '../../esl-utils/abstract/observable';
 import type {BaseProvider, ProviderType} from './esl-media-provider';
 
@@ -69,5 +69,3 @@ export class ESLMediaProviderRegistry extends Observable {
     return new provider(media, config);
   }
 }
-
-export default ESLMediaProviderRegistry.instance;

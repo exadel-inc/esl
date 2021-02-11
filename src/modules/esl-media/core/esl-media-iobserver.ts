@@ -3,7 +3,7 @@
  * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
-import ESLMedia from './esl-media';
+import {ESLMedia} from './esl-media';
 
 const RATIO_TO_ACTIVATE = 0.75; // TODO: customizable, at least global
 const RATIO_TO_DEACTIVATE = 0.20; // TODO: customizable, at least global

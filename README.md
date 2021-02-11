@@ -10,24 +10,28 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
 
 ## Library Structure
 ### Components
-- ##### [ESL Image](./src/modules/esl-image/README.md)
-- ##### [ESL Media](./src/modules/esl-media/README.md)
-- ##### [ESL Scrollbar](./src/modules/esl-scrollbar/README.md)
+- ##### [ESL Image](src/modules/esl-image/README.md)
+- ##### [ESL Media](src/modules/esl-media/README.md)
+- ##### [ESL Scrollbar](src/modules/esl-scrollbar/README.md)
 
-- ##### [ESL Base Popup](./src/modules/esl-base-popup/README.md)
-- ##### [ESL Base Trigger](./src/modules/esl-base-trigger/README.md)
-- ##### [ESL Popup](./src/modules/esl-popup/README.md)
-- ##### [ESL Trigger](./src/modules/esl-trigger/README.md)
-- ##### [ESL Panel and Panel Stack](./src/modules/esl-panel/README.md)
-- ##### [ESL Tab and Tab Container](./src/modules/esl-tab/README.md)
+- ##### [ESL Toggleable](src/modules/esl-toggleable/README.md)
+- ##### [ESL Base Trigger](src/modules/esl-base-trigger/README.md)
+- ##### [ESL Popup](src/modules/esl-popup/README.md)
+- ##### [ESL Trigger](src/modules/esl-trigger/README.md)
+- ##### [ESL Panel and Panel Stack](src/modules/esl-panel/README.md)
+- ##### [ESL Tab and Tab Container](src/modules/esl-tab/README.md)
 - ##### [ESL Scrollable Tabs](src/modules/esl-scrollable-tabs/README.md)
 - ##### [ESL Alert](src/modules/esl-alert/README.md)
 
+### Form Components
+- ##### [ESL Select](src/modules/esl-forms/esl-select/README.md)
+- ##### [ESL Select List](src/modules/esl-forms/esl-select-list/README.md)
+
 ### Utilities
-- ##### [ESL Base Element](./src/modules/esl-base-element/README.md)
-- ##### [ESL Media Query](./src/modules/esl-media-query/README.md)
-- ##### [ESL Traversing Query](./src/modules/esl-traversing-query/README.md)
-- ##### [ESL Utils](./src/modules/esl-utils/README.md)
+- ##### [ESL Base Element](src/modules/esl-base-element/README.md)
+- ##### [ESL Media Query](src/modules/esl-media-query/README.md)
+- ##### [ESL Traversing Query](src/modules/esl-traversing-query/README.md)
+- ##### [ESL Utils](src/modules/esl-utils/README.md)
 
 ---
 ## Installation Guide
@@ -127,7 +131,7 @@ In case you are using JetBrains IDE (IDEA or WebStorm) you can use this
 
 ## Roadmap
 
-- Releasable state for beta components (ESL Base Popup group)
+- Releasable state for beta components (ESL Toggleable group)
 - "Playground" demo server
 - npm release
 - ESLCarousel component release

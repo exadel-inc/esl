@@ -8,6 +8,8 @@ export interface ESLSelectOption {
 }
 
 export interface ESLSelectModel {
+  /** Allow multiple items */
+  multiple: boolean;
   /** Get list of options */
   options: ESLSelectOption[];
   /** Get list of selected options */
@@ -29,10 +31,10 @@ export interface ESLSelectModel {
 export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSelectModel {
   private _$select: HTMLSelectElement;
 
-  public get select() {
+  public get $select() {
     return this._$select;
   }
-  public set select(select: HTMLSelectElement) {
+  public set $select(select: HTMLSelectElement) {
     const prev = this._$select;
     this._$select = select;
     this._onTargetChange(select, prev);
@@ -50,8 +52,12 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
     if (newTarget) newTarget.addEventListener('change', this._onChange);
   }
 
+  public get multiple() {
+    return this.$select && this.$select.multiple;
+  }
+
   public get options(): ESLSelectOption[] {
-    return this._$select ? Array.from(this._$select.options) : [];
+    return this.$select ? Array.from(this.$select.options) : [];
   }
   public get selected(): ESLSelectOption[] {
     return this.options.filter((item) => item.selected);
@@ -64,7 +70,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
   public setSelected(value: string, state: boolean) {
     const option = this.getOption(value);
     option && (option.selected = state);
-    EventUtils.dispatch(this._$select, 'change');
+    EventUtils.dispatch(this.$select, 'change');
   }
   public isSelected(value: string): boolean {
     const opt = this.getOption(value);
@@ -79,7 +85,8 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
   }
 
   public setAllSelected(state: boolean) {
+    if (!this.multiple) return false;
     this.options.forEach((item) => item.selected = state);
-    EventUtils.dispatch(this._$select, 'change');
+    EventUtils.dispatch(this.$select, 'change');
   }
 }

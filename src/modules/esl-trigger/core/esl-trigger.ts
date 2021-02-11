@@ -6,7 +6,7 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
-import type {ESLBasePopup} from '../../esl-base-popup/core/esl-base-popup';
+import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseTrigger {
@@ -56,7 +56,7 @@ export class ESLTrigger extends ESLBaseTrigger {
 
   protected updatePopupFromTarget() {
     if (!this.target) return;
-    this.popup = TraversingQuery.first(this.target, this) as ESLBasePopup;
+    this.$target = TraversingQuery.first(this.target, this) as ESLToggleable;
   }
 
   public get showEvent() {
@@ -77,7 +77,7 @@ export class ESLTrigger extends ESLBaseTrigger {
 
   @bind
   protected _onHideEvent(e: Event) {
-    this.popup.hide({
+    this.$target.hide({
       activator: this,
       delay: this.hideDelayValue,
       trackHover: this.event === 'hover' && this.mode === 'toggle'
@@ -93,5 +93,3 @@ export class ESLTrigger extends ESLBaseTrigger {
     return !hideDelay || isNaN(+hideDelay) ? undefined : +hideDelay;
   }
 }
-
-export default ESLTrigger;

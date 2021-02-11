@@ -21,8 +21,8 @@ describe('async/throttle', () => {
       throttled();
       expect(fn).toBeCalledTimes(3);
       done();
-    }, 150);
-  }, 250);
+    }, 200);
+  }, 300);
 
   test('test context', () => {
     const fn = function () { return this; };

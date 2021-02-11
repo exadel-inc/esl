@@ -308,5 +308,3 @@ export class ESLImage extends ESLBaseElement {
     return src === ESLImage.EMPTY_IMAGE;
   }
 }
-
-export default ESLImage;

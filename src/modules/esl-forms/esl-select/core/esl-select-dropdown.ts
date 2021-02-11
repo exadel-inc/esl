@@ -1,11 +1,11 @@
-import {ESLBasePopup, PopupActionParams} from '../../../esl-base-popup/core/esl-base-popup';
+import {ESLToggleable, ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';
 
 import type {ESLSelect} from './esl-select';
 
-export class ESLSelectDropdown extends ESLBasePopup {
+export class ESLSelectDropdown extends ESLToggleable {
   public static readonly is = 'esl-select-dropdown';
   public static register() {
     ESLSelectList.register();
@@ -28,7 +28,6 @@ export class ESLSelectDropdown extends ESLBasePopup {
   constructor() {
     super();
     this.$list = document.createElement(ESLSelectList.is) as ESLSelectList;
-    this.$list.pinSelected = true;
   }
 
   protected setInitialState() {}
@@ -51,19 +50,20 @@ export class ESLSelectDropdown extends ESLBasePopup {
     window.removeEventListener('resize', this._deferredUpdatePosition);
   }
 
-  protected onShow(params: PopupActionParams) {
+  protected onShow(params: ToggleableActionParams) {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
-    this.$list.select = this.owner.select;
+    this.$list.pinSelected = this.owner.pinSelected;
     this.$list.selectAllLabel = this.owner.selectAllLabel;
+    this.$list.$select = this.owner.$select;
 
     super.onShow(params);
     const focusable = this.querySelector('[tabindex]') as HTMLElement;
     focusable && focusable.focus( { preventScroll: true } );
     this.updatePosition();
   }
-  protected onHide(params: PopupActionParams) {
+  protected onHide(params: ToggleableActionParams) {
     const select = this.activator;
     select && setTimeout(() => select.focus({ preventScroll: true }), 0);
     super.onHide(params);

@@ -5,7 +5,7 @@
  * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
-import ESLMedia from './esl-media';
+import {ESLMedia} from './esl-media';
 
 const managerMap = new Map<string, ESLMedia>();
 
@@ -41,5 +41,3 @@ export class MediaGroupRestrictionManager {
     }
   }
 }
-
-export default MediaGroupRestrictionManager;

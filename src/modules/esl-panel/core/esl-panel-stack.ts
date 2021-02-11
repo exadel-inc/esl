@@ -5,7 +5,7 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 
-import ESLPanel from './esl-panel';
+import {ESLPanel} from './esl-panel';
 
 @ExportNs('PanelStack')
 export class ESLPanelStack extends ESLBaseElement {
@@ -150,5 +150,3 @@ export class ESLPanelStack extends ESLBaseElement {
     CSSUtil.toggleClsTo(this, this.accordionClass, this.isAccordion);
   };
 }
-
-export default ESLPanelStack;
