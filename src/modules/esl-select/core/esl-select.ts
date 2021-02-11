@@ -34,6 +34,8 @@ export class ESLSelect extends ESLSelectWrapper {
   @boolAttr() public open: boolean;
   /** Disabled state marker */
   @boolAttr() public disabled: boolean;
+  /** Pin to top marker */
+  @boolAttr() public pinSelected: boolean;
 
   protected $text: ESLSelectRenderer;
   protected $dropdown: ESLSelectDropdown;

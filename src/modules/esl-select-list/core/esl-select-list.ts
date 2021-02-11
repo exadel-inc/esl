@@ -97,6 +97,7 @@ export class ESLSelectList extends ESLSelectWrapper {
     } else {
       this._renderGroup(this.$items);
     }
+    this.toggleAttribute('multiple', this.multiple);
   }
   protected _renderGroup(items: ESLSelectItem[]) {
     items.forEach((item) => this.$list.appendChild(item));
@@ -105,6 +106,7 @@ export class ESLSelectList extends ESLSelectWrapper {
   }
 
   protected _updateSelectAll() {
+    if (!this.multiple) return;
     this.$selectAll.selected = this.isAllSelected();
     this.$selectAll.textContent = this.selectAllLabel;
   }

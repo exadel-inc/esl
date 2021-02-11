@@ -83,6 +83,7 @@ export class ESLSelectRenderer extends ESLBaseElement {
     if (!this.owner) return;
     const selected = this.owner.selected;
     this.hasValue = !!selected.length;
+    this.toggleAttribute('multiple', this.owner.multiple);
     this.applyItems(selected.map((item) => item.text));
   }
 
