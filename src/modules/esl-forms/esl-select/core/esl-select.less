@@ -21,7 +21,7 @@
     color: @esl-select-disabled;
 
     .esl-select-text,
-    .esl-select-renderer:after {
+    .esl-select-renderer::after {
       color: @esl-select-disabled;
     }
     .esl-select-clear-btn {
@@ -29,7 +29,7 @@
     }
   }
 
-  .esl-select-renderer:after {
+  .esl-select-renderer::after {
     content: '\2BC6';
     display: inline-block;
     flex: 0 0 auto;
@@ -48,7 +48,7 @@
     transition: transform .2s linear;
     transform-origin: center center;
   }
-  &[open] .esl-select-renderer:after {
+  &[open] .esl-select-renderer::after {
     transform: rotateX(180deg);
   }
 }
