@@ -2,11 +2,11 @@
   "plugins": ["./build/lint/import.stylelint.js"],
   "rules": {
     "at-rule-no-unknown": true,
-    "block-no-empty": true,
-    "block-opening-brace-space-before": "always",
+    "block-no-empty": [true, { "severity": "warning" }],
+    "block-opening-brace-space-before": ["always", { "severity": "warning" }],
     "color-no-invalid-hex": true,
     "comment-no-empty": true,
-    "declaration-colon-space-after": "always",
+    "declaration-colon-space-after": ["always", { "severity": "warning" }],
     "declaration-block-no-duplicate-properties": true,
     "font-family-no-duplicate-names": true,
     "font-family-no-missing-generic-family-keyword": true,
@@ -30,7 +30,7 @@
     "selector-type-no-unknown": [true, {
       "ignore": ["custom-elements"]
     }],
-    "string-no-newline": true,
+    "string-no-newline": [true, { "severity": "warning" }],
     "unit-no-unknown": true,
     "esl-less/import-root": "never"
   }
