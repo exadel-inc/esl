@@ -20,4 +20,4 @@ export * from './esl-scrollbar/core';
 
 export * from './esl-alert/core';
 
-export * from './forms/all';
+export * from './esl-forms/all';

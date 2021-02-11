@@ -18,7 +18,7 @@ import type {ESLPanelStack} from './esl-panel/core/esl-panel-stack';
 import type {ESLTabsContainer} from './esl-tab/core/esl-tabs-container';
 import type {ESLScrollableTabs} from './esl-scrollable-tabs/core/esl-scrollable-tabs';
 
-import type {ESLSelect, ESLSelectList, ESLSelectItem} from './forms/all';
+import type {ESLSelect, ESLSelectList, ESLSelectItem} from './esl-forms/all';
 
 import type {ESLCarousel} from './draft/esl-carousel/core/esl-carousel';
 import type {ESLCarouselDotsPlugin} from './draft/esl-carousel/plugin/esl-carousel-dots.plugin';
