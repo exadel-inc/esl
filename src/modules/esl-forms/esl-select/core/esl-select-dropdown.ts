@@ -66,11 +66,12 @@ export class ESLSelectDropdown extends ESLToggleable {
   }
   protected onHide(params: ToggleableActionParams) {
     const select = this.activator;
-    select && setTimeout(() => select.focus({ preventScroll: true }), 0);
     super.onHide(params);
     this._disposeTimeout = window.setTimeout(() => {
+      if (this.parentNode !== document.body) return;
       document.body.removeChild(this);
     }, 1000);
+    select && setTimeout(() => select.focus({ preventScroll: true }), 0);
   }
 
   @bind

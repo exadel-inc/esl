@@ -69,6 +69,10 @@ export class ESLSelect extends ESLSelectWrapper {
     this._dispose();
   }
 
+  public focus(options?: FocusOptions) {
+    this.$select.focus(options);
+  }
+
   protected bindEvents() {
     this.addEventListener('click', this._onClick);
     this.addEventListener('keydown', this._onKeydown);

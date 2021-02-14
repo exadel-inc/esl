@@ -1,5 +1,6 @@
 import {attr, boolAttr} from '../../../esl-base-element/core';
 import {bind} from '../../../esl-utils/decorators/bind';
+import {ARROW_DOWN, ARROW_UP, ENTER, SPACE} from '../../../esl-utils/dom/keys';
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {ESLScrollbar} from '../../../esl-scrollbar/core';
 import {ESLSelectItem} from './esl-select-item';
@@ -79,12 +80,12 @@ export class ESLSelectList extends ESLSelectWrapper {
   public bindEvents() {
     if (!this.$select) return;
     this.addEventListener('click', this._onClick);
-    this.addEventListener('keypress', this._onKeyboard);
+    this.addEventListener('keydown', this._onKeydown);
   }
   public unbindEvents() {
     if (!this.$select) return;
     this.removeEventListener('click', this._onClick);
-    this.removeEventListener('keypress', this._onKeyboard);
+    this.removeEventListener('keydown', this._onKeydown);
   }
 
   protected _renderItems() {
@@ -106,7 +107,11 @@ export class ESLSelectList extends ESLSelectWrapper {
   }
 
   protected _updateSelectAll() {
-    if (!this.multiple) return;
+    if (!this.multiple) {
+      this.$selectAll.removeAttribute('tabindex');
+      return;
+    }
+    this.$selectAll.tabIndex = 0;
     this.$selectAll.selected = this.isAllSelected();
     this.$selectAll.textContent = this.selectAllLabel;
   }
@@ -146,9 +151,17 @@ export class ESLSelectList extends ESLSelectWrapper {
   }
 
   @bind
-  protected _onKeyboard(e: KeyboardEvent) {
-    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+  protected _onKeydown(e: KeyboardEvent) {
+    if ([ENTER, SPACE].includes(e.key)) {
       this._onClick(e);
+      e.preventDefault();
+    }
+    if ([ARROW_UP, ARROW_DOWN].includes(e.key)) {
+      const index = this.$items.indexOf(document.activeElement as ESLSelectItem);
+      const count = this.$items.length;
+      const increment = e.key === ARROW_UP ? -1 : 1;
+      if (index === -1) return;
+      this.$items[(index + increment + count) % count].focus();
       e.preventDefault();
     }
   }
