@@ -59,7 +59,7 @@ export class ESLPanelStack extends ESLBaseElement {
 
   /** Condition-guard to check if the target is controlled panel */
   public includesPanel(target: any): target is ESLPanel {
-    return this.panels.indexOf(target) !== -1;
+    return this.panels.includes(target);
   }
 
   /** Hide opened panel before a new one will be shown */
