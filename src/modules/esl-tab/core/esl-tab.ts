@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import ESLTrigger from '../../esl-trigger/core/esl-trigger';
+import {ESLTrigger} from '../../esl-trigger/core';
 
 @ExportNs('Tab')
 export class ESLTab extends ESLTrigger {
@@ -12,10 +12,8 @@ export class ESLTab extends ESLTrigger {
     target.setAttribute('tabindex', this.active ? '0' : '-1');
 
     // TODO: auto generate
-    if (this.popup.id) {
-      this.setAttribute('aria-controls', this.popup.id);
+    if (this.$target.id) {
+      this.setAttribute('aria-controls', this.$target.id);
     }
   }
 }
-
-export default ESLTab;

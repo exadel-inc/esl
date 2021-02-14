@@ -1,4 +1,4 @@
-import ESLImage from './esl-image';
+import {ESLImage} from './esl-image';
 
 /**
  * Describe mods configurations

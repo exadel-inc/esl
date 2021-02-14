@@ -6,7 +6,7 @@ import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';
-import type {ESLBasePopup} from '../../esl-base-popup/core/esl-base-popup';
+import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 
 @ExportNs('BaseTrigger')
 export class ESLBaseTrigger extends ESLBaseElement {
@@ -19,16 +19,16 @@ export class ESLBaseTrigger extends ESLBaseElement {
   @attr({defaultValue: ''}) public activeClass: string;
   @attr({defaultValue: ''}) public activeClassTarget: string;
 
-  protected _popup: ESLBasePopup;
+  protected _$target: ESLToggleable;
   protected __unsubscribers: NoopFnSignature[];
 
-  public get popup() {
-    return this._popup;
+  public get $target() {
+    return this._$target;
   }
-  public set popup(newPopupInstance) {
+  public set $target(newPopupInstance) {
     this.unbindEvents();
-    this._popup = newPopupInstance;
-    if (this._popup) {
+    this._$target = newPopupInstance;
+    if (this._$target) {
       this.bindEvents();
       this._onPopupStateChange();
     }
@@ -49,7 +49,7 @@ export class ESLBaseTrigger extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    if (!this.popup) return;
+    if (!this.$target) return;
     if (this.showEvent === this.hideEvent) {
       this.attachEventListener(this.showEvent, this._onToggleEvent);
     } else {
@@ -57,18 +57,18 @@ export class ESLBaseTrigger extends ESLBaseElement {
       this.attachEventListener(this.hideEvent, this._onHideEvent);
     }
 
-    this.popup.addEventListener('esl:show', this._onPopupStateChange);
-    this.popup.addEventListener('esl:hide', this._onPopupStateChange);
+    this.$target.addEventListener('esl:show', this._onPopupStateChange);
+    this.$target.addEventListener('esl:hide', this._onPopupStateChange);
 
     this.addEventListener('keydown', this._onKeydown);
   }
 
   protected unbindEvents() {
     (this.__unsubscribers || []).forEach((off) => off());
-    if (!this.popup) return;
+    if (!this.$target) return;
 
-    this.popup.removeEventListener('esl:show', this._onPopupStateChange);
-    this.popup.removeEventListener('esl:hide', this._onPopupStateChange);
+    this.$target.removeEventListener('esl:show', this._onPopupStateChange);
+    this.$target.removeEventListener('esl:hide', this._onPopupStateChange);
 
     this.removeEventListener('keydown', this._onKeydown);
   }
@@ -82,14 +82,14 @@ export class ESLBaseTrigger extends ESLBaseElement {
 
   @bind
   protected _onShowEvent(e: Event) {
-    this.popup.show({
+    this.$target.show({
       activator: this,
       delay: this.showDelayValue
     });
   }
   @bind
   protected _onHideEvent(e: Event) {
-    this.popup.hide({
+    this.$target.hide({
       activator: this,
       delay: this.hideDelayValue
     });
@@ -101,7 +101,7 @@ export class ESLBaseTrigger extends ESLBaseElement {
 
   @bind
   protected _onPopupStateChange() {
-    this.active = this.popup.open;
+    this.active = this.$target.open;
     const clsTarget = TraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
     clsTarget && CSSUtil.toggleClsTo(clsTarget, this.activeClass, this.active);
     this.updateA11y();
@@ -122,8 +122,8 @@ export class ESLBaseTrigger extends ESLBaseElement {
     target.setAttribute('aria-expanded', String(this.active));
 
     // TODO: auto generate
-    if (this.popup.id) {
-      target.setAttribute('aria-controls', this.popup.id);
+    if (this.$target.id) {
+      target.setAttribute('aria-controls', this.$target.id);
     }
   }
 

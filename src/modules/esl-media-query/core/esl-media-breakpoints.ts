@@ -97,5 +97,3 @@ export abstract class ESLMediaBreakpoints {
     });
   }
 }
-
-export default ESLMediaBreakpoints;

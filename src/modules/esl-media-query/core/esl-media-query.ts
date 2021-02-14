@@ -121,5 +121,3 @@ export class ESLMediaQuery {
     return '[ESL MQ] (' + this.query.media + ')';
   }
 }
-
-export default ESLMediaQuery;

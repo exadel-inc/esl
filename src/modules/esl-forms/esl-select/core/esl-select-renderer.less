@@ -1,6 +1,6 @@
-esl-select-text {
+esl-select-renderer {
   // Specific
-  &.esl-select-text.esl-select-text {
+  &.esl-select-renderer.esl-select-renderer {
     display: flex;
     align-items: center;
   }
@@ -46,5 +46,8 @@ esl-select-text {
     &::before {
       content: '\2715';
     }
+  }
+  &:not([multiple]) .esl-select-clear-btn {
+    display: none;
   }
 }

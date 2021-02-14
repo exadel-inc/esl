@@ -3,17 +3,17 @@ import {CSSUtil} from '../../esl-utils/dom/styles';
 import {bind} from '../../esl-utils/decorators/bind';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
-import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/core';
+import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
 
-import ESLPanelStack from './esl-panel-stack';
+import {ESLPanelStack} from './esl-panel-stack';
 
-export interface PanelActionParams extends PopupActionParams {
+export interface PanelActionParams extends ToggleableActionParams {
   noCollapse?: boolean;
   noAnimation?: boolean;
 }
 
 @ExportNs('Panel')
-export class ESLPanel extends ESLBasePopup {
+export class ESLPanel extends ESLToggleable {
   public static is = 'esl-panel';
 
   @attr({defaultValue: 'open'}) public activeClass: string;
@@ -25,7 +25,7 @@ export class ESLPanel extends ESLBasePopup {
   @boolAttr() public startAnimation: boolean;
 
   @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init', noAnimation: true}})
-  public initialParams: PopupActionParams;
+  public initialParams: ToggleableActionParams;
 
   protected _initialHeight: number = 0;
 
@@ -107,10 +107,8 @@ export class ESLPanel extends ESLBasePopup {
   }
 
   /** The panels use panel stack config for actions */
-  protected mergeDefaultParams(params?: PopupActionParams): PopupActionParams {
+  protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
     const stackConfig = this.stack?.panelConfig || {};
     return Object.assign({}, stackConfig, this.defaultParams, params || {});
   }
 }
-
-export default ESLPanel;

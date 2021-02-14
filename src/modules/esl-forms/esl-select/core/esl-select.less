@@ -1,21 +1,35 @@
-esl-select {
+.esl-select {
   display: inline-block;
   position: relative;
 
   min-width: 300px;
   max-width: 100%;
 
-  &.esl-select [esl-select-target] {
+  & [esl-select-target] {
     /* Visually hidden */
     position: absolute;
     width: 0;
     height: 0;
     border: 0;
+    padding: 0;
     overflow: hidden;
     clip: rect(0,0,0,0);
   }
 
-  esl-select-text:after {
+  &[disabled] {
+    pointer-events: none;
+    color: @esl-select-disabled;
+
+    .esl-select-text,
+    .esl-select-renderer::after {
+      color: @esl-select-disabled;
+    }
+    .esl-select-clear-btn {
+      display: none;
+    }
+  }
+
+  .esl-select-renderer::after {
     content: '\2BC6';
     display: inline-block;
     flex: 0 0 auto;
@@ -34,7 +48,7 @@ esl-select {
     transition: transform .2s linear;
     transform-origin: center center;
   }
-  &[active] esl-select-text:after {
+  &[open] .esl-select-renderer::after {
     transform: rotateX(180deg);
   }
 }

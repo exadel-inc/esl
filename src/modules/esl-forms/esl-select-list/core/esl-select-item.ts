@@ -1,5 +1,9 @@
 import {attr, boolAttr, ESLBaseElement} from '../../../esl-base-element/core';
+import {ExportNs} from '../../../esl-utils/environment/export-ns';
 
+import type {ESLSelectOption} from './esl-select-wrapper';
+
+@ExportNs('SelectItem')
 export class ESLSelectItem extends ESLBaseElement {
   public static readonly is: string = 'esl-select-item';
 
@@ -9,6 +13,8 @@ export class ESLSelectItem extends ESLBaseElement {
 
   @attr() public value: string;
   @boolAttr() public selected: boolean;
+
+  public original: ESLSelectOption;
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -23,8 +29,9 @@ export class ESLSelectItem extends ESLBaseElement {
     }
   }
 
-  public static build(option: HTMLOptionElement) {
+  public static build(option: ESLSelectOption) {
     const item = document.createElement(ESLSelectItem.is) as ESLSelectItem;
+    item.original = option;
     item.value = option.value;
     item.selected = option.selected;
     item.textContent = option.text;

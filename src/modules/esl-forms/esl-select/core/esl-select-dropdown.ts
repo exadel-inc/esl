@@ -1,15 +1,18 @@
-import {ESLBasePopup, PopupActionParams} from '../../../esl-base-popup/core/esl-base-popup';
+import {ESLToggleable, ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {rafDecorator} from '../../../esl-utils/async/raf';
-import {ESLSelectList} from './esl-select-list';
-import {ESLSelectModel} from './esl-select-model';
-import {attr} from '../../../esl-base-element/decorators/attr';
+import {ESLSelectList} from '../../esl-select-list/core';
 
-export class ESLSelectDropdown extends ESLBasePopup {
+import type {ESLSelect} from './esl-select';
+
+export class ESLSelectDropdown extends ESLToggleable {
   public static readonly is = 'esl-select-dropdown';
+  public static register() {
+    ESLSelectList.register();
+    super.register();
+  }
 
-  @attr() public selectAllLabel: string;
-  public model: ESLSelectModel;
+  public owner: ESLSelect;
 
   protected $list: ESLSelectList;
   protected _disposeTimeout: number;
@@ -47,25 +50,40 @@ export class ESLSelectDropdown extends ESLBasePopup {
     window.removeEventListener('resize', this._deferredUpdatePosition);
   }
 
-  protected onShow(params: PopupActionParams) {
+  protected onShow(params: ToggleableActionParams) {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
-    this.$list.model = this.model;
-    this.$list.selectAllLabel = this.selectAllLabel;
+    this.$list.pinSelected = this.owner.pinSelected;
+    this.$list.selectAllLabel = this.owner.selectAllLabel;
+    this.$list.$select = this.owner.$select;
 
     super.onShow(params);
     const focusable = this.querySelector('[tabindex]') as HTMLElement;
     focusable && focusable.focus( { preventScroll: true } );
     this.updatePosition();
   }
-  protected onHide(params: PopupActionParams) {
+  protected onHide(params: ToggleableActionParams) {
     const select = this.activator;
     select && setTimeout(() => select.focus({ preventScroll: true }), 0);
     super.onHide(params);
     this._disposeTimeout = window.setTimeout(() => {
       document.body.removeChild(this);
     }, 1000);
+  }
+
+  @bind
+  protected _onKeyboardEvent(e: KeyboardEvent) {
+    super._onKeyboardEvent(e);
+    if (e.key === 'Tab') this._onTabKey(e);
+  }
+
+  protected _onTabKey(e: KeyboardEvent) {
+    const els = this.querySelectorAll('[tabindex]');
+    const first = els[0] as HTMLElement;
+    const last = els[els.length - 1] as HTMLElement;
+    if (first && e.target === last && !e.shiftKey) first.focus();
+    if (last && e.target === first && e.shiftKey) last.focus();
   }
 
   @bind

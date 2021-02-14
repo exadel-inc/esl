@@ -39,12 +39,22 @@ Type is a required part of the message, and it is limited by the following value
 | ci       | Continuous integration and deployment related changes |
 | perf     | Backward-compatible performance improvements |
 
-**To identify breaking changes add `!` in the end of type**
-
 Type should be in a lowercase.
 
+### BREAKING CHANGES
+
+**To identify breaking changes use `!` postfix for the <type>**
 ```text
 feat!: Hey I'm breaking something that already exist
+```
+
+**Identify everything that break or change existing API or behaviour with the `BREACKING CHAGES:` list
+```text
+feat!: Hey I'm breaking something that already exist
+
+BREAKING CHANGES:
+  something was broken
+  some api was changed
 ```
 
 ---

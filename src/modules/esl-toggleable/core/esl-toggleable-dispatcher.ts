@@ -1,16 +1,16 @@
-import {ESLBasePopup} from './esl-base-popup';
+import {ESLToggleable} from './esl-toggleable';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
-@ExportNs('PopupGroupDispatcher')
-export class ESLPopupDispatcher extends ESLBaseElement {
-  public static readonly is = 'esl-popup-dispatcher';
+@ExportNs('ToggleableGroupDispatcher')
+export class ESLToggleableDispatcher extends ESLBaseElement {
+  public static readonly is = 'esl-toggleable-dispatcher';
 
   /**
-   * Initialize PopupGroupDispatcher
-   * Uses esl-popup-dispatcher tag and document body root by default
+   * Initialize ToggleableGroupDispatcher
+   * Uses esl-toggleable-dispatcher tag and document body root by default
    */
   public static init(root: HTMLElement = document.body, tagName: string = this.is) {
     if (!root) throw new Error('Root element should be specified');
@@ -21,7 +21,7 @@ export class ESLPopupDispatcher extends ESLBaseElement {
   }
 
   protected _root: HTMLElement | null;
-  protected _popups: Map<string, ESLBasePopup> = new Map<string, ESLBasePopup>();
+  protected _popups: Map<string, ESLToggleable> = new Map<string, ESLToggleable>();
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -58,35 +58,35 @@ export class ESLPopupDispatcher extends ESLBaseElement {
   }
 
   /** Guard-condition for targets */
-  protected isAcceptable(target: any): target is ESLBasePopup {
-    if (!(target instanceof ESLBasePopup)) return false;
+  protected isAcceptable(target: any): target is ESLToggleable {
+    if (!(target instanceof ESLToggleable)) return false;
     return !!target.groupName;
   }
 
-  /** Hide active popup in group */
+  /** Hide active element in group */
   public hideActive(groupName: string) {
     this.getActive(groupName)?.hide();
   }
 
-  /** Set active popup in group */
-  public setActive(groupName: string, popup: ESLBasePopup) {
+  /** Set active element in group */
+  public setActive(groupName: string, popup: ESLToggleable) {
     if (!groupName) return;
     this.hideActive(groupName);
     this._popups.set(groupName, popup);
   }
 
-  /** Get active popup in group or undefined if group doesn't exist */
-  public getActive(groupName: string): ESLBasePopup | undefined {
+  /** Get active element in group or undefined if group doesn't exist */
+  public getActive(groupName: string): ESLToggleable | undefined {
     return this._popups.get(groupName);
   }
 
-  /** Delete popup from the group if passed popup is currently active */
-  public deleteActive(groupName: string, popup: ESLBasePopup) {
+  /** Delete element from the group if passed element is currently active */
+  public deleteActive(groupName: string, popup: ESLToggleable) {
     if (this.getActive(groupName) !== popup) return;
     this._popups.delete(groupName);
   }
 
-  /** Hide active popup before e.target (popup) will be shown */
+  /** Hide active element before e.target will be shown */
   @bind
   protected _onBeforeShow(e: CustomEvent) {
     const target = EventUtils.source(e);
@@ -94,7 +94,7 @@ export class ESLPopupDispatcher extends ESLBaseElement {
     this.hideActive(target.groupName);
   }
 
-  /** Update active popup after a new popup is shown */
+  /** Update active element after a new element is shown */
   @bind
   protected _onShow(e: CustomEvent) {
     const target = EventUtils.source(e);
@@ -103,7 +103,7 @@ export class ESLPopupDispatcher extends ESLBaseElement {
     this.setActive(target.groupName, target);
   }
 
-  /** Update group state after active popup is hidden */
+  /** Update group state after active element is hidden */
   @bind
   protected _onHide(e: CustomEvent) {
     const target = EventUtils.source(e);
@@ -112,7 +112,7 @@ export class ESLPopupDispatcher extends ESLBaseElement {
     this.deleteActive(target.groupName, target);
   }
 
-  /** Update active popups */
+  /** Update active elements */
   @bind
   protected _onChangeGroup(e: CustomEvent) {
     const target = EventUtils.source(e);

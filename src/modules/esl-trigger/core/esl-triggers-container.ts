@@ -75,5 +75,3 @@ export class ESLTriggersContainer extends ESLBaseElement {
     targetEl.focus();
   }
 }
-
-export default ESLTriggersContainer;

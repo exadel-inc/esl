@@ -1,5 +1,5 @@
 import {ESLBaseElement} from '../../../esl-base-element/core';
-import ESLCarousel from '../core/esl-carousel';
+import {ESLCarousel} from '../core/esl-carousel';
 
 /**
  * {@link ESLCarousel} Plugin base class.
@@ -73,5 +73,3 @@ export abstract class ESLCarouselPlugin extends ESLBaseElement {
     customElements.whenDefined(ESLCarousel.is).then(() => super.register.call(this, tagName));
   }
 }
-
-export default ESLCarouselPlugin;

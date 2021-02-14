@@ -1,4 +1,4 @@
-const BINDINGS_STORE_KEY = '__fnBindings';
+const BINDINGS_STORE_KEY = '__fnBindings__';
 /** Decorator "bind" allows to bind prototype method context to class instance */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function bind<T extends Function>(target: object,
