@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {bind} from '../../esl-utils/decorators/bind';
-import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
+import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
 import type {NoopFnSignature} from '../../esl-utils/misc/functions';

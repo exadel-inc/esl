@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESC} from '../../esl-utils/dom/keycodes';
+import {ESC} from '../../esl-utils/dom/keys';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {bind} from '../../esl-utils/decorators/bind';
 import {defined} from '../../esl-utils/misc/object';

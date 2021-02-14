@@ -43,7 +43,7 @@ Even if you use the whole utils module, it is still tiny.
 
 - ### DOM Helpers
   
-    - #### [Keycodes](./dom/keycodes.ts) - keyboard key-codes constants.
+    - #### [Keys](src/modules/esl-utils/dom/keys.ts) - keyboard keys constants.
   
     - #### [RTL Utils](./dom/rtl.ts) - Utils to detect RTL and RTL-specific browsers behavior.
   

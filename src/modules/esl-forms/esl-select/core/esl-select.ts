@@ -1,6 +1,7 @@
 import {attr, boolAttr} from '../../../esl-base-element/core';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../../esl-utils/dom/styles';
+import {ENTER, SPACE} from '../../../esl-utils/dom/keys';
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 
 import {ESLSelectRenderer} from './esl-select-renderer';
@@ -129,7 +130,7 @@ export class ESLSelect extends ESLSelectWrapper {
 
   @bind
   protected _onKeydown(e: KeyboardEvent) {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if ([ENTER, SPACE].includes(e.key)) {
       this.click();
       e.preventDefault();
     }

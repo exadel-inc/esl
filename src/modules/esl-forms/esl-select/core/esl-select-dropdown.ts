@@ -1,5 +1,6 @@
 import {ESLToggleable, ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
 import {bind} from '../../../esl-utils/decorators/bind';
+import {TAB} from '../../../esl-utils/dom/keys';
 import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';
 
@@ -75,7 +76,7 @@ export class ESLSelectDropdown extends ESLToggleable {
   @bind
   protected _onKeyboardEvent(e: KeyboardEvent) {
     super._onKeyboardEvent(e);
-    if (e.key === 'Tab') this._onTabKey(e);
+    if (e.key === TAB) this._onTabKey(e);
   }
 
   protected _onTabKey(e: KeyboardEvent) {

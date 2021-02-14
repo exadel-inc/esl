@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLTrigger} from './esl-trigger';
 import {bind} from '../../esl-utils/decorators/bind';
-import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP} from '../../esl-utils/dom/keycodes';
+import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP} from '../../esl-utils/dom/keys';
 
 
 export type GroupTarget = 'next' | 'prev' | 'current';
