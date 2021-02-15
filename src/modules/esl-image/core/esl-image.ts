@@ -16,7 +16,7 @@ import {getIObserver} from './esl-image-iobserver';
 import {ESLImageRenderStrategy, ShadowImageElement, STRATEGIES} from './esl-image-strategies';
 
 type LoadState = 'error' | 'loaded' | 'ready';
-const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].indexOf(state) !== -1;
+const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);
 
 @ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
