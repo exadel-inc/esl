@@ -4,7 +4,6 @@ import {ESLTrigger} from './esl-trigger';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP} from '../../esl-utils/dom/keys';
 
-
 export type GroupTarget = 'next' | 'prev' | 'current';
 
 @ExportNs('TriggersContainer')
@@ -41,7 +40,6 @@ export class ESLTriggersContainer extends ESLBaseElement {
     }
 
     if ([ARROW_DOWN, ARROW_RIGHT].includes(e.key)) {
-      console.log('right');
       this.goTo('next', target);
       e.preventDefault();
     }

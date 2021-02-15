@@ -63,7 +63,6 @@ export abstract class BaseProvider {
   get ready() {
     if (!this._ready) {
       const res = Promise.reject('Not Initialized');
-      // eslint-disable-next-line no-console
       res.catch((e) => console.log('Rejected Media Operation: ', e));
       return res;
     }
