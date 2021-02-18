@@ -21,11 +21,11 @@ title: ESL Alert component
         var hideBtn = document.querySelector('.esl-alert-hide');
         var params = {};
         showBtn[0].onclick = function (e) {
-          params.text = e.target.getAttribute('text');
+          params.text = e.targets.getAttribute('text');
           window.dispatchEvent(new CustomEvent(`esl:alert:show`, {detail: params}));
         };
         showBtn[1].onclick = function(e) {
-          params.text = e.target.getAttribute('text');
+          params.text = e.targets.getAttribute('text');
           params.hideDelay = 3000;
           window.dispatchEvent(new CustomEvent(`esl:alert:show`, {detail: params}));
         };

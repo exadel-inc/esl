@@ -7,9 +7,9 @@ import {ESLMediaQuery} from '../../esl-media-query/core';
 
 import {ESLPanel} from './esl-panel';
 
-@ExportNs('PanelStack')
-export class ESLPanelStack extends ESLBaseElement {
-  public static is = 'esl-panel-stack';
+@ExportNs('PanelGroup')
+export class ESLPanelGroup extends ESLBaseElement {
+  public static is = 'esl-panel-group';
 
   @attr() public accordionTransformation: string;
   @attr({defaultValue: 'animate'}) public animationClass: string;

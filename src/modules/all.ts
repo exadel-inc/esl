@@ -2,6 +2,7 @@ export * as Utils from './esl-utils/all';
 
 export * from './esl-media-query/core';
 export * from './esl-traversing-query/core';
+export * from './esl-a11y-group/core';
 
 export * from './esl-image/core';
 

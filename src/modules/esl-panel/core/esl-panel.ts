@@ -4,8 +4,7 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
 import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
-
-import {ESLPanelStack} from './esl-panel-stack';
+import {ESLPanelGroup} from './esl-panel-group';
 
 export interface PanelActionParams extends ToggleableActionParams {
   noCollapse?: boolean;
@@ -33,8 +32,8 @@ export class ESLPanel extends ESLToggleable {
     return this._initialHeight;
   }
 
-  public get stack(): ESLPanelStack | null {
-    return this.closest(ESLPanelStack.is);
+  public get stack(): ESLPanelGroup | null {
+    return this.closest(ESLPanelGroup.is);
   }
 
   protected bindEvents() {

@@ -1,24 +1,23 @@
-import {ESLTriggersContainer, GroupTarget} from '../../esl-trigger/core/esl-triggers-container';
-import {ESLTab} from './esl-tab';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {ESLBaseElement} from '../../esl-base-element/core/esl-base-element';
 import {attr} from '../../esl-base-element/decorators/attr';
 
 @ExportNs('TabsContainer')
-export class ESLTabsContainer extends ESLTriggersContainer {
+export class ESLTabsContainer extends ESLBaseElement {
   public static is = 'esl-tabs-container';
 
-  @attr({defaultValue: '.esl-tab-list'}) public tabList: string;
+  @attr({defaultValue: '::parent::find(esl-tab)'}) public targets: string;
 
-  get $triggers(): ESLTab[] {
-    const els = this.querySelectorAll(ESLTab.is);
-    return els ? Array.from(els) as ESLTab[] : [];
+  protected connectedCallback() {
+    super.connectedCallback();
+    this.render();
   }
 
-  public goTo(target: GroupTarget, from: ESLTab | null = this.current()) {
-    if (!from) return;
-    super.goTo(target, from);
-    const targetEl = this[target](from);
-    if (!targetEl) return;
-    targetEl.click();
+  public render() {
+    if (this.querySelector('esl-a11y-group')) return;
+    const $el = document.createElement('esl-a11y-group');
+    $el.setAttribute('targets', this.targets);
+    $el.setAttribute('click-on-active', 'true');
+    this.appendChild($el);
   }
 }

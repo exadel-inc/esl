@@ -10,53 +10,69 @@ import {ESLTab, ESLTabsContainer} from '../../esl-tab/core';
 export class ESLScrollableTabs extends ESLTabsContainer {
   public static is = 'esl-scrollable-tabs';
 
-  @attr({defaultValue: '.esl-tab-list'}) public tabList: string;
+  @attr({defaultValue: '.esl-tab-list'}) public list: string;
 
   // TODO: think about update of arrows
   protected connectedCallback() {
     super.connectedCallback();
+    this.bindEvents();
+
     this.updateArrows();
-    this.deferredFitToViewport(this.current() as ESLTab, 'auto');
+    this._deferredFitToViewport(this.$current, 'auto');
+  }
+
+  protected disconnectedCallback() {
+    super.disconnectedCallback();
+    this.unbindEvents();
   }
 
   protected bindEvents() {
-    super.bindEvents();
-    this.addEventListener('click', this._onClick, false);
-    this.$list?.addEventListener('scroll', this._onScroll, {passive: true});
-    this.addEventListener('focusin', this._onFocus);
     this.addEventListener('esl:change:active', this._onTriggerStateChange);
-    window.addEventListener('resize', this.onResize);
+    this.addEventListener('click', this._onClick, false);
+    this.addEventListener('focusin', this._onFocus);
+    this.$list?.addEventListener('scroll', this._onScroll, {passive: true});
+
+    window.addEventListener('resize', this._onResize);
   }
 
   protected unbindEvents() {
-    super.unbindEvents();
-    this.removeEventListener('click', this._onClick, false);
-    this.$list?.removeEventListener('scroll', this._onScroll);
-    this.removeEventListener('focusin', this._onFocus);
     this.removeEventListener('esl:change:active', this._onTriggerStateChange);
-    window.removeEventListener('resize', this.onResize);
+    this.removeEventListener('click', this._onClick, false);
+    this.removeEventListener('focusin', this._onFocus);
+    this.$list?.removeEventListener('scroll', this._onScroll);
+
+    window.removeEventListener('resize', this._onResize);
   }
 
-  get $list(): HTMLElement | null {
-    return this.querySelector(this.tabList);
+  public get $tabs(): ESLTab[] {
+    const els = this.querySelectorAll(ESLTab.is);
+    return els ? Array.from(els) as ESLTab[] : [];
+  }
+
+  public get $current(): ESLTab | null {
+    return this.$tabs.find((el) => el.active) || null;
+  }
+
+  public get $list(): HTMLElement | null {
+    return this.querySelector(this.list);
   }
 
   public moveTo(direction: string, behavior: ScrollBehavior = 'smooth') {
-    const list = this.$list;
-    if (!list) return;
-    let left = list.offsetWidth;
+    const $list = this.$list;
+    if (!$list) return;
+    let left = $list.offsetWidth;
     left = RTLUtils.isRtl(this) && RTLUtils.scrollType !== 'reverse' ? -left : left;
     left = direction === 'left' ? -left : left;
 
-    list.scrollBy({left, behavior});
+    $list.scrollBy({left, behavior});
   }
 
-  protected fitToViewport(trigger?: ESLTab, behavior: ScrollBehavior = 'smooth'): void {
-    const list = this.$list;
-    if (!list || !trigger) return;
+  protected fitToViewport($trigger?: ESLTab, behavior: ScrollBehavior = 'smooth'): void {
+    const $list = this.$list;
+    if (!$list || !$trigger) return;
 
-    const areaRect = list.getBoundingClientRect();
-    const itemRect = trigger.getBoundingClientRect();
+    const areaRect = $list.getBoundingClientRect();
+    const itemRect = $trigger.getBoundingClientRect();
 
     let shift = 0;
 
@@ -72,7 +88,7 @@ export class ESLScrollableTabs extends ESLTabsContainer {
         Math.floor(itemRect.left - areaRect.left);
     }
 
-    list.scrollBy({
+    $list.scrollBy({
       left: shift,
       behavior
     });
@@ -81,29 +97,28 @@ export class ESLScrollableTabs extends ESLTabsContainer {
   }
 
   protected updateArrows() {
-    const list = this.$list;
-    if (!list) return;
+    const $list = this.$list;
+    if (!$list) return;
 
-    const hasScroll = list.scrollWidth > this.clientWidth;
+    const hasScroll = $list.scrollWidth > this.clientWidth;
     const swapSides = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'default';
-    const scrollStart = Math.abs(list.scrollLeft) > 1;
-    const scrollEnd = Math.abs(list.scrollLeft) + list.clientWidth + 1 < list.scrollWidth;
+    const scrollStart = Math.abs($list.scrollLeft) > 1;
+    const scrollEnd = Math.abs($list.scrollLeft) + $list.clientWidth + 1 < $list.scrollWidth;
 
-    const rightArrow = this.querySelector('[data-tab-direction="right"]');
-    const leftArrow = this.querySelector('[data-tab-direction="left"]');
+    const $rightArrow = this.querySelector('[data-tab-direction="right"]');
+    const $leftArrow = this.querySelector('[data-tab-direction="left"]');
 
     this.toggleAttribute('has-scroll', hasScroll);
-    leftArrow && leftArrow.toggleAttribute('disabled', !(swapSides ? scrollEnd : scrollStart));
-    rightArrow && rightArrow.toggleAttribute('disabled', !(swapSides ? scrollStart : scrollEnd));
+    $leftArrow && $leftArrow.toggleAttribute('disabled', !(swapSides ? scrollEnd : scrollStart));
+    $rightArrow && $rightArrow.toggleAttribute('disabled', !(swapSides ? scrollStart : scrollEnd));
   }
 
-  protected deferredUpdateArrows = rafDecorator(this.updateArrows.bind(this));
-
-  protected deferredFitToViewport = rafDecorator(this.fitToViewport.bind(this));
+  protected _deferredUpdateArrows = rafDecorator(this.updateArrows.bind(this));
+  protected _deferredFitToViewport = rafDecorator(this.fitToViewport.bind(this));
 
   @bind
-  protected _onScroll() {
-    this.deferredUpdateArrows();
+  protected _onTriggerStateChange() {
+    this._deferredFitToViewport(this.$current);
   }
 
   @bind
@@ -117,20 +132,18 @@ export class ESLScrollableTabs extends ESLTabsContainer {
   }
 
   @bind
-  protected _onTriggerStateChange(event: CustomEvent) {
-    this.deferredFitToViewport(this.current() as ESLTab);
+  protected _onFocus(e: FocusEvent) {
+    const target = e.target;
+    if (target instanceof ESLTab) this._deferredFitToViewport(target);
   }
 
   @bind
-  protected _onFocus(e: FocusEvent) {
-    const target = e.target;
-    if (target instanceof ESLTab) {
-      this.deferredFitToViewport(target);
-    }
+  protected _onScroll() {
+    this._deferredUpdateArrows();
   }
 
   // FIXME
-  protected onResize = rafDecorator(() => {
-    this.deferredFitToViewport(this.current() as ESLTab, 'auto');
+  protected _onResize = rafDecorator(() => {
+    this._deferredFitToViewport(this.$current, 'auto');
   });
 }
