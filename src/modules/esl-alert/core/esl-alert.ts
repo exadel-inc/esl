@@ -21,6 +21,8 @@ export class ESLAlert extends ESLToggleable {
   static is = 'esl-alert';
   static eventNs = 'esl:alert';
 
+  static get observedAttributes() { return ['target']; }
+
   static defaultConfig: AlertActionParams = {
     hideDelay: 2500
   };
@@ -44,6 +46,13 @@ export class ESLAlert extends ESLToggleable {
   protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
     const type = this.constructor as typeof ESLAlert;
     return Object.assign({}, type.defaultConfig, this.defaultParams || {}, params || {});
+  }
+
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+    if (!this.connected) return;
+    if (attrName === 'target') {
+      this.$target = TraversingQuery.first(this.target) as EventTarget;
+    }
   }
 
   protected connectedCallback() {
@@ -90,8 +99,8 @@ export class ESLAlert extends ESLToggleable {
   }
 
   protected onShow(params: AlertActionParams) {
+    CSSUtil.addCls(this, params.cls);
     if (params.text || params.html) {
-      CSSUtil.addCls(this, params.cls);
       if (params.text) {
         this.$text.textContent = params.text;
       } else if (params.html) {
