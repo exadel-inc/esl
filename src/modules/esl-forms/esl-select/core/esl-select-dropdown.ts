@@ -1,5 +1,6 @@
 import {ESLToggleable, ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
 import {bind} from '../../../esl-utils/decorators/bind';
+import {TAB} from '../../../esl-utils/dom/keys';
 import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';
 
@@ -65,17 +66,18 @@ export class ESLSelectDropdown extends ESLToggleable {
   }
   protected onHide(params: ToggleableActionParams) {
     const select = this.activator;
-    select && setTimeout(() => select.focus({ preventScroll: true }), 0);
     super.onHide(params);
     this._disposeTimeout = window.setTimeout(() => {
+      if (this.parentNode !== document.body) return;
       document.body.removeChild(this);
     }, 1000);
+    select && setTimeout(() => select.focus({ preventScroll: true }), 0);
   }
 
   @bind
   protected _onKeyboardEvent(e: KeyboardEvent) {
     super._onKeyboardEvent(e);
-    if (e.key === 'Tab') this._onTabKey(e);
+    if (e.key === TAB) this._onTabKey(e);
   }
 
   protected _onTabKey(e: KeyboardEvent) {
