@@ -1,3 +1,26 @@
+# [2.0.0-beta.18](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.17...v2.0.0-beta.18) (2021-02-18)
+
+
+### Bug Fixes
+
+* esl-alert target attribute change observation fixed ([5226c96](https://github.com/exadel-inc/esl/commit/5226c9653e69547819ebe407e6a75dba9dba012c))
+* select a11y basic improvements ([5c1657d](https://github.com/exadel-inc/esl/commit/5c1657df7d688eb93042c15955152f8e13d9a840))
+
+
+### Features
+
+* support for multiple esl-alerts ([fd99dab](https://github.com/exadel-inc/esl/commit/fd99dabb3e4ae65560c368cf847d89681f464141))
+
+
+* refactor!: cleanup for KeyboardEvent key polyfill and keys usages ([c694727](https://github.com/exadel-inc/esl/commit/c6947279ed913dd712d6df7564810068676dcb05))
+
+
+### BREAKING CHANGES
+
+*  esl-alert should be registered and initialized as separate steps
+ esl-alert now use target (paren by default) to listen events instead of window
+*  `keycodes.ts` constants for deprecated `keycode` removed, `key` property should be used instead
+
 # [2.0.0-beta.17](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.16...v2.0.0-beta.17) (2021-02-11)
 
 
