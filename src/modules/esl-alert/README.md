@@ -11,7 +11,7 @@ ESLAlert is a component to show small notifications on your pages. ESLAlert can 
 ##Usage
 
 First, use the common approach to register component: `ESLAlert.register()`.
-Then you can attach `<esl-alert>` component in the expected place in the document or initialize it globally using `ESLAlert.init` shortcut.
+Then you can attach `<esl-alert>` component to the expected place in the document or initialize it globally by using `ESLAlert.init` shortcut.
 
 ESL Alert listens to DOM alerts to control its state. 
 By default, the target to catch alerts is the `esl-alert` parent element. 
@@ -22,7 +22,7 @@ ESL Alert listens to the following events:
 - `esl:alert:show` to show alert
 - `esl:alert:hide` to hide alert
 
-Use CustomEvent `details` to customize alert. Alert `details` accept the following properties:
+Use CustomEvent `details` to customize alert. Alert `details` accepts the following properties:
 
 - `cls` - to pass class or classes(separated by space) to add to alert inner.
 - `text` - to specify alert text content
