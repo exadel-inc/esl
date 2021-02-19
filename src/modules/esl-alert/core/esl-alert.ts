@@ -1,10 +1,11 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
-import {jsonAttr} from '../../esl-base-element/core';
+import {attr, jsonAttr} from '../../esl-base-element/core';
 import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {createZIndexIframe} from '../../esl-utils/fixes/ie-fixes';
+import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
 export interface AlertActionParams extends ToggleableActionParams {
   /** text to be shown; pass empty string or null to hide */
@@ -20,39 +21,86 @@ export class ESLAlert extends ESLToggleable {
   static is = 'esl-alert';
   static eventNs = 'esl:alert';
 
+  static get observedAttributes() { return ['target']; }
+
   static defaultConfig: AlertActionParams = {
     hideDelay: 2500
   };
 
-  @jsonAttr<AlertActionParams>({defaultValue: ESLAlert.defaultConfig})
+  @attr({defaultValue: '::parent'}) public target: string;
+
+  @jsonAttr<AlertActionParams>()
   public defaultParams: AlertActionParams;
 
   protected $text: HTMLElement;
 
-  /** Register and create global alert instance */
+  private _$target: EventTarget;
+
+  /** Create global alert instance */
   public static init() {
-    if (document.querySelector(ESLAlert.is)) return;
-    ESLAlert.register();
+    if (document.querySelector(`body > ${ESLAlert.is}`)) return;
     const alert = document.createElement(ESLAlert.is) as ESLAlert;
     document.body.appendChild(alert);
   }
 
-  /** Global event handler */
-  @bind
-  onWindowEvent(e: CustomEvent) {
-    if (e.type === `${ESLAlert.eventNs}:show`) {
-      const params = Object.assign({}, e.detail, {force: true});
-      this.show(params);
-    }
-    if (e.type === `${ESLAlert.eventNs}:hide`) {
-      const params = Object.assign({}, {hideDelay: 0}, e.detail, {force: true});
-      this.hide(params);
+  protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
+    const type = this.constructor as typeof ESLAlert;
+    return Object.assign({}, type.defaultConfig, this.defaultParams || {}, params || {});
+  }
+
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+    if (!this.connected) return;
+    if (attrName === 'target') {
+      this.$target = TraversingQuery.first(this.target) as EventTarget;
     }
   }
 
-  public onShow(params: AlertActionParams) {
+  protected connectedCallback() {
+    super.connectedCallback();
+    this.render();
+    if (this.target) {
+      this.$target = TraversingQuery.first(this.target, this) as EventTarget;
+    }
+  }
+
+  protected unbindEvents() {
+    super.unbindEvents();
+    this.unbindTargetEvents();
+  }
+
+  protected render() {
+    this.$text = document.createElement('div');
+    this.$text.className = 'esl-alert-text';
+    this.innerHTML = '';
+    this.appendChild(this.$text);
+    if (DeviceDetector.isIE) {
+      this.appendChild(createZIndexIframe());
+    }
+  }
+
+  public get $target() {
+    return this._$target;
+  }
+  public set $target($el: EventTarget) {
+    this.unbindTargetEvents();
+    this._$target = $el;
+    this.bindTargetEvents();
+  }
+
+  protected bindTargetEvents() {
+    if (!this.$target || !this.connected) return;
+    this.$target.addEventListener(`${ESLAlert.eventNs}:show`, this._onTargetEvent);
+    this.$target.addEventListener(`${ESLAlert.eventNs}:hide`, this._onTargetEvent);
+  }
+  protected unbindTargetEvents() {
+    if (!this.$target) return;
+    this.$target.removeEventListener(`${ESLAlert.eventNs}:show`, this._onTargetEvent);
+    this.$target.removeEventListener(`${ESLAlert.eventNs}:hide`, this._onTargetEvent);
+  }
+
+  protected onShow(params: AlertActionParams) {
+    CSSUtil.addCls(this, params.cls);
     if (params.text || params.html) {
-      CSSUtil.addCls(this, params.cls);
       if (params.text) {
         this.$text.textContent = params.text;
       } else if (params.html) {
@@ -63,34 +111,21 @@ export class ESLAlert extends ESLToggleable {
     this.hide(params);
     return this;
   }
-
-  public onHide(params: AlertActionParams) {
+  protected onHide(params: AlertActionParams) {
     super.onHide(params);
     CSSUtil.removeCls(this, params.cls);
   }
 
-  protected connectedCallback() {
-    super.connectedCallback();
-    this.$text = document.createElement('div');
-    this.$text.className = 'esl-alert-text';
-    this.innerHTML = '';
-    this.appendChild(this.$text);
-    if (DeviceDetector.isIE) {
-      this.appendChild(createZIndexIframe());
+  @bind
+  protected _onTargetEvent(e: CustomEvent) {
+    if (e.type === `${ESLAlert.eventNs}:show`) {
+      const params = Object.assign({}, e.detail, {force: true});
+      this.show(params);
     }
-  }
-
-  protected bindEvents() {
-    super.bindEvents();
-
-    window.addEventListener(`${ESLAlert.eventNs}:show`, this.onWindowEvent);
-    window.addEventListener(`${ESLAlert.eventNs}:hide`, this.onWindowEvent);
-  }
-
-  protected unbindEvents() {
-    super.unbindEvents();
-
-    window.removeEventListener(`${ESLAlert.eventNs}:show`, this.onWindowEvent);
-    window.removeEventListener(`${ESLAlert.eventNs}:hide`, this.onWindowEvent);
+    if (e.type === `${ESLAlert.eventNs}:hide`) {
+      const params = Object.assign({}, {hideDelay: 0}, e.detail, {force: true});
+      this.hide(params);
+    }
+    e.stopPropagation();
   }
 }

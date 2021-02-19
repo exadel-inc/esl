@@ -1,34 +1,53 @@
 # [ESL](../../../README.md) Alert
 
-Version: *1.0.0-beta*.
-
-***Important Notice: the component is under beta version, it tested and ready to use but be aware of its potential critical API changes.***
+Version: *1.0.0*.
 
 Authors: *Julia Murashko*.
 
-ESLAlert is a simple component to show small notifications on your pages.
+ESLAlert is a component to show small notifications on your pages. ESLAlert can have multiple instances on the page.
 
 ---
 
 ##Usage
 
-First of all, register component using static `ESLAlert.init` method.
-Then the following events can be dispatched globally (on window) to control alert: 
+First, use the common approach to register component: `ESLAlert.register()`.
+Then you can attach `<esl-alert>` component to the expected place in the document or initialize it globally by using `ESLAlert.init` shortcut.
+
+ESL Alert listens to DOM alerts to control its state. 
+By default, the target to catch alerts is the `esl-alert` parent element. 
+Target can be changed using `target` attribute with the [TraversingQuery](../esl-traversing-query/README.md) support, 
+or through the `$target` property that accepts any EventTarget instance (including the window). 
+
+ESL Alert listens to the following events: 
 - `esl:alert:show` to show alert
 - `esl:alert:hide` to hide alert
 
-Use custom event details to customize alert.
+Use CustomEvent `details` to customize alert. Alert `details` accepts the following properties:
 
-Description TBD.
+- `cls` - to pass class or classes(separated by space) to add to alert inner.
+- `text` - to specify alert text content
+- `html` - to alternatively specify alert HTML content
+
+If one of `esl-alert`s catches the activation event it will prevent its propagation to parent elements.
 
 ## Example
+```html
+<body>
+  <div class="container">
+    ...
+    <my-component></my-component>
+    ...
+  </div>
+  <esl-alert></esl-alert>
+</body>
+```
 
 ```javascript
-window.dispatchEvent(new CustomEvent(`esl:alert:show`, {
+// my-component
+this.dispatchEvent(new CustomEvent(`esl:alert:show`, {
     detail: {
        text: 'Hello World',
        cls: 'alert alert-info'
     }
 }));
 ```
-

@@ -57,6 +57,7 @@ ESLTabsContainer.register();
 ESLScrollableTabs.register();
 
 ESLScrollbar.register();
+ESLAlert.register();
 ESLAlert.init();
 
 ESLSelectList.register();
