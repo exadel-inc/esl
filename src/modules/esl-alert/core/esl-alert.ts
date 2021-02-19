@@ -14,6 +14,8 @@ export interface AlertActionParams extends ToggleableActionParams {
   html?: string;
   /** classes to add to alert element */
   cls?: string;
+  /** timeout to clear classes */
+  hideTime?: number;
 }
 
 @ExportNs('Alert')
@@ -21,9 +23,12 @@ export class ESLAlert extends ESLToggleable {
   static is = 'esl-alert';
   static eventNs = 'esl:alert';
 
-  static get observedAttributes() { return ['target']; }
+  static get observedAttributes() {
+    return ['target'];
+  }
 
   static defaultConfig: AlertActionParams = {
+    hideTime: 300,
     hideDelay: 2500
   };
 
@@ -32,7 +37,8 @@ export class ESLAlert extends ESLToggleable {
   @jsonAttr<AlertActionParams>()
   public defaultParams: AlertActionParams;
 
-  protected $text: HTMLElement;
+  protected $content: HTMLElement;
+  protected activeCls?: string;
 
   private _$target: EventTarget;
 
@@ -57,7 +63,12 @@ export class ESLAlert extends ESLToggleable {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.render();
+    this.setAttribute('role', this.getAttribute('role') || 'alert');
+    this.$content = document.createElement('div');
+    this.$content.className = 'esl-alert-content';
+    this.innerHTML = '';
+    this.appendChild(this.$content);
+    if (DeviceDetector.isIE) this.appendChild(createZIndexIframe());
     if (this.target) {
       this.$target = TraversingQuery.first(this.target, this) as EventTarget;
     }
@@ -66,16 +77,6 @@ export class ESLAlert extends ESLToggleable {
   protected unbindEvents() {
     super.unbindEvents();
     this.unbindTargetEvents();
-  }
-
-  protected render() {
-    this.$text = document.createElement('div');
-    this.$text.className = 'esl-alert-text';
-    this.innerHTML = '';
-    this.appendChild(this.$text);
-    if (DeviceDetector.isIE) {
-      this.appendChild(createZIndexIframe());
-    }
   }
 
   public get $target() {
@@ -99,21 +100,26 @@ export class ESLAlert extends ESLToggleable {
   }
 
   protected onShow(params: AlertActionParams) {
-    CSSUtil.addCls(this, params.cls);
-    if (params.text || params.html) {
-      if (params.text) {
-        this.$text.textContent = params.text;
-      } else if (params.html) {
-        this.$text.innerHTML = params.html;
-      }
+    if (params.html || params.text) {
+      this.render(params);
       super.onShow(params);
     }
     this.hide(params);
-    return this;
   }
   protected onHide(params: AlertActionParams) {
     super.onHide(params);
-    CSSUtil.removeCls(this, params.cls);
+    setTimeout(() => this.clear(), params.hideTime);
+  }
+
+  protected render({text, html, cls}: AlertActionParams) {
+    CSSUtil.removeCls(this, this.activeCls);
+    CSSUtil.addCls(this, this.activeCls = cls);
+    if (html) this.$content.innerHTML = html;
+    if (text) this.$content.textContent = text;
+  }
+  protected clear() {
+    this.$content.innerHTML = '';
+    CSSUtil.removeCls(this, this.activeCls);
   }
 
   @bind
