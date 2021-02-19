@@ -1,3 +1,10 @@
+# [2.0.0-beta.19](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.18...v2.0.0-beta.19) (2021-02-19)
+
+
+### Bug Fixes
+
+* esl-alert a11y and post animate cleanup ([7646ffb](https://github.com/exadel-inc/esl/commit/7646ffb70eb46bc786a5f5153b8352b18907deaa))
+
 # [2.0.0-beta.18](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.17...v2.0.0-beta.18) (2021-02-18)
 
 
