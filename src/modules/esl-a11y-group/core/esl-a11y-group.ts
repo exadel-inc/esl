@@ -23,7 +23,7 @@ export class ESLA11yGroup extends ESLBaseElement {
    * @returns {HTMLElement[]} targets of plugin
    */
   public get $targets(): HTMLElement[] {
-    return TraversingQuery.all(this.targets, this) as [];
+    return TraversingQuery.all(this.targets, this.$parent) as [];
   }
 
   protected connectedCallback() {

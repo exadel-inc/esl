@@ -7,6 +7,6 @@ Authors: *Julia Murashko*.
 
 ESLTab - custom element, extended ESLTrigger that is used as a Tab trigger element.
 
-ESLTabsContainer - custom element, container to control tabs (render group a11y).
+ESLTabs - custom element, container to control tabs
 
 Description TBD.

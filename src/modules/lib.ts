@@ -15,7 +15,7 @@ import type {ESLTrigger} from './esl-trigger/core/esl-trigger';
 import type {ESLTab} from './esl-tab/core/esl-tab';
 import type {ESLPanel} from './esl-panel/core/esl-panel';
 import type {ESLPanelGroup} from './esl-panel/core/esl-panel-group';
-import type {ESLTabsContainer} from './esl-tab/core/esl-tabs-container';
+import type {ESLTabs} from './esl-tab/core/esl-tabs';
 import type {ESLScrollableTabs} from './esl-scrollable-tabs/core/esl-scrollable-tabs';
 
 import type {ESLSelect, ESLSelectList, ESLSelectItem} from './esl-forms/all';
@@ -50,7 +50,7 @@ declare global {
     Tab?: typeof ESLTab;
     Panel?: typeof ESLPanel;
     PanelGroup?: typeof ESLPanelGroup;
-    TabsContainer?: typeof ESLTabsContainer;
+    TabsContainer?: typeof ESLTabs;
     ScrollableTabs?: typeof ESLScrollableTabs;
 
     Select?: typeof ESLSelect;

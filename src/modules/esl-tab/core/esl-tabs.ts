@@ -2,8 +2,8 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core/esl-base-element';
 import {attr} from '../../esl-base-element/decorators/attr';
 
-@ExportNs('TabsContainer')
-export class ESLTabsContainer extends ESLBaseElement {
+@ExportNs('Tabs')
+export class ESLTabs extends ESLBaseElement {
   public static is = 'esl-tabs-container';
 
   @attr({defaultValue: '::parent::find(esl-tab)'}) public targets: string;

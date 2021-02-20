@@ -4,10 +4,10 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
 
-import {ESLTab, ESLTabsContainer} from '../../esl-tab/core';
+import {ESLTab, ESLTabs} from '../../esl-tab/core';
 
 @ExportNs('ScrollableTabs')
-export class ESLScrollableTabs extends ESLTabsContainer {
+export class ESLScrollableTabs extends ESLTabs {
   public static is = 'esl-scrollable-tabs';
 
   @attr({defaultValue: '.esl-tab-list'}) public list: string;

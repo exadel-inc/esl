@@ -16,7 +16,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         display: block;
       }
 
-      .esl-tabs-container {
+      .esl-tabs {
         display: none;
       }
     }
@@ -25,7 +25,8 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
   <div class="col-12">
     <h2> Tabs Component </h2>
     <div class="tabs">
-      <esl-tabs-container class="tabs-container">
+      <esl-tabs class="tabs-container">
+        <esl-a11y-group targets="::find(esl-tab)" click-on-active></esl-a11y-group>
 
         <div class="arrow-prev" data-tab-direction="left">
           <span class="icon-arrow-prev"></span>
@@ -94,7 +95,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
           <span class="icon-arrow-next"></span>
         </div>
 
-      </esl-tabs-container>
+      </esl-tabs>
 
       <esl-panel-group fade-animation accordion-transformation="@XS">
         <esl-a11y-group targets="::parent::child(esl-trigger)"></esl-a11y-group>
@@ -117,7 +118,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
             <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
               ad
               squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-            <esl-tabs-container class="tabs-container">
+            <esl-tabs class="tabs-container">
               <esl-a11y-group targets="::parent::find(esl-tab)" click-on-active="true"></esl-a11y-group>
 
               <div class="arrow-prev" data-tab-direction="left">
@@ -187,7 +188,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                 <span class="icon-arrow-next"></span>
               </div>
 
-            </esl-tabs-container>
+            </esl-tabs>
 
             <esl-panel-group fade-animation accordion-transformation="@XS">
               <esl-a11y-group targets="::parent::find(esl-trigger)"></esl-a11y-group>
@@ -546,7 +547,8 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
     </style>
     <h2> Tabs Component </h2>
     <div class="tabs tabs-2">
-      <esl-tabs-container class="tabs-container">
+      <esl-tabs class="tabs-container">
+        <esl-a11y-group targets="::find(esl-tab)" click-on-active></esl-a11y-group>
 
         <div class="arrow-prev" data-tab-direction="left">
           <span class="icon-arrow-prev"></span>
@@ -615,10 +617,10 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
           <span class="icon-arrow-next"></span>
         </div>
 
-      </esl-tabs-container>
+      </esl-tabs>
 
       <esl-panel-group fade-animation accordion-transformation="@XS">
-        <esl-a11y-group targets="::parent::child(esl-trigger)"></esl-a11y-group>
+        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
 
         <esl-trigger class="card-header accordion-trigger"
                      target="::next"
@@ -792,8 +794,8 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
     </style>
     <h2> Tabs Component </h2>
     <div class="tabs tabs-3">
-      <esl-tabs-container class="tabs-container">
-        <esl-a11y-group targets="::parent::find(esl-tab)" click-on-active="true"></esl-a11y-group>
+      <esl-tabs class="tabs-container">
+        <esl-a11y-group targets="::find(esl-tab)" click-on-active></esl-a11y-group>
 
         <div class="arrow-prev" data-tab-direction="left">
           <span class="icon-arrow-prev"></span>
@@ -829,10 +831,10 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         <div class="arrow-next" data-tab-direction="right">
           <span class="icon-arrow-next"></span>
         </div>
-      </esl-tabs-container>
+      </esl-tabs>
 
       <esl-panel-group fade-animation accordion-transformation="@XS">
-        <esl-a11y-group targets="::parent::child(esl-trigger)"></esl-a11y-group>
+        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
 
         <esl-trigger class="card-header accordion-trigger"
                      target="::next"

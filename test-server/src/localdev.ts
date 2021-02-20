@@ -20,7 +20,7 @@ import {
   ESLPanelGroup,
   ESLTrigger,
   ESLA11yGroup,
-  ESLTabsContainer,
+  ESLTabs,
   ESLTab,
   ESLScrollableTabs,
   ESLScrollbar,
@@ -53,7 +53,7 @@ ESLTrigger.register();
 ESLTab.register();
 
 ESLA11yGroup.register();
-ESLTabsContainer.register();
+ESLTabs.register();
 ESLScrollableTabs.register();
 
 ESLScrollbar.register();
