@@ -15,7 +15,6 @@ export * from './esl-trigger/core';
 export * from './esl-panel/core';
 
 export * from './esl-tab/core';
-export * from './esl-scrollable-tabs/core';
 
 export * from './esl-scrollbar/core';
 

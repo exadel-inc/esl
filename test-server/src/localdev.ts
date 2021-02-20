@@ -22,7 +22,6 @@ import {
   ESLA11yGroup,
   ESLTabs,
   ESLTab,
-  ESLScrollableTabs,
   ESLScrollbar,
   ESLAlert,
   ESLToggleableDispatcher,
@@ -54,7 +53,6 @@ ESLTab.register();
 
 ESLA11yGroup.register();
 ESLTabs.register();
-ESLScrollableTabs.register();
 
 ESLScrollbar.register();
 ESLAlert.register();
