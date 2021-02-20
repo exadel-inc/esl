@@ -32,7 +32,7 @@ export class ESLPanel extends ESLToggleable {
     return this._initialHeight;
   }
 
-  public get stack(): ESLPanelGroup | null {
+  public get $group(): ESLPanelGroup | null {
     return this.closest(ESLPanelGroup.is);
   }
 
@@ -107,7 +107,7 @@ export class ESLPanel extends ESLToggleable {
 
   /** The panels use panel stack config for actions */
   protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
-    const stackConfig = this.stack?.panelConfig || {};
+    const stackConfig = this.$group?.panelConfig || {};
     return Object.assign({}, stackConfig, this.defaultParams, params || {});
   }
 }
