@@ -8,12 +8,15 @@
   & [esl-select-target] {
     /* Visually hidden */
     position: absolute;
-    width: 0;
-    height: 0;
     border: 0;
     padding: 0;
     overflow: hidden;
+    opacity: 0;
     clip: rect(0,0,0,0);
+
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
   }
 
   &[disabled] {
@@ -50,5 +53,9 @@
   }
   &[open] .esl-select-renderer::after {
     transform: rotateX(180deg);
+  }
+
+  [esl-select-target]:invalid + .esl-select-renderer {
+    border: @esl-select-invlalid-border;
   }
 }

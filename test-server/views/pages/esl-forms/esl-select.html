@@ -639,6 +639,7 @@ title: ESL Select
         </div>
         <div class="form-group">
           <button class="btn btn-primary">Submit</button>
+          <button type="reset" class="btn btn-danger">Reset</button>
         </div>
       </form>
     </div>
@@ -654,13 +655,13 @@ title: ESL Select
         function upd() {
           var data = {};
           var formData = new FormData(form);
-          formData.forEach(((value, key) => {
+          formData.forEach(function (value, key) {
             if (key in data) {
               data[key] = [].concat(data[key]).concat(value);
             } else {
               data[key] = value;
             }
-          }));
+          });
 
           info.textContent = JSON.stringify(data, null, 2);
           info.removeAttribute('hidden');

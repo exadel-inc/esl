@@ -66,13 +66,13 @@ export class ESLSelectRenderer extends ESLBaseElement {
 
   protected bindEvents() {
     if (!this.owner) return;
-    this.owner.addEventListener('change', this.render);
+    this.owner.addEventListener('esl:change:value', this.render);
     this.$remove.addEventListener('click', this._onClear);
     window.addEventListener('resize', this._deferredRerender);
   }
   protected unbindEvents() {
     if (!this.owner) return;
-    this.owner.removeEventListener('change', this.render);
+    this.owner.removeEventListener('esl:change:value', this.render);
     this.$remove.removeEventListener('click', this._onClear);
     window.removeEventListener('resize', this._deferredRerender);
   }
@@ -81,7 +81,7 @@ export class ESLSelectRenderer extends ESLBaseElement {
   @bind
   public render() {
     if (!this.owner) return;
-    const selected = this.owner.selected;
+    const selected = this.owner.selectedOptions;
     this.hasValue = !!selected.length;
     this.toggleAttribute('multiple', this.owner.multiple);
     this.applyItems(selected.map((item) => item.text));
