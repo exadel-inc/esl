@@ -16,39 +16,38 @@ export class ESLTabs extends ESLBaseElement {
   // TODO: think about update of arrows
   protected connectedCallback() {
     super.connectedCallback();
-    this.bindEvents();
+    this.bindScrollableEvents();
 
-    if (this.scrollable) {
-      this.updateArrows();
-      this._deferredFitToViewport(this.$current, 'auto');
-    }
+    this.updateScroll();
   }
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
-    this.unbindEvents();
+    this.unbindScrollableEvents();
   }
 
-  protected bindEvents() {
-    if (this.scrollable) {
-      this.addEventListener('esl:change:active', this._onTriggerStateChange);
-      this.addEventListener('click', this._onClick, false);
-      this.addEventListener('focusin', this._onFocus);
-      this.$container?.addEventListener('scroll', this._onScroll, {passive: true});
+  protected bindScrollableEvents() {
+    this.addEventListener('esl:change:active', this._onTriggerStateChange);
+    this.addEventListener('click', this._onClick, false);
+    this.addEventListener('focusin', this._onFocus);
+    this.$container?.addEventListener('scroll', this._onScroll, {passive: true});
 
-      window.addEventListener('resize', this._onResize);
-    }
+    window.addEventListener('resize', this._onResize);
   }
-  protected unbindEvents() {
-    if (this.scrollable) {
-      this.removeEventListener('esl:change:active', this._onTriggerStateChange);
-      this.removeEventListener('click', this._onClick, false);
-      this.removeEventListener('focusin', this._onFocus);
-      this.$container?.removeEventListener('scroll', this._onScroll);
+  protected unbindScrollableEvents() {
+    this.removeEventListener('esl:change:active', this._onTriggerStateChange);
+    this.removeEventListener('click', this._onClick, false);
+    this.removeEventListener('focusin', this._onFocus);
+    this.$container?.removeEventListener('scroll', this._onScroll);
 
-      window.removeEventListener('resize', this._onResize);
-    }
+    window.removeEventListener('resize', this._onResize);
   }
+
+  protected updateScroll() {
+    this.updateArrows();
+    this._deferredFitToViewport(this.$current, 'auto');
+  }
+
 
   public get $tabs(): ESLTab[] {
     const els = this.querySelectorAll(ESLTab.is);
