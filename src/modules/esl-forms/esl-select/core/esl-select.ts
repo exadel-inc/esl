@@ -3,6 +3,7 @@ import {bind} from '../../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../../esl-utils/dom/styles';
 import {ENTER, SPACE} from '../../../esl-utils/dom/keys';
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
+import {EventUtils} from '../../../esl-utils/dom/events';
 
 import {ESLSelectRenderer} from './esl-select-renderer';
 import {ESLSelectDropdown} from './esl-select-dropdown';
@@ -38,13 +39,13 @@ export class ESLSelect extends ESLSelectWrapper {
   /** Pin to top marker */
   @boolAttr() public pinSelected: boolean;
 
-  protected $text: ESLSelectRenderer;
+  protected $renderer: ESLSelectRenderer;
   protected $dropdown: ESLSelectDropdown;
 
   constructor() {
     super();
 
-    this.$text = document.createElement(ESLSelectRenderer.is) as ESLSelectRenderer;
+    this.$renderer = document.createElement(ESLSelectRenderer.is) as ESLSelectRenderer;
     this.$dropdown = document.createElement(ESLSelectDropdown.is) as ESLSelectDropdown;
   }
 
@@ -89,15 +90,15 @@ export class ESLSelect extends ESLSelectWrapper {
   }
 
   protected _prepare() {
-    this.$text.className = this.$select.className;
-    this.$text.emptyText = this.emptyText;
-    this.$text.moreLabelFormat = this.moreLabelFormat;
+    this.$renderer.className = this.$select.className;
+    this.$renderer.emptyText = this.emptyText;
+    this.$renderer.moreLabelFormat = this.moreLabelFormat;
     this.$dropdown.owner = this;
-    this.appendChild(this.$text);
+    this.appendChild(this.$renderer);
   }
   protected _dispose() {
-    this.$select.className = this.$text.className;
-    this.removeChild(this.$text);
+    this.$select.className = this.$renderer.className;
+    this.removeChild(this.$renderer);
   }
 
   protected _updateDisabled() {
@@ -110,6 +111,7 @@ export class ESLSelect extends ESLSelectWrapper {
   @bind
   protected _onChange(event: Event) {
     this._onUpdate();
+    EventUtils.dispatch(this, 'esl:value:change', {detail: {event}});
   }
 
   @bind
