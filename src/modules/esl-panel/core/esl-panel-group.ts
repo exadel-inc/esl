@@ -3,26 +3,38 @@ import {attr, ESLBaseElement} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {bind} from '../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../esl-utils/dom/styles';
-import {ESLMediaQuery} from '../../esl-media-query/core';
-
+import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLPanel} from './esl-panel';
 
 @ExportNs('PanelGroup')
 export class ESLPanelGroup extends ESLBaseElement {
   public static is = 'esl-panel-group';
 
-  @attr() public accordionTransformation: string;
+  @attr() public mode: string;
   @attr({defaultValue: 'animate'}) public animationClass: string;
   @attr({defaultValue: 'accordion'}) public accordionClass: string;
   @attr({defaultValue: 'auto'}) public fallbackDuration: number;
 
+
+  private _currentMode: string | null;
+  private _modeRules: ESLMediaRuleList<string>;
   protected _previousHeight: number = 0;
-  protected _transformationQuery: ESLMediaQuery;
+
+
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+    if (!this.connected || oldVal === newVal) return;
+    if (attrName === 'mode') {
+      this.modeRules = ESLMediaRuleList.parse<string>(newVal, ESLMediaRuleList.STRING_PARSER);
+      this.update();
+    }
+  }
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.onModeChange();
     this.bindEvents();
+
+    this.modeRules.addListener(this._onModeChange);
+    this.update(true);
   }
 
   protected disconnectedCallback() {
@@ -73,7 +85,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected _onShow(e: CustomEvent) {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
-    if (this.isAccordion) return;
+    if (this.currentMode !== 'tabs') return;
 
     this.beforeAnimate();
     this.onAnimate(this._previousHeight, panel.initialHeight);
@@ -118,35 +130,46 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
-  get transformationQuery() {
-    if (!this._transformationQuery) {
-      const query = this.accordionTransformation || ESLMediaQuery.NOT_ALL;
-      this.transformationQuery = new ESLMediaQuery(query);
-    }
-    return this._transformationQuery;
-  }
-  set transformationQuery(query) {
-    if (this._transformationQuery) {
-      this._transformationQuery.removeListener(this.onModeChange);
-    }
-    this._transformationQuery = query;
-    this._transformationQuery.addListener(this.onModeChange);
-  }
-
-  /** Check if mode is accordion */
-  get isAccordion() {
-    return this.transformationQuery.matches;
-  }
-
   /** Get config that is used to form result panel action params */
   get panelConfig() {
     return {
-      noCollapse: !this.isAccordion
+      noCollapse: this.currentMode === 'tabs'
     };
   }
 
-  /** Toggle accordion class according to mode */
-  protected onModeChange = () => {
-    CSSUtil.toggleClsTo(this, this.accordionClass, this.isAccordion);
-  };
+
+  public get modeRules() {
+    if (!this._modeRules) {
+      this.modeRules = ESLMediaRuleList.parse<string>(this.mode, ESLMediaRuleList.STRING_PARSER);
+    }
+    return this._modeRules;
+  }
+
+  public set modeRules(rules: ESLMediaRuleList<string>) {
+    if (this._modeRules) {
+      this._modeRules.removeListener(this._onModeChange);
+    }
+    this._modeRules = rules;
+    this._modeRules.addListener(this._onModeChange);
+  }
+
+  public get currentMode() {
+    return this._currentMode;
+  }
+
+  /** Update component according to mode */
+  @bind
+  private _onModeChange() {
+    this.update();
+  }
+
+  protected update(force: boolean = false) {
+    const rule = this.modeRules.active;
+    const mode = rule.payload;
+
+    if (this._currentMode !== mode || force) {
+      this._currentMode = mode || 'accordion';
+      CSSUtil.toggleClsTo(this, this.accordionClass, this.currentMode !== 'tabs');
+    }
+  }
 }
