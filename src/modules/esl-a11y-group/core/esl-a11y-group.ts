@@ -14,16 +14,16 @@ export class ESLA11yGroup extends ESLBaseElement {
   @boolAttr({}) public clickOnActive: boolean;
 
   /**
-   * @returns {HTMLElement} parent element of this
+   * @returns {HTMLElement} root element of this
    */
-  public get $parent(): HTMLElement {
+  public get $root(): HTMLElement {
     return this.parentElement as HTMLElement;
   }
   /**
    * @returns {HTMLElement[]} targets of plugin
    */
   public get $targets(): HTMLElement[] {
-    return TraversingQuery.all(this.targets, this.$parent) as [];
+    return TraversingQuery.all(this.targets, this.$root) as [];
   }
 
   protected connectedCallback() {
@@ -35,10 +35,10 @@ export class ESLA11yGroup extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    this.$parent.addEventListener('keydown', this._onKeydown);
+    this.$root.addEventListener('keydown', this._onKeydown);
   }
   protected unbindEvents() {
-    this.$parent.removeEventListener('keydown', this._onKeydown);
+    this.$root.removeEventListener('keydown', this._onKeydown);
   }
 
   @bind
