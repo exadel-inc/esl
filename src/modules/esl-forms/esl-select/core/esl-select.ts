@@ -111,7 +111,7 @@ export class ESLSelect extends ESLSelectWrapper {
   @bind
   protected _onChange(event: Event) {
     this._onUpdate();
-    EventUtils.dispatch(this, 'esl:value:change', {detail: {event}});
+    EventUtils.dispatch(this, 'esl:change:value', {detail: {event}});
   }
 
   @bind
