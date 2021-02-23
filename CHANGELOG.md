@@ -1,3 +1,13 @@
+# [2.0.0-beta.21](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.20...v2.0.0-beta.21) (2021-02-23)
+  
+### Features
+- Introduce new ESLA11yGroup component ([e354d2d](https://github.com/exadel-inc/esl/commit/e354d2daef1e7368426a2b3a794189c69c0936a7))
+
+### BREAKING CHANGES
+- Rename ESLPanelStack to ESLPanelGroup ([e354d2d](https://github.com/exadel-inc/esl/commit/e354d2daef1e7368426a2b3a794189c69c0936a7))
+- ESLTabsContainer renamed to ESLTabs ([e354d2d](https://github.com/exadel-inc/esl/commit/e354d2daef1e7368426a2b3a794189c69c0936a7))
+- ESLScrollableTabs removed functionality moved under ESLTabs scrollable feature ([e354d2d](https://github.com/exadel-inc/esl/commit/e354d2daef1e7368426a2b3a794189c69c0936a7))
+
 # [2.0.0-beta.20](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.19...v2.0.0-beta.20) (2021-02-22)
 
 
