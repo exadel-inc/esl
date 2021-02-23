@@ -15,11 +15,8 @@ export class ESLPanelGroup extends ESLBaseElement {
   @attr({defaultValue: 'accordion'}) public accordionClass: string;
   @attr({defaultValue: 'auto'}) public fallbackDuration: number;
 
-
-  private _currentMode: string | null;
   private _modeRules: ESLMediaRuleList<string>;
   protected _previousHeight: number = 0;
-
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected || oldVal === newVal) return;
@@ -34,11 +31,13 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.bindEvents();
 
     this.modeRules.addListener(this._onModeChange);
-    this.update(true);
+    this.update();
   }
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
+    this.modeRules.removeListener(this._onModeChange);
+
     this.unbindEvents();
   }
 
@@ -131,12 +130,11 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Get config that is used to form result panel action params */
-  get panelConfig() {
+  public get panelConfig() {
     return {
       noCollapse: this.currentMode === 'tabs'
     };
   }
-
 
   public get modeRules() {
     if (!this._modeRules) {
@@ -154,7 +152,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   public get currentMode() {
-    return this._currentMode;
+    return this.modeRules.activeValue;
   }
 
   /** Update component according to mode */
@@ -163,13 +161,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.update();
   }
 
-  protected update(force: boolean = false) {
-    const rule = this.modeRules.active;
-    const mode = rule.payload;
-
-    if (this._currentMode !== mode || force) {
-      this._currentMode = mode || 'accordion';
+  protected update() {
       CSSUtil.toggleClsTo(this, this.accordionClass, this.currentMode !== 'tabs');
-    }
   }
 }

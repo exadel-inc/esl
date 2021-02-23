@@ -11,7 +11,7 @@ export class ESLA11yGroup extends ESLBaseElement {
   public static is = 'esl-a11y-group';
 
   @attr({defaultValue: '::child'}) public targets: string;
-  @boolAttr({}) public clickOnActive: boolean;
+  @boolAttr({}) public activateSelected: boolean;
 
   /**
    * @returns {HTMLElement} root element of this
@@ -31,6 +31,7 @@ export class ESLA11yGroup extends ESLBaseElement {
     this.bindEvents();
   }
   protected disconnectedCallback() {
+    super.disconnectedCallback();
     this.unbindEvents();
   }
 
@@ -66,7 +67,7 @@ export class ESLA11yGroup extends ESLBaseElement {
     const targetEl = this[target](from);
     if (!targetEl) return;
     targetEl.focus();
-    this.clickOnActive && targetEl.click();
+    this.activateSelected && targetEl.click();
   }
 
   /**
