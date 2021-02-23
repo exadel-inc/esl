@@ -17,12 +17,11 @@ import {
   ESLMedia,
   ESLPopup,
   ESLPanel,
-  ESLPanelStack,
+  ESLPanelGroup,
   ESLTrigger,
-  ESLTriggersContainer,
+  ESLA11yGroup,
+  ESLTabs,
   ESLTab,
-  ESLTabsContainer,
-  ESLScrollableTabs,
   ESLScrollbar,
   ESLAlert,
   ESLToggleableDispatcher,
@@ -47,14 +46,13 @@ ESLMedia.register();
 ESLToggleableDispatcher.init();
 ESLPopup.register();
 ESLPanel.register();
-ESLPanelStack.register();
+ESLPanelGroup.register();
 
 ESLTrigger.register();
 ESLTab.register();
 
-ESLTriggersContainer.register();
-ESLTabsContainer.register();
-ESLScrollableTabs.register();
+ESLA11yGroup.register();
+ESLTabs.register();
 
 ESLScrollbar.register();
 ESLAlert.register();
