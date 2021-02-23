@@ -1,4 +1,4 @@
-esl-panel-stack {
+esl-panel-group {
   @animationTime: .5s;
 
   display: block;
@@ -22,7 +22,7 @@ esl-panel-stack {
 }
 
 // fix a11y
-esl-panel-stack:not(.animate) esl-panel:not(.open) {
+esl-panel-group:not(.animate) esl-panel:not(.open) {
   * {
     visibility: hidden !important;
   }

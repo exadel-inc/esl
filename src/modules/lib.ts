@@ -7,16 +7,15 @@ import type {ESLMedia} from './esl-media/core/esl-media';
 
 import type {ESLScrollbar} from './esl-scrollbar/core/esl-scrollbar';
 
+import type {ESLA11yGroup} from './esl-a11y-group/core/esl-a11y-group';
 import type {ESLToggleableDispatcher} from './esl-toggleable/core/esl-toggleable-dispatcher';
 import type {ESLToggleable} from './esl-toggleable/core/esl-toggleable';
 import type {ESLPopup} from './esl-popup/core/esl-popup';
 import type {ESLTrigger} from './esl-trigger/core/esl-trigger';
 import type {ESLTab} from './esl-tab/core/esl-tab';
-import type {ESLTriggersContainer} from './esl-trigger/core/esl-triggers-container';
 import type {ESLPanel} from './esl-panel/core/esl-panel';
-import type {ESLPanelStack} from './esl-panel/core/esl-panel-stack';
-import type {ESLTabsContainer} from './esl-tab/core/esl-tabs-container';
-import type {ESLScrollableTabs} from './esl-scrollable-tabs/core/esl-scrollable-tabs';
+import type {ESLPanelGroup} from './esl-panel/core/esl-panel-group';
+import type {ESLTabs} from './esl-tab/core/esl-tabs';
 
 import type {ESLSelect, ESLSelectList, ESLSelectItem} from './esl-forms/all';
 
@@ -42,16 +41,15 @@ declare global {
     Media?: typeof ESLMedia;
     Scrollbar?: typeof ESLScrollbar;
 
+    A11yGroup?: typeof ESLA11yGroup;
     ToggleableGroupDispatcher?: typeof ESLToggleableDispatcher;
     Toggleable?: typeof ESLToggleable;
     Popup?: typeof ESLPopup;
     Trigger?: typeof ESLTrigger;
     Tab?: typeof ESLTab;
     Panel?: typeof ESLPanel;
-    PanelStack?: typeof ESLPanelStack;
-    TriggersContainer?: typeof ESLTriggersContainer;
-    TabsContainer?: typeof ESLTabsContainer;
-    ScrollableTabs?: typeof ESLScrollableTabs;
+    PanelGroup?: typeof ESLPanelGroup;
+    TabsContainer?: typeof ESLTabs;
 
     Select?: typeof ESLSelect;
     SelectList?: typeof ESLSelectList;
