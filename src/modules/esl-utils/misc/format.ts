@@ -40,7 +40,7 @@ export function evaluate(str: string, defaultValue?: any): any {
 
 /** Replace '{key}' patterns in the string from the source object */
 export function format(str: string, source: Record<string, any>) {
-  return str.replace(/{([\w.]+)}/, (match, key) => {
+  return str.replace(/{([\w.]+)}/g, (match, key) => {
     const val = get(source, key);
     return val === undefined ? match : val;
   });
