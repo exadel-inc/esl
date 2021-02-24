@@ -1,3 +1,29 @@
+# [2.0.0-beta.21](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.20...v2.0.0-beta.21) (2021-02-24)
+
+
+### Bug Fixes
+
+* format utility support for multiple replacements ([3d8a6e7](https://github.com/exadel-inc/esl/commit/3d8a6e7ddec1a201de90262d69f4e269c810e614))
+
+
+### Features
+
+* **memoize:** add func cash for class instances ([f4dd895](https://github.com/exadel-inc/esl/commit/f4dd895c1dbb4dbb335ff0d75403b9cdee2b3dd2))
+
+
+* chore!: history fixup commit ([c9efe88](https://github.com/exadel-inc/esl/commit/c9efe88ae6f3ffeefeedde3dc9486ad3b44f4d2a))
+
+
+### BREAKING CHANGES
+
+*   Rename ESLPanelStack to ESLPanelGroup
+
+- Introduce new ESLA11yGroup component
+
+- ESLTabsContainer renamed to ESLTabs
+
+- ESLScrollableTabs removed functionality moved under ESLTabs scrollable feature
+
 # [2.0.0-beta.21](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.20...v2.0.0-beta.21) (2021-02-23)
   
 ### Features
