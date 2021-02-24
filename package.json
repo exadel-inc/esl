@@ -12,7 +12,7 @@
   "module": "dist/playground.js",
   "types": "dist/playground.d.ts",
   "scripts": {
-    "test": "test",
+    "test": "tsc",
     "build:ts": "tsc"
   },
   "repository": {
@@ -32,11 +32,21 @@
   "homepage": "https://github.com/exadel-inc/ui-playground#readme",
   "dependencies": {
     "@exadel/esl": "https://github.com/exadel-inc/esl/releases/download/v2.0.0-beta.21/exadel-esl-2.0.0-beta.21.tgz",
-    "@types/js-beautify": "^1.13.1",
     "brace": "^0.11.1",
     "js-beautify": "^1.13.5"
   },
   "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@exadel/server-sketch": "git+https://github.com/exadel-inc/server-sketch.git",
+    "@types/js-beautify": "^1.13.1",
+    "husky": "^5.1.1",
     "typescript": "^4.2.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
