@@ -1,0 +1,19 @@
+# IDE
+.idea
+*.iml
+*.ipr
+*.iws
+.DS_Store
+
+# Libs
+node_modules
+
+# Generated surces
+/dist
+
+# Logs & Tmp
+npm-debug.log
+.gitconfig
+
+# Jest & Sonar
+/.scannerwork
