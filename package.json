@@ -9,8 +9,11 @@
     "editor",
     "custom elements"
   ],
+  "module": "dist/playground.js",
+  "types": "dist/playground.d.ts",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "build:ts": "tsc"
   },
   "repository": {
     "type": "git",
@@ -26,5 +29,14 @@
   "bugs": {
     "url": "https://github.com/exadel-inc/ui-playground/issues"
   },
-  "homepage": "https://github.com/exadel-inc/ui-playground#readme"
+  "homepage": "https://github.com/exadel-inc/ui-playground#readme",
+  "dependencies": {
+    "@exadel/esl": "https://github.com/exadel-inc/esl/releases/download/v2.0.0-beta.21/exadel-esl-2.0.0-beta.21.tgz",
+    "@types/js-beautify": "^1.13.1",
+    "brace": "^0.11.1",
+    "js-beautify": "^1.13.5"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.2"
+  }
 }

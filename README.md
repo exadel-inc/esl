@@ -3,9 +3,9 @@
 UIPlayground is a solution for presenting your custom components.
 
 With the help of *UIP* components we allow user to *'play'* with a component.
-You can choose from the variety of component's templates ([UIP Snippets](./snippets/README.md)),
-play with the component's settings ([UIP Settings](./settings/README.md))
-or even change its markup ([UIP Editor](./editor/README.md))!.
+You can choose from the variety of component's templates ([UIP Snippets](./src/snippets/README.md)),
+play with the component's settings ([UIP Settings](./src/settings/README.md))
+or even change its markup ([UIP Editor](./src/editor/README.md))!.
 
 ---
 ### Notes:
@@ -14,11 +14,11 @@ or even change its markup ([UIP Editor](./editor/README.md))!.
 
 ---
 ### Components:
-- ##### [UIP Root](./core/README.md)
-- ##### [UIP Snippets](./snippets/README.md)
-- ##### [UIP Preview](./preview/README.md)
-- ##### [UIP Settings](./settings/README.md)
-- ##### [UIP Editor](./editor/README.md)
+- ##### [UIP Root](./src/core/README.md)
+- ##### [UIP Snippets](./src/snippets/README.md)
+- ##### [UIP Preview](./src/preview/README.md)
+- ##### [UIP Settings](./src/settings/README.md)
+- ##### [UIP Editor](./src/editor/README.md)
 
 ---
 ### Example:
