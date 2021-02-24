@@ -10,13 +10,27 @@ export function memoize<H extends MemoHashFn>(hashFn: H): MethodTypedDecorator<(
  */
 export function memoize(hashFn: MemoHashFn = defaultArgsHashFn) {
   return function (target: any, prop: string, descriptor: TypedPropertyDescriptor<any>) {
+    const isPrototype = Object.hasOwnProperty.call(target, 'constructor');
     if (descriptor && typeof descriptor.value === 'function') {
-      descriptor.value = memoizeFn(descriptor.value, hashFn);
+      descriptor.value = isPrototype ?
+        memoizeMember(descriptor.value, prop, false, hashFn) :
+        memoizeFn(descriptor.value, hashFn);
     } else if (descriptor && typeof descriptor.get === 'function') {
-      descriptor.get = memoizeFn(descriptor.get, hashFn);
+      descriptor.get = isPrototype ?
+        memoizeMember(descriptor.get, prop, true, hashFn) :
+        memoizeFn(descriptor.get, hashFn);
     } else {
       throw new TypeError('Only get accessors or class methods can be decorated via @memoize');
     }
+  };
+}
+
+/** Cache memo function in the current context on call */
+function memoizeMember(originalMethod: any, prop: string, isGetter: boolean, hashFn: MemoHashFn) {
+  return function (this: any, ...args: any[]): any {
+    const memo = memoizeFn(originalMethod, hashFn);
+    Object.defineProperty(this, prop, isGetter ? { get: memo } : { value: memo });
+    return memo.apply(this, args);
   };
 }
 
