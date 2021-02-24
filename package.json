@@ -1,0 +1,30 @@
+{
+  "name": "@exadel/ui-playground",
+  "version": "1.0.0",
+  "description": "UIPlayground is a solution for presenting your custom components.",
+  "keywords": [
+    "playground",
+    "demo",
+    "presentation",
+    "editor",
+    "custom elements"
+  ],
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/exadel-inc/ui-playground.git"
+  },
+  "contributors": [
+    "Yuliya Adamskaya <yadamska@exadel.com>",
+    "Harshunova Natallia <nharshunova@exadel.com>",
+    "Palanevich Aliaksandr <apalanevich@exadel.com>",
+    "Valchetskaya Palina <pvalchetskaya@exadel.com>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/exadel-inc/ui-playground/issues"
+  },
+  "homepage": "https://github.com/exadel-inc/ui-playground#readme"
+}
