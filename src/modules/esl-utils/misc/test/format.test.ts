@@ -59,12 +59,15 @@ describe('misc/format helper tests', () => {
     expect(throwError).toBe(true);
     expect(evaluate('{', 'no')).toBe('no');
   });
-  describe('compile', () => {
+
+  describe('format', () => {
     test.each([
       ['abc', {}, 'abc'],
       ['abc{val}', {val: 'd'}, 'abcd'],
       ['{a.b.c}', {a: {b: {c: 'hi'}}}, 'hi'],
       ['{a}', {}, '{a}'],
+      ['{a} - {b} - {c}', {a: 1, b: 2, c: 3}, '1 - 2 - 3'],
+      ['{a.b}{b.c}', {a: {b: 'h'}, b: {c: 'i'}}, 'hi'],
     ])('\'%s\' using %p to \'%s\'', (tmp: string, source: any, res: string) => {
       expect(format(tmp, source)).toBe(res);
     });
