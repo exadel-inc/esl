@@ -1,3 +1,10 @@
+# [2.0.0-beta.22](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.21...v2.0.0-beta.22) (2021-02-24)
+
+
+### Bug Fixes
+
+* change iframe provide scrolling to no ([b8672e3](https://github.com/exadel-inc/esl/commit/b8672e335a177c5d34768f7f145ad78c58352c1f))
+
 # [2.0.0-beta.21](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.20...v2.0.0-beta.21) (2021-02-24)
 
 
