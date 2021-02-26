@@ -73,6 +73,12 @@ export class ESLSelect extends ESLSelectWrapper {
   public focus(options?: FocusOptions) {
     this.$select.focus(options);
   }
+  public update(valueChanged = true) {
+    this._onUpdate();
+    if (!valueChanged) return;
+    // TODO: silent updates
+    EventUtils.dispatch(this, 'esl:change:value', {detail: {event: null}});
+  }
 
   protected bindEvents() {
     this.addEventListener('click', this._onClick);
