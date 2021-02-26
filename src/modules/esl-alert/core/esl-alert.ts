@@ -41,6 +41,7 @@ export class ESLAlert extends ESLToggleable {
   protected activeCls?: string;
 
   private _$target: EventTarget;
+  private _clearTimeout: number;
 
   /** Create global alert instance */
   public static init() {
@@ -100,6 +101,7 @@ export class ESLAlert extends ESLToggleable {
   }
 
   protected onShow(params: AlertActionParams) {
+    if (this._clearTimeout) window.clearTimeout(this._clearTimeout);
     if (params.html || params.text) {
       this.render(params);
       super.onShow(params);
@@ -108,7 +110,7 @@ export class ESLAlert extends ESLToggleable {
   }
   protected onHide(params: AlertActionParams) {
     super.onHide(params);
-    setTimeout(() => this.clear(), params.hideTime);
+    this._clearTimeout = window.setTimeout(() => this.clear(), params.hideTime);
   }
 
   protected render({text, html, cls}: AlertActionParams) {
