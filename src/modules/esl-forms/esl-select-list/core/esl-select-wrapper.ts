@@ -6,6 +6,7 @@ export interface ESLSelectOption {
   text: string;
   value: string;
   selected: boolean;
+  defaultSelected: boolean;
 }
 
 export interface ESLSelectModel {
@@ -30,7 +31,16 @@ export interface ESLSelectModel {
 }
 
 export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSelectModel {
+  protected static observationConfig: MutationObserverInit = {
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['value', 'selected', 'disabled'],
+    childList: true,
+    characterData: true
+  };
+
   private _$select: HTMLSelectElement;
+  private _mutationObserver = new MutationObserver(this._onTargetMutation.bind(this));
 
   public get $select() {
     return this._$select;
@@ -49,7 +59,8 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
   protected disconnectedCallback() {
     super.disconnectedCallback();
     this.ownerDocument.removeEventListener('reset', this._onReset);
-    if (this._$select) this._$select.removeEventListener('change', this._onChange);
+    this._mutationObserver.disconnect();
+    this._$select && this._$select.removeEventListener('change', this._onChange);
   }
 
   protected _onChange(event?: Event) {}
@@ -57,6 +68,12 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
                             oldTarget: HTMLSelectElement | undefined) {
     if (oldTarget) oldTarget.removeEventListener('change', this._onChange);
     if (newTarget) newTarget.addEventListener('change', this._onChange);
+    this._mutationObserver.disconnect();
+    const type = (this.constructor as typeof ESLSelectWrapper);
+    if (newTarget) this._mutationObserver.observe(newTarget, type.observationConfig);
+  }
+  protected _onTargetMutation(changes: MutationRecord[]) {
+    this._onChange();
   }
 
   @bind
