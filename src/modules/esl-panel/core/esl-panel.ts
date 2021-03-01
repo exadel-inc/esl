@@ -33,7 +33,8 @@ export class ESLPanel extends ESLToggleable {
   }
 
   public get $group(): ESLPanelGroup | null {
-    return this.closest(ESLPanelGroup.is);
+    const $parent = this.parentElement;
+    return $parent?.tagName === ESLPanelGroup.is ? $parent as ESLPanelGroup : null;
   }
 
   protected bindEvents() {
