@@ -1,3 +1,10 @@
+# [2.0.0-beta.25](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.24...v2.0.0-beta.25) (2021-03-02)
+
+
+### Bug Fixes
+
+* deepCompare null check fix ([8211738](https://github.com/exadel-inc/esl/commit/82117384c58911632cb3565d037bd0aedec61982))
+
 # [2.0.0-beta.24](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.23...v2.0.0-beta.24) (2021-03-02)
 
 
