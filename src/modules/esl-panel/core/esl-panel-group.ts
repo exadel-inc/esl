@@ -63,6 +63,11 @@ export class ESLPanelGroup extends ESLBaseElement {
     return els.filter((el) => this.includesPanel(el)) as ESLPanel[];
   }
 
+  /** Get all active panels */
+  public get $activePanels() {
+    return this.$panels.filter((el: ESLPanel) => el.open) as ESLPanel[];
+  }
+
   /** Condition-guard to check if the target is controlled panel */
   public includesPanel(target: any): target is ESLPanel {
     if(!(target instanceof ESLPanel)) return false;
@@ -74,8 +79,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected _onBeforeShow(e: CustomEvent) {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
-    const $activePanels = this.$panels.filter((el: ESLPanel) => el.open && el !== panel) as ESLPanel[];
-    $activePanels.forEach((el) => el.hide());
+    this.$activePanels.forEach((el) => (el !== panel) && el.hide());
   }
 
   @bind
