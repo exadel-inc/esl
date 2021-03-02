@@ -26,6 +26,8 @@ describe('misc/object', () => {
       [1, 2],
       ['a', 'b'],
       [{a: 1}, {b: 2}],
+      [{a: null}, {a: {}}],
+      [{a: {}}, {a: null}],
       [{b: 1}, {b: 2}],
       [{b: undefined}, {b: null}],
       [{a: {c: {b: 1}}}, {a: {b: {c: 1}}}],
