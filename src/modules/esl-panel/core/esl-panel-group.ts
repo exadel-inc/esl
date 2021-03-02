@@ -58,26 +58,24 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Get all panels for which there is no specified group */
-  public get panels(): ESLPanel[] {
-    const els = Array.from(this.children);
-    return els.filter((el) => (el instanceof ESLPanel) && !el.groupName) as ESLPanel[];
-  }
-
-  /** Get panel that is opened or undefined if all panels are closed */
-  public get activePanel(): ESLPanel | undefined {
-    return this.panels.find((el: ESLPanel) => el.open);
+  public get $panels(): ESLPanel[] {
+    const els = Array.from(this.querySelectorAll(ESLPanel.is));
+    return els.filter((el) => this.includesPanel(el)) as ESLPanel[];
   }
 
   /** Condition-guard to check if the target is controlled panel */
   public includesPanel(target: any): target is ESLPanel {
-    return this.panels.includes(target);
+    if(!(target instanceof ESLPanel)) return false;
+    return target.$group === this;
   }
 
   /** Hide opened panel before a new one will be shown */
   @bind
   protected _onBeforeShow(e: CustomEvent) {
-    if (!this.includesPanel(e.target)) return;
-    this.activePanel?.hide();
+    const panel = e.target;
+    if (!this.includesPanel(panel)) return;
+    const $activePanel = this.$panels.find((el: ESLPanel) => el.open && el !== panel) as ESLPanel;
+    $activePanel.hide();
   }
 
   @bind

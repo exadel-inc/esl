@@ -129,7 +129,8 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                 <li class="nav-item">
                   <esl-tab class="esl-tab nav-link"
                            active-class="active"
-                           mode="show"
+                           mode="toggle"
+
                            target="::parent(.tabs)::find(.tab-21)">
                     <h5 class="mb-0">Tab #1 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
                   </esl-tab>
@@ -199,7 +200,8 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                            tabindex="0">
                 <h5 class="mb-0">Toggle Accordion #1</h5>
               </esl-trigger>
-              <esl-panel class="tab tab-21"
+              <esl-panel group="none"
+                         class="tab tab-21"
                          tabindex="0">
                 <div class="tab-body">
                   <p>1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
