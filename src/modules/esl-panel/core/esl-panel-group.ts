@@ -74,8 +74,8 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected _onBeforeShow(e: CustomEvent) {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
-    const $activePanel = this.$panels.find((el: ESLPanel) => el.open && el !== panel) as ESLPanel;
-    $activePanel.hide();
+    const $activePanels = this.$panels.filter((el: ESLPanel) => el.open && el !== panel) as ESLPanel[];
+    $activePanels.forEach((el) => el.hide());
   }
 
   @bind
