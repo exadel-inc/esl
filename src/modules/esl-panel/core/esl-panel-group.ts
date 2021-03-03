@@ -13,16 +13,18 @@ export class ESLPanelGroup extends ESLBaseElement {
   @attr() public mode: string;
   @attr({defaultValue: 'animate'}) public animationClass: string;
   @attr({defaultValue: 'accordion'}) public accordionClass: string;
-  @attr({defaultValue: 'auto'}) public fallbackDuration: number;
+  @attr({defaultValue: 'auto'}) public fallbackDuration: number | 'auto';
 
   private _modeRules: ESLMediaRuleList<string>;
+
   protected _previousHeight: number = 0;
+  protected _fallbackTimer: number = 0;
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'mode') {
       this.modeRules = ESLMediaRuleList.parse<string>(newVal, ESLMediaRuleList.STRING_PARSER);
-      this.update();
+      this.updateMode();
     }
   }
 
@@ -31,7 +33,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.bindEvents();
 
     this.modeRules.addListener(this._onModeChange);
-    this.update();
+    this.updateMode();
   }
 
   protected disconnectedCallback() {
@@ -65,7 +67,7 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Get all active panels */
   public get $activePanels() {
-    return this.$panels.filter((el: ESLPanel) => el.open) as ESLPanel[];
+    return this.$panels.filter((el: ESLPanel) => el.open) ;
   }
 
   /** Condition-guard to check if the target is controlled panel */
@@ -90,26 +92,27 @@ export class ESLPanelGroup extends ESLBaseElement {
 
     this.beforeAnimate();
     this.onAnimate(this._previousHeight, panel.initialHeight);
-    this.fallbackDuration >= 0 && setTimeout(() => this.afterAnimate(), this.fallbackDuration);
+    this.fallbackAnimate();
   }
 
   @bind
   protected _onBeforeHide(e: CustomEvent) {
-    const target = e.target;
-    if (!this.includesPanel(target)) return;
+    const panel = e.target;
+    if (!this.includesPanel(panel)) return;
     this._previousHeight = this.offsetHeight;
   }
 
   /** Animate height of component */
-  protected onAnimate(from?: number, to?: number) {
-    // set initial height
-    if (!this.style.height || this.style.height === 'auto') {
-      this.style.height = `${from}px`;
-    }
-    // make sure that browser apply initial height to animate
-    afterNextRender(() => {
+  protected onAnimate(from: number, to: number) {
+    const hasCurrent = this.style.height && this.style.height !== 'auto';
+    if (hasCurrent) {
       this.style.height = `${to}px`;
-    });
+    } else {
+      // set initial height
+      this.style.height = `${from}px`;
+      // make sure that browser apply initial height to animate
+      afterNextRender(() => this.style.height = `${to}px`);
+    }
   }
 
   /** Set animation class */
@@ -121,6 +124,13 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected afterAnimate() {
     this.style.removeProperty('height');
     CSSUtil.removeCls(this, this.animationClass);
+  }
+
+  protected fallbackAnimate() {
+    const time = +this.fallbackDuration;
+    if (isNaN(time) || time < 0) return;
+    if (this._fallbackTimer) clearTimeout(this._fallbackTimer);
+    this._fallbackTimer = window.setTimeout(() => this.afterAnimate(), time);
   }
 
   /** Clean up the bits of animation */
@@ -160,10 +170,10 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Update component according to mode */
   @bind
   private _onModeChange() {
-    this.update();
+    this.updateMode();
   }
 
-  protected update() {
+  protected updateMode() {
       CSSUtil.toggleClsTo(this, this.accordionClass, this.currentMode !== 'tabs');
   }
 }
