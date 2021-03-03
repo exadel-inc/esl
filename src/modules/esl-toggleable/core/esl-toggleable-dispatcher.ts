@@ -60,7 +60,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
   /** Guard-condition for targets */
   protected isAcceptable(target: any): target is ESLToggleable {
     if (!(target instanceof ESLToggleable)) return false;
-    return !!target.groupName;
+    return !!target.groupName && target.groupName !== 'none';
   }
 
   /** Hide active element in group */
