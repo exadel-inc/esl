@@ -1,3 +1,12 @@
+# [2.0.0-beta.26](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.25...v2.0.0-beta.26) (2021-03-03)
+
+
+### Bug Fixes
+
+* adjust group control ([86286b1](https://github.com/exadel-inc/esl/commit/86286b1df18e04e9a8114be44ecf05dc2be3db67))
+* fallback timer reset for panel animation ([c61c9f1](https://github.com/exadel-inc/esl/commit/c61c9f11e7bc7ee1169acb9aa32708c19506a257))
+* fallback timer reset for panel-group animation ([0bb9b02](https://github.com/exadel-inc/esl/commit/0bb9b0236c56c791b181c09dd46899b302f01099))
+
 # [2.0.0-beta.25](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.24...v2.0.0-beta.25) (2021-03-02)
 
 
