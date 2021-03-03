@@ -18,7 +18,7 @@ export class ESLPanel extends ESLToggleable {
   @attr({defaultValue: 'open'}) public activeClass: string;
   @attr({defaultValue: 'animate'}) public animateClass: string;
   @attr({defaultValue: 'post-animate'}) public postAnimateClass: string;
-  @attr({defaultValue: 'auto'}) public fallbackDuration: number;
+  @attr({defaultValue: 'auto'}) public fallbackDuration: number | 'auto';
 
   @boolAttr() public isAccordion: boolean;
   @boolAttr() public startAnimation: boolean;
@@ -27,6 +27,7 @@ export class ESLPanel extends ESLToggleable {
   public initialParams: ToggleableActionParams;
 
   protected _initialHeight: number = 0;
+  protected _fallbackTimer: number = 0;
 
   public get initialHeight() {
     return this._initialHeight;
@@ -58,7 +59,7 @@ export class ESLPanel extends ESLToggleable {
       afterNextRender(() => this.afterAnimate());
     } else {
       this.onAnimate('show');
-      this.fallbackDuration >= 0 && setTimeout(() => this.afterAnimate(), this.fallbackDuration);
+      this.fallbackAnimate();
     }
   }
 
@@ -73,7 +74,7 @@ export class ESLPanel extends ESLToggleable {
       afterNextRender(() => this.afterAnimate());
     } else {
       this.onAnimate('hide');
-      this.fallbackDuration >= 0 && setTimeout(() => this.afterAnimate(), this.fallbackDuration);
+      this.fallbackAnimate();
     }
   }
 
@@ -97,6 +98,13 @@ export class ESLPanel extends ESLToggleable {
     CSSUtil.removeCls(this, this.postAnimateClass);
 
     this.$$fire(this.open ? 'after:show' : 'after:hide');
+  }
+
+  protected fallbackAnimate() {
+    const time = +this.fallbackDuration;
+    if (isNaN(time) || time < 0) return;
+    if (this._fallbackTimer) clearTimeout(this._fallbackTimer);
+    this._fallbackTimer = window.setTimeout(() => this.afterAnimate(), time);
   }
 
   @bind
