@@ -1,0 +1,28 @@
+---
+layout: ./html5.html
+scrollbar: true
+---
+
+{{##head:
+<link type="text/css" rel="stylesheet" href="/bundles/localdev.css">
+{{= layout.head || '' }}
+#}}
+
+{{##body:
+<header class="header">
+</header>
+<main role="main">
+  {{?layout.title}}
+  <h1 class="text-center pt-2">{{= page.getPageTitle(layout.title)}}</h1>
+  <hr/>
+  {{?}}
+  <div class="content {{= layout.containerCls || 'container-fluid'}}">
+    {{= layout.content || 'No content.' }}
+  </div>
+</main>
+<footer class="footer bg-dark">
+</footer>
+
+<script src="/bundles/localdev.js"></script>
+
+#}}

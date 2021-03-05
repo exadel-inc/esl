@@ -11,7 +11,7 @@ export class UIPRoot extends ESLBaseElement {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('request:change', this._onStateChange);
+    this.addEventListener('request:change', this._onStateChange)
   }
 
   private _onStateChange(e: CustomEvent) {
@@ -23,4 +23,3 @@ export class UIPRoot extends ESLBaseElement {
     this.removeEventListener('request:change', this._onStateChange);
   }
 }
-

@@ -1,0 +1,14 @@
+{
+  "name": "exadel-ui-playground",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+  },
+  "scripts": {
+    "dev": "concurrently --kill-others \"npm run start\" \"npm run watch\"",
+    "start": "node server.js",
+    "watch": "gulp watchLocal",
+    "build": "gulp buildLocal",
+    "build-and-start": "npm run build && npm run start"
+  }
+}

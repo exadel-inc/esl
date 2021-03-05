@@ -1,0 +1,11 @@
+{
+  "watch": {
+    "ts": ["../src/**/*.ts", "src/**/*.ts"],
+    "less": ["../src/**/*.less", "src/**/*.less"]
+  },
+  "server": {
+    "less": "src/*.less",
+    "ts": ["src/*.ts"],
+    "target": "static/bundles"
+  }
+}
