@@ -7,13 +7,12 @@ module.exports = {
     'localdev': './src/localdev.ts'
   },
   resolve: {
-    modules: ['../node_modules'],
     roots: [],
     extensions: ['.ts', '.js']
   },
   module: {
     rules: [{
-      test: /\.ts?$/,
+      test: /\.(js|ts)$/,
       loader: 'ts-loader',
       options: {
         compilerOptions: {
