@@ -14,11 +14,11 @@
         } else if (!('getRootNode' in Element.prototype) || !window.customElements || !window.IntersectionObserver) {
             version = 'light';
         }
-        (version) && document.write('<script type="text/javascript" src="/bundles/polyfill-' + version + '.js"><\/script>');
+        (version) && document.write('<script type="text/javascript" src = "./bundles/polyfill-' + version + '.js"><\/script>');
     })();
 </script>
 
-<link type="text/css" rel="stylesheet" href="/bundles/localdev.css">
+<link type="text/css" rel="stylesheet" href = "./bundles/localdev.css">
 
 
 
@@ -280,7 +280,7 @@
 
 </footer>
 
-<script src="/bundles/localdev.js"></script>
+<script src = "./bundles/localdev.js"></script>
 
 
 <esl-scrollbar class="page-scrollbar" target="html"></esl-scrollbar>

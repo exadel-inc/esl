@@ -16,6 +16,12 @@ const {port} = serverConfig;
 const {pages, folder} = require('./pages.json');
 const domain = `http://localhost:${port}/`;
 
+/** @type {Array} */
+const CONTENT_PROCESSORS = [
+  (data) => replaceAll(data, domain, './'),
+  (data) => replaceAll(data, /(href|src)\s*=\s*"\//g, '$1 = "./'),
+];
+
 async function exec() {
   server.start(serverConfig);
 
@@ -24,9 +30,11 @@ async function exec() {
     const res = await axios.get(domain + url);
     console.log(`Responded on "${url}" received`);
     const file = path.resolve(folder, url);
-    const {data} = res;
     console.log(`Processing "${url}" ...`);
-    const processedData = replaceAll(data, domain, './');
+    const processedData = CONTENT_PROCESSORS.reduce(
+      (lastResult, processor) => processor(lastResult),
+      res.data
+    );
     console.log(`Writing "${file}" ...`);
     await writeFile(file, processedData);
     console.log(`File "${file}" written successfully`);
