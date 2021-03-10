@@ -11,7 +11,7 @@
     "build-and-start": "npm run build && npm run start",
     "build-pages": "npm run build-pages:pages && npm run build-pages:assets",
     "build-pages:pages": "node build-pages.js",
-    "build-pages:assets": "cpx static/**/*.{js,css} ../pages/"
+    "build-pages:assets": "cpx static/**/*.{js,css} ../docs/"
   },
   "sideEffects": [
     "src/common/*.ts",

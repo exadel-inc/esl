@@ -125,7 +125,7 @@ Here is a list of available npm scripts for local development:
 Project is using `@commitlint/config-conventional` commit message rules.
 Please check it out in case you want to contribute to ESL.
 
-You can use this [short note](./docs/commit.md) to renew commit message rules.
+You can use this [short note](./docs-commons/commit.md) to renew commit message rules.
 
 In case you are using JetBrains IDE (IDEA or WebStorm) you can use this 
 [plugin](https://plugins.jetbrains.com/plugin/13389-conventional-commit) to simplify commit validation.
@@ -149,4 +149,4 @@ In case you are using JetBrains IDE (IDEA or WebStorm) you can use this
 
 **Exadel, Inc.**
 
-[![](docs/images/exadel-logo.png)](https://exadel.com)
+[![](./docs-commons/images/exadel-logo.png)](https://exadel.com)
