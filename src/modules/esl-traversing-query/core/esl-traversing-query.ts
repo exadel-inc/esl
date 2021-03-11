@@ -15,6 +15,7 @@ type CollectionProcessor = (els: Element[], sel: string) => Element[];
  * - ::parent and ::child pseudo-selectors
  * - ::find pseudo-selector
  * - ::first, ::last and :nth(#) limitation pseudo-selectors
+ * - ::filter, ::not filtration pseudo-selectors
  *
  * @example "#id .class [attr]" - find by CSS selector in a current document
  * @example "" - get current base element
@@ -24,6 +25,8 @@ type CollectionProcessor = (els: Element[], sel: string) => Element[];
  * @example "::parent(#id .class [attr])" - find the closest parent matching passed selector
  * @example "::child(#id .class [attr])" - find direct child element(s) that match passed selector
  * @example "::find(#id .class [attr])" - find child element(s) that match passed selector
+ * @example "::find(buttons, a)::not([hidden])" - find all buttons and anchors that are not have hidden attribute
+ * @example "::find(buttons, a)::filter(:first-child)" - find all buttons and anchors that are first child in container
  * @example "::parent::child(some-tag)" - find direct child element(s) that match tag 'some-tag' in the parent
  * @example "#id .class [attr]::parent" - find parent of element matching selector '#id .class [attr]' in document
  * @example "::find(.row)::last::parent" - find parent of the last element matching selector '.row' from the base element subtree
@@ -42,7 +45,9 @@ export class TraversingQuery {
     '::nth': (list: Element[], sel?: string) => {
       const index = sel ? +sel : NaN;
       return wrap(list[index - 1]);
-    }
+    },
+    '::not': (list: Element[], sel?: string) => list.filter((el) => !el.matches(sel || '')),
+    '::filter': (list: Element[], sel?: string) => list.filter((el) => el.matches(sel || ''))
   };
 
   /**
