@@ -1,4 +1,4 @@
-import {TraversingQuery} from "@exadel/esl";
+import {TraversingQuery} from '@exadel/esl';
 
 export class UIPStateModel {
   public html: string;
@@ -7,24 +7,20 @@ export class UIPStateModel {
     return new DOMParser().parseFromString(this.html, 'text/html').body;
   }
 
-  protected getTargets(target: string): Element[] {
-    return TraversingQuery.all(target, this.root);
-  }
-
   public getAttribute(target: string, name: string): (string | null)[] {
-    return this.getTargets(target).map(el => el.getAttribute(name))
+    return TraversingQuery.all(target, this.root).map(el => el.getAttribute(name))
   }
 
   public setAttribute(target: string, name: string, value: string | boolean): void {
-    const query = this.getTargets(target);
+    const root = this.root;
+    const elements = TraversingQuery.all(target, root);
 
     if (typeof value === 'string') {
-      query.forEach(el => el.setAttribute(name, value));
+      elements.forEach(el => el.setAttribute(name, value));
+    } else {
+      elements.forEach(el => value ? el.setAttribute(name, '') : el.removeAttribute(name));
     }
-    else {
-      query.forEach(el => {
-        value ? el.setAttribute(name, '') : el.removeAttribute(name);
-      })
-    }
+
+    this.html = root.innerHTML;
   }
 }
