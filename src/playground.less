@@ -1,8 +1,8 @@
 @import './snippets/snippets';
 @import './settings/setting/setting';
 
-@selected-mode-color: #17a2b8;
-@not-selected-mode-color: #7e7e7e;
+@selected-mode-weight: 700;
+@not-selected-mode-weight: 400;
 @column-width: 200px;
 
 .uip-content.no-settings {
@@ -37,6 +37,7 @@
         content: '|';
         width: 5px;
         height: 100%;
+        font-weight: 400;
         margin: 0 5px;
         color: #535353;
       }
@@ -60,34 +61,47 @@
 }
 
 .preview-wrapper {
-  width: calc(100% - 210px);
+  width: calc(75% - 10px);
   margin-right: 10px;
 }
 
 .settings-wrapper {
-  width: @column-width;
-  max-width: @column-width;
-  min-width: @column-width;
+  width: calc(25% - 10px);
+  margin-left: 10px;
 }
 
-.preview-section, .settings-section, .editor-section {
+.snippets-section, .preview-section, uip-settings, .editor-section {
   margin-top: 5px;
   border: 1px solid #ebebeb;
 }
 
-.preview-section, .settings-section {
+.preview-section {
+  min-height: 500px;
+}
+
+uip-snippets {
+  .snippets-list {
+    margin-bottom: 0;
+  }
+}
+
+uip-settings {
+  display: block;
   height: 500px;
+}
+
+.snippets-section, .preview-section {
+  padding: 10px;
 }
 
 .preview-section {
   display: flex;
   flex-direction: column;
-  padding: 10px;
   overflow-y: auto;
 }
 
-.settings-section {
-  padding: 0 10px 10px;
+uip-settings {
+  padding: 10px;
   overflow: auto;
 }
 
@@ -98,18 +112,18 @@
 }
 
 .editor-wrapper {
-  margin: 20px 0 10px;
+  margin-top: 20px;
 }
 
 
 uip-root:not([mode='horizontal']) {
   .option-item {
     &[mode='vertical'] {
-      color: @selected-mode-color;
+      font-weight: @selected-mode-weight;
     }
 
     &[mode='horizontal'] {
-      color: @not-selected-mode-color;
+      font-weight: @not-selected-mode-weight;
     }
   }
 
@@ -120,6 +134,23 @@ uip-root:not([mode='horizontal']) {
   }
 
   .snippets-section {
+    height: ~'calc(100% - 47px)';
+    min-height: 250px;
+    overflow: auto;
+  }
+
+  uip-snippets {
+    .snippets-list-item {
+      border-bottom: 1px solid #dee2e6;
+
+      &:not(:first-child) {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .snippets-wrapper {
+    max-height: 900px;
     width: @column-width;
     max-width: @column-width;
     min-width: @column-width;
@@ -127,29 +158,45 @@ uip-root:not([mode='horizontal']) {
   }
 
   .sections-wrapper {
-    width: calc(100% - 220px);
+    width: 100%;
     margin-left: 10px;
   }
+
 }
 
 uip-root[mode='horizontal'] {
   .option-item {
     &[mode='horizontal'] {
-      color: @selected-mode-color;
+      font-weight: @selected-mode-weight;
     }
 
     &[mode='vertical'] {
-      color: @not-selected-mode-color;
+      font-weight: @not-selected-mode-weight;
     }
   }
 
   uip-snippets {
+    // add specificity
+    ul.snippets-list {
+      margin-left: 5px;
+    }
+
     ul.snippets-list li {
       display: inline-block;
+
+      &:not(:last-child) {
+        &::after {
+          content: '|';
+          width: 5px;
+          height: 100%;
+          font-weight: 400;
+          margin: 0 20px;
+          color: #535353;
+        }
+      }
     }
 
     .snippets-list-item {
-      margin-right: 20px;
     }
   }
 
@@ -169,11 +216,11 @@ uip-root:not([theme='dark']) {
 
   .option-item {
     &[theme='light'] {
-      color: @selected-mode-color;
+      font-weight: @selected-mode-weight;
     }
 
     &[theme='dark'] {
-      color: @not-selected-mode-color;
+      font-weight: @not-selected-mode-weight;
     }
   }
 }
@@ -185,11 +232,11 @@ uip-root[theme='dark'] {
 
   .option-item {
     &[theme='dark'] {
-      color: @selected-mode-color;
+      font-weight: @selected-mode-weight;
     }
 
     &[theme='light'] {
-      color: @not-selected-mode-color;
+      font-weight: @not-selected-mode-weight;
     }
   }
 }
@@ -205,7 +252,6 @@ uip-root[theme='dark'] {
 
     .snippets-section {
       width: 90%;
-      max-width: 90%;
       min-width: 90px;
     }
 
@@ -222,12 +268,11 @@ uip-root[theme='dark'] {
 
     .preview-wrapper, .settings-wrapper, .editor-wrapper {
       width: 100%;
-      max-width: 100%;
       min-width: 100px;
       margin-top: 30px;
     }
 
-    .preview-section, .settings-section {
+    .preview-section, uip-settings {
       height: 400px;
     }
 
