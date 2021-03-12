@@ -4,35 +4,27 @@ containerCls: container
 title: UI-Playground
 ---
 {{##content:
-<script>
-  function onChange(target, attr) {
-    const value = target.getAttribute(attr);
-    const playground = document.querySelector('uip-root');
-
-    if (value) {
-      playground.setAttribute(attr, value);
-    }
-  }
-</script>
-
 <uip-root>
   <div class="uip-options">
     <span class="section-name">Options:</span>
 
     <div class="uip-option mode">
-      <button class="option-item" mode="vertical" onclick="onChange(this, 'mode')">vertical</button>
-      <button class="option-item" mode="horizontal" onclick="onChange(this, 'mode')">horizontal</button>
+      <button class="option-item" mode="vertical">vertical</button>
+      <button class="option-item" mode="horizontal">horizontal</button>
     </div>
 
     <div class="uip-option theme">
-      <button class="option-item" theme="light" onclick="onChange(this, 'theme')">light</button>
-      <button class="option-item" theme="dark" onclick="onChange(this, 'theme')">dark</button>
+      <button class="option-item" theme="light">light</button>
+      <button class="option-item" theme="dark">dark</button>
     </div>
   </div>
 
   <div class="uip-content {{= !layout.settings ? 'no-settings' : '' }}">
-    <div class="snippets-section">
-      {{= layout.snippets || 'No snippets.' }}
+    <div class="snippets-wrapper">
+      <span class="section-name">Snippets</span>
+      <div class="snippets-section">
+        {{= layout.snippets || 'No snippets.' }}
+      </div>
     </div>
 
     <div class="sections-wrapper">
@@ -46,9 +38,7 @@ title: UI-Playground
         {{? layout.settings}}
         <div class="settings-wrapper">
           <span class="section-name">Settings</span>
-          <div class="settings-section">
-            {{= layout.settings }}
-          </div>
+          {{= layout.settings }}
         </div>
         {{?}}
       </div>

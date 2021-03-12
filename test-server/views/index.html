@@ -5,5 +5,18 @@ containerCls: container
 ---
 
 {{##content:
-{{= partial('./layouts/playground.html')}}
+{{ let childPages = page.invokeController('InnerPages', page.location.pathname); }}
+{{? childPages && childPages.length }}
+<ul>
+  {{~ childPages :childPage}}
+  <li>
+    <a href="{{= page.resolveURL(childPage.href) }}">
+      {{= childPage.title }}
+    </a>
+  </li>
+  {{~}}
+</ul>
+{{??}}
+<h5>No pages</h5>
+{{?}}
 #}}
