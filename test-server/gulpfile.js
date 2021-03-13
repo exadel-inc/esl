@@ -4,7 +4,6 @@ const cfg = require('./paths.json');
 const {print} = require('../build/common');
 const {cleanAll} = require('../build/clean-task');
 const {lessBuild} = require('../build/less-task');
-const {lintTS, lintCSS} = require('../gulpfile');
 
 const webpack = require('webpack');
 const webpackCfg = require('./webpack.config');
@@ -26,14 +25,11 @@ const buildLocal = gulp.series(
 
 const watchLess = gulp.series(buildLocalLess, function watchLess() {
   gulp.watch(cfg.watch.less, {},
-    gulp.series(print('LESS Changed ...'), buildLocalLess, lintCSS)
+    gulp.series(print('LESS Changed ...'), buildLocalLess)
   );
 });
 
 const watchSources = function watchTsLint() {
-  gulp.watch(cfg.watch.ts, {},
-    gulp.series(print('TS Changed ...'), lintTS)
-  );
   webpackInstance.watch({}, (err, stats) => {
     console.log(stats.toString({
       chunks: false,  // Makes the build much quieter
