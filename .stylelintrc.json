@@ -1,5 +1,4 @@
 {
-  "plugins": ["./build/lint/import.stylelint.js"],
   "rules": {
     "at-rule-no-unknown": true,
     "block-no-empty": true,
@@ -24,7 +23,6 @@
       "ignore": ["custom-elements"]
     }],
     "string-no-newline": true,
-    "unit-no-unknown": true,
-    "esl-less/import-root": "never"
+    "unit-no-unknown": true
   }
 }

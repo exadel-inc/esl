@@ -1,10 +1,5 @@
-# Common configuration
-gulpfile.js
-
 # Common directories
-build
 node_modules
 
-# Test server
-test-server/*.js
-test-server/static
+# Output
+dist

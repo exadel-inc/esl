@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>UI Playground</title>
+
+    <link type="text/css" rel="stylesheet" href="/playground.css">
+</head>
+<body>
+    <header class="header"> </header>
+    <main role="main">
+        <div class="content">
+            <script>
+                function onChange(target, attr) {
+                    const value = target.getAttribute(attr);
+                    const playground = document.querySelector('uip-root');
+
+                    if (value) {
+                        playground.setAttribute(attr, value);
+                    }
+                }
+            </script>
+
+            <uip-root>
+                <div class="uip-options">
+                    <span class="section-name">Options:</span>
+
+                    <div class="uip-option mode">
+                        <button class="option-item" mode="vertical" onclick="onChange(this, 'mode')">vertical</button>
+                        <button class="option-item" mode="horizontal" onclick="onChange(this, 'mode')">horizontal</button>
+                    </div>
+
+                    <div class="uip-option theme">
+                        <button class="option-item" theme="light" onclick="onChange(this, 'theme')">light</button>
+                        <button class="option-item" theme="dark" onclick="onChange(this, 'theme')">dark</button>
+                    </div>
+                </div>
+
+                <div class="uip-content {{= !layout.settings ? 'no-settings' : '' }}">
+                    <div class="snippets-section">
+                        <uip-snippets>
+                            <template uip-snippet label="example"></template>
+                            <ul class="snippets-list"></ul>
+                        </uip-snippets>
+                    </div>
+
+                    <div class="sections-wrapper">
+
+                        <div class="preview-settings">
+                            <div class="preview-wrapper">
+                                <span class="section-name">Preview</span>
+                                <uip-preview class="preview-section"></uip-preview>
+                            </div>
+
+                            <div class="settings-wrapper">
+                                <span class="section-name">Settings</span>
+                                <div class="settings-section">
+                                    <uip-settings></uip-settings>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="editor-wrapper">
+                            <span class="section-name">Editor</span>
+                            <uip-editor class="editor-section" editor-config="{wrap: 70}"></uip-editor>
+                        </div>
+                    </div>
+                </div>
+
+            </uip-root>
+        </div>
+    </main>
+    <footer class="footer bg-dark"></footer>
+
+    <script src="/playground.run.js"></script>
+</body>
+</html>
