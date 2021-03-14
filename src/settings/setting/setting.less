@@ -1,6 +1,11 @@
-uip-class-setting, uip-check-setting, uip-list-setting, uip-text-setting  {
+uip-class-setting, uip-check-setting, uip-list-setting, uip-text-setting {
   display: block;
-  margin-top: 10px;
+}
+
+uip-class-setting, uip-check-setting, uip-list-setting, uip-text-setting {
+  &:not(:first-child) {
+    margin-top: 10px;
+  }
 }
 
 uip-class-setting > select, uip-list-setting > select, uip-text-setting > input {
