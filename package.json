@@ -23,7 +23,7 @@
   "scripts": {
     "start": "concurrently \"npm run serv\" \"npm run build:watch\"",
     "serv": "browser-sync start -c bs-config.cjs",
-    "clean": "del-cli dist/** types/**",
+    "clean": "del-cli lib/** types/**",
     "build": "npm run clean && webpack -c webpack.config.prod.js",
     "build:dev": "npm run clean && webpack -c webpack.config.js",
     "build:watch": "npm run clean && webpack -c webpack.config.js --watch",
