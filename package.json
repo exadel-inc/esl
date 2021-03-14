@@ -48,7 +48,8 @@
     "lint:js": "eslint src/**/*.ts",
     "lint:css": "stylelint src/**/*.less",
     "prepare": "npm run build",
-    "preversion": "npm test"
+    "preversion": "npm test",
+    "postinstall": "husky install"
   },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.5",
@@ -103,7 +104,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm test",
+      "pre-push": "npm run test",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }
