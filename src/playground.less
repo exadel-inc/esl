@@ -76,28 +76,22 @@
 }
 
 .preview-section {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
   min-height: 500px;
 }
 
 uip-snippets {
+  display: block;
+  height: 500px;
   .snippets-list {
     margin-bottom: 0;
   }
 }
 
-uip-settings {
-  display: block;
-  height: 500px;
-}
-
 .snippets-section, .preview-section {
   padding: 10px;
-}
-
-.preview-section {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
 }
 
 uip-settings {
@@ -194,9 +188,6 @@ uip-root[mode='horizontal'] {
           color: #535353;
         }
       }
-    }
-
-    .snippets-list-item {
     }
   }
 
