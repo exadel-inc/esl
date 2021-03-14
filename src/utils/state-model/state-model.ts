@@ -8,7 +8,7 @@ export class UIPStateModel {
   }
 
   public getAttribute(target: string, name: string): (string | null)[] {
-    return TraversingQuery.all(target, this.root).map(el => el.getAttribute(name))
+    return TraversingQuery.all(target, this.root).map(el => el.getAttribute(name));
   }
 
   public setAttribute(target: string, name: string, value: string | boolean): void {
