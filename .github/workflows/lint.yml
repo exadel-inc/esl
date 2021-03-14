@@ -27,5 +27,7 @@ jobs:
           node-version: ${{ env.node-version }}
       - name: Install NPM Dependencies
         run: npm ci
-      - name: Run Linting
-        run: npm run lint
+      - name: Run Linting JS
+        run: npm run lint:js
+      - name: Run Linting CSS
+        run: npm run lint:css
