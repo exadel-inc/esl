@@ -29,7 +29,8 @@
     "build:watch": "npm run clean && webpack -c webpack.config.js --watch",
     "lint": "concurrently \"npm run lint:js\" \"npm run lint:css\"",
     "lint:js": "eslint src/**/*.ts",
-    "lint:css": "stylelint src/**/*.less"
+    "lint:css": "stylelint src/**/*.less",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
