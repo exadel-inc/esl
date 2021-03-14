@@ -11,71 +11,184 @@
     <link type="text/css" rel="stylesheet" href="/playground.css">
 </head>
 <body>
-    <header class="header"> </header>
-    <main role="main">
-        <div class="content">
-            <script>
-                function onChange(target, attr) {
-                    const value = target.getAttribute(attr);
-                    const playground = document.querySelector('uip-root');
+<header class="header"></header>
+<main role="main">
+    <uip-root>
+        <div class="uip-options">
+            <span class="section-name">Options:</span>
 
-                    if (value) {
-                        playground.setAttribute(attr, value);
-                    }
-                }
-            </script>
+            <div class="uip-option mode">
+                <button class="option-item" mode="vertical">vertical</button>
+                <button class="option-item" mode="horizontal">horizontal</button>
+            </div>
 
-            <uip-root>
-                <div class="uip-options">
-                    <span class="section-name">Options:</span>
-
-                    <div class="uip-option mode">
-                        <button class="option-item" mode="vertical" onclick="onChange(this, 'mode')">vertical</button>
-                        <button class="option-item" mode="horizontal" onclick="onChange(this, 'mode')">horizontal</button>
-                    </div>
-
-                    <div class="uip-option theme">
-                        <button class="option-item" theme="light" onclick="onChange(this, 'theme')">light</button>
-                        <button class="option-item" theme="dark" onclick="onChange(this, 'theme')">dark</button>
-                    </div>
-                </div>
-
-                <div class="uip-content {{= !layout.settings ? 'no-settings' : '' }}">
-                    <div class="snippets-section">
-                        <uip-snippets>
-                            <template uip-snippet label="example"></template>
-                            <ul class="snippets-list"></ul>
-                        </uip-snippets>
-                    </div>
-
-                    <div class="sections-wrapper">
-
-                        <div class="preview-settings">
-                            <div class="preview-wrapper">
-                                <span class="section-name">Preview</span>
-                                <uip-preview class="preview-section"></uip-preview>
-                            </div>
-
-                            <div class="settings-wrapper">
-                                <span class="section-name">Settings</span>
-                                <div class="settings-section">
-                                    <uip-settings></uip-settings>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="editor-wrapper">
-                            <span class="section-name">Editor</span>
-                            <uip-editor class="editor-section" editor-config="{wrap: 70}"></uip-editor>
-                        </div>
-                    </div>
-                </div>
-
-            </uip-root>
+            <div class="uip-option theme">
+                <button class="option-item" theme="light">light</button>
+                <button class="option-item" theme="dark">dark</button>
+            </div>
         </div>
-    </main>
-    <footer class="footer bg-dark"></footer>
 
-    <script src="/playground.run.js"></script>
+        <div class="uip-content {{= !layout.settings ? 'no-settings' : '' }}">
+            <div class="snippets-wrapper">
+                <span class="section-name">Snippets</span>
+                <div class="snippets-section">
+                    <uip-snippets>
+                        <template uip-snippet label="example 1">
+                            <span>hello 1</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <template uip-snippet label="example 2">
+                            <span>hello 2</span>
+                        </template>
+                        <ul class="snippets-list"></ul>
+                    </uip-snippets>
+                </div>
+            </div>
+
+            <div class="sections-wrapper">
+
+                <div class="preview-settings">
+                    <div class="preview-wrapper">
+                        <span class="section-name">Preview</span>
+                        <uip-preview class="preview-section"></uip-preview>
+                    </div>
+
+                    <div class="settings-wrapper">
+                        <span class="section-name">Settings</span>
+                        <uip-settings>
+                            <uip-check-setting name="check" selector="p"></uip-check-setting>
+                            <uip-check-setting name="check" selector="p"></uip-check-setting>
+                        </uip-settings>
+                    </div>
+                </div>
+
+                <div class="editor-wrapper">
+                    <span class="section-name">Editor</span>
+                    <uip-editor class="editor-section" editor-config="{wrap: 70}"></uip-editor>
+                </div>
+            </div>
+        </div>
+
+    </uip-root>
+</main>
+<footer class="footer bg-dark"></footer>
+
+<script src="/playground.run.js"></script>
 </body>
 </html>

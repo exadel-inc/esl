@@ -21,8 +21,7 @@
     "declarationDir": "./types"
   },
   "include": [
-    "src",
-    "node_modules/@exadel/esl"
+    "src"
   ],
   "exclude": [
     "*.test.ts",
