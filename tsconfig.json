@@ -17,10 +17,12 @@
       "DOM",
       "DOM.Iterable"
     ],
-    "outDir": "./dist"
+    "sourceRoot": "src",
+    "declarationDir": "./types"
   },
   "include": [
-    "src"
+    "src",
+    "node_modules/@exadel/esl"
   ],
   "exclude": [
     "*.test.ts",

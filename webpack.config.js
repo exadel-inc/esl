@@ -2,7 +2,6 @@ import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const outDir = resolve(__dirname, 'dist');
 
 export default {
   mode: 'development',
@@ -22,7 +21,7 @@ export default {
       options: {
         compilerOptions: {
           target: 'ES6',
-          declaration: false
+          declaration: true
         }
       }
     }, {
@@ -41,11 +40,8 @@ export default {
       commonjs: 'uip',
     },
     libraryTarget: 'umd',
-    path: outDir,
+    path: resolve(__dirname, 'lib'),
     filename: '[name].js',
     assetModuleFilename: '[name].css'
-  },
-  experiments: {
-    asset: true
   }
 };

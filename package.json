@@ -10,16 +10,23 @@
     "custom elements"
   ],
   "type": "module",
-  "main": "dist/playground.run.js",
-  "module": "dist/playground.js",
-  "types": "dist/playground.d.ts",
+  "main": "lib/playground.run.js",
+  "module": "lib/playground.js",
+  "types": "types/src/playground.d.ts",
+  "sideEffects": [
+    "lib/palyground.css",
+    "lib/palyground.run.js",
+    "src/**/*.less",
+    "src/palyground.ts",
+    "src/palyground.run.ts"
+  ],
   "scripts": {
     "start": "concurrently \"npm run serv\" \"npm run build:watch\"",
     "serv": "browser-sync start -c bs-config.cjs",
-    "clean": "del-cli dist/**",
-    "build": "webpack -c webpack.config.prod.js",
-    "build:dev": "webpack -c webpack.config.js",
-    "build:watch": "webpack -c webpack.config.js --watch",
+    "clean": "del-cli dist/** types/**",
+    "build": "npm run clean && webpack -c webpack.config.prod.js",
+    "build:dev": "npm run clean && webpack -c webpack.config.js",
+    "build:watch": "npm run clean && webpack -c webpack.config.js --watch",
     "lint": "concurrently \"npm run lint:js\" \"npm run lint:css\"",
     "lint:js": "eslint src/**/*.ts",
     "lint:css": "stylelint src/**/*.less"

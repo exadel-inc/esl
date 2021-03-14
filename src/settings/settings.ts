@@ -4,7 +4,7 @@ import {UIPTextSetting} from './setting/text-setting/text-setting';
 import {UIPClassSetting} from './setting/class-setting/class-setting';
 import {UIPSetting} from './setting/setting';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
-import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core/esl-base-element';
+import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPRoot} from '../core/root';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 

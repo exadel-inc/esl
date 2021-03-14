@@ -1,10 +1,10 @@
 module.exports = {
     files: [
-        './dist/*.js',
-        './dist/*.css'
+        './lib/*.js',
+        './lib/*.css'
     ],
     watch: true,
-    server: ['docs', 'dist'],
+    server: ['docs', 'lib'],
     open: 'local',
     browser: 'default'
 };

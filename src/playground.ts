@@ -1,5 +1,3 @@
-import './playground.less';
-
 import {UIPRoot} from './core/root';
 import {UIPEditor} from './editor/editor';
 import {UIPPreview} from './preview/preview';
