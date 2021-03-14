@@ -47,9 +47,8 @@
     "lint": "concurrently \"npm run lint:js\" \"npm run lint:css\" && node build/catlog.js \"Linting passed\"",
     "lint:js": "eslint src/**/*.ts",
     "lint:css": "stylelint src/**/*.less",
-    "prepare": "npm run build",
-    "preversion": "npm test",
-    "postinstall": "husky install"
+    "prepare": "husky install && npm run build",
+    "preversion": "npm test"
   },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.5",
@@ -101,11 +100,5 @@
     "ts-loader": "^8.0.18",
     "typescript": "4.2.3",
     "webpack": "^5.24.4"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm run test",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   }
 }
