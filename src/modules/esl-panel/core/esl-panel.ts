@@ -22,6 +22,7 @@ export class ESLPanel extends ESLToggleable {
 
   @boolAttr() public isAccordion: boolean;
   @boolAttr() public startAnimation: boolean;
+  @boolAttr() public noAnimation: boolean;
 
   @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init', noAnimation: true}})
   public initialParams: ToggleableActionParams;
@@ -116,7 +117,8 @@ export class ESLPanel extends ESLToggleable {
 
   /** The panels use panel stack config for actions */
   protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
-    const stackConfig = this.$group?.panelConfig || {};
-    return Object.assign({}, stackConfig, this.defaultParams, params || {});
+    const groupConfig = this.$group?.panelConfig || {};
+    const mergedAttrs =  Object.assign({noAnimation: this.noAnimation}, {noAnimation: groupConfig?.noAnimation});
+    return Object.assign({}, groupConfig, this.defaultParams, {noAnimation: groupConfig}, mergedAttrs, params || {});
   }
 }

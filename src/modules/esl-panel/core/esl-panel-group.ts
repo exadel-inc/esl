@@ -1,10 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, ESLBaseElement} from '../../esl-base-element/core';
+import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {bind} from '../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
-import {ESLPanel} from './esl-panel';
+import {ESLPanel, PanelActionParams} from './esl-panel';
 
 @ExportNs('PanelGroup')
 export class ESLPanelGroup extends ESLBaseElement {
@@ -14,6 +14,8 @@ export class ESLPanelGroup extends ESLBaseElement {
   @attr({defaultValue: 'animate'}) public animationClass: string;
   @attr({defaultValue: 'accordion'}) public accordionClass: string;
   @attr({defaultValue: 'auto'}) public fallbackDuration: number | 'auto';
+
+  @boolAttr() public noAnimation: boolean;
 
   private _modeRules: ESLMediaRuleList<string>;
 
@@ -89,6 +91,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
     if (this.currentMode !== 'tabs') return;
+    if (this.noAnimation) return;
 
     this.beforeAnimate();
     this.onAnimate(this._previousHeight, panel.initialHeight);
@@ -142,9 +145,10 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Get config that is used to form result panel action params */
-  public get panelConfig() {
+  public get panelConfig(): PanelActionParams  {
     return {
-      noCollapse: this.currentMode === 'tabs'
+      noCollapse: this.currentMode === 'tabs',
+      noAnimation: this.noAnimation
     };
   }
 

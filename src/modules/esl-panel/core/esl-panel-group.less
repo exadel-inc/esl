@@ -4,7 +4,6 @@ esl-panel-group {
   display: block;
 
   &.animate {
-    transition: height @animationTime ease-in-out;
     overflow: hidden;
   }
 
@@ -19,6 +18,12 @@ esl-panel-group {
       }
     }
   }
+}
+
+// prevent animation
+esl-panel-group[no-animation] > esl-panel:not(#add-spec),
+esl-panel[no-animation]:not(#add-spec) {
+  transition: none;
 }
 
 // fix a11y

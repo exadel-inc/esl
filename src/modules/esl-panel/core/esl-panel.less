@@ -7,11 +7,15 @@ esl-panel {
 
   visibility: hidden;
   max-height: 0;
-  transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime;
+  &:not([no-animation]) {
+    transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime;
+  }
 
   &.open {
     visibility: visible;
     max-height: none;
-    transition: max-height @animationTime ease-in-out, visibility 0s linear;
+    &:not([no-animation]) {
+      transition: max-height @animationTime ease-in-out, visibility 0s linear;
+    }
   }
 }
