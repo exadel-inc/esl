@@ -24,6 +24,7 @@ export class UIPRoot extends ESLBaseElement {
 
   protected bindEvents() {
     this.addEventListener('request:change', this._onStateChange);
+    window.addEventListener('resize', this._onResize);
 
     const $options = this.querySelector('.uip-options') as HTMLElement;
     $options.addEventListener('click', this._onOptionChange);
@@ -51,5 +52,12 @@ export class UIPRoot extends ESLBaseElement {
 
     if (mode) this.mode = mode;
     if (theme) this.theme = theme;
+  }
+
+  @bind
+  protected _onResize(e: Event) {
+    if (window.matchMedia("(max-width: 992px)").matches) {
+      this.mode = 'horizontal';
+    }
   }
 }
