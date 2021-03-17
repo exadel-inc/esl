@@ -45,8 +45,9 @@ ESLMedia.register();
 
 ESLToggleableDispatcher.init();
 ESLPopup.register();
-ESLPanel.register();
+
 ESLPanelGroup.register();
+ESLPanel.register();
 
 ESLTrigger.register();
 ESLTab.register();

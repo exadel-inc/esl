@@ -11,8 +11,8 @@ build
 node_modules
 
 # Test server
-test-server/*.js
-test-server/static
+pages/*.js
+pages/static
 
 # Generated surces
 /modules
