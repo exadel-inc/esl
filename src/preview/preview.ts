@@ -18,7 +18,12 @@ export class UIPPreview extends ESLBaseElement {
   protected setMarkup(e: CustomEvent): void {
     const {markup, source} = e.detail;
     if (source !== UIPPreview.is) {
-      this.innerHTML = markup;
+      const $preview = document.createElement('div');
+      $preview.className = 'preview-wrapper';
+      $preview.innerHTML = `
+        <span class="section-name">Preview</span>
+        <uip-preview> ${markup} </uip-preview>`;
+      this.parentElement?.replaceChild($preview, this);
     }
   }
 

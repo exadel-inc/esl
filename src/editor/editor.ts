@@ -1,5 +1,6 @@
 import * as ace from 'brace';
 import 'brace/theme/chrome';
+import 'brace/theme/tomorrow_night';
 import 'brace/mode/html';
 import js_beautify from 'js-beautify';
 
@@ -76,6 +77,11 @@ export class UIPEditor extends ESLBaseElement {
     this.editor.removeEventListener('change', this.onChange);
     this.editor.setValue(js_beautify.html(value), -1);
     this.editor.addEventListener('change', this.onChange);
+  }
+
+  public setEditorConfig(editorConfig: EditorConfig) {
+    this.editorConfig = editorConfig;
+    this.initEditorOptions();
   }
 }
 

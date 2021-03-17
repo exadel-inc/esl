@@ -1,6 +1,7 @@
 import {ESLBaseElement, attr} from '@exadel/esl/modules/esl-base-element/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {UIPEditor} from "../editor/editor";
 
 export class UIPRoot extends ESLBaseElement {
   public static is = 'uip-root';
@@ -15,6 +16,7 @@ export class UIPRoot extends ESLBaseElement {
 
   protected connectedCallback() {
     super.connectedCallback();
+    this._onResize();
     this.bindEvents();
   }
 
@@ -51,11 +53,19 @@ export class UIPRoot extends ESLBaseElement {
     const theme = target.getAttribute('theme');
 
     if (mode) this.mode = mode;
-    if (theme) this.theme = theme;
+
+    if (!theme) return;
+    this.theme = theme;
+
+    const $editor = this.querySelector('uip-editor') as UIPEditor;
+    if (!$editor) return;
+    const editorConfig = $editor.editorConfig;
+    editorConfig.theme = theme === 'dark' ? 'ace/theme/tomorrow_night' : 'ace/theme/chrome';
+    $editor.setEditorConfig(editorConfig);
   }
 
   @bind
-  protected _onResize(e: Event) {
+  protected _onResize() {
     if (window.matchMedia('(max-width: 992px)').matches) {
       this.mode = 'horizontal';
     }
