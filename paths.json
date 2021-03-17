@@ -7,7 +7,7 @@
       "src/modules/*.less",
       "src/modules/*/*.less",
       "src/modules/esl-forms/*/*.less",
-      "src/modules/utils/*/*.less",
+      "src/modules/esl-utils/*/*.less",
       "src/modules/beta/*/*.less",
       "!**/*.mixin.less"
     ],
@@ -19,9 +19,5 @@
     "ts": ["src/polyfills/**/*.ts"],
     "dest": "polyfills",
     "destPaths": ["polyfills/*"]
-  },
-  "lint": {
-    "ts": ["src/modules/**/*.ts", "!**/test/*.test.ts", "!**/*.test.ts"],
-    "less": ["src/modules/**/*.less"]
   }
 }

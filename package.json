@@ -38,8 +38,8 @@
     "not dead"
   ],
   "scripts": {
-    "start": "cd test-server && npm run dev",
-    "clean": "del-cli modules/** polyfills/**",
+    "start": "cd pages && npm run dev",
+    "clean": "gulp clean",
     "build": "gulp build",
     "test": "concurrently \"npm run lint\" \"npm run test:unit\"",
     "test:unit": "jest --silent --noStackTrace",
@@ -76,7 +76,6 @@
     "browser-sync": "^2.26.14",
     "concurrently": "^6.0.0",
     "cssnano": "^4.1.10",
-    "del-cli": "^3.0.1",
     "eslint": "^7.21.0",
     "eslint-plugin-import": "^2.22.1",
     "gulp": "^4.0.2",

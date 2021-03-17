@@ -1,5 +1,5 @@
 const gulp = require('gulp');
-const cfg = require('./paths.json');
+const cfg = require('./settings.json');
 
 const {print} = require('../build/common');
 const {cleanAll} = require('../build/clean-task');
