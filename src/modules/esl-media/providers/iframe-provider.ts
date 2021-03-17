@@ -13,6 +13,17 @@ export class IframeBasicProvider extends BaseProvider {
   private _state: PlayerStates = PlayerStates.UNINITIALIZED;
   protected _el: HTMLIFrameElement;
 
+  static parseUrl(url: string) {
+    try {
+      if (!url) return null;
+      const {protocol} = new URL(url);
+      if (protocol !== 'http:' && protocol !== 'https:') return null;
+      return {mediaSrc: url};
+    } catch {
+      return null;
+    }
+  }
+
   protected buildIframe() {
     const el = document.createElement('iframe');
     el.id = 'esl-media-iframe-' + generateUId();

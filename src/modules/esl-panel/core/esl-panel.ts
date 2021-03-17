@@ -2,13 +2,12 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {bind} from '../../esl-utils/decorators/bind';
 import {afterNextRender} from '../../esl-utils/async/raf';
-import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
+import {attr, jsonAttr} from '../../esl-base-element/core';
 import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
 import {ESLPanelGroup} from './esl-panel-group';
 
 export interface PanelActionParams extends ToggleableActionParams {
   noCollapse?: boolean;
-  noAnimation?: boolean;
 }
 
 @ExportNs('Panel')
@@ -20,10 +19,7 @@ export class ESLPanel extends ESLToggleable {
   @attr({defaultValue: 'post-animate'}) public postAnimateClass: string;
   @attr({defaultValue: 'auto'}) public fallbackDuration: number | 'auto';
 
-  @boolAttr() public isAccordion: boolean;
-  @boolAttr() public startAnimation: boolean;
-
-  @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init', noAnimation: true}})
+  @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init'}})
   public initialParams: ToggleableActionParams;
 
   protected _initialHeight: number = 0;
@@ -50,9 +46,8 @@ export class ESLPanel extends ESLToggleable {
 
   protected onShow(params: PanelActionParams) {
     super.onShow(params);
+    this.clearAnimation();
     this._initialHeight = this.offsetHeight;
-
-    if (params.noAnimation) return;
 
     this.beforeAnimate();
     if (params.noCollapse) {
@@ -64,10 +59,9 @@ export class ESLPanel extends ESLToggleable {
   }
 
   protected onHide(params: PanelActionParams) {
+    this.clearAnimation();
     this._initialHeight = this.offsetHeight;
     super.onHide(params);
-
-    if (params.noAnimation) return;
 
     this.beforeAnimate();
     if (params.noCollapse) {
@@ -93,11 +87,14 @@ export class ESLPanel extends ESLToggleable {
   }
 
   protected afterAnimate() {
+    this.clearAnimation();
+    this.$$fire(this.open ? 'after:show' : 'after:hide');
+  }
+
+  protected clearAnimation() {
     this.style.removeProperty('max-height');
     CSSUtil.removeCls(this, this.animateClass);
     CSSUtil.removeCls(this, this.postAnimateClass);
-
-    this.$$fire(this.open ? 'after:show' : 'after:hide');
   }
 
   protected fallbackAnimate() {
@@ -114,7 +111,7 @@ export class ESLPanel extends ESLToggleable {
     }
   }
 
-  /** The panels use panel stack config for actions */
+  /** The panels use panel group config for actions */
   protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
     const stackConfig = this.$group?.panelConfig || {};
     return Object.assign({}, stackConfig, this.defaultParams, params || {});
