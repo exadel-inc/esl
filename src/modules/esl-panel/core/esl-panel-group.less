@@ -8,7 +8,7 @@ esl-panel-group {
     overflow: hidden;
   }
 
-  &:not(.accordion) {
+  &[view='tabs'] {
     > esl-panel {
       opacity: 0;
       transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime, opacity @animationTime ease-in-out;

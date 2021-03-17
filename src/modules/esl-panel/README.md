@@ -8,6 +8,14 @@ Authors: *Julia Murashko*.
 ESLPanel - is a custom element, that is used as a wrapper for content that 
 can be shown/hidden or collapsed (animated height change).
 
-ESLPanelStack - is a custom element, container that is used to control a group of panels and provides group behaviour, such as synchronized content state change.
+ESLPanelGroup - is a custom element, container that is used to control a group of panels and provides group behaviour, such as synchronized content state change.
+
+Note: ESLPanelGroup should be registered before ESLPanel.
+
+```javascript
+ESLPanelGroup.register();
+ESLPanel.register();
+```
+
 
 Description TBD.
