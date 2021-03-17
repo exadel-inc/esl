@@ -4,10 +4,11 @@ esl-panel-group {
   display: block;
 
   &.animate {
+    transition: height @animationTime ease-in-out;
     overflow: hidden;
   }
 
-  &:not(.accordion) {
+  &[view='tabs'] {
     > esl-panel {
       opacity: 0;
       transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime, opacity @animationTime ease-in-out;
@@ -18,12 +19,6 @@ esl-panel-group {
       }
     }
   }
-}
-
-// prevent animation
-esl-panel-group[no-animation] > esl-panel:not(#add-spec),
-esl-panel[no-animation]:not(#add-spec) {
-  transition: none;
 }
 
 // fix a11y

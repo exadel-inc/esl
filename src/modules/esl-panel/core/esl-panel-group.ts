@@ -1,21 +1,22 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
+import {attr, ESLBaseElement} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {bind} from '../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLPanel, PanelActionParams} from './esl-panel';
+import {TraversingQuery} from '../../esl-traversing-query/core';
 
 @ExportNs('PanelGroup')
 export class ESLPanelGroup extends ESLBaseElement {
   public static is = 'esl-panel-group';
+  public static supportedModes = ['tabs', 'accordion'];
 
-  @attr() public mode: string;
+  @attr({defaultValue: 'accordion'}) public mode: string;
+  @attr({defaultValue: ''}) public modeClsTarget: string;
   @attr({defaultValue: 'animate'}) public animationClass: string;
-  @attr({defaultValue: 'accordion'}) public accordionClass: string;
   @attr({defaultValue: 'auto'}) public fallbackDuration: number | 'auto';
-
-  @boolAttr() public noAnimation: boolean;
+  @attr() public noCollapse: string;
 
   private _modeRules: ESLMediaRuleList<string>;
 
@@ -69,12 +70,12 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Get all active panels */
   public get $activePanels() {
-    return this.$panels.filter((el: ESLPanel) => el.open) ;
+    return this.$panels.filter((el: ESLPanel) => el.open);
   }
 
   /** Condition-guard to check if the target is controlled panel */
   public includesPanel(target: any): target is ESLPanel {
-    if(!(target instanceof ESLPanel)) return false;
+    if (!(target instanceof ESLPanel)) return false;
     return target.$group === this;
   }
 
@@ -91,11 +92,14 @@ export class ESLPanelGroup extends ESLBaseElement {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
     if (this.currentMode !== 'tabs') return;
-    if (this.noAnimation) return;
 
     this.beforeAnimate();
-    this.onAnimate(this._previousHeight, panel.initialHeight);
-    this.fallbackAnimate();
+    if (this.collapseDeclined) {
+      afterNextRender(() => this.afterAnimate());
+    } else {
+      this.onAnimate(this._previousHeight, panel.initialHeight);
+      this.fallbackAnimate();
+    }
   }
 
   @bind
@@ -105,7 +109,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this._previousHeight = this.offsetHeight;
   }
 
-  /** Animate height of component */
+  /** Animate height of the component */
   protected onAnimate(from: number, to: number) {
     const hasCurrent = this.style.height && this.style.height !== 'auto';
     if (hasCurrent) {
@@ -118,12 +122,12 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
-  /** Set animation class */
+  /** Prepare for animation */
   protected beforeAnimate() {
     CSSUtil.addCls(this, this.animationClass);
   }
 
-  /** Remove animation class */
+  /** Clear animation */
   protected afterAnimate() {
     this.style.removeProperty('height');
     CSSUtil.removeCls(this, this.animationClass);
@@ -144,11 +148,15 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
+  public get collapseDeclined() {
+    const noCollapseModes = this.noCollapse.split(',').map((mode) => mode.trim());
+    return noCollapseModes.includes('all') || noCollapseModes.includes(this.currentMode);
+  }
+
   /** Get config that is used to form result panel action params */
-  public get panelConfig(): PanelActionParams  {
+  public get panelConfig(): PanelActionParams {
     return {
-      noCollapse: this.currentMode === 'tabs',
-      noAnimation: this.noAnimation
+      noCollapse: this.collapseDeclined || (this.currentMode === 'tabs')
     };
   }
 
@@ -167,17 +175,23 @@ export class ESLPanelGroup extends ESLBaseElement {
     this._modeRules.addListener(this._onModeChange);
   }
 
-  public get currentMode() {
-    return this.modeRules.activeValue;
+  public get currentMode(): string {
+    return this.modeRules.activeValue || '';
   }
 
-  /** Update component according to mode */
+  /** Update component according to the mode */
   @bind
   private _onModeChange() {
     this.updateMode();
   }
 
+  /** Set active mode though view attr */
   protected updateMode() {
-      CSSUtil.toggleClsTo(this, this.accordionClass, this.currentMode !== 'tabs');
+    this.setAttribute('view', this.currentMode);
+    const $target = this.modeClsTarget && TraversingQuery.first(this.modeClsTarget, this);
+    if (!$target) return;
+    ESLPanelGroup.supportedModes.forEach((mode) => {
+      $target.classList.toggle(`esl-${mode}-view`, this.currentMode === mode);
+    });
   }
 }
