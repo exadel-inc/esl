@@ -1,14 +1,17 @@
 @import './snippets/snippets';
 @import './settings/setting/setting';
-
-@selected-mode-weight: 700;
-@not-selected-mode-weight: 400;
-@column-width: 200px;
+@import './core/variables';
+@import './core/theme';
+@import './core/mode';
 
 .uip-content.no-settings {
   .preview-wrapper {
     width: 100%;
   }
+}
+
+uip-root, uip-snippets, uip-preview, uip-settings, uip-editor {
+  display: block;
 }
 
 .uip-options {
@@ -39,7 +42,6 @@
         height: 100%;
         font-weight: 400;
         margin: 0 5px;
-        color: #535353;
       }
     }
 
@@ -55,6 +57,21 @@
   font-weight: 500;
 }
 
+.snippets-section, uip-preview, uip-settings, uip-editor {
+  margin-top: 5px;
+  border: 1px solid @section-border;
+}
+
+.snippets-section, uip-preview, uip-settings {
+  padding: 10px;
+}
+
+uip-snippets {
+  .snippets-list {
+    margin-bottom: 0;
+  }
+}
+
 .preview-settings {
   display: flex;
   flex: 0 1 auto;
@@ -65,171 +82,30 @@
   margin-right: 10px;
 }
 
+uip-preview {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  min-height: @section-height;
+}
+
 .settings-wrapper {
   width: calc(25% - 10px);
   margin-left: 10px;
 }
 
-.snippets-section, .preview-section, uip-settings, .editor-section {
-  margin-top: 5px;
-  border: 1px solid #ebebeb;
-}
-
-.preview-section {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  min-height: 500px;
-}
-
-uip-snippets {
-  display: block;
-  height: 500px;
-  .snippets-list {
-    margin-bottom: 0;
-  }
-}
-
-.snippets-section, .preview-section {
-  padding: 10px;
-}
-
 uip-settings {
-  padding: 10px;
+  height: @section-height;
   overflow: auto;
-}
-
-.editor-section {
-  display: block;
-  height: 300px;
-  width: auto;
 }
 
 .editor-wrapper {
   margin-top: 20px;
 }
 
-
-uip-root:not([mode='horizontal']) {
-  .option-item {
-    &[mode='vertical'] {
-      font-weight: @selected-mode-weight;
-    }
-
-    &[mode='horizontal'] {
-      font-weight: @not-selected-mode-weight;
-    }
-  }
-
-  .uip-content {
-    display: flex;
-    flex: 0 1 auto;
-    width: 100%;
-  }
-
-  .snippets-section {
-    height: ~'calc(100% - 47px)';
-    min-height: 250px;
-    overflow: auto;
-  }
-
-  uip-snippets {
-    .snippets-list-item {
-      border-bottom: 1px solid #dee2e6;
-
-      &:not(:first-child) {
-        margin-top: 10px;
-      }
-    }
-  }
-
-  .snippets-wrapper {
-    max-height: 900px;
-    width: @column-width;
-    max-width: @column-width;
-    min-width: @column-width;
-    margin-right: 10px;
-  }
-
-  .sections-wrapper {
-    width: 100%;
-    margin-left: 10px;
-  }
-
-}
-
-uip-root[mode='horizontal'] {
-  .option-item {
-    &[mode='horizontal'] {
-      font-weight: @selected-mode-weight;
-    }
-
-    &[mode='vertical'] {
-      font-weight: @not-selected-mode-weight;
-    }
-  }
-
-  uip-snippets {
-    // add specificity
-    ul.snippets-list {
-      margin-left: 5px;
-    }
-
-    ul.snippets-list li {
-      display: inline-block;
-
-      &:not(:last-child) {
-        &::after {
-          content: '|';
-          width: 5px;
-          height: 100%;
-          font-weight: 400;
-          margin: 0 20px;
-          color: #535353;
-        }
-      }
-    }
-  }
-
-  .sections-wrapper {
-    width: 100%;
-  }
-
-  .preview-settings {
-    margin-top: 15px;
-  }
-}
-
-uip-root:not([theme='dark']) {
-  .preview-section {
-    background-color: #fcfcfc;
-  }
-
-  .option-item {
-    &[theme='light'] {
-      font-weight: @selected-mode-weight;
-    }
-
-    &[theme='dark'] {
-      font-weight: @not-selected-mode-weight;
-    }
-  }
-}
-
-uip-root[theme='dark'] {
-  .preview-section {
-    background-color: #484848;
-  }
-
-  .option-item {
-    &[theme='dark'] {
-      font-weight: @selected-mode-weight;
-    }
-
-    &[theme='light'] {
-      font-weight: @not-selected-mode-weight;
-    }
-  }
+uip-editor {
+  height: @small-section-height;
+  width: auto;
 }
 
 @media screen and (max-width: 992px) {
@@ -242,7 +118,7 @@ uip-root[theme='dark'] {
     }
 
     .snippets-section {
-      width: 90%;
+      width: 100%;
       min-width: 90px;
     }
 
@@ -263,8 +139,16 @@ uip-root[theme='dark'] {
       margin-top: 30px;
     }
 
-    .preview-section, uip-settings {
+    .settings-wrapper {
+      margin-left: 0;
+    }
+
+    uip-preview {
       height: 400px;
+    }
+
+    uip-settings {
+      height: auto;
     }
 
     .uip-option.mode {
