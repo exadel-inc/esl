@@ -1,7 +1,7 @@
 import {ESLBaseElement, attr} from '@exadel/esl/modules/esl-base-element/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
-import {UIPEditor} from "../editor/editor";
+import {UIPEditor} from '../editor/editor';
 
 export class UIPRoot extends ESLBaseElement {
   public static is = 'uip-root';
