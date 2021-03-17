@@ -9,11 +9,14 @@
 node_modules
 
 # Generated surces
-/dist
+/lib
+/types
 
 # Logs & Tmp
 npm-debug.log
-.gitconfig
 
-# Jest & Sonar
+# Report
+.report
+
+# Sonar
 /.scannerwork

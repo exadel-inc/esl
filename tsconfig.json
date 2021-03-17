@@ -17,7 +17,8 @@
       "DOM",
       "DOM.Iterable"
     ],
-    "outDir": "./dist"
+    "sourceRoot": "src",
+    "declarationDir": "./types"
   },
   "include": [
     "src"
