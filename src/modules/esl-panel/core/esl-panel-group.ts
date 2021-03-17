@@ -94,11 +94,11 @@ export class ESLPanelGroup extends ESLBaseElement {
     if (this.currentMode !== 'tabs') return;
 
     this.beforeAnimate();
-    if (this.collapseDeclined) {
-      afterNextRender(() => this.afterAnimate());
-    } else {
+    if (this.shouldCollapse) {
       this.onAnimate(this._previousHeight, panel.initialHeight);
       this.fallbackAnimate();
+    } else {
+      afterNextRender(() => this.afterAnimate());
     }
   }
 
@@ -148,15 +148,15 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
-  public get collapseDeclined() {
+  public get shouldCollapse() {
     const noCollapseModes = this.noCollapse.split(',').map((mode) => mode.trim());
-    return noCollapseModes.includes('all') || noCollapseModes.includes(this.currentMode);
+    return !noCollapseModes.includes('all') && !noCollapseModes.includes(this.currentMode);
   }
 
   /** Get config that is used to form result panel action params */
   public get panelConfig(): PanelActionParams {
     return {
-      noCollapse: this.collapseDeclined || (this.currentMode === 'tabs')
+      noCollapse: !this.shouldCollapse || (this.currentMode === 'tabs')
     };
   }
 

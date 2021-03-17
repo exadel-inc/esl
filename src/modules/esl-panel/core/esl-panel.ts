@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {bind} from '../../esl-utils/decorators/bind';
 import {afterNextRender} from '../../esl-utils/async/raf';
-import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
+import {attr, jsonAttr} from '../../esl-base-element/core';
 import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
 import {ESLPanelGroup} from './esl-panel-group';
 
