@@ -9,9 +9,7 @@ uip-root:not([theme='dark']) {
     &[theme='dark'] {
       font-weight: @not-selected-mode-weight;
     }
-  }
 
-  .option-item {
     &:not(:last-child) {
       &::after {
         color: @dark-text-decorator-color;
@@ -57,9 +55,7 @@ uip-root[theme='dark'] {
     &[theme='light'] {
       font-weight: @not-selected-mode-weight;
     }
-  }
 
-  .option-item {
     &:not(:last-child) {
       &::after {
         color: @light-text;
@@ -91,5 +87,4 @@ uip-root[theme='dark'] {
       color: @light-text;
     }
   }
-
 }

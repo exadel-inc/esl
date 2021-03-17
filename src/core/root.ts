@@ -56,7 +56,7 @@ export class UIPRoot extends ESLBaseElement {
 
   @bind
   protected _onResize(e: Event) {
-    if (window.matchMedia("(max-width: 992px)").matches) {
+    if (window.matchMedia('(max-width: 992px)').matches) {
       this.mode = 'horizontal';
     }
   }
