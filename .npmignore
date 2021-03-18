@@ -11,8 +11,6 @@ package-lock.json
 
 # Build Config
 build
-paths.json
-gulpfile.js
 .releaserc.json
 
 # Target

@@ -10,7 +10,6 @@
     "downlevelIteration": true,
     "module": "ES2015",
     "moduleResolution": "Node",
-    "sourceMap": true,
     "lib": [
       "ES2015",
       "DOM",
