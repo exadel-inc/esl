@@ -130,8 +130,7 @@ You can use this [short note](./docs/contribute/commit.md) to renew commit messa
 In case you are using JetBrains IDE (IDEA or WebStorm) you can use this 
 [plugin](https://plugins.jetbrains.com/plugin/13389-conventional-commit) to simplify commit validation.
 
-## Development: Agreements
-[Code conventions and agreements.](./docs/contribute/styleguide.md)
+## Development: [Agreements](./docs/contribute/styleguide.md)
 
 ---
 

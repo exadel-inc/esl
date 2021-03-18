@@ -1,5 +1,6 @@
 const path = require('path');
 const axios = require('axios');
+const {existsSync, mkdirSync} = require('fs');
 const {writeFile} = require('fs/promises');
 
 const settings = require('./settings.json');
@@ -21,6 +22,15 @@ const CONTENT_PROCESSORS = [
   (data) => data.replace(/(href|src)\s*=\s*"\//gi, '$1 = "./'),
 ];
 
+/** Write file and create directories */
+const write = async (file, content) => {
+  const dir = path.dirname(file);
+  if (!existsSync(dir)) {
+    mkdirSync(dir, {recursive: true});
+  }
+  return await writeFile(file, content);
+};
+
 (async () => {
   console.log('Start server to render public pages');
   server.start(serverConfig);
@@ -36,7 +46,7 @@ const CONTENT_PROCESSORS = [
       res.data
     );
     console.log(`Writing "${file}" ...`);
-    await writeFile(file, processedData);
+    await write(file, processedData);
     console.log(`File "${file}" written successfully`);
   }
 
