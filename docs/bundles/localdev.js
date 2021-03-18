@@ -2,6 +2,221 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/common/back-button.ts":
+/*!***********************************!*\
+  !*** ./src/common/back-button.ts ***!
+  \***********************************/
+/***/ (function() {
+
+
+document.body.addEventListener('click', function (e) {
+    var target = e.target;
+    if (target && target.closest('.gn-back-trigger')) {
+        window.history.back();
+        e.preventDefault();
+        e.stopPropagation();
+    }
+});
+if (window.history.length < 2) {
+    Array.from(document.querySelectorAll('.gn-back'))
+        .forEach(function (el) {
+        el.classList.add('d-none');
+    });
+}
+
+
+/***/ }),
+
+/***/ "./src/common/test-media-source.ts":
+/*!*****************************************!*\
+  !*** ./src/common/test-media-source.ts ***!
+  \*****************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _src_modules_esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/modules/esl-utils/async/debounce */ "../src/modules/esl-utils/async/debounce.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var TestMediaSource = /** @class */ (function (_super) {
+    __extends(TestMediaSource, _super);
+    function TestMediaSource() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Object.defineProperty(TestMediaSource.prototype, "target", {
+        get: function () {
+            var targetSel = this.getAttribute('target');
+            return document.querySelector(targetSel || '');
+        },
+        enumerable: false,
+        configurable: true
+    });
+    TestMediaSource.prototype.render = function () {
+        var form = document.createElement('form');
+        form.innerHTML = "\n\t\t\t<fieldset>\n\t\t\t\t<legend>Video Settings:</legend>\n\t\t    <div class=\"input-group mb-2 mr-sm-2\">\n\t\t\t    <select class=\"form-control\" name=\"media-type\">\n\t\t\t      <option value=\"auto\">- Auto -</option>\n\t\t\t      <option value=\"audio\">HTML Audio</option>\n\t\t\t      <option value=\"video\">HTML Video</option>\n\t\t\t      <option value=\"youtube\">Youtube</option>\n\t\t\t      <option value=\"brightcove\">Brightcove</option>\n\t\t\t      <option value=\"iframe\">Iframe</option>\n\t\t\t\t\t</select>\n        </div>\n\t\t\t  <div class=\"input-group mb-2 mr-sm-2\">\n\t\t\t    <input type=\"text\" class=\"form-control\" placeholder=\"Media src\" name=\"media-src\" autocomplete=\"on\"/>\n\t\t\t  </div>\n\t\t\t  <div class=\"input-group mb-2 mr-sm-2\">\n\t\t\t    <input type=\"text\" class=\"form-control\" placeholder=\"Media id\" name=\"media-id\" autocomplete=\"on\"/>\n\t\t\t  </div>\n        <div class=\"input-group mb-2 mr-sm-2\">\n\t\t\t    <input type=\"text\" class=\"form-control\" placeholder=\"Player id\" name=\"player-id\" autocomplete=\"on\"/>\n        </div>\n        <div class=\"input-group mb-2 mr-sm-2\">\n\t\t\t    <input type=\"text\" class=\"form-control\" placeholder=\"Player account\" name=\"player-account\" autocomplete=\"on\"/>\n        </div>\n\n\n        <div class=\"form-group\">\n          <div class=\"form-check form-check-inline\">\n            <label class=\"form-check-label\"><input type=\"checkbox\" name=\"muted\" class=\"form-check-input\"/> Muted</label>\n          </div>\n          <div class=\"form-check form-check-inline\">\n            <label class=\"form-check-label\"><input type=\"checkbox\" name=\"autoplay\" class=\"form-check-input\"/> Autoplay</label>\n          </div>\n          <div class=\"form-check form-check-inline\">\n            <label class=\"form-check-label\"><input type=\"checkbox\" name=\"disabled\" class=\"form-check-input\"/> Disabled</label>\n          </div>\n        </div>\n\t\t\t</fieldset>\n\t\t";
+        form.action = 'javascript: void 0;';
+        this.innerHTML = '';
+        this.appendChild(form);
+    };
+    TestMediaSource.prototype.onChange = function () {
+        var target = this.target;
+        var inputs = this.querySelectorAll('input[name], select[name]');
+        Array.from(inputs).forEach(function (input) {
+            if (!target)
+                return;
+            if (input instanceof HTMLInputElement && input.type === 'checkbox') {
+                target.toggleAttribute(input.name, input.checked);
+            }
+            else {
+                target.setAttribute(input.name, input.value);
+            }
+        });
+    };
+    TestMediaSource.prototype.connectedCallback = function () {
+        var _this = this;
+        this.render();
+        this.addEventListener('change', (0,_src_modules_esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_0__.debounce)(function () { return _this.onChange(); }, 750));
+        this.onChange();
+    };
+    return TestMediaSource;
+}(HTMLElement));
+customElements.define('test-media-source', TestMediaSource);
+
+
+/***/ }),
+
+/***/ "./src/common/test-media.ts":
+/*!**********************************!*\
+  !*** ./src/common/test-media.ts ***!
+  \**********************************/
+/***/ (function() {
+
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __values = (this && this.__values) || function(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
+var TestMediaControls = /** @class */ (function (_super) {
+    __extends(TestMediaControls, _super);
+    function TestMediaControls() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Object.defineProperty(TestMediaControls.prototype, "target", {
+        get: function () {
+            var targetSel = this.getAttribute('target');
+            return targetSel ? Array.from(document.querySelectorAll(targetSel)) : [];
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(TestMediaControls.prototype, "actions", {
+        get: function () {
+            return this.getAttribute('actions') || TestMediaControls.ACTIONS_ALL;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    TestMediaControls.prototype.render = function () {
+        var e_1, _a;
+        var actionList = this.actions.split(',');
+        this.innerHTML = '';
+        try {
+            for (var actionList_1 = __values(actionList), actionList_1_1 = actionList_1.next(); !actionList_1_1.done; actionList_1_1 = actionList_1.next()) {
+                var actionName = actionList_1_1.value;
+                var action = TestMediaControls.ACTIONS[actionName];
+                if (!action)
+                    return;
+                this.appendChild(action.render(actionName, action));
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (actionList_1_1 && !actionList_1_1.done && (_a = actionList_1.return)) _a.call(actionList_1);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
+    };
+    TestMediaControls.prototype.onClick = function (e) {
+        var target = e.target;
+        var actionName = target.dataset.action;
+        if (actionName && TestMediaControls.ACTIONS[actionName]) {
+            var actionDesc_1 = TestMediaControls.ACTIONS[actionName];
+            var actionFn_1 = actionDesc_1.action;
+            this.target.forEach(function ($el) { return actionFn_1.call($el, $el, actionName, actionDesc_1); });
+        }
+    };
+    TestMediaControls.prototype.connectedCallback = function () {
+        this.render();
+        this.addEventListener('click', this.onClick.bind(this));
+    };
+    TestMediaControls.ACTIONS = {
+        play: {
+            title: 'Play',
+            action: function (target) { return target.play(); },
+            render: renderButton
+        },
+        pause: {
+            title: 'Pause',
+            action: function (target) { return target.pause(); },
+            render: renderButton
+        },
+        stop: {
+            title: 'Stop',
+            action: function (target) { return target.stop(); },
+            render: renderButton
+        }
+    };
+    TestMediaControls.ACTIONS_ALL = Object.keys(TestMediaControls.ACTIONS).join(',');
+    return TestMediaControls;
+}(HTMLElement));
+function renderButton(actionName, action) {
+    var btn = document.createElement('button');
+    btn.className = 'btn btn-primary';
+    btn.dataset.action = actionName;
+    btn.textContent = action.title;
+    return btn;
+}
+customElements.define('test-media-controls', TestMediaControls);
+
+
+/***/ }),
+
 /***/ "../src/modules/draft/esl-carousel/all.ts":
 /*!************************************************!*\
   !*** ../src/modules/draft/esl-carousel/all.ts ***!
@@ -59,6 +274,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -136,6 +353,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -458,6 +677,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -523,6 +744,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -544,9 +767,10 @@ var __read = (undefined && undefined.__read) || function (o, n) {
     }
     return ar;
 };
-var __spread = (undefined && undefined.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
+var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
 };
 
 var ESLMultiCarouselView = /** @class */ (function (_super) {
@@ -606,7 +830,7 @@ var ESLMultiCarouselView = /** @class */ (function (_super) {
         var animatedCount = shiftCount < this.carousel.activeCount ? this.carousel.activeCount : shiftCount;
         var _loop_1 = function (i) {
             var computedIndex = (nextIndex + i + this_1.carousel.count) % this_1.carousel.count;
-            var minActive = Math.min.apply(Math, __spread(this_1.carousel.activeIndexes));
+            var minActive = Math.min.apply(Math, __spreadArray([], __read(this_1.carousel.activeIndexes)));
             // make next active slides be in one line
             if (computedIndex >= this_1.carousel.firstIndex && direction === 'left') {
                 left = currentLeft - areaWidth;
@@ -686,6 +910,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -765,6 +991,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -897,6 +1125,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -976,6 +1206,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -1088,6 +1320,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -1192,6 +1426,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -1309,6 +1545,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -1460,6 +1698,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -1634,6 +1874,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -1868,6 +2110,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -2067,6 +2311,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -2156,6 +2402,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -2387,6 +2635,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -2619,6 +2869,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -2762,6 +3014,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -2926,6 +3180,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -3270,6 +3526,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -3946,6 +4204,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -4073,6 +4333,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -4421,6 +4683,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -4563,6 +4827,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5001,6 +5267,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5231,6 +5499,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5297,6 +5567,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5428,6 +5700,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5490,6 +5764,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5515,6 +5791,19 @@ var IframeBasicProvider = /** @class */ (function (_super) {
         _this._state = _core_esl_media_provider__WEBPACK_IMPORTED_MODULE_0__.PlayerStates.UNINITIALIZED;
         return _this;
     }
+    IframeBasicProvider.parseUrl = function (url) {
+        try {
+            if (!url)
+                return null;
+            var protocol = new URL(url).protocol;
+            if (protocol !== 'http:' && protocol !== 'https:')
+                return null;
+            return { mediaSrc: url };
+        }
+        catch (_a) {
+            return null;
+        }
+    };
     IframeBasicProvider.prototype.buildIframe = function () {
         var el = document.createElement('iframe');
         el.id = 'esl-media-iframe-' + (0,_esl_utils_misc_uid__WEBPACK_IMPORTED_MODULE_1__.generateUId)();
@@ -5638,6 +5927,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5870,14 +6161,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ESLPanelGroup": function() { return /* binding */ ESLPanelGroup; }
 /* harmony export */ });
-/* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
+/* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
 /* harmony import */ var _esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/async/raf */ "../src/modules/esl-utils/async/raf.ts");
-/* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
+/* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
 /* harmony import */ var _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/dom/styles */ "../src/modules/esl-utils/dom/styles.ts");
 /* harmony import */ var _esl_media_query_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-media-query/core */ "../src/modules/esl-media-query/core/esl-media-rule-list.ts");
 /* harmony import */ var _esl_panel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./esl-panel */ "../src/modules/esl-panel/core/esl-panel.ts");
+/* harmony import */ var _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-traversing-query/core */ "../src/modules/esl-traversing-query/core/esl-traversing-query.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5886,6 +6178,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -5904,6 +6198,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var ESLPanelGroup = /** @class */ (function (_super) {
     __extends(ESLPanelGroup, _super);
     function ESLPanelGroup() {
@@ -5912,6 +6207,7 @@ var ESLPanelGroup = /** @class */ (function (_super) {
         _this._fallbackTimer = 0;
         return _this;
     }
+    ESLPanelGroup_1 = ESLPanelGroup;
     ESLPanelGroup.prototype.attributeChangedCallback = function (attrName, oldVal, newVal) {
         if (!this.connected || oldVal === newVal)
             return;
@@ -5975,14 +6271,20 @@ var ESLPanelGroup = /** @class */ (function (_super) {
         this.$activePanels.forEach(function (el) { return (el !== panel) && el.hide(); });
     };
     ESLPanelGroup.prototype._onShow = function (e) {
+        var _this = this;
         var panel = e.target;
         if (!this.includesPanel(panel))
             return;
         if (this.currentMode !== 'tabs')
             return;
         this.beforeAnimate();
-        this.onAnimate(this._previousHeight, panel.initialHeight);
-        this.fallbackAnimate();
+        if (this.shouldCollapse) {
+            this.onAnimate(this._previousHeight, panel.initialHeight);
+            this.fallbackAnimate();
+        }
+        else {
+            (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_2__.afterNextRender)(function () { return _this.afterAnimate(); });
+        }
     };
     ESLPanelGroup.prototype._onBeforeHide = function (e) {
         var panel = e.target;
@@ -5990,7 +6292,7 @@ var ESLPanelGroup = /** @class */ (function (_super) {
             return;
         this._previousHeight = this.offsetHeight;
     };
-    /** Animate height of component */
+    /** Animate height of the component */
     ESLPanelGroup.prototype.onAnimate = function (from, to) {
         var _this = this;
         var hasCurrent = this.style.height && this.style.height !== 'auto';
@@ -6004,11 +6306,11 @@ var ESLPanelGroup = /** @class */ (function (_super) {
             (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_2__.afterNextRender)(function () { return _this.style.height = to + "px"; });
         }
     };
-    /** Set animation class */
+    /** Prepare for animation */
     ESLPanelGroup.prototype.beforeAnimate = function () {
         _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__.CSSUtil.addCls(this, this.animationClass);
     };
-    /** Remove animation class */
+    /** Clear animation */
     ESLPanelGroup.prototype.afterAnimate = function () {
         this.style.removeProperty('height');
         _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__.CSSUtil.removeCls(this, this.animationClass);
@@ -6028,11 +6330,19 @@ var ESLPanelGroup = /** @class */ (function (_super) {
             this.afterAnimate();
         }
     };
+    Object.defineProperty(ESLPanelGroup.prototype, "shouldCollapse", {
+        get: function () {
+            var noCollapseModes = this.noCollapse.split(',').map(function (mode) { return mode.trim(); });
+            return !noCollapseModes.includes('all') && !noCollapseModes.includes(this.currentMode);
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(ESLPanelGroup.prototype, "panelConfig", {
         /** Get config that is used to form result panel action params */
         get: function () {
             return {
-                noCollapse: this.currentMode === 'tabs'
+                noCollapse: !this.shouldCollapse || (this.currentMode === 'tabs')
             };
         },
         enumerable: false,
@@ -6057,51 +6367,64 @@ var ESLPanelGroup = /** @class */ (function (_super) {
     });
     Object.defineProperty(ESLPanelGroup.prototype, "currentMode", {
         get: function () {
-            return this.modeRules.activeValue;
+            return this.modeRules.activeValue || '';
         },
         enumerable: false,
         configurable: true
     });
-    /** Update component according to mode */
+    /** Update component according to the mode */
     ESLPanelGroup.prototype._onModeChange = function () {
         this.updateMode();
     };
+    /** Set active mode though view attr */
     ESLPanelGroup.prototype.updateMode = function () {
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__.CSSUtil.toggleClsTo(this, this.accordionClass, this.currentMode !== 'tabs');
+        var _this = this;
+        this.setAttribute('view', this.currentMode);
+        var $target = this.modeClsTarget && _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_4__.TraversingQuery.first(this.modeClsTarget, this);
+        if (!$target)
+            return;
+        ESLPanelGroup_1.supportedModes.forEach(function (mode) {
+            $target.classList.toggle("esl-" + mode + "-view", _this.currentMode === mode);
+        });
     };
+    var ESLPanelGroup_1;
     ESLPanelGroup.is = 'esl-panel-group';
+    ESLPanelGroup.supportedModes = ['tabs', 'accordion'];
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.attr)()
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ defaultValue: 'accordion' })
     ], ESLPanelGroup.prototype, "mode", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.attr)({ defaultValue: 'animate' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ defaultValue: '' })
+    ], ESLPanelGroup.prototype, "modeClsTarget", void 0);
+    __decorate([
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ defaultValue: 'animate' })
     ], ESLPanelGroup.prototype, "animationClass", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.attr)({ defaultValue: 'accordion' })
-    ], ESLPanelGroup.prototype, "accordionClass", void 0);
-    __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.attr)({ defaultValue: 'auto' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ defaultValue: 'auto' })
     ], ESLPanelGroup.prototype, "fallbackDuration", void 0);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)()
+    ], ESLPanelGroup.prototype, "noCollapse", void 0);
+    __decorate([
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__.bind
     ], ESLPanelGroup.prototype, "_onBeforeShow", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__.bind
     ], ESLPanelGroup.prototype, "_onShow", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__.bind
     ], ESLPanelGroup.prototype, "_onBeforeHide", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__.bind
     ], ESLPanelGroup.prototype, "_onTransitionEnd", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__.bind
     ], ESLPanelGroup.prototype, "_onModeChange", null);
-    ESLPanelGroup = __decorate([
-        (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_6__.ExportNs)('PanelGroup')
+    ESLPanelGroup = ESLPanelGroup_1 = __decorate([
+        (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_7__.ExportNs)('PanelGroup')
     ], ESLPanelGroup);
     return ESLPanelGroup;
-}(_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.ESLBaseElement));
+}(_esl_base_element_core__WEBPACK_IMPORTED_MODULE_8__.ESLBaseElement));
 
 
 
@@ -6117,14 +6440,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ESLPanel": function() { return /* binding */ ESLPanel; }
 /* harmony export */ });
-/* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
+/* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
 /* harmony import */ var _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/dom/styles */ "../src/modules/esl-utils/dom/styles.ts");
-/* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
+/* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
 /* harmony import */ var _esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/async/raf */ "../src/modules/esl-utils/async/raf.ts");
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/bool-attr.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/json-attr.ts");
-/* harmony import */ var _esl_toggleable_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../esl-toggleable/core */ "../src/modules/esl-toggleable/core/esl-toggleable.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/json-attr.ts");
+/* harmony import */ var _esl_toggleable_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../esl-toggleable/core */ "../src/modules/esl-toggleable/core/esl-toggleable.ts");
 /* harmony import */ var _esl_panel_group__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./esl-panel-group */ "../src/modules/esl-panel/core/esl-panel-group.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -6134,6 +6456,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -6187,9 +6511,8 @@ var ESLPanel = /** @class */ (function (_super) {
     ESLPanel.prototype.onShow = function (params) {
         var _this = this;
         _super.prototype.onShow.call(this, params);
+        this.clearAnimation();
         this._initialHeight = this.offsetHeight;
-        if (params.noAnimation)
-            return;
         this.beforeAnimate();
         if (params.noCollapse) {
             (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_1__.afterNextRender)(function () { return _this.afterAnimate(); });
@@ -6201,10 +6524,9 @@ var ESLPanel = /** @class */ (function (_super) {
     };
     ESLPanel.prototype.onHide = function (params) {
         var _this = this;
+        this.clearAnimation();
         this._initialHeight = this.offsetHeight;
         _super.prototype.onHide.call(this, params);
-        if (params.noAnimation)
-            return;
         this.beforeAnimate();
         if (params.noCollapse) {
             (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_1__.afterNextRender)(function () { return _this.afterAnimate(); });
@@ -6229,10 +6551,13 @@ var ESLPanel = /** @class */ (function (_super) {
         });
     };
     ESLPanel.prototype.afterAnimate = function () {
+        this.clearAnimation();
+        this.$$fire(this.open ? 'after:show' : 'after:hide');
+    };
+    ESLPanel.prototype.clearAnimation = function () {
         this.style.removeProperty('max-height');
         _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_2__.CSSUtil.removeCls(this, this.animateClass);
         _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_2__.CSSUtil.removeCls(this, this.postAnimateClass);
-        this.$$fire(this.open ? 'after:show' : 'after:hide');
     };
     ESLPanel.prototype.fallbackAnimate = function () {
         var _this = this;
@@ -6248,7 +6573,7 @@ var ESLPanel = /** @class */ (function (_super) {
             this.afterAnimate();
         }
     };
-    /** The panels use panel stack config for actions */
+    /** The panels use panel group config for actions */
     ESLPanel.prototype.mergeDefaultParams = function (params) {
         var _a;
         var stackConfig = ((_a = this.$group) === null || _a === void 0 ? void 0 : _a.panelConfig) || {};
@@ -6268,22 +6593,16 @@ var ESLPanel = /** @class */ (function (_super) {
         (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_3__.attr)({ defaultValue: 'auto' })
     ], ESLPanel.prototype, "fallbackDuration", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.boolAttr)()
-    ], ESLPanel.prototype, "isAccordion", void 0);
-    __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.boolAttr)()
-    ], ESLPanel.prototype, "startAnimation", void 0);
-    __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.jsonAttr)({ defaultValue: { force: true, initiator: 'init', noAnimation: true } })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.jsonAttr)({ defaultValue: { force: true, initiator: 'init' } })
     ], ESLPanel.prototype, "initialParams", void 0);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
     ], ESLPanel.prototype, "_onTransitionEnd", null);
     ESLPanel = __decorate([
-        (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_7__.ExportNs)('Panel')
+        (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_6__.ExportNs)('Panel')
     ], ESLPanel);
     return ESLPanel;
-}(_esl_toggleable_core__WEBPACK_IMPORTED_MODULE_8__.ESLToggleable));
+}(_esl_toggleable_core__WEBPACK_IMPORTED_MODULE_7__.ESLToggleable));
 
 
 
@@ -6311,6 +6630,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -6381,6 +6702,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -6764,6 +7087,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -6830,6 +7155,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -7032,6 +7359,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -7217,6 +7546,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -7536,9 +7867,10 @@ var __values = (undefined && undefined.__values) || function(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
-var __spread = (undefined && undefined.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
+var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
 };
 
 
@@ -7552,6 +7884,7 @@ var __spread = (undefined && undefined.__spread) || function () {
  * - ::parent and ::child pseudo-selectors
  * - ::find pseudo-selector
  * - ::first, ::last and :nth(#) limitation pseudo-selectors
+ * - ::filter, ::not filtration pseudo-selectors
  *
  * @example "#id .class [attr]" - find by CSS selector in a current document
  * @example "" - get current base element
@@ -7561,6 +7894,8 @@ var __spread = (undefined && undefined.__spread) || function () {
  * @example "::parent(#id .class [attr])" - find the closest parent matching passed selector
  * @example "::child(#id .class [attr])" - find direct child element(s) that match passed selector
  * @example "::find(#id .class [attr])" - find child element(s) that match passed selector
+ * @example "::find(buttons, a)::not([hidden])" - find all buttons and anchors that are not have hidden attribute
+ * @example "::find(buttons, a)::filter(:first-child)" - find all buttons and anchors that are first child in container
  * @example "::parent::child(some-tag)" - find direct child element(s) that match tag 'some-tag' in the parent
  * @example "#id .class [attr]::parent" - find parent of element matching selector '#id .class [attr]' in document
  * @example "::find(.row)::last::parent" - find parent of the last element matching selector '.row' from the base element subtree
@@ -7617,7 +7952,7 @@ var TraversingQuery = /** @class */ (function () {
                     continue;
                 if (findFirst)
                     return resultCollection.slice(0, 1);
-                result.push.apply(result, __spread(resultCollection));
+                result.push.apply(result, __spreadArray([], __read(resultCollection)));
             }
         }
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -7657,7 +7992,9 @@ var TraversingQuery = /** @class */ (function () {
         '::nth': function (list, sel) {
             var index = sel ? +sel : NaN;
             return (0,_esl_utils_misc_array__WEBPACK_IMPORTED_MODULE_1__.wrap)(list[index - 1]);
-        }
+        },
+        '::not': function (list, sel) { return list.filter(function (el) { return !el.matches(sel || ''); }); },
+        '::filter': function (list, sel) { return list.filter(function (el) { return el.matches(sel || ''); }); }
     };
     return TraversingQuery;
 }());
@@ -7692,6 +8029,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -8151,9 +8490,10 @@ var __read = (undefined && undefined.__read) || function (o, n) {
     }
     return ar;
 };
-var __spread = (undefined && undefined.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
+var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
 };
 /**
  * Postpone action after next render
@@ -8175,7 +8515,7 @@ var rafDecorator = function (fn) {
         }
         if (lastArgs === null) {
             requestAnimationFrame(function () {
-                lastArgs && fn.call.apply(fn, __spread([_this], lastArgs));
+                lastArgs && fn.call.apply(fn, __spreadArray([_this], __read(lastArgs)));
                 lastArgs = null;
             });
         }
@@ -8334,9 +8674,10 @@ var __read = (undefined && undefined.__read) || function (o, n) {
     }
     return ar;
 };
-var __spread = (undefined && undefined.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
+var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
 };
 
 /** Defer method execution to the next task with dom ready state precondition */
@@ -8351,7 +8692,7 @@ function ready(target, propertyKey, descriptor) {
         for (var _i = 0; _i < arguments.length; _i++) {
             arg[_i] = arguments[_i];
         }
-        (0,_dom_ready__WEBPACK_IMPORTED_MODULE_0__.onDocumentReady)(function () { return fn.call.apply(fn, __spread([_this], arg)); });
+        (0,_dom_ready__WEBPACK_IMPORTED_MODULE_0__.onDocumentReady)(function () { return fn.call.apply(fn, __spreadArray([_this], __read(arg))); });
     };
 }
 
@@ -8712,9 +9053,10 @@ var __read = (undefined && undefined.__read) || function (o, n) {
     }
     return ar;
 };
-var __spread = (undefined && undefined.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
+var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
 };
 /** CSS manipulation utilities. */
 var CSSUtil = /** @class */ (function () {
@@ -8731,7 +9073,7 @@ var CSSUtil = /** @class */ (function () {
     CSSUtil.addCls = function (el, cls) {
         var _a;
         var tokens = CSSUtil.splitTokens(cls);
-        tokens.length && (_a = el.classList).add.apply(_a, __spread(tokens));
+        tokens.length && (_a = el.classList).add.apply(_a, __spreadArray([], __read(tokens)));
     };
     /**
      * Remove all classes from the class string to the element.
@@ -8740,7 +9082,7 @@ var CSSUtil = /** @class */ (function () {
     CSSUtil.removeCls = function (el, cls) {
         var _a;
         var tokens = CSSUtil.splitTokens(cls);
-        tokens.length && (_a = el.classList).remove.apply(_a, __spread(tokens));
+        tokens.length && (_a = el.classList).remove.apply(_a, __spreadArray([], __read(tokens)));
     };
     /**
      * Toggle all classes from the class string on the element to the passed state.
@@ -9138,9 +9480,10 @@ var __read = (undefined && undefined.__read) || function (o, n) {
     }
     return ar;
 };
-var __spread = (undefined && undefined.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
+var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
 };
 /**
  * Memoization decorator function. Caches the original function result according to hash generated from arguments.
@@ -9154,7 +9497,7 @@ function memoizeFn(fn, hashFn) {
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        var key = hashFn.apply(void 0, __spread(args));
+        var key = hashFn.apply(void 0, __spreadArray([], __read(args)));
         if (key !== null && typeof key !== 'string') {
             console.warn("Can't cache value for " + fn.name + " call.");
             return fn.apply(this, args);
@@ -9344,12 +9687,15 @@ if (!('ESL' in window)) {
 /*!*******************************************!*\
   !*** ../src/polyfills/es5-target-shim.ts ***!
   \*******************************************/
-/***/ (function() {
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "shimES5ElementConstructor": function() { return /* binding */ shimES5ElementConstructor; }
+/* harmony export */ });
 // Shim for modern browsers with ES6 class syntax support
 // Shim based on https://github.com/webcomponents/polyfills/blob/master/packages/custom-elements/ts_src/custom-elements.ts
-(function (BuiltInHTMLElement) {
+function shimES5ElementConstructor(BuiltInHTMLElement) {
     if (
     // No Reflect, no classes, no need for shim because native custom elements require ES2015 classes or Reflect.
     window.Reflect === undefined || window.customElements === undefined ||
@@ -9357,15 +9703,17 @@ if (!('ESL' in window)) {
         window.customElements.polyfillWrapFlushCallback) {
         return;
     }
-    Object.defineProperty(window, 'HTMLElement', {
+    Object.defineProperty(window, BuiltInHTMLElement.name, {
         value: function HTMLElement() {
             return Reflect.construct(BuiltInHTMLElement, [], this.constructor);
         }
     });
-    HTMLElement.prototype = BuiltInHTMLElement.prototype;
-    HTMLElement.prototype.constructor = HTMLElement;
-    Object.setPrototypeOf(HTMLElement, BuiltInHTMLElement);
-})(HTMLElement);
+    var Element = window[BuiltInHTMLElement.name];
+    Element.prototype = BuiltInHTMLElement.prototype;
+    Element.prototype.constructor = Element;
+    Object.setPrototypeOf(Element, BuiltInHTMLElement);
+}
+shimES5ElementConstructor(HTMLElement);
 
 
 /***/ }),
@@ -9498,298 +9846,6 @@ if (!('customElements' in window)) {
 }
 
 
-/***/ }),
-
-/***/ "./src/common/back-button.ts":
-/*!***********************************!*\
-  !*** ./src/common/back-button.ts ***!
-  \***********************************/
-/***/ (function() {
-
-
-document.body.addEventListener('click', function (e) {
-    var target = e.target;
-    if (target && target.closest('.gn-back-trigger')) {
-        window.history.back();
-        e.preventDefault();
-        e.stopPropagation();
-    }
-});
-if (window.history.length < 2) {
-    Array.from(document.querySelectorAll('.gn-back'))
-        .forEach(function (el) {
-        el.classList.add('d-none');
-    });
-}
-
-
-/***/ }),
-
-/***/ "./src/common/test-media-source.ts":
-/*!*****************************************!*\
-  !*** ./src/common/test-media-source.ts ***!
-  \*****************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _src_modules_esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/modules/esl-utils/async/debounce */ "../src/modules/esl-utils/async/debounce.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-
-var TestMediaSource = /** @class */ (function (_super) {
-    __extends(TestMediaSource, _super);
-    function TestMediaSource() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(TestMediaSource.prototype, "target", {
-        get: function () {
-            var targetSel = this.getAttribute('target');
-            return document.querySelector(targetSel || '');
-        },
-        enumerable: false,
-        configurable: true
-    });
-    TestMediaSource.prototype.render = function () {
-        var form = document.createElement('form');
-        form.innerHTML = "\n\t\t\t<fieldset>\n\t\t\t\t<legend>Video Settings:</legend>\n\t\t    <div class=\"input-group mb-2 mr-sm-2\">\n\t\t\t    <select class=\"form-control\" name=\"media-type\">\n\t\t\t      <option value=\"auto\">- Auto -</option>\n\t\t\t      <option value=\"audio\">HTML Audio</option>\n\t\t\t      <option value=\"video\">HTML Video</option>\n\t\t\t      <option value=\"youtube\">Youtube</option>\n\t\t\t      <option value=\"brightcove\">Brightcove</option>\n\t\t\t      <option value=\"iframe\">Iframe</option>\n\t\t\t\t\t</select>\n        </div>\n\t\t\t  <div class=\"input-group mb-2 mr-sm-2\">\n\t\t\t    <input type=\"text\" class=\"form-control\" placeholder=\"Media src\" name=\"media-src\" autocomplete=\"on\"/>\n\t\t\t  </div>\n\t\t\t  <div class=\"input-group mb-2 mr-sm-2\">\n\t\t\t    <input type=\"text\" class=\"form-control\" placeholder=\"Media id\" name=\"media-id\" autocomplete=\"on\"/>\n\t\t\t  </div>\n        <div class=\"input-group mb-2 mr-sm-2\">\n\t\t\t    <input type=\"text\" class=\"form-control\" placeholder=\"Player id\" name=\"player-id\" autocomplete=\"on\"/>\n        </div>\n        <div class=\"input-group mb-2 mr-sm-2\">\n\t\t\t    <input type=\"text\" class=\"form-control\" placeholder=\"Player account\" name=\"player-account\" autocomplete=\"on\"/>\n        </div>\n\n\n        <div class=\"form-group\">\n          <div class=\"form-check form-check-inline\">\n            <label class=\"form-check-label\"><input type=\"checkbox\" name=\"muted\" class=\"form-check-input\"/> Muted</label>\n          </div>\n          <div class=\"form-check form-check-inline\">\n            <label class=\"form-check-label\"><input type=\"checkbox\" name=\"autoplay\" class=\"form-check-input\"/> Autoplay</label>\n          </div>\n          <div class=\"form-check form-check-inline\">\n            <label class=\"form-check-label\"><input type=\"checkbox\" name=\"disabled\" class=\"form-check-input\"/> Disabled</label>\n          </div>\n        </div>\n\t\t\t</fieldset>\n\t\t";
-        form.action = 'javascript: void 0;';
-        this.innerHTML = '';
-        this.appendChild(form);
-    };
-    TestMediaSource.prototype.onChange = function () {
-        var target = this.target;
-        var inputs = this.querySelectorAll('input[name], select[name]');
-        Array.from(inputs).forEach(function (input) {
-            if (!target)
-                return;
-            if (input instanceof HTMLInputElement && input.type === 'checkbox') {
-                target.toggleAttribute(input.name, input.checked);
-            }
-            else {
-                target.setAttribute(input.name, input.value);
-            }
-        });
-    };
-    TestMediaSource.prototype.connectedCallback = function () {
-        var _this = this;
-        this.render();
-        this.addEventListener('change', (0,_src_modules_esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_0__.debounce)(function () { return _this.onChange(); }, 750));
-        this.onChange();
-    };
-    return TestMediaSource;
-}(HTMLElement));
-customElements.define('test-media-source', TestMediaSource);
-
-
-/***/ }),
-
-/***/ "./src/common/test-media.ts":
-/*!**********************************!*\
-  !*** ./src/common/test-media.ts ***!
-  \**********************************/
-/***/ (function() {
-
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __values = (this && this.__values) || function(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
-var TestMediaControls = /** @class */ (function (_super) {
-    __extends(TestMediaControls, _super);
-    function TestMediaControls() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(TestMediaControls.prototype, "target", {
-        get: function () {
-            var targetSel = this.getAttribute('target');
-            return targetSel ? Array.from(document.querySelectorAll(targetSel)) : [];
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(TestMediaControls.prototype, "actions", {
-        get: function () {
-            return this.getAttribute('actions') || TestMediaControls.ACTIONS_ALL;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    TestMediaControls.prototype.render = function () {
-        var e_1, _a;
-        var actionList = this.actions.split(',');
-        this.innerHTML = '';
-        try {
-            for (var actionList_1 = __values(actionList), actionList_1_1 = actionList_1.next(); !actionList_1_1.done; actionList_1_1 = actionList_1.next()) {
-                var actionName = actionList_1_1.value;
-                var action = TestMediaControls.ACTIONS[actionName];
-                if (!action)
-                    return;
-                this.appendChild(action.render(actionName, action));
-            }
-        }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
-            try {
-                if (actionList_1_1 && !actionList_1_1.done && (_a = actionList_1.return)) _a.call(actionList_1);
-            }
-            finally { if (e_1) throw e_1.error; }
-        }
-    };
-    TestMediaControls.prototype.onClick = function (e) {
-        var target = e.target;
-        var actionName = target.dataset.action;
-        if (actionName && TestMediaControls.ACTIONS[actionName]) {
-            var actionDesc_1 = TestMediaControls.ACTIONS[actionName];
-            var actionFn_1 = actionDesc_1.action;
-            this.target.forEach(function ($el) { return actionFn_1.call($el, $el, actionName, actionDesc_1); });
-        }
-    };
-    TestMediaControls.prototype.connectedCallback = function () {
-        this.render();
-        this.addEventListener('click', this.onClick.bind(this));
-    };
-    TestMediaControls.ACTIONS = {
-        play: {
-            title: 'Play',
-            action: function (target) { return target.play(); },
-            render: renderButton
-        },
-        pause: {
-            title: 'Pause',
-            action: function (target) { return target.pause(); },
-            render: renderButton
-        },
-        stop: {
-            title: 'Stop',
-            action: function (target) { return target.stop(); },
-            render: renderButton
-        }
-    };
-    TestMediaControls.ACTIONS_ALL = Object.keys(TestMediaControls.ACTIONS).join(',');
-    return TestMediaControls;
-}(HTMLElement));
-function renderButton(actionName, action) {
-    var btn = document.createElement('button');
-    btn.className = 'btn btn-primary';
-    btn.dataset.action = actionName;
-    btn.textContent = action.title;
-    return btn;
-}
-customElements.define('test-media-controls', TestMediaControls);
-
-
-/***/ }),
-
-/***/ "./src/localdev.ts":
-/*!*************************!*\
-  !*** ./src/localdev.ts ***!
-  \*************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _src_polyfills_es5_target_shim__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../src/polyfills/es5-target-shim */ "../src/polyfills/es5-target-shim.ts");
-/* harmony import */ var _src_polyfills_es5_target_shim__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_src_polyfills_es5_target_shim__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_polyfills_polyfills_es6__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../src/polyfills/polyfills.es6 */ "../src/polyfills/polyfills.es6.ts");
-/* harmony import */ var _src_polyfills_polyfills_validate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../src/polyfills/polyfills.validate */ "../src/polyfills/polyfills.validate.ts");
-/* harmony import */ var _src_polyfills_polyfills_validate__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_src_polyfills_polyfills_validate__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _common_back_button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common/back-button */ "./src/common/back-button.ts");
-/* harmony import */ var _common_back_button__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_common_back_button__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _common_test_media__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./common/test-media */ "./src/common/test-media.ts");
-/* harmony import */ var _common_test_media__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_common_test_media__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _common_test_media_source__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./common/test-media-source */ "./src/common/test-media-source.ts");
-/* harmony import */ var _src_modules_lib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../src/modules/lib */ "../src/modules/lib.ts");
-/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-image/core/esl-image.ts");
-/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-media/core/esl-media.ts");
-/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-toggleable/core/esl-toggleable-dispatcher.ts");
-/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-popup/core/esl-popup.ts");
-/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-panel/core/esl-panel.ts");
-/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-panel/core/esl-panel-group.ts");
-/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-trigger/core/esl-trigger.ts");
-/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-tab/core/esl-tab.ts");
-/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-a11y-group/core/esl-a11y-group.ts");
-/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-tab/core/esl-tabs.ts");
-/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-scrollbar/core/esl-scrollbar.ts");
-/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-alert/core/esl-alert.ts");
-/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-forms/esl-select-list/core/esl-select-list.ts");
-/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-forms/esl-select/core/esl-select.ts");
-/* harmony import */ var _src_modules_esl_media_providers_iframe_provider__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../src/modules/esl-media/providers/iframe-provider */ "../src/modules/esl-media/providers/iframe-provider.ts");
-/* harmony import */ var _src_modules_esl_media_providers_html5_audio_provider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../src/modules/esl-media/providers/html5/audio-provider */ "../src/modules/esl-media/providers/html5/audio-provider.ts");
-/* harmony import */ var _src_modules_esl_media_providers_html5_video_provider__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../src/modules/esl-media/providers/html5/video-provider */ "../src/modules/esl-media/providers/html5/video-provider.ts");
-/* harmony import */ var _src_modules_esl_media_providers_youtube_provider__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../src/modules/esl-media/providers/youtube-provider */ "../src/modules/esl-media/providers/youtube-provider.ts");
-/* harmony import */ var _src_modules_esl_media_providers_brightcove_provider__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../src/modules/esl-media/providers/brightcove-provider */ "../src/modules/esl-media/providers/brightcove-provider.ts");
-/* harmony import */ var _src_modules_draft_all__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ../../src/modules/draft/all */ "../src/modules/draft/esl-carousel/core/esl-carousel.ts");
-/* harmony import */ var _src_modules_draft_all__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ../../src/modules/draft/all */ "../src/modules/draft/esl-carousel/all.ts");
-// Support for ES5 bundle target
-
-// Builtin polyfills
-
-// Validate environment
-
-
-
-
-// With Namespace
-
-
-
-
-
-
-
-
-_src_modules_all__WEBPACK_IMPORTED_MODULE_12__.ESLImage.register();
-_src_modules_all__WEBPACK_IMPORTED_MODULE_13__.ESLMedia.register();
-_src_modules_all__WEBPACK_IMPORTED_MODULE_14__.ESLToggleableDispatcher.init();
-_src_modules_all__WEBPACK_IMPORTED_MODULE_15__.ESLPopup.register();
-_src_modules_all__WEBPACK_IMPORTED_MODULE_16__.ESLPanel.register();
-_src_modules_all__WEBPACK_IMPORTED_MODULE_17__.ESLPanelGroup.register();
-_src_modules_all__WEBPACK_IMPORTED_MODULE_18__.ESLTrigger.register();
-_src_modules_all__WEBPACK_IMPORTED_MODULE_19__.ESLTab.register();
-_src_modules_all__WEBPACK_IMPORTED_MODULE_20__.ESLA11yGroup.register();
-_src_modules_all__WEBPACK_IMPORTED_MODULE_21__.ESLTabs.register();
-_src_modules_all__WEBPACK_IMPORTED_MODULE_22__.ESLScrollbar.register();
-_src_modules_all__WEBPACK_IMPORTED_MODULE_23__.ESLAlert.register();
-_src_modules_all__WEBPACK_IMPORTED_MODULE_23__.ESLAlert.init();
-_src_modules_all__WEBPACK_IMPORTED_MODULE_24__.ESLSelectList.register();
-_src_modules_all__WEBPACK_IMPORTED_MODULE_25__.ESLSelect.register();
-_src_modules_draft_all__WEBPACK_IMPORTED_MODULE_26__.ESLCarousel.register();
-_src_modules_draft_all__WEBPACK_IMPORTED_MODULE_27__.ESLCarouselPlugins.Dots.register();
-_src_modules_draft_all__WEBPACK_IMPORTED_MODULE_27__.ESLCarouselPlugins.Link.register();
-_src_modules_draft_all__WEBPACK_IMPORTED_MODULE_27__.ESLCarouselPlugins.Touch.register();
-_src_modules_draft_all__WEBPACK_IMPORTED_MODULE_27__.ESLCarouselPlugins.Autoplay.register();
-
-
 /***/ })
 
 /******/ 	});
@@ -9800,8 +9856,9 @@ _src_modules_draft_all__WEBPACK_IMPORTED_MODULE_27__.ESLCarouselPlugins.Autoplay
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -9859,10 +9916,84 @@ _src_modules_draft_all__WEBPACK_IMPORTED_MODULE_27__.ESLCarouselPlugins.Autoplay
 /******/ 	}();
 /******/ 	
 /************************************************************************/
-/******/ 	// startup
-/******/ 	// Load entry module
-/******/ 	__webpack_require__("./src/localdev.ts");
-/******/ 	// This entry module used 'exports' so it can't be inlined
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+!function() {
+/*!*************************!*\
+  !*** ./src/localdev.ts ***!
+  \*************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _src_polyfills_es5_target_shim__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../src/polyfills/es5-target-shim */ "../src/polyfills/es5-target-shim.ts");
+/* harmony import */ var _src_polyfills_polyfills_es6__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../src/polyfills/polyfills.es6 */ "../src/polyfills/polyfills.es6.ts");
+/* harmony import */ var _src_polyfills_polyfills_validate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../src/polyfills/polyfills.validate */ "../src/polyfills/polyfills.validate.ts");
+/* harmony import */ var _src_polyfills_polyfills_validate__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_src_polyfills_polyfills_validate__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _common_back_button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common/back-button */ "./src/common/back-button.ts");
+/* harmony import */ var _common_back_button__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_common_back_button__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _common_test_media__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./common/test-media */ "./src/common/test-media.ts");
+/* harmony import */ var _common_test_media__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_common_test_media__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _common_test_media_source__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./common/test-media-source */ "./src/common/test-media-source.ts");
+/* harmony import */ var _src_modules_lib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../src/modules/lib */ "../src/modules/lib.ts");
+/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-image/core/esl-image.ts");
+/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-media/core/esl-media.ts");
+/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-toggleable/core/esl-toggleable-dispatcher.ts");
+/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-popup/core/esl-popup.ts");
+/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-panel/core/esl-panel-group.ts");
+/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-panel/core/esl-panel.ts");
+/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-trigger/core/esl-trigger.ts");
+/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-tab/core/esl-tab.ts");
+/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-a11y-group/core/esl-a11y-group.ts");
+/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-tab/core/esl-tabs.ts");
+/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-scrollbar/core/esl-scrollbar.ts");
+/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-alert/core/esl-alert.ts");
+/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-forms/esl-select-list/core/esl-select-list.ts");
+/* harmony import */ var _src_modules_all__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ../../src/modules/all */ "../src/modules/esl-forms/esl-select/core/esl-select.ts");
+/* harmony import */ var _src_modules_esl_media_providers_iframe_provider__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../src/modules/esl-media/providers/iframe-provider */ "../src/modules/esl-media/providers/iframe-provider.ts");
+/* harmony import */ var _src_modules_esl_media_providers_html5_audio_provider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../src/modules/esl-media/providers/html5/audio-provider */ "../src/modules/esl-media/providers/html5/audio-provider.ts");
+/* harmony import */ var _src_modules_esl_media_providers_html5_video_provider__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../src/modules/esl-media/providers/html5/video-provider */ "../src/modules/esl-media/providers/html5/video-provider.ts");
+/* harmony import */ var _src_modules_esl_media_providers_youtube_provider__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../src/modules/esl-media/providers/youtube-provider */ "../src/modules/esl-media/providers/youtube-provider.ts");
+/* harmony import */ var _src_modules_esl_media_providers_brightcove_provider__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../src/modules/esl-media/providers/brightcove-provider */ "../src/modules/esl-media/providers/brightcove-provider.ts");
+/* harmony import */ var _src_modules_draft_all__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ../../src/modules/draft/all */ "../src/modules/draft/esl-carousel/core/esl-carousel.ts");
+/* harmony import */ var _src_modules_draft_all__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ../../src/modules/draft/all */ "../src/modules/draft/esl-carousel/all.ts");
+// Support for ES5 bundle target
+
+// Builtin polyfills
+
+// Validate environment
+
+
+
+
+// With Namespace
+
+
+
+
+
+
+
+
+_src_modules_all__WEBPACK_IMPORTED_MODULE_12__.ESLImage.register();
+_src_modules_all__WEBPACK_IMPORTED_MODULE_13__.ESLMedia.register();
+_src_modules_all__WEBPACK_IMPORTED_MODULE_14__.ESLToggleableDispatcher.init();
+_src_modules_all__WEBPACK_IMPORTED_MODULE_15__.ESLPopup.register();
+_src_modules_all__WEBPACK_IMPORTED_MODULE_16__.ESLPanelGroup.register();
+_src_modules_all__WEBPACK_IMPORTED_MODULE_17__.ESLPanel.register();
+_src_modules_all__WEBPACK_IMPORTED_MODULE_18__.ESLTrigger.register();
+_src_modules_all__WEBPACK_IMPORTED_MODULE_19__.ESLTab.register();
+_src_modules_all__WEBPACK_IMPORTED_MODULE_20__.ESLA11yGroup.register();
+_src_modules_all__WEBPACK_IMPORTED_MODULE_21__.ESLTabs.register();
+_src_modules_all__WEBPACK_IMPORTED_MODULE_22__.ESLScrollbar.register();
+_src_modules_all__WEBPACK_IMPORTED_MODULE_23__.ESLAlert.register();
+_src_modules_all__WEBPACK_IMPORTED_MODULE_23__.ESLAlert.init();
+_src_modules_all__WEBPACK_IMPORTED_MODULE_24__.ESLSelectList.register();
+_src_modules_all__WEBPACK_IMPORTED_MODULE_25__.ESLSelect.register();
+_src_modules_draft_all__WEBPACK_IMPORTED_MODULE_26__.ESLCarousel.register();
+_src_modules_draft_all__WEBPACK_IMPORTED_MODULE_27__.ESLCarouselPlugins.Dots.register();
+_src_modules_draft_all__WEBPACK_IMPORTED_MODULE_27__.ESLCarouselPlugins.Link.register();
+_src_modules_draft_all__WEBPACK_IMPORTED_MODULE_27__.ESLCarouselPlugins.Touch.register();
+_src_modules_draft_all__WEBPACK_IMPORTED_MODULE_27__.ESLCarouselPlugins.Autoplay.register();
+
+}();
 /******/ })()
 ;
 //# sourceMappingURL=localdev.js.map

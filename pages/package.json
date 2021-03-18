@@ -10,7 +10,7 @@
     "build": "gulp buildLocal",
     "build-and-start": "npm run build && npm run start",
     "build-pages": "npm run build-pages:pages && npm run build-pages:assets",
-    "build-pages:pages": "node build-pages.js",
+    "build-pages:pages": "node pages.build.js",
     "build-pages:assets": "cpx static/**/*.{js,css} ../docs/"
   },
   "sideEffects": [

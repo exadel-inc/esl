@@ -12,6 +12,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DOMRectReadOnly": function() { return /* binding */ DOMRectReadOnly; }
 /* harmony export */ });
+/* harmony import */ var _utils_freeze__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/freeze */ "../node_modules/@juggle/resize-observer/lib/utils/freeze.js");
+
 var DOMRectReadOnly = (function () {
     function DOMRectReadOnly(x, y, width, height) {
         this.x = x;
@@ -22,7 +24,7 @@ var DOMRectReadOnly = (function () {
         this.left = this.x;
         this.bottom = this.top + this.height;
         this.right = this.left + this.width;
-        return Object.freeze(this);
+        return (0,_utils_freeze__WEBPACK_IMPORTED_MODULE_0__.freeze)(this);
     }
     DOMRectReadOnly.prototype.toJSON = function () {
         var _a = this, x = _a.x, y = _a.y, top = _a.top, right = _a.right, bottom = _a.bottom, left = _a.left, width = _a.width, height = _a.height;
@@ -271,17 +273,45 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ResizeObserverEntry": function() { return /* binding */ ResizeObserverEntry; }
 /* harmony export */ });
 /* harmony import */ var _algorithms_calculateBoxSize__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./algorithms/calculateBoxSize */ "../node_modules/@juggle/resize-observer/lib/algorithms/calculateBoxSize.js");
+/* harmony import */ var _utils_freeze__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/freeze */ "../node_modules/@juggle/resize-observer/lib/utils/freeze.js");
+
 
 var ResizeObserverEntry = (function () {
     function ResizeObserverEntry(target) {
         var boxes = (0,_algorithms_calculateBoxSize__WEBPACK_IMPORTED_MODULE_0__.calculateBoxSizes)(target);
         this.target = target;
         this.contentRect = boxes.contentRect;
-        this.borderBoxSize = [boxes.borderBoxSize];
-        this.contentBoxSize = [boxes.contentBoxSize];
-        this.devicePixelContentBoxSize = [boxes.devicePixelContentBoxSize];
+        this.borderBoxSize = (0,_utils_freeze__WEBPACK_IMPORTED_MODULE_1__.freeze)([boxes.borderBoxSize]);
+        this.contentBoxSize = (0,_utils_freeze__WEBPACK_IMPORTED_MODULE_1__.freeze)([boxes.contentBoxSize]);
+        this.devicePixelContentBoxSize = (0,_utils_freeze__WEBPACK_IMPORTED_MODULE_1__.freeze)([boxes.devicePixelContentBoxSize]);
     }
     return ResizeObserverEntry;
+}());
+
+
+
+/***/ }),
+
+/***/ "../node_modules/@juggle/resize-observer/lib/ResizeObserverSize.js":
+/*!*************************************************************************!*\
+  !*** ../node_modules/@juggle/resize-observer/lib/ResizeObserverSize.js ***!
+  \*************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ResizeObserverSize": function() { return /* binding */ ResizeObserverSize; }
+/* harmony export */ });
+/* harmony import */ var _utils_freeze__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/freeze */ "../node_modules/@juggle/resize-observer/lib/utils/freeze.js");
+
+var ResizeObserverSize = (function () {
+    function ResizeObserverSize(inlineSize, blockSize) {
+        this.inlineSize = inlineSize;
+        this.blockSize = blockSize;
+        (0,_utils_freeze__WEBPACK_IMPORTED_MODULE_0__.freeze)(this);
+    }
+    return ResizeObserverSize;
 }());
 
 
@@ -353,9 +383,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "calculateBoxSizes": function() { return /* binding */ calculateBoxSizes; }
 /* harmony export */ });
 /* harmony import */ var _ResizeObserverBoxOptions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ResizeObserverBoxOptions */ "../node_modules/@juggle/resize-observer/lib/ResizeObserverBoxOptions.js");
-/* harmony import */ var _DOMRectReadOnly__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../DOMRectReadOnly */ "../node_modules/@juggle/resize-observer/lib/DOMRectReadOnly.js");
-/* harmony import */ var _utils_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/element */ "../node_modules/@juggle/resize-observer/lib/utils/element.js");
-/* harmony import */ var _utils_global__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/global */ "../node_modules/@juggle/resize-observer/lib/utils/global.js");
+/* harmony import */ var _ResizeObserverSize__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ResizeObserverSize */ "../node_modules/@juggle/resize-observer/lib/ResizeObserverSize.js");
+/* harmony import */ var _DOMRectReadOnly__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../DOMRectReadOnly */ "../node_modules/@juggle/resize-observer/lib/DOMRectReadOnly.js");
+/* harmony import */ var _utils_element__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/element */ "../node_modules/@juggle/resize-observer/lib/utils/element.js");
+/* harmony import */ var _utils_freeze__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/freeze */ "../node_modules/@juggle/resize-observer/lib/utils/freeze.js");
+/* harmony import */ var _utils_global__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/global */ "../node_modules/@juggle/resize-observer/lib/utils/global.js");
+
+
 
 
 
@@ -363,34 +397,31 @@ __webpack_require__.r(__webpack_exports__);
 var cache = new WeakMap();
 var scrollRegexp = /auto|scroll/;
 var verticalRegexp = /^tb|vertical/;
-var IE = (/msie|trident/i).test(_utils_global__WEBPACK_IMPORTED_MODULE_3__.global.navigator && _utils_global__WEBPACK_IMPORTED_MODULE_3__.global.navigator.userAgent);
+var IE = (/msie|trident/i).test(_utils_global__WEBPACK_IMPORTED_MODULE_5__.global.navigator && _utils_global__WEBPACK_IMPORTED_MODULE_5__.global.navigator.userAgent);
 var parseDimension = function (pixel) { return parseFloat(pixel || '0'); };
 var size = function (inlineSize, blockSize, switchSizes) {
     if (inlineSize === void 0) { inlineSize = 0; }
     if (blockSize === void 0) { blockSize = 0; }
     if (switchSizes === void 0) { switchSizes = false; }
-    return Object.freeze({
-        inlineSize: (switchSizes ? blockSize : inlineSize) || 0,
-        blockSize: (switchSizes ? inlineSize : blockSize) || 0
-    });
+    return new _ResizeObserverSize__WEBPACK_IMPORTED_MODULE_1__.ResizeObserverSize((switchSizes ? blockSize : inlineSize) || 0, (switchSizes ? inlineSize : blockSize) || 0);
 };
-var zeroBoxes = Object.freeze({
+var zeroBoxes = (0,_utils_freeze__WEBPACK_IMPORTED_MODULE_4__.freeze)({
     devicePixelContentBoxSize: size(),
     borderBoxSize: size(),
     contentBoxSize: size(),
-    contentRect: new _DOMRectReadOnly__WEBPACK_IMPORTED_MODULE_1__.DOMRectReadOnly(0, 0, 0, 0)
+    contentRect: new _DOMRectReadOnly__WEBPACK_IMPORTED_MODULE_2__.DOMRectReadOnly(0, 0, 0, 0)
 });
 var calculateBoxSizes = function (target, forceRecalculation) {
     if (forceRecalculation === void 0) { forceRecalculation = false; }
     if (cache.has(target) && !forceRecalculation) {
         return cache.get(target);
     }
-    if ((0,_utils_element__WEBPACK_IMPORTED_MODULE_2__.isHidden)(target)) {
+    if ((0,_utils_element__WEBPACK_IMPORTED_MODULE_3__.isHidden)(target)) {
         cache.set(target, zeroBoxes);
         return zeroBoxes;
     }
     var cs = getComputedStyle(target);
-    var svg = (0,_utils_element__WEBPACK_IMPORTED_MODULE_2__.isSVG)(target) && target.ownerSVGElement && target.getBBox();
+    var svg = (0,_utils_element__WEBPACK_IMPORTED_MODULE_3__.isSVG)(target) && target.ownerSVGElement && target.getBBox();
     var removePadding = !IE && cs.boxSizing === 'border-box';
     var switchSizes = verticalRegexp.test(cs.writingMode || '');
     var canScrollVertically = !svg && scrollRegexp.test(cs.overflowY || '');
@@ -415,11 +446,11 @@ var calculateBoxSizes = function (target, forceRecalculation) {
     var contentHeight = svg ? svg.height : parseDimension(cs.height) - heightReduction - horizontalScrollbarThickness;
     var borderBoxWidth = contentWidth + horizontalPadding + verticalScrollbarThickness + horizontalBorderArea;
     var borderBoxHeight = contentHeight + verticalPadding + horizontalScrollbarThickness + verticalBorderArea;
-    var boxes = Object.freeze({
+    var boxes = (0,_utils_freeze__WEBPACK_IMPORTED_MODULE_4__.freeze)({
         devicePixelContentBoxSize: size(Math.round(contentWidth * devicePixelRatio), Math.round(contentHeight * devicePixelRatio), switchSizes),
         borderBoxSize: size(borderBoxWidth, borderBoxHeight, switchSizes),
         contentBoxSize: size(contentWidth, contentHeight, switchSizes),
-        contentRect: new _DOMRectReadOnly__WEBPACK_IMPORTED_MODULE_1__.DOMRectReadOnly(paddingLeft, paddingTop, contentWidth, contentHeight)
+        contentRect: new _DOMRectReadOnly__WEBPACK_IMPORTED_MODULE_2__.DOMRectReadOnly(paddingLeft, paddingTop, contentWidth, contentHeight)
     });
     cache.set(target, boxes);
     return boxes;
@@ -589,10 +620,13 @@ var hasSkippedObservations = function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ResizeObserver": function() { return /* reexport safe */ _ResizeObserver__WEBPACK_IMPORTED_MODULE_0__.ResizeObserver; },
-/* harmony export */   "ResizeObserverEntry": function() { return /* reexport safe */ _ResizeObserverEntry__WEBPACK_IMPORTED_MODULE_1__.ResizeObserverEntry; }
+/* harmony export */   "ResizeObserverEntry": function() { return /* reexport safe */ _ResizeObserverEntry__WEBPACK_IMPORTED_MODULE_1__.ResizeObserverEntry; },
+/* harmony export */   "ResizeObserverSize": function() { return /* reexport safe */ _ResizeObserverSize__WEBPACK_IMPORTED_MODULE_2__.ResizeObserverSize; }
 /* harmony export */ });
 /* harmony import */ var _ResizeObserver__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ResizeObserver */ "../node_modules/@juggle/resize-observer/lib/ResizeObserver.js");
 /* harmony import */ var _ResizeObserverEntry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ResizeObserverEntry */ "../node_modules/@juggle/resize-observer/lib/ResizeObserverEntry.js");
+/* harmony import */ var _ResizeObserverSize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ResizeObserverSize */ "../node_modules/@juggle/resize-observer/lib/ResizeObserverSize.js");
+
 
 
 
@@ -645,6 +679,22 @@ var isReplacedElement = function (target) {
     return false;
 };
 
+
+
+/***/ }),
+
+/***/ "../node_modules/@juggle/resize-observer/lib/utils/freeze.js":
+/*!*******************************************************************!*\
+  !*** ../node_modules/@juggle/resize-observer/lib/utils/freeze.js ***!
+  \*******************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "freeze": function() { return /* binding */ freeze; }
+/* harmony export */ });
+var freeze = function (obj) { return Object.freeze(obj); };
 
 
 /***/ }),
@@ -1981,30 +2031,6 @@ window.IntersectionObserverEntry = IntersectionObserverEntry;
 }());
 
 
-/***/ }),
-
-/***/ "./src/polyfill-light.ts":
-/*!*******************************!*\
-  !*** ./src/polyfill-light.ts ***!
-  \*******************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var intersection_observer_intersection_observer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! intersection-observer/intersection-observer */ "../node_modules/intersection-observer/intersection-observer.js");
-/* harmony import */ var intersection_observer_intersection_observer__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(intersection_observer_intersection_observer__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _juggle_resize_observer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @juggle/resize-observer */ "../node_modules/@juggle/resize-observer/lib/exports/resize-observer.js");
-/* harmony import */ var _webcomponents_custom_elements_custom_elements_min__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @webcomponents/custom-elements/custom-elements.min */ "../node_modules/@webcomponents/custom-elements/custom-elements.min.js");
-/* harmony import */ var _webcomponents_custom_elements_custom_elements_min__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_webcomponents_custom_elements_custom_elements_min__WEBPACK_IMPORTED_MODULE_2__);
-/**
- * Target: Edge, Safari 9
- */
-
-
-window.ResizeObserver = window.ResizeObserver || _juggle_resize_observer__WEBPACK_IMPORTED_MODULE_1__.ResizeObserver;
-
-
-
 /***/ })
 
 /******/ 	});
@@ -2015,8 +2041,9 @@ window.ResizeObserver = window.ResizeObserver || _juggle_resize_observer__WEBPAC
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -2074,10 +2101,28 @@ window.ResizeObserver = window.ResizeObserver || _juggle_resize_observer__WEBPAC
 /******/ 	}();
 /******/ 	
 /************************************************************************/
-/******/ 	// startup
-/******/ 	// Load entry module
-/******/ 	__webpack_require__("./src/polyfill-light.ts");
-/******/ 	// This entry module used 'exports' so it can't be inlined
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+!function() {
+"use strict";
+/*!*******************************!*\
+  !*** ./src/polyfill-light.ts ***!
+  \*******************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var intersection_observer_intersection_observer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! intersection-observer/intersection-observer */ "../node_modules/intersection-observer/intersection-observer.js");
+/* harmony import */ var intersection_observer_intersection_observer__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(intersection_observer_intersection_observer__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _juggle_resize_observer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @juggle/resize-observer */ "../node_modules/@juggle/resize-observer/lib/exports/resize-observer.js");
+/* harmony import */ var _webcomponents_custom_elements_custom_elements_min__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @webcomponents/custom-elements/custom-elements.min */ "../node_modules/@webcomponents/custom-elements/custom-elements.min.js");
+/* harmony import */ var _webcomponents_custom_elements_custom_elements_min__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_webcomponents_custom_elements_custom_elements_min__WEBPACK_IMPORTED_MODULE_2__);
+/**
+ * Target: Edge, Safari 9
+ */
+
+
+window.ResizeObserver = window.ResizeObserver || _juggle_resize_observer__WEBPACK_IMPORTED_MODULE_1__.ResizeObserver;
+
+
+}();
 /******/ })()
 ;
 //# sourceMappingURL=polyfill-light.js.map

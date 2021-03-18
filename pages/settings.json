@@ -13,5 +13,14 @@
       "public": ["static/"],
       "jscssDestFolders": ["static/bundles/*.css", "static/bundles/*.js"]
     }
+  },
+  "github-pages": {
+    "folder": "../docs",
+    "pages": [
+      "index.html",
+      "esl-image.html",
+      "esl-media.html",
+      "esl-scrollbar.html"
+    ]
   }
 }
