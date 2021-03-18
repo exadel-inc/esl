@@ -16,12 +16,12 @@
       "DOM",
       "DOM.Iterable"
     ],
+    "rootDir": "src",
     "outDir": "./"
   },
   "include": [
     "src/modules",
-    "src/polyfills",
-    "test-server/src"
+    "src/polyfills"
   ],
   "exclude": [
     "*.test.ts",

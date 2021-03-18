@@ -25,7 +25,7 @@ jest.config.js
 **/test/*.ts
 
 # Demo Server
-test-server
+pages
 
 # Linter
 .editorconfig

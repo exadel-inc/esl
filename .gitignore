@@ -10,7 +10,7 @@ node_modules
 
 # Build output
 target
-test-server/static/bundles
+pages/static/bundles
 
 # Generated surces
 /modules
