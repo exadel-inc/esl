@@ -3,7 +3,6 @@
 **/test/*.ts
 
 # Common configuration
-gulpfile.js
 jest.config.js
 
 # Common directories
