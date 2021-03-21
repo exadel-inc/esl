@@ -6,6 +6,7 @@ export abstract class UIPSetting extends ESLBaseElement {
   @attr() attribute: string;
   @attr() label?: string;
   @attr() target: string;
+  protected $field: HTMLElement;
 
   protected connectedCallback() {
     super.connectedCallback();

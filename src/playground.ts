@@ -3,8 +3,7 @@ import {UIPEditor} from './editor/editor';
 import {UIPPreview} from './preview/preview';
 import {UIPSettings} from './settings/settings';
 import {UIPTextSetting} from './settings/setting/text-setting/text-setting';
-import {UIPListSetting} from './settings/setting/list-setting/list-setting';
-import {UIPClassSetting} from './settings/setting/class-setting/class-setting';
+import {UIPSelectSetting} from './settings/setting/select-setting/select-setting';
 import {UIPBoolSetting} from './settings/setting/bool-setting/bool-setting';
 import {UIPSnippets} from './snippets/snippets';
 
@@ -14,8 +13,7 @@ export {
 	UIPPreview,
 	UIPSettings,
 	UIPTextSetting,
-	UIPListSetting,
-	UIPClassSetting,
+	UIPSelectSetting,
 	UIPBoolSetting,
 	UIPSnippets
 };
@@ -26,8 +24,7 @@ export function init() {
 	UIPPreview.register();
 	UIPSettings.register();
 	UIPTextSetting.register();
-	UIPListSetting.register();
-	UIPClassSetting.register();
+	UIPSelectSetting.register();
 	UIPBoolSetting.register();
 	customElements.whenDefined(UIPRoot.is).then(() => UIPSnippets.register());
 }
