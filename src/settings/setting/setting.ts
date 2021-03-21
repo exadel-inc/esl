@@ -34,7 +34,7 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   protected abstract getDisplayedValue(): string | boolean;
-  protected abstract isValid(): void;
+  protected abstract isValid(): boolean;
   protected abstract setInconsistency(): void;
   protected abstract setValue(value: string | null): void;
   protected abstract render(): void;

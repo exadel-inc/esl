@@ -4,9 +4,9 @@ export class UIPTextSetting extends UIPSetting {
   public static is = 'uip-text-setting';
   protected $field: HTMLInputElement;
 
-  protected render(): void {
+  protected render() {
     this.$field = document.createElement('input');
-    this.$field.type = 'string';
+    this.$field.type = 'text';
     this.$field.name = this.label || '';
   }
 
@@ -14,17 +14,17 @@ export class UIPTextSetting extends UIPSetting {
     return this.$field.value;
   }
 
-  protected setValue(value: string) {
+  protected setValue(value: string): void {
     this.$field.value = value;
     this.$field.placeholder = '';
   }
 
-  protected setInconsistency() {
+  protected setInconsistency(): void {
     this.$field.value = '';
     this.$field.placeholder = 'Inconsistent value';
   }
 
-  protected isValid() {
+  protected isValid(): boolean {
     return true;
   }
 }

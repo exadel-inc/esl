@@ -1,4 +1,4 @@
-import {UIPCheckSetting} from './setting/check-setting/check-setting';
+import {UIPBoolSetting} from './setting/bool-setting/bool-setting';
 import {UIPListSetting} from './setting/list-setting/list-setting';
 import {UIPTextSetting} from './setting/text-setting/text-setting';
 import {UIPClassSetting} from './setting/class-setting/class-setting';
@@ -64,7 +64,7 @@ export class UIPSettings extends ESLBaseElement {
 
   private get attrSettingsTags(): any[] {
     return [
-      ...this.getElementsByTagName(UIPCheckSetting.is),
+      ...this.getElementsByTagName(UIPBoolSetting.is),
       ...this.getElementsByTagName(UIPListSetting.is),
       ...this.getElementsByTagName(UIPTextSetting.is),
     ];
