@@ -1,48 +1,21 @@
-import {ESLBaseElement, attr} from '@exadel/esl/modules/esl-base-element/core';
-import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
-import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
+import {attr, ESLBaseElement} from "@exadel/esl/modules/esl-base-element/core";
+import {UIPStateModel} from "../../utils/state-model/state-model";
 
 export abstract class UIPSetting extends ESLBaseElement {
-  @attr({readonly: true}) public name: string;
-  @attr({readonly: true}) public selector: string;
-  public value: string | boolean;
+  @attr() attribute: string;
+  @attr() label?: string;
+  @attr() target?: string;
 
-  protected abstract render(): void;
-  protected abstract get target(): HTMLElement;
-  protected abstract targetValue(e: Event): string | boolean;
+  public applyTo(model: UIPStateModel): void {
 
-  protected connectedCallback() {
-    super.connectedCallback();
-    this.renderLabel();
-    this.render();
-
-    this.target.addEventListener('change', this.onValueChange);
-    this.appendChild(this.target);
   }
 
-  static get observedAttributes(): string[] {
-    return ['value'];
+  public updateFrom(model: UIPStateModel): void {
+
   }
 
-  @bind
-  protected onValueChange(e: Event): void {
-    e.preventDefault();
-    this.value = this.targetValue(e);
-    EventUtils.dispatch(this, 'valueChange', {detail: {name: this.name, value: this.value, selector: this.selector}});
-  }
-
-  protected renderLabel(): void {
-    const label = document.createElement('label');
-    if (this.selector) {
-      label.innerHTML = `${this.name} (${this.selector})`;
-    } else label.innerText = this.name;
-    label.htmlFor = this.name;
-
-    this.appendChild(label);
-  }
-
-  protected disconnectedCallback() {
-    super.disconnectedCallback();
-    this.target.removeEventListener('change', this.onValueChange);
-  }
+  abstract getValue(): string | boolean | null;
+  abstract isValid(): void;
+  abstract setInconsistency(): void;
+  abstract setDisplayedValue(): void;
 }
