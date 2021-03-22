@@ -8,10 +8,10 @@ import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP} from '../../esl-utils/dom
 export type GroupTarget = 'next' | 'prev' | 'current';
 
 /**
- * ESL A11y Group
+ * ESLA11yGroup component
  * @author Julia Murashko
  *
- * ESL A11y Group - helper custom element that adds a11y group behavior to targets.
+ * ESLA11yGroup - helper custom element that adds a11y group behavior to targets.
  */
 @ExportNs('A11yGroup')
 export class ESLA11yGroup extends ESLBaseElement {
