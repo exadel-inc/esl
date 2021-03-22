@@ -1,8 +1,3 @@
-/**
- * ESL Scrollbar
- * @version 1.0.0-alpha
- * @author Yuliya Adamskaya
- */
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
@@ -12,17 +7,27 @@ import {EventUtils} from '../../esl-utils/dom/events';
 import {TraversingUtils} from '../../esl-utils/dom/traversing';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
+/**
+ * ESL Scrollbar component
+ * @author Yuliya Adamskaya
+ */
 @ExportNs('Scrollbar')
 export class ESLScrollbar extends ESLBaseElement {
   public static is = 'esl-scrollbar';
 
+  /** Horizontal scroll orientation marker */
   @boolAttr() public horizontal: boolean;
 
+  /** Target element {@link TraversingQuery} selector. Parent element by default */
   @attr({defaultValue: '::parent'}) public target: string;
+  /** Custom class for thumb element. 'scrollbar-thumb' by default */
   @attr({defaultValue: 'scrollbar-thumb'}) public thumbClass: string;
+  /** Custom class for track element area. 'scrollbar-track' by default */
   @attr({defaultValue: 'scrollbar-track'}) public trackClass: string;
 
+  /** @readonly dragging state marker */
   @boolAttr() protected dragging: boolean;
+  /** @readonly inactive state marker */
   @boolAttr({readonly: true}) public inactive: boolean;
 
   protected $scrollbarThumb: HTMLElement;
@@ -65,6 +70,7 @@ export class ESLScrollbar extends ESLBaseElement {
       null;
   }
 
+  /** Target element to observe and scroll */
   public get $target() {
     return this._$target || null;
   }
@@ -139,6 +145,7 @@ export class ESLScrollbar extends ESLBaseElement {
     }
   }
 
+  /** @readonly Scrollable distance size value (px) */
   public get scrollableSize() {
     if (!this.$target) return 0;
     return this.horizontal ?
@@ -146,14 +153,17 @@ export class ESLScrollbar extends ESLBaseElement {
       this.$target.scrollHeight - this.$target.clientHeight;
   }
 
+  /** @readonly track size value (px) */
   public get trackOffset() {
     return this.horizontal ? this.$scrollbarTrack.offsetWidth : this.$scrollbarTrack.offsetHeight;
   }
 
+  /** @readonly thumb size value (px) */
   public get thumbOffset() {
     return this.horizontal ? this.$scrollbarThumb.offsetWidth : this.$scrollbarThumb.offsetHeight;
   }
 
+  /** @readonly Relative thumb size value (between 0.0 and 1.0) */
   public get thumbSize() {
     // behave as native scroll
     if (!this.$target || !this.$target.scrollWidth || !this.$target.scrollHeight) return 1;
@@ -162,6 +172,7 @@ export class ESLScrollbar extends ESLBaseElement {
     return Math.min((areaSize + 1) / scrollSize, 1);
   }
 
+  /** Relative position value (between 0.0 and 1.0) */
   public get position() {
     if (!this.$target) return 0;
     const scrollOffset = this.horizontal ? this.$target.scrollLeft : this.$target.scrollTop;
@@ -174,9 +185,7 @@ export class ESLScrollbar extends ESLBaseElement {
     this.update();
   }
 
-  /**
-   * Scroll target element to passed position
-   */
+  /** Scroll target element to passed position */
   protected scrollTargetTo(pos: number) {
     if (!this.$target) return;
     this.$target.scrollTo({
@@ -185,9 +194,7 @@ export class ESLScrollbar extends ESLBaseElement {
     });
   }
 
-  /**
-   * Update thumb size and position
-   */
+  /** Update thumb size and position */
   public update() {
     if (!this.$scrollbarThumb || !this.$scrollbarTrack) return;
     const thumbSize = this.trackOffset * this.thumbSize;
@@ -199,25 +206,19 @@ export class ESLScrollbar extends ESLBaseElement {
     Object.assign(this.$scrollbarThumb.style, style);
   }
 
-  /**
-   * Update auxiliary markers
-   */
+  /** Update auxiliary markers */
   public updateMarkers() {
     this.toggleAttribute('inactive', this.thumbSize >= 1);
   }
 
-  /**
-   * Refresh scroll state and position
-   */
+  /** Refresh scroll state and position */
   public refresh() {
     this.update();
     this.updateMarkers();
   }
 
   // Event listeners
-  /**
-   * Mousedown event to track thumb drag start.
-   */
+  /** Mousedown event to track thumb drag start */
   @bind
   protected _onMouseDown(event: MouseEvent) {
     this.dragging = true;
@@ -233,9 +234,7 @@ export class ESLScrollbar extends ESLBaseElement {
     event.preventDefault();
   }
 
-  /**
-   * Set position on drug
-   */
+  /** Set position on drug */
   protected _dragToCoordinate(mousePosition: number) {
     const positionChange = mousePosition - this._initialMousePosition;
     const scrollableAreaHeight = this.trackOffset - this.thumbOffset;
@@ -244,9 +243,7 @@ export class ESLScrollbar extends ESLBaseElement {
   }
   protected _deferredDragToCoordinate = rafDecorator(this._dragToCoordinate);
 
-  /**
-   * Mousemove document handler for thumb drag event. Active only if drag action is active.
-   */
+  /** Mousemove document handler for thumb drag event. Active only if drag action is active */
   @bind
   protected _onMouseMove(event: MouseEvent) {
     if (!this.dragging) return;
@@ -259,9 +256,7 @@ export class ESLScrollbar extends ESLBaseElement {
     event.stopPropagation();
   }
 
-  /**
-   * Mouse up short time document handler to handle drag end
-   */
+  /** Mouse up short time document handler to handle drag end */
   @bind
   protected _onMouseUp() {
     this.dragging = false;
@@ -271,9 +266,7 @@ export class ESLScrollbar extends ESLBaseElement {
     window.removeEventListener('mouseup', this._onMouseUp);
   }
 
-  /**
-   * Body click short time handler to prevent clicks event on thumb drag. Handles capture phase.
-   */
+  /** Body click short time handler to prevent clicks event on thumb drag. Handles capture phase */
   @bind
   protected _onBodyClick(event: MouseEvent) {
     event.stopImmediatePropagation();
@@ -281,9 +274,7 @@ export class ESLScrollbar extends ESLBaseElement {
     window.removeEventListener('click', this._onBodyClick, {capture: true});
   }
 
-  /**
-   * Handler for track clicks. Move scroll to selected position.
-   */
+  /** Handler for track clicks. Move scroll to selected position */
   @bind
   protected _onClick(event: MouseEvent) {
     if (event.target !== this.$scrollbarTrack && event.target !== this) return;
