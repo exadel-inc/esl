@@ -1,12 +1,10 @@
-/**
- * Simple Video API provider for {@link ESLMedia}
- * @version 1.0.0-alpha
- * @author Yuliya Adamskaya
- */
-
 import {HTMLMediaProvider} from './media-provider';
 import {BaseProvider} from '../../core/esl-media-provider';
 
+/**
+ * Simple Video API provider for {@link ESLMedia}
+ * @author Yuliya Adamskaya
+ */
 @BaseProvider.register
 export class VideoProvider extends HTMLMediaProvider {
   static readonly providerName: string = 'video';

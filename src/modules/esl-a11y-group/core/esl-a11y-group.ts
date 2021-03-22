@@ -1,27 +1,32 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
+import {TraversingQuery} from '../../esl-traversing-query/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP} from '../../esl-utils/dom/keys';
-import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
+/** Relative targeting type definition */
 export type GroupTarget = 'next' | 'prev' | 'current';
 
+/**
+ * ESL A11y Group
+ * @author Julia Murashko
+ *
+ * ESL A11y Group - helper custom element, that adds a11y group behavior to targets.
+ */
 @ExportNs('A11yGroup')
 export class ESLA11yGroup extends ESLBaseElement {
   public static is = 'esl-a11y-group';
 
+  /** Target elements multiple selector ({@link TraversingQuery} syntax) */
   @attr({defaultValue: '::child'}) public targets: string;
+  /** Activate target (via click event) on selection */
   @boolAttr({}) public activateSelected: boolean;
 
-  /**
-   * @returns {HTMLElement} root element of this
-   */
+  /** @returns {HTMLElement} root element of this */
   public get $root(): HTMLElement {
     return this.parentElement as HTMLElement;
   }
-  /**
-   * @returns {HTMLElement[]} targets of plugin
-   */
+  /** @returns {HTMLElement[]} targets of plugin */
   public get $targets(): HTMLElement[] {
     return TraversingQuery.all(this.targets, this.$root) as [];
   }
@@ -59,9 +64,7 @@ export class ESLA11yGroup extends ESLBaseElement {
     }
   }
 
-  /**
-   * Go to target from passed element or current focused target by default
-   */
+  /** Go to target from passed element or current focused target by default */
   public goTo(target: GroupTarget, from: HTMLElement | null = this.current()) {
     if (!from) return;
     const targetEl = this[target](from);
@@ -70,27 +73,21 @@ export class ESLA11yGroup extends ESLBaseElement {
     this.activateSelected && targetEl.click();
   }
 
-  /**
-   * @returns {HTMLElement} next target fot trigger
-   */
+  /** @returns {HTMLElement} next target fot trigger */
   public next(trigger: HTMLElement) {
     const triggers = this.$targets;
     const index = triggers.indexOf(trigger);
     return triggers[(index + 1) % triggers.length];
   }
 
-  /**
-   * @returns {HTMLElement} previous target fot trigger
-   */
+  /** @returns {HTMLElement} previous target fot trigger */
   public prev(trigger: HTMLElement): HTMLElement | undefined {
     const triggers = this.$targets;
     const index = triggers.indexOf(trigger);
     return triggers[(index - 1 + triggers.length) % triggers.length];
   }
 
-  /**
-   * @returns {HTMLElement} current focused element from targets
-   */
+  /** @returns {HTMLElement} current focused element from targets */
   public current(): HTMLElement | null {
     const $active = document.activeElement as HTMLElement;
     return this.$targets.includes($active) ? $active : null;

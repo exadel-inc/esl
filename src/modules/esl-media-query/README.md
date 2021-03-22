@@ -1,8 +1,8 @@
 # [ESL](../../../README.md) Media Query Utils
 
-Version: *1.0.0-alpha*.
+Version: *1.1.0*
 
-Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*.
+Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*
 
 ESL Media Query is an extended browser MediaQueryList object and related utils.
 In addition to native Media Features, ESL Media Query allows special *shortcuts* to simplify syntax and query usage.

@@ -1,12 +1,11 @@
+import {ExportNs} from '../../esl-utils/environment/export-ns';
+
 /**
  * ESL Query Breakpoint Registry
- * @version 1.0.0
  * @author Yuliya Adamskaya
  *
  * Breakpoint Registry is used to provide custom breakpoints for ESL Query
  */
-import {ExportNs} from '../../esl-utils/environment/export-ns';
-
 class ScreenBreakpoint {
   public min: number;
   public max: number;

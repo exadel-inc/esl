@@ -1,9 +1,3 @@
-/**
- * ESL Image
- * @version 1.0.0
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- */
-
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../esl-utils/dom/styles';
@@ -18,6 +12,10 @@ import {ESLImageRenderStrategy, ShadowImageElement, STRATEGIES} from './esl-imag
 type LoadState = 'error' | 'loaded' | 'ready';
 const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);
 
+/**
+ * ESL Image
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ */
 @ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
   public static is = 'esl-image';
