@@ -11,7 +11,7 @@ export type GroupTarget = 'next' | 'prev' | 'current';
  * ESL A11y Group
  * @author Julia Murashko
  *
- * ESL A11y Group - helper custom element, that adds a11y group behavior to targets.
+ * ESL A11y Group - helper custom element that adds a11y group behavior to targets.
  */
 @ExportNs('A11yGroup')
 export class ESLA11yGroup extends ESLBaseElement {
@@ -22,11 +22,11 @@ export class ESLA11yGroup extends ESLBaseElement {
   /** Activate target (via click event) on selection */
   @boolAttr({}) public activateSelected: boolean;
 
-  /** @returns {HTMLElement} root element of this */
+  /** @returns {HTMLElement} root element of the group */
   public get $root(): HTMLElement {
     return this.parentElement as HTMLElement;
   }
-  /** @returns {HTMLElement[]} targets of plugin */
+  /** @returns {HTMLElement[]} targets of the group */
   public get $targets(): HTMLElement[] {
     return TraversingQuery.all(this.targets, this.$root) as [];
   }
@@ -64,7 +64,7 @@ export class ESLA11yGroup extends ESLBaseElement {
     }
   }
 
-  /** Go to target from passed element or current focused target by default */
+  /** Go to the target from the passed element or currently focused target by default */
   public goTo(target: GroupTarget, from: HTMLElement | null = this.current()) {
     if (!from) return;
     const targetEl = this[target](from);
@@ -87,7 +87,7 @@ export class ESLA11yGroup extends ESLBaseElement {
     return triggers[(index - 1 + triggers.length) % triggers.length];
   }
 
-  /** @returns {HTMLElement} current focused element from targets */
+  /** @returns {HTMLElement} currently focused element from targets */
   public current(): HTMLElement | null {
     const $active = document.activeElement as HTMLElement;
     return this.$targets.includes($active) ? $active : null;

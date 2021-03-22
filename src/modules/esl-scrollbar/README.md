@@ -11,7 +11,7 @@ ESLScrollbar - custom element, that replaces the browser's default scrollbar wit
 ### Supported Features:
 - directions : `vertical` and `horisontal` mode
 - independent target element definition using [TraversingQuery](./../esl-traversing-query/README.md)
-- totally customizable from css
+- completely customizable from CSS
 
 ### Attributes:
 

@@ -18,7 +18,7 @@ export abstract class ESLBaseElement extends HTMLElement {
     this._connected = false;
   }
 
-  /** Check that element is connected and connectedCallback has been executed */
+  /** Check that the element is connected and `connectedCallback` has been executed */
   public get connected() {
     return this._connected;
   }
