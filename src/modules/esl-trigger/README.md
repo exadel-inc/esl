@@ -1,10 +1,12 @@
 # [ESL](../../../README.md) Trigger
 
-Version: *1.0.0-beta*.  
-***Important Notice: the component is under beta version, it tested and ready to use but be aware of its potential critical API changes.***
+Version: *1.0.0*.
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 
 ESLTrigger - custom element, that allows to trigger ESLToggleable instances state changes.
+ESLBaseTrigger - base class for a custom element, that allows to trigger ESLToggleable instances state changes.
 
-Description TBD.
+### Attributes / Properties
+
+- `active` - readonly marker of active Toggleable target

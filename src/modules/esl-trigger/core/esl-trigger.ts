@@ -1,10 +1,11 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, boolAttr} from '../../esl-base-element/core';
-import {ESLBaseTrigger} from '../../esl-base-trigger/core';
+import {attr} from '../../esl-base-element/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {TraversingQuery} from '../../esl-traversing-query/core';
+
+import {ESLBaseTrigger} from './esl-base-trigger';
 
 import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 
@@ -15,9 +16,6 @@ export class ESLTrigger extends ESLBaseTrigger {
   static get observedAttributes() {
     return ['target', 'event', 'mode'];
   }
-
-  // Markers
-  @boolAttr() public active: boolean;
 
   // Main setting
   @attr({defaultValue: 'next'}) public target: string;
@@ -34,7 +32,7 @@ export class ESLTrigger extends ESLBaseTrigger {
     if (!this.connected) return;
     switch (attrName) {
       case 'target':
-        this.updatePopupFromTarget();
+        this.updateTargetFromSelector();
         break;
       case 'mode':
       case 'event':
@@ -47,14 +45,14 @@ export class ESLTrigger extends ESLBaseTrigger {
   @ready
   protected connectedCallback() {
     super.connectedCallback();
-    this.updatePopupFromTarget();
+    this.updateTargetFromSelector();
   }
   @ready
   protected disconnectedCallback() {
     this.unbindEvents();
   }
 
-  protected updatePopupFromTarget() {
+  protected updateTargetFromSelector() {
     if (!this.target) return;
     this.$target = TraversingQuery.first(this.target, this) as ESLToggleable;
   }
@@ -62,7 +60,8 @@ export class ESLTrigger extends ESLBaseTrigger {
   public get showEvent() {
     if (this.mode === 'hide') return null;
     if (this.event === 'hover') {
-      return DeviceDetector.isTouchDevice ? 'click' : 'mouseenter';
+      if (DeviceDetector.isTouchDevice) return 'click';
+      return 'mouseenter';
     }
     return this.event;
   }

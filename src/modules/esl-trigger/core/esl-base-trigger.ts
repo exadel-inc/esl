@@ -19,6 +19,9 @@ export class ESLBaseTrigger extends ESLBaseElement {
   /** @readonly Observed Toggleable active state marker */
   @boolAttr({readonly: true}) public active: boolean;
 
+  /** Prevent default behaviour for click and keyboard events inside trigger */
+  @boolAttr() public preventDefault: boolean;
+
   /** Selector of inner target element to place aria attributes. Uses trigger itself if blank */
   @attr({defaultValue: ''}) public a11yTarget: string;
 
@@ -101,6 +104,7 @@ export class ESLBaseTrigger extends ESLBaseElement {
       delay: this.showDelayValue,
       event
     });
+    this.preventDefault && event.preventDefault();
   }
 
   /** Handles trigger hide type of event */
@@ -111,6 +115,7 @@ export class ESLBaseTrigger extends ESLBaseElement {
       delay: this.hideDelayValue,
       event
     });
+    this.preventDefault && event.preventDefault();
   }
 
   /** Handles trigger toggle type of event */
@@ -134,10 +139,10 @@ export class ESLBaseTrigger extends ESLBaseElement {
 
   /** Handles `keydown` event */
   @bind
-  protected _onKeydown(e: KeyboardEvent) {
-    if ([ENTER, SPACE].includes(e.key)) {
+  protected _onKeydown(event: KeyboardEvent) {
+    if ([ENTER, SPACE].includes(event.key)) {
       this.click();
-      e.preventDefault();
+      this.preventDefault && event.preventDefault();
     }
   }
 
