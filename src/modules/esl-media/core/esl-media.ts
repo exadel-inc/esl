@@ -1,9 +1,3 @@
-/**
- * ESL Media
- * @version 1.0.0-alpha
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- */
-
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {CSSUtil} from '../../esl-utils/dom/styles';
@@ -20,6 +14,10 @@ import {BaseProvider, PlayerStates} from './esl-media-provider';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
 import {MediaGroupRestrictionManager} from './esl-media-manager';
 
+/**
+ * ESL Media
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ */
 @ExportNs('Media')
 export class ESLMedia extends ESLBaseElement {
   public static is = 'esl-media';

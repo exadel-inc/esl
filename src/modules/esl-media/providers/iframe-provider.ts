@@ -1,11 +1,10 @@
-/**
- * Simple Basic Iframe provider for {@link ESLMedia}
- * @version 1.0.0-alpha
- * @author Alexey Stsefanovich (ala'n)
- */
 import {BaseProvider, PlayerStates} from '../core/esl-media-provider';
 import {generateUId} from '../../esl-utils/misc/uid';
 
+/**
+ * Simple Basic Iframe provider for {@link ESLMedia}
+ * @author Alexey Stsefanovich (ala'n)
+ */
 @BaseProvider.register
 export class IframeBasicProvider extends BaseProvider {
   static readonly providerName: string = 'iframe';

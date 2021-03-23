@@ -136,12 +136,15 @@ In case you are using JetBrains IDE (IDEA or WebStorm) you can use this
 
 ## Roadmap
 
-- Releasable state for beta components (ESL Toggleable group)
-- "Playground" demo server
+- [UI Playground](https://github.com/exadel-inc/ui-playground) (_will be available soon_) demo server
 - npm release
-- ESLCarousel component release
-- More components in the library
+- More helpers and sugar of ESLBaseElement (event listener helpers and decorators)  
 - Extension of esl-utils
+- Dynamic Footnotes component
+- Extension of esl-form elements (custom form base, helpers, validation and more)
+- ESLCarousel component
+- ESLToast component
+- More components in the library
 
 ---
 

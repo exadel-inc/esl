@@ -1,13 +1,9 @@
-/**
- * ESL Image Play-In-Viewport helper
- * @version 1.0.0-alpha
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- */
 import {ESLImage} from './esl-image';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 
 let iObserver: IntersectionObserver;
 
+/** ESL Image lazy loading IntersectionObserver instance */
 export function getIObserver() {
   if (!iObserver) {
     iObserver = new IntersectionObserver(function (entries) {
