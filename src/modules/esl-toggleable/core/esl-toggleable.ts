@@ -16,6 +16,7 @@ export interface ToggleableActionParams {
   silent?: boolean;
   trackHover?: boolean;
   activator?: HTMLElement;
+  event?: Event;
 }
 
 const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap();

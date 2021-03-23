@@ -16,7 +16,7 @@ import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
  */
 @ExportNs('BaseTrigger')
 export class ESLBaseTrigger extends ESLBaseElement {
-  /** @readonly Observed ESLTogglable active state marker */
+  /** @readonly Observed Toggleable active state marker */
   @boolAttr({readonly: true}) public active: boolean;
 
   /** Selector of inner target element to place aria attributes. Uses trigger itself if blank */
@@ -30,7 +30,7 @@ export class ESLBaseTrigger extends ESLBaseElement {
   protected _$target: ESLToggleable;
   protected __unsubscribers: NoopFnSignature[];
 
-  /** Target observable togglable */
+  /** Target observable Toggleable */
   public get $target() {
     return this._$target;
   }
@@ -95,20 +95,24 @@ export class ESLBaseTrigger extends ESLBaseElement {
 
   /** Handles trigger open type of event */
   @bind
-  protected _onShowEvent(e: Event) {
+  protected _onShowEvent(event: Event) {
     this.$target.show({
       activator: this,
-      delay: this.showDelayValue
+      delay: this.showDelayValue,
+      event
     });
   }
+
   /** Handles trigger hide type of event */
   @bind
-  protected _onHideEvent(e: Event) {
+  protected _onHideEvent(event: Event) {
     this.$target.hide({
       activator: this,
-      delay: this.hideDelayValue
+      delay: this.hideDelayValue,
+      event
     });
   }
+
   /** Handles trigger toggle type of event */
   @bind
   protected _onToggleEvent(e: Event) {

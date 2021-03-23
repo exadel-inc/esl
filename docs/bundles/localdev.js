@@ -1534,9 +1534,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/bool-attr.ts");
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
+/* harmony import */ var _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-traversing-query/core */ "../src/modules/esl-traversing-query/core/esl-traversing-query.ts");
 /* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
 /* harmony import */ var _esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/dom/keys */ "../src/modules/esl-utils/dom/keys.ts");
-/* harmony import */ var _esl_traversing_query_core_esl_traversing_query__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-traversing-query/core/esl-traversing-query */ "../src/modules/esl-traversing-query/core/esl-traversing-query.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1563,15 +1563,19 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+/**
+ * ESLA11yGroup component
+ * @author Julia Murashko
+ *
+ * ESLA11yGroup - helper custom element that adds a11y group behavior to targets.
+ */
 var ESLA11yGroup = /** @class */ (function (_super) {
     __extends(ESLA11yGroup, _super);
     function ESLA11yGroup() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Object.defineProperty(ESLA11yGroup.prototype, "$root", {
-        /**
-         * @returns {HTMLElement} root element of this
-         */
+        /** @returns {HTMLElement} root element of the group */
         get: function () {
             return this.parentElement;
         },
@@ -1579,11 +1583,9 @@ var ESLA11yGroup = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(ESLA11yGroup.prototype, "$targets", {
-        /**
-         * @returns {HTMLElement[]} targets of plugin
-         */
+        /** @returns {HTMLElement[]} targets of the group */
         get: function () {
-            return _esl_traversing_query_core_esl_traversing_query__WEBPACK_IMPORTED_MODULE_0__.TraversingQuery.all(this.targets, this.$root);
+            return _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_0__.TraversingQuery.all(this.targets, this.$root);
         },
         enumerable: false,
         configurable: true
@@ -1615,9 +1617,7 @@ var ESLA11yGroup = /** @class */ (function (_super) {
             e.preventDefault();
         }
     };
-    /**
-     * Go to target from passed element or current focused target by default
-     */
+    /** Go to the target from the passed element or currently focused target by default */
     ESLA11yGroup.prototype.goTo = function (target, from) {
         if (from === void 0) { from = this.current(); }
         if (!from)
@@ -1628,25 +1628,19 @@ var ESLA11yGroup = /** @class */ (function (_super) {
         targetEl.focus();
         this.activateSelected && targetEl.click();
     };
-    /**
-     * @returns {HTMLElement} next target fot trigger
-     */
+    /** @returns {HTMLElement} next target fot trigger */
     ESLA11yGroup.prototype.next = function (trigger) {
         var triggers = this.$targets;
         var index = triggers.indexOf(trigger);
         return triggers[(index + 1) % triggers.length];
     };
-    /**
-     * @returns {HTMLElement} previous target fot trigger
-     */
+    /** @returns {HTMLElement} previous target fot trigger */
     ESLA11yGroup.prototype.prev = function (trigger) {
         var triggers = this.$targets;
         var index = triggers.indexOf(trigger);
         return triggers[(index - 1 + triggers.length) % triggers.length];
     };
-    /**
-     * @returns {HTMLElement} current focused element from targets
-     */
+    /** @returns {HTMLElement} currently focused element from targets */
     ESLA11yGroup.prototype.current = function () {
         var $active = document.activeElement;
         return this.$targets.includes($active) ? $active : null;
@@ -1689,7 +1683,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/environment/device-detector */ "../src/modules/esl-utils/environment/device-detector.ts");
 /* harmony import */ var _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/dom/styles */ "../src/modules/esl-utils/dom/styles.ts");
 /* harmony import */ var _esl_utils_fixes_ie_fixes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/fixes/ie-fixes */ "../src/modules/esl-utils/fixes/ie-fixes.ts");
-/* harmony import */ var _esl_traversing_query_core_esl_traversing_query__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-traversing-query/core/esl-traversing-query */ "../src/modules/esl-traversing-query/core/esl-traversing-query.ts");
+/* harmony import */ var _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-traversing-query/core */ "../src/modules/esl-traversing-query/core/esl-traversing-query.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1719,6 +1713,13 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+/**
+ * ESLAlert component
+ *
+ * @author Julia Murashko
+ *
+ * ESLAlert is a component to show small notifications on your pages. ESLAlert can have multiple instances on the page.
+ */
 var ESLAlert = /** @class */ (function (_super) {
     __extends(ESLAlert, _super);
     function ESLAlert() {
@@ -1732,7 +1733,7 @@ var ESLAlert = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    /** Create global alert instance */
+    /** Create global alert instance (using body element as a base) */
     ESLAlert.init = function () {
         if (document.querySelector("body > " + ESLAlert_1.is))
             return;
@@ -1747,7 +1748,7 @@ var ESLAlert = /** @class */ (function (_super) {
         if (!this.connected)
             return;
         if (attrName === 'target') {
-            this.$target = _esl_traversing_query_core_esl_traversing_query__WEBPACK_IMPORTED_MODULE_0__.TraversingQuery.first(this.target);
+            this.$target = _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_0__.TraversingQuery.first(this.target);
         }
     };
     ESLAlert.prototype.connectedCallback = function () {
@@ -1760,7 +1761,7 @@ var ESLAlert = /** @class */ (function (_super) {
         if (_esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_1__.DeviceDetector.isIE)
             this.appendChild((0,_esl_utils_fixes_ie_fixes__WEBPACK_IMPORTED_MODULE_2__.createZIndexIframe)());
         if (this.target) {
-            this.$target = _esl_traversing_query_core_esl_traversing_query__WEBPACK_IMPORTED_MODULE_0__.TraversingQuery.first(this.target, this);
+            this.$target = _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_0__.TraversingQuery.first(this.target, this);
         }
     };
     ESLAlert.prototype.unbindEvents = function () {
@@ -1768,6 +1769,7 @@ var ESLAlert = /** @class */ (function (_super) {
         this.unbindTargetEvents();
     };
     Object.defineProperty(ESLAlert.prototype, "$target", {
+        /** Target element to listen to activation events */
         get: function () {
             return this._$target;
         },
@@ -1832,6 +1834,7 @@ var ESLAlert = /** @class */ (function (_super) {
     var ESLAlert_1;
     ESLAlert.is = 'esl-alert';
     ESLAlert.eventNs = 'esl:alert';
+    /** Default show/hide params for all ESLAlert instances */
     ESLAlert.defaultConfig = {
         hideTime: 300,
         hideDelay: 2500
@@ -1881,11 +1884,11 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 /**
  * Base class for ESL custom elements.
  * Allows to define custom element with the optional custom tag name.
  */
-
 var ESLBaseElement = /** @class */ (function (_super) {
     __extends(ESLBaseElement, _super);
     function ESLBaseElement() {
@@ -1901,9 +1904,7 @@ var ESLBaseElement = /** @class */ (function (_super) {
         this._connected = false;
     };
     Object.defineProperty(ESLBaseElement.prototype, "connected", {
-        /**
-         * Check that element is connected and connectedCallback has been executed.
-         */
+        /** Check that the element is connected and `connectedCallback` has been executed */
         get: function () {
             return this._connected;
         },
@@ -2129,12 +2130,19 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+/**
+ * ESLBaseTrigger component
+ * @author Alexey Stsefanovich (ala'n), Julia Murashko
+ *
+ * ESLBaseTrigger - base class for a custom element, that allows to trigger ESLToggleable instances state changes
+ */
 var ESLBaseTrigger = /** @class */ (function (_super) {
     __extends(ESLBaseTrigger, _super);
     function ESLBaseTrigger() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Object.defineProperty(ESLBaseTrigger.prototype, "$target", {
+        /** Target observable Toggleable */
         get: function () {
             return this._$target;
         },
@@ -2143,13 +2151,14 @@ var ESLBaseTrigger = /** @class */ (function (_super) {
             this._$target = newPopupInstance;
             if (this._$target) {
                 this.bindEvents();
-                this._onPopupStateChange();
+                this._onTargetStateChange();
             }
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(ESLBaseTrigger.prototype, "showEvent", {
+        /** trigger show event type */
         get: function () {
             return 'click';
         },
@@ -2157,6 +2166,7 @@ var ESLBaseTrigger = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(ESLBaseTrigger.prototype, "hideEvent", {
+        /** trigger hide event type */
         get: function () {
             return 'click';
         },
@@ -2164,6 +2174,7 @@ var ESLBaseTrigger = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(ESLBaseTrigger.prototype, "showDelayValue", {
+        /** `showDelay` parameter to pass to target */
         get: function () {
             return;
         },
@@ -2171,6 +2182,7 @@ var ESLBaseTrigger = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(ESLBaseTrigger.prototype, "hideDelayValue", {
+        /** `hideDelay` parameter to pass to target */
         get: function () {
             return;
         },
@@ -2187,16 +2199,16 @@ var ESLBaseTrigger = /** @class */ (function (_super) {
             this.attachEventListener(this.showEvent, this._onShowEvent);
             this.attachEventListener(this.hideEvent, this._onHideEvent);
         }
-        this.$target.addEventListener('esl:show', this._onPopupStateChange);
-        this.$target.addEventListener('esl:hide', this._onPopupStateChange);
+        this.$target.addEventListener('esl:show', this._onTargetStateChange);
+        this.$target.addEventListener('esl:hide', this._onTargetStateChange);
         this.addEventListener('keydown', this._onKeydown);
     };
     ESLBaseTrigger.prototype.unbindEvents = function () {
         (this.__unsubscribers || []).forEach(function (off) { return off(); });
         if (!this.$target)
             return;
-        this.$target.removeEventListener('esl:show', this._onPopupStateChange);
-        this.$target.removeEventListener('esl:hide', this._onPopupStateChange);
+        this.$target.removeEventListener('esl:show', this._onTargetStateChange);
+        this.$target.removeEventListener('esl:hide', this._onTargetStateChange);
         this.removeEventListener('keydown', this._onKeydown);
     };
     ESLBaseTrigger.prototype.attachEventListener = function (eventName, callback) {
@@ -2207,45 +2219,53 @@ var ESLBaseTrigger = /** @class */ (function (_super) {
         this.__unsubscribers = this.__unsubscribers || [];
         this.__unsubscribers.push(function () { return _this.removeEventListener(eventName, callback); });
     };
-    ESLBaseTrigger.prototype._onShowEvent = function (e) {
+    /** Handles trigger open type of event */
+    ESLBaseTrigger.prototype._onShowEvent = function (event) {
         this.$target.show({
             activator: this,
-            delay: this.showDelayValue
+            delay: this.showDelayValue,
+            event: event
         });
     };
-    ESLBaseTrigger.prototype._onHideEvent = function (e) {
+    /** Handles trigger hide type of event */
+    ESLBaseTrigger.prototype._onHideEvent = function (event) {
         this.$target.hide({
             activator: this,
-            delay: this.hideDelayValue
+            delay: this.hideDelayValue,
+            event: event
         });
     };
+    /** Handles trigger toggle type of event */
     ESLBaseTrigger.prototype._onToggleEvent = function (e) {
         return (this.active ? this._onHideEvent : this._onShowEvent)(e);
     };
-    ESLBaseTrigger.prototype._onPopupStateChange = function () {
-        this.active = this.$target.open;
+    /** Handles ESLTogglable state change */
+    ESLBaseTrigger.prototype._onTargetStateChange = function () {
+        this.toggleAttribute('active', this.$target.open);
         var clsTarget = _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_0__.TraversingQuery.first(this.activeClassTarget, this);
         clsTarget && _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_1__.CSSUtil.toggleClsTo(clsTarget, this.activeClass, this.active);
         this.updateA11y();
         this.$$fire('change:active');
     };
+    /** Handles `keydown` event */
     ESLBaseTrigger.prototype._onKeydown = function (e) {
         if ([_esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_2__.ENTER, _esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_2__.SPACE].includes(e.key)) {
             this.click();
             e.preventDefault();
         }
     };
+    /** Update aria attributes */
     ESLBaseTrigger.prototype.updateA11y = function () {
         var target = this.$a11yTarget;
         if (!target)
             return;
         target.setAttribute('aria-expanded', String(this.active));
-        // TODO: auto generate
         if (this.$target.id) {
             target.setAttribute('aria-controls', this.$target.id);
         }
     };
     Object.defineProperty(ESLBaseTrigger.prototype, "$a11yTarget", {
+        /** Element target to setup aria attributes */
         get: function () {
             return this.a11yTarget ? this.querySelector(this.a11yTarget) : this;
         },
@@ -2253,7 +2273,7 @@ var ESLBaseTrigger = /** @class */ (function (_super) {
         configurable: true
     });
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_3__.boolAttr)()
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_3__.boolAttr)({ readonly: true })
     ], ESLBaseTrigger.prototype, "active", void 0);
     __decorate([
         (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.attr)({ defaultValue: '' })
@@ -2275,7 +2295,7 @@ var ESLBaseTrigger = /** @class */ (function (_super) {
     ], ESLBaseTrigger.prototype, "_onToggleEvent", null);
     __decorate([
         _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
-    ], ESLBaseTrigger.prototype, "_onPopupStateChange", null);
+    ], ESLBaseTrigger.prototype, "_onTargetStateChange", null);
     __decorate([
         _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
     ], ESLBaseTrigger.prototype, "_onKeydown", null);
@@ -3379,14 +3399,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _esl_image__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./esl-image */ "../src/modules/esl-image/core/esl-image.ts");
 /* harmony import */ var _esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-utils/environment/device-detector */ "../src/modules/esl-utils/environment/device-detector.ts");
-/**
- * ESL Image Play-In-Viewport helper
- * @version 1.0.0-alpha
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- */
 
 
 var iObserver;
+/** ESL Image lazy loading IntersectionObserver instance */
 function getIObserver() {
     if (!iObserver) {
         iObserver = new IntersectionObserver(function (entries) {
@@ -3513,11 +3529,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _esl_traversing_query_core_esl_traversing_query__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-traversing-query/core/esl-traversing-query */ "../src/modules/esl-traversing-query/core/esl-traversing-query.ts");
 /* harmony import */ var _esl_image_iobserver__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./esl-image-iobserver */ "../src/modules/esl-image/core/esl-image-iobserver.ts");
 /* harmony import */ var _esl_image_strategies__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./esl-image-strategies */ "../src/modules/esl-image/core/esl-image-strategies.ts");
-/**
- * ESL Image
- * @version 1.0.0
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- */
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -3549,6 +3560,10 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 var isLoadState = function (state) { return ['error', 'loaded', 'ready'].includes(state); };
+/**
+ * ESL Image
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ */
 var ESLImage = /** @class */ (function (_super) {
     __extends(ESLImage, _super);
     function ESLImage() {
@@ -3912,14 +3927,13 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 /**
  * ESL Query Breakpoint Registry
- * @version 1.0.0
  * @author Yuliya Adamskaya
  *
  * Breakpoint Registry is used to provide custom breakpoints for ESL Query
  */
-
 var ScreenBreakpoint = /** @class */ (function () {
     function ScreenBreakpoint(min, max) {
         this.min = min;
@@ -4032,21 +4046,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/environment/device-detector */ "../src/modules/esl-utils/environment/device-detector.ts");
 /* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
 /* harmony import */ var _esl_media_breakpoints__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./esl-media-breakpoints */ "../src/modules/esl-media-query/core/esl-media-breakpoints.ts");
-/**
- * ESL Media Query
- * Provides special media condition syntax - ESLQuery
- * @version 2.1.0
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- *
- * Helper class that extends MediaQueryList class
- * Supports
- * - CSS query matching check
- * - DPR display queries (@x1 | @x2 | @x3)
- * - Screen default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
- * - Query matching change listeners
- * - Mobile / full browser detection (@MOBILE|@DESKTOP)
- * - Exclude upper DPRs for bots
- */
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4057,6 +4056,20 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+/**
+ * ESL Media Query
+ * Provides special media condition syntax - ESLQuery
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya, Natallia Harshunova
+ *
+ * Helper class that extends MediaQueryList class
+ * Supports
+ * - CSS query matching check
+ * - DPR display queries (@x1 | @x2 | @x3)
+ * - Screen default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
+ * - Query matching change listeners
+ * - Mobile / full browser detection (@MOBILE|@DESKTOP)
+ * - Exclude upper DPRs for bots
+ */
 var ESLMediaQuery = /** @class */ (function () {
     function ESLMediaQuery(query) {
         var _this = this;
@@ -4191,11 +4204,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _esl_utils_abstract_observable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/abstract/observable */ "../src/modules/esl-utils/abstract/observable.ts");
 /* harmony import */ var _esl_utils_misc_format__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/misc/format */ "../src/modules/esl-utils/misc/format.ts");
 /* harmony import */ var _esl_media_rule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./esl-media-rule */ "../src/modules/esl-media-query/core/esl-media-rule.ts");
-/**
- * ESL Rule List
- * @version 1.0.0
- * @author Yuliya Adamskaya
- */
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4214,6 +4222,10 @@ var __extends = (undefined && undefined.__extends) || (function () {
 
 
 
+/**
+ * ESL Rule List - ESLMediaRule observable collection
+ * @author Yuliya Adamskaya
+ */
 var ESLMediaRuleList = /** @class */ (function (_super) {
     __extends(ESLMediaRuleList, _super);
     function ESLMediaRuleList(query, parser) {
@@ -4312,19 +4324,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ESLMediaRule": function() { return /* binding */ ESLMediaRule; }
 /* harmony export */ });
 /* harmony import */ var _esl_media_query__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./esl-media-query */ "../src/modules/esl-media-query/core/esl-media-query.ts");
-/**
- * ESL Rule
- * @version 1.0.0
- * @author Yuliya Adamskaya
- *
- * Helper class that extend provide Observable Rule Handler that resolve payload based on current device configuration.
- * Supports
- * - CSS query matching check
- * - DPR display queries (@x1 | @x2 | @x3)
- * - Screen default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
- * - Query matching change listeners
- * - Mobile / full browser detection (@MOBILE|@DESKTOP)
- */
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4357,6 +4356,18 @@ var __read = (undefined && undefined.__read) || function (o, n) {
     return ar;
 };
 
+/**
+ * ESL Rule
+ * @author Yuliya Adamskaya
+ *
+ * Helper class that extend provide Observable Rule Handler that resolve payload based on current device configuration.
+ * Supports
+ * - CSS query matching check
+ * - DPR display queries (@x1 | @x2 | @x3)
+ * - Screen default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
+ * - Query matching change listeners
+ * - Mobile / full browser detection (@MOBILE|@DESKTOP)
+ */
 var ESLMediaRule = /** @class */ (function (_super) {
     __extends(ESLMediaRule, _super);
     function ESLMediaRule(payload, query) {
@@ -4413,15 +4424,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getIObserver": function() { return /* binding */ getIObserver; }
 /* harmony export */ });
 /* harmony import */ var _esl_media__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./esl-media */ "../src/modules/esl-media/core/esl-media.ts");
-/**
- * ESL Media Play-In-Viewport helper
- * @version 1.0.0-alpha
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- */
 
 var RATIO_TO_ACTIVATE = 0.75; // TODO: customizable, at least global
 var RATIO_TO_DEACTIVATE = 0.20; // TODO: customizable, at least global
 var iObserver;
+/** ESL Media Play-In-Viewport IntersectionObserver instance */
 function getIObserver(lazy) {
     if (lazy === void 0) { lazy = false; }
     if (!iObserver && !lazy) {
@@ -4461,6 +4468,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "MediaGroupRestrictionManager": function() { return /* binding */ MediaGroupRestrictionManager; }
 /* harmony export */ });
 var managerMap = new Map();
+/**
+ * Group restriction manager for {@link ESLMedia}
+ * Only one media in group can be played
+ * Empty group is ignored
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ */
 var MediaGroupRestrictionManager = /** @class */ (function () {
     function MediaGroupRestrictionManager() {
     }
@@ -4528,6 +4541,10 @@ var PlayerStates;
     PlayerStates[PlayerStates["VIDEO_CUED"] = 5] = "VIDEO_CUED";
     PlayerStates[PlayerStates["UNINITIALIZED"] = -2] = "UNINITIALIZED";
 })(PlayerStates || (PlayerStates = {}));
+/**
+ * BaseProvider class for media API providers
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya, Natallia Harshunova
+ */
 var BaseProvider = /** @class */ (function () {
     function BaseProvider(component, config) {
         this.config = config;
@@ -4703,6 +4720,10 @@ var __values = (undefined && undefined.__values) || function(o) {
 };
 
 var evRegistryInstance = null;
+/**
+ * ESLMediaProviderRegistry class to store media API providers
+ * @author Yuliya Adamskaya, Natallia Harshunova
+ */
 var ESLMediaProviderRegistry = /** @class */ (function (_super) {
     __extends(ESLMediaProviderRegistry, _super);
     function ESLMediaProviderRegistry() {
@@ -4814,11 +4835,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _esl_media_provider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./esl-media-provider */ "../src/modules/esl-media/core/esl-media-provider.ts");
 /* harmony import */ var _esl_media_registry__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./esl-media-registry */ "../src/modules/esl-media/core/esl-media-registry.ts");
 /* harmony import */ var _esl_media_manager__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./esl-media-manager */ "../src/modules/esl-media/core/esl-media-manager.ts");
-/**
- * ESL Media
- * @version 1.0.0-alpha
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- */
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4853,6 +4869,10 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+/**
+ * ESL Media
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ */
 var ESLMedia = /** @class */ (function (_super) {
     __extends(ESLMedia, _super);
     function ESLMedia() {
@@ -5280,15 +5300,14 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-/**
- * Brightcove API provider for {@link ESLMedia}
- * @version 1.0.0-alpha
- * @author Julia Murashko
- */
 
 
 
 var API_SCRIPT_ID = 'BC_API_SOURCE';
+/**
+ * Brightcove API provider for {@link ESLMedia}
+ * @author Julia Murashko
+ */
 var BrightcoveProvider = /** @class */ (function (_super) {
     __extends(BrightcoveProvider, _super);
     function BrightcoveProvider() {
@@ -5486,11 +5505,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _media_provider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./media-provider */ "../src/modules/esl-media/providers/html5/media-provider.ts");
 /* harmony import */ var _core_esl_media_provider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/esl-media-provider */ "../src/modules/esl-media/core/esl-media-provider.ts");
-/**
- * Simple Audio API provider for {@link ESLMedia}
- * @version 1.0.0-alpha
- * @author Alexey Stsefanovich (ala'n)
- */
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5514,6 +5528,10 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 };
 
 
+/**
+ * Simple Audio API provider for {@link ESLMedia}
+ * @author Alexey Stsefanovich (ala'n)
+ */
 var AudioProvider = /** @class */ (function (_super) {
     __extends(AudioProvider, _super);
     function AudioProvider() {
@@ -5554,11 +5572,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "HTMLMediaProvider": function() { return /* binding */ HTMLMediaProvider; }
 /* harmony export */ });
 /* harmony import */ var _core_esl_media_provider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/esl-media-provider */ "../src/modules/esl-media/core/esl-media-provider.ts");
-/**
- * Simple Native Media API provider for {@link ESLMedia}
- * @version 1.0.0-alpha
- * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
- */
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5575,6 +5588,10 @@ var __extends = (undefined && undefined.__extends) || (function () {
     };
 })();
 
+/**
+ * Simple Native Media API provider for {@link ESLMedia}
+ * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
+ */
 var HTMLMediaProvider = /** @class */ (function (_super) {
     __extends(HTMLMediaProvider, _super);
     function HTMLMediaProvider() {
@@ -5687,11 +5704,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _media_provider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./media-provider */ "../src/modules/esl-media/providers/html5/media-provider.ts");
 /* harmony import */ var _core_esl_media_provider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/esl-media-provider */ "../src/modules/esl-media/core/esl-media-provider.ts");
-/**
- * Simple Video API provider for {@link ESLMedia}
- * @version 1.0.0-alpha
- * @author Yuliya Adamskaya
- */
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5715,6 +5727,10 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 };
 
 
+/**
+ * Simple Video API provider for {@link ESLMedia}
+ * @author Yuliya Adamskaya
+ */
 var VideoProvider = /** @class */ (function (_super) {
     __extends(VideoProvider, _super);
     function VideoProvider() {
@@ -5777,13 +5793,12 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 /**
  * Simple Basic Iframe provider for {@link ESLMedia}
- * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n)
  */
-
-
 var IframeBasicProvider = /** @class */ (function (_super) {
     __extends(IframeBasicProvider, _super);
     function IframeBasicProvider() {
@@ -5956,15 +5971,14 @@ var __read = (undefined && undefined.__read) || function (o, n) {
     }
     return ar;
 };
-/**
- * Youtube API provider for {@link ESLMedia}
- * @version 1.0.0-alpha
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- */
 
 
 
 var DEFAULT_ASPECT_RATIO = 16 / 9;
+/**
+ * Youtube API provider for {@link ESLMedia}
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ */
 var YouTubeProvider = /** @class */ (function (_super) {
     __extends(YouTubeProvider, _super);
     function YouTubeProvider() {
@@ -6715,19 +6729,18 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
+
+
+
+
+
 /**
- * ESL Scrollbar
- * @version 1.0.0-alpha
+ * ESL Scrollbar component
  * @author Yuliya Adamskaya
  */
-
-
-
-
-
-
-
-
 var ESLScrollbar = /** @class */ (function (_super) {
     __extends(ESLScrollbar, _super);
     function ESLScrollbar() {
@@ -6768,6 +6781,7 @@ var ESLScrollbar = /** @class */ (function (_super) {
             null;
     };
     Object.defineProperty(ESLScrollbar.prototype, "$target", {
+        /** Target element to observe and scroll */
         get: function () {
             return this._$target || null;
         },
@@ -6846,6 +6860,7 @@ var ESLScrollbar = /** @class */ (function (_super) {
         }
     };
     Object.defineProperty(ESLScrollbar.prototype, "scrollableSize", {
+        /** @readonly Scrollable distance size value (px) */
         get: function () {
             if (!this.$target)
                 return 0;
@@ -6857,6 +6872,7 @@ var ESLScrollbar = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(ESLScrollbar.prototype, "trackOffset", {
+        /** @readonly Track size value (px) */
         get: function () {
             return this.horizontal ? this.$scrollbarTrack.offsetWidth : this.$scrollbarTrack.offsetHeight;
         },
@@ -6864,6 +6880,7 @@ var ESLScrollbar = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(ESLScrollbar.prototype, "thumbOffset", {
+        /** @readonly Thumb size value (px) */
         get: function () {
             return this.horizontal ? this.$scrollbarThumb.offsetWidth : this.$scrollbarThumb.offsetHeight;
         },
@@ -6871,6 +6888,7 @@ var ESLScrollbar = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(ESLScrollbar.prototype, "thumbSize", {
+        /** @readonly Relative thumb size value (between 0.0 and 1.0) */
         get: function () {
             // behave as native scroll
             if (!this.$target || !this.$target.scrollWidth || !this.$target.scrollHeight)
@@ -6883,6 +6901,7 @@ var ESLScrollbar = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(ESLScrollbar.prototype, "position", {
+        /** Relative position value (between 0.0 and 1.0) */
         get: function () {
             if (!this.$target)
                 return 0;
@@ -6897,9 +6916,7 @@ var ESLScrollbar = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    /**
-     * Scroll target element to passed position
-     */
+    /** Scroll target element to passed position */
     ESLScrollbar.prototype.scrollTargetTo = function (pos) {
         var _a;
         if (!this.$target)
@@ -6909,9 +6926,7 @@ var ESLScrollbar = /** @class */ (function (_super) {
             _a.behavior = this.dragging ? 'auto' : 'smooth',
             _a));
     };
-    /**
-     * Update thumb size and position
-     */
+    /** Update thumb size and position */
     ESLScrollbar.prototype.update = function () {
         var _a;
         if (!this.$scrollbarThumb || !this.$scrollbarTrack)
@@ -6924,23 +6939,17 @@ var ESLScrollbar = /** @class */ (function (_super) {
             _a);
         Object.assign(this.$scrollbarThumb.style, style);
     };
-    /**
-     * Update auxiliary markers
-     */
+    /** Update auxiliary markers */
     ESLScrollbar.prototype.updateMarkers = function () {
         this.toggleAttribute('inactive', this.thumbSize >= 1);
     };
-    /**
-     * Refresh scroll state and position
-     */
+    /** Refresh scroll state and position */
     ESLScrollbar.prototype.refresh = function () {
         this.update();
         this.updateMarkers();
     };
     // Event listeners
-    /**
-     * Mousedown event to track thumb drag start.
-     */
+    /** `mousedown` event to track thumb drag start */
     ESLScrollbar.prototype._onMouseDown = function (event) {
         this.dragging = true;
         this._initialPosition = this.position;
@@ -6952,18 +6961,14 @@ var ESLScrollbar = /** @class */ (function (_super) {
         // Prevents default text selection, etc.
         event.preventDefault();
     };
-    /**
-     * Set position on drug
-     */
+    /** Set position on drug */
     ESLScrollbar.prototype._dragToCoordinate = function (mousePosition) {
         var positionChange = mousePosition - this._initialMousePosition;
         var scrollableAreaHeight = this.trackOffset - this.thumbOffset;
         var absChange = scrollableAreaHeight ? (positionChange / scrollableAreaHeight) : 0;
         this.position = this._initialPosition + absChange;
     };
-    /**
-     * Mousemove document handler for thumb drag event. Active only if drag action is active.
-     */
+    /** `mousemove` document handler for thumb drag event. Active only if drag action is active */
     ESLScrollbar.prototype._onMouseMove = function (event) {
         if (!this.dragging)
             return;
@@ -6973,25 +6978,19 @@ var ESLScrollbar = /** @class */ (function (_super) {
         event.preventDefault();
         event.stopPropagation();
     };
-    /**
-     * Mouse up short time document handler to handle drag end
-     */
+    /** `mouseup` short-time document handler for drag end action */
     ESLScrollbar.prototype._onMouseUp = function () {
         this.dragging = false;
         // Unbind drag listeners
         window.removeEventListener('mousemove', this._onMouseMove);
         window.removeEventListener('mouseup', this._onMouseUp);
     };
-    /**
-     * Body click short time handler to prevent clicks event on thumb drag. Handles capture phase.
-     */
+    /** Body `click` short-time handler to prevent clicks event on thumb drag. Handles capture phase */
     ESLScrollbar.prototype._onBodyClick = function (event) {
         event.stopImmediatePropagation();
         window.removeEventListener('click', this._onBodyClick, { capture: true });
     };
-    /**
-     * Handler for track clicks. Move scroll to selected position.
-     */
+    /** Handler for track clicks. Move scroll to selected position */
     ESLScrollbar.prototype._onClick = function (event) {
         if (event.target !== this.$scrollbarTrack && event.target !== this)
             return;
@@ -9852,7 +9851,7 @@ if (!('customElements' in window)) {
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -9866,14 +9865,14 @@ if (!('customElements' in window)) {
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	!function() {
@@ -9886,7 +9885,7 @@ if (!('customElements' in window)) {
 /******/ 			return getter;
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	!function() {
 /******/ 		// define getter functions for harmony exports
@@ -9898,12 +9897,12 @@ if (!('customElements' in window)) {
 /******/ 			}
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	!function() {
 /******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	!function() {
 /******/ 		// define __esModule on exports
@@ -9914,7 +9913,7 @@ if (!('customElements' in window)) {
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
