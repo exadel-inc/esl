@@ -7,10 +7,13 @@ import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPRoot} from '../core/root';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
+import {attr} from "@exadel/esl/modules/esl-base-element/decorators/attr";
 
 export class UIPSettings extends ESLBaseElement {
   public static is = 'uip-settings';
   protected playground: UIPRoot;
+
+  @attr({defaultValue: 'Settings'}) public label: string;
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -79,10 +82,26 @@ export class UIPSettings extends ESLBaseElement {
     const {markup, source} = e.detail;
     if (source === UIPSettings.is) return;
 
+    if (!this.closest('.settings-wrapper')) {
+      this.renderWrapper(markup);
+    }
+
     const component = new DOMParser().parseFromString(markup, 'text/html').body;
 
     this.setAttrSettings(component);
     this.setClassSettings(component);
+
+  }
+
+  protected renderWrapper(markup: string) {
+    const $wrapper = document.createElement('div');
+    $wrapper.className = 'settings-wrapper';
+
+    $wrapper.innerHTML = `
+        <span class="section-name">${this.label}</span>
+        <uip-settings>${this.innerHTML}</uip-settings>`;
+
+    this.parentElement?.replaceChild($wrapper, this);
   }
 
   protected setAttrSettings(component: HTMLElement): void {

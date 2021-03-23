@@ -9,6 +9,7 @@ import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {UIPRoot} from '../core/root';
 import {ESLBaseElement, jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
+import {attr} from "@exadel/esl/modules/esl-base-element/decorators/attr";
 
 interface EditorConfig {
   theme: string;
@@ -31,6 +32,8 @@ export class UIPEditor extends ESLBaseElement {
   protected editor: ace.Editor;
   protected playground: UIPRoot;
 
+  @attr({defaultValue: 'Editor'}) public label: string;
+
   protected connectedCallback(): void {
     super.connectedCallback();
     this.playground = this.closest(`${UIPRoot.is}`) as UIPRoot;
@@ -44,6 +47,8 @@ export class UIPEditor extends ESLBaseElement {
 
     this.editor.$blockScrolling = Infinity;
     this.editor.addEventListener('change', this.onChange);
+
+    this.setEditorValue(this.playground.state);
   }
 
   protected disconnectedCallback() {
@@ -68,9 +73,21 @@ export class UIPEditor extends ESLBaseElement {
   @bind
   protected setMarkup(e: CustomEvent): void {
     const {markup, source} = e.detail;
-    if (source !== UIPEditor.is) {
-      this.setEditorValue(markup);
+    if (source === UIPEditor.is) return;
+    this.setEditorValue(markup);
+    if (!this.closest('.editor-wrapper')) {
+      this.renderWrapper();
     }
+  }
+
+  protected renderWrapper() {
+    const $wrapper = document.createElement('div');
+    $wrapper.className = 'editor-wrapper';
+
+    $wrapper.innerHTML = `
+        <span class="section-name">${this.label}</span>
+        <uip-editor editor-config='{wrap: 70}'></uip-editor>`;
+    this.parentElement?.replaceChild($wrapper, this);
   }
 
   protected setEditorValue(value: string): void {

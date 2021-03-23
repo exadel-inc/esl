@@ -8,7 +8,7 @@ export class UIPListSetting extends UIPSetting {
   @attr() public value: string;
 
   protected get target(): HTMLSelectElement {
-    return this.select;
+    return this.select || this.querySelector('select');
   }
 
   protected get values(): string[] {
@@ -28,6 +28,8 @@ export class UIPListSetting extends UIPSetting {
   }
 
   protected render(): void {
+    if (this.querySelector('select')) return;
+
     this.select = document.createElement('select');
     this.select.name = this.name;
     this.createOptions();
