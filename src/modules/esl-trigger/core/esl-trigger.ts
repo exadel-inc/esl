@@ -82,6 +82,7 @@ export class ESLTrigger extends ESLBaseTrigger {
     return this.event;
   }
 
+  // TODO: generalize or separate merge params
   /** Hide event processing */
   @bind
   protected _onHideEvent(event: Event) {
