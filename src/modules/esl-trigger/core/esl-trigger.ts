@@ -17,15 +17,20 @@ export class ESLTrigger extends ESLBaseTrigger {
     return ['target', 'event', 'mode'];
   }
 
-  // Main setting
+  /** Target Toggleable {@link TraversingQuery} selector. `next` by default */
   @attr({defaultValue: 'next'}) public target: string;
+  /** Event to handle by trigger. Support `click`, `hover` modes or any custom. `click` by default */
   @attr({defaultValue: 'click'}) public event: string;
+  /** Action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values. `toggle` by default */
   @attr({defaultValue: 'toggle'}) public mode: string;
 
-  // Common properties
+  /** Show delay value */
   @attr() public showDelay: string;
+  /** Hide delay value */
   @attr() public hideDelay: string;
+  /** Touch device show delay value */
   @attr() public touchShowDelay: string;
+  /** Touch device hide delay value */
   @attr() public touchHideDelay: string;
 
   protected attributeChangedCallback(attrName: string) {
@@ -52,11 +57,13 @@ export class ESLTrigger extends ESLBaseTrigger {
     this.unbindEvents();
   }
 
+  /** Update `$target` Toggleable  from `target` selector */
   protected updateTargetFromSelector() {
     if (!this.target) return;
     this.$target = TraversingQuery.first(this.target, this) as ESLToggleable;
   }
 
+  /** ESLTrigger show event definition */
   public get showEvent() {
     if (this.mode === 'hide') return null;
     if (this.event === 'hover') {
@@ -65,6 +72,7 @@ export class ESLTrigger extends ESLBaseTrigger {
     }
     return this.event;
   }
+  /** ESLTrigger hide event definition */
   public get hideEvent() {
     if (this.mode === 'show') return null;
     if (this.event === 'hover') {
@@ -74,19 +82,24 @@ export class ESLTrigger extends ESLBaseTrigger {
     return this.event;
   }
 
+  /** Hide event processing */
   @bind
-  protected _onHideEvent(e: Event) {
+  protected _onHideEvent(event: Event) {
     this.$target.hide({
       activator: this,
       delay: this.hideDelayValue,
-      trackHover: this.event === 'hover' && this.mode === 'toggle'
+      trackHover: this.event === 'hover' && this.mode === 'toggle',
+      event
     });
+    this.preventDefault && event.preventDefault();
   }
 
+  /** Show delay attribute processing */
   protected get showDelayValue(): number | undefined {
     const showDelay = DeviceDetector.isTouchDevice ? this.touchShowDelay : this.showDelay;
     return !showDelay || isNaN(+showDelay) ? undefined : +showDelay;
   }
+  /** Hide delay attribute processing */
   protected get hideDelayValue(): number | undefined {
     const hideDelay = DeviceDetector.isTouchDevice ? this.touchHideDelay : this.hideDelay;
     return !hideDelay || isNaN(+hideDelay) ? undefined : +hideDelay;
