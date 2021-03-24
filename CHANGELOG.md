@@ -1,3 +1,16 @@
+# [2.0.0-beta.29](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.28...v2.0.0-beta.29) (2021-03-24)
+
+
+### Bug Fixes
+
+* accordion styles animation fixes ([d59a44b](https://github.com/exadel-inc/esl/commit/d59a44bebfbe639846f4e86a0f430e4b820be8e9))
+
+
+### Features
+
+* esl-media extended with a ready class target option ([9966b42](https://github.com/exadel-inc/esl/commit/9966b42de148c9d5fc2390e357c4ceac057416de))
+* optional prevent default option for triggers. Merge triggers directory ([8c6cc3c](https://github.com/exadel-inc/esl/commit/8c6cc3cf54cb0141d83de15312b41789818d66c1))
+
 # [2.0.0-beta.28](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.27...v2.0.0-beta.28) (2021-03-17)
 
 
