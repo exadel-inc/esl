@@ -5,7 +5,7 @@ import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {createZIndexIframe} from '../../esl-utils/fixes/ie-fixes';
-import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
+import {TraversingQuery} from '../../esl-traversing-query/core';
 
 export interface AlertActionParams extends ToggleableActionParams {
   /** text to be shown; pass empty string or null to hide */
@@ -18,6 +18,13 @@ export interface AlertActionParams extends ToggleableActionParams {
   hideTime?: number;
 }
 
+/**
+ * ESLAlert component
+ *
+ * @author Julia Murashko
+ *
+ * ESLAlert is a component to show small notifications on your pages. ESLAlert can have multiple instances on the page.
+ */
 @ExportNs('Alert')
 export class ESLAlert extends ESLToggleable {
   static is = 'esl-alert';
@@ -27,13 +34,16 @@ export class ESLAlert extends ESLToggleable {
     return ['target'];
   }
 
+  /** Default show/hide params for all ESLAlert instances */
   static defaultConfig: AlertActionParams = {
     hideTime: 300,
     hideDelay: 2500
   };
 
+  /** Define the scope (using {@link TraversingQuery} syntax) element to listen to activation event. Parent element by default */
   @attr({defaultValue: '::parent'}) public target: string;
 
+  /** Default show/hide params for current ESLAlert instance */
   @jsonAttr<AlertActionParams>()
   public defaultParams: AlertActionParams;
 
@@ -43,7 +53,7 @@ export class ESLAlert extends ESLToggleable {
   private _$target: EventTarget;
   private _clearTimeout: number;
 
-  /** Create global alert instance */
+  /** Create global alert instance (using body element as a base) */
   public static init() {
     if (document.querySelector(`body > ${ESLAlert.is}`)) return;
     const alert = document.createElement(ESLAlert.is) as ESLAlert;
@@ -80,6 +90,7 @@ export class ESLAlert extends ESLToggleable {
     this.unbindTargetEvents();
   }
 
+  /** Target element to listen to activation events */
   public get $target() {
     return this._$target;
   }

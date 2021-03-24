@@ -11,8 +11,6 @@ package-lock.json
 
 # Build Config
 build
-paths.json
-gulpfile.js
 .releaserc.json
 
 # Target
@@ -25,7 +23,7 @@ jest.config.js
 **/test/*.ts
 
 # Demo Server
-test-server
+pages
 
 # Linter
 .editorconfig

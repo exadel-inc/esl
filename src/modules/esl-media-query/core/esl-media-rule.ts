@@ -1,6 +1,9 @@
+import {ESLMediaQuery} from './esl-media-query';
+
+type PayloadParser<T> = (val: string) => T | undefined;
+
 /**
  * ESL Rule
- * @version 1.0.0
  * @author Yuliya Adamskaya
  *
  * Helper class that extend provide Observable Rule Handler that resolve payload based on current device configuration.
@@ -11,11 +14,6 @@
  * - Query matching change listeners
  * - Mobile / full browser detection (@MOBILE|@DESKTOP)
  */
-
-import {ESLMediaQuery} from './esl-media-query';
-
-type PayloadParser<T> = (val: string) => T | undefined;
-
 export class ESLMediaRule<T> extends ESLMediaQuery {
   private readonly _payload: T;
   private readonly _default: boolean;

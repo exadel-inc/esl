@@ -1,8 +1,3 @@
-/**
- * Brightcove API provider for {@link ESLMedia}
- * @version 1.0.0-alpha
- * @author Julia Murashko
- */
 import {loadScript} from '../../esl-utils/dom/script';
 import {ESLMedia} from '../core/esl-media';
 import {BaseProvider, ProviderObservedParams, PlayerStates} from '../core/esl-media-provider';
@@ -17,6 +12,10 @@ export interface BCPlayerAccount {
   accountId: string | null;
 }
 
+/**
+ * Brightcove API provider for {@link ESLMedia}
+ * @author Julia Murashko
+ */
 @BaseProvider.register
 export class BrightcoveProvider extends BaseProvider {
   static readonly providerName: string = 'brightcove';

@@ -1,5 +1,5 @@
 {
-  "plugins": ["./build/lint/import.stylelint.js"],
+  "plugins": ["./build/import.stylelint.js"],
   "rules": {
     "at-rule-no-unknown": true,
     "block-no-empty": [true, { "severity": "warning" }],

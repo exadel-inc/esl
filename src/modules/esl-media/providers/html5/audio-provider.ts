@@ -1,12 +1,10 @@
-/**
- * Simple Audio API provider for {@link ESLMedia}
- * @version 1.0.0-alpha
- * @author Alexey Stsefanovich (ala'n)
- */
-
 import {HTMLMediaProvider} from './media-provider';
 import {BaseProvider} from '../../core/esl-media-provider';
 
+/**
+ * Simple Audio API provider for {@link ESLMedia}
+ * @author Alexey Stsefanovich (ala'n)
+ */
 @BaseProvider.register
 export class AudioProvider extends HTMLMediaProvider {
   static readonly providerName: string = 'audio';

@@ -1,8 +1,8 @@
 # [ESL](../../../README.md) Alert
 
-Version: *1.0.0*.
+Version: *1.0.0*
 
-Authors: *Julia Murashko*.
+Authors: *Julia Murashko*
 
 ESLAlert is a component to show small notifications on your pages. ESLAlert can have multiple instances on the page.
 

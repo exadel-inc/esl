@@ -3,7 +3,6 @@
 **/test/*.ts
 
 # Common configuration
-gulpfile.js
 jest.config.js
 
 # Common directories
@@ -11,8 +10,8 @@ build
 node_modules
 
 # Test server
-test-server/*.js
-test-server/static
+pages/*.js
+pages/static
 
 # Generated surces
 /modules
