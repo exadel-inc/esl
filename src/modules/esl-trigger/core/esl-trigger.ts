@@ -64,8 +64,8 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
 
-  /** ESLTrigger show event definition */
-  protected get showEvent() {
+  /** ESLTrigger 'primary' show event */
+  protected get _showEvent() {
     if (this.mode === 'hide') return null;
     if (this.event === 'hover') {
       if (DeviceDetector.isTouchDevice) return 'click';
@@ -73,8 +73,8 @@ export class ESLTrigger extends ESLBaseElement {
     }
     return this.event;
   }
-  /** ESLTrigger hide event definition */
-  protected get hideEvent() {
+  /** ESLTrigger 'primary' hide event */
+  protected get _hideEvent() {
     if (this.mode === 'show') return null;
     if (this.event === 'hover') {
       if (DeviceDetector.isTouchDevice) return 'click';
@@ -113,11 +113,11 @@ export class ESLTrigger extends ESLBaseElement {
 
   protected bindEvents() {
     if (!this.$target) return;
-    if (this.showEvent === this.hideEvent) {
-      this.attachEventListener(this.showEvent, this._onToggleEvent);
+    if (this._showEvent === this._hideEvent) {
+      this.attachEventListener(this._showEvent, this._onToggleEvent);
     } else {
-      this.attachEventListener(this.showEvent, this._onShowEvent);
-      this.attachEventListener(this.hideEvent, this._onHideEvent);
+      this.attachEventListener(this._showEvent, this._onShowEvent);
+      this.attachEventListener(this._hideEvent, this._onHideEvent);
     }
 
     this.$target.addEventListener('esl:show', this._onTargetStateChange);
@@ -152,7 +152,7 @@ export class ESLTrigger extends ESLBaseElement {
   protected _isIgnored(target: EventTarget | null) {
     if (!target || !(target instanceof HTMLElement) || !this.ignore) return false;
     const $ignore = target.closest(this.ignore);
-    // Ignore if find ignored inside trigger but that is not trigger itself
+    // Ignore only inner elements (but do not ignore the trigger itself)
     return !!$ignore && $ignore !== this && this.contains($ignore);
   }
 
