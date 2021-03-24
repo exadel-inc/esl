@@ -7,20 +7,33 @@ import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLPanel, PanelActionParams} from './esl-panel';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
+/**
+ * ESLPanelGroup - is a custom element, that is used as a wrapper for content that
+ * can be shown/hidden or collapsed (height animation).
+ * @author Julia Murashko
+ */
 @ExportNs('PanelGroup')
 export class ESLPanelGroup extends ESLBaseElement {
   public static is = 'esl-panel-group';
+  /** List of supported modes */
   public static supportedModes = ['tabs', 'accordion'];
 
+  /** Mode of the component (takes values from list of supported modes) */
   @attr({defaultValue: 'accordion'}) public mode: string;
+  /** Target element {@link TraversingQuery} select to add mode classes */
   @attr({defaultValue: ''}) public modeClsTarget: string;
+  /** Classes to be added during animation */
   @attr({defaultValue: 'animate'}) public animationClass: string;
+  /** Time after which the animation will be cleared */
   @attr({defaultValue: 'auto'}) public fallbackDuration: number | 'auto';
+  /** Prevent collapse animation according to {@link ESLMediaRuleList} */
   @attr() public noCollapse: string;
 
   private _modeRules: ESLMediaRuleList<string>;
 
+  /** Height of previous active panel */
   protected _previousHeight: number = 0;
+  /** Fallback setTimeout timer */
   protected _fallbackTimer: number = 0;
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
@@ -62,13 +75,13 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.removeEventListener('transitionend', this._onTransitionEnd);
   }
 
-  /** Get all panels for which there is no specified group */
+  /** @returns {ESLPanel[]} panels that are processed by the current panel group */
   public get $panels(): ESLPanel[] {
     const els = Array.from(this.querySelectorAll(ESLPanel.is));
     return els.filter((el) => this.includesPanel(el)) as ESLPanel[];
   }
 
-  /** Get all active panels */
+  /** @returns {ESLPanel[]} panels that are active */
   public get $activePanels() {
     return this.$panels.filter((el: ESLPanel) => el.open);
   }
@@ -87,6 +100,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.$activePanels.forEach((el) => (el !== panel) && el.hide());
   }
 
+  /** Process on show event */
   @bind
   protected _onShow(e: CustomEvent) {
     const panel = e.target;
@@ -102,6 +116,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
+  /** Record height of previous active panel */
   @bind
   protected _onBeforeHide(e: CustomEvent) {
     const panel = e.target;
@@ -133,6 +148,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     CSSUtil.removeCls(this, this.animationClass);
   }
 
+  /** Clear animation after fallback time  */
   protected fallbackAnimate() {
     const time = +this.fallbackDuration;
     if (isNaN(time) || time < 0) return;
@@ -148,18 +164,21 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
+  /** @returns {boolean} if animate height (collapse animation) */
   public get shouldCollapse() {
     const noCollapseModes = this.noCollapse.split(',').map((mode) => mode.trim());
     return !noCollapseModes.includes('all') && !noCollapseModes.includes(this.currentMode);
   }
 
-  /** Get config that is used to form result panel action params */
+  /** @returns {PanelActionParams} config that is used to form result panel action params */
   public get panelConfig(): PanelActionParams {
     return {
       noCollapse: !this.shouldCollapse || (this.currentMode === 'tabs')
     };
   }
 
+
+  /** @returns {string}  rules for mode */
   public get modeRules() {
     if (!this._modeRules) {
       this.modeRules = ESLMediaRuleList.parse<string>(this.mode, ESLMediaRuleList.STRING_PARSER);
@@ -175,6 +194,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this._modeRules.addListener(this._onModeChange);
   }
 
+  /** @returns {string} current mode */
   public get currentMode(): string {
     return this.modeRules.activeValue || '';
   }
