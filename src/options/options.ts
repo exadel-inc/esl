@@ -1,7 +1,7 @@
-import {boolAttr, attr, ESLBaseElement} from "@exadel/esl/modules/esl-base-element/core";
-import {bind} from "@exadel/esl/modules/esl-utils/decorators/bind";
-import {UIPEditor} from "../editor/editor";
-import {CSSUtil, TraversingQuery} from "@exadel/esl";
+import {boolAttr, attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {UIPEditor} from '../editor/editor';
+import {CSSUtil, TraversingQuery} from '@exadel/esl';
 
 export class UIPOptions extends ESLBaseElement {
   static is = 'uip-options';

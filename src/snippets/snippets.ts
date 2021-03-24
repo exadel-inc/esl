@@ -2,7 +2,7 @@ import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {UIPRoot} from '../core/root';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
-import {attr} from "@exadel/esl/modules/esl-base-element/decorators/attr";
+import {attr} from '@exadel/esl/modules/esl-base-element/decorators/attr';
 
 export class UIPSnippets extends ESLBaseElement {
   public static is = 'uip-snippets';

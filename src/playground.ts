@@ -7,7 +7,7 @@ import {UIPListSetting} from './settings/setting/list-setting/list-setting';
 import {UIPClassSetting} from './settings/setting/class-setting/class-setting';
 import {UIPCheckSetting} from './settings/setting/check-setting/check-setting';
 import {UIPSnippets} from './snippets/snippets';
-import {UIPOptions} from "./options/options";
+import {UIPOptions} from './options/options';
 
 export {
 	UIPRoot,

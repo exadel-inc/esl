@@ -9,7 +9,7 @@ import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {UIPRoot} from '../core/root';
 import {ESLBaseElement, jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
-import {attr} from "@exadel/esl/modules/esl-base-element/decorators/attr";
+import {attr} from '@exadel/esl/modules/esl-base-element/decorators/attr';
 
 interface EditorConfig {
   theme: string;
