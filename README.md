@@ -123,8 +123,8 @@ Also, ESL has built-in polyfills for some of DOM and ES6 features. They are avai
 
 ## Development Information for contributors
 
-If you are part of ESL team or want to contribute to the project
-you can find useful information of project processes and agreements with the following links:
+If you are a part of ESL team or want to contribute to the project
+you can find useful information of the project processes and agreements here:
 
 - #### [Development: Scripts](./docs/contribute/scripts.md)
 

@@ -35,7 +35,7 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Media elements group name */
   @attr() public group: string;
-  /** Media resource rendering strategy relative to the element area: 'cover', 'inscribe' on not defined */
+  /** Media resource rendering strategy relative to the element area: 'cover', 'inscribe' or not defined */
   @attr() public fillMode: ESLMediaFillMode;
   /** Strict aspect ratio definition */
   @attr() public aspectRatio: string;
@@ -58,7 +58,7 @@ export class ESLMedia extends ESLBaseElement {
   /** Allows play resource only in viewport area */
   @boolAttr() public playInViewport: boolean;
 
-  /** Preload area */
+  /** Preload resource */
   @attr({defaultValue: 'auto'}) public preload: string;
 
   /** Ready state class/classes */
@@ -66,9 +66,9 @@ export class ESLMedia extends ESLBaseElement {
   /** Ready state class/classes target */
   @attr() public readyClassTarget: string;
 
-  /** Class / classes to add when media accepted */
+  /** Class / classes to add when media is accepted */
   @attr() public loadClsAccepted: string;
-  /** Class / classes to add when media declined */
+  /** Class / classes to add when media is declined */
   @attr() public loadClsDeclined: string;
   /** Target element {@link TraversingQuery} select to add accepted/declined classes */
   @attr({defaultValue: '::parent'}) public loadClsTarget: string;

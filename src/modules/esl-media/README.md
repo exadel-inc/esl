@@ -39,7 +39,7 @@ ESlMedia - custom element, that provides an ability to add and configure media (
  
  - `group` (optional) - group name, only one media player can be active in bounds of the group
  
- - `ready-class` - class to add when resource is ready
+ - `ready-class` - class to add when the resource is ready
  - `ready-class-target` - [TraversingQuery](../esl-traversing-query/README.md) to define a target for `ready-class`
 
  - `disabled` (boolean) - marker that prevents media api initialization

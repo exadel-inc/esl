@@ -1,12 +1,12 @@
 # [ESL](../../../README.md) Trigger
 
-Version: *1.0.0*.
+Version: *1.0.0*
 
-Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
+Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*
 
 ESLTrigger - custom element, that allows to trigger ESLToggleable instances state changes.
 
-ESLBaseTrigger - base class for a custom element, that allows to trigger ESLToggleable instances state changes.
+ESLBaseTrigger - base class for a custom element, that allows triggering ESLToggleable instances state changes.
 
 ### ESLBaseToggleable Attributes / Properties
 
@@ -22,11 +22,11 @@ ESLBaseTrigger - base class for a custom element, that allows to trigger ESLTogg
 
 ### ESLToggleable Attributes / Properties
 
-- `target` - target Toggleable TraversingQuery selector. `next` by default
+- `target` - target Toggleable TraversingQuery selector (`next` by default)
 
-- `event` - event to handle by trigger. Support `click`, `hover` modes or any custom. `click` by default
+- `event` - event to handle by trigger. Support `click`, `hover` modes or any custom (`click` by default)
 
-- `mode` - action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values. `toggle` by default
+- `mode` - action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values (`toggle` by default)
 
 - `show-delay` - show delay value in ms
 
