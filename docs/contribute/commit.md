@@ -1,5 +1,13 @@
 # Commit Convention
 
+Project is using `@commitlint/config-conventional` commit message rules. Please check it out in case you want to
+contribute to ESL. Use this short note to renew commit message rules.
+
+In case you are using JetBrains IDE (IDEA or WebStorm) you can use this
+[plugin](https://plugins.jetbrains.com/plugin/13389-conventional-commit) to simplify commit validation.
+
+For Visual Studio Code use the following [plugin](https://marketplace.visualstudio.com/items?itemName=vivaxy.vscode-conventional-commits).
+
 ## Goals
 
 - provide more standardized and informative commit messages

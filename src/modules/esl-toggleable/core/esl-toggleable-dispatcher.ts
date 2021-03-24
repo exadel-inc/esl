@@ -4,6 +4,12 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
+/**
+ * ESLToggleableDispatcher
+ * @author Julia Murashko, Alexey Stsefanovich (ala'n)
+ *
+ * ESLToggleableDispatcher - plugin component, that prevents activation of multiple ESLToggleable instances in bounds of managed container.
+ */
 @ExportNs('ToggleableGroupDispatcher')
 export class ESLToggleableDispatcher extends ESLBaseElement {
   public static readonly is = 'esl-toggleable-dispatcher';

@@ -17,7 +17,6 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
 - ##### [ESL A11yGroup](src/modules/esl-a11y-group/README.md)
 
 - ##### [ESL Toggleable](src/modules/esl-toggleable/README.md)
-- ##### [ESL Base Trigger](src/modules/esl-base-trigger/README.md)
 - ##### [ESL Trigger](src/modules/esl-trigger/README.md)
 - ##### [ESL Panel and Panel Group](src/modules/esl-panel/README.md)
 - ##### [ESL Tab and Tabs](src/modules/esl-tab/README.md)
@@ -108,32 +107,6 @@ Also, ESL has built-in polyfills for some of DOM and ES6 features. They are avai
 
 ---
 
-## Development: NPM scripts
-
-Here is a list of available npm scripts for local development:
- - `npm start` or `npm run start` - start demo server locally. Runs local build, watch and browsersync.  
- Uses `:3001` port (BrowserSync) and `:3002` port (origin)
- - `npm run tar` - build project and tarball archive with npm state of the project
- - `npm run build` - build project to CJS output
- - `npm run clear` - clear output folders
- - `npm test` or `npm run test` - run linters and tests (silent task, used in CI/CD)
- - `npm run test-only` - just run all tests
- - `npm run test-report` - run tests and create coverage report
-
-## Development: Commit Convention
-
-Project is using `@commitlint/config-conventional` commit message rules.
-Please check it out in case you want to contribute to ESL.
-
-You can use this [short note](./docs/contribute/commit.md) to renew commit message rules.
-
-In case you are using JetBrains IDE (IDEA or WebStorm) you can use this 
-[plugin](https://plugins.jetbrains.com/plugin/13389-conventional-commit) to simplify commit validation.
-
-## Development: [Agreements](./docs/contribute/styleguide.md)
-
----
-
 ## Roadmap
 
 - [UI Playground](https://github.com/exadel-inc/ui-playground) (_will be available soon_) demo server
@@ -145,6 +118,21 @@ In case you are using JetBrains IDE (IDEA or WebStorm) you can use this
 - ESLCarousel component
 - ESLToast component
 - More components in the library
+
+---
+
+## Development Information for contributors
+
+If you are a part of ESL team or want to contribute to the project
+you can find useful information of the project processes and agreements here:
+
+- #### [Development: Scripts](./docs/contribute/scripts.md)
+
+- #### [Development: Styleguide](./docs/contribute/styleguide.md)
+
+- #### [Development: Commit Convention](./docs/contribute/commit.md)
+  
+- #### [Contributor Licence Agreement](CLA.md)
 
 ---
 
