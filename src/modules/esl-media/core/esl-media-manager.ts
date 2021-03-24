@@ -1,14 +1,13 @@
-/**
- * Group restriction manager for {@link ESLMedia}
- * Only one media in group can be played
- * Empty group is ignored
- * @version 1.0.0-alpha
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- */
 import {ESLMedia} from './esl-media';
 
 const managerMap = new Map<string, ESLMedia>();
 
+/**
+ * Group restriction manager for {@link ESLMedia}
+ * Only one media in group can be played
+ * Empty group is ignored
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ */
 export class MediaGroupRestrictionManager {
   /**
    * @debug info

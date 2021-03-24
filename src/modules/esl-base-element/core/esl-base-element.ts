@@ -1,9 +1,9 @@
+import {EventUtils} from '../../esl-utils/dom/events';
+
 /**
  * Base class for ESL custom elements.
  * Allows to define custom element with the optional custom tag name.
  */
-import {EventUtils} from '../../esl-utils/dom/events';
-
 export abstract class ESLBaseElement extends HTMLElement {
   /** Custom element tag name */
   public static is = '';
@@ -18,9 +18,7 @@ export abstract class ESLBaseElement extends HTMLElement {
     this._connected = false;
   }
 
-  /**
-   * Check that element is connected and connectedCallback has been executed.
-   */
+  /** Check that the element is connected and `connectedCallback` has been executed */
   public get connected() {
     return this._connected;
   }

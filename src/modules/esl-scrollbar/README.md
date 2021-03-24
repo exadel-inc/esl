@@ -1,8 +1,8 @@
 # [ESL](../../../README.md) Scrollbar
 
-Version: *1.0.0-alpha*.
+Version: *1.1.0*
 
-Authors: *Yuliya Adamskaya*.
+Authors: *Yuliya Adamskaya*
 
 ESLScrollbar - custom element, that replaces the browser's default scrollbar without loss in performance.
  
@@ -10,6 +10,8 @@ ESLScrollbar - custom element, that replaces the browser's default scrollbar wit
  
 ### Supported Features:
 - directions : `vertical` and `horisontal` mode
+- independent target element definition using [TraversingQuery](./../esl-traversing-query/README.md)
+- completely customizable from CSS
 
 ### Attributes:
 
