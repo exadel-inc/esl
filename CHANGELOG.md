@@ -1,3 +1,10 @@
+# [2.0.0-beta.30](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.29...v2.0.0-beta.30) (2021-03-24)
+
+
+### Features
+
+* esl-trigger rewritten ([64c05f6](https://github.com/exadel-inc/esl/commit/64c05f6b4588b2526405c531031ac055e92f533f))
+
 # [2.0.0-beta.29](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.28...v2.0.0-beta.29) (2021-03-24)
 
 
