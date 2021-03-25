@@ -1,39 +1,37 @@
 # [ESL](../../../../README.md) Select
 
-Version: *1.0.0*.
+Version: *1.1.0*
 
-Authors: *Alexey Stsefanovich (ala'n)*.
+Authors: *Alexey Stsefanovich (ala'n)*
 
-ESLSelect - is a custom element, for customized select element.
-
-ESLSelect is HTML5 form compatible as it decorates the native HTMLSelectElement under the hood.
-HTMLSelectElement is used as model for ESLSelect.
+ESLSelect is a component on top of native select that brings more customization features.
+Uses "select with dropdown" view. Supports both single and multiple selection.
 
 ### Attributes / Properties
 
-- `empty-text` - placeholder text for element
+- `placeholder` - placeholder text for element
 
 - `has-value-class` - class(es) to mark not empty state
 
-- `has-focus-class` - class(es) for focused state. Select focused also if the dropdown list is opened
+- `has-focus-class` - class(es) for focused state. Select ia also focused if the dropdown list is opened
 
 - `select-all-label` - select all options text
 
-- `more-label-format` - text to add when not enough space to show all selected options inline. 
+- `more-label-format` - text to add when there is not enough space to show all selected options inline. 
   Supports `{rest}`, `{length}` and `{limit}` placeholders
   
 - `open` - dropdown open marker
 
 - `disabled` - disabled state marker
 
-- `pin-selected` - marker to top pin selected items to top in dropdown
+- `pin-selected` - marker for selecting items to be pinned to the top of the dropdown
 
 ### Example
 
 ```html
 <esl-select class="form-group"
             pin-selected
-            empty-text="Color"
+            placeholder="Color"
             select-all-label="All Colors">
   <label for="color_field" class="form-label">Color</label>
   <select esl-select-target

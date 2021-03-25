@@ -11,7 +11,7 @@ import type {ESLSelect} from './esl-select';
  * @author Alexey Stsefanovich (ala'n)
  *
  * Auxiliary inner custom component to render {@link ESLSelect) dropdown section
- * Uses {@link ESLSelectList} to render content
+ * Uses {@link ESLSelectList} to render the content
  */
 export class ESLSelectDropdown extends ESLToggleable {
   public static readonly is = 'esl-select-dropdown';

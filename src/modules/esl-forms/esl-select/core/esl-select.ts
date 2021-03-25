@@ -13,8 +13,8 @@ import {ESLSelectWrapper} from '../../esl-select-list/core/esl-select-wrapper';
  * ESLSelect component
  * @author Alexey Stsefanovich (ala'n)
  *
- * ESLSelect is a component above native select that brings more customization features.
- * Use select with dropdown view. Support both single and multiple selection.
+ * ESLSelect is a component on top of native select that brings more customization features.
+ * Uses "select with dropdown" view. Supports both single and multiple selection.
  */
 @ExportNs('Select')
 export class ESLSelect extends ESLSelectWrapper {
@@ -29,21 +29,25 @@ export class ESLSelect extends ESLSelectWrapper {
   }
 
   /** Placeholder text property */
-  @attr() public emptyText: string;
-  /** Class to mark not empty state */
+  @attr() public placeholder: string;
+  /** Class(es) to mark not empty state */
   @attr() public hasValueClass: string;
-  /** Classes for focused state. Select focused also if the dropdown list is opened */
+  /** Class(es) for focused state. Select is also focused if the dropdown list is opened */
   @attr() public hasFocusClass: string;
   /** Select all options text */
   @attr({defaultValue: 'Select All'}) public selectAllLabel: string;
-  /** Additional text for field renderer */
+
+  /**
+   * Text to add when there is not enough space to show all selected options inline,
+   * Supports `{rest}`, `{length}` and `{limit}` placeholders
+   */
   @attr({defaultValue: '+ {rest} more...'}) public moreLabelFormat: string;
 
   /** Dropdown open marker */
   @boolAttr() public open: boolean;
   /** Disabled state marker */
   @boolAttr() public disabled: boolean;
-  /** Marker to top pin selected items to top in dropdown */
+  /** Marker for selecting items to be pinned to the top of the dropdown */
   @boolAttr() public pinSelected: boolean;
 
   protected $renderer: ESLSelectRenderer;
@@ -77,11 +81,11 @@ export class ESLSelect extends ESLSelectWrapper {
     this._dispose();
   }
 
-  /** Catch the focus */
+  /** Catches the focus */
   public focus(options?: FocusOptions) {
     this.$select.focus(options);
   }
-  /** Update select component */
+  /** Updates select component */
   public update(valueChanged = true) {
     this._onUpdate();
     if (!valueChanged) return;
@@ -106,7 +110,7 @@ export class ESLSelect extends ESLSelectWrapper {
 
   protected _prepare() {
     this.$renderer.className = this.$select.className;
-    this.$renderer.emptyText = this.emptyText;
+    this.$renderer.emptyText = this.placeholder;
     this.$renderer.moreLabelFormat = this.moreLabelFormat;
     this.$dropdown.$owner = this;
     this.appendChild(this.$renderer);
