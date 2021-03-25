@@ -1,13 +1,11 @@
 # [ESL](../../../../README.md) Select List
 
-Version: *1.0.0*.  
+Version: *1.0.0*
 
-Authors: *Alexey Stsefanovich (ala'n)*.
+Authors: *Alexey Stsefanovich (ala'n)*
 
-ESLSelectList - is a custom element, for customized selectable list representation.
-
-ESLSelectList is HTML5 form compatible as it decorates the native HTMLSelectElement under the hood.
-HTMLSelectElement is used as model for ESLSelect.
+ESLSelectList is a component to show selectable list of items. Decorates native HTMLSelectElement
+ESLSelectList is HTML5 form compatible. Uses HTMLSelectElement as a data model.
 
 ### Attributes / Properties
 
@@ -15,7 +13,7 @@ HTMLSelectElement is used as model for ESLSelect.
 
 - `disabled` - disabled state marker
 
-- `pin-selected` - marker to top pin selected items to top in dropdown
+- `pin-selected` - marker for selecting items to be pinned to the top of the list
 
 ### Example
 

@@ -29,7 +29,7 @@ export class ESLSelectList extends ESLSelectWrapper {
 
   /** Disabled state marker */
   @boolAttr() public disabled: boolean;
-  /** Marker to top pin selected items to top in dropdown */
+  /** Marker for selecting items to be pinned to the top of the list */
   @boolAttr() public pinSelected: boolean;
 
   protected $items: ESLSelectItem[];

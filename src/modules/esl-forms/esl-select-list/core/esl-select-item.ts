@@ -7,7 +7,7 @@ import type {ESLSelectOption} from './esl-select-wrapper';
  * ESLSelectItem component
  * @author Alexey Stsefanovich (ala'n)
  *
- * ESLSelectItem - inner component to render option
+ * ESLSelectItem - inner component to render an option
  */
 @ExportNs('SelectItem')
 export class ESLSelectItem extends ESLBaseElement {
@@ -38,7 +38,7 @@ export class ESLSelectItem extends ESLBaseElement {
     }
   }
 
-  /** Helper to create option item */
+  /** Helper to create an option item */
   public static build(option: ESLSelectOption) {
     const item = document.createElement(ESLSelectItem.is) as ESLSelectItem;
     item.original = option;
