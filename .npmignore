@@ -25,20 +25,19 @@ jest.config.js
 # Demo Server
 pages
 
-# Linter
+# Linter & Scanners
+.report
+.scannerwork
 .editorconfig
+.whitesource
 .eslintrc.json
 .eslintignore
 .stylelintrc.json
 .commitlintrc.json
+sonar-project.properties
 
 # VCS
 .gitignore
-
-# reports
-.report
-.scannerwork
-sonar-project.properties
 
 # Docs Assets
 docs

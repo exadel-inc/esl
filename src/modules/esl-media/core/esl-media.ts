@@ -1,5 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
+import {bind} from '../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {debounce} from '../../esl-utils/async/debounce';
@@ -14,6 +15,8 @@ import {BaseProvider, PlayerStates} from './esl-media-provider';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
 import {MediaGroupRestrictionManager} from './esl-media-manager';
 
+export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
+
 /**
  * ESL Media
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
@@ -23,32 +26,60 @@ export class ESLMedia extends ESLBaseElement {
   public static is = 'esl-media';
   public static eventNs = 'esl:media:';
 
+  /** Media resource identifier */
   @attr() public mediaId: string;
+  /** Media resource src/url path */
   @attr() public mediaSrc: string;
+  /** Media resource type. 'auto' (auto detection from src) by default */
   @attr() public mediaType: string;
+
+  /** Media elements group name */
   @attr() public group: string;
-  @attr() public fillMode: string;
+  /** Media resource rendering strategy relative to the element area: 'cover', 'inscribe' or not defined */
+  @attr() public fillMode: ESLMediaFillMode;
+  /** Strict aspect ratio definition */
   @attr() public aspectRatio: string;
 
+
+  /** Disabled marker to prevent rendering */
   @boolAttr() public disabled: boolean;
+  /** Autoplay resource marker */
   @boolAttr() public autoplay: boolean;
+  /** Autofocus on play marker */
   @boolAttr() public autofocus: boolean;
+  /** Mute resource marker */
   @boolAttr() public muted: boolean;
+  /** Loop resource play */
   @boolAttr() public loop: boolean;
+  /** Marker to show controls for resource player */
   @boolAttr() public controls: boolean;
+  /** Allow media to play inline (see HTML video/audio spec) */
   @boolAttr() public playsinline: boolean;
+  /** Allows play resource only in viewport area */
   @boolAttr() public playInViewport: boolean;
 
+  /** Preload resource */
   @attr({defaultValue: 'auto'}) public preload: string;
 
+  /** Ready state class/classes */
   @attr() public readyClass: string;
+  /** Ready state class/classes target */
+  @attr() public readyClassTarget: string;
+
+  /** Class / classes to add when media is accepted */
   @attr() public loadClsAccepted: string;
+  /** Class / classes to add when media is declined */
   @attr() public loadClsDeclined: string;
+  /** Target element {@link TraversingQuery} select to add accepted/declined classes */
   @attr({defaultValue: '::parent'}) public loadClsTarget: string;
 
+  /** @readonly Ready state marker */
   @boolAttr({readonly: true}) public ready: boolean;
+  /** @readonly Active state marker */
   @boolAttr({readonly: true}) public active: boolean;
+  /** @readonly Resource played marker */
   @boolAttr({readonly: true}) public played: boolean;
+  /** @readonly Error state marker */
   @boolAttr({readonly: true}) public error: boolean;
 
   private _provider: BaseProvider | null;
@@ -229,7 +260,7 @@ export class ESLMedia extends ESLBaseElement {
   public _onReady() {
     this.toggleAttribute('ready', true);
     this.toggleAttribute('error', false);
-    CSSUtil.addCls(this, this.readyClass);
+    this.updateReadyClass();
     this.deferredResize();
     this.$$fire('ready');
   }
@@ -245,7 +276,7 @@ export class ESLMedia extends ESLBaseElement {
     this.removeAttribute('active');
     this.removeAttribute('ready');
     this.removeAttribute('played');
-    CSSUtil.removeCls(this, this.readyClass);
+    this.updateReadyClass();
     this.$$fire('detach');
   }
 
@@ -283,13 +314,19 @@ export class ESLMedia extends ESLBaseElement {
     }
   }
 
+  /** Update ready class state */
+  protected updateReadyClass() {
+    const target = TraversingQuery.first(this.readyClassTarget, this) as HTMLElement;
+    target && CSSUtil.toggleClsTo(target, this.readyClass, this.ready);
+  }
+
   /** Applied provider */
-  get providerType() {
+  public get providerType() {
     return this._provider ? this._provider.name : '';
   }
 
   /** Current player state, see {@link ESLMedia.PLAYER_STATES} values */
-  get state() {
+  public get state() {
     return this._provider ? this._provider.state : PlayerStates.UNINITIALIZED;
   }
 
@@ -308,7 +345,8 @@ export class ESLMedia extends ESLBaseElement {
     (this._provider) && this._provider.safeSeekTo(time);
   }
 
-  get conditionQuery() {
+  /** ESLMediaQuery to limit ESLMedia loading */
+  public get conditionQuery() {
     if (!this._conditionQuery && this._conditionQuery !== null) {
       const query = this.getAttribute('load-condition');
       this._conditionQuery = query ? new ESLMediaQuery(query) : null;
@@ -316,28 +354,30 @@ export class ESLMedia extends ESLBaseElement {
     return this._conditionQuery;
   }
 
-  get fillModeEnabled() {
+  /** Fill mode should be handled for element */
+  public get fillModeEnabled() {
     return this.fillMode === 'cover' || this.fillMode === 'inscribe';
   }
 
-  get actualAspectRatio() {
+  /** Used resource aspect ratio forced by attribute or returned by provider */
+  public get actualAspectRatio() {
     if (this.aspectRatio && this.aspectRatio !== 'auto') return parseAspectRatio(this.aspectRatio);
     return this._provider ? this._provider.defaultAspectRatio : 0;
   }
 
-  private _onRegistryStateChange = (name: string) => {
+  @bind
+  protected _onRegistryStateChange(name: string) {
     if (name === this.mediaType) {
       this.reinitInstance();
     }
-  };
+  }
 
-  public attachViewportConstraint() {
+  protected attachViewportConstraint() {
     if (this.playInViewport) {
       getIObserver().observe(this);
     }
   }
-
-  public detachViewportConstraint() {
+  protected detachViewportConstraint() {
     const observer = getIObserver(true);
     observer && observer.unobserve(this);
   }
