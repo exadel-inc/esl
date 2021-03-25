@@ -5,15 +5,24 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {ESLTab} from './esl-tab';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
 
+/**
+ * ESlTabs component
+ * @author Julia Murashko
+ *
+ * Tabs container component for Tabs trigger group.
+ * Uses {@link ESLTab} as an item.
+ * Each individual {@link ESLTab} can control {@link ESLToggleable} or, usually, {@link ESLPanel}
+ */
 @ExportNs('Tabs')
 export class ESLTabs extends ESLBaseElement {
   public static is = 'esl-tabs';
 
+  /** Inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable  */
   @attr({defaultValue: '.esl-tab-container'}) public container: string;
 
+  /** Marker to enable scrollable mode */
   @boolAttr() public scrollable: boolean;
 
-  // TODO: think about update of arrows
   protected connectedCallback() {
     super.connectedCallback();
     this.bindScrollableEvents();
@@ -48,20 +57,23 @@ export class ESLTabs extends ESLBaseElement {
     this._deferredFitToViewport(this.$current, 'auto');
   }
 
-
+  /** Collection of inner {@link ESLTab} items */
   public get $tabs(): ESLTab[] {
     const els = this.querySelectorAll(ESLTab.is);
     return els ? Array.from(els) as ESLTab[] : [];
   }
 
+  /** Active {@link ESLTab} item */
   public get $current(): ESLTab | null {
     return this.$tabs.find((el) => el.active) || null;
   }
 
+  /** Container element to scroll */
   public get $container(): HTMLElement | null {
     return this.querySelector(this.container);
   }
 
+  /** Move scroll to the next/previous item */
   public moveTo(direction: string, behavior: ScrollBehavior = 'smooth') {
     const $container = this.$container;
     if (!$container) return;
@@ -72,6 +84,7 @@ export class ESLTabs extends ESLBaseElement {
     $container.scrollBy({left, behavior});
   }
 
+  /** Scroll tab to the view */
   protected fitToViewport($trigger?: ESLTab, behavior: ScrollBehavior = 'smooth'): void {
     const $container = this.$container;
     if (!$container || !$trigger) return;
@@ -81,8 +94,8 @@ export class ESLTabs extends ESLBaseElement {
 
     let shift = 0;
 
-    // item out of area from the right side
-    // else item out of area from the left side
+    // item is out of area from the right side
+    // else item out is of area from the left side
     if (itemRect.right > areaRect.right) {
       shift = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'reverse' ?
         Math.floor(areaRect.right - itemRect.right) :
@@ -147,7 +160,7 @@ export class ESLTabs extends ESLBaseElement {
     this._deferredUpdateArrows();
   }
 
-  // FIXME
+  // TODO: is the raf decorator needed?
   protected _onResize = rafDecorator(() => {
     this._deferredFitToViewport(this.$current, 'auto');
   });
