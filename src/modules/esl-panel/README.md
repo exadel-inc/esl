@@ -1,14 +1,15 @@
 # [ESL](../../../README.md) Panel & Panel Stack
 
-Version: *1.0.0-beta*.  
-***Important Notice: the component is under beta version, it was tested and now ready to use but be aware of its potential critical API changes.***
+Version: *1.0.0*.  
 
 Authors: *Julia Murashko*.
 
-ESLPanel - is a custom element, that is used as a wrapper for content that 
-can be shown/hidden or collapsed (height animation).
+ESLPanel is a custom element that is used as a wrapper for content that can be shown or hidden.
+Can use collapsing/expanding animation (smooth height change).
+Can be used in conjunction with ESLPanelGroup to control a group of ESLPopups
 
-ESLPanelGroup - is a custom element, container that is used to control a group of panels and provides group behaviour, such as synchronized content state change.
+ESLPanelGroup is a custom element that is used as a container for a group of ESLPanels.
+ESLPanelGroup provides group behaviour, such as synchronized content state change.
 
 **Note:** ESLPanelGroup should be registered before ESLPanel.
 
@@ -17,22 +18,20 @@ ESLPanelGroup.register();
 ESLPanel.register();
 ```
 
-### Attributes:
+### ESLPanel Attributes | Properties:
 
-**ESLPanel component**
-
- - `active-class` - classes to be added while active state
- - `animate-class` - classes to be added during animation
- - `post-animate-class` - classes to be added during animation after next render
- - `fallback-duration` - time after which the animation will be cleared ('auto' by default)
+ - `active-class` - class(es) to be added for active state ('open' by default)
+ - `animate-class` - class(es) to be added during animation ('animate' by default)
+ - `post-animate-class` - class(es) to be added during animation after next render ('post-animate' by default)
+ - `fallback-duration` - time to clear animation common params (max-height style + classes) ('auto' by default)
  - `initial-params` - initial params for current ESLPanel instance
  
-**Note:** List of other supported attributes you can find here [ESLToggleable](./../esl-toggleable/README.md).
+ESLPanel extends [ESLToggleable](./../esl-toggleable/README.md) you can find other supported options in its documentation.
+
+### ESLPanelGroup Attributes | Properties:
  
-**ESLPanelGroup component**
- 
-- `mode` - mode of the component. Takes values from list of supported modes ('accordion' by default).
-- `mode-cls-target` - target element [ESLTraversingQuery](./../esl-traversing-query/README.md) select to add mode classes
-- `animation-class` - classes to be added during animation
-- `fallback-duration` - time after which the animation will be cleared ('auto' by default)
-- `no-collapse` - Prevent collapse animation according to [ESLMediaRuleList](./../esl-media-query/README.md) ESLMediaRuleList
+- `mode` - rendering mode of the component (takes values from list of supported modes; 'accordion' by default).
+- `mode-cls-target` - Element [ESLTraversingQuery](./../esl-traversing-query/README.md)  selector to add class that identifies mode (ESLPanelGroup itself by default)
+- `animation-class` - class(es) to be added during animation ('animate' by default)
+- `fallback-duration` - time to clear animation common params (max-height style + classes) ('auto' by default)
+- `no-collapse` - list of comma separated modes to disable ESLPanelGroup own collapse/expand animation
