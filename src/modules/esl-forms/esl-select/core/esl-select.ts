@@ -9,6 +9,13 @@ import {ESLSelectRenderer} from './esl-select-renderer';
 import {ESLSelectDropdown} from './esl-select-dropdown';
 import {ESLSelectWrapper} from '../../esl-select-list/core/esl-select-wrapper';
 
+/**
+ * ESLSelect component
+ * @author Alexey Stsefanovich (ala'n)
+ *
+ * ESLSelect is a component above native select that brings more customization features.
+ * Use select with dropdown view. Support both single and multiple selection.
+ */
 @ExportNs('Select')
 export class ESLSelect extends ESLSelectWrapper {
   public static readonly is = 'esl-select';
@@ -23,11 +30,11 @@ export class ESLSelect extends ESLSelectWrapper {
 
   /** Placeholder text property */
   @attr() public emptyText: string;
-  /** Classes for filled stated */
+  /** Class to mark not empty state */
   @attr() public hasValueClass: string;
-  /** Classes for focused state. Select focused also if dropdown list is opened */
+  /** Classes for focused state. Select focused also if the dropdown list is opened */
   @attr() public hasFocusClass: string;
-  /** Select all text */
+  /** Select all options text */
   @attr({defaultValue: 'Select All'}) public selectAllLabel: string;
   /** Additional text for field renderer */
   @attr({defaultValue: '+ {rest} more...'}) public moreLabelFormat: string;
@@ -36,7 +43,7 @@ export class ESLSelect extends ESLSelectWrapper {
   @boolAttr() public open: boolean;
   /** Disabled state marker */
   @boolAttr() public disabled: boolean;
-  /** Pin to top marker */
+  /** Marker to top pin selected items to top in dropdown */
   @boolAttr() public pinSelected: boolean;
 
   protected $renderer: ESLSelectRenderer;
@@ -70,9 +77,11 @@ export class ESLSelect extends ESLSelectWrapper {
     this._dispose();
   }
 
+  /** Catch the focus */
   public focus(options?: FocusOptions) {
     this.$select.focus(options);
   }
+  /** Update select component */
   public update(valueChanged = true) {
     this._onUpdate();
     if (!valueChanged) return;
@@ -99,7 +108,7 @@ export class ESLSelect extends ESLSelectWrapper {
     this.$renderer.className = this.$select.className;
     this.$renderer.emptyText = this.emptyText;
     this.$renderer.moreLabelFormat = this.moreLabelFormat;
-    this.$dropdown.owner = this;
+    this.$dropdown.$owner = this;
     this.appendChild(this.$renderer);
   }
   protected _dispose() {

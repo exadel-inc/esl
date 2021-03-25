@@ -3,6 +3,12 @@ import {ExportNs} from '../../../esl-utils/environment/export-ns';
 
 import type {ESLSelectOption} from './esl-select-wrapper';
 
+/**
+ * ESLSelectItem component
+ * @author Alexey Stsefanovich (ala'n)
+ *
+ * ESLSelectItem - inner component to render option
+ */
 @ExportNs('SelectItem')
 export class ESLSelectItem extends ESLBaseElement {
   public static readonly is: string = 'esl-select-item';
@@ -11,9 +17,12 @@ export class ESLSelectItem extends ESLBaseElement {
     return ['selected'];
   }
 
+  /** Option value */
   @attr() public value: string;
+  /** Selected state marker */
   @boolAttr() public selected: boolean;
 
+  /** Original option */
   public original: ESLSelectOption;
 
   protected connectedCallback() {
@@ -29,6 +38,7 @@ export class ESLSelectItem extends ESLBaseElement {
     }
   }
 
+  /** Helper to create option item */
   public static build(option: ESLSelectOption) {
     const item = document.createElement(ESLSelectItem.is) as ESLSelectItem;
     item.original = option;

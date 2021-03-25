@@ -6,6 +6,12 @@ import {ESLScrollbar} from '../../../esl-scrollbar/core';
 import {ESLSelectItem} from './esl-select-item';
 import {ESLSelectWrapper} from './esl-select-wrapper';
 
+/**
+ * ESLSelectList component
+ * @author Alexey Stsefanovich (ala'n)
+ *
+ * ESLSelectList is a component to show selectable list of items. Decorates native HTMLSelectElement
+ */
 @ExportNs('SelectList')
 export class ESLSelectList extends ESLSelectWrapper {
   public static readonly is = 'esl-select-list';
@@ -18,8 +24,12 @@ export class ESLSelectList extends ESLSelectWrapper {
     super.register();
   }
 
+  /** Select all options text */
   @attr({defaultValue: 'Select All'}) public selectAllLabel: string;
+
+  /** Disabled state marker */
   @boolAttr() public disabled: boolean;
+  /** Marker to top pin selected items to top in dropdown */
   @boolAttr() public pinSelected: boolean;
 
   protected $items: ESLSelectItem[];
