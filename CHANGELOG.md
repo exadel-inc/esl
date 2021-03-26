@@ -1,3 +1,21 @@
+# [2.0.0-beta.31](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.30...v2.0.0-beta.31) (2021-03-26)
+
+
+### Documentation
+
+* esl-select fixes ([5407ac2](https://github.com/exadel-inc/esl/commit/5407ac241afce10c3991ffee7bc5e2cb939bc4b4))
+
+
+### Styles
+
+* cleanup esl-tabs documentation ([fdefaa5](https://github.com/exadel-inc/esl/commit/fdefaa58a9f02e59a9f98754e60854e052f79e07))
+
+
+### BREAKING CHANGES
+
+* make esl-tab mode="show" by default
+* replace `empty-text` with `placeholder` attribute
+
 # [2.0.0-beta.30](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.29...v2.0.0-beta.30) (2021-03-24)
 
 
