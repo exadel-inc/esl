@@ -34,4 +34,4 @@ ESLPanel extends [ESLToggleable](./../esl-toggleable/README.md) you can find oth
 - `mode-cls-target` - Element [ESLTraversingQuery](./../esl-traversing-query/README.md)  selector to add class that identifies mode (ESLPanelGroup itself by default)
 - `animation-class` - class(es) to be added during animation ('animate' by default)
 - `fallback-duration` - time to clear animation common params (max-height style + classes) ('auto' by default)
-- `no-collapse` - list of comma separated modes to disable ESLPanelGroup own collapse/expand animation
+- `no-collapse` - list of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations)
