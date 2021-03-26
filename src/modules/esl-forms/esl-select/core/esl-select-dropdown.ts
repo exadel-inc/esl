@@ -6,6 +6,13 @@ import {ESLSelectList} from '../../esl-select-list/core';
 
 import type {ESLSelect} from './esl-select';
 
+/**
+ * ESLSelectDropdown component
+ * @author Alexey Stsefanovich (ala'n)
+ *
+ * Auxiliary inner custom component to render {@link ESLSelect) dropdown section
+ * Uses {@link ESLSelectList} to render the content
+ */
 export class ESLSelectDropdown extends ESLToggleable {
   public static readonly is = 'esl-select-dropdown';
   public static register() {
@@ -13,12 +20,15 @@ export class ESLSelectDropdown extends ESLToggleable {
     super.register();
   }
 
-  public owner: ESLSelect;
+  /** Owner ESLSelect instance */
+  public $owner: ESLSelect;
 
+  /** Inner ESLSelectList component */
   protected $list: ESLSelectList;
   protected _disposeTimeout: number;
   protected _deferredUpdatePosition = rafDecorator(() => this.updatePosition());
 
+  // TODO: update defaults + override decorator
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   get closeOnEsc() { return true; }
@@ -55,9 +65,9 @@ export class ESLSelectDropdown extends ESLToggleable {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
-    this.$list.pinSelected = this.owner.pinSelected;
-    this.$list.selectAllLabel = this.owner.selectAllLabel;
-    this.$list.$select = this.owner.$select;
+    this.$list.pinSelected = this.$owner.pinSelected;
+    this.$list.selectAllLabel = this.$owner.selectAllLabel;
+    this.$list.$select = this.$owner.$select;
 
     super.onShow(params);
     const focusable = this.querySelector('[tabindex]') as HTMLElement;
