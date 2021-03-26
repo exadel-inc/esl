@@ -10577,9 +10577,6 @@ esl-popup:not([open]) {
 esl-trigger {
   cursor: pointer;
 }
-esl-triggers-container {
-  display: block;
-}
 esl-panel {
   display: block;
   height: auto;
