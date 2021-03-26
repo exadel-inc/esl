@@ -6,7 +6,10 @@ import {format} from '../../../esl-utils/misc/format';
 import {ESLSelect} from './esl-select';
 
 /**
- * Auxiliary custom element to render select field
+ * ESLSelectRenderer component
+ * @author Alexey Stsefanovich (ala'n)
+ *
+ * Auxiliary inner custom element to render {@link ESLSelect} inline field
  */
 export class ESLSelectRenderer extends ESLBaseElement {
   public static readonly is = 'esl-select-renderer';

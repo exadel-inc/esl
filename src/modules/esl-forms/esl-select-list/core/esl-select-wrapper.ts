@@ -2,13 +2,19 @@ import {ESLBaseElement} from '../../../esl-base-element/core';
 import {EventUtils} from '../../../esl-utils/dom/events';
 import {bind} from '../../../esl-utils/decorators/bind';
 
+/** Interface for option definition */
 export interface ESLSelectOption {
+  /** Label text of the option */
   text: string;
+  /** Value of the option */
   value: string;
+  /** Selected marker */
   selected: boolean;
+  /** Initially selected marker */
   defaultSelected: boolean;
 }
 
+/** Interface to declare options source for select components */
 export interface ESLSelectModel {
   /** Allow multiple items */
   multiple: boolean;
@@ -30,6 +36,9 @@ export interface ESLSelectModel {
   setAllSelected(state: boolean): void;
 }
 
+/**
+ * Base class for {@link HTMLSelectElement} wrapper element, implements {@link ESLSelectModel) options source
+ */
 export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSelectModel {
   protected static observationConfig: MutationObserverInit = {
     subtree: true,
@@ -42,6 +51,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
   private _$select: HTMLSelectElement;
   private _mutationObserver = new MutationObserver(this._onTargetMutation.bind(this));
 
+  /** Native select that is wrapped */
   public get $select() {
     return this._$select;
   }
