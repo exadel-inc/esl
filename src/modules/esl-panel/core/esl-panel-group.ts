@@ -26,7 +26,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   @attr({defaultValue: 'animate'}) public animationClass: string;
   /** Time after which the animation will be cleared */
   @attr({defaultValue: 'auto'}) public fallbackDuration: number | 'auto';
-  /** Prevent collapse animation according to {@link ESLMediaRuleList} */
+  /** List of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations) */
   @attr() public noCollapse: string;
 
   private _modeRules: ESLMediaRuleList<string>;

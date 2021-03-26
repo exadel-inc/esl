@@ -35,4 +35,4 @@ ESLPanel.register();
 - `mode-cls-target` - target element [ESLTraversingQuery](./../esl-traversing-query/README.md) select to add mode classes
 - `animation-class` - classes to be added during animation
 - `fallback-duration` - time after which the animation will be cleared ('auto' by default)
-- `no-collapse` - Prevent collapse animation according to [ESLMediaRuleList](./../esl-media-query/README.md) ESLMediaRuleList
+- `no-collapse` - list of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations)

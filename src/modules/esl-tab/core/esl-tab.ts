@@ -14,6 +14,7 @@ export class ESLTab extends ESLTrigger {
   public static is = 'esl-tab';
 
   @attr({defaultValue: 'show'}) public mode: string;
+  @attr({defaultValue: 'active'}) public activeClass: string;
 
   public updateA11y() {
     const target = this.$a11yTarget;
