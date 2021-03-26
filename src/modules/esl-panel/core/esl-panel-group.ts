@@ -8,9 +8,10 @@ import {ESLPanel, PanelActionParams} from './esl-panel';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
 /**
- * ESLPanelGroup - is a custom element, that is used as a wrapper for content that
- * can be shown/hidden or collapsed (height animation).
+ * ESLPanelGroup component
  * @author Julia Murashko
+ *
+ * ESLPanelGroup is a custom element that is used as a container for a group of {@link ESLPanel}s
  */
 @ExportNs('PanelGroup')
 export class ESLPanelGroup extends ESLBaseElement {
@@ -18,15 +19,15 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** List of supported modes */
   public static supportedModes = ['tabs', 'accordion'];
 
-  /** Mode of the component (takes values from list of supported modes) */
+  /** Rendering mode of the component (takes values from the list of supported modes; 'accordion' by default) */
   @attr({defaultValue: 'accordion'}) public mode: string;
-  /** Target element {@link TraversingQuery} select to add mode classes */
+  /** Element {@link TraversingQuery} selector to add class that identifies the rendering mode (ESLPanelGroup itself by default) */
   @attr({defaultValue: ''}) public modeClsTarget: string;
-  /** Classes to be added during animation */
+  /** Class(es) to be added during animation ('animate' by default) */
   @attr({defaultValue: 'animate'}) public animationClass: string;
-  /** Time after which the animation will be cleared */
+  /** Time to clear animation common params (max-height style + classes) ('auto' by default) */
   @attr({defaultValue: 'auto'}) public fallbackDuration: number | 'auto';
-  /** List of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations) */
+  /** List of comma separated modes to disable ESLPanelGroup own collapse/expand animation */
   @attr() public noCollapse: string;
 
   private _modeRules: ESLMediaRuleList<string>;
@@ -75,24 +76,24 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.removeEventListener('transitionend', this._onTransitionEnd);
   }
 
-  /** @returns {ESLPanel[]} panels that are processed by the current panel group */
+  /** @returns Panels that are processed by the current panel group */
   public get $panels(): ESLPanel[] {
     const els = Array.from(this.querySelectorAll(ESLPanel.is));
     return els.filter((el) => this.includesPanel(el)) as ESLPanel[];
   }
 
-  /** @returns {ESLPanel[]} panels that are active */
+  /** @returns Panels that are active */
   public get $activePanels() {
     return this.$panels.filter((el: ESLPanel) => el.open);
   }
 
-  /** Condition-guard to check if the target is controlled panel */
+  /** Condition-guard to check if the passed target is a Panel that should be controlled by the Group */
   public includesPanel(target: any): target is ESLPanel {
     if (!(target instanceof ESLPanel)) return false;
     return target.$group === this;
   }
 
-  /** Hide opened panel before a new one will be shown */
+  /** Process {@link ESLPanel} pre-show event */
   @bind
   protected _onBeforeShow(e: CustomEvent) {
     const panel = e.target;
@@ -100,7 +101,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.$activePanels.forEach((el) => (el !== panel) && el.hide());
   }
 
-  /** Process on show event */
+  /** Process {@link ESLPanel} show event */
   @bind
   protected _onShow(e: CustomEvent) {
     const panel = e.target;
@@ -116,7 +117,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
-  /** Record height of previous active panel */
+  /** Process {@link ESLPanel} pre-hide event */
   @bind
   protected _onBeforeHide(e: CustomEvent) {
     const panel = e.target;
@@ -124,7 +125,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this._previousHeight = this.offsetHeight;
   }
 
-  /** Animate height of the component */
+  /** Animate the height of the component */
   protected onAnimate(from: number, to: number) {
     const hasCurrent = this.style.height && this.style.height !== 'auto';
     if (hasCurrent) {
@@ -137,18 +138,18 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
-  /** Prepare for animation */
+  /** Pre-processing animation action */
   protected beforeAnimate() {
     CSSUtil.addCls(this, this.animationClass);
   }
 
-  /** Clear animation */
+  /** Post-processing animation action */
   protected afterAnimate() {
     this.style.removeProperty('height');
     CSSUtil.removeCls(this, this.animationClass);
   }
 
-  /** Clear animation after fallback time  */
+  /** Init a fallback timer to call post-animate action */
   protected fallbackAnimate() {
     const time = +this.fallbackDuration;
     if (isNaN(time) || time < 0) return;
@@ -156,7 +157,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this._fallbackTimer = window.setTimeout(() => this.afterAnimate(), time);
   }
 
-  /** Clean up the bits of animation */
+  /** Catching CSS transition end event to start post-animate processing */
   @bind
   protected _onTransitionEnd(e?: TransitionEvent) {
     if (!e || e.propertyName === 'height') {
@@ -164,28 +165,26 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
-  /** @returns {boolean} if animate height (collapse animation) */
+  /** @returns Whether the collapse/expand animation should be handheld by the group */
   public get shouldCollapse() {
     const noCollapseModes = this.noCollapse.split(',').map((mode) => mode.trim());
     return !noCollapseModes.includes('all') && !noCollapseModes.includes(this.currentMode);
   }
 
-  /** @returns {PanelActionParams} config that is used to form result panel action params */
+  /** @returns Action params config that is used by controlled {@link ESLPanel}s */
   public get panelConfig(): PanelActionParams {
     return {
       noCollapse: !this.shouldCollapse || (this.currentMode === 'tabs')
     };
   }
 
-
-  /** @returns {string}  rules for mode */
+  /** ESLMediaRuleList instance of the mode mapping */
   public get modeRules() {
     if (!this._modeRules) {
       this.modeRules = ESLMediaRuleList.parse<string>(this.mode, ESLMediaRuleList.STRING_PARSER);
     }
     return this._modeRules;
   }
-
   public set modeRules(rules: ESLMediaRuleList<string>) {
     if (this._modeRules) {
       this._modeRules.removeListener(this._onModeChange);
@@ -194,18 +193,18 @@ export class ESLPanelGroup extends ESLBaseElement {
     this._modeRules.addListener(this._onModeChange);
   }
 
-  /** @returns {string} current mode */
+  /** @returns current mode */
   public get currentMode(): string {
     return this.modeRules.activeValue || '';
   }
 
-  /** Update component according to the mode */
+  /** Handles mode change */
   @bind
-  private _onModeChange() {
+  protected _onModeChange() {
     this.updateMode();
   }
 
-  /** Set active mode though view attr */
+  /** Update element state according to current mode */
   protected updateMode() {
     this.setAttribute('view', this.currentMode);
     const $target = this.modeClsTarget && TraversingQuery.first(this.modeClsTarget, this);

@@ -6,26 +6,31 @@ import {attr, jsonAttr} from '../../esl-base-element/core';
 import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
 import {ESLPanelGroup} from './esl-panel-group';
 
+/** {@link ESLPanel} action params interface */
 export interface PanelActionParams extends ToggleableActionParams {
+  /** Prevents collapsing/expanding animation */
   noCollapse?: boolean;
 }
 
 /**
- * ESLPanel - is a custom element, that is used as a wrapper for content that
- * can be shown/hidden or collapsed (animated height change).
+ * ESLPanel component
  * @author Julia Murashko
+ *
+ * ESLPanel is a custom element that is used as a wrapper for content that can be shown or hidden.
+ * Can use collapsing/expanding animation (smooth height change).
+ * Can be used in conjunction with {@link ESLPanelGroup} to control a group of ESLPopups
  */
 @ExportNs('Panel')
 export class ESLPanel extends ESLToggleable {
   public static is = 'esl-panel';
 
-  /** Classes to be added while active state*/
+  /** Class(es) to be added for active state ('open' by default) */
   @attr({defaultValue: 'open'}) public activeClass: string;
-  /** Classes to be added during animation */
+  /** Class(es) to be added during animation ('animate' by default) */
   @attr({defaultValue: 'animate'}) public animateClass: string;
-  /** Classes to be added during animation after next render*/
+  /** Class(es) to be added during animation after next render ('post-animate' by default) */
   @attr({defaultValue: 'post-animate'}) public postAnimateClass: string;
-  /** Time after which the animation will be cleared */
+  /** Time to clear animation common params (max-height style + classes) ('auto' by default) */
   @attr({defaultValue: 'auto'}) public fallbackDuration: number | 'auto';
 
   /** Initial params for current ESLPanel instance */
@@ -35,12 +40,12 @@ export class ESLPanel extends ESLToggleable {
   protected _initialHeight: number = 0;
   protected _fallbackTimer: number = 0;
 
-  /** @returns {number} panel offset height at the start */
+  /** @returns Previous active panel height at the start of the animation */
   public get initialHeight() {
     return this._initialHeight;
   }
 
-  /** @returns {ESLPanelGroup | null} closest panel group or null if not presented */
+  /** @returns Closest panel group or null if not presented */
   public get $group(): ESLPanelGroup | null {
     if (this.groupName === 'none' || this.groupName) return null;
     return this.closest(ESLPanelGroup.is);
@@ -56,7 +61,7 @@ export class ESLPanel extends ESLToggleable {
     this.removeEventListener('transitionend', this._onTransitionEnd);
   }
 
-  /** Process show event */
+  /** Process show action */
   protected onShow(params: PanelActionParams) {
     super.onShow(params);
     this.clearAnimation();
@@ -71,7 +76,7 @@ export class ESLPanel extends ESLToggleable {
     }
   }
 
-  /** Process hide event */
+  /** Process hide action */
   protected onHide(params: PanelActionParams) {
     this.clearAnimation();
     this._initialHeight = this.offsetHeight;
@@ -86,7 +91,7 @@ export class ESLPanel extends ESLToggleable {
     }
   }
 
-  /** Prepare for animation */
+  /** Pre-processing animation action */
   protected beforeAnimate() {
     CSSUtil.addCls(this, this.animateClass);
     this.postAnimateClass && afterNextRender(() => CSSUtil.addCls(this, this.postAnimateClass));
@@ -102,20 +107,20 @@ export class ESLPanel extends ESLToggleable {
     });
   }
 
-  /** Process after animation state */
+  /** Post-processing animation action */
   protected afterAnimate() {
     this.clearAnimation();
     this.$$fire(this.open ? 'after:show' : 'after:hide');
   }
 
-  /** Clear animation */
+  /** Clear animation properties */
   protected clearAnimation() {
     this.style.removeProperty('max-height');
     CSSUtil.removeCls(this, this.animateClass);
     CSSUtil.removeCls(this, this.postAnimateClass);
   }
 
-  /** Clear animation after fallback time  */
+  /** Init a fallback timer to call post-animate action */
   protected fallbackAnimate() {
     const time = +this.fallbackDuration;
     if (isNaN(time) || time < 0) return;
@@ -123,7 +128,7 @@ export class ESLPanel extends ESLToggleable {
     this._fallbackTimer = window.setTimeout(() => this.afterAnimate(), time);
   }
 
-  /** Clean up the bits of animation */
+  /** Catching CSS transition end event to start post-animate processing */
   @bind
   protected _onTransitionEnd(e?: TransitionEvent) {
     if (!e || e.propertyName === 'max-height') {
