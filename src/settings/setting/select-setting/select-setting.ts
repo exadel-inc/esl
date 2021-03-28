@@ -8,26 +8,35 @@ export class UIPSelectSetting extends UIPSetting {
 
   @attr({defaultValue: 'replace'}) mode: 'replace' | 'append';
 
-  protected initField() {
+  get values(): string[] {
+    return this.$field.options.map(opt => opt.value);
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
+
     this.$field = new ESLSelect();
     this.$field.name = this.label || '';
 
     const select = document.createElement('select');
     this.querySelectorAll('option').forEach(option => select.add(option));
+    select.multiple = true;
 
     this.$field.$select = select;
+    this.render();
   }
 
   protected render(): void {
+    this.innerHTML = '';
     this.appendChild(this.$field);
   }
 
   protected getDisplayedValue(): string | boolean {
-    return this.$field.value;
+    return this.$field.values.join(' ');
   }
 
   protected setValue(value: string): void {
-    this.$field.setSelected(value, true);
+    value.split(' ').forEach(opt => this.$field.setSelected(opt, true));
   }
 
   protected setInconsistency(): void {
