@@ -1,19 +1,25 @@
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPSetting} from '../setting';
+import {ESLSelect} from "@exadel/esl";
 
 export class UIPSelectSetting extends UIPSetting {
   public static is = 'uip-select-setting';
-  protected $field: HTMLSelectElement;
+  protected $field: ESLSelect;
 
   @attr({defaultValue: 'replace'}) mode: 'replace' | 'append';
 
-  protected render(): void {
-    this.$field = document.createElement('select');
+  protected initField() {
+    this.$field = new ESLSelect();
     this.$field.name = this.label || '';
 
-    const options = this.innerHTML;
-    this.innerHTML = '';
-    this.$field.innerHTML = options;
+    const select = document.createElement('select');
+    this.querySelectorAll('option').forEach(option => select.add(option));
+
+    this.$field.$select = select;
+  }
+
+  protected render(): void {
+    this.appendChild(this.$field);
   }
 
   protected getDisplayedValue(): string | boolean {
@@ -21,19 +27,10 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   protected setValue(value: string): void {
-    const val = Array.prototype.find.call(this.$field.options, (opt: HTMLOptionElement) =>
-      value.search(new RegExp(/\b/.source + opt.value + /\b/.source)) !== -1);
-
-    if (val) {
-      this.$field.value = val;
-    }
-    else {
-      this.setInconsistency();
-    }
+    this.$field.setSelected(value, true);
   }
 
   protected setInconsistency(): void {
-
   }
 
   protected isValid(): boolean {

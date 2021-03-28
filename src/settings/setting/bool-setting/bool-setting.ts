@@ -8,24 +8,30 @@ export class UIPBoolSetting extends UIPSetting {
   @attr({defaultValue: null}) value: string;
   @attr({defaultValue: 'replace'}) mode: 'replace' | 'append';
 
-  protected render() {
+  protected initField() {
     this.$field = document.createElement('input');
     this.$field.type = 'checkbox';
     this.$field.name = this.label || '';
   }
 
+  protected render() {
+    this.innerHTML = '';
+    this.appendChild(this.$field);
+  }
+
   protected getDisplayedValue(): string | boolean {
-    return this.value ? this.value : this.$field.checked;
+    if (this.value) {
+      return this.$field.checked ? this.value : false;
+    }
+
+    return this.$field.checked;
   }
 
   protected setValue(value: string | null): void {
     if (this.value) {
-      if (this.mode === 'append') {
-        this.$field.checked = (value || '').search(new RegExp(/\b/.source + this.value + /\b/.source)) !== -1;
-      } else {
-        this.$field.checked = value === this.value;
-      }
-    } else {
+      this.$field.checked = value === this.value;
+    }
+    else {
       this.$field.checked = value !== null;
     }
   }

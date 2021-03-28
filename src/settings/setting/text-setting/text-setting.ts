@@ -4,10 +4,15 @@ export class UIPTextSetting extends UIPSetting {
   public static is = 'uip-text-setting';
   protected $field: HTMLInputElement;
 
-  protected render() {
+  protected initField() {
     this.$field = document.createElement('input');
     this.$field.type = 'text';
     this.$field.name = this.label || '';
+  }
+
+  protected render() {
+    this.innerHTML = '';
+    this.appendChild(this.$field);
   }
 
   protected getDisplayedValue(): string {

@@ -17,6 +17,9 @@ export abstract class UIPSetting extends ESLBaseElement {
     if (settings && target) {
       this.target = target;
     }
+
+    this.initField();
+    this.render();
   }
 
   public applyTo(model: UIPStateModel): void {
@@ -34,6 +37,7 @@ export abstract class UIPSetting extends ESLBaseElement {
     }
   }
 
+  protected abstract initField(): void;
   protected abstract getDisplayedValue(): string | boolean;
   protected abstract isValid(): boolean;
   protected abstract setInconsistency(): void;
