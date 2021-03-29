@@ -1,3 +1,133 @@
+# [2.0.0](https://github.com/exadel-inc/esl/compare/v1.1.0...v2.0.0) (2021-03-29)
+
+
+### Bug Fixes
+
+* a11y ([8d1085b](https://github.com/exadel-inc/esl/commit/8d1085ba0d9e8e05e2633e8e943a50539972e279))
+* accordion styles animation fixes ([d59a44b](https://github.com/exadel-inc/esl/commit/d59a44bebfbe639846f4e86a0f430e4b820be8e9))
+* add full ts export for scroll ([1e40678](https://github.com/exadel-inc/esl/commit/1e406783222a74d7d22a7a9ea5b26566377c4d83))
+* add multiple active panels control ([c662999](https://github.com/exadel-inc/esl/commit/c6629992476a78f9469bed49faf876f261f91e13))
+* adjust group control ([86286b1](https://github.com/exadel-inc/esl/commit/86286b1df18e04e9a8114be44ecf05dc2be3db67))
+* allow super.register call for esl-base-element instances ([19e8e05](https://github.com/exadel-inc/esl/commit/19e8e051d413c28e1ecd74b2b636e1a3281d2d08))
+* animation of single panel (w/o panel group) ([01aa5e9](https://github.com/exadel-inc/esl/commit/01aa5e92e9a5027c1fd2f2a6c42381f1e1e561f7))
+* bind method hotfix ([b7d3b1c](https://github.com/exadel-inc/esl/commit/b7d3b1ca711044c3de29c872173e98bc9bb2a3bc))
+* bouncing up when crossing between tabs ([ea7053b](https://github.com/exadel-inc/esl/commit/ea7053b64b97865f3768ba298d906a82da0a0e5e))
+* change iframe provide scrolling to no ([b8672e3](https://github.com/exadel-inc/esl/commit/b8672e335a177c5d34768f7f145ad78c58352c1f))
+* cover mode calculation for non blink browsers ([5cd6bc2](https://github.com/exadel-inc/esl/commit/5cd6bc29498b46634a74ce4885ae45c89511b47b))
+* deepCompare null check fix ([8211738](https://github.com/exadel-inc/esl/commit/82117384c58911632cb3565d037bd0aedec61982))
+* default export value replaced with singleton accessor ([ca323aa](https://github.com/exadel-inc/esl/commit/ca323aafb66dfe21e8fe2bee54e91ee080e9d377))
+* empty alert on initiating in the animation hide time ([0b1ed7a](https://github.com/exadel-inc/esl/commit/0b1ed7a45295a59a2fd6e6a5de09d99b8759d2ce))
+* esl-alert a11y and post animate cleanup ([7646ffb](https://github.com/exadel-inc/esl/commit/7646ffb70eb46bc786a5f5153b8352b18907deaa))
+* esl-alert target attribute change observation fixed ([5226c96](https://github.com/exadel-inc/esl/commit/5226c9653e69547819ebe407e6a75dba9dba012c))
+* fallback timer reset for panel animation ([c61c9f1](https://github.com/exadel-inc/esl/commit/c61c9f11e7bc7ee1169acb9aa32708c19506a257))
+* fallback timer reset for panel-group animation ([0bb9b02](https://github.com/exadel-inc/esl/commit/0bb9b0236c56c791b181c09dd46899b302f01099))
+* fix ESLMedia events prefix ([76035fe](https://github.com/exadel-inc/esl/commit/76035fea0216157ee4f68ec9a7e14d20f3a4dc1a))
+* fix focus and position calculation ([815b8ad](https://github.com/exadel-inc/esl/commit/815b8ad5bd58e0814a569dd3337884417f55f790))
+* fix package.json and IE compatibility problems ([68f1bb6](https://github.com/exadel-inc/esl/commit/68f1bb669d7b50acf68253cfeb795dac5b486ae1))
+* fix tracking click event for Popup ([2c3bff0](https://github.com/exadel-inc/esl/commit/2c3bff00a7f129e4382eca7fac37b7e6b28f2ead))
+* fix tracking click event for Popup (rename the method and arguments) ([8abd6e5](https://github.com/exadel-inc/esl/commit/8abd6e544ea49fc13379928d6b6f43f137e0bb76))
+* format utility support for multiple replacements ([3d8a6e7](https://github.com/exadel-inc/esl/commit/3d8a6e7ddec1a201de90262d69f4e269c810e614))
+* optimize select performance. update demo content ([9c916d6](https://github.com/exadel-inc/esl/commit/9c916d684df4a75fe5a6bcc0d75fed7ea25781f5))
+* optimize UX for close outside feature ([c058400](https://github.com/exadel-inc/esl/commit/c0584007b0597b1b6c5d308592635267986f1efb))
+* remove eventNs for image & scroll fix image ready event ([2f3382f](https://github.com/exadel-inc/esl/commit/2f3382f206255b85be143fbb802d6c0fa12d4ac6))
+* rename loaded event of ESLImage to the load event (from spec) ([23ecb84](https://github.com/exadel-inc/esl/commit/23ecb844fe41e54c1dd9ac58ac3f9fe23917ae97))
+* select a11y basic improvements ([5c1657d](https://github.com/exadel-inc/esl/commit/5c1657df7d688eb93042c15955152f8e13d9a840))
+* set position relative to smart-media root for special fill-modes ([4f5bbd7](https://github.com/exadel-inc/esl/commit/4f5bbd70522c7b279063970cdecf9e1f971e7a86))
+* small styling and imports updates ([3e10b5f](https://github.com/exadel-inc/esl/commit/3e10b5f0babe747df4f3cf478f5c42340c8eeb11))
+
+
+### Code Refactoring
+
+* cleanup for ESLBasePopupGroupManager ([5f68efd](https://github.com/exadel-inc/esl/commit/5f68efdff5848e4a98f0293328545d00371c244d))
+* get rid of default imports and fix draft select component accessor naming ([155dbf9](https://github.com/exadel-inc/esl/commit/155dbf981d54c33a2323e2ec740400ba5b563d87))
+* popup property of the trigger renamed to $target ([cdc4230](https://github.com/exadel-inc/esl/commit/cdc423072fd0ba48a311042d026e572a9457a369))
+* scrollable & alert renaming ([a61e56e](https://github.com/exadel-inc/esl/commit/a61e56ebaa348a98853a08ebb33d8ae971d0ac54))
+
+
+### Documentation
+
+* esl-select fixes ([5407ac2](https://github.com/exadel-inc/esl/commit/5407ac241afce10c3991ffee7bc5e2cb939bc4b4))
+
+
+### Features
+
+* !revert back esl prefix for events ([adef294](https://github.com/exadel-inc/esl/commit/adef294f76ef6b9c9a46cd743fd26d65b45cbfdf))
+* `[@ready](https://github.com/ready)` decorator and readyState listener ([6d1a32f](https://github.com/exadel-inc/esl/commit/6d1a32fd1d5b83dcb03902fb0cd874cc32b8f806))
+* add ability to cancel animation ([53b3235](https://github.com/exadel-inc/esl/commit/53b32352983e94bcb6e015eacdd3094ece50de51))
+* add ability to decline collapsing ([44885c7](https://github.com/exadel-inc/esl/commit/44885c77aef69ea241a43a83c5b23b222b05d3a9))
+* add empty text for select. update select events and flow ([3435ae9](https://github.com/exadel-inc/esl/commit/3435ae9460853ceb64f9c51b44bb5a4e913c0afc))
+* add more label format for esl-select; fix select dropdown focus ([8682ec0](https://github.com/exadel-inc/esl/commit/8682ec054fcc31685221be050750ce77e669b425))
+* add separate simplified ESLBaseTrigger ([3f5500a](https://github.com/exadel-inc/esl/commit/3f5500af7a7a5b2cd9020db9a80b3b8245ac64fe))
+* esl-media extended with a ready class target option ([9966b42](https://github.com/exadel-inc/esl/commit/9966b42de148c9d5fc2390e357c4ceac057416de))
+* esl-scroll moved from draft to beta components ([88e6ea6](https://github.com/exadel-inc/esl/commit/88e6ea6c12ceda66dab8441577622ed257e89842))
+* esl-select basic form element proxy and reset handler fix ([85f2f78](https://github.com/exadel-inc/esl/commit/85f2f788027c2572340a5ab1465cbf7b31c5e02e))
+* esl-select component POC ([dd2644e](https://github.com/exadel-inc/esl/commit/dd2644eb0bd4840ad1285298f51f238e11aaa414))
+* esl-select public update and support for mutations ([b297ae2](https://github.com/exadel-inc/esl/commit/b297ae2d181e6ac96536f0041a6c921467fec9d4))
+* esl-select support for simple select wrap ([b6debd8](https://github.com/exadel-inc/esl/commit/b6debd8366dcf1c438676d047b18ef0afc78eeea))
+* esl-trigger rewritten ([64c05f6](https://github.com/exadel-inc/esl/commit/64c05f6b4588b2526405c531031ac055e92f533f))
+* extended shim for ES5 ElementConstructor ([0eabf64](https://github.com/exadel-inc/esl/commit/0eabf64896bcf6e3e61f9c08df478614d9770af3))
+* filtration common pseudo-selectors ([8b4d80e](https://github.com/exadel-inc/esl/commit/8b4d80e01c7963c3e939e1cd0ae15d765406b947))
+* introduce EventUtils with a set of event related utilities ([04c5368](https://github.com/exadel-inc/esl/commit/04c536884d63dce864b2427cc2f98175b5e35e39))
+* introduce new BasePopupGroupManager based on events ([8f9a426](https://github.com/exadel-inc/esl/commit/8f9a4260dac3d9d4c604e7cbcf75b9628c426f87))
+* optional prevent default option for triggers. Merge triggers directory ([8c6cc3c](https://github.com/exadel-inc/esl/commit/8c6cc3cf54cb0141d83de15312b41789818d66c1))
+* set iframe as a default provider for valid urls ([f320d88](https://github.com/exadel-inc/esl/commit/f320d8855cb2184e3e4747aafec0e65e91fc859f))
+* **memoize:** add func cash for class instances ([f4dd895](https://github.com/exadel-inc/esl/commit/f4dd895c1dbb4dbb335ff0d75403b9cdee2b3dd2))
+* support for html content for alert ([86507d8](https://github.com/exadel-inc/esl/commit/86507d8d694af05337aa4d8cd4b30fa70dda8503))
+* support for multiple esl-alerts ([fd99dab](https://github.com/exadel-inc/esl/commit/fd99dabb3e4ae65560c368cf847d89681f464141))
+* upgrade BasePopupGroupManager ([07aa02a](https://github.com/exadel-inc/esl/commit/07aa02a65173b85bbcf6076d7861a5950fc26e63))
+
+
+### Styles
+
+* cleanup esl-tabs documentation ([fdefaa5](https://github.com/exadel-inc/esl/commit/fdefaa58a9f02e59a9f98754e60854e052f79e07))
+
+
+* chore!: history fixup commit ([c9efe88](https://github.com/exadel-inc/esl/commit/c9efe88ae6f3ffeefeedde3dc9486ad3b44f4d2a))
+* refactor!: cleanup for KeyboardEvent key polyfill and keys usages ([c694727](https://github.com/exadel-inc/esl/commit/c6947279ed913dd712d6df7564810068676dcb05))
+* refactor!: rename ESLBasePopup ([390f8f1](https://github.com/exadel-inc/esl/commit/390f8f16c4b40e8144a49cd37297227c933ac3d0))
+* feat!: refactor of Panel & PanelStack ([d819259](https://github.com/exadel-inc/esl/commit/d8192599333101b46bab930326b2b2ef8eef6292))
+* feat!: add last activator feature, fix outside action ([76bd08b](https://github.com/exadel-inc/esl/commit/76bd08ba4262e68a52de2ff21bc72ca8016c17ae))
+* feat!: update for tab and trigger events; fix double a11y control for tabs ([dce85b6](https://github.com/exadel-inc/esl/commit/dce85b62a4b9e3fd270e1192a75f1796275f778f))
+* feat!: eventing cleanup ([22efb73](https://github.com/exadel-inc/esl/commit/22efb7308140f40c4493716c3de1e7705ef1c0ad))
+* feat!: popups massive cleanup 1 ([7441e41](https://github.com/exadel-inc/esl/commit/7441e411c0f586e366df3057c9c81b58fbdeab5f))
+
+
+### BREAKING CHANGES
+
+* make esl-tab mode="show" by default
+* replace `empty-text` with `placeholder` attribute
+*   Rename ESLPanelStack to ESLPanelGroup
+
+- Introduce new ESLA11yGroup component
+
+- ESLTabsContainer renamed to ESLTabs
+
+- ESLScrollableTabs removed functionality moved under ESLTabs scrollable feature
+*  esl-alert should be registered and initialized as separate steps
+ esl-alert now use target (paren by default) to listen events instead of window
+*  `keycodes.ts` constants for deprecated `keycode` removed, `key` property should be used instead
+*  `targetElement` renamed to `$target`
+*  `popup` renamed to `$target` in the trigger
+*  default imports no longer accepted for esl modules
+* 'ESLBasePopup' comp rename to 'ESLToggleable'
+'ESLPopupDispatcher' comp rename to 'ESLToggleableDispatcher'
+* Panel Stack uses self group management.
+Group attribute should be removed to reach collapsible behavior.
+Panel Stack & Panel inner API changes.
+*  rename ESLBasePopupGroupManager to ESLPopupGroupDispatcher
+*  'outsideclick' initiator type replaced with 'outsideaction'
+*  events of BasePopup now have esl prefix
+('esl:hide' / 'esl:show' / 'esl:before:hide' / 'esl:before:show')
+
+ events of Trigger now have esl prefix:  'esl:change:active'
+
+ events of Panel now have esl prefix: 'esl:after:hide' / 'esl:after:show'
+* - `transitionend` event of ESLPanel replaced with `after:show`/`after:hide`
+- `statechange` event of ESLTrigger replaced with `change:active`
+* - `ESLBaseElement` no longer contains eventNs and $$fireNs methods
+- Whole popups based component system no longer use event namespaces
+* - `ESLBasePopup` statechange events replaced with a separate `(before:)show/hide`
+
 # [2.0.0-beta.31](https://github.com/exadel-inc/esl/compare/v2.0.0-beta.30...v2.0.0-beta.31) (2021-03-26)
 
 
