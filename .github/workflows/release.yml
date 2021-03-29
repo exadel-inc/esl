@@ -2,7 +2,7 @@
 # CI Github Action: Release
 #-----------------------------
 
-name: release
+name: Release
 
 on:
   workflow_dispatch:

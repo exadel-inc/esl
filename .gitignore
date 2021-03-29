@@ -23,3 +23,8 @@ npm-debug.log
 # Jest & Sonar
 /.report
 /.scannerwork
+
+# Docs
+/docs/*.html
+/docs/bundles
+/docs/components

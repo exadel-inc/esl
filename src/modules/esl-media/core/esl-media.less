@@ -44,6 +44,10 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+
+        // Safari & FF are not recognize video size otherwise
+        min-width: 1px;
+        min-height: 1px;
       }
     }
   }
