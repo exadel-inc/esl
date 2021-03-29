@@ -13,11 +13,12 @@
         } else if (!('getRootNode' in Element.prototype) || !window.customElements || !window.IntersectionObserver) {
             version = 'light';
         }
-        (version) && document.write('<script type="text/javascript" src="/esl/bundles/polyfill-' + version + '.js"><\/script>');
+        (version) && document.write('<script type="text/javascript" src="/bundles/polyfill-' + version + '.js"><\/script>');
     })();
 </script>
 
-<link type="text/css" rel="stylesheet" href="/esl/bundles/localdev.css">
+<link type="text/css" rel="stylesheet"
+      href="/esl/bundles/localdev.css">
 
 
 
@@ -94,21 +95,22 @@
     
     <div class="content container">
         
+
+
 <section class="row">
     <div class="col-12">
         <h3 class="text-center">Mods</h3>
         <div class="demo row">
             <div class="col-xs-12 col-sm-6 p-2">
-                <esl-image mode="save-ratio"
+                <esl-image mode="save-ratio" lazy
                            data-alt="Alt Text Test"
-                           data-src="img-3-carousel-9-6.jpg"
-                           data-src-base="/images/"></esl-image>
+                           data-src="nature/volcano.jpg"
+                           data-src-base="/esl/assets/"></esl-image>
             </div>
             <div class="col-xs-12 col-sm-6 p-2 d-flex">
                 <div class="m-auto">
                     <h5>Mode: save-ratio</h5>
-                    <p>ESL Image uses entire available width and occupies the height according to image aspect
-                        ratio.</p>
+                    <p>ESL Image uses entire available width and occupies the height according to image aspect ratio.</p>
                     <p>No inner image, css background is used to render the image.</p>
                 </div>
             </div>
@@ -126,10 +128,10 @@
             </div>
             <div class="col-xs-12 col-sm-6 p-2">
                 <div class="img-container img-container-4-3">
-                    <esl-image mode="cover"
+                    <esl-image mode="cover" lazy
                                data-alt="Alt Text"
-                               data-src="img-5-carousel-9-6.jpg"
-                               data-src-base="/images/"></esl-image>
+                               data-src="/nature/city.jpg"
+                               data-src-base="/esl/assets/"></esl-image>
                 </div>
             </div>
         </div>
@@ -137,10 +139,10 @@
         <div class="demo row" id="sim-valign-test">
             <div class="col-xs-12 col-sm-6 p-2 d-flex">
                 <div class="img-container m-auto" style="width: 400px; height: 200px; border: 1px solid gray;">
-                    <esl-image mode="cover"
+                    <esl-image mode="cover" lazy
                                data-alt="Alt Text"
-                               data-src="img-1-carousel-9-6.jpg | @2x => img-1-carousel-9-6.jpg"
-                               data-src-base="/images/"></esl-image>
+                               data-src="abstract/drops.jpg"
+                               data-src-base="/esl/assets/"></esl-image>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-6 p-2 d-flex">
@@ -177,10 +179,10 @@
         <div class="demo row" id="sim-halign-test">
             <div class="col-xs-12 col-sm-6 p-2 d-flex">
                 <div class="img-container m-auto" style="width: 200px; height: 300px; border: 1px solid gray;">
-                    <esl-image mode="cover"
+                    <esl-image mode="cover" lazy
                                data-alt="Alt Text"
-                               data-src="img-1-carousel-9-6.jpg | @2x => img-1-carousel-9-6.jpg"
-                               data-src-base="/images/"></esl-image>
+                               data-src="nature/volcano.jpg"
+                               data-src-base="/esl/assets/"></esl-image>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-6 p-2 d-flex">
@@ -218,10 +220,11 @@
         <div class="demo row">
             <div class="col-xs-12 col-sm-6 p-2 d-flex">
                 <div class="img-container m-auto" style="width: 300px; height: 150px; border: 1px solid gray;">
-                    <esl-image mode="cover" class="bg-inscribe"
+                    <esl-image mode="cover" lazy
+                               class="bg-inscribe"
                                data-alt="Alt Text"
-                               data-src="img-1-carousel-9-6.jpg | @2x => img-1-carousel-9-6.jpg"
-                               data-src-base="/images/"></esl-image>
+                               data-src="nature/volcano-md.jpg | @2x => nature/volcano.jpg"
+                               data-src-base="/esl/assets/"></esl-image>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-6 p-2 d-flex">
@@ -237,10 +240,10 @@
         <div class="demo row">
             <div class="col-xs-12 col-sm-6">
                 <div class="img-container img-container-16-9">
-                    <esl-image mode="fit"
+                    <esl-image mode="fit" lazy
                                data-alt="Alt Text Test"
-                               data-src="img-3-carousel-9-6.jpg"
-                               data-src-base="/images/"></esl-image>
+                               data-src="nature/volcano-md.jpg | @2x => nature/volcano.jpg"
+                               data-src-base="/esl/assets/"></esl-image>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-6 p-2 d-flex">
@@ -257,8 +260,8 @@
                 <esl-image mode="origin"
                            class="m-auto"
                            data-alt="Alt Text Test"
-                           data-src="small-cat-img-260.jpg"
-                           data-src-base="/images/"></esl-image>
+                           data-src="nature/volcano-xs.jpg"
+                           data-src-base="/esl/assets/"></esl-image>
             </div>
             <div class="col-xs-12 col-sm-6 p-2 d-flex">
                 <div class="m-auto">
@@ -267,45 +270,6 @@
                         original size.</p>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-
-<hr/>
-<section class="row">
-    <div class="col-12">
-        <h3 class="text-center">Lazy loading</h3>
-    </div>
-    <div class="col-12">
-        <div class="d-flex p-2">
-            <div class="mx-auto">
-                <h5>Mode: save-ration, lazy mode</h5>
-                <p>Lazy marker allows to start image loading only when it is close to (or in) the viewport and is
-                    visible</p>
-            </div>
-        </div>
-        <div class="img-container img-container-16-9">
-            <esl-image lazy
-                       mode="cover"
-                       data-alt="Alt Text Test"
-                       data-src="4K-image.jpg"
-                       data-src-base="/images/"></esl-image>
-        </div>
-    </div>
-    <hr/>
-    <div class="col-12">
-        <div class="d-flex p-2">
-            <div class="mx-auto">
-                <h5>Mode: fit, lazy mode</h5>
-                <p>Lazy loading is available for all rendering modes</p>
-            </div>
-        </div>
-        <div class="img-container img-container-16-9">
-            <esl-image lazy
-                         mode="fit"
-                         data-alt="Alt Text Test"
-                         data-src="4K-image-2.jpg"
-                         data-src-base="/images/"></esl-image>
         </div>
     </div>
 </section>
@@ -321,17 +285,17 @@
                          onload="console.log('SImage Load Track', event)"
                          onready="console.log('SImage Ready Track', event)"
                          data-alt="Alt Text Test"
-                         data-src="@XS => img-1-carousel-9-6.jpg |
-                                   @SM => img-2-carousel-9-6.jpg |
-                                   @MD => img-3-carousel-9-6.jpg |
-                                   @LG => img-4-carousel-9-6.jpg |
-                                   @XL => img-5-carousel-9-6.jpg"
-                         data-src-base="/images/"></esl-image>
+                         data-src="@XS => abstract/colors.jpg |
+                                   @SM => abstract/drops.jpg |
+                                   @MD => abstract/unsplash.jpg |
+                                   @LG => abstract/colors.jpg |
+                                   @XL => abstract/drops.jpg"
+                         data-src-base="/esl/assets/"></esl-image>
         </div>
     </div>
 </section>
 <hr/>
-<section class="row">
+<section class="row m-0">
     <div class="col-12">
         <h3 class="text-center">SVG Inline loading <span class="badge badge-warning">Beta</span></h3>
         <div class="d-flex p-2">
@@ -345,7 +309,7 @@
             <esl-image lazy
                          mode="inner-svg"
                          data-alt="Svg Text Test"
-                         data-src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/106114/tiger.svg"></esl-image>
+                         data-src="/esl/assets/svg/cat.svg"></esl-image>
         </div>
     </div>
 </section>

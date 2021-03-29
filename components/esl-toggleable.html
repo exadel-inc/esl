@@ -13,11 +13,12 @@
         } else if (!('getRootNode' in Element.prototype) || !window.customElements || !window.IntersectionObserver) {
             version = 'light';
         }
-        (version) && document.write('<script type="text/javascript" src="/esl/bundles/polyfill-' + version + '.js"><\/script>');
+        (version) && document.write('<script type="text/javascript" src="/bundles/polyfill-' + version + '.js"><\/script>');
     })();
 </script>
 
-<link type="text/css" rel="stylesheet" href="/esl/bundles/localdev.css">
+<link type="text/css" rel="stylesheet"
+      href="/esl/bundles/localdev.css">
 
 
 

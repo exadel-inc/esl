@@ -10418,6 +10418,8 @@ esl-media[fill-mode='inscribe'] .esl-media-inner {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  min-width: 1px;
+  min-height: 1px;
 }
 .img-container > esl-media {
   position: absolute;
