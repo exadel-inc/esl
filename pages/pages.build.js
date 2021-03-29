@@ -21,8 +21,7 @@ const domain = `http://localhost:${port}/`;
 
 /** @type {Array} */
 const CONTENT_PROCESSORS = [
-  (data) => data.replace(new RegExp(domain, 'gi'), host),
-  (data) => data.replace(/(href|src)\s*=\s*"\//gi, '$1="' + host),
+  (data) => data.replace(new RegExp(domain, 'gi'), host)
 ];
 
 /** Write file and create directories */

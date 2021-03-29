@@ -17,7 +17,8 @@ scrollbar: true
     })();
 </script>
 
-<link type="text/css" rel="stylesheet" href="/bundles/localdev.css">
+<link type="text/css" rel="stylesheet"
+      href="{{= page.invokeController('PublishConfig').resolve('/bundles/localdev.css')}}">
 
 {{= layout.head || '' }}
 #}}
@@ -40,5 +41,5 @@ scrollbar: true
     {{= partial('./footer.html')}}
 </footer>
 
-<script src="/bundles/localdev.js"></script>
+<script src="{{= page.invokeController('PublishConfig').resolve('/bundles/localdev.js')}}"></script>
 #}}
