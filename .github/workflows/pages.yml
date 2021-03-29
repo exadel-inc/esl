@@ -1,0 +1,34 @@
+name: GH Pages Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - gh-pages-init
+  workflow_dispatch:
+
+env:
+  node-version: 14.x
+
+jobs:
+  deploy-gh-pages:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node v${{ env.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.node-version }}
+      - name: Install NPM Dependencies
+        run: npm ci
+      - name: Build Assets
+        run: npm run build:pages:local
+      - name: Build GitHub Pahes
+        run: npm run build:pages
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages
+          folder: docs

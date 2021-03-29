@@ -2,7 +2,7 @@
 # CI Github Action: Validate
 #-----------------------------
 
-name: validate
+name: Test and Lint
 
 on:
   push:

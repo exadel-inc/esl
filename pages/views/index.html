@@ -1,22 +1,9 @@
 ---
 layout: ./layouts/basic.html
-title: Home
+title: Hello ESL
 containerCls: container
 ---
 
 {{##content:
-{{ let childPages = page.invokeController('InnerPages', page.location.pathname); }}
-{{? childPages && childPages.length }}
-<ul class="nav flex-column">
-    {{~ childPages :childPage}}
-    <li class="nav-item border-bottom">
-        <a href="{{= page.resolveURL(childPage.href) }}" class="nav-link">
-            {{= childPage.title }}
-        </a>
-    </li>
-    {{~}}
-</ul>
-{{??}}
-<h5>No pages</h5>
-{{?}}
+  Hello on the ESL demo page!
 #}}

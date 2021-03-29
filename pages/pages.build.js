@@ -4,11 +4,14 @@ const {existsSync, mkdirSync} = require('fs');
 const {writeFile} = require('fs/promises');
 
 const settings = require('./settings.json');
-const {pages, folder} = settings['github-pages'];
+const {pages, folder, host} = settings['github-pages'];
 
 const server = require('@exadel/server-sketch/localdev');
 
 const serverConfig = Object.assign({}, settings.server.config, {
+  port: 3005,
+  hostPath: host,
+  publicMode: true,
   browserSync: false,
   openAfterStart: false
 });
@@ -18,8 +21,8 @@ const domain = `http://localhost:${port}/`;
 
 /** @type {Array} */
 const CONTENT_PROCESSORS = [
-  (data) => data.replace(new RegExp(domain, 'gi'), './'),
-  (data) => data.replace(/(href|src)\s*=\s*"\//gi, '$1="./'),
+  (data) => data.replace(new RegExp(domain, 'gi'), host),
+  (data) => data.replace(/(href|src)\s*=\s*"\//gi, '$1="' + host),
 ];
 
 /** Write file and create directories */
