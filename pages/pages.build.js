@@ -9,6 +9,7 @@ const {pages, folder, host} = settings['github-pages'];
 const server = require('@exadel/server-sketch/localdev');
 
 const serverConfig = Object.assign({}, settings.server.config, {
+  port: 3005,
   hostPath: host,
   publicMode: true,
   browserSync: false,

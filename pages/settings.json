@@ -19,16 +19,15 @@
     "folder": "../docs",
     "pages": [
       "index.html",
-      "esl-accordion.html",
-      "esl-alert.html",
-      "esl-image.html",
-      "esl-media.html",
-      "esl-scrollbar.html",
-      "esl-tab.html",
-      "esl-toggleable.html",
-      "esl-forms/index.html",
-      "esl-forms/esl-select.html",
-      "esl-forms/esl-select-list.html"
+      "components/esl-accordion.html",
+      "components/esl-alert.html",
+      "components/esl-image.html",
+      "components/esl-media.html",
+      "components/esl-scrollbar.html",
+      "components/esl-tab.html",
+      "components/esl-toggleable.html",
+      "components/esl-select.html",
+      "components/esl-select-list.html"
     ]
   }
 }
