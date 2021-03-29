@@ -22,6 +22,8 @@ jobs:
           node-version: ${{ env.node-version }}
       - name: Install NPM Dependencies
         run: npm ci
+      - name: Build Assets
+        run: npm run build:pages:local
       - name: Build GitHub Pahes
         run: npm run build:pages
       - name: Deploy
