@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en" class=" esl-scrollable-content ">
+<head>
+    <meta charset="UTF-8">
+    <title>ESL Image component</title>
+    
+<script>
+    /* Polyfill */
+    (function () {
+        let version = '';
+        if (!window.Promise || !window.CustomEvent) {
+            version = 'full';
+        } else if (!('getRootNode' in Element.prototype) || !window.customElements || !window.IntersectionObserver) {
+            version = 'light';
+        }
+        (version) && document.write('<script type="text/javascript" src="/esl/bundles/polyfill-' + version + '.js"><\/script>');
+    })();
+</script>
+
+<link type="text/css" rel="stylesheet" href="/esl/bundles/localdev.css">
+
+
+
+</head>
+<body>
+
+<header class="header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <div class="container">
+    <div class="hd-content">
+      <a class="navbar-brand" href="./../index.html">Exadel Smart Library</a>
+
+      <div class="hd-dropdown">
+        <esl-trigger class="hd-dropdown-trigger" event="hover" target="::next">
+          <button class="btn btn-link hd-dropdown-btn">Components</button>
+          <span class="hd-dropdown-arrow-icon"></span>
+        </esl-trigger>
+
+        <esl-panel class="hd-dropdown-content" default-params="{hideDelay: 250}" fallback-duration="500">
+          <ul class="hd-dropdown-list">
+            
+            <li class="nav-item hd-dropdown-item ">
+              <a class="hd-dropdown-link" href="./esl-accordion.html">Esl Accordion</a>
+            </li>
+            
+            <li class="nav-item hd-dropdown-item ">
+              <a class="hd-dropdown-link" href="./esl-alert.html">Esl Alert</a>
+            </li>
+            
+            <li class="nav-item hd-dropdown-item active">
+              <a class="hd-dropdown-link" href="./esl-image.html">Esl Image</a>
+            </li>
+            
+            <li class="nav-item hd-dropdown-item ">
+              <a class="hd-dropdown-link" href="./esl-media.html">Esl Media</a>
+            </li>
+            
+            <li class="nav-item hd-dropdown-item ">
+              <a class="hd-dropdown-link" href="./esl-scrollbar.html">Esl Scrollbar</a>
+            </li>
+            
+            <li class="nav-item hd-dropdown-item ">
+              <a class="hd-dropdown-link" href="./esl-select-list.html">Esl Select List</a>
+            </li>
+            
+            <li class="nav-item hd-dropdown-item ">
+              <a class="hd-dropdown-link" href="./esl-select.html">Esl Select</a>
+            </li>
+            
+            <li class="nav-item hd-dropdown-item ">
+              <a class="hd-dropdown-link" href="./esl-tab.html">Esl Tab</a>
+            </li>
+            
+            <li class="nav-item hd-dropdown-item ">
+              <a class="hd-dropdown-link" href="./esl-toggleable.html">Esl Toggleable</a>
+            </li>
+            
+          </ul>
+        </esl-panel>
+      </div>
+
+      
+    </div>
+
+    <button class="btn btn-outline-info gn-back-trigger">← Back</button>
+  </div>
+</nav>
+
+</header>
+<main role="main">
+    
+    <h1 class="text-center pt-2">ESL Image component</h1>
+    <hr/>
+    
+    <div class="content container">
+        
+<section class="row">
+    <div class="col-12">
+        <h3 class="text-center">Mods</h3>
+        <div class="demo row">
+            <div class="col-xs-12 col-sm-6 p-2">
+                <esl-image mode="save-ratio"
+                           data-alt="Alt Text Test"
+                           data-src="img-3-carousel-9-6.jpg"
+                           data-src-base="/images/"></esl-image>
+            </div>
+            <div class="col-xs-12 col-sm-6 p-2 d-flex">
+                <div class="m-auto">
+                    <h5>Mode: save-ratio</h5>
+                    <p>ESL Image uses entire available width and occupies the height according to image aspect
+                        ratio.</p>
+                    <p>No inner image, css background is used to render the image.</p>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="demo row">
+            <div class="col-xs-12 col-sm-6 p-2 d-flex">
+                <div class="m-auto">
+                    <h5>Mode: cover</h5>
+                    <p>No inner image, image is rendered by background image.</p>
+                    <p>ESL Image has no own size. Can be used with img-container classes</p>
+                    <p><i>Example:</i></p>
+                    <code>&lt;div class="img-container img-container-4-3"&gt; &lt;esl-image ...</code>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 p-2">
+                <div class="img-container img-container-4-3">
+                    <esl-image mode="cover"
+                               data-alt="Alt Text"
+                               data-src="img-5-carousel-9-6.jpg"
+                               data-src-base="/images/"></esl-image>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo row" id="sim-valign-test">
+            <div class="col-xs-12 col-sm-6 p-2 d-flex">
+                <div class="img-container m-auto" style="width: 400px; height: 200px; border: 1px solid gray;">
+                    <esl-image mode="cover"
+                               data-alt="Alt Text"
+                               data-src="img-1-carousel-9-6.jpg | @2x => img-1-carousel-9-6.jpg"
+                               data-src-base="/images/"></esl-image>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 p-2 d-flex">
+                <div class="m-auto">
+                    <h5>Mode: cover (additional classes: vertical alignment)</h5>
+                    <p>As background-image is used to render image in cover mode we can control image cropping options
+                        through the css.</p>
+                    <p>The following options are available to control image vertical position:</p>
+                    <ul>
+                        <li><input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-top"/> .bg-v-top</li>
+                        <li><input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-center" checked/>.bg-v-center <b>(default)</b></li>
+                        <li><input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-bottom"/>.bg-v-bottom</li>
+                    </ul>
+                    <div><b>Container:</b><span class="value">size: 400 x 200px; gray border</span></div>
+                </div>
+            </div>
+            <script>
+                (function () {
+                    var area = document.querySelector('#sim-valign-test');
+                    var cbx = area.querySelectorAll('.v-pos-toggle');
+                    var sim = area.querySelector('esl-image');
+                    Array.prototype.forEach.call(cbx, function (cb) {
+                        cb.addEventListener('click', function () {
+                            var cl = sim.classList;
+                            cl.remove('bg-v-top');
+                            cl.remove('bg-v-center');
+                            cl.remove('bg-v-bottom');
+                            cl.add(cb.value);
+                        });
+                    });
+                })();
+            </script>
+        </div>
+        <div class="demo row" id="sim-halign-test">
+            <div class="col-xs-12 col-sm-6 p-2 d-flex">
+                <div class="img-container m-auto" style="width: 200px; height: 300px; border: 1px solid gray;">
+                    <esl-image mode="cover"
+                               data-alt="Alt Text"
+                               data-src="img-1-carousel-9-6.jpg | @2x => img-1-carousel-9-6.jpg"
+                               data-src-base="/images/"></esl-image>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 p-2 d-flex">
+                <div class="m-auto">
+                    <h5>Mode: cover (additional classes: horizontal alignment)</h5>
+                    <p>The following options available to control image horizontal position:</p>
+                    <ul>
+                        <li><input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-left"/> .bg-h-left
+                        </li>
+                        <li><input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-center" checked/>
+                            .bg-h-center <b>(default)</b></li>
+                        <li><input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-right"/> .bg-h-right
+                        </li>
+                    </ul>
+                    <div><b>Container:</b><span class="value">size: 200 x 300px; gray border</span></div>
+                </div>
+            </div>
+            <script>
+                (function () {
+                    var area = document.querySelector('#sim-halign-test');
+                    var cbx = area.querySelectorAll('.h-pos-toggle');
+                    var sim = area.querySelector('esl-image');
+                    Array.prototype.forEach.call(cbx, function (cb) {
+                        cb.addEventListener('click', function () {
+                            var cl = sim.classList;
+                            cl.remove('bg-h-left');
+                            cl.remove('bg-h-center');
+                            cl.remove('bg-h-right');
+                            cl.add(cb.value);
+                        });
+                    });
+                })();
+            </script>
+        </div>
+        <div class="demo row">
+            <div class="col-xs-12 col-sm-6 p-2 d-flex">
+                <div class="img-container m-auto" style="width: 300px; height: 150px; border: 1px solid gray;">
+                    <esl-image mode="cover" class="bg-inscribe"
+                               data-alt="Alt Text"
+                               data-src="img-1-carousel-9-6.jpg | @2x => img-1-carousel-9-6.jpg"
+                               data-src-base="/images/"></esl-image>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 p-2 d-flex">
+                <div class="m-auto">
+                    <h5>Mode: cover (additional classes: inscribe)</h5>
+                    <p><em>bg-inscribe</em> can be used to declare inscribe image behaviour</p>
+                    <div><b>Container:</b><span class="value">size: 300 x 150px; gray border</span></div>
+                </div>
+            </div>
+        </div>
+        <hr/>
+
+        <div class="demo row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="img-container img-container-16-9">
+                    <esl-image mode="fit"
+                               data-alt="Alt Text Test"
+                               data-src="img-3-carousel-9-6.jpg"
+                               data-src-base="/images/"></esl-image>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 p-2 d-flex">
+                <div class="m-auto">
+                    <h5>Mode: fit</h5>
+                    <p>ESL Image uses inner <em>img</em> to render picture and is used as a wrapper that controls
+                        image source and state.</p>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="demo row">
+            <div class="col-xs-12 col-sm-6 d-flex">
+                <esl-image mode="origin"
+                           class="m-auto"
+                           data-alt="Alt Text Test"
+                           data-src="small-cat-img-260.jpg"
+                           data-src-base="/images/"></esl-image>
+            </div>
+            <div class="col-xs-12 col-sm-6 p-2 d-flex">
+                <div class="m-auto">
+                    <h5>Mode: origin</h5>
+                    <p>Origin mode behaves similarly to the fit mode but sets esl-image size according to inner image
+                        original size.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr/>
+<section class="row">
+    <div class="col-12">
+        <h3 class="text-center">Lazy loading</h3>
+    </div>
+    <div class="col-12">
+        <div class="d-flex p-2">
+            <div class="mx-auto">
+                <h5>Mode: save-ration, lazy mode</h5>
+                <p>Lazy marker allows to start image loading only when it is close to (or in) the viewport and is
+                    visible</p>
+            </div>
+        </div>
+        <div class="img-container img-container-16-9">
+            <esl-image lazy
+                       mode="cover"
+                       data-alt="Alt Text Test"
+                       data-src="4K-image.jpg"
+                       data-src-base="/images/"></esl-image>
+        </div>
+    </div>
+    <hr/>
+    <div class="col-12">
+        <div class="d-flex p-2">
+            <div class="mx-auto">
+                <h5>Mode: fit, lazy mode</h5>
+                <p>Lazy loading is available for all rendering modes</p>
+            </div>
+        </div>
+        <div class="img-container img-container-16-9">
+            <esl-image lazy
+                         mode="fit"
+                         data-alt="Alt Text Test"
+                         data-src="4K-image-2.jpg"
+                         data-src-base="/images/"></esl-image>
+        </div>
+    </div>
+</section>
+<hr/>
+<section class="row">
+    <div class="col-12">
+        <h3 class="text-center">ESL Query Rules</h3>
+    </div>
+    <div class="col-12">
+        <div class="img-container img-container-16-9">
+            <esl-image lazy
+                         mode="cover"
+                         onload="console.log('SImage Load Track', event)"
+                         onready="console.log('SImage Ready Track', event)"
+                         data-alt="Alt Text Test"
+                         data-src="@XS => img-1-carousel-9-6.jpg |
+                                   @SM => img-2-carousel-9-6.jpg |
+                                   @MD => img-3-carousel-9-6.jpg |
+                                   @LG => img-4-carousel-9-6.jpg |
+                                   @XL => img-5-carousel-9-6.jpg"
+                         data-src-base="/images/"></esl-image>
+        </div>
+    </div>
+</section>
+<hr/>
+<section class="row">
+    <div class="col-12">
+        <h3 class="text-center">SVG Inline loading <span class="badge badge-warning">Beta</span></h3>
+        <div class="d-flex p-2">
+            <div class="mx-auto">
+                <h5>Mode: inner-svg, lazy mode</h5>
+                <p>ESL Image inner-svg mode that loads svg content inline.</p>
+                <p class="alert alert-warning">NOTE: requesting svg endpoint should accept CORS policy restrictions</p>
+            </div>
+        </div>
+        <div class="img-container img-container-4-3">
+            <esl-image lazy
+                         mode="inner-svg"
+                         data-alt="Svg Text Test"
+                         data-src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/106114/tiger.svg"></esl-image>
+        </div>
+    </div>
+</section>
+
+    </div>
+</main>
+<footer class="footer bg-dark">
+    <div class="container">
+  <div class="text-center">
+    <div class="text-muted">© 2021 Exadel, Inc</div>
+    <div class="text-muted">Core Team Contributors:
+      <a href="mailto:astsefanovich@exadel.com">Alexey Stsefanovich</a>,
+      <a href="mailto:ymurashka@exadel.com">Julia Murashko</a>,
+      <a href="mailto:yadamska@exadel.com">Yuliya Adamskaya</a>
+    </div>
+  </div>
+</div>
+
+</footer>
+
+<script src="/esl/bundles/localdev.js"></script>
+
+
+<esl-scrollbar class="page-scrollbar" target="html"></esl-scrollbar>
+
+</body>
+</html>
