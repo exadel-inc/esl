@@ -26,5 +26,6 @@ npm-debug.log
 
 # Docs
 /docs/*.html
+/docs/images
 /docs/bundles
 /docs/components
