@@ -13,9 +13,10 @@
     "build:ts": "webpack",
     "build:less": "lessc src/localdev.less static/bundles/localdev.css --source-map=static/bundles/localdev.css.map",
     "build-and-start": "npm run build && npm run start",
-    "build-pages": "npm run build-pages:pages && npm run build-pages:assets",
+    "build-pages": "npm run build-pages:pages && npm run build-pages:bundles && npm run build-pages:assets",
     "build-pages:pages": "node pages.build.js",
-    "build-pages:assets": "cpy \"**/*.{js,css}\" ../../docs --parents --cwd=static"
+    "build-pages:bundles": "cpy \"**/*.{js,css}\" ../../docs --parents --cwd=static",
+    "build-pages:assets": "cpy \"**/*.{jpeg,jpg,png,svg,webm,mp4}\" ../../docs --parents --cwd=static"
   },
   "sideEffects": [
     "src/common/*.ts",
