@@ -11,8 +11,6 @@ package-lock.json
 
 # Build Config
 build
-paths.json
-gulpfile.js
 .releaserc.json
 
 # Target
@@ -25,25 +23,27 @@ jest.config.js
 **/test/*.ts
 
 # Demo Server
-test-server
+pages
 
-# Linter
+# Linter & Scanners
+.report
+.scannerwork
 .editorconfig
+.whitesource
 .eslintrc.json
 .eslintignore
 .stylelintrc.json
 .commitlintrc.json
+sonar-project.properties
 
 # VCS
 .gitignore
-
-# reports
-.report
-.scannerwork
-sonar-project.properties
 
 # Docs Assets
 docs
 
 # GitHub
 .github
+
+# Sources
+src

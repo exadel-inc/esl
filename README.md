@@ -10,23 +10,28 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
 
 ## Library Structure
 ### Components
-- ##### [ESL Image](./src/modules/esl-image/README.md)
-- ##### [ESL Media](./src/modules/esl-media/README.md)
-- ##### [ESL Scrollbar](./src/modules/esl-scrollbar/README.md)
+- ##### [ESL Image](src/modules/esl-image/README.md)
+- ##### [ESL Media](src/modules/esl-media/README.md)
+- ##### [ESL Scrollbar](src/modules/esl-scrollbar/README.md)
 
-- ##### [ESL Base Popup](./src/modules/esl-base-popup/README.md)
-- ##### [ESL Popup](./src/modules/esl-popup/README.md)
-- ##### [ESL Trigger](./src/modules/esl-trigger/README.md)
-- ##### [ESL Panel and Panel Stack](./src/modules/esl-panel/README.md)
-- ##### [ESL Tab and Tab Container](./src/modules/esl-tab/README.md)
-- ##### [ESL Scrollable Tabs](src/modules/esl-scrollable-tabs/README.md)
+- ##### [ESL A11yGroup](src/modules/esl-a11y-group/README.md)
+
+- ##### [ESL Toggleable](src/modules/esl-toggleable/README.md)
+- ##### [ESL Trigger](src/modules/esl-trigger/README.md)
+- ##### [ESL Panel and Panel Group](src/modules/esl-panel/README.md)
+- ##### [ESL Tab and Tabs](src/modules/esl-tab/README.md)
+- ##### [ESL Popup](src/modules/esl-popup/README.md)
 - ##### [ESL Alert](src/modules/esl-alert/README.md)
 
+### Form Components
+- ##### [ESL Select](src/modules/esl-forms/esl-select/README.md)
+- ##### [ESL Select List](src/modules/esl-forms/esl-select-list/README.md)
+
 ### Utilities
-- ##### [ESL Base Element](./src/modules/esl-base-element/README.md)
-- ##### [ESL Media Query](./src/modules/esl-media-query/README.md)
-- ##### [ESL Traversing Query](./src/modules/esl-traversing-query/README.md)
-- ##### [ESL Utils](./src/modules/esl-utils/README.md)
+- ##### [ESL Base Element](src/modules/esl-base-element/README.md)
+- ##### [ESL Media Query](src/modules/esl-media-query/README.md)
+- ##### [ESL Traversing Query](src/modules/esl-traversing-query/README.md)
+- ##### [ESL Utils](src/modules/esl-utils/README.md)
 
 ---
 ## Installation Guide
@@ -74,6 +79,7 @@ Exadel Smart Library does not have dependencies but uses the following list of n
   - [Array.from](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from) (no Iterable Objects support required)
   - [Array.prototype.find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) 
   - [Array.prototype.findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex) 
+  - [Array.prototype.include](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes)
   - [Object.is](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is)
   - [ES6 Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 - Web API
@@ -82,6 +88,7 @@ Exadel Smart Library does not have dependencies but uses the following list of n
   - [Element.matches](https://developer.mozilla.org/en-US/docs/Web/API/Element/matches)
   - [Element.closest](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest)
   - [Element.toggleAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/toggleAttribute)
+  - [KeyboardEvent.key](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)  
   - [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver)
   - [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
   - [Custom Elements](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements)
@@ -100,38 +107,32 @@ Also, ESL has built-in polyfills for some of DOM and ES6 features. They are avai
 
 ---
 
-## Development: NPM scripts
+## Roadmap
 
-Here is a list of available npm scripts for local development:
- - `npm start` or `npm run start` - start demo server locally. Runs local build, watch and browsersync.  
- Uses `:3001` port (BrowserSync) and `:3002` port (origin)
- - `npm run tar` - build project and tarball archive with npm state of the project
- - `npm run build` - build project to CJS output
- - `npm run clear` - clear output folders
- - `npm test` or `npm run test` - run linters and tests (silent task, used in CI/CD)
- - `npm run test-only` - just run all tests
- - `npm run test-report` - run tests and create coverage report
-
-## Development: Commit Convention
-
-Project is using `@commitlint/config-conventional` commit message rules.
-Please check it out in case you want to contribute to ESL.
-
-You can use this [short note](./docs/commit.md) to renew commit message rules.
-
-In case you are using JetBrains IDE (IDEA or WebStorm) you can use this 
-[plugin](https://plugins.jetbrains.com/plugin/13389-conventional-commit) to simplify commit validation.
+- [UI Playground](https://github.com/exadel-inc/ui-playground) (_will be available soon_) demo server
+- npm release
+- More helpers and sugar of ESLBaseElement (event listener helpers and decorators)  
+- Extension of esl-utils
+- Dynamic Footnotes component
+- Extension of esl-form elements (custom form base, helpers, validation and more)
+- ESLCarousel component
+- ESLToast component
+- More components in the library
 
 ---
 
-## Roadmap
+## Development Information for contributors
 
-- Releasable state for beta components (ESL Base Popup group)
-- "Playground" demo server
-- npm release
-- ESLCarousel component release
-- More components in the library
-- Extension of esl-utils
+If you are a part of ESL team or want to contribute to the project
+you can find useful information about the project processes and agreements here:
+
+- #### [Development: Scripts](./docs/contribute/scripts.md)
+
+- #### [Development: Styleguide](./docs/contribute/styleguide.md)
+
+- #### [Development: Commit Convention](./docs/contribute/commit.md)
+  
+- #### [Contributor Licence Agreement](CLA.md)
 
 ---
 
@@ -141,4 +142,4 @@ In case you are using JetBrains IDE (IDEA or WebStorm) you can use this
 
 **Exadel, Inc.**
 
-[![](docs/images/exadel-logo.png)](https://exadel.com)
+[![](./docs/images/exadel-logo.png)](https://exadel.com)

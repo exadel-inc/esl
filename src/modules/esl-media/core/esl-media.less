@@ -22,7 +22,7 @@
         z-index: -1;
         pointer-events: none;
       }
-      &:after {
+      &::after {
         content: '';
         position: absolute;
         top: 0;
@@ -34,13 +34,20 @@
 
     &[fill-mode='cover'],
     &[fill-mode='inscribe'] {
+      position: relative;
       overflow: hidden;
+
+      height: 100%;
 
       .esl-media-inner {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+
+        // Safari & FF are not recognize video size otherwise
+        min-width: 1px;
+        min-height: 1px;
       }
     }
   }

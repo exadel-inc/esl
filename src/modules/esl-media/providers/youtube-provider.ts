@@ -1,8 +1,3 @@
-/**
- * Youtube API provider for {@link ESLMedia}
- * @version 1.0.0-alpha
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- */
 import {loadScript} from '../../esl-utils/dom/script';
 import {BaseProvider, MediaProviderConfig, PlayerStates, ProviderObservedParams} from '../core/esl-media-provider';
 import PlayerVars = YT.PlayerVars;
@@ -10,6 +5,10 @@ import {generateUId} from '../../esl-utils/misc/uid';
 
 const DEFAULT_ASPECT_RATIO = 16 / 9;
 
+/**
+ * Youtube API provider for {@link ESLMedia}
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ */
 @BaseProvider.register
 export class YouTubeProvider extends BaseProvider {
   static readonly providerName: string = 'youtube';

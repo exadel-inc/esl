@@ -1,10 +1,12 @@
 {
-  "plugins": ["./build/lint/import.stylelint.js"],
+  "plugins": ["./build/import.stylelint.js"],
   "rules": {
     "at-rule-no-unknown": true,
-    "block-no-empty": true,
+    "block-no-empty": [true, { "severity": "warning" }],
+    "block-opening-brace-space-before": ["always", { "severity": "warning" }],
     "color-no-invalid-hex": true,
     "comment-no-empty": true,
+    "declaration-colon-space-after": ["always", { "severity": "warning" }],
     "declaration-block-no-duplicate-properties": true,
     "font-family-no-duplicate-names": true,
     "font-family-no-missing-generic-family-keyword": true,
@@ -18,12 +20,17 @@
     "no-extra-semicolons": true,
     "no-invalid-double-slash-comments": true,
     "property-no-unknown": true,
+    "selector-list-comma-space-before": "never",
+    "selector-pseudo-class-case": "lower",
+    "selector-pseudo-class-parentheses-space-inside": "never",
+    "selector-pseudo-element-case": "lower",
+    "selector-pseudo-element-colon-notation": "double",
     "selector-pseudo-class-no-unknown": true,
     "selector-pseudo-element-no-unknown": true,
     "selector-type-no-unknown": [true, {
       "ignore": ["custom-elements"]
     }],
-    "string-no-newline": true,
+    "string-no-newline": [true, { "severity": "warning" }],
     "unit-no-unknown": true,
     "esl-less/import-root": "never"
   }

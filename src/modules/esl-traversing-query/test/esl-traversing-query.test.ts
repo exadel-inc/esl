@@ -95,6 +95,14 @@ describe('Traversing Query tests', () => {
     ['::find(.btn)::nth(8)', root, []],
     ['::find(.btn)::nth(bla bla)', root, []],
 
+    // Filters
+    ['::find(.btn)::filter(.un-existing)', root, []],
+    ['::find(.btn)::not(button)', root, []],
+    ['::find(.btn)::filter([data-test])', root, [btn2, btn5, btn6]],
+    ['::find(.btn)::not([data-test])', root, [btn1, btn3, btn4]],
+    ['::find(.btn)::filter(:first-child)', root, [btn1]],
+    ['::find(.btn)::not(:first-child)', root, [btn2, btn3, btn4, btn5, btn6]],
+
     // Complex query test
     ['::parent::child', root, [root]],
     ['::parent::find(.btn)', btn5, [btn1, btn2, btn3, btn4, btn5]],

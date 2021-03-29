@@ -1,9 +1,10 @@
 // Common
-export * from './misc/uid';
-export * from './misc/array';
-export * from './misc/object';
-export * from './misc/format';
-export * from './misc/functions';
+export * as UID from './misc/uid';
+export * as ArrayUtils from './misc/array';
+export * as ObjectUtils from './misc/object';
+export * as FormatUtils from './misc/format';
+export * as FunctionUtils from './misc/functions';
+
 export * from './misc/memoize';
 
 // Common
@@ -29,4 +30,4 @@ export * from './dom/traversing';
 export * from './environment/device-detector';
 
 // Fixes
-export * from './fixes/ie-fixes';
+export * as IEFixes from './fixes/ie-fixes';

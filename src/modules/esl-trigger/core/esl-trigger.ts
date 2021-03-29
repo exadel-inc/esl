@@ -1,49 +1,60 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
-import {ESLBasePopup} from '../../esl-base-popup/core/esl-base-popup';
+import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
+import {bind} from '../../esl-utils/decorators/bind';
+import {ready} from '../../esl-utils/decorators/ready';
+import {TraversingQuery} from '../../esl-traversing-query/core';
+import {NoopFnSignature} from '../../esl-utils/misc/functions';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {CSSUtil} from '../../esl-utils/dom/styles';
-import {bind} from '../../esl-utils/decorators/bind';
-import {ENTER, SPACE} from '../../esl-utils/dom/keycodes';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 
-import type {NoopFnSignature} from '../../esl-utils/misc/functions';
+import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
   public static is = 'esl-trigger';
-  public static eventNs = 'esl:trigger';
 
   static get observedAttributes() {
-    return ['target', 'event', 'mode', 'active'];
+    return ['target', 'event', 'mode'];
   }
+  /** @readonly Observed Toggleable active state marker */
+  @boolAttr({readonly: true}) public active: boolean;
 
-  // Markers
-  @boolAttr() public active: boolean;
-
-  // Main setting
-  @attr({defaultValue: 'next'}) public target: string;
-  @attr({defaultValue: 'click'}) public event: string;
-  @attr({defaultValue: 'toggle'}) public mode: string;
-  @attr({defaultValue: ''}) public a11yTarget: string;
-
+  /** CSS classes to set on active state */
   @attr({defaultValue: ''}) public activeClass: string;
+  /** Target element {@link TraversingQuery} selector to set `activeClass` */
   @attr({defaultValue: ''}) public activeClassTarget: string;
 
-  // Common properties
+  /** Selector for ignore inner elements */
+  @attr({defaultValue: 'a[href]'}) public ignore: string;
+
+  /** Target Toggleable {@link TraversingQuery} selector. `next` by default */
+  @attr({defaultValue: 'next'}) public target: string;
+  /** Event to handle by trigger. Support `click`, `hover` modes or any custom. `click` by default */
+  @attr({defaultValue: 'click'}) public event: string;
+  /** Action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values. `toggle` by default */
+  @attr({defaultValue: 'toggle'}) public mode: string;
+
+  /** Selector of inner target element to place aria attributes. Uses trigger itself if blank */
+  @attr({defaultValue: ''}) public a11yTarget: string;
+
+  /** Show delay value */
   @attr() public showDelay: string;
+  /** Hide delay value */
   @attr() public hideDelay: string;
+  /** Touch device show delay value */
   @attr() public touchShowDelay: string;
+  /** Touch device hide delay value */
   @attr() public touchHideDelay: string;
 
-  protected _popup: ESLBasePopup;
+  protected _$target: ESLToggleable;
   protected __unsubscribers: NoopFnSignature[];
 
   protected attributeChangedCallback(attrName: string) {
     if (!this.connected) return;
     switch (attrName) {
       case 'target':
-        this.updatePopupFromTarget();
+        this.updateTargetFromSelector();
         break;
       case 'mode':
       case 'event':
@@ -53,41 +64,17 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
 
-  protected connectedCallback() {
-    super.connectedCallback();
-    this.updatePopupFromTarget();
-    this.bindEvents();
-  }
-  protected disconnectedCallback() {
-    this.unbindEvents();
-  }
-
-  public get popup() {
-    return this._popup;
-  }
-  public set popup(newPopupInstance) {
-    this.unbindEvents();
-    this._popup = newPopupInstance;
-    if (this._popup) {
-      this.bindEvents();
-      this._onPopupStateChange();
-    }
-  }
-
-  protected updatePopupFromTarget() {
-    if (!this.target) return;
-    this.popup = TraversingQuery.first(this.target, this) as ESLBasePopup;
-  }
-
-  public get showEvent() {
+  /** ESLTrigger 'primary' show event */
+  protected get _showEvent() {
     if (this.mode === 'hide') return null;
     if (this.event === 'hover') {
-      return DeviceDetector.isTouchDevice ? 'click' : 'mouseenter';
+      if (DeviceDetector.isTouchDevice) return 'click';
+      return 'mouseenter';
     }
     return this.event;
   }
-
-  public get hideEvent() {
+  /** ESLTrigger 'primary' hide event */
+  protected get _hideEvent() {
     if (this.mode === 'show') return null;
     if (this.event === 'hover') {
       if (DeviceDetector.isTouchDevice) return 'click';
@@ -96,25 +83,55 @@ export class ESLTrigger extends ESLBaseElement {
     return this.event;
   }
 
-  protected bindEvents() {
-    if (!this.popup) return;
-    if (this.showEvent === this.hideEvent) {
-      this.attachEventListener(this.showEvent, this._onToggleEvent);
-    } else {
-      this.attachEventListener(this.showEvent, this._onShowEvent);
-      this.attachEventListener(this.hideEvent, this._onHideEvent);
+  /** Target observable Toggleable */
+  public get $target() {
+    return this._$target;
+  }
+  public set $target(newPopupInstance) {
+    this.unbindEvents();
+    this._$target = newPopupInstance;
+    if (this._$target) {
+      this.bindEvents();
+      this._onTargetStateChange();
     }
-    const popupClass = this._popup.constructor as typeof ESLBasePopup;
-    this.popup.addEventListener(`${popupClass.eventNs}:statechange`, this._onPopupStateChange);
+  }
+
+  /** Element target to setup aria attributes */
+  public get $a11yTarget(): HTMLElement | null {
+    return this.a11yTarget ? this.querySelector(this.a11yTarget) : this;
+  }
+
+  @ready
+  protected connectedCallback() {
+    super.connectedCallback();
+    this.updateTargetFromSelector();
+  }
+  @ready
+  protected disconnectedCallback() {
+    this.unbindEvents();
+  }
+
+  protected bindEvents() {
+    if (!this.$target) return;
+    if (this._showEvent === this._hideEvent) {
+      this.attachEventListener(this._showEvent, this._onToggleEvent);
+    } else {
+      this.attachEventListener(this._showEvent, this._onShowEvent);
+      this.attachEventListener(this._hideEvent, this._onHideEvent);
+    }
+
+    this.$target.addEventListener('esl:show', this._onTargetStateChange);
+    this.$target.addEventListener('esl:hide', this._onTargetStateChange);
 
     this.addEventListener('keydown', this._onKeydown);
   }
-
   protected unbindEvents() {
     (this.__unsubscribers || []).forEach((off) => off());
-    if (!this.popup) return;
-    const popupClass = this._popup.constructor as typeof ESLBasePopup;
-    this.popup.removeEventListener(`${popupClass.eventNs}:statechange`, this._onPopupStateChange);
+    if (!this.$target) return;
+
+    this.$target.removeEventListener('esl:show', this._onTargetStateChange);
+    this.$target.removeEventListener('esl:hide', this._onTargetStateChange);
+
     this.removeEventListener('keydown', this._onKeydown);
   }
 
@@ -125,74 +142,95 @@ export class ESLTrigger extends ESLBaseElement {
     this.__unsubscribers.push(() => this.removeEventListener(eventName, callback));
   }
 
-  @bind
-  protected _onShowEvent(e: Event) {
-    (e.type === 'click' && this.popup.closeOnBodyClick) && e.stopPropagation();
-    this.popup.show({
-      trigger: this,
-      delay: this.showDelayValue
-    });
+  /** Update `$target` Toggleable  from `target` selector */
+  protected updateTargetFromSelector() {
+    if (!this.target) return;
+    this.$target = TraversingQuery.first(this.target, this) as ESLToggleable;
   }
+
+  /** True if event should be ignored */
+  protected _isIgnored(target: EventTarget | null) {
+    if (!target || !(target instanceof HTMLElement) || !this.ignore) return false;
+    const $ignore = target.closest(this.ignore);
+    // Ignore only inner elements (but do not ignore the trigger itself)
+    return !!$ignore && $ignore !== this && this.contains($ignore);
+  }
+
+  /** Handles trigger open type of event */
   @bind
-  protected _onHideEvent(e: Event) {
-    (e.type === 'click' && this.popup.closeOnBodyClick) && e.stopPropagation();
-    this.popup.hide({
-      trigger: this,
+  protected _onShowEvent(event: Event) {
+    if (this._isIgnored(event.target)) return;
+    this.$target.show({
+      activator: this,
+      delay: this.showDelayValue,
+      event
+    });
+    event.preventDefault();
+  }
+
+  /** Handles trigger hide type of event */
+  @bind
+  protected _onHideEvent(event: Event) {
+    if (this._isIgnored(event.target)) return;
+    this.$target.hide({
+      activator: this,
       delay: this.hideDelayValue,
-      trackHover: this.event === 'hover' && this.mode === 'toggle'
+      trackHover: this.event === 'hover' && this.mode === 'toggle',
+      event
     });
+    event.preventDefault();
   }
+
+  /** Handles trigger toggle type of event */
   @bind
   protected _onToggleEvent(e: Event) {
     return (this.active ? this._onHideEvent : this._onShowEvent)(e);
   }
 
+  /** Handles ESLTogglable state change */
   @bind
-  protected _onPopupStateChange() {
-    this.active = this.popup.open;
+  protected _onTargetStateChange() {
+    this.toggleAttribute('active', this.$target.open);
+
     const clsTarget = TraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
     clsTarget && CSSUtil.toggleClsTo(clsTarget, this.activeClass, this.active);
+
     this.updateA11y();
-    this.$$fireNs('statechange', {
-      bubbles: true
-    });
+
+    this.$$fire('change:active');
   }
 
-  protected get showDelayValue(): number | undefined {
-    const showDelay = DeviceDetector.isTouchDevice ? this.touchShowDelay : this.showDelay;
-    return !showDelay || isNaN(+showDelay) ? undefined : +showDelay;
-  }
-
-  protected get hideDelayValue(): number | undefined {
-    const hideDelay = DeviceDetector.isTouchDevice ? this.touchHideDelay : this.hideDelay;
-    return !hideDelay || isNaN(+hideDelay) ? undefined : +hideDelay;
-  }
-
+  /** Handles `keydown` event */
   @bind
-  protected _onKeydown(e: KeyboardEvent) {
-    switch (e.which || e.keyCode) {
-      case ENTER:
-      case SPACE:
-        this.click();
-        e.preventDefault();
-        break;
+  protected _onKeydown(event: KeyboardEvent) {
+    if ([ENTER, SPACE].includes(event.key)) {
+      switch (this.mode) {
+        case 'show': return this._onShowEvent(event);
+        case 'hide': return this._onHideEvent(event);
+        default: return this._onToggleEvent(event);
+      }
     }
   }
 
+  /** Update aria attributes */
   public updateA11y() {
     const target = this.$a11yTarget;
     if (!target) return;
-    target.setAttribute('aria-expanded', String(this.active));
 
-    // TODO: auto generate
-    if (this.popup.id) {
-      target.setAttribute('aria-controls', this.popup.id);
+    target.setAttribute('aria-expanded', String(this.active));
+    if (this.$target.id) {
+      target.setAttribute('aria-controls', this.$target.id);
     }
   }
 
-  public get $a11yTarget(): HTMLElement | null {
-    return this.a11yTarget ? this.querySelector(this.a11yTarget) : this;
+  /** Show delay attribute processing */
+  public get showDelayValue(): number | undefined {
+    const showDelay = DeviceDetector.isTouchDevice ? this.touchShowDelay : this.showDelay;
+    return !showDelay || isNaN(+showDelay) ? undefined : +showDelay;
+  }
+  /** Hide delay attribute processing */
+  public get hideDelayValue(): number | undefined {
+    const hideDelay = DeviceDetector.isTouchDevice ? this.touchHideDelay : this.hideDelay;
+    return !hideDelay || isNaN(+hideDelay) ? undefined : +hideDelay;
   }
 }
-
-export default ESLTrigger;

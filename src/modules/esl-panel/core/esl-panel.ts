@@ -2,33 +2,54 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {bind} from '../../esl-utils/decorators/bind';
 import {afterNextRender} from '../../esl-utils/async/raf';
-import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
-import {ESLBasePopup, PopupActionParams} from '../../esl-base-popup/core';
+import {attr, jsonAttr} from '../../esl-base-element/core';
+import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
+import {ESLPanelGroup} from './esl-panel-group';
 
-import ESLPanelStack from './esl-panel-stack';
-
-export interface PanelActionParams extends PopupActionParams {
+/** {@link ESLPanel} action params interface */
+export interface PanelActionParams extends ToggleableActionParams {
+  /** Prevents collapsing/expanding animation */
   noCollapse?: boolean;
-  noAnimation?: boolean;
 }
 
+/**
+ * ESLPanel component
+ * @author Julia Murashko
+ *
+ * ESLPanel is a custom element that is used as a wrapper for content that can be shown or hidden.
+ * Can use collapsing/expanding animation (smooth height change).
+ * Can be used in conjunction with {@link ESLPanelGroup} to control a group of ESLPopups
+ */
 @ExportNs('Panel')
-export class ESLPanel extends ESLBasePopup {
+export class ESLPanel extends ESLToggleable {
   public static is = 'esl-panel';
-  public static eventNs = 'esl:panel';
 
+  /** Class(es) to be added for active state ('open' by default) */
   @attr({defaultValue: 'open'}) public activeClass: string;
+  /** Class(es) to be added during animation ('animate' by default) */
   @attr({defaultValue: 'animate'}) public animateClass: string;
+  /** Class(es) to be added during animation after next render ('post-animate' by default) */
   @attr({defaultValue: 'post-animate'}) public postAnimateClass: string;
-  @attr({defaultValue: 'auto'}) public fallbackDuration: number;
+  /** Time to clear animation common params (max-height style + classes) ('auto' by default) */
+  @attr({defaultValue: 'auto'}) public fallbackDuration: number | 'auto';
 
-  @boolAttr() public isAccordion: boolean;
-  @boolAttr() public startAnimation: boolean;
+  /** Initial params for current ESLPanel instance */
+  @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init'}})
+  public initialParams: ToggleableActionParams;
 
-  @jsonAttr<PanelActionParams>({defaultValue: {silent: true, force: true, initiator: 'init', noAnimation: true}})
-  public initialParams: PopupActionParams;
+  protected _initialHeight: number = 0;
+  protected _fallbackTimer: number = 0;
 
-  public initialHeight: number;
+  /** @returns Previous active panel height at the start of the animation */
+  public get initialHeight() {
+    return this._initialHeight;
+  }
+
+  /** @returns Closest panel group or null if not presented */
+  public get $group(): ESLPanelGroup | null {
+    if (this.groupName === 'none' || this.groupName) return null;
+    return this.closest(ESLPanelGroup.is);
+  }
 
   protected bindEvents() {
     super.bindEvents();
@@ -40,75 +61,84 @@ export class ESLPanel extends ESLBasePopup {
     this.removeEventListener('transitionend', this._onTransitionEnd);
   }
 
+  /** Process show action */
   protected onShow(params: PanelActionParams) {
     super.onShow(params);
-    this.initialHeight = this.scrollHeight;
+    this.clearAnimation();
+    this._initialHeight = this.offsetHeight;
 
-    if (params.noAnimation) return;
-
-    this.beforeAnimate(params);
-    if (!params.noCollapse) {
-      this.onHeightAnimate('show', params);
-      this.fallbackDuration >= 0 && setTimeout(this._onTransitionEnd, this.fallbackDuration);
+    this.beforeAnimate();
+    if (params.noCollapse) {
+      afterNextRender(() => this.afterAnimate());
+    } else {
+      this.onAnimate('show');
+      this.fallbackAnimate();
     }
-    this.afterAnimate(params);
   }
 
+  /** Process hide action */
   protected onHide(params: PanelActionParams) {
-    this.initialHeight = this.scrollHeight;
+    this.clearAnimation();
+    this._initialHeight = this.offsetHeight;
     super.onHide(params);
 
-    if (params.noAnimation) return;
-
-    this.beforeAnimate(params);
-    if (!params.noCollapse) {
-      this.onHeightAnimate('hide', params);
-      this.fallbackDuration >= 0 && setTimeout(this._onTransitionEnd, this.fallbackDuration);
-    }
-    this.afterAnimate(params);
-  }
-
-  @bind
-  protected _onTransitionEnd(e?: TransitionEvent) {
-    if (!e || e.propertyName === 'max-height') {
-      this.style.removeProperty('max-height');
-      this.$$fireNs('transitionend', {
-        detail: {open: this.open}
-      });
+    this.beforeAnimate();
+    if (params.noCollapse) {
+      afterNextRender(() => this.afterAnimate());
+    } else {
+      this.onAnimate('hide');
+      this.fallbackAnimate();
     }
   }
 
-  protected beforeAnimate(params: PanelActionParams) {
+  /** Pre-processing animation action */
+  protected beforeAnimate() {
     CSSUtil.addCls(this, this.animateClass);
     this.postAnimateClass && afterNextRender(() => CSSUtil.addCls(this, this.postAnimateClass));
   }
 
-  protected onHeightAnimate(action: string, params: PanelActionParams) {
+  /** Process animation */
+  protected onAnimate(action: string) {
     // set initial height
-    this.style.setProperty('max-height', `${action === 'hide' ? this.initialHeight : 0}px`);
+    this.style.setProperty('max-height', `${action === 'hide' ? this._initialHeight : 0}px`);
     // make sure that browser apply initial height for animation
     afterNextRender(() => {
-      this.style.setProperty('max-height', `${action === 'hide' ? 0 : this.initialHeight}px`);
+      this.style.setProperty('max-height', `${action === 'hide' ? 0 : this._initialHeight}px`);
     });
   }
 
-  protected afterAnimate(params: PanelActionParams) {
-    params.noCollapse && this.style.removeProperty('max-height');
+  /** Post-processing animation action */
+  protected afterAnimate() {
+    this.clearAnimation();
+    this.$$fire(this.open ? 'after:show' : 'after:hide');
+  }
+
+  /** Clear animation properties */
+  protected clearAnimation() {
+    this.style.removeProperty('max-height');
     CSSUtil.removeCls(this, this.animateClass);
     CSSUtil.removeCls(this, this.postAnimateClass);
   }
 
-  /**
-   * the panels use panel stack config for actions
-   */
-  protected mergeDefaultParams(params?: PopupActionParams): PopupActionParams {
-    const stackConfig = this.stack?.panelConfig || {};
+  /** Init a fallback timer to call post-animate action */
+  protected fallbackAnimate() {
+    const time = +this.fallbackDuration;
+    if (isNaN(time) || time < 0) return;
+    if (this._fallbackTimer) clearTimeout(this._fallbackTimer);
+    this._fallbackTimer = window.setTimeout(() => this.afterAnimate(), time);
+  }
+
+  /** Catching CSS transition end event to start post-animate processing */
+  @bind
+  protected _onTransitionEnd(e?: TransitionEvent) {
+    if (!e || e.propertyName === 'max-height') {
+      this.afterAnimate();
+    }
+  }
+
+  /** Merge params that are used by panel group for actions */
+  protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
+    const stackConfig = this.$group?.panelConfig || {};
     return Object.assign({}, stackConfig, this.defaultParams, params || {});
   }
-
-  public get stack(): ESLPanelStack | null {
-    return this.closest(ESLPanelStack.is);
-  }
 }
-
-export default ESLPanel;

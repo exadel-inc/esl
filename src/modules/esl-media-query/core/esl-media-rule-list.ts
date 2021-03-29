@@ -1,15 +1,13 @@
-/**
- * ESL Rule List
- * @version 1.0.0
- * @author Yuliya Adamskaya
- */
-
 import {Observable} from '../../esl-utils/abstract/observable';
 import {evaluate} from '../../esl-utils/misc/format';
-import ESLMediaRule from './esl-media-rule';
+import {ESLMediaRule} from './esl-media-rule';
 
 type PayloadParser<T> = (val: string) => T | undefined;
 
+/**
+ * ESL Rule List - ESLMediaRule observable collection
+ * @author Yuliya Adamskaya
+ */
 export class ESLMediaRuleList<T> extends Observable {
   private _active: ESLMediaRule<T | null>;
   private readonly _default: ESLMediaRule<T>;
@@ -84,5 +82,3 @@ export class ESLMediaRuleList<T> extends Observable {
     }
   };
 }
-
-export default ESLMediaRuleList;

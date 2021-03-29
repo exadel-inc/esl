@@ -1,3 +1,5 @@
+import {EventUtils} from '../../esl-utils/dom/events';
+
 /**
  * Base class for ESL custom elements.
  * Allows to define custom element with the optional custom tag name.
@@ -5,8 +7,6 @@
 export abstract class ESLBaseElement extends HTMLElement {
   /** Custom element tag name */
   public static is = '';
-  /** ESL custom element event prefix (namespace) */
-  public static eventNs = '';
 
   protected _connected: boolean = false;
 
@@ -18,42 +18,26 @@ export abstract class ESLBaseElement extends HTMLElement {
     this._connected = false;
   }
 
-  /**
-   * Check that element is connected and connectedCallback has been executed.
-   */
+  /** Check that the element is connected and `connectedCallback` has been executed */
   public get connected() {
     return this._connected;
   }
 
   /**
    * Dispatch component custom event.
-   * Event bubbles and is cancelable by default, use {@param eventInit} to override that.
+   * Uses 'esl:' prefix for event name, overridable to customize event namespaces.
    * @param eventName - event name
    * @param [eventInit] - custom event init. See {@link CustomEventInit}
    */
-  public $$fire(eventName: string, eventInit: CustomEventInit = {}): boolean {
-    const init = Object.assign({bubbles: true, cancelable: true}, eventInit);
-    return this.dispatchEvent(new CustomEvent(eventName, init));
-  }
-
-  /**
-   * Dispatch component custom event.
-   * Event bubbles and is cancelable by default, use {@param eventInit} to override that.
-   * Will append prefix from static property {@link eventNs} if it is defined.
-   * @param eventName - event name
-   * @param [eventInit] - custom event init. See {@link CustomEventInit}
-   */
-  public $$fireNs(eventName: string, eventInit: CustomEventInit = {}): boolean {
-    const component = this.constructor as typeof ESLBaseElement;
-    const eventFullName = (component.eventNs ? `${component.eventNs}:` : '') + eventName;
-    return this.$$fire(eventFullName, eventInit);
+  public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
+    return EventUtils.dispatch(this, 'esl:' + eventName, eventInit);
   }
 
   /**
    * Register component in the {@link customElements} registry
    * @param [tagName] - custom tag name to register custom element
    */
-  public static register(this: typeof ESLBaseElement & CustomElementConstructor, tagName?: string) {
+  public static register(this: typeof ESLBaseElement, tagName?: string) {
     tagName = tagName || this.is;
     if (!tagName) throw new Error('Can not define custom element');
     const constructor = customElements.get(tagName);
@@ -64,6 +48,6 @@ export abstract class ESLBaseElement extends HTMLElement {
     if (this.is !== tagName) {
       this.is = tagName;
     }
-    customElements.define(tagName, this);
+    customElements.define(tagName, this as any as CustomElementConstructor);
   }
 }

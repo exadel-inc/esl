@@ -1,13 +1,8 @@
-/**
- * ESL Image
- * @version 1.0.0
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
- */
-
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {CSSUtil} from '../../esl-utils/dom/styles';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
+import {EventUtils} from '../../esl-utils/dom/events';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
@@ -15,13 +10,15 @@ import {getIObserver} from './esl-image-iobserver';
 import {ESLImageRenderStrategy, ShadowImageElement, STRATEGIES} from './esl-image-strategies';
 
 type LoadState = 'error' | 'loaded' | 'ready';
-const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].indexOf(state) !== -1;
+const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);
 
+/**
+ * ESL Image
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ */
 @ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
   public static is = 'esl-image';
-  // Should not have own namespace for events to be native image compatible
-  public static eventNs = '';
 
   // Default container class value
   public static DEFAULT_CONTAINER_CLS = 'img-container-loaded';
@@ -289,8 +286,8 @@ export class ESLImage extends ESLBaseElement {
     this.toggleAttribute('loaded', successful);
     this.toggleAttribute('error', !successful);
     this.toggleAttribute('ready', true);
-    this.$$fire(successful ? 'loaded' : 'error', {bubbles: false});
-    this.$$fireNs('ready', {bubbles: false});
+    this.$$fire(successful ? 'load' : 'error');
+    this.$$fire('ready');
   }
 
   public updateContainerClasses() {
@@ -301,9 +298,11 @@ export class ESLImage extends ESLBaseElement {
     targetEl && CSSUtil.toggleClsTo(targetEl, cls, state);
   }
 
+  public $$fire(eventName: string, eventInit: CustomEventInit = {bubbles: false}): boolean {
+    return EventUtils.dispatch(this, eventName, eventInit);
+  }
+
   public static isEmptyImage(src: string) {
     return src === ESLImage.EMPTY_IMAGE;
   }
 }
-
-export default ESLImage;

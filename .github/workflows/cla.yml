@@ -2,7 +2,7 @@
 # CI Github Action: CLA Assistant trigger script
 #-----------------------------
 
-name: cla-assistant
+name: CLA Assistant
 
 on:
   issue_comment: # To detect standalone comment

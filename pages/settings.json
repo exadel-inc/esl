@@ -1,0 +1,33 @@
+{
+  "watch": {
+    "ts": ["../src/modules/**/*.ts", "src/**/*.ts", "!**/test/*.ts"],
+    "less": ["../src/modules/**/*.less", "src/**/*.less"]
+  },
+  "server": {
+    "less": "src/*.less",
+    "ts": ["src/*.ts"],
+    "target": "static/bundles",
+    "config": {
+      "port": 3002,
+      "serverRoot": "./",
+      "public": ["static/"],
+      "jscssDestFolders": ["static/bundles/*.css", "static/bundles/*.js"]
+    }
+  },
+  "github-pages": {
+    "host": "/esl/",
+    "folder": "../docs",
+    "pages": [
+      "index.html",
+      "components/esl-accordion.html",
+      "components/esl-alert.html",
+      "components/esl-image.html",
+      "components/esl-media.html",
+      "components/esl-scrollbar.html",
+      "components/esl-tab.html",
+      "components/esl-toggleable.html",
+      "components/esl-select.html",
+      "components/esl-select-list.html"
+    ]
+  }
+}

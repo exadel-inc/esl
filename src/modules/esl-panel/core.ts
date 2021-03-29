@@ -1,2 +1,2 @@
 export * from './core/esl-panel';
-export * from './core/esl-panel-stack';
+export * from './core/esl-panel-group';

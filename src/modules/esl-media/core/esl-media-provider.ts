@@ -1,8 +1,3 @@
-/**
- * BaseProvider class for media API providers
- * @version 1.0.0-alpha
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya, Natallia Harshunova
- */
 import {ESLMedia} from './esl-media';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
 
@@ -32,6 +27,10 @@ export type ProviderType = (new(component: ESLMedia, config: MediaProviderConfig
 
 export type ProviderObservedParams = 'loop' | 'muted' | 'controls';
 
+/**
+ * BaseProvider class for media API providers
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya, Natallia Harshunova
+ */
 export abstract class BaseProvider {
   static readonly providerName: string;
 
@@ -63,7 +62,6 @@ export abstract class BaseProvider {
   get ready() {
     if (!this._ready) {
       const res = Promise.reject('Not Initialized');
-      // eslint-disable-next-line no-console
       res.catch((e) => console.log('Rejected Media Operation: ', e));
       return res;
     }

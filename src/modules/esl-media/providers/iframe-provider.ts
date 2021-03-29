@@ -1,17 +1,27 @@
-/**
- * Simple Basic Iframe provider for {@link ESLMedia}
- * @version 1.0.0-alpha
- * @author Alexey Stsefanovich (ala'n)
- */
 import {BaseProvider, PlayerStates} from '../core/esl-media-provider';
 import {generateUId} from '../../esl-utils/misc/uid';
 
+/**
+ * Simple Basic Iframe provider for {@link ESLMedia}
+ * @author Alexey Stsefanovich (ala'n)
+ */
 @BaseProvider.register
 export class IframeBasicProvider extends BaseProvider {
   static readonly providerName: string = 'iframe';
 
   private _state: PlayerStates = PlayerStates.UNINITIALIZED;
   protected _el: HTMLIFrameElement;
+
+  static parseUrl(url: string) {
+    try {
+      if (!url) return null;
+      const {protocol} = new URL(url);
+      if (protocol !== 'http:' && protocol !== 'https:') return null;
+      return {mediaSrc: url};
+    } catch {
+      return null;
+    }
+  }
 
   protected buildIframe() {
     const el = document.createElement('iframe');
@@ -21,6 +31,7 @@ export class IframeBasicProvider extends BaseProvider {
     el.setAttribute('aria-label', this.config.title);
     el.setAttribute('frameborder', '0');
     el.setAttribute('tabindex', '0');
+    el.setAttribute('scrolling', 'no');
     el.setAttribute('allowfullscreen', 'yes');
     el.toggleAttribute('playsinline', this.config.playsinline);
     el.src = this.config.mediaSrc || '';

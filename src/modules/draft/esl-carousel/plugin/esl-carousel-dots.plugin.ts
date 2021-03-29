@@ -1,5 +1,5 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import ESLCarouselPlugin from './esl-carousel-plugin';
+import {ESLCarouselPlugin} from './esl-carousel-plugin';
 
 /**
  * Slide Carousel Dots plugin
@@ -16,12 +16,12 @@ export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
 
   public bind() {
     this.rerender();
-    this.carousel.addEventListener('esl:carousel:slide:changed', this._onUpdate);
+    this.carousel.addEventListener('esl:slide:changed', this._onUpdate);
   }
 
   public unbind() {
     this.innerHTML = '';
-    this.carousel.removeEventListener('esl:carousel:slide:changed', this._onUpdate);
+    this.carousel.removeEventListener('esl:slide:changed', this._onUpdate);
   }
 
   public rerender() {
@@ -37,6 +37,3 @@ export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
     return `<button role="button" class="carousel-dot ${isActive ? 'active-dot' : ''}" data-slide-target="g${index + 1}"></button>`;
   }
 }
-
-export default ESLCarouselDotsPlugin;
-

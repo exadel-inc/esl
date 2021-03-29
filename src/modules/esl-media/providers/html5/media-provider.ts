@@ -1,11 +1,9 @@
-/**
- * Simple Native Media API provider for {@link ESLMedia}
- * @version 1.0.0-alpha
- * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
- */
-
 import {BaseProvider, MediaProviderConfig, PlayerStates, ProviderObservedParams} from '../../core/esl-media-provider';
 
+/**
+ * Simple Native Media API provider for {@link ESLMedia}
+ * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
+ */
 export abstract class HTMLMediaProvider extends BaseProvider {
   static readonly urlPattern: RegExp;
 

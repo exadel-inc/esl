@@ -43,28 +43,20 @@ describe('ESLBaseElement test', () => {
       });
   });
 
-  test('FireEvent - simple', (done) => {
-    el.addEventListener('testevent', (e) => {
+  test('FireEvent - default', (done) => {
+    el.addEventListener('esl:testevent', (e) => {
       expect(e).toBeInstanceOf(CustomEvent);
       done();
-    });
+    }, { once: true });
     el.$$fire('testevent');
   }, 10);
 
   test('FireEvent - bubbling', (done) => {
-    document.addEventListener('testevent', (e) => {
+    document.addEventListener('esl:testevent', (e) => {
       expect(e).toBeInstanceOf(CustomEvent);
       done();
     }, { once: true });
 
     el.$$fire('testevent');
-  }, 10);
-
-  test('FireEvent - bubbling', (done) => {
-    document.addEventListener('esl:test:testevent', (e) => {
-      expect(e).toBeInstanceOf(CustomEvent);
-      done();
-    }, { once: true });
-    el.$$fireNs('testevent');
   }, 10);
 });

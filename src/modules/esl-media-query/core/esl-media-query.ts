@@ -1,8 +1,13 @@
+import {memoize} from '../../esl-utils/decorators/memoize';
+import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
+
+import {ESLMediaBreakpoints} from './esl-media-breakpoints';
+
 /**
  * ESL Media Query
  * Provides special media condition syntax - ESLQuery
- * @version 2.1.0
- * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
+ * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya, Natallia Harshunova
  *
  * Helper class that extends MediaQueryList class
  * Supports
@@ -13,13 +18,6 @@
  * - Mobile / full browser detection (@MOBILE|@DESKTOP)
  * - Exclude upper DPRs for bots
  */
-
-import {memoize} from '../../esl-utils/decorators/memoize';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
-import {ExportNs} from '../../esl-utils/environment/export-ns';
-
-import {ESLMediaBreakpoints} from './esl-media-breakpoints';
-
 @ExportNs('MediaQuery')
 export class ESLMediaQuery {
   static get BreakpointRegistry() {
@@ -121,5 +119,3 @@ export class ESLMediaQuery {
     return '[ESL MQ] (' + this.query.media + ')';
   }
 }
-
-export default ESLMediaQuery;

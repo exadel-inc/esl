@@ -1,0 +1,28 @@
+{
+  "name": "exadel-smart-library-samples",
+  "version": "1.0.0",
+  "description": "Samples static server for ESL documentation, playground and local development",
+  "main": "server.js",
+  "scripts": {
+    "dev": "concurrently --kill-others \"npm run build && npm run start\" \"npm run watch\"",
+    "start": "node server.js",
+    "watch": "concurrently --kill-others \"npm run watch:ts\" \"npm run watch:less\"",
+    "watch:ts": "webpack --watch",
+    "watch:less":  "chokidar \"../**/*.less\" -c \"npm run build:less\"",
+    "build": "concurrently \"npm run build:ts\" \"npm run build:less\"",
+    "build:ts": "webpack",
+    "build:less": "lessc src/localdev.less static/bundles/localdev.css --source-map=static/bundles/localdev.css.map",
+    "build-and-start": "npm run build && npm run start",
+    "build-pages": "npm run build-pages:pages && npm run build-pages:bundles && npm run build-pages:assets",
+    "build-pages:pages": "node pages.build.js",
+    "build-pages:bundles": "cpy \"**/*.{js,css}\" ../../docs --parents --cwd=static",
+    "build-pages:assets": "cpy \"**/*.{jpeg,jpg,png,svg,webm,mp4}\" ../../docs --parents --cwd=static"
+  },
+  "sideEffects": [
+    "src/common/*.ts",
+    "src/polyfill-light.ts",
+    "src/polyfill-full.ts"
+  ],
+  "private": true,
+  "license": "MIT"
+}

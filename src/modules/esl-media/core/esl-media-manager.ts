@@ -1,14 +1,13 @@
+import {ESLMedia} from './esl-media';
+
+const managerMap = new Map<string, ESLMedia>();
+
 /**
  * Group restriction manager for {@link ESLMedia}
  * Only one media in group can be played
  * Empty group is ignored
- * @version 1.0.0-alpha
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
-import ESLMedia from './esl-media';
-
-const managerMap = new Map<string, ESLMedia>();
-
 export class MediaGroupRestrictionManager {
   /**
    * @debug info
@@ -25,7 +24,7 @@ export class MediaGroupRestrictionManager {
       const current = managerMap.get(instance.group);
       managerMap.set(instance.group, instance);
       if (!current || current === instance || !current.active) return;
-      if (current.$$fireNs('mangedpause')) {
+      if (current.$$fire('mangedpause')) {
         current.pause();
       }
     }
@@ -41,5 +40,3 @@ export class MediaGroupRestrictionManager {
     }
   }
 }
-
-export default MediaGroupRestrictionManager;

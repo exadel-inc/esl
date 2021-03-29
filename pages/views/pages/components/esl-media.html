@@ -1,0 +1,168 @@
+---
+layout: ../../layouts/basic.html
+title: ESL Media Component
+---
+
+{{##content:
+<div class="description">
+    <p>ESL Media - is a esl container that gives you the same API for different providers under the hood
+        along with helpers like <em>lazy loading</em>, <em>activate query</em>, <em>picture cropping</em>.</p>
+</div>
+<hr/>
+<div class="row justify-content-around">
+    <section class="col-12 row" data-demo="0">
+        <div class="demo col-6">
+            <div class="img-container img-container-16-9 img-container-loaded" style="border: solid black 1px;">
+                <esl-media group="demo-media" controls></esl-media>
+            </div>
+        </div>
+        <div class="col-6">
+            <h3 class="text-center">ESLMedia Playgroud </h3>
+            <test-media-controls target="[data-demo='0'] esl-media"></test-media-controls>
+            <test-media-source target="[data-demo='0'] esl-media"></test-media-source>
+        </div>
+    </section>
+
+    <section class="col-6" data-demo="1">
+        <div class="demo">
+            <h3 class="text-center">YouTube video</h3>
+            <p>ESL Media has full support of YouTube provider.
+                And you can use esl media component the same way as a native video element</p>
+            <hr/>
+            <div class="img-container img-container-16-9 img-container-loaded">
+                <esl-media group="demo-media"
+                             media-type="youtube"
+                             media-id="5LD-EoiTjuY"
+                             load-condition="(min-width: 500px)"
+                             load-cls-target="::parent(section)"
+                             load-cls-accepted="show-video"
+                             load-cls-declined="hide-video"
+                             ready-class="video-ready"
+                             ready-class-target="::parent"
+                             controls>
+                </esl-media>
+            </div>
+        </div>
+        <div class="row btn-group-centered">
+            <test-media-controls target="[data-demo='1'] esl-media"></test-media-controls>
+        </div>
+    </section>
+    <section class="col-6" data-demo="2">
+        <div class="demo">
+            <h3 class="text-center">HTML video</h3>
+            <p>ESL Media can be used for simple HTML videos.
+                It brings us the ability to use extra features (like lazy loading or cropping) for simple videos.</p>
+            <hr/>
+            <div class="img-container img-container-16-9 img-container-loaded">
+                <esl-media group="demo-media"
+                             media-type="video"
+                             media-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
+                             load-condition="(min-width: 500px)"
+                             load-cls-target="::parent(section)"
+                             load-cls-accepted="show-video"
+                             load-cls-declined="hide-video"
+                             controls>
+                </esl-media>
+            </div>
+        </div>
+        <div class="row btn-group-centered">
+            <test-media-controls target="[data-demo='2'] esl-media"></test-media-controls>
+        </div>
+    </section>
+    <section class="col-6" data-demo="3">
+        <div class="demo">
+            <h3 class="text-center">Basic Iframe Example</h3>
+            <p>ESL Media also has build-in provider to wrap abstract iframe source. Here is a simple example for Vimeo
+                media source</p>
+            <p class="alert alert-warning">Basic Iframe provider has limited API so you can only show/hide/reinitialize
+                inner iframe</p>
+            <hr/>
+            <div class="img-container img-container-16-9 img-container-loaded">
+                <esl-media media-type="iframe"
+                           media-src="https://player.vimeo.com/video/1084537">
+                </esl-media>
+            </div>
+        </div>
+        <div class="row btn-group-centered">
+            <test-media-controls target="[data-demo='3'] esl-media" actions="play,stop"></test-media-controls>
+        </div>
+    </section>
+
+    <section class="col-6" data-demo="4">
+        <div class="demo">
+            <h3 class="text-center">Basic Audio Example</h3>
+            <p>ESL Media is also support simple HTML audio.</p>
+            <hr/>
+            <esl-media group="demo-media"
+                       controls
+                       media-type="audio"
+                       media-src="https://html5book.ru/examples/media/track.mp3">
+            </esl-media>
+        </div>
+        <div class="row btn-group-centered">
+            <test-media-controls target="[data-demo='4'] esl-media"></test-media-controls>
+        </div>
+    </section>
+
+    <section class="col-12" data-demo="5">
+        <h3 class="text-center">HTML video background</h3>
+        <p class="text-center">Cropping and decorations features of ESL Media allows us to use it as an active background for the block.</p>
+        <hr/>
+        <div class="demo-marquee" style="height: 400px">
+            <esl-media class="bg-content esl-media-bg"
+                       media-type="video"
+                       media-src="https://pixabay.com/videos/download/video-5200_large.mp4"
+                       fill-mode="cover"
+                       play-in-viewport
+                       autoplay muted loop playsinline>
+            </esl-media>
+            <div class="demo-content contrast">
+                <h2>Background media</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="col-12" data-demo="6">
+        <h3 class="text-center">YouTube video background</h3>
+        <p class="text-center">We still can use any source in background mode</p>
+        <hr/>
+        <div class="demo-marquee" style="height: 400px">
+            <esl-media class="bg-content esl-media-bg"
+                       media-type="youtube"
+                       media-id="inadorMBFEI"
+                       fill-mode="cover"
+                       aspect-ratio="4:3"
+                       play-in-viewport
+                       autoplay muted loop playsinline>
+            </esl-media>
+            <div class="demo-content contrast">
+                <h2>Background media</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="col-12" data-demo="7">
+        <h3 class="text-center">Load condition</h3>
+        <p class="text-center">Load condition feature allows us to define using ESLQuery condition when the video
+            source should be loaded.</p>
+        <hr/>
+        <div class="demo">
+            <div class="alert alert-info">Video bellow will be loading only on XS breakpoint</div>
+            <div class="img-container img-container-16-9">
+                <esl-media load-condition="@XS, @MOBILE"
+                             media-type="youtube"
+                             media-id="e1omOSkYltw"
+                             autoplay="true"
+                             muted loop>
+                </esl-media>
+            </div>
+        </div>
+    </section>
+</div>
+#}}

@@ -1,8 +1,8 @@
 # [ESL](../../../README.md) Image
 
-Version: *1.1.0*.
+Version: *1.2.0*
 
-Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*.
+Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*
 
 ESLImage - custom element, that provides flexible ways to include images on web pages. 
 Was originally developed as an alternative to `<picture>` element, but with more features inside.

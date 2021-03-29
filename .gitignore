@@ -10,7 +10,7 @@ node_modules
 
 # Build output
 target
-test-server/static/bundles
+pages/static/bundles
 
 # Generated surces
 /modules
@@ -23,3 +23,9 @@ npm-debug.log
 # Jest & Sonar
 /.report
 /.scannerwork
+
+# Docs
+/docs/*.html
+/docs/assets
+/docs/bundles
+/docs/components

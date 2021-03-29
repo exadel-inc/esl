@@ -1,12 +1,53 @@
 # [ESL](../../../README.md) Tab & Tab Container
 
-Version: *1.0.0-beta*.  
-***Important Notice: the component is under beta version, it tested and ready to use but be aware of its potential critical API changes.***
+Version: *1.0.0*
 
-Authors: *Julia Murashko*.
+Authors: *Julia Murashko*
 
-ESLTab - custom element, extended ESLTrigger that is used as a Tab trigger element.
+ESLTabs is container component for Tabs trigger group. Uses ESLTab as an item. Each individual ESLTab can control
+ESLToggleable or, usually, ESLPanel.
 
-ESLTabContainer - custom element, container to control group of ESLTab instances.
+### ESLTabs Attributes / Property
 
-Description TBD.
+- `container` - inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable
+
+- `scrollable` - marker to enable scrollable mode
+
+### Example
+
+```html
+
+<div class="tabs">
+  <esl-tabs scrollable>
+    <!-- Left arrow -->
+    <div class="arrow-prev" data-tab-direction="left"><span class="icon-arrow-prev"></span></div>
+
+    <ul class="esl-tab-container" role="tablist">
+      <li>
+        <esl-tab target="::parent(.tabs)::find(.tab-1)">Tab #1</esl-tab>
+      </li>
+      <li class="nav-item">
+        <esl-tab target="::parent(.tabs)::find(.tab-1)">Tab #2</esl-tab>
+      </li>
+      <li class="nav-item">
+        <esl-tab target="::parent(.tabs)::find(.tab-1)">Tab #3</esl-tab>
+      </li>
+    </ul>
+
+    <!-- Right arrow -->
+    <div class="arrow-next" data-tab-direction="right"><span class="icon-arrow-next"></span></div>
+  </esl-tabs>
+
+  <esl-panel-group mode="tabs">
+    <esl-panel class="tab tab-1">
+      Content for tab 1
+    </esl-panel>
+    <esl-panel class="tab tab-2">
+      Content for tab 2
+    </esl-panel>
+    <esl-panel class="tab tab-3">
+      Content for tab 3
+    </esl-panel>
+  </esl-panel-group>
+</div>
+```

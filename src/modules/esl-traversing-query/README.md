@@ -1,6 +1,6 @@
 # [ESL](../../../README.md) Traversing Query
 
-Version: *1.0.0-alpha*.
+Version: *1.0.0*.
 
 Authors: *Alexey Stsefanovich (ala'n)*.
 
