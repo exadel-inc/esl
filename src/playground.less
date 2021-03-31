@@ -91,6 +91,11 @@ uip-settings, uip-editor {
       &.settings-attached {
         grid-template-columns: 100%;
         grid-template-rows: auto auto 450px 200px 350px;
+
+        .editor-wrapper {
+          grid-column: 1 / 2;
+          grid-row: 5 / 6;
+        }
       }
 
       grid-template-columns: 100%;
@@ -113,13 +118,6 @@ uip-settings, uip-editor {
       .settings-wrapper {
         grid-column: 1 / 2;
         grid-row: 4 / 5;
-      }
-
-      &.settings-attached {
-        .editor-wrapper {
-          grid-column: 1 / 2;
-          grid-row: 5 / 6;
-        }
       }
 
       .editor-wrapper {
