@@ -18,15 +18,15 @@
     "folder": "../docs",
     "pages": [
       "index.html",
-      "components/esl-accordion.html",
-      "components/esl-alert.html",
-      "components/esl-image.html",
-      "components/esl-media.html",
-      "components/esl-scrollbar.html",
-      "components/esl-tab.html",
-      "components/esl-toggleable.html",
-      "components/esl-select.html",
-      "components/esl-select-list.html"
+      "basic/esl-accordion.html",
+      "basic/esl-alert.html",
+      "basic/esl-image.html",
+      "basic/esl-media.html",
+      "basic/esl-scrollbar.html",
+      "basic/esl-tab.html",
+      "basic/esl-toggleable.html",
+      "forms/esl-select.html",
+      "forms/esl-select-list.html"
     ]
   }
 }

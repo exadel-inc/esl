@@ -21,7 +21,7 @@
         </esl-panel>
       </li>
       <li class="nav-item hd-dropdown">
-        {{ var active = page.location.pathname.indexOf('/form/') !== -1; }}
+        {{ var active = page.location.pathname.indexOf('/forms/') !== -1; }}
         <esl-trigger class="hd-dropdown-trigger" event="hover" target="::next">
           <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow {{= active ? 'text-info' : ''}}">
             Form Components
@@ -29,7 +29,7 @@
         </esl-trigger>
         <esl-panel class="hd-dropdown-content" default-params="{hideDelay: 250}" fallback-duration="500">
           <ul class="hd-dropdown-list">
-            {{~ page.invokeController('InnerPages', '/form/') :innerPage}}
+            {{~ page.invokeController('InnerPages', '/forms/') :innerPage}}
             <li class="nav-item hd-dropdown-item {{? innerPage.href === page.location.pathname}}active{{?}}">
               <a class="hd-dropdown-link" href="{{= page.resolveURL(innerPage.href)}}">{{= innerPage.title }}</a>
             </li>
