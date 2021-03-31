@@ -5,16 +5,16 @@ scrollbar: true
 
 {{##head:
 <script>
-    /* Polyfill */
-    (function () {
-        let version = '';
-        if (!window.Promise || !window.CustomEvent) {
-            version = 'full';
-        } else if (!('getRootNode' in Element.prototype) || !window.customElements || !window.IntersectionObserver) {
-            version = 'light';
-        }
-        (version) && document.write('<script type="text/javascript" src="/bundles/polyfill-' + version + '.js"><\/script>');
-    })();
+  /* Polyfill */
+  (function () {
+    let version = '';
+    if (!window.Promise || !window.CustomEvent) {
+      version = 'full';
+    } else if (!('getRootNode' in Element.prototype) || !window.customElements || !window.IntersectionObserver) {
+      version = 'light';
+    }
+    (version) && document.write('<script type="text/javascript" src="/bundles/polyfill-' + version + '.js"><\/script>');
+  })();
 </script>
 
 <link type="text/css" rel="stylesheet"
@@ -23,22 +23,21 @@ scrollbar: true
 {{= layout.head || '' }}
 #}}
 
-
 {{##body:
 <header class="header">
-    {{= partial('./header.html')}}
+  {{= partial('../navigation/header.html')}}
 </header>
 <main role="main">
+  <div class="content {{= layout.containerCls || 'container-fluid'}}">
     {{?layout.title}}
     <h1 class="text-center pt-2">{{= page.getPageTitle(layout.title)}}</h1>
     <hr/>
     {{?}}
-    <div class="content {{= layout.containerCls || 'container-fluid'}}">
-        {{= layout.content || 'No content.' }}
-    </div>
+    {{= layout.content || 'No content.' }}
+  </div>
 </main>
 <footer class="footer bg-dark">
-    {{= partial('./footer.html')}}
+  {{= partial('../navigation/footer.html')}}
 </footer>
 
 <script src="{{= page.invokeController('PublishConfig').resolve('/bundles/localdev.js')}}"></script>
