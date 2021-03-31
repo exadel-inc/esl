@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand mr-5" href="{{= page.resolveURL('/' + SERVER_CONFIG.defaultPageUrl)}}">Exadel Smart Library</a>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item hd-dropdown ">
+        {{ var active = page.location.pathname.indexOf('/basic/') !== -1; }}
+        <esl-trigger class="hd-dropdown-trigger" event="hover" target="::next">
+          <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow {{= active ? 'text-info' : ''}}">
+            Components
+          </button>
+        </esl-trigger>
+        <esl-panel class="hd-dropdown-content" default-params="{hideDelay: 250}" fallback-duration="500">
+          <ul class="hd-dropdown-list">
+            {{~ page.invokeController('InnerPages', '/basic/') :innerPage}}
+            <li class="nav-item hd-dropdown-item {{? innerPage.href === page.location.pathname}}active{{?}}">
+              <a class="hd-dropdown-link" href="{{= page.resolveURL(innerPage.href)}}">{{= innerPage.title }}</a>
+            </li>
+            {{~}}
+          </ul>
+        </esl-panel>
+      </li>
+      <li class="nav-item hd-dropdown">
+        {{ var active = page.location.pathname.indexOf('/forms/') !== -1; }}
+        <esl-trigger class="hd-dropdown-trigger" event="hover" target="::next">
+          <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow {{= active ? 'text-info' : ''}}">
+            Form Components
+          </button>
+        </esl-trigger>
+        <esl-panel class="hd-dropdown-content" default-params="{hideDelay: 250}" fallback-duration="500">
+          <ul class="hd-dropdown-list">
+            {{~ page.invokeController('InnerPages', '/forms/') :innerPage}}
+            <li class="nav-item hd-dropdown-item {{? innerPage.href === page.location.pathname}}active{{?}}">
+              <a class="hd-dropdown-link" href="{{= page.resolveURL(innerPage.href)}}">{{= innerPage.title }}</a>
+            </li>
+            {{~}}
+          </ul>
+        </esl-panel>
+      </li>
+      {{? page.invokeController('PublishConfig').local }}
+      <li class="nav-item hd-dropdown">
+        {{ var active = page.location.pathname.indexOf('/drafts/') !== -1; }}
+        <esl-trigger class="hd-dropdown-trigger" event="hover" target="::next">
+          <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow {{= active ? 'text-info' : ''}}">
+            Drafts
+          </button>
+        </esl-trigger>
+        <esl-panel class="hd-dropdown-content" default-params="{hideDelay: 250}" fallback-duration="500">
+          <ul class="hd-dropdown-list">
+            {{~ page.invokeController('InnerPages', '/drafts/') :innerPage}}
+            <li class="nav-item hd-dropdown-item {{? innerPage.href === page.location.pathname}}active{{?}}">
+              <a class="hd-dropdown-link" href="{{= page.resolveURL(innerPage.href)}}">{{= innerPage.title }}</a>
+            </li>
+            {{~}}
+          </ul>
+        </esl-panel>
+      </li>
+      {{?}}
+    </ul>
+
+    <div class="ml-2 mr-0">
+      <button class="btn btn-outline-info gn-back-trigger">← Back</button>
+      <a class="btn btn-link navbar-brand" href="https://github.com/exadel-inc/esl">
+        <svg width="30" height="30" viewBox="0 0 32 32" fill="#fff">
+          <path clip-rule="evenodd" fill-rule="evenodd"
+                d="M16.003 0C7.17 0 .008 7.162.008 15.997c0 7.067 4.582 13.063 10.94 15.18.8.145 1.052-.33 1.052-.753 0-.38.008-1.442 0-2.777-4.45.967-5.37-2.107-5.37-2.107-.728-1.848-1.776-2.34-1.776-2.34-1.452-.992.11-.973.11-.973 1.604.113 2.45 1.65 2.45 1.65 1.427 2.442 3.743 1.736 4.654 1.328.146-1.034.56-1.74 1.017-2.14C9.533 22.663 5.8 21.29 5.8 15.16c0-1.747.622-3.174 1.645-4.292-.165-.404-.715-2.03.157-4.234 0 0 1.343-.43 4.398 1.64 1.276-.354 2.645-.53 4.005-.537 1.36.006 2.727.183 4.005.538 3.055-2.07 4.396-1.64 4.396-1.64.872 2.202.323 3.83.16 4.233 1.022 1.118 1.643 2.545 1.643 4.292 0 6.146-3.74 7.498-7.305 7.893C19.48 23.548 20 24.508 20 26v4.428c0 .428.258.9 1.07.746C27.422 29.054 32 23.062 32 15.997 32 7.162 24.838 0 16.003 0z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</nav>

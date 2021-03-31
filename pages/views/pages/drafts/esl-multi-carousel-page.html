@@ -1,22 +1,17 @@
 ---
-layout: ../../../layouts/basic.html
-title: Slide Carousel - Rules
+layout: ../../layouts/basic.html
+title: Multi Slide Carousel
 ---
 
 {{##content:
 <div class="container-fluid">
     <div class="row flex-column">
         <h2>Demo 1: </h2>
-        <esl-carousel config="       {count: 6} |
-                                @LG => {count: 5} |
-                                @MD => {count: 4} |
-                                @SM => {count: 3} |
-                                @XS => {count: 1} |">
-            <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
-            <esl-carousel-link-plugin to="#second-carousel"></esl-carousel-link-plugin>
+        <p>The first slide is active (1 slide)</p>
+        <esl-carousel>
 
             <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
-                <span class="icon-arrow-prev"></span>
+                <span class="icon-arrow-prev" ></span>
             </button>
 
             <div data-slides-area>
@@ -24,99 +19,97 @@ title: Slide Carousel - Rules
                 <esl-carousel-slide active
                                       style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>First Slide</p>
-                    </div>
-                </esl-carousel-slide>
-
-                <esl-carousel-slide active
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text">
-                        <p>Second Slide</p>
-                    </div>
-                </esl-carousel-slide>
-
-                <esl-carousel-slide active
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text">
-                        <p>Third Slide</p>
+                        <p>111</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>Fourth Slide</p>
+                        <p>222</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>Fiveth Slide</p>
+                        <p>333</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>Sixth Slide</p>
+                        <p>444</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>Seventh Slide</p>
+                        <p>555</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>Eighth Slide</p>
+                        <p>666</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>Nineth Slide</p>
+                        <p>777</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>Tenth slide</p>
+                        <p>888</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>Eleventh Slide</p>
+                        <p>999</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>Twelfth Slide</p>
+                        <p>101010</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>Thirteenth Slide</p>
+                        <p>111111</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>Fourteenth Slide</p>
+                        <p>121212</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>Fiveteenth Slide</p>
+                        <p>131313</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
                     <div class="post-text">
-                        <p>Sixteenth Slide</p>
+                        <p>141414</p>
+                    </div>
+                </esl-carousel-slide>
+
+                <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>151515</p>
+                    </div>
+                </esl-carousel-slide>
+
+                <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
+                        <p>161616</p>
                     </div>
                 </esl-carousel-slide>
                 <!-- /CAROUSEL-ITEM -->
@@ -135,123 +128,117 @@ title: Slide Carousel - Rules
 <div class="container-fluid">
     <div class="row flex-column">
         <h2>Demo 2: </h2>
+        <p>The second slide is active (1 slide) !!!</p>
+        <esl-carousel>
 
-        <style>
-            #second-carousel .post-text {
-                width: 100%;
-                height: 100%;
-                padding: 20px;
-                text-align: center;
-            }
-        </style>
-
-        <esl-carousel id="second-carousel"
-                        config="       {count: 6} |
-                                @SM => {count: 4} |
-                                @XS => {count: 2}">
+            <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
+                <span class="icon-arrow-prev"></span>
+            </button>
 
             <div data-slides-area>
                 <!-- CAROUSEL-ITEM -->
-                <esl-carousel-slide active
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="1">
+                <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
                         <p>111</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide active
                                       style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="2">
+                    <div class="post-text">
                         <p>222</p>
                     </div>
                 </esl-carousel-slide>
 
-                <esl-carousel-slide active
-                                      style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="3">
+                <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                    <div class="post-text">
                         <p>333</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="4">
+                    <div class="post-text">
                         <p>444</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="5">
+                    <div class="post-text">
                         <p>555</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="6">
+                    <div class="post-text">
                         <p>666</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="7">
+                    <div class="post-text">
                         <p>777</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="8">
+                    <div class="post-text">
                         <p>888</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="9">
+                    <div class="post-text">
                         <p>999</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="10">
+                    <div class="post-text">
                         <p>101010</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="11">
+                    <div class="post-text">
                         <p>111111</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="12">
+                    <div class="post-text">
                         <p>121212</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="13">
+                    <div class="post-text">
                         <p>131313</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="14">
+                    <div class="post-text">
                         <p>141414</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="15">
+                    <div class="post-text">
                         <p>151515</p>
                     </div>
                 </esl-carousel-slide>
 
                 <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
-                    <div class="post-text" data-slide-target="16">
+                    <div class="post-text">
                         <p>161616</p>
                     </div>
                 </esl-carousel-slide>
                 <!-- /CAROUSEL-ITEM -->
             </div>
+
+            <button class="arrow-next" onclick="void 0" data-slide-target="next">
+                <span class="icon-arrow-next"></span>
+            </button>
 
             <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
 
