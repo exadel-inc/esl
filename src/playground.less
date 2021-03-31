@@ -4,23 +4,24 @@
 @import './core/theme';
 @import './core/mode';
 
-.uip-content.no-settings {
-  .preview-wrapper {
-    width: 100%;
-  }
+uip-root {
+  height: 100vh;
+  display: grid;
+  gap: 20px;
 }
 
-uip-root, uip-snippets, uip-preview, uip-settings, uip-editor {
-  display: block;
+.section-name {
+  font-size: 20px;
+  font-weight: 500;
 }
 
 uip-options {
+  grid-column: 1 / -1;
   display: flex;
   flex: 0 1 auto;
-  margin-bottom: 30px;
 
   .section-name {
-    margin: 3px 15px 0 0;
+    margin-right: 15px;
   }
 
   .uip-option {
@@ -30,10 +31,13 @@ uip-options {
   }
 
   .option-item {
-    border: none;
-    background-color: transparent;
-    padding: 0;
-    outline: none;
+    .option-radio-btn {
+      display: none;
+    }
+
+    .option-label {
+      cursor: pointer;
+    }
 
     &:not(:last-child) {
       &::after {
@@ -52,11 +56,6 @@ uip-options {
   }
 }
 
-.section-name {
-  font-size: 20px;
-  font-weight: 500;
-}
-
 .snippets-section, uip-preview, uip-settings, uip-editor {
   margin-top: 5px;
   border: 1px solid @section-border;
@@ -66,93 +65,72 @@ uip-options {
   padding: 10px;
 }
 
-uip-snippets {
-  .snippets-list {
-    margin-bottom: 0;
-  }
-}
-
-.preview-settings {
+.preview-wrapper, .settings-wrapper {
   display: flex;
-  flex: 0 1 auto;
-}
-
-.preview-wrapper {
-  width: calc(75% - 10px);
-  margin-right: 10px;
+  flex-direction: column;
 }
 
 uip-preview {
   display: flex;
   flex-direction: column;
+  height: 100%;
   overflow-y: auto;
-  min-height: @section-height;
 }
 
-.settings-wrapper {
-  width: calc(25% - 10px);
-  margin-left: 10px;
-}
-
-uip-settings {
-  height: @section-height;
+uip-settings, uip-editor {
+  height: 100%;
+  display: block;
   overflow: auto;
 }
 
-.editor-wrapper {
-  margin-top: 20px;
-}
-
-uip-editor {
-  height: @small-section-height;
-  width: auto;
-}
-
 @media screen and (max-width: 992px) {
-
   // Add specificity
-  uip-root[mode='horizontal'], uip-root:not([mode='horizontal']) {
-    .uip-content {
-      display: block;
-      width: 100%;
-    }
+  uip-root {
+    &.vertical-mode, &.horizontal-mode {
 
-    .snippets-section {
-      width: 100%;
-      min-width: 90px;
-    }
+      &.settings-attached {
+        grid-template-columns: 100%;
+        grid-template-rows: auto auto 450px 200px 350px;
+      }
 
-    .sections-wrapper {
-      width: 100%;
-      margin: 0;
-    }
+      grid-template-columns: 100%;
+      grid-template-rows: auto auto 450px 350px;
 
-    .preview-settings {
-      display: block;
-      width: 100%;
-      margin: 0;
-    }
+      .snippets-wrapper {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+      }
 
-    .preview-wrapper, .settings-wrapper, .editor-wrapper {
-      width: 100%;
-      min-width: 100px;
-      margin-top: 30px;
-    }
+      .snippets-section {
+        height: auto;
+      }
 
-    .settings-wrapper {
-      margin-left: 0;
-    }
+      .preview-wrapper {
+        grid-column: 1 / 2;
+        grid-row: 3 / 4;
+      }
 
-    uip-preview {
-      height: 400px;
-    }
+      .settings-wrapper {
+        grid-column: 1 / 2;
+        grid-row: 4 / 5;
+      }
 
-    uip-settings {
-      height: auto;
-    }
+      &.settings-attached {
+        .editor-wrapper {
+          grid-column: 1 / 2;
+          grid-row: 5 / 6;
+        }
+      }
 
-    .uip-option.mode {
-      display: none;
+      .editor-wrapper {
+        grid-column: 1 / 2;
+        grid-row: 4 / 5;
+      }
+
+      .uip-option.mode {
+        display: none;
+      }
     }
   }
 }
+

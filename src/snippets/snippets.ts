@@ -9,7 +9,7 @@ export class UIPSnippets extends ESLBaseElement {
 
   public static ACTIVE_CLASS = 'active';
 
-  protected _root: UIPRoot;
+  protected _$root: UIPRoot;
 
   @attr({defaultValue: 'Snippets'}) public label: string;
 
@@ -32,7 +32,7 @@ export class UIPSnippets extends ESLBaseElement {
     super.connectedCallback();
     this.bindEvents();
 
-    this._root = this.closest(`${UIPRoot.is}`) as UIPRoot;
+    this._$root = this.closest(`${UIPRoot.is}`) as UIPRoot;
 
     this.render();
     if (!this.$active) this.$active = this.$items[0];

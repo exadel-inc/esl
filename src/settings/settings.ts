@@ -8,17 +8,27 @@ import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPRoot} from '../core/root';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {attr} from '@exadel/esl/modules/esl-base-element/decorators/attr';
+import {CSSUtil} from '@exadel/esl';
 
 export class UIPSettings extends ESLBaseElement {
   public static is = 'uip-settings';
-  protected playground: UIPRoot;
 
   @attr({defaultValue: 'Settings'}) public label: string;
+  @attr({defaultValue: 'settings-attached'}) public rootClass: string;
+
+  protected playground: UIPRoot;
 
   protected connectedCallback() {
     super.connectedCallback();
     this.playground = this.closest(`${UIPRoot.is}`) as UIPRoot;
     this.bindEvents();
+    CSSUtil.addCls(this.playground, this.rootClass);
+  }
+
+  protected disconnectedCallback(): void {
+    this.unbindEvents();
+    CSSUtil.removeCls(this.playground, this.rootClass);
+    super.disconnectedCallback();
   }
 
   protected bindEvents() {
@@ -27,7 +37,13 @@ export class UIPSettings extends ESLBaseElement {
     this.playground && this.playground.addEventListener('state:change', this.parseCode);
   }
 
-  private _onClassChange(e: any) {
+  protected unbindEvents(): void {
+    this.removeEventListener('valueChange', this._onSettingsChanged);
+    this.removeEventListener('classChange', this._onClassChange);
+    this.playground && this.playground.removeEventListener('state:change', this.parseCode);
+  }
+
+  protected _onClassChange(e: any) {
     const {value, selector, values} = e.detail;
 
     const component = new DOMParser().parseFromString(this.playground.state, 'text/html').body;
@@ -43,7 +59,7 @@ export class UIPSettings extends ESLBaseElement {
     EventUtils.dispatch(this, 'request:change', {detail: {source: UIPSettings.is, markup: component.innerHTML}});
   }
 
-  private _onSettingsChanged(e: any) {
+  protected _onSettingsChanged(e: any) {
     const {name, value, selector} = e.detail;
     if (!selector || !name) return;
 
@@ -60,12 +76,7 @@ export class UIPSettings extends ESLBaseElement {
 
   }
 
-  protected disconnectedCallback(): void {
-    this.unbindEvents();
-    super.disconnectedCallback();
-  }
-
-  private get attrSettingsTags(): any[] {
+  protected get attrSettingsTags(): any[] {
     return [
       ...this.getElementsByTagName(UIPCheckSetting.is),
       ...this.getElementsByTagName(UIPListSetting.is),
@@ -73,7 +84,7 @@ export class UIPSettings extends ESLBaseElement {
     ];
   }
 
-  private get classSettingsTags(): any[] {
+  protected get classSettingsTags(): any[] {
     return [...this.getElementsByTagName(UIPClassSetting.is)];
   }
 
@@ -143,12 +154,6 @@ export class UIPSettings extends ESLBaseElement {
           classSetting.value = item : classSetting.value = 'null';
       }
     }
-  }
-
-  private unbindEvents(): void {
-    this.removeEventListener('valueChange', this._onSettingsChanged);
-    this.removeEventListener('classChange', this._onClassChange);
-    this.playground && this.playground.removeEventListener('state:change', this.parseCode);
   }
 }
 
