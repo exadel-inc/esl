@@ -128,6 +128,7 @@ export class ESLMedia extends ESLBaseElement {
     if (this.fillModeEnabled) {
       window.addEventListener('resize', this.deferredResize);
     }
+    window.addEventListener('esl:refresh', this._onRefresh);
     this.attachViewportConstraint();
     this.deferredReinitialize();
   }
@@ -141,6 +142,7 @@ export class ESLMedia extends ESLBaseElement {
     if (this.fillModeEnabled) {
       window.removeEventListener('resize', this.deferredResize);
     }
+    window.removeEventListener('esl:refresh', this._onRefresh);
     this.detachViewportConstraint();
     this._provider && this._provider.unbind();
   }
@@ -303,14 +305,29 @@ export class ESLMedia extends ESLBaseElement {
 
   public _onResize() {
     if (!this._provider) return;
-    if (!this.fillModeEnabled || this.actualAspectRatio <= 0) {
-      this._provider.setSize('auto', 'auto');
-    } else {
+    if (this.fillModeEnabled && this.actualAspectRatio > 0) {
       let stretchVertically = this.offsetWidth / this.offsetHeight < this.actualAspectRatio;
       if (this.fillMode === 'inscribe') stretchVertically = !stretchVertically; // Inscribe behaves inversely
       stretchVertically ?
         this._provider.setSize(this.actualAspectRatio * this.offsetHeight, this.offsetHeight) : // h
         this._provider.setSize(this.offsetWidth, this.offsetWidth / this.actualAspectRatio);   // w
+    } else {
+      this._provider.setSize('auto', 'auto');
+    }
+  }
+
+  @bind
+  protected _onRefresh(e: Event) {
+    const {target} = e;
+    if (target instanceof HTMLElement && target.contains(this)) {
+      this._onResize();
+    }
+  }
+
+  @bind
+  protected _onRegistryStateChange(name: string) {
+    if (name === this.mediaType) {
+      this.reinitInstance();
     }
   }
 
@@ -363,13 +380,6 @@ export class ESLMedia extends ESLBaseElement {
   public get actualAspectRatio() {
     if (this.aspectRatio && this.aspectRatio !== 'auto') return parseAspectRatio(this.aspectRatio);
     return this._provider ? this._provider.defaultAspectRatio : 0;
-  }
-
-  @bind
-  protected _onRegistryStateChange(name: string) {
-    if (name === this.mediaType) {
-      this.reinitInstance();
-    }
   }
 
   protected attachViewportConstraint() {
