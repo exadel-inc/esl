@@ -4742,6 +4742,7 @@ var ESLMedia = /** @class */ (function (_super) {
         if (this.fillModeEnabled) {
             window.addEventListener('resize', this.deferredResize);
         }
+        window.addEventListener('esl:refresh', this._onRefresh);
         this.attachViewportConstraint();
         this.deferredReinitialize();
     };
@@ -4754,6 +4755,7 @@ var ESLMedia = /** @class */ (function (_super) {
         if (this.fillModeEnabled) {
             window.removeEventListener('resize', this.deferredResize);
         }
+        window.removeEventListener('esl:refresh', this._onRefresh);
         this.detachViewportConstraint();
         this._provider && this._provider.unbind();
     };
@@ -4906,16 +4908,27 @@ var ESLMedia = /** @class */ (function (_super) {
     ESLMedia.prototype._onResize = function () {
         if (!this._provider)
             return;
-        if (!this.fillModeEnabled || this.actualAspectRatio <= 0) {
-            this._provider.setSize('auto', 'auto');
-        }
-        else {
+        if (this.fillModeEnabled && this.actualAspectRatio > 0) {
             var stretchVertically = this.offsetWidth / this.offsetHeight < this.actualAspectRatio;
             if (this.fillMode === 'inscribe')
                 stretchVertically = !stretchVertically; // Inscribe behaves inversely
             stretchVertically ?
                 this._provider.setSize(this.actualAspectRatio * this.offsetHeight, this.offsetHeight) : // h
                 this._provider.setSize(this.offsetWidth, this.offsetWidth / this.actualAspectRatio); // w
+        }
+        else {
+            this._provider.setSize('auto', 'auto');
+        }
+    };
+    ESLMedia.prototype._onRefresh = function (e) {
+        var target = e.target;
+        if (target instanceof HTMLElement && target.contains(this)) {
+            this._onResize();
+        }
+    };
+    ESLMedia.prototype._onRegistryStateChange = function (name) {
+        if (name === this.mediaType) {
+            this.reinitInstance();
         }
     };
     /** Update ready class state */
@@ -4989,11 +5002,6 @@ var ESLMedia = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    ESLMedia.prototype._onRegistryStateChange = function (name) {
-        if (name === this.mediaType) {
-            this.reinitInstance();
-        }
-    };
     ESLMedia.prototype.attachViewportConstraint = function () {
         if (this.playInViewport) {
             (0,_esl_media_iobserver__WEBPACK_IMPORTED_MODULE_9__.getIObserver)().observe(this);
@@ -5082,6 +5090,9 @@ var ESLMedia = /** @class */ (function (_super) {
     __decorate([
         (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_12__.boolAttr)({ readonly: true })
     ], ESLMedia.prototype, "error", void 0);
+    __decorate([
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_13__.bind
+    ], ESLMedia.prototype, "_onRefresh", null);
     __decorate([
         _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_13__.bind
     ], ESLMedia.prototype, "_onRegistryStateChange", null);
