@@ -11097,6 +11097,7 @@ esl-carousel-autoplay-plugin {
 }
 .hd-dropdown {
   position: relative;
+  margin-right: 30px;
 }
 .hd-dropdown .hd-dropdown-trigger {
   display: block;
@@ -11108,12 +11109,13 @@ esl-carousel-autoplay-plugin {
   color: white;
   text-decoration: none;
 }
-.hd-dropdown .hd-dropdown-arrow-icon {
+.hd-dropdown .hd-dropdown-arrow::after {
   display: inline-block;
-  min-height: 6px;
-  min-width: 10px;
+  content: '';
+  margin: 2px 7px 4px;
   height: 6px;
   width: 10px;
+  vertical-align: middle;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9' xml:space='preserve'%3E%3Cpolyline points='0,0 8,8 16,0' fill='none' stroke='%23FFFFFF' stroke-width='2'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
 }
