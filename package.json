@@ -65,7 +65,7 @@
     "@types/youtube": "0.0.42"
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.0.1",
+    "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.0.1",
     "@exadel/server-sketch": "git+https://github.com/exadel-inc/server-sketch.git",
     "@juggle/resize-observer": "^3.3.0",
