@@ -28,4 +28,6 @@ npm-debug.log
 /docs/*.html
 /docs/assets
 /docs/bundles
-/docs/components
+/docs/basic
+/docs/forms
+/docs/draft

@@ -42,8 +42,13 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
    - Make sure you have all needed polyfills to support browsers from your browser-support list. 
    See [Browser support & Polyfills](#browser-support--polyfills) for details.
    - Use bundler to build your project. Currently, only ESL modules are available for consumption.
-  
-1. Import Components/Modules you need.
+
+1. Install esl dependency
+```
+npm i @eadel/esl --sav
+```
+
+2. Import Components/Modules you need.
 
     ```javascript
     import '@exadel/esl/modules/esl-component/core';
@@ -58,7 +63,7 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
       - 'ready to use' `core.css` or `core.less`
       - mixin version `core.mixin.less` for custom tagname definition
 
-2. [Optional] Setup environment configuration, e.g. custom screen breakpoints.
+3. [Optional] Setup environment configuration, e.g. custom screen breakpoints.
 
     ```javascript
     import {ESLMediaBreakpoints} from '@exadel/esl/modules/esl-media-query/core';
@@ -67,7 +72,7 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
     ESLMediaBreakpoints.addCustomBreakpoint('XS', 1, 800); 
     ```
 
-3.  Register components via `register` static method call
+4.  Register components via `register` static method call
     ```javascript
     ESLImage.register();
     ```
@@ -112,7 +117,6 @@ Also, ESL has built-in polyfills for some of DOM and ES6 features. They are avai
 ## Roadmap
 
 - [UI Playground](https://github.com/exadel-inc/ui-playground) (_will be available soon_) demo server
-- npm release
 - More helpers and sugar of ESLBaseElement (event listener helpers and decorators)  
 - Extension of esl-utils
 - Dynamic Footnotes component

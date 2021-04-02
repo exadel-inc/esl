@@ -47,3 +47,6 @@ docs
 
 # Sources
 src
+
+# CD
+.husky
