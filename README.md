@@ -1,6 +1,6 @@
 # Exadel Smart Library &#9881;
 
-![npm](https://img.shields.io/npm/v/exadel/esl)
+![npm](https://img.shields.io/npm/v/@exadel/esl)
 ![version](https://img.shields.io/github/package-json/v/exadel-inc/esl)
 ![dependencies](https://img.shields.io/badge/dependencies-free-green)
 ![tests](https://github.com/exadel-inc/esl/workflows/tests/badge.svg?branch=main)
@@ -22,8 +22,8 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
 - ##### [ESL Trigger](src/modules/esl-trigger/README.md)
 - ##### [ESL Panel and Panel Group](src/modules/esl-panel/README.md)
 - ##### [ESL Tab and Tabs](src/modules/esl-tab/README.md)
-- ##### [ESL Popup](src/modules/esl-popup/README.md)
 - ##### [ESL Alert](src/modules/esl-alert/README.md)
+- ##### [ESL Popup](src/modules/esl-popup/README.md) (beta)
 
 ### Form Components
 - ##### [ESL Select](src/modules/esl-forms/esl-select/README.md)
