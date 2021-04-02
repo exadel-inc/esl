@@ -32,9 +32,32 @@
   ],
   "types": "modules/all.d.ts",
   "contributors": [
-    "Alexey Stsefanovich <astsefanovich@exadel.com>",
-    "Julia Murashko <ymurashka@exadel.com>",
-    "Yuliya Adamskaya <yadamska@exadel.com>"
+    {
+      "name": "ala-n",
+      "email": "astsefanovich@exadel.com"
+    },
+    {
+      "name": "ymurashka",
+      "email": "ymurashka@exadel.com"
+    },
+    {
+      "name": "yadamska",
+      "email": "yadamska@exadel.com"
+    }
+  ],
+  "maintainers": [
+    {
+      "name": "ala-n",
+      "email": "astsefanovich@exadel.com"
+    },
+    {
+      "name": "ymurashka",
+      "email": "ymurashka@exadel.com"
+    },
+    {
+      "name": "yadamska",
+      "email": "yadamska@exadel.com"
+    }
   ],
   "browserslist": [
     "last 3 versions",
