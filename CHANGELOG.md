@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/exadel-inc/esl/compare/v2.2.0...v2.2.1) (2021-04-02)
+
+
+### Bug Fixes
+
+* remove allow-same-version ([0016ada](https://github.com/exadel-inc/esl/commit/0016ada0a694bbc75cbaba23deb61037f9d1737e))
+
 # [2.2.0](https://github.com/exadel-inc/esl/compare/v2.1.0...v2.2.0) (2021-04-02)
 
 
