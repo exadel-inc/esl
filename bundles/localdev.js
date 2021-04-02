@@ -7026,14 +7026,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ESLTabs": function() { return /* binding */ ESLTabs; }
 /* harmony export */ });
-/* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/bool-attr.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
-/* harmony import */ var _esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-utils/async/raf */ "../src/modules/esl-utils/async/raf.ts");
-/* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
-/* harmony import */ var _esl_tab__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./esl-tab */ "../src/modules/esl-tab/core/esl-tab.ts");
-/* harmony import */ var _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/dom/rtl */ "../src/modules/esl-utils/dom/rtl.ts");
+/* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/bool-attr.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
+/* harmony import */ var _esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/async/raf */ "../src/modules/esl-utils/async/raf.ts");
+/* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
+/* harmony import */ var _esl_tab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./esl-tab */ "../src/modules/esl-tab/core/esl-tab.ts");
+/* harmony import */ var _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/dom/rtl */ "../src/modules/esl-utils/dom/rtl.ts");
+/* harmony import */ var _esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-utils/async/debounce */ "../src/modules/esl-utils/async/debounce.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7061,6 +7062,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 /**
  * ESlTabs component
  * @author Julia Murashko
@@ -7073,10 +7075,10 @@ var ESLTabs = /** @class */ (function (_super) {
     __extends(ESLTabs, _super);
     function ESLTabs() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this._deferredUpdateArrows = (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_0__.rafDecorator)(_this.updateArrows.bind(_this));
-        _this._deferredFitToViewport = (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_0__.rafDecorator)(_this.fitToViewport.bind(_this));
+        _this._deferredUpdateArrows = (0,_esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_0__.debounce)(_this.updateArrows.bind(_this), 50);
+        _this._deferredFitToViewport = (0,_esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_0__.debounce)(_this.fitToViewport.bind(_this), 50);
         // TODO: is the raf decorator needed?
-        _this._onResize = (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_0__.rafDecorator)(function () {
+        _this._onResize = (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_1__.rafDecorator)(function () {
             _this._deferredFitToViewport(_this.$current, 'auto');
         });
         return _this;
@@ -7113,7 +7115,7 @@ var ESLTabs = /** @class */ (function (_super) {
     Object.defineProperty(ESLTabs.prototype, "$tabs", {
         /** Collection of inner {@link ESLTab} items */
         get: function () {
-            var els = this.querySelectorAll(_esl_tab__WEBPACK_IMPORTED_MODULE_1__.ESLTab.is);
+            var els = this.querySelectorAll(_esl_tab__WEBPACK_IMPORTED_MODULE_2__.ESLTab.is);
             return els ? Array.from(els) : [];
         },
         enumerable: false,
@@ -7142,7 +7144,7 @@ var ESLTabs = /** @class */ (function (_super) {
         if (!$scrollableTarget)
             return;
         var left = $scrollableTarget.offsetWidth;
-        left = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_2__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_2__.RTLUtils.scrollType !== 'reverse' ? -left : left;
+        left = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.scrollType !== 'reverse' ? -left : left;
         left = direction === 'left' ? -left : left;
         $scrollableTarget.scrollBy({ left: left, behavior: behavior });
     };
@@ -7158,12 +7160,12 @@ var ESLTabs = /** @class */ (function (_super) {
         // item is out of area from the right side
         // else item out is of area from the left side
         if (itemRect.right > areaRect.right) {
-            shift = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_2__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_2__.RTLUtils.scrollType === 'reverse' ?
+            shift = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.scrollType === 'reverse' ?
                 Math.floor(areaRect.right - itemRect.right) :
                 Math.ceil(itemRect.right - areaRect.right);
         }
         else if (itemRect.left < areaRect.left) {
-            shift = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_2__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_2__.RTLUtils.scrollType === 'reverse' ?
+            shift = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.scrollType === 'reverse' ?
                 Math.ceil(areaRect.left - itemRect.left) :
                 Math.floor(itemRect.left - areaRect.left);
         }
@@ -7178,7 +7180,7 @@ var ESLTabs = /** @class */ (function (_super) {
         if (!$scrollableTarget)
             return;
         var hasScroll = $scrollableTarget.scrollWidth > this.clientWidth;
-        var swapSides = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_2__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_2__.RTLUtils.scrollType === 'default';
+        var swapSides = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.scrollType === 'default';
         var scrollStart = Math.abs($scrollableTarget.scrollLeft) > 1;
         var scrollEnd = Math.abs($scrollableTarget.scrollLeft) + $scrollableTarget.clientWidth + 1 < $scrollableTarget.scrollWidth;
         var $rightArrow = this.querySelector('[data-tab-direction="right"]');
@@ -7200,7 +7202,7 @@ var ESLTabs = /** @class */ (function (_super) {
     };
     ESLTabs.prototype._onFocus = function (e) {
         var target = e.target;
-        if (target instanceof _esl_tab__WEBPACK_IMPORTED_MODULE_1__.ESLTab)
+        if (target instanceof _esl_tab__WEBPACK_IMPORTED_MODULE_2__.ESLTab)
             this._deferredFitToViewport(target);
     };
     ESLTabs.prototype._onScroll = function () {
@@ -7208,28 +7210,28 @@ var ESLTabs = /** @class */ (function (_super) {
     };
     ESLTabs.is = 'esl-tabs';
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_3__.boolAttr)()
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.boolAttr)()
     ], ESLTabs.prototype, "scrollable", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.attr)({ defaultValue: '.esl-tab-container' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ defaultValue: '.esl-tab-container' })
     ], ESLTabs.prototype, "scrollableTarget", void 0);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__.bind
     ], ESLTabs.prototype, "_onTriggerStateChange", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__.bind
     ], ESLTabs.prototype, "_onClick", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__.bind
     ], ESLTabs.prototype, "_onFocus", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__.bind
     ], ESLTabs.prototype, "_onScroll", null);
     ESLTabs = __decorate([
-        (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_6__.ExportNs)('Tabs')
+        (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_7__.ExportNs)('Tabs')
     ], ESLTabs);
     return ESLTabs;
-}(_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.ESLBaseElement));
+}(_esl_base_element_core__WEBPACK_IMPORTED_MODULE_8__.ESLBaseElement));
 
 
 
