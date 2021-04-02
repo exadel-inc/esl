@@ -2,11 +2,14 @@
   "name": "@exadel/esl",
   "description": "Exadel Smart Library (ESL) - is the lightweight custom elements library that provide a set of super-flexible components",
   "keywords": [
-    "custom elements",
-    "typescript",
-    "component library",
+    "esl",
     "lightweight",
-    "flexible"
+    "typescript",
+    "flexible",
+    "web-components",
+    "custom elements",
+    "custom elements ts",
+    "component library"
   ],
   "version": "2.0.0",
   "private": true,

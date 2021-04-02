@@ -1,7 +1,7 @@
 ---
-name: Utility Bug report
+name: "\U0001F41B Utility Bug report"
 about: Create a report to help us improve
-title: "[Bug] (esl-utils):  ..."
+title: "[\U0001F41B in esl-utils]:  ..."
 labels: waits triage
 assignees: ''
 
