@@ -1,3 +1,17 @@
+# [2.1.0](https://github.com/exadel-inc/esl/compare/v2.0.0...v2.1.0) (2021-04-02)
+
+
+### Bug Fixes
+
+* debounce fit to viewport ([0413596](https://github.com/exadel-inc/esl/commit/04135969988fcc5e0ff560c45f253a40279eb2cc))
+* dependencies vulnerability cleanup ([7823287](https://github.com/exadel-inc/esl/commit/782328704aee31b31163f35f443ae3a8696eb21c))
+* dependencies vulnerability cleanup 2 ([d335aaa](https://github.com/exadel-inc/esl/commit/d335aaac3525c0004347df21440c2add5a035753))
+
+
+### Features
+
+* ability to refresh esl-media via esl:refresh ([2419237](https://github.com/exadel-inc/esl/commit/2419237dd3ea4dfd62b9ad08fd86218aa53c92df))
+
 # [2.0.0](https://github.com/exadel-inc/esl/compare/v1.1.0...v2.0.0) (2021-03-29)
 
 
