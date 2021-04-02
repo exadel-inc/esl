@@ -1,6 +1,10 @@
 {
+  "private": false,
   "name": "@exadel/esl",
+  "version": "2.0.0",
   "description": "Exadel Smart Library (ESL) - is the lightweight custom elements library that provide a set of super-flexible components",
+  "license": "MIT",
+  "homepage": "https://exadel-inc.github.io/esl/",
   "keywords": [
     "esl",
     "lightweight",
@@ -11,9 +15,6 @@
     "custom elements ts",
     "component library"
   ],
-  "version": "2.0.0",
-  "private": true,
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/exadel-inc/esl.git"
