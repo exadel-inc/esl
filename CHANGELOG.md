@@ -1,6 +1,19 @@
 # [2.2.0](https://github.com/exadel-inc/esl/compare/v2.1.0...v2.2.0) (2021-04-02)
 
 
+### Bug Fixes
+
+* allow-same-version temporary set to true ([75eb9a0](https://github.com/exadel-inc/esl/commit/75eb9a052749ff394c275e8e091fff54a28158b9))
+* npm members ([0b9fbae](https://github.com/exadel-inc/esl/commit/0b9fbae649c5a8cee8434db08031763bf278575f))
+
+
+### Features
+
+* npm release-ready version ([30c8624](https://github.com/exadel-inc/esl/commit/30c8624fdfc37a14fd35eafd8678633844813846))
+
+# [2.2.0](https://github.com/exadel-inc/esl/compare/v2.1.0...v2.2.0) (2021-04-02)
+
+
 ### Features
 
 * npm release-ready version ([30c8624](https://github.com/exadel-inc/esl/commit/30c8624fdfc37a14fd35eafd8678633844813846))
