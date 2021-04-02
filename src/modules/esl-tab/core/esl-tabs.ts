@@ -4,6 +4,7 @@ import {rafDecorator} from '../../esl-utils/async/raf';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ESLTab} from './esl-tab';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
+import {debounce} from '../../esl-utils/async/debounce';
 
 /**
  * ESlTabs component
@@ -131,8 +132,8 @@ export class ESLTabs extends ESLBaseElement {
     $rightArrow && $rightArrow.toggleAttribute('disabled', !(swapSides ? scrollStart : scrollEnd));
   }
 
-  protected _deferredUpdateArrows = rafDecorator(this.updateArrows.bind(this));
-  protected _deferredFitToViewport = rafDecorator(this.fitToViewport.bind(this));
+  protected _deferredUpdateArrows = debounce(this.updateArrows.bind(this), 50);
+  protected _deferredFitToViewport = debounce(this.fitToViewport.bind(this), 50);
 
   @bind
   protected _onTriggerStateChange() {
