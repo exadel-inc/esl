@@ -80,6 +80,7 @@
     "lint": "concurrently \"npm run lint:js\" \"npm run lint:css\" && node build/catlog.js \"Linting passed\"",
     "lint:js": "eslint src/**/*.ts",
     "lint:css": "stylelint src/**/*.less",
+    "lint:editorcfg": "editorconfig-checker -disable-indent-size",
     "prepare": "husky install && npm run build",
     "preversion": "npm test"
   },
@@ -111,6 +112,7 @@
     "concurrently": "^6.0.0",
     "cpy-cli": "^3.1.1",
     "del-cli": "^3.0.1",
+    "editorconfig-checker": "^4.0.2",
     "eslint": "^7.23.0",
     "eslint-plugin-import": "^2.22.1",
     "foreach-cli": "^1.8.1",
