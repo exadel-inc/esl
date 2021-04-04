@@ -1,7 +1,7 @@
 import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPStateModel} from '../../utils/state-model/state-model';
 import {UIPSettings} from '../settings';
-import {EventUtils} from "@exadel/esl/modules/esl-utils/dom/events";
+import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 
 export abstract class UIPSetting extends ESLBaseElement {
   @attr() attribute: string;
