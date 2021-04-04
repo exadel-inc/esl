@@ -9,14 +9,10 @@ export class UIPBoolSetting extends UIPSetting {
   @attr({defaultValue: null}) value: string;
   @attr({defaultValue: 'replace'}) mode: 'replace' | 'append';
 
-  protected connectedCallback() {
-    super.connectedCallback();
-
+  protected initField() {
     this.$field = document.createElement('input');
     this.$field.type = 'checkbox';
     this.$field.name = this.label || '';
-
-    this.render();
   }
 
   applyTo(model: UIPStateModel) {

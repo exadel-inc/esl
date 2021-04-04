@@ -1,6 +1,7 @@
 import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPStateModel} from '../../utils/state-model/state-model';
 import {UIPSettings} from '../settings';
+import {EventUtils} from "@exadel/esl/modules/esl-utils/dom/events";
 
 export abstract class UIPSetting extends ESLBaseElement {
   @attr() attribute: string;
@@ -17,6 +18,13 @@ export abstract class UIPSetting extends ESLBaseElement {
     if (settings && target) {
       this.target = target;
     }
+
+    this.initField();
+    this.render();
+    this.$field.addEventListener('change', (e: Event) => {
+      e.preventDefault();
+      EventUtils.dispatch(this, 'valueChange');
+    });
   }
 
   public applyTo(model: UIPStateModel): void {
@@ -38,5 +46,6 @@ export abstract class UIPSetting extends ESLBaseElement {
   protected abstract isValid(): boolean;
   protected abstract setInconsistency(): void;
   protected abstract setValue(value: string | null): void;
+  protected abstract initField(): void;
   protected abstract render(): void;
 }

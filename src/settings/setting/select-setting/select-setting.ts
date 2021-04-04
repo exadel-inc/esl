@@ -16,9 +16,7 @@ export class UIPSelectSetting extends UIPSetting {
     return this.$field.options.map(opt => opt.value);
   }
 
-  protected connectedCallback() {
-    super.connectedCallback();
-
+  protected initField() {
     this.$field = new ESLSelect();
     this.$field.name = this.label || '';
 
@@ -27,7 +25,6 @@ export class UIPSelectSetting extends UIPSetting {
     select.multiple = this.multiple;
 
     this.$field.$select = select;
-    this.render();
   }
 
   applyTo(model: UIPStateModel) {
