@@ -7,6 +7,7 @@ import ArrayUtils from '../../../utils/array-utils/array-utils';
 export class UIPSelectSetting extends UIPSetting {
   public static is = 'uip-select-setting';
   protected $field: ESLSelect;
+  protected inconsistentMessage = 'Inconsistency value';
 
   @attr({defaultValue: 'replace'}) mode: 'replace' | 'append';
   @boolAttr() multiple: boolean;
@@ -82,14 +83,22 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   protected setValue(value: string): void {
+    this.reset();
     value.split(' ').forEach(opt => this.$field.setSelected(opt, true));
   }
 
   protected setInconsistency(): void {
+    this.reset();
+    this.$field.$select.add(new Option(this.inconsistentMessage, this.inconsistentMessage));
+    this.$field.setSelected(this.inconsistentMessage, true);
+  }
+
+  protected reset(): void {
+    this.values.forEach(opt => this.$field.setSelected(opt, false));
+    this.$field.$select.remove(this.values.indexOf(this.inconsistentMessage));
   }
 
   protected isValid(): boolean {
     return true;
   }
 }
-
