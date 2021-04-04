@@ -23,4 +23,16 @@ export class UIPStateModel {
 
     this.html = root.innerHTML;
   }
+
+  public transformAttribute(target: string, name: string, transform: (current: string | null) => string | null) {
+    const root = this.root;
+    const values = this.getAttribute(target, name);
+
+   TraversingQuery.all(target, root).forEach((el, index) => {
+     const transformed = transform(values[index]);
+     transformed ? el.setAttribute(name, transformed) : el.removeAttribute(name);
+   });
+
+   this.html = root.innerHTML;
+  }
 }
