@@ -26,7 +26,7 @@ export const exportNs = (name: string, module: any) => {
 };
 
 /**
- * Decorator to delare function or class in a global ns
+ * Decorator to declare function or class in a global ns
  * @param {string} name - key path to declare in ESL global ns
  * NOTE: path parts should be separated by dots
  * @example @Export('Package.Component')

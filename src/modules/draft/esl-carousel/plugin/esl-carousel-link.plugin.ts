@@ -50,7 +50,7 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
     $target.goTo($source.firstIndex, e.detail.direction);
   }
 
-  private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (this.carousel && oldVal !== newVal) {
       this.unbind();
       if (attrName === 'to') {

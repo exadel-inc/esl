@@ -52,4 +52,3 @@ describe('esl breakpoints test', () => {
     expect(ESLMediaBreakpoints.apply(query)).toBe(queryString);
   })
 });
-

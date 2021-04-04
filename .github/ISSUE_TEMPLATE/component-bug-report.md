@@ -15,7 +15,7 @@ Steps to reproduce the behavior:
 1. Setup environment
 REPL or Repo link if applicable:
 ```js
-var your => (code) => here;
+var your = (code) => here;
 ```
 2. Open component
 3. Do the following

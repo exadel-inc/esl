@@ -45,9 +45,9 @@ If one of `esl-alert`s catches the activation event it will prevent its propagat
 ```javascript
 // my-component
 this.dispatchEvent(new CustomEvent(`esl:alert:show`, {
-    detail: {
-       text: 'Hello World',
-       cls: 'alert alert-info'
-    }
+  detail: {
+    text: 'Hello World',
+    cls: 'alert alert-info'
+  }
 }));
 ```
