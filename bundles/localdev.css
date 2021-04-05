@@ -10222,6 +10222,7 @@ a.text-dark:hover, a.text-dark:focus {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+
 html.esl-disable-scroll body {
   max-height: 100vh !important;
   overflow: hidden !important;
@@ -10704,8 +10705,8 @@ esl-alert {
   bottom: 20px;
   padding: 20px;
   width: 30%;
-  background-color: #008000;
   color: #fff;
+  background-color: #080;
 }
 body > esl-alert {
   position: fixed;
