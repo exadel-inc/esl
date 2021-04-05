@@ -40,4 +40,3 @@ describe('ESLMedia: MediaGroupRestrictionManager tests', () => {
     expect(pauseSpy).not.toBeCalled();
   });
 });
-

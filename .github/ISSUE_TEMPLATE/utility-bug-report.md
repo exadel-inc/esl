@@ -14,7 +14,7 @@ A clear and concise description of what the bug is.
 - REPL or Repo link if applicable:
 
 ```js
-var your => (code) => here;
+var your = (code) => here;
 ```
 
 **Expected behavior/code**

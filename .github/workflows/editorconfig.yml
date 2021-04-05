@@ -1,4 +1,4 @@
-name: Test and Lint
+name: EditorConfig Lint
 
 on:
   push:
@@ -11,7 +11,7 @@ env:
   node-version: 14.x
 
 jobs:
-  validate:
+  editorconfig:
 
     runs-on: ubuntu-latest
 
@@ -23,9 +23,5 @@ jobs:
           node-version: ${{ env.node-version }}
       - name: Install NPM Dependencies
         run: npm ci
-      - name: Run Linting JS
-        run: npm run lint:js
-      - name: Run Linting CSS
-        run: npm run lint:css
-      - name: Run Tests
-        run: npm run test:unit
+      - name: Run EditorConfig Check
+        run: npm run lint:editorcfg

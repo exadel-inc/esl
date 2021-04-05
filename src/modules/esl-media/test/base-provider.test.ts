@@ -37,4 +37,3 @@ describe('ESLMedia: BaseProvider tests', () => {
     expect(instance.findByName('test-provider-2')).toBe(TestProvider);
   });
 });
-

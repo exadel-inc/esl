@@ -1,9 +1,8 @@
 const {join} = require('path');
-const config = require('@exadel/server-sketch/config/instance');
 
 module.exports = () => ({
-  host: config.hostPath || '',
-  local: !config.publicMode,
-  public: !!config.publicMode,
-  resolve: (url) => join(config.hostPath || '', url)
+  host: SERVER_CONFIG.hostPath || '',
+  local: !SERVER_CONFIG.publicMode,
+  public: !!SERVER_CONFIG.publicMode,
+  resolve: (url) => join(SERVER_CONFIG.hostPath || '', url)
 });

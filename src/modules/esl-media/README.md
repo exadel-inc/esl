@@ -88,10 +88,10 @@ ESlMedia - custom element, that provides an ability to add and configure media (
 ### Examples:
 ```html
 <esl-media
-     media-type="youtube"
-     media-id="##MEDIAID##"
-     title="Video Title"     
-     [ disabled ]    
-     [ group="mediaGroup" ]
+    media-type="youtube"
+    media-id="##MEDIAID##"
+    title="Video Title"     
+    [ disabled ]    
+    [ group="mediaGroup" ]
 ></esl-media>
 ```
