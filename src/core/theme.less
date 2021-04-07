@@ -2,12 +2,12 @@
 
 uip-root {
   &.light-theme {
-    .option-item {
-      &[theme='light'] {
+    .option-label {
+      &[for='light-theme'] {
         font-weight: @selected-mode-weight;
       }
 
-      &[theme='dark'] {
+      &[for='dark-theme'] {
         font-weight: @not-selected-mode-weight;
       }
 
@@ -48,12 +48,12 @@ uip-root {
   &.dark-theme {
     background-color: @dark-theme;
 
-    .option-item {
-      &[theme='dark'] {
+    .option-label {
+      &[for='dark-theme'] {
         font-weight: @selected-mode-weight;
       }
 
-      &[theme='light'] {
+      &[for='light-theme'] {
         font-weight: @not-selected-mode-weight;
       }
 

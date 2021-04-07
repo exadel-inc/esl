@@ -9,12 +9,12 @@ uip-root {
     grid-template-columns: 20% 80%;
     grid-template-rows: 1fr 550px 350px;
 
-    .option-item {
-      &[mode='vertical'] {
+    .option-label {
+      &[for='vertical-mode'] {
         font-weight: @selected-mode-weight;
       }
 
-      &[mode='horizontal'] {
+      &[for='horizontal-mode'] {
         font-weight: @not-selected-mode-weight;
       }
     }
@@ -66,12 +66,12 @@ uip-root {
     grid-template-columns: 100%;
     grid-template-rows: 1fr 1fr 550px 350px;
 
-    .option-item {
-      &[mode='horizontal'] {
+    .option-label {
+      &[for='horizontal-mode'] {
         font-weight: @selected-mode-weight;
       }
 
-      &[mode='vertical'] {
+      &[for='vertical-mode'] {
         font-weight: @not-selected-mode-weight;
       }
     }
