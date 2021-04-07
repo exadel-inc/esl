@@ -5,6 +5,7 @@ import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';
 
 import type {ESLSelect} from './esl-select';
+import {override} from '../../../esl-base-element/decorators/override';
 
 /**
  * ESLSelectDropdown component
@@ -28,13 +29,10 @@ export class ESLSelectDropdown extends ESLToggleable {
   protected _disposeTimeout: number;
   protected _deferredUpdatePosition = rafDecorator(() => this.updatePosition());
 
-  // TODO: update defaults + override decorator
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  get closeOnEsc() { return true; }
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  get closeOnOutsideAction() { return true; }
+  @override()
+  public closeOnEsc = true;
+  @override()
+  public closeOnOutsideAction = true;
 
   constructor() {
     super();
