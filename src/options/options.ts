@@ -11,8 +11,7 @@ export class UIPOptions extends ESLBaseElement {
   @attr({defaultValue: 'light'}) public theme: string;
 
   @attr({defaultValue: ''}) public target: string;
-  @attr({readonly: true}) public selectedMode: string;
-  @attr({readonly: true}) public selectedTheme: string;
+  @attr({defaultValue: 'Options:'}) public label: string;
 
   protected _$root: UIPRoot;
 
@@ -52,7 +51,7 @@ export class UIPOptions extends ESLBaseElement {
   }
 
   protected render() {
-    this.innerHTML = '<span class="section-name">Options:</span>';
+    if (this.label) this.innerHTML = `<span class="section-name">${this.label}</span>`;
     if (this.mode) this.renderMode();
     if (this.theme) this.renderTheme();
   }
