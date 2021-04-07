@@ -1,7 +1,6 @@
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {UIPRoot} from '../core/root';
-import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {attr} from '@exadel/esl/modules/esl-base-element/decorators/attr';
+import {ESLBaseElement, attr} from '@exadel/esl/modules/esl-base-element/core';
 
 export class UIPPreview extends ESLBaseElement {
   static is = 'uip-preview';

@@ -1,6 +1,6 @@
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
-import {attr} from '@exadel/esl/modules/esl-base-element/decorators/attr';
+import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPSetting} from '../setting';
 
 export class UIPClassSetting extends UIPSetting {
