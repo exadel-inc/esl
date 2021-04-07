@@ -43,7 +43,7 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
    See [Browser support & Polyfills](#browser-support--polyfills) for details.
    - Use bundler to build your project. Currently, only ESL modules are available for consumption.
 
-1. Install esl dependency
+1. Install [esl npm dependency](https://www.npmjs.com/package/@exadel/esl)
     ```
     npm i @exadel/esl --sav
     ```
