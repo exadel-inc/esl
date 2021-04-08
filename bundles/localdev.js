@@ -2669,8 +2669,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ESLSelectDropdown": function() { return /* binding */ ESLSelectDropdown; }
 /* harmony export */ });
-/* harmony import */ var _esl_toggleable_core_esl_toggleable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../esl-toggleable/core/esl-toggleable */ "../src/modules/esl-toggleable/core/esl-toggleable.ts");
-/* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
+/* harmony import */ var _esl_toggleable_core_esl_toggleable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../esl-toggleable/core/esl-toggleable */ "../src/modules/esl-toggleable/core/esl-toggleable.ts");
+/* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
+/* harmony import */ var _esl_utils_decorators_override__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../esl-utils/decorators/override */ "../src/modules/esl-utils/decorators/override.ts");
 /* harmony import */ var _esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../esl-utils/dom/keys */ "../src/modules/esl-utils/dom/keys.ts");
 /* harmony import */ var _esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../esl-utils/async/raf */ "../src/modules/esl-utils/async/raf.ts");
 /* harmony import */ var _esl_select_list_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-select-list/core */ "../src/modules/esl-forms/esl-select-list/core/esl-select-list.ts");
@@ -2700,6 +2701,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 /**
  * ESLSelectDropdown component
  * @author Alexey Stsefanovich (ala'n)
@@ -2712,6 +2714,8 @@ var ESLSelectDropdown = /** @class */ (function (_super) {
     function ESLSelectDropdown() {
         var _this = _super.call(this) || this;
         _this._deferredUpdatePosition = (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_0__.rafDecorator)(function () { return _this.updatePosition(); });
+        _this.closeOnEsc = true;
+        _this.closeOnOutsideAction = true;
         _this.$list = document.createElement(_esl_select_list_core__WEBPACK_IMPORTED_MODULE_1__.ESLSelectList.is);
         return _this;
     }
@@ -2719,21 +2723,6 @@ var ESLSelectDropdown = /** @class */ (function (_super) {
         _esl_select_list_core__WEBPACK_IMPORTED_MODULE_1__.ESLSelectList.register();
         _super.register.call(this);
     };
-    Object.defineProperty(ESLSelectDropdown.prototype, "closeOnEsc", {
-        // TODO: update defaults + override decorator
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        get: function () { return true; },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ESLSelectDropdown.prototype, "closeOnOutsideAction", {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        get: function () { return true; },
-        enumerable: false,
-        configurable: true
-    });
     ESLSelectDropdown.prototype.setInitialState = function () { };
     ESLSelectDropdown.prototype.connectedCallback = function () {
         _super.prototype.connectedCallback.call(this);
@@ -2798,13 +2787,19 @@ var ESLSelectDropdown = /** @class */ (function (_super) {
     };
     ESLSelectDropdown.is = 'esl-select-dropdown';
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_3__.bind
+        (0,_esl_utils_decorators_override__WEBPACK_IMPORTED_MODULE_3__.override)()
+    ], ESLSelectDropdown.prototype, "closeOnEsc", void 0);
+    __decorate([
+        (0,_esl_utils_decorators_override__WEBPACK_IMPORTED_MODULE_3__.override)()
+    ], ESLSelectDropdown.prototype, "closeOnOutsideAction", void 0);
+    __decorate([
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_4__.bind
     ], ESLSelectDropdown.prototype, "_onKeyboardEvent", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_3__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_4__.bind
     ], ESLSelectDropdown.prototype, "updatePosition", null);
     return ESLSelectDropdown;
-}(_esl_toggleable_core_esl_toggleable__WEBPACK_IMPORTED_MODULE_4__.ESLToggleable));
+}(_esl_toggleable_core_esl_toggleable__WEBPACK_IMPORTED_MODULE_5__.ESLToggleable));
 
 
 
@@ -8690,6 +8685,41 @@ memoize.clear = function (target, property) {
         clearFn = desc.get.clear;
     (typeof clearFn === 'function') && clearFn();
 };
+
+
+/***/ }),
+
+/***/ "../src/modules/esl-utils/decorators/override.ts":
+/*!*******************************************************!*\
+  !*** ../src/modules/esl-utils/decorators/override.ts ***!
+  \*******************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "override": function() { return /* binding */ override; }
+/* harmony export */ });
+/**
+ * `@override` is auxiliary decorator to override a field that is decorated in the parent class.
+ * The override _value_ is always defined on the object prototype level.
+ *
+ * You can also use an @override decorator in combination with ECMA Script class property definition:
+ *  `@override public field: any = initial value;`
+ *
+ * The class property initial value is a part of object creation, so it goes to the object itself,
+ * while the @override value is defined on the prototype level.
+ *
+ *  @param [value] - initial property value
+ */
+function override(value) {
+    if (value === void 0) { value = undefined; }
+    return function (obj, name) {
+        if (Object.hasOwnProperty.call(obj, name)) {
+            throw new TypeError('Can\'t override own property');
+        }
+        Object.defineProperty(obj, name, { value: value, enumerable: true, writable: true });
+    };
+}
 
 
 /***/ }),
