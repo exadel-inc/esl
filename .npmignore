@@ -26,6 +26,7 @@ jest.config.js
 pages
 
 # Linter & Scanners
+sonar.properties
 .report
 .scannerwork
 .editorconfig
@@ -34,7 +35,6 @@ pages
 .eslintignore
 .stylelintrc.json
 .commitlintrc.json
-sonar-project.properties
 
 # VCS
 .gitignore
