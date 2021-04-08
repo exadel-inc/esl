@@ -14,7 +14,7 @@ export * from './abstract/observable';
 export * from './decorators/bind';
 export * from './decorators/memoize';
 export * from './decorators/override';
-export * from './decorators/constant';
+export * from './decorators/readonly';
 
 // Function
 export * from './async/promise';

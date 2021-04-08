@@ -1,6 +1,6 @@
 import '../../../../polyfills/es5-target-shim';
 import { ESLBaseElement, attr } from '../../../esl-base-element/core';
-import { constant } from '../constant';
+import { readonly } from '../readonly';
 
 describe('Decorator: constant', () => {
   class TestBaseElement extends ESLBaseElement {
@@ -10,9 +10,9 @@ describe('Decorator: constant', () => {
     public readonlyField: string;
   }
 
-  test('Silent constant is not writeable and not throws error', () => {
+  test('Silent readonly field is not writeable and not throws error', () => {
     class TestElement {
-      @constant('test', true)
+      @readonly('test', true)
       public field: string;
     }
 
@@ -21,9 +21,9 @@ describe('Decorator: constant', () => {
     expect(el.field).toBe('test');
   });
 
-  test('Non silent constant is not writeable and throws error', () => {
+  test('Non silent readonly field is not writeable and throws error', () => {
     class TestElement {
-      @constant('test')
+      @readonly('test')
       public field: string;
     }
 
@@ -32,9 +32,9 @@ describe('Decorator: constant', () => {
     expect(el.field).toBe('test');
   });
 
-  test('Non silent constant is not throwing error when setting original value', () => {
+  test('Non silent readonly field is not throwing error when setting original value', () => {
     class TestElement {
-      @constant('test')
+      @readonly('test')
       public field: string;
     }
 
@@ -46,7 +46,7 @@ describe('Decorator: constant', () => {
   test('Overriding own property produce error', () => {
     expect(() => {
       class TestElement extends ESLBaseElement {
-        @constant('')
+        @readonly('')
         @attr()
         public field: string;
       }
@@ -56,10 +56,10 @@ describe('Decorator: constant', () => {
 
   describe('Overriding @attr', () => {
     class TestElement extends TestBaseElement {
-      @constant('test', true)
+      @readonly('test', true)
       public field: string;
 
-      @constant('test')
+      @readonly('test')
       public readonlyField: string;
     }
     customElements.define('attr-constant-1', TestElement);
@@ -74,7 +74,7 @@ describe('Decorator: constant', () => {
       expect(el.readonlyField).toBe('test');
       expect(el.getAttribute('readonly-field')).toBe(null);
     });
-    test('overwritten property is not writtable', () => {
+    test('overwritten property is not writable', () => {
       const el = new TestElement();
       el.field = '123';
       expect(el.field).toBe('test');

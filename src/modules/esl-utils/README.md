@@ -42,7 +42,7 @@ Even if you use the whole utils module, it is still tiny.
 
     - #### [@override](./decorators/override.ts) - TS decorator to define a writable field on the prototype level.
     
-    - #### [@constant](./decorators/constant.ts) - TS decorator to create o readonly field on the prototype level.
+    - #### [@constant](./decorators/readonly.ts) - TS decorator to create o readonly field on the prototype level.
 
 - ### DOM Helpers
   
