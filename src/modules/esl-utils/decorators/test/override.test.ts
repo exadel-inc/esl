@@ -1,5 +1,6 @@
-import '../../../polyfills/es5-target-shim';
-import {ESLBaseElement, attr, override, boolAttr, jsonAttr} from '../core';
+import '../../../../polyfills/es5-target-shim';
+import {ESLBaseElement, attr, boolAttr, jsonAttr} from '../../../esl-base-element/core';
+import {override} from '../override';
 
 describe('Decorator: override', () => {
   class TestBaseElement extends ESLBaseElement {
@@ -94,24 +95,6 @@ describe('Decorator: override', () => {
     test('original decorator should not be executed', () => {
       const el = new TestElement();
       expect(el.getAttribute('field3')).toBe(null);
-    });
-  });
-
-  describe('Overriding @attr with readonly decorator', () => {
-    class TestElement extends TestBaseElement {
-      @override('test', true)
-      public field: string;
-    }
-    customElements.define('readonly-attr-override-1', TestElement);
-
-    test('should override simple @attr decorator', () => {
-      const el = new TestElement();
-      expect(el.field).toBe('test');
-    });
-    test('override should be writeable', () => {
-      const el = new TestElement();
-      expect(() => el.field ='hi').toThrowError();
-      expect(el.field).toBe('test');
     });
   });
 

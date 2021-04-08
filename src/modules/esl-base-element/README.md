@@ -11,5 +11,5 @@ Provides the ESLBaseElement - base class for custom element declaration, and a s
  - `@boolAttr` - to map boolean property to HTML boolean (marker) attribute state.
  - `@jsonAttr` - to map object property to HTML attribute using JSON format to serialize / deserialize value.
 
-
- - `@override` - to override property that declared trough the property accessors in a parent class 
+Use `@override` or `@constant` decorator to override property that was created 
+via `@attr`, `@boolAttr` or `@jsonAttr` on the parent level.
