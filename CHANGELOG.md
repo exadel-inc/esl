@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/exadel-inc/esl/compare/v2.3.1...v2.3.2) (2021-04-08)
+
+
+### Bug Fixes
+
+* fix for the less files build ([#41](https://github.com/exadel-inc/esl/issues/41)dd93a) ([d079851](https://github.com/exadel-inc/esl/commit/d0798516a536e7a76f1a282c3ed944d1455f2286)), closes [#41dd93](https://github.com/exadel-inc/esl/issues/41dd93)
+
 ## [2.3.1](https://github.com/exadel-inc/esl/compare/v2.3.0...v2.3.1) (2021-04-08)
 
 
