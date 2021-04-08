@@ -1,11 +1,11 @@
 import {ESLToggleable, ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
 import {bind} from '../../../esl-utils/decorators/bind';
+import {override} from '../../../esl-utils/decorators/override';
 import {TAB} from '../../../esl-utils/dom/keys';
 import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';
 
 import type {ESLSelect} from './esl-select';
-import {override} from '../../../esl-base-element/decorators/override';
 
 /**
  * ESLSelectDropdown component
