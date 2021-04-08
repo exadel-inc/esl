@@ -3,19 +3,13 @@
 
 ### Bug Fixes
 
-* temporary npm fix ([41dd93a](https://github.com/exadel-inc/esl/commit/41dd93a96c4e3313d55bca4d0dbbf470605c05a7))
+* temporary npm build vix ([41dd93a](https://github.com/exadel-inc/esl/commit/41dd93a96c4e3313d55bca4d0dbbf470605c05a7))
 
 # [2.3.0](https://github.com/exadel-inc/esl/compare/v2.2.1...v2.3.0) (2021-04-08)
 
-
-### Bug Fixes
-
-* import statement ([9f0e5d0](https://github.com/exadel-inc/esl/commit/9f0e5d0a2b70ca06e3a19b3bbc7a69b88e29fa3b))
-
-
 ### Features
 
-* override initial implementation ([641da83](https://github.com/exadel-inc/esl/commit/641da83f7b43ea10711e8d64d2047582d2376ac1))
+* override and readonly implementation ([641da83](https://github.com/exadel-inc/esl/commit/641da83f7b43ea10711e8d64d2047582d2376ac1))
 
 ## [2.2.1](https://github.com/exadel-inc/esl/compare/v2.2.0...v2.2.1) (2021-04-02)
 
