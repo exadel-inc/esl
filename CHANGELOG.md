@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/exadel-inc/esl/compare/v2.3.0...v2.3.1) (2021-04-08)
+
+
+### Bug Fixes
+
+* temporary npm fix ([41dd93a](https://github.com/exadel-inc/esl/commit/41dd93a96c4e3313d55bca4d0dbbf470605c05a7))
+
 # [2.3.0](https://github.com/exadel-inc/esl/compare/v2.2.1...v2.3.0) (2021-04-08)
 
 
