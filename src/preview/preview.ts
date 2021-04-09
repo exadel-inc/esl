@@ -31,9 +31,8 @@ export class UIPPreview extends ESLBaseElement {
     const $wrapper = document.createElement('div');
     $wrapper.className = 'preview-wrapper';
 
-    $wrapper.innerHTML = `
-        <span class="section-name">${this.label}</span>
-        <uip-preview> ${markup} </uip-preview>`;
+    if (this.label) $wrapper.innerHTML = `<span class="section-name">${this.label}</span>`;
+    $wrapper.innerHTML += `<uip-preview> ${markup} </uip-preview>`;
     this.parentElement?.replaceChild($wrapper, this);
   }
 
