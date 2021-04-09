@@ -1,195 +1,169 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>UI Playground</title>
+  <title>UI Playground</title>
 
-    <style>
-      * { margin: 0; padding: 0; }
-    </style>
-    <link type="text/css" rel="stylesheet" href="/playground.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <link type="text/css" rel="stylesheet" href="/playground.css">
 </head>
 <body>
 <header class="header"></header>
 <main role="main">
   <uip-root>
-    <div class="uip-options">
-      <span class="section-name">Options:</span>
-
-      <div class="uip-option mode">
-        <button class="option-item" mode="vertical">vertical</button>
-        <button class="option-item" mode="horizontal">horizontal</button>
-      </div>
-
-      <div class="uip-option theme">
-        <button class="option-item" theme="light">light</button>
-        <button class="option-item" theme="dark">dark</button>
-      </div>
-    </div>
-
-    <div class="uip-content {{= !layout.settings ? 'no-settings' : '' }}">
-      <div class="snippets-wrapper">
-        <span class="section-name">Snippets</span>
-        <div class="snippets-section">
-          <uip-snippets>
-            <template uip-snippet label="example 1">
-              <span>hello 1</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-            <template uip-snippet label="example 2">
-              <span>hello 2</span>
-            </template>
-
-            <ul class="snippets-list"></ul>
-          </uip-snippets>
-        </div>
-      </div>
-
-      <div class="sections-wrapper">
-
-        <div class="preview-settings">
-          <uip-preview></uip-preview>
-
-          <div class="settings-wrapper">
-            <span class="section-name">Settings</span>
-            <uip-settings>
-              <uip-check-setting name="check" selector="p"></uip-check-setting>
-              <uip-check-setting name="check" selector="p"></uip-check-setting>
-              <uip-list-setting name="check" selector="p">
-                <uip-list-item value="1">1</uip-list-item>
-                <uip-list-item value="2">2</uip-list-item>
-              </uip-list-setting>
-              <uip-text-setting name="check" selector="p"></uip-text-setting>
-            </uip-settings>
-          </div>
-        </div>
-
-        <div class="editor-wrapper">
-          <span class="section-name">Editor</span>
-          <uip-editor editor-config="{wrap: 70}"></uip-editor>
-        </div>
-      </div>
-    </div>
+    <uip-options></uip-options>
+    <uip-snippets>
+      <template uip-snippet label="example 1">
+        <span>hello 1</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+      <template uip-snippet label="example 2">
+        <span>hello 2</span>
+      </template>
+    </uip-snippets>
+    <uip-preview></uip-preview>
+    <uip-settings>
+      <uip-check-setting name="check" selector="p"></uip-check-setting>
+      <uip-check-setting name="check" selector="p"></uip-check-setting>
+      <uip-list-setting name="check" selector="p">
+        <uip-list-item value="1">1</uip-list-item>
+        <uip-list-item value="2">2</uip-list-item>
+      </uip-list-setting>
+      <uip-text-setting name="check" selector="p"></uip-text-setting>
+      <uip-check-setting name="check" selector="p"></uip-check-setting>
+      <uip-check-setting name="check" selector="p"></uip-check-setting>
+      <uip-list-setting name="check" selector="p">
+        <uip-list-item value="1">1</uip-list-item>
+        <uip-list-item value="2">2</uip-list-item>
+      </uip-list-setting>
+      <uip-text-setting name="check" selector="p"></uip-text-setting>
+    </uip-settings>
+    <uip-editor></uip-editor>
   </uip-root>
 </main>
 <footer class="footer bg-dark"></footer>

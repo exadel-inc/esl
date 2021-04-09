@@ -8,10 +8,12 @@ export class UIPTextSetting extends UIPSetting {
   protected input: HTMLInputElement;
 
   protected get target(): HTMLInputElement {
-    return this.input;
+    return this.input || this.querySelector('input');
   }
 
   protected renderInput(inputType: string): void {
+    if (this.querySelector('input')) return;
+
     this.input = document.createElement('input');
     this.input.type = inputType;
     this.input.name = this.name;

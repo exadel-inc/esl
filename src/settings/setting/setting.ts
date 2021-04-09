@@ -32,6 +32,8 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   protected renderLabel(): void {
+    if (this.querySelector('label')) return;
+
     const label = document.createElement('label');
     if (this.selector) {
       label.innerHTML = `${this.name} (${this.selector})`;

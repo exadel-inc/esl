@@ -1,6 +1,6 @@
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
-import {attr} from '@exadel/esl/modules/esl-base-element/decorators/attr';
+import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPSetting} from '../setting';
 
 export class UIPClassSetting extends UIPSetting {
@@ -10,7 +10,7 @@ export class UIPClassSetting extends UIPSetting {
   @attr() public value: string;
 
   protected get target(): HTMLSelectElement {
-    return this.select;
+    return this.select || this.querySelector('select');
   }
 
   protected get values(): string[] {
@@ -30,6 +30,8 @@ export class UIPClassSetting extends UIPSetting {
   }
 
   protected render(): void {
+    if (this.querySelector('select')) return;
+
     this.select = document.createElement('select');
     this.select.name = this.name;
     this.createOptions();
