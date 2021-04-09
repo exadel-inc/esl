@@ -15,8 +15,11 @@ export default {
     extensions: ['.ts', '.js']
   },
   module: {
+    noParse: [
+      /\/brace\//
+    ],
     rules: [{
-      test: /\.(js|ts)$/,
+      test: /\.tsx?$/,
       loader: 'ts-loader',
       options: {
         compilerOptions: {
