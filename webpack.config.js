@@ -31,8 +31,8 @@ export default {
       test: /\.less$/i,
       type: 'asset/resource',
       use: [
-        { loader: 'less-loader' },
-        { loader: 'postcss-loader' }
+        'less-loader',
+        'postcss-loader'
       ]
     }]
   },

@@ -16,11 +16,6 @@ package-lock.json
 *.tar
 *.tgz
 
-# Tests
-jest.config.js
-*.test.ts
-**/test/*.ts
-
 # Linter
 .editorconfig
 .eslintrc.json
