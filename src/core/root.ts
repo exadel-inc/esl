@@ -29,6 +29,9 @@ export class UIPRoot extends ESLBaseElement {
 
   protected _onStateChange(e: CustomEvent) {
     this._state = e.detail.markup;
-    EventUtils.dispatch(this, 'state:change', {detail: e.detail});
+    const detail = Object.assign({
+      origin: e.target
+    }, e.detail);
+    EventUtils.dispatch(this, 'state:change', {detail});
   }
 }

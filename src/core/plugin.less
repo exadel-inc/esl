@@ -1,0 +1,20 @@
+.uip-plugin {
+  position: relative;
+
+  &[label] {
+    margin-top: 30px;
+    &::before {
+      display: inline-block;
+      position: absolute;
+      left: 2px;
+      top: -4px;
+
+      transform: translateY(-100%);
+
+      content: attr(label);
+      font-size: 20px;
+      line-height: 22px;
+      font-weight: 500;
+    }
+  }
+}
