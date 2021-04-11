@@ -1,4 +1,4 @@
-import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {ESLBaseElement, attr} from '@exadel/esl/modules/esl-base-element/core';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {UIPRoot} from '../core/root';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
@@ -8,7 +8,10 @@ export class UIPSnippets extends ESLBaseElement {
 
   public static ACTIVE_CLASS = 'active';
 
-  protected _root: UIPRoot;
+  protected _$root: UIPRoot;
+
+  @attr({defaultValue: 'Snippets'}) public label: string;
+
 
   public get $items(): HTMLElement[] {
     const items = this.querySelectorAll('.snippets-list-item');
@@ -28,7 +31,7 @@ export class UIPSnippets extends ESLBaseElement {
     super.connectedCallback();
     this.bindEvents();
 
-    this._root = this.closest(`${UIPRoot.is}`) as UIPRoot;
+    this._$root = this.closest(`${UIPRoot.is}`) as UIPRoot;
 
     this.render();
     if (!this.$active) this.$active = this.$items[0];
@@ -49,9 +52,15 @@ export class UIPSnippets extends ESLBaseElement {
   }
 
   protected render(): void {
+    if (this.closest('.snippets-wrapper')) return;
+
+    const $wrapper = document.createElement('div');
+    $wrapper.className = 'snippets-wrapper';
+
     const snippets = this.querySelectorAll('template[uip-snippet]');
     if (!snippets.length) return;
-    const ul = this._root.querySelector('.snippets-list');
+    const $ul = document.createElement('ul');
+    $ul.className = 'snippets-list';
 
     snippets.forEach(snippet => {
       const li = document.createElement('li');
@@ -61,8 +70,15 @@ export class UIPSnippets extends ESLBaseElement {
       li.innerHTML = label;
       if (snippet.classList.contains(UIPSnippets.ACTIVE_CLASS)) this.$active = li;
       li.appendChild(snippet);
-      ul?.appendChild(li);
+      $ul?.appendChild(li);
     });
+
+    $wrapper.innerHTML = `
+        <span class="section-name">${this.label}</span>
+        <div class="snippets-section">
+            <uip-snippets>${$ul.outerHTML}</uip-snippets>
+        </div>`;
+    this.parentElement?.replaceChild($wrapper, this);
   }
 
   protected sendMarkUp(): void {

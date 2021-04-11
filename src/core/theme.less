@@ -1,90 +1,93 @@
 @import './variables';
 
-uip-root:not([theme='dark']) {
-  .option-item {
-    &[theme='light'] {
-      font-weight: @selected-mode-weight;
-    }
-
-    &[theme='dark'] {
-      font-weight: @not-selected-mode-weight;
-    }
-
-    &:not(:last-child) {
-      &::after {
-        color: @dark-text-decorator-color;
+uip-root {
+  &.light-theme {
+    .option-label {
+      &[for='light-theme'] {
+        font-weight: @selected-mode-weight;
       }
-    }
-  }
 
-  uip-snippets {
-    ul.snippets-list li {
+      &[for='dark-theme'] {
+        font-weight: @not-selected-mode-weight;
+      }
+
       &:not(:last-child) {
         &::after {
           color: @dark-text-decorator-color;
         }
       }
     }
-  }
 
-  uip-preview {
-    background-color: @light-theme-preview;
-    color: @dark-text;
-  }
-
-  .section-name, .option-item, li.snippets-list-item {
-    color: @dark-text;
-  }
-
-  uip-check-setting, uip-list-setting, uip-text-setting {
-    label {
-      color: @dark-text;
-    }
-  }
-
-}
-
-uip-root[theme='dark'] {
-  background-color: @dark-theme;
-
-  .option-item {
-    &[theme='dark'] {
-      font-weight: @selected-mode-weight;
-    }
-
-    &[theme='light'] {
-      font-weight: @not-selected-mode-weight;
-    }
-
-    &:not(:last-child) {
-      &::after {
-        color: @light-text;
+    uip-snippets {
+      ul.snippets-list li {
+        &:not(:last-child) {
+          &::after {
+            color: @dark-text-decorator-color;
+          }
+        }
       }
     }
+
+    uip-preview {
+      background-color: @light-theme-preview;
+      color: @dark-text;
+    }
+
+    .section-name, .option-item, li.snippets-list-item {
+      color: @dark-text;
+    }
+
+    uip-check-setting, uip-list-setting, uip-text-setting {
+      label {
+        color: @dark-text;
+      }
+    }
+
   }
 
-  uip-snippets {
-    ul.snippets-list li {
+  &.dark-theme {
+    background-color: @dark-theme;
+
+    .option-label {
+      &[for='dark-theme'] {
+        font-weight: @selected-mode-weight;
+      }
+
+      &[for='light-theme'] {
+        font-weight: @not-selected-mode-weight;
+      }
+
       &:not(:last-child) {
         &::after {
           color: @light-text;
         }
       }
     }
-  }
 
-  uip-preview {
-    background-color: @dark-theme-preview;
-    color: @light-text;
-  }
+    uip-snippets {
+      ul.snippets-list li {
+        &:not(:last-child) {
+          &::after {
+            color: @light-text;
+          }
+        }
+      }
+    }
 
-  .section-name, .option-item, li.snippets-list-item {
-    color: @light-text;
-  }
-
-  uip-check-setting, uip-list-setting, uip-text-setting {
-    label {
+    uip-preview {
+      background-color: @dark-theme-preview;
       color: @light-text;
+    }
+
+    .section-name, .option-item, li.snippets-list-item {
+      color: @light-text;
+    }
+
+    uip-check-setting, uip-list-setting, uip-text-setting {
+      label {
+        color: @light-text;
+      }
     }
   }
 }
+

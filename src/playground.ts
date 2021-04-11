@@ -6,6 +6,7 @@ import {UIPTextSetting} from './settings/setting/text-setting/text-setting';
 import {UIPSelectSetting} from './settings/setting/select-setting/select-setting';
 import {UIPBoolSetting} from './settings/setting/bool-setting/bool-setting';
 import {UIPSnippets} from './snippets/snippets';
+import {UIPOptions} from './options/options';
 
 export {
 	UIPRoot,
@@ -15,7 +16,8 @@ export {
 	UIPTextSetting,
 	UIPSelectSetting,
 	UIPBoolSetting,
-	UIPSnippets
+	UIPSnippets,
+  UIPOptions
 };
 
 export function init() {
@@ -26,5 +28,6 @@ export function init() {
 	UIPTextSetting.register();
 	UIPSelectSetting.register();
 	UIPBoolSetting.register();
+  UIPOptions.register();
 	customElements.whenDefined(UIPRoot.is).then(() => UIPSnippets.register());
 }
