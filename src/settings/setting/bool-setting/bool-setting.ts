@@ -1,7 +1,7 @@
 import {UIPSetting} from '../setting';
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPStateModel} from '../../../utils/state-model/state-model';
-import ArrayUtils from "../../../utils/array-utils/array-utils";
+import ArrayUtils from '../../../utils/array-utils/array-utils';
 
 export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';

@@ -53,7 +53,7 @@ export class UIPSelectSetting extends UIPSetting {
     const settingOptions = this.values;
     const attrValues = model.getAttribute(this.target, this.attribute);
 
-    if (this.mode === "replace") {
+    if (this.mode === 'replace') {
       if (attrValues[0] && ArrayUtils.contains(settingOptions, attrValues[0]?.split(' ')) &&
         attrValues.every(val => val === attrValues[0])) {
         this.setValue(attrValues[0]);
