@@ -33,4 +33,3 @@ export class UIPTextSetting extends UIPSetting {
     return true;
   }
 }
-

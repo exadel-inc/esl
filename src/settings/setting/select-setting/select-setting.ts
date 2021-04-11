@@ -51,23 +51,23 @@ export class UIPSelectSetting extends UIPSetting {
 
   updateFrom(model: UIPStateModel) {
     const settingOptions = this.values;
-    const attrTokens = model.getAttribute(this.target, this.attribute).map(value => value ? value.split(' ') : []);
+    const attrValues = model.getAttribute(this.target, this.attribute);
 
-    if (attrTokens.some(tokens => !tokens.length)) {
-      this.setInconsistency();
+    if (this.mode === "replace") {
+      if (attrValues[0] && ArrayUtils.contains(settingOptions, attrValues[0]?.split(' ')) &&
+        attrValues.every(val => val === attrValues[0])) {
+        this.setValue(attrValues[0]);
+      } else {
+        this.setInconsistency();
+      }
+
       return;
     }
 
-    if (this.mode === 'append') {
-      const valueTokens = ArrayUtils.intersection(ArrayUtils.select(attrTokens[0], settingOptions), ...attrTokens);
-      valueTokens.length ? this.setValue(valueTokens.join(' ')) : this.setInconsistency();
+    const attrTokens = attrValues.map(value => value ? value.split(' ') : []);
 
-      return;
-    }
-
-    ArrayUtils.contains(settingOptions, attrTokens[0]) &&
-    attrTokens.every(tokens => tokens && ArrayUtils.equals(tokens, attrTokens[0])) ?
-      this.setValue(attrTokens[0].join(' ')) : this.setInconsistency();
+    const valueTokens = ArrayUtils.intersection(settingOptions, ...attrTokens);
+    valueTokens.length ? this.setValue(valueTokens.join(' ')) : this.setInconsistency();
   }
 
   protected render(): void {

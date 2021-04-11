@@ -34,11 +34,11 @@ export abstract class UIPSetting extends ESLBaseElement {
   public updateFrom(model: UIPStateModel): void {
     const values = model.getAttribute(this.target, this.attribute);
 
-    if (values.every(value => value && value === values[0])) {
-      this.setValue(values[0]);
+    if (values.some(value => value === null || value !== values[0])) {
+      this.setInconsistency();
     }
     else {
-      this.setInconsistency();
+      this.setValue(values[0]);
     }
   }
 

@@ -1,6 +1,7 @@
 import {UIPSetting} from '../setting';
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPStateModel} from '../../../utils/state-model/state-model';
+import ArrayUtils from "../../../utils/array-utils/array-utils";
 
 export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';
@@ -42,7 +43,8 @@ export class UIPBoolSetting extends UIPSetting {
     if (this.mode === 'replace') {
       checkEqual = values.map(attrValue => attrValue && this.value ? attrValue === this.value : true);
     } else {
-      checkEqual = values.map(value => value && new RegExp(/\b/.source + this.value + /\b/.source).test(value));
+      checkEqual = values.map(value => value &&
+        ArrayUtils.intersection([this.value], value.split(' ')).length !== 0);
     }
 
     if (checkEqual.every(value => value === checkEqual[0])) {
@@ -73,6 +75,7 @@ export class UIPBoolSetting extends UIPSetting {
     }
   }
 
+  // TODO: implement inconsistency state for boolean setting
   protected setInconsistency(): void {
 
   }

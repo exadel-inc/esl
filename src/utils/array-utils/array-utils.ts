@@ -7,11 +7,7 @@ export default class ArrayUtils {
     return subArray.every(el => array.indexOf(el) !== -1);
   }
 
-  static select<T>(array: T[], selectItems: T[]): T[] {
-    return array.filter(el => selectItems.indexOf(el) !== -1);
-  }
-
   static intersection<T>(...arrays: T[][]): T[] {
-    return arrays.reduce((inter, array) => ArrayUtils.select(array, inter), arrays[0]);
+    return arrays.reduce((inter, array) => inter.filter(el => array.indexOf(el) !== -1), arrays[0]);
   }
 }
