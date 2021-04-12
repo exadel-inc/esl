@@ -15,8 +15,11 @@ export default {
     extensions: ['.ts', '.js']
   },
   module: {
+    noParse: [
+      /\/brace\//
+    ],
     rules: [{
-      test: /\.(js|ts)$/,
+      test: /\.tsx?$/,
       loader: 'ts-loader',
       options: {
         compilerOptions: {
@@ -28,8 +31,8 @@ export default {
       test: /\.less$/i,
       type: 'asset/resource',
       use: [
-        { loader: 'less-loader' },
-        { loader: 'postcss-loader' }
+        'less-loader',
+        'postcss-loader'
       ]
     }]
   },
