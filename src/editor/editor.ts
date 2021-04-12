@@ -84,7 +84,7 @@ export class UIPEditor extends ESLBaseElement {
     $wrapper.className = 'editor-wrapper';
 
     if (this.label) $wrapper.innerHTML = `<span class="section-name">${this.label}</span>`;
-    $wrapper.innerHTML += `<uip-editor></uip-editor>`;
+    $wrapper.innerHTML += '<uip-editor></uip-editor>';
     this.parentElement?.replaceChild($wrapper, this);
   }
 
