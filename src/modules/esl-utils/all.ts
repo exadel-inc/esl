@@ -13,8 +13,7 @@ export * from './abstract/observable';
 // Decorators
 export * from './decorators/bind';
 export * from './decorators/memoize';
-export * from './decorators/override';
-export * from './decorators/readonly';
+export * from './decorators/prop';
 
 // Function
 export * from './async/promise';
