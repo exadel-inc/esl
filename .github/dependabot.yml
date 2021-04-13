@@ -11,7 +11,5 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    labels:
-      - "dependencies update"
     reviewers:
       - "@exadel-inc/esl-core-team"
