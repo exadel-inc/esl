@@ -7021,12 +7021,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ESLTabs": function() { return /* binding */ ESLTabs; }
 /* harmony export */ });
-/* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/bool-attr.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
+/* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
 /* harmony import */ var _esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/async/raf */ "../src/modules/esl-utils/async/raf.ts");
-/* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
+/* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
 /* harmony import */ var _esl_tab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./esl-tab */ "../src/modules/esl-tab/core/esl-tab.ts");
 /* harmony import */ var _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/dom/rtl */ "../src/modules/esl-utils/dom/rtl.ts");
 /* harmony import */ var _esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-utils/async/debounce */ "../src/modules/esl-utils/async/debounce.ts");
@@ -7070,8 +7069,8 @@ var ESLTabs = /** @class */ (function (_super) {
     __extends(ESLTabs, _super);
     function ESLTabs() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this._deferredUpdateArrows = (0,_esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_0__.debounce)(_this.updateArrows.bind(_this), 50);
-        _this._deferredFitToViewport = (0,_esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_0__.debounce)(_this.fitToViewport.bind(_this), 50);
+        _this._deferredUpdateArrows = (0,_esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_0__.debounce)(_this.updateArrows.bind(_this), 100);
+        _this._deferredFitToViewport = (0,_esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_0__.debounce)(_this.fitToViewport.bind(_this), 100);
         // TODO: is the raf decorator needed?
         _this._onResize = (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_1__.rafDecorator)(function () {
             _this._deferredFitToViewport(_this.$current, 'auto');
@@ -7080,8 +7079,10 @@ var ESLTabs = /** @class */ (function (_super) {
     }
     ESLTabs.prototype.connectedCallback = function () {
         _super.prototype.connectedCallback.call(this);
-        this.bindScrollableEvents();
-        this.updateScroll();
+        if (this.isScrollable) {
+            this.bindScrollableEvents();
+            this.updateScroll();
+        }
     };
     ESLTabs.prototype.disconnectedCallback = function () {
         _super.prototype.disconnectedCallback.call(this);
@@ -7132,6 +7133,14 @@ var ESLTabs = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(ESLTabs.prototype, "isScrollable", {
+        /** Is the scrollable mode enabled ? */
+        get: function () {
+            return this.scrollable !== 'none';
+        },
+        enumerable: false,
+        configurable: true
+    });
     /** Move scroll to the next/previous item */
     ESLTabs.prototype.moveTo = function (direction, behavior) {
         if (behavior === void 0) { behavior = 'smooth'; }
@@ -7151,24 +7160,27 @@ var ESLTabs = /** @class */ (function (_super) {
             return;
         var areaRect = $scrollableTarget.getBoundingClientRect();
         var itemRect = $trigger.getBoundingClientRect();
-        var shift = 0;
-        // item is out of area from the right side
-        // else item out is of area from the left side
-        if (itemRect.right > areaRect.right) {
-            shift = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.scrollType === 'reverse' ?
-                Math.floor(areaRect.right - itemRect.right) :
-                Math.ceil(itemRect.right - areaRect.right);
-        }
-        else if (itemRect.left < areaRect.left) {
-            shift = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.scrollType === 'reverse' ?
-                Math.ceil(areaRect.left - itemRect.left) :
-                Math.floor(itemRect.left - areaRect.left);
-        }
         $scrollableTarget.scrollBy({
-            left: shift,
+            left: this.calcScrollOffset(itemRect, areaRect),
             behavior: behavior
         });
         this.updateArrows();
+    };
+    /** Get scroll offset position from the selected item rectangle */
+    ESLTabs.prototype.calcScrollOffset = function (itemRect, areaRect) {
+        var isReversedRTL = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.scrollType === 'reverse';
+        if (this.scrollable === 'center') {
+            var shift = itemRect.left + itemRect.width / 2 - (areaRect.left + areaRect.width / 2);
+            return isReversedRTL ? -shift : shift;
+        }
+        // item is out of area from the right side
+        // else item out is of area from the left side
+        if (itemRect.right > areaRect.right) {
+            return isReversedRTL ? Math.floor(areaRect.right - itemRect.right) : Math.ceil(itemRect.right - areaRect.right);
+        }
+        else if (itemRect.left < areaRect.left) {
+            return isReversedRTL ? Math.ceil(areaRect.left - itemRect.left) : Math.floor(itemRect.left - areaRect.left);
+        }
     };
     ESLTabs.prototype.updateArrows = function () {
         var $scrollableTarget = this.$scrollableTarget;
@@ -7205,28 +7217,28 @@ var ESLTabs = /** @class */ (function (_super) {
     };
     ESLTabs.is = 'esl-tabs';
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.boolAttr)()
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.attr)({ defaultValue: 'none' })
     ], ESLTabs.prototype, "scrollable", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ defaultValue: '.esl-tab-container' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.attr)({ defaultValue: '.esl-tab-container' })
     ], ESLTabs.prototype, "scrollableTarget", void 0);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
     ], ESLTabs.prototype, "_onTriggerStateChange", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
     ], ESLTabs.prototype, "_onClick", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
     ], ESLTabs.prototype, "_onFocus", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
     ], ESLTabs.prototype, "_onScroll", null);
     ESLTabs = __decorate([
-        (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_7__.ExportNs)('Tabs')
+        (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_6__.ExportNs)('Tabs')
     ], ESLTabs);
     return ESLTabs;
-}(_esl_base_element_core__WEBPACK_IMPORTED_MODULE_8__.ESLBaseElement));
+}(_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.ESLBaseElement));
 
 
 
