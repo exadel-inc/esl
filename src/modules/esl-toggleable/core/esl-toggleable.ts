@@ -27,6 +27,9 @@ export interface ToggleableActionParams {
   activator?: HTMLElement;
   /** Event that initiates the action */
   event?: Event;
+
+  /** Custom user data */
+  [key: string]: any;
 }
 
 const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap();
