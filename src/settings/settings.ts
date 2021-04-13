@@ -1,7 +1,3 @@
-import {UIPBoolSetting} from './setting/bool-setting/bool-setting';
-import {UIPSelectSetting} from './setting/select-setting/select-setting';
-import {UIPTextSetting} from './setting/text-setting/text-setting';
-import {UIPClassSetting} from './setting/class-setting/class-setting';
 import {UIPSetting} from './setting/setting';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {ESLBaseElement, attr} from '@exadel/esl/modules/esl-base-element/core';

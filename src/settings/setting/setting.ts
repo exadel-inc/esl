@@ -4,14 +4,18 @@ import {UIPSettings} from '../settings';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 
 export abstract class UIPSetting extends ESLBaseElement {
+  static is = 'uip-setting';
+
   @attr() attribute: string;
   @attr() label?: string;
   @attr() target: string;
+
   protected $field: HTMLElement;
 
   protected connectedCallback() {
     super.connectedCallback();
 
+    this.classList.add(UIPSetting.is);
     const settings = this.closest(`${UIPSettings.is}`);
     const target = settings?.getAttribute('target');
 
