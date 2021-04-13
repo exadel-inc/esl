@@ -18,17 +18,24 @@ import {debounce} from '../../esl-utils/async/debounce';
 export class ESLTabs extends ESLBaseElement {
   public static is = 'esl-tabs';
 
-  /** Marker to enable scrollable mode */
-  @attr() public scrollable: string;
+  /** Scrollable mode.
+   * The following values are supported:
+   * - 'none' or not defined -  scroll behavior is disabled;
+   * - 'centered' - scroll behavior is enabled, tab is center-aligned;
+   * - empty or unsupported value - scroll behavior is enabled, tab is side-aligned;
+   */
+  @attr({defaultValue: 'none'}) public scrollable: string;
 
   /** Inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable mode */
   @attr({defaultValue: '.esl-tab-container'}) public scrollableTarget: string;
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.bindScrollableEvents();
 
-    this.updateScroll();
+    if (this.isScrollable) {
+      this.bindScrollableEvents();
+      this.updateScroll();
+    }
   }
 
   protected disconnectedCallback() {
@@ -72,6 +79,11 @@ export class ESLTabs extends ESLBaseElement {
   /** Container element to scroll */
   public get $scrollableTarget(): HTMLElement | null {
     return this.querySelector(this.scrollableTarget);
+  }
+
+  /** Is the scrollable mode enabled ? */
+  public get isScrollable(): boolean {
+    return this.scrollable !== 'none';
   }
 
   /** Move scroll to the next/previous item */
