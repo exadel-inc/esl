@@ -1,50 +1,51 @@
-import {ESLBaseElement, attr} from '@exadel/esl/modules/esl-base-element/core';
-import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {UIPStateModel} from '../../utils/state-model/state-model';
+import {UIPSettings} from '../settings';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 
 export abstract class UIPSetting extends ESLBaseElement {
-  @attr({readonly: true}) public name: string;
-  @attr({readonly: true}) public selector: string;
-  public value: string | boolean;
-
-  protected abstract render(): void;
-  protected abstract get target(): HTMLElement;
-  protected abstract targetValue(e: Event): string | boolean;
+  @attr() attribute: string;
+  @attr() label?: string;
+  @attr() target: string;
+  protected $field: HTMLElement;
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.renderLabel();
+
+    const settings = this.closest(`${UIPSettings.is}`);
+    const target = settings?.getAttribute('target');
+
+    if (settings && target) {
+      this.target = target;
+    }
+
+    this.initField();
     this.render();
-
-    this.target.addEventListener('change', this.onValueChange);
-    this.appendChild(this.target);
+    this.$field.addEventListener('change', (e: Event) => {
+      e.preventDefault();
+      EventUtils.dispatch(this, 'valueChange');
+    });
   }
 
-  static get observedAttributes(): string[] {
-    return ['value'];
+  public applyTo(model: UIPStateModel): void {
+    model.setAttribute(this.target, this.attribute, this.getDisplayedValue());
   }
 
-  @bind
-  protected onValueChange(e: Event): void {
-    e.preventDefault();
-    this.value = this.targetValue(e);
-    EventUtils.dispatch(this, 'valueChange', {detail: {name: this.name, value: this.value, selector: this.selector}});
+  public updateFrom(model: UIPStateModel): void {
+    const values = model.getAttribute(this.target, this.attribute);
+
+    if (values.some(value => value === null || value !== values[0])) {
+      this.setInconsistency();
+    }
+    else {
+      this.setValue(values[0]);
+    }
   }
 
-  protected renderLabel(): void {
-    if (this.querySelector('label')) return;
-
-    const label = document.createElement('label');
-    if (this.selector) {
-      label.innerHTML = `${this.name} (${this.selector})`;
-    } else label.innerText = this.name;
-    label.htmlFor = this.name;
-
-    this.appendChild(label);
-  }
-
-  protected disconnectedCallback() {
-    super.disconnectedCallback();
-    this.target.removeEventListener('change', this.onValueChange);
-  }
+  protected abstract getDisplayedValue(): string | boolean;
+  protected abstract isValid(): boolean;
+  protected abstract setInconsistency(): void;
+  protected abstract setValue(value: string | null): void;
+  protected abstract initField(): void;
+  protected abstract render(): void;
 }
