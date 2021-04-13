@@ -11,7 +11,10 @@ ESLToggleable or, usually, ESLPanel.
 
 - `container` - inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable
 
-- `scrollable` - marker to enable scrollable mode
+- `scrollable` - scrollable mode. The following values are supported:
+    - 'none' or not defined -  scroll behavior is disabled;
+    - 'centered' - scroll behavior is enabled, tab is center-aligned;
+    - empty or unsupported value - scroll behavior is enabled, tab is side-aligned;
 
 ### Example
 

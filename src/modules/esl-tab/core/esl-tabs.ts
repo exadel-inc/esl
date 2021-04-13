@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
+import {ESLBaseElement, attr} from '../../esl-base-element/core';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ESLTab} from './esl-tab';
@@ -18,17 +18,24 @@ import {debounce} from '../../esl-utils/async/debounce';
 export class ESLTabs extends ESLBaseElement {
   public static is = 'esl-tabs';
 
-  /** Marker to enable scrollable mode */
-  @boolAttr() public scrollable: boolean;
+  /** Scrollable mode.
+   * The following values are supported:
+   * - 'none' or not defined -  scroll behavior is disabled;
+   * - 'centered' - scroll behavior is enabled, tab is center-aligned;
+   * - empty or unsupported value - scroll behavior is enabled, tab is side-aligned;
+   */
+  @attr({defaultValue: 'none'}) public scrollable: string;
 
   /** Inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable mode */
   @attr({defaultValue: '.esl-tab-container'}) public scrollableTarget: string;
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.bindScrollableEvents();
 
-    this.updateScroll();
+    if (this.isScrollable) {
+      this.bindScrollableEvents();
+      this.updateScroll();
+    }
   }
 
   protected disconnectedCallback() {
@@ -74,6 +81,11 @@ export class ESLTabs extends ESLBaseElement {
     return this.querySelector(this.scrollableTarget);
   }
 
+  /** Is the scrollable mode enabled ? */
+  public get isScrollable(): boolean {
+    return this.scrollable !== 'none';
+  }
+
   /** Move scroll to the next/previous item */
   public moveTo(direction: string, behavior: ScrollBehavior = 'smooth') {
     const $scrollableTarget = this.$scrollableTarget;
@@ -93,26 +105,30 @@ export class ESLTabs extends ESLBaseElement {
     const areaRect = $scrollableTarget.getBoundingClientRect();
     const itemRect = $trigger.getBoundingClientRect();
 
-    let shift = 0;
-
-    // item is out of area from the right side
-    // else item out is of area from the left side
-    if (itemRect.right > areaRect.right) {
-      shift = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'reverse' ?
-        Math.floor(areaRect.right - itemRect.right) :
-        Math.ceil(itemRect.right - areaRect.right);
-    } else if (itemRect.left < areaRect.left) {
-      shift = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'reverse' ?
-        Math.ceil(areaRect.left - itemRect.left) :
-        Math.floor(itemRect.left - areaRect.left);
-    }
-
     $scrollableTarget.scrollBy({
-      left: shift,
+      left: this.calcScrollOffset(itemRect, areaRect),
       behavior
     });
 
     this.updateArrows();
+  }
+
+  /** Get scroll offset position from the selected item rectangle */
+  protected calcScrollOffset(itemRect: DOMRect, areaRect: DOMRect) {
+    const isReversedRTL = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'reverse';
+
+    if (this.scrollable === 'center') {
+      const shift = itemRect.left + itemRect.width / 2 - (areaRect.left + areaRect.width / 2);
+      return isReversedRTL ? -shift : shift;
+    }
+
+    // item is out of area from the right side
+    // else item out is of area from the left side
+    if (itemRect.right > areaRect.right) {
+      return isReversedRTL ? Math.floor(areaRect.right - itemRect.right) : Math.ceil(itemRect.right - areaRect.right);
+    } else if (itemRect.left < areaRect.left) {
+      return isReversedRTL ? Math.ceil(areaRect.left - itemRect.left) : Math.floor(itemRect.left - areaRect.left);
+    }
   }
 
   protected updateArrows() {
@@ -132,8 +148,8 @@ export class ESLTabs extends ESLBaseElement {
     $rightArrow && $rightArrow.toggleAttribute('disabled', !(swapSides ? scrollStart : scrollEnd));
   }
 
-  protected _deferredUpdateArrows = debounce(this.updateArrows.bind(this), 50);
-  protected _deferredFitToViewport = debounce(this.fitToViewport.bind(this), 50);
+  protected _deferredUpdateArrows = debounce(this.updateArrows.bind(this), 100);
+  protected _deferredFitToViewport = debounce(this.fitToViewport.bind(this), 100);
 
   @bind
   protected _onTriggerStateChange() {
