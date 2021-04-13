@@ -1,4 +1,7 @@
 # Exadel Smart Library &#9881;
+<p align="center">
+  <img width="300" height="300" src="https://github.com/exadel-inc/esl/blob/main/docs/images/logo.png?raw=true">
+</p>
 
 ![npm](https://img.shields.io/npm/v/@exadel/esl)
 ![version](https://img.shields.io/github/package-json/v/exadel-inc/esl)

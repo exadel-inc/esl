@@ -17,8 +17,11 @@ scrollbar: true
   })();
 </script>
 
+<link rel="icon" type="image/png"
+      href="{{= page.invokeController('PublishConfig').resolve('/assets/logo-64x64.png')}}" />
+
 <link type="text/css" rel="stylesheet"
-      href="{{= page.invokeController('PublishConfig').resolve('/bundles/localdev.css')}}">
+      href="{{= page.invokeController('PublishConfig').resolve('/bundles/localdev.css')}}" />
 
 {{= layout.head || '' }}
 #}}
