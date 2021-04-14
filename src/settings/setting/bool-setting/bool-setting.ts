@@ -7,7 +7,7 @@ export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';
   protected $field: HTMLInputElement;
 
-  @attr({defaultValue: null}) value: string;
+  @attr({defaultValue: ''}) value: string;
   @attr({defaultValue: 'replace'}) mode: 'replace' | 'append';
 
   protected initField() {
@@ -22,36 +22,31 @@ export class UIPBoolSetting extends UIPSetting {
       return;
     }
 
-    const val = this.getDisplayedValue();
+    const val = this.getDisplayedValue() as (string | false);
+    const valRegex = new RegExp(/\b/.source + this.value + /\b/.source);
 
-    if (val) {
-      model.transformAttribute(this.target, this.attribute, (attrValue) => {
-        return (attrValue?.replace(new RegExp(/\b/.source + this.value + /\b/.source), '') || '') +
-          ` ${val}`;
-      });
-    } else {
-      model.transformAttribute(this.target, this.attribute, (attrValue) => {
-        return attrValue && attrValue.replace(new RegExp(/\b/.source + this.value + /\b/.source), '');
-      });
-    }
+    model.transformAttribute(this.target, this.attribute, attrValue => {
+      return attrValue === null ? val || null : attrValue.replace(valRegex, '') + ` ${val || ''}`;
+    });
   }
 
   updateFrom(model: UIPStateModel) {
-    const values = model.getAttribute(this.target, this.attribute);
-    let checkEqual: (string | boolean | null)[];
+    const attrValues = model.getAttribute(this.target, this.attribute);
 
     if (this.mode === 'replace') {
-      checkEqual = values.map(attrValue => attrValue && this.value ? attrValue === this.value : true);
-    } else {
-      checkEqual = values.map(value => value &&
-        ArrayUtils.intersection([this.value], value.split(' ')).length !== 0);
+      if ((attrValues[0] === null || attrValues[0] === this.value) && attrValues.every(val => attrValues[0] === val)) {
+        this.setValue(attrValues[0]);
+      } else {
+        this.setInconsistency();
+      }
+
+      return;
     }
 
-    if (checkEqual.every(value => value === checkEqual[0])) {
-      checkEqual[0] ? this.setValue(this.value || '') : this.setValue(null);
-    } else {
-      this.setInconsistency();
-    }
+    const valueMatch = attrValues.map(attrValue =>
+      ArrayUtils.intersection([this.value], attrValue?.split(' ') || []));
+    valueMatch.every(match => ArrayUtils.equals(match, valueMatch[0])) ?
+      this.setValue(valueMatch[0].length ? this.value : null) : this.setInconsistency();
   }
 
   protected render() {

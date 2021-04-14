@@ -34,19 +34,12 @@ export class UIPSelectSetting extends UIPSetting {
     }
 
     const val = this.getDisplayedValue();
+    const optRegex = (opt: string) => new RegExp(/\b/.source + opt + /\b/.source);
 
-    if (val) {
-      model.transformAttribute(this.target, this.attribute, (attrValue) => {
-        return this.values.reduce((outStr, option) =>
-            outStr.replace(new RegExp(/\b/.source + option + /\b/.source), ''), attrValue || '') +
-          ` ${val}`;
-      });
-    } else {
-      model.transformAttribute(this.target, this.attribute, (attrValue) => {
-        return attrValue && this.values.reduce((outStr, option) =>
-          outStr.replace(new RegExp(/\b/.source + option + /\b/.source), ''), attrValue);
-      });
-    }
+    model.transformAttribute(this.target, this.attribute, attrValue => {
+      return attrValue === null ? val || null : this.values.reduce((outStr, option) =>
+          outStr.replace(optRegex(option), ''), attrValue) + ` ${val}`;
+    });
   }
 
   updateFrom(model: UIPStateModel) {
@@ -54,7 +47,7 @@ export class UIPSelectSetting extends UIPSetting {
     const attrValues = model.getAttribute(this.target, this.attribute);
 
     if (this.mode === 'replace') {
-      if (attrValues[0] && ArrayUtils.contains(settingOptions, attrValues[0]?.split(' ')) &&
+      if (attrValues[0] && ArrayUtils.contains(settingOptions, attrValues[0].split(' ')) &&
         attrValues.every(val => val === attrValues[0])) {
         this.setValue(attrValues[0]);
       } else {
@@ -64,8 +57,7 @@ export class UIPSelectSetting extends UIPSetting {
       return;
     }
 
-    const attrTokens = attrValues.map(value => value ? value.split(' ') : []);
-
+    const attrTokens = attrValues.map(value => value?.split(' ') || []);
     const valueTokens = ArrayUtils.intersection(settingOptions, ...attrTokens);
     valueTokens.length ? this.setValue(valueTokens.join(' ')) : this.setInconsistency();
   }
