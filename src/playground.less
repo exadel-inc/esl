@@ -1,8 +1,11 @@
-@import './snippets/snippets';
-@import './settings/setting/setting';
+@import './core/plugin';
 @import './core/variables';
 @import './core/theme';
 @import './core/mode';
+@import './preview/preview';
+@import './snippets/snippets';
+@import './settings/setting/setting';
+
 
 uip-root {
   height: 100vh;
@@ -68,13 +71,6 @@ uip-options {
 .preview-wrapper, .settings-wrapper {
   display: flex;
   flex-direction: column;
-}
-
-uip-preview {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow-y: auto;
 }
 
 uip-settings, uip-editor {
