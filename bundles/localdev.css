@@ -10227,7 +10227,7 @@ html.esl-disable-scroll body {
   max-height: 100vh !important;
   overflow: hidden !important;
 }
-html.esl-disable-scroll body::-webkit-scrollbar {
+html.esl-disable-scroll:not(.esl-native-scroll) body::-webkit-scrollbar {
   display: none;
 }
 html.esl-disable-scroll.esl-native-scroll {
