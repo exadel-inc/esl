@@ -40,7 +40,7 @@ Even if you use the whole utils module, it is still tiny.
 
     - #### [@memoize](./decorators/memoize.ts) - TS decorator to make method or get accessor memoized.
 
-    - #### [@prop](src/modules/esl-utils/decorators/prop.ts) - TS decorator to define a field on the prototype level.
+    - #### [@prop](./decorators/prop.ts) - TS decorator to define a field on the prototype level.
 
 - ### DOM Helpers
   

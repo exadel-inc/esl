@@ -1,0 +1,4 @@
+{
+  "view": "lorem.html",
+  "controller": "lorem.js"
+}
