@@ -7647,7 +7647,8 @@ var ESLToggleable = /** @class */ (function (_super) {
             return;
         if (this.activator && this.activator.contains(target))
             return;
-        this.hide({ initiator: 'outsideaction', activator: target });
+        // Used 0 delay to decrease priority of the request
+        this.hide({ initiator: 'outsideaction', activator: target, hideDelay: 0 });
     };
     ESLToggleable.prototype._onKeyboardEvent = function (e) {
         if (this.closeOnEsc && e.key === _esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_4__.ESC) {
@@ -7722,9 +7723,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "TraversingQuery": function() { return /* binding */ TraversingQuery; }
 /* harmony export */ });
+/* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
 /* harmony import */ var _esl_utils_misc_array__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/misc/array */ "../src/modules/esl-utils/misc/array.ts");
 /* harmony import */ var _esl_utils_misc_format__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-utils/misc/format */ "../src/modules/esl-utils/misc/format.ts");
 /* harmony import */ var _esl_utils_dom_traversing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/dom/traversing */ "../src/modules/esl-utils/dom/traversing.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var __read = (undefined && undefined.__read) || function (o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
@@ -7760,6 +7768,7 @@ var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from
 
 
 
+
 /**
  * Traversing Query utility to find element via extended selector query
  * Extended query supports
@@ -7788,6 +7797,7 @@ var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from
 var TraversingQuery = /** @class */ (function () {
     function TraversingQuery() {
     }
+    TraversingQuery_1 = TraversingQuery;
     Object.defineProperty(TraversingQuery, "PROCESSORS_REGEX", {
         /**
          * @return RegExp that selects all known processors in query string
@@ -7858,12 +7868,13 @@ var TraversingQuery = /** @class */ (function () {
     };
     /** @return first matching element reached via {@class TraversingQuery} rules */
     TraversingQuery.first = function (query, base) {
-        return TraversingQuery.traverse(query, true, base)[0] || null;
+        return TraversingQuery_1.traverse(query, true, base)[0] || null;
     };
     /** @return Array of all matching elements reached via {@class TraversingQuery} rules */
     TraversingQuery.all = function (query, base) {
-        return TraversingQuery.traverse(query, false, base);
+        return TraversingQuery_1.traverse(query, false, base);
     };
+    var TraversingQuery_1;
     TraversingQuery.ELEMENT_PROCESSORS = {
         '::find': _esl_utils_dom_traversing__WEBPACK_IMPORTED_MODULE_2__.TraversingUtils.findAll,
         '::next': _esl_utils_dom_traversing__WEBPACK_IMPORTED_MODULE_2__.TraversingUtils.findNext,
@@ -7881,6 +7892,9 @@ var TraversingQuery = /** @class */ (function () {
         '::not': function (list, sel) { return list.filter(function (el) { return !el.matches(sel || ''); }); },
         '::filter': function (list, sel) { return list.filter(function (el) { return el.matches(sel || ''); }); }
     };
+    TraversingQuery = TraversingQuery_1 = __decorate([
+        (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_3__.ExportNs)('TraversingQuery')
+    ], TraversingQuery);
     return TraversingQuery;
 }());
 
