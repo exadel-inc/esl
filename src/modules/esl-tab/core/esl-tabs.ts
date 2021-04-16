@@ -5,6 +5,8 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {ESLTab} from './esl-tab';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
 import {debounce} from '../../esl-utils/async/debounce';
+import {ESLMediaRuleList} from '../../esl-media-query/core/esl-media-rule-list';
+import {CSSUtil} from '../../esl-utils/dom/styles';
 
 /**
  * ESlTabs component
@@ -18,16 +20,29 @@ import {debounce} from '../../esl-utils/async/debounce';
 export class ESLTabs extends ESLBaseElement {
   public static is = 'esl-tabs';
 
+  /** List of supported scrollable types */
+  public static supportedScrollableTypes = ['disabled', 'side', 'center'];
+
   /** Scrollable mode.
-   * The following values are supported:
-   * - 'none' or not defined -  scroll behavior is disabled;
-   * - 'centered' - scroll behavior is enabled, tab is center-aligned;
+   * Supported types for different breakpoints ('disabled' by default):
+   * - 'disabled' or not defined -  scroll behavior is disabled;
+   * - 'center' - scroll behavior is enabled, tab is center-aligned;
    * - empty or unsupported value - scroll behavior is enabled, tab is side-aligned;
    */
-  @attr({defaultValue: 'none'}) public scrollable: string;
+  @attr({defaultValue: 'disabled'}) public scrollable: string;
 
   /** Inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable mode */
   @attr({defaultValue: '.esl-tab-container'}) public scrollableTarget: string;
+
+  private _scrollableTypeRules: ESLMediaRuleList<string>;
+
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+    if (!this.connected || oldVal === newVal) return;
+    if (attrName === 'scrollable') {
+      this.scrollableTypeRules = ESLMediaRuleList.parse<string>(newVal, ESLMediaRuleList.STRING_PARSER);
+      this.updateScrollableType();
+    }
+  }
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -72,8 +87,8 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   /** Active {@link ESLTab} item */
-  public get $current(): ESLTab | null {
-    return this.$tabs.find((el) => el.active) || null;
+  public get $current(): ESLTab | undefined {
+    return this.$tabs.find((el) => el.active);
   }
 
   /** Container element to scroll */
@@ -83,7 +98,7 @@ export class ESLTabs extends ESLBaseElement {
 
   /** Is the scrollable mode enabled ? */
   public get isScrollable(): boolean {
-    return this.scrollable !== 'none';
+    return this.scrollable !== 'disabled';
   }
 
   /** Move scroll to the next/previous item */
@@ -117,7 +132,7 @@ export class ESLTabs extends ESLBaseElement {
   protected calcScrollOffset(itemRect: DOMRect, areaRect: DOMRect) {
     const isReversedRTL = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'reverse';
 
-    if (this.scrollable === 'center') {
+    if (this.currentScrollableType === 'center') {
       const shift = itemRect.left + itemRect.width / 2 - (areaRect.left + areaRect.width / 2);
       return isReversedRTL ? -shift : shift;
     }
@@ -181,4 +196,44 @@ export class ESLTabs extends ESLBaseElement {
   protected _onResize = rafDecorator(() => {
     this._deferredFitToViewport(this.$current, 'auto');
   });
+
+  /** ESLMediaRuleList instance of the scrollable type mapping */
+  public get scrollableTypeRules() {
+    if (!this._scrollableTypeRules) {
+      this.scrollableTypeRules = ESLMediaRuleList.parse<string>(this.scrollable, ESLMediaRuleList.STRING_PARSER);
+    }
+    return this._scrollableTypeRules;
+  }
+  public set scrollableTypeRules(rules: ESLMediaRuleList<string>) {
+    if (this._scrollableTypeRules) {
+      this._scrollableTypeRules.removeListener(this._onScrollableTypeChange);
+    }
+    this._scrollableTypeRules = rules;
+    this._scrollableTypeRules.addListener(this._onScrollableTypeChange);
+  }
+
+  /** @returns current scrollable type */
+  public get currentScrollableType(): string {
+    return this.scrollableTypeRules.activeValue || '';
+  }
+
+  /** Handles scrollable type change */
+  @bind
+  protected _onScrollableTypeChange() {
+    this.updateScrollableType();
+  }
+
+  /** Update element state according to scrollable type */
+  protected updateScrollableType() {
+    ESLTabs.supportedScrollableTypes.forEach((type) => {
+      CSSUtil.toggleClsTo(this, `${type}-alignment`, this.currentScrollableType === type);
+    });
+    this.fitToViewport(this.$current);
+
+    if (this.currentScrollableType === 'disabled') {
+      this.unbindScrollableEvents();
+    } else {
+      this.bindScrollableEvents();
+    }
+  }
 }
