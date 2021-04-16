@@ -8,9 +8,10 @@
 
 
 uip-root {
-  height: 100vh;
   display: grid;
   gap: 20px;
+  height: 100%;
+  padding: 20px 80px;
 }
 
 .section-name {
@@ -22,15 +23,12 @@ uip-options {
   grid-column: 1 / -1;
   display: flex;
   flex: 0 1 auto;
-
-  .section-name {
-    margin-right: 15px;
-  }
+  align-items: baseline;
 
   .uip-option {
     display: flex;
     flex: 0 1 auto;
-    margin: 5px 15px 0 0;
+    margin-left: 15px;
   }
 
   .option-item {
@@ -59,16 +57,16 @@ uip-options {
   }
 }
 
-.snippets-section, uip-preview, uip-settings, uip-editor {
+uip-snippets, uip-preview, uip-settings, uip-editor {
   margin-top: 5px;
   border: 1px solid @section-border;
 }
 
-.snippets-section, uip-preview, uip-settings {
+uip-snippets, uip-preview, uip-settings {
   padding: 10px;
 }
 
-.preview-wrapper, .settings-wrapper {
+.settings-wrapper, .editor-wrapper {
   display: flex;
   flex-direction: column;
 }
@@ -80,8 +78,9 @@ uip-settings, uip-editor {
 }
 
 @media screen and (max-width: 992px) {
-  // Add specificity
-  uip-root {
+  uip-root.uip-root {
+    padding: 20px 60px;
+  
     &.vertical-mode, &.horizontal-mode {
 
       &.settings-attached {
@@ -100,15 +99,6 @@ uip-settings, uip-editor {
       .snippets-wrapper {
         grid-column: 1 / 2;
         grid-row: 2 / 3;
-      }
-
-      .snippets-section {
-        height: auto;
-      }
-
-      .preview-wrapper {
-        grid-column: 1 / 2;
-        grid-row: 3 / 4;
       }
 
       .settings-wrapper {
