@@ -1,3 +1,25 @@
+## [2.4.1](https://github.com/exadel-inc/esl/compare/v2.4.0...v2.4.1) (2021-04-15)
+
+
+### Bug Fixes
+
+* add TraversingQuery to ESL ns ([d1b2af2](https://github.com/exadel-inc/esl/commit/d1b2af2dedc17ccde818d5910029feda6deee2dc))
+* disable scroll native mode fix ([2f5bb86](https://github.com/exadel-inc/esl/commit/2f5bb868647ae12af5312a4af8fd9995cb896432))
+* outsideAction tracker conflicts with outside esl-triggers / activators ([b544e07](https://github.com/exadel-inc/esl/commit/b544e07f37bbb61a6b8d57166ebe5077f5585d7d))
+
+# [2.4.0](https://github.com/exadel-inc/esl/compare/v2.3.2...v2.4.0) (2021-04-13)
+
+
+### Bug Fixes
+
+* add ability to pass custom user data trough toggleable params ([9e7af26](https://github.com/exadel-inc/esl/commit/9e7af2640be7868749184cff0fb9d489229b1dbb))
+
+
+### Features
+
+* extend Scrollable Tabs to support center position ([b3bb7d8](https://github.com/exadel-inc/esl/commit/b3bb7d8f3602a81da4f5ce7bfab6e48db73df4ac))
+* override and readonly decorators deprecate and replaced with a `prop` decorator ([eb4040e](https://github.com/exadel-inc/esl/commit/eb4040e08ce7522e330faabb6696fbc1f0d25afa))
+
 ## [2.3.2](https://github.com/exadel-inc/esl/compare/v2.3.1...v2.3.2) (2021-04-08)
 
 

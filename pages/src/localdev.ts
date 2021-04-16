@@ -5,7 +5,6 @@ import '../../src/polyfills/polyfills.es6';
 // Validate environment
 import '../../src/polyfills/polyfills.validate';
 
-import './common/back-button';
 import './common/test-media';
 import './common/test-media-source';
 

@@ -27,6 +27,9 @@ export interface ToggleableActionParams {
   activator?: HTMLElement;
   /** Event that initiates the action */
   event?: Event;
+
+  /** Custom user data */
+  [key: string]: any;
 }
 
 const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap();
@@ -234,7 +237,8 @@ export class ESLToggleable extends ESLBaseElement {
     const target = e.target as HTMLElement;
     if (this.contains(target)) return;
     if (this.activator && this.activator.contains(target)) return;
-    this.hide({initiator: 'outsideaction', activator: target});
+    // Used 0 delay to decrease priority of the request
+    this.hide({initiator: 'outsideaction', activator: target, hideDelay: 0});
   }
 
   @bind

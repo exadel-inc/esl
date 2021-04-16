@@ -1,4 +1,6 @@
 /**
+ * @deprecated This decorator is deprecated use {@link property} decorator instead.
+ *
  * `@override` is auxiliary decorator to override a field that is decorated in the parent class.
  * The override _value_ is always defined on the object prototype level.
  *

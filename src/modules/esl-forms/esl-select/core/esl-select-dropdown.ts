@@ -1,6 +1,6 @@
 import {ESLToggleable, ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
 import {bind} from '../../../esl-utils/decorators/bind';
-import {override} from '../../../esl-utils/decorators/override';
+import {prop} from '../../../esl-utils/decorators/prop';
 import {TAB} from '../../../esl-utils/dom/keys';
 import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';
@@ -29,10 +29,8 @@ export class ESLSelectDropdown extends ESLToggleable {
   protected _disposeTimeout: number;
   protected _deferredUpdatePosition = rafDecorator(() => this.updatePosition());
 
-  @override()
-  public closeOnEsc = true;
-  @override()
-  public closeOnOutsideAction = true;
+  @prop() public closeOnEsc = true;
+  @prop() public closeOnOutsideAction = true;
 
   constructor() {
     super();
