@@ -1,6 +1,6 @@
 import {CSSUtil} from '../styles';
 
-describe('dom/styles helper tests', () => {
+describe('CSSUtil tests', () => {
   test('styles: crud simple', () => {
     const el = document.createElement('div');
 
@@ -35,7 +35,7 @@ describe('dom/styles helper tests', () => {
 
   test.each([
     [''], [' '], [null], [undefined]
-  ])('styles: safe check', (val) => {
+  ])('add %p safe check', (val) => {
     const el = document.createElement('div');
     expect(el.classList.length).toBe(0);
     CSSUtil.addCls(el, val);

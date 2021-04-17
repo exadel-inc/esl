@@ -18,7 +18,7 @@ export abstract class BodyClassManager {
    * */
   public static addCls(cls: string | null | undefined, lock: HTMLElement) {
     CSSUtil.splitTokens(cls).forEach((className) => {
-      this.lock(className, lock);
+      BodyClassManager.lock(className, lock);
       document.body.classList.add(className);
     });
   }
@@ -30,7 +30,7 @@ export abstract class BodyClassManager {
    * */
   public static removeCls(cls: string | null | undefined, lock: HTMLElement) {
     CSSUtil.splitTokens(cls).forEach((className) => {
-      if (!this.unlock(className, lock)) return;
+      if (!BodyClassManager.unlock(className, lock)) return;
       document.body.classList.remove(className);
     });
   }
