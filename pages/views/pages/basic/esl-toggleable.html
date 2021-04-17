@@ -111,11 +111,19 @@ title: ESL Toggleable and ESL Trigger components
 <hr/>
 
 <section class="row">
+  <style>
+    body:not(.body-marker) .b-marker {
+      display: none
+    }
+  </style>
   <div class="col-12">
     <h4>Group of popups (click event)</h4>
+    <div class="b-marker alert alert-info">Body class marker active</div>
+
     <div style="height: 70px;">
       <esl-popup id="popup3"
                  group="group1"
+                 body-class="body-marker"
                  close-on=".close-button"
                  close-on-esc
                  open>
@@ -130,6 +138,7 @@ title: ESL Toggleable and ESL Trigger components
     <div style="height: 70px;">
       <esl-popup id="popup4"
                  group="group1"
+                 body-class="body-marker"
                  close-on=".close-button"
                  close-on-esc>
         <div class="alert alert-warning" role="alert">
@@ -143,6 +152,7 @@ title: ESL Toggleable and ESL Trigger components
     <div style="height: 70px;">
       <esl-popup id="popup5"
                  group="group1"
+                 body-class="body-marker"
                  close-on=".close-button"
                  close-on-esc>
         <div class="alert alert-warning" role="alert">
