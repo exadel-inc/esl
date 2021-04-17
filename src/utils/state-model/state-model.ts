@@ -1,10 +1,14 @@
 import {TraversingQuery} from '@exadel/esl';
 
 export class UIPStateModel {
-  public html: string;
+  protected root: Element;
 
-  protected get root(): Element {
-    return new DOMParser().parseFromString(this.html, 'text/html').body;
+  public set html(markup: string) {
+    this.root = new DOMParser().parseFromString(markup, 'text/html').body;
+  }
+
+  public get html(): string {
+    return this.root.innerHTML;
   }
 
   public getAttribute(target: string, name: string): (string | null)[] {
@@ -12,15 +16,19 @@ export class UIPStateModel {
   }
 
   public setAttribute(target: string, name: string, value: string | boolean): void {
-    const root = this.root;
-    const elements = TraversingQuery.all(target, root);
+    const elements = TraversingQuery.all(target, this.root);
 
     if (typeof value === 'string') {
       elements.forEach(el => el.setAttribute(name, value));
     } else {
       elements.forEach(el => value ? el.setAttribute(name, '') : el.removeAttribute(name));
     }
+  }
 
-    this.html = root.innerHTML;
+  public transformAttribute(target: string, name: string, transform: (current: string | null) => string | null) {
+    TraversingQuery.all(target, this.root).forEach(el => {
+      const transformed = transform(el.getAttribute(name));
+      transformed === null ? el.removeAttribute(name) : el.setAttribute(name, transformed);
+    });
   }
 }
