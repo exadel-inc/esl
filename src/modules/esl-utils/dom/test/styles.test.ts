@@ -1,6 +1,6 @@
 import {CSSUtil} from '../styles';
 
-describe('CSSUtil tests', () => {
+describe('CSSUtil tests:', () => {
   test('styles: crud simple', () => {
     const el = document.createElement('div');
 
@@ -33,14 +33,67 @@ describe('CSSUtil tests', () => {
     expect(el.classList.contains('a')).toBe(true);
   });
 
-  test.each([
-    [''], [' '], [null], [undefined]
-  ])('add %p safe check', (val) => {
-    const el = document.createElement('div');
-    expect(el.classList.length).toBe(0);
-    CSSUtil.addCls(el, val);
-    expect(el.classList.length).toBe(0);
-    CSSUtil.removeCls(el, val);
-    expect(el.classList.length).toBe(0);
+  describe('class locks:', () => {
+
+    const lock1 = document.createElement('div');
+    const lock2 = document.createElement('div');
+
+    test('lock case', () => {
+      const el = document.createElement('div');
+
+      CSSUtil.toggleClsTo(el, 'a', true, lock1);
+      expect(el.classList.contains('a')).toBeTruthy();
+      CSSUtil.toggleClsTo(el, 'a', true, lock2);
+      expect(el.classList.contains('a')).toBeTruthy();
+
+      CSSUtil.toggleClsTo(el, 'a', false, lock1);
+      expect(el.classList.contains('a')).toBeTruthy();
+      CSSUtil.toggleClsTo(el, 'a', false, lock2);
+      expect(el.classList.contains('a')).toBeFalsy();
+    });
+
+    const payloadSet = (new Array(1000)).fill('!a').join(' ');
+    test('payload test case', () => {
+      const el = document.createElement('div');
+      CSSUtil.removeCls(el, payloadSet, lock1);
+      expect(el.classList.contains('a')).toBeTruthy();
+      expect(el.classList.length).toBe(1);
+      CSSUtil.addCls(el, payloadSet, lock1);
+      expect(el.classList.contains('a')).toBeFalsy();
+      expect(el.classList.length).toBe(0);
+    }, 50);
+  });
+
+  describe('reverse adding:', () => {
+    test('add reverse', () => {
+      const el = document.createElement('div');
+      el.className = 'a b';
+      CSSUtil.addOne(el, '!a');
+      expect(el.classList.length).toBe(1);
+      CSSUtil.addOne(el, '!b');
+      expect(el.classList.length).toBe(0);
+    });
+    test('remove reverse', () => {
+      const el = document.createElement('div');
+      el.className = 'a b';
+      CSSUtil.removeOne(el, '!a');
+      expect(el.classList.contains('a')).toBeTruthy();
+      CSSUtil.removeOne(el, '!b');
+      expect(el.classList.contains('b')).toBeTruthy();
+      expect(el.classList.length).toBe(2);
+    });
+  });
+
+  describe('edge cases:', () => {
+    test.each([
+      [''], [' '], [null], [undefined]
+    ])('%p safe check', (val) => {
+      const el = document.createElement('div');
+      expect(el.classList.length).toBe(0);
+      CSSUtil.addCls(el, val);
+      expect(el.classList.length).toBe(0);
+      CSSUtil.removeCls(el, val);
+      expect(el.classList.length).toBe(0);
+    });
   });
 });

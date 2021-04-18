@@ -211,7 +211,7 @@ export class ESLToggleable extends ESLBaseElement {
     activators.set(this, params.activator);
     this.open = this._open = true;
     CSSUtil.addCls(this, this.activeClass);
-    BodyClassManager.addCls(this.bodyClass, this);
+    CSSUtil.addCls(document.body, this.bodyClass, this);
     this.updateA11y();
     this.$$fire('esl:refresh');
   }
@@ -221,7 +221,7 @@ export class ESLToggleable extends ESLBaseElement {
     activators.delete(this);
     this.open = this._open = false;
     CSSUtil.removeCls(this, this.activeClass);
-    BodyClassManager.removeCls(this.bodyClass, this);
+    CSSUtil.removeCls(document.body, this.bodyClass, this);
     this.updateA11y();
   }
 
