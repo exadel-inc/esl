@@ -5,8 +5,8 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {ESLTab} from './esl-tab';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
 import {debounce} from '../../esl-utils/async/debounce';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaRuleList} from '../../esl-media-query/core/esl-media-rule-list';
-import {CSSUtil} from '../../esl-utils/dom/styles';
 
 /**
  * ESlTabs component
@@ -227,7 +227,7 @@ export class ESLTabs extends ESLBaseElement {
   /** Update element state according to scrollable type */
   protected updateScrollableType() {
     ESLTabs.supportedScrollableTypes.forEach((type) => {
-      CSSUtil.toggleClsTo(this, `${type}-alignment`, this.currentScrollableType === type);
+      CSSClassUtils.toggle(this, `${type}-alignment`, this.currentScrollableType === type);
     });
 
     this.$current && this._deferredFitToViewport(this.$current);

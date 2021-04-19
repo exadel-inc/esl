@@ -50,10 +50,10 @@ const remove = (el: HTMLElement, className: string, locker?: HTMLElement): void 
  *
  * Allows to manipulate with CSS classes with the following set of sub-features:
  * - JQuery-like enumeration - you can pass multiple tokens separated by space
- * - safe checks - empty or falsy token sting will be ignored without trowing an error
+ * - safe checks - empty or falsy token sting will be ignored without throwing an error
  * - inversion syntax - tokens that start from '!' will be processed with inverted action
  * (e.g. addCls(el, '!class') - will remove 'class' from the element, while removeCls(el, '!class') adds 'class' to the element)
- * - class locks - you can manipulate with classes using `locker` option that takes into account modification initiator.
+ * - class locks - you can manipulate with classes using `locker` option that takes into account the modification initiator.
  * That means the class added in 'locker' mode will not be removed until all initiators that requested add class have requested its removal.
  * */
 export abstract class CSSClassUtils {
