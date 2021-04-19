@@ -7004,8 +7004,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _esl_tab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./esl-tab */ "../src/modules/esl-tab/core/esl-tab.ts");
 /* harmony import */ var _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-utils/dom/rtl */ "../src/modules/esl-utils/dom/rtl.ts");
 /* harmony import */ var _esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-utils/async/debounce */ "../src/modules/esl-utils/async/debounce.ts");
+/* harmony import */ var _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-utils/dom/class */ "../src/modules/esl-utils/dom/class.ts");
 /* harmony import */ var _esl_media_query_core_esl_media_rule_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-media-query/core/esl-media-rule-list */ "../src/modules/esl-media-query/core/esl-media-rule-list.ts");
-/* harmony import */ var _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-utils/dom/styles */ "../src/modules/esl-utils/dom/styles.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7237,7 +7237,7 @@ var ESLTabs = /** @class */ (function (_super) {
     ESLTabs.prototype.updateScrollableType = function () {
         var _this = this;
         ESLTabs_1.supportedScrollableTypes.forEach(function (type) {
-            _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_5__.CSSUtil.toggleClsTo(_this, type + "-alignment", _this.currentScrollableType === type);
+            _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_5__.CSSClassUtils.toggle(_this, type + "-alignment", _this.currentScrollableType === type);
         });
         this.$current && this._deferredFitToViewport(this.$current);
         if (this.currentScrollableType === 'disabled') {
@@ -8908,10 +8908,10 @@ var remove = function (el, className, locker) {
  *
  * Allows to manipulate with CSS classes with the following set of sub-features:
  * - JQuery-like enumeration - you can pass multiple tokens separated by space
- * - safe checks - empty or falsy token sting will be ignored without trowing an error
+ * - safe checks - empty or falsy token sting will be ignored without throwing an error
  * - inversion syntax - tokens that start from '!' will be processed with inverted action
  * (e.g. addCls(el, '!class') - will remove 'class' from the element, while removeCls(el, '!class') adds 'class' to the element)
- * - class locks - you can manipulate with classes using `locker` option that takes into account modification initiator.
+ * - class locks - you can manipulate with classes using `locker` option that takes into account the modification initiator.
  * That means the class added in 'locker' mode will not be removed until all initiators that requested add class have requested its removal.
  * */
 var CSSClassUtils = /** @class */ (function () {
@@ -9286,82 +9286,6 @@ var ScrollUtils = /** @class */ (function () {
 
 /** @deprecated Use ScrollUtils alias */
 var ScrollUtility = ScrollUtils;
-
-
-/***/ }),
-
-/***/ "../src/modules/esl-utils/dom/styles.ts":
-/*!**********************************************!*\
-  !*** ../src/modules/esl-utils/dom/styles.ts ***!
-  \**********************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "CSSUtil": function() { return /* binding */ CSSUtil; }
-/* harmony export */ });
-var __read = (undefined && undefined.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
-};
-/**
- * @deprecated
- * CSS manipulation utilities.
- *
- * Use {@link CSSClassUtils} instead
- * */
-var CSSUtil = /** @class */ (function () {
-    function CSSUtil() {
-    }
-    /** Splitting passed token string into CSS class names array. */
-    CSSUtil.splitTokens = function (tokenString) {
-        return (tokenString || '').split(' ').filter(function (str) { return !!str; });
-    };
-    /**
-     * Add all classes from the class string to the element.
-     * Class string can be nullable or contain multiple classes separated by space.
-     * */
-    CSSUtil.addCls = function (el, cls) {
-        var _a;
-        var tokens = CSSUtil.splitTokens(cls);
-        tokens.length && (_a = el.classList).add.apply(_a, __spreadArray([], __read(tokens)));
-    };
-    /**
-     * Remove all classes from the class string to the element.
-     * Class string can be nullable or contain multiple classes separated by space.
-     * */
-    CSSUtil.removeCls = function (el, cls) {
-        var _a;
-        var tokens = CSSUtil.splitTokens(cls);
-        tokens.length && (_a = el.classList).remove.apply(_a, __spreadArray([], __read(tokens)));
-    };
-    /**
-     * Toggle all classes from the class string on the element to the passed state.
-     * Class string can be nullable or contain multiple classes separated by space.
-     * */
-    CSSUtil.toggleClsTo = function (el, cls, state) {
-        (state ? CSSUtil.addCls : CSSUtil.removeCls)(el, cls);
-    };
-    return CSSUtil;
-}());
-
 
 
 /***/ }),
