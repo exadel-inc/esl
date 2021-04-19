@@ -72,7 +72,7 @@ describe('CSSClassUtils tests:', () => {
       expect(el.classList.contains('a')).toBeFalsy();
     });
 
-    const payloadSet = (new Array(200))
+    const payloadSet = (new Array(100))
       .fill('!a !b c !d !e !f !g !h !i !j !k !l !m !n !o !p !q !r !s !t !u !v !w !x !y !z')
       .join(' ');
 
@@ -85,8 +85,8 @@ describe('CSSClassUtils tests:', () => {
       expect(el.classList.contains('a')).toBeFalsy();
       expect(el.classList.length).toBe(1);
       const end = performance.now();
-      expect(end - start).toBeLessThan(100);
-    }, 100);
+      expect(end - start).toBeLessThan(200);
+    }, 200);
   });
 
   describe('reverse adding:', () => {
