@@ -48,7 +48,10 @@ export class ESLTabs extends ESLBaseElement {
   protected connectedCallback() {
     super.connectedCallback();
 
-    this.isScrollable && this.updateScrollableType();
+    if (this.isScrollable) {
+      this.updateScroll();
+      this.updateScrollableType();
+    }
   }
 
   protected disconnectedCallback() {
@@ -227,7 +230,7 @@ export class ESLTabs extends ESLBaseElement {
       CSSUtil.toggleClsTo(this, `${type}-alignment`, this.currentScrollableType === type);
     });
 
-    this.$current && this.fitToViewport(this.$current);
+    this.$current && this._deferredFitToViewport(this.$current);
 
     if (this.currentScrollableType === 'disabled') {
       this.unbindScrollableEvents();
