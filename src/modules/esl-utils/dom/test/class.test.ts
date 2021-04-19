@@ -34,27 +34,35 @@ describe('CSSClassUtils tests:', () => {
   });
 
   describe('class locks:', () => {
-
+    const el = document.createElement('div');
     const lock1 = document.createElement('div');
     const lock2 = document.createElement('div');
 
-    test('lock case', () => {
-      const el = document.createElement('div');
+    afterEach(() => el.className = '');
 
-      CSSClassUtils.toggle(el, 'a', true, lock1);
+    test('lock case', () => {
+      CSSClassUtils.add(el, 'a', lock1);
+      expect(el.classList.contains('a')).toBeTruthy();
+      CSSClassUtils.add(el, 'a', lock2);
+      expect(el.classList.contains('a')).toBeTruthy();
+
+      CSSClassUtils.remove(el, 'a', lock1);
+      expect(el.classList.contains('a')).toBeTruthy();
+      CSSClassUtils.remove(el, 'a', lock2);
+      expect(el.classList.contains('a')).toBeFalsy();
+    });
+
+    test('double lock case', () => {
+      CSSClassUtils.toggle(el, 'a', true, lock2);
       expect(el.classList.contains('a')).toBeTruthy();
       CSSClassUtils.toggle(el, 'a', true, lock2);
       expect(el.classList.contains('a')).toBeTruthy();
 
-      CSSClassUtils.toggle(el, 'a', false, lock1);
-      expect(el.classList.contains('a')).toBeTruthy();
       CSSClassUtils.toggle(el, 'a', false, lock2);
       expect(el.classList.contains('a')).toBeFalsy();
     });
 
     test('unlock via force action', () => {
-      const el = document.createElement('div');
-
       CSSClassUtils.add(el, 'a', lock1);
       expect(el.classList.contains('a')).toBeTruthy();
       CSSClassUtils.add(el, 'a', lock2);
@@ -64,16 +72,21 @@ describe('CSSClassUtils tests:', () => {
       expect(el.classList.contains('a')).toBeFalsy();
     });
 
-    const payloadSet = (new Array(1000)).fill('!a').join(' ');
+    const payloadSet = (new Array(200))
+      .fill('!a !b c !d !e !f !g !h !i !j !k !l !m !n !o !p !q !r !s !t !u !v !w !x !y !z')
+      .join(' ');
+
     test('payload test case', () => {
-      const el = document.createElement('div');
+      const start = performance.now();
       CSSClassUtils.remove(el, payloadSet, lock1);
       expect(el.classList.contains('a')).toBeTruthy();
-      expect(el.classList.length).toBe(1);
+      expect(el.classList.length).toBe(25);
       CSSClassUtils.add(el, payloadSet, lock1);
       expect(el.classList.contains('a')).toBeFalsy();
-      expect(el.classList.length).toBe(0);
-    }, 50);
+      expect(el.classList.length).toBe(1);
+      const end = performance.now();
+      expect(end - start).toBeLessThan(100);
+    }, 100);
   });
 
   describe('reverse adding:', () => {

@@ -1,27 +1,27 @@
 /** Describe locker elements collection per class name */
-type Locks = Map<string, HTMLElement[]>;
+type Locks = Map<string, Set<HTMLElement>>;
 /** Store locks for key element classes*/
 const lockStore = new WeakMap<HTMLElement, Locks>();
 
 /** Mange className lock for the element */
 const lock = (el: HTMLElement, className: string, locker: HTMLElement) => {
-  const locks = lockStore.get(el) || new Map();
-  const currentList = locks.get(className) || [];
-  currentList.push(locker);
-  locks.set(className, currentList);
-  lockStore.set(el, locks);
+  const elLocks: Locks = lockStore.get(el) || new Map();
+  const classLocks: Set<HTMLElement> = elLocks.get(className) || new Set();
+  classLocks.add(locker);
+  elLocks.set(className, classLocks);
+  lockStore.set(el, elLocks);
 };
 /**
  * Manage className unlock for the element
  * @returns true if className have no lockes
  */
 const unlock = (el: HTMLElement, className: string, locker: HTMLElement) => {
-  const locks = lockStore.get(el);
-  if (!locks) return true;
-  const currentList = locks.get(className) || [];
-  const lockIndex = currentList.indexOf(locker);
-  (lockIndex >= 0) && currentList.splice(lockIndex, 1);
-  return !currentList.length;
+  const elLocks = lockStore.get(el);
+  if (!elLocks) return true;
+  const classLocks = elLocks.get(className);
+  if (!classLocks) return true;
+  classLocks.delete(locker);
+  return !classLocks.size;
 };
 
 /**
