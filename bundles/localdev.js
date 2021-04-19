@@ -1656,7 +1656,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/json-attr.ts");
 /* harmony import */ var _esl_toggleable_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../esl-toggleable/core */ "../src/modules/esl-toggleable/core/esl-toggleable.ts");
 /* harmony import */ var _esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/environment/device-detector */ "../src/modules/esl-utils/environment/device-detector.ts");
-/* harmony import */ var _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/dom/styles */ "../src/modules/esl-utils/dom/styles.ts");
+/* harmony import */ var _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/dom/class */ "../src/modules/esl-utils/dom/class.ts");
 /* harmony import */ var _esl_utils_fixes_ie_fixes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/fixes/ie-fixes */ "../src/modules/esl-utils/fixes/ie-fixes.ts");
 /* harmony import */ var _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-traversing-query/core */ "../src/modules/esl-traversing-query/core/esl-traversing-query.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
@@ -1784,8 +1784,8 @@ var ESLAlert = /** @class */ (function (_super) {
     };
     ESLAlert.prototype.render = function (_a) {
         var text = _a.text, html = _a.html, cls = _a.cls;
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__.CSSUtil.removeCls(this, this.activeCls);
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__.CSSUtil.addCls(this, this.activeCls = cls);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.remove(this, this.activeCls);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.add(this, this.activeCls = cls);
         if (html)
             this.$content.innerHTML = html;
         if (text)
@@ -1793,7 +1793,7 @@ var ESLAlert = /** @class */ (function (_super) {
     };
     ESLAlert.prototype.clear = function () {
         this.$content.innerHTML = '';
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__.CSSUtil.removeCls(this, this.activeCls);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.remove(this, this.activeCls);
     };
     ESLAlert.prototype._onTargetEvent = function (e) {
         if (e.type === ESLAlert_1.eventNs + ":show") {
@@ -2959,7 +2959,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/bool-attr.ts");
 /* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
-/* harmony import */ var _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../esl-utils/dom/styles */ "../src/modules/esl-utils/dom/styles.ts");
+/* harmony import */ var _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../esl-utils/dom/class */ "../src/modules/esl-utils/dom/class.ts");
 /* harmony import */ var _esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../esl-utils/dom/keys */ "../src/modules/esl-utils/dom/keys.ts");
 /* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
 /* harmony import */ var _esl_utils_dom_events__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../esl-utils/dom/events */ "../src/modules/esl-utils/dom/events.ts");
@@ -3095,10 +3095,10 @@ var ESLSelect = /** @class */ (function (_super) {
     ESLSelect.prototype._onUpdate = function () {
         var hasValue = this.hasSelected();
         this.toggleAttribute('has-value', hasValue);
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__.CSSUtil.toggleClsTo(this, this.hasValueClass, hasValue);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.toggle(this, this.hasValueClass, hasValue);
         var focusEl = document.activeElement;
         var hasFocus = this.open || (focusEl && this.contains(focusEl));
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__.CSSUtil.toggleClsTo(this, this.hasFocusClass, !!hasFocus);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.toggle(this, this.hasFocusClass, !!hasFocus);
     };
     ESLSelect.prototype._onClick = function () {
         if (this.disabled)
@@ -3303,7 +3303,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
 /* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
-/* harmony import */ var _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-utils/dom/styles */ "../src/modules/esl-utils/dom/styles.ts");
+/* harmony import */ var _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-utils/dom/class */ "../src/modules/esl-utils/dom/class.ts");
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/bool-attr.ts");
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
@@ -3619,7 +3619,7 @@ var ESLImage = /** @class */ (function (_super) {
         var cls = this.containerClass || this.constructor.DEFAULT_CONTAINER_CLS;
         var state = isLoadState(this.containerClassState) && this[this.containerClassState];
         var targetEl = _esl_traversing_query_core_esl_traversing_query__WEBPACK_IMPORTED_MODULE_3__.TraversingQuery.first(this.containerClassTarget, this);
-        targetEl && _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_4__.CSSUtil.toggleClsTo(targetEl, cls, state);
+        targetEl && _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_4__.CSSClassUtils.toggle(targetEl, cls, state);
     };
     ESLImage.prototype.$$fire = function (eventName, eventInit) {
         if (eventInit === void 0) { eventInit = { bubbles: false }; }
@@ -4608,7 +4608,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/bool-attr.ts");
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
 /* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
-/* harmony import */ var _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-utils/dom/styles */ "../src/modules/esl-utils/dom/styles.ts");
+/* harmony import */ var _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-utils/dom/class */ "../src/modules/esl-utils/dom/class.ts");
 /* harmony import */ var _esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-utils/async/raf */ "../src/modules/esl-utils/async/raf.ts");
 /* harmony import */ var _esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/async/debounce */ "../src/modules/esl-utils/async/debounce.ts");
 /* harmony import */ var _esl_utils_dom_events__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../esl-utils/dom/events */ "../src/modules/esl-utils/dom/events.ts");
@@ -4783,8 +4783,8 @@ var ESLMedia = /** @class */ (function (_super) {
         if (!targetEl)
             return;
         var active = this.canActivate();
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_5__.CSSUtil.toggleClsTo(targetEl, this.loadClsAccepted, active);
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_5__.CSSUtil.toggleClsTo(targetEl, this.loadClsDeclined, !active);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_5__.CSSClassUtils.toggle(targetEl, this.loadClsAccepted, active);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_5__.CSSClassUtils.toggle(targetEl, this.loadClsDeclined, !active);
     };
     /**
      * Seek to given position of media
@@ -4904,7 +4904,7 @@ var ESLMedia = /** @class */ (function (_super) {
     /** Update ready class state */
     ESLMedia.prototype.updateReadyClass = function () {
         var target = _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_4__.TraversingQuery.first(this.readyClassTarget, this);
-        target && _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_5__.CSSUtil.toggleClsTo(target, this.readyClass, this.ready);
+        target && _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_5__.CSSClassUtils.toggle(target, this.readyClass, this.ready);
     };
     Object.defineProperty(ESLMedia.prototype, "providerType", {
         /** Applied provider */
@@ -5990,7 +5990,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
 /* harmony import */ var _esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/async/raf */ "../src/modules/esl-utils/async/raf.ts");
 /* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
-/* harmony import */ var _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/dom/styles */ "../src/modules/esl-utils/dom/styles.ts");
+/* harmony import */ var _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/dom/class */ "../src/modules/esl-utils/dom/class.ts");
 /* harmony import */ var _esl_media_query_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-media-query/core */ "../src/modules/esl-media-query/core/esl-media-rule-list.ts");
 /* harmony import */ var _esl_panel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./esl-panel */ "../src/modules/esl-panel/core/esl-panel.ts");
 /* harmony import */ var _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-traversing-query/core */ "../src/modules/esl-traversing-query/core/esl-traversing-query.ts");
@@ -6142,12 +6142,12 @@ var ESLPanelGroup = /** @class */ (function (_super) {
     };
     /** Pre-processing animation action */
     ESLPanelGroup.prototype.beforeAnimate = function () {
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__.CSSUtil.addCls(this, this.animationClass);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.add(this, this.animationClass);
     };
     /** Post-processing animation action */
     ESLPanelGroup.prototype.afterAnimate = function () {
         this.style.removeProperty('height');
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__.CSSUtil.removeCls(this, this.animationClass);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.remove(this, this.animationClass);
     };
     /** Init a fallback timer to call post-animate action */
     ESLPanelGroup.prototype.fallbackAnimate = function () {
@@ -6280,7 +6280,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ESLPanel": function() { return /* binding */ ESLPanel; }
 /* harmony export */ });
 /* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
-/* harmony import */ var _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/dom/styles */ "../src/modules/esl-utils/dom/styles.ts");
+/* harmony import */ var _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/dom/class */ "../src/modules/esl-utils/dom/class.ts");
 /* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
 /* harmony import */ var _esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/async/raf */ "../src/modules/esl-utils/async/raf.ts");
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
@@ -6390,8 +6390,8 @@ var ESLPanel = /** @class */ (function (_super) {
     /** Pre-processing animation action */
     ESLPanel.prototype.beforeAnimate = function () {
         var _this = this;
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_2__.CSSUtil.addCls(this, this.animateClass);
-        this.postAnimateClass && (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_1__.afterNextRender)(function () { return _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_2__.CSSUtil.addCls(_this, _this.postAnimateClass); });
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_2__.CSSClassUtils.add(this, this.animateClass);
+        this.postAnimateClass && (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_1__.afterNextRender)(function () { return _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_2__.CSSClassUtils.add(_this, _this.postAnimateClass); });
     };
     /** Process animation */
     ESLPanel.prototype.onAnimate = function (action) {
@@ -6411,8 +6411,8 @@ var ESLPanel = /** @class */ (function (_super) {
     /** Clear animation properties */
     ESLPanel.prototype.clearAnimation = function () {
         this.style.removeProperty('max-height');
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_2__.CSSUtil.removeCls(this, this.animateClass);
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_2__.CSSUtil.removeCls(this, this.postAnimateClass);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_2__.CSSClassUtils.remove(this, this.animateClass);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_2__.CSSClassUtils.remove(this, this.postAnimateClass);
     };
     /** Init a fallback timer to call post-animate action */
     ESLPanel.prototype.fallbackAnimate = function () {
@@ -6511,11 +6511,11 @@ var ESLPopup = /** @class */ (function (_super) {
     }
     ESLPopup.prototype.onShow = function (params) {
         _super.prototype.onShow.call(this, params);
-        this.disableScroll !== null && _esl_utils_dom_scroll__WEBPACK_IMPORTED_MODULE_0__.ScrollUtility.requestLock(this, this.disableScroll);
+        this.disableScroll !== null && _esl_utils_dom_scroll__WEBPACK_IMPORTED_MODULE_0__.ScrollUtils.requestLock(this, this.disableScroll);
     };
     ESLPopup.prototype.onHide = function (params) {
         _super.prototype.onHide.call(this, params);
-        this.disableScroll !== null && _esl_utils_dom_scroll__WEBPACK_IMPORTED_MODULE_0__.ScrollUtility.requestUnlock(this, this.disableScroll);
+        this.disableScroll !== null && _esl_utils_dom_scroll__WEBPACK_IMPORTED_MODULE_0__.ScrollUtils.requestUnlock(this, this.disableScroll);
     };
     ESLPopup.is = 'esl-popup';
     __decorate([
@@ -7418,7 +7418,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
 /* harmony import */ var _esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-utils/dom/keys */ "../src/modules/esl-utils/dom/keys.ts");
-/* harmony import */ var _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/dom/styles */ "../src/modules/esl-utils/dom/styles.ts");
+/* harmony import */ var _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/dom/class */ "../src/modules/esl-utils/dom/class.ts");
 /* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
 /* harmony import */ var _esl_utils_misc_object__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/misc/object */ "../src/modules/esl-utils/misc/object.ts");
 /* harmony import */ var _esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/environment/device-detector */ "../src/modules/esl-utils/environment/device-detector.ts");
@@ -7621,8 +7621,8 @@ var ESLToggleable = /** @class */ (function (_super) {
     ESLToggleable.prototype.onShow = function (params) {
         activators.set(this, params.activator);
         this.open = this._open = true;
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__.CSSUtil.addCls(this, this.activeClass);
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__.CSSUtil.addCls(document.body, this.bodyClass);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.add(this, this.activeClass);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.add(document.body, this.bodyClass, this);
         this.updateA11y();
         this.$$fire('esl:refresh');
     };
@@ -7630,8 +7630,8 @@ var ESLToggleable = /** @class */ (function (_super) {
     ESLToggleable.prototype.onHide = function (params) {
         activators.delete(this);
         this.open = this._open = false;
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__.CSSUtil.removeCls(this, this.activeClass);
-        _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_3__.CSSUtil.removeCls(document.body, this.bodyClass);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.remove(this, this.activeClass);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.remove(document.body, this.bodyClass, this);
         this.updateA11y();
     };
     // "Private" Handlers
@@ -7920,7 +7920,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _esl_utils_decorators_ready__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-utils/decorators/ready */ "../src/modules/esl-utils/decorators/ready.ts");
 /* harmony import */ var _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-traversing-query/core */ "../src/modules/esl-traversing-query/core/esl-traversing-query.ts");
 /* harmony import */ var _esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-utils/environment/device-detector */ "../src/modules/esl-utils/environment/device-detector.ts");
-/* harmony import */ var _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/dom/styles */ "../src/modules/esl-utils/dom/styles.ts");
+/* harmony import */ var _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/dom/class */ "../src/modules/esl-utils/dom/class.ts");
 /* harmony import */ var _esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/dom/keys */ "../src/modules/esl-utils/dom/keys.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -8113,7 +8113,7 @@ var ESLTrigger = /** @class */ (function (_super) {
     ESLTrigger.prototype._onTargetStateChange = function () {
         this.toggleAttribute('active', this.$target.open);
         var clsTarget = _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_1__.TraversingQuery.first(this.activeClassTarget, this);
-        clsTarget && _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_2__.CSSUtil.toggleClsTo(clsTarget, this.activeClass, this.active);
+        clsTarget && _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_2__.CSSClassUtils.toggle(clsTarget, this.activeClass, this.active);
         this.updateA11y();
         this.$$fire('change:active');
     };
@@ -8782,6 +8782,120 @@ function ready(target, propertyKey, descriptor) {
 
 /***/ }),
 
+/***/ "../src/modules/esl-utils/dom/class.ts":
+/*!*********************************************!*\
+  !*** ../src/modules/esl-utils/dom/class.ts ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CSSClassUtils": function() { return /* binding */ CSSClassUtils; }
+/* harmony export */ });
+/** Store locks for key element classes*/
+var lockStore = new WeakMap();
+/** Mange className lock for the element */
+var lock = function (el, className, locker) {
+    var elLocks = lockStore.get(el) || new Map();
+    var classLocks = elLocks.get(className) || new Set();
+    classLocks.add(locker);
+    elLocks.set(className, classLocks);
+    lockStore.set(el, elLocks);
+};
+/**
+ * Manage className unlock for the element
+ * @returns true if className have no lockes
+ */
+var unlock = function (el, className, locker) {
+    var elLocks = lockStore.get(el);
+    if (!elLocks)
+        return true;
+    var classLocks = elLocks.get(className);
+    if (!classLocks)
+        return true;
+    classLocks.delete(locker);
+    return !classLocks.size;
+};
+/**
+ * Add single class to the element.
+ * Supports inversion and locker management.
+ */
+var add = function (el, className, locker) {
+    if (className[0] === '!')
+        return CSSClassUtils.remove(el, className.substr(1), locker);
+    if (locker)
+        lock(el, className, locker);
+    el.classList.add(className);
+};
+/**
+ * Remove single class from the element.
+ * Supports inversion and locker management.
+ */
+var remove = function (el, className, locker) {
+    if (className[0] === '!')
+        return CSSClassUtils.add(el, className.substr(1), locker);
+    if (locker && !unlock(el, className, locker))
+        return;
+    if (!locker)
+        CSSClassUtils.unlock(el, className);
+    el.classList.remove(className);
+};
+/**
+ * CSS class manipulation utilities.
+ *
+ * Allows to manipulate with CSS classes with the following set of sub-features:
+ * - JQuery-like enumeration - you can pass multiple tokens separated by space
+ * - safe checks - empty or falsy token sting will be ignored without trowing an error
+ * - inversion syntax - tokens that start from '!' will be processed with inverted action
+ * (e.g. addCls(el, '!class') - will remove 'class' from the element, while removeCls(el, '!class') adds 'class' to the element)
+ * - class locks - you can manipulate with classes using `locker` option that takes into account modification initiator.
+ * That means the class added in 'locker' mode will not be removed until all initiators that requested add class have requested its removal.
+ * */
+var CSSClassUtils = /** @class */ (function () {
+    function CSSClassUtils() {
+    }
+    /** Splitting passed token string into CSS class names array. */
+    CSSClassUtils.splitTokens = function (tokenString) {
+        return (tokenString || '').split(' ').filter(function (str) { return !!str; });
+    };
+    /**
+     * Add all classes from the class token string to the element.
+     * @see CSSClassUtils
+     * */
+    CSSClassUtils.add = function (el, cls, locker) {
+        CSSClassUtils.splitTokens(cls).forEach(function (className) { return add(el, className, locker); });
+    };
+    /**
+     * Remove all classes from the class token string to the element.
+     * @see CSSClassUtils
+     * */
+    CSSClassUtils.remove = function (el, cls, locker) {
+        CSSClassUtils.splitTokens(cls).forEach(function (className) { return remove(el, className, locker); });
+    };
+    /**
+     * Toggle all classes from the class token string on the element to the passed state.
+     * @see CSSClassUtils
+     * */
+    CSSClassUtils.toggle = function (el, cls, state, locker) {
+        (state ? CSSClassUtils.add : CSSClassUtils.remove)(el, cls, locker);
+    };
+    /** Remove all lockers for the element or passed element className */
+    CSSClassUtils.unlock = function (el, className) {
+        var _a;
+        if (className) {
+            (_a = lockStore.get(el)) === null || _a === void 0 ? void 0 : _a.delete(className);
+        }
+        else {
+            lockStore.delete(el);
+        }
+    };
+    return CSSClassUtils;
+}());
+
+
+
+/***/ }),
+
 /***/ "../src/modules/esl-utils/dom/events.ts":
 /*!**********************************************!*\
   !*** ../src/modules/esl-utils/dom/events.ts ***!
@@ -9052,17 +9166,18 @@ function loadScript(id, src) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ScrollUtils": function() { return /* binding */ ScrollUtils; },
 /* harmony export */   "ScrollUtility": function() { return /* binding */ ScrollUtility; }
 /* harmony export */ });
 var $html = document.documentElement;
 var initiatorSet = new Set();
-var ScrollUtility = /** @class */ (function () {
-    function ScrollUtility() {
+var ScrollUtils = /** @class */ (function () {
+    function ScrollUtils() {
     }
     /**
      * Check vertical scroll based on content height
      * */
-    ScrollUtility.hasVerticalScroll = function (target) {
+    ScrollUtils.hasVerticalScroll = function (target) {
         if (target === void 0) { target = $html; }
         return target.scrollHeight > target.clientHeight;
     };
@@ -9070,8 +9185,8 @@ var ScrollUtility = /** @class */ (function () {
      * Disable scroll on the page.
      * @param [strategy] - to make scroll visually disabled
      * */
-    ScrollUtility.lock = function (strategy) {
-        var hasScroll = ScrollUtility.hasVerticalScroll();
+    ScrollUtils.lock = function (strategy) {
+        var hasScroll = ScrollUtils.hasVerticalScroll();
         if (strategy && strategy !== 'none' && hasScroll) {
             $html.classList.add("esl-" + strategy + "-scroll");
         }
@@ -9080,7 +9195,7 @@ var ScrollUtility = /** @class */ (function () {
     /**
      * Enable scroll on the page.
      * */
-    ScrollUtility.unlock = function () {
+    ScrollUtils.unlock = function () {
         $html.classList.remove('esl-disable-scroll', 'esl-pseudo-scroll', 'esl-native-scroll');
     };
     /**
@@ -9090,93 +9205,24 @@ var ScrollUtility = /** @class */ (function () {
      *
      * TODO: currently requests with different strategy is not taken into account
      * */
-    ScrollUtility.requestLock = function (initiator, strategy) {
+    ScrollUtils.requestLock = function (initiator, strategy) {
         initiator && initiatorSet.add(initiator);
-        (initiatorSet.size > 0) && ScrollUtility.lock(strategy);
+        (initiatorSet.size > 0) && ScrollUtils.lock(strategy);
     };
     /**
      * Enable scroll on the page in case it was requested with given initiator.
      * @param initiator - object to associate request with
      * @param [strategy] - to make scroll visually disabled
      * */
-    ScrollUtility.requestUnlock = function (initiator, strategy) {
+    ScrollUtils.requestUnlock = function (initiator, strategy) {
         initiator && initiatorSet.delete(initiator);
-        (initiatorSet.size === 0) && ScrollUtility.unlock();
+        (initiatorSet.size === 0) && ScrollUtils.unlock();
     };
-    return ScrollUtility;
+    return ScrollUtils;
 }());
 
-
-
-/***/ }),
-
-/***/ "../src/modules/esl-utils/dom/styles.ts":
-/*!**********************************************!*\
-  !*** ../src/modules/esl-utils/dom/styles.ts ***!
-  \**********************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "CSSUtil": function() { return /* binding */ CSSUtil; }
-/* harmony export */ });
-var __read = (undefined && undefined.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
-};
-/** CSS manipulation utilities. */
-var CSSUtil = /** @class */ (function () {
-    function CSSUtil() {
-    }
-    /** Splitting passed token string into CSS class names array. */
-    CSSUtil.splitTokens = function (tokenString) {
-        return (tokenString || '').split(' ').filter(function (str) { return !!str; });
-    };
-    /**
-     * Add all classes from the class string to the element.
-     * Class string can be nullable or contain multiple classes separated by space.
-     * */
-    CSSUtil.addCls = function (el, cls) {
-        var _a;
-        var tokens = CSSUtil.splitTokens(cls);
-        tokens.length && (_a = el.classList).add.apply(_a, __spreadArray([], __read(tokens)));
-    };
-    /**
-     * Remove all classes from the class string to the element.
-     * Class string can be nullable or contain multiple classes separated by space.
-     * */
-    CSSUtil.removeCls = function (el, cls) {
-        var _a;
-        var tokens = CSSUtil.splitTokens(cls);
-        tokens.length && (_a = el.classList).remove.apply(_a, __spreadArray([], __read(tokens)));
-    };
-    /**
-     * Toggle all classes from the class string on the element to the passed state.
-     * Class string can be nullable or contain multiple classes separated by space.
-     * */
-    CSSUtil.toggleClsTo = function (el, cls, state) {
-        (state ? CSSUtil.addCls : CSSUtil.removeCls)(el, cls);
-    };
-    return CSSUtil;
-}());
-
+/** @deprecated Use ScrollUtils alias */
+var ScrollUtility = ScrollUtils;
 
 
 /***/ }),

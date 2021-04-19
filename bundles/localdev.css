@@ -10292,6 +10292,12 @@ test-media-controls .btn {
   color: white;
   text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
 }
+.logo-light svg {
+  fill: #ffffff;
+}
+.logo-primary svg {
+  fill: #0082CA;
+}
 .esl-demo-header .navbar-brand {
   display: inline-flex;
   align-items: center;
