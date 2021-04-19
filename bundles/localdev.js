@@ -6996,14 +6996,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ESLTabs": function() { return /* binding */ ESLTabs; }
 /* harmony export */ });
-/* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
+/* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
 /* harmony import */ var _esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/async/raf */ "../src/modules/esl-utils/async/raf.ts");
-/* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
-/* harmony import */ var _esl_tab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./esl-tab */ "../src/modules/esl-tab/core/esl-tab.ts");
-/* harmony import */ var _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/dom/rtl */ "../src/modules/esl-utils/dom/rtl.ts");
+/* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
+/* harmony import */ var _esl_tab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./esl-tab */ "../src/modules/esl-tab/core/esl-tab.ts");
+/* harmony import */ var _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-utils/dom/rtl */ "../src/modules/esl-utils/dom/rtl.ts");
 /* harmony import */ var _esl_utils_async_debounce__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-utils/async/debounce */ "../src/modules/esl-utils/async/debounce.ts");
+/* harmony import */ var _esl_media_query_core_esl_media_rule_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-media-query/core/esl-media-rule-list */ "../src/modules/esl-media-query/core/esl-media-rule-list.ts");
+/* harmony import */ var _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-utils/dom/styles */ "../src/modules/esl-utils/dom/styles.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7032,6 +7034,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
 /**
  * ESlTabs component
  * @author Julia Murashko
@@ -7052,11 +7056,20 @@ var ESLTabs = /** @class */ (function (_super) {
         });
         return _this;
     }
+    ESLTabs_1 = ESLTabs;
+    ESLTabs.prototype.attributeChangedCallback = function (attrName, oldVal, newVal) {
+        if (!this.connected || oldVal === newVal)
+            return;
+        if (attrName === 'scrollable') {
+            this.scrollableTypeRules = _esl_media_query_core_esl_media_rule_list__WEBPACK_IMPORTED_MODULE_2__.ESLMediaRuleList.parse(newVal, _esl_media_query_core_esl_media_rule_list__WEBPACK_IMPORTED_MODULE_2__.ESLMediaRuleList.STRING_PARSER);
+            this.updateScrollableType();
+        }
+    };
     ESLTabs.prototype.connectedCallback = function () {
         _super.prototype.connectedCallback.call(this);
         if (this.isScrollable) {
-            this.bindScrollableEvents();
             this.updateScroll();
+            this.updateScrollableType();
         }
     };
     ESLTabs.prototype.disconnectedCallback = function () {
@@ -7086,7 +7099,7 @@ var ESLTabs = /** @class */ (function (_super) {
     Object.defineProperty(ESLTabs.prototype, "$tabs", {
         /** Collection of inner {@link ESLTab} items */
         get: function () {
-            var els = this.querySelectorAll(_esl_tab__WEBPACK_IMPORTED_MODULE_2__.ESLTab.is);
+            var els = this.querySelectorAll(_esl_tab__WEBPACK_IMPORTED_MODULE_3__.ESLTab.is);
             return els ? Array.from(els) : [];
         },
         enumerable: false,
@@ -7111,7 +7124,7 @@ var ESLTabs = /** @class */ (function (_super) {
     Object.defineProperty(ESLTabs.prototype, "isScrollable", {
         /** Is the scrollable mode enabled ? */
         get: function () {
-            return this.scrollable !== 'none';
+            return this.scrollable !== 'disabled';
         },
         enumerable: false,
         configurable: true
@@ -7123,7 +7136,7 @@ var ESLTabs = /** @class */ (function (_super) {
         if (!$scrollableTarget)
             return;
         var left = $scrollableTarget.offsetWidth;
-        left = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.scrollType !== 'reverse' ? -left : left;
+        left = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_4__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_4__.RTLUtils.scrollType !== 'reverse' ? -left : left;
         left = direction === 'left' ? -left : left;
         $scrollableTarget.scrollBy({ left: left, behavior: behavior });
     };
@@ -7143,8 +7156,8 @@ var ESLTabs = /** @class */ (function (_super) {
     };
     /** Get scroll offset position from the selected item rectangle */
     ESLTabs.prototype.calcScrollOffset = function (itemRect, areaRect) {
-        var isReversedRTL = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.scrollType === 'reverse';
-        if (this.scrollable === 'center') {
+        var isReversedRTL = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_4__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_4__.RTLUtils.scrollType === 'reverse';
+        if (this.currentScrollableType === 'center') {
             var shift = itemRect.left + itemRect.width / 2 - (areaRect.left + areaRect.width / 2);
             return isReversedRTL ? -shift : shift;
         }
@@ -7162,7 +7175,7 @@ var ESLTabs = /** @class */ (function (_super) {
         if (!$scrollableTarget)
             return;
         var hasScroll = $scrollableTarget.scrollWidth > this.clientWidth;
-        var swapSides = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_3__.RTLUtils.scrollType === 'default';
+        var swapSides = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_4__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_4__.RTLUtils.scrollType === 'default';
         var scrollStart = Math.abs($scrollableTarget.scrollLeft) > 1;
         var scrollEnd = Math.abs($scrollableTarget.scrollLeft) + $scrollableTarget.clientWidth + 1 < $scrollableTarget.scrollWidth;
         var $rightArrow = this.querySelector('[data-tab-direction="right"]');
@@ -7184,36 +7197,86 @@ var ESLTabs = /** @class */ (function (_super) {
     };
     ESLTabs.prototype._onFocus = function (e) {
         var target = e.target;
-        if (target instanceof _esl_tab__WEBPACK_IMPORTED_MODULE_2__.ESLTab)
+        if (target instanceof _esl_tab__WEBPACK_IMPORTED_MODULE_3__.ESLTab)
             this._deferredFitToViewport(target);
     };
     ESLTabs.prototype._onScroll = function () {
         this._deferredUpdateArrows();
     };
+    Object.defineProperty(ESLTabs.prototype, "scrollableTypeRules", {
+        /** ESLMediaRuleList instance of the scrollable type mapping */
+        get: function () {
+            if (!this._scrollableTypeRules) {
+                this.scrollableTypeRules = _esl_media_query_core_esl_media_rule_list__WEBPACK_IMPORTED_MODULE_2__.ESLMediaRuleList.parse(this.scrollable, _esl_media_query_core_esl_media_rule_list__WEBPACK_IMPORTED_MODULE_2__.ESLMediaRuleList.STRING_PARSER);
+            }
+            return this._scrollableTypeRules;
+        },
+        set: function (rules) {
+            if (this._scrollableTypeRules) {
+                this._scrollableTypeRules.removeListener(this._onScrollableTypeChange);
+            }
+            this._scrollableTypeRules = rules;
+            this._scrollableTypeRules.addListener(this._onScrollableTypeChange);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ESLTabs.prototype, "currentScrollableType", {
+        /** @returns current scrollable type */
+        get: function () {
+            return this.scrollableTypeRules.activeValue || '';
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /** Handles scrollable type change */
+    ESLTabs.prototype._onScrollableTypeChange = function () {
+        this.updateScrollableType();
+    };
+    /** Update element state according to scrollable type */
+    ESLTabs.prototype.updateScrollableType = function () {
+        var _this = this;
+        ESLTabs_1.supportedScrollableTypes.forEach(function (type) {
+            _esl_utils_dom_styles__WEBPACK_IMPORTED_MODULE_5__.CSSUtil.toggleClsTo(_this, type + "-alignment", _this.currentScrollableType === type);
+        });
+        this.$current && this._deferredFitToViewport(this.$current);
+        if (this.currentScrollableType === 'disabled') {
+            this.unbindScrollableEvents();
+        }
+        else {
+            this.bindScrollableEvents();
+        }
+    };
+    var ESLTabs_1;
     ESLTabs.is = 'esl-tabs';
+    /** List of supported scrollable types */
+    ESLTabs.supportedScrollableTypes = ['disabled', 'side', 'center'];
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.attr)({ defaultValue: 'none' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__.attr)({ defaultValue: 'disabled' })
     ], ESLTabs.prototype, "scrollable", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.attr)({ defaultValue: '.esl-tab-container' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__.attr)({ defaultValue: '.esl-tab-container' })
     ], ESLTabs.prototype, "scrollableTarget", void 0);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_7__.bind
     ], ESLTabs.prototype, "_onTriggerStateChange", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_7__.bind
     ], ESLTabs.prototype, "_onClick", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_7__.bind
     ], ESLTabs.prototype, "_onFocus", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_7__.bind
     ], ESLTabs.prototype, "_onScroll", null);
-    ESLTabs = __decorate([
-        (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_6__.ExportNs)('Tabs')
+    __decorate([
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_7__.bind
+    ], ESLTabs.prototype, "_onScrollableTypeChange", null);
+    ESLTabs = ESLTabs_1 = __decorate([
+        (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_8__.ExportNs)('Tabs')
     ], ESLTabs);
     return ESLTabs;
-}(_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.ESLBaseElement));
+}(_esl_base_element_core__WEBPACK_IMPORTED_MODULE_9__.ESLBaseElement));
 
 
 
@@ -9223,6 +9286,82 @@ var ScrollUtils = /** @class */ (function () {
 
 /** @deprecated Use ScrollUtils alias */
 var ScrollUtility = ScrollUtils;
+
+
+/***/ }),
+
+/***/ "../src/modules/esl-utils/dom/styles.ts":
+/*!**********************************************!*\
+  !*** ../src/modules/esl-utils/dom/styles.ts ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CSSUtil": function() { return /* binding */ CSSUtil; }
+/* harmony export */ });
+var __read = (undefined && undefined.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
+/**
+ * @deprecated
+ * CSS manipulation utilities.
+ *
+ * Use {@link CSSClassUtils} instead
+ * */
+var CSSUtil = /** @class */ (function () {
+    function CSSUtil() {
+    }
+    /** Splitting passed token string into CSS class names array. */
+    CSSUtil.splitTokens = function (tokenString) {
+        return (tokenString || '').split(' ').filter(function (str) { return !!str; });
+    };
+    /**
+     * Add all classes from the class string to the element.
+     * Class string can be nullable or contain multiple classes separated by space.
+     * */
+    CSSUtil.addCls = function (el, cls) {
+        var _a;
+        var tokens = CSSUtil.splitTokens(cls);
+        tokens.length && (_a = el.classList).add.apply(_a, __spreadArray([], __read(tokens)));
+    };
+    /**
+     * Remove all classes from the class string to the element.
+     * Class string can be nullable or contain multiple classes separated by space.
+     * */
+    CSSUtil.removeCls = function (el, cls) {
+        var _a;
+        var tokens = CSSUtil.splitTokens(cls);
+        tokens.length && (_a = el.classList).remove.apply(_a, __spreadArray([], __read(tokens)));
+    };
+    /**
+     * Toggle all classes from the class string on the element to the passed state.
+     * Class string can be nullable or contain multiple classes separated by space.
+     * */
+    CSSUtil.toggleClsTo = function (el, cls, state) {
+        (state ? CSSUtil.addCls : CSSUtil.removeCls)(el, cls);
+    };
+    return CSSUtil;
+}());
+
 
 
 /***/ }),
