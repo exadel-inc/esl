@@ -52,6 +52,18 @@ describe('CSSUtil tests:', () => {
       expect(el.classList.contains('a')).toBeFalsy();
     });
 
+    test('unlock via force action', () => {
+      const el = document.createElement('div');
+
+      CSSUtil.addCls(el, 'a', lock1);
+      expect(el.classList.contains('a')).toBeTruthy();
+      CSSUtil.addCls(el, 'a', lock2);
+      expect(el.classList.contains('a')).toBeTruthy();
+
+      CSSUtil.removeCls(el, 'a');
+      expect(el.classList.contains('a')).toBeFalsy();
+    });
+
     const payloadSet = (new Array(1000)).fill('!a').join(' ');
     test('payload test case', () => {
       const el = document.createElement('div');
