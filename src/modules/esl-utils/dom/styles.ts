@@ -1,4 +1,9 @@
-/** CSS manipulation utilities. */
+/**
+ * @deprecated
+ * CSS manipulation utilities.
+ *
+ * Use {@link CSSClassUtils} instead
+ * */
 export abstract class CSSUtil {
   /** Splitting passed token string into CSS class names array. */
   public static splitTokens(tokenString: string | null | undefined): string[] {

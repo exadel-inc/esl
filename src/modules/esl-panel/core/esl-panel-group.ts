@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, ESLBaseElement} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {bind} from '../../esl-utils/decorators/bind';
-import {CSSUtil} from '../../esl-utils/dom/styles';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLPanel, PanelActionParams} from './esl-panel';
 import {TraversingQuery} from '../../esl-traversing-query/core';
@@ -140,13 +140,13 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Pre-processing animation action */
   protected beforeAnimate() {
-    CSSUtil.addCls(this, this.animationClass);
+    CSSClassUtils.add(this, this.animationClass);
   }
 
   /** Post-processing animation action */
   protected afterAnimate() {
     this.style.removeProperty('height');
-    CSSUtil.removeCls(this, this.animationClass);
+    CSSClassUtils.remove(this, this.animationClass);
   }
 
   /** Init a fallback timer to call post-animate action */
