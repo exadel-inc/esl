@@ -53,7 +53,7 @@ Even if you use the whole utils module, it is still tiny.
     - #### [Scroll](./dom/scroll.ts) - scroll locking methods. 
       *Note: uses [scroll.less](./dom/scroll.less) styles.*
   
-    - #### [Styles](./dom/styles.ts) - small utility to work with CSS classes in a JQuery manner.
+    - #### [Styles](./dom/styles.ts) - is a utility to work with CSS classes. Supports JQuery-like enumeration, inversion syntax and locks.
   
     - #### [DOM Traversing](./dom/traversing.ts) - a set of utils to find DOM elements or check their relations.
   

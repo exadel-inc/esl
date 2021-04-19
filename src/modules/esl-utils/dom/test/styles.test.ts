@@ -68,17 +68,17 @@ describe('CSSUtil tests:', () => {
     test('add reverse', () => {
       const el = document.createElement('div');
       el.className = 'a b';
-      CSSUtil.addOne(el, '!a');
+      CSSUtil.add(el, '!a');
       expect(el.classList.length).toBe(1);
-      CSSUtil.addOne(el, '!b');
+      CSSUtil.add(el, '!b');
       expect(el.classList.length).toBe(0);
     });
     test('remove reverse', () => {
       const el = document.createElement('div');
       el.className = 'a b';
-      CSSUtil.removeOne(el, '!a');
+      CSSUtil.remove(el, '!a');
       expect(el.classList.contains('a')).toBeTruthy();
-      CSSUtil.removeOne(el, '!b');
+      CSSUtil.remove(el, '!b');
       expect(el.classList.contains('b')).toBeTruthy();
       expect(el.classList.length).toBe(2);
     });
