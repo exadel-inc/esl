@@ -20,6 +20,12 @@
     "type": "git",
     "url": "git+https://github.com/exadel-inc/esl.git"
   },
+  "files": [
+    "modules/**/*",
+    "polyfills/**/*",
+    "tsconfig.json",
+    "CLA.md"
+  ],
   "module": "modules/all.js",
   "sideEffects": [
     "modules/lib.js",
