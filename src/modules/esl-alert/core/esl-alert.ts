@@ -3,7 +3,7 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {attr, jsonAttr} from '../../esl-base-element/core';
 import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
-import {CSSUtil} from '../../esl-utils/dom/styles';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {createZIndexIframe} from '../../esl-utils/fixes/ie-fixes';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
@@ -125,14 +125,14 @@ export class ESLAlert extends ESLToggleable {
   }
 
   protected render({text, html, cls}: AlertActionParams) {
-    CSSUtil.removeCls(this, this.activeCls);
-    CSSUtil.addCls(this, this.activeCls = cls);
+    CSSClassUtils.remove(this, this.activeCls);
+    CSSClassUtils.add(this, this.activeCls = cls);
     if (html) this.$content.innerHTML = html;
     if (text) this.$content.textContent = text;
   }
   protected clear() {
     this.$content.innerHTML = '';
-    CSSUtil.removeCls(this, this.activeCls);
+    CSSClassUtils.remove(this, this.activeCls);
   }
 
   @bind

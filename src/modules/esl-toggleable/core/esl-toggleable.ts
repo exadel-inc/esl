@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESC} from '../../esl-utils/dom/keys';
-import {CSSUtil} from '../../esl-utils/dom/styles';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {bind} from '../../esl-utils/decorators/bind';
 import {defined} from '../../esl-utils/misc/object';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
@@ -209,8 +209,8 @@ export class ESLToggleable extends ESLBaseElement {
   protected onShow(params: ToggleableActionParams) {
     activators.set(this, params.activator);
     this.open = this._open = true;
-    CSSUtil.addCls(this, this.activeClass);
-    CSSUtil.addCls(document.body, this.bodyClass, this);
+    CSSClassUtils.add(this, this.activeClass);
+    CSSClassUtils.add(document.body, this.bodyClass, this);
     this.updateA11y();
     this.$$fire('esl:refresh');
   }
@@ -219,8 +219,8 @@ export class ESLToggleable extends ESLBaseElement {
   protected onHide(params: ToggleableActionParams) {
     activators.delete(this);
     this.open = this._open = false;
-    CSSUtil.removeCls(this, this.activeClass);
-    CSSUtil.removeCls(document.body, this.bodyClass, this);
+    CSSClassUtils.remove(this, this.activeClass);
+    CSSClassUtils.remove(document.body, this.bodyClass, this);
     this.updateA11y();
   }
 

@@ -24,6 +24,7 @@ export * from './async/throttle';
 // DOM
 export * from './dom/script';
 export * from './dom/styles';
+export * from './dom/class';
 export * from './dom/events';
 export * from './dom/traversing';
 

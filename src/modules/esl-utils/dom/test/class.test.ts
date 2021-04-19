@@ -1,17 +1,17 @@
-import {CSSUtil} from '../styles';
+import {CSSClassUtils} from '../class';
 
-describe('CSSUtil tests:', () => {
+describe('CSSClassUtils tests:', () => {
   test('styles: crud simple', () => {
     const el = document.createElement('div');
 
     expect(el.classList.length).toBe(0);
-    CSSUtil.addCls(el, 'abc');
+    CSSClassUtils.add(el, 'abc');
     expect(el.classList.contains('abc')).toBe(true);
-    CSSUtil.removeCls(el, 'abc');
+    CSSClassUtils.remove(el, 'abc');
     expect(el.classList.contains('abc')).toBe(false);
-    CSSUtil.toggleClsTo(el, 'abc', true);
+    CSSClassUtils.toggle(el, 'abc', true);
     expect(el.classList.contains('abc')).toBe(true);
-    CSSUtil.toggleClsTo(el, 'abc', false);
+    CSSClassUtils.toggle(el, 'abc', false);
     expect(el.classList.contains('abc')).toBe(false);
   });
 
@@ -19,17 +19,17 @@ describe('CSSUtil tests:', () => {
     const el = document.createElement('div');
 
     expect(el.classList.length).toBe(0);
-    CSSUtil.addCls(el, 'a b');
+    CSSClassUtils.add(el, 'a b');
     expect(el.classList.contains('a')).toBe(true);
     expect(el.classList.contains('b')).toBe(true);
-    CSSUtil.removeCls(el, 'a b ');
+    CSSClassUtils.remove(el, 'a b ');
     expect(el.classList.contains('a')).toBe(false);
     expect(el.classList.contains('b')).toBe(false);
 
-    CSSUtil.addCls(el, 'a a');
+    CSSClassUtils.add(el, 'a a');
     expect(el.classList.contains('a')).toBe(true);
     expect(el.classList.length).toBe(1);
-    CSSUtil.removeCls(el, 'b c');
+    CSSClassUtils.remove(el, 'b c');
     expect(el.classList.contains('a')).toBe(true);
   });
 
@@ -41,36 +41,36 @@ describe('CSSUtil tests:', () => {
     test('lock case', () => {
       const el = document.createElement('div');
 
-      CSSUtil.toggleClsTo(el, 'a', true, lock1);
+      CSSClassUtils.toggle(el, 'a', true, lock1);
       expect(el.classList.contains('a')).toBeTruthy();
-      CSSUtil.toggleClsTo(el, 'a', true, lock2);
+      CSSClassUtils.toggle(el, 'a', true, lock2);
       expect(el.classList.contains('a')).toBeTruthy();
 
-      CSSUtil.toggleClsTo(el, 'a', false, lock1);
+      CSSClassUtils.toggle(el, 'a', false, lock1);
       expect(el.classList.contains('a')).toBeTruthy();
-      CSSUtil.toggleClsTo(el, 'a', false, lock2);
+      CSSClassUtils.toggle(el, 'a', false, lock2);
       expect(el.classList.contains('a')).toBeFalsy();
     });
 
     test('unlock via force action', () => {
       const el = document.createElement('div');
 
-      CSSUtil.addCls(el, 'a', lock1);
+      CSSClassUtils.add(el, 'a', lock1);
       expect(el.classList.contains('a')).toBeTruthy();
-      CSSUtil.addCls(el, 'a', lock2);
+      CSSClassUtils.add(el, 'a', lock2);
       expect(el.classList.contains('a')).toBeTruthy();
 
-      CSSUtil.removeCls(el, 'a');
+      CSSClassUtils.remove(el, 'a');
       expect(el.classList.contains('a')).toBeFalsy();
     });
 
     const payloadSet = (new Array(1000)).fill('!a').join(' ');
     test('payload test case', () => {
       const el = document.createElement('div');
-      CSSUtil.removeCls(el, payloadSet, lock1);
+      CSSClassUtils.remove(el, payloadSet, lock1);
       expect(el.classList.contains('a')).toBeTruthy();
       expect(el.classList.length).toBe(1);
-      CSSUtil.addCls(el, payloadSet, lock1);
+      CSSClassUtils.add(el, payloadSet, lock1);
       expect(el.classList.contains('a')).toBeFalsy();
       expect(el.classList.length).toBe(0);
     }, 50);
@@ -80,17 +80,17 @@ describe('CSSUtil tests:', () => {
     test('add reverse', () => {
       const el = document.createElement('div');
       el.className = 'a b';
-      CSSUtil.add(el, '!a');
+      CSSClassUtils.add(el, '!a');
       expect(el.classList.length).toBe(1);
-      CSSUtil.add(el, '!b');
+      CSSClassUtils.add(el, '!b');
       expect(el.classList.length).toBe(0);
     });
     test('remove reverse', () => {
       const el = document.createElement('div');
       el.className = 'a b';
-      CSSUtil.remove(el, '!a');
+      CSSClassUtils.remove(el, '!a');
       expect(el.classList.contains('a')).toBeTruthy();
-      CSSUtil.remove(el, '!b');
+      CSSClassUtils.remove(el, '!b');
       expect(el.classList.contains('b')).toBeTruthy();
       expect(el.classList.length).toBe(2);
     });
@@ -102,9 +102,9 @@ describe('CSSUtil tests:', () => {
     ])('%p safe check', (val) => {
       const el = document.createElement('div');
       expect(el.classList.length).toBe(0);
-      CSSUtil.addCls(el, val);
+      CSSClassUtils.add(el, val);
       expect(el.classList.length).toBe(0);
-      CSSUtil.removeCls(el, val);
+      CSSClassUtils.remove(el, val);
       expect(el.classList.length).toBe(0);
     });
   });
