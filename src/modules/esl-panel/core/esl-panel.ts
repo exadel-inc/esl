@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {CSSUtil} from '../../esl-utils/dom/styles';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {bind} from '../../esl-utils/decorators/bind';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {attr, jsonAttr} from '../../esl-base-element/core';
@@ -93,8 +93,8 @@ export class ESLPanel extends ESLToggleable {
 
   /** Pre-processing animation action */
   protected beforeAnimate() {
-    CSSUtil.addCls(this, this.animateClass);
-    this.postAnimateClass && afterNextRender(() => CSSUtil.addCls(this, this.postAnimateClass));
+    CSSClassUtils.add(this, this.animateClass);
+    this.postAnimateClass && afterNextRender(() => CSSClassUtils.add(this, this.postAnimateClass));
   }
 
   /** Process animation */
@@ -116,8 +116,8 @@ export class ESLPanel extends ESLToggleable {
   /** Clear animation properties */
   protected clearAnimation() {
     this.style.removeProperty('max-height');
-    CSSUtil.removeCls(this, this.animateClass);
-    CSSUtil.removeCls(this, this.postAnimateClass);
+    CSSClassUtils.remove(this, this.animateClass);
+    CSSClassUtils.remove(this, this.postAnimateClass);
   }
 
   /** Init a fallback timer to call post-animate action */

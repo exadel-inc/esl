@@ -1,7 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
-import {CSSUtil} from '../../esl-utils/dom/styles';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {debounce} from '../../esl-utils/async/debounce';
 import {EventUtils} from '../../esl-utils/dom/events';
@@ -202,8 +202,8 @@ export class ESLMedia extends ESLBaseElement {
     if (!targetEl) return;
 
     const active = this.canActivate();
-    CSSUtil.toggleClsTo(targetEl, this.loadClsAccepted, active);
-    CSSUtil.toggleClsTo(targetEl, this.loadClsDeclined, !active);
+    CSSClassUtils.toggle(targetEl, this.loadClsAccepted, active);
+    CSSClassUtils.toggle(targetEl, this.loadClsDeclined, !active);
   }
 
   /**
@@ -334,7 +334,7 @@ export class ESLMedia extends ESLBaseElement {
   /** Update ready class state */
   protected updateReadyClass() {
     const target = TraversingQuery.first(this.readyClassTarget, this) as HTMLElement;
-    target && CSSUtil.toggleClsTo(target, this.readyClass, this.ready);
+    target && CSSClassUtils.toggle(target, this.readyClass, this.ready);
   }
 
   /** Applied provider */

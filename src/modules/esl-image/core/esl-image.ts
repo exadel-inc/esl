@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
-import {CSSUtil} from '../../esl-utils/dom/styles';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
@@ -294,8 +294,9 @@ export class ESLImage extends ESLBaseElement {
     if (this.containerClass === null) return;
     const cls = this.containerClass || (this.constructor as typeof ESLImage).DEFAULT_CONTAINER_CLS;
     const state = isLoadState(this.containerClassState) && this[this.containerClassState];
+
     const targetEl = TraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
-    targetEl && CSSUtil.toggleClsTo(targetEl, cls, state);
+    targetEl && CSSClassUtils.toggle(targetEl, cls, state);
   }
 
   public $$fire(eventName: string, eventInit: CustomEventInit = {bubbles: false}): boolean {
