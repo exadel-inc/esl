@@ -27,6 +27,7 @@ export class ESLTabs extends ESLBaseElement {
    * Supported types for different breakpoints ('disabled' by default):
    * - 'disabled' or not defined -  scroll behavior is disabled;
    * - 'center' - scroll behavior is enabled, tab is center-aligned;
+   * - 'side' - scroll behavior is enabled, tab is side-aligned;
    * - empty or unsupported value - scroll behavior is enabled, tab is side-aligned;
    */
   @attr({defaultValue: 'disabled'}) public scrollable: string;
@@ -47,10 +48,7 @@ export class ESLTabs extends ESLBaseElement {
   protected connectedCallback() {
     super.connectedCallback();
 
-    if (this.isScrollable) {
-      this.bindScrollableEvents();
-      this.updateScroll();
-    }
+    this.isScrollable && this.updateScrollableType();
   }
 
   protected disconnectedCallback() {
@@ -87,8 +85,8 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   /** Active {@link ESLTab} item */
-  public get $current(): ESLTab | undefined {
-    return this.$tabs.find((el) => el.active);
+  public get $current(): ESLTab | null {
+    return this.$tabs.find((el) => el.active) || null;
   }
 
   /** Container element to scroll */
@@ -113,7 +111,7 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   /** Scroll tab to the view */
-  protected fitToViewport($trigger?: ESLTab, behavior: ScrollBehavior = 'smooth'): void {
+  protected fitToViewport($trigger: ESLTab, behavior: ScrollBehavior = 'smooth'): void {
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget || !$trigger) return;
 
@@ -228,7 +226,8 @@ export class ESLTabs extends ESLBaseElement {
     ESLTabs.supportedScrollableTypes.forEach((type) => {
       CSSUtil.toggleClsTo(this, `${type}-alignment`, this.currentScrollableType === type);
     });
-    this.fitToViewport(this.$current);
+
+    this.$current && this.fitToViewport(this.$current);
 
     if (this.currentScrollableType === 'disabled') {
       this.unbindScrollableEvents();
