@@ -1,3 +1,13 @@
+# [2.5.0](https://github.com/exadel-inc/esl/compare/v2.4.1...v2.5.0) (2021-04-19)
+
+
+### Features
+
+* adjust scrollable attr ([b80a211](https://github.com/exadel-inc/esl/commit/b80a21175495927924bf4d923eb2b0dc45e4dfc0))
+* body class manger feature rejection ([07ba596](https://github.com/exadel-inc/esl/commit/07ba596eec58e81108c02179f0a873a6931d7b21))
+* change body class behaviour of the toggleable to support locks ([5379c65](https://github.com/exadel-inc/esl/commit/5379c65aeae9e2ec824cc366638770a63ffe00a4))
+* class utils extended ([c3e7f66](https://github.com/exadel-inc/esl/commit/c3e7f660330d310a0181b59927e163acb7380bf5))
+
 ## [2.4.1](https://github.com/exadel-inc/esl/compare/v2.4.0...v2.4.1) (2021-04-15)
 
 
