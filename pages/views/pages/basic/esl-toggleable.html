@@ -74,13 +74,13 @@ title: ESL Toggleable and ESL Trigger components
   <div class="col-12">
     <h4>Class toggle</h4>
     <div style="height: 70px;">
-      <esl-popup id="popup3" class="d-block alert" active-class="alert-success !alert-danger">
+      <esl-popup class="d-block alert" active-class="alert-success !alert-danger">
           <strong>Toggleable can be used to switch state.</strong> You can toggle it using the trigger bellow.
       </esl-popup>
     </div>
     <p>Triggers</p>
     <div>
-      <esl-trigger target="#popup3" class="btn btn-primary">Toggle type</esl-trigger>
+      <esl-trigger target="::parent(.row)::find(esl-popup)" class="btn btn-primary">Toggle type</esl-trigger>
     </div>
   </div>
 </section>
