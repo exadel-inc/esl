@@ -41,31 +41,16 @@ export class UIPSettings extends UIPPlugin {
   }
 
   protected get settings(): UIPSetting[] {
-    return [...this.getElementsByClassName(UIPSetting.is)] as UIPSetting[];
+    return Array.from(this.getElementsByClassName(UIPSetting.is)) as UIPSetting[];
   }
 
   @bind
   public handleChange(e: CustomEvent): void {
-    const {markup, origin} = e.detail;
-    console.log(e, markup);
-    if (origin === UIPSettings.is) return;
-
-    this.model.html = markup;
+    this.model.html = e.detail.markup;
 
     for (const setting of this.settings) {
       setting.updateFrom(this.model);
     }
-  }
-
-  protected renderWrapper(markup: string) {
-    const $wrapper = document.createElement('div');
-    $wrapper.className = 'settings-wrapper';
-
-    $wrapper.innerHTML = `
-        <span class="section-name">${this.label}</span>
-        <uip-settings>${this.innerHTML}</uip-settings>`;
-
-    this.parentElement?.replaceChild($wrapper, this);
   }
 }
 
