@@ -73,8 +73,8 @@ export class UIPSnippets extends ESLBaseElement {
       $ul?.appendChild(li);
     });
 
-    $wrapper.innerHTML = `
-        <span class="section-name">${this.label}</span>
+    if (this.label) $wrapper.innerHTML = `<span class="section-name">${this.label}</span>`;
+    $wrapper.innerHTML += `
         <uip-snippets>${$ul.outerHTML}</uip-snippets>
     `;
     this.parentElement?.replaceChild($wrapper, this);

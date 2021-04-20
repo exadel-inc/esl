@@ -83,9 +83,8 @@ export class UIPEditor extends ESLBaseElement {
     const $wrapper = document.createElement('div');
     $wrapper.className = 'editor-wrapper';
 
-    $wrapper.innerHTML = `
-        <span class="section-name">${this.label}</span>
-        <uip-editor editor-config='{wrap: 70}'></uip-editor>`;
+    if (this.label) $wrapper.innerHTML = `<span class="section-name">${this.label}</span>`;
+    $wrapper.innerHTML += '<uip-editor></uip-editor>';
     this.parentElement?.replaceChild($wrapper, this);
   }
 

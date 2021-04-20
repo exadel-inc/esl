@@ -100,10 +100,8 @@ export class UIPSettings extends ESLBaseElement {
     const $wrapper = document.createElement('div');
     $wrapper.className = 'settings-wrapper';
 
-    $wrapper.innerHTML = `
-        <span class="section-name">${this.label}</span>
-        <uip-settings>${this.innerHTML}</uip-settings>`;
-
+    if (this.label) $wrapper.innerHTML = `<span class="section-name">${this.label}</span>`;
+    $wrapper.innerHTML += `<uip-settings>${this.innerHTML}</uip-settings>`;
     this.parentElement?.replaceChild($wrapper, this);
   }
 
