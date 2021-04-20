@@ -1,7 +1,6 @@
-import {UIPCheckSetting} from './setting/check-setting/check-setting';
-import {UIPListSetting} from './setting/list-setting/list-setting';
+import {UIPBoolSetting} from './setting/bool-setting/bool-setting';
+import {UIPSelectSetting} from './setting/select-setting/select-setting';
 import {UIPTextSetting} from './setting/text-setting/text-setting';
-import {UIPClassSetting} from './setting/class-setting/class-setting';
 import {UIPSetting} from './setting/setting';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {ESLBaseElement, attr} from '@exadel/esl/modules/esl-base-element/core';
@@ -77,14 +76,10 @@ export class UIPSettings extends ESLBaseElement {
 
   protected get attrSettingsTags(): any[] {
     return [
-      ...this.getElementsByTagName(UIPCheckSetting.is),
-      ...this.getElementsByTagName(UIPListSetting.is),
+      ...this.getElementsByTagName(UIPBoolSetting.is),
+      ...this.getElementsByTagName(UIPSelectSetting.is),
       ...this.getElementsByTagName(UIPTextSetting.is),
     ];
-  }
-
-  protected get classSettingsTags(): any[] {
-    return [...this.getElementsByTagName(UIPClassSetting.is)];
   }
 
   @bind
@@ -99,8 +94,6 @@ export class UIPSettings extends ESLBaseElement {
     const component = new DOMParser().parseFromString(markup, 'text/html').body;
 
     this.setAttrSettings(component);
-    this.setClassSettings(component);
-
   }
 
   protected renderWrapper(markup: string) {
@@ -129,26 +122,6 @@ export class UIPSettings extends ESLBaseElement {
       } else {
         attrValues.every((value: string) => value === attrValues[0]) ?
           settingTag.setAttribute('value', attrValues[0]) : settingTag.setAttribute('value', 'null');
-      }
-    }
-  }
-
-  protected setClassSettings(component: HTMLElement): void {
-    for (let classSetting of this.classSettingsTags) {
-      classSetting = classSetting as UIPClassSetting;
-      const {selector, values} = classSetting;
-
-      const classLists: DOMTokenList[] = Array.prototype.map.call(component.querySelectorAll(selector),
-        (tag: HTMLElement) => tag.classList);
-      if (!classLists.length) continue;
-
-      const item = values.find((val: string) => classLists[0].contains(val));
-
-      if (classLists.length === 1) {
-        item ? (classSetting.value = item) : (classSetting.value = 'null');
-      } else {
-        classLists.every((classList: DOMTokenList) => classList.contains(item)) ?
-          classSetting.value = item : classSetting.value = 'null';
       }
     }
   }
