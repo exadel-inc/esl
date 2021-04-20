@@ -1,7 +1,7 @@
 import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {UIPEditor} from '../editor/editor';
-import {CSSUtil} from '@exadel/esl';
+import {CSSUtil, ESLMediaQuery} from '@exadel/esl';
 import {UIPRoot} from '../core/root';
 
 export class UIPOptions extends ESLBaseElement {
@@ -14,6 +14,12 @@ export class UIPOptions extends ESLBaseElement {
   @attr({defaultValue: 'Options:'}) public label: string;
 
   protected _$root: UIPRoot;
+
+  private _conditionQuery: ESLMediaQuery | null = new ESLMediaQuery('@XS, @SM, @MD');
+
+  static darkEditorTheme = 'ace/theme/tomorrow_night';
+  static lightEditorTheme = 'ace/theme/chrome';
+
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected || newVal === oldVal) return;
@@ -111,26 +117,24 @@ export class UIPOptions extends ESLBaseElement {
     const $editor = this._$root.querySelector('uip-editor') as UIPEditor;
     if (!$editor) return;
     const editorConfig = $editor.editorConfig;
-    editorConfig.theme = theme === 'dark' ? 'ace/theme/tomorrow_night' : 'ace/theme/chrome';
+    editorConfig.theme = theme === 'dark' ? UIPOptions.darkEditorTheme : UIPOptions.lightEditorTheme;
     $editor.setEditorConfig(editorConfig);
   }
 
   protected updateModeMarker(mode: string) {
-    CSSUtil.removeCls(this._$root, 'vertical-mode');
-    CSSUtil.removeCls(this._$root, 'horizontal-mode');
+    CSSUtil.removeCls(this._$root, 'vertical-mode horizontal-mode');
     CSSUtil.addCls(this._$root, `${mode}-mode`);
   }
 
   protected updateThemeMarker(theme: string) {
-    CSSUtil.removeCls(this._$root, 'light-theme');
-    CSSUtil.removeCls(this._$root, 'dark-theme');
+    CSSUtil.removeCls(this._$root, 'light-theme dark-theme');
     CSSUtil.addCls(this._$root, `${theme}-theme`);
     this.changeEditorTheme(theme);
   }
 
   @bind
   protected _onResize() {
-    (window.matchMedia('(max-width: 992px)').matches)
+    (this._conditionQuery?.matches)
       ? this.updateModeMarker('horizontal')
       : this.updateModeMarker(this.mode);
   }
