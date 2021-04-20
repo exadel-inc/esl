@@ -1,14 +1,12 @@
-import * as ace from 'brace';
+import ace from 'brace';
 import 'brace/theme/chrome';
 import 'brace/theme/tomorrow_night';
 import 'brace/mode/html';
 import js_beautify from 'js-beautify';
 
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
-import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
-import {UIPRoot} from '../core/root';
-import {ESLBaseElement, jsonAttr, attr} from '@exadel/esl/modules/esl-base-element/core';
-import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
+import {jsonAttr, attr} from '@exadel/esl/modules/esl-base-element/core';
+import {UIPPlugin} from '../core/plugin';
 
 interface EditorConfig {
   theme: string;
@@ -17,7 +15,7 @@ interface EditorConfig {
   wrap: number;
 }
 
-export class UIPEditor extends ESLBaseElement {
+export class UIPEditor extends UIPPlugin {
   public static is = 'uip-editor';
   public static defaultOptions = {
     theme: 'ace/theme/chrome',
@@ -25,21 +23,15 @@ export class UIPEditor extends ESLBaseElement {
     printMarginColumn: -1,
     wrap: 120,
   };
+
   @jsonAttr()
   public editorConfig: EditorConfig;
-
   protected editor: ace.Editor;
-  protected playground: UIPRoot;
 
   @attr({defaultValue: 'Editor'}) public label: string;
 
   protected connectedCallback(): void {
     super.connectedCallback();
-    this.playground = this.closest(`${UIPRoot.is}`) as UIPRoot;
-
-    if (!this.playground) return;
-
-    this.playground.addEventListener('state:change', this.setMarkup);
 
     this.editor = ace.edit(this);
     this.initEditorOptions();
@@ -47,13 +39,12 @@ export class UIPEditor extends ESLBaseElement {
     this.editor.$blockScrolling = Infinity;
     this.editor.addEventListener('change', this.onChange);
 
-    this.setEditorValue(this.playground.state);
+    this.setEditorValue(this.root?.state || '');
   }
 
   protected disconnectedCallback() {
-    super.disconnectedCallback();
     this.editor.removeEventListener('change', this.onChange);
-    this.playground && this.playground.removeEventListener('state:change', this.setMarkup);
+    super.disconnectedCallback();
   }
 
   protected get mergedEditorConfig() {
@@ -66,14 +57,13 @@ export class UIPEditor extends ESLBaseElement {
   }
 
   protected onChange = debounce(() => {
-    EventUtils.dispatch(this, 'request:change', {detail: {source: UIPEditor.is, markup: this.editor.getValue()}});
+    this.dispatchChange(this.editor.getValue());
   }, 1000);
 
-  @bind
-  protected setMarkup(e: CustomEvent): void {
-    const {markup, source} = e.detail;
-    if (source === UIPEditor.is) return;
+  protected handleChange(e: CustomEvent) {
+    const {markup} = e.detail;
     this.setEditorValue(markup);
+
     if (!this.closest('.editor-wrapper')) {
       this.renderWrapper();
     }
