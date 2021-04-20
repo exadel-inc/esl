@@ -21,9 +21,9 @@ export abstract class UIPPlugin extends ESLBaseElement {
     return this._root;
   }
   protected set root(root: UIPRoot | null) {
-    this._root && this._root.removeEventListener('state:change', this.handleChange);
+    this._root && this._root.removeEventListener('state:change', this._onRootChange);
     this._root = root;
-    this._root && this._root.addEventListener('state:change', this.handleChange);
+    this._root && this._root.addEventListener('state:change', this._onRootChange);
   }
 
   protected connectedCallback() {

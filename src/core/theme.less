@@ -2,6 +2,8 @@
 
 uip-root {
   &.light-theme {
+    background-color: @light-theme;
+
     .option-label {
       &[for='light-theme'] {
         font-weight: @selected-mode-weight;
@@ -28,8 +30,8 @@ uip-root {
       }
     }
 
-    uip-preview {
-      background-color: @light-theme-preview;
+    uip-preview, uip-snippets, uip-settings {
+      background-color: @light-theme-section;
       color: @dark-text;
     }
 
@@ -74,8 +76,8 @@ uip-root {
       }
     }
 
-    uip-preview {
-      background-color: @dark-theme-preview;
+    uip-preview, uip-snippets, uip-settings {
+      background-color: @dark-theme-section;
       color: @light-text;
     }
 

@@ -18,8 +18,8 @@ export class UIPOptions extends ESLBaseElement {
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected || newVal === oldVal) return;
 
-    if (attrName === 'mode') this.updateModeMarker();
-    if (attrName === 'theme') this.updateThemeMarker();
+    if (attrName === 'mode') this.updateModeMarker(this.mode);
+    if (attrName === 'theme') this.updateThemeMarker(this.theme);
   }
 
   protected connectedCallback() {
@@ -30,8 +30,8 @@ export class UIPOptions extends ESLBaseElement {
     this.bindEvents();
     this.render();
 
-    this.updateModeMarker();
-    this.updateThemeMarker();
+    this.updateModeMarker(this.mode);
+    this.updateThemeMarker(this.theme);
     this._onResize();
   }
 
@@ -98,12 +98,12 @@ export class UIPOptions extends ESLBaseElement {
 
     if (mode) {
       this.mode = mode;
-      this.updateModeMarker();
+      this.updateModeMarker(this.mode);
     }
 
     if (theme) {
       this.theme = theme;
-      this.updateThemeMarker();
+      this.updateThemeMarker(this.theme);
     }
   }
 
@@ -115,13 +115,13 @@ export class UIPOptions extends ESLBaseElement {
     $editor.setEditorConfig(editorConfig);
   }
 
-  protected updateModeMarker(mode: string = this.mode) {
+  protected updateModeMarker(mode: string) {
     CSSUtil.removeCls(this._$root, 'vertical-mode');
     CSSUtil.removeCls(this._$root, 'horizontal-mode');
     CSSUtil.addCls(this._$root, `${mode}-mode`);
   }
 
-  protected updateThemeMarker(theme: string = this.theme) {
+  protected updateThemeMarker(theme: string) {
     CSSUtil.removeCls(this._$root, 'light-theme');
     CSSUtil.removeCls(this._$root, 'dark-theme');
     CSSUtil.addCls(this._$root, `${theme}-theme`);
@@ -130,9 +130,8 @@ export class UIPOptions extends ESLBaseElement {
 
   @bind
   protected _onResize() {
-    if (window.matchMedia('(max-width: 992px)').matches) {
-      this.mode = 'horizontal';
-      this.updateModeMarker();
-    }
+    (window.matchMedia('(max-width: 992px)').matches)
+      ? this.updateModeMarker('horizontal')
+      : this.updateModeMarker(this.mode);
   }
 }
