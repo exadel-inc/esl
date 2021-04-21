@@ -49,11 +49,6 @@ export class UIPBoolSetting extends UIPSetting {
       this.setValue(valueMatch[0].length ? this.value : null) : this.setInconsistency();
   }
 
-  protected render() {
-    this.innerHTML = '';
-    this.appendChild(this.$field);
-  }
-
   protected getDisplayedValue(): string | boolean {
     if (this.value) {
       return this.$field.checked ? this.value : false;

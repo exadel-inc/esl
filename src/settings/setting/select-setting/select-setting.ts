@@ -70,11 +70,6 @@ export class UIPSelectSetting extends UIPSetting {
     valueTokens.length ? this.setValue(valueTokens.join(' ')) : this.setInconsistency();
   }
 
-  protected render(): void {
-    this.innerHTML = '';
-    this.appendChild(this.$field);
-  }
-
   protected getDisplayedValue(): string {
     return this.$field.values.join(' ');
   }
