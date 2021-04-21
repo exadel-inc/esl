@@ -147,7 +147,7 @@ export class ESLMedia extends ESLBaseElement {
     this._provider && this._provider.unbind();
   }
 
-  private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
       case 'disabled':
@@ -326,7 +326,8 @@ export class ESLMedia extends ESLBaseElement {
 
   @bind
   protected _onRegistryStateChange(name: string) {
-    if (name === this.mediaType) {
+    const type = this.mediaType.toLowerCase() || 'auto';
+    if (name === type || (!this.providerType && type === 'auto')) {
       this.reinitInstance();
     }
   }
