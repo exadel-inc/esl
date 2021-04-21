@@ -2,7 +2,8 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "rootDir": "../",
-    "sourceMap": true
+    "sourceMap": true,
+    "module": "esnext"
   },
   "include": [
     "src"
