@@ -4897,7 +4897,8 @@ var ESLMedia = /** @class */ (function (_super) {
         }
     };
     ESLMedia.prototype._onRegistryStateChange = function (name) {
-        if (name === this.mediaType) {
+        var type = this.mediaType.toLowerCase() || 'auto';
+        if (name === type || (!this.providerType && type === 'auto')) {
             this.reinitInstance();
         }
     };
