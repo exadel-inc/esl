@@ -8,6 +8,8 @@ export interface ESLSelectOption {
   text: string;
   /** Value of the option */
   value: string;
+  /** Disabled marker */
+  disabled: boolean;
   /** Selected marker */
   selected: boolean;
   /** Initially selected marker */
@@ -74,6 +76,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
   }
 
   protected _onChange(event?: Event) {}
+  protected _onListChange() {}
   protected _onTargetChange(newTarget: HTMLSelectElement | undefined,
                             oldTarget: HTMLSelectElement | undefined) {
     if (oldTarget) oldTarget.removeEventListener('change', this._onChange);
@@ -83,7 +86,8 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
     if (newTarget) this._mutationObserver.observe(newTarget, type.observationConfig);
   }
   protected _onTargetMutation(changes: MutationRecord[]) {
-    this._onChange();
+    const isListChange = (change: MutationRecord) => change.addedNodes.length + change.removedNodes.length > 0;
+    changes.some(isListChange) ? this._onListChange() : this._onChange();
   }
 
   @bind
@@ -121,12 +125,12 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
   }
 
   public isAllSelected(): boolean {
-    return this.options.every((item) => item.selected);
+    return this.options.every((item) => item.selected || item.disabled);
   }
 
   public setAllSelected(state: boolean) {
     if (!this.multiple) return false;
-    this.options.forEach((item: HTMLOptionElement) => item.selected = state);
+    this.options.forEach((item: HTMLOptionElement) => item.selected = !item.disabled && state);
     EventUtils.dispatch(this.$select, 'change');
   }
 
