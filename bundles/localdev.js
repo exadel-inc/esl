@@ -7396,15 +7396,21 @@ var ESLToggleableDispatcher = /** @class */ (function (_super) {
         return !!target.groupName && target.groupName !== 'none';
     };
     /** Hide active element in group */
-    ESLToggleableDispatcher.prototype.hideActive = function (groupName) {
-        var _a;
-        (_a = this.getActive(groupName)) === null || _a === void 0 ? void 0 : _a.hide();
+    ESLToggleableDispatcher.prototype.hideActive = function (groupName, activator) {
+        var active = this.getActive(groupName);
+        if (!active || active === activator)
+            return;
+        active.hide({
+            initiator: 'dispatcher',
+            dispatcher: this,
+            activator: activator
+        });
     };
     /** Set active element in group */
     ESLToggleableDispatcher.prototype.setActive = function (groupName, popup) {
         if (!groupName)
             return;
-        this.hideActive(groupName);
+        this.hideActive(groupName, popup);
         this._popups.set(groupName, popup);
     };
     /** Get active element in group or undefined if group doesn't exist */
@@ -7422,7 +7428,7 @@ var ESLToggleableDispatcher = /** @class */ (function (_super) {
         var target = _esl_utils_dom_events__WEBPACK_IMPORTED_MODULE_1__.EventUtils.source(e);
         if (!this.isAcceptable(target))
             return;
-        this.hideActive(target.groupName);
+        this.hideActive(target.groupName, target);
     };
     /** Update active element after a new element is shown */
     ESLToggleableDispatcher.prototype._onShow = function (e) {
@@ -7548,7 +7554,9 @@ var ESLToggleable = /** @class */ (function (_super) {
             return;
         switch (attrName) {
             case 'open':
-                this.toggle(this.open, Object.assign({ initiator: 'attribute' }, this.defaultParams));
+                if (this._open === this.open)
+                    return;
+                this.toggle(this.open, { initiator: 'attribute', showDelay: 0, hideDelay: 0 });
                 break;
             case 'group':
                 this.$$fire('change:group', {
@@ -7608,7 +7616,7 @@ var ESLToggleable = /** @class */ (function (_super) {
     };
     /** Function to merge the result action params */
     ESLToggleable.prototype.mergeDefaultParams = function (params) {
-        return Object.assign({}, this.defaultParams, params || {});
+        return Object.assign({}, this.defaultParams, (0,_esl_utils_misc_object__WEBPACK_IMPORTED_MODULE_2__.copyDefinedKeys)(params));
     };
     /** Toggle the element state */
     ESLToggleable.prototype.toggle = function (state, params) {
@@ -7702,7 +7710,7 @@ var ESLToggleable = /** @class */ (function (_super) {
     ESLToggleable.prototype._onClick = function (e) {
         var target = e.target;
         if (this.closeTrigger && target.closest(this.closeTrigger)) {
-            this.hide({ initiator: 'close', activator: target });
+            this.hide({ initiator: 'close', activator: target, event: e });
         }
     };
     ESLToggleable.prototype._onOutsideAction = function (e) {
@@ -7712,18 +7720,18 @@ var ESLToggleable = /** @class */ (function (_super) {
         if (this.activator && this.activator.contains(target))
             return;
         // Used 0 delay to decrease priority of the request
-        this.hide({ initiator: 'outsideaction', activator: target, hideDelay: 0 });
+        this.hide({ initiator: 'outsideaction', activator: target, hideDelay: 0, event: e });
     };
     ESLToggleable.prototype._onKeyboardEvent = function (e) {
         if (this.closeOnEsc && e.key === _esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_4__.ESC) {
-            this.hide({ initiator: 'keyboard' });
+            this.hide({ initiator: 'keyboard', event: e });
         }
     };
-    ESLToggleable.prototype._onMouseEnter = function () {
-        this.show({ initiator: 'mouseenter', trackHover: true });
+    ESLToggleable.prototype._onMouseEnter = function (e) {
+        this.show({ initiator: 'mouseenter', trackHover: true, activator: this, event: e });
     };
-    ESLToggleable.prototype._onMouseLeave = function () {
-        this.hide({ initiator: 'mouseleave', trackHover: true });
+    ESLToggleable.prototype._onMouseLeave = function (e) {
+        this.hide({ initiator: 'mouseleave', trackHover: true, activator: this, event: e });
     };
     __decorate([
         (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.boolAttr)()
@@ -9738,6 +9746,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "deepCompare": function() { return /* binding */ deepCompare; },
 /* harmony export */   "getPropertyDescriptor": function() { return /* binding */ getPropertyDescriptor; },
 /* harmony export */   "defined": function() { return /* binding */ defined; },
+/* harmony export */   "copyDefinedKeys": function() { return /* binding */ copyDefinedKeys; },
 /* harmony export */   "set": function() { return /* binding */ set; },
 /* harmony export */   "get": function() { return /* binding */ get; }
 /* harmony export */ });
@@ -9779,9 +9788,7 @@ function getPropertyDescriptor(o, prop) {
         proto = Object.getPrototypeOf(proto);
     }
 }
-/**
- * Find the first defined param
- */
+/** @returns first defined param */
 function defined() {
     var e_1, _a;
     var params = [];
@@ -9802,6 +9809,14 @@ function defined() {
         }
         finally { if (e_1) throw e_1.error; }
     }
+}
+/** Makes a flat copy without undefined keys */
+function copyDefinedKeys(obj) {
+    var result = Object.assign({}, obj || {});
+    Object.keys(result).forEach(function (key) {
+        (result[key] === void 0) && delete result[key];
+    });
+    return result;
 }
 /**
  * Set object property using "path" key
