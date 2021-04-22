@@ -1,3 +1,18 @@
+# [2.6.0](https://github.com/exadel-inc/esl/compare/v2.5.2...v2.6.0) (2021-04-22)
+
+
+### Bug Fixes
+
+* remove undefined prop keys from toggleable properties merging ([3bb5d30](https://github.com/exadel-inc/esl/commit/3bb5d301e34a98d7afb5a32838d63cdbe21a2403))
+* toggleable attribute change detection and extend action params with more information ([1627056](https://github.com/exadel-inc/esl/commit/16270569b3b54e55ff80f27c6f10d4c1fe13fdfc))
+
+
+### Features
+
+* copyDefinedKeys utility created ([11306c4](https://github.com/exadel-inc/esl/commit/11306c402104e3355031ee100af523664d3a2124))
+* disabled options support for esl-select-item and fix list mutation detection ([53dfe01](https://github.com/exadel-inc/esl/commit/53dfe01622e07ffa196f46448b85818dd4d79f94))
+* extend ToggleableDispatcher params with more information ([e8febf3](https://github.com/exadel-inc/esl/commit/e8febf394578bcb380481aff14cdc1faf78856e2))
+
 ## [2.5.2](https://github.com/exadel-inc/esl/compare/v2.5.1...v2.5.2) (2021-04-21)
 
 
