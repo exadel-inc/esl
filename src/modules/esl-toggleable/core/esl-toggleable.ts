@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESC} from '../../esl-utils/dom/keys';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {bind} from '../../esl-utils/decorators/bind';
-import {defined} from '../../esl-utils/misc/object';
+import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
@@ -79,7 +79,8 @@ export class ESLToggleable extends ESLBaseElement {
     if (!this.connected || newVal === oldVal) return;
     switch (attrName) {
       case 'open':
-        this.toggle(this.open, Object.assign({initiator: 'attribute'}, this.defaultParams));
+        if (this._open === this.open) return;
+        this.toggle(this.open, {initiator: 'attribute', showDelay: 0, hideDelay: 0});
         break;
       case 'group':
         this.$$fire('change:group',  {
@@ -144,7 +145,7 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Function to merge the result action params */
   protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
-    return Object.assign({}, this.defaultParams, params || {});
+    return Object.assign({}, this.defaultParams, copyDefinedKeys(params));
   }
 
   /** Toggle the element state */
@@ -229,7 +230,7 @@ export class ESLToggleable extends ESLBaseElement {
   protected _onClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (this.closeTrigger && target.closest(this.closeTrigger)) {
-      this.hide({initiator: 'close', activator: target});
+      this.hide({initiator: 'close', activator: target, event: e});
     }
   }
   @bind
@@ -238,22 +239,22 @@ export class ESLToggleable extends ESLBaseElement {
     if (this.contains(target)) return;
     if (this.activator && this.activator.contains(target)) return;
     // Used 0 delay to decrease priority of the request
-    this.hide({initiator: 'outsideaction', activator: target, hideDelay: 0});
+    this.hide({initiator: 'outsideaction', activator: target, hideDelay: 0, event: e});
   }
 
   @bind
   protected _onKeyboardEvent(e: KeyboardEvent) {
     if (this.closeOnEsc && e.key === ESC) {
-      this.hide({initiator: 'keyboard'});
+      this.hide({initiator: 'keyboard', event: e});
     }
   }
 
   @bind
-  protected _onMouseEnter() {
-    this.show({initiator: 'mouseenter', trackHover: true});
+  protected _onMouseEnter(e: MouseEvent) {
+    this.show({initiator: 'mouseenter', trackHover: true, activator: this, event: e});
   }
   @bind
-  protected _onMouseLeave() {
-    this.hide({initiator: 'mouseleave', trackHover: true});
+  protected _onMouseLeave(e: MouseEvent) {
+    this.hide({initiator: 'mouseleave', trackHover: true, activator: this, event: e});
   }
 }

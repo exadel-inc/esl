@@ -24,13 +24,20 @@ export function getPropertyDescriptor(o: any, prop: PropertyKey) {
   }
 }
 
-/**
- * Find the first defined param
- */
+/** @returns first defined param */
 export function defined<T>(...params: T[]) {
   for (const param of params) {
     if (param !== undefined) return param;
   }
+}
+
+/** Makes a flat copy without undefined keys */
+export function copyDefinedKeys<T>(obj?: T): Partial<T> {
+  const result: any = Object.assign({}, obj || {});
+  Object.keys(result).forEach((key) => {
+    (result[key] === void 0) && delete result[key];
+  });
+  return result;
 }
 
 /**

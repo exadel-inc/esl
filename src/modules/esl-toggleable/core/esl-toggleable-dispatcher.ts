@@ -70,14 +70,20 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
   }
 
   /** Hide active element in group */
-  public hideActive(groupName: string) {
-    this.getActive(groupName)?.hide();
+  public hideActive(groupName: string, activator?: HTMLElement) {
+    const active = this.getActive(groupName);
+    if (!active || active === activator) return;
+    active.hide({
+      initiator: 'dispatcher',
+      dispatcher: this,
+      activator
+    });
   }
 
   /** Set active element in group */
   public setActive(groupName: string, popup: ESLToggleable) {
     if (!groupName) return;
-    this.hideActive(groupName);
+    this.hideActive(groupName, popup);
     this._popups.set(groupName, popup);
   }
 
@@ -97,7 +103,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
   protected _onBeforeShow(e: CustomEvent) {
     const target = EventUtils.source(e);
     if (!this.isAcceptable(target)) return;
-    this.hideActive(target.groupName);
+    this.hideActive(target.groupName, target);
   }
 
   /** Update active element after a new element is shown */
