@@ -1,3 +1,10 @@
+## [2.5.2](https://github.com/exadel-inc/esl/compare/v2.5.1...v2.5.2) (2021-04-21)
+
+
+### Bug Fixes
+
+* provider type dynamic registration fix ([128b22f](https://github.com/exadel-inc/esl/commit/128b22f6d0b113608c533cc12a3164f37dca4d45))
+
 ## [2.5.1](https://github.com/exadel-inc/esl/compare/v2.5.0...v2.5.1) (2021-04-19)
 
 # [2.5.0](https://github.com/exadel-inc/esl/compare/v2.4.1...v2.5.0) (2021-04-19)
