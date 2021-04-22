@@ -143,9 +143,12 @@ export class ESLSelectList extends ESLSelectWrapper {
   @bind
   public _onChange() {
     this._updateSelectAll();
-    this.$items.forEach((item) => {
-      item.selected = item.original.selected;
-    });
+    this.$items.forEach((item) => item.update());
+  }
+
+  @bind
+  public _onListChange() {
+    this._renderItems();
   }
 
   @bind
