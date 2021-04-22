@@ -55,7 +55,7 @@ export abstract class UIPSetting extends ESLBaseElement {
 
     const label = document.createElement('label');
     label.innerText = this.label || '';
-    label.htmlFor = this.target;
+    label.htmlFor = this.label || '';
     this.appendChild(label);
   }
 
