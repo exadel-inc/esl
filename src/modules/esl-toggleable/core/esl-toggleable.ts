@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESC} from '../../esl-utils/dom/keys';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {bind} from '../../esl-utils/decorators/bind';
-import {defined} from '../../esl-utils/misc/object';
+import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
@@ -144,7 +144,7 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Function to merge the result action params */
   protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
-    return Object.assign({}, this.defaultParams, params || {});
+    return Object.assign({}, this.defaultParams, copyDefinedKeys(params));
   }
 
   /** Toggle the element state */
