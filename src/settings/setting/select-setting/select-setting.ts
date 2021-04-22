@@ -10,7 +10,7 @@ export class UIPSelectSetting extends UIPSetting {
   static inconsistentState = {
     value: 'inconsistent',
     text: 'Inconsistent value'
-  }
+  };
 
   @attr({defaultValue: 'replace'}) mode: 'replace' | 'append';
   @boolAttr() multiple: boolean;
