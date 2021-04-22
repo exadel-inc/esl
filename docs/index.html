@@ -14,6 +14,16 @@
       padding: 0;
       box-sizing: border-box;
     }
+
+    .red-color {
+      color: red;
+    }
+    .green-color {
+      color: green;
+    }
+    .blue-color {
+      color: blue;
+    }
   </style>
   <link type="text/css" rel="stylesheet" href="/playground.css">
 
@@ -28,7 +38,17 @@
     <uip-options></uip-options>
     <uip-snippets>
       <template uip-snippet label="example 1">
-        <span>hello 1</span>
+        <div class="test-class" style="display: flex" test-div>
+          <div>Sisha</div>
+          <div>Alex</div>
+          <div>Den</div>
+        </div>
+        <div>delimiter!</div>
+        <div class="red-color" style="display: flex" test-div>
+          <div>Misha</div>
+          <div>Dasha</div>
+          <div>Marina</div>
+        </div>
       </template>
       <template uip-snippet label="example 2">
         <span>hello 2</span>
@@ -152,21 +172,14 @@
       </template>
     </uip-snippets>
     <uip-preview label="Preview"></uip-preview>
-    <uip-settings>
-      <uip-check-setting name="check" selector="p"></uip-check-setting>
-      <uip-check-setting name="check" selector="p"></uip-check-setting>
-      <uip-list-setting name="check" selector="p">
-        <uip-list-item value="1">1</uip-list-item>
-        <uip-list-item value="2">2</uip-list-item>
-      </uip-list-setting>
-      <uip-text-setting name="check" selector="p"></uip-text-setting>
-      <uip-check-setting name="check" selector="p"></uip-check-setting>
-      <uip-check-setting name="check" selector="p"></uip-check-setting>
-      <uip-list-setting name="check" selector="p">
-        <uip-list-item value="1">1</uip-list-item>
-        <uip-list-item value="2">2</uip-list-item>
-      </uip-list-setting>
-      <uip-text-setting name="check" selector="p"></uip-text-setting>
+    <uip-settings label="Settings" target="::find([test-div])">
+      <uip-text-setting label="style setting" attribute="style"></uip-text-setting>
+      <uip-bool-setting label="green bool setting" attribute="class" value="green-color"></uip-bool-setting>
+      <uip-select-setting label="color picker" attribute="class" mode="append">
+        <option value="red-color">Red</option>
+        <option value="green-color">Green</option>
+        <option value="blue-color">Blue</option>
+      </uip-select-setting>
     </uip-settings>
     <uip-editor></uip-editor>
   </uip-root>
