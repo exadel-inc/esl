@@ -11034,13 +11034,16 @@ esl-select-item[selected]::after {
 esl-select-item.last-in-group:not(:last-of-type) {
   border-bottom: 1px solid #ccc;
 }
+esl-select-item[disabled],
 [disabled] esl-select-item {
   pointer-events: none;
   color: #aaa;
 }
+esl-select-item[disabled]::before,
 [disabled] esl-select-item::before {
   border-color: #aaa;
 }
+esl-select-item[disabled][selected]::before,
 [disabled] esl-select-item[selected]::before {
   background-color: #aaa;
 }

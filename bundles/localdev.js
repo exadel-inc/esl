@@ -2111,7 +2111,7 @@ var ESLSelectItem = /** @class */ (function (_super) {
     ESLSelectItem_1 = ESLSelectItem;
     Object.defineProperty(ESLSelectItem, "observedAttributes", {
         get: function () {
-            return ['selected'];
+            return ['selected', 'disabled'];
         },
         enumerable: false,
         configurable: true
@@ -2126,14 +2126,22 @@ var ESLSelectItem = /** @class */ (function (_super) {
         if (attrName === 'selected') {
             this.setAttribute('aria-selected', String(this.selected));
         }
+        if (attrName === 'disabled') {
+            this.setAttribute('aria-disabled', String(this.disabled));
+        }
+    };
+    ESLSelectItem.prototype.update = function (option) {
+        if (option)
+            this.original = option;
+        this.value = this.original.value;
+        this.disabled = this.original.disabled;
+        this.selected = this.original.selected;
+        this.textContent = this.original.text;
     };
     /** Helper to create an option item */
     ESLSelectItem.build = function (option) {
         var item = document.createElement(ESLSelectItem_1.is);
-        item.original = option;
-        item.value = option.value;
-        item.selected = option.selected;
-        item.textContent = option.text;
+        item.update(option);
         return item;
     };
     var ESLSelectItem_1;
@@ -2144,6 +2152,9 @@ var ESLSelectItem = /** @class */ (function (_super) {
     __decorate([
         (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_1__.boolAttr)()
     ], ESLSelectItem.prototype, "selected", void 0);
+    __decorate([
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_1__.boolAttr)()
+    ], ESLSelectItem.prototype, "disabled", void 0);
     ESLSelectItem = ESLSelectItem_1 = __decorate([
         (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_2__.ExportNs)('SelectItem')
     ], ESLSelectItem);
@@ -2334,9 +2345,10 @@ var ESLSelectList = /** @class */ (function (_super) {
     };
     ESLSelectList.prototype._onChange = function () {
         this._updateSelectAll();
-        this.$items.forEach(function (item) {
-            item.selected = item.original.selected;
-        });
+        this.$items.forEach(function (item) { return item.update(); });
+    };
+    ESLSelectList.prototype._onListChange = function () {
+        this._renderItems();
     };
     ESLSelectList.prototype._onClick = function (e) {
         if (this.disabled)
@@ -2382,6 +2394,9 @@ var ESLSelectList = /** @class */ (function (_super) {
     __decorate([
         _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
     ], ESLSelectList.prototype, "_onChange", null);
+    __decorate([
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
+    ], ESLSelectList.prototype, "_onListChange", null);
     __decorate([
         _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_5__.bind
     ], ESLSelectList.prototype, "_onClick", null);
@@ -2469,6 +2484,7 @@ var ESLSelectWrapper = /** @class */ (function (_super) {
         this._$select && this._$select.removeEventListener('change', this._onChange);
     };
     ESLSelectWrapper.prototype._onChange = function (event) { };
+    ESLSelectWrapper.prototype._onListChange = function () { };
     ESLSelectWrapper.prototype._onTargetChange = function (newTarget, oldTarget) {
         if (oldTarget)
             oldTarget.removeEventListener('change', this._onChange);
@@ -2480,7 +2496,8 @@ var ESLSelectWrapper = /** @class */ (function (_super) {
             this._mutationObserver.observe(newTarget, type.observationConfig);
     };
     ESLSelectWrapper.prototype._onTargetMutation = function (changes) {
-        this._onChange();
+        var isListChange = function (change) { return change.addedNodes.length + change.removedNodes.length > 0; };
+        changes.some(isListChange) ? this._onListChange() : this._onChange();
     };
     ESLSelectWrapper.prototype._onReset = function (event) {
         var _this = this;
@@ -2525,12 +2542,12 @@ var ESLSelectWrapper = /** @class */ (function (_super) {
         return this.options.some(function (item) { return item.selected; });
     };
     ESLSelectWrapper.prototype.isAllSelected = function () {
-        return this.options.every(function (item) { return item.selected; });
+        return this.options.every(function (item) { return item.selected || item.disabled; });
     };
     ESLSelectWrapper.prototype.setAllSelected = function (state) {
         if (!this.multiple)
             return false;
-        this.options.forEach(function (item) { return item.selected = state; });
+        this.options.forEach(function (item) { return item.selected = !item.disabled && state; });
         _esl_utils_dom_events__WEBPACK_IMPORTED_MODULE_0__.EventUtils.dispatch(this.$select, 'change');
     };
     Object.defineProperty(ESLSelectWrapper.prototype, "value", {
