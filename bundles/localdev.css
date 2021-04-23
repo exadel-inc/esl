@@ -10771,11 +10771,11 @@ esl-tabs .esl-tab-container {
   flex-direction: row;
   flex-wrap: nowrap;
 }
-esl-tabs[scrollable] {
+esl-tabs[scrollable]:not(.disabled-alignment) {
   display: flex;
   align-items: center;
 }
-esl-tabs[scrollable] .esl-tab-container {
+esl-tabs[scrollable]:not(.disabled-alignment) > .esl-tab-container {
   flex: 1 1 auto;
   overflow: hidden;
   white-space: nowrap;
@@ -10784,8 +10784,11 @@ esl-tabs[scrollable] .esl-tab-container {
   flex-wrap: nowrap;
   position: relative;
 }
-esl-tabs[scrollable] .arrow-prev,
-esl-tabs[scrollable] .arrow-next {
+esl-tabs[scrollable]:not(.disabled-alignment) > .esl-tab-container.esl-scrollable-content {
+  overflow: auto;
+}
+esl-tabs[scrollable]:not(.disabled-alignment) .arrow-prev,
+esl-tabs[scrollable]:not(.disabled-alignment) .arrow-next {
   flex: 0 0 auto;
 }
 esl-tabs[scrollable][has-scroll] .arrow-prev,

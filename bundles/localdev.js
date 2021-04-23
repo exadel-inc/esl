@@ -7075,6 +7075,13 @@ var ESLTabs = /** @class */ (function (_super) {
         return _this;
     }
     ESLTabs_1 = ESLTabs;
+    Object.defineProperty(ESLTabs, "observedAttributes", {
+        get: function () {
+            return ['scrollable'];
+        },
+        enumerable: false,
+        configurable: true
+    });
     ESLTabs.prototype.attributeChangedCallback = function (attrName, oldVal, newVal) {
         if (!this.connected || oldVal === newVal)
             return;
@@ -7085,10 +7092,8 @@ var ESLTabs = /** @class */ (function (_super) {
     };
     ESLTabs.prototype.connectedCallback = function () {
         _super.prototype.connectedCallback.call(this);
-        if (this.isScrollable) {
-            this.updateScroll();
-            this.updateScrollableType();
-        }
+        this.updateScroll();
+        this.updateScrollableType();
     };
     ESLTabs.prototype.disconnectedCallback = function () {
         _super.prototype.disconnectedCallback.call(this);
@@ -7142,7 +7147,7 @@ var ESLTabs = /** @class */ (function (_super) {
     Object.defineProperty(ESLTabs.prototype, "isScrollable", {
         /** Is the scrollable mode enabled ? */
         get: function () {
-            return this.scrollable !== 'disabled';
+            return this.currentScrollableType !== 'disabled';
         },
         enumerable: false,
         configurable: true
@@ -7161,6 +7166,7 @@ var ESLTabs = /** @class */ (function (_super) {
     /** Scroll tab to the view */
     ESLTabs.prototype.fitToViewport = function ($trigger, behavior) {
         if (behavior === void 0) { behavior = 'smooth'; }
+        this.updateArrows();
         var $scrollableTarget = this.$scrollableTarget;
         if (!$scrollableTarget || !$trigger)
             return;
@@ -7170,7 +7176,6 @@ var ESLTabs = /** @class */ (function (_super) {
             left: this.calcScrollOffset(itemRect, areaRect),
             behavior: behavior
         });
-        this.updateArrows();
     };
     /** Get scroll offset position from the selected item rectangle */
     ESLTabs.prototype.calcScrollOffset = function (itemRect, areaRect) {
@@ -7192,7 +7197,7 @@ var ESLTabs = /** @class */ (function (_super) {
         var $scrollableTarget = this.$scrollableTarget;
         if (!$scrollableTarget)
             return;
-        var hasScroll = $scrollableTarget.scrollWidth > this.clientWidth;
+        var hasScroll = this.isScrollable && ($scrollableTarget.scrollWidth > this.clientWidth);
         var swapSides = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_4__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_4__.RTLUtils.scrollType === 'default';
         var scrollStart = Math.abs($scrollableTarget.scrollLeft) > 1;
         var scrollEnd = Math.abs($scrollableTarget.scrollLeft) + $scrollableTarget.clientWidth + 1 < $scrollableTarget.scrollWidth;
