@@ -85,8 +85,8 @@ describe('CSSClassUtils tests:', () => {
       expect(el.classList.contains('a')).toBeFalsy();
       expect(el.classList.length).toBe(1);
       const end = performance.now();
-      expect(end - start).toBeLessThan(250);
-    }, 250);
+      expect(end - start).toBeLessThan(600);
+    }, 600);
   });
 
   describe('reverse adding:', () => {

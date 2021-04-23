@@ -177,12 +177,12 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
   <div class="col-12">
     <h2> Tabs Component </h2>
     <style>
-      .tabs-2 .nav-item {
+      esl-tabs[scrollable]:not(.disabled-alignment) .tabs-2 .nav-item {
         min-width: 213px;
       }
     </style>
     <div class="tabs tabs-2">
-      <esl-tabs scrollable="@XS => center | @+SM => side" class="tabs-container">
+      <esl-tabs scrollable="@XS => center | @SM => side | @+MD => disabled" dir="rtl" class="tabs-container">
         <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
 
         <div class="arrow-prev" data-tab-direction="left">
