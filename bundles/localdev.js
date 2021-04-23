@@ -7092,7 +7092,6 @@ var ESLTabs = /** @class */ (function (_super) {
     };
     ESLTabs.prototype.connectedCallback = function () {
         _super.prototype.connectedCallback.call(this);
-        this.updateScroll();
         this.updateScrollableType();
     };
     ESLTabs.prototype.disconnectedCallback = function () {
@@ -7114,10 +7113,6 @@ var ESLTabs = /** @class */ (function (_super) {
         this.removeEventListener('focusin', this._onFocus);
         (_a = this.$scrollableTarget) === null || _a === void 0 ? void 0 : _a.removeEventListener('scroll', this._onScroll);
         window.removeEventListener('resize', this._onResize);
-    };
-    ESLTabs.prototype.updateScroll = function () {
-        this.updateArrows();
-        this._deferredFitToViewport(this.$current, 'auto');
     };
     Object.defineProperty(ESLTabs.prototype, "$tabs", {
         /** Collection of inner {@link ESLTab} items */
@@ -7166,7 +7161,7 @@ var ESLTabs = /** @class */ (function (_super) {
     /** Scroll tab to the view */
     ESLTabs.prototype.fitToViewport = function ($trigger, behavior) {
         if (behavior === void 0) { behavior = 'smooth'; }
-        this.updateArrows();
+        this.updateMarkers();
         var $scrollableTarget = this.$scrollableTarget;
         if (!$scrollableTarget || !$trigger)
             return;
@@ -7176,6 +7171,7 @@ var ESLTabs = /** @class */ (function (_super) {
             left: this.calcScrollOffset(itemRect, areaRect),
             behavior: behavior
         });
+        this.updateArrows();
     };
     /** Get scroll offset position from the selected item rectangle */
     ESLTabs.prototype.calcScrollOffset = function (itemRect, areaRect) {
@@ -7197,15 +7193,20 @@ var ESLTabs = /** @class */ (function (_super) {
         var $scrollableTarget = this.$scrollableTarget;
         if (!$scrollableTarget)
             return;
-        var hasScroll = this.isScrollable && ($scrollableTarget.scrollWidth > this.clientWidth);
         var swapSides = _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_4__.RTLUtils.isRtl(this) && _esl_utils_dom_rtl__WEBPACK_IMPORTED_MODULE_4__.RTLUtils.scrollType === 'default';
         var scrollStart = Math.abs($scrollableTarget.scrollLeft) > 1;
         var scrollEnd = Math.abs($scrollableTarget.scrollLeft) + $scrollableTarget.clientWidth + 1 < $scrollableTarget.scrollWidth;
         var $rightArrow = this.querySelector('[data-tab-direction="right"]');
         var $leftArrow = this.querySelector('[data-tab-direction="left"]');
-        this.toggleAttribute('has-scroll', hasScroll);
         $leftArrow && $leftArrow.toggleAttribute('disabled', !(swapSides ? scrollEnd : scrollStart));
         $rightArrow && $rightArrow.toggleAttribute('disabled', !(swapSides ? scrollStart : scrollEnd));
+    };
+    ESLTabs.prototype.updateMarkers = function () {
+        var $scrollableTarget = this.$scrollableTarget;
+        if (!$scrollableTarget)
+            return;
+        var hasScroll = this.isScrollable && ($scrollableTarget.scrollWidth > this.clientWidth);
+        this.toggleAttribute('has-scroll', hasScroll);
     };
     ESLTabs.prototype._onTriggerStateChange = function () {
         this._deferredFitToViewport(this.$current);
