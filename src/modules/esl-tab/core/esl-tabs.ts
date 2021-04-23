@@ -23,6 +23,10 @@ export class ESLTabs extends ESLBaseElement {
   /** List of supported scrollable types */
   public static supportedScrollableTypes = ['disabled', 'side', 'center'];
 
+  static get observedAttributes() {
+    return ['scrollable'];
+  }
+
   /** Scrollable mode.
    * Supported types for different breakpoints ('disabled' by default):
    * - 'disabled' or not defined -  scroll behavior is disabled;
@@ -37,6 +41,7 @@ export class ESLTabs extends ESLBaseElement {
 
   private _scrollableTypeRules: ESLMediaRuleList<string>;
 
+
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'scrollable') {
@@ -48,10 +53,8 @@ export class ESLTabs extends ESLBaseElement {
   protected connectedCallback() {
     super.connectedCallback();
 
-    if (this.isScrollable) {
-      this.updateScroll();
-      this.updateScrollableType();
-    }
+    this.updateScroll();
+    this.updateScrollableType();
   }
 
   protected disconnectedCallback() {
@@ -99,7 +102,7 @@ export class ESLTabs extends ESLBaseElement {
 
   /** Is the scrollable mode enabled ? */
   public get isScrollable(): boolean {
-    return this.scrollable !== 'disabled';
+    return this.currentScrollableType !== 'disabled';
   }
 
   /** Move scroll to the next/previous item */
@@ -115,6 +118,8 @@ export class ESLTabs extends ESLBaseElement {
 
   /** Scroll tab to the view */
   protected fitToViewport($trigger: ESLTab, behavior: ScrollBehavior = 'smooth'): void {
+    this.updateArrows();
+
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget || !$trigger) return;
 
@@ -125,8 +130,6 @@ export class ESLTabs extends ESLBaseElement {
       left: this.calcScrollOffset(itemRect, areaRect),
       behavior
     });
-
-    this.updateArrows();
   }
 
   /** Get scroll offset position from the selected item rectangle */
@@ -151,7 +154,7 @@ export class ESLTabs extends ESLBaseElement {
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget) return;
 
-    const hasScroll = $scrollableTarget.scrollWidth > this.clientWidth;
+    const hasScroll = this.isScrollable && ($scrollableTarget.scrollWidth > this.clientWidth);
     const swapSides = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'default';
     const scrollStart = Math.abs($scrollableTarget.scrollLeft) > 1;
     const scrollEnd = Math.abs($scrollableTarget.scrollLeft) + $scrollableTarget.clientWidth + 1 < $scrollableTarget.scrollWidth;
