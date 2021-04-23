@@ -10,13 +10,12 @@ esl-tabs[scrollable]:not(.disabled-alignment) {
     flex-direction: row;
     flex-wrap: nowrap;
     position: relative;
+    &.esl-scrollable-content {
+      overflow: auto;
+    }
   }
 
   .arrow-prev, .arrow-next {
     flex: 0 0 auto;
-  }
-
-  .esl-scrollable-content {
-    overflow: auto;
   }
 }
