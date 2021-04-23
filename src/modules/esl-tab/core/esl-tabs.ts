@@ -53,7 +53,6 @@ export class ESLTabs extends ESLBaseElement {
   protected connectedCallback() {
     super.connectedCallback();
 
-    this.updateScroll();
     this.updateScrollableType();
   }
 
@@ -77,11 +76,6 @@ export class ESLTabs extends ESLBaseElement {
     this.$scrollableTarget?.removeEventListener('scroll', this._onScroll);
 
     window.removeEventListener('resize', this._onResize);
-  }
-
-  protected updateScroll() {
-    this.updateArrows();
-    this._deferredFitToViewport(this.$current, 'auto');
   }
 
   /** Collection of inner {@link ESLTab} items */
@@ -118,7 +112,7 @@ export class ESLTabs extends ESLBaseElement {
 
   /** Scroll tab to the view */
   protected fitToViewport($trigger: ESLTab, behavior: ScrollBehavior = 'smooth'): void {
-    this.updateArrows();
+    this.updateMarkers();
 
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget || !$trigger) return;
@@ -130,6 +124,8 @@ export class ESLTabs extends ESLBaseElement {
       left: this.calcScrollOffset(itemRect, areaRect),
       behavior
     });
+
+    this.updateArrows();
   }
 
   /** Get scroll offset position from the selected item rectangle */
@@ -154,7 +150,6 @@ export class ESLTabs extends ESLBaseElement {
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget) return;
 
-    const hasScroll = this.isScrollable && ($scrollableTarget.scrollWidth > this.clientWidth);
     const swapSides = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'default';
     const scrollStart = Math.abs($scrollableTarget.scrollLeft) > 1;
     const scrollEnd = Math.abs($scrollableTarget.scrollLeft) + $scrollableTarget.clientWidth + 1 < $scrollableTarget.scrollWidth;
@@ -162,9 +157,16 @@ export class ESLTabs extends ESLBaseElement {
     const $rightArrow = this.querySelector('[data-tab-direction="right"]');
     const $leftArrow = this.querySelector('[data-tab-direction="left"]');
 
-    this.toggleAttribute('has-scroll', hasScroll);
     $leftArrow && $leftArrow.toggleAttribute('disabled', !(swapSides ? scrollEnd : scrollStart));
     $rightArrow && $rightArrow.toggleAttribute('disabled', !(swapSides ? scrollStart : scrollEnd));
+  }
+
+  protected updateMarkers() {
+    const $scrollableTarget = this.$scrollableTarget;
+    if (!$scrollableTarget) return;
+
+    const hasScroll = this.isScrollable && ($scrollableTarget.scrollWidth > this.clientWidth);
+    this.toggleAttribute('has-scroll', hasScroll);
   }
 
   protected _deferredUpdateArrows = debounce(this.updateArrows.bind(this), 100);
