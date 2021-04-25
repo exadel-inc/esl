@@ -16,6 +16,8 @@ import type {ESLTab} from './esl-tab/core/esl-tab';
 import type {ESLPanel} from './esl-panel/core/esl-panel';
 import type {ESLPanelGroup} from './esl-panel/core/esl-panel-group';
 import type {ESLTabs} from './esl-tab/core/esl-tabs';
+import type {ESLNote} from './esl-note/core/esl-note';
+import type {ESLFootnotes} from './esl-footnotes/core/esl-footnotes';
 
 import type {ESLSelect, ESLSelectList, ESLSelectItem} from './esl-forms/all';
 
@@ -62,5 +64,8 @@ declare global {
       Touch?: typeof ESLCarouselTouchPlugin;
       Autoplay?: typeof ESLCarouselAutoplayPlugin;
     };
+
+    Note?: typeof ESLNote;
+    Footnotes?: typeof ESLFootnotes;
   }
 }

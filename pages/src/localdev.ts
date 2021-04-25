@@ -26,7 +26,9 @@ import {
   ESLAlert,
   ESLToggleableDispatcher,
   ESLSelect,
-  ESLSelectList
+  ESLSelectList,
+  ESLNote,
+  ESLFootnotes
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -61,6 +63,9 @@ ESLAlert.init();
 
 ESLSelectList.register();
 ESLSelect.register();
+
+ESLFootnotes.register();
+ESLNote.register();
 
 ESLCarousel.register();
 ESLCarouselPlugins.Dots.register();
