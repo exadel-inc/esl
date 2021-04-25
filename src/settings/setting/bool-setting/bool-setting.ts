@@ -23,10 +23,11 @@ export class UIPBoolSetting extends UIPSetting {
     }
 
     const val = this.getDisplayedValue() as (string | false);
-    const valRegex = new RegExp(/\b/.source + this.value + /\b/.source);
+    const valRegex = new RegExp(` ?${this.value} ?`);
 
     model.transformAttribute(this.target, this.attribute, attrValue => {
-      return attrValue === null ? val || null : attrValue.replace(valRegex, '') + ` ${val || ''}`;
+      console.log(attrValue?.replace(valRegex, ''));
+      return attrValue === null ? val || null : attrValue.replace(valRegex, '') + `${val ? ' ' + val : ''}`;
     });
   }
 

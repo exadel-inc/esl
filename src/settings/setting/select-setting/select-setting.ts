@@ -29,7 +29,6 @@ export class UIPSelectSetting extends UIPSetting {
     select.multiple = this.multiple;
     select.addEventListener('change', () => {
       select.remove(this.values.indexOf(UIPSelectSetting.inconsistentState.value));
-      this.$field.update();
     });
 
     this.$field.appendChild(select);
@@ -42,11 +41,11 @@ export class UIPSelectSetting extends UIPSetting {
     }
 
     const val = this.getDisplayedValue();
-    const optRegex = (opt: string) => new RegExp(/\b/.source + opt + /\b/.source);
+    const optRegex = (opt: string) => new RegExp(` ?${opt} ?`);
 
     model.transformAttribute(this.target, this.attribute, attrValue => {
       return attrValue === null ? val || null : this.values.reduce((outStr, option) =>
-        outStr.replace(optRegex(option), ''), attrValue) + ` ${val}`;
+        outStr.replace(optRegex(option), ''), attrValue) + `${val ? ' ' + val : ''}`;
     });
   }
 
@@ -84,17 +83,18 @@ export class UIPSelectSetting extends UIPSetting {
 
   protected setInconsistency(): void {
     this.reset();
-    this.$field.$select.remove(this.values.indexOf(UIPSelectSetting.inconsistentState.value));
 
     const inconsistentOption = new Option(UIPSelectSetting.inconsistentState.text,
       UIPSelectSetting.inconsistentState.value, false, true);
     inconsistentOption.disabled = true;
 
-    this.$field.$select.add(inconsistentOption);
+    this.$field.$select.add(inconsistentOption, 0);
+    this.$field.update();
   }
 
   protected reset(): void {
     this.$field.options.forEach(opt => opt.selected = false);
+    this.$field.$select.remove(this.values.indexOf(UIPSelectSetting.inconsistentState.value));
   }
 
   protected isValid(): boolean {
