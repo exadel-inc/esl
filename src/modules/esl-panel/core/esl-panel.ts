@@ -72,7 +72,6 @@ export class ESLPanel extends ESLToggleable {
       afterNextRender(() => this.afterAnimate());
     } else {
       this.onAnimate('show');
-      this.fallbackAnimate();
     }
   }
 
@@ -87,7 +86,6 @@ export class ESLPanel extends ESLToggleable {
       afterNextRender(() => this.afterAnimate());
     } else {
       this.onAnimate('hide');
-      this.fallbackAnimate();
     }
   }
 
@@ -104,6 +102,7 @@ export class ESLPanel extends ESLToggleable {
     // make sure that browser apply initial height for animation
     afterNextRender(() => {
       this.style.setProperty('max-height', `${action === 'hide' ? 0 : this._initialHeight}px`);
+      this.fallbackAnimate();
     });
   }
 

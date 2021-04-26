@@ -111,7 +111,6 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.beforeAnimate();
     if (this.shouldCollapse) {
       this.onAnimate(this._previousHeight, panel.initialHeight);
-      this.fallbackAnimate();
     } else {
       afterNextRender(() => this.afterAnimate());
     }
@@ -130,11 +129,15 @@ export class ESLPanelGroup extends ESLBaseElement {
     const hasCurrent = this.style.height && this.style.height !== 'auto';
     if (hasCurrent) {
       this.style.height = `${to}px`;
+      this.fallbackAnimate();
     } else {
       // set initial height
       this.style.height = `${from}px`;
       // make sure that browser apply initial height to animate
-      afterNextRender(() => this.style.height = `${to}px`);
+      afterNextRender(() => {
+        this.style.height = `${to}px`;
+        this.fallbackAnimate();
+      });
     }
   }
 
