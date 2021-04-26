@@ -1,3 +1,10 @@
+## [2.6.2](https://github.com/exadel-inc/esl/compare/v2.6.1...v2.6.2) (2021-04-26)
+
+
+### Bug Fixes
+
+* fix fallback animation call for esl-panel and esl-panel-group ([712f53d](https://github.com/exadel-inc/esl/commit/712f53d44198f8bbc32ed890c10a763667a61cf7))
+
 ## [2.6.1](https://github.com/exadel-inc/esl/compare/v2.6.0...v2.6.1) (2021-04-23)
 
 # [2.6.0](https://github.com/exadel-inc/esl/compare/v2.5.2...v2.6.0) (2021-04-22)
