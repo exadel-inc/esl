@@ -6131,7 +6131,6 @@ var ESLPanelGroup = /** @class */ (function (_super) {
         this.beforeAnimate();
         if (this.shouldCollapse) {
             this.onAnimate(this._previousHeight, panel.initialHeight);
-            this.fallbackAnimate();
         }
         else {
             (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_2__.afterNextRender)(function () { return _this.afterAnimate(); });
@@ -6150,12 +6149,16 @@ var ESLPanelGroup = /** @class */ (function (_super) {
         var hasCurrent = this.style.height && this.style.height !== 'auto';
         if (hasCurrent) {
             this.style.height = to + "px";
+            this.fallbackAnimate();
         }
         else {
             // set initial height
             this.style.height = from + "px";
             // make sure that browser apply initial height to animate
-            (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_2__.afterNextRender)(function () { return _this.style.height = to + "px"; });
+            (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_2__.afterNextRender)(function () {
+                _this.style.height = to + "px";
+                _this.fallbackAnimate();
+            });
         }
     };
     /** Pre-processing animation action */
@@ -6387,7 +6390,6 @@ var ESLPanel = /** @class */ (function (_super) {
         }
         else {
             this.onAnimate('show');
-            this.fallbackAnimate();
         }
     };
     /** Process hide action */
@@ -6402,7 +6404,6 @@ var ESLPanel = /** @class */ (function (_super) {
         }
         else {
             this.onAnimate('hide');
-            this.fallbackAnimate();
         }
     };
     /** Pre-processing animation action */
@@ -6419,6 +6420,7 @@ var ESLPanel = /** @class */ (function (_super) {
         // make sure that browser apply initial height for animation
         (0,_esl_utils_async_raf__WEBPACK_IMPORTED_MODULE_1__.afterNextRender)(function () {
             _this.style.setProperty('max-height', (action === 'hide' ? 0 : _this._initialHeight) + "px");
+            _this.fallbackAnimate();
         });
     };
     /** Post-processing animation action */
