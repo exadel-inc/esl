@@ -26,7 +26,6 @@ export class UIPBoolSetting extends UIPSetting {
     const valRegex = new RegExp(` ?${this.value} ?`);
 
     model.transformAttribute(this.target, this.attribute, attrValue => {
-      console.log(attrValue?.replace(valRegex, ''));
       return attrValue === null ? val || null : attrValue.replace(valRegex, '') + `${val ? ' ' + val : ''}`;
     });
   }
