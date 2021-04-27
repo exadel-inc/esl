@@ -7,27 +7,29 @@ import {UIPSelectSetting} from './settings/setting/select-setting/select-setting
 import {UIPBoolSetting} from './settings/setting/bool-setting/bool-setting';
 import {UIPSnippets} from './snippets/snippets';
 import {UIPOptions} from './options/options';
+import {ESLSelect} from '@exadel/esl';
 
 export {
-	UIPRoot,
-	UIPEditor,
-	UIPPreview,
-	UIPSettings,
-	UIPTextSetting,
-	UIPSelectSetting,
-	UIPBoolSetting,
-	UIPSnippets,
+  UIPRoot,
+  UIPEditor,
+  UIPPreview,
+  UIPSettings,
+  UIPTextSetting,
+  UIPSelectSetting,
+  UIPBoolSetting,
+  UIPSnippets,
   UIPOptions
 };
 
 export function init() {
-	UIPRoot.register();
-	UIPEditor.register();
-	UIPPreview.register();
-	UIPSettings.register();
-	UIPTextSetting.register();
-	UIPSelectSetting.register();
-	UIPBoolSetting.register();
+  UIPRoot.register();
+  UIPEditor.register();
+  UIPPreview.register();
+  UIPSettings.register();
+  UIPTextSetting.register();
+  UIPBoolSetting.register();
   UIPOptions.register();
-	customElements.whenDefined(UIPRoot.is).then(() => UIPSnippets.register());
+  ESLSelect.register();
+  customElements.whenDefined(ESLSelect.is).then(() => UIPSelectSetting.register());
+  customElements.whenDefined(UIPRoot.is).then(() => UIPSnippets.register());
 }
