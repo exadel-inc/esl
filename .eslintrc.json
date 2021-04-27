@@ -15,6 +15,7 @@
   },
   "plugins": [
     "import",
+    "editorconfig",
     "@typescript-eslint"
   ],
   "rules": {
@@ -22,7 +23,6 @@
     "@typescript-eslint/array-type": "warn",
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/ban-ts-comment": "warn",
-    "@typescript-eslint/indent": "off",
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/member-ordering": "off",
     "@typescript-eslint/no-empty-function": "off",
@@ -106,6 +106,10 @@
 
     "import/export": "warn",
     "import/named": "error",
-    "import/no-default-export": "warn"
+    "import/no-default-export": "warn",
+
+    "editorconfig/charset": "warn",
+    "editorconfig/eol-last": "warn",
+    "editorconfig/no-trailing-spaces": "warn"
   }
 }

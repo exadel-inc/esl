@@ -1,7 +1,7 @@
 {
-  "private": false,
   "name": "@exadel/esl",
   "version": "2.6.2",
+  "private": false,
   "description": "Exadel Smart Library (ESL) - is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
   "homepage": "https://exadel-inc.github.io/esl/",
@@ -27,6 +27,7 @@
     "CLA.md"
   ],
   "module": "modules/all.js",
+  "types": "modules/all.d.ts",
   "sideEffects": [
     "modules/lib.js",
     "src/modules/lib.ts",
@@ -36,40 +37,6 @@
     "src/modules/draft/esl-carousel/core/view/*.ts",
     "polyfills/**/*.js",
     "src/polyfills/**/*.ts"
-  ],
-  "types": "modules/all.d.ts",
-  "contributors": [
-    {
-      "name": "ala-n",
-      "email": "astsefanovich@exadel.com"
-    },
-    {
-      "name": "ymurashka",
-      "email": "ymurashka@exadel.com"
-    },
-    {
-      "name": "yadamska",
-      "email": "yadamska@exadel.com"
-    }
-  ],
-  "maintainers": [
-    {
-      "name": "ala-n",
-      "email": "astsefanovich@exadel.com"
-    },
-    {
-      "name": "ymurashka",
-      "email": "ymurashka@exadel.com"
-    },
-    {
-      "name": "yadamska",
-      "email": "yadamska@exadel.com"
-    }
-  ],
-  "browserslist": [
-    "last 3 versions",
-    "> 1%",
-    "not dead"
   ],
   "scripts": {
     "start": "cd pages && npm run dev",
@@ -120,6 +87,7 @@
     "copyfiles": "^2.4.1",
     "editorconfig-checker": "^4.0.2",
     "eslint": "^7.25.0",
+    "eslint-plugin-editorconfig": "^3.0.2",
     "eslint-plugin-import": "^2.22.1",
     "foreach-cli": "^1.8.1",
     "husky": "^6.0.0",
@@ -137,5 +105,38 @@
     "typescript": "4.2.4",
     "webpack": "^5.36.0",
     "webpack-cli": "^4.6.0"
-  }
+  },
+  "browserslist": [
+    "last 3 versions",
+    "> 1%",
+    "not dead"
+  ],
+  "contributors": [
+    {
+      "name": "ala-n",
+      "email": "astsefanovich@exadel.com"
+    },
+    {
+      "name": "ymurashka",
+      "email": "ymurashka@exadel.com"
+    },
+    {
+      "name": "yadamska",
+      "email": "yadamska@exadel.com"
+    }
+  ],
+  "maintainers": [
+    {
+      "name": "ala-n",
+      "email": "astsefanovich@exadel.com"
+    },
+    {
+      "name": "ymurashka",
+      "email": "ymurashka@exadel.com"
+    },
+    {
+      "name": "yadamska",
+      "email": "yadamska@exadel.com"
+    }
+  ]
 }
