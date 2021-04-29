@@ -3,11 +3,11 @@
   <img width="300" height="300" src="https://github.com/exadel-inc/esl/blob/main/docs/images/logo.png?raw=true">
 </p>
 
-![npm](https://img.shields.io/npm/v/@exadel/esl)
-![version](https://img.shields.io/github/package-json/v/exadel-inc/esl)
-![dependencies](https://img.shields.io/badge/dependencies-free-green)
-![tests](https://github.com/exadel-inc/esl/workflows/tests/badge.svg?branch=main)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+[![npm](https://img.shields.io/npm/v/@exadel/esl?style=for-the-badge)](https://www.npmjs.com/package/@exadel/esl)
+[![npm Downloads](https://img.shields.io/npm/dt/@exadel/esl.svg?label=npm%20downloads&style=for-the-badge)](https://www.npmjs.com/package/@exadel/esl)
+[![version](https://img.shields.io/github/package-json/v/exadel-inc/esl?style=for-the-badge)](https://github.com/exadel-inc/esl/releases/latest)
+[![build](https://img.shields.io/github/workflow/status/exadel-inc/esl/validate/main?style=for-the-badge)](https://github.com/exadel-inc/esl/actions/workflows/validate.yml)
+[![License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge)](./README.md)
 
 Exadel Smart Library (**ESL**) is a web components based library that gives you a set of **lightweight** and **flexible** custom elements to easily create basic UX modules and make your websites super fast.
 
@@ -15,28 +15,28 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
 
 ## Library Structure
 ### Components
-- ##### [ESL Image](src/modules/esl-image/README.md)
-- ##### [ESL Media](src/modules/esl-media/README.md)
-- ##### [ESL Scrollbar](src/modules/esl-scrollbar/README.md)
+- ##### [ESL Image](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-image/README.md)
+- ##### [ESL Media](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media/README.md)
+- ##### [ESL Scrollbar](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-scrollbar/README.md)
 
-- ##### [ESL A11yGroup](src/modules/esl-a11y-group/README.md)
+- ##### [ESL A11yGroup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-a11y-group/README.md)
 
-- ##### [ESL Toggleable](src/modules/esl-toggleable/README.md)
-- ##### [ESL Trigger](src/modules/esl-trigger/README.md)
-- ##### [ESL Panel and Panel Group](src/modules/esl-panel/README.md)
-- ##### [ESL Tab and Tabs](src/modules/esl-tab/README.md)
-- ##### [ESL Alert](src/modules/esl-alert/README.md)
-- ##### [ESL Popup](src/modules/esl-popup/README.md) (beta)
+- ##### [ESL Toggleable](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-toggleable/README.md)
+- ##### [ESL Trigger](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-trigger/README.md)
+- ##### [ESL Panel and Panel Group](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-panel/README.md)
+- ##### [ESL Tab and Tabs](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-tab/README.md)
+- ##### [ESL Alert](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-alert/README.md)
+- ##### [ESL Popup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-popup/README.md) (beta)
 
 ### Form Components
-- ##### [ESL Select](src/modules/esl-forms/esl-select/README.md)
-- ##### [ESL Select List](src/modules/esl-forms/esl-select-list/README.md)
+- ##### [ESL Select](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select/README.md)
+- ##### [ESL Select List](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select-list/README.md)
 
 ### Utilities
-- ##### [ESL Base Element](src/modules/esl-base-element/README.md)
-- ##### [ESL Media Query](src/modules/esl-media-query/README.md)
-- ##### [ESL Traversing Query](src/modules/esl-traversing-query/README.md)
-- ##### [ESL Utils](src/modules/esl-utils/README.md)
+- ##### [ESL Base Element](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-base-element/README.md)
+- ##### [ESL Media Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media-query/README.md)
+- ##### [ESL Traversing Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-traversing-query/README.md)
+- ##### [ESL Utils](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-utils/README.md)
 
 ---
 ## Installation Guide
@@ -44,7 +44,7 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
 0. Preconditions:
    - Make sure you have all needed polyfills to support browsers from your browser-support list. 
    See [Browser support & Polyfills](#browser-support--polyfills) for details.
-   - Use bundler to build your project. Currently, only ESL modules are available for consumption.
+   - Use bundler to build your project. Currently, only ES6 modules are available for consumption.
 
 1. Install [esl npm dependency](https://www.npmjs.com/package/@exadel/esl)
     ```
@@ -113,7 +113,7 @@ Or make the library work in IE11 or Edge (<14) by using the "full" polyfills lis
 
 See more details on what polyfill approach might look like in the test-server examples.
 
-Also, ESL has built-in polyfills for some of DOM and ES6 features. They are available under [./polyfills](./src/polyfills) directory.
+Also, ESL has built-in polyfills for some of DOM and ES6 features. They are available under [./polyfills](https://github.com/exadel-inc/esl/blob/HEAD/src/polyfills) directory.
 
 ---
 
@@ -135,13 +135,13 @@ Also, ESL has built-in polyfills for some of DOM and ES6 features. They are avai
 If you are a part of ESL team or want to contribute to the project
 you can find useful information about the project processes and agreements here:
 
-- #### [Development: Scripts](./docs/contribute/scripts.md)
+- #### [Development: Scripts](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/scripts.md)
 
-- #### [Development: Styleguide](./docs/contribute/styleguide.md)
+- #### [Development: Styleguide](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/styleguide.md)
 
-- #### [Development: Commit Convention](./docs/contribute/commit.md)
+- #### [Development: Commit Convention](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/commit.md)
   
-- #### [Contributor Licence Agreement](CLA.md)
+- #### [Contributor Licence Agreement](https://github.com/exadel-inc/esl/blob/HEAD/CLA.md)
 
 ---
 
