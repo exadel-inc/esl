@@ -28,11 +28,11 @@ export class UIPSettings extends UIPPlugin {
   }
 
   protected bindEvents() {
-    this.addEventListener('valueChange', this._onSettingChanged);
+    this.addEventListener('uip:change', this._onSettingChanged);
   }
 
   protected unbindEvents(): void {
-    this.removeEventListener('valueChange', this._onSettingChanged);
+    this.removeEventListener('uip:change', this._onSettingChanged);
   }
 
   protected _onSettingChanged(e: any) {
