@@ -5,15 +5,24 @@ import ArrayUtils from '../../../utils/array-utils/array-utils';
 
 export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';
-  protected $field: HTMLInputElement;
 
+  @attr({defaultValue: ''}) label: string;
   @attr({defaultValue: ''}) value: string;
   @attr({defaultValue: 'replace'}) mode: 'replace' | 'append';
 
-  protected initField() {
+  protected $field: HTMLInputElement;
+
+  protected connectedCallback() {
+    super.connectedCallback();
+
     this.$field = document.createElement('input');
     this.$field.type = 'checkbox';
-    this.$field.name = this.label || '';
+    this.$field.name = this.label;
+
+    const label = document.createElement('label');
+    label.innerText = this.label;
+    label.appendChild(this.$field);
+    this.appendChild(label);
   }
 
   applyTo(model: UIPStateModel) {
@@ -68,9 +77,5 @@ export class UIPBoolSetting extends UIPSetting {
   // TODO: implement inconsistency state for boolean setting
   protected setInconsistency(): void {
 
-  }
-
-  protected isValid(): boolean {
-    return true;
   }
 }
