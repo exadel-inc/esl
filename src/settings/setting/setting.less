@@ -1,4 +1,6 @@
-uip-class-setting, uip-check-setting, uip-list-setting, uip-text-setting {
+@import 'node_modules/@exadel/esl/modules/esl-forms/all';
+
+uip-bool-setting, uip-select-setting, uip-text-setting {
   display: block;
 
   &:not(:first-child) {
@@ -6,15 +8,20 @@ uip-class-setting, uip-check-setting, uip-list-setting, uip-text-setting {
   }
 }
 
-uip-class-setting > select, uip-list-setting > select, uip-text-setting > input {
+uip-bool-setting {
+  display: flex;
+  align-items: center;
+}
+
+uip-select-setting > .esl-select, uip-text-setting > input {
   margin-top: -10px;
   width: 90%;
 }
 
-uip-check-setting > input {
+uip-bool-setting > input {
   margin-left: 5px;
 }
 
-uip-list-item {
-  display: none;
+uip-select-setting > .esl-select {
+  min-width: 0;
 }

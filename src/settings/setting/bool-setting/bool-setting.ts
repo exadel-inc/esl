@@ -23,10 +23,10 @@ export class UIPBoolSetting extends UIPSetting {
     }
 
     const val = this.getDisplayedValue() as (string | false);
-    const valRegex = new RegExp(/\b/.source + this.value + /\b/.source);
+    const valRegex = new RegExp(` ?${this.value} ?`);
 
     model.transformAttribute(this.target, this.attribute, attrValue => {
-      return attrValue === null ? val || null : attrValue.replace(valRegex, '') + ` ${val || ''}`;
+      return attrValue === null ? val || null : attrValue.replace(valRegex, '') + `${val ? ' ' + val : ''}`;
     });
   }
 
@@ -47,11 +47,6 @@ export class UIPBoolSetting extends UIPSetting {
       ArrayUtils.intersection([this.value], attrValue?.split(' ') || []));
     valueMatch.every(match => ArrayUtils.equals(match, valueMatch[0])) ?
       this.setValue(valueMatch[0].length ? this.value : null) : this.setInconsistency();
-  }
-
-  protected render() {
-    this.innerHTML = '';
-    this.appendChild(this.$field);
   }
 
   protected getDisplayedValue(): string | boolean {

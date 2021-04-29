@@ -10,11 +10,6 @@ export class UIPTextSetting extends UIPSetting {
     this.$field.name = this.label || '';
   }
 
-  protected render() {
-    this.innerHTML = '';
-    this.appendChild(this.$field);
-  }
-
   protected getDisplayedValue(): string {
     return this.$field.value;
   }
