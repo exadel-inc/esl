@@ -72,10 +72,18 @@ export class UIPBoolSetting extends UIPSetting {
     } else {
       this.$field.checked = value !== null;
     }
+
+    this.querySelector('.inconsistency-marker')?.remove();
   }
 
   // TODO: implement inconsistency state for boolean setting
   protected setInconsistency(): void {
+    this.$field.checked = false;
 
+    const inconsistencyMarker = document.createElement('span');
+    inconsistencyMarker.classList.add('inconsistency-marker');
+    inconsistencyMarker.innerText = '(inconsistent)';
+
+    this.appendChild(inconsistencyMarker);
   }
 }
