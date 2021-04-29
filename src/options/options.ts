@@ -15,7 +15,7 @@ export class UIPOptions extends ESLBaseElement {
 
   protected _$root: UIPRoot;
 
-  private _conditionQuery: ESLMediaQuery | null = new ESLMediaQuery('@XS, @SM, @MD');
+  private _conditionQuery: ESLMediaQuery | null = new ESLMediaQuery('@-MD');
 
   static darkEditorTheme = 'ace/theme/tomorrow_night';
   static lightEditorTheme = 'ace/theme/chrome';

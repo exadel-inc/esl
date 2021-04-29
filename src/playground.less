@@ -3,6 +3,7 @@
 @import './core/theme';
 @import './core/mode';
 @import './preview/preview';
+@import './editor/editor';
 @import './snippets/snippets';
 @import './settings/setting/setting';
 
@@ -66,12 +67,12 @@ uip-snippets, uip-preview, uip-settings {
   padding: 10px;
 }
 
-.settings-wrapper, .editor-wrapper {
+.settings-wrapper {
   display: flex;
   flex-direction: column;
 }
 
-uip-settings, uip-editor {
+uip-settings {
   height: 100%;
   display: block;
   overflow: auto;
@@ -87,7 +88,7 @@ uip-settings, uip-editor {
         grid-template-columns: 100%;
         grid-template-rows: auto auto 450px 200px 350px;
 
-        .editor-wrapper {
+        uip-editor {
           grid-column: 1 / 2;
           grid-row: 5 / 6;
         }
@@ -106,7 +107,7 @@ uip-settings, uip-editor {
         grid-row: 4 / 5;
       }
 
-      .editor-wrapper {
+      uip-editor {
         grid-column: 1 / 2;
         grid-row: 4 / 5;
       }
