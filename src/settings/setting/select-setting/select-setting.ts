@@ -59,11 +59,13 @@ export class UIPSelectSetting extends UIPSetting {
     }
 
     const val = this.getDisplayedValue();
-    const optRegex = (opt: string) => new RegExp(` ?${opt} ?`);
 
     model.transformAttribute(this.target, this.attribute, attrValue => {
-      return attrValue === null ? val || null : this.values.reduce((outStr, option) =>
-        outStr.replace(optRegex(option), ''), attrValue) + `${val ? ' ' + val : ''}`;
+      return attrValue === null ? val || null : this.values.reduce((attrTokens, option) => {
+        console.log(attrTokens);
+        console.log(ArrayUtils.remove(attrTokens, option));
+        return ArrayUtils.remove(attrTokens, option);
+      }, attrValue.split(/\s+/)).join(' ') + `${val ? ' ' + val : ''}`;
     });
   }
 
@@ -94,9 +96,9 @@ export class UIPSelectSetting extends UIPSetting {
   protected setValue(value: string): void {
     this.reset();
 
-    this.$field.removeEventListener(UIPSelectSetting.changeEvent, this._onChange);
+    this.removeEventListener(UIPSelectSetting.changeEvent, this._onChange);
     value.split(' ').forEach(opt => this.$field.setSelected(opt, true));
-    this.$field.addEventListener(UIPSelectSetting.changeEvent, this._onChange);
+    this.addEventListener(UIPSelectSetting.changeEvent, this._onChange);
   }
 
   protected setInconsistency(): void {

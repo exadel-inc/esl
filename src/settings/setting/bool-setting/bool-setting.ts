@@ -32,10 +32,10 @@ export class UIPBoolSetting extends UIPSetting {
     }
 
     const val = this.getDisplayedValue() as (string | false);
-    const valRegex = new RegExp(` ?${this.value} ?`);
 
     model.transformAttribute(this.target, this.attribute, attrValue => {
-      return attrValue === null ? val || null : attrValue.replace(valRegex, '') + `${val ? ' ' + val : ''}`;
+      return attrValue === null ? val || null : ArrayUtils.remove(attrValue.split(/\s+/), this.value).join(' ')
+        + `${val ? ' ' + val : ''}`;
     });
   }
 

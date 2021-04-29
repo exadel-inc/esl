@@ -10,4 +10,12 @@ export default class ArrayUtils {
   static intersection<T>(...arrays: T[][]): T[] {
     return arrays.reduce((inter, array) => inter.filter(el => array.indexOf(el) !== -1), arrays[0]);
   }
+
+  static remove<T>(array: T[], element: T): T[] {
+    const arr = [...array];
+    const elementIndex = arr.indexOf(element);
+    elementIndex !== -1 && arr.splice(elementIndex, 1);
+
+    return arr;
+  }
 }
