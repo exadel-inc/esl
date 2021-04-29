@@ -85,6 +85,7 @@ export class UIPBoolSetting extends UIPSetting {
   // TODO: implement inconsistency state for boolean setting
   protected setInconsistency(): void {
     this.$field.checked = false;
+    this.querySelector('.inconsistency-marker')?.remove();
 
     const inconsistencyMarker = document.createElement('span');
     inconsistencyMarker.classList.add('inconsistency-marker');
