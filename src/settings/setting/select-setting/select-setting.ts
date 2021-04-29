@@ -65,8 +65,8 @@ export class UIPSelectSetting extends UIPSetting {
         return val || null;
       }
 
-      const attrTokens = this.values.reduce((attrTokens, option) =>
-        ArrayUtils.remove(attrTokens, option), attrValue.split(/\s+/));
+      const attrTokens = this.values.reduce((tokens, option) =>
+        ArrayUtils.remove(tokens, option), attrValue.split(/\s+/));
       val && attrTokens.push(val);
 
       return attrTokens.join(' ');
