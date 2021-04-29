@@ -658,6 +658,9 @@ var isHidden = function (target) {
 };
 var isElement = function (obj) {
     var _a, _b;
+    if (obj instanceof Element) {
+        return true;
+    }
     var scope = (_b = (_a = obj) === null || _a === void 0 ? void 0 : _a.ownerDocument) === null || _b === void 0 ? void 0 : _b.defaultView;
     return !!(scope && obj instanceof scope.Element);
 };
