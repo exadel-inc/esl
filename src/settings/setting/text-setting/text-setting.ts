@@ -4,7 +4,7 @@ import {attr} from '@exadel/esl/modules/esl-base-element/core';
 export class UIPTextSetting extends UIPSetting {
   public static is = 'uip-text-setting';
 
-  @attr({defaultValue: ''}) label: string;
+  @attr({defaultValue: ''}) public label: string;
   protected $field: HTMLInputElement;
 
   protected connectedCallback() {

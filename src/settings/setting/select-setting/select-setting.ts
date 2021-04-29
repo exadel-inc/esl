@@ -3,6 +3,7 @@ import {UIPSetting} from '../setting';
 import {ESLSelect} from '@exadel/esl';
 import {UIPStateModel} from '../../../utils/state-model/state-model';
 import ArrayUtils from '../../../utils/array-utils/array-utils';
+import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
 
 export class UIPSelectSetting extends UIPSetting {
   public static is = 'uip-select-setting';
@@ -11,9 +12,9 @@ export class UIPSelectSetting extends UIPSetting {
     text: 'Inconsistent value'
   };
 
-  @attr({defaultValue: ''}) label: string;
-  @attr({defaultValue: 'replace'}) mode: 'replace' | 'append';
-  @boolAttr() multiple: boolean;
+  @attr({defaultValue: ''}) public label: string;
+  @attr({defaultValue: 'replace'}) public mode: 'replace' | 'append';
+  @boolAttr() public multiple: boolean;
 
   protected $field: ESLSelect;
 
@@ -40,7 +41,7 @@ export class UIPSelectSetting extends UIPSetting {
     const select = document.createElement('select');
     select.setAttribute('esl-select-target', '');
     select.multiple = this.multiple;
-    select.id = `${UIPSelectSetting.is} ${this.label}`;
+    select.id = `${UIPSelectSetting.is}-${generateUId()}`;
 
     this.querySelectorAll('option').forEach(option => select.add(option));
     select.addEventListener('change', () => {

@@ -6,9 +6,9 @@ import ArrayUtils from '../../../utils/array-utils/array-utils';
 export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';
 
-  @attr({defaultValue: ''}) label: string;
-  @attr({defaultValue: ''}) value: string;
-  @attr({defaultValue: 'replace'}) mode: 'replace' | 'append';
+  @attr({defaultValue: ''}) public label: string;
+  @attr({defaultValue: ''}) public value: string;
+  @attr({defaultValue: 'replace'}) public mode: 'replace' | 'append';
 
   protected $field: HTMLInputElement;
 

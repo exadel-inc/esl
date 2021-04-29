@@ -8,8 +8,8 @@ export abstract class UIPSetting extends ESLBaseElement {
   static is = 'uip-setting';
   static changeEvent = 'change';
 
-  @attr() attribute: string;
-  @attr() target: string;
+  @attr() public attribute: string;
+  @attr() public target: string;
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -27,6 +27,10 @@ export abstract class UIPSetting extends ESLBaseElement {
 
   protected bindEvents(): void {
     this.addEventListener(UIPSetting.changeEvent, this._onChange);
+  }
+
+  protected unbindEvents(): void {
+    this.removeEventListener(UIPSetting.changeEvent, this._onChange);
   }
 
   @bind
@@ -55,10 +59,6 @@ export abstract class UIPSetting extends ESLBaseElement {
 
   protected setInconsistency(): void {
     return;
-  }
-
-  protected unbindEvents(): void {
-    this.removeEventListener(UIPSetting.changeEvent, this._onChange);
   }
 
   protected disconnectedCallback() {
