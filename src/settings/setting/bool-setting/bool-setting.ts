@@ -34,8 +34,14 @@ export class UIPBoolSetting extends UIPSetting {
     const val = this.getDisplayedValue() as (string | false);
 
     model.transformAttribute(this.target, this.attribute, attrValue => {
-      return attrValue === null ? val || null : ArrayUtils.remove(attrValue.split(/\s+/), this.value).join(' ')
-        + `${val ? ' ' + val : ''}`;
+      if (!attrValue) {
+        return val || null;
+      }
+
+      const attrTokens = ArrayUtils.remove(attrValue.split(/\s+/), this.value);
+      val && attrTokens.push(val);
+
+      return attrTokens.join(' ');
     });
   }
 

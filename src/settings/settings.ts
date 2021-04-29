@@ -37,6 +37,8 @@ export class UIPSettings extends UIPPlugin {
 
   protected _onSettingChanged(e: any) {
     (e.target as UIPSetting).applyTo(this.model);
+    this.settings.forEach(setting => setting.updateFrom(this.model));
+
     this.dispatchChange(this.model.html);
   }
 

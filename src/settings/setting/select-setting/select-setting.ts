@@ -61,11 +61,15 @@ export class UIPSelectSetting extends UIPSetting {
     const val = this.getDisplayedValue();
 
     model.transformAttribute(this.target, this.attribute, attrValue => {
-      return attrValue === null ? val || null : this.values.reduce((attrTokens, option) => {
-        console.log(attrTokens);
-        console.log(ArrayUtils.remove(attrTokens, option));
-        return ArrayUtils.remove(attrTokens, option);
-      }, attrValue.split(/\s+/)).join(' ') + `${val ? ' ' + val : ''}`;
+      if (!attrValue) {
+        return val || null;
+      }
+
+      const attrTokens = this.values.reduce((attrTokens, option) =>
+        ArrayUtils.remove(attrTokens, option), attrValue.split(/\s+/));
+      val && attrTokens.push(val);
+
+      return attrTokens.join(' ');
     });
   }
 
