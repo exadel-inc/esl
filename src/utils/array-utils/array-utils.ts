@@ -12,10 +12,6 @@ export default class ArrayUtils {
   }
 
   static remove<T>(array: T[], element: T): T[] {
-    const arr = [...array];
-    const elementIndex = arr.indexOf(element);
-    elementIndex !== -1 && arr.splice(elementIndex, 1);
-
-    return arr;
+    return array.filter(el => el !== element);
   }
 }

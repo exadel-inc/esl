@@ -5,6 +5,10 @@ import ArrayUtils from '../../../utils/array-utils/array-utils';
 
 export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';
+  public static inconsistentState = {
+    message: '(inconsistent)',
+    class: 'inconsistency-marker'
+  };
 
   @attr({defaultValue: ''}) public label: string;
   @attr({defaultValue: ''}) public value: string;
@@ -49,7 +53,8 @@ export class UIPBoolSetting extends UIPSetting {
     const attrValues = model.getAttribute(this.target, this.attribute);
 
     if (this.mode === 'replace') {
-      if ((attrValues[0] === null || attrValues[0] === this.value) && attrValues.every(val => attrValues[0] === val)) {
+      if ((attrValues[0] === null || attrValues[0] === this.value) &&
+        attrValues.every(val => attrValues[0] === val)) {
         this.setValue(attrValues[0]);
       } else {
         this.setInconsistency();
@@ -79,17 +84,16 @@ export class UIPBoolSetting extends UIPSetting {
       this.$field.checked = value !== null;
     }
 
-    this.querySelector('.inconsistency-marker')?.remove();
+    this.querySelector(`.${UIPBoolSetting.inconsistentState.class}`)?.remove();
   }
 
-  // TODO: implement inconsistency state for boolean setting
   protected setInconsistency(): void {
     this.$field.checked = false;
-    this.querySelector('.inconsistency-marker')?.remove();
+    this.querySelector(`.${UIPBoolSetting.inconsistentState.class}`)?.remove();
 
     const inconsistencyMarker = document.createElement('span');
-    inconsistencyMarker.classList.add('inconsistency-marker');
-    inconsistencyMarker.innerText = '(inconsistent)';
+    inconsistencyMarker.classList.add(UIPBoolSetting.inconsistentState.class);
+    inconsistencyMarker.innerText = UIPBoolSetting.inconsistentState.message;
 
     this.appendChild(inconsistencyMarker);
   }

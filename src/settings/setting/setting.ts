@@ -40,7 +40,8 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   public applyTo(model: UIPStateModel): void {
-    this.isValid() ? model.setAttribute(this.target, this.attribute, this.getDisplayedValue()) : this.setInconsistency();
+    this.isValid() ? model.setAttribute(this.target, this.attribute, this.getDisplayedValue()) :
+      this.setInconsistency();
   }
 
   public updateFrom(model: UIPStateModel): void {

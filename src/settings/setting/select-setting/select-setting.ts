@@ -7,7 +7,7 @@ import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
 
 export class UIPSelectSetting extends UIPSetting {
   public static is = 'uip-select-setting';
-  static inconsistentState = {
+  public static inconsistentState = {
     value: 'inconsistent',
     text: 'Inconsistent value'
   };
