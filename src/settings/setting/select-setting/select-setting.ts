@@ -9,7 +9,7 @@ export class UIPSelectSetting extends UIPSetting {
   public static is = 'uip-select-setting';
   public static inconsistentState = {
     value: 'inconsistent',
-    text: 'Inconsistent value'
+    text: 'Multiple values'
   };
 
   @attr({defaultValue: ''}) public label: string;

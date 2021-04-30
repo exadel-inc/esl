@@ -31,6 +31,6 @@ export class UIPTextSetting extends UIPSetting {
 
   protected setInconsistency(): void {
     this.$field.value = '';
-    this.$field.placeholder = 'Inconsistent value';
+    this.$field.placeholder = 'Multiple values';
   }
 }

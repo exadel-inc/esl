@@ -6,7 +6,7 @@ import ArrayUtils from '../../../utils/array-utils/array-utils';
 export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';
   public static inconsistentState = {
-    message: '(inconsistent)',
+    message: '(multiple values)',
     class: 'inconsistency-marker'
   };
 
