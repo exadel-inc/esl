@@ -1,13 +1,23 @@
 import {UIPSetting} from '../setting';
+import {attr} from '@exadel/esl/modules/esl-base-element/core';
 
 export class UIPTextSetting extends UIPSetting {
   public static is = 'uip-text-setting';
+
+  @attr({defaultValue: ''}) public label: string;
   protected $field: HTMLInputElement;
 
-  protected initField() {
+  protected connectedCallback() {
+    super.connectedCallback();
+
     this.$field = document.createElement('input');
     this.$field.type = 'text';
-    this.$field.name = this.label || '';
+    this.$field.name = this.label;
+
+    const label = document.createElement('label');
+    label.innerText = this.label;
+    label.appendChild(this.$field);
+    this.appendChild(label);
   }
 
   protected getDisplayedValue(): string {
@@ -21,10 +31,6 @@ export class UIPTextSetting extends UIPSetting {
 
   protected setInconsistency(): void {
     this.$field.value = '';
-    this.$field.placeholder = 'Inconsistent value';
-  }
-
-  protected isValid(): boolean {
-    return true;
+    this.$field.placeholder = 'Multiple values';
   }
 }

@@ -3,34 +3,52 @@ import {UIPSetting} from '../setting';
 import {ESLSelect} from '@exadel/esl';
 import {UIPStateModel} from '../../../utils/state-model/state-model';
 import ArrayUtils from '../../../utils/array-utils/array-utils';
+import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
 
 export class UIPSelectSetting extends UIPSetting {
   public static is = 'uip-select-setting';
-  protected $field: ESLSelect;
-  static inconsistentState = {
+  public static inconsistentState = {
     value: 'inconsistent',
-    text: 'Inconsistent value'
+    text: 'Multiple values'
   };
 
-  @attr({defaultValue: 'replace'}) mode: 'replace' | 'append';
-  @boolAttr() multiple: boolean;
+  @attr({defaultValue: ''}) public label: string;
+  @attr({defaultValue: 'replace'}) public mode: 'replace' | 'append';
+  @boolAttr() public multiple: boolean;
+
+  protected $field: ESLSelect;
 
   get values(): string[] {
     return this.$field.options.map(opt => opt.value);
   }
 
-  protected initField() {
-    this.$field = new ESLSelect();
-    this.$field.name = this.label || '';
+  protected connectedCallback() {
+    super.connectedCallback();
 
+    this.$field = new ESLSelect();
+    this.$field.name = this.label;
+    this.initSelect();
+
+    const label = document.createElement('label');
+    label.innerText = this.label;
+    label.htmlFor = this.$field.$select.id;
+
+    this.appendChild(label);
+    this.appendChild(this.$field);
+  }
+
+  protected initSelect(): void {
     const select = document.createElement('select');
     select.setAttribute('esl-select-target', '');
-    this.querySelectorAll('option').forEach(option => select.add(option));
     select.multiple = this.multiple;
+    select.id = `${UIPSelectSetting.is}-${generateUId()}`;
+
+    this.querySelectorAll('option').forEach(option => select.add(option));
     select.addEventListener('change', () => {
       select.remove(this.values.indexOf(UIPSelectSetting.inconsistentState.value));
     });
 
+    this.$field.$select = select;
     this.$field.appendChild(select);
   }
 
@@ -41,11 +59,17 @@ export class UIPSelectSetting extends UIPSetting {
     }
 
     const val = this.getDisplayedValue();
-    const optRegex = (opt: string) => new RegExp(` ?${opt} ?`);
 
     model.transformAttribute(this.target, this.attribute, attrValue => {
-      return attrValue === null ? val || null : this.values.reduce((outStr, option) =>
-        outStr.replace(optRegex(option), ''), attrValue) + `${val ? ' ' + val : ''}`;
+      if (!attrValue) {
+        return val || null;
+      }
+
+      const attrTokens = this.values.reduce((tokens, option) =>
+        ArrayUtils.remove(tokens, option), attrValue.split(/\s+/));
+      val && attrTokens.push(val);
+
+      return attrTokens.join(' ');
     });
   }
 
@@ -76,9 +100,9 @@ export class UIPSelectSetting extends UIPSetting {
   protected setValue(value: string): void {
     this.reset();
 
-    this.$field.removeEventListener('change', this._onChange);
+    this.removeEventListener(UIPSelectSetting.changeEvent, this._onChange);
     value.split(' ').forEach(opt => this.$field.setSelected(opt, true));
-    this.$field.addEventListener('change', this._onChange);
+    this.addEventListener(UIPSelectSetting.changeEvent, this._onChange);
   }
 
   protected setInconsistency(): void {
@@ -95,9 +119,5 @@ export class UIPSelectSetting extends UIPSetting {
   protected reset(): void {
     this.$field.options.forEach(opt => opt.selected = false);
     this.$field.$select.remove(this.values.indexOf(UIPSelectSetting.inconsistentState.value));
-  }
-
-  protected isValid(): boolean {
-    return true;
   }
 }

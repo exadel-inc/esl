@@ -6,12 +6,10 @@ import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 
 export abstract class UIPSetting extends ESLBaseElement {
   static is = 'uip-setting';
+  static changeEvent = 'change';
 
-  @attr() attribute: string;
-  @attr() label?: string;
-  @attr() target: string;
-
-  protected $field: HTMLElement;
+  @attr() public attribute: string;
+  @attr() public target: string;
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -24,19 +22,25 @@ export abstract class UIPSetting extends ESLBaseElement {
       this.target = target;
     }
 
-    this.initField();
-    this.render();
-    this.$field.addEventListener('change', this._onChange);
+    this.bindEvents();
+  }
+
+  protected bindEvents(): void {
+    this.addEventListener(UIPSetting.changeEvent, this._onChange);
+  }
+
+  protected unbindEvents(): void {
+    this.removeEventListener(UIPSetting.changeEvent, this._onChange);
   }
 
   @bind
   protected _onChange(e: Event): void {
     e.preventDefault();
-    EventUtils.dispatch(this, 'valueChange');
+    EventUtils.dispatch(this, 'uip:change');
   }
 
   public applyTo(model: UIPStateModel): void {
-    model.setAttribute(this.target, this.attribute, this.getDisplayedValue());
+    this.isValid() && model.setAttribute(this.target, this.attribute, this.getDisplayedValue());
   }
 
   public updateFrom(model: UIPStateModel): void {
@@ -44,30 +48,24 @@ export abstract class UIPSetting extends ESLBaseElement {
 
     if (values.some(value => value === null || value !== values[0])) {
       this.setInconsistency();
-    }
-    else {
+    } else {
       this.setValue(values[0]);
     }
   }
 
-  protected renderLabel(): void {
-    if (this.querySelector('label')) return;
-
-    const label = document.createElement('label');
-    label.innerText = this.label || '';
-    label.htmlFor = this.label || '';
-    this.appendChild(label);
+  protected isValid(): boolean {
+    return true;
   }
 
-  protected render(): void {
-    this.innerHTML = '';
-    this.renderLabel();
-    this.appendChild(this.$field);
+  protected setInconsistency(): void {
+    return;
+  }
+
+  protected disconnectedCallback() {
+    this.unbindEvents();
+    super.disconnectedCallback();
   }
 
   protected abstract getDisplayedValue(): string | boolean;
-  protected abstract isValid(): boolean;
-  protected abstract setInconsistency(): void;
   protected abstract setValue(value: string | null): void;
-  protected abstract initField(): void;
 }

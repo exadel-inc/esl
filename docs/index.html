@@ -174,12 +174,13 @@
     <uip-preview label="Preview"></uip-preview>
     <uip-settings label="Settings" target="::find([test-div])">
       <uip-text-setting label="style setting" attribute="style"></uip-text-setting>
-      <uip-bool-setting label="green bool setting" attribute="class" value="green-color"></uip-bool-setting>
-      <uip-select-setting label="color picker" attribute="class" mode="append">
+      <uip-bool-setting label="green bool setting" attribute="class" value="green-color" mode="append"></uip-bool-setting>
+      <uip-select-setting label="color picker" attribute="class" mode="append" multiple>
         <option value="red-color">Red</option>
         <option value="green-color">Green</option>
         <option value="blue-color">Blue</option>
       </uip-select-setting>
+      <uip-bool-setting label="check list" attribute="check-list"></uip-bool-setting>
     </uip-settings>
     <uip-editor label="Editor" editor-config="{wrap: 70}"></uip-editor>
   </uip-root>
