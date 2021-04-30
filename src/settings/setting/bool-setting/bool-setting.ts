@@ -1,7 +1,7 @@
 import {UIPSetting} from '../setting';
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPStateModel} from '../../../utils/state-model/state-model';
-import ArrayUtils from '../../../utils/array-utils/array-utils';
+import TokenListUtils from '../../../utils/array-utils/token-list-utils';
 
 export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';
@@ -42,7 +42,7 @@ export class UIPBoolSetting extends UIPSetting {
         return val || null;
       }
 
-      const attrTokens = ArrayUtils.remove(attrValue.split(/\s+/), this.value);
+      const attrTokens = TokenListUtils.remove(attrValue.split(/\s+/), this.value);
       val && attrTokens.push(val);
 
       return attrTokens.join(' ');
@@ -64,8 +64,8 @@ export class UIPBoolSetting extends UIPSetting {
     }
 
     const valueMatch = attrValues.map(attrValue =>
-      ArrayUtils.intersection([this.value], attrValue?.split(' ') || []));
-    valueMatch.every(match => ArrayUtils.equals(match, valueMatch[0])) ?
+      TokenListUtils.intersection([this.value], attrValue?.split(' ') || []));
+    valueMatch.every(match => TokenListUtils.equals(match, valueMatch[0])) ?
       this.setValue(valueMatch[0].length ? this.value : null) : this.setInconsistency();
   }
 

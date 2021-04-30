@@ -2,7 +2,7 @@ import {attr, boolAttr} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPSetting} from '../setting';
 import {ESLSelect} from '@exadel/esl';
 import {UIPStateModel} from '../../../utils/state-model/state-model';
-import ArrayUtils from '../../../utils/array-utils/array-utils';
+import TokenListUtils from '../../../utils/array-utils/token-list-utils';
 import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
 
 export class UIPSelectSetting extends UIPSetting {
@@ -66,7 +66,7 @@ export class UIPSelectSetting extends UIPSetting {
       }
 
       const attrTokens = this.values.reduce((tokens, option) =>
-        ArrayUtils.remove(tokens, option), attrValue.split(/\s+/));
+        TokenListUtils.remove(tokens, option), attrValue.split(/\s+/));
       val && attrTokens.push(val);
 
       return attrTokens.join(' ');
@@ -78,7 +78,7 @@ export class UIPSelectSetting extends UIPSetting {
     const attrValues = model.getAttribute(this.target, this.attribute);
 
     if (this.mode === 'replace') {
-      if (attrValues[0] && ArrayUtils.contains(settingOptions, attrValues[0].split(' ')) &&
+      if (attrValues[0] && TokenListUtils.contains(settingOptions, attrValues[0].split(' ')) &&
         attrValues.every(val => val === attrValues[0])) {
         this.setValue(attrValues[0]);
       } else {
@@ -89,7 +89,7 @@ export class UIPSelectSetting extends UIPSetting {
     }
 
     const attrTokens = attrValues.map(value => value?.split(' ') || []);
-    const valueTokens = ArrayUtils.intersection(settingOptions, ...attrTokens);
+    const valueTokens = TokenListUtils.intersection(settingOptions, ...attrTokens);
     valueTokens.length ? this.setValue(valueTokens.join(' ')) : this.setInconsistency();
   }
 
