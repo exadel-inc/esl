@@ -60,7 +60,7 @@
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "browser-sync": "^2.26.14",
     "concurrently": "^6.0.2",
-    "eslint": "^7.24.0",
+    "eslint": "^7.25.0",
     "husky": "^6.0.0",
     "less": "^4.1.1",
     "less-loader": "^8.1.1",
