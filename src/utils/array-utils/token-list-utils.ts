@@ -1,6 +1,6 @@
-export default class ArrayUtils {
+export default class TokenListUtils {
   static equals<T>(arr1: T[], arr2: T[]): boolean {
-    return ArrayUtils.contains(arr1, arr2) && ArrayUtils.contains(arr2, arr1);
+    return TokenListUtils.contains(arr1, arr2) && TokenListUtils.contains(arr2, arr1);
   }
 
   static contains<T>(array: T[], subArray: T[]): boolean {

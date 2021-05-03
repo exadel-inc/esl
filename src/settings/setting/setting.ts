@@ -13,16 +13,12 @@ export abstract class UIPSetting extends ESLBaseElement {
 
   protected connectedCallback() {
     super.connectedCallback();
-
     this.classList.add(UIPSetting.is);
-    const settings = this.closest(`${UIPSettings.is}`);
-    const target = settings?.getAttribute('target');
-
-    if (settings && target) {
-      this.target = target;
-    }
-
     this.bindEvents();
+
+    if (this.target) return;
+    const settingsTarget = this.closest(`${UIPSettings.is}`)?.getAttribute('target');
+    if (settingsTarget) this.target = settingsTarget;
   }
 
   protected bindEvents(): void {
