@@ -1,68 +1,143 @@
 {
-  "name": "exadel-smart-library",
-  "description": "Exadel Smart Library - is the lightweight custom elements library that provide a set of super-flexible components",
+  "name": "@exadel/esl",
+  "version": "2.6.3",
+  "private": false,
+  "description": "Exadel Smart Library (ESL) - is the lightweight custom elements library that provide a set of super-flexible components",
+  "license": "MIT",
+  "homepage": "https://exadel-inc.github.io/esl/",
   "keywords": [
+    "esl",
+    "lightweight",
+    "typescript",
+    "flexible",
+    "web components",
+    "web components utils",
     "custom elements",
+    "custom elements ts",
     "component library"
   ],
-  "version": "1.7.0-alpha",
-  "private": true,
-  "homepage": "https://gitlab.exadel.com/EDMTP/smart-wc-library#readme",
-  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.exadel.com/EDMTP/smart-wc-library.git"
-  },
-  "main": "./lib/all.js",
-  "scripts": {
-    "watch": "gulp watch",
-    "build": "gulp build",
-    "build-granular": "gulp build-granular",
-    "local-serv": "npm run build && npm run local-serv-build && npm run local-serv-quick",
-    "local-serv-build": "gulp build-local",
-    "local-serv-quick": "cd test-server && node server.js",
-    "local-serv-watch": "npm run local-serv | npm run watch",
-    "prepare": "npm run build -- --fast && npm run build-granular -- --fast"
+    "url": "git+https://github.com/exadel-inc/esl.git"
   },
   "files": [
-    "src/**/*",
-    "lib/**/*",
-    "!lib/**/*.map"
+    "modules/**/*",
+    "polyfills/**/*",
+    "tsconfig.json",
+    "CLA.md"
   ],
+  "module": "modules/all.js",
+  "types": "modules/all.d.ts",
+  "sideEffects": [
+    "modules/lib.js",
+    "src/modules/lib.ts",
+    "modules/esl-media/providers/**/*.js",
+    "src/modules/esl-media/providers/**/*.ts",
+    "modules/draft/esl-carousel/core/view/*.js",
+    "src/modules/draft/esl-carousel/core/view/*.ts",
+    "polyfills/**/*.js",
+    "src/polyfills/**/*.ts"
+  ],
+  "scripts": {
+    "start": "cd pages && npm run dev",
+    "clean": "rimraf {modules,polyfills}/**",
+    "build": "npm run clean && concurrently \"npm run build:less\" \"npm run build:ts\" \"npm run build:docs\"",
+    "build:ts": "tsc --project tsconfig.json",
+    "build:less": "npm run build:less:cpy && npm run build:less:css",
+    "build:less:cpy": "copyfiles \"src/**/*.less\" \".\" --up 1 --all",
+    "build:less:css": "foreach -x \"lessc #{path} #{dir}/#{name}.css\" -i \"**/*.mixin.less\" -g \"modules/{*,*/*,{draft,esl-utils,esl-forms}/*/*}.less\"",
+    "build:pages": "cd pages && npm run build-pages",
+    "build:pages:local": "cd pages && npm run build",
+    "build:docs": "copyfiles \"src/**/*.md\" \".\" --up 1 --all",
+    "test": "concurrently \"npm run lint\" \"npm run test:unit\"",
+    "test:unit": "jest --silent --noStackTrace",
+    "test:report": "jest --coverage",
+    "lint": "concurrently \"npm run lint:js\" \"npm run lint:css\" && node build/catlog.js \"Linting passed\"",
+    "lint:js": "eslint src/**/*.ts",
+    "lint:css": "stylelint src/**/*.less",
+    "lint:editorcfg": "editorconfig-checker -disable-indent-size",
+    "prepare": "husky install && npm run build",
+    "preversion": "npm test"
+  },
+  "dependencies": {
+    "@types/resize-observer-browser": "0.1.5",
+    "@types/video.js": "7.3.15",
+    "@types/youtube": "0.0.42"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
+    "@exadel/server-sketch": "https://github.com/exadel-inc/server-sketch/archive/refs/tags/v0.6.0.tar.gz",
+    "@juggle/resize-observer": "^3.3.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/github": "^7.2.1",
+    "@semantic-release/npm": "^7.1.1",
+    "@semantic-release/release-notes-generator": "^9.0.2",
+    "@types/jest": "^26.0.23",
+    "@types/smoothscroll-polyfill": "^0.3.1",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "@webcomponents/custom-elements": "^1.4.3",
+    "@webcomponents/webcomponents-platform": "^1.0.1",
+    "axios": "^0.21.1",
+    "browser-sync": "^2.26.14",
+    "chokidar-cli": "^2.1.0",
+    "concurrently": "^6.0.2",
+    "copyfiles": "^2.4.1",
+    "editorconfig-checker": "^4.0.2",
+    "eslint": "^7.25.0",
+    "eslint-plugin-editorconfig": "^3.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "foreach-cli": "^1.8.1",
+    "husky": "^6.0.0",
+    "intersection-observer": "^0.12.0",
+    "jest": "^26.6.3",
+    "less": "^4.1.1",
+    "postcss": "^8.2.13",
+    "promise-polyfill": "^8.2.0",
+    "rimraf": "^3.0.2",
+    "semantic-release": "^17.4.2",
+    "smoothscroll-polyfill": "^0.4.4",
+    "stylelint": "^13.13.0",
+    "ts-jest": "^26.5.5",
+    "ts-loader": "^9.1.1",
+    "typescript": "4.2.4",
+    "webpack": "^5.36.0",
+    "webpack-cli": "^4.6.0"
+  },
   "browserslist": [
-    "last 3 version",
+    "last 3 versions",
     "> 1%",
     "not dead"
   ],
-  "dependencies": {
-    "@types/video.js": "7.3.3",
-    "@types/youtube": "0.0.38"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.24.0",
-    "@typescript-eslint/parser": "^2.24.0",
-    "@webcomponents/custom-elements": "^1.4.1",
-    "@webcomponents/webcomponents-platform": "^1.0.1",
-    "autoprefixer": "^9.7.4",
-    "cssnano": "^4.1.10",
-    "eslint": "^6.8.0",
-    "eslint-loader": "^3.0.3",
-    "gulp": "^4.0.2",
-    "gulp-clean": "^0.4.0",
-    "gulp-copy": "^4.0.1",
-    "gulp-each": "^0.5.0",
-    "gulp-less": "^4.0.1",
-    "gulp-postcss": "^8.0.0",
-    "gulp-rename": "^2.0.0",
-    "gulp-sourcemaps": "^2.6.5",
-    "gulp-typescript": "^5.0.1",
-    "intersection-observer": "^0.7.0",
-    "promise-polyfill": "^8.1.3",
-    "ts-loader": "^6.2.1",
-    "typescript": "^3.8.2",
-    "ui-project-server": "./test-server/edmtp-modules/ui-project-server.tar",
-    "vinyl-named": "^1.1.0",
-    "webpack": "^4.42.0",
-    "webpack-stream": "^5.2.1"
-  }
+  "contributors": [
+    {
+      "name": "ala-n",
+      "email": "astsefanovich@exadel.com"
+    },
+    {
+      "name": "ymurashka",
+      "email": "ymurashka@exadel.com"
+    },
+    {
+      "name": "yadamska",
+      "email": "yadamska@exadel.com"
+    }
+  ],
+  "maintainers": [
+    {
+      "name": "ala-n",
+      "email": "astsefanovich@exadel.com"
+    },
+    {
+      "name": "ymurashka",
+      "email": "ymurashka@exadel.com"
+    },
+    {
+      "name": "yadamska",
+      "email": "yadamska@exadel.com"
+    }
+  ]
 }

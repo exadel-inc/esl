@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="{{= layout.lang || 'en' }}" class="{{? layout.scrollbar}} esl-scrollable-content {{?}}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{= page.getTitle(layout.title) || 'Home' }}</title>
+    {{= layout.head || '' }}
+</head>
+<body>
+{{= layout.body }}
+{{? layout.scrollbar}}
+<esl-scrollbar class="page-scrollbar" target="html"></esl-scrollbar>
+{{?}}
+</body>
+</html>

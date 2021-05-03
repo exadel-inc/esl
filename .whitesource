@@ -1,0 +1,13 @@
+{
+  "scanSettings": {
+    "baseBranches": ["main"],
+    "enableLicenseViolations": "true"
+  },
+  "checkRunSettings": {
+    "vulnerableCheckRunConclusionLevel": "success",
+    "displayMode": "diff"
+  },
+  "issueSettings": {
+    "minSeverityLevel": "LOW"
+  }
+}

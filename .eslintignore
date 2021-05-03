@@ -1,5 +1,18 @@
-/lib
-/node_modules
-/edmtp-modules
-/build
-gulpfile.js
+# Exclude tests
+*.test.ts
+**/test/*.ts
+
+# Common configuration
+jest.config.js
+
+# Common directories
+build
+node_modules
+
+# Test server
+pages/*.js
+pages/static
+
+# Generated surces
+/modules
+/polyfills

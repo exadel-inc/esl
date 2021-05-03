@@ -1,22 +1,32 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "experimentalDecorators": true,
     "alwaysStrict": true,
+    "strictNullChecks": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
-    "removeComments": true,
-    "target": "ES5",
+    "target": "ES6",
+    "downlevelIteration": true,
     "module": "ES2015",
-    "sourceMap": true,
+    "moduleResolution": "Node",
     "lib": [
       "ES2015",
       "DOM",
       "DOM.Iterable"
-    ]
+    ],
+    "rootDir": "src",
+    "outDir": "./"
   },
   "include": [
-    "core",
-    "components",
-    "bundles"
+    "src/modules",
+    "src/polyfills"
+  ],
+  "exclude": [
+    "*.test.ts",
+    "**/test/*.ts",
+    "modules",
+    "polyfills",
+    "node_modules"
   ]
 }
