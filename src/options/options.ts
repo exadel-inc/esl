@@ -1,37 +1,24 @@
-import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {UIPEditor} from '../editor/editor';
-import {CSSUtil, ESLMediaQuery} from '@exadel/esl';
-import {UIPRoot} from '../core/root';
+import {CSSClassUtils, ESLMediaQuery} from '@exadel/esl';
+import {UIPPlugin} from '../core/plugin';
 
-export class UIPOptions extends ESLBaseElement {
+export class UIPOptions extends UIPPlugin {
   static is = 'uip-options';
 
   @attr({defaultValue: 'vertical'}) public mode: string;
   @attr({defaultValue: 'light'}) public theme: string;
 
   @attr({defaultValue: ''}) public target: string;
-  @attr({defaultValue: 'Options:'}) public label: string;
 
-  protected _$root: UIPRoot;
-
-  private _conditionQuery: ESLMediaQuery | null = new ESLMediaQuery('@-MD');
+  private _conditionQuery: ESLMediaQuery | null = new ESLMediaQuery('@-SM');
 
   static darkEditorTheme = 'ace/theme/tomorrow_night';
   static lightEditorTheme = 'ace/theme/chrome';
 
-
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-    if (!this.connected || newVal === oldVal) return;
-
-    if (attrName === 'mode') this.updateModeMarker(this.mode);
-    if (attrName === 'theme') this.updateThemeMarker(this.theme);
-  }
-
   protected connectedCallback() {
     super.connectedCallback();
-
-    this._$root = this.closest(`${UIPRoot.is}`) as UIPRoot;
 
     this.bindEvents();
     this.render();
@@ -46,6 +33,8 @@ export class UIPOptions extends ESLBaseElement {
     this.unbindEvents();
   }
 
+  protected handleChange() {}
+
   protected bindEvents() {
     this.addEventListener('click', this._onOptionChange);
     window.addEventListener('resize', this._onResize);
@@ -57,7 +46,6 @@ export class UIPOptions extends ESLBaseElement {
   }
 
   protected render() {
-    if (this.label) this.innerHTML = `<span class="section-name">${this.label}</span>`;
     if (this.mode) this.renderMode();
     if (this.theme) this.renderTheme();
   }
@@ -97,7 +85,8 @@ export class UIPOptions extends ESLBaseElement {
   @bind
   protected _onOptionChange(e: Event) {
     const target = e.target as HTMLElement;
-    if (!target) return;
+
+    if (!target || target.classList.value !== 'option-radio-btn') return;
 
     const mode = target.getAttribute('mode');
     const theme = target.getAttribute('theme');
@@ -114,7 +103,7 @@ export class UIPOptions extends ESLBaseElement {
   }
 
   protected changeEditorTheme(theme: string) {
-    const $editor = this._$root.querySelector('uip-editor') as UIPEditor;
+    const $editor = this.root?.querySelector(`${UIPEditor.is}`) as UIPEditor;
     if (!$editor) return;
     const editorConfig = $editor.editorConfig;
     editorConfig.theme = theme === 'dark' ? UIPOptions.darkEditorTheme : UIPOptions.lightEditorTheme;
@@ -122,13 +111,13 @@ export class UIPOptions extends ESLBaseElement {
   }
 
   protected updateModeMarker(mode: string) {
-    CSSUtil.removeCls(this._$root, 'vertical-mode horizontal-mode');
-    CSSUtil.addCls(this._$root, `${mode}-mode`);
+    this.root && CSSClassUtils.remove(this.root, 'vertical-mode horizontal-mode');
+    this.root && CSSClassUtils.add(this.root, `${mode}-mode`);
   }
 
   protected updateThemeMarker(theme: string) {
-    CSSUtil.removeCls(this._$root, 'light-theme dark-theme');
-    CSSUtil.addCls(this._$root, `${theme}-theme`);
+    this.root && CSSClassUtils.remove(this.root, 'light-theme dark-theme');
+    this.root && CSSClassUtils.add(this.root, `${theme}-theme`);
     this.changeEditorTheme(theme);
   }
 
