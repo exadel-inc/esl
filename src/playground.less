@@ -2,8 +2,9 @@
 @import './core/variables';
 @import './core/theme';
 @import './core/mode';
-@import './preview/preview';
 @import './editor/editor';
+@import './options/options';
+@import './preview/preview';
 @import './snippets/snippets';
 @import './settings/setting/setting';
 
@@ -72,16 +73,10 @@ uip-snippets, uip-preview, uip-settings {
   flex-direction: column;
 }
 
-uip-settings {
-  height: 100%;
-  display: block;
-  overflow: auto;
-}
-
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 991px) {
   uip-root.uip-root {
     padding: 20px 60px;
-  
+
     &.vertical-mode, &.horizontal-mode {
 
       &.settings-attached {

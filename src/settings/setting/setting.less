@@ -8,20 +8,31 @@ uip-bool-setting, uip-select-setting, uip-text-setting {
   }
 }
 
-uip-bool-setting {
-  display: flex;
-  align-items: center;
+uip-text-setting input {
+  display: block;
 }
 
-uip-select-setting > .esl-select, uip-text-setting > input {
-  margin-top: -10px;
-  width: 90%;
-}
-
-uip-bool-setting > input {
-  margin-left: 5px;
-}
-
-uip-select-setting > .esl-select {
+uip-select-setting .esl-select {
+  display: block;
   min-width: 0;
+
+  .esl-select-renderer {
+    padding: 0 2px;
+    border: 1px solid #ced4da;
+  }
+}
+
+uip-bool-setting {
+  label {
+    display: inline-flex;
+    align-items: center;
+
+    input {
+      margin-left: 3px;
+    }
+  }
+
+  .inconsistency-marker {
+    color: grey;
+  }
 }
