@@ -16,11 +16,6 @@ uip-root {
   padding: 20px 80px;
 }
 
-.section-name {
-  font-size: 20px;
-  font-weight: 500;
-}
-
 uip-options {
   grid-column: 1 / -1;
   display: flex;
@@ -64,21 +59,8 @@ uip-snippets, uip-preview, uip-settings, uip-editor {
   border: 1px solid @section-border;
 }
 
-uip-snippets, uip-preview, uip-settings {
+uip-preview, uip-settings {
   padding: 10px;
-}
-
-.snippets-wrapper {
-  position: relative;
-
-  .esl-scrollbar {
-    margin-top: 30px;
-  }
-}
-
-.settings-wrapper {
-  display: flex;
-  flex-direction: column;
 }
 
 @media screen and (max-width: 991px) {
@@ -100,12 +82,12 @@ uip-snippets, uip-preview, uip-settings {
       grid-template-columns: 100%;
       grid-template-rows: auto auto 450px 350px;
 
-      .snippets-wrapper {
+      uip-snippets {
         grid-column: 1 / 2;
         grid-row: 2 / 3;
       }
 
-      .settings-wrapper {
+      uip-settings {
         grid-column: 1 / 2;
         grid-row: 4 / 5;
       }
