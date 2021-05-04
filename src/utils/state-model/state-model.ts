@@ -1,5 +1,3 @@
-import {TraversingQuery} from '@exadel/esl';
-
 export class UIPStateModel {
   protected root: Element;
 
@@ -12,11 +10,12 @@ export class UIPStateModel {
   }
 
   public getAttribute(target: string, name: string): (string | null)[] {
-    return TraversingQuery.all(target, this.root).map(el => el.getAttribute(name));
+    return Array.from(this.root.querySelectorAll(target)).map(el => el.getAttribute(name));
   }
 
   public setAttribute(target: string, name: string, value: string | boolean): void {
-    const elements = TraversingQuery.all(target, this.root);
+    const elements = Array.from(this.root.querySelectorAll(target));
+
 
     if (typeof value === 'string') {
       elements.forEach(el => el.setAttribute(name, value));
@@ -26,7 +25,7 @@ export class UIPStateModel {
   }
 
   public transformAttribute(target: string, name: string, transform: (current: string | null) => string | null) {
-    TraversingQuery.all(target, this.root).forEach(el => {
+    Array.from(this.root.querySelectorAll(target)).forEach(el => {
       const transformed = transform(el.getAttribute(name));
       transformed === null ? el.removeAttribute(name) : el.setAttribute(name, transformed);
     });
