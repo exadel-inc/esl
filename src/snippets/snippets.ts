@@ -75,7 +75,9 @@ export class UIPSnippets extends ESLBaseElement {
 
     if (this.label) $wrapper.innerHTML = `<span class="section-name">${this.label}</span>`;
     $wrapper.innerHTML += `
-        <uip-snippets>${$ul.outerHTML}</uip-snippets>
+        <uip-snippets class="esl-scrollable-content">${$ul.outerHTML}
+        </uip-snippets>
+        <esl-scrollbar target="::prev(.uip-snippets)"></esl-scrollbar>
     `;
     this.parentElement?.replaceChild($wrapper, this);
   }

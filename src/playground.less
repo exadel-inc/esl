@@ -7,7 +7,7 @@
 @import './preview/preview';
 @import './snippets/snippets';
 @import './settings/setting/setting';
-
+@import '~@exadel/esl/modules/esl-scrollbar/core';
 
 uip-root {
   display: grid;
@@ -66,6 +66,14 @@ uip-snippets, uip-preview, uip-settings, uip-editor {
 
 uip-snippets, uip-preview, uip-settings {
   padding: 10px;
+}
+
+.snippets-wrapper {
+  position: relative;
+
+  .esl-scrollbar {
+    margin-top: 30px;
+  }
 }
 
 .settings-wrapper {
