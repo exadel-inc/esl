@@ -1,7 +1,7 @@
 import {UIPSetting} from './setting/setting';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
-import {CSSUtil} from '@exadel/esl';
+import {CSSClassUtils} from '@exadel/esl';
 import {UIPPlugin} from '../core/plugin';
 import {UIPStateModel} from '../utils/state-model/state-model';
 
@@ -17,13 +17,13 @@ export class UIPSettings extends UIPPlugin {
   protected connectedCallback() {
     super.connectedCallback();
     this.bindEvents();
+    this.root && CSSClassUtils.add(this.root, this.rootClass);
     this.model = new UIPStateModel();
-    this.root && CSSUtil.addCls(this.root, this.rootClass);
   }
 
   protected disconnectedCallback(): void {
     this.unbindEvents();
-    this.root && CSSUtil.removeCls(this.root, this.rootClass);
+    this.root && CSSClassUtils.remove(this.root, this.rootClass);
     super.disconnectedCallback();
   }
 
