@@ -30,6 +30,7 @@ export class ESLMediaQuery {
   }
 
   static buildDprQuery(dpr: number) {
+    if (ESLMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && dpr !== 1) return ESLMediaQuery.NOT_ALL;
     if (DeviceDetector.isSafari) return `(-webkit-min-device-pixel-ratio: ${dpr})`;
     return `(min-resolution: ${(96 * dpr).toFixed(1)}dpi)`;
   }
@@ -42,7 +43,6 @@ export class ESLMediaQuery {
    */
   static ignoreBotsDpr = false;
 
-  private _dpr: number;
   private _mobileOnly: boolean | undefined;
   private readonly _query: MediaQueryList;
 
@@ -51,14 +51,10 @@ export class ESLMediaQuery {
     query = ESLMediaBreakpoints.apply(query);
 
     // Applying dpr shortcut
-    this._dpr = 1;
-    query = query.replace(/@(\d(\.\d)?)x/g, (match, ratio) => {
-      this._dpr = +ratio;
-      if (ESLMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && this._dpr !== 1) {
-        return ESLMediaQuery.NOT_ALL;
-      }
-      return ESLMediaQuery.buildDprQuery(ratio);
-    });
+    query = query.replace(
+      /@(\d(\.\d)?)x/g,
+      (match, ratio) => ESLMediaQuery.buildDprQuery(+ratio)
+    );
 
     // Applying dpr shortcut for device detection
     query = query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/ig, (match, pre, type, post) => {
@@ -80,11 +76,6 @@ export class ESLMediaQuery {
   /** Accepts only desktop devices */
   public get isDesktopOnly(): boolean {
     return this._mobileOnly === false;
-  }
-
-  /** Current query dpr */
-  public get dpr(): number {
-    return this._dpr;
   }
 
   /** inner MediaQueryList instance */

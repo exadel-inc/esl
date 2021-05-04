@@ -109,12 +109,6 @@ describe('ESLMediaQuery tests', () => {
   })
 
   describe('API tests', () => {
-    test('DPR getters', () => {
-      expect(new ESLMediaQuery('@sm').dpr).toBe(1);
-      expect(new ESLMediaQuery('@2x').dpr).toBe(2);
-      expect(new ESLMediaQuery('@2.3x').dpr).toBe(2.3);
-    });
-
     test('Mobile/Desktop getters', () => {
       const mqMob = new ESLMediaQuery('@Mobile');
       const mqDesk = new ESLMediaQuery('@Desktop');
