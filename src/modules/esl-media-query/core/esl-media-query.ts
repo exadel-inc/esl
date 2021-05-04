@@ -43,7 +43,6 @@ export class ESLMediaQuery {
    */
   static ignoreBotsDpr = false;
 
-  private _mobileOnly: boolean | undefined;
   private readonly _query: MediaQueryList;
 
   constructor(query: string) {
@@ -58,24 +57,13 @@ export class ESLMediaQuery {
 
     // Applying dpr shortcut for device detection
     query = query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/ig, (match, pre, type, post) => {
-      this._mobileOnly = (type.toUpperCase() === '@MOBILE');
-      if (DeviceDetector.isMobile !== this._mobileOnly) {
+      if (DeviceDetector.isMobile !== (type.toUpperCase() === '@MOBILE')) {
         return ESLMediaQuery.NOT_ALL; // whole query became invalid
       }
       return pre && post ? 'and' : '';
     });
 
     this._query = ESLMediaQuery.matchMediaCached(query.trim() || ESLMediaQuery.ALL);
-  }
-
-  /** Accepts only mobile devices */
-  public get isMobileOnly(): boolean {
-    return this._mobileOnly === true;
-  }
-
-  /** Accepts only desktop devices */
-  public get isDesktopOnly(): boolean {
-    return this._mobileOnly === false;
   }
 
   /** inner MediaQueryList instance */

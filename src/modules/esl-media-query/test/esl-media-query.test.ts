@@ -109,18 +109,6 @@ describe('ESLMediaQuery tests', () => {
   })
 
   describe('API tests', () => {
-    test('Mobile/Desktop getters', () => {
-      const mqMob = new ESLMediaQuery('@Mobile');
-      const mqDesk = new ESLMediaQuery('@Desktop');
-
-      expect(mqMob.isMobileOnly).toBeTruthy();
-      expect(mqMob.isDesktopOnly).toBeFalsy();
-
-      expect(mqDesk.isDesktopOnly).toBeTruthy();
-      expect(mqDesk.isMobileOnly).toBeFalsy();
-
-    });
-
     test('Listeners', () => {
       const mq = new ESLMediaQuery('@xs');
       const listener = jest.fn();
