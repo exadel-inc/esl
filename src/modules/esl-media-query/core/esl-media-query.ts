@@ -29,10 +29,21 @@ export class ESLMediaQuery {
     return matchMedia(query);
   }
 
-  static buildDprQuery(dpr: number) {
-    if (ESLMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && dpr !== 1) return ESLMediaQuery.NOT_ALL;
-    if (DeviceDetector.isSafari) return `(-webkit-min-device-pixel-ratio: ${dpr})`;
-    return `(min-resolution: ${(96 * dpr).toFixed(1)}dpi)`;
+  static applyDPRShortcuts(query: string) {
+    return query.replace(/@(\d(\.\d)?)x/g, (match, ratio) => {
+      const dpr = +ratio;
+      if (ESLMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && dpr !== 1) return ESLMediaQuery.NOT_ALL;
+      if (DeviceDetector.isSafari) return `(-webkit-min-device-pixel-ratio: ${dpr})`;
+      return `(min-resolution: ${(96 * dpr).toFixed(1)}dpi)`;
+    });
+  }
+  static applyDeviceShortcuts(query: string) {
+    return query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/ig, (match, pre, type, post) => {
+      if (DeviceDetector.isMobile !== (type.toUpperCase() === '@MOBILE')) {
+        return ESLMediaQuery.NOT_ALL; // whole query became invalid
+      }
+      return pre && post ? 'and' : '';
+    });
   }
 
   static readonly ALL = 'all';
@@ -50,19 +61,12 @@ export class ESLMediaQuery {
     query = ESLMediaBreakpoints.apply(query);
 
     // Applying dpr shortcut
-    query = query.replace(
-      /@(\d(\.\d)?)x/g,
-      (match, ratio) => ESLMediaQuery.buildDprQuery(+ratio)
-    );
+    query = ESLMediaQuery.applyDPRShortcuts(query);
 
     // Applying dpr shortcut for device detection
-    query = query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/ig, (match, pre, type, post) => {
-      if (DeviceDetector.isMobile !== (type.toUpperCase() === '@MOBILE')) {
-        return ESLMediaQuery.NOT_ALL; // whole query became invalid
-      }
-      return pre && post ? 'and' : '';
-    });
+    query = ESLMediaQuery.applyDeviceShortcuts(query);
 
+    // Set the result query
     this._query = ESLMediaQuery.matchMediaCached(query.trim() || ESLMediaQuery.ALL);
   }
 
