@@ -20,16 +20,8 @@ import {ESLMediaBreakpoints} from './esl-media-breakpoints';
  */
 @ExportNs('MediaQuery')
 export class ESLMediaQuery {
-  static get BreakpointRegistry() {
-    return ESLMediaBreakpoints;
-  }
 
-  @memoize()
-  static matchMediaCached(query: string) {
-    return matchMedia(query);
-  }
-
-  static applyDPRShortcuts(query: string) {
+  protected static applyDPRShortcuts(query: string) {
     return query.replace(/@(\d(\.\d)?)x/g, (match, ratio) => {
       const dpr = +ratio;
       if (ESLMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && dpr !== 1) return ESLMediaQuery.NOT_ALL;
@@ -37,13 +29,23 @@ export class ESLMediaQuery {
       return `(min-resolution: ${(96 * dpr).toFixed(1)}dpi)`;
     });
   }
-  static applyDeviceShortcuts(query: string) {
+  protected static applyDeviceShortcuts(query: string) {
     return query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/ig, (match, pre, type, post) => {
       if (DeviceDetector.isMobile !== (type.toUpperCase() === '@MOBILE')) {
         return ESLMediaQuery.NOT_ALL; // whole query became invalid
       }
       return pre && post ? 'and' : '';
     });
+  }
+
+  /** Shortcut to create MediaQuery. The constructor of MediaQuery is already optimized */
+  static for(query: string) {
+    return new ESLMediaQuery(query);
+  }
+
+  @memoize()
+  static matchMediaCached(query: string) {
+    return matchMedia(query);
   }
 
   static readonly ALL = 'all';
