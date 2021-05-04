@@ -23,16 +23,9 @@ uip-root {
       }
     }
 
-    .snippets-wrapper {
-      display: flex;
-      flex-direction: column;
+    uip-snippets {
       grid-column: 1 / 2;
       grid-row: 2 / 3;
-    }
-
-    uip-snippets {
-      height: 100%;
-      overflow: auto;
 
       .snippets-list-item {
         border-bottom: 1px solid @element-border;
@@ -48,7 +41,7 @@ uip-root {
       grid-row: 2 / 3;
     }
 
-    .settings-wrapper {
+    uip-settings {
       grid-column: 3 / 4;
       grid-row: 2 / 3;
     }
@@ -64,7 +57,7 @@ uip-root {
     &.settings-attached {
       grid-template-columns: 3fr 1fr;
 
-      .snippets-wrapper, uip-editor {
+      uip-snippets, uip-editor {
         grid-column: 1 / 3;
       }
     }
@@ -82,14 +75,10 @@ uip-root {
       }
     }
 
-    .snippets-wrapper {
-      grid-column: 1 / 2;
-      grid-row: 2 / 3;
-    }
-
     uip-snippets {
       // add specificity
-      display: block;
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
 
       ul.snippets-list {
         margin-left: 5px;
@@ -116,7 +105,7 @@ uip-root {
       grid-row: 3 / 4;
     }
 
-    .settings-wrapper {
+    uip-settings {
       grid-column: 2 / 3;
       grid-row: 3 / 4;
     }

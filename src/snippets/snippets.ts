@@ -1,17 +1,11 @@
-import {ESLBaseElement, attr} from '@exadel/esl/modules/esl-base-element/core';
+import {CSSClassUtils} from '@exadel/esl';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
-import {UIPRoot} from '../core/root';
-import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
+import {UIPPlugin} from '../core/plugin';
 
-export class UIPSnippets extends ESLBaseElement {
+export class UIPSnippets extends UIPPlugin {
   public static is = 'uip-snippets';
 
   public static ACTIVE_CLASS = 'active';
-
-  protected _$root: UIPRoot;
-
-  @attr({defaultValue: 'Snippets'}) public label: string;
-
 
   public get $items(): HTMLElement[] {
     const items = this.querySelectorAll('.snippets-list-item');
@@ -31,8 +25,6 @@ export class UIPSnippets extends ESLBaseElement {
     super.connectedCallback();
     this.bindEvents();
 
-    this._$root = this.closest(`${UIPRoot.is}`) as UIPRoot;
-
     this.render();
     if (!this.$active) this.$active = this.$items[0];
     this.sendMarkUp();
@@ -51,11 +43,14 @@ export class UIPSnippets extends ESLBaseElement {
     this.removeEventListener('click', this._onClick);
   }
 
-  protected render(): void {
-    if (this.closest('.snippets-wrapper')) return;
+  protected handleChange() {}
 
-    const $wrapper = document.createElement('div');
-    $wrapper.className = 'snippets-wrapper';
+  protected render(): void {
+    const $inner = document.createElement('div');
+    CSSClassUtils.add($inner, 'uip-snippets-inner esl-scrollable-content');
+
+    const $scroll = document.createElement('esl-scrollbar');
+    $scroll.setAttribute('target', '::prev(.uip-snippets-inner)');
 
     const snippets = this.querySelectorAll('template[uip-snippet]');
     if (!snippets.length) return;
@@ -73,18 +68,15 @@ export class UIPSnippets extends ESLBaseElement {
       $ul?.appendChild(li);
     });
 
-    if (this.label) $wrapper.innerHTML = `<span class="section-name">${this.label}</span>`;
-    $wrapper.innerHTML += `
-        <uip-snippets>${$ul.outerHTML}</uip-snippets>
-    `;
-    this.parentElement?.replaceChild($wrapper, this);
+    $inner.appendChild($ul);
+    this.innerHTML = $inner.outerHTML + $scroll.outerHTML;
   }
 
   protected sendMarkUp(): void {
     const tmpl = this.$active?.querySelector('template[uip-snippet]');
     if (!tmpl) return;
-    const detail = {source: UIPSnippets.is, markup: tmpl.innerHTML};
-    EventUtils.dispatch(this, 'request:change', {detail});
+
+    this.dispatchChange(tmpl.innerHTML);
   }
 
   @bind
@@ -92,6 +84,7 @@ export class UIPSnippets extends ESLBaseElement {
     const target = event.target as HTMLElement;
     if (!target.classList.contains('snippets-list-item')) return;
     this.$active = target;
+
     this.sendMarkUp();
   }
 }
