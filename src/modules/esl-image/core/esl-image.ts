@@ -7,7 +7,7 @@ import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
 import {getIObserver} from './esl-image-iobserver';
-import {ESLImageRenderStrategy, ShadowImageElement, STRATEGIES} from './esl-image-strategies';
+import {ESLImageRenderStrategy, STRATEGIES} from './esl-image-strategies';
 
 type LoadState = 'error' | 'loaded' | 'ready';
 const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);
@@ -59,7 +59,7 @@ export class ESLImage extends ESLBaseElement {
   private _srcRules: ESLMediaRuleList<string>;
   private _currentSrc: string;
   private _detachLazyTrigger: () => void;
-  private _shadowImageElement: ShadowImageElement;
+  private _shadowImageElement: HTMLImageElement;
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -177,7 +177,6 @@ export class ESLImage extends ESLBaseElement {
     if (this._currentSrc !== src || !this.ready || force) {
       this._currentSrc = src;
       this._shadowImg.src = src;
-      this._shadowImg.dpr = dpr;
 
       if (this.refreshOnUpdate || !this.ready) {
         this.syncImage();
