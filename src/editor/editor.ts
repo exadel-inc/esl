@@ -22,7 +22,7 @@ export class UIPEditor extends UIPPlugin {
     theme: 'ace/theme/chrome',
     mode: 'ace/mode/html',
     printMarginColumn: -1,
-    wrap: 120,
+    wrap: true,
   };
 
   @jsonAttr()
@@ -47,10 +47,11 @@ export class UIPEditor extends UIPPlugin {
     const {markup} = e.detail;
     const $inner = document.createElement('div');
     $inner.classList.add('uip-editor-inner');
-    $inner.id = 'uip-editor';
-    this.innerHTML = $inner.outerHTML;
 
-    this.editor = edit('uip-editor');
+    this.innerHTML = '';
+    this.appendChild($inner);
+
+    this.editor = edit($inner);
     this.editor.setOption('useWorker', false);
 
     this.initEditorOptions();
