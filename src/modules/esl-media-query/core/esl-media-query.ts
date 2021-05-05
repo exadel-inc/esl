@@ -21,6 +21,17 @@ import {ESLMediaBreakpoints} from './esl-media-breakpoints';
 @ExportNs('MediaQuery')
 export class ESLMediaQuery {
 
+  @memoize()
+  protected static matchMediaCached(query: string) {
+    return matchMedia(query);
+  }
+
+  protected static cleanQuery(query: string) {
+    query = query.replace(/and\s+and/, 'and');
+    query = query.replace(/^\s*and/, '');
+    query = query.replace(/and\s*$/, '');
+    return query.trim();
+  }
   protected static applyDPRShortcuts(query: string) {
     return query.replace(/@(\d(\.\d)?)x/g, (match, ratio) => {
       const dpr = +ratio;
@@ -30,26 +41,21 @@ export class ESLMediaQuery {
     });
   }
   protected static applyDeviceShortcuts(query: string) {
-    return query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/ig, (match, pre, type, post) => {
+    return query.replace(/(@MOBILE|@DESKTOP)/ig, (match, pre, type, post) => {
       if (DeviceDetector.isMobile !== (type.toUpperCase() === '@MOBILE')) {
         return ESLMediaQuery.NOT_ALL; // whole query became invalid
       }
-      return pre && post ? 'and' : '';
+      return '';
     });
   }
 
   /** Shortcut to create MediaQuery. The constructor of MediaQuery is already optimized */
-  static for(query: string) {
+  public static for(query: string) {
     return new ESLMediaQuery(query);
   }
 
-  @memoize()
-  static matchMediaCached(query: string) {
-    return matchMedia(query);
-  }
-
-  static readonly ALL = 'all';
-  static readonly NOT_ALL = 'not all';
+  public static readonly ALL = 'all';
+  public static readonly NOT_ALL = 'not all';
 
   /**
    * Option to disable DPR images handling for bots
@@ -68,8 +74,11 @@ export class ESLMediaQuery {
     // Applying dpr shortcut for device detection
     query = ESLMediaQuery.applyDeviceShortcuts(query);
 
+    // Clean query
+    query = ESLMediaQuery.cleanQuery(query);
+
     // Set the result query
-    this._query = ESLMediaQuery.matchMediaCached(query.trim() || ESLMediaQuery.ALL);
+    this._query = ESLMediaQuery.matchMediaCached(query || ESLMediaQuery.ALL);
   }
 
   /** inner MediaQueryList instance */
