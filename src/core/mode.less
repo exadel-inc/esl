@@ -3,14 +3,14 @@
 uip-root {
   &.vertical-mode {
     &.settings-attached {
-      grid-template-columns: 15% 3fr 1fr;
+      grid-template-columns: 15% calc(65% - 20px) calc(20% - 20px);
 
       uip-editor {
         grid-column: 1 / 4;
       }
     }
 
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: calc(20% - 10px) calc(80% - 10px);
     grid-template-rows: 1fr 550px 350px;
 
     .option-label {
@@ -55,7 +55,7 @@ uip-root {
 
   &.horizontal-mode {
     &.settings-attached {
-      grid-template-columns: 3fr 1fr;
+      grid-template-columns: calc(75% - 10px) calc(25% - 10px);
 
       uip-snippets, uip-editor {
         grid-column: 1 / 3;

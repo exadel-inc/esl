@@ -22,7 +22,7 @@ export class UIPEditor extends UIPPlugin {
     theme: 'ace/theme/chrome',
     mode: 'ace/mode/html',
     printMarginColumn: -1,
-    wrap: 120,
+    wrap: true,
   };
 
   @jsonAttr()
