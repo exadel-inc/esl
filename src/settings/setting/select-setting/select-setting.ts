@@ -1,16 +1,15 @@
 import {attr, boolAttr} from '@exadel/esl/modules/esl-base-element/core';
-import {UIPSetting} from '../setting';
 import {ESLSelect} from '@exadel/esl';
+import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
+
+import {UIPSetting} from '../setting';
 import {UIPStateModel} from '../../../utils/state-model/state-model';
 import TokenListUtils from '../../../utils/array-utils/token-list-utils';
-import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
+import {WARN} from "../../../utils/warn-messages/warn";
 
 export class UIPSelectSetting extends UIPSetting {
   public static is = 'uip-select-setting';
-  public static inconsistentState = {
-    value: 'inconsistent',
-    text: 'Multiple values'
-  };
+  public static inconsistentValue = 'inconsistent';
 
   @attr({defaultValue: ''}) public label: string;
   @attr({defaultValue: 'replace'}) public mode: 'replace' | 'append';
@@ -45,7 +44,7 @@ export class UIPSelectSetting extends UIPSetting {
 
     this.querySelectorAll('option').forEach(option => select.add(option));
     select.addEventListener('change', () => {
-      select.remove(this.values.indexOf(UIPSelectSetting.inconsistentState.value));
+      select.remove(this.values.indexOf(UIPSelectSetting.inconsistentValue));
     });
 
     this.$field.$select = select;
@@ -66,7 +65,7 @@ export class UIPSelectSetting extends UIPSetting {
       }
 
       const attrTokens = this.values.reduce((tokens, option) =>
-        TokenListUtils.remove(tokens, option), attrValue.split(/\s+/));
+        TokenListUtils.remove(tokens, option), TokenListUtils.split(attrValue));
       val && attrTokens.push(val);
 
       return attrTokens.join(' ');
@@ -74,23 +73,28 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   updateFrom(model: UIPStateModel) {
+    this.reset();
     const settingOptions = this.values;
     const attrValues = model.getAttribute(this.target, this.attribute);
 
+    if (!attrValues.length) return this.setInconsistency(WARN.noTarget);
+
     if (this.mode === 'replace') {
-      if (attrValues[0] && TokenListUtils.contains(settingOptions, attrValues[0].split(' ')) &&
-        attrValues.every(val => val === attrValues[0])) {
-        this.setValue(attrValues[0]);
-      } else {
-        this.setInconsistency();
+      if (attrValues.some(val => val !== attrValues[0])) return this.setInconsistency(WARN.multiple);
+      if (attrValues[0] && TokenListUtils.contains(settingOptions, TokenListUtils.split(attrValues[0]))) {
+        return this.setValue(attrValues[0]);
       }
 
-      return;
+      return this.setInconsistency(WARN.noMatch);
     }
 
-    const attrTokens = attrValues.map(value => value?.split(' ') || []);
-    const valueTokens = TokenListUtils.intersection(settingOptions, ...attrTokens);
-    valueTokens.length ? this.setValue(valueTokens.join(' ')) : this.setInconsistency();
+    const optionsMatch = attrValues.map(attrValue =>
+      TokenListUtils.intersection(settingOptions, TokenListUtils.split(attrValue)));
+    const commonOptions = TokenListUtils.intersection(...optionsMatch);
+
+    if (this.multiple || commonOptions.length) return this.setValue(commonOptions.join(' '));
+    optionsMatch.some(match => match.length) ?
+      this.setInconsistency(WARN.multiple) : this.setInconsistency(WARN.noMatch);
   }
 
   protected getDisplayedValue(): string {
@@ -105,11 +109,11 @@ export class UIPSelectSetting extends UIPSetting {
     this.addEventListener(UIPSelectSetting.changeEvent, this._onChange);
   }
 
-  protected setInconsistency(): void {
+  protected setInconsistency(msg=WARN.inconsistent): void {
     this.reset();
 
-    const inconsistentOption = new Option(UIPSelectSetting.inconsistentState.text,
-      UIPSelectSetting.inconsistentState.value, false, true);
+    const inconsistentOption = new Option(msg, UIPSelectSetting.inconsistentValue,
+      false, true);
     inconsistentOption.disabled = true;
 
     this.$field.$select.add(inconsistentOption, 0);
@@ -118,6 +122,6 @@ export class UIPSelectSetting extends UIPSetting {
 
   protected reset(): void {
     this.$field.options.forEach(opt => opt.selected = false);
-    this.$field.$select.remove(this.values.indexOf(UIPSelectSetting.inconsistentState.value));
+    this.$field.$select.remove(this.values.indexOf(UIPSelectSetting.inconsistentValue));
   }
 }
