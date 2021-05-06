@@ -27,9 +27,10 @@ export class ESLMediaQuery {
   }
 
   protected static cleanQuery(query: string) {
-    query = query.replace(/and\s+and/, 'and');
-    query = query.replace(/^\s*and/, '');
-    query = query.replace(/and\s*$/, '');
+    query = query.replace(/(and|or)\s+(and|or)/, '$1');
+    query = query.replace(/\sor\s/, ', ');
+    query = query.replace(/^\s*(and|or)/, '');
+    query = query.replace(/(and|or)\s*$/, '');
     return query.trim();
   }
   protected static applyDPRShortcuts(query: string) {
