@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class=" esl-scrollable-content">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
@@ -36,7 +36,7 @@
 <main role="main">
   <uip-root>
     <uip-options label="Options:"></uip-options>
-    <uip-snippets>
+    <uip-snippets label="Snippets">
       <template uip-snippet label="example 1">
         <div class="test-class" style="display: flex" test-div>
           <div>Sisha</div>
@@ -172,7 +172,7 @@
       </template>
     </uip-snippets>
     <uip-preview label="Preview"></uip-preview>
-    <uip-settings label="Settings" target="::find([test-div])">
+    <uip-settings label="Settings" target="[test-div]">
       <uip-text-setting label="style setting" attribute="style"></uip-text-setting>
       <uip-bool-setting label="green bool setting" attribute="class" value="green-color" mode="append"></uip-bool-setting>
       <uip-select-setting label="color picker" attribute="class" mode="append" multiple>
@@ -182,11 +182,12 @@
       </uip-select-setting>
       <uip-bool-setting label="check list" attribute="check-list"></uip-bool-setting>
     </uip-settings>
-    <uip-editor label="Editor" editor-config="{wrap: 70}"></uip-editor>
+    <uip-editor label="Editor"></uip-editor>
   </uip-root>
 </main>
 <footer class="footer bg-dark"></footer>
 
 <script src="/playground.run.js"></script>
+<esl-scrollbar class="page-scrollbar" target="html"></esl-scrollbar>
 </body>
 </html>
