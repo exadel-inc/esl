@@ -4,10 +4,11 @@ import 'ace-builds/src-min-noconflict/mode-html';
 import 'ace-builds/src-min-noconflict/theme-chrome';
 import 'ace-builds/src-min-noconflict/theme-tomorrow_night';
 
+import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
 import {jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
+
 import {UIPPlugin} from '../core/plugin';
-import {bind} from '@exadel/esl';
 
 interface EditorConfig {
   theme: string;
