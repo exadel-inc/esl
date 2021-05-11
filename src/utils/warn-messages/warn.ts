@@ -4,4 +4,4 @@ export const WARN = {
   invalid: 'Invalid setting value',
   noTarget: 'No setting target',
   noMatch: 'No select match'
-}
+};

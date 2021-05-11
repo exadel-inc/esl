@@ -1,7 +1,7 @@
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 
 import {UIPSetting} from '../setting';
-import {WARN} from "../../../utils/warn-messages/warn";
+import {WARN} from '../../../utils/warn-messages/warn';
 
 export class UIPTextSetting extends UIPSetting {
   public static is = 'uip-text-setting';
@@ -31,7 +31,7 @@ export class UIPTextSetting extends UIPSetting {
     this.$field.placeholder = '';
   }
 
-  protected setInconsistency(msg=WARN.inconsistent): void {
+  protected setInconsistency(msg = WARN.inconsistent): void {
     this.$field.value = '';
     this.$field.placeholder = msg;
   }

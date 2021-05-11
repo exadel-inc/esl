@@ -13,14 +13,23 @@ export abstract class UIPSetting extends ESLBaseElement {
   @attr() public attribute: string;
   @attr() public target: string;
 
+  public get settingContainer(): HTMLElement | null {
+    return this.closest(UIPSettings.is);
+  }
+
   protected connectedCallback() {
     super.connectedCallback();
     this.classList.add(UIPSetting.is);
     this.bindEvents();
 
     if (this.target) return;
-    const settingsTarget = this.closest(`${UIPSettings.is}`)?.getAttribute('target');
+    const settingsTarget = this.settingContainer?.getAttribute('target');
     if (settingsTarget) this.target = settingsTarget;
+  }
+
+  protected disconnectedCallback() {
+    this.unbindEvents();
+    super.disconnectedCallback();
   }
 
   protected bindEvents(): void {
@@ -47,8 +56,7 @@ export abstract class UIPSetting extends ESLBaseElement {
 
     if (!values.length) {
       this.setInconsistency(WARN.noTarget);
-    }
-    else if (values.some(value => value !== values[0])) {
+    } else if (values.some(value => value !== values[0])) {
       this.setInconsistency(WARN.multiple);
     } else {
       this.setValue(values[0]);
@@ -59,13 +67,8 @@ export abstract class UIPSetting extends ESLBaseElement {
     return true;
   }
 
-  protected setInconsistency(msg=WARN.inconsistent): void {
+  protected setInconsistency(msg = WARN.inconsistent): void {
     return;
-  }
-
-  protected disconnectedCallback() {
-    this.unbindEvents();
-    super.disconnectedCallback();
   }
 
   protected abstract getDisplayedValue(): string | boolean;
