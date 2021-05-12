@@ -1,4 +1,16 @@
 export default class TokenListUtils {
+  static split(attrValue: string | null): string[] {
+    return attrValue?.split(/\s+/) || [];
+  }
+
+  static join(values: any[]): string {
+    return values.join(' ');
+  }
+
+  static hasEqualsElements(values: any[]): boolean {
+    return values.every(val => val === values[0]);
+  }
+
   static equals<T>(arr1: T[], arr2: T[]): boolean {
     return TokenListUtils.contains(arr1, arr2) && TokenListUtils.contains(arr2, arr1);
   }

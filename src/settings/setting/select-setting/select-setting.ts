@@ -1,16 +1,15 @@
 import {attr, boolAttr} from '@exadel/esl/modules/esl-base-element/core';
-import {UIPSetting} from '../setting';
 import {ESLSelect} from '@exadel/esl';
+import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
+
+import {UIPSetting} from '../setting';
 import {UIPStateModel} from '../../../utils/state-model/state-model';
 import TokenListUtils from '../../../utils/array-utils/token-list-utils';
-import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
+import {WARN} from '../../../utils/warn-messages/warn';
 
 export class UIPSelectSetting extends UIPSetting {
   public static is = 'uip-select-setting';
-  public static inconsistentState = {
-    value: 'inconsistent',
-    text: 'Multiple values'
-  };
+  public static inconsistentValue = 'inconsistent';
 
   @attr({defaultValue: ''}) public label: string;
   @attr({defaultValue: 'replace'}) public mode: 'replace' | 'append';
@@ -18,7 +17,7 @@ export class UIPSelectSetting extends UIPSetting {
 
   protected $field: ESLSelect;
 
-  get values(): string[] {
+  protected get settingOptions(): string[] {
     return this.$field.options.map(opt => opt.value);
   }
 
@@ -44,8 +43,9 @@ export class UIPSelectSetting extends UIPSetting {
     select.id = `${UIPSelectSetting.is}-${generateUId()}`;
 
     this.querySelectorAll('option').forEach(option => select.add(option));
+
     select.addEventListener('change', () => {
-      select.remove(this.values.indexOf(UIPSelectSetting.inconsistentState.value));
+      select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
     });
 
     this.$field.$select = select;
@@ -53,44 +53,49 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   applyTo(model: UIPStateModel) {
-    if (this.mode === 'replace') {
-      super.applyTo(model);
-      return;
-    }
+    if (this.mode === 'replace') return super.applyTo(model);
 
     const val = this.getDisplayedValue();
 
     model.transformAttribute(this.target, this.attribute, attrValue => {
-      if (!attrValue) {
-        return val || null;
-      }
+      if (!attrValue) return val || null;
 
-      const attrTokens = this.values.reduce((tokens, option) =>
-        TokenListUtils.remove(tokens, option), attrValue.split(/\s+/));
+      const attrTokens = this.settingOptions.reduce((tokens, option) =>
+        TokenListUtils.remove(tokens, option), TokenListUtils.split(attrValue));
       val && attrTokens.push(val);
 
-      return attrTokens.join(' ');
+      return TokenListUtils.join(attrTokens);
     });
   }
 
   updateFrom(model: UIPStateModel) {
-    const settingOptions = this.values;
+    this.reset();
     const attrValues = model.getAttribute(this.target, this.attribute);
 
-    if (this.mode === 'replace') {
-      if (attrValues[0] && TokenListUtils.contains(settingOptions, attrValues[0].split(' ')) &&
-        attrValues.every(val => val === attrValues[0])) {
-        this.setValue(attrValues[0]);
-      } else {
-        this.setInconsistency();
-      }
+    if (!attrValues.length) return this.setInconsistency(WARN.noTarget);
 
-      return;
+    this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
+  }
+
+  protected updateReplace(attrValues: (string | null)[]): void {
+    if (!TokenListUtils.hasEqualsElements(attrValues)) return this.setInconsistency(WARN.multiple);
+
+    if (attrValues[0] !== null &&
+      TokenListUtils.contains(this.settingOptions, TokenListUtils.split(attrValues[0]))) {
+      return this.setValue(attrValues[0]);
     }
 
-    const attrTokens = attrValues.map(value => value?.split(' ') || []);
-    const valueTokens = TokenListUtils.intersection(settingOptions, ...attrTokens);
-    valueTokens.length ? this.setValue(valueTokens.join(' ')) : this.setInconsistency();
+    return this.multiple ? this.setValue('') : this.setInconsistency(WARN.noMatch);
+  }
+
+  protected updateAppend(attrValues: (string | null)[]): void {
+    const commonOptions = TokenListUtils.intersection(
+      ...attrValues.map(val => TokenListUtils.split(val)), this.settingOptions);
+
+    if (this.multiple || commonOptions.length) return this.setValue(TokenListUtils.join(commonOptions));
+
+    return this.setInconsistency(TokenListUtils.hasEqualsElements(attrValues) ?
+      WARN.noMatch : WARN.multiple);
   }
 
   protected getDisplayedValue(): string {
@@ -98,18 +103,14 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   protected setValue(value: string): void {
-    this.reset();
-
     this.removeEventListener(UIPSelectSetting.changeEvent, this._onChange);
     value.split(' ').forEach(opt => this.$field.setSelected(opt, true));
     this.addEventListener(UIPSelectSetting.changeEvent, this._onChange);
   }
 
-  protected setInconsistency(): void {
-    this.reset();
-
-    const inconsistentOption = new Option(UIPSelectSetting.inconsistentState.text,
-      UIPSelectSetting.inconsistentState.value, false, true);
+  protected setInconsistency(msg = WARN.inconsistent): void {
+    const inconsistentOption = new Option(msg, UIPSelectSetting.inconsistentValue,
+      false, true);
     inconsistentOption.disabled = true;
 
     this.$field.$select.add(inconsistentOption, 0);
@@ -118,6 +119,6 @@ export class UIPSelectSetting extends UIPSetting {
 
   protected reset(): void {
     this.$field.options.forEach(opt => opt.selected = false);
-    this.$field.$select.remove(this.values.indexOf(UIPSelectSetting.inconsistentState.value));
+    this.$field.$select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
   }
 }

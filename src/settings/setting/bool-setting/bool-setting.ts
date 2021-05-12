@@ -1,14 +1,13 @@
-import {UIPSetting} from '../setting';
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
+
+import {UIPSetting} from '../setting';
 import {UIPStateModel} from '../../../utils/state-model/state-model';
 import TokenListUtils from '../../../utils/array-utils/token-list-utils';
+import {WARN} from '../../../utils/warn-messages/warn';
 
 export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';
-  public static inconsistentState = {
-    message: '(multiple values)',
-    class: 'inconsistency-marker'
-  };
+  public static inconsistencyClass = 'inconsistency-marker';
 
   @attr({defaultValue: ''}) public label: string;
   @attr({defaultValue: ''}) public value: string;
@@ -30,51 +29,52 @@ export class UIPBoolSetting extends UIPSetting {
   }
 
   applyTo(model: UIPStateModel) {
-    if (this.mode === 'replace') {
-      super.applyTo(model);
-      return;
-    }
+    if (this.mode === 'replace') return super.applyTo(model);
 
-    const val = this.getDisplayedValue() as (string | false);
+    const val = this.getDisplayedValue();
 
     model.transformAttribute(this.target, this.attribute, attrValue => {
-      if (!attrValue) {
-        return val || null;
-      }
+      if (!attrValue) return val || null;
 
-      const attrTokens = TokenListUtils.remove(attrValue.split(/\s+/), this.value);
-      val && attrTokens.push(val);
+      const attrTokens = TokenListUtils.remove(TokenListUtils.split(attrValue), this.value);
+      val && attrTokens.push(this.value);
 
-      return attrTokens.join(' ');
+      return TokenListUtils.join(attrTokens);
     });
   }
 
   updateFrom(model: UIPStateModel) {
     const attrValues = model.getAttribute(this.target, this.attribute);
 
-    if (this.mode === 'replace') {
-      if ((attrValues[0] === null || attrValues[0] === this.value) &&
-        attrValues.every(val => attrValues[0] === val)) {
-        this.setValue(attrValues[0]);
-      } else {
-        this.setInconsistency();
-      }
+    if (!attrValues.length) return this.setInconsistency(WARN.noTarget);
 
-      return;
-    }
-
-    const valueMatch = attrValues.map(attrValue =>
-      TokenListUtils.intersection([this.value], attrValue?.split(' ') || []));
-    valueMatch.every(match => TokenListUtils.equals(match, valueMatch[0])) ?
-      this.setValue(valueMatch[0].length ? this.value : null) : this.setInconsistency();
+    this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
   }
 
-  protected getDisplayedValue(): string | boolean {
+  protected updateReplace(attrValues: (string | null)[]): void {
+    if (!TokenListUtils.hasEqualsElements(attrValues)) {
+      return this.setInconsistency(WARN.multiple);
+    }
+
+    return this.setValue((this.value && attrValues[0] !== this.value) ? null : attrValues[0]);
+  }
+
+  protected updateAppend(attrValues: (string | null)[]): void {
+    const containsFunction = (val: string | null) =>
+      TokenListUtils.contains(TokenListUtils.split(val), [this.value]);
+
+    if (attrValues.every(containsFunction)) return this.setValue(this.value);
+    if (!attrValues.some(containsFunction)) return this.setValue(null);
+
+    return this.setInconsistency(WARN.multiple);
+  }
+
+  protected getDisplayedValue(): string | false {
     if (this.value) {
       return this.$field.checked ? this.value : false;
     }
 
-    return this.$field.checked;
+    return this.$field.checked ? '' : false;
   }
 
   protected setValue(value: string | null): void {
@@ -84,16 +84,16 @@ export class UIPBoolSetting extends UIPSetting {
       this.$field.checked = value !== null;
     }
 
-    this.querySelector(`.${UIPBoolSetting.inconsistentState.class}`)?.remove();
+    this.querySelector(`.${UIPBoolSetting.inconsistencyClass}`)?.remove();
   }
 
-  protected setInconsistency(): void {
+  protected setInconsistency(msg = WARN.inconsistent): void {
     this.$field.checked = false;
-    this.querySelector(`.${UIPBoolSetting.inconsistentState.class}`)?.remove();
+    this.querySelector(`.${UIPBoolSetting.inconsistencyClass}`)?.remove();
 
     const inconsistencyMarker = document.createElement('span');
-    inconsistencyMarker.classList.add(UIPBoolSetting.inconsistentState.class);
-    inconsistencyMarker.innerText = UIPBoolSetting.inconsistentState.message;
+    inconsistencyMarker.classList.add(UIPBoolSetting.inconsistencyClass);
+    inconsistencyMarker.innerText = `(${msg})`;
 
     this.appendChild(inconsistencyMarker);
   }
