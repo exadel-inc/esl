@@ -57,7 +57,7 @@
     "@commitlint/config-conventional": "^12.1.1",
     "@types/js-beautify": "^1.13.1",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
-    "@typescript-eslint/parser": "^4.22.0",
+    "@typescript-eslint/parser": "^4.23.0",
     "browser-sync": "^2.26.14",
     "concurrently": "^6.1.0",
     "eslint": "^7.26.0",
