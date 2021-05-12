@@ -1,13 +1,14 @@
-import ace from 'brace';
-import 'brace/theme/chrome';
-import 'brace/theme/tomorrow_night';
-import 'brace/mode/html';
 import js_beautify from 'js-beautify';
+import {Ace, edit} from 'ace-builds';
+import 'ace-builds/src-min-noconflict/mode-html';
+import 'ace-builds/src-min-noconflict/theme-chrome';
+import 'ace-builds/src-min-noconflict/theme-tomorrow_night';
 
+import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
 import {jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
+
 import {UIPPlugin} from '../core/plugin';
-import {bind} from '@exadel/esl';
 
 interface EditorConfig {
   theme: string;
@@ -27,7 +28,7 @@ export class UIPEditor extends UIPPlugin {
 
   @jsonAttr()
   public editorConfig: EditorConfig;
-  protected editor: ace.Editor;
+  protected editor: Ace.Editor;
 
   protected get mergedEditorConfig(): EditorConfig {
     const type = (this.constructor as typeof UIPEditor);
@@ -47,12 +48,14 @@ export class UIPEditor extends UIPPlugin {
     const {markup} = e.detail;
     const $inner = document.createElement('div');
     $inner.classList.add('uip-editor-inner');
-    $inner.id = 'uip-editor';
-    this.innerHTML = $inner.outerHTML;
-    this.editor = ace.edit('uip-editor');
+
+    this.innerHTML = '';
+    this.appendChild($inner);
+
+    this.editor = edit($inner);
+    this.editor.setOption('useWorker', false);
 
     this.initEditorOptions();
-    this.editor.$blockScrolling = Infinity;
     this.setEditorValue(markup);
   }
 
@@ -67,4 +70,3 @@ export class UIPEditor extends UIPPlugin {
     this.initEditorOptions();
   }
 }
-
