@@ -13,16 +13,6 @@ uip-root {
     grid-template-columns: calc(20% - 10px) calc(80% - 10px);
     grid-template-rows: 1fr 550px 350px;
 
-    .option-label {
-      &[for='vertical-mode'] {
-        font-weight: @selected-mode-weight;
-      }
-
-      &[for='horizontal-mode'] {
-        font-weight: @not-selected-mode-weight;
-      }
-    }
-
     uip-snippets {
       grid-column: 1 / 2;
       grid-row: 2 / 3;
@@ -64,16 +54,6 @@ uip-root {
 
     grid-template-columns: 100%;
     grid-template-rows: auto 1fr 550px 350px;
-
-    .option-label {
-      &[for='horizontal-mode'] {
-        font-weight: @selected-mode-weight;
-      }
-
-      &[for='vertical-mode'] {
-        font-weight: @not-selected-mode-weight;
-      }
-    }
 
     uip-snippets {
       // add specificity

@@ -1,7 +1,13 @@
-.uip-options.uip-options {
-    margin: 0;
-    &::before {
-        position: static;
-        transform: initial;
-    }
+.uip-options.uip-options.uip-options {
+  margin: 0;
+  background-color: transparent;
+
+  &::before {
+    position: static;
+    transform: initial;
+  }
+
+  input:checked + label {
+    font-weight: @active-font-weight;
+  }
 }

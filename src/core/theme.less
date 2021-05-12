@@ -1,24 +1,8 @@
 @import './variables';
 
 uip-root {
-  &.light-theme {
+  &.uip-light-theme {
     background-color: @light-theme;
-
-    .option-label {
-      &[for='light-theme'] {
-        font-weight: @selected-mode-weight;
-      }
-
-      &[for='dark-theme'] {
-        font-weight: @not-selected-mode-weight;
-      }
-
-      &:not(:last-child) {
-        &::after {
-          color: @dark-text-decorator-color;
-        }
-      }
-    }
 
     uip-snippets {
       ul.snippets-list li {
@@ -30,12 +14,8 @@ uip-root {
       }
     }
 
-    uip-preview, uip-snippets, uip-settings, uip-editor {
+    .uip-plugin {
       background-color: @light-theme-section;
-      color: @dark-text;
-    }
-
-    li.snippets-list-item, uip-options {
       color: @dark-text;
     }
 
@@ -47,24 +27,8 @@ uip-root {
 
   }
 
-  &.dark-theme {
+  &.uip-dark-theme {
     background-color: @dark-theme;
-
-    .option-label {
-      &[for='dark-theme'] {
-        font-weight: @selected-mode-weight;
-      }
-
-      &[for='light-theme'] {
-        font-weight: @not-selected-mode-weight;
-      }
-
-      &:not(:last-child) {
-        &::after {
-          color: @light-text;
-        }
-      }
-    }
 
     uip-snippets {
       ul.snippets-list li {
@@ -76,12 +40,8 @@ uip-root {
       }
     }
 
-    uip-preview, uip-snippets, uip-settings, uip-editor {
+    .uip-plugin {
       background-color: @dark-theme-section;
-      color: @light-text;
-    }
-
-    li.snippets-list-item, uip-options {
       color: @light-text;
     }
 
