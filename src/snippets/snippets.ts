@@ -17,8 +17,7 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   public set $active(snippet: HTMLElement | null) {
-    this.$active?.classList.remove(UIPSnippets.ACTIVE_CLASS);
-    snippet?.classList.add(UIPSnippets.ACTIVE_CLASS);
+    this.$items.forEach((item) => item.classList.toggle(UIPSnippets.ACTIVE_CLASS, snippet === item));
   }
 
   protected connectedCallback() {
@@ -27,7 +26,7 @@ export class UIPSnippets extends UIPPlugin {
 
     this.render();
     if (!this.$active) this.$active = this.$items[0];
-    this.sendMarkUp();
+    this.applyActive();
   }
 
   protected disconnectedCallback() {
@@ -57,22 +56,27 @@ export class UIPSnippets extends UIPPlugin {
     const $ul = document.createElement('ul');
     $ul.className = 'snippets-list';
 
-    snippets.forEach(snippet => {
-      const li = document.createElement('li');
-      li.classList.add('snippets-list-item');
-      const label = snippet.getAttribute('label');
-      if (!label) return;
-      li.innerHTML = label;
-      if (snippet.classList.contains(UIPSnippets.ACTIVE_CLASS)) this.$active = li;
-      li.appendChild(snippet);
-      $ul?.appendChild(li);
-    });
+    Array.from(snippets)
+      .map((snippet: HTMLTemplateElement) => this.createListItem(snippet))
+      .forEach((item) => item && $ul.appendChild(item));
+
+    this.$active = this.$active as HTMLElement;
 
     $inner.appendChild($ul);
     this.innerHTML = $inner.outerHTML + $scroll.outerHTML;
   }
 
-  protected sendMarkUp(): void {
+  protected createListItem(snippet : HTMLTemplateElement) {
+    const li = document.createElement('li');
+    li.classList.add('snippets-list-item');
+    const label = snippet.getAttribute('label');
+    if (!label) return;
+    li.textContent = label;
+    li.appendChild(snippet);
+    return li;
+  }
+
+  protected applyActive(): void {
     const tmpl = this.$active?.querySelector('template[uip-snippet]');
     if (!tmpl) return;
 
@@ -85,7 +89,7 @@ export class UIPSnippets extends UIPPlugin {
     if (!target.classList.contains('snippets-list-item')) return;
     this.$active = target;
 
-    this.sendMarkUp();
+    this.applyActive();
   }
 }
 
