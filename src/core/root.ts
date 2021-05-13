@@ -1,3 +1,4 @@
+import {bind} from '@exadel/esl';
 import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 
@@ -27,6 +28,7 @@ export class UIPRoot extends ESLBaseElement {
     this.removeEventListener('request:change', this._onStateChange);
   }
 
+  @bind
   protected _onStateChange(e: CustomEvent) {
     this._state = e.detail.markup;
     const detail = Object.assign({
