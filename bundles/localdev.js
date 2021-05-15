@@ -8758,6 +8758,8 @@ function memoize(hashFn) {
         }
     };
 }
+// Lock storage to prevent cache logic for some key
+var locks = new WeakMap();
 /** Cache memo function in the current context on call */
 function memoizeMember(originalMethod, prop, isGetter, hashFn) {
     return function () {
@@ -8765,8 +8767,12 @@ function memoizeMember(originalMethod, prop, isGetter, hashFn) {
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
+        if (locks.get(this) === prop)
+            return originalMethod;
         var memo = (0,_misc_memoize__WEBPACK_IMPORTED_MODULE_0__.memoizeFn)(originalMethod, hashFn);
+        locks.set(this, prop); // IE try to get key with the prototype instance call, so we lock it
         Object.defineProperty(this, prop, isGetter ? { get: memo } : { value: memo });
+        locks.delete(this); // Free property key
         return memo.apply(this, args);
     };
 }
