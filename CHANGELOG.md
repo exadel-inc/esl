@@ -1,3 +1,10 @@
+## [2.6.4](https://github.com/exadel-inc/esl/compare/v2.6.3...v2.6.4) (2021-05-15)
+
+
+### Bug Fixes
+
+* 'Stack out of bounds' exception for memoized non static member in IE ([4493f90](https://github.com/exadel-inc/esl/commit/4493f9076f7f590fb72d7f24ee6c9bd735120c9c))
+
 ## [2.6.3](https://github.com/exadel-inc/esl/compare/v2.6.2...v2.6.3) (2021-04-29)
 
 ## [2.6.2](https://github.com/exadel-inc/esl/compare/v2.6.1...v2.6.2) (2021-04-26)
