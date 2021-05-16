@@ -40,6 +40,8 @@ export class ESLPanel extends ESLToggleable {
   protected _initialHeight: number = 0;
   protected _fallbackTimer: number = 0;
 
+  public isDefault: boolean = false;
+
   /** @returns Previous active panel height at the start of the animation */
   public get initialHeight() {
     return this._initialHeight;
@@ -49,6 +51,13 @@ export class ESLPanel extends ESLToggleable {
   public get $group(): ESLPanelGroup | null {
     if (this.groupName === 'none' || this.groupName) return null;
     return this.closest(ESLPanelGroup.is);
+  }
+
+  /** Set initial state of ESLPanel */
+  protected setInitialState() {
+    if (!this.initialParams) return;
+    this.toggle(this.open, this.initialParams);
+    this.isDefault = this.open;
   }
 
   protected bindEvents() {

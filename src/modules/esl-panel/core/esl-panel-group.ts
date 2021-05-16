@@ -17,7 +17,7 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 export class ESLPanelGroup extends ESLBaseElement {
   public static is = 'esl-panel-group';
   /** List of supported modes */
-  public static supportedModes = ['tabs', 'accordion'];
+  public static supportedModes = ['tabs', 'accordion', 'open'];
 
   /** Rendering mode of the component (takes values from the list of supported modes; 'accordion' by default) */
   @attr({defaultValue: 'accordion'}) public mode: string;
@@ -119,6 +119,10 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Process {@link ESLPanel} pre-hide event */
   @bind
   protected _onBeforeHide(e: CustomEvent) {
+    if (this.currentMode === 'open') {
+      e.preventDefault();
+      return;
+    }
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
     this._previousHeight = this.offsetHeight;
@@ -210,10 +214,17 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Update element state according to current mode */
   protected updateMode() {
     this.setAttribute('view', this.currentMode);
-    const $target = this.modeClsTarget && TraversingQuery.first(this.modeClsTarget, this);
-    if (!$target) return;
+    let $target = this.modeClsTarget && TraversingQuery.first(this.modeClsTarget, this);
+    if (!$target) $target = this;
     ESLPanelGroup.supportedModes.forEach((mode) => {
-      $target.classList.toggle(`esl-${mode}-view`, this.currentMode === mode);
+      CSSClassUtils.toggle($target as HTMLElement,`esl-${mode}-view`, this.currentMode === mode);
+    });
+
+    ESLPanel.registrated.then(() => {
+      this.$panels.forEach((panel) => {
+        const open = this.currentMode === 'open' || panel.isDefault;
+        panel.toggle(open, {initiator: 'group', activator: this});
+      });
     });
   }
 }
