@@ -25,11 +25,17 @@ export function memoize(hashFn: MemoHashFn = defaultArgsHashFn) {
   };
 }
 
+// Lock storage to prevent cache logic for some key
+const locks = new WeakMap();
+
 /** Cache memo function in the current context on call */
 function memoizeMember(originalMethod: any, prop: string, isGetter: boolean, hashFn: MemoHashFn) {
   return function (this: any, ...args: any[]): any {
+    if (locks.get(this) === prop) return originalMethod;
     const memo = memoizeFn(originalMethod, hashFn);
+    locks.set(this, prop); // IE try to get key with the prototype instance call, so we lock it
     Object.defineProperty(this, prop, isGetter ? { get: memo } : { value: memo });
+    locks.delete(this); // Free property key
     return memo.apply(this, args);
   };
 }
