@@ -21,15 +21,16 @@ export abstract class UIPPlugin extends ESLBaseElement {
     return this._root;
   }
   protected set root(root: UIPRoot | null) {
-    this._root && this._root.removeEventListener('state:change', this._onRootChange);
+    this._root && this._root.removeEventListener('state:change', this._onRootStateChange);
     this._root = root;
-    this._root && this._root.addEventListener('state:change', this._onRootChange);
+    this._root && this._root.addEventListener('state:change', this._onRootStateChange);
   }
 
   protected connectedCallback() {
     super.connectedCallback();
     this.classList.add('uip-plugin');
     this.root = this.closest(`${UIPRoot.is}`) as UIPRoot;
+    this.root && this.handleChange();
   }
   protected disconnectedCallback() {
     this.root = null;
@@ -42,9 +43,9 @@ export abstract class UIPPlugin extends ESLBaseElement {
 
   /** Handles root state change event. Delegate non self triggered events to the {@link handleChange}*/
   @bind
-  protected _onRootChange(e: CustomEvent) {
+  protected _onRootStateChange(e: CustomEvent) {
     if (e.detail.origin === this) return;
-    this.handleChange(e);
+    this.handleChange();
   }
 
   /** Dispatch change state */
@@ -57,5 +58,5 @@ export abstract class UIPPlugin extends ESLBaseElement {
   }
 
   /** Handles root state change. Will not process self triggered changes */
-  protected abstract handleChange(e: CustomEvent): void;
+  protected abstract handleChange(): void;
 }

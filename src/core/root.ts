@@ -1,18 +1,24 @@
 import {bind} from '@exadel/esl';
 import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
+import {UIPStateModel} from '../utils/state-model/state-model';
 
 export class UIPRoot extends ESLBaseElement {
   public static is = 'uip-root';
-  private _state: string;
+  private _model: UIPStateModel;
 
-  public get state() {
-    return this._state;
+  public get model(): UIPStateModel {
+    return this._model;
+  }
+
+  public set model(model: UIPStateModel) {
+    this._model = model;
   }
 
   protected connectedCallback() {
     super.connectedCallback();
     this.bindEvents();
+    this.model = new UIPStateModel();
   }
 
   protected disconnectedCallback() {
@@ -30,7 +36,7 @@ export class UIPRoot extends ESLBaseElement {
 
   @bind
   protected _onStateChange(e: CustomEvent) {
-    this._state = e.detail.markup;
+    this.model.html = e.detail.markup;
     const detail = Object.assign({
       origin: e.target
     }, e.detail);

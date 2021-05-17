@@ -13,9 +13,8 @@ export class UIPPreview extends UIPPlugin {
   }
 
   @bind
-  protected handleChange(e: CustomEvent): void {
-    const {markup} = e.detail;
-    this.$inner.innerHTML = markup;
+  protected handleChange(): void {
+    this.$inner.innerHTML = this.root!.model.html;
     this.innerHTML = '';
     this.appendChild(this.$inner);
   }

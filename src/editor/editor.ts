@@ -44,8 +44,8 @@ export class UIPEditor extends UIPPlugin {
   }, 1000);
 
   @bind
-  protected handleChange(e: CustomEvent): void {
-    const {markup} = e.detail;
+  protected handleChange(): void {
+    const markup = this.root!.model.html;
     const $inner = document.createElement('div');
     $inner.classList.add('uip-editor-inner');
 

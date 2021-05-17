@@ -6,7 +6,7 @@ export class UIPStateModel {
   }
 
   public get html(): string {
-    return this.root.innerHTML;
+    return this.root? this.root.innerHTML : '';
   }
 
   public getAttribute(target: string, name: string): (string | null)[] {
