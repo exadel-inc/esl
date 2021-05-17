@@ -40,6 +40,7 @@ export class ESLPanel extends ESLToggleable {
   protected _initialHeight: number = 0;
   protected _fallbackTimer: number = 0;
 
+  /** Marks initially opened panel */
   public isDefault: boolean = false;
 
   /** @returns Previous active panel height at the start of the animation */

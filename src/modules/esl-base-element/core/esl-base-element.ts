@@ -51,7 +51,7 @@ export abstract class ESLBaseElement extends HTMLElement {
     customElements.define(tagName, this as any as CustomElementConstructor);
   }
 
-  public static get registrated() {
+  public static get registered() {
     return customElements.whenDefined(this.is);
   }
 }

@@ -119,6 +119,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Process {@link ESLPanel} pre-hide event */
   @bind
   protected _onBeforeHide(e: CustomEvent) {
+    // TODO: refactor
     if (this.currentMode === 'open') {
       e.preventDefault();
       return;
@@ -214,16 +215,17 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Update element state according to current mode */
   protected updateMode() {
     this.setAttribute('view', this.currentMode);
-    let $target = this.modeClsTarget && TraversingQuery.first(this.modeClsTarget, this);
-    if (!$target) $target = this;
+    const $target = TraversingQuery.first(this.modeClsTarget, this);
+    if (!$target) return;
     ESLPanelGroup.supportedModes.forEach((mode) => {
-      CSSClassUtils.toggle($target as HTMLElement,`esl-${mode}-view`, this.currentMode === mode);
+      $target.classList.toggle(`esl-${mode}-view`, this.currentMode === mode);
     });
 
-    ESLPanel.registrated.then(() => {
+    // TODO: refactor
+    ESLPanel.registered.then(() => {
       this.$panels.forEach((panel) => {
-        const open = this.currentMode === 'open' || panel.isDefault;
-        panel.toggle(open, {initiator: 'group', activator: this});
+        const shouldOpen = this.currentMode === 'open' || panel.isDefault;
+        panel.toggle(shouldOpen, {initiator: 'group', activator: this});
       });
     });
   }
