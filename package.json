@@ -65,6 +65,7 @@
     "@types/youtube": "0.0.42"
   },
   "devDependencies": {
+    "@11ty/eleventy": "^0.12.1",
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
     "@exadel/server-sketch": "https://github.com/exadel-inc/server-sketch/archive/refs/tags/v0.6.0.tar.gz",
