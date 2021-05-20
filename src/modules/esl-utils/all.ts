@@ -16,6 +16,7 @@ export * from './decorators/memoize';
 export * from './decorators/prop';
 
 // Function
+export * from './async/aggregate';
 export * from './async/promise';
 export * from './async/raf';
 export * from './async/debounce';

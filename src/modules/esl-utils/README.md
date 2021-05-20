@@ -15,6 +15,9 @@ Even if you use the whole utils module, it is still tiny.
 
 
 - ### Async
+  
+  - #### [Aggregate](./async/aggregate.ts) - throttle function decorator with aggregation.
+    Limit decorated function call to one, with aggregated list of call's argument. Decorated function call happens when the timeout is passed from the first call in the group.
 
   - #### [Debounce](./async/debounce.ts) - debounce function decorator.
     Debouncing is a pattern commonly used for rate limiting function calls with a timeout.
