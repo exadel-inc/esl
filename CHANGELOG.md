@@ -1,3 +1,28 @@
+# [2.7.0-beta.2](https://github.com/exadel-inc/esl/compare/v2.7.0-beta.1...v2.7.0-beta.2) (2021-05-20)
+
+
+### Bug Fixes
+
+* **esl-utils:** update export list ([5b9df8b](https://github.com/exadel-inc/esl/commit/5b9df8b2733efa8fbf3999c47150b4e7e2464ad5))
+
+
+### Code Refactoring
+
+* **esl-utils:** remove deprecations of version v2.0.0 ([cbd38b6](https://github.com/exadel-inc/esl/commit/cbd38b6011b790b89a243fb4b0d419b7c80907a8))
+
+
+### Features
+
+* **esl-utils:** aggregate decorator function introduced ([0915fd6](https://github.com/exadel-inc/esl/commit/0915fd6dfad7f09405ebb71877f82fd1a0ed1a92))
+* **esl-utils:** focus order utility ([bd61f99](https://github.com/exadel-inc/esl/commit/bd61f996c5138254bade5a19c40561ed075d340b))
+
+
+### BREAKING CHANGES
+
+* **esl-utils:** `CSSUtil` from 'esl-utils/dom/styles' is removed;
+`ScrollUtility` alias is no longer available use `ScrollUtils` instead;
+`@override` and `@readonly` deprecated decorators are removed use `@prop` decorator instead;
+
 # [2.7.0-beta.1](https://github.com/exadel-inc/esl/compare/v2.6.4...v2.7.0-beta.1) (2021-05-17)
 
 
