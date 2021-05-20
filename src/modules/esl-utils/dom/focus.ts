@@ -1,7 +1,7 @@
 import {TAB} from './keys';
 
 /**
- * Chain focus order between two elements.
+ * Chain focus order between passed elements.
  * Passive (should be called inside keyboard event handler)
  */
 export const handleFocusChain = (e: KeyboardEvent, first: HTMLElement, last: HTMLElement) => {
