@@ -3,7 +3,6 @@ import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {CSSClassUtils} from '@exadel/esl';
 import {UIPPlugin} from '../core/plugin';
-import {UIPStateModel} from '../utils/state-model/state-model';
 
 export class UIPSettings extends UIPPlugin {
   public static is = 'uip-settings';
@@ -12,13 +11,10 @@ export class UIPSettings extends UIPPlugin {
   @attr({defaultValue: 'Settings'}) public label: string;
   @attr({defaultValue: 'settings-attached'}) public rootClass: string;
 
-  protected model: UIPStateModel;
-
   protected connectedCallback() {
     super.connectedCallback();
     this.bindEvents();
     this.root && CSSClassUtils.add(this.root, this.rootClass);
-    this.model = new UIPStateModel();
   }
 
   protected disconnectedCallback(): void {
@@ -36,10 +32,11 @@ export class UIPSettings extends UIPPlugin {
   }
 
   protected _onSettingChanged(e: any) {
-    (e.target as UIPSetting).applyTo(this.model);
-    this.settings.forEach(setting => setting.updateFrom(this.model));
+    if (!this.root) return;
 
-    this.dispatchChange(this.model.html);
+    (e.target as UIPSetting).applyTo(this.root.model);
+    this.settings.forEach(setting => setting.updateFrom(this.root!.model));
+    this.dispatchChange(this.root.model.html);
   }
 
   protected get settings(): UIPSetting[] {
@@ -47,11 +44,11 @@ export class UIPSettings extends UIPPlugin {
   }
 
   @bind
-  public handleChange(e: CustomEvent): void {
-    this.model.html = e.detail.markup;
+  protected handleChange(): void {
+    const model = this.root!.model;
 
     for (const setting of this.settings) {
-      setting.updateFrom(this.model);
+      setting.updateFrom(model);
     }
   }
 }
