@@ -48,7 +48,7 @@
   },
   "homepage": "https://github.com/exadel-inc/ui-playground#readme",
   "dependencies": {
-    "@exadel/esl": "^2.6.3",
+    "@exadel/esl": "^2.6.4",
     "js-beautify": "^1.13.13",
     "ace-builds": "^1.4.12"
   },
