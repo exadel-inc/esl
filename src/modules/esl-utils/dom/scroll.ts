@@ -52,6 +52,3 @@ export abstract class ScrollUtils {
     (initiatorSet.size === 0) && ScrollUtils.unlock();
   }
 }
-
-/** @deprecated Use ScrollUtils alias */
-export const ScrollUtility = ScrollUtils;
