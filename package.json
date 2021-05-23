@@ -39,15 +39,20 @@
     "src/polyfills/**/*.ts"
   ],
   "scripts": {
-    "start": "cd pages && npm run dev",
+    "start": "concurrently --kill-others \"npm run watch:eleventy\" \"npm run watch:ts\" \"npm run watch:less\"",
+    "watch:ts": "cd pages && webpack --watch",
+    "watch:less": "chokidar --initial \"**/*.less\" -c \"npm run build-demo:less\"",
+    "watch:eleventy": "eleventy --serve --port=3005",
     "clean": "rimraf {modules,polyfills}/**",
+    "build-demo": "concurrently \"npm run build-demo:ts\" \"npm run build-demo:less\" && npm run build-demo:eleventy",
+    "build-demo:ts": "cd pages && webpack",
+    "build-demo:less": "lessc pages/src/localdev.less pages/static/bundles/localdev.css --source-map=pages/static/bundles/localdev.css.map",
+    "build-demo:eleventy": "eleventy",
     "build": "npm run clean && concurrently \"npm run build:less\" \"npm run build:ts\" \"npm run build:docs\"",
     "build:ts": "tsc --project tsconfig.json",
     "build:less": "npm run build:less:cpy && npm run build:less:css",
     "build:less:cpy": "copyfiles \"src/**/*.less\" \".\" --up 1 --all",
     "build:less:css": "foreach -x \"lessc #{path} #{dir}/#{name}.css\" -i \"**/*.mixin.less\" -g \"modules/{*,*/*,{draft,esl-utils,esl-forms}/*/*}.less\"",
-    "build:pages": "cd pages && npm run build-pages",
-    "build:pages:local": "cd pages && npm run build",
     "build:docs": "copyfiles \"src/**/*.md\" \".\" --up 1 --all",
     "test": "concurrently \"npm run lint\" \"npm run test:unit\"",
     "test:unit": "jest --silent --noStackTrace",
@@ -56,7 +61,7 @@
     "lint:js": "eslint src/**/*.ts",
     "lint:css": "stylelint src/**/*.less",
     "lint:editorcfg": "editorconfig-checker -disable-indent-size",
-    "prepare": "husky install && npm run build",
+    "prepare": "husky install && npm run build-lib",
     "preversion": "npm test"
   },
   "dependencies": {
