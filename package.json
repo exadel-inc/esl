@@ -61,7 +61,7 @@
     "lint:js": "eslint src/**/*.ts",
     "lint:css": "stylelint src/**/*.less",
     "lint:editorcfg": "editorconfig-checker -disable-indent-size",
-    "prepare": "husky install && npm run build-lib",
+    "prepare": "husky install && npm run build",
     "preversion": "npm test"
   },
   "dependencies": {
