@@ -224,7 +224,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     // TODO: refactor
     ESLPanel.registered.then(() => {
       this.$panels.forEach((panel) => {
-        const shouldOpen = this.currentMode === 'open' || panel.isDefault;
+        const shouldOpen = this.currentMode === 'open' || panel.initiallyOpened;
         panel.toggle(shouldOpen, {initiator: 'group', activator: this});
       });
     });
