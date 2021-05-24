@@ -69,7 +69,7 @@ export class ESLToggleable extends ESLBaseElement {
   public defaultParams: ToggleableActionParams;
 
   /** Marker of initially opened toggleable instance */
-  public initiallyOpen: boolean;
+  public initiallyOpened: boolean;
 
   /** Inner state */
   private _open: boolean = false;
@@ -81,7 +81,7 @@ export class ESLToggleable extends ESLBaseElement {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.initiallyOpen = this.hasAttribute('open');
+    this.initiallyOpened = this.hasAttribute('open');
     this.bindEvents();
     this.setInitialState();
   }
@@ -110,7 +110,7 @@ export class ESLToggleable extends ESLBaseElement {
   /** Set initial state of the Toggleable */
   protected setInitialState() {
     if (this.initialParams) {
-      this.toggle(this.initiallyOpen, this.initialParams);
+      this.toggle(this.initiallyOpened, this.initialParams);
     }
   }
 
