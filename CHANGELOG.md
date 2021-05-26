@@ -1,3 +1,10 @@
+# [3.0.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2021-05-26)
+
+
+### Bug Fixes
+
+* **esl-utils:** utility DeviceDetector updated to recognize iOS13 ([dc2bda2](https://github.com/exadel-inc/esl/commit/dc2bda2be9b30f89953bc5c7b79c03ae6a3fc8ea))
+
 # [3.0.0-beta.1](https://github.com/exadel-inc/esl/compare/v2.7.0-beta.2...v3.0.0-beta.1) (2021-05-24)
 
 
