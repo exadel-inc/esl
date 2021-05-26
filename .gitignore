@@ -11,6 +11,7 @@ node_modules
 # Build output
 target
 pages/static/bundles
+pages/dist
 
 # Generated surces
 /modules

@@ -39,16 +39,21 @@
     "src/polyfills/**/*.ts"
   ],
   "scripts": {
-    "start": "cd pages && npm run dev",
+    "start": "concurrently --kill-others \"npm run watch:eleventy\" \"npm run watch:ts\" \"npm run watch:less\"",
     "clean": "rimraf {modules,polyfills}/**",
     "build": "npm run clean && concurrently \"npm run build:less\" \"npm run build:ts\" \"npm run build:docs\"",
     "build:ts": "tsc --project tsconfig.json",
     "build:less": "npm run build:less:cpy && npm run build:less:css",
     "build:less:cpy": "copyfiles \"src/**/*.less\" \".\" --up 1 --all",
     "build:less:css": "foreach -x \"lessc #{path} #{dir}/#{name}.css\" -i \"**/*.mixin.less\" -g \"modules/{*,*/*,{draft,esl-utils,esl-forms}/*/*}.less\"",
-    "build:pages": "cd pages && npm run build-pages",
-    "build:pages:local": "cd pages && npm run build",
     "build:docs": "copyfiles \"src/**/*.md\" \".\" --up 1 --all",
+    "build-pages": "concurrently \"npm run build-pages:ts\" \"npm run build-pages:less\" && npm run build-pages:eleventy",
+    "build-pages:ts": "cd pages && webpack",
+    "build-pages:less": "lessc pages/src/localdev.less pages/static/bundles/localdev.css --source-map=pages/static/bundles/localdev.css.map",
+    "build-pages:eleventy": "eleventy",
+    "watch:ts": "cd pages && webpack --watch",
+    "watch:less": "chokidar --initial \"**/*.less\" -c \"npm run build-pages:less\"",
+    "watch:eleventy": "eleventy --serve --port=3005",
     "test": "concurrently \"npm run lint\" \"npm run test:unit\"",
     "test:unit": "jest --silent --noStackTrace",
     "test:report": "jest --coverage",
@@ -65,6 +70,7 @@
     "@types/youtube": "0.0.42"
   },
   "devDependencies": {
+    "@11ty/eleventy": "^0.12.1",
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
     "@exadel/server-sketch": "https://github.com/exadel-inc/server-sketch/archive/refs/tags/v0.6.0.tar.gz",
