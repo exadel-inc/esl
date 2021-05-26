@@ -1,3 +1,66 @@
+# [3.0.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2021-05-26)
+
+
+### Bug Fixes
+
+* **esl-utils:** utility DeviceDetector updated to recognize iOS13 ([dc2bda2](https://github.com/exadel-inc/esl/commit/dc2bda2be9b30f89953bc5c7b79c03ae6a3fc8ea))
+
+# [3.0.0-beta.1](https://github.com/exadel-inc/esl/compare/v2.7.0-beta.2...v3.0.0-beta.1) (2021-05-24)
+
+
+### Bug Fixes
+
+* **esl-image:** svg loading check update ([6f72a70](https://github.com/exadel-inc/esl/commit/6f72a708cf0594ff1ef5a7f2eabbc03f4164fa87))
+
+
+### Features
+
+* **esl-toggleable:** toggleable API updated, show/hide flow refactored ([2e77654](https://github.com/exadel-inc/esl/commit/2e776541da85d1c5760cc1c622843f50577f7799))
+
+
+### BREAKING CHANGES
+
+* **esl-toggleable:** onShow/onHide no longer contains inner state changes.
+
+# [2.7.0-beta.2](https://github.com/exadel-inc/esl/compare/v2.7.0-beta.1...v2.7.0-beta.2) (2021-05-20)
+
+
+### Bug Fixes
+
+* **esl-utils:** update export list ([5b9df8b](https://github.com/exadel-inc/esl/commit/5b9df8b2733efa8fbf3999c47150b4e7e2464ad5))
+
+
+### Code Refactoring
+
+* **esl-utils:** remove deprecations of version v2.0.0 ([cbd38b6](https://github.com/exadel-inc/esl/commit/cbd38b6011b790b89a243fb4b0d419b7c80907a8))
+
+
+### Features
+
+* **esl-utils:** aggregate decorator function introduced ([0915fd6](https://github.com/exadel-inc/esl/commit/0915fd6dfad7f09405ebb71877f82fd1a0ed1a92))
+* **esl-utils:** focus order utility ([bd61f99](https://github.com/exadel-inc/esl/commit/bd61f996c5138254bade5a19c40561ed075d340b))
+
+
+### BREAKING CHANGES
+
+* **esl-utils:** `CSSUtil` from 'esl-utils/dom/styles' is removed;
+`ScrollUtility` alias is no longer available use `ScrollUtils` instead;
+`@override` and `@readonly` deprecated decorators are removed use `@prop` decorator instead;
+
+# [2.7.0-beta.1](https://github.com/exadel-inc/esl/compare/v2.6.4...v2.7.0-beta.1) (2021-05-17)
+
+
+### Features
+
+* support mode="open" to make all panels active ([2619fe5](https://github.com/exadel-inc/esl/commit/2619fe55e63b78af237af09a30b55ec442172774))
+
+## [2.6.4](https://github.com/exadel-inc/esl/compare/v2.6.3...v2.6.4) (2021-05-15)
+
+
+### Bug Fixes
+
+* 'Stack out of bounds' exception for memoized non static member in IE ([4493f90](https://github.com/exadel-inc/esl/commit/4493f9076f7f590fb72d7f24ee6c9bd735120c9c))
+
 ## [2.6.3](https://github.com/exadel-inc/esl/compare/v2.6.2...v2.6.3) (2021-04-29)
 
 ## [2.6.2](https://github.com/exadel-inc/esl/compare/v2.6.1...v2.6.2) (2021-04-26)
