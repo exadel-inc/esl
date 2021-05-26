@@ -14,18 +14,25 @@ export * from './abstract/observable';
 export * from './decorators/bind';
 export * from './decorators/memoize';
 export * from './decorators/prop';
+export * from './decorators/ready';
 
 // Function
+export * from './async/aggregate';
 export * from './async/promise';
 export * from './async/raf';
 export * from './async/debounce';
 export * from './async/throttle';
+export * from './async/delayed-task';
 
 // DOM
-export * from './dom/script';
-export * from './dom/styles';
 export * from './dom/class';
 export * from './dom/events';
+export * from './dom/focus';
+export * from './dom/keys';
+export * from './dom/ready';
+export * from './dom/rtl';
+export * from './dom/script';
+export * from './dom/scroll';
 export * from './dom/traversing';
 
 // Device detection

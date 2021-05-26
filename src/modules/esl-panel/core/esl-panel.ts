@@ -37,7 +37,9 @@ export class ESLPanel extends ESLToggleable {
   @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init'}})
   public initialParams: ToggleableActionParams;
 
+  /** Inner height state that updates after show/hide actions but before show/hide events triggered */
   protected _initialHeight: number = 0;
+  /** Inner timer to cleanup animation styles */
   protected _fallbackTimer: number = 0;
 
   /** @returns Previous active panel height at the start of the animation */

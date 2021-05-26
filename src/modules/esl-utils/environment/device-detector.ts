@@ -2,6 +2,7 @@ import {ExportNs} from './export-ns';
 
 const ua = window.navigator.userAgent;
 const vendor = window.navigator.vendor;
+const platform = window.navigator.platform;
 
 /**
  * Device detection utility
@@ -40,8 +41,10 @@ export abstract class DeviceDetector {
 
   // Mobile
   public static readonly isAndroid = /Android/i.test(ua);
-  public static readonly isMobileIOS = /iPad|iPhone|iPod/i.test(ua);
+  public static readonly isMobileIOS13 = /* iOS 13+ detection */ (platform === 'MacIntel' && window.navigator.maxTouchPoints > 1);
+  public static readonly isMobileIOS = /iPad|iPhone|iPod/.test(platform) || DeviceDetector.isMobileIOS13;
   public static readonly isLegacyMobile = /webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
   public static readonly isMobile = DeviceDetector.isMobileIOS || DeviceDetector.isAndroid || DeviceDetector.isLegacyMobile;
   public static readonly isMobileSafari = DeviceDetector.isMobileIOS && DeviceDetector.isWebkit && /CriOS/i.test(ua);
 
