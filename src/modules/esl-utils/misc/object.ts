@@ -41,6 +41,30 @@ export function copyDefinedKeys<T>(obj?: T): Partial<T> {
 }
 
 /**
+ * Callback for checking property's key and value.
+ *
+ * @callback checkProperty
+ * @param {string} key
+ * @param {any} value
+ * @returns boolean
+ */
+
+/**
+ * Makes a copy of obj with properties satisfying the predicate
+ *
+ * @param obj
+ * @param {checkProperty} predicate
+ */
+export function omit(obj: any, predicate: (key: string, value: any) => boolean): Record<string, any> {
+  return Object.keys(obj || {}).reduce((res: Record<string, any>, key) => {
+    if (predicate(key, obj[key])) {
+      res[key] = obj[key];
+    }
+    return res;
+  }, {});
+}
+
+/**
  * Set object property using "path" key
  *
  * @param target - object

@@ -1,4 +1,4 @@
-import {defined, deepCompare, getPropertyDescriptor, get, set, copyDefinedKeys} from '../object';
+import {defined, deepCompare, getPropertyDescriptor, get, set, copyDefinedKeys, omit} from '../object';
 
 describe('misc/object', () => {
   describe('deepCompare', () => {
@@ -95,6 +95,20 @@ describe('misc/object', () => {
       const obj = {};
       expect(defined(obj, null)).toBe(obj);
     });
+  });
+
+  describe('omit', () => {
+    const predicate = (key: string) => !key.startsWith('_');
+    test.each([
+      [undefined, {}],
+      [null, {}],
+      [{}, {}],
+      [{_: 1, _b: 1}, {}],
+      [{_a: 1, b: 1}, {b: 1}],
+      [{a: 1, b: {}}, {a: 1, b: {}}]
+    ])('%p to %p', (inp, out) => {
+      expect(omit(inp, predicate)).toEqual(out);
+    })
   });
 
   describe('copyDefinedKeys', () => {
