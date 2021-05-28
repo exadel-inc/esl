@@ -3,8 +3,10 @@ import {ESLBaseElement, attr} from '../../../esl-base-element/core';
 import {deepCompare} from '../../../esl-utils/misc/object';
 import {ESLMediaRuleList} from '../../../esl-media-query/core';
 import {ESLCarouselSlide} from './esl-carousel-slide';
-import {ESLCarouselView, ESLCarouselViewRegistry} from './view/esl-carousel-view';
-import {ESLCarouselPlugin} from '../plugin/esl-carousel-plugin';
+import {ESLCarouselViewRegistry} from './view/esl-carousel-view';
+
+import type {ESLCarouselView} from './view/esl-carousel-view';
+import type {ESLCarouselPlugin} from '../plugin/esl-carousel-plugin';
 
 interface CarouselConfig { // Registry
   view?: string;

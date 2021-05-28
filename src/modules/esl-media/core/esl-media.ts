@@ -11,9 +11,11 @@ import {ESLMediaQuery} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
 import {getIObserver} from './esl-media-iobserver';
-import {BaseProvider, PlayerStates} from './esl-media-provider';
+import {PlayerStates} from './esl-media-provider';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
 import {MediaGroupRestrictionManager} from './esl-media-manager';
+
+import type {BaseProvider} from './esl-media-provider';
 
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 

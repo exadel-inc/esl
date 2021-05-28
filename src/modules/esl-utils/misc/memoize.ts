@@ -1,4 +1,4 @@
-import {AnyToAnyFnSignature} from './functions';
+import type {AnyToAnyFnSignature} from './functions';
 
 /** Memoized function type */
 export type MemoizedFn<T extends AnyToAnyFnSignature> = T & {
