@@ -1,4 +1,4 @@
-import {defined, deepCompare, getPropertyDescriptor, get, set, copyDefinedKeys} from '../object';
+import {defined, deepCompare, getPropertyDescriptor, get, set, copyDefinedKeys, omit} from '../object';
 
 describe('misc/object', () => {
   describe('deepCompare', () => {
@@ -94,6 +94,28 @@ describe('misc/object', () => {
       expect(defined(null, 'a')).toBe(null);
       const obj = {};
       expect(defined(obj, null)).toBe(obj);
+    });
+  });
+
+  describe('omit', () => {
+    const predicate = (key: string) => !key.startsWith('_');
+    test.each([
+      [undefined, {}],
+      [null, {}],
+      [{}, {}],
+      [[1, 2], {0: 1, 1: 2}],
+      [{_: 1, _b: 1}, {}],
+      [{_a: 1, b: 1}, {b: 1}],
+      [{a: 1, b: {}}, {a: 1, b: {}}],
+      [{_: 1, a: 2, __proto__: {_b: 3, b: 4}}, {a: 2}]
+    ])('%p to %p', (inp, out) => {
+      expect(omit(inp, predicate)).toEqual(out);
+    });
+
+    test('special cases', () => {
+      const obj = {_a: 1, b: 2};
+      Object.setPrototypeOf(obj, { c: 3, _d: 4});
+      expect(omit(obj, predicate)).toEqual({b: 2});
     });
   });
 
