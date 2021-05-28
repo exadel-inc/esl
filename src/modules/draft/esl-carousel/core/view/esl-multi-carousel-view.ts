@@ -31,6 +31,7 @@ class ESLMultiCarouselView extends ESLCarouselView {
     });
   }
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   public goTo(nextIndex: number, direction: string) {
     const slideIndex = direction === 'right' ? this.carousel.activeIndexes[0] : this.carousel.firstIndex;
     const slideStyles = getComputedStyle(this.carousel.$slides[slideIndex]);

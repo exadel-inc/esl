@@ -89,6 +89,7 @@
     "eslint": "^7.27.0",
     "eslint-plugin-editorconfig": "^3.0.2",
     "eslint-plugin-import": "^2.23.3",
+    "eslint-plugin-sonarjs": "^0.7.0",
     "foreach-cli": "^1.8.1",
     "husky": "^6.0.0",
     "intersection-observer": "^0.12.0",

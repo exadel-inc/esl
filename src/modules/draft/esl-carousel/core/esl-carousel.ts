@@ -83,6 +83,7 @@ export class ESLCarousel extends ESLBaseElement {
     this._currentConfig = Object.assign({}, config);
   }
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   public goTo(nextIndex: number, direction?: string, force: boolean = false) {
     if (this.dataset.isAnimated) {
       return;
