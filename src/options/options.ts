@@ -1,7 +1,8 @@
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
-import {UIPEditor} from '../editor/editor';
 import {CSSClassUtils, ESLMediaQuery} from '@exadel/esl';
+
+import {UIPEditor} from '../editor/editor';
 import {UIPPlugin} from '../core/plugin';
 
 export class UIPOptions extends UIPPlugin {
@@ -27,11 +28,12 @@ export class UIPOptions extends UIPPlugin {
   }
 
   protected disconnectedCallback() {
-    super.disconnectedCallback();
     this.unbindEvents();
+    super.disconnectedCallback();
   }
 
-  protected handleChange() {}
+  protected handleChange() {
+  }
 
   protected bindEvents() {
     this.addEventListener('click', this._onOptionChange);
@@ -44,6 +46,7 @@ export class UIPOptions extends UIPPlugin {
   }
 
   protected render() {
+    this.innerHTML = '';
     if (this.mode) this.renderMode();
     if (this.theme) this.renderTheme();
   }
@@ -53,14 +56,18 @@ export class UIPOptions extends UIPPlugin {
     CSSClassUtils.add($mode, 'uip-option mode');
     $mode.innerHTML = `
         <div class="option-item">
-            <input type="radio" id="vertical-mode" name="mode" mode="vertical"
+            <label class="option-label">
+            Vertical
+            <input type="radio" name="mode" mode="vertical"
             class="option-radio-btn" ${this.mode === 'vertical' ? 'checked' : ''}>
-            <label for="vertical-mode" class="option-label">Vertical</label>
+            </label>
         </div>
         <div class="option-item">
-            <input type="radio" id="horizontal-mode" name="mode" mode="horizontal"
+            <label class="option-label">
+            Horizontal
+            <input type="radio" name="mode" mode="horizontal"
             class="option-radio-btn" ${this.mode === 'horizontal' ? 'checked' : ''}>
-            <label for="horizontal-mode" class="option-label">Horizontal</label>
+            </label>
         </div>`;
     this.appendChild($mode);
   }
@@ -70,14 +77,18 @@ export class UIPOptions extends UIPPlugin {
     CSSClassUtils.add($theme, 'uip-option theme');
     $theme.innerHTML = `
         <div class="option-item">
-            <input type="radio" id="uip-light-theme" name="theme" theme="uip-light"
+            <label class="option-label">
+            Light
+            <input type="radio" name="theme" theme="uip-light"
             class="option-radio-btn" ${this.theme === 'uip-light' ? 'checked' : ''}>
-            <label for="uip-light-theme" class="option-label">Light</label>
+            </label>
         </div>
         <div class="option-item">
-            <input type="radio" id="uip-dark-theme" name="theme" theme="uip-dark"
+            <label class="option-label">
+            Dark
+            <input type="radio" name="theme" theme="uip-dark"
             class="option-radio-btn" ${this.theme === 'uip-dark' ? 'checked' : ''}>
-            <label for="uip-dark-theme" class="option-label">Dark</label>
+            </label>
         </div>`;
     this.appendChild($theme);
   }
@@ -103,9 +114,10 @@ export class UIPOptions extends UIPPlugin {
   }
 
   protected changeEditorTheme(theme: string) {
-    const $editor = this.root?.querySelector(`${UIPEditor.is}`) as UIPEditor;
-    if (!$editor) return;
-    const editorConfig = $editor.editorConfig;
+    const $editor = this.root?.querySelector(`:scope > ${UIPEditor.is}`) as UIPEditor;
+    const editorConfig = $editor?.editorConfig;
+    if (!$editor || !editorConfig) return;
+
     editorConfig.theme = theme === 'uip-dark' ? UIPOptions.darkEditorTheme : UIPOptions.lightEditorTheme;
     $editor.setEditorConfig(editorConfig);
   }
