@@ -36,6 +36,7 @@ export class UIPRoot extends ESLBaseElement {
 
   @bind
   protected _onStateChange(e: CustomEvent) {
+    e.stopPropagation();
     this.model.html = e.detail.markup;
     const detail = Object.assign({
       origin: e.target
