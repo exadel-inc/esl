@@ -17,6 +17,7 @@ export class UIPBoolSetting extends UIPSetting {
 
   protected connectedCallback() {
     super.connectedCallback();
+    if (this.$field) return;
 
     this.$field = document.createElement('input');
     this.$field.type = 'checkbox';
@@ -25,6 +26,8 @@ export class UIPBoolSetting extends UIPSetting {
     const label = document.createElement('label');
     label.innerText = this.label;
     label.appendChild(this.$field);
+
+    this.innerHTML = '';
     this.appendChild(label);
   }
 

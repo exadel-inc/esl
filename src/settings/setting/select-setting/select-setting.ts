@@ -23,6 +23,7 @@ export class UIPSelectSetting extends UIPSetting {
 
   protected connectedCallback() {
     super.connectedCallback();
+    if (this.$field) return;
 
     this.$field = new ESLSelect();
     this.$field.name = this.label;
@@ -31,8 +32,9 @@ export class UIPSelectSetting extends UIPSetting {
     const label = document.createElement('label');
     label.innerText = this.label;
     label.htmlFor = this.$field.$select.id;
-
     this.appendChild(label);
+
+    this.innerHTML = '';
     this.appendChild(this.$field);
   }
 
