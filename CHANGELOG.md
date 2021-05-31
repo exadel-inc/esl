@@ -1,3 +1,17 @@
+# [3.0.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2021-05-31)
+
+
+### Bug Fixes
+
+* **esl-select:**  fix height empty space appeared with little amount of list items ([9dfadc4](https://github.com/exadel-inc/esl/commit/9dfadc410cb5f5fcbaafc3debfe64386ca0013c7))
+* **esl-select:**  specify max-height for standalone list in pixels & for list in dropdown in vh ([70ed2f0](https://github.com/exadel-inc/esl/commit/70ed2f0cba83dcf2801ee6f9729fac4ce53bb114))
+* jest defaults for new version ([9ba56b4](https://github.com/exadel-inc/esl/commit/9ba56b4794944f808c18f6e3e6e5002cf561d6ef))
+
+
+### Features
+
+* **esl-utils:** added alt, shift and control to the keys.ts (within hpe keycode removing) ([73580ec](https://github.com/exadel-inc/esl/commit/73580ecf60dd2abd7aebe72d7958a3539286f1b3))
+
 # [3.0.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2021-05-26)
 
 
