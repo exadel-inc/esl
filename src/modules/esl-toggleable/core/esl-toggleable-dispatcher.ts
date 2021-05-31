@@ -1,8 +1,8 @@
-import {ESLToggleable} from './esl-toggleable';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {ESLToggleable} from './esl-toggleable';
 
 /**
  * ESLToggleableDispatcher

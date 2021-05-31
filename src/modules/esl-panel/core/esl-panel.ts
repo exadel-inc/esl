@@ -3,8 +3,10 @@ import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {bind} from '../../esl-utils/decorators/bind';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {attr, jsonAttr} from '../../esl-base-element/core';
-import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
+import {ESLToggleable} from '../../esl-toggleable/core';
 import {ESLPanelGroup} from './esl-panel-group';
+
+import type {ToggleableActionParams} from '../../esl-toggleable/core';
 
 /** {@link ESLPanel} action params interface */
 export interface PanelActionParams extends ToggleableActionParams {

@@ -1,6 +1,7 @@
-import {ESLMedia} from './esl-media';
 import {Observable} from '../../esl-utils/abstract/observable';
 import type {BaseProvider, ProviderType} from './esl-media-provider';
+
+import type {ESLMedia} from './esl-media';
 
 let evRegistryInstance: ESLMediaProviderRegistry | null = null;
 /**

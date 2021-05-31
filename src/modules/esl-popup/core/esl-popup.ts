@@ -1,7 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr} from '../../esl-base-element/core';
-import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
-import {ScrollStrategy, ScrollUtils} from '../../esl-utils/dom/scroll';
+import {ESLToggleable} from '../../esl-toggleable/core';
+import {ScrollUtils} from '../../esl-utils/dom/scroll';
+
+import type {ScrollStrategy} from '../../esl-utils/dom/scroll';
+import type {ToggleableActionParams} from '../../esl-toggleable/core';
 
 @ExportNs('Popup')
 export class ESLPopup extends ESLToggleable {

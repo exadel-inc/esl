@@ -2,11 +2,11 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr} from '../../esl-base-element/core';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {bind} from '../../esl-utils/decorators/bind';
-import {ESLTab} from './esl-tab';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
 import {debounce} from '../../esl-utils/async/debounce';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaRuleList} from '../../esl-media-query/core/esl-media-rule-list';
+import {ESLTab} from './esl-tab';
 
 /**
  * ESlTabs component
