@@ -1,5 +1,6 @@
-import {ESLMedia} from './esl-media';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
+
+import type {ESLMedia} from './esl-media';
 
 export enum PlayerStates {
   BUFFERING = 3,

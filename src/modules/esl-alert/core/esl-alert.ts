@@ -1,11 +1,13 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {attr, jsonAttr} from '../../esl-base-element/core';
-import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
+import {ESLToggleable} from '../../esl-toggleable/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {createZIndexIframe} from '../../esl-utils/fixes/ie-fixes';
 import {TraversingQuery} from '../../esl-traversing-query/core';
+
+import type {ToggleableActionParams} from '../../esl-toggleable/core';
 
 export interface AlertActionParams extends ToggleableActionParams {
   /** text to be shown; pass empty string or null to hide */
