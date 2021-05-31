@@ -4,8 +4,10 @@ import {afterNextRender} from '../../esl-utils/async/raf';
 import {bind} from '../../esl-utils/decorators/bind';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
-import {ESLPanel, PanelActionParams} from './esl-panel';
 import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLPanel} from './esl-panel';
+
+import type {PanelActionParams} from './esl-panel';
 
 /**
  * ESLPanelGroup component

@@ -7,7 +7,9 @@ import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
 import {getIObserver} from './esl-image-iobserver';
-import {ESLImageRenderStrategy, ShadowImageElement, STRATEGIES} from './esl-image-strategies';
+import {STRATEGIES} from './esl-image-strategies';
+
+import type {ESLImageRenderStrategy, ShadowImageElement} from './esl-image-strategies';
 
 type LoadState = 'error' | 'loaded' | 'ready';
 const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);

@@ -1,5 +1,5 @@
-import {HTMLMediaProvider} from './media-provider';
 import {BaseProvider} from '../../core/esl-media-provider';
+import {HTMLMediaProvider} from './media-provider';
 
 /**
  * Simple Video API provider for {@link ESLMedia}
