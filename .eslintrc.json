@@ -73,7 +73,7 @@
     "use-isnan": "error",
     "valid-typeof": "error",
 
-    "@typescript-eslint/consistent-type-imports": ["warn", { "prefer": "type-imports" }],
+    "@typescript-eslint/consistent-type-imports": ["error", { "prefer": "type-imports" }],
     "@typescript-eslint/object-curly-spacing": ["warn",  "never"],
     "@typescript-eslint/explicit-function-return-type": "off",
 
@@ -122,7 +122,7 @@
     "sonarjs/no-collapsible-if": "error",
     "sonarjs/no-duplicated-branches": "error",
     "sonarjs/no-identical-functions": "warn",
-    "sonarjs/no-inverted-boolean-check": "error",
+    "sonarjs/no-inverted-boolean-check": "warn",
     "sonarjs/no-redundant-boolean": "error",
     "sonarjs/no-redundant-jump": "error",
     "sonarjs/no-same-line-conditional": "error",
