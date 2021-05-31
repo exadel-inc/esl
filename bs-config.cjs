@@ -4,7 +4,7 @@ module.exports = {
         './lib/*.css'
     ],
     watch: true,
-    server: ['docs/demo1', 'lib'],
+    server: ['docs', 'lib'],
     open: 'local',
     browser: 'default'
 };
