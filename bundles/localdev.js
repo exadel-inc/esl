@@ -9069,6 +9069,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ENTER": function() { return /* binding */ ENTER; },
 /* harmony export */   "ESC": function() { return /* binding */ ESC; },
 /* harmony export */   "SPACE": function() { return /* binding */ SPACE; },
+/* harmony export */   "ALT": function() { return /* binding */ ALT; },
+/* harmony export */   "SHIFT": function() { return /* binding */ SHIFT; },
+/* harmony export */   "CONTROL": function() { return /* binding */ CONTROL; },
 /* harmony export */   "PAUSE": function() { return /* binding */ PAUSE; },
 /* harmony export */   "END": function() { return /* binding */ END; },
 /* harmony export */   "HOME": function() { return /* binding */ HOME; },
@@ -9083,6 +9086,9 @@ var TAB = 'Tab';
 var ENTER = 'Enter';
 var ESC = 'Escape';
 var SPACE = ' ';
+var ALT = 'Alt';
+var SHIFT = 'Shift';
+var CONTROL = 'Control';
 var PAUSE = 'Pause';
 var END = 'End';
 var HOME = 'Home';
