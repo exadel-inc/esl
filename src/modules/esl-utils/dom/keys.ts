@@ -3,6 +3,10 @@ export const ENTER = 'Enter';
 export const ESC = 'Escape';
 export const SPACE = ' ';
 
+export const ALT = 'Alt';
+export const SHIFT = 'Shift';
+export const CONTROL = 'Control';
+
 export const PAUSE = 'Pause';
 export const END = 'End';
 export const HOME = 'Home';
