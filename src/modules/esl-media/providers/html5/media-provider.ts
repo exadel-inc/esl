@@ -1,4 +1,6 @@
-import {BaseProvider, MediaProviderConfig, PlayerStates, ProviderObservedParams} from '../../core/esl-media-provider';
+import {BaseProvider, PlayerStates} from '../../core/esl-media-provider';
+
+import type {MediaProviderConfig, ProviderObservedParams} from '../../core/esl-media-provider';
 
 /**
  * Simple Native Media API provider for {@link ESLMedia}

@@ -1,4 +1,4 @@
-import {ESLMedia} from './esl-media';
+import type {ESLMedia} from './esl-media';
 
 const managerMap = new Map<string, ESLMedia>();
 

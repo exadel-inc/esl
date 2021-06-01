@@ -1,5 +1,7 @@
+import {PromiseUtils} from './promise';
+
 import type {AnyToAnyFnSignature} from '../misc/functions';
-import {Deferred, PromisifyResultFn, PromiseUtils} from './promise';
+import type {Deferred, PromisifyResultFn} from './promise';
 
 /** Debounced<F> is a function wrapper type for a function decorated via debounce */
 export interface Debounced<F extends AnyToAnyFnSignature> extends PromisifyResultFn<F> {

@@ -3,11 +3,11 @@ import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {TraversingQuery} from '../../esl-traversing-query/core';
-import {NoopFnSignature} from '../../esl-utils/misc/functions';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 
+import type {NoopFnSignature} from '../../esl-utils/misc/functions';
 import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 
 @ExportNs('Trigger')

@@ -145,9 +145,20 @@ you can find useful information about the project processes and agreements here:
 
 ---
 
-**ESL Core Team**: [Alexey Stsefanovich](https://github.com/ala-n), [Julia Murashko](https://github.com/julia-murashko), [Yuliya Adamskaya](https://github.com/yadamskaya).
+**ESL Core Team**: 
+[Alexey Stsefanovich](https://github.com/ala-n), 
+[Julia Murashko](https://github.com/julia-murashko), 
+[Yuliya Adamskaya](https://github.com/yadamskaya).
 
-**ESL Contributors**: Aliaksandr Auseyeu, Andrey Belous, Dmytro Shovchko, Dzianis Mantsevich, Liubou Masiuk, Natallia Harshunova, Yana Bernatskaya.
+**ESL Contributors**: 
+[Aliaksandr Auseyeu](https://github.com/alexanderavseev), 
+[Anna Barmina](https://github.com/abarmina),
+[Andrey Belous](https://github.com/andreybelous), 
+[Dmytro Shovchko](https://github.com/dshovchko), 
+[Dzianis Mantsevich](https://github.com/dmantsevich), 
+[Liubou Masiuk](https://github.com/liubou-masiuk), 
+[Natallia Harshunova](https://github.com/nattallius), 
+[Yana Bernatskaya](https://github.com/YanaBr).
 
 **Exadel, Inc.**
 

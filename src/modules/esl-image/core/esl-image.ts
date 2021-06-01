@@ -7,7 +7,9 @@ import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
 import {getIObserver} from './esl-image-iobserver';
-import {ESLImageRenderStrategy, STRATEGIES} from './esl-image-strategies';
+import {STRATEGIES} from './esl-image-strategies';
+
+import type {ESLImageRenderStrategy} from './esl-image-strategies';
 
 type LoadState = 'error' | 'loaded' | 'ready';
 const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);
@@ -180,11 +182,8 @@ export class ESLImage extends ESLBaseElement {
         this.syncImage();
       }
 
-      if (this._shadowImg.complete && this._shadowImg.naturalHeight > 0) {
-        this._onLoad();
-      }
-      if (this._shadowImg.complete && this._shadowImg.naturalHeight <= 0) {
-        this._onError();
+      if (this._shadowImg.complete) {
+        this._shadowImgError ? this._onError() : this._onLoad();
       }
     }
 
@@ -258,6 +257,12 @@ export class ESLImage extends ESLBaseElement {
       this._shadowImageElement.onerror = this._onError;
     }
     return this._shadowImageElement;
+  }
+
+  protected get _shadowImgError() {
+    if (!this._shadowImg.complete) return false;
+    if (this._shadowImg.src.substr(-4) === '.svg') return false;
+    return this._shadowImg.naturalHeight <= 0;
   }
 
   @bind
