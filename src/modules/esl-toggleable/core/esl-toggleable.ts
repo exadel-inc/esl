@@ -189,9 +189,9 @@ export class ESLToggleable extends ESLBaseElement {
   protected hideTask(params: ToggleableActionParams) {
     if (!params.force && !this.open) return;
     if (!params.silent && !this.$$fire('before:hide',{detail: {params}})) return;
-    this.activator = null;
     this.open = false;
     this.onHide(params);
+    this.activator = null;
     if (!params.silent) this.$$fire('hide', {detail: {params}, cancelable: false});
   }
 
