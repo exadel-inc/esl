@@ -1,14 +1,19 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
+import {ESLTrigger} from '../../esl-trigger/core';
 import {ESLFootnotes} from '../../esl-footnotes/core/esl-footnotes';
 import {EventUtils} from '../../esl-utils/dom/events';
 
 @ExportNs('Note')
-export class ESLNote extends ESLBaseElement {
+export class ESLNote extends ESLTrigger {
   static is = 'esl-note';
   static eventNs = 'esl:note';
 
+  /** Linked state marker */
+  @boolAttr() public linked: boolean;
+
+  protected _$footnotes: ESLFootnotes | null;
   protected _index: number;
   protected _text: string;
 
@@ -36,8 +41,26 @@ export class ESLNote extends ESLBaseElement {
     document.body.addEventListener(`${ESLFootnotes.eventNs}:ready`, this._handlerFootnotesReady);
   }
 
-  update() {
-    this.innerHTML = `${this._index}`;
+  protected disconnectedCallback() {
+    super.disconnectedCallback();
+
+    if (this._$footnotes) {
+      this._$footnotes.unlinkNote(this);
+    }
+  }
+
+  link(footnotes: ESLFootnotes, index: number) {
+    this.linked = true;
+    this._$footnotes = footnotes;
+    this.index = index;
+    this.innerHTML = `${this.index}`;
+  }
+
+  unlink() {
+    this.linked = false;
+    this._$footnotes = null;
+    this.innerText = this.text;
+    EventUtils.dispatch(this, `${ESLNote.eventNs}:ready`);
   }
 
   @bind

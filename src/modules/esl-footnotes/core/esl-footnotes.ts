@@ -1,5 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
+import {memoize} from '../../esl-utils/decorators/memoize';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
 import {ESLNote} from '../../esl-note/core/esl-note';
 import {TraversingQuery} from '../../esl-traversing-query/core';
@@ -10,23 +11,52 @@ export class ESLFootnotes extends ESLBaseElement {
   static is = 'esl-footnotes';
   static eventNs = 'esl:footnotes';
 
-  protected _notesIndex: number;
+  /** Target element {@link TraversingQuery} to define scope */
+  @attr({defaultValue: '::parent'}) public scopeTarget: string;
+
   protected _notes: ESLNote[];
 
   constructor() {
     super();
 
     this._notes = [];
-    this._notesIndex = 0;
+  }
+
+  @memoize()
+  protected get scopeEl() {
+    return TraversingQuery.first(this.scopeTarget, this) as HTMLElement;
   }
 
   protected connectedCallback() {
     super.connectedCallback();
 
-    const root = TraversingQuery.first('::parent', this) as Element;
-    root.addEventListener(`${ESLNote.eventNs}:ready`, this._handlerNoteSubscribe);
+    if (this.scopeEl) {
+      this.scopeEl.addEventListener(`${ESLNote.eventNs}:ready`, this._handlerNoteSubscribe);
+    }
 
     EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:ready`);
+  }
+
+  protected disconnectedCallback() {
+    super.disconnectedCallback();
+
+    if (this.scopeEl) {
+      this.scopeEl.removeEventListener(`${ESLNote.eventNs}:ready`, this._handlerNoteSubscribe);
+    }
+
+    this._notes.forEach((el) => el.unlink());
+    this._notes = [];
+  }
+
+  public linkNote(note: ESLNote) {
+    const index = this._notes.push(note);
+    note.link(this, index);
+  }
+
+  public unlinkNote(note: ESLNote) {
+    this._notes = this._notes.filter((el) => el !== note);
+    this._notes.forEach((el, index) => el.index = index + 1);
+    this.update();
   }
 
   public update() {
@@ -67,10 +97,7 @@ export class ESLFootnotes extends ESLBaseElement {
   @bind
   protected _handlerNoteSubscribe(e: CustomEvent) {
     const note = e.target as ESLNote;
-    this._notes.push(note);
-    this._notesIndex++;
-    note.index = this._notesIndex;
-    note.update();
+    this.linkNote(note);
     this.update()
 
     e.stopPropagation();
