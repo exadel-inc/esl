@@ -1,3 +1,4 @@
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {tuple, wrap, uniq} from '../../esl-utils/misc/array';
 import {unwrapParenthesis} from '../../esl-utils/misc/format';
 import {TraversingUtils} from '../../esl-utils/dom/traversing';
@@ -31,6 +32,7 @@ type CollectionProcessor = (els: Element[], sel: string) => Element[];
  * @example "#id .class [attr]::parent" - find parent of element matching selector '#id .class [attr]' in document
  * @example "::find(.row)::last::parent" - find parent of the last element matching selector '.row' from the base element subtree
  */
+@ExportNs('TraversingQuery')
 export class TraversingQuery {
   private static ELEMENT_PROCESSORS: Record<string, ElementProcessor> = {
     '::find': TraversingUtils.findAll,

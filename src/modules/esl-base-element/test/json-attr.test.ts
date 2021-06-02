@@ -130,4 +130,3 @@ describe('Decorator: jsonAttr', () => {
     expect(throwWarn).toBe(true);
   });
 });
-

@@ -14,13 +14,15 @@ export class ESLSelectItem extends ESLBaseElement {
   public static readonly is: string = 'esl-select-item';
 
   public static get observedAttributes() {
-    return ['selected'];
+    return ['selected', 'disabled'];
   }
 
   /** Option value */
   @attr() public value: string;
   /** Selected state marker */
   @boolAttr() public selected: boolean;
+  /** Disabled state marker */
+  @boolAttr() public disabled: boolean;
 
   /** Original option */
   public original: ESLSelectOption;
@@ -36,15 +38,23 @@ export class ESLSelectItem extends ESLBaseElement {
     if (attrName === 'selected') {
       this.setAttribute('aria-selected', String(this.selected));
     }
+    if (attrName === 'disabled') {
+      this.setAttribute('aria-disabled', String(this.disabled));
+    }
+  }
+
+  public update(option?: ESLSelectOption) {
+    if (option) this.original = option;
+    this.value = this.original.value;
+    this.disabled = this.original.disabled;
+    this.selected = this.original.selected;
+    this.textContent = this.original.text;
   }
 
   /** Helper to create an option item */
   public static build(option: ESLSelectOption) {
     const item = document.createElement(ESLSelectItem.is) as ESLSelectItem;
-    item.original = option;
-    item.value = option.value;
-    item.selected = option.selected;
-    item.textContent = option.text;
+    item.update(option);
     return item;
   }
 }

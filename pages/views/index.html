@@ -1,15 +1,22 @@
 ---
 layout: ./layouts/basic.html
-title: Exadel Smart Library &#9881;
+title: Exadel Smart Library
 containerCls: container
 ---
 
 {{##content:
 
-<p class="lead description">
-  Exadel Smart Library (<strong>ESL</strong>) is a web components based library that gives you a set of <strong>lightweight</strong>
-  and <strong>flexible</strong> custom elements to easily create basic UX modules and make your websites super fast.
-</p>
+<div class="d-sm-flex align-items-center">
+  <div class="brand-section logo-primary mr-2">
+    {{= page.getFile('static/assets/logo.svg').toString() }}
+  </div>
+  <p class="m-0 lead description">
+    Exadel Smart Library (<strong>ESL</strong>) is a web components based library that gives you a set of <strong>lightweight</strong>
+    and <strong>flexible</strong> custom elements to easily create basic UX modules and make your websites super fast.
+  </p>
+</div>
+
+
 <hr/>
 
 <h3 id="components">List of components</h3>
@@ -42,6 +49,10 @@ containerCls: container
           Use bundler to build your project. Currently, only ESL modules are available for consumption.
         </li>
       </ul>
+    </li>
+    <li>
+      <p>Install <a href="https://www.npmjs.com/package/@exadel/esl">esl npm dependency</a>:</p>
+      <pre><code>npm i @exadel/esl --save</code></pre>
     </li>
     <li>
       <p>Import Components/Modules you need.</p>
@@ -144,11 +155,10 @@ containerCls: container
 
 <h2 id="roadmap">Roadmap</h2>
 <div class="container">
-  <ul class="m-2">
+  <ul class="m-8 mr-2 ml-2">
     <li><a href="https://github.com/exadel-inc/ui-playground">UI Playground</a> (<em>will be available soon</em>) demo
       server
     </li>
-    <li>npm release</li>
     <li>More helpers and sugar of ESLBaseElement (event listener helpers and decorators)</li>
     <li>Extension of esl-utils</li>
     <li>Dynamic Footnotes component</li>

@@ -9,31 +9,30 @@ class TestMediaSource extends HTMLElement {
   private render() {
     const form = document.createElement('form');
     form.innerHTML = `
-			<fieldset>
-				<legend>Video Settings:</legend>
-		    <div class="input-group mb-2 mr-sm-2">
-			    <select class="form-control" name="media-type">
-			      <option value="auto">- Auto -</option>
-			      <option value="audio">HTML Audio</option>
-			      <option value="video">HTML Video</option>
-			      <option value="youtube">Youtube</option>
-			      <option value="brightcove">Brightcove</option>
-			      <option value="iframe">Iframe</option>
-					</select>
-        </div>
-			  <div class="input-group mb-2 mr-sm-2">
-			    <input type="text" class="form-control" placeholder="Media src" name="media-src" autocomplete="on"/>
-			  </div>
-			  <div class="input-group mb-2 mr-sm-2">
-			    <input type="text" class="form-control" placeholder="Media id" name="media-id" autocomplete="on"/>
-			  </div>
-        <div class="input-group mb-2 mr-sm-2">
-			    <input type="text" class="form-control" placeholder="Player id" name="player-id" autocomplete="on"/>
+      <fieldset>
+        <legend>Video Settings:</legend>
+          <div class="input-group mb-2 mr-sm-2">
+          <select class="form-control" name="media-type">
+            <option value="auto">- Auto -</option>
+            <option value="audio">HTML Audio</option>
+            <option value="video">HTML Video</option>
+            <option value="youtube">Youtube</option>
+            <option value="brightcove">Brightcove</option>
+            <option value="iframe">Iframe</option>
+          </select>
         </div>
         <div class="input-group mb-2 mr-sm-2">
-			    <input type="text" class="form-control" placeholder="Player account" name="player-account" autocomplete="on"/>
+          <input type="text" class="form-control" placeholder="Media src" name="media-src" autocomplete="on"/>
         </div>
-
+        <div class="input-group mb-2 mr-sm-2">
+          <input type="text" class="form-control" placeholder="Media id" name="media-id" autocomplete="on"/>
+        </div>
+        <div class="input-group mb-2 mr-sm-2">
+          <input type="text" class="form-control" placeholder="Player id" name="player-id" autocomplete="on"/>
+        </div>
+        <div class="input-group mb-2 mr-sm-2">
+          <input type="text" class="form-control" placeholder="Player account" name="player-account" autocomplete="on"/>
+        </div>
 
         <div class="form-group">
           <div class="form-check form-check-inline">
@@ -46,8 +45,8 @@ class TestMediaSource extends HTMLElement {
             <label class="form-check-label"><input type="checkbox" name="disabled" class="form-check-input"/> Disabled</label>
           </div>
         </div>
-			</fieldset>
-		`;
+      </fieldset>
+    `;
     form.action = 'javascript: void 0;';
     this.innerHTML = '';
     this.appendChild(form);

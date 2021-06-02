@@ -1,8 +1,8 @@
-esl-tabs[scrollable] {
+esl-tabs[scrollable]:not(.disabled-alignment) {
   display: flex;
   align-items: center;
 
-  .esl-tab-container {
+  > .esl-tab-container {
     flex: 1 1 auto;
     overflow: hidden;
     white-space: nowrap;
@@ -10,6 +10,9 @@ esl-tabs[scrollable] {
     flex-direction: row;
     flex-wrap: nowrap;
     position: relative;
+    &.esl-scrollable-content {
+      overflow: auto;
+    }
   }
 
   .arrow-prev, .arrow-next {

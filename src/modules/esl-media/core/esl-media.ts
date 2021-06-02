@@ -1,7 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
-import {CSSUtil} from '../../esl-utils/dom/styles';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {debounce} from '../../esl-utils/async/debounce';
 import {EventUtils} from '../../esl-utils/dom/events';
@@ -11,9 +11,11 @@ import {ESLMediaQuery} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
 import {getIObserver} from './esl-media-iobserver';
-import {BaseProvider, PlayerStates} from './esl-media-provider';
+import {PlayerStates} from './esl-media-provider';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
 import {MediaGroupRestrictionManager} from './esl-media-manager';
+
+import type {BaseProvider} from './esl-media-provider';
 
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 
@@ -147,7 +149,7 @@ export class ESLMedia extends ESLBaseElement {
     this._provider && this._provider.unbind();
   }
 
-  private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
       case 'disabled':
@@ -202,8 +204,8 @@ export class ESLMedia extends ESLBaseElement {
     if (!targetEl) return;
 
     const active = this.canActivate();
-    CSSUtil.toggleClsTo(targetEl, this.loadClsAccepted, active);
-    CSSUtil.toggleClsTo(targetEl, this.loadClsDeclined, !active);
+    CSSClassUtils.toggle(targetEl, this.loadClsAccepted, active);
+    CSSClassUtils.toggle(targetEl, this.loadClsDeclined, !active);
   }
 
   /**
@@ -326,7 +328,8 @@ export class ESLMedia extends ESLBaseElement {
 
   @bind
   protected _onRegistryStateChange(name: string) {
-    if (name === this.mediaType) {
+    const type = this.mediaType.toLowerCase() || 'auto';
+    if (name === type || (!this.providerType && type === 'auto')) {
       this.reinitInstance();
     }
   }
@@ -334,7 +337,7 @@ export class ESLMedia extends ESLBaseElement {
   /** Update ready class state */
   protected updateReadyClass() {
     const target = TraversingQuery.first(this.readyClassTarget, this) as HTMLElement;
-    target && CSSUtil.toggleClsTo(target, this.readyClass, this.ready);
+    target && CSSClassUtils.toggle(target, this.readyClass, this.ready);
   }
 
   /** Applied provider */

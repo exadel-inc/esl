@@ -1,7 +1,3 @@
-#-----------------------------
-# CI Github Action: CLA Assistant trigger script
-#-----------------------------
-
 name: CLA Assistant
 
 on:

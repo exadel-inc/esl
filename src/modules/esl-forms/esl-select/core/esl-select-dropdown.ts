@@ -1,10 +1,12 @@
-import {ESLToggleable, ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
+import {ESLToggleable} from '../../../esl-toggleable/core/esl-toggleable';
 import {bind} from '../../../esl-utils/decorators/bind';
+import {prop} from '../../../esl-utils/decorators/prop';
 import {TAB} from '../../../esl-utils/dom/keys';
 import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';
 
 import type {ESLSelect} from './esl-select';
+import type {ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
 
 /**
  * ESLSelectDropdown component
@@ -28,13 +30,8 @@ export class ESLSelectDropdown extends ESLToggleable {
   protected _disposeTimeout: number;
   protected _deferredUpdatePosition = rafDecorator(() => this.updatePosition());
 
-  // TODO: update defaults + override decorator
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  get closeOnEsc() { return true; }
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  get closeOnOutsideAction() { return true; }
+  @prop() public closeOnEsc = true;
+  @prop() public closeOnOutsideAction = true;
 
   constructor() {
     super();
@@ -71,7 +68,7 @@ export class ESLSelectDropdown extends ESLToggleable {
 
     super.onShow(params);
     const focusable = this.querySelector('[tabindex]') as HTMLElement;
-    focusable && focusable.focus( { preventScroll: true } );
+    focusable && focusable.focus( {preventScroll: true} );
     this.updatePosition();
   }
   protected onHide(params: ToggleableActionParams) {
@@ -81,7 +78,7 @@ export class ESLSelectDropdown extends ESLToggleable {
       if (this.parentNode !== document.body) return;
       document.body.removeChild(this);
     }, 1000);
-    select && setTimeout(() => select.focus({ preventScroll: true }), 0);
+    select && setTimeout(() => select.focus({preventScroll: true}), 0);
   }
 
   @bind

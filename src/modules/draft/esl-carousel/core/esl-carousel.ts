@@ -3,8 +3,10 @@ import {ESLBaseElement, attr} from '../../../esl-base-element/core';
 import {deepCompare} from '../../../esl-utils/misc/object';
 import {ESLMediaRuleList} from '../../../esl-media-query/core';
 import {ESLCarouselSlide} from './esl-carousel-slide';
-import {ESLCarouselView, ESLCarouselViewRegistry} from './view/esl-carousel-view';
-import {ESLCarouselPlugin} from '../plugin/esl-carousel-plugin';
+import {ESLCarouselViewRegistry} from './view/esl-carousel-view';
+
+import type {ESLCarouselView} from './view/esl-carousel-view';
+import type {ESLCarouselPlugin} from '../plugin/esl-carousel-plugin';
 
 interface CarouselConfig { // Registry
   view?: string;
@@ -83,6 +85,7 @@ export class ESLCarousel extends ESLBaseElement {
     this._currentConfig = Object.assign({}, config);
   }
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   public goTo(nextIndex: number, direction?: string, force: boolean = false) {
     if (this.dataset.isAnimated) {
       return;

@@ -1,14 +1,10 @@
-#-----------------------------
-# CI Github Action: Validate
-#-----------------------------
-
 name: Test and Lint
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: [ main, main-beta, dev ]
   pull_request:
-    branches: [ main, dev ]
+    branches: [ main, main-beta, dev ]
   workflow_dispatch:
 
 env:
@@ -33,3 +29,5 @@ jobs:
         run: npm run lint:css
       - name: Run Tests
         run: npm run test:unit
+      - name: Run Linting Format
+        run: npm run lint:spaces

@@ -1,5 +1,7 @@
+import {PromiseUtils} from './promise';
+
 import type {AnyToAnyFnSignature} from '../misc/functions';
-import {Deferred, PromiseUtils, PromisifyResultFn} from './promise';
+import type {Deferred, PromisifyResultFn} from './promise';
 
 /** Throttled<F> is a function wrapper type for a function decorated via throttle */
 export interface Throttled<F extends AnyToAnyFnSignature> extends PromisifyResultFn<F> {

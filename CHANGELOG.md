@@ -1,3 +1,237 @@
+# [3.0.0-beta.4](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2021-06-02)
+
+
+### Bug Fixes
+
+* activator is not defined in hide handler ([6e2473e](https://github.com/exadel-inc/esl/commit/6e2473eae4a0742c0737b4d743415d4de5e207cf))
+
+
+### Features
+
+* extend UID utilities ([f90a1c1](https://github.com/exadel-inc/esl/commit/f90a1c178b11364d4e1424d0e0673e77cbbaf553))
+
+
+### BREAKING CHANGES
+
+* `generateUId` renamed to `randUID`
+
+# [3.0.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2021-05-31)
+
+
+### Bug Fixes
+
+* **esl-select:**  fix height empty space appeared with little amount of list items ([9dfadc4](https://github.com/exadel-inc/esl/commit/9dfadc410cb5f5fcbaafc3debfe64386ca0013c7))
+* **esl-select:**  specify max-height for standalone list in pixels & for list in dropdown in vh ([70ed2f0](https://github.com/exadel-inc/esl/commit/70ed2f0cba83dcf2801ee6f9729fac4ce53bb114))
+* jest defaults for new version ([9ba56b4](https://github.com/exadel-inc/esl/commit/9ba56b4794944f808c18f6e3e6e5002cf561d6ef))
+
+
+### Features
+
+* **esl-utils:** added alt, shift and control to the keys.ts (within hpe keycode removing) ([73580ec](https://github.com/exadel-inc/esl/commit/73580ecf60dd2abd7aebe72d7958a3539286f1b3))
+
+# [3.0.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2021-05-26)
+
+
+### Bug Fixes
+
+* **esl-utils:** utility DeviceDetector updated to recognize iOS13 ([dc2bda2](https://github.com/exadel-inc/esl/commit/dc2bda2be9b30f89953bc5c7b79c03ae6a3fc8ea))
+
+# [3.0.0-beta.1](https://github.com/exadel-inc/esl/compare/v2.7.0-beta.2...v3.0.0-beta.1) (2021-05-24)
+
+
+### Bug Fixes
+
+* **esl-image:** svg loading check update ([6f72a70](https://github.com/exadel-inc/esl/commit/6f72a708cf0594ff1ef5a7f2eabbc03f4164fa87))
+
+
+### Features
+
+* **esl-toggleable:** toggleable API updated, show/hide flow refactored ([2e77654](https://github.com/exadel-inc/esl/commit/2e776541da85d1c5760cc1c622843f50577f7799))
+
+
+### BREAKING CHANGES
+
+* **esl-toggleable:** onShow/onHide no longer contains inner state changes.
+
+# [2.7.0-beta.2](https://github.com/exadel-inc/esl/compare/v2.7.0-beta.1...v2.7.0-beta.2) (2021-05-20)
+
+
+### Bug Fixes
+
+* **esl-utils:** update export list ([5b9df8b](https://github.com/exadel-inc/esl/commit/5b9df8b2733efa8fbf3999c47150b4e7e2464ad5))
+
+
+### Code Refactoring
+
+* **esl-utils:** remove deprecations of version v2.0.0 ([cbd38b6](https://github.com/exadel-inc/esl/commit/cbd38b6011b790b89a243fb4b0d419b7c80907a8))
+
+
+### Features
+
+* **esl-utils:** aggregate decorator function introduced ([0915fd6](https://github.com/exadel-inc/esl/commit/0915fd6dfad7f09405ebb71877f82fd1a0ed1a92))
+* **esl-utils:** focus order utility ([bd61f99](https://github.com/exadel-inc/esl/commit/bd61f996c5138254bade5a19c40561ed075d340b))
+
+
+### BREAKING CHANGES
+
+* **esl-utils:** `CSSUtil` from 'esl-utils/dom/styles' is removed;
+`ScrollUtility` alias is no longer available use `ScrollUtils` instead;
+`@override` and `@readonly` deprecated decorators are removed use `@prop` decorator instead;
+
+# [2.7.0-beta.1](https://github.com/exadel-inc/esl/compare/v2.6.4...v2.7.0-beta.1) (2021-05-17)
+
+
+### Features
+
+* support mode="open" to make all panels active ([2619fe5](https://github.com/exadel-inc/esl/commit/2619fe55e63b78af237af09a30b55ec442172774))
+
+# [2.7.0](https://github.com/exadel-inc/esl/compare/v2.6.4...v2.7.0) (2021-05-31)
+
+
+### Bug Fixes
+
+* jest defaults for new version ([9ba56b4](https://github.com/exadel-inc/esl/commit/9ba56b4794944f808c18f6e3e6e5002cf561d6ef))
+
+
+### Features
+
+* **esl-utils:** added alt, shift and control to the keys.ts (within hpe keycode removing) ([73580ec](https://github.com/exadel-inc/esl/commit/73580ecf60dd2abd7aebe72d7958a3539286f1b3))
+
+## [2.6.4](https://github.com/exadel-inc/esl/compare/v2.6.3...v2.6.4) (2021-05-15)
+
+
+### Bug Fixes
+
+* 'Stack out of bounds' exception for memoized non static member in IE ([4493f90](https://github.com/exadel-inc/esl/commit/4493f9076f7f590fb72d7f24ee6c9bd735120c9c))
+
+## [2.6.3](https://github.com/exadel-inc/esl/compare/v2.6.2...v2.6.3) (2021-04-29)
+
+## [2.6.2](https://github.com/exadel-inc/esl/compare/v2.6.1...v2.6.2) (2021-04-26)
+
+
+### Bug Fixes
+
+* fix fallback animation call for esl-panel and esl-panel-group ([712f53d](https://github.com/exadel-inc/esl/commit/712f53d44198f8bbc32ed890c10a763667a61cf7))
+
+## [2.6.1](https://github.com/exadel-inc/esl/compare/v2.6.0...v2.6.1) (2021-04-23)
+
+# [2.6.0](https://github.com/exadel-inc/esl/compare/v2.5.2...v2.6.0) (2021-04-22)
+
+
+### Bug Fixes
+
+* remove undefined prop keys from toggleable properties merging ([3bb5d30](https://github.com/exadel-inc/esl/commit/3bb5d301e34a98d7afb5a32838d63cdbe21a2403))
+* toggleable attribute change detection and extend action params with more information ([1627056](https://github.com/exadel-inc/esl/commit/16270569b3b54e55ff80f27c6f10d4c1fe13fdfc))
+
+
+### Features
+
+* copyDefinedKeys utility created ([11306c4](https://github.com/exadel-inc/esl/commit/11306c402104e3355031ee100af523664d3a2124))
+* disabled options support for esl-select-item and fix list mutation detection ([53dfe01](https://github.com/exadel-inc/esl/commit/53dfe01622e07ffa196f46448b85818dd4d79f94))
+* extend ToggleableDispatcher params with more information ([e8febf3](https://github.com/exadel-inc/esl/commit/e8febf394578bcb380481aff14cdc1faf78856e2))
+
+## [2.5.2](https://github.com/exadel-inc/esl/compare/v2.5.1...v2.5.2) (2021-04-21)
+
+
+### Bug Fixes
+
+* provider type dynamic registration fix ([128b22f](https://github.com/exadel-inc/esl/commit/128b22f6d0b113608c533cc12a3164f37dca4d45))
+
+## [2.5.1](https://github.com/exadel-inc/esl/compare/v2.5.0...v2.5.1) (2021-04-19)
+
+# [2.5.0](https://github.com/exadel-inc/esl/compare/v2.4.1...v2.5.0) (2021-04-19)
+
+
+### Features
+
+* adjust scrollable attr ([b80a211](https://github.com/exadel-inc/esl/commit/b80a21175495927924bf4d923eb2b0dc45e4dfc0))
+* body class manger feature rejection ([07ba596](https://github.com/exadel-inc/esl/commit/07ba596eec58e81108c02179f0a873a6931d7b21))
+* change body class behaviour of the toggleable to support locks ([5379c65](https://github.com/exadel-inc/esl/commit/5379c65aeae9e2ec824cc366638770a63ffe00a4))
+* class utils extended ([c3e7f66](https://github.com/exadel-inc/esl/commit/c3e7f660330d310a0181b59927e163acb7380bf5))
+
+## [2.4.1](https://github.com/exadel-inc/esl/compare/v2.4.0...v2.4.1) (2021-04-15)
+
+
+### Bug Fixes
+
+* add TraversingQuery to ESL ns ([d1b2af2](https://github.com/exadel-inc/esl/commit/d1b2af2dedc17ccde818d5910029feda6deee2dc))
+* disable scroll native mode fix ([2f5bb86](https://github.com/exadel-inc/esl/commit/2f5bb868647ae12af5312a4af8fd9995cb896432))
+* outsideAction tracker conflicts with outside esl-triggers / activators ([b544e07](https://github.com/exadel-inc/esl/commit/b544e07f37bbb61a6b8d57166ebe5077f5585d7d))
+
+# [2.4.0](https://github.com/exadel-inc/esl/compare/v2.3.2...v2.4.0) (2021-04-13)
+
+
+### Bug Fixes
+
+* add ability to pass custom user data trough toggleable params ([9e7af26](https://github.com/exadel-inc/esl/commit/9e7af2640be7868749184cff0fb9d489229b1dbb))
+
+
+### Features
+
+* extend Scrollable Tabs to support center position ([b3bb7d8](https://github.com/exadel-inc/esl/commit/b3bb7d8f3602a81da4f5ce7bfab6e48db73df4ac))
+* override and readonly decorators deprecate and replaced with a `prop` decorator ([eb4040e](https://github.com/exadel-inc/esl/commit/eb4040e08ce7522e330faabb6696fbc1f0d25afa))
+
+## [2.3.2](https://github.com/exadel-inc/esl/compare/v2.3.1...v2.3.2) (2021-04-08)
+
+
+### Bug Fixes
+
+* fix for the less files build ([#41](https://github.com/exadel-inc/esl/issues/41)dd93a) ([d079851](https://github.com/exadel-inc/esl/commit/d0798516a536e7a76f1a282c3ed944d1455f2286)), closes [#41dd93](https://github.com/exadel-inc/esl/issues/41dd93)
+
+## [2.3.1](https://github.com/exadel-inc/esl/compare/v2.3.0...v2.3.1) (2021-04-08)
+
+
+### Bug Fixes
+
+* temporary npm build vix ([41dd93a](https://github.com/exadel-inc/esl/commit/41dd93a96c4e3313d55bca4d0dbbf470605c05a7))
+
+# [2.3.0](https://github.com/exadel-inc/esl/compare/v2.2.1...v2.3.0) (2021-04-08)
+
+### Features
+
+* override and readonly implementation ([641da83](https://github.com/exadel-inc/esl/commit/641da83f7b43ea10711e8d64d2047582d2376ac1))
+
+## [2.2.1](https://github.com/exadel-inc/esl/compare/v2.2.0...v2.2.1) (2021-04-02)
+
+
+### Bug Fixes
+
+* remove allow-same-version ([0016ada](https://github.com/exadel-inc/esl/commit/0016ada0a694bbc75cbaba23deb61037f9d1737e))
+
+# [2.2.0](https://github.com/exadel-inc/esl/compare/v2.1.0...v2.2.0) (2021-04-02)
+
+
+### Bug Fixes
+
+* allow-same-version temporary set to true ([75eb9a0](https://github.com/exadel-inc/esl/commit/75eb9a052749ff394c275e8e091fff54a28158b9))
+* npm members ([0b9fbae](https://github.com/exadel-inc/esl/commit/0b9fbae649c5a8cee8434db08031763bf278575f))
+
+
+### Features
+
+* npm release-ready version ([30c8624](https://github.com/exadel-inc/esl/commit/30c8624fdfc37a14fd35eafd8678633844813846))
+
+# [2.2.0](https://github.com/exadel-inc/esl/compare/v2.1.0...v2.2.0) (2021-04-02)
+
+
+### Features
+
+* npm release-ready version ([30c8624](https://github.com/exadel-inc/esl/commit/30c8624fdfc37a14fd35eafd8678633844813846))
+
+# [2.1.0](https://github.com/exadel-inc/esl/compare/v2.0.0...v2.1.0) (2021-04-02)
+
+
+### Bug Fixes
+
+* debounce fit to viewport ([0413596](https://github.com/exadel-inc/esl/commit/04135969988fcc5e0ff560c45f253a40279eb2cc))
+* dependencies vulnerability cleanup ([7823287](https://github.com/exadel-inc/esl/commit/782328704aee31b31163f35f443ae3a8696eb21c))
+* dependencies vulnerability cleanup 2 ([d335aaa](https://github.com/exadel-inc/esl/commit/d335aaac3525c0004347df21440c2add5a035753))
+
+
+### Features
+
+* ability to refresh esl-media via esl:refresh ([2419237](https://github.com/exadel-inc/esl/commit/2419237dd3ea4dfd62b9ad08fd86218aa53c92df))
+
 # [2.0.0](https://github.com/exadel-inc/esl/compare/v1.1.0...v2.0.0) (2021-03-29)
 
 

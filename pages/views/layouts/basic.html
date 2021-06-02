@@ -17,15 +17,18 @@ scrollbar: true
   })();
 </script>
 
+<link rel="icon" type="image/png"
+      href="{{= page.invokeController('PublishConfig').resolve('/assets/logo-64x64.png')}}" />
+
 <link type="text/css" rel="stylesheet"
-      href="{{= page.invokeController('PublishConfig').resolve('/bundles/localdev.css')}}">
+      href="{{= page.invokeController('PublishConfig').resolve('/bundles/localdev.css')}}" />
 
 {{= layout.head || '' }}
 #}}
 
 {{##body:
 <header class="header">
-  {{= partial('../navigation/header.html')}}
+  {{= page.renderComponent('header', {}) }}
 </header>
 <main role="main">
   <div class="content {{= layout.containerCls || 'container-fluid'}}">
@@ -37,7 +40,7 @@ scrollbar: true
   </div>
 </main>
 <footer class="footer bg-dark">
-  {{= partial('../navigation/footer.html')}}
+  {{= page.renderComponent('footer', {}) }}
 </footer>
 
 <script src="{{= page.invokeController('PublishConfig').resolve('/bundles/localdev.js')}}"></script>

@@ -1,9 +1,12 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
+import {ESLBaseElement, attr} from '../../esl-base-element/core';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {bind} from '../../esl-utils/decorators/bind';
-import {ESLTab} from './esl-tab';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
+import {debounce} from '../../esl-utils/async/debounce';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
+import {ESLMediaRuleList} from '../../esl-media-query/core/esl-media-rule-list';
+import {ESLTab} from './esl-tab';
 
 /**
  * ESlTabs component
@@ -17,17 +20,40 @@ import {RTLUtils} from '../../esl-utils/dom/rtl';
 export class ESLTabs extends ESLBaseElement {
   public static is = 'esl-tabs';
 
-  /** Marker to enable scrollable mode */
-  @boolAttr() public scrollable: boolean;
+  /** List of supported scrollable types */
+  public static supportedScrollableTypes = ['disabled', 'side', 'center'];
+
+  static get observedAttributes() {
+    return ['scrollable'];
+  }
+
+  /** Scrollable mode.
+   * Supported types for different breakpoints ('disabled' by default):
+   * - 'disabled' or not defined -  scroll behavior is disabled;
+   * - 'center' - scroll behavior is enabled, tab is center-aligned;
+   * - 'side' - scroll behavior is enabled, tab is side-aligned;
+   * - empty or unsupported value - scroll behavior is enabled, tab is side-aligned;
+   */
+  @attr({defaultValue: 'disabled'}) public scrollable: string;
 
   /** Inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable mode */
   @attr({defaultValue: '.esl-tab-container'}) public scrollableTarget: string;
 
+  private _scrollableTypeRules: ESLMediaRuleList<string>;
+
+
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+    if (!this.connected || oldVal === newVal) return;
+    if (attrName === 'scrollable') {
+      this.scrollableTypeRules = ESLMediaRuleList.parse<string>(newVal, ESLMediaRuleList.STRING_PARSER);
+      this.updateScrollableType();
+    }
+  }
+
   protected connectedCallback() {
     super.connectedCallback();
-    this.bindScrollableEvents();
 
-    this.updateScroll();
+    this.updateScrollableType();
   }
 
   protected disconnectedCallback() {
@@ -52,11 +78,6 @@ export class ESLTabs extends ESLBaseElement {
     window.removeEventListener('resize', this._onResize);
   }
 
-  protected updateScroll() {
-    this.updateArrows();
-    this._deferredFitToViewport(this.$current, 'auto');
-  }
-
   /** Collection of inner {@link ESLTab} items */
   public get $tabs(): ESLTab[] {
     const els = this.querySelectorAll(ESLTab.is);
@@ -73,6 +94,11 @@ export class ESLTabs extends ESLBaseElement {
     return this.querySelector(this.scrollableTarget);
   }
 
+  /** Is the scrollable mode enabled ? */
+  public get isScrollable(): boolean {
+    return this.currentScrollableType !== 'disabled';
+  }
+
   /** Move scroll to the next/previous item */
   public moveTo(direction: string, behavior: ScrollBehavior = 'smooth') {
     const $scrollableTarget = this.$scrollableTarget;
@@ -85,40 +111,45 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   /** Scroll tab to the view */
-  protected fitToViewport($trigger?: ESLTab, behavior: ScrollBehavior = 'smooth'): void {
+  protected fitToViewport($trigger: ESLTab, behavior: ScrollBehavior = 'smooth'): void {
+    this.updateMarkers();
+
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget || !$trigger) return;
 
     const areaRect = $scrollableTarget.getBoundingClientRect();
     const itemRect = $trigger.getBoundingClientRect();
 
-    let shift = 0;
-
-    // item is out of area from the right side
-    // else item out is of area from the left side
-    if (itemRect.right > areaRect.right) {
-      shift = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'reverse' ?
-        Math.floor(areaRect.right - itemRect.right) :
-        Math.ceil(itemRect.right - areaRect.right);
-    } else if (itemRect.left < areaRect.left) {
-      shift = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'reverse' ?
-        Math.ceil(areaRect.left - itemRect.left) :
-        Math.floor(itemRect.left - areaRect.left);
-    }
-
     $scrollableTarget.scrollBy({
-      left: shift,
+      left: this.calcScrollOffset(itemRect, areaRect),
       behavior
     });
 
     this.updateArrows();
   }
 
+  /** Get scroll offset position from the selected item rectangle */
+  protected calcScrollOffset(itemRect: DOMRect, areaRect: DOMRect) {
+    const isReversedRTL = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'reverse';
+
+    if (this.currentScrollableType === 'center') {
+      const shift = itemRect.left + itemRect.width / 2 - (areaRect.left + areaRect.width / 2);
+      return isReversedRTL ? -shift : shift;
+    }
+
+    // item is out of area from the right side
+    // else item out is of area from the left side
+    if (itemRect.right > areaRect.right) {
+      return isReversedRTL ? Math.floor(areaRect.right - itemRect.right) : Math.ceil(itemRect.right - areaRect.right);
+    } else if (itemRect.left < areaRect.left) {
+      return isReversedRTL ? Math.ceil(areaRect.left - itemRect.left) : Math.floor(itemRect.left - areaRect.left);
+    }
+  }
+
   protected updateArrows() {
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget) return;
 
-    const hasScroll = $scrollableTarget.scrollWidth > this.clientWidth;
     const swapSides = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'default';
     const scrollStart = Math.abs($scrollableTarget.scrollLeft) > 1;
     const scrollEnd = Math.abs($scrollableTarget.scrollLeft) + $scrollableTarget.clientWidth + 1 < $scrollableTarget.scrollWidth;
@@ -126,13 +157,20 @@ export class ESLTabs extends ESLBaseElement {
     const $rightArrow = this.querySelector('[data-tab-direction="right"]');
     const $leftArrow = this.querySelector('[data-tab-direction="left"]');
 
-    this.toggleAttribute('has-scroll', hasScroll);
     $leftArrow && $leftArrow.toggleAttribute('disabled', !(swapSides ? scrollEnd : scrollStart));
     $rightArrow && $rightArrow.toggleAttribute('disabled', !(swapSides ? scrollStart : scrollEnd));
   }
 
-  protected _deferredUpdateArrows = rafDecorator(this.updateArrows.bind(this));
-  protected _deferredFitToViewport = rafDecorator(this.fitToViewport.bind(this));
+  protected updateMarkers() {
+    const $scrollableTarget = this.$scrollableTarget;
+    if (!$scrollableTarget) return;
+
+    const hasScroll = this.isScrollable && ($scrollableTarget.scrollWidth > this.clientWidth);
+    this.toggleAttribute('has-scroll', hasScroll);
+  }
+
+  protected _deferredUpdateArrows = debounce(this.updateArrows.bind(this), 100);
+  protected _deferredFitToViewport = debounce(this.fitToViewport.bind(this), 100);
 
   @bind
   protected _onTriggerStateChange() {
@@ -164,4 +202,45 @@ export class ESLTabs extends ESLBaseElement {
   protected _onResize = rafDecorator(() => {
     this._deferredFitToViewport(this.$current, 'auto');
   });
+
+  /** ESLMediaRuleList instance of the scrollable type mapping */
+  public get scrollableTypeRules() {
+    if (!this._scrollableTypeRules) {
+      this.scrollableTypeRules = ESLMediaRuleList.parse<string>(this.scrollable, ESLMediaRuleList.STRING_PARSER);
+    }
+    return this._scrollableTypeRules;
+  }
+  public set scrollableTypeRules(rules: ESLMediaRuleList<string>) {
+    if (this._scrollableTypeRules) {
+      this._scrollableTypeRules.removeListener(this._onScrollableTypeChange);
+    }
+    this._scrollableTypeRules = rules;
+    this._scrollableTypeRules.addListener(this._onScrollableTypeChange);
+  }
+
+  /** @returns current scrollable type */
+  public get currentScrollableType(): string {
+    return this.scrollableTypeRules.activeValue || '';
+  }
+
+  /** Handles scrollable type change */
+  @bind
+  protected _onScrollableTypeChange() {
+    this.updateScrollableType();
+  }
+
+  /** Update element state according to scrollable type */
+  protected updateScrollableType() {
+    ESLTabs.supportedScrollableTypes.forEach((type) => {
+      CSSClassUtils.toggle(this, `${type}-alignment`, this.currentScrollableType === type);
+    });
+
+    this.$current && this._deferredFitToViewport(this.$current);
+
+    if (this.currentScrollableType === 'disabled') {
+      this.unbindScrollableEvents();
+    } else {
+      this.bindScrollableEvents();
+    }
+  }
 }

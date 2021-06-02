@@ -2,22 +2,22 @@ import {TraversingUtils} from '../traversing';
 
 describe('Common: dom/traversing helper tests', () => {
   document.body.innerHTML = `
-		<section class="container">
-			<div id="row1" class="row" data-test="1">
-				<button id="btn1" class="btn btn-1"></button>
-				<button id="btn2" class="btn btn-2" data-test="prev"></button>
-				<button id="btn3" class="btn btn-3"></button>
-				<button id="btn4" class="btn btn-4"></button>
-				<button id="btn5" class="btn btn-5" data-test="next"></button>
+    <section class="container">
+      <div id="row1" class="row" data-test="1">
+        <button id="btn1" class="btn btn-1"></button>
+        <button id="btn2" class="btn btn-2" data-test="prev"></button>
+        <button id="btn3" class="btn btn-3"></button>
+        <button id="btn4" class="btn btn-4"></button>
+        <button id="btn5" class="btn btn-5" data-test="next"></button>
 
-				<article class="col-1">Hello!</article>
-			</div>
-			<div id="row2" class="row">
-				<article class="col-2">Hello 2!</article>
-				<button id="btn6" class="btn btn-6" data-test="next"></button>
-			</div>
-		</section>
-	`;
+        <article class="col-1">Hello!</article>
+      </div>
+      <div id="row2" class="row">
+        <article class="col-2">Hello 2!</article>
+        <button id="btn6" class="btn btn-6" data-test="next"></button>
+      </div>
+    </section>
+  `;
 
   const root = document.querySelector('section') as HTMLSelectElement;
   const row1 = document.querySelector('#row1') as HTMLDivElement;

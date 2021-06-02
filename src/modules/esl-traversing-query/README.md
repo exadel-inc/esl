@@ -9,7 +9,7 @@ ESLTraversingQuery - is a utility to find element via extended selector query.
 Extended query supports:
  - plain CSS selectors;
  - relative selectors;  
-NOTE: Selectors that don't start from a plain selector will use passed base Element as a root)
+NOTE: Selectors that don't start from a plain selector will use passed base Element as a root
  - `::next` and `::prev` sibling pseudo-selectors;
  - `::parent` and `::child` pseudo-selectors;
  - `::find` pseudo-selector;

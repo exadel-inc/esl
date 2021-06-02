@@ -1,13 +1,15 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
-import {CSSUtil} from '../../esl-utils/dom/styles';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
 import {getIObserver} from './esl-image-iobserver';
-import {ESLImageRenderStrategy, ShadowImageElement, STRATEGIES} from './esl-image-strategies';
+import {STRATEGIES} from './esl-image-strategies';
+
+import type {ESLImageRenderStrategy, ShadowImageElement} from './esl-image-strategies';
 
 type LoadState = 'error' | 'loaded' | 'ready';
 const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);
@@ -183,11 +185,8 @@ export class ESLImage extends ESLBaseElement {
         this.syncImage();
       }
 
-      if (this._shadowImg.complete && this._shadowImg.naturalHeight > 0) {
-        this._onLoad();
-      }
-      if (this._shadowImg.complete && this._shadowImg.naturalHeight <= 0) {
-        this._onError();
+      if (this._shadowImg.complete) {
+        this._shadowImgError ? this._onError() : this._onLoad();
       }
     }
 
@@ -263,6 +262,12 @@ export class ESLImage extends ESLBaseElement {
     return this._shadowImageElement;
   }
 
+  protected get _shadowImgError() {
+    if (!this._shadowImg.complete) return false;
+    if (this._shadowImg.src.substr(-4) === '.svg') return false;
+    return this._shadowImg.naturalHeight <= 0;
+  }
+
   @bind
   private _onLoad() {
     this.syncImage();
@@ -294,8 +299,9 @@ export class ESLImage extends ESLBaseElement {
     if (this.containerClass === null) return;
     const cls = this.containerClass || (this.constructor as typeof ESLImage).DEFAULT_CONTAINER_CLS;
     const state = isLoadState(this.containerClassState) && this[this.containerClassState];
+
     const targetEl = TraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
-    targetEl && CSSUtil.toggleClsTo(targetEl, cls, state);
+    targetEl && CSSClassUtils.toggle(targetEl, cls, state);
   }
 
   public $$fire(eventName: string, eventInit: CustomEventInit = {bubbles: false}): boolean {

@@ -2,10 +2,12 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, ESLBaseElement} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {bind} from '../../esl-utils/decorators/bind';
-import {CSSUtil} from '../../esl-utils/dom/styles';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
-import {ESLPanel, PanelActionParams} from './esl-panel';
 import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLPanel} from './esl-panel';
+
+import type {PanelActionParams} from './esl-panel';
 
 /**
  * ESLPanelGroup component
@@ -17,7 +19,7 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 export class ESLPanelGroup extends ESLBaseElement {
   public static is = 'esl-panel-group';
   /** List of supported modes */
-  public static supportedModes = ['tabs', 'accordion'];
+  public static supportedModes = ['tabs', 'accordion', 'open'];
 
   /** Rendering mode of the component (takes values from the list of supported modes; 'accordion' by default) */
   @attr({defaultValue: 'accordion'}) public mode: string;
@@ -111,7 +113,6 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.beforeAnimate();
     if (this.shouldCollapse) {
       this.onAnimate(this._previousHeight, panel.initialHeight);
-      this.fallbackAnimate();
     } else {
       afterNextRender(() => this.afterAnimate());
     }
@@ -120,6 +121,11 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Process {@link ESLPanel} pre-hide event */
   @bind
   protected _onBeforeHide(e: CustomEvent) {
+    // TODO: refactor
+    if (this.currentMode === 'open') {
+      e.preventDefault();
+      return;
+    }
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
     this._previousHeight = this.offsetHeight;
@@ -130,23 +136,27 @@ export class ESLPanelGroup extends ESLBaseElement {
     const hasCurrent = this.style.height && this.style.height !== 'auto';
     if (hasCurrent) {
       this.style.height = `${to}px`;
+      this.fallbackAnimate();
     } else {
       // set initial height
       this.style.height = `${from}px`;
       // make sure that browser apply initial height to animate
-      afterNextRender(() => this.style.height = `${to}px`);
+      afterNextRender(() => {
+        this.style.height = `${to}px`;
+        this.fallbackAnimate();
+      });
     }
   }
 
   /** Pre-processing animation action */
   protected beforeAnimate() {
-    CSSUtil.addCls(this, this.animationClass);
+    CSSClassUtils.add(this, this.animationClass);
   }
 
   /** Post-processing animation action */
   protected afterAnimate() {
     this.style.removeProperty('height');
-    CSSUtil.removeCls(this, this.animationClass);
+    CSSClassUtils.remove(this, this.animationClass);
   }
 
   /** Init a fallback timer to call post-animate action */
@@ -207,10 +217,18 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Update element state according to current mode */
   protected updateMode() {
     this.setAttribute('view', this.currentMode);
-    const $target = this.modeClsTarget && TraversingQuery.first(this.modeClsTarget, this);
+    const $target = TraversingQuery.first(this.modeClsTarget, this);
     if (!$target) return;
     ESLPanelGroup.supportedModes.forEach((mode) => {
       $target.classList.toggle(`esl-${mode}-view`, this.currentMode === mode);
+    });
+
+    // TODO: refactor
+    ESLPanel.registered.then(() => {
+      this.$panels.forEach((panel) => {
+        const shouldOpen = this.currentMode === 'open' || panel.initiallyOpened;
+        panel.toggle(shouldOpen, {initiator: 'group', activator: this});
+      });
     });
   }
 }

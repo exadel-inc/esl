@@ -3,7 +3,7 @@ export type ScrollStrategy = 'none' | 'native' | 'pseudo';
 const $html = document.documentElement;
 const initiatorSet = new Set();
 
-export abstract class ScrollUtility {
+export abstract class ScrollUtils {
   /**
    * Check vertical scroll based on content height
    * */
@@ -16,7 +16,7 @@ export abstract class ScrollUtility {
    * @param [strategy] - to make scroll visually disabled
    * */
   public static lock(strategy?: ScrollStrategy) {
-    const hasScroll = ScrollUtility.hasVerticalScroll();
+    const hasScroll = ScrollUtils.hasVerticalScroll();
     if (strategy && strategy !== 'none' && hasScroll) {
       $html.classList.add(`esl-${strategy}-scroll`);
     }
@@ -39,7 +39,7 @@ export abstract class ScrollUtility {
    * */
   public static requestLock(initiator: any, strategy?: ScrollStrategy) {
     initiator && initiatorSet.add(initiator);
-    (initiatorSet.size > 0) && ScrollUtility.lock(strategy);
+    (initiatorSet.size > 0) && ScrollUtils.lock(strategy);
   }
 
   /**
@@ -49,6 +49,6 @@ export abstract class ScrollUtility {
    * */
   public static requestUnlock(initiator: any, strategy?: ScrollStrategy) {
     initiator && initiatorSet.delete(initiator);
-    (initiatorSet.size === 0) && ScrollUtility.unlock();
+    (initiatorSet.size === 0) && ScrollUtils.unlock();
   }
 }

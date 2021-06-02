@@ -1,8 +1,9 @@
 import {loadScript} from '../../esl-utils/dom/script';
-import {ESLMedia} from '../core/esl-media';
-import {BaseProvider, ProviderObservedParams, PlayerStates} from '../core/esl-media-provider';
-import {generateUId} from '../../esl-utils/misc/uid';
+import {BaseProvider, PlayerStates} from '../core/esl-media-provider';
+import {randUID} from '../../esl-utils/misc/uid';
 
+import type {ESLMedia} from '../core/esl-media';
+import type {ProviderObservedParams} from '../core/esl-media-provider';
 import type {VideoJsPlayer} from 'video.js';
 
 const API_SCRIPT_ID = 'BC_API_SOURCE';
@@ -54,7 +55,7 @@ export class BrightcoveProvider extends BaseProvider {
    */
   protected buildVideo() {
     const el = document.createElement('video-js');
-    el.id = 'esl-media-brightcove-' + generateUId();
+    el.id = 'esl-media-brightcove-' + randUID();
     el.className = 'esl-media-inner esl-media-brightcove ' + this.videojsClasses;
     el.title = this.config.title;
     el.toggleAttribute('loop', this.config.loop);

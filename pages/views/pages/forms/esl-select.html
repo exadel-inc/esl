@@ -235,6 +235,7 @@ title: ESL Select
                     id="color_field"
                     name="color_field"
                     class="form-control">
+              <option value="" disabled>Disabled</option>
               <option value="#0048BA">Absolute Zero</option>
               <option value="#B0BF1A">Acid green</option>
               <option value="#7CB9E8" selected>Aero</option>
@@ -634,6 +635,23 @@ title: ESL Select
               <option value="#006B3C">Cadmium green</option>
               <option value="#ED872D">Cadmium orange</option>
               <option value="#E30022">Cadmium red</option>
+            </select>
+          </esl-select>
+          <esl-select class="form-group"
+                      style="display: block"
+                      pin-selected
+                      placeholder="Mood">
+            <label for="mood_field" class="form-label">Select your mood</label>
+            <select esl-select-target
+                    id="mood_field"
+                    name="mood_field"
+                    class="form-control">
+              <option>Happy</option>
+              <option>Tired</option>
+              <option>Bored</option>
+              <option>Depressed</option>
+              <option>Scared</option>
+              <option>Excited</option>
             </select>
           </esl-select>
         </div>

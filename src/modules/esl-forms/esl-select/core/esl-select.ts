@@ -1,13 +1,13 @@
 import {attr, boolAttr} from '../../../esl-base-element/core';
 import {bind} from '../../../esl-utils/decorators/bind';
-import {CSSUtil} from '../../../esl-utils/dom/styles';
+import {CSSClassUtils} from '../../../esl-utils/dom/class';
 import {ENTER, SPACE} from '../../../esl-utils/dom/keys';
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {EventUtils} from '../../../esl-utils/dom/events';
 
+import {ESLSelectWrapper} from '../../esl-select-list/core/esl-select-wrapper';
 import {ESLSelectRenderer} from './esl-select-renderer';
 import {ESLSelectDropdown} from './esl-select-dropdown';
-import {ESLSelectWrapper} from '../../esl-select-list/core/esl-select-wrapper';
 
 /**
  * ESLSelect component
@@ -137,11 +137,11 @@ export class ESLSelect extends ESLSelectWrapper {
   protected _onUpdate() {
     const hasValue = this.hasSelected();
     this.toggleAttribute('has-value', hasValue);
-    CSSUtil.toggleClsTo(this, this.hasValueClass, hasValue);
+    CSSClassUtils.toggle(this, this.hasValueClass, hasValue);
 
     const focusEl = document.activeElement;
     const hasFocus = this.open || (focusEl && this.contains(focusEl));
-    CSSUtil.toggleClsTo(this, this.hasFocusClass, !!hasFocus);
+    CSSClassUtils.toggle(this, this.hasFocusClass, !!hasFocus);
   }
 
   @bind

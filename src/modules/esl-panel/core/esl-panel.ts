@@ -1,10 +1,12 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {CSSUtil} from '../../esl-utils/dom/styles';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {bind} from '../../esl-utils/decorators/bind';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {attr, jsonAttr} from '../../esl-base-element/core';
-import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
+import {ESLToggleable} from '../../esl-toggleable/core';
 import {ESLPanelGroup} from './esl-panel-group';
+
+import type {ToggleableActionParams} from '../../esl-toggleable/core';
 
 /** {@link ESLPanel} action params interface */
 export interface PanelActionParams extends ToggleableActionParams {
@@ -37,7 +39,9 @@ export class ESLPanel extends ESLToggleable {
   @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init'}})
   public initialParams: ToggleableActionParams;
 
+  /** Inner height state that updates after show/hide actions but before show/hide events triggered */
   protected _initialHeight: number = 0;
+  /** Inner timer to cleanup animation styles */
   protected _fallbackTimer: number = 0;
 
   /** @returns Previous active panel height at the start of the animation */
@@ -72,7 +76,6 @@ export class ESLPanel extends ESLToggleable {
       afterNextRender(() => this.afterAnimate());
     } else {
       this.onAnimate('show');
-      this.fallbackAnimate();
     }
   }
 
@@ -87,14 +90,13 @@ export class ESLPanel extends ESLToggleable {
       afterNextRender(() => this.afterAnimate());
     } else {
       this.onAnimate('hide');
-      this.fallbackAnimate();
     }
   }
 
   /** Pre-processing animation action */
   protected beforeAnimate() {
-    CSSUtil.addCls(this, this.animateClass);
-    this.postAnimateClass && afterNextRender(() => CSSUtil.addCls(this, this.postAnimateClass));
+    CSSClassUtils.add(this, this.animateClass);
+    this.postAnimateClass && afterNextRender(() => CSSClassUtils.add(this, this.postAnimateClass));
   }
 
   /** Process animation */
@@ -104,6 +106,7 @@ export class ESLPanel extends ESLToggleable {
     // make sure that browser apply initial height for animation
     afterNextRender(() => {
       this.style.setProperty('max-height', `${action === 'hide' ? 0 : this._initialHeight}px`);
+      this.fallbackAnimate();
     });
   }
 
@@ -116,8 +119,8 @@ export class ESLPanel extends ESLToggleable {
   /** Clear animation properties */
   protected clearAnimation() {
     this.style.removeProperty('max-height');
-    CSSUtil.removeCls(this, this.animateClass);
-    CSSUtil.removeCls(this, this.postAnimateClass);
+    CSSClassUtils.remove(this, this.animateClass);
+    CSSClassUtils.remove(this, this.postAnimateClass);
   }
 
   /** Init a fallback timer to call post-animate action */

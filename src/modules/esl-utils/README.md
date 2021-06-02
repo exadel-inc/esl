@@ -15,6 +15,10 @@ Even if you use the whole utils module, it is still tiny.
 
 
 - ### Async
+  
+  - #### [Aggregate](./async/aggregate.ts) - throttle function decorator with aggregation.
+    Limits decorated function calls to one call in passed `time`. The decorated function `callback` will be called once 
+    at the end of the timeout with the list of first arguments in the calls.
 
   - #### [Debounce](./async/debounce.ts) - debounce function decorator.
     Debouncing is a pattern commonly used for rate limiting function calls with a timeout.
@@ -40,6 +44,7 @@ Even if you use the whole utils module, it is still tiny.
 
     - #### [@memoize](./decorators/memoize.ts) - TS decorator to make method or get accessor memoized.
 
+    - #### [@prop](./decorators/prop.ts) - TS decorator to define a field on the prototype level.
 
 - ### DOM Helpers
   
@@ -52,7 +57,7 @@ Even if you use the whole utils module, it is still tiny.
     - #### [Scroll](./dom/scroll.ts) - scroll locking methods. 
       *Note: uses [scroll.less](./dom/scroll.less) styles.*
   
-    - #### [Styles](./dom/styles.ts) - small utility to work with CSS classes in a JQuery manner.
+    - #### [CSSClass](./dom/class.ts) - is a utility to work with CSS classes. Supports JQuery-like enumeration, inversion syntax and locks.
   
     - #### [DOM Traversing](./dom/traversing.ts) - a set of utils to find DOM elements or check their relations.
   
