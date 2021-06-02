@@ -1,4 +1,4 @@
-import {randUID, resetSequence, sequentialUID} from '../uid';
+import {randUID, resetSequentialUID, sequentialUID} from '../uid';
 
 const TRY_COUNT = 5;
 
@@ -28,7 +28,7 @@ describe('misc/uid helper tests', () => {
       set.add(sequentialUID('c'));
     }
     expect(set.size).toBe(TRY_COUNT);
-    resetSequence('c');
+    resetSequentialUID('c');
     for (let i = 0; i < TRY_COUNT; ++i) {
       set.add(sequentialUID('c'));
     }

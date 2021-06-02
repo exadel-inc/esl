@@ -8,7 +8,7 @@ export const sequentialUID = (name: string, prefix: string = name) => {
 };
 
 /** Reset {@link sequentialUID} generator */
-export const resetSequence = (name?: string) => {
+export const resetSequentialUID = (name?: string) => {
   if (typeof name === 'string') {
     sequences.delete(name);
   } else {
