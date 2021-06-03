@@ -44,6 +44,7 @@ export abstract class UIPPlugin extends ESLBaseElement {
   /** Handles root state change event. Delegate non self triggered events to the {@link handleChange}*/
   @bind
   protected _onRootStateChange(e: CustomEvent) {
+    e.stopPropagation();
     if (e.detail.origin === this) return;
     this.handleChange();
   }
