@@ -31,26 +31,18 @@ export function defined<T>(...params: T[]) {
   }
 }
 
-/**
- * @deprecated This function is deprecated, use {@link omit}(obj, (key, value) => value !== void 0)}  instead.
- *
- * Makes a flat copy without undefined keys */
+/** Makes a flat copy without undefined keys */
 export function copyDefinedKeys<T>(obj?: T): Partial<T> {
-  const result: any = Object.assign({}, obj || {});
-  Object.keys(result).forEach((key) => {
-    (result[key] === void 0) && delete result[key];
-  });
-  return result;
+  return omit(obj || {}, (key, value) => value !== void 0);
 }
 
 /** Makes a copy of obj with properties satisfying the predicate */
-export function omit(obj: any, predicate: (key: string, value?: any) => boolean): Record<string, any> {
-  return Object.keys(obj || {}).reduce((res: Record<string, any>, key) => {
-    if (predicate(key, obj[key])) {
-      res[key] = obj[key];
-    }
-    return res;
-  }, {});
+export function omit<T>(obj: T, predicate: (key: string, value: any) => boolean): Partial<T> {
+  const result: any = Object.assign({}, obj || {});
+  Object.keys(result).forEach((key) => {
+    (!predicate(key, result[key])) && delete result[key];
+  });
+  return result;
 }
 
 /**
