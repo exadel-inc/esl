@@ -100,6 +100,6 @@ export class ESLFootnotes extends ESLBaseElement {
     this.linkNote(note);
     this.update()
 
-    e.stopPropagation();
+    e.stopImmediatePropagation();
   }
 }

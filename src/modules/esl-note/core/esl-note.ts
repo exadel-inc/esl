@@ -65,6 +65,8 @@ export class ESLNote extends ESLTrigger {
 
   @bind
   protected _handlerFootnotesReady(e: CustomEvent) {
-    EventUtils.dispatch(this, `${ESLNote.eventNs}:ready`);
+    if (!this.linked) {
+      EventUtils.dispatch(this, `${ESLNote.eventNs}:ready`);
+    }
   }
 }
