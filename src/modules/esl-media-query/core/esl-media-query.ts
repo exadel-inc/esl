@@ -2,7 +2,7 @@ import {memoize} from '../../esl-utils/decorators/memoize';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
-import {ESLMediaBreakpoints} from './esl-media-breakpoints';
+import {ESLScreenBreakpoint} from './esl-media-breakpoint';
 
 /**
  * ESL Media Query
@@ -42,7 +42,7 @@ export class ESLMediaQuery {
     });
   }
   protected static applyDeviceShortcuts(query: string) {
-    return query.replace(/(@MOBILE|@DESKTOP)/ig, (match, pre, type, post) => {
+    return query.replace(/(@MOBILE|@DESKTOP)/ig, (match, type) => {
       if (DeviceDetector.isMobile !== (type.toUpperCase() === '@MOBILE')) {
         return ESLMediaQuery.NOT_ALL; // whole query became invalid
       }
@@ -67,7 +67,7 @@ export class ESLMediaQuery {
 
   constructor(query: string) {
     // Applying known breakpoints shortcut
-    query = ESLMediaBreakpoints.apply(query);
+    query = ESLScreenBreakpoint.apply(query);
 
     // Applying dpr shortcut
     query = ESLMediaQuery.applyDPRShortcuts(query);

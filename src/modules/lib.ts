@@ -1,6 +1,5 @@
 import type {DeviceDetector} from './esl-utils/environment/device-detector';
-
-import type {ESLMediaBreakpoints} from './esl-media-query/core';
+import type {ESLScreenBreakpoint} from './esl-media-query/core';
 
 import type {ESLImage} from './esl-image/core/esl-image';
 import type {ESLMedia} from './esl-media/core/esl-media';
@@ -35,7 +34,7 @@ declare global {
 
   export interface ESLLibrary {
     DeviceDetector?: typeof DeviceDetector;
-    MediaBreakpoints?: typeof ESLMediaBreakpoints;
+    ScreenBreakpoint?: typeof ESLScreenBreakpoint;
 
     Image?: typeof ESLImage;
     Media?: typeof ESLMedia;
