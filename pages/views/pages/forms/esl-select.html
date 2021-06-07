@@ -637,6 +637,23 @@ title: ESL Select
               <option value="#E30022">Cadmium red</option>
             </select>
           </esl-select>
+          <esl-select class="form-group"
+                      style="display: block"
+                      pin-selected
+                      placeholder="Mood">
+            <label for="mood_field" class="form-label">Select your mood</label>
+            <select esl-select-target
+                    id="mood_field"
+                    name="mood_field"
+                    class="form-control">
+              <option>Happy</option>
+              <option>Tired</option>
+              <option>Bored</option>
+              <option>Depressed</option>
+              <option>Scared</option>
+              <option>Excited</option>
+            </select>
+          </esl-select>
         </div>
         <div class="form-group">
           <button class="btn btn-primary">Submit</button>

@@ -1,3 +1,41 @@
+# [3.0.0-beta.5](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.4...v3.0.0-beta.5) (2021-06-03)
+
+
+### Bug Fixes
+
+* activator should be available after hide ([817181a](https://github.com/exadel-inc/esl/commit/817181aad59499abb15d0f2ad9a82f56e63f98cd))
+
+# [3.0.0-beta.4](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2021-06-02)
+
+
+### Bug Fixes
+
+* activator is not defined in hide handler ([6e2473e](https://github.com/exadel-inc/esl/commit/6e2473eae4a0742c0737b4d743415d4de5e207cf))
+
+
+### Features
+
+* extend UID utilities ([f90a1c1](https://github.com/exadel-inc/esl/commit/f90a1c178b11364d4e1424d0e0673e77cbbaf553))
+
+
+### BREAKING CHANGES
+
+* `generateUId` renamed to `randUID`
+
+# [3.0.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2021-05-31)
+
+
+### Bug Fixes
+
+* **esl-select:**  fix height empty space appeared with little amount of list items ([9dfadc4](https://github.com/exadel-inc/esl/commit/9dfadc410cb5f5fcbaafc3debfe64386ca0013c7))
+* **esl-select:**  specify max-height for standalone list in pixels & for list in dropdown in vh ([70ed2f0](https://github.com/exadel-inc/esl/commit/70ed2f0cba83dcf2801ee6f9729fac4ce53bb114))
+* jest defaults for new version ([9ba56b4](https://github.com/exadel-inc/esl/commit/9ba56b4794944f808c18f6e3e6e5002cf561d6ef))
+
+
+### Features
+
+* **esl-utils:** added alt, shift and control to the keys.ts (within hpe keycode removing) ([73580ec](https://github.com/exadel-inc/esl/commit/73580ecf60dd2abd7aebe72d7958a3539286f1b3))
+
 # [3.0.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2021-05-26)
 
 
@@ -53,6 +91,18 @@
 ### Features
 
 * support mode="open" to make all panels active ([2619fe5](https://github.com/exadel-inc/esl/commit/2619fe55e63b78af237af09a30b55ec442172774))
+
+# [2.7.0](https://github.com/exadel-inc/esl/compare/v2.6.4...v2.7.0) (2021-05-31)
+
+
+### Bug Fixes
+
+* jest defaults for new version ([9ba56b4](https://github.com/exadel-inc/esl/commit/9ba56b4794944f808c18f6e3e6e5002cf561d6ef))
+
+
+### Features
+
+* **esl-utils:** added alt, shift and control to the keys.ts (within hpe keycode removing) ([73580ec](https://github.com/exadel-inc/esl/commit/73580ecf60dd2abd7aebe72d7958a3539286f1b3))
 
 ## [2.6.4](https://github.com/exadel-inc/esl/compare/v2.6.3...v2.6.4) (2021-05-15)
 

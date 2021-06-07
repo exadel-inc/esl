@@ -189,7 +189,6 @@ export class ESLToggleable extends ESLBaseElement {
   protected hideTask(params: ToggleableActionParams) {
     if (!params.force && !this.open) return;
     if (!params.silent && !this.$$fire('before:hide',{detail: {params}})) return;
-    this.activator = null;
     this.open = false;
     this.onHide(params);
     if (!params.silent) this.$$fire('hide', {detail: {params}, cancelable: false});
@@ -227,7 +226,7 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /** Last component that has activated the element. Uses {@link ToggleableActionParams.activator}*/
-  public get activator() {
+  public get activator(): HTMLElement | null | undefined {
     return activators.get(this);
   }
   public set activator(el: HTMLElement | null | undefined) {
@@ -235,10 +234,10 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /** Returns the element to apply a11y attributes */
-  protected get $a11yTarget() {
+  protected get $a11yTarget(): HTMLElement | undefined {
     const target = this.getAttribute('a11y-target');
     if (target === 'none') return;
-    return target ? this.querySelector(target) : this;
+    return target ? this.querySelector(target) as HTMLElement : this;
   }
 
   /** Called on show and on hide actions to update a11y state accordingly */

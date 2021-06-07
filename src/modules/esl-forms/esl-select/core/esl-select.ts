@@ -5,9 +5,9 @@ import {ENTER, SPACE} from '../../../esl-utils/dom/keys';
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {EventUtils} from '../../../esl-utils/dom/events';
 
+import {ESLSelectWrapper} from '../../esl-select-list/core/esl-select-wrapper';
 import {ESLSelectRenderer} from './esl-select-renderer';
 import {ESLSelectDropdown} from './esl-select-dropdown';
-import {ESLSelectWrapper} from '../../esl-select-list/core/esl-select-wrapper';
 
 /**
  * ESLSelect component
