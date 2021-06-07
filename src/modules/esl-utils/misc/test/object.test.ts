@@ -1,4 +1,4 @@
-import {defined, deepCompare, getPropertyDescriptor, get, set, copyDefinedKeys} from '../object';
+import {defined, deepCompare, getPropertyDescriptor, get, set, copyDefinedKeys, copy, omit} from '../object';
 
 describe('misc/object', () => {
   describe('deepCompare', () => {
@@ -97,6 +97,38 @@ describe('misc/object', () => {
     });
   });
 
+  describe('copy', () => {
+
+    test.each([
+      [undefined, {}],
+      [null, {}],
+      [{}, {}],
+      [[1, 2], {0: 1, 1: 2}],
+      [{a: 1, b: {c: 2}}, {a: 1, b: {c: 2}}],
+    ])('full copy of %p', (inp, out) => {
+      expect(copy(inp)).toEqual(out);
+    });
+
+    const predicate = (key: string) => !key.startsWith('_');
+    test.each([
+      [undefined, {}],
+      [null, {}],
+      [{}, {}],
+      [[1, 2], {0: 1, 1: 2}],
+      [{_: 1, _b: 1}, {}],
+      [{_a: 1, b: 1}, {b: 1}],
+      [{a: 1, b: {c: 2}}, {a: 1, b: {c: 2}}],
+    ])('copy %p with predicate', (inp, out) => {
+      expect(copy(inp, predicate)).toEqual(out);
+    });
+
+    test('special cases', () => {
+      const obj = {_a: 1, b: 2};
+      Object.setPrototypeOf(obj, {c: 3, _d: 4});
+      expect(copy(obj, predicate)).toEqual({b: 2});
+    });
+  });
+
   describe('copyDefinedKeys', () => {
     test.each([
       [undefined, {}],
@@ -109,6 +141,23 @@ describe('misc/object', () => {
     ])('%p to %p', (inp, out) => {
       expect(copyDefinedKeys(inp)).toEqual(out);
     })
+  });
+
+  describe('omit', () => {
+    const predicate = (key: string) => !key.startsWith('_');
+    test.each([
+      [undefined, ['prop'], {}],
+      [null, ['prop'], {}],
+      [{}, ['prop'], {}],
+      [[1, 2], ['0'], {1: 2}],
+      [[1, 2], ['0', '1'], {}],
+      [{a: 1, b: 1}, ['a', 'b'], {}],
+      [{a: 1, b: 1}, ['a'], {b: 1}],
+      [{a: 1, b: 1}, ['c'], {a: 1, b: 1}],
+      [{a: 1, b: {}}, [], {a: 1, b: {}}],
+    ])('omit from %p properties %p', (inp, keys, out) => {
+      expect(omit(inp, keys)).toEqual(out);
+    });
   });
 
   describe('get', () => {
