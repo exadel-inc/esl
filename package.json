@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl",
-  "version": "3.0.0-beta.3",
+  "version": "3.0.0-beta.5",
   "private": false,
   "description": "Exadel Smart Library (ESL) - is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
@@ -66,7 +66,7 @@
   },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.5",
-    "@types/video.js": "7.3.17",
+    "@types/video.js": "7.3.19",
     "@types/youtube": "0.0.42"
   },
   "devDependencies": {
@@ -83,8 +83,8 @@
     "@semantic-release/release-notes-generator": "^9.0.2",
     "@types/jest": "^26.0.23",
     "@types/smoothscroll-polyfill": "^0.3.1",
-    "@typescript-eslint/eslint-plugin": "^4.25.0",
-    "@typescript-eslint/parser": "^4.25.0",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
     "@webcomponents/custom-elements": "^1.4.3",
     "@webcomponents/webcomponents-platform": "^1.0.1",
     "axios": "^0.21.1",

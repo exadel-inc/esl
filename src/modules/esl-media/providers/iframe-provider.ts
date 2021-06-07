@@ -1,5 +1,5 @@
 import {BaseProvider, PlayerStates} from '../core/esl-media-provider';
-import {generateUId} from '../../esl-utils/misc/uid';
+import {randUID} from '../../esl-utils/misc/uid';
 
 /**
  * Simple Basic Iframe provider for {@link ESLMedia}
@@ -25,7 +25,7 @@ export class IframeBasicProvider extends BaseProvider {
 
   protected buildIframe() {
     const el = document.createElement('iframe');
-    el.id = 'esl-media-iframe-' + generateUId();
+    el.id = 'esl-media-iframe-' + randUID();
     el.className = 'esl-media-inner esl-media-iframe';
     el.title = this.config.title;
     el.setAttribute('aria-label', this.config.title);
