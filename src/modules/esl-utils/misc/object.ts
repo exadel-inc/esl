@@ -35,7 +35,7 @@ export function defined<T>(...params: T[]) {
 
 /** Makes a plain copy of obj with properties satisfying the predicate
  * If no predicate provided copies all own properties */
-export function copy<T>(obj: T, predicate: CopyPredicate  = () => true): Partial<T> {
+export function copy<T>(obj: T, predicate: CopyPredicate = () => true): Partial<T> {
   const result: any = Object.assign({}, obj || {});
   Object.keys(result).forEach((key) => {
     (!predicate(key, result[key])) && delete result[key];
@@ -50,7 +50,7 @@ export function copyDefinedKeys<T>(obj?: T): Partial<T> {
 
 /** Omit copying provided properties from object */
 export function omit<T>(obj: T, keys: string[]) {
-  return copy(obj, key=> !keys.includes(key));
+  return copy(obj, key => !keys.includes(key));
 }
 
 /**
