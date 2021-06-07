@@ -1,8 +1,7 @@
 import {memoize} from '../../esl-utils/decorators/memoize';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
-import {ESLScreenBreakpoint} from './esl-media-breakpoint';
+import {ESLMediaShortcuts} from './esl-media-shortcuts';
 
 /**
  * ESL Media Query
@@ -33,22 +32,6 @@ export class ESLMediaQuery {
     query = query.replace(/(and|or)\s*$/, '');
     return query.trim();
   }
-  protected static applyDPRShortcuts(query: string) {
-    return query.replace(/@(\d(\.\d)?)x/g, (match, ratio) => {
-      const dpr = +ratio;
-      if (ESLMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && dpr !== 1) return ESLMediaQuery.NOT_ALL;
-      if (DeviceDetector.isSafari) return `(-webkit-min-device-pixel-ratio: ${dpr})`;
-      return `(min-resolution: ${(96 * dpr).toFixed(1)}dpi)`;
-    });
-  }
-  protected static applyDeviceShortcuts(query: string) {
-    return query.replace(/(@MOBILE|@DESKTOP)/ig, (match, type) => {
-      if (DeviceDetector.isMobile !== (type.toUpperCase() === '@MOBILE')) {
-        return ESLMediaQuery.NOT_ALL; // whole query became invalid
-      }
-      return '';
-    });
-  }
 
   /** Shortcut to create MediaQuery. The constructor of MediaQuery is already optimized */
   public static for(query: string) {
@@ -67,13 +50,7 @@ export class ESLMediaQuery {
 
   constructor(query: string) {
     // Applying known breakpoints shortcut
-    query = ESLScreenBreakpoint.apply(query);
-
-    // Applying dpr shortcut
-    query = ESLMediaQuery.applyDPRShortcuts(query);
-
-    // Applying dpr shortcut for device detection
-    query = ESLMediaQuery.applyDeviceShortcuts(query);
+    query = ESLMediaShortcuts.replace(query);
 
     // Clean query
     query = ESLMediaQuery.cleanQuery(query);

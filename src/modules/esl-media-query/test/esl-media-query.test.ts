@@ -19,6 +19,7 @@ import {mmMock} from "../../esl-utils/test/matchMedia.mock";
 import {DDMock} from "../../esl-utils/test/deviceDetector.mock";
 
 import {ESLMediaQuery, ESLScreenBreakpoint} from '../core';
+import {ESLMediaDPRShortcut} from '../core/esl-media-shortcuts';
 
 describe('ESLMediaQuery tests', () => {
   beforeAll(() => {
@@ -29,6 +30,8 @@ describe('ESLMediaQuery tests', () => {
     test.each([
       ['@0x', false, '(min-resolution: 0.0dpi)'],
       ['@1x', false, '(min-resolution: 96.0dpi)'],
+      ['@01x', false, '(min-resolution: 96.0dpi)'],
+      ['@.3x', false, '(min-resolution: 28.8dpi)'],
       ['@0.3x', false, '(min-resolution: 28.8dpi)'],
       ['@1.6x', false, '(min-resolution: 153.6dpi)'],
       ['@1x', true, '(-webkit-min-device-pixel-ratio: 1)'],
@@ -95,11 +98,8 @@ describe('ESLMediaQuery tests', () => {
   describe('Breaking tests', () => {
     test.each([
       ['2x', '2x'],
-      ['@.2x', '@.2x'],
       ['@-2x', '@-2x'],
-      ['@02x', '@02x'],
       ['@1.5', '@1.5'],
-      ['@1.23x', '@1.23x'],
       ['not valid', 'not valid']
     ])('%s', (query, expected) => {
       const mq = new ESLMediaQuery(query);
@@ -128,7 +128,7 @@ describe('ESLMediaQuery tests', () => {
   })
 
   test('Bot DPR override test', () => {
-    ESLMediaQuery.ignoreBotsDpr = true;
+    ESLMediaDPRShortcut.ignoreBotsDpr = true;
     DDMock.isBot = true;
 
     const mq = new ESLMediaQuery('@3x, @2.4x');

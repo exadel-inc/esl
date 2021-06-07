@@ -1,4 +1,4 @@
-import {ESLScreenBreakpoint} from '../core';
+import {ESLScreenBreakpoint, ESLMediaShortcuts} from '../core';
 
 describe('ESLScreenBreakpoint tests', () => {
   test('Get all breakpoints (default)', () => {
@@ -40,16 +40,16 @@ describe('ESLScreenBreakpoint tests', () => {
       queryString: '(min-width: 1200px) and (max-width: 1599px), (min-width: 768px) and (max-width: 991px)'
     },
     {query: '@+sm,@-md', queryString: '(min-width: 768px),(max-width: 1199px)'},
-    {query: '@mobile', queryString: '@mobile'},
+    {query: '@mobile', queryString: 'not all'},
     {query: '', queryString: ''},
-    {query: '@MOBILE', queryString: '@MOBILE'},
+    {query: '@MOBILE', queryString: 'not all'},
     {query: '@XL', queryString: '(min-width: 1600px) and (max-width: 999999px)'},
     {query: '@small', queryString: '(min-width: 400px) and (max-width: 500px)'},
     {query: '@+small', queryString: '(min-width: 400px)'},
     {query: '@-small', queryString: '(max-width: 500px)'},
-    {query: '@Mobile, @xl', queryString: '@Mobile, (min-width: 1600px) and (max-width: 999999px)'},
-    {query: '@Xl, @MOBILE', queryString: '(min-width: 1600px) and (max-width: 999999px), @MOBILE'}
+    {query: '@Mobile, @xl', queryString: 'not all, (min-width: 1600px) and (max-width: 999999px)'},
+    {query: '@Xl, @MOBILE', queryString: '(min-width: 1600px) and (max-width: 999999px), not all'}
   ])('Apply tests for %p breakpoint', ({query, queryString}) => {
-    expect(ESLScreenBreakpoint.apply(query)).toBe(queryString);
+    expect(ESLMediaShortcuts.replace(query)).toBe(queryString);
   })
 });

@@ -62,21 +62,11 @@ export class ESLScreenBreakpoint {
     return keys;
   }
 
-  /** Apply known screen breakpoints shortcuts */
-  public static apply(str: string) {
-    return str.replace(this.matcher, this.replacer.bind(this));
-  }
-
-  /** @returns breakpoints matcher regexp */
-  public static get matcher() {
-    return new RegExp(`@([+-]?)(${this.breakpointsNames.join('|')})\\b`, 'ig');
-  }
-
   /** @returns breakpoints shortcut replacer */
   public static replacer(match: string, sign: string, bp: string) {
-    const shortcut = this.for(bp) as ESLScreenBreakpoint;
-    if (sign === '+') return shortcut.mediaQueryGE;
-    if (sign === '-') return shortcut.mediaQueryLE;
-    return shortcut.mediaQuery;
+    const shortcut = ESLScreenBreakpoint.for(bp);
+    if (shortcut && sign === '+') return shortcut.mediaQueryGE;
+    if (shortcut && sign === '-') return shortcut.mediaQueryLE;
+    if (shortcut) return shortcut.mediaQuery;
   }
 }
