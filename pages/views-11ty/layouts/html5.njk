@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html
+  lang="{{ lang or 'en' }}"
+  {% if scrollbar %}
+    class="esl-scrollable-content"
+  {% endif %}>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title or 'Home' }}</title>
+    {% block head %}{% endblock %}
+</head>
+<body>
+{% block body %}{% endblock %}
+{% if scrollbar %}
+  <esl-scrollbar class="page-scrollbar" target="html"></esl-scrollbar>
+{% endif %}
+</body>
+</html>
