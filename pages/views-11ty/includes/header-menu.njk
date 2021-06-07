@@ -1,0 +1,7 @@
+{% macro menu(title, collection) %}
+  <esl-trigger class="hd-dropdown-trigger" event="hover" target="::next">
+    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow">
+      {{ title }}
+    </button>
+  </esl-trigger>
+{% endmacro %}
