@@ -1,5 +1,6 @@
 export const isObject = (obj: any): obj is Record<string, any> => obj && typeof obj === 'object';
 export const isObjectLike = (obj: any) => isObject(obj) || typeof obj === 'function';
+
 export type CopyPredicate = (key: string, value: any) => boolean;
 
 /** Deep object compare */
@@ -32,11 +33,6 @@ export function defined<T>(...params: T[]) {
   }
 }
 
-/** Makes a flat copy without undefined keys */
-export function copyDefinedKeys<T>(obj?: T): Partial<T> {
-  return copy(obj || {}, (key, value) => value !== void 0);
-}
-
 /** Makes a plain copy of obj with properties satisfying the predicate
  * If no predicate provided copies all own properties */
 export function copy<T>(obj: T, predicate: CopyPredicate  = () => true): Partial<T> {
@@ -45,6 +41,11 @@ export function copy<T>(obj: T, predicate: CopyPredicate  = () => true): Partial
     (!predicate(key, result[key])) && delete result[key];
   });
   return result;
+}
+
+/** Makes a flat copy without undefined keys */
+export function copyDefinedKeys<T>(obj?: T): Partial<T> {
+  return copy(obj || {}, (key, value) => value !== void 0);
 }
 
 /** Omit copying provided properties from object */
