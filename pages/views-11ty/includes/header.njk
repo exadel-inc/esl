@@ -1,16 +1,16 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark esl-demo-header">
   <div class="container">
-    <a class="navbar-brand logo-light mr-5" href="./index.html">
+    <a class="navbar-brand logo-light mr-5" href="/">
       {% include "img/logo.svg" %}
       <span class="ml-2">Exadel Smart Library</span>
     </a>
-    {% from 'header-menu.njk' import menu %}
+    {% from 'header-menu.njk' import menu with context %}
     <ul class="navbar-nav flex-grow-1">
       <li class="nav-item hd-dropdown">
-        {{ menu ("Components", "component") }}
+        {{ menu ("Components", "basic") }}
       </li>
       <li class="nav-item hd-dropdown">
-        {{ menu ("Form Components", "form") }}
+        {{ menu ("Form Components", "forms") }}
       </li>
       {% if config.environment == "local" %}
         <li class="nav-item hd-dropdown">
