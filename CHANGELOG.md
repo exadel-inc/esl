@@ -1,3 +1,11 @@
+# [3.0.0-beta.7](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.6...v3.0.0-beta.7) (2021-06-08)
+
+
+### BREACKING CHANGES:
+* **esl-image**: make original mode rule meta independent
+* **esl-media-query**: get rid of DPR meta
+* **esl-media-query**: mobile device marker removed
+
 # [3.0.0-beta.6](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.5...v3.0.0-beta.6) (2021-06-07)
 
 
