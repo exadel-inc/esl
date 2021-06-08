@@ -7,7 +7,8 @@
   <esl-panel class="hd-dropdown-content" default-params="{hideDelay: 250}" fallback-duration="500">
     <ul class="hd-dropdown-list">
       {% for item in collections[collection] %}
-        <li class="nav-item hd-dropdown-item {{ 'active' if page.url == item.url }}" {% if page.url == item.url %}aria-current="page"{% endif %}>
+        {% set isActive = page.url == item.url %}
+        <li class="nav-item hd-dropdown-item {{ 'active' if isActive }}" {% if isActive %}aria-current="page"{% endif %}>
           <a class="hd-dropdown-link" href="{{ item.url }}">{{ item.data.name }}</a>
         </li>
       {% endfor %}
