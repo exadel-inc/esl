@@ -1,37 +1,32 @@
 ---
-layout: ./layouts/basic.html
+layout: basic
 title: Exadel Smart Library
 containerCls: container
+scrollbar: true
+ui_playground: github.com/exadel-inc/ui-playground
 ---
 
-{{##content:
-
 <div class="d-sm-flex align-items-center">
-  <div class="brand-section logo-primary mr-2">
-    {{= page.getFile('static/assets/logo.svg').toString() }}
-  </div>
+  <div class="brand-section logo-primary mr-2">{% include "img/logo.svg" %}</div>
   <p class="m-0 lead description">
     Exadel Smart Library (<strong>ESL</strong>) is a web components based library that gives you a set of <strong>lightweight</strong>
     and <strong>flexible</strong> custom elements to easily create basic UX modules and make your websites super fast.
   </p>
 </div>
-
-
 <hr/>
 
 <h3 id="components">List of components</h3>
-
 <ul class="list-inline">
-  {{~ page.invokeController('InnerPages', '/basic/') :item}}
-  <li class="list-inline-item"><h5><a href="{{= page.resolveURL(item.href)}}">{{= item.title }}</a></h5></li>
-  {{~}}
+  {% for item in collections.basic %}
+    <li class="list-inline-item"><h5><a href="{{ item.data.path }}">{{ item.data.title }}</a></h5></li>
+  {% endfor %}
 </ul>
 
 <h3 id="form-components">Form Components</h3>
 <ul class="list-inline">
-  {{~ page.invokeController('InnerPages', '/forms/') :item}}
-  <li class="list-inline-item"><h5><a href="{{= page.resolveURL(item.href)}}">{{= item.title }}</a></h5></li>
-  {{~}}
+  {% for item in collections.forms %}
+    <li class="list-inline-item"><h5><a href="{{ item.data.path }}">{{ item.data.title }}</a></h5></li>
+  {% endfor %}
 </ul>
 <hr/>
 
@@ -65,8 +60,7 @@ containerCls: container
         <li>
           include optional sub-features directly. See component&#39;s documentation for details.
           <pre><code class="lang-javascript"><span class="hljs-attribute">import</span> <span class="hljs-string">'<span
-            class="hljs-variable">@exadel</span>/esl/modules/esl-media/providers/iframe-provider'</span>;
-</code></pre>
+            class="hljs-variable">@exadel</span>/esl/modules/esl-media/providers/iframe-provider'</span>;</code></pre>
         </li>
         <li>
           <p>Some modules contain cumulative <code>all</code> entries.</p>
@@ -88,14 +82,12 @@ containerCls: container
  // define XS screen breakpoint <span class="hljs-keyword">for</span> up <span class="hljs-keyword">to</span> <span
           class="hljs-number">800</span>px screen width
  ESLMediaBreakpoints.addCustomBreakpoint(<span class="hljs-string">'XS'</span>, <span
-          class="hljs-number">1</span>, <span class="hljs-number">800</span>);
-</code></pre>
+          class="hljs-number">1</span>, <span class="hljs-number">800</span>);</code></pre>
     </li>
 
     <li>
       <p>Register components via <code>register</code> static method call</p>
-      <pre><code class="lang-javascript">ESLImage.register()<span class="hljs-comment">;</span>
-</code></pre>
+      <pre><code class="lang-javascript">ESLImage.register()<span class="hljs-comment">;</span></code></pre>
       <p><em>You can pass custom tag name to &#39;register&#39; function, but use this option only in an exceptional
         situation.</em></p>
     </li>
@@ -156,7 +148,7 @@ containerCls: container
 <h2 id="roadmap">Roadmap</h2>
 <div class="container">
   <ul class="m-8 mr-2 ml-2">
-    <li><a href="https://github.com/exadel-inc/ui-playground">UI Playground</a> (<em>will be available soon</em>) demo
+    <li><a href="https://{{ ui_playground }}" target="_blank">UI Playground</a> (<em>will be available soon</em>) demo
       server
     </li>
     <li>More helpers and sugar of ESLBaseElement (event listener helpers and decorators)</li>
@@ -168,4 +160,3 @@ containerCls: container
     <li>More components in the library</li>
   </ul>
 </div>
-#}}
