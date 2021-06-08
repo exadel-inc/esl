@@ -4,14 +4,13 @@ module.exports = config => {
     'pages/static/assets': '/assets',
   });
 
-  const environment = process.env.ELEVENTY_ENV;
-
   return {
     dir: {
       input: 'pages/views-11ty',
       output: 'pages/dist',
       includes: 'includes',
       layouts: 'layouts',
+      data: 'data'
     },
     dataTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',

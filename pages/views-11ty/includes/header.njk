@@ -12,9 +12,9 @@
       <li class="nav-item hd-dropdown">
         {{ menu ("Form Components", "forms") }}
       </li>
-      {% if config.environment == "local" %}
+      {% if env.environment == "development" %}
         <li class="nav-item hd-dropdown">
-        {{ menu ("Drafts", "draft") }}
+          {{ menu ("Drafts", "draft") }}
         </li>
       {% endif %}
 
