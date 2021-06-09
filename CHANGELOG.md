@@ -1,3 +1,23 @@
+# [3.0.0-beta.7](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.6...v3.0.0-beta.7) (2021-06-08)
+
+
+### BREACKING CHANGES:
+* **esl-image**: make original mode rule meta independent
+* **esl-media-query**: get rid of DPR meta
+* **esl-media-query**: mobile device marker removed
+
+# [3.0.0-beta.6](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.5...v3.0.0-beta.6) (2021-06-07)
+
+
+### Bug Fixes
+
+* **esl-utils:** device detector touch detection improved ([7a5956e](https://github.com/exadel-inc/esl/commit/7a5956ebf55d00bde38707c92bc921ac48c1c5ef))
+
+
+### Features
+
+* **esl-utils:**  add copy & omit utilities ([d31b957](https://github.com/exadel-inc/esl/commit/d31b9573d271708943b0abb717952fb7d7c01ef5))
+
 # [3.0.0-beta.5](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.4...v3.0.0-beta.5) (2021-06-03)
 
 

@@ -5,7 +5,7 @@ import {ESLImage} from './esl-image';
  */
 export interface ESLImageRenderStrategy {
   /** Apply image from shadow loader */
-  apply: (img: ESLImage, shadowImg: ShadowImageElement) => void;
+  apply: (img: ESLImage, shadowImg: HTMLImageElement) => void;
   /** Clean strategy specific changes from ESLImage */
   clear: (img: ESLImage) => void;
 }
@@ -15,13 +15,6 @@ export interface ESLImageRenderStrategy {
  */
 export interface ESLImageStrategyMap {
   [mode: string]: ESLImageRenderStrategy;
-}
-
-/**
- * Mixed image element that used as shadow loader for ESLImage
- */
-export interface ShadowImageElement extends HTMLImageElement {
-  dpr?: number
 }
 
 export const STRATEGIES: ESLImageStrategyMap = {
@@ -62,7 +55,7 @@ export const STRATEGIES: ESLImageStrategyMap = {
     apply(img, shadowImg) {
       const innerImg = img.attachInnerImage();
       innerImg.src = shadowImg.src;
-      innerImg.width = shadowImg.width / (shadowImg.dpr || 1);
+      innerImg.width = shadowImg.width / window.devicePixelRatio;
     },
     clear(img) {
       img.removeInnerImage();
