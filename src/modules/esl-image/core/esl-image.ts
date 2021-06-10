@@ -197,7 +197,7 @@ export class ESLImage extends ESLBaseElement {
     if (role === 'img') this.setAttribute('aria-label', this.alt);
   }
 
-  protected getPath(src: string | null) {
+  protected getPath(src: string | undefined) {
     if (!src || src === '0' || src === 'none') {
       return ESLImage.EMPTY_IMAGE;
     }

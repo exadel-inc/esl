@@ -25,6 +25,11 @@ export class ESLMediaQuery {
   }
 
   @memoize()
+  static for(query: string) {
+    return new ESLMediaQuery(query);
+  }
+
+  @memoize()
   static matchMediaCached(query: string) {
     return matchMedia(query);
   }
