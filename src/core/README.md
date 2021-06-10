@@ -1,23 +1,24 @@
-# UIP Root
+# UIP Plugin
 
-UIPRoot - state storage.
+[UIPPlugin](README.md) - base class for UIP elements which implements uip components connection logic.
 
 ---
 
-### Notes: 
+### Notes:
 
-- **Root** stores the *state*, which is an actual markup of the current component.
-- Listens for '*request:change*' event that transfers state changes from UIP components to **Root**
-- Dispatches '*state:change*' event that delivers state changes to other UIP components
+- Has *dispatchChange()* method for dispatching markup changes.
+- Contains *handleChange()* method which triggers when markup changes reach the element.
+- Includes *label* attribute for adding label to the element. Examples can be seen within other basic UIP components
 ---
 
 ### Example:
 
-```html
-<uip-root></uip-root>
-```
-
 ```typescript
-const root = document.querySelector('uip-root');
-root.addEventListener('state:change', callback);
+import {UIPPlugin} from "./plugin";
+
+class MyUIPComnonent extends UIPPlugin {
+    protected handleChange(): void {
+        //Your logic here...
+    }
+}
 ```

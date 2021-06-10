@@ -5,10 +5,10 @@
 ---
 
 ### Notes:
-- Extends *UIPPlugin*.
+- Extends [UIPPlugin](../core/README.md).
 - Parses markup using [UIPStateModel](../utils/state-model/state-model.ts), distributes changes among inner
   [UIPSetting](setting/README.md) components and vice versa.
-- Listens for *uip:change* event to pass markup updates to [UIPRoot](../core/README.md)
+- Listens for *uip:change* event to pass markup updates to [UIPRoot](../core/root/README.md).
 
 The following attributes used:
 - **label** - settings section displayed name.

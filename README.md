@@ -19,7 +19,7 @@ or even change its markup ([UIP Editor](./src/editor/README.md))!.
 
 ---
 ### Components:
-- ##### [UIP Root](./src/core/README.md)
+- ##### [UIP Root](src/core/root/README.md)
 - ##### [UIP Snippets](./src/snippets/README.md)
 - ##### [UIP Preview](./src/preview/README.md)
 - ##### [UIP Settings](./src/settings/README.md)
@@ -57,4 +57,4 @@ you can find useful information about the project processes and agreements here:
 
 **Exadel, Inc.**
 
-[![](./docs/images/exadel-logo.png)](https://exadel.com)
+[![](pages/images/exadel-logo.png)](https://exadel.com)

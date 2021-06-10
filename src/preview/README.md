@@ -1,11 +1,11 @@
 # UIP Preview
 
-UIPPreview - custom element, that displays active component.
+UIPPreview - custom element, that displays active markup.
 
 ---
 ### Notes:
 
-- Listens for '*state:change*' event of parent [UIP Root](../core/README.md).
+- Extends [UIPPlugin](../core/README.md).
 
 ---
 ### Example:
