@@ -88,8 +88,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
   /** Hide delay attribute processing */
   public get hideDelayValue(): number | undefined {
-    const hideDelay = +(this.hideDelay || 'none');
-    return isNaN(hideDelay) ? undefined : hideDelay;
+    return ESLMediaRuleList.parse(this.hideDelay, ESLTrigger.parseDelayValue).activeValue;
   }
 
   @ready
