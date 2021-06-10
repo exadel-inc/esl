@@ -5,19 +5,18 @@ import {ready} from '../../esl-utils/decorators/ready';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {TraversingQuery} from '../../esl-traversing-query/core';
-import {ESLMediaQuery} from '../../esl-media-query/core/esl-media-query';
+import {ESLMediaQuery, ESLMediaRuleList} from '../../esl-media-query/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
-
 import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
-import {ESLMediaRuleList} from '../../esl-media-query/core/esl-media-rule-list';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
   public static is = 'esl-trigger';
 
   static get observedAttributes() {
-    return ['target', 'event', 'mode'];
+    return ['target'];
   }
+
   /** @readonly Observed Toggleable active state marker */
   @boolAttr({readonly: true}) public active: boolean;
 
@@ -50,15 +49,7 @@ export class ESLTrigger extends ESLBaseElement {
 
   protected attributeChangedCallback(attrName: string) {
     if (!this.connected) return;
-    switch (attrName) {
-      case 'target':
-        this.updateTargetFromSelector();
-        break;
-      case 'mode':
-        this.unbindEvents();
-        this.bindEvents();
-        break;
-    }
+    if (attrName === 'target') return this.updateTargetFromSelector();
   }
 
   /** Target observable Toggleable */
