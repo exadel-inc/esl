@@ -1,5 +1,5 @@
 {{ var active = page.location.pathname.indexOf(data.path) !== -1; }}
-<esl-trigger class="hd-dropdown-trigger" event="hover" target="::next">
+<esl-trigger class="hd-dropdown-trigger" track-hover target="::next">
   <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow {{= active ? 'text-info' : ''}}">
     {{= data.title}}
   </button>
