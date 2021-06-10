@@ -1,10 +1,10 @@
 module.exports = config => {
+  config.setUseGitIgnore(false);
+  config.addWatchTarget('pages/static/bundles');
   config.addPassthroughCopy({
-    'pages/static/bundles': '/bundles',
-    'pages/static/assets': '/assets',
+    'pages/static/bundles': 'bundles',
+    'pages/static/assets': 'assets',
   });
-
-  const environment = process.env.ELEVENTY_ENV;
 
   return {
     dir: {
@@ -12,6 +12,7 @@ module.exports = config => {
       output: 'pages/dist',
       includes: 'includes',
       layouts: 'layouts',
+      data: 'data',
     },
     dataTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
