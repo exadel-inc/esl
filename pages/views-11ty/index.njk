@@ -17,14 +17,14 @@ ui_playground: github.com/exadel-inc/ui-playground
 <h3 id="components">List of components</h3>
 <ul class="list-inline">
   {% for item in collections.basic | sortByName %}
-    <li class="list-inline-item"><h5><a href="{{ item.url }}">{{ item.data.name }}</a></h5></li>
+    <li class="list-inline-item"><h5><a href="{{ item.url | url }}">{{ item.data.name }}</a></h5></li>
   {% endfor %}
 </ul>
 
 <h3 id="form-components">Form Components</h3>
 <ul class="list-inline">
   {% for item in collections.forms | sortByName %}
-    <li class="list-inline-item"><h5><a href="{{ item.url }}">{{ item.data.name }}</a></h5></li>
+    <li class="list-inline-item"><h5><a href="{{ item.url | url }}">{{ item.data.name }}</a></h5></li>
   {% endfor %}
 </ul>
 <hr/>

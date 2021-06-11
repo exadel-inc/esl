@@ -5,6 +5,7 @@ name: Esl Image
 containerCls: container
 tags: basic
 ---
+{% set imageSrcBase = '/assets/' | url %}
 
 <section class="row">
   <div class="col-12">
@@ -14,7 +15,7 @@ tags: basic
         <esl-image mode="save-ratio" lazy
                    data-alt="Alt Text Test"
                    data-src="nature/forest+clouds.jpg"
-                   data-src-base="/assets/"></esl-image>
+                   data-src-base="{{ imageSrcBase }}"></esl-image>
       </div>
       <div class="col-xs-12 col-sm-6 p-2 d-flex">
         <div class="m-auto">
@@ -40,7 +41,7 @@ tags: basic
           <esl-image mode="cover" lazy
                      data-alt="Alt Text"
                      data-src="nature/forest+clouds.jpg"
-                     data-src-base="/assets/"></esl-image>
+                     data-src-base="{{ imageSrcBase }}"></esl-image>
         </div>
       </div>
     </div>
@@ -50,7 +51,7 @@ tags: basic
           <esl-image mode="cover" lazy
                      data-alt="Alt Text"
                      data-src="nature/forest+clouds.jpg"
-                     data-src-base="/assets/"></esl-image>
+                     data-src-base="{{ imageSrcBase }}"></esl-image>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 p-2 d-flex">
@@ -92,7 +93,7 @@ tags: basic
           <esl-image mode="cover" lazy
                      data-alt="Alt Text"
                      data-src="nature/forest+clouds.jpg"
-                     data-src-base="/assets/"></esl-image>
+                     data-src-base="{{ imageSrcBase }}"></esl-image>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 p-2 d-flex">
@@ -134,7 +135,7 @@ tags: basic
                      class="bg-inscribe"
                      data-alt="Alt Text"
                      data-src="nature/volcano-md.jpg | @2x => nature/volcano.jpg"
-                     data-src-base="/assets/"></esl-image>
+                     data-src-base="{{ imageSrcBase }}"></esl-image>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 p-2 d-flex">
@@ -153,7 +154,7 @@ tags: basic
           <esl-image mode="fit" lazy
                      data-alt="Alt Text Test"
                      data-src="nature/volcano-md.jpg | @2x => nature/volcano.jpg"
-                     data-src-base="/assets/"></esl-image>
+                     data-src-base="{{ imageSrcBase }}"></esl-image>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 p-2 d-flex">
@@ -171,7 +172,7 @@ tags: basic
                    class="m-auto"
                    data-alt="Alt Text Test"
                    data-src="nature/volcano-xs.jpg"
-                   data-src-base="/assets/"></esl-image>
+                   data-src-base="{{ imageSrcBase }}"></esl-image>
       </div>
       <div class="col-xs-12 col-sm-6 p-2 d-flex">
         <div class="m-auto">
@@ -200,7 +201,7 @@ tags: basic
                                    @MD => abstract/unsplash.jpg |
                                    @LG => abstract/colors.jpg |
                                    @XL => abstract/drops.jpg"
-                 data-src-base="/assets/"></esl-image>
+                 data-src-base="{{ imageSrcBase }}"></esl-image>
     </div>
   </div>
 </section>
@@ -219,7 +220,7 @@ tags: basic
       <esl-image lazy
                  mode="inner-svg"
                  data-alt="Svg Text Test"
-                 data-src="/assets/svg/cat.svg"></esl-image>
+                 data-src="{{ '/assets/svg/cat.svg' | url }}"></esl-image>
     </div>
   </div>
 </section>

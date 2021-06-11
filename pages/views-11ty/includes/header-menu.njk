@@ -10,7 +10,7 @@
         {% for item in collections[collection] | sortByName %}
           {% set isActive = page.url == item.url %}
           <li class="nav-item hd-dropdown-item {{ 'active' if isActive }}" {% if isActive %}aria-current="page"{% endif %}>
-            <a class="hd-dropdown-link" href="{{ item.url }}">{{ item.data.name }}</a>
+            <a class="hd-dropdown-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
           </li>
         {% endfor %}
       </ul>

@@ -15,8 +15,8 @@
     })();
   </script>
 
-  <link rel="icon" type="image/png" href="/assets/logo-64x64.png" />
-  <link type="text/css" rel="stylesheet" href="/bundles/localdev.css" />
+  <link rel="icon" type="image/png" href="{{ '/assets/logo-64x64.png' | url }}" />
+  <link type="text/css" rel="stylesheet" href="{{ '/bundles/localdev.css' | url }} " />
 
   {% block extra_head %}{% endblock %}
 {% endblock %}
@@ -40,5 +40,5 @@
     {% include 'footer.njk' %}
   </footer>
 
-  <script src="/bundles/localdev.js"></script>
+  <script src="{{ '/bundles/localdev.js' | url }}"></script>
 {% endblock %}
