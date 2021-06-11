@@ -95,6 +95,7 @@ export class ESLTrigger extends ESLBaseElement {
   protected connectedCallback() {
     super.connectedCallback();
     this.updateTargetFromSelector();
+    this.initA11y();
   }
   @ready
   protected disconnectedCallback() {
@@ -215,6 +216,15 @@ export class ESLTrigger extends ESLBaseElement {
     if (this.mode === 'show' || this.mode === 'hide') return;
     this.hideTarget({event, trackHover: true});
     event.preventDefault();
+  }
+
+  /** Set initial a11y attributes. Do nothing if trigger contains actionable element */
+  public initA11y() {
+    if (this.$a11yTarget !== this) return;
+    if (!this.hasAttribute('role')) this.setAttribute('role', 'button');
+    if (this.getAttribute('role') === 'button' && !this.hasAttribute('tabindex')) {
+      this.setAttribute('tabindex', '0');
+    }
   }
 
   /** Update aria attributes */
