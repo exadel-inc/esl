@@ -29,7 +29,7 @@
   <main role="main">
     <div class="content {{ containerCls or 'container-fluid' }}">
       {% if title %}
-        <h1 class="text-center pt-2">{{ title }}</h1>
+        <h1 class="text-center pt-2">{{ title | safe }}</h1>
         <hr/>
       {% endif %}
       {{ content | safe or 'No content.' }}

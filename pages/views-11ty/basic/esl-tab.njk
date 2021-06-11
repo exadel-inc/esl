@@ -1,10 +1,12 @@
 ---
-layout: ../../layouts/basic.html
-containerCls: container
+layout: basic
 title: ESL Tabs <span class="badge badge-warning">Beta</span>
+name: Esl Tab
+containerCls: container
+tags: basic
 ---
+{% import 'lorem.njk' as lorem %}
 
-{{##content:
 <section class="row">
   <style>
     .accordion-trigger {
@@ -93,7 +95,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         <esl-panel class="tab tab-1"
                    tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -105,7 +107,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         <esl-panel open class="tab tab-2"
                    tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -117,7 +119,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         <esl-panel class="tab tab-3"
                    tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -129,7 +131,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         <esl-panel class="tab tab-4"
                    tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 3}) }}
+            {{ lorem.paragraphs(3) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -141,7 +143,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         <esl-panel class="tab tab-5"
                    tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -153,7 +155,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         <esl-panel class="tab tab-6"
                    tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -165,7 +167,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         <esl-panel class="tab tab-7"
                    tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 3}) }}
+            {{ lorem.paragraphs(3) }}
           </div>
         </esl-panel>
       </esl-panel-group>
@@ -193,7 +195,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
           <li class="nav-item">
             <esl-tab class="esl-tab nav-link"
                      target="::parent(.tabs)::find(.tab-1)">
-              <h5 class="mb-0">Tab #1 Lorem ipsum </h5>
+              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
             </esl-tab>
           </li>
           <li class="nav-item">
@@ -251,7 +253,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel class="tab tab-1" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 3}) }}
+            {{ lorem.paragraphs(3) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -262,7 +264,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel open class="tab tab-2" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -273,7 +275,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel class="tab tab-3" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 3}) }}
+            {{ lorem.paragraphs(3) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -284,7 +286,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel class="tab tab-4" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -295,7 +297,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel class="tab tab-5" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -306,7 +308,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel class="tab tab-6" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -317,7 +319,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel class="tab tab-7" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
       </esl-panel-group>
@@ -340,7 +342,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
           <li class="nav-item">
             <esl-tab class="esl-tab nav-link"
                      target="::parent(.tabs)::find(.tab-1)">
-              <h5 class="mb-0">Tab #1 Lorem ipsum </h5>
+              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
             </esl-tab>
           </li>
           <li class="nav-item">
@@ -374,7 +376,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel class="tab tab-1" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -385,7 +387,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel open class="tab tab-2" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -396,7 +398,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel class="tab tab-3" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 3}) }}
+            {{ lorem.paragraphs(3) }}
           </div>
         </esl-panel>
       </esl-panel-group>
@@ -419,7 +421,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
           <li class="nav-item">
             <esl-tab class="esl-tab nav-link"
                      target="::parent(.tabs)::find(.tab-1)">
-              <h5 class="mb-0">Tab #1 Lorem ipsum </h5>
+              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
             </esl-tab>
           </li>
           <li class="nav-item">
@@ -459,7 +461,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel class="tab tab-1" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -470,7 +472,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel open class="tab tab-2" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -481,7 +483,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel class="tab tab-3" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -492,7 +494,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel class="tab tab-4" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
       </esl-panel-group>
@@ -574,7 +576,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         <esl-panel class="tab tab-1"
                    tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 3}) }}
+            {{ lorem.paragraphs(3) }}
 
             <esl-tabs class="tabs-container">
               <esl-a11y-group targets="::parent::find(esl-tab)" activate-selected="true"></esl-a11y-group>
@@ -649,7 +651,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                          class="tab tab-21"
                          tabindex="0">
                 <div class="tab-body">
-                  {{= page.renderComponent('lorem', {count: 2}) }}
+                  {{ lorem.paragraphs(2) }}
                 </div>
               </esl-panel>
               <esl-trigger class="card-header accordion-trigger"
@@ -662,7 +664,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                          tabindex="0"
                          accordion-transformation="@XS">
                 <div class="tab-body">
-                  {{= page.renderComponent('lorem', {count: 1}) }}
+                  {{ lorem.paragraphs(1) }}
                 </div>
               </esl-panel>
 
@@ -676,7 +678,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                          tabindex="0"
                          accordion-transformation="@XS">
                 <div class="tab-body">
-                  {{= page.renderComponent('lorem', {count: 4}) }}
+                  {{ lorem.paragraphs(4) }}
                 </div>
               </esl-panel>
               <esl-trigger class="card-header accordion-trigger"
@@ -689,7 +691,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                          tabindex="0"
                          accordion-transformation="@XS">
                 <div class="tab-body">
-                  {{= page.renderComponent('lorem', {count: 2}) }}
+                  {{ lorem.paragraphs(2) }}
                 </div>
               </esl-panel>
               <esl-trigger class="card-header accordion-trigger"
@@ -702,7 +704,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                          tabindex="0"
                          accordion-transformation="@XS">
                 <div class="tab-body">
-                  {{= page.renderComponent('lorem', {count: 1}) }}
+                  {{ lorem.paragraphs(1) }}
                 </div>
               </esl-panel>
               <esl-trigger class="card-header accordion-trigger"
@@ -715,7 +717,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                          tabindex="0"
                          accordion-transformation="@XS">
                 <div class="tab-body">
-                  {{= page.renderComponent('lorem', {count: 2}) }}
+                  {{ lorem.paragraphs(2) }}
                 </div>
               </esl-panel>
               <esl-trigger class="card-header accordion-trigger"
@@ -728,7 +730,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                          tabindex="0"
                          accordion-transformation="@XS">
                 <div class="tab-body">
-                  {{= page.renderComponent('lorem', {count: 1}) }}
+                  {{ lorem.paragraphs(1) }}
                 </div>
               </esl-panel>
             </esl-panel-group>
@@ -744,7 +746,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -757,7 +759,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 5}) }}
+            {{ lorem.paragraphs(5) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -770,7 +772,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -783,7 +785,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -796,7 +798,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -809,7 +811,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
       </esl-panel-group>
@@ -839,7 +841,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         <ul class="nav nav-pills esl-tab-container" role="tablist">
           <li class="nav-item">
             <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-1)">
-              <h5 class="mb-0">Tab #1 Lorem ipsum </h5>
+              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
             </esl-tab>
           </li>
           <li class="nav-item">
@@ -895,7 +897,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -909,7 +911,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -923,7 +925,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 3}) }}
+            {{ lorem.paragraphs(3) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -937,7 +939,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -951,7 +953,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -965,7 +967,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 3}) }}
+            {{ lorem.paragraphs(3) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -979,7 +981,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
       </esl-panel-group>
@@ -1006,7 +1008,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         <ul class="nav nav-pills esl-tab-container" role="tablist">
           <li class="nav-item">
             <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-1)">
-              <h5 class="mb-0">Tab #1 Lorem ipsum </h5>
+              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
             </esl-tab>
           </li>
           <li class="nav-item">
@@ -1040,7 +1042,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -1054,7 +1056,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -1068,7 +1070,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
                    tabindex="0"
                    accordion-transformation="@XS">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 3}) }}
+            {{ lorem.paragraphs(3) }}
           </div>
         </esl-panel>
       </esl-panel-group>
@@ -1095,7 +1097,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
           <li class="nav-item">
             <esl-tab class="esl-tab nav-link"
                      target="::parent(.tabs)::find(.tab-1)">
-              <h5 class="mb-0">Tab #1 Lorem ipsum </h5>
+              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
             </esl-tab>
           </li>
           <li class="nav-item">
@@ -1123,7 +1125,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel class="tab tab-1" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 3}) }}
+            {{ lorem.paragraphs(3) }}
           </div>
         </esl-panel>
         <esl-trigger class="card-header accordion-trigger"
@@ -1134,7 +1136,7 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
         </esl-trigger>
         <esl-panel open class="tab tab-2" tabindex="0">
           <div class="tab-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
       </esl-panel-group>
@@ -1142,4 +1144,3 @@ title: ESL Tabs <span class="badge badge-warning">Beta</span>
   </div>
   <hr/>
 </section>
-#}}

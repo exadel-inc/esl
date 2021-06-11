@@ -1,9 +1,11 @@
 ---
-layout: ../../layouts/basic.html
+layout: basic
 title: ESL Scrollbar <span class="badge badge-warning">Beta</span>
+name: Esl Scrollbar
+tags: basic
 ---
+{% import 'lorem.njk' as lorem %}
 
-{{##content:
 <section class="row">
   <style>
     .test-popup {
@@ -30,8 +32,8 @@ title: ESL Scrollbar <span class="badge badge-warning">Beta</span>
       <button class="btn btn-primary">Toggle Modal (Vertical, Page Scroll Lock)</button>
     </esl-trigger>
     <esl-trigger target="::next(.tp-2)">
-    <button class="btn btn-primary">Toggle Modal (Vertical)</button>
-  </esl-trigger>
+      <button class="btn btn-primary">Toggle Modal (Vertical)</button>
+    </esl-trigger>
     <esl-trigger target="::next(.tp-3)">
       <button class="btn btn-primary">Toggle Modal (Horizontal)</button>
     </esl-trigger>
@@ -41,7 +43,7 @@ title: ESL Scrollbar <span class="badge badge-warning">Beta</span>
                style="background: #e6c3c3;">
       <div class="esl-scrollable-content">
         <div>
-          {{= page.renderComponent('lorem', {count: 4}) }}
+          {{ lorem.paragraphs(4) }}
         </div>
       </div>
       <esl-scrollbar class="test-scrollbar-1" target="::prev"></esl-scrollbar>
@@ -51,7 +53,7 @@ title: ESL Scrollbar <span class="badge badge-warning">Beta</span>
                style="background: #9fe6d2;">
       <div class="esl-scrollable-content">
         <div>
-          {{= page.renderComponent('lorem', {count: 4}) }}
+          {{ lorem.paragraphs(4) }}
         </div>
       </div>
       <esl-scrollbar class="test-scrollbar-1" target="::prev"></esl-scrollbar>
@@ -61,7 +63,7 @@ title: ESL Scrollbar <span class="badge badge-warning">Beta</span>
                style="background: #e6c3c3;">
       <div class="esl-scrollable-content">
         <div style="width: 1900px; padding: 30px 10px;">
-          {{= page.renderComponent('lorem', {count: 3}) }}
+          {{ lorem.paragraphs(3) }}
         </div>
       </div>
       <esl-scrollbar class="test-scrollbar-2" target="::prev" horizontal></esl-scrollbar>
@@ -70,34 +72,32 @@ title: ESL Scrollbar <span class="badge badge-warning">Beta</span>
 </section>
 
 <section class="row">
-    <div class="col-8 m-auto" style="background: #c3d4e6;">
-        <div class="content esl-scrollable-content">
-            <div style="height: 500px; padding: 30px 60px;">
-              {{= page.renderComponent('lorem', {count: 1}) }}
-            </div>
-        </div>
-        <esl-scrollbar class="animate"
-                       target="::prev"></esl-scrollbar>
+  <div class="col-8 m-auto" style="background: #c3d4e6;">
+    <div class="content esl-scrollable-content">
+      <div style="height: 500px; padding: 30px 60px;">
+        {{ lorem.paragraphs(1) }}
+      </div>
     </div>
+    <esl-scrollbar class="animate" target="::prev"></esl-scrollbar>
+  </div>
 </section>
 <section class="row">
-    <div class="col-8 m-auto" style="padding: 30px 0; position: relative; background: #c3e6cb;">
-        <div class="content esl-scrollable-content">
-            <div style="height: 500px; padding: 30px 60px;">
-              {{= page.renderComponent('lorem', {count: 7}) }}
-            </div>
-            <esl-scrollbar target="::parent"></esl-scrollbar>
-        </div>
+  <div class="col-8 m-auto" style="padding: 30px 0; position: relative; background: #c3e6cb;">
+    <div class="content esl-scrollable-content">
+      <div style="height: 500px; padding: 30px 60px;">
+        {{ lorem.paragraphs(7) }}
+      </div>
+      <esl-scrollbar target="::parent"></esl-scrollbar>
     </div>
+  </div>
 </section>
 <section class="row">
-    <div class="col-8 m-auto" style="position: relative; background: #e6e5b8;">
-        <div class="content esl-scrollable-content">
-            <div style="width: 1900px; padding: 60px 30px;">
-              {{= page.renderComponent('lorem', {count: 3}) }}
-            </div>
-            <esl-scrollbar target="::parent" horizontal></esl-scrollbar>
-        </div>
+  <div class="col-8 m-auto" style="position: relative; background: #e6e5b8;">
+    <div class="content esl-scrollable-content">
+      <div style="width: 1900px; padding: 60px 30px;">
+        {{ lorem.paragraphs(3) }}
+      </div>
+      <esl-scrollbar target="::parent" horizontal></esl-scrollbar>
     </div>
+  </div>
 </section>
-#}}

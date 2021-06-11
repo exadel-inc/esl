@@ -1,10 +1,12 @@
 ---
-layout: ../../layouts/basic.html
-containerCls: container
+layout: basic
 title: ESL Panel - Accordion
+name: Esl Accordion
+containerCls: container
+tags: basic
 ---
+{% import 'lorem.njk' as lorem %}
 
-{{##content:
 <section class="row">
   <style>
     .card-header[active] {
@@ -25,7 +27,7 @@ title: ESL Panel - Accordion
         </esl-trigger>
         <esl-panel open initial-params="{noAnimation: true}">
           <div class="card-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
       </div>
@@ -39,7 +41,7 @@ title: ESL Panel - Accordion
         </esl-trigger>
         <esl-panel>
           <div class="card-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
       </div>
@@ -53,7 +55,7 @@ title: ESL Panel - Accordion
         </esl-trigger>
         <esl-panel>
           <div class="card-body">
-            {{= page.renderComponent('lorem', {count: 2}) }}
+            {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
       </div>
@@ -70,7 +72,7 @@ title: ESL Panel - Accordion
         </esl-trigger>
         <esl-panel class="clps" default-params="{hideDelay: 100}">
           <div class="card-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
       </div>
@@ -84,7 +86,7 @@ title: ESL Panel - Accordion
         </esl-trigger>
         <esl-panel default-params="{hideDelay: 100}">
           <div class="card-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
       </div>
@@ -98,11 +100,10 @@ title: ESL Panel - Accordion
         </esl-trigger>
         <esl-panel default-params="{hideDelay: 100}">
           <div class="card-body">
-            {{= page.renderComponent('lorem', {count: 1}) }}
+            {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
       </div>
     </esl-panel-group>
   </div>
 </section>
-#}}

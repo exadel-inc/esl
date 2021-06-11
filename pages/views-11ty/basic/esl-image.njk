@@ -1,11 +1,10 @@
 ---
-layout: ../../layouts/basic.html
-containerCls: container
+layout: basic
 title: ESL Image component
+name: Esl Image
+containerCls: container
+tags: basic
 ---
-
-{{##content:
-{{ const resolve = page.invokeController('PublishConfig').resolve; }}
 
 <section class="row">
   <div class="col-12">
@@ -15,7 +14,7 @@ title: ESL Image component
         <esl-image mode="save-ratio" lazy
                    data-alt="Alt Text Test"
                    data-src="nature/forest+clouds.jpg"
-                   data-src-base="{{= resolve('/assets/')}}"></esl-image>
+                   data-src-base="/assets/"></esl-image>
       </div>
       <div class="col-xs-12 col-sm-6 p-2 d-flex">
         <div class="m-auto">
@@ -41,18 +40,17 @@ title: ESL Image component
           <esl-image mode="cover" lazy
                      data-alt="Alt Text"
                      data-src="nature/forest+clouds.jpg"
-                     data-src-base="{{= resolve('/assets/')}}"></esl-image>
+                     data-src-base="/assets/"></esl-image>
         </div>
       </div>
     </div>
-
     <div class="demo row" id="sim-valign-test">
       <div class="col-xs-12 col-sm-6 p-2 d-flex">
         <div class="img-container m-auto" style="width: 400px; height: 200px; border: 1px solid gray;">
           <esl-image mode="cover" lazy
                      data-alt="Alt Text"
                      data-src="nature/forest+clouds.jpg"
-                     data-src-base="{{= resolve('/assets/')}}"></esl-image>
+                     data-src-base="/assets/"></esl-image>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 p-2 d-flex">
@@ -63,7 +61,8 @@ title: ESL Image component
           <p>The following options are available to control image vertical position:</p>
           <ul>
             <li><input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-top"/> .bg-v-top</li>
-            <li><input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-center" checked/> .bg-v-center <b>(default)</b>
+            <li>
+              <input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-center" checked/> .bg-v-center <b>(default)</b>
             </li>
             <li><input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-bottom"/> .bg-v-bottom</li>
           </ul>
@@ -93,7 +92,7 @@ title: ESL Image component
           <esl-image mode="cover" lazy
                      data-alt="Alt Text"
                      data-src="nature/forest+clouds.jpg"
-                     data-src-base="{{= resolve('/assets/')}}"></esl-image>
+                     data-src-base="/assets/"></esl-image>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 p-2 d-flex">
@@ -101,12 +100,12 @@ title: ESL Image component
           <h5>Mode: cover (additional classes: horizontal alignment)</h5>
           <p>The following options available to control image horizontal position:</p>
           <ul>
-            <li><input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-left"/> .bg-h-left
+            <li><input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-left"/> .bg-h-left</li>
+            <li>
+              <input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-center" checked/>
+              .bg-h-center <b>(default)</b>
             </li>
-            <li><input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-center" checked/>
-              .bg-h-center <b>(default)</b></li>
-            <li><input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-right"/> .bg-h-right
-            </li>
+            <li><input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-right"/> .bg-h-right</li>
           </ul>
           <div><b>Container:</b><span class="value">size: 200 x 300px; gray border</span></div>
         </div>
@@ -135,7 +134,7 @@ title: ESL Image component
                      class="bg-inscribe"
                      data-alt="Alt Text"
                      data-src="nature/volcano-md.jpg | @2x => nature/volcano.jpg"
-                     data-src-base="{{= resolve('/assets/')}}"></esl-image>
+                     data-src-base="/assets/"></esl-image>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 p-2 d-flex">
@@ -154,7 +153,7 @@ title: ESL Image component
           <esl-image mode="fit" lazy
                      data-alt="Alt Text Test"
                      data-src="nature/volcano-md.jpg | @2x => nature/volcano.jpg"
-                     data-src-base="{{= resolve('/assets/')}}"></esl-image>
+                     data-src-base="/assets/"></esl-image>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 p-2 d-flex">
@@ -172,7 +171,7 @@ title: ESL Image component
                    class="m-auto"
                    data-alt="Alt Text Test"
                    data-src="nature/volcano-xs.jpg"
-                   data-src-base="{{= resolve('/assets/')}}"></esl-image>
+                   data-src-base="/assets/"></esl-image>
       </div>
       <div class="col-xs-12 col-sm-6 p-2 d-flex">
         <div class="m-auto">
@@ -201,7 +200,7 @@ title: ESL Image component
                                    @MD => abstract/unsplash.jpg |
                                    @LG => abstract/colors.jpg |
                                    @XL => abstract/drops.jpg"
-                 data-src-base="{{= resolve('/assets/')}}"></esl-image>
+                 data-src-base="/assets/"></esl-image>
     </div>
   </div>
 </section>
@@ -220,8 +219,7 @@ title: ESL Image component
       <esl-image lazy
                  mode="inner-svg"
                  data-alt="Svg Text Test"
-                 data-src="{{= resolve('/assets/svg/cat.svg')}}"></esl-image>
+                 data-src="/assets/svg/cat.svg"></esl-image>
     </div>
   </div>
 </section>
-#}}
