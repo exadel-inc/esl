@@ -5,8 +5,9 @@ import {ready} from '../../esl-utils/decorators/ready';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {TraversingQuery} from '../../esl-traversing-query/core';
-import {ESLMediaQuery, ESLMediaRuleList} from '../../esl-media-query/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {ESLMediaQuery, ESLMediaRuleList} from '../../esl-media-query/core';
+
 import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 
 @ExportNs('Trigger')
@@ -33,8 +34,9 @@ export class ESLTrigger extends ESLBaseElement {
   /** Action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values. `toggle` by default */
   @attr({defaultValue: 'toggle'}) public mode: string;
 
+  /** Click event tracking media query. Default: `all` */
   @attr({defaultValue: 'all'}) public trackClick: string;
-  /** Hover event tracking media query. Default: none. Blank value: 'not (hover: hover)' */
+  /** Hover event tracking media query. Default: `none` */
   @attr({defaultValue: 'not all'}) public trackHover: string;
 
   /** Selector of inner target element to place aria attributes. Uses trigger itself if blank */
@@ -130,7 +132,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Check if the event target should be ignored */
-  protected isIgnoredTarget(target: EventTarget | null) {
+  protected isTargetIgnored(target: EventTarget | null) {
     if (!target || !(target instanceof HTMLElement) || !this.ignore) return false;
     const $ignore = target.closest(this.ignore);
     // Ignore only inner elements (but do not ignore the trigger itself)
@@ -164,7 +166,7 @@ export class ESLTrigger extends ESLBaseElement {
     state ? this.showTarget(params) : this.hideTarget(params);
   }
 
-  /** Handles ESLTogglable state change */
+  /** Handles ESLToggleable state change */
   @bind
   protected _onTargetStateChange() {
     this.toggleAttribute('active', this.$target.open);
@@ -180,11 +182,11 @@ export class ESLTrigger extends ESLBaseElement {
   /** Handles `click` event */
   @bind
   protected _onClick(event: MouseEvent) {
-    if (!this.allowClick || this.isIgnoredTarget(event.target)) return;
+    if (!this.allowClick || this.isTargetIgnored(event.target)) return;
     event.preventDefault();
     switch (this.mode) {
       case 'show': return this.showTarget({event});
-      case 'hide': return this.toggleTarget({event});
+      case 'hide': return this.hideTarget({event});
       default: return this.toggleTarget({event});
     }
   }
@@ -192,11 +194,11 @@ export class ESLTrigger extends ESLBaseElement {
   /** Handles `keydown` event */
   @bind
   protected _onKeydown(event: KeyboardEvent) {
-    if (![ENTER, SPACE].includes(event.key) || this.isIgnoredTarget(event.target)) return;
+    if (![ENTER, SPACE].includes(event.key) || this.isTargetIgnored(event.target)) return;
     event.preventDefault();
     switch (this.mode) {
       case 'show': return this.showTarget({event});
-      case 'hide': return this.toggleTarget({event});
+      case 'hide': return this.hideTarget({event});
       default: return this.toggleTarget({event});
     }
   }
