@@ -7,7 +7,7 @@
 
 {#
   Generate a string of lipsum
-  @param int count Number of words
+  @param int count Number of words in a sentence
 #}
 {% macro string(count) %}
   {% set words = [
@@ -19,6 +19,17 @@
 {% endmacro %}
 
 {#
+  Generate paragraph of lipsum with 10 sentences
+#}
+{% macro paragraph() %}
+    <p>
+      {% for a in range(0, 10) %}
+        {{ string(10) | trim | capitalize }}.
+      {% endfor %}
+    </p>
+{% endmacro %}
+
+{#
   Generate paragraphs of lipsum
   @param (optional) int count Number of paragraphs, default: 1
 #}
@@ -27,10 +38,6 @@
     {% set count = 1 %}
   {% endif %}
   {% for index in range(0, count) %}
-    <p>
-      {% for a in range(0, 10) %}
-        {{ string(10) | trim | capitalize }}.
-      {% endfor %}
-    </p>
+    {{ paragraph() }}
   {% endfor %}
 {% endmacro %}
