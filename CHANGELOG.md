@@ -1,3 +1,7 @@
+## [2.7.1](https://github.com/exadel-inc/esl/compare/v2.7.0...v2.7.1) (2021-06-13)
+Dependencies versions update
+
+
 # [3.0.0-beta.7](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.6...v3.0.0-beta.7) (2021-06-08)
 
 
