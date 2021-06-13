@@ -52,6 +52,12 @@ export abstract class DeviceDetector {
     return ('ontouchstart' in window) || ('DocumentTouch' in window && document instanceof Touch);
   }
 
+  // Hover check
+  // Note: always true for IE
+  public static get hasHover() {
+    return !matchMedia('(hover: none)').matches;
+  }
+
   static get TOUCH_EVENTS() {
     const isTouch = DeviceDetector.isTouchDevice;
     return {

@@ -137,7 +137,7 @@ export class ESLToggleable extends ESLBaseElement {
   }
   /** Bind hover events listeners for the Toggleable itself */
   protected bindHoverStateTracking(track: boolean) {
-    if (DeviceDetector.isTouchDevice) return;
+    if (!DeviceDetector.hasHover) return;
     if (this._trackHover === track) return;
     this._trackHover = track;
 
