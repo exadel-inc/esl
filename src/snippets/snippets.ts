@@ -42,7 +42,7 @@ export class UIPSnippets extends UIPPlugin {
     this.removeEventListener('click', this._onClick);
   }
 
-  protected handleChange() {}
+  protected _onRootStateChange() {}
 
   protected render(): void {
     const $inner = document.createElement('div');
@@ -66,7 +66,7 @@ export class UIPSnippets extends UIPPlugin {
     this.innerHTML = $inner.outerHTML + $scroll.outerHTML;
   }
 
-  protected createListItem(snippet : HTMLTemplateElement) {
+  protected createListItem(snippet: HTMLTemplateElement) {
     const li = document.createElement('li');
     li.classList.add('snippets-list-item');
     const label = snippet.getAttribute('label');
@@ -78,9 +78,8 @@ export class UIPSnippets extends UIPPlugin {
 
   protected applyActive(): void {
     const tmpl = this.$active?.querySelector('template[uip-snippet]');
-    if (!tmpl) return;
-
-    this.dispatchChange(tmpl.innerHTML);
+    if (!tmpl || !this.root) return;
+    this.root.model.html = tmpl.innerHTML;
   }
 
   @bind

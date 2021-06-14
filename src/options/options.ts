@@ -31,7 +31,7 @@ export class UIPOptions extends UIPPlugin {
     this.unbindEvents();
   }
 
-  protected handleChange() {}
+  protected _onRootStateChange() {}
 
   protected bindEvents() {
     this.addEventListener('click', this._onOptionChange);

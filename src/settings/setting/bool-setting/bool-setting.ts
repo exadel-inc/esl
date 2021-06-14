@@ -1,7 +1,7 @@
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 
 import {UIPSetting} from '../setting';
-import {UIPStateModel} from '../../../utils/state-model/state-model';
+import {UIPStateModel} from '../../../core/state-model';
 import TokenListUtils from '../../../utils/array-utils/token-list-utils';
 import {WARN} from '../../../utils/warn-messages/warn';
 

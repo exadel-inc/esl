@@ -33,10 +33,7 @@ export class UIPSettings extends UIPPlugin {
 
   protected _onSettingChanged(e: any) {
     if (!this.root) return;
-
     (e.target as UIPSetting).applyTo(this.root.model);
-    this.settings.forEach(setting => setting.updateFrom(this.root!.model));
-    this.dispatchChange(this.root.model.html);
   }
 
   protected get settings(): UIPSetting[] {
@@ -44,12 +41,8 @@ export class UIPSettings extends UIPPlugin {
   }
 
   @bind
-  protected handleChange(): void {
-    const model = this.root!.model;
-
-    for (const setting of this.settings) {
-      setting.updateFrom(model);
-    }
+  protected _onRootStateChange(): void {
+    this.settings.forEach(setting => setting.updateFrom(this.root!.model));
   }
 }
 

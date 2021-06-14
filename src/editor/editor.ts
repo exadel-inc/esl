@@ -40,12 +40,14 @@ export class UIPEditor extends UIPPlugin {
   }
 
   protected onChange = debounce(() => {
-    this.dispatchChange(this.editor.getValue());
+    this.root!.model.html = this.editor.getValue();
   }, 1000);
 
   @bind
-  protected handleChange(): void {
+  protected _onRootStateChange(): void {
     const markup = this.root!.model.html;
+    if (this.editor && markup === this.editor.getValue()) return; // check for self triggered changes
+
     const $inner = document.createElement('div');
     $inner.classList.add('uip-editor-inner');
 

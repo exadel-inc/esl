@@ -2,7 +2,7 @@ import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 
-import {UIPStateModel} from '../../utils/state-model/state-model';
+import {UIPStateModel} from '../../core/state-model';
 import {UIPSettings} from '../settings';
 import {WARN} from '../../utils/warn-messages/warn';
 

@@ -3,7 +3,7 @@ import {ESLSelect} from '@exadel/esl';
 import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
 
 import {UIPSetting} from '../setting';
-import {UIPStateModel} from '../../../utils/state-model/state-model';
+import {UIPStateModel} from '../../../core/state-model';
 import TokenListUtils from '../../../utils/array-utils/token-list-utils';
 import {WARN} from '../../../utils/warn-messages/warn';
 
