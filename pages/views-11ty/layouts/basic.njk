@@ -1,4 +1,5 @@
 {% extends "./html5.njk" %}
+{% set scrollbar = true %}
 
 {% block head %}
   <script>
@@ -14,8 +15,8 @@
     })();
   </script>
 
-  <link rel="icon" type="image/png" href="/assets/logo-64x64.png" />
-  <link type="text/css" rel="stylesheet" href="/bundles/localdev.css" />
+  <link rel="icon" type="image/png" href="{{ '/assets/logo-64x64.png' | url }}" />
+  <link type="text/css" rel="stylesheet" href="{{ '/bundles/localdev.css' | url }} " />
 
   {% block extra_head %}{% endblock %}
 {% endblock %}
@@ -28,7 +29,7 @@
   <main role="main">
     <div class="content {{ containerCls or 'container-fluid' }}">
       {% if title %}
-        <h1 class="text-center pt-2">{{ title }}</h1>
+        <h1 class="text-center pt-2">{{ title | safe }}</h1>
         <hr/>
       {% endif %}
       {{ content | safe or 'No content.' }}
@@ -39,5 +40,5 @@
     {% include 'footer.njk' %}
   </footer>
 
-  <script src="/bundles/localdev.js"></script>
+  <script src="{{ '/bundles/localdev.js' | url }}"></script>
 {% endblock %}

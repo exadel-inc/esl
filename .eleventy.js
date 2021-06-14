@@ -5,6 +5,13 @@ module.exports = config => {
     'pages/static/bundles': 'bundles',
     'pages/static/assets': 'assets',
   });
+  config.addFilter("sortByName", (values) => {
+    if (!values || !Array.isArray(values)) {
+      console.error(`Unexpected values in "sortByName" filter: ${values}`);
+      return values;
+    }
+    return [...values].sort((a, b) => a.data.name.localeCompare(b.data.name))
+  });
 
   return {
     dir: {
@@ -18,5 +25,6 @@ module.exports = config => {
     htmlTemplateEngine: 'njk',
     passthroughFileCopy: true,
     templateFormats: ['md', 'njk'],
+    pathPrefix: "/esl/",
   };
 };
