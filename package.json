@@ -36,7 +36,10 @@
     "modules/draft/esl-carousel/core/view/*.js",
     "src/modules/draft/esl-carousel/core/view/*.ts",
     "polyfills/**/*.js",
-    "src/polyfills/**/*.ts"
+    "src/polyfills/**/*.ts",
+    "pages/src/common/*.ts",
+    "pages/src/polyfill-light.ts",
+    "pages/src/polyfill-full.ts"
   ],
   "scripts": {
     "start": "concurrently --kill-others \"npm run watch:eleventy\" \"npm run watch:ts\" \"npm run watch:less\"",
