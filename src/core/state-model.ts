@@ -1,5 +1,9 @@
 import {Observable} from '@exadel/esl';
 
+export interface StateModelFiredObj {
+  markup: string,
+}
+
 export class UIPStateModel extends Observable {
   protected root: Element;
 
@@ -12,7 +16,7 @@ export class UIPStateModel extends Observable {
     const root = new DOMParser().parseFromString(markup, 'text/html').body;
     if (root.innerHTML !== this.root.innerHTML) {
       this.root = root;
-      this.fire({markup: this.html});
+      this.fire({markup: markup});
     }
   }
 

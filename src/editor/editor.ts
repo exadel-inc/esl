@@ -9,6 +9,7 @@ import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
 import {jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
 
 import {UIPPlugin} from '../core/plugin';
+import {StateModelFiredObj} from '../core/state-model';
 
 interface EditorConfig {
   theme: string;
@@ -44,8 +45,8 @@ export class UIPEditor extends UIPPlugin {
   }, 1000);
 
   @bind
-  protected _onRootStateChange(): void {
-    const markup = this.root!.model.html;
+  protected _onRootStateChange(e: StateModelFiredObj): void {
+    const {markup} = e;
     if (this.editor && markup === this.editor.getValue()) return; // check for self triggered changes
 
     const $inner = document.createElement('div');

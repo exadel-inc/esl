@@ -1,5 +1,6 @@
 import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPRoot} from './root';
+import {StateModelFiredObj} from './state-model';
 
 /**
  * Base class for UI Playground plugins.
@@ -28,7 +29,7 @@ export abstract class UIPPlugin extends ESLBaseElement {
     super.connectedCallback();
     this.classList.add('uip-plugin');
     this.root = this.closest(`${UIPRoot.is}`) as UIPRoot;
-    this.root && this._onRootStateChange();
+    this.root && this._onRootStateChange({markup: this.root.model.html});
   }
   protected disconnectedCallback() {
     this._root?.removeStateListener(this._onRootStateChange);
@@ -41,5 +42,5 @@ export abstract class UIPPlugin extends ESLBaseElement {
   }
 
   /** Handles root state change*/
-  protected abstract _onRootStateChange(): void;
+  protected abstract _onRootStateChange(e: StateModelFiredObj): void;
 }
