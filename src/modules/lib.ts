@@ -18,6 +18,7 @@ import type {ESLPanelGroup} from './esl-panel/core/esl-panel-group';
 import type {ESLTabs} from './esl-tab/core/esl-tabs';
 import type {ESLNote} from './esl-note/core/esl-note';
 import type {ESLFootnotes} from './esl-footnotes/core/esl-footnotes';
+import type {ESLTooltip} from './esl-tooltip/core/esl-tooltip';
 
 import type {ESLSelect, ESLSelectList, ESLSelectItem} from './esl-forms/all';
 
@@ -67,5 +68,6 @@ declare global {
 
     Note?: typeof ESLNote;
     Footnotes?: typeof ESLFootnotes;
+    Tooltip?: typeof ESLTooltip;
   }
 }

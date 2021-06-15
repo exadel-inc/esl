@@ -24,3 +24,4 @@ export * from './esl-forms/all';
 
 export * from './esl-note/core';
 export * from './esl-footnotes/core';
+export * from './esl-tooltip/core';

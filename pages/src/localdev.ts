@@ -27,7 +27,8 @@ import {
   ESLSelect,
   ESLSelectList,
   ESLNote,
-  ESLFootnotes
+  ESLFootnotes,
+  ESLTooltip
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -65,6 +66,7 @@ ESLSelect.register();
 
 ESLFootnotes.register();
 ESLNote.register();
+ESLTooltip.register();
 
 ESLCarousel.register();
 ESLCarouselPlugins.Dots.register();
