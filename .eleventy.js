@@ -4,6 +4,7 @@ module.exports = config => {
   config.addPassthroughCopy({
     'pages/static/bundles': 'bundles',
     'pages/static/assets': 'assets',
+    'pages/static/tools': '.',
   });
   config.addFilter("sortByName", (values) => {
     if (!values || !Array.isArray(values)) {
