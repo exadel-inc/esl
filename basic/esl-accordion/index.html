@@ -1,0 +1,1935 @@
+<!DOCTYPE html>
+<html lang="en"  class="esl-scrollable-content" >
+<head>
+  <meta charset="UTF-8">
+  <title>ESL Panel - Accordion</title>
+  
+  <script>
+    /* Polyfill */
+    (function () {
+      let version = '';
+      if (!window.Promise || !window.CustomEvent) {
+        version = 'full';
+      } else if (!('getRootNode' in Element.prototype) || !window.customElements || !window.IntersectionObserver) {
+        version = 'light';
+      }
+      (version) && document.write('<script type="text/javascript" src="/esl/bundles/polyfill-' + version + '.js"><\/script>');
+    })();
+  </script>
+
+  <link rel="icon" type="image/png" href="/esl/assets/logo-64x64.png" />
+  <link type="text/css" rel="stylesheet" href="/esl/bundles/localdev.css " />
+
+  
+
+</head>
+<body>
+
+  <header class="header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark esl-demo-header">
+  <div class="container">
+    <a class="navbar-brand logo-light mr-5" href="/esl/">
+      <?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <path fill="#C6361A" d="M200 292c-.3 0-.6 0-.9-.1-.7-.2-73.1-17-73.1-96.9v-56.3c0-1.8 1.1-3.5 2.8-4.1l69.6-26.3c1-.4 2.1-.4 3.1 0l69.6 26.3c1.7.6 2.8 2.3 2.8 4.1V195c0 79.9-72.3 96.8-73.1 96.9-.2.1-.5.1-.8.1z"/>
+  <path fill="#FF5D24" fill-rule="evenodd" d="M200 108v184c.3 0 .6 0 .9-.1.7-.2 73.1-17 73.1-96.9v-56.3c0-1.8-1.1-3.5-2.8-4.1l-69.6-26.3c-.6-.2-1.1-.3-1.6-.3z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M207.7 207.3l-15.8 15.8-23.2-6.2-6.2-23.2 15.8-15.8c-9-.7-18.2 2.4-25.1 9.3-9.5 9.5-11.8 23.5-6.8 35.1L108.6 260c-4.7 4.7-4.7 12.3 0 17s12.3 4.7 17 0l37.7-37.7c11.6 4.9 25.6 2.7 35.1-6.8 6.9-6.9 10-16.2 9.3-25.2zM292 122.6c-4.7-4.7-12.3-4.7-17 0l-37.7 37.7c-11.6-4.9-25.6-2.7-35.1 6.8-6.9 6.9-10 16.1-9.3 25.1l15.8-15.8 23.2 6.2 6.2 23.2-15.8 15.8c9 .7 18.2-2.4 25.1-9.3 9.5-9.5 11.8-23.5 6.8-35.1l37.7-37.7c4.8-4.6 4.8-12.2.1-16.9z" clip-rule="evenodd"/>
+  <path d="M199.5 39.5c-88.4 0-160 71.6-160 160s71.6 160 160 160 160-71.6 160-160-71.6-160-160-160zm0 308c-81.7 0-148-66.3-148-148s66.3-148 148-148 148 66.3 148 148-66.3 148-148 148z"/>
+</svg>
+
+      <span class="ml-2">Exadel Smart Library</span>
+    </a>
+    
+    <ul class="navbar-nav flex-grow-1">
+      <li class="nav-item hd-dropdown">
+        
+  <esl-trigger class="hd-dropdown-trigger" track-hover target="::next">
+    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow text-info">
+      Components
+    </button>
+  </esl-trigger>
+  <esl-panel class="hd-dropdown-content" default-params="{hideDelay: 250}" fallback-duration="500">
+    
+      <ul class="hd-dropdown-list">
+        
+          
+          <li class="nav-item hd-dropdown-item active" aria-current="page">
+            <a class="hd-dropdown-link" href="/esl/basic/esl-accordion/">Esl Accordion</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item " >
+            <a class="hd-dropdown-link" href="/esl/basic/esl-alert/">Esl Alert</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item " >
+            <a class="hd-dropdown-link" href="/esl/basic/esl-image/">Esl Image</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item " >
+            <a class="hd-dropdown-link" href="/esl/basic/esl-media/">Esl Media</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item " >
+            <a class="hd-dropdown-link" href="/esl/basic/esl-scrollbar/">Esl Scrollbar</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item " >
+            <a class="hd-dropdown-link" href="/esl/basic/esl-tab/">Esl Tab</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item " >
+            <a class="hd-dropdown-link" href="/esl/basic/esl-toggleable/">Esl Toggleable</a>
+          </li>
+        
+      </ul>
+    
+  </esl-panel>
+
+      </li>
+      <li class="nav-item hd-dropdown">
+        
+  <esl-trigger class="hd-dropdown-trigger" track-hover target="::next">
+    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow ">
+      Form Components
+    </button>
+  </esl-trigger>
+  <esl-panel class="hd-dropdown-content" default-params="{hideDelay: 250}" fallback-duration="500">
+    
+      <ul class="hd-dropdown-list">
+        
+          
+          <li class="nav-item hd-dropdown-item " >
+            <a class="hd-dropdown-link" href="/esl/forms/esl-select/">Esl Select</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item " >
+            <a class="hd-dropdown-link" href="/esl/forms/esl-select-list/">Esl Select List</a>
+          </li>
+        
+      </ul>
+    
+  </esl-panel>
+
+      </li>
+      
+
+      <li class="nav-item ml-auto">
+        <a class="btn btn-link" href="https://github.com/exadel-inc/esl">
+          <svg width="30" height="30" viewBox="0 0 32 32" fill="#fff">
+            <path clip-rule="evenodd" fill-rule="evenodd"
+                  d="M16.003 0C7.17 0 .008 7.162.008 15.997c0 7.067 4.582 13.063 10.94 15.18.8.145 1.052-.33 1.052-.753 0-.38.008-1.442 0-2.777-4.45.967-5.37-2.107-5.37-2.107-.728-1.848-1.776-2.34-1.776-2.34-1.452-.992.11-.973.11-.973 1.604.113 2.45 1.65 2.45 1.65 1.427 2.442 3.743 1.736 4.654 1.328.146-1.034.56-1.74 1.017-2.14C9.533 22.663 5.8 21.29 5.8 15.16c0-1.747.622-3.174 1.645-4.292-.165-.404-.715-2.03.157-4.234 0 0 1.343-.43 4.398 1.64 1.276-.354 2.645-.53 4.005-.537 1.36.006 2.727.183 4.005.538 3.055-2.07 4.396-1.64 4.396-1.64.872 2.202.323 3.83.16 4.233 1.022 1.118 1.643 2.545 1.643 4.292 0 6.146-3.74 7.498-7.305 7.893C19.48 23.548 20 24.508 20 26v4.428c0 .428.258.9 1.07.746C27.422 29.054 32 23.062 32 15.997 32 7.162 24.838 0 16.003 0z"/>
+          </svg>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+  </header>
+
+  <main role="main">
+    <div class="content container">
+      
+        <h1 class="text-center pt-2">ESL Panel - Accordion</h1>
+        <hr/>
+      
+      
+
+<section class="row">
+  <style>
+    .card-header[active] {
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, .25);
+      border-radius: 0;
+    }
+  </style>
+  <div class="col-12">
+    <esl-panel-group class="accordion-group">
+      <h2> Simple accordion </h2>
+      <div class="card">
+        <esl-trigger class="card-header" target="::next">
+          <h5 class="mb-0">
+            <button class="btn btn-link">
+              Toggle Accordion #1
+            </button>
+          </h5>
+        </esl-trigger>
+        <esl-panel open initial-params="{noAnimation: true}">
+          <div class="card-body">
+            
+  
+  
+    
+    <p>
+      
+        Blandit
+  
+    rhoncus
+  
+    sed
+  
+    eget
+  
+    fringilla
+  
+    nunc
+  
+    ipsum
+  
+    mi
+  
+    fringilla
+  
+    sapien.
+      
+        Venenatis
+  
+    suscipit
+  
+    ipsum
+  
+    tincidunt
+  
+    neque
+  
+    scelerisque
+  
+    metus
+  
+    pretium
+  
+    condimentum
+  
+    curabitur.
+      
+        Ultrices
+  
+    mauris
+  
+    neque
+  
+    ligula
+  
+    risus
+  
+    laoreet
+  
+    purus
+  
+    nibh
+  
+    venenatis
+  
+    facilisi.
+      
+        Laoreet
+  
+    pretium
+  
+    finibus
+  
+    mollis
+  
+    consectetur
+  
+    urna
+  
+    dolor
+  
+    sed
+  
+    ligula
+  
+    laoreet.
+      
+        Venenatis
+  
+    adipiscing
+  
+    mauris
+  
+    etiam
+  
+    nulla
+  
+    et
+  
+    mollis
+  
+    ligula
+  
+    dictum
+  
+    aenean.
+      
+        Pellentesque
+  
+    risus
+  
+    venenatis
+  
+    tempor
+  
+    dui
+  
+    vivamus
+  
+    dictum
+  
+    nunc
+  
+    dolor
+  
+    dui.
+      
+        Elit
+  
+    fringilla
+  
+    tellus
+  
+    neque
+  
+    adipiscing
+  
+    condimentum
+  
+    ante
+  
+    id
+  
+    id
+  
+    vulputate.
+      
+        Mattis
+  
+    mi
+  
+    arcu
+  
+    etiam
+  
+    adipiscing
+  
+    neque
+  
+    condimentum
+  
+    suscipit
+  
+    aenean
+  
+    finibus.
+      
+        Nibh
+  
+    sit
+  
+    pellentesque
+  
+    urna
+  
+    proin
+  
+    suscipit
+  
+    metus
+  
+    facilisis
+  
+    id
+  
+    dictum.
+      
+        Finibus
+  
+    mi
+  
+    vulputate
+  
+    at
+  
+    id
+  
+    pretium
+  
+    facilisi
+  
+    odio
+  
+    nulla
+  
+    eu.
+      
+    </p>
+
+  
+
+          </div>
+        </esl-panel>
+      </div>
+      <div class="card">
+        <esl-trigger class="card-header" target="::next">
+          <h5 class="mb-0">
+            <button class="btn btn-link">
+              Toggle Accordion #2
+            </button>
+          </h5>
+        </esl-trigger>
+        <esl-panel>
+          <div class="card-body">
+            
+  
+  
+    
+    <p>
+      
+        Dictum
+  
+    metus
+  
+    ultrices
+  
+    fringilla
+  
+    scelerisque
+  
+    suscipit
+  
+    mattis
+  
+    aenean
+  
+    congue
+  
+    arcu.
+      
+        Neque
+  
+    consectetur
+  
+    viverra
+  
+    scelerisque
+  
+    finibus
+  
+    placerat
+  
+    odio
+  
+    mattis
+  
+    finibus
+  
+    nibh.
+      
+        Adipiscing
+  
+    viverra
+  
+    placerat
+  
+    etiam
+  
+    vehicula
+  
+    ligula
+  
+    vehicula
+  
+    urna
+  
+    mi
+  
+    elit.
+      
+        Vulputate
+  
+    curabitur
+  
+    ipsum
+  
+    ante
+  
+    nullam
+  
+    pellentesque
+  
+    vivamus
+  
+    proin
+  
+    nulla
+  
+    ut.
+      
+        Vivamus
+  
+    aenean
+  
+    augue
+  
+    scelerisque
+  
+    id
+  
+    purus
+  
+    curabitur
+  
+    viverra
+  
+    placerat
+  
+    amet.
+      
+        Pellentesque
+  
+    mi
+  
+    facilisis
+  
+    urna
+  
+    dolor
+  
+    risus
+  
+    vehicula
+  
+    metus
+  
+    mi
+  
+    vehicula.
+      
+        Blandit
+  
+    mattis
+  
+    fringilla
+  
+    adipiscing
+  
+    ut
+  
+    lacinia
+  
+    nulla
+  
+    proin
+  
+    suscipit
+  
+    fringilla.
+      
+        Sed
+  
+    vulputate
+  
+    blandit
+  
+    ut
+  
+    pellentesque
+  
+    sapien
+  
+    eu
+  
+    nulla
+  
+    placerat
+  
+    nibh.
+      
+        Viverra
+  
+    tempor
+  
+    risus
+  
+    nulla
+  
+    elit
+  
+    consectetur
+  
+    tincidunt
+  
+    mauris
+  
+    ut
+  
+    tempor.
+      
+        Tellus
+  
+    mi
+  
+    et
+  
+    vivamus
+  
+    tincidunt
+  
+    dui
+  
+    ligula
+  
+    pretium
+  
+    et
+  
+    finibus.
+      
+    </p>
+
+  
+    
+    <p>
+      
+        Dictum
+  
+    amet
+  
+    dui
+  
+    vivamus
+  
+    condimentum
+  
+    odio
+  
+    ante
+  
+    ut
+  
+    venenatis
+  
+    nulla.
+      
+        Sapien
+  
+    facilisis
+  
+    vel
+  
+    rhoncus
+  
+    mollis
+  
+    neque
+  
+    sit
+  
+    ipsum
+  
+    aenean
+  
+    ut.
+      
+        Scelerisque
+  
+    ut
+  
+    nibh
+  
+    rhoncus
+  
+    dui
+  
+    lacinia
+  
+    urna
+  
+    facilisis
+  
+    consectetur
+  
+    dui.
+      
+        Nulla
+  
+    justo
+  
+    arcu
+  
+    metus
+  
+    risus
+  
+    mattis
+  
+    amet
+  
+    mattis
+  
+    neque
+  
+    mattis.
+      
+        Fringilla
+  
+    ligula
+  
+    purus
+  
+    augue
+  
+    suscipit
+  
+    tempor
+  
+    rhoncus
+  
+    nunc
+  
+    ultrices
+  
+    ipsum.
+      
+        Purus
+  
+    justo
+  
+    rhoncus
+  
+    rhoncus
+  
+    ligula
+  
+    blandit
+  
+    nulla
+  
+    lorem
+  
+    nunc
+  
+    laoreet.
+      
+        Ac
+  
+    condimentum
+  
+    vehicula
+  
+    metus
+  
+    tincidunt
+  
+    tincidunt
+  
+    suscipit
+  
+    sit
+  
+    vivamus
+  
+    facilisi.
+      
+        Lacinia
+  
+    scelerisque
+  
+    vulputate
+  
+    adipiscing
+  
+    purus
+  
+    fringilla
+  
+    proin
+  
+    sed
+  
+    id
+  
+    urna.
+      
+        Ac
+  
+    tempor
+  
+    purus
+  
+    ultrices
+  
+    ultrices
+  
+    diam
+  
+    venenatis
+  
+    amet
+  
+    ligula
+  
+    nullam.
+      
+        Mauris
+  
+    suscipit
+  
+    pretium
+  
+    adipiscing
+  
+    eu
+  
+    elit
+  
+    ligula
+  
+    fringilla
+  
+    sed
+  
+    consectetur.
+      
+    </p>
+
+  
+
+          </div>
+        </esl-panel>
+      </div>
+      <div class="card">
+        <esl-trigger class="card-header" target="::next">
+          <h5 class="mb-0">
+            <button class="btn btn-link">
+              Toggle Accordion #3
+            </button>
+          </h5>
+        </esl-trigger>
+        <esl-panel>
+          <div class="card-body">
+            
+  
+  
+    
+    <p>
+      
+        Sit
+  
+    enim
+  
+    dui
+  
+    blandit
+  
+    tincidunt
+  
+    tempor
+  
+    rhoncus
+  
+    nunc
+  
+    urna
+  
+    dictum.
+      
+        Dui
+  
+    dolor
+  
+    ante
+  
+    porta
+  
+    mollis
+  
+    amet
+  
+    congue
+  
+    tellus
+  
+    sapien
+  
+    facilisi.
+      
+        Id
+  
+    venenatis
+  
+    elit
+  
+    condimentum
+  
+    suscipit
+  
+    tempor
+  
+    sed
+  
+    placerat
+  
+    ipsum
+  
+    nulla.
+      
+        Vehicula
+  
+    sed
+  
+    rhoncus
+  
+    mollis
+  
+    neque
+  
+    tellus
+  
+    mauris
+  
+    enim
+  
+    fringilla
+  
+    ut.
+      
+        Urna
+  
+    facilisi
+  
+    vehicula
+  
+    amet
+  
+    augue
+  
+    tempor
+  
+    pellentesque
+  
+    justo
+  
+    arcu
+  
+    fringilla.
+      
+        Finibus
+  
+    vulputate
+  
+    tellus
+  
+    aenean
+  
+    metus
+  
+    ante
+  
+    id
+  
+    venenatis
+  
+    vivamus
+  
+    amet.
+      
+        Ut
+  
+    odio
+  
+    tincidunt
+  
+    mattis
+  
+    at
+  
+    nunc
+  
+    tincidunt
+  
+    placerat
+  
+    mi
+  
+    venenatis.
+      
+        Dictum
+  
+    ut
+  
+    mollis
+  
+    mauris
+  
+    suscipit
+  
+    vulputate
+  
+    augue
+  
+    ut
+  
+    mauris
+  
+    rhoncus.
+      
+        Etiam
+  
+    ipsum
+  
+    laoreet
+  
+    pretium
+  
+    metus
+  
+    pellentesque
+  
+    tincidunt
+  
+    ut
+  
+    aenean
+  
+    mauris.
+      
+        Consectetur
+  
+    sed
+  
+    eget
+  
+    et
+  
+    viverra
+  
+    ante
+  
+    sed
+  
+    amet
+  
+    suscipit
+  
+    mollis.
+      
+    </p>
+
+  
+    
+    <p>
+      
+        Eget
+  
+    congue
+  
+    metus
+  
+    ipsum
+  
+    tincidunt
+  
+    adipiscing
+  
+    sapien
+  
+    et
+  
+    scelerisque
+  
+    ac.
+      
+        Placerat
+  
+    tempor
+  
+    proin
+  
+    justo
+  
+    metus
+  
+    nunc
+  
+    odio
+  
+    nulla
+  
+    risus
+  
+    nulla.
+      
+        Dui
+  
+    laoreet
+  
+    facilisi
+  
+    amet
+  
+    suscipit
+  
+    pretium
+  
+    vehicula
+  
+    mi
+  
+    pellentesque
+  
+    id.
+      
+        Mattis
+  
+    proin
+  
+    at
+  
+    tellus
+  
+    at
+  
+    dolor
+  
+    condimentum
+  
+    lorem
+  
+    pellentesque
+  
+    fringilla.
+      
+        Vivamus
+  
+    sapien
+  
+    dui
+  
+    nibh
+  
+    aenean
+  
+    metus
+  
+    urna
+  
+    diam
+  
+    tellus
+  
+    mollis.
+      
+        Mi
+  
+    ut
+  
+    amet
+  
+    et
+  
+    at
+  
+    ut
+  
+    mollis
+  
+    facilisis
+  
+    laoreet
+  
+    augue.
+      
+        Viverra
+  
+    elit
+  
+    neque
+  
+    facilisis
+  
+    rhoncus
+  
+    ut
+  
+    urna
+  
+    odio
+  
+    mi
+  
+    etiam.
+      
+        Elit
+  
+    condimentum
+  
+    pretium
+  
+    aenean
+  
+    amet
+  
+    ipsum
+  
+    mattis
+  
+    enim
+  
+    ipsum
+  
+    condimentum.
+      
+        Congue
+  
+    eget
+  
+    aenean
+  
+    neque
+  
+    finibus
+  
+    suscipit
+  
+    ante
+  
+    vivamus
+  
+    ipsum
+  
+    blandit.
+      
+        Mauris
+  
+    suscipit
+  
+    pellentesque
+  
+    odio
+  
+    proin
+  
+    venenatis
+  
+    arcu
+  
+    adipiscing
+  
+    etiam
+  
+    metus.
+      
+    </p>
+
+  
+
+          </div>
+        </esl-panel>
+      </div>
+    </esl-panel-group>
+    <esl-panel-group class="accordion-group">
+      <h2> Hover accordion </h2>
+      <div class="card">
+        <esl-trigger class="card-header" target="::parent::find(.clps)" track-hover hide-delay="250">
+          <h5 class="mb-0">
+            <button class="btn btn-link">
+              Toggle Accordion #1
+            </button>
+          </h5>
+        </esl-trigger>
+        <esl-panel class="clps" default-params="{hideDelay: 100}">
+          <div class="card-body">
+            
+  
+  
+    
+    <p>
+      
+        Diam
+  
+    curabitur
+  
+    lacinia
+  
+    scelerisque
+  
+    pretium
+  
+    nunc
+  
+    neque
+  
+    scelerisque
+  
+    eu
+  
+    facilisis.
+      
+        Mattis
+  
+    purus
+  
+    justo
+  
+    finibus
+  
+    augue
+  
+    facilisi
+  
+    aenean
+  
+    lorem
+  
+    mi
+  
+    sapien.
+      
+        Nibh
+  
+    vulputate
+  
+    enim
+  
+    lorem
+  
+    nibh
+  
+    consectetur
+  
+    mauris
+  
+    tincidunt
+  
+    id
+  
+    proin.
+      
+        Porta
+  
+    fringilla
+  
+    tempor
+  
+    suscipit
+  
+    sit
+  
+    curabitur
+  
+    metus
+  
+    amet
+  
+    pretium
+  
+    justo.
+      
+        Dictum
+  
+    dolor
+  
+    mauris
+  
+    ultrices
+  
+    lorem
+  
+    suscipit
+  
+    elit
+  
+    pretium
+  
+    purus
+  
+    ipsum.
+      
+        Tellus
+  
+    tellus
+  
+    blandit
+  
+    at
+  
+    mauris
+  
+    arcu
+  
+    urna
+  
+    dictum
+  
+    dictum
+  
+    pretium.
+      
+        Consectetur
+  
+    eu
+  
+    vulputate
+  
+    sed
+  
+    condimentum
+  
+    dui
+  
+    arcu
+  
+    curabitur
+  
+    congue
+  
+    rhoncus.
+      
+        Suscipit
+  
+    dui
+  
+    mollis
+  
+    mattis
+  
+    finibus
+  
+    pellentesque
+  
+    placerat
+  
+    laoreet
+  
+    vel
+  
+    proin.
+      
+        Pellentesque
+  
+    facilisi
+  
+    vivamus
+  
+    vivamus
+  
+    finibus
+  
+    viverra
+  
+    nullam
+  
+    venenatis
+  
+    lacinia
+  
+    pretium.
+      
+        Placerat
+  
+    ut
+  
+    venenatis
+  
+    nunc
+  
+    scelerisque
+  
+    vulputate
+  
+    at
+  
+    urna
+  
+    mi
+  
+    scelerisque.
+      
+    </p>
+
+  
+
+          </div>
+        </esl-panel>
+      </div>
+      <div class="card">
+        <esl-trigger class="card-header" target="::next" track-hover hide-delay="250">
+          <h5 class="mb-0">
+            <button class="btn btn-link">
+              Toggle Accordion #2
+            </button>
+          </h5>
+        </esl-trigger>
+        <esl-panel default-params="{hideDelay: 100}">
+          <div class="card-body">
+            
+  
+  
+    
+    <p>
+      
+        Facilisi
+  
+    etiam
+  
+    diam
+  
+    nunc
+  
+    ut
+  
+    etiam
+  
+    congue
+  
+    vivamus
+  
+    ipsum
+  
+    nunc.
+      
+        Porta
+  
+    mollis
+  
+    ligula
+  
+    elit
+  
+    tellus
+  
+    placerat
+  
+    mattis
+  
+    nunc
+  
+    nullam
+  
+    dictum.
+      
+        Vel
+  
+    mauris
+  
+    facilisis
+  
+    fringilla
+  
+    blandit
+  
+    vulputate
+  
+    dui
+  
+    aenean
+  
+    enim
+  
+    proin.
+      
+        Proin
+  
+    mauris
+  
+    diam
+  
+    porta
+  
+    proin
+  
+    ante
+  
+    tincidunt
+  
+    suscipit
+  
+    lacinia
+  
+    ante.
+      
+        Dui
+  
+    et
+  
+    dui
+  
+    adipiscing
+  
+    blandit
+  
+    mauris
+  
+    tellus
+  
+    eget
+  
+    facilisis
+  
+    ipsum.
+      
+        Ante
+  
+    et
+  
+    purus
+  
+    finibus
+  
+    et
+  
+    vehicula
+  
+    facilisis
+  
+    placerat
+  
+    finibus
+  
+    vel.
+      
+        Risus
+  
+    dolor
+  
+    dictum
+  
+    at
+  
+    neque
+  
+    nullam
+  
+    etiam
+  
+    condimentum
+  
+    facilisis
+  
+    aenean.
+      
+        Nullam
+  
+    vulputate
+  
+    et
+  
+    urna
+  
+    ligula
+  
+    condimentum
+  
+    mattis
+  
+    ante
+  
+    nunc
+  
+    nullam.
+      
+        Justo
+  
+    fringilla
+  
+    facilisi
+  
+    scelerisque
+  
+    tellus
+  
+    purus
+  
+    neque
+  
+    et
+  
+    fringilla
+  
+    dolor.
+      
+        Vivamus
+  
+    eu
+  
+    facilisis
+  
+    aenean
+  
+    dolor
+  
+    sit
+  
+    sapien
+  
+    nullam
+  
+    elit
+  
+    enim.
+      
+    </p>
+
+  
+
+          </div>
+        </esl-panel>
+      </div>
+      <div class="card">
+        <esl-trigger class="card-header" target="::next" track-hover hide-delay="250">
+          <h5 class="mb-0">
+            <button class="btn btn-link">
+              Toggle Accordion #3
+            </button>
+          </h5>
+        </esl-trigger>
+        <esl-panel default-params="{hideDelay: 100}">
+          <div class="card-body">
+            
+  
+  
+    
+    <p>
+      
+        Sed
+  
+    blandit
+  
+    mi
+  
+    dictum
+  
+    tincidunt
+  
+    ut
+  
+    arcu
+  
+    proin
+  
+    ante
+  
+    metus.
+      
+        Fringilla
+  
+    ac
+  
+    ante
+  
+    tempor
+  
+    laoreet
+  
+    neque
+  
+    risus
+  
+    aenean
+  
+    condimentum
+  
+    porta.
+      
+        Diam
+  
+    id
+  
+    consectetur
+  
+    arcu
+  
+    nullam
+  
+    et
+  
+    rhoncus
+  
+    sed
+  
+    eget
+  
+    pellentesque.
+      
+        Suscipit
+  
+    condimentum
+  
+    curabitur
+  
+    vel
+  
+    finibus
+  
+    facilisis
+  
+    enim
+  
+    aenean
+  
+    dictum
+  
+    sapien.
+      
+        Porta
+  
+    mi
+  
+    nibh
+  
+    nullam
+  
+    facilisi
+  
+    ac
+  
+    ipsum
+  
+    mi
+  
+    ligula
+  
+    ut.
+      
+        Condimentum
+  
+    id
+  
+    mauris
+  
+    ipsum
+  
+    viverra
+  
+    facilisis
+  
+    ac
+  
+    tellus
+  
+    at
+  
+    nullam.
+      
+        Nunc
+  
+    tellus
+  
+    suscipit
+  
+    viverra
+  
+    enim
+  
+    tincidunt
+  
+    sapien
+  
+    dui
+  
+    eget
+  
+    congue.
+      
+        Arcu
+  
+    ultrices
+  
+    vivamus
+  
+    ipsum
+  
+    lorem
+  
+    neque
+  
+    urna
+  
+    id
+  
+    finibus
+  
+    id.
+      
+        Vulputate
+  
+    eget
+  
+    finibus
+  
+    neque
+  
+    condimentum
+  
+    porta
+  
+    laoreet
+  
+    ipsum
+  
+    placerat
+  
+    vel.
+      
+        Etiam
+  
+    adipiscing
+  
+    rhoncus
+  
+    justo
+  
+    fringilla
+  
+    id
+  
+    suscipit
+  
+    adipiscing
+  
+    tempor
+  
+    lacinia.
+      
+    </p>
+
+  
+
+          </div>
+        </esl-panel>
+      </div>
+    </esl-panel-group>
+  </div>
+</section>
+
+    </div>
+  </main>
+
+  <footer class="footer bg-dark">
+    <div class="container">
+  <div class="text-center">
+    <div class="text-muted">ESL v3.0.0-beta.8 © 2021 Exadel, Inc</div>
+    <div class="text-muted">Core Team Contributors:
+      <a href="mailto:astsefanovich@exadel.com">Alexey Stsefanovich</a>,
+      <a href="mailto:ymurashka@exadel.com">Julia Murashko</a>,
+      <a href="mailto:yadamska@exadel.com">Yuliya Adamskaya</a>
+    </div>
+  </div>
+</div>
+
+  </footer>
+
+  <script src="/esl/bundles/localdev.js"></script>
+
+
+  <esl-scrollbar class="page-scrollbar" target="html"></esl-scrollbar>
+
+</body>
+</html>
