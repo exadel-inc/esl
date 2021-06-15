@@ -26,6 +26,10 @@ ESLTrigger - custom element, that allows to trigger ESLToggleable instances stat
 
 - `a11y-target` - selector of inner target element to place aria attributes. Uses trigger itself if blank
 
-- `show-delay` - show delay value in ms, supports `ESLMediaQuery` syntax
+- `show-delay` - show delay value (number in ms or `none`)
 
-- `hide-delay` - hide delay value in ms, supports `ESLMediaQuery` syntax
+- `hide-delay` - hide delay value (number in ms or `none`)
+
+- `hover-show-delay` - show delay override value for hover (number in ms or `none`)
+
+- `hover-hide-delay` - hide delay override value for hover (number in ms or `none`)
