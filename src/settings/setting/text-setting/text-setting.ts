@@ -11,6 +11,7 @@ export class UIPTextSetting extends UIPSetting {
 
   protected connectedCallback() {
     super.connectedCallback();
+    if (this.$field) return;
 
     this.$field = document.createElement('input');
     this.$field.type = 'text';
@@ -19,6 +20,8 @@ export class UIPTextSetting extends UIPSetting {
     const label = document.createElement('label');
     label.innerText = this.label;
     label.appendChild(this.$field);
+
+    this.innerHTML = '';
     this.appendChild(label);
   }
 

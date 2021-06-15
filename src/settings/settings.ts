@@ -32,6 +32,7 @@ export class UIPSettings extends UIPPlugin {
   }
 
   protected _onSettingChanged(e: any) {
+    e.stopPropagation();
     if (!this.root) return;
     (e.target as UIPSetting).applyTo(this.root.model);
   }
