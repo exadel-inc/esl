@@ -17,12 +17,13 @@
 
 ### BREAKING CHANGES
 
-* **esl-toggleable:** * `event` property no longer available.
+* **esl-toggleable:** 
+  * `event` property no longer available.
 Alternative `track-click`/`track-hover` options provided
-* `touchShowDelay` and `touchShowDelay` removed.
+  * `touchShowDelay` and `touchShowDelay` removed.
 Use `showDelay` / `hideDelay` with ESLMediaQuery support
-* Inner API changes: `showEvent`, `hideEvent` removed
-* Inner API changes: `_onClick`, `_onMouseEnter`, `_onMouseLeave` handlers
+  * Inner API changes: `showEvent`, `hideEvent` removed
+  * Inner API changes: `_onClick`, `_onMouseEnter`, `_onMouseLeave` handlers
 
 ## [2.7.1](https://github.com/exadel-inc/esl/compare/v2.7.0...v2.7.1) (2021-06-13)
 Dependencies versions update
