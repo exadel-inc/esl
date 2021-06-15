@@ -7,7 +7,10 @@ export const sequentialUID = (name: string, prefix: string = name) => {
   return prefix + uid;
 };
 
-/** Reset {@link sequentialUID} generator */
+/**
+ * Reset {@link sequentialUID} generator.
+ * @deprecated avoid reset of globally shared sequences
+ */
 export const resetSequentialUID = (name?: string) => {
   if (typeof name === 'string') {
     sequences.delete(name);
@@ -17,10 +20,10 @@ export const resetSequentialUID = (name?: string) => {
 };
 
 /** Return random unique identifier */
-export const randUID = (): string => {
+export const randUID = (prefix: string = ''): string => {
   const time = Date.now().toString(32);
   const rand = Math.round(Math.random() * 1024 * 1024).toString(32);
-  return time + '-' + rand;
+  return prefix + time + '-' + rand;
 };
 
 /**
