@@ -74,7 +74,6 @@
     "@11ty/eleventy": "^0.12.1",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
-    "@exadel/server-sketch": "https://github.com/exadel-inc/server-sketch/archive/refs/tags/v0.6.0.tar.gz",
     "@juggle/resize-observer": "^3.3.1",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/commit-analyzer": "^8.0.1",
