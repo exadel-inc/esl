@@ -1,7 +1,8 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
-import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
+import {attr, boolAttr} from '../../esl-base-element/core';
 import {ESLTrigger} from '../../esl-trigger/core';
+import {ESLTooltip} from '../../esl-tooltip/core';
 import {ESLFootnotes} from '../../esl-footnotes/core/esl-footnotes';
 import {EventUtils} from '../../esl-utils/dom/events';
 
@@ -12,6 +13,11 @@ export class ESLNote extends ESLTrigger {
 
   /** Linked state marker */
   @boolAttr() public linked: boolean;
+
+  @attr({defaultValue: 'toggle'}) public mode: string;
+  @attr({defaultValue: 'hover'}) public event: string;
+
+  public target = 'body';
 
   protected _$footnotes: ESLFootnotes | null;
   protected _index: number;
@@ -68,5 +74,32 @@ export class ESLNote extends ESLTrigger {
     if (!this.linked) {
       EventUtils.dispatch(this, `${ESLNote.eventNs}:ready`);
     }
+  }
+
+  /** Handles trigger open type of event */
+  @bind
+  protected _onShowEvent(event: Event) {
+    if (this._isIgnored(event.target)) return;
+    ESLTooltip.show({
+      activator: this,
+      delay: this.showDelayValue,
+      text: this.text,
+      //behavior: 'none',
+      //disableArrow: true,
+      event
+    });
+    event.preventDefault();
+  }
+
+  /** Handles trigger hide type of event */
+  @bind
+  protected _onHideEvent(event: Event) {
+    if (this._isIgnored(event.target)) return;
+    ESLTooltip.hide({
+      activator: this,
+      delay: this.hideDelayValue,
+      event
+    });
+    event.preventDefault();
   }
 }
