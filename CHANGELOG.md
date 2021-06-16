@@ -1,3 +1,10 @@
+# [3.0.0-beta.9](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.8...v3.0.0-beta.9) (2021-06-16)
+
+
+### Features
+
+* **esl-trigger:** show/hide delay override for hover on trigger ([7962eba](https://github.com/exadel-inc/esl/commit/7962eba74f01177f97f30aab68a2a9b4d4d2dc9f))
+
 # [3.0.0-beta.8](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.7...v3.0.0-beta.8) (2021-06-13)
 
 
