@@ -1,7 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr} from '../../esl-base-element/core';
-import {ESLPopup, PopupActionParams} from '../../esl-popup/core';
+import {ESLPopup} from '../../esl-popup/core';
+import {ESLNote} from '../../esl-note/core';
 import {memoize} from '../../esl-utils/decorators/memoize';
+
+import type {PopupActionParams} from '../../esl-popup/core';
 
 export interface TooltipActionParams extends PopupActionParams {
   /** text to be shown */
@@ -24,17 +27,18 @@ export class ESLTooltip extends ESLPopup {
 
   public static get sharedInstance() {
     if (!ESLTooltip._instance) {
-      ESLTooltip._instance = new ESLTooltip();
+      ESLTooltip._instance = document.createElement('esl-tooltip') as ESLTooltip;
     }
 
     return ESLTooltip._instance;
   }
 
-  public static show(params: PopupActionParams) {
+  public static show(params: PopupActionParams = {}) {
+    ESLTooltip.sharedInstance.hide(params);
     ESLTooltip.sharedInstance.show(params);
   }
 
-  public static hide(params: PopupActionParams) {
+  public static hide(params: PopupActionParams = {}) {
     ESLTooltip.sharedInstance.hide(params);
   }
 
@@ -42,7 +46,6 @@ export class ESLTooltip extends ESLPopup {
     if (!this.disableArrow) {
       this._appendArrow();
     }
-
     super.connectedCallback();
   }
 
@@ -72,12 +75,19 @@ export class ESLTooltip extends ESLPopup {
       this.innerHTML = params.html;
     }
     document.body.appendChild(this);
-
     super.onShow(params);
+    this._updateActivatorState(true);
   }
 
   public onHide(params: PopupActionParams) {
+    this._updateActivatorState(false);
     super.onHide(params);
     document.body.removeChild(this);
+  }
+
+  protected _updateActivatorState(newState: boolean) {
+    if (this.activator && (this.activator instanceof ESLNote)) {
+      this.activator.updateState(newState);
+    }
   }
 }

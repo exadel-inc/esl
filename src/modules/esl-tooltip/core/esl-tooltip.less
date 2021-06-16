@@ -1,7 +1,10 @@
+@import "../../esl-popup/core/esl-popup.less";
+
 @tooltipBorderColor: #dbdbdb;
 @tooltipWidth: 222px;
 
 esl-tooltip {
+  .esl-popup();
   display: block;
   position: absolute;
   left: 0;
@@ -20,10 +23,6 @@ esl-tooltip {
   transition: visibility 0.5s 0.2s;
   visibility: hidden;
   box-sizing: border-box;
-
-  &.top-position {
-
-  }
 
   &[open] {
     opacity: 1;
