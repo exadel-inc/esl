@@ -1916,13 +1916,6 @@ var ESLBaseElement = /** @class */ (function (_super) {
         }
         customElements.define(tagName, this);
     };
-    Object.defineProperty(ESLBaseElement, "registered", {
-        get: function () {
-            return customElements.whenDefined(this.is);
-        },
-        enumerable: false,
-        configurable: true
-    });
     /** Custom element tag name */
     ESLBaseElement.is = '';
     return ESLBaseElement;
@@ -3287,7 +3280,7 @@ var STRATEGIES = {
         apply: function (img, shadowImg) {
             var innerImg = img.attachInnerImage();
             innerImg.src = shadowImg.src;
-            innerImg.width = shadowImg.width / window.devicePixelRatio;
+            innerImg.width = shadowImg.width / (shadowImg.dpr || 1);
         },
         clear: function (img) {
             img.removeInnerImage();
@@ -3528,15 +3521,21 @@ var ESLImage = /** @class */ (function (_super) {
         if (force === void 0) { force = false; }
         if (!this.canUpdate)
             return;
-        var src = this.getPath(this.srcRules.activeValue);
+        var rule = this.srcRules.active;
+        var src = this.getPath(rule.payload);
+        var dpr = rule.dpr;
         if (this._currentSrc !== src || !this.ready || force) {
             this._currentSrc = src;
             this._shadowImg.src = src;
+            this._shadowImg.dpr = dpr;
             if (this.refreshOnUpdate || !this.ready) {
                 this.syncImage();
             }
-            if (this._shadowImg.complete) {
-                this._shadowImgError ? this._onError() : this._onLoad();
+            if (this._shadowImg.complete && this._shadowImg.naturalHeight > 0) {
+                this._onLoad();
+            }
+            if (this._shadowImg.complete && this._shadowImg.naturalHeight <= 0) {
+                this._onError();
             }
         }
         this._detachLazyTrigger && this._detachLazyTrigger();
@@ -3608,17 +3607,6 @@ var ESLImage = /** @class */ (function (_super) {
                 this._shadowImageElement.onerror = this._onError;
             }
             return this._shadowImageElement;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ESLImage.prototype, "_shadowImgError", {
-        get: function () {
-            if (!this._shadowImg.complete)
-                return false;
-            if (this._shadowImg.src.substr(-4) === '.svg')
-                return false;
-            return this._shadowImg.naturalHeight <= 0;
         },
         enumerable: false,
         configurable: true
@@ -3886,13 +3874,22 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
  */
 var ESLMediaQuery = /** @class */ (function () {
     function ESLMediaQuery(query) {
+        var _this = this;
         // Applying known breakpoints shortcut
         query = _esl_media_breakpoints__WEBPACK_IMPORTED_MODULE_0__.ESLMediaBreakpoints.apply(query);
         // Applying dpr shortcut
-        query = query.replace(/@(\d(\.\d)?)x/g, function (match, ratio) { return ESLMediaQuery_1.buildDprQuery(+ratio); });
+        this._dpr = 1;
+        query = query.replace(/@(\d(\.\d)?)x/g, function (match, ratio) {
+            _this._dpr = +ratio;
+            if (ESLMediaQuery_1.ignoreBotsDpr && _esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_1__.DeviceDetector.isBot && _this._dpr !== 1) {
+                return ESLMediaQuery_1.NOT_ALL;
+            }
+            return ESLMediaQuery_1.buildDprQuery(ratio);
+        });
         // Applying dpr shortcut for device detection
         query = query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/ig, function (match, pre, type, post) {
-            if (_esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_1__.DeviceDetector.isMobile !== (type.toUpperCase() === '@MOBILE')) {
+            _this._mobileOnly = (type.toUpperCase() === '@MOBILE');
+            if (_esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_1__.DeviceDetector.isMobile !== _this._mobileOnly) {
                 return ESLMediaQuery_1.NOT_ALL; // whole query became invalid
             }
             return pre && post ? 'and' : '';
@@ -3907,19 +3904,38 @@ var ESLMediaQuery = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    ESLMediaQuery.for = function (query) {
-        return new ESLMediaQuery_1(query);
-    };
     ESLMediaQuery.matchMediaCached = function (query) {
         return matchMedia(query);
     };
     ESLMediaQuery.buildDprQuery = function (dpr) {
-        if (ESLMediaQuery_1.ignoreBotsDpr && _esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_1__.DeviceDetector.isBot && dpr !== 1)
-            return ESLMediaQuery_1.NOT_ALL;
         if (_esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_1__.DeviceDetector.isSafari)
             return "(-webkit-min-device-pixel-ratio: " + dpr + ")";
         return "(min-resolution: " + (96 * dpr).toFixed(1) + "dpi)";
     };
+    Object.defineProperty(ESLMediaQuery.prototype, "isMobileOnly", {
+        /** Accepts only mobile devices */
+        get: function () {
+            return this._mobileOnly === true;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ESLMediaQuery.prototype, "isDesktopOnly", {
+        /** Accepts only desktop devices */
+        get: function () {
+            return this._mobileOnly === false;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ESLMediaQuery.prototype, "dpr", {
+        /** Current query dpr */
+        get: function () {
+            return this._dpr;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(ESLMediaQuery.prototype, "query", {
         /** inner MediaQueryList instance */
         get: function () {
@@ -3966,9 +3982,6 @@ var ESLMediaQuery = /** @class */ (function () {
     ESLMediaQuery.ignoreBotsDpr = false;
     __decorate([
         (0,_esl_utils_decorators_memoize__WEBPACK_IMPORTED_MODULE_2__.memoize)()
-    ], ESLMediaQuery, "for", null);
-    __decorate([
-        (0,_esl_utils_decorators_memoize__WEBPACK_IMPORTED_MODULE_2__.memoize)()
     ], ESLMediaQuery, "matchMediaCached", null);
     ESLMediaQuery = ESLMediaQuery_1 = __decorate([
         (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_3__.ExportNs)('MediaQuery')
@@ -3990,10 +4003,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ESLMediaRuleList": function() { return /* binding */ ESLMediaRuleList; }
 /* harmony export */ });
-/* harmony import */ var _esl_utils_abstract_observable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/abstract/observable */ "../src/modules/esl-utils/abstract/observable.ts");
-/* harmony import */ var _esl_utils_misc_format__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/misc/format */ "../src/modules/esl-utils/misc/format.ts");
+/* harmony import */ var _esl_utils_abstract_observable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/abstract/observable */ "../src/modules/esl-utils/abstract/observable.ts");
+/* harmony import */ var _esl_utils_misc_format__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/misc/format */ "../src/modules/esl-utils/misc/format.ts");
 /* harmony import */ var _esl_media_rule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./esl-media-rule */ "../src/modules/esl-media-query/core/esl-media-rule.ts");
-/* harmony import */ var _esl_utils_misc_object__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/misc/object */ "../src/modules/esl-utils/misc/object.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4009,7 +4021,6 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
 
 
 
@@ -4087,17 +4098,18 @@ var ESLMediaRuleList = /** @class */ (function (_super) {
     Object.defineProperty(ESLMediaRuleList.prototype, "activeValue", {
         get: function () {
             var value = this.active.payload;
-            if ((0,_esl_utils_misc_object__WEBPACK_IMPORTED_MODULE_1__.isPrimitive)(value) || !this._default || (0,_esl_utils_misc_object__WEBPACK_IMPORTED_MODULE_1__.isPrimitive)(this._default.payload))
+            if (typeof value === 'string' || !this._default) {
                 return value;
+            }
             return Object.assign({}, this._default.payload || {}, value);
         },
         enumerable: false,
         configurable: true
     });
     ESLMediaRuleList.STRING_PARSER = function (val) { return val; };
-    ESLMediaRuleList.OBJECT_PARSER = function (val) { return (0,_esl_utils_misc_format__WEBPACK_IMPORTED_MODULE_2__.evaluate)(val); };
+    ESLMediaRuleList.OBJECT_PARSER = function (val) { return (0,_esl_utils_misc_format__WEBPACK_IMPORTED_MODULE_1__.evaluate)(val); };
     return ESLMediaRuleList;
-}(_esl_utils_abstract_observable__WEBPACK_IMPORTED_MODULE_3__.Observable));
+}(_esl_utils_abstract_observable__WEBPACK_IMPORTED_MODULE_2__.Observable));
 
 
 
@@ -4187,14 +4199,14 @@ var ESLMediaRule = /** @class */ (function (_super) {
         var _a = __read(lex.split('=>'), 2), query = _a[0], payload = _a[1];
         var payloadValue = parser(payload.trim());
         if (typeof payloadValue === 'undefined')
-            return undefined;
+            return null;
         return new ESLMediaRule(payloadValue, query.trim());
     };
     ESLMediaRule.all = function (payload) {
         return new ESLMediaRule(payload, 'all');
     };
     ESLMediaRule.empty = function () {
-        return new ESLMediaRule(undefined, 'all');
+        return new ESLMediaRule(null, 'all');
     };
     return ESLMediaRule;
 }(_esl_media_query__WEBPACK_IMPORTED_MODULE_0__.ESLMediaQuery));
@@ -5159,7 +5171,7 @@ var BrightcoveProvider = /** @class */ (function (_super) {
      */
     BrightcoveProvider.prototype.buildVideo = function () {
         var el = document.createElement('video-js');
-        el.id = 'esl-media-brightcove-' + (0,_esl_utils_misc_uid__WEBPACK_IMPORTED_MODULE_1__.randUID)();
+        el.id = 'esl-media-brightcove-' + (0,_esl_utils_misc_uid__WEBPACK_IMPORTED_MODULE_1__.generateUId)();
         el.className = 'esl-media-inner esl-media-brightcove ' + this.videojsClasses;
         el.title = this.config.title;
         el.toggleAttribute('loop', this.config.loop);
@@ -5639,7 +5651,7 @@ var IframeBasicProvider = /** @class */ (function (_super) {
     };
     IframeBasicProvider.prototype.buildIframe = function () {
         var el = document.createElement('iframe');
-        el.id = 'esl-media-iframe-' + (0,_esl_utils_misc_uid__WEBPACK_IMPORTED_MODULE_1__.randUID)();
+        el.id = 'esl-media-iframe-' + (0,_esl_utils_misc_uid__WEBPACK_IMPORTED_MODULE_1__.generateUId)();
         el.className = 'esl-media-inner esl-media-iframe';
         el.title = this.config.title;
         el.setAttribute('aria-label', this.config.title);
@@ -5846,7 +5858,7 @@ var YouTubeProvider = /** @class */ (function (_super) {
     };
     YouTubeProvider.buildIframe = function (sm) {
         var el = document.createElement('div');
-        el.id = 'esl-media-yt-' + (0,_esl_utils_misc_uid__WEBPACK_IMPORTED_MODULE_1__.randUID)();
+        el.id = 'esl-media-yt-' + (0,_esl_utils_misc_uid__WEBPACK_IMPORTED_MODULE_1__.generateUId)();
         el.className = 'esl-media-inner esl-media-youtube';
         el.title = sm.title;
         el.setAttribute('aria-label', el.title);
@@ -6128,11 +6140,6 @@ var ESLPanelGroup = /** @class */ (function (_super) {
     };
     /** Process {@link ESLPanel} pre-hide event */
     ESLPanelGroup.prototype._onBeforeHide = function (e) {
-        // TODO: refactor
-        if (this.currentMode === 'open') {
-            e.preventDefault();
-            return;
-        }
         var panel = e.target;
         if (!this.includesPanel(panel))
             return;
@@ -6234,24 +6241,17 @@ var ESLPanelGroup = /** @class */ (function (_super) {
     ESLPanelGroup.prototype.updateMode = function () {
         var _this = this;
         this.setAttribute('view', this.currentMode);
-        var $target = _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_4__.TraversingQuery.first(this.modeClsTarget, this);
+        var $target = this.modeClsTarget && _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_4__.TraversingQuery.first(this.modeClsTarget, this);
         if (!$target)
             return;
         ESLPanelGroup_1.supportedModes.forEach(function (mode) {
             $target.classList.toggle("esl-" + mode + "-view", _this.currentMode === mode);
         });
-        // TODO: refactor
-        _esl_panel__WEBPACK_IMPORTED_MODULE_1__.ESLPanel.registered.then(function () {
-            _this.$panels.forEach(function (panel) {
-                var shouldOpen = _this.currentMode === 'open' || panel.initiallyOpened;
-                panel.toggle(shouldOpen, { initiator: 'group', activator: _this });
-            });
-        });
     };
     var ESLPanelGroup_1;
     ESLPanelGroup.is = 'esl-panel-group';
     /** List of supported modes */
-    ESLPanelGroup.supportedModes = ['tabs', 'accordion', 'open'];
+    ESLPanelGroup.supportedModes = ['tabs', 'accordion'];
     __decorate([
         (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ defaultValue: 'accordion' })
     ], ESLPanelGroup.prototype, "mode", void 0);
@@ -6350,9 +6350,7 @@ var ESLPanel = /** @class */ (function (_super) {
     __extends(ESLPanel, _super);
     function ESLPanel() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        /** Inner height state that updates after show/hide actions but before show/hide events triggered */
         _this._initialHeight = 0;
-        /** Inner timer to cleanup animation styles */
         _this._fallbackTimer = 0;
         return _this;
     }
@@ -6982,14 +6980,6 @@ var ESLTab = /** @class */ (function (_super) {
     function ESLTab() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    ESLTab.prototype.initA11y = function () {
-        var target = this.$a11yTarget;
-        if (!target)
-            return;
-        if (target.hasAttribute('role'))
-            return;
-        target.setAttribute('role', 'tab');
-    };
     ESLTab.prototype.updateA11y = function () {
         var target = this.$a11yTarget;
         if (!target)
@@ -7530,8 +7520,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _esl_utils_misc_object__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/misc/object */ "../src/modules/esl-utils/misc/object.ts");
 /* harmony import */ var _esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-utils/environment/device-detector */ "../src/modules/esl-utils/environment/device-detector.ts");
 /* harmony import */ var _esl_utils_async_delayed_task__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-utils/async/delayed-task */ "../src/modules/esl-utils/async/delayed-task.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/bool-attr.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/bool-attr.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/json-attr.ts");
 /* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
@@ -7574,12 +7564,9 @@ var ESLToggleable = /** @class */ (function (_super) {
     __extends(ESLToggleable, _super);
     function ESLToggleable() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        /** Inner state */
         _this._open = false;
-        /** Inner show/hide task manager instance */
-        _this._task = new _esl_utils_async_delayed_task__WEBPACK_IMPORTED_MODULE_0__.DelayedTask();
-        /** Marker for current hover listener state */
         _this._trackHover = false;
+        _this._task = new _esl_utils_async_delayed_task__WEBPACK_IMPORTED_MODULE_0__.DelayedTask();
         return _this;
     }
     Object.defineProperty(ESLToggleable, "observedAttributes", {
@@ -7589,23 +7576,12 @@ var ESLToggleable = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    ESLToggleable.prototype.connectedCallback = function () {
-        _super.prototype.connectedCallback.call(this);
-        this.initiallyOpened = this.hasAttribute('open');
-        this.bindEvents();
-        this.setInitialState();
-    };
-    ESLToggleable.prototype.disconnectedCallback = function () {
-        _super.prototype.disconnectedCallback.call(this);
-        this.unbindEvents();
-        activators.delete(this);
-    };
     ESLToggleable.prototype.attributeChangedCallback = function (attrName, oldVal, newVal) {
         if (!this.connected || newVal === oldVal)
             return;
         switch (attrName) {
             case 'open':
-                if (this.open === this.hasAttribute('open'))
+                if (this._open === this.open)
                     return;
                 this.toggle(this.open, { initiator: 'attribute', showDelay: 0, hideDelay: 0 });
                 break;
@@ -7616,11 +7592,21 @@ var ESLToggleable = /** @class */ (function (_super) {
                 break;
         }
     };
+    ESLToggleable.prototype.connectedCallback = function () {
+        _super.prototype.connectedCallback.call(this);
+        this.bindEvents();
+        this.setInitialState();
+    };
+    ESLToggleable.prototype.disconnectedCallback = function () {
+        _super.prototype.disconnectedCallback.call(this);
+        this.unbindEvents();
+        activators.delete(this);
+    };
     /** Set initial state of the Toggleable */
     ESLToggleable.prototype.setInitialState = function () {
-        if (this.initialParams) {
-            this.toggle(this.initiallyOpened, this.initialParams);
-        }
+        if (!this.initialParams)
+            return;
+        this.toggle(this.open, this.initialParams);
     };
     ESLToggleable.prototype.bindEvents = function () {
         this.addEventListener('click', this._onClick);
@@ -7643,7 +7629,7 @@ var ESLToggleable = /** @class */ (function (_super) {
     };
     /** Bind hover events listeners for the Toggleable itself */
     ESLToggleable.prototype.bindHoverStateTracking = function (track) {
-        if (!_esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_1__.DeviceDetector.hasHover)
+        if (_esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_1__.DeviceDetector.isTouchDevice)
             return;
         if (this._trackHover === track)
             return;
@@ -7667,81 +7653,47 @@ var ESLToggleable = /** @class */ (function (_super) {
     /** Change the element state to active */
     ESLToggleable.prototype.show = function (params) {
         params = this.mergeDefaultParams(params);
-        this._task.put(this.showTask.bind(this, params), (0,_esl_utils_misc_object__WEBPACK_IMPORTED_MODULE_2__.defined)(params.showDelay, params.delay));
+        this.planShowTask(params);
         this.bindOutsideEventTracking(this.closeOnOutsideAction);
         this.bindHoverStateTracking(!!params.trackHover);
         return this;
     };
+    ESLToggleable.prototype.planShowTask = function (params) {
+        var _this = this;
+        this._task.put(function () {
+            if (!params.force && _this._open)
+                return;
+            if (!params.silent && !_this.$$fire('before:show', { detail: { params: params } }))
+                return;
+            _this.onShow(params);
+            if (!params.silent && !_this.$$fire('show', { detail: { params: params } }))
+                return;
+        }, (0,_esl_utils_misc_object__WEBPACK_IMPORTED_MODULE_2__.defined)(params.showDelay, params.delay));
+    };
     /** Change the element state to inactive */
     ESLToggleable.prototype.hide = function (params) {
         params = this.mergeDefaultParams(params);
-        this._task.put(this.hideTask.bind(this, params), (0,_esl_utils_misc_object__WEBPACK_IMPORTED_MODULE_2__.defined)(params.hideDelay, params.delay));
+        this.planHideTask(params);
         this.bindOutsideEventTracking(false);
         this.bindHoverStateTracking(!!params.trackHover);
         return this;
     };
-    /** Actual show task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
-    ESLToggleable.prototype.showTask = function (params) {
-        if (!params.force && this.open)
-            return;
-        if (!params.silent && !this.$$fire('before:show', { detail: { params: params } }))
-            return;
-        this.activator = params.activator;
-        this.open = true;
-        this.onShow(params);
-        if (!params.silent)
-            this.$$fire('show', { detail: { params: params }, cancelable: false });
+    ESLToggleable.prototype.planHideTask = function (params) {
+        var _this = this;
+        this._task.put(function () {
+            if (!params.force && !_this._open)
+                return;
+            if (!params.silent && !_this.$$fire('before:hide', { detail: { params: params } }))
+                return;
+            _this.onHide(params);
+            if (!params.silent && !_this.$$fire('hide', { detail: { params: params } }))
+                return;
+        }, (0,_esl_utils_misc_object__WEBPACK_IMPORTED_MODULE_2__.defined)(params.hideDelay, params.delay));
     };
-    /** Actual hide task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
-    ESLToggleable.prototype.hideTask = function (params) {
-        if (!params.force && !this.open)
-            return;
-        if (!params.silent && !this.$$fire('before:hide', { detail: { params: params } }))
-            return;
-        this.open = false;
-        this.onHide(params);
-        if (!params.silent)
-            this.$$fire('hide', { detail: { params: params }, cancelable: false });
-    };
-    /**
-     * Actions to execute on show toggleable.
-     * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
-     * Adds CSS classes, update a11y and fire esl:refresh event by default.
-     */
-    ESLToggleable.prototype.onShow = function (params) {
-        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.add(this, this.activeClass);
-        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.add(document.body, this.bodyClass, this);
-        this.updateA11y();
-        this.$$fire('esl:refresh'); // To notify other components about content change
-    };
-    /**
-     * Actions to execute on hide toggleable.
-     * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
-     * Removes CSS classes and update a11y by default.
-     */
-    ESLToggleable.prototype.onHide = function (params) {
-        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.remove(this, this.activeClass);
-        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.remove(document.body, this.bodyClass, this);
-        this.updateA11y();
-    };
-    Object.defineProperty(ESLToggleable.prototype, "open", {
-        /** Active state marker */
-        get: function () {
-            return this._open;
-        },
-        set: function (value) {
-            this.toggleAttribute('open', this._open = value);
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(ESLToggleable.prototype, "activator", {
         /** Last component that has activated the element. Uses {@link ToggleableActionParams.activator}*/
         get: function () {
             return activators.get(this);
-        },
-        set: function (el) {
-            el ? activators.set(this, el) : activators.delete(this);
         },
         enumerable: false,
         configurable: true
@@ -7763,6 +7715,23 @@ var ESLToggleable = /** @class */ (function (_super) {
         if (!targetEl)
             return;
         targetEl.setAttribute('aria-hidden', String(!this._open));
+    };
+    /** Action to show the element */
+    ESLToggleable.prototype.onShow = function (params) {
+        activators.set(this, params.activator);
+        this.open = this._open = true;
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.add(this, this.activeClass);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.add(document.body, this.bodyClass, this);
+        this.updateA11y();
+        this.$$fire('esl:refresh');
+    };
+    /** Action to hide the element */
+    ESLToggleable.prototype.onHide = function (params) {
+        activators.delete(this);
+        this.open = this._open = false;
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.remove(this, this.activeClass);
+        _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_3__.CSSClassUtils.remove(document.body, this.bodyClass, this);
+        this.updateA11y();
     };
     // "Private" Handlers
     ESLToggleable.prototype._onClick = function (e) {
@@ -7792,22 +7761,25 @@ var ESLToggleable = /** @class */ (function (_super) {
         this.hide({ initiator: 'mouseleave', trackHover: true, activator: this, event: e });
     };
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)()
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.boolAttr)()
+    ], ESLToggleable.prototype, "open", void 0);
+    __decorate([
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__.attr)()
     ], ESLToggleable.prototype, "bodyClass", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)()
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__.attr)()
     ], ESLToggleable.prototype, "activeClass", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ name: 'group' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__.attr)({ name: 'group' })
     ], ESLToggleable.prototype, "groupName", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ name: 'close-on' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__.attr)({ name: 'close-on' })
     ], ESLToggleable.prototype, "closeTrigger", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__.boolAttr)()
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.boolAttr)()
     ], ESLToggleable.prototype, "closeOnEsc", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__.boolAttr)()
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.boolAttr)()
     ], ESLToggleable.prototype, "closeOnOutsideAction", void 0);
     __decorate([
         (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.jsonAttr)({ defaultValue: { force: true, initiator: 'init' } })
@@ -8039,18 +8011,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ESLTrigger": function() { return /* binding */ ESLTrigger; }
 /* harmony export */ });
-/* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/bool-attr.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
-/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
-/* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
-/* harmony import */ var _esl_utils_decorators_ready__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../esl-utils/decorators/ready */ "../src/modules/esl-utils/decorators/ready.ts");
-/* harmony import */ var _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-utils/dom/class */ "../src/modules/esl-utils/dom/class.ts");
-/* harmony import */ var _esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-utils/dom/keys */ "../src/modules/esl-utils/dom/keys.ts");
-/* harmony import */ var _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-traversing-query/core */ "../src/modules/esl-traversing-query/core/esl-traversing-query.ts");
+/* harmony import */ var _esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../esl-utils/environment/export-ns */ "../src/modules/esl-utils/environment/export-ns.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/bool-attr.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/decorators/attr.ts");
+/* harmony import */ var _esl_base_element_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../esl-base-element/core */ "../src/modules/esl-base-element/core/esl-base-element.ts");
+/* harmony import */ var _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../esl-utils/decorators/bind */ "../src/modules/esl-utils/decorators/bind.ts");
+/* harmony import */ var _esl_utils_decorators_ready__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../esl-utils/decorators/ready */ "../src/modules/esl-utils/decorators/ready.ts");
+/* harmony import */ var _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-traversing-query/core */ "../src/modules/esl-traversing-query/core/esl-traversing-query.ts");
 /* harmony import */ var _esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../esl-utils/environment/device-detector */ "../src/modules/esl-utils/environment/device-detector.ts");
-/* harmony import */ var _esl_media_query_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../esl-media-query/core */ "../src/modules/esl-media-query/core/esl-media-query.ts");
-/* harmony import */ var _esl_media_query_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-media-query/core */ "../src/modules/esl-media-query/core/esl-media-rule-list.ts");
+/* harmony import */ var _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../esl-utils/dom/class */ "../src/modules/esl-utils/dom/class.ts");
+/* harmony import */ var _esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../esl-utils/dom/keys */ "../src/modules/esl-utils/dom/keys.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -8072,28 +8042,6 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __read = (undefined && undefined.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
-};
-
 
 
 
@@ -8107,10 +8055,9 @@ var ESLTrigger = /** @class */ (function (_super) {
     function ESLTrigger() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    ESLTrigger_1 = ESLTrigger;
     Object.defineProperty(ESLTrigger, "observedAttributes", {
         get: function () {
-            return ['target'];
+            return ['target', 'event', 'mode'];
         },
         enumerable: false,
         configurable: true
@@ -8118,9 +8065,47 @@ var ESLTrigger = /** @class */ (function (_super) {
     ESLTrigger.prototype.attributeChangedCallback = function (attrName) {
         if (!this.connected)
             return;
-        if (attrName === 'target')
-            return this.updateTargetFromSelector();
+        switch (attrName) {
+            case 'target':
+                this.updateTargetFromSelector();
+                break;
+            case 'mode':
+            case 'event':
+                this.unbindEvents();
+                this.bindEvents();
+                break;
+        }
     };
+    Object.defineProperty(ESLTrigger.prototype, "_showEvent", {
+        /** ESLTrigger 'primary' show event */
+        get: function () {
+            if (this.mode === 'hide')
+                return null;
+            if (this.event === 'hover') {
+                if (_esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_0__.DeviceDetector.isTouchDevice)
+                    return 'click';
+                return 'mouseenter';
+            }
+            return this.event;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ESLTrigger.prototype, "_hideEvent", {
+        /** ESLTrigger 'primary' hide event */
+        get: function () {
+            if (this.mode === 'show')
+                return null;
+            if (this.event === 'hover') {
+                if (_esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_0__.DeviceDetector.isTouchDevice)
+                    return 'click';
+                return this.mode === 'hide' ? 'mouseenter' : 'mouseleave';
+            }
+            return this.event;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(ESLTrigger.prototype, "$target", {
         /** Target observable Toggleable */
         get: function () {
@@ -8145,45 +8130,9 @@ var ESLTrigger = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(ESLTrigger.prototype, "allowHover", {
-        /** Marker to allow track hover */
-        get: function () {
-            return _esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_0__.DeviceDetector.hasHover && _esl_media_query_core__WEBPACK_IMPORTED_MODULE_1__.ESLMediaQuery.for(this.trackHover).matches;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ESLTrigger.prototype, "allowClick", {
-        /** Marker to allow track clicks */
-        get: function () {
-            return _esl_media_query_core__WEBPACK_IMPORTED_MODULE_1__.ESLMediaQuery.for(this.trackClick).matches;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    ESLTrigger.parseDelayValue = function (delay) {
-        return isNaN(+delay) ? undefined : +delay;
-    };
-    Object.defineProperty(ESLTrigger.prototype, "showDelayValue", {
-        /** Show delay attribute processing */
-        get: function () {
-            return _esl_media_query_core__WEBPACK_IMPORTED_MODULE_2__.ESLMediaRuleList.parse(this.showDelay, ESLTrigger_1.parseDelayValue).activeValue;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ESLTrigger.prototype, "hideDelayValue", {
-        /** Hide delay attribute processing */
-        get: function () {
-            return _esl_media_query_core__WEBPACK_IMPORTED_MODULE_2__.ESLMediaRuleList.parse(this.hideDelay, ESLTrigger_1.parseDelayValue).activeValue;
-        },
-        enumerable: false,
-        configurable: true
-    });
     ESLTrigger.prototype.connectedCallback = function () {
         _super.prototype.connectedCallback.call(this);
         this.updateTargetFromSelector();
-        this.initA11y();
     };
     ESLTrigger.prototype.disconnectedCallback = function () {
         this.unbindEvents();
@@ -8191,124 +8140,90 @@ var ESLTrigger = /** @class */ (function (_super) {
     ESLTrigger.prototype.bindEvents = function () {
         if (!this.$target)
             return;
+        if (this._showEvent === this._hideEvent) {
+            this.attachEventListener(this._showEvent, this._onToggleEvent);
+        }
+        else {
+            this.attachEventListener(this._showEvent, this._onShowEvent);
+            this.attachEventListener(this._hideEvent, this._onHideEvent);
+        }
         this.$target.addEventListener('esl:show', this._onTargetStateChange);
         this.$target.addEventListener('esl:hide', this._onTargetStateChange);
-        this.addEventListener('click', this._onClick);
         this.addEventListener('keydown', this._onKeydown);
-        this.addEventListener('mouseenter', this._onMouseEnter);
-        this.addEventListener('mouseleave', this._onMouseLeave);
     };
     ESLTrigger.prototype.unbindEvents = function () {
+        (this.__unsubscribers || []).forEach(function (off) { return off(); });
         if (!this.$target)
             return;
         this.$target.removeEventListener('esl:show', this._onTargetStateChange);
         this.$target.removeEventListener('esl:hide', this._onTargetStateChange);
-        this.removeEventListener('click', this._onClick);
         this.removeEventListener('keydown', this._onKeydown);
-        this.removeEventListener('mouseenter', this._onMouseEnter);
-        this.removeEventListener('mouseleave', this._onMouseLeave);
+    };
+    ESLTrigger.prototype.attachEventListener = function (eventName, callback) {
+        var _this = this;
+        if (!eventName)
+            return;
+        this.addEventListener(eventName, callback);
+        this.__unsubscribers = this.__unsubscribers || [];
+        this.__unsubscribers.push(function () { return _this.removeEventListener(eventName, callback); });
     };
     /** Update `$target` Toggleable  from `target` selector */
     ESLTrigger.prototype.updateTargetFromSelector = function () {
         if (!this.target)
             return;
-        this.$target = _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_3__.TraversingQuery.first(this.target, this);
+        this.$target = _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_1__.TraversingQuery.first(this.target, this);
     };
-    /** Check if the event target should be ignored */
-    ESLTrigger.prototype.isTargetIgnored = function (target) {
+    /** True if event should be ignored */
+    ESLTrigger.prototype._isIgnored = function (target) {
         if (!target || !(target instanceof HTMLElement) || !this.ignore)
             return false;
         var $ignore = target.closest(this.ignore);
         // Ignore only inner elements (but do not ignore the trigger itself)
         return !!$ignore && $ignore !== this && this.contains($ignore);
     };
-    /** Merge params to pass to the toggleable */
-    ESLTrigger.prototype.mergeToggleableParams = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
-        return Object.assign.apply(Object, __spreadArray([{
-                initiator: 'trigger',
-                activator: this
-            }], __read(params)));
+    /** Handles trigger open type of event */
+    ESLTrigger.prototype._onShowEvent = function (event) {
+        if (this._isIgnored(event.target))
+            return;
+        this.$target.show({
+            activator: this,
+            delay: this.showDelayValue,
+            event: event
+        });
+        event.preventDefault();
     };
-    /** Show target toggleable with passed params */
-    ESLTrigger.prototype.showTarget = function (params) {
-        if (params === void 0) { params = {}; }
-        var actionParams = this.mergeToggleableParams({
-            delay: this.showDelayValue
-        }, params);
-        this.$target && this.$target.show(actionParams);
+    /** Handles trigger hide type of event */
+    ESLTrigger.prototype._onHideEvent = function (event) {
+        if (this._isIgnored(event.target))
+            return;
+        this.$target.hide({
+            activator: this,
+            delay: this.hideDelayValue,
+            trackHover: this.event === 'hover' && this.mode === 'toggle',
+            event: event
+        });
+        event.preventDefault();
     };
-    /** Hide target toggleable with passed params */
-    ESLTrigger.prototype.hideTarget = function (params) {
-        if (params === void 0) { params = {}; }
-        var actionParams = this.mergeToggleableParams({
-            delay: this.hideDelayValue
-        }, params);
-        this.$target && this.$target.hide(actionParams);
+    /** Handles trigger toggle type of event */
+    ESLTrigger.prototype._onToggleEvent = function (e) {
+        return (this.active ? this._onHideEvent : this._onShowEvent)(e);
     };
-    /** Toggles target toggleable with passed params */
-    ESLTrigger.prototype.toggleTarget = function (params, state) {
-        if (params === void 0) { params = {}; }
-        if (state === void 0) { state = !this.active; }
-        state ? this.showTarget(params) : this.hideTarget(params);
-    };
-    /** Handles ESLToggleable state change */
+    /** Handles ESLTogglable state change */
     ESLTrigger.prototype._onTargetStateChange = function () {
         this.toggleAttribute('active', this.$target.open);
-        var clsTarget = _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_3__.TraversingQuery.first(this.activeClassTarget, this);
-        clsTarget && _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_4__.CSSClassUtils.toggle(clsTarget, this.activeClass, this.active);
+        var clsTarget = _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_1__.TraversingQuery.first(this.activeClassTarget, this);
+        clsTarget && _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_2__.CSSClassUtils.toggle(clsTarget, this.activeClass, this.active);
         this.updateA11y();
         this.$$fire('change:active');
     };
-    /** Handles `click` event */
-    ESLTrigger.prototype._onClick = function (event) {
-        if (!this.allowClick || this.isTargetIgnored(event.target))
-            return;
-        event.preventDefault();
-        switch (this.mode) {
-            case 'show': return this.showTarget({ event: event });
-            case 'hide': return this.hideTarget({ event: event });
-            default: return this.toggleTarget({ event: event });
-        }
-    };
     /** Handles `keydown` event */
     ESLTrigger.prototype._onKeydown = function (event) {
-        if (![_esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_5__.ENTER, _esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_5__.SPACE].includes(event.key) || this.isTargetIgnored(event.target))
-            return;
-        event.preventDefault();
-        switch (this.mode) {
-            case 'show': return this.showTarget({ event: event });
-            case 'hide': return this.hideTarget({ event: event });
-            default: return this.toggleTarget({ event: event });
-        }
-    };
-    /** Handles hover `mouseenter` event */
-    ESLTrigger.prototype._onMouseEnter = function (event) {
-        if (!this.allowHover)
-            return;
-        this.toggleTarget({ event: event }, this.mode !== 'hide');
-        event.preventDefault();
-    };
-    /** Handles hover `mouseleave` event */
-    ESLTrigger.prototype._onMouseLeave = function (event) {
-        if (!this.allowHover)
-            return;
-        if (this.mode === 'show' || this.mode === 'hide')
-            return;
-        this.hideTarget({ event: event, trackHover: true });
-        event.preventDefault();
-    };
-    /** Set initial a11y attributes. Do nothing if trigger contains actionable element */
-    ESLTrigger.prototype.initA11y = function () {
-        if (this.$a11yTarget !== this)
-            return;
-        if (!this.hasAttribute('role'))
-            this.setAttribute('role', 'button');
-        if (this.getAttribute('role') === 'button' && !this.hasAttribute('tabindex')) {
-            this.setAttribute('tabindex', '0');
+        if ([_esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_3__.ENTER, _esl_utils_dom_keys__WEBPACK_IMPORTED_MODULE_3__.SPACE].includes(event.key)) {
+            switch (this.mode) {
+                case 'show': return this._onShowEvent(event);
+                case 'hide': return this._onHideEvent(event);
+                default: return this._onToggleEvent(event);
+            }
         }
     };
     /** Update aria attributes */
@@ -8321,67 +8236,87 @@ var ESLTrigger = /** @class */ (function (_super) {
             target.setAttribute('aria-controls', this.$target.id);
         }
     };
-    var ESLTrigger_1;
+    Object.defineProperty(ESLTrigger.prototype, "showDelayValue", {
+        /** Show delay attribute processing */
+        get: function () {
+            var showDelay = _esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_0__.DeviceDetector.isTouchDevice ? this.touchShowDelay : this.showDelay;
+            return !showDelay || isNaN(+showDelay) ? undefined : +showDelay;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ESLTrigger.prototype, "hideDelayValue", {
+        /** Hide delay attribute processing */
+        get: function () {
+            var hideDelay = _esl_utils_environment_device_detector__WEBPACK_IMPORTED_MODULE_0__.DeviceDetector.isTouchDevice ? this.touchHideDelay : this.hideDelay;
+            return !hideDelay || isNaN(+hideDelay) ? undefined : +hideDelay;
+        },
+        enumerable: false,
+        configurable: true
+    });
     ESLTrigger.is = 'esl-trigger';
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_6__.boolAttr)({ readonly: true })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_4__.boolAttr)({ readonly: true })
     ], ESLTrigger.prototype, "active", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.attr)({ defaultValue: '' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ defaultValue: '' })
     ], ESLTrigger.prototype, "activeClass", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.attr)({ defaultValue: '' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ defaultValue: '' })
     ], ESLTrigger.prototype, "activeClassTarget", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.attr)({ defaultValue: 'a[href]' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ defaultValue: 'a[href]' })
     ], ESLTrigger.prototype, "ignore", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.attr)({ defaultValue: 'next' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ defaultValue: 'next' })
     ], ESLTrigger.prototype, "target", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.attr)({ defaultValue: 'toggle' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ defaultValue: 'click' })
+    ], ESLTrigger.prototype, "event", void 0);
+    __decorate([
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ defaultValue: 'toggle' })
     ], ESLTrigger.prototype, "mode", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.attr)({ defaultValue: 'all' })
-    ], ESLTrigger.prototype, "trackClick", void 0);
-    __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.attr)({ defaultValue: 'not all' })
-    ], ESLTrigger.prototype, "trackHover", void 0);
-    __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.attr)({ defaultValue: '' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)({ defaultValue: '' })
     ], ESLTrigger.prototype, "a11yTarget", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.attr)({ defaultValue: 'none' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)()
     ], ESLTrigger.prototype, "showDelay", void 0);
     __decorate([
-        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_7__.attr)({ defaultValue: 'none' })
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)()
     ], ESLTrigger.prototype, "hideDelay", void 0);
     __decorate([
-        _esl_utils_decorators_ready__WEBPACK_IMPORTED_MODULE_8__.ready
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)()
+    ], ESLTrigger.prototype, "touchShowDelay", void 0);
+    __decorate([
+        (0,_esl_base_element_core__WEBPACK_IMPORTED_MODULE_5__.attr)()
+    ], ESLTrigger.prototype, "touchHideDelay", void 0);
+    __decorate([
+        _esl_utils_decorators_ready__WEBPACK_IMPORTED_MODULE_6__.ready
     ], ESLTrigger.prototype, "connectedCallback", null);
     __decorate([
-        _esl_utils_decorators_ready__WEBPACK_IMPORTED_MODULE_8__.ready
+        _esl_utils_decorators_ready__WEBPACK_IMPORTED_MODULE_6__.ready
     ], ESLTrigger.prototype, "disconnectedCallback", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_9__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_7__.bind
+    ], ESLTrigger.prototype, "_onShowEvent", null);
+    __decorate([
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_7__.bind
+    ], ESLTrigger.prototype, "_onHideEvent", null);
+    __decorate([
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_7__.bind
+    ], ESLTrigger.prototype, "_onToggleEvent", null);
+    __decorate([
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_7__.bind
     ], ESLTrigger.prototype, "_onTargetStateChange", null);
     __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_9__.bind
-    ], ESLTrigger.prototype, "_onClick", null);
-    __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_9__.bind
+        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_7__.bind
     ], ESLTrigger.prototype, "_onKeydown", null);
-    __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_9__.bind
-    ], ESLTrigger.prototype, "_onMouseEnter", null);
-    __decorate([
-        _esl_utils_decorators_bind__WEBPACK_IMPORTED_MODULE_9__.bind
-    ], ESLTrigger.prototype, "_onMouseLeave", null);
-    ESLTrigger = ESLTrigger_1 = __decorate([
-        (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_10__.ExportNs)('Trigger')
+    ESLTrigger = __decorate([
+        (0,_esl_utils_environment_export_ns__WEBPACK_IMPORTED_MODULE_8__.ExportNs)('Trigger')
     ], ESLTrigger);
     return ESLTrigger;
-}(_esl_base_element_core__WEBPACK_IMPORTED_MODULE_11__.ESLBaseElement));
+}(_esl_base_element_core__WEBPACK_IMPORTED_MODULE_9__.ESLBaseElement));
 
 
 
@@ -9342,7 +9277,8 @@ function loadScript(id, src) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ScrollUtils": function() { return /* binding */ ScrollUtils; }
+/* harmony export */   "ScrollUtils": function() { return /* binding */ ScrollUtils; },
+/* harmony export */   "ScrollUtility": function() { return /* binding */ ScrollUtility; }
 /* harmony export */ });
 var $html = document.documentElement;
 var initiatorSet = new Set();
@@ -9396,6 +9332,8 @@ var ScrollUtils = /** @class */ (function () {
     return ScrollUtils;
 }());
 
+/** @deprecated Use ScrollUtils alias */
+var ScrollUtility = ScrollUtils;
 
 
 /***/ }),
@@ -9484,7 +9422,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
-var _a = window.navigator, userAgent = _a.userAgent, vendor = _a.vendor, platform = _a.platform;
+var ua = window.navigator.userAgent;
+var vendor = window.navigator.vendor;
 /**
  * Device detection utility
  * @readonly
@@ -9494,20 +9433,11 @@ var DeviceDetector = /** @class */ (function () {
     }
     DeviceDetector_1 = DeviceDetector;
     Object.defineProperty(DeviceDetector, "isTouchDevice", {
-        // Touch Detection
         get: function () {
-            if (window.navigator.maxTouchPoints || window.navigator.msMaxTouchPoints)
+            if (('ontouchstart' in window) || 'TouchEvent ' in window || 'DocumentTouch' in window && document instanceof Touch) {
                 return true;
-            return ('ontouchstart' in window) || ('DocumentTouch' in window && document instanceof Touch);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(DeviceDetector, "hasHover", {
-        // Hover check
-        // Note: always true for IE
-        get: function () {
-            return !matchMedia('(hover: none)').matches;
+            }
+            return DeviceDetector_1.touchMQ.matches;
         },
         enumerable: false,
         configurable: true
@@ -9526,33 +9456,38 @@ var DeviceDetector = /** @class */ (function () {
     });
     var DeviceDetector_1;
     // IE Detection
-    DeviceDetector.isTrident = /trident/i.test(userAgent);
+    DeviceDetector.isTrident = /trident/i.test(ua);
     DeviceDetector.isIE = DeviceDetector_1.isTrident;
     // Edge Detection
-    DeviceDetector.isEdgeHTML = /edg([ea]|ios)/i.test(userAgent);
-    DeviceDetector.isBlinkEdge = /\sedg\//i.test(userAgent);
+    DeviceDetector.isEdgeHTML = /edg([ea]|ios)/i.test(ua);
+    DeviceDetector.isBlinkEdge = /\sedg\//i.test(ua);
     DeviceDetector.isEdge = DeviceDetector_1.isEdgeHTML || DeviceDetector_1.isBlinkEdge;
     // Gecko
-    DeviceDetector.isGecko = /gecko/i.test(userAgent) && !/like gecko/i.test(userAgent);
-    DeviceDetector.isFirefox = /firefox|iceweasel|fxios/i.test(userAgent);
+    DeviceDetector.isGecko = /gecko/i.test(ua) && !/like gecko/i.test(ua);
+    DeviceDetector.isFirefox = /firefox|iceweasel|fxios/i.test(ua);
     // Opera / Chrome
-    DeviceDetector.isOpera = /(?:^opera.+?version|opr)/.test(userAgent);
+    DeviceDetector.isOpera = /(?:^opera.+?version|opr)/.test(ua);
     DeviceDetector.isChrome = !DeviceDetector_1.isOpera && /google inc/.test(vendor);
     // Webkit
-    DeviceDetector.isWebkit = /(apple)?webkit/i.test(userAgent);
+    DeviceDetector.isWebkit = /(apple)?webkit/i.test(ua);
     // Safari
-    DeviceDetector.isSafari = DeviceDetector_1.isWebkit && /^((?!chrome|android).)*safari/i.test(userAgent);
+    DeviceDetector.isSafari = DeviceDetector_1.isWebkit && /^((?!chrome|android).)*safari/i.test(ua);
     // Blink
     DeviceDetector.isBlink = DeviceDetector_1.isWebkit && !DeviceDetector_1.isSafari;
     // Bot detection
-    DeviceDetector.isBot = /Chrome-Lighthouse|Google Page Speed Insights/i.test(userAgent);
+    DeviceDetector.isBot = /Chrome-Lighthouse|Google Page Speed Insights/i.test(ua);
     // Mobile
-    DeviceDetector.isAndroid = /Android/i.test(userAgent);
-    DeviceDetector.isMobileIOS13 = (platform === 'MacIntel' && window.navigator.maxTouchPoints > 1);
-    DeviceDetector.isMobileIOS = /iPad|iPhone|iPod/.test(platform) || DeviceDetector_1.isMobileIOS13;
+    DeviceDetector.isAndroid = /Android/i.test(ua);
+    DeviceDetector.isMobileIOS = /iPad|iPhone|iPod/i.test(ua);
     DeviceDetector.isLegacyMobile = /webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     DeviceDetector.isMobile = DeviceDetector_1.isMobileIOS || DeviceDetector_1.isAndroid || DeviceDetector_1.isLegacyMobile;
-    DeviceDetector.isMobileSafari = DeviceDetector_1.isMobileIOS && DeviceDetector_1.isWebkit && /CriOS/i.test(userAgent);
+    DeviceDetector.isMobileSafari = DeviceDetector_1.isMobileIOS && DeviceDetector_1.isWebkit && /CriOS/i.test(ua);
+    // Touch Detection
+    DeviceDetector.touchMQ = (function () {
+        var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
+        var mediaQuery = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
+        return matchMedia(mediaQuery);
+    })();
     DeviceDetector = DeviceDetector_1 = __decorate([
         (0,_export_ns__WEBPACK_IMPORTED_MODULE_0__.ExportNs)('DeviceDetector')
     ], DeviceDetector);
@@ -9847,13 +9782,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "isObject": function() { return /* binding */ isObject; },
 /* harmony export */   "isObjectLike": function() { return /* binding */ isObjectLike; },
-/* harmony export */   "isPrimitive": function() { return /* binding */ isPrimitive; },
 /* harmony export */   "deepCompare": function() { return /* binding */ deepCompare; },
 /* harmony export */   "getPropertyDescriptor": function() { return /* binding */ getPropertyDescriptor; },
 /* harmony export */   "defined": function() { return /* binding */ defined; },
-/* harmony export */   "copy": function() { return /* binding */ copy; },
 /* harmony export */   "copyDefinedKeys": function() { return /* binding */ copyDefinedKeys; },
-/* harmony export */   "omit": function() { return /* binding */ omit; },
 /* harmony export */   "set": function() { return /* binding */ set; },
 /* harmony export */   "get": function() { return /* binding */ get; }
 /* harmony export */ });
@@ -9870,9 +9802,6 @@ var __values = (undefined && undefined.__values) || function(o) {
 };
 var isObject = function (obj) { return obj && typeof obj === 'object'; };
 var isObjectLike = function (obj) { return isObject(obj) || typeof obj === 'function'; };
-var isPrimitive = function (obj) {
-    return typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean';
-};
 /** Deep object compare */
 function deepCompare(obj1, obj2) {
     if (Object.is(obj1, obj2))
@@ -9920,23 +9849,13 @@ function defined() {
         finally { if (e_1) throw e_1.error; }
     }
 }
-/** Makes a plain copy of obj with properties satisfying the predicate
- * If no predicate provided copies all own properties */
-function copy(obj, predicate) {
-    if (predicate === void 0) { predicate = function () { return true; }; }
-    var result = Object.assign({}, obj || {});
-    Object.keys(result).forEach(function (key) {
-        (!predicate(key, result[key])) && delete result[key];
-    });
-    return result;
-}
 /** Makes a flat copy without undefined keys */
 function copyDefinedKeys(obj) {
-    return copy(obj || {}, function (key, value) { return value !== void 0; });
-}
-/** Omit copying provided properties from object */
-function omit(obj, keys) {
-    return copy(obj, function (key) { return !keys.includes(key); });
+    var result = Object.assign({}, obj || {});
+    Object.keys(result).forEach(function (key) {
+        (result[key] === void 0) && delete result[key];
+    });
+    return result;
 }
 /**
  * Set object property using "path" key
@@ -9983,39 +9902,14 @@ var get = function (data, path, defaultValue) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "sequentialUID": function() { return /* binding */ sequentialUID; },
-/* harmony export */   "resetSequentialUID": function() { return /* binding */ resetSequentialUID; },
-/* harmony export */   "randUID": function() { return /* binding */ randUID; },
 /* harmony export */   "generateUId": function() { return /* binding */ generateUId; }
 /* harmony export */ });
-var sequences = new Map();
-/** Create and return sequential id */
-var sequentialUID = function (name, prefix) {
-    if (prefix === void 0) { prefix = name; }
-    var uid = (sequences.get(name) || 0) + 1;
-    sequences.set(name, uid);
-    return prefix + uid;
-};
-/** Reset {@link sequentialUID} generator */
-var resetSequentialUID = function (name) {
-    if (typeof name === 'string') {
-        sequences.delete(name);
-    }
-    else {
-        sequences.clear();
-    }
-};
-/** Return random unique identifier */
-var randUID = function () {
-    var time = Date.now().toString(32);
-    var rand = Math.round(Math.random() * 1024 * 1024).toString(32);
-    return time + '-' + rand;
-};
-/**
- * Generate unique id
- * @deprecated Alias for {@link randUID}
- */
-var generateUId = randUID;
+/** Generate unique id */
+function generateUId() {
+    var fp = Date.now().toString(32);
+    var sp = Math.round(Math.random() * 1024 * 1024).toString(32);
+    return fp + '-' + sp;
+}
 
 
 /***/ }),

@@ -10404,10 +10404,8 @@ html.esl-disable-scroll.esl-pseudo-scroll::after {
   right: 0;
   bottom: 0;
   overflow-y: scroll;
-  z-index: 999999;
 }
-html.esl-disable-scroll.esl-pseudo-scroll > img,
-html.esl-disable-scroll.esl-pseudo-scroll > iframe {
+html.esl-disable-scroll.esl-pseudo-scroll > img {
   flex: 0 1 auto !important;
 }
 esl-image {
@@ -10759,7 +10757,7 @@ esl-panel-group[view='tabs'] > esl-panel.open {
   opacity: 1;
   transition: max-height 0.5s ease-in-out, visibility 0s linear, opacity 0.5s ease-in-out;
 }
-esl-panel-group:not(.animate):not([view="open"]) esl-panel:not(.animate):not(.open) * {
+esl-panel-group:not(.animate) esl-panel:not(.animate):not(.open) * {
   visibility: hidden !important;
 }
 esl-tab {
@@ -10966,6 +10964,8 @@ esl-select-renderer:not([multiple]) .esl-select-clear-btn {
   display: block;
   position: absolute;
   top: 0;
+  height: 50vh;
+  min-height: 350px;
   z-index: 100;
   visibility: hidden;
   opacity: 0;
@@ -10979,7 +10979,7 @@ esl-select-renderer:not([multiple]) .esl-select-clear-btn {
   transition: opacity 0.25s linear, visibility 0s linear 0s;
 }
 .esl-select-dropdown .esl-select-list {
-  max-height: 50vh;
+  height: 100%;
   box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
 }
 .esl-select-dropdown .esl-select-list .esl-select-list-container {
@@ -11058,8 +11058,8 @@ esl-select-item[disabled][selected]::before,
   background: #fff;
   border: 1px solid #ccc;
   min-height: 50px;
-  height: auto;
-  max-height: 400px;
+  height: 400px;
+  max-height: 100%;
 }
 .esl-select-list > [esl-select-target] {
   /* Visually hidden */
