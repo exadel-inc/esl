@@ -1,8 +1,8 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {memoize} from '../../esl-utils/decorators/memoize';
-import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
-import {ESLNote} from '../../esl-note/core/esl-note';
+import {ESLBaseElement, attr} from '../../esl-base-element/core';
+import {ESLNote} from '../../esl-note/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {EventUtils} from '../../esl-utils/dom/events';
 
@@ -30,22 +30,29 @@ export class ESLFootnotes extends ESLBaseElement {
   protected connectedCallback() {
     super.connectedCallback();
 
-    if (this.scopeEl) {
-      this.scopeEl.addEventListener(`${ESLNote.eventNs}:ready`, this._handlerNoteSubscribe);
-    }
-
+    this.bindEvents();
     EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:ready`);
   }
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
 
+    this.unbindEvents();
+    this._notes.forEach((el) => el.unlink());
+    this._notes = [];
+  }
+
+  protected bindEvents() {
+    if (this.scopeEl) {
+      this.scopeEl.addEventListener(`${ESLNote.eventNs}:ready`, this._handlerNoteSubscribe);
+    }
+    this.addEventListener('click', this._onClick);
+  }
+  protected unbindEvents() {
     if (this.scopeEl) {
       this.scopeEl.removeEventListener(`${ESLNote.eventNs}:ready`, this._handlerNoteSubscribe);
     }
-
-    this._notes.forEach((el) => el.unlink());
-    this._notes = [];
+    this.removeEventListener('click', this._onClick);
   }
 
   public linkNote(note: ESLNote) {
@@ -77,6 +84,7 @@ export class ESLFootnotes extends ESLBaseElement {
     $item.setAttribute('data-order', `${note.index}`);
     $item.append(this.buildItemIndexEl(note.index));
     $item.append(this.buildItemTextEl(note.text));
+    $item.append(this.buildItemBack());
     return $item;
   }
 
@@ -94,12 +102,32 @@ export class ESLFootnotes extends ESLBaseElement {
     return $text;
   }
 
+  protected buildItemBack(): HTMLElement {
+    const $back = document.createElement('span');
+    $back.className = 'esl-footnotes-back-to-note';
+    $back.tabIndex = 0;
+    return $back;
+  }
+
   @bind
   protected _handlerNoteSubscribe(e: CustomEvent) {
     const note = e.target as ESLNote;
     this.linkNote(note);
-    this.update()
+    this.update();
 
     e.stopImmediatePropagation();
+  }
+
+  @bind
+  protected _onClick(e: MouseEvent | KeyboardEvent) {
+    const target = e.target as HTMLElement;
+    if (target && target.classList.contains('esl-footnotes-back-to-note')) {
+      const index = target.parentElement?.getAttribute('data-order');
+      const note = index ? this._notes.find((el) => el.index === +index) : null;
+      if (note) {
+        note.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+        note.showTooltip();
+      }
+    }
   }
 }

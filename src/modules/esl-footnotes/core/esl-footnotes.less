@@ -1,9 +1,9 @@
 esl-footnotes {
-  .esl-footnotes-items{
+  .esl-footnotes-items {
     list-style-type: none;
   }
 
-  .esl-footnotes-index{
+  .esl-footnotes-index {
     position: relative;
     font-size: 75%;
     line-height: 0;
@@ -11,7 +11,21 @@ esl-footnotes {
     top: -.5em;
   }
 
-  .esl-footnotes-text{
+  .esl-footnotes-text {
     padding-left: .5em;
+    padding-right: .5em;
+  }
+
+  .esl-footnotes-back-to-note {
+    position: relative;
+    font-size: 66%;
+    line-height: 0;
+    vertical-align: baseline;
+    top: -.5em;
+    cursor: pointer;
+
+    &::before {
+      content: '[\2BC5]';
+    }
   }
 }
