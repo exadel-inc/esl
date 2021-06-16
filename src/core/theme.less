@@ -1,26 +1,24 @@
 @import './variables';
 
-uip-root {
+.uip-root {
   &.uip-light-theme {
     background-color: @light-theme;
-
-    & > uip-snippets {
-      ul.snippets-list li {
-        &:not(:last-child) {
-          &::after {
-            color: @dark-text-decorator-color;
-          }
-        }
-      }
-    }
 
     & > .uip-plugin {
       background-color: @light-theme-section;
       color: @dark-text;
-    }
 
-    & > uip-settings {
-      uip-check-setting, uip-list-setting, uip-text-setting {
+      &.uip-snippets {
+        .snippets-list .snippets-list-item {
+          &:not(:last-child) {
+            &::after {
+              color: @dark-text-decorator-color;
+            }
+          }
+        }
+      }
+
+      &.uip-settings .uip-setting {
         label {
           color: @dark-text;
         }
@@ -31,23 +29,21 @@ uip-root {
   &.uip-dark-theme {
     background-color: @dark-theme;
 
-    & > uip-snippets {
-      ul.snippets-list li {
-        &:not(:last-child) {
-          &::after {
-            color: @light-text;
-          }
-        }
-      }
-    }
-
     & > .uip-plugin {
       background-color: @dark-theme-section;
       color: @light-text;
-    }
 
-    & > uip-settings {
-      uip-check-setting, uip-list-setting, uip-text-setting {
+      &.uip-snippets {
+        .snippets-list .snippets-list-item {
+          &:not(:last-child) {
+            &::after {
+              color: @light-text;
+            }
+          }
+        }
+      }
+
+      &.uip-settings .uip-setting {
         label {
           color: @light-text;
         }

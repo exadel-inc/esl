@@ -1,6 +1,7 @@
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {CSSClassUtils, ESLMediaQuery} from '@exadel/esl';
+import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
 
 import {UIPEditor} from '../editor/editor';
 import {UIPPlugin} from '../core/plugin';
@@ -54,20 +55,17 @@ export class UIPOptions extends UIPPlugin {
   protected renderMode() {
     const $mode = document.createElement('div');
     CSSClassUtils.add($mode, 'uip-option mode');
+    const modeOptionId = generateUId();
     $mode.innerHTML = `
         <div class="option-item">
-            <label class="option-label">
-            Vertical
-            <input type="radio" name="mode" mode="vertical"
+            <input type="radio" id=${modeOptionId}-vertical name=${modeOptionId}-mode mode="vertical"
             class="option-radio-btn" ${this.mode === 'vertical' ? 'checked' : ''}>
-            </label>
+            <label class="option-label" for=${modeOptionId}-vertical>Vertical</label>
         </div>
         <div class="option-item">
-            <label class="option-label">
-            Horizontal
-            <input type="radio" name="mode" mode="horizontal"
+            <input type="radio" id=${modeOptionId}-horizontal name=${modeOptionId}-mode mode="horizontal"
             class="option-radio-btn" ${this.mode === 'horizontal' ? 'checked' : ''}>
-            </label>
+            <label class="option-label" for=${modeOptionId}-horizontal>Horizontal</label>
         </div>`;
     this.appendChild($mode);
   }
@@ -75,20 +73,17 @@ export class UIPOptions extends UIPPlugin {
   protected renderTheme() {
     const $theme = document.createElement('div');
     CSSClassUtils.add($theme, 'uip-option theme');
+    const themeOptionId = generateUId();
     $theme.innerHTML = `
         <div class="option-item">
-            <label class="option-label">
-            Light
-            <input type="radio" name="theme" theme="uip-light"
+            <input type="radio" id=${themeOptionId}-light name=${themeOptionId}-theme theme="uip-light"
             class="option-radio-btn" ${this.theme === 'uip-light' ? 'checked' : ''}>
-            </label>
+            <label class="option-label" for=${themeOptionId}-light>Light</label>
         </div>
         <div class="option-item">
-            <label class="option-label">
-            Dark
-            <input type="radio" name="theme" theme="uip-dark"
+            <input type="radio" id=${themeOptionId}-dark name=${themeOptionId}-theme theme="uip-dark"
             class="option-radio-btn" ${this.theme === 'uip-dark' ? 'checked' : ''}>
-            </label>
+            <label class="option-label" for=${themeOptionId}-dark>Dark</label>
         </div>`;
     this.appendChild($theme);
   }
@@ -96,8 +91,6 @@ export class UIPOptions extends UIPPlugin {
   @bind
   protected _onOptionChange(e: Event) {
     const target = e.target as HTMLElement;
-
-    if (!target || target.classList.value !== 'option-radio-btn') return;
 
     const mode = target.getAttribute('mode');
     const theme = target.getAttribute('theme');
