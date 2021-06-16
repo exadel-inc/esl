@@ -137,7 +137,7 @@ export class ESLToggleable extends ESLBaseElement {
   }
   /** Bind hover events listeners for the Toggleable itself */
   protected bindHoverStateTracking(track: boolean) {
-    if (DeviceDetector.isTouchDevice) return;
+    if (!DeviceDetector.hasHover) return;
     if (this._trackHover === track) return;
     this._trackHover = track;
 
@@ -191,7 +191,6 @@ export class ESLToggleable extends ESLBaseElement {
     if (!params.silent && !this.$$fire('before:hide',{detail: {params}})) return;
     this.open = false;
     this.onHide(params);
-    this.activator = null;
     if (!params.silent) this.$$fire('hide', {detail: {params}, cancelable: false});
   }
 
@@ -227,7 +226,7 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /** Last component that has activated the element. Uses {@link ToggleableActionParams.activator}*/
-  public get activator() {
+  public get activator(): HTMLElement | null | undefined {
     return activators.get(this);
   }
   public set activator(el: HTMLElement | null | undefined) {

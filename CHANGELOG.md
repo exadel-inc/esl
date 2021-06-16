@@ -1,3 +1,68 @@
+# [3.0.0-beta.9](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.8...v3.0.0-beta.9) (2021-06-16)
+
+
+### Features
+
+* **esl-trigger:** show/hide delay override for hover on trigger ([7962eba](https://github.com/exadel-inc/esl/commit/7962eba74f01177f97f30aab68a2a9b4d4d2dc9f))
+
+# [3.0.0-beta.8](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.7...v3.0.0-beta.8) (2021-06-13)
+
+
+### Bug Fixes
+
+* pseudo scroll locker styles fix ([8d2cfeb](https://github.com/exadel-inc/esl/commit/8d2cfeb04525fb968a2372d86fd1cbd3f6a866b2))
+* **esl-toggleable:** fix trackHover precondition ([751eb76](https://github.com/exadel-inc/esl/commit/751eb7636797cb1b79f6df1b6bcf3ff5b8350fb9))
+* **esl-utils:** add hasHover device detection ([2f46dc5](https://github.com/exadel-inc/esl/commit/2f46dc593f21822cb00a883acdcead608f6ee3b7))
+* **esl-utils:** fix media query empty rule payload type (null -> undefined) ([423506e](https://github.com/exadel-inc/esl/commit/423506e83ae9793518ce3e19351a56600d0d5f5d))
+
+
+### Features
+
+* **esl-toggleable:** automatic initial a11y ([49e30c4](https://github.com/exadel-inc/esl/commit/49e30c458e6860955718440451fe91ee7545fdc1))
+* **esl-toggleable:** esl-toggleable reimplementation ([94bf814](https://github.com/exadel-inc/esl/commit/94bf8142c82fc91e91dae86440202a0450906bb0))
+
+
+### BREAKING CHANGES
+
+* **esl-toggleable:** 
+  * `event` property no longer available.
+Alternative `track-click`/`track-hover` options provided
+  * `touchShowDelay` and `touchShowDelay` removed.
+Use `showDelay` / `hideDelay` with ESLMediaQuery support
+  * Inner API changes: `showEvent`, `hideEvent` removed
+  * Inner API changes: `_onClick`, `_onMouseEnter`, `_onMouseLeave` handlers
+
+## [2.7.1](https://github.com/exadel-inc/esl/compare/v2.7.0...v2.7.1) (2021-06-13)
+Dependencies versions update
+
+
+# [3.0.0-beta.7](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.6...v3.0.0-beta.7) (2021-06-08)
+
+
+### BREACKING CHANGES:
+* **esl-image**: make original mode rule meta independent
+* **esl-media-query**: get rid of DPR meta
+* **esl-media-query**: mobile device marker removed
+
+# [3.0.0-beta.6](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.5...v3.0.0-beta.6) (2021-06-07)
+
+
+### Bug Fixes
+
+* **esl-utils:** device detector touch detection improved ([7a5956e](https://github.com/exadel-inc/esl/commit/7a5956ebf55d00bde38707c92bc921ac48c1c5ef))
+
+
+### Features
+
+* **esl-utils:**  add copy & omit utilities ([d31b957](https://github.com/exadel-inc/esl/commit/d31b9573d271708943b0abb717952fb7d7c01ef5))
+
+# [3.0.0-beta.5](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.4...v3.0.0-beta.5) (2021-06-03)
+
+
+### Bug Fixes
+
+* activator should be available after hide ([817181a](https://github.com/exadel-inc/esl/commit/817181aad59499abb15d0f2ad9a82f56e63f98cd))
+
 # [3.0.0-beta.4](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2021-06-02)
 
 

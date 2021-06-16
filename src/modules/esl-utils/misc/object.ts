@@ -1,5 +1,9 @@
 export const isObject = (obj: any): obj is Record<string, any> => obj && typeof obj === 'object';
 export const isObjectLike = (obj: any) => isObject(obj) || typeof obj === 'function';
+export const isPrimitive = (obj: any): obj is string | number | boolean =>
+  typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean';
+
+export type CopyPredicate = (key: string, value: any) => boolean;
 
 /** Deep object compare */
 export function deepCompare(obj1: any, obj2: any): boolean {
@@ -31,13 +35,24 @@ export function defined<T>(...params: T[]) {
   }
 }
 
-/** Makes a flat copy without undefined keys */
-export function copyDefinedKeys<T>(obj?: T): Partial<T> {
+/** Makes a plain copy of obj with properties satisfying the predicate
+ * If no predicate provided copies all own properties */
+export function copy<T>(obj: T, predicate: CopyPredicate = () => true): Partial<T> {
   const result: any = Object.assign({}, obj || {});
   Object.keys(result).forEach((key) => {
-    (result[key] === void 0) && delete result[key];
+    (!predicate(key, result[key])) && delete result[key];
   });
   return result;
+}
+
+/** Makes a flat copy without undefined keys */
+export function copyDefinedKeys<T>(obj?: T): Partial<T> {
+  return copy(obj || {}, (key, value) => value !== void 0);
+}
+
+/** Omit copying provided properties from object */
+export function omit<T>(obj: T, keys: string[]) {
+  return copy(obj, key => !keys.includes(key));
 }
 
 /**
