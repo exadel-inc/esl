@@ -6,6 +6,8 @@ import {ESLTooltip} from '../../esl-tooltip/core';
 import {ESLFootnotes} from '../../esl-footnotes/core/esl-footnotes';
 import {EventUtils} from '../../esl-utils/dom/events';
 
+import type {ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
+
 @ExportNs('Note')
 export class ESLNote extends ESLTrigger {
   static is = 'esl-note';
@@ -15,7 +17,8 @@ export class ESLNote extends ESLTrigger {
   @boolAttr() public linked: boolean;
 
   @attr({defaultValue: 'toggle'}) public mode: string;
-  @attr({defaultValue: 'hover'}) public event: string;
+  @attr({defaultValue: 'all'}) public trackClick: string;
+  @attr({defaultValue: 'all'}) public trackHover: string;
 
   public target = 'body';
 
@@ -38,6 +41,10 @@ export class ESLNote extends ESLTrigger {
 
   get text() {
     return this._text;
+  }
+
+  public static parseDelayValue2(delay: string): number | undefined {
+    return isNaN(+delay) ? undefined : +delay;
   }
 
   protected connectedCallback() {
@@ -76,30 +83,23 @@ export class ESLNote extends ESLTrigger {
     }
   }
 
-  /** Handles trigger open type of event */
-  @bind
-  protected _onShowEvent(event: Event) {
-    if (this._isIgnored(event.target)) return;
-    ESLTooltip.show({
-      activator: this,
-      delay: this.showDelayValue,
+  /** Show target toggleable with passed params */
+  public showTarget(params: ToggleableActionParams = {}) {
+    const actionParams = this.mergeToggleableParams({
+      delay: ESLNote.parseDelayValue2(this.showDelay),
       text: this.text,
-      //behavior: 'none',
-      //disableArrow: true,
-      event
-    });
-    event.preventDefault();
+      behavior: 'none',
+      disableArrow: true,
+    }, params);
+    ESLTooltip.show(actionParams);
   }
 
-  /** Handles trigger hide type of event */
-  @bind
-  protected _onHideEvent(event: Event) {
-    if (this._isIgnored(event.target)) return;
-    ESLTooltip.hide({
-      activator: this,
-      delay: this.hideDelayValue,
-      event
-    });
-    event.preventDefault();
+  /** Hide target toggleable with passed params */
+  public hideTarget(params: ToggleableActionParams = {}) {
+    const actionParams = this.mergeToggleableParams({
+      delay: ESLNote.parseDelayValue2(this.hideDelay)
+    }, params);
+    ESLTooltip.hide(actionParams);
   }
+
 }

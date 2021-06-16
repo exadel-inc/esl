@@ -1,6 +1,9 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, jsonAttr} from '../../esl-base-element/core';
-import {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core';
+import {prop} from '../../esl-utils/decorators/prop';
+import {ESLToggleable} from '../../esl-toggleable/core';
+
+import type {ToggleableActionParams} from '../../esl-toggleable/core';
 
 export interface PopupActionParams extends ToggleableActionParams {
   /** text to be shown */
@@ -36,6 +39,9 @@ export class ESLPopup extends ESLToggleable {
     offsetWindow: 15
   }})
   public defaultParams: PopupActionParams;
+
+  @prop() public closeOnEsc = true;
+  @prop() public closeOnOutsideAction = true;
 
   public connectedCallback() {
     this.$arrow = this.querySelector('.esl-popup-arrow');
@@ -78,7 +84,7 @@ export class ESLPopup extends ESLToggleable {
   protected set _arrowPosition(value: string) {
     if (!this.$arrow) return;
 
-    const cls = Array.from(this.$arrow.classList).filter((el) => el.substr(-9) === '-position')
+    const cls = Array.from(this.$arrow.classList).filter((el) => el.substr(-9) === '-position');
     this.$arrow.classList.remove(...cls);
     this.$arrow.classList.add(`${value}-position`);
   }
@@ -142,13 +148,13 @@ export class ESLPopup extends ESLToggleable {
     const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new DOMRect();
     const triggerRect = triggerEl.getBoundingClientRect();
     const triggerPosY = triggerRect.top + this._windowY;
-    const arrowHeight = arrowRect.height / 2
+    const arrowHeight = arrowRect.height / 2;
 
     let arrowTop = triggerPosY - this._offsetTrigger - arrowHeight;
     let top = arrowTop - this.offsetHeight;
     let position = 'top';
     if (this._isFitBehavior && this._windowY > top) {  /* show popup at the bottom of trigger */
-      let arrowTop = triggerPosY + triggerRect.height + this._offsetTrigger;
+      arrowTop = triggerPosY + triggerRect.height + this._offsetTrigger;
       top = arrowTop + arrowHeight + this._offsetTrigger;
       position = 'bottom';
     }
