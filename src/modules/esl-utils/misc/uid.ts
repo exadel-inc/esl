@@ -1,22 +1,18 @@
-const sequences = new Map<string, number>();
+const ns = window || global;
+const sequences = ns.__esl_sequences__ || new Map<string, number>();
+ns.__esl_sequences__ = sequences;
+
+declare global {
+  interface Window {
+    __esl_sequences__: Map<string, number>;
+  }
+}
 
 /** Create and return sequential id */
 export const sequentialUID = (name: string, prefix: string = name) => {
   const uid = (sequences.get(name) || 0) + 1;
   sequences.set(name, uid);
   return prefix + uid;
-};
-
-/**
- * Reset {@link sequentialUID} generator.
- * @deprecated avoid reset of globally shared sequences
- */
-export const resetSequentialUID = (name?: string) => {
-  if (typeof name === 'string') {
-    sequences.delete(name);
-  } else {
-    sequences.clear();
-  }
 };
 
 /** Return random unique identifier */
