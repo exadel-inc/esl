@@ -1,9 +1,10 @@
 ---
-layout: ../../layouts/basic.html
+layout: basic
 title: Single Slide Carousel
+name: Single Slide Carousel
+tags: drafts
 ---
 
-{{##content:
 <div class="container-fluid">
   <div class="row flex-column">
     <a href="javascript:void 0" class="sr-only">Fake anchor</a>
@@ -18,27 +19,27 @@ title: Single Slide Carousel
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
         <esl-carousel-slide data-active-slide
-                            style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+                            style="background: {{ functions.randomColor() }}">
           <div class="post-text">
             <p>aaa</p>
           </div>
         </esl-carousel-slide>
-        <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+        <esl-carousel-slide style="background: {{ functions.randomColor() }}">
           <div class="post-text">
             <p>bbb</p>
           </div>
         </esl-carousel-slide>
-        <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+        <esl-carousel-slide style="background: {{ functions.randomColor() }}">
           <div class="post-text">
             <p>ccc</p>
           </div>
         </esl-carousel-slide>
-        <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+        <esl-carousel-slide style="background: {{ functions.randomColor() }}">
           <div class="post-text">
             <p>ddd</p>
           </div>
         </esl-carousel-slide>
-        <esl-carousel-slide style="background: #{{= Math.floor(Math.random()*4095).toString(16) }}">
+        <esl-carousel-slide style="background: {{ functions.randomColor() }}">
           <div class="post-text">
             <p>eee</p>
           </div>
@@ -56,4 +57,3 @@ title: Single Slide Carousel
     </esl-carousel>
   </div>
 </div>
-#}}
