@@ -1,6 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, jsonAttr} from '../../esl-base-element/core';
 import {prop} from '../../esl-utils/decorators/prop';
+import {rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
@@ -29,6 +30,7 @@ export class ESLPopup extends ESLToggleable {
 
   protected _offsetTrigger: number;
   protected _offsetWindow: number;
+  protected _deferredUpdatePosition = rafDecorator(() => this._updatePosition());
 
   @attr({defaultValue: 'top'}) public position: string;
   @attr({defaultValue: 'fit'}) public behavior: string;
@@ -47,6 +49,16 @@ export class ESLPopup extends ESLToggleable {
     this.$arrow = this.querySelector('.esl-popup-arrow');
 
     super.connectedCallback();
+  }
+
+  protected bindEvents() {
+    super.bindEvents();
+    window.addEventListener('resize', this._deferredUpdatePosition);
+  }
+
+  protected unbindEvents() {
+    super.unbindEvents();
+    window.removeEventListener('resize', this._deferredUpdatePosition);
   }
 
   protected get _windowWidth() {
@@ -78,7 +90,7 @@ export class ESLPopup extends ESLToggleable {
     this._offsetTrigger = params.offsetTrigger || 0;
     this._offsetWindow = params.offsetWindow || 0;
 
-    this._updatePosition(params.activator);
+    this._updatePosition();
   }
 
   protected set _arrowPosition(value: string) {
@@ -89,10 +101,10 @@ export class ESLPopup extends ESLToggleable {
     this.$arrow.classList.add(`${value}-position`);
   }
 
-  protected _updatePosition(triggerEl?: HTMLElement) {
-    if (!triggerEl) return;
+  protected _updatePosition() {
+    if (!this.activator) return;
 
-    const {left, top, arrowLeft, arrowTop, position} = this._calculateTopPosition(triggerEl);
+    const {left, top, arrowLeft, arrowTop, position} = this._calculateTopPosition(this.activator);
 
     // set popup position
     this.style.left = `${left}px`;
@@ -105,9 +117,9 @@ export class ESLPopup extends ESLToggleable {
     }
   }
 
-  protected _calculateTopPosition(triggerEl: HTMLElement) {
-    const {left, arrowLeft} = this._calculateTopPositionLeft(triggerEl);
-    const {top, arrowTop, position} = this._calculateTopPositionTop(triggerEl);
+  protected _calculateTopPosition($activator: HTMLElement) {
+    const {left, arrowLeft} = this._calculateTopPositionLeft($activator);
+    const {top, arrowTop, position} = this._calculateTopPositionTop($activator);
 
     return {
       left,
@@ -118,8 +130,8 @@ export class ESLPopup extends ESLToggleable {
     };
   }
 
-  protected _calculateTopPositionLeft(triggerEl: HTMLElement) {
-    const triggerRect = triggerEl.getBoundingClientRect();
+  protected _calculateTopPositionLeft($activator: HTMLElement) {
+    const triggerRect = $activator.getBoundingClientRect();
     const triggerPosX = triggerRect.left + this._windowX;
     const centerX = triggerPosX + triggerRect.width / 2;
 
@@ -144,9 +156,9 @@ export class ESLPopup extends ESLToggleable {
     };
   }
 
-  protected _calculateTopPositionTop(triggerEl: HTMLElement) {
+  protected _calculateTopPositionTop($activator: HTMLElement) {
     const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new DOMRect();
-    const triggerRect = triggerEl.getBoundingClientRect();
+    const triggerRect = $activator.getBoundingClientRect();
     const triggerPosY = triggerRect.top + this._windowY;
     const arrowHeight = arrowRect.height / 2;
 
