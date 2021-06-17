@@ -19,8 +19,8 @@ export class ESLNote extends ESLBaseElement {
   /** Linked state marker */
   @boolAttr() public linked: boolean;
 
-  /** @readonly Observed Toggleable active state marker */
-  @boolAttr({readonly: true}) public active: boolean;
+  /** Tooltip state marker */
+  @boolAttr() public tooltipShown: boolean;
 
   /** Click event tracking media query. Default: `all` */
   @attr({defaultValue: 'all'}) public trackClick: string;
@@ -55,35 +55,36 @@ export class ESLNote extends ESLBaseElement {
   @ready
   protected connectedCallback() {
     this._text = this.innerText;
-
     super.connectedCallback();
-
-    EventUtils.dispatch(this, `${ESLNote.eventNs}:ready`);
-    document.body.addEventListener(`${ESLFootnotes.eventNs}:ready`, this._handlerFootnotesReady);
     this.bindEvents();
+    EventUtils.dispatch(this, `${ESLNote.eventNs}:ready`);
   }
 
   @ready
   protected disconnectedCallback() {
     super.disconnectedCallback();
     this.unbindEvents();
-
-    if (this._$footnotes) {
-      this._$footnotes.unlinkNote(this);
-    }
+    this._$footnotes?.unlinkNote(this);
   }
 
   protected bindEvents() {
+    document.body.addEventListener(`${ESLFootnotes.eventNs}:ready`, this._onFootnotesReady);
     this.addEventListener('click', this._onClick);
     this.addEventListener('keydown', this._onKeydown);
     this.addEventListener('mouseenter', this._onMouseEnter);
     this.addEventListener('mouseleave', this._onMouseLeave);
   }
   protected unbindEvents() {
+    document.body.removeEventListener(`${ESLFootnotes.eventNs}:ready`, this._onFootnotesReady);
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('keydown', this._onKeydown);
     this.removeEventListener('mouseenter', this._onMouseEnter);
     this.removeEventListener('mouseleave', this._onMouseLeave);
+  }
+
+  public activate() {
+    this.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+    this.showTooltip();
   }
 
   public link(footnotes: ESLFootnotes, index: number) {
@@ -106,14 +107,14 @@ export class ESLNote extends ESLBaseElement {
   protected mergeToggleableParams(this: ESLNote, ...params: ToggleableActionParams[]) {
     return Object.assign({
       initiator: 'note',
-      activator: this
+      activator: this,
+      text: this.text
     }, ...params);
   }
 
   /** Show tooltip with passed params */
   public showTooltip(params: ToggleableActionParams = {}) {
     const actionParams = this.mergeToggleableParams({
-      text: this.text,
       // behavior: 'none',
       // disableArrow: true,
     }, params);
@@ -126,12 +127,8 @@ export class ESLNote extends ESLBaseElement {
     ESLTooltip.hide(actionParams);
   }
   /** Toggles tooltip with passed params */
-  public toggleTooltip(params: ToggleableActionParams = {}, state: boolean = !this.active) {
+  public toggleTooltip(params: ToggleableActionParams = {}, state: boolean = !this.tooltipShown) {
     state ? this.showTooltip(params) : this.hideTooltip(params);
-  }
-  /** Toggles note active state */
-  public updateState(newState: boolean) {
-    this.toggleAttribute('active', newState);
   }
 
   /** Handles `click` event */
@@ -167,10 +164,9 @@ export class ESLNote extends ESLBaseElement {
   }
 
   @bind
-  protected _handlerFootnotesReady(e: CustomEvent) {
-    if (!this.linked) {
-      EventUtils.dispatch(this, `${ESLNote.eventNs}:ready`);
-    }
+  protected _onFootnotesReady(e: CustomEvent) {
+    if (this.linked) return;
+    EventUtils.dispatch(this, `${ESLNote.eventNs}:ready`);
   }
 
 }

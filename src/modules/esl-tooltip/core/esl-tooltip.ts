@@ -1,7 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
-import {ESLNote} from '../../esl-note/core';
 import {memoize} from '../../esl-utils/decorators/memoize';
 
 import type {PopupActionParams} from '../../esl-popup/core';
@@ -23,14 +22,9 @@ export class ESLTooltip extends ESLPopup {
   @attr({defaultValue: 'fit'}) public behavior: string;
   @boolAttr() public disableArrow: boolean;
 
-  private static _instance: ESLTooltip;
-
+  @memoize()
   public static get sharedInstance() {
-    if (!ESLTooltip._instance) {
-      ESLTooltip._instance = document.createElement('esl-tooltip') as ESLTooltip;
-    }
-
-    return ESLTooltip._instance;
+    return document.createElement('esl-tooltip') as ESLTooltip;
   }
 
   public static show(params: PopupActionParams = {}) {
@@ -64,7 +58,6 @@ export class ESLTooltip extends ESLPopup {
   }
 
   public onShow(params: PopupActionParams) {
-    params = this.mergeDefaultParams(params);
     if (params.disableArrow) {
       this.disableArrow = params.disableArrow;
     }
@@ -86,8 +79,6 @@ export class ESLTooltip extends ESLPopup {
   }
 
   protected _updateActivatorState(newState: boolean) {
-    if (this.activator && (this.activator instanceof ESLNote)) {
-      this.activator.updateState(newState);
-    }
+    this.activator?.toggleAttribute('tooltip-shown', newState);
   }
 }

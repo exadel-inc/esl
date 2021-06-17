@@ -7,10 +7,6 @@ import {ESLToggleable} from '../../esl-toggleable/core';
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
 
 export interface PopupActionParams extends ToggleableActionParams {
-  /** text to be shown */
-  text?: string;
-  /** html content to be shown */
-  html?: string;
   /** popup position relative to trigger */
   position?: string;
   /** popup behavior if it does not fit in the window */
@@ -24,7 +20,6 @@ export interface PopupActionParams extends ToggleableActionParams {
 @ExportNs('Popup')
 export class ESLPopup extends ESLToggleable {
   public static is = 'esl-popup';
-  public static eventNs = 'esl:tooltip';
 
   public $arrow: HTMLElement | null;
 
@@ -73,12 +68,7 @@ export class ESLPopup extends ESLToggleable {
     return window.scrollY || window.pageYOffset;
   }
 
-  protected get _isFitBehavior() {
-    return this.behavior === 'fit';
-  }
-
   public onShow(params: PopupActionParams) {
-    params = this.mergeDefaultParams(params);
     super.onShow(params);
 
     if (params.position) {
@@ -96,9 +86,7 @@ export class ESLPopup extends ESLToggleable {
   protected set _arrowPosition(value: string) {
     if (!this.$arrow) return;
 
-    const cls = Array.from(this.$arrow.classList).filter((el) => el.substr(-9) === '-position');
-    this.$arrow.classList.remove(...cls);
-    this.$arrow.classList.add(`${value}-position`);
+    this.$arrow.setAttribute('position', value);
   }
 
   protected _updatePosition() {
@@ -138,13 +126,13 @@ export class ESLPopup extends ESLToggleable {
     let arrowAdjust = 0;
     let left = centerX - this.offsetWidth / 2;
 
-    if (this._isFitBehavior && left < this._offsetWindow) {
+    if (this.behavior === 'fit' && left < this._offsetWindow) {
       arrowAdjust += left - this._offsetWindow;
       left = this._offsetWindow;
     }
 
     const right = this._windowWidth - (left + this.offsetWidth);
-    if (this._isFitBehavior && right < this._offsetWindow) {
+    if (this.behavior === 'fit' && right < this._offsetWindow) {
       arrowAdjust -= right - this._offsetWindow;
       left += right - this._offsetWindow;
     }
@@ -165,7 +153,7 @@ export class ESLPopup extends ESLToggleable {
     let arrowTop = triggerPosY - this._offsetTrigger - arrowHeight;
     let top = arrowTop - this.offsetHeight;
     let position = 'top';
-    if (this._isFitBehavior && this._windowY > top) {  /* show popup at the bottom of trigger */
+    if (this.behavior === 'fit' && this._windowY > top) {  /* show popup at the bottom of trigger */
       arrowTop = triggerPosY + triggerRect.height + this._offsetTrigger;
       top = arrowTop + arrowHeight + this._offsetTrigger;
       position = 'bottom';

@@ -21,22 +21,24 @@
     border-left: 1px solid @tooltipBorderColor;
     border-top: 1px solid @tooltipBorderColor;
 
-    &.top-position {
+    &[position=top] {
       bottom: (-@popupArrowHalf - 1);
       top: auto;
       transform: rotate(225deg);
     }
 
-    &.left-position {
+    &[position=left] {
       right: (-@popupArrowHalf - 1);
       left: auto;
       transform: rotate(135deg);
     }
 
-    &.right-position {
+    &[position=right] {
       left: (-@popupArrowHalf - 1);
       right: auto;
       transform: rotate(315deg);
     }
+
+
   }
 }

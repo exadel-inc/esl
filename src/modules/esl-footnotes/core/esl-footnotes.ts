@@ -6,7 +6,7 @@ import {ESLNote} from '../../esl-note/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {EventUtils} from '../../esl-utils/dom/events';
 
-@ExportNs('Note')
+@ExportNs('Footnotes')
 export class ESLFootnotes extends ESLBaseElement {
   static is = 'esl-footnotes';
   static eventNs = 'esl:footnotes';
@@ -14,13 +14,7 @@ export class ESLFootnotes extends ESLBaseElement {
   /** Target element {@link TraversingQuery} to define scope */
   @attr({defaultValue: '::parent'}) public scopeTarget: string;
 
-  protected _notes: ESLNote[];
-
-  constructor() {
-    super();
-
-    this._notes = [];
-  }
+  protected _notes: ESLNote[] = [];
 
   @memoize()
   protected get scopeEl() {
@@ -44,13 +38,13 @@ export class ESLFootnotes extends ESLBaseElement {
 
   protected bindEvents() {
     if (this.scopeEl) {
-      this.scopeEl.addEventListener(`${ESLNote.eventNs}:ready`, this._handlerNoteSubscribe);
+      this.scopeEl.addEventListener(`${ESLNote.eventNs}:ready`, this._onNoteSubscribe);
     }
     this.addEventListener('click', this._onClick);
   }
   protected unbindEvents() {
     if (this.scopeEl) {
-      this.scopeEl.removeEventListener(`${ESLNote.eventNs}:ready`, this._handlerNoteSubscribe);
+      this.scopeEl.removeEventListener(`${ESLNote.eventNs}:ready`, this._onNoteSubscribe);
     }
     this.removeEventListener('click', this._onClick);
   }
@@ -74,7 +68,7 @@ export class ESLFootnotes extends ESLBaseElement {
   protected buildItems(): HTMLElement {
     const $items = document.createElement('ul');
     $items.className = 'esl-footnotes-items';
-    this._notes.forEach((note) => $items.append(this.buildItem(note)));
+    this._notes.forEach((note) => $items.appendChild(this.buildItem(note)));
     return $items;
   }
 
@@ -82,9 +76,9 @@ export class ESLFootnotes extends ESLBaseElement {
     const $item = document.createElement('li');
     $item.className = 'esl-footnotes-item';
     $item.setAttribute('data-order', `${note.index}`);
-    $item.append(this.buildItemIndexEl(note.index));
-    $item.append(this.buildItemTextEl(note.text));
-    $item.append(this.buildItemBack());
+    $item.appendChild(this.buildItemIndexEl(note.index));
+    $item.appendChild(this.buildItemTextEl(note.text));
+    $item.appendChild(this.buildItemBack());
     return $item;
   }
 
@@ -110,7 +104,7 @@ export class ESLFootnotes extends ESLBaseElement {
   }
 
   @bind
-  protected _handlerNoteSubscribe(e: CustomEvent) {
+  protected _onNoteSubscribe(e: CustomEvent) {
     const note = e.target as ESLNote;
     this.linkNote(note);
     this.update();
@@ -124,10 +118,7 @@ export class ESLFootnotes extends ESLBaseElement {
     if (target && target.classList.contains('esl-footnotes-back-to-note')) {
       const index = target.parentElement?.getAttribute('data-order');
       const note = index ? this._notes.find((el) => el.index === +index) : null;
-      if (note) {
-        note.scrollIntoView({behavior: 'smooth', block: 'nearest'});
-        note.showTooltip();
-      }
+      note?.activate();
     }
   }
 }
