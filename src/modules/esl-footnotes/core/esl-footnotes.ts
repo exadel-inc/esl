@@ -61,46 +61,29 @@ export class ESLFootnotes extends ESLBaseElement {
   }
 
   public update() {
-    this.innerHTML = '';
-    this.append(this.buildItems());
+    this.innerHTML = this.buildItems();
   }
 
-  protected buildItems(): HTMLElement {
-    const $items = document.createElement('ul');
-    $items.className = 'esl-footnotes-items';
-    this._notes.forEach((note) => $items.appendChild(this.buildItem(note)));
-    return $items;
+  protected buildItems(): string {
+    const items = this._notes.map((note) => this.buildItem(note)).join('');
+    return `<ul class="esl-footnotes-items">${items}</ul>`;
   }
 
-  protected buildItem(note: ESLNote): HTMLElement {
-    const $item = document.createElement('li');
-    $item.className = 'esl-footnotes-item';
-    $item.setAttribute('data-order', `${note.index}`);
-    $item.appendChild(this.buildItemIndexEl(note.index));
-    $item.appendChild(this.buildItemTextEl(note.text));
-    $item.appendChild(this.buildItemBack());
-    return $item;
+  protected buildItem(note: ESLNote): string {
+    const item = `${this.buildItemIndex(note.index)}${this.buildItemText(note.text)}${this.buildItemBack()}`;
+    return `<li class="esl-footnotes-item" data-order="${note.index}">${item}</li>`;
   }
 
-  protected buildItemIndexEl(index: number): HTMLElement {
-    const $index = document.createElement('span');
-    $index.className = 'esl-footnotes-index';
-    $index.innerText = `${index}`;
-    return $index;
+  protected buildItemIndex(index: number): string {
+    return `<span class="esl-footnotes-index">${index}</span>`;
   }
 
-  protected buildItemTextEl(text: string): HTMLElement {
-    const $text = document.createElement('span');
-    $text.className = 'esl-footnotes-text';
-    $text.innerText = `${text}`;
-    return $text;
+  protected buildItemText(text: string): string {
+    return `<span class="esl-footnotes-text">${text}</span>`;
   }
 
-  protected buildItemBack(): HTMLElement {
-    const $back = document.createElement('span');
-    $back.className = 'esl-footnotes-back-to-note';
-    $back.tabIndex = 0;
-    return $back;
+  protected buildItemBack(): string {
+    return '<span class="esl-footnotes-back-to-note" tabindex="0"></span>';
   }
 
   @bind

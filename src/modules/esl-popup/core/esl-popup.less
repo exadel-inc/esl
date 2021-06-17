@@ -1,9 +1,29 @@
-@popupArrowSize: 20px;
-@popupArrowHalf: (@popupArrowSize / 2);
+@POPUP_ARROW_SIZE: 20px;
+@POPUP_ARROW_HALF: (@POPUP_ARROW_SIZE / 2);
+@POPUP_BORDER_COLOR: #DBDBDB;
+@POPUP_Z_INDEX: 999;
 
 .esl-popup {
   display: block;
-  font-size: 14px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  border: 1px solid @POPUP_BORDER_COLOR;
+  background: #FFF;
+  cursor: default;
+  opacity: 0;
+  will-change: auto;
+  transition: visibility 0.5s 0.2s;
+  visibility: hidden;
+  box-sizing: border-box;
+
+  &[open] {
+    opacity: 1;
+    z-index: @POPUP_Z_INDEX;
+    visibility: visible;
+    transition: opacity 0.15s, transform 0.2s;
+  }
 
   &:not([open]) {
     display: none;
@@ -12,33 +32,31 @@
   .esl-popup-arrow {
     position: absolute;
     bottom: 100%;
-    background: #fff;
-    width: @popupArrowSize;
-    height: @popupArrowSize;
+    background: #FFF;
+    width: @POPUP_ARROW_SIZE;
+    height: @POPUP_ARROW_SIZE;
     transform: rotate(45deg);
-    margin-left: -@popupArrowHalf;
-    top: (-@popupArrowHalf - 1);
-    border-left: 1px solid @tooltipBorderColor;
-    border-top: 1px solid @tooltipBorderColor;
+    margin-left: -@POPUP_ARROW_HALF;
+    top: (-@POPUP_ARROW_HALF - 1);
+    border-left: 1px solid @POPUP_BORDER_COLOR;
+    border-top: 1px solid @POPUP_BORDER_COLOR;
 
     &[position=top] {
-      bottom: (-@popupArrowHalf - 1);
+      bottom: (-@POPUP_ARROW_HALF - 1);
       top: auto;
       transform: rotate(225deg);
     }
 
     &[position=left] {
-      right: (-@popupArrowHalf - 1);
+      right: (-@POPUP_ARROW_HALF - 1);
       left: auto;
       transform: rotate(135deg);
     }
 
     &[position=right] {
-      left: (-@popupArrowHalf - 1);
+      left: (-@POPUP_ARROW_HALF - 1);
       right: auto;
       transform: rotate(315deg);
     }
-
-
   }
 }

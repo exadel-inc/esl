@@ -92,7 +92,7 @@ export class ESLPopup extends ESLToggleable {
   protected _updatePosition() {
     if (!this.activator) return;
 
-    const {left, top, arrowLeft, arrowTop, position} = this._calculateTopPosition(this.activator);
+    const {left, top, arrowLeft, arrowTop, position} = this._calculatePosition(this.activator);
 
     // set popup position
     this.style.left = `${left}px`;
@@ -105,9 +105,9 @@ export class ESLPopup extends ESLToggleable {
     }
   }
 
-  protected _calculateTopPosition($activator: HTMLElement) {
-    const {left, arrowLeft} = this._calculateTopPositionLeft($activator);
-    const {top, arrowTop, position} = this._calculateTopPositionTop($activator);
+  protected _calculatePosition($activator: HTMLElement) {
+    const {left, arrowLeft} = this._calculateLeft($activator);
+    const {top, arrowTop, position} = this._calculateTop($activator);
 
     return {
       left,
@@ -118,7 +118,7 @@ export class ESLPopup extends ESLToggleable {
     };
   }
 
-  protected _calculateTopPositionLeft($activator: HTMLElement) {
+  protected _calculateLeft($activator: HTMLElement) {
     const triggerRect = $activator.getBoundingClientRect();
     const triggerPosX = triggerRect.left + this._windowX;
     const centerX = triggerPosX + triggerRect.width / 2;
@@ -144,7 +144,7 @@ export class ESLPopup extends ESLToggleable {
     };
   }
 
-  protected _calculateTopPositionTop($activator: HTMLElement) {
+  protected _calculateTop($activator: HTMLElement) {
     const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new DOMRect();
     const triggerRect = $activator.getBoundingClientRect();
     const triggerPosY = triggerRect.top + this._windowY;

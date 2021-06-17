@@ -41,6 +41,7 @@ export class ESLTooltip extends ESLPopup {
       this._appendArrow();
     }
     super.connectedCallback();
+    this.classList.add(ESLPopup.is);
   }
 
   protected setInitialState() {}
