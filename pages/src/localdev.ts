@@ -14,6 +14,7 @@ import '../../src/modules/lib';
 import {
   ESLImage,
   ESLMedia,
+  ESLToggleable,
   ESLPopup,
   ESLPanel,
   ESLPanelGroup,
@@ -43,6 +44,7 @@ ESLImage.register();
 ESLMedia.register();
 
 ESLToggleableDispatcher.init();
+ESLToggleable.register();
 ESLPopup.register();
 
 ESLPanelGroup.register();
