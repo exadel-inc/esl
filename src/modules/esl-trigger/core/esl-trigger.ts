@@ -2,6 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
+import {parseNumber} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {TraversingQuery} from '../../esl-traversing-query/core';
@@ -85,10 +86,6 @@ export class ESLTrigger extends ESLBaseElement {
     return ESLMediaQuery.for(this.trackClick).matches;
   }
 
-  private static parseDelayValue(delay: string): number | undefined {
-    return isNaN(+delay) ? undefined : +delay;
-  }
-
   @ready
   protected connectedCallback() {
     super.connectedCallback();
@@ -146,14 +143,14 @@ export class ESLTrigger extends ESLBaseElement {
   /** Show target toggleable with passed params */
   public showTarget(params: ToggleableActionParams = {}) {
     const actionParams = this.mergeToggleableParams({
-      delay: ESLTrigger.parseDelayValue(this.showDelay)
+      delay: parseNumber(this.showDelay)
     }, params);
     this.$target && this.$target.show(actionParams);
   }
   /** Hide target toggleable with passed params */
   public hideTarget(params: ToggleableActionParams = {}) {
     const actionParams = this.mergeToggleableParams({
-      delay: ESLTrigger.parseDelayValue(this.hideDelay)
+      delay: parseNumber(this.hideDelay)
     }, params);
     this.$target && this.$target.hide(actionParams);
   }
@@ -209,7 +206,7 @@ export class ESLTrigger extends ESLBaseElement {
   @bind
   protected _onMouseEnter(event: MouseEvent) {
     if (!this.allowHover) return;
-    const delay = ESLTrigger.parseDelayValue(this.hoverShowDelay);
+    const delay = parseNumber(this.hoverShowDelay);
     this.toggleTarget({event, delay}, this.mode !== 'hide');
     event.preventDefault();
   }
@@ -219,7 +216,7 @@ export class ESLTrigger extends ESLBaseElement {
   protected _onMouseLeave(event: MouseEvent) {
     if (!this.allowHover) return;
     if (this.mode === 'show' || this.mode === 'hide') return;
-    const delay = ESLTrigger.parseDelayValue(this.hoverHideDelay);
+    const delay = parseNumber(this.hoverHideDelay);
     this.hideTarget({event, delay, trackHover: true});
     event.preventDefault();
   }
