@@ -70,7 +70,7 @@ export class ESLFootnotes extends ESLBaseElement {
   }
 
   protected buildItem(note: ESLNote): string {
-    const item = `${this.buildItemIndex(note.index)}${this.buildItemText(note.text)}${this.buildItemBack()}`;
+    const item = `${this.buildItemIndex(note.index)}${this.buildItemText(note.html)}${this.buildItemBack()}`;
     return `<li class="esl-footnotes-item" data-order="${note.index}">${item}</li>`;
   }
 

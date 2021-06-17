@@ -27,9 +27,11 @@ export class ESLNote extends ESLBaseElement {
   /** Hover event tracking media query. Default: `all` */
   @attr({defaultValue: 'all'}) public trackHover: string;
 
+  @attr() public noteText: string;
+
   protected _$footnotes: ESLFootnotes | null;
   protected _index: number;
-  protected _text: string;
+  protected _innerHTML: string;
 
   /** Marker to allow track hover */
   public get allowHover() {
@@ -48,13 +50,14 @@ export class ESLNote extends ESLBaseElement {
     this._index = val;
   }
 
-  get text() {
-    return this._text;
+  get html() {
+    return this._innerHTML;
   }
 
   @ready
   protected connectedCallback() {
-    this._text = this.innerText;
+    this._innerHTML = this.innerHTML;
+    this.noteText = this._innerHTML;
     super.connectedCallback();
     this.bindEvents();
     EventUtils.dispatch(this, `${ESLNote.eventNs}:ready`);
@@ -98,7 +101,7 @@ export class ESLNote extends ESLBaseElement {
   public unlink() {
     this.linked = false;
     this._$footnotes = null;
-    this.innerText = this.text;
+    this.innerHTML = this.html;
     this.tabIndex = -1;
     EventUtils.dispatch(this, `${ESLNote.eventNs}:ready`);
   }
@@ -108,7 +111,7 @@ export class ESLNote extends ESLBaseElement {
     return Object.assign({
       initiator: 'note',
       activator: this,
-      text: this.text
+      html: this.html
     }, ...params);
   }
 
