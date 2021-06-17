@@ -67,6 +67,9 @@ export class ESLToggleable extends ESLBaseElement {
   /** Default params to merge into passed action params */
   @jsonAttr<ToggleableActionParams>({defaultValue: {}})
   public defaultParams: ToggleableActionParams;
+  /** Hover params to pass from track hover listener */
+  @jsonAttr<ToggleableActionParams>({defaultValue: {}})
+  public trackHoverParams: ToggleableActionParams;
 
   /** Marker of initially opened toggleable instance */
   public initiallyOpened: boolean;
@@ -273,10 +276,12 @@ export class ESLToggleable extends ESLBaseElement {
 
   @bind
   protected _onMouseEnter(e: MouseEvent) {
-    this.show({initiator: 'mouseenter', trackHover: true, activator: this, event: e});
+    const baseParams = {initiator: 'mouseenter', trackHover: true, activator: this, event: e};
+    this.show(Object.assign(baseParams, this.trackHoverParams));
   }
   @bind
   protected _onMouseLeave(e: MouseEvent) {
-    this.hide({initiator: 'mouseleave', trackHover: true, activator: this, event: e});
+    const baseParams = {initiator: 'mouseleave', trackHover: true, activator: this, event: e};
+    this.hide(Object.assign(baseParams, this.trackHoverParams));
   }
 }

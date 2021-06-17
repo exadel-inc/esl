@@ -16,6 +16,16 @@ export const unwrapParenthesis = (str: string) => {
 };
 
 /**
+ * Parse number with the ability to pass an alternative fallback for NaN.
+ * Note: falsy values except 0 are treated as NaN
+ */
+export const parseNumber = (str: string | number, nanValue?: number | undefined) => {
+  if (str === 0) return 0;
+  const value = +(str || NaN);
+  return isNaN(value) ? nanValue : value;
+};
+
+/**
  * Common function that returns coefficient aspect ratio
  * Supported formats: w:h, w/h, coefficient
  * @example '16:9', '16/9', '1.77'

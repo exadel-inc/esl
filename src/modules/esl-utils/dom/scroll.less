@@ -20,8 +20,12 @@ html.esl-disable-scroll {
     display: flex !important;
     align-items: stretch !important;
 
+    &[dir='rtl'] {
+      flex-flow: row-reverse !important;
+    }
+
     body {
-      flex: 1 1 auto !important;
+      flex: 1 1 100% !important;
       max-height: 100vh !important;
     }
 
