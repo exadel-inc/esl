@@ -50,7 +50,7 @@
     "build:docs": "copyfiles \"src/**/*.md\" \".\" --up 1 --all",
     "build-pages": "concurrently \"npm run build-pages:ts\" \"npm run build-pages:less\" && npm run build-pages:eleventy",
     "build-pages:ts": "cd pages && webpack",
-    "build-pages:less": "lessc pages/src/localdev.less pages/static/bundles/localdev.css --source-map=pages/static/bundles/localdev.css.map",
+    "build-pages:less": "lessc pages/src/localdev.less pages/dist/bundles/localdev.css --source-map=pages/dist/bundles/localdev.css.map",
     "build-pages:eleventy": "npx @11ty/eleventy -- --env=production",
     "watch:ts": "cd pages && webpack --watch",
     "watch:less": "chokidar --initial \"**/*.less\" -c \"npm run build-pages:less\"",

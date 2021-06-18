@@ -11,7 +11,6 @@ node_modules
 
 # Test server
 pages/*.js
-pages/static
 
 # Generated surces
 /modules

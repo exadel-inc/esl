@@ -1,8 +1,5 @@
 module.exports = config => {
-  config.setUseGitIgnore(false);
-  config.addWatchTarget('pages/static/bundles');
   config.addPassthroughCopy({
-    'pages/static/bundles': 'bundles',
     'pages/static/assets': 'assets',
     'pages/static/tools': '.',
   });
