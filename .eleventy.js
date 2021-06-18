@@ -16,11 +16,9 @@ module.exports = config => {
 
   return {
     dir: {
-      input: 'pages/views-11ty',
+      input: 'pages/views',
       output: 'pages/dist',
-      includes: 'includes',
-      layouts: 'layouts',
-      data: 'data',
+      layouts: "_layouts",
     },
     dataTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
