@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.5",
-    "@types/video.js": "7.3.19",
+    "@types/video.js": "7.3.21",
     "@types/youtube": "0.0.42"
   },
   "devDependencies": {
@@ -96,16 +96,16 @@
     "jest": "^27.0.4",
     "less": "^4.1.1",
     "lintspaces-cli": "^0.7.1",
-    "postcss": "^8.3.4",
+    "postcss": "^8.3.5",
     "promise-polyfill": "^8.2.0",
     "rimraf": "^3.0.2",
-    "semantic-release": "^17.4.3",
+    "semantic-release": "^17.4.4",
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^13.13.1",
     "ts-jest": "^27.0.3",
     "ts-loader": "^9.2.3",
-    "typescript": "4.3.2",
-    "webpack": "^5.39.0",
+    "typescript": "4.3.4",
+    "webpack": "^5.39.1",
     "webpack-cli": "^4.7.2"
   },
   "browserslist": [
