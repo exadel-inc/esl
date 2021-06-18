@@ -42,6 +42,7 @@ const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap(
  */
 @ExportNs('Toggleable')
 export class ESLToggleable extends ESLBaseElement {
+  static is = 'esl-toggleable';
   static get observedAttributes() {
     return ['open', 'group'];
   }
@@ -49,7 +50,7 @@ export class ESLToggleable extends ESLBaseElement {
   /** CSS class to add on the body element */
   @attr() public bodyClass: string;
   /** CSS class to add when the Toggleable is active */
-  @attr() public activeClass: string;
+  @attr({defaultValue: 'open'}) public activeClass: string;
 
   /** Toggleable group meta information to organize groups */
   @attr({name: 'group'}) public groupName: string;
