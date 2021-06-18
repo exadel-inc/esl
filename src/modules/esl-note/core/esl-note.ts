@@ -3,13 +3,13 @@ import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {ESLTooltip} from '../../esl-tooltip/core';
-import {ESLFootnotes} from '../../esl-footnotes/core/esl-footnotes';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 
 import type {ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
+import type {ESLFootnotes} from '../../esl-footnotes/core/esl-footnotes';
 
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
@@ -26,8 +26,6 @@ export class ESLNote extends ESLBaseElement {
   @attr({defaultValue: 'all'}) public trackClick: string;
   /** Hover event tracking media query. Default: `all` */
   @attr({defaultValue: 'all'}) public trackHover: string;
-
-  @attr() public noteText: string;
 
   protected _$footnotes: ESLFootnotes | null;
   protected _index: number;
@@ -46,10 +44,6 @@ export class ESLNote extends ESLBaseElement {
     return this._index;
   }
 
-  set index(val: number) {
-    this._index = val;
-  }
-
   get html() {
     return this._innerHTML;
   }
@@ -57,10 +51,9 @@ export class ESLNote extends ESLBaseElement {
   @ready
   protected connectedCallback() {
     this._innerHTML = this.innerHTML;
-    this.noteText = this._innerHTML;
     super.connectedCallback();
     this.bindEvents();
-    EventUtils.dispatch(this, `${ESLNote.eventNs}:ready`);
+    EventUtils.dispatch(this, `${ESLNote.eventNs}:response`);
   }
 
   @ready
@@ -71,14 +64,14 @@ export class ESLNote extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    document.body.addEventListener(`${ESLFootnotes.eventNs}:ready`, this._onFootnotesReady);
+    document.body.addEventListener(`${ESLNote.eventNs}:request`, this._onFootnotesReady);
     this.addEventListener('click', this._onClick);
     this.addEventListener('keydown', this._onKeydown);
     this.addEventListener('mouseenter', this._onMouseEnter);
     this.addEventListener('mouseleave', this._onMouseLeave);
   }
   protected unbindEvents() {
-    document.body.removeEventListener(`${ESLFootnotes.eventNs}:ready`, this._onFootnotesReady);
+    document.body.removeEventListener(`${ESLNote.eventNs}:request`, this._onFootnotesReady);
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('keydown', this._onKeydown);
     this.removeEventListener('mouseenter', this._onMouseEnter);
@@ -93,8 +86,8 @@ export class ESLNote extends ESLBaseElement {
   public link(footnotes: ESLFootnotes, index: number) {
     this.linked = true;
     this._$footnotes = footnotes;
-    this.index = index;
-    this.innerHTML = `${this.index}`;
+    this._index = index;
+    this.innerHTML = `${index}`;
     this.tabIndex = 0;
   }
 
@@ -169,7 +162,7 @@ export class ESLNote extends ESLBaseElement {
   @bind
   protected _onFootnotesReady(e: CustomEvent) {
     if (this.linked) return;
-    EventUtils.dispatch(this, `${ESLNote.eventNs}:ready`);
+    EventUtils.dispatch(this, `${ESLNote.eventNs}:response`);
   }
 
 }

@@ -9,7 +9,6 @@ import {EventUtils} from '../../esl-utils/dom/events';
 @ExportNs('Footnotes')
 export class ESLFootnotes extends ESLBaseElement {
   static is = 'esl-footnotes';
-  static eventNs = 'esl:footnotes';
 
   /** Target element {@link TraversingQuery} to define scope */
   @attr({defaultValue: '::parent'}) public scopeTarget: string;
@@ -25,7 +24,7 @@ export class ESLFootnotes extends ESLBaseElement {
     super.connectedCallback();
 
     this.bindEvents();
-    EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:ready`);
+    EventUtils.dispatch(this, `${ESLNote.eventNs}:request`);
   }
 
   protected disconnectedCallback() {
@@ -38,13 +37,13 @@ export class ESLFootnotes extends ESLBaseElement {
 
   protected bindEvents() {
     if (this.scopeEl) {
-      this.scopeEl.addEventListener(`${ESLNote.eventNs}:ready`, this._onNoteSubscribe);
+      this.scopeEl.addEventListener(`${ESLNote.eventNs}:response`, this._onNoteSubscribe);
     }
     this.addEventListener('click', this._onClick);
   }
   protected unbindEvents() {
     if (this.scopeEl) {
-      this.scopeEl.removeEventListener(`${ESLNote.eventNs}:ready`, this._onNoteSubscribe);
+      this.scopeEl.removeEventListener(`${ESLNote.eventNs}:response`, this._onNoteSubscribe);
     }
     this.removeEventListener('click', this._onClick);
   }
@@ -56,7 +55,6 @@ export class ESLFootnotes extends ESLBaseElement {
 
   public unlinkNote(note: ESLNote) {
     this._notes = this._notes.filter((el) => el !== note);
-    this._notes.forEach((el, index) => el.index = index + 1);
     this.update();
   }
 
