@@ -14,4 +14,4 @@ In case you are using JetBrains IDE (IDEA or WebStorm) you need to follow these 
 3. find Twig and add the custom pattern `*.njk`.
 Now all *.njk files are parsed as Twig so you have support for Nunjucks.
 
-For Visual Studio Code you can use this [plugin](https://marketplace.visualstudio.com/items?itemName=eseom.nunjucks-template) to support syntax highlighting.
+For Visual Studio Code you can use this [plugin](https://marketplace.visualstudio.com/items?itemName=ronnidc.nunjucks) to support syntax highlighting.
