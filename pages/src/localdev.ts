@@ -17,6 +17,7 @@ import '../../src/modules/esl-media-query/core';
 import {
   ESLImage,
   ESLMedia,
+  ESLToggleable,
   ESLPopup,
   ESLPanel,
   ESLPanelGroup,
@@ -46,6 +47,7 @@ ESLImage.register();
 ESLMedia.register();
 
 ESLToggleableDispatcher.init();
+ESLToggleable.register();
 ESLPopup.register();
 
 ESLPanelGroup.register();

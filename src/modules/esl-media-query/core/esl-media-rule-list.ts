@@ -1,4 +1,5 @@
 import {Observable} from '../../esl-utils/abstract/observable';
+import {isPrimitive} from '../../esl-utils/misc/object';
 import {evaluate} from '../../esl-utils/misc/format';
 import {ESLMediaRule} from './esl-media-rule';
 
@@ -9,7 +10,7 @@ type PayloadParser<T> = (val: string) => T | undefined;
  * @author Yuliya Adamskaya
  */
 export class ESLMediaRuleList<T> extends Observable {
-  private _active: ESLMediaRule<T | null>;
+  private _active: ESLMediaRule<T | undefined>;
   private readonly _default: ESLMediaRule<T>;
   private readonly _rules: ESLMediaRule<T>[];
 
@@ -54,7 +55,7 @@ export class ESLMediaRuleList<T> extends Observable {
     return this._rules;
   }
 
-  get _activeRule(): ESLMediaRule<T | null> {
+  get _activeRule(): ESLMediaRule<T | undefined> {
     const satisfied = this.rules.filter((rule) => rule.matches);
     return satisfied.length > 0 ? satisfied[satisfied.length - 1] : ESLMediaRule.empty();
   }
@@ -66,11 +67,9 @@ export class ESLMediaRuleList<T> extends Observable {
     return this._active;
   }
 
-  get activeValue(): T | null {
+  get activeValue(): T | undefined {
     const value = this.active.payload;
-    if (typeof value === 'string' || !this._default) {
-      return value;
-    }
+    if (isPrimitive(value) || !this._default || isPrimitive(this._default.payload)) return value;
     return Object.assign({}, this._default.payload || {}, value);
   }
 

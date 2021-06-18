@@ -38,14 +38,14 @@ export class ESLMediaRule<T> extends ESLMediaQuery {
   public static parse<U>(lex: string, parser: PayloadParser<U>) {
     const [query, payload] = lex.split('=>');
     const payloadValue = parser(payload.trim());
-    if (typeof payloadValue === 'undefined') return null;
+    if (typeof payloadValue === 'undefined') return undefined;
     return new ESLMediaRule<U>(payloadValue, query.trim());
   }
 
   public static all<U>(payload: U) {
     return new ESLMediaRule<U>(payload, 'all');
   }
-  public static empty(): ESLMediaRule<null> {
-    return new ESLMediaRule(null, 'all');
+  public static empty(): ESLMediaRule<undefined> {
+    return new ESLMediaRule(undefined, 'all');
   }
 }

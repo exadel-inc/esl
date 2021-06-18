@@ -1,3 +1,67 @@
+## [2.7.2](https://github.com/exadel-inc/esl/compare/v2.7.1...v2.7.2) (2021-06-18)
+
+# [3.0.0-beta.10](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.9...v3.0.0-beta.10) (2021-06-17)
+
+
+### Bug Fixes
+
+* **esl-utils:** fix IE pseudo scroll lock artifacts ([90961e0](https://github.com/exadel-inc/esl/commit/90961e07e8af28091245cdaac5bf7b93f8c34edc))
+* **esl-utils:** fix pseudo scroll RTL support ([db23758](https://github.com/exadel-inc/esl/commit/db23758a408c1f0309c71391fc68bd30f1933f6a))
+
+
+### Features
+
+* **esl-toggleable:** add track hover params property ([50f8d77](https://github.com/exadel-inc/esl/commit/50f8d77c7bdd7470bd8ae996cda33f11a67bee43))
+* **esl-utils:** add parseNumber utility ([5e5fff1](https://github.com/exadel-inc/esl/commit/5e5fff12af6f16da2888f6770423e718ce9853aa))
+* add prefix support for random uid ([6d7e180](https://github.com/exadel-inc/esl/commit/6d7e1806390e5e1d02431e78fa9bcb98879c0f27))
+* share sequences between bundles ([307fe53](https://github.com/exadel-inc/esl/commit/307fe53b8ff3bb7219b1095ea50aa23126391f71))
+
+# [3.0.0-beta.9](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.8...v3.0.0-beta.9) (2021-06-16)
+
+
+### Features
+
+* **esl-trigger:** show/hide delay override for hover on trigger ([7962eba](https://github.com/exadel-inc/esl/commit/7962eba74f01177f97f30aab68a2a9b4d4d2dc9f))
+
+# [3.0.0-beta.8](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.7...v3.0.0-beta.8) (2021-06-13)
+
+
+### Bug Fixes
+
+* pseudo scroll locker styles fix ([8d2cfeb](https://github.com/exadel-inc/esl/commit/8d2cfeb04525fb968a2372d86fd1cbd3f6a866b2))
+* **esl-toggleable:** fix trackHover precondition ([751eb76](https://github.com/exadel-inc/esl/commit/751eb7636797cb1b79f6df1b6bcf3ff5b8350fb9))
+* **esl-utils:** add hasHover device detection ([2f46dc5](https://github.com/exadel-inc/esl/commit/2f46dc593f21822cb00a883acdcead608f6ee3b7))
+* **esl-utils:** fix media query empty rule payload type (null -> undefined) ([423506e](https://github.com/exadel-inc/esl/commit/423506e83ae9793518ce3e19351a56600d0d5f5d))
+
+
+### Features
+
+* **esl-toggleable:** automatic initial a11y ([49e30c4](https://github.com/exadel-inc/esl/commit/49e30c458e6860955718440451fe91ee7545fdc1))
+* **esl-toggleable:** esl-toggleable reimplementation ([94bf814](https://github.com/exadel-inc/esl/commit/94bf8142c82fc91e91dae86440202a0450906bb0))
+
+
+### BREAKING CHANGES
+
+* **esl-toggleable:** 
+  * `event` property no longer available.
+Alternative `track-click`/`track-hover` options provided
+  * `touchShowDelay` and `touchShowDelay` removed.
+Use `showDelay` / `hideDelay` with ESLMediaQuery support
+  * Inner API changes: `showEvent`, `hideEvent` removed
+  * Inner API changes: `_onClick`, `_onMouseEnter`, `_onMouseLeave` handlers
+
+## [2.7.1](https://github.com/exadel-inc/esl/compare/v2.7.0...v2.7.1) (2021-06-13)
+Dependencies versions update
+
+
+# [3.0.0-beta.7](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.6...v3.0.0-beta.7) (2021-06-08)
+
+
+### BREACKING CHANGES:
+* **esl-image**: make original mode rule meta independent
+* **esl-media-query**: get rid of DPR meta
+* **esl-media-query**: mobile device marker removed
+
 # [3.0.0-beta.6](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.5...v3.0.0-beta.6) (2021-06-07)
 
 

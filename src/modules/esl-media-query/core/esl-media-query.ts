@@ -34,6 +34,7 @@ export class ESLMediaQuery {
   }
 
   /** Shortcut to create MediaQuery. The constructor of MediaQuery is already optimized */
+  @memoize()
   public static for(query: string) {
     return new ESLMediaQuery(query);
   }

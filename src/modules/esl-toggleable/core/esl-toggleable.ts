@@ -42,6 +42,7 @@ const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap(
  */
 @ExportNs('Toggleable')
 export class ESLToggleable extends ESLBaseElement {
+  static is = 'esl-toggleable';
   static get observedAttributes() {
     return ['open', 'group'];
   }
@@ -49,7 +50,7 @@ export class ESLToggleable extends ESLBaseElement {
   /** CSS class to add on the body element */
   @attr() public bodyClass: string;
   /** CSS class to add when the Toggleable is active */
-  @attr() public activeClass: string;
+  @attr({defaultValue: 'open'}) public activeClass: string;
 
   /** Toggleable group meta information to organize groups */
   @attr({name: 'group'}) public groupName: string;
@@ -67,6 +68,9 @@ export class ESLToggleable extends ESLBaseElement {
   /** Default params to merge into passed action params */
   @jsonAttr<ToggleableActionParams>({defaultValue: {}})
   public defaultParams: ToggleableActionParams;
+  /** Hover params to pass from track hover listener */
+  @jsonAttr<ToggleableActionParams>({defaultValue: {}})
+  public trackHoverParams: ToggleableActionParams;
 
   /** Marker of initially opened toggleable instance */
   public initiallyOpened: boolean;
@@ -137,7 +141,7 @@ export class ESLToggleable extends ESLBaseElement {
   }
   /** Bind hover events listeners for the Toggleable itself */
   protected bindHoverStateTracking(track: boolean) {
-    if (DeviceDetector.isTouchDevice) return;
+    if (!DeviceDetector.hasHover) return;
     if (this._trackHover === track) return;
     this._trackHover = track;
 
@@ -273,10 +277,12 @@ export class ESLToggleable extends ESLBaseElement {
 
   @bind
   protected _onMouseEnter(e: MouseEvent) {
-    this.show({initiator: 'mouseenter', trackHover: true, activator: this, event: e});
+    const baseParams = {initiator: 'mouseenter', trackHover: true, activator: this, event: e};
+    this.show(Object.assign(baseParams, this.trackHoverParams));
   }
   @bind
   protected _onMouseLeave(e: MouseEvent) {
-    this.hide({initiator: 'mouseleave', trackHover: true, activator: this, event: e});
+    const baseParams = {initiator: 'mouseleave', trackHover: true, activator: this, event: e};
+    this.hide(Object.assign(baseParams, this.trackHoverParams));
   }
 }

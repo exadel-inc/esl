@@ -1,5 +1,7 @@
 export const isObject = (obj: any): obj is Record<string, any> => obj && typeof obj === 'object';
 export const isObjectLike = (obj: any) => isObject(obj) || typeof obj === 'function';
+export const isPrimitive = (obj: any): obj is string | number | boolean =>
+  typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean';
 
 export type CopyPredicate = (key: string, value: any) => boolean;
 

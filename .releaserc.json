@@ -11,11 +11,15 @@
       "releaseRules": [
         {"type": "refactor", "release": "patch"},
         {"type": "style", "release": "patch"},
-        {"type": "test", "release": "patch"}
+        {"type": "test", "release": "patch"},
+        {"type": "chore", "scope": "versions", "release": "patch"}
       ]
     }],
     ["@semantic-release/release-notes-generator", {
-      "preset": "angular"
+      "preset": "angular",
+      "parserOpts": {
+        "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
+      }
     }],
     ["@semantic-release/changelog", {
       "changelogFile": "CHANGELOG.md"
