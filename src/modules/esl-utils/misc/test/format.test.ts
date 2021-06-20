@@ -1,4 +1,4 @@
-import {toCamelCase, toKebabCase, unwrapParenthesis, parseAspectRatio, evaluate, format} from '../format';
+import {toCamelCase, toKebabCase, unwrapParenthesis, parseAspectRatio, evaluate, format, parseNumber} from '../format';
 
 describe('misc/format helper tests', () => {
   test('toKebabCase', () => {
@@ -71,5 +71,22 @@ describe('misc/format helper tests', () => {
     ])('\'%s\' using %p to \'%s\'', (tmp: string, source: any, res: string) => {
       expect(format(tmp, source)).toBe(res);
     });
+  });
+
+  describe('parseNumber', () => {
+    test.each([
+      [['123'], 123],
+      [['123', 1], 123],
+      [[0], 0],
+      [['a'], undefined],
+      [['b', undefined], undefined],
+      [['abc', NaN], NaN],
+      [['def', 0], 0],
+      [[''], undefined],
+      [[false], undefined]
+    ])(
+      'args = %p, result: %p',
+      (args, exp) => expect(parseNumber.apply(null, args)).toBe(exp)
+    );
   });
 });

@@ -1,3 +1,28 @@
+## [2.7.2](https://github.com/exadel-inc/esl/compare/v2.7.1...v2.7.2) (2021-06-18)
+
+# [3.0.0-beta.10](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.9...v3.0.0-beta.10) (2021-06-17)
+
+
+### Bug Fixes
+
+* **esl-utils:** fix IE pseudo scroll lock artifacts ([90961e0](https://github.com/exadel-inc/esl/commit/90961e07e8af28091245cdaac5bf7b93f8c34edc))
+* **esl-utils:** fix pseudo scroll RTL support ([db23758](https://github.com/exadel-inc/esl/commit/db23758a408c1f0309c71391fc68bd30f1933f6a))
+
+
+### Features
+
+* **esl-toggleable:** add track hover params property ([50f8d77](https://github.com/exadel-inc/esl/commit/50f8d77c7bdd7470bd8ae996cda33f11a67bee43))
+* **esl-utils:** add parseNumber utility ([5e5fff1](https://github.com/exadel-inc/esl/commit/5e5fff12af6f16da2888f6770423e718ce9853aa))
+* add prefix support for random uid ([6d7e180](https://github.com/exadel-inc/esl/commit/6d7e1806390e5e1d02431e78fa9bcb98879c0f27))
+* share sequences between bundles ([307fe53](https://github.com/exadel-inc/esl/commit/307fe53b8ff3bb7219b1095ea50aa23126391f71))
+
+# [3.0.0-beta.9](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.8...v3.0.0-beta.9) (2021-06-16)
+
+
+### Features
+
+* **esl-trigger:** show/hide delay override for hover on trigger ([7962eba](https://github.com/exadel-inc/esl/commit/7962eba74f01177f97f30aab68a2a9b4d4d2dc9f))
+
 # [3.0.0-beta.8](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.7...v3.0.0-beta.8) (2021-06-13)
 
 
