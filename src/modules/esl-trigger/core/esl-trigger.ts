@@ -2,11 +2,12 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
+import {parseNumber} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
-import {ESLMediaQuery, ESLMediaRuleList} from '../../esl-media-query/core';
+import {ESLMediaQuery} from '../../esl-media-query/core';
 
 import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 
@@ -46,6 +47,10 @@ export class ESLTrigger extends ESLBaseElement {
   @attr({defaultValue: 'none'}) public showDelay: string;
   /** Hide delay value */
   @attr({defaultValue: 'none'}) public hideDelay: string;
+  /** Show delay value override for hover */
+  @attr({defaultValue: 'none'}) public hoverShowDelay: string;
+  /** Hide delay value override for hover */
+  @attr({defaultValue: 'none'}) public hoverHideDelay: string;
 
   protected _$target: ESLToggleable;
 
@@ -79,18 +84,6 @@ export class ESLTrigger extends ESLBaseElement {
   /** Marker to allow track clicks */
   public get allowClick() {
     return ESLMediaQuery.for(this.trackClick).matches;
-  }
-
-  private static parseDelayValue(delay: string): number | undefined {
-    return isNaN(+delay) ? undefined : +delay;
-  }
-  /** Show delay attribute processing */
-  public get showDelayValue(): number | undefined {
-    return ESLMediaRuleList.parse(this.showDelay, ESLTrigger.parseDelayValue).activeValue;
-  }
-  /** Hide delay attribute processing */
-  public get hideDelayValue(): number | undefined {
-    return ESLMediaRuleList.parse(this.hideDelay, ESLTrigger.parseDelayValue).activeValue;
   }
 
   @ready
@@ -140,7 +133,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Merge params to pass to the toggleable */
-  protected mergeToggleableParams(...params: ToggleableActionParams[]) {
+  protected mergeToggleableParams(this: ESLTrigger, ...params: ToggleableActionParams[]) {
     return Object.assign({
       initiator: 'trigger',
       activator: this
@@ -150,14 +143,14 @@ export class ESLTrigger extends ESLBaseElement {
   /** Show target toggleable with passed params */
   public showTarget(params: ToggleableActionParams = {}) {
     const actionParams = this.mergeToggleableParams({
-      delay: this.showDelayValue
+      delay: parseNumber(this.showDelay)
     }, params);
     this.$target && this.$target.show(actionParams);
   }
   /** Hide target toggleable with passed params */
   public hideTarget(params: ToggleableActionParams = {}) {
     const actionParams = this.mergeToggleableParams({
-      delay: this.hideDelayValue
+      delay: parseNumber(this.hideDelay)
     }, params);
     this.$target && this.$target.hide(actionParams);
   }
@@ -185,9 +178,12 @@ export class ESLTrigger extends ESLBaseElement {
     if (!this.allowClick || this.isTargetIgnored(event.target)) return;
     event.preventDefault();
     switch (this.mode) {
-      case 'show': return this.showTarget({event});
-      case 'hide': return this.hideTarget({event});
-      default: return this.toggleTarget({event});
+      case 'show':
+        return this.showTarget({event});
+      case 'hide':
+        return this.hideTarget({event});
+      default:
+        return this.toggleTarget({event});
     }
   }
 
@@ -197,9 +193,12 @@ export class ESLTrigger extends ESLBaseElement {
     if (![ENTER, SPACE].includes(event.key) || this.isTargetIgnored(event.target)) return;
     event.preventDefault();
     switch (this.mode) {
-      case 'show': return this.showTarget({event});
-      case 'hide': return this.hideTarget({event});
-      default: return this.toggleTarget({event});
+      case 'show':
+        return this.showTarget({event});
+      case 'hide':
+        return this.hideTarget({event});
+      default:
+        return this.toggleTarget({event});
     }
   }
 
@@ -207,7 +206,8 @@ export class ESLTrigger extends ESLBaseElement {
   @bind
   protected _onMouseEnter(event: MouseEvent) {
     if (!this.allowHover) return;
-    this.toggleTarget({event}, this.mode !== 'hide');
+    const delay = parseNumber(this.hoverShowDelay);
+    this.toggleTarget({event, delay}, this.mode !== 'hide');
     event.preventDefault();
   }
 
@@ -216,7 +216,8 @@ export class ESLTrigger extends ESLBaseElement {
   protected _onMouseLeave(event: MouseEvent) {
     if (!this.allowHover) return;
     if (this.mode === 'show' || this.mode === 'hide') return;
-    this.hideTarget({event, trackHover: true});
+    const delay = parseNumber(this.hoverHideDelay);
+    this.hideTarget({event, delay, trackHover: true});
     event.preventDefault();
   }
 
