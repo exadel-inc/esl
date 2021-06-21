@@ -1,3 +1,5 @@
+const { isDev } = require('./pages/views/_data/env')
+
 module.exports = config => {
   config.addPassthroughCopy({
     'pages/static/assets': 'assets',
@@ -18,9 +20,7 @@ module.exports = config => {
       'pages/dist/bundles/*.css',
       'pages/dist/bundles/*.map',
     ],
-    // TODO(abarmina): update with addGlobalData function when v1.0.0 is available
-    // we have the same function in pages/views/_data/env.js
-    open: process.argv.find(arg => arg.startsWith('--env='))?.split('=')[1] === 'development',
+    open: isDev,
   });
 
   return {

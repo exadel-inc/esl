@@ -12,7 +12,7 @@
       <li class="nav-item hd-dropdown">
         {{ menu ("Form Components", "forms") }}
       </li>
-      {% if env.environment == "development" %}
+      {% if env.isDev %}
         <li class="nav-item hd-dropdown">
           {{ menu ("Drafts", "drafts") }}
         </li>
