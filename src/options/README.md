@@ -1,18 +1,27 @@
 # UIP Options
 
-[UIPOptions](README.md) - custom element, container for theme/mode options.
+[UIPOptions](README.md) - custom element which provides visual controls for changing UIP visual appearance.
+Extends [UIPPlugin](../core/README.md).
 
 ---
-### Notes:
+## Description:
 
-- Extends [UIPPlugin](../core/README.md).
-- Has two options inside:
-  - **Theme** option has two values: *light* and *dark*. With this option you can easily change UIP elements theme.
-  - **Mode** option also has two values: *vertical* and *horizontal*. It controls UIP elements display.
+[UIPOptions](README.md) component supports two settings: **theme** and **mode**.
+
+- **Theme** option has two values: *light* (default) and *dark*. It sets color theme other elements.
+- **Mode** option also has two values: *vertical* (default) and *horizontal*. It controls UIP container's layout.
+
+These options can be manually set (and observed) with corresponding *theme* and *mode* attributes:
+
+```html
+<uip-options label="Options:" mode="horizontal" theme="dark"></uip-options>
+```
+
+[UIPOptions](README.md) element doesn't produce or observe UIPStateModel changes.
 
 ---
 
-### Example:
+## Example:
 ```html
 <uip-options label="Options:"></uip-options>
 ```

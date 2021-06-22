@@ -1,23 +1,28 @@
 # UIP Settings
 
 [UIPSettings](README.md) - custom element which stores settings ([UIPSetting](setting/README.md)).
+Extends [UIPPlugin](../core/README.md#uip-plugin).
 
 ---
 
-### Notes:
-- Extends [UIPPlugin](../core/README.md).
-- Parses markup using [UIPStateModel](../utils/state-model/state-model.ts), distributes changes among inner
-  [UIPSetting](setting/README.md) components and vice versa.
-- Listens for *uip:change* event to pass markup updates to [UIPRoot](../core/root/README.md).
+## Description:
 
-The following attributes used:
+We use [UIPSettings](README.md) as a container for [UIPSetting](setting/README.md) elements. It serves as a link between
+our standard UIP flow for change detection and settings updates.
+
+[UIPSettings](README.md) element parses markup using [UIPStateModel](../utils/state-model/state-model.ts) and distributes
+changes among inner [UIPSetting](setting/README.md) components and vice versa.
+
+To get updates from inner settings we listen for *uip:change* event, then pass markup updates to [UIPRoot](../core/README.md#uip-root).
+
+[UIPSettings](README.md) component has the following attributes:
 - **label** - settings section displayed name.
 - **target** - sets **target** attribute for all inner [UIPSetting](setting/README.md) elements (can be overwritten
   by own attribute value).
 
 ---
 
-### Example:
+## Example:
 
 ```html
 <uip-settings label="Settings" target=".esl-media">

@@ -12,27 +12,59 @@ You can choose from the variety of component's templates ([UIP Snippets](./src/s
 play with the component's settings ([UIP Settings](./src/settings/README.md))
 or even change its markup ([UIP Editor](./src/editor/README.md))!.
 
----
-### Notes:
-
-- Every element (except the *UIP Root*) isn't required, so you can combine them the way you want.
+Every element (except the *UIP Root*) isn't required, so you can combine them the way you want.
 
 ---
-### Components:
-- ##### [UIP Root](src/core/root/README.md)
-- ##### [UIP Snippets](./src/snippets/README.md)
-- ##### [UIP Preview](./src/preview/README.md)
-- ##### [UIP Settings](./src/settings/README.md)
-- ##### [UIP Editor](./src/editor/README.md)
-
+## UIP elements:
+- ### Core
+  - #### [UIP Plugin](src/core/README.md#uip-plugin)
+  - #### [UIP State Model](src/core/README.md#uip-state-model)
+- ### Components
+  - #### [UIP Root](src/core/README.md#uip-root)
+  - #### [UIP Options](./src/options/README.md)
+  - #### [UIP Snippets](./src/snippets/README.md)
+  - #### [UIP Preview](./src/preview/README.md)
+  - #### [UIP Editor](./src/editor/README.md)
+  - #### [UIP Settings](./src/settings/README.md)
+    - ##### [UIP Setting](./src/settings/setting/README.md)
+    - ##### [UIP Text Setting](./src/settings/setting/text-setting/README.md)
+    - ##### [UIP Bool Setting](./src/settings/setting/bool-setting/README.md)
+    - ##### [UIP Select Setting](./src/settings/setting/select-setting/README.md)
 ---
-### Example:
+## Example:
 ```html
 <uip-root>
-  <uip-snippets></uip-snippets>
-  <uip-preview></uip-preview>
-  <uip-settings></uip-settings>
-  <uip-editor></uip-editor>
+  <uip-options label="Options:"></uip-options>
+  <uip-snippets label="Snippets">
+    <template uip-snippet label="Users list">
+      <div class="user-list">
+        <div class="user-block aqua-user">Alexander</div>
+        <div class="user-block aqua-user">Alexey</div>
+        <div class="user-block aqua-user">Marina</div>
+      </div>
+    </template>
+    <template uip-snippet label="Long users list" wrap-items>
+      <div class="user-list">
+        <div class="user-block red-user">Anton</div>
+        <div class="user-block red-user">Dmitri</div>
+        <div class="user-block red-user">Alexandra</div>
+        <div class="user-block red-user">Artem</div>
+        <div class="user-block red-user">Marina</div>
+        <div class="user-block red-user">Alexander</div>
+        <div class="user-block red-user">Alexander</div>
+      </div>
+    </template>
+  </uip-snippets>
+  <uip-preview label="Preview"></uip-preview>
+  <uip-settings label="Settings" target=".user-list">
+    <uip-select-setting label="User color" target=".user-block" attribute="class" mode="append">
+      <option value="red-user">Red</option>
+      <option value="aqua-user">Aqua</option>
+      <option value="green-user">Green</option>
+    </uip-select-setting>
+    <uip-bool-setting label="Wrap items" attribute="wrap-items"></uip-bool-setting>
+  </uip-settings>
+  <uip-editor label="Editor"></uip-editor>
 </uip-root>
 ```
 

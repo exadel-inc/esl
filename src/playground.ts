@@ -1,4 +1,4 @@
-import {UIPRoot} from './core/root/root';
+import {UIPRoot} from './core/root';
 import {UIPEditor} from './editor/editor';
 import {UIPPreview} from './preview/preview';
 import {UIPSettings} from './settings/settings';

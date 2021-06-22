@@ -1,19 +1,16 @@
 # UIP Text Setting
 
-[UIPTextSetting](README.md) - custom setting for inputting attribute's value.
+[UIPTextSetting](README.md) - custom setting for inputting attribute's value. Extends [UIPSetting](../README.md)
 
 ---
 
-### Notes:
+## Description:
 
-- Extends [UIPSetting](../README.md).
-- Rendered as text input.
-
-The easiest setting to understand: input value and see the attribute value changing.
+This setting represents a text input for changing attribute's value.
 
 ---
 
-### Example:
+## Example:
 
 ```html
 <uip-settings label="Settings">

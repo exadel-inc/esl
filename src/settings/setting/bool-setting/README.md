@@ -1,15 +1,16 @@
 # UIP Bool Setting
 
 [UIPBoolSetting](README.md) - custom setting for adding/removing attributes or appending values to attribute.
+Extends [UIPSetting](../README.md).
 
 ---
 
-### Notes:
+## Description:
 
-- Extends [UIPSetting](../README.md).
-- Rendered as checkbox.
-- Has **value** attribute for adding/removing this value from attributes.
-- Can exist in two modes: **replace** and **append**.
+[UIPBoolSetting](README.md) represents a checkbox. It has **value** attribute for adding/removing this **value**
+from attributes.
+
+This setting can exist in two modes: **replace** and **append**.
 
 **replace** mode is used by default. There are two ways to interpret it: when there is a **value** attribute
 specified and when it's not. When it's not specified, the setting adds/removes attribute specified in **attribute**.

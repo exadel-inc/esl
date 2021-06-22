@@ -1,13 +1,13 @@
 # UIP Select Setting
 
-[UIPSelectSetting](README.md) - custom setting for selecting attribute's value.
+[UIPSelectSetting](README.md) - custom setting for selecting attribute's value. Extends [UIPSetting](../README.md).
 
 ---
 
-### Notes:
+## Description:
 
-- Extends [UIPSetting](../README.md).
-- Rendered as [ESLSelect](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-forms/esl-select).
+We render [UIPSelectSetting](README.md) as [ESLSelect](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-forms/esl-select)
+element.
 
 Select setting has two modes: **replace** and **append**. The first one (is used by default) replaces the attribute
 value with selected, and the second one appends selected value to the attribute.
@@ -16,7 +16,7 @@ value with selected, and the second one appends selected value to the attribute.
 
 ---
 
-### Example:
+## Example:
 
 ```html
 <uip-settings label="Settings">

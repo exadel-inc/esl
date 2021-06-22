@@ -1,7 +1,7 @@
 import {bind} from '@exadel/esl';
 import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
-import {UIPStateModel} from '../../utils/state-model/state-model';
+import {UIPStateModel} from '../utils/state-model/state-model';
 
 export class UIPRoot extends ESLBaseElement {
   public static is = 'uip-root';

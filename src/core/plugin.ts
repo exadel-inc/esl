@@ -1,5 +1,5 @@
 import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {UIPRoot} from './root/root';
+import {UIPRoot} from './root';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 

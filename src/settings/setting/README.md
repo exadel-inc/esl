@@ -5,7 +5,7 @@
 
 ---
 
-### Notes:
+## Description:
 
 - Processes markup to update own value via **updateFrom()** (uses [UIPStateModel](../../utils/state-model/state-model.ts) by default).
 - Updates markup with **applyTo()** (uses [UIPStateModel](../../utils/state-model/state-model.ts) by default).
@@ -31,7 +31,7 @@ You can see the examples of custom settings here (these are distributed together
 
 ---
 
-### Example:
+## Example:
 
 ```html
 <uip-settings label="Settings" target=".esl-media">
