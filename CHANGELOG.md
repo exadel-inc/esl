@@ -7,7 +7,11 @@
 
 
 ### Features
+* **esl-footnotes:** new component released in beta
+* **esl-tooltip:** new component released in beta
+* **esl-popup** component reworked to v2.0.0
 
+#### Detailed log: 
 * add resize listener to esl-popup for updating position ([c5017d5](https://github.com/exadel-inc/esl/commit/c5017d56ef5fcbda0359f35cc8d581d9ebab60ed))
 * add trigger esl-tooltip to esl-note ([ff13d74](https://github.com/exadel-inc/esl/commit/ff13d7472328afd8f0fd9ccf262aa487a6a92612))
 * add updating activator state to esl-tooltip ([238c744](https://github.com/exadel-inc/esl/commit/238c744c765bcd32752b6963be35c062adab1204))
