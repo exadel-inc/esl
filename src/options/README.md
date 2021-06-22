@@ -1,9 +1,8 @@
 # UIP Options
 
 [UIPOptions](README.md) - custom element which provides visual controls for changing UIP visual appearance.
-Extends [UIPPlugin](../core/README.md).
+Extends [UIPPlugin](../core/README.md#uip-plugin).
 
----
 ## Description:
 
 [UIPOptions](README.md) component supports two settings: **theme** and **mode**.
@@ -18,8 +17,6 @@ These options can be manually set (and observed) with corresponding *theme* and 
 ```
 
 [UIPOptions](README.md) element doesn't produce or observe UIPStateModel changes.
-
----
 
 ## Example:
 ```html

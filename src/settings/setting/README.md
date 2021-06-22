@@ -3,12 +3,10 @@
 [UIPSetting](README.md) - custom element for manipulating with elements attributes. Custom settings should extend
 *UIPSetting* class if you want them to be connected with [UIPSettings](../README.md) properly.
 
----
-
 ## Description:
 
-- Processes markup to update own value via **updateFrom()** (uses [UIPStateModel](../../utils/state-model/state-model.ts) by default).
-- Updates markup with **applyTo()** (uses [UIPStateModel](../../utils/state-model/state-model.ts) by default).
+- Processes markup to update own value via **updateFrom()** (uses [UIPStateModel](../../core/README.md#uip-state-model) by default).
+- Updates markup with **applyTo()** (uses [UIPStateModel](../../core/README.md#uip-state-model) by default).
 - Dispatches **uip:change** event to let *UIPSettings* know about setting changes.
 
 These things have default implementation. Also, there are **isValid()** and **setInconsistency()** methods to deal with
@@ -28,8 +26,6 @@ You can see the examples of custom settings here (these are distributed together
 - [UIPTextSetting](text-setting/README.md)
 - [UIPBoolSetting](bool-setting/README.md)
 - [UIPSelectSetting](select-setting/README.md)
-
----
 
 ## Example:
 

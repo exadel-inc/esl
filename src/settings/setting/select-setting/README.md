@@ -2,8 +2,6 @@
 
 [UIPSelectSetting](README.md) - custom setting for selecting attribute's value. Extends [UIPSetting](../README.md).
 
----
-
 ## Description:
 
 We render [UIPSelectSetting](README.md) as [ESLSelect](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-forms/esl-select)
@@ -13,8 +11,6 @@ Select setting has two modes: **replace** and **append**. The first one (is used
 value with selected, and the second one appends selected value to the attribute.
 
 [UIPSelectSetting](README.md) also supports **multiple** attribute to allow selecting multiple values.
-
----
 
 ## Example:
 

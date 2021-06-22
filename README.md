@@ -18,9 +18,9 @@ Every element (except the *UIP Root*) isn't required, so you can combine them th
 ## UIP elements:
 - ### Core
   - #### [UIP Plugin](src/core/README.md#uip-plugin)
+  - #### [UIP Root](src/core/README.md#uip-root)
   - #### [UIP State Model](src/core/README.md#uip-state-model)
 - ### Components
-  - #### [UIP Root](src/core/README.md#uip-root)
   - #### [UIP Options](./src/options/README.md)
   - #### [UIP Snippets](./src/snippets/README.md)
   - #### [UIP Preview](./src/preview/README.md)

@@ -2,13 +2,9 @@
 
 [UIPTextSetting](README.md) - custom setting for inputting attribute's value. Extends [UIPSetting](../README.md)
 
----
-
 ## Description:
 
 This setting represents a text input for changing attribute's value.
-
----
 
 ## Example:
 

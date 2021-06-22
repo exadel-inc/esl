@@ -1,9 +1,7 @@
 # UIP Snippets
 
 [UIPSnippets](README.md) - custom element which contain snippets (component's templates).
-Extends [UIPPlugin](../core/README.md).
-
----
+Extends [UIPPlugin](../core/README.md#uip-plugin).
 
 ## Description:
 
@@ -12,8 +10,6 @@ Extends [UIPPlugin](../core/README.md).
 - An active element can be chosen by adding class **active** to template, otherwise first template becomes active.
 
 [UIPSnippets](README.md) component produces UIPStateModel changes, but it doesn't observe them.
-
----
 
 ## Example:
 

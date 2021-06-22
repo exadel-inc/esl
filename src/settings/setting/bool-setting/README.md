@@ -3,8 +3,6 @@
 [UIPBoolSetting](README.md) - custom setting for adding/removing attributes or appending values to attribute.
 Extends [UIPSetting](../README.md).
 
----
-
 ## Description:
 
 [UIPBoolSetting](README.md) represents a checkbox. It has **value** attribute for adding/removing this **value**
@@ -18,8 +16,6 @@ If we define **value**, the setting sets **attribute** value to it.
 
 The idea of **append** mode is to add/discard **value** (must be specified for this mode) to the **attribute**.
 For example, it can be useful for adding css classes (see example below).
-
----
 
 ### Example:
 
