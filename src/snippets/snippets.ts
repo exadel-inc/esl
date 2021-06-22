@@ -42,8 +42,6 @@ export class UIPSnippets extends UIPPlugin {
     this.removeEventListener('click', this._onClick);
   }
 
-  protected _onRootStateChange() {}
-
   protected render(): void {
     const $inner = document.createElement('div');
     CSSClassUtils.add($inner, 'uip-snippets-inner esl-scrollable-content');

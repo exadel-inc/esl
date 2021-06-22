@@ -33,8 +33,6 @@ export class UIPOptions extends UIPPlugin {
     this.unbindEvents();
   }
 
-  protected _onRootStateChange() {}
-
   protected bindEvents() {
     this.addEventListener('click', this._onOptionChange);
     UIPOptions._conditionQuery.addListener(this._onResize);
