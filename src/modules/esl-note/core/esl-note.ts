@@ -111,8 +111,6 @@ export class ESLNote extends ESLBaseElement {
   /** Show tooltip with passed params */
   public showTooltip(params: ToggleableActionParams = {}) {
     const actionParams = this.mergeToggleableParams({
-      // behavior: 'none',
-      // disableArrow: true,
     }, params);
     ESLTooltip.show(actionParams);
   }
