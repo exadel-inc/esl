@@ -27,12 +27,12 @@ export class ESLTooltip extends ESLPopup {
     return document.createElement('esl-tooltip') as ESLTooltip;
   }
 
-  public static show(params: PopupActionParams = {}) {
+  public static show(params: TooltipActionParams = {}) {
     ESLTooltip.sharedInstance.hide(params);
     ESLTooltip.sharedInstance.show(params);
   }
 
-  public static hide(params: PopupActionParams = {}) {
+  public static hide(params: TooltipActionParams = {}) {
     ESLTooltip.sharedInstance.hide(params);
   }
 
@@ -58,7 +58,7 @@ export class ESLTooltip extends ESLPopup {
     this.appendChild(this.$arrow);
   }
 
-  public onShow(params: PopupActionParams) {
+  public onShow(params: TooltipActionParams) {
     if (params.disableArrow) {
       this.disableArrow = params.disableArrow;
     }
@@ -73,7 +73,7 @@ export class ESLTooltip extends ESLPopup {
     this._updateActivatorState(true);
   }
 
-  public onHide(params: PopupActionParams) {
+  public onHide(params: TooltipActionParams) {
     this._updateActivatorState(false);
     super.onHide(params);
     document.body.removeChild(this);
