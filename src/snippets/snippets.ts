@@ -76,8 +76,8 @@ export class UIPSnippets extends UIPPlugin {
 
   protected applyActive(): void {
     const tmpl = this.$active?.querySelector('template[uip-snippet]');
-    if (!tmpl || !this.root) return;
-    this.root.model.html = tmpl.innerHTML;
+    if (!tmpl || !this.model) return;
+    this.model.setHtml(tmpl.innerHTML, this);
   }
 
   @bind

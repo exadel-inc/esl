@@ -67,7 +67,7 @@ export class UIPSelectSetting extends UIPSetting {
       val && attrTokens.push(val);
 
       return TokenListUtils.join(attrTokens);
-    });
+    }, this.settings);
   }
 
   updateFrom(model: UIPStateModel) {

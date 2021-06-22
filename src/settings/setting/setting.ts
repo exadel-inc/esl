@@ -17,6 +17,10 @@ export abstract class UIPSetting extends ESLBaseElement {
     return this.closest(UIPSettings.is);
   }
 
+  public get settings() {
+    return this.settingContainer as UIPSettings;
+  }
+
   protected connectedCallback() {
     super.connectedCallback();
     this.classList.add(UIPSetting.is);
@@ -47,7 +51,7 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   public applyTo(model: UIPStateModel): void {
-    this.isValid() ? model.setAttribute(this.target, this.attribute, this.getDisplayedValue()) :
+    this.isValid() ? model.setAttribute(this.target, this.attribute, this.getDisplayedValue(), this.settings) :
       this.setInconsistency(WARN.invalid);
   }
 

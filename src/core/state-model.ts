@@ -1,35 +1,33 @@
 import {Observable} from '@exadel/esl';
-
-export interface StateModelFiredObj {
-  markup: string,
-}
+import {UIPPlugin} from './plugin';
 
 export class UIPStateModel extends Observable {
-  protected root: Element;
+  private _html = new DOMParser().parseFromString('', 'text/html').body;
+  private _lastModifier: UIPPlugin;
 
-  constructor() {
-    super();
-    this.root = new DOMParser().parseFromString('', 'text/html').body;
-  }
-
-  public set html(markup: string) {
+  public setHtml(markup: string, modifier: UIPPlugin) {
     const root = new DOMParser().parseFromString(markup, 'text/html').body;
-    if (root.innerHTML !== this.root.innerHTML) {
-      this.root = root;
-      this.fire({markup: markup});
+    if (root.innerHTML !== this._html.innerHTML) {
+      this._html = root;
+      this._lastModifier = modifier;
+      this.fire();
     }
   }
 
   public get html(): string {
-    return this.root ? this.root.innerHTML : '';
+    return this._html ? this._html.innerHTML : '';
+  }
+
+  public get lastModifier() {
+    return this._lastModifier;
   }
 
   public getAttribute(target: string, name: string): (string | null)[] {
-    return Array.from(this.root.querySelectorAll(target)).map(el => el.getAttribute(name));
+    return Array.from(this._html.querySelectorAll(target)).map(el => el.getAttribute(name));
   }
 
-  public setAttribute(target: string, name: string, value: string | boolean): void {
-    const elements = Array.from(this.root.querySelectorAll(target));
+  public setAttribute(target: string, name: string, value: string | boolean, modifier: UIPPlugin): void {
+    const elements = Array.from(this._html.querySelectorAll(target));
     if (!elements.length) return;
 
     if (typeof value === 'string') {
@@ -37,19 +35,19 @@ export class UIPStateModel extends Observable {
     } else {
       elements.forEach(el => value ? el.setAttribute(name, '') : el.removeAttribute(name));
     }
-
-    this.fire({markup: this.html});
+    this._lastModifier = modifier;
+    this.fire();
   }
 
-  public transformAttribute(target: string, name: string, transform: (current: string | null) => string | null) {
-    const elements = Array.from(this.root.querySelectorAll(target));
+  public transformAttribute(target: string, name: string, transform: (current: string | null) => string | null, modifier: UIPPlugin) {
+    const elements = Array.from(this._html.querySelectorAll(target));
     if (!elements.length) return;
 
     elements.forEach(el => {
       const transformed = transform(el.getAttribute(name));
       transformed === null ? el.removeAttribute(name) : el.setAttribute(name, transformed);
     });
-
-    this.fire({markup: this.html});
+    this._lastModifier = modifier;
+    this.fire();
   }
 }

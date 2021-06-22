@@ -9,7 +9,6 @@ import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
 import {jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
 
 import {UIPPlugin} from '../core/plugin';
-import {StateModelFiredObj} from '../core/state-model';
 
 interface EditorConfig {
   theme: string;
@@ -41,14 +40,14 @@ export class UIPEditor extends UIPPlugin {
   }
 
   protected onChange = debounce(() => {
-    this.root!.model.html = this.editor.getValue();
+    this.model!.setHtml(this.editor.getValue(), this);
   }, 1000);
 
   @bind
-  protected _onRootStateChange(e: StateModelFiredObj): void {
-    const {markup} = e;
-    if (this.editor && markup === this.editor.getValue()) return; // check for self triggered changes
+  protected _onRootStateChange(): void {
+    if (this.model!.lastModifier === this) return;
 
+    const markup = this.model!.html;
     const $inner = document.createElement('div');
     $inner.classList.add('uip-editor-inner');
 
