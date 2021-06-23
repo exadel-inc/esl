@@ -1,3 +1,33 @@
+# [3.0.0-beta.11](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.10...v3.0.0-beta.11) (2021-06-22)
+
+
+### Bug Fixes
+
+* **esl-toggleable:** allow to register toggleable as independent component ([ac98970](https://github.com/exadel-inc/esl/commit/ac98970987dda5e2103f6e1104568d60642c0f2a))
+
+
+### Features
+* **esl-footnotes:** new component released in beta
+* **esl-tooltip:** new component released in beta
+* **esl-popup** component reworked to v2.0.0
+
+#### Detailed log: 
+* add resize listener to esl-popup for updating position ([c5017d5](https://github.com/exadel-inc/esl/commit/c5017d56ef5fcbda0359f35cc8d581d9ebab60ed))
+* add trigger esl-tooltip to esl-note ([ff13d74](https://github.com/exadel-inc/esl/commit/ff13d7472328afd8f0fd9ccf262aa487a6a92612))
+* add updating activator state to esl-tooltip ([238c744](https://github.com/exadel-inc/esl/commit/238c744c765bcd32752b6963be35c062adab1204))
+* create back-to-note button at esl-footntes ([a619d73](https://github.com/exadel-inc/esl/commit/a619d73195511403c7efcd1378e537bbaa5624ab))
+* create localdev page for esl-note and esl-footnotes ([c22b192](https://github.com/exadel-inc/esl/commit/c22b192bccb8966ed64d378980ec42d3802bf436))
+* esl-note replace note text with note html ([5882e71](https://github.com/exadel-inc/esl/commit/5882e71326ad3262ad62fb7f76bedbfbc5f08779))
+* improve interconnection between esl-notes and esl-footnotes ([2e79fd0](https://github.com/exadel-inc/esl/commit/2e79fd0e224c0c04db7b5f78aede727c16e545c4))
+* improved interconnection between esl-notes and esl-footnotes ([5e422d7](https://github.com/exadel-inc/esl/commit/5e422d7134df4a76b7f750b387141bbb71375c38))
+* initial implementation of esl-footnotes ([042c4e7](https://github.com/exadel-inc/esl/commit/042c4e7d60916cc0eecf7a4eaaaa810d70d42498))
+* initial implementation of esl-note ([d158c5a](https://github.com/exadel-inc/esl/commit/d158c5a0d9cd76926ad403948d5f53625d627f04))
+* initial implementation of esl-tooltip ([4a0620b](https://github.com/exadel-inc/esl/commit/4a0620b87377a39ec8c0aaeadac51037b753878b))
+* rework esl-note ([c709022](https://github.com/exadel-inc/esl/commit/c7090224b2d104f93b986e2c6dfbfdbd605cbeb9))
+* rework esl-popup ([5723b38](https://github.com/exadel-inc/esl/commit/5723b38c91098088cdca6ec267dec42810bf9b70))
+* update esl-note after esl-trigger reimplementation ([134c020](https://github.com/exadel-inc/esl/commit/134c02010ecb1ee9649ff8ce2751316fd0f9f310))
+* update esl-popup styles ([167ef0a](https://github.com/exadel-inc/esl/commit/167ef0ae54da9f593d6474b3823ca8df37e3cd8b))
+
 ## [2.7.2](https://github.com/exadel-inc/esl/compare/v2.7.1...v2.7.2) (2021-06-18)
 
 # [3.0.0-beta.10](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.9...v3.0.0-beta.10) (2021-06-17)
