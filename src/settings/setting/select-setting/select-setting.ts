@@ -58,16 +58,22 @@ export class UIPSelectSetting extends UIPSetting {
     if (this.mode === 'replace') return super.applyTo(model);
 
     const val = this.getDisplayedValue();
+    const cfg = {
+      target: this.target,
+      name: this.attribute,
+      modifier: this.settings,
+      transform: (attrValue: string | null) => {
+        if (!attrValue) return val || null;
 
-    model.transformAttribute(this.target, this.attribute, attrValue => {
-      if (!attrValue) return val || null;
+        const attrTokens = this.settingOptions.reduce((tokens, option) =>
+          TokenListUtils.remove(tokens, option), TokenListUtils.split(attrValue));
+        val && attrTokens.push(val);
 
-      const attrTokens = this.settingOptions.reduce((tokens, option) =>
-        TokenListUtils.remove(tokens, option), TokenListUtils.split(attrValue));
-      val && attrTokens.push(val);
+        return TokenListUtils.join(attrTokens);
+      }
+    };
 
-      return TokenListUtils.join(attrTokens);
-    }, this.settings);
+    model.transformAttribute(cfg);
   }
 
   updateFrom(model: UIPStateModel) {

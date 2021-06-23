@@ -1,6 +1,14 @@
 import {Observable} from '@exadel/esl';
 import {UIPPlugin} from './plugin';
 
+export interface changeAttributeConfig {
+  target: string,
+  name: string,
+  modifier: UIPPlugin,
+  value?: string | boolean,
+  transform?: (current: string | null) => string | null
+}
+
 export class UIPStateModel extends Observable {
   private _html = new DOMParser().parseFromString('', 'text/html').body;
   private _lastModifier: UIPPlugin;
@@ -26,9 +34,10 @@ export class UIPStateModel extends Observable {
     return Array.from(this._html.querySelectorAll(target)).map(el => el.getAttribute(name));
   }
 
-  public setAttribute(target: string, name: string, value: string | boolean, modifier: UIPPlugin): void {
+  public setAttribute(cfg: changeAttributeConfig): void {
+    const {target, name, value, modifier} = cfg;
     const elements = Array.from(this._html.querySelectorAll(target));
-    if (!elements.length) return;
+    if (!elements.length || typeof value === 'undefined') return;
 
     if (typeof value === 'string') {
       elements.forEach(el => el.setAttribute(name, value));
@@ -39,9 +48,10 @@ export class UIPStateModel extends Observable {
     this.fire();
   }
 
-  public transformAttribute(target: string, name: string, transform: (current: string | null) => string | null, modifier: UIPPlugin) {
+  public transformAttribute(cfg: changeAttributeConfig) {
+    const {target, name, transform, modifier} = cfg;
     const elements = Array.from(this._html.querySelectorAll(target));
-    if (!elements.length) return;
+    if (!elements.length || !transform) return;
 
     elements.forEach(el => {
       const transformed = transform(el.getAttribute(name));

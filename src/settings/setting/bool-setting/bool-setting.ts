@@ -35,15 +35,20 @@ export class UIPBoolSetting extends UIPSetting {
     if (this.mode === 'replace') return super.applyTo(model);
 
     const val = this.getDisplayedValue();
+    const cfg = {
+      target: this.target,
+      name: this.attribute,
+      modifier: this.settings,
+      transform: (attrValue: string | null) => {
+        if (!attrValue) return val || null;
 
-    model.transformAttribute(this.target, this.attribute, attrValue => {
-      if (!attrValue) return val || null;
+        const attrTokens = TokenListUtils.remove(TokenListUtils.split(attrValue), this.value);
+        val && attrTokens.push(this.value);
 
-      const attrTokens = TokenListUtils.remove(TokenListUtils.split(attrValue), this.value);
-      val && attrTokens.push(this.value);
-
-      return TokenListUtils.join(attrTokens);
-    });
+        return TokenListUtils.join(attrTokens);
+      },
+    };
+    model.transformAttribute(cfg);
   }
 
   updateFrom(model: UIPStateModel) {

@@ -28,7 +28,7 @@ export abstract class UIPPlugin extends ESLBaseElement {
   }
 
   protected get model(): UIPStateModel | null {
-    return this.root ? this.root.model : null
+    return this.root ? this.root.model : null;
   }
 
   protected connectedCallback() {

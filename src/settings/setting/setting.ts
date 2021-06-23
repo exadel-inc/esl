@@ -51,8 +51,13 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   public applyTo(model: UIPStateModel): void {
-    this.isValid() ? model.setAttribute(this.target, this.attribute, this.getDisplayedValue(), this.settings) :
-      this.setInconsistency(WARN.invalid);
+    const cfg = {
+      target: this.target,
+      name: this.attribute,
+      value: this.getDisplayedValue(),
+      modifier: this.settings
+    };
+    this.isValid() ? model.setAttribute(cfg) : this.setInconsistency(WARN.invalid);
   }
 
   public updateFrom(model: UIPStateModel): void {
