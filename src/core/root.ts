@@ -10,10 +10,6 @@ export class UIPRoot extends ESLBaseElement {
     return this._model;
   }
 
-  protected connectedCallback() {
-    super.connectedCallback();
-  }
-
   public addStateListener(listener: ObserverCallback) {
     this._model.addListener(listener);
   }
