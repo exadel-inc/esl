@@ -48,5 +48,5 @@ export abstract class UIPPlugin extends ESLBaseElement {
   }
 
   /** Handles root state change*/
-  protected _onRootStateChange(): void {};
+  protected _onRootStateChange(): void {}
 }
