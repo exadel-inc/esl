@@ -9,9 +9,6 @@ jest.config.js
 build
 node_modules
 
-# Test server
-pages/*.js
-
 # Generated surces
 /modules
 /polyfills

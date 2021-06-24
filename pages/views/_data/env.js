@@ -1,4 +1,5 @@
+const env = process.argv.find(arg => arg.startsWith('--env='))?.split('=')[1];
 module.exports = {
-  isDev: process.argv.find(arg => arg.startsWith('--env='))?.split('=')[1] === 'development',
+  isDev: env === 'development',
   version: process.env.npm_package_version
 };
