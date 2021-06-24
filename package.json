@@ -62,7 +62,7 @@
   "dependencies": {
     "@types/resize-observer-browser": "0.1.5",
     "@types/video.js": "7.3.21",
-    "@types/youtube": "0.0.42"
+    "@types/youtube": "0.0.43"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
@@ -82,7 +82,7 @@
     "@webcomponents/custom-elements": "^1.4.3",
     "@webcomponents/webcomponents-platform": "^1.0.1",
     "axios": "^0.21.1",
-    "browser-sync": "^2.26.14",
+    "browser-sync": "^2.27.1",
     "chokidar-cli": "^2.1.0",
     "concurrently": "^6.2.0",
     "copyfiles": "^2.4.1",
@@ -93,7 +93,7 @@
     "foreach-cli": "^1.8.1",
     "husky": "^6.0.0",
     "intersection-observer": "^0.12.0",
-    "jest": "^27.0.4",
+    "jest": "^27.0.5",
     "less": "^4.1.1",
     "lintspaces-cli": "^0.7.1",
     "postcss": "^8.3.5",
