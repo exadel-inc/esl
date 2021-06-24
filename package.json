@@ -87,7 +87,6 @@
     "@typescript-eslint/parser": "^4.28.0",
     "@webcomponents/custom-elements": "^1.4.3",
     "@webcomponents/webcomponents-platform": "^1.0.1",
-    "axios": "^0.21.1",
     "browser-sync": "^2.27.1",
     "chokidar-cli": "^2.1.0",
     "concurrently": "^6.2.0",
