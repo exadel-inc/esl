@@ -1,11 +1,11 @@
+const { isDev } = require('./pages/views/_data/env')
+
 module.exports = config => {
-  config.setUseGitIgnore(false);
-  config.addWatchTarget('pages/static/bundles');
   config.addPassthroughCopy({
-    'pages/static/bundles': 'bundles',
     'pages/static/assets': 'assets',
     'pages/static/tools': '.',
   });
+
   config.addFilter("sortByName", (values) => {
     if (!values || !Array.isArray(values)) {
       console.error(`Unexpected values in "sortByName" filter: ${values}`);
@@ -14,13 +14,20 @@ module.exports = config => {
     return [...values].sort((a, b) => a.data.name.localeCompare(b.data.name))
   });
 
+  config.setBrowserSyncConfig({
+    files: [
+      'pages/dist/bundles/*.js',
+      'pages/dist/bundles/*.css',
+      'pages/dist/bundles/*.map',
+    ],
+    open: isDev,
+  });
+
   return {
     dir: {
-      input: 'pages/views-11ty',
+      input: 'pages/views',
       output: 'pages/dist',
-      includes: 'includes',
-      layouts: 'layouts',
-      data: 'data',
+      layouts: "_layouts",
     },
     dataTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
