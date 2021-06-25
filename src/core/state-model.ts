@@ -1,13 +1,17 @@
 import {Observable} from '@exadel/esl';
 import {UIPPlugin} from './plugin';
 
-export interface changeAttributeConfig {
+export type TransformSignature = (current: string | null) => string | boolean | null;
+
+export type ChangeAttrConfig = {
   target: string,
-  name: string,
-  modifier: UIPPlugin,
-  value?: string | boolean,
-  transform?: (current: string | null) => string | null
-}
+  attribute: string,
+  modifier: UIPPlugin
+} & ({
+  value: string | boolean
+} | {
+  transform: TransformSignature
+});
 
 export class UIPStateModel extends Observable {
   private _html = new DOMParser().parseFromString('', 'text/html').body;
@@ -34,30 +38,28 @@ export class UIPStateModel extends Observable {
     return Array.from(this._html.querySelectorAll(target)).map(el => el.getAttribute(name));
   }
 
-  public setAttribute(cfg: changeAttributeConfig): void {
-    const {target, name, value, modifier} = cfg;
+  public changeAttribute(cfg: ChangeAttrConfig) {
+    const {target, attribute, modifier} = cfg;
     const elements = Array.from(this._html.querySelectorAll(target));
-    if (!elements.length || typeof value === 'undefined') return;
+    if (!elements.length) return;
 
-    if (typeof value === 'string') {
-      elements.forEach(el => el.setAttribute(name, value));
+    if ('transform' in cfg) {
+      UIPStateModel.setAttribute(elements, attribute, cfg.transform);
     } else {
-      elements.forEach(el => value ? el.setAttribute(name, '') : el.removeAttribute(name));
+      UIPStateModel.setAttribute(elements, attribute, cfg.value);
     }
     this._lastModifier = modifier;
     this.fire();
   }
 
-  public transformAttribute(cfg: changeAttributeConfig) {
-    const {target, name, transform, modifier} = cfg;
-    const elements = Array.from(this._html.querySelectorAll(target));
-    if (!elements.length || !transform) return;
-
+  public static setAttribute(elements: Element[], name: string, transform: TransformSignature | string | boolean) {
     elements.forEach(el => {
-      const transformed = transform(el.getAttribute(name));
-      transformed === null ? el.removeAttribute(name) : el.setAttribute(name, transformed);
+      const transformed = typeof transform === 'function' ? transform(el.getAttribute(name)) : transform;
+      if (typeof transformed === 'string') {
+        el.setAttribute(name, transformed);
+      } else {
+         transformed ? el.setAttribute(name, '') : el.removeAttribute(name);
+      }
     });
-    this._lastModifier = modifier;
-    this.fire();
   }
 }

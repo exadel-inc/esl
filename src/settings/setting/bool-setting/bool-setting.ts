@@ -1,8 +1,8 @@
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 
 import {UIPSetting} from '../setting';
-import {UIPStateModel} from '../../../core/state-model';
-import TokenListUtils from '../../../utils/array-utils/token-list-utils';
+import {ChangeAttrConfig, UIPStateModel} from '../../../core/state-model';
+import TokenListUtils from '../../../utils/token-list/token-list-utils';
 import {WARN} from '../../../utils/warn-messages/warn';
 
 export class UIPBoolSetting extends UIPSetting {
@@ -34,21 +34,23 @@ export class UIPBoolSetting extends UIPSetting {
   applyTo(model: UIPStateModel) {
     if (this.mode === 'replace') return super.applyTo(model);
 
-    const val = this.getDisplayedValue();
-    const cfg = {
+    const cfg: ChangeAttrConfig = {
       target: this.target,
-      name: this.attribute,
+      attribute: this.attribute,
       modifier: this.settings,
-      transform: (attrValue: string | null) => {
-        if (!attrValue) return val || null;
-
-        const attrTokens = TokenListUtils.remove(TokenListUtils.split(attrValue), this.value);
-        val && attrTokens.push(this.value);
-
-        return TokenListUtils.join(attrTokens);
-      },
+      transform: this.transform.bind(this, this.getDisplayedValue()),
     };
-    model.transformAttribute(cfg);
+
+    model.changeAttribute(cfg);
+  }
+
+  transform(value: string | false,  attrValue: string | null) {
+    if (!attrValue) return value || null;
+
+    const attrTokens = TokenListUtils.remove(TokenListUtils.split(attrValue), this.value);
+    value && attrTokens.push(this.value);
+
+    return TokenListUtils.join(attrTokens);
   }
 
   updateFrom(model: UIPStateModel) {

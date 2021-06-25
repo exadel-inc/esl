@@ -3,8 +3,8 @@ import {ESLSelect} from '@exadel/esl';
 import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
 
 import {UIPSetting} from '../setting';
-import {UIPStateModel} from '../../../core/state-model';
-import TokenListUtils from '../../../utils/array-utils/token-list-utils';
+import {ChangeAttrConfig, UIPStateModel} from '../../../core/state-model';
+import TokenListUtils from '../../../utils/token-list/token-list-utils';
 import {WARN} from '../../../utils/warn-messages/warn';
 
 export class UIPSelectSetting extends UIPSetting {
@@ -57,23 +57,24 @@ export class UIPSelectSetting extends UIPSetting {
   applyTo(model: UIPStateModel) {
     if (this.mode === 'replace') return super.applyTo(model);
 
-    const val = this.getDisplayedValue();
-    const cfg = {
+    const cfg: ChangeAttrConfig = {
       target: this.target,
-      name: this.attribute,
+      attribute: this.attribute,
       modifier: this.settings,
-      transform: (attrValue: string | null) => {
-        if (!attrValue) return val || null;
-
-        const attrTokens = this.settingOptions.reduce((tokens, option) =>
-          TokenListUtils.remove(tokens, option), TokenListUtils.split(attrValue));
-        val && attrTokens.push(val);
-
-        return TokenListUtils.join(attrTokens);
-      }
+      transform: this.transformValue.bind(this, this.getDisplayedValue())
     };
 
-    model.transformAttribute(cfg);
+    model.changeAttribute(cfg);
+  }
+
+  transformValue(value: string, attrValue: string | null ) {
+    if (!attrValue) return value || null;
+
+    const attrTokens = this.settingOptions.reduce((tokens, option) =>
+      TokenListUtils.remove(tokens, option), TokenListUtils.split(attrValue));
+    value && attrTokens.push(value);
+
+    return TokenListUtils.join(attrTokens);
   }
 
   updateFrom(model: UIPStateModel) {

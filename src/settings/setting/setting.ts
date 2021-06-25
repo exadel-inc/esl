@@ -2,7 +2,7 @@ import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 
-import {UIPStateModel} from '../../core/state-model';
+import {ChangeAttrConfig, UIPStateModel} from '../../core/state-model';
 import {UIPSettings} from '../settings';
 import {WARN} from '../../utils/warn-messages/warn';
 
@@ -51,13 +51,13 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   public applyTo(model: UIPStateModel): void {
-    const cfg = {
+    const cfg: ChangeAttrConfig = {
       target: this.target,
-      name: this.attribute,
+      attribute: this.attribute,
       value: this.getDisplayedValue(),
       modifier: this.settings
     };
-    this.isValid() ? model.setAttribute(cfg) : this.setInconsistency(WARN.invalid);
+    this.isValid() ? model.changeAttribute(cfg) : this.setInconsistency(WARN.invalid);
   }
 
   public updateFrom(model: UIPStateModel): void {
