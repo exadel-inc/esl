@@ -3,21 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <title>UIP Playground demo</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #f9f9ff;
+    }
+
+    .header {
+      margin: 15px;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    .uip-demo-list {
+      margin: 0 20%;
+      list-style-type: none;
+    }
+
+    .uip-demo-item {
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ebebeb;
+    }
+
+    .uip-demo-link {
+      display: block;
+      padding-bottom: 3px;
+      color: #353535;
+      text-decoration: none;
+    }
+  </style>
+
 </head>
 <body>
-<ul>
-  <li>
-    <a href="./demo1/index.html">Demo with img</a>
-  </li>
-  <li>
-    <a href="./demo2/index.html">Demo with form</a>
-  </li>
-  <li>
-    <a href="./demo3/index.html">Demo with users list</a>
-  </li>
-  <li>
-    <a href="./demo4/index.html">Demo with playground</a>
-  </li>
-</ul>
+<header class="header">UIP Playground demo</header>
+<main class="main">
+  <ul class="uip-demo-list">
+    <li class="uip-demo-item">
+      <a class="uip-demo-link" href="./demo1/index.html">Demo with img</a>
+    </li>
+    <li class="uip-demo-item">
+      <a class="uip-demo-link" href="./demo2/index.html">Demo with form</a>
+    </li>
+    <li class="uip-demo-item">
+      <a class="uip-demo-link" href="./demo3/index.html">Demo with users list</a>
+    </li>
+    <li class="uip-demo-item">
+      <a class="uip-demo-link" href="./demo4/index.html">Demo with playground</a>
+    </li>
+  </ul>
+</main>
 </body>
 </html>
