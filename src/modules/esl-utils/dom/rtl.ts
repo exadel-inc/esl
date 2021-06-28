@@ -7,8 +7,7 @@ export type ScrollType = 'default' | 'negative' | 'reverse';
 export abstract class RTLUtils {
   /** Check if the element in a RTL direction context */
   static isRtl(el: HTMLElement = document.body) {
-    const parent = el.closest('[dir]') as HTMLElement;
-    return parent?.dir === 'rtl';
+    return getComputedStyle(el).direction === 'rtl';
   }
 
   /**
