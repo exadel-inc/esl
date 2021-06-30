@@ -1,3 +1,5 @@
+## [2.7.3](https://github.com/exadel-inc/esl/compare/v2.7.2...v2.7.3) (2021-06-30)
+
 ## [2.7.2](https://github.com/exadel-inc/esl/compare/v2.7.1...v2.7.2) (2021-06-18)
 
 ## [2.7.1](https://github.com/exadel-inc/esl/compare/v2.7.0...v2.7.1) (2021-06-13)
