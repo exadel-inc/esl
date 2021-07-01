@@ -277,12 +277,12 @@ export class ESLToggleable extends ESLBaseElement {
 
   @bind
   protected _onMouseEnter(e: MouseEvent) {
-    const baseParams = {initiator: 'mouseenter', trackHover: true, activator: this, event: e};
+    const baseParams = {initiator: 'mouseenter', trackHover: true, activator: this.activator, event: e};
     this.show(Object.assign(baseParams, this.trackHoverParams));
   }
   @bind
   protected _onMouseLeave(e: MouseEvent) {
-    const baseParams = {initiator: 'mouseleave', trackHover: true, activator: this, event: e};
+    const baseParams = {initiator: 'mouseleave', trackHover: true, activator: this.activator, event: e};
     this.hide(Object.assign(baseParams, this.trackHoverParams));
   }
 }
