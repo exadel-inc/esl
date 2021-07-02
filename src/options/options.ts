@@ -29,11 +29,8 @@ export class UIPOptions extends UIPPlugin {
   }
 
   protected disconnectedCallback() {
-    this.unbindEvents();
     super.disconnectedCallback();
-  }
-
-  protected handleChange() {
+    this.unbindEvents();
   }
 
   protected bindEvents() {
