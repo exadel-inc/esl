@@ -1,21 +1,20 @@
 # UIP Snippets
 
-UIPSnippets - custom element, container that stores snippets (component's templates)
+[UIPSnippets](README.md) - custom element which contain snippets (component's templates).
+Extends [UIPPlugin](../core/README.md#uip-plugin).
 
----
-
-### Notes:
+## Description:
 
 - Component's markup should be placed in **template** tags.
 - Templates should have *uip-snippet*, *label* attributes.
-- An active element could be chosen by adding class **active** to template, otherwise first template becomes active.
-- Don't forget about <*ul class='snippets-list'*> at the end, list items are dynamically rendered.
----
+- An active element can be chosen by adding class **active** to template, otherwise first template becomes active.
 
-### Example:
+[UIPSnippets](README.md) component produces UIPStateModel changes, but it doesn't observe them.
+
+## Example:
 
 ```html
-<uip-snippets>
+<uip-snippets label="Snippets">
   <template uip-snippet label='Image Mode: save-ratio'>
     <esl-image mode="save-ratio"
                data-alt="Alt Text Test"
@@ -30,6 +29,5 @@ UIPSnippets - custom element, container that stores snippets (component's templa
                  data-src-base="/images/"></esl-image>
     </div>
   </template>
-  <ul class='snippets-list'></ul>
 </uip-snippets>
 ```
