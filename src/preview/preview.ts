@@ -13,8 +13,8 @@ export class UIPPreview extends UIPPlugin {
   }
 
   @bind
-  protected handleChange(): void {
-    this.$inner.innerHTML = this.root!.model.html;
+  protected _onRootStateChange(): void {
+    this.$inner.innerHTML = this.model!.html;
     this.innerHTML = '';
     this.appendChild(this.$inner);
   }
