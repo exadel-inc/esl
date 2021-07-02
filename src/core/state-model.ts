@@ -34,8 +34,8 @@ export class UIPStateModel extends Observable {
     return this._lastModifier;
   }
 
-  public getAttribute(target: string, name: string): (string | null)[] {
-    return Array.from(this._html.querySelectorAll(target)).map(el => el.getAttribute(name));
+  public getAttribute(target: string, attr: string): (string | null)[] {
+    return Array.from(this._html.querySelectorAll(target)).map(el => el.getAttribute(attr));
   }
 
   public changeAttribute(cfg: ChangeAttrConfig) {
@@ -52,13 +52,13 @@ export class UIPStateModel extends Observable {
     this.fire();
   }
 
-  public static setAttribute(elements: Element[], name: string, transform: TransformSignature | string | boolean) {
+  protected static setAttribute(elements: Element[], attr: string, transform: TransformSignature | string | boolean) {
     elements.forEach(el => {
-      const transformed = typeof transform === 'function' ? transform(el.getAttribute(name)) : transform;
+      const transformed = typeof transform === 'function' ? transform(el.getAttribute(attr)) : transform;
       if (typeof transformed === 'string') {
-        el.setAttribute(name, transformed);
+        el.setAttribute(attr, transformed);
       } else {
-         transformed ? el.setAttribute(name, '') : el.removeAttribute(name);
+         transformed ? el.setAttribute(attr, '') : el.removeAttribute(attr);
       }
     });
   }
