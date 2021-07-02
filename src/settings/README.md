@@ -8,8 +8,9 @@ Extends [UIPPlugin](../core/README.md#uip-plugin).
 We use [UIPSettings](README.md) as a container for [UIPSetting](setting/README.md) elements. It serves as a link between
 our standard UIP flow for change detection and settings updates.
 
-[UIPSettings](README.md) element parses markup using [UIPStateModel](../core/README.md#uip-state-model) and distributes
-changes among inner [UIPSetting](setting/README.md) components and vice versa.
+[UIPSettings](README.md) updates settings using current state ([UIPStateModel](../core/README.md#uip-state-model))
+and vice versa (more info can be found in [UIPSetting](setting/README.md) docs)
+
 
 To get updates from inner settings we listen for *uip:change* event, then pass markup updates to [UIPRoot](../core/README.md#uip-root).
 

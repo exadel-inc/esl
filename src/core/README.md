@@ -11,34 +11,28 @@ communication.
 
 After initialization [UIPPlugin](#uip-plugin) subscribes to [UIPStateModel](#uip-state-model) changes and, after
 destroying, automatically unsubscribes. **_onRootStateChange()** is called every time markup changes are detected.
-As you can see, the flow is quite simple to what we usually do in
+As you can see, the flow is quite similar to what we usually do in
 [Observable](https://en.wikipedia.org/wiki/Observer_pattern) pattern.
 
 ## Processing markup changes
 
-**_onRootStateChange()** method is abstract, so you need to implement it by yourself. It has the following signature:
+**_onRootStateChange()** method does nothing by default. So if you want your custom component to react on markup
+changes, you need to implement it. This callback has the following signature:
 
 ```typescript
 import {UIPPlugin} from "./plugin";
 
 class UIPComponent extends UIPPlugin {
-  protected _onRootStateChange(e: StateModelFiredObj): void {
+  protected _onRootStateChange(): void {
       //...;
   }
 }
 ```
 
-**StateModelFiredObj** is an interface we use for representing objects passed to subscription's callbacks. It's quite
-simple:
+You can find a way of getting current markup in [UIPStateModel](#uip-state-model) section.
 
-```typescript
-interface StateModelFiredObj {
-  markup: string,
-}
-```
-
-To make the long story shorter: we implement "reaction" callback in **_onRootStateChange()** (inside this callback we
-have access to markup) and every time [UIPStateModel](#uip-state-model) produces markup updates, we "react" to them!
+To make the long story shorter: we implement "reaction" callback in **_onRootStateChange()** (using markup's getter
+mentioned earlier) and every time [UIPStateModel](#uip-state-model) produces markup updates, we "react" to them!
 
 ## Example
 
@@ -47,7 +41,7 @@ import {UIPPlugin} from "./plugin";
 
 class UIPPreview extends UIPPlugin {
   protected _onRootStateChange(): void {
-    this.$inner.innerHTML = this.root!.model.html;
+    this.$inner.innerHTML = this.model!.html;
     this.innerHTML = '';
     this.appendChild(this.$inner);
   }
@@ -63,7 +57,7 @@ class UIPPreview extends UIPPlugin {
 ## Description:
 
 [UIPRoot](#uip-plugin) contains [UIPStateModel](#uip-state-model) getter. It also allows [UIPPlugin](#uip-plugin) elements
-subscribing to model changes (or unsubscribing from them). More details can be found in [UIPPlugin](#uip-plugin) docs.
+subscribing to model changes (or unsubscribing from them). More details can be found in [UIPPlugin](#uip-plugin) section.
 
 ## Example:
 
@@ -81,9 +75,8 @@ ESL's [Observable](https://github.com/exadel-inc/esl/blob/main/src/modules/esl-u
 
 ## Description
 
-As we already mentioned, [UIPStateModel](#uip-state-model) is an observable. It distributes markup changes through
-**StateModelFiredObj** objects (you can read more about it in [UIPPlugin](#uip-plugin) section). To trigger the
-observable you need to change model's markup:
+As we already mentioned, [UIPStateModel](#uip-state-model) is an observable. It's fired every time we produce markup
+changes. To trigger the observable you need to change model's markup:
 
 ```typescript
 import {UIPPlugin} from "./plugin";
@@ -91,11 +84,16 @@ import {UIPPlugin} from "./plugin";
 class UIPComponent extends UIPPlugin {
     protected _onComponentChange() {
         //...
-        this.root.model.html = 'New markup here!';
+        this.model!.setHtml('New markup here!', this);
         //...
     }
 }
 ```
+
+Markup's setter takes two arguments: *markup* and *modifier*. *Markup* stands for, surprisingly, new markup, and
+*modifier* is a [UIPPlugin](#uip-plugin) instance which triggers changes (it is needed to prevent extra triggers of
+[UIPStateModel](#uip-state-model)).
+
 
 [UIPStateModel](#uip-state-model) also has a getter for current markup:
 
@@ -105,7 +103,7 @@ import {UIPPlugin} from "./plugin";
 class UIPComponent extends UIPPlugin {
     protected processMarkup() {
         //...
-        const currentMarkup = this.root.model.html;
+        const currentMarkup = this.model!.html;
         //...
     }
 }
@@ -121,14 +119,36 @@ following signatures:
 import {Observable} from "@exadel/esl";
 
 class UIPStateModel extends Observable {
-  public getAttribute(target: string, name: string): (string | null)[] {};
-  public setAttribute(target: string, name: string, value: string | boolean): void {};
-  public transformAttribute(target: string, name: string, transform: (current: string | null) => string | null): void {};
+  public getAttribute(target: string, attr: string): (string | null)[] {};
+  public changeAttribute(cfg: ChangeAttrConfig) {};
 }
 ```
 
-**getAttribute()** method returns attributes (*name* field) values from targets.
+**getAttribute()** method returns attributes (*attr* field) values from targets.
 
-**setAttribute()** method sets attributes values for targets.
+**changeAttribute()** callback is used for changing elements attributes. As you can see, it takes *ChangeAttrConfig* as
+a parameter. This type looks like this:
 
-**transformAttribute()** method applies *transform* callback to attributes values for targets.
+```typescript
+export type TransformSignature = (current: string | null) => string | boolean | null;
+
+export type ChangeAttrConfig = {
+  target: string,
+  attribute: string,
+  modifier: UIPPlugin
+} & ({
+  value: string | boolean
+} | {
+  transform: TransformSignature
+});
+
+```
+
+Here *attribute* stands for attribute name and *target* - for target elements. *Modifier* field represents the
+[UIPPlugin](../core/README.md#uip-plugin) instance which triggers attribute's changes.
+
+The last field can either be *value* (this value replaces current *attribute*'s value) or *transform* function (it maps
+current attribute value to the new one).
+
+Again, the examples of using this API can be found in [UIPSetting](../settings/setting/README.md)
+implementations (e.g. [UIPBoolSetting](../settings/setting/bool-setting/README.md)).

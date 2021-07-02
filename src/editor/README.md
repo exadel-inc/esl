@@ -27,7 +27,7 @@ interface EditorConfig {
 2) **Mode** stands for the language (*html*, *js*, *css*, *xml*, etc.) you use inside the editor. Provides you with
    suitable syntax highlighting and other things. The full list of modes, again, can be found
    [here](https://ace.c9.io/build/kitchen-sink.html).
-3) **PrintMarginColumn** is used for setting the position of the vertical line for wrapping. Set the value to **-1** ro
+3) **PrintMarginColumn** is used for setting the position of the vertical line for wrapping. Set the value to **-1** to
    remove the line.
 4) **Wrap** number sets the limit of characters before wrapping. Set to **0** to remove wrapping or **true** for wrapping
   on the container's width.
