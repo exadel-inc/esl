@@ -62,7 +62,7 @@
   "dependencies": {
     "@types/resize-observer-browser": "0.1.5",
     "@types/video.js": "7.3.22",
-    "@types/youtube": "0.0.43"
+    "@types/youtube": "0.0.44"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
