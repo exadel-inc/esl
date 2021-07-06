@@ -1,7 +1,9 @@
 import {loadScript} from '../../esl-utils/dom/script';
-import {BaseProvider, MediaProviderConfig, PlayerStates, ProviderObservedParams} from '../core/esl-media-provider';
-import PlayerVars = YT.PlayerVars;
+import {BaseProvider, PlayerStates} from '../core/esl-media-provider';
 import {generateUId} from '../../esl-utils/misc/uid';
+import PlayerVars = YT.PlayerVars;
+
+import type {MediaProviderConfig, ProviderObservedParams} from '../core/esl-media-provider';
 
 const DEFAULT_ASPECT_RATIO = 16 / 9;
 

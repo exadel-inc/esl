@@ -1,6 +1,7 @@
 module.exports = {
   // runner: 'jest-electron/runner',
   // testEnvironment: 'jest-electron/environment',
+  testEnvironment: 'jsdom',
   preset: 'ts-jest',
   roots: ['src/modules'],
   testRegex: '/test/(.+)\\.test\\.ts$',

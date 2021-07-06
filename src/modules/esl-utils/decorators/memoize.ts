@@ -1,6 +1,8 @@
 import {getPropertyDescriptor} from '../misc/object';
-import {MethodTypedDecorator} from '../misc/functions';
-import {defaultArgsHashFn, MemoHashFn, memoizeFn} from '../misc/memoize';
+import {defaultArgsHashFn, memoizeFn} from '../misc/memoize';
+import type {MemoHashFn} from '../misc/memoize';
+import type {MethodTypedDecorator} from '../misc/functions';
+
 
 export function memoize(): MethodDecorator;
 export function memoize<H extends MemoHashFn>(hashFn: H): MethodTypedDecorator<(...args: Parameters<H>) => any>;
@@ -34,7 +36,7 @@ function memoizeMember(originalMethod: any, prop: string, isGetter: boolean, has
     if (locks.get(this) === prop) return originalMethod;
     const memo = memoizeFn(originalMethod, hashFn);
     locks.set(this, prop); // IE try to get key with the prototype instance call, so we lock it
-    Object.defineProperty(this, prop, isGetter ? { get: memo } : { value: memo });
+    Object.defineProperty(this, prop, isGetter ? {get: memo} : {value: memo});
     locks.delete(this); // Free property key
     return memo.apply(this, args);
   };

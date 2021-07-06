@@ -1,5 +1,5 @@
-import {ESLImage} from './esl-image';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {ESLImage} from './esl-image';
 
 let iObserver: IntersectionObserver;
 

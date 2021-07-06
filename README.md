@@ -140,14 +140,27 @@ you can find useful information about the project processes and agreements here:
 - #### [Development: Styleguide](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/styleguide.md)
 
 - #### [Development: Commit Convention](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/commit.md)
+
+- #### [Branches Flow](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/branches.md)
   
 - #### [Contributor Licence Agreement](https://github.com/exadel-inc/esl/blob/HEAD/CLA.md)
 
 ---
 
-**ESL Core Team**: [Alexey Stsefanovich](https://github.com/ala-n), [Julia Murashko](https://github.com/julia-murashko), [Yuliya Adamskaya](https://github.com/yadamskaya).
+**ESL Core Team**: 
+[Alexey Stsefanovich](https://github.com/ala-n), 
+[Julia Murashko](https://github.com/julia-murashko), 
+[Yuliya Adamskaya](https://github.com/yadamskaya).
 
-**ESL Contributors**: Aliaksandr Auseyeu, Andrey Belous, Dmytro Shovchko, Dzianis Mantsevich, Liubou Masiuk, Natallia Harshunova, Yana Bernatskaya.
+**ESL Contributors**: 
+[Aliaksandr Auseyeu](https://github.com/alexanderavseev), 
+[Anna Barmina](https://github.com/abarmina),
+[Andrey Belous](https://github.com/andreybelous), 
+[Dmytro Shovchko](https://github.com/dshovchko), 
+[Dzianis Mantsevich](https://github.com/dmantsevich), 
+[Liubou Masiuk](https://github.com/liubou-masiuk), 
+[Natallia Harshunova](https://github.com/nattallius), 
+[Yana Bernatskaya](https://github.com/YanaBr).
 
 **Exadel, Inc.**
 

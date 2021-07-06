@@ -6,7 +6,7 @@ type FindPredicate<T> = (T: any, index: number, array: T[]) => boolean;
  * Array.prototype.findIndex && Array.prototype.findIndex
  */
 if (typeof Array.prototype.findIndex !== 'function') {
-  const findHelper = function <T> (array: T[], predicate: FindPredicate<T>, context: any): { item: T | null, index: number } {
+  const findHelper = function <T> (array: T[], predicate: FindPredicate<T>, context: any): {item: T | null, index: number} {
     if (typeof predicate !== 'function') throw new TypeError('predicate must be a function');
 
     const list = Object(array);

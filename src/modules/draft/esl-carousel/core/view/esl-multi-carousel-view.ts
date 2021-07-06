@@ -1,5 +1,6 @@
-import {ESLCarousel} from '../esl-carousel';
 import {ESLCarouselView, ESLCarouselViewRegistry} from './esl-carousel-view';
+
+import type {ESLCarousel} from '../esl-carousel';
 
 class ESLMultiCarouselView extends ESLCarouselView {
   constructor(carousel: ESLCarousel) {
@@ -31,6 +32,7 @@ class ESLMultiCarouselView extends ESLCarouselView {
     });
   }
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   public goTo(nextIndex: number, direction: string) {
     const slideIndex = direction === 'right' ? this.carousel.activeIndexes[0] : this.carousel.firstIndex;
     const slideStyles = getComputedStyle(this.carousel.$slides[slideIndex]);
