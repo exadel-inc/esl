@@ -32,7 +32,7 @@ export default {
       type: 'asset/resource',
       use: [
         'less-loader',
-        'postcss-loader'
+        /*'postcss-loader'*/
       ]
     }]
   },

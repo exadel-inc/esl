@@ -7,8 +7,6 @@ import {UIPSelectSetting} from './settings/setting/select-setting/select-setting
 import {UIPBoolSetting} from './settings/setting/bool-setting/bool-setting';
 import {UIPSnippets} from './snippets/snippets';
 import {UIPOptions} from './options/options';
-import {ESLSelect} from '@exadel/esl';
-import {ESLScrollbar} from '@exadel/esl/modules/esl-scrollbar/core';
 
 export {
   UIPRoot,
@@ -24,14 +22,12 @@ export {
 
 export function init() {
   UIPRoot.register();
+  UIPSnippets.register();
   UIPEditor.register();
   UIPPreview.register();
   UIPSettings.register();
   UIPTextSetting.register();
   UIPBoolSetting.register();
   UIPOptions.register();
-  ESLSelect.register();
-  ESLScrollbar.register();
-  customElements.whenDefined(ESLSelect.is).then(() => UIPSelectSetting.register());
-  customElements.whenDefined(UIPRoot.is).then(() => UIPSnippets.register());
+  UIPSelectSetting.register();
 }
