@@ -67,8 +67,8 @@
   },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.5",
-    "@types/video.js": "7.3.22",
-    "@types/youtube": "0.0.43"
+    "@types/video.js": "7.3.23",
+    "@types/youtube": "0.0.44"
   },
   "devDependencies": {
     "@11ty/eleventy": "^0.12.1",
@@ -91,10 +91,10 @@
     "chokidar-cli": "^2.1.0",
     "concurrently": "^6.2.0",
     "copyfiles": "^2.4.1",
-    "eslint": "^7.29.0",
+    "eslint": "^7.30.0",
     "eslint-plugin-editorconfig": "^3.0.2",
     "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-sonarjs": "^0.7.0",
+    "eslint-plugin-sonarjs": "^0.9.0",
     "foreach-cli": "^1.8.1",
     "husky": "^7.0.0",
     "intersection-observer": "^0.12.0",
@@ -110,7 +110,7 @@
     "ts-jest": "^27.0.3",
     "ts-loader": "^9.2.3",
     "typescript": "4.3.5",
-    "webpack": "^5.41.1",
+    "webpack": "^5.42.0",
     "webpack-cli": "^4.7.2"
   },
   "browserslist": [
