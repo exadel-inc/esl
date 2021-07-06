@@ -87,7 +87,7 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   protected updateReplace(attrValues: (string | null)[]): void {
-    if (!TokenListUtils.hasEqualsElements(attrValues)) return this.setInconsistency(WARN.multiple);
+    if (!TokenListUtils.hasSameElements(attrValues)) return this.setInconsistency(WARN.multiple);
 
     if (attrValues[0] !== null &&
       TokenListUtils.contains(this.settingOptions, TokenListUtils.split(attrValues[0]))) {
@@ -103,7 +103,7 @@ export class UIPSelectSetting extends UIPSetting {
 
     if (this.multiple || commonOptions.length) return this.setValue(TokenListUtils.join(commonOptions));
 
-    return this.setInconsistency(TokenListUtils.hasEqualsElements(attrValues) ?
+    return this.setInconsistency(TokenListUtils.hasSameElements(attrValues) ?
       WARN.noMatch : WARN.multiple);
   }
 
