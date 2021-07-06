@@ -1,13 +1,56 @@
-.uip-options.uip-options.uip-options {
+.uip-options {
+  grid-column: 1 / -1;
+  display: flex;
+  flex: 0 1 auto;
+  align-items: baseline;
   margin: 0;
-  background-color: transparent;
+  border: none;
+  // override theme color
+  background-color: transparent !important;
 
   &::before {
     position: static;
     transform: initial;
   }
 
-  .option-radio-btn:checked + .option-label {
-    font-weight: @active-font-weight;
+  .uip-option {
+    display: flex;
+    flex: 0 1 auto;
+    margin-left: 15px;
+  }
+
+  .option-item {
+    .option-radio-btn {
+      display: none;
+
+      &:checked + .option-label {
+        font-weight: @active-font-weight;
+      }
+    }
+
+    .option-label {
+      cursor: pointer;
+    }
+
+    &:not(:last-child) {
+      &::after {
+        content: '|';
+        width: 5px;
+        height: 100%;
+        font-weight: 400;
+        margin: 0 5px;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+      opacity: .7;
+    }
+  }
+}
+
+@media @mobile {
+  .uip-option.mode {
+    display: none;
   }
 }

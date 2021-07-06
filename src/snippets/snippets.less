@@ -1,4 +1,4 @@
-uip-snippets {
+.uip-snippets {
   display: block;
 
   .uip-snippets-inner {
@@ -22,7 +22,21 @@ uip-snippets {
     }
   }
 
-  li.active {
+  .snippets-list-item.active {
     font-weight: 600;
+  }
+}
+
+@media @mobile {
+  .uip-root.vertical-mode, .uip-root.horizontal-mode {
+    .uip-snippets {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+    }
+
+    &.settings-attached .uip-snippets {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+    }
   }
 }
