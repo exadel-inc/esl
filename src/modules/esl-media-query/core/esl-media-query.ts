@@ -1,8 +1,7 @@
 import {memoize} from '../../esl-utils/decorators/memoize';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
-import {ESLMediaBreakpoints} from './esl-media-breakpoints';
+import {ESLMediaShortcuts} from './esl-media-shortcuts';
 
 /**
  * ESL Media Query
@@ -20,28 +19,28 @@ import {ESLMediaBreakpoints} from './esl-media-breakpoints';
  */
 @ExportNs('MediaQuery')
 export class ESLMediaQuery {
-  static get BreakpointRegistry() {
-    return ESLMediaBreakpoints;
-  }
 
   @memoize()
-  static for(query: string) {
-    return new ESLMediaQuery(query);
-  }
-
-  @memoize()
-  static matchMediaCached(query: string) {
+  protected static matchMediaCached(query: string) {
     return matchMedia(query);
   }
 
-  static buildDprQuery(dpr: number) {
-    if (ESLMediaQuery.ignoreBotsDpr && DeviceDetector.isBot && dpr !== 1) return ESLMediaQuery.NOT_ALL;
-    if (DeviceDetector.isSafari) return `(-webkit-min-device-pixel-ratio: ${dpr})`;
-    return `(min-resolution: ${(96 * dpr).toFixed(1)}dpi)`;
+  protected static cleanQuery(query: string) {
+    query = query.replace(/(and|or)\s+(and|or)/, '$1');
+    query = query.replace(/\sor\s/, ', ');
+    query = query.replace(/^\s*(and|or)/, '');
+    query = query.replace(/(and|or)\s*$/, '');
+    return query.trim();
   }
 
-  static readonly ALL = 'all';
-  static readonly NOT_ALL = 'not all';
+  /** Shortcut to create MediaQuery. The constructor of MediaQuery is already optimized */
+  @memoize()
+  public static for(query: string) {
+    return new ESLMediaQuery(query);
+  }
+
+  public static readonly ALL = 'all';
+  public static readonly NOT_ALL = 'not all';
 
   /**
    * Option to disable DPR images handling for bots
@@ -52,23 +51,13 @@ export class ESLMediaQuery {
 
   constructor(query: string) {
     // Applying known breakpoints shortcut
-    query = ESLMediaBreakpoints.apply(query);
+    query = ESLMediaShortcuts.replace(query);
 
-    // Applying dpr shortcut
-    query = query.replace(
-      /@(\d(\.\d)?)x/g,
-      (match, ratio) => ESLMediaQuery.buildDprQuery(+ratio)
-    );
+    // Clean query
+    query = ESLMediaQuery.cleanQuery(query);
 
-    // Applying dpr shortcut for device detection
-    query = query.replace(/(and )?(@MOBILE|@DESKTOP)( and)?/ig, (match, pre, type, post) => {
-      if (DeviceDetector.isMobile !== (type.toUpperCase() === '@MOBILE')) {
-        return ESLMediaQuery.NOT_ALL; // whole query became invalid
-      }
-      return pre && post ? 'and' : '';
-    });
-
-    this._query = ESLMediaQuery.matchMediaCached(query.trim() || ESLMediaQuery.ALL);
+    // Set the result query
+    this._query = ESLMediaQuery.matchMediaCached(query || ESLMediaQuery.ALL);
   }
 
   /** inner MediaQueryList instance */

@@ -31,6 +31,8 @@
   "sideEffects": [
     "modules/lib.js",
     "src/modules/lib.ts",
+    "modules/esl-media-query/core.js",
+    "src/modules/esl-media-query/core.ts",
     "modules/esl-media/providers/**/*.js",
     "src/modules/esl-media/providers/**/*.ts",
     "modules/draft/esl-carousel/core/view/*.js",
