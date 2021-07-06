@@ -1,3 +1,15 @@
+# [3.0.0-beta.13](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.12...v3.0.0-beta.13) (2021-07-06)
+
+
+### Bug Fixes
+
+* **esl-utils:** fixed extra space ([bf0aea7](https://github.com/exadel-inc/esl/commit/bf0aea776fb05c7d3770aa0bcab7b1bfa9ee67d3))
+
+
+### Features
+
+* **esl-utils:** added delete, backspace to the keys.ts ([234d433](https://github.com/exadel-inc/esl/commit/234d433c58455e2f83612ade8b49866ebd5e40d2))
+
 # [2.8.0](https://github.com/exadel-inc/esl/compare/v2.7.3...v2.8.0) (2021-07-06)
 
 ### Features
