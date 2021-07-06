@@ -9071,12 +9071,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ENTER": function() { return /* binding */ ENTER; },
 /* harmony export */   "ESC": function() { return /* binding */ ESC; },
 /* harmony export */   "SPACE": function() { return /* binding */ SPACE; },
+/* harmony export */   "BACKSPACE": function() { return /* binding */ BACKSPACE; },
 /* harmony export */   "ALT": function() { return /* binding */ ALT; },
 /* harmony export */   "SHIFT": function() { return /* binding */ SHIFT; },
 /* harmony export */   "CONTROL": function() { return /* binding */ CONTROL; },
 /* harmony export */   "PAUSE": function() { return /* binding */ PAUSE; },
 /* harmony export */   "END": function() { return /* binding */ END; },
 /* harmony export */   "HOME": function() { return /* binding */ HOME; },
+/* harmony export */   "DELETE": function() { return /* binding */ DELETE; },
 /* harmony export */   "PAGE_UP": function() { return /* binding */ PAGE_UP; },
 /* harmony export */   "PAGE_DOWN": function() { return /* binding */ PAGE_DOWN; },
 /* harmony export */   "ARROW_LEFT": function() { return /* binding */ ARROW_LEFT; },
@@ -9088,12 +9090,14 @@ var TAB = 'Tab';
 var ENTER = 'Enter';
 var ESC = 'Escape';
 var SPACE = ' ';
+var BACKSPACE = 'Backspace';
 var ALT = 'Alt';
 var SHIFT = 'Shift';
 var CONTROL = 'Control';
 var PAUSE = 'Pause';
 var END = 'End';
 var HOME = 'Home';
+var DELETE = 'Delete';
 var PAGE_UP = 'PageUp';
 var PAGE_DOWN = 'PageDown';
 var ARROW_LEFT = 'ArrowLeft';
