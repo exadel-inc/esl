@@ -89,4 +89,4 @@ you can find useful information about the project processes and agreements here:
 
 **Exadel, Inc.**
 
-[![](pages/images/exadel-logo.png)](https://exadel.com)
+[![](docs/images/exadel-logo.png)](https://exadel.com)
