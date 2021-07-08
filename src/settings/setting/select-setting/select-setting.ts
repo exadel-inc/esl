@@ -1,11 +1,12 @@
 import {attr, boolAttr} from '@exadel/esl/modules/esl-base-element/core';
-import {ESLSelect} from '@exadel/esl';
 import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
 
 import {UIPSetting} from '../setting';
 import {ChangeAttrConfig, UIPStateModel} from '../../../core/state-model';
 import TokenListUtils from '../../../utils/token-list/token-list-utils';
 import {WARN} from '../../../utils/warn-messages/warn';
+
+import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 
 export class UIPSelectSetting extends UIPSetting {
   public static is = 'uip-select-setting';
@@ -25,7 +26,7 @@ export class UIPSelectSetting extends UIPSetting {
     super.connectedCallback();
     if (this.$field) return;
 
-    this.$field = new ESLSelect();
+    this.$field = document.createElement('esl-select') as ESLSelect;
     this.$field.name = this.label;
     this.initSelect();
 
@@ -87,7 +88,7 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   protected updateReplace(attrValues: (string | null)[]): void {
-    if (!TokenListUtils.hasEqualsElements(attrValues)) return this.setInconsistency(WARN.multiple);
+    if (!TokenListUtils.hasSameElements(attrValues)) return this.setInconsistency(WARN.multiple);
 
     if (attrValues[0] !== null &&
       TokenListUtils.contains(this.settingOptions, TokenListUtils.split(attrValues[0]))) {
@@ -103,7 +104,7 @@ export class UIPSelectSetting extends UIPSetting {
 
     if (this.multiple || commonOptions.length) return this.setValue(TokenListUtils.join(commonOptions));
 
-    return this.setInconsistency(TokenListUtils.hasEqualsElements(attrValues) ?
+    return this.setInconsistency(TokenListUtils.hasSameElements(attrValues) ?
       WARN.noMatch : WARN.multiple);
   }
 
@@ -129,5 +130,9 @@ export class UIPSelectSetting extends UIPSetting {
   protected reset(): void {
     this.$field.options.forEach(opt => opt.selected = false);
     this.$field.$select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
+  }
+
+  public static register() {
+    customElements.whenDefined('esl-select').then(() => super.register());
   }
 }

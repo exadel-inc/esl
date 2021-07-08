@@ -62,7 +62,7 @@ export class UIPBoolSetting extends UIPSetting {
   }
 
   protected updateReplace(attrValues: (string | null)[]): void {
-    if (!TokenListUtils.hasEqualsElements(attrValues)) {
+    if (!TokenListUtils.hasSameElements(attrValues)) {
       return this.setInconsistency(WARN.multiple);
     }
 

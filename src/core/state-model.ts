@@ -1,4 +1,4 @@
-import {Observable} from '@exadel/esl';
+import {Observable} from '@exadel/esl/modules/esl-utils/abstract/observable';
 import {UIPPlugin} from './plugin';
 
 export type TransformSignature = (current: string | null) => string | boolean | null;
@@ -19,7 +19,8 @@ export class UIPStateModel extends Observable {
 
   public setHtml(markup: string, modifier: UIPPlugin) {
     const root = new DOMParser().parseFromString(markup, 'text/html').body;
-    if (root.innerHTML !== this._html.innerHTML) {
+
+    if (!root || root.innerHTML !== this.html) {
       this._html = root;
       this._lastModifier = modifier;
       this.fire();

@@ -1,8 +1,22 @@
-uip-editor {
+.uip-editor {
   display: block;
 
   .uip-editor-inner {
     display: block;
     height: 100%;
+  }
+}
+
+@media @mobile {
+  .uip-root.vertical-mode, .uip-root.horizontal-mode {
+    .uip-editor {
+      grid-column: 1 / 2;
+      grid-row: 4 / 5;
+    }
+
+    &.settings-attached .uip-editor {
+      grid-column: 1 / 2;
+      grid-row: 5 / 6;
+    }
   }
 }

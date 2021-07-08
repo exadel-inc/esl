@@ -7,7 +7,7 @@ export default class TokenListUtils {
     return values.join(' ');
   }
 
-  static hasEqualsElements(values: any[]): boolean {
+  static hasSameElements(values: any[]): boolean {
     return values.every(val => val === values[0]);
   }
 
@@ -16,11 +16,15 @@ export default class TokenListUtils {
   }
 
   static contains<T>(array: T[], subArray: T[]): boolean {
-    return subArray.every(el => array.indexOf(el) !== -1);
+    const set = new Set(array);
+    return subArray.every(val => set.has(val));
   }
 
   static intersection<T>(...arrays: T[][]): T[] {
-    return arrays.reduce((inter, array) => inter.filter(el => array.indexOf(el) !== -1), arrays[0]);
+    return Array.from(arrays.reduce((intersect, arr) => {
+      arr.forEach(val => !intersect.has(val) && intersect.delete(val));
+      return intersect;
+    }, new Set(arrays[0]))) as T[];
   }
 
   static remove<T>(array: T[], element: T): T[] {

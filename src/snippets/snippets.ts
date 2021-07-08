@@ -1,32 +1,20 @@
-import {CSSClassUtils} from '@exadel/esl';
+import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {UIPPlugin} from '../core/plugin';
 
 export class UIPSnippets extends UIPPlugin {
   public static is = 'uip-snippets';
-
   public static ACTIVE_CLASS = 'active';
-
-  public get $items(): HTMLElement[] {
-    const items = this.querySelectorAll('.snippets-list-item');
-    return Array.from(items) as HTMLElement[];
-  }
-
-  public get $active(): HTMLElement | null {
-    return this.$items.find(item => item.classList.contains(UIPSnippets.ACTIVE_CLASS)) || null;
-  }
-
-  public set $active(snippet: HTMLElement | null) {
-    this.$items.forEach((item) => item.classList.toggle(UIPSnippets.ACTIVE_CLASS, snippet === item));
-  }
+  public static ITEM_CLASS = 'snippets-list-item';
+  public static CONTENT_SEL = '[uip-snippet]';
 
   protected connectedCallback() {
     super.connectedCallback();
+    this.rerender();
     this.bindEvents();
 
-    this.render();
-    if (!this.$active) this.$active = this.$items[0];
-    this.applyActive();
+    // Initial update
+    setTimeout(() => this.$active = this.$active || this.$items[0]);
   }
 
   protected disconnectedCallback() {
@@ -42,40 +30,57 @@ export class UIPSnippets extends UIPPlugin {
     this.removeEventListener('click', this._onClick);
   }
 
-  protected render(): void {
-    const $inner = document.createElement('div');
-    CSSClassUtils.add($inner, 'uip-snippets-inner esl-scrollable-content');
+  public get $items(): HTMLElement[] {
+    const items = this.querySelectorAll(`.${UIPSnippets.ITEM_CLASS}`);
+    return Array.from(items) as HTMLElement[];
+  }
 
+  public get $active(): HTMLElement | null {
+    return this.$items.find(item => item.classList.contains(UIPSnippets.ACTIVE_CLASS)) || null;
+  }
+  public set $active(snippet: HTMLElement | null) {
+    this.$items.forEach((item) => item.classList.toggle(UIPSnippets.ACTIVE_CLASS, snippet === item));
+    this.applyActive();
+  }
+
+  @memoize()
+  public get $scroll() {
     const $scroll = document.createElement('esl-scrollbar');
     $scroll.setAttribute('target', '::prev(.uip-snippets-inner)');
+    return $scroll;
+  }
 
-    const snippets = this.querySelectorAll('template[uip-snippet]');
+  protected rerender(): void {
+    const snippets = this.querySelectorAll(UIPSnippets.CONTENT_SEL);
     if (!snippets.length) return;
     const $ul = document.createElement('ul');
     $ul.className = 'snippets-list';
 
     Array.from(snippets)
-      .map((snippet: HTMLTemplateElement) => this.createListItem(snippet))
+      .map((snippet: HTMLTemplateElement) => this.buildListItem(snippet))
       .forEach((item) => item && $ul.appendChild(item));
 
-    this.$active = this.$active as HTMLElement;
+    const $inner = document.createElement('div');
+    $inner.className = 'uip-snippets-inner esl-scrollable-content';
 
     $inner.appendChild($ul);
-    this.innerHTML = $inner.outerHTML + $scroll.outerHTML;
+    this.appendChild($inner);
+    this.$scroll && this.appendChild(this.$scroll);
   }
 
-  protected createListItem(snippet: HTMLTemplateElement) {
-    const li = document.createElement('li');
-    li.classList.add('snippets-list-item');
+  protected buildListItem(snippet: HTMLTemplateElement) {
     const label = snippet.getAttribute('label');
     if (!label) return;
-    li.textContent = label;
-    li.appendChild(snippet);
-    return li;
+
+    const $li = document.createElement('li');
+    $li.classList.add(UIPSnippets.ITEM_CLASS);
+    $li.textContent = label;
+    $li.appendChild(snippet);
+    return $li;
   }
 
   protected applyActive(): void {
-    const tmpl = this.$active?.querySelector('template[uip-snippet]');
+    const tmpl = this.$active?.querySelector(UIPSnippets.CONTENT_SEL);
     if (!tmpl || !this.model) return;
     this.model.setHtml(tmpl.innerHTML, this);
   }
@@ -83,10 +88,7 @@ export class UIPSnippets extends UIPPlugin {
   @bind
   protected _onClick(event: Event) {
     const target = event.target as HTMLElement;
-    if (!target.classList.contains('snippets-list-item')) return;
+    if (!target.classList.contains(UIPSnippets.ITEM_CLASS)) return;
     this.$active = target;
-
-    this.applyActive();
   }
 }
-
