@@ -141,6 +141,8 @@ you can find useful information about the project processes and agreements here:
 
 - #### [Development: Commit Convention](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/commit.md)
 
+- #### [Development: Pages](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/pages.md)
+
 - #### [Branches Flow](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/branches.md)
   
 - #### [Contributor Licence Agreement](https://github.com/exadel-inc/esl/blob/HEAD/CLA.md)

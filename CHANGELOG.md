@@ -1,4 +1,70 @@
+# [3.0.0-beta.13](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.12...v3.0.0-beta.13) (2021-07-06)
+
+
+### Bug Fixes
+
+* **esl-utils:** fixed extra space ([bf0aea7](https://github.com/exadel-inc/esl/commit/bf0aea776fb05c7d3770aa0bcab7b1bfa9ee67d3))
+
+
+### Features
+
+* **esl-utils:** added delete, backspace to the keys.ts ([234d433](https://github.com/exadel-inc/esl/commit/234d433c58455e2f83612ade8b49866ebd5e40d2))
+
+# [2.8.0](https://github.com/exadel-inc/esl/compare/v2.7.3...v2.8.0) (2021-07-06)
+
+### Features
+
+* **esl-utils:** added delete, backspace to the keys.ts ([234d433](https://github.com/exadel-inc/esl/commit/234d433c58455e2f83612ade8b49866ebd5e40d2))
+
+# [3.0.0-beta.12](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.11...v3.0.0-beta.12) (2021-07-01)
+
+
+### Bug Fixes
+
+* **esl-utils:** isRtl check updated to use computed styles instead of attribute ([89ae48d](https://github.com/exadel-inc/esl/commit/89ae48d5da35eab386d2f3cb53cdb20273e29423))
+
+
+### Features
+
+* **esl-toggleable:** set track hover activator to initial ([c48d182](https://github.com/exadel-inc/esl/commit/c48d182277411524024b03741dd3b4dbbdf65b2b))
+* **esl-utils:** add EventUtil stopPropagation and preventDefault stubs ([2e835f4](https://github.com/exadel-inc/esl/commit/2e835f47e310599067823f1fef8ba69035695344))
+* **gh-pages:** migration of the demo-site to 11ty ([#287](https://github.com/exadel-inc/esl/issues/287)) ([61e42de](https://github.com/exadel-inc/esl/commit/61e42de87b188f4a8b7e61d89a368bfaf1313d84))
+
+## [2.7.3](https://github.com/exadel-inc/esl/compare/v2.7.2...v2.7.3) (2021-06-30)
+Dependencies versions update
+
+# [3.0.0-beta.11](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.10...v3.0.0-beta.11) (2021-06-22)
+
+
+### Bug Fixes
+
+* **esl-toggleable:** allow to register toggleable as independent component ([ac98970](https://github.com/exadel-inc/esl/commit/ac98970987dda5e2103f6e1104568d60642c0f2a))
+
+
+### Features
+* **esl-footnotes:** new component released in beta
+* **esl-tooltip:** new component released in beta
+* **esl-popup** component reworked to v2.0.0
+
+#### Detailed log: 
+* add resize listener to esl-popup for updating position ([c5017d5](https://github.com/exadel-inc/esl/commit/c5017d56ef5fcbda0359f35cc8d581d9ebab60ed))
+* add trigger esl-tooltip to esl-note ([ff13d74](https://github.com/exadel-inc/esl/commit/ff13d7472328afd8f0fd9ccf262aa487a6a92612))
+* add updating activator state to esl-tooltip ([238c744](https://github.com/exadel-inc/esl/commit/238c744c765bcd32752b6963be35c062adab1204))
+* create back-to-note button at esl-footntes ([a619d73](https://github.com/exadel-inc/esl/commit/a619d73195511403c7efcd1378e537bbaa5624ab))
+* create localdev page for esl-note and esl-footnotes ([c22b192](https://github.com/exadel-inc/esl/commit/c22b192bccb8966ed64d378980ec42d3802bf436))
+* esl-note replace note text with note html ([5882e71](https://github.com/exadel-inc/esl/commit/5882e71326ad3262ad62fb7f76bedbfbc5f08779))
+* improve interconnection between esl-notes and esl-footnotes ([2e79fd0](https://github.com/exadel-inc/esl/commit/2e79fd0e224c0c04db7b5f78aede727c16e545c4))
+* improved interconnection between esl-notes and esl-footnotes ([5e422d7](https://github.com/exadel-inc/esl/commit/5e422d7134df4a76b7f750b387141bbb71375c38))
+* initial implementation of esl-footnotes ([042c4e7](https://github.com/exadel-inc/esl/commit/042c4e7d60916cc0eecf7a4eaaaa810d70d42498))
+* initial implementation of esl-note ([d158c5a](https://github.com/exadel-inc/esl/commit/d158c5a0d9cd76926ad403948d5f53625d627f04))
+* initial implementation of esl-tooltip ([4a0620b](https://github.com/exadel-inc/esl/commit/4a0620b87377a39ec8c0aaeadac51037b753878b))
+* rework esl-note ([c709022](https://github.com/exadel-inc/esl/commit/c7090224b2d104f93b986e2c6dfbfdbd605cbeb9))
+* rework esl-popup ([5723b38](https://github.com/exadel-inc/esl/commit/5723b38c91098088cdca6ec267dec42810bf9b70))
+* update esl-note after esl-trigger reimplementation ([134c020](https://github.com/exadel-inc/esl/commit/134c02010ecb1ee9649ff8ce2751316fd0f9f310))
+* update esl-popup styles ([167ef0a](https://github.com/exadel-inc/esl/commit/167ef0ae54da9f593d6474b3823ca8df37e3cd8b))
+
 ## [2.7.2](https://github.com/exadel-inc/esl/compare/v2.7.1...v2.7.2) (2021-06-18)
+Dependencies versions update
 
 # [3.0.0-beta.10](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.9...v3.0.0-beta.10) (2021-06-17)
 

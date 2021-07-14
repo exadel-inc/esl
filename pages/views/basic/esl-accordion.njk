@@ -1,0 +1,109 @@
+---
+layout: basic
+title: ESL Panel - Accordion
+name: Esl Accordion
+containerCls: container
+tags: basic
+---
+{% import 'lorem.njk' as lorem %}
+
+<section class="row">
+  <style>
+    .card-header[active] {
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, .25);
+      border-radius: 0;
+    }
+  </style>
+  <div class="col-12">
+    <esl-panel-group class="accordion-group">
+      <h2> Simple accordion </h2>
+      <div class="card">
+        <esl-trigger class="card-header" target="::next">
+          <h5 class="mb-0">
+            <button class="btn btn-link">
+              Toggle Accordion #1
+            </button>
+          </h5>
+        </esl-trigger>
+        <esl-panel open initial-params="{noAnimation: true}">
+          <div class="card-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="card">
+        <esl-trigger class="card-header" target="::next">
+          <h5 class="mb-0">
+            <button class="btn btn-link">
+              Toggle Accordion #2
+            </button>
+          </h5>
+        </esl-trigger>
+        <esl-panel>
+          <div class="card-body">
+            {{ lorem.paragraphs(2) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="card">
+        <esl-trigger class="card-header" target="::next">
+          <h5 class="mb-0">
+            <button class="btn btn-link">
+              Toggle Accordion #3
+            </button>
+          </h5>
+        </esl-trigger>
+        <esl-panel>
+          <div class="card-body">
+            {{ lorem.paragraphs(2) }}
+          </div>
+        </esl-panel>
+      </div>
+    </esl-panel-group>
+    <esl-panel-group class="accordion-group">
+      <h2> Hover accordion </h2>
+      <div class="card">
+        <esl-trigger class="card-header" target="::parent::find(.clps)" track-hover hide-delay="250">
+          <h5 class="mb-0">
+            <button class="btn btn-link">
+              Toggle Accordion #1
+            </button>
+          </h5>
+        </esl-trigger>
+        <esl-panel class="clps" default-params="{hideDelay: 100}">
+          <div class="card-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="card">
+        <esl-trigger class="card-header" target="::next" track-hover hide-delay="250">
+          <h5 class="mb-0">
+            <button class="btn btn-link">
+              Toggle Accordion #2
+            </button>
+          </h5>
+        </esl-trigger>
+        <esl-panel default-params="{hideDelay: 100}">
+          <div class="card-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="card">
+        <esl-trigger class="card-header" target="::next" track-hover hide-delay="250">
+          <h5 class="mb-0">
+            <button class="btn btn-link">
+              Toggle Accordion #3
+            </button>
+          </h5>
+        </esl-trigger>
+        <esl-panel default-params="{hideDelay: 100}">
+          <div class="card-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+    </esl-panel-group>
+  </div>
+</section>
