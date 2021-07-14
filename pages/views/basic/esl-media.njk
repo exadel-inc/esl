@@ -12,19 +12,19 @@ tags: basic
 <hr/>
 <div class="row justify-content-around">
   <section class="col-12 row" data-demo="0">
-    <div class="demo col-6">
+    <div class="col-md-6 order-md-2">
+      <h3 class="text-center">ESLMedia Playgroud </h3>
+      <test-media-source target="[data-demo='0'] esl-media"></test-media-source>
+    </div>
+        <div class="demo col-md-6 order-md-1">
       <div class="img-container img-container-16-9 img-container-loaded" style="border: solid black 1px;">
         <esl-media group="demo-media" controls></esl-media>
       </div>
-    </div>
-    <div class="col-6">
-      <h3 class="text-center">ESLMedia Playgroud </h3>
       <test-media-controls target="[data-demo='0'] esl-media"></test-media-controls>
-      <test-media-source target="[data-demo='0'] esl-media"></test-media-source>
     </div>
   </section>
 
-  <section class="col-6" data-demo="1">
+  <section class="col-md-6" data-demo="1">
     <div class="demo">
       <h3 class="text-center">YouTube video</h3>
       <p>ESL Media has full support of YouTube provider.
@@ -48,7 +48,7 @@ tags: basic
       <test-media-controls target="[data-demo='1'] esl-media"></test-media-controls>
     </div>
   </section>
-  <section class="col-6" data-demo="2">
+  <section class="col-md-6" data-demo="2">
     <div class="demo">
       <h3 class="text-center">HTML video</h3>
       <p>ESL Media can be used for simple HTML videos.
@@ -70,7 +70,7 @@ tags: basic
       <test-media-controls target="[data-demo='2'] esl-media"></test-media-controls>
     </div>
   </section>
-  <section class="col-6" data-demo="3">
+  <section class="col-md-6" data-demo="3">
     <div class="demo">
       <h3 class="text-center">Basic Iframe Example</h3>
       <p>ESL Media also has build-in provider to wrap abstract iframe source. Here is a simple example for Vimeo
@@ -89,7 +89,7 @@ tags: basic
     </div>
   </section>
 
-  <section class="col-6" data-demo="4">
+  <section class="col-md-6" data-demo="4">
     <div class="demo">
       <h3 class="text-center">Basic Audio Example</h3>
       <p>ESL Media is also support simple HTML audio.</p>
