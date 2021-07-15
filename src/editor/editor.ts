@@ -10,6 +10,13 @@ import {jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
 
 import {UIPPlugin} from '../core/plugin';
 
+/**
+ * Config for customizing editor's behaviour
+ * @property {string} theme - editor's appearance theme
+ * @property {string} mode - text mode used
+ * @property {number} printMarginColumn - position of the vertical line for wrapping
+ * @property {number} warp - limit of characters before wrapping
+ */
 interface EditorConfig {
   theme: string;
   mode: string;
@@ -19,6 +26,7 @@ interface EditorConfig {
 
 export class UIPEditor extends UIPPlugin {
   public static is = 'uip-editor';
+  /** Default [config]{@link EditorConfig} used by editor */
   public static defaultOptions = {
     theme: 'ace/theme/chrome',
     mode: 'ace/mode/html',
@@ -26,10 +34,12 @@ export class UIPEditor extends UIPPlugin {
     wrap: true,
   };
 
+  /** Editor's [config]{@link EditorConfig} passed through attribute */
   @jsonAttr()
   public editorConfig: EditorConfig;
   protected editor: Ace.Editor;
 
+  /** Merges [default config]{@link defaultOptions} with editor's [config]{@link editorConfig} */
   protected get mergedEditorConfig(): EditorConfig {
     const type = (this.constructor as typeof UIPEditor);
     return Object.assign({}, type.defaultOptions, this.editorConfig || {});
@@ -40,6 +50,7 @@ export class UIPEditor extends UIPPlugin {
     this.initEditor();
   }
 
+  /** Initialization of Ace editor */
   protected initEditor() {
     this.innerHTML = '';
     this.appendChild(this.$inner);
@@ -58,6 +69,8 @@ export class UIPEditor extends UIPPlugin {
     this.model!.setHtml(this.editor.getValue(), this);
   }, 1000);
 
+  /** Setting editor's value after markup changes
+   * @see [onRootStateChange]{@link UIPPlugin#_onRootStateChange} */
   @bind
   protected _onRootStateChange(): void {
     if (this.model!.lastModifier === this) return;
