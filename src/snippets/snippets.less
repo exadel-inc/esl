@@ -1,42 +1,28 @@
 .uip-snippets {
   display: block;
+  width: 20%;
+  min-width: 200px;
 
-  .uip-snippets-inner {
-    display: block;
+  &-inner {
+    position: relative;
     height: 100%;
-    padding: 10px;
-    overflow: auto;
   }
 
   .snippets-list {
+    height: 100%;
     list-style-type: none;
-    margin-top: 0;
     margin-right: 10px;
-    padding-inline-start: 0;
-  }
+    overflow: auto;
 
-  .snippets-list-item {
-    &:hover {
-      cursor: pointer;
-      opacity: .7;
-    }
-  }
-
-  .snippets-list-item.active {
-    font-weight: 600;
-  }
-}
-
-@media @mobile {
-  .uip-root.vertical-mode, .uip-root.horizontal-mode {
-    .uip-snippets {
-      grid-column: 1 / 2;
-      grid-row: 2 / 3;
-    }
-
-    &.settings-attached .uip-snippets {
-      grid-column: 1 / 2;
-      grid-row: 2 / 3;
+    &-item {
+      &:hover {
+        cursor: pointer;
+        opacity: .7;
+      }
+  
+      &.active {
+        font-weight: 600;
+      }
     }
   }
 }

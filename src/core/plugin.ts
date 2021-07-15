@@ -1,3 +1,4 @@
+import {memoize} from '@exadel/esl';
 import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPRoot} from './root';
 import {UIPStateModel} from './state-model';
@@ -21,6 +22,7 @@ export abstract class UIPPlugin extends ESLBaseElement {
   protected get root(): UIPRoot | null {
     return this._root;
   }
+
   protected set root(root: UIPRoot | null) {
     this._root?.removeStateListener(this._onRootStateChange);
     this._root = root;
@@ -31,12 +33,21 @@ export abstract class UIPPlugin extends ESLBaseElement {
     return this.root ? this.root.model : null;
   }
 
+  @memoize()
+  get $inner() {
+    const $inner = document.createElement('div');
+    const pluginType = <typeof UIPPlugin>this.constructor;
+    $inner.className = `${pluginType.is}-inner uip-plugin-inner`;
+    return $inner;
+  }
+
   protected connectedCallback() {
     super.connectedCallback();
     this.classList.add('uip-plugin');
     this.root = this.closest(`${UIPRoot.is}`) as UIPRoot;
     this.root && this._onRootStateChange();
   }
+
   protected disconnectedCallback() {
     this._root?.removeStateListener(this._onRootStateChange);
     this.root = null;

@@ -46,7 +46,7 @@ export class UIPSnippets extends UIPPlugin {
   @memoize()
   public get $scroll() {
     const $scroll = document.createElement('esl-scrollbar');
-    $scroll.setAttribute('target', '::prev(.uip-snippets-inner)');
+    $scroll.setAttribute('target', '::prev(.snippets-list)');
     return $scroll;
   }
 
@@ -54,18 +54,15 @@ export class UIPSnippets extends UIPPlugin {
     const snippets = this.querySelectorAll(UIPSnippets.CONTENT_SEL);
     if (!snippets.length) return;
     const $ul = document.createElement('ul');
-    $ul.className = 'snippets-list';
+    $ul.className = 'snippets-list esl-scrollable-content';
 
     Array.from(snippets)
       .map((snippet: HTMLTemplateElement) => this.buildListItem(snippet))
       .forEach((item) => item && $ul.appendChild(item));
 
-    const $inner = document.createElement('div');
-    $inner.className = 'uip-snippets-inner esl-scrollable-content';
-
-    $inner.appendChild($ul);
-    this.appendChild($inner);
-    this.$scroll && this.appendChild(this.$scroll);
+    this.$inner.appendChild($ul);
+    this.$scroll && this.$inner.appendChild(this.$scroll);
+    this.appendChild(this.$inner);
   }
 
   protected buildListItem(snippet: HTMLTemplateElement) {

@@ -3,8 +3,11 @@
     background-color: @light-theme;
 
     & > .uip-plugin {
-      background-color: @light-theme-section;
       color: @dark-text;
+
+      & > .uip-plugin-inner {
+        background-color: @light-theme-section;
+      }
 
       &.uip-snippets {
         .snippets-list .snippets-list-item {
@@ -28,7 +31,6 @@
     background-color: @dark-theme;
 
     & > .uip-plugin {
-      background-color: @dark-theme-section;
       color: @light-text;
 
       &.uip-snippets {

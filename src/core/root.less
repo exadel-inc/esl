@@ -1,20 +1,8 @@
 .uip-root {
-  display: grid;
-  gap: 20px;
+  display: flex;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  min-height: 100vh;
+  width: 100%;
   padding: 20px 75px;
-}
-
-@media @mobile {
-  .uip-root {
-    &.vertical-mode, &.horizontal-mode {
-      grid-template-columns: 100%;
-      grid-template-rows: auto auto auto 350px;
-      padding: 20px 60px;
-
-      &.settings-attached {
-        grid-template-columns: 100%;
-        grid-template-rows: auto auto auto auto 350px;
-      }
-    }
-  }
 }
