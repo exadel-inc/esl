@@ -2,6 +2,7 @@ import {ObserverCallback} from '@exadel/esl';
 import {ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPStateModel} from './state-model';
 
+/** Container for {@link UIPPlugin} components. */
 export class UIPRoot extends ESLBaseElement {
   public static is = 'uip-root';
   private _model = new UIPStateModel();
