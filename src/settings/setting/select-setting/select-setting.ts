@@ -8,14 +8,26 @@ import {WARN} from '../../../utils/warn-messages/warn';
 
 import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 
+/**
+ * Custom setting for selecting attribute's value.
+ * @see {@link UIPSetting}
+ */
 export class UIPSelectSetting extends UIPSetting {
   public static is = 'uip-select-setting';
+  /** Option displayed when setting has inconsistent state. */
   public static inconsistentValue = 'inconsistent';
 
+  /** Setting's visible name. */
   @attr({defaultValue: ''}) public label: string;
+  /**
+   * Attribute which sets mode for setting.
+   * Replace - replacing [attribute's]{@link UIPSetting#attribute} value with setting's value.
+   * Append - appending [attribute's]{@link UIPSetting#attribute} value to attribute's value.
+   */
   @attr({defaultValue: 'replace'}) public mode: 'replace' | 'append';
+  /** Indicates whether setting supports multiple values selected or not. */
   @boolAttr() public multiple: boolean;
-
+  /** Select field for changing setting's value. */
   protected $field: ESLSelect;
 
   protected get settingOptions(): string[] {
@@ -39,6 +51,7 @@ export class UIPSelectSetting extends UIPSetting {
     this.appendChild(this.$field);
   }
 
+  /** Initialization of {@link ESLSelect}. */
   protected initSelect(): void {
     const select = document.createElement('select');
     select.setAttribute('esl-select-target', '');
@@ -87,6 +100,7 @@ export class UIPSelectSetting extends UIPSetting {
     this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
   }
 
+  /** Updating setting's value for replace {@link mode}. */
   protected updateReplace(attrValues: (string | null)[]): void {
     if (!TokenListUtils.hasSameElements(attrValues)) return this.setInconsistency(WARN.multiple);
 
@@ -98,6 +112,7 @@ export class UIPSelectSetting extends UIPSetting {
     return this.multiple ? this.setValue('') : this.setInconsistency(WARN.noMatch);
   }
 
+  /** Updating setting's value for append {@link mode}. */
   protected updateAppend(attrValues: (string | null)[]): void {
     const commonOptions = TokenListUtils.intersection(
       ...attrValues.map(val => TokenListUtils.split(val)), this.settingOptions);
@@ -127,6 +142,7 @@ export class UIPSelectSetting extends UIPSetting {
     this.$field.update();
   }
 
+  /** Resetting [select]{@link $field} value. */
   protected reset(): void {
     this.$field.options.forEach(opt => opt.selected = false);
     this.$field.$select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));

@@ -10,23 +10,26 @@ import {jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
 
 import {UIPPlugin} from '../core/plugin';
 
-/**
- * Config for customizing editor's behaviour
- * @property {string} theme - editor's appearance theme
- * @property {string} mode - text mode used
- * @property {number} printMarginColumn - position of the vertical line for wrapping
- * @property {number} warp - limit of characters before wrapping
- */
+/** Config for customizing editor's behaviour. */
 interface EditorConfig {
+  /** Editor's appearance theme. */
   theme: string;
+  /** Text mode used. */
   mode: string;
+  /** Position of the vertical line for wrapping. */
   printMarginColumn: number;
+  /** Limit of characters before wrapping. */
   wrap: number;
 }
 
+/**
+ * Code editor for changing current markup. Allows user to manually configure
+ * the component inside {@link UIPPreview}.
+ * @see {@link UIPPlugin}
+ */
 export class UIPEditor extends UIPPlugin {
   public static is = 'uip-editor';
-  /** Default [config]{@link EditorConfig} used by editor */
+  /** Default [config]{@link EditorConfig} used by editor. */
   public static defaultOptions = {
     theme: 'ace/theme/chrome',
     mode: 'ace/mode/html',
@@ -34,12 +37,13 @@ export class UIPEditor extends UIPPlugin {
     wrap: true,
   };
 
-  /** Editor's [config]{@link EditorConfig} passed through attribute */
+  /** Editor's [config]{@link EditorConfig} passed through attribute. */
   @jsonAttr()
   public editorConfig: EditorConfig;
+  /**  */
   protected editor: Ace.Editor;
 
-  /** Merges [default config]{@link defaultOptions} with editor's [config]{@link editorConfig} */
+  /** Merging [default config]{@link defaultOptions} with editor's [config]{@link editorConfig}. */
   protected get mergedEditorConfig(): EditorConfig {
     const type = (this.constructor as typeof UIPEditor);
     return Object.assign({}, type.defaultOptions, this.editorConfig || {});
@@ -50,7 +54,7 @@ export class UIPEditor extends UIPPlugin {
     this.initEditor();
   }
 
-  /** Initialization of Ace editor */
+  /** Initializing [Ace]{@link https://ace.c9.io/} editor. */
   protected initEditor() {
     this.innerHTML = '';
     this.appendChild(this.$inner);
@@ -69,8 +73,6 @@ export class UIPEditor extends UIPPlugin {
     this.model!.setHtml(this.editor.getValue(), this);
   }, 1000);
 
-  /** Setting editor's value after markup changes
-   * @see [onRootStateChange]{@link UIPPlugin#_onRootStateChange} */
   @bind
   protected _onRootStateChange(): void {
     if (this.model!.lastModifier === this) return;
