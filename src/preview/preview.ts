@@ -1,6 +1,10 @@
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {UIPPlugin} from '../core/plugin';
 
+/**
+ * Component that displays active markup.
+ * @see {@link UIPPlugin}
+ */
 export class UIPPreview extends UIPPlugin {
   static is = 'uip-preview';
 

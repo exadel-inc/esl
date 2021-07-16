@@ -6,15 +6,30 @@ import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
 import {UIPEditor} from '../editor/editor';
 import {UIPPlugin} from '../core/plugin';
 
+/**
+ * Component which provides visual controls for changing UIP visual appearance.
+ * @see {@link UIPPlugin}
+ */
 export class UIPOptions extends UIPPlugin {
   static is = 'uip-options';
 
+  /**
+   * Attribute for controlling UIP components layout.
+   * Has two values: vertical and horizontal.
+   */
   @attr({defaultValue: 'vertical'}) public mode: string;
+  /**
+   * Attribute for controlling UIP components theme.
+   * Has two values: uip-light and uip-dark.
+   */
   @attr({defaultValue: 'uip-light'}) public theme: string;
 
+  /** Media query for mobile breakpoints. */
   static _conditionQuery: ESLMediaQuery = new ESLMediaQuery('@-SM');
 
+  /** Path to dark editor's theme. */
   static darkEditorTheme = 'ace/theme/tomorrow_night';
+  /** Path to light editor's theme. */
   static lightEditorTheme = 'ace/theme/chrome';
 
   protected connectedCallback() {
@@ -123,6 +138,7 @@ export class UIPOptions extends UIPPlugin {
     this.changeEditorTheme(theme);
   }
 
+  /** Applying horizontal mode for mobile breakpoints. */
   @bind
   protected _onResize() {
     (UIPOptions._conditionQuery.matches)

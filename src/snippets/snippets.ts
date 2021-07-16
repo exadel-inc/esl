@@ -2,10 +2,17 @@ import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {UIPPlugin} from '../core/plugin';
 
+/**
+ * Container for snippets (component's templates).
+ * @see {@link UIPPlugin}
+ */
 export class UIPSnippets extends UIPPlugin {
   public static is = 'uip-snippets';
+  /** Class added to active snippet. */
   public static ACTIVE_CLASS = 'active';
+  /** Class for snippets list items. */
   public static ITEM_CLASS = 'snippets-list-item';
+  /** Selector for snippets. */
   public static CONTENT_SEL = '[uip-snippet]';
 
   protected connectedCallback() {
@@ -50,6 +57,7 @@ export class UIPSnippets extends UIPPlugin {
     return $scroll;
   }
 
+  /** Rendering snippets list. */
   protected rerender(): void {
     const snippets = this.querySelectorAll(UIPSnippets.CONTENT_SEL);
     if (!snippets.length) return;
@@ -65,6 +73,7 @@ export class UIPSnippets extends UIPPlugin {
     this.appendChild(this.$inner);
   }
 
+  /** Building snippets list item. */
   protected buildListItem(snippet: HTMLTemplateElement) {
     const label = snippet.getAttribute('label');
     if (!label) return;
@@ -76,6 +85,7 @@ export class UIPSnippets extends UIPPlugin {
     return $li;
   }
 
+  /** Applying active snippet's markup to {@link UIPStateModel}. */
   protected applyActive(): void {
     const tmpl = this.$active?.querySelector(UIPSnippets.CONTENT_SEL);
     if (!tmpl || !this.model) return;

@@ -57,7 +57,10 @@ export abstract class UIPSetting extends ESLBaseElement {
     EventUtils.dispatch(this, 'uip:change');
   }
 
-  /** Changing {@link UIPStateModel} state according to setting's value. */
+  /**
+   * Changing markup in {@link UIPStateModel}
+   * according to setting's value.
+   */
   public applyTo(model: UIPStateModel): void {
     const cfg: ChangeAttrConfig = {
       target: this.target,
@@ -68,7 +71,10 @@ export abstract class UIPSetting extends ESLBaseElement {
     this.isValid() ? model.changeAttribute(cfg) : this.setInconsistency(WARN.invalid);
   }
 
-  /** Updating setting's value according to {@link UIPStateModel} state. */
+  /**
+   * Updating setting's value according to
+   * active markup in {@link UIPStateModel}.
+   */
   public updateFrom(model: UIPStateModel): void {
     const values = model.getAttribute(this.target, this.attribute);
 
@@ -99,13 +105,13 @@ export abstract class UIPSetting extends ESLBaseElement {
 
   /**
    * Getting setting's value
-   * to update {@link UIPStateModel} state.
+   * to update markup in {@link UIPStateModel}.
    */
   protected abstract getDisplayedValue(): string | boolean;
 
   /**
    * Setting setting's value
-   * after processing {@link UIPStateModel} state.
+   * after processing markup in {@link UIPStateModel}.
    */
   protected abstract setValue(value: string | null): void;
 }
