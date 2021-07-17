@@ -1,3 +1,38 @@
+# [3.0.0-beta.13](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.12...v3.0.0-beta.13) (2021-07-06)
+
+
+### Bug Fixes
+
+* **esl-utils:** fixed extra space ([bf0aea7](https://github.com/exadel-inc/esl/commit/bf0aea776fb05c7d3770aa0bcab7b1bfa9ee67d3))
+
+
+### Features
+
+* **esl-utils:** added delete, backspace to the keys.ts ([234d433](https://github.com/exadel-inc/esl/commit/234d433c58455e2f83612ade8b49866ebd5e40d2))
+
+# [2.8.0](https://github.com/exadel-inc/esl/compare/v2.7.3...v2.8.0) (2021-07-06)
+
+### Features
+
+* **esl-utils:** added delete, backspace to the keys.ts ([234d433](https://github.com/exadel-inc/esl/commit/234d433c58455e2f83612ade8b49866ebd5e40d2))
+
+# [3.0.0-beta.12](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.11...v3.0.0-beta.12) (2021-07-01)
+
+
+### Bug Fixes
+
+* **esl-utils:** isRtl check updated to use computed styles instead of attribute ([89ae48d](https://github.com/exadel-inc/esl/commit/89ae48d5da35eab386d2f3cb53cdb20273e29423))
+
+
+### Features
+
+* **esl-toggleable:** set track hover activator to initial ([c48d182](https://github.com/exadel-inc/esl/commit/c48d182277411524024b03741dd3b4dbbdf65b2b))
+* **esl-utils:** add EventUtil stopPropagation and preventDefault stubs ([2e835f4](https://github.com/exadel-inc/esl/commit/2e835f47e310599067823f1fef8ba69035695344))
+* **gh-pages:** migration of the demo-site to 11ty ([#287](https://github.com/exadel-inc/esl/issues/287)) ([61e42de](https://github.com/exadel-inc/esl/commit/61e42de87b188f4a8b7e61d89a368bfaf1313d84))
+
+## [2.7.3](https://github.com/exadel-inc/esl/compare/v2.7.2...v2.7.3) (2021-06-30)
+Dependencies versions update
+
 # [3.0.0-beta.11](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.10...v3.0.0-beta.11) (2021-06-22)
 
 
@@ -29,6 +64,7 @@
 * update esl-popup styles ([167ef0a](https://github.com/exadel-inc/esl/commit/167ef0ae54da9f593d6474b3823ca8df37e3cd8b))
 
 ## [2.7.2](https://github.com/exadel-inc/esl/compare/v2.7.1...v2.7.2) (2021-06-18)
+Dependencies versions update
 
 # [3.0.0-beta.10](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.9...v3.0.0-beta.10) (2021-06-17)
 

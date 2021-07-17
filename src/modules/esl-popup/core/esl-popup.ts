@@ -56,16 +56,9 @@ export class ESLPopup extends ESLToggleable {
     window.removeEventListener('resize', this._deferredUpdatePosition);
   }
 
+  // TODO: move to utilities
   protected get _windowWidth() {
     return document.documentElement.clientWidth || document.body.clientWidth;
-  }
-
-  protected get _windowX() {
-    return window.scrollX || window.pageXOffset;
-  }
-
-  protected get _windowY() {
-    return window.scrollY || window.pageYOffset;
   }
 
   public onShow(params: PopupActionParams) {
@@ -120,7 +113,7 @@ export class ESLPopup extends ESLToggleable {
 
   protected _calculateLeft($activator: HTMLElement) {
     const triggerRect = $activator.getBoundingClientRect();
-    const triggerPosX = triggerRect.left + this._windowX;
+    const triggerPosX = triggerRect.left + window.pageXOffset;
     const centerX = triggerPosX + triggerRect.width / 2;
 
     let arrowAdjust = 0;
@@ -147,13 +140,13 @@ export class ESLPopup extends ESLToggleable {
   protected _calculateTop($activator: HTMLElement) {
     const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new DOMRect();
     const triggerRect = $activator.getBoundingClientRect();
-    const triggerPosY = triggerRect.top + this._windowY;
+    const triggerPosY = triggerRect.top + window.pageYOffset;
     const arrowHeight = arrowRect.height / 2;
 
     let arrowTop = triggerPosY - this._offsetTrigger - arrowHeight;
     let top = arrowTop - this.offsetHeight;
     let position = 'top';
-    if (this.behavior === 'fit' && this._windowY > top) {  /* show popup at the bottom of trigger */
+    if (this.behavior === 'fit' && window.pageYOffset > top) {  /* show popup at the bottom of trigger */
       arrowTop = triggerPosY + triggerRect.height + this._offsetTrigger;
       top = arrowTop + arrowHeight + this._offsetTrigger;
       position = 'bottom';

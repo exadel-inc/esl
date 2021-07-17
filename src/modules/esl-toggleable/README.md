@@ -1,6 +1,6 @@
 # [ESL](../../../README.md) Toggleable
 
-Version: *2.1.0*
+Version: *2.2.0*
 
 Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*
 
