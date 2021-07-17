@@ -9,7 +9,7 @@ ESLAlert is a component to show small notifications on your pages. ESLAlert can 
 
 ---
 
-##Usage
+## Usage
 
 First, use the common approach to register component: `ESLAlert.register()`.
 Then you can attach `<esl-alert>` component to the expected place in the document or initialize it globally by using `ESLAlert.init` shortcut.
