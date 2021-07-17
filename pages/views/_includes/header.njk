@@ -1,11 +1,11 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark esl-demo-header">
-  <div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark esl-demo-header">
+  <div class="container flex-column flex-lg-row align-items-stretch align-items-lg-center">
     <a class="navbar-brand logo-light mr-5" href="{{ '/' | url }}">
       {% include 'img/logo.svg' %}
       <span class="ml-2">Exadel Smart Library</span>
     </a>
     {% from 'header-menu.njk' import menu with context %}
-    <ul class="navbar-nav flex-grow-1">
+    <ul class="navbar-nav flex-grow-1 flex-sm-row">
       <li class="nav-item hd-dropdown">
         {{ menu ('Components', 'basic') }}
       </li>
