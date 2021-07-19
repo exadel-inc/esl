@@ -3,6 +3,8 @@ export const isObjectLike = (obj: any) => isObject(obj) || typeof obj === 'funct
 export const isPrimitive = (obj: any): obj is string | number | boolean =>
   typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean';
 
+export const isPrototype = (obj: any) => Object.hasOwnProperty.call(obj, 'constructor');
+
 export type CopyPredicate = (key: string, value: any) => boolean;
 
 /** Deep object compare */
