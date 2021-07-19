@@ -1,5 +1,6 @@
-/** Object with messages used for indicating
- * [setting's]{@link UIPSetting} inconsistent state
+/**
+ * Object with messages used to indicate
+ * the type of warning.
  */
 export const WARN = {
   inconsistent: 'Inconsistent value',

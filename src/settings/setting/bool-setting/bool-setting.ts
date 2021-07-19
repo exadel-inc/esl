@@ -76,7 +76,7 @@ export class UIPBoolSetting extends UIPSetting {
     this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
   }
 
-  /** Updating setting's value for replace {@link mode}. */
+  /** Update setting's value for replace {@link mode}. */
   protected updateReplace(attrValues: (string | null)[]): void {
     if (!TokenListUtils.hasSameElements(attrValues)) {
       return this.setInconsistency(WARN.multiple);
@@ -85,7 +85,7 @@ export class UIPBoolSetting extends UIPSetting {
     return this.setValue((this.value && attrValues[0] !== this.value) ? null : attrValues[0]);
   }
 
-  /** Updating setting's value for append {@link mode}. */
+  /** Update setting's value for append {@link mode}. */
   protected updateAppend(attrValues: (string | null)[]): void {
     const containsFunction = (val: string | null) =>
       TokenListUtils.contains(TokenListUtils.split(val), [this.value]);

@@ -7,7 +7,7 @@ import {UIPEditor} from '../editor/editor';
 import {UIPPlugin} from '../core/plugin';
 
 /**
- * Component which provides visual controls for changing UIP visual appearance.
+ * Component which provides controls for changing UIP visual appearance.
  * @see {@link UIPPlugin}
  */
 export class UIPOptions extends UIPPlugin {
@@ -138,7 +138,7 @@ export class UIPOptions extends UIPPlugin {
     this.changeEditorTheme(theme);
   }
 
-  /** Applying horizontal mode for mobile breakpoints. */
+  /** Apply horizontal mode for mobile breakpoints. */
   @bind
   protected _onResize() {
     (UIPOptions._conditionQuery.matches)

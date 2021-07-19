@@ -100,7 +100,7 @@ export class UIPSelectSetting extends UIPSetting {
     this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
   }
 
-  /** Updating setting's value for replace {@link mode}. */
+  /** Update setting's value for replace {@link mode}. */
   protected updateReplace(attrValues: (string | null)[]): void {
     if (!TokenListUtils.hasSameElements(attrValues)) return this.setInconsistency(WARN.multiple);
 
@@ -112,7 +112,7 @@ export class UIPSelectSetting extends UIPSetting {
     return this.multiple ? this.setValue('') : this.setInconsistency(WARN.noMatch);
   }
 
-  /** Updating setting's value for append {@link mode}. */
+  /** Update setting's value for append {@link mode}. */
   protected updateAppend(attrValues: (string | null)[]): void {
     const commonOptions = TokenListUtils.intersection(
       ...attrValues.map(val => TokenListUtils.split(val)), this.settingOptions);
@@ -142,7 +142,7 @@ export class UIPSelectSetting extends UIPSetting {
     this.$field.update();
   }
 
-  /** Resetting [select]{@link $field} value. */
+  /** Reset [select]{@link $field} value. */
   protected reset(): void {
     this.$field.options.forEach(opt => opt.selected = false);
     this.$field.$select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));

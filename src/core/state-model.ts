@@ -16,13 +16,15 @@ export type ChangeAttrConfig = {
   /** New {@link attribute} value. */
   value: string | boolean
 } | {
-  /** Function which transforms current
-   * {@link attribute} value to the new one. */
+  /**
+   * Function which transforms current
+   * {@link attribute} value to the new one.
+   */
   transform: TransformSignature
 });
 
 /**
- * State manager which contains current markup
+ * State manager class which contains current markup
  * and provides methods for changing it.
  */
 export class UIPStateModel extends Observable {
@@ -31,7 +33,7 @@ export class UIPStateModel extends Observable {
   private _lastModifier: UIPPlugin;
 
   /**
-   * Updating current markup.
+   * Update current markup.
    * Triggers [onRootStateChange]{@link UIPPlugin#_onRootStateChange}.
    */
   public setHtml(markup: string, modifier: UIPPlugin) {
@@ -52,12 +54,12 @@ export class UIPStateModel extends Observable {
     return this._lastModifier;
   }
 
-  /** Getting attributes values from targets. */
+  /** Get attributes values from targets. */
   public getAttribute(target: string, attr: string): (string | null)[] {
     return Array.from(this._html.querySelectorAll(target)).map(el => el.getAttribute(attr));
   }
 
-  /** Applying change config to current markup. */
+  /** Apply change config to current markup. */
   public changeAttribute(cfg: ChangeAttrConfig) {
     const {target, attribute, modifier} = cfg;
     const elements = Array.from(this._html.querySelectorAll(target));
@@ -72,7 +74,7 @@ export class UIPStateModel extends Observable {
     this.fire();
   }
 
-  /** Transforming attributes values for specified elements. */
+  /** Transform attributes values for specified elements. */
   protected static setAttribute(elements: Element[], attr: string, transform: TransformSignature | string | boolean) {
     elements.forEach(el => {
       const transformed = typeof transform === 'function' ? transform(el.getAttribute(attr)) : transform;

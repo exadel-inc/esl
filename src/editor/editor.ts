@@ -10,7 +10,7 @@ import {jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
 
 import {UIPPlugin} from '../core/plugin';
 
-/** Config for customizing editor's behaviour. */
+/** Config interface for customizing editor's behaviour. */
 interface EditorConfig {
   /** Editor's appearance theme. */
   theme: string;
@@ -43,7 +43,7 @@ export class UIPEditor extends UIPPlugin {
   /**  */
   protected editor: Ace.Editor;
 
-  /** Merging [default config]{@link defaultOptions} with editor's [config]{@link editorConfig}. */
+  /** Merge [default config]{@link defaultOptions} with editor's [config]{@link editorConfig}. */
   protected get mergedEditorConfig(): EditorConfig {
     const type = (this.constructor as typeof UIPEditor);
     return Object.assign({}, type.defaultOptions, this.editorConfig || {});
@@ -54,7 +54,7 @@ export class UIPEditor extends UIPPlugin {
     this.initEditor();
   }
 
-  /** Initializing [Ace]{@link https://ace.c9.io/} editor. */
+  /** Initialize [Ace]{@link https://ace.c9.io/} editor. */
   protected initEditor() {
     this.innerHTML = '';
     this.appendChild(this.$inner);

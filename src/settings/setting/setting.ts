@@ -58,7 +58,7 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   /**
-   * Changing markup in {@link UIPStateModel}
+   * Change markup in {@link UIPStateModel}
    * according to setting's value.
    */
   public applyTo(model: UIPStateModel): void {
@@ -72,7 +72,7 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   /**
-   * Updating setting's value according to
+   * Update setting's value according to
    * active markup in {@link UIPStateModel}.
    */
   public updateFrom(model: UIPStateModel): void {
@@ -88,7 +88,7 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   /**
-   * Checking whether setting's value is valid or not.
+   * Check whether setting's value is valid or not.
    * Can be used for custom validation.
    */
   protected isValid(): boolean {
@@ -96,7 +96,7 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   /**
-   * Indicating setting's incorrect state
+   * Indicate setting's incorrect state
    * (e.g. multiple attribute values or no target provided).
    */
   protected setInconsistency(msg = WARN.inconsistent): void {
@@ -104,13 +104,13 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   /**
-   * Getting setting's value
+   * Get setting's value
    * to update markup in {@link UIPStateModel}.
    */
   protected abstract getDisplayedValue(): string | boolean;
 
   /**
-   * Setting setting's value
+   * Set setting's value
    * after processing markup in {@link UIPStateModel}.
    */
   protected abstract setValue(value: string | null): void;

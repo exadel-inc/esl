@@ -5,7 +5,7 @@ import {CSSClassUtils, memoize} from '@exadel/esl';
 import {UIPPlugin} from '../core/plugin';
 
 /**
- * Container for [settings]{@link UIPSetting}.
+ * Container class for [settings]{@link UIPSetting}.
  * @see {@link UIPPlugin}
  */
 export class UIPSettings extends UIPPlugin {
@@ -33,7 +33,7 @@ export class UIPSettings extends UIPPlugin {
     this.updateInner();
   }
 
-  /** Initializing settings layout. */
+  /** Initialize settings layout. */
   protected updateInner() {
     const $settingsList = document.createElement('div');
     $settingsList.className = 'settings-list esl-scrollable-content';
