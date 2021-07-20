@@ -12,9 +12,11 @@
   "type": "module",
   "main": "lib/playground.run.js",
   "files": [
+    "src/**/*",
     "lib/**/*",
     "types/**/*.d.ts",
     "tsconfig.json",
+    "README.md",
     "CLA.md"
   ],
   "module": "lib/playground.js",
