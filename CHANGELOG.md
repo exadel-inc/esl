@@ -1,5 +1,8 @@
+# [2.8.1](https://github.com/exadel-inc/esl/compare/v2.8.0...v2.8.1) (2021-07-20)
+
 # [3.0.0-beta.13](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.12...v3.0.0-beta.13) (2021-07-06)
 
+# [2.8.0](https://github.com/exadel-inc/esl/compare/v2.7.3...v2.8.0) (2021-07-06)
 
 ### Bug Fixes
 
