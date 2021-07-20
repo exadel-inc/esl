@@ -5,7 +5,7 @@ import {CSSClassUtils, memoize} from '@exadel/esl';
 import {UIPPlugin} from '../core/plugin';
 
 /**
- * Container class for [settings]{@link UIPSetting}.
+ * Container class for [settings']{@link UIPSetting}.
  * @see {@link UIPPlugin}
  */
 export class UIPSettings extends UIPPlugin {

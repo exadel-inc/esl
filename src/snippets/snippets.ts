@@ -17,7 +17,7 @@ export class UIPSnippets extends UIPPlugin {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.rerender();
+    this.render();
     this.bindEvents();
 
     // Initial update
@@ -58,7 +58,7 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   /** Render snippets list. */
-  protected rerender(): void {
+  protected render(): void {
     const snippets = this.querySelectorAll(UIPSnippets.CONTENT_SEL);
     if (!snippets.length) return;
     const $ul = document.createElement('ul');

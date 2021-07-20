@@ -6,7 +6,7 @@ export type TransformSignature = (current: string | null) => string | boolean | 
 
 /** Config used for changing attribute's value. */
 export type ChangeAttrConfig = {
-  /** Target whose attribute is changed. */
+  /** Target whose {@link attribute} is changed. */
   target: string,
   /** Attribute that is changed. */
   attribute: string,
