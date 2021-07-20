@@ -1,3 +1,30 @@
+# [1.0.0-beta.2](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2021-07-20)
+
+
+### Bug Fixes
+
+* add src (temporary) and README.md to npm package ([7eccbc4](https://github.com/exadel-inc/ui-playground/commit/7eccbc457f129e47896e852cf2d6c1dc1da7f514))
+* **demo-content:** pr fix ([e1daa8d](https://github.com/exadel-inc/ui-playground/commit/e1daa8d268c5243fef9e97dafaca3f093452184e))
+* **events:** stop playground events bubbling after processing ([a6405dd](https://github.com/exadel-inc/ui-playground/commit/a6405dddfb034f604da9078b947904c7f8c954c9))
+* **options:** fix displaying active options ([12abac8](https://github.com/exadel-inc/ui-playground/commit/12abac8b570538939b012230a2e0da66a2fdc4bd))
+* **options:** fix options layout ([1169f4a](https://github.com/exadel-inc/ui-playground/commit/1169f4a91431ea48d2d0e4f9d8f135fbc07eca38))
+* **style:** apply styles for child uip elements only ([19107b4](https://github.com/exadel-inc/ui-playground/commit/19107b4c4b0971c8cd7c1355e668040a6ba5e0be))
+* **uip-bool-setting:** fix bool setting styles ([bbe3be6](https://github.com/exadel-inc/ui-playground/commit/bbe3be6277e9fdd2d977ba7e66b6ee85ed1a21d3))
+* **uip-preview:** fix clearing innerHTML ([d5f7159](https://github.com/exadel-inc/ui-playground/commit/d5f7159d7e459e0ce7a5799b9581c991ed208066))
+* **uip-setting:** fix creating multiple setting's fields ([1e2b816](https://github.com/exadel-inc/ui-playground/commit/1e2b8167ad3af204dc7de1240b4391b1513ddb42))
+
+
+### Features
+
+* **demo-content:** add more demo content ([88cf696](https://github.com/exadel-inc/ui-playground/commit/88cf69669a03b4caae39e479fbb417790c3ba537))
+* **uip-elements:** reduce token-list-utils methods complexity ([e60276d](https://github.com/exadel-inc/ui-playground/commit/e60276d78ef3aa8ab83cc4b5b91a95b587bbf704))
+* **uip-elements:** tech review changes ([ea2f084](https://github.com/exadel-inc/ui-playground/commit/ea2f084d10d0d02188ca89f290f9d53ea913fc49))
+* **uip-model:** add ability to identify last state modifier; add model shorthand to uip-plugin ([bdd846a](https://github.com/exadel-inc/ui-playground/commit/bdd846aa1a4229f01070497c61f27ddfeb0a8f51))
+* **uip-model:** merge setAttribute & transformAttribute methods ([c192ae2](https://github.com/exadel-inc/ui-playground/commit/c192ae2b81fdeb85e7aefc93afc3c38995591af1))
+* change fired markup instance ([5c8984f](https://github.com/exadel-inc/ui-playground/commit/5c8984f2fd3e06058c0f73a476833bd81f2fdc69))
+* state-model as observable ([48caeeb](https://github.com/exadel-inc/ui-playground/commit/48caeeb3af3e5396bacc35270d7ef7a1a992f31d))
+* **uip-preview:** add an ability to center preview content ([0491d8e](https://github.com/exadel-inc/ui-playground/commit/0491d8e2e9144192034e4f6e491182cbbc1e1e78))
+
 # 1.0.0-beta.1 (2021-05-20)
 
 
