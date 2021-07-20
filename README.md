@@ -2,8 +2,11 @@
 
 [![npm](https://img.shields.io/npm/v/@exadel/ui-playground?style=for-the-badge)](https://www.npmjs.com/package/@exadel/ui-playground)
 [![version](https://img.shields.io/github/package-json/v/exadel-inc/ui-playground?style=for-the-badge)](https://github.com/exadel-inc/ui-playground/releases/latest)
-[![build](https://img.shields.io/github/workflow/status/exadel-inc/ui-playground/validate/main?style=for-the-badge)](https://github.com/exadel-inc/ui-playground/actions/workflows/validate.yml)
+[![build](https://img.shields.io/github/workflow/status/exadel-inc/ui-playground/lint/main?style=for-the-badge)](https://github.com/exadel-inc/ui-playground/actions/workflows/lint.yml)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge)](./README.md)
+
+| **Note: Project is under development** |
+| --- |
 
 UIPlayground is a solution for presenting your custom components.
 
