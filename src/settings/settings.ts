@@ -5,14 +5,14 @@ import {CSSClassUtils, memoize} from '@exadel/esl';
 import {UIPPlugin} from '../core/plugin';
 
 /**
- * Container class for [settings']{@link UIPSetting}.
+ * Container class for [settings]{@link UIPSetting}.
  * @see {@link UIPPlugin}
  */
 export class UIPSettings extends UIPPlugin {
   public static is = 'uip-settings';
 
   /**
-   * Attribute which sets all inner [settings]{@link UIPSetting}
+   * Attribute which sets all inner [settings']{@link UIPSetting}
    * [targets]{@link UIPSetting#target} to its value.
    */
   @attr() public target: string;
