@@ -40,6 +40,7 @@
     top: (-@POPUP_ARROW_HALF - 1);
     border-left: 1px solid @POPUP_BORDER_COLOR;
     border-top: 1px solid @POPUP_BORDER_COLOR;
+    z-index: -1;
 
     &[position=top] {
       bottom: (-@POPUP_ARROW_HALF - 1);
@@ -54,7 +55,7 @@
     }
 
     &[position=right] {
-      left: (-@POPUP_ARROW_HALF - 1);
+      left: auto;
       right: auto;
       transform: rotate(315deg);
     }
