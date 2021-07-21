@@ -14,7 +14,9 @@ import {UIPPlugin} from '../core/plugin';
 interface EditorConfig {
   /** Editor's appearance theme. */
   theme: string;
-  /** Text mode used. */
+  /**
+   * Text mode which is used
+   * inside the editor. */
   mode: string;
   /** Position of the vertical line for wrapping. */
   printMarginColumn: number;

@@ -65,16 +65,12 @@ export class UIPStateModel extends Observable {
     const elements = Array.from(this._html.querySelectorAll(target));
     if (!elements.length) return;
 
-    if ('transform' in cfg) {
-      UIPStateModel.setAttribute(elements, attribute, cfg.transform);
-    } else {
-      UIPStateModel.setAttribute(elements, attribute, cfg.value);
-    }
+    UIPStateModel.setAttribute(elements, attribute, 'transform' in cfg ? cfg.transform : cfg.value);
     this._lastModifier = modifier;
     this.fire();
   }
 
-  /** Transform attributes values for specified elements. */
+  /** Transform attributes values. */
   protected static setAttribute(elements: Element[], attr: string, transform: TransformSignature | string | boolean) {
     elements.forEach(el => {
       const transformed = typeof transform === 'function' ? transform(el.getAttribute(attr)) : transform;
