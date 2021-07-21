@@ -16,7 +16,8 @@ interface EditorConfig {
   theme: string;
   /**
    * Text mode which is used
-   * inside the editor. */
+   * inside the editor.
+   */
   mode: string;
   /** Position of the vertical line for wrapping. */
   printMarginColumn: number;
@@ -42,7 +43,6 @@ export class UIPEditor extends UIPPlugin {
   /** Editor's [config]{@link EditorConfig} passed through attribute. */
   @jsonAttr()
   public editorConfig: EditorConfig;
-  /**  */
   protected editor: Ace.Editor;
 
   /** Merge [default config]{@link defaultOptions} with editor's [config]{@link editorConfig}. */
