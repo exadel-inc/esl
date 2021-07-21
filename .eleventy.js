@@ -1,9 +1,16 @@
-const { isDev } = require('./pages/views/_data/env')
+const { isDev } = require('./pages/views/_data/env');
+const markdown = require('markdown-it')({ html: true });
 
-module.exports = config => {
+module.exports = (config) => {
+  config.addWatchTarget('src/**/*.md');
+
   config.addPassthroughCopy({
     'pages/static/assets': 'assets',
     'pages/static/tools': '.',
+  });
+
+  config.addPairedShortcode('markdown', (content) => {
+    return markdown.render(content);
   });
 
   config.addFilter("sortByName", (values) => {

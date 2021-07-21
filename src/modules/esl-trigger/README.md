@@ -1,4 +1,5 @@
-# [ESL](../../../README.md) Trigger
+
+# [ESL](../../) Trigger
 
 Version: *2.0.0*
 
