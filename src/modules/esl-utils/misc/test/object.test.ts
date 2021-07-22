@@ -1,4 +1,4 @@
-import {defined, deepCompare, getPropertyDescriptor, get, set, copyDefinedKeys, copy, omit} from '../object';
+import {defined, deepCompare, getPropertyDescriptor, get, set, copyDefinedKeys, copy, omit, deepMerge} from '../object';
 
 describe('misc/object', () => {
   describe('deepCompare', () => {
@@ -144,7 +144,6 @@ describe('misc/object', () => {
   });
 
   describe('omit', () => {
-    const predicate = (key: string) => !key.startsWith('_');
     test.each([
       [undefined, ['prop'], {}],
       [null, ['prop'], {}],
@@ -187,6 +186,20 @@ describe('misc/object', () => {
     ])('get key "%s" from %p', (targ: any, key: string, val: any, expVal: any) => {
       set(targ, key, val);
       expect(targ).toEqual(expVal)
+    });
+  });
+
+  describe('deepMerge', () => {
+    test.each([
+      [{}, {}, {}],
+      [{a: 1, b: 1}, {a: 2, c: 2}, {a: 2, b: 1, c: 2}],
+      [{a: {a: 1, b: 1}, b: 1}, {a: {a: 3, c: 3}}, {a: {a: 3, b: 1, c: 3}, b: 1}],
+      [{a: 1}, {b: 2}, {c: 3}, {a: 1, b: 2, c: 3}],
+      [{a: 'value', b: 'value'}, {a: null, b: ''}, {a: null, b: ''}],
+      [{a: [1, 2, {a: 1, b: 1}]}, {a: [3, 4, {a: 2, b: 2}]}, {a: [3, 4, {a: 2, b: 2}]}]
+    ])('get key "%s" from %p', (...args: any[]) => {
+      const result = args.pop();
+      expect(deepMerge(...args)).toEqual(result);
     });
   });
 });
