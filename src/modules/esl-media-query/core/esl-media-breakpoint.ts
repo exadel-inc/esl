@@ -70,3 +70,9 @@ export class ESLScreenBreakpoint {
     if (shortcut) return shortcut.mediaQuery;
   }
 }
+
+ESLScreenBreakpoint.add('xs', 1, 767);
+ESLScreenBreakpoint.add('sm', 768, 991);
+ESLScreenBreakpoint.add('md', 992, 1199);
+ESLScreenBreakpoint.add('lg', 1200, 1599);
+ESLScreenBreakpoint.add('xl', 1600, 999999);

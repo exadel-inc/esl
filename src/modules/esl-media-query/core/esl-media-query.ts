@@ -2,6 +2,11 @@ import {memoize} from '../../esl-utils/decorators/memoize';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
 import {ESLMediaShortcuts} from './esl-media-shortcuts';
+import {ALL, NOT_ALL} from './esl-mq-base';
+import {ESLMQCondition} from './esl-mq-condition';
+import {ESLMQConjunction, ESLMQDisjunction} from './esl-mq-group';
+
+import type {IESLMQCondition} from './esl-mq-base';
 
 /**
  * ESL Media Query
@@ -18,77 +23,35 @@ import {ESLMediaShortcuts} from './esl-media-shortcuts';
  * - Exclude upper DPRs for bots
  */
 @ExportNs('MediaQuery')
-export class ESLMediaQuery {
+export abstract class ESLMediaQuery implements IESLMQCondition{
+  public static readonly ALL: IESLMQCondition = ALL;
+  public static readonly NOT_ALL: IESLMQCondition = NOT_ALL;
 
+  /** Cached shortcut to create {@link ESLMediaQuery} */
   @memoize()
-  protected static matchMediaCached(query: string) {
-    return matchMedia(query);
+  public static for(query: string): IESLMQCondition {
+    return ESLMediaQuery.parse(query);
   }
 
-  protected static cleanQuery(query: string) {
-    query = query.replace(/(and|or)\s+(and|or)/, '$1');
-    query = query.replace(/\sor\s/, ', ');
-    query = query.replace(/^\s*(and|or)/, '');
-    query = query.replace(/(and|or)\s*$/, '');
-    return query.trim();
+  public static parse(query: string): IESLMQCondition {
+    const conjunctions = query.split(/\sor\s|,/).map((term) => {
+      const conditions = term.split(/\sand\s/).map(ESLMediaQuery.wrap);
+      return new ESLMQConjunction(conditions);
+    });
+    return new ESLMQDisjunction(conjunctions).optimize();
   }
 
-  /** Shortcut to create MediaQuery. The constructor of MediaQuery is already optimized */
-  @memoize()
-  public static for(query: string) {
-    return new ESLMediaQuery(query);
-  }
-
-  public static readonly ALL = 'all';
-  public static readonly NOT_ALL = 'not all';
-
-  /**
-   * Option to disable DPR images handling for bots
-   */
-  static ignoreBotsDpr = false;
-
-  private readonly _query: MediaQueryList;
-
-  constructor(query: string) {
-    // Applying known breakpoints shortcut
+  public static wrap(query: string): IESLMQCondition {
     query = ESLMediaShortcuts.replace(query);
-
-    // Clean query
-    query = ESLMediaQuery.cleanQuery(query);
-
-    // Set the result query
-    this._query = ESLMediaQuery.matchMediaCached(query || ESLMediaQuery.ALL);
+    query = query.trim();
+    if (query === ALL.toString()) return ALL;
+    if (query === NOT_ALL.toString()) return NOT_ALL;
+    return new ESLMQCondition(query);
   }
 
-  /** inner MediaQueryList instance */
-  public get query(): MediaQueryList {
-    return this._query;
-  }
-
-  /** true if current environment satisfies query */
-  public get matches(): boolean {
-    return this.query.matches;
-  }
-
-  /** Attach listener to wrapped media query list */
-  public addListener(listener: () => void) {
-    if (typeof this.query.addEventListener === 'function') {
-      this.query.addEventListener('change', listener);
-    } else {
-      this.query.addListener(listener);
-    }
-  }
-
-  /** Detach listener from wrapped media query list */
-  public removeListener(listener: () => void) {
-    if (typeof this.query.removeEventListener === 'function') {
-      this.query.removeEventListener('change', listener);
-    } else {
-      this.query.removeListener(listener);
-    }
-  }
-
-  public toString(): string {
-    return '[ESL MQ] (' + this.query.media + ')';
-  }
+  // To allow use ESLMediaQuery as IESLMQCondition type
+  public abstract matches: boolean;
+  public abstract optimize(): IESLMQCondition;
+  public abstract addListener(cb: () => void): void;
+  public abstract removeListener(cb: () => void): void;
 }

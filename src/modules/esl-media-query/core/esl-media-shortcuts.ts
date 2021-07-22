@@ -18,7 +18,7 @@ export class ESLMediaShortcuts {
     return this.registerReplacer((match: string) => {
       if (match !== shortcut) return;
       if (typeof replacement === 'string') return replacement;
-      return replacement ? '' : 'not all';
+      return replacement ? 'all' : 'not all';
     });
   }
   public static registerReplacer(replacer: ESLShortcutReplacer | ESLShortcutReplacerFn): ESLMediaShortcuts {
@@ -27,7 +27,7 @@ export class ESLMediaShortcuts {
   }
 
   public static replace(term: string) {
-    return term.replace(this.PATTERN_DEFAULT, (match: string, shortcut: string, prefix: string, name: string) => {
+    return term.replace(ESLMediaShortcuts.PATTERN_DEFAULT, (match: string, shortcut: string, prefix: string, name: string) => {
       for (const replacer of replacers) {
         const replacerFn = ('replacer' in replacer) ? replacer.replacer : replacer;
         const result = replacerFn(shortcut.toLowerCase(), prefix, name);

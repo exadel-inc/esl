@@ -1,4 +1,5 @@
 import {ESLMediaQuery} from './esl-media-query';
+import type {IESLMQCondition} from './esl-mq-base';
 
 type PayloadParser<T> = (val: string) => T | undefined;
 
@@ -14,24 +15,35 @@ type PayloadParser<T> = (val: string) => T | undefined;
  * - Query matching change listeners
  * - Mobile / full browser detection (@MOBILE|@DESKTOP)
  */
-export class ESLMediaRule<T> extends ESLMediaQuery {
+export class ESLMediaRule<T> {
+  private readonly _query: IESLMQCondition;
   private readonly _payload: T;
   private readonly _default: boolean;
 
   constructor(payload: T, query: string) {
-    super(query);
+    this._query = ESLMediaQuery.for(query);
     this._default = !query;
     this._payload = payload;
   }
 
   public toString() {
-    return `${super.toString()} => ${this._payload}`;
+    return `${this._query} => ${this._payload}`;
   }
 
-  get payload(): T {
+  public addListener(listener: () => void) {
+    this._query.addListener(listener);
+  }
+  public removeListener(listener: () => void) {
+    this._query.removeListener(listener);
+  }
+
+  public get matches(): boolean {
+    return this._query.matches;
+  }
+  public get payload(): T {
     return this._payload;
   }
-  get default(): boolean {
+  public get default(): boolean {
     return this._default;
   }
 

@@ -20,6 +20,7 @@ import {DDMock} from "../../esl-utils/test/deviceDetector.mock";
 
 import {ESLMediaQuery, ESLScreenBreakpoint} from '../core';
 import {ESLMediaDPRShortcut} from '../core/esl-media-shortcuts';
+import {ALL, NOT_ALL} from '../core/esl-mq-base';
 
 describe('ESLMediaQuery tests', () => {
   beforeAll(() => {
@@ -38,7 +39,7 @@ describe('ESLMediaQuery tests', () => {
       ['@2.3x', true, '(-webkit-min-device-pixel-ratio: 2.3)'],
     ])('Dpr %s replacement', (query, isSafari, expected) => {
       DDMock.isSafari = isSafari;
-      const mq = new ESLMediaQuery(query);
+      const mq = ESLMediaQuery.parse(query);
       expect(mmMock).toHaveBeenLastCalledWith(expected);
       DDMock.isSafari = false;
     });
@@ -47,18 +48,19 @@ describe('ESLMediaQuery tests', () => {
       ['@xs', '(min-width: 1px) and (max-width: 767px)'],
       ['@small', '(min-width: 100px) and (max-width: 200px)'],
     ])('Bp %s replacement', (query, expected) => {
-      const mq = new ESLMediaQuery(query);
+      const mq = ESLMediaQuery.parse(query);
       expect(mmMock).toHaveBeenLastCalledWith(expected);
     });
 
     test('Device replacement', () => {
-      const mqMobile = new ESLMediaQuery('@mobile');
-      expect(mmMock).toHaveBeenLastCalledWith('not all');
-      const mqDesktop = new ESLMediaQuery('@desktop');
-      expect(mmMock).toHaveBeenLastCalledWith('all');
+      const mqMobile = ESLMediaQuery.parse('@mobile');
+      expect(mqMobile).toBe(NOT_ALL);
+      const mqDesktop = ESLMediaQuery.parse('@desktop');
+      expect(mqDesktop).toBe(ALL);
     });
   })
 
+  /*
   describe('Complex tests', () => {
     describe('And combination', () => {
       test.each([
@@ -69,7 +71,7 @@ describe('ESLMediaQuery tests', () => {
         ['@desktop and @+sm and @2.5x', '(min-width: 768px) and (min-resolution: 240.0dpi)'],
         ['@+sm and @2.6x and @desktop', '(min-width: 768px) and (min-resolution: 249.6dpi)'],
       ])('Combination %s', (query, expected) => {
-        const mq = new ESLMediaQuery(query);
+        const mq = ESLMediaQuery.parse(query);
         expect(mmMock).toHaveBeenLastCalledWith(expected);
       });
     })
@@ -79,7 +81,7 @@ describe('ESLMediaQuery tests', () => {
         ['@1x, @+sm', '(min-resolution: 96.0dpi), (min-width: 768px)'],
         ['@+sm, @1x', '(min-width: 768px), (min-resolution: 96.0dpi)'],
       ])('Combination %s', (query, expected) => {
-        const mq = new ESLMediaQuery(query);
+        const mq = ESLMediaQuery.parse(query);
         expect(mmMock).toHaveBeenLastCalledWith(expected);
       })
     })
@@ -89,41 +91,28 @@ describe('ESLMediaQuery tests', () => {
         ['@+xs, @+sm', '(min-width: 1px), (min-width: 768px)'],
         ['@1x, @2x', '(min-resolution: 96.0dpi), (min-resolution: 192.0dpi)'],
       ])('%s', (query, expected) => {
-        const mq = new ESLMediaQuery(query);
+        const mq = ESLMediaQuery.parse(query);
         expect(mmMock).toHaveBeenLastCalledWith(expected);
       })
     }))
   })
+  */
 
   describe('Breaking tests', () => {
     test.each([
       ['2x', '2x'],
       ['@-2x', '@-2x'],
       ['@1.5', '@1.5'],
-      ['not valid', 'not valid']
+      ['not valid', 'valid']
     ])('%s', (query, expected) => {
-      const mq = new ESLMediaQuery(query);
+      const mq = ESLMediaQuery.parse(query);
       expect(mmMock).toHaveBeenLastCalledWith(expected);
     })
   })
 
   describe('API tests', () => {
-    test('Listeners', () => {
-      const mq = new ESLMediaQuery('@xs');
-      const listener = jest.fn();
-
-      mq.addListener(listener);
-      mq.removeListener(listener);
-
-      expect(mq.query.addEventListener).toHaveBeenCalled();
-      expect(mq.query.removeEventListener).toHaveBeenCalled();
-
-      expect(mq.query.addListener).not.toBeCalled();
-      expect(mq.query.removeListener).not.toBeCalled();
-    });
-
     test('toString', () => {
-      expect(new ESLMediaQuery('@1x, @+sm').toString()).toContain('(min-resolution: 96.0dpi), (min-width: 768px)')
+      expect(ESLMediaQuery.parse('@1x, @+sm').toString()).toContain('(min-resolution: 96.0dpi), (min-width: 768px)')
     });
   })
 
@@ -131,10 +120,10 @@ describe('ESLMediaQuery tests', () => {
     ESLMediaDPRShortcut.ignoreBotsDpr = true;
     DDMock.isBot = true;
 
-    const mq = new ESLMediaQuery('@3x, @2.4x');
-    expect(mmMock).toHaveBeenLastCalledWith('not all, not all');
+    const mq = ESLMediaQuery.parse('@3x, @2.4x');
+    expect(mq).toBe(NOT_ALL);
 
     DDMock.isBot = false;
-    ESLMediaQuery.ignoreBotsDpr = false;
+    ESLMediaDPRShortcut.ignoreBotsDpr = false;
   })
 })
