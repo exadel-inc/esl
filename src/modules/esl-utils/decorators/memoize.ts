@@ -36,7 +36,7 @@ const defineOwnKeySafe = (obj: any, prop: string, value: any) => {
   locks.delete(obj); // Free property key
 };
 
-/** Cache getter result as an object ovn property */
+/** Cache getter result as an object own property */
 function memoizeGetter(originalMethod: any, prop: string) {
   return function (this: any, ...args: any[]): any {
     if (locks.get(this) === prop) return originalMethod;
@@ -59,6 +59,8 @@ function memoizeMethod(originalMethod: any, prop: string, hashFn: MemoHashFn) {
 /**
  * Clear memoization cache for passed target and property.
  * Accepts not own properties.
+ * Note: be sure that you targeting memoized property or function.
+ * Clear utility has no 100% check to prevent modifying incorrect (not memoized) property keys
  */
 memoize.clear = function (target: any, property: string) {
   const desc = getPropertyDescriptor(target, property);
