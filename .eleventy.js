@@ -1,4 +1,5 @@
-const { isDev } = require('./pages/views/_data/env')
+const { isDev } = require('./pages/views/_data/env');
+const htmlmin = require("html-minifier");
 
 module.exports = config => {
   config.addPassthroughCopy({
@@ -23,6 +24,21 @@ module.exports = config => {
     open: isDev,
   });
 
+  config.addTransform("htmlmin", function(content, outputPath) {
+    if( outputPath && outputPath.endsWith(".html") ) {
+      let minified = htmlmin.minify(content, {
+        useShortDoctype: true,
+        removeComments: true,
+        collapseWhitespace: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+      });
+      return minified;
+    }
+    return content;
+  });
+
   return {
     dir: {
       input: 'pages/views',
@@ -36,3 +52,4 @@ module.exports = config => {
     pathPrefix: "/esl/",
   };
 };
+
