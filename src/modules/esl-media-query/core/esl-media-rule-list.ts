@@ -3,13 +3,15 @@ import {isPrimitive} from '../../esl-utils/misc/object';
 import {evaluate} from '../../esl-utils/misc/format';
 import {ESLMediaRule} from './esl-media-rule';
 
-type PayloadParser<T> = (val: string) => T | undefined;
+export type RulePayloadParser<T> = (val: string) => T | undefined;
+
+export type RuleChangedCallback<T> = (rule: ESLMediaRule<T | undefined>, list: ESLMediaRuleList<T>) => void;
 
 /**
  * ESL Rule List - ESLMediaRule observable collection
  * @author Yuliya Adamskaya
  */
-export class ESLMediaRuleList<T> extends Observable {
+export class ESLMediaRuleList<T> extends Observable<RuleChangedCallback<T>> {
   private _active: ESLMediaRule<T | undefined>;
   private readonly _default: ESLMediaRule<T>;
   private readonly _rules: ESLMediaRule<T>[];
@@ -17,14 +19,12 @@ export class ESLMediaRuleList<T> extends Observable {
   public static STRING_PARSER = (val: string) => val;
   public static OBJECT_PARSER = <U>(val: string): U | undefined => evaluate(val);
 
-  private static parseRules<U>(str: string, parser: PayloadParser<U>): ESLMediaRule<U>[] {
+  private static parseRules<U>(str: string, parser: RulePayloadParser<U>): ESLMediaRule<U>[] {
     const parts = str.split('|');
     const rules: ESLMediaRule<U>[] = [];
     parts.forEach((_lex: string) => {
       const lex = _lex.trim();
-      if (!lex) {
-        return;
-      }
+      if (!lex) return;
       if (lex.indexOf('=>') === -1) {
         const value = parser(lex);
         // Default rule should have lower priority
@@ -37,11 +37,11 @@ export class ESLMediaRuleList<T> extends Observable {
     return rules;
   }
 
-  public static parse<U>(query: string, parser: PayloadParser<U>) {
+  public static parse<U>(query: string, parser: RulePayloadParser<U>) {
     return new ESLMediaRuleList<U>(query, parser);
   }
 
-  private constructor(query: string, parser: PayloadParser<T>) {
+  private constructor(query: string, parser: RulePayloadParser<T>) {
     super();
     if (typeof query !== 'string') {
       throw new Error('ESLRuleList require first parameter (query) typeof string');
@@ -75,9 +75,7 @@ export class ESLMediaRuleList<T> extends Observable {
 
   private _onMatchChanged = () => {
     const rule = this._activeRule;
-    if (this._active !== rule) {
-      this._active = rule;
-      this.fire(rule);
-    }
+    if (this._active === rule) return;
+    this.fire(this._active = rule, this);
   };
 }

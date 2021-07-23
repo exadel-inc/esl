@@ -21,7 +21,7 @@ export abstract class ESLCarouselView {
 export type ESLCarouselViewConstructor = new(carousel: ESLCarousel) => ESLCarouselView;
 
 let eslRegistryInstance: ESLCarouselViewRegistry | null = null;
-export class ESLCarouselViewRegistry extends Observable {
+export class ESLCarouselViewRegistry extends Observable<(name: string, view: ESLCarouselViewConstructor) => void> {
   private registry = new Map<string, ESLCarouselViewConstructor>();
 
   public static get instance() {
