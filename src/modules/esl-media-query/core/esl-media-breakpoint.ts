@@ -10,6 +10,7 @@ const registry = new Map<string, ESLScreenBreakpoint>();
  */
 @ExportNs('ScreenBreakpoint')
 export class ESLScreenBreakpoint {
+  public static readonly BP_REGEXP = /^([+-]?)([a-z]+)/i;
   public static readonly BP_NAME_REGEXP = /^[a-z]+/i;
 
   protected constructor(
@@ -56,14 +57,15 @@ export class ESLScreenBreakpoint {
   }
 
   /** All available breakpoints shortcuts */
-  public static get breakpointsNames() {
+  public static get names() {
     const keys: string[] = [];
     registry.forEach((value, key) => keys.push(key));
     return keys;
   }
 
   /** @returns breakpoints shortcut replacer */
-  public static replacer(match: string, sign: string, bp: string) {
+  public static replacer(term: string) {
+    const [, sign, bp] = term.match(ESLScreenBreakpoint.BP_REGEXP) || [];
     const shortcut = ESLScreenBreakpoint.for(bp);
     if (shortcut && sign === '+') return shortcut.mediaQueryGE;
     if (shortcut && sign === '-') return shortcut.mediaQueryLE;
