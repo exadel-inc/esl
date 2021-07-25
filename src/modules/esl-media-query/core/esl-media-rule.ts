@@ -1,5 +1,4 @@
 import {ESLMediaQuery} from './esl-media-query';
-import type {IESLMQCondition} from './esl-mq-base';
 
 type PayloadParser<T> = (val: string) => T | undefined;
 
@@ -16,7 +15,7 @@ type PayloadParser<T> = (val: string) => T | undefined;
  * - Mobile / full browser detection (@MOBILE|@DESKTOP)
  */
 export class ESLMediaRule<T> {
-  private readonly _query: IESLMQCondition;
+  private readonly _query: ESLMediaQuery;
   private readonly _payload: T;
   private readonly _default: boolean;
 

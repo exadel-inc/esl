@@ -1,22 +1,14 @@
-import {memoize} from '../../esl-utils/decorators/memoize';
-
 import {ALL, NOT_ALL} from './esl-mq-base';
 import type {IESLMQCondition} from './esl-mq-base';
 
 export class ESLMQCondition implements IESLMQCondition {
-  /** Cached version of {@link matchMedia} */
-  @memoize()
-  protected static matchMediaCached(query: string) {
-    return matchMedia(query);
-  }
-
   protected readonly _inverted: boolean;
   protected readonly _mq: MediaQueryList;
 
   constructor(query: string) {
     const clearQuery = query.replace(/^\s*not\s+/, '');
     this._inverted = query !== clearQuery;
-    this._mq = ESLMQCondition.matchMediaCached(clearQuery.trim());
+    this._mq = matchMedia(clearQuery.trim());
   }
 
   public get matches() {

@@ -23,7 +23,7 @@ class ESLMQConst implements IESLMQCondition {
 
   public toString() { return this._matches ? 'all' : 'not all'; }
 
-  public eq(val: IESLMQCondition): boolean {
+  public eq(val: IESLMQCondition | string): boolean {
     return val.toString().trim() === this.toString();
   }
 }

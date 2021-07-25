@@ -63,7 +63,7 @@ export class ESLScreenBreakpoint {
     return keys;
   }
 
-  /** @returns breakpoints shortcut replacer */
+  /** @returns breakpoints shortcut replacement */
   public static replacer(term: string) {
     const [, sign, bp] = term.match(ESLScreenBreakpoint.BP_REGEXP) || [];
     const shortcut = ESLScreenBreakpoint.for(bp);
@@ -73,6 +73,7 @@ export class ESLScreenBreakpoint {
   }
 }
 
+// Defaults
 ESLScreenBreakpoint.add('xs', 1, 767);
 ESLScreenBreakpoint.add('sm', 768, 991);
 ESLScreenBreakpoint.add('md', 992, 1199);

@@ -19,13 +19,28 @@ import {mmMock} from "../../esl-utils/test/matchMedia.mock";
 import {DDMock} from "../../esl-utils/test/deviceDetector.mock";
 
 import {ESLMediaQuery, ESLScreenBreakpoint} from '../core';
-import {ESLMediaDPRShortcut} from '../core/esl-media-shortcuts';
-import {ALL, NOT_ALL} from '../core/esl-mq-base';
+import {ESLScreenDPR} from '../core/esl-screen-dpr';
 
 describe('ESLMediaQuery tests', () => {
   beforeAll(() => {
     ESLScreenBreakpoint.add('small', 100, 200);
   });
+
+  test.each([
+    {query: '', queryString: ''},
+    {query: '@md', queryString: '(min-width: 992px) and (max-width: 1199px)'},
+    {query: '@lg', queryString: '(min-width: 1200px) and (max-width: 1599px)'},
+    {query: '@XL', queryString: '(min-width: 1600px) and (max-width: 999999px)'},
+    {query: '@+sm', queryString: '(min-width: 768px)'},
+    {query: '@-md', queryString: '(max-width: 1199px)'},
+    {query: '@mobile', queryString: 'not all'},
+    {query: '@Mobile', queryString: 'not all'},
+    {query: '@MOBILE', queryString: 'not all'},
+    {query: '@smnot', queryString: '@smnot'},
+    {query: '@+smnot', queryString: '@+smnot'}
+  ])('Apply tests for %p breakpoint', ({query, queryString}) => {
+    expect(ESLMediaQuery.applyReplacers(query)).toBe(queryString);
+  })
 
   describe('Constructor tests', () => {
     test.each([
@@ -54,9 +69,9 @@ describe('ESLMediaQuery tests', () => {
 
     test('Device replacement', () => {
       const mqMobile = ESLMediaQuery.parse('@mobile');
-      expect(mqMobile).toBe(NOT_ALL);
+      expect(mqMobile).toBe(ESLMediaQuery.NOT_ALL);
       const mqDesktop = ESLMediaQuery.parse('@desktop');
-      expect(mqDesktop).toBe(ALL);
+      expect(mqDesktop).toBe(ESLMediaQuery.ALL);
     });
   })
 
@@ -117,13 +132,13 @@ describe('ESLMediaQuery tests', () => {
   })
 
   test('Bot DPR override test', () => {
-    ESLMediaDPRShortcut.ignoreBotsDpr = true;
+    ESLScreenDPR.ignoreBotsDpr = true;
     DDMock.isBot = true;
 
     const mq = ESLMediaQuery.parse('@3x, @2.4x');
-    expect(mq).toBe(NOT_ALL);
+    expect(mq).toBe(ESLMediaQuery.NOT_ALL);
 
     DDMock.isBot = false;
-    ESLMediaDPRShortcut.ignoreBotsDpr = false;
+    ESLScreenDPR.ignoreBotsDpr = false;
   })
 })

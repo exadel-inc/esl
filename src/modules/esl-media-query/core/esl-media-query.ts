@@ -1,12 +1,16 @@
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
-import {ESLMediaShortcuts} from './esl-media-shortcuts';
-import {ALL, NOT_ALL} from './esl-mq-base';
-import {ESLMQCondition} from './esl-mq-condition';
-import {ESLMQConjunction, ESLMQDisjunction} from './esl-mq-group';
+import {ALL, NOT_ALL} from './impl/esl-mq-base';
+import {ESLMQCondition} from './impl/esl-mq-condition';
+import {ESLMQConjunction, ESLMQDisjunction} from './impl/esl-mq-group';
+import {ESLMediaStaticShortcut} from './esl-media-static-shortcut';
 
-import type {IESLMQCondition} from './esl-mq-base';
+import type {IESLMQCondition} from './impl/esl-mq-base';
+
+export interface ESLShortcutReplacer {
+  replacer: (match: string) => string | boolean | undefined;
+}
 
 /**
  * ESL Media Query
@@ -23,16 +27,22 @@ import type {IESLMQCondition} from './esl-mq-base';
  * - Exclude upper DPRs for bots
  */
 @ExportNs('MediaQuery')
-export abstract class ESLMediaQuery implements IESLMQCondition{
+export abstract class ESLMediaQuery implements IESLMQCondition {
+  /** Static always truthful condition */
   public static readonly ALL: IESLMQCondition = ALL;
+  /** Static always falsy condition */
   public static readonly NOT_ALL: IESLMQCondition = NOT_ALL;
 
-  /** Cached shortcut to create {@link ESLMediaQuery} */
+  protected static readonly SHORTCUT_PATTERN = /@([a-z0-9.+-]+)/i;
+  protected static readonly _replacers: ESLShortcutReplacer[] = [];
+
+  /** Cached method to create {@link ESLMediaQuery} condition instance from string */
   @memoize()
   public static for(query: string): IESLMQCondition {
     return ESLMediaQuery.parse(query);
   }
 
+  /** Create {@link ESLMediaQuery} condition instance from string */
   public static parse(query: string): IESLMQCondition {
     const conjunctions = query.split(/\sor\s|,/).map((term) => {
       const conditions = term.split(/\sand\s/).map(ESLMediaQuery.wrap);
@@ -41,15 +51,42 @@ export abstract class ESLMediaQuery implements IESLMQCondition{
     return new ESLMQDisjunction(conjunctions).optimize();
   }
 
-  public static wrap(query: string): IESLMQCondition {
-    query = ESLMediaShortcuts.replace(query);
-    query = query.trim();
-    if (query === ALL.toString()) return ALL;
-    if (query === NOT_ALL.toString()) return NOT_ALL;
-    return new ESLMQCondition(query);
+  /** Create simple {@link ESLMediaQuery} condition */
+  protected static wrap(term: string): IESLMQCondition {
+    term = ESLMediaQuery.applyReplacers(term);
+    if (ALL.eq(term)) return ALL;
+    if (NOT_ALL.eq(term)) return NOT_ALL;
+    return new ESLMQCondition(term);
   }
 
-  // To allow use ESLMediaQuery as IESLMQCondition type
+  /**
+   * Add simple shortcut replacer
+   * @param shortcut - shortcut term to find in query
+   * @param replacement - string native Media Query equivalent or boolean state to replace with static boolean condition
+   **/
+  public static addShortcut(shortcut: string, replacement: string | boolean): typeof ESLMediaQuery {
+    return this.addReplacer(new ESLMediaStaticShortcut(shortcut, replacement));
+  }
+
+  /** Add {@link ESLShortcutReplacer} instance to preprocess query */
+  public static addReplacer(replacer: ESLShortcutReplacer): typeof ESLMediaQuery {
+    this._replacers.unshift(replacer);
+    return this;
+  }
+
+  /** Preprocess simple query term by applying replacers and shortcuts rules */
+  public static applyReplacers(term: string) {
+    if (!this.SHORTCUT_PATTERN.test(term)) return term;
+    const shortcut = term.trim().substr(1).toLowerCase();
+    for (const {replacer} of this._replacers) {
+      const result = replacer.call(replacer, shortcut);
+      if (typeof result === 'string') return result;
+      if (typeof result === 'boolean') return result ? 'all' : 'not all';
+    }
+    return term;
+  }
+
+  // Implements IESLMQCondition to allow use ESLMediaQuery as IESLMQCondition type alias
   public abstract matches: boolean;
   public abstract optimize(): IESLMQCondition;
   public abstract addListener(cb: () => void): void;

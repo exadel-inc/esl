@@ -1,6 +1,6 @@
 import {Observable} from '../../esl-utils/abstract/observable';
-import {isPrimitive} from '../../esl-utils/misc/object';
 import {evaluate} from '../../esl-utils/misc/format';
+import {isPrimitive} from '../../esl-utils/misc/object';
 import {ESLMediaRule} from './esl-media-rule';
 
 export type RulePayloadParser<T> = (val: string) => T | undefined;
