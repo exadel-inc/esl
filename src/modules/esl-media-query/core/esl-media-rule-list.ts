@@ -1,16 +1,17 @@
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {Observable} from '../../esl-utils/abstract/observable';
 import {evaluate} from '../../esl-utils/misc/format';
 import {isPrimitive} from '../../esl-utils/misc/object';
 import {ESLMediaRule} from './esl-media-rule';
 
 export type RulePayloadParser<T> = (val: string) => T | undefined;
-
 export type RuleChangedCallback<T> = (rule: ESLMediaRule<T | undefined>, list: ESLMediaRuleList<T>) => void;
 
 /**
  * ESL Rule List - ESLMediaRule observable collection
  * @author Yuliya Adamskaya
  */
+@ExportNs('MediaRuleList')
 export class ESLMediaRuleList<T> extends Observable<RuleChangedCallback<T>> {
   private _active: ESLMediaRule<T | undefined>;
   private readonly _default: ESLMediaRule<T>;
@@ -38,15 +39,20 @@ export class ESLMediaRuleList<T> extends Observable<RuleChangedCallback<T>> {
   }
 
   public static parse<U>(query: string, parser: RulePayloadParser<U>) {
-    return new ESLMediaRuleList<U>(query, parser);
+    if (typeof query !== 'string') throw new Error('ESLRuleList require first parameter (query) typeof string');
+    return new ESLMediaRuleList<U>(ESLMediaRuleList.parseRules(query, parser));
   }
 
-  private constructor(query: string, parser: RulePayloadParser<T>) {
+  public static parseCortege(value: string, mask: string) {
+    const values = value.split('|');
+    const conditions = mask.split('|');
+    const rules = conditions.map((query, i) => new ESLMediaRule(values[i], query));
+    return new ESLMediaRuleList(rules);
+  }
+
+  private constructor(rules: ESLMediaRule<T>[]) {
     super();
-    if (typeof query !== 'string') {
-      throw new Error('ESLRuleList require first parameter (query) typeof string');
-    }
-    this._rules = ESLMediaRuleList.parseRules(query, parser);
+    this._rules = rules;
     this._rules.forEach((rule) => rule.addListener(this._onMatchChanged));
     this._default = this._rules.filter((rule) => rule.default)[0];
   }
