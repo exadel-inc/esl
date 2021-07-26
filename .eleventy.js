@@ -1,5 +1,15 @@
 const { isDev } = require('./pages/views/_data/env');
-const markdown = require('markdown-it')({ html: true });
+const hljs = require('highlight.js');
+const markdown = require('markdown-it')({
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(str, { language: lang }).value;
+      } catch (__) { }
+    }
+    return '';
+  }
+});
 
 module.exports = (config) => {
   config.addWatchTarget('src/**/*.md');

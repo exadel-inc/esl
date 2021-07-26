@@ -68,7 +68,8 @@
   "dependencies": {
     "@types/resize-observer-browser": "0.1.6",
     "@types/video.js": "7.3.24",
-    "@types/youtube": "0.0.44"
+    "@types/youtube": "0.0.44",
+    "highlight.js": "^11.1.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "^0.12.1",
