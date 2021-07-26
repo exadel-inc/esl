@@ -4,12 +4,11 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ALL, NOT_ALL} from './impl/esl-mq-base';
 import {ESLMQCondition} from './impl/esl-mq-condition';
 import {ESLMQConjunction, ESLMQDisjunction} from './impl/esl-mq-group';
-import {ESLMediaStaticShortcut} from './esl-media-static-shortcut';
 
 import type {IESLMQCondition} from './impl/esl-mq-base';
 
 export interface ESLShortcutReplacer {
-  replacer: (match: string) => string | boolean | undefined;
+  replace: (match: string) => string | boolean | undefined;
 }
 
 /**
@@ -59,15 +58,6 @@ export abstract class ESLMediaQuery implements IESLMQCondition {
     return new ESLMQCondition(term);
   }
 
-  /**
-   * Add simple shortcut replacer
-   * @param shortcut - shortcut term to find in query
-   * @param replacement - string native Media Query equivalent or boolean state to replace with static boolean condition
-   **/
-  public static addShortcut(shortcut: string, replacement: string | boolean): typeof ESLMediaQuery {
-    return this.addReplacer(new ESLMediaStaticShortcut(shortcut, replacement));
-  }
-
   /** Add {@link ESLShortcutReplacer} instance to preprocess query */
   public static addReplacer(replacer: ESLShortcutReplacer): typeof ESLMediaQuery {
     this._replacers.unshift(replacer);
@@ -78,8 +68,8 @@ export abstract class ESLMediaQuery implements IESLMQCondition {
   public static applyReplacers(term: string) {
     if (!this.SHORTCUT_PATTERN.test(term)) return term;
     const shortcut = term.trim().substr(1).toLowerCase();
-    for (const {replacer} of this._replacers) {
-      const result = replacer.call(replacer, shortcut);
+    for (const replacer of this._replacers) {
+      const result = replacer.replace(shortcut);
       if (typeof result === 'string') return result;
       if (typeof result === 'boolean') return result ? 'all' : 'not all';
     }

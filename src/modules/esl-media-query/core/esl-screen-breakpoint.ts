@@ -64,7 +64,7 @@ export class ESLScreenBreakpoint {
   }
 
   /** @returns breakpoints shortcut replacement */
-  public static replacer(term: string) {
+  public static replace(term: string) {
     const [, sign, bp] = term.match(ESLScreenBreakpoint.BP_REGEXP) || [];
     const shortcut = ESLScreenBreakpoint.for(bp);
     if (shortcut && sign === '+') return shortcut.mediaQueryGE;

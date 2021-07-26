@@ -1,23 +1,25 @@
 import {DeviceDetector} from '../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from './core/esl-media-query';
 import {ESLScreenDPR} from './core/esl-screen-dpr';
+import {ESLMediaShortcuts} from './core/esl-media-shortcuts';
 import {ESLScreenBreakpoint} from './core/esl-screen-breakpoint';
 
 // Basic replacers
 ESLMediaQuery.addReplacer(ESLScreenDPR);
 ESLMediaQuery.addReplacer(ESLScreenBreakpoint);
+ESLMediaQuery.addReplacer(ESLMediaShortcuts);
 
 // Touch check
-ESLMediaQuery.addShortcut('touch', DeviceDetector.isTouchDevice);
+ESLMediaShortcuts.add('touch', DeviceDetector.isTouchDevice);
 
 // Basic device type shortcuts
-ESLMediaQuery.addShortcut('bot', DeviceDetector.isBot);
-ESLMediaQuery.addShortcut('mobile', DeviceDetector.isMobile);
-ESLMediaQuery.addShortcut('desktop', !DeviceDetector.isMobile);
+ESLMediaShortcuts.add('bot', DeviceDetector.isBot);
+ESLMediaShortcuts.add('mobile', DeviceDetector.isMobile);
+ESLMediaShortcuts.add('desktop', !DeviceDetector.isMobile);
 
 // Basic browser shortcuts
-ESLMediaQuery.addShortcut('ie', DeviceDetector.isIE);
-ESLMediaQuery.addShortcut('edge', DeviceDetector.isEdgeHTML);
-ESLMediaQuery.addShortcut('gecko', DeviceDetector.isGecko);
-ESLMediaQuery.addShortcut('blink', DeviceDetector.isBlink);
-ESLMediaQuery.addShortcut('safari', DeviceDetector.isSafari);
+ESLMediaShortcuts.add('ie', DeviceDetector.isIE);
+ESLMediaShortcuts.add('edge', DeviceDetector.isEdgeHTML);
+ESLMediaShortcuts.add('gecko', DeviceDetector.isGecko);
+ESLMediaShortcuts.add('blink', DeviceDetector.isBlink);
+ESLMediaShortcuts.add('safari', DeviceDetector.isSafari);

@@ -27,15 +27,26 @@ describe('ESLMediaQuery tests', () => {
   });
 
   test.each([
-    {query: '', queryString: ''},
     {query: '@md', queryString: '(min-width: 992px) and (max-width: 1199px)'},
     {query: '@lg', queryString: '(min-width: 1200px) and (max-width: 1599px)'},
     {query: '@XL', queryString: '(min-width: 1600px) and (max-width: 999999px)'},
     {query: '@+sm', queryString: '(min-width: 768px)'},
     {query: '@-md', queryString: '(max-width: 1199px)'},
+  ])('Apply tests for %p breakpoint', ({query, queryString}) => {
+    expect(ESLMediaQuery.applyReplacers(query)).toBe(queryString);
+  })
+
+  test.each([
+    {query: '@ie', queryString: 'not all'},
     {query: '@mobile', queryString: 'not all'},
     {query: '@Mobile', queryString: 'not all'},
     {query: '@MOBILE', queryString: 'not all'},
+  ])('Apply tests for %p breakpoint', ({query, queryString}) => {
+    expect(ESLMediaQuery.applyReplacers(query)).toBe(queryString);
+  })
+
+  test.each([
+    {query: '', queryString: ''},
     {query: '@smnot', queryString: '@smnot'},
     {query: '@+smnot', queryString: '@+smnot'}
   ])('Apply tests for %p breakpoint', ({query, queryString}) => {

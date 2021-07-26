@@ -8,7 +8,7 @@ export class ESLScreenDPR {
   /** Option to exclude dpr > 2 for bots */
   public static ignoreBotsDpr = false;
 
-  public static replacer(match: string) {
+  public static replace(match: string) {
     if (!ESLScreenDPR.VALUE_REGEXP.test(match)) return;
     const dpr = parseFloat(match);
     if (dpr < 0 || isNaN(dpr)) return;
