@@ -6,7 +6,9 @@ containerCls: container
 tags: drafts
 ---
 
-<section class="row justify-content-center">
+<section class="row justify-content-between">
+  <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Top</esl-trigger>
+  <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Top</esl-trigger>
   <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Top</esl-trigger>
 </section>
 
@@ -15,14 +17,16 @@ tags: drafts
   <esl-trigger target="#popup4" mode="toggle" class="btn btn-primary">Right</esl-trigger>
 </section>
 
-<section class="row justify-content-center">
+<section class="row justify-content-between">
+  <esl-trigger target="#popup2" mode="toggle" class="btn btn-primary">Bottom</esl-trigger>
+  <esl-trigger target="#popup2" mode="toggle" class="btn btn-primary">Bottom</esl-trigger>
   <esl-trigger target="#popup2" mode="toggle" class="btn btn-primary">Bottom</esl-trigger>
 </section>
 
 <section class="row">
   <div id="a" style="margin: 599px 0; height: 800px; overflow-y: auto; width: 100%; background-color: azure;">
     <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
-    <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Trigger A</esl-trigger>
+    <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary"></esl-trigger>
     <div id="b" style="margin: 599px 0; height: 650px; overflow-y: auto; width: 100%; background-color: beige;">
       <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
       <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Trigger B</esl-trigger>
@@ -31,7 +35,8 @@ tags: drafts
         <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Trigger C</esl-trigger>
         <div id="d" style="margin: 599px 0; height: 350px; overflow-y: auto; width: 100%; background-color: tan;">
           <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
-          <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Trigger D</esl-trigger>
+          <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Trigger D (top)</esl-trigger>
+          <esl-trigger target="#popup4" mode="toggle" class="btn btn-primary">Trigger D (right)</esl-trigger>
           <esl-popup id="popup9" position="top">Exadel Smart Library Popup content<span class="esl-popup-arrow"></span></esl-popup>
         </div>
       </div>
