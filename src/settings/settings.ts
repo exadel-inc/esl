@@ -9,7 +9,6 @@ export class UIPSettings extends UIPPlugin {
 
   @attr() public target: string;
   @attr({defaultValue: 'Settings'}) public label: string;
-  @attr({defaultValue: 'settings-attached'}) public rootClass: string;
 
   @memoize()
   public get $scroll() {
@@ -21,7 +20,6 @@ export class UIPSettings extends UIPPlugin {
   protected connectedCallback() {
     super.connectedCallback();
     this.bindEvents();
-    this.root && CSSClassUtils.add(this.root, this.rootClass);
     this.updateInner();
   }
 
@@ -38,7 +36,6 @@ export class UIPSettings extends UIPPlugin {
 
   protected disconnectedCallback(): void {
     this.unbindEvents();
-    this.root && CSSClassUtils.remove(this.root, this.rootClass);
     super.disconnectedCallback();
   }
 

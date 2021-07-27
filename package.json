@@ -20,7 +20,7 @@
     "CLA.md"
   ],
   "module": "lib/playground.js",
-  "types": "types/src/playground.d.ts",
+  "types": "types/playground.d.ts",
   "sideEffects": [
     "lib/palyground.css",
     "lib/palyground.run.js",
@@ -61,8 +61,8 @@
     "js-beautify": "^1.14.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.1.4",
-    "@commitlint/config-conventional": "^12.1.4",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/git": "^9.0.0",
@@ -70,23 +70,23 @@
     "@semantic-release/npm": "^7.1.3",
     "@semantic-release/release-notes-generator": "^9.0.3",
     "@types/js-beautify": "^1.13.2",
-    "@typescript-eslint/eslint-plugin": "^4.28.4",
-    "@typescript-eslint/parser": "^4.28.4",
-    "browser-sync": "^2.27.4",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "browser-sync": "^2.27.5",
     "concurrently": "^6.2.0",
     "eslint": "^7.31.0",
     "husky": "^7.0.1",
     "less": "^4.1.1",
     "less-loader": "^10.0.1",
-    "postcss": "^8.3.5",
+    "postcss": "^8.3.6",
     "postcss-loader": "^6.1.1",
     "postcss-preset-env": "^6.7.0",
     "rimraf": "^3.0.2",
     "semantic-release": "^17.4.4",
     "stylelint": "^13.13.1",
-    "ts-loader": "^9.2.3",
+    "ts-loader": "^9.2.4",
     "typescript": "^4.3.5",
-    "webpack": "^5.45.1",
+    "webpack": "^5.47.0",
     "webpack-cli": "^4.7.2"
   }
 }
