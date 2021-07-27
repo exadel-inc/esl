@@ -20,7 +20,7 @@
     "CLA.md"
   ],
   "module": "lib/playground.js",
-  "types": "types/src/playground.d.ts",
+  "types": "types/playground.d.ts",
   "sideEffects": [
     "lib/palyground.css",
     "lib/palyground.run.js",
