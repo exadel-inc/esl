@@ -4,6 +4,7 @@ import {ESLPopup} from '../../esl-popup/core';
 import {memoize} from '../../esl-utils/decorators/memoize';
 
 import type {PopupActionParams} from '../../esl-popup/core';
+import type {PositionType} from '../../esl-popup/core/calcPosition';
 
 export interface TooltipActionParams extends PopupActionParams {
   /** text to be shown */
@@ -18,7 +19,7 @@ export interface TooltipActionParams extends PopupActionParams {
 export class ESLTooltip extends ESLPopup {
   static is = 'esl-tooltip';
 
-  @attr({defaultValue: 'top'}) public position: string;
+  @attr({defaultValue: 'top'}) public position: PositionType;
   @attr({defaultValue: 'fit'}) public behavior: string;
   @boolAttr() public disableArrow: boolean;
 
