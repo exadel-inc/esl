@@ -75,8 +75,10 @@ Every element (except the *UIP Root*) isn't required, so you can combine them th
 
 ## Roadmap
 
-- Move from the private repository to the public
 - Demo content
+- Bugfixing
+- Documentation
+- Isolated content for preview
 
 ---
 
