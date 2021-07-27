@@ -19,7 +19,7 @@ export class ESLMediaRule<T> {
   private readonly _payload: T;
   private readonly _default: boolean;
 
-  constructor(payload: T, query: string) {
+  constructor(payload: T, query: string = '') {
     this._query = ESLMediaQuery.for(query);
     this._default = !query;
     this._payload = payload;
@@ -47,7 +47,9 @@ export class ESLMediaRule<T> {
   }
 
   public static parse<U>(lex: string, parser: PayloadParser<U>) {
-    const [query, payload] = lex.split('=>');
+    const parts = lex.split('=>');
+    const query = parts.length === 2 ? parts[0] : '';
+    const payload = parts.length === 2 ? parts[1] : parts[0];
     const payloadValue = parser(payload.trim());
     if (typeof payloadValue === 'undefined') return undefined;
     return new ESLMediaRule<U>(payloadValue, query.trim());
@@ -55,6 +57,9 @@ export class ESLMediaRule<T> {
 
   public static all<U>(payload: U) {
     return new ESLMediaRule<U>(payload, 'all');
+  }
+  public static default<U>(payload: U) {
+    return new ESLMediaRule<U>(payload);
   }
   public static empty(): ESLMediaRule<undefined> {
     return new ESLMediaRule(undefined, 'all');
