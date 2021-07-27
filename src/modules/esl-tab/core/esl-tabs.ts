@@ -45,7 +45,7 @@ export class ESLTabs extends ESLBaseElement {
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'scrollable') {
-      this.scrollableTypeRules = ESLMediaRuleList.parse<string>(newVal, ESLMediaRuleList.STRING_PARSER);
+      this.scrollableTypeRules = ESLMediaRuleList.from<string>(newVal, ESLMediaRuleList.STRING_PARSER);
       this.updateScrollableType();
     }
   }
@@ -206,7 +206,7 @@ export class ESLTabs extends ESLBaseElement {
   /** ESLMediaRuleList instance of the scrollable type mapping */
   public get scrollableTypeRules() {
     if (!this._scrollableTypeRules) {
-      this.scrollableTypeRules = ESLMediaRuleList.parse<string>(this.scrollable, ESLMediaRuleList.STRING_PARSER);
+      this.scrollableTypeRules = ESLMediaRuleList.from<string>(this.scrollable, ESLMediaRuleList.STRING_PARSER);
     }
     return this._scrollableTypeRules;
   }

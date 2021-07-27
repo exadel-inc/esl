@@ -5,7 +5,7 @@ import type {AnyToVoidFnSignature} from '../misc/functions';
  * @author Yuliya Adamskaya
  */
 export abstract class Observable <Callback extends AnyToVoidFnSignature = AnyToVoidFnSignature>{
-  private _listeners = new Set<Callback>();
+  protected _listeners = new Set<Callback>();
 
   public addListener(listener: Callback) {
     this._listeners.add(listener);
