@@ -1,3 +1,15 @@
+# [1.0.0-beta.3](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2021-07-27)
+
+
+### Bug Fixes
+
+* fix path to typing file in package.json ([fe9e2f7](https://github.com/exadel-inc/ui-playground/commit/fe9e2f7268ba157eef726ec3d47b362b803fc18c))
+
+
+### Features
+
+* move UIP options to attributes, rework uip-editor themes control ([7942a5a](https://github.com/exadel-inc/ui-playground/commit/7942a5ac2a62a64632c1f9b53a6f2478fafb03b4)), closes [#122](https://github.com/exadel-inc/ui-playground/issues/122)
+
 # [1.0.0-beta.2](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2021-07-20)
 
 
