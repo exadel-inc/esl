@@ -20,7 +20,7 @@ module.exports = (config) => {
   });
 
   config.addPairedShortcode('markdown', (content) => {
-    return markdown.render(content);
+    return `<div class="markdown-container">${markdown.render(content)}</div>`;
   });
 
   config.addFilter("sortByName", (values) => {
@@ -44,12 +44,12 @@ module.exports = (config) => {
     dir: {
       input: 'pages/views',
       output: 'pages/dist',
-      layouts: "_layouts",
+      layouts: '_layouts',
     },
     dataTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
     passthroughFileCopy: true,
     templateFormats: ['md', 'njk'],
-    pathPrefix: "/esl/",
+    pathPrefix: '/esl/',
   };
 };

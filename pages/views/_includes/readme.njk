@@ -1,8 +1,6 @@
 {% macro readme(componentPath) %}
   <hr>
-  <div class="markdown-container">
-    {% markdown %}
-      {% include '../../../src/modules/' + componentPath + '/README.md' %}
-    {% endmarkdown %}
-  </div>
+  {% markdown %}
+    {% include 'src/modules/' + componentPath + '/README.md' %}
+  {% endmarkdown %}
 {% endmacro %}
