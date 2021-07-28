@@ -9,7 +9,9 @@ import {listScrollParents} from './listScrollParents';
 import {calcPopupPosition, resizeRect} from './calcPosition';
 
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
-import type {PositionType} from './calcPosition';
+import type {PositionType, IntersetionRatioRect} from './calcPosition';
+
+const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
 
 export interface PopupActionParams extends ToggleableActionParams {
   /** popup position relative to trigger */
@@ -37,6 +39,7 @@ export class ESLPopup extends ESLToggleable {
   protected _offsetWindow: number;
   protected _deferredUpdatePosition = rafDecorator(() => this._updatePosition());
   protected _activatorObserver: ActivatorObserver;
+  protected _intersectionRatio: IntersetionRatioRect = {};
 
   @attr({defaultValue: 'top'}) public position: PositionType;
   @attr({defaultValue: 'fit'}) public behavior: string;
@@ -69,6 +72,14 @@ export class ESLPopup extends ESLToggleable {
     super.unbindEvents();
     window.removeEventListener('resize', this._deferredUpdatePosition);
     window.removeEventListener('scroll', this._deferredUpdatePosition);
+  }
+
+  protected get _isPositioningAlongHorizontal() {
+    return ['left', 'right'].includes(this.position);
+  }
+
+  protected get _isPositioningAlongVertical() {
+    return ['top', 'bottom'].includes(this.position);
   }
 
   // TODO: move to utilities
@@ -122,10 +133,36 @@ export class ESLPopup extends ESLToggleable {
     this.activator && this._removeActivatorObserver(this.activator);
   }
 
+  protected _checkIntersectionForAdjacentAxis(isAdjacentAxis: boolean, intersectionRatio: number) {
+    if (isAdjacentAxis && intersectionRatio < INTERSECTION_LIMIT_FOR_ADJACENT_AXIS) {
+      this.hide();
+    }
+  }
+
   @bind
   protected onActivatorIntersection(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
-    if (!entries[0].isIntersecting) {
+    const entry = entries[0];
+    this._intersectionRatio = {};
+    if (!entry.isIntersecting) {
       this.hide();
+      return;
+    }
+
+    if (entry.intersectionRect.top !== entry.boundingClientRect.top) {
+      this._intersectionRatio.top = entry.intersectionRect.height / entry.boundingClientRect.height;
+      this._checkIntersectionForAdjacentAxis(this._isPositioningAlongHorizontal, this._intersectionRatio.top);
+    }
+    if (entry.intersectionRect.bottom !== entry.boundingClientRect.bottom) {
+      this._intersectionRatio.bottom = entry.intersectionRect.height / entry.boundingClientRect.height;
+      this._checkIntersectionForAdjacentAxis(this._isPositioningAlongHorizontal, this._intersectionRatio.bottom);
+    }
+    if (entry.intersectionRect.left !== entry.boundingClientRect.left) {
+      this._intersectionRatio.left = entry.intersectionRect.width / entry.boundingClientRect.width;
+      this._checkIntersectionForAdjacentAxis(this._isPositioningAlongVertical, this._intersectionRatio.left);
+    }
+    if (entry.intersectionRect.right !== entry.boundingClientRect.right) {
+      this._intersectionRatio.right = entry.intersectionRect.width / entry.boundingClientRect.width;
+      this._checkIntersectionForAdjacentAxis(this._isPositioningAlongVertical, this._intersectionRatio.right);
     }
   }
 
@@ -147,7 +184,7 @@ export class ESLPopup extends ESLToggleable {
 
     const options = {
       rootMargin: '0px',
-      threshold: [0, 1]
+      threshold: [...Array(9).keys()].map((x) => x/8)
     } as IntersectionObserverInit;
 
     const observer = new IntersectionObserver(this.onActivatorIntersection, options);
@@ -197,6 +234,7 @@ export class ESLPopup extends ESLToggleable {
     const config = {
       position: this.position,
       behavior: this.behavior,
+      intersectionRatio: this._intersectionRatio,
       element: popupRect,
       trigger,
       inner: resizeRect(trigger, innerMargin),

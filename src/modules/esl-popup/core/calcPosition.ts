@@ -29,9 +29,17 @@ export interface ElementRect extends ObjectRect {
   cy: number;
 }
 
+export interface IntersetionRatioRect {
+  top?: number;
+  left?: number;
+  right?: number;
+  bottom?: number;
+}
+
 export interface PopupPositionConfig {
   position: PositionType;
   behavior: string;
+  intersectionRatio: IntersetionRatioRect,
   element: DOMRect;
   inner: ElementRect;
   outer: ObjectRect;
@@ -95,22 +103,22 @@ function fitByMajorAxis(cfg: PopupPositionConfig, rect: BasicRect, arrow: ArrowP
 
   switch (cfg.position) {
     case 'bottom':
-      if (cfg.outer.bottom < rect.bottom) {
+      if (cfg.intersectionRatio.bottom || cfg.outer.bottom < rect.bottom) {
         oppositeOnMajor('bottom', cfg.inner.top, -cfg.element.height, rect, arrow);
       }
       break;
     case 'left':
-      if (rect.left < cfg.outer.left) {
+      if (cfg.intersectionRatio.left || rect.left < cfg.outer.left) {
         oppositeOnMajor('left', cfg.inner.right, cfg.element.width, rect, arrow);
       }
       break;
     case 'right':
-      if (cfg.outer.right < rect.right) {
+      if (cfg.intersectionRatio.right || cfg.outer.right < rect.right) {
         oppositeOnMajor('right', cfg.inner.left, -cfg.element.width, rect, arrow);
       }
       break;
     default:
-      if (rect.top < cfg.outer.top) {
+      if (cfg.intersectionRatio.top || rect.top < cfg.outer.top) {
         oppositeOnMajor('top', cfg.inner.bottom, cfg.element.height, rect, arrow);
       }
   }
