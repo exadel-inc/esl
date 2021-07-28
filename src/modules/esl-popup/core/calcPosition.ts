@@ -183,7 +183,7 @@ export function calcPopupPosition(cfg: PopupPositionConfig): PopupPositionValue 
 }
 
 export function resizeRect<T extends ObjectRect | ElementRect>(rect: T, increment: number): T {
-  return Object.assign(rect, {
+  return Object.assign({}, rect, {
     top: rect.top - increment,
     left: rect.left - increment,
     right: rect.right + increment,

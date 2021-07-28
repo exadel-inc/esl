@@ -191,7 +191,7 @@ export class ESLPopup extends ESLToggleable {
       height: triggerRect.height,
       width: triggerRect.width,
       cx: triggerRect.left + triggerRect.width / 2,
-      cy: triggerRect.top + triggerRect.height / 2
+      cy: triggerRect.top  + window.pageYOffset + triggerRect.height / 2
     };
 
     const config = {
