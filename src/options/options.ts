@@ -3,7 +3,6 @@ import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {CSSClassUtils, ESLMediaQuery} from '@exadel/esl';
 import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
 
-import {UIPEditor} from '../editor/editor';
 import {UIPPlugin} from '../core/plugin';
 
 /**
@@ -26,11 +25,6 @@ export class UIPOptions extends UIPPlugin {
 
   /** Media query for mobile breakpoints. */
   static _conditionQuery: ESLMediaQuery = new ESLMediaQuery('@-SM');
-
-  /** Path to dark editor's theme. */
-  static darkEditorTheme = 'ace/theme/tomorrow_night';
-  /** Path to light editor's theme. */
-  static lightEditorTheme = 'ace/theme/chrome';
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -107,35 +101,18 @@ export class UIPOptions extends UIPPlugin {
     const mode = target.getAttribute('mode');
     const theme = target.getAttribute('theme');
 
-    if (mode) {
-      this.mode = mode;
-      this.updateModeMarker(this.mode);
-    }
-
-    if (theme) {
-      this.theme = theme;
-      this.updateThemeMarker(this.theme);
-    }
-  }
-
-  protected changeEditorTheme(theme: string) {
-    const $editor = this.root?.querySelector(`:scope > ${UIPEditor.is}`) as UIPEditor;
-    const editorConfig = $editor?.editorConfig;
-    if (!$editor || !editorConfig) return;
-
-    editorConfig.theme = theme === 'uip-dark' ? UIPOptions.darkEditorTheme : UIPOptions.lightEditorTheme;
-    $editor.setEditorConfig(editorConfig);
+    if (mode) this.updateModeMarker(mode);
+    if (theme) this.updateThemeMarker(theme);
   }
 
   protected updateModeMarker(mode: string) {
-    this.root && CSSClassUtils.remove(this.root, 'vertical-mode horizontal-mode');
-    this.root && CSSClassUtils.add(this.root, `${mode}-mode`);
+    this.mode = mode;
+    if (this.root) this.root.mode = mode;
   }
 
   protected updateThemeMarker(theme: string) {
-    this.root && CSSClassUtils.remove(this.root, 'uip-light-theme uip-dark-theme');
-    this.root && CSSClassUtils.add(this.root, `${theme}-theme`);
-    this.changeEditorTheme(theme);
+    this.theme = theme;
+    if (this.root) this.root.theme = theme;
   }
 
   /**

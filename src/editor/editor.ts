@@ -13,11 +13,15 @@ import {UIPPlugin} from '../core/plugin';
 /** Config interface to define inner ACE editor settings. */
 interface EditorConfig {
   /** Editor's appearance theme. */
-  theme: string;
+  theme?: string;
   /** Position of the vertical line for wrapping. */
-  printMarginColumn: number;
+  printMarginColumn?: number;
   /** Limit of characters before wrapping. */
-  wrap: number;
+  wrap?: number | boolean;
+}
+
+interface Theme {
+  [index: string]: string;
 }
 
 /**
@@ -28,11 +32,16 @@ interface EditorConfig {
 export class UIPEditor extends UIPPlugin {
   public static is = 'uip-editor';
   /** Default [config]{@link EditorConfig} instance. */
-  public static defaultOptions = {
+  public static defaultOptions: EditorConfig = {
     theme: 'ace/theme/chrome',
     mode: 'ace/mode/html',
     printMarginColumn: -1,
     wrap: true,
+  };
+
+  static themesMapping: Theme = {
+    'uip-light': 'ace/theme/chrome',
+    'uip-dark': 'ace/theme/tomorrow_night'
   };
 
   /** Editor's [config]{@link EditorConfig} passed through attribute. */
@@ -50,6 +59,20 @@ export class UIPEditor extends UIPPlugin {
   protected connectedCallback() {
     super.connectedCallback();
     this.initEditor();
+    this.bindEvents();
+  }
+
+  protected disconnectedCallback() {
+    this.unbindEvents();
+    super.disconnectedCallback();
+  }
+
+  protected bindEvents() {
+    this.root?.addEventListener('uip:configchange', this._onRootConfigChange);
+  }
+
+  protected unbindEvents() {
+    this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   /** Initialize [Ace]{@link https://ace.c9.io/} editor. */
@@ -88,5 +111,18 @@ export class UIPEditor extends UIPPlugin {
   public setEditorConfig(editorConfig: EditorConfig): void {
     this.editorConfig = editorConfig;
     this.initEditorOptions();
+  }
+
+  @bind
+  protected _onRootConfigChange(e: CustomEvent) {
+    if (e.detail.attribute !== 'theme') return false;
+    const value = e.detail.value;
+    const defaultTheme = UIPEditor.defaultOptions.theme;
+
+    const theme = !Object.hasOwnProperty.call(UIPEditor.themesMapping, value)
+      ? defaultTheme
+      : UIPEditor.themesMapping[value];
+
+    this.setEditorConfig({theme});
   }
 }
