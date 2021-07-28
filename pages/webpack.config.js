@@ -1,7 +1,6 @@
 const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const { isDev } = require("./views/_data/env");
 
 module.exports = {
   mode: 'development',
@@ -16,7 +15,6 @@ module.exports = {
     roots: [],
     extensions: ['.ts', '.js']
   },
-  plugins: [new MiniCssExtractPlugin()],
   module: {
     rules: [{
       test: /\.ts?$/,
@@ -27,37 +25,27 @@ module.exports = {
           declaration: false
         }
       }
-    },
-    {
-      test: /\.css$/i,
-      use: [MiniCssExtractPlugin.loader, 'css-loader']
     }]
   },
-  optimization: {
+  optimization: !isDev ? {
     minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
+      minimizer: [
+        new TerserPlugin({    
+          terserOptions: {
+            keep_classnames: false,
+            mangle: true,
+            compress: false,
+            keep_fnames: false,
             output: {
               comments: false,
-            },
-        },
-        extractComments: false,
-      }), 
-      new CssMinimizerPlugin({
-        minimizerOptions: {
-            preset: [
-                'default',
-                {
-                  discardComments: { removeAll: true },
-                },
-            ],
-          },
-      })
-    ],
-  },
+            }
+          }
+        })
+      ],
+  } : {},
   output: {
     path: path.resolve(__dirname, 'dist/bundles'),
     filename: '[name].js'
   }
 };
+
