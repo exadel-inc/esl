@@ -1,6 +1,4 @@
 const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
-const { isDev } = require("./views/_data/env");
 
 module.exports = {
   mode: 'development',
@@ -27,22 +25,6 @@ module.exports = {
       }
     }]
   },
-  optimization: !isDev ? {
-    minimize: true,
-      minimizer: [
-        new TerserPlugin({    
-          terserOptions: {
-            keep_classnames: false,
-            mangle: true,
-            compress: false,
-            keep_fnames: false,
-            output: {
-              comments: false,
-            }
-          }
-        })
-      ],
-  } : {},
   output: {
     path: path.resolve(__dirname, 'dist/bundles'),
     filename: '[name].js'

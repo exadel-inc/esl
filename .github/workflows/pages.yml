@@ -24,7 +24,7 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
       - name: Build
-        run: npm run build-pages
+        run: npm run build-pages:prod
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
