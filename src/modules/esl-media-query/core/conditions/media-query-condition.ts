@@ -1,14 +1,13 @@
-import {ALL, NOT_ALL} from './esl-mq-base';
-import type {IESLMQCondition} from './esl-mq-base';
+import {ALL, NOT_ALL} from './media-query-base';
+import type {IMediaQueryCondition} from './media-query-base';
 
-export class ESLMQCondition implements IESLMQCondition {
+export class MediaQueryCondition implements IMediaQueryCondition {
   protected readonly _inverted: boolean;
   protected readonly _mq: MediaQueryList;
 
-  constructor(query: string) {
-    const clearQuery = query.replace(/^\s*not\s+/, '');
-    this._inverted = query !== clearQuery;
-    this._mq = matchMedia(clearQuery.trim());
+  constructor(query: string, inverted = false) {
+    this._inverted = inverted;
+    this._mq = matchMedia(query.trim());
   }
 
   public get matches() {
@@ -30,7 +29,7 @@ export class ESLMQCondition implements IESLMQCondition {
     }
   }
 
-  public optimize(): IESLMQCondition {
+  public optimize(): IMediaQueryCondition {
     if (ALL.eq(this)) return this._inverted ? NOT_ALL : ALL;
     if (NOT_ALL.eq(this)) return this._inverted ? ALL : NOT_ALL;
     return this;

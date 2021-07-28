@@ -1,74 +1,88 @@
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
-import {ALL, NOT_ALL} from './impl/esl-mq-base';
-import {ESLMQCondition} from './impl/esl-mq-condition';
-import {ESLMQConjunction, ESLMQDisjunction} from './impl/esl-mq-group';
+import {ESLScreenDPR} from './common/screen-dpr';
+import {ESLScreenBreakpoints} from './common/screen-breakpoint';
+import {ESLDeviceShortcuts} from './common/device-shortcuts';
 
-import type {IESLMQCondition} from './impl/esl-mq-base';
+import {ALL, NOT_ALL} from './conditions/media-query-base';
+import {MediaQueryCondition} from './conditions/media-query-condition';
+import {MediaQueryConjunction, MediaQueryDisjunction} from './conditions/media-query-group';
 
-export interface ESLShortcutReplacer {
+import type {IMediaQueryCondition} from './conditions/media-query-base';
+
+export interface ESLMQPreprocessor {
   replace: (match: string) => string | boolean | undefined;
 }
 
 /**
  * ESL Media Query
- * Provides special media condition syntax - ESLQuery
+ * Provides special media condition syntax - ESLMediaQuery
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya, Natallia Harshunova
  *
- * Helper class that extends MediaQueryList class
+ * Utility to support extended MediaQuery features
  * Supports
- * - CSS query matching check
+ * - CSS MediaQuery matching check
  * - DPR display queries (@x1 | @x2 | @x3)
- * - Screen default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
+ * - Registered screen default sizes (breakpoints) shortcuts @[-|+](XS|SM|MD|LG|XL)
+ * - Device and browser shortcuts (@MOBILE|@DESKTOP|@ie)
+ * - Custom static shortcuts and custom query preprocessors
+ * - `not` logic operation (can have multiple not operators before any term of the query)
  * - Query matching change listeners
- * - Mobile / full browser detection (@MOBILE|@DESKTOP)
- * - Exclude upper DPRs for bots
+ *
+ * Building query process:
+ *
+ * [Building query logical tree] -> [preprocess nodes queries] -> [building native MediaQueryList nodes] -> [query tree optimization]
  */
 @ExportNs('MediaQuery')
-export abstract class ESLMediaQuery implements IESLMQCondition {
-  /** Static always truthful condition */
-  public static readonly ALL: IESLMQCondition = ALL;
-  /** Static always falsy condition */
-  public static readonly NOT_ALL: IESLMQCondition = NOT_ALL;
+export abstract class ESLMediaQuery implements IMediaQueryCondition {
+  /** Always true condition */
+  public static readonly ALL: IMediaQueryCondition = ALL;
+  /** Always false condition */
+  public static readonly NOT_ALL: IMediaQueryCondition = NOT_ALL;
 
   protected static readonly SHORTCUT_PATTERN = /@([a-z0-9.+-]+)/i;
-  protected static readonly _replacers: ESLShortcutReplacer[] = [];
+  protected static readonly _preprocessors: ESLMQPreprocessor[] = [];
 
   /** Cached method to create {@link ESLMediaQuery} condition instance from string */
   @memoize()
-  public static for(query: string): IESLMQCondition {
-    return ESLMediaQuery.parse(query);
+  public static for(query: string): IMediaQueryCondition {
+    return ESLMediaQuery.from(query);
   }
 
   /** Create {@link ESLMediaQuery} condition instance from string */
-  public static parse(query: string): IESLMQCondition {
+  public static from(query: string): IMediaQueryCondition {
     const conjunctions = query.split(/\sor\s|,/).map((term) => {
       const conditions = term.split(/\sand\s/).map(ESLMediaQuery.wrap);
-      return new ESLMQConjunction(conditions);
+      return new MediaQueryConjunction(conditions);
     });
-    return new ESLMQDisjunction(conjunctions).optimize();
+    return new MediaQueryDisjunction(conjunctions).optimize();
   }
 
   /** Create simple {@link ESLMediaQuery} condition */
-  protected static wrap(term: string): IESLMQCondition {
-    term = ESLMediaQuery.applyReplacers(term);
-    if (ALL.eq(term)) return ALL;
-    if (NOT_ALL.eq(term)) return NOT_ALL;
-    return new ESLMQCondition(term);
+  public static wrap(term: string): IMediaQueryCondition { // TODO: rename and optimize
+    const query = term.replace(/^\s*not\s+/, '');
+    const queryInverted = query !== term;
+    const processedQuery = ESLMediaQuery.preprocess(query);
+    const sanitizedQuery = processedQuery.replace(/^\s*not\s+/, '');
+    const resultInverted = processedQuery !== sanitizedQuery;
+    const invert = queryInverted !== resultInverted;
+    if (ALL.eq(sanitizedQuery)) return invert ? NOT_ALL : ALL;
+    if (NOT_ALL.eq(sanitizedQuery)) return invert ? ALL : NOT_ALL;
+    return new MediaQueryCondition(sanitizedQuery, invert);
   }
 
-  /** Add {@link ESLShortcutReplacer} instance to preprocess query */
-  public static addReplacer(replacer: ESLShortcutReplacer): typeof ESLMediaQuery {
-    this._replacers.unshift(replacer);
+  /** Add {@link ESLMQPreprocessor} instance for query preprocessing step */
+  public static use(preprocessor: ESLMQPreprocessor): typeof ESLMediaQuery {
+    this._preprocessors.unshift(preprocessor);
     return this;
   }
 
   /** Preprocess simple query term by applying replacers and shortcuts rules */
-  public static applyReplacers(term: string) {
+  public static preprocess(term: string) {
     if (!this.SHORTCUT_PATTERN.test(term)) return term;
     const shortcut = term.trim().substr(1).toLowerCase();
-    for (const replacer of this._replacers) {
+    for (const replacer of this._preprocessors) {
       const result = replacer.replace(shortcut);
       if (typeof result === 'string') return result;
       if (typeof result === 'boolean') return result ? 'all' : 'not all';
@@ -78,7 +92,12 @@ export abstract class ESLMediaQuery implements IESLMQCondition {
 
   // Implements IESLMQCondition to allow use ESLMediaQuery as IESLMQCondition type alias
   public abstract matches: boolean;
-  public abstract optimize(): IESLMQCondition;
+  public abstract optimize(): IMediaQueryCondition;
   public abstract addListener(cb: () => void): void;
   public abstract removeListener(cb: () => void): void;
 }
+
+// Basic replacers
+ESLMediaQuery.use(ESLScreenDPR);
+ESLMediaQuery.use(ESLScreenBreakpoints);
+ESLMediaQuery.use(ESLDeviceShortcuts);

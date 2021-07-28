@@ -42,7 +42,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'mode') {
-      this.modeRules = ESLMediaRuleList.from<string>(newVal, ESLMediaRuleList.STRING_PARSER);
+      this.modeRules = ESLMediaRuleList.parse(newVal);
       this.updateMode();
     }
   }
@@ -191,7 +191,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** ESLMediaRuleList instance of the mode mapping */
   public get modeRules() {
     if (!this._modeRules) {
-      this.modeRules = ESLMediaRuleList.from<string>(this.mode, ESLMediaRuleList.STRING_PARSER);
+      this.modeRules = ESLMediaRuleList.parse(this.mode);
     }
     return this._modeRules;
   }

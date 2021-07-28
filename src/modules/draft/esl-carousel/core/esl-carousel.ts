@@ -173,7 +173,7 @@ export class ESLCarousel extends ESLBaseElement {
   private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     // TODO: change observed attributes
     if (attrName === 'config') {
-      this.configRules = ESLMediaRuleList.from<CarouselConfig>(this.config, ESLMediaRuleList.OBJECT_PARSER);
+      this.configRules = ESLMediaRuleList.parse<CarouselConfig>(this.config, ESLMediaRuleList.OBJECT_PARSER);
       this.update(true);
     }
   }
@@ -188,7 +188,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   get configRules() {
     if (!this._configRules) {
-      this.configRules = ESLMediaRuleList.from<CarouselConfig>(this.config, ESLMediaRuleList.OBJECT_PARSER);
+      this.configRules = ESLMediaRuleList.parse<CarouselConfig>(this.config, ESLMediaRuleList.OBJECT_PARSER);
     }
     return this._configRules;
   }

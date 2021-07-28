@@ -1,11 +1,12 @@
-import {ALL, NOT_ALL} from './esl-mq-base';
-import type {IESLMQCondition} from './esl-mq-base';
+import {ALL, NOT_ALL} from './media-query-base';
+import type {IMediaQueryCondition} from './media-query-base';
 
-export class ESLMQGroup implements IESLMQCondition {
+// TODO: observer :(
+export class MediaQueryGroup implements IMediaQueryCondition {
   private _matches: boolean;
   private _listeners = new Set<(match: boolean) => void>();
 
-  constructor(protected readonly items: IESLMQCondition[] = []) {
+  constructor(protected readonly items: IMediaQueryCondition[] = []) {
     this._matches = this.matches;
     this._onChildChange = this._onChildChange.bind(this);
   }
@@ -29,22 +30,22 @@ export class ESLMQGroup implements IESLMQCondition {
   }
 
   public get matches() { return false; }
-  public optimize(): IESLMQCondition { return this; }
+  public optimize(): IMediaQueryCondition { return this; }
 }
 
 /** Conjunction(AND) group of media conditions */
-export class ESLMQConjunction extends ESLMQGroup{
+export class MediaQueryConjunction extends MediaQueryGroup{
   public get matches() {
     return this.items.every((item) => item.matches);
   }
 
-  public optimize(): IESLMQCondition {
+  public optimize(): IMediaQueryCondition {
     const optimizedItems = this.items.map((item) => item.optimize());
     if (optimizedItems.some((item) => NOT_ALL.eq(item))) return NOT_ALL;
     const items = optimizedItems.filter((item) => !ALL.eq(item));
     if (items.length === 0) return ALL;
     if (items.length === 1) return items[0];
-    return new ESLMQConjunction(items);
+    return new MediaQueryConjunction(items);
   }
 
   public toString() {
@@ -53,18 +54,18 @@ export class ESLMQConjunction extends ESLMQGroup{
 }
 
 /** Disjunction(OR) group of media conditions */
-export class ESLMQDisjunction extends ESLMQGroup{
+export class MediaQueryDisjunction extends MediaQueryGroup{
   public get matches() {
     return this.items.some((item) => item.matches);
   }
 
-  public optimize(): IESLMQCondition {
+  public optimize(): IMediaQueryCondition {
     const optimizedItems = this.items.map((item) => item.optimize());
     if (optimizedItems.some((item) => ALL.eq(item))) return ALL;
     const items = optimizedItems.filter((item) => !NOT_ALL.eq(item));
     if (items.length === 0) return NOT_ALL;
     if (items.length === 1) return items[0];
-    return new ESLMQDisjunction(items);
+    return new MediaQueryDisjunction(items);
   }
 
   public toString(pretty = false) {

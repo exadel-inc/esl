@@ -99,7 +99,7 @@ export class ESLImage extends ESLBaseElement {
         this.updateA11y();
         break;
       case 'data-src':
-        this.srcRules = ESLMediaRuleList.from<string>(newVal, ESLMediaRuleList.STRING_PARSER);
+        this.srcRules = ESLMediaRuleList.parse(newVal);
         this.refresh();
         break;
       case 'data-src-base':
@@ -116,7 +116,7 @@ export class ESLImage extends ESLBaseElement {
 
   public get srcRules() {
     if (!this._srcRules) {
-      this.srcRules = ESLMediaRuleList.from<string>(this.src, ESLMediaRuleList.STRING_PARSER);
+      this.srcRules = ESLMediaRuleList.parse(this.src);
     }
     return this._srcRules;
   }

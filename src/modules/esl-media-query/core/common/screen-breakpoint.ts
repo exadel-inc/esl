@@ -1,4 +1,4 @@
-import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {ExportNs} from '../../../esl-utils/environment/export-ns';
 
 const registry = new Map<string, ESLScreenBreakpoint>();
 
@@ -8,12 +8,8 @@ const registry = new Map<string, ESLScreenBreakpoint>();
  *
  * Breakpoint Registry is used to provide custom breakpoints for ESL Query
  */
-@ExportNs('ScreenBreakpoint')
-export class ESLScreenBreakpoint {
-  public static readonly BP_REGEXP = /^([+-]?)([a-z]+)/i;
-  public static readonly BP_NAME_REGEXP = /^[a-z]+/i;
-
-  protected constructor(
+export class ESLScreenBreakpoint {  // TODO: split or not split
+  constructor(
     public readonly name: string,
     public readonly min: number,
     public readonly max: number
@@ -34,6 +30,12 @@ export class ESLScreenBreakpoint {
   public toString() {
     return `[${this.name}]: ${this.min} to ${this.max}`;
   }
+}
+
+@ExportNs('ScreenBreakpoint')
+export abstract class ESLScreenBreakpoints {
+  public static readonly BP_REGEXP = /^([+-]?)([a-z]+)/i;
+  public static readonly BP_NAME_REGEXP = /^[a-z]+/i;
 
   /**
    * Add or replace breakpoint shortcut that could be used inside of ESLMediaQuery
@@ -43,7 +45,7 @@ export class ESLScreenBreakpoint {
    */
   public static add(name: string, minWidth: number, maxWidth: number): ESLScreenBreakpoint | undefined {
     name = name.toLowerCase();
-    if (ESLScreenBreakpoint.BP_NAME_REGEXP.test(name)) {
+    if (ESLScreenBreakpoints.BP_NAME_REGEXP.test(name)) {
       const current = registry.get(name);
       registry.set(name, new ESLScreenBreakpoint(name, minWidth, maxWidth));
       return current;
@@ -56,7 +58,7 @@ export class ESLScreenBreakpoint {
     return registry.get((name || '').toLowerCase());
   }
 
-  /** All available breakpoints shortcuts */
+  /** All available breakpoints names */
   public static get names() {
     const keys: string[] = [];
     registry.forEach((value, key) => keys.push(key));
@@ -65,8 +67,8 @@ export class ESLScreenBreakpoint {
 
   /** @returns breakpoints shortcut replacement */
   public static replace(term: string) {
-    const [, sign, bp] = term.match(ESLScreenBreakpoint.BP_REGEXP) || [];
-    const shortcut = ESLScreenBreakpoint.for(bp);
+    const [, sign, bp] = term.match(ESLScreenBreakpoints.BP_REGEXP) || [];
+    const shortcut = ESLScreenBreakpoints.for(bp);
     if (shortcut && sign === '+') return shortcut.mediaQueryGE;
     if (shortcut && sign === '-') return shortcut.mediaQueryLE;
     if (shortcut) return shortcut.mediaQuery;
@@ -74,8 +76,8 @@ export class ESLScreenBreakpoint {
 }
 
 // Defaults
-ESLScreenBreakpoint.add('xs', 1, 767);
-ESLScreenBreakpoint.add('sm', 768, 991);
-ESLScreenBreakpoint.add('md', 992, 1199);
-ESLScreenBreakpoint.add('lg', 1200, 1599);
-ESLScreenBreakpoint.add('xl', 1600, 999999);
+ESLScreenBreakpoints.add('xs', 1, 767);
+ESLScreenBreakpoints.add('sm', 768, 991);
+ESLScreenBreakpoints.add('md', 992, 1199);
+ESLScreenBreakpoints.add('lg', 1200, 1599);
+ESLScreenBreakpoints.add('xl', 1600, 999999);
