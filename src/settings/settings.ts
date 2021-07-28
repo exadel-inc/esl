@@ -5,15 +5,15 @@ import {CSSClassUtils, memoize} from '@exadel/esl';
 import {UIPPlugin} from '../core/plugin';
 
 /**
- * Container class for [settings]{@link UIPSetting}.
- * @see {@link UIPPlugin}
+ * Custom element, container for [settings]{@link UIPSetting}.
+ * @extends UIPPlugin
  */
 export class UIPSettings extends UIPPlugin {
   public static is = 'uip-settings';
 
   /**
-   * Attribute which sets all inner [settings']{@link UIPSetting}
-   * [targets]{@link UIPSetting#target} to its value.
+   * Attribute to set all inner [settings']{@link UIPSetting}
+   * [targets]{@link UIPSetting#target}.
    */
   @attr() public target: string;
   @attr({defaultValue: 'Settings'}) public label: string;

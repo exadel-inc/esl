@@ -6,28 +6,28 @@ import TokenListUtils from '../../../utils/token-list/token-list-utils';
 import {WARN} from '../../../utils/warn-messages/warn';
 
 /**
- * Custom setting for adding/removing attributes or appending values to attribute.
- * @see {@link UIPSetting}
+ * Custom setting to add/remove attributes or append values to attribute.
+ * @extends UIPSetting
  */
 export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';
-  /** Class added when setting has inconsistent state. */
+  /** CSS Class added when setting has inconsistent state. */
   public static inconsistencyClass = 'inconsistency-marker';
 
   /** Setting's visible name. */
   @attr({defaultValue: ''}) public label: string;
   /**
-   * Value used for updating [attribute's]{@link UIPSetting#attribute} value.
+   * Value for updating [attribute's]{@link UIPSetting#attribute} value.
    * If it's unset, setting adds/removes [attribute]{@link UIPSetting#attribute}.
    */
   @attr({defaultValue: ''}) public value: string;
   /**
-   * Attribute which sets mode for setting.
-   * Replace - replacing [attribute's]{@link UIPSetting#attribute} value with setting's value.
-   * Append - appending [attribute's]{@link UIPSetting#attribute} value to attribute's value.
+   * Attribute to set mode for setting.
+   * `replace` - replacing [attribute's]{@link UIPSetting#attribute} value with setting's value.
+   * `append` - appending [attribute's]{@link UIPSetting#attribute} value to attribute's value.
    */
   @attr({defaultValue: 'replace'}) public mode: 'replace' | 'append';
-  /** Checkbox field for changing setting's value. */
+  /** Checkbox field to change setting's value. */
   protected $field: HTMLInputElement;
 
   protected connectedCallback() {

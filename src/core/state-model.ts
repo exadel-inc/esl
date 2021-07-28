@@ -1,14 +1,14 @@
 import {Observable} from '@exadel/esl/modules/esl-utils/abstract/observable';
 import {UIPPlugin} from './plugin';
 
-/** Type for function which changes attribute's current value. */
+/** Type for function to change attribute's current value. */
 export type TransformSignature = (current: string | null) => string | boolean | null;
 
-/** Config used for changing attribute's value. */
+/** Config for changing attribute's value. */
 export type ChangeAttrConfig = {
-  /** Target whose {@link attribute} is changed. */
+  /** CSS query to find target elements. */
   target: string,
-  /** Attribute that is changed. */
+  /** Attribute to change. */
   attribute: string,
   /** Changes initiator. */
   modifier: UIPPlugin
@@ -17,15 +17,16 @@ export type ChangeAttrConfig = {
   value: string | boolean
 } | {
   /**
-   * Function which transforms current
-   * {@link attribute} value to the new one.
+   * Function to transform(update)
+   * {@link attribute} value.
    */
   transform: TransformSignature
 });
 
 /**
- * State manager class which contains current markup
- * and provides methods for changing it.
+ * State holder class to store current UIP markup state.
+ * Provides methods to modify the state.
+ * @extends Observable
  */
 export class UIPStateModel extends Observable {
   private _html = new DOMParser().parseFromString('', 'text/html').body;
@@ -33,8 +34,9 @@ export class UIPStateModel extends Observable {
   private _lastModifier: UIPPlugin;
 
   /**
-   * Update current markup.
-   * Triggers [onRootStateChange]{@link UIPPlugin#_onRootStateChange}.
+   * Set current markup state to the passed one.
+   * @param markup - new state
+   * @param modifier - plugin, that initiate the change
    */
   public setHtml(markup: string, modifier: UIPPlugin) {
     const root = new DOMParser().parseFromString(markup, 'text/html').body;
@@ -54,7 +56,12 @@ export class UIPStateModel extends Observable {
     return this._lastModifier;
   }
 
-  /** Get attributes values from targets. */
+  /**
+   * Get attribute values for the matched set of elements.
+   * @param target - CSS sector to define target elements
+   * @param attr - attribute name
+   * @returns array of matched elements attribute value (uses the element placement order)
+   */
   public getAttribute(target: string, attr: string): (string | null)[] {
     return Array.from(this._html.querySelectorAll(target)).map(el => el.getAttribute(attr));
   }
@@ -70,7 +77,6 @@ export class UIPStateModel extends Observable {
     this.fire();
   }
 
-  /** Transform attributes values. */
   protected static setAttribute(elements: Element[], attr: string, transform: TransformSignature | string | boolean) {
     elements.forEach(el => {
       const transformed = typeof transform === 'function' ? transform(el.getAttribute(attr)) : transform;

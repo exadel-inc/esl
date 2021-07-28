@@ -7,8 +7,9 @@ import {UIPSettings} from '../settings';
 import {WARN} from '../../utils/warn-messages/warn';
 
 /**
- * Component for manipulating with elements attributes. Custom settings should extend
- * this class if you want them to be connected with {@link UIPSettings}.
+ * Custom element for manipulating with elements attributes.
+ * Custom settings should extend this class
+ * to become connected with {@link UIPSettings}.
  */
 export abstract class UIPSetting extends ESLBaseElement {
   static is = 'uip-setting';
@@ -59,7 +60,7 @@ export abstract class UIPSetting extends ESLBaseElement {
 
   /**
    * Change markup in {@link UIPStateModel}
-   * according to setting's value.
+   * with setting's value.
    */
   public applyTo(model: UIPStateModel): void {
     const cfg: ChangeAttrConfig = {
@@ -72,7 +73,7 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   /**
-   * Update setting's value according to
+   * Update setting's value with
    * active markup in {@link UIPStateModel}.
    */
   public updateFrom(model: UIPStateModel): void {
@@ -89,7 +90,7 @@ export abstract class UIPSetting extends ESLBaseElement {
 
   /**
    * Check whether setting's value is valid or not.
-   * Can be used for custom validation.
+   * Use for custom validation.
    */
   protected isValid(): boolean {
     return true;

@@ -4,15 +4,15 @@ import {UIPPlugin} from '../core/plugin';
 
 /**
  * Container class for snippets (component's templates).
- * @see {@link UIPPlugin}
+ * @extends UIPPlugin
  */
 export class UIPSnippets extends UIPPlugin {
   public static is = 'uip-snippets';
-  /** Class added to active snippet. */
+  /** CSS Class added to active snippet. */
   public static ACTIVE_CLASS = 'active';
-  /** Class for snippets list items. */
+  /** CSS Class for snippets list items. */
   public static ITEM_CLASS = 'snippets-list-item';
-  /** Selector for snippets. */
+  /** CSS query for snippets. */
   public static CONTENT_SEL = '[uip-snippet]';
 
   protected connectedCallback() {

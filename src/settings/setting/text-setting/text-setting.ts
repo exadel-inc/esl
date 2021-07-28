@@ -5,14 +5,14 @@ import {WARN} from '../../../utils/warn-messages/warn';
 
 /**
  * Custom setting for inputting attribute's value.
- * @see {@link UIPSetting}
+ * @extends UIPSetting
  */
 export class UIPTextSetting extends UIPSetting {
   public static is = 'uip-text-setting';
 
   /** Setting's visible name. */
   @attr({defaultValue: ''}) public label: string;
-  /** Text input for changing setting's value. */
+  /** Text input to change setting's value. */
   protected $field: HTMLInputElement;
 
   protected connectedCallback() {

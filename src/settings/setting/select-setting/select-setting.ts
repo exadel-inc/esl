@@ -10,7 +10,7 @@ import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 
 /**
  * Custom setting for selecting attribute's value.
- * @see {@link UIPSetting}
+ * @extends UIPSetting
  */
 export class UIPSelectSetting extends UIPSetting {
   public static is = 'uip-select-setting';
@@ -20,14 +20,14 @@ export class UIPSelectSetting extends UIPSetting {
   /** Setting's visible name. */
   @attr({defaultValue: ''}) public label: string;
   /**
-   * Attribute which sets mode for setting.
-   * Replace - replacing [attribute's]{@link UIPSetting#attribute} value with setting's value.
-   * Append - appending [attribute's]{@link UIPSetting#attribute} value to attribute's value.
+   * Attribute to set mode for setting.
+   * `replace` - replacing [attribute's]{@link UIPSetting#attribute} value with setting's value.
+   * `append` - appending [attribute's]{@link UIPSetting#attribute} value to attribute's value.
    */
   @attr({defaultValue: 'replace'}) public mode: 'replace' | 'append';
   /** Indicates whether setting supports multiple values selected or not. */
   @boolAttr() public multiple: boolean;
-  /** Select field for changing setting's value. */
+  /** Select field to change setting's value. */
   protected $field: ESLSelect;
 
   protected get settingOptions(): string[] {
