@@ -29,7 +29,7 @@ export default class TokenListUtils {
     return Array.from(arrays.reduce((intersect, arr) => {
       arr.forEach(val => !intersect.has(val) && intersect.delete(val));
       return intersect;
-    }, new Set(arrays[0]))) as T[];
+    }, new Set(arrays[0])));
   }
 
   /** Remove all element appearances from array. */

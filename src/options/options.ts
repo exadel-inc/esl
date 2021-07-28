@@ -13,13 +13,13 @@ export class UIPOptions extends UIPPlugin {
   static is = 'uip-options';
 
   /**
-   * Attribute for controlling UIP components layout.
-   * Has two values: vertical and horizontal.
+   * Attribute for controlling UIP components' layout.
+   * Has two values: `vertical` and `horizontal`.
    */
   @attr({defaultValue: 'vertical'}) public mode: string;
   /**
-   * Attribute for controlling UIP components theme.
-   * Has two values: uip-light and uip-dark.
+   * Attribute for controlling UIP components' theme.
+   * Has two values: `uip-light` and `uip-dark`.
    */
   @attr({defaultValue: 'uip-light'}) public theme: string;
 

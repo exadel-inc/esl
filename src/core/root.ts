@@ -12,7 +12,15 @@ export class UIPRoot extends ESLBaseElement {
   public static is = 'uip-root';
   private _model = new UIPStateModel();
 
+  /**
+   * Attribute for controlling UIP components' layout.
+   * Has two values: `vertical` and `horizontal`.
+   */
   @attr() public mode: string;
+  /**
+   * Attribute for controlling UIP components' theme.
+   * Has two values: `uip-light` and `uip-dark`.
+   */
   @attr() public theme: string;
 
   static get observedAttributes() {

@@ -20,6 +20,7 @@ interface EditorConfig {
   wrap?: number | boolean;
 }
 
+/** Interface to represent {@link UIPEditor's} theme. */
 interface Theme {
   [index: string]: string;
 }
@@ -34,11 +35,11 @@ export class UIPEditor extends UIPPlugin {
   /** Default [config]{@link EditorConfig} instance. */
   public static defaultOptions: EditorConfig = {
     theme: 'ace/theme/chrome',
-    mode: 'ace/mode/html',
     printMarginColumn: -1,
     wrap: true,
   };
 
+  /** Object to map dark/light themes to [Ace]{@link https://ace.c9.io/} themes. */
   static themesMapping: Theme = {
     'uip-light': 'ace/theme/chrome',
     'uip-dark': 'ace/theme/tomorrow_night'
@@ -47,7 +48,7 @@ export class UIPEditor extends UIPPlugin {
   /** Editor's [config]{@link EditorConfig} passed through attribute. */
   @jsonAttr()
   public editorConfig: EditorConfig;
-  /** Wrapped ACE editor instance. */
+  /** Wrapped [Ace]{@link https://ace.c9.io/} editor instance. */
   protected editor: Ace.Editor;
 
   /** {@link editorConfig} merged with {@link defaultOptions}. */
@@ -82,6 +83,7 @@ export class UIPEditor extends UIPPlugin {
 
     this.editor = edit(this.$inner);
     this.editor.setOption('useWorker', false);
+    this.editor.setOption('mode', 'ace/mode/html');
 
     this.initEditorOptions();
   }
@@ -113,6 +115,7 @@ export class UIPEditor extends UIPPlugin {
     this.initEditorOptions();
   }
 
+  /** Callback to catch theme changes from {@link UIPRoot}. */
   @bind
   protected _onRootConfigChange(e: CustomEvent) {
     if (e.detail.attribute !== 'theme') return false;
