@@ -29,7 +29,7 @@ export interface ElementRect extends ObjectRect {
   cy: number;
 }
 
-export interface IntersetionRatioRect {
+export interface IntersectionRatioRect {
   top?: number;
   left?: number;
   right?: number;
@@ -39,7 +39,7 @@ export interface IntersetionRatioRect {
 export interface PopupPositionConfig {
   position: PositionType;
   behavior: string;
-  intersectionRatio: IntersetionRatioRect,
+  intersectionRatio: IntersectionRatioRect,
   element: DOMRect;
   inner: ElementRect;
   outer: ObjectRect;

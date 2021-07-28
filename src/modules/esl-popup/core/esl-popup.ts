@@ -4,12 +4,12 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {prop} from '../../esl-utils/decorators/prop';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
-
-import {listScrollParents} from './listScrollParents';
+import {getListScrollParents} from '../../esl-utils/dom/scroll';
+import {getWindowRect} from '../../esl-utils/dom/window';
 import {calcPopupPosition, resizeRect} from './calcPosition';
 
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
-import type {PositionType, IntersetionRatioRect} from './calcPosition';
+import type {PositionType, IntersectionRatioRect} from './calcPosition';
 
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
 
@@ -39,7 +39,7 @@ export class ESLPopup extends ESLToggleable {
   protected _offsetWindow: number;
   protected _deferredUpdatePosition = rafDecorator(() => this._updatePosition());
   protected _activatorObserver: ActivatorObserver;
-  protected _intersectionRatio: IntersetionRatioRect = {};
+  protected _intersectionRatio: IntersectionRatioRect = {};
 
   @attr({defaultValue: 'top'}) public position: PositionType;
   @attr({defaultValue: 'fit'}) public behavior: string;
@@ -80,35 +80,6 @@ export class ESLPopup extends ESLToggleable {
 
   protected get _isPositioningAlongVertical() {
     return ['top', 'bottom'].includes(this.position);
-  }
-
-  // TODO: move to utilities
-  protected get _windowWidth() {
-    // return document.documentElement.clientWidth || document.body.clientWidth;
-    return window.innerWidth || document.documentElement.clientWidth;
-  }
-
-  protected get _windowHeight() {
-    return window.innerHeight || document.documentElement.clientHeight;
-  }
-
-  protected get _windowBottom() {
-    return window.pageYOffset + this._windowHeight;
-  }
-
-  protected get _windowRight() {
-    return window.pageXOffset + this._windowWidth;
-  }
-
-  protected get _windowRect() {
-    return {
-      top: window.pageYOffset + this._offsetWindow,
-      left: window.pageXOffset + this._offsetWindow,
-      right: this._windowRight - this._offsetWindow,
-      bottom: this._windowBottom - this._offsetWindow,
-      height: this._windowHeight,
-      width: this._windowWidth
-    };
   }
 
   public onShow(params: PopupActionParams) {
@@ -172,7 +143,7 @@ export class ESLPopup extends ESLToggleable {
   }
 
   protected _addActivatorObserver(target: HTMLElement) {
-    const scrollParents = listScrollParents(target);
+    const scrollParents = getListScrollParents(target);
 
     const unsubscribers = scrollParents.map(($root) => {
       const options = {passive: true} as EventListenerOptions;
@@ -238,7 +209,7 @@ export class ESLPopup extends ESLToggleable {
       element: popupRect,
       trigger,
       inner: resizeRect(trigger, innerMargin),
-      outer: resizeRect(this._windowRect, -this._offsetWindow)
+      outer: resizeRect(getWindowRect(), -this._offsetWindow)
     };
 
     const {left, top, arrow} = calcPopupPosition(config);
