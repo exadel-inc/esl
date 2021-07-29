@@ -1,15 +1,15 @@
-const { isDev } = require("./pages/views/_data/env");
-const htmlmin = require("html-minifier");
+const { isDev } = require('./pages/views/_data/env');
+const htmlmin = require('html-minifier');
 
 module.exports = (config) => {
   config.addPassthroughCopy({
-    "pages/static/assets": "assets",
-    "pages/static/tools": ".",
+    'pages/static/assets': 'assets',
+    'pages/static/tools': '.',
   });
 
-  config.addFilter("sortByName", (values) => {
+  config.addFilter('sortByName', (values) => {
     if (!values || !Array.isArray(values)) {
-      console.error(`Unexpected values in "sortByName" filter: ${values}`);
+      console.error(`Unexpected values in 'sortByName' filter: ${values}`);
       return values;
     }
     return [...values].sort((a, b) => a.data.name.localeCompare(b.data.name));
@@ -17,16 +17,16 @@ module.exports = (config) => {
 
   config.setBrowserSyncConfig({
     files: [
-      "pages/dist/bundles/*.js",
-      "pages/dist/bundles/*.css",
-      "pages/dist/bundles/*.map",
+      'pages/dist/bundles/*.js',
+      'pages/dist/bundles/*.css',
+      'pages/dist/bundles/*.map',
     ],
     open: isDev,
   });
 
-  config.addTransform("htmlmin", function (content, outputPath) {
-    if (outputPath && outputPath.endsWith(".html") && !isDev) {
-      return require(`html-minifier`).minify(content, {
+  config.addTransform('htmlmin', function (content, outputPath) {
+    if (outputPath && outputPath.endsWith('.html') && !isDev) {
+      let minified = htmlmin.minify(content, {
         useShortDoctype: true,
         removeComments: true,
         collapseWhitespace: true,
@@ -34,20 +34,21 @@ module.exports = (config) => {
         minifyJS: true,
         minifyCSS: true,
       });
+      return minified;
     }
     return content;
   });
 
   return {
     dir: {
-      input: "pages/views",
-      output: "pages/dist",
-      layouts: "_layouts",
+      input: 'pages/views',
+      output: 'pages/dist',
+      layouts: '_layouts',
     },
-    dataTemplateEngine: "njk",
-    htmlTemplateEngine: "njk",
+    dataTemplateEngine: 'njk',
+    htmlTemplateEngine: 'njk',
     passthroughFileCopy: true,
-    templateFormats: ["md", "njk"],
-    pathPrefix: "/esl/",
+    templateFormats: ['md', 'njk'],
+    pathPrefix: '/esl/',
   };
 };
