@@ -42,6 +42,8 @@ ESLEnvShortcuts.add('touch', DeviceDetector.isTouchDevice);
 ESLEnvShortcuts.add('bot', DeviceDetector.isBot);
 ESLEnvShortcuts.add('mobile', DeviceDetector.isMobile);
 ESLEnvShortcuts.add('desktop', !DeviceDetector.isMobile);
+ESLEnvShortcuts.add('android', DeviceDetector.isAndroid);
+ESLEnvShortcuts.add('ios', DeviceDetector.isMobileIOS);
 
 // Basic browser shortcuts
 ESLEnvShortcuts.add('ie', DeviceDetector.isIE);
@@ -49,3 +51,4 @@ ESLEnvShortcuts.add('edge', DeviceDetector.isEdgeHTML);
 ESLEnvShortcuts.add('gecko', DeviceDetector.isGecko);
 ESLEnvShortcuts.add('blink', DeviceDetector.isBlink);
 ESLEnvShortcuts.add('safari', DeviceDetector.isSafari);
+ESLEnvShortcuts.add('safari-ios', DeviceDetector.isMobileSafari);

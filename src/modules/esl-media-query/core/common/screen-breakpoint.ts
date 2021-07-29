@@ -29,8 +29,13 @@ export abstract class ESLScreenBreakpoints {
     throw new Error('Shortcut should consist only from Latin characters. Length should be at least one character.');
   }
 
+  /** Removes screen breakpoint */
+  public static remove(name: string): boolean {
+    return registry.delete(name.toLowerCase());
+  }
+
   /** @returns known breakpoint shortcut instance */
-  public static for(name: string) {
+  public static get(name: string) {
     return registry.get((name || '').toLowerCase());
   }
 
@@ -44,7 +49,7 @@ export abstract class ESLScreenBreakpoints {
   /** @returns breakpoints shortcut replacement */
   public static process(term: string) {
     const [, sign, bp] = term.match(ESLScreenBreakpoints.BP_REGEXP) || [];
-    const shortcut = ESLScreenBreakpoints.for(bp);
+    const shortcut = ESLScreenBreakpoints.get(bp);
     if (shortcut && sign === '+') return shortcut.mediaQueryGE;
     if (shortcut && sign === '-') return shortcut.mediaQueryLE;
     if (shortcut) return shortcut.mediaQuery;
