@@ -26,7 +26,7 @@ export abstract class ESLScreenBreakpoints {
       registry.set(name, new ESLScreenBreakpoint(name, minWidth, maxWidth));
       return current;
     }
-    throw new Error('Shortcut should consist only from Latin characters. Length should be at least one character.');
+    throw new Error('The shortcut should consist only of Latin characters and be at least one character long.');
   }
 
   /** Removes screen breakpoint */

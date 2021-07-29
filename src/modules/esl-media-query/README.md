@@ -19,13 +19,13 @@ having extra conditions inside the query (`all and all` still a valid condition)
 - Screen breakpoints shortcuts (e.g. `@XS`, `@md`, `@+LG`, `@-MD`)  
   Supports breakpoints declared in [ESLScreenBreakpoints](#eslscreenbreakpoints) registry.   
   Accepts modifiers like `+` for upper breakpoints and `-` for lower breakpoints.
-- Device and browser detection shortcuts registered trough [ESLEnvShortcuts](#eslenvshortcuts) registry.
+- Device and browser detection shortcuts that are registered through [ESLEnvShortcuts](#eslenvshortcuts) registry.
   The list of predefined environment shortcuts is the following:
   - `@BOT` - detects search/pagespeed bots
   - `@MOBILE` - detects mobile devices 
   - `@DESKTOP` - detects desktops
-  - `@ANDROID` - detect Android devices
-  - `@IOS` - detect iOS devices  
+  - `@ANDROID` - detects Android devices
+  - `@IOS` - detects iOS devices  
   - `@TOUCH` - cross-browser touch support detection
   - `@IE` - detects InternetExplorer 11
   - `@EDGE` - detects legacy Edge browser (<18) based on EdgeHTML engine
@@ -46,7 +46,7 @@ Use `ESLScreenBreakpoints.add` static method to change default or define your ow
 
 You can also use `ESLScreenBreakpoints.remove` to exclude breakpoint shortcut from registry.
 
-You can get all available screen breakpoints trough `ESLScreenBreakpoints.names` property or access full breakpoint 
+You can get all available screen breakpoints through `ESLScreenBreakpoints.names` property or access full breakpoint 
 definition trough `ESLScreenBreakpoints.get`.
 
 ---
@@ -63,7 +63,7 @@ Use `ESLScreenDPR.ignoreBotsDpr` marker to enable DPR ignoring for PageSpeed Bot
 
 ESLEnvShortcuts is a simple registry for a static shortcuts to describe environment related conditions
 
-An additional shortcuts can be added to the registry trough `ESLEnvShortcuts.add` method
+An additional shortcuts can be added to the registry through `ESLEnvShortcuts.add` method
 ESLEnvShortcuts allows adding boolean result that will be converted to `all` / `not all` query conditions or setup result as native MediaQuery string. 
 
 Environment shortcuts can be removed with `ESLEnvShortcuts.remove` method.
@@ -82,20 +82,20 @@ ESLMediaQuery is a central API to create an extended Media Query conditions.
    Not memoized in opposite to `ESLMediaQuery.for`;
 
  - Use `ESLMediaQuery.use` to register custom query preprocessor. 
-   Note: `ESLScreenBreakpoints`, `ESLScreenDPR`, `ESLEnvShortcuts` - are three preprocessors. that is registered by default.
+   Note: `ESLScreenBreakpoints`, `ESLScreenDPR`, `ESLEnvShortcuts` are three preprocessors that are registered by default.
    
-Note: ESLMediaQuery have no real instances technically it represents IMediaQueryConditionInterface which is implemented 
-by 4 types of conditions:
+Note: ESLMediaQuery has no real instances and represents `IMediaQueryConditionInterface` interface.
+`IMediaQueryConditionInterface` is implemented by 4 types of inner conditions:
   - `MediaQueryConstCondition` with only two possible instances `ALL` and `NOT_ALL`
   - `MediaQueryCondition` - simple wrapper around native MediaQueryList object
   - `MediaQueryConjunction` - `and` condition container
   - `MediaQueryDisjunction` - `or' condition container
 
-The `ESLMediaQuery` ( `IMediaQueryConditionInterface`) instances provides the following set of properties and methods:
-  - `matches` - boolean getter that return if the current environment configuration acceptable for current query
+The `ESLMediaQuery`(`IMediaQueryConditionInterface`) instances provide the following set of properties and methods:
+  - `matches` - boolean getter that returns if the current environment configuration is acceptable for current query condition
   - `addListener(cb)` - to subscribe on condition state changes
   - `removeListener(cb)` - to unsubscribe from condition state changes
-  - `optimize` - inner method to rebuild condition tree optimizing static and logic expressions.
+  - `optimize` - inner method to rebuild condition tree, and provide static and logic expression optimization.
 
 ---
 

@@ -28,7 +28,7 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
 
   /**
    * Creates `ESLMediaRuleList` from string query representation
-   * Uses exact strings as rule rIst values
+   * Uses exact strings as rule list values
    * @param query - query string
    */
   public static parse(query: string): ESLMediaRuleList<string>;
@@ -61,7 +61,7 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
   public static parseTuple(value: string, mask: string) {
     const values = value.split('|');
     const conditions = mask.split('|');
-    if (value.length !== conditions.length) throw new Error('Value is incompatible with the mask');
+    if (value.length !== conditions.length) throw new Error('Value doesn\'t correspond to mask');
     const rules = conditions.map((query, i) => new ESLMediaRule(values[i], query));
     return new ESLMediaRuleList(rules);
   }
