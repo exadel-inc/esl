@@ -6,6 +6,7 @@ import {rafDecorator} from '../../esl-utils/async/raf';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {TraversingUtils} from '../../esl-utils/dom/traversing';
 import {TraversingQuery} from '../../esl-traversing-query/core';
+import {RTLUtils} from '../../esl-utils/dom/rtl';
 
 /**
  * ESL Scrollbar component
@@ -175,14 +176,20 @@ export class ESLScrollbar extends ESLBaseElement {
   /** Relative position value (between 0.0 and 1.0) */
   public get position() {
     if (!this.$target) return 0;
-    const scrollOffset = this.horizontal ? this.$target.scrollLeft : this.$target.scrollTop;
+    const scrollOffset = this.horizontal ? RTLUtils.normalizeScrollLeft(this.$target) : this.$target.scrollTop;
     return this.scrollableSize ? (scrollOffset / this.scrollableSize) : 0;
   }
 
   public set position(position) {
-    const normalizedPosition = Math.min(1, Math.max(0, position));
-    this.scrollTargetTo(this.scrollableSize * normalizedPosition);
+    this.scrollTargetTo(this.scrollableSize * this.normalizePosition(position));
     this.update();
+  }
+
+  /** Normalize position value (between 0.0 and 1.0) */
+  protected normalizePosition(position: number) {
+    const relativePosition =  Math.min(1, Math.max(0, position));
+    if (this.$target && !RTLUtils.isRtl(this.$target)) return relativePosition;
+    return RTLUtils.scrollType === 'negative' ? (relativePosition - 1) : (1 - relativePosition);
   }
 
   /** Scroll target element to passed position */
