@@ -38,6 +38,8 @@ import '../../src/modules/esl-media/providers/html5/video-provider';
 import '../../src/modules/esl-media/providers/youtube-provider';
 import '../../src/modules/esl-media/providers/brightcove-provider';
 
+import {init} from '@exadel/ui-playground';
+
 import {
   ESLCarousel,
   ESLCarouselPlugins
@@ -75,3 +77,5 @@ ESLCarouselPlugins.Dots.register();
 ESLCarouselPlugins.Link.register();
 ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
+
+init();

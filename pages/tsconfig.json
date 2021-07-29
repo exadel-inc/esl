@@ -3,7 +3,8 @@
   "compilerOptions": {
     "rootDir": "../",
     "sourceMap": true,
-    "module": "esnext"
+    "module": "esnext",
+    "allowJs": true
   },
   "include": [
     "src"

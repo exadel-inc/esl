@@ -15,7 +15,8 @@ module.exports = {
   },
   module: {
     rules: [{
-      test: /\.ts?$/,
+      exclude: /node_modules\/(?!@exadel\/ui-playground)/,
+      test: /\.(ts|js)$/,
       loader: 'ts-loader',
       options: {
         compilerOptions: {
