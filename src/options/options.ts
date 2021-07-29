@@ -88,17 +88,22 @@ export class UIPOptions extends UIPPlugin {
     const mode = target.getAttribute('mode');
     const theme = target.getAttribute('theme');
 
-    if (mode) this.updateModeMarker(mode);
-    if (theme) this.updateThemeMarker(theme);
+    if (mode) {
+      this.mode = mode;
+      this.updateModeMarker(mode);
+    }
+
+    if (theme) {
+      this.theme = theme;
+      this.updateThemeMarker(theme);
+    }
   }
 
   protected updateModeMarker(mode: string) {
-    this.mode = mode;
     if (this.root) this.root.mode = mode;
   }
 
   protected updateThemeMarker(theme: string) {
-    this.theme = theme;
     if (this.root) this.root.theme = theme;
   }
 
