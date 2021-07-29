@@ -2,8 +2,7 @@ import {ESLScreenBreakpoints} from '../core';
 
 describe('ESLScreenBreakpoint tests', () => {
   test('Get all breakpoints (default)', () => {
-    expect(new Set(ESLScreenBreakpoints.names))
-      .toEqual(new Set(['xs', 'sm', 'md', 'lg', 'xl']));
+    expect(new Set(ESLScreenBreakpoints.names)).toEqual(new Set(['xs', 'sm', 'md', 'lg', 'xl']));
   })
 
   test('add and get custom breakpoints tests', () => {

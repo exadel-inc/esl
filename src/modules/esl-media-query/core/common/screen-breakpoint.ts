@@ -3,12 +3,56 @@ import {ExportNs} from '../../../esl-utils/environment/export-ns';
 const registry = new Map<string, ESLScreenBreakpoint>();
 
 /**
- * ESL Screen Breakpoint Registry
+ * ESL Screen Breakpoints registry
  * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
  *
- * Breakpoint Registry is used to provide custom breakpoints for ESL Query
+ * Screen Breakpoint registry is used to provide custom breakpoints for {@link ESLMediaQuery}
  */
-export class ESLScreenBreakpoint {  // TODO: split or not split
+@ExportNs('ScreenBreakpoint')
+export abstract class ESLScreenBreakpoints {
+  protected static readonly BP_REGEXP = /^([+-]?)([a-z]+)/i;
+  protected static readonly BP_NAME_REGEXP = /^[a-z]+/i;
+
+  /**
+   * Add or replace breakpoint shortcut that could be used inside of ESLMediaQuery
+   * @param name - name of shortcut
+   * @param minWidth - min width for breakpoint
+   * @param maxWidth - max width for breakpoint
+   */
+  public static add(name: string, minWidth: number, maxWidth: number): ESLScreenBreakpoint | undefined {
+    name = name.toLowerCase();
+    if (ESLScreenBreakpoints.BP_NAME_REGEXP.test(name)) {
+      const current = registry.get(name);
+      registry.set(name, new ESLScreenBreakpoint(name, minWidth, maxWidth));
+      return current;
+    }
+    throw new Error('Shortcut should consist only from Latin characters. Length should be at least one character.');
+  }
+
+  /** @returns known breakpoint shortcut instance */
+  public static for(name: string) {
+    return registry.get((name || '').toLowerCase());
+  }
+
+  /** All available breakpoints names */
+  public static get names() {
+    const keys: string[] = [];
+    registry.forEach((value, key) => keys.push(key));
+    return keys;
+  }
+
+  /** @returns breakpoints shortcut replacement */
+  public static process(term: string) {
+    const [, sign, bp] = term.match(ESLScreenBreakpoints.BP_REGEXP) || [];
+    const shortcut = ESLScreenBreakpoints.for(bp);
+    if (shortcut && sign === '+') return shortcut.mediaQueryGE;
+    if (shortcut && sign === '-') return shortcut.mediaQueryLE;
+    if (shortcut) return shortcut.mediaQuery;
+  }
+}
+
+/** ESL Screen Breakpoint description */
+export class ESLScreenBreakpoint {
   constructor(
     public readonly name: string,
     public readonly min: number,
@@ -29,49 +73,6 @@ export class ESLScreenBreakpoint {  // TODO: split or not split
 
   public toString() {
     return `[${this.name}]: ${this.min} to ${this.max}`;
-  }
-}
-
-@ExportNs('ScreenBreakpoint')
-export abstract class ESLScreenBreakpoints {
-  public static readonly BP_REGEXP = /^([+-]?)([a-z]+)/i;
-  public static readonly BP_NAME_REGEXP = /^[a-z]+/i;
-
-  /**
-   * Add or replace breakpoint shortcut that could be used inside of ESLMediaQuery
-   * @param name - name of shortcut
-   * @param minWidth - min width for breakpoint
-   * @param maxWidth - max width for breakpoint
-   */
-  public static add(name: string, minWidth: number, maxWidth: number): ESLScreenBreakpoint | undefined {
-    name = name.toLowerCase();
-    if (ESLScreenBreakpoints.BP_NAME_REGEXP.test(name)) {
-      const current = registry.get(name);
-      registry.set(name, new ESLScreenBreakpoint(name, minWidth, maxWidth));
-      return current;
-    }
-    throw new Error('Shortcut should consist only from Latin characters. Length should be at least one character.');
-  }
-
-  /** @return known breakpoint shortcut instance */
-  public static for(name: string) {
-    return registry.get((name || '').toLowerCase());
-  }
-
-  /** All available breakpoints names */
-  public static get names() {
-    const keys: string[] = [];
-    registry.forEach((value, key) => keys.push(key));
-    return keys;
-  }
-
-  /** @returns breakpoints shortcut replacement */
-  public static replace(term: string) {
-    const [, sign, bp] = term.match(ESLScreenBreakpoints.BP_REGEXP) || [];
-    const shortcut = ESLScreenBreakpoints.for(bp);
-    if (shortcut && sign === '+') return shortcut.mediaQueryGE;
-    if (shortcut && sign === '-') return shortcut.mediaQueryLE;
-    if (shortcut) return shortcut.mediaQuery;
   }
 }
 

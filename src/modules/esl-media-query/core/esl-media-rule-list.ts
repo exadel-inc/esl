@@ -10,6 +10,8 @@ export type RuleChangedCallback<T> = (rule: ESLMediaRule<T | undefined>, list: E
 /**
  * ESLMediaRuleList - {@link ESLMediaRule} observable collection
  * @author Yuliya Adamskaya
+ *
+ * Represents observable object that wraps environment to value mapping
  */
 @ExportNs('MediaRuleList')
 export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>> {
@@ -89,12 +91,6 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
     this._rules.forEach((rule) => rule.removeListener(this._onMatchChanged));
   }
 
-  /** Returns last active rule in the list */
-  get _activeRule(): ESLMediaRule<T | undefined> {
-    const satisfied = this.rules.filter((rule) => rule.matches);
-    return satisfied.length > 0 ? satisfied[satisfied.length - 1] : ESLMediaRule.empty();
-  }
-
   /** List of inner {@link ESLMediaRule}s */
   get rules() {
     return this._rules;
@@ -103,14 +99,15 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
   /** Cached active {@link ESLMediaRule} */
   get active() {
     if (!this._active) {
-      this._active = this._activeRule;
+      this._active = this.activeRule;
     }
     return this._active;
   }
 
-  /** {@link ESLMediaRule} that is used as a default */
-  get default() {
-    return this._default;
+  /** Returns last active rule in the list */
+  get activeRule(): ESLMediaRule<T | undefined> {
+    const satisfied = this.rules.filter((rule) => rule.matches);
+    return satisfied.length > 0 ? satisfied[satisfied.length - 1] : ESLMediaRule.empty();
   }
 
   /** Active rule payload value */
@@ -120,8 +117,14 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
     return Object.assign({}, this._default.payload || {}, value);
   }
 
+  /** {@link ESLMediaRule} that is used as a default */
+  get default() {
+    return this._default;
+  }
+
+  /** Handle inner rules state change */
   private _onMatchChanged() {
-    const rule = this._activeRule;
+    const rule = this.activeRule;
     if (this._active === rule) return;
     this.fire(this._active = rule, this);
   }

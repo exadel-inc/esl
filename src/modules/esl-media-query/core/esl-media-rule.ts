@@ -50,7 +50,6 @@ export class ESLMediaRule<T> {
     return this._default;
   }
 
-  // TODO: name and place
   /** Parse the rule string to the {@link ESLMediaRule} instance */
   public static parse<U>(lex: string, parser: PayloadParser<U>) {
     const parts = lex.split('=>');

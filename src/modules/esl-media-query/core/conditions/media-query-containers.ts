@@ -1,40 +1,49 @@
+import {Observable} from '../../../esl-utils/abstract/observable';
 import {ALL, NOT_ALL} from './media-query-base';
+
 import type {IMediaQueryCondition} from './media-query-base';
 
-// TODO: observer :(
-export class MediaQueryGroup implements IMediaQueryCondition {
+/**
+ * Abstract multiple media conditions container
+ * @author Alexey Stsefanovich (ala'n)
+ *
+ * Observe all child items. Dispatch changes when the whole condition result is changed
+ */
+class MediaQueryContainer extends Observable<(matches: boolean) => void> implements IMediaQueryCondition {
   private _matches: boolean;
-  private _listeners = new Set<(match: boolean) => void>();
 
   constructor(protected readonly items: IMediaQueryCondition[] = []) {
+    super();
     this._matches = this.matches;
     this._onChildChange = this._onChildChange.bind(this);
   }
 
-  protected _onChildChange() {
-    const {matches} = this;
-    if (this._matches ===  matches) return;
-    this._matches = matches;
-    this._listeners.forEach((cb) => cb.call(this, matches, this));
-  }
-
-  public addListener(listener: (match: boolean) => void) {
-    this._listeners.add(listener);
+  public addListener(listener: (matches: boolean) => void) {
+    super.addListener(listener);
     if (this._listeners.size > 1) return;
     this.items.forEach((item) => item.addListener(this._onChildChange));
   }
-  public removeListener(listener: (match: boolean) => void) {
-    this._listeners.delete(listener);
+  public removeListener(listener: (matches: boolean) => void) {
+    super.removeListener(listener);
     if (this._listeners.size) return;
     this.items.forEach((item) => item.removeListener(this._onChildChange));
   }
 
   public get matches() { return false; }
+
+  /** Exclude const conditions. Unwrap empty or trivial (with one item) containers */
   public optimize(): IMediaQueryCondition { return this; }
+
+  /** Handle query change and dispatch it on top level in case result value is changed */
+  protected _onChildChange() {
+    const {matches} = this;
+    if (this._matches ===  matches) return;
+    this.fire(this._matches = matches);
+  }
 }
 
-/** Conjunction(AND) group of media conditions */
-export class MediaQueryConjunction extends MediaQueryGroup{
+/** Conjunction (AND) group of media conditions */
+export class MediaQueryConjunction extends MediaQueryContainer {
   public get matches() {
     return this.items.every((item) => item.matches);
   }
@@ -53,8 +62,8 @@ export class MediaQueryConjunction extends MediaQueryGroup{
   }
 }
 
-/** Disjunction(OR) group of media conditions */
-export class MediaQueryDisjunction extends MediaQueryGroup{
+/** Disjunction (OR) group of media conditions */
+export class MediaQueryDisjunction extends MediaQueryContainer {
   public get matches() {
     return this.items.some((item) => item.matches);
   }

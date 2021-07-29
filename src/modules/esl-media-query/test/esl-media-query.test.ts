@@ -21,6 +21,21 @@ describe('ESLMediaQuery', () => {
     ESLScreenBreakpoints.add('small', 100, 200);
   });
 
+  describe('Trivial cases',  () => {
+    test.each([
+      ['', ''],
+      ['all', 'all'],
+      ['not all', 'not all']
+    ])('Apply tests for %p breakpoint', (query, expected) => {
+      expect(ESLMediaQuery.from(query).toString()).toBe(expected);
+    });
+
+    test('Const query instances', () => {
+      expect(ESLMediaQuery.from('all')).toBe(ESLMediaQuery.ALL);
+      expect(ESLMediaQuery.from('not all')).toBe(ESLMediaQuery.NOT_ALL);
+    });
+  });
+
   describe('Breakpoint shortcuts',  () => {
     test.each([
       ['@xs', '(min-width: 1px) and (max-width: 767px)'],
@@ -126,7 +141,6 @@ describe('ESLMediaQuery', () => {
 
   describe('Edge cases', () => {
     test.each([
-      ['', ''],
       ['@smnot', '@smnot'],
       ['@+smnot', '@+smnot'],
       ['2x', '2x'],
@@ -172,6 +186,17 @@ describe('ESLMediaQuery', () => {
       ])('Combination %s', (query, expected) => {
         expect(ESLMediaQuery.from(query).toString()).toBe(expected);
       });
+    });
+  });
+
+  describe('Cache test', () => {
+    test.each([
+      ['all'],
+      ['not all'],
+      ['@xs'],
+      ['@xs or @xl']
+    ])('Apply tests for %p breakpoint', (query) => {
+      expect(ESLMediaQuery.for(query)).toBe(ESLMediaQuery.for(query));
     });
   });
 })
