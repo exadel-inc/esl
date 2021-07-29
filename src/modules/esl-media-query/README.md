@@ -47,7 +47,7 @@ Use `ESLScreenBreakpoints.add` static method to change default or define your ow
 You can also use `ESLScreenBreakpoints.remove` to exclude breakpoint shortcut from registry.
 
 You can get all available screen breakpoints through `ESLScreenBreakpoints.names` property or access full breakpoint 
-definition trough `ESLScreenBreakpoints.get`.
+definition through `ESLScreenBreakpoints.get`.
 
 ---
 

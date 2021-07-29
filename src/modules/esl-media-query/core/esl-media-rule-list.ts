@@ -61,7 +61,7 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
   public static parseTuple(value: string, mask: string) {
     const values = value.split('|');
     const conditions = mask.split('|');
-    if (value.length !== conditions.length) throw new Error('Value doesn\'t correspond to mask');
+    if (values.length !== conditions.length) throw new Error('Value doesn\'t correspond to mask');
     const rules = conditions.map((query, i) => new ESLMediaRule(values[i], query));
     return new ESLMediaRuleList(rules);
   }
@@ -92,33 +92,33 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
   }
 
   /** List of inner {@link ESLMediaRule}s */
-  get rules() {
+  public get rules() {
     return this._rules;
   }
 
   /** Cached active {@link ESLMediaRule} */
-  get active() {
-    if (!this._active) {
+  public get active() {
+    if (!this._active || !this._listeners.size) {
       this._active = this.activeRule;
     }
     return this._active;
   }
 
   /** Returns last active rule in the list */
-  get activeRule(): ESLMediaRule<T | undefined> {
+  public get activeRule(): ESLMediaRule<T | undefined> {
     const satisfied = this.rules.filter((rule) => rule.matches);
     return satisfied.length > 0 ? satisfied[satisfied.length - 1] : ESLMediaRule.empty();
   }
 
   /** Active rule payload value */
-  get activeValue(): T | undefined {
+  public get activeValue(): T | undefined {
     const value = this.active.payload;
     if (isPrimitive(value) || !this.default || isPrimitive(this.default.payload)) return value;
     return Object.assign({}, this._default.payload || {}, value);
   }
 
   /** {@link ESLMediaRule} that is used as a default */
-  get default() {
+  public get default() {
     return this._default;
   }
 
