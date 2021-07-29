@@ -1,3 +1,5 @@
+import {Rect} from './rect';
+
 /**
  * Get the window object associated with a document of the specified element.
  * @param node - element for which to get window
@@ -61,13 +63,11 @@ export function getWindowWidth(): number {
  * Get the size and position of the window.
  * @returns
  */
-export function getWindowRect() {
-  return {
-    top: getWindowTop(),
-    left: getWindowLeft(),
-    right: getWindowRight(),
-    bottom: getWindowBottom(),
+export function getWindowRect(): Rect {
+  return Rect.from({
+    x: getWindowLeft(),
+    y: getWindowTop(),
     height: getWindowHeight(),
     width: getWindowWidth()
-  };
+  });
 }
