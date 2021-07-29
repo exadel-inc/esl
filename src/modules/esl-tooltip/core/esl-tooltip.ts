@@ -4,7 +4,7 @@ import {ESLPopup} from '../../esl-popup/core';
 import {memoize} from '../../esl-utils/decorators/memoize';
 
 import type {PopupActionParams} from '../../esl-popup/core';
-import type {PositionType} from '../../esl-popup/core/calcPosition';
+import type {PositionType} from '../../esl-popup/core/esl-popup-position';
 
 export interface TooltipActionParams extends PopupActionParams {
   /** text to be shown */
