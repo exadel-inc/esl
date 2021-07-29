@@ -3,6 +3,8 @@ export const isObjectLike = (obj: any) => isObject(obj) || typeof obj === 'funct
 export const isPrimitive = (obj: any): obj is string | number | boolean =>
   typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean';
 
+export const isPrototype = (obj: any) => Object.hasOwnProperty.call(obj, 'constructor');
+
 export type CopyPredicate = (key: string, value: any) => boolean;
 
 /** Deep object compare */
@@ -87,3 +89,28 @@ export const get = (data: any, path: string, defaultValue?: any): any => {
   }, data);
   return typeof result === 'undefined' ? defaultValue : result;
 };
+
+/**
+ * Performs a deep merge of objects and returns new object.
+ * Does not modify objects (immutable)
+ * @param objects to merge
+ * @returns new object with merged key/values
+ */
+export function deepMerge(...objects: any[]): any {
+  return objects.reduce((res: any, obj: any) => {
+    isObject(obj) && Object.keys(obj).forEach((key) => {
+      const resultVal = res[key];
+      const objectVal = obj[key];
+
+      if (Array.isArray(objectVal)) {
+        res[key] = objectVal.slice();
+      } else if (isObject(resultVal) && isObject(objectVal)) {
+        res[key] = deepMerge(resultVal, objectVal);
+      } else {
+        res[key] = objectVal;
+      }
+    });
+
+    return res;
+  }, {});
+}
