@@ -43,6 +43,9 @@ export class MediaQueryCondition implements IMediaQueryCondition {
   }
 
   public toString() {
-    return (this._inverted ? 'not ' : '') + this._mq.media;
+    const query = this._mq.media;
+    const inverted = this._inverted;
+    const complex = inverted && /\)[\s\w]+\(/.test(query);
+    return (inverted ? 'not ' : '') + (complex ? `(${query})` : query);
   }
 }

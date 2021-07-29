@@ -28,6 +28,7 @@ export interface IMediaQueryPreprocessor {
  * - Device and browser shortcuts (@MOBILE|@DESKTOP|@ie)
  * - Custom static shortcuts and custom query preprocessors
  * - `not` logic operation (can have multiple not operators before any term of the query)
+ * - `or` or `,` logical operator (have a lowest priority)
  * - Query matching change listeners
  *
  * Building query process:

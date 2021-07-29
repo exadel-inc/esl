@@ -1,3 +1,4 @@
+export * from './core/common/env-shortcuts';
 export * from './core/common/screen-dpr';
 export * from './core/common/screen-breakpoint';
 

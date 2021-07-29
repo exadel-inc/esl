@@ -11,9 +11,6 @@ import './common/test-media-source';
 // With Namespace
 import '../../src/modules/lib';
 
-// Init MediaQuery defaults
-import '../../src/modules/esl-media-query/core';
-
 import {
   ESLImage,
   ESLMedia,

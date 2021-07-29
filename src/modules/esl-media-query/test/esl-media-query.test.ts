@@ -52,7 +52,7 @@ describe('ESLMediaQuery', () => {
     });
 
     test.each([
-      ['not @small', 'not (min-width: 100px) and (max-width: 200px)'],
+      ['not @small', 'not ((min-width: 100px) and (max-width: 200px))'],
       ['not @+sm', 'not (min-width: 768px)'],
       ['not @-md', 'not (max-width: 1199px)'],
     ])('Inverted replacement %p', (query, expected) => {
