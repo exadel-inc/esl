@@ -38,20 +38,6 @@ export abstract class RTLUtils {
         return value;
     }
   }
-
-  static normalizeScrollPosition(el: HTMLElement, value: number, isRtl: boolean = RTLUtils.isRtl()): number {
-    if (!isRtl) return value;
-
-    const scrollableSize = el.scrollWidth - el.clientWidth;
-    switch (RTLUtils.scrollType) {
-      case 'negative':
-        return -(scrollableSize - value);
-      case 'reverse':
-        return scrollableSize - value;
-      default:
-        return value;
-    }
-  }
 }
 
 /** Creates the dummy test element with a horizontal scroll presented */
