@@ -1,22 +1,43 @@
 import {Observable} from '@exadel/esl/modules/esl-utils/abstract/observable';
 import {UIPPlugin} from './plugin';
 
+/** Type for function to change attribute's current value. */
 export type TransformSignature = (current: string | null) => string | boolean | null;
 
+/** Config for changing attribute's value. */
 export type ChangeAttrConfig = {
+  /** CSS query to find target elements. */
   target: string,
+  /** Attribute to change. */
   attribute: string,
+  /** Changes initiator. */
   modifier: UIPPlugin
 } & ({
+  /** New {@link attribute} value. */
   value: string | boolean
 } | {
+  /**
+   * Function to transform(update)
+   * {@link attribute} value.
+   */
   transform: TransformSignature
 });
 
+/**
+ * State holder class to store current UIP markup state.
+ * Provides methods to modify the state.
+ * @extends Observable
+ */
 export class UIPStateModel extends Observable {
   private _html = new DOMParser().parseFromString('', 'text/html').body;
+  /** Last {@link UIPPlugin} element which changed markup. */
   private _lastModifier: UIPPlugin;
 
+  /**
+   * Set current markup state to the passed one.
+   * @param markup - new state
+   * @param modifier - plugin, that initiate the change
+   */
   public setHtml(markup: string, modifier: UIPPlugin) {
     const root = new DOMParser().parseFromString(markup, 'text/html').body;
 
@@ -35,20 +56,23 @@ export class UIPStateModel extends Observable {
     return this._lastModifier;
   }
 
+  /**
+   * Get attribute values for the matched set of elements.
+   * @param target - CSS sector to define target elements
+   * @param attr - attribute name
+   * @returns array of matched elements attribute value (uses the element placement order)
+   */
   public getAttribute(target: string, attr: string): (string | null)[] {
     return Array.from(this._html.querySelectorAll(target)).map(el => el.getAttribute(attr));
   }
 
+  /** Apply change config to current markup. */
   public changeAttribute(cfg: ChangeAttrConfig) {
     const {target, attribute, modifier} = cfg;
     const elements = Array.from(this._html.querySelectorAll(target));
     if (!elements.length) return;
 
-    if ('transform' in cfg) {
-      UIPStateModel.setAttribute(elements, attribute, cfg.transform);
-    } else {
-      UIPStateModel.setAttribute(elements, attribute, cfg.value);
-    }
+    UIPStateModel.setAttribute(elements, attribute, 'transform' in cfg ? cfg.transform : cfg.value);
     this._lastModifier = modifier;
     this.fire();
   }

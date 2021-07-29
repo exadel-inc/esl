@@ -5,14 +5,29 @@ import {ChangeAttrConfig, UIPStateModel} from '../../../core/state-model';
 import TokenListUtils from '../../../utils/token-list/token-list-utils';
 import {WARN} from '../../../utils/warn-messages/warn';
 
+/**
+ * Custom setting to add/remove attributes or append values to attribute.
+ * @extends UIPSetting
+ */
 export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';
+  /** CSS Class added when setting has inconsistent state. */
   public static inconsistencyClass = 'inconsistency-marker';
 
+  /** Setting's visible name. */
   @attr({defaultValue: ''}) public label: string;
+  /**
+   * Value for updating [attribute's]{@link UIPSetting#attribute} value.
+   * If it's unset, setting adds/removes [attribute]{@link UIPSetting#attribute}.
+   */
   @attr({defaultValue: ''}) public value: string;
+  /**
+   * Attribute to set mode for setting.
+   * `replace` - replacing [attribute's]{@link UIPSetting#attribute} value with setting's value.
+   * `append` - appending [attribute's]{@link UIPSetting#attribute} value to attribute's value.
+   */
   @attr({defaultValue: 'replace'}) public mode: 'replace' | 'append';
-
+  /** Checkbox field to change setting's value. */
   protected $field: HTMLInputElement;
 
   protected connectedCallback() {
@@ -61,6 +76,7 @@ export class UIPBoolSetting extends UIPSetting {
     this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
   }
 
+  /** Update setting's value for replace {@link mode}. */
   protected updateReplace(attrValues: (string | null)[]): void {
     if (!TokenListUtils.hasSameElements(attrValues)) {
       return this.setInconsistency(WARN.multiple);
@@ -69,6 +85,7 @@ export class UIPBoolSetting extends UIPSetting {
     return this.setValue((this.value && attrValues[0] !== this.value) ? null : attrValues[0]);
   }
 
+  /** Update setting's value for append {@link mode}. */
   protected updateAppend(attrValues: (string | null)[]): void {
     const containsFunction = (val: string | null) =>
       TokenListUtils.contains(TokenListUtils.split(val), [this.value]);
