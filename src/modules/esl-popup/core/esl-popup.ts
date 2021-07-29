@@ -4,12 +4,13 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {prop} from '../../esl-utils/decorators/prop';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
+import {Rect} from '../../esl-utils/dom/rect';
 import {getListScrollParents} from '../../esl-utils/dom/scroll';
 import {getWindowRect} from '../../esl-utils/dom/window';
-import {calcPopupPosition, resizeRect} from './calcPosition';
+import {calcPopupPosition} from './esl-popup-position';
 
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
-import type {PositionType, IntersectionRatioRect} from './calcPosition';
+import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
 
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
 
@@ -119,7 +120,7 @@ export class ESLPopup extends ESLToggleable {
       return;
     }
 
-    if (entry.intersectionRect.top !== entry.boundingClientRect.top) {
+    if (entry.intersectionRect.y !== entry.boundingClientRect.y) {
       this._intersectionRatio.top = entry.intersectionRect.height / entry.boundingClientRect.height;
       this._checkIntersectionForAdjacentAxis(this._isPositioningAlongHorizontal, this._intersectionRatio.top);
     }
@@ -127,7 +128,7 @@ export class ESLPopup extends ESLToggleable {
       this._intersectionRatio.bottom = entry.intersectionRect.height / entry.boundingClientRect.height;
       this._checkIntersectionForAdjacentAxis(this._isPositioningAlongHorizontal, this._intersectionRatio.bottom);
     }
-    if (entry.intersectionRect.left !== entry.boundingClientRect.left) {
+    if (entry.intersectionRect.x !== entry.boundingClientRect.x) {
       this._intersectionRatio.left = entry.intersectionRect.width / entry.boundingClientRect.width;
       this._checkIntersectionForAdjacentAxis(this._isPositioningAlongVertical, this._intersectionRatio.left);
     }
@@ -183,24 +184,11 @@ export class ESLPopup extends ESLToggleable {
   protected _updatePosition() {
     if (!this.activator) return;
 
-    console.time('_updatePosition');
-
     const triggerRect = this.activator.getBoundingClientRect();
     const popupRect = this.getBoundingClientRect();
     const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new DOMRect();
-
+    const trigger = new Rect(triggerRect.x, triggerRect.y + window.pageYOffset, triggerRect.width, triggerRect.height);
     const innerMargin = this._offsetTrigger + arrowRect.width / 2;
-
-    const trigger = {
-      top: triggerRect.top + window.pageYOffset,
-      left: triggerRect.left,
-      right: triggerRect.right,
-      bottom: triggerRect.bottom + window.pageYOffset,
-      height: triggerRect.height,
-      width: triggerRect.width,
-      cx: triggerRect.left + triggerRect.width / 2,
-      cy: triggerRect.top  + window.pageYOffset + triggerRect.height / 2
-    };
 
     const config = {
       position: this.position,
@@ -208,22 +196,21 @@ export class ESLPopup extends ESLToggleable {
       intersectionRatio: this._intersectionRatio,
       element: popupRect,
       trigger,
-      inner: resizeRect(trigger, innerMargin),
-      outer: resizeRect(getWindowRect(), -this._offsetWindow)
+      inner: Rect.from(trigger).grow(innerMargin),
+      outer: getWindowRect().shrink(this._offsetWindow)
     };
 
-    const {left, top, arrow} = calcPopupPosition(config);
+    const {x, y, arrow} = calcPopupPosition(config);
 
     // set popup position
-    this.style.left = `${left}px`;
-    this.style.top = `${top}px`;
+    this.style.left = `${x}px`;
+    this.style.top = `${y}px`;
 
     // set arrow position
     if (this.$arrow) {
-      this.$arrow.style.left = ['top', 'bottom'].includes(arrow.position) ? `${arrow.left}px` : 'none';
-      this.$arrow.style.top = ['left', 'right'].includes(arrow.position) ? `${arrow.top}px` : 'none';
+      this.$arrow.style.left = ['top', 'bottom'].includes(arrow.position) ? `${arrow.x}px` : 'none';
+      this.$arrow.style.top = ['left', 'right'].includes(arrow.position) ? `${arrow.y}px` : 'none';
       this._arrowPosition = arrow.position;
     }
-    console.timeEnd('_updatePosition');
   }
 }
