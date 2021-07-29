@@ -1,3 +1,10 @@
+# [1.0.0-beta.4](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2021-07-29)
+
+
+### Bug Fixes
+
+* add js-beautify types to dependencies, specify npm css path ([4477ad8](https://github.com/exadel-inc/ui-playground/commit/4477ad835bde001419b445e37e7c3a1bfda5df2f))
+
 # [1.0.0-beta.3](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2021-07-27)
 
 
