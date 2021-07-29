@@ -1,6 +1,8 @@
 import baseCfg from './webpack.config.js';
 
-export default Object.assign({}, baseCfg, {
-  mode: 'production',
-  devtool: false
+export default baseCfg.map((config) => {
+  return Object.assign({}, config, {
+    mode: 'production',
+    devtool: false
+  });
 });
