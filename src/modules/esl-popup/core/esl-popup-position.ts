@@ -161,15 +161,10 @@ function fitByMinorAxisVertical(cfg: PopupPositionConfig, rect: Rect, arrow: Arr
 function fitByMinorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: ArrowPositionValue) {
   if (cfg.behavior !== 'fit') return;
 
-  switch (cfg.position) {
-    case 'left':
-    case 'right':
-      fitByMinorAxisVertical(cfg, rect, arrow);
-      break;
-    case 'bottom':
-    default:
-      fitByMinorAxisHorizontal(cfg, rect, arrow);
-      break;
+  if (['left', 'right'].includes(cfg.position)) {
+    fitByMinorAxisVertical(cfg, rect, arrow);
+  } else {
+    fitByMinorAxisHorizontal(cfg, rect, arrow);
   }
 }
 
