@@ -1,6 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, jsonAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
+import {ready} from '../../esl-utils/decorators/ready';
 import {prop} from '../../esl-utils/decorators/prop';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
@@ -55,12 +56,10 @@ export class ESLPopup extends ESLToggleable {
   @prop() public closeOnEsc = true;
   @prop() public closeOnOutsideAction = true;
 
+  @ready
   public connectedCallback() {
     super.connectedCallback();
-
-    setTimeout(() => {
-      this.$arrow = this.querySelector('span.esl-popup-arrow');
-    });
+    this.$arrow = this.querySelector('span.esl-popup-arrow');
   }
 
   protected bindEvents() {
