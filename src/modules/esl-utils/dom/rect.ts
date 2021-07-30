@@ -2,21 +2,13 @@
  * A Rect describes the size and position of a rectangle.
  * */
 export class Rect {
-  /**
-   * The X coordinate of the Rect's origin (top-left corner of the rectangle).
-   * */
+  /** The X coordinate of the Rect's origin (top-left corner of the rectangle). */
   public x = 0;
-  /**
-   * The Y coordinate of the Rect's origin (top-left corner of the rectangle).
-   * */
+  /** The Y coordinate of the Rect's origin (top-left corner of the rectangle). */
   public y = 0;
-  /**
-   * The width of the Rect.
-   * */
+  /** The width of the Rect. */
   public width = 0;
-  /**
-   * The height of the Rect.
-   * */
+  /** The height of the Rect. */
   public height = 0;
 
   /**
@@ -24,27 +16,14 @@ export class Rect {
    * @param rect - rect-like object
    * */
   public static from(rect: {x?: number; y?: number; width?: number; height?: number} = {}): Rect {
-    return new this(
-      rect.x ?? 0,
-      rect.y ?? 0,
-      rect.width ?? 0,
-      rect.height ?? 0,
-    );
+    return new this(rect.x, rect.y, rect.width, rect.height);
   }
 
   public constructor(x?: number, y?: number, width?: number, height?: number) {
-    if (x != null) {
-      this.x = x;
-    }
-    if (y != null) {
-      this.y = y;
-    }
-    if (width != null) {
-      this.width = width;
-    }
-    if (height != null) {
-      this.height = height;
-    }
+    this.x = x || 0;
+    this.y = y || 0;
+    this.width= width || 0;
+    this.height = height || 0;
   }
 
   /**
