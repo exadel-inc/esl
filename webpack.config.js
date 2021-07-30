@@ -64,14 +64,12 @@ const baseConf = {
 export default [
   Object.assign({}, baseConf, {
     module: {
-      noParse: [/\/ace-builds\//, /\/js-beautify\//],
       rules: [tsToEs5Loader, lessLoaderConf]
     },
     output: Object.assign({}, output, {filename: '[name].es5.js'})
   }),
   Object.assign({}, baseConf, {
     module: {
-      noParse: [/\/ace-builds\//, /\/js-beautify\//],
       rules: [tsToEs6Loader, lessLoaderConf]
     },
     output: Object.assign({}, output)
