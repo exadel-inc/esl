@@ -50,9 +50,10 @@ export abstract class ESLScreenBreakpoints {
   public static process(term: string) {
     const [, sign, bp] = term.match(ESLScreenBreakpoints.BP_REGEXP) || [];
     const shortcut = ESLScreenBreakpoints.get(bp);
-    if (shortcut && sign === '+') return shortcut.mediaQueryGE;
-    if (shortcut && sign === '-') return shortcut.mediaQueryLE;
-    if (shortcut) return shortcut.mediaQuery;
+    if (!shortcut) return;
+    if (sign === '+') return shortcut.mediaQueryGE;
+    if (sign === '-') return shortcut.mediaQueryLE;
+    return shortcut.mediaQuery;
   }
 }
 

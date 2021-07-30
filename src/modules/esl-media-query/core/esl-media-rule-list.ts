@@ -55,14 +55,14 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
    * @example
    * ESLMediaRuleList.fromTuple('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL')
    *
-   * @param value - values tuple string (uses '|' as separator)
+   * @param values - values tuple string (uses '|' as separator)
    * @param mask - media conditions tuple string (uses '|' as separator)
    */
-  public static parseTuple(value: string, mask: string) {
-    const values = value.split('|');
+  public static parseTuple(values: string, mask: string) {
+    const valueList = values.split('|');
     const conditions = mask.split('|');
-    if (values.length !== conditions.length) throw new Error('Value doesn\'t correspond to mask');
-    const rules = conditions.map((query, i) => new ESLMediaRule(values[i], query));
+    if (valueList.length !== conditions.length) throw new Error('Value doesn\'t correspond to mask');
+    const rules = conditions.map((query, i) => new ESLMediaRule(valueList[i], query));
     return new ESLMediaRuleList(rules);
   }
 
