@@ -1,3 +1,10 @@
+# [1.0.0-beta.6](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2021-07-30)
+
+
+### Bug Fixes
+
+* remove webpack noParse configuration ([ce0dc38](https://github.com/exadel-inc/ui-playground/commit/ce0dc382ffc4cc28a29e62ffad24aed0eeaeaef7))
+
 # [1.0.0-beta.5](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2021-07-29)
 
 
