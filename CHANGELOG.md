@@ -1,3 +1,11 @@
+# [1.0.0-beta.5](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2021-07-29)
+
+
+### Bug Fixes
+
+* add es5 output ([96fabbb](https://github.com/exadel-inc/ui-playground/commit/96fabbb8fe6739010589c303d8f809a53a628e44))
+* fix webpack.config.prod ([361cfa9](https://github.com/exadel-inc/ui-playground/commit/361cfa97c9dc56849be71ff84ae406920fd6d60c))
+
 # [1.0.0-beta.4](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2021-07-29)
 
 
