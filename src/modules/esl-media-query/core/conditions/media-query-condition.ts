@@ -13,7 +13,7 @@ export class MediaQueryCondition implements IMediaQueryCondition {
 
   constructor(query: string, inverted = false) {
     this._inverted = inverted;
-    this._mq = matchMedia(query.trim());
+    this._mq = matchMedia(query.trim() || 'all');
   }
 
   public get matches() {

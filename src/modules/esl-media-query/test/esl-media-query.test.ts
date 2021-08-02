@@ -1,5 +1,7 @@
 import {DDMock} from '../../esl-utils/test/deviceDetector.mock';
 import {ESLMediaQuery, ESLScreenBreakpoints, ESLScreenDPR} from '../core';
+import {getMatchMediaMock, matchMediaMock} from '../../esl-utils/test/matchMedia.mock';
+import {NOT_ALL} from '../core/conditions/media-query-base';
 
 /**
  * ESL Media Query tests
@@ -22,11 +24,15 @@ describe('ESLMediaQuery', () => {
 
   describe('Trivial cases', () => {
     test.each([
-      ['', ''],
+      ['', 'all'],
       ['all', 'all'],
       ['not all', 'not all']
     ])('Apply tests for %p breakpoint', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
+    });
+
+    test('Empty query', () => {
+      expect(ESLMediaQuery.from('')).toBe(ESLMediaQuery.ALL);
     });
 
     test('Const query instances', () => {
