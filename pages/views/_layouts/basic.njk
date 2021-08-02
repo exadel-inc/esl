@@ -40,5 +40,7 @@
     {% include 'footer.njk' %}
   </footer>
 
+  {% block extra_body %}{% endblock %}
+
   <script src="{{ '/bundles/localdev.js' | url }}"></script>
 {% endblock %}
