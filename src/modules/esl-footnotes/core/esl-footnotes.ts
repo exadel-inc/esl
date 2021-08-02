@@ -24,7 +24,7 @@ export class ESLFootnotes extends ESLBaseElement {
     super.connectedCallback();
 
     this.bindEvents();
-    EventUtils.dispatch(this, `${ESLNote.eventNs}:request`);
+    this._sendRequestToNote();
   }
 
   protected disconnectedCallback() {
@@ -101,5 +101,9 @@ export class ESLFootnotes extends ESLBaseElement {
       const note = index ? this._notes.find((el) => el.index === +index) : null;
       note?.activate();
     }
+  }
+
+  protected _sendRequestToNote() {
+    EventUtils.dispatch(this, `${ESLNote.eventNs}:request`);
   }
 }
