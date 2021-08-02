@@ -74,7 +74,7 @@
     "@11ty/eleventy": "^0.12.1",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
-    "@exadel/ui-playground": "https://github.com/exadel-inc/ui-playground/releases/download/v1.0.0-beta.5/exadel-ui-playground-1.0.0-beta.5.tgz",
+    "@exadel/ui-playground": "https://github.com/exadel-inc/ui-playground/releases/download/v1.0.0-beta.6/exadel-ui-playground-1.0.0-beta.6.tgz",
     "@juggle/resize-observer": "^3.3.1",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/commit-analyzer": "^8.0.1",

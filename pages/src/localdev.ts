@@ -38,8 +38,6 @@ import '../../src/modules/esl-media/providers/html5/video-provider';
 import '../../src/modules/esl-media/providers/youtube-provider';
 import '../../src/modules/esl-media/providers/brightcove-provider';
 
-import {init} from '@exadel/ui-playground';
-
 import {
   ESLCarousel,
   ESLCarouselPlugins
@@ -78,4 +76,7 @@ ESLCarouselPlugins.Link.register();
 ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
 
-init();
+// @ts-ignore
+import (/* webpackChunkName: "playground" */'@exadel/ui-playground/lib/playground.run.js').then(
+  (uip) => uip.init()
+);
