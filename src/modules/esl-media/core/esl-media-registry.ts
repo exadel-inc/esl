@@ -8,7 +8,7 @@ let evRegistryInstance: ESLMediaProviderRegistry | null = null;
  * ESLMediaProviderRegistry class to store media API providers
  * @author Yuliya Adamskaya, Natallia Harshunova
  */
-export class ESLMediaProviderRegistry extends Observable {
+export class ESLMediaProviderRegistry extends Observable<(name: string, provider: ProviderType) => void> {
   private providersMap: Map<string, ProviderType> = new Map();
 
   public static get instance() {
