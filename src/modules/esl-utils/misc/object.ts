@@ -91,11 +91,30 @@ export const get = (data: any, path: string, defaultValue?: any): any => {
 };
 
 /**
- * Performs a deep merge of objects and returns new object.
- * Does not modify objects (immutable)
- * @param objects to merge
+ * Performs a deep copy of object.
+ * @returns deep copy of the object
+ */
+export function deepMerge<T>(obj: T): T;
+/**
+ * Performs a deep merge of two objects. Does not modify objects (immutable)
  * @returns new object with merged key/values
  */
+export function deepMerge<T, U>(obj1: T, obj2: U): T & U;
+/**
+ * Performs a deep merge of three objects. Does not modify objects (immutable)
+ * @returns new object with merged key/values
+ */
+export function deepMerge<T, U, V>(obj1: T, obj2: U, obj3: V): T & U & V;
+/**
+ * Performs a deep merge of four objects. Does not modify objects (immutable)
+ * @returns new object with merged key/values
+ */
+export function deepMerge<T, U, V, W>(obj1: T, obj2: U, obj3: V, obj4: W): T & U & V & W;
+/**
+ * Performs a deep merge of objects and returns new object. Does not modify objects (immutable)
+ * @returns new object with merged key/values
+ */
+export function deepMerge(...objects: any[]): any;
 export function deepMerge(...objects: any[]): any {
   return objects.reduce((res: any, obj: any) => {
     isObject(obj) && Object.keys(obj).forEach((key) => {
@@ -103,14 +122,18 @@ export function deepMerge(...objects: any[]): any {
       const objectVal = obj[key];
 
       if (Array.isArray(objectVal)) {
+        // TODO: fix array copy
         res[key] = objectVal.slice();
-      } else if (isObject(resultVal) && isObject(objectVal)) {
-        res[key] = deepMerge(resultVal, objectVal);
+      } else if (isObject(objectVal)) {
+        if (typeof resultVal === 'undefined') {
+          res[key] = deepMerge(objectVal);
+        } else {
+          res[key] = deepMerge(resultVal, objectVal);
+        }
       } else {
         res[key] = objectVal;
       }
     });
-
     return res;
   }, {});
 }
