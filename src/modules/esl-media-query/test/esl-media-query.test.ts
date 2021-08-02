@@ -1,3 +1,6 @@
+import {DDMock} from '../../esl-utils/test/deviceDetector.mock';
+import {ESLMediaQuery, ESLScreenBreakpoints, ESLScreenDPR} from '../core';
+
 /**
  * ESL Media Query tests
  *
@@ -12,16 +15,12 @@
  * - '@desktop, @1x' --> ', (min-resolution: 96.0dpi)'
  * - '@1x, @desktop, @sm' --> '(min-resolution: 96.0dpi), , (min-width: 768px) and (max-width: 991px)'
  */
-import {DDMock} from "../../esl-utils/test/deviceDetector.mock";
-
-import {ESLMediaQuery, ESLScreenBreakpoints, ESLScreenDPR} from '../core';
-
 describe('ESLMediaQuery', () => {
   beforeAll(() => {
     ESLScreenBreakpoints.add('small', 100, 200);
   });
 
-  describe('Trivial cases',  () => {
+  describe('Trivial cases', () => {
     test.each([
       ['', ''],
       ['all', 'all'],
@@ -36,7 +35,7 @@ describe('ESLMediaQuery', () => {
     });
   });
 
-  describe('Breakpoint shortcuts',  () => {
+  describe('Breakpoint shortcuts', () => {
     test.each([
       ['@xs', '(min-width: 1px) and (max-width: 767px)'],
       ['@sm', '(min-width: 768px) and (max-width: 991px)'],
@@ -68,7 +67,7 @@ describe('ESLMediaQuery', () => {
     });
   });
 
-  describe('DPR shortcuts',  () => {
+  describe('DPR shortcuts', () => {
     test.each([
       ['@0x', '(min-resolution: 0.0dpi)'],
       ['@1x', '(min-resolution: 96.0dpi)'],
@@ -98,7 +97,7 @@ describe('ESLMediaQuery', () => {
 
       DDMock.isBot = false;
       ESLScreenDPR.ignoreBotsDpr = false;
-    })
+    });
   });
 
   describe('Device type shortcut', () => {
@@ -164,7 +163,7 @@ describe('ESLMediaQuery', () => {
       ])('%s to %s', (query, expected) => {
         expect(ESLMediaQuery.from(query).toString()).toBe(expected);
       });
-    })
+    });
 
     describe('Disjunction', (() => {
       test.each([
@@ -174,8 +173,8 @@ describe('ESLMediaQuery', () => {
         ['@+sm, @1x', '(min-width: 768px), (min-resolution: 96.0dpi)'],
       ])('%s to %s', (query, expected) => {
         expect(ESLMediaQuery.from(query).toString()).toBe(expected);
-      })
-    }))
+      });
+    }));
   });
 
   describe('Optimization', () => {
@@ -199,4 +198,4 @@ describe('ESLMediaQuery', () => {
       expect(ESLMediaQuery.for(query)).toBe(ESLMediaQuery.for(query));
     });
   });
-})
+});

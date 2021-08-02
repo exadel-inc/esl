@@ -14,7 +14,7 @@ export abstract class ESLScreenBreakpoints {
   protected static readonly BP_NAME_REGEXP = /^[a-z]+/i;
 
   /**
-   * Add or replace breakpoint shortcut that could be used inside of ESLMediaQuery
+   * Add or replace breakpoint shortcut that can be used inside ESLMediaQuery
    * @param name - name of shortcut
    * @param minWidth - min width for breakpoint
    * @param maxWidth - max width for breakpoint

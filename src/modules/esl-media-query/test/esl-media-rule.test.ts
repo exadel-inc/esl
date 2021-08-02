@@ -12,7 +12,7 @@ describe('ESLMediaRule', () => {
       expect(rule!.default).toBe(false);
       expect(rule!.matches).toBe(true);
       expect(rule!.payload).toBe('1');
-      expect(rule!.toString()).toEqual(serialized)
+      expect(rule!.toString()).toEqual(serialized);
     });
 
     test('not all => 1', () => {
@@ -22,7 +22,7 @@ describe('ESLMediaRule', () => {
       expect(rule!.default).toBe(false);
       expect(rule!.matches).toBe(false);
       expect(rule!.payload).toBe('1');
-      expect(rule!.toString()).toEqual(serialized)
+      expect(rule!.toString()).toEqual(serialized);
     });
 
     test('@sm => {a: 1}', () => {
@@ -88,12 +88,12 @@ describe('ESLMediaRule', () => {
     const callback = () => void 0;
     const testRule = ESLMediaRule.parse('all => 1', ESLMediaRuleList.STRING_PARSER) as ESLMediaRule<string>;
 
-    test('addListener',  () => {
+    test('addListener', () => {
       const spyAdd = jest.spyOn(ALL, 'addListener');
       testRule.addListener(callback);
       expect(spyAdd).toBeCalled();
     });
-    test('removeListener',  () => {
+    test('removeListener', () => {
       const spyRemove = jest.spyOn(ALL, 'removeListener');
       testRule.removeListener(callback);
       expect(spyRemove).toBeCalled();
