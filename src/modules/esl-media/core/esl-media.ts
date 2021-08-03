@@ -369,7 +369,7 @@ export class ESLMedia extends ESLBaseElement {
   public get conditionQuery() {
     if (!this._conditionQuery && this._conditionQuery !== null) {
       const query = this.getAttribute('load-condition');
-      this._conditionQuery = query ? new ESLMediaQuery(query) : null;
+      this._conditionQuery = query ? ESLMediaQuery.for(query) : null;
     }
     return this._conditionQuery;
   }
