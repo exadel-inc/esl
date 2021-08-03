@@ -1,6 +1,8 @@
 const { isDev } = require('./pages/views/_data/env');
+
 const hljs = require('highlight.js');
 const markdown = require('markdown-it')({
+  html: true,
   highlight: function (str, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {
@@ -19,11 +21,13 @@ module.exports = (config) => {
     'pages/static/tools': '.',
   });
 
+  config.setLibrary('md', markdown);
+
   config.addPairedShortcode('markdown', (content) => {
     return `<div class="markdown-container">${markdown.render(content)}</div>`;
   });
 
-  config.addFilter("sortByName", (values) => {
+  config.addFilter('sortByName', (values) => {
     if (!values || !Array.isArray(values)) {
       console.error(`Unexpected values in "sortByName" filter: ${values}`);
       return values;

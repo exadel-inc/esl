@@ -1,6 +1,8 @@
 
 # [ESL](../../) Alert
 
+<div id="description">
+
 Version: *1.0.0*
 
 Authors: *Julia Murashko*
@@ -52,3 +54,4 @@ this.dispatchEvent(new CustomEvent(`esl:alert:show`, {
   }
 }));
 ```
+</div>
