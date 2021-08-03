@@ -1,4 +1,4 @@
-const { isDev } = require('./pages/views/_data/env')
+const { isDev } = require('./pages/views/_data/env');
 
 module.exports = config => {
   config.addPassthroughCopy({
@@ -6,13 +6,14 @@ module.exports = config => {
     'pages/static/tools': '.',
   });
 
-  config.addFilter("sortByName", (values) => {
+  config.addFilter('sortByName', (values) => {
     if (!values || !Array.isArray(values)) {
-      console.error(`Unexpected values in "sortByName" filter: ${values}`);
+      console.error(`Unexpected values in 'sortByName' filter: ${values}`);
       return values;
     }
     return [...values].sort((a, b) => a.data.name.localeCompare(b.data.name))
   });
+
 
   config.setBrowserSyncConfig({
     files: [
@@ -27,12 +28,12 @@ module.exports = config => {
     dir: {
       input: 'pages/views',
       output: 'pages/dist',
-      layouts: "_layouts",
+      layouts: '_layouts',
     },
     dataTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
     passthroughFileCopy: true,
     templateFormats: ['md', 'njk'],
-    pathPrefix: "/esl/",
+    pathPrefix: '/esl/',
   };
 };
