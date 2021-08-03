@@ -10,35 +10,48 @@ import {jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
 
 import {UIPPlugin} from '../core/plugin';
 
+/** Config interface to define inner ACE editor settings. */
 interface EditorConfig {
+  /** Editor's appearance theme. */
   theme?: string;
-  mode?: string;
+  /** Position of the vertical line for wrapping. */
   printMarginColumn?: number;
+  /** Limit of characters before wrapping. */
   wrap?: number | boolean;
 }
 
+/** Interface to represent {@link UIPEditor's} theme. */
 interface Theme {
   [index: string]: string;
 }
 
+/**
+ * Editor UIPPlugin custom element definition.
+ * Uses ACE UI code editor to provide an ability to modify UIP state markup.
+ * @extends UIPPlugin
+ */
 export class UIPEditor extends UIPPlugin {
   public static is = 'uip-editor';
+  /** Default [config]{@link EditorConfig} instance. */
   public static defaultOptions: EditorConfig = {
     theme: 'ace/theme/chrome',
-    mode: 'ace/mode/html',
     printMarginColumn: -1,
     wrap: true,
   };
 
+  /** Object to map dark/light themes to [Ace]{@link https://ace.c9.io/} themes. */
   static themesMapping: Theme = {
     'uip-light': 'ace/theme/chrome',
     'uip-dark': 'ace/theme/tomorrow_night'
   };
 
+  /** Editor's [config]{@link EditorConfig} passed through attribute. */
   @jsonAttr()
   public editorConfig: EditorConfig;
+  /** Wrapped [Ace]{@link https://ace.c9.io/} editor instance. */
   protected editor: Ace.Editor;
 
+  /** {@link editorConfig} merged with {@link defaultOptions}. */
   protected get mergedEditorConfig(): EditorConfig {
     const type = (this.constructor as typeof UIPEditor);
     return Object.assign({}, type.defaultOptions, this.editorConfig || {});
@@ -63,12 +76,14 @@ export class UIPEditor extends UIPPlugin {
     this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
   }
 
+  /** Initialize [Ace]{@link https://ace.c9.io/} editor. */
   protected initEditor() {
     this.innerHTML = '';
     this.appendChild(this.$inner);
 
     this.editor = edit(this.$inner);
     this.editor.setOption('useWorker', false);
+    this.editor.setOption('mode', 'ace/mode/html');
 
     this.initEditorOptions();
   }
@@ -100,6 +115,7 @@ export class UIPEditor extends UIPPlugin {
     this.initEditorOptions();
   }
 
+  /** Callback to catch theme changes from {@link UIPRoot}. */
   @bind
   protected _onRootConfigChange(e: CustomEvent) {
     if (e.detail.attribute !== 'theme') return false;

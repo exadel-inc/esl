@@ -6,11 +6,19 @@ import {ChangeAttrConfig, UIPStateModel} from '../../core/state-model';
 import {UIPSettings} from '../settings';
 import {WARN} from '../../utils/warn-messages/warn';
 
+/**
+ * Custom element for manipulating with elements attributes.
+ * Custom settings should extend this class
+ * to become connected with {@link UIPSettings}.
+ */
 export abstract class UIPSetting extends ESLBaseElement {
   static is = 'uip-setting';
+  /** Event fired when setting's value is changed. */
   static changeEvent = 'change';
 
+  /** [Target's]{@link target} attribute which is changed by setting. */
   @attr() public attribute: string;
+  /** Target to which setting's changes are attached. */
   @attr() public target: string;
 
   public get settingContainer(): HTMLElement | null {
@@ -50,6 +58,10 @@ export abstract class UIPSetting extends ESLBaseElement {
     EventUtils.dispatch(this, 'uip:change');
   }
 
+  /**
+   * Change markup in {@link UIPStateModel}
+   * with setting's value.
+   */
   public applyTo(model: UIPStateModel): void {
     const cfg: ChangeAttrConfig = {
       target: this.target,
@@ -60,6 +72,10 @@ export abstract class UIPSetting extends ESLBaseElement {
     this.isValid() ? model.changeAttribute(cfg) : this.setInconsistency(WARN.invalid);
   }
 
+  /**
+   * Update setting's value with
+   * active markup in {@link UIPStateModel}.
+   */
   public updateFrom(model: UIPStateModel): void {
     const values = model.getAttribute(this.target, this.attribute);
 
@@ -72,14 +88,31 @@ export abstract class UIPSetting extends ESLBaseElement {
     }
   }
 
+  /**
+   * Check whether setting's value is valid or not.
+   * Use for custom validation.
+   */
   protected isValid(): boolean {
     return true;
   }
 
+  /**
+   * Indicate setting's incorrect state
+   * (e.g. multiple attribute values or no target provided).
+   */
   protected setInconsistency(msg = WARN.inconsistent): void {
     return;
   }
 
+  /**
+   * Get setting's value
+   * to update markup in {@link UIPStateModel}.
+   */
   protected abstract getDisplayedValue(): string | boolean;
+
+  /**
+   * Set setting's value
+   * after processing markup in {@link UIPStateModel}.
+   */
   protected abstract setValue(value: string | null): void;
 }

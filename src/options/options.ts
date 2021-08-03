@@ -5,12 +5,25 @@ import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
 
 import {UIPPlugin} from '../core/plugin';
 
+/**
+ * Custom element to provide controls for changing UIP visual appearance.
+ * @extends UIPPlugin
+ */
 export class UIPOptions extends UIPPlugin {
   static is = 'uip-options';
 
+  /**
+   * Attribute for controlling UIP components' layout.
+   * Has two values: `vertical` and `horizontal`.
+   */
   @attr({defaultValue: 'vertical'}) public mode: string;
+  /**
+   * Attribute for controlling UIP components' theme.
+   * Has two values: `uip-light` and `uip-dark`.
+   */
   @attr({defaultValue: 'uip-light'}) public theme: string;
 
+  /** Media query for mobile breakpoints. */
   static _conditionQuery: ESLMediaQuery = new ESLMediaQuery('@-SM');
 
   protected connectedCallback() {
@@ -102,6 +115,10 @@ export class UIPOptions extends UIPPlugin {
     if (this.root) this.root.theme = theme;
   }
 
+  /**
+   * Callback to track resize event.
+   * Applies horizontal mode for mobile breakpoints.
+   */
   @bind
   protected _onResize() {
     (UIPOptions._conditionQuery.matches)
