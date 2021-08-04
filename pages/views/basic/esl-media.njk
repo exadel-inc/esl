@@ -5,6 +5,10 @@ name: Esl Media
 tags: basic
 ---
 
+<div class="content container">
+  {% mdRender 'src/modules/esl-media/README.md', 'intro' %}
+</div>
+
 <div class="description">
   <p>ESL Media - is a esl container that gives you the same API for different providers under the hood
     along with helpers like <em>lazy loading</em>, <em>activate query</em>, <em>picture cropping</em>.</p>
@@ -167,8 +171,4 @@ tags: basic
       </div>
     </div>
   </section>
-</div>
-<div class="content container">
-  {% from 'readme.njk' import readme %}
-  {{ readme ('esl-media') }}
 </div>
