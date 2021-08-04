@@ -1,9 +1,10 @@
-
-# [ESL](../../) Scrollbar
+# [ESL](../../../) Scrollbar
 
 Version: *1.1.0*
 
 Authors: *Yuliya Adamskaya*
+
+<a name="intro"></a>
 
 ESLScrollbar - custom element, that replaces the browser's default scrollbar without loss in performance.
  

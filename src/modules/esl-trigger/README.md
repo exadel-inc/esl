@@ -1,9 +1,10 @@
-
-# [ESL](../../) Trigger
+# [ESL](../../../) Trigger
 
 Version: *2.0.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*
+
+<a name="intro"></a>
 
 ESLTrigger - custom element, that allows to trigger ESLToggleable instances state changes.
 
