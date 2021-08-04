@@ -1,5 +1,51 @@
+# [3.0.0-beta.14](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.13...v3.0.0-beta.14) (2021-08-02)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** fix character for return to note due to its absence at fonts on some platforms ([d74788f](https://github.com/exadel-inc/esl/commit/d74788fe1efde9aed4b8a3ffdb201c5aea138e34))
+* **esl-note:** fix broken connection between esl-note and esl-footnotes ([646ebbc](https://github.com/exadel-inc/esl/commit/646ebbc46d92e50e6070c5aa34b98d9623f417a4))
+* **esl-popup:** fix wrong popup arrow positioning ([d127a67](https://github.com/exadel-inc/esl/commit/d127a67588d2e32230304edcf69079a0a8e58223))
+* **esl-popup:** fix wrong popup positioning ([907ce47](https://github.com/exadel-inc/esl/commit/907ce4750e4b4729d5ae1634ca9e0346161408c8))
+* editing styles for correct display on mobile ([58a35b1](https://github.com/exadel-inc/esl/commit/58a35b104dfa96783f9bd25d43b5b3d3663bf378))
+* fix esl-popup arrow position ([b0490df](https://github.com/exadel-inc/esl/commit/b0490dff03cd42dad6dfdd885ff1dbb6bb749076))
+
+
+### Features
+
+* **esl-media-query:** media query v2 update ([#232](https://github.com/exadel-inc/esl/issues/232)) ([0c122e9](https://github.com/exadel-inc/esl/commit/0c122e91514355b376043f8e67dbae244dac1c81))
+* **esl-scrollbar:** add rtl support for horizontal scrollbar ([fa27e5d](https://github.com/exadel-inc/esl/commit/fa27e5d49f7e2f864ae8fd65816cf00bdb5035da))
+* add `isPrototype` check predicate to 'misc/object' utils ([ad30d37](https://github.com/exadel-inc/esl/commit/ad30d3756ad38fe67bf2502f8eb38804fe2a314b))
+* add deepMerge utility ([11331d8](https://github.com/exadel-inc/esl/commit/11331d885c236a882e192311dc2e2848e145b4b3))
+* add meta tag viewport ([2994954](https://github.com/exadel-inc/esl/commit/2994954f7aa2837fc7ace328700a2ae6f6e6c73b))
+* add some tests ([25e4e01](https://github.com/exadel-inc/esl/commit/25e4e0108103ea6e172a1e34e2d73fae6e71d14f))
+* create dom helpers class Rect to manage size and position of rectangles ([3343bfd](https://github.com/exadel-inc/esl/commit/3343bfd04884adb5a3cd0afb1e4fb3b7d088cce5))
+* **esl-popup:** update imports, move separate window helpers, remove unnecessary code ([f198295](https://github.com/exadel-inc/esl/commit/f19829520f195f787288eb21a800af23bb9c4eba))
+* add helpers (isScrollParent, getScrollParent and getListScrollParent) for working with scroll parents ([a4d25f9](https://github.com/exadel-inc/esl/commit/a4d25f9b4f2f381cd831192f0289bfd0d9caefe9))
+* create helpers for working with the element as part esl-util DOM helpers ([2d72af1](https://github.com/exadel-inc/esl/commit/2d72af1d72542666d4d96f32a4f7db7971f31cba))
+* create helpers for working with the window as part esl-util DOM helpers ([49a58b2](https://github.com/exadel-inc/esl/commit/49a58b288c5c4f323d12c994b117467c3b01132a))
+* **esl-popup:** add bottom, left, right position and update position when parents scroll ([9242fca](https://github.com/exadel-inc/esl/commit/9242fcabded6a5f349b40ef1cc46cedda86b058a))
+* **esl-popup:** add popup flipping and hiding by detection intersection side ([a213262](https://github.com/exadel-inc/esl/commit/a213262813c1ddc79d51510bbb4001cae2aeca4c))
+* **esl-popup:** remake popup positioning ([2ffe381](https://github.com/exadel-inc/esl/commit/2ffe3817d990e6ed98117ece5196c286ad3f71d4))
+* **esl-popup:** update esl-popup demo page ([bb0e396](https://github.com/exadel-inc/esl/commit/bb0e396a69819590db923578ddcbe1d411aa2b0e))
+* create esl-popup demo page ([b4eec2c](https://github.com/exadel-inc/esl/commit/b4eec2c911027d0d4e860b2d26c326cb956f486f))
+* update memoization for object getter accessor with a lightweight version ([ae5614b](https://github.com/exadel-inc/esl/commit/ae5614b1e3b23876326a1656110eee42f4c26be6))
+
+
+### BREAKING CHANGES
+
+* **esl-media-query:** - `ESLMediaQuery` no longer constructible use `ESLMediaQuery.for` and `ESLMediaQuery.from` instead
+- `ESLMediaRule` - DPR and device marker no longer available
+- `ESLMediaBreakpoints.addCustomBreakpoint` replaced with `ESLScreenBreakpoints.add`
+- `ESLMediaBreakpoints.getBreakpoint` replaced with `ESLScreenBreakpoints.get`
+- `ESLMediaQuery.ignoreBotsDpr` replaced with `ESLMediaDPRShortcut.ignoreBotsDpr`
+- `ObserverCallback` removed use strict type instead
+
+# [2.8.1](https://github.com/exadel-inc/esl/compare/v2.8.0...v2.8.1) (2021-07-20)
+
 # [3.0.0-beta.13](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.12...v3.0.0-beta.13) (2021-07-06)
 
+# [2.8.0](https://github.com/exadel-inc/esl/compare/v2.7.3...v2.8.0) (2021-07-06)
 
 ### Bug Fixes
 

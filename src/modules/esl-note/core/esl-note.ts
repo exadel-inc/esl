@@ -53,7 +53,7 @@ export class ESLNote extends ESLBaseElement {
     this._innerHTML = this.innerHTML;
     super.connectedCallback();
     this.bindEvents();
-    EventUtils.dispatch(this, `${ESLNote.eventNs}:response`);
+    this._sendResponseToFootnote();
   }
 
   @ready
@@ -96,7 +96,7 @@ export class ESLNote extends ESLBaseElement {
     this._$footnotes = null;
     this.innerHTML = this.html;
     this.tabIndex = -1;
-    EventUtils.dispatch(this, `${ESLNote.eventNs}:ready`);
+    this._sendResponseToFootnote();
   }
 
   /** Merge params to pass to the toggleable */
@@ -160,7 +160,10 @@ export class ESLNote extends ESLBaseElement {
   @bind
   protected _onFootnotesReady(e: CustomEvent) {
     if (this.linked) return;
-    EventUtils.dispatch(this, `${ESLNote.eventNs}:response`);
+    this._sendResponseToFootnote();
   }
 
+  protected _sendResponseToFootnote() {
+    EventUtils.dispatch(this, `${ESLNote.eventNs}:response`);
+  }
 }
