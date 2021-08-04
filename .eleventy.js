@@ -1,3 +1,5 @@
+const htmlmin = require('html-minifier');
+
 const { isDev } = require('./pages/views/_data/env');
 const markdown = require('markdown-it')({ html: true });
 
@@ -13,12 +15,12 @@ module.exports = (config) => {
     return markdown.render(content);
   });
 
-  config.addFilter("sortByName", (values) => {
+  config.addFilter('sortByName', (values) => {
     if (!values || !Array.isArray(values)) {
-      console.error(`Unexpected values in "sortByName" filter: ${values}`);
+      console.error(`Unexpected values in 'sortByName' filter: ${values}`);
       return values;
     }
-    return [...values].sort((a, b) => a.data.name.localeCompare(b.data.name))
+    return [...values].sort((a, b) => a.data.name.localeCompare(b.data.name));
   });
 
   config.setBrowserSyncConfig({
@@ -30,16 +32,31 @@ module.exports = (config) => {
     open: isDev,
   });
 
+  config.addTransform('htmlmin', function (content, outputPath) {
+    if (outputPath && outputPath.endsWith('.html') && !isDev) {
+      let minified = htmlmin.minify(content, {
+        useShortDoctype: true,
+        removeComments: true,
+        collapseWhitespace: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+      });
+      return minified;
+    }
+    return content;
+  });
+
   return {
     dir: {
       input: 'pages/views',
       output: 'pages/dist',
-      layouts: "_layouts",
+      layouts: '_layouts',
     },
     dataTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
     passthroughFileCopy: true,
     templateFormats: ['md', 'njk'],
-    pathPrefix: "/esl/",
+    pathPrefix: '/esl/',
   };
 };
