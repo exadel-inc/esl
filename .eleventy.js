@@ -1,18 +1,8 @@
-const { isDev } = require('./pages/views/_data/env');
 const htmlmin = require('html-minifier');
 
-const hljs = require('highlight.js');
-const markdown = require('markdown-it')({
-  html: true,
-  highlight: function (str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return hljs.highlight(str, { language: lang }).value;
-      } catch (__) { }
-    }
-    return '';
-  }
-});
+const { isDev } = require('./pages/views/_data/env');
+const { markdown } = require('./pages/views/_data/markdown');
+const { MDRenderer } = require('./pages/views/_data/md-render');
 
 module.exports = (config) => {
   config.addWatchTarget('src/**/*.md');
@@ -24,9 +14,7 @@ module.exports = (config) => {
 
   config.setLibrary('md', markdown);
 
-  config.addPairedShortcode('markdown', (content) => {
-    return `<div class="markdown-container">${markdown.render(content)}</div>`;
-  });
+  config.addNunjucksAsyncShortcode('mdRender', MDRenderer.render);
 
   config.addFilter('sortByName', (values) => {
     if (!values || !Array.isArray(values)) {
