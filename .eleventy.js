@@ -15,7 +15,6 @@ module.exports = (config) => {
     return [...values].sort((a, b) => a.data.name.localeCompare(b.data.name));
   });
 
-
   config.setBrowserSyncConfig({
     files: [
       'pages/dist/bundles/*.js',
