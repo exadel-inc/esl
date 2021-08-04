@@ -1,3 +1,25 @@
+# [1.0.0-beta.6](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2021-07-30)
+
+
+### Bug Fixes
+
+* remove webpack noParse configuration ([ce0dc38](https://github.com/exadel-inc/ui-playground/commit/ce0dc382ffc4cc28a29e62ffad24aed0eeaeaef7))
+
+# [1.0.0-beta.5](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2021-07-29)
+
+
+### Bug Fixes
+
+* add es5 output ([96fabbb](https://github.com/exadel-inc/ui-playground/commit/96fabbb8fe6739010589c303d8f809a53a628e44))
+* fix webpack.config.prod ([361cfa9](https://github.com/exadel-inc/ui-playground/commit/361cfa97c9dc56849be71ff84ae406920fd6d60c))
+
+# [1.0.0-beta.4](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2021-07-29)
+
+
+### Bug Fixes
+
+* add js-beautify types to dependencies, specify npm css path ([4477ad8](https://github.com/exadel-inc/ui-playground/commit/4477ad835bde001419b445e37e7c3a1bfda5df2f))
+
 # [1.0.0-beta.3](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2021-07-27)
 
 
