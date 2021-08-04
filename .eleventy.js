@@ -35,7 +35,7 @@ module.exports = (config) => {
 
   config.addTransform('htmlmin', function (content, outputPath) {
     if (outputPath && outputPath.endsWith('.html') && !isDev) {
-      let minified = htmlmin.minify(content, {
+      return htmlmin.minify(content, {
         useShortDoctype: true,
         removeComments: true,
         collapseWhitespace: true,
@@ -43,7 +43,6 @@ module.exports = (config) => {
         minifyJS: true,
         minifyCSS: true,
       });
-      return minified;
     }
     return content;
   });
