@@ -6,8 +6,8 @@ export class UIPRoot extends ESLBaseElement {
   public static is = 'uip-root';
   private _model = new UIPStateModel();
 
-  @attr() public mode: string;
-  @attr() public theme: string;
+  @attr({defaultValue: 'vertical'}) public mode: string;
+  @attr({defaultValue: 'uip-light'}) public theme: string;
 
   public get model(): UIPStateModel {
     return this._model;

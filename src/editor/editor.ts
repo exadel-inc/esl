@@ -70,7 +70,7 @@ export class UIPEditor extends UIPPlugin {
     this.editor = edit(this.$inner);
     this.editor.setOption('useWorker', false);
 
-    this.initEditorOptions();
+    this.root && this.setEditorConfig({theme: UIPEditor.themesMapping[this.root.theme]});
   }
 
   protected initEditorOptions(): void {
