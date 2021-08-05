@@ -6,6 +6,10 @@ tags: basic
 ---
 {% import 'lorem.njk' as lorem %}
 
+<div class="content container">
+  {% mdRender 'src/modules/esl-scrollbar/README.md', 'intro' %}
+</div>
+
 <section class="row">
   <style>
     .test-popup {
@@ -101,7 +105,3 @@ tags: basic
     </div>
   </div>
 </section>
-<div class="content container">
-  {% from 'readme.njk' import readme %}
-  {{ readme ('esl-scrollbar') }}
-</div>

@@ -7,6 +7,8 @@ tags: basic
 ---
 {% set imageSrcBase = '/assets/' | url %}
 
+{% mdRender 'src/modules/esl-image/README.md', 'intro' %}
+
 <section class="row">
   <div class="col-12">
     <h3 class="text-center">Mods</h3>
@@ -224,5 +226,3 @@ tags: basic
     </div>
   </div>
 </section>
-{% from 'readme.njk' import readme %}
-{{ readme ('esl-image') }}

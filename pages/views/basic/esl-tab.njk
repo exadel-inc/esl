@@ -7,6 +7,8 @@ tags: basic
 ---
 {% import 'lorem.njk' as lorem %}
 
+{% mdRender 'src/modules/esl-tab/README.md', 'intro' %}
+
 <section class="row">
   <style>
     .accordion-trigger {
@@ -1144,5 +1146,3 @@ tags: basic
   </div>
   <hr/>
 </section>
-{% from 'readme.njk' import readme %}
-{{ readme ('esl-tab') }}

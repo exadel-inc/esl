@@ -1,13 +1,16 @@
-
-# [ESL](../../) Alert
+# [ESL](../../../) Alert
 
 Version: *1.0.0*
 
 Authors: *Julia Murashko*
 
+<a name="intro"></a>
+
 ESLAlert is a component to show small notifications on your pages. ESLAlert can have multiple instances on the page.
 
 ---
+
+<a name="usage"></a>
 
 ## Usage
 
@@ -30,6 +33,8 @@ Use CustomEvent `details` to customize alert. Alert `details` accepts the follow
 - `html` - to alternatively specify alert HTML content
 
 If one of `esl-alert`s catches the activation event it will prevent its propagation to parent elements.
+
+<a name="example"></a>
 
 ## Example
 ```html
