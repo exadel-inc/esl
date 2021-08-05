@@ -24,8 +24,8 @@ export class ESLTooltip extends ESLPopup {
   @boolAttr() public disableArrow: boolean;
 
   @memoize()
-  public static get sharedInstance() {
-    return document.createElement('esl-tooltip') as ESLTooltip;
+  public static get sharedInstance(): ESLTooltip {
+    return document.createElement('esl-tooltip');
   }
 
   public static show(params: TooltipActionParams = {}) {
