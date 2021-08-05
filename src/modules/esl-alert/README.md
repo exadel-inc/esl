@@ -57,4 +57,3 @@ this.dispatchEvent(new CustomEvent(`esl:alert:show`, {
   }
 }));
 ```
-</div>
