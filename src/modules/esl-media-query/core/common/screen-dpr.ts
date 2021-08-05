@@ -27,3 +27,9 @@ export class ESLScreenDPR {
     return `(min-resolution: ${ESLScreenDPR.toDPI(dpr)}dpi)`;
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    ScreenDPR: typeof ESLScreenDPR;
+  }
+}

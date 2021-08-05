@@ -67,3 +67,9 @@ export abstract class DeviceDetector {
     };
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    DeviceDetector: typeof DeviceDetector;
+  }
+}

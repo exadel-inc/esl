@@ -93,3 +93,12 @@ export class ESLA11yGroup extends ESLBaseElement {
     return this.$targets.includes($active) ? $active : null;
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    A11yGroup: typeof ESLA11yGroup;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-a11y-group': ESLA11yGroup;
+  }
+}

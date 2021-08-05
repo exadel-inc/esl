@@ -84,3 +84,12 @@ export class ESLTooltip extends ESLPopup {
     this.activator?.toggleAttribute('tooltip-shown', newState);
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Tooltip: typeof ESLTooltip;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-tooltip': ESLTooltip;
+  }
+}

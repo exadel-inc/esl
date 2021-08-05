@@ -244,3 +244,12 @@ export class ESLTabs extends ESLBaseElement {
     }
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Tabs: typeof ESLTabs;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-tabs': ESLTabs;
+  }
+}

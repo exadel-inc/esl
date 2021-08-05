@@ -309,3 +309,12 @@ export class ESLImage extends ESLBaseElement {
     return src === ESLImage.EMPTY_IMAGE;
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Image: typeof ESLImage;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-image': ESLImage;
+  }
+}

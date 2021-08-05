@@ -90,3 +90,12 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
     }
   }
 }
+
+declare global {
+  export interface ESLCarouselPlugins {
+    Autoplay: typeof ESLCarouselAutoplayPlugin;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-carousel-autoplay-plugin': ESLCarouselAutoplayPlugin;
+  }
+}

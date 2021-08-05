@@ -109,3 +109,12 @@ export class ESLFootnotes extends ESLBaseElement {
     EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:request`);
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Footnotes: typeof ESLFootnotes;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-footnotes': ESLFootnotes;
+  }
+}

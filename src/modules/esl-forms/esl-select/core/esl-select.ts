@@ -168,3 +168,12 @@ export class ESLSelect extends ESLSelectWrapper {
     this._onUpdate();
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Select: typeof ESLSelect;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-select': ESLSelect;
+  }
+}

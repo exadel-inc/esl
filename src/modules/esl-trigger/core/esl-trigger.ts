@@ -241,3 +241,12 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Trigger: typeof ESLTrigger;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-trigger': ESLTrigger;
+  }
+}
