@@ -11,14 +11,13 @@ import {UIPPlugin} from '../core/plugin';
 export class UIPOptions extends UIPPlugin {
   static is = 'uip-options';
 
-  
   /**
-   * Property for storing current layout.
+   * Property for last selected layout.
    * Has two values: `vertical` and `horizontal`.
    */
   private _mode: string;
   /**
-   * Attribute for storing current theme.
+   * Property for last selected theme.
    * Has two values: `uip-light` and `uip-dark`.
    */
   private _theme: string;
