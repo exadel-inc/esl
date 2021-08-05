@@ -4,9 +4,17 @@ import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {CSSClassUtils, memoize} from '@exadel/esl';
 import {UIPPlugin} from '../core/plugin';
 
+/**
+ * Custom element, container for [settings]{@link UIPSetting}.
+ * @extends UIPPlugin
+ */
 export class UIPSettings extends UIPPlugin {
   public static is = 'uip-settings';
 
+  /**
+   * Attribute to set all inner [settings']{@link UIPSetting}
+   * [targets]{@link UIPSetting#target}.
+   */
   @attr() public target: string;
   @attr({defaultValue: 'Settings'}) public label: string;
 
@@ -23,6 +31,7 @@ export class UIPSettings extends UIPPlugin {
     this.updateInner();
   }
 
+  /** Initialize settings layout. */
   protected updateInner() {
     const $settingsList = document.createElement('div');
     $settingsList.className = 'settings-list esl-scrollable-content';
