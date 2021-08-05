@@ -1,8 +1,10 @@
-# [ESL](../../../README.md) Media
+# [ESL](../../../) Media
 
 Version: *1.2.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*, *Natallia Harshunova*
+
+<a name="intro"></a>
 
 ESlMedia - custom element, that provides an ability to add and configure media (video / audio) using a single tag as well as work with external providers using simple native-like API.
 
