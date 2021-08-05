@@ -110,3 +110,9 @@ export class TraversingQuery {
     return TraversingQuery.traverse(query, false, base);
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    TraversingQuery: typeof TraversingQuery;
+  }
+}

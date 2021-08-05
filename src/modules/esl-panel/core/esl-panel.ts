@@ -145,3 +145,12 @@ export class ESLPanel extends ESLToggleable {
     return Object.assign({}, stackConfig, this.defaultParams, params || {});
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Panel: typeof ESLPanel;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-panel': ESLPanel;
+  }
+}

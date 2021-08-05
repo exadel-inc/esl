@@ -400,3 +400,12 @@ export class ESLMedia extends ESLBaseElement {
     return EventUtils.dispatch(this, ns + eventName, eventInit);
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Media: typeof ESLMedia;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-media': ESLMedia;
+  }
+}

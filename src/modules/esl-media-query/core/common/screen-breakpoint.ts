@@ -8,7 +8,7 @@ const registry = new Map<string, ESLScreenBreakpoint>();
  *
  * Screen Breakpoint registry is used to provide custom breakpoints for {@link ESLMediaQuery}
  */
-@ExportNs('ScreenBreakpoint')
+@ExportNs('ScreenBreakpoints')
 export abstract class ESLScreenBreakpoints {
   protected static readonly BP_REGEXP = /^([+-]?)([a-z]+)/i;
   protected static readonly BP_NAME_REGEXP = /^[a-z]+/i;
@@ -88,3 +88,9 @@ ESLScreenBreakpoints.add('sm', 768, 991);
 ESLScreenBreakpoints.add('md', 992, 1199);
 ESLScreenBreakpoints.add('lg', 1200, 1599);
 ESLScreenBreakpoints.add('xl', 1600, 999999);
+
+declare global {
+  export interface ESLLibrary {
+    ScreenBreakpoints: typeof ESLScreenBreakpoints;
+  }
+}

@@ -85,7 +85,7 @@
     "@typescript-eslint/member-ordering": "off",
     "@typescript-eslint/no-this-alias": "error",
     "@typescript-eslint/no-empty-function": "off",
-    "@typescript-eslint/no-empty-interface": "warn",
+    "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/prefer-as-const": "error",
     "@typescript-eslint/no-extra-semi": "error",
     "@typescript-eslint/no-explicit-any": "off",

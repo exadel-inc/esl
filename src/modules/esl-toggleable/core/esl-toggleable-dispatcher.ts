@@ -10,7 +10,7 @@ import {ESLToggleable} from './esl-toggleable';
  *
  * ESLToggleableDispatcher - plugin component, that prevents activation of multiple ESLToggleable instances in bounds of managed container.
  */
-@ExportNs('ToggleableGroupDispatcher')
+@ExportNs('ToggleableDispatcher')
 export class ESLToggleableDispatcher extends ESLBaseElement {
   public static readonly is = 'esl-toggleable-dispatcher';
 
@@ -133,5 +133,14 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
     const {oldGroupName, newGroupName} = e.detail;
     this.deleteActive(oldGroupName, target);
     this.setActive(newGroupName, target);
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    ToggleableDispatcher: typeof ESLToggleableDispatcher;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-toggleable-dispatcher': ESLToggleableDispatcher;
   }
 }

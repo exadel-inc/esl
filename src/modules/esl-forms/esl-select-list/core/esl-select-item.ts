@@ -58,3 +58,12 @@ export class ESLSelectItem extends ESLBaseElement {
     return item;
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    SelectItem: typeof ESLSelectItem;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-select-item': ESLSelectItem;
+  }
+}

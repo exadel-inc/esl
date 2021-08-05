@@ -166,3 +166,12 @@ export class ESLNote extends ESLBaseElement {
     EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:response`);
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Note: typeof ESLNote;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-note': ESLNote;
+  }
+}

@@ -206,3 +206,12 @@ export class ESLPopup extends ESLToggleable {
     }
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Popup: typeof ESLPopup;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-popup': ESLPopup;
+  }
+}

@@ -30,7 +30,7 @@
   "types": "modules/all.d.ts",
   "sideEffects": [
     "modules/lib.js",
-    "src/modules/namespace.ts",
+    "src/modules/lib.ts",
     "modules/esl-media/providers/**/*.js",
     "src/modules/esl-media/providers/**/*.ts",
     "modules/draft/esl-carousel/core/view/*.js",

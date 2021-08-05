@@ -9,7 +9,7 @@ import './common/test-media';
 import './common/test-media-source';
 
 // With Namespace
-import '../../src/modules/namespace';
+import '../../src/modules/lib';
 
 import {
   ESLImage,

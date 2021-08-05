@@ -106,3 +106,9 @@ export class ESLSelectDropdown extends ESLToggleable {
     this.style.width = `${rect.width}px`;
   }
 }
+
+declare global {
+  export interface HTMLElementTagNameMap {
+    'esl-select-dropdown': ESLSelectDropdown;
+  }
+}

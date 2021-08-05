@@ -232,3 +232,12 @@ export class ESLPanelGroup extends ESLBaseElement {
     });
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    PanelGroup: typeof ESLPanelGroup;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-panel-group': ESLPanelGroup;
+  }
+}
