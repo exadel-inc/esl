@@ -7,14 +7,13 @@ import {EventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
+import {ESLFootnotes} from './esl-footnotes';
 
 import type {ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
-import type {ESLFootnotes} from '../../esl-footnotes/core/esl-footnotes';
 
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
   static is = 'esl-note';
-  static eventNs = 'esl:note';
 
   /** Linked state marker */
   @boolAttr() public linked: boolean;
@@ -64,14 +63,14 @@ export class ESLNote extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    document.body.addEventListener(`${ESLNote.eventNs}:request`, this._onFootnotesReady);
+    document.body.addEventListener(`${ESLFootnotes.eventNs}:request`, this._onFootnotesReady);
     this.addEventListener('click', this._onClick);
     this.addEventListener('keydown', this._onKeydown);
     this.addEventListener('mouseenter', this._onMouseEnter);
     this.addEventListener('mouseleave', this._onMouseLeave);
   }
   protected unbindEvents() {
-    document.body.removeEventListener(`${ESLNote.eventNs}:request`, this._onFootnotesReady);
+    document.body.removeEventListener(`${ESLFootnotes.eventNs}:request`, this._onFootnotesReady);
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('keydown', this._onKeydown);
     this.removeEventListener('mouseenter', this._onMouseEnter);
@@ -164,6 +163,6 @@ export class ESLNote extends ESLBaseElement {
   }
 
   protected _sendResponseToFootnote() {
-    EventUtils.dispatch(this, `${ESLNote.eventNs}:response`);
+    EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:response`);
   }
 }

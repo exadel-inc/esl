@@ -27,6 +27,7 @@ export * from './async/delayed-task';
 // DOM
 export * from './dom/class';
 export * from './dom/events';
+export * from './dom/element';
 export * from './dom/focus';
 export * from './dom/keys';
 export * from './dom/ready';
@@ -34,6 +35,7 @@ export * from './dom/rtl';
 export * from './dom/script';
 export * from './dom/scroll';
 export * from './dom/traversing';
+export * from './dom/window';
 
 // Device detection
 export * from './environment/device-detector';
