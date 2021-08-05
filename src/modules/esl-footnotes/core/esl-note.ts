@@ -5,6 +5,7 @@ import {ready} from '../../esl-utils/decorators/ready';
 import {ESLTooltip} from '../../esl-tooltip/core';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
+import {scrollIntoViewAsync} from '../../esl-utils/dom/scroll';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLFootnotes} from './esl-footnotes';
@@ -78,8 +79,7 @@ export class ESLNote extends ESLBaseElement {
   }
 
   public activate() {
-    this.scrollIntoView({behavior: 'smooth', block: 'nearest'});
-    this.showTooltip();
+    scrollIntoViewAsync(this, {behavior: 'smooth', block: 'nearest'}).then(() => this.showTooltip());
   }
 
   public link(footnotes: ESLFootnotes, index: number) {
