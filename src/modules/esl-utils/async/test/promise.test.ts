@@ -2,6 +2,7 @@ import {createDeferred, PromiseUtils, promisifyEvent, promisifyMarker, promisify
 
 describe('promise utils', () => {
   beforeAll(() =>  jest.useFakeTimers());
+  afterAll(() => jest.useRealTimers());
 
   describe('promise chain', () => {
     test('resolve', () => {
@@ -118,6 +119,4 @@ describe('promise utils', () => {
     expect(PromiseUtils.resolve).toBe(resolvePromise);
     expect(PromiseUtils.reject).toBe(rejectPromise);
   });
-
-  afterAll(() => jest.useRealTimers());
 });
