@@ -25,7 +25,9 @@ export function getParentNode(element: Element | ShadowRoot): Node {
     return element;
   }
 
-  return (element instanceof ShadowRoot
-    ? element.host
-    : element.assignedSlot || element.parentNode) || getDocumentElement(element as Element);
+  return (ShadowRoot
+    ? element instanceof ShadowRoot
+      ? element.host
+      : element.assignedSlot || element.parentNode
+    : element.parentNode) || getDocumentElement(element as Element);
 }

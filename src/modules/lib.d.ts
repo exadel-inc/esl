@@ -24,7 +24,7 @@ import type {ESLA11yGroup} from './esl-a11y-group/core/esl-a11y-group';
 import type {ESLTrigger} from './esl-trigger/core/esl-trigger';
 import type {ESLTab, ESLTabs} from './esl-tab/core';
 
-import type {ESLNote} from './esl-note/core/esl-note';
+import type {ESLNote} from './esl-footnotes/core/esl-note';
 import type {ESLFootnotes} from './esl-footnotes/core/esl-footnotes';
 import type {ESLTooltip} from './esl-tooltip/core/esl-tooltip';
 
