@@ -1,4 +1,4 @@
-import {PromiseUtils} from './promise';
+import {createDeferred} from './promise';
 
 import type {AnyToAnyFnSignature} from '../misc/functions';
 import type {Deferred, PromisifyResultFn} from './promise';
@@ -29,7 +29,7 @@ export function throttle<F extends AnyToAnyFnSignature>(fn: F, threshold = 250):
       return Promise.resolve(fn.apply(this, args));
     }
 
-    deferred = deferred || PromiseUtils.deferred();
+    deferred = deferred || createDeferred();
     (typeof timeout === 'number') && clearTimeout(timeout);
     timeout = window.setTimeout(() => {
       last = now;

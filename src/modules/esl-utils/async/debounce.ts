@@ -1,4 +1,4 @@
-import {PromiseUtils} from './promise';
+import {createDeferred} from './promise';
 
 import type {AnyToAnyFnSignature} from '../misc/functions';
 import type {Deferred, PromisifyResultFn} from './promise';
@@ -25,7 +25,7 @@ export function debounce<F extends AnyToAnyFnSignature>(fn: F, wait = 10): Debou
   let deferred: Deferred<ReturnType<F>> | null = null;
 
   function debouncedSubject(...args: any[]) {
-    deferred = deferred || PromiseUtils.deferred();
+    deferred = deferred || createDeferred();
     (typeof timeout === 'number') && clearTimeout(timeout);
     timeout = window.setTimeout(() => {
       timeout = null;
