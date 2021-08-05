@@ -11,6 +11,7 @@ import type {
 
 import type {ESLImage} from './esl-image/core/esl-image';
 import type {ESLMedia} from './esl-media/core/esl-media';
+import type {ESLAlert} from './esl-alert/core/esl-alert';
 
 import type {ESLScrollbar} from './esl-scrollbar/core/esl-scrollbar';
 
@@ -30,9 +31,7 @@ import type {ESLTooltip} from './esl-tooltip/core/esl-tooltip';
 import type {
   ESLSelect,
   ESLSelectList,
-  ESLSelectItem,
-  // ESLSelectRenderer,
-  // ESLSelectDropdown
+  ESLSelectItem
 } from './esl-forms/all';
 
 import type {ESLCarousel} from './draft/esl-carousel/core/esl-carousel';
@@ -40,13 +39,6 @@ import type {ESLCarouselDotsPlugin} from './draft/esl-carousel/plugin/esl-carous
 import type {ESLCarouselLinkPlugin} from './draft/esl-carousel/plugin/esl-carousel-link.plugin';
 import type {ESLCarouselTouchPlugin} from './draft/esl-carousel/plugin/esl-carousel-touch.plugin';
 import type {ESLCarouselAutoplayPlugin} from './draft/esl-carousel/plugin/esl-carousel-autoplay.plugin';
-
-// import type {ESLAlert} from './esl-alert/core/esl-alert';
-
-// Define global namespace
-if (!('ESL' in window)) {
-  Object.defineProperty(window, 'ESL', {value: {}});
-}
 
 declare global {
   const ESL: ESLLibrary;
@@ -64,7 +56,7 @@ declare global {
     // ESL Components
     Image?: typeof ESLImage;
     Media?: typeof ESLMedia;
-    // Alert?: typeof ESLAlert;
+    Alert?: typeof ESLAlert;
 
     Scrollbar?: typeof ESLScrollbar;
 
@@ -82,8 +74,6 @@ declare global {
     Select?: typeof ESLSelect;
     SelectList?: typeof ESLSelectList;
     SelectItem?: typeof ESLSelectItem;
-    // SelectRenderer?: typeof ESLSelectRenderer;
-    // SelectDropdown?: typeof ESLSelectDropdown;
 
     // ESL Drafts
     Carousel?: typeof ESLCarousel;
@@ -98,19 +88,17 @@ declare global {
     Footnotes?: typeof ESLFootnotes;
     Tooltip?: typeof ESLTooltip;
   }
-  
-  interface HTMLElementTagNameMap {
+
+  export interface HTMLElementTagNameMap {
     'esl-carousel': ESLCarousel;
     'esl-carousel-autoplay-plugin': ESLCarouselAutoplayPlugin;
     'esl-carousel-dots': ESLCarouselDotsPlugin;
     'esl-carousel-link-plugin': ESLCarouselLinkPlugin;
     'esl-carousel-touch-plugin': ESLCarouselTouchPlugin;
     'esl-a11y-group': ESLA11yGroup;
-    // 'esl-alert': ESLAlert;
+    'esl-alert': ESLAlert;
     'esl-footnotes': ESLFootnotes;
     'esl-select': ESLSelect;
-    // 'esl-select-renderer': ESLSelectRenderer;
-    // 'esl-select-dropdown': ESLSelectDropdown;
     'esl-select-list': ESLSelectList;
     'esl-select-item': ESLSelectItem;
     'esl-image': ESLImage;
