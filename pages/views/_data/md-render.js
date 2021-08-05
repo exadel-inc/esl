@@ -38,7 +38,6 @@ class MDRenderer {
       const endAnchor = window.document.querySelector(`a[name='${endSel}']`);
 
       let node = unwrapAnchor(startAnchor);
-      console.log(node, '')
       let endNode = unwrapAnchor(endAnchor);
       let partContent = '';
 
