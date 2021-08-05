@@ -174,12 +174,6 @@ export class ESLPopup extends ESLToggleable {
     this._activatorObserver.unsubscribers = [];
   }
 
-  protected set _arrowPosition(value: string) {
-    if (!this.$arrow) return;
-
-    this.$arrow.setAttribute('position', value);
-  }
-
   protected _updatePosition() {
     if (!this.activator) return;
 
@@ -199,17 +193,16 @@ export class ESLPopup extends ESLToggleable {
       outer: getWindowRect().shrink(this._offsetWindow)
     };
 
-    const {x, y, arrow} = calcPopupPosition(config);
+    const {placedAt, popup, arrow} = calcPopupPosition(config);
 
+    this.setAttribute('placed-at', placedAt);
     // set popup position
-    this.style.left = `${x}px`;
-    this.style.top = `${y}px`;
-
+    this.style.left = `${popup.x}px`;
+    this.style.top = `${popup.y}px`;
     // set arrow position
     if (this.$arrow) {
-      this.$arrow.style.left = ['top', 'bottom'].includes(arrow.position) ? `${arrow.x}px` : 'none';
-      this.$arrow.style.top = ['left', 'right'].includes(arrow.position) ? `${arrow.y}px` : 'none';
-      this._arrowPosition = arrow.position;
+      this.$arrow.style.left = ['top', 'bottom'].includes(placedAt) ? `${arrow.x}px` : 'none';
+      this.$arrow.style.top = ['left', 'right'].includes(placedAt) ? `${arrow.y}px` : 'none';
     }
   }
 }

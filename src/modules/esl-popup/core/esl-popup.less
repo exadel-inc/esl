@@ -41,21 +41,27 @@
     border-left: 1px solid @POPUP_BORDER_COLOR;
     border-top: 1px solid @POPUP_BORDER_COLOR;
     z-index: -1;
+  }
 
-    &[position=top] {
+  &[placed-at=top] {
+    .esl-popup-arrow {
       bottom: (-@POPUP_ARROW_HALF - 1);
       top: auto;
       transform: rotate(225deg);
     }
+  }
 
-    &[position=left] {
+  &[placed-at=left] {
+    .esl-popup-arrow {
       right: (-@POPUP_ARROW_HALF - 1);
       left: auto;
       margin-top: -@POPUP_ARROW_HALF;
       transform: rotate(135deg);
     }
+  }
 
-    &[position=right] {
+  &[placed-at=right] {
+    .esl-popup-arrow {
       left: auto;
       right: auto;
       margin-top: -@POPUP_ARROW_HALF;
