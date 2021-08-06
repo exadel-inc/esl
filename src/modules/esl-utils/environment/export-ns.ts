@@ -36,3 +36,9 @@ export const exportNs = (name: string, module: any) => {
 export function ExportNs<T extends Function>(name?: string) {
   return (module: T) => exportNs(name || module.name, module);
 }
+
+/** Declare ESL global */
+ExportNs.declare = () => {
+  if ('ESL' in window) return;
+  Object.defineProperty(window, 'ESL', {value: {}});
+};

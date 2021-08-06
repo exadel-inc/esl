@@ -1,3 +1,20 @@
+# [3.0.0-beta.15](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.14...v3.0.0-beta.15) (2021-08-05)
+
+
+### Bug Fixes
+
+* fix namespace types and typing placement ([c2e2ab0](https://github.com/exadel-inc/esl/commit/c2e2ab00901dc599a5c994ae16036d1ea92b3a11))
+* **esl-popup:** remove position attr from popup arrow and add placed-at attr to popup element ([32d9d93](https://github.com/exadel-inc/esl/commit/32d9d937fc28209904c8f9fd7c14e0783a0c60d5))
+* **esl-utils:** fix IE issue 'ShadowRoot is undefined' ([c354ab9](https://github.com/exadel-inc/esl/commit/c354ab9971ed82c45168b29354f1f943f3a3b4ae))
+* declare global interface HTMLElementTagNameMap ([b5c96de](https://github.com/exadel-inc/esl/commit/b5c96de0e88e96b63796c7a1921774c71693cbfd))
+
+
+### Features
+
+* **gh-pages:** the ability to include markdown into demo pages ([#368](https://github.com/exadel-inc/esl/issues/368)) ([7fa42fc](https://github.com/exadel-inc/esl/commit/7fa42fc9fe4fbc2ccb4c320811b922a2bcb3eec1))
+
+## [2.8.2](https://github.com/exadel-inc/esl/compare/v2.8.1...v2.8.2) (2021-08-04)
+
 # [3.0.0-beta.14](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.13...v3.0.0-beta.14) (2021-08-02)
 
 

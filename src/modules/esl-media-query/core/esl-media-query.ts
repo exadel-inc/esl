@@ -103,3 +103,9 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
 ESLMediaQuery.use(ESLScreenDPR);
 ESLMediaQuery.use(ESLScreenBreakpoints);
 ESLMediaQuery.use(ESLEnvShortcuts);
+
+declare global {
+  export interface ESLLibrary {
+    MediaQuery: typeof ESLMediaQuery;
+  }
+}

@@ -286,3 +286,12 @@ export class ESLToggleable extends ESLBaseElement {
     this.hide(Object.assign(baseParams, this.trackHoverParams));
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Toggleable: typeof ESLToggleable;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-toggleable': ESLToggleable;
+  }
+}

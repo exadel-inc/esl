@@ -129,3 +129,9 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
     this.fire(this._active = rule, this);
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    MediaRuleList: typeof ESLMediaRuleList;
+  }
+}

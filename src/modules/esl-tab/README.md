@@ -1,8 +1,10 @@
-# [ESL](../../../README.md) Tab & Tab Container
+# [ESL](../../../) Tab & Tab Container
 
 Version: *1.0.0*
 
 Authors: *Julia Murashko*
+
+<a name="intro"></a>
 
 ESLTabs is container component for Tabs trigger group. Uses ESLTab as an item. Each individual ESLTab can control
 ESLToggleable or, usually, ESLPanel.

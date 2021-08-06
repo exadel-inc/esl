@@ -98,3 +98,27 @@ export function isScrollParent(element: Element): boolean {
   const {overflow, overflowX, overflowY} = getComputedStyle(element);
   return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
 }
+
+/**
+ * This is a promise-based version of scrollIntoView().
+ * Method scrolls the element's parent container such that the element on which
+ * scrollIntoView() is called is visible to the user. The promise is resolved when
+ * the element became visible to the user.
+ * @param element - element to be made visible to the user
+ * @param options - scrollIntoView options
+ */
+export function scrollIntoViewAsync(element: Element, options: ScrollIntoViewOptions): Promise<void> {
+  element.scrollIntoView(options);
+
+  return new Promise((resolve, reject) => {
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      const [entry] = entries;
+
+      if (entry.isIntersecting) {
+        intersectionObserver.unobserve(element);
+        resolve();
+      }
+    });
+    intersectionObserver.observe(element);
+  });
+}

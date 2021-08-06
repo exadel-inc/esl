@@ -52,3 +52,9 @@ ESLEnvShortcuts.add('gecko', DeviceDetector.isGecko);
 ESLEnvShortcuts.add('blink', DeviceDetector.isBlink);
 ESLEnvShortcuts.add('safari', DeviceDetector.isSafari);
 ESLEnvShortcuts.add('safari-ios', DeviceDetector.isMobileSafari);
+
+declare global {
+  export interface ESLLibrary {
+    EnvShortcuts: typeof ESLEnvShortcuts;
+  }
+}

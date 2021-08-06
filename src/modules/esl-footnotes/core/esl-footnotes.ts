@@ -2,13 +2,15 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {ESLBaseElement, attr} from '../../esl-base-element/core';
-import {ESLNote} from '../../esl-note/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {EventUtils} from '../../esl-utils/dom/events';
+
+import type {ESLNote} from './esl-note';
 
 @ExportNs('Footnotes')
 export class ESLFootnotes extends ESLBaseElement {
   static is = 'esl-footnotes';
+  static eventNs = 'esl:footnotes';
 
   /** Target element {@link TraversingQuery} to define scope */
   @attr({defaultValue: '::parent'}) public scopeTarget: string;
@@ -37,13 +39,13 @@ export class ESLFootnotes extends ESLBaseElement {
 
   protected bindEvents() {
     if (this.scopeEl) {
-      this.scopeEl.addEventListener(`${ESLNote.eventNs}:response`, this._onNoteSubscribe);
+      this.scopeEl.addEventListener(`${ESLFootnotes.eventNs}:response`, this._onNoteSubscribe);
     }
     this.addEventListener('click', this._onClick);
   }
   protected unbindEvents() {
     if (this.scopeEl) {
-      this.scopeEl.removeEventListener(`${ESLNote.eventNs}:response`, this._onNoteSubscribe);
+      this.scopeEl.removeEventListener(`${ESLFootnotes.eventNs}:response`, this._onNoteSubscribe);
     }
     this.removeEventListener('click', this._onClick);
   }
@@ -104,6 +106,15 @@ export class ESLFootnotes extends ESLBaseElement {
   }
 
   protected _sendRequestToNote() {
-    EventUtils.dispatch(this, `${ESLNote.eventNs}:request`);
+    EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:request`);
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Footnotes: typeof ESLFootnotes;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-footnotes': ESLFootnotes;
   }
 }

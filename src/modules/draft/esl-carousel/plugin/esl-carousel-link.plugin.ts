@@ -67,3 +67,12 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
     this._target = target;
   }
 }
+
+declare global {
+  export interface ESLCarouselPlugins {
+    Link: typeof ESLCarouselLinkPlugin;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-carousel-link-plugin': ESLCarouselLinkPlugin;
+  }
+}

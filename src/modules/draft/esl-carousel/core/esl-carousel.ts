@@ -289,3 +289,14 @@ export class ESLCarousel extends ESLBaseElement {
     customElements.whenDefined(ESLCarouselSlide.is).then(() => super.register.call(this, tagName));
   }
 }
+
+declare global {
+  export interface ESLCarouselPlugins {}
+  export interface ESLLibrary {
+    Carousel: typeof ESLCarousel;
+    CarouselPlugin: typeof ESLCarouselPlugin;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-carousel': ESLCarousel;
+  }
+}

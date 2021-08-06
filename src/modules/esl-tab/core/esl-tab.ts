@@ -35,3 +35,12 @@ export class ESLTab extends ESLTrigger {
     }
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Tab: typeof ESLTab;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-tab': ESLTab;
+  }
+}
