@@ -62,18 +62,6 @@ export class ESLPopup extends ESLToggleable {
     this.$arrow = this.querySelector('span.esl-popup-arrow');
   }
 
-  protected bindEvents() {
-    super.bindEvents();
-    window.addEventListener('resize', this._deferredUpdatePosition);
-    window.addEventListener('scroll', this._deferredUpdatePosition);
-  }
-
-  protected unbindEvents() {
-    super.unbindEvents();
-    window.removeEventListener('resize', this._deferredUpdatePosition);
-    window.removeEventListener('scroll', this._deferredUpdatePosition);
-  }
-
   protected get _isPositioningAlongHorizontal() {
     return ['left', 'right'].includes(this.position);
   }
@@ -96,6 +84,7 @@ export class ESLPopup extends ESLToggleable {
 
     this._updatePosition();
     this.activator && this._addActivatorObserver(this.activator);
+    setTimeout(() => this._updatePosition()); // safety net for popup position (incorrect calculation when the popup is first displayed).
   }
 
   public onHide(params: PopupActionParams) {
@@ -161,6 +150,9 @@ export class ESLPopup extends ESLToggleable {
     const observer = new IntersectionObserver(this.onActivatorIntersection, options);
     observer.observe(target);
 
+    window.addEventListener('resize', this._deferredUpdatePosition);
+    window.addEventListener('scroll', this._deferredUpdatePosition);
+
     this._activatorObserver = {
       unsubscribers,
       observer
@@ -168,6 +160,8 @@ export class ESLPopup extends ESLToggleable {
   }
 
   protected _removeActivatorObserver(target: HTMLElement) {
+    window.removeEventListener('resize', this._deferredUpdatePosition);
+    window.removeEventListener('scroll', this._deferredUpdatePosition);
     this._activatorObserver.observer?.disconnect();
     this._activatorObserver.observer = undefined;
     this._activatorObserver.unsubscribers?.forEach((cb) => cb());
