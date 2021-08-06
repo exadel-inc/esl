@@ -2,6 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
 import {memoize} from '../../esl-utils/decorators/memoize';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 
 import type {PopupActionParams} from '../../esl-popup/core';
 import type {PositionType} from '../../esl-popup/core/esl-popup-position';
@@ -69,6 +70,9 @@ export class ESLTooltip extends ESLPopup {
     if (params.html) {
       this.innerHTML = params.html;
     }
+    if (params.extraClass) {
+      CSSClassUtils.add(this, params.extraClass);
+    }
     document.body.appendChild(this);
     super.onShow(params);
     this._updateActivatorState(true);
@@ -78,6 +82,9 @@ export class ESLTooltip extends ESLPopup {
     this._updateActivatorState(false);
     super.onHide(params);
     document.body.removeChild(this);
+    if (params.extraClass) {
+      CSSClassUtils.remove(this, params.extraClass);
+    }
   }
 
   protected _updateActivatorState(newState: boolean) {
