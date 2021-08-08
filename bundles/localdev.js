@@ -410,7 +410,7 @@ var ESLCarousel = /** @class */ (function (_super) {
     });
     Object.defineProperty(ESLCarousel.prototype, "firstIndex", {
         /**
-         * @returns {number} first active index
+         * @returns number first active index
          */
         get: function () {
             var index = this.$slides.findIndex(function (slide) {
@@ -1308,9 +1308,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
 
 /**
  * {@link ESLCarousel} Plugin base class.
- * The ESL Carousel Plugin should have the dom representation so it's {@extends HTMLElement}.
+ * The ESL Carousel Plugin should have the dom representation so it's extends {@link ESLBaseElement}
  * Use the attributes to path the plugin options, the same as with any custom elements.
- * @abstract
  */
 var ESLCarouselPlugin = /** @class */ (function (_super) {
     __extends(ESLCarouselPlugin, _super);
@@ -1330,7 +1329,7 @@ var ESLCarouselPlugin = /** @class */ (function (_super) {
     };
     Object.defineProperty(ESLCarouselPlugin.prototype, "key", {
         /**
-         * @returns {string} plugin unique key, ESLCarousel can not own more then one plugin with the same key
+         * @returns plugin unique key, ESLCarousel can not own more then one plugin with the same key
          */
         get: function () {
             return this.nodeName.toLowerCase();
@@ -1340,7 +1339,7 @@ var ESLCarouselPlugin = /** @class */ (function (_super) {
     });
     Object.defineProperty(ESLCarouselPlugin.prototype, "carousel", {
         /**
-         * @returns {ESLCarousel} owner of plugin
+         * @returns owner of plugin
          */
         get: function () {
             return this._carousel;
@@ -1369,7 +1368,7 @@ var ESLCarouselPlugin = /** @class */ (function (_super) {
         customElements.whenDefined(_core_esl_carousel__WEBPACK_IMPORTED_MODULE_0__.ESLCarousel.is).then(function () { return _super.register.call(_this, tagName); });
     };
     /**
-     * {boolean} freePlacement marker define the restriction for the plugin placement.
+     * Marker to define the restriction for the plugin placement.
      * If freePlacement is false - plugin element should be child of ESLCarousel element.
      * If freePlacement is true - plugin can be placed anywhere inside of carousel.
      */
@@ -1552,7 +1551,7 @@ var ESLA11yGroup = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Object.defineProperty(ESLA11yGroup.prototype, "$root", {
-        /** @returns {HTMLElement} root element of the group */
+        /** @returns HTMLElement root element of the group */
         get: function () {
             return this.parentElement;
         },
@@ -1560,7 +1559,7 @@ var ESLA11yGroup = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(ESLA11yGroup.prototype, "$targets", {
-        /** @returns {HTMLElement[]} targets of the group */
+        /** @returns HTMLElement[] targets of the group */
         get: function () {
             return _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_0__.TraversingQuery.all(this.targets, this.$root);
         },
@@ -1605,19 +1604,19 @@ var ESLA11yGroup = /** @class */ (function (_super) {
         targetEl.focus();
         this.activateSelected && targetEl.click();
     };
-    /** @returns {HTMLElement} next target fot trigger */
+    /** @returns HTMLElement next target fot trigger */
     ESLA11yGroup.prototype.next = function (trigger) {
         var triggers = this.$targets;
         var index = triggers.indexOf(trigger);
         return triggers[(index + 1) % triggers.length];
     };
-    /** @returns {HTMLElement} previous target fot trigger */
+    /** @returns HTMLElement previous target fot trigger */
     ESLA11yGroup.prototype.prev = function (trigger) {
         var triggers = this.$targets;
         var index = triggers.indexOf(trigger);
         return triggers[(index - 1 + triggers.length) % triggers.length];
     };
-    /** @returns {HTMLElement} currently focused element from targets */
+    /** @returns HTMLElement currently focused element from targets */
     ESLA11yGroup.prototype.current = function () {
         var $active = document.activeElement;
         return this.$targets.includes($active) ? $active : null;
@@ -1892,14 +1891,14 @@ var ESLBaseElement = /** @class */ (function (_super) {
      * Dispatch component custom event.
      * Uses 'esl:' prefix for event name, overridable to customize event namespaces.
      * @param eventName - event name
-     * @param [eventInit] - custom event init. See {@link CustomEventInit}
+     * @param eventInit - custom event init. See {@link CustomEventInit}
      */
     ESLBaseElement.prototype.$$fire = function (eventName, eventInit) {
         return _esl_utils_dom_events__WEBPACK_IMPORTED_MODULE_0__.EventUtils.dispatch(this, 'esl:' + eventName, eventInit);
     };
     /**
      * Register component in the {@link customElements} registry
-     * @param [tagName] - custom tag name to register custom element
+     * @param tagName - custom tag name to register custom element
      */
     ESLBaseElement.register = function (tagName) {
         tagName = tagName || this.is;
@@ -1956,7 +1955,7 @@ var buildAttrName = function (propName, dataAttr) { return dataAttr ? "data-" + 
 /**
  * Decorator to map current property to element attribute value.
  * Maps string type property.
- * @param [config] - mapping configuration. See {@link AttrDescriptor}
+ * @param config - mapping configuration. See {@link AttrDescriptor}
  */
 var attr = function (config) {
     if (config === void 0) { config = {}; }
@@ -1995,7 +1994,7 @@ var buildAttrName = function (propName, dataAttr) { return dataAttr ? "data-" + 
 /**
  * Decorator to map current property to element boolean (marker) attribute state.
  * Maps boolean type property.
- * @param [config] - mapping configuration. See {@link BoolAttrDescriptor}
+ * @param config - mapping configuration. See {@link BoolAttrDescriptor}
  */
 var boolAttr = function (config) {
     if (config === void 0) { config = {}; }
@@ -2048,7 +2047,7 @@ var buildAttrName = function (propName, dataAttr) { return dataAttr ? "data-" + 
 /**
  * Decorator to map current property to element attribute value using JSON (de-)serialization rules.
  * Maps object type property.
- * @param [config] - mapping configuration. See {@link JsonAttrDescriptor}
+ * @param config - mapping configuration. See {@link JsonAttrDescriptor}
  */
 var jsonAttr = function (config) {
     if (config === void 0) { config = {}; }
@@ -2453,7 +2452,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 /**
- * Base class for {@link HTMLSelectElement} wrapper element, implements {@link ESLSelectModel) options source
+ * Base class for {@link HTMLSelectElement} wrapper element, implements {@link ESLSelectModel} options source
  */
 var ESLSelectWrapper = /** @class */ (function (_super) {
     __extends(ESLSelectWrapper, _super);
@@ -2700,7 +2699,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
  * ESLSelectDropdown component
  * @author Alexey Stsefanovich (ala'n)
  *
- * Auxiliary inner custom component to render {@link ESLSelect) dropdown section
+ * Auxiliary inner custom component to render {@link ESLSelect} dropdown section
  * Uses {@link ESLSelectList} to render the content
  */
 var ESLSelectDropdown = /** @class */ (function (_super) {
@@ -3793,7 +3792,7 @@ var ESLMediaBreakpoints = /** @class */ (function () {
         throw new Error('Shortcut should consist only from Latin characters. Length should be at least one character.');
     };
     /**
-     * @return known breakpoint shortcut instance
+     * @returns known breakpoint shortcut instance
      */
     ESLMediaBreakpoints.getBreakpoint = function (name) {
         return registry[(name || '').toLowerCase()];
@@ -3866,10 +3865,10 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
  * Helper class that extends MediaQueryList class
  * Supports
  * - CSS query matching check
- * - DPR display queries (@x1 | @x2 | @x3)
- * - Screen default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
+ * - DPR display queries (`@x1|@x2|@x3`)
+ * - Screen default sizes shortcuts (`@[-|+](XS|SM|MD|LG|XL)`)
  * - Query matching change listeners
- * - Mobile / full browser detection (@MOBILE|@DESKTOP)
+ * - Mobile / full browser detection (`@MOBILE|@DESKTOP`)
  * - Exclude upper DPRs for bots
  */
 var ESLMediaQuery = /** @class */ (function () {
@@ -4165,10 +4164,10 @@ var __read = (undefined && undefined.__read) || function (o, n) {
  * Helper class that extend provide Observable Rule Handler that resolve payload based on current device configuration.
  * Supports
  * - CSS query matching check
- * - DPR display queries (@x1 | @x2 | @x3)
- * - Screen default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
+ * - DPR display queries (`@x1|@x2|@x3`)
+ * - Screen default sizes shortcuts (`@[-|+](XS|SM|MD|LG|XL)`)
  * - Query matching change listeners
- * - Mobile / full browser detection (@MOBILE|@DESKTOP)
+ * - Mobile / full browser detection (`@MOBILE|@DESKTOP`)
  */
 var ESLMediaRule = /** @class */ (function (_super) {
     __extends(ESLMediaRule, _super);
@@ -4280,18 +4279,14 @@ var MediaGroupRestrictionManager = /** @class */ (function () {
     function MediaGroupRestrictionManager() {
     }
     Object.defineProperty(MediaGroupRestrictionManager, "managerMap", {
-        /**
-         * @debug info
-         */
+        /** @internal */
         get: function () {
             return managerMap;
         },
         enumerable: false,
         configurable: true
     });
-    /**
-     * Register instance play state in group
-     */
+    /** Register instance play state in group */
     MediaGroupRestrictionManager.registerPlay = function (instance) {
         if (instance.group) {
             var current = managerMap.get(instance.group);
@@ -4303,9 +4298,7 @@ var MediaGroupRestrictionManager = /** @class */ (function () {
             }
         }
     };
-    /**
-     * Unregister instance
-     */
+    /** Unregister instance */
     MediaGroupRestrictionManager.unregister = function (instance) {
         if (instance.group) {
             var reg = managerMap.get(instance.group);
@@ -4365,10 +4358,7 @@ var BaseProvider = /** @class */ (function () {
         return config;
     };
     Object.defineProperty(BaseProvider.prototype, "ready", {
-        /**
-         * Wraps _ready promise
-         * @returns {Promise}
-         */
+        /** Wraps _ready promise */
         get: function () {
             if (!this._ready) {
                 var res = Promise.reject('Not Initialized');
@@ -4688,8 +4678,8 @@ var ESLMedia = /** @class */ (function (_super) {
     ESLMedia_1 = ESLMedia;
     Object.defineProperty(ESLMedia, "PLAYER_STATES", {
         /**
-         * @enum Map with possible Player States
-         * values: BUFFERING, ENDED, PAUSED, PLAYING, UNSTARTED, VIDEO_CUED, UNINITIALIZED
+         * Map object with possible Player States, values:
+         * BUFFERING, ENDED, PAUSED, PLAYING, UNSTARTED, VIDEO_CUED, UNINITIALIZED
          */
         get: function () {
             return _esl_media_provider__WEBPACK_IMPORTED_MODULE_2__.PlayerStates;
@@ -4805,17 +4795,13 @@ var ESLMedia = /** @class */ (function (_super) {
         _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_5__.CSSClassUtils.toggle(targetEl, this.loadClsAccepted, active);
         _esl_utils_dom_class__WEBPACK_IMPORTED_MODULE_5__.CSSClassUtils.toggle(targetEl, this.loadClsDeclined, !active);
     };
-    /**
-     * Seek to given position of media
-     * @returns {Promise | void}
-     */
+    /** Seek to given position of media */
     ESLMedia.prototype.seekTo = function (pos) {
         return this._provider && this._provider.safeSeekTo(pos);
     };
     /**
      * Start playing media
-     * @param {boolean} allowActivate
-     * @returns {Promise | void}
+     * @param allowActivate - allows to remove disabled marker
      */
     ESLMedia.prototype.play = function (allowActivate) {
         if (allowActivate === void 0) { allowActivate = false; }
@@ -4825,27 +4811,18 @@ var ESLMedia = /** @class */ (function (_super) {
             this.reinitInstance();
         }
         if (!this.canActivate())
-            return;
+            return null;
         return this._provider && this._provider.safePlay();
     };
-    /**
-     * Pause playing media
-     * @returns {Promise | void}
-     */
+    /** Pause playing media */
     ESLMedia.prototype.pause = function () {
         return this._provider && this._provider.safePause();
     };
-    /**
-     * Stop playing media
-     * @returns {Promise | void}
-     */
+    /** Stop playing media */
     ESLMedia.prototype.stop = function () {
         return this._provider && this._provider.safeStop();
     };
-    /**
-     * Toggle play/pause state of the media
-     * @returns {Promise | void}
-     */
+    /** Toggle play/pause state of the media */
     ESLMedia.prototype.toggle = function () {
         return this._provider && this._provider.safeToggle();
     };
@@ -5155,9 +5132,7 @@ var BrightcoveProvider = /** @class */ (function (_super) {
             accountId: el.getAttribute('player-account')
         };
     };
-    /**
-     * Loads player API according defined settings
-     * */
+    /** Loads player API according defined settings */
     BrightcoveProvider.loadAPI = function (account) {
         var apiSrc = "//players.brightcove.net/" + account.accountId + "/" + account.playerId + "_default/index.min.js";
         var apiScript = document.getElementById(API_SCRIPT_ID);
@@ -5166,9 +5141,7 @@ var BrightcoveProvider = /** @class */ (function (_super) {
         }
         return (0,_esl_utils_dom_script__WEBPACK_IMPORTED_MODULE_0__.loadScript)(API_SCRIPT_ID, apiSrc);
     };
-    /**
-     * Build video brightcove element
-     */
+    /** Build video brightcove element */
     BrightcoveProvider.prototype.buildVideo = function () {
         var el = document.createElement('video-js');
         el.id = 'esl-media-brightcove-' + (0,_esl_utils_misc_uid__WEBPACK_IMPORTED_MODULE_1__.generateUId)();
@@ -5185,9 +5158,7 @@ var BrightcoveProvider = /** @class */ (function (_super) {
         this._account.accountId && el.setAttribute('data-account', this._account.accountId);
         return el;
     };
-    /**
-     * Utility method to convert api event to promise
-     */
+    /** Utility method to convert api event to promise */
     BrightcoveProvider.prototype.$$fromEvent = function (eventName) {
         var _this = this;
         if (!this._api)
@@ -5196,7 +5167,7 @@ var BrightcoveProvider = /** @class */ (function (_super) {
     };
     /**
      * Executes as soon as api script detected or loaded.
-     * @returns {Promise<VideoJsPlayer>} - promise with provided API
+     * @returns promise with provided API
      */
     BrightcoveProvider.prototype.onAPILoaded = function () {
         var _this = this;
@@ -5210,7 +5181,6 @@ var BrightcoveProvider = /** @class */ (function (_super) {
     /**
      * Executes after API ready state resolved
      * Basic onAPIReady should be called to subscribe to API state
-     * @returns {Promise | void}
      */
     BrightcoveProvider.prototype.onAPIReady = function () {
         var _this = this;
@@ -7879,19 +7849,20 @@ var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from
  * - ::first, ::last and :nth(#) limitation pseudo-selectors
  * - ::filter, ::not filtration pseudo-selectors
  *
- * @example "#id .class [attr]" - find by CSS selector in a current document
- * @example "" - get current base element
- * @example "::next" - get next sibling element
- * @example "::prev" - get previous sibling element
- * @example "::parent" - get base element parent
- * @example "::parent(#id .class [attr])" - find the closest parent matching passed selector
- * @example "::child(#id .class [attr])" - find direct child element(s) that match passed selector
- * @example "::find(#id .class [attr])" - find child element(s) that match passed selector
- * @example "::find(buttons, a)::not([hidden])" - find all buttons and anchors that are not have hidden attribute
- * @example "::find(buttons, a)::filter(:first-child)" - find all buttons and anchors that are first child in container
- * @example "::parent::child(some-tag)" - find direct child element(s) that match tag 'some-tag' in the parent
- * @example "#id .class [attr]::parent" - find parent of element matching selector '#id .class [attr]' in document
- * @example "::find(.row)::last::parent" - find parent of the last element matching selector '.row' from the base element subtree
+ * @example
+ * - `#id .class [attr]` - find by CSS selector in a current document
+ * - ` ` - get current base element
+ * - `::next` - get next sibling element
+ * - `::prev` - get previous sibling element
+ * - `::parent` - get base element parent
+ * - `::parent(#id .class [attr])` - find the closest parent matching passed selector
+ * - `::child(#id .class [attr])` - find direct child element(s) that match passed selector
+ * - `::find(#id .class [attr])` - find child element(s) that match passed selector
+ * - `::find(buttons, a)::not([hidden])` - find all buttons and anchors that are not have hidden attribute
+ * - `::find(buttons, a)::filter(:first-child)` - find all buttons and anchors that are first child in container
+ * - `::parent::child(some-tag)` - find direct child element(s) that match tag 'some-tag' in the parent
+ * - `#id .class [attr]::parent` - find parent of element matching selector '#id .class [attr]' in document
+ * - `::find(.row)::last::parent` - find parent of the last element matching selector '.row' from the base element subtree
  */
 var TraversingQuery = /** @class */ (function () {
     function TraversingQuery() {
@@ -7899,7 +7870,7 @@ var TraversingQuery = /** @class */ (function () {
     TraversingQuery_1 = TraversingQuery;
     Object.defineProperty(TraversingQuery, "PROCESSORS_REGEX", {
         /**
-         * @return RegExp that selects all known processors in query string
+         * @returns RegExp that selects all known processors in query string
          * e.g. /(::parent|::child|::next|::prev)/
          */
         get: function () {
@@ -7965,11 +7936,11 @@ var TraversingQuery = /** @class */ (function () {
         var initial = rootSel ? Array.from(document.querySelectorAll(rootSel)) : baseCollection;
         return this.traverseChain(initial, (0,_esl_utils_misc_array__WEBPACK_IMPORTED_MODULE_1__.tuple)(parts), findFirst);
     };
-    /** @return first matching element reached via {@class TraversingQuery} rules */
+    /** @returns first matching element reached via {@link TraversingQuery} rules */
     TraversingQuery.first = function (query, base) {
         return TraversingQuery_1.traverse(query, true, base)[0] || null;
     };
-    /** @return Array of all matching elements reached via {@class TraversingQuery} rules */
+    /** @returns Array of all matching elements reached via {@link TraversingQuery} rules */
     TraversingQuery.all = function (query, base) {
         return TraversingQuery_1.traverse(query, false, base);
     };
@@ -8831,7 +8802,7 @@ __webpack_require__.r(__webpack_exports__);
  * The class property initial value is a part of object creation, so it goes to the object itself,
  * while the @override value is defined on the prototype level.
  *
- *  @param [prototypeConfig] - prototype property configuration
+ * @param prototypeConfig - prototype property configuration
  */
 function prop(prototypeConfig) {
     if (prototypeConfig === void 0) { prototypeConfig = {}; }
@@ -9032,10 +9003,10 @@ var EventUtils = /** @class */ (function () {
     }
     /**
      * Dispatch custom event.
-     * Event bubbles and is cancelable by default, use {@param eventInit} to override that.
+     * Event bubbles and is cancelable by default, use `eventInit` to override that.
      * @param el - element target
      * @param eventName - event name
-     * @param [eventInit] - custom event init. See {@link CustomEventInit}
+     * @param eventInit - custom event init. See {@link CustomEventInit}
      */
     EventUtils.dispatch = function (el, eventName, eventInit) {
         var init = Object.assign({
@@ -9183,8 +9154,7 @@ var RTLUtils = /** @class */ (function () {
     };
     Object.defineProperty(RTLUtils, "scrollType", {
         /**
-         * @returns {ScrollType} RTL scroll type
-         * Lazy, memoized.
+         * @returns RTL scroll type (lazy, memoized)
          */
         get: function () {
             var scrollType = 'default';
@@ -9250,8 +9220,8 @@ var createAsyncScript = function (id, src) {
 };
 /**
  * Common function that loads script async
- * @param {string} id - unique script id that is used as a marker to prevent future load
- * @param {string} src - script src (url) to load
+ * @param id - unique script id that is used as a marker to prevent future load
+ * @param src - script src (url) to load
  */
 function loadScript(id, src) {
     return new Promise(function (resolve, reject) {
@@ -9305,16 +9275,14 @@ var initiatorSet = new Set();
 var ScrollUtils = /** @class */ (function () {
     function ScrollUtils() {
     }
-    /**
-     * Check vertical scroll based on content height
-     * */
+    /** Check vertical scroll based on content height */
     ScrollUtils.hasVerticalScroll = function (target) {
         if (target === void 0) { target = $html; }
         return target.scrollHeight > target.clientHeight;
     };
     /**
      * Disable scroll on the page.
-     * @param [strategy] - to make scroll visually disabled
+     * @param strategy - to make scroll visually disabled
      * */
     ScrollUtils.lock = function (strategy) {
         var hasScroll = ScrollUtils.hasVerticalScroll();
@@ -9332,7 +9300,7 @@ var ScrollUtils = /** @class */ (function () {
     /**
      * Disable scroll on the page.
      * @param initiator - object to associate request with
-     * @param [strategy] - to make scroll visually disabled
+     * @param strategy - to make scroll visually disabled
      *
      * TODO: currently requests with different strategy is not taken into account
      * */
@@ -9343,7 +9311,7 @@ var ScrollUtils = /** @class */ (function () {
     /**
      * Enable scroll on the page in case it was requested with given initiator.
      * @param initiator - object to associate request with
-     * @param [strategy] - to make scroll visually disabled
+     * @param strategy - to make scroll visually disabled
      * */
     ScrollUtils.requestUnlock = function (initiator, strategy) {
         initiator && initiatorSet.delete(initiator);
@@ -9372,14 +9340,14 @@ var TraversingUtils = /** @class */ (function () {
     function TraversingUtils() {
     }
     /**
-     * Check that {@param nodeA} and {@param nodeB} is from the same tree path.
+     * Check that `nodeA` and `nodeB` is from the same tree path.
      */
     TraversingUtils.isRelative = function (nodeA, nodeB) {
         return nodeA && nodeB && (nodeA.contains(nodeB) || nodeB.contains(nodeA));
     };
     /**
-     * Find closest parent node of {@param node} by {@param predicate}.
-     * Optional {@param skipSelf} to skip initial node
+     * Find closest parent node of `node` by `predicate`.
+     * Optional `skipSelf` to skip initial node
      */
     TraversingUtils.closestBy = function (node, predicate, skipSelf) {
         if (skipSelf === void 0) { skipSelf = false; }
@@ -9392,7 +9360,7 @@ var TraversingUtils = /** @class */ (function () {
         return null;
     };
     /**
-     * Create function that find next dom element, that matches selector, in the sequence declared by {@param next} function
+     * Create function that find next dom element, that matches selector, in the sequence declared by `next` function
      */
     TraversingUtils.createSequenceFinder = function (next) {
         return function (base, sel) {
@@ -9403,19 +9371,19 @@ var TraversingUtils = /** @class */ (function () {
             return null;
         };
     };
-    /** @return Array of all matching elements in subtree or empty array*/
+    /** @returns Array of all matching elements in subtree or empty array*/
     TraversingUtils.findAll = function (base, sel) {
         return sel ? Array.from(base.querySelectorAll(sel)) : [base];
     };
-    /** @return Array of all matching children or empty array*/
+    /** @returns Array of all matching children or empty array*/
     TraversingUtils.findChildren = function (base, sel) {
         return Array.from(base.children).filter(function (el) { return !sel || el.matches(sel); });
     };
-    /** @return first matching next sibling or null*/
+    /** @returns first matching next sibling or null*/
     TraversingUtils.findNext = TraversingUtils.createSequenceFinder(function (el) { return el.nextElementSibling; });
-    /** @return first matching previous sibling or null*/
+    /** @returns first matching previous sibling or null*/
     TraversingUtils.findPrev = TraversingUtils.createSequenceFinder(function (el) { return el.previousElementSibling; });
-    /** @return first matching parent or null*/
+    /** @returns first matching parent or null*/
     TraversingUtils.findParent = TraversingUtils.createSequenceFinder(function (el) { return el.parentElement; });
     return TraversingUtils;
 }());
@@ -9556,9 +9524,12 @@ var exportNs = function (name, module) {
 };
 /**
  * Decorator to declare function or class in a global ns
- * @param {string} name - key path to declare in ESL global ns
+ * @param name - key path to declare in ESL global ns
  * NOTE: path parts should be separated by dots
- * @example @Export('Package.Component')
+ * @example
+ * ```ts
+ * @Export('Package.Component')
+ * ```
  * NOTE: in case declaration contains components-packages, their origins will be mixed with declaration in a Runtime
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -9682,9 +9653,10 @@ var unwrapParenthesis = function (str) {
 /**
  * Common function that returns coefficient aspect ratio
  * Supported formats: w:h, w/h, coefficient
- * @example '16:9', '16/9', '1.77'
+ * @example
+ * `16:9`, `16/9`, `1.77`
  * @param str - string to parse
- * @return aspect ratio coefficient
+ * @returns aspect ratio coefficient
  */
 function parseAspectRatio(str) {
     var _a = __read(str.split(/[:/]/), 2), w = _a[0], h = _a[1];
@@ -9702,7 +9674,7 @@ function evaluate(str, defaultValue) {
         return defaultValue;
     }
 }
-/** Replace '{key}' patterns in the string from the source object */
+/** Replace `{key}` patterns in the string from the source object */
 function format(str, source) {
     return str.replace(/{([\w.]+)}/g, function (match, key) {
         var val = (0,_object__WEBPACK_IMPORTED_MODULE_0__.get)(source, key);
@@ -9994,7 +9966,7 @@ shimES5ElementConstructor(HTMLElement);
 
 /**
  * Group: DOM API shims
- * Target Browsers: IE11, Edge < 18, Safari < 13
+ * Target Browsers: `IE11`, `Edge < 18`, `Safari < 13`
  * Element.toggleAttribute polyfill
  */
 if (!Element.prototype.toggleAttribute) {
@@ -10020,7 +9992,7 @@ if (!Element.prototype.toggleAttribute) {
 
 /**
  * Group: DOM API shims
- * Target Browsers: IE11, Edge < 18
+ * Target Browsers: `IE11`, `Edge < 18`
  * KeyboardEvent.prototype.key shim to normalize key values to W3C spec
  * Based on published shim https://www.npmjs.com/package/shim-keyboard-event-key
  */
@@ -10065,7 +10037,7 @@ if (!Element.prototype.toggleAttribute) {
 
 /**
  * Group: DOM polyfills
- * Target browsers: IE11, Edge <= 18
+ * Target browsers: `IE11`, `Edge <= 18`
  * Node.isConnected polyfill
  */
 if (!('isConnected' in Node.prototype)) {

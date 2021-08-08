@@ -3021,7 +3021,7 @@ window.ResizeObserver = window.ResizeObserver || _juggle_resize_observer__WEBPAC
 
 /**
  * Group: DOM API shims ~ ES6 shim group
- * Target Browsers: IE11, Edge < 14
+ * Target Browsers: `IE11`, `Edge < 14`
  * Element.closest polyfill
  */
 (function (e) {
@@ -3051,7 +3051,7 @@ window.ResizeObserver = window.ResizeObserver || _juggle_resize_observer__WEBPAC
 
 /**
  * Group: ES6 shims
- * Target Browsers: IE11
+ * Target Browsers: `IE11`
  * DOMTokenList.toggle polyfill to support force option
  */
 (function (DOMTokenListProto) {
@@ -3083,7 +3083,7 @@ window.ResizeObserver = window.ResizeObserver || _juggle_resize_observer__WEBPAC
 
 /**
  * Group: ES6 shim
- * Target Browsers: IE11, Edge < 14
+ * Target Browsers: `IE11`, `Edge < 14`
  * Array.prototype.findIndex && Array.prototype.findIndex
  */
 if (typeof Array.prototype.findIndex !== 'function') {
@@ -3127,7 +3127,7 @@ if (typeof Array.prototype.findIndex !== 'function') {
 
 /**
  * Group: ES6 shim
- * Target Browsers: IE11, Edge < 14
+ * Target Browsers: `IE11`, `Edge < 14`
  * Array.prototype.includes polyfill
  */
 if (!Array.prototype.includes) {
@@ -3153,7 +3153,7 @@ if (!Array.prototype.includes) {
 
 /**
  * Group: ES6 shims
- * Target Browsers: IE11
+ * Target Browsers: `IE11`
  * Object.is support
  * Blatantly stolen from ES6 specs. Kept here for reference.
  * http://wiki.ecmascript.org/doku.php?id=harmony:egal
