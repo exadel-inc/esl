@@ -1,3 +1,10 @@
+# [2.9.0](https://github.com/exadel-inc/esl/compare/v2.8.2...v2.9.0) (2021-08-08)
+
+
+### Features
+
+* **esl-utils:** promise functional declarations ([19b1e2b](https://github.com/exadel-inc/esl/commit/19b1e2b7e5b0fe2cf4431b35a06b07122108ddfb))
+
 ## [2.8.2](https://github.com/exadel-inc/esl/compare/v2.8.1...v2.8.2) (2021-08-04)
 
 ## [2.8.1](https://github.com/exadel-inc/esl/compare/v2.8.0...v2.8.1) (2021-07-20)
