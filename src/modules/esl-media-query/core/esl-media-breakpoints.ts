@@ -62,7 +62,7 @@ export abstract class ESLMediaBreakpoints {
   }
 
   /**
-   * @return known breakpoint shortcut instance
+   * @returns known breakpoint shortcut instance
    */
   public static getBreakpoint(name: string): ScreenBreakpoint {
     return registry[(name || '').toLowerCase()];

@@ -9,10 +9,10 @@ type PayloadParser<T> = (val: string) => T | undefined;
  * Helper class that extend provide Observable Rule Handler that resolve payload based on current device configuration.
  * Supports
  * - CSS query matching check
- * - DPR display queries (@x1 | @x2 | @x3)
- * - Screen default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
+ * - DPR display queries (`@x1|@x2|@x3`)
+ * - Screen default sizes shortcuts (`@[-|+](XS|SM|MD|LG|XL)`)
  * - Query matching change listeners
- * - Mobile / full browser detection (@MOBILE|@DESKTOP)
+ * - Mobile / full browser detection (`@MOBILE|@DESKTOP`)
  */
 export class ESLMediaRule<T> extends ESLMediaQuery {
   private readonly _payload: T;

@@ -12,10 +12,10 @@ import {ESLMediaBreakpoints} from './esl-media-breakpoints';
  * Helper class that extends MediaQueryList class
  * Supports
  * - CSS query matching check
- * - DPR display queries (@x1 | @x2 | @x3)
- * - Screen default sizes shortcuts @[-|+](XS|SM|MD|LG|XL)
+ * - DPR display queries (`@x1|@x2|@x3`)
+ * - Screen default sizes shortcuts (`@[-|+](XS|SM|MD|LG|XL)`)
  * - Query matching change listeners
- * - Mobile / full browser detection (@MOBILE|@DESKTOP)
+ * - Mobile / full browser detection (`@MOBILE|@DESKTOP`)
  * - Exclude upper DPRs for bots
  */
 @ExportNs('MediaQuery')
