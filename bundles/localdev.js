@@ -8381,9 +8381,8 @@ __webpack_require__.r(__webpack_exports__);
  * Debounced function delays invoking func until after wait milliseconds have elapsed
  * since the last time the debounced function was invoked.
  * The func is invoked with the last arguments provided to the debounced function.
- * @param fn
- * @param [wait]
- * @returns {Function}
+ * @param fn - function to decorate
+ * @param wait - time to debounce
  */
 function debounce(fn, wait) {
     if (wait === void 0) { wait = 10; }
@@ -8395,7 +8394,7 @@ function debounce(fn, wait) {
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        deferred = deferred || _promise__WEBPACK_IMPORTED_MODULE_0__.PromiseUtils.deferred();
+        deferred = deferred || (0,_promise__WEBPACK_IMPORTED_MODULE_0__.createDeferred)();
         (typeof timeout === 'number') && clearTimeout(timeout);
         timeout = window.setTimeout(function () {
             timeout = null;
@@ -8452,7 +8451,7 @@ var DelayedTask = /** @class */ (function () {
         };
     }
     Object.defineProperty(DelayedTask.prototype, "fn", {
-        /** @return {Function} of currently deferred (planned) task */
+        /** @returns Function of currently deferred (planned) task */
         get: function () {
             return this._fn;
         },
@@ -8460,7 +8459,8 @@ var DelayedTask = /** @class */ (function () {
         configurable: true
     });
     /**
-     * Cancel deferred task and planning passed {@param task}
+     * Cancel deferred task and planning passed
+     * @param task - task function
      * @param delay - time to delay task execution
      *  - pass negative or false to execute task immediately
      *  - pass 0 to plan task to the macrotask
@@ -8502,102 +8502,120 @@ var DelayedTask = /** @class */ (function () {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "promisifyTimeout": function() { return /* binding */ promisifyTimeout; },
+/* harmony export */   "promisifyEvent": function() { return /* binding */ promisifyEvent; },
+/* harmony export */   "promisifyMarker": function() { return /* binding */ promisifyMarker; },
+/* harmony export */   "tryUntil": function() { return /* binding */ tryUntil; },
+/* harmony export */   "createDeferred": function() { return /* binding */ createDeferred; },
+/* harmony export */   "resolvePromise": function() { return /* binding */ resolvePromise; },
+/* harmony export */   "rejectPromise": function() { return /* binding */ rejectPromise; },
 /* harmony export */   "PromiseUtils": function() { return /* binding */ PromiseUtils; }
 /* harmony export */ });
 /**
+ * @returns Promise that will be resolved in `timeout` with optional `payload`
+ */
+function promisifyTimeout(timeout, payload) {
+    return new Promise(function (resolve) {
+        return setTimeout(resolve.bind(null, payload), timeout);
+    });
+}
+/**
+ * @returns Promise that will be resolved by dispatching `event` on `target`
+ * Or it will be rejected in `timeout` if it's specified
+ * Optional `options` for addEventListener can be also specified
+ */
+function promisifyEvent(target, event, timeout, options) {
+    return new Promise(function (resolve, reject) {
+        function eventCallback(e) {
+            target.removeEventListener(event, eventCallback, options);
+            resolve(e);
+        }
+        target.addEventListener(event, eventCallback, options);
+        if (typeof timeout === 'number' && timeout >= 0) {
+            setTimeout(function () { return reject(new Error('Rejected by timeout')); }, timeout);
+        }
+    });
+}
+/**
+ * Short helper to make Promise from element state marker
+ * @returns Promise that will be resolved if the target `marker` property is truthful or `event` is dispatched
+ * @example
+ * `const imgReady = promisifyMarker(eslImage, 'ready');`
+ */
+function promisifyMarker(target, marker, event) {
+    if (event === void 0) { event = marker; }
+    if (target[marker])
+        return Promise.resolve(target);
+    return promisifyEvent(target, event).then(function () { return target; });
+}
+/**
+ * Call `callback` limited by `tryCount` amount of times with interval in `timeout` ms
+ * @returns Promise that will be resolved as soon as callback returns truthy value, or reject it by limit.
+ */
+function tryUntil(callback, tryCount, timeout) {
+    if (tryCount === void 0) { tryCount = 2; }
+    if (timeout === void 0) { timeout = 100; }
+    return new Promise(function (resolve, reject) {
+        (function check() {
+            var result;
+            try {
+                result = callback();
+            }
+            catch (_a) {
+                result = undefined;
+            }
+            if (result || (tryCount--) < 0) {
+                result ? resolve(result) : reject(new Error('Rejected by limit of tries'));
+            }
+            else {
+                setTimeout(check, timeout);
+            }
+        })();
+    });
+}
+/**
+ * Create Deferred Object that wraps promise and its resolve and reject callbacks
+ */
+function createDeferred() {
+    var reject;
+    var resolve;
+    // Both reject and resolve will be assigned anyway while the Promise constructing.
+    var promise = new Promise(function (res, rej) {
+        resolve = res;
+        reject = rej;
+    });
+    return { promise: promise, resolve: resolve, reject: reject };
+}
+/**
+ * Safe wrap for Promise.resolve to use in Promise chain
+ * @example
+ * `const resolvedPromise = rejectedPromise.catch(resolvePromise);`
+ */
+function resolvePromise(arg) {
+    return Promise.resolve(arg);
+}
+/**
+ * Safe wrap for Promise.reject to use in Promise chain
+ * @example
+ * `const rejectedPromise = resolvedPromise.then(rejectPromise);`
+ */
+function rejectPromise(arg) {
+    return Promise.reject(arg);
+}
+/**
  * Promise utils helper class
+ * Note: use individual methods in case you need correct "tree shaking"
  */
 var PromiseUtils = /** @class */ (function () {
     function PromiseUtils() {
     }
-    /**
-     * @return {Promise} that will be resolved in {@param timeout} with optional {@param payload}
-     */
-    PromiseUtils.fromTimeout = function (timeout, payload) {
-        return new Promise(function (resolve) {
-            return setTimeout(resolve.bind(null, payload), timeout);
-        });
-    };
-    /**
-     * @return {Promise} that will be resolved by dispatching {@param event} on {@param target}
-     * Or it will be rejected in {@param timeout} if it's specified
-     * Optional {@param options} for addEventListener can be also specified
-     */
-    PromiseUtils.fromEvent = function (target, event, timeout, options) {
-        return new Promise(function (resolve, reject) {
-            function eventCallback(e) {
-                target.removeEventListener(event, eventCallback, options);
-                resolve(e);
-            }
-            target.addEventListener(event, eventCallback, options);
-            if (typeof timeout === 'number' && timeout >= 0) {
-                setTimeout(function () { return reject(new Error('Rejected by timeout')); }, timeout);
-            }
-        });
-    };
-    /**
-     * Short helper to make Promise from element state marker
-     * Marker should be accessible and listenable
-     * @example
-     * const imgReady = PromiseUtils.fromMarker(eslImage, 'ready');
-     */
-    PromiseUtils.fromMarker = function (target, marker, event) {
-        if (target[marker])
-            return Promise.resolve(target);
-        return PromiseUtils.fromEvent(target, event || marker).then(function () { return target; });
-    };
-    /**
-     * Safe wrap for Promise.resolve to use in Promise chain
-     * @example
-     * const resolvedPromise = rejectedPromise.catch(PromiseUtils.resolve);
-     */
-    PromiseUtils.resolve = function (arg) {
-        return Promise.resolve(arg);
-    };
-    /**
-     * Safe wrap for Promise.reject to use in Promise chain
-     * @example
-     * const rejectedPromise = resolvedPromise.then(PromiseUtils.resolve);
-     */
-    PromiseUtils.reject = function (arg) {
-        return Promise.reject(arg);
-    };
-    /**
-     * Call {@param callback} limited by {@param tryCount} amount of times with interval in {@param timeout} ms
-     * @return {Promise} that will be resolved as soon as callback returns truthy value, or reject it by limit.
-     */
-    PromiseUtils.tryUntil = function (callback, tryCount, timeout) {
-        if (tryCount === void 0) { tryCount = 2; }
-        if (timeout === void 0) { timeout = 100; }
-        return new Promise(function (resolve, reject) {
-            var interval = setInterval(function () {
-                var result;
-                try {
-                    result = callback();
-                }
-                catch (_a) {
-                    result = undefined;
-                }
-                if (result || --tryCount < 0) {
-                    clearInterval(interval);
-                    result ? resolve(result) : reject(new Error('Rejected by limit of tries'));
-                }
-            }, timeout);
-        });
-    };
-    /**
-     * Create Deferred Object that wraps promise and its resolve and reject callbacks
-     */
-    PromiseUtils.deferred = function () {
-        var reject;
-        var resolve;
-        // Both reject and resolve will be assigned anyway while the Promise constructing.
-        var promise = new Promise(function (res, rej) {
-            resolve = res;
-            reject = rej;
-        });
-        return { promise: promise, resolve: resolve, reject: reject };
-    };
+    PromiseUtils.fromTimeout = promisifyTimeout;
+    PromiseUtils.fromEvent = promisifyEvent;
+    PromiseUtils.fromMarker = promisifyMarker;
+    PromiseUtils.tryUntil = tryUntil;
+    PromiseUtils.deferred = createDeferred;
+    PromiseUtils.resolve = resolvePromise;
+    PromiseUtils.reject = rejectPromise;
     return PromiseUtils;
 }());
 
@@ -8639,13 +8657,11 @@ var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from
 };
 /**
  * Postpone action after next render
- * @param {function} callback
  */
 var afterNextRender = function (callback) { return requestAnimationFrame(function () { return requestAnimationFrame(callback); }); };
 /**
  * Decorate function to schedule execution after next render
- * @param {function} fn
- * @returns {function} - decorated function
+ * @returns decorated function
  */
 var rafDecorator = function (fn) {
     var lastArgs = null; // null if no calls requested
