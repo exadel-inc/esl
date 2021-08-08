@@ -1,10 +1,10 @@
 /**
- * @deprecated This property is deprecated use @property instead
+ * @deprecated This property is deprecated use `@prop` instead
  *
  * `@readonly` is auxiliary decorator to create a readonly field on prototype level.
  *
  * @param value - property value
- * @param [silent] - to not throw error on setting value
+ * @param silent - to not throw error on setting value
  */
 export function readonly(value: any, silent = false) {
   return function (obj: any, name: string): void {

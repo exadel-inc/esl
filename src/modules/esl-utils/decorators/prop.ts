@@ -21,7 +21,7 @@ export type OverrideDecoratorConfig = {
  * The class property initial value is a part of object creation, so it goes to the object itself,
  * while the @override value is defined on the prototype level.
  *
- *  @param [prototypeConfig] - prototype property configuration
+ * @param prototypeConfig - prototype property configuration
  */
 export function prop(prototypeConfig: OverrideDecoratorConfig = {}) {
   return function (obj: any, name: string): void {

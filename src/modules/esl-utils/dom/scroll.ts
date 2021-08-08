@@ -4,16 +4,14 @@ const $html = document.documentElement;
 const initiatorSet = new Set();
 
 export abstract class ScrollUtils {
-  /**
-   * Check vertical scroll based on content height
-   * */
+  /** Check vertical scroll based on content height */
   static hasVerticalScroll(target = $html) {
     return target.scrollHeight > target.clientHeight;
   }
 
   /**
    * Disable scroll on the page.
-   * @param [strategy] - to make scroll visually disabled
+   * @param strategy - to make scroll visually disabled
    * */
   public static lock(strategy?: ScrollStrategy) {
     const hasScroll = ScrollUtils.hasVerticalScroll();
@@ -33,7 +31,7 @@ export abstract class ScrollUtils {
   /**
    * Disable scroll on the page.
    * @param initiator - object to associate request with
-   * @param [strategy] - to make scroll visually disabled
+   * @param strategy - to make scroll visually disabled
    *
    * TODO: currently requests with different strategy is not taken into account
    * */
@@ -45,7 +43,7 @@ export abstract class ScrollUtils {
   /**
    * Enable scroll on the page in case it was requested with given initiator.
    * @param initiator - object to associate request with
-   * @param [strategy] - to make scroll visually disabled
+   * @param strategy - to make scroll visually disabled
    * */
   public static requestUnlock(initiator: any, strategy?: ScrollStrategy) {
     initiator && initiatorSet.delete(initiator);
