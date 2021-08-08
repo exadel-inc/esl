@@ -7,6 +7,8 @@ const registry = new Map<string, ESLScreenBreakpoint>();
  * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
  *
  * Screen Breakpoint registry is used to provide custom breakpoints for {@link ESLMediaQuery}
+ *
+ * @implements IMediaQueryPreprocessor statically
  */
 @ExportNs('ScreenBreakpoints')
 export abstract class ESLScreenBreakpoints {

@@ -11,7 +11,7 @@ import {DeviceDetector} from '../../../esl-utils/environment/device-detector';
 export class ESLScreenDPR {
   protected static readonly VALUE_REGEXP = /(\d(\.\d)?)x/;
 
-  /** Option to exclude dpr > 2 for bots */
+  /** Option to exclude dpr greater then 2 for bots */
   public static ignoreBotsDpr = false;
 
   public static toDPI(dpr: number) {

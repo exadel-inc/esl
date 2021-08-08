@@ -4,6 +4,10 @@
     {
       "tagName": "@author",
       "syntaxKind": "block"
+    },
+    {
+      "tagName": "@implements",
+      "syntaxKind": "modifier"
     }
   ]
 }

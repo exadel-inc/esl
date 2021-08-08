@@ -93,7 +93,7 @@ export const get = (data: any, path: string, defaultValue?: any): any => {
 /**
  * Performs a deep merge of objects and returns new object.
  * Does not modify objects (immutable)
- * @param objects to merge
+ * @param objects - objects to merge
  * @returns new object with merged key/values
  */
 export function deepMerge(...objects: any[]): any {

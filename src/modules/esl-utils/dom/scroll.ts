@@ -46,7 +46,7 @@ export abstract class ScrollUtils {
    * Enable scroll on the page in case it was requested with given initiator.
    * @param initiator - object to associate request with
    * @param strategy - to make scroll visually disabled
-   * */
+   */
   public static requestUnlock(initiator: any, strategy?: ScrollStrategy) {
     initiator && initiatorSet.delete(initiator);
     (initiatorSet.size === 0) && ScrollUtils.unlock();
@@ -56,8 +56,8 @@ export abstract class ScrollUtils {
 /**
  * Get the list of all scroll parents, up the list of ancestors until we get to the top window object.
  * @param element - element for which you want to get the list of all scroll parents
- * Optional @param [list] - array of elements to concatenate with the list of all scroll parents of element
- * */
+ * @param list - array of elements to concatenate with the list of all scroll parents of element (optional)
+ */
 export function getListScrollParents(element: Node, list: Element[] = []): Element[] {
   const scrollParent = getScrollParent(element);
   const isBody = scrollParent === element.ownerDocument?.body;

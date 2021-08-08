@@ -52,11 +52,13 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
   /**
    * Creates `ESLMediaRuleList` from two strings with a value  and conditions tuple
    *
-   * @example
-   * ESLMediaRuleList.fromTuple('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL')
-   *
    * @param values - values tuple string (uses '|' as separator)
    * @param mask - media conditions tuple string (uses '|' as separator)
+   *
+   * @example
+   * ```ts
+   * ESLMediaRuleList.fromTuple('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL')
+   * ```
    */
   public static parseTuple(values: string, mask: string) {
     const valueList = values.split('|');
