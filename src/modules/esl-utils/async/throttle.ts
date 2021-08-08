@@ -5,16 +5,15 @@ import type {Deferred, PromisifyResultFn} from './promise';
 
 /** Throttled<F> is a function wrapper type for a function decorated via throttle */
 export interface Throttled<F extends AnyToAnyFnSignature> extends PromisifyResultFn<F> {
-  /** {Promise} of throttled function call */
+  /** Promise of throttled function call */
   promise: Promise<ReturnType<F> | void>;
 }
 
 /**
  * Creates a throttled executed function.
  * The func is invoked with the last arguments provided to the throttled function.
- * @param fn
+ * @param fn - function to decorate
  * @param threshold - indicates how often function could be called
- * @returns {Function}
  */
 export function throttle<F extends AnyToAnyFnSignature>(fn: F, threshold = 250): Throttled<F> {
   let last: number;

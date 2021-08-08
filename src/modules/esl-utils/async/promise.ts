@@ -1,7 +1,7 @@
 import type {AnyToAnyFnSignature} from '../misc/functions';
 
 /**
- * @return {Promise} that will be resolved in {@param timeout} with optional {@param payload}
+ * @returns Promise that will be resolved in `timeout` with optional `payload`
  */
 export function promisifyTimeout<T>(timeout: number, payload?: T): Promise<T> {
   return new Promise<T>((resolve) =>
@@ -24,9 +24,9 @@ export type ListenableTarget = {
 };
 
 /**
- * @return {Promise} that will be resolved by dispatching {@param event} on {@param target}
- * Or it will be rejected in {@param timeout} if it's specified
- * Optional {@param options} for addEventListener can be also specified
+ * @returns Promise that will be resolved by dispatching `event` on `target`
+ * Or it will be rejected in `timeout` if it's specified
+ * Optional `options` for addEventListener can be also specified
  */
 export function promisifyEvent(
   target: ListenableTarget,
@@ -49,9 +49,9 @@ export function promisifyEvent(
 
 /**
  * Short helper to make Promise from element state marker
- * Marker should be accessible and listenable
+ * @returns Promise that will be resolved if the target `marker` property is truthful or `event` is dispatched
  * @example
- * const imgReady = promisifyMarker(eslImage, 'ready');
+ * `const imgReady = promisifyMarker(eslImage, 'ready');`
  */
 export function promisifyMarker(target: HTMLElement, marker: string, event: string = marker): Promise<HTMLElement> {
   if ((target as any)[marker]) return Promise.resolve(target);
@@ -59,8 +59,8 @@ export function promisifyMarker(target: HTMLElement, marker: string, event: stri
 }
 
 /**
- * Call {@param callback} limited by {@param tryCount} amount of times with interval in {@param timeout} ms
- * @return {Promise} that will be resolved as soon as callback returns truthy value, or reject it by limit.
+ * Call `callback` limited by `tryCount` amount of times with interval in `timeout` ms
+ * @returns Promise that will be resolved as soon as callback returns truthy value, or reject it by limit.
  */
 export function tryUntil<T>(callback: () => T, tryCount = 2, timeout = 100): Promise<T> {
   return new Promise((resolve, reject) => {
@@ -105,14 +105,14 @@ export function createDeferred<T>(): Deferred<T> {
   return {promise, resolve, reject};
 }
 
-/** Return function type with the same signature but with the result type wrapped into promise */
+/** Creates function type with the same signature but with the result type wrapped into promise */
 export type PromisifyResultFn<F extends AnyToAnyFnSignature> =
   ((...args: Parameters<F>) => Promise<ReturnType<F> | void>);
 
 /**
  * Safe wrap for Promise.resolve to use in Promise chain
  * @example
- * const resolvedPromise = rejectedPromise.catch(resolvePromise);
+ * `const resolvedPromise = rejectedPromise.catch(resolvePromise);`
  */
 export function resolvePromise<T>(arg: T | PromiseLike<T>): Promise<T> {
   return Promise.resolve(arg);
@@ -121,7 +121,7 @@ export function resolvePromise<T>(arg: T | PromiseLike<T>): Promise<T> {
 /**
  * Safe wrap for Promise.reject to use in Promise chain
  * @example
- * const rejectedPromise = resolvedPromise.then(rejectPromise);
+ * `const rejectedPromise = resolvedPromise.then(rejectPromise);`
  */
 export function rejectPromise<T = never>(arg?: T | PromiseLike<T>): Promise<T> {
   return Promise.reject(arg);
@@ -139,7 +139,6 @@ export abstract class PromiseUtils {
   static tryUntil = tryUntil;
 
   static deferred = createDeferred;
-
   static resolve = resolvePromise;
   static reject = rejectPromise;
 }

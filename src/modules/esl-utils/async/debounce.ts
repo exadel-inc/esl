@@ -5,7 +5,7 @@ import type {Deferred, PromisifyResultFn} from './promise';
 
 /** Debounced<F> is a function wrapper type for a function decorated via debounce */
 export interface Debounced<F extends AnyToAnyFnSignature> extends PromisifyResultFn<F> {
-  /** {Promise} of deferred function call */
+  /** Promise of deferred function call */
   promise: Promise<ReturnType<F> | void>;
   /** Cancel debounced call */
   cancel(): void;
@@ -16,9 +16,8 @@ export interface Debounced<F extends AnyToAnyFnSignature> extends PromisifyResul
  * Debounced function delays invoking func until after wait milliseconds have elapsed
  * since the last time the debounced function was invoked.
  * The func is invoked with the last arguments provided to the debounced function.
- * @param fn
- * @param [wait]
- * @returns {Function}
+ * @param fn - function to decorate
+ * @param wait - time to debounce
  */
 export function debounce<F extends AnyToAnyFnSignature>(fn: F, wait = 10): Debounced<F> {
   let timeout: number | null = null;
