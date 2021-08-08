@@ -36,7 +36,7 @@ const buildAttrName =
 /**
  * Decorator to map current property to element attribute value.
  * Maps string type property.
- * @param [config] - mapping configuration. See {@link AttrDescriptor}
+ * @param config - mapping configuration. See {@link AttrDescriptor}
  */
 export const attr = (config: AttrDescriptor = {}) => {
   config = Object.assign({defaultValue: ''}, config);

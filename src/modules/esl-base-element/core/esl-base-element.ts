@@ -27,7 +27,7 @@ export abstract class ESLBaseElement extends HTMLElement {
    * Dispatch component custom event.
    * Uses 'esl:' prefix for event name, overridable to customize event namespaces.
    * @param eventName - event name
-   * @param [eventInit] - custom event init. See {@link CustomEventInit}
+   * @param eventInit - custom event init. See {@link CustomEventInit}
    */
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
     return EventUtils.dispatch(this, 'esl:' + eventName, eventInit);
@@ -35,7 +35,7 @@ export abstract class ESLBaseElement extends HTMLElement {
 
   /**
    * Register component in the {@link customElements} registry
-   * @param [tagName] - custom tag name to register custom element
+   * @param tagName - custom tag name to register custom element
    */
   public static register(this: typeof ESLBaseElement, tagName?: string) {
     tagName = tagName || this.is;
