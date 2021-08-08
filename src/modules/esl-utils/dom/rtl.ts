@@ -11,8 +11,7 @@ export abstract class RTLUtils {
   }
 
   /**
-   * @returns {ScrollType} RTL scroll type
-   * Lazy, memoized.
+   * @returns RTL scroll type (lazy, memoized)
    */
   @memoize()
   static get scrollType(): ScrollType {

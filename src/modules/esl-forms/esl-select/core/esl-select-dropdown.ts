@@ -12,7 +12,7 @@ import type {ToggleableActionParams} from '../../../esl-toggleable/core/esl-togg
  * ESLSelectDropdown component
  * @author Alexey Stsefanovich (ala'n)
  *
- * Auxiliary inner custom component to render {@link ESLSelect) dropdown section
+ * Auxiliary inner custom component to render {@link ESLSelect} dropdown section
  * Uses {@link ESLSelectList} to render the content
  */
 export class ESLSelectDropdown extends ESLToggleable {

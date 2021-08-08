@@ -18,19 +18,20 @@ type CollectionProcessor = (els: Element[], sel: string) => Element[];
  * - ::first, ::last and :nth(#) limitation pseudo-selectors
  * - ::filter, ::not filtration pseudo-selectors
  *
- * @example "#id .class [attr]" - find by CSS selector in a current document
- * @example "" - get current base element
- * @example "::next" - get next sibling element
- * @example "::prev" - get previous sibling element
- * @example "::parent" - get base element parent
- * @example "::parent(#id .class [attr])" - find the closest parent matching passed selector
- * @example "::child(#id .class [attr])" - find direct child element(s) that match passed selector
- * @example "::find(#id .class [attr])" - find child element(s) that match passed selector
- * @example "::find(buttons, a)::not([hidden])" - find all buttons and anchors that are not have hidden attribute
- * @example "::find(buttons, a)::filter(:first-child)" - find all buttons and anchors that are first child in container
- * @example "::parent::child(some-tag)" - find direct child element(s) that match tag 'some-tag' in the parent
- * @example "#id .class [attr]::parent" - find parent of element matching selector '#id .class [attr]' in document
- * @example "::find(.row)::last::parent" - find parent of the last element matching selector '.row' from the base element subtree
+ * @example
+ * - `#id .class [attr]` - find by CSS selector in a current document
+ * - ` ` - get current base element
+ * - `::next` - get next sibling element
+ * - `::prev` - get previous sibling element
+ * - `::parent` - get base element parent
+ * - `::parent(#id .class [attr])` - find the closest parent matching passed selector
+ * - `::child(#id .class [attr])` - find direct child element(s) that match passed selector
+ * - `::find(#id .class [attr])` - find child element(s) that match passed selector
+ * - `::find(buttons, a)::not([hidden])` - find all buttons and anchors that are not have hidden attribute
+ * - `::find(buttons, a)::filter(:first-child)` - find all buttons and anchors that are first child in container
+ * - `::parent::child(some-tag)` - find direct child element(s) that match tag 'some-tag' in the parent
+ * - `#id .class [attr]::parent` - find parent of element matching selector '#id .class [attr]' in document
+ * - `::find(.row)::last::parent` - find parent of the last element matching selector '.row' from the base element subtree
  */
 @ExportNs('TraversingQuery')
 export class TraversingQuery {
@@ -53,7 +54,7 @@ export class TraversingQuery {
   };
 
   /**
-   * @return RegExp that selects all known processors in query string
+   * @returns RegExp that selects all known processors in query string
    * e.g. /(::parent|::child|::next|::prev)/
    */
   private static get PROCESSORS_REGEX() {
@@ -101,11 +102,11 @@ export class TraversingQuery {
     return this.traverseChain(initial, tuple(parts), findFirst);
   }
 
-  /** @return first matching element reached via {@class TraversingQuery} rules */
+  /** @returns first matching element reached via {@link TraversingQuery} rules */
   static first(query: string, base?: Element): Element | null {
     return TraversingQuery.traverse(query, true, base)[0] || null;
   }
-  /** @return Array of all matching elements reached via {@class TraversingQuery} rules */
+  /** @returns Array of all matching elements reached via {@link TraversingQuery} rules */
   static all(query: string, base?: Element): Element[] {
     return TraversingQuery.traverse(query, false, base);
   }

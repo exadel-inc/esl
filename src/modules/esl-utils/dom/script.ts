@@ -11,8 +11,8 @@ const createAsyncScript = (id: string, src: string) => {
 
 /**
  * Common function that loads script async
- * @param {string} id - unique script id that is used as a marker to prevent future load
- * @param {string} src - script src (url) to load
+ * @param id - unique script id that is used as a marker to prevent future load
+ * @param src - script src (url) to load
  */
 export function loadScript(id: string, src: string): Promise<Event> {
   return new Promise((resolve, reject) => {

@@ -27,9 +27,12 @@ export const exportNs = (name: string, module: any) => {
 
 /**
  * Decorator to declare function or class in a global ns
- * @param {string} name - key path to declare in ESL global ns
+ * @param name - key path to declare in ESL global ns
  * NOTE: path parts should be separated by dots
- * @example @Export('Package.Component')
+ * @example
+ * ```ts
+ * @Export('Package.Component')
+ * ```
  * NOTE: in case declaration contains components-packages, their origins will be mixed with declaration in a Runtime
  */
 // eslint-disable-next-line @typescript-eslint/ban-types

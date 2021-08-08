@@ -1,6 +1,6 @@
 /**
  * Group: ES6 shims
- * Target Browsers: IE11
+ * Target Browsers: `IE11`
  * DOMTokenList.toggle polyfill to support force option
  */
 (function (DOMTokenListProto) {

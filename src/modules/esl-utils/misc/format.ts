@@ -28,9 +28,10 @@ export const parseNumber = (str: string | number, nanValue?: number | undefined)
 /**
  * Common function that returns coefficient aspect ratio
  * Supported formats: w:h, w/h, coefficient
- * @example '16:9', '16/9', '1.77'
+ * @example
+ * `16:9`, `16/9`, `1.77`
  * @param str - string to parse
- * @return aspect ratio coefficient
+ * @returns aspect ratio coefficient
  */
 export function parseAspectRatio(str: string): number {
   const [w, h] = str.split(/[:/]/);
@@ -48,7 +49,7 @@ export function evaluate(str: string, defaultValue?: any): any {
   }
 }
 
-/** Replace '{key}' patterns in the string from the source object */
+/** Replace `{key}` patterns in the string from the source object */
 export function format(str: string, source: Record<string, any>) {
   return str.replace(/{([\w.]+)}/g, (match, key) => {
     const val = get(source, key);

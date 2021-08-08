@@ -1,6 +1,6 @@
 /**
  * Group: DOM API shims ~ ES6 shim group
- * Target Browsers: IE11, Edge < 14
+ * Target Browsers: `IE11`, `Edge < 14`
  * Element.closest polyfill
  */
 (function (e: ElementEx) {

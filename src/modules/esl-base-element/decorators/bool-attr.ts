@@ -29,7 +29,7 @@ const buildAttrName =
 /**
  * Decorator to map current property to element boolean (marker) attribute state.
  * Maps boolean type property.
- * @param [config] - mapping configuration. See {@link BoolAttrDescriptor}
+ * @param config - mapping configuration. See {@link BoolAttrDescriptor}
  */
 export const boolAttr = (config: BoolAttrDescriptor = {}) => {
   return (target: ESLBaseElement, propName: string) => {

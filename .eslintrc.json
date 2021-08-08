@@ -18,7 +18,8 @@
     "import",
     "sonarjs",
     "editorconfig",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "eslint-plugin-tsdoc"
   ],
   "rules": {
     "comma-dangle": "off",
@@ -72,6 +73,8 @@
     "spaced-comment": "warn",
     "use-isnan": "error",
     "valid-typeof": "error",
+
+    "tsdoc/syntax": "warn",
 
     "@typescript-eslint/consistent-type-imports": ["error", { "prefer": "type-imports" }],
     "@typescript-eslint/object-curly-spacing": ["warn",  "never"],

@@ -1,11 +1,7 @@
-/**
- * Function that does nothing
- */
+/** Function that does nothing */
 export const noop: AnyToVoidFnSignature = () => undefined;
 
-/**
- * Function that returns the first argument
- */
+/** Function that returns the first argument */
 export const identity = <T>(arg: T): T => arg;
 
 export type NoopFnSignature = () => void;

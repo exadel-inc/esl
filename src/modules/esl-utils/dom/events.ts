@@ -6,10 +6,10 @@ export interface Point {
 export abstract class EventUtils {
   /**
    * Dispatch custom event.
-   * Event bubbles and is cancelable by default, use {@param eventInit} to override that.
+   * Event bubbles and is cancelable by default, use `eventInit` to override that.
    * @param el - element target
    * @param eventName - event name
-   * @param [eventInit] - custom event init. See {@link CustomEventInit}
+   * @param eventInit - custom event init. See {@link CustomEventInit}
    */
   public static dispatch(el: HTMLElement, eventName: string, eventInit?: CustomEventInit) {
     const init = Object.assign({

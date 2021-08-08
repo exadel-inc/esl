@@ -1,6 +1,6 @@
 /**
  * Group: ES6 shims
- * Target Browsers: IE11
+ * Target Browsers: `IE11`
  * Object.is support
  * Blatantly stolen from ES6 specs. Kept here for reference.
  * http://wiki.ecmascript.org/doku.php?id=harmony:egal

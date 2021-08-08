@@ -1,6 +1,6 @@
 /**
  * Group: ES6 shim
- * Target Browsers: IE11, Edge < 14
+ * Target Browsers: `IE11`, `Edge < 14`
  * Array.prototype.includes polyfill
  */
 if (!Array.prototype.includes) {

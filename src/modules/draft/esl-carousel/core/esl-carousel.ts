@@ -68,7 +68,7 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /**
-   * @returns {number} first active index
+   * @returns number first active index
    */
   get firstIndex(): number {
     const index = this.$slides.findIndex((slide) => {
