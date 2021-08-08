@@ -91,8 +91,8 @@ export class ESLMedia extends ESLBaseElement {
   private deferredReinitialize = debounce(() => this.reinitInstance());
 
   /**
-   * @enum Map with possible Player States
-   * values: BUFFERING, ENDED, PAUSED, PLAYING, UNSTARTED, VIDEO_CUED, UNINITIALIZED
+   * Map object with possible Player States, values:
+   * BUFFERING, ENDED, PAUSED, PLAYING, UNSTARTED, VIDEO_CUED, UNINITIALIZED
    */
   static get PLAYER_STATES() {
     return PlayerStates;
@@ -208,55 +208,42 @@ export class ESLMedia extends ESLBaseElement {
     CSSClassUtils.toggle(targetEl, this.loadClsDeclined, !active);
   }
 
-  /**
-   * Seek to given position of media
-   * @returns {Promise | void}
-   */
+  /** Seek to given position of media */
   public seekTo(pos: number) {
     return this._provider && this._provider.safeSeekTo(pos);
   }
 
   /**
    * Start playing media
-   * @param {boolean} allowActivate
-   * @returns {Promise | void}
+   * @param allowActivate - allows to remove disabled marker
    */
-  public play(allowActivate: boolean = false) {
+  public play(allowActivate: boolean = false): Promise<void> | null {
     if (this.disabled && allowActivate) {
       this.disabled = false;
       this.deferredReinitialize.cancel();
       this.reinitInstance();
     }
-    if (!this.canActivate()) return;
+    if (!this.canActivate()) return null;
     return this._provider && this._provider.safePlay();
   }
 
-  /**
-   * Pause playing media
-   * @returns {Promise | void}
-   */
-  public pause() {
+  /** Pause playing media */
+  public pause(): Promise<void> | null {
     return this._provider && this._provider.safePause();
   }
 
-  /**
-   * Stop playing media
-   * @returns {Promise | void}
-   */
-  public stop() {
+  /** Stop playing media */
+  public stop(): Promise<void> | null {
     return this._provider && this._provider.safeStop();
   }
 
-  /**
-   * Toggle play/pause state of the media
-   * @returns {Promise | void}
-   */
-  public toggle() {
+  /** Toggle play/pause state of the media */
+  public toggle(): Promise<void> | null {
     return this._provider && this._provider.safeToggle();
   }
 
   /** @override */
-  public focus() {
+  public focus(): void {
     this._provider && this._provider.focus();
   }
 

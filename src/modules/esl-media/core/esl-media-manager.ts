@@ -9,16 +9,12 @@ const managerMap = new Map<string, ESLMedia>();
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 export class MediaGroupRestrictionManager {
-  /**
-   * @debug info
-   */
+  /** @internal */
   static get managerMap() {
     return managerMap;
   }
 
-  /**
-   * Register instance play state in group
-   */
+  /** Register instance play state in group */
   public static registerPlay(instance: ESLMedia) {
     if (instance.group) {
       const current = managerMap.get(instance.group);
@@ -30,9 +26,7 @@ export class MediaGroupRestrictionManager {
     }
   }
 
-  /**
-   * Unregister instance
-   */
+  /** Unregister instance */
   public static unregister(instance: ESLMedia) {
     if (instance.group) {
       const reg = managerMap.get(instance.group);

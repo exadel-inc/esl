@@ -37,9 +37,7 @@ export class BrightcoveProvider extends BaseProvider {
     };
   }
 
-  /**
-   * Loads player API according defined settings
-   * */
+  /** Loads player API according defined settings */
   protected static loadAPI(account: BCPlayerAccount): Promise<Event> {
     const apiSrc =
       `//players.brightcove.net/${account.accountId}/${account.playerId}_default/index.min.js`;
@@ -50,9 +48,7 @@ export class BrightcoveProvider extends BaseProvider {
     return loadScript(API_SCRIPT_ID, apiSrc);
   }
 
-  /**
-   * Build video brightcove element
-   */
+  /** Build video brightcove element */
   protected buildVideo() {
     const el = document.createElement('video-js');
     el.id = 'esl-media-brightcove-' + generateUId();
@@ -70,9 +66,7 @@ export class BrightcoveProvider extends BaseProvider {
     return el;
   }
 
-  /**
-   * Utility method to convert api event to promise
-   */
+  /** Utility method to convert api event to promise */
   protected $$fromEvent(eventName: string): Promise<void> {
     if (!this._api) return Promise.reject();
     return new Promise((resolve, reject) => this._api ? this._api.one(eventName, resolve) : reject());
@@ -80,7 +74,7 @@ export class BrightcoveProvider extends BaseProvider {
 
   /**
    * Executes as soon as api script detected or loaded.
-   * @returns {Promise<VideoJsPlayer>} - promise with provided API
+   * @returns promise with provided API
    */
   protected onAPILoaded(): Promise<void> | void {
     if (typeof window.bc !== 'function' || typeof window.videojs !== 'function') {
@@ -94,7 +88,6 @@ export class BrightcoveProvider extends BaseProvider {
   /**
    * Executes after API ready state resolved
    * Basic onAPIReady should be called to subscribe to API state
-   * @returns {Promise | void}
    */
   protected onAPIReady(): Promise<void> | void {
     console.debug('ESL Media: Brightcove API is ready ', this);
