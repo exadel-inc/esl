@@ -1,28 +1,24 @@
 import {throttle} from '../throttle';
 
-// TODO: sometimes test timeouts is ont ok!
 describe('async/throttle', () => {
-  test('basic scenario', (done) => {
+  beforeAll(() =>  jest.useFakeTimers());
+  afterAll(() => jest.useRealTimers());
+
+  test('basic scenario', () => {
+    jest.useFakeTimers()
     const fn = jest.fn();
-    const throttled = throttle(fn, 80);
-
-    expect(typeof throttled).toBe('function');
+    const throttled = throttle(fn, 100);
 
     expect(throttled()).toBeInstanceOf(Promise);
     expect(fn).toBeCalledTimes(1);
+    jest.advanceTimersByTime(50)
     expect(throttled()).toBeInstanceOf(Promise);
     expect(fn).toBeCalledTimes(1);
-    setTimeout(() => {
-      throttled();
-      expect(fn).toBeCalledTimes(1);
-    }, 20);
-    setTimeout(() => {
-      expect(fn).toBeCalledTimes(2);
-      throttled();
-      expect(fn).toBeCalledTimes(3);
-      done();
-    }, 250);
-  }, 350);
+    jest.advanceTimersByTime(100)
+    expect(fn).toBeCalledTimes(2);
+    expect(throttled()).toBeInstanceOf(Promise);
+    expect(fn).toBeCalledTimes(3);
+  });
 
   test('test context', () => {
     const fn = function () { return this; };
@@ -37,16 +33,18 @@ describe('async/throttle', () => {
     const throttled = throttle(fn as (n: number) => number, 50);
 
     expect(throttled.promise).toBeInstanceOf(Promise);
-
-    throttled(1);
+    expect(throttled(1)).toBeInstanceOf(Promise);
     expect(throttled(2)).toBe(throttled.promise);
     expect(throttled.promise).toBeInstanceOf(Promise);
-    throttled(4);
-    expect(fn).toBeCalledTimes(1);
+    expect(throttled(4)).toBeInstanceOf(Promise);
 
-    return throttled.promise.then((n) => {
-      expect(n).toBe(5);
-      expect(fn).toBeCalledTimes(2);
-    });
-  }, 100);
+    expect(fn).toBeCalledTimes(1);
+    expect(fn).lastCalledWith(1);
+
+    const {promise} = throttled;
+
+    jest.advanceTimersByTime(100);
+    expect(fn).toBeCalledTimes(2);
+    return expect(promise).resolves.toBe(5);
+  });
 });

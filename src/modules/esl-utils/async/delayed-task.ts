@@ -15,13 +15,14 @@ export class DelayedTask {
     this._fn && this._fn();
   };
 
-  /** @return {Function} of currently deferred (planned) task */
+  /** @returns Function of currently deferred (planned) task */
   public get fn() {
     return this._fn;
   }
 
   /**
-   * Cancel deferred task and planning passed {@param task}
+   * Cancel deferred task and planning passed
+   * @param task - task function
    * @param delay - time to delay task execution
    *  - pass negative or false to execute task immediately
    *  - pass 0 to plan task to the macrotask
