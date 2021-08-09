@@ -174,7 +174,7 @@ export class ESLPopup extends ESLToggleable {
     const triggerRect = this.activator.getBoundingClientRect();
     const popupRect = this.getBoundingClientRect();
     const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new DOMRect();
-    const trigger = new Rect(triggerRect.x, triggerRect.y + window.pageYOffset, triggerRect.width, triggerRect.height);
+    const trigger = new Rect(triggerRect.left, triggerRect.top + window.pageYOffset, triggerRect.width, triggerRect.height);
     const innerMargin = this._offsetTrigger + arrowRect.width / 2;
 
     const config = {
