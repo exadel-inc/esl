@@ -25,7 +25,7 @@ export function getParentNode(element: Element | ShadowRoot): Node {
     return element;
   }
 
-  return (ShadowRoot
+  return (window.ShadowRoot
     ? element instanceof ShadowRoot
       ? element.host
       : element.assignedSlot || element.parentNode

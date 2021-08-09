@@ -62,18 +62,6 @@ export class ESLPopup extends ESLToggleable {
     this.$arrow = this.querySelector('span.esl-popup-arrow');
   }
 
-  protected bindEvents() {
-    super.bindEvents();
-    window.addEventListener('resize', this._deferredUpdatePosition);
-    window.addEventListener('scroll', this._deferredUpdatePosition);
-  }
-
-  protected unbindEvents() {
-    super.unbindEvents();
-    window.removeEventListener('resize', this._deferredUpdatePosition);
-    window.removeEventListener('scroll', this._deferredUpdatePosition);
-  }
-
   protected get _isPositioningAlongHorizontal() {
     return ['left', 'right'].includes(this.position);
   }
@@ -94,8 +82,13 @@ export class ESLPopup extends ESLToggleable {
     this._offsetTrigger = params.offsetTrigger || 0;
     this._offsetWindow = params.offsetWindow || 0;
 
-    this._updatePosition();
-    this.activator && this._addActivatorObserver(this.activator);
+    this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
+    setTimeout(() => {
+      // running as a separate task solves the problem with incorrect positioning on the first showing
+      this._updatePosition();
+      this.style.visibility = 'visible';
+      this.activator && this._addActivatorObserver(this.activator);
+    });
   }
 
   public onHide(params: PopupActionParams) {
@@ -161,6 +154,9 @@ export class ESLPopup extends ESLToggleable {
     const observer = new IntersectionObserver(this.onActivatorIntersection, options);
     observer.observe(target);
 
+    window.addEventListener('resize', this._deferredUpdatePosition);
+    window.addEventListener('scroll', this._deferredUpdatePosition);
+
     this._activatorObserver = {
       unsubscribers,
       observer
@@ -168,6 +164,8 @@ export class ESLPopup extends ESLToggleable {
   }
 
   protected _removeActivatorObserver(target: HTMLElement) {
+    window.removeEventListener('resize', this._deferredUpdatePosition);
+    window.removeEventListener('scroll', this._deferredUpdatePosition);
     this._activatorObserver.observer?.disconnect();
     this._activatorObserver.observer = undefined;
     this._activatorObserver.unsubscribers?.forEach((cb) => cb());
@@ -180,7 +178,7 @@ export class ESLPopup extends ESLToggleable {
     const triggerRect = this.activator.getBoundingClientRect();
     const popupRect = this.getBoundingClientRect();
     const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new DOMRect();
-    const trigger = new Rect(triggerRect.x, triggerRect.y + window.pageYOffset, triggerRect.width, triggerRect.height);
+    const trigger = new Rect(triggerRect.left, triggerRect.top + window.pageYOffset, triggerRect.width, triggerRect.height);
     const innerMargin = this._offsetTrigger + arrowRect.width / 2;
 
     const config = {
