@@ -82,9 +82,13 @@ export class ESLPopup extends ESLToggleable {
     this._offsetTrigger = params.offsetTrigger || 0;
     this._offsetWindow = params.offsetWindow || 0;
 
-    this._updatePosition();
-    this.activator && this._addActivatorObserver(this.activator);
-    setTimeout(() => this._updatePosition()); // safety net for popup position (incorrect calculation when the popup is first displayed).
+    this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
+    setTimeout(() => {
+      // running as a separate task solves the problem with incorrect positioning on the first showing
+      this._updatePosition();
+      this.style.visibility = 'visible';
+      this.activator && this._addActivatorObserver(this.activator);
+    });
   }
 
   public onHide(params: PopupActionParams) {
