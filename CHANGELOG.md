@@ -1,3 +1,23 @@
+# [3.0.0-beta.16](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.15...v3.0.0-beta.16) (2021-08-09)
+
+
+### Bug Fixes
+
+* **esl-popup:** wrong popup position when the popup is shown at the first time ([c5195ab](https://github.com/exadel-inc/esl/commit/c5195ab7415ba4c7309879e93be8db049b61bb3e))
+* **esl-popup:** wrong popup position when the popup is shown at the first time ([7533683](https://github.com/exadel-inc/esl/commit/753368395f238fe9870a92436adbb749828a325d))
+* **esl-utils:** fix IE issue 'ShadowRoot is undefined' ([4a8cffc](https://github.com/exadel-inc/esl/commit/4a8cffc025441016b75a723365fec4ad7ca2d288))
+* **esl-utils:** fix IE11 issue with x and y absent in DOMRect ([b64a654](https://github.com/exadel-inc/esl/commit/b64a6545048164022cfa4a180da9ae8a922a8241))
+* merge changes ([ec09584](https://github.com/exadel-inc/esl/commit/ec095848cbb2efd195bc5963c8c76cb385172632))
+* remove drafts collection from sitemap ([3dc726a](https://github.com/exadel-inc/esl/commit/3dc726a8a617bf622fedb640e41f7b1087f12d58))
+
+
+### Features
+
+* **esl-tooltip:** add new action param to set up tooltip extra classes ([1b1587f](https://github.com/exadel-inc/esl/commit/1b1587fed6581997b758d5464505bdc68540123b))
+* **esl-utils:** promise functional declarations ([19b1e2b](https://github.com/exadel-inc/esl/commit/19b1e2b7e5b0fe2cf4431b35a06b07122108ddfb))
+* add priority tag ([43904be](https://github.com/exadel-inc/esl/commit/43904be29875f15dd563ac286ebd7797faa15f55))
+* add sitemap generator ([78651ce](https://github.com/exadel-inc/esl/commit/78651ce4b9d79fc57fc908d91e8aab0e8feaeb15))
+
 # [2.9.0](https://github.com/exadel-inc/esl/compare/v2.8.2...v2.9.0) (2021-08-08)
 
 
