@@ -5,16 +5,12 @@ export interface FootnotesItem {
   text: string;
 }
 
-function createFootnotesItem(index: string|number, text: string): FootnotesItem {
-  return {
-    index: `${index}`,
-    text: text
-  };
-}
-
 /* convert notes list to footnotes items list */
 function convertNotesToFootnotesList(notes: ESLNote[]): FootnotesItem[] {
-  return notes.map(({index, html}) => createFootnotesItem(index, html));
+  return notes.map(({index, html}) => ({
+    index: `${index}`,
+    text: html
+  }));
 }
 
 /* compile footnotes non-grouped list */
@@ -30,7 +26,7 @@ export function compileFootnotesGroupedList(notes: ESLNote[]): FootnotesItem[] {
   });
   return Array.from(map)
     .reduce(
-      (list, item: [string, string]) => [...list, createFootnotesItem(item[1], item[0])],
+      (list,[text, index]) => [...list, {index, text}],
       []
     );
 }
