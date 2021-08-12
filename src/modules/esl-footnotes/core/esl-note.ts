@@ -40,6 +40,10 @@ export class ESLNote extends ESLBaseElement {
     return ESLMediaQuery.for(this.trackClick).matches;
   }
 
+  static get observedAttributes() {
+    return ['tooltip-shown'];
+  }
+
   get index(): number {
     return this._index;
   }
@@ -63,6 +67,13 @@ export class ESLNote extends ESLBaseElement {
     this._$footnotes?.unlinkNote(this);
   }
 
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+    if (!this.connected || oldVal === newVal) return;
+    if (attrName === 'tooltip-shown' && newVal === null) {
+      this._$footnotes?.turnOffHighlight(this);
+    }
+  }
+
   protected bindEvents() {
     document.body.addEventListener(`${ESLFootnotes.eventNs}:request`, this._onFootnotesReady);
     this.addEventListener('click', this._onClick);
@@ -80,6 +91,10 @@ export class ESLNote extends ESLBaseElement {
 
   public activate() {
     scrollIntoViewAsync(this, {behavior: 'smooth', block: 'nearest'}).then(() => this.showTooltip());
+  }
+
+  public highlight(enable: boolean = true) {
+    this.classList.toggle('highlight', enable);
   }
 
   public link(footnotes: ESLFootnotes, index: number) {
@@ -112,6 +127,7 @@ export class ESLNote extends ESLBaseElement {
     const actionParams = this.mergeToggleableParams({
     }, params);
     ESLTooltip.show(actionParams);
+    this.highlight();
   }
   /** Hide tooltip with passed params */
   public hideTooltip(params: ToggleableActionParams = {}) {
