@@ -17,8 +17,8 @@ export class ESLFootnotes extends ESLBaseElement {
   /** Target element {@link TraversingQuery} to define scope */
   @attr({defaultValue: '::parent'}) public scopeTarget: string;
 
-  /** Disable grouping note instances with identical content */
-  @boolAttr() public disableGroupNonUnique: boolean;
+  /** Grouping note instances with identical content enable/disable */
+  @attr({defaultValue: 'enable'}) public grouping: string;
 
   protected _notes: ESLNote[] = [];
 
@@ -28,7 +28,7 @@ export class ESLFootnotes extends ESLBaseElement {
   }
 
   protected get footnotesList(): FootnotesItem[] {
-    return this.disableGroupNonUnique
+    return this.grouping !== 'enable'
       ? compileFootnotesNongroupedList(this._notes)
       : compileFootnotesGroupedList(this._notes);
   }
@@ -110,7 +110,8 @@ export class ESLFootnotes extends ESLBaseElement {
   protected _onClick(e: MouseEvent | KeyboardEvent) {
     const target = e.target as HTMLElement;
     if (target && target.classList.contains('esl-footnotes-back-to-note')) {
-      const order = target.parentElement?.getAttribute('data-order')?.split(',').map((item) => +item);
+      const orderAttr = target.parentElement?.getAttribute('data-order');
+      const order = orderAttr?.split(',').map((item) => +item);
       order && this._onBackToNote(order);
     }
   }
