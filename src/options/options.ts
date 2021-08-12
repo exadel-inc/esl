@@ -1,5 +1,5 @@
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
-import {CSSClassUtils, ESLMediaQuery} from '@exadel/esl';
+import {CSSClassUtils} from '@exadel/esl';
 import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
 
 import {UIPPlugin} from '../core/plugin';
@@ -11,33 +11,16 @@ import {UIPPlugin} from '../core/plugin';
 export class UIPOptions extends UIPPlugin {
   static is = 'uip-options';
 
-  /**
-   * Property for last selected layout.
-   * Has two values: `vertical` and `horizontal`.
-   */
-  private _mode: string;
-  /**
-   * Property for last selected theme.
-   * Has two values: `uip-light` and `uip-dark`.
-   */
-  private _theme: string;
-
-  /** Media query for mobile breakpoints. */
-  static _conditionQuery: ESLMediaQuery = new ESLMediaQuery('@-SM');
-
   protected connectedCallback() {
     super.connectedCallback();
     this.bindEvents();
 
-    if (this.root) {
-      this._mode = this.root.mode;
-      this._theme = this.root.theme;
-    }
     this.render();
 
-    this.updateModeMarker(this._mode);
-    this.updateThemeMarker(this._theme);
-    this._onResize();
+    if (this.root) {
+      this.updateModeMarker(this.root.mode);
+      this.updateThemeMarker(this.root.theme);
+    }
   }
 
   protected disconnectedCallback() {
@@ -46,21 +29,19 @@ export class UIPOptions extends UIPPlugin {
   }
 
   protected bindEvents() {
-    this.addEventListener('click', this._onOptionChange);
-    UIPOptions._conditionQuery.addListener(this._onResize);
+    this.addEventListener('change', this._onOptionChange);
     this.root?.addEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected unbindEvents() {
-    this.removeEventListener('click', this._onOptionChange);
-    UIPOptions._conditionQuery.removeListener(this._onResize);
+    this.removeEventListener('change', this._onOptionChange);
     this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected render() {
     this.innerHTML = '';
-    if (this._mode) this.renderMode();
-    if (this._theme) this.renderTheme();
+    this.renderMode();
+    this.renderTheme();
   }
 
   protected renderMode() {
@@ -70,12 +51,12 @@ export class UIPOptions extends UIPPlugin {
     $mode.innerHTML = `
         <div class="option-item">
             <input type="radio" id=${modeOptionId}-vertical name=${modeOptionId}-mode mode="vertical"
-            class="option-radio-btn" ${this._mode === 'vertical' ? 'checked' : ''}>
+            class="option-radio-btn" ${this.root?.mode === 'vertical' ? 'checked' : ''}>
             <label class="option-label" for=${modeOptionId}-vertical>Vertical</label>
         </div>
         <div class="option-item">
             <input type="radio" id=${modeOptionId}-horizontal name=${modeOptionId}-mode mode="horizontal"
-            class="option-radio-btn" ${this._mode === 'horizontal' ? 'checked' : ''}>
+            class="option-radio-btn" ${this.root?.mode === 'horizontal' ? 'checked' : ''}>
             <label class="option-label" for=${modeOptionId}-horizontal>Horizontal</label>
         </div>`;
     this.appendChild($mode);
@@ -88,12 +69,12 @@ export class UIPOptions extends UIPPlugin {
     $theme.innerHTML = `
         <div class="option-item">
             <input type="radio" id=${themeOptionId}-uip-light name=${themeOptionId}-theme theme="uip-light"
-            class="option-radio-btn" ${this._theme === 'uip-light' ? 'checked' : ''}>
+            class="option-radio-btn" ${this.root?.theme === 'uip-light' ? 'checked' : ''}>
             <label class="option-label" for=${themeOptionId}-uip-light>Light</label>
         </div>
         <div class="option-item">
             <input type="radio" id=${themeOptionId}-uip-dark name=${themeOptionId}-theme theme="uip-dark"
-            class="option-radio-btn" ${this._theme === 'uip-dark' ? 'checked' : ''}>
+            class="option-radio-btn" ${this.root?.theme === 'uip-dark' ? 'checked' : ''}>
             <label class="option-label" for=${themeOptionId}-uip-dark>Dark</label>
         </div>`;
     this.appendChild($theme);
@@ -106,45 +87,24 @@ export class UIPOptions extends UIPPlugin {
     const mode = target.getAttribute('mode');
     const theme = target.getAttribute('theme');
 
-    if (mode) {
-      this._mode = mode;
-      this.updateModeMarker(mode);
-    }
-
-    if (theme) {
-      this._theme = theme;
-      this.updateThemeMarker(theme);
-    }
+    if (mode) this.updateModeMarker(mode);
+    if (theme) this.updateThemeMarker(theme);
   }
 
   @bind
   protected _onRootConfigChange(e: CustomEvent) {
-    this.checkMarker(e.detail.attribute, e.detail.value);
+    const attr = e.detail.attribute;
+    const value = e.detail.value;
+    const marker = this.querySelector(`input[${attr}="${value}"]`) as HTMLInputElement;
+    const defaultMarker = this.querySelector(`input[${attr}`) as HTMLInputElement;
+    marker ? marker.checked = true : defaultMarker.checked = true;
   }
 
   protected updateModeMarker(mode: string) {
-    this.checkMarker('mode', mode);
     if (this.root) this.root.mode = mode;
   }
 
   protected updateThemeMarker(theme: string) {
-    this.checkMarker('theme', theme);
     if (this.root) this.root.theme = theme;
-  }
-
-  protected checkMarker(option: string, value: string) {
-    const marker = this.querySelector(`input[${option}="${value}"]`) as HTMLInputElement;
-    marker.checked = true;
-  }
-
-  /**
-   * Callback to track resize event.
-   * Applies horizontal mode for mobile breakpoints.
-   */
-  @bind
-  protected _onResize() {
-    (UIPOptions._conditionQuery.matches)
-      ? this.updateModeMarker('horizontal')
-      : this.updateModeMarker(this._mode);
   }
 }
