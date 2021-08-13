@@ -5,7 +5,7 @@ export interface FootnotesItem {
   text: string;
 }
 
-/* convert notes list to footnotes items list */
+/* Convert notes list to footnotes items list */
 function convertNotesToFootnotesList(notes: ESLNote[]): FootnotesItem[] {
   return notes.map(({index, html}) => ({
     index: `${index}`,
@@ -13,12 +13,12 @@ function convertNotesToFootnotesList(notes: ESLNote[]): FootnotesItem[] {
   }));
 }
 
-/* compile footnotes non-grouped list */
+/* Compile footnotes non-grouped list */
 export function compileFootnotesNongroupedList(notes: ESLNote[]): FootnotesItem[] {
   return convertNotesToFootnotesList(notes);
 }
 
-/* compile footnotes grouped list */
+/* Compile footnotes grouped list */
 export function compileFootnotesGroupedList(notes: ESLNote[]): FootnotesItem[] {
   const map = new Map();
   convertNotesToFootnotesList(notes).forEach(({index, text}) => {
