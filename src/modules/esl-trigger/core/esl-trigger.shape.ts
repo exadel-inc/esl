@@ -1,5 +1,5 @@
 /**
- * Tag declaration interface of ESL Trigger element
+ * Tag declaration interface of {@link ESLTrigger} element
  * Used for JSX declaration
  */
 export interface ESLTriggerShape {
