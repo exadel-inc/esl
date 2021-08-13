@@ -1,6 +1,5 @@
-import {bind, EventUtils, ObserverCallback} from '@exadel/esl';
+import {bind, EventUtils, ObserverCallback, ESLMediaRuleList} from '@exadel/esl';
 import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {ESLMediaQuery} from '@exadel/esl/modules/esl-media-query/core';
 import {UIPStateModel} from './state-model';
 
 /**
@@ -12,9 +11,6 @@ import {UIPStateModel} from './state-model';
 export class UIPRoot extends ESLBaseElement {
   public static is = 'uip-root';
   private _model = new UIPStateModel();
-
-  /** Media query for mobile breakpoints. */
-  static _query: ESLMediaQuery = new ESLMediaQuery('@-SM');
 
   /**
    * Attribute for controlling UIP components' layout.
@@ -28,8 +24,16 @@ export class UIPRoot extends ESLBaseElement {
    */
   @attr({defaultValue: 'uip-light'}) public theme: string;
 
+  /**
+   * Attibute for setup media query rules
+   */
+  @attr({defaultValue: '@-SM => horizontal'}) public rewriteMode: string;
+
+  private _lastMode: string;
+  private _rewriteModeRL: ESLMediaRuleList<string>;
+
   static get observedAttributes() {
-    return ['theme', 'mode'];
+    return ['theme', 'mode', 'rewrite-mode'];
   }
 
   /** {@link UIPStateModel} instance to store UI Playground state. */
@@ -37,20 +41,31 @@ export class UIPRoot extends ESLBaseElement {
     return this._model;
   }
 
+  protected connectedCallback() {
+    this.applyRewriteQuery(this.rewriteMode);
+    super.connectedCallback();
+    this._lastMode = this.mode;
+    this._onQueryChange();
+  }
+
+  protected disconnectedCallback() {
+    super.disconnectedCallback();
+    this.applyRewriteQuery(null);
+  }
+
   /** Alias for {@link this.model.addListener}. */
   public addStateListener(listener: ObserverCallback) {
     this._model.addListener(listener);
-    UIPRoot._query.addListener(this._onQueryChange);
   }
 
   /** Alias for {@link this.model.removeListener}. */
   public removeStateListener(listener: ObserverCallback) {
     this._model.removeListener(listener);
-    UIPRoot._query.removeListener(this._onQueryChange);
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-    if (oldVal !== newVal) {
+    if (oldVal === newVal) return;
+    if (attrName === 'mode' || attrName === 'theme') {
       this._updateStyles(attrName, oldVal, newVal);
       EventUtils.dispatch(this, 'uip:configchange', {
         bubbles: false,
@@ -60,6 +75,27 @@ export class UIPRoot extends ESLBaseElement {
         }
       });
     }
+    if (attrName === 'rewrite-mode') {
+      this.applyRewriteQuery(newVal);
+    }
+  }
+
+  protected _updateStyles(option: string, prev: string, next: string) {
+    this.classList.remove(`${prev}-${option}`);
+    this.classList.add(`${next}-${option}`);
+  }
+
+  /**
+   * 
+   * @param query media query rule
+   * Parses media query rule
+   * Manages media query listeners
+   */
+  protected applyRewriteQuery(query: string | null) {
+    this._rewriteModeRL?.removeListener(this._onQueryChange);
+    if (!query) return;
+    this._rewriteModeRL = ESLMediaRuleList.parse(query, ESLMediaRuleList.STRING_PARSER);
+    this._rewriteModeRL.addListener(this._onQueryChange);
   }
 
   /**
@@ -68,13 +104,13 @@ export class UIPRoot extends ESLBaseElement {
    */
   @bind
   protected _onQueryChange() {
-    this.mode === 'vertical' && UIPRoot._query.matches
-        ? this._updateStyles('mode', this.mode, 'horizontal')
-        : this._updateStyles('mode', 'horizontal', this.mode);
-  }
+    const rewriteValue = this._rewriteModeRL.activeValue;
 
-  protected _updateStyles(option: string, prev: string, next: string) {
-    this.classList.remove(`${prev}-${option}`);
-    this.classList.add(`${next}-${option}`);
+    if (rewriteValue) {
+      this._lastMode = this.mode;
+      this.mode = rewriteValue;
+    } else {
+      this.mode = this._lastMode;
+    }
   }
 }
