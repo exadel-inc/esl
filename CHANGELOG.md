@@ -1,3 +1,12 @@
+# [3.0.0-beta.17](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.16...v3.0.0-beta.17) (2021-08-13)
+
+
+### Features
+
+* **esl-footnotes:** add a grouping of footnotes with non-unique text ([9890124](https://github.com/exadel-inc/esl/commit/9890124c6a65750a52e543a863c2def739504937))
+* **esl-footnotes:** add a grouping of footnotes with non-unique text ([05344a0](https://github.com/exadel-inc/esl/commit/05344a0e881b15a1ff6cba67557e15fa950518bc))
+* **esl-note:** add highlighting for notes ([2864205](https://github.com/exadel-inc/esl/commit/2864205e2118e0aa8869913df2c3bb0daac63974))
+
 # [3.0.0-beta.16](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.15...v3.0.0-beta.16) (2021-08-09)
 
 
