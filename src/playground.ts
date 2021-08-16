@@ -1,33 +1,10 @@
-import {UIPRoot} from './core/root';
-import {UIPEditor} from './editor/editor';
-import {UIPPreview} from './preview/preview';
-import {UIPSettings} from './settings/settings';
-import {UIPTextSetting} from './settings/setting/text-setting/text-setting';
-import {UIPSelectSetting} from './settings/setting/select-setting/select-setting';
-import {UIPBoolSetting} from './settings/setting/bool-setting/bool-setting';
-import {UIPSnippets} from './snippets/snippets';
-import {UIPOptions} from './options/options';
+import './registration.less';
 
-export {
-  UIPRoot,
-  UIPEditor,
-  UIPPreview,
-  UIPSettings,
-  UIPTextSetting,
-  UIPSelectSetting,
-  UIPBoolSetting,
-  UIPSnippets,
-  UIPOptions
-};
+import {ESLScrollbar} from '@exadel/esl/modules/esl-scrollbar/core';
+import {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 
-export function init() {
-  UIPRoot.register();
-  UIPSnippets.register();
-  UIPEditor.register();
-  UIPPreview.register();
-  UIPSettings.register();
-  UIPTextSetting.register();
-  UIPBoolSetting.register();
-  UIPOptions.register();
-  UIPSelectSetting.register();
-}
+import {init} from './registration';
+
+ESLSelect.register();
+ESLScrollbar.register();
+init();
