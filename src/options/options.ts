@@ -106,7 +106,7 @@ export class UIPOptions extends UIPPlugin {
 
   protected checkMarker(attr: string, value: string) {
     const marker = this.querySelector(`input[${attr}="${value}"]`) as HTMLInputElement;
-    const defaultMarker = this.querySelector(`input[${attr}`) as HTMLInputElement;
+    const defaultMarker = this.querySelector(`input[${attr}]`) as HTMLInputElement;
     marker ? marker.checked = true : defaultMarker.checked = true;
   }
 }
