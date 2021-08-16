@@ -1,4 +1,4 @@
-import {get} from './object';
+import { get } from './object';
 
 /** Convert string to kebab-case notation */
 export const toKebabCase = (str: string) => {
@@ -49,22 +49,18 @@ export function evaluate(str: string, defaultValue?: any): any {
   }
 }
 
+
+const DEF_REG_EXPRESSION = /{[{%]?([\w.]+)[%}]?}/g;
 /** Replace `{key}` patterns in the string from the source object */
-// export function format(str: string, source: Record<string, any>) {
-//   return str.replace(/{\W?([\w.])+\W?}/g, (match, key) => {
-//     const val = get(source, key);
-//     return val === undefined ? match : val;
-//   });
-// }
-
-
-const DEF_REG_EXPRESSION = /{([\w.])}/g;
-
-export function format(str: string, source: Record<string, any>, regExpression: RegExp = DEF_REG_EXPRESSION ) {
-  return str.replace(regExpression, (match, key) => {
+export function format(str: string, source: Record<string, any>, matcher: RegExp = DEF_REG_EXPRESSION) {
+  return str.replace(matcher, (match, key) => {
     const val = get(source, key);
     return val === undefined ? match : val;
   });
 }
+
+
+
+
 
 
