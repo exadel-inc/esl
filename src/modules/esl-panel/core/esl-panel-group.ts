@@ -39,12 +39,8 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Fallback setTimeout timer */
   protected _fallbackTimer: number = 0;
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-    if (!this.connected || oldVal === newVal) return;
-    if (attrName === 'mode') {
-      this.modeRules = ESLMediaRuleList.parse(newVal);
-      this.updateMode();
-    }
+  static get observedAttributes() {
+    return ['mode'];
   }
 
   protected connectedCallback() {
@@ -60,6 +56,14 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.modeRules.removeListener(this._onModeChange);
 
     this.unbindEvents();
+  }
+
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+    if (!this.connected || oldVal === newVal) return;
+    if (attrName === 'mode') {
+      this.modeRules = ESLMediaRuleList.parse(newVal);
+      this.updateMode();
+    }
   }
 
   protected bindEvents() {
