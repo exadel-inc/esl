@@ -44,6 +44,7 @@ export class UIPRoot extends ESLBaseElement {
   protected connectedCallback() {
     this.applyRewriteQuery(this.rewriteMode);
     super.connectedCallback();
+    this._setDefaultAttributes(this.theme, this.mode);
     this._lastMode = this.mode;
     this._onQueryChange();
   }
@@ -85,8 +86,12 @@ export class UIPRoot extends ESLBaseElement {
     this.classList.add(`${next}-${option}`);
   }
 
+  protected _setDefaultAttributes(theme: string, mode: string) {
+    this.mode = mode;
+    this.theme = theme;
+  }
+
   /**
-   * 
    * @param query media query rule
    * Parses media query rule
    * Manages media query listeners

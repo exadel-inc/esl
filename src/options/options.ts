@@ -14,13 +14,7 @@ export class UIPOptions extends UIPPlugin {
   protected connectedCallback() {
     super.connectedCallback();
     this.bindEvents();
-
     this.render();
-
-    if (this.root) {
-      this.updateModeMarker(this.root.mode);
-      this.updateThemeMarker(this.root.theme);
-    }
   }
 
   protected disconnectedCallback() {
@@ -87,8 +81,10 @@ export class UIPOptions extends UIPPlugin {
     const mode = target.getAttribute('mode');
     const theme = target.getAttribute('theme');
 
-    if (mode) this.updateModeMarker(mode);
-    if (theme) this.updateThemeMarker(theme);
+    if (this.root) {
+      if (mode) this.root.mode = mode;
+      if (theme) this.root.theme = theme;
+    }
   }
 
   @bind
@@ -96,17 +92,8 @@ export class UIPOptions extends UIPPlugin {
     this.checkMarker(e.detail.attribute, e.detail.value);
   }
 
-  protected updateModeMarker(mode: string) {
-    if (this.root) this.root.mode = mode;
-  }
-
-  protected updateThemeMarker(theme: string) {
-    if (this.root) this.root.theme = theme;
-  }
-
   protected checkMarker(attr: string, value: string) {
-    const marker = this.querySelector(`input[${attr}="${value}"]`) as HTMLInputElement;
-    const defaultMarker = this.querySelector(`input[${attr}]`) as HTMLInputElement;
-    marker ? marker.checked = true : defaultMarker.checked = true;
+    const marker = (this.querySelector(`input[${attr}="${value}"]`) || this.querySelector(`input[${attr}]`)) as HTMLInputElement;
+    if (marker) marker.checked = true;
   }
 }
