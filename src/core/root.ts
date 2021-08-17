@@ -44,8 +44,8 @@ export class UIPRoot extends ESLBaseElement {
   protected connectedCallback() {
     this.applyRewriteQuery(this.rewriteMode);
     super.connectedCallback();
-    this._setDefaultAttributes(this.theme, this.mode);
-    this._lastMode = this.mode;
+    this.theme = String(this.theme);
+    this._lastMode = this.mode = String(this.mode);
     this._onQueryChange();
   }
 
@@ -84,11 +84,6 @@ export class UIPRoot extends ESLBaseElement {
   protected _updateStyles(option: string, prev: string, next: string) {
     this.classList.remove(`${prev}-${option}`);
     this.classList.add(`${next}-${option}`);
-  }
-
-  protected _setDefaultAttributes(theme: string, mode: string) {
-    this.mode = mode;
-    this.theme = theme;
   }
 
   /**
