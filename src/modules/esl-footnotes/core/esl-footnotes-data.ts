@@ -35,5 +35,5 @@ export function sortFootnotes(notes: ESLNote[]): ESLNote[] {
     const rect1 = note1.getBoundingClientRect();
     const rect2 = note2.getBoundingClientRect();
     return rect1.top - rect2.top || rect1.left - rect2.left;
-});
+  });
 }
