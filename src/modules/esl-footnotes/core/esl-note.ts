@@ -22,8 +22,8 @@ export class ESLNote extends ESLBaseElement {
   /** Tooltip state marker */
   @boolAttr() public tooltipShown: boolean;
 
-  /** Tooltip text */
-  @attr() public tooltipText: string;
+  /** Tooltip content */
+  @attr() public html: string;
 
   /** Click event tracking media query. Default: `all` */
   @attr({defaultValue: 'all'}) public trackClick: string;
@@ -50,14 +50,10 @@ export class ESLNote extends ESLBaseElement {
     return this._index;
   }
 
-  get html() {
-    return this.tooltipText;
-  }
-
   @ready
   protected connectedCallback() {
-    if (!this.tooltipText) {
-      this.tooltipText = this.innerHTML;
+    if (!this.html) {
+      this.html = this.innerHTML;
     }
     super.connectedCallback();
     this.bindEvents();
