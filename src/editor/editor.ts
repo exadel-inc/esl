@@ -85,7 +85,7 @@ export class UIPEditor extends UIPPlugin {
     this.editor.setOption('useWorker', false);
     this.editor.setOption('mode', 'ace/mode/html');
 
-    this.initEditorOptions();
+    this.root && this.setEditorConfig({theme: UIPEditor.themesMapping[this.root.theme]});
   }
 
   protected initEditorOptions(): void {
