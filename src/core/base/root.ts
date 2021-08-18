@@ -1,6 +1,6 @@
 import {bind, EventUtils, ObserverCallback, ESLMediaRuleList} from '@exadel/esl';
 import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {UIPStateModel} from './state-model';
+import {UIPStateModel} from './model';
 
 /**
  * UI Playground root custom element definition,
