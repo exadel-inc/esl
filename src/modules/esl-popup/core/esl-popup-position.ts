@@ -23,7 +23,7 @@ export interface IntersectionRatioRect {
 export interface PopupPositionConfig {
   position: PositionType;
   behavior: string;
-  intersectionRatio: IntersectionRatioRect,
+  intersectionRatio: IntersectionRatioRect;
   element: DOMRect;
   inner: Rect;
   outer: Rect;
