@@ -1,4 +1,4 @@
-import {toCamelCase, toKebabCase, unwrapParenthesis, parseAspectRatio, evaluate, format, parseNumber} from '../format';
+import { toCamelCase, toKebabCase, unwrapParenthesis, parseAspectRatio, evaluate, format, parseNumber } from '../format';
 
 describe('misc/format helper tests', () => {
   test('toKebabCase', () => {
@@ -44,7 +44,7 @@ describe('misc/format helper tests', () => {
   });
   test('evaluate', () => {
     let throwError = false;
-    jest.spyOn(console, 'warn').mockImplementation(() => {throwError = true;});
+    jest.spyOn(console, 'warn').mockImplementation(() => { throwError = true; });
     expect(evaluate('0')).toBe(0);
     expect(evaluate('true')).toBe(true);
     expect(evaluate('false')).toBe(false);
@@ -52,8 +52,8 @@ describe('misc/format helper tests', () => {
     expect(evaluate('"0"')).toBe('0');
     expect(evaluate('[1, 2]')).toEqual([1, 2]);
     expect(evaluate('{}')).toEqual({});
-    expect(evaluate('{a: 1}')).toEqual({a: 1});
-    expect(evaluate('{"a": "1"}')).toEqual({a: '1'});
+    expect(evaluate('{a: 1}')).toEqual({ a: 1 });
+    expect(evaluate('{"a": "1"}')).toEqual({ a: '1' });
     expect(throwError).toBe(false);
     expect(evaluate('{')).toBe(undefined);
     expect(throwError).toBe(true);
@@ -63,11 +63,12 @@ describe('misc/format helper tests', () => {
   describe('format', () => {
     test.each([
       ['abc', {}, 'abc'],
-      ['abc{val}', {val: 'd'}, 'abcd'],
-      ['{a.b.c}', {a: {b: {c: 'hi'}}}, 'hi'],
+      ['abc{val}', { val: 'd' }, 'abcd'],
+      ['{a.b.c}', { a: { b: { c: 'hi' } } }, 'hi'],
       ['{a}', {}, '{a}'],
-      ['{a} - {b} - {c}', {a: 1, b: 2, c: 3}, '1 - 2 - 3'],
-      ['{a.b}{b.c}', {a: {b: 'h'}, b: {c: 'i'}}, 'hi'],
+      ['{a} - {b} - {c}', { a: 1, b: 2, c: 3 }, '1 - 2 - 3'],
+      ['{a.b}{b.c}', { a: { b: 'h' }, b: { c: 'i' } }, 'hi'],
+      ['abc{%foo%}-{{bar}}', { foo: 1, bar: 5 }, 'abc1-5'],
     ])('\'%s\' using %p to \'%s\'', (tmp: string, source: any, res: string) => {
       expect(format(tmp, source)).toBe(res);
     });
