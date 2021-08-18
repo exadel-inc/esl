@@ -1,6 +1,7 @@
-import {bind, EventUtils, ObserverCallback, ESLMediaRuleList} from '@exadel/esl';
+import {bind, EventUtils, ESLMediaRuleList} from '@exadel/esl';
 import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPStateModel} from './model';
+import {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions';
 
 /**
  * UI Playground root custom element definition,
@@ -55,12 +56,12 @@ export class UIPRoot extends ESLBaseElement {
   }
 
   /** Alias for {@link this.model.addListener}. */
-  public addStateListener(listener: ObserverCallback) {
+  public addStateListener(listener: AnyToVoidFnSignature) {
     this._model.addListener(listener);
   }
 
   /** Alias for {@link this.model.removeListener}. */
-  public removeStateListener(listener: ObserverCallback) {
+  public removeStateListener(listener: AnyToVoidFnSignature) {
     this._model.removeListener(listener);
   }
 
