@@ -32,6 +32,7 @@ export function parseAspectRatio(str: string): number {
 /** Evaluate passed string or returns `defaultValue` */
 export function evaluate(str: string, defaultValue?: any): any {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-implied-eval
     return str ? (new Function(`return ${str}`))() : defaultValue;
   } catch (e) {
     console.warn('Cannot parse value ', str, e);

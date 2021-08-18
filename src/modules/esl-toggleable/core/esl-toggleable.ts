@@ -181,7 +181,7 @@ export class ESLToggleable extends ESLBaseElement {
   private planHideTask(params: ToggleableActionParams) {
     this._task.put(() => {
       if (!params.force && !this._open) return;
-      if (!params.silent && !this.$$fire('before:hide',{detail: {params}})) return;
+      if (!params.silent && !this.$$fire('before:hide', {detail: {params}})) return;
       this.onHide(params);
       if (!params.silent && !this.$$fire('hide', {detail: {params}})) return;
     }, defined(params.hideDelay, params.delay));

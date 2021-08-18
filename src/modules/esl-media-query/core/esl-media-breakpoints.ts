@@ -29,7 +29,7 @@ class ScreenBreakpoint {
 }
 
 interface BreakpointsMapping {
-  [key: string]: ScreenBreakpoint
+  [key: string]: ScreenBreakpoint;
 }
 
 // Default breakpoints provided in registry
