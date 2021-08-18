@@ -10,6 +10,7 @@ import {parseAspectRatio} from '../../esl-utils/misc/format';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
+import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {getIObserver} from './esl-media-iobserver';
 import {PlayerStates} from './esl-media-provider';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
@@ -123,28 +124,14 @@ export class ESLMedia extends ESLBaseElement {
       this.setAttribute('role', 'application');
     }
     this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
-    ESLMediaProviderRegistry.instance.addListener(this._onRegistryStateChange);
-    if (this.conditionQuery) {
-      this.conditionQuery.addListener(this.deferredReinitialize);
-    }
-    if (this.fillModeEnabled) {
-      window.addEventListener('resize', this.deferredResize);
-    }
-    window.addEventListener('esl:refresh', this._onRefresh);
+    this.bindEvents();
     this.attachViewportConstraint();
     this.deferredReinitialize();
   }
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
-    ESLMediaProviderRegistry.instance.removeListener(this._onRegistryStateChange);
-    if (this.conditionQuery) {
-      this.conditionQuery.removeListener(this.deferredReinitialize);
-    }
-    if (this.fillModeEnabled) {
-      window.removeEventListener('resize', this.deferredResize);
-    }
-    window.removeEventListener('esl:refresh', this._onRefresh);
+    this.unbindEvents();
     this.detachViewportConstraint();
     this._provider && this._provider.unbind();
   }
@@ -173,6 +160,29 @@ export class ESLMedia extends ESLBaseElement {
           this.detachViewportConstraint();
         break;
     }
+  }
+
+  protected bindEvents() {
+    ESLMediaProviderRegistry.instance.addListener(this._onRegistryStateChange);
+    if (this.conditionQuery) {
+      this.conditionQuery.addListener(this.deferredReinitialize);
+    }
+    if (this.fillModeEnabled) {
+      window.addEventListener('resize', this.deferredResize);
+    }
+    window.addEventListener('esl:refresh', this._onRefresh);
+    this.addEventListener('keydown', this._onKeydown);
+  }
+  protected unbindEvents() {
+    ESLMediaProviderRegistry.instance.removeListener(this._onRegistryStateChange);
+    if (this.conditionQuery) {
+      this.conditionQuery.removeListener(this.deferredReinitialize);
+    }
+    if (this.fillModeEnabled) {
+      window.removeEventListener('resize', this.deferredResize);
+    }
+    window.removeEventListener('esl:refresh', this._onRefresh);
+    this.removeEventListener('keydown', this._onKeydown);
   }
 
   public canActivate() {
@@ -242,8 +252,8 @@ export class ESLMedia extends ESLBaseElement {
     return this._provider && this._provider.safeToggle();
   }
 
-  /** @override */
-  public focus(): void {
+  /** Focus inner player **/
+  public focusPlayer(): void {
     this._provider && this._provider.focus();
   }
 
@@ -318,6 +328,16 @@ export class ESLMedia extends ESLBaseElement {
     const type = this.mediaType.toLowerCase() || 'auto';
     if (name === type || (!this.providerType && type === 'auto')) {
       this.reinitInstance();
+    }
+  }
+
+  @bind
+  protected _onKeydown(e: KeyboardEvent) {
+    if (e.target !== this) return;
+    if ([SPACE, PAUSE].includes(e.key)) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.toggle();
     }
   }
 
