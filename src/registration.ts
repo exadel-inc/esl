@@ -1,10 +1,17 @@
-import './playground.less';
+import {registerCore} from './core/registration';
+import {registerSettings} from './plugins/settings/registration';
+import {UIPEditor} from './plugins/editor/editor';
+import {UIPOptions} from './plugins/options/options';
 
-import {ESLScrollbar} from '@exadel/esl/modules/esl-scrollbar/core';
-import {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
+export * from './core/registration';
 
-import {init} from './playground';
+export * from './plugins/options/options';
+export * from './plugins/editor/editor';
+export * from './plugins/settings/registration';
 
-ESLSelect.register();
-ESLScrollbar.register();
-init();
+export function init() {
+  registerCore();
+  registerSettings();
+  UIPEditor.register();
+  UIPOptions.register();
+}
