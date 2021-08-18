@@ -24,9 +24,16 @@ export function compileFootnotesGroupedList(notes: ESLNote[]): FootnotesItem[] {
   convertNotesToFootnotesList(notes).forEach(({index, text}) => {
     map.set(text, map.has(text) ? `${map.get(text)}, ${index}` : index);
   });
-  return Array.from(map)
-    .reduce(
-      (list, [text, index]) => [...list, {index, text}],
-      []
-    );
+  const groupedList: FootnotesItem[] = [];
+  map.forEach((index, text) => groupedList.push({index, text}));
+  return groupedList;
+}
+
+/* Sort notes list */
+export function sortFootnotes(notes: ESLNote[]): ESLNote[] {
+  return notes.sort((note1: ESLNote, note2: ESLNote) => {
+    const rect1 = note1.getBoundingClientRect();
+    const rect2 = note2.getBoundingClientRect();
+    return rect1.top - rect2.top || rect1.left - rect2.left;
+});
 }
