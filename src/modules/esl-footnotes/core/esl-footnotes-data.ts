@@ -26,7 +26,7 @@ export function compileFootnotesGroupedList(notes: ESLNote[]): FootnotesItem[] {
   });
   return Array.from(map)
     .reduce(
-      (list,[text, index]) => [...list, {index, text}],
+      (list, [text, index]) => [...list, {index, text}],
       []
     );
 }

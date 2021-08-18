@@ -5,7 +5,7 @@ import {TAB} from './keys';
  * Passive (should be called inside keyboard event handler)
  */
 export const handleFocusChain = (e: KeyboardEvent, first: HTMLElement, last: HTMLElement) => {
-  if (e.key !== TAB ) return;
+  if (e.key !== TAB) return;
   if (last && e.target === first && e.shiftKey) {
     last.focus();
     e.preventDefault();
