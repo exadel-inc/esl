@@ -1,0 +1,173 @@
+rules:
+  # ==== Spacing | Code style ====
+
+  # Enforce consistent brace style for blocks
+  'brace-style': off
+  '@typescript-eslint/brace-style': warn
+
+  # Enforces consistent spacing before and after commas
+  'comma-dangle': off
+  '@typescript-eslint/comma-spacing': warn
+
+  # Require or disallow trailing comma
+  'comma-spacing': off
+  '@typescript-eslint/comma-dangle': off
+
+  # Enforce dot notation whenever possible
+  'dot-notation': off
+  '@typescript-eslint/dot-notation': off
+
+  # Require consistent spacing around type annotations
+  '@typescript-eslint/type-annotation-spacing': warn
+
+  # Enforces consistent usage of type assertions
+  '@typescript-eslint/consistent-type-assertions': warn
+
+  # Require a semicolon member delimiter style for interfaces and type literals
+  '@typescript-eslint/member-delimiter-style':
+    - warn
+    - multiline:
+        delimiter: 'semi'
+        requireLast: true
+      singleline:
+        delimiter: 'comma'
+        requireLast: false
+
+  # Require the use of the namespace keyword instead of the module keyword to declare custom TypeScript modules
+  '@typescript-eslint/prefer-namespace-keyword': warn
+
+  # Enforces naming conventions for everything across a codebase
+  # TODO: enable
+  '@typescript-eslint/naming-convention': off
+
+  # Require or disallow spacing between function identifiers and their invocations
+  'func-call-spacing': off
+  '@typescript-eslint/func-call-spacing':
+    - warn
+    - never
+
+  # Enforce consistent indentation
+  'indent': off
+  '@typescript-eslint/indent':
+    - warn
+    - 2
+    - ignoredNodes: [FunctionExpression, FunctionDeclaration]
+      SwitchCase: 1
+      ObjectExpression: 1
+      ImportDeclaration: 1
+      flatTernaryExpressions: false
+
+  # Require or disallow initialization in variable declarations
+  'init-declarations': off
+  '@typescript-eslint/init-declarations': off
+
+  # Enforce consistent spacing before and after keywords
+  'keyword-spacing': off
+  '@typescript-eslint/keyword-spacing': warn
+
+  # Require or disallow an empty line between class members
+  'lines-between-class-members': off
+  '@typescript-eslint/lines-between-class-members': off
+
+  # Disallow duplicate class members
+  'no-dupe-class-members': off
+  '@typescript-eslint/no-dupe-class-members': warn
+
+  # Disallow duplicate imports
+  'no-duplicate-imports': off
+  '@typescript-eslint/no-duplicate-imports': warn
+
+  # Disallow unnecessary parentheses
+  'no-extra-parens': off
+  '@typescript-eslint/no-extra-parens': off
+
+  # Disallow unnecessary semicolons
+  'no-extra-semi': off
+  '@typescript-eslint/no-extra-semi': warn
+
+  # Disallow the use of eval()-like methods
+  'no-implied-eval': off
+  '@typescript-eslint/no-implied-eval': warn
+
+  # Disallow this keywords outside of classes or class-like objects
+  'no-invalid-this': off
+  '@typescript-eslint/no-invalid-this': off
+
+  # Disallow function declarations that contain unsafe references inside loop statements
+  'no-loop-func': off
+  '@typescript-eslint/no-loop-func': warn
+
+  # Disallow literal numbers that lose precision
+  'no-loss-of-precision': off
+  '@typescript-eslint/no-loss-of-precision': warn
+
+  # Disallow magic numbers
+  # TODO: enable
+  'no-magic-numbers': off
+  '@typescript-eslint/no-magic-numbers': off
+
+  # Disallow variable redeclaration
+  'no-redeclare': off
+  '@typescript-eslint/no-redeclare': warn
+
+  # Disallow variable declarations from shadowing variables declared in the outer scope
+  'no-shadow': off
+  '@typescript-eslint/no-shadow': warn
+
+  # Disallow throwing literals as exceptions
+  'no-throw-literal': off
+  '@typescript-eslint/no-throw-literal': warn
+
+  # Disallow unused expressions
+  'no-unused-expressions': off
+  '@typescript-eslint/no-unused-expressions': off
+
+  # Disallow unused variables
+  'no-unused-vars': off
+  '@typescript-eslint/no-unused-vars':
+    - warn
+    - vars: all
+      args: none
+
+  # Disallow unnecessary constructors
+  # TODO: enable
+  'no-useless-constructor': off
+  '@typescript-eslint/no-useless-constructor': off
+
+  # Enforce the consistent use of either backticks, double, or single quotes
+  'quotes': off
+  '@typescript-eslint/quotes':
+    - error
+    - single
+
+  # Disallow async functions which have no await expression
+  'require-await': off
+  '@typescript-eslint/require-await': warn
+
+  # Enforces consistent returning of awaited values
+  'return-await': off
+  '@typescript-eslint/return-await': warn
+
+  # Require or disallow semicolons instead of ASI
+  'semi': off
+  '@typescript-eslint/semi': error
+
+  # Enforces consistent spacing before function parenthesis
+  'space-before-function-paren': off
+  '@typescript-eslint/space-before-function-paren':
+    - warn
+    - anonymous: always
+      named: never
+      asyncArrow: always
+
+  # This rule is aimed at ensuring there are spaces around infix operators.
+  'space-infix-ops': off
+  '@typescript-eslint/space-infix-ops': warn
+
+  # Enforce consistent spacing inside braces
+  'object-curly-spacing': off
+  '@typescript-eslint/object-curly-spacing':
+    - warn
+    - never
+
+
