@@ -10,6 +10,7 @@ import {parseAspectRatio} from '../../esl-utils/misc/format';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
+import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {getIObserver} from './esl-media-iobserver';
 import {PlayerStates} from './esl-media-provider';
 import {ESLMediaProviderRegistry} from './esl-media-registry';
@@ -91,8 +92,8 @@ export class ESLMedia extends ESLBaseElement {
   private deferredReinitialize = debounce(() => this.reinitInstance());
 
   /**
-   * @enum Map with possible Player States
-   * values: BUFFERING, ENDED, PAUSED, PLAYING, UNSTARTED, VIDEO_CUED, UNINITIALIZED
+   * Map object with possible Player States, values:
+   * BUFFERING, ENDED, PAUSED, PLAYING, UNSTARTED, VIDEO_CUED, UNINITIALIZED
    */
   static get PLAYER_STATES() {
     return PlayerStates;
@@ -123,28 +124,14 @@ export class ESLMedia extends ESLBaseElement {
       this.setAttribute('role', 'application');
     }
     this.innerHTML += '<!-- Inner Content, do not modify it manually -->';
-    ESLMediaProviderRegistry.instance.addListener(this._onRegistryStateChange);
-    if (this.conditionQuery) {
-      this.conditionQuery.addListener(this.deferredReinitialize);
-    }
-    if (this.fillModeEnabled) {
-      window.addEventListener('resize', this.deferredResize);
-    }
-    window.addEventListener('esl:refresh', this._onRefresh);
+    this.bindEvents();
     this.attachViewportConstraint();
     this.deferredReinitialize();
   }
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
-    ESLMediaProviderRegistry.instance.removeListener(this._onRegistryStateChange);
-    if (this.conditionQuery) {
-      this.conditionQuery.removeListener(this.deferredReinitialize);
-    }
-    if (this.fillModeEnabled) {
-      window.removeEventListener('resize', this.deferredResize);
-    }
-    window.removeEventListener('esl:refresh', this._onRefresh);
+    this.unbindEvents();
     this.detachViewportConstraint();
     this._provider && this._provider.unbind();
   }
@@ -173,6 +160,29 @@ export class ESLMedia extends ESLBaseElement {
           this.detachViewportConstraint();
         break;
     }
+  }
+
+  protected bindEvents() {
+    ESLMediaProviderRegistry.instance.addListener(this._onRegistryStateChange);
+    if (this.conditionQuery) {
+      this.conditionQuery.addListener(this.deferredReinitialize);
+    }
+    if (this.fillModeEnabled) {
+      window.addEventListener('resize', this.deferredResize);
+    }
+    window.addEventListener('esl:refresh', this._onRefresh);
+    this.addEventListener('keydown', this._onKeydown);
+  }
+  protected unbindEvents() {
+    ESLMediaProviderRegistry.instance.removeListener(this._onRegistryStateChange);
+    if (this.conditionQuery) {
+      this.conditionQuery.removeListener(this.deferredReinitialize);
+    }
+    if (this.fillModeEnabled) {
+      window.removeEventListener('resize', this.deferredResize);
+    }
+    window.removeEventListener('esl:refresh', this._onRefresh);
+    this.removeEventListener('keydown', this._onKeydown);
   }
 
   public canActivate() {
@@ -208,55 +218,42 @@ export class ESLMedia extends ESLBaseElement {
     CSSClassUtils.toggle(targetEl, this.loadClsDeclined, !active);
   }
 
-  /**
-   * Seek to given position of media
-   * @returns {Promise | void}
-   */
+  /** Seek to given position of media */
   public seekTo(pos: number) {
     return this._provider && this._provider.safeSeekTo(pos);
   }
 
   /**
    * Start playing media
-   * @param {boolean} allowActivate
-   * @returns {Promise | void}
+   * @param allowActivate - allows to remove disabled marker
    */
-  public play(allowActivate: boolean = false) {
+  public play(allowActivate: boolean = false): Promise<void> | null {
     if (this.disabled && allowActivate) {
       this.disabled = false;
       this.deferredReinitialize.cancel();
       this.reinitInstance();
     }
-    if (!this.canActivate()) return;
+    if (!this.canActivate()) return null;
     return this._provider && this._provider.safePlay();
   }
 
-  /**
-   * Pause playing media
-   * @returns {Promise | void}
-   */
-  public pause() {
+  /** Pause playing media */
+  public pause(): Promise<void> | null {
     return this._provider && this._provider.safePause();
   }
 
-  /**
-   * Stop playing media
-   * @returns {Promise | void}
-   */
-  public stop() {
+  /** Stop playing media */
+  public stop(): Promise<void> | null {
     return this._provider && this._provider.safeStop();
   }
 
-  /**
-   * Toggle play/pause state of the media
-   * @returns {Promise | void}
-   */
-  public toggle() {
+  /** Toggle play/pause state of the media */
+  public toggle(): Promise<void> | null {
     return this._provider && this._provider.safeToggle();
   }
 
-  /** @override */
-  public focus() {
+  /** Focus inner player **/
+  public focusPlayer(): void {
     this._provider && this._provider.focus();
   }
 
@@ -334,6 +331,16 @@ export class ESLMedia extends ESLBaseElement {
     }
   }
 
+  @bind
+  protected _onKeydown(e: KeyboardEvent) {
+    if (e.target !== this) return;
+    if ([SPACE, PAUSE].includes(e.key)) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.toggle();
+    }
+  }
+
   /** Update ready class state */
   protected updateReadyClass() {
     const target = TraversingQuery.first(this.readyClassTarget, this) as HTMLElement;
@@ -398,5 +405,14 @@ export class ESLMedia extends ESLBaseElement {
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
     const ns = (this.constructor as typeof ESLMedia).eventNs;
     return EventUtils.dispatch(this, ns + eventName, eventInit);
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Media: typeof ESLMedia;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-media': ESLMedia;
   }
 }

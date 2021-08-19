@@ -22,11 +22,11 @@ export class ESLA11yGroup extends ESLBaseElement {
   /** Activate target (via click event) on selection */
   @boolAttr({}) public activateSelected: boolean;
 
-  /** @returns {HTMLElement} root element of the group */
+  /** @returns HTMLElement root element of the group */
   public get $root(): HTMLElement {
     return this.parentElement as HTMLElement;
   }
-  /** @returns {HTMLElement[]} targets of the group */
+  /** @returns HTMLElement[] targets of the group */
   public get $targets(): HTMLElement[] {
     return TraversingQuery.all(this.targets, this.$root) as [];
   }
@@ -73,23 +73,32 @@ export class ESLA11yGroup extends ESLBaseElement {
     this.activateSelected && targetEl.click();
   }
 
-  /** @returns {HTMLElement} next target fot trigger */
+  /** @returns HTMLElement next target fot trigger */
   public next(trigger: HTMLElement) {
     const triggers = this.$targets;
     const index = triggers.indexOf(trigger);
     return triggers[(index + 1) % triggers.length];
   }
 
-  /** @returns {HTMLElement} previous target fot trigger */
+  /** @returns HTMLElement previous target fot trigger */
   public prev(trigger: HTMLElement): HTMLElement | undefined {
     const triggers = this.$targets;
     const index = triggers.indexOf(trigger);
     return triggers[(index - 1 + triggers.length) % triggers.length];
   }
 
-  /** @returns {HTMLElement} currently focused element from targets */
+  /** @returns HTMLElement currently focused element from targets */
   public current(): HTMLElement | null {
     const $active = document.activeElement as HTMLElement;
     return this.$targets.includes($active) ? $active : null;
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    A11yGroup: typeof ESLA11yGroup;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-a11y-group': ESLA11yGroup;
   }
 }

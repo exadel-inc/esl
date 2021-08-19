@@ -12,7 +12,7 @@ import type {ToggleableActionParams} from '../../../esl-toggleable/core/esl-togg
  * ESLSelectDropdown component
  * @author Alexey Stsefanovich (ala'n)
  *
- * Auxiliary inner custom component to render {@link ESLSelect) dropdown section
+ * Auxiliary inner custom component to render {@link ESLSelect} dropdown section
  * Uses {@link ESLSelectList} to render the content
  */
 export class ESLSelectDropdown extends ESLToggleable {
@@ -35,7 +35,7 @@ export class ESLSelectDropdown extends ESLToggleable {
 
   constructor() {
     super();
-    this.$list = document.createElement(ESLSelectList.is) as ESLSelectList;
+    this.$list = document.createElement(ESLSelectList.is);
   }
 
   protected setInitialState() {}
@@ -68,7 +68,7 @@ export class ESLSelectDropdown extends ESLToggleable {
 
     super.onShow(params);
     const focusable = this.querySelector('[tabindex]') as HTMLElement;
-    focusable && focusable.focus( {preventScroll: true} );
+    focusable && focusable.focus({preventScroll: true});
     this.updatePosition();
   }
   protected onHide(params: ToggleableActionParams) {
@@ -104,5 +104,11 @@ export class ESLSelectDropdown extends ESLToggleable {
     this.style.top = `${windowY + rect.top + rect.height}px`;
     this.style.left = `${rect.left}px`;
     this.style.width = `${rect.width}px`;
+  }
+}
+
+declare global {
+  export interface HTMLElementTagNameMap {
+    'esl-select-dropdown': ESLSelectDropdown;
   }
 }

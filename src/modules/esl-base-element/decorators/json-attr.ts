@@ -44,7 +44,7 @@ const buildAttrName =
 /**
  * Decorator to map current property to element attribute value using JSON (de-)serialization rules.
  * Maps object type property.
- * @param [config] - mapping configuration. See {@link JsonAttrDescriptor}
+ * @param config - mapping configuration. See {@link JsonAttrDescriptor}
  */
 export const jsonAttr = <T>(config: JsonAttrDescriptor<T> = {}) => {
   config = Object.assign({defaultValue: {}}, config);

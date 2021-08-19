@@ -308,3 +308,12 @@ export class ESLScrollbar extends ESLBaseElement {
     this.deferredRefresh();
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Scrollbar: typeof ESLScrollbar;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-scrollbar': ESLScrollbar;
+  }
+}

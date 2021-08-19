@@ -3,7 +3,7 @@
  * Used for JSX declaration
  */
 export interface ESLImageTagShape {
-  /** Define {SmartRule} query for image source */
+  /** Define {@link ESLMediaRuleList} query for image source */
   'data-src': string;
   /** Define image alt text */
   alt: string;

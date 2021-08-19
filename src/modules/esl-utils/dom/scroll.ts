@@ -6,16 +6,14 @@ const $html = document.documentElement;
 const initiatorSet = new Set();
 
 export abstract class ScrollUtils {
-  /**
-   * Check vertical scroll based on content height
-   * */
+  /** Check vertical scroll based on content height */
   static hasVerticalScroll(target = $html) {
     return target.scrollHeight > target.clientHeight;
   }
 
   /**
    * Disable scroll on the page.
-   * @param [strategy] - to make scroll visually disabled
+   * @param strategy - to make scroll visually disabled
    * */
   public static lock(strategy?: ScrollStrategy) {
     const hasScroll = ScrollUtils.hasVerticalScroll();
@@ -35,7 +33,7 @@ export abstract class ScrollUtils {
   /**
    * Disable scroll on the page.
    * @param initiator - object to associate request with
-   * @param [strategy] - to make scroll visually disabled
+   * @param strategy - to make scroll visually disabled
    *
    * TODO: currently requests with different strategy is not taken into account
    * */
@@ -47,8 +45,8 @@ export abstract class ScrollUtils {
   /**
    * Enable scroll on the page in case it was requested with given initiator.
    * @param initiator - object to associate request with
-   * @param [strategy] - to make scroll visually disabled
-   * */
+   * @param strategy - to make scroll visually disabled
+   */
   public static requestUnlock(initiator: any, strategy?: ScrollStrategy) {
     initiator && initiatorSet.delete(initiator);
     (initiatorSet.size === 0) && ScrollUtils.unlock();
@@ -58,8 +56,8 @@ export abstract class ScrollUtils {
 /**
  * Get the list of all scroll parents, up the list of ancestors until we get to the top window object.
  * @param element - element for which you want to get the list of all scroll parents
- * Optional @param [list] - array of elements to concatenate with the list of all scroll parents of element
- * */
+ * @param list - array of elements to concatenate with the list of all scroll parents of element (optional)
+ */
 export function getListScrollParents(element: Node, list: Element[] = []): Element[] {
   const scrollParent = getScrollParent(element);
   const isBody = scrollParent === element.ownerDocument?.body;
@@ -97,4 +95,28 @@ export function isScrollParent(element: Element): boolean {
   // Firefox wants us to check `-x` and `-y` variations as well
   const {overflow, overflowX, overflowY} = getComputedStyle(element);
   return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
+}
+
+/**
+ * This is a promise-based version of scrollIntoView().
+ * Method scrolls the element's parent container such that the element on which
+ * scrollIntoView() is called is visible to the user. The promise is resolved when
+ * the element became visible to the user.
+ * @param element - element to be made visible to the user
+ * @param options - scrollIntoView options
+ */
+export function scrollIntoViewAsync(element: Element, options: ScrollIntoViewOptions): Promise<void> {
+  element.scrollIntoView(options);
+
+  return new Promise((resolve, reject) => {
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      const [entry] = entries;
+
+      if (entry.isIntersecting) {
+        intersectionObserver.unobserve(element);
+        resolve();
+      }
+    });
+    intersectionObserver.observe(element);
+  });
 }

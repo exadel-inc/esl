@@ -27,7 +27,8 @@ export class ESLTabs extends ESLBaseElement {
     return ['scrollable'];
   }
 
-  /** Scrollable mode.
+  /**
+   * Scrollable mode.
    * Supported types for different breakpoints ('disabled' by default):
    * - 'disabled' or not defined -  scroll behavior is disabled;
    * - 'center' - scroll behavior is enabled, tab is center-aligned;
@@ -242,5 +243,14 @@ export class ESLTabs extends ESLBaseElement {
     } else {
       this.bindScrollableEvents();
     }
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Tabs: typeof ESLTabs;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-tabs': ESLTabs;
   }
 }

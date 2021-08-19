@@ -2,16 +2,15 @@ import {Rect} from '../../esl-utils/dom/rect';
 
 export type PositionType = 'top' | 'bottom' | 'left' | 'right';
 
-export interface ArrowPositionValue {
+export interface Point {
   x: number;
   y: number;
-  position: string;
 }
 
 export interface PopupPositionValue {
-  x: number;
-  y: number;
-  arrow: ArrowPositionValue;
+  placedAt: PositionType;
+  popup: Rect;
+  arrow: Point;
 }
 
 export interface IntersectionRatioRect {
@@ -24,7 +23,7 @@ export interface IntersectionRatioRect {
 export interface PopupPositionConfig {
   position: PositionType;
   behavior: string;
-  intersectionRatio: IntersectionRatioRect,
+  intersectionRatio: IntersectionRatioRect;
   element: DOMRect;
   inner: Rect;
   outer: Rect;
@@ -75,8 +74,8 @@ function getOppositePosition(position: PositionType): PositionType {
  * @param rect - popup position rect
  * @param arrow - arrow position value
  * */
-function fitByMajorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: ArrowPositionValue) {
-  if (cfg.behavior !== 'fit') return;
+function fitByMajorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): PositionType {
+  if (cfg.behavior !== 'fit') return cfg.position;
 
   let isMirrored = false;
   switch (cfg.position) {
@@ -105,9 +104,8 @@ function fitByMajorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: ArrowPositi
       }
       break;
   }
-  if (isMirrored) {
-    arrow.position = getOppositePosition(cfg.position);
-  }
+
+  return isMirrored ? getOppositePosition(cfg.position) : cfg.position;
 }
 
 /**
@@ -116,7 +114,7 @@ function fitByMajorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: ArrowPositi
  * @param rect - popup position rect
  * @param arrow - arrow position value
  * */
-function fitByMinorAxisHorizontal(cfg: PopupPositionConfig, rect: Rect, arrow: ArrowPositionValue) {
+function fitByMinorAxisHorizontal(cfg: PopupPositionConfig, rect: Rect, arrow: Point) {
   if (cfg.trigger.x < cfg.outer.x || cfg.trigger.right > cfg.outer.right) return; // cancel fit mode if the element is out of window offset bounds
 
   let arrowAdjust = 0;
@@ -137,7 +135,7 @@ function fitByMinorAxisHorizontal(cfg: PopupPositionConfig, rect: Rect, arrow: A
  * @param rect - popup position rect
  * @param arrow - arrow position value
  * */
-function fitByMinorAxisVertical(cfg: PopupPositionConfig, rect: Rect, arrow: ArrowPositionValue) {
+function fitByMinorAxisVertical(cfg: PopupPositionConfig, rect: Rect, arrow: Point) {
   if (cfg.trigger.y < cfg.outer.y || cfg.trigger.bottom > cfg.outer.bottom) return; // cancel fit mode if the element is out of window offset bounds
 
   let arrowAdjust = 0;
@@ -158,7 +156,7 @@ function fitByMinorAxisVertical(cfg: PopupPositionConfig, rect: Rect, arrow: Arr
  * @param rect - popup position rect
  * @param arrow - arrow position value
  * */
-function fitByMinorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: ArrowPositionValue) {
+function fitByMinorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point) {
   if (cfg.behavior !== 'fit') return;
 
   if (['left', 'right'].includes(cfg.position)) {
@@ -173,19 +171,19 @@ function fitByMinorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: ArrowPositi
  * @param cfg - popup position config
  * */
 export function calcPopupPosition(cfg: PopupPositionConfig): PopupPositionValue {
-  const rect = calcPopupBasicRect(cfg);
+  const popup = calcPopupBasicRect(cfg);
   const arrow = {
     x: cfg.element.width / 2,
     y: cfg.element.height / 2,
     position: cfg.position
   };
 
-  fitByMajorAxis(cfg, rect, arrow);
-  fitByMinorAxis(cfg, rect, arrow);
+  const placedAt = fitByMajorAxis(cfg, popup, arrow);
+  fitByMinorAxis(cfg, popup, arrow);
 
   return {
-    x: rect.x,
-    y: rect.y,
+    popup,
+    placedAt,
     arrow
   };
 }

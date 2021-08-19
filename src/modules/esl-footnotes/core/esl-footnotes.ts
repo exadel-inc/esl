@@ -2,22 +2,42 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {ESLBaseElement, attr} from '../../esl-base-element/core';
-import {ESLNote} from '../../esl-note/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {EventUtils} from '../../esl-utils/dom/events';
+import {sequentialUID} from '../../esl-utils/misc/uid';
+import {compileFootnotesGroupedList, compileFootnotesNongroupedList, sortFootnotes} from './esl-footnotes-data';
+
+import type {ESLNote} from './esl-note';
+import type {FootnotesItem} from './esl-footnotes-data';
 
 @ExportNs('Footnotes')
 export class ESLFootnotes extends ESLBaseElement {
   static is = 'esl-footnotes';
+  static eventNs = 'esl:footnotes';
 
   /** Target element {@link TraversingQuery} to define scope */
   @attr({defaultValue: '::parent'}) public scopeTarget: string;
+
+  /** Grouping note instances with identical content enable/disable */
+  @attr({defaultValue: 'enable'}) public grouping: string;
 
   protected _notes: ESLNote[] = [];
 
   @memoize()
   protected get scopeEl() {
     return TraversingQuery.first(this.scopeTarget, this) as HTMLElement;
+  }
+
+  protected get footnotesList(): FootnotesItem[] {
+    this.reindex();
+    return this.grouping !== 'enable'
+      ? compileFootnotesNongroupedList(this._notes)
+      : compileFootnotesGroupedList(this._notes);
+  }
+
+  public reindex() {
+    this._notes = sortFootnotes(this._notes);
+    this._notes.forEach((note, index) => note.setIndex(index + 1));
   }
 
   protected connectedCallback() {
@@ -37,19 +57,21 @@ export class ESLFootnotes extends ESLBaseElement {
 
   protected bindEvents() {
     if (this.scopeEl) {
-      this.scopeEl.addEventListener(`${ESLNote.eventNs}:response`, this._onNoteSubscribe);
+      this.scopeEl.addEventListener(`${ESLFootnotes.eventNs}:response`, this._onNoteSubscribe);
     }
     this.addEventListener('click', this._onClick);
   }
   protected unbindEvents() {
     if (this.scopeEl) {
-      this.scopeEl.removeEventListener(`${ESLNote.eventNs}:response`, this._onNoteSubscribe);
+      this.scopeEl.removeEventListener(`${ESLFootnotes.eventNs}:response`, this._onNoteSubscribe);
     }
     this.removeEventListener('click', this._onClick);
   }
 
   public linkNote(note: ESLNote) {
-    const index = this._notes.push(note);
+    if (this._notes.includes(note)) return;
+    this._notes.push(note);
+    const index = +sequentialUID(ESLFootnotes.is, '');
     note.link(this, index);
   }
 
@@ -63,24 +85,24 @@ export class ESLFootnotes extends ESLBaseElement {
   }
 
   protected buildItems(): string {
-    const items = this._notes.map((note) => this.buildItem(note)).join('');
+    const items = this.footnotesList.map((footnote) => this.buildItem(footnote)).join('');
     return `<ul class="esl-footnotes-items">${items}</ul>`;
   }
 
-  protected buildItem(note: ESLNote): string {
-    const item = `${this.buildItemIndex(note.index)}${this.buildItemText(note.html)}${this.buildItemBack()}`;
-    return `<li class="esl-footnotes-item" data-order="${note.index}">${item}</li>`;
+  protected buildItem(footnote: FootnotesItem): string {
+    const item = `${this.buildItemIndex(footnote)}${this.buildItemText(footnote)}${this.buildItemBack(footnote)}`;
+    return `<li class="esl-footnotes-item" data-order="${footnote.index}">${item}</li>`;
   }
 
-  protected buildItemIndex(index: number): string {
-    return `<span class="esl-footnotes-index">${index}</span>`;
+  protected buildItemIndex(footnote: FootnotesItem): string {
+    return `<span class="esl-footnotes-index">${footnote.index}</span>`;
   }
 
-  protected buildItemText(text: string): string {
-    return `<span class="esl-footnotes-text">${text}</span>`;
+  protected buildItemText(footnote: FootnotesItem): string {
+    return `<span class="esl-footnotes-text">${footnote.text}</span>`;
   }
 
-  protected buildItemBack(): string {
+  protected buildItemBack(footnote: FootnotesItem): string {
     return '<span class="esl-footnotes-back-to-note" tabindex="0"></span>';
   }
 
@@ -97,13 +119,38 @@ export class ESLFootnotes extends ESLBaseElement {
   protected _onClick(e: MouseEvent | KeyboardEvent) {
     const target = e.target as HTMLElement;
     if (target && target.classList.contains('esl-footnotes-back-to-note')) {
-      const index = target.parentElement?.getAttribute('data-order');
-      const note = index ? this._notes.find((el) => el.index === +index) : null;
-      note?.activate();
+      const orderAttr = target.closest('.esl-footnotes-item')?.getAttribute('data-order');
+      const order = orderAttr?.split(',').map((item) => +item);
+      order && this._onBackToNote(order);
     }
   }
 
+  protected _onBackToNote(order: number[]) {
+    const index = order[order.length - 1];
+    this._notes.forEach((note) => {
+      note.highlight(order.includes(note.index));
+      if (note.index === index) {
+        note.activate();
+      }
+    });
+  }
+
+  public turnOffHighlight(note: ESLNote) {
+    this._notes
+      .filter((item) => note.html === item.html)
+      .forEach((item) => item.highlight(false));
+  }
+
   protected _sendRequestToNote() {
-    EventUtils.dispatch(this, `${ESLNote.eventNs}:request`);
+    EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:request`);
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Footnotes: typeof ESLFootnotes;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-footnotes': ESLFootnotes;
   }
 }

@@ -27,7 +27,7 @@ export class ESLTrigger extends ESLBaseElement {
   /** Target element {@link TraversingQuery} selector to set `activeClass` */
   @attr({defaultValue: ''}) public activeClassTarget: string;
 
-  /** Selector for ignore inner elements */
+  /** Selector for ignored inner elements */
   @attr({defaultValue: 'a[href]'}) public ignore: string;
 
   /** Target Toggleable {@link TraversingQuery} selector. `next` by default */
@@ -239,5 +239,14 @@ export class ESLTrigger extends ESLBaseElement {
     if (this.$target.id) {
       target.setAttribute('aria-controls', this.$target.id);
     }
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Trigger: typeof ESLTrigger;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-trigger': ESLTrigger;
   }
 }

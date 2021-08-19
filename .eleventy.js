@@ -1,11 +1,20 @@
-const { isDev } = require('./pages/views/_data/env');
 const htmlmin = require('html-minifier');
 
+const { isDev } = require('./pages/views/_data/env');
+const { markdown } = require('./pages/views/_data/markdown');
+const { MDRenderer } = require('./pages/views/_data/md-render');
+
 module.exports = (config) => {
+  config.addWatchTarget('src/**/*.md');
+
   config.addPassthroughCopy({
     'pages/static/assets': 'assets',
     'pages/static/tools': '.',
   });
+
+  config.setLibrary('md', markdown);
+
+  config.addNunjucksAsyncShortcode('mdRender', MDRenderer.render);
 
   config.addFilter('sortByName', (values) => {
     if (!values || !Array.isArray(values)) {
@@ -26,7 +35,7 @@ module.exports = (config) => {
 
   config.addTransform('htmlmin', function (content, outputPath) {
     if (outputPath && outputPath.endsWith('.html') && !isDev) {
-      let minified = htmlmin.minify(content, {
+      return htmlmin.minify(content, {
         useShortDoctype: true,
         removeComments: true,
         collapseWhitespace: true,
@@ -34,7 +43,6 @@ module.exports = (config) => {
         minifyJS: true,
         minifyCSS: true,
       });
-      return minified;
     }
     return content;
   });

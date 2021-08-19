@@ -5,22 +5,25 @@ import {ready} from '../../esl-utils/decorators/ready';
 import {ESLTooltip} from '../../esl-tooltip/core';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
+import {scrollIntoViewAsync} from '../../esl-utils/dom/scroll';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
+import {ESLFootnotes} from './esl-footnotes';
 
 import type {ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
-import type {ESLFootnotes} from '../../esl-footnotes/core/esl-footnotes';
 
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
   static is = 'esl-note';
-  static eventNs = 'esl:note';
 
   /** Linked state marker */
   @boolAttr() public linked: boolean;
 
   /** Tooltip state marker */
   @boolAttr() public tooltipShown: boolean;
+
+  /** Tooltip content */
+  @attr() public html: string;
 
   /** Click event tracking media query. Default: `all` */
   @attr({defaultValue: 'all'}) public trackClick: string;
@@ -29,7 +32,6 @@ export class ESLNote extends ESLBaseElement {
 
   protected _$footnotes: ESLFootnotes | null;
   protected _index: number;
-  protected _innerHTML: string;
 
   /** Marker to allow track hover */
   public get allowHover() {
@@ -40,38 +42,47 @@ export class ESLNote extends ESLBaseElement {
     return ESLMediaQuery.for(this.trackClick).matches;
   }
 
+  static get observedAttributes() {
+    return ['tooltip-shown'];
+  }
+
   get index(): number {
     return this._index;
   }
 
-  get html() {
-    return this._innerHTML;
-  }
-
   @ready
   protected connectedCallback() {
-    this._innerHTML = this.innerHTML;
+    if (!this.html) {
+      this.html = this.innerHTML;
+    }
     super.connectedCallback();
     this.bindEvents();
     this._sendResponseToFootnote();
   }
 
-  @ready
   protected disconnectedCallback() {
     super.disconnectedCallback();
     this.unbindEvents();
     this._$footnotes?.unlinkNote(this);
+    this.restore();
+  }
+
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+    if (!this.connected || oldVal === newVal) return;
+    if (attrName === 'tooltip-shown' && newVal === null) {
+      this._$footnotes?.turnOffHighlight(this);
+    }
   }
 
   protected bindEvents() {
-    document.body.addEventListener(`${ESLNote.eventNs}:request`, this._onFootnotesReady);
+    document.body.addEventListener(`${ESLFootnotes.eventNs}:request`, this._onFootnotesReady);
     this.addEventListener('click', this._onClick);
     this.addEventListener('keydown', this._onKeydown);
     this.addEventListener('mouseenter', this._onMouseEnter);
     this.addEventListener('mouseleave', this._onMouseLeave);
   }
   protected unbindEvents() {
-    document.body.removeEventListener(`${ESLNote.eventNs}:request`, this._onFootnotesReady);
+    document.body.removeEventListener(`${ESLFootnotes.eventNs}:request`, this._onFootnotesReady);
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('keydown', this._onKeydown);
     this.removeEventListener('mouseenter', this._onMouseEnter);
@@ -79,24 +90,35 @@ export class ESLNote extends ESLBaseElement {
   }
 
   public activate() {
-    this.scrollIntoView({behavior: 'smooth', block: 'nearest'});
-    this.showTooltip();
+    scrollIntoViewAsync(this, {behavior: 'smooth', block: 'nearest'}).then(() => this.showTooltip());
+  }
+
+  public highlight(enable: boolean = true) {
+    this.classList.toggle('highlight', enable);
   }
 
   public link(footnotes: ESLFootnotes, index: number) {
     this.linked = true;
     this._$footnotes = footnotes;
-    this._index = index;
-    this.innerHTML = `${index}`;
+    this.setIndex(index);
     this.tabIndex = 0;
   }
 
   public unlink() {
+    this.restore();
+    this._sendResponseToFootnote();
+  }
+
+  public setIndex(index: number) {
+    this._index = index;
+    this.innerHTML = `${index}`;
+  }
+
+  protected restore() {
     this.linked = false;
     this._$footnotes = null;
     this.innerHTML = this.html;
     this.tabIndex = -1;
-    this._sendResponseToFootnote();
   }
 
   /** Merge params to pass to the toggleable */
@@ -113,6 +135,7 @@ export class ESLNote extends ESLBaseElement {
     const actionParams = this.mergeToggleableParams({
     }, params);
     ESLTooltip.show(actionParams);
+    this.highlight();
   }
   /** Hide tooltip with passed params */
   public hideTooltip(params: ToggleableActionParams = {}) {
@@ -164,6 +187,15 @@ export class ESLNote extends ESLBaseElement {
   }
 
   protected _sendResponseToFootnote() {
-    EventUtils.dispatch(this, `${ESLNote.eventNs}:response`);
+    EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:response`);
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Note: typeof ESLNote;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-note': ESLNote;
   }
 }

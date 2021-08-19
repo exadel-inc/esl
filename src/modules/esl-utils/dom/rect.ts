@@ -15,14 +15,14 @@ export class Rect {
    * The static method creates a new Rect instance from a rect-like object.
    * @param rect - rect-like object
    * */
-  public static from(rect: {x?: number; y?: number; width?: number; height?: number} = {}): Rect {
-    return new this(rect.x, rect.y, rect.width, rect.height);
+  public static from(rect: {x?: number, left?: number, y?: number, top?: number, width?: number, height?: number} = {}): Rect {
+    return new this(rect.x || rect.left, rect.y || rect.top, rect.width, rect.height);
   }
 
   public constructor(x?: number, y?: number, width?: number, height?: number) {
     this.x = x || 0;
     this.y = y || 0;
-    this.width= width || 0;
+    this.width = width || 0;
     this.height = height || 0;
   }
 

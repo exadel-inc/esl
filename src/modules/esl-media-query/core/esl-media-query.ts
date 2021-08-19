@@ -23,9 +23,9 @@ export interface IMediaQueryPreprocessor {
  * Utility to support extended MediaQuery features
  * Supports
  * - CSS MediaQuery matching check
- * - DPR display queries (@x1 | @x2 | @x3)
- * - Registered screen default sizes (breakpoints) shortcuts @[-|+](XS|SM|MD|LG|XL)
- * - Device and browser shortcuts (@MOBILE|@DESKTOP|@ie)
+ * - DPR display queries (`@x1|@x2|@x3`)
+ * - Registered screen default sizes (breakpoints) shortcuts (`@[-|+](XS|SM|MD|LG|XL)`)
+ * - Device and browser shortcuts (`@MOBILE|@DESKTOP|@IE`)
  * - Custom static shortcuts and custom query preprocessors
  * - `not` logic operation (can have multiple not operators before any term of the query)
  * - `or` or `,` logical operator (have a lowest priority)
@@ -33,7 +33,7 @@ export interface IMediaQueryPreprocessor {
  *
  * Building query process:
  *
- * [Building query logical tree] -> [preprocess nodes queries] -> [building native MediaQueryList nodes] -> [query tree optimization]
+ * [Building query logical tree] - [preprocess nodes queries] - [building native MediaQueryList nodes] - [query tree optimization]
  */
 @ExportNs('MediaQuery')
 export abstract class ESLMediaQuery implements IMediaQueryCondition {
@@ -103,3 +103,9 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
 ESLMediaQuery.use(ESLScreenDPR);
 ESLMediaQuery.use(ESLScreenBreakpoints);
 ESLMediaQuery.use(ESLEnvShortcuts);
+
+declare global {
+  export interface ESLLibrary {
+    MediaQuery: typeof ESLMediaQuery;
+  }
+}

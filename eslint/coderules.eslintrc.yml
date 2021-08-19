@@ -1,0 +1,282 @@
+rules:
+  # === Compulsory practices ===
+
+  # Enforces consistent usage of type imports
+  '@typescript-eslint/consistent-type-imports':
+    - error
+    - prefer: type-imports
+
+  # Disallow the use of custom TypeScript modules and namespaces
+  '@typescript-eslint/no-namespace': error
+
+  # Disallows using a non-null assertion after an optional chain expression
+  '@typescript-eslint/no-non-null-asserted-optional-chain': error
+
+  # Disallows invocation of require()
+  '@typescript-eslint/no-require-imports': error
+
+  # Disallow aliasing this
+  '@typescript-eslint/no-this-alias': error
+
+  # Flags unnecessary equality comparisons against boolean literals
+  '@typescript-eslint/no-unnecessary-boolean-literal-compare': error
+
+  # Disallows the use of require statements except in import statements
+  '@typescript-eslint/no-var-requires': error
+
+  # Prefer usage of as const over literal type
+  '@typescript-eslint/prefer-as-const': error
+
+  # Disallow iterating over an array with a for-in loop
+  '@typescript-eslint/no-for-in-array': error
+
+  # Disallow extra non-null assertion
+  '@typescript-eslint/no-extra-non-null-assertion': error
+
+  # Enforce default parameters to be last
+  'default-param-last': off
+  '@typescript-eslint/default-param-last': error
+
+  # === Warnings ===
+
+  # Require that member overloads be consecutive
+  '@typescript-eslint/adjacent-overload-signatures': warn
+
+  # Requires using either T[] or Array<T> for arrays
+  '@typescript-eslint/array-type': warn
+
+  # Disallows awaiting a value that is not a Thenable
+
+  '@typescript-eslint/await-thenable': warn
+
+  # Bans @ts-<directive> comments from being used or requires descriptions after directive
+  '@typescript-eslint/ban-ts-comment': warn
+
+  # Bans specific types from being used
+  '@typescript-eslint/ban-types': warn
+
+  # Enforce valid definition of new and constructor
+  '@typescript-eslint/no-misused-new': warn
+
+  # Warns when a namespace qualifier is unnecessary
+  '@typescript-eslint/no-unnecessary-qualifier': warn
+
+  # Use function types instead of interfaces with call signatures
+  '@typescript-eslint/prefer-function-type': warn
+
+  # Sets preference level for triple slash directives versus ES6-style import declarations
+  '@typescript-eslint/triple-slash-reference': warn
+
+  # Warns for any two overloads that could be unified into one by using a union or an optional/rest parameter
+  '@typescript-eslint/unified-signatures': warn
+
+  # Warns if a type assertion does not change the type of an expression
+  '@typescript-eslint/no-unnecessary-type-assertion': warn
+
+  # === Disabled Rules ===
+
+  # Disallow the delete operator with computed key expressions
+  '@typescript-eslint/no-dynamic-delete': off
+
+  # Disallow the use of parameter properties in class constructors
+  '@typescript-eslint/no-parameter-properties': off
+
+  # Disallow the use of type aliases
+  '@typescript-eslint/no-type-alias': off
+
+  # Prefer a ‘for-of’ loop over a standard ‘for’ loop if the index is only used to access the array being iterated
+  '@typescript-eslint/prefer-for-of': off
+
+  # When adding two variables, operands must both be of type number or of type string
+  '@typescript-eslint/restrict-plus-operands': off
+
+  # Restricts the types allowed in boolean expressions
+  '@typescript-eslint/strict-boolean-expressions': off
+
+  # Disallow the declaration of empty interfaces
+  '@typescript-eslint/no-empty-interface': off
+
+  # Disallow empty functions
+  'no-empty-function': off
+  '@typescript-eslint/no-empty-function': off
+
+  # Disallow usage of the any type
+  '@typescript-eslint/no-explicit-any': off
+
+  # Disallows non-null assertions using the ! postfix operator
+  '@typescript-eslint/no-non-null-assertion': off
+
+  # Ensures that literals on classes are exposed in a consistent style
+  '@typescript-eslint/class-literal-property-style': off
+
+  # Enforce or disallow the use of the record type
+  '@typescript-eslint/consistent-indexed-object-style': off
+
+  # Consistent with type definition either interface or type
+  '@typescript-eslint/consistent-type-definitions': off
+
+  # Require explicit return types on functions and class methods
+  '@typescript-eslint/explicit-function-return-type': off
+
+  # Require explicit accessibility modifiers on class properties and methods
+  '@typescript-eslint/explicit-member-accessibility': off
+
+  # Require a consistent member declaration order
+  'member-ordering': off
+  '@typescript-eslint/member-ordering': off
+
+  # Enforces using a particular method signature syntax
+  '@typescript-eslint/method-signature-style': off
+
+  # Requires that .toString() is only called on objects which provide useful information when stringified
+  '@typescript-eslint/no-base-to-string': off
+
+  # Disallow non-null assertion in locations that may be confusing
+  '@typescript-eslint/no-confusing-non-null-assertion': off
+
+  # Requires expressions of type void to appear in statement position
+  '@typescript-eslint/no-confusing-void-expression': off
+
+  # Forbids the use of classes as namespaces
+  '@typescript-eslint/no-extraneous-class': off
+
+  # Requires Promise-like values to be handled appropriately
+  # TODO: enable
+  '@typescript-eslint/no-floating-promises': off
+
+  # Disallow usage of the implicit any type in catch clauses
+  # TODO: enable
+  '@typescript-eslint/no-implicit-any-catch': off
+
+  # Disallows explicit type declarations for variables or parameters initialized to a number, string, or boolean
+  # TODO: review
+  '@typescript-eslint/no-inferrable-types': off
+
+  # Disallows usage of void type outside of generic or return types
+  # TODO: review
+  '@typescript-eslint/no-invalid-void-type': off
+
+  # Avoid using promises in places not designed to handle them
+  # TODO: review
+  '@typescript-eslint/no-misused-promises': off
+
+  # Enforces that type arguments will not be used if not required
+  # TODO: review
+  '@typescript-eslint/no-unnecessary-type-arguments': off
+
+  # Disallows unnecessary constraints on generic types
+  # TODO: review
+  '@typescript-eslint/no-unnecessary-type-constraint': off
+
+  # Disallows calling an function with an any type value
+  # TODO: enable
+  '@typescript-eslint/no-unsafe-argument': off
+
+  # Disallows assigning any to variables and properties
+  '@typescript-eslint/no-unsafe-assignment': off
+
+  # Disallows calling an any type value
+  # TODO: enable
+  '@typescript-eslint/no-unsafe-call': off
+
+  # Disallows member access on any typed variables
+  # TODO: enable
+  '@typescript-eslint/no-unsafe-member-access': off
+
+  # Disallows returning any from a function
+  # TODO: enable
+  '@typescript-eslint/no-unsafe-return': off
+
+  # Prefers a non-null assertion over explicit type cast when possible
+  # TODO: review
+  '@typescript-eslint/non-nullable-type-assertion-style': off
+
+  # Prefer initializing each enums member value
+  # TODO: review
+  '@typescript-eslint/prefer-enum-initializers': off
+
+  # Require that all enum members be literal values to prevent unintended enum member name shadow issues
+  # TODO: review
+  '@typescript-eslint/prefer-literal-enum-member': off
+
+  # Enforce the usage of the nullish coalescing operator instead of logical chaining
+  # TODO: review
+  '@typescript-eslint/prefer-nullish-coalescing': off
+
+  # Prefer using concise optional chain expressions instead of chained logical ands
+  # TODO: review
+  '@typescript-eslint/prefer-optional-chain': off
+
+  # Requires that private members are marked as readonly if they're never modified outside of the constructor
+  # TODO: review
+  '@typescript-eslint/prefer-readonly': off
+
+  # Requires that function parameters are typed as readonly to prevent accidental mutation of inputs
+  # TODO: review
+  '@typescript-eslint/prefer-readonly-parameter-types': off
+
+  # Prefer using type parameter when calling Array#reduce instead of casting
+  # TODO: review
+  '@typescript-eslint/prefer-reduce-type-parameter': off
+
+  # Enforce that RegExp#exec is used instead of String#match if no global flag is provided
+  # TODO: review
+  '@typescript-eslint/prefer-regexp-exec': off
+
+  # Enforce that this is used when only this type is returned
+  '@typescript-eslint/prefer-return-this-type': off
+
+  # Enforce the use of String#startsWith and String#endsWith instead of other equivalent methods of checking substrings
+  # TODO: review
+  '@typescript-eslint/prefer-string-starts-ends-with': off
+
+  # Recommends using @ts-expect-error over @ts-ignore
+  # TODO: review
+  '@typescript-eslint/prefer-ts-expect-error': off
+
+  # Requires any function or method that returns a Promise to be marked async
+  # TODO: review
+  '@typescript-eslint/promise-function-async': off
+
+  # Requires Array#sort calls to always provide a compareFunction
+  # TODO: review
+  '@typescript-eslint/require-array-sort-compare': off
+
+  # Enforce template literal expressions to be of string type
+  # TODO: review
+  '@typescript-eslint/restrict-template-expressions': off
+
+  # Enforces that members of a type union/intersection are sorted alphabetically
+  # TODO: review
+  '@typescript-eslint/sort-type-union-intersection-members': off
+
+  # Exhaustiveness checking in switch with union type
+  # TODO: review
+  '@typescript-eslint/switch-exhaustiveness-check': off
+
+  # Requires type annotations to exist
+  # TODO: review
+  '@typescript-eslint/typedef': off
+
+  # Enforces unbound methods are called with their expected scope
+  # TODO: review
+  '@typescript-eslint/unbound-method': off
+
+  # Require explicit return and argument types on exported functions' and classes' public class methods
+  '@typescript-eslint/explicit-module-boundary-types': off
+
+  # Prevents conditionals where the type is always truthy or always falsy
+  '@typescript-eslint/no-unnecessary-condition': off
+
+  # Enforce includes method over indexOf method
+  '@typescript-eslint/prefer-includes': off
+
+  # Disallow generic Array constructors
+  'no-array-constructor': off
+  '@typescript-eslint/no-array-constructor': off
+
+  # Disallow the use of variables before they are defined
+  'no-use-before-define': off
+  '@typescript-eslint/no-use-before-define': off
+
+

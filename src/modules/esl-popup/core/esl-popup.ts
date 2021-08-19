@@ -62,18 +62,6 @@ export class ESLPopup extends ESLToggleable {
     this.$arrow = this.querySelector('span.esl-popup-arrow');
   }
 
-  protected bindEvents() {
-    super.bindEvents();
-    window.addEventListener('resize', this._deferredUpdatePosition);
-    window.addEventListener('scroll', this._deferredUpdatePosition);
-  }
-
-  protected unbindEvents() {
-    super.unbindEvents();
-    window.removeEventListener('resize', this._deferredUpdatePosition);
-    window.removeEventListener('scroll', this._deferredUpdatePosition);
-  }
-
   protected get _isPositioningAlongHorizontal() {
     return ['left', 'right'].includes(this.position);
   }
@@ -94,8 +82,13 @@ export class ESLPopup extends ESLToggleable {
     this._offsetTrigger = params.offsetTrigger || 0;
     this._offsetWindow = params.offsetWindow || 0;
 
-    this._updatePosition();
-    this.activator && this._addActivatorObserver(this.activator);
+    this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
+    setTimeout(() => {
+      // running as a separate task solves the problem with incorrect positioning on the first showing
+      this._updatePosition();
+      this.style.visibility = 'visible';
+      this.activator && this._addActivatorObserver(this.activator);
+    });
   }
 
   public onHide(params: PopupActionParams) {
@@ -155,11 +148,14 @@ export class ESLPopup extends ESLToggleable {
 
     const options = {
       rootMargin: '0px',
-      threshold: [...Array(9).keys()].map((x) => x/8)
+      threshold: [...Array(9).keys()].map((x) => x / 8)
     } as IntersectionObserverInit;
 
     const observer = new IntersectionObserver(this.onActivatorIntersection, options);
     observer.observe(target);
+
+    window.addEventListener('resize', this._deferredUpdatePosition);
+    window.addEventListener('scroll', this._deferredUpdatePosition);
 
     this._activatorObserver = {
       unsubscribers,
@@ -168,16 +164,12 @@ export class ESLPopup extends ESLToggleable {
   }
 
   protected _removeActivatorObserver(target: HTMLElement) {
+    window.removeEventListener('resize', this._deferredUpdatePosition);
+    window.removeEventListener('scroll', this._deferredUpdatePosition);
     this._activatorObserver.observer?.disconnect();
     this._activatorObserver.observer = undefined;
     this._activatorObserver.unsubscribers?.forEach((cb) => cb());
     this._activatorObserver.unsubscribers = [];
-  }
-
-  protected set _arrowPosition(value: string) {
-    if (!this.$arrow) return;
-
-    this.$arrow.setAttribute('position', value);
   }
 
   protected _updatePosition() {
@@ -186,7 +178,7 @@ export class ESLPopup extends ESLToggleable {
     const triggerRect = this.activator.getBoundingClientRect();
     const popupRect = this.getBoundingClientRect();
     const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new DOMRect();
-    const trigger = new Rect(triggerRect.x, triggerRect.y + window.pageYOffset, triggerRect.width, triggerRect.height);
+    const trigger = new Rect(triggerRect.left, triggerRect.top + window.pageYOffset, triggerRect.width, triggerRect.height);
     const innerMargin = this._offsetTrigger + arrowRect.width / 2;
 
     const config = {
@@ -199,17 +191,25 @@ export class ESLPopup extends ESLToggleable {
       outer: getWindowRect().shrink(this._offsetWindow)
     };
 
-    const {x, y, arrow} = calcPopupPosition(config);
+    const {placedAt, popup, arrow} = calcPopupPosition(config);
 
+    this.setAttribute('placed-at', placedAt);
     // set popup position
-    this.style.left = `${x}px`;
-    this.style.top = `${y}px`;
-
+    this.style.left = `${popup.x}px`;
+    this.style.top = `${popup.y}px`;
     // set arrow position
     if (this.$arrow) {
-      this.$arrow.style.left = ['top', 'bottom'].includes(arrow.position) ? `${arrow.x}px` : 'none';
-      this.$arrow.style.top = ['left', 'right'].includes(arrow.position) ? `${arrow.y}px` : 'none';
-      this._arrowPosition = arrow.position;
+      this.$arrow.style.left = ['top', 'bottom'].includes(placedAt) ? `${arrow.x}px` : 'none';
+      this.$arrow.style.top = ['left', 'right'].includes(placedAt) ? `${arrow.y}px` : 'none';
     }
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Popup: typeof ESLPopup;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-popup': ESLPopup;
   }
 }

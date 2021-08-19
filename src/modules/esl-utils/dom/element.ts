@@ -13,7 +13,7 @@ export function getDocumentElement(element: Element | Window): Element {
  * @param element - element for which to get the name
  */
 export function getNodeName(element?: Node | Window): string {
-  return element && !(element instanceof Window)? (element.nodeName).toLowerCase() : '';
+  return element && !(element instanceof Window) ? (element.nodeName).toLowerCase() : '';
 }
 
 /**
@@ -25,7 +25,9 @@ export function getParentNode(element: Element | ShadowRoot): Node {
     return element;
   }
 
-  return (element instanceof ShadowRoot
-    ? element.host
-    : element.assignedSlot || element.parentNode) || getDocumentElement(element as Element);
+  return (window.ShadowRoot
+    ? element instanceof ShadowRoot
+      ? element.host
+      : element.assignedSlot || element.parentNode
+    : element.parentNode) || getDocumentElement(element as Element);
 }

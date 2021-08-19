@@ -11,7 +11,7 @@ import {DeviceDetector} from '../../../esl-utils/environment/device-detector';
 export class ESLScreenDPR {
   protected static readonly VALUE_REGEXP = /(\d(\.\d)?)x/;
 
-  /** Option to exclude dpr > 2 for bots */
+  /** Option to exclude dpr greater then 2 for bots */
   public static ignoreBotsDpr = false;
 
   public static toDPI(dpr: number) {
@@ -25,5 +25,11 @@ export class ESLScreenDPR {
     if (ESLScreenDPR.ignoreBotsDpr && DeviceDetector.isBot && dpr > 1) return 'not all';
     if (DeviceDetector.isSafari) return `(-webkit-min-device-pixel-ratio: ${dpr})`;
     return `(min-resolution: ${ESLScreenDPR.toDPI(dpr)}dpi)`;
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    ScreenDPR: typeof ESLScreenDPR;
   }
 }

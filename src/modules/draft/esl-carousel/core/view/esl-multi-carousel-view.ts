@@ -3,6 +3,7 @@ import {ESLCarouselView, ESLCarouselViewRegistry} from './esl-carousel-view';
 import type {ESLCarousel} from '../esl-carousel';
 
 class ESLMultiCarouselView extends ESLCarouselView {
+
   constructor(carousel: ESLCarousel) {
     super(carousel);
   }
