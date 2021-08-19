@@ -71,6 +71,11 @@ rules:
   # Requires a whitespace at the beginning a comment
   'spaced-comment': warn
 
+  # Limit max lines count per file to 400
+  'max-lines':
+    - warn
+    - 400
+
   # Enforce consistent brace style for blocks
   'brace-style': off
   '@typescript-eslint/brace-style': warn

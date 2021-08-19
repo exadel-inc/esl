@@ -125,6 +125,9 @@ rules:
   # Warns if a type assertion does not change the type of an expression
   '@typescript-eslint/no-unnecessary-type-assertion': warn
 
+  # It's recommended to pass a comparer to the Array.sort method
+  '@typescript-eslint/require-array-sort-compare': warn
+
   # === Disabled Rules ===
 
   # Disallow the delete operator with computed key expressions
@@ -196,8 +199,7 @@ rules:
   # TODO: enable
   '@typescript-eslint/no-floating-promises': off
 
-  # Disallow usage of the implicit any type in catch clauses
-  # TODO: enable
+  # Allows usage of the implicit any type in catch clauses
   '@typescript-eslint/no-implicit-any-catch': off
 
   # Disallows explicit type declarations for variables or parameters initialized to a number, string, or boolean
@@ -227,18 +229,6 @@ rules:
   # Disallows assigning any to variables and properties
   '@typescript-eslint/no-unsafe-assignment': off
 
-  # Disallows calling an any type value
-  # TODO: enable
-  '@typescript-eslint/no-unsafe-call': off
-
-  # Disallows member access on any typed variables
-  # TODO: enable
-  '@typescript-eslint/no-unsafe-member-access': off
-
-  # Disallows returning any from a function
-  # TODO: enable
-  '@typescript-eslint/no-unsafe-return': off
-
   # Prefers a non-null assertion over explicit type cast when possible
   # TODO: review
   '@typescript-eslint/non-nullable-type-assertion-style': off
@@ -251,84 +241,29 @@ rules:
   # TODO: review
   '@typescript-eslint/prefer-literal-enum-member': off
 
-  # Enforce the usage of the nullish coalescing operator instead of logical chaining
-  # TODO: review
+  # There is no enforce of the usage of the nullish coalescing operator instead of logical chaining
   '@typescript-eslint/prefer-nullish-coalescing': off
 
-  # Prefer using concise optional chain expressions instead of chained logical ands
-  # TODO: review
+  # There is no prefer of using concise optional chain expressions instead of chained logical ands
   '@typescript-eslint/prefer-optional-chain': off
-
-  # Requires that private members are marked as readonly if they're never modified outside of the constructor
-  # TODO: review
-  '@typescript-eslint/prefer-readonly': off
-
-  # Requires that function parameters are typed as readonly to prevent accidental mutation of inputs
-  # TODO: review
-  '@typescript-eslint/prefer-readonly-parameter-types': off
-
-  # Prefer using type parameter when calling Array#reduce instead of casting
-  # TODO: review
-  '@typescript-eslint/prefer-reduce-type-parameter': off
-
-  # Enforce that RegExp#exec is used instead of String#match if no global flag is provided
-  # TODO: review
-  '@typescript-eslint/prefer-regexp-exec': off
-
-  # Enforce that this is used when only this type is returned
-  '@typescript-eslint/prefer-return-this-type': off
-
-  # Enforce the use of String#startsWith and String#endsWith instead of other equivalent methods of checking substrings
-  # TODO: review
-  '@typescript-eslint/prefer-string-starts-ends-with': off
-
-  # Recommends using @ts-expect-error over @ts-ignore
-  # TODO: review
-  '@typescript-eslint/prefer-ts-expect-error': off
 
   # Requires any function or method that returns a Promise to be marked async
   # TODO: review
   '@typescript-eslint/promise-function-async': off
 
-  # Requires Array#sort calls to always provide a compareFunction
-  # TODO: review
-  '@typescript-eslint/require-array-sort-compare': off
-
-  # Enforce template literal expressions to be of string type
-  # TODO: review
-  '@typescript-eslint/restrict-template-expressions': off
-
-  # Enforces that members of a type union/intersection are sorted alphabetically
-  # TODO: review
-  '@typescript-eslint/sort-type-union-intersection-members': off
-
-  # Exhaustiveness checking in switch with union type
-  # TODO: review
-  '@typescript-eslint/switch-exhaustiveness-check': off
-
-  # Requires type annotations to exist
-  # TODO: review
-  '@typescript-eslint/typedef': off
-
-  # Enforces unbound methods are called with their expected scope
-  # TODO: review
+  # Allows unbound methods to be called outside their expected scope
   '@typescript-eslint/unbound-method': off
 
-  # Require explicit return and argument types on exported functions' and classes' public class methods
+  # Do not require explicit return and argument types on exported functions' and classes' public class methods
   '@typescript-eslint/explicit-module-boundary-types': off
 
-  # Prevents conditionals where the type is always truthy or always falsy
+  # Disable check of conditionals where the type is always truthy or always falsy
   '@typescript-eslint/no-unnecessary-condition': off
 
-  # Enforce includes method over indexOf method
-  '@typescript-eslint/prefer-includes': off
-
-  # Disallow generic Array constructors
+  # Allows generic Array constructors
   'no-array-constructor': off
   '@typescript-eslint/no-array-constructor': off
 
-  # Disallow the use of variables before they are defined
+  # Allows the use of variables before they are defined
   'no-use-before-define': off
   '@typescript-eslint/no-use-before-define': off
-
-
