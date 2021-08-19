@@ -1,6 +1,58 @@
 rules:
   # === Compulsory practices ===
 
+  # Verify calls of super() in constructors
+  'constructor-super': warn
+
+  # Requires === and !== usage
+  'eqeqeq': warn
+
+  # Require Guarding for-in to exclude prototype keys
+  'guard-for-in': warn
+
+  # There is no blacklisted identifiers
+  'id-blacklist': off
+
+  # Bitwise operators are not recommended
+  'no-bitwise': warn
+
+  # Disallow Use of caller/callee
+  'no-caller': error
+
+  # Warn about assignment operators in conditional statements
+  'no-cond-assign': warn
+
+  # Console API is formally allowed
+  'no-console': off
+
+  # Debugger API is not recommended
+  'no-debugger': warn
+
+  # Allows Case Statement fallthrough
+  'no-fallthrough': off
+
+  # Warn about primitive wrapper instances
+  'no-new-wrappers': warn
+
+  # Warn about initializing to undefined
+  'no-undef-init': warn
+
+  # Disallow control flow statements in finally blocks
+  'no-unsafe-finally': error
+
+  # Label are not allowed
+  'no-labels': error
+
+  # Require Radix Parameter
+  'radix': warn
+
+  # Require calls to isNaN() when checking for NaN
+  'use-isnan': error
+
+  # Enforce comparing typeof expressions against valid strings
+  'valid-typeof': error
+
+
   # Enforces consistent usage of type imports
   '@typescript-eslint/consistent-type-imports':
     - error

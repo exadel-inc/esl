@@ -1,6 +1,76 @@
 rules:
   # ==== Spacing | Code style ====
 
+  # Disallow multiple empty lines
+  'no-multiple-empty-lines':
+    - warn
+    - max: 2
+      maxEOF: 1
+      maxBOF: 1
+
+  # Disallow spaces inside of parentheses
+  'space-in-parens':
+    - warn
+    - never
+
+  # Limit Cyclomatic Complexity
+  'complexity': warn
+
+  # Require Following Curly Brace Conventions
+  'curly':
+    - warn
+    - multi-line
+
+  # Max 3 classes per file (ideally 1 per file)
+  'max-classes-per-file':
+    - warn
+    - 3
+
+  # Warn about a maximum line length to be 160
+  'max-len':
+    - warn
+    - code: 160
+
+  # Require parentheses when invoking a constructor with no arguments
+  'new-parens': error
+
+  # Warn about empty block statements
+  'no-empty': warn
+
+  # Disallow mixed spaces and tabs for indentation
+  'no-mixed-spaces-and-tabs': error
+
+  # Disallow trailing whitespace at the end of lines
+  'no-trailing-spaces': warn
+
+  # Underscores allowed due to 'private-member' notation
+  'no-underscore-dangle': off
+
+  # `var` declaration operator is not allowed
+  'no-var': error
+
+  # Warn to prefer shorthand object keys
+  'object-shorthand': warn
+
+  # Disallow multiple declaration per one line or declaration operator
+  'one-var':
+    - error
+    - never
+
+  # Using of arrow functions is optional
+  'prefer-arrow-callback': off
+
+  # Prefer const declaration operator
+  'prefer-const': error
+
+  # Enforce location of semicolons
+  'semi-style':
+    - error
+    - last
+
+  # Requires a whitespace at the beginning a comment
+  'spaced-comment': warn
+
   # Enforce consistent brace style for blocks
   'brace-style': off
   '@typescript-eslint/brace-style': warn
@@ -85,7 +155,8 @@ rules:
   'no-extra-semi': off
   '@typescript-eslint/no-extra-semi': warn
 
-  # Disallow the use of eval()-like methods
+  # The use of eval()-like methods is not recommended
+  'no-eval': off
   'no-implied-eval': off
   '@typescript-eslint/no-implied-eval': warn
 
