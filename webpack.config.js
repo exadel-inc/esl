@@ -45,15 +45,15 @@ const output = {
   libraryTarget: 'umd',
   path: resolve(__dirname, 'lib'),
   filename: '[name].js',
-  assetModuleFilename: '[name].css'
+  assetModuleFilename: 'playground.css'
 };
 
 const baseConf = {
   mode: 'development',
   devtool: 'source-map',
   entry: {
-    'playground': './src/playground.ts',
-    'playground.run': './src/registration.ts',
+    'playground': './src/registration.ts',
+    'playground.run': './src/playground.ts',
   },
   resolve: {
     roots: [],
@@ -62,12 +62,6 @@ const baseConf = {
 };
 
 export default [
-  Object.assign({}, baseConf, {
-    module: {
-      rules: [tsToEs5Loader, lessLoaderConf]
-    },
-    output: Object.assign({}, output, {filename: '[name].es5.js'})
-  }),
   Object.assign({}, baseConf, {
     module: {
       rules: [tsToEs6Loader, lessLoaderConf]
