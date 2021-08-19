@@ -119,7 +119,7 @@ export class ESLFootnotes extends ESLBaseElement {
   protected _onClick(e: MouseEvent | KeyboardEvent) {
     const target = e.target as HTMLElement;
     if (target && target.classList.contains('esl-footnotes-back-to-note')) {
-      const orderAttr = target.parentElement?.getAttribute('data-order');
+      const orderAttr = target.closest('.esl-footnotes-item')?.getAttribute('data-order');
       const order = orderAttr?.split(',').map((item) => +item);
       order && this._onBackToNote(order);
     }
