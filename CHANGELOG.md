@@ -1,3 +1,10 @@
+# [3.0.0-beta.19](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.18...v3.0.0-beta.19) (2021-08-19)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** fix broken click on back-to-note ([e66ae96](https://github.com/exadel-inc/esl/commit/e66ae967681fc2a59e71fb5c7f990d4e16dbc6c2))
+
 # [3.0.0-beta.18](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.17...v3.0.0-beta.18) (2021-08-18)
 
 
