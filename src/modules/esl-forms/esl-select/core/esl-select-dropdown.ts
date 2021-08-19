@@ -68,7 +68,7 @@ export class ESLSelectDropdown extends ESLToggleable {
 
     super.onShow(params);
     const focusable = this.querySelector('[tabindex]') as HTMLElement;
-    focusable && focusable.focus( {preventScroll: true} );
+    focusable && focusable.focus({preventScroll: true});
     this.updatePosition();
   }
   protected onHide(params: ToggleableActionParams) {

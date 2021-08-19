@@ -21,7 +21,7 @@ export interface ESLImageStrategyMap {
  * Mixed image element that used as shadow loader for ESLImage
  */
 export interface ShadowImageElement extends HTMLImageElement {
-  dpr?: number
+  dpr?: number;
 }
 
 export const STRATEGIES: ESLImageStrategyMap = {

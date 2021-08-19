@@ -1,5 +1,6 @@
 import {getPropertyDescriptor} from '../misc/object';
 import {defaultArgsHashFn, memoizeFn} from '../misc/memoize';
+
 import type {MemoHashFn} from '../misc/memoize';
 import type {MethodTypedDecorator} from '../misc/functions';
 
