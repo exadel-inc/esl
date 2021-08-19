@@ -1,0 +1,30 @@
+@import '~@exadel/esl/modules/esl-scrollbar/core';
+
+.uip-snippets {
+  display: block;
+  width: 20%;
+  min-width: 200px;
+
+  &-inner {
+    position: relative;
+    height: 100%;
+  }
+
+  .snippets-list {
+    height: 100%;
+    list-style-type: none;
+    margin-right: 10px;
+    overflow: auto;
+
+    &-item {
+      &:hover {
+        cursor: pointer;
+        opacity: .7;
+      }
+
+      &.active {
+        font-weight: 600;
+      }
+    }
+  }
+}
