@@ -9667,6 +9667,7 @@ function parseAspectRatio(str) {
 /** Evaluate passed string or returns `defaultValue` */
 function evaluate(str, defaultValue) {
     try {
+        // eslint-disable-next-line @typescript-eslint/no-implied-eval
         return str ? (new Function("return " + str))() : defaultValue;
     }
     catch (e) {

@@ -3059,6 +3059,7 @@ window.ResizeObserver = window.ResizeObserver || _juggle_resize_observer__WEBPAC
     var testTokenList = window.document.createElement('div').classList;
     if (!DOMTokenListProto.toggle)
         return;
+    // eslint-disable-next-line
     if (testTokenList.toggle('a', false) === false)
         return;
     DOMTokenListProto.toggle = function toggle(val, force) {
