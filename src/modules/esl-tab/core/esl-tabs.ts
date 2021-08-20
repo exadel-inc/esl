@@ -2,6 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr} from '../../esl-base-element/core';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {bind} from '../../esl-utils/decorators/bind';
+import {memoize} from '../../esl-utils/decorators/memoize';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
 import {debounce} from '../../esl-utils/async/debounce';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
@@ -23,10 +24,6 @@ export class ESLTabs extends ESLBaseElement {
   /** List of supported scrollable types */
   public static supportedScrollableTypes = ['disabled', 'side', 'center'];
 
-  static get observedAttributes() {
-    return ['scrollable'];
-  }
-
   /**
    * Scrollable mode.
    * Supported types for different breakpoints ('disabled' by default):
@@ -40,26 +37,44 @@ export class ESLTabs extends ESLBaseElement {
   /** Inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable mode */
   @attr({defaultValue: '.esl-tab-container'}) public scrollableTarget: string;
 
-  private _scrollableTypeRules: ESLMediaRuleList<string>;
+  protected _deferredUpdateArrows = debounce(this.updateArrows.bind(this), 100);
+  protected _deferredFitToViewport = debounce(this.fitToViewport.bind(this), 100);
 
+  static get observedAttributes() {
+    return ['scrollable'];
+  }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
-    if (!this.connected || oldVal === newVal) return;
-    if (attrName === 'scrollable') {
-      this.scrollableTypeRules = ESLMediaRuleList.parse(newVal);
-      this.updateScrollableType();
-    }
+  /** ESLMediaRuleList instance of the scrollable type mapping */
+  @memoize()
+  public get scrollableTypeRules() {
+    return ESLMediaRuleList.parse(this.scrollable);
+  }
+
+  /** @returns current scrollable type */
+  public get currentScrollableType(): string {
+    return this.scrollableTypeRules.activeValue || '';
   }
 
   protected connectedCallback() {
     super.connectedCallback();
-
+    this.scrollableTypeRules.addListener(this._onScrollableTypeChange);
     this.updateScrollableType();
   }
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
+    this.scrollableTypeRules.removeListener(this._onScrollableTypeChange);
     this.unbindScrollableEvents();
+  }
+
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+    if (!this.connected || oldVal === newVal) return;
+    if (attrName === 'scrollable') {
+      this.scrollableTypeRules.removeListener(this._onScrollableTypeChange);
+      memoize.clear(this, 'scrollableTypeRules');
+      this.scrollableTypeRules.addListener(this._onScrollableTypeChange);
+      this.updateScrollableType();
+    }
   }
 
   protected bindScrollableEvents() {
@@ -170,8 +185,20 @@ export class ESLTabs extends ESLBaseElement {
     this.toggleAttribute('has-scroll', hasScroll);
   }
 
-  protected _deferredUpdateArrows = debounce(this.updateArrows.bind(this), 100);
-  protected _deferredFitToViewport = debounce(this.fitToViewport.bind(this), 100);
+  /** Update element state according to scrollable type */
+  protected updateScrollableType() {
+    ESLTabs.supportedScrollableTypes.forEach((type) => {
+      CSSClassUtils.toggle(this, `${type}-alignment`, this.currentScrollableType === type);
+    });
+
+    this.$current && this._deferredFitToViewport(this.$current);
+
+    if (this.currentScrollableType === 'disabled') {
+      this.unbindScrollableEvents();
+    } else {
+      this.bindScrollableEvents();
+    }
+  }
 
   @bind
   protected _onTriggerStateChange() {
@@ -204,45 +231,10 @@ export class ESLTabs extends ESLBaseElement {
     this._deferredFitToViewport(this.$current, 'auto');
   });
 
-  /** ESLMediaRuleList instance of the scrollable type mapping */
-  public get scrollableTypeRules() {
-    if (!this._scrollableTypeRules) {
-      this.scrollableTypeRules = ESLMediaRuleList.parse(this.scrollable);
-    }
-    return this._scrollableTypeRules;
-  }
-  public set scrollableTypeRules(rules: ESLMediaRuleList<string>) {
-    if (this._scrollableTypeRules) {
-      this._scrollableTypeRules.removeListener(this._onScrollableTypeChange);
-    }
-    this._scrollableTypeRules = rules;
-    this._scrollableTypeRules.addListener(this._onScrollableTypeChange);
-  }
-
-  /** @returns current scrollable type */
-  public get currentScrollableType(): string {
-    return this.scrollableTypeRules.activeValue || '';
-  }
-
   /** Handles scrollable type change */
   @bind
   protected _onScrollableTypeChange() {
     this.updateScrollableType();
-  }
-
-  /** Update element state according to scrollable type */
-  protected updateScrollableType() {
-    ESLTabs.supportedScrollableTypes.forEach((type) => {
-      CSSClassUtils.toggle(this, `${type}-alignment`, this.currentScrollableType === type);
-    });
-
-    this.$current && this._deferredFitToViewport(this.$current);
-
-    if (this.currentScrollableType === 'disabled') {
-      this.unbindScrollableEvents();
-    } else {
-      this.bindScrollableEvents();
-    }
   }
 }
 
@@ -250,6 +242,7 @@ declare global {
   export interface ESLLibrary {
     Tabs: typeof ESLTabs;
   }
+
   export interface HTMLElementTagNameMap {
     'esl-tabs': ESLTabs;
   }
