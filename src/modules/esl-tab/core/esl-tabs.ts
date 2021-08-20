@@ -24,10 +24,6 @@ export class ESLTabs extends ESLBaseElement {
   /** List of supported scrollable types */
   public static supportedScrollableTypes = ['disabled', 'side', 'center'];
 
-  static get observedAttributes() {
-    return ['scrollable'];
-  }
-
   /**
    * Scrollable mode.
    * Supported types for different breakpoints ('disabled' by default):
@@ -40,6 +36,13 @@ export class ESLTabs extends ESLBaseElement {
 
   /** Inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable mode */
   @attr({defaultValue: '.esl-tab-container'}) public scrollableTarget: string;
+
+  protected _deferredUpdateArrows = debounce(this.updateArrows.bind(this), 100);
+  protected _deferredFitToViewport = debounce(this.fitToViewport.bind(this), 100);
+
+  static get observedAttributes() {
+    return ['scrollable'];
+  }
 
   /** ESLMediaRuleList instance of the scrollable type mapping */
   @memoize()
@@ -54,12 +57,13 @@ export class ESLTabs extends ESLBaseElement {
 
   protected connectedCallback() {
     super.connectedCallback();
-
+    this.scrollableTypeRules.addListener(this._onScrollableTypeChange);
     this.updateScrollableType();
   }
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
+    this.scrollableTypeRules.removeListener(this._onScrollableTypeChange);
     this.unbindScrollableEvents();
   }
 
@@ -195,9 +199,6 @@ export class ESLTabs extends ESLBaseElement {
       this.bindScrollableEvents();
     }
   }
-
-  protected _deferredUpdateArrows = debounce(this.updateArrows.bind(this), 100);
-  protected _deferredFitToViewport = debounce(this.fitToViewport.bind(this), 100);
 
   @bind
   protected _onTriggerStateChange() {
