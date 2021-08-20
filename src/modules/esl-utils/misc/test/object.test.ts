@@ -199,15 +199,15 @@ describe('misc/object', () => {
     expect(copy.b).toEqual(obj.b);
   });
 
-  // test('deepMerge (deep copy array)', () => {
-  //   const obj = [{}, {a: 1}];
-  //   const copy = deepMerge(obj);
-  //
-  //   expect(copy).not.toBe(obj);
-  //   expect(copy).toContainEqual(obj);
-  //   expect(copy[1]).not.toBe(obj[1]);
-  //   expect(copy[1]).toEqual(obj[1]);
-  // });
+  test('deepMerge (deep copy array)', () => {
+    const obj = [1, 2, {a: 1, b: 3}];
+    const copy = deepMerge(obj);
+
+    expect(copy).not.toBe(obj);
+    expect(copy).toEqual(obj);
+    expect(copy[2]).not.toBe(obj[2]);
+    expect(copy[2]).toEqual(obj[2]);
+  });
 
   describe('deepMerge', () => {
     test.each([
@@ -215,7 +215,7 @@ describe('misc/object', () => {
       [{a: [1]}, {a: 1}, {a: 1}],
       [{a: 1}, {b: 2}, {c: 3}, {d: 4}, {a: 1, b: 2, c: 3, d: 4}],
       [{a: 1}, {a: ['2']}, {a: ['2']}],
-      // [[1, 2], [3], [3, 2]],
+      [[1, 2], [3], [3, 2]],
       [{a: 1, b: 1}, {a: 2, c: 2}, {a: 2, b: 1, c: 2}],
       [{a: {a: 1, b: 1}, b: 1}, {a: {a: 3, c: 3}}, {a: {a: 3, b: 1, c: 3}, b: 1}],
       [{a: 1}, {b: 2}, {c: 3}, {a: 1, b: 2, c: 3}],
