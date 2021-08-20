@@ -3,9 +3,9 @@
  */
 import 'intersection-observer/intersection-observer';
 
-// import {ResizeObserver} from '@juggle/resize-observer';
-import { ResizeObserverPolyfill} from '../../src/polyfills/polyfillResizeObserver'
+import {ResizeObserver} from '@juggle/resize-observer';
+// import { ResizeObserverPolyfill} from '../../src/polyfills/polyfillResizeObserver'
 
-window.ResizeObserver = window.ResizeObserver || ResizeObserverPolyfill;
+window.ResizeObserver = window.ResizeObserver || ResizeObserver;
 
 import '@webcomponents/custom-elements/custom-elements.min';

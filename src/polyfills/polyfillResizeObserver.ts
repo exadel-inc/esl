@@ -3,7 +3,7 @@ import {bind} from '../modules/all';
 export class ResizeObserverPolyfill{
   private els = new Set<HTMLElement>();
 
-  constructor(private callback: (els:HTMLElement[])=>void){
+  constructor(private callback: (els:HTMLElement[]) => void){
   }
   @bind
   private onChange(){
