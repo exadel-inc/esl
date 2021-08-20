@@ -33,8 +33,6 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** List of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations) */
   @attr() public noCollapse: string;
 
-  private _modeRules: ESLMediaRuleList<string>;
-
   /** Height of previous active panel */
   protected _previousHeight: number = 0;
   /** Fallback setTimeout timer */
@@ -47,14 +45,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** ESLMediaRuleList instance of the mode mapping */
   @memoize()
   public get modeRules() {
-    return this.modeRules = ESLMediaRuleList.parse(this.mode);
-  }
-  public set modeRules(rules: ESLMediaRuleList<string>) {
-    if (this._modeRules) {
-      this._modeRules.removeListener(this._onModeChange);
-    }
-    this._modeRules = rules;
-    this._modeRules.addListener(this._onModeChange);
+    return ESLMediaRuleList.parse(this.mode);
   }
 
   /** @returns current mode */
