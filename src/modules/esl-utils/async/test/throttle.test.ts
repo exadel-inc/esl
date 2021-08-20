@@ -9,14 +9,14 @@ describe('async/throttle', () => {
     const fn = jest.fn();
     const throttled = throttle(fn, 100);
 
-    expect(throttled()).toBeInstanceOf(Promise);
+    expect(throttled()).toBeUndefined();
     expect(fn).toBeCalledTimes(1);
-    jest.advanceTimersByTime(50)
-    expect(throttled()).toBeInstanceOf(Promise);
+    jest.advanceTimersByTime(50);
+    expect(throttled()).toBeUndefined();
     expect(fn).toBeCalledTimes(1);
     jest.advanceTimersByTime(100)
     expect(fn).toBeCalledTimes(2);
-    expect(throttled()).toBeInstanceOf(Promise);
+    expect(throttled()).toBeUndefined();
     expect(fn).toBeCalledTimes(3);
   });
 
@@ -25,18 +25,21 @@ describe('async/throttle', () => {
     const throttled = throttle(fn, 0);
 
     const context = {};
-    return throttled.call(context).then((val: any) => expect(val).toBe(context));
-  }, 50);
+    throttled.call(context);
+    const promise$ = throttled.promise;
+    jest.runAllTimers();
+    return expect(promise$).resolves.toBe(context);
+  });
 
   test('test deferred result', () => {
     const fn = jest.fn((n) => n + 1);
     const throttled = throttle(fn as (n: number) => number, 50);
 
     expect(throttled.promise).toBeInstanceOf(Promise);
-    expect(throttled(1)).toBeInstanceOf(Promise);
-    expect(throttled(2)).toBe(throttled.promise);
+    expect(throttled(1)).toBeUndefined();
+    expect(throttled(2)).toBeUndefined();
     expect(throttled.promise).toBeInstanceOf(Promise);
-    expect(throttled(4)).toBeInstanceOf(Promise);
+    expect(throttled(4)).toBeUndefined();;
 
     expect(fn).toBeCalledTimes(1);
     expect(fn).lastCalledWith(1);
