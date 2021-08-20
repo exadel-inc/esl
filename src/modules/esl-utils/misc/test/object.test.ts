@@ -189,26 +189,6 @@ describe('misc/object', () => {
     });
   });
 
-  test('deepMerge (deep copy object)', () => {
-    const obj = {a: 1, b: {c: 2}};
-    const copy = deepMerge(obj);
-
-    expect(copy).not.toBe(obj);
-    expect(copy).toEqual(obj);
-    expect(copy.b).not.toBe(obj.b);
-    expect(copy.b).toEqual(obj.b);
-  });
-
-  test('deepMerge (deep copy array)', () => {
-    const obj = [1, 2, {a: 1, b: 3}];
-    const copy = deepMerge(obj);
-
-    expect(copy).not.toBe(obj);
-    expect(copy).toEqual(obj);
-    expect(copy[2]).not.toBe(obj[2]);
-    expect(copy[2]).toEqual(obj[2]);
-  });
-
   describe('deepMerge', () => {
     test.each([
       [{}, {}, {}],
@@ -221,7 +201,45 @@ describe('misc/object', () => {
       [{a: 1}, {b: 2}, {c: 3}, {a: 1, b: 2, c: 3}],
       [{a: 'value', b: 'value'}, {a: null, b: ''}, {a: null, b: ''}],
       [{a: [1, 2, {a: 1, b: 1}]}, {a: [3, 4, {a: 2, b: 2}]}, {a: [3, 4, {a: 2, b: 2}]}]
-    ])('get key "%s" from %p', (...args: any[]) => {
+    ])('basic cases %p %p %p', (...args: any[]) => {
+      const result = args.pop();
+      expect(deepMerge(...args)).toEqual(result);
+    });
+
+    test('merge array + object', ()  => {
+      const res = deepMerge([1, 2], {a: 1})
+      const exp: any = [1, 2];
+      exp.a = 1;
+      expect(res).toEqual(exp);
+    });
+
+    test('deep copy object', () => {
+      const obj = {a: 1, b: {c: 2}};
+      const copy = deepMerge(obj);
+
+      expect(copy).not.toBe(obj);
+      expect(copy).toEqual(obj);
+      expect(copy.b).not.toBe(obj.b);
+      expect(copy.b).toEqual(obj.b);
+    });
+
+    test('deep copy array', () => {
+      const obj = [1, 2, {a: 1, b: 3}];
+      const copy = deepMerge(obj);
+
+      expect(copy).not.toBe(obj);
+      expect(copy).toEqual(obj);
+      expect(copy[2]).not.toBe(obj[2]);
+      expect(copy[2]).toEqual(obj[2]);
+    });
+
+    test.each([
+      [null, {}], // ?? minor
+      [{}, undefined, {}],
+      [{}, null, {}],
+      [{}, 1, {}],
+      [{}, 'Hi', {}],
+    ])('edge case: %p %p %p', (...args: any[]) => {
       const result = args.pop();
       expect(deepMerge(...args)).toEqual(result);
     });
