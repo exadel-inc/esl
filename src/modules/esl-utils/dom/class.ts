@@ -1,3 +1,5 @@
+import {wrap} from '../misc/array';
+
 /** Describe locker elements collection per class name */
 type Locks = Map<string, Set<HTMLElement>>;
 /** Store locks for key element classes*/
@@ -66,32 +68,34 @@ export abstract class CSSClassUtils {
    * Add all classes from the class token string to the element.
    * @see CSSClassUtils
    * */
-  public static add(el: HTMLElement, cls: string | null | undefined, locker?: HTMLElement) {
-    CSSClassUtils.splitTokens(cls).forEach((className) => add(el, className, locker));
+  public static add(els: HTMLElement | HTMLElement[], cls: string | null | undefined, locker?: HTMLElement) {
+    const tokens = CSSClassUtils.splitTokens(cls);
+    wrap(els).forEach((el) => tokens.forEach((className) => add(el, className, locker)));
   }
 
   /**
    * Remove all classes from the class token string to the element.
    * @see CSSClassUtils
    * */
-  public static remove(el: HTMLElement, cls: string | null | undefined, locker?: HTMLElement) {
-    CSSClassUtils.splitTokens(cls).forEach((className) => remove(el, className, locker));
+  public static remove(els: HTMLElement | HTMLElement[], cls: string | null | undefined, locker?: HTMLElement) {
+    const tokens = CSSClassUtils.splitTokens(cls);
+    wrap(els).forEach((el) => tokens.forEach((className) => remove(el, className, locker)));
   }
 
   /**
    * Toggle all classes from the class token string on the element to the passed state.
    * @see CSSClassUtils
    * */
-  public static toggle(el: HTMLElement, cls: string | null | undefined, state: boolean, locker?: HTMLElement) {
-    (state ? CSSClassUtils.add : CSSClassUtils.remove)(el, cls, locker);
+  public static toggle(els: HTMLElement | HTMLElement[], cls: string | null | undefined, state: boolean, locker?: HTMLElement) {
+    (state ? CSSClassUtils.add : CSSClassUtils.remove)(els, cls, locker);
   }
 
   /** Remove all lockers for the element or passed element className */
-  public static unlock(el: HTMLElement, className?: string) {
+  public static unlock(els: HTMLElement | HTMLElement[], className?: string) {
     if (className) {
-      lockStore.get(el)?.delete(className);
+      wrap(els).forEach((el) => lockStore.get(el)?.delete(className));
     } else {
-      lockStore.delete(el);
+      wrap(els).forEach((el) => lockStore.delete(el));
     }
   }
 }

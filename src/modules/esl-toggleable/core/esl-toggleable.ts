@@ -192,7 +192,7 @@ export class ESLToggleable extends ESLBaseElement {
   /** Actual hide task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected hideTask(params: ToggleableActionParams) {
     if (!params.force && !this.open) return;
-    if (!params.silent && !this.$$fire('before:hide',{detail: {params}})) return;
+    if (!params.silent && !this.$$fire('before:hide', {detail: {params}})) return;
     this.open = false;
     this.onHide(params);
     if (!params.silent) this.$$fire('hide', {detail: {params}, cancelable: false});
@@ -234,7 +234,7 @@ export class ESLToggleable extends ESLBaseElement {
     return activators.get(this);
   }
   public set activator(el: HTMLElement | null | undefined) {
-    el ? activators.set(this, el): activators.delete(this);
+    el ? activators.set(this, el) : activators.delete(this);
   }
 
   /** Returns the element to apply a11y attributes */

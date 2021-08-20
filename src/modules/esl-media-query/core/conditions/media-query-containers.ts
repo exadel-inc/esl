@@ -29,10 +29,14 @@ class MediaQueryContainer extends Observable<(matches: boolean) => void> impleme
     this.items.forEach((item) => item.removeListener(this._onChildChange));
   }
 
-  public get matches() { return false; }
+  public get matches() {
+    return false;
+  }
 
   /** Exclude const conditions. Unwrap empty or trivial (with one item) containers */
-  public optimize(): IMediaQueryCondition { return this; }
+  public optimize(): IMediaQueryCondition {
+    return this;
+  }
 
   /** Handle query change and dispatch it on top level in case result value is changed */
   protected _onChildChange() {

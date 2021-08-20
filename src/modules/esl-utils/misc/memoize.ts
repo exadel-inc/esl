@@ -3,9 +3,9 @@ import type {AnyToAnyFnSignature} from './functions';
 /** Memoized function type */
 export type MemoizedFn<T extends AnyToAnyFnSignature> = T & {
   /** Cache instance */
-  cache: Map<null | string, ReturnType<T>>,
+  cache: Map<null | string, ReturnType<T>>;
   /** Clear memoization cache */
-  clear: () => void
+  clear: () => void;
 };
 
 /**
