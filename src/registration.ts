@@ -1,17 +1,10 @@
 import {registerCore} from './core/registration';
-import {registerSettings} from './plugins/settings/registration';
-import {UIPEditor} from './plugins/editor/editor';
-import {UIPOptions} from './plugins/options/options';
+import {registerPlugins} from './plugins/registration';
 
 export * from './core/registration';
-
-export * from './plugins/options/options';
-export * from './plugins/editor/editor';
-export * from './plugins/settings/registration';
+export * from './plugins/registration';
 
 export function init() {
   registerCore();
-  registerSettings();
-  UIPEditor.register();
-  UIPOptions.register();
+  registerPlugins();
 }
