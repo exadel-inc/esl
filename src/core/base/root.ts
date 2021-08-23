@@ -1,4 +1,6 @@
-import {bind, EventUtils, ESLMediaRuleList} from '@exadel/esl';
+import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
+import {ESLMediaRuleList} from '@exadel/esl/modules/esl-media-query/core';
 import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPStateModel} from './model';
 import {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions';
