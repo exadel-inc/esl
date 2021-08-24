@@ -10,7 +10,7 @@ node_modules
 
 # Generated surces
 /lib
-/types
+/esm
 
 # Logs & Tmp
 npm-debug.log

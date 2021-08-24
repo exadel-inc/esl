@@ -11,14 +11,13 @@
     "downlevelIteration": true,
     "module": "ES2015",
     "moduleResolution": "Node",
-    "sourceMap": true,
     "lib": [
       "ES2015",
       "DOM",
       "DOM.Iterable"
     ],
-    "sourceRoot": "src",
-    "declarationDir": "./types"
+    "rootDir": "src",
+    "outDir": "./esm"
   },
   "include": [
     "src"

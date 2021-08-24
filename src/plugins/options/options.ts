@@ -1,6 +1,6 @@
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {CSSClassUtils} from '@exadel/esl';
-import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
+import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
 
 import {UIPPlugin} from '../../core/registration';
 
@@ -41,7 +41,7 @@ export class UIPOptions extends UIPPlugin {
   protected renderMode() {
     const $mode = document.createElement('div');
     CSSClassUtils.add($mode, 'uip-option mode');
-    const modeOptionId = generateUId();
+    const modeOptionId = randUID();
     $mode.innerHTML = `
         <div class="option-item">
             <input type="radio" id=${modeOptionId}-vertical name=${modeOptionId}-mode mode="vertical"
@@ -59,7 +59,7 @@ export class UIPOptions extends UIPPlugin {
   protected renderTheme() {
     const $theme = document.createElement('div');
     CSSClassUtils.add($theme, 'uip-option theme');
-    const themeOptionId = generateUId();
+    const themeOptionId = randUID();
     $theme.innerHTML = `
         <div class="option-item">
             <input type="radio" id=${themeOptionId}-uip-light name=${themeOptionId}-theme theme="uip-light"
