@@ -1,5 +1,5 @@
 import {attr, boolAttr} from '@exadel/esl/modules/esl-base-element/core';
-import {generateUId} from '@exadel/esl/modules/esl-utils/misc/uid';
+import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
 
 import {UIPSetting} from '../setting';
 import {ChangeAttrConfig, UIPStateModel} from '../../../../../core/registration';
@@ -56,7 +56,7 @@ export class UIPSelectSetting extends UIPSetting {
     const select = document.createElement('select');
     select.setAttribute('esl-select-target', '');
     select.multiple = this.multiple;
-    select.id = `${UIPSelectSetting.is}-${generateUId()}`;
+    select.id = `${UIPSelectSetting.is}-${randUID()}`;
 
     this.querySelectorAll('option').forEach(option => select.add(option));
 
