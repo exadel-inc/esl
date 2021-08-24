@@ -1,3 +1,27 @@
+# [1.0.0-beta.7](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2021-08-24)
+
+
+### Bug Fixes
+
+* separated root and options attribute update ([546ca5c](https://github.com/exadel-inc/ui-playground/commit/546ca5cdcc2e27ad17ab0bb04f712c55e125c32f))
+* **jsdoc:** pr fix ([37cc4c0](https://github.com/exadel-inc/ui-playground/commit/37cc4c0e599705bf95560f8b48c1e0d9c6305d23))
+* fix typing path in package.json ([3b4e211](https://github.com/exadel-inc/ui-playground/commit/3b4e21102bdd2c6778043c1d7e9cc00928303589))
+* **jsdoc:** fix settings case ([2191910](https://github.com/exadel-inc/ui-playground/commit/2191910d6c4299dc165618e25b27ddfbdee4e7cd))
+* **jsdoc:** pr fix ([21c2ba6](https://github.com/exadel-inc/ui-playground/commit/21c2ba68cce8a8fd0f96a40bef3e2cbdeb4e814e))
+* **jsdoc:** pr fix ([586894a](https://github.com/exadel-inc/ui-playground/commit/586894ab08a7dd4a6a0ab8cfcbd22d08622c1c36))
+* **jsdoc:** pr fix ([9d870cc](https://github.com/exadel-inc/ui-playground/commit/9d870cc171e3515b1d83b5b1b1979d674535253a))
+* **jsdoc:** remove empty comments ([ca1db7f](https://github.com/exadel-inc/ui-playground/commit/ca1db7fe66eaacd5cb1103778437894ffb8c625f))
+
+
+### Features
+
+* **core:** add jsdoc for core elements ([bf75dec](https://github.com/exadel-inc/ui-playground/commit/bf75deceb0293c89912ce995fb95bb6ae616fb63))
+* **jsdoc:** update docs with new theme/mode change strategy ([5274605](https://github.com/exadel-inc/ui-playground/commit/5274605e7a9e46edb64a7d1212e3520d24f9d552))
+* **uip elements:** add jsdoc for UIPPreview, UIPOptions and UIPSnippets ([4dfb265](https://github.com/exadel-inc/ui-playground/commit/4dfb265f62fa8ae9cc66c31cfeb563b3b9fd2446))
+* **uip-editor:** add jsdoc for UIPEditor ([a7fe18f](https://github.com/exadel-inc/ui-playground/commit/a7fe18f0cb34bf57988327c423023e01e5114d8e))
+* **uip-settings:** add jsdoc for UIPSettings, UIPSetting ([01678d2](https://github.com/exadel-inc/ui-playground/commit/01678d22f1a41be34631e955ea721973510fc9f0))
+* **uip-utils:** add jsdoc utils ([7692fc8](https://github.com/exadel-inc/ui-playground/commit/7692fc8722629a4e98cbed747ac666994e5e3c4a))
+
 # [1.0.0-beta.6](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2021-07-30)
 
 
