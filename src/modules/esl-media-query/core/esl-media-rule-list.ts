@@ -55,8 +55,8 @@ export class ESLMediaRuleList<T> extends Observable {
   }
 
   get _activeRule(): ESLMediaRule<T | null> {
-    const satisfied = this.rules.filter((rule) => rule.matches);
-    return satisfied.length > 0 ? satisfied[satisfied.length - 1] : ESLMediaRule.empty();
+    const satisfiedRules = this.rules.filter((rule) => rule.matches);
+    return satisfiedRules.length > 0 ? satisfiedRules[satisfiedRules.length - 1] : ESLMediaRule.empty();
   }
 
   get active() {
