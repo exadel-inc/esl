@@ -2,7 +2,7 @@ import {attr, boolAttr} from '@exadel/esl/modules/esl-base-element/core';
 import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
 
 import {UIPSetting} from '../setting';
-import {ChangeAttrConfig, UIPStateModel} from '../../../../../core/registration';
+import {ChangeAttrConfig, UIPStateModel} from '../../../../../core/base/model';
 import TokenListUtils from '../../../../../utils/token-list-utils';
 import {WARNING_MSG} from '../../../../../utils/warning-msg';
 
@@ -114,8 +114,12 @@ export class UIPSelectSetting extends UIPSetting {
 
   /** Update setting's value for append {@link mode}. */
   protected updateAppend(attrValues: (string | null)[]): void {
-    const commonOptions = TokenListUtils.intersection(
-      ...attrValues.map(val => TokenListUtils.split(val)), this.settingOptions);
+    const optionsIntersections = attrValues.map(val => TokenListUtils.intersection(this.settingOptions, TokenListUtils.split(val)));
+
+    if (this.settingOptions.includes('') && optionsIntersections.every(inter => !inter.length)) {
+      return this.setValue('');
+    }
+    const commonOptions = TokenListUtils.intersection(...optionsIntersections);
 
     if (this.multiple || commonOptions.length) return this.setValue(TokenListUtils.join(commonOptions));
 

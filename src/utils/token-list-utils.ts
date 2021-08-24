@@ -26,10 +26,11 @@ export default class TokenListUtils {
 
   /** Get array which contains only common elements from arrays. */
   static intersection<T>(...arrays: T[][]): T[] {
-    return Array.from(arrays.reduce((intersect, arr) => {
-      arr.forEach(val => !intersect.has(val) && intersect.delete(val));
+    const sets = arrays.map(arr => new Set(arr));
+    return Array.from(sets.reduce((intersect, set) => {
+      intersect.forEach(val => !set.has(val) && intersect.delete(val));
       return intersect;
-    }, new Set(arrays[0])));
+    }, sets[0]));
   }
 
   /** Remove all element appearances from array. */
