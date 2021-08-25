@@ -7,6 +7,8 @@ export interface IMediaQueryCondition {
   removeListener(cb: VoidFunction): void;
   /** Optimize condition with nested hierarchy */
   optimize(): IMediaQueryCondition;
+  /** Stringify condition */
+  toString(): string;
 }
 
 /**
@@ -26,9 +28,13 @@ class MediaQueryConstCondition implements IMediaQueryCondition {
   public addListener(cb: VoidFunction) {}
   public removeListener(cb: VoidFunction) {}
 
-  public optimize() { return this; }
+  public optimize() {
+    return this;
+  }
 
-  public toString() { return this._matches ? 'all' : 'not all'; }
+  public toString() {
+    return this._matches ? 'all' : 'not all';
+  }
 
   /** Compare const media condition with the passed query instance or string */
   public eq(val: IMediaQueryCondition | string): boolean {

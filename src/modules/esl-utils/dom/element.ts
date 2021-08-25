@@ -13,7 +13,7 @@ export function getDocumentElement(element: Element | Window): Element {
  * @param element - element for which to get the name
  */
 export function getNodeName(element?: Node | Window): string {
-  return element && !(element instanceof Window)? (element.nodeName).toLowerCase() : '';
+  return element && !(element instanceof Window) ? (element.nodeName).toLowerCase() : '';
 }
 
 /**

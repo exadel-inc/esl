@@ -27,7 +27,7 @@ export class ESLTrigger extends ESLBaseElement {
   /** Target element {@link TraversingQuery} selector to set `activeClass` */
   @attr({defaultValue: ''}) public activeClassTarget: string;
 
-  /** Selector for ignore inner elements */
+  /** Selector for ignored inner elements */
   @attr({defaultValue: 'a[href]'}) public ignore: string;
 
   /** Target Toggleable {@link TraversingQuery} selector. `next` by default */

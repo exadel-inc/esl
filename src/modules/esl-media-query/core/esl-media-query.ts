@@ -97,6 +97,7 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
   public abstract optimize(): IMediaQueryCondition;
   public abstract addListener(cb: () => void): void;
   public abstract removeListener(cb: () => void): void;
+  public abstract toString(): string;
 }
 
 // Register otb preprocessors

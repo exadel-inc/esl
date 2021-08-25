@@ -27,7 +27,7 @@ export abstract class RTLUtils {
   }
 
   static normalizeScrollLeft(el: HTMLElement, value: number | null = null, isRtl: boolean = RTLUtils.isRtl(el)): number {
-    value = (value === null) ? el.scrollLeft: value;
+    value = (value === null) ? el.scrollLeft : value;
     switch (isRtl ? RTLUtils.scrollType : '') {
       case 'negative':
         return el.scrollWidth - el.clientWidth + value;

@@ -22,8 +22,8 @@ export abstract class EventUtils {
 
   /** Get original CustomEvent source */
   public static source(e: CustomEvent) {
-    const path = (e.composedPath && e.composedPath());
-    return path ? path[0] : e.target;
+    const targets = (e.composedPath && e.composedPath());
+    return targets ? targets[0] : e.target;
   }
 
   /** Normalize TouchEvent or PointerEvent */

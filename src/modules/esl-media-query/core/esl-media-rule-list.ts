@@ -38,7 +38,7 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
    * @param parser - value parser function. See built in {@link ESLMediaRuleList.OBJECT_PARSER} or {@link ESLMediaRuleList.STRING_PARSER} (default)
    */
   public static parse<U>(query: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
-  public static parse(query: string, parser: RulePayloadParser<any> = ESLMediaRuleList.STRING_PARSER): ESLMediaRuleList<any> {
+  public static parse(query: string, parser: RulePayloadParser<any> = ESLMediaRuleList.STRING_PARSER): ESLMediaRuleList {
     const rules: ESLMediaRule<any>[] = [];
     query.split('|').forEach((part: string) => {
       const lex = part.trim();
@@ -108,8 +108,8 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
 
   /** Returns last active rule in the list */
   public get activeRule(): ESLMediaRule<T | undefined> {
-    const satisfied = this.rules.filter((rule) => rule.matches);
-    return satisfied.length > 0 ? satisfied[satisfied.length - 1] : ESLMediaRule.empty();
+    const satisfiedRules = this.rules.filter((rule) => rule.matches);
+    return satisfiedRules.length > 0 ? satisfiedRules[satisfiedRules.length - 1] : ESLMediaRule.empty();
   }
 
   /** Active rule payload value */

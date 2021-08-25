@@ -4,7 +4,8 @@ import {memoize} from '../../esl-utils/decorators/memoize';
 import {ESLBaseElement, attr} from '../../esl-base-element/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {EventUtils} from '../../esl-utils/dom/events';
-import {compileFootnotesGroupedList, compileFootnotesNongroupedList} from './esl-footnotes-data';
+import {sequentialUID} from '../../esl-utils/misc/uid';
+import {compileFootnotesGroupedList, compileFootnotesNongroupedList, sortFootnotes} from './esl-footnotes-data';
 
 import type {ESLNote} from './esl-note';
 import type {FootnotesItem} from './esl-footnotes-data';
@@ -28,9 +29,15 @@ export class ESLFootnotes extends ESLBaseElement {
   }
 
   protected get footnotesList(): FootnotesItem[] {
+    this.reindex();
     return this.grouping !== 'enable'
       ? compileFootnotesNongroupedList(this._notes)
       : compileFootnotesGroupedList(this._notes);
+  }
+
+  public reindex() {
+    this._notes = sortFootnotes(this._notes);
+    this._notes.forEach((note, index) => note.setIndex(index + 1));
   }
 
   protected connectedCallback() {
@@ -62,7 +69,9 @@ export class ESLFootnotes extends ESLBaseElement {
   }
 
   public linkNote(note: ESLNote) {
-    const index = this._notes.push(note);
+    if (this._notes.includes(note)) return;
+    this._notes.push(note);
+    const index = +sequentialUID(ESLFootnotes.is, '');
     note.link(this, index);
   }
 
@@ -110,7 +119,7 @@ export class ESLFootnotes extends ESLBaseElement {
   protected _onClick(e: MouseEvent | KeyboardEvent) {
     const target = e.target as HTMLElement;
     if (target && target.classList.contains('esl-footnotes-back-to-note')) {
-      const orderAttr = target.parentElement?.getAttribute('data-order');
+      const orderAttr = target.closest('.esl-footnotes-item')?.getAttribute('data-order');
       const order = orderAttr?.split(',').map((item) => +item);
       order && this._onBackToNote(order);
     }
