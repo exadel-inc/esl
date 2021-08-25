@@ -108,8 +108,8 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
 
   /** Returns last active rule in the list */
   public get activeRule(): ESLMediaRule<T | undefined> {
-    const satisfied = this.rules.filter((rule) => rule.matches);
-    return satisfied.length > 0 ? satisfied[satisfied.length - 1] : ESLMediaRule.empty();
+    const satisfiedRules = this.rules.filter((rule) => rule.matches);
+    return satisfiedRules.length > 0 ? satisfiedRules[satisfiedRules.length - 1] : ESLMediaRule.empty();
   }
 
   /** Active rule payload value */
