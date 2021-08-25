@@ -83,7 +83,8 @@ rules:
   # Limit max lines count per file to 400
   'max-lines':
     - warn
-    - 400
+    # TODO: make smaller
+    - 450
 
   # Prefer consistent brace style for blocks
   'brace-style': off

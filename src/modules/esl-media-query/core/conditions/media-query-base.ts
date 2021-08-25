@@ -7,6 +7,8 @@ export interface IMediaQueryCondition {
   removeListener(cb: VoidFunction): void;
   /** Optimize condition with nested hierarchy */
   optimize(): IMediaQueryCondition;
+  /** Stringify condition */
+  toString(): string;
 }
 
 /**
