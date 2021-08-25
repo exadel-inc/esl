@@ -802,7 +802,7 @@ var ESLMultiCarouselView = /** @class */ (function (_super) {
         for (var i = 0; i < this.carousel.activeCount; ++i) {
             nextActiveIndexes.push((nextIndex + i + this.carousel.count) % this.carousel.count);
         }
-        var intersectionArr = nextActiveIndexes.filter(function (index) { return _this.carousel.activeIndexes.includes(index); });
+        var intersectionIndexes = nextActiveIndexes.filter(function (index) { return _this.carousel.activeIndexes.includes(index); });
         var left = 0;
         var animatedCount = shiftCount < this.carousel.activeCount ? this.carousel.activeCount : shiftCount;
         var _loop_1 = function (i) {
@@ -819,11 +819,11 @@ var ESLMultiCarouselView = /** @class */ (function (_super) {
                 left = currentLeft;
             }
             // exclude slides that are active now and have to be active then
-            if (!intersectionArr.includes(computedIndex)) {
+            if (!intersectionIndexes.includes(computedIndex)) {
                 this_1.carousel.$slides[computedIndex].style.left = left + 'px';
             }
             // handle slides that are active now and have to be active then
-            if (intersectionArr.includes(computedIndex)) {
+            if (intersectionIndexes.includes(computedIndex)) {
                 var orderIndex = nextActiveIndexes.indexOf(computedIndex);
                 var time = (direction === 'right') ?
                     (transitionDuration / this_1.carousel.activeCount) * orderIndex :
@@ -843,7 +843,7 @@ var ESLMultiCarouselView = /** @class */ (function (_super) {
             slide.style.transform = "translateX(" + trans + "px)";
             // handle slides that are active now and have to be active then
             var sIndex = slide.index;
-            if (intersectionArr.includes(sIndex)) {
+            if (intersectionIndexes.includes(sIndex)) {
                 var orderIndex = nextActiveIndexes.indexOf(sIndex);
                 var time = (direction === 'right') ?
                     (transitionDuration / _this.carousel.activeCount) * orderIndex :
@@ -1561,6 +1561,8 @@ var ESLA11yGroup = /** @class */ (function (_super) {
     Object.defineProperty(ESLA11yGroup.prototype, "$targets", {
         /** @returns HTMLElement[] targets of the group */
         get: function () {
+            if (!this.$root)
+                return [];
             return _esl_traversing_query_core__WEBPACK_IMPORTED_MODULE_0__.TraversingQuery.all(this.targets, this.$root);
         },
         enumerable: false,
@@ -1575,10 +1577,12 @@ var ESLA11yGroup = /** @class */ (function (_super) {
         this.unbindEvents();
     };
     ESLA11yGroup.prototype.bindEvents = function () {
-        this.$root.addEventListener('keydown', this._onKeydown);
+        var _a;
+        (_a = this.$root) === null || _a === void 0 ? void 0 : _a.addEventListener('keydown', this._onKeydown);
     };
     ESLA11yGroup.prototype.unbindEvents = function () {
-        this.$root.removeEventListener('keydown', this._onKeydown);
+        var _a;
+        (_a = this.$root) === null || _a === void 0 ? void 0 : _a.removeEventListener('keydown', this._onKeydown);
     };
     ESLA11yGroup.prototype._onKeydown = function (e) {
         var target = e.target;
@@ -2741,7 +2745,7 @@ var ESLSelectDropdown = /** @class */ (function (_super) {
         this.$list.$select = this.$owner.$select;
         _super.prototype.onShow.call(this, params);
         var focusable = this.querySelector('[tabindex]');
-        focusable && focusable.focus({ preventScroll: true });
+        focusable === null || focusable === void 0 ? void 0 : focusable.focus({ preventScroll: true });
         this.updatePosition();
     };
     ESLSelectDropdown.prototype.onHide = function (params) {
@@ -4078,8 +4082,8 @@ var ESLMediaRuleList = /** @class */ (function (_super) {
     });
     Object.defineProperty(ESLMediaRuleList.prototype, "_activeRule", {
         get: function () {
-            var satisfied = this.rules.filter(function (rule) { return rule.matches; });
-            return satisfied.length > 0 ? satisfied[satisfied.length - 1] : _esl_media_rule__WEBPACK_IMPORTED_MODULE_0__.ESLMediaRule.empty();
+            var satisfiedRules = this.rules.filter(function (rule) { return rule.matches; });
+            return satisfiedRules.length > 0 ? satisfiedRules[satisfiedRules.length - 1] : _esl_media_rule__WEBPACK_IMPORTED_MODULE_0__.ESLMediaRule.empty();
         },
         enumerable: false,
         configurable: true
@@ -7673,7 +7677,7 @@ var ESLToggleable = /** @class */ (function (_super) {
         get: function () {
             var target = this.getAttribute('a11y-target');
             if (target === 'none')
-                return;
+                return null;
             return target ? this.querySelector(target) : this;
         },
         enumerable: false,
@@ -9018,8 +9022,8 @@ var EventUtils = /** @class */ (function () {
     };
     /** Get original CustomEvent source */
     EventUtils.source = function (e) {
-        var path = (e.composedPath && e.composedPath());
-        return path ? path[0] : e.target;
+        var targets = (e.composedPath && e.composedPath());
+        return targets ? targets[0] : e.target;
     };
     /** Normalize TouchEvent or PointerEvent */
     EventUtils.normalizeTouchPoint = function (event) {
