@@ -22,6 +22,11 @@ rules:
     - warn
     - never
 
+  # Warn about missing space before blocks
+  'space-before-blocks':
+    - warn
+    - always
+
   # Limit Cyclomatic Complexity
   'complexity': warn
 
