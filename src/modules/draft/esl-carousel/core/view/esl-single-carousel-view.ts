@@ -4,7 +4,7 @@ import type {ESLCarousel} from '../esl-carousel';
 
 class ESLSingleCarouselView extends ESLCarouselView {
 
-  constructor(carousel: ESLCarousel) {
+  public constructor(carousel: ESLCarousel) {
     super(carousel);
   }
 

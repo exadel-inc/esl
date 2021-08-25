@@ -4,7 +4,7 @@ import type {ESLCarousel} from '../esl-carousel';
 
 class ESLMultiCarouselView extends ESLCarouselView {
 
-  constructor(carousel: ESLCarousel) {
+  public constructor(carousel: ESLCarousel) {
     super(carousel);
   }
 
@@ -64,7 +64,7 @@ class ESLMultiCarouselView extends ESLCarouselView {
       nextActiveIndexes.push((nextIndex + i + this.carousel.count) % this.carousel.count);
     }
 
-    const intersectionArr = nextActiveIndexes.filter(
+    const intersectionIndexes = nextActiveIndexes.filter(
       (index: number) => this.carousel.activeIndexes.includes(index)
     );
 
@@ -83,12 +83,12 @@ class ESLMultiCarouselView extends ESLCarouselView {
       }
 
       // exclude slides that are active now and have to be active then
-      if (!intersectionArr.includes(computedIndex)) {
+      if (!intersectionIndexes.includes(computedIndex)) {
         this.carousel.$slides[computedIndex].style.left = left + 'px';
       }
 
       // handle slides that are active now and have to be active then
-      if (intersectionArr.includes(computedIndex)) {
+      if (intersectionIndexes.includes(computedIndex)) {
         const orderIndex = nextActiveIndexes.indexOf(computedIndex);
         const time = (direction === 'right') ?
           (transitionDuration / this.carousel.activeCount) * orderIndex :
@@ -108,7 +108,7 @@ class ESLMultiCarouselView extends ESLCarouselView {
 
       // handle slides that are active now and have to be active then
       const sIndex = slide.index;
-      if (intersectionArr.includes(sIndex)) {
+      if (intersectionIndexes.includes(sIndex)) {
         const orderIndex = nextActiveIndexes.indexOf(sIndex);
         const time = (direction === 'right') ?
           (transitionDuration / this.carousel.activeCount) * orderIndex :

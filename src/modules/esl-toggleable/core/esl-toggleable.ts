@@ -193,10 +193,10 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /** Returns the element to apply a11y attributes */
-  protected get $a11yTarget(): HTMLElement | undefined {
+  protected get $a11yTarget(): HTMLElement | null {
     const target = this.getAttribute('a11y-target');
-    if (target === 'none') return;
-    return target ? this.querySelector(target) as HTMLElement : this;
+    if (target === 'none') return null;
+    return target ? this.querySelector(target) : this;
   }
 
   /** Called on show and on hide actions to update a11y state accordingly */

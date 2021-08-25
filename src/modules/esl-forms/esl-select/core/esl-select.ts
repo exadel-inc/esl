@@ -67,7 +67,7 @@ export class ESLSelect extends ESLSelectWrapper {
   protected connectedCallback() {
     super.connectedCallback();
 
-    this.$select = this.querySelector('[esl-select-target]') as HTMLSelectElement;
+    this.$select = this.querySelector('[esl-select-target]')!;
     if (!this.$select) return;
 
     this._prepare();

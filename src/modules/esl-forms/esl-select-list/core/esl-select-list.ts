@@ -82,7 +82,7 @@ export class ESLSelectList extends ESLSelectWrapper {
   }
 
   protected bindSelect() {
-    const target = this.querySelector('[esl-select-target]') as HTMLSelectElement;
+    const target = this.querySelector('[esl-select-target]');
     if (!target || !(target instanceof HTMLSelectElement)) return;
     this.$select = target;
   }
