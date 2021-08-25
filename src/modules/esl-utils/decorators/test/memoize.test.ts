@@ -17,7 +17,10 @@ describe('common @memoize decorator test', () => {
       expect(instance.test).toBe(NaN);
       expect(fn).toBeCalledTimes(1);
 
+      expect(memoize.has(instance, 'test')).toBe(true);
       memoize.clear(instance, 'test');
+      expect(memoize.has(instance, 'test')).toBe(false);
+
       expect(instance.test).toBe(NaN);
       expect(fn).toBeCalledTimes(2);
     });
@@ -38,7 +41,10 @@ describe('common @memoize decorator test', () => {
       expect(TestClass.test).toBe(NaN);
       expect(fn).toBeCalledTimes(1);
 
+      expect(memoize.has(TestClass, 'test')).toBe(true);
       memoize.clear(TestClass, 'test');
+      expect(memoize.has(TestClass, 'test')).toBe(false);
+
       expect(TestClass.test).toBe(NaN);
       expect(fn).toBeCalledTimes(2);
     });
@@ -60,7 +66,10 @@ describe('common @memoize decorator test', () => {
       expect(instance.test()).toBe('a');
       expect(fn).toBeCalledTimes(1);
 
+      expect(memoize.has(instance, 'test')).toBe(true);
       memoize.clear(instance, 'test');
+      expect(memoize.has(instance, 'test')).toBe(false);
+
       expect(instance.test()).toBe('a');
       expect(instance.test()).toBe('a');
       expect(fn).toBeCalledTimes(2);
@@ -82,7 +91,10 @@ describe('common @memoize decorator test', () => {
       expect(TestClass.test()).toBe('a');
       expect(fn).toBeCalledTimes(1);
 
+      expect(memoize.has(TestClass, 'test')).toBe(true);
       memoize.clear(TestClass, 'test');
+      expect(memoize.has(TestClass, 'test')).toBe(false);
+
       expect(TestClass.test()).toBe('a');
       expect(TestClass.test()).toBe('a');
       expect(fn).toBeCalledTimes(2);

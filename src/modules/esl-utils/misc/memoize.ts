@@ -6,6 +6,8 @@ export type MemoizedFn<T extends AnyToAnyFnSignature> = T & {
   cache: Map<null | string, ReturnType<T>>;
   /** Clear memoization cache */
   clear: () => void;
+  /** Check existence of cache fore passed params */
+  has: (...params: Parameters<T>) => boolean;
 };
 
 /**
@@ -28,6 +30,10 @@ export function memoizeFn<F extends AnyToAnyFnSignature>(fn: F, hashFn: MemoHash
 
   memo.cache = new Map<null | string, ReturnType<F>>();
   memo.clear = () => memo.cache.clear();
+  memo.has = (...args: Parameters<F>) => {
+    const key = hashFn(...args);
+    return key === undefined ? false : memo.cache.has(key);
+  };
   return memo as MemoizedFn<F>;
 }
 
