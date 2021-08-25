@@ -152,13 +152,13 @@ you can find useful information about the project processes and agreements here:
 **ESL Core Team**: 
 [Alexey Stsefanovich](https://github.com/ala-n), 
 [Julia Murashko](https://github.com/julia-murashko), 
-[Yuliya Adamskaya](https://github.com/yadamskaya).
+[Yuliya Adamskaya](https://github.com/yadamskaya),
+[Dmytro Shovchko](https://github.com/dshovchko).
 
 **ESL Contributors**: 
 [Aliaksandr Auseyeu](https://github.com/alexanderavseev), 
 [Anna Barmina](https://github.com/abarmina),
-[Andrey Belous](https://github.com/andreybelous), 
-[Dmytro Shovchko](https://github.com/dshovchko), 
+[Andrey Belous](https://github.com/andreybelous),
 [Dzianis Mantsevich](https://github.com/dmantsevich), 
 [Liubou Masiuk](https://github.com/liubou-masiuk), 
 [Natallia Harshunova](https://github.com/nattallius), 
