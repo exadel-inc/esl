@@ -1,11 +1,11 @@
-# Library global linting rules
+# Library's global linting rules
 
 env:
   browser: true
   es6: true
   es2017: true
 
-# Base rule-sets
+# Base rule sets
 extends:
   # Recommended sets list
   - 'eslint:recommended'

@@ -31,7 +31,7 @@ rules:
   # Allows case statement to fallthrough
   'no-fallthrough': off
 
-  # Warn about redundant primitive wrapper instances usage
+  # Warn about using redundant primitive wrapper instances usage
   'no-new-wrappers': warn
 
   # Warn about redundant initializing to undefined
@@ -40,7 +40,7 @@ rules:
   # Disallow control flow statements in finally blocks
   'no-unsafe-finally': error
 
-  # Label are not allowed
+  # Labels are not allowed
   'no-labels': error
 
   # Require implicit radix parameter for parseInt
@@ -89,7 +89,7 @@ rules:
   'default-param-last': off
   '@typescript-eslint/default-param-last': error
 
-  # Prefers member overloads be consecutive
+  # Prefers member overloads to be consecutive
   '@typescript-eslint/adjacent-overload-signatures': warn
 
   # Prefers using either T[] or Array<T> for arrays
@@ -122,7 +122,7 @@ rules:
   # Warns if a type assertion does not change the type of an expression
   '@typescript-eslint/no-unnecessary-type-assertion': warn
 
-  # It's recommended to pass a comparer to the Array.sort method
+  # It's recommended to pass a compareFn to the Array.sort method
   '@typescript-eslint/require-array-sort-compare': warn
 
   # Allows the delete operator with computed key expressions
@@ -140,7 +140,7 @@ rules:
   # There is no restriction when adding two variables, operands must both be of type number or of type string
   '@typescript-eslint/restrict-plus-operands': off
 
-  # DO not restricts the types allowed in boolean expressions
+  # Do not restricts the types allowed in boolean expressions
   '@typescript-eslint/strict-boolean-expressions': off
 
   # Allows the declaration of empty interfaces
@@ -213,7 +213,7 @@ rules:
   # Warn about unnecessary constraints on generic types
   '@typescript-eslint/no-unnecessary-type-constraint': warn
 
-  # Allows calling an function with an any type value
+  # Allows calling a function with an any type value
   '@typescript-eslint/no-unsafe-argument': off
 
   # Allows assigning any to variables and properties
