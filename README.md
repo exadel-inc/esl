@@ -118,13 +118,13 @@ Also, ESL has built-in polyfills for some of DOM and ES6 features. They are avai
 ---
 
 ## Roadmap
-
-- [UI Playground](https://github.com/exadel-inc/ui-playground) (_will be available soon_) demo server
-- More helpers and sugar of ESLBaseElement (event listener helpers and decorators)  
-- Extension of esl-utils
-- Dynamic Footnotes component
-- Extension of esl-form elements (custom form base, helpers, validation and more)
+- Interactive Documentation + demo site redesign
 - ESLCarousel component
+- [UI Playground](https://github.com/exadel-inc/ui-playground) integration to demo site
+- More helpers and sugar of ESLBaseElement (event listener helpers and decorators)
+- Stable version of ESL Footnotes and ESL Popup components
+- Extension of esl-form elements (custom form base, helpers, validation and more)
+- Anchor Navigation component  
 - ESLToast component
 - More components in the library
 
