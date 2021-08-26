@@ -32,6 +32,7 @@
         <h1 class="text-center pt-2">
           {{ title | safe }}
           {% if 'beta' in [].concat(tags) %}<span class="badge badge-warning">Beta</span>{% endif %}
+          {% if 'draft' in [].concat(tags) %}<span class="badge badge-danger">Draft</span>{% endif %}
         </h1>
 
         <hr/>
