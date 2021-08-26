@@ -6,7 +6,7 @@ export type MemoizedFn<T extends AnyToAnyFnSignature> = T & {
   cache: Map<null | string, ReturnType<T>>;
   /** Clear memoization cache */
   clear: () => void;
-  /** Check existence of cache fore passed params */
+  /** Check existence of cache for passed params */
   has: (...params: Parameters<T>) => boolean;
 };
 
