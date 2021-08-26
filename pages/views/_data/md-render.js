@@ -1,4 +1,5 @@
 const path = require('path');
+const { isDev } = require('./env');
 const fsAsync = require('fs').promises;
 const { JSDOM } = require('jsdom');
 
@@ -9,7 +10,7 @@ const fileCache = new Map();
 const parseFile = async (filePath) => {
   const absolutePath = path.resolve(__dirname, '../../../', filePath);
 
-  if (fileCache.has(absolutePath)) return fileCache.get(absolutePath);
+  if (!isDev && fileCache.has(absolutePath)) return fileCache.get(absolutePath);
 
   const data = await fsAsync.readFile(absolutePath);
   const content = data.toString();
