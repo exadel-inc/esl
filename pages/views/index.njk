@@ -14,6 +14,14 @@ ui_playground: github.com/exadel-inc/ui-playground
 </div>
 <hr/>
 
+<h3 id="form-components">Quick Samples</h3>
+<ul class="list-inline">
+  {% for item in collections.samples | sortByName %}
+    <li class="list-inline-item"><h5><a href="{{ item.url | url }}">{{ item.data.name }}</a></h5></li>
+  {% endfor %}
+</ul>
+<hr/>
+
 <h3 id="components">List of components</h3>
 <ul class="list-inline">
   {% for item in collections.basic | sortByName %}
@@ -147,14 +155,13 @@ ui_playground: github.com/exadel-inc/ui-playground
 <h2 id="roadmap">Roadmap</h2>
 <div class="container">
   <ul class="m-8 mr-2 ml-2">
-    <li><a href="https://{{ ui_playground }}" target="_blank">UI Playground</a> (<em>will be available soon</em>) demo
-      server
-    </li>
-    <li>More helpers and sugar of ESLBaseElement (event listener helpers and decorators)</li>
-    <li>Extension of esl-utils</li>
-    <li>Dynamic Footnotes component</li>
-    <li>Extension of esl-form elements (custom form base, helpers, validation and more)</li>
+    <li>Interactive Documentation + demo site redesign</li>
     <li>ESLCarousel component</li>
+    <li><a href="https://{{ ui_playground }}" target="_blank">UI Playground</a> integration to demo site</li>
+    <li>More helpers and sugar of ESLBaseElement (event listener helpers and decorators)</li>
+    <li>Stable version of ESL Footnotes and ESL Popup components</li>
+    <li>Extension of esl-form elements (custom form base, helpers, validation and more)</li>
+    <li>Anchor Navigation component</li>
     <li>ESLToast component</li>
     <li>More components in the library</li>
   </ul>
