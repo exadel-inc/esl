@@ -1,5 +1,7 @@
 # [ESL](../../../README.md) Utils
 
+<a name="intro"></a>
+
 ESL Utils - is a module that contains a set of common utilities for working with DOM, BOM and other simple but handy things that are used by ESL components, but can also be used in client code.
 
 All ESL Utils helpers are super simple and atomic, be sure that none of the utilities requires the whole library. 

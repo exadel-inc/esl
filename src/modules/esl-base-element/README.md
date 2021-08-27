@@ -4,6 +4,8 @@ Version: *1.0.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*
 
+<a name="intro"></a>
+
 Provides the ESLBaseElement - base class for custom element declaration, and a set of common decorators.
 
 ### Available decorators:
@@ -13,3 +15,41 @@ Provides the ESLBaseElement - base class for custom element declaration, and a s
 
 Use `@override` or `@constant` decorator to override property that was created 
 via `@attr`, `@boolAttr` or `@jsonAttr` on the parent level.
+
+### Base Element static API
+- `MyElement.is` - static property to define tag name
+- `MyElement.register` - to call registration inside customElements registry
+- `MyElement.registered` - returns promise that will be resolved as soon as component registered
+
+### Example
+
+```ts
+import {ESLBaseElement, attr, boolAttr, jsonAttr} from '@exadel/esl';
+
+class MyCustomComponent extends ESLBaseElement {
+    static is = 'my-element';
+
+    /** Reflects 'my-string-prop' attribute */
+    @attr() public myStringProp: string; 
+    /** Reflects to 'my-marker' attribute-marker */
+    @boolAttr() public myMarker: boolean; 
+    /** Reflects to JSON value in 'my-config attribut' */
+    @jsonAttr() public myConfig: Recorg<string, string>;
+
+    connectedCallback() {
+        super.connectedCallback();
+        // Init my component
+    }
+
+    disconnectedCallback() {
+        // Unsobscribe listeners, revert side effects
+        super.disconnectedCallback();
+    }
+}
+
+// Register custom tag with name provided in the static `is` property
+MyCustomComponent.register();
+
+// Or register custom tag with passed tag name
+MyCustomComponent.register('my-tag');
+```

@@ -5,15 +5,18 @@
       <span class="ml-2">Exadel Smart Library</span>
     </a>
     {% from 'header-menu.njk' import menu with context %}
-    <ul class="navbar-nav flex-grow-1 flex-sm-row">
+    <ul class="navbar-nav flex-grow-1 flex-sm-row justify-content-end">
       <li class="nav-item hd-dropdown">
         {{ menu ('Samples', 'samples') }}
       </li>
       <li class="nav-item hd-dropdown">
         {{ menu ('Components', 'components') }}
       </li>
+      <li class="nav-item hd-dropdown">
+        {{ menu ('Utils', 'utils') }}
+      </li>
 
-      <li class="nav-item ml-auto">
+      <li class="nav-item ml-1">
         <a class="btn btn-link" href="https://github.com/exadel-inc/esl">
           <svg width="30" height="30" viewBox="0 0 32 32" fill="#fff">
             <path clip-rule="evenodd" fill-rule="evenodd"

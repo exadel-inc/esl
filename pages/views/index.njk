@@ -29,6 +29,13 @@ ui_playground: github.com/exadel-inc/ui-playground
   {% endfor %}
 </ul>
 
+<h3 id="components">Library utils</h3>
+<ul class="list-inline">
+  {% for item in collections.utils | released | sortByName %}
+    <li class="list-inline-item"><h5><a href="{{ item.url | url }}">{{ item.data.name }}</a></h5></li>
+  {% endfor %}
+</ul>
+
 <h2 id="installation-guide">Installation Guide</h2>
 <div class="container">
   <ol>
