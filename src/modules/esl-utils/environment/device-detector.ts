@@ -48,7 +48,8 @@ export abstract class DeviceDetector {
 
   // Touch Detection
   public static get isTouchDevice() {
-    if (window.navigator.maxTouchPoints || window.navigator.msMaxTouchPoints) return true;
+    const navApi: any = window.navigator;
+    if (navApi.maxTouchPoints || navApi.msMaxTouchPoints) return true;
     return ('ontouchstart' in window) || ('DocumentTouch' in window && document instanceof Touch);
   }
 
