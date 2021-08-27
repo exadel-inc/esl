@@ -4,7 +4,7 @@ Version: *1.0.0-beta*.
 
 Authors: *Alexey Stsefanovich (ala'n)*.
 
-***Important Notice: the component is under beta version, it tested and ready to use but be aware of its potential critical API changes.***
+***Important Notice: the component is under beta version, it is tested and ready to use but be aware of its potential critical API changes.***
 
 <a name="intro"></a>
 

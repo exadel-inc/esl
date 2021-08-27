@@ -1,7 +1,7 @@
 ---
 layout: basic
-title: Toggleables
-name: Toggleables
+title: Toggleable
+name: Toggleable
 containerCls: container
 tags: samples
 ---
@@ -21,13 +21,13 @@ tags: samples
   <div class="col-12">
     <h4>Click event</h4>
     <div style="height: 70px;">
-      <esl-toggleable id="popup1"
-                      body-class="popup-opened"
+      <esl-toggleable id="toggleable1"
+                      body-class="toggleable-opened"
                       close-on=".close-button"
                       close-on-esc
                       open>
         <div class="alert alert-warning" role="alert">
-          <strong>This is a popup.</strong> You can control it using the triggers below.
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
           <button type="button" class="close close-button" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -36,9 +36,9 @@ tags: samples
     </div>
     <p>Triggers</p>
     <div>
-      <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Toggle</esl-trigger>
-      <esl-trigger target="#popup1" mode="show" class="btn btn-success">Show</esl-trigger>
-      <esl-trigger target="#popup1" mode="hide" class="btn btn-dark">Hide</esl-trigger>
+      <esl-trigger target="#toggleable1" mode="toggle" class="btn btn-primary">Toggle</esl-trigger>
+      <esl-trigger target="#toggleable1" mode="show" class="btn btn-success">Show</esl-trigger>
+      <esl-trigger target="#toggleable1" mode="hide" class="btn btn-dark">Hide</esl-trigger>
     </div>
   </div>
 </section>
@@ -48,12 +48,12 @@ tags: samples
   <div class="col-12">
     <h4>Hover event</h4>
     <div style="height: 70px;">
-      <esl-toggleable id="popup2"
-                      body-class="popup-opened"
+      <esl-toggleable id="toggleable2"
+                      body-class="toggleable-opened"
                       close-on=".close-button"
                       close-on-esc>
         <div class="alert alert-warning" role="alert">
-          <strong>This is a popup.</strong> You can control it using the triggers below.
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
           <button type="button" class="close close-button" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -62,13 +62,13 @@ tags: samples
     </div>
     <p>Triggers</p>
     <div>
-      <esl-trigger target="#popup2" mode="toggle" a11y-target="button" track-hover>
+      <esl-trigger target="#toggleable2" mode="toggle" a11y-target="button" track-hover>
         <button type="button" class="btn btn-primary">Toggle</button>
       </esl-trigger>
-      <esl-trigger target="#popup2" mode="show" a11y-target="button" track-hover>
+      <esl-trigger target="#toggleable2" mode="show" a11y-target="button" track-hover>
         <button type="button" class="btn btn-success">Show</button>
       </esl-trigger>
-      <esl-trigger target="#popup2" mode="hide" a11y-target="button" track-hover>
+      <esl-trigger target="#toggleable2" mode="hide" a11y-target="button" track-hover>
         <button type="button" class="btn btn-dark">Hide</button>
       </esl-trigger>
     </div>
@@ -81,7 +81,7 @@ tags: samples
     <h4>Class toggle</h4>
     <div style="height: 70px;">
       <esl-toggleable class="d-block alert" active-class="alert-success !alert-danger">
-        <strong>Toggleable can be used to switch state.</strong> You can toggle it using the trigger bellow.
+        <strong>Toggleable can be used to switch state.</strong> You can toggle it using the trigger below.
       </esl-toggleable>
     </div>
     <p>Triggers</p>
@@ -96,19 +96,19 @@ tags: samples
   <div class="col-12">
     <h4>Close On Body Click</h4>
     <div style="height: 130px;">
-      <esl-toggleable class="popup"
+      <esl-toggleable class="toggleable"
                       close-on-esc
                       close-on-outside-action>
         <div class="alert alert-warning" role="alert">
-          <strong>This is a popup.</strong> You can close it if you click outside.
-          <esl-trigger target="::parent(esl-toggleable)::find(.child-popup)" class="btn btn-link">
-            Toggle inner popup
+          <strong>This is a toggleable.</strong> You can close it if you click outside.
+          <esl-trigger target="::parent(esl-toggleable)::find(.child-toggleable)" class="btn btn-link">
+            Toggle inner toggleable
           </esl-trigger>
-          <esl-toggleable class="child-popup"
+          <esl-toggleable class="child-toggleable"
                           close-on-esc
                           close-on-outside-action>
             <div class="alert alert-info" role="alert">
-              <strong>This is inner popup.</strong> You can also close it if you click outside.
+              <strong>This is inner toggleable.</strong> You can also close it if you click outside.
             </div>
           </esl-toggleable>
         </div>
@@ -116,8 +116,8 @@ tags: samples
     </div>
     <p>Triggers</p>
     <div>
-      <esl-trigger class="btn btn-dark" target="::parent(section)::find(.popup)">
-        Toggle popup
+      <esl-trigger class="btn btn-dark" target="::parent(section)::find(.toggleable)">
+        Toggle toggleable
       </esl-trigger>
       <button id="prevArea" class="btn btn-danger">
         Prevent Click Zone
@@ -140,18 +140,18 @@ tags: samples
     }
   </style>
   <div class="col-12">
-    <h4>Group of popups (click event)</h4>
+    <h4>Group of toggleables (click event)</h4>
     <div class="b-marker alert alert-info">Body class marker active</div>
 
     <div style="height: 70px;">
-      <esl-toggleable id="popup3"
+      <esl-toggleable id="toggleable3"
                       group="group1"
                       body-class="body-marker"
                       close-on=".close-button"
                       close-on-esc
                       open>
         <div class="alert alert-warning" role="alert">
-          <strong>This is a popup.</strong> You can control it using the triggers below.
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
           <button type="button" class="close close-button" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -159,13 +159,13 @@ tags: samples
       </esl-toggleable>
     </div>
     <div style="height: 70px;">
-      <esl-toggleable id="popup4"
+      <esl-toggleable id="toggleable4"
                       group="group1"
                       body-class="body-marker"
                       close-on=".close-button"
                       close-on-esc>
         <div class="alert alert-warning" role="alert">
-          <strong>This is a popup.</strong> You can control it using the triggers below.
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
           <button type="button" class="close close-button" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -173,13 +173,13 @@ tags: samples
       </esl-toggleable>
     </div>
     <div style="height: 70px;">
-      <esl-toggleable id="popup5"
+      <esl-toggleable id="toggleable5"
                       group="group1"
                       body-class="body-marker"
                       close-on=".close-button"
                       close-on-esc>
         <div class="alert alert-warning" role="alert">
-          <strong>This is a popup.</strong> You can control it using the triggers below.
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
           <button type="button" class="close close-button" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -188,13 +188,13 @@ tags: samples
     </div>
     <p>Triggers</p>
     <p>
-      <esl-trigger target="#popup3" mode="toggle" a11y-target="button">
+      <esl-trigger target="#toggleable3" mode="toggle" a11y-target="button">
         <button type="button" class="btn btn-info">Toggle 1</button>
       </esl-trigger>
-      <esl-trigger target="#popup4" mode="toggle" a11y-target="button">
+      <esl-trigger target="#toggleable4" mode="toggle" a11y-target="button">
         <button type="button" class="btn btn-info">Toggle 2</button>
       </esl-trigger>
-      <esl-trigger target="#popup5" mode="toggle" a11y-target="button">
+      <esl-trigger target="#toggleable5" mode="toggle" a11y-target="button">
         <button type="button" class="btn btn-info">Toggle 3</button>
       </esl-trigger>
     </p>
@@ -204,16 +204,16 @@ tags: samples
 
 <section class="row">
   <div class="col-12">
-    <h4>Group of popups (hover event)</h4>
+    <h4>Group of toggleables (hover event)</h4>
     <div style="height: 70px;">
-      <esl-toggleable id="popup6"
+      <esl-toggleable id="toggleable6"
                       group="group2"
-                      body-class="popup-group-opened"
+                      body-class="toggleable-group-opened"
                       default-params="{hideDelay: 500}"
                       close-on=".close-button"
                       close-on-esc>
         <div class="alert alert-warning" role="alert">
-          <strong>This is a popup.</strong> You can control it using the triggers below.
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
           <button type="button" class="close close-button" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -221,14 +221,14 @@ tags: samples
       </esl-toggleable>
     </div>
     <div style="height: 70px;">
-      <esl-toggleable id="popup7"
+      <esl-toggleable id="toggleable7"
                       group="group2"
-                      body-class="popup-group-opened"
+                      body-class="toggleable-group-opened"
                       default-params="{hideDelay: 500}"
                       close-on=".close-button"
                       close-on-esc>
         <div class="alert alert-warning" role="alert">
-          <strong>This is a popup.</strong> You can control it using the triggers below.
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
           <button type="button" class="close close-button" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -236,14 +236,14 @@ tags: samples
       </esl-toggleable>
     </div>
     <div style="height: 70px;">
-      <esl-toggleable id="popup8"
+      <esl-toggleable id="toggleable8"
                       group="group2"
-                      body-class="popup-group-opened"
+                      body-class="toggleable-group-opened"
                       default-params="{hideDelay: 500}"
                       close-on=".close-button"
                       close-on-esc>
         <div class="alert alert-warning" role="alert">
-          <strong>This is a popup.</strong> You can control it using the triggers below.
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
           <button type="button" class="close close-button" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -252,9 +252,9 @@ tags: samples
     </div>
     <p>Triggers</p>
     <p>
-      <esl-trigger target="#popup6" mode="toggle" class="btn btn-info" track-hover>Toggle 1</esl-trigger>
-      <esl-trigger target="#popup7" mode="toggle" class="btn btn-info" track-hover>Toggle 2</esl-trigger>
-      <esl-trigger target="#popup8" mode="toggle" class="btn btn-info" track-hover>Toggle 3</esl-trigger>
+      <esl-trigger target="#toggleable6" mode="toggle" class="btn btn-info" track-hover>Toggle 1</esl-trigger>
+      <esl-trigger target="#toggleable7" mode="toggle" class="btn btn-info" track-hover>Toggle 2</esl-trigger>
+      <esl-trigger target="#toggleable8" mode="toggle" class="btn btn-info" track-hover>Toggle 3</esl-trigger>
     </p>
   </div>
 </section>

@@ -33,7 +33,7 @@ module.exports = (config) => {
   config.addFilter('released-strict', (values) => {
     return values.filter((item) => {
       const tags = [].concat(item.data.tags);
-      return isDev || !tags.includes('draft');
+      return !tags.includes('draft');
     });
   });
 

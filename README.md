@@ -119,7 +119,7 @@ Also, ESL has built-in polyfills for some of DOM and ES6 features. They are avai
 
 ## Roadmap
 - Interactive Documentation + demo site redesign
-- ESLCarousel component
+- ESL Carousel component
 - [UI Playground](https://github.com/exadel-inc/ui-playground) integration to demo site
 - More helpers and sugar of ESLBaseElement (event listener helpers and decorators)
 - Stable version of ESL Footnotes and ESL Popup components

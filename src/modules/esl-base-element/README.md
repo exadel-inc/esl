@@ -17,9 +17,10 @@ Use `@override` or `@constant` decorator to override property that was created
 via `@attr`, `@boolAttr` or `@jsonAttr` on the parent level.
 
 ### Base Element static API
-- `MyElement.is` - static property to define tag name
-- `MyElement.register` - to call registration inside customElements registry
-- `MyElement.registered` - returns promise that will be resolved as soon as component registered
+- `MyElement.is` - property that defines tag name
+  
+- `MyElement.register` - calls registration inside customElements registry
+- `MyElement.registered` - returns promise that will be resolved as soon as the component is registered
 
 ### Example
 
@@ -33,7 +34,7 @@ class MyCustomComponent extends ESLBaseElement {
     @attr() public myStringProp: string; 
     /** Reflects to 'my-marker' attribute-marker */
     @boolAttr() public myMarker: boolean; 
-    /** Reflects to JSON value in 'my-config attribut' */
+    /** Reflects to JSON value in 'my-config' attribute */
     @jsonAttr() public myConfig: Recorg<string, string>;
 
     connectedCallback() {
@@ -42,7 +43,7 @@ class MyCustomComponent extends ESLBaseElement {
     }
 
     disconnectedCallback() {
-        // Unsobscribe listeners, revert side effects
+        // Unsubscribe listeners, revert side effects
         super.disconnectedCallback();
     }
 }
