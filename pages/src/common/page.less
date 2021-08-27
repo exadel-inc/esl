@@ -38,6 +38,13 @@ section {
   margin-bottom: 20px;
 }
 
+.badge-sup {
+  display: inline-block;
+  font-size: 50%;
+  font-weight: 700;
+  vertical-align: super;
+}
+
 .btn-group-centered {
   justify-content: center;
 }
@@ -88,4 +95,32 @@ test-media-controls {
 
 .logo-primary svg {
   fill: #0082CA;
+}
+
+.navbar-brand.logo-light,
+.navbar-brand.logo-light svg {
+  animation: rainbow 10s ease-in-out infinite;
+}
+
+@keyframes rainbow {
+  from {
+    color: #aeaeff;
+    fill: #aeaeff;
+  }
+  10% {
+    color: #5fb0ff;
+    fill: #5fb0ff;
+  }
+  50% {
+    color: #a7ffa7;
+    fill: #a7ffa7;
+  }
+  75% {
+    color: #ffa9d0;
+    fill: #ffa9d0;
+  }
+  100% {
+    color: #aeaeff;
+    fill: #aeaeff;
+  }
 }
