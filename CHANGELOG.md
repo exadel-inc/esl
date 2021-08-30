@@ -1,3 +1,32 @@
+# [3.0.0-beta.20](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.19...v3.0.0-beta.20) (2021-08-30)
+
+
+### Bug Fixes
+
+* **esl-panel:** add missing observedAttributes method ([2bae85f](https://github.com/exadel-inc/esl/commit/2bae85f46cb81ba83d4eee08b4536d40cd1fbb58))
+* **esl-panel:** fix twitchy panel animation on multiple requests ([fee25af](https://github.com/exadel-inc/esl/commit/fee25aff21b328fcf9eb61dee7a87bb80eef2a64))
+* **esl-toggleable:** fix trackHover hideDelay inheritance from the original activator ([e67acb3](https://github.com/exadel-inc/esl/commit/e67acb38530105629cb82560246a22af795d0c39))
+* **esl-utils:** deep merge: fix array case and refactor ([4191b85](https://github.com/exadel-inc/esl/commit/4191b851cb84f59ef31cf8bbb0dd29c5594fea86))
+* **esl-utils:** delayed-task now accept numeric string delay representation ([d1122f4](https://github.com/exadel-inc/esl/commit/d1122f45365e3599f3a3a35fc3f8528b10d5c659))
+* add cleanup step for the build and start ([31dd317](https://github.com/exadel-inc/esl/commit/31dd3176c7fc4b03c06c9804046ae79f710bf4f6))
+* fix twitchy scrollbar when scroll-behavior set to smooth for target ([4b9848c](https://github.com/exadel-inc/esl/commit/4b9848c9881cce9de4a4e283b61b3ffa78c9f73e)), closes [#430](https://github.com/exadel-inc/esl/issues/430)
+* **esl-utils:** strict types for deep merge ([04bbad4](https://github.com/exadel-inc/esl/commit/04bbad4ea68b18caf01420c6aeae05c83f23ead1))
+
+
+### Features
+
+* **esl-utils:** add ability check if the memoized property create a cache ([81f2e02](https://github.com/exadel-inc/esl/commit/81f2e02fcabd20e2c6b5f59c15e3718c7e177b1d))
+* 'throttle' API changes ([8db7bfb](https://github.com/exadel-inc/esl/commit/8db7bfb4adbb74d595b5fe041a930edfaaa65986))
+* debounced method API changes ([#402](https://github.com/exadel-inc/esl/issues/402)) ([420f8bc](https://github.com/exadel-inc/esl/commit/420f8bc8a800f4e2362b47fdf9c84c912af16ba6))
+
+
+### BREAKING CHANGES
+
+* **esl-panel:** ESLPanelGroup is now distributed as a separate module
+* decorated `debouncedMethod = debounce(fn)` call no longer returns Promise use 'debouncedMethod.promise' instead
+
+Co-authored-by: ala'n (Alexey Stsefanovich) <astsefanovich@exadel.com>
+
 ## [2.9.1](https://github.com/exadel-inc/esl/compare/v2.9.0...v2.9.1) (2021-08-25)
 
 
