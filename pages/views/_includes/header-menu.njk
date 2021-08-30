@@ -1,10 +1,16 @@
 {% macro menu(title, collection) %}
-  <esl-trigger class="hd-dropdown-trigger" track-hover target="::next">
+  <esl-trigger class="hd-dropdown-trigger"
+               target="::next"
+               track-hover
+               hover-hide-delay="400">
     <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow {{ 'nav-item-selected' if collection in page.url }}">
       {{ title }}
     </button>
   </esl-trigger>
-  <esl-panel class="hd-dropdown-content" default-params="{hideDelay: 250}" fallback-duration="500">
+  <esl-panel class="hd-dropdown-content"
+             group="esl-nav"
+             fallback-duration="500"
+             close-on-esc close-on-outside-action>
     {% if collections[collection] %}
       <ul class="hd-dropdown-list">
         {% for item in collections[collection] | released | sortByName %}

@@ -48,6 +48,10 @@
     &.open {
       transition: max-height .3s ease-in-out, visibility 0s linear;
     }
+
+    &.animate.open {
+      z-index: 100;
+    }
   }
 
   .hd-dropdown-list {

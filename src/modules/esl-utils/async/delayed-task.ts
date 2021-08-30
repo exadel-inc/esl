@@ -28,9 +28,10 @@ export class DelayedTask {
    *  - pass 0 to plan task to the macrotask
    *  - pass positive number x to delay task on x ms.
    * */
-  public put(task: AnyToVoidFnSignature, delay: number | boolean = false) {
+  public put(task: AnyToVoidFnSignature, delay: number | string | boolean = false) {
     const prev = this.cancel();
     if (typeof task === 'function') {
+      if (delay && typeof delay === 'string') delay = +delay;
       if (typeof delay === 'number' && delay >= 0) {
         this._fn = task;
         this._timeout = window.setTimeout(this.run, delay);
