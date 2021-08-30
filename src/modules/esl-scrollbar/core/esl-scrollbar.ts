@@ -27,7 +27,7 @@ export class ESLScrollbar extends ESLBaseElement {
   @attr({defaultValue: 'scrollbar-track'}) public trackClass: string;
 
   /** @readonly Dragging state marker */
-  @boolAttr() protected dragging: boolean;
+  @boolAttr({readonly: true}) public dragging: boolean;
   /** @readonly Inactive state marker */
   @boolAttr({readonly: true}) public inactive: boolean;
 
@@ -228,7 +228,9 @@ export class ESLScrollbar extends ESLBaseElement {
   /** `mousedown` event to track thumb drag start */
   @bind
   protected _onMouseDown(event: MouseEvent) {
-    this.dragging = true;
+    this.toggleAttribute('dragging', true);
+    this.$target?.style.setProperty('scroll-behavior', 'auto');
+
     this._initialPosition = this.position;
     this._initialMousePosition = this.horizontal ? event.clientX : event.clientY;
 
@@ -266,7 +268,8 @@ export class ESLScrollbar extends ESLBaseElement {
   /** `mouseup` short-time document handler for drag end action */
   @bind
   protected _onMouseUp() {
-    this.dragging = false;
+    this.toggleAttribute('dragging', false);
+    this.$target?.style.removeProperty('scroll-behavior');
 
     // Unbind drag listeners
     window.removeEventListener('mousemove', this._onMouseMove);
