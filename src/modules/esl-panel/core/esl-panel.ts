@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {bind} from '../../esl-utils/decorators/bind';
 import {afterNextRender} from '../../esl-utils/async/raf';
-import {attr, jsonAttr} from '../../esl-base-element/core';
+import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {ESLPanelGroup} from '../../esl-panel-group/core';
 
@@ -32,12 +32,15 @@ export class ESLPanel extends ESLToggleable {
   @attr({defaultValue: 'animate'}) public animateClass: string;
   /** Class(es) to be added during animation after next render ('post-animate' by default) */
   @attr({defaultValue: 'post-animate'}) public postAnimateClass: string;
-  /** Time to clear animation common params (max-height style + classes) (2s by default) */
-  @attr({defaultValue: '2000'}) public fallbackDuration: number | 'auto';
+  /** Time to clear animation common params (max-height style + classes) (1s by default) */
+  @attr({defaultValue: '1000'}) public fallbackDuration: number | 'auto';
 
   /** Initial params for current ESLPanel instance */
   @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init'}})
-  public initialParams: ToggleableActionParams;
+  public initialParams: PanelActionParams;
+
+  /** Active while animation in progress */
+  @boolAttr({readonly: true}) public animating: boolean;
 
   /** Inner height state that updates after show/hide actions but before show/hide events triggered */
   protected _initialHeight: number = 0;
@@ -93,6 +96,7 @@ export class ESLPanel extends ESLToggleable {
 
   /** Pre-processing animation action */
   protected beforeAnimate() {
+    this.toggleAttribute('animating', true);
     CSSClassUtils.add(this, this.animateClass);
     this.postAnimateClass && afterNextRender(() => CSSClassUtils.add(this, this.postAnimateClass));
   }
@@ -116,6 +120,7 @@ export class ESLPanel extends ESLToggleable {
 
   /** Clear animation properties */
   protected clearAnimation() {
+    this.toggleAttribute('animating', false);
     this.style.removeProperty('max-height');
     CSSClassUtils.remove(this, this.animateClass);
     CSSClassUtils.remove(this, this.postAnimateClass);
