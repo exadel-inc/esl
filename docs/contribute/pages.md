@@ -1,10 +1,10 @@
 # Development: Pages
 
-Demo site built with [Eleventy](https://www.11ty.dev/docs/) - a simple static site generator. 
+The demo site is built with [Eleventy](https://www.11ty.dev/docs/) - a simple static site generator. 
 
-[Nunjucks](https://mozilla.github.io/nunjucks/getting-started.htmlх) was picked as a template language. 
+[Nunjucks](https://mozilla.github.io/nunjucks/) and [Markdown](https://www.markdownguide.org/) are picked as template languages.
 
-Project deploys to GitHub pages.
+The project is deployed using a GitHub workflow.
 
 ## Syntax highlighting to Nunjucks template files
 
