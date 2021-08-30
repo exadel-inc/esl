@@ -69,7 +69,9 @@
   "dependencies": {
     "@types/resize-observer-browser": "0.1.6",
     "@types/video.js": "7.3.26",
-    "@types/youtube": "0.0.44"
+    "@types/vimeo__player": "^2.10.1",
+    "@types/youtube": "0.0.44",
+    "@vimeo/player": "^2.16.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "^0.12.1",
