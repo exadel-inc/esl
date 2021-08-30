@@ -6,9 +6,9 @@ import {memoize} from '../../esl-utils/decorators/memoize';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
-import {ESLPanel} from './esl-panel';
+import {ESLPanel} from '../../esl-panel/core';
 
-import type {PanelActionParams} from './esl-panel';
+import type {PanelActionParams} from '../../esl-panel/core';
 
 /**
  * ESLPanelGroup component

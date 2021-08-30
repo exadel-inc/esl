@@ -4,7 +4,7 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {attr, jsonAttr} from '../../esl-base-element/core';
 import {ESLToggleable} from '../../esl-toggleable/core';
-import {ESLPanelGroup} from './esl-panel-group';
+import {ESLPanelGroup} from '../../esl-panel-group/core';
 
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
 
@@ -32,8 +32,8 @@ export class ESLPanel extends ESLToggleable {
   @attr({defaultValue: 'animate'}) public animateClass: string;
   /** Class(es) to be added during animation after next render ('post-animate' by default) */
   @attr({defaultValue: 'post-animate'}) public postAnimateClass: string;
-  /** Time to clear animation common params (max-height style + classes) ('auto' by default) */
-  @attr({defaultValue: 'auto'}) public fallbackDuration: number | 'auto';
+  /** Time to clear animation common params (max-height style + classes) (2s by default) */
+  @attr({defaultValue: '2000'}) public fallbackDuration: number | 'auto';
 
   /** Initial params for current ESLPanel instance */
   @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init'}})
@@ -68,7 +68,6 @@ export class ESLPanel extends ESLToggleable {
   /** Process show action */
   protected onShow(params: PanelActionParams) {
     super.onShow(params);
-    this.clearAnimation();
     this._initialHeight = this.offsetHeight;
 
     this.beforeAnimate();
@@ -81,7 +80,6 @@ export class ESLPanel extends ESLToggleable {
 
   /** Process hide action */
   protected onHide(params: PanelActionParams) {
-    this.clearAnimation();
     this._initialHeight = this.offsetHeight;
     super.onHide(params);
 
