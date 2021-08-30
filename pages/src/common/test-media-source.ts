@@ -19,6 +19,7 @@ class TestMediaSource extends HTMLElement {
             <option value="youtube">Youtube</option>
             <option value="brightcove">Brightcove</option>
             <option value="iframe">Iframe</option>
+            <option value="vimeo">Vimeo</option>
           </select>
         </div>
         <div class="input-group mb-2 mr-sm-2">

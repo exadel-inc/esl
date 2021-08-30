@@ -37,6 +37,7 @@ import '../../src/modules/esl-media/providers/html5/audio-provider';
 import '../../src/modules/esl-media/providers/html5/video-provider';
 import '../../src/modules/esl-media/providers/youtube-provider';
 import '../../src/modules/esl-media/providers/brightcove-provider';
+import '../../src/modules/esl-media/providers/vimeo-provider';
 
 import {
   ESLCarousel,
