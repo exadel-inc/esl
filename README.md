@@ -158,6 +158,8 @@ you can find useful information about the project processes and agreements here:
 **ESL Contributors**: 
 [Aliaksandr Auseyeu](https://github.com/alexanderavseev), 
 [Anna Barmina](https://github.com/abarmina),
+[Anna-Mariia Petryk](https://github.com/Anna-MariiaPetryk),
+[Anastasiya Lesun](https://github.com/NastaLeo),
 [Andrey Belous](https://github.com/andreybelous),
 [Dzianis Mantsevich](https://github.com/dmantsevich), 
 [Liubou Masiuk](https://github.com/liubou-masiuk), 
