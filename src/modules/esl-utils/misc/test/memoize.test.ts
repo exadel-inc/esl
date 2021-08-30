@@ -8,11 +8,14 @@ describe('misc/memoize', () => {
     expect(memoFn()).toBe(null);
     expect(memoFn()).toBe(null);
     expect(fn).toBeCalledTimes(1);
+    expect(memoFn.has()).toBe(true);
 
     memoFn.clear();
     fn.mockReturnValue(1);
+    expect(memoFn.has()).toBe(false);
     expect(memoFn()).toBe(1);
     expect(memoFn()).toBe(1);
+    expect(memoFn.has()).toBe(true);
     expect(fn).toBeCalledTimes(2);
   });
 
@@ -22,9 +25,12 @@ describe('misc/memoize', () => {
     expect(memoFn(1)).toBe(2);
     expect(memoFn(1)).toBe(2);
     expect(fn).toBeCalledTimes(1);
+    expect(memoFn.has(1)).toBe(true);
+    expect(memoFn.has(2)).toBe(false);
 
     expect(memoFn(2)).toBe(3);
     expect(memoFn(2)).toBe(3);
+    expect(memoFn.has(2)).toBe(true);
     expect(fn).toBeCalledTimes(2);
   });
 
@@ -34,6 +40,9 @@ describe('misc/memoize', () => {
     expect(memoFn(1, 2)).toBe(3);
     expect(memoFn(1, 1)).toBe(2);
     expect(memoFn(1, 2)).toBe(3);
+    expect(memoFn.has(1, 1)).toBe(true);
+    expect(memoFn.has(1, 2)).toBe(true);
+    expect(memoFn.has(1, 3)).toBe(false);
     expect(fn).toBeCalledTimes(2);
     expect(memoFn(1, 1)).toBe(2);
     expect(fn).toBeCalledTimes(2);
@@ -46,6 +55,8 @@ describe('misc/memoize', () => {
     expect(memoFn(1, 2)).toBe(3);
     expect(memoFn(1, 1)).toBe(2);
     expect(memoFn(1, 2)).toBe(3);
+    expect(memoFn.has(1, 1)).toBe(false);
+    expect(memoFn.has(1, 2)).toBe(false);
     expect(fn).toBeCalledTimes(3);
   });
 });

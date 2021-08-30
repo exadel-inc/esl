@@ -4,6 +4,8 @@ Version: *2.0.0*.
 
 Authors: *Julia Murashko*.
 
+<a name="intro"></a>
+
 ESLPanel is a custom element that is used as a wrapper for content that can be shown or hidden.
 Can use collapsing/expanding animation (smooth height change).
 Can be used in conjunction with ESLPanelGroup to control a group of ESLPopups

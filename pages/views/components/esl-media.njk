@@ -1,0 +1,38 @@
+---
+layout: basic
+title: ESL Media
+name: ESL Media
+tags: components
+containerCls: container
+---
+
+<div class="content container">
+  {% mdRender 'src/modules/esl-media/README.md', 'intro' %}
+</div>
+
+<hr/>
+
+<section class="row justify-content-around">
+  <section class="col-12 row" data-demo="0">
+    <div class="col-md-6 order-md-2">
+      <h3 class="text-center">ESL Media Playgroud</h3>
+      <test-media-source target="[data-demo='0'] esl-media"></test-media-source>
+    </div>
+    <div class="demo col-md-6 order-md-1">
+      <div class="img-container img-container-16-9 img-container-loaded" style="border: solid black 1px;">
+        <esl-media group="demo-media" controls tabindex="0"></esl-media>
+      </div>
+      <test-media-controls target="[data-demo='0'] esl-media"></test-media-controls>
+    </div>
+  </section>
+</section>
+
+<section class="row">
+  <div class="col-12">
+    <h2>Related Examples: </h2>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="{{ '/samples/embedded-video' | url }}">Embedded Video</a></li>
+      <li class="list-inline-item"><a href="{{ '/samples/embedded-audio' | url }}">Embedded Audio</a></li>
+    </ul>
+  </div>
+</section>

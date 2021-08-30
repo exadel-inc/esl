@@ -4,11 +4,14 @@ Version: *2.0.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*
 
+<a name="intro"></a>
+
 ESL Media Query is an extended browser MediaQueryList object and related utils.
 In addition to native Media Features, ESL Media Query allows special *shortcuts* to simplify syntax and query usage.
 ESLMediaQuery is more tolerant to logical operations and allows using of multiple 'not' operators or 
 having extra conditions inside the query (`all and all` still a valid condition).
 
+<a name="features"></a>
 ### Supported ESL Media Query features
 
 - Native [Media Query Features](https://www.w3.org/TR/css3-mediaqueries/#media1)  
@@ -17,9 +20,9 @@ having extra conditions inside the query (`all and all` still a valid condition)
   Syntax `@x<dpr_value>` (e.g. `@x1`, `@x2`, `@x1.5`).
 - Can block queries with DPR value greater than 1 for PageSpeedBots.
 - Screen breakpoints shortcuts (e.g. `@XS`, `@md`, `@+LG`, `@-MD`)  
-  Supports breakpoints declared in [ESLScreenBreakpoints](#eslscreenbreakpoints) registry.   
+  Supports breakpoints declared in [ESLScreenBreakpoints](#breakpoints) registry.   
   Accepts modifiers like `+` for upper breakpoints and `-` for lower breakpoints.
-- Device and browser detection shortcuts that are registered through [ESLEnvShortcuts](#eslenvshortcuts) registry.
+- Device and browser detection shortcuts that are registered through [ESLEnvShortcuts](#shortcuts) registry.
   The list of predefined environment shortcuts is the following:
   - `@BOT` - detects search/pagespeed bots
   - `@MOBILE` - detects mobile devices 
@@ -38,6 +41,7 @@ having extra conditions inside the query (`all and all` still a valid condition)
   (e.g. `not @ie`, `not @xs and not @mobile`)
 ---
 
+<a name="breakpoints"></a>
 ### ESLScreenBreakpoints
 
 ESLScreenBreakpoints is a custom screen breakpoints registry. It allows defining a named screen width range.
@@ -50,7 +54,7 @@ You can get all available screen breakpoints through `ESLScreenBreakpoints.names
 definition through `ESLScreenBreakpoints.get`.
 
 ---
-
+<a name="dpr"></a>
 ### ESLScreenDPR
 
 Additional preprocessor to provide DPR shortcuts.
@@ -59,6 +63,7 @@ Use `ESLScreenDPR.ignoreBotsDpr` marker to enable DPR ignoring for PageSpeed Bot
 
 ---
 
+<a name="shortcuts"></a>
 ### ESLEnvShortcuts
 
 ESLEnvShortcuts is a simple registry for a static shortcuts to describe environment related conditions
@@ -70,6 +75,7 @@ Environment shortcuts can be removed with `ESLEnvShortcuts.remove` method.
 
 ---
 
+<a name="media-query"></a>
 ### ESLMediaQuery 
 
 ESLMediaQuery is a central API to create an extended Media Query conditions.
@@ -99,6 +105,7 @@ The `ESLMediaQuery`(`IMediaQueryConditionInterface`) instances provide the follo
 
 ---
 
+<a name="media-rule"></a>
 ### ESLMediaRule
 
 Pair of ESLMediaQuery and payload value. 
@@ -108,6 +115,7 @@ e.g. `@XS => 1` (`1` is a payload) or `@+LG and @DESKTOP => desktop` (`'desktop'
 
 --- 
 
+<a name="media-rule-list"></a>
 ### ESLMediaRuleList
 
 ESLMediaRuleList is a [ESLMediaRule](#eslmediarule) collection.

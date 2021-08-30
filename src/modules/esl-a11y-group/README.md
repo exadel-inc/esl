@@ -4,6 +4,8 @@ Version: *1.0.0*
 
 Authors: *Julia Murashko*
 
+<a name="intro"></a>
+
 ESLA11yGroup - helper custom element that adds a11y group behavior to targets.
 ESLA11yGroup tracks keyboard to loop focus of the targeting elements (with arrow keyboard keys navigation). 
 

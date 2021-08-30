@@ -1,33 +1,22 @@
 ---
 layout: basic
-title: ESL Media Component
-name: Esl Media
-tags: basic
+title: Embedded Video
+name: Embedded Video
+containerCls: container
+tags: samples
 ---
+{% import 'lorem.njk' as lorem %}
 
-<div class="content container">
-  {% mdRender 'src/modules/esl-media/README.md', 'intro' %}
-</div>
+<section class="row">
+  <div class="col-12">
+    <h2>Related Components: </h2>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="{{ '/components/esl-media' | url }}">ESL Media</a></li>
+    </ul>
+  </div>
+</section>
 
-<div class="description">
-  <p>ESL Media - is a esl container that gives you the same API for different providers under the hood
-    along with helpers like <em>lazy loading</em>, <em>activate query</em>, <em>picture cropping</em>.</p>
-</div>
-<hr/>
 <div class="row justify-content-around">
-  <section class="col-12 row" data-demo="0">
-    <div class="col-md-6 order-md-2">
-      <h3 class="text-center">ESLMedia Playgroud</h3>
-      <test-media-source target="[data-demo='0'] esl-media"></test-media-source>
-    </div>
-    <div class="demo col-md-6 order-md-1">
-      <div class="img-container img-container-16-9 img-container-loaded" style="border: solid black 1px;">
-        <esl-media group="demo-media" controls tabindex="0"></esl-media>
-      </div>
-      <test-media-controls target="[data-demo='0'] esl-media"></test-media-controls>
-    </div>
-  </section>
-
   <section class="col-md-6" data-demo="1">
     <div class="demo">
       <h3 class="text-center">YouTube video</h3>
@@ -96,23 +85,6 @@ tags: basic
     </div>
   </section>
 
-  <section class="col-md-6" data-demo="4">
-    <div class="demo">
-      <h3 class="text-center">Basic Audio Example</h3>
-      <p>ESL Media is also support simple HTML audio.</p>
-      <hr/>
-      <esl-media group="demo-media"
-                 controls
-                 media-type="audio"
-                 media-src="https://html5book.ru/examples/media/track.mp3"
-                 tabindex="0">
-      </esl-media>
-    </div>
-    <div class="row btn-group-centered">
-      <test-media-controls target="[data-demo='4'] esl-media"></test-media-controls>
-    </div>
-  </section>
-
   <section class="col-12" data-demo="5">
     <h3 class="text-center">HTML video background</h3>
     <p class="text-center">Cropping and decorations features of ESL Media allows us to use it as an active background
@@ -134,7 +106,6 @@ tags: basic
       </div>
     </div>
   </section>
-
   <section class="col-12" data-demo="6">
     <h3 class="text-center">YouTube video background</h3>
     <p class="text-center">We still can use any source in background mode</p>
