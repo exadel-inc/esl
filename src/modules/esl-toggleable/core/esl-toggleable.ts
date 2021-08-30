@@ -24,7 +24,7 @@ export interface ToggleableActionParams {
   /** Activate hover tracking to hide Toggleable */
   trackHover?: boolean;
   /** Element activator of the action */
-  activator?: HTMLElement;
+  activator?: HTMLElement | null;
   /** Event that initiates the action */
   event?: Event;
 
@@ -82,6 +82,8 @@ export class ESLToggleable extends ESLBaseElement {
   protected _task: DelayedTask = new DelayedTask();
   /** Marker for current hover listener state */
   protected _trackHover: boolean = false;
+  /** Delay for track hover listeners actions */
+  protected _trackHoverDelay: number | undefined;
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -140,8 +142,9 @@ export class ESLToggleable extends ESLBaseElement {
     }
   }
   /** Bind hover events listeners for the Toggleable itself */
-  protected bindHoverStateTracking(track: boolean) {
+  protected bindHoverStateTracking(track: boolean, hideDelay?: number | string) {
     if (!DeviceDetector.hasHover) return;
+    this._trackHoverDelay = track && hideDelay !== undefined ? +hideDelay : undefined;
     if (this._trackHover === track) return;
     this._trackHover = track;
 
@@ -168,7 +171,7 @@ export class ESLToggleable extends ESLBaseElement {
     params = this.mergeDefaultParams(params);
     this._task.put(this.showTask.bind(this, params), defined(params.showDelay, params.delay));
     this.bindOutsideEventTracking(this.closeOnOutsideAction);
-    this.bindHoverStateTracking(!!params.trackHover);
+    this.bindHoverStateTracking(!!params.trackHover, defined(params.hideDelay, params.delay));
     return this;
   }
   /** Change the element state to inactive */
@@ -176,7 +179,7 @@ export class ESLToggleable extends ESLBaseElement {
     params = this.mergeDefaultParams(params);
     this._task.put(this.hideTask.bind(this, params), defined(params.hideDelay, params.delay));
     this.bindOutsideEventTracking(false);
-    this.bindHoverStateTracking(!!params.trackHover);
+    this.bindHoverStateTracking(!!params.trackHover, defined(params.hideDelay, params.delay));
     return this;
   }
 
@@ -277,12 +280,14 @@ export class ESLToggleable extends ESLBaseElement {
 
   @bind
   protected _onMouseEnter(e: MouseEvent) {
-    const baseParams = {initiator: 'mouseenter', trackHover: true, activator: this.activator, event: e};
+    const hideDelay = this._trackHoverDelay;
+    const baseParams: ToggleableActionParams = {initiator: 'mouseenter', trackHover: true, activator: this.activator, event: e, hideDelay};
     this.show(Object.assign(baseParams, this.trackHoverParams));
   }
   @bind
   protected _onMouseLeave(e: MouseEvent) {
-    const baseParams = {initiator: 'mouseleave', trackHover: true, activator: this.activator, event: e};
+    const hideDelay = this._trackHoverDelay;
+    const baseParams: ToggleableActionParams = {initiator: 'mouseleave', trackHover: true, activator: this.activator, event: e, hideDelay};
     this.hide(Object.assign(baseParams, this.trackHoverParams));
   }
 }
