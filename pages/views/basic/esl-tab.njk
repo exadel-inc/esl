@@ -18,14 +18,91 @@ tags: basic
       .accordion-trigger {
         display: block;
       }
-      .esl-tabs {
+      .esl-tabs.esl-accordion-view:not(#add-spec) {
         display: none;
       }
     }
   </style>
 
-  <div class="col-12" dir="rtl">
-    <h2> Tabs Component </h2>
+  <div class="col-12">
+    <h2> Tabs Component. Complex mode: SM+ -> tabs, XS -> accordion </h2>
+    <div class="tabs">
+      <esl-tabs class="tabs-container">
+        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+        <div class="arrow-prev" data-tab-direction="left">
+          <span class="icon-arrow-prev"></span>
+        </div>
+
+        <ul class="nav nav-pills esl-tab-container" role="tablist">
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     target="::parent(.tabs)::find(.tab-1)">
+              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     target="::parent(.tabs)::find(.tab-2)">
+              <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     target="::parent(.tabs)::find(.tab-3)">
+              <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+        </ul>
+
+        <div class="arrow-next" data-tab-direction="right">
+          <span class="icon-arrow-next"></span>
+        </div>
+
+      </esl-tabs>
+
+      <esl-panel-group mode="@XS => accordion | @+SM => tabs" mode-cls-target="::parent::find(.tabs-container)">
+        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
+
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #1</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-1" tabindex="0">
+          <div class="tab-body">
+            {{ lorem.paragraphs(2) }}
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #2</h5>
+        </esl-trigger>
+        <esl-panel open class="tab tab-2" tabindex="0">
+          <div class="tab-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #3</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-3" tabindex="0">
+          <div class="tab-body">
+            {{ lorem.paragraphs(3) }}
+          </div>
+        </esl-panel>
+      </esl-panel-group>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <h2> Scrollable Tabs Component </h2>
     <div class="tabs">
       <esl-tabs scrollable class="tabs-container">
         <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
@@ -85,7 +162,7 @@ tags: basic
 
       </esl-tabs>
 
-      <esl-panel-group mode="@XS => accordion | @+SM => tabs">
+      <esl-panel-group mode="@XS => accordion | @+SM => tabs" mode-cls-target="::parent::find(.tabs-container)">
         <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
 
         <esl-trigger class="card-header accordion-trigger"
@@ -175,18 +252,245 @@ tags: basic
       </esl-panel-group>
     </div>
   </div>
-  <hr/>
-
 
   <div class="col-12">
-    <h2> Tabs Component </h2>
+    <h2> Tabs Component (rtl) </h2>
+    <div class="tabs">
+      <esl-tabs class="tabs-container" scrollable dir="rtl">
+        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+        <div class="arrow-prev" data-tab-direction="left">
+          <span class="icon-arrow-prev"></span>
+        </div>
+
+        <ul class="nav nav-pills esl-tab-container" role="tablist">
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     target="::parent(.tabs)::find(.tab-1)">
+              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     target="::parent(.tabs)::find(.tab-2)">
+              <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     target="::parent(.tabs)::find(.tab-3)">
+              <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+        </ul>
+
+        <div class="arrow-next" data-tab-direction="right">
+          <span class="icon-arrow-next"></span>
+        </div>
+
+      </esl-tabs>
+
+      <esl-panel-group mode="@XS => accordion | @+SM => tabs" mode-cls-target="::parent::find(.tabs-container)">
+        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
+
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #1</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-1" tabindex="0">
+          <div class="tab-body">
+            {{ lorem.paragraphs(2) }}
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #2</h5>
+        </esl-trigger>
+        <esl-panel open class="tab tab-2" tabindex="0">
+          <div class="tab-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #3</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-3" tabindex="0">
+          <div class="tab-body">
+            {{ lorem.paragraphs(3) }}
+          </div>
+        </esl-panel>
+      </esl-panel-group>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <h2> Scrollable Tabs Component (rtl) </h2>
+    <div class="tabs">
+      <esl-tabs class="tabs-container" scrollable dir="rtl">
+        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+        <div class="arrow-prev" data-tab-direction="left">
+          <span class="icon-arrow-prev"></span>
+        </div>
+
+        <ul class="nav nav-pills esl-tab-container" role="tablist">
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     target="::parent(.tabs)::find(.tab-1)">
+              <h5 class="mb-0">Tab #1 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     target="::parent(.tabs)::find(.tab-2)">
+              <h5 class="mb-0">Tab #2 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     target="::parent(.tabs)::find(.tab-3)">
+              <h5 class="mb-0">Tab #3 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     target="::parent(.tabs)::find(.tab-4)">
+              <h5 class="mb-0">Tab #4 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     target="::parent(.tabs)::find(.tab-5)">
+              <h5 class="mb-0">Tab #5 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     target="::parent(.tabs)::find(.tab-6)">
+              <h5 class="mb-0">Tab #6 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link"
+                     target="::parent(.tabs)::find(.tab-7)">
+              <h5 class="mb-0">Tab #7 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+        </ul>
+
+        <div class="arrow-next" data-tab-direction="right">
+          <span class="icon-arrow-next"></span>
+        </div>
+
+      </esl-tabs>
+
+      <esl-panel-group mode="@XS => accordion | @+SM => tabs" mode-cls-target="::parent::find(.tabs-container)">
+        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
+
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #1</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-1"
+                   tabindex="0">
+          <div class="tab-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #2</h5>
+        </esl-trigger>
+        <esl-panel open class="tab tab-2"
+                   tabindex="0">
+          <div class="tab-body">
+            {{ lorem.paragraphs(2) }}
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #3</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-3"
+                   tabindex="0">
+          <div class="tab-body">
+            {{ lorem.paragraphs(2) }}
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #4</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-4"
+                   tabindex="0">
+          <div class="tab-body">
+            {{ lorem.paragraphs(3) }}
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #5</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-5"
+                   tabindex="0">
+          <div class="tab-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #6</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-6"
+                   tabindex="0">
+          <div class="tab-body">
+            {{ lorem.paragraphs(2) }}
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger"
+                     target="::next"
+                     role="button"
+                     tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #7</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-7"
+                   tabindex="0">
+          <div class="tab-body">
+            {{ lorem.paragraphs(3) }}
+          </div>
+        </esl-panel>
+      </esl-panel-group>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <h2> Scrollable Tabs Component. Complex mode: MD+ -> tabs, disabled, SM -> tabs, side, XS -> accordion, center tabs </h2>
     <style>
       esl-tabs[scrollable]:not(.disabled-alignment) .tabs-2 .nav-item {
         min-width: 213px;
       }
     </style>
     <div class="tabs tabs-2">
-      <esl-tabs scrollable="@XS => center | @SM => side | @+MD => disabled" dir="rtl" class="tabs-container">
+      <esl-tabs scrollable="@XS => center | @SM => side | @+MD => disabled" class="tabs-container">
         <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
 
         <div class="arrow-prev" data-tab-direction="left">
@@ -244,7 +548,7 @@ tags: basic
 
       </esl-tabs>
 
-      <esl-panel-group mode="@XS => accordion | @+SM => tabs">
+      <esl-panel-group mode="@XS => accordion | @+SM => tabs" mode-cls-target="::parent::find(.tabs-container)">
         <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
 
         <esl-trigger class="card-header accordion-trigger"
@@ -327,768 +631,11 @@ tags: basic
       </esl-panel-group>
     </div>
   </div>
-  <hr/>
-
 
   <div class="col-12">
-    <h2> Tabs Component </h2>
-    <div class="tabs tabs-3">
-      <esl-tabs scrollable class="tabs-container">
-        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
-
-        <div class="arrow-prev" data-tab-direction="left">
-          <span class="icon-arrow-prev"></span>
-        </div>
-
-        <ul class="nav nav-pills esl-tab-container" role="tablist">
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link"
-                     target="::parent(.tabs)::find(.tab-1)">
-              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link"
-                     target="::parent(.tabs)::find(.tab-2)">
-              <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link"
-                     target="::parent(.tabs)::find(.tab-3)">
-              <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-        </ul>
-
-        <div class="arrow-next" data-tab-direction="right">
-          <span class="icon-arrow-next"></span>
-        </div>
-
-      </esl-tabs>
-
-      <esl-panel-group mode="@XS => accordion | @+SM => tabs">
-        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
-
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #1</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-1" tabindex="0">
-          <div class="tab-body">
-            {{ lorem.paragraphs(2) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #2</h5>
-        </esl-trigger>
-        <esl-panel open class="tab tab-2" tabindex="0">
-          <div class="tab-body">
-            {{ lorem.paragraphs(1) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #3</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-3" tabindex="0">
-          <div class="tab-body">
-            {{ lorem.paragraphs(3) }}
-          </div>
-        </esl-panel>
-      </esl-panel-group>
-    </div>
-  </div>
-  <hr/>
-
-
-  <div class="col-12">
-    <h2> Tabs Component </h2>
-    <div class="tabs tabs-4">
-      <esl-tabs scrollable class="tabs-container">
-        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
-
-        <div class="arrow-prev" data-tab-direction="left">
-          <span class="icon-arrow-prev"></span>
-        </div>
-
-        <ul class="nav nav-pills esl-tab-container" role="tablist">
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link"
-                     target="::parent(.tabs)::find(.tab-1)">
-              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link"
-                     target="::parent(.tabs)::find(.tab-2)">
-              <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link"
-                     target="::parent(.tabs)::find(.tab-3)">
-              <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link"
-                     target="::parent(.tabs)::find(.tab-4)">
-              <h5 class="mb-0">Tab #4 Lorem ipsum 232</h5>
-            </esl-tab>
-          </li>
-        </ul>
-
-        <div class="arrow-next" data-tab-direction="right">
-          <span class="icon-arrow-next"></span>
-        </div>
-
-      </esl-tabs>
-
-      <esl-panel-group mode="@XS => accordion | @+SM => tabs">
-        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
-
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #1</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-1" tabindex="0">
-          <div class="tab-body">
-            {{ lorem.paragraphs(2) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #2</h5>
-        </esl-trigger>
-        <esl-panel open class="tab tab-2" tabindex="0">
-          <div class="tab-body">
-            {{ lorem.paragraphs(2) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #3</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-3" tabindex="0">
-          <div class="tab-body">
-            {{ lorem.paragraphs(1) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #4</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-4" tabindex="0">
-          <div class="tab-body">
-            {{ lorem.paragraphs(1) }}
-          </div>
-        </esl-panel>
-      </esl-panel-group>
-    </div>
-  </div>
-  <hr/>
-
-
-  <div class="col-12">
-    <h2> Tabs Component </h2>
+    <h2> Scrollable Tabs Component. Simple mode: Tabs </h2>
     <div class="tabs">
-      <esl-tabs class="tabs-container">
-        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
-
-        <div class="arrow-prev" data-tab-direction="left">
-          <span class="icon-arrow-prev"></span>
-        </div>
-
-        <ul class="nav nav-pills esl-tab-container" role="tablist">
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link"
-                     target="::parent(.tabs)::find(.tab-1)">
-              <h5 class="mb-0">Tab #1 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link"
-                     target="::parent(.tabs)::find(.tab-2)">
-              <h5 class="mb-0">Tab #2 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link"
-                     target="::parent(.tabs)::find(.tab-3)">
-              <h5 class="mb-0">Tab #3 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link"
-                     target="::parent(.tabs)::find(.tab-4)">
-              <h5 class="mb-0">Tab #4 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link"
-                     target="::parent(.tabs)::find(.tab-5)">
-              <h5 class="mb-0">Tab #5 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link"
-                     target="::parent(.tabs)::find(.tab-6)">
-              <h5 class="mb-0">Tab #6 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link"
-                     target="::parent(.tabs)::find(.tab-7)">
-              <h5 class="mb-0">Tab #7 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-            </esl-tab>
-          </li>
-        </ul>
-
-        <div class="arrow-next" data-tab-direction="right">
-          <span class="icon-arrow-next"></span>
-        </div>
-
-      </esl-tabs>
-
-      <esl-panel-group mode="@XS => accordion | @+SM => tabs">
-        <esl-a11y-group targets="::parent::child(esl-trigger)"></esl-a11y-group>
-
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #1</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-1"
-                   tabindex="0">
-          <div class="tab-body">
-            {{ lorem.paragraphs(3) }}
-
-            <esl-tabs class="tabs-container">
-              <esl-a11y-group targets="::parent::find(esl-tab)" activate-selected="true"></esl-a11y-group>
-
-              <div class="arrow-prev" data-tab-direction="left">
-                <span class="icon-arrow-prev"></span>
-              </div>
-
-              <ul class="nav nav-pills esl-tab-container" role="tablist">
-                <li class="nav-item">
-                  <esl-tab class="esl-tab nav-link"
-                           mode="toggle"
-
-                           target="::parent(.tabs)::find(.tab-21)">
-                    <h5 class="mb-0">Tab #1 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                  </esl-tab>
-                </li>
-                <li class="nav-item">
-                  <esl-tab class="esl-tab nav-link"
-                           target="::parent(.tabs)::find(.tab-22)">
-                    <h5 class="mb-0">Tab #2 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                  </esl-tab>
-                </li>
-                <li class="nav-item">
-                  <esl-tab class="esl-tab nav-link"
-                           target="::parent(.tabs)::find(.tab-23)">
-                    <h5 class="mb-0">Tab #3 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                  </esl-tab>
-                </li>
-                <li class="nav-item">
-                  <esl-tab class="esl-tab nav-link"
-                           target="::parent(.tabs)::find(.tab-24)">
-                    <h5 class="mb-0">Tab #4 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                  </esl-tab>
-                </li>
-                <li class="nav-item">
-                  <esl-tab class="esl-tab nav-link"
-                           target="::parent(.tabs)::find(.tab-25)">
-                    <h5 class="mb-0">Tab #5 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                  </esl-tab>
-                </li>
-                <li class="nav-item">
-                  <esl-tab class="esl-tab nav-link"
-                           target="::parent(.tabs)::find(.tab-26)">
-                    <h5 class="mb-0">Tab #6 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                  </esl-tab>
-                </li>
-                <li class="nav-item">
-                  <esl-tab class="esl-tab nav-link"
-                           target="::parent(.tabs)::find(.tab-27)">
-                    <h5 class="mb-0">Tab #7 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
-                  </esl-tab>
-                </li>
-              </ul>
-
-              <div class="arrow-next" data-tab-direction="right">
-                <span class="icon-arrow-next"></span>
-              </div>
-
-            </esl-tabs>
-
-            <esl-panel-group mode="@XS => accordion | @+SM => tabs">
-              <esl-a11y-group targets="::parent::find(esl-trigger)"></esl-a11y-group>
-
-              <esl-trigger class="card-header accordion-trigger"
-                           target="::next"
-                           role="button"
-                           tabindex="0">
-                <h5 class="mb-0">Toggle Accordion #1</h5>
-              </esl-trigger>
-              <esl-panel group="none"
-                         class="tab tab-21"
-                         tabindex="0">
-                <div class="tab-body">
-                  {{ lorem.paragraphs(2) }}
-                </div>
-              </esl-panel>
-              <esl-trigger class="card-header accordion-trigger"
-                           target="::next"
-                           role="button"
-                           tabindex="0">
-                <h5 class="mb-0">Toggle Accordion #2</h5>
-              </esl-trigger>
-              <esl-panel open class="tab tab-22"
-                         tabindex="0"
-                         accordion-transformation="@XS">
-                <div class="tab-body">
-                  {{ lorem.paragraphs(1) }}
-                </div>
-              </esl-panel>
-
-              <esl-trigger class="card-header accordion-trigger"
-                           target="::next"
-                           role="button"
-                           tabindex="0">
-                <h5 class="mb-0">Toggle Accordion #3</h5>
-              </esl-trigger>
-              <esl-panel class="tab tab-23"
-                         tabindex="0"
-                         accordion-transformation="@XS">
-                <div class="tab-body">
-                  {{ lorem.paragraphs(4) }}
-                </div>
-              </esl-panel>
-              <esl-trigger class="card-header accordion-trigger"
-                           target="::next"
-                           role="button"
-                           tabindex="0">
-                <h5 class="mb-0">Toggle Accordion #4</h5>
-              </esl-trigger>
-              <esl-panel class="tab tab-24"
-                         tabindex="0"
-                         accordion-transformation="@XS">
-                <div class="tab-body">
-                  {{ lorem.paragraphs(2) }}
-                </div>
-              </esl-panel>
-              <esl-trigger class="card-header accordion-trigger"
-                           target="::next"
-                           role="button"
-                           tabindex="0">
-                <h5 class="mb-0">Toggle Accordion #5</h5>
-              </esl-trigger>
-              <esl-panel class="tab tab-25"
-                         tabindex="0"
-                         accordion-transformation="@XS">
-                <div class="tab-body">
-                  {{ lorem.paragraphs(1) }}
-                </div>
-              </esl-panel>
-              <esl-trigger class="card-header accordion-trigger"
-                           target="::next"
-                           role="button"
-                           tabindex="0">
-                <h5 class="mb-0">Toggle Accordion #6</h5>
-              </esl-trigger>
-              <esl-panel class="tab tab-26"
-                         tabindex="0"
-                         accordion-transformation="@XS">
-                <div class="tab-body">
-                  {{ lorem.paragraphs(2) }}
-                </div>
-              </esl-panel>
-              <esl-trigger class="card-header accordion-trigger"
-                           target="::next"
-                           role="button"
-                           tabindex="0">
-                <h5 class="mb-0">Toggle Accordion #7</h5>
-              </esl-trigger>
-              <esl-panel class="tab tab-27"
-                         tabindex="0"
-                         accordion-transformation="@XS">
-                <div class="tab-body">
-                  {{ lorem.paragraphs(1) }}
-                </div>
-              </esl-panel>
-            </esl-panel-group>
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #2</h5>
-        </esl-trigger>
-        <esl-panel open class="tab tab-2"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(1) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #3</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-3"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(5) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #4</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-4"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(2) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #5</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-5"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(2) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #6</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-6"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(1) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #7</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-7"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(1) }}
-          </div>
-        </esl-panel>
-      </esl-panel-group>
-    </div>
-  </div>
-  <hr/>
-
-
-  <div class="col-12">
-    <style>
-      .tabs-22 .esl-tab-container{
-        flex-wrap: wrap;
-      }
-      .tabs-22 .nav-item {
-        min-width: 213px;
-      }
-    </style>
-    <h2> Tabs Component </h2>
-    <div class="tabs tabs-22">
-      <esl-tabs class="tabs-container">
-        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
-
-        <div class="arrow-prev" data-tab-direction="left">
-          <span class="icon-arrow-prev"></span>
-        </div>
-
-        <ul class="nav nav-pills esl-tab-container" role="tablist">
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-1)">
-              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-2)">
-              <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-3)">
-              <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-4)">
-              <h5 class="mb-0">Tab #4 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-5)">
-              <h5 class="mb-0">Tab #5 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-6)">
-              <h5 class="mb-0">Tab #6 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-7)">
-              <h5 class="mb-0">Tab #7 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-        </ul>
-
-        <div class="arrow-next" data-tab-direction="right">
-          <span class="icon-arrow-next"></span>
-        </div>
-
-      </esl-tabs>
-
-      <esl-panel-group mode="@XS => accordion | @+SM => tabs">
-        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
-
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #1</h5>
-        </esl-trigger>
-        <esl-panel open
-                   class="tab tab-1"
-                   group="tab-group-2"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(2) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #2</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-2"
-                   group="tab-group-2"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(1) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #3</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-3"
-                   group="tab-group-2"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(3) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #4</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-4"
-                   group="tab-group-2"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(1) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #5</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-5"
-                   group="tab-group-2"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(2) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #6</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-6"
-                   group="tab-group-2"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(3) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #7</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-7"
-                   group="tab-group-2"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(2) }}
-          </div>
-        </esl-panel>
-      </esl-panel-group>
-    </div>
-  </div>
-  <hr/>
-
-
-  <div class="col-12">
-    <style>
-      .tabs-3 .nav-item {
-        width: 213px;
-      }
-    </style>
-    <h2> Tabs Component </h2>
-    <div class="tabs tabs-3">
-      <esl-tabs class="tabs-container">
-        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
-
-        <div class="arrow-prev" data-tab-direction="left">
-          <span class="icon-arrow-prev"></span>
-        </div>
-
-        <ul class="nav nav-pills esl-tab-container" role="tablist">
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-1)">
-              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-2)">
-              <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-          <li class="nav-item">
-            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-3)">
-              <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
-            </esl-tab>
-          </li>
-        </ul>
-
-        <div class="arrow-next" data-tab-direction="right">
-          <span class="icon-arrow-next"></span>
-        </div>
-      </esl-tabs>
-
-      <esl-panel-group mode="@XS => accordion | @+SM => tabs">
-        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
-
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #1</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-1"
-                   group="tab-group-3"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(2) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #2</h5>
-        </esl-trigger>
-        <esl-panel open class="tab tab-2"
-                   group="tab-group-3"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(1) }}
-          </div>
-        </esl-panel>
-        <esl-trigger class="card-header accordion-trigger"
-                     target="::next"
-                     role="button"
-                     tabindex="0">
-          <h5 class="mb-0">Toggle Accordion #3</h5>
-        </esl-trigger>
-        <esl-panel class="tab tab-3"
-                   group="tab-group-3"
-                   tabindex="0"
-                   accordion-transformation="@XS">
-          <div class="tab-body">
-            {{ lorem.paragraphs(3) }}
-          </div>
-        </esl-panel>
-      </esl-panel-group>
-    </div>
-  </div>
-  <hr/>
-
-<div class="col-12">
-    <h2> Simple mode: SM -> Tabs </h2>
-    <style>
-      esl-tabs[scrollable]:not(.disabled-alignment) .tabs-2 .nav-item {
-        min-width: 213px;
-      }
-    </style>
-    <div class="tabs tabs-2">
-      <esl-tabs scrollable="@XS => center | @SM => side | @+MD => disabled" class="tabs-container">
+      <esl-tabs scrollable class="tabs-container">
         <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
 
         <div class="arrow-prev" data-tab-direction="left">
@@ -1116,7 +663,7 @@ tags: basic
 
       </esl-tabs>
 
-      <esl-panel-group mode="@SM => tabs" no-collapse="open">
+      <esl-panel-group mode="tabs" mode-cls-target="::parent::find(.tabs-container)">
         <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
 
         <esl-trigger class="card-header accordion-trigger"
@@ -1146,7 +693,7 @@ tags: basic
   </div>
 
   <div class="col-12">
-    <h2> Complex mode: MD+ -> open, SM -> tabs, XS -> accordion</h2>
+    <h2> Scrollable Tabs Component. Complex mode: MD+ -> open, disabled, SM -> tabs, side, XS -> accordion, center </h2>
     <style>
       esl-tabs[scrollable]:not(.disabled-alignment) .tabs-2 .nav-item {
         min-width: 213px;
@@ -1181,7 +728,7 @@ tags: basic
 
       </esl-tabs>
 
-      <esl-panel-group mode="@XS => accordion |  @SM => tabs | @+MD => open" no-collapse="open">
+      <esl-panel-group mode="@XS => accordion |  @SM => tabs | @+MD => open" mode-cls-target="::parent::find(.tabs-container)">
         <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
 
         <esl-trigger class="card-header accordion-trigger"
