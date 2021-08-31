@@ -1,7 +1,8 @@
 const path = require('path');
-const { isDev } = require('./env');
 const fsAsync = require('fs').promises;
+const { isDev } = require('./env');
 const { JSDOM } = require('jsdom');
+const { github } = require('./site.json');
 
 const { markdown } = require('./markdown');
 
@@ -20,26 +21,35 @@ const parseFile = async (filePath) => {
   return renderedContent;
 };
 
-// <p><a name></a></p>
-const unwrapAnchor = (anchor) => anchor && anchor.matches(':only-child') ? anchor.parentElement : anchor;
-
 class MDRenderer {
   static wrapContent(content) {
     return `<div class="markdown-container">${content}</div>`;
   }
 
-  static async render(filePath, startSel, endSel) {
+  static resolveLinks(dom, fileBase) {
+    dom.querySelectorAll('a[href^="."]').forEach((node) => {
+      node.href = path.join(github.srcUrl, path.dirname(fileBase), node.href);
+    });
+  }
+
+  static findAnchor(dom, name) {
+    const anchor = dom.querySelector(`a[name='${name}']`);
+    // <p><a name></a></p>
+    return anchor && anchor.matches(':only-child') ? anchor.parentElement : anchor;
+  }
+
+  static async render(filePath, startAnchor, endAnchor) {
     try {
       const content = await parseFile(filePath);
 
-      if (!startSel) return MDRenderer.wrapContent(content);
+      if (!startAnchor) return MDRenderer.wrapContent(content);
 
       const { window } = new JSDOM(content);
-      const startAnchor = window.document.querySelector(`a[name='${startSel}']`);
-      const endAnchor = window.document.querySelector(`a[name='${endSel}']`);
 
-      let node = unwrapAnchor(startAnchor);
-      let endNode = unwrapAnchor(endAnchor);
+      MDRenderer.resolveLinks(window.document, filePath);
+
+      let node = MDRenderer.findAnchor(window.document, startAnchor);
+      let endNode = MDRenderer.findAnchor(window.document, endAnchor);
       let partContent = '';
 
       for (node = node.nextSibling; !!node && node !== endNode; node = node.nextSibling) {
