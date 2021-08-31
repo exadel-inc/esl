@@ -4,7 +4,7 @@ The demo site is built with [Eleventy](https://www.11ty.dev/docs/) - a simple st
 
 [Nunjucks](https://mozilla.github.io/nunjucks/) and [Markdown](https://www.markdownguide.org/) are picked as template languages.
 
-The project is deployed using a GitHub workflow.
+The project is deployed to GitHub Pages using a GitHub workflow.
 
 ## Syntax highlighting to Nunjucks template files
 
