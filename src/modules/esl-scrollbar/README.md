@@ -1,19 +1,18 @@
 # [ESL](../../../) Scrollbar
 
-Version: *1.1.0*
+Version: *1.2.0*
 
 Authors: *Yuliya Adamskaya*
 
 <a name="intro"></a>
 
 ESLScrollbar - custom element, that replaces the browser's default scrollbar without loss in performance.
- 
---- 
- 
+
 ### Supported Features:
 - directions : `vertical` and `horisontal` mode
 - independent target element definition using [TraversingQuery](./../esl-traversing-query/README.md)
 - completely customizable from CSS
+- RTL support
 
 ### Attributes:
 
@@ -26,6 +25,7 @@ ESLScrollbar - custom element, that replaces the browser's default scrollbar wit
 - **track-class** (default 'scrollbar-track') - class that will be added to scroll track
 
 ### Readonly Attributes
+
 - inactive \[boolean] - appears when scroll state and position are refreshed
   
 - dragging \[boolean] - indicates that thumb is currently being dragged
