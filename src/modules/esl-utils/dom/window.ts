@@ -12,56 +12,14 @@ export function getWindow(node: Node | Window): Window {
 }
 
 /**
- * Get the bottom coordinate value of the window.
- * */
-export function getWindowBottom(): number {
-  return window.pageYOffset + getWindowHeight();
-}
-
-/**
- * Get the left coordinate value of the window.
- * */
-export function getWindowLeft(): number {
-  return window.pageXOffset;
-}
-
-/**
- * Get the right coordinate value of the window.
- * */
-export function getWindowRight(): number {
-  return window.pageXOffset + getWindowWidth();
-}
-
-/**
- * Get the top coordinate value of the window.
- * */
-export function getWindowTop(): number {
-  return window.pageYOffset;
-}
-
-/**
- * Get the width of the window.
- * */
-export function getWindowHeight(): number {
-  return window.innerHeight || window.document.documentElement.clientHeight;
-}
-
-/**
- * Get the height of the window.
- * */
-export function getWindowWidth(): number {
-  return window.innerWidth || window.document.documentElement.clientWidth;
-}
-
-/**
  * Get the size and position of the window.
  * @returns
  */
-export function getWindowRect(): Rect {
+export function getWindowRect(wnd: Window = window): Rect {
   return Rect.from({
-    x: getWindowLeft(),
-    y: getWindowTop(),
-    height: getWindowHeight(),
-    width: getWindowWidth()
+    x: wnd.scrollX,
+    y: wnd.scrollY,
+    width: wnd.innerWidth || wnd.document.documentElement.clientWidth,
+    height: wnd.innerHeight || wnd.document.documentElement.clientHeight
   });
 }
