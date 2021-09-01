@@ -1,84 +1,139 @@
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {Observable} from '../../esl-utils/abstract/observable';
 import {evaluate} from '../../esl-utils/misc/format';
+import {isPrimitive} from '../../esl-utils/misc/object';
 import {ESLMediaRule} from './esl-media-rule';
 
-type PayloadParser<T> = (val: string) => T | undefined;
+export type RulePayloadParser<T> = (val: string) => T | undefined;
+export type RuleChangedCallback<T> = (rule: ESLMediaRule<T | undefined>, list: ESLMediaRuleList<T>) => void;
 
 /**
- * ESL Rule List - ESLMediaRule observable collection
+ * ESLMediaRuleList - {@link ESLMediaRule} observable collection
  * @author Yuliya Adamskaya
+ *
+ * Represents observable object that wraps environment to value mapping
  */
-export class ESLMediaRuleList<T> extends Observable {
-  private _active: ESLMediaRule<T | null>;
-  private readonly _default: ESLMediaRule<T>;
-  private readonly _rules: ESLMediaRule<T>[];
-
-  public static STRING_PARSER = (val: string) => val;
+@ExportNs('MediaRuleList')
+export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>> {
+  /**
+   * String value parser (used as a default)
+   * @returns value string as it is
+   */
+  public static STRING_PARSER: RulePayloadParser<string> = (val: string): string => val;
+  /**
+   * Object value parser. Uses {@link evaluate} to parse value
+   * @returns value - parsed JS Object
+   */
   public static OBJECT_PARSER = <U>(val: string): U | undefined => evaluate(val);
 
-  private static parseRules<U>(str: string, parser: PayloadParser<U>): ESLMediaRule<U>[] {
-    const parts = str.split('|');
-    const rules: ESLMediaRule<U>[] = [];
-    parts.forEach((_lex: string) => {
-      const lex = _lex.trim();
-      if (!lex) {
-        return;
-      }
-      if (lex.indexOf('=>') === -1) {
-        const value = parser(lex);
-        // Default rule should have lower priority
-        typeof value !== 'undefined' && rules.unshift(ESLMediaRule.all(value));
-      } else {
-        const rule = ESLMediaRule.parse(lex, parser);
-        rule && rules.push(rule);
-      }
+  /**
+   * Creates `ESLMediaRuleList` from string query representation
+   * Uses exact strings as rule list values
+   * @param query - query string
+   */
+  public static parse(query: string): ESLMediaRuleList<string>;
+  /**
+   * Creates `ESLMediaRuleList` from string query representation
+   * @param query - query string
+   * @param parser - value parser function. See built in {@link ESLMediaRuleList.OBJECT_PARSER} or {@link ESLMediaRuleList.STRING_PARSER} (default)
+   */
+  public static parse<U>(query: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
+  public static parse(query: string, parser: RulePayloadParser<any> = ESLMediaRuleList.STRING_PARSER): ESLMediaRuleList {
+    const rules: ESLMediaRule<any>[] = [];
+    query.split('|').forEach((part: string) => {
+      const lex = part.trim();
+      const rule = ESLMediaRule.parse(lex, parser);
+      if (!rule) return;
+      rule.default ? rules.unshift(rule) : rules.push(rule);
     });
-    return rules;
+    return new ESLMediaRuleList(rules);
   }
 
-  public static parse<U>(query: string, parser: PayloadParser<U>) {
-    return new ESLMediaRuleList<U>(query, parser);
+  /**
+   * Creates `ESLMediaRuleList` from two strings with a value  and conditions tuple
+   *
+   * @param values - values tuple string (uses '|' as separator)
+   * @param mask - media conditions tuple string (uses '|' as separator)
+   *
+   * @example
+   * ```ts
+   * ESLMediaRuleList.fromTuple('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL')
+   * ```
+   */
+  public static parseTuple(values: string, mask: string) {
+    const valueList = values.split('|');
+    const conditions = mask.split('|');
+    if (valueList.length !== conditions.length) throw new Error('Value doesn\'t correspond to mask');
+    const rules = conditions.map((query, i) => new ESLMediaRule(valueList[i], query));
+    return new ESLMediaRuleList(rules);
   }
 
-  private constructor(query: string, parser: PayloadParser<T>) {
+  private readonly _rules: ESLMediaRule<T>[];
+  private readonly _default: ESLMediaRule<T | undefined>;
+  private _active: ESLMediaRule<T | undefined>;
+
+  private constructor(rules: ESLMediaRule<T>[]) {
     super();
-    if (typeof query !== 'string') {
-      throw new Error('ESLRuleList require first parameter (query) typeof string');
-    }
-    this._rules = ESLMediaRuleList.parseRules(query, parser);
-    this._rules.forEach((rule) => rule.addListener(this._onMatchChanged));
-    this._default = this._rules.filter((rule) => rule.default)[0];
+    this._rules = rules;
+    this._default = rules.filter((rule) => rule.default)[0];
+    this._onMatchChanged = this._onMatchChanged.bind(this);
   }
 
-  get rules() {
+  /** Subscribes to the instance active rule change */
+  public addListener(listener: RuleChangedCallback<T>) {
+    super.addListener(listener);
+    if (this._listeners.size > 1) return;
+    this._rules.forEach((rule) => rule.addListener(this._onMatchChanged));
+  }
+
+  /** Unsubscribes from the instance active rule change */
+  public removeListener(listener: RuleChangedCallback<T>) {
+    super.removeListener(listener);
+    if (this._listeners.size) return;
+    this._rules.forEach((rule) => rule.removeListener(this._onMatchChanged));
+  }
+
+  /** List of inner {@link ESLMediaRule}s */
+  public get rules() {
     return this._rules;
   }
 
-  get _activeRule(): ESLMediaRule<T | null> {
-    const satisfiedRules = this.rules.filter((rule) => rule.matches);
-    return satisfiedRules.length > 0 ? satisfiedRules[satisfiedRules.length - 1] : ESLMediaRule.empty();
-  }
-
-  get active() {
-    if (!this._active) {
-      this._active = this._activeRule;
+  /** Cached active {@link ESLMediaRule} */
+  public get active() {
+    if (!this._active || !this._listeners.size) {
+      this._active = this.activeRule;
     }
     return this._active;
   }
 
-  get activeValue(): T | null {
+  /** Returns last active rule in the list */
+  public get activeRule(): ESLMediaRule<T | undefined> {
+    const satisfiedRules = this.rules.filter((rule) => rule.matches);
+    return satisfiedRules.length > 0 ? satisfiedRules[satisfiedRules.length - 1] : ESLMediaRule.empty();
+  }
+
+  /** Active rule payload value */
+  public get activeValue(): T | undefined {
     const value = this.active.payload;
-    if (typeof value === 'string' || !this._default) {
-      return value;
-    }
+    if (isPrimitive(value) || !this.default || isPrimitive(this.default.payload)) return value;
     return Object.assign({}, this._default.payload || {}, value);
   }
 
-  private _onMatchChanged = () => {
-    const rule = this._activeRule;
-    if (this._active !== rule) {
-      this._active = rule;
-      this.fire(rule);
-    }
-  };
+  /** {@link ESLMediaRule} that is used as a default */
+  public get default() {
+    return this._default;
+  }
+
+  /** Handle inner rules state change */
+  private _onMatchChanged() {
+    const rule = this.activeRule;
+    if (this._active === rule) return;
+    this.fire(this._active = rule, this);
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    MediaRuleList: typeof ESLMediaRuleList;
+  }
 }

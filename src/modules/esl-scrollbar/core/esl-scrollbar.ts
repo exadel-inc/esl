@@ -4,8 +4,9 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {EventUtils} from '../../esl-utils/dom/events';
-import {TraversingUtils} from '../../esl-utils/dom/traversing';
+import {isRelativeNode} from '../../esl-utils/dom/traversing';
 import {TraversingQuery} from '../../esl-traversing-query/core';
+import {RTLUtils} from '../../esl-utils/dom/rtl';
 
 /**
  * ESL Scrollbar component
@@ -26,7 +27,7 @@ export class ESLScrollbar extends ESLBaseElement {
   @attr({defaultValue: 'scrollbar-track'}) public trackClass: string;
 
   /** @readonly Dragging state marker */
-  @boolAttr() protected dragging: boolean;
+  @boolAttr({readonly: true}) public dragging: boolean;
   /** @readonly Inactive state marker */
   @boolAttr({readonly: true}) public inactive: boolean;
 
@@ -175,14 +176,20 @@ export class ESLScrollbar extends ESLBaseElement {
   /** Relative position value (between 0.0 and 1.0) */
   public get position() {
     if (!this.$target) return 0;
-    const scrollOffset = this.horizontal ? this.$target.scrollLeft : this.$target.scrollTop;
+    const scrollOffset = this.horizontal ? RTLUtils.normalizeScrollLeft(this.$target) : this.$target.scrollTop;
     return this.scrollableSize ? (scrollOffset / this.scrollableSize) : 0;
   }
 
   public set position(position) {
-    const normalizedPosition = Math.min(1, Math.max(0, position));
-    this.scrollTargetTo(this.scrollableSize * normalizedPosition);
+    this.scrollTargetTo(this.scrollableSize * this.normalizePosition(position));
     this.update();
+  }
+
+  /** Normalize position value (between 0.0 and 1.0) */
+  protected normalizePosition(position: number) {
+    const relativePosition = Math.min(1, Math.max(0, position));
+    if (this.$target && !RTLUtils.isRtl(this.$target)) return relativePosition;
+    return RTLUtils.scrollType === 'negative' ? (relativePosition - 1) : (1 - relativePosition);
   }
 
   /** Scroll target element to passed position */
@@ -221,7 +228,9 @@ export class ESLScrollbar extends ESLBaseElement {
   /** `mousedown` event to track thumb drag start */
   @bind
   protected _onMouseDown(event: MouseEvent) {
-    this.dragging = true;
+    this.toggleAttribute('dragging', true);
+    this.$target?.style.setProperty('scroll-behavior', 'auto');
+
     this._initialPosition = this.position;
     this._initialMousePosition = this.horizontal ? event.clientX : event.clientY;
 
@@ -259,7 +268,8 @@ export class ESLScrollbar extends ESLBaseElement {
   /** `mouseup` short-time document handler for drag end action */
   @bind
   protected _onMouseUp() {
-    this.dragging = false;
+    this.toggleAttribute('dragging', false);
+    this.$target?.style.removeProperty('scroll-behavior');
 
     // Unbind drag listeners
     window.removeEventListener('mousemove', this._onMouseMove);
@@ -297,7 +307,16 @@ export class ESLScrollbar extends ESLBaseElement {
   protected _onRefresh(event: Event) {
     const target = event.target as HTMLElement;
     if (event.type === 'scroll' && this.dragging) return;
-    if (event.type === 'esl:refresh' && !TraversingUtils.isRelative(target.parentNode, this.$target)) return;
+    if (event.type === 'esl:refresh' && !isRelativeNode(target.parentNode, this.$target)) return;
     this.deferredRefresh();
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Scrollbar: typeof ESLScrollbar;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-scrollbar': ESLScrollbar;
   }
 }

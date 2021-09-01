@@ -10,7 +10,7 @@ node_modules
 
 # Build output
 target
-pages/static/bundles
+pages/dist
 
 # Generated surces
 /modules
@@ -23,11 +23,3 @@ npm-debug.log
 # Jest & Sonar
 /.report
 /.scannerwork
-
-# Docs
-/docs/*.html
-/docs/assets
-/docs/bundles
-/docs/basic
-/docs/forms
-/docs/draft

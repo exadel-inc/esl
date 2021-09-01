@@ -2,9 +2,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-*:focus {
-  outline: 1px dotted gray;
+
+  &:focus {
+    outline: 1px dotted gray;
+  }
 }
 
 .footer {
@@ -22,7 +23,6 @@
 
 body {
   display: flex;
-  //min-width: 650px;
   min-height: 100vh;
   color: rgba(22, 0, 27, 0.9);
   flex-direction: column;
@@ -38,6 +38,13 @@ section {
   margin-bottom: 20px;
 }
 
+.badge-sup {
+  display: inline-block;
+  font-size: 50%;
+  font-weight: 700;
+  vertical-align: super;
+}
+
 .btn-group-centered {
   justify-content: center;
 }
@@ -47,7 +54,7 @@ test-media-controls {
   display: block;
   padding: 5px;
   text-align: center;
-  min-width: 400px;
+  min-width: 250px;
 
   .btn {
     margin-right: 5px;
@@ -88,4 +95,8 @@ test-media-controls {
 
 .logo-primary svg {
   fill: #0082CA;
+}
+
+.unstyle-list li{
+  list-style-type: none;
 }

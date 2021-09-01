@@ -2,21 +2,23 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
-import {TraversingQuery} from '../../esl-traversing-query/core';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {parseNumber} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
+import {TraversingQuery} from '../../esl-traversing-query/core';
+import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {ESLMediaQuery} from '../../esl-media-query/core';
 
-import type {NoopFnSignature} from '../../esl-utils/misc/functions';
-import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
+import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
   public static is = 'esl-trigger';
 
   static get observedAttributes() {
-    return ['target', 'event', 'mode'];
+    return ['target'];
   }
+
   /** @readonly Observed Toggleable active state marker */
   @boolAttr({readonly: true}) public active: boolean;
 
@@ -25,62 +27,43 @@ export class ESLTrigger extends ESLBaseElement {
   /** Target element {@link TraversingQuery} selector to set `activeClass` */
   @attr({defaultValue: ''}) public activeClassTarget: string;
 
-  /** Selector for ignore inner elements */
+  /** Selector for ignored inner elements */
   @attr({defaultValue: 'a[href]'}) public ignore: string;
 
   /** Target Toggleable {@link TraversingQuery} selector. `next` by default */
   @attr({defaultValue: 'next'}) public target: string;
-  /** Event to handle by trigger. Support `click`, `hover` modes or any custom. `click` by default */
-  @attr({defaultValue: 'click'}) public event: string;
   /** Action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values. `toggle` by default */
   @attr({defaultValue: 'toggle'}) public mode: string;
+
+  /** Click event tracking media query. Default: `all` */
+  @attr({defaultValue: 'all'}) public trackClick: string;
+  /** Hover event tracking media query. Default: `none` */
+  @attr({defaultValue: 'not all'}) public trackHover: string;
 
   /** Selector of inner target element to place aria attributes. Uses trigger itself if blank */
   @attr({defaultValue: ''}) public a11yTarget: string;
 
   /** Show delay value */
-  @attr() public showDelay: string;
+  @attr({defaultValue: 'none'}) public showDelay: string;
   /** Hide delay value */
-  @attr() public hideDelay: string;
-  /** Touch device show delay value */
-  @attr() public touchShowDelay: string;
-  /** Touch device hide delay value */
-  @attr() public touchHideDelay: string;
+  @attr({defaultValue: 'none'}) public hideDelay: string;
+
+  /**
+   * Show delay value override for hover.
+   * Note: the value should be numeric in order to delay hover action triggers for correct handling on mobile browsers.
+   */
+  @attr({defaultValue: '0'}) public hoverShowDelay: string;
+  /**
+   * Hide delay value override for hover
+   * Note: the value should be numeric in order to delay hover action triggers for correct handling on mobile browsers.
+   */
+  @attr({defaultValue: '0'}) public hoverHideDelay: string;
 
   protected _$target: ESLToggleable;
-  protected __unsubscribers: NoopFnSignature[];
 
   protected attributeChangedCallback(attrName: string) {
     if (!this.connected) return;
-    switch (attrName) {
-      case 'target':
-        this.updateTargetFromSelector();
-        break;
-      case 'mode':
-      case 'event':
-        this.unbindEvents();
-        this.bindEvents();
-        break;
-    }
-  }
-
-  /** ESLTrigger 'primary' show event */
-  protected get _showEvent() {
-    if (this.mode === 'hide') return null;
-    if (this.event === 'hover') {
-      if (DeviceDetector.isTouchDevice) return 'click';
-      return 'mouseenter';
-    }
-    return this.event;
-  }
-  /** ESLTrigger 'primary' hide event */
-  protected get _hideEvent() {
-    if (this.mode === 'show') return null;
-    if (this.event === 'hover') {
-      if (DeviceDetector.isTouchDevice) return 'click';
-      return this.mode === 'hide' ? 'mouseenter' : 'mouseleave';
-    }
-    return this.event;
+    if (attrName === 'target') return this.updateTargetFromSelector();
   }
 
   /** Target observable Toggleable */
@@ -101,10 +84,20 @@ export class ESLTrigger extends ESLBaseElement {
     return this.a11yTarget ? this.querySelector(this.a11yTarget) : this;
   }
 
+  /** Marker to allow track hover */
+  public get allowHover() {
+    return DeviceDetector.hasHover && ESLMediaQuery.for(this.trackHover).matches;
+  }
+  /** Marker to allow track clicks */
+  public get allowClick() {
+    return ESLMediaQuery.for(this.trackClick).matches;
+  }
+
   @ready
   protected connectedCallback() {
     super.connectedCallback();
     this.updateTargetFromSelector();
+    this.initA11y();
   }
   @ready
   protected disconnectedCallback() {
@@ -113,33 +106,23 @@ export class ESLTrigger extends ESLBaseElement {
 
   protected bindEvents() {
     if (!this.$target) return;
-    if (this._showEvent === this._hideEvent) {
-      this.attachEventListener(this._showEvent, this._onToggleEvent);
-    } else {
-      this.attachEventListener(this._showEvent, this._onShowEvent);
-      this.attachEventListener(this._hideEvent, this._onHideEvent);
-    }
-
     this.$target.addEventListener('esl:show', this._onTargetStateChange);
     this.$target.addEventListener('esl:hide', this._onTargetStateChange);
 
+    this.addEventListener('click', this._onClick);
     this.addEventListener('keydown', this._onKeydown);
+    this.addEventListener('mouseenter', this._onMouseEnter);
+    this.addEventListener('mouseleave', this._onMouseLeave);
   }
   protected unbindEvents() {
-    (this.__unsubscribers || []).forEach((off) => off());
     if (!this.$target) return;
-
     this.$target.removeEventListener('esl:show', this._onTargetStateChange);
     this.$target.removeEventListener('esl:hide', this._onTargetStateChange);
 
+    this.removeEventListener('click', this._onClick);
     this.removeEventListener('keydown', this._onKeydown);
-  }
-
-  protected attachEventListener(eventName: string | null, callback: (e: Event) => void) {
-    if (!eventName) return;
-    this.addEventListener(eventName, callback);
-    this.__unsubscribers = this.__unsubscribers || [];
-    this.__unsubscribers.push(() => this.removeEventListener(eventName, callback));
+    this.removeEventListener('mouseenter', this._onMouseEnter);
+    this.removeEventListener('mouseleave', this._onMouseLeave);
   }
 
   /** Update `$target` Toggleable  from `target` selector */
@@ -148,46 +131,42 @@ export class ESLTrigger extends ESLBaseElement {
     this.$target = TraversingQuery.first(this.target, this) as ESLToggleable;
   }
 
-  /** True if event should be ignored */
-  protected _isIgnored(target: EventTarget | null) {
+  /** Check if the event target should be ignored */
+  protected isTargetIgnored(target: EventTarget | null) {
     if (!target || !(target instanceof HTMLElement) || !this.ignore) return false;
     const $ignore = target.closest(this.ignore);
     // Ignore only inner elements (but do not ignore the trigger itself)
     return !!$ignore && $ignore !== this && this.contains($ignore);
   }
 
-  /** Handles trigger open type of event */
-  @bind
-  protected _onShowEvent(event: Event) {
-    if (this._isIgnored(event.target)) return;
-    this.$target.show({
-      activator: this,
-      delay: this.showDelayValue,
-      event
-    });
-    event.preventDefault();
+  /** Merge params to pass to the toggleable */
+  protected mergeToggleableParams(this: ESLTrigger, ...params: ToggleableActionParams[]) {
+    return Object.assign({
+      initiator: 'trigger',
+      activator: this
+    }, ...params);
   }
 
-  /** Handles trigger hide type of event */
-  @bind
-  protected _onHideEvent(event: Event) {
-    if (this._isIgnored(event.target)) return;
-    this.$target.hide({
-      activator: this,
-      delay: this.hideDelayValue,
-      trackHover: this.event === 'hover' && this.mode === 'toggle',
-      event
-    });
-    event.preventDefault();
+  /** Show target toggleable with passed params */
+  public showTarget(params: ToggleableActionParams = {}) {
+    const actionParams = this.mergeToggleableParams({
+      delay: parseNumber(this.showDelay)
+    }, params);
+    this.$target && this.$target.show(actionParams);
+  }
+  /** Hide target toggleable with passed params */
+  public hideTarget(params: ToggleableActionParams = {}) {
+    const actionParams = this.mergeToggleableParams({
+      delay: parseNumber(this.hideDelay)
+    }, params);
+    this.$target && this.$target.hide(actionParams);
+  }
+  /** Toggles target toggleable with passed params */
+  public toggleTarget(params: ToggleableActionParams = {}, state: boolean = !this.active) {
+    state ? this.showTarget(params) : this.hideTarget(params);
   }
 
-  /** Handles trigger toggle type of event */
-  @bind
-  protected _onToggleEvent(e: Event) {
-    return (this.active ? this._onHideEvent : this._onShowEvent)(e);
-  }
-
-  /** Handles ESLTogglable state change */
+  /** Handles ESLToggleable state change */
   @bind
   protected _onTargetStateChange() {
     this.toggleAttribute('active', this.$target.open);
@@ -200,15 +179,61 @@ export class ESLTrigger extends ESLBaseElement {
     this.$$fire('change:active');
   }
 
+  /** Handles `click` event */
+  @bind
+  protected _onClick(event: MouseEvent) {
+    if (!this.allowClick || this.isTargetIgnored(event.target)) return;
+    event.preventDefault();
+    switch (this.mode) {
+      case 'show':
+        return this.showTarget({event});
+      case 'hide':
+        return this.hideTarget({event});
+      default:
+        return this.toggleTarget({event});
+    }
+  }
+
   /** Handles `keydown` event */
   @bind
   protected _onKeydown(event: KeyboardEvent) {
-    if ([ENTER, SPACE].includes(event.key)) {
-      switch (this.mode) {
-        case 'show': return this._onShowEvent(event);
-        case 'hide': return this._onHideEvent(event);
-        default: return this._onToggleEvent(event);
-      }
+    if (![ENTER, SPACE].includes(event.key) || this.isTargetIgnored(event.target)) return;
+    event.preventDefault();
+    switch (this.mode) {
+      case 'show':
+        return this.showTarget({event});
+      case 'hide':
+        return this.hideTarget({event});
+      default:
+        return this.toggleTarget({event});
+    }
+  }
+
+  /** Handles hover `mouseenter` event */
+  @bind
+  protected _onMouseEnter(event: MouseEvent) {
+    if (!this.allowHover) return;
+    const delay = parseNumber(this.hoverShowDelay);
+    this.toggleTarget({event, delay}, this.mode !== 'hide');
+    event.preventDefault();
+  }
+
+  /** Handles hover `mouseleave` event */
+  @bind
+  protected _onMouseLeave(event: MouseEvent) {
+    if (!this.allowHover) return;
+    if (this.mode === 'show' || this.mode === 'hide') return;
+    const delay = parseNumber(this.hoverHideDelay);
+    this.hideTarget({event, delay, trackHover: true});
+    event.preventDefault();
+  }
+
+  /** Set initial a11y attributes. Do nothing if trigger contains actionable element */
+  public initA11y() {
+    if (this.$a11yTarget !== this) return;
+    if (!this.hasAttribute('role')) this.setAttribute('role', 'button');
+    if (this.getAttribute('role') === 'button' && !this.hasAttribute('tabindex')) {
+      this.setAttribute('tabindex', '0');
     }
   }
 
@@ -222,15 +247,13 @@ export class ESLTrigger extends ESLBaseElement {
       target.setAttribute('aria-controls', this.$target.id);
     }
   }
+}
 
-  /** Show delay attribute processing */
-  public get showDelayValue(): number | undefined {
-    const showDelay = DeviceDetector.isTouchDevice ? this.touchShowDelay : this.showDelay;
-    return !showDelay || isNaN(+showDelay) ? undefined : +showDelay;
+declare global {
+  export interface ESLLibrary {
+    Trigger: typeof ESLTrigger;
   }
-  /** Hide delay attribute processing */
-  public get hideDelayValue(): number | undefined {
-    const hideDelay = DeviceDetector.isTouchDevice ? this.touchHideDelay : this.hideDelay;
-    return !hideDelay || isNaN(+hideDelay) ? undefined : +hideDelay;
+  export interface HTMLElementTagNameMap {
+    'esl-trigger': ESLTrigger;
   }
 }

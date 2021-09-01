@@ -45,4 +45,14 @@ export abstract class EventUtils {
       y: event.pageY - top
     };
   }
+
+  /** Stub method to prevent event from bubbling out of target */
+  public static stopPropagation(e?: Event) {
+    e?.stopPropagation();
+  }
+
+  /** Stub method to prevent default event behaviour */
+  public static preventDefault(e?: Event) {
+    e?.preventDefault();
+  }
 }

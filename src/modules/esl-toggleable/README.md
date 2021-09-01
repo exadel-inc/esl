@@ -1,8 +1,10 @@
-# [ESL](../../../README.md) Toggleable
+# [ESL](../../../) Toggleable
 
-Version: *1.0.0*
+Version: *2.2.0*
 
 Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*
+
+<a name="intro"></a>
 
 ESLToggleable - a custom element, that is used as a base for "Popup-like" components creation.
 

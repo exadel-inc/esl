@@ -1,7 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {tuple, wrap, uniq} from '../../esl-utils/misc/array';
 import {unwrapParenthesis} from '../../esl-utils/misc/format';
-import {TraversingUtils} from '../../esl-utils/dom/traversing';
+import {findAll, findChildren, findNext, findParent, findPrev} from '../../esl-utils/dom/traversing';
 
 type ProcessorDescriptor = [string?, string?];
 type ElementProcessor = (base: Element, sel: string) => Element | Element[] | null;
@@ -36,11 +36,11 @@ type CollectionProcessor = (els: Element[], sel: string) => Element[];
 @ExportNs('TraversingQuery')
 export class TraversingQuery {
   private static ELEMENT_PROCESSORS: Record<string, ElementProcessor> = {
-    '::find': TraversingUtils.findAll,
-    '::next': TraversingUtils.findNext,
-    '::prev': TraversingUtils.findPrev,
-    '::child': TraversingUtils.findChildren,
-    '::parent': TraversingUtils.findParent
+    '::find': findAll,
+    '::next': findNext,
+    '::prev': findPrev,
+    '::child': findChildren,
+    '::parent': findParent
   };
   private static COLLECTION_PROCESSORS: Record<string, CollectionProcessor> = {
     '::first': (list: Element[]) => list.slice(0, 1),
@@ -109,5 +109,11 @@ export class TraversingQuery {
   /** @returns Array of all matching elements reached via {@link TraversingQuery} rules */
   static all(query: string, base?: Element): Element[] {
     return TraversingQuery.traverse(query, false, base);
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    TraversingQuery: typeof TraversingQuery;
   }
 }

@@ -179,3 +179,12 @@ export class ESLSelectList extends ESLSelectWrapper {
     }
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    SelectList: typeof ESLSelectList;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-select-list': ESLSelectList;
+  }
+}

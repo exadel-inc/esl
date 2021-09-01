@@ -150,3 +150,12 @@ export class ESLAlert extends ESLToggleable {
     e.stopPropagation();
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Alert: typeof ESLAlert;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-alert': ESLAlert;
+  }
+}

@@ -56,8 +56,8 @@ export class ESLSelect extends ESLSelectWrapper {
   constructor() {
     super();
 
-    this.$renderer = document.createElement(ESLSelectRenderer.is) as ESLSelectRenderer;
-    this.$dropdown = document.createElement(ESLSelectDropdown.is) as ESLSelectDropdown;
+    this.$renderer = document.createElement(ESLSelectRenderer.is);
+    this.$dropdown = document.createElement(ESLSelectDropdown.is);
   }
 
   protected attributeChangedCallback(attrName: string) {
@@ -166,5 +166,14 @@ export class ESLSelect extends ESLSelectWrapper {
     if (e.target !== this.$dropdown) return;
     this.open = this.$dropdown.open;
     this._onUpdate();
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Select: typeof ESLSelect;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-select': ESLSelect;
   }
 }

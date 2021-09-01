@@ -118,13 +118,13 @@ Also, ESL has built-in polyfills for some of DOM and ES6 features. They are avai
 ---
 
 ## Roadmap
-
-- [UI Playground](https://github.com/exadel-inc/ui-playground) (_will be available soon_) demo server
-- More helpers and sugar of ESLBaseElement (event listener helpers and decorators)  
-- Extension of esl-utils
-- Dynamic Footnotes component
+- Interactive Documentation + demo site redesign
+- ESL Carousel component
+- [UI Playground](https://github.com/exadel-inc/ui-playground) integration to demo site
+- More helpers and sugar of ESLBaseElement (event listener helpers and decorators)
+- Stable version of ESL Footnotes and ESL Popup components
 - Extension of esl-form elements (custom form base, helpers, validation and more)
-- ESLCarousel component
+- Anchor Navigation component  
 - ESLToast component
 - More components in the library
 
@@ -141,6 +141,8 @@ you can find useful information about the project processes and agreements here:
 
 - #### [Development: Commit Convention](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/commit.md)
 
+- #### [Development: Pages](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/pages.md)
+
 - #### [Branches Flow](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/branches.md)
   
 - #### [Contributor Licence Agreement](https://github.com/exadel-inc/esl/blob/HEAD/CLA.md)
@@ -150,13 +152,15 @@ you can find useful information about the project processes and agreements here:
 **ESL Core Team**: 
 [Alexey Stsefanovich](https://github.com/ala-n), 
 [Julia Murashko](https://github.com/julia-murashko), 
-[Yuliya Adamskaya](https://github.com/yadamskaya).
+[Yuliya Adamskaya](https://github.com/yadamskaya),
+[Dmytro Shovchko](https://github.com/dshovchko).
 
 **ESL Contributors**: 
 [Aliaksandr Auseyeu](https://github.com/alexanderavseev), 
 [Anna Barmina](https://github.com/abarmina),
-[Andrey Belous](https://github.com/andreybelous), 
-[Dmytro Shovchko](https://github.com/dshovchko), 
+[Anna-Mariia Petryk](https://github.com/Anna-MariiaPetryk),
+[Anastasiya Lesun](https://github.com/NastaLeo),
+[Andrey Belous](https://github.com/andreybelous),
 [Dzianis Mantsevich](https://github.com/dmantsevich), 
 [Liubou Masiuk](https://github.com/liubou-masiuk), 
 [Natallia Harshunova](https://github.com/nattallius), 

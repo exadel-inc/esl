@@ -120,3 +120,9 @@ export class ESLSelectRenderer extends ESLBaseElement {
     e.preventDefault();
   }
 }
+
+declare global {
+  export interface HTMLElementTagNameMap {
+    'esl-select-renderer': ESLSelectRenderer;
+  }
+}

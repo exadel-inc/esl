@@ -14,6 +14,7 @@ import '../../src/modules/lib';
 import {
   ESLImage,
   ESLMedia,
+  ESLToggleable,
   ESLPopup,
   ESLPanel,
   ESLPanelGroup,
@@ -25,7 +26,10 @@ import {
   ESLAlert,
   ESLToggleableDispatcher,
   ESLSelect,
-  ESLSelectList
+  ESLSelectList,
+  ESLNote,
+  ESLFootnotes,
+  ESLTooltip
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -43,6 +47,7 @@ ESLImage.register();
 ESLMedia.register();
 
 ESLToggleableDispatcher.init();
+ESLToggleable.register();
 ESLPopup.register();
 
 ESLPanelGroup.register();
@@ -60,6 +65,10 @@ ESLAlert.init();
 
 ESLSelectList.register();
 ESLSelect.register();
+
+ESLFootnotes.register();
+ESLNote.register();
+ESLTooltip.register();
 
 ESLCarousel.register();
 ESLCarouselPlugins.Dots.register();

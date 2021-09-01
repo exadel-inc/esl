@@ -1,14 +1,18 @@
-# [ESL](../../../README.md) Alert
+# [ESL](../../../) Alert
 
 Version: *1.0.0*
 
 Authors: *Julia Murashko*
 
+<a name="intro"></a>
+
 ESLAlert is a component to show small notifications on your pages. ESLAlert can have multiple instances on the page.
 
 ---
 
-##Usage
+<a name="usage"></a>
+
+## Usage
 
 First, use the common approach to register component: `ESLAlert.register()`.
 Then you can attach `<esl-alert>` component to the expected place in the document or initialize it globally by using `ESLAlert.init` shortcut.
@@ -29,6 +33,8 @@ Use CustomEvent `details` to customize alert. Alert `details` accepts the follow
 - `html` - to alternatively specify alert HTML content
 
 If one of `esl-alert`s catches the activation event it will prevent its propagation to parent elements.
+
+<a name="example"></a>
 
 ## Example
 ```html

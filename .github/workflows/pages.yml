@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - gh-pages-init
   workflow_dispatch:
 
 env:
@@ -23,12 +22,10 @@ jobs:
           node-version: ${{ env.node-version }}
       - name: Install NPM Dependencies
         run: npm ci
-      - name: Build Assets
-        run: npm run build:pages:local
-      - name: Build GitHub Pahes
-        run: npm run build:pages
+      - name: Build
+        run: npm run build-pages
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
           branch: gh-pages
-          folder: docs
+          folder: pages/dist

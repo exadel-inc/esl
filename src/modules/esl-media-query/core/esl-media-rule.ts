@@ -3,49 +3,73 @@ import {ESLMediaQuery} from './esl-media-query';
 type PayloadParser<T> = (val: string) => T | undefined;
 
 /**
- * ESL Rule
+ * ESL Media Rule
  * @author Yuliya Adamskaya
  *
- * Helper class that extend provide Observable Rule Handler that resolve payload based on current device configuration.
- * Supports
- * - CSS query matching check
- * - DPR display queries (`@x1|@x2|@x3`)
- * - Screen default sizes shortcuts (`@[-|+](XS|SM|MD|LG|XL)`)
- * - Query matching change listeners
- * - Mobile / full browser detection (`@MOBILE|@DESKTOP`)
+ * Helper class to wrap {@link ESLMediaQuery} with the payload value
+ * @see ESLMediaQuery
+ * @see ESLMediaRuleList
  */
-export class ESLMediaRule<T> extends ESLMediaQuery {
+export class ESLMediaRule<T> {
+  private readonly _query: ESLMediaQuery;
   private readonly _payload: T;
   private readonly _default: boolean;
 
-  constructor(payload: T, query: string) {
-    super(query);
+  constructor(payload: T, query: string = '') {
+    this._query = ESLMediaQuery.for(query);
     this._default = !query;
     this._payload = payload;
   }
 
   public toString() {
-    return `${super.toString()} => ${this._payload}`;
+    return `${this._query} => ${this._payload}`;
   }
 
-  get payload(): T {
+  /** Subscribes on inner {@link ESLMediaQuery} changes */
+  public addListener(listener: () => void) {
+    this._query.addListener(listener);
+  }
+  /** Unsubscribes from inner {@link ESLMediaQuery} changes */
+  public removeListener(listener: () => void) {
+    this._query.removeListener(listener);
+  }
+
+  /** Check if the inner {@link ESLMediaQuery} is matching current device configuration */
+  public get matches(): boolean {
+    return this._query.matches;
+  }
+  /** @returns wrapped payload value */
+  public get payload(): T {
     return this._payload;
   }
-  get default(): boolean {
+  /**
+   * Check if the rule was created with an empty query
+   * @see ESLMediaRuleList
+   */
+  public get default(): boolean {
     return this._default;
   }
 
+  /** Parse the rule string to the {@link ESLMediaRule} instance */
   public static parse<U>(lex: string, parser: PayloadParser<U>) {
-    const [query, payload] = lex.split('=>');
+    const parts = lex.split('=>');
+    const query = parts.length === 2 ? parts[0] : '';
+    const payload = parts.length === 2 ? parts[1] : parts[0];
     const payloadValue = parser(payload.trim());
-    if (typeof payloadValue === 'undefined') return null;
+    if (typeof payloadValue === 'undefined') return undefined;
     return new ESLMediaRule<U>(payloadValue, query.trim());
   }
 
+  /** Shortcut to create always active {@link ESLMediaRule} with passed value */
   public static all<U>(payload: U) {
     return new ESLMediaRule<U>(payload, 'all');
   }
-  public static empty(): ESLMediaRule<null> {
-    return new ESLMediaRule(null, 'all');
+  /** Shortcut to create condition-less {@link ESLMediaRule} */
+  public static default<U>(payload: U) {
+    return new ESLMediaRule<U>(payload);
+  }
+  /** Shortcut to create always inactive {@link ESLMediaRule} */
+  public static empty(): ESLMediaRule<undefined> {
+    return new ESLMediaRule(undefined, 'all');
   }
 }

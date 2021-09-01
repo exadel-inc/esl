@@ -16,6 +16,16 @@ export const unwrapParenthesis = (str: string) => {
 };
 
 /**
+ * Parse number with the ability to pass an alternative fallback for NaN.
+ * Note: falsy values except 0 are treated as NaN
+ */
+export const parseNumber = (str: string | number, nanValue?: number | undefined) => {
+  if (str === 0) return 0;
+  const value = +(str || NaN);
+  return isNaN(value) ? nanValue : value;
+};
+
+/**
  * Common function that returns coefficient aspect ratio
  * Supported formats: w:h, w/h, coefficient
  * @example
@@ -40,9 +50,13 @@ export function evaluate(str: string, defaultValue?: any): any {
   }
 }
 
+
+/** Default RegExp to match replacements in the string for the {@link format} function */
+export const DEF_FORMAT_MATCHER = /{[{%]?([\w.]+)[%}]?}/g;
+
 /** Replace `{key}` patterns in the string from the source object */
-export function format(str: string, source: Record<string, any>) {
-  return str.replace(/{([\w.]+)}/g, (match, key) => {
+export function format(str: string, source: Record<string, any>, matcher: RegExp = DEF_FORMAT_MATCHER) {
+  return str.replace(matcher, (match, key) => {
     const val = get(source, key);
     return val === undefined ? match : val;
   });

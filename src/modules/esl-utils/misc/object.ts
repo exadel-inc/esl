@@ -1,5 +1,11 @@
 export const isObject = (obj: any): obj is Record<string, any> => obj && typeof obj === 'object';
 export const isObjectLike = (obj: any) => isObject(obj) || typeof obj === 'function';
+export const isPrimitive = (obj: any): obj is string | number | boolean =>
+  typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean';
+
+export const isPrototype = (obj: any) => Object.hasOwnProperty.call(obj, 'constructor');
+
+export type CopyPredicate = (key: string, value: any) => boolean;
 
 /** Deep object compare */
 export function deepCompare(obj1: any, obj2: any): boolean {
@@ -31,13 +37,24 @@ export function defined<T>(...params: T[]) {
   }
 }
 
-/** Makes a flat copy without undefined keys */
-export function copyDefinedKeys<T>(obj?: T): Partial<T> {
+/** Makes a plain copy of obj with properties satisfying the predicate
+ * If no predicate provided copies all own properties */
+export function copy<T>(obj: T, predicate: CopyPredicate = () => true): Partial<T> {
   const result: any = Object.assign({}, obj || {});
   Object.keys(result).forEach((key) => {
-    (result[key] === void 0) && delete result[key];
+    (!predicate(key, result[key])) && delete result[key];
   });
   return result;
+}
+
+/** Makes a flat copy without undefined keys */
+export function copyDefinedKeys<T>(obj?: T): Partial<T> {
+  return copy(obj || {}, (key, value) => value !== void 0);
+}
+
+/** Omit copying provided properties from object */
+export function omit<T>(obj: T, keys: string[]) {
+  return copy(obj, key => !keys.includes(key));
 }
 
 /**
@@ -72,3 +89,48 @@ export const get = (data: any, path: string, defaultValue?: any): any => {
   }, data);
   return typeof result === 'undefined' ? defaultValue : result;
 };
+
+/**
+ * Performs a deep copy of object.
+ * @returns deep copy of the object
+ */
+export function deepMerge<T>(obj: T): T;
+/**
+ * Performs a deep merge of two objects. Does not modify objects (immutable)
+ * @returns new object with merged key/values
+ */
+export function deepMerge<T, U>(obj1: T, obj2: U): T & U;
+/**
+ * Performs a deep merge of three objects. Does not modify objects (immutable)
+ * @returns new object with merged key/values
+ */
+export function deepMerge<T, U, V>(obj1: T, obj2: U, obj3: V): T & U & V;
+/**
+ * Performs a deep merge of four objects. Does not modify objects (immutable)
+ * @returns new object with merged key/values
+ */
+export function deepMerge<T, U, V, W>(obj1: T, obj2: U, obj3: V, obj4: W): T & U & V & W;
+/**
+ * Performs a deep merge of objects and returns new object. Does not modify objects (immutable)
+ * @returns new object with merged key/values
+ */
+export function deepMerge(...objects: any[]): any;
+export function deepMerge(...objects: any[]): any {
+  return objects.reduce((res: any, obj: any, index: number) => {
+    if (index === 0 && Array.isArray(obj)) res = [];
+
+    isObject(obj) && Object.keys(obj).forEach((key) => {
+      const resultVal = res[key];
+      const objectVal = obj[key];
+
+      let mergeResult = objectVal;
+      if (isObject(objectVal)) {
+        if (typeof resultVal === 'undefined') mergeResult = deepMerge(objectVal);
+        else if (isObject(resultVal)) mergeResult = deepMerge(resultVal, objectVal);
+      }
+      res[key] = mergeResult;
+    });
+
+    return res;
+  }, {});
+}

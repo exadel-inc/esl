@@ -20,8 +20,12 @@ html.esl-disable-scroll {
     display: flex !important;
     align-items: stretch !important;
 
+    &[dir='rtl'] {
+      flex-flow: row-reverse !important;
+    }
+
     body {
-      flex: 1 1 auto !important;
+      flex: 1 1 100% !important;
       max-height: 100vh !important;
     }
 
@@ -40,10 +44,12 @@ html.esl-disable-scroll {
       right: 0;
       bottom: 0;
       overflow-y: scroll;
+      // Pseudo scroll should be visible above the content
+      z-index: 999999;
     }
 
-    // hide analytics utilities
-    & > img {
+    // hide analytics beacons and markers
+    & > img, & > iframe {
       flex: 0 1 auto !important;
     }
   }

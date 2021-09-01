@@ -35,7 +35,7 @@ export class ESLSelectDropdown extends ESLToggleable {
 
   constructor() {
     super();
-    this.$list = document.createElement(ESLSelectList.is) as ESLSelectList;
+    this.$list = document.createElement(ESLSelectList.is);
   }
 
   protected setInitialState() {}
@@ -104,5 +104,11 @@ export class ESLSelectDropdown extends ESLToggleable {
     this.style.top = `${windowY + rect.top + rect.height}px`;
     this.style.left = `${rect.left}px`;
     this.style.width = `${rect.width}px`;
+  }
+}
+
+declare global {
+  export interface HTMLElementTagNameMap {
+    'esl-select-dropdown': ESLSelectDropdown;
   }
 }

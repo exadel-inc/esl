@@ -1,6 +1,6 @@
 import {loadScript} from '../../esl-utils/dom/script';
 import {BaseProvider, PlayerStates} from '../core/esl-media-provider';
-import {generateUId} from '../../esl-utils/misc/uid';
+import {randUID} from '../../esl-utils/misc/uid';
 import PlayerVars = YT.PlayerVars;
 
 import type {MediaProviderConfig, ProviderObservedParams} from '../core/esl-media-provider';
@@ -65,7 +65,7 @@ export class YouTubeProvider extends BaseProvider {
 
   protected static buildIframe(sm: MediaProviderConfig) {
     const el = document.createElement('div');
-    el.id = 'esl-media-yt-' + generateUId();
+    el.id = 'esl-media-yt-' + randUID();
     el.className = 'esl-media-inner esl-media-youtube';
     el.title = sm.title;
     el.setAttribute('aria-label', el.title);

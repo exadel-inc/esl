@@ -16,6 +16,13 @@ export class ESLTab extends ESLTrigger {
   @attr({defaultValue: 'show'}) public mode: string;
   @attr({defaultValue: 'active'}) public activeClass: string;
 
+  public initA11y() {
+    const target = this.$a11yTarget;
+    if (!target) return;
+    if (target.hasAttribute('role')) return;
+    target.setAttribute('role', 'tab');
+  }
+
   public updateA11y() {
     const target = this.$a11yTarget;
     if (!target) return;
@@ -26,5 +33,14 @@ export class ESLTab extends ESLTrigger {
     if (this.$target.id) {
       this.setAttribute('aria-controls', this.$target.id);
     }
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Tab: typeof ESLTab;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-tab': ESLTab;
   }
 }

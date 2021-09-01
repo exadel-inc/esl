@@ -9,7 +9,7 @@ import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-qu
 import {getIObserver} from './esl-image-iobserver';
 import {STRATEGIES} from './esl-image-strategies';
 
-import type {ESLImageRenderStrategy, ShadowImageElement} from './esl-image-strategies';
+import type {ESLImageRenderStrategy} from './esl-image-strategies';
 
 type LoadState = 'error' | 'loaded' | 'ready';
 const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);
@@ -61,7 +61,7 @@ export class ESLImage extends ESLBaseElement {
   private _srcRules: ESLMediaRuleList<string>;
   private _currentSrc: string;
   private _detachLazyTrigger: () => void;
-  private _shadowImageElement: ShadowImageElement;
+  private _shadowImageElement: HTMLImageElement;
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -99,7 +99,7 @@ export class ESLImage extends ESLBaseElement {
         this.updateA11y();
         break;
       case 'data-src':
-        this.srcRules = ESLMediaRuleList.parse<string>(newVal, ESLMediaRuleList.STRING_PARSER);
+        this.srcRules = ESLMediaRuleList.parse(newVal);
         this.refresh();
         break;
       case 'data-src-base':
@@ -116,7 +116,7 @@ export class ESLImage extends ESLBaseElement {
 
   public get srcRules() {
     if (!this._srcRules) {
-      this.srcRules = ESLMediaRuleList.parse<string>(this.src, ESLMediaRuleList.STRING_PARSER);
+      this.srcRules = ESLMediaRuleList.parse(this.src);
     }
     return this._srcRules;
   }
@@ -172,24 +172,18 @@ export class ESLImage extends ESLBaseElement {
   protected update(force: boolean = false) {
     if (!this.canUpdate) return;
 
-    const rule = this.srcRules.active;
-    const src = this.getPath(rule.payload);
-    const dpr = rule.dpr;
+    const src = this.getPath(this.srcRules.activeValue);
 
     if (this._currentSrc !== src || !this.ready || force) {
       this._currentSrc = src;
       this._shadowImg.src = src;
-      this._shadowImg.dpr = dpr;
 
       if (this.refreshOnUpdate || !this.ready) {
         this.syncImage();
       }
 
-      if (this._shadowImg.complete && this._shadowImg.naturalHeight > 0) {
-        this._onLoad();
-      }
-      if (this._shadowImg.complete && this._shadowImg.naturalHeight <= 0) {
-        this._onError();
+      if (this._shadowImg.complete) {
+        this._shadowImgError ? this._onError() : this._onLoad();
       }
     }
 
@@ -203,7 +197,7 @@ export class ESLImage extends ESLBaseElement {
     if (role === 'img') this.setAttribute('aria-label', this.alt);
   }
 
-  protected getPath(src: string | null) {
+  protected getPath(src: string | undefined) {
     if (!src || src === '0' || src === 'none') {
       return ESLImage.EMPTY_IMAGE;
     }
@@ -265,6 +259,12 @@ export class ESLImage extends ESLBaseElement {
     return this._shadowImageElement;
   }
 
+  protected get _shadowImgError() {
+    if (!this._shadowImg.complete) return false;
+    if (this._shadowImg.src.substr(-4) === '.svg') return false;
+    return this._shadowImg.naturalHeight <= 0;
+  }
+
   @bind
   private _onLoad() {
     this.syncImage();
@@ -307,5 +307,14 @@ export class ESLImage extends ESLBaseElement {
 
   public static isEmptyImage(src: string) {
     return src === ESLImage.EMPTY_IMAGE;
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Image: typeof ESLImage;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-image': ESLImage;
   }
 }

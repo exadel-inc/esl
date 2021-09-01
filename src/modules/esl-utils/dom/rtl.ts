@@ -1,14 +1,12 @@
-import {ExportNs} from '../environment/export-ns';
 import {memoize} from '../decorators/memoize';
 
 export type ScrollType = 'default' | 'negative' | 'reverse';
 
-@ExportNs('RTLUtils')
+// TODO: functional
 export abstract class RTLUtils {
   /** Check if the element in a RTL direction context */
   static isRtl(el: HTMLElement = document.body) {
-    const parent: HTMLElement | null = el.closest('[dir]');
-    return parent?.dir === 'rtl';
+    return getComputedStyle(el).direction === 'rtl';
   }
 
   /**
@@ -27,18 +25,17 @@ export abstract class RTLUtils {
     return scrollType;
   }
 
-  // Potentially can be useful in future
-  // static normalizeScrollLeft(el: HTMLElement, value: number | null = null, isRtl: boolean = RTLUtils.isRtl(el)): number {
-  //   value = (value === null) ? el.scrollLeft: value;
-  //   switch (isRtl ? RTLUtils.scrollType : '') {
-  //     case 'negative':
-  //       return el.scrollWidth - el.clientWidth + value;
-  //     case 'reverse':
-  //       return el.scrollWidth - el.clientWidth - value;
-  //     default:
-  //       return value;
-  //   }
-  // }
+  static normalizeScrollLeft(el: HTMLElement, value: number | null = null, isRtl: boolean = RTLUtils.isRtl(el)): number {
+    value = (value === null) ? el.scrollLeft : value;
+    switch (isRtl ? RTLUtils.scrollType : '') {
+      case 'negative':
+        return el.scrollWidth - el.clientWidth + value;
+      case 'reverse':
+        return el.scrollWidth - el.clientWidth - value;
+      default:
+        return value;
+    }
+  }
 }
 
 /** Creates the dummy test element with a horizontal scroll presented */
