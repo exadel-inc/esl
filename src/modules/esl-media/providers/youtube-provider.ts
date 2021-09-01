@@ -103,7 +103,7 @@ export class YouTubeProvider extends BaseProvider {
   protected onPlayerReady() {
     console.debug('[ESL]: Media Youtube Player ready ', this);
     this._el = this._api.getIframe();
-      if (this.config.muted) {
+    if (this.config.muted) {
       this._api.mute();
     }
     this.component._onReady();
@@ -188,7 +188,7 @@ export class YouTubeProvider extends BaseProvider {
 // typings
 declare global {
   interface YT extends Promise<void> {
-    Player: YT.Player,
+    Player: YT.Player;
   }
 
   interface Window {

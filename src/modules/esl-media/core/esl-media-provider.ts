@@ -125,7 +125,7 @@ export abstract class BaseProvider {
    * If the player is PAUSED then it starts playing otherwise it pause playing
    */
   protected toggle() {
-    if (this.state === PlayerStates.PAUSED) {
+    if ([PlayerStates.PAUSED, PlayerStates.UNSTARTED, PlayerStates.VIDEO_CUED].includes(this.state)) {
       return this.play();
     } else {
       return this.pause();

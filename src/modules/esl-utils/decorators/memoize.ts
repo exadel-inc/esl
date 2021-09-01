@@ -69,3 +69,12 @@ memoize.clear = function (target: any, property: string) {
   if (typeof desc.value === 'function' && typeof desc.value.clear === 'function') return desc.value.clear();
   if (Object.hasOwnProperty.call(target, property)) delete target[property];
 };
+
+/** Check if property has cache for the passed params */
+memoize.has = function (target: any, property: string, ...params: any[]) {
+  const desc = getPropertyDescriptor(target, property);
+  if (!desc) return false;
+  if (typeof desc.get === 'function' && typeof (desc.get as any).has === 'function') return (desc.get as any).has(...params);
+  if (typeof desc.value === 'function' && typeof desc.value.has === 'function') return desc.value.has(...params);
+  return Object.hasOwnProperty.call(target, property);
+};

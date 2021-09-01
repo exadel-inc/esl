@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl",
-  "version": "3.0.0-beta.17",
+  "version": "3.0.0-beta.20",
   "private": false,
   "description": "Exadel Smart Library (ESL) - is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "pages/src/**/*.ts"
   ],
   "scripts": {
-    "start": "concurrently --kill-others \"npm run watch:eleventy\" \"npm run watch:ts\" \"npm run watch:less\"",
+    "start": "npm run clean-pages && concurrently --kill-others \"npm run watch:eleventy\" \"npm run watch:ts\" \"npm run watch:less\"",
     "clean": "rimraf {modules,polyfills}/**",
     "build": "npm run clean && concurrently \"npm run build:less\" \"npm run build:ts\" \"npm run build:docs\"",
     "build:ts": "tsc --project tsconfig.json",
@@ -48,19 +48,20 @@
     "build:less:cpy": "copyfiles \"src/**/*.less\" \".\" --up 1 --all",
     "build:less:css": "foreach -x \"lessc #{path} #{dir}/#{name}.css\" -i \"**/*.mixin.less\" -g \"modules/{*,*/*,{draft,esl-utils,esl-forms}/*/*}.less\"",
     "build:docs": "copyfiles \"src/**/*.md\" \".\" --up 1 --all",
+    "clean-pages": "rimraf pages/dist/**",
     "minify:css": "cleancss -o pages/dist/bundles/localdev.css pages/dist/bundles/localdev.css",
-    "build-pages": "concurrently \"npm run build-pages:ts\" \"npm run build-pages:less\" && npm run build-pages:eleventy",
+    "build-pages": "npm run clean-pages && concurrently \"npm run build-pages:ts\" \"npm run build-pages:less && npm run minify:css\" && npm run build-pages:eleventy",
     "build-pages:ts": "cd pages && webpack --mode=production",
-    "build-pages:less": "lessc pages/src/localdev.less pages/dist/bundles/localdev.css --source-map=pages/dist/bundles/localdev.css.map && npm run minify:css",
+    "build-pages:less": "lessc pages/src/localdev.less pages/dist/bundles/localdev.css --source-map=pages/dist/bundles/localdev.css.map",
     "build-pages:eleventy": "npx @11ty/eleventy -- --env=production",
     "watch:ts": "cd pages && webpack --watch",
-    "watch:less": "chokidar --initial \"**/*.less\" -c \"lessc pages/src/localdev.less pages/dist/bundles/localdev.css --source-map=pages/dist/bundles/localdev.css.map\"",
+    "watch:less": "chokidar --initial \"**/*.less\" -c \"npm run build-pages:less\"",
     "watch:eleventy": "npx @11ty/eleventy --serve --port=3005 -- --env=development",
     "test": "concurrently \"npm run lint\" \"npm run test:unit\"",
     "test:unit": "jest --silent --noStackTrace",
     "test:report": "jest --coverage",
     "lint": "concurrently \"npm run lint:js\" \"npm run lint:css\" \"npm run lint:spaces\" && node build/catlog.js \"Linting passed\"",
-    "lint:js": "eslint src/**/*.ts",
+    "lint:js": "eslint src/**/*.ts --max-warnings 3",
     "lint:css": "stylelint src/**/*.less",
     "lint:spaces": "lintspaces ./pages/{src,views,controller}/**/*.{html,less,json} ./src/**/*.{less} -n -t -d spaces",
     "prepare": "husky install && npm run build",
@@ -69,7 +70,7 @@
   "dependencies": {
     "@types/resize-observer-browser": "0.1.6",
     "@types/video.js": "7.3.26",
-    "@types/youtube": "0.0.44"
+    "@types/youtube": "0.0.45"
   },
   "devDependencies": {
     "@11ty/eleventy": "^0.12.1",
@@ -84,8 +85,8 @@
     "@semantic-release/release-notes-generator": "^9.0.3",
     "@types/jest": "^27.0.1",
     "@types/smoothscroll-polyfill": "^0.3.1",
-    "@typescript-eslint/eslint-plugin": "^4.29.1",
-    "@typescript-eslint/parser": "^4.29.1",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
     "@webcomponents/custom-elements": "1.4.3",
     "@webcomponents/webcomponents-platform": "1.0.1",
     "browser-sync": "^2.27.5",
@@ -95,13 +96,13 @@
     "copyfiles": "^2.4.1",
     "eslint": "^7.32.0",
     "eslint-plugin-editorconfig": "^3.0.2",
-    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-sonarjs": "^0.10.0",
     "eslint-plugin-tsdoc": "^0.2.14",
     "foreach-cli": "^1.8.1",
     "highlight.js": "^11.1.0",
     "html-minifier": "^4.0.0",
-    "husky": "^7.0.1",
+    "husky": "^7.0.2",
     "intersection-observer": "^0.12.0",
     "jest": "^27.0.6",
     "less": "^4.1.1",
@@ -109,14 +110,14 @@
     "postcss": "^8.3.6",
     "promise-polyfill": "^8.2.0",
     "rimraf": "^3.0.2",
-    "semantic-release": "^17.4.4",
+    "semantic-release": "^17.4.6",
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^13.13.1",
-    "ts-jest": "^27.0.4",
+    "ts-jest": "^27.0.5",
     "ts-loader": "^9.2.5",
-    "typescript": "4.3.5",
-    "webpack": "^5.50.0",
-    "webpack-cli": "^4.7.2"
+    "typescript": "4.4.2",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0"
   },
   "browserslist": [
     "last 3 versions",
@@ -135,6 +136,10 @@
     {
       "name": "yadamska",
       "email": "yadamska@exadel.com"
+    },
+    {
+      "name": "dshovchko",
+      "email": "dshovchko@exadel.com"
     }
   ],
   "maintainers": [
@@ -149,6 +154,10 @@
     {
       "name": "yadamska",
       "email": "yadamska@exadel.com"
+    },
+    {
+      "name": "dshovchko",
+      "email": "dshovchko@exadel.com"
     }
   ]
 }

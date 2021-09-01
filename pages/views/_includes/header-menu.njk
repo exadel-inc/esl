@@ -1,15 +1,21 @@
 {% macro menu(title, collection) %}
-  <esl-trigger class="hd-dropdown-trigger" track-hover target="::next">
-    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow {{ 'text-info' if collection in page.url }}">
+  <esl-trigger class="hd-dropdown-trigger"
+               target="::next"
+               track-hover
+               hover-hide-delay="400">
+    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow {{ 'nav-item-selected' if collection in page.url }}">
       {{ title }}
     </button>
   </esl-trigger>
-  <esl-panel class="hd-dropdown-content" default-params="{hideDelay: 250}" fallback-duration="500">
+  <esl-panel class="hd-dropdown-content"
+             group="esl-nav"
+             fallback-duration="500"
+             close-on-esc close-on-outside-action>
     {% if collections[collection] %}
       <ul class="hd-dropdown-list">
-        {% for item in collections[collection] | sortByName %}
+        {% for item in collections[collection] | released | sortByName %}
           {% set isActive = page.url === item.url %}
-          <li class="nav-item hd-dropdown-item {{ 'active' if isActive }}" {% if isActive %}aria-current="page"{% endif %}>
+          <li class="nav-item hd-dropdown-item {{ 'nav-item-selected' if isActive }}" {% if isActive %}aria-current="page"{% endif %}>
             <a class="hd-dropdown-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
           </li>
         {% endfor %}

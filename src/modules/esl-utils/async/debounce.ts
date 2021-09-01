@@ -32,7 +32,6 @@ export function debounce<F extends AnyToAnyFnSignature>(fn: F, wait = 10): Debou
       deferred!.resolve(fn.apply(this, args));
       deferred = null;
     }, wait);
-    return deferred.promise;
   }
   function cancel() {
     (typeof timeout === 'number') && clearTimeout(timeout);

@@ -148,7 +148,7 @@ export class ESLPopup extends ESLToggleable {
 
     const options = {
       rootMargin: '0px',
-      threshold: [...Array(9).keys()].map((x) => x/8)
+      threshold: [...Array(9).keys()].map((x) => x / 8)
     } as IntersectionObserverInit;
 
     const observer = new IntersectionObserver(this.onActivatorIntersection, options);

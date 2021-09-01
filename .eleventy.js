@@ -24,6 +24,19 @@ module.exports = (config) => {
     return [...values].sort((a, b) => a.data.name.localeCompare(b.data.name));
   });
 
+  config.addFilter('released', (values) => {
+    return values.filter((item) => {
+      const tags = [].concat(item.data.tags);
+      return isDev || !tags.includes('draft');
+    });
+  });
+  config.addFilter('released-strict', (values) => {
+    return values.filter((item) => {
+      const tags = [].concat(item.data.tags);
+      return !tags.includes('draft');
+    });
+  });
+
   config.setBrowserSyncConfig({
     files: [
       'pages/dist/bundles/*.js',

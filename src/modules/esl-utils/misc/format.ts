@@ -42,6 +42,7 @@ export function parseAspectRatio(str: string): number {
 /** Evaluate passed string or returns `defaultValue` */
 export function evaluate(str: string, defaultValue?: any): any {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-implied-eval
     return str ? (new Function(`return ${str}`))() : defaultValue;
   } catch (e) {
     console.warn('Cannot parse value ', str, e);
@@ -49,9 +50,13 @@ export function evaluate(str: string, defaultValue?: any): any {
   }
 }
 
+
+/** Default RegExp to match replacements in the string for the {@link format} function */
+export const DEF_FORMAT_MATCHER = /{[{%]?([\w.]+)[%}]?}/g;
+
 /** Replace `{key}` patterns in the string from the source object */
-export function format(str: string, source: Record<string, any>) {
-  return str.replace(/{([\w.]+)}/g, (match, key) => {
+export function format(str: string, source: Record<string, any>, matcher: RegExp = DEF_FORMAT_MATCHER) {
+  return str.replace(matcher, (match, key) => {
     const val = get(source, key);
     return val === undefined ? match : val;
   });

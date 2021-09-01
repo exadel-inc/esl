@@ -8,10 +8,10 @@ describe('async/debounce', () => {
     const fn = jest.fn();
     const debounced = debounce(fn, 50);
 
-    expect(debounced()).toBeInstanceOf(Promise);
-    expect(debounced()).toBeInstanceOf(Promise);
+    expect(debounced()).toBeUndefined();
+    debounced()
     jest.advanceTimersByTime(25);
-    expect(debounced()).toBeInstanceOf(Promise);
+    expect(debounced()).toBeUndefined();
     expect(fn).toBeCalledTimes(0);
     jest.advanceTimersByTime(50);
     expect(fn).toBeCalledTimes(1);
@@ -21,7 +21,8 @@ describe('async/debounce', () => {
     const fn = function () { return this; };
     const debounced = debounce(fn, 0);
     const context = {};
-    const promise$ = debounced.call(context);
+    debounced.call(context);
+    const promise$ = debounced.promise;
     jest.runAllTimers();
     return expect(promise$).resolves.toBe(context);
   });
@@ -29,7 +30,7 @@ describe('async/debounce', () => {
   test('cancel debounce', () => {
     const fn = jest.fn();
     const debounced = debounce(fn, 10);
-    const promise = debounced();
+    const promise = debounced.promise;
     debounced();
     debounced.cancel();
 
@@ -42,12 +43,12 @@ describe('async/debounce', () => {
 
     expect(debounced.promise).toBeInstanceOf(Promise);
     expect(debounced(1)).toBe(debounced(2));
-    expect(debounced.promise).toBe(debounced(3));
     expect(debounced.promise).toBeInstanceOf(Promise);
     expect(fn).toBeCalledTimes(0);
     jest.advanceTimersByTime(10);
     expect(fn).toBeCalledTimes(0);
-    const promise$ = debounced(4);
+    debounced(4);
+    const promise$ = debounced.promise;
     jest.advanceTimersByTime(20);
     expect(fn).toBeCalledTimes(1);
 

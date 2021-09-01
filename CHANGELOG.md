@@ -1,3 +1,63 @@
+# [3.0.0-beta.20](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.19...v3.0.0-beta.20) (2021-08-30)
+
+
+### Bug Fixes
+
+* **esl-panel:** add missing observedAttributes method ([2bae85f](https://github.com/exadel-inc/esl/commit/2bae85f46cb81ba83d4eee08b4536d40cd1fbb58))
+* **esl-panel:** fix twitchy panel animation on multiple requests ([fee25af](https://github.com/exadel-inc/esl/commit/fee25aff21b328fcf9eb61dee7a87bb80eef2a64))
+* **esl-toggleable:** fix trackHover hideDelay inheritance from the original activator ([e67acb3](https://github.com/exadel-inc/esl/commit/e67acb38530105629cb82560246a22af795d0c39))
+* **esl-utils:** deep merge: fix array case and refactor ([4191b85](https://github.com/exadel-inc/esl/commit/4191b851cb84f59ef31cf8bbb0dd29c5594fea86))
+* **esl-utils:** delayed-task now accept numeric string delay representation ([d1122f4](https://github.com/exadel-inc/esl/commit/d1122f45365e3599f3a3a35fc3f8528b10d5c659))
+* add cleanup step for the build and start ([31dd317](https://github.com/exadel-inc/esl/commit/31dd3176c7fc4b03c06c9804046ae79f710bf4f6))
+* fix twitchy scrollbar when scroll-behavior set to smooth for target ([4b9848c](https://github.com/exadel-inc/esl/commit/4b9848c9881cce9de4a4e283b61b3ffa78c9f73e)), closes [#430](https://github.com/exadel-inc/esl/issues/430)
+* **esl-utils:** strict types for deep merge ([04bbad4](https://github.com/exadel-inc/esl/commit/04bbad4ea68b18caf01420c6aeae05c83f23ead1))
+
+
+### Features
+
+* **esl-utils:** add ability check if the memoized property create a cache ([81f2e02](https://github.com/exadel-inc/esl/commit/81f2e02fcabd20e2c6b5f59c15e3718c7e177b1d))
+* 'throttle' API changes ([8db7bfb](https://github.com/exadel-inc/esl/commit/8db7bfb4adbb74d595b5fe041a930edfaaa65986))
+* debounced method API changes ([#402](https://github.com/exadel-inc/esl/issues/402)) ([420f8bc](https://github.com/exadel-inc/esl/commit/420f8bc8a800f4e2362b47fdf9c84c912af16ba6))
+
+
+### BREAKING CHANGES
+
+* **esl-panel:** ESLPanelGroup is now distributed as a separate module
+* decorated `debouncedMethod = debounce(fn)` call no longer returns Promise use 'debouncedMethod.promise' instead
+
+Co-authored-by: ala'n (Alexey Stsefanovich) <astsefanovich@exadel.com>
+
+## [2.9.1](https://github.com/exadel-inc/esl/compare/v2.9.0...v2.9.1) (2021-08-25)
+
+
+# [3.0.0-beta.19](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.18...v3.0.0-beta.19) (2021-08-19)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** fix broken click on back-to-note ([e66ae96](https://github.com/exadel-inc/esl/commit/e66ae967681fc2a59e71fb5c7f990d4e16dbc6c2))
+
+# [3.0.0-beta.18](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.17...v3.0.0-beta.18) (2021-08-18)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** fix footnotes soting and reindex ([f13ba79](https://github.com/exadel-inc/esl/commit/f13ba79d72383584bf62ced35cda9d587697a677))
+* **esl-footnotes:** fix IE11 issue with Map.iterator absent ([3bad82b](https://github.com/exadel-inc/esl/commit/3bad82b383a0e9fcd41d3d3bb5d6452a9673e491))
+* **esl-media:** fix toggle method and process keydown event otb ([b3ad030](https://github.com/exadel-inc/esl/commit/b3ad030b42ed0e28946b73bfe5c661bd9d899d74))
+* **esl-note:** fix the issue with lost tooltip text after cloning of element ([882e0b0](https://github.com/exadel-inc/esl/commit/882e0b0398d16bff04e022ce994484bbdc917489))
+
+
+### Features
+
+* **esl-a11y-group:** add jsx tag shape ([c469f20](https://github.com/exadel-inc/esl/commit/c469f2018989fa03b44ca300e9593a04b16ab79f))
+* **esl-panel:** add jsx tag shape ([ba00085](https://github.com/exadel-inc/esl/commit/ba00085e44e8c45c9e4ae6182251e7e420857df3))
+* **esl-tabs:** add jsx tag shape ([4688984](https://github.com/exadel-inc/esl/commit/4688984cb00a0fabdc7322d1e4cc8d68b12dac28))
+* **esl-toggleable:** add jsx tag shape ([d583f24](https://github.com/exadel-inc/esl/commit/d583f243fdb68ef02c7b711ade7c7ad360a69d10))
+* **esl-trigger:** add jsx tag shape ([2b36fae](https://github.com/exadel-inc/esl/commit/2b36fae8e1d08f11eb9311098a4763e2d432788b))
+* **esl-utils:** add butch manipulations support for `CSSClassUtils` ([#395](https://github.com/exadel-inc/esl/issues/395)) ([3635e39](https://github.com/exadel-inc/esl/commit/3635e39507fd9227052580d07f1490f8dc8ac863))
+* **esl-utils:** add new syntax options support for format utility ([#393](https://github.com/exadel-inc/esl/issues/393)) ([e44aca0](https://github.com/exadel-inc/esl/commit/e44aca01b054430fe724fc896bfb9d55ea30f959))
+
 # [3.0.0-beta.17](https://github.com/exadel-inc/esl/compare/v3.0.0-beta.16...v3.0.0-beta.17) (2021-08-13)
 
 

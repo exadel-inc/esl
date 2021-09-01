@@ -23,12 +23,13 @@ export class ESLA11yGroup extends ESLBaseElement {
   @boolAttr({}) public activateSelected: boolean;
 
   /** @returns HTMLElement root element of the group */
-  public get $root(): HTMLElement {
-    return this.parentElement as HTMLElement;
+  public get $root(): HTMLElement | null {
+    return this.parentElement;
   }
   /** @returns HTMLElement[] targets of the group */
   public get $targets(): HTMLElement[] {
-    return TraversingQuery.all(this.targets, this.$root) as [];
+    if (!this.$root) return [];
+    return TraversingQuery.all(this.targets, this.$root) as HTMLElement[];
   }
 
   protected connectedCallback() {
@@ -41,10 +42,10 @@ export class ESLA11yGroup extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    this.$root.addEventListener('keydown', this._onKeydown);
+    this.$root?.addEventListener('keydown', this._onKeydown);
   }
   protected unbindEvents() {
-    this.$root.removeEventListener('keydown', this._onKeydown);
+    this.$root?.removeEventListener('keydown', this._onKeydown);
   }
 
   @bind
