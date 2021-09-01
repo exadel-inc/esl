@@ -48,25 +48,37 @@ Even if you use the whole utils module, it is still tiny.
 
     - ##### [@prop](./decorators/prop.ts) - TS decorator to define a field on the prototype level.
 
+    - ##### [@ready](./decorators/ready.ts) - TS decorator to postpone method execution until DOM is ready 
+      See `esl-utils.dom.ready#onDocumentReady` utility function for details
+
 - #### DOM Helpers
-  
+
+    - ##### [CSSClass](./dom/class.ts) - is a utility to work with CSS classes. 
+      Supports JQuery-like enumeration, inversion syntax and locks.  
+
+    - ##### [Focus](./dom/keys.ts) - focus order helpers.
+
     - ##### [Keys](./dom/keys.ts) - keyboard keys constants.
-  
+
+    - ##### [Ready](./dom/ready.ts) - utility to postpone callback to the task after DOM Ready.
+
+    - ##### [Rect](./dom/rect.ts) - rectangle utility class to provide position calculations.
+
     - ##### [RTL Utils](./dom/rtl.ts) - Utils to detect RTL and RTL-specific browsers behavior.
   
     - ##### [Scripts](./dom/script.ts) - script loading utility to limit and track loading.
   
-    - ##### [Scroll](./dom/scroll.ts) - scroll locking methods. 
+    - ##### [Scroll](./dom/scroll.ts) - scroll utility methods like locking, traversing for closest scrollable, etc. 
       *Note: uses [scroll.less](./dom/scroll.less) styles.*
   
-    - ##### [CSSClass](./dom/class.ts) - is a utility to work with CSS classes. Supports JQuery-like enumeration, inversion syntax and locks.
-  
     - ##### [DOM Traversing](./dom/traversing.ts) - a set of utils to find DOM elements or check their relations.
+
+    - ##### [Window](./dom/window.ts) - browser window object utils.
   
 - #### Environment
   
     - ##### [Device Detector](./environment/device-detector.ts) - set of user agent based checks such as engine or device type.
-  
+
 - #### Miscellaneous Utils
 
     - ##### [Array](./misc/array.ts) - array utils (uniq, flat, wrap, etc.).
