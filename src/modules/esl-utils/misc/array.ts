@@ -27,9 +27,9 @@ export const uniq = <T> (arr: T[]): T[] => {
   return result;
 };
 
-/** Crete array filled with the range 1..N */
+/** Crete an array filled with the range [0,..,N-1] */
 export function range(n: number): number[];
-/** Crete array filled with values returned by the filler callback */
+/** Crete an array filled with values returned by the filler callback */
 export function range<T>(n: number, filler: (i: number) => T): T[];
 export function range(n: number, filler: (i: number) => any = (i) => i): any[] {
   const arr = Array(n);
