@@ -33,13 +33,21 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** List of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations) */
   @attr() public noCollapse: string;
 
+  /**
+   * Define accordion behavior
+   * `single` allows only one Panel to be open.
+   * `multiple` allows any number of open Panels.
+   * */
+  @attr({defaultValue: 'single'}) public accordionGroup: string;
+
+
   /** Height of previous active panel */
   protected _previousHeight: number = 0;
   /** Fallback setTimeout timer */
   protected _fallbackTimer: number = 0;
 
   static get observedAttributes() {
-    return ['mode'];
+    return ['mode', 'accordion-group'];
   }
 
   /** ESLMediaRuleList instance of the mode mapping */
@@ -51,6 +59,10 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** @returns current mode */
   public get currentMode(): string {
     return this.modeRules.activeValue || '';
+  }
+
+  protected get actionParams(): PanelActionParams {
+    return {initiator: 'group', activator: this};
   }
 
   protected connectedCallback() {
@@ -75,6 +87,13 @@ export class ESLPanelGroup extends ESLBaseElement {
       memoize.clear(this, 'modeRules');
       this.modeRules.addListener(this._onModeChange);
       this.updateMode();
+    }
+    if (attrName === 'accordion-group') {
+      if (newVal !== 'single' && newVal !== 'multiple') {
+        this.accordionGroup = oldVal;
+        return;
+      }
+      this.reset();
     }
   }
 
@@ -103,13 +122,7 @@ export class ESLPanelGroup extends ESLBaseElement {
       $target.classList.toggle(`esl-${mode}-view`, this.currentMode === mode);
     });
 
-    // TODO: refactor
-    ESLPanel.registered.then(() => {
-      this.$panels.forEach((panel) => {
-        const shouldOpen = this.currentMode === 'open' || panel.initiallyOpened;
-        panel.toggle(shouldOpen, {initiator: 'group', activator: this});
-      });
-    });
+    this.reset();
   }
 
   /** @returns Panels that are processed by the current panel group */
@@ -140,6 +153,33 @@ export class ESLPanelGroup extends ESLBaseElement {
   public includesPanel(target: any): target is ESLPanel {
     if (!(target instanceof ESLPanel)) return false;
     return target.$group === this;
+  }
+
+  /** Show all panels besides excluded ones */
+  public showAll(excluded: ESLPanel[] = []) {
+    this.$panels.forEach((el) => !excluded.includes(el) && el.show(this.actionParams));
+  }
+  /** Hide all active panels besides excluded ones */
+  public hideAll(excluded: ESLPanel[] = []) {
+    this.$activePanels.forEach((el) => !excluded.includes(el) && el.hide(this.actionParams));
+  }
+  /** Toggle all panels by predicate */
+  public toggleAllBy(shouldOpen: (panel: ESLPanel) => boolean) {
+    this.$panels.forEach((panel) => panel.toggle(shouldOpen(panel), this.actionParams));
+  }
+
+  /** Reset to default state applicable to the current mode */
+  public reset() {
+    ESLPanel.registered.then(() => {
+      if (this.currentMode === 'open') this.toggleAllBy(() => true);
+      if (this.currentMode === 'tabs' || (this.currentMode === 'accordion' && this.accordionGroup === 'single')) {
+        const $activePanel = this.$panels.find((panel) => panel.initiallyOpened);
+        this.toggleAllBy((panel) => panel === $activePanel);
+      }
+      if (this.currentMode === 'accordion' && this.accordionGroup === 'multiple') {
+        this.toggleAllBy((panel) => panel.initiallyOpened);
+      }
+    });
   }
 
   /** Animate the height of the component */
@@ -183,7 +223,8 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected _onBeforeShow(e: CustomEvent) {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
-    this.$activePanels.forEach((el) => (el !== panel) && el.hide());
+    if (this.currentMode === 'accordion' && this.accordionGroup === 'multiple') return;
+    this.hideAll([panel]);
   }
 
   /** Process {@link ESLPanel} show event */

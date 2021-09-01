@@ -20,3 +20,6 @@ ESLPanelGroup.register();
 - `animation-class` - class(es) to be added during animation ('animate' by default)
 - `fallback-duration` - time to clear animation common params (max-height style + classes) (2s by default)
 - `no-collapse` - list of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations)
+- `accordion-group` - defines accordion behavior: 
+  * `single` (default) allows only one Panel to be open.
+  * `multiple` allows any number of open Panels.
