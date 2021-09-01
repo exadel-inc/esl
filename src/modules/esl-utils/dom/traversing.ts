@@ -1,9 +1,9 @@
-/** Check that `nodeA` and `nodeB` is from the same tree path */
+/** Check that `nodeA` and `nodeB` are from the same tree path */
 export const isRelativeNode = (nodeA: Node | null, nodeB: Node | null) => {
   return nodeA && nodeB && (nodeA.contains(nodeB) || nodeB.contains(nodeA));
 };
 
-/** Create function that find next dom element, that matches selector, in the sequence declared by `next` function */
+/** Create function that finds next dom element, that matches selector, in the sequence declared by `next` function */
 export const createSequenceFinder = (next: (el: Element) => Element | null) => {
   return function (base: Element, sel: string): Element | null {
     for (let target: Element | null = next(base); target; target = next(target)) {
