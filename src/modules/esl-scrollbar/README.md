@@ -10,18 +10,18 @@ ___ESL Scrollbar___ (`<esl-scrollbar>`) is a reusable web component that replace
 a _custom scrollbar_ implementation.
 
 
-ESL Scrollbar is totally configurable and can be styled through CSS.
+ESL Scrollbar is entirely configurable and can be styled through CSS.
 
 #### ESL Scrollbar supports:
 
-- both scroll directions: `vertical` and `horisontal`.  
+- both scroll directions: `vertical` and `horizontal`.  
   Direction can be defined with the boolean `horizontal` attribute.
 
 - independent target scrollable element definition using [TraversingQuery](./../esl-traversing-query/README.md)
 
 - complete customization from CSS
 
-- RTL for both directions and all browsers in ESL support list
+- RTL for both directions and all browsers on ESL support list
 
 
 ### Getting Started:
@@ -45,7 +45,7 @@ ESL Scrollbar is totally configurable and can be styled through CSS.
   <esl-scrollbar target="::prev" horizontal></esl-scrollbar>
 ```
 
-Note: use `esl-scrollable-content` OTB class to hide browser native scrollbar. 
+Note: use `esl-scrollable-content` OOTB class to hide browser native scrollbar. 
 Use the full module path to import it 
 ```css
   @import '@exadel/esl/modules/esl-scrollbar/core.css';
@@ -64,10 +64,10 @@ Use the full module path to import it
 
 ### Readonly Attributes
 
-- `inactive` \[boolean] - appears when the scrollable content fits to container size, or there is nothing to scroll
+- `inactive` \[boolean] - appears when the scrollable content fits the container, or there is nothing to scroll
   
 - `dragging` \[boolean] - indicates that the scrollbar thumb is currently being dragged
 
 ### Public API methods
 
-- `refresh()` - shortcut function to refreshing scroll state and position
+- `refresh()` - shortcut function to refresh the scrollbar state and position
