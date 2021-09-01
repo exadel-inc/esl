@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - gh-pages-init
   workflow_dispatch:
 
 env:
