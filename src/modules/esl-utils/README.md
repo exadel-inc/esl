@@ -53,6 +53,8 @@ Even if you use the whole utils module, it is still tiny.
 
 - #### DOM Helpers
 
+    - ##### [DOM API Utils](./dom/api.ts) - basic dom api helpers
+
     - ##### [CSSClass](./dom/class.ts) - is a utility to work with CSS classes. 
       Supports JQuery-like enumeration, inversion syntax and locks.  
 
