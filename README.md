@@ -8,7 +8,7 @@
 | **Note: Project is under development** |
 | --- |
 
-UIPlayground is a solution for presenting your custom components.
+**UIPlayground** is a solution for presenting your custom components.
 
 With the help of *UIP* components we allow user to *'play'* with a component.
 You can choose from the variety of component's templates ([UIP Snippets](./src/snippets/README.md)),
@@ -16,6 +16,8 @@ play with the component's settings ([UIP Settings](./src/settings/README.md))
 or even change its markup ([UIP Editor](./src/editor/README.md))!
 
 Every element (except the *UIP Root*) isn't required, so you can combine them the way you want.
+
+![](docs/images/screenshot.png)
 
 ---
 ## UIP elements:
@@ -82,13 +84,10 @@ Every element (except the *UIP Root*) isn't required, so you can combine them th
 
 ---
 
-## Development Information for contributors
+## License
 
-If you are a part of ESL team or want to contribute to the project
-you can find useful information about the project processes and agreements here:
-
-
-- #### [Contributor Licence Agreement](https://github.com/exadel-inc/ui-playground/blob/HEAD/CLA.md)
+Distributed under the MIT License. See [LICENSE](https://github.com/exadel-inc/ui-playground/blob/HEAD/CLA.md)
+for more information.
 
 ---
 
