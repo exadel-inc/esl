@@ -25,9 +25,9 @@ export * from './async/throttle';
 export * from './async/delayed-task';
 
 // DOM
+export * from './dom/api';
 export * from './dom/class';
 export * from './dom/events';
-export * from './dom/element';
 export * from './dom/focus';
 export * from './dom/keys';
 export * from './dom/ready';

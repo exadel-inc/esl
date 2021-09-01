@@ -1,9 +1,8 @@
-import {ExportNs} from '../environment/export-ns';
 import {memoize} from '../decorators/memoize';
 
 export type ScrollType = 'default' | 'negative' | 'reverse';
 
-@ExportNs('RTLUtils')
+// TODO: functional
 export abstract class RTLUtils {
   /** Check if the element in a RTL direction context */
   static isRtl(el: HTMLElement = document.body) {

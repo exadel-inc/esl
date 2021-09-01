@@ -1,10 +1,11 @@
-import {getNodeName, getParentNode} from './element';
+import {getNodeName, getParentNode} from './api';
 
 export type ScrollStrategy = 'none' | 'native' | 'pseudo';
 
 const $html = document.documentElement;
 const initiatorSet = new Set();
 
+// TODO: functional
 export abstract class ScrollUtils {
   /** Check vertical scroll based on content height */
   static hasVerticalScroll(target = $html) {

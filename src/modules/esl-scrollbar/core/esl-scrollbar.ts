@@ -4,7 +4,7 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {EventUtils} from '../../esl-utils/dom/events';
-import {TraversingUtils} from '../../esl-utils/dom/traversing';
+import {isRelativeNode} from '../../esl-utils/dom/traversing';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
 
@@ -307,7 +307,7 @@ export class ESLScrollbar extends ESLBaseElement {
   protected _onRefresh(event: Event) {
     const target = event.target as HTMLElement;
     if (event.type === 'scroll' && this.dragging) return;
-    if (event.type === 'esl:refresh' && !TraversingUtils.isRelative(target.parentNode, this.$target)) return;
+    if (event.type === 'esl:refresh' && !isRelativeNode(target.parentNode, this.$target)) return;
     this.deferredRefresh();
   }
 }
