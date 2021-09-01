@@ -1,3 +1,4 @@
+import {range} from '../../esl-utils/misc/array';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, jsonAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
@@ -148,7 +149,7 @@ export class ESLPopup extends ESLToggleable {
 
     const options = {
       rootMargin: '0px',
-      threshold: [...Array(9).keys()].map((x) => x / 8)
+      threshold: range(9, (x) => x / 8)
     } as IntersectionObserverInit;
 
     const observer = new IntersectionObserver(this.onActivatorIntersection, options);
@@ -177,7 +178,7 @@ export class ESLPopup extends ESLToggleable {
 
     const triggerRect = this.activator.getBoundingClientRect();
     const popupRect = this.getBoundingClientRect();
-    const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new DOMRect();
+    const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new Rect();
     const trigger = new Rect(triggerRect.left, triggerRect.top + window.pageYOffset, triggerRect.width, triggerRect.height);
     const innerMargin = this._offsetTrigger + arrowRect.width / 2;
 

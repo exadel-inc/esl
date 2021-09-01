@@ -1,3 +1,5 @@
+import {identity} from './functions';
+
 type Tuple<T> = [T?, T?];
 
 /** Split array into tuples */
@@ -26,3 +28,14 @@ export const uniq = <T> (arr: T[]): T[] => {
   set.forEach((item) => result.push(item));
   return result;
 };
+
+/** Crete an array filled with the range [0,..,N-1] */
+export function range(n: number): number[];
+/** Crete an array filled with values returned by the filler callback */
+export function range<T>(n: number, filler: (i: number) => T): T[];
+export function range(n: number, filler: (i: number) => any = identity): any[] {
+  const arr = Array(n);
+  let i = 0;
+  while (i < n) arr[i] = filler(i++);
+  return arr;
+}

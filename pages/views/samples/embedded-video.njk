@@ -51,7 +51,7 @@ tags: samples
       <div class="img-container img-container-16-9 img-container-loaded">
         <esl-media group="demo-media"
                    media-type="video"
-                   media-src="https://storage.googleapis.com/webfundamentals-assets/videos/chrome.mp4"
+                   media-src="https://pixabay.com/videos/download/video-5200_large.mp4"
                    load-condition="(min-width: 320px)"
                    load-cls-target="::parent(section)"
                    load-cls-accepted="show-video"
@@ -129,21 +129,21 @@ tags: samples
   </section>
 
   {# Hide it temporary before playground integration #}
-  <section class="col-12" data-demo="7" hidden>
-    <h3 class="text-center">Load condition</h3>
-    <p class="text-center">Load condition feature allows us to define using ESLQuery condition when the video
-      source should be loaded.</p>
-    <hr/>
-    <div class="demo">
-      <div class="alert alert-info">Video bellow will be loading only on XS breakpoint</div>
-      <div class="img-container img-container-16-9">
-        <esl-media load-condition="@XS, @MOBILE"
-                   media-type="youtube"
-                   media-id="e1omOSkYltw"
-                   autoplay="true"
-                   muted loop>
-        </esl-media>
-      </div>
-    </div>
-  </section>
+  {#  <section class="col-12" data-demo="7" hidden>#}
+  {#    <h3 class="text-center">Load condition</h3>#}
+  {#    <p class="text-center">Load condition feature allows us to define using ESLQuery condition when the video#}
+  {#      source should be loaded.</p>#}
+  {#    <hr/>#}
+  {#    <div class="demo">#}
+  {#      <div class="alert alert-info">Video bellow will be loading only on XS breakpoint</div>#}
+  {#      <div class="img-container img-container-16-9">#}
+  {#        <esl-media load-condition="@XS, @MOBILE"#}
+  {#                   media-type="youtube"#}
+  {#                   media-id="e1omOSkYltw"#}
+  {#                   autoplay="true"#}
+  {#                   muted loop>#}
+  {#        </esl-media>#}
+  {#      </div>#}
+  {#    </div>#}
+  {#  </section>#}
 </div>
