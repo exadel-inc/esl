@@ -56,7 +56,7 @@ Even if you use the whole utils module, it is still tiny.
     - ##### [CSSClass](./dom/class.ts) - is a utility to work with CSS classes. 
       Supports JQuery-like enumeration, inversion syntax and locks.  
 
-    - ##### [Focus](./dom/keys.ts) - focus order helpers.
+    - ##### [Focus](./dom/focus.ts) - focus order helpers.
 
     - ##### [Keys](./dom/keys.ts) - keyboard keys constants.
 
