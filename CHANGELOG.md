@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/exadel-inc/esl/compare/v3.0.0...v3.0.1) (2021-09-03)
+
+
+### Bug Fixes
+
+* **esl-toggleable:** fix outside action binding ([eccc2d7](https://github.com/exadel-inc/esl/commit/eccc2d75453f8d4b84167fdc10d2bcb0e1d86c3d))
+
 # [3.0.0](https://github.com/exadel-inc/esl/compare/v2.9.1...v3.0.0) (2021-09-01)
 
 
