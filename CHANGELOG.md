@@ -1,3 +1,12 @@
+## [3.0.2](https://github.com/exadel-inc/esl/compare/v3.0.1...v3.0.2) (2021-09-06)
+
+
+### Bug Fixes
+
+* **esl-panel:** fix animation reflow for esl-panel ([3603609](https://github.com/exadel-inc/esl/commit/36036098be10b265324f0b3f8ecfa3464715f234))
+* **esl-toggleable:** final fix for outside action handling flow ([9b3056c](https://github.com/exadel-inc/esl/commit/9b3056c85c12bfdf41f2b44a4415fb0dea6695f7))
+* fix unsubscribe for outside actions ([27e9d32](https://github.com/exadel-inc/esl/commit/27e9d3242e9d2efce4b94c0ef2bd08ecaa228635))
+
 ## [3.0.1](https://github.com/exadel-inc/esl/compare/v3.0.0...v3.0.1) (2021-09-03)
 
 
