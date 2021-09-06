@@ -170,6 +170,7 @@ export class ESLToggleable extends ESLBaseElement {
   public show(params?: ToggleableActionParams) {
     params = this.mergeDefaultParams(params);
     this._task.put(this.showTask.bind(this, params), defined(params.showDelay, params.delay));
+    this.bindOutsideEventTracking(this.closeOnOutsideAction);
     this.bindHoverStateTracking(!!params.trackHover, defined(params.hideDelay, params.delay));
     return this;
   }
@@ -177,6 +178,7 @@ export class ESLToggleable extends ESLBaseElement {
   public hide(params?: ToggleableActionParams) {
     params = this.mergeDefaultParams(params);
     this._task.put(this.hideTask.bind(this, params), defined(params.hideDelay, params.delay));
+    this.bindOutsideEventTracking(false);
     this.bindHoverStateTracking(!!params.trackHover, defined(params.hideDelay, params.delay));
     return this;
   }
@@ -188,7 +190,6 @@ export class ESLToggleable extends ESLBaseElement {
     this.activator = params.activator;
     this.open = true;
     this.onShow(params);
-    this.bindOutsideEventTracking(this.closeOnOutsideAction);
     if (!params.silent) this.$$fire('show', {detail: {params}, cancelable: false});
   }
   /** Actual hide task to execute by toggleable task manger ({@link DelayedTask} out of the box) */

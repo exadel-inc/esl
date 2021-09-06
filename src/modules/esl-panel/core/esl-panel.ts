@@ -70,8 +70,8 @@ export class ESLPanel extends ESLToggleable {
 
   /** Process show action */
   protected onShow(params: PanelActionParams) {
+    this._initialHeight = this.scrollHeight;
     super.onShow(params);
-    this._initialHeight = this.offsetHeight;
 
     this.beforeAnimate();
     if (params.noCollapse) {
@@ -83,7 +83,7 @@ export class ESLPanel extends ESLToggleable {
 
   /** Process hide action */
   protected onHide(params: PanelActionParams) {
-    this._initialHeight = this.offsetHeight;
+    this._initialHeight = this.scrollHeight;
     super.onHide(params);
 
     this.beforeAnimate();

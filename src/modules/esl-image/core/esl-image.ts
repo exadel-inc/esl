@@ -15,7 +15,9 @@ type LoadState = 'error' | 'loaded' | 'ready';
 const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);
 
 /**
- * ESL Image
+ * ESLImage - custom element, that provides flexible ways to include images on web pages.
+ * Was originally developed as an alternative to `<picture>` element, but with more features inside.
+ *
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 @ExportNs('Image')

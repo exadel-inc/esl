@@ -9,7 +9,9 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
 
 /**
- * ESL Scrollbar component
+ * ESLScrollbar is a reusable web component that replaces the browser's default scrollbar with
+ * a custom scrollbar implementation.
+ *
  * @author Yuliya Adamskaya
  */
 @ExportNs('Scrollbar')
