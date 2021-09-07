@@ -1,4 +1,3 @@
-import {throttle} from '../async/throttle';
 import {identity} from './functions';
 
 type Tuple<T> = [T?, T?];
