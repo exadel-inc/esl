@@ -1,3 +1,11 @@
+## [3.0.3](https://github.com/exadel-inc/esl/compare/v3.0.2...v3.0.3) (2021-09-07)
+
+
+### Bug Fixes
+
+* fix allowed children for new JSX Shapes ([aa3182b](https://github.com/exadel-inc/esl/commit/aa3182bcce565ad23802286663d54ed96b694f5e))
+* fix default value for trigger ([b7c600a](https://github.com/exadel-inc/esl/commit/b7c600a24e562b15204c4223ee6a03ba592f04f7))
+
 ## [3.0.2](https://github.com/exadel-inc/esl/compare/v3.0.1...v3.0.2) (2021-09-06)
 
 
