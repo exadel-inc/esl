@@ -40,23 +40,33 @@ export function range(n: number, filler: (i: number) => any = identity): any[] {
   return arr;
 }
 
-/** Create an array of unique values from two arrays*/
-export function intersection(a: any, b: any): any[] {
-  const arr = new Set([...a, ...b]);
-  return [...arr];
+/** Create an array of unique values that presented in each of the passed arrays */
+export function intersection<T>(...rest: T[][]): T[];
+export function intersection(a: any[], b: any[], ...rest: any[][]): any[] {
+  if (rest.length) return intersection(a, intersection(b, ...rest));
+  return a.filter(Set.prototype.has, new Set(b));
 }
 
-/** Create an array from two arrays*/
-export function union(a: any, b: any): any[] {
-  return [...a, ...b];
+/** Create an array with the unique values from each of the passed arays */
+export function union(...rest: any[][]): any[] {
+  const set = new Set();
+  rest.forEach(item => item.forEach(i => set.add(i)));
+  const result: any[] = [];
+  set.forEach(value => result.push(value));
+  return result;
 }
 
-/** Creates an array of unique values from the first array that are not present in the second array*/
-export function complement(a: any, b: any): any[] {
-  return a.filter((item: any) => !b.includes(item));
+/** Creates an array of unique values from the first array that are not present in the other arrays */
+export function complement<T>(...rest: T[][]): T[];
+export function complement(a: any[], b: any[], ...rest: any[][]): any[] {
+  if (rest.length > 1) return complement(a, complement(b, rest));
+  const setB = new Set(b);
+  return a.filter(element => !setB.has(element));
 }
 
-/** Check for elements from array B in array A*/
-export function fullIntersection(a: any, b: any): boolean {
-  return a.length === 0 && b.length === 0 ? true : !b.filter((item: any) => !a.includes(item)).length;
+
+/** Check for elements from array B in array A */
+export function fullIntersection(a: any[], b: any[]): boolean {
+  const setA = new Set(a);
+  return a.length === 0 && b.length === 0 ? true : !b.filter((item: any) => !setA.has(item)).length;
 }

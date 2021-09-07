@@ -47,28 +47,29 @@ describe('misc/array helper tests', () => {
 });
 
 test('intersection', () => {
-  const a = {a:3};
+  const a = {a: 3};
   expect(intersection([],[])).toEqual([]);
   expect(intersection([1],[1])).toEqual([1]);
-  expect(intersection([1, 2], [1, 2])).toEqual([1, 2]);
-  expect(intersection([1, [2, 3], a], [a, 1, [2, 3]])).toEqual([1, [2, 3], a, [2, 3]]);
-  expect(intersection([null, 1, 2, 3, null, [6]], [4, 5])).toEqual([null, 1, 2, 3, [6], 4, 5, ]);
+  expect(intersection([1, 2, 3], [1, 2], [1, 2, 4])).toEqual([1, 2]);
+  expect(intersection([1, [2, 3], a], [a, 1, [2, 3]])).toEqual([1, a]);
+  expect(intersection([null, 1, 2, 3, [6]], [4, 5])).toEqual([]);
+  expect(intersection([1, 2, 3, [6]], [4, 5, 1, 2], [1])).toEqual([1]);
 });
 
 test('union', () => {
   const a = {a:3};
-  expect(union([],[])).toEqual([]);
-  expect(union([1],[1])).toEqual([1, 1]);
-  expect(union([1, 2], [1, 2])).toEqual([1, 2, 1, 2]);
-  expect(union([1, [2, 3], a], [a, 1, [2, 3]])).toEqual([1, [2, 3], a, a, 1, [2, 3]]);
-  expect(union([null, 1, 2, 3, null, [6]], [4, 5])).toEqual([null, 1, 2, 3, null, [6], 4, 5, ]);
+  expect(union([], [])).toEqual([]);
+  expect(union([1], [1])).toEqual([1]);
+  expect(union([1, 2], [1, 2], [1, 2])).toEqual([1, 2,]);
+  expect(union([1, [2, 3], a], [a, 1, [2, 3]])).toEqual([1, [2, 3], a, [2, 3]]);
+  expect(union([1, 2, 3, null, [6]], [4, 5], [1, 2, 3, null, [6]], [4, 5])).toEqual([1, 2, 3, null, [6], 4, 5, [6]]);
 });
 
 test('complement', () => {
   const a = {a: 3};
   expect(complement([],[])).toEqual([]);
   expect(complement([1],[1])).toEqual([]);
-  expect(complement([1, 2, 3], [1, 2])).toEqual([3]);
+  expect(complement([1, 2, 3], [1, 2], [1, 2, 5])).toEqual([3]);
   expect(complement([1, [2, 3], a], [a, 1, [2, 3]])).toEqual([[2, 3]]);
   expect(complement([null, 1, 2, 3, null, [6]], [4, 5])).toEqual([null, 1, 2, 3, null, [6]]);
 });
