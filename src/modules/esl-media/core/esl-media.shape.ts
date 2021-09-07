@@ -54,6 +54,6 @@ export type ESLMediaTagShape = ({
   /** Define class to mark player declined state */
   'load-cls-declined'?: string;
 
-  /** Allowed children */
+  /** Children are not allowed for ESLMedia */
   children: [];
 };

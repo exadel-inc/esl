@@ -9,6 +9,6 @@ export interface ESLA11yGroupTagShape {
   /** Enable activation target (via click event) on selection */
   'activate-selected'?: boolean;
 
-  /** Children not allowed */
+  /** Children are not allowed for ESLA11yGroup */
   children: [];
 }

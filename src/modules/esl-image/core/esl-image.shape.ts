@@ -22,6 +22,6 @@ export interface ESLImageTagShape {
   /** Define CSS class for inner image */
   'inner-image-class'?: string;
 
-  /** Allowed children */
+  /** Children are not allowed for ESLImage */
   children: [];
 }

@@ -3,6 +3,6 @@
  * Used for JSX declaration
  */
 export interface ESLToggleableDispatcherTagShape {
-  /** Children not allowed */
+  /** Children are not allowed for ESLToggleableDispatcher */
   children: [];
 }
