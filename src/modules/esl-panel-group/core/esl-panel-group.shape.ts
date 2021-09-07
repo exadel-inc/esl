@@ -2,7 +2,7 @@
  * Tag declaration interface of {@link ESLPanelGroup} element
  * Used for JSX declaration
  */
-export interface ESLPanelGroupShape {
+export interface ESLPanelGroupTagShape {
   /**
    * Define rendering mode of the component (takes values from the list of supported modes; 'accordion' by default)
    * Supported values: `accordion|tabs|open`
@@ -22,5 +22,5 @@ export interface ESLPanelGroupShape {
   'no-collapse'?: string;
 
   /** Allowed children */
-  children: any[];
+  children: any;
 }
