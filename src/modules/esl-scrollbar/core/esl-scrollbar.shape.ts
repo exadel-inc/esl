@@ -14,6 +14,6 @@ export interface ESLScrollbarTagShape {
   /** track inner element class. 'scrollbar-track' by default. */
   'track-class'?: string;
 
-  /** Allowed children */
+  /** Children are not allowed for ESLScrollbar*/
   children: [];
 }

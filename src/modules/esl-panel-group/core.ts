@@ -1,3 +1,3 @@
-export type {ESLPanelGroupShape} from './core/esl-panel-group.shape';
+export type {ESLPanelGroupTagShape} from './core/esl-panel-group.shape';
 
 export * from './core/esl-panel-group';

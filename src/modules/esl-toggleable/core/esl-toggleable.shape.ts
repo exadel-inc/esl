@@ -2,7 +2,7 @@
  * Tag declaration interface of {@link ESLToggleable} element
  * Used for JSX declaration
  */
-export interface ESLToggleableShape {
+export interface ESLToggleableTagShape {
   /** Define CSS class to add on the body element */
   'body-class'?: string;
   /** Define CSS class to add when the Toggleable is active */
@@ -30,5 +30,5 @@ export interface ESLToggleableShape {
   'track-hover-params'?: string | number;
 
   /** Allowed children */
-  children: any[];
+  children: any;
 }
