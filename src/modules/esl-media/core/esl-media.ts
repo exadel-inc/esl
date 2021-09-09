@@ -21,7 +21,9 @@ import type {BaseProvider} from './esl-media-provider';
 export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 
 /**
- * ESL Media
+ * ESLMedia - custom element, that provides an ability to add and configure media (video / audio)
+ * using a single tag as well as work with external providers using simple native-like API.
+ *
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 @ExportNs('Media')

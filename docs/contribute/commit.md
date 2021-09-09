@@ -49,6 +49,10 @@ Type is a required part of the message, and it is limited by the following value
 
 Type should be in a lowercase.
 
+### Force minor version update
+
+You can increase importance of the patch changes to the minor using the `MAJOR` marker in the message.
+
 ### BREAKING CHANGES
 
 **To identify breaking changes use `!` postfix for the <type>**
@@ -78,7 +82,7 @@ Scope should be placed in parentheses after type but before `:`.
 Scope should be compatibly short and in a lowercase.
 
 ```text
-fix (esl-component): IE compatibility
+fix(esl-component): IE compatibility
 ```
 
 ---

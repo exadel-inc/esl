@@ -1,10 +1,10 @@
-import type {ESLToggleableShape} from '../../esl-toggleable/core/esl-toggleable.shape';
+import type {ESLToggleableTagShape} from '../../esl-toggleable/core/esl-toggleable.shape';
 
 /**
  * Tag declaration interface of {@link ESLPanel} element
  * Used for JSX declaration
  */
-export interface ESLPanelShape extends ESLToggleableShape {
+export interface ESLPanelTagShape extends ESLToggleableTagShape {
   /** Define class(es) to be added for active state ('open' by default) */
   'active-class'?: string;
   /** Define class(es) to be added during animation ('animate' by default) */

@@ -134,8 +134,8 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Bind outside action event listeners */
   protected bindOutsideEventTracking(track: boolean) {
-    document.body.removeEventListener('mouseup', this._onOutsideAction);
-    document.body.removeEventListener('touchend', this._onOutsideAction);
+    document.body.removeEventListener('mouseup', this._onOutsideAction, true);
+    document.body.removeEventListener('touchend', this._onOutsideAction, true);
     if (track) {
       document.body.addEventListener('mouseup', this._onOutsideAction, true);
       document.body.addEventListener('touchend', this._onOutsideAction, true);
@@ -198,6 +198,7 @@ export class ESLToggleable extends ESLBaseElement {
     if (!params.silent && !this.$$fire('before:hide', {detail: {params}})) return;
     this.open = false;
     this.onHide(params);
+    this.bindOutsideEventTracking(false);
     if (!params.silent) this.$$fire('hide', {detail: {params}, cancelable: false});
   }
 
@@ -268,7 +269,7 @@ export class ESLToggleable extends ESLBaseElement {
     if (this.contains(target)) return;
     if (this.activator && this.activator.contains(target)) return;
     // Used 0 delay to decrease priority of the request
-    this.hide({initiator: 'outsideaction', activator: target, hideDelay: 0, event: e});
+    this.hide({initiator: 'outsideaction', hideDelay: 0, event: e});
   }
 
   @bind

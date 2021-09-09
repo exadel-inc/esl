@@ -1,11 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark esl-demo-header">
-  <div class="container flex-column flex-lg-row align-items-stretch align-items-lg-center">
+  <div class="container flex-column flex-lg-row align-items-stretch align-items-md-center">
     <a class="navbar-brand logo-light logo-animated mr-5" href="{{ '/' | url }}">
       {% include 'pages/static/assets/logo.svg' %}
       <span class="ml-2">Exadel Smart Library</span>
     </a>
     {% from 'header-menu.njk' import menu with context %}
-    <ul class="navbar-nav flex-grow-1 flex-sm-row justify-content-end">
+    <ul class="navbar-nav flex-grow-1 flex-column flex-md-row justify-content-end">
       <li class="nav-item hd-dropdown">
         {{ menu ('Samples', 'samples') }}
       </li>
@@ -27,3 +27,4 @@
     </ul>
   </div>
 </nav>
+<div class="esl-demo-header-overlay"></div>

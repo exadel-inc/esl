@@ -28,7 +28,7 @@ class MDRenderer {
 
   static resolveLinks(dom, fileBase) {
     dom.querySelectorAll('a[href^="."]').forEach((node) => {
-      node.href = path.join(github.srcUrl, path.dirname(fileBase), node.href);
+      node.href = github.srcUrl + path.join(path.dirname(fileBase), node.href);
     });
   }
 

@@ -2,7 +2,7 @@
  * Tag declaration interface of {@link ESLTrigger} element
  * Used for JSX declaration
  */
-export interface ESLTriggerShape {
+export interface ESLTriggerTagShape {
   /** Define target Toggleable {@link TraversingQuery} selector. `next` by default */
   'target'?: string;
 
@@ -35,5 +35,5 @@ export interface ESLTriggerShape {
   'hover-hide-delay'?: string | number;
 
   /** Allowed children */
-  children: any[];
+  children: any;
 }

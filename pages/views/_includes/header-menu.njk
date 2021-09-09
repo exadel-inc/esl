@@ -1,7 +1,7 @@
 {% macro menu(title, collection) %}
   <esl-trigger class="hd-dropdown-trigger"
                target="::next"
-               track-hover
+               track-hover="@+SM"
                hover-hide-delay="400">
     <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow {{ 'nav-item-selected' if collection in page.url }}">
       {{ title }}
@@ -9,7 +9,8 @@
   </esl-trigger>
   <esl-panel class="hd-dropdown-content"
              group="esl-nav"
-             fallback-duration="500"
+             body-class="menu-opened"
+             fallback-duration="400"
              close-on-esc close-on-outside-action>
     {% if collections[collection] %}
       <ul class="hd-dropdown-list">

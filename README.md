@@ -69,10 +69,10 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
 3. [Optional] Setup environment configuration, e.g. custom screen breakpoints.
 
     ```javascript
-    import {ESLMediaBreakpoints} from '@exadel/esl/modules/esl-media-query/core';
+    import {ESLScreenBreakpoints} from '@exadel/esl/modules/esl-media-query/core';
 
     // define XS screen breakpoint for up to 800px screen width
-    ESLMediaBreakpoints.addCustomBreakpoint('XS', 1, 800); 
+    ESLScreenBreakpoints.addCustomBreakpoint('XS', 1, 800); 
     ```
 
 4.  Register components via `register` static method call

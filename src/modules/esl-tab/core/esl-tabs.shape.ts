@@ -2,7 +2,7 @@
  * Tag declaration interface of {@link ESLTabs} element
  * Used for JSX declaration
  */
-export interface ESLTabsShape {
+export interface ESLTabsTagShape {
   /**
    * Defines scrollable mode.
    * Supported types for different breakpoints ('disabled' by default):
@@ -17,5 +17,5 @@ export interface ESLTabsShape {
   'scrollable-target'?: string;
 
   /** Allowed children */
-  children: any[];
+  children: any;
 }
