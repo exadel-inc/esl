@@ -9,11 +9,11 @@ export const tuple = <T>(arr: T[]): Tuple<T>[] => arr.reduce((acc: Tuple<T>[], e
   return acc;
 }, []);
 
-/** Flat array */
+/** Flat array - unwraps one level of nested arrays */
 export const flat = <T>(arr: (null | T | T[])[]): T[] =>
   arr.reduce((acc: T[], el) => el ? acc.concat(el) : acc, []) as T[];
 
-/** Wrap to array */
+/** Wrap passed object to array */
 export const wrap = <T>(arr: undefined | null | T | T[]): T[] => {
   if (arr === undefined || arr === null) return [];
   if (Array.isArray(arr)) return arr;
@@ -38,47 +38,4 @@ export function range(n: number, filler: (i: number) => any = identity): any[] {
   let i = 0;
   while (i < n) arr[i] = filler(i++);
   return arr;
-}
-
-/**  */
-export function intersection(a?: any): never;
-export function intersection<T>(a: T[]): T[];
-/** Create an array of unique values that presented in each of the passed arrays */
-export function intersection<T>(...rest: T[][]): T[];
-export function intersection<T>(a?: T[], b?: T[], ...rest: T[][]): T[] | undefined {
-  if (!a || !b) throw new Error('The method call should have at least 2 arguments');
-  if (rest.length) return intersection(a, intersection(b, ...rest));
-  return a.filter(Set.prototype.has, new Set(b));
-}
-
-export function union(): never;
-export function union<T>(...rest: T[][]): T[];
-/** Create an array with the unique values from each of the passed arays */
-export function union<T>(...rest: T[][]): T[]  {
-  if (!rest.length) throw new Error('The method call should have at least 2 arguments');
-  const set = new Set();
-  rest.forEach(item => item.forEach(i => set.add(i)));
-  const result: any[] = [];
-  set.forEach(value => result.push(value));
-  return result;
-}
-
-/**  */
-export function complement(a?: any): never;
-/** Creates an array of unique values from the first array that are not present in the other arrays */
-export function complement<T>(...rest: T[][]): T[];
-export function complement<T>(a?: T[], b?: T[], ...rest: T[][]): T[] | undefined {
-  if (!a || !b) throw new Error('The method call should have at least 2 arguments');
-  if (rest.length > 1)  return complement(a, complement(b, ...rest));
-  const setB = new Set(b);
-  return a.filter(element => !setB.has(element));
-}
-
-
-/** Check for elements from array B in array A */
-export function fullIntersection<T>(a: T[], b: T[]): boolean {
-  if (a.length === 0 && b.length === 0) return true;
-  const {testedArr, arr} = a.length >= b.length ? {testedArr: a, arr: b} : {testedArr: b, arr: a};
-  const set = new Set(testedArr);
-  return !arr.filter((item: T) => !set.has(item)).length;
 }
