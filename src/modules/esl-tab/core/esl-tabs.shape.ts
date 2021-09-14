@@ -1,8 +1,11 @@
+import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
+import type {ESLTabs} from './esl-tabs';
+
 /**
  * Tag declaration interface of {@link ESLTabs} element
  * Used for JSX declaration
  */
-export interface ESLTabsTagShape {
+export interface ESLTabsTagShape extends ESLBaseElementShape<ESLTabs> {
   /**
    * Defines scrollable mode.
    * Supported types for different breakpoints ('disabled' by default):
@@ -18,4 +21,12 @@ export interface ESLTabsTagShape {
 
   /** Allowed children */
   children: any;
+}
+
+declare global {
+  namespace JSX {
+    export interface IntrinsicElements {
+      'esl-tabs': ESLTabsTagShape;
+    }
+  }
 }

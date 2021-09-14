@@ -1,8 +1,11 @@
+import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
+import type {ESLPanelGroup} from './esl-panel-group';
+
 /**
  * Tag declaration interface of {@link ESLPanelGroup} element
  * Used for JSX declaration
  */
-export interface ESLPanelGroupTagShape {
+export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup> {
   /**
    * Define rendering mode of the component (takes values from the list of supported modes; 'accordion' by default)
    * Supported values: `accordion|tabs|open`
@@ -23,4 +26,12 @@ export interface ESLPanelGroupTagShape {
 
   /** Allowed children */
   children: any;
+}
+
+declare global {
+  namespace JSX {
+    export interface IntrinsicElements {
+      'esl-panel-group': ESLPanelGroupTagShape;
+    }
+  }
 }
