@@ -3,7 +3,7 @@ import type {ESLToggleable} from './esl-toggleable';
 
 /**
  * Tag declaration interface of {@link ESLToggleable} element
- * Used for JSX declaration
+ * Used for TSX declaration
  */
 export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable> extends ESLBaseElementShape<T> {
   /** Define CSS class to add on the body element */

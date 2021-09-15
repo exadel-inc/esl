@@ -3,7 +3,7 @@ import type {ESLTabs} from './esl-tabs';
 
 /**
  * Tag declaration interface of {@link ESLTabs} element
- * Used for JSX declaration
+ * Used for TSX declaration
  */
 export interface ESLTabsTagShape extends ESLBaseElementShape<ESLTabs> {
   /**

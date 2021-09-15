@@ -3,7 +3,7 @@ import type {ESLPanel} from './esl-panel';
 
 /**
  * Tag declaration interface of {@link ESLPanel} element
- * Used for JSX declaration
+ * Used for TSX declaration
  */
 export interface ESLPanelTagShape extends ESLToggleableTagShape<ESLPanel> {
   /** Define class(es) to be added for active state ('open' by default) */

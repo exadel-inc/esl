@@ -3,7 +3,7 @@ import type {ESLTab} from './esl-tab';
 
 /**
  * Tag declaration interface of {@link ESLTab} element
- * Used for JSX declaration
+ * Used for TSX declaration
  */
 export interface ESLTabTagShape extends ESLTriggerTagShape<ESLTab> {
 }

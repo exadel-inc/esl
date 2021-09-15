@@ -3,7 +3,7 @@ import type {ESLA11yGroup} from './esl-a11y-group';
 
 /**
  * Tag declaration interface of {@link ESLA11yGroup} element
- * Used for JSX declaration
+ * Used for TSX declaration
  */
 export interface ESLA11yGroupTagShape extends ESLBaseElementShape<ESLA11yGroup> {
   /** Define target elements multiple selector ({@link TraversingQuery} syntax) */

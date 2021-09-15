@@ -3,7 +3,7 @@ import type {ESLPanelGroup} from './esl-panel-group';
 
 /**
  * Tag declaration interface of {@link ESLPanelGroup} element
- * Used for JSX declaration
+ * Used for TSX declaration
  */
 export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup> {
   /**

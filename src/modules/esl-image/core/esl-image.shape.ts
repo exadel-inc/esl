@@ -3,7 +3,7 @@ import type {ESLImage} from './esl-image';
 
 /**
  * Tag declaration interface of ESL Image element
- * Used for JSX declaration
+ * Used for TSX declaration
  */
 export interface ESLImageTagShape extends ESLBaseElementShape<ESLImage> {
   /** Define {@link ESLMediaRuleList} query for image source */

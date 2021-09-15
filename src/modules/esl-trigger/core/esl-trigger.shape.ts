@@ -3,7 +3,7 @@ import type {ESLTrigger} from './esl-trigger';
 
 /**
  * Tag declaration interface of {@link ESLTrigger} element
- * Used for JSX declaration
+ * Used for TSX declaration
  */
 export interface ESLTriggerTagShape<T extends ESLTrigger = ESLTrigger> extends ESLBaseElementShape<T> {
   /** Define target Toggleable {@link TraversingQuery} selector. `next` by default */

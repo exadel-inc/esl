@@ -3,7 +3,7 @@ import type {ESLScrollbar} from './esl-scrollbar';
 
 /**
  * Tag declaration interface of ESL Scrollbar
- * Used for JSX declaration
+ * Used for TSX declaration
  */
 export interface ESLScrollbarTagShape extends ESLBaseElementShape<ESLScrollbar> {
   /** Define ESL Traversing Query for container element to observe with ESL Scrollbar */

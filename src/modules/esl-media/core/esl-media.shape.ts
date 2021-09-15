@@ -3,7 +3,7 @@ import type {ESLMedia} from './esl-media';
 
 /**
  * Tag declaration interface of ESLMedia element
- * Used for JSX declaration
+ * Used for TSX declaration
  */
 export type ESLMediaTagShape = ({
   /** Define media player id */
