@@ -20,6 +20,7 @@ export interface ESLPanelTagShape extends ESLToggleableTagShape<ESLPanel> {
 declare global {
   namespace JSX {
     export interface IntrinsicElements {
+      /** {@link ESLPanel} custom tag */
       'esl-panel': ESLPanelTagShape;
     }
   }

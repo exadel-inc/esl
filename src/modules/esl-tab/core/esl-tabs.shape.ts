@@ -26,6 +26,7 @@ export interface ESLTabsTagShape extends ESLBaseElementShape<ESLTabs> {
 declare global {
   namespace JSX {
     export interface IntrinsicElements {
+      /** {@link ESLTabs} custom tag */
       'esl-tabs': ESLTabsTagShape;
     }
   }

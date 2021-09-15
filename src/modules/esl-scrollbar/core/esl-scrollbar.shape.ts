@@ -24,6 +24,7 @@ export interface ESLScrollbarTagShape extends ESLBaseElementShape<ESLScrollbar> 
 declare global {
   namespace JSX {
     export interface IntrinsicElements {
+      /** {@link ESLScrollbar} custom tag */
       'esl-scrollbar': ESLScrollbarTagShape;
     }
   }
