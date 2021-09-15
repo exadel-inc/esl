@@ -24,7 +24,7 @@ export interface AriaAttributesShape {
 
   /**
    * Indicates an element is being modified and that assistive technologies MAY want to wait until
-   * the modifications are complete before exposing them to the user.
+   * the modifications are completed before exposing them to the user.
    */
   'aria-busy'?: 'true' | 'false' | boolean;
 
@@ -91,7 +91,7 @@ export interface AriaAttributesShape {
    */
   'aria-errormessage'?: string;
 
-  /** Indicates whether the element, or another grouping element it controls, is currently expanded or collapsed. */
+  /** Indicates whether the element or another grouping element it controls is currently expanded or collapsed. */
   'aria-expanded'?: 'true' | 'false' | boolean;
 
   /**
