@@ -13,7 +13,7 @@ export interface ESLA11yGroupTagShape extends ESLBaseElementShape<ESLA11yGroup> 
   'activate-selected'?: boolean;
 
   /** Children are not allowed for ESLA11yGroup */
-  children?: [];
+  children?: never[];
 }
 
 declare global {

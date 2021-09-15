@@ -26,7 +26,7 @@ export interface ESLImageTagShape extends ESLBaseElementShape<ESLImage> {
   'inner-image-class'?: string;
 
   /** Children are not allowed for ESLImage */
-  children?: [];
+  children?: never[];
 }
 
 declare global {

@@ -58,7 +58,7 @@ export type ESLMediaTagShape = ({
   'load-cls-declined'?: string;
 
   /** Children are not allowed for ESLMedia */
-  children?: [];
+  children?: never[];
 } & ESLBaseElementShape<ESLMedia>;
 
 declare global {

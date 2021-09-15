@@ -18,7 +18,7 @@ export interface ESLScrollbarTagShape extends ESLBaseElementShape<ESLScrollbar> 
   'track-class'?: string;
 
   /** Children are not allowed for ESLScrollbar*/
-  children?: [];
+  children?: never[];
 }
 
 declare global {

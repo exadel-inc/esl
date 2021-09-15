@@ -7,7 +7,7 @@ import type {ESLToggleableDispatcher} from './esl-toggleable-dispatcher';
  */
 export interface ESLToggleableDispatcherTagShape extends ESLBaseElementShape<ESLToggleableDispatcher> {
   /** Children are not allowed for ESLToggleableDispatcher */
-  children?: [];
+  children?: never[];
 }
 
 declare global {
