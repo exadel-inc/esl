@@ -1,4 +1,4 @@
-# [ESL](../../../README.md) Panel & Panel Stack
+# [ESL](../../../README.md) Panel
 
 Version: *2.1.0*.  
 
