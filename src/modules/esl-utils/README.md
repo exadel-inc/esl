@@ -85,6 +85,8 @@ Even if you use the whole utils module, it is still tiny.
 
     - ##### [Array](./misc/array.ts) - array utils (uniq, flat, wrap, etc.).
   
+    - ##### [Set](./misc/set.ts) - set/array with uniq values utils
+
     - ##### [Format](./misc/format.ts) - string format utils.
   
     - ##### [Function](./misc/functions.ts) - simple functions and types.
