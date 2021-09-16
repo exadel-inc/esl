@@ -61,7 +61,7 @@ representative at an online or offline event.
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported by contacting the Core Team (Alexey Stsefanovich <astsefanovich@exadel.com>, 
 Julia Murashko <ymurashka@exadel.com>, Yuliya Adamskaya <yadamska@exadel.com>, 
-Dmytro Shovchko <dshovchko@exadel.com>). All complaints will be reviewed and investigated and will 
+Dmytro Shovchko <dshovchko@exadel.com>, Anna Barmina <abarmina@exadel.com>). All complaints will be reviewed and investigated and will 
 result in a response that is deemed necessary and appropriate to the circumstances. 
 The project team is obligated to maintain confidentiality with regard to the reporter of an incident.
 Further details of specific enforcement policies may be posted separately.
