@@ -13,7 +13,7 @@ ESLPopup is based on ESLToggleable and works in pair with ESLTrigger that allows
 
 ### ESLPopup Attributes | Properties:
 
-- `position` (string) - popup position relative to trigger (currently supported: 'top', 'bottom', 'left', 'right' ) ('top' by default)
+- `position` (string) - popup position relative to the trigger (currently supported: 'top', 'bottom', 'left', 'right' ) ('top' by default)
   
 - `behavior` (string) - popup behavior if it does not fit in the window ('fit' by default). Available options:
   - `fit` - default, popup will always be positioned in the right place. Position dynamically updates so it will always be visible

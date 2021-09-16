@@ -1,6 +1,9 @@
+import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
+import type {ESLMedia} from './esl-media';
+
 /**
  * Tag declaration interface of ESLMedia element
- * Used for JSX declaration
+ * Used for TSX declaration
  */
 export type ESLMediaTagShape = ({
   /** Define media player id */
@@ -55,5 +58,14 @@ export type ESLMediaTagShape = ({
   'load-cls-declined'?: string;
 
   /** Children are not allowed for ESLMedia */
-  children: [];
-};
+  children?: never[];
+} & ESLBaseElementShape<ESLMedia>;
+
+declare global {
+  namespace JSX {
+    export interface IntrinsicElements {
+      /** {@link ESLMedia} custom tag */
+      'esl-media': ESLMediaTagShape;
+    }
+  }
+}
