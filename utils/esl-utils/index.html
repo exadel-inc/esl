@@ -242,7 +242,7 @@
       
       
 <div class="markdown-container">
-<p>ESL Utils - is a module that contains a set of common utilities for working with DOM, BOM and other simple but handy things that are used by ESL components, but can also be used in client code.</p>
+<p>ESL Utils is a module that contains a set of common utilities for working with DOM, BOM and other simple but handy things that are used by ESL components, but can also be used in client code.</p>
 <p>All ESL Utils helpers are super simple and atomic, be sure that none of the utilities requires the whole library.
 Even if you use the whole utils module, it is still tiny.</p>
 <hr>
@@ -252,7 +252,7 @@ Even if you use the whole utils module, it is still tiny.</p>
 <h4>Abstract</h4>
 <ul>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/abstract/observable.ts">Observable</a> - small base class that implements observable pattern.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/abstract/observable.ts" target="_blank">Observable</a> - a small base class that implements observable pattern.</h5>
 </li>
 </ul>
 </li>
@@ -260,30 +260,30 @@ Even if you use the whole utils module, it is still tiny.</p>
 <h4>Async</h4>
 <ul>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/async/aggregate.ts">Aggregate</a> - throttle function decorator with aggregation.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/async/aggregate.ts" target="_blank">Aggregate</a> - a throttle function decorator with aggregation.</h5>
 <p>Limits decorated function calls to one call in passed <code>time</code>. The decorated function <code>callback</code> will be called once
 at the end of the timeout with the list of the first arguments in the calls.</p>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/async/debounce.ts">Debounce</a> - debounce function decorator.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/async/debounce.ts" target="_blank">Debounce</a> - a debounce function decorator.</h5>
 <p>Debouncing is a pattern commonly used for rate limiting function calls with a timeout.</p>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/async/delayed-task.ts">Delayed Task</a> - common helper to plan task (function) to be executed with or without a timeout.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/async/delayed-task.ts" target="_blank">Delayed Task</a> - a common helper to plan task (function) to be executed with or without a timeout.</h5>
 <p>New task planning request cancels the previous task in a DelayedTask instance in case it has not happened yet.</p>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/async/promise.ts">Promise Utils</a> - a set of Promise helpers.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/async/promise.ts" target="_blank">Promise Utils</a> - a set of Promise helpers.</h5>
 <p>Allows converting DOM Events, timeouts, pooling check, etc. to ES6 Promise or create a Deferred object
 that allows to resolve or reject related Promise.</p>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/async/raf.ts">RAF(Rendering callback) Utils</a> - Request Animation Frame common helpers.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/async/raf.ts" target="_blank">RAF(Rendering callback) Utils</a> - Request Animation Frame common helpers.</h5>
 <p>Includes RAF Decorator that postpones multiple function calls to a single one before rendering.
 Also includes <code>afterNextRender</code> deferring function.</p>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/async/throttle.ts">Throttle</a> - throttling function decorator.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/async/throttle.ts" target="_blank">Throttle</a> - a throttling function decorator.</h5>
 <p>Throttling is a pattern that allows to limit function call to one execution per timeout.</p>
 </li>
 </ul>
@@ -292,16 +292,16 @@ Also includes <code>afterNextRender</code> deferring function.</p>
 <h4>TS Decorators</h4>
 <ul>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/decorators/bind.ts">@bind</a> - TS decorator to bind method context to current class instance.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/decorators/bind.ts" target="_blank">@bind</a> - a TS decorator to bind method context to current class instance.</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/decorators/memoize.ts">@memoize</a> - TS decorator to make method or get accessor memoized.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/decorators/memoize.ts" target="_blank">@memoize</a> - a TS decorator to make method or get accessor memoized.</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/decorators/prop.ts">@prop</a> - TS decorator to define a field on the prototype level.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/decorators/prop.ts" target="_blank">@prop</a> - a TS decorator to define a field on the prototype level.</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/decorators/ready.ts">@ready</a> - TS decorator to postpone method execution until DOM is ready</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/decorators/ready.ts" target="_blank">@ready</a> - a TS decorator to postpone method execution until DOM is ready</h5>
 <p>See <code>esl-utils.dom.ready#onDocumentReady</code> utility function for details</p>
 </li>
 </ul>
@@ -310,39 +310,39 @@ Also includes <code>afterNextRender</code> deferring function.</p>
 <h4>DOM Helpers</h4>
 <ul>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/api.ts">DOM API Utils</a> - basic dom api helpers</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/api.ts" target="_blank">DOM API Utils</a> - a basic dom api helpers</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/class.ts">CSSClass</a> - is a utility to work with CSS classes.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/class.ts" target="_blank">CSSClass</a> - a utility to work with CSS classes.</h5>
 <p>Supports JQuery-like enumeration, inversion syntax and locks.</p>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/focus.ts">Focus</a> - focus order helpers.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/focus.ts" target="_blank">Focus</a> - a focus order helpers.</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/keys.ts">Keys</a> - keyboard keys constants.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/keys.ts" target="_blank">Keys</a> - a keyboard keys constants.</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/ready.ts">Ready</a> - utility to postpone callback to the task after DOM Ready.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/ready.ts" target="_blank">Ready</a> - a utility to postpone callback to the task after DOM Ready.</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/rect.ts">Rect</a> - rectangle utility class to provide position calculations.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/rect.ts" target="_blank">Rect</a> - a rectangle utility class to provide position calculations.</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/rtl.ts">RTL Utils</a> - Utils to detect RTL and RTL-specific browsers behavior.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/rtl.ts" target="_blank">RTL Utils</a> - Utils to detect RTL and RTL-specific browsers behavior.</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/script.ts">Scripts</a> - script loading utility to limit and track loading.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/script.ts" target="_blank">Scripts</a> - a script loading utility to limit and track loading.</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/scroll.ts">Scroll</a> - scroll utility methods like locking, traversing for closest scrollable, etc.</h5>
-<p><em>Note: uses <a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/scroll.less">scroll.less</a> styles.</em></p>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/scroll.ts" target="_blank">Scroll</a> - a scroll utility methods like locking, traversing for closest scrollable, etc.</h5>
+<p><em>Note: uses <a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/scroll.less" target="_blank">scroll.less</a> styles.</em></p>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/traversing.ts">DOM Traversing</a> - a set of utils to find DOM elements or check their relations.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/traversing.ts" target="_blank">DOM Traversing</a> - a set of utils to find DOM elements or check their relations.</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/window.ts">Window</a> - browser window object utils.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/dom/window.ts" target="_blank">Window</a> - a browser window object utils.</h5>
 </li>
 </ul>
 </li>
@@ -350,7 +350,7 @@ Also includes <code>afterNextRender</code> deferring function.</p>
 <h4>Environment</h4>
 <ul>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/environment/device-detector.ts">Device Detector</a> - set of user agent based checks such as engine or device type.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/environment/device-detector.ts" target="_blank">Device Detector</a> - a set of user agent based checks such as engine or device type.</h5>
 </li>
 </ul>
 </li>
@@ -358,26 +358,26 @@ Also includes <code>afterNextRender</code> deferring function.</p>
 <h4>Miscellaneous Utils</h4>
 <ul>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/array.ts">Array</a> - array utils (uniq, flat, wrap, etc.).</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/array.ts" target="_blank">Array</a> - an array utils (uniq, flat, wrap, etc.).</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/set.ts">Set</a> - set/array with uniq values utils</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/set.ts" target="_blank">Set</a> - a set or an array with uniq values utils</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/format.ts">Format</a> - string format utils.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/format.ts" target="_blank">Format</a> - string format utils.</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/functions.ts">Function</a> - simple functions and types.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/functions.ts" target="_blank">Function</a> - simple functions and types.</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/memoize.ts">Memoize</a> - memoization function decorator.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/memoize.ts" target="_blank">Memoize</a> - a memoization function decorator.</h5>
 <p>Memoization patten allows executing pure function once and then use the cached result.</p>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/object.ts">Object</a> - object common utils.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/object.ts" target="_blank">Object</a> - object common utils.</h5>
 </li>
 <li>
-<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/uid.ts">UID</a> - unique identifier generation util.</h5>
+<h5><a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-utils/misc/uid.ts" target="_blank">UID</a> - unique identifier generation utils.</h5>
 </li>
 </ul>
 </li>

@@ -250,7 +250,7 @@
 Then you can attach <code>&lt;esl-alert&gt;</code> component to the expected place in the document or initialize it globally by using <code>ESLAlert.init</code> shortcut.</p>
 <p>ESL Alert listens to DOM alerts to control its state.
 By default, the target to catch alerts is the <code>esl-alert</code> parent element.
-Target can be changed using <code>target</code> attribute with the <a href="https://github.com/exadel-inc/esl/tree/main/src/modules/esl-traversing-query/README.md">TraversingQuery</a> support,
+Target can be changed using <code>target</code> attribute with the <a href="https://exadel-inc.github.io/esl/utils/esl-traversing-query/">TraversingQuery</a> support,
 or through the <code>$target</code> property that accepts any EventTarget instance (including the window).</p>
 <p>ESL Alert listens to the following events:</p>
 <ul>
@@ -275,7 +275,7 @@ or through the <code>$target</code> property that accepts any EventTarget instan
   <span class="hljs-tag">&lt;<span class="hljs-name">esl-alert</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">esl-alert</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 </code></pre>
-<pre><code class="language-javascript"><span class="hljs-comment">// my-component</span>
+<pre><code class="language-js"><span class="hljs-comment">// my-component</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">dispatchEvent</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">CustomEvent</span>(<span class="hljs-string">`esl:alert:show`</span>, {
   <span class="hljs-attr">detail</span>: {
     <span class="hljs-attr">text</span>: <span class="hljs-string">'Hello World'</span>,
