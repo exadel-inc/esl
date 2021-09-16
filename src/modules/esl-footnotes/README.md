@@ -1,4 +1,4 @@
-# [ESL](../../../README.md) Footnotes
+# [ESL](https://exadel-inc.github.io/esl/) Footnotes
 
 Version: *1.0.0-beta*.
 
