@@ -1,3 +1,18 @@
+# [3.1.0](https://github.com/exadel-inc/esl/compare/v3.0.3...v3.1.0) (2021-09-16)
+
+
+### Bug Fixes
+
+* tsx single tags allowed child definition ([10e465a](https://github.com/exadel-inc/esl/commit/10e465a268059ffe5f1e96aecd6f123f5af6cc04))
+
+
+### Features
+
+* add `ESLBaseElement` complete and independent TSX shape definition ([7517bf4](https://github.com/exadel-inc/esl/commit/7517bf40b6c53e7593e198ba4520ee467d2755b7))
+* add TSX shapes for `ESLAlert` ([b2ff733](https://github.com/exadel-inc/esl/commit/b2ff733028e3fb5ac27831388bc67b73e72e9eed))
+* add TSX shapes for `ESLPopup` ([180f411](https://github.com/exadel-inc/esl/commit/180f411ceef38d3b558de4c5b4c902dc1cb8a1eb))
+* ootb TSX types for components & updates complete TSX shapes ([2bd409c](https://github.com/exadel-inc/esl/commit/2bd409c3f5be79df76c7745ffdcaf574f614b35a)), closes [#476](https://github.com/exadel-inc/esl/issues/476)
+
 ## [3.0.3](https://github.com/exadel-inc/esl/compare/v3.0.2...v3.0.3) (2021-09-07)
 
 
