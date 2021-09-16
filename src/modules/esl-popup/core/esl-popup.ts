@@ -45,7 +45,7 @@ export class ESLPopup extends ESLToggleable {
   protected _intersectionRatio: IntersectionRatioRect = {};
 
   /**
-   * Popup position relative to trigger.
+   * Popup position relative to the trigger.
    * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
    */
   @attr({defaultValue: 'top'}) public position: PositionType;

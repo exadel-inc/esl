@@ -1,6 +1,6 @@
 /**
  * WAI-ARIA Element Shape definitions for TSX
- * Contains dll the WAI-ARIA 1.1 attributes
+ * Contains all the WAI-ARIA 1.1 attributes
  * @see https://www.w3.org/TR/wai-aria-1.1/
  */
 export interface AriaAttributesShape {
@@ -23,7 +23,7 @@ export interface AriaAttributesShape {
   'aria-autocomplete'?: 'none' | 'inline' | 'list' | 'both';
 
   /**
-   * Indicates an element is being modified and that assistive technologies MAY want to wait until
+   * Indicates that an element is being modified and assistive technologies MAY want to wait until
    * the modifications are completed before exposing them to the user.
    */
   'aria-busy'?: 'true' | 'false' | boolean;
@@ -95,8 +95,8 @@ export interface AriaAttributesShape {
   'aria-expanded'?: 'true' | 'false' | boolean;
 
   /**
-   * Identifies the next element (or elements) in an alternate reading order of content which, at the user's discretion,
-   * allows assistive technology to override the general default of reading in document source order.
+   * Identifies the next element (or elements) in the alternate reading order of the content which, at the user's discretion,
+   * allows assistive technology to override the general default of reading in the document source order.
    */
   'aria-flowto'?: string;
 
@@ -140,10 +140,7 @@ export interface AriaAttributesShape {
   /** Defines the hierarchical level of an element within a structure. */
   'aria-level'?: number;
 
-  /**
-   * Indicates that an element will be updated, and describes the types of updates the user agents,
-   * assistive technologies, and user can expect from the live region.
-   */
+  /** Indicates that an element will be updated, and describes the types of updates or the user agents assistive technologies. */
   'aria-live'?: 'off' | 'assertive' | 'polite';
 
   /** Indicates whether an element is modal when displayed. */

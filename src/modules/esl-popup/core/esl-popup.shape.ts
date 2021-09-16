@@ -10,7 +10,7 @@ export interface ESLPopupShape extends ESLToggleableTagShape<ESLPopup> {
   /** Popup behavior if it does not fit in the window ('fit' by default) */
   behavior?: string;
   /**
-   * Popup position relative to trigger.
+   * Popup position relative to the trigger.
    * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
    */
   position?: PositionType;
