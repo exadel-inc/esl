@@ -1,5 +1,8 @@
 # [3.1.0](https://github.com/exadel-inc/esl/compare/v3.0.3...v3.1.0) (2021-09-16)
 
+New Exadel Smart Library version comes with extended and out-of-the-box support for TSX.
+TSX Shapes updated and complete, `JSX.Element` merging no longer required, everything available OOTB.
+**Default ESL tags definition no longer needed, get rid of the `IntrinsicElements` interface expansion, ESL now define everything that's required.**
 
 ### Bug Fixes
 
@@ -12,6 +15,12 @@
 * add TSX shapes for `ESLAlert` ([b2ff733](https://github.com/exadel-inc/esl/commit/b2ff733028e3fb5ac27831388bc67b73e72e9eed))
 * add TSX shapes for `ESLPopup` ([180f411](https://github.com/exadel-inc/esl/commit/180f411ceef38d3b558de4c5b4c902dc1cb8a1eb))
 * ootb TSX types for components & updates complete TSX shapes ([2bd409c](https://github.com/exadel-inc/esl/commit/2bd409c3f5be79df76c7745ffdcaf574f614b35a)), closes [#476](https://github.com/exadel-inc/esl/issues/476)
+* add new set utilities with the following methods:
+    - `intersection`  - to create a unique array intersection
+    - `union`  - to create a union of the unique values
+    - `complement` - to create a complement of one array to another
+    - `fullIntersection` - check if the arrays have a full intersection
+
 
 ## [3.0.3](https://github.com/exadel-inc/esl/compare/v3.0.2...v3.0.3) (2021-09-07)
 
