@@ -153,11 +153,11 @@ you can find useful information about the project processes and agreements here:
 [Alexey Stsefanovich](https://github.com/ala-n), 
 [Julia Murashko](https://github.com/julia-murashko), 
 [Yuliya Adamskaya](https://github.com/yadamskaya),
-[Dmytro Shovchko](https://github.com/dshovchko).
+[Dmytro Shovchko](https://github.com/dshovchko),
+[Anna Barmina](https://github.com/abarmina).
 
 **ESL Contributors**: 
-[Aliaksandr Auseyeu](https://github.com/alexanderavseev), 
-[Anna Barmina](https://github.com/abarmina),
+[Aliaksandr Auseyeu](https://github.com/alexanderavseev),
 [Anna-Mariia Petryk](https://github.com/Anna-MariiaPetryk),
 [Anastasiya Lesun](https://github.com/NastaLeo),
 [Andrey Belous](https://github.com/andreybelous),
