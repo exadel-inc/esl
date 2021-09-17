@@ -1,4 +1,4 @@
-# [ESL](../../../README.md) Base Element
+# [ESL](https://exadel-inc.github.io/esl/) Base Element
 
 Version: *1.0.0*
 
@@ -6,7 +6,7 @@ Authors: *Alexey Stsefanovich (ala'n)*
 
 <a name="intro"></a>
 
-Provides the ESLBaseElement - base class for custom element declaration, and a set of common decorators.
+Provides the ESLBaseElement - a base class for custom element declaration, and a set of common decorators.
 
 ### Available decorators:
  - `@attr` - to map string type property to HTML attribute.

@@ -1,4 +1,4 @@
-# [ESL](../../../) Alert
+# [ESL](https://exadel-inc.github.io/esl/) Alert
 
 Version: *1.0.0*
 
@@ -19,7 +19,7 @@ Then you can attach `<esl-alert>` component to the expected place in the documen
 
 ESL Alert listens to DOM alerts to control its state. 
 By default, the target to catch alerts is the `esl-alert` parent element. 
-Target can be changed using `target` attribute with the [TraversingQuery](../esl-traversing-query/README.md) support, 
+Target can be changed using `target` attribute with the [TraversingQuery](https://exadel-inc.github.io/esl/utils/esl-traversing-query/) support, 
 or through the `$target` property that accepts any EventTarget instance (including the window). 
 
 ESL Alert listens to the following events: 
@@ -48,7 +48,7 @@ If one of `esl-alert`s catches the activation event it will prevent its propagat
 </body>
 ```
 
-```javascript
+```js
 // my-component
 this.dispatchEvent(new CustomEvent(`esl:alert:show`, {
   detail: {
