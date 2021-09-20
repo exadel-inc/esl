@@ -27,6 +27,16 @@ describe('async/debounce', () => {
     return expect(promise$).resolves.toBe(context);
   });
 
+  test('call context bind', () => {
+    const fn = function () { return this; };
+    const context = {};
+    const debounced = debounce(fn, 0, context);
+    debounced.call({});
+    const promise$ = debounced.promise;
+    jest.runAllTimers();
+    return expect(promise$).resolves.toBe(context);
+  });
+
   test('cancel debounce', () => {
     const fn = jest.fn();
     const debounced = debounce(fn, 10);
