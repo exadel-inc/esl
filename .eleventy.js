@@ -3,6 +3,7 @@ const htmlmin = require('html-minifier');
 const { isDev } = require('./pages/views/_data/env');
 const { markdown } = require('./pages/views/_data/markdown');
 const { MDRenderer } = require('./pages/views/_data/md-render');
+const { createTapeParam, createSignature, modifyName, createParam, getSignature} = require('./pages/views/_data/utils-render');
 
 module.exports = (config) => {
   config.addWatchTarget('src/**/*.md');
@@ -59,6 +60,11 @@ module.exports = (config) => {
     }
     return content;
   });
+
+  config.addNunjucksFilter('getSignature', getSignature);
+  config.addShortcode('createTapeParam', createTapeParam);
+  config.addShortcode('createSignature', createSignature);
+  config.addShortcode('createParam', createParam);
 
   return {
     dir: {

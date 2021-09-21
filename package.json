@@ -65,7 +65,8 @@
     "lint:css": "stylelint src/**/*.less",
     "lint:spaces": "lintspaces ./pages/{src,views,controller}/**/*.{html,less,json} ./src/**/*.{less} -n -t -d spaces",
     "prepare": "husky install && npm run build",
-    "preversion": "npm test"
+    "preversion": "npm test",
+    "build:utils:json": "typedoc"
   },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.6",
