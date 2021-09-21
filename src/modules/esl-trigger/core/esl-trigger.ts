@@ -152,14 +152,22 @@ export class ESLTrigger extends ESLBaseElement {
     const actionParams = this.mergeToggleableParams({
       delay: parseNumber(this.showDelay)
     }, params);
-    this.$target && this.$target.show(actionParams);
+    if (this.$target && typeof this.$target.show === 'function') {
+      this.$target.show(actionParams);
+    } else {
+      console.warn(this.$target, ' is not a toggleable');
+    }
   }
   /** Hide target toggleable with passed params */
   public hideTarget(params: ToggleableActionParams = {}) {
     const actionParams = this.mergeToggleableParams({
       delay: parseNumber(this.hideDelay)
     }, params);
-    this.$target && this.$target.hide(actionParams);
+    if (this.$target && typeof this.$target.hide === 'function') {
+      this.$target.hide(actionParams);
+    } else {
+      console.warn(this.$target, ' is not a toggleable');
+    }
   }
   /** Toggles target toggleable with passed params */
   public toggleTarget(params: ToggleableActionParams = {}, state: boolean = !this.active) {
