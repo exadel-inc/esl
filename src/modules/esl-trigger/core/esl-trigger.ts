@@ -59,7 +59,7 @@ export class ESLTrigger extends ESLBaseElement {
    */
   @attr({defaultValue: '0'}) public hoverHideDelay: string;
 
-  protected _$target: ESLToggleable;
+  protected _$target: ESLToggleable | null;
 
   protected attributeChangedCallback(attrName: string) {
     if (!this.connected) return;
@@ -67,7 +67,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Target observable Toggleable */
-  public get $target() {
+  public get $target(): ESLToggleable | null {
     return this._$target;
   }
   public set $target(newPopupInstance) {
@@ -176,7 +176,7 @@ export class ESLTrigger extends ESLBaseElement {
 
   /**
    * Updates trigger state according to toggleable state
-   * Des not produce `esl:change:active` event
+   * Does not produce `esl:change:active` event
    */
   public updateState() {
     const isActive = !!this.$target?.open;
@@ -263,7 +263,7 @@ export class ESLTrigger extends ESLBaseElement {
     if (!target) return;
 
     target.setAttribute('aria-expanded', String(this.active));
-    if (this.$target.id) {
+    if (this.$target && this.$target.id) {
       target.setAttribute('aria-controls', this.$target.id);
     }
   }
