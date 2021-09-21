@@ -73,9 +73,11 @@ export class ESLTrigger extends ESLBaseElement {
   public set $target(newPopupInstance) {
     this.unbindEvents();
     this._$target = newPopupInstance;
-    if (this._$target) {
-      this.bindEvents();
-      this._onTargetStateChange();
+    this.bindEvents();
+    this._onTargetStateChange();
+
+    if (!this.$target || typeof this.$target.show !== 'function' || typeof this.$target.hide !== 'function') {
+      console.debug('[ESL]: Invalid target ', this.$target, ' for trigger ', this);
     }
   }
 
@@ -154,8 +156,6 @@ export class ESLTrigger extends ESLBaseElement {
     }, params);
     if (this.$target && typeof this.$target.show === 'function') {
       this.$target.show(actionParams);
-    } else {
-      console.warn(this.$target, ' is not a toggleable');
     }
   }
   /** Hide target toggleable with passed params */
@@ -165,8 +165,6 @@ export class ESLTrigger extends ESLBaseElement {
     }, params);
     if (this.$target && typeof this.$target.hide === 'function') {
       this.$target.hide(actionParams);
-    } else {
-      console.warn(this.$target, ' is not a toggleable');
     }
   }
   /** Toggles target toggleable with passed params */
