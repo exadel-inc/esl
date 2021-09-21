@@ -14,8 +14,6 @@ export interface ESLImageTagShape extends ESLBaseElementShape<ESLImage> {
   mode?: string;
   /** Define source base path */
   'data-src-base'?: string;
-  /** Define element title */
-  title?: string;
   /** Define loading mode of the image */
   lazy?: boolean | 'none' | 'manual' | 'auto';
   /** Define load-allowed marker for lazy images */
