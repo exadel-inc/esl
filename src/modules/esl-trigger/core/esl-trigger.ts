@@ -174,17 +174,29 @@ export class ESLTrigger extends ESLBaseElement {
     state ? this.showTarget(params) : this.hideTarget(params);
   }
 
-  /** Handles ESLToggleable state change */
-  @bind
-  protected _onTargetStateChange() {
-    this.toggleAttribute('active', this.$target.open);
+  /**
+   * Updates trigger state according to toggleable state
+   * Des not produce `esl:change:active` event
+   */
+  public updateState() {
+    const isActive = !!this.$target?.open;
+    const wasActive = this.active;
 
+    this.toggleAttribute('active', isActive);
     const clsTarget = TraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
-    clsTarget && CSSClassUtils.toggle(clsTarget, this.activeClass, this.active);
+    clsTarget && CSSClassUtils.toggle(clsTarget, this.activeClass, isActive);
 
     this.updateA11y();
 
-    this.$$fire('change:active');
+    return isActive !== wasActive;
+  }
+
+  /** Handles ESLToggleable state change */
+  @bind
+  protected _onTargetStateChange(originalEvent?: Event) {
+    if (!this.updateState()) return;
+    const detail = {active: this.active, originalEvent};
+    this.$$fire('change:active', {detail});
   }
 
   /** Handles `click` event */
