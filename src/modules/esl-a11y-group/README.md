@@ -1,20 +1,22 @@
 # [ESL](../../../README.md) A11yGroup
 
-Version: *1.0.0*
+Version: _1.0.0_
 
-Authors: *Julia Murashko*
+Authors: _Julia Murashko_
 
 <a name="intro"></a>
 
 ESLA11yGroup - helper custom element that adds a11y group behavior to targets.
-ESLA11yGroup tracks keyboard to loop focus of the targeting elements (with arrow keyboard keys navigation). 
+ESLA11yGroup tracks keyboard to loop focus of the targeting elements (with arrow keyboard keys navigation).
 
 ### Attributes / Properties
 
-- `targets` - property to declare targets for the group using [TraversingQuery](../esl-traversing-query/README.md) syntax. Use group parent element as a base element.
+- `targets` - property to declare targets for the group using [TraversingQuery](../esl-traversing-query/README.md) syntax. Use group parent element as a base element
 - `activate-selected` - activate the element using `click` event on selection change via esl-a11y-group
+- `prevent-scroll` - prevants scroll when target receive focus
 
 ### Example
+
 ```html
 <div class="container">
   <esl-a11y-group targets="::find(.target)"></esl-a11y-group>
