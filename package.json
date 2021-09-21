@@ -67,10 +67,13 @@
     "prepare": "husky install && npm run build",
     "preversion": "npm test"
   },
+  "engines": {
+    "node": ">=14.17.0"
+  },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.6",
     "@types/video.js": "7.3.26",
-    "@types/youtube": "0.0.45"
+    "@types/youtube": "0.0.46"
   },
   "devDependencies": {
     "@11ty/eleventy": "^0.12.1",
@@ -78,15 +81,15 @@
     "@commitlint/config-conventional": "^13.1.0",
     "@juggle/resize-observer": "^3.3.1",
     "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/commit-analyzer": "^8.0.1",
-    "@semantic-release/git": "^9.0.1",
-    "@semantic-release/github": "^7.2.3",
-    "@semantic-release/npm": "^7.1.3",
-    "@semantic-release/release-notes-generator": "^9.0.3",
-    "@types/jest": "^27.0.1",
+    "@semantic-release/commit-analyzer": "^9.0.1",
+    "@semantic-release/git": "^10.0.0",
+    "@semantic-release/github": "^8.0.0",
+    "@semantic-release/npm": "^8.0.0",
+    "@semantic-release/release-notes-generator": "^10.0.2",
+    "@types/jest": "^27.0.2",
     "@types/smoothscroll-polyfill": "^0.3.1",
-    "@typescript-eslint/eslint-plugin": "^4.31.1",
-    "@typescript-eslint/parser": "^4.31.1",
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
     "@webcomponents/custom-elements": "1.5.0",
     "@webcomponents/webcomponents-platform": "1.0.1",
     "browser-sync": "^2.27.5",
@@ -104,19 +107,19 @@
     "html-minifier": "^4.0.0",
     "husky": "^7.0.2",
     "intersection-observer": "^0.12.0",
-    "jest": "^27.2.0",
+    "jest": "^27.2.1",
     "less": "^4.1.1",
     "lintspaces-cli": "^0.7.1",
     "postcss": "^8.3.6",
     "promise-polyfill": "^8.2.0",
     "rimraf": "^3.0.2",
-    "semantic-release": "^17.4.7",
+    "semantic-release": "^18.0.0",
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^13.13.1",
     "ts-jest": "^27.0.5",
-    "ts-loader": "^9.2.5",
+    "ts-loader": "^9.2.6",
     "typescript": "4.4.3",
-    "webpack": "^5.52.1",
+    "webpack": "^5.53.0",
     "webpack-cli": "^4.8.0"
   },
   "browserslist": [
