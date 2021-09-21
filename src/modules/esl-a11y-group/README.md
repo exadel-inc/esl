@@ -12,8 +12,8 @@ ESLA11yGroup tracks keyboard to loop focus of the targeting elements (with arrow
 ### Attributes / Properties
 
 - `targets` - property to declare targets for the group using [TraversingQuery](https://exadel-inc.github.io/esl/utils/esl-traversing-query/) syntax. Use group parent element as a base element
-- `activate-selected` - activate the element using `click` event on selection change via esl-a11y-group
-- `prevent-scroll` - prevants scroll when target receive focus
+- `activate-selected` - activates the element using `click` event on selection change via esl-a11y-group
+- `prevent-scroll` - prevants scroll when target receives focus
 
 ### Example
 
