@@ -1,4 +1,4 @@
-# [ESL](../../../../) Select
+# [ESL](https://exadel-inc.github.io/esl/) Select
 
 Version: *1.1.0*
 
