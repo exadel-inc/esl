@@ -201,7 +201,8 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   @bind
-  protected _onTriggerStateChange() {
+  protected _onTriggerStateChange({detail}: CustomEvent) {
+    if (!detail.active) return;
     this._deferredFitToViewport(this.$current);
   }
 
