@@ -1,0 +1,11 @@
+{% import 'helpers.njk' as helpers %}
+
+{% macro Variables(obj, style)%}
+  {% for item in obj %}
+    <h2 style="{{style}}">{{item.name}} :
+      {{helpers.flag(item.children.flags)}}
+    </h2>
+    <span>{{item.name}}: "{{item.children.signatures[0].type.value}}" = '{{item.children.signatures[0].defaultValue}}'</span>
+    {{helpers.definedIn(item.children.sources)}}
+  {% endfor %}
+{% endmacro %}

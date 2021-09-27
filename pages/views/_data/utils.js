@@ -1,11 +1,10 @@
 const json = require('../../../doc');
 
-
 const getDetails = (item) =>{
     return {
-        const: item.flags.isConst,
+        flags: item.flags ? item.flags : {},
         sources: item.sources ? item.sources[0] : {},
-        signatures: item.signatures,
+        signatures: item.signatures ? item.signatures : [item],
     }
 }
 
@@ -14,7 +13,8 @@ const sort = (data) => {
     data.children.forEach(item => {
         const children = item.children ? sort(item) : getDetails(item);
         const name = item.name;
-        obj[item.kindString] ? obj[item.kindString].push({children, name}) : obj[item.kindString] = [{children, name}];
+        const comment = item.comment;
+        obj[item.kindString] ? obj[item.kindString].push({children, name, comment}) : obj[item.kindString] = [{children, name, comment}];
     })
     return obj;
 
