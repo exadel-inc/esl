@@ -1,0 +1,35 @@
+---
+layout: basic
+title: Example with image
+containerCls: container
+---
+
+<uip-root>
+  <uip-options label="Options:"></uip-options>
+  <uip-snippets label="Snippets">
+    <template uip-snippet label="Image">
+      <img class="demo-img" alt="patrick" src="/assets/patrick.png">
+    </template>
+    <template uip-snippet label="link image">
+      <a class="img-link" href="https://www.google.com/">
+        <img class="demo-img img-256" alt="patrick" src="/assets/patrick.png">
+      </a>
+    </template>
+  </uip-snippets>
+  <uip-preview label="Preview"></uip-preview>
+  <uip-settings label="Settings" target=".demo-img">
+    <uip-text-setting label="Source" attribute="src"></uip-text-setting>
+    <uip-text-setting label="Alternative text" attribute="alt"></uip-text-setting>
+    <uip-text-setting label="Height" attribute="height"></uip-text-setting>
+    <uip-text-setting label="Width" attribute="width"></uip-text-setting>
+    <uip-select-setting label="Resolution" attribute="class" mode="append">
+      <option value="img-64">64x64</option>
+      <option value="img-128">128x128</option>
+      <option value="img-256">256x256</option>
+      <option value="">None</option>
+    </uip-select-setting>
+    <uip-text-setting label="Link" attribute="href" target=".img-link"></uip-text-setting>
+    <uip-bool-setting label="Open in new window" attribute="target" target=".img-link" value="_blank"></uip-bool-setting>
+  </uip-settings>
+  <uip-editor label="Editor"></uip-editor>
+</uip-root>

@@ -1,10 +1,10 @@
 module.exports = {
     files: [
-        './lib/*.js',
-        './lib/*.css'
+        './bundles/*.js',
+        './bundles/*.css'
     ],
     watch: true,
-    server: ['pages', 'lib'],
+    server: ['pages', 'bundles'],
     open: 'local',
     browser: 'default'
 };

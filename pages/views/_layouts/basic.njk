@@ -1,0 +1,37 @@
+{% extends './html5.njk' %}
+{% set scrollbar = true %}
+
+{% block head %}
+  <link rel="icon" type="image/png" href="{{ '/assets/logo-64x64.png' | url }}" />
+  <link rel="stylesheet" type="text/css" href="{{ '/bundles/playground.css' | url }}" />
+
+    <!-- IE preview staff -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.2.8/es6-promise.min.js"></script>-->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.5.0/webcomponents-bundle.js"></script>-->
+  {% block extra_head %}{% endblock %}
+{% endblock %}
+
+{% block body %}
+  <header class="header">
+    {% include 'header.njk' %}
+  </header>
+
+  <main class="main" role="main">
+    {% if title %}
+      <h2 class="main__title">
+        {{ title | safe }}
+      </h2>
+    {% endif %}
+    <div class="content {{ containerCls or 'container-fluid' }}">
+      {{ content | safe or 'No content.' }}
+    </div>
+  </main>
+
+  <footer class="footer">
+    {% include 'footer.njk' %}
+  </footer>
+
+  {% block extra_body %}{% endblock %}
+
+  <script src="{{ '/bundles/playground.js' | url }}"></script>
+{% endblock %}

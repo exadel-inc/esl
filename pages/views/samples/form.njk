@@ -1,0 +1,33 @@
+---
+layout: basic
+title: Example with form
+containerCls: container
+---
+
+<uip-root>
+  <uip-options label="Options:"></uip-options>
+  <uip-snippets label="Snippets">
+    <template uip-snippet label="User form">
+      <form class="demo-form">
+        <div class="form-section">
+          <label for="name">Name: </label>
+          <input type="text" id="name" name="userName">
+        </div>
+        <div class="form-section">
+          <label for="email">Email: </label>
+          <input type="email" pattern="^(([^<>()[\]\\.,;:\s@']+(\.[^<>()[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$" id="email" name="userEmail">
+        </div>
+        <div class="form-section">
+          <label for="pass">Password: </label>
+          <input type="password" id="pass" name="userPass">
+        </div>
+        <input type="submit" value="Send">
+      </form>
+    </template>
+  </uip-snippets>
+  <uip-preview class="centered-content" label="Preview"></uip-preview>
+  <uip-settings label="Settings" target=".demo-form">
+    <uip-bool-setting label="Email validation" target="#email" mode="append" attribute="class" value="validation-input"></uip-bool-setting>
+  </uip-settings>
+  <uip-editor label="Editor"></uip-editor>
+</uip-root>
