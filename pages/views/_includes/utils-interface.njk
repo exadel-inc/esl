@@ -1,0 +1,24 @@
+{% import 'helpers.njk' as helpers %}
+{% import 'utils-property.njk' as property %}
+{% import 'function-helper.njk' as prop %}
+{% import 'utils-functions.njk' as functions %}
+
+{% macro Interface(obj, style)%}
+  {% for item in obj %}
+    <h2 style="{{style}}"> Interface : {{item.name}} </h2>
+    {{helpers.definedIn(item.sources)}}
+    {{helpers.typeParametr(item.typeParameter | getTypeParam, "Type parameters:")}}
+    {% if item.hasSignatures %}
+      <h3>Callable</h3>
+      {{helpers.definedIn(item.sources)}}
+      {{helpers.comment(item.comment)}}
+      {{prop.createSignatures(item.signatures)}}
+    {% endif %}
+    {% if item.extendedTypes[0] %}
+      <h3>Hierarchy: </h3>
+      <p>{% checkType  item.extendedTypes[0] %}</p>
+    {% endif %}
+    {{property.createProperty(item.children.Property)}}
+    {{functions.Function(item.children.Method, 'Method', "color: #00aa49")}}
+  {% endfor %}
+{% endmacro %}

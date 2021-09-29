@@ -1,22 +1,14 @@
 {% import 'helpers.njk' as helpers %}
+{% import 'function-helper.njk' as prop %}
 
 {% macro Function(function, name, style) %}
   {% for item in function %}
-      <h2 style="{{style}}">{{name}} :
-      {{helpers.flag(item.children.flags)}}
+      <h2 style="{{style}}">{{name}}
+        {{helpers.flag(item.flags)}}
         {{item.name}}</h2>
-        {{helpers.definedIn(item.children.sources)}}
-      {% for obj in item.children.signatures | getSignature %}
-      {{helpers.comment(obj.comment)}}
-          {% if obj.typeParameter.length > 0 %}
-              <h3>Type parameters:</h3>
-              <ul>
-                {% for item in obj.typeParameter %}
-                {% endfor %}
-              </ul>
-           {% endif %}
-           {{helpers.getParameter(obj.parameter)}}
-           {{helpers.getReturns(obj.returns)}}
-      {% endfor %}
+        {{helpers.definedIn(item.sources)}}
+        {{helpers.comment(item.comment)}}
+        {{prop.createSignatures(item.children.signatures)}}
+         <h3>Signature: {{item.name}} {% createSignature %}</h3>
   {% endfor %}
 {% endmacro %}

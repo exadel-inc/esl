@@ -1,5 +1,6 @@
 {% import 'utils-functions.njk' as functions %}
 {% import 'helpers.njk' as helpers %}
+{% import 'utils-property.njk' as property %}
 
 {%macro Class(class)%}
   <h1>Class</h1>
@@ -15,32 +16,21 @@
         {% endfor %}
     {% endfor %}
 
-
-     {%for a in item.children.Property %}
-        {% for obj in a.children.signatures | getSignature %}
-            <h2 style="color: #e8ac30">Property: {{obj.name}}</h2>
-            <h3>Signature:
-                {{helpers.flag(a.children.flags)}}
-                {{obj.name}}: {% createParam obj.returns %} = {{obj.defaultValue}}
-            </h3>
-            {{helpers.comment(obj.comment)}}
-        {% endfor %}
-    {% endfor %}
-
+    {{property.createProperty(item.children.Property)}}
 
     {% if item.children.Accessor%}
         {%for a in item.children.Accessor%}
-            {% for obj in a.children.signatures[0] | checkSignature %}
+            {% for obj in a.signatures[0] | checkSignature %}
                 <h2 style="color: #a730e8">Accessor: {{obj.name}}</h2>
                     <h3>Signature:
-                        {{helpers.flag(a.children.flags)}}
-                        {% if a.children.signatures[0].getSignature %} get {% else %} set {% endif %}
+                        {{helpers.flag(a.flags)}}
+                        {% if a.signatures[0].getSignature %} get {% else %} set {% endif %}
                         {{obj.name}} ():{% createParamAcces obj.returns%}
                                 {% if obj.defaultValue%}
                                     = {{obj.defaultValue}}
                                 {% endif %}
                     </h3>
-                    {{helpers.comment(obj.comment)}}
+                     {{helpers.comment(obj.comment)}}
             {% endfor %}
         {% endfor %}
     {% endif %}

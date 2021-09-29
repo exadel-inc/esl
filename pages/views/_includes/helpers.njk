@@ -21,11 +21,11 @@
   {% if obj.length > 0%}
       <h3>Parameters:</h3>
       <ul>
+        {% for item in obj %}
           <li>
-              {% for item in obj %}
-                  {% createParam item, "params"%}
-              {% endfor %}
+            {% createParam item, "params"%}
           </li>
+        {% endfor %}
       </ul>
   {% endif %}
 {% endmacro %}
@@ -38,7 +38,7 @@
               {% createParam obj %}
           </li>
       </ul>
-      <h3>Signature: {{obj.name}} {% createSignature %}</h3>
+
   {% endif %}
 {% endmacro %}
 
@@ -50,10 +50,24 @@
               {% createParam obj %}
           </li>
       </ul>
-      <h3>Signature: {{obj.name}} {% createSignature %}</h3>
   {% endif %}
 {% endmacro %}
 
 {% macro definedIn(obj) %}
-  <p>Defined in: {{obj.fileName}} ({{obj.line}})<p>
+  {% if obj %}
+    <p>Defined in: {{obj.fileName}} ({{obj.line}})<p>
+  {% endif %}
 {% endmacro %}
+
+{% macro typeParametr(obj, name) %}
+  {% if obj.length > 0 %}
+    <h3>{{name}}</h3>
+    <ul>
+      {% for item in obj %}
+      {% createTapeParam item %}
+      {% endfor %}
+    </ul>
+ {% endif %}
+{% endmacro %}
+
+
