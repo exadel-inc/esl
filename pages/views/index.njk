@@ -1,20 +1,12 @@
 ---
 layout: basic
 title: Demo content pages
-containerCls: container
 ---
 
 <ul class="uip-demo-list">
+{% for sample in collections.samples %}
   <li class="uip-demo-item">
-    <a class="uip-demo-link" href="./samples/image/index.html">Demo with img</a>
+    <a class="uip-demo-link" href="{{ sample.url }}">{{ sample.data.title }}</a>
   </li>
-  <li class="uip-demo-item">
-    <a class="uip-demo-link" href="./samples/form/index.html">Demo with form</a>
-  </li>
-  <li class="uip-demo-item">
-    <a class="uip-demo-link" href="./samples/list/index.html">Demo with users list</a>
-  </li>
-  <li class="uip-demo-item">
-    <a class="uip-demo-link" href="./samples/playground/index.html">Demo with playground</a>
-  </li>
+{%- endfor %}
 </ul>
