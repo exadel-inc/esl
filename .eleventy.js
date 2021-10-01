@@ -1,10 +1,17 @@
 const { isDev } = require('./pages/views/_data/env');
+const markdownIt = require("markdown-it")({
+  html: true
+});
 
 module.exports = config => {
+  config.addWatchTarget('src/**/*.md');
   config.addPassthroughCopy({
     'pages/static/assets': 'assets',
   });
-  // config.addWatchTarget('src/**/*.md');
+
+  config.addPairedShortcode(
+    'markdown', (content) => markdownIt.render(content)
+  );
 
   config.setBrowserSyncConfig({
     files: [
@@ -26,4 +33,3 @@ module.exports = config => {
     templateFormats: ['md', 'njk'],
   };
 };
- 

@@ -39,6 +39,14 @@ body {
   }
 }
 
+.content {
+  &__title {
+    margin: 10px auto;
+    font-weight: lighter;
+    text-align: center;
+  }
+}
+
 .footer {
   padding: 15px;
   color: #fff;
@@ -47,21 +55,26 @@ body {
 
 .uip-demo {
 
-  &-list {
+  &__list {
     margin: 20px auto;
     width: 60%;
     list-style-type: none;
-  }
 
-  &-item {
-    margin-bottom: 10px;
-    border-bottom: 1px solid #ebebeb;
-  }
+    &-title {
+      margin: 10px 0;
+      text-align: center;
+    }
 
-  &-link {
-    display: block;
-    padding-bottom: 3px;
-    color: #353535;
-    text-decoration: none;
+    &-item {
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ebebeb;
+    }
   }
+}
+
+.link {
+  display: block;
+  padding-bottom: 3px;
+  color: #353535;
+  text-decoration: none;
 }
