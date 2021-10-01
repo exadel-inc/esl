@@ -1,8 +1,11 @@
+import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
+import type {ESLToggleable} from './esl-toggleable';
+
 /**
  * Tag declaration interface of {@link ESLToggleable} element
- * Used for JSX declaration
+ * Used for TSX declaration
  */
-export interface ESLToggleableTagShape {
+export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable> extends ESLBaseElementShape<T> {
   /** Define CSS class to add on the body element */
   'body-class'?: string;
   /** Define CSS class to add when the Toggleable is active */
@@ -30,5 +33,14 @@ export interface ESLToggleableTagShape {
   'track-hover-params'?: string | number;
 
   /** Allowed children */
-  children: any;
+  children?: any;
+}
+
+declare global {
+  namespace JSX {
+    export interface IntrinsicElements {
+      /** {@link ESLToggleable} custom tag */
+      'esl-toggleable': ESLToggleableTagShape;
+    }
+  }
 }

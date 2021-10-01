@@ -1,8 +1,11 @@
+import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
+import type {ESLTrigger} from './esl-trigger';
+
 /**
  * Tag declaration interface of {@link ESLTrigger} element
- * Used for JSX declaration
+ * Used for TSX declaration
  */
-export interface ESLTriggerTagShape {
+export interface ESLTriggerTagShape<T extends ESLTrigger = ESLTrigger> extends ESLBaseElementShape<T> {
   /** Define target Toggleable {@link TraversingQuery} selector. `next` by default */
   'target'?: string;
 
@@ -35,5 +38,14 @@ export interface ESLTriggerTagShape {
   'hover-hide-delay'?: string | number;
 
   /** Allowed children */
-  children: any;
+  children?: any;
+}
+
+declare global {
+  namespace JSX {
+    export interface IntrinsicElements {
+      /** {@link ESLTrigger} custom tag */
+      'esl-trigger': ESLTriggerTagShape;
+    }
+  }
 }

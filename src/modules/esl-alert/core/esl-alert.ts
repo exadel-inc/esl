@@ -42,7 +42,10 @@ export class ESLAlert extends ESLToggleable {
     hideDelay: 2500
   };
 
-  /** Define the scope (using {@link TraversingQuery} syntax) element to listen to activation event. Parent element by default */
+  /**
+   * Define the scope (using {@link TraversingQuery} syntax) element to listen for an activation event.
+   * Parent element by default
+   */
   @attr({defaultValue: '::parent'}) public target: string;
 
   /** Default show/hide params for current ESLAlert instance */

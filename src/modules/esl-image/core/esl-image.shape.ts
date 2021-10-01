@@ -1,8 +1,11 @@
+import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
+import type {ESLImage} from './esl-image';
+
 /**
  * Tag declaration interface of ESL Image element
- * Used for JSX declaration
+ * Used for TSX declaration
  */
-export interface ESLImageTagShape {
+export interface ESLImageTagShape extends ESLBaseElementShape<ESLImage> {
   /** Define {@link ESLMediaRuleList} query for image source */
   'data-src': string;
   /** Define image alt text */
@@ -11,8 +14,6 @@ export interface ESLImageTagShape {
   mode?: string;
   /** Define source base path */
   'data-src-base'?: string;
-  /** Define element title */
-  title?: string;
   /** Define loading mode of the image */
   lazy?: boolean | 'none' | 'manual' | 'auto';
   /** Define load-allowed marker for lazy images */
@@ -23,5 +24,14 @@ export interface ESLImageTagShape {
   'inner-image-class'?: string;
 
   /** Children are not allowed for ESLImage */
-  children: [];
+  children?: never[];
+}
+
+declare global {
+  namespace JSX {
+    export interface IntrinsicElements {
+      /** {@link ESLImage} custom tag */
+      'esl-image': ESLImageTagShape;
+    }
+  }
 }
