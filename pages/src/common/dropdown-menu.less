@@ -1,24 +1,45 @@
-.container-dropdown-menu {
-  width: 100%;
-  background-color: #343a40;
+// TODO: review after base styles creation
+// TODO: share with core ?
+.esl-sample-menu {
   display: flex;
+  width: 100%;
   height: 38px;
+  background-color: #343a40;
 
-  .menu-dropdown-btn {
-    padding-right: 6px;
+  .menu-item {
+    position: relative;
+    display: block;
+    list-style: none;
     color: white;
     text-decoration: none;
   }
 
-  .menu-dropdown-btn:active {
-    color:#8bc2ff;
+  .menu-item-btn {
+    display: inline-block;
+    user-select: none;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+
+    background-color: transparent;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
 
-  .menu-dropdown-btn:hover {
+  .menu-item-btn:active,
+  .menu-item-btn[active],
+  .menu-item-btn:hover,
+  .menu-item-btn:focus-visible {
     color: #8bc2ff;
   }
 
-  .menu-dropdown-arrow::after {
+  .menu-item-arrow::after {
     display: inline-block;
     content: '';
     margin: 2px 7px 4px;
@@ -29,27 +50,50 @@
     background-repeat: no-repeat;
   }
 
-  .menu-container-ul {
-    background-color: #343a40;
-    width: 180px;
+  .menu-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
 
-    li{
-      list-style-type: none;
-      padding: 12px 6px;
-      border-top: 1px solid rgb(202, 201, 201);
-      color: white;
+    margin: 0;
+    min-width: 200px;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.25);
+    z-index: 99;
+
+    color: white;
+    box-shadow: 2px 2px 6px rgba(0,0,0, .4);
+    background-color: #343a40;
+    transform: translate3d(0,0,0);
+
+    transition: max-height .3s ease-in-out, visibility 0s linear .3s;
+    &.open {
+      transition: max-height .3s ease-in-out, visibility 0s linear;
     }
 
-    li:hover{
-      color: rgb(202, 201, 201);
-      text-decoration: underline;
+    &.animate.open {
+      z-index: 100;
     }
   }
+}
 
-  .menu-container-div{
-    background-color: #343a40;
-    width: 300px;
+.esl-sample-menu-400 {
+  width: 300px;
+  padding: 5px 10px;
+}
+.esl-sample-sub-menu {
+  min-width: 180px;
+  padding: 0 5px 2px;
+
+  li {
+    list-style-type: none;
+    padding: 12px 6px;
     color: white;
-    padding: 6px;
+  }
+  li:hover {
+    color: rgb(202, 201, 201);
+    text-decoration: underline;
+  }
+  li:not(:first-of-type) {
+    border-top: 1px solid rgb(202, 201, 201);
   }
 }
