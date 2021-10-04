@@ -2,15 +2,15 @@
 
 This section will describe the project structure, and our development guides.
 
-  - [Setup the project](#setup)
-  - [Project Stack](#stack)
-  - [Project Structure](#structure)
-  - [Project Scripts](#scripts)
-  - [Project Conventions](#conventions)
-  - [Make or update a core and utilities](#change_core)
-  - [Make or update a component](#change_components)
-  - [Update demo pages](#pages)
-    - [Syntax highlighting for IDE](#pages_ide)
+  - [Setup the project](#setup-the-project)
+  - [Project Stack](#project-stack)
+  - [Project Structure](#project-structure)
+  - [Project Scripts](#project-scripts)
+  - [Project Conventions](#project-conventions)
+  - [Make or update a core and utilities](#make-or-update-a-core-and-utilities)
+  - [Make or update a component](#make-or-update-a-component)
+  - [Update demo pages](#update-demo-pages)
+    - [Syntax highlighting for IDE](#syntax-highlighting-for-ide)
 
 ## Setup the project
 
@@ -46,12 +46,12 @@ The semantic-release project and GitHub actions are used to automate the release
 
 ## Project Structure
 
-
+TODO
 
 ## Project Scripts
 
 - `npm start` or `npm run start` - start demo server locally.
-  Runs local build, watch and browsersync.
+  Runs local build, watch and BrowserSync.
   Uses `:3005` port by default.
 
 
@@ -65,6 +65,17 @@ The semantic-release project and GitHub actions are used to automate the release
 - `npm run test:unit` - run all tests
 - `npm run test:report` - run tests and create coverage report
 
+## Project Conventions
+
+TODO
+
+## Make or update a core and utilities
+
+TODO
+
+## Make or update a component
+
+TODO
 
 ## Update demo pages
 
@@ -81,6 +92,6 @@ In case you are using JetBrains IDE (IDEA or WebStorm) you need to follow these 
 1. Add [Twig Support plugin](https://plugins.jetbrains.com/plugin/7303-twig) if necessary
 2. Go to File -> Settings -> Editor -> File Types
 3. Find Twig and add the custom pattern `*.njk`.
-   Now all *.njk files are parsed as Twig so you have support for Nunjucks.
+   Now all *.njk files are parsed as Twig, so you have support for Nunjucks.
 
 For Visual Studio Code you can use this [plugin](https://marketplace.visualstudio.com/items?itemName=ronnidc.nunjucks) to support syntax highlighting.

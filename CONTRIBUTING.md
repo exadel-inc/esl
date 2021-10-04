@@ -2,14 +2,14 @@
 
 Hello potential ESL contributor. We are really glad you are going to support ESL.
 But before submitting your contribution, please make sure to take a moment and read through the following guidelines:
-  - [Code Of Conduct](https://github.com/exadel-inc/esl/blob/HEAD/CODE_OF_CONDUCT.md)
-  - [Contributor Licence Agreement](https://github.com/exadel-inc/esl/blob/HEAD/CLA.md)  
-  - [Creating an issue](#new_issue)
-  - [Creating a Pull Request](#new_pr)
-    - [Development Guide](https://github.com/exadel-inc/esl/blob/HEAD/docs/DEVELOPMENT.md)
-    - [Commit Convention](https://github.com/exadel-inc/esl/blob/HEAD/docs/COMMIT_CONVENTION.md)
-    - [Outside Contributors Process](#outside_contributor) 
-    - [Project Branches and Releases](#branches)  
+  - [🔗 Code Of Conduct](https://github.com/exadel-inc/esl/blob/HEAD/CODE_OF_CONDUCT.md)
+  - [🔗 Contributor Licence Agreement](https://github.com/exadel-inc/esl/blob/HEAD/CLA.md)  
+  - [Creating an issue](#creating-an-issue)
+  - [Creating a Pull Request](#creating-a-pull-request)
+    - [🔗 Development Guide](https://github.com/exadel-inc/esl/blob/HEAD/docs/DEVELOPMENT.md)
+    - [🔗 Commit Convention](https://github.com/exadel-inc/esl/blob/HEAD/docs/COMMIT_CONVENTION.md)
+    - [Outside Contributors Process](#outside-contributors-process) 
+    - [Project Branches and Releases](#project-branches-and-releases)  
     
 ##  Creating an issue
 
@@ -38,7 +38,7 @@ to keep polite and constructive discussions in bounds of the project.
 - Fork repository and prepare an update in the proper branch of your fork. 
   Use the `feture/*` or `bugfix/*` prefix for the branch. 
   Use `main` or if you require next release updates `main-beta` branch as a base to cut your branch.
-- Make sure your commits are correspond to the project 
+- Make sure your commits are corresponded to the project 
   [commit convention](https://github.com/exadel-inc/esl/blob/HEAD/docs/COMMIT_CONVENTION.md).
 - Make sure that all tests and lints are passed
 - Create a pull request from your fork branch to the original esl repository.  
