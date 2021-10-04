@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Popup</title>
+  <title>Menu</title>
   
   <script>!function(){let t="";window.Promise&&window.CustomEvent?"getRootNode"in Element.prototype&&window.customElements&&window.IntersectionObserver||(t="light"):t="full",t&&document.write('<script type="text/javascript" src="/esl/bundles/polyfill-'+t+'.js"><\/script>')}()</script>
 
@@ -68,7 +68,7 @@
           </li>
         
           
-          <li class="nav-item hd-dropdown-item">
+          <li class="nav-item hd-dropdown-item nav-item-selected" aria-current="page">
             <a class="hd-dropdown-link" href="/esl/samples/menu/">Menu</a>
           </li>
         
@@ -238,51 +238,537 @@
     <div class="content container">
       
         <h1 class="text-center pt-2">
-          Popup
+          Menu
           
-          <span class="badge badge-sup badge-danger">Draft</span>
+          
         </h1>
 
         <hr/>
       
       
-<section class="row justify-content-between">
-  <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Top</esl-trigger>
-  <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Top</esl-trigger>
-  <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Top</esl-trigger>
-</section>
 
-<section class="row justify-content-between">
-  <esl-trigger target="#popup3" mode="toggle" class="btn btn-primary">Left</esl-trigger>
-  <esl-trigger target="#popup4" mode="toggle" class="btn btn-primary">Right</esl-trigger>
-</section>
-
-<section class="row justify-content-between">
-  <esl-trigger target="#popup2" mode="toggle" class="btn btn-primary">Bottom</esl-trigger>
-  <esl-trigger target="#popup2" mode="toggle" class="btn btn-primary">Bottom</esl-trigger>
-  <esl-trigger target="#popup2" mode="toggle" class="btn btn-primary">Bottom</esl-trigger>
+<section class="row">
+  <div class="col-12">
+    <h2>Related Components: </h2>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="/esl/components/esl-trigger">ESL Trigger</a></li>
+      <li class="list-inline-item"><a href="/esl/components/esl-panel">ESL Panel</a></li>
+      <li class="list-inline-item"><a href="/esl/components/esl-toggleable">ESL Toggleable</a></li>
+    </ul>
+  </div>
 </section>
 
 <section class="row">
-  <div id="a" style="margin:599px 0;height:800px;overflow-y:auto;width:100%;background-color:azure">
-    <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
-    <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Trigger B</esl-trigger>
-    <div id="b" style="margin:599px 0;height:650px;overflow-y:auto;width:100%;background-color:beige">
-      <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
-      <esl-trigger target="#popup1" mode="toggle" class="btn btn-secondary">Trigger B</esl-trigger>
-      <div id="c" style="margin:599px 0;height:500px;overflow-y:auto;width:100%;background-color:bisque">
-        <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
-        <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Trigger C</esl-trigger>
-        <div id="d" style="margin:599px 0;height:350px;overflow-y:auto;width:100%;background-color:tan">
-          <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
-          <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Trigger D (top)</esl-trigger>
-          <esl-trigger target="#popup2" mode="toggle" class="btn btn-primary">Trigger D (bottom)</esl-trigger>
-          <esl-trigger target="#popup3" mode="toggle" class="btn btn-secondary">Trigger D (left)</esl-trigger>
-          <esl-trigger target="#popup4" mode="toggle" class="btn btn-secondary">Trigger D (right)</esl-trigger>
-          <esl-popup id="popup9" position="top">Exadel Smart Library Popup content<span class="esl-popup-arrow"></span></esl-popup>
-        </div>
-      </div>
-    </div>
+  <div class="col-12">
+    <h2>Simple Hover Menu: </h2>
+
+    <ul class="esl-sample-menu">
+      <li class="menu-item">
+        <esl-trigger class="menu-item-btn menu-item-arrow" track-hover hover-hide-delay="400">
+          Hover Menu 1
+        </esl-trigger>
+        <esl-panel class="menu-container" group="esl-nav" fallback-duration="400" close-on-esc close-on-outside-action>
+          <ul class="esl-sample-sub-menu">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+          </ul>
+        </esl-panel>
+      </li>
+      <li class="menu-item">
+        <esl-trigger class="menu-item-btn menu-item-arrow" track-hover hover-hide-delay="400">
+          Hover Menu 2
+        </esl-trigger>
+        <esl-panel class="menu-container" group="esl-nav" fallback-duration="400" close-on-esc close-on-outside-action>
+          <div class="esl-sample-menu-400">
+  
+  
+    
+  <p>
+    
+       Purus
+  
+    elit
+  
+    curabitur
+  
+    diam
+  
+    odio
+  
+    facilisi
+  
+    justo
+  
+    vel
+  
+    pellentesque
+  
+    pellentesque.
+    
+       Laoreet
+  
+    sapien
+  
+    eu
+  
+    eu
+  
+    id
+  
+    ante
+  
+    tincidunt
+  
+    proin
+  
+    tincidunt
+  
+    consectetur.
+    
+       Et
+  
+    justo
+  
+    lorem
+  
+    tempor
+  
+    tempor
+  
+    odio
+  
+    justo
+  
+    at
+  
+    justo
+  
+    mi.
+    
+       Vulputate
+  
+    proin
+  
+    venenatis
+  
+    enim
+  
+    placerat
+  
+    placerat
+  
+    id
+  
+    sed
+  
+    risus
+  
+    mattis.
+    
+       Lorem
+  
+    laoreet
+  
+    lorem
+  
+    ultrices
+  
+    mollis
+  
+    laoreet
+  
+    aenean
+  
+    nullam
+  
+    amet
+  
+    condimentum.
+    
+       Ante
+  
+    vivamus
+  
+    id
+  
+    mollis
+  
+    nulla
+  
+    mauris
+  
+    amet
+  
+    venenatis
+  
+    finibus
+  
+    condimentum.
+    
+       Adipiscing
+  
+    consectetur
+  
+    suscipit
+  
+    amet
+  
+    pretium
+  
+    curabitur
+  
+    diam
+  
+    mattis
+  
+    scelerisque
+  
+    rhoncus.
+    
+       Facilisis
+  
+    amet
+  
+    eget
+  
+    purus
+  
+    dui
+  
+    mi
+  
+    lacinia
+  
+    suscipit
+  
+    eget
+  
+    facilisi.
+    
+       Sit
+  
+    ante
+  
+    ligula
+  
+    facilisis
+  
+    venenatis
+  
+    purus
+  
+    mollis
+  
+    ipsum
+  
+    laoreet
+  
+    vel.
+    
+       Sed
+  
+    purus
+  
+    curabitur
+  
+    enim
+  
+    congue
+  
+    ultrices
+  
+    facilisis
+  
+    ac
+  
+    metus
+  
+    vehicula.
+    
+  </p>
+
+  
+</div>
+        </esl-panel>
+      </li>
+      <li class="menu-item">
+        <esl-trigger class="menu-item-btn menu-item-arrow" track-hover hover-hide-delay="400">
+          Hover Menu 3
+        </esl-trigger>
+        <esl-panel class="menu-container" group="esl-nav" fallback-duration="400" close-on-esc close-on-outside-action>
+          <ul class="esl-sample-sub-menu">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+          </ul>
+        </esl-panel>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="row">
+  <div class="col-12">
+    <h2>Simple Menu: </h2>
+
+    <ul class="esl-sample-menu">
+      <li class="menu-item">
+        <esl-trigger class="menu-item-btn menu-item-arrow">Menu 1</esl-trigger>
+        <esl-panel class="menu-container" group="esl-nav" fallback-duration="400" close-on-esc close-on-outside-action>
+          <ul class="esl-sample-sub-menu">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+          </ul>
+        </esl-panel>
+      </li>
+      <li class="menu-item">
+        <esl-trigger class="menu-item-btn menu-item-arrow">Menu 2</esl-trigger>
+        <esl-panel class="menu-container" group="esl-nav" fallback-duration="400" close-on-esc close-on-outside-action>
+          <div class="esl-sample-menu-400">
+  
+  
+    
+  <p>
+    
+       Enim
+  
+    blandit
+  
+    blandit
+  
+    dictum
+  
+    eu
+  
+    odio
+  
+    ultrices
+  
+    metus
+  
+    urna
+  
+    lacinia.
+    
+       Viverra
+  
+    finibus
+  
+    condimentum
+  
+    blandit
+  
+    vivamus
+  
+    blandit
+  
+    curabitur
+  
+    rhoncus
+  
+    rhoncus
+  
+    dolor.
+    
+       Facilisi
+  
+    mauris
+  
+    laoreet
+  
+    vel
+  
+    vulputate
+  
+    rhoncus
+  
+    neque
+  
+    tellus
+  
+    id
+  
+    ligula.
+    
+       Proin
+  
+    sapien
+  
+    suscipit
+  
+    diam
+  
+    ac
+  
+    amet
+  
+    sapien
+  
+    purus
+  
+    vel
+  
+    nulla.
+    
+       Consectetur
+  
+    urna
+  
+    odio
+  
+    at
+  
+    ipsum
+  
+    tempor
+  
+    etiam
+  
+    lacinia
+  
+    sed
+  
+    lacinia.
+    
+       Eget
+  
+    eget
+  
+    finibus
+  
+    sapien
+  
+    augue
+  
+    risus
+  
+    ante
+  
+    congue
+  
+    ante
+  
+    at.
+    
+       Curabitur
+  
+    nullam
+  
+    tincidunt
+  
+    ut
+  
+    venenatis
+  
+    etiam
+  
+    mattis
+  
+    ligula
+  
+    curabitur
+  
+    congue.
+    
+       Augue
+  
+    ultrices
+  
+    dictum
+  
+    dolor
+  
+    et
+  
+    lorem
+  
+    metus
+  
+    blandit
+  
+    id
+  
+    aenean.
+    
+       Scelerisque
+  
+    vel
+  
+    ante
+  
+    augue
+  
+    nunc
+  
+    et
+  
+    blandit
+  
+    ligula
+  
+    odio
+  
+    proin.
+    
+       At
+  
+    sit
+  
+    mauris
+  
+    tellus
+  
+    vel
+  
+    adipiscing
+  
+    placerat
+  
+    urna
+  
+    mollis
+  
+    laoreet.
+    
+  </p>
+
+  
+</div>
+        </esl-panel>
+      </li>
+      <li class="menu-item">
+        <esl-trigger class="menu-item-btn menu-item-arrow">Menu 3</esl-trigger>
+        <esl-panel class="menu-container" group="esl-nav" fallback-duration="400" close-on-esc close-on-outside-action>
+          <ul class="esl-sample-sub-menu">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+          </ul>
+        </esl-panel>
+      </li>
+    </ul>
   </div>
 </section>
 
@@ -306,31 +792,6 @@
   </footer>
 
   
-<esl-popup id="popup1" position="top">
-  Exadel Smart Library Popup content
-  <span class="esl-popup-arrow"></span>
-</esl-popup>
-<esl-popup id="popup2" position="bottom">
-  Exadel Smart Library Popup content
-  <span class="esl-popup-arrow"></span>
-</esl-popup>
-<esl-popup id="popup3" position="left">
-  <p>Exadel</p>
-  <p>Smart</p>
-  <p>Library</p>
-  <p>Popup</p>
-  <p>content</p>
-  <span class="esl-popup-arrow"></span>
-</esl-popup>
-<esl-popup id="popup4" position="right">
-  <p>Exadel</p>
-  <p>Smart</p>
-  <p>Library</p>
-  <p>Popup</p>
-  <p>content</p>
-  <span class="esl-popup-arrow"></span>
-</esl-popup>
-
 
   <script src="/esl/bundles/localdev.js"></script>
 
