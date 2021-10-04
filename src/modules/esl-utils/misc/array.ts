@@ -39,3 +39,14 @@ export function range(n: number, filler: (i: number) => any = identity): any[] {
   while (i < n) arr[i] = filler(i++);
   return arr;
 }
+
+/**
+ * @returns object with a criteria value as a key and an array of original items that belongs to the current criteria value
+ */
+export const groupBy = <T, V extends string | number>(array: T[], group: (item: T) => V): Record<V, T[]> => {
+  return array.reduce((obj: Record<V, T[]>, el: T) => {
+    const key = group(el);
+    obj[key] ? obj[key].push(el) : obj[key] = [el];
+    return obj;
+  }, {} as Record<V, T[]>);
+};
