@@ -1,6 +1,6 @@
 # Commit Convention of ESL project
 
-Project is using `@commitlint/config-conventional` commit message rules. 
+The project is using `@commitlint/config-conventional` commit message rules. 
 Please check it out in case you want to contribute to ESL. 
 Use this short note to renew commit message rules.
 
@@ -21,7 +21,7 @@ to be sure that you are following the commit convention.
 
 ## FAQ
 - Why do ESL use commit convention?
-    - It's important for us to have automated process of RELEASE NOTES and CHANGELOG creation.
+    - It's important for us to have an automated process of RELEASE NOTES and CHANGELOG creation.
 - What if incorrect commits were added to my branch?
     - Try to reword your commit messages using
       [git rebase](https://google.gprivate.com/search.php?search?q=git+rebase+reword)

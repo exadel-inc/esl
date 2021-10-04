@@ -40,7 +40,7 @@ ESL uses the following tools to keep codebase quality
 - Jest to run unit tests
 - CommitLint to check commit message format
 
-The 11ty project and webpack are used to build static website for project representation.
+The 11ty project and webpack are used to build a static website for project representation.
 
 The semantic-release project and GitHub actions are used to automate the release process.
 
@@ -101,7 +101,7 @@ ESL project consists of the following directories:
 ## Project Conventions
 
 ESL project uses some special JS community agreements and name conventions.
-To fix and track such agreements the [Code Conventions](CODE_CONVENTIONS.md) document created.
+To fix and track such agreements the [Code Conventions](CODE_CONVENTIONS.md) document was created.
 
 ## Make or update a core and utilities
 

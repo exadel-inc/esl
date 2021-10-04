@@ -16,7 +16,7 @@ But before submitting your contribution, please make sure to take a moment and r
 In case you are going to create a new issue for a bug or feature request, 
 please use prepared issues templates and make sure you provide all required information
 to understand your request. 
-Please also try to make sure that issue for bug or feature you are going to create are not presented in the issues list.
+Please also try to make sure that the issue for the bug or feature you are going to create is not presented in the issues list.
 Also, please follow the [Code Of Conduct](CODE_OF_CONDUCT.md) guides 
 to keep polite and constructive discussions in bounds of the project.
 
@@ -41,7 +41,7 @@ to keep polite and constructive discussions in bounds of the project.
 - Make sure your commits correspond to the project 
   [commit convention](docs/COMMIT_CONVENTION.md).
 - Make sure that all tests and linter checks are passed
-- Create a pull request from your fork branch to the original esl repository.  
+- Create a pull request from your fork branch to the original ESL repository.  
   _**It's strongly recommended to use `main-beta` branch as a target**_.  
   Please rely on ESL maintainer to rebase PR if it's approved to be merged to the `main` (for 
   the very next ESL version) or to be moved under the proper project's "epic".
