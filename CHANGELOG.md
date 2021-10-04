@@ -1,3 +1,19 @@
+# [3.2.0](https://github.com/exadel-inc/esl/compare/v3.1.0...v3.2.0) (2021-09-22)
+
+
+### Bug Fixes
+
+* **esl-trigger:**  can be of the type null ([58f0644](https://github.com/exadel-inc/esl/commit/58f0644dee92dcb37c76b86df2e5da8bb4ccdbc2))
+* **esl-trigger:** error handling if the target is not an instance of togglable ([85cb6c1](https://github.com/exadel-inc/esl/commit/85cb6c17c9299c5b6e5dca0ecaff9d6586da0351))
+* **esl-utils:** fix `Debounced` and `Throttled` function return types ([3d2c598](https://github.com/exadel-inc/esl/commit/3d2c59811de982156e672e874cc38a711b40b3e8))
+
+
+### Features
+
+* add ability to prevent scroll on focus ([#490](https://github.com/exadel-inc/esl/issues/490)) ([a9a8a02](https://github.com/exadel-inc/esl/commit/a9a8a02706a11327eceb52f0c5d97bef40858015))
+* **esl-trigger:** add `esl:change:active` event details & fix event emmit condition ([a0237b2](https://github.com/exadel-inc/esl/commit/a0237b267fbe0a0f9fa0eaa546bac92d90d3a76a)), closes [#480](https://github.com/exadel-inc/esl/issues/480)
+* **esl-utils:** add optional `throttle` and `debounce` context argument ([eb948ce](https://github.com/exadel-inc/esl/commit/eb948cead3bd3afa7138e5fb96c58e8dde389116))
+
 # [3.1.0](https://github.com/exadel-inc/esl/compare/v3.0.3...v3.1.0) (2021-09-16)
 
 New Exadel Smart Library version comes with extended and out-of-the-box support for TSX.

@@ -37,8 +37,8 @@ export class ESLTabs extends ESLBaseElement {
   /** Inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable mode */
   @attr({defaultValue: '.esl-tab-container'}) public scrollableTarget: string;
 
-  protected _deferredUpdateArrows = debounce(this.updateArrows.bind(this), 100);
-  protected _deferredFitToViewport = debounce(this.fitToViewport.bind(this), 100);
+  protected _deferredUpdateArrows = debounce(this.updateArrows, 100, this);
+  protected _deferredFitToViewport = debounce(this.fitToViewport, 100, this);
 
   static get observedAttributes() {
     return ['scrollable'];
@@ -127,7 +127,7 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   /** Scroll tab to the view */
-  protected fitToViewport($trigger: ESLTab, behavior: ScrollBehavior = 'smooth'): void {
+  protected fitToViewport($trigger: ESLTab | null, behavior: ScrollBehavior = 'smooth'): void {
     this.updateMarkers();
 
     const $scrollableTarget = this.$scrollableTarget;
@@ -191,7 +191,7 @@ export class ESLTabs extends ESLBaseElement {
       CSSClassUtils.toggle(this, `${type}-alignment`, this.currentScrollableType === type);
     });
 
-    this.$current && this._deferredFitToViewport(this.$current);
+    this._deferredFitToViewport(this.$current);
 
     if (this.currentScrollableType === 'disabled') {
       this.unbindScrollableEvents();
@@ -201,7 +201,8 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   @bind
-  protected _onTriggerStateChange() {
+  protected _onTriggerStateChange({detail}: CustomEvent) {
+    if (!detail.active) return;
     this._deferredFitToViewport(this.$current);
   }
 
@@ -227,9 +228,7 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   // TODO: is the raf decorator needed?
-  protected _onResize = rafDecorator(() => {
-    this._deferredFitToViewport(this.$current, 'auto');
-  });
+  protected _onResize = rafDecorator(() => this._deferredFitToViewport(this.$current, 'auto'));
 
   /** Handles scrollable type change */
   @bind

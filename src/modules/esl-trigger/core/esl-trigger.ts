@@ -59,7 +59,7 @@ export class ESLTrigger extends ESLBaseElement {
    */
   @attr({defaultValue: '0'}) public hoverHideDelay: string;
 
-  protected _$target: ESLToggleable;
+  protected _$target: ESLToggleable | null;
 
   protected attributeChangedCallback(attrName: string) {
     if (!this.connected) return;
@@ -67,15 +67,17 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Target observable Toggleable */
-  public get $target() {
+  public get $target(): ESLToggleable | null {
     return this._$target;
   }
   public set $target(newPopupInstance) {
     this.unbindEvents();
     this._$target = newPopupInstance;
-    if (this._$target) {
-      this.bindEvents();
-      this._onTargetStateChange();
+    this.bindEvents();
+    this._onTargetStateChange();
+
+    if (!this.$target || typeof this.$target.show !== 'function' || typeof this.$target.hide !== 'function') {
+      console.debug('[ESL]: Invalid target ', this.$target, ' for trigger ', this);
     }
   }
 
@@ -152,31 +154,47 @@ export class ESLTrigger extends ESLBaseElement {
     const actionParams = this.mergeToggleableParams({
       delay: parseNumber(this.showDelay)
     }, params);
-    this.$target && this.$target.show(actionParams);
+    if (this.$target && typeof this.$target.show === 'function') {
+      this.$target.show(actionParams);
+    }
   }
   /** Hide target toggleable with passed params */
   public hideTarget(params: ToggleableActionParams = {}) {
     const actionParams = this.mergeToggleableParams({
       delay: parseNumber(this.hideDelay)
     }, params);
-    this.$target && this.$target.hide(actionParams);
+    if (this.$target && typeof this.$target.hide === 'function') {
+      this.$target.hide(actionParams);
+    }
   }
   /** Toggles target toggleable with passed params */
   public toggleTarget(params: ToggleableActionParams = {}, state: boolean = !this.active) {
     state ? this.showTarget(params) : this.hideTarget(params);
   }
 
-  /** Handles ESLToggleable state change */
-  @bind
-  protected _onTargetStateChange() {
-    this.toggleAttribute('active', this.$target.open);
+  /**
+   * Updates trigger state according to toggleable state
+   * Does not produce `esl:change:active` event
+   */
+  public updateState() {
+    const isActive = !!this.$target?.open;
+    const wasActive = this.active;
 
+    this.toggleAttribute('active', isActive);
     const clsTarget = TraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
-    clsTarget && CSSClassUtils.toggle(clsTarget, this.activeClass, this.active);
+    clsTarget && CSSClassUtils.toggle(clsTarget, this.activeClass, isActive);
 
     this.updateA11y();
 
-    this.$$fire('change:active');
+    return isActive !== wasActive;
+  }
+
+  /** Handles ESLToggleable state change */
+  @bind
+  protected _onTargetStateChange(originalEvent?: Event) {
+    if (!this.updateState()) return;
+    const detail = {active: this.active, originalEvent};
+    this.$$fire('change:active', {detail});
   }
 
   /** Handles `click` event */
@@ -243,7 +261,7 @@ export class ESLTrigger extends ESLBaseElement {
     if (!target) return;
 
     target.setAttribute('aria-expanded', String(this.active));
-    if (this.$target.id) {
+    if (this.$target && this.$target.id) {
       target.setAttribute('aria-controls', this.$target.id);
     }
   }

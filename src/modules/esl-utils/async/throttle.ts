@@ -1,10 +1,12 @@
 import {createDeferred} from './promise';
 
 import type {AnyToAnyFnSignature} from '../misc/functions';
-import type {Deferred, PromisifyResultFn} from './promise';
+import type {Deferred} from './promise';
 
 /** Throttled<F> is a function wrapper type for a function decorated via throttle */
-export interface Throttled<F extends AnyToAnyFnSignature> extends PromisifyResultFn<F> {
+export interface Throttled<F extends AnyToAnyFnSignature> {
+  /** Throttled method signature */
+  (...args: Parameters<F>): void;
   /** Promise of throttled function call */
   promise: Promise<ReturnType<F> | void>;
 }
@@ -14,8 +16,10 @@ export interface Throttled<F extends AnyToAnyFnSignature> extends PromisifyResul
  * The func is invoked with the last arguments provided to the throttled function.
  * @param fn - function to decorate
  * @param threshold - indicates how often function could be called
+ * @param thisArg - optional context to call original function, use debounced method call context if not defined
  */
-export function throttle<F extends AnyToAnyFnSignature>(fn: F, threshold = 250): Throttled<F> {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function throttle<F extends AnyToAnyFnSignature>(fn: F, threshold = 250, thisArg?: object): Throttled<F> {
   let last: number;
   let timeout: number | null = null;
   let deferred: Deferred<ReturnType<F>> | null = null;
@@ -34,7 +38,7 @@ export function throttle<F extends AnyToAnyFnSignature>(fn: F, threshold = 250):
       last = now;
       timeout = null;
       // fn.apply to save call context
-      deferred!.resolve(fn.apply(this, args));
+      deferred!.resolve(fn.apply(thisArg || this, args));
       deferred = null;
     }, threshold);
   }
