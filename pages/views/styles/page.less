@@ -5,7 +5,7 @@
 }
 
 a {
-  color: #e9e9e9;
+  color: #007bff;
   text-decoration: none;
 
   &:hover {
@@ -40,10 +40,20 @@ body {
 }
 
 .content {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+
   &__title {
     margin: 10px auto;
     font-weight: lighter;
     text-align: center;
+  }
+
+  ul, ol {
+    list-style-position: inside;
   }
 }
 
@@ -51,6 +61,10 @@ body {
   padding: 15px;
   color: #fff;
   background-color: #4e4e4e;
+
+  a {
+    color: #e9e9e9;
+  }
 }
 
 .uip-demo {
@@ -68,13 +82,10 @@ body {
     &-item {
       margin-bottom: 10px;
       border-bottom: 1px solid #ebebeb;
+
+      a {
+        color: #353535;
+      }
     }
   }
-}
-
-.link {
-  display: block;
-  padding-bottom: 3px;
-  color: #353535;
-  text-decoration: none;
 }
