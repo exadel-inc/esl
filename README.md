@@ -162,6 +162,7 @@ you can find useful information about the project processes and agreements here:
 [Anastasiya Lesun](https://github.com/NastaLeo),
 [Andrey Belous](https://github.com/andreybelous),
 [Dzianis Mantsevich](https://github.com/dmantsevich), 
+[Feoktyst Shovchko](https://github.com/fshovchko), 
 [Liubou Masiuk](https://github.com/liubou-masiuk), 
 [Natallia Harshunova](https://github.com/nattallius), 
 [Yana Bernatskaya](https://github.com/YanaBr).
