@@ -11,7 +11,7 @@ If you are using JetBrains IDE (IDEA or WebStorm) you can use this
 
 If you are using Visual Studio Code then you can use the following 
 [plugin](https://marketplace.visualstudio.com/items?itemName=vivaxy.vscode-conventional-commits)
-to be sure that ou are following commit convention.
+to be sure that you are following the commit convention.
 
 ## Convention Goals
 
@@ -31,7 +31,7 @@ to be sure that ou are following commit convention.
     - Just in case you can't fix up your git history, provide a noticeable comment 
       to use GitHub Squash Merge. It's also will be nice if you write a commit summary 
       to make have the ability to make a result commit faster.
-- Do I need to define the type for each of the commits in my feature?
+- Do I need to define a type for each of the commits in my feature?
     - Yes, you will need a type for each commit. But, be careful with the following situations:
         - **If the feature or bug changes are not released and already described by the first message - 
           make sure you are using style or refactor change type. Even, if you are fixing your previous commit, 

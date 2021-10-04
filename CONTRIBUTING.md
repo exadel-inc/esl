@@ -22,12 +22,12 @@ to keep polite and constructive discussions in bounds of the project.
 
 
 Please don't be shy to suggest new features, improvements or notify us about the bug. 
-We are open mind to all suggestions, and will do our best to keep project bugs free 
-(in bounds of our abilities and plans of course :) ).
+We are open mind to all suggestions and will do our best to keep project bugs free 
+(in bounds of our abilities and plans, of course :) ).
 
 ## Creating a Pull Request
 
-If you are going to contribute the project with the code changes please familiar with our 
+If you are going to contribute to the project with the code changes please be familiar with our 
 [Development Guide](docs/DEVELOPMENT.md) and 
 [Commit Message Convention](docs/COMMIT_CONVENTION.md).
 Please also follow the [Code Of Conduct](CODE_OF_CONDUCT.md) guides 
@@ -35,12 +35,12 @@ to keep polite and constructive discussions in bounds of the project.
 
 ### Outside Contributors Process
 
-- Fork repository and prepare an update in the proper branch of your fork. 
+- Fork the repository and prepare an update in the proper branch of your fork. 
   Use the `feture/*` or `bugfix/*` prefix for the branch. 
-  Use `main` or if you require next release updates `main-beta` branch as a base to cut your branch.
-- Make sure your commits are corresponded to the project 
+  Use `main` or if you require the next release updates `main-beta` branch as a base to cut your branch.
+- Make sure your commits correspond to the project 
   [commit convention](docs/COMMIT_CONVENTION.md).
-- Make sure that all tests and lints are passed
+- Make sure that all tests and linter checks are passed
 - Create a pull request from your fork branch to the original esl repository.  
   _**It's strongly recommended to use `main-beta` branch as a target**_.  
   Please rely on ESL maintainer to rebase PR if it's approved to be merged to the `main` (for 
