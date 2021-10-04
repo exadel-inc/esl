@@ -46,7 +46,40 @@ The semantic-release project and GitHub actions are used to automate the release
 
 ## Project Structure
 
-TODO
+ESL project consist of the following directories:
+
+- [📁 src](../src) - library source code
+  - [📁 modules](../src/modules) - library core modules and components
+    - [📁 draft](../src/modules/draft) - library core modules and components drafts (not ready for production, out of semiver and restrictions)
+    - [📁 esl-component](../src/modules) - library component directory
+        - 📁 test - component/module tests sources
+            - *.test.ts - test sources should have `.test` postfix 
+        - 📁 core - component/module core source files
+        - core.ts - component/module main file (import core parts)
+        - core.less - component/module main styles
+        - core.mixin.less - component/module main styles mixin and references only
+    - [📁 esl-utils](../src/modules/esl-utils) - library common utilities module
+        - 📁 category - utilities organized in groups
+    - all.ts - bundled esm source
+    - lib.ts - global object type definition and activator
+    - all.less - bundled source style 
+  - [📁 polyfills](../src/polyfills) - small polyfills and shims distributed with the library
+
+
+- [📁 pages](../pages) - demo site root directory
+  - [🔨📁 dist](../pages/dist) - demo site build output directory
+  - [📁 src](../pages/src) - demo site common styles and scripts sources
+  - [📁 static](../pages/static) - demo site common static assets sources
+  - [📁 views](../pages/views) - demo pages templates and 11ty common templates
+
+
+- [📁 build](../build) - library common build scripts
+- [📁 eslint](../eslint) - library es-lint rules configuration
+- [📁 .github](../.github) - library repository configuration and documentation
+
+
+- [🔨📁 modules](../modules) - library core esm build output
+- [🔨📁 polyfills](../polyfills) - library polyfills esm build output
 
 ## Project Scripts
 
@@ -67,7 +100,8 @@ TODO
 
 ## Project Conventions
 
-TODO
+ESL project uses some special JS community agreements and name conventions.
+To fix and track such agreements the [Code Conventions](CODE_CONVENTIONS.md) document created.
 
 ## Make or update a core and utilities
 
