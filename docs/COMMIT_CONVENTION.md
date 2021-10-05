@@ -1,18 +1,42 @@
-# Commit Convention
+# Commit Convention of ESL project
 
-Project is using `@commitlint/config-conventional` commit message rules. Please check it out in case you want to
-contribute to ESL. Use this short note to renew commit message rules.
+The project is using `@commitlint/config-conventional` commit message rules. 
+Please check it out in case you want to contribute to ESL. 
+Use this short note to renew commit message rules.
 
-In case you are using JetBrains IDE (IDEA or WebStorm) you can use this
+## IDE Support
+
+If you are using JetBrains IDE (IDEA or WebStorm) you can use this
 [plugin](https://plugins.jetbrains.com/plugin/13389-conventional-commit) to simplify commit validation.
 
-For Visual Studio Code use the following [plugin](https://marketplace.visualstudio.com/items?itemName=vivaxy.vscode-conventional-commits).
+If you are using Visual Studio Code then you can use the following 
+[plugin](https://marketplace.visualstudio.com/items?itemName=vivaxy.vscode-conventional-commits)
+to be sure that you are following the commit convention.
 
-## Goals
+## Convention Goals
 
 - provide more standardized and informative commit messages
 - allows automatically generate CHANGELOG.md
 - allows categorizing commits by importance and goals
+
+## FAQ
+- Why do ESL use commit convention?
+    - It's important for us to have an automated process of RELEASE NOTES and CHANGELOG creation.
+- What if incorrect commits were added to my branch?
+    - Try to reword your commit messages using
+      [git rebase](https://google.gprivate.com/search.php?search?q=git+rebase+reword)
+    - You can also squash (concat into one commit) your commits but that's not necessary,
+      the most important point is that your final commit messages correctly define the
+      type and have a detailed and clear description of the changes
+    - Just in case you can't fix up your git history, provide a noticeable comment 
+      to use GitHub Squash Merge. It's also will be nice if you write a commit summary 
+      to make have the ability to make a result commit faster.
+- Do I need to define a type for each of the commits in my feature?
+    - Yes, you will need a type for each commit. But, be careful with the following situations:
+        - **If the feature or bug changes are not released and already described by the first message - 
+          make sure you are using style or refactor change type. Even, if you are fixing your previous commit, 
+          it doesn't matter for project history until changes are not released.**
+        - **Prefer squashing in case the result history does not describe changes enough or does it incorrectly**
 
 ## Commit Message Signature
 
@@ -51,7 +75,7 @@ Type should be in a lowercase.
 
 ### Force minor version update
 
-You can increase importance of the patch changes to the minor using the `MAJOR` marker in the message.
+You can increase importance of the patch changes to the minor using the `MINOR VERSION` marker in the message.
 
 ### BREAKING CHANGES
 

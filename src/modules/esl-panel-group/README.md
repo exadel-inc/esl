@@ -1,4 +1,4 @@
-# [ESL](https://exadel-inc.github.io/esl/) Panel & Panel Stack
+# [ESL](https://exadel-inc.github.io/esl/) Panel Group
 
 Version: *2.1.0*.  
 
