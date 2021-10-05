@@ -105,11 +105,11 @@ To fix and track such agreements the [Code Conventions](CODE_CONVENTIONS.md) doc
 
 ## Make or update a core and utilities
 
-TODO
+TODO: Detailed guide will be added in the future based on contribution experience
 
 ## Make or update a component
 
-TODO
+TODO: Detailed guide will be added in the future based on contribution experience
 
 ## Update demo pages
 

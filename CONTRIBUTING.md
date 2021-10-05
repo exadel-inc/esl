@@ -35,8 +35,8 @@ to keep polite and constructive discussions within the project.
 
 ### Outside Contributors Process
 
-- Fork the repository and prepare an update in the proper branch of your fork. 
-  Use the `feature/*` or `bugfix/*` prefix for the branch. 
+- Fork the repository and prepare an update in the proper branch of your fork.
+  Use one of the `feat/*`, `feature/*`, `fix/*`, `bugfix/*`, `docs/*`, `tech/*` prefixes for the branch.
   Use `main` or if you require the next release updates `main-beta` branch as a base to cut your branch.
 - Make sure your commits correspond to the project 
   [commit convention](docs/COMMIT_CONVENTION.md).
@@ -45,20 +45,23 @@ to keep polite and constructive discussions within the project.
   _**It's strongly recommended to use `main-beta` branch as a target**_.  
   Please rely on ESL maintainer to rebase PR if it's approved to be merged to the `main` (for 
   the very next ESL version) or to be moved under the proper project's "epic".
-- Please use Pull Request Template and be sure to add @exadel-inc/esl-core-team for review.
+- Please use [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md) and be sure to add @exadel-inc/esl-core-team for review.
 - Don't forget to agree on the project CLA. The CLA bot will automatically reply to you in the comments. 
   We can not use your contribution to the project until you do that.
 
 ### Project Branches and Releases
 
-ESL branches flow is described on the scheme below
+ESL internal branches flow is described on the scheme below
 ![branches flow](./docs/images/branches-process.png)
 
 - `main` - branch has an actual stable release of the library
 - `main-beta` - branch for next minor and major releases ot the library
 - `epic/*` (e.g `epic/new-big-feature`) - a branch for massive functionality or group of related features
-- `feature/*` - a branch for a feature implementation
+- `feat/*` or `feature/*` - a branch for a feature implementation
 - `fix/*` or `bugfix/*` - a branch for a bugfix implementation
+- `docs/*` - branch with the documentation or demo content updates (TS Docs, GHPages content, README, etc.)
+- `tech/*` - common updates regarding build process, configuration, linters and other technical changes 
+that are not affecting library output (npm package) 
 
 The following merge flow can be done by all ESL official collaborators:
 - `main` -> `main-beta`
