@@ -18,7 +18,7 @@ please use prepared issues templates and make sure you provide all required info
 to understand your request. 
 Please also try to make sure that the issue for the bug or feature you are going to create is not presented in the issues list.
 Also, please follow the [Code Of Conduct](CODE_OF_CONDUCT.md) guides 
-to keep polite and constructive discussions in bounds of the project.
+to keep polite and constructive discussions within the project.
 
 
 Please don't be shy to suggest new features, improvements or notify us about the bug. 
@@ -31,12 +31,12 @@ If you are going to contribute to the project with the code changes please be fa
 [Development Guide](docs/DEVELOPMENT.md) and 
 [Commit Message Convention](docs/COMMIT_CONVENTION.md).
 Please also follow the [Code Of Conduct](CODE_OF_CONDUCT.md) guides 
-to keep polite and constructive discussions in bounds of the project.
+to keep polite and constructive discussions within the project.
 
 ### Outside Contributors Process
 
 - Fork the repository and prepare an update in the proper branch of your fork. 
-  Use the `feture/*` or `bugfix/*` prefix for the branch. 
+  Use the `feature/*` or `bugfix/*` prefix for the branch. 
   Use `main` or if you require the next release updates `main-beta` branch as a base to cut your branch.
 - Make sure your commits correspond to the project 
   [commit convention](docs/COMMIT_CONVENTION.md).
