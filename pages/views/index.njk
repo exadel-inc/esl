@@ -1,0 +1,21 @@
+---
+layout: basic
+---
+
+<ul class="uip-demo__list">
+  <h3 class="uip-demo__list-title">Samples</h3>
+{% for sample in collections.samples %}
+  <li class="uip-demo__list-item">
+    <a href="{{ sample.url }}">{{ sample.data.title }}</a>
+  </li>
+{%- endfor %}
+</ul>
+
+<ul class="uip-demo__list">
+  <h3 class="uip-demo__list-title">Plugins</h3>
+{% for plugin in collections.plugins %}
+  <li class="uip-demo__list-item">
+    <a href="{{ plugin.url }}">{{ plugin.data.title }}</a>
+  </li>
+{%- endfor %}
+</ul>
