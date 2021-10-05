@@ -6,8 +6,8 @@ But before submitting your contribution, please make sure to take a moment and r
   - [🔗 Contributor Licence Agreement](CLA.md)  
   - [Creating an issue](#creating-an-issue)
   - [Creating a Pull Request](#creating-a-pull-request)
-    - [🔗 Development Guide](docs/DEVELOPMENT.md)
-    - [🔗 Commit Convention](docs/COMMIT_CONVENTION.md)
+    - [🔗 Development Guide ❕🔥](docs/DEVELOPMENT.md)
+    - [🔗 Commit Convention ❕🔥](docs/COMMIT_CONVENTION.md)
     - [Outside Contributors Process](#outside-contributors-process) 
     - [Project Branches and Releases](#project-branches-and-releases)  
     
