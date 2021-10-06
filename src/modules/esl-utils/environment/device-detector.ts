@@ -59,6 +59,7 @@ export abstract class DeviceDetector {
     return !matchMedia('(hover: none)').matches;
   }
 
+  // TODO: move to the touch/pointer utils
   static get TOUCH_EVENTS() {
     const isTouch = DeviceDetector.isTouchDevice;
     return {
