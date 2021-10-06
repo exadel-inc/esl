@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Popup</title>
+  <title>Embedded Audio</title>
   
   <script>!function(){let e="";window.Promise&&window.CustomEvent?"getRootNode"in Element.prototype&&window.customElements&&window.IntersectionObserver&&window.ResizeObserver||(e="light"):e="full",e&&document.write('<script type="text/javascript" src="/esl/bundles/polyfill-'+e+'.js"><\/script>')}()</script>
 
@@ -39,7 +39,7 @@
       <li class="nav-item hd-dropdown">
         
   <esl-trigger class="hd-dropdown-trigger" target="::next" track-hover="@+SM" hover-hide-delay="400">
-    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow nav-item-selected">
+    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow">
       Samples
     </button>
   </esl-trigger>
@@ -49,57 +49,57 @@
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/accordion/">Accordion</a>
+            <a class="hd-dropdown-link" href="/esl/examples/accordion/">Accordion</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item nav-item-selected" aria-current="page">
+            <a class="hd-dropdown-link" href="/esl/examples/embedded-audio/">Embedded Audio</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/embedded-audio/">Embedded Audio</a>
+            <a class="hd-dropdown-link" href="/esl/examples/embedded-video/">Embedded Video</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/embedded-video/">Embedded Video</a>
+            <a class="hd-dropdown-link" href="/esl/examples/image/">Image</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/image/">Image</a>
+            <a class="hd-dropdown-link" href="/esl/examples/menu/">Menu</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/menu/">Menu</a>
+            <a class="hd-dropdown-link" href="/esl/examples/notification/">Notification</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/notification/">Notification</a>
+            <a class="hd-dropdown-link" href="/esl/examples/scrollbar/">Scrollbar</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/scrollbar/">Scrollbar</a>
+            <a class="hd-dropdown-link" href="/esl/examples/forms-select/">Select Dropdown</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/forms-select/">Select Dropdown</a>
+            <a class="hd-dropdown-link" href="/esl/examples/forms-select-list/">Select List</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/forms-select-list/">Select List</a>
+            <a class="hd-dropdown-link" href="/esl/examples/tabs/">Tabs</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/tabs/">Tabs</a>
-          </li>
-        
-          
-          <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/toggleable/">Toggleable</a>
+            <a class="hd-dropdown-link" href="/esl/examples/toggleable/">Toggleable</a>
           </li>
         
       </ul>
@@ -238,53 +238,38 @@
     <div class="content container">
       
         <h1 class="text-center pt-2">
-          Popup
+          Embedded Audio
           
-          <span class="badge badge-sup badge-danger">Draft</span>
+          
         </h1>
 
         <hr/>
       
       
-<section class="row justify-content-between">
-  <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Top</esl-trigger>
-  <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Top</esl-trigger>
-  <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Top</esl-trigger>
-</section>
-
-<section class="row justify-content-between">
-  <esl-trigger target="#popup3" mode="toggle" class="btn btn-primary">Left</esl-trigger>
-  <esl-trigger target="#popup4" mode="toggle" class="btn btn-primary">Right</esl-trigger>
-</section>
-
-<section class="row justify-content-between">
-  <esl-trigger target="#popup2" mode="toggle" class="btn btn-primary">Bottom</esl-trigger>
-  <esl-trigger target="#popup2" mode="toggle" class="btn btn-primary">Bottom</esl-trigger>
-  <esl-trigger target="#popup2" mode="toggle" class="btn btn-primary">Bottom</esl-trigger>
-</section>
 
 <section class="row">
-  <div id="a" style="margin:599px 0;height:800px;overflow-y:auto;width:100%;background-color:azure">
-    <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
-    <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Trigger B</esl-trigger>
-    <div id="b" style="margin:599px 0;height:650px;overflow-y:auto;width:100%;background-color:beige">
-      <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
-      <esl-trigger target="#popup1" mode="toggle" class="btn btn-secondary">Trigger B</esl-trigger>
-      <div id="c" style="margin:599px 0;height:500px;overflow-y:auto;width:100%;background-color:bisque">
-        <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
-        <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Trigger C</esl-trigger>
-        <div id="d" style="margin:599px 0;height:350px;overflow-y:auto;width:100%;background-color:tan">
-          <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
-          <esl-trigger target="#popup1" mode="toggle" class="btn btn-primary">Trigger D (top)</esl-trigger>
-          <esl-trigger target="#popup2" mode="toggle" class="btn btn-primary">Trigger D (bottom)</esl-trigger>
-          <esl-trigger target="#popup3" mode="toggle" class="btn btn-secondary">Trigger D (left)</esl-trigger>
-          <esl-trigger target="#popup4" mode="toggle" class="btn btn-secondary">Trigger D (right)</esl-trigger>
-          <esl-popup id="popup9" position="top">Exadel Smart Library Popup content<span class="esl-popup-arrow"></span></esl-popup>
-        </div>
-      </div>
-    </div>
+  <div class="col-12">
+    <h2>Related Components: </h2>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="/esl/components/esl-media">ESL Media</a></li>
+    </ul>
   </div>
 </section>
+
+<div class="row justify-content-around">
+  <section class="col-md-6" data-demo="4">
+    <div class="demo">
+      <h3 class="text-center">Basic Audio Example</h3>
+      <p>ESL Media also supports simple HTML audio.</p>
+      <hr/>
+      <esl-media group="demo-media" controls media-type="audio" media-src="https://html5book.ru/examples/media/track.mp3" tabindex="0">
+      </esl-media>
+    </div>
+    <div class="row btn-group-centered">
+      <test-media-controls target="[data-demo='4'] esl-media"></test-media-controls>
+    </div>
+  </section>
+</div>
 
     </div>
   </main>
@@ -306,31 +291,6 @@
   </footer>
 
   
-<esl-popup id="popup1" position="top">
-  Exadel Smart Library Popup content
-  <span class="esl-popup-arrow"></span>
-</esl-popup>
-<esl-popup id="popup2" position="bottom">
-  Exadel Smart Library Popup content
-  <span class="esl-popup-arrow"></span>
-</esl-popup>
-<esl-popup id="popup3" position="left">
-  <p>Exadel</p>
-  <p>Smart</p>
-  <p>Library</p>
-  <p>Popup</p>
-  <p>content</p>
-  <span class="esl-popup-arrow"></span>
-</esl-popup>
-<esl-popup id="popup4" position="right">
-  <p>Exadel</p>
-  <p>Smart</p>
-  <p>Library</p>
-  <p>Popup</p>
-  <p>content</p>
-  <span class="esl-popup-arrow"></span>
-</esl-popup>
-
 
   <script src="/esl/bundles/localdev.js"></script>
 

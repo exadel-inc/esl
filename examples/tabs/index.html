@@ -1,0 +1,13341 @@
+<!doctype html>
+<html lang="en" class="esl-scrollable-content">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tabs</title>
+  
+  <script>!function(){let e="";window.Promise&&window.CustomEvent?"getRootNode"in Element.prototype&&window.customElements&&window.IntersectionObserver&&window.ResizeObserver||(e="light"):e="full",e&&document.write('<script type="text/javascript" src="/esl/bundles/polyfill-'+e+'.js"><\/script>')}()</script>
+
+  <link rel="icon" type="image/png" href="/esl/assets/logo-64x64.png"/>
+  <link rel="stylesheet" type="text/css" href="/esl/bundles/localdev.css"/>
+
+  
+
+</head>
+<body>
+
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark esl-demo-header">
+  <div class="container flex-column flex-lg-row align-items-stretch align-items-md-center">
+    <a class="navbar-brand logo-light logo-animated mr-5" href="/esl/">
+      <?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <g class="shield">
+    <path class="s-l" fill="#C6361A" fill-rule="evenodd" d="M200 292c-.3 0-.6 0-.9-.1-.7-.2-73.1-17-73.1-96.9v-56.3c0-1.8 1.1-3.5 2.8-4.1l69.6-26.3c1-.4 2.1-.4 3.1 0l69.6 26.3c1.7.6 2.8 2.3 2.8 4.1V195c0 79.9-72.3 96.8-73.1 96.9-.2.1-.5.1-.8.1z"/>
+    <path class="s-r" fill="#FF5D24" fill-rule="evenodd" clip-rule="evenodd" d="M200 108v184c.3 0 .6 0 .9-.1.7-.2 73.1-17 73.1-96.9v-56.3c0-1.8-1.1-3.5-2.8-4.1l-69.6-26.3c-.6-.2-1.1-.3-1.6-.3z"/>
+  </g>
+  <g class="wrenches">
+    <path class="w-l" fill-rule="evenodd" d="M207.7 207.3l-15.8 15.8-23.2-6.2-6.2-23.2 15.8-15.8c-9-.7-18.2 2.4-25.1 9.3-9.5 9.5-11.8 23.5-6.8 35.1L108.6 260c-4.7 4.7-4.7 12.3 0 17s12.3 4.7 17 0l37.7-37.7c11.6 4.9 25.6 2.7 35.1-6.8 6.9-6.9 10-16.2 9.3-25.2z" clip-rule="evenodd"/>
+    <path class="w-r" fill-rule="evenodd" d="M292 122.6c-4.7-4.7-12.3-4.7-17 0l-37.7 37.7c-11.6-4.9-25.6-2.7-35.1 6.8-6.9 6.9-10 16.1-9.3 25.1l15.8-15.8 23.2 6.2 6.2 23.2-15.8 15.8c9 .7 18.2-2.4 25.1-9.3 9.5-9.5 11.8-23.5 6.8-35.1l37.7-37.7c4.8-4.6 4.8-12.2.1-16.9z" clip-rule="evenodd"/>
+  </g>
+  <path d="M199.5 39.5c-88.4 0-160 71.6-160 160s71.6 160 160 160 160-71.6 160-160-71.6-160-160-160zm0 308c-81.7 0-148-66.3-148-148s66.3-148 148-148 148 66.3 148 148-66.3 148-148 148z"/>
+</svg>
+
+      <span class="ml-2">Exadel Smart Library</span>
+    </a>
+    
+    <ul class="navbar-nav flex-grow-1 flex-column flex-md-row justify-content-end">
+      <li class="nav-item hd-dropdown">
+        
+  <esl-trigger class="hd-dropdown-trigger" target="::next" track-hover="@+SM" hover-hide-delay="400">
+    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow">
+      Samples
+    </button>
+  </esl-trigger>
+  <esl-panel class="hd-dropdown-content" group="esl-nav" body-class="menu-opened" fallback-duration="400" close-on-esc close-on-outside-action>
+    
+      <ul class="hd-dropdown-list">
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/accordion/">Accordion</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/embedded-audio/">Embedded Audio</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/embedded-video/">Embedded Video</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/image/">Image</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/menu/">Menu</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/notification/">Notification</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/scrollbar/">Scrollbar</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/forms-select/">Select Dropdown</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/forms-select-list/">Select List</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item nav-item-selected" aria-current="page">
+            <a class="hd-dropdown-link" href="/esl/examples/tabs/">Tabs</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/toggleable/">Toggleable</a>
+          </li>
+        
+      </ul>
+    
+  </esl-panel>
+
+      </li>
+      <li class="nav-item hd-dropdown">
+        
+  <esl-trigger class="hd-dropdown-trigger" target="::next" track-hover="@+SM" hover-hide-delay="400">
+    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow">
+      Components
+    </button>
+  </esl-trigger>
+  <esl-panel class="hd-dropdown-content" group="esl-nav" body-class="menu-opened" fallback-duration="400" close-on-esc close-on-outside-action>
+    
+      <ul class="hd-dropdown-list">
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/components/esl-alert/">ESL Alert</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/components/esl-image/">ESL Image</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/components/esl-media/">ESL Media</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/components/esl-panel/">ESL Panel</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/components/esl-popup/">ESL Popup</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/components/esl-scrollbar/">ESL Scrollbar</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/components/esl-select/">ESL Select</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/components/esl-select-list/">ESL Select List</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/components/esl-tabs/">ESL Tabs</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/components/esl-toggleable/">ESL Toggleable</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/components/esl-trigger/">ESL Trigger</a>
+          </li>
+        
+      </ul>
+    
+  </esl-panel>
+
+      </li>
+      <li class="nav-item hd-dropdown">
+        
+  <esl-trigger class="hd-dropdown-trigger" target="::next" track-hover="@+SM" hover-hide-delay="400">
+    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow">
+      Utils
+    </button>
+  </esl-trigger>
+  <esl-panel class="hd-dropdown-content" group="esl-nav" body-class="menu-opened" fallback-duration="400" close-on-esc close-on-outside-action>
+    
+      <ul class="hd-dropdown-list">
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/utils/esl-a11ty-group/">ESL A11y Group</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/utils/esl-base/">ESL Base Element</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/utils/esl-media-query/">ESL Media Query</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/utils/esl-traversing-query/">ESL Traversing Query</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/utils/esl-utils/">ESL Utils</a>
+          </li>
+        
+      </ul>
+    
+  </esl-panel>
+
+      </li>
+
+      <li class="nav-item ml-1">
+        <a class="btn btn-link" href="https://github.com/exadel-inc/esl">
+          <svg width="30" height="30" viewBox="0 0 32 32" fill="#fff">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M16.003 0C7.17 0 .008 7.162.008 15.997c0 7.067 4.582 13.063 10.94 15.18.8.145 1.052-.33 1.052-.753 0-.38.008-1.442 0-2.777-4.45.967-5.37-2.107-5.37-2.107-.728-1.848-1.776-2.34-1.776-2.34-1.452-.992.11-.973.11-.973 1.604.113 2.45 1.65 2.45 1.65 1.427 2.442 3.743 1.736 4.654 1.328.146-1.034.56-1.74 1.017-2.14C9.533 22.663 5.8 21.29 5.8 15.16c0-1.747.622-3.174 1.645-4.292-.165-.404-.715-2.03.157-4.234 0 0 1.343-.43 4.398 1.64 1.276-.354 2.645-.53 4.005-.537 1.36.006 2.727.183 4.005.538 3.055-2.07 4.396-1.64 4.396-1.64.872 2.202.323 3.83.16 4.233 1.022 1.118 1.643 2.545 1.643 4.292 0 6.146-3.74 7.498-7.305 7.893C19.48 23.548 20 24.508 20 26v4.428c0 .428.258.9 1.07.746C27.422 29.054 32 23.062 32 15.997 32 7.162 24.838 0 16.003 0z"/>
+          </svg>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="esl-demo-header-overlay"></div>
+
+  </header>
+
+  <main role="main">
+    <div class="content container">
+      
+        <h1 class="text-center pt-2">
+          Tabs
+          
+          
+        </h1>
+
+        <hr/>
+      
+      
+
+<section class="row">
+  <div class="col-12">
+    <h2>Related Components: </h2>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="/esl/components/esl-tabs">ESL Tabs</a></li>
+      <li class="list-inline-item"><a href="/esl/components/esl-panel">ESL Panel</a></li>
+      <li class="list-inline-item"><a href="/esl/components/esl-trigger">ESL Trigger</a></li>
+      <li class="list-inline-item"><a href="/esl/components/esl-toggleable">ESL Toggleable</a></li>
+    </ul>
+  </div>
+</section>
+
+<section class="row">
+  <style>.accordion-trigger{display:none}@media only screen and (max-width:767px){.accordion-trigger{display:block}.esl-tabs.esl-accordion-view:not(#add-spec){display:none}}</style>
+
+  <div class="col-12">
+    <h2> Tabs Component </h2>
+    <p class="h5"> Complex mode: SM+ -> tabs, XS -> accordion </p>
+    <div class="tabs">
+      <esl-tabs class="tabs-container">
+        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+        <div class="arrow-prev" data-tab-direction="left">
+          <span class="icon-arrow-prev"></span>
+        </div>
+
+        <ul class="nav nav-pills esl-tab-container" role="tablist">
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-1)">
+              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-2)">
+              <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-3)">
+              <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+        </ul>
+
+        <div class="arrow-next" data-tab-direction="right">
+          <span class="icon-arrow-next"></span>
+        </div>
+
+      </esl-tabs>
+
+      <esl-panel-group mode="@XS => accordion | @+SM => tabs" mode-cls-target="::parent::find(.tabs-container)">
+        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
+
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #1</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-1" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Ligula
+  
+    ultrices
+  
+    dictum
+  
+    arcu
+  
+    nunc
+  
+    id
+  
+    justo
+  
+    arcu
+  
+    proin
+  
+    rhoncus.
+    
+       Mattis
+  
+    risus
+  
+    mi
+  
+    sed
+  
+    vehicula
+  
+    tincidunt
+  
+    mauris
+  
+    ante
+  
+    nibh
+  
+    urna.
+    
+       Vivamus
+  
+    suscipit
+  
+    odio
+  
+    enim
+  
+    arcu
+  
+    viverra
+  
+    enim
+  
+    congue
+  
+    ultrices
+  
+    adipiscing.
+    
+       Nibh
+  
+    lacinia
+  
+    facilisis
+  
+    condimentum
+  
+    ac
+  
+    curabitur
+  
+    amet
+  
+    pellentesque
+  
+    consectetur
+  
+    adipiscing.
+    
+       Tellus
+  
+    pellentesque
+  
+    tempor
+  
+    metus
+  
+    scelerisque
+  
+    finibus
+  
+    etiam
+  
+    mattis
+  
+    sed
+  
+    augue.
+    
+       Eget
+  
+    vel
+  
+    viverra
+  
+    consectetur
+  
+    metus
+  
+    vel
+  
+    enim
+  
+    diam
+  
+    mollis
+  
+    placerat.
+    
+       Fringilla
+  
+    mollis
+  
+    ligula
+  
+    risus
+  
+    aenean
+  
+    sit
+  
+    etiam
+  
+    congue
+  
+    purus
+  
+    pellentesque.
+    
+       Ligula
+  
+    fringilla
+  
+    risus
+  
+    nunc
+  
+    sit
+  
+    etiam
+  
+    sed
+  
+    ut
+  
+    urna
+  
+    ipsum.
+    
+       Ipsum
+  
+    ut
+  
+    sed
+  
+    nulla
+  
+    eget
+  
+    pretium
+  
+    ultrices
+  
+    dolor
+  
+    vulputate
+  
+    mattis.
+    
+       Dictum
+  
+    justo
+  
+    metus
+  
+    congue
+  
+    ipsum
+  
+    facilisi
+  
+    tempor
+  
+    placerat
+  
+    neque
+  
+    lacinia.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Arcu
+  
+    adipiscing
+  
+    pellentesque
+  
+    lorem
+  
+    nulla
+  
+    vivamus
+  
+    ac
+  
+    vulputate
+  
+    nullam
+  
+    sit.
+    
+       Vel
+  
+    vulputate
+  
+    ante
+  
+    ipsum
+  
+    facilisis
+  
+    mattis
+  
+    diam
+  
+    sapien
+  
+    mauris
+  
+    vel.
+    
+       Vivamus
+  
+    viverra
+  
+    aenean
+  
+    pretium
+  
+    augue
+  
+    ipsum
+  
+    tempor
+  
+    mollis
+  
+    dictum
+  
+    ligula.
+    
+       Scelerisque
+  
+    ultrices
+  
+    laoreet
+  
+    tellus
+  
+    laoreet
+  
+    nullam
+  
+    blandit
+  
+    scelerisque
+  
+    et
+  
+    fringilla.
+    
+       Finibus
+  
+    facilisis
+  
+    congue
+  
+    mollis
+  
+    laoreet
+  
+    enim
+  
+    metus
+  
+    justo
+  
+    tempor
+  
+    pretium.
+    
+       Vel
+  
+    sed
+  
+    dictum
+  
+    fringilla
+  
+    purus
+  
+    pellentesque
+  
+    vehicula
+  
+    congue
+  
+    congue
+  
+    ipsum.
+    
+       Pretium
+  
+    mauris
+  
+    lacinia
+  
+    eget
+  
+    tempor
+  
+    augue
+  
+    placerat
+  
+    lacinia
+  
+    nullam
+  
+    tellus.
+    
+       Proin
+  
+    fringilla
+  
+    enim
+  
+    at
+  
+    mauris
+  
+    arcu
+  
+    congue
+  
+    metus
+  
+    pretium
+  
+    proin.
+    
+       Curabitur
+  
+    urna
+  
+    nullam
+  
+    lacinia
+  
+    vulputate
+  
+    augue
+  
+    neque
+  
+    consectetur
+  
+    ante
+  
+    enim.
+    
+       Rhoncus
+  
+    nunc
+  
+    mollis
+  
+    aenean
+  
+    et
+  
+    fringilla
+  
+    ultrices
+  
+    ligula
+  
+    neque
+  
+    ipsum.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #2</h5>
+        </esl-trigger>
+        <esl-panel open class="tab tab-2" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Purus
+  
+    proin
+  
+    odio
+  
+    neque
+  
+    porta
+  
+    dictum
+  
+    vulputate
+  
+    vivamus
+  
+    sed
+  
+    vulputate.
+    
+       Proin
+  
+    ultrices
+  
+    tellus
+  
+    ut
+  
+    dui
+  
+    eget
+  
+    blandit
+  
+    amet
+  
+    venenatis
+  
+    placerat.
+    
+       Nulla
+  
+    congue
+  
+    neque
+  
+    risus
+  
+    urna
+  
+    nulla
+  
+    laoreet
+  
+    pretium
+  
+    tempor
+  
+    adipiscing.
+    
+       Odio
+  
+    rhoncus
+  
+    ante
+  
+    ligula
+  
+    dictum
+  
+    mi
+  
+    lorem
+  
+    rhoncus
+  
+    proin
+  
+    porta.
+    
+       Sit
+  
+    at
+  
+    eu
+  
+    dui
+  
+    adipiscing
+  
+    dui
+  
+    sapien
+  
+    ut
+  
+    mi
+  
+    mauris.
+    
+       Lorem
+  
+    tellus
+  
+    venenatis
+  
+    eget
+  
+    pellentesque
+  
+    finibus
+  
+    vehicula
+  
+    tincidunt
+  
+    metus
+  
+    arcu.
+    
+       Ligula
+  
+    amet
+  
+    mi
+  
+    ligula
+  
+    viverra
+  
+    nunc
+  
+    rhoncus
+  
+    pretium
+  
+    metus
+  
+    mi.
+    
+       Vel
+  
+    mauris
+  
+    pretium
+  
+    laoreet
+  
+    neque
+  
+    at
+  
+    augue
+  
+    tellus
+  
+    lorem
+  
+    venenatis.
+    
+       Pretium
+  
+    eget
+  
+    placerat
+  
+    viverra
+  
+    urna
+  
+    blandit
+  
+    lorem
+  
+    augue
+  
+    augue
+  
+    nullam.
+    
+       Eu
+  
+    nulla
+  
+    dui
+  
+    adipiscing
+  
+    finibus
+  
+    facilisis
+  
+    sapien
+  
+    mauris
+  
+    arcu
+  
+    facilisi.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #3</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-3" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Nibh
+  
+    tincidunt
+  
+    vulputate
+  
+    augue
+  
+    arcu
+  
+    etiam
+  
+    dictum
+  
+    vivamus
+  
+    pellentesque
+  
+    porta.
+    
+       Tincidunt
+  
+    curabitur
+  
+    vivamus
+  
+    pellentesque
+  
+    augue
+  
+    blandit
+  
+    viverra
+  
+    at
+  
+    tellus
+  
+    finibus.
+    
+       Lorem
+  
+    scelerisque
+  
+    sit
+  
+    enim
+  
+    facilisis
+  
+    dui
+  
+    ante
+  
+    scelerisque
+  
+    viverra
+  
+    eget.
+    
+       Condimentum
+  
+    eu
+  
+    dolor
+  
+    metus
+  
+    sapien
+  
+    rhoncus
+  
+    aenean
+  
+    curabitur
+  
+    proin
+  
+    vivamus.
+    
+       Dictum
+  
+    rhoncus
+  
+    enim
+  
+    rhoncus
+  
+    eget
+  
+    congue
+  
+    aenean
+  
+    pretium
+  
+    rhoncus
+  
+    dui.
+    
+       Sapien
+  
+    vivamus
+  
+    ut
+  
+    eu
+  
+    vel
+  
+    amet
+  
+    odio
+  
+    facilisis
+  
+    blandit
+  
+    ac.
+    
+       Finibus
+  
+    vivamus
+  
+    finibus
+  
+    mollis
+  
+    adipiscing
+  
+    etiam
+  
+    facilisis
+  
+    id
+  
+    blandit
+  
+    metus.
+    
+       Justo
+  
+    amet
+  
+    risus
+  
+    id
+  
+    nullam
+  
+    laoreet
+  
+    enim
+  
+    consectetur
+  
+    sed
+  
+    purus.
+    
+       Eget
+  
+    ligula
+  
+    pretium
+  
+    placerat
+  
+    nullam
+  
+    sed
+  
+    finibus
+  
+    vel
+  
+    vivamus
+  
+    mollis.
+    
+       Pretium
+  
+    ante
+  
+    placerat
+  
+    amet
+  
+    lorem
+  
+    curabitur
+  
+    ligula
+  
+    mauris
+  
+    metus
+  
+    enim.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Amet
+  
+    tincidunt
+  
+    lacinia
+  
+    nibh
+  
+    risus
+  
+    vel
+  
+    at
+  
+    amet
+  
+    condimentum
+  
+    tincidunt.
+    
+       Mauris
+  
+    neque
+  
+    scelerisque
+  
+    nunc
+  
+    porta
+  
+    facilisi
+  
+    lacinia
+  
+    urna
+  
+    mollis
+  
+    tempor.
+    
+       Facilisis
+  
+    mi
+  
+    scelerisque
+  
+    nulla
+  
+    placerat
+  
+    ac
+  
+    proin
+  
+    lacinia
+  
+    facilisis
+  
+    ultrices.
+    
+       Rhoncus
+  
+    venenatis
+  
+    ante
+  
+    finibus
+  
+    enim
+  
+    justo
+  
+    tempor
+  
+    amet
+  
+    et
+  
+    mollis.
+    
+       Ligula
+  
+    condimentum
+  
+    ipsum
+  
+    tellus
+  
+    facilisis
+  
+    sapien
+  
+    condimentum
+  
+    vivamus
+  
+    fringilla
+  
+    facilisi.
+    
+       Adipiscing
+  
+    ligula
+  
+    venenatis
+  
+    pretium
+  
+    elit
+  
+    fringilla
+  
+    ut
+  
+    ipsum
+  
+    lorem
+  
+    mattis.
+    
+       Rhoncus
+  
+    neque
+  
+    mattis
+  
+    tellus
+  
+    lorem
+  
+    diam
+  
+    vivamus
+  
+    tincidunt
+  
+    nibh
+  
+    viverra.
+    
+       Nunc
+  
+    mi
+  
+    blandit
+  
+    odio
+  
+    justo
+  
+    ac
+  
+    lorem
+  
+    mollis
+  
+    sit
+  
+    eu.
+    
+       Justo
+  
+    vulputate
+  
+    proin
+  
+    dolor
+  
+    scelerisque
+  
+    at
+  
+    ante
+  
+    proin
+  
+    odio
+  
+    enim.
+    
+       Adipiscing
+  
+    laoreet
+  
+    ac
+  
+    finibus
+  
+    facilisi
+  
+    vel
+  
+    porta
+  
+    nunc
+  
+    ac
+  
+    condimentum.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Augue
+  
+    nibh
+  
+    dui
+  
+    blandit
+  
+    urna
+  
+    dictum
+  
+    facilisis
+  
+    viverra
+  
+    mattis
+  
+    sed.
+    
+       Tellus
+  
+    finibus
+  
+    rhoncus
+  
+    purus
+  
+    elit
+  
+    viverra
+  
+    urna
+  
+    nibh
+  
+    porta
+  
+    metus.
+    
+       Finibus
+  
+    tempor
+  
+    dolor
+  
+    sit
+  
+    dictum
+  
+    lacinia
+  
+    viverra
+  
+    rhoncus
+  
+    suscipit
+  
+    ligula.
+    
+       Id
+  
+    proin
+  
+    ipsum
+  
+    nulla
+  
+    ligula
+  
+    et
+  
+    vulputate
+  
+    proin
+  
+    mi
+  
+    sed.
+    
+       Condimentum
+  
+    lorem
+  
+    congue
+  
+    rhoncus
+  
+    tempor
+  
+    risus
+  
+    ligula
+  
+    metus
+  
+    mollis
+  
+    odio.
+    
+       Odio
+  
+    nullam
+  
+    tempor
+  
+    congue
+  
+    justo
+  
+    fringilla
+  
+    finibus
+  
+    nibh
+  
+    fringilla
+  
+    nullam.
+    
+       Augue
+  
+    purus
+  
+    tempor
+  
+    mauris
+  
+    nulla
+  
+    nibh
+  
+    ut
+  
+    dui
+  
+    odio
+  
+    ultrices.
+    
+       Odio
+  
+    nullam
+  
+    placerat
+  
+    tincidunt
+  
+    vulputate
+  
+    placerat
+  
+    enim
+  
+    scelerisque
+  
+    et
+  
+    justo.
+    
+       Enim
+  
+    mattis
+  
+    dolor
+  
+    porta
+  
+    ac
+  
+    eu
+  
+    urna
+  
+    viverra
+  
+    suscipit
+  
+    neque.
+    
+       Et
+  
+    elit
+  
+    dui
+  
+    diam
+  
+    lacinia
+  
+    ligula
+  
+    purus
+  
+    vivamus
+  
+    dolor
+  
+    sit.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+      </esl-panel-group>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <h2> Scrollable Tabs Component </h2>
+    <p class="h5"> Complex mode: SM+ -> tabs, XS -> accordion </p>
+    <div class="tabs">
+      <esl-tabs scrollable class="tabs-container">
+        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+        <div class="arrow-prev" data-tab-direction="left">
+          <span class="icon-arrow-prev"></span>
+        </div>
+
+        <ul class="nav nav-pills esl-tab-container" role="tablist">
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-1)">
+              <h5 class="mb-0">Tab #1 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-2)">
+              <h5 class="mb-0">Tab #2 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-3)">
+              <h5 class="mb-0">Tab #3 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-4)">
+              <h5 class="mb-0">Tab #4 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-5)">
+              <h5 class="mb-0">Tab #5 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-6)">
+              <h5 class="mb-0">Tab #6 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-7)">
+              <h5 class="mb-0">Tab #7 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+        </ul>
+
+        <div class="arrow-next" data-tab-direction="right">
+          <span class="icon-arrow-next"></span>
+        </div>
+
+      </esl-tabs>
+
+      <esl-panel-group mode="@XS => accordion | @+SM => tabs" mode-cls-target="::parent::find(.tabs-container)">
+        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
+
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #1</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-1" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Augue
+  
+    congue
+  
+    adipiscing
+  
+    justo
+  
+    venenatis
+  
+    viverra
+  
+    vulputate
+  
+    ut
+  
+    urna
+  
+    id.
+    
+       Tincidunt
+  
+    odio
+  
+    urna
+  
+    amet
+  
+    ipsum
+  
+    mattis
+  
+    risus
+  
+    mauris
+  
+    risus
+  
+    viverra.
+    
+       Ligula
+  
+    nullam
+  
+    justo
+  
+    neque
+  
+    et
+  
+    condimentum
+  
+    blandit
+  
+    proin
+  
+    sapien
+  
+    facilisis.
+    
+       Tempor
+  
+    suscipit
+  
+    ligula
+  
+    augue
+  
+    vivamus
+  
+    pellentesque
+  
+    aenean
+  
+    risus
+  
+    consectetur
+  
+    elit.
+    
+       Porta
+  
+    consectetur
+  
+    nunc
+  
+    ipsum
+  
+    consectetur
+  
+    eget
+  
+    odio
+  
+    porta
+  
+    sapien
+  
+    placerat.
+    
+       Nulla
+  
+    dui
+  
+    laoreet
+  
+    ante
+  
+    blandit
+  
+    risus
+  
+    sit
+  
+    elit
+  
+    sit
+  
+    facilisi.
+    
+       Enim
+  
+    amet
+  
+    placerat
+  
+    urna
+  
+    adipiscing
+  
+    ac
+  
+    dui
+  
+    ligula
+  
+    vehicula
+  
+    etiam.
+    
+       Laoreet
+  
+    at
+  
+    purus
+  
+    pretium
+  
+    amet
+  
+    metus
+  
+    ut
+  
+    lorem
+  
+    ut
+  
+    nullam.
+    
+       Augue
+  
+    rhoncus
+  
+    odio
+  
+    arcu
+  
+    ipsum
+  
+    elit
+  
+    mattis
+  
+    neque
+  
+    blandit
+  
+    elit.
+    
+       Ante
+  
+    dictum
+  
+    tincidunt
+  
+    arcu
+  
+    vivamus
+  
+    mauris
+  
+    mattis
+  
+    at
+  
+    ac
+  
+    vivamus.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #2</h5>
+        </esl-trigger>
+        <esl-panel open class="tab tab-2" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Eu
+  
+    metus
+  
+    placerat
+  
+    ut
+  
+    mattis
+  
+    curabitur
+  
+    nibh
+  
+    eu
+  
+    eu
+  
+    ligula.
+    
+       Ipsum
+  
+    tincidunt
+  
+    sed
+  
+    vehicula
+  
+    scelerisque
+  
+    odio
+  
+    sit
+  
+    tincidunt
+  
+    proin
+  
+    diam.
+    
+       Vehicula
+  
+    tellus
+  
+    placerat
+  
+    sapien
+  
+    purus
+  
+    aenean
+  
+    vel
+  
+    blandit
+  
+    ante
+  
+    urna.
+    
+       Ante
+  
+    vulputate
+  
+    mi
+  
+    ac
+  
+    at
+  
+    risus
+  
+    etiam
+  
+    tempor
+  
+    facilisis
+  
+    nullam.
+    
+       Eu
+  
+    tellus
+  
+    mauris
+  
+    tellus
+  
+    nibh
+  
+    consectetur
+  
+    risus
+  
+    enim
+  
+    aenean
+  
+    porta.
+    
+       Mauris
+  
+    porta
+  
+    ligula
+  
+    ac
+  
+    sed
+  
+    venenatis
+  
+    sapien
+  
+    finibus
+  
+    ultrices
+  
+    aenean.
+    
+       Ac
+  
+    vehicula
+  
+    proin
+  
+    congue
+  
+    pellentesque
+  
+    id
+  
+    scelerisque
+  
+    augue
+  
+    vivamus
+  
+    amet.
+    
+       Fringilla
+  
+    vehicula
+  
+    purus
+  
+    nunc
+  
+    neque
+  
+    enim
+  
+    etiam
+  
+    vel
+  
+    lacinia
+  
+    ante.
+    
+       Nulla
+  
+    pretium
+  
+    sed
+  
+    rhoncus
+  
+    justo
+  
+    ut
+  
+    condimentum
+  
+    augue
+  
+    at
+  
+    purus.
+    
+       Enim
+  
+    suscipit
+  
+    condimentum
+  
+    etiam
+  
+    aenean
+  
+    ante
+  
+    ligula
+  
+    at
+  
+    ac
+  
+    adipiscing.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Vivamus
+  
+    vel
+  
+    blandit
+  
+    suscipit
+  
+    mollis
+  
+    augue
+  
+    neque
+  
+    amet
+  
+    ante
+  
+    neque.
+    
+       Scelerisque
+  
+    ante
+  
+    laoreet
+  
+    sit
+  
+    tempor
+  
+    id
+  
+    purus
+  
+    laoreet
+  
+    neque
+  
+    ante.
+    
+       Id
+  
+    etiam
+  
+    facilisis
+  
+    nunc
+  
+    etiam
+  
+    venenatis
+  
+    nulla
+  
+    venenatis
+  
+    condimentum
+  
+    vehicula.
+    
+       Urna
+  
+    tellus
+  
+    sit
+  
+    enim
+  
+    blandit
+  
+    augue
+  
+    blandit
+  
+    nulla
+  
+    elit
+  
+    odio.
+    
+       Sapien
+  
+    facilisi
+  
+    blandit
+  
+    pellentesque
+  
+    tellus
+  
+    consectetur
+  
+    vivamus
+  
+    sapien
+  
+    ante
+  
+    urna.
+    
+       Dui
+  
+    nunc
+  
+    amet
+  
+    mollis
+  
+    diam
+  
+    nunc
+  
+    etiam
+  
+    ac
+  
+    lacinia
+  
+    metus.
+    
+       Proin
+  
+    proin
+  
+    curabitur
+  
+    justo
+  
+    vel
+  
+    pellentesque
+  
+    lacinia
+  
+    urna
+  
+    blandit
+  
+    proin.
+    
+       Blandit
+  
+    dolor
+  
+    tellus
+  
+    proin
+  
+    dui
+  
+    vivamus
+  
+    porta
+  
+    ligula
+  
+    mauris
+  
+    pellentesque.
+    
+       At
+  
+    ultrices
+  
+    eget
+  
+    nullam
+  
+    purus
+  
+    mattis
+  
+    suscipit
+  
+    adipiscing
+  
+    vel
+  
+    venenatis.
+    
+       Lacinia
+  
+    justo
+  
+    justo
+  
+    laoreet
+  
+    tincidunt
+  
+    facilisi
+  
+    consectetur
+  
+    sed
+  
+    scelerisque
+  
+    amet.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #3</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-3" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Vehicula
+  
+    neque
+  
+    justo
+  
+    tincidunt
+  
+    tincidunt
+  
+    curabitur
+  
+    facilisis
+  
+    porta
+  
+    adipiscing
+  
+    nullam.
+    
+       Ante
+  
+    tincidunt
+  
+    vehicula
+  
+    mollis
+  
+    consectetur
+  
+    scelerisque
+  
+    viverra
+  
+    adipiscing
+  
+    ultrices
+  
+    mattis.
+    
+       Urna
+  
+    augue
+  
+    et
+  
+    tellus
+  
+    ipsum
+  
+    sapien
+  
+    rhoncus
+  
+    arcu
+  
+    enim
+  
+    dui.
+    
+       Vivamus
+  
+    purus
+  
+    dictum
+  
+    dictum
+  
+    mauris
+  
+    sit
+  
+    mattis
+  
+    ligula
+  
+    nunc
+  
+    vulputate.
+    
+       Ipsum
+  
+    diam
+  
+    metus
+  
+    eu
+  
+    tempor
+  
+    suscipit
+  
+    etiam
+  
+    mauris
+  
+    adipiscing
+  
+    consectetur.
+    
+       Congue
+  
+    rhoncus
+  
+    odio
+  
+    blandit
+  
+    dui
+  
+    vivamus
+  
+    sed
+  
+    facilisis
+  
+    etiam
+  
+    elit.
+    
+       Nullam
+  
+    mollis
+  
+    curabitur
+  
+    enim
+  
+    tempor
+  
+    facilisi
+  
+    pellentesque
+  
+    nulla
+  
+    nullam
+  
+    scelerisque.
+    
+       Sapien
+  
+    ante
+  
+    aenean
+  
+    blandit
+  
+    adipiscing
+  
+    tellus
+  
+    diam
+  
+    enim
+  
+    sit
+  
+    condimentum.
+    
+       Ipsum
+  
+    dictum
+  
+    porta
+  
+    nibh
+  
+    etiam
+  
+    lorem
+  
+    fringilla
+  
+    eu
+  
+    tincidunt
+  
+    etiam.
+    
+       Condimentum
+  
+    rhoncus
+  
+    congue
+  
+    curabitur
+  
+    lacinia
+  
+    odio
+  
+    proin
+  
+    sit
+  
+    porta
+  
+    mauris.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Vulputate
+  
+    mauris
+  
+    pretium
+  
+    tincidunt
+  
+    eget
+  
+    mauris
+  
+    tellus
+  
+    vehicula
+  
+    vivamus
+  
+    vehicula.
+    
+       Facilisi
+  
+    etiam
+  
+    ipsum
+  
+    arcu
+  
+    enim
+  
+    elit
+  
+    finibus
+  
+    nunc
+  
+    nulla
+  
+    pretium.
+    
+       Id
+  
+    metus
+  
+    curabitur
+  
+    proin
+  
+    eu
+  
+    id
+  
+    tellus
+  
+    justo
+  
+    nunc
+  
+    scelerisque.
+    
+       Ipsum
+  
+    sed
+  
+    urna
+  
+    pellentesque
+  
+    et
+  
+    vel
+  
+    suscipit
+  
+    porta
+  
+    blandit
+  
+    ligula.
+    
+       Proin
+  
+    risus
+  
+    urna
+  
+    ac
+  
+    ac
+  
+    facilisi
+  
+    amet
+  
+    proin
+  
+    laoreet
+  
+    vehicula.
+    
+       Diam
+  
+    adipiscing
+  
+    porta
+  
+    tellus
+  
+    tempor
+  
+    congue
+  
+    arcu
+  
+    laoreet
+  
+    odio
+  
+    pretium.
+    
+       Metus
+  
+    amet
+  
+    adipiscing
+  
+    scelerisque
+  
+    eget
+  
+    congue
+  
+    id
+  
+    arcu
+  
+    amet
+  
+    augue.
+    
+       Ac
+  
+    mattis
+  
+    elit
+  
+    mi
+  
+    ipsum
+  
+    venenatis
+  
+    suscipit
+  
+    vel
+  
+    risus
+  
+    et.
+    
+       Vel
+  
+    tincidunt
+  
+    eget
+  
+    arcu
+  
+    laoreet
+  
+    vel
+  
+    sed
+  
+    pellentesque
+  
+    urna
+  
+    lorem.
+    
+       Ultrices
+  
+    vulputate
+  
+    enim
+  
+    purus
+  
+    fringilla
+  
+    sit
+  
+    mi
+  
+    porta
+  
+    purus
+  
+    et.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #4</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-4" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Elit
+  
+    vivamus
+  
+    eget
+  
+    blandit
+  
+    vivamus
+  
+    aenean
+  
+    facilisis
+  
+    ante
+  
+    mi
+  
+    neque.
+    
+       Nunc
+  
+    ipsum
+  
+    vivamus
+  
+    augue
+  
+    viverra
+  
+    ante
+  
+    pellentesque
+  
+    urna
+  
+    etiam
+  
+    et.
+    
+       Mauris
+  
+    ut
+  
+    risus
+  
+    enim
+  
+    tincidunt
+  
+    neque
+  
+    adipiscing
+  
+    ligula
+  
+    ut
+  
+    amet.
+    
+       Urna
+  
+    nunc
+  
+    pellentesque
+  
+    mauris
+  
+    augue
+  
+    purus
+  
+    ante
+  
+    sed
+  
+    viverra
+  
+    dui.
+    
+       Nullam
+  
+    tincidunt
+  
+    sapien
+  
+    ligula
+  
+    suscipit
+  
+    ultrices
+  
+    consectetur
+  
+    curabitur
+  
+    sed
+  
+    congue.
+    
+       Blandit
+  
+    viverra
+  
+    viverra
+  
+    proin
+  
+    sit
+  
+    odio
+  
+    facilisis
+  
+    tincidunt
+  
+    etiam
+  
+    ultrices.
+    
+       Eget
+  
+    tempor
+  
+    tempor
+  
+    risus
+  
+    rhoncus
+  
+    sit
+  
+    eu
+  
+    aenean
+  
+    ipsum
+  
+    odio.
+    
+       Laoreet
+  
+    vehicula
+  
+    facilisi
+  
+    vulputate
+  
+    pretium
+  
+    et
+  
+    et
+  
+    nulla
+  
+    vehicula
+  
+    metus.
+    
+       Eget
+  
+    fringilla
+  
+    tellus
+  
+    consectetur
+  
+    dictum
+  
+    laoreet
+  
+    porta
+  
+    mattis
+  
+    fringilla
+  
+    neque.
+    
+       Rhoncus
+  
+    ligula
+  
+    metus
+  
+    purus
+  
+    placerat
+  
+    aenean
+  
+    ac
+  
+    mollis
+  
+    ac
+  
+    aenean.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Eu
+  
+    justo
+  
+    eget
+  
+    facilisi
+  
+    tincidunt
+  
+    viverra
+  
+    metus
+  
+    nunc
+  
+    condimentum
+  
+    viverra.
+    
+       Suscipit
+  
+    vivamus
+  
+    nullam
+  
+    scelerisque
+  
+    augue
+  
+    purus
+  
+    mauris
+  
+    suscipit
+  
+    nibh
+  
+    facilisis.
+    
+       Dolor
+  
+    sit
+  
+    lacinia
+  
+    augue
+  
+    viverra
+  
+    metus
+  
+    condimentum
+  
+    fringilla
+  
+    enim
+  
+    diam.
+    
+       Mauris
+  
+    etiam
+  
+    mollis
+  
+    augue
+  
+    proin
+  
+    elit
+  
+    ut
+  
+    urna
+  
+    blandit
+  
+    lorem.
+    
+       Vivamus
+  
+    lacinia
+  
+    pellentesque
+  
+    tempor
+  
+    nunc
+  
+    sapien
+  
+    consectetur
+  
+    vehicula
+  
+    dui
+  
+    proin.
+    
+       Eu
+  
+    porta
+  
+    ipsum
+  
+    suscipit
+  
+    urna
+  
+    dolor
+  
+    vulputate
+  
+    venenatis
+  
+    et
+  
+    blandit.
+    
+       Dolor
+  
+    lacinia
+  
+    mauris
+  
+    placerat
+  
+    tellus
+  
+    neque
+  
+    dui
+  
+    mollis
+  
+    porta
+  
+    mi.
+    
+       Proin
+  
+    pellentesque
+  
+    mi
+  
+    dictum
+  
+    nibh
+  
+    lorem
+  
+    lacinia
+  
+    urna
+  
+    tempor
+  
+    dui.
+    
+       Suscipit
+  
+    facilisi
+  
+    mi
+  
+    vivamus
+  
+    vivamus
+  
+    consectetur
+  
+    ut
+  
+    lacinia
+  
+    dictum
+  
+    etiam.
+    
+       Sapien
+  
+    porta
+  
+    tempor
+  
+    ipsum
+  
+    odio
+  
+    mollis
+  
+    purus
+  
+    ultrices
+  
+    mi
+  
+    urna.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Justo
+  
+    tellus
+  
+    id
+  
+    placerat
+  
+    dictum
+  
+    consectetur
+  
+    etiam
+  
+    adipiscing
+  
+    dictum
+  
+    facilisis.
+    
+       Mi
+  
+    tempor
+  
+    at
+  
+    blandit
+  
+    congue
+  
+    purus
+  
+    nibh
+  
+    risus
+  
+    odio
+  
+    lorem.
+    
+       Pretium
+  
+    adipiscing
+  
+    neque
+  
+    laoreet
+  
+    lorem
+  
+    venenatis
+  
+    finibus
+  
+    congue
+  
+    curabitur
+  
+    nibh.
+    
+       Sed
+  
+    mollis
+  
+    scelerisque
+  
+    urna
+  
+    enim
+  
+    sit
+  
+    sit
+  
+    lacinia
+  
+    ac
+  
+    sit.
+    
+       Urna
+  
+    dictum
+  
+    suscipit
+  
+    ultrices
+  
+    dictum
+  
+    sapien
+  
+    purus
+  
+    vulputate
+  
+    lacinia
+  
+    et.
+    
+       Proin
+  
+    laoreet
+  
+    ut
+  
+    dictum
+  
+    nulla
+  
+    venenatis
+  
+    dolor
+  
+    ac
+  
+    nunc
+  
+    nulla.
+    
+       Pellentesque
+  
+    id
+  
+    vulputate
+  
+    sit
+  
+    lorem
+  
+    vel
+  
+    purus
+  
+    facilisis
+  
+    tellus
+  
+    consectetur.
+    
+       Elit
+  
+    enim
+  
+    etiam
+  
+    ut
+  
+    sed
+  
+    id
+  
+    nullam
+  
+    aenean
+  
+    sit
+  
+    pretium.
+    
+       Nulla
+  
+    dolor
+  
+    proin
+  
+    arcu
+  
+    urna
+  
+    proin
+  
+    rhoncus
+  
+    laoreet
+  
+    etiam
+  
+    finibus.
+    
+       Viverra
+  
+    et
+  
+    condimentum
+  
+    ac
+  
+    congue
+  
+    scelerisque
+  
+    augue
+  
+    mi
+  
+    ultrices
+  
+    tincidunt.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #5</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-5" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Risus
+  
+    purus
+  
+    risus
+  
+    id
+  
+    odio
+  
+    ante
+  
+    lorem
+  
+    suscipit
+  
+    ipsum
+  
+    laoreet.
+    
+       Porta
+  
+    tempor
+  
+    finibus
+  
+    odio
+  
+    venenatis
+  
+    lacinia
+  
+    mi
+  
+    nunc
+  
+    et
+  
+    arcu.
+    
+       Viverra
+  
+    arcu
+  
+    sit
+  
+    enim
+  
+    mauris
+  
+    dui
+  
+    facilisis
+  
+    arcu
+  
+    enim
+  
+    aenean.
+    
+       Scelerisque
+  
+    arcu
+  
+    blandit
+  
+    amet
+  
+    pretium
+  
+    ultrices
+  
+    eu
+  
+    purus
+  
+    condimentum
+  
+    pretium.
+    
+       Aenean
+  
+    augue
+  
+    urna
+  
+    nibh
+  
+    adipiscing
+  
+    suscipit
+  
+    nibh
+  
+    ligula
+  
+    mi
+  
+    mauris.
+    
+       Metus
+  
+    mollis
+  
+    dolor
+  
+    vehicula
+  
+    nullam
+  
+    et
+  
+    viverra
+  
+    justo
+  
+    laoreet
+  
+    sed.
+    
+       Pellentesque
+  
+    rhoncus
+  
+    augue
+  
+    blandit
+  
+    mi
+  
+    lacinia
+  
+    vivamus
+  
+    justo
+  
+    venenatis
+  
+    venenatis.
+    
+       Scelerisque
+  
+    scelerisque
+  
+    nulla
+  
+    eget
+  
+    porta
+  
+    augue
+  
+    ligula
+  
+    risus
+  
+    arcu
+  
+    placerat.
+    
+       Nibh
+  
+    amet
+  
+    mauris
+  
+    curabitur
+  
+    ut
+  
+    eget
+  
+    mauris
+  
+    vehicula
+  
+    tempor
+  
+    risus.
+    
+       Condimentum
+  
+    purus
+  
+    risus
+  
+    id
+  
+    mi
+  
+    eget
+  
+    vehicula
+  
+    blandit
+  
+    etiam
+  
+    adipiscing.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #6</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-6" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Arcu
+  
+    odio
+  
+    metus
+  
+    eget
+  
+    fringilla
+  
+    nibh
+  
+    sit
+  
+    aenean
+  
+    ipsum
+  
+    risus.
+    
+       Suscipit
+  
+    rhoncus
+  
+    pellentesque
+  
+    viverra
+  
+    facilisi
+  
+    arcu
+  
+    lacinia
+  
+    dictum
+  
+    purus
+  
+    nulla.
+    
+       Pretium
+  
+    eu
+  
+    dolor
+  
+    ante
+  
+    nunc
+  
+    purus
+  
+    curabitur
+  
+    eget
+  
+    id
+  
+    scelerisque.
+    
+       Blandit
+  
+    vulputate
+  
+    viverra
+  
+    ultrices
+  
+    scelerisque
+  
+    pellentesque
+  
+    at
+  
+    vehicula
+  
+    curabitur
+  
+    fringilla.
+    
+       Venenatis
+  
+    mattis
+  
+    amet
+  
+    adipiscing
+  
+    viverra
+  
+    vivamus
+  
+    proin
+  
+    nulla
+  
+    odio
+  
+    metus.
+    
+       Pellentesque
+  
+    sapien
+  
+    dolor
+  
+    vulputate
+  
+    suscipit
+  
+    vehicula
+  
+    pretium
+  
+    fringilla
+  
+    condimentum
+  
+    pellentesque.
+    
+       Diam
+  
+    pellentesque
+  
+    augue
+  
+    proin
+  
+    mi
+  
+    tempor
+  
+    congue
+  
+    proin
+  
+    venenatis
+  
+    vehicula.
+    
+       Pretium
+  
+    lorem
+  
+    facilisis
+  
+    sit
+  
+    urna
+  
+    finibus
+  
+    justo
+  
+    placerat
+  
+    laoreet
+  
+    sapien.
+    
+       Neque
+  
+    facilisi
+  
+    vulputate
+  
+    metus
+  
+    justo
+  
+    ut
+  
+    placerat
+  
+    urna
+  
+    congue
+  
+    ac.
+    
+       Scelerisque
+  
+    ligula
+  
+    blandit
+  
+    etiam
+  
+    tincidunt
+  
+    risus
+  
+    congue
+  
+    facilisis
+  
+    mattis
+  
+    mi.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Nulla
+  
+    nibh
+  
+    proin
+  
+    facilisis
+  
+    augue
+  
+    adipiscing
+  
+    facilisi
+  
+    suscipit
+  
+    pretium
+  
+    id.
+    
+       Vehicula
+  
+    nulla
+  
+    dui
+  
+    ut
+  
+    proin
+  
+    nullam
+  
+    lorem
+  
+    tempor
+  
+    id
+  
+    facilisi.
+    
+       Nullam
+  
+    neque
+  
+    risus
+  
+    aenean
+  
+    enim
+  
+    ac
+  
+    elit
+  
+    vel
+  
+    ligula
+  
+    ante.
+    
+       Ante
+  
+    diam
+  
+    ac
+  
+    augue
+  
+    laoreet
+  
+    proin
+  
+    nulla
+  
+    porta
+  
+    arcu
+  
+    vivamus.
+    
+       Dictum
+  
+    nullam
+  
+    purus
+  
+    ut
+  
+    lacinia
+  
+    purus
+  
+    enim
+  
+    facilisis
+  
+    facilisi
+  
+    etiam.
+    
+       Etiam
+  
+    tellus
+  
+    finibus
+  
+    proin
+  
+    augue
+  
+    elit
+  
+    fringilla
+  
+    mattis
+  
+    dolor
+  
+    vel.
+    
+       Aenean
+  
+    at
+  
+    enim
+  
+    scelerisque
+  
+    nunc
+  
+    nulla
+  
+    viverra
+  
+    tincidunt
+  
+    sit
+  
+    condimentum.
+    
+       Lacinia
+  
+    scelerisque
+  
+    amet
+  
+    ante
+  
+    at
+  
+    proin
+  
+    tempor
+  
+    id
+  
+    mollis
+  
+    aenean.
+    
+       Consectetur
+  
+    vivamus
+  
+    pretium
+  
+    justo
+  
+    tincidunt
+  
+    mollis
+  
+    at
+  
+    laoreet
+  
+    nunc
+  
+    curabitur.
+    
+       Condimentum
+  
+    eget
+  
+    et
+  
+    ultrices
+  
+    congue
+  
+    diam
+  
+    enim
+  
+    lacinia
+  
+    id
+  
+    viverra.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #7</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-7" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Urna
+  
+    vel
+  
+    ipsum
+  
+    viverra
+  
+    laoreet
+  
+    sapien
+  
+    amet
+  
+    fringilla
+  
+    consectetur
+  
+    nullam.
+    
+       Proin
+  
+    sit
+  
+    adipiscing
+  
+    neque
+  
+    rhoncus
+  
+    enim
+  
+    ac
+  
+    pellentesque
+  
+    tellus
+  
+    enim.
+    
+       Tellus
+  
+    lacinia
+  
+    curabitur
+  
+    eget
+  
+    arcu
+  
+    congue
+  
+    etiam
+  
+    eu
+  
+    mauris
+  
+    eu.
+    
+       Augue
+  
+    mauris
+  
+    aenean
+  
+    proin
+  
+    amet
+  
+    odio
+  
+    pellentesque
+  
+    et
+  
+    arcu
+  
+    eget.
+    
+       Ac
+  
+    dui
+  
+    tellus
+  
+    dictum
+  
+    odio
+  
+    proin
+  
+    vehicula
+  
+    vel
+  
+    facilisi
+  
+    lorem.
+    
+       Mattis
+  
+    tincidunt
+  
+    ut
+  
+    vehicula
+  
+    purus
+  
+    urna
+  
+    urna
+  
+    sapien
+  
+    ac
+  
+    mi.
+    
+       At
+  
+    venenatis
+  
+    neque
+  
+    elit
+  
+    amet
+  
+    mollis
+  
+    ante
+  
+    viverra
+  
+    scelerisque
+  
+    curabitur.
+    
+       Congue
+  
+    mattis
+  
+    sit
+  
+    ut
+  
+    adipiscing
+  
+    mi
+  
+    aenean
+  
+    pretium
+  
+    venenatis
+  
+    urna.
+    
+       Arcu
+  
+    porta
+  
+    pretium
+  
+    ante
+  
+    fringilla
+  
+    blandit
+  
+    urna
+  
+    tincidunt
+  
+    ipsum
+  
+    at.
+    
+       Aenean
+  
+    urna
+  
+    vivamus
+  
+    ipsum
+  
+    sed
+  
+    purus
+  
+    eu
+  
+    diam
+  
+    lorem
+  
+    sed.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Venenatis
+  
+    sit
+  
+    vehicula
+  
+    vehicula
+  
+    vivamus
+  
+    at
+  
+    fringilla
+  
+    viverra
+  
+    at
+  
+    porta.
+    
+       Placerat
+  
+    lorem
+  
+    ut
+  
+    placerat
+  
+    vulputate
+  
+    mattis
+  
+    consectetur
+  
+    scelerisque
+  
+    augue
+  
+    rhoncus.
+    
+       Odio
+  
+    etiam
+  
+    mauris
+  
+    enim
+  
+    ligula
+  
+    suscipit
+  
+    tempor
+  
+    et
+  
+    urna
+  
+    sed.
+    
+       Augue
+  
+    nullam
+  
+    finibus
+  
+    placerat
+  
+    ante
+  
+    odio
+  
+    sed
+  
+    et
+  
+    et
+  
+    porta.
+    
+       Porta
+  
+    mattis
+  
+    curabitur
+  
+    facilisis
+  
+    nunc
+  
+    lorem
+  
+    nullam
+  
+    eu
+  
+    eu
+  
+    vehicula.
+    
+       Curabitur
+  
+    rhoncus
+  
+    dolor
+  
+    porta
+  
+    nullam
+  
+    sapien
+  
+    ut
+  
+    ligula
+  
+    tempor
+  
+    rhoncus.
+    
+       Mauris
+  
+    porta
+  
+    suscipit
+  
+    blandit
+  
+    viverra
+  
+    aenean
+  
+    sit
+  
+    scelerisque
+  
+    facilisi
+  
+    ante.
+    
+       Ut
+  
+    nibh
+  
+    aenean
+  
+    id
+  
+    mauris
+  
+    vehicula
+  
+    porta
+  
+    elit
+  
+    sit
+  
+    metus.
+    
+       Ac
+  
+    elit
+  
+    dolor
+  
+    justo
+  
+    condimentum
+  
+    aenean
+  
+    mi
+  
+    aenean
+  
+    facilisis
+  
+    metus.
+    
+       Blandit
+  
+    scelerisque
+  
+    fringilla
+  
+    condimentum
+  
+    laoreet
+  
+    ipsum
+  
+    pretium
+  
+    fringilla
+  
+    porta
+  
+    mi.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Facilisi
+  
+    etiam
+  
+    mollis
+  
+    nulla
+  
+    aenean
+  
+    pellentesque
+  
+    tincidunt
+  
+    curabitur
+  
+    augue
+  
+    blandit.
+    
+       Eget
+  
+    amet
+  
+    venenatis
+  
+    proin
+  
+    vulputate
+  
+    curabitur
+  
+    placerat
+  
+    nunc
+  
+    augue
+  
+    nulla.
+    
+       Ultrices
+  
+    augue
+  
+    eu
+  
+    at
+  
+    etiam
+  
+    nullam
+  
+    dictum
+  
+    justo
+  
+    dui
+  
+    vulputate.
+    
+       Viverra
+  
+    nullam
+  
+    consectetur
+  
+    vehicula
+  
+    odio
+  
+    curabitur
+  
+    odio
+  
+    facilisis
+  
+    tempor
+  
+    ligula.
+    
+       Enim
+  
+    lorem
+  
+    facilisis
+  
+    tellus
+  
+    sapien
+  
+    mauris
+  
+    aenean
+  
+    blandit
+  
+    suscipit
+  
+    ante.
+    
+       Vulputate
+  
+    sapien
+  
+    pellentesque
+  
+    lacinia
+  
+    rhoncus
+  
+    tempor
+  
+    suscipit
+  
+    id
+  
+    vivamus
+  
+    id.
+    
+       Scelerisque
+  
+    vulputate
+  
+    proin
+  
+    sit
+  
+    nibh
+  
+    mollis
+  
+    tincidunt
+  
+    sit
+  
+    pretium
+  
+    mollis.
+    
+       Scelerisque
+  
+    finibus
+  
+    sit
+  
+    sapien
+  
+    facilisi
+  
+    vehicula
+  
+    venenatis
+  
+    pellentesque
+  
+    scelerisque
+  
+    et.
+    
+       Proin
+  
+    blandit
+  
+    arcu
+  
+    proin
+  
+    tellus
+  
+    ultrices
+  
+    id
+  
+    augue
+  
+    diam
+  
+    mollis.
+    
+       Proin
+  
+    porta
+  
+    adipiscing
+  
+    dolor
+  
+    dictum
+  
+    sapien
+  
+    lacinia
+  
+    condimentum
+  
+    mi
+  
+    fringilla.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+      </esl-panel-group>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <h2> Tabs Component (rtl) </h2>
+    <p class="h5"> Complex mode: SM+ -> tabs, XS -> accordion </p>
+    <div class="tabs">
+      <esl-tabs class="tabs-container" scrollable dir="rtl">
+        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+        <div class="arrow-prev" data-tab-direction="left">
+          <span class="icon-arrow-prev"></span>
+        </div>
+
+        <ul class="nav nav-pills esl-tab-container" role="tablist">
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-1)">
+              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-2)">
+              <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-3)">
+              <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+        </ul>
+
+        <div class="arrow-next" data-tab-direction="right">
+          <span class="icon-arrow-next"></span>
+        </div>
+
+      </esl-tabs>
+
+      <esl-panel-group mode="@XS => accordion | @+SM => tabs" mode-cls-target="::parent::find(.tabs-container)">
+        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
+
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #1</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-1" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Laoreet
+  
+    eu
+  
+    vehicula
+  
+    tincidunt
+  
+    purus
+  
+    metus
+  
+    rhoncus
+  
+    aenean
+  
+    mattis
+  
+    etiam.
+    
+       Ultrices
+  
+    vivamus
+  
+    urna
+  
+    pretium
+  
+    vehicula
+  
+    vivamus
+  
+    curabitur
+  
+    fringilla
+  
+    dolor
+  
+    eu.
+    
+       Pretium
+  
+    blandit
+  
+    at
+  
+    nulla
+  
+    ac
+  
+    facilisis
+  
+    ipsum
+  
+    sapien
+  
+    id
+  
+    lorem.
+    
+       Tempor
+  
+    vehicula
+  
+    aenean
+  
+    sit
+  
+    nullam
+  
+    ipsum
+  
+    nullam
+  
+    laoreet
+  
+    dolor
+  
+    augue.
+    
+       Facilisis
+  
+    facilisi
+  
+    eget
+  
+    eget
+  
+    vulputate
+  
+    porta
+  
+    nunc
+  
+    ut
+  
+    ultrices
+  
+    eu.
+    
+       Nunc
+  
+    lacinia
+  
+    ante
+  
+    at
+  
+    proin
+  
+    consectetur
+  
+    justo
+  
+    eget
+  
+    ante
+  
+    suscipit.
+    
+       Odio
+  
+    risus
+  
+    nibh
+  
+    finibus
+  
+    suscipit
+  
+    scelerisque
+  
+    id
+  
+    condimentum
+  
+    finibus
+  
+    condimentum.
+    
+       Facilisis
+  
+    nulla
+  
+    mi
+  
+    proin
+  
+    vel
+  
+    suscipit
+  
+    odio
+  
+    tellus
+  
+    mollis
+  
+    vel.
+    
+       Mauris
+  
+    enim
+  
+    pellentesque
+  
+    placerat
+  
+    facilisis
+  
+    aenean
+  
+    suscipit
+  
+    dui
+  
+    aenean
+  
+    dictum.
+    
+       Augue
+  
+    sed
+  
+    facilisis
+  
+    mauris
+  
+    mauris
+  
+    justo
+  
+    lacinia
+  
+    nunc
+  
+    urna
+  
+    elit.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Lorem
+  
+    amet
+  
+    lorem
+  
+    ultrices
+  
+    blandit
+  
+    lorem
+  
+    neque
+  
+    fringilla
+  
+    eu
+  
+    rhoncus.
+    
+       Fringilla
+  
+    urna
+  
+    vel
+  
+    curabitur
+  
+    enim
+  
+    sit
+  
+    mattis
+  
+    facilisis
+  
+    arcu
+  
+    purus.
+    
+       Lorem
+  
+    fringilla
+  
+    fringilla
+  
+    lacinia
+  
+    ultrices
+  
+    placerat
+  
+    ultrices
+  
+    suscipit
+  
+    laoreet
+  
+    mollis.
+    
+       Mi
+  
+    dictum
+  
+    dui
+  
+    pretium
+  
+    ut
+  
+    nullam
+  
+    tempor
+  
+    etiam
+  
+    elit
+  
+    arcu.
+    
+       Scelerisque
+  
+    tincidunt
+  
+    proin
+  
+    scelerisque
+  
+    curabitur
+  
+    lorem
+  
+    sit
+  
+    venenatis
+  
+    mauris
+  
+    metus.
+    
+       Rhoncus
+  
+    rhoncus
+  
+    eu
+  
+    dolor
+  
+    facilisis
+  
+    facilisi
+  
+    etiam
+  
+    at
+  
+    risus
+  
+    purus.
+    
+       Ante
+  
+    ante
+  
+    fringilla
+  
+    ultrices
+  
+    vehicula
+  
+    justo
+  
+    diam
+  
+    ipsum
+  
+    suscipit
+  
+    laoreet.
+    
+       Vel
+  
+    blandit
+  
+    odio
+  
+    dolor
+  
+    sapien
+  
+    dui
+  
+    congue
+  
+    lorem
+  
+    laoreet
+  
+    congue.
+    
+       Porta
+  
+    purus
+  
+    facilisi
+  
+    placerat
+  
+    mollis
+  
+    facilisi
+  
+    facilisis
+  
+    metus
+  
+    vel
+  
+    justo.
+    
+       Ante
+  
+    pellentesque
+  
+    vulputate
+  
+    lorem
+  
+    nunc
+  
+    scelerisque
+  
+    sapien
+  
+    dui
+  
+    ante
+  
+    laoreet.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #2</h5>
+        </esl-trigger>
+        <esl-panel open class="tab tab-2" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Amet
+  
+    tincidunt
+  
+    sed
+  
+    mattis
+  
+    consectetur
+  
+    lacinia
+  
+    placerat
+  
+    sed
+  
+    fringilla
+  
+    sit.
+    
+       Diam
+  
+    blandit
+  
+    fringilla
+  
+    condimentum
+  
+    tincidunt
+  
+    arcu
+  
+    diam
+  
+    purus
+  
+    mollis
+  
+    at.
+    
+       At
+  
+    rhoncus
+  
+    ultrices
+  
+    odio
+  
+    ligula
+  
+    dolor
+  
+    scelerisque
+  
+    viverra
+  
+    arcu
+  
+    mollis.
+    
+       Lacinia
+  
+    vehicula
+  
+    suscipit
+  
+    nibh
+  
+    venenatis
+  
+    laoreet
+  
+    proin
+  
+    pellentesque
+  
+    arcu
+  
+    curabitur.
+    
+       Mattis
+  
+    scelerisque
+  
+    vehicula
+  
+    urna
+  
+    facilisi
+  
+    mi
+  
+    ligula
+  
+    condimentum
+  
+    proin
+  
+    ultrices.
+    
+       Et
+  
+    pretium
+  
+    vel
+  
+    purus
+  
+    mattis
+  
+    eu
+  
+    mi
+  
+    purus
+  
+    suscipit
+  
+    ipsum.
+    
+       Laoreet
+  
+    tellus
+  
+    tincidunt
+  
+    eu
+  
+    mi
+  
+    facilisi
+  
+    finibus
+  
+    placerat
+  
+    laoreet
+  
+    diam.
+    
+       Pellentesque
+  
+    ligula
+  
+    mi
+  
+    eget
+  
+    laoreet
+  
+    tellus
+  
+    id
+  
+    dui
+  
+    nullam
+  
+    sit.
+    
+       Tempor
+  
+    eu
+  
+    ligula
+  
+    risus
+  
+    ac
+  
+    dui
+  
+    curabitur
+  
+    eget
+  
+    tincidunt
+  
+    condimentum.
+    
+       Condimentum
+  
+    vivamus
+  
+    laoreet
+  
+    dolor
+  
+    eu
+  
+    laoreet
+  
+    aenean
+  
+    mi
+  
+    ligula
+  
+    enim.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #3</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-3" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Finibus
+  
+    justo
+  
+    mi
+  
+    ante
+  
+    etiam
+  
+    dictum
+  
+    tincidunt
+  
+    diam
+  
+    nunc
+  
+    eget.
+    
+       Vel
+  
+    neque
+  
+    vel
+  
+    ultrices
+  
+    nibh
+  
+    enim
+  
+    vehicula
+  
+    mauris
+  
+    lorem
+  
+    porta.
+    
+       Vivamus
+  
+    rhoncus
+  
+    fringilla
+  
+    vulputate
+  
+    facilisis
+  
+    facilisis
+  
+    ac
+  
+    nullam
+  
+    suscipit
+  
+    ac.
+    
+       Pretium
+  
+    ac
+  
+    risus
+  
+    vel
+  
+    at
+  
+    pellentesque
+  
+    elit
+  
+    aenean
+  
+    finibus
+  
+    ante.
+    
+       Dui
+  
+    eget
+  
+    eget
+  
+    sed
+  
+    diam
+  
+    amet
+  
+    nunc
+  
+    laoreet
+  
+    adipiscing
+  
+    fringilla.
+    
+       Rhoncus
+  
+    et
+  
+    pretium
+  
+    ac
+  
+    placerat
+  
+    condimentum
+  
+    adipiscing
+  
+    dui
+  
+    dui
+  
+    pellentesque.
+    
+       Neque
+  
+    tempor
+  
+    pretium
+  
+    facilisi
+  
+    sapien
+  
+    mattis
+  
+    finibus
+  
+    ac
+  
+    metus
+  
+    nullam.
+    
+       Nulla
+  
+    purus
+  
+    ac
+  
+    scelerisque
+  
+    tempor
+  
+    id
+  
+    sapien
+  
+    sapien
+  
+    odio
+  
+    scelerisque.
+    
+       Pretium
+  
+    consectetur
+  
+    adipiscing
+  
+    eget
+  
+    ultrices
+  
+    arcu
+  
+    vivamus
+  
+    lorem
+  
+    etiam
+  
+    id.
+    
+       Mollis
+  
+    adipiscing
+  
+    eu
+  
+    lorem
+  
+    arcu
+  
+    metus
+  
+    at
+  
+    ultrices
+  
+    ipsum
+  
+    vehicula.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Neque
+  
+    vivamus
+  
+    risus
+  
+    at
+  
+    ante
+  
+    ultrices
+  
+    consectetur
+  
+    adipiscing
+  
+    diam
+  
+    vehicula.
+    
+       Venenatis
+  
+    ut
+  
+    dui
+  
+    mi
+  
+    suscipit
+  
+    risus
+  
+    metus
+  
+    lorem
+  
+    finibus
+  
+    id.
+    
+       Adipiscing
+  
+    aenean
+  
+    enim
+  
+    nulla
+  
+    eget
+  
+    dolor
+  
+    mi
+  
+    odio
+  
+    mattis
+  
+    nullam.
+    
+       Pellentesque
+  
+    blandit
+  
+    nunc
+  
+    eu
+  
+    tincidunt
+  
+    pretium
+  
+    neque
+  
+    nulla
+  
+    tellus
+  
+    sit.
+    
+       Ultrices
+  
+    nulla
+  
+    metus
+  
+    elit
+  
+    augue
+  
+    lorem
+  
+    finibus
+  
+    porta
+  
+    diam
+  
+    porta.
+    
+       Urna
+  
+    ac
+  
+    vivamus
+  
+    ultrices
+  
+    scelerisque
+  
+    nibh
+  
+    purus
+  
+    purus
+  
+    nunc
+  
+    venenatis.
+    
+       Pretium
+  
+    mi
+  
+    dolor
+  
+    augue
+  
+    ligula
+  
+    diam
+  
+    fringilla
+  
+    tincidunt
+  
+    tincidunt
+  
+    metus.
+    
+       Lacinia
+  
+    dui
+  
+    vel
+  
+    tellus
+  
+    id
+  
+    mattis
+  
+    suscipit
+  
+    odio
+  
+    blandit
+  
+    venenatis.
+    
+       Mollis
+  
+    ligula
+  
+    amet
+  
+    urna
+  
+    proin
+  
+    nullam
+  
+    ipsum
+  
+    fringilla
+  
+    pretium
+  
+    aenean.
+    
+       Facilisis
+  
+    mi
+  
+    dictum
+  
+    risus
+  
+    diam
+  
+    dictum
+  
+    blandit
+  
+    id
+  
+    mollis
+  
+    mattis.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Ligula
+  
+    mattis
+  
+    ac
+  
+    mattis
+  
+    nullam
+  
+    odio
+  
+    metus
+  
+    id
+  
+    dolor
+  
+    dui.
+    
+       Vivamus
+  
+    sapien
+  
+    ligula
+  
+    facilisis
+  
+    pellentesque
+  
+    ante
+  
+    congue
+  
+    consectetur
+  
+    metus
+  
+    mattis.
+    
+       Etiam
+  
+    facilisis
+  
+    laoreet
+  
+    vivamus
+  
+    nulla
+  
+    nullam
+  
+    porta
+  
+    laoreet
+  
+    urna
+  
+    facilisi.
+    
+       Placerat
+  
+    etiam
+  
+    odio
+  
+    justo
+  
+    neque
+  
+    pretium
+  
+    porta
+  
+    vel
+  
+    laoreet
+  
+    mollis.
+    
+       Facilisi
+  
+    pretium
+  
+    tellus
+  
+    dictum
+  
+    tempor
+  
+    diam
+  
+    ultrices
+  
+    placerat
+  
+    elit
+  
+    et.
+    
+       Venenatis
+  
+    aenean
+  
+    sit
+  
+    placerat
+  
+    vulputate
+  
+    vel
+  
+    vel
+  
+    augue
+  
+    laoreet
+  
+    scelerisque.
+    
+       Scelerisque
+  
+    nulla
+  
+    arcu
+  
+    augue
+  
+    adipiscing
+  
+    dictum
+  
+    scelerisque
+  
+    suscipit
+  
+    et
+  
+    et.
+    
+       Amet
+  
+    facilisi
+  
+    eget
+  
+    dolor
+  
+    lacinia
+  
+    ultrices
+  
+    porta
+  
+    etiam
+  
+    ac
+  
+    sed.
+    
+       Mollis
+  
+    risus
+  
+    nunc
+  
+    blandit
+  
+    elit
+  
+    nulla
+  
+    dui
+  
+    ac
+  
+    ut
+  
+    sit.
+    
+       Id
+  
+    id
+  
+    ac
+  
+    suscipit
+  
+    laoreet
+  
+    condimentum
+  
+    eget
+  
+    vivamus
+  
+    ultrices
+  
+    metus.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+      </esl-panel-group>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <h2> Scrollable Tabs Component (rtl) </h2>
+    <p class="h5"> Complex mode: SM+ -> tabs, XS -> accordion </p>
+    <div class="tabs">
+      <esl-tabs class="tabs-container" scrollable dir="rtl">
+        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+        <div class="arrow-prev" data-tab-direction="left">
+          <span class="icon-arrow-prev"></span>
+        </div>
+
+        <ul class="nav nav-pills esl-tab-container" role="tablist">
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-1)">
+              <h5 class="mb-0">Tab #1 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-2)">
+              <h5 class="mb-0">Tab #2 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-3)">
+              <h5 class="mb-0">Tab #3 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-4)">
+              <h5 class="mb-0">Tab #4 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-5)">
+              <h5 class="mb-0">Tab #5 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-6)">
+              <h5 class="mb-0">Tab #6 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-7)">
+              <h5 class="mb-0">Tab #7 Lorem ipsum dolor sit amet, consectetur adipiscing elit</h5>
+            </esl-tab>
+          </li>
+        </ul>
+
+        <div class="arrow-next" data-tab-direction="right">
+          <span class="icon-arrow-next"></span>
+        </div>
+
+      </esl-tabs>
+
+      <esl-panel-group mode="@XS => accordion | @+SM => tabs" mode-cls-target="::parent::find(.tabs-container)">
+        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
+
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #1</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-1" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Etiam
+  
+    id
+  
+    urna
+  
+    sed
+  
+    facilisi
+  
+    nulla
+  
+    vivamus
+  
+    sapien
+  
+    venenatis
+  
+    placerat.
+    
+       Vivamus
+  
+    et
+  
+    ut
+  
+    aenean
+  
+    urna
+  
+    odio
+  
+    lorem
+  
+    ligula
+  
+    finibus
+  
+    sapien.
+    
+       Et
+  
+    ut
+  
+    pretium
+  
+    neque
+  
+    ut
+  
+    scelerisque
+  
+    adipiscing
+  
+    mattis
+  
+    elit
+  
+    facilisis.
+    
+       Diam
+  
+    ac
+  
+    curabitur
+  
+    ut
+  
+    mi
+  
+    urna
+  
+    nulla
+  
+    porta
+  
+    dolor
+  
+    consectetur.
+    
+       Ultrices
+  
+    ipsum
+  
+    porta
+  
+    risus
+  
+    arcu
+  
+    justo
+  
+    et
+  
+    tempor
+  
+    ligula
+  
+    nulla.
+    
+       Finibus
+  
+    ac
+  
+    vehicula
+  
+    tincidunt
+  
+    curabitur
+  
+    curabitur
+  
+    rhoncus
+  
+    consectetur
+  
+    purus
+  
+    augue.
+    
+       Id
+  
+    neque
+  
+    dui
+  
+    urna
+  
+    tincidunt
+  
+    tempor
+  
+    proin
+  
+    aenean
+  
+    et
+  
+    diam.
+    
+       Vivamus
+  
+    placerat
+  
+    dictum
+  
+    eget
+  
+    facilisi
+  
+    consectetur
+  
+    condimentum
+  
+    ac
+  
+    ligula
+  
+    arcu.
+    
+       Nulla
+  
+    eu
+  
+    suscipit
+  
+    justo
+  
+    dictum
+  
+    nulla
+  
+    neque
+  
+    mattis
+  
+    nullam
+  
+    ipsum.
+    
+       Diam
+  
+    suscipit
+  
+    blandit
+  
+    vel
+  
+    ac
+  
+    pellentesque
+  
+    venenatis
+  
+    proin
+  
+    metus
+  
+    facilisis.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #2</h5>
+        </esl-trigger>
+        <esl-panel open class="tab tab-2" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Arcu
+  
+    augue
+  
+    placerat
+  
+    condimentum
+  
+    ante
+  
+    viverra
+  
+    amet
+  
+    augue
+  
+    vehicula
+  
+    aenean.
+    
+       Porta
+  
+    mattis
+  
+    urna
+  
+    dolor
+  
+    ante
+  
+    sapien
+  
+    rhoncus
+  
+    sed
+  
+    id
+  
+    proin.
+    
+       Viverra
+  
+    ante
+  
+    mauris
+  
+    ligula
+  
+    mollis
+  
+    venenatis
+  
+    ultrices
+  
+    enim
+  
+    dolor
+  
+    sed.
+    
+       Ipsum
+  
+    elit
+  
+    porta
+  
+    venenatis
+  
+    proin
+  
+    nullam
+  
+    consectetur
+  
+    amet
+  
+    eget
+  
+    id.
+    
+       Vivamus
+  
+    rhoncus
+  
+    amet
+  
+    nibh
+  
+    rhoncus
+  
+    facilisis
+  
+    nunc
+  
+    mollis
+  
+    ultrices
+  
+    vulputate.
+    
+       Congue
+  
+    porta
+  
+    ante
+  
+    et
+  
+    ac
+  
+    ultrices
+  
+    consectetur
+  
+    ac
+  
+    justo
+  
+    vulputate.
+    
+       Amet
+  
+    dui
+  
+    ipsum
+  
+    mi
+  
+    viverra
+  
+    eget
+  
+    purus
+  
+    dui
+  
+    porta
+  
+    aenean.
+    
+       Risus
+  
+    dui
+  
+    nibh
+  
+    urna
+  
+    curabitur
+  
+    facilisi
+  
+    mattis
+  
+    arcu
+  
+    laoreet
+  
+    sed.
+    
+       Finibus
+  
+    at
+  
+    eget
+  
+    vehicula
+  
+    nibh
+  
+    mattis
+  
+    mi
+  
+    lorem
+  
+    ante
+  
+    metus.
+    
+       Etiam
+  
+    sapien
+  
+    pellentesque
+  
+    at
+  
+    adipiscing
+  
+    mollis
+  
+    purus
+  
+    at
+  
+    at
+  
+    enim.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Suscipit
+  
+    eu
+  
+    mattis
+  
+    urna
+  
+    nulla
+  
+    vivamus
+  
+    laoreet
+  
+    nullam
+  
+    ipsum
+  
+    diam.
+    
+       Vel
+  
+    viverra
+  
+    placerat
+  
+    enim
+  
+    pellentesque
+  
+    nibh
+  
+    scelerisque
+  
+    risus
+  
+    justo
+  
+    augue.
+    
+       Adipiscing
+  
+    finibus
+  
+    mollis
+  
+    tempor
+  
+    placerat
+  
+    odio
+  
+    sed
+  
+    eu
+  
+    dui
+  
+    purus.
+    
+       Condimentum
+  
+    suscipit
+  
+    at
+  
+    laoreet
+  
+    odio
+  
+    congue
+  
+    augue
+  
+    ligula
+  
+    odio
+  
+    elit.
+    
+       Sapien
+  
+    risus
+  
+    dui
+  
+    adipiscing
+  
+    condimentum
+  
+    ut
+  
+    porta
+  
+    vulputate
+  
+    mi
+  
+    dolor.
+    
+       Vulputate
+  
+    nunc
+  
+    fringilla
+  
+    adipiscing
+  
+    nulla
+  
+    tincidunt
+  
+    nullam
+  
+    ligula
+  
+    augue
+  
+    finibus.
+    
+       Neque
+  
+    diam
+  
+    pellentesque
+  
+    etiam
+  
+    suscipit
+  
+    elit
+  
+    dolor
+  
+    rhoncus
+  
+    ipsum
+  
+    viverra.
+    
+       Eget
+  
+    adipiscing
+  
+    augue
+  
+    aenean
+  
+    tincidunt
+  
+    facilisis
+  
+    eu
+  
+    scelerisque
+  
+    vel
+  
+    rhoncus.
+    
+       Enim
+  
+    nunc
+  
+    lacinia
+  
+    aenean
+  
+    lorem
+  
+    vel
+  
+    suscipit
+  
+    suscipit
+  
+    finibus
+  
+    viverra.
+    
+       Curabitur
+  
+    augue
+  
+    dictum
+  
+    odio
+  
+    sit
+  
+    ante
+  
+    laoreet
+  
+    nulla
+  
+    venenatis
+  
+    purus.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #3</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-3" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Suscipit
+  
+    ut
+  
+    mi
+  
+    porta
+  
+    id
+  
+    adipiscing
+  
+    etiam
+  
+    nulla
+  
+    nullam
+  
+    laoreet.
+    
+       Vehicula
+  
+    eu
+  
+    amet
+  
+    aenean
+  
+    mauris
+  
+    eget
+  
+    augue
+  
+    curabitur
+  
+    urna
+  
+    proin.
+    
+       Congue
+  
+    facilisi
+  
+    mauris
+  
+    amet
+  
+    ante
+  
+    diam
+  
+    augue
+  
+    arcu
+  
+    lacinia
+  
+    justo.
+    
+       Tempor
+  
+    elit
+  
+    ante
+  
+    pellentesque
+  
+    finibus
+  
+    venenatis
+  
+    sapien
+  
+    finibus
+  
+    purus
+  
+    metus.
+    
+       Ante
+  
+    dui
+  
+    proin
+  
+    mi
+  
+    consectetur
+  
+    neque
+  
+    vivamus
+  
+    nullam
+  
+    tellus
+  
+    suscipit.
+    
+       Etiam
+  
+    adipiscing
+  
+    vivamus
+  
+    pellentesque
+  
+    placerat
+  
+    placerat
+  
+    mattis
+  
+    ante
+  
+    augue
+  
+    rhoncus.
+    
+       Facilisi
+  
+    at
+  
+    finibus
+  
+    tempor
+  
+    lorem
+  
+    ut
+  
+    eu
+  
+    amet
+  
+    ante
+  
+    arcu.
+    
+       Rhoncus
+  
+    eget
+  
+    condimentum
+  
+    lacinia
+  
+    urna
+  
+    congue
+  
+    justo
+  
+    ultrices
+  
+    facilisi
+  
+    amet.
+    
+       Ut
+  
+    neque
+  
+    nullam
+  
+    etiam
+  
+    dictum
+  
+    etiam
+  
+    ultrices
+  
+    lorem
+  
+    elit
+  
+    urna.
+    
+       Et
+  
+    laoreet
+  
+    pellentesque
+  
+    aenean
+  
+    finibus
+  
+    curabitur
+  
+    vulputate
+  
+    adipiscing
+  
+    venenatis
+  
+    blandit.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Eget
+  
+    vivamus
+  
+    ante
+  
+    urna
+  
+    ligula
+  
+    augue
+  
+    ac
+  
+    lorem
+  
+    nullam
+  
+    viverra.
+    
+       Lorem
+  
+    blandit
+  
+    dictum
+  
+    mauris
+  
+    id
+  
+    mi
+  
+    porta
+  
+    nibh
+  
+    sed
+  
+    pellentesque.
+    
+       Ligula
+  
+    nullam
+  
+    condimentum
+  
+    mi
+  
+    risus
+  
+    neque
+  
+    blandit
+  
+    neque
+  
+    at
+  
+    purus.
+    
+       Condimentum
+  
+    ipsum
+  
+    et
+  
+    sit
+  
+    purus
+  
+    scelerisque
+  
+    venenatis
+  
+    nulla
+  
+    lacinia
+  
+    lacinia.
+    
+       Dictum
+  
+    congue
+  
+    dolor
+  
+    consectetur
+  
+    ultrices
+  
+    laoreet
+  
+    viverra
+  
+    arcu
+  
+    ultrices
+  
+    sapien.
+    
+       Nullam
+  
+    nullam
+  
+    mi
+  
+    purus
+  
+    urna
+  
+    arcu
+  
+    venenatis
+  
+    fringilla
+  
+    mi
+  
+    pellentesque.
+    
+       Risus
+  
+    ligula
+  
+    tempor
+  
+    condimentum
+  
+    lorem
+  
+    lacinia
+  
+    nullam
+  
+    ligula
+  
+    proin
+  
+    consectetur.
+    
+       Proin
+  
+    mattis
+  
+    pellentesque
+  
+    blandit
+  
+    amet
+  
+    metus
+  
+    eu
+  
+    lacinia
+  
+    pretium
+  
+    placerat.
+    
+       Placerat
+  
+    risus
+  
+    tincidunt
+  
+    mauris
+  
+    et
+  
+    pretium
+  
+    augue
+  
+    dui
+  
+    congue
+  
+    mauris.
+    
+       Adipiscing
+  
+    pellentesque
+  
+    purus
+  
+    purus
+  
+    suscipit
+  
+    dui
+  
+    mollis
+  
+    amet
+  
+    fringilla
+  
+    risus.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #4</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-4" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Nulla
+  
+    sed
+  
+    purus
+  
+    et
+  
+    facilisi
+  
+    nulla
+  
+    fringilla
+  
+    mauris
+  
+    pellentesque
+  
+    ipsum.
+    
+       Mollis
+  
+    ultrices
+  
+    justo
+  
+    mauris
+  
+    adipiscing
+  
+    adipiscing
+  
+    ultrices
+  
+    pellentesque
+  
+    suscipit
+  
+    nibh.
+    
+       Sit
+  
+    consectetur
+  
+    dictum
+  
+    dolor
+  
+    ut
+  
+    ut
+  
+    nibh
+  
+    dui
+  
+    vehicula
+  
+    augue.
+    
+       Augue
+  
+    venenatis
+  
+    laoreet
+  
+    odio
+  
+    sapien
+  
+    amet
+  
+    curabitur
+  
+    purus
+  
+    ante
+  
+    nulla.
+    
+       Vulputate
+  
+    finibus
+  
+    pellentesque
+  
+    suscipit
+  
+    nibh
+  
+    augue
+  
+    vehicula
+  
+    vivamus
+  
+    mollis
+  
+    congue.
+    
+       Vivamus
+  
+    neque
+  
+    tempor
+  
+    ultrices
+  
+    mattis
+  
+    proin
+  
+    amet
+  
+    vehicula
+  
+    blandit
+  
+    curabitur.
+    
+       Mauris
+  
+    blandit
+  
+    vehicula
+  
+    neque
+  
+    fringilla
+  
+    pretium
+  
+    ac
+  
+    vel
+  
+    vulputate
+  
+    porta.
+    
+       Suscipit
+  
+    condimentum
+  
+    dolor
+  
+    ut
+  
+    blandit
+  
+    risus
+  
+    ultrices
+  
+    rhoncus
+  
+    rhoncus
+  
+    ligula.
+    
+       Nullam
+  
+    ipsum
+  
+    curabitur
+  
+    vivamus
+  
+    adipiscing
+  
+    viverra
+  
+    elit
+  
+    nunc
+  
+    metus
+  
+    risus.
+    
+       Tincidunt
+  
+    etiam
+  
+    facilisi
+  
+    ultrices
+  
+    facilisi
+  
+    et
+  
+    placerat
+  
+    condimentum
+  
+    condimentum
+  
+    elit.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Arcu
+  
+    arcu
+  
+    fringilla
+  
+    at
+  
+    placerat
+  
+    enim
+  
+    tempor
+  
+    ipsum
+  
+    nullam
+  
+    dolor.
+    
+       Justo
+  
+    enim
+  
+    nunc
+  
+    enim
+  
+    neque
+  
+    augue
+  
+    purus
+  
+    elit
+  
+    justo
+  
+    suscipit.
+    
+       Adipiscing
+  
+    nulla
+  
+    sapien
+  
+    adipiscing
+  
+    odio
+  
+    fringilla
+  
+    tempor
+  
+    nullam
+  
+    vel
+  
+    nullam.
+    
+       Diam
+  
+    id
+  
+    eu
+  
+    neque
+  
+    vulputate
+  
+    vel
+  
+    mollis
+  
+    ac
+  
+    ligula
+  
+    dolor.
+    
+       Augue
+  
+    vel
+  
+    ultrices
+  
+    ligula
+  
+    tincidunt
+  
+    proin
+  
+    justo
+  
+    metus
+  
+    risus
+  
+    nullam.
+    
+       Lacinia
+  
+    nibh
+  
+    porta
+  
+    purus
+  
+    ultrices
+  
+    elit
+  
+    neque
+  
+    viverra
+  
+    vel
+  
+    lorem.
+    
+       Purus
+  
+    consectetur
+  
+    ac
+  
+    at
+  
+    proin
+  
+    dolor
+  
+    mi
+  
+    rhoncus
+  
+    suscipit
+  
+    eu.
+    
+       Tincidunt
+  
+    enim
+  
+    at
+  
+    diam
+  
+    enim
+  
+    aenean
+  
+    enim
+  
+    pellentesque
+  
+    suscipit
+  
+    dui.
+    
+       Venenatis
+  
+    finibus
+  
+    purus
+  
+    lorem
+  
+    sed
+  
+    odio
+  
+    adipiscing
+  
+    viverra
+  
+    mattis
+  
+    ligula.
+    
+       Vehicula
+  
+    eget
+  
+    fringilla
+  
+    adipiscing
+  
+    blandit
+  
+    sit
+  
+    nunc
+  
+    laoreet
+  
+    diam
+  
+    lorem.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Ante
+  
+    etiam
+  
+    consectetur
+  
+    et
+  
+    metus
+  
+    arcu
+  
+    mollis
+  
+    eu
+  
+    rhoncus
+  
+    lorem.
+    
+       Justo
+  
+    suscipit
+  
+    risus
+  
+    ante
+  
+    nullam
+  
+    vivamus
+  
+    mauris
+  
+    nibh
+  
+    eu
+  
+    dui.
+    
+       Placerat
+  
+    condimentum
+  
+    nibh
+  
+    tincidunt
+  
+    nunc
+  
+    eget
+  
+    consectetur
+  
+    blandit
+  
+    placerat
+  
+    nibh.
+    
+       Et
+  
+    proin
+  
+    lorem
+  
+    odio
+  
+    proin
+  
+    viverra
+  
+    venenatis
+  
+    sit
+  
+    eu
+  
+    mollis.
+    
+       Purus
+  
+    at
+  
+    fringilla
+  
+    vel
+  
+    nibh
+  
+    arcu
+  
+    adipiscing
+  
+    etiam
+  
+    lacinia
+  
+    facilisi.
+    
+       Ac
+  
+    vel
+  
+    suscipit
+  
+    dolor
+  
+    blandit
+  
+    mauris
+  
+    mollis
+  
+    purus
+  
+    viverra
+  
+    eget.
+    
+       Eget
+  
+    dictum
+  
+    ultrices
+  
+    risus
+  
+    scelerisque
+  
+    nibh
+  
+    rhoncus
+  
+    fringilla
+  
+    laoreet
+  
+    vulputate.
+    
+       Ligula
+  
+    condimentum
+  
+    curabitur
+  
+    consectetur
+  
+    congue
+  
+    dui
+  
+    porta
+  
+    tellus
+  
+    odio
+  
+    proin.
+    
+       Ut
+  
+    vivamus
+  
+    et
+  
+    adipiscing
+  
+    ultrices
+  
+    sed
+  
+    dictum
+  
+    porta
+  
+    justo
+  
+    dui.
+    
+       At
+  
+    congue
+  
+    suscipit
+  
+    urna
+  
+    mattis
+  
+    et
+  
+    tempor
+  
+    mollis
+  
+    scelerisque
+  
+    nulla.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #5</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-5" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Blandit
+  
+    mollis
+  
+    tempor
+  
+    nibh
+  
+    eu
+  
+    elit
+  
+    eget
+  
+    mauris
+  
+    arcu
+  
+    finibus.
+    
+       Finibus
+  
+    vehicula
+  
+    enim
+  
+    curabitur
+  
+    ut
+  
+    scelerisque
+  
+    eu
+  
+    blandit
+  
+    nulla
+  
+    urna.
+    
+       Tincidunt
+  
+    lacinia
+  
+    nunc
+  
+    mollis
+  
+    finibus
+  
+    amet
+  
+    sit
+  
+    et
+  
+    elit
+  
+    nullam.
+    
+       Ante
+  
+    dui
+  
+    diam
+  
+    proin
+  
+    dolor
+  
+    ante
+  
+    congue
+  
+    congue
+  
+    nulla
+  
+    aenean.
+    
+       Amet
+  
+    viverra
+  
+    vel
+  
+    ipsum
+  
+    arcu
+  
+    id
+  
+    vehicula
+  
+    et
+  
+    risus
+  
+    suscipit.
+    
+       Tellus
+  
+    vehicula
+  
+    congue
+  
+    tempor
+  
+    viverra
+  
+    tincidunt
+  
+    at
+  
+    adipiscing
+  
+    mauris
+  
+    justo.
+    
+       Nulla
+  
+    consectetur
+  
+    augue
+  
+    finibus
+  
+    ipsum
+  
+    eget
+  
+    ut
+  
+    etiam
+  
+    urna
+  
+    vel.
+    
+       Fringilla
+  
+    enim
+  
+    ultrices
+  
+    consectetur
+  
+    aenean
+  
+    nullam
+  
+    dictum
+  
+    enim
+  
+    dolor
+  
+    sit.
+    
+       Adipiscing
+  
+    ipsum
+  
+    amet
+  
+    tempor
+  
+    mauris
+  
+    purus
+  
+    dui
+  
+    dolor
+  
+    rhoncus
+  
+    finibus.
+    
+       Ipsum
+  
+    proin
+  
+    blandit
+  
+    enim
+  
+    id
+  
+    ligula
+  
+    lacinia
+  
+    laoreet
+  
+    scelerisque
+  
+    metus.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #6</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-6" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Nullam
+  
+    facilisis
+  
+    vel
+  
+    justo
+  
+    tellus
+  
+    risus
+  
+    arcu
+  
+    vulputate
+  
+    eget
+  
+    laoreet.
+    
+       Metus
+  
+    ut
+  
+    ultrices
+  
+    ligula
+  
+    tincidunt
+  
+    ut
+  
+    mauris
+  
+    et
+  
+    vel
+  
+    neque.
+    
+       Lacinia
+  
+    pretium
+  
+    mauris
+  
+    porta
+  
+    arcu
+  
+    dictum
+  
+    augue
+  
+    facilisis
+  
+    nibh
+  
+    consectetur.
+    
+       Facilisi
+  
+    porta
+  
+    mauris
+  
+    odio
+  
+    proin
+  
+    purus
+  
+    at
+  
+    vel
+  
+    viverra
+  
+    sit.
+    
+       Pellentesque
+  
+    sit
+  
+    arcu
+  
+    curabitur
+  
+    odio
+  
+    lorem
+  
+    ut
+  
+    pretium
+  
+    nullam
+  
+    et.
+    
+       Sapien
+  
+    vulputate
+  
+    ut
+  
+    facilisi
+  
+    tellus
+  
+    lacinia
+  
+    risus
+  
+    elit
+  
+    facilisi
+  
+    rhoncus.
+    
+       Etiam
+  
+    placerat
+  
+    facilisi
+  
+    dui
+  
+    risus
+  
+    curabitur
+  
+    elit
+  
+    lorem
+  
+    placerat
+  
+    nulla.
+    
+       At
+  
+    venenatis
+  
+    aenean
+  
+    aenean
+  
+    neque
+  
+    ac
+  
+    purus
+  
+    placerat
+  
+    eu
+  
+    curabitur.
+    
+       Mollis
+  
+    et
+  
+    mollis
+  
+    ipsum
+  
+    urna
+  
+    tempor
+  
+    vulputate
+  
+    nunc
+  
+    vivamus
+  
+    ante.
+    
+       Pretium
+  
+    odio
+  
+    nunc
+  
+    eu
+  
+    congue
+  
+    enim
+  
+    tempor
+  
+    congue
+  
+    ante
+  
+    vulputate.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Laoreet
+  
+    eget
+  
+    mollis
+  
+    tellus
+  
+    rhoncus
+  
+    nibh
+  
+    augue
+  
+    vehicula
+  
+    curabitur
+  
+    risus.
+    
+       Facilisi
+  
+    adipiscing
+  
+    elit
+  
+    adipiscing
+  
+    nullam
+  
+    sit
+  
+    laoreet
+  
+    viverra
+  
+    nulla
+  
+    at.
+    
+       Urna
+  
+    id
+  
+    rhoncus
+  
+    tellus
+  
+    et
+  
+    tellus
+  
+    facilisi
+  
+    risus
+  
+    arcu
+  
+    aenean.
+    
+       Pretium
+  
+    tellus
+  
+    neque
+  
+    blandit
+  
+    lacinia
+  
+    ipsum
+  
+    etiam
+  
+    mattis
+  
+    sit
+  
+    ut.
+    
+       Tellus
+  
+    vehicula
+  
+    diam
+  
+    blandit
+  
+    lorem
+  
+    sapien
+  
+    aenean
+  
+    et
+  
+    laoreet
+  
+    tempor.
+    
+       Viverra
+  
+    vehicula
+  
+    finibus
+  
+    mi
+  
+    et
+  
+    elit
+  
+    purus
+  
+    pellentesque
+  
+    vel
+  
+    adipiscing.
+    
+       Porta
+  
+    purus
+  
+    sed
+  
+    proin
+  
+    tempor
+  
+    blandit
+  
+    viverra
+  
+    viverra
+  
+    proin
+  
+    at.
+    
+       Et
+  
+    justo
+  
+    vel
+  
+    ante
+  
+    tempor
+  
+    mattis
+  
+    tempor
+  
+    vel
+  
+    amet
+  
+    nulla.
+    
+       Lorem
+  
+    ligula
+  
+    amet
+  
+    amet
+  
+    porta
+  
+    venenatis
+  
+    mollis
+  
+    ligula
+  
+    etiam
+  
+    aenean.
+    
+       Proin
+  
+    ac
+  
+    elit
+  
+    placerat
+  
+    laoreet
+  
+    lacinia
+  
+    sit
+  
+    dui
+  
+    nunc
+  
+    fringilla.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #7</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-7" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Purus
+  
+    aenean
+  
+    dictum
+  
+    facilisis
+  
+    pellentesque
+  
+    vivamus
+  
+    ac
+  
+    sed
+  
+    enim
+  
+    sit.
+    
+       Consectetur
+  
+    dui
+  
+    ligula
+  
+    pretium
+  
+    sit
+  
+    elit
+  
+    porta
+  
+    fringilla
+  
+    eget
+  
+    purus.
+    
+       Urna
+  
+    ac
+  
+    ac
+  
+    mauris
+  
+    nullam
+  
+    aenean
+  
+    curabitur
+  
+    nulla
+  
+    scelerisque
+  
+    urna.
+    
+       Mattis
+  
+    arcu
+  
+    et
+  
+    condimentum
+  
+    mi
+  
+    et
+  
+    placerat
+  
+    nunc
+  
+    metus
+  
+    vulputate.
+    
+       Enim
+  
+    risus
+  
+    dolor
+  
+    metus
+  
+    etiam
+  
+    justo
+  
+    metus
+  
+    at
+  
+    dictum
+  
+    arcu.
+    
+       Mauris
+  
+    neque
+  
+    at
+  
+    odio
+  
+    nullam
+  
+    mollis
+  
+    blandit
+  
+    nullam
+  
+    urna
+  
+    augue.
+    
+       Nulla
+  
+    dictum
+  
+    sit
+  
+    fringilla
+  
+    consectetur
+  
+    curabitur
+  
+    mattis
+  
+    justo
+  
+    dui
+  
+    laoreet.
+    
+       Mattis
+  
+    consectetur
+  
+    venenatis
+  
+    scelerisque
+  
+    finibus
+  
+    suscipit
+  
+    odio
+  
+    blandit
+  
+    purus
+  
+    purus.
+    
+       Metus
+  
+    scelerisque
+  
+    curabitur
+  
+    lacinia
+  
+    nibh
+  
+    mi
+  
+    condimentum
+  
+    tincidunt
+  
+    porta
+  
+    vel.
+    
+       Neque
+  
+    vel
+  
+    proin
+  
+    scelerisque
+  
+    ut
+  
+    urna
+  
+    augue
+  
+    mattis
+  
+    blandit
+  
+    mattis.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Finibus
+  
+    enim
+  
+    fringilla
+  
+    etiam
+  
+    sed
+  
+    vulputate
+  
+    elit
+  
+    justo
+  
+    suscipit
+  
+    nibh.
+    
+       Vel
+  
+    purus
+  
+    tincidunt
+  
+    ligula
+  
+    amet
+  
+    vehicula
+  
+    tincidunt
+  
+    at
+  
+    rhoncus
+  
+    sit.
+    
+       Lacinia
+  
+    amet
+  
+    aenean
+  
+    diam
+  
+    risus
+  
+    dolor
+  
+    tellus
+  
+    ultrices
+  
+    dui
+  
+    vulputate.
+    
+       Enim
+  
+    id
+  
+    ante
+  
+    placerat
+  
+    finibus
+  
+    placerat
+  
+    venenatis
+  
+    at
+  
+    justo
+  
+    aenean.
+    
+       Mi
+  
+    urna
+  
+    curabitur
+  
+    mattis
+  
+    diam
+  
+    dui
+  
+    ac
+  
+    etiam
+  
+    adipiscing
+  
+    suscipit.
+    
+       Eget
+  
+    amet
+  
+    fringilla
+  
+    risus
+  
+    neque
+  
+    ut
+  
+    ut
+  
+    finibus
+  
+    consectetur
+  
+    arcu.
+    
+       Ipsum
+  
+    blandit
+  
+    tincidunt
+  
+    justo
+  
+    vulputate
+  
+    mattis
+  
+    finibus
+  
+    vivamus
+  
+    risus
+  
+    pretium.
+    
+       At
+  
+    condimentum
+  
+    eget
+  
+    ultrices
+  
+    purus
+  
+    vel
+  
+    proin
+  
+    dolor
+  
+    tellus
+  
+    ultrices.
+    
+       Sapien
+  
+    lorem
+  
+    ante
+  
+    et
+  
+    mi
+  
+    etiam
+  
+    amet
+  
+    eget
+  
+    curabitur
+  
+    nullam.
+    
+       Sit
+  
+    urna
+  
+    tellus
+  
+    venenatis
+  
+    mauris
+  
+    blandit
+  
+    ante
+  
+    ipsum
+  
+    eu
+  
+    ante.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Nullam
+  
+    et
+  
+    enim
+  
+    sit
+  
+    facilisi
+  
+    rhoncus
+  
+    sed
+  
+    etiam
+  
+    elit
+  
+    pellentesque.
+    
+       Fringilla
+  
+    mauris
+  
+    suscipit
+  
+    ac
+  
+    odio
+  
+    vivamus
+  
+    diam
+  
+    eu
+  
+    at
+  
+    lacinia.
+    
+       Sed
+  
+    mi
+  
+    purus
+  
+    sed
+  
+    urna
+  
+    risus
+  
+    mattis
+  
+    lacinia
+  
+    rhoncus
+  
+    facilisi.
+    
+       Lacinia
+  
+    rhoncus
+  
+    lacinia
+  
+    finibus
+  
+    ligula
+  
+    facilisis
+  
+    lorem
+  
+    facilisis
+  
+    nullam
+  
+    blandit.
+    
+       Pellentesque
+  
+    augue
+  
+    vulputate
+  
+    et
+  
+    facilisi
+  
+    suscipit
+  
+    odio
+  
+    blandit
+  
+    mi
+  
+    venenatis.
+    
+       Urna
+  
+    mollis
+  
+    dolor
+  
+    nunc
+  
+    vehicula
+  
+    eget
+  
+    tempor
+  
+    facilisis
+  
+    tellus
+  
+    mattis.
+    
+       Fringilla
+  
+    dui
+  
+    facilisi
+  
+    nulla
+  
+    rhoncus
+  
+    curabitur
+  
+    vel
+  
+    nunc
+  
+    consectetur
+  
+    nulla.
+    
+       Nulla
+  
+    curabitur
+  
+    facilisi
+  
+    proin
+  
+    enim
+  
+    suscipit
+  
+    rhoncus
+  
+    sapien
+  
+    et
+  
+    eget.
+    
+       Viverra
+  
+    et
+  
+    sapien
+  
+    fringilla
+  
+    rhoncus
+  
+    venenatis
+  
+    dictum
+  
+    tempor
+  
+    eget
+  
+    justo.
+    
+       Dictum
+  
+    sed
+  
+    nullam
+  
+    nulla
+  
+    venenatis
+  
+    sit
+  
+    tempor
+  
+    augue
+  
+    sapien
+  
+    ac.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+      </esl-panel-group>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <h2> Scrollable Tabs Component </h2>
+    <p class="h5"> Complex mode: MD+ -> tabs, disabled, SM -> tabs, side, XS -> accordion, center </p>
+    <style>esl-tabs[scrollable]:not(.disabled-alignment) .tabs-2 .nav-item{min-width:213px}</style>
+    <div class="tabs tabs-2">
+      <esl-tabs scrollable="@XS => center | @SM => side | @+MD => disabled" class="tabs-container">
+        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+        <div class="arrow-prev" data-tab-direction="left">
+          <span class="icon-arrow-prev"></span>
+        </div>
+
+        <ul class="nav nav-pills esl-tab-container" role="tablist">
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-1)">
+              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-2)">
+              <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-3)">
+              <h5 class="mb-0">Tab #3 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-4)">
+              <h5 class="mb-0">Tab #4 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-5)">
+              <h5 class="mb-0">Tab #5 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-6)">
+              <h5 class="mb-0">Tab #6 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-7)">
+              <h5 class="mb-0">Tab #7 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+        </ul>
+
+        <div class="arrow-next" data-tab-direction="right">
+          <span class="icon-arrow-next"></span>
+        </div>
+
+      </esl-tabs>
+
+      <esl-panel-group mode="@XS => accordion | @+SM => tabs" mode-cls-target="::parent::find(.tabs-container)">
+        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
+
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #1</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-1" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Odio
+  
+    scelerisque
+  
+    pretium
+  
+    laoreet
+  
+    curabitur
+  
+    purus
+  
+    id
+  
+    risus
+  
+    lorem
+  
+    proin.
+    
+       Suscipit
+  
+    ante
+  
+    scelerisque
+  
+    blandit
+  
+    arcu
+  
+    fringilla
+  
+    tellus
+  
+    augue
+  
+    risus
+  
+    mattis.
+    
+       Suscipit
+  
+    viverra
+  
+    mi
+  
+    ut
+  
+    fringilla
+  
+    blandit
+  
+    arcu
+  
+    dictum
+  
+    laoreet
+  
+    placerat.
+    
+       Placerat
+  
+    lorem
+  
+    tincidunt
+  
+    ac
+  
+    pretium
+  
+    pellentesque
+  
+    viverra
+  
+    pellentesque
+  
+    lorem
+  
+    mauris.
+    
+       Mattis
+  
+    rhoncus
+  
+    at
+  
+    tempor
+  
+    mi
+  
+    porta
+  
+    adipiscing
+  
+    condimentum
+  
+    nulla
+  
+    odio.
+    
+       Augue
+  
+    arcu
+  
+    dui
+  
+    tempor
+  
+    facilisi
+  
+    lorem
+  
+    facilisi
+  
+    dui
+  
+    venenatis
+  
+    urna.
+    
+       Facilisis
+  
+    sed
+  
+    ante
+  
+    mattis
+  
+    id
+  
+    facilisi
+  
+    proin
+  
+    lacinia
+  
+    venenatis
+  
+    fringilla.
+    
+       Dui
+  
+    tincidunt
+  
+    eget
+  
+    adipiscing
+  
+    vehicula
+  
+    id
+  
+    lorem
+  
+    fringilla
+  
+    venenatis
+  
+    tempor.
+    
+       Eget
+  
+    justo
+  
+    laoreet
+  
+    fringilla
+  
+    dui
+  
+    tellus
+  
+    adipiscing
+  
+    ligula
+  
+    enim
+  
+    porta.
+    
+       Justo
+  
+    finibus
+  
+    vivamus
+  
+    finibus
+  
+    nunc
+  
+    neque
+  
+    odio
+  
+    eget
+  
+    mauris
+  
+    id.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Metus
+  
+    vulputate
+  
+    amet
+  
+    curabitur
+  
+    vivamus
+  
+    et
+  
+    porta
+  
+    vulputate
+  
+    aenean
+  
+    ut.
+    
+       Risus
+  
+    vel
+  
+    sed
+  
+    eget
+  
+    ligula
+  
+    dictum
+  
+    ipsum
+  
+    mi
+  
+    dolor
+  
+    curabitur.
+    
+       Etiam
+  
+    vehicula
+  
+    augue
+  
+    pretium
+  
+    ipsum
+  
+    odio
+  
+    condimentum
+  
+    proin
+  
+    suscipit
+  
+    ut.
+    
+       Etiam
+  
+    nibh
+  
+    vulputate
+  
+    neque
+  
+    lorem
+  
+    at
+  
+    congue
+  
+    sed
+  
+    elit
+  
+    sed.
+    
+       Sed
+  
+    dictum
+  
+    pretium
+  
+    arcu
+  
+    aenean
+  
+    etiam
+  
+    urna
+  
+    blandit
+  
+    aenean
+  
+    congue.
+    
+       Fringilla
+  
+    neque
+  
+    nunc
+  
+    mauris
+  
+    diam
+  
+    diam
+  
+    ultrices
+  
+    rhoncus
+  
+    tempor
+  
+    tincidunt.
+    
+       Vel
+  
+    consectetur
+  
+    pellentesque
+  
+    arcu
+  
+    condimentum
+  
+    odio
+  
+    mattis
+  
+    ultrices
+  
+    fringilla
+  
+    fringilla.
+    
+       Elit
+  
+    laoreet
+  
+    dictum
+  
+    porta
+  
+    ante
+  
+    sed
+  
+    neque
+  
+    purus
+  
+    tincidunt
+  
+    at.
+    
+       Consectetur
+  
+    vivamus
+  
+    laoreet
+  
+    sit
+  
+    ipsum
+  
+    vehicula
+  
+    tempor
+  
+    eget
+  
+    aenean
+  
+    placerat.
+    
+       Scelerisque
+  
+    ante
+  
+    dolor
+  
+    et
+  
+    sit
+  
+    rhoncus
+  
+    nibh
+  
+    sit
+  
+    neque
+  
+    sed.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Enim
+  
+    lorem
+  
+    mi
+  
+    mattis
+  
+    consectetur
+  
+    justo
+  
+    vehicula
+  
+    lacinia
+  
+    eu
+  
+    placerat.
+    
+       Curabitur
+  
+    mi
+  
+    risus
+  
+    enim
+  
+    tellus
+  
+    nunc
+  
+    vivamus
+  
+    purus
+  
+    ligula
+  
+    sit.
+    
+       Augue
+  
+    lacinia
+  
+    nulla
+  
+    dictum
+  
+    facilisis
+  
+    dolor
+  
+    dui
+  
+    neque
+  
+    nulla
+  
+    vehicula.
+    
+       Etiam
+  
+    venenatis
+  
+    tempor
+  
+    at
+  
+    ultrices
+  
+    nibh
+  
+    nunc
+  
+    blandit
+  
+    enim
+  
+    fringilla.
+    
+       Vulputate
+  
+    justo
+  
+    ac
+  
+    lacinia
+  
+    justo
+  
+    justo
+  
+    dui
+  
+    nulla
+  
+    rhoncus
+  
+    condimentum.
+    
+       Dolor
+  
+    nunc
+  
+    blandit
+  
+    mauris
+  
+    et
+  
+    venenatis
+  
+    nulla
+  
+    lacinia
+  
+    urna
+  
+    scelerisque.
+    
+       Nulla
+  
+    viverra
+  
+    venenatis
+  
+    facilisi
+  
+    urna
+  
+    sed
+  
+    augue
+  
+    nullam
+  
+    justo
+  
+    nunc.
+    
+       Dictum
+  
+    placerat
+  
+    vehicula
+  
+    eget
+  
+    vivamus
+  
+    eu
+  
+    metus
+  
+    ante
+  
+    congue
+  
+    pretium.
+    
+       Mattis
+  
+    risus
+  
+    at
+  
+    elit
+  
+    ac
+  
+    id
+  
+    finibus
+  
+    proin
+  
+    ac
+  
+    id.
+    
+       Lacinia
+  
+    mollis
+  
+    blandit
+  
+    nullam
+  
+    scelerisque
+  
+    mi
+  
+    finibus
+  
+    finibus
+  
+    condimentum
+  
+    blandit.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #2</h5>
+        </esl-trigger>
+        <esl-panel open class="tab tab-2" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Et
+  
+    vivamus
+  
+    suscipit
+  
+    ut
+  
+    ante
+  
+    ligula
+  
+    facilisis
+  
+    vehicula
+  
+    adipiscing
+  
+    risus.
+    
+       At
+  
+    vel
+  
+    congue
+  
+    curabitur
+  
+    vulputate
+  
+    aenean
+  
+    ipsum
+  
+    nunc
+  
+    vehicula
+  
+    fringilla.
+    
+       Vehicula
+  
+    dictum
+  
+    viverra
+  
+    rhoncus
+  
+    odio
+  
+    enim
+  
+    vivamus
+  
+    arcu
+  
+    etiam
+  
+    id.
+    
+       Id
+  
+    placerat
+  
+    ut
+  
+    id
+  
+    ante
+  
+    consectetur
+  
+    fringilla
+  
+    ante
+  
+    etiam
+  
+    eget.
+    
+       Vehicula
+  
+    vivamus
+  
+    suscipit
+  
+    tempor
+  
+    metus
+  
+    adipiscing
+  
+    pellentesque
+  
+    placerat
+  
+    finibus
+  
+    augue.
+    
+       Lorem
+  
+    viverra
+  
+    mattis
+  
+    dictum
+  
+    ultrices
+  
+    diam
+  
+    ipsum
+  
+    placerat
+  
+    urna
+  
+    blandit.
+    
+       Ipsum
+  
+    et
+  
+    nunc
+  
+    consectetur
+  
+    amet
+  
+    ultrices
+  
+    arcu
+  
+    vivamus
+  
+    suscipit
+  
+    urna.
+    
+       Risus
+  
+    ultrices
+  
+    amet
+  
+    nullam
+  
+    nibh
+  
+    scelerisque
+  
+    ultrices
+  
+    ut
+  
+    ac
+  
+    fringilla.
+    
+       Eu
+  
+    facilisis
+  
+    neque
+  
+    nulla
+  
+    risus
+  
+    tempor
+  
+    eget
+  
+    facilisi
+  
+    pretium
+  
+    viverra.
+    
+       At
+  
+    adipiscing
+  
+    nunc
+  
+    mauris
+  
+    scelerisque
+  
+    pellentesque
+  
+    tincidunt
+  
+    venenatis
+  
+    urna
+  
+    viverra.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #3</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-3" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Urna
+  
+    tincidunt
+  
+    risus
+  
+    vivamus
+  
+    nullam
+  
+    sit
+  
+    mattis
+  
+    scelerisque
+  
+    congue
+  
+    finibus.
+    
+       Sit
+  
+    risus
+  
+    viverra
+  
+    mattis
+  
+    laoreet
+  
+    eget
+  
+    condimentum
+  
+    laoreet
+  
+    ante
+  
+    nullam.
+    
+       Dui
+  
+    tincidunt
+  
+    eget
+  
+    consectetur
+  
+    ligula
+  
+    facilisi
+  
+    eu
+  
+    porta
+  
+    finibus
+  
+    vehicula.
+    
+       Justo
+  
+    metus
+  
+    enim
+  
+    vehicula
+  
+    lorem
+  
+    adipiscing
+  
+    eu
+  
+    ante
+  
+    metus
+  
+    tempor.
+    
+       Tempor
+  
+    mi
+  
+    scelerisque
+  
+    vehicula
+  
+    nunc
+  
+    sit
+  
+    mattis
+  
+    lorem
+  
+    suscipit
+  
+    elit.
+    
+       Justo
+  
+    id
+  
+    nulla
+  
+    diam
+  
+    sed
+  
+    nibh
+  
+    facilisis
+  
+    ut
+  
+    sed
+  
+    eget.
+    
+       Tincidunt
+  
+    vivamus
+  
+    mollis
+  
+    viverra
+  
+    dui
+  
+    ac
+  
+    vivamus
+  
+    nibh
+  
+    nunc
+  
+    ultrices.
+    
+       Facilisis
+  
+    diam
+  
+    amet
+  
+    proin
+  
+    ac
+  
+    mi
+  
+    mi
+  
+    finibus
+  
+    suscipit
+  
+    lorem.
+    
+       Condimentum
+  
+    urna
+  
+    et
+  
+    ipsum
+  
+    dui
+  
+    adipiscing
+  
+    odio
+  
+    nunc
+  
+    eu
+  
+    etiam.
+    
+       Mattis
+  
+    at
+  
+    ac
+  
+    eu
+  
+    consectetur
+  
+    nullam
+  
+    mollis
+  
+    elit
+  
+    mattis
+  
+    pellentesque.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Urna
+  
+    dictum
+  
+    purus
+  
+    mi
+  
+    mattis
+  
+    vel
+  
+    eu
+  
+    metus
+  
+    placerat
+  
+    metus.
+    
+       Pellentesque
+  
+    neque
+  
+    ut
+  
+    dolor
+  
+    condimentum
+  
+    condimentum
+  
+    laoreet
+  
+    id
+  
+    facilisis
+  
+    mauris.
+    
+       Ut
+  
+    odio
+  
+    tincidunt
+  
+    vulputate
+  
+    etiam
+  
+    et
+  
+    fringilla
+  
+    ultrices
+  
+    aenean
+  
+    sed.
+    
+       Fringilla
+  
+    vivamus
+  
+    enim
+  
+    et
+  
+    porta
+  
+    eu
+  
+    metus
+  
+    arcu
+  
+    etiam
+  
+    sed.
+    
+       Placerat
+  
+    pretium
+  
+    pretium
+  
+    viverra
+  
+    condimentum
+  
+    vel
+  
+    vivamus
+  
+    id
+  
+    ut
+  
+    facilisis.
+    
+       Mi
+  
+    pretium
+  
+    dictum
+  
+    nunc
+  
+    metus
+  
+    dolor
+  
+    dolor
+  
+    pellentesque
+  
+    blandit
+  
+    vel.
+    
+       Facilisi
+  
+    porta
+  
+    risus
+  
+    mi
+  
+    nulla
+  
+    suscipit
+  
+    venenatis
+  
+    metus
+  
+    facilisis
+  
+    enim.
+    
+       Blandit
+  
+    tincidunt
+  
+    lorem
+  
+    nibh
+  
+    nibh
+  
+    justo
+  
+    ante
+  
+    nullam
+  
+    pretium
+  
+    facilisi.
+    
+       Elit
+  
+    blandit
+  
+    nibh
+  
+    augue
+  
+    ac
+  
+    dui
+  
+    facilisi
+  
+    at
+  
+    vehicula
+  
+    mi.
+    
+       Etiam
+  
+    lorem
+  
+    curabitur
+  
+    sapien
+  
+    elit
+  
+    nulla
+  
+    risus
+  
+    rhoncus
+  
+    proin
+  
+    vel.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Dui
+  
+    et
+  
+    adipiscing
+  
+    mi
+  
+    vel
+  
+    ultrices
+  
+    venenatis
+  
+    mi
+  
+    laoreet
+  
+    nunc.
+    
+       Adipiscing
+  
+    viverra
+  
+    nibh
+  
+    urna
+  
+    nullam
+  
+    lacinia
+  
+    eu
+  
+    at
+  
+    diam
+  
+    condimentum.
+    
+       Ligula
+  
+    dolor
+  
+    proin
+  
+    metus
+  
+    porta
+  
+    mollis
+  
+    facilisi
+  
+    pellentesque
+  
+    lorem
+  
+    lorem.
+    
+       Justo
+  
+    ultrices
+  
+    sed
+  
+    id
+  
+    viverra
+  
+    lorem
+  
+    nibh
+  
+    sit
+  
+    rhoncus
+  
+    neque.
+    
+       Nunc
+  
+    ac
+  
+    odio
+  
+    ut
+  
+    blandit
+  
+    id
+  
+    porta
+  
+    sapien
+  
+    vehicula
+  
+    nibh.
+    
+       Ac
+  
+    nullam
+  
+    dolor
+  
+    porta
+  
+    nulla
+  
+    dui
+  
+    lacinia
+  
+    nullam
+  
+    sed
+  
+    sit.
+    
+       Arcu
+  
+    augue
+  
+    facilisis
+  
+    justo
+  
+    vehicula
+  
+    amet
+  
+    mattis
+  
+    tellus
+  
+    congue
+  
+    justo.
+    
+       Purus
+  
+    pellentesque
+  
+    mattis
+  
+    eu
+  
+    vel
+  
+    ipsum
+  
+    mi
+  
+    blandit
+  
+    consectetur
+  
+    arcu.
+    
+       Mi
+  
+    placerat
+  
+    elit
+  
+    consectetur
+  
+    proin
+  
+    ut
+  
+    neque
+  
+    vulputate
+  
+    consectetur
+  
+    justo.
+    
+       Nulla
+  
+    neque
+  
+    ipsum
+  
+    finibus
+  
+    tellus
+  
+    venenatis
+  
+    et
+  
+    mauris
+  
+    diam
+  
+    vehicula.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #4</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-4" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Tincidunt
+  
+    consectetur
+  
+    purus
+  
+    adipiscing
+  
+    ipsum
+  
+    adipiscing
+  
+    amet
+  
+    nulla
+  
+    facilisis
+  
+    lorem.
+    
+       Mollis
+  
+    justo
+  
+    arcu
+  
+    sit
+  
+    ipsum
+  
+    arcu
+  
+    ultrices
+  
+    aenean
+  
+    laoreet
+  
+    ante.
+    
+       Consectetur
+  
+    ante
+  
+    justo
+  
+    congue
+  
+    finibus
+  
+    mattis
+  
+    proin
+  
+    urna
+  
+    ac
+  
+    ac.
+    
+       Arcu
+  
+    ac
+  
+    facilisis
+  
+    nullam
+  
+    porta
+  
+    lorem
+  
+    pretium
+  
+    viverra
+  
+    tempor
+  
+    vivamus.
+    
+       Nullam
+  
+    venenatis
+  
+    diam
+  
+    ac
+  
+    adipiscing
+  
+    justo
+  
+    purus
+  
+    amet
+  
+    vivamus
+  
+    ut.
+    
+       Odio
+  
+    eu
+  
+    dui
+  
+    risus
+  
+    ligula
+  
+    facilisis
+  
+    curabitur
+  
+    nulla
+  
+    vulputate
+  
+    vehicula.
+    
+       Ac
+  
+    laoreet
+  
+    ut
+  
+    id
+  
+    ultrices
+  
+    dictum
+  
+    sed
+  
+    facilisis
+  
+    enim
+  
+    vehicula.
+    
+       Consectetur
+  
+    nunc
+  
+    elit
+  
+    sit
+  
+    congue
+  
+    nullam
+  
+    facilisis
+  
+    scelerisque
+  
+    venenatis
+  
+    ipsum.
+    
+       Mollis
+  
+    ac
+  
+    dolor
+  
+    arcu
+  
+    tempor
+  
+    nulla
+  
+    ultrices
+  
+    ante
+  
+    consectetur
+  
+    sapien.
+    
+       Facilisi
+  
+    enim
+  
+    arcu
+  
+    ut
+  
+    proin
+  
+    elit
+  
+    vivamus
+  
+    ligula
+  
+    ut
+  
+    placerat.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Metus
+  
+    aenean
+  
+    vulputate
+  
+    ut
+  
+    ac
+  
+    mi
+  
+    mauris
+  
+    vel
+  
+    lacinia
+  
+    venenatis.
+    
+       Tellus
+  
+    adipiscing
+  
+    neque
+  
+    scelerisque
+  
+    arcu
+  
+    ligula
+  
+    at
+  
+    nibh
+  
+    sit
+  
+    nibh.
+    
+       Facilisis
+  
+    sed
+  
+    pretium
+  
+    etiam
+  
+    odio
+  
+    scelerisque
+  
+    diam
+  
+    facilisis
+  
+    ut
+  
+    congue.
+    
+       Pellentesque
+  
+    dui
+  
+    ultrices
+  
+    ante
+  
+    pellentesque
+  
+    condimentum
+  
+    scelerisque
+  
+    eget
+  
+    justo
+  
+    dui.
+    
+       Consectetur
+  
+    mauris
+  
+    vehicula
+  
+    enim
+  
+    risus
+  
+    placerat
+  
+    augue
+  
+    aenean
+  
+    id
+  
+    dolor.
+    
+       Curabitur
+  
+    blandit
+  
+    elit
+  
+    dolor
+  
+    ante
+  
+    metus
+  
+    tellus
+  
+    dui
+  
+    congue
+  
+    dui.
+    
+       Elit
+  
+    tincidunt
+  
+    curabitur
+  
+    pellentesque
+  
+    blandit
+  
+    amet
+  
+    lorem
+  
+    nulla
+  
+    et
+  
+    placerat.
+    
+       Eu
+  
+    lacinia
+  
+    ligula
+  
+    diam
+  
+    urna
+  
+    etiam
+  
+    proin
+  
+    amet
+  
+    fringilla
+  
+    dui.
+    
+       Sed
+  
+    mattis
+  
+    nunc
+  
+    curabitur
+  
+    mi
+  
+    mi
+  
+    nullam
+  
+    ultrices
+  
+    tincidunt
+  
+    tempor.
+    
+       Pellentesque
+  
+    porta
+  
+    nibh
+  
+    venenatis
+  
+    vulputate
+  
+    condimentum
+  
+    laoreet
+  
+    congue
+  
+    consectetur
+  
+    neque.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #5</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-5" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Ut
+  
+    scelerisque
+  
+    facilisi
+  
+    blandit
+  
+    suscipit
+  
+    purus
+  
+    neque
+  
+    enim
+  
+    finibus
+  
+    porta.
+    
+       Laoreet
+  
+    facilisi
+  
+    condimentum
+  
+    tempor
+  
+    facilisi
+  
+    etiam
+  
+    ligula
+  
+    sit
+  
+    risus
+  
+    nulla.
+    
+       Ut
+  
+    etiam
+  
+    justo
+  
+    curabitur
+  
+    blandit
+  
+    dictum
+  
+    nullam
+  
+    at
+  
+    pretium
+  
+    venenatis.
+    
+       Eget
+  
+    finibus
+  
+    mattis
+  
+    mollis
+  
+    dolor
+  
+    facilisis
+  
+    ipsum
+  
+    condimentum
+  
+    ac
+  
+    mattis.
+    
+       Augue
+  
+    pretium
+  
+    nulla
+  
+    etiam
+  
+    consectetur
+  
+    porta
+  
+    porta
+  
+    ligula
+  
+    mauris
+  
+    condimentum.
+    
+       Amet
+  
+    ipsum
+  
+    tempor
+  
+    nullam
+  
+    mauris
+  
+    condimentum
+  
+    ac
+  
+    eu
+  
+    placerat
+  
+    vivamus.
+    
+       Rhoncus
+  
+    porta
+  
+    dolor
+  
+    mauris
+  
+    neque
+  
+    scelerisque
+  
+    rhoncus
+  
+    facilisis
+  
+    enim
+  
+    lorem.
+    
+       Risus
+  
+    vel
+  
+    vulputate
+  
+    adipiscing
+  
+    mattis
+  
+    curabitur
+  
+    risus
+  
+    lacinia
+  
+    eget
+  
+    pretium.
+    
+       Eu
+  
+    pretium
+  
+    id
+  
+    mollis
+  
+    etiam
+  
+    dui
+  
+    ultrices
+  
+    eu
+  
+    facilisis
+  
+    metus.
+    
+       Sapien
+  
+    elit
+  
+    facilisi
+  
+    scelerisque
+  
+    tempor
+  
+    dui
+  
+    urna
+  
+    suscipit
+  
+    ipsum
+  
+    risus.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #6</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-6" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Elit
+  
+    amet
+  
+    venenatis
+  
+    elit
+  
+    mollis
+  
+    augue
+  
+    diam
+  
+    vivamus
+  
+    ipsum
+  
+    pellentesque.
+    
+       Vulputate
+  
+    fringilla
+  
+    ut
+  
+    tellus
+  
+    mi
+  
+    tellus
+  
+    dui
+  
+    fringilla
+  
+    suscipit
+  
+    laoreet.
+    
+       Ut
+  
+    augue
+  
+    adipiscing
+  
+    purus
+  
+    viverra
+  
+    vehicula
+  
+    proin
+  
+    lacinia
+  
+    et
+  
+    mattis.
+    
+       Curabitur
+  
+    nullam
+  
+    arcu
+  
+    pretium
+  
+    tellus
+  
+    elit
+  
+    vulputate
+  
+    lacinia
+  
+    etiam
+  
+    scelerisque.
+    
+       Mauris
+  
+    proin
+  
+    vel
+  
+    ut
+  
+    porta
+  
+    congue
+  
+    mauris
+  
+    at
+  
+    nullam
+  
+    tempor.
+    
+       Eu
+  
+    consectetur
+  
+    ipsum
+  
+    proin
+  
+    nullam
+  
+    ac
+  
+    arcu
+  
+    et
+  
+    facilisis
+  
+    facilisis.
+    
+       Dolor
+  
+    etiam
+  
+    et
+  
+    pellentesque
+  
+    sed
+  
+    risus
+  
+    ipsum
+  
+    justo
+  
+    laoreet
+  
+    rhoncus.
+    
+       Mi
+  
+    venenatis
+  
+    nullam
+  
+    condimentum
+  
+    arcu
+  
+    finibus
+  
+    nunc
+  
+    eget
+  
+    justo
+  
+    proin.
+    
+       Diam
+  
+    ut
+  
+    condimentum
+  
+    blandit
+  
+    sit
+  
+    nulla
+  
+    dui
+  
+    venenatis
+  
+    proin
+  
+    vehicula.
+    
+       Mauris
+  
+    neque
+  
+    sit
+  
+    augue
+  
+    vulputate
+  
+    nunc
+  
+    vel
+  
+    eget
+  
+    at
+  
+    arcu.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #7</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-7" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Tellus
+  
+    eu
+  
+    proin
+  
+    amet
+  
+    neque
+  
+    odio
+  
+    dolor
+  
+    pellentesque
+  
+    vivamus
+  
+    consectetur.
+    
+       Mattis
+  
+    nullam
+  
+    pellentesque
+  
+    rhoncus
+  
+    elit
+  
+    dui
+  
+    suscipit
+  
+    laoreet
+  
+    dictum
+  
+    dui.
+    
+       Vel
+  
+    finibus
+  
+    venenatis
+  
+    proin
+  
+    urna
+  
+    ut
+  
+    nunc
+  
+    dolor
+  
+    id
+  
+    finibus.
+    
+       Lacinia
+  
+    ut
+  
+    ut
+  
+    adipiscing
+  
+    ante
+  
+    pretium
+  
+    urna
+  
+    nulla
+  
+    sit
+  
+    lorem.
+    
+       Eu
+  
+    mollis
+  
+    ultrices
+  
+    dictum
+  
+    dolor
+  
+    mi
+  
+    pellentesque
+  
+    adipiscing
+  
+    neque
+  
+    dictum.
+    
+       Diam
+  
+    enim
+  
+    ligula
+  
+    placerat
+  
+    sed
+  
+    urna
+  
+    augue
+  
+    ante
+  
+    condimentum
+  
+    sed.
+    
+       Et
+  
+    et
+  
+    enim
+  
+    id
+  
+    tellus
+  
+    tellus
+  
+    sapien
+  
+    nibh
+  
+    rhoncus
+  
+    aenean.
+    
+       At
+  
+    laoreet
+  
+    nibh
+  
+    facilisis
+  
+    nullam
+  
+    vehicula
+  
+    proin
+  
+    congue
+  
+    dui
+  
+    dolor.
+    
+       Laoreet
+  
+    dolor
+  
+    curabitur
+  
+    vivamus
+  
+    eu
+  
+    ac
+  
+    mi
+  
+    at
+  
+    tellus
+  
+    curabitur.
+    
+       Neque
+  
+    vehicula
+  
+    aenean
+  
+    urna
+  
+    mattis
+  
+    mattis
+  
+    nibh
+  
+    congue
+  
+    curabitur
+  
+    ultrices.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Lorem
+  
+    neque
+  
+    mattis
+  
+    consectetur
+  
+    dolor
+  
+    consectetur
+  
+    elit
+  
+    mattis
+  
+    nulla
+  
+    pretium.
+    
+       Placerat
+  
+    et
+  
+    placerat
+  
+    rhoncus
+  
+    et
+  
+    nunc
+  
+    proin
+  
+    dictum
+  
+    amet
+  
+    vel.
+    
+       Dolor
+  
+    elit
+  
+    ipsum
+  
+    ut
+  
+    blandit
+  
+    aenean
+  
+    facilisis
+  
+    facilisis
+  
+    nullam
+  
+    venenatis.
+    
+       Mauris
+  
+    nullam
+  
+    eget
+  
+    odio
+  
+    sed
+  
+    amet
+  
+    mauris
+  
+    justo
+  
+    nulla
+  
+    viverra.
+    
+       Facilisi
+  
+    tempor
+  
+    ultrices
+  
+    elit
+  
+    amet
+  
+    mattis
+  
+    dui
+  
+    scelerisque
+  
+    purus
+  
+    curabitur.
+    
+       Venenatis
+  
+    elit
+  
+    ultrices
+  
+    justo
+  
+    blandit
+  
+    nulla
+  
+    nunc
+  
+    nullam
+  
+    vehicula
+  
+    at.
+    
+       Vehicula
+  
+    dolor
+  
+    rhoncus
+  
+    augue
+  
+    tincidunt
+  
+    aenean
+  
+    pretium
+  
+    lacinia
+  
+    vel
+  
+    fringilla.
+    
+       Venenatis
+  
+    arcu
+  
+    proin
+  
+    nibh
+  
+    at
+  
+    at
+  
+    adipiscing
+  
+    pellentesque
+  
+    dictum
+  
+    arcu.
+    
+       Scelerisque
+  
+    purus
+  
+    ipsum
+  
+    sapien
+  
+    dolor
+  
+    at
+  
+    scelerisque
+  
+    consectetur
+  
+    condimentum
+  
+    ultrices.
+    
+       Odio
+  
+    tellus
+  
+    etiam
+  
+    ligula
+  
+    congue
+  
+    elit
+  
+    fringilla
+  
+    risus
+  
+    sed
+  
+    facilisis.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+      </esl-panel-group>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <h2> Scrollable Tabs Component </h2>
+    <p class="h5"> Simple mode: Tabs </p>
+    <div class="tabs">
+      <esl-tabs scrollable class="tabs-container">
+        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+        <div class="arrow-prev" data-tab-direction="left">
+          <span class="icon-arrow-prev"></span>
+        </div>
+
+        <ul class="nav nav-pills esl-tab-container" role="tablist">
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-1)">
+              <h5 class="mb-0">Tab #1</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-2)">
+              <h5 class="mb-0">Tab #2</h5>
+            </esl-tab>
+          </li>
+        </ul>
+
+        <div class="arrow-next" data-tab-direction="right">
+          <span class="icon-arrow-next"></span>
+        </div>
+
+      </esl-tabs>
+
+      <esl-panel-group mode="tabs" mode-cls-target="::parent::find(.tabs-container)">
+        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
+
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #1</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-1" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Scelerisque
+  
+    tempor
+  
+    viverra
+  
+    arcu
+  
+    etiam
+  
+    viverra
+  
+    porta
+  
+    nibh
+  
+    congue
+  
+    mi.
+    
+       Ligula
+  
+    vel
+  
+    elit
+  
+    consectetur
+  
+    ligula
+  
+    mi
+  
+    aenean
+  
+    dictum
+  
+    pretium
+  
+    ligula.
+    
+       Adipiscing
+  
+    facilisi
+  
+    metus
+  
+    proin
+  
+    vel
+  
+    dictum
+  
+    proin
+  
+    facilisi
+  
+    sed
+  
+    at.
+    
+       Eget
+  
+    elit
+  
+    mollis
+  
+    vel
+  
+    tempor
+  
+    nulla
+  
+    diam
+  
+    curabitur
+  
+    id
+  
+    etiam.
+    
+       Nulla
+  
+    amet
+  
+    ipsum
+  
+    mollis
+  
+    ac
+  
+    scelerisque
+  
+    eu
+  
+    neque
+  
+    nibh
+  
+    adipiscing.
+    
+       Mauris
+  
+    rhoncus
+  
+    amet
+  
+    curabitur
+  
+    vehicula
+  
+    ligula
+  
+    enim
+  
+    mollis
+  
+    scelerisque
+  
+    suscipit.
+    
+       Lacinia
+  
+    proin
+  
+    vulputate
+  
+    ligula
+  
+    tempor
+  
+    justo
+  
+    tempor
+  
+    mattis
+  
+    mi
+  
+    etiam.
+    
+       Eu
+  
+    dui
+  
+    nunc
+  
+    etiam
+  
+    consectetur
+  
+    augue
+  
+    venenatis
+  
+    neque
+  
+    scelerisque
+  
+    dolor.
+    
+       Sapien
+  
+    porta
+  
+    diam
+  
+    ipsum
+  
+    ligula
+  
+    fringilla
+  
+    et
+  
+    odio
+  
+    ante
+  
+    pellentesque.
+    
+       Placerat
+  
+    nullam
+  
+    vehicula
+  
+    suscipit
+  
+    dolor
+  
+    lacinia
+  
+    risus
+  
+    dui
+  
+    dictum
+  
+    diam.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Placerat
+  
+    etiam
+  
+    rhoncus
+  
+    congue
+  
+    ligula
+  
+    tincidunt
+  
+    tellus
+  
+    diam
+  
+    eget
+  
+    id.
+    
+       Lorem
+  
+    lorem
+  
+    metus
+  
+    neque
+  
+    urna
+  
+    blandit
+  
+    ante
+  
+    risus
+  
+    etiam
+  
+    neque.
+    
+       Augue
+  
+    purus
+  
+    vulputate
+  
+    nullam
+  
+    nulla
+  
+    augue
+  
+    nibh
+  
+    arcu
+  
+    proin
+  
+    dolor.
+    
+       Ligula
+  
+    ligula
+  
+    etiam
+  
+    nulla
+  
+    congue
+  
+    blandit
+  
+    diam
+  
+    lacinia
+  
+    nullam
+  
+    amet.
+    
+       Placerat
+  
+    placerat
+  
+    laoreet
+  
+    viverra
+  
+    proin
+  
+    odio
+  
+    mattis
+  
+    laoreet
+  
+    arcu
+  
+    enim.
+    
+       Ac
+  
+    mi
+  
+    vel
+  
+    vulputate
+  
+    facilisis
+  
+    rhoncus
+  
+    urna
+  
+    purus
+  
+    scelerisque
+  
+    ante.
+    
+       Ultrices
+  
+    ante
+  
+    dolor
+  
+    et
+  
+    rhoncus
+  
+    neque
+  
+    at
+  
+    mauris
+  
+    condimentum
+  
+    finibus.
+    
+       Laoreet
+  
+    vulputate
+  
+    ligula
+  
+    odio
+  
+    laoreet
+  
+    eget
+  
+    vivamus
+  
+    neque
+  
+    mollis
+  
+    porta.
+    
+       Tellus
+  
+    augue
+  
+    sit
+  
+    purus
+  
+    nulla
+  
+    dui
+  
+    laoreet
+  
+    etiam
+  
+    condimentum
+  
+    finibus.
+    
+       Amet
+  
+    sapien
+  
+    tellus
+  
+    eget
+  
+    nunc
+  
+    justo
+  
+    elit
+  
+    dolor
+  
+    enim
+  
+    finibus.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #2</h5>
+        </esl-trigger>
+        <esl-panel open class="tab tab-2" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Purus
+  
+    vel
+  
+    proin
+  
+    et
+  
+    tempor
+  
+    nulla
+  
+    proin
+  
+    elit
+  
+    curabitur
+  
+    curabitur.
+    
+       Congue
+  
+    purus
+  
+    rhoncus
+  
+    ipsum
+  
+    vulputate
+  
+    amet
+  
+    dui
+  
+    suscipit
+  
+    venenatis
+  
+    adipiscing.
+    
+       Arcu
+  
+    urna
+  
+    ut
+  
+    rhoncus
+  
+    mollis
+  
+    ante
+  
+    viverra
+  
+    nulla
+  
+    purus
+  
+    etiam.
+    
+       Diam
+  
+    amet
+  
+    placerat
+  
+    suscipit
+  
+    adipiscing
+  
+    metus
+  
+    lacinia
+  
+    consectetur
+  
+    mollis
+  
+    vulputate.
+    
+       Metus
+  
+    purus
+  
+    id
+  
+    ligula
+  
+    urna
+  
+    ut
+  
+    eget
+  
+    lacinia
+  
+    ante
+  
+    viverra.
+    
+       Facilisi
+  
+    sit
+  
+    tempor
+  
+    metus
+  
+    justo
+  
+    sed
+  
+    enim
+  
+    laoreet
+  
+    etiam
+  
+    ut.
+    
+       Ut
+  
+    neque
+  
+    mattis
+  
+    nunc
+  
+    nulla
+  
+    at
+  
+    consectetur
+  
+    enim
+  
+    congue
+  
+    porta.
+    
+       Augue
+  
+    eu
+  
+    etiam
+  
+    vulputate
+  
+    nulla
+  
+    nunc
+  
+    adipiscing
+  
+    porta
+  
+    lacinia
+  
+    mollis.
+    
+       Odio
+  
+    eu
+  
+    etiam
+  
+    risus
+  
+    consectetur
+  
+    vulputate
+  
+    metus
+  
+    pellentesque
+  
+    ante
+  
+    venenatis.
+    
+       Elit
+  
+    etiam
+  
+    arcu
+  
+    ultrices
+  
+    laoreet
+  
+    eu
+  
+    nullam
+  
+    ut
+  
+    vehicula
+  
+    etiam.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+      </esl-panel-group>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <h2> Scrollable Tabs Component </h2>
+    <p class="h5"> Complex mode: MD+ -> open, disabled, SM -> tabs, side, XS -> accordion, center </p>
+    <style>esl-tabs[scrollable]:not(.disabled-alignment) .tabs-2 .nav-item{min-width:213px}</style>
+    <div class="tabs tabs-2">
+      <esl-tabs scrollable="@XS => center | @SM => side | @+MD => disabled" class="tabs-container">
+        <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+        <div class="arrow-prev" data-tab-direction="left">
+          <span class="icon-arrow-prev"></span>
+        </div>
+
+        <ul class="nav nav-pills esl-tab-container" role="tablist">
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-1)">
+              <h5 class="mb-0">Tab #1 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+          <li class="nav-item">
+            <esl-tab class="esl-tab nav-link" target="::parent(.tabs)::find(.tab-2)">
+              <h5 class="mb-0">Tab #2 Lorem ipsum</h5>
+            </esl-tab>
+          </li>
+        </ul>
+
+        <div class="arrow-next" data-tab-direction="right">
+          <span class="icon-arrow-next"></span>
+        </div>
+
+      </esl-tabs>
+
+      <esl-panel-group mode="@XS => accordion |  @SM => tabs | @+MD => open" mode-cls-target="::parent::find(.tabs-container)">
+        <esl-a11y-group targets="::child(esl-trigger)"></esl-a11y-group>
+
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #1</h5>
+        </esl-trigger>
+        <esl-panel class="tab tab-1" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Adipiscing
+  
+    dui
+  
+    nunc
+  
+    purus
+  
+    vehicula
+  
+    vulputate
+  
+    scelerisque
+  
+    sed
+  
+    vulputate
+  
+    vivamus.
+    
+       Ipsum
+  
+    tempor
+  
+    pretium
+  
+    aenean
+  
+    enim
+  
+    suscipit
+  
+    lorem
+  
+    mattis
+  
+    pretium
+  
+    ligula.
+    
+       Diam
+  
+    urna
+  
+    at
+  
+    arcu
+  
+    at
+  
+    sit
+  
+    vehicula
+  
+    lacinia
+  
+    vulputate
+  
+    congue.
+    
+       Vulputate
+  
+    sed
+  
+    consectetur
+  
+    odio
+  
+    placerat
+  
+    sapien
+  
+    nibh
+  
+    fringilla
+  
+    placerat
+  
+    vivamus.
+    
+       Nunc
+  
+    amet
+  
+    ac
+  
+    mattis
+  
+    risus
+  
+    mauris
+  
+    facilisi
+  
+    sapien
+  
+    placerat
+  
+    blandit.
+    
+       Ut
+  
+    nulla
+  
+    justo
+  
+    fringilla
+  
+    ipsum
+  
+    mi
+  
+    arcu
+  
+    nibh
+  
+    eget
+  
+    congue.
+    
+       At
+  
+    dictum
+  
+    vel
+  
+    elit
+  
+    elit
+  
+    placerat
+  
+    suscipit
+  
+    curabitur
+  
+    lorem
+  
+    nullam.
+    
+       Dictum
+  
+    mauris
+  
+    etiam
+  
+    lorem
+  
+    purus
+  
+    arcu
+  
+    porta
+  
+    id
+  
+    amet
+  
+    rhoncus.
+    
+       Suscipit
+  
+    aenean
+  
+    ultrices
+  
+    amet
+  
+    purus
+  
+    ligula
+  
+    ac
+  
+    nunc
+  
+    ante
+  
+    pellentesque.
+    
+       Odio
+  
+    etiam
+  
+    sit
+  
+    ipsum
+  
+    eu
+  
+    proin
+  
+    lorem
+  
+    nunc
+  
+    congue
+  
+    tincidunt.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Proin
+  
+    at
+  
+    fringilla
+  
+    suscipit
+  
+    tellus
+  
+    lacinia
+  
+    ultrices
+  
+    sed
+  
+    nunc
+  
+    urna.
+    
+       Pretium
+  
+    odio
+  
+    diam
+  
+    lorem
+  
+    congue
+  
+    pretium
+  
+    purus
+  
+    tempor
+  
+    odio
+  
+    diam.
+    
+       Vulputate
+  
+    facilisis
+  
+    mauris
+  
+    ut
+  
+    mauris
+  
+    sit
+  
+    vulputate
+  
+    ut
+  
+    venenatis
+  
+    dictum.
+    
+       Vivamus
+  
+    at
+  
+    dolor
+  
+    ut
+  
+    congue
+  
+    sit
+  
+    tincidunt
+  
+    at
+  
+    mi
+  
+    etiam.
+    
+       Augue
+  
+    ut
+  
+    odio
+  
+    sapien
+  
+    vehicula
+  
+    purus
+  
+    dolor
+  
+    justo
+  
+    ligula
+  
+    facilisis.
+    
+       Placerat
+  
+    sapien
+  
+    eu
+  
+    tincidunt
+  
+    mauris
+  
+    vulputate
+  
+    lorem
+  
+    facilisis
+  
+    eu
+  
+    ac.
+    
+       Elit
+  
+    odio
+  
+    suscipit
+  
+    at
+  
+    nibh
+  
+    ut
+  
+    eget
+  
+    ultrices
+  
+    adipiscing
+  
+    etiam.
+    
+       Ligula
+  
+    eget
+  
+    elit
+  
+    mollis
+  
+    nibh
+  
+    et
+  
+    facilisi
+  
+    ut
+  
+    ligula
+  
+    vulputate.
+    
+       Congue
+  
+    eget
+  
+    neque
+  
+    vulputate
+  
+    purus
+  
+    adipiscing
+  
+    at
+  
+    sit
+  
+    porta
+  
+    amet.
+    
+       Ut
+  
+    nibh
+  
+    neque
+  
+    diam
+  
+    pellentesque
+  
+    fringilla
+  
+    blandit
+  
+    lacinia
+  
+    metus
+  
+    dictum.
+    
+  </p>
+
+  
+    
+  <p>
+    
+       Dictum
+  
+    ultrices
+  
+    laoreet
+  
+    congue
+  
+    lorem
+  
+    dolor
+  
+    purus
+  
+    pellentesque
+  
+    ligula
+  
+    augue.
+    
+       Nullam
+  
+    mattis
+  
+    eu
+  
+    ligula
+  
+    nullam
+  
+    eget
+  
+    enim
+  
+    augue
+  
+    porta
+  
+    aenean.
+    
+       Aenean
+  
+    id
+  
+    viverra
+  
+    vehicula
+  
+    arcu
+  
+    lacinia
+  
+    diam
+  
+    eu
+  
+    pretium
+  
+    urna.
+    
+       Adipiscing
+  
+    augue
+  
+    nullam
+  
+    sit
+  
+    purus
+  
+    sed
+  
+    lacinia
+  
+    aenean
+  
+    viverra
+  
+    odio.
+    
+       Elit
+  
+    dictum
+  
+    suscipit
+  
+    dictum
+  
+    arcu
+  
+    consectetur
+  
+    vel
+  
+    rhoncus
+  
+    ligula
+  
+    sit.
+    
+       Fringilla
+  
+    eu
+  
+    lorem
+  
+    finibus
+  
+    fringilla
+  
+    purus
+  
+    lorem
+  
+    vivamus
+  
+    justo
+  
+    ut.
+    
+       Viverra
+  
+    mi
+  
+    porta
+  
+    viverra
+  
+    augue
+  
+    ante
+  
+    pretium
+  
+    ligula
+  
+    metus
+  
+    mauris.
+    
+       Ante
+  
+    nullam
+  
+    diam
+  
+    rhoncus
+  
+    vel
+  
+    odio
+  
+    ut
+  
+    elit
+  
+    etiam
+  
+    facilisis.
+    
+       Mi
+  
+    metus
+  
+    at
+  
+    odio
+  
+    fringilla
+  
+    rhoncus
+  
+    fringilla
+  
+    augue
+  
+    mauris
+  
+    neque.
+    
+       Et
+  
+    ipsum
+  
+    dictum
+  
+    proin
+  
+    eget
+  
+    metus
+  
+    lacinia
+  
+    dolor
+  
+    viverra
+  
+    condimentum.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+        <esl-trigger class="card-header accordion-trigger" target="::next" role="button" tabindex="0">
+          <h5 class="mb-0">Toggle Accordion #2</h5>
+        </esl-trigger>
+        <esl-panel open class="tab tab-2" tabindex="0">
+          <div class="tab-body">
+            
+  
+  
+    
+  <p>
+    
+       Justo
+  
+    nulla
+  
+    nunc
+  
+    enim
+  
+    curabitur
+  
+    vel
+  
+    laoreet
+  
+    suscipit
+  
+    et
+  
+    tincidunt.
+    
+       Facilisis
+  
+    finibus
+  
+    vivamus
+  
+    pellentesque
+  
+    nulla
+  
+    curabitur
+  
+    tincidunt
+  
+    enim
+  
+    scelerisque
+  
+    mauris.
+    
+       Vulputate
+  
+    augue
+  
+    lacinia
+  
+    condimentum
+  
+    lorem
+  
+    ut
+  
+    ipsum
+  
+    ligula
+  
+    dolor
+  
+    vivamus.
+    
+       Tellus
+  
+    mauris
+  
+    placerat
+  
+    mi
+  
+    mauris
+  
+    sed
+  
+    blandit
+  
+    rhoncus
+  
+    pellentesque
+  
+    nullam.
+    
+       Adipiscing
+  
+    risus
+  
+    dolor
+  
+    lorem
+  
+    dui
+  
+    placerat
+  
+    metus
+  
+    placerat
+  
+    etiam
+  
+    eget.
+    
+       Id
+  
+    mi
+  
+    urna
+  
+    pretium
+  
+    ut
+  
+    laoreet
+  
+    tellus
+  
+    metus
+  
+    sapien
+  
+    facilisis.
+    
+       Sed
+  
+    consectetur
+  
+    pellentesque
+  
+    lacinia
+  
+    dictum
+  
+    metus
+  
+    elit
+  
+    facilisi
+  
+    finibus
+  
+    rhoncus.
+    
+       Mi
+  
+    elit
+  
+    et
+  
+    etiam
+  
+    amet
+  
+    viverra
+  
+    proin
+  
+    et
+  
+    amet
+  
+    vehicula.
+    
+       Scelerisque
+  
+    tempor
+  
+    augue
+  
+    ac
+  
+    id
+  
+    mauris
+  
+    amet
+  
+    ante
+  
+    pellentesque
+  
+    finibus.
+    
+       Sapien
+  
+    mattis
+  
+    lacinia
+  
+    condimentum
+  
+    mattis
+  
+    risus
+  
+    nulla
+  
+    et
+  
+    ipsum
+  
+    sed.
+    
+  </p>
+
+  
+
+          </div>
+        </esl-panel>
+      </esl-panel-group>
+    </div>
+  </div>
+  <hr/>
+</section>
+
+    </div>
+  </main>
+
+  <footer class="footer bg-dark">
+    <div class="container">
+  <div class="text-center">
+    <div class="text-muted">ESL v3.2.0 © 2021 Exadel, Inc</div>
+    <div class="text-muted">Core Team Contributors:
+      <a href="mailto:astsefanovich@exadel.com">Alexey Stsefanovich</a>,
+      <a href="mailto:ymurashka@exadel.com">Julia Murashko</a>,
+      <a href="mailto:yadamska@exadel.com">Yuliya Adamskaya</a>,
+      <a href="mailto:dshovchko@exadel.com">Dmytro Shovchko</a>,
+      <a href="mailto:abarmina@exadel.com">Anna Barmina</a>
+    </div>
+  </div>
+</div>
+
+  </footer>
+
+  
+
+  <script src="/esl/bundles/localdev.js"></script>
+
+
+  <esl-scrollbar class="page-scrollbar" target="html"></esl-scrollbar>
+
+</body>
+</html>

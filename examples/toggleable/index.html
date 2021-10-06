@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Image</title>
+  <title>Toggleable</title>
   
   <script>!function(){let e="";window.Promise&&window.CustomEvent?"getRootNode"in Element.prototype&&window.customElements&&window.IntersectionObserver&&window.ResizeObserver||(e="light"):e="full",e&&document.write('<script type="text/javascript" src="/esl/bundles/polyfill-'+e+'.js"><\/script>')}()</script>
 
@@ -39,7 +39,7 @@
       <li class="nav-item hd-dropdown">
         
   <esl-trigger class="hd-dropdown-trigger" target="::next" track-hover="@+SM" hover-hide-delay="400">
-    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow nav-item-selected">
+    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow">
       Samples
     </button>
   </esl-trigger>
@@ -49,57 +49,57 @@
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/accordion/">Accordion</a>
+            <a class="hd-dropdown-link" href="/esl/examples/accordion/">Accordion</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/embedded-audio/">Embedded Audio</a>
+            <a class="hd-dropdown-link" href="/esl/examples/embedded-audio/">Embedded Audio</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/embedded-video/">Embedded Video</a>
+            <a class="hd-dropdown-link" href="/esl/examples/embedded-video/">Embedded Video</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/image/">Image</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/menu/">Menu</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/notification/">Notification</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/scrollbar/">Scrollbar</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/forms-select/">Select Dropdown</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/forms-select-list/">Select List</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/tabs/">Tabs</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item nav-item-selected" aria-current="page">
-            <a class="hd-dropdown-link" href="/esl/samples/image/">Image</a>
-          </li>
-        
-          
-          <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/menu/">Menu</a>
-          </li>
-        
-          
-          <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/notification/">Notification</a>
-          </li>
-        
-          
-          <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/scrollbar/">Scrollbar</a>
-          </li>
-        
-          
-          <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/forms-select/">Select Dropdown</a>
-          </li>
-        
-          
-          <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/forms-select-list/">Select List</a>
-          </li>
-        
-          
-          <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/tabs/">Tabs</a>
-          </li>
-        
-          
-          <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/toggleable/">Toggleable</a>
+            <a class="hd-dropdown-link" href="/esl/examples/toggleable/">Toggleable</a>
           </li>
         
       </ul>
@@ -238,7 +238,7 @@
     <div class="content container">
       
         <h1 class="text-center pt-2">
-          Image
+          Toggleable
           
           
         </h1>
@@ -251,166 +251,203 @@
   <div class="col-12">
     <h2>Related Components: </h2>
     <ul class="list-inline">
-      <li class="list-inline-item"><a href="/esl/components/esl-image">ESL Image</a></li>
+      <li class="list-inline-item"><a href="/esl/components/esl-toggleable">ESL Toggleable</a></li>
+      <li class="list-inline-item"><a href="/esl/components/esl-trigger">ESL Trigger</a></li>
     </ul>
   </div>
 </section>
 
-
-
 <section class="row">
   <div class="col-12">
-    <h3 class="text-center">Mods</h3>
-    <div class="demo row">
-      <div class="col-xs-12 col-sm-6 p-2">
-        <esl-image mode="save-ratio" lazy data-alt="Alt Text Test" data-src="nature/forest+clouds.jpg" data-src-base="/esl/assets/"></esl-image>
-      </div>
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
-        <div class="m-auto">
-          <h5>Mode: save-ratio</h5>
-          <p>ESL Image uses entire available width and occupies the height according to image aspect ratio.</p>
-          <p>No inner image, css background is used to render the image.</p>
+    <h4>Click event</h4>
+    <div style="height:70px">
+      <esl-toggleable id="toggleable1" body-class="toggleable-opened" close-on=".close-button" close-on-esc open>
+        <div class="alert alert-warning" role="alert">
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
+          <button type="button" class="close close-button" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-      </div>
+      </esl-toggleable>
     </div>
-    <hr/>
-    <div class="demo row">
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
-        <div class="m-auto">
-          <h5>Mode: cover</h5>
-          <p>No inner image, image is rendered by background image.</p>
-          <p>ESL Image has no own size. Can be used with img-container classes</p>
-          <p><i>Example:</i></p>
-          <code>&lt;div class="img-container img-container-4-3"&gt; &lt;esl-image ...</code>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-6 p-2">
-        <div class="img-container img-container-4-3">
-          <esl-image mode="cover" lazy data-alt="Alt Text" data-src="nature/forest+clouds.jpg" data-src-base="/esl/assets/"></esl-image>
-        </div>
-      </div>
-    </div>
-    <div class="demo row" id="sim-valign-test">
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
-        <div class="img-container m-auto" style="width:100%;padding-top:50%;border:1px solid gray">
-          <esl-image mode="cover" lazy data-alt="Alt Text" data-src="nature/forest+clouds.jpg" data-src-base="/esl/assets/"></esl-image>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
-        <div class="m-auto">
-          <h5>Mode: cover (additional classes: vertical alignment)</h5>
-          <p>As background-image is used to render image in cover mode we can control image cropping options
-            through the css.</p>
-          <p>The following options are available to control image vertical position:</p>
-          <ul class="unstyled-list">
-            <li><input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-top"/> .bg-v-top</li>
-            <li>
-              <input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-center" checked="checked"/> .bg-v-center <b>(default)</b>
-            </li>
-            <li><input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-bottom"/> .bg-v-bottom</li>
-          </ul>
-          <div><b>Container:</b><span class="value">size: 2 x 1 gray border</span></div>
-        </div>
-      </div>
-      <script>!function(){var e=document.querySelector("#sim-valign-test"),t=e.querySelectorAll(".v-pos-toggle"),o=e.querySelector("esl-image");Array.prototype.forEach.call(t,function(t){t.addEventListener("click",function(){var e=o.classList;e.remove("bg-v-top"),e.remove("bg-v-center"),e.remove("bg-v-bottom"),e.add(t.value)})})}()</script>
-    </div>
-    <div class="demo row" id="sim-halign-test">
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
-        <div class="img-container m-auto" style="width:200px;height:300px;border:1px solid gray">
-          <esl-image mode="cover" lazy data-alt="Alt Text" data-src="nature/forest+clouds.jpg" data-src-base="/esl/assets/"></esl-image>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
-        <div class="m-auto">
-          <h5>Mode: cover (additional classes: horizontal alignment)</h5>
-          <p>The following options available to control image horizontal position:</p>
-          <ul class="unstyled-list">
-            <li><input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-left"/> .bg-h-left</li>
-            <li>
-              <input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-center" checked="checked"/>
-              .bg-h-center <b>(default)</b>
-            </li>
-            <li><input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-right"/> .bg-h-right</li>
-          </ul>
-          <div><b>Container:</b><span class="value">size: 2 x 3 gray border</span></div>
-        </div>
-      </div>
-      <script>!function(){var e=document.querySelector("#sim-halign-test"),r=e.querySelectorAll(".h-pos-toggle"),t=e.querySelector("esl-image");Array.prototype.forEach.call(r,function(r){r.addEventListener("click",function(){var e=t.classList;e.remove("bg-h-left"),e.remove("bg-h-center"),e.remove("bg-h-right"),e.add(r.value)})})}()</script>
-    </div>
-    <div class="demo row">
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
-        <div class="img-container m-auto" style="width:300px;height:150px;border:1px solid gray">
-          <esl-image mode="cover" lazy class="bg-inscribe" data-alt="Alt Text" data-src="nature/volcano-md.jpg | @2x => nature/volcano.jpg" data-src-base="/esl/assets/"></esl-image>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
-        <div class="m-auto">
-          <h5>Mode: cover (additional classes: inscribe)</h5>
-          <p><em>bg-inscribe</em> can be used to declare inscribe image behaviour</p>
-          <div><b>Container:</b><span class="value">size: 300 x 150px; gray border</span></div>
-        </div>
-      </div>
-    </div>
-    <hr/>
-
-    <div class="demo row">
-      <div class="col-xs-12 col-sm-6">
-        <div class="img-container img-container-16-9">
-          <esl-image mode="fit" lazy data-alt="Alt Text Test" data-src="nature/volcano-md.jpg | @2x => nature/volcano.jpg" data-src-base="/esl/assets/"></esl-image>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
-        <div class="m-auto">
-          <h5>Mode: fit</h5>
-          <p>ESL Image uses inner <em>img</em> to render picture and is used as a wrapper that controls
-            image source and state.</p>
-        </div>
-      </div>
-    </div>
-    <hr/>
-    <div class="demo row">
-      <div class="col-xs-12 col-sm-6 d-flex">
-        <esl-image mode="origin" class="m-auto" data-alt="Alt Text Test" data-src="nature/volcano-xs.jpg" data-src-base="/esl/assets/"></esl-image>
-      </div>
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
-        <div class="m-auto">
-          <h5>Mode: origin</h5>
-          <p>Origin mode behaves similarly to the fit mode but sets esl-image size according to inner image
-            original size.</p>
-        </div>
-      </div>
+    <p>Triggers</p>
+    <div>
+      <esl-trigger target="#toggleable1" mode="toggle" class="btn btn-primary">Toggle</esl-trigger>
+      <esl-trigger target="#toggleable1" mode="show" class="btn btn-success">Show</esl-trigger>
+      <esl-trigger target="#toggleable1" mode="hide" class="btn btn-dark">Hide</esl-trigger>
     </div>
   </div>
 </section>
 <hr/>
+
 <section class="row">
   <div class="col-12">
-    <h3 class="text-center">ESL Query Rules</h3>
-  </div>
-  <div class="col-12">
-    <div class="img-container img-container-16-9">
-      <esl-image lazy mode="cover" onload='console.log("SImage Load Track",event)' onready='console.log("SImage Ready Track",event)' data-alt="Alt Text Test" data-src="@XS => abstract/colors.jpg |
-                                   @SM => abstract/drops.jpg |
-                                   @MD => abstract/unsplash.jpg |
-                                   @LG => abstract/colors.jpg |
-                                   @XL => abstract/drops.jpg" data-src-base="/esl/assets/"></esl-image>
+    <h4>Hover event</h4>
+    <div style="height:70px">
+      <esl-toggleable id="toggleable2" body-class="toggleable-opened" close-on=".close-button" close-on-esc>
+        <div class="alert alert-warning" role="alert">
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
+          <button type="button" class="close close-button" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </esl-toggleable>
+    </div>
+    <p>Triggers</p>
+    <div>
+      <esl-trigger target="#toggleable2" mode="toggle" a11y-target="button" track-hover>
+        <button type="button" class="btn btn-primary">Toggle</button>
+      </esl-trigger>
+      <esl-trigger target="#toggleable2" mode="show" a11y-target="button" track-hover>
+        <button type="button" class="btn btn-success">Show</button>
+      </esl-trigger>
+      <esl-trigger target="#toggleable2" mode="hide" a11y-target="button" track-hover>
+        <button type="button" class="btn btn-dark">Hide</button>
+      </esl-trigger>
     </div>
   </div>
 </section>
 <hr/>
-<section class="row m-0">
+
+<section class="row">
   <div class="col-12">
-    <h3 class="text-center">SVG Inline loading <span class="badge badge-warning">Beta</span></h3>
-    <div class="d-flex p-2">
-      <div class="mx-auto">
-        <h5>Mode: inner-svg, lazy mode</h5>
-        <p>ESL Image inner-svg mode that loads svg content inline.</p>
-        <p class="alert alert-warning">NOTE: requesting svg endpoint should accept CORS policy restrictions</p>
-      </div>
+    <h4>Class toggle</h4>
+    <div style="height:70px">
+      <esl-toggleable class="d-block alert" active-class="alert-success !alert-danger">
+        <strong>Toggleable can be used to switch state.</strong> You can toggle it using the trigger below.
+      </esl-toggleable>
     </div>
-    <div class="img-container img-container-4-3">
-      <esl-image lazy mode="inner-svg" data-alt="Svg Text Test" data-src="/esl/assets/svg/cat.svg"></esl-image>
+    <p>Triggers</p>
+    <div>
+      <esl-trigger target="::parent(.row)::find(esl-toggleable)" class="btn btn-primary">Toggle type</esl-trigger>
     </div>
+  </div>
+</section>
+<hr/>
+
+<section class="row">
+  <div class="col-12">
+    <h4>Close On Body Click</h4>
+    <div style="height:130px">
+      <esl-toggleable class="toggleable" close-on-esc close-on-outside-action>
+        <div class="alert alert-warning" role="alert">
+          <strong>This is a toggleable.</strong> You can close it if you click outside.
+          <esl-trigger target="::parent(esl-toggleable)::find(.child-toggleable)" class="btn btn-link">
+            Toggle inner toggleable
+          </esl-trigger>
+          <esl-toggleable class="child-toggleable" close-on-esc close-on-outside-action>
+            <div class="alert alert-info" role="alert">
+              <strong>This is inner toggleable.</strong> You can also close it if you click outside.
+            </div>
+          </esl-toggleable>
+        </div>
+      </esl-toggleable>
+    </div>
+    <p>Triggers</p>
+    <div>
+      <esl-trigger class="btn btn-dark" target="::parent(section)::find(.toggleable)">
+        Toggle toggleable
+      </esl-trigger>
+      <button id="prevArea" class="btn btn-danger">
+        Prevent Click Zone
+      </button>
+      <script>document.querySelector("#prevArea").addEventListener("click",function(e){e.preventDefault(),e.stopPropagation()})</script>
+    </div>
+  </div>
+</section>
+<hr/>
+
+<section class="row">
+  <style>body:not(.body-marker) .b-marker{display:none}</style>
+  <div class="col-12">
+    <h4>Group of toggleables (click event)</h4>
+    <div class="b-marker alert alert-info">Body class marker active</div>
+
+    <div style="height:70px">
+      <esl-toggleable id="toggleable3" group="group1" body-class="body-marker" close-on=".close-button" close-on-esc open>
+        <div class="alert alert-warning" role="alert">
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
+          <button type="button" class="close close-button" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </esl-toggleable>
+    </div>
+    <div style="height:70px">
+      <esl-toggleable id="toggleable4" group="group1" body-class="body-marker" close-on=".close-button" close-on-esc>
+        <div class="alert alert-warning" role="alert">
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
+          <button type="button" class="close close-button" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </esl-toggleable>
+    </div>
+    <div style="height:70px">
+      <esl-toggleable id="toggleable5" group="group1" body-class="body-marker" close-on=".close-button" close-on-esc>
+        <div class="alert alert-warning" role="alert">
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
+          <button type="button" class="close close-button" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </esl-toggleable>
+    </div>
+    <p>Triggers</p>
+    <p>
+      <esl-trigger target="#toggleable3" mode="toggle" a11y-target="button">
+        <button type="button" class="btn btn-info">Toggle 1</button>
+      </esl-trigger>
+      <esl-trigger target="#toggleable4" mode="toggle" a11y-target="button">
+        <button type="button" class="btn btn-info">Toggle 2</button>
+      </esl-trigger>
+      <esl-trigger target="#toggleable5" mode="toggle" a11y-target="button">
+        <button type="button" class="btn btn-info">Toggle 3</button>
+      </esl-trigger>
+    </p>
+  </div>
+</section>
+<hr/>
+
+<section class="row">
+  <div class="col-12">
+    <h4>Group of toggleables (hover event)</h4>
+    <div style="height:70px">
+      <esl-toggleable id="toggleable6" group="group2" body-class="toggleable-group-opened" default-params="{hideDelay: 500}" close-on=".close-button" close-on-esc>
+        <div class="alert alert-warning" role="alert">
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
+          <button type="button" class="close close-button" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </esl-toggleable>
+    </div>
+    <div style="height:70px">
+      <esl-toggleable id="toggleable7" group="group2" body-class="toggleable-group-opened" default-params="{hideDelay: 500}" close-on=".close-button" close-on-esc>
+        <div class="alert alert-warning" role="alert">
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
+          <button type="button" class="close close-button" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </esl-toggleable>
+    </div>
+    <div style="height:70px">
+      <esl-toggleable id="toggleable8" group="group2" body-class="toggleable-group-opened" default-params="{hideDelay: 500}" close-on=".close-button" close-on-esc>
+        <div class="alert alert-warning" role="alert">
+          <strong>This is a toggleable.</strong> You can control it using the triggers below.
+          <button type="button" class="close close-button" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </esl-toggleable>
+    </div>
+    <p>Triggers</p>
+    <p>
+      <esl-trigger target="#toggleable6" mode="toggle" class="btn btn-info" track-hover>Toggle 1</esl-trigger>
+      <esl-trigger target="#toggleable7" mode="toggle" class="btn btn-info" track-hover>Toggle 2</esl-trigger>
+      <esl-trigger target="#toggleable8" mode="toggle" class="btn btn-info" track-hover>Toggle 3</esl-trigger>
+    </p>
   </div>
 </section>
 

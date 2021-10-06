@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Menu</title>
+  <title>Image</title>
   
   <script>!function(){let e="";window.Promise&&window.CustomEvent?"getRootNode"in Element.prototype&&window.customElements&&window.IntersectionObserver&&window.ResizeObserver||(e="light"):e="full",e&&document.write('<script type="text/javascript" src="/esl/bundles/polyfill-'+e+'.js"><\/script>')}()</script>
 
@@ -39,7 +39,7 @@
       <li class="nav-item hd-dropdown">
         
   <esl-trigger class="hd-dropdown-trigger" target="::next" track-hover="@+SM" hover-hide-delay="400">
-    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow nav-item-selected">
+    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow">
       Samples
     </button>
   </esl-trigger>
@@ -49,57 +49,57 @@
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/accordion/">Accordion</a>
+            <a class="hd-dropdown-link" href="/esl/examples/accordion/">Accordion</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/embedded-audio/">Embedded Audio</a>
+            <a class="hd-dropdown-link" href="/esl/examples/embedded-audio/">Embedded Audio</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/embedded-video/">Embedded Video</a>
-          </li>
-        
-          
-          <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/image/">Image</a>
+            <a class="hd-dropdown-link" href="/esl/examples/embedded-video/">Embedded Video</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item nav-item-selected" aria-current="page">
-            <a class="hd-dropdown-link" href="/esl/samples/menu/">Menu</a>
+            <a class="hd-dropdown-link" href="/esl/examples/image/">Image</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/notification/">Notification</a>
+            <a class="hd-dropdown-link" href="/esl/examples/menu/">Menu</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/scrollbar/">Scrollbar</a>
+            <a class="hd-dropdown-link" href="/esl/examples/notification/">Notification</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/forms-select/">Select Dropdown</a>
+            <a class="hd-dropdown-link" href="/esl/examples/scrollbar/">Scrollbar</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/forms-select-list/">Select List</a>
+            <a class="hd-dropdown-link" href="/esl/examples/forms-select/">Select Dropdown</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/tabs/">Tabs</a>
+            <a class="hd-dropdown-link" href="/esl/examples/forms-select-list/">Select List</a>
           </li>
         
           
           <li class="nav-item hd-dropdown-item">
-            <a class="hd-dropdown-link" href="/esl/samples/toggleable/">Toggleable</a>
+            <a class="hd-dropdown-link" href="/esl/examples/tabs/">Tabs</a>
+          </li>
+        
+          
+          <li class="nav-item hd-dropdown-item">
+            <a class="hd-dropdown-link" href="/esl/examples/toggleable/">Toggleable</a>
           </li>
         
       </ul>
@@ -238,7 +238,7 @@
     <div class="content container">
       
         <h1 class="text-center pt-2">
-          Menu
+          Image
           
           
         </h1>
@@ -251,524 +251,166 @@
   <div class="col-12">
     <h2>Related Components: </h2>
     <ul class="list-inline">
-      <li class="list-inline-item"><a href="/esl/components/esl-trigger">ESL Trigger</a></li>
-      <li class="list-inline-item"><a href="/esl/components/esl-panel">ESL Panel</a></li>
-      <li class="list-inline-item"><a href="/esl/components/esl-toggleable">ESL Toggleable</a></li>
+      <li class="list-inline-item"><a href="/esl/components/esl-image">ESL Image</a></li>
     </ul>
   </div>
 </section>
 
+
+
 <section class="row">
   <div class="col-12">
-    <h2>Simple Hover Menu: </h2>
-
-    <ul class="esl-sample-menu">
-      <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow" track-hover hover-hide-delay="400">
-          Hover Menu 1
-        </esl-trigger>
-        <esl-panel class="menu-container" group="esl-nav" fallback-duration="400" close-on-esc close-on-outside-action>
-          <ul class="esl-sample-sub-menu">
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
+    <h3 class="text-center">Mods</h3>
+    <div class="demo row">
+      <div class="col-xs-12 col-sm-6 p-2">
+        <esl-image mode="save-ratio" lazy data-alt="Alt Text Test" data-src="nature/forest+clouds.jpg" data-src-base="/esl/assets/"></esl-image>
+      </div>
+      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+        <div class="m-auto">
+          <h5>Mode: save-ratio</h5>
+          <p>ESL Image uses entire available width and occupies the height according to image aspect ratio.</p>
+          <p>No inner image, css background is used to render the image.</p>
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="demo row">
+      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+        <div class="m-auto">
+          <h5>Mode: cover</h5>
+          <p>No inner image, image is rendered by background image.</p>
+          <p>ESL Image has no own size. Can be used with img-container classes</p>
+          <p><i>Example:</i></p>
+          <code>&lt;div class="img-container img-container-4-3"&gt; &lt;esl-image ...</code>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 p-2">
+        <div class="img-container img-container-4-3">
+          <esl-image mode="cover" lazy data-alt="Alt Text" data-src="nature/forest+clouds.jpg" data-src-base="/esl/assets/"></esl-image>
+        </div>
+      </div>
+    </div>
+    <div class="demo row" id="sim-valign-test">
+      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+        <div class="img-container m-auto" style="width:100%;padding-top:50%;border:1px solid gray">
+          <esl-image mode="cover" lazy data-alt="Alt Text" data-src="nature/forest+clouds.jpg" data-src-base="/esl/assets/"></esl-image>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+        <div class="m-auto">
+          <h5>Mode: cover (additional classes: vertical alignment)</h5>
+          <p>As background-image is used to render image in cover mode we can control image cropping options
+            through the css.</p>
+          <p>The following options are available to control image vertical position:</p>
+          <ul class="unstyled-list">
+            <li><input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-top"/> .bg-v-top</li>
+            <li>
+              <input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-center" checked="checked"/> .bg-v-center <b>(default)</b>
+            </li>
+            <li><input name="v-pos-test" type="radio" class="v-pos-toggle" value="bg-v-bottom"/> .bg-v-bottom</li>
           </ul>
-        </esl-panel>
-      </li>
-      <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow" track-hover hover-hide-delay="400">
-          Hover Menu 2
-        </esl-trigger>
-        <esl-panel class="menu-container" group="esl-nav" fallback-duration="400" close-on-esc close-on-outside-action>
-          <div class="esl-sample-menu-400">
-  
-  
-    
-  <p>
-    
-       Et
-  
-    mattis
-  
-    mi
-  
-    venenatis
-  
-    metus
-  
-    augue
-  
-    sit
-  
-    augue
-  
-    vehicula
-  
-    scelerisque.
-    
-       Tempor
-  
-    ipsum
-  
-    ultrices
-  
-    laoreet
-  
-    proin
-  
-    vel
-  
-    vel
-  
-    vulputate
-  
-    ultrices
-  
-    lacinia.
-    
-       Lorem
-  
-    justo
-  
-    mi
-  
-    vehicula
-  
-    pellentesque
-  
-    ac
-  
-    finibus
-  
-    ipsum
-  
-    ultrices
-  
-    sapien.
-    
-       Nunc
-  
-    porta
-  
-    facilisis
-  
-    etiam
-  
-    ante
-  
-    nullam
-  
-    rhoncus
-  
-    et
-  
-    mattis
-  
-    risus.
-    
-       Condimentum
-  
-    sapien
-  
-    condimentum
-  
-    tincidunt
-  
-    vulputate
-  
-    dui
-  
-    sed
-  
-    adipiscing
-  
-    id
-  
-    facilisi.
-    
-       Elit
-  
-    eget
-  
-    rhoncus
-  
-    condimentum
-  
-    venenatis
-  
-    etiam
-  
-    dui
-  
-    proin
-  
-    congue
-  
-    arcu.
-    
-       Curabitur
-  
-    ipsum
-  
-    diam
-  
-    consectetur
-  
-    tellus
-  
-    lorem
-  
-    tellus
-  
-    tincidunt
-  
-    vel
-  
-    fringilla.
-    
-       Sit
-  
-    eu
-  
-    porta
-  
-    ut
-  
-    fringilla
-  
-    mollis
-  
-    tempor
-  
-    laoreet
-  
-    purus
-  
-    consectetur.
-    
-       Porta
-  
-    sit
-  
-    vulputate
-  
-    diam
-  
-    nullam
-  
-    placerat
-  
-    laoreet
-  
-    amet
-  
-    pellentesque
-  
-    neque.
-    
-       Scelerisque
-  
-    eu
-  
-    nunc
-  
-    ac
-  
-    sed
-  
-    id
-  
-    purus
-  
-    lacinia
-  
-    arcu
-  
-    dictum.
-    
-  </p>
-
-  
-</div>
-        </esl-panel>
-      </li>
-      <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow" track-hover hover-hide-delay="400">
-          Hover Menu 3
-        </esl-trigger>
-        <esl-panel class="menu-container" group="esl-nav" fallback-duration="400" close-on-esc close-on-outside-action>
-          <ul class="esl-sample-sub-menu">
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
-            <li>7</li>
-            <li>8</li>
-            <li>9</li>
-            <li>10</li>
+          <div><b>Container:</b><span class="value">size: 2 x 1 gray border</span></div>
+        </div>
+      </div>
+      <script>!function(){var e=document.querySelector("#sim-valign-test"),t=e.querySelectorAll(".v-pos-toggle"),o=e.querySelector("esl-image");Array.prototype.forEach.call(t,function(t){t.addEventListener("click",function(){var e=o.classList;e.remove("bg-v-top"),e.remove("bg-v-center"),e.remove("bg-v-bottom"),e.add(t.value)})})}()</script>
+    </div>
+    <div class="demo row" id="sim-halign-test">
+      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+        <div class="img-container m-auto" style="width:200px;height:300px;border:1px solid gray">
+          <esl-image mode="cover" lazy data-alt="Alt Text" data-src="nature/forest+clouds.jpg" data-src-base="/esl/assets/"></esl-image>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+        <div class="m-auto">
+          <h5>Mode: cover (additional classes: horizontal alignment)</h5>
+          <p>The following options available to control image horizontal position:</p>
+          <ul class="unstyled-list">
+            <li><input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-left"/> .bg-h-left</li>
+            <li>
+              <input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-center" checked="checked"/>
+              .bg-h-center <b>(default)</b>
+            </li>
+            <li><input name="h-pos-test" type="radio" class="h-pos-toggle" value="bg-h-right"/> .bg-h-right</li>
           </ul>
-        </esl-panel>
-      </li>
-    </ul>
+          <div><b>Container:</b><span class="value">size: 2 x 3 gray border</span></div>
+        </div>
+      </div>
+      <script>!function(){var e=document.querySelector("#sim-halign-test"),r=e.querySelectorAll(".h-pos-toggle"),t=e.querySelector("esl-image");Array.prototype.forEach.call(r,function(r){r.addEventListener("click",function(){var e=t.classList;e.remove("bg-h-left"),e.remove("bg-h-center"),e.remove("bg-h-right"),e.add(r.value)})})}()</script>
+    </div>
+    <div class="demo row">
+      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+        <div class="img-container m-auto" style="width:300px;height:150px;border:1px solid gray">
+          <esl-image mode="cover" lazy class="bg-inscribe" data-alt="Alt Text" data-src="nature/volcano-md.jpg | @2x => nature/volcano.jpg" data-src-base="/esl/assets/"></esl-image>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+        <div class="m-auto">
+          <h5>Mode: cover (additional classes: inscribe)</h5>
+          <p><em>bg-inscribe</em> can be used to declare inscribe image behaviour</p>
+          <div><b>Container:</b><span class="value">size: 300 x 150px; gray border</span></div>
+        </div>
+      </div>
+    </div>
+    <hr/>
+
+    <div class="demo row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="img-container img-container-16-9">
+          <esl-image mode="fit" lazy data-alt="Alt Text Test" data-src="nature/volcano-md.jpg | @2x => nature/volcano.jpg" data-src-base="/esl/assets/"></esl-image>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+        <div class="m-auto">
+          <h5>Mode: fit</h5>
+          <p>ESL Image uses inner <em>img</em> to render picture and is used as a wrapper that controls
+            image source and state.</p>
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="demo row">
+      <div class="col-xs-12 col-sm-6 d-flex">
+        <esl-image mode="origin" class="m-auto" data-alt="Alt Text Test" data-src="nature/volcano-xs.jpg" data-src-base="/esl/assets/"></esl-image>
+      </div>
+      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+        <div class="m-auto">
+          <h5>Mode: origin</h5>
+          <p>Origin mode behaves similarly to the fit mode but sets esl-image size according to inner image
+            original size.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
-
+<hr/>
 <section class="row">
   <div class="col-12">
-    <h2>Simple Menu: </h2>
-
-    <ul class="esl-sample-menu">
-      <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow">Menu 1</esl-trigger>
-        <esl-panel class="menu-container" group="esl-nav" fallback-duration="400" close-on-esc close-on-outside-action>
-          <ul class="esl-sample-sub-menu">
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
-          </ul>
-        </esl-panel>
-      </li>
-      <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow">Menu 2</esl-trigger>
-        <esl-panel class="menu-container" group="esl-nav" fallback-duration="400" close-on-esc close-on-outside-action>
-          <div class="esl-sample-menu-400">
-  
-  
-    
-  <p>
-    
-       Tincidunt
-  
-    ipsum
-  
-    congue
-  
-    id
-  
-    ac
-  
-    pretium
-  
-    pretium
-  
-    ultrices
-  
-    purus
-  
-    amet.
-    
-       Risus
-  
-    dui
-  
-    augue
-  
-    ligula
-  
-    ac
-  
-    scelerisque
-  
-    proin
-  
-    porta
-  
-    urna
-  
-    nulla.
-    
-       Rhoncus
-  
-    dictum
-  
-    tempor
-  
-    ut
-  
-    odio
-  
-    et
-  
-    dui
-  
-    odio
-  
-    justo
-  
-    metus.
-    
-       Pretium
-  
-    sit
-  
-    tellus
-  
-    ultrices
-  
-    nulla
-  
-    odio
-  
-    tincidunt
-  
-    purus
-  
-    lacinia
-  
-    ac.
-    
-       Condimentum
-  
-    vehicula
-  
-    tempor
-  
-    sed
-  
-    curabitur
-  
-    dui
-  
-    dictum
-  
-    mollis
-  
-    lorem
-  
-    mattis.
-    
-       Pellentesque
-  
-    eget
-  
-    mi
-  
-    ligula
-  
-    enim
-  
-    suscipit
-  
-    risus
-  
-    vulputate
-  
-    facilisis
-  
-    enim.
-    
-       Suscipit
-  
-    nulla
-  
-    aenean
-  
-    aenean
-  
-    dictum
-  
-    at
-  
-    vivamus
-  
-    adipiscing
-  
-    id
-  
-    fringilla.
-    
-       Facilisi
-  
-    dictum
-  
-    pellentesque
-  
-    vehicula
-  
-    etiam
-  
-    id
-  
-    metus
-  
-    finibus
-  
-    mattis
-  
-    lorem.
-    
-       Diam
-  
-    condimentum
-  
-    pellentesque
-  
-    ipsum
-  
-    ut
-  
-    adipiscing
-  
-    tincidunt
-  
-    elit
-  
-    ante
-  
-    tempor.
-    
-       Finibus
-  
-    urna
-  
-    metus
-  
-    adipiscing
-  
-    ac
-  
-    pretium
-  
-    justo
-  
-    lacinia
-  
-    vulputate
-  
-    eget.
-    
-  </p>
-
-  
-</div>
-        </esl-panel>
-      </li>
-      <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow">Menu 3</esl-trigger>
-        <esl-panel class="menu-container" group="esl-nav" fallback-duration="400" close-on-esc close-on-outside-action>
-          <ul class="esl-sample-sub-menu">
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
-            <li>7</li>
-            <li>8</li>
-            <li>9</li>
-            <li>10</li>
-          </ul>
-        </esl-panel>
-      </li>
-    </ul>
+    <h3 class="text-center">ESL Query Rules</h3>
+  </div>
+  <div class="col-12">
+    <div class="img-container img-container-16-9">
+      <esl-image lazy mode="cover" onload='console.log("SImage Load Track",event)' onready='console.log("SImage Ready Track",event)' data-alt="Alt Text Test" data-src="@XS => abstract/colors.jpg |
+                                   @SM => abstract/drops.jpg |
+                                   @MD => abstract/unsplash.jpg |
+                                   @LG => abstract/colors.jpg |
+                                   @XL => abstract/drops.jpg" data-src-base="/esl/assets/"></esl-image>
+    </div>
+  </div>
+</section>
+<hr/>
+<section class="row m-0">
+  <div class="col-12">
+    <h3 class="text-center">SVG Inline loading <span class="badge badge-warning">Beta</span></h3>
+    <div class="d-flex p-2">
+      <div class="mx-auto">
+        <h5>Mode: inner-svg, lazy mode</h5>
+        <p>ESL Image inner-svg mode that loads svg content inline.</p>
+        <p class="alert alert-warning">NOTE: requesting svg endpoint should accept CORS policy restrictions</p>
+      </div>
+    </div>
+    <div class="img-container img-container-4-3">
+      <esl-image lazy mode="inner-svg" data-alt="Svg Text Test" data-src="/esl/assets/svg/cat.svg"></esl-image>
+    </div>
   </div>
 </section>
 
