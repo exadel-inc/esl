@@ -33,6 +33,11 @@ export class ESLScrollbar extends ESLBaseElement {
   /** @readonly Inactive state marker */
   @boolAttr({readonly: true}) public inactive: boolean;
 
+  /** @readonly Scroll at start marker */
+  @boolAttr({readonly: true}) public atStart: boolean;
+  /** @readonly Scroll at end marker */
+  @boolAttr({readonly: true}) public atEnd: boolean;
+
   protected $scrollbarThumb: HTMLElement;
   protected $scrollbarTrack: HTMLElement;
 
@@ -217,7 +222,10 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** Update auxiliary markers */
   public updateMarkers() {
-    this.toggleAttribute('inactive', this.thumbSize >= 1);
+    const {position, thumbSize} =  this;
+    this.toggleAttribute('at-start', thumbSize < 1 && position <= 0);
+    this.toggleAttribute('at-end', thumbSize < 1 && position >= 1);
+    this.toggleAttribute('inactive', thumbSize >= 1);
   }
 
   /** Refresh scroll state and position */
@@ -251,6 +259,8 @@ export class ESLScrollbar extends ESLBaseElement {
     const scrollableAreaHeight = this.trackOffset - this.thumbOffset;
     const absChange = scrollableAreaHeight ? (positionChange / scrollableAreaHeight) : 0;
     this.position = this._initialPosition + absChange;
+
+    this.updateMarkers();
   }
   protected _deferredDragToCoordinate = rafDecorator(this._dragToCoordinate);
 
