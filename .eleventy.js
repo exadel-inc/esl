@@ -31,5 +31,6 @@ module.exports = config => {
     dataTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
     templateFormats: ['md', 'njk'],
+    pathPrefix: '/ui-playground/',
   };
 };
