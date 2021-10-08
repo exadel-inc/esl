@@ -33,9 +33,9 @@ export class ESLScrollbar extends ESLBaseElement {
   /** @readonly Inactive state marker */
   @boolAttr({readonly: true}) public inactive: boolean;
 
-  /** @readonly Scroll at start marker */
+  /** @readonly Indicates that the scroll is at the beginning */
   @boolAttr({readonly: true}) public atStart: boolean;
-  /** @readonly Scroll at end marker */
+  /** @readonly Indicates that the scroll is at the end*/
   @boolAttr({readonly: true}) public atEnd: boolean;
 
   protected $scrollbarThumb: HTMLElement;
