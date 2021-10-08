@@ -31,7 +31,7 @@ This section describes the project structure and our development guidelines.
     npm run start
     ```
     to start development server. 
-    Development server watch source file changes out of the box.
+    The development server watches source file changes out of the box.
 
 
 You can create prod output assets in any moment using
@@ -49,8 +49,8 @@ please make sure that you allow `husky` to set up git hooks for you.
 
 
 __NOTE__: be aware of the `prepare` step that runs build during `npm i` process.
-In case you need to update dependencies on the code version that broken and 
-can not build successfully use the `--ignore-scripts` param:
+In case you need to update dependencies in the code version that is broken and 
+can not build successfully, use the `--ignore-scripts` param:
 ```commandline
 npm i --ignore-scripts
 ```
