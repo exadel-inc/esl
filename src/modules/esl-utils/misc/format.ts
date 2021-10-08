@@ -12,7 +12,12 @@ export const toCamelCase = (str: string) => {
 
 /** Make the first non-indent (space, tab, newline) letter in the string capitalized */
 export const capitalize = (str: string) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  for (let i = 0; i < str.length; i++) {
+    if(str.charAt(i) !== ' '){
+      return str.slice(0,i) + str.charAt(i).toUpperCase() + str.slice(i+1);
+    }
+  } 
+  return str;
 };
   
 /** Unwrap string from parenthesis */

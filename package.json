@@ -71,9 +71,11 @@
     "node": ">=14.17.0"
   },
   "dependencies": {
+    "@exadel/esl": "^3.3.0",
     "@types/resize-observer-browser": "0.1.6",
     "@types/video.js": "7.3.27",
-    "@types/youtube": "0.0.46"
+    "@types/youtube": "0.0.46",
+    "save": "^2.4.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "^0.12.1",
