@@ -35,7 +35,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** @readonly Indicates that the scroll is at the beginning */
   @boolAttr({readonly: true}) public atStart: boolean;
-  /** @readonly Indicates that the scroll is at the end*/
+  /** @readonly Indicates that the scroll is at the end */
   @boolAttr({readonly: true}) public atEnd: boolean;
 
   protected $scrollbarThumb: HTMLElement;
@@ -210,7 +210,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** Update thumb size and position */
   public update() {
-    this.$$fire('change:position', {bubbles: false});
+    this.$$fire('change:scroll', {bubbles: false});
     if (!this.$scrollbarThumb || !this.$scrollbarTrack) return;
     const thumbSize = this.trackOffset * this.thumbSize;
     const thumbPosition = (this.trackOffset - thumbSize) * this.position;
