@@ -14,21 +14,46 @@ This section describes the project structure and our development guidelines.
 
 ## Setup the project
 
-To get started you will need Node.js version 10+.
+1.  To get started you will need Node.js version `>=14.17.0`.
 
-After cloning the repo, run:
-```commandline
-npm run start
-```
-to start development server with watch feature ootb.
+2.  After cloning the repo, run:
+    ```commandline
+    npm i
+    ```
+    or
+    ```commandline
+    npm ci
+    ```
+    to install dependencies
+
+3.  Use
+    ```commandline
+    npm run start
+    ```
+    to start development server. 
+    Development server watch source file changes out of the box.
+
 
 You can create prod output assets in any moment using
 ```commandline
 npm run build
 ```
 
+Also, you can run tests and lints using
+```commandline
+npm run test
+```
+
 To make sure that all checks are passed before you commit and push your changes,
 please make sure that you allow `husky` to set up git hooks for you.
+
+
+__NOTE__: be aware of the `prepare` step that runs build during `npm i` process.
+In case you need to update dependencies on the code version that broken and 
+can not build successfully use the `--ignore-scripts` param:
+```commandline
+npm i --ignore-scripts
+```
 
 ## Project Stack
 
