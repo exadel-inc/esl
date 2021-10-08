@@ -130,6 +130,7 @@ function fitByMinorAxisHorizontal(cfg: PopupPositionConfig, rect: Rect, arrow: P
 }
 
 /**
+ * TODO: see Idea warning regarding duplication
  * Update popup and arrow positions to fit by minor vertical axis.
  * @param cfg - popup position config
  * @param rect - popup position rect

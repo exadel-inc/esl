@@ -255,7 +255,6 @@ export class ESLToggleable extends ESLBaseElement {
     targetEl.setAttribute('aria-hidden', String(!this._open));
   }
 
-  // "Private" Handlers
   @bind
   protected _onClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
