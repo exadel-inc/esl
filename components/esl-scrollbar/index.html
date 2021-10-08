@@ -313,10 +313,20 @@ Use the full module path to import it</p>
 <li>
 <p><code>dragging</code> [boolean] - indicates that the scrollbar thumb is currently being dragged</p>
 </li>
+<li>
+<p><code>at-start</code> [boolean] - indicates that the scroll is at the beginning</p>
+</li>
+<li>
+<p><code>at-end</code> [boolean] - indicates that the scroll is at the end</p>
+</li>
 </ul>
 <h3>Public API methods</h3>
 <ul>
 <li><code>refresh()</code> - shortcut function to refresh the scrollbar state and position</li>
+</ul>
+<h3>Events</h3>
+<ul>
+<li><code>esl:change:scroll</code> (non bubbles) - thrown every time the scroll change state/position</li>
 </ul>
 </div>
 
