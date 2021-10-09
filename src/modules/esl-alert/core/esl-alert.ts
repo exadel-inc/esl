@@ -10,22 +10,22 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
 
 export interface AlertActionParams extends ToggleableActionParams {
-  /** text to be shown; pass empty string or null to hide */
+  /** text to be shown; pass empty strings or null to hide */
   text?: string;
-  /** html content */
+  /** html contents */
   html?: string;
-  /** classes to add to alert element */
+  /** classes to add to alert elements */
   cls?: string;
   /** timeout to clear classes */
   hideTime?: number;
 }
 
 /**
- * ESLAlert component
+ * ESLAlert components
  *
  * @author Julia Murashko
  *
- * ESLAlert is a component to show small notifications on your pages. ESLAlert can have multiple instances on the page.
+ * ESLAlert is a component to show small notifications on your pages. ESLAlert can have multiple instances on the pages.
  */
 @ExportNs('Alert')
 export class ESLAlert extends ESLToggleable {
@@ -36,19 +36,19 @@ export class ESLAlert extends ESLToggleable {
     return ['target'];
   }
 
-  /** Default show/hide params for all ESLAlert instances */
+  /** Default shows/hides params for all ESLAlert instances */
   static defaultConfig: AlertActionParams = {
     hideTime: 300,
     hideDelay: 2500
   };
 
   /**
-   * Define the scope (using {@link TraversingQuery} syntax) element to listen for an activation event.
+   * Defines the scope (using {@link TraversingQuery} syntax) element to listen for an activation events.
    * Parent element by default
    */
   @attr({defaultValue: '::parent'}) public target: string;
 
-  /** Default show/hide params for current ESLAlert instance */
+  /** Default shows/hides params for current ESLAlert instance */
   @jsonAttr<AlertActionParams>()
   public defaultParams: AlertActionParams;
 
@@ -58,7 +58,7 @@ export class ESLAlert extends ESLToggleable {
   private _$target: EventTarget;
   private _clearTimeout: number;
 
-  /** Create global alert instance (using body element as a base) */
+  /** Create global alert instance (using body elements as a base) */
   public static init() {
     if (document.querySelector(`body > ${ESLAlert.is}`)) return;
     const alert = document.createElement(ESLAlert.is) as ESLAlert;
@@ -95,7 +95,7 @@ export class ESLAlert extends ESLToggleable {
     this.unbindTargetEvents();
   }
 
-  /** Target element to listen to activation events */
+  /** Target elements to listen to activation events */
   public get $target() {
     return this._$target;
   }
