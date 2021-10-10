@@ -10,7 +10,7 @@ describe('EventUtils', () => {
   });
 
   describe('dispatch', () => {
-    it('dispatches event with custom event init  on the provided element', () => {
+    test('dispatches event with custom event init  on the provided element', () => {
       const el = document.createElement('div');
       jest.spyOn(el, 'dispatchEvent');
 
@@ -20,25 +20,25 @@ describe('EventUtils', () => {
 
       expect(el.dispatchEvent).toHaveBeenCalled();
 
-      const event:CustomEvent = (el.dispatchEvent as jest.Mock).mock.calls[0][0];
+      const event: CustomEvent = (el.dispatchEvent as jest.Mock).mock.calls[0][0];
       expect(event.type).toBe(eventName);
       expect((event as any).detail).toBe(customEventInit.detail);
     });
   });
 
   describe('source', () => {
-    it('returns source for the event with non-empty composedPath', () => {
+    test('returns source for the event with non-empty composedPath', () => {
       const source = { detail: Math.random() };
       expect(EventUtils.source({
         composedPath: () => [source]
       } as any)).toBe(source);
     });
-    it('returns source for the event with empty composedPath', () => {
+    test('returns source for the event with empty composedPath', () => {
       expect(EventUtils.source({
         composedPath: () => []
       } as any)).toBe(undefined);
     });
-    it('returns source for the event with no composedPath', () => {
+    test('returns source for the event with no composedPath', () => {
       const source = { detail: Math.random() };
 
       expect(EventUtils.source({ target: source } as any)).toBe(source);
@@ -47,7 +47,7 @@ describe('EventUtils', () => {
 
 
   describe('normalizeTouchPoint', () => {
-    it('returns normalized data from TouchEvent object', () => {
+    test('returns normalized data from TouchEvent object', () => {
       const event = new TouchEvent('touch', {
         changedTouches: [{
         pageX,
@@ -57,7 +57,7 @@ describe('EventUtils', () => {
       expect(EventUtils.normalizeTouchPoint(event)).toEqual({x: pageX, y: pageY});
     });
 
-    it('returns normalized data from PointerEvent object', () => {
+    test('returns normalized data from PointerEvent object', () => {
       const event = new Event('pointer') as PointerEvent;
       Object.assign(event, {
         pageX,
@@ -82,7 +82,7 @@ describe('EventUtils', () => {
     });
 
 
-    it('returns normalized coordinates', () => {
+    test('returns normalized coordinates', () => {
       const event = new Event('click') as MouseEvent;
       Object.assign(event, {
         pageX,
@@ -93,7 +93,7 @@ describe('EventUtils', () => {
       const boundingClientRect = {
         left: 10,
         top: 20,
-      }as DOMRect;
+      } as DOMRect;
       jest.spyOn(elem, 'getBoundingClientRect').mockReturnValue(boundingClientRect);
 
       Object.assign(window, {
@@ -109,7 +109,7 @@ describe('EventUtils', () => {
   });
 
   describe('stopPropagation', () => {
-    it('calls stopPropagation on event', () => {
+    test('calls stopPropagation on event', () => {
       const stopPropagation = jest.fn();
       EventUtils.stopPropagation({
         stopPropagation
@@ -117,13 +117,13 @@ describe('EventUtils', () => {
       expect(stopPropagation).toHaveBeenCalled();
     });
 
-    it('does not call stopPropagation if no event provided', () => {
+    test('does not call stopPropagation if no event provided', () => {
       expect(() => EventUtils.stopPropagation(undefined)).not.toThrowError();
     });
   });
 
   describe('preventDefault', () => {
-    it('calls preventDefault on event', () => {
+    test('calls preventDefault on event', () => {
       const preventDefault = jest.fn();
       EventUtils.preventDefault({
         preventDefault
@@ -131,7 +131,7 @@ describe('EventUtils', () => {
       expect(preventDefault).toHaveBeenCalled();
     });
 
-    it('does not call preventDefault if no event provided', () => {
+    test('does not call preventDefault if no event provided', () => {
       expect(() => EventUtils.preventDefault(undefined)).not.toThrowError();
     });
   });
