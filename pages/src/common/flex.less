@@ -1,0 +1,122 @@
+.flex {
+  &-column {
+    -ms-flex-direction: column !important;
+    flex-direction: column !important;
+  }
+
+  &-grow-1 {
+    -ms-flex-positive: 1 !important;
+    flex-grow: 1 !important;
+  }
+
+  @media (min-width: 768px) {
+    &-md-row {
+      -ms-flex-direction: row !important;
+      flex-direction: row !important;
+    }
+  }
+
+  @media (min-width: 992px) {
+    &-lg-row {
+      -ms-flex-direction: row !important;
+      flex-direction: row !important;
+    }
+  }
+}
+
+.justify-content {
+  &-end {
+    -ms-flex-pack: end !important;
+    justify-content: flex-end !important;
+  }
+
+  &-between {
+    -ms-flex-pack: justify !important;
+    justify-content: space-between !important;
+  }
+
+  &-around {
+    -ms-flex-pack: distribute !important;
+    justify-content: space-around !important;
+  }
+}
+
+.align-items {
+  &-center {
+    -ms-flex-align: center !important;
+    align-items: center !important;
+  }
+
+  &-items-stretch {
+    -ms-flex-align: stretch !important;
+    align-items: stretch !important;
+  }
+
+  @media (min-width: 768px) {
+    &-items-md-center {
+      -ms-flex-align: center !important;
+      align-items: center !important;
+    }
+  }
+}
+
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.col, .col-4, .col-6, .col-12, .col-sm-6, .col-md-6 {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col {
+  -ms-flex-preferred-size: 0;
+  flex-basis: 0;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  max-width: 100%;
+
+  &-4 {
+    -ms-flex: 0 0 33.333333%;
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+
+  &-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  &-12 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  @media (min-width: 576px) {
+    &-sm-6 {
+      -ms-flex: 0 0 50%;
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .order-md-1 {
+    -ms-flex-order: 1;
+    order: 1;
+  }
+  .order-md-2 {
+    -ms-flex-order: 2;
+    order: 2;
+  }
+}
