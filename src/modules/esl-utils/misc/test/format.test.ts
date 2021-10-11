@@ -18,10 +18,10 @@ describe('misc/format helper tests', () => {
     expect(toCamelCase('hi-hi-world')).toBe('hiHiWorld');
   });
   test('capitalize', () => {
-    expect( capitalize('hello world') ).toBe('Hello world');
-    expect( capitalize('Hi') ).toBe('Hi');
-    expect( capitalize('') ).toBe('');
-    expect( capitalize('  sorry') ).toBe('  Sorry');
+    expect(capitalize('hello world')).toBe('Hello world');
+    expect(capitalize('Hi')).toBe('Hi');
+    expect(capitalize('')).toBe('');
+    expect(capitalize('  sorry')).toBe('  Sorry');
   })
   test('unwrapParenthesis', () => {
     expect(unwrapParenthesis('')).toBe('');
