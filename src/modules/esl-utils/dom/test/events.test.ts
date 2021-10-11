@@ -10,7 +10,7 @@ describe('EventUtils', () => {
   });
 
   describe('dispatch', () => {
-    test('dispatches event with custom event init  on the provided element', () => {
+    test('dispatches event with custom event init on the provided element', () => {
       const el = document.createElement('div');
       jest.spyOn(el, 'dispatchEvent');
 
