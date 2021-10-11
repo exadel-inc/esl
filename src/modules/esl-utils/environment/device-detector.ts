@@ -53,7 +53,7 @@ export const hasHover = !matchMedia('(hover: none)').matches;
 
 // TODO: move to the touch/pointer utils
 export const TOUCH_EVENTS = (() => {
-  const isTouch = DeviceDetector.isTouchDevice;
+  const isTouch = isTouchDevice;
   return {
     START: isTouch ? 'touchstart' : 'pointerdown',
     MOVE: isTouch ? 'touchmove' : 'pointermove',
