@@ -12,7 +12,7 @@ import type {ToggleableActionParams} from '../../esl-toggleable/core';
 export interface AlertActionParams extends ToggleableActionParams {
   /** text to be shown; passes empty string or null to hide */
   text?: string;
-  /** html contents */
+  /** html content */
   html?: string;
   /** classes to add to alert element */
   cls?: string;
@@ -36,19 +36,19 @@ export class ESLAlert extends ESLToggleable {
     return ['target'];
   }
 
-  /** Default shows/hides params for all ESLAlert instances */
+  /** Default show/hide params for all ESLAlert instances */
   static defaultConfig: AlertActionParams = {
     hideTime: 300,
     hideDelay: 2500
   };
 
   /**
-   * Defines the scope (using {@link TraversingQuery} syntax) element to listen for an activation events.
+   * Defines the scope (using {@link TraversingQuery} syntax) element to listen for an activation event.
    * Parent element by default
    */
   @attr({defaultValue: '::parent'}) public target: string;
 
-  /** Default shows/hides params for current ESLAlert instance */
+  /** Default show/hide params for current ESLAlert instance */
   @jsonAttr<AlertActionParams>()
   public defaultParams: AlertActionParams;
 
@@ -58,7 +58,7 @@ export class ESLAlert extends ESLToggleable {
   private _$target: EventTarget;
   private _clearTimeout: number;
 
-  /** Create global alert instance (using body element as a base) */
+  /** Creates global alert instance (using body element as a base) */
   public static init() {
     if (document.querySelector(`body > ${ESLAlert.is}`)) return;
     const alert = document.createElement(ESLAlert.is) as ESLAlert;
