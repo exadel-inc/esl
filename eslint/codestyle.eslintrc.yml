@@ -251,4 +251,5 @@ rules:
     - warn
     - never
 
-
+  # no spread preferences in bounds of the library
+  'prefer-spread': off

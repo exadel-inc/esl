@@ -1,7 +1,3 @@
-# Exclude tests
-*.test.ts
-**/test/*.ts
-
 # Common configuration
 jest.config.js
 
