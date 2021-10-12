@@ -1,4 +1,4 @@
-import {TraversingUtils} from '../traversing';
+import {isRelativeNode, findClosestBy} from '../traversing';
 
 describe('Common: dom/traversing helper tests', () => {
   document.body.innerHTML = `
@@ -25,20 +25,22 @@ describe('Common: dom/traversing helper tests', () => {
   const btn2 = document.querySelector('#btn2') as HTMLButtonElement;
   const article1 = document.querySelector('.col-1') as HTMLElement;
 
-  test('isRelative', () => {
-    expect(TraversingUtils.isRelative(document.body, btn1)).toBeTruthy();
-    expect(TraversingUtils.isRelative(btn1, root)).toBeTruthy();
-    expect(TraversingUtils.isRelative(document.body, document.createElement('div'))).toBeFalsy();
-    expect(TraversingUtils.isRelative(btn1, btn2)).toBeFalsy();
+  test('isRelativeNode', () => {
+    expect(isRelativeNode(document.body, btn1)).toBeTruthy();
+    expect(isRelativeNode(btn1, root)).toBeTruthy();
+    expect(isRelativeNode(document.body, document.createElement('div'))).toBeFalsy();
+    expect(isRelativeNode(btn1, btn2)).toBeFalsy();
   });
 
   test('closestBy', () => {
-    expect(TraversingUtils.closestBy(null, (el: HTMLElement) => el.dataset.test === '1')).toBe(null);
-    expect(TraversingUtils.closestBy(document.createElement('div'), (el: HTMLElement) => el.dataset.test === '1')).toBe(null);
-    expect(TraversingUtils.closestBy(btn2, (el: HTMLElement) => el.classList.contains('btn'))).toBe(btn2);
-    expect(TraversingUtils.closestBy(btn2, (el: HTMLElement) => el.dataset.test === '1')).toBe(row1);
-    expect(TraversingUtils.closestBy(btn2, (el: HTMLElement) => el.dataset.test === '1', true)).toBe(row1);
-    expect(TraversingUtils.closestBy(btn2, (el: HTMLElement) => el.tagName.toLowerCase() === 'section')).toBeTruthy();
-    expect(TraversingUtils.closestBy(article1, () => false)).toBe(null);
+    expect(findClosestBy(null, (el: HTMLElement) => el.dataset.test === '1')).toBe(null);
+    expect(findClosestBy(document.createElement('div'), (el: HTMLElement) => el.dataset.test === '1')).toBe(null);
+    expect(findClosestBy(btn2, (el: HTMLElement) => el.classList.contains('btn'))).toBe(btn2);
+    expect(findClosestBy(btn2, (el: HTMLElement) => el.dataset.test === '1')).toBe(row1);
+    expect(findClosestBy(btn2, (el: HTMLElement) => el.dataset.test === '1', true)).toBe(row1);
+    expect(findClosestBy(btn2, (el: HTMLElement) => el.tagName.toLowerCase() === 'section')).toBeTruthy();
+    expect(findClosestBy(article1, () => false)).toBe(null);
   });
+
+  // TODO: add more test to cover traversing utils
 });
