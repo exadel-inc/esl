@@ -108,7 +108,7 @@ describe('common @memoize decorator test', () => {
       @memoize() get test() { return new A(); }
 
       @memoize()
-      static get test() { return new A() }
+      static get test() { return new A(); }
     }
 
     const instance1 = new TestClass();
@@ -132,7 +132,7 @@ describe('common @memoize decorator test', () => {
   });
 
   test('deprecated target',  () => {
-    expect(function() {
+    expect(function () {
       class TestClass {
         // @ts-ignore
         @memoize()
