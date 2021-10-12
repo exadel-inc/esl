@@ -1,0 +1,10 @@
+{% import 'helpers.njk' as helpers %}
+
+{% macro createSignatures(item)%}
+  {% for obj in item | getSignature %}
+    {{helpers.comment(obj.comment)}}
+    {{helpers.typeParametr(obj.typeParameter, "Type parameters:")}}
+    {{helpers.getParameter(obj.parameter)}}
+    {{helpers.getReturns(obj.returns)}}
+  {% endfor %}
+{% endmacro %}

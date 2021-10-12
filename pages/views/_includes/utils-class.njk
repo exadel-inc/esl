@@ -1,0 +1,42 @@
+{% import 'utils-functions.njk' as functions %}
+{% import 'helpers.njk' as helpers %}
+{% import 'utils-property.njk' as property %}
+
+{%macro Class(class)%}
+  <h1>Class</h1>
+  {% for item in class %}
+    <h1 style="color: #dc617a" >Name : {{item.name}}</h1>
+    {{helpers.comment(obj.comment)}}
+    {%for a in item.children.Constructor%}
+        {% for obj in a.children.signatures | getSignature %}
+            <h2 style="color: #07a">Constructor:</h2>
+            {{helpers.comment(obj.comment)}}
+            {{helpers.getParameter(obj.parameter)}}
+            {{helpers.getReturns(obj.returns)}}
+        {% endfor %}
+    {% endfor %}
+
+    {{property.createProperty(item.children.Property)}}
+
+    {% if item.children.Accessor%}
+        {%for a in item.children.Accessor%}
+            {% for obj in a.signatures[0] | checkSignature %}
+                <h2 style="color: #a730e8">Accessor: {{obj.name}}</h2>
+                    <h3>Signature:
+                        {{helpers.flag(a.flags)}}
+                        {% if a.signatures[0].getSignature %} get {% else %} set {% endif %}
+                        {{obj.name}} ():{% createParamAcces obj.returns%}
+                                {% if obj.defaultValue%}
+                                    = {{obj.defaultValue}}
+                                {% endif %}
+                    </h3>
+                     {{helpers.comment(obj.comment)}}
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+    {{functions.Function(item.children.Method, 'Method', "color: #00aa49")}}
+
+  {% endfor %}
+
+{% endmacro %}

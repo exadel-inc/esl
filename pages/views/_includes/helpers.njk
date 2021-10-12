@@ -1,0 +1,73 @@
+{% macro flag(obj) %}
+  {% if obj | checkFlags %}
+    {% for item, index in obj %}
+          <span> {{item.slice(2)}} </span>
+      {% endfor %}
+  {% endif %}
+{% endmacro %}
+
+{% macro comment(obj) %}
+  {% for item, index in obj %}
+    {% if item | checkObj %}
+      {% for item, index in obj %}
+        <p> {{item}} : {{index}}</p>
+      {% endfor %}
+    {% endif %}
+    <p> {{item}} : {{index}}</p>
+  {% endfor %}
+{% endmacro %}
+
+{% macro getParameter(obj) %}
+  {% if obj.length > 0%}
+      <h3>Parameters:</h3>
+      <ul>
+        {% for item in obj %}
+          <li>
+            {% createParam item, "params"%}
+          </li>
+        {% endfor %}
+      </ul>
+  {% endif %}
+{% endmacro %}
+
+{% macro getReturns(obj) %}
+  {% if obj.length > 0%}
+      <h3>Returns:</h3>
+      <ul>
+          <li>
+              {% createParam obj %}
+          </li>
+      </ul>
+
+  {% endif %}
+{% endmacro %}
+
+{% macro getReturns(obj) %}
+  {% if obj.length > 0%}
+      <h3>Returns:</h3>
+      <ul>
+          <li>
+              {% createParam obj %}
+          </li>
+      </ul>
+  {% endif %}
+{% endmacro %}
+
+{% macro definedIn(obj) %}
+  {% if obj %}
+    <p>Defined in: {{obj.fileName}} ({{obj.line}})<p>
+  {% endif %}
+{% endmacro %}
+
+{% macro typeParametr(obj, name) %}
+  {% if obj.length > 0 %}
+    <h3>{{name}}</h3>
+    <ul>
+      {% for item in obj %}
+      {% createTapeParam item %}
+      {% endfor %}
+    </ul>
+ {% endif %}
+{% endmacro %}
+
+

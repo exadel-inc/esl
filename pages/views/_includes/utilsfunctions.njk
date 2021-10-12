@@ -1,0 +1,36 @@
+<h1>Function</h1>
+{% for item in utils.Function %}
+    <h2>Name :{% if item.children.const %}<span>Const</span>{% endif %} {{item.name}}</h2>
+    <span>Defined in: {{item.children.sources.fileName}} ({{item.children.sources.line}})<span>
+    {% for obj in item.children.signatures | getSignature %}
+    {% for item, index in obj.comment %}
+        <p> {{item}} : {{index}}</p>
+    {% endfor %}
+        {% if obj.typeParameter.length > 0 %}
+            <h3>Type parameters:</h3>
+            <ul>
+            {% for item in obj.typeParameter %}
+            {% endfor %}
+            </ul>
+         {% endif %}
+            {% if obj.parameter.length > 0%}
+                <h3>Parameters:</h3>
+                <ul>
+                    <li>
+                        {% for item in obj.parameter %}
+                            {% createParam item, "params"%}
+                        {% endfor %}
+                    </li>
+                </ul>
+            {% endif %}
+            {% if obj.returns.length > 0%}
+                <h3>Returns:</h3>
+                <ul>
+                    <li>
+                        {% createParam obj.returns%}
+                    </li>
+                </ul>
+                <h2>Signature: {{item.name}} {% createSignature %}<h2>
+            {% endif %}
+    {% endfor %}
+{% endfor %}

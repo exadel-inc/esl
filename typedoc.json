@@ -1,0 +1,4 @@
+{
+  "entryPoints": ["src/modules//esl-utils/all.ts"],
+  "json": "doc.json"
+}

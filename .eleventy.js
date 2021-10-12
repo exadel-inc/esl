@@ -3,6 +3,7 @@ const htmlmin = require('html-minifier');
 const { isDev } = require('./pages/views/_data/env');
 const { markdown } = require('./pages/views/_data/markdown');
 const { MDRenderer } = require('./pages/views/_data/md-render');
+const { checkType, getTypeParam, createTapeParam, checkObj, createSignature, createParam, getSignature, checkSignature, createParamAcces} = require('./pages/views/_data/utils-render-function');
 
 module.exports = (config) => {
   config.addWatchTarget('src/**/*.md');
@@ -59,6 +60,17 @@ module.exports = (config) => {
     }
     return content;
   });
+
+  config.addNunjucksFilter('getSignature', getSignature);
+  config.addShortcode('createTapeParam', createTapeParam);
+  config.addShortcode('createSignature', createSignature);
+  config.addShortcode('createParam', createParam);
+  config.addFilter('checkSignature', checkSignature);
+  config.addFilter('getTypeParam', getTypeParam);
+  config.addShortcode('checkType', checkType);
+  config.addFilter('checkObj', checkObj);
+  config.addFilter('checkFlags', (item) =>  Object.keys(item).length !== 0);
+  config.addShortcode('createParamAcces', createParamAcces);
 
   return {
     dir: {

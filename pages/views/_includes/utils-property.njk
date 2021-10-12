@@ -1,0 +1,30 @@
+{% import 'helpers.njk' as helpers %}
+{% import 'function-helper.njk' as prop %}
+
+{% macro createProperty(item)%}
+  {% for a in item %}
+    <h2 style="color: #e8ac30">Property: {{a.signatures[0].name}}</h2>
+      {% if  a.signatures[0].type.declaration %}
+        {{prop.createSignatures(a.signatures[0].type.declaration.signatures)}}
+        {# {% for obj in a.signatures[0].type.declaration.signatures | getSignature %}
+            {{helpers.comment(obj.comment)}}
+            {{helpers.typeParametr(obj.typeParameter, "Type parameters:")}}
+            {{helpers.getParameter(obj.parameter)}}
+            {{helpers.getReturns(obj.returns)}}
+        {% endfor %} #}
+        <h3>Signature: {{a.signatures[0].name}} {% createSignature %} =...</h3>
+      {% else %}
+        {% for obj in a.signatures | getSignature %}
+          <h3>Signature:
+              {{helpers.flag(a.flags)}}
+              {{obj.name}}: {% createParam obj.returns %}
+              {% if obj.defaultValue %}
+                = {{obj.defaultValue}}
+              {% endif %}
+          </h3>
+        {% endfor %}
+      {% endif %}
+  {% endfor %}
+{% endmacro %}
+
+
