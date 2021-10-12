@@ -80,7 +80,7 @@ describe('promise utils', () => {
   describe('tryUntil', () => {
     test.each([
       [(): any => undefined],
-      [(): any => {throw new Error()}]
+      [(): any => {throw new Error();}]
     ])('successful ( %s )', (testFn) => {
       const observedFn = jest.fn(testFn);
       const successFn = jest.fn();
