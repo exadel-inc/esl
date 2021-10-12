@@ -10,22 +10,22 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
 
 export interface AlertActionParams extends ToggleableActionParams {
-  /** text to be shown; pass empty strings or null to hide */
+  /** text to be shown; passes empty string or null to hide */
   text?: string;
   /** html contents */
   html?: string;
-  /** classes to add to alert elements */
+  /** classes to add to alert element */
   cls?: string;
   /** timeout to clear classes */
   hideTime?: number;
 }
 
 /**
- * ESLAlert components
+ * ESLAlert component
  *
  * @author Julia Murashko
  *
- * ESLAlert is a component to show small notifications on your pages. ESLAlert can have multiple instances on the pages.
+ * ESLAlert is a component to show small notification on your pages. ESLAlert can have multiple instances on the page.
  */
 @ExportNs('Alert')
 export class ESLAlert extends ESLToggleable {
@@ -58,7 +58,7 @@ export class ESLAlert extends ESLToggleable {
   private _$target: EventTarget;
   private _clearTimeout: number;
 
-  /** Create global alert instance (using body elements as a base) */
+  /** Create global alert instance (using body element as a base) */
   public static init() {
     if (document.querySelector(`body > ${ESLAlert.is}`)) return;
     const alert = document.createElement(ESLAlert.is) as ESLAlert;
@@ -95,7 +95,7 @@ export class ESLAlert extends ESLToggleable {
     this.unbindTargetEvents();
   }
 
-  /** Target elements to listen to activation events */
+  /** Target element to listen to activation events */
   public get $target() {
     return this._$target;
   }
