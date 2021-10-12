@@ -1,4 +1,4 @@
-import {AnyToAnyFnSignature} from '../misc/functions';
+import type {AnyToAnyFnSignature} from '../misc/functions';
 
 export class RAFMock {
   private handleCounter = 0;
