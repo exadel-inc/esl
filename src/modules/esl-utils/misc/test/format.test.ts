@@ -30,9 +30,13 @@ describe('misc/format helper tests', () => {
 
   test('capitalize', () => {
     expect(capitalize('')).toBe('');
+    expect(capitalize(' ')).toBe(' ');
+    expect(capitalize('\n\t')).toBe('\n\t');
     expect(capitalize('Hi')).toBe('Hi');
     expect(capitalize('hi')).toBe('Hi');
     expect(capitalize('  hi')).toBe('  Hi');
+    expect(capitalize('\thi')).toBe('\tHi');
+    expect(capitalize('\nhi')).toBe('\nHi');
   });
 
   test('unwrapParenthesis', () => {
