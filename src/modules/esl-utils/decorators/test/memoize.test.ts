@@ -136,7 +136,7 @@ describe('common @memoize decorator test', () => {
       class TestClass {
         // @ts-ignore
         @memoize()
-        test = 'a';
+        public test = 'a';
       }
       new TestClass();
     }).toThrowError();
