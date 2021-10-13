@@ -8,7 +8,7 @@ overrides:
       'max-classes-per-file': off
       # it's ok to write braces single line in tests
       '@typescript-eslint/brace-style': off
-      # ts-ignore is of to test clean es cases
+      # ts-ignore is off to test clean es cases
       '@typescript-eslint/ban-ts-comment': off
       # there is no need to evaluate tests strictly
       '@typescript-eslint/non-nullable-type-assertion-style': off
