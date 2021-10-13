@@ -1,4 +1,4 @@
-import { toCamelCase, toKebabCase, unwrapParenthesis, parseAspectRatio, evaluate, format, parseNumber } from '../format';
+import { toCamelCase, capitalize, toKebabCase, unwrapParenthesis, parseAspectRatio, evaluate, format, parseNumber } from '../format';
 
 describe('misc/format helper tests', () => {
   test('toKebabCase', () => {
@@ -17,6 +17,12 @@ describe('misc/format helper tests', () => {
     expect(toCamelCase('hello-world')).toBe('helloWorld');
     expect(toCamelCase('hi-hi-world')).toBe('hiHiWorld');
   });
+  test('capitalize', () => {
+    expect(capitalize('hello world')).toBe('Hello world');
+    expect(capitalize('Hi')).toBe('Hi');
+    expect(capitalize('')).toBe('');
+    expect(capitalize('  sorry')).toBe('  Sorry');
+  })
   test('unwrapParenthesis', () => {
     expect(unwrapParenthesis('')).toBe('');
     expect(unwrapParenthesis(' ')).toBe('');

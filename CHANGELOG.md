@@ -1,3 +1,12 @@
+# [3.3.0](https://github.com/exadel-inc/esl/compare/v3.2.0...v3.3.0) (2021-10-08)
+
+
+### Features
+
+* **esl-scrollbar:** add at-end / at-start markers ([ce0a6fe](https://github.com/exadel-inc/esl/commit/ce0a6fecebdb7332674aa3369674c80c5937bab8))
+* **esl-scrollbar:** dispatch position event ([ad7e7db](https://github.com/exadel-inc/esl/commit/ad7e7db105d75f08be2f47225b02eb1311b2ab00))
+* **esl-utils:** add new groupBy utility to the array utils ([5d65b82](https://github.com/exadel-inc/esl/commit/5d65b82979113ae3020a948a56a816dbacf88a43)), closes [#503](https://github.com/exadel-inc/esl/issues/503)
+
 # [3.2.0](https://github.com/exadel-inc/esl/compare/v3.1.0...v3.2.0) (2021-09-22)
 
 
