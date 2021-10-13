@@ -25,7 +25,7 @@ export interface AlertActionParams extends ToggleableActionParams {
  *
  * @author Julia Murashko
  *
- * ESLAlert is a component to show small notification on your pages. ESLAlert can have multiple instances on the page.
+ * ESLAlert is a component to show small notifications on your pages. ESLAlert can have multiple instances on the page.
  */
 @ExportNs('Alert')
 export class ESLAlert extends ESLToggleable {
