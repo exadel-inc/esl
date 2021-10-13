@@ -1,15 +1,9 @@
-import {promisifyEvent, resolvePromise} from '../../../esl-utils/async/promise';
+import {promisifyEvent, repeatSequence, resolvePromise} from '../../../esl-utils/async/promise';
 
 import {ESLCarouselView} from './esl-carousel-view';
 
 import type {ESLCarousel, CarouselDirection} from '../esl-carousel';
 import type {ESLCarouselSlide} from '../esl-carousel-slide';
-
-export function repetitiveSequence<T>(callback: () => Promise<T>, count = 1): Promise<T> {
-  if (count < 1) return Promise.reject();
-  if (count === 1) return callback();
-  return repetitiveSequence(callback, count - 1).then(callback);
-}
 
 export class ESLMultiCarouselView extends ESLCarouselView {
 
@@ -73,7 +67,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
         .then(() => this.onStepAnimate(this.nextIndex, direction))
         .then(() => this.onAfterStepAnimate());
 
-    return repetitiveSequence(animateSlide, count);
+    return repeatSequence(animateSlide, count);
   }
 
   protected async onStepAnimate(nextIndex: number, direction: CarouselDirection): Promise<void> {
