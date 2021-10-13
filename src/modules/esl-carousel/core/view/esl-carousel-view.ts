@@ -1,4 +1,4 @@
-import {Observable} from '../../../../esl-utils/abstract/observable';
+import {Observable} from '../../../esl-utils/abstract/observable';
 
 import type {CarouselDirection, ESLCarousel} from '../esl-carousel';
 

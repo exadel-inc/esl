@@ -33,8 +33,8 @@
     "src/modules/lib.ts",
     "modules/esl-media/providers/**/*.js",
     "src/modules/esl-media/providers/**/*.ts",
-    "modules/draft/esl-carousel/core/view/*.js",
-    "src/modules/draft/esl-carousel/core/view/*.ts",
+    "modules/esl-carousel/core/**/*.js",
+    "src/modules/esl-carousel/core/**/*.ts",
     "polyfills/**/*.js",
     "src/polyfills/**/*.ts",
     "pages/src/**/*.ts"

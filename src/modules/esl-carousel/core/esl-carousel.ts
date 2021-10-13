@@ -1,8 +1,11 @@
-import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr} from '../../../esl-base-element/core';
-import {deepCompare} from '../../../esl-utils/misc/object';
-import {ESLMediaRuleList} from '../../../esl-media-query/core';
-import {memoize} from '../../../esl-utils/decorators/memoize';
+import './esl-carousel.views';
+
+import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {ESLBaseElement, attr} from '../../esl-base-element/core';
+import {deepCompare} from '../../esl-utils/misc/object';
+import {ESLMediaRuleList} from '../../esl-media-query/core';
+import {memoize} from '../../esl-utils/decorators/memoize';
+
 import {ESLCarouselSlide} from './esl-carousel-slide';
 import {ESLCarouselViewRegistry} from './view/esl-carousel-view';
 

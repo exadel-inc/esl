@@ -1,9 +1,9 @@
-import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {DeviceDetector} from '../../../esl-utils/environment/device-detector';
-import {EventUtils} from '../../../esl-utils/dom/events';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {DeviceDetector} from '../../esl-utils/environment/device-detector';
+import {EventUtils} from '../../esl-utils/dom/events';
 import {ESLCarouselPlugin} from './esl-carousel-plugin';
 
-import type {Point} from '../../../esl-utils/dom/events';
+import type {Point} from '../../esl-utils/dom/events';
 
 /**
  * Slide Carousel Touch plugin

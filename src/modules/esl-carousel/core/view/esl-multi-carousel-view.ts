@@ -1,10 +1,9 @@
-import {bind} from '../../../../esl-utils/decorators/bind';
-import {promisifyEvent, resolvePromise} from '../../../../esl-utils/async/promise';
-import {ESLCarouselView, ESLCarouselViewRegistry} from './esl-carousel-view';
+import {promisifyEvent, resolvePromise} from '../../../esl-utils/async/promise';
+
+import {ESLCarouselView} from './esl-carousel-view';
 
 import type {ESLCarousel, CarouselDirection} from '../esl-carousel';
 import type {ESLCarouselSlide} from '../esl-carousel-slide';
-
 
 export function repetitiveSequence<T>(callback: () => Promise<T>, count = 1): Promise<T> {
   if (count < 1) return Promise.reject();
@@ -12,7 +11,7 @@ export function repetitiveSequence<T>(callback: () => Promise<T>, count = 1): Pr
   return repetitiveSequence(callback, count - 1).then(callback);
 }
 
-class ESLMultiCarouselView extends ESLCarouselView {
+export class ESLMultiCarouselView extends ESLCarouselView {
 
   public constructor(carousel: ESLCarousel) {
     super(carousel);
@@ -98,7 +97,6 @@ class ESLMultiCarouselView extends ESLCarouselView {
 
     const next = (this.activeIndex - 1 + this.carousel.count) % this.carousel.count;
     const nextOrder = this.computedOrder.get(this.carousel.$slides[next]);
-
 
 
     this.carousel.toggleAttribute('animate', true);
@@ -260,8 +258,5 @@ class ESLMultiCarouselView extends ESLCarouselView {
     setTimeout(() => {
       this.carousel.removeAttribute('data-is-animated');
     }, transitionDuration);
-
   }
 }
-
-ESLCarouselViewRegistry.instance.registerView('multiple', ESLMultiCarouselView);

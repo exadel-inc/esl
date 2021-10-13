@@ -1,4 +1,4 @@
-import {ESLBaseElement} from '../../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLCarousel} from '../core/esl-carousel';
 
 /**
