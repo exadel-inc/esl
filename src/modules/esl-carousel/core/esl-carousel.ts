@@ -293,11 +293,6 @@ export class ESLCarousel extends ESLBaseElement {
         this.$slides[computedIndex]._setActive(true);
         ++i;
       }
-
-      if (this.activeConfig.view === 'multiple') {
-        this.$slides[this.firstIndex]._setFirst(false);
-        this.$slides[nextIndex]._setFirst(true);
-      }
     }
 
     this.$$fire('slide:changed', eventDetails);
