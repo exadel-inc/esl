@@ -2,6 +2,7 @@ import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr} from '../../../esl-base-element/core';
 import {deepCompare} from '../../../esl-utils/misc/object';
 import {ESLMediaRuleList} from '../../../esl-media-query/core';
+import {memoize} from '../../../esl-utils/decorators/memoize';
 import {ESLCarouselSlide} from './esl-carousel-slide';
 import {ESLCarouselViewRegistry} from './view/esl-carousel-view';
 
@@ -13,6 +14,8 @@ interface CarouselConfig { // Registry
   count?: number;
   className?: string;
 }
+
+export type CarouselDirection = 'next' | 'prev';
 
 // TODO: add ability to choose the number of an active slide
 @ExportNs('Carousel')
@@ -40,19 +43,6 @@ export class ESLCarousel extends ESLBaseElement {
     this._onRegistryChange = this._onRegistryChange.bind(this);
   }
 
-  get $slidesArea(): HTMLElement | null {
-    return this.querySelector('[data-slides-area]');
-  }
-
-  get $slides(): ESLCarouselSlide[] {
-    // TODO cache
-    const els = this.$slidesArea && this.$slidesArea.querySelectorAll(ESLCarouselSlide.is);
-    return els ? Array.from(els) as ESLCarouselSlide[] : [];
-  }
-
-  get count(): number {
-    return this.$slides.length || 0;
-  }
 
   get activeIndexes(): number[] {
     return this.$slides.reduce((activeIndexes: number[], el, index) => {
@@ -63,112 +53,15 @@ export class ESLCarousel extends ESLBaseElement {
     }, []);
   }
 
-  get activeCount(): number {
-    return this.activeConfig.count || 0;
-  }
+  // get $activeSlides(): ESLCarouselSlide[] {
+  //   return this.$slides.reduce((activeSlides: ESLCarouselSlide[], el, index) => {
+  //     if (el.active) {
+  //       activeSlides.push(el);
+  //     }
+  //     return activeSlides;
+  //   }, []);
+  // }
 
-  /**
-   * @returns number first active index
-   */
-  get firstIndex(): number {
-    const index = this.$slides.findIndex((slide) => {
-      return slide.first;
-    });
-    return Math.max(index, 0);
-  }
-
-  get activeConfig(): CarouselConfig {
-    return this._currentConfig;
-  }
-
-  set activeConfig(config) {
-    this._currentConfig = Object.assign({}, config);
-  }
-
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  public goTo(nextIndex: number, direction?: string, force: boolean = false) {
-    if (this.dataset.isAnimated) {
-      return;
-    }
-
-    if (nextIndex < 0) {
-      nextIndex = 0;
-    }
-
-    if (this.firstIndex === nextIndex && !force) {
-      return;
-    }
-
-    if (!direction) {
-      // calculate and compare how much slides we have to go due to direction (left or right)
-      // choose less
-      // TODO: optimize
-      if (nextIndex > this.firstIndex) {
-        direction = nextIndex - this.firstIndex > (this.firstIndex - nextIndex + this.count) % this.count ? 'left' : 'right';
-      } else {
-        direction = this.firstIndex - nextIndex >= (nextIndex - this.firstIndex - nextIndex + this.count) % this.count ? 'right' : 'left';
-      }
-    }
-
-    const eventDetails = { // Todo change info
-      bubbles: true,
-      detail: {
-        direction
-      }
-    };
-
-    const approved = this.$$fire('slide:change', eventDetails);
-
-    if (this._view && approved && this.firstIndex !== nextIndex) {
-      this._view.goTo(nextIndex, direction);
-    }
-    if (this._view && approved) {
-      let i = 0;
-      this.$slides.forEach((el, index) => {
-        el._setActive(((nextIndex + this.count) % this.count <= index) && (index < (nextIndex + this.activeCount + this.count) % this.count));
-      });
-
-      while (i < this.activeCount) {
-        const computedIndex = (nextIndex + i + this.count) % this.count;
-        this.$slides[computedIndex]._setActive(true);
-        ++i;
-      }
-
-      if (this.activeConfig.view === 'multiple') {
-        this.$slides[this.firstIndex]._setFirst(false);
-        this.$slides[nextIndex]._setFirst(true);
-      }
-    }
-
-    this.$$fire('slide:changed', eventDetails);
-  }
-
-  public prev() {
-    // const nextGroup = this.getNextGroup(-1);
-    this.goTo((this.firstIndex - this.activeCount + this.count) % this.count, 'left');
-  }
-
-  public next() {
-    // const nextGroup = this.getNextGroup(1);
-    this.goTo((this.firstIndex + this.activeCount + this.count) % this.count, 'right');
-  }
-
-  protected connectedCallback() {
-    super.connectedCallback();
-
-    this.update(true);
-    this.goTo(this.firstIndex, '', true);
-    this._bindEvents();
-
-    ESLCarouselViewRegistry.instance.addListener(this._onRegistryChange);
-  }
-
-  protected disconnectedCallback() {
-    super.disconnectedCallback();
-    this._unbindEvents();
-
-    ESLCarouselViewRegistry.instance.removeListener(this._onRegistryChange);
-  }
 
   private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     // TODO: change observed attributes
@@ -282,6 +175,154 @@ export class ESLCarousel extends ESLBaseElement {
     if (!this._plugins.has(plugin.key)) return;
     plugin.unbind();
     this._plugins.delete(plugin.key);
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
+
+    this.update(true);
+    this.goTo(this.firstIndex, 'next', true);
+    this._bindEvents();
+
+    ESLCarouselViewRegistry.instance.addListener(this._onRegistryChange);
+  }
+
+  protected disconnectedCallback() {
+    super.disconnectedCallback();
+    this._unbindEvents();
+
+    ESLCarouselViewRegistry.instance.removeListener(this._onRegistryChange);
+  }
+
+  public get activeConfig(): CarouselConfig {
+    return this._currentConfig;
+  }
+  public set activeConfig(config) {
+    this._currentConfig = Object.assign({}, config);
+  }
+
+  @memoize()
+  public get $slides(): ESLCarouselSlide[] {
+    const els = this.$slidesArea && this.$slidesArea.querySelectorAll(ESLCarouselSlide.is);
+    return els ? Array.from(els) as ESLCarouselSlide[] : [];
+  }
+
+  @memoize()
+  public get $slidesArea(): HTMLElement | null {
+    return this.querySelector('[data-slides-area]');
+  }
+
+  public get $activeSlide() {
+    const actives = this.$slides.filter((el) => el.active);
+    if (actives.length === 0) return null;
+    if (actives.length === this.$slides.length) return this.$slides[0];
+
+    // TODO try to make the same as activeSlides
+    for (const slide of actives) {
+      const prevIndex = this.normalizeIndex(slide.index - 1);
+      if (!this.$slides[prevIndex].active) return slide;
+    }
+  }
+
+  public get $activeSlides() {
+    let $slide = this.$activeSlide;
+    let i = this.count;
+    const arr: ESLCarouselSlide[] = [];
+    while ($slide?.active && i > 0) {
+      arr.push($slide);
+      $slide = this.getNextSlide($slide);
+      i--;
+    }
+    return arr;
+  }
+
+  public get count(): number {
+    return this.$slides.length || 0;
+  }
+
+  public get activeCount(): number {
+    return this.activeConfig.count || 0;
+  }
+
+  public get firstIndex(): number {
+    return this.$activeSlide?.index || 0;
+  }
+
+  // eslint-disable-next-line sonarjs/cognitive-complexity
+  public goTo(nextIndex: number, direction?: CarouselDirection, force: boolean = false) {
+    if (this.dataset.isAnimated) return;
+
+    if (nextIndex < 0) nextIndex = 0;
+
+    if (this.firstIndex === nextIndex && !force) return;
+
+    if (!direction) {
+      // calculate and compare how much slides we have to go due to direction (prev or next)
+      // choose less
+      // TODO: optimize
+      if (nextIndex > this.firstIndex) {
+        direction = nextIndex - this.firstIndex > (this.firstIndex - nextIndex + this.count) % this.count ? 'prev' : 'next';
+      } else {
+        direction = this.firstIndex - nextIndex >= (nextIndex - this.firstIndex - nextIndex + this.count) % this.count ? 'next' : 'prev';
+      }
+    }
+
+    const eventDetails = { // Todo change info
+      bubbles: true,
+      detail: {
+        direction
+      }
+    };
+
+    const approved = this.$$fire('slide:change', eventDetails);
+
+    if (this._view && approved && this.firstIndex !== nextIndex) {
+      this._view.onAnimate(nextIndex, direction);
+    }
+    if (this._view && approved) {
+      let i = 0;
+      this.$slides.forEach((el, index) => {
+        el._setActive(((nextIndex + this.count) % this.count <= index) && (index < (nextIndex + this.activeCount + this.count) % this.count));
+      });
+
+      while (i < this.activeCount) {
+        const computedIndex = (nextIndex + i + this.count) % this.count;
+        this.$slides[computedIndex]._setActive(true);
+        ++i;
+      }
+
+      if (this.activeConfig.view === 'multiple') {
+        this.$slides[this.firstIndex]._setFirst(false);
+        this.$slides[nextIndex]._setFirst(true);
+      }
+    }
+
+    this.$$fire('slide:changed', eventDetails);
+  }
+
+  public prev() {
+    // const nextGroup = this.getNextGroup(-1);
+    this.goTo((this.firstIndex - this.activeCount + this.count) % this.count, 'prev');
+  }
+
+  public next() {
+    // const nextGroup = this.getNextGroup(1);
+    this.goTo((this.firstIndex + this.activeCount + this.count) % this.count, 'next');
+  }
+
+  // TODO utils or private notation
+  protected normalizeIndex(index: number) {
+    return (index + this.count) % this.count;
+  }
+
+  public getPrevSlide(slide: number | ESLCarouselSlide) {
+    if (typeof slide !== 'number') slide = slide.index;
+    return this.$slides[this.normalizeIndex(slide - 1)];
+  }
+
+  public getNextSlide(slide: number | ESLCarouselSlide) {
+    if (typeof slide !== 'number') slide = slide.index;
+    return this.$slides[this.normalizeIndex(slide + 1)];
   }
 
   public static register(tagName?: string) {

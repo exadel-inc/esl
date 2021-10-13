@@ -8,13 +8,27 @@ esl-carousel {
   overflow: hidden;
   justify-content: center;
 
+  // TODO class
+  .esl-carousel-content {
+    overflow: hidden;
+  }
+
+  &[animate] {
+    [data-slides-area] {
+      // animation
+      transition: transform 1s linear;
+    }
+  }
+
   [data-slides-area] {
     display: flex;
     position: relative;
-    overflow: hidden;
     padding-bottom: 71px;
     width: 780px;
     z-index: 0;
+
+    // animation
+    transition: transform 1s linear;
   }
 
   esl-carousel-slide {
@@ -26,7 +40,6 @@ esl-carousel {
     margin: 0 5px;
     z-index: 1;
     background-color: aliceblue;
-    transition: transform 1s linear;
   }
 
   esl-carousel-slide[active] {

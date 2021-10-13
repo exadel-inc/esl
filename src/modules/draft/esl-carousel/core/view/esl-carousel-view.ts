@@ -1,6 +1,6 @@
 import {Observable} from '../../../../esl-utils/abstract/observable';
 
-import type {ESLCarousel} from '../esl-carousel';
+import type {CarouselDirection, ESLCarousel} from '../esl-carousel';
 
 export abstract class ESLCarouselView {
   protected readonly carousel: ESLCarousel;
@@ -10,12 +10,15 @@ export abstract class ESLCarouselView {
   }
 
   public abstract bind(): void;
+  public abstract unbind(): void;
+
+  public abstract onAnimate(index: number, direction: CarouselDirection): Promise<void>;
+
+  public abstract onMove(offset: number): void;
+
+  public abstract commit(): void;
 
   public abstract draw(): void;
-
-  public abstract goTo(nextIndex: number, direction: string): void;
-
-  public abstract unbind(): void;
 }
 
 export type ESLCarouselViewConstructor = new(carousel: ESLCarousel) => ESLCarouselView;

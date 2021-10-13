@@ -1,15 +1,34 @@
+import {bind} from '../../../../esl-utils/decorators/bind';
+import {promisifyEvent, resolvePromise} from '../../../../esl-utils/async/promise';
 import {ESLCarouselView, ESLCarouselViewRegistry} from './esl-carousel-view';
 
-import type {ESLCarousel} from '../esl-carousel';
+import type {ESLCarousel, CarouselDirection} from '../esl-carousel';
+import type {ESLCarouselSlide} from '../esl-carousel-slide';
+
+
+export function repetitiveSequence<T>(callback: () => Promise<T>, count = 1): Promise<T> {
+  if (count < 1) return Promise.reject();
+  if (count === 1) return callback();
+  return repetitiveSequence(callback, count - 1).then(callback);
+}
 
 class ESLMultiCarouselView extends ESLCarouselView {
 
   public constructor(carousel: ESLCarousel) {
     super(carousel);
+    this.carousel.$slides.forEach((el, index) => this.computedOrder.set(el, index));
+  }
+
+  public bind() {
+    this.draw();
   }
 
   // tslint:disable-next-line:no-empty
-  public bind() {
+  public onMove(offset: number) {
+  }
+
+  // tslint:disable-next-line:no-empty
+  public commit() {
   }
 
   public draw() {
@@ -33,8 +52,125 @@ class ESLMultiCarouselView extends ESLCarouselView {
     });
   }
 
+  protected nextIndex: number;
+  protected computedOrder = new Map<ESLCarouselSlide, number>();
+
+  protected shiftX: number = 0;
+  protected left: number = 0;
+  // TODO
+  protected activeIndex: number = 0;
+
+
+  public onAnimate(nextIndex: number, direction: CarouselDirection) {
+    let count = 0;
+    if (direction === 'prev') {
+      count = (this.carousel.firstIndex - nextIndex + this.carousel.count) % this.carousel.count;
+    } else if (direction === 'next') {
+      count = (this.carousel.count - this.carousel.firstIndex + nextIndex) % this.carousel.count;
+    }
+    this.nextIndex = nextIndex;
+    const animateSlide = () =>
+      this.onBeforeStepAnimate(this.nextIndex, direction)
+        .then(() => this.onStepAnimate(this.nextIndex, direction))
+        .then(() => this.onAfterStepAnimate());
+
+    return repetitiveSequence(animateSlide, count);
+  }
+
+  protected async onStepAnimate(nextIndex: number, direction: CarouselDirection): Promise<void> {
+    this.nextIndex = direction === 'next' ?
+      (nextIndex + 1 + this.carousel.count) % this.carousel.count :
+      (nextIndex - 1 + this.carousel.count) % this.carousel.count;
+
+    // TODO: slidesArea
+    this.shiftX = direction === 'next' ? this.shiftX - 260 : this.shiftX + 260;
+
+    this.carousel.$slidesArea!.style.transform = `translateX(${this.shiftX}px)`;
+
+    // TODO: ! and take 1000 from styles
+    return promisifyEvent(this.carousel.$slidesArea!, 'transitionend')
+      .catch(resolvePromise);
+  }
+
+  protected async onBeforeStepAnimate(nextIndex: number, direction: CarouselDirection): Promise<void> {
+
+    this._processNextTransition(nextIndex, direction);
+
+    const next = (this.activeIndex - 1 + this.carousel.count) % this.carousel.count;
+    const nextOrder = this.computedOrder.get(this.carousel.$slides[next]);
+
+
+
+    this.carousel.toggleAttribute('animate', true);
+    return Promise.resolve();
+  }
+
+  protected async onAfterStepAnimate(): Promise<void> {
+    this.carousel.toggleAttribute('animate', false);
+    return Promise.resolve();
+  }
+
+  protected _processNextTransition(nextIndex: number, direction: CarouselDirection) {
+    const nextSlideOrder = this.computedOrder.get(this.carousel.$slides[nextIndex]);
+    // slide that should be active has 0 index
+    if (direction === 'next' && nextSlideOrder === 0) {
+
+      for (const slide of this.computedOrder.keys()) {
+        // TODO !
+        const nextOrder = (this.computedOrder.get(slide)! - 1 + this.carousel.count) % this.carousel.count;
+        this.computedOrder.set(slide, nextOrder);
+        slide.style.order = String(nextOrder);
+        if (nextOrder === 0) this.activeIndex = this.carousel.$slides.findIndex((el) => el === slide);
+      }
+
+      // TODO: liven transform
+      // this.shiftX = this.shiftX + 260;
+      // this.carousel.$slidesArea!.style.transform = `translateX(${this.shiftX}px)`;
+
+      // TODO: calculate and check slidesArea
+      this.left = this.left + 260;
+      this.carousel.$slidesArea!.style.left = this.left + 'px';
+    }
+  }
+
+  protected _processPrevTransition(nextIndex: number, direction: CarouselDirection) {
+    // slide that should be active has 0 index
+    let prevSlide = this.carousel.getPrevSlide(this.carousel.firstIndex);
+    let prevSlideOrder = this.computedOrder.get(prevSlide);
+
+    if (direction === 'prev' && prevSlideOrder === this.carousel.count - 1) {
+      // TODO: calculate and check slidesArea
+      this.left = this.left - 260;
+
+      const $slides = Array.from(this.carousel.$slides);
+      $slides.reverse();
+      const slideOrder = this.computedOrder.get($slides[0]);
+
+      $slides.forEach((slide, index) => {
+        if (index !== this.carousel.count - 1) {
+          prevSlide = this.carousel.getPrevSlide(slide);
+          prevSlideOrder = this.computedOrder.get(prevSlide);
+          this.computedOrder.set(slide, prevSlideOrder!);
+        } else {
+          this.computedOrder.set(slide, slideOrder!);
+        }
+      });
+
+      this.carousel.$slidesArea!.style.left = this.left + 'px';
+    }
+  }
+
+
+  public unbind() {
+    this.carousel.$slides.forEach((el) => {
+      el.style.transform = 'none';
+      el.style.left = 'none';
+    });
+  }
+
+  // TODO: remove after animation is ready
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  public goTo(nextIndex: number, direction: string) {
+  public moveTo(nextIndex: number, direction: string) {
     const slideIndex = direction === 'right' ? this.carousel.activeIndexes[0] : this.carousel.firstIndex;
     const slideStyles = getComputedStyle(this.carousel.$slides[slideIndex]);
     const slideWidth = parseFloat(slideStyles.width) +
@@ -125,13 +261,6 @@ class ESLMultiCarouselView extends ESLCarouselView {
       this.carousel.removeAttribute('data-is-animated');
     }, transitionDuration);
 
-  }
-
-  public unbind() {
-    this.carousel.$slides.forEach((el) => {
-      el.style.transform = 'none';
-      el.style.left = 'none';
-    });
   }
 }
 
