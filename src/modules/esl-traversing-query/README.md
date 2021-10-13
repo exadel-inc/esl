@@ -1,4 +1,4 @@
-# [ESL](../../../README.md) Traversing Query
+# [ESL](https://exadel-inc.github.io/esl/) Traversing Query
 
 Version: *1.0.0*.
 
@@ -6,7 +6,7 @@ Authors: *Alexey Stsefanovich (ala'n)*.
 
 <a name="intro"></a>
 
-ESLTraversingQuery - is a utility to find element via extended selector query.
+ESLTraversingQuery is a utility to find element via extended selector query.
 
 Extended query supports:
  - plain CSS selectors;

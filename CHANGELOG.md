@@ -1,3 +1,52 @@
+# [3.3.0](https://github.com/exadel-inc/esl/compare/v3.2.0...v3.3.0) (2021-10-08)
+
+
+### Features
+
+* **esl-scrollbar:** add at-end / at-start markers ([ce0a6fe](https://github.com/exadel-inc/esl/commit/ce0a6fecebdb7332674aa3369674c80c5937bab8))
+* **esl-scrollbar:** dispatch position event ([ad7e7db](https://github.com/exadel-inc/esl/commit/ad7e7db105d75f08be2f47225b02eb1311b2ab00))
+* **esl-utils:** add new groupBy utility to the array utils ([5d65b82](https://github.com/exadel-inc/esl/commit/5d65b82979113ae3020a948a56a816dbacf88a43)), closes [#503](https://github.com/exadel-inc/esl/issues/503)
+
+# [3.2.0](https://github.com/exadel-inc/esl/compare/v3.1.0...v3.2.0) (2021-09-22)
+
+
+### Bug Fixes
+
+* **esl-trigger:**  can be of the type null ([58f0644](https://github.com/exadel-inc/esl/commit/58f0644dee92dcb37c76b86df2e5da8bb4ccdbc2))
+* **esl-trigger:** error handling if the target is not an instance of togglable ([85cb6c1](https://github.com/exadel-inc/esl/commit/85cb6c17c9299c5b6e5dca0ecaff9d6586da0351))
+* **esl-utils:** fix `Debounced` and `Throttled` function return types ([3d2c598](https://github.com/exadel-inc/esl/commit/3d2c59811de982156e672e874cc38a711b40b3e8))
+
+
+### Features
+
+* add ability to prevent scroll on focus ([#490](https://github.com/exadel-inc/esl/issues/490)) ([a9a8a02](https://github.com/exadel-inc/esl/commit/a9a8a02706a11327eceb52f0c5d97bef40858015))
+* **esl-trigger:** add `esl:change:active` event details & fix event emmit condition ([a0237b2](https://github.com/exadel-inc/esl/commit/a0237b267fbe0a0f9fa0eaa546bac92d90d3a76a)), closes [#480](https://github.com/exadel-inc/esl/issues/480)
+* **esl-utils:** add optional `throttle` and `debounce` context argument ([eb948ce](https://github.com/exadel-inc/esl/commit/eb948cead3bd3afa7138e5fb96c58e8dde389116))
+
+# [3.1.0](https://github.com/exadel-inc/esl/compare/v3.0.3...v3.1.0) (2021-09-16)
+
+New Exadel Smart Library version comes with extended and out-of-the-box support for TSX.
+TSX Shapes updated and complete, `JSX.Element` merging no longer required, everything available OOTB.
+**Default ESL tags definition no longer needed, get rid of the `IntrinsicElements` interface expansion, ESL now define everything that's required.**
+
+### Bug Fixes
+
+* tsx single tags allowed child definition ([10e465a](https://github.com/exadel-inc/esl/commit/10e465a268059ffe5f1e96aecd6f123f5af6cc04))
+
+
+### Features
+
+* add `ESLBaseElement` complete and independent TSX shape definition ([7517bf4](https://github.com/exadel-inc/esl/commit/7517bf40b6c53e7593e198ba4520ee467d2755b7))
+* add TSX shapes for `ESLAlert` ([b2ff733](https://github.com/exadel-inc/esl/commit/b2ff733028e3fb5ac27831388bc67b73e72e9eed))
+* add TSX shapes for `ESLPopup` ([180f411](https://github.com/exadel-inc/esl/commit/180f411ceef38d3b558de4c5b4c902dc1cb8a1eb))
+* ootb TSX types for components & updates complete TSX shapes ([2bd409c](https://github.com/exadel-inc/esl/commit/2bd409c3f5be79df76c7745ffdcaf574f614b35a)), closes [#476](https://github.com/exadel-inc/esl/issues/476)
+* add new set utilities with the following methods:
+    - `intersection`  - to create a unique array intersection
+    - `union`  - to create a union of the unique values
+    - `complement` - to create a complement of one array to another
+    - `fullIntersection` - check if the arrays have a full intersection
+
+
 ## [3.0.3](https://github.com/exadel-inc/esl/compare/v3.0.2...v3.0.3) (2021-09-07)
 
 

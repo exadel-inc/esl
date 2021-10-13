@@ -1,4 +1,4 @@
-# [ESL](../../../) Tab & Tab Container
+# [ESL](https://exadel-inc.github.io/esl/) Tab & Tab Container
 
 Version: *1.0.0*
 
@@ -6,7 +6,7 @@ Authors: *Julia Murashko*
 
 <a name="intro"></a>
 
-ESLTabs is container component for Tabs trigger group. Uses ESLTab as an item. Each individual ESLTab can control
+ESLTabs is a container component for Tabs trigger group. Uses ESLTab as an item. Each individual ESLTab can control
 ESLToggleable or, usually, ESLPanel.
 
 ### ESLTabs Attributes / Property
@@ -22,7 +22,6 @@ ESLToggleable or, usually, ESLPanel.
 ### Example
 
 ```html
-
 <div class="tabs">
   <esl-tabs scrollable>
     <!-- Left arrow -->

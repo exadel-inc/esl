@@ -1,4 +1,4 @@
-# [ESL](../../../) Toggleable
+# [ESL](https://exadel-inc.github.io/esl/) Toggleable
 
 Version: *2.2.0*
 

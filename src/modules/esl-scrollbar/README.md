@@ -1,6 +1,6 @@
-# [ESL](../../../) Scrollbar
+# [ESL](https://exadel-inc.github.io/esl/) Scrollbar
 
-Version: *1.2.0*
+Version: *1.3.0*
 
 Authors: *Yuliya Adamskaya*
 
@@ -9,7 +9,6 @@ Authors: *Yuliya Adamskaya*
 ___ESL Scrollbar___ (`<esl-scrollbar>`) is a reusable web component that replaces the browser's default scrollbar with 
 a _custom scrollbar_ implementation.
 
-
 ESL Scrollbar is entirely configurable and can be styled through CSS.
 
 #### ESL Scrollbar supports:
@@ -17,7 +16,7 @@ ESL Scrollbar is entirely configurable and can be styled through CSS.
 - both scroll directions: `vertical` and `horizontal`.  
   Direction can be defined with the boolean `horizontal` attribute.
 
-- independent target scrollable element definition using [TraversingQuery](./../esl-traversing-query/README.md)
+- independent target scrollable element definition using [TraversingQuery](https://exadel-inc.github.io/esl/utils/esl-traversing-query/)
 
 - complete customization from CSS
 
@@ -55,7 +54,7 @@ Use the full module path to import it
 
 - `horizontal` \[boolean] - horizontal scroll direction marker
 
-- `target` - [TraversingQuery](./../esl-traversing-query/README.md) to find the container of scrollable content
+- `target` - [TraversingQuery](https://exadel-inc.github.io/esl/utils/esl-traversing-query/) to find the container of scrollable content
 
 - `thumb-class` (default `scrollbar-thumb`) - class(es) that will be added to the scroll thumb
 
@@ -68,6 +67,14 @@ Use the full module path to import it
   
 - `dragging` \[boolean] - indicates that the scrollbar thumb is currently being dragged
 
+- `at-start` \[boolean] - indicates that the scroll is at the beginning
+
+- `at-end` \[boolean] - indicates that the scroll is at the end
+
 ### Public API methods
 
 - `refresh()` - shortcut function to refresh the scrollbar state and position
+
+### Events
+
+- `esl:change:scroll` (non bubbles) - thrown every time the scroll change state/position

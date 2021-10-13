@@ -31,6 +31,17 @@ describe('async/throttle', () => {
     return expect(promise$).resolves.toBe(context);
   });
 
+  test('call context bind', () => {
+    const fn = function () { return this; };
+    const context = {};
+    const throttled = throttle(fn, 0, context);
+
+    throttled.call({});
+    const promise$ = throttled.promise;
+    jest.runAllTimers();
+    return expect(promise$).resolves.toBe(context);
+  });
+
   test('test deferred result', () => {
     const fn = jest.fn((n) => n + 1);
     const throttled = throttle(fn as (n: number) => number, 50);

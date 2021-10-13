@@ -1,10 +1,13 @@
+import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
+import type {ESLScrollbar} from './esl-scrollbar';
+
 /**
  * Tag declaration interface of ESL Scrollbar
- * Used for JSX declaration
+ * Used for TSX declaration
  */
-export interface ESLScrollbarTagShape {
+export interface ESLScrollbarTagShape extends ESLBaseElementShape<ESLScrollbar> {
   /** Define ESL Traversing Query for container element to observe with ESL Scrollbar */
-  target: string;
+  target?: string;
 
   /** Marker to make scrollbar oriented horizontally */
   horizontal?: boolean;
@@ -15,5 +18,14 @@ export interface ESLScrollbarTagShape {
   'track-class'?: string;
 
   /** Children are not allowed for ESLScrollbar*/
-  children: [];
+  children?: never[];
+}
+
+declare global {
+  namespace JSX {
+    export interface IntrinsicElements {
+      /** {@link ESLScrollbar} custom tag */
+      'esl-scrollbar': ESLScrollbarTagShape;
+    }
+  }
 }

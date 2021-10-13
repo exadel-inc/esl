@@ -44,7 +44,13 @@ export class ESLPopup extends ESLToggleable {
   protected _activatorObserver: ActivatorObserver;
   protected _intersectionRatio: IntersectionRatioRect = {};
 
+  /**
+   * Popup position relative to the trigger.
+   * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
+   */
   @attr({defaultValue: 'top'}) public position: PositionType;
+
+  /** Popup behavior if it does not fit in the window ('fit' by default) */
   @attr({defaultValue: 'fit'}) public behavior: string;
 
   /** Default params to merge into passed action params */

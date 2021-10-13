@@ -11,9 +11,9 @@
       "releaseRules": [
         {"type": "style", "release": "patch"},
         {"type": "refactor", "release": "patch"},
-        {"type": "fix", "message":"*MAJOR*", "release": "minor"},
-        {"type": "style", "message":"*MAJOR*", "release": "minor"},
-        {"type": "refactor", "message":"*MAJOR*", "release": "minor"},
+        {"type": "fix", "message":"*MINOR VERSION*", "release": "minor"},
+        {"type": "style", "message":"*MINOR VERSION*", "release": "minor"},
+        {"type": "refactor", "message":"*MINOR VERSION*", "release": "minor"},
         {"type": "chore", "scope": "deps", "release": "patch"},
         {"type": "chore", "scope": "patch", "release": "patch"}
       ]

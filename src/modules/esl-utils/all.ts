@@ -1,10 +1,12 @@
-// Common
+// Miscellanies
 export * as UID from './misc/uid';
+export * as SetUtils from './misc/set';
 export * as ArrayUtils from './misc/array';
 export * as ObjectUtils from './misc/object';
 export * as FormatUtils from './misc/format';
 export * as FunctionUtils from './misc/functions';
 
+// Memoization decorator
 export * from './misc/memoize';
 
 // Common

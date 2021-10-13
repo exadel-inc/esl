@@ -22,11 +22,11 @@
   Generate paragraph of lipsum with 10 sentences
 #}
 {% macro paragraph() %}
-    <p>
-      {% for a in range(0, 10) %}
-        {{ string(10) | trim | capitalize }}.
-      {% endfor %}
-    </p>
+  <p>
+    {% for a in range(0, 10) %}
+       {{ string(10) | trim | capitalize }}.
+    {% endfor %}
+  </p>
 {% endmacro %}
 
 {#
@@ -34,9 +34,7 @@
   @param (optional) int count Number of paragraphs, default: 1
 #}
 {% macro paragraphs(count) %}
-  {% if not count %}
-    {% set count = 1 %}
-  {% endif %}
+  {% if not count %}{% set count = 1 %}{% endif %}
   {% for index in range(0, count) %}
     {{ paragraph() }}
   {% endfor %}

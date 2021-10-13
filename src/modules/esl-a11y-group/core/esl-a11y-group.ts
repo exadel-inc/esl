@@ -19,8 +19,11 @@ export class ESLA11yGroup extends ESLBaseElement {
 
   /** Target elements multiple selector ({@link TraversingQuery} syntax) */
   @attr({defaultValue: '::child'}) public targets: string;
-  /** Activate target (via click event) on selection */
+
+  /** Activates target (via click event) on selection */
   @boolAttr({}) public activateSelected: boolean;
+  /** Prevents scroll when target receives focus */
+  @boolAttr({}) public preventScroll: boolean;
 
   /** @returns HTMLElement root element of the group */
   public get $root(): HTMLElement | null {
@@ -70,7 +73,7 @@ export class ESLA11yGroup extends ESLBaseElement {
     if (!from) return;
     const targetEl = this[target](from);
     if (!targetEl) return;
-    targetEl.focus();
+    targetEl.focus({preventScroll: this.preventScroll});
     this.activateSelected && targetEl.click();
   }
 
