@@ -2,15 +2,17 @@ import './esl-carousel.views';
 
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr} from '../../esl-base-element/core';
+import {bind} from '../../esl-utils/decorators/bind';
 import {deepCompare} from '../../esl-utils/misc/object';
-import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {memoize} from '../../esl-utils/decorators/memoize';
+import {ESLMediaRuleList} from '../../esl-media-query/core';
 
 import {ESLCarouselSlide} from './esl-carousel-slide';
 import {ESLCarouselViewRegistry} from './view/esl-carousel-view';
 
 import type {ESLCarouselView} from './view/esl-carousel-view';
 import type {ESLCarouselPlugin} from '../plugin/esl-carousel-plugin';
+
 
 interface CarouselConfig { // Registry
   view?: string;
@@ -21,10 +23,14 @@ interface CarouselConfig { // Registry
 export type CarouselDirection = 'next' | 'prev';
 
 // TODO: add ability to choose the number of an active slide
+
+/**
+ * ESL Carousel component
+ * @author Julia Murashko
+ **/
 @ExportNs('Carousel')
 export class ESLCarousel extends ESLBaseElement {
   public static Slide = ESLCarouselSlide;
-
   public static is = 'esl-carousel';
 
   static get observedAttributes() {
@@ -37,15 +43,6 @@ export class ESLCarousel extends ESLBaseElement {
   private _currentConfig: CarouselConfig = {};
   private _view: ESLCarouselView | null;
   private readonly _plugins = new Map<string, ESLCarouselPlugin>();
-
-  private readonly _onMatchChange: () => void;
-
-  constructor() {
-    super();
-    this._onMatchChange = this.update.bind(this, false);
-    this._onRegistryChange = this._onRegistryChange.bind(this);
-  }
-
 
   get activeIndexes(): number[] {
     return this.$slides.reduce((activeIndexes: number[], el, index) => {
@@ -152,6 +149,11 @@ export class ESLCarousel extends ESLBaseElement {
     }
   }
 
+  @bind
+  protected _onMatchChange() {
+    this.update();
+  }
+  @bind
   protected _onRegistryChange() {
     if (!this._view) this.update(true);
   }
