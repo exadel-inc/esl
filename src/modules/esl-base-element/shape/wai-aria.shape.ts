@@ -164,7 +164,7 @@ export interface AriaAttributesShape {
 
   /**
    * Defines a short hint (a word or short phrase) intended to aid the user with data entry when the control has no value.
-   * A hint could be a sample value or a brief description of the expected format.
+   * A hint could be a example value or a brief description of the expected format.
    */
   'aria-placeholder'?: string;
 
