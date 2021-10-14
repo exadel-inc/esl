@@ -43,14 +43,14 @@ describe('misc/object', () => {
     test('simple', ()=> {
       const object = {
         a: 1,
-        get b() {return 2}
+        get b() { return 2; }
       };
       expect(getPropertyDescriptor(object, 'a')).toBeTruthy();
       expect(getPropertyDescriptor(object, 'b')).toBeTruthy();
       expect(getPropertyDescriptor(object, 'c')).toBeFalsy();
 
       const descC = {get: () => 3};
-      const descD = { value: 4 };
+      const descD = {value: 4};
       Object.defineProperty(object, 'c', descC);
       Object.defineProperty(object, 'd', descD);
 
@@ -70,7 +70,7 @@ describe('misc/object', () => {
       expect(getPropertyDescriptor(obj, 'b')).toBeTruthy();
       expect(getPropertyDescriptor(obj, 'c')).toBeTruthy();
       expect(getPropertyDescriptor(obj, 'b')).toHaveProperty('value');
-      expect(getPropertyDescriptor(obj, 'c')).toHaveProperty('get')
+      expect(getPropertyDescriptor(obj, 'c')).toHaveProperty('get');
     });
 
     test('2 lvl', ()=> {
@@ -140,7 +140,7 @@ describe('misc/object', () => {
       [{a: 1, b: {}}, {a: 1, b: {}}]
     ])('%p to %p', (inp, out) => {
       expect(copyDefinedKeys(inp)).toEqual(out);
-    })
+    });
   });
 
   describe('omit', () => {
@@ -172,7 +172,7 @@ describe('misc/object', () => {
       ['a.b.c', {a: {b: {c: {}}}}, {}],
       ['a.b.d', {a: {b: {c: {}}}}, undefined]
     ])('get key "%s" from %p', (key: string, source: any, expVal: any) => {
-      expect(get(source, key)).toEqual(expVal)
+      expect(get(source, key)).toEqual(expVal);
     });
   });
 
@@ -185,7 +185,7 @@ describe('misc/object', () => {
       [{a: 1}, 'a.b', 1, {a: {b: 1}}]
     ])('get key "%s" from %p', (targ: any, key: string, val: any, expVal: any) => {
       set(targ, key, val);
-      expect(targ).toEqual(expVal)
+      expect(targ).toEqual(expVal);
     });
   });
 
@@ -207,7 +207,7 @@ describe('misc/object', () => {
     });
 
     test('merge array + object', ()  => {
-      const res = deepMerge([1, 2], {a: 1})
+      const res = deepMerge([1, 2], {a: 1});
       const exp: any = [1, 2];
       exp.a = 1;
       expect(res).toEqual(exp);
@@ -215,22 +215,22 @@ describe('misc/object', () => {
 
     test('deep copy object', () => {
       const obj = {a: 1, b: {c: 2}};
-      const copy = deepMerge(obj);
+      const copyObj = deepMerge(obj);
 
-      expect(copy).not.toBe(obj);
-      expect(copy).toEqual(obj);
-      expect(copy.b).not.toBe(obj.b);
-      expect(copy.b).toEqual(obj.b);
+      expect(copyObj).not.toBe(obj);
+      expect(copyObj).toEqual(obj);
+      expect(copyObj.b).not.toBe(obj.b);
+      expect(copyObj.b).toEqual(obj.b);
     });
 
     test('deep copy array', () => {
       const obj = [1, 2, {a: 1, b: 3}];
-      const copy = deepMerge(obj);
+      const copyObj = deepMerge(obj);
 
-      expect(copy).not.toBe(obj);
-      expect(copy).toEqual(obj);
-      expect(copy[2]).not.toBe(obj[2]);
-      expect(copy[2]).toEqual(obj[2]);
+      expect(copyObj).not.toBe(obj);
+      expect(copyObj).toEqual(obj);
+      expect(copyObj[2]).not.toBe(obj[2]);
+      expect(copyObj[2]).toEqual(obj[2]);
     });
 
     test.each([

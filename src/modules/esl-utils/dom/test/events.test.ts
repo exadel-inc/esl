@@ -1,4 +1,4 @@
-import { EventUtils } from '../events';
+import {EventUtils} from '../events';
 
 describe('EventUtils', () => {
   let pageX: number;
@@ -15,7 +15,7 @@ describe('EventUtils', () => {
       jest.spyOn(el, 'dispatchEvent');
 
       const eventName = `click${Math.random()}`;
-      const customEventInit = { detail: Math.random() };
+      const customEventInit = {detail: Math.random()};
       EventUtils.dispatch(el, eventName, customEventInit);
 
       expect(el.dispatchEvent).toHaveBeenCalled();
@@ -28,7 +28,7 @@ describe('EventUtils', () => {
 
   describe('source', () => {
     test('returns source for the event with non-empty composedPath', () => {
-      const source = { detail: Math.random() };
+      const source = {detail: Math.random()};
       expect(EventUtils.source({
         composedPath: () => [source]
       } as any)).toBe(source);
@@ -39,9 +39,9 @@ describe('EventUtils', () => {
       } as any)).toBe(undefined);
     });
     test('returns source for the event with no composedPath', () => {
-      const source = { detail: Math.random() };
+      const source = {detail: Math.random()};
 
-      expect(EventUtils.source({ target: source } as any)).toBe(source);
+      expect(EventUtils.source({target: source} as any)).toBe(source);
     });
   });
 
@@ -50,10 +50,10 @@ describe('EventUtils', () => {
     test('returns normalized data from TouchEvent object', () => {
       const event = new TouchEvent('touch', {
         changedTouches: [{
-        pageX,
-        pageY,
-      } as any]
-    });
+          pageX,
+          pageY,
+        } as any]
+      });
       expect(EventUtils.normalizeTouchPoint(event)).toEqual({x: pageX, y: pageY});
     });
 
@@ -72,13 +72,13 @@ describe('EventUtils', () => {
     let originalPageXOffset: number;
 
     beforeEach(() => {
-      originalPageXOffset = window.pageYOffset;
       originalPageXOffset = window.pageXOffset;
+      originalPageYOffset = window.pageYOffset;
     });
 
     afterEach(() => {
       (window as any).pageXOffset = originalPageXOffset;
-      (window as any).pageYOffset = originalPageYOffset
+      (window as any).pageYOffset = originalPageYOffset;
     });
 
 
