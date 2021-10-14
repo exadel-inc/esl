@@ -135,17 +135,11 @@ Also, ESL has built-in polyfills for some of DOM and ES6 features. They are avai
 If you are a part of ESL team or want to contribute to the project
 you can find useful information about the project processes and agreements here:
 
-- #### [Development: Scripts](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/scripts.md)
+- #### [🔗 Contribution Guide](https://github.com/exadel-inc/esl/blob/HEAD/CONTRIBUTING.md)
 
-- #### [Development: Styleguide](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/styleguide.md)
+- #### [🔗 Development Guide](https://github.com/exadel-inc/esl/blob/HEAD/docs/DEVELOPMENT.md)
 
-- #### [Development: Commit Convention](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/commit.md)
-
-- #### [Development: Pages](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/pages.md)
-
-- #### [Branches Flow](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/branches.md)
-  
-- #### [Contributor Licence Agreement](https://github.com/exadel-inc/esl/blob/HEAD/CLA.md)
+- #### [🔗 Contributor Licence Agreement](https://github.com/exadel-inc/esl/blob/HEAD/CLA.md)
 
 ---
 

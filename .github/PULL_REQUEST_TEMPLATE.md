@@ -13,16 +13,6 @@
 <!--- If fixing a bug, there should be an issue describing it with steps to reproduce -->
 <!--- Please link to the issue here: -->
 
-## Motivation and Context
-
-<!--- Why is this change required? What problem does it solve? -->
-
-## How Has This Been Tested
-
-<!--- Please describe in detail how you tested your changes. -->
-<!--- Include details of your testing environment, and the tests you ran to -->
-<!--- see how your change affects other areas of the code, etc. -->
-
 ## Types of changes
 
 <!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
@@ -40,4 +30,5 @@
 - [ ] My change requires a change to the documentation.
 - [ ] I have updated the documentation accordingly.
 - [ ] I have read the **CONTRIBUTING** document.
+<!--- Unit tests are strongly advisable for changes under `esl-utils` scope-->
 - [ ] I have added tests to cover my changes.

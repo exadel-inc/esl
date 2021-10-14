@@ -1,6 +1,6 @@
 # [ESL](https://exadel-inc.github.io/esl/) Scrollbar
 
-Version: *1.2.0*
+Version: *1.3.0*
 
 Authors: *Yuliya Adamskaya*
 
@@ -67,6 +67,14 @@ Use the full module path to import it
   
 - `dragging` \[boolean] - indicates that the scrollbar thumb is currently being dragged
 
+- `at-start` \[boolean] - indicates that the scroll is at the beginning
+
+- `at-end` \[boolean] - indicates that the scroll is at the end
+
 ### Public API methods
 
 - `refresh()` - shortcut function to refresh the scrollbar state and position
+
+### Events
+
+- `esl:change:scroll` (non bubbles) - thrown every time the scroll change state/position
