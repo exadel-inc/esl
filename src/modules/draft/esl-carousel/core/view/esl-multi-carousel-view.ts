@@ -96,10 +96,7 @@ class ESLMultiCarouselView extends ESLCarouselView {
 
     this._processNextTransition(nextIndex, direction);
 
-    const next = (this.activeIndex - 1 + this.carousel.count) % this.carousel.count;
-    const nextOrder = this.computedOrder.get(this.carousel.$slides[next]);
-
-
+    this._processPrevTransition(nextIndex, direction);
 
     this.carousel.toggleAttribute('animate', true);
     return Promise.resolve();
@@ -115,32 +112,23 @@ class ESLMultiCarouselView extends ESLCarouselView {
     // slide that should be active has 0 index
     if (direction === 'next' && nextSlideOrder === 0) {
 
-      for (const slide of this.computedOrder.keys()) {
-        // TODO !
-        const nextOrder = (this.computedOrder.get(slide)! - 1 + this.carousel.count) % this.carousel.count;
-        this.computedOrder.set(slide, nextOrder);
-        slide.style.order = String(nextOrder);
-        if (nextOrder === 0) this.activeIndex = this.carousel.$slides.findIndex((el) => el === slide);
-      }
+      // for (const slide of this.computedOrder.keys()) {
+      //     // TODO !
+      //     const nextOrder = (this.computedOrder.get(slide)! - 1 + this.carousel.count) % this.carousel.count;
+      //     this.computedOrder.set(slide, nextOrder);
+      //     slide.style.order = String(nextOrder);
+      //     if (nextOrder === 0) this.activeIndex = this.carousel.$slides.findIndex((el) => el === slide);
+      //   }
+      //
+      //   // TODO: liven transform
+      //   // this.shiftX = this.shiftX + 260;
+      //   // this.carousel.$slidesArea!.style.transform = `translateX(${this.shiftX}px)`;
+      //
 
-      // TODO: liven transform
-      // this.shiftX = this.shiftX + 260;
-      // this.carousel.$slidesArea!.style.transform = `translateX(${this.shiftX}px)`;
 
-      // TODO: calculate and check slidesArea
-      this.left = this.left + 260;
-      this.carousel.$slidesArea!.style.left = this.left + 'px';
-    }
-  }
-
-  protected _processPrevTransition(nextIndex: number, direction: CarouselDirection) {
-    // slide that should be active has 0 index
-    let prevSlide = this.carousel.getPrevSlide(this.carousel.firstIndex);
-    let prevSlideOrder = this.computedOrder.get(prevSlide);
-
-    if (direction === 'prev' && prevSlideOrder === this.carousel.count - 1) {
-      // TODO: calculate and check slidesArea
-      this.left = this.left - 260;
+      // slide that should be active has 0 index
+      let prevSlide = this.carousel.getPrevSlide(this.carousel.firstIndex);
+      let prevSlideOrder = this.computedOrder.get(prevSlide);
 
       const $slides = Array.from(this.carousel.$slides);
       $slides.reverse();
@@ -151,11 +139,51 @@ class ESLMultiCarouselView extends ESLCarouselView {
           prevSlide = this.carousel.getPrevSlide(slide);
           prevSlideOrder = this.computedOrder.get(prevSlide);
           this.computedOrder.set(slide, prevSlideOrder!);
+          slide.style.order = String(prevSlideOrder);
         } else {
           this.computedOrder.set(slide, slideOrder!);
+          slide.style.order = String(slideOrder);
         }
       });
 
+      // TODO: calculate and check slidesArea
+      this.left = this.left + 260;
+      this.carousel.$slidesArea!.style.left = this.left + 'px';
+    }
+  }
+
+  protected _processPrevTransition(nextIndex: number, direction: CarouselDirection) {
+    // slide that should be active has 0 index
+    const prevSlide = this.carousel.getPrevSlide(this.carousel.firstIndex);
+    const prevSlideOrder = this.computedOrder.get(prevSlide);
+
+    if (direction === 'prev' && prevSlideOrder === this.carousel.count - 1) {
+      // TODO: calculate and check slidesArea
+
+      let i = prevSlide.index;
+      let j = 0;
+      let index;
+      while (j !== this.carousel.count - 1) {
+        index = this.carousel.normalizeIndex(i++);
+        const $slide = this.carousel.$slides[index];
+        this.computedOrder.set($slide, j);
+        $slide.style.order = String(j);
+        j++;
+      }
+
+      // $slides.forEach((slide, index) => {
+      //   if (index !== this.carousel.count - 1) {
+      //     prevSlide = this.carousel.getPrevSlide(slide);
+      //     prevSlideOrder = this.computedOrder.get(prevSlide);
+      //     this.computedOrder.set(slide, prevSlideOrder!);
+      //     slide.style.order = String(prevSlideOrder);
+      //   } else {
+      //     this.computedOrder.set(slide, slideOrder!);
+      //     slide.style.order = String(slideOrder);
+      //   }
+      // });
+
+      this.left = this.left - 260;
       this.carousel.$slidesArea!.style.left = this.left + 'px';
     }
   }

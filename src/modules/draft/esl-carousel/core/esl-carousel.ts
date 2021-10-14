@@ -311,7 +311,7 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   // TODO utils or private notation
-  protected normalizeIndex(index: number) {
+  public normalizeIndex(index: number) {
     return (index + this.count) % this.count;
   }
 
