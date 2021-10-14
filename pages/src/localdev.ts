@@ -29,7 +29,13 @@ import {
   ESLSelectList,
   ESLNote,
   ESLFootnotes,
-  ESLTooltip
+  ESLTooltip,
+
+  ESLCarousel,
+  ESLCarouselDotsPlugin,
+  ESLCarouselLinkPlugin,
+  ESLCarouselTouchPlugin,
+  ESLCarouselAutoplayPlugin
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -37,11 +43,6 @@ import '../../src/modules/esl-media/providers/html5/audio-provider';
 import '../../src/modules/esl-media/providers/html5/video-provider';
 import '../../src/modules/esl-media/providers/youtube-provider';
 import '../../src/modules/esl-media/providers/brightcove-provider';
-
-import {
-  ESLCarousel,
-  ESLCarouselPlugins
-} from '../../src/modules/draft/all';
 
 ESLImage.register();
 ESLMedia.register();
@@ -71,7 +72,7 @@ ESLNote.register();
 ESLTooltip.register();
 
 ESLCarousel.register();
-ESLCarouselPlugins.Dots.register();
-ESLCarouselPlugins.Link.register();
-ESLCarouselPlugins.Touch.register();
-ESLCarouselPlugins.Autoplay.register();
+ESLCarouselDotsPlugin.register();
+ESLCarouselLinkPlugin.register();
+ESLCarouselTouchPlugin.register();
+ESLCarouselAutoplayPlugin.register();
