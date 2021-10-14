@@ -46,20 +46,6 @@ module.exports = (config) => {
     open: isDev,
   });
 
-  config.addTransform('htmlmin', function (content, outputPath) {
-    if (outputPath && outputPath.endsWith('.html') && !isDev) {
-      return htmlmin.minify(content, {
-        useShortDoctype: true,
-        removeComments: true,
-        collapseWhitespace: false, // TODO: find alternative
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-      });
-    }
-    return content;
-  });
-
   return {
     dir: {
       input: 'pages/views',
