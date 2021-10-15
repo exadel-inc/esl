@@ -1,4 +1,14 @@
-import {createDeferred, PromiseUtils, promisifyEvent, promisifyMarker, promisifyTimeout, rejectPromise, repeatSequence, resolvePromise, tryUntil} from '../promise';
+import {
+  promisifyEvent,
+  promisifyMarker,
+  promisifyTimeout,
+  createDeferred,
+  rejectPromise,
+  resolvePromise,
+  repeatSequence,
+  tryUntil,
+  PromiseUtils
+} from '../promise';
 
 describe('promise utils', () => {
   beforeAll(() =>  jest.useFakeTimers());
@@ -121,12 +131,13 @@ describe('promise utils', () => {
       expect(res).toBe(4);
       expect(times).toBe(4);
     });
+
     test('failed chain', () => {
       let times = 0;
       const err = new Error('test');
       const f = async () => {
-        if (++times > 2 ) throw err;
-      }
+        if (++times > 2) throw err;
+      };
 
       return repeatSequence(f, 4).then(
         () => expect(1).toBe(0),

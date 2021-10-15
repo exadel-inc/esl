@@ -83,7 +83,7 @@ export function tryUntil<T>(callback: () => T, tryCount = 2, timeout = 100): Pro
 
 /**
  * Call async callback in a sequence passed number of times
- * Initial call starts as a microtask (TODO: discuss)
+ * Initial call starts as a microtask
  * @param callback - async chain function
  * @param count - count o calls
  * @returns sequence end promise
@@ -149,8 +149,8 @@ export abstract class PromiseUtils {
   static fromEvent = promisifyEvent;
   static fromMarker = promisifyMarker;
 
-  static tryUntil = tryUntil;
   static repeat = repeatSequence;
+  static tryUntil = tryUntil;
 
   static deferred = createDeferred;
   static resolve = resolvePromise;
