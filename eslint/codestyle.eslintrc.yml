@@ -221,9 +221,9 @@ rules:
     - error
     - single
 
-  # Warn if an async function has no await expression
+  # Do not warn if an async function has no await expression
   'require-await': off
-  '@typescript-eslint/require-await': warn
+  '@typescript-eslint/require-await': off
 
   # Prefers consistent returning of awaited values
   'return-await': off
