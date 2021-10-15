@@ -30,8 +30,8 @@ export type CarouselDirection = 'next' | 'prev';
  **/
 @ExportNs('Carousel')
 export class ESLCarousel extends ESLBaseElement {
-  public static Slide = ESLCarouselSlide;
   public static is = 'esl-carousel';
+  public static Slide = ESLCarouselSlide;
 
   static get observedAttributes() {
     return ['config'];
@@ -257,44 +257,27 @@ export class ESLCarousel extends ESLBaseElement {
   public goTo(nextIndex: number, direction?: CarouselDirection, force: boolean = false) {
     if (this.dataset.isAnimated) return;
 
-    if (nextIndex < 0) nextIndex = 0;
+    const {firstIndex} = this;
 
-    if (this.firstIndex === nextIndex && !force) return;
+    nextIndex = this.normalizeIndex(nextIndex);
 
-    if (!direction) {
-      // calculate and compare how much slides we have to go due to direction (prev or next)
-      // choose less
-      // TODO: optimize
-      if (nextIndex > this.firstIndex) {
-        direction = nextIndex - this.firstIndex > (this.firstIndex - nextIndex + this.count) % this.count ? 'prev' : 'next';
-      } else {
-        direction = this.firstIndex - nextIndex >= (nextIndex - this.firstIndex - nextIndex + this.count) % this.count ? 'next' : 'prev';
-      }
-    }
+    if (firstIndex === nextIndex && !force) return;
 
-    const eventDetails = { // Todo change info
-      bubbles: true,
-      detail: {
-        direction
-      }
+    direction = direction || this.getDirection(firstIndex, nextIndex);
+
+    // Todo change info
+    const eventDetails = {
+      detail: {direction}
     };
 
-    const approved = this.$$fire('slide:change', eventDetails);
+    if (!this.$$fire('slide:change', eventDetails)) return;
 
-    if (this._view && approved && this.firstIndex !== nextIndex) {
-      this._view.onAnimate(nextIndex, direction);
-    }
-    if (this._view && approved) {
-      let i = 0;
-      this.$slides.forEach((el, index) => {
-        el._setActive(((nextIndex + this.count) % this.count <= index) && (index < (nextIndex + this.activeCount + this.count) % this.count));
-      });
+    if (this._view && firstIndex !== nextIndex) this._view.onAnimate(nextIndex, direction);
 
-      while (i < this.activeCount) {
-        const computedIndex = (nextIndex + i + this.count) % this.count;
-        this.$slides[computedIndex]._setActive(true);
-        ++i;
-      }
+    this.$slides.forEach((el, index) => el._setActive(false));
+    for (let i = 0; i < this.activeCount; i++) {
+      const computedIndex = (nextIndex + i + this.count) % this.count;
+      this.$slides[computedIndex]._setActive(true);
     }
 
     this.$$fire('slide:changed', eventDetails);
@@ -325,6 +308,15 @@ export class ESLCarousel extends ESLBaseElement {
     return this.$slides[this.normalizeIndex(slide + 1)];
   }
 
+  public getDirection(from: number, to: number) {
+    const abs = Math.abs(from - to);
+    if (to > from) {
+      return abs > (this.count - abs) % this.count ? 'prev' : 'next';
+    } else {
+      return abs < (this.count - abs) % this.count ? 'prev' : 'next';
+    }
+  }
+
   public static register(tagName?: string) {
     ESLCarouselSlide.register((tagName || ESLCarousel.is) + '-slide');
     customElements.whenDefined(ESLCarouselSlide.is).then(() => super.register.call(this, tagName));
@@ -339,5 +331,6 @@ declare global {
   }
   export interface HTMLElementTagNameMap {
     'esl-carousel': ESLCarousel;
+    'esl-carousel-slide': ESLCarouselSlide;
   }
 }

@@ -22,9 +22,3 @@ export class ESLCarouselSlide extends ESLBaseElement {
     this.toggleAttribute('active', active);
   }
 }
-
-declare global {
-  export interface HTMLElementTagNameMap {
-    'esl-carousel-slide': ESLCarouselSlide;
-  }
-}
