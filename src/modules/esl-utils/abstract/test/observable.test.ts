@@ -17,7 +17,7 @@ describe('abstract/observable test', () => {
     expect(log.length).toBe(1);
     test$$.fire(1);
     expect(log.length).toBe(2);
-    expect(log[log.length-1]).toBe(1);
+    expect(log[log.length - 1]).toBe(1);
     test$$.addListener(listener);
     test$$.fire();
     expect(log.length).toBe(3);

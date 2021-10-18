@@ -10,7 +10,7 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
 
 export interface AlertActionParams extends ToggleableActionParams {
-  /** text to be shown; pass empty string or null to hide */
+  /** text to be shown; passes empty string or null to hide */
   text?: string;
   /** html content */
   html?: string;
@@ -43,7 +43,7 @@ export class ESLAlert extends ESLToggleable {
   };
 
   /**
-   * Define the scope (using {@link TraversingQuery} syntax) element to listen for an activation event.
+   * Defines the scope (using {@link TraversingQuery} syntax) element to listen for an activation event.
    * Parent element by default
    */
   @attr({defaultValue: '::parent'}) public target: string;
@@ -58,7 +58,7 @@ export class ESLAlert extends ESLToggleable {
   private _$target: EventTarget;
   private _clearTimeout: number;
 
-  /** Create global alert instance (using body element as a base) */
+  /** Creates global alert instance (using body element as a base) */
   public static init() {
     if (document.querySelector(`body > ${ESLAlert.is}`)) return;
     const alert = document.createElement(ESLAlert.is) as ESLAlert;

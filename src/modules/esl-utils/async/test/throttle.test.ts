@@ -5,7 +5,7 @@ describe('async/throttle', () => {
   afterAll(() => jest.useRealTimers());
 
   test('basic scenario', () => {
-    jest.useFakeTimers()
+    jest.useFakeTimers();
     const fn = jest.fn();
     const throttled = throttle(fn, 100);
 
@@ -14,7 +14,7 @@ describe('async/throttle', () => {
     jest.advanceTimersByTime(50);
     expect(throttled()).toBeUndefined();
     expect(fn).toBeCalledTimes(1);
-    jest.advanceTimersByTime(100)
+    jest.advanceTimersByTime(100);
     expect(fn).toBeCalledTimes(2);
     expect(throttled()).toBeUndefined();
     expect(fn).toBeCalledTimes(3);
@@ -50,7 +50,7 @@ describe('async/throttle', () => {
     expect(throttled(1)).toBeUndefined();
     expect(throttled(2)).toBeUndefined();
     expect(throttled.promise).toBeInstanceOf(Promise);
-    expect(throttled(4)).toBeUndefined();;
+    expect(throttled(4)).toBeUndefined();
 
     expect(fn).toBeCalledTimes(1);
     expect(fn).lastCalledWith(1);

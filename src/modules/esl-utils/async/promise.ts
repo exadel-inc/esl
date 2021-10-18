@@ -81,6 +81,19 @@ export function tryUntil<T>(callback: () => T, tryCount = 2, timeout = 100): Pro
   });
 }
 
+/**
+ * Call async callback in a sequence passed number of times
+ * Initial call starts as a microtask
+ * @param callback - async chain function
+ * @param count - count o calls
+ * @returns sequence end promise
+ **/
+export function repeatSequence<T>(callback: () => Promise<T>, count = 1): Promise<T> {
+  if (count < 1) return Promise.reject();
+  if (count === 1) return Promise.resolve().then(callback);
+  return repeatSequence(callback, count - 1).then(callback);
+}
+
 /** Deferred object represents promise with it's resolve/reject methods */
 export type Deferred<T> = {
   /** Wrapped promise */
@@ -136,6 +149,7 @@ export abstract class PromiseUtils {
   static fromEvent = promisifyEvent;
   static fromMarker = promisifyMarker;
 
+  static repeat = repeatSequence;
   static tryUntil = tryUntil;
 
   static deferred = createDeferred;
