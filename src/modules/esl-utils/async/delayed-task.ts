@@ -1,7 +1,7 @@
 import type {AnyToVoidFnSignature} from '../misc/functions';
 
 /**
- * Task placeholder with a single place for executing deferred task.
+ * Task placeholders with a single place for executing deferred task.
  * Only one task can be planed per DelayedTask instance.
  * @see put DelayedTask.put behaviour description.
  */
@@ -9,7 +9,7 @@ export class DelayedTask {
   protected _fn: AnyToVoidFnSignature | null = null;
   protected _timeout: number | null = null;
 
-  /** Execute deferred task immediately */
+  /** Executes deferred task immediately */
   protected run = () => {
     this._timeout = null;
     this._fn && this._fn();
@@ -26,7 +26,7 @@ export class DelayedTask {
    * @param delay - time to delay task execution
    *  - pass negative or false to execute task immediately
    *  - pass 0 to plan task to the macrotask
-   *  - pass positive number x to delay task on x ms.
+   *  - pass positive numbers x to delay task on x ms.
    * */
   public put(task: AnyToVoidFnSignature, delay: number | string | boolean = false) {
     const prev = this.cancel();

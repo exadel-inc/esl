@@ -1,12 +1,12 @@
 import type {AnyToVoidFnSignature} from '../misc/functions';
 
 /**
- * Postpone action after next render
+ * Postpones action after next render
  */
 export const afterNextRender = (callback: () => void) => requestAnimationFrame(() => requestAnimationFrame(callback));
 
 /**
- * Decorate function to schedule execution after next render
+ * Decorates function to schedule execution after next render
  * @returns decorated function
  */
 export const rafDecorator = <T extends AnyToVoidFnSignature>(fn: T): T => {
