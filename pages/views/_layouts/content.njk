@@ -24,28 +24,30 @@
 {% block body %}
   <div class="container-page">
     {% include 'sidebar.njk' %}
-    <div class="content esl-scrollable-content">
-      <main role="main">
-        <div class="content {{ containerCls or 'container-fluid' }}">
-          {% if title %}
-            <h1 class="text-center pt-2">
-              {{ title | safe }}
-              {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
-              {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}
-            </h1>
 
-            <hr/>
-          {% endif %}
-          {{ content | safe or 'No content.' }}
+      <main class="main-page-container esl-scrollable-content" role="main">
+        <div class="main-page">
+          <div class="content {{ containerCls or 'container-fluid' }}">
+            {% if title %}
+              <h1 class="text-center pt-2">
+                {{ title | safe }}
+                {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
+                {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}
+              </h1>
+              <hr/>
+            {% endif %}
+            {{ content | safe or 'No content.' }}
+          </div>
         </div>
+
+        <footer class="footer">
+          {% include 'footer.njk' %}
+        </footer>
       </main>
-      
-      <footer class="footer">
-        {% include 'footer.njk' %}
-      </footer>
+
+      <esl-scrollbar target=".main-page-container"></esl-scrollbar>
     </div>
   </div>
-
 
   {% block extra_body %}{% endblock %}
 

@@ -9,11 +9,19 @@
     </a>
     {% from 'sidebar-menu.njk' import menu with context %}
     <ul class="sidebar-menu">
-      <li class="nav-item hd-dropdown menu-item">
-        {{ menu ('Samples', 'samples') }}
+      <li class="">
+        {{ menu ('Examples', 'examples') }}
+      </li>
+      <li class="">
+        {{ menu ('Components', 'components') }}
+      </li>
+      <li class="">
+        {{ menu ('Utils', 'utils') }}
       </li>
     </ul>
-    <esl-trigger target="#sidebar" mode="toggle" class="ico-btn"></esl-trigger>
+    <esl-trigger target="#sidebar" mode="toggle">
+      <button class="ico-btn arrows-icon"></button>
+    </esl-trigger>
     <esl-scrollbar class="sidebar-scrollbar" target=".container"></esl-scrollbar>
   </nav>
 </esl-toggleable>
