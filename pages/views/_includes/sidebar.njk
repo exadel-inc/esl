@@ -1,0 +1,19 @@
+<esl-toggleable 
+  id="sidebar"
+  body-class="toggleable-opened"
+  close-on-esc>
+  <nav class="container esl-scrollable-content">
+    <a class="sidebar-logo logo-light logo-animated mr-5" href="{{ '/' | url }}">
+      {% include 'pages/static/assets/logo.svg' %}
+      <span class="">Exadel Smart Library</span>
+    </a>
+    {% from 'sidebar-menu.njk' import menu with context %}
+    <ul class="sidebar-menu">
+      <li class="nav-item hd-dropdown menu-item">
+        {{ menu ('Samples', 'samples') }}
+      </li>
+    </ul>
+    <esl-trigger target="#sidebar" mode="toggle" class="ico-btn"></esl-trigger>
+    <esl-scrollbar class="sidebar-scrollbar" target=".container"></esl-scrollbar>
+  </nav>
+</esl-toggleable>
