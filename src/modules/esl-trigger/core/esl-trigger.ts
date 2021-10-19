@@ -75,10 +75,6 @@ export class ESLTrigger extends ESLBaseElement {
     this._$target = newPopupInstance;
     this.bindEvents();
     this._onTargetStateChange();
-
-    if (!this.$target || typeof this.$target.show !== 'function' || typeof this.$target.hide !== 'function') {
-      console.debug('[ESL]: Invalid target ', this.$target, ' for trigger ', this);
-    }
   }
 
   /** Element target to setup aria attributes */
