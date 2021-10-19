@@ -12,6 +12,19 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this.carousel.$slides.forEach((el, index) => this.computedOrder.set(el, index));
   }
 
+  protected currentIndex: number;
+  protected computedOrder = new Map<ESLCarouselSlide, number>();
+
+  protected shiftX: number = 0;
+  protected left: number = 0;
+  // TODO
+  protected activeIndex: number = 0;
+
+  public nextIndex(direction: CarouselDirection) {
+    const offset =  direction === 'next' ? this.carousel.activeCount : this.carousel.activeCount - 1;
+    return this.carousel.normalizeIndex(this.currentIndex + offset);
+  }
+
   public bind() {
     this.draw();
   }
@@ -45,38 +58,24 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     });
   }
 
-  protected nextIndex: number;
-  protected computedOrder = new Map<ESLCarouselSlide, number>();
-
-  protected shiftX: number = 0;
-  protected left: number = 0;
-  // TODO
-  protected activeIndex: number = 0;
-
 
   public onAnimate(nextIndex: number, direction: CarouselDirection) {
-    let count = 0;
-    if (direction === 'prev') {
-      count = (this.carousel.firstIndex - nextIndex + this.carousel.count) % this.carousel.count;
-    } else if (direction === 'next') {
-      count = (this.carousel.count - this.carousel.firstIndex + nextIndex) % this.carousel.count;
-    }
-    this.nextIndex = nextIndex;
-    const animateSlide = () =>
-      this.onBeforeStepAnimate(this.nextIndex, direction)
-        .then(() => this.onStepAnimate(this.nextIndex, direction))
-        .then(() => this.onAfterStepAnimate());
+    this.currentIndex = this.carousel.firstIndex;
 
-    return repeatSequence(animateSlide, count);
+    const animateSlide = () =>
+      this.onBeforeStepAnimate(direction)
+        .then(() => this.onStepAnimate(direction))
+        .then(() => this.onAfterStepAnimate(direction));
+
+    return repeatSequence(animateSlide, this.getDistance(nextIndex, direction));
   }
 
-  protected async onStepAnimate(nextIndex: number, direction: CarouselDirection): Promise<void> {
-    this.nextIndex = direction === 'next' ?
-      (nextIndex + 1 + this.carousel.count) % this.carousel.count :
-      (nextIndex - 1 + this.carousel.count) % this.carousel.count;
+  protected async onStepAnimate(direction: CarouselDirection): Promise<void> {
+    const $activeSlide = this.carousel.$activeSlide;
+    const $slide = direction === 'next' ? this.carousel.getNextSlide($activeSlide!) : this.carousel.getPrevSlide($activeSlide!);
 
     // TODO: slidesArea
-    this.shiftX = direction === 'next' ? this.shiftX - 260 : this.shiftX + 260;
+    this.shiftX = direction === 'next' ? -$slide.offsetLeft : this.shiftX + 260;
 
     this.carousel.$slidesArea!.style.transform = `translateX(${this.shiftX}px)`;
 
@@ -85,23 +84,32 @@ export class ESLMultiCarouselView extends ESLCarouselView {
       .catch(resolvePromise);
   }
 
-  protected async onBeforeStepAnimate(nextIndex: number, direction: CarouselDirection): Promise<void> {
+  protected async onBeforeStepAnimate(direction: CarouselDirection): Promise<void> {
+    const nextIndex = this.nextIndex(direction);
+    const $nextSlide = this.carousel.$slides[nextIndex];
+    $nextSlide.toggleAttribute('visible');
 
-    this._processNextTransition(nextIndex, direction);
+    this.carousel.$slidesArea!.style.transform = 'translateX(0)';
 
-    this._processPrevTransition(nextIndex, direction);
+    this._processNextTransition(direction);
+
+    this._processPrevTransition(direction);
 
     this.carousel.toggleAttribute('animate', true);
     return Promise.resolve();
   }
 
-  protected async onAfterStepAnimate(): Promise<void> {
+  protected async onAfterStepAnimate(direction: CarouselDirection): Promise<void> {
+    const $currentSlide = this.carousel.$slides[this.currentIndex];
+    $currentSlide.toggleAttribute('visible', false);
+
+    this.currentIndex = direction === 'next' ? this.currentIndex + 1 : this.currentIndex - 1;
     this.carousel.toggleAttribute('animate', false);
     return Promise.resolve();
   }
 
-  protected _processNextTransition(nextIndex: number, direction: CarouselDirection) {
-    const nextSlideOrder = this.computedOrder.get(this.carousel.$slides[nextIndex]);
+  protected _processNextTransition(direction: CarouselDirection) {
+    const nextSlideOrder = this.carousel.normalizeIndex(this.currentIndex + this.carousel.activeCount);
     // slide that should be active has 0 index
     if (direction === 'next' && nextSlideOrder === 0) {
 
@@ -117,7 +125,6 @@ export class ESLMultiCarouselView extends ESLCarouselView {
       //   // this.shiftX = this.shiftX + 260;
       //   // this.carousel.$slidesArea!.style.transform = `translateX(${this.shiftX}px)`;
       //
-
 
       // slide that should be active has 0 index
       let prevSlide = this.carousel.getPrevSlide(this.carousel.firstIndex);
@@ -140,15 +147,16 @@ export class ESLMultiCarouselView extends ESLCarouselView {
       });
 
       // TODO: calculate and check slidesArea
-      this.left = this.left + 260;
-      this.carousel.$slidesArea!.style.left = this.left + 'px';
+      // this.shiftX = this.shiftX + 260;
+      // this.carousel.$slidesArea!.style.left = this.left + 'px';
     }
   }
 
-  protected _processPrevTransition(nextIndex: number, direction: CarouselDirection) {
+  protected _processPrevTransition(direction: CarouselDirection) {
     // slide that should be active has 0 index
     const prevSlide = this.carousel.getPrevSlide(this.carousel.firstIndex);
     const prevSlideOrder = this.computedOrder.get(prevSlide);
+
 
     if (direction === 'prev' && prevSlideOrder === this.carousel.count - 1) {
       // TODO: calculate and check slidesArea
@@ -281,5 +289,16 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     setTimeout(() => {
       this.carousel.removeAttribute('data-is-animated');
     }, transitionDuration);
+  }
+
+  protected getDistance(slide: ESLCarouselSlide | number, direction: CarouselDirection) {
+    if (typeof slide !== 'number') slide = slide.index;
+    let count = 0;
+    if (direction === 'prev') {
+      count = this.carousel.normalizeIndex(this.carousel.firstIndex - slide);
+    } else if (direction === 'next') {
+      count = this.carousel.normalizeIndex(slide - this.carousel.firstIndex);
+    }
+    return count;
   }
 }

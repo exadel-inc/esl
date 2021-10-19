@@ -66,9 +66,9 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
 
     // Swipe gesture example
     if (offset.x < 0) {
-      this.carousel.next();
+      this.carousel.goNext();
     } else {
-      this.carousel.prev();
+      this.carousel.goPrev();
     }
     event.preventDefault();
     event.stopPropagation();

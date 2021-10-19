@@ -136,9 +136,9 @@ export class ESLCarousel extends ESLBaseElement {
     if (markedTarget && markedTarget.dataset.slideTarget) {
       const target = markedTarget.dataset.slideTarget;
       if ('prev' === target) {
-        this.prev();
+        this.goPrev();
       } else if ('next' === target) {
-        this.next();
+        this.goNext();
       } else if ('g' === target[0]) {
         const group = +(target.substr(1)) - 1;
         const lastGroup = Math.floor(this.count / this.activeCount);
@@ -254,7 +254,8 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  public goTo(nextIndex: number, direction?: CarouselDirection, force: boolean = false) {
+  public async goTo(nextIndex: number, direction?: CarouselDirection, force: boolean = false) {
+    // TODO: ?
     if (this.dataset.isAnimated) return;
 
     const {firstIndex} = this;
@@ -265,32 +266,30 @@ export class ESLCarousel extends ESLBaseElement {
 
     direction = direction || this.getDirection(firstIndex, nextIndex);
 
-    // Todo change info
+    // TODO: change info
     const eventDetails = {
       detail: {direction}
     };
 
     if (!this.$$fire('slide:change', eventDetails)) return;
 
-    if (this._view && firstIndex !== nextIndex) this._view.onAnimate(nextIndex, direction);
+    if (this._view && firstIndex !== nextIndex) {
+      await this._view.onAnimate(nextIndex, direction);
+    }
 
-    this.$slides.forEach((el, index) => el._setActive(false));
+    this.$slides.forEach((el) => el._setActive(false));
     for (let i = 0; i < this.activeCount; i++) {
-      const computedIndex = (nextIndex + i + this.count) % this.count;
-      this.$slides[computedIndex]._setActive(true);
+      this.slideAt(nextIndex + i)._setActive(true);
     }
 
     this.$$fire('slide:changed', eventDetails);
   }
 
-  public prev() {
-    // const nextGroup = this.getNextGroup(-1);
-    this.goTo((this.firstIndex - this.activeCount + this.count) % this.count, 'prev');
+  public goPrev(count: number = this.activeCount) {
+    return this.goTo(this.firstIndex - count, 'prev');
   }
-
-  public next() {
-    // const nextGroup = this.getNextGroup(1);
-    this.goTo((this.firstIndex + this.activeCount + this.count) % this.count, 'next');
+  public goNext(count: number = this.activeCount) {
+    return this.goTo(this.firstIndex + count, 'next');
   }
 
   // TODO utils or private notation
@@ -298,14 +297,18 @@ export class ESLCarousel extends ESLBaseElement {
     return (index + this.count) % this.count;
   }
 
+  public slideAt(index: number) {
+    return this.$slides[this.normalizeIndex(index)];
+  }
+
   public getPrevSlide(slide: number | ESLCarouselSlide) {
     if (typeof slide !== 'number') slide = slide.index;
-    return this.$slides[this.normalizeIndex(slide - 1)];
+    return this.slideAt(slide - 1);
   }
 
   public getNextSlide(slide: number | ESLCarouselSlide) {
     if (typeof slide !== 'number') slide = slide.index;
-    return this.$slides[this.normalizeIndex(slide + 1)];
+    return this.slideAt(slide + 1);
   }
 
   public getDirection(from: number, to: number) {
