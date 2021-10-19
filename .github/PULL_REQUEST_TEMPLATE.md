@@ -30,5 +30,7 @@
 - [ ] My change requires a change to the documentation.
 - [ ] I have updated the documentation accordingly.
 - [ ] I have read the **CONTRIBUTING** document.
-<!--- Unit tests are strongly advisable for changes under `esl-utils` scope-->
 - [ ] I have added tests to cover my changes.
+<!--- Unit tests are strongly advisable for changes under `esl-utils` scope-->
+
+<!--- If you like ESL, please support it with a star on GitHub. Thank you! -->
