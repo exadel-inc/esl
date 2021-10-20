@@ -32,6 +32,9 @@ export interface ESLSelectTagShape extends ESLBaseElementShape<ESLSelect> {
 
   /** Define marker for selecting items to be pinned to the top of the list */
   'pin-selected'?: boolean;
+
+  /** Allowed children */
+  children?: any;
 }
 
 declare global {
