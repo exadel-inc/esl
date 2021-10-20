@@ -1,55 +1,37 @@
-{% extends './html5.njk' %}
-{% set scrollbar = true %}
+{% extends './base.njk' %}
+{% set baseClass = 'sidebar-layout' %}
 
-{% block head %}
-  <script>
-    /* Polyfill */
-    (function () {
-      let version = '';
-      if (!window.Promise || !window.CustomEvent) {
-        version = 'full';
-      } else if (!('getRootNode' in Element.prototype) || !window.customElements || !window.IntersectionObserver || !window.ResizeObserver) {
-        version = 'light';
-      }
-      (version) && document.write('<script type="text/javascript" src="{{ '/bundles/polyfill-' | url }}' + version + '.js"><\/script>');
-    })();
-  </script>
+{% block content %}
+  {% include 'sidebar.njk' %}
 
-  <link rel="icon" type="image/png" href="{{ '/assets/logo-64x64.png' | url }}" />
-  <link rel="stylesheet" type="text/css" href="{{ '/bundles/localdev.css' | url }}" />
+  <main class="esl-scrollable-content">
+    {#  {% if aside %}#}
+    {#    <aside class="aside-left">#}
+    {#      {% if aside.components  %}#}
 
-  {% block extra_head %}{% endblock %}
-{% endblock %}
+    {#      {% endif %}#}
+    {#    </aside>#}
+    {#  {% endif %}#}
 
-{% block body %}
-  <div class="container-page">
-    {% include 'sidebar.njk' %}
+    {% if title %}
+      <div class="content-heading container-fluid">
+        <h1 class="text-center pt-2">
+          {{ title | safe }}
+          {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
+          {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}
+        </h1>
+        <hr/>
+      </div>
+    {% endif %}
 
-      <main class="main-page-container esl-scrollable-content" role="main">
-        <div class="main-page">
-          <div class="content {{ containerCls or 'container-fluid' }}">
-            {% if title %}
-              <h1 class="text-center pt-2">
-                {{ title | safe }}
-                {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
-                {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}
-              </h1>
-              <hr/>
-            {% endif %}
-            {{ content | safe or 'No content.' }}
-          </div>
-        </div>
-
-        <footer class="footer">
-          {% include 'footer.njk' %}
-        </footer>
-      </main>
-
-      <esl-scrollbar target=".main-page-container"></esl-scrollbar>
+    <div class="content {{ containerCls or 'container-fluid' }}">
+      {{ content | safe or 'No content.' }}
     </div>
-  </div>
 
-  {% block extra_body %}{% endblock %}
+    <footer class="footer container-fluid">
+      {% include 'footer.njk' %}
+    </footer>
 
-  <script src="{{ '/bundles/localdev.js' | url }}"></script>
+    <esl-scrollbar target="::parent" class="main-scroll"></esl-scrollbar>
+  </main>
 {% endblock %}
