@@ -18,7 +18,7 @@ describe('ESLMedia: MediaGroupRestrictionManager tests', () => {
     const instance1 = new ESLMedia();
     const instance2 = new ESLMedia();
     instance1.group = instance2.group = 'test';
-    Object.defineProperty(instance1, 'active', { value: true });
+    Object.defineProperty(instance1, 'active', {value: true});
     const pauseSpy = jest.spyOn(instance1, 'pause');
     MediaGroupRestrictionManager.registerPlay(instance1);
     MediaGroupRestrictionManager.registerPlay(instance1);

@@ -1,4 +1,14 @@
-import {createDeferred, PromiseUtils, promisifyEvent, promisifyMarker, promisifyTimeout, rejectPromise, resolvePromise, tryUntil} from '../promise';
+import {
+  promisifyEvent,
+  promisifyMarker,
+  promisifyTimeout,
+  createDeferred,
+  rejectPromise,
+  resolvePromise,
+  repeatSequence,
+  tryUntil,
+  PromiseUtils
+} from '../promise';
 
 describe('promise utils', () => {
   beforeAll(() =>  jest.useFakeTimers());
@@ -80,7 +90,7 @@ describe('promise utils', () => {
   describe('tryUntil', () => {
     test.each([
       [(): any => undefined],
-      [(): any => {throw new Error()}]
+      [(): any => {throw new Error();}]
     ])('successful ( %s )', (testFn) => {
       const observedFn = jest.fn(testFn);
       const successFn = jest.fn();
@@ -105,6 +115,37 @@ describe('promise utils', () => {
       const promise$ = tryUntil(() => false, 3, 100);
       jest.advanceTimersByTime(500);
       return expect(promise$).rejects.toBeTruthy();
+    });
+  });
+
+  describe('repeatSequence', () => {
+    test('basic scenario', async () => {
+      let times = 0;
+      const f = async () => ++times;
+
+      const result$ = repeatSequence(f, 4);
+      // Initial call side-effects
+      expect(times).toBe(0);
+      // Result validation
+      const res = await result$;
+      expect(res).toBe(4);
+      expect(times).toBe(4);
+    });
+
+    test('failed chain', () => {
+      let times = 0;
+      const err = new Error('test');
+      const f = async () => {
+        if (++times > 2) throw err;
+      };
+
+      return repeatSequence(f, 4).then(
+        () => expect(1).toBe(0),
+        (e) => {
+          expect(e).toBe(err);
+          expect(times).toBe(3);
+        }
+      );
     });
   });
 

@@ -9,7 +9,7 @@ describe('async/debounce', () => {
     const debounced = debounce(fn, 50);
 
     expect(debounced()).toBeUndefined();
-    debounced()
+    debounced();
     jest.advanceTimersByTime(25);
     expect(debounced()).toBeUndefined();
     expect(fn).toBeCalledTimes(0);
@@ -44,7 +44,7 @@ describe('async/debounce', () => {
     debounced();
     debounced.cancel();
 
-    return promise.catch(() => expect(fn).toBeCalledTimes(0))
+    return promise.catch(() => expect(fn).toBeCalledTimes(0));
   }, 100);
 
   test('deferred result', () => {

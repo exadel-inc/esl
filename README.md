@@ -11,7 +11,9 @@
 
 Exadel Smart Library (**ESL**) is a web components based library that gives you a set of **lightweight** and **flexible** custom elements to easily create basic UX modules and make your websites super fast.
 
-**[Demo Site](https://exadel-inc.github.io/esl/)** (*draft*)
+You can visit our **[Demo Site](https://exadel-inc.github.io/esl/)** (*draft*).
+
+<p align="center" >★ <b>Try out our open library and if you like it please support us with a star on GitHub</b> ★</p>
 
 ## Library Structure
 ### Components

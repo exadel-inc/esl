@@ -47,7 +47,7 @@ describe('ESLBaseElement test', () => {
     el.addEventListener('esl:testevent', (e) => {
       expect(e).toBeInstanceOf(CustomEvent);
       done();
-    }, { once: true });
+    }, {once: true});
     el.$$fire('testevent');
   }, 10);
 
@@ -55,7 +55,7 @@ describe('ESLBaseElement test', () => {
     document.addEventListener('esl:testevent', (e) => {
       expect(e).toBeInstanceOf(CustomEvent);
       done();
-    }, { once: true });
+    }, {once: true});
 
     el.$$fire('testevent');
   }, 10);

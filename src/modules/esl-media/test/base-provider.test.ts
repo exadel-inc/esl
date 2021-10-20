@@ -1,6 +1,8 @@
-import {BaseProvider, ProviderType} from '../core/esl-media-provider';
+import {BaseProvider} from '../core/esl-media-provider';
 import {ESLMediaProviderRegistry} from '../core/esl-media-registry';
 import {BaseProviderMock} from './base-provider.mock';
+
+import type {ProviderType} from '../core/esl-media-provider';
 
 describe('ESLMedia: BaseProvider tests', () => {
   const {instance} = ESLMediaProviderRegistry;
