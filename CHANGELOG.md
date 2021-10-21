@@ -8,8 +8,7 @@
 
 ### Features
 
-* add children param for ESLSelect and ESLSelectList ([a0d16c4](https://github.com/exadel-inc/esl/commit/a0d16c4b525e51eccb0b1f9cc59e0d01f679a1fc))
-* add TSX shapes for ESLSelect and ESLSelectList ([ab1c550](https://github.com/exadel-inc/esl/commit/ab1c550292f8a19bdb4deb1458e2f0b9b7a58ca3))
+* **esl-forms:** add TSX shapes for ESLSelect and ESLSelectList ([ab1c550](https://github.com/exadel-inc/esl/commit/ab1c550292f8a19bdb4deb1458e2f0b9b7a58ca3))
 * **esl-scrollbar:** default inactive state for arrows in the boundary stages ([9a72663](https://github.com/exadel-inc/esl/commit/9a7266374cb3c795a7b5fd01cbff02c71b111cb5))
 * **esl-utils:** add `repeatSequence` utility to call async function in chain n-th count of times ([03eff4c](https://github.com/exadel-inc/esl/commit/03eff4c08064024025a16186c57eab6d9d403028))
 * **esl-utils:** add a capitalize method to `esl-utils/misc/format.ts` ([#554](https://github.com/exadel-inc/esl/issues/554)) ([a2c19fc](https://github.com/exadel-inc/esl/commit/a2c19fcfbc0bbdfbac6b28ceb01100990fed219a))
