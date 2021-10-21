@@ -1,36 +1,95 @@
-.esl-demo-header {
-  position: relative;
-  z-index: 10;
-  .navbar-brand {
-    display: inline-flex;
+.header-nav {
+  display: flex;
+  justify-content: center;
+  background-color: #232429;
+
+  .container-header {
+    display: flex;
+    height: 56px;
     align-items: center;
-    padding-top: 0;
-    padding-bottom: 0;
-    svg {
-      display: inline-block;
-      width: 50px;
-      height: 50px;
+
+    .link {
+      color: white;
+    }
+
+    .logo {
+      text-transform: uppercase;
+
+      span {
+        margin-left: 4px;
+      }
+
+      svg {
+        height: 52px;
+      }
+    }
+
+    .link:hover {
+      text-decoration: none;
+      color: #0097E7;
     }
   }
 
-  @import './header-dropdown.less';
+  .header-link,
+  .btn-start {
+    display: none;
+  }
 }
 
-.esl-demo-header-overlay {
-  position: fixed;
-  z-index: 9;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,.2);
+@media (min-width: 480px) {
+  .header-nav {
+    justify-content: center;
+    padding: 0 100px;
 
-  opacity: 0;
-  visibility: hidden;
-  transition: visibility .2s linear, opacity .2s linear;
-}
-body.menu-opened .esl-demo-header-overlay {
-  opacity: 1;
-  visibility: visible;
-  transition: visibility 0s linear, opacity .2s linear;
+    .container-header {
+      width: 100%;
+      justify-content: space-between;
+      height: 84px;
+
+      .logo {
+        font-size: 19px;
+
+        svg {
+          height: 60px;
+        }
+      }
+    }
+
+    .header-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0;
+      margin-right: 40px;
+
+      li {
+        margin-left: 40px;
+        list-style-type: none;
+        font-size: 16px;
+
+        svg {
+          height: 24px;
+        }
+      }
+    }
+
+    .btn-start {
+      display: flex;
+      height: 40px;
+      width: 160px;
+      background-color: #0097E7;
+      color: white;
+      align-items: center;
+      font-size: 18px;
+      font-weight: 500;
+      justify-content: center;
+      border-radius: 12px;
+      transition: background-color 0.5s;
+    }
+
+    .btn-start:hover {
+      background-color: #007bff;
+      text-decoration: none;
+    }
+  }
 }
