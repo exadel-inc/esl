@@ -17,7 +17,7 @@ module.exports = (config) => {
 
   config.addNunjucksAsyncShortcode('mdRender', MDRenderer.render);
 
-  config.addTransform('transform', transform)
+  config.addTransform('transform', transform);
 
   config.addFilter('sortByName', (values) => {
     if (!values || !Array.isArray(values)) {
