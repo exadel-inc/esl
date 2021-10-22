@@ -1,22 +1,25 @@
-{% macro menu(title, collection) %}
-  <esl-trigger class="hd-dropdown-trigger"
-               target="::next"
-               hover-hide-delay="400">
-    <button class="btn btn-link hd-dropdown-btn hd-dropdown-arrow {{ 'nav-item-selected' if collection in page.url }}">
-      {{ title }}
-    </button>
-  </esl-trigger>
-  <esl-panel class="hd-dropdown-content"
+{% macro menu(title, collection, icon, link) %}
+  <div class="sb-nav-item-container">
+    <a class="link-icons" href="{{ link }}">{% include icon %}</a>
+    <esl-trigger class="sb-dropdown-trigger"
+                target=".{{ title }}"
+                hover-hide-delay="400">
+      <button class="btn btn-link sb-dropdown-btn sb-dropdown-arrow {{ 'nav-item-selected' if collection in page.url }}">
+        <div class="sb-item-title">{{ title }}</div>
+      </button>
+    </esl-trigger>
+  </div>
+  <esl-panel class="sb-dropdown-content {{ title }}"
              group="esl-nav"
              body-class="menu-opened"
              fallback-duration="400"
              close-on-esc>
     {% if collections[collection] %}
-      <ul class="hd-dropdown-list">
+      <ul class="sb-dropdown-list">
         {% for item in collections[collection] | released | sortByName %}
           {% set isActive = page.url === item.url %}
-          <li class="nav-item hd-dropdown-item {{ 'nav-item-selected' if isActive }}" {% if isActive %}aria-current="page"{% endif %}>
-            <a class="hd-dropdown-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
+          <li class="nav-item sb-dropdown-item {{ 'nav-item-selected' if isActive }}" {% if isActive %}aria-current="page"{% endif %}>
+            <a class="sb-dropdown-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
           </li>
         {% endfor %}
       </ul>
