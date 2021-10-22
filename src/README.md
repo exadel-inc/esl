@@ -8,21 +8,21 @@ UIP components are organized in the following way:
 
 1. Core components
     - Base components
-        - [UIPRoot](core/README.md#uip-root)
-    - [UIPPreview](core/preview/README.md)
-    - [UIPSnippets](core/snippets/README.md)
+        - [UIPRoot](src/core/README.md#uip-root)
+    - [UIPPreview](src/core/preview/README.md)
+    - [UIPSnippets](src/core/snippets/README.md)
 2. Plugins
-    - [UIPEditor](plugins/editor/README.md)
-    - [UIPOptions](plugins/options/README.md)
-    - [UIPSettings](plugins/settings/settings/README.md)
-        - [UIPBoolSetting](plugins/settings/settings/setting/bool-setting/README.md)
-        - [UIPSelectSetting](plugins/settings/settings/setting/select-setting/README.md)
-        - [UIPTextSetting](plugins/settings/settings/setting/text-setting/README.md)
+    - [UIPEditor](src/plugins/editor/README.md)
+    - [UIPOptions](src/plugins/options/README.md)
+    - [UIPSettings](src/plugins/settings/settings/README.md)
+        - [UIPBoolSetting](src/plugins/settings/settings/setting/bool-setting/README.md)
+        - [UIPSelectSetting](src/plugins/settings/settings/setting/select-setting/README.md)
+        - [UIPTextSetting](src/plugins/settings/settings/setting/text-setting/README.md)
 
 Any playground must have at least **core** components. **Plugins** are
 optional, you can add them on your own free will. 
 
-To implement custom UIPPlayground components, see [UIPPlugin](core/README.md#uip-plugin).
+To implement custom UIPPlayground components, see [UIPPlugin](src/core/README.md#uip-plugin).
 
 # Modules/components imports
 Modules main parts lay inside modules folders. So importing required
