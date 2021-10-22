@@ -26,6 +26,15 @@ layout: basic
   <li class="uip-demo__list-item">
     <a href="{{ plugin.url | url }}">{{ plugin.data.title }}</a>
   </li>
+  {% if plugin.data.title === 'Settings' %}
+    <ul class="uip-demo__sublist">
+      {% for setting in collections.setting %}
+        <li class="uip-demo__list-item">
+          <a href="{{ setting.url | url }}">{{ setting.data.title }}</a>
+        </li>
+      {%- endfor %}
+    </ul>
+  {%- endif %}
 {%- endfor %}
 </ul>
 
