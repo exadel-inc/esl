@@ -1,3 +1,4 @@
+# Override pages compiler settings
 parserOptions:
   project: './pages/tsconfig.json'
   sourceType: module

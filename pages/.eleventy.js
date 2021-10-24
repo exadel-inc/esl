@@ -17,13 +17,16 @@ module.exports = (config) => {
     }
   }
 
+  // Add MD files from the library sources
   config.addWatchTarget('../src/**/*.md');
 
+  // Setup simple copy operations
   config.addPassthroughCopy({
     'static/assets': 'assets',
     'static/tools': '.'
   });
 
+  // Update BS observed directories
   config.setBrowserSyncConfig({
     files: [
       'dist/bundles/*.js',
