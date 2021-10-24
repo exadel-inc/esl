@@ -1,40 +1,27 @@
-const htmlmin = require('html-minifier');
-
-const { isDev } = require('./pages/views/_data/env');
-const { markdown } = require('./pages/views/_data/markdown');
-const { MDRenderer } = require('./pages/views/_data/md-render');
+const fs = require('fs');
+const chalk = require('chalk');
+const {isDev} = require('./pages/11ty/env.config');
 
 module.exports = (config) => {
+  // Init all 11ty config modules
+  const cfgFiles = fs.readdirSync('./pages/11ty');
+  for (const file of cfgFiles) {
+    if (file.startsWith('_')) return;
+    try {
+      console.info(chalk.blue(`Initializing module: ${file}`));
+      require('./pages/11ty/' + file)(config);
+      console.info(chalk.green(`Module ${file} initialized.`));
+    } catch (e) {
+      console.error(chalk.red(`Module ${file} initialization failed`));
+      throw e;
+    }
+  }
+
   config.addWatchTarget('src/**/*.md');
 
   config.addPassthroughCopy({
     'pages/static/assets': 'assets',
     'pages/static/tools': '.',
-  });
-
-  config.setLibrary('md', markdown);
-
-  config.addNunjucksAsyncShortcode('mdRender', MDRenderer.render);
-
-  config.addFilter('sortByName', (values) => {
-    if (!values || !Array.isArray(values)) {
-      console.error(`Unexpected values in 'sortByName' filter: ${values}`);
-      return values;
-    }
-    return [...values].sort((a, b) => a.data.name.localeCompare(b.data.name));
-  });
-
-  config.addFilter('released', (values) => {
-    return values.filter((item) => {
-      const tags = [].concat(item.data.tags);
-      return isDev || !tags.includes('draft');
-    });
-  });
-  config.addFilter('released-strict', (values) => {
-    return values.filter((item) => {
-      const tags = [].concat(item.data.tags);
-      return !tags.includes('draft');
-    });
   });
 
   config.setBrowserSyncConfig({
@@ -44,21 +31,6 @@ module.exports = (config) => {
       'pages/dist/bundles/*.map',
     ],
     open: isDev,
-  });
-
-  config.addTransform('htmlmin', function (content, outputPath) {
-    if (outputPath && outputPath.endsWith('.html') && !isDev) {
-      return htmlmin.minify(content, {
-        useShortDoctype: true,
-        removeComments: true,
-        collapseWhitespace: true,
-        conservativeCollapse: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-      });
-    }
-    return content;
   });
 
   return {
