@@ -78,33 +78,51 @@ ESL project consists of the following directories:
     - [📁 draft](../src/modules/draft) - library core modules and components drafts (not ready for production, out of semiver and restrictions)
     - [📁 esl-component](../src/modules) - library component directory
         - 📁 test - component/module tests sources
-            - *.test.ts - test sources should have `.test` postfix 
+            - 📄 *.test.ts - test sources should have `.test` postfix 
         - 📁 core - component/module core source files
-        - core.ts - component/module main file (import core parts)
-        - core.less - component/module main styles
-        - core.mixin.less - component/module main styles mixin and references only
+        - 📄 core.ts - component/module main file (import core parts)
+        - 📄 core.less - component/module main styles
+        - 📄 core.mixin.less - component/module main styles mixin and references only
     - [📁 esl-utils](../src/modules/esl-utils) - library common utilities module
         - 📁 category - utilities organized in groups
-    - all.ts - bundled esm source
-    - lib.ts - global object type definition and activator
-    - all.less - bundled source style 
+    - 📄 all.ts - bundled esm source
+    - 📄 lib.ts - global object type definition and activator
+    - 📄 all.less - bundled source style 
   - [📁 polyfills](../src/polyfills) - small polyfills and shims distributed with the library
 
 
 - [📁 pages](../pages) - demo site root directory
+  - [📁 11ty](../pages/11ty) - demo site 11ty configuration files
+    - 📄 *.js - will be applied to 11ty config automatically
+    - 📄 _*.js - will not be applied to 11ty configuration
   - [🔨📁 dist](../pages/dist) - demo site build output directory
   - [📁 src](../pages/src) - demo site common styles and scripts sources
   - [📁 static](../pages/static) - demo site common static assets sources
+    - [📁 assets](../pages/static/assets) - demo site static assets (images, fonts, icons)
+    - [📁 tools](../pages/static/tools) - common files to configure GH Pages
   - [📁 views](../pages/views) - demo pages templates and 11ty common templates
+    - [📁 _data](../pages/views/_data) - 11ty [global data](https://www.11ty.dev/docs/data-global/) files
+    - [📁 _includes](../pages/views/_includes) - 11ty templates common parts
+    - [📁 _layouts](../pages/views/_layouts) - 11ty pages layouts definitions
+    - [📁 components](../pages/views/components) - ESL components articles
+    - [📁 examples](../pages/views/examples) - examples articles
+    - [📁 utils](../pages/views/utils) - ESL utils articles
+  - [🔧 .eleventy.js](../pages/.eleventy.js) - main 11ty configuration file
+  - [🔧 tsconfig.json](../pages/tsconfig.json) - TS config for demo pages scripts
+  - [🔧 webpack.config.js](../pages/webpack.config.js) - webpack build file for demo pages
 
 
 - [📁 build](../build) - library common build scripts
 - [📁 eslint](../eslint) - library es-lint rules configuration
 - [📁 .github](../.github) - library repository configuration and documentation
+- [📁 .husky](../.husky) - git hooks configuration
 
 
 - [🔨📁 modules](../modules) - library core esm build output
 - [🔨📁 polyfills](../polyfills) - library polyfills esm build output
+
+
+- [🔨📁 .report](../.report) - linters / test / build-tools reports
 
 ## Project Scripts
 
