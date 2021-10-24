@@ -3,32 +3,34 @@
   id="sidebar"
   class="sb-toggleable"
   close-on-esc>
-  <nav class="sb-nav esl-scrollable-content">
+  <nav class="sb-nav">
     <a class="sb-logo logo-light logo-animated mr-5" href="{{ '/' | url }}">
       {% include 'pages/static/assets/logo.svg' %}
       <span class="sb-title">EXADEL SMART LIBRARY</span>
     </a>
     {% from 'sidebar-menu.njk' import menu with context %}
-    <ul class="sb-nav-list">
-      <li class="sb-nav-item">
-        {{ menu ('Getting started', '', 'pages/static/assets/sidebar/start.svg', 'examples/accordion/') }}
-      </li>
-      <li class="sb-nav-item">
-        {{ menu ('Samples', 'examples', 'pages/static/assets/sidebar/examples.svg', '/') }}
-      </li>
-      <li class="sb-nav-item">
-        {{ menu ('Components', 'components', 'pages/static/assets/sidebar/components.svg', '/') }}
-      </li>
-      <li class="sb-nav-item">
-        {{ menu ('Utils', 'utils', 'pages/static/assets/sidebar/utils.svg', '/') }}
-      </li>
-      <li class="sb-nav-item">
-        {{ menu ('Contribution', '', 'pages/static/assets/sidebar/contribution.svg', '/') }}
-      </li>
-    </ul>
-    <esl-trigger target="#sidebar" mode="toggle">
+    <div class="sb-nav-list-wrapper">
+      <ul class="sb-nav-list esl-scrollable-content">
+        <li class="sb-nav-item">
+          {{ menu ('Getting started', '', 'pages/static/assets/sidebar/start.svg', 'examples/accordion/') }}
+        </li>
+        <li class="sb-nav-item">
+          {{ menu ('Samples', 'examples', 'pages/static/assets/sidebar/examples.svg', '/') }}
+        </li>
+        <li class="sb-nav-item">
+          {{ menu ('Components', 'components', 'pages/static/assets/sidebar/components.svg', '/') }}
+        </li>
+        <li class="sb-nav-item">
+          {{ menu ('Utils', 'utils', 'pages/static/assets/sidebar/utils.svg', '/') }}
+        </li>
+        <li class="sb-nav-item">
+          {{ menu ('Contribution', '', 'pages/static/assets/sidebar/contribution.svg', '/') }}
+        </li>
+      </ul>
+      <esl-scrollbar class="sidebar-scrollbar" target="::prev"></esl-scrollbar>
+    </div>
+    <esl-trigger id="list-trigger" target="#sidebar" mode="toggle">
       <button class="sb-ico-btn sb-arrows-icon"></button>
     </esl-trigger>
-    <esl-scrollbar class="sidebar-scrollbar" target=".container"></esl-scrollbar>
   </nav>
 </esl-toggleable>

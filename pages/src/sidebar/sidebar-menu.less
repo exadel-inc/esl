@@ -1,12 +1,5 @@
 .sb-toggleable {
 
-  .sb-dropdown-content {
-    &[aria-hidden='false'] {
-      transition: max-height .5s ease-in-out;
-      max-height: 1000px;
-    }
-  }
-
   .sb-nav-item-container {
     display: flex;
     width: 222px;
@@ -15,7 +8,7 @@
 
     transition: margin .5s ease-in-out, height .5s ease-in-out, width .5s ease-in-out;
 
-    .link-icons {
+    .sb-link-icon {
       height: 24px;
       width: 24px;
     }
@@ -100,11 +93,6 @@
     .sb-dropdown-trigger {
       opacity: 0;
       transition: margin .5s ease-in-out, opacity 0s ease-in-out .5s;
-    }
-
-    .sb-dropdown-content {
-      max-height: 0;
-      transition: max-height .5s ease-in-out;
     }
   }
 }
