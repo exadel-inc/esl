@@ -5,26 +5,26 @@
   close-on-esc>
   <nav class="sb-nav">
     <a class="sb-logo logo-light logo-animated mr-5" href="{{ '/' | url }}">
-      {% include 'pages/static/assets/logo.svg' %}
+      {% include 'static/assets/logo.svg' %}
       <span class="sb-title">{{ site.name }}</span>
     </a>
     {% from 'sidebar-menu.njk' import menu with context %}
     <div class="sb-nav-list-wrapper">
       <ul class="sb-nav-list esl-scrollable-content">
         <li class="sb-nav-item">
-          {{ menu ('Getting started', '', 'pages/static/assets/sidebar/start.svg', 'examples/accordion/') }}
+          {{ menu ('Getting started', '', 'static/assets/sidebar/start.svg', 'examples/accordion/') }}
         </li>
         <li class="sb-nav-item">
-          {{ menu ('Samples', 'examples', 'pages/static/assets/sidebar/examples.svg', '/') }}
+          {{ menu ('Samples', 'examples', 'static/assets/sidebar/examples.svg', '/') }}
         </li>
         <li class="sb-nav-item">
-          {{ menu ('Components', 'components', 'pages/static/assets/sidebar/components.svg', '/') }}
+          {{ menu ('Components', 'components', 'static/assets/sidebar/components.svg', '/') }}
         </li>
         <li class="sb-nav-item">
-          {{ menu ('Utils', 'utils', 'pages/static/assets/sidebar/utils.svg', '/') }}
+          {{ menu ('Utils', 'utils', 'static/assets/sidebar/utils.svg', '/') }}
         </li>
         <li class="sb-nav-item">
-          {{ menu ('Contribution', '', 'pages/static/assets/sidebar/contribution.svg', '/') }}
+          {{ menu ('Contribution', '', 'static/assets/sidebar/contribution.svg', '/') }}
         </li>
       </ul>
       <esl-scrollbar class="sidebar-scrollbar" target="::prev"></esl-scrollbar>

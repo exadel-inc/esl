@@ -1,8 +1,7 @@
+import {prop} from '../../../src/modules/esl-utils/decorators/prop';
 import {ready} from '../../../src/modules/esl-utils/decorators/ready';
 import {ESLToggleable} from '../../../src/modules/esl-toggleable/core/esl-toggleable';
 import type {ToggleableActionParams} from '../../../src/modules/esl-toggleable/core/esl-toggleable';
-import {prop} from '../../../src/modules/esl-utils/decorators/prop';
-
 
 export class ESLSidebar extends ESLToggleable {
   static is = 'esl-sidebar';
