@@ -7,7 +7,7 @@ customSyntax: postcss-less
 rules:
   # Disallow unknown at-rules
   at-rule-no-unknown: true
-  # Disallow empty selectors
+  # Warn about empty selectors
   block-no-empty:
     - true
     - severity: warning
@@ -69,7 +69,7 @@ rules:
     - true
     - ignore:
         - custom-elements
-  # Disallow (unescaped) newlines in strings
+  # Warn about newlines (unescaped) in strings
   string-no-newline:
     - true
     - severity: warning
