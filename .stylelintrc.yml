@@ -41,8 +41,10 @@ rules:
   no-duplicate-selectors:
     - true
     - severity: warning
-  # Disallow empty sources
-  no-empty-source: true
+  # Warn if empty sources
+  no-empty-source:
+    - true
+    - severity: warning
   # Disallow extra semicolons
   no-extra-semicolons: true
   # Disallow double-slash comments `(//...)` for clear CSS, as they are not supported by CSS
