@@ -13,18 +13,18 @@
     {#    </aside>#}
     {#  {% endif %}#}
 
+    {% if title %}
+      <div class="content-heading container-fluid">
+        <h1 class="text-center pt-2">
+          {{ title | safe }}
+          {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
+          {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}
+        </h1>
+        <hr/>
+      </div>
+    {% endif %}
+
     <div class="content {{ containerCls or 'container-fluid' }}">
-
-      {% if title %}
-        <div class="content-header">
-          <h1>
-            {{ title | safe }}
-            {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
-            {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}
-          </h1>
-        </div>
-      {% endif %}
-
       {{ content | safe or 'No content.' }}
     </div>
 
