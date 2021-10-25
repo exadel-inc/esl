@@ -1,0 +1,14 @@
+{% macro sampel(item)%}
+  <a href="{{ item.url | url }}">
+    <div class="sampels-page-wrapper">
+      <div class="sampels-page-title sampels-page-box">
+        <span>{{item.data.name}}</span>
+      </div>
+      <div class="sampels-page-box sampels-page-svg">
+        {% if item.data.icon %}
+          {% include "pages/static/assets/" + item.data.icon  %}
+        {% endif %}
+      </div>
+    </div>
+  </a>
+{% endmacro %}

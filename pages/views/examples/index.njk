@@ -1,0 +1,12 @@
+---
+layout: content
+title: Sample
+---
+
+{% from 'sample.njk' import sampel with context %}
+
+<div class="sampels-page">
+  {% for item in collections['examples'] %}
+    {{ sampel (item) }}
+  {% endfor %}
+</div>
