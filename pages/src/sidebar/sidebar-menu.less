@@ -45,7 +45,7 @@
         transition: transform .5s ease-in-out, top .5s ease-in-out;
       }
 
-      &[aria-expanded='true'] {
+      &.open {
         .sb-dropdown-arrow {
           &::after {
             top: 14px;
@@ -82,7 +82,7 @@
     }
   }
 
-  &[aria-hidden='true'] {
+  &:not(.open) {
     .sb-nav-item-container {
       height: 24px;
       margin: 34px 0 0 14px;

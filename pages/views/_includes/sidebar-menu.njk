@@ -1,12 +1,9 @@
 {% macro menu(title, collection, icon, link) %}
   <div class="sb-nav-item-container">
     <a class="sb-link-icon" href="{{ link }}">{% include icon %}</a>
-    <esl-trigger class="sb-dropdown-trigger"
-                target="::parent::next"
-                hover-hide-delay="400">
-      <button class="btn btn-link sb-dropdown-btn {{ 'sb-dropdown-arrow' if collection }} {{ 'nav-item-selected' if collection in page.url }}">
-        <div class="sb-item-title">{{ title }}</div>
-      </button>
+    <esl-trigger class="sb-dropdown-btn sb-dropdown-trigger {{ 'sb-dropdown-arrow' if collection }} {{ 'nav-item-selected' if collection in page.url }}"
+                 target="::parent::next">
+      <div class="sb-item-title">{{ title }}</div>
     </esl-trigger>
   </div>
   <esl-panel class="sb-dropdown-content"

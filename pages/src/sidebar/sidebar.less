@@ -5,10 +5,6 @@
   min-width: 72px;
   transition: min-width .5s ease-in-out;
 
-  &.esl-toggleable:not(.open) {
-    display: block;
-  }
-
   .sb-ico-btn {
     z-index: 1;
     border: none;
@@ -64,7 +60,7 @@
     }
   }
 
-  &[aria-hidden='false'] {
+  &.open {
     display: block;
     max-width: 270px;
     min-width: 270px;

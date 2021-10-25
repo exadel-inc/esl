@@ -23,6 +23,7 @@
     font-weight: 600;
     line-height: 20px;
     color: white;
+    text-transform: uppercase;
     text-decoration: none;
   }
 
@@ -33,26 +34,25 @@
 
     display: flex;
     flex-flow: column;
+  }
+  .sb-nav-list-wrapper {
+    height: inherit;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 
-    .sb-nav-list-wrapper {
-      height: inherit;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-
-      .sb-nav-list {
-        flex: 1 1 0;
-      }
+    .sb-nav-list {
+      flex: 1 1 0;
     }
   }
 
-  &[aria-hidden='false'] {
+  &.open {
     .sb-nav {
-    padding: 24px;
-    height: 100vh;
-    max-width: 270px;
+      padding: 24px;
+      height: 100vh;
+      max-width: 270px;
 
-    transition: padding .5s ease-in-out;
+      transition: padding .5s ease-in-out;
     }
   }
 }
