@@ -20,7 +20,7 @@ export interface ESLSelectTagShape extends ESLBaseElementShape<ESLSelect> {
 
   /**
    * Define text to add when there is not enough space to show all selected options inline,
-   * Supports `{rest}`, `{length}` and `{limit}` placeholders ('+ {rest} more...' by default)
+   * Supports `{rest}`, `{length}` and `{limit}` placeholders (`+ {rest} more...` by default)
    */
   'more-label-format'?: string;
 

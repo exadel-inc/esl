@@ -1,15 +1,16 @@
 const path = require('path');
 const fsAsync = require('fs').promises;
-const { isDev } = require('./env');
-const { JSDOM } = require('jsdom');
-const { github } = require('./site.json');
 
-const { markdown } = require('./markdown');
+const {JSDOM} = require('jsdom');
+const {isDev} = require('./env.config');
+const {markdown} = require('./markdown.lib');
+
+const {github} = require('../views/_data/site.json');
 
 const fileCache = new Map();
 
 const parseFile = async (filePath) => {
-  const absolutePath = path.resolve(__dirname, '../../../', filePath);
+  const absolutePath = path.resolve(__dirname, '../../', filePath);
 
   if (!isDev && fileCache.has(absolutePath)) return fileCache.get(absolutePath);
 
@@ -63,4 +64,7 @@ class MDRenderer {
   }
 }
 
-module.exports = { MDRenderer };
+module.exports = (config) => {
+  config.addNunjucksAsyncShortcode('mdRender', MDRenderer.render);
+};
+module.exports.MDRenderer = MDRenderer;
