@@ -1,0 +1,98 @@
+.sb-toggleable {
+
+  .sb-nav-item-container {
+    display: flex;
+    width: 222px;
+    height: 30px;
+    margin-top: 32px;
+
+    transition: margin .5s ease-in-out, height .5s ease-in-out, width .5s ease-in-out;
+
+    .sb-link-icon {
+      height: 24px;
+      width: 24px;
+    }
+
+    .sb-dropdown-trigger {
+      transition: margin .5s ease-in-out, opacity 0.5s ease-in-out;
+
+      .sb-dropdown-btn {
+        display: flex;
+        height: 30px;
+        padding: 0 0 0 16px;
+
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 500;
+      }
+
+      .sb-dropdown-arrow::after {
+        content: '';
+
+        position: relative;
+        top: 11px;
+        left: 11.2px;
+        width: 7px;
+        height: 7px;
+
+        border-radius: 1px;
+        border-left: 2px solid white;
+        border-top: 2px solid white;
+
+        transform: rotate(225deg);
+        transform-origin: center;
+        transition: transform .5s ease-in-out, top .5s ease-in-out;
+      }
+
+      &[aria-expanded='true'] {
+        .sb-dropdown-arrow {
+          &::after {
+            top: 14px;
+            transform: rotate(45deg);
+            transition: transform .5s ease-in-out, top .5s ease-in-out;
+          }
+        }
+      }
+    }
+  }
+
+  .sb-dropdown-list {
+    margin-top: 4px;
+
+    .sb-dropdown-item {
+      padding-top: 20px;
+
+      .sb-dropdown-link {
+        display: flex;
+        width: 222px;
+        margin-left: 40px;
+
+        font-size: 16px;
+        font-weight: 400;
+        color: white;
+        text-decoration: none;
+      }
+
+      &.nav-item-selected {
+        .sb-dropdown-link {
+          color: #0097E7;
+        }
+      }
+    }
+  }
+
+  &[aria-hidden='true'] {
+    .sb-nav-item-container {
+      height: 24px;
+      margin: 34px 0 0 14px;
+
+      transition: margin-left .5s ease-in-out, height .5s ease-in-out;
+    }
+
+    .sb-dropdown-trigger {
+      opacity: 0;
+      transition: margin .5s ease-in-out, opacity 0s ease-in-out .5s;
+    }
+  }
+}

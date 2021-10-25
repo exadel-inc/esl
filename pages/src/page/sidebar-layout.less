@@ -4,11 +4,18 @@
 
   main {
     flex: 1 1 auto;
-  }
 
-  .content {
-    padding-left: 60px;
-    padding-right: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    > .sb-nav-item-container {
+      padding-top: 30px;
+    }
+
+    > footer {
+      margin-top: auto;
+    }
   }
 
   .main-scroll {
@@ -16,6 +23,12 @@
   }
 
   .sidebar-scrollbar {
-    left: 0;
+    .scrollbar-thumb {
+      background: #2e2e35;
+    }
+
+    .scrollbar-track {
+      background: #43454e;
+    }
   }
 }

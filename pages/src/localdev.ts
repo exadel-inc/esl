@@ -43,6 +43,8 @@ import {
   ESLCarouselPlugins
 } from '../../src/modules/draft/all';
 
+import './sidebar/sidebar';
+
 ESLImage.register();
 ESLMedia.register();
 

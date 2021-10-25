@@ -5,26 +5,22 @@
   {% include 'sidebar.njk' %}
 
   <main class="esl-scrollable-content">
-    {#  {% if aside %}#}
-    {#    <aside class="aside-left">#}
-    {#      {% if aside.components  %}#}
-
-    {#      {% endif %}#}
-    {#    </aside>#}
-    {#  {% endif %}#}
-
-    {% if title %}
-      <div class="content-heading container-fluid">
-        <h1 class="text-center pt-2">
+    <div class="content {{ containerCls or 'container-fluid' }}">
+      {% if title %}
+        <h1 class="pt-3 pb-3">
           {{ title | safe }}
           {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
           {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}
         </h1>
-        <hr/>
-      </div>
-    {% endif %}
+      {% endif %}
 
-    <div class="content {{ containerCls or 'container-fluid' }}">
+      {% if aside %}
+        <aside class="aside-left">
+          {% if aside.components  %}
+          {% endif %}
+        </aside>
+      {% endif %}
+
       {{ content | safe or 'No content.' }}
     </div>
 
