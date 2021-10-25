@@ -13,4 +13,7 @@ const markdown = markdownLib({
   }
 });
 
-module.exports = { markdown };
+module.exports = (config) => {
+  config.setLibrary('md', markdown);
+};
+module.exports.markdown = markdown;

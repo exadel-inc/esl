@@ -12,7 +12,7 @@ interface TestMediaAction {
 
 class TestMediaControls extends HTMLElement {
 
-  public static ACTIONS: { [key: string]: TestMediaAction } = {
+  public static ACTIONS: {[key: string]: TestMediaAction} = {
     play: {
       title: 'Play',
       action: (target: any) => target.play(),
