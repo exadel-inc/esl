@@ -1,34 +1,34 @@
 <esl-sidebar
   open
   id="sidebar"
-  class="sb-toggleable"
+  class="sidebar-preload"
   close-on-esc>
-  <nav class="sb-nav">
-    <a class="sb-logo logo-light logo-animated mr-5" href="{{ '/' | url }}">
-      {% include 'static/assets/logo.svg' %}
-      <span class="sb-title">{{ site.name }}</span>
+  <nav class="sidebar-nav">
+    <a class="sidebar-heading logo-light logo-animated mr-5" href="{{ '/' | url }}">
+      <span class="sidebar-logo">{% include 'static/assets/logo.svg' %}</span>
+      <span class="sidebar-title">{{ site.name }}</span>
     </a>
     {% from 'sidebar-menu.njk' import menu with context %}
     <div class="sb-nav-list-wrapper">
-      <ul class="sb-nav-list esl-scrollable-content">
-        <li class="sb-nav-item">
+      <ul class="sidebar-nav-list esl-scrollable-content">
+        <li class="sidebar-nav-item">
           {{ menu ('Getting started', '', 'static/assets/sidebar/start.svg', 'examples/accordion/') }}
         </li>
-        <li class="sb-nav-item">
+        <li class="sidebar-nav-item">
           {{ menu ('Samples', 'examples', 'static/assets/sidebar/examples.svg', '/') }}
         </li>
-        <li class="sb-nav-item">
+        <li class="sidebar-nav-item">
           {{ menu ('Components', 'components', 'static/assets/sidebar/components.svg', '/') }}
         </li>
-        <li class="sb-nav-item">
+        <li class="sidebar-nav-item">
           {{ menu ('Utils', 'utils', 'static/assets/sidebar/utils.svg', '/') }}
         </li>
-        <li class="sb-nav-item">
+        <li class="sidebar-nav-item">
           {{ menu ('Contribution', '', 'static/assets/sidebar/contribution.svg', '/') }}
         </li>
       </ul>
       <esl-scrollbar class="sidebar-scrollbar" target="::prev"></esl-scrollbar>
     </div>
-    <esl-trigger class="sb-ico-btn sb-arrows-icon" target="::parent(esl-sidebar)" mode="toggle"></esl-trigger>
+    <esl-trigger class="sidebar-ico-btn sidebar-arrows-icon" target="::parent(esl-sidebar)" mode="toggle"></esl-trigger>
   </nav>
 </esl-sidebar>

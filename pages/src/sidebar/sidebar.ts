@@ -15,11 +15,12 @@ export class ESLSidebar extends ESLToggleable {
   @ready
   protected connectedCallback() {
     super.connectedCallback();
+    this.classList.remove('sidebar-preload');
   }
 
   protected onShow(params: ToggleableActionParams) {
     super.onShow(params);
-    this.expandActive();
+    this.expandActive(params.initiator === 'init');
   }
   protected onHide(params: ToggleableActionParams) {
     super.onHide(params);
@@ -27,12 +28,12 @@ export class ESLSidebar extends ESLToggleable {
   }
 
   public collapseAll() {
-    this.$submenus.forEach((menu) => menu.hide());
+    this.$submenus.forEach((menu) => menu.hide({activator: this}));
   }
-  public expandActive() {
+  public expandActive(noCollapse: boolean = false) {
     this.$submenus
       .filter((menu) => !!menu.querySelector('.nav-item-selected'))
-      .forEach((menu) => menu.show());
+      .forEach((menu) => menu.show({noCollapse, activator: this}));
   }
 
   protected updateA11y() {
