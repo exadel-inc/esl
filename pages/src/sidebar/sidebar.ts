@@ -35,10 +35,7 @@ export class ESLSidebar extends ESLToggleable {
   public expandActive(noCollapse: boolean = false) {
     this.$submenus
       .filter((menu) => !!menu.querySelector('.nav-item-selected'))
-      .forEach((menu) => {
-        menu.show({noCollapse, activator: this});
-        menu.previousElementSibling?.classList.add('nav-item-active');
-      });
+      .forEach((menu) => menu.show({noCollapse, activator: this}));
   }
 
   protected updateA11y() {
