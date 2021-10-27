@@ -1,14 +1,14 @@
-.esl-sidebar {
+#sidebar {
 
   .sidebar-heading {
     display: flex;
     width: 218px;
     height: 52px;
     align-items: center;
-    margin-bottom: 56px;
+    margin: 0 0 61px 10px;
 
-    color: white;
-    text-decoration: none;
+    color: inherit;
+    transition: margin .5s ease-in-out;
   }
 
   .sidebar-logo {
@@ -23,19 +23,17 @@
     font-size: 12px;
     font-weight: 600;
     line-height: 20px;
-    color: white;
     text-transform: uppercase;
-    text-decoration: none;
   }
 
   .sidebar-nav {
     height: 100vh;
-    padding: 24px 10px;
-    transition: padding .5s ease-in-out;
+    padding: 24px 24px 24px 0;
 
     display: flex;
     flex-flow: column;
   }
+
   .sb-nav-list-wrapper {
     height: inherit;
     position: relative;
@@ -48,12 +46,14 @@
   }
 
   &.open {
+    .sidebar-heading {
+      margin: 0 0 56px 24px;
+      transition: margin .5s ease-in-out;
+    }
+
     .sidebar-nav {
-      padding: 24px;
       height: 100vh;
       max-width: 270px;
-
-      transition: padding .5s ease-in-out;
     }
   }
 }

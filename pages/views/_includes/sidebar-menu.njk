@@ -8,16 +8,14 @@
   </div>
   <esl-panel class="sb-dropdown-content"
              group="esl-nav"
-             body-class="menu-opened"
              initial-params="{noCollapse: true}"
-             fallback-duration="400"
-             close-on-esc>
+             fallback-duration="400">
     {% if collections[collection] %}
       <ul class="sb-dropdown-list">
         {% for item in collections[collection] | released | sortByName %}
           {% set isActive = page.url === item.url %}
           <li class="nav-item sb-dropdown-item {{ 'nav-item-selected' if isActive }}" {% if isActive %}aria-current="page"{% endif %}>
-            <a class="sb-dropdown-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
+            <a class="sb-dropdown-link decoration-none" href="{{ item.url | url }}">{{ item.data.name }}</a>
           </li>
         {% endfor %}
       </ul>

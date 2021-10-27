@@ -1,10 +1,9 @@
 <esl-sidebar
   open
   id="sidebar"
-  class="sidebar-preload"
-  close-on-esc>
+  class="sidebar-preload open">
   <nav class="sidebar-nav">
-    <a class="sidebar-heading logo-light logo-animated mr-5" href="{{ '/' | url }}">
+    <a class="sidebar-heading decoration-none logo-light logo-animated mr-5" href="{{ '/' | url }}">
       <span class="sidebar-logo">{% include 'static/assets/logo.svg' %}</span>
       <span class="sidebar-title">{{ site.name }}</span>
     </a>
@@ -12,7 +11,7 @@
     <div class="sb-nav-list-wrapper">
       <ul class="sidebar-nav-list esl-scrollable-content">
         <li class="sidebar-nav-item">
-          {{ menu ('Getting started', '', 'static/assets/sidebar/start.svg', 'examples/accordion/') }}
+          {{ menu ('Getting started', '', 'static/assets/sidebar/start.svg', '/') }}
         </li>
         <li class="sidebar-nav-item">
           {{ menu ('Samples', 'examples', 'static/assets/sidebar/examples.svg', '/') }}

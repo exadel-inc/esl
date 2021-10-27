@@ -6,6 +6,8 @@ import type {ToggleableActionParams} from '../../../src/modules/esl-toggleable/c
 export class ESLSidebar extends ESLToggleable {
   static is = 'esl-sidebar';
 
+  @prop() public closeOnEsc: boolean = true;
+
   @prop() public submenus: string = '.sb-dropdown-content';
 
   public get $submenus(): ESLToggleable[] {
@@ -15,7 +17,6 @@ export class ESLSidebar extends ESLToggleable {
   @ready
   protected connectedCallback() {
     super.connectedCallback();
-    this.classList.remove('sidebar-preload');
   }
 
   protected onShow(params: ToggleableActionParams) {
@@ -30,10 +31,14 @@ export class ESLSidebar extends ESLToggleable {
   public collapseAll() {
     this.$submenus.forEach((menu) => menu.hide({activator: this}));
   }
+
   public expandActive(noCollapse: boolean = false) {
     this.$submenus
       .filter((menu) => !!menu.querySelector('.nav-item-selected'))
-      .forEach((menu) => menu.show({noCollapse, activator: this}));
+      .forEach((menu) => {
+        menu.show({noCollapse, activator: this});
+        menu.previousElementSibling?.classList.add('nav-item-active');
+      });
   }
 
   protected updateA11y() {
