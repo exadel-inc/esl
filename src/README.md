@@ -25,7 +25,7 @@ optional, you can add them on your own free will.
 To implement custom UIPPlayground components, see [UIPPlugin](src/core/README.md#uip-plugin).
 
 # Modules/components imports
-Modules main parts lay inside modules folders. So importing required
+Module's main parts lay inside modules folders. So importing the required
 module is really straightforward:
 
 ```typescript
