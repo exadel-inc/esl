@@ -1,0 +1,123 @@
+#sidebar {
+
+  .sidebar-nav-item {
+    margin-bottom: 32px;
+    padding-left: 24px;
+  }
+
+  .nav-item-active {
+    color: #0097E7;
+    display: inline;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+
+      left: -24px;
+      height: 30px;
+      border-left: 2px solid white;
+    }
+  }
+
+  .sidebar-nav-item-container {
+    display: flex;
+    width: 222px;
+    height: 30px;
+
+    transition: margin .5s ease-in-out, height .5s ease-in-out;
+  }
+
+  .sb-link-icon {
+    height: 24px;
+    width: 24px;
+  }
+
+  .sb-item-title {
+    display: flex;
+    height: 30px;
+    padding: 0 0 0 16px;
+
+    color: inherit;
+    font-size: 18px;
+    font-weight: 500;
+
+    &:hover {
+      color: #dad8d8;
+    }
+  }
+
+  .sb-dropdown-arrow::after {
+    content: '';
+
+    position: relative;
+    top: 8px;
+    left: 11.2px;
+    width: 7px;
+    height: 7px;
+
+    border-left: 2px solid white;
+    border-top: 2px solid white;
+
+    transform: rotate(225deg);
+    transform-origin: center;
+    transition: transform .5s ease-in-out, top .5s ease-in-out;
+  }
+
+  .sb-dropdown-trigger {
+    &[active] {
+      .sb-dropdown-arrow::after {
+        top: 12px;
+        transform: rotate(45deg);
+        transition: transform .5s ease-in-out, top .5s ease-in-out;
+      }
+    }
+  }
+
+  .sb-dropdown-list {
+    margin-top: 4px;
+  }
+
+  .sb-dropdown-item {
+    padding-top: 20px;
+
+    .sb-dropdown-link {
+      display: flex;
+      width: 222px;
+      margin-left: 40px;
+
+      font-size: 16px;
+      font-weight: 400;
+      color: inherit;
+
+      &:hover {
+        color: #dad8d8;
+      }
+    }
+  }
+
+  .nav-item-selected {
+    position: relative;
+    color: #0097E7;
+  }
+
+  .nav-item-selected::before {
+    content: '';
+    position: absolute;
+    height: 30px;
+    border-left: 2px solid white;
+  }
+
+  &:not(.open) {
+    .sidebar-nav-item-container {
+      height: 24px;
+
+      transition: margin-left .5s ease-in-out, height .5s ease-in-out;
+    }
+
+    .sb-dropdown-trigger {
+      opacity: 0;
+      transition: opacity 0s ease-in-out .5s;
+    }
+  }
+}

@@ -23,13 +23,13 @@ icon: svg/samples/image.svg
   <div class="col-12">
     <h3 class="text-center">Mods</h3>
     <div class="demo row">
-      <div class="col-xs-12 col-sm-6 p-2">
+      <div class="col-xs-12 col-md-6 p-2">
         <esl-image mode="save-ratio" lazy
                    data-alt="Alt Text Test"
                    data-src="nature/forest+clouds.jpg"
                    data-src-base="{{ imageSrcBase }}"></esl-image>
       </div>
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+      <div class="col-xs-12 col-md-6 p-2 d-flex">
         <div class="m-auto">
           <h5>Mode: save-ratio</h5>
           <p>ESL Image uses entire available width and occupies the height according to image aspect ratio.</p>
@@ -39,7 +39,7 @@ icon: svg/samples/image.svg
     </div>
     <hr/>
     <div class="demo row">
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+      <div class="col-xs-12 col-md-6 p-2 d-flex">
         <div class="m-auto">
           <h5>Mode: cover</h5>
           <p>No inner image, image is rendered by background image.</p>
@@ -48,7 +48,7 @@ icon: svg/samples/image.svg
           <code>&lt;div class="img-container img-container-4-3"&gt; &lt;esl-image ...</code>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 p-2">
+      <div class="col-xs-12 col-md-6 p-2">
         <div class="img-container img-container-4-3">
           <esl-image mode="cover" lazy
                      data-alt="Alt Text"
@@ -58,7 +58,7 @@ icon: svg/samples/image.svg
       </div>
     </div>
     <div class="demo row" id="sim-valign-test">
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+      <div class="col-xs-12 col-md-6 p-2 d-flex">
         <div class="img-container m-auto" style="width: 100%; padding-top:50%; border: 1px solid gray;">
           <esl-image mode="cover" lazy
                      data-alt="Alt Text"
@@ -66,7 +66,7 @@ icon: svg/samples/image.svg
                      data-src-base="{{ imageSrcBase }}"></esl-image>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+      <div class="col-xs-12 col-md-6 p-2 d-flex">
         <div class="m-auto">
           <h5>Mode: cover (additional classes: vertical alignment)</h5>
           <p>As background-image is used to render image in cover mode we can control image cropping options
@@ -100,7 +100,7 @@ icon: svg/samples/image.svg
       </script>
     </div>
     <div class="demo row" id="sim-halign-test">
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+      <div class="col-xs-12 col-md-6 p-2 d-flex">
         <div class="img-container m-auto" style="width: 200px; height: 300px; border: 1px solid gray;">
           <esl-image mode="cover" lazy
                      data-alt="Alt Text"
@@ -108,7 +108,7 @@ icon: svg/samples/image.svg
                      data-src-base="{{ imageSrcBase }}"></esl-image>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+      <div class="col-xs-12 col-md-6 p-2 d-flex">
         <div class="m-auto">
           <h5>Mode: cover (additional classes: horizontal alignment)</h5>
           <p>The following options available to control image horizontal position:</p>
@@ -141,7 +141,7 @@ icon: svg/samples/image.svg
       </script>
     </div>
     <div class="demo row">
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+      <div class="col-xs-12 col-md-6 p-2 d-flex">
         <div class="img-container m-auto" style="width: 300px; height: 150px; border: 1px solid gray;">
           <esl-image mode="cover" lazy
                      class="bg-inscribe"
@@ -150,7 +150,7 @@ icon: svg/samples/image.svg
                      data-src-base="{{ imageSrcBase }}"></esl-image>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+      <div class="col-xs-12 col-md-6 p-2 d-flex">
         <div class="m-auto">
           <h5>Mode: cover (additional classes: inscribe)</h5>
           <p><em>bg-inscribe</em> can be used to declare inscribe image behaviour</p>
@@ -161,7 +161,7 @@ icon: svg/samples/image.svg
     <hr/>
 
     <div class="demo row">
-      <div class="col-xs-12 col-sm-6">
+      <div class="col-xs-12 col-md-6">
         <div class="img-container img-container-16-9">
           <esl-image mode="fit" lazy
                      data-alt="Alt Text Test"
@@ -169,7 +169,7 @@ icon: svg/samples/image.svg
                      data-src-base="{{ imageSrcBase }}"></esl-image>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+      <div class="col-xs-12 col-md-6 p-2 d-flex">
         <div class="m-auto">
           <h5>Mode: fit</h5>
           <p>ESL Image uses inner <em>img</em> to render picture and is used as a wrapper that controls
@@ -179,14 +179,14 @@ icon: svg/samples/image.svg
     </div>
     <hr/>
     <div class="demo row">
-      <div class="col-xs-12 col-sm-6 d-flex">
+      <div class="col-xs-12 col-md-6 d-flex">
         <esl-image mode="origin"
                    class="m-auto"
                    data-alt="Alt Text Test"
                    data-src="nature/volcano-xs.jpg"
                    data-src-base="{{ imageSrcBase }}"></esl-image>
       </div>
-      <div class="col-xs-12 col-sm-6 p-2 d-flex">
+      <div class="col-xs-12 col-md-6 p-2 d-flex">
         <div class="m-auto">
           <h5>Mode: origin</h5>
           <p>Origin mode behaves similarly to the fit mode but sets esl-image size according to inner image

@@ -1,5 +1,5 @@
 /**
- * Target: IE11, Edge < 14
+ * Target: IE11, Edge\<14
  */
 import 'promise-polyfill/dist/polyfill';
 

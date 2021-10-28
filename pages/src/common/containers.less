@@ -1,26 +1,40 @@
 .container,
 .container-fluid {
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+  padding-right: 20px;
+  padding-left: 20px;
+
+  @media (min-width: 768px) {
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+
+  @media (min-width: 1200px) {
+    padding-right: 60px;
+    padding-left: 60px;
+  }
 }
 
 .container {
   @media (min-width: 576px) {
-    max-width: 540px;
+    max-width: 536px;
   }
 
   @media (min-width: 768px) {
-    max-width: 720px;
+    max-width: 740px;
   }
 
-  @media (min-width: 992px) {
-    max-width: 960px;
+  @media (min-width: 1000px) {
+    max-width: 900px;
   }
 
   @media (min-width: 1200px) {
-    max-width: 1140px;
+    max-width: 1100px;
+  }
+
+  @media (min-width: 1600px) {
+    max-width: 1400px;
   }
 }

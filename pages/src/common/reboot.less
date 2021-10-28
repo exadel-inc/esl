@@ -13,8 +13,8 @@
   margin: 0;
   padding: 0;
 
-  &:focus {
-    outline: 1px dotted gray;
+  &:focus-visible {
+    outline: 2px dashed #1fc2ff;
   }
 }
 
@@ -159,8 +159,11 @@ button {
   border-radius: 0;
 
   &:focus {
+    // fallback definition
+    // stylelint-disable declaration-block-no-duplicate-properties
     outline: 1px dotted;
     outline: 5px auto -webkit-focus-ring-color;
+    // stylelint-enable declaration-block-no-duplicate-properties
   }
 }
 
@@ -213,4 +216,11 @@ input[type="radio"] {
 
 [hidden] {
   display: none !important;
+}
+
+fieldset {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
 }

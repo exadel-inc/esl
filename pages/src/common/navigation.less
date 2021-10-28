@@ -1,7 +1,5 @@
 .nav {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   padding-left: 0;
   margin-bottom: 0;
@@ -15,6 +13,16 @@
     &:focus {
       text-decoration: none;
     }
+
+    &.disabled {
+      color: #6c757d;
+      pointer-events: none;
+      cursor: default
+    }
+    &.active {
+      color: #fff;
+      background-color: #007bff
+    }
   }
 
   &-pills &-link {
@@ -22,26 +30,46 @@
   }
 }
 
+.nav-tabs {
+  border-bottom: 1px solid  #6283ff;
+
+  .nav-item {
+    margin-bottom: -1px;
+  }
+
+  .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+
+    &:focus, &:hover {
+      border-color: #e9ecef #e9ecef #6283ff;
+    }
+    &.disabled {
+      color: #6c757d;
+      background-color: transparent;
+      border-color: transparent
+    }
+    &.active {
+      color: #495057;
+      background-color: #fff;
+      border-color: #6283ff  #6283ff #fff
+    }
+  }
+}
+
 .navbar {
   position: relative;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  -ms-flex-align: center;
   align-items: center;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   padding: 0.5rem 1rem;
 
   .container {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    -ms-flex-align: center;
     align-items: center;
-    -ms-flex-pack: justify;
     justify-content: space-between;
   }
 
@@ -61,9 +89,7 @@
   }
 
   &-nav {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-direction: column;
     flex-direction: column;
     padding-left: 0;
     margin-bottom: 0;
@@ -87,28 +113,16 @@
 
   @media (min-width: 992px) {
     &-expand-lg {
-      -ms-flex-flow: row nowrap;
       flex-flow: row nowrap;
-      -ms-flex-pack: start;
       justify-content: flex-start;
 
       .navbar-nav {
-        -ms-flex-direction: row;
         flex-direction: row;
       }
 
       > .container {
-        -ms-flex-wrap: nowrap;
         flex-wrap: nowrap;
       }
     }
   }
-}
-
-.navbar-dark .navbar-brand {
-  color: #fff;
-}
-
-.navbar-dark .navbar-brand:hover, .navbar-dark .navbar-brand:focus {
-  color: #fff;
 }
