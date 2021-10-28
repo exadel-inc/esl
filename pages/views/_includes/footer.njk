@@ -1,17 +1,29 @@
-<div class="container-fluid">
-  <hr class="footer-divider"/>
-  <div class="text-center">
-    <div class="text-muted">ESL v{{ env.version }} © 2021 Exadel, Inc</div>
-    <div class="text-muted">
-      Core Team Contributors:
-      <a href="mailto:astsefanovich@exadel.com">Alexey Stsefanovich</a>,
-      <a href="mailto:ymurashka@exadel.com">Julia Murashko</a>,
-      <a href="mailto:yadamska@exadel.com">Yuliya Adamskaya</a>,
-      <a href="mailto:dshovchko@exadel.com">Dmytro Shovchko</a>,
-      <a href="mailto:abarmina@exadel.com">Anna Barmina</a>
-    </div>
-    <div class="text-muted">
-      Design by Iryna Pavlenko
-    </div>
+{% from 'footer-menu.njk' import menu with context %}
+
+< class="ft">
+  <div class="ft-start">
+    <span class="ft-text">Ready to get started?</span>
+    <botton class="ft-start-link">
+      <a href="#" class="ft-start-a">Getting started</a>
+    </botton>
   </div>
+     <esl-panel-group class="esl-panel-group" mode="@+XS => accordion | @+MD => open" >
+      <ul class="ft-dropdown-container">
+        <li class="ft-dropdown ft-tow-column">
+          {{ menu ('Examples', 'examples') }}
+        </li>
+        <li class="ft-dropdown ft-tow-column">
+          {{ menu ('Components', 'components') }}
+        </li>
+        <li class="ft-dropdown">
+          {{ menu ('Utils', 'utils') }}
+        </li>
+        <li class="ft-dropdown">
+          {{ menu ('Help', 'help') }}
+        </li>
+      </ul>
+     </esl-panel-group>
+  <div class="ft-dropdown ft-links">
+    <a href="#" class="ft-link">Terms & Conditions</a>
+    <a href="#" class="ft-link">Privacy Policy</a></div>
 </div>

@@ -1,0 +1,22 @@
+{% macro menu(title, collection) %}
+  <esl-trigger class="ft-dropdown-trigger"
+               target="::next"
+               hover-hide-delay="400">
+    <span class="ft-dropdown-title {{ 'nav-item-selected' if collection in page.url }}" href="#">
+      {{ title }}
+    </span>
+  </esl-trigger>
+  <esl-panel class="ft-dropdown-content"
+             fallback-duration="400"
+             close-on-esc>
+    {% if collections[collection] %}
+      <ul class="ft-dropdown-list">
+        {% for item in collections[collection] | released | sortByName %}
+          <li class="ft-dropdown-item" {% if isActive %}aria-current="page"{% endif %}>
+            <a class="ft-dropdown-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </esl-panel>
+{% endmacro %}
