@@ -15,7 +15,7 @@
       <ul class="sb-dropdown-list">
         {% for item in collections[collection] | released | sortByName %}
           {% set isActive = page.url === item.url %}
-          <li class="nav-item sb-dropdown-item {{ 'nav-item-selected' if isActive }}" {% if isActive %}aria-current="page"{% endif %}>
+          <li class="nav-item sb-dropdown-item {{ 'nav-dropdown-item-selected' if isActive }}" {% if isActive %}aria-current="page"{% endif %}>
             <a class="sb-dropdown-link decoration-none" href="{{ item.url | url }}">{{ item.data.name }}</a>
           </li>
         {% endfor %}

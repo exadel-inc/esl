@@ -34,7 +34,7 @@ export class ESLSidebar extends ESLToggleable {
 
   public expandActive(noCollapse: boolean = false) {
     this.$submenus
-      .filter((menu) => !!menu.querySelector('.nav-item-selected'))
+      .filter((menu) => !!menu.querySelector('.nav-dropdown-item-selected'))
       .forEach((menu) => menu.show({noCollapse, activator: this}));
   }
 
