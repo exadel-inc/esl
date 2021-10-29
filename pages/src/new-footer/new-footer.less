@@ -1,0 +1,167 @@
+.ft {
+  width: 100%;
+  background-color: #131A2E;
+
+  button,
+  button:active,
+  button:focus {
+    border: none;
+    outline: none;
+    background-color: transparent;
+  }
+
+  &-dropdown-link {
+    display: block;
+    color: white;
+    padding: 10px;
+  }
+
+  &-start {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0;
+    text-align: center;
+  }
+
+  &-text {
+    color: white;
+  }
+
+  &-start-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 30px;
+    width: 150px;
+    height: 35px;
+    border: 1px solid #0097E7;
+    border-radius: 6px;
+  }
+
+  &-start-link:hover {
+    border-color: #00a6ff;
+  }
+
+  &-start-a, &-link {
+    color: #0097E7;
+  }
+
+  &-start-a:hover, &-link:hover,  &-dropdown-link:hover {
+    text-decoration: none;
+    color: #00a6ff;
+  }
+
+  &-link {
+    display: inline-block;
+    font-size: 12px;
+    margin-right: 20px;
+    margin-top: 20px;
+  }
+
+  &-dropdown {
+    border-top: 1px solid white;
+    text-align: center;
+    list-style-type: none;
+    color: white;
+  }
+
+  &-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 46px;
+  }
+
+  &-dropdown-title {
+    font-weight: 500;
+    color: white;
+  }
+
+  &-dropdown-content {
+    margin: 0 15px;
+    z-index: 99;
+    transition: max-height .3s ease-in-out,
+    visibility 0s linear .3s;
+
+    &.open {
+      transition: max-height .3s ease-in-out, visibility 0s linear;
+    }
+
+    &.animate.open {
+      z-index: 100;
+    }
+  }
+
+  &-links {
+    padding-bottom: 20px;
+  }
+
+  &-dropdown-container {
+    margin: 0;
+  }
+}
+
+
+@media screen and(min-width: 975px) {
+  .ft {
+    display: flex;
+    flex-direction: column;
+
+
+    &-dropdown-container {
+      display: flex;
+      margin: 0 30px;
+    }
+
+    &-dropdown {
+      border-top: none;
+      text-align: start;
+      flex: 1 0 0px;
+    }
+
+    &-tow-column {
+      flex: 2 0 0px;
+        .ft-dropdown-list {
+          display: flex;
+          flex-direction: column;
+          flex-wrap: wrap;
+          height: 300px;
+          list-style-type: none;
+        }
+    }
+
+    &-dropdown-trigger {
+      justify-content: start;
+      margin-left: 25px;
+    }
+
+    &-dropdown-list {
+      font-size: 14px;
+    }
+
+    &-dropdown-title {
+      color: #0097E7;
+      cursor: default;
+    }
+
+    &-start {
+      margin-bottom: 100px;
+    }
+
+    &-text {
+      font-size: 26px;
+    }
+
+    &-start-link {
+      width: 300px;
+      height: 70px;
+      font-size: 26px;
+    }
+
+    &-links {
+      margin: 20px 50px;
+    }
+  }
+}
