@@ -1,7 +1,7 @@
 <header class="header">
   <nav class="header-nav">
     <div class="header-container">
-      <a  class="header-link header-logo logo-light logo-animated" href="{{ '/' | url }}">
+      <a class="header-link header-logo logo-light logo-animated" href="{{ '/' | url }}">
         {% include 'static/assets/logo.svg' %}
         <span class="header-short-name">esl</span>
         <span class="header-long-name">{{ site.name }}</span>
@@ -18,11 +18,12 @@
             {% include 'static/assets/common/github.svg' %}
           </a>
         </li>
-        <li class="header-li">
+        {# Hide it temporarily until search integration #}
+        {# <li class="header-li">
           <button>
             {% include 'static/assets/common/search.svg' %}
           </button>
-        </li>
+        </li> #}
       </ul>
       <a class="header-btn-start" href="#">
         <span>Getting started</span>
