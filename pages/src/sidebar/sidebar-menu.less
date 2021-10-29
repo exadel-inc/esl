@@ -1,4 +1,4 @@
-#sidebar {
+esl-sidebar {
 
   .sidebar-nav-item {
     margin-bottom: 32px;
@@ -96,16 +96,15 @@
     }
   }
 
-  .nav-item-selected {
+  .nav-item-dropdown-selected {
     position: relative;
     color: #0097E7;
-  }
-
-  .nav-item-selected::before {
-    content: '';
-    position: absolute;
-    height: 30px;
-    border-left: 2px solid white;
+    &::before {
+      content: '';
+      position: absolute;
+      height: 30px;
+      border-left: 2px solid white;
+    }
   }
 
   &:not(.open) {
