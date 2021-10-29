@@ -1,5 +1,2 @@
-const env = process.argv.find(arg => arg.startsWith('--env='))?.split('=')[1];
-module.exports = {
-  isDev: env === 'development',
-  version: process.env.npm_package_version
-};
+const {isDev, version} = require('../../11ty/env.config');
+module.exports = {isDev, version};

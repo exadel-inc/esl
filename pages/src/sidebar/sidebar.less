@@ -1,18 +1,18 @@
-&.sb-toggleable {
+#sidebar {
+  color: white;
   display: block;
   background-color: #232429;
   max-width: 72px;
   min-width: 72px;
   transition: min-width .5s ease-in-out;
 
-  &.esl-toggleable:not(.open) {
-    display: block;
+  .decoration-none {
+    text-decoration: none;
   }
 
-  .sb-ico-btn {
+
+  .sidebar-ico-btn {
     z-index: 1;
-    border: none;
-    outline: none;
     position: fixed;
 
     left: 68px;
@@ -27,7 +27,7 @@
     transition: left .5s ease-in-out, transform .5s ease-in-out;
   }
 
-  .sb-arrows-icon {
+  .sidebar-arrows-icon {
     &::after, &::before {
       content: '';
 
@@ -56,22 +56,21 @@
         opacity: .5;
       }
 
-      &::before,
-      &::after {
+      &::before, &::after {
         transform: translate(3px) rotate(-45deg);
         transition: opacity .3s ease-in-out, transform .3s ease-in-out;
       }
     }
   }
 
-  &[aria-hidden='false'] {
+  &.open {
     display: block;
     max-width: 270px;
     min-width: 270px;
 
     transition: max-width .5s ease-in-out, min-width .5s ease-in-out;
 
-    .sb-ico-btn {
+    .sidebar-ico-btn {
       left: 266px;
 
       transform-origin: center center;

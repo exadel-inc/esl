@@ -1,8 +1,50 @@
-import { ESLPanel } from "../../../src/modules/all";
+import {prop} from '../../../src/modules/esl-utils/decorators/prop';
+import {ready} from '../../../src/modules/esl-utils/decorators/ready';
+import {ESLToggleable} from '../../../src/modules/esl-toggleable/core/esl-toggleable';
+import type {ToggleableActionParams} from '../../../src/modules/esl-toggleable/core/esl-toggleable';
 
-document!.getElementById("list-trigger")!.addEventListener("click", function () {
-  const panels = Array.from(document.querySelectorAll('.sb-dropdown-content')) as ESLPanel[];
-  panels.filter((panel) => {
-    panel.open && panel.toggle();
-  })
-});
+export class ESLSidebar extends ESLToggleable {
+  static is = 'esl-sidebar';
+
+  @prop() public closeOnEsc: boolean = true;
+
+  @prop() public submenus: string = '.sb-dropdown-content';
+
+  public get $submenus(): ESLToggleable[] {
+    return Array.from(this.querySelectorAll(this.submenus));
+  }
+
+  @ready
+  protected connectedCallback() {
+    super.connectedCallback();
+  }
+
+  protected onShow(params: ToggleableActionParams) {
+    super.onShow(params);
+    this.expandActive(params.initiator === 'init');
+  }
+  protected onHide(params: ToggleableActionParams) {
+    super.onHide(params);
+    this.collapseAll();
+  }
+
+  public collapseAll() {
+    this.$submenus.forEach((menu) => menu.hide({activator: this}));
+  }
+
+  public expandActive(noCollapse: boolean = false) {
+    this.$submenus
+      .filter((menu) => !!menu.querySelector('.nav-item-selected'))
+      .forEach((menu) => {
+        menu.show({noCollapse, activator: this});
+        menu.previousElementSibling?.classList.add('nav-item-active');
+      });
+  }
+
+  protected updateA11y() {
+    const targetEl = this.$a11yTarget;
+    if (!targetEl) return;
+    targetEl.setAttribute('aria-expanded', String(this.open));
+  }
+}
+ESLSidebar.register();

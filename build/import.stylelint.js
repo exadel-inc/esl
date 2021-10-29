@@ -13,14 +13,14 @@ const messages = stylelint.utils.ruleMessages(ruleName, {
   expected: "Only relative paths should be used in bounds of ESL library modules"
 });
 
-module.exports = stylelint.createPlugin(ruleName, function (expectation) {
+module.exports = stylelint.createPlugin(ruleName, function (ruleValue) {
   return function (root, result) {
     const validOptions = stylelint.utils.validateOptions(result, ruleName, {
-      actual: expectation,
-      possible: ["never"]
+      actual: ruleValue,
+      possible: ["off", "never"]
     });
 
-    if (!validOptions) return;
+    if (!validOptions || ruleValue === 'off') return;
 
     root.walkAtRules("import", decl => {
       const path = decl.params
