@@ -8,13 +8,11 @@
       </a>
       <button class="header-hamburger">{% include 'static/assets/common/button-hamburger.svg' %}</button>
       <ul class="header-links">
-        <li class="header-li"><a class="header-link" href="#">Components</a></li>
-        <li class="header-li"><a class="header-link" href="#">Samples</a></li>
-        <li class="header-li"><a class="header-link" href="#">Utils</a></li>
-        <li class="header-li"><a class="header-link" href="#">Docs</a></li>
-        <li class="header-li"><a class="header-link" href="#">Contribution / Roadmap</a></li>
+        <li class="header-li"><a class="header-link" href="{{ '/examples' | url }}">Examples</a></li>
+        <li class="header-li"><a class="header-link" href="{{ '/components' | url }}">Components</a></li>
+        <li class="header-li"><a class="header-link" href="{{ '/utils' | url }}">Utils</a></li>
         <li class="header-li">
-          <a href="{{ site.github.url }}">
+          <a href="{{ site.github.url }}" target="_blank">
             {% include 'static/assets/common/github.svg' %}
           </a>
         </li>
@@ -26,7 +24,7 @@
         </li> #}
       </ul>
       <div class="header-btn">
-        <a class="btn-start" href="#">
+        <a class="btn-start" href="{{ '/getting-started/installation-guide' | url }}">
           <span>Getting started</span>
         </a>
       </div>
