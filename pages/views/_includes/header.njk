@@ -1,27 +1,32 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark esl-demo-header">
-  <div class="container flex-column flex-lg-row align-items-stretch align-items-md-center">
-    <a class="navbar-brand logo-light logo-animated mr-5" href="{{ '/' | url }}">
-      {% include 'static/assets/logo.svg' %}
-      <span class="ml-2">Exadel Smart Library</span>
-    </a>
-    {% from 'header-menu.njk' import menu with context %}
-    <ul class="navbar-nav flex-grow-1 flex-column flex-md-row justify-content-end">
-      <li class="nav-item hd-dropdown">
-        {{ menu ('Examples', 'examples') }}
-      </li>
-      <li class="nav-item hd-dropdown">
-        {{ menu ('Components', 'components') }}
-      </li>
-      <li class="nav-item hd-dropdown">
-        {{ menu ('Utils', 'utils') }}
-      </li>
-
-      <li class="nav-item ml-1">
-        <a class="btn btn-link" href="https://github.com/exadel-inc/esl">
-          {% include 'static/assets/common/github.svg' %}
-        </a>
-      </li>
-    </ul>
-  </div>
-</nav>
-<div class="esl-demo-header-overlay"></div>
+<header class="header">
+  <nav class="header-nav">
+    <div class="header-container">
+      <a  class="header-link header-logo logo-light logo-animated" href="{{ '/' | url }}">
+        {% include 'static/assets/logo.svg' %}
+        <span class="header-short-name">esl</span>
+        <span class="header-long-name">{{ site.name }}</span>
+      </a>
+      <button class="header-hamburger">{% include 'static/assets/common/button-hamburger.svg' %}</button>
+      <ul class="header-links">
+        <li class="header-li"><a class="header-link" href="#">Components</a></li>
+        <li class="header-li"><a class="header-link" href="#">Samples</a></li>
+        <li class="header-li"><a class="header-link" href="#">Utils</a></li>
+        <li class="header-li"><a class="header-link" href="#">Docs</a></li>
+        <li class="header-li"><a class="header-link" href="#">Contribution / Roadmap</a></li>
+        <li class="header-li">
+          <a href="{{ site.github.url }}">
+            {% include 'static/assets/common/github.svg' %}
+          </a>
+        </li>
+        <li class="header-li">
+          <button>
+            {% include 'static/assets/common/search.svg' %}
+          </button>
+        </li>
+      </ul>
+      <a class="header-btn-start" href="#">
+        <span>Getting started</span>
+      </a>
+    </div>
+  </nav>
+</header>

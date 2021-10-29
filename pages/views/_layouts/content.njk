@@ -5,23 +5,34 @@
   {% include 'sidebar.njk' %}
 
   <main class="esl-scrollable-content">
-    <div class="content {{ containerCls or 'container-fluid' }}">
-      {% if title %}
-        <h1 class="pt-3 pb-3">
-          {{ title | safe }}
-          {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
-          {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}
-        </h1>
-      {% endif %}
+    <div class="content-flex content {{ containerCls or 'container-fluid' }}">
+      <div>
+        {% if title %}
+          <h1 class="pt-3 pb-3">
+            {{ title | safe }}
+            {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
+            {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}
+          </h1>
+        {% endif %}
+
+        {{ content | safe or 'No content.' }}
+      </div>
 
       {% if aside %}
         <aside class="aside-left">
           {% if aside.components  %}
+              <div class="component-related">
+                <h2>Related Components: </h2>
+                <ul class="list-inline">
+                  <li class="list-inline-item"><a href="{{ '/components/esl-trigger' | url }}">ESL Trigger</a></li>
+                  <li class="list-inline-item"><a href="{{ '/components/esl-panel' | url }}">ESL Panel</a></li>
+                  <li class="list-inline-item"><a href="{{ '/components/esl-toggleable' | url }}">ESL Toggleable</a></li>
+                </ul>
+              </div>
           {% endif %}
         </aside>
       {% endif %}
 
-      {{ content | safe or 'No content.' }}
     </div>
 
     <footer class="footer container-fluid">
