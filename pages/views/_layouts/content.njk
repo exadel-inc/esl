@@ -17,13 +17,27 @@
       {% if aside %}
         <aside class="aside-left">
           {% if aside.components %}
-            <div class="component-related">
-              <h4>Related Components</h4>
-              <ul class="list-inline">
+            <div class="aside-card">
+              <h4 class="aside-card-heading">Related Components</h4>
+              <ul class="aside-card-list">
                 {% set links = functions.findItemsByName(aside.components, collections['components']) %}
-                {% for component in links %}
-                  <li class="badge badge-link badge-md list-inline-item">
+                {% for component in links | released %}
+                  <li class="aside-card-list-item">
                     <a href="{{ component.url | url }}">{{ component.data.name }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+
+          {% if aside.examples %}
+            <div class="aside-card">
+              <h4 class="aside-card-heading">Examples</h4>
+              <ul class="aside-card-list">
+                {% set links = functions.findItemsByName(aside.examples, collections['examples']) %}
+                {% for example in links | released %}
+                  <li class="aside-card-list-item">
+                    <a href="{{ example.url | url }}">{{ example.data.name }}</a>
                   </li>
                 {% endfor %}
               </ul>

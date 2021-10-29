@@ -1,24 +1,31 @@
-// Draft
-@media (min-width: 1400px) {
-  .component-related {
-    text-align: center;
-    // padding: 15px;
-    // box-shadow: 2px 2px 4px rgba(0, 0, 0, .3);
+.aside-card {
+  padding: 15px;
+  margin-bottom: 20px;
+
+  border: 1px solid #aaa;
+  border-radius: 6px;
+
+  &-heading {
+    font-size: 1.2em;
   }
-  .list-inline {
+
+  &-list {
+    margin: 0;
+
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 
     &-item {
-      margin: 5px 0 0;
+      list-style: none;
+      margin: 5px 10px 0;
     }
   }
 }
 
 @media (min-width: 1400px) {
-  @ASIDE_WIDTH: 230px;
-  @ASIDE_OFFSET: 30px;
+  @ASIDE_WIDTH: 220px;
+  @ASIDE_OFFSET: 20px;
   .aside-left {
     position: absolute;
     top: 30px;
@@ -33,7 +40,7 @@
 
 @media (min-width: 1600px) {
   @ASIDE_WIDTH: 240px;
-  @ASIDE_OFFSET: 10px;
+  @ASIDE_OFFSET: 30px;
   .aside-left {
     // right: calc(~'50% - 700px + 60px');
     right: 60px;
