@@ -36,6 +36,29 @@
     opacity: 0.65;
   }
 
+  &-start {
+    display: none;
+    height: 40px;
+    width: 160px;
+    background-color: #0097E7;
+    color: white;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 500;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background-color 0.5s;
+
+    &:hover {
+      background-color: #007bff;
+      text-decoration: none;
+    }
+
+    @media (min-width: 975px) {
+      display: flex;
+    }
+  }
+
   &-primary {
     color: #fff;
     background-color: #007bff;
