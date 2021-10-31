@@ -1,8 +1,19 @@
 .collection-grid {
-  width: 350px;
-  border: 1px solid #C8D6F0;
-  margin-right: 24px;
-  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+
+  &-item {
+    display: block;
+
+    flex: 1 1 250px;
+    min-width: 250px;
+    max-width: 300px;
+    margin: 0 15px 20px;
+
+    border: 1px solid #C8D6F0;
+  }
 
   &-box {
     display: flex;
@@ -13,7 +24,7 @@
 
   &-title {
     border-bottom: 1px solid #C8D6F0;
-    height: 68px;
+    height: 60px;
     font-size: 18px;
     font-weight: 600;
     color: black;
@@ -24,7 +35,7 @@
   }
 
   &-svg {
-    height: 260px;
+    min-height: 200px;
     padding: 20px;
   }
 }
