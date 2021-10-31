@@ -1,3 +1,5 @@
+@import (reference) "./variables.less";
+
 .flex {
   &-column {
     flex-direction: column !important;
@@ -7,14 +9,14 @@
     flex-grow: 1 !important;
   }
 
-  @media (min-width: 768px) {
-    &-md-row {
+  @media @sm-xl {
+    &-sm-row {
       flex-direction: row !important;
     }
   }
 
-  @media (min-width: 992px) {
-    &-lg-row {
+  @media @md-xl {
+    &-md-row {
       flex-direction: row !important;
     }
   }
@@ -42,12 +44,6 @@
   &-items-stretch {
     align-items: stretch !important;
   }
-
-  @media (min-width: 768px) {
-    &-items-md-center {
-      align-items: center !important;
-    }
-  }
 }
 
 .row {
@@ -57,7 +53,7 @@
   margin-left: -15px;
 }
 
-.col, .col-4, .col-6, .col-12, .col-md-6 {
+.col, .col-4, .col-6, .col-12, .col-sm-6 {
   position: relative;
   width: 100%;
   padding-right: 15px;
@@ -84,19 +80,19 @@
     max-width: 100%;
   }
 
-  @media (min-width: 768px) {
-    &-md-6 {
+  @media @sm-xl {
+    &-sm-6 {
       flex: 0 0 50%;
       max-width: 50%;
     }
   }
 }
 
-@media (min-width: 768px) {
-  .order-md-1 {
+@media @sm-xl {
+  .order-sm-1 {
     order: 1;
   }
-  .order-md-2 {
+  .order-sm-2 {
     order: 2;
   }
 }
