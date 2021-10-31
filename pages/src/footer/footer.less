@@ -1,8 +1,7 @@
+@import (reference) "../common/variables.less";
+
 .footer {
-  &-container {
-    width: 100%;
-    background-color: #131A2E;
-  }
+  background-color: #131A2E;
 
   &-hr {
     width: 100%;
@@ -105,7 +104,7 @@
 }
 
 
-@media screen and(min-width: 975px) {
+@media @md-xl {
   .footer {
     display: flex;
     flex-direction: column;
@@ -113,7 +112,7 @@
 
     &-dropdown-container {
       display: flex;
-      margin: 0 30px;
+      margin: 0 -15px;
     }
 
     &-dropdown {
@@ -162,7 +161,7 @@
     }
 
     &-links {
-      margin: 20px 50px;
+      margin: 20px 10px;
     }
   }
 }
