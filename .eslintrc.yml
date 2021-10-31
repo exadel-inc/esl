@@ -1,5 +1,5 @@
 # Library's global linting rules
-
+root: true
 env:
   browser: true
   es6: true

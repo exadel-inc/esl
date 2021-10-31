@@ -5,8 +5,8 @@ import '../../src/polyfills/polyfills.es6';
 // Validate environment
 import '../../src/polyfills/polyfills.validate';
 
-import './common/test-media';
-import './common/test-media-source';
+import './esl-media-demo/test-media';
+import './esl-media-demo/test-media-source';
 
 // With Namespace
 import '../../src/modules/lib';
