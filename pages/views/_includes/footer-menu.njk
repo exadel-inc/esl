@@ -11,7 +11,7 @@
              close-on-esc>
     {% if collections[collection] %}
       <ul class="footer-dropdown-list">
-        {% for item in collections[collection] | released | sortByName %}
+        {% for item in collections[collection] | released | sortByNameAndOrder %}
           <li class="footer-dropdown-item" {% if isActive %}aria-current="page"{% endif %}>
             <a class="footer-dropdown-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
           </li>

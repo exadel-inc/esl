@@ -16,7 +16,7 @@ ui_playground: github.com/exadel-inc/ui-playground
 
 <h3 id="form-components">Quick Examples</h3>
 <ul class="list-inline">
-  {% for item in collections.examples | sortByName %}
+  {% for item in collections.examples | sortByNameAndOrder %}
     <li class="list-inline-item"><h5><a href="{{ item.url | url }}">{{ item.data.name }}</a></h5></li>
   {% endfor %}
 </ul>
@@ -24,14 +24,14 @@ ui_playground: github.com/exadel-inc/ui-playground
 
 <h3 id="components">List of components</h3>
 <ul class="list-inline">
-  {% for item in collections.components | released | sortByName %}
+  {% for item in collections.components | released | sortByNameAndOrder %}
     <li class="list-inline-item"><h5><a href="{{ item.url | url }}">{{ item.data.name }}</a></h5></li>
   {% endfor %}
 </ul>
 
 <h3 id="components">Library utils</h3>
 <ul class="list-inline">
-  {% for item in collections.utils | released | sortByName %}
+  {% for item in collections.utils | released | sortByNameAndOrder %}
     <li class="list-inline-item"><h5><a href="{{ item.url | url }}">{{ item.data.name }}</a></h5></li>
   {% endfor %}
 </ul>

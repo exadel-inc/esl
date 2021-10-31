@@ -13,7 +13,7 @@
              fallback-duration="400">
     {% if collections[collection] %}
       <ul class="sb-dropdown-list">
-        {% for item in collections[collection] | released | sortByName %}
+        {% for item in collections[collection] | released | sortByNameAndOrder %}
           {% set isActive = page.url === item.url %}
           <li class="nav-item sb-dropdown-item {{ 'nav-dropdown-item-selected' if isActive }}" {% if isActive %}aria-current="page"{% endif %}>
             <a class="sb-dropdown-link decoration-none" href="{{ item.url | url }}">{{ item.data.name }}</a>
