@@ -1,32 +1,33 @@
 <header class="header">
   <nav class="header-nav">
     <div class="header-container">
-      <a  class="header-link header-logo logo-light logo-animated" href="{{ '/' | url }}">
+      <a class="header-link header-logo logo-light logo-animated" href="{{ '/' | url }}">
         {% include 'static/assets/logo.svg' %}
         <span class="header-short-name">esl</span>
         <span class="header-long-name">{{ site.name }}</span>
       </a>
       <button class="header-hamburger">{% include 'static/assets/common/button-hamburger.svg' %}</button>
       <ul class="header-links">
-        <li class="header-li"><a class="header-link" href="#">Components</a></li>
-        <li class="header-li"><a class="header-link" href="#">Samples</a></li>
-        <li class="header-li"><a class="header-link" href="#">Utils</a></li>
-        <li class="header-li"><a class="header-link" href="#">Docs</a></li>
-        <li class="header-li"><a class="header-link" href="#">Contribution / Roadmap</a></li>
+        <li class="header-li"><a class="header-link" href="{{ '/examples' | url }}">Examples</a></li>
+        <li class="header-li"><a class="header-link" href="{{ '/components' | url }}">Components</a></li>
+        <li class="header-li"><a class="header-link" href="{{ '/utils' | url }}">Utils</a></li>
         <li class="header-li">
-          <a href="{{ site.github.url }}">
+          <a href="{{ site.github.url }}" target="_blank">
             {% include 'static/assets/common/github.svg' %}
           </a>
         </li>
-        <li class="header-li">
+        {# Hide it temporarily until search integration #}
+        {# <li class="header-li">
           <button>
             {% include 'static/assets/common/search.svg' %}
           </button>
-        </li>
+        </li> #}
       </ul>
-      <a class="header-btn-start" href="#">
-        <span>Getting started</span>
-      </a>
+      <div class="header-btn">
+        <a class="btn-start" href="{{ '/getting-started/installation-guide' | url }}">
+          <span>Getting started</span>
+        </a>
+      </div>
     </div>
   </nav>
 </header>
