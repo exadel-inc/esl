@@ -1,31 +1,31 @@
 {% from 'footer-menu.njk' import menu with context %}
 
-<div class="footer-container">
+<div class="container-fluid footer-container">
   <hr class="footer-hr">
   <div class="footer-start">
-  <span class="footer-text">Ready to get started?</span>
-  <botton class="footer-start-link">
-    <a href="#" class="footer-start-a">Getting started</a>
-  </botton>
+    <span class="footer-text">Ready to get started?</span>
+    <botton class="footer-start-link">
+      <a href="#" class="footer-start-a">Getting started</a>
+    </botton>
   </div>
-     <esl-panel-group class="esl-panel-group" mode="@+XS => accordion | @+MD => open" >
-      <ul class="footer-dropdown-container">
-        <li class="footer-dropdown footer-tow-column">
-          {{ menu ('Examples', 'examples') }}
-        </li>
-        <li class="footer-dropdown footer-tow-column">
-          {{ menu ('Components', 'components') }}
-        </li>
-        <li class="footer-dropdown">
-          {{ menu ('Utils', 'utils') }}
-        </li>
-        <li class="footer-dropdown">
-          {{ menu ('Help', 'getting-started') }}
-        </li>
-      </ul>
-     </esl-panel-group>
+  <esl-panel-group class="esl-panel-group" mode="@+XS => accordion | @+MD => open">
+    <ul class="footer-dropdown-container">
+      <li class="footer-dropdown footer-tow-column">
+        {{ menu ('Examples', 'examples') }}
+      </li>
+      <li class="footer-dropdown footer-tow-column">
+        {{ menu ('Components', 'components') }}
+      </li>
+      <li class="footer-dropdown">
+        {{ menu ('Utils', 'utils') }}
+      </li>
+      <li class="footer-dropdown">
+        {{ menu ('Help', 'getting-started') }}
+      </li>
+    </ul>
+  </esl-panel-group>
   <div class="footer-dropdown footer-links">
     <a href="#" class="footer-link">Terms & Conditions</a>
-    <a href="#" class="footer-link">Privacy Policy</a></div>
+    <a href="#" class="footer-link">Privacy Policy</a>
   </div>
 </div>
