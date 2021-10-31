@@ -5,11 +5,10 @@ import '../../src/polyfills/polyfills.es6';
 // Validate environment
 import '../../src/polyfills/polyfills.validate';
 
-import './esl-media-demo/test-media';
-import './esl-media-demo/test-media-source';
-
 // With Namespace
 import '../../src/modules/lib';
+// Config
+import './common/variables';
 
 import {
   ESLImage,
@@ -42,6 +41,9 @@ import {
   ESLCarousel,
   ESLCarouselPlugins
 } from '../../src/modules/draft/all';
+
+import './esl-media-demo/test-media';
+import './esl-media-demo/test-media-source';
 
 import './sidebar/sidebar';
 
