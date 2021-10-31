@@ -1,13 +1,6 @@
 ---
-layout: content
-title: Sample
-name: Sample
+layout: category
+title: Examples
+name: Examples
+collection: examples
 ---
-
-{% from 'sample.njk' import sampel with context %}
-
-<div class="sampels-page">
-  {% for item in collections['examples'] %}
-    {{ sampel (item) }}
-  {% endfor %}
-</div>

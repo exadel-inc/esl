@@ -1,6 +1,6 @@
-{% macro menu(title, collection, icon, link) %}
+{% macro menu(title, collection, icon) %}
   <div class="sidebar-nav-item-container {{ 'nav-item-active' if functions.isActivePath(page.url, collection) }}">
-    <a class="sb-link-icon" href="{{ link }}">{% include icon %}</a>
+    <a class="sb-link-icon" href="{{ ('/' + collection) | url }}">{% include icon %}</a>
     <esl-trigger class="sb-dropdown-btn sb-dropdown-trigger"
                  target="::parent::next"
                  {% if functions.isActivePath(page.url, collection) %}active{% endif %}>

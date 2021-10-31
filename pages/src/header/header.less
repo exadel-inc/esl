@@ -36,7 +36,7 @@
   }
 
 
-  &-links, &-btn-start, &-short-name {
+  &-links, &-short-name {
     display: none;
   }
 
@@ -50,29 +50,15 @@
     list-style-type: none;
   }
 
-  &-btn-start {
-    height: 40px;
-    width: 160px;
-    background-color: #0097E7;
-    color: white;
-    align-items: center;
-    font-size: 18px;
-    font-weight: 500;
-    justify-content: center;
-    border-radius: 8px;
-    transition: background-color 0.5s;
-  }
-
-  &-btn-start:hover {
-    background-color: #007bff;
-    text-decoration: none;
+  &-btn {
+    display: flex;
+    justify-content: flex-end;
   }
 }
 
 
 @media (min-width: 975px) {
   .header {
-
     &-nav {
       justify-content: center;
       padding: 0 25px;
@@ -84,6 +70,10 @@
 
     &-short-name {
       display: inline-block;
+    }
+
+    &-logo, &-btn {
+      flex: 1;
     }
 
     &-container {
@@ -98,15 +88,18 @@
 
     &-links {
       display: flex;
-      justify-content: space-between;
+      flex: 1 0 auto;
+      justify-content: center;
       align-items: center;
       margin: 0;
-      margin-right: 40px;
     }
 
     &-li {
-      margin-left: 20px;
       font-size: 16px;
+
+      &:not(:first-child) {
+        margin-left: 20px;
+      }
 
       svg {
         height: 24px;
@@ -114,21 +107,16 @@
     }
 
     &-logo {
-      font-size: 19px;
+      font-size: 1.2rem;
 
       svg {
         height: 66px;
       }
     }
-
-    &-btn-start {
-      display: flex;
-    }
   }
 }
 
 @media (min-width: 1200px) {
-
   .header {
     &-short-name {
       display: none;
@@ -141,10 +129,8 @@
 }
 
 @media (min-width: 1450px) {
-
   .header {
-
-    &-li {
+    &-li:not(:first-child) {
       margin-left: 40px;
     }
 
