@@ -1,12 +1,13 @@
-esl-sidebar {
+@import (reference) "../common/variables.less";
 
+esl-sidebar {
   .sidebar-nav-item {
     margin-bottom: 32px;
     padding-left: 24px;
   }
 
   .nav-item-active {
-    color: #0097E7;
+    color: @nav-dark-selected;
     display: inline;
     position: relative;
 
@@ -98,7 +99,7 @@ esl-sidebar {
 
   .nav-dropdown-item-selected {
     position: relative;
-    color: #0097E7;
+    color: @nav-dark-selected;
     &::before {
       content: '';
       position: absolute;

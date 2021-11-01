@@ -1,7 +1,53 @@
 ---
 layout: content
-title: Browser support
-name: Browser support
+title: Browser Support
+name: Browser Support
 containerCls: container
 tags: getting-started
 ---
+
+<p>Exadel Smart Library does not have dependencies but uses the following list of native browser features:</p>
+<div class="row">
+  <div class="col">
+    Ecma Script 6 features
+    <ul class="container">
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from">Array.from</a>
+        (no Iterable Objects support required)
+      </li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find">Array.prototype.find</a>
+      </li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex">Array.prototype.findIndex</a>
+      </li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes">Array.prototype.include</a>
+      </li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is">Object.is</a>
+      </li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">ES6
+          Promises</a></li>
+    </ul>
+  </div>
+  <div class="col">
+    Web API
+    <ul>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent">Custom Events</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/isConnected">Node.isConnected</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/matches">Element.matches</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/closest">Element.closest</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/toggleAttribute">Element.toggleAttribute</a>
+      </li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key">KeyboardEvent.key</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver">IntersectionObserver</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver">ResizeObserver</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements">Custom
+          Elements</a></li>
+    </ul>
+  </div>
+</div>
+<p>All of them are fully supported by modern browsers, such as Chrome, Firefox, Safari or Edge (&gt;43).</p>
+<p>In order to make ESL work in older browsers you can use a &quot;light&quot; polyfills list of IntersectionObserver,
+  ResizeObserver and Custom Elements
+  (Older versions of Edge and Safari)</p>
+<p>Or make the library work in IE11 or Edge (&lt;14) by using the &quot;full&quot; polyfills list provided.</p>
+<p>See more details on what polyfill approach might look like in the test-server examples.</p>
+<p>Also, ESL has built-in polyfills for some of DOM and ES6 features. They are available under <a
+    href="https://github.com/exadel-inc/esl/tree/main/src/polyfills">./polyfills</a> directory.</p>
