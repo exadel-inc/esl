@@ -1,11 +1,10 @@
 ---
 layout: landing
-title: Exadel Smart Library
 containerCls: container
 ui_playground: github.com/exadel-inc/ui-playground
 ---
 
-<div class="d-flex flex-column flex-sm-row align-items-center">
+<div class="d-flex flex-column flex-sm-row align-items-center text-white">
   <div class="brand-section logo-primary mr-2">{% include 'static/assets/logo.svg' %}</div>
   <p class="m-0 lead description">
     Exadel Smart Library (<strong>ESL</strong>) is a web components based library that gives you a set of <strong>lightweight</strong>
@@ -14,24 +13,3 @@ ui_playground: github.com/exadel-inc/ui-playground
 </div>
 <hr/>
 
-<h3 id="form-components">Quick Examples</h3>
-<ul class="list-inline">
-  {% for item in collections.examples | sortByNameAndOrder %}
-    <li class="list-inline-item"><h5><a href="{{ item.url | url }}">{{ item.data.name }}</a></h5></li>
-  {% endfor %}
-</ul>
-<hr/>
-
-<h3 id="components">List of components</h3>
-<ul class="list-inline">
-  {% for item in collections.components | released | sortByNameAndOrder %}
-    <li class="list-inline-item"><h5><a href="{{ item.url | url }}">{{ item.data.name }}</a></h5></li>
-  {% endfor %}
-</ul>
-
-<h3 id="components">Library utils</h3>
-<ul class="list-inline">
-  {% for item in collections.utils | released | sortByNameAndOrder %}
-    <li class="list-inline-item"><h5><a href="{{ item.url | url }}">{{ item.data.name }}</a></h5></li>
-  {% endfor %}
-</ul>
