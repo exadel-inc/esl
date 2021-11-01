@@ -7,7 +7,7 @@
   <main class="esl-scrollable-content">
     <div class="content {{ containerCls or 'container-fluid' }} {{ 'container-aside' if aside }}">
       {% if title %}
-          <h1 class="p-3">
+        <h1 class="page-title">
           {{ title | safe }}
           {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
           {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}
