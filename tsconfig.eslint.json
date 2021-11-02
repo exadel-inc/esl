@@ -1,5 +1,10 @@
 {
   "extends": "./tsconfig.json",
+  "include": [
+    "pages/src",
+    "src/modules",
+    "src/polyfills"
+  ],
   "exclude": [
     "modules",
     "polyfills",

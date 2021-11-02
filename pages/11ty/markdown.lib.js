@@ -1,17 +1,7 @@
-const hljs = require('highlight.js');
-const markdownLib = require('markdown-it');
+const MarkdownIt = require('markdown-it');
+const {highlight} = require('./prismjs.lib');
 
-const markdown = markdownLib({
-  html: true,
-  highlight: function (str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return hljs.highlight(str, { language: lang }).value;
-      } catch { }
-    }
-    return '';
-  }
-});
+const markdown = MarkdownIt({html: true, highlight});
 
 module.exports = (config) => {
   config.setLibrary('md', markdown);
