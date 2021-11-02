@@ -1,14 +1,21 @@
 esl-sidebar {
 
-  .sidebar-heading {
-    display: flex;
-    width: 218px;
-    height: 52px;
-    align-items: center;
-    margin: 0 0 61px 10px;
+  &:not(.landing) {
+    .sidebar-heading {
+      display: flex;
+      width: 218px;
+      align-items: center;
+      margin: 0 0 13px 10px;
 
-    color: inherit;
-    transition: margin .5s ease-in-out;
+      color: inherit;
+      transition: margin .5s ease-in-out;
+    }
+  }
+
+  &.landing {
+    .sidebar-heading {
+      display: none;
+    }
   }
 
   .sidebar-logo {
@@ -35,6 +42,7 @@ esl-sidebar {
   }
 
   .sb-nav-list-wrapper {
+    margin-top: 48px;
     height: inherit;
     position: relative;
     display: flex;
@@ -47,8 +55,7 @@ esl-sidebar {
 
   &.open {
     .sidebar-heading {
-      margin: 0 0 56px 24px;
-      transition: margin .5s ease-in-out;
+      margin: 0 0 8px 24px;
     }
 
     .sidebar-nav {

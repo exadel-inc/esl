@@ -2,6 +2,7 @@
 
 .header {
   background-color: @landing-bg-color;
+  max-height: 56px;
 
   &-nav {
     display: flex;
@@ -63,6 +64,13 @@
 
 @media @md-xl {
   .header {
+    max-height: 84px;
+
+    &-nav {
+      justify-content: center;
+      padding: 0 25px;
+    }
+
     &-long-name {
       display: none;
     }
