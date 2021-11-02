@@ -31,6 +31,9 @@ esl-sidebar {
     font-weight: 600;
     line-height: 20px;
     text-transform: uppercase;
+
+    visibility: hidden;
+    transition: visibility .5s ease-in-out;
   }
 
   .sidebar-nav {
@@ -56,6 +59,10 @@ esl-sidebar {
   &.open {
     .sidebar-heading {
       margin: 0 0 8px 24px;
+    }
+
+    .sidebar-title {
+      visibility: visible;
     }
 
     .sidebar-nav {

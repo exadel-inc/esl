@@ -1,6 +1,7 @@
 @import (reference) "../common/variables.less";
 
 esl-sidebar {
+  z-index: 3;
   color: white;
   display: block;
   background-color: #232429;
@@ -10,6 +11,11 @@ esl-sidebar {
       &.landing {
         display: none;
       }
+    }
+
+    @media @xs-sm {
+      position: fixed;
+      left: 0;
     }
   }
 
@@ -22,8 +28,6 @@ esl-sidebar {
 
   &.landing {
     z-index: 2;
-    position: fixed;
-    left: 0;
     background-color: @landing-bg-color;
 
     transition: height .5s ease-in-out, visibility .5s ease-in-out;
@@ -34,6 +38,7 @@ esl-sidebar {
     }
 
     .sidebar-nav {
+      max-width: 270px;
       height: 0;
 
       transition: height .5s ease-in-out;
