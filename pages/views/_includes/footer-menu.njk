@@ -1,19 +1,19 @@
 {% macro menu(title, collection) %}
-  <esl-trigger class="footer-dropdown-trigger"
+  <esl-trigger class="footer-accordion-trigger"
                target="::next"
                hover-hide-delay="400">
-    <span class="footer-dropdown-title {{ 'nav-item-selected' if collection in page.url }}" href="#">
+    <div class="footer-accordion-title footer-accordion-arrow {{ 'nav-item-selected' if collection in page.url }}" href="#">
       {{ title }}
-    </span>
+    </div>
   </esl-trigger>
-  <esl-panel class="footer-dropdown-content"
+  <esl-panel class="footer-accordion-content"
              fallback-duration="400"
              close-on-esc>
     {% if collections[collection] %}
-      <ul class="footer-dropdown-list">
+      <ul class="footer-accordion-list">
         {% for item in collections[collection] | released | sortByNameAndOrder %}
-          <li class="footer-dropdown-item" {% if isActive %}aria-current="page"{% endif %}>
-            <a class="footer-dropdown-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
+          <li class="footer-accordion-item" {% if isActive %}aria-current="page"{% endif %}>
+            <a class="footer-accordion-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
           </li>
         {% endfor %}
       </ul>
