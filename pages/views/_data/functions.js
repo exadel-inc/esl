@@ -4,7 +4,7 @@ module.exports = {
   },
 
   isActivePath(url, collection) {
-    return url.split('/').length > 3 && url.includes(collection);
+    return collection && url.includes(collection);
   },
 
   findItemsByName(names, collection) {
