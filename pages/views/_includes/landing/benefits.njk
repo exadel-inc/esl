@@ -1,10 +1,8 @@
 <div class="benefit container">
-  <h1 class="benefit-title">
-    Why the ESL Web Components <br> Library?
-  </h1>
-  <div class="benefit-container">
+  <h2 class="benefit-title">{{ benefits.title }}</h2>
+  <ul class="benefit-container">
     {% for item in benefits.benefits %}
-      <div class="benefit-item">
+      <li class="benefit-item">
         <div class="benefit-icon">
           {% include "static/assets/" + item.icon %}
         </div>
@@ -12,9 +10,9 @@
         <p class="benefit-content-text">
           {{ item.text }}
         </p>
-      </div>
+      </li>
     {% endfor %}
-  </div>
+  </ul>
   {% include "static/assets/common/line.svg" %}
 </div>
 
