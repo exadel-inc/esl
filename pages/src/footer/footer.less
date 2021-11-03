@@ -1,17 +1,20 @@
 @import (reference) "../common/variables.less";
 
 .footer {
+
   &-hr {
     width: 100%;
     border: none;
     height: 2px;
-    background: radial-gradient(ellipse at center, #00a6ff,#00a6ff, transparent, transparent);
+    margin: 0;
+    background: linear-gradient(to right, #131A2E, #00a6ff,#00a6ff, #ffffff, #131A2E) 47% 0%;
   }
 
-  &-dropdown-link {
-    display: block;
+  &-accordion-link {
+    display: inline-block;
     color: white;
     padding: 10px;
+    font-size: 18px;
   }
 
   &-start {
@@ -20,6 +23,7 @@
     justify-content: center;
     margin: 30px 0;
     text-align: center;
+    font-size: 22px;
   }
 
   &-text {
@@ -32,8 +36,8 @@
     justify-content: center;
     cursor: pointer;
     margin-left: 30px;
-    width: 150px;
-    height: 35px;
+    width: 180px;
+    height: 55px;
     border: 1px solid #0097E7;
     border-radius: 6px;
   }
@@ -46,38 +50,72 @@
     color: #0097E7;
   }
 
-  &-start-link:hover, &-link:hover,  &-dropdown-link:hover {
+  &-start-link:hover, &-link:hover,  &-accordion-link:hover {
     text-decoration: none;
     color: #00a6ff;
   }
 
-  &-link {
+  &-links {
     display: inline-block;
     font-size: 12px;
-    margin-right: 20px;
     margin-top: 20px;
   }
 
-  &-dropdown {
-    border-top: 1px solid white;
+  &-accordion-arrow::after {
+    content: '';
+
+    position: relative;
+    top: 8px;
+    left: 11px;
+    width: 7px;
+    height: 7px;
+
+    border-left: 2px solid white;
+    border-top: 2px solid white;
+
+    transform: rotate(225deg);
+    transform-origin: center;
+    transition: transform .5s ease-in-out, top .5s ease-in-out;
+  }
+
+  &-accordion-trigger {
+    &[active] {
+      .footer-accordion-arrow::after {
+        top: 12px;
+        transform: rotate(45deg);
+        transition: transform .5s ease-in-out, top .5s ease-in-out;
+        border-color: #00a6ff;
+      }
+
+      .footer-accordion-title{
+        color: #0097E7;
+      }
+    }
+  }
+
+  &-accordion {
     text-align: center;
     list-style-type: none;
     color: white;
+    border-top: 2px solid;
+    padding: 16px 0;
+    border-image: linear-gradient(to right, #131A2E, #00a6ff,#00a6ff, #ffffff, #131A2E) 47% 0%;
   }
 
-  &-dropdown-trigger {
+  &-accordion-trigger {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 46px;
   }
 
-  &-dropdown-title {
-    font-weight: 500;
+  &-accordion-title {
     color: white;
+    display: flex;
+    font-size: 20px;
   }
 
-  &-dropdown-content {
+  &-accordion-content {
     margin: 0 15px;
     z-index: 99;
     transition: max-height .3s ease-in-out,
@@ -92,12 +130,19 @@
     }
   }
 
-  &-links {
-    padding-bottom: 20px;
+  &-links-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
   }
 
-  &-dropdown-container {
+  &-accordion-container {
     margin: 0;
+  }
+
+  &-icon-link {
+    width: 25px;
+    padding-bottom: 10px;
   }
 }
 
@@ -108,20 +153,21 @@
     flex-direction: column;
 
 
-    &-dropdown-container {
+    &-accordion-container {
       display: flex;
       margin: 0 -15px;
     }
 
-    &-dropdown {
+    &-accordion {
       border-top: none;
       text-align: start;
       flex: 1 0 0px;
+      border: none;
     }
 
     &-tow-column {
       flex: 2 0 0px;
-        .footer-dropdown-list {
+        .footer-accordion-list {
           display: flex;
           flex-direction: column;
           flex-wrap: wrap;
@@ -130,17 +176,18 @@
         }
     }
 
-    &-dropdown-trigger {
+    &-accordion-trigger {
       justify-content: start;
       margin-left: 25px;
     }
 
-    &-dropdown-list {
+    &-accordion-link {
       font-size: 14px;
     }
 
-    &-dropdown-title {
-      color: #0097E7;
+    &-accordion-title {
+      font-weight: 500;
+      font-size: 16px;
       cursor: default;
     }
 
@@ -152,14 +199,23 @@
       font-size: 26px;
     }
 
+    &-accordion-arrow::after {
+      border: none;
+    }
+
     &-start-link {
       width: 300px;
       height: 70px;
       font-size: 26px;
     }
 
-    &-links {
-      margin: 20px 10px;
+    &-links-container {
+      margin: 40px 10px;
+      padding: 0;
+    }
+
+    &-hr-open {
+      display: none;
     }
   }
 }
