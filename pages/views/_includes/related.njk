@@ -1,0 +1,15 @@
+{% macro related(pages, collection, title) %}
+  {% if pages %}
+    <div class="related-card">
+      <h4 class="related-card-heading">{{ title }}</h4>
+      <ul class="related-card-list">
+        {% set links = functions.findItemsByName(pages, collections[collection]) %}
+        {% for page in links | released %}
+          <li class="related-card-item badge badge-link badge-md">
+            <a href="{{ page.url | url }}">{{ page.data.name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+{% endmacro %}

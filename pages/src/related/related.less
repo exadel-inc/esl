@@ -1,4 +1,4 @@
-.aside-card {
+.related-card {
   padding: 15px;
   margin-bottom: 20px;
 
@@ -13,12 +13,15 @@
     margin: 0;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
+  }
 
-    &-item {
-      list-style: none;
-      margin: 5px 10px 0;
+  &-item {
+    list-style: none;
+    margin: 5px 10px 0 0;
+    &:last-of-type {
+      margin-right: 0;
     }
   }
 }
