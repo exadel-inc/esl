@@ -1,0 +1,65 @@
+@import (reference) "../common/variables.less";
+
+.benefit {
+  color: #fff;
+  position: relative;
+
+  &-title {
+    margin-bottom: 100px;
+  }
+
+  &-item {
+    min-width: 320px;
+    max-width: 400px;
+    margin: 30px 20px;
+    flex: 1 0 0px;
+  }
+
+  &-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+    padding-bottom: 100px;
+  }
+
+  &-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 40px;
+  }
+
+  &-content-name {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+
+  &-line {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    user-select: none;
+    pointer-events: none;
+    border: none;
+  }
+}
+
+@media @lg {
+  .benefit-container {
+      justify-content: space-between;
+    }
+}
+
+@media @xl {
+  .benefit {
+    &-item {
+      min-width: 400px;
+      max-width: 500px;
+    }
+    &-container {
+      padding-bottom: 150px;
+      justify-content: space-between;
+    }
+  }
+}
