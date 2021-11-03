@@ -22,31 +22,3 @@
     }
   }
 }
-
-@media (min-width: 1400px) {
-  @ASIDE_WIDTH: 220px;
-  @ASIDE_OFFSET: 20px;
-  .aside-left {
-    position: absolute;
-    top: 30px;
-    // right: calc(~'50% - 550px + 60px');
-    right: 60px;
-    width: @ASIDE_WIDTH;
-  }
-  .container.container-aside {
-    padding-right: 60px + @ASIDE_WIDTH + @ASIDE_OFFSET;
-  }
-}
-
-@media (min-width: 1600px) {
-  @ASIDE_WIDTH: 240px;
-  @ASIDE_OFFSET: 30px;
-  .aside-left {
-    // right: calc(~'50% - 700px + 60px');
-    right: 60px;
-    width: @ASIDE_WIDTH;
-  }
-  .container.container-aside {
-    padding-right: 60px + @ASIDE_WIDTH + @ASIDE_OFFSET;
-  }
-}

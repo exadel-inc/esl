@@ -1,16 +1,5 @@
 esl-sidebar {
 
-  .sidebar-heading {
-    display: flex;
-    width: 218px;
-    height: 52px;
-    align-items: center;
-    margin: 0 0 61px 10px;
-
-    color: inherit;
-    transition: margin .5s ease-in-out;
-  }
-
   .sidebar-logo {
     height: 52px;
     width: 52px;
@@ -19,6 +8,7 @@ esl-sidebar {
   .sidebar-title {
     margin: 0;
     padding-left: 14px;
+    overflow: hidden;
 
     font-size: 12px;
     font-weight: 600;
@@ -35,6 +25,7 @@ esl-sidebar {
   }
 
   .sb-nav-list-wrapper {
+    margin-top: 48px;
     height: inherit;
     position: relative;
     display: flex;
@@ -45,10 +36,27 @@ esl-sidebar {
     }
   }
 
+  &:not(.landing) {
+    .sidebar-heading {
+      display: flex;
+      width: 218px;
+      align-items: center;
+      margin: 0 0 13px 10px;
+
+      color: inherit;
+      transition: margin .5s ease-in-out;
+    }
+  }
+
+  &.landing {
+    .sidebar-heading {
+      display: none;
+    }
+  }
+
   &.open {
     .sidebar-heading {
-      margin: 0 0 56px 24px;
-      transition: margin .5s ease-in-out;
+      margin: 0 0 8px 24px;
     }
 
     .sidebar-nav {

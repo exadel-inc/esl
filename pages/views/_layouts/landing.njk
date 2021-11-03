@@ -2,8 +2,10 @@
 {% set baseClass = 'landing-layout' %}
 
 {% block content %}
-  {% include 'header.njk' %}
+  {% include 'sidebar.njk' %}
+
   <main class="esl-scrollable-content">
+    {% include 'header.njk' %}
     <div class="content {{ containerCls or 'container-fluid' }}">
       {% if title %}
         <h1 class="text-center pt-2">
@@ -15,9 +17,14 @@
       {% endif %}
       {{ content | safe or 'No content.' }}
     </div>
+
     {% include "benefit.njk" %}
+
+    <footer class="footer">
+      {% include 'footer.njk' %}
+    </footer>
+
+    <esl-scrollbar target="::parent" class="main-scroll"></esl-scrollbar>
   </main>
-  <footer class="footer">
-    {% include 'footer.njk' %}
-  </footer>
+
 {% endblock %}

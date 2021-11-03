@@ -11,5 +11,9 @@ module.exports = {
     return names
       .map((name) => collection.find((item) => item.fileSlug === name))
       .filter((item) => !!item);
+  },
+  
+  isLanding(url) {
+    return url === '/';
   }
 };

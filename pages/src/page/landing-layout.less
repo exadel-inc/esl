@@ -1,6 +1,35 @@
 @import (reference) "../common/variables.less";
 
 .landing-layout {
-  min-height: 100vh;
+  height: 100vh;
+  display: flex;
   background-color: @landing-bg-color;
+
+  header {
+    z-index: 3;
+    position: relative;
+  }
+
+  main {
+    flex: 1 0 0%;
+  }
+
+  esl-sidebar:not(.open) {
+    .sidebar-scrollbar {
+      visibility: hidden;
+      transition: visibility .5s linear;
+    }
+  }
+  .main-scroll {
+    z-index: 3;
+    position: fixed;
+  }
+
+  .scrollbar-thumb {
+    background: #4a4a55;
+  }
+
+  .scrollbar-track {
+    background: #2e2f35;
+  }
 }
