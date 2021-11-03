@@ -15,8 +15,7 @@
       {% endif %}
       {{ content | safe or 'No content.' }}
     </div>
-    {% from 'benefit.njk' import benefit with context %}
-    {{ benefit ( site.benefit ) }}
+    {% include "benefit.njk" %}
   </main>
   <footer class="footer">
     {% include 'footer.njk' %}
