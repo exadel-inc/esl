@@ -10,13 +10,17 @@ esl-sidebar {
     display: inline;
     position: relative;
 
+    &:hover {
+      color: @nav-dark-hover;
+    }
+
     &::before {
       content: '';
       position: absolute;
 
       left: 1px;
       height: 30px;
-      border-left: 2px solid white;
+      border-left: 2px solid @nav-dark-accent;
     }
   }
 
@@ -43,13 +47,8 @@ esl-sidebar {
     height: 30px;
     padding: 0 0 0 16px;
 
-    color: inherit;
     font-size: 18px;
     font-weight: 500;
-
-    &:hover {
-      color: #dad8d8;
-    }
   }
 
   .sb-dropdown-arrow::after {
@@ -100,7 +99,7 @@ esl-sidebar {
       color: inherit;
 
       &:hover {
-        color: #dad8d8;
+        color: @nav-dark-hover;
       }
     }
   }
@@ -108,12 +107,13 @@ esl-sidebar {
   .nav-dropdown-item-selected {
     position: relative;
     color: @nav-dark-selected;
+
     &::before {
       content: '';
       position: absolute;
       height: 30px;
       left: 1px;
-      border-left: 2px solid white;
+      border-left: 2px solid @nav-dark-accent;
     }
   }
 
