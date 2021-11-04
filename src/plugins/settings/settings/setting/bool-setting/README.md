@@ -1,11 +1,11 @@
 # UIP Bool Setting
 
-[UIPBoolSetting](src/plugins/settings/settings/setting/bool-setting/README.md) - custom setting for adding/removing attributes or appending values to attribute.
+**UIPBoolSetting** - custom setting for adding/removing attributes or appending values to attribute.
 Extends [UIPSetting](src/plugins/settings/settings/setting/README.md).
 
 ## Description:
 
-[UIPBoolSetting](src/plugins/settings/settings/setting/bool-setting/README.md) represents a checkbox. It has **value** attribute for adding/removing this **value**
+**UIPBoolSetting** represents a checkbox. It has **value** attribute for adding/removing this **value**
 from attributes.
 
 This setting can exist in two modes: **replace** and **append**.

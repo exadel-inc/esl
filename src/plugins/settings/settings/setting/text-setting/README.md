@@ -1,6 +1,6 @@
 # UIP Text Setting
 
-[UIPTextSetting](src/plugins/settings/settings/setting/text-setting/README.md) - custom setting for inputting attribute's value. Extends [UIPSetting](src/plugins/settings/settings/setting/README.md)
+**UIPTextSetting** - custom setting for inputting attribute's value. Extends [UIPSetting](src/plugins/settings/settings/setting/README.md)
 
 ## Description:
 

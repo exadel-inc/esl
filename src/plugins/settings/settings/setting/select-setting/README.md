@@ -1,16 +1,16 @@
 # UIP Select Setting
 
-[UIPSelectSetting](src/plugins/settings/settings/setting/select-setting/README.md) - custom setting for selecting attribute's value. Extends [UIPSetting](src/plugins/settings/settings/setting/README.md).
+**UIPSelectSetting** - custom setting for selecting attribute's value. Extends [UIPSetting](src/plugins/settings/settings/setting/README.md).
 
 ## Description:
 
-We render [UIPSelectSetting](src/plugins/settings/settings/setting/select-setting/README.md) as [ESLSelect](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-forms/esl-select)
+We render **UIPSelectSetting** as [ESLSelect](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-forms/esl-select)
 element.
 
 Select setting has two modes: **replace** and **append**. The first one (is used by default) replaces the attribute
 value with selected, and the second one appends selected value to the attribute.
 
-[UIPSelectSetting](src/plugins/settings/settings/setting/select-setting/README.md) also supports **multiple** attribute to allow selecting multiple values.
+**UIPSelectSetting** also supports **multiple** attribute to allow selecting multiple values.
 
 ## Example:
 
