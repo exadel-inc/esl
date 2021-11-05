@@ -3,26 +3,39 @@
 .landing-layout {
   height: 100vh;
   display: flex;
+  flex-wrap: wrap;
   background-color: @landing-bg-color;
 
   header {
-    z-index: 3;
-    position: relative;
+    background-color: @landing-bg-color;
+    flex-basis: 100%;
+  }
+
+  esl-sidebar {
+    background-color: @landing-bg-color;
   }
 
   main {
-    flex: 1 0 0%;
-  }
+    flex: 1 0 100%;
 
-  esl-sidebar:not(.open) {
-    .sidebar-scrollbar {
-      visibility: hidden;
-      transition: visibility .5s linear;
+    @media @xs-sm {
+      height: calc(100vh - 56px);
+    }
+
+    @media @md-xl {
+      height: calc(100vh - 84px);
     }
   }
+
   .main-scroll {
     z-index: 3;
     position: fixed;
+    top: 56px;
+    height: inherit;
+
+    @media @md-xl {
+      top: 84px;
+    }
   }
 
   .scrollbar-thumb {

@@ -1,11 +1,11 @@
 @import (reference) "../common/variables.less";
 
 esl-sidebar {
-  z-index: 3;
+  z-index: 2;
   color: white;
   display: block;
   background-color: #232429;
-
+  height: 100vh;
   overflow: hidden;
 
   .decoration-none {
@@ -64,6 +64,11 @@ esl-sidebar {
   }
 
   @media @md-xl {
+    max-width: 72px;
+    min-width: 72px;
+
+    transition: min-width .5s ease-in-out, max-width .5s ease-in-out;
+
     &.landing {
       display: none;
     }
@@ -72,25 +77,8 @@ esl-sidebar {
   @media @xs-sm {
     position: fixed;
     left: 0;
-  }
-
-  &:not(.landing) {
-    max-width: 72px;
-    min-width: 72px;
-
-    transition: min-width .5s ease-in-out, max-width .5s ease-in-out;
-  }
-
-  &.landing {
-    z-index: 2;
-    background-color: @landing-bg-color;
 
     transition: height .5s ease-in-out, visibility .5s ease-in-out;
-
-    &:not(.open) {
-      height: 0;
-      visibility: hidden;
-    }
 
     .sidebar-nav {
       max-width: 270px;
@@ -101,6 +89,10 @@ esl-sidebar {
 
     .sidebar-ico-btn {
       display: none;
+    }
+
+    &:not(.open) {
+      height: 0;
     }
   }
 

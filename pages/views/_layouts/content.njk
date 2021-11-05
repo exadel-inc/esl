@@ -2,10 +2,10 @@
 {% set baseClass = 'sidebar-layout' %}
 
 {% block content %}
+  {% include 'header.njk' %}
   {% include 'sidebar.njk' %}
 
   <main class="esl-scrollable-content">
-    {% include 'header.njk' %}
     <div class="content {{ containerCls or 'container-fluid' }} {{ 'container-aside' if aside }}">
       {% if title %}
         <h1 class="page-title">
