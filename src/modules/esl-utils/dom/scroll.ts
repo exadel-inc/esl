@@ -106,7 +106,7 @@ export function isScrollParent(element: Element): boolean {
  * @param element - element to be made visible to the user
  * @param options - scrollIntoView options
  */
-export function scrollIntoViewAsync(element: Element, options: ScrollIntoViewOptions): Promise<void> {
+export function scrollIntoViewAsync(element: Element, options?: boolean | ScrollIntoViewOptions | undefined): Promise<void> {
   element.scrollIntoView(options);
 
   return new Promise((resolve, reject) => {
