@@ -1,13 +1,22 @@
 .sidebar-layout {
   height: 100vh;
   display: flex;
+  flex-wrap: wrap;
 
   .page-title {
     padding: 1rem 0;
   }
 
   main {
-    flex: 1 1 auto;
+    @media @xs-sm {
+      height: calc(100vh - 56px);
+      flex: 0 0 100%;
+    }
+
+    @media @md-xl {
+      height: 100vh;
+      flex: 1 0 0;
+    }
 
     display: flex;
     flex-direction: column;
@@ -20,14 +29,26 @@
     > footer {
       margin-top: auto;
     }
+  }
 
-    > header {
+  header {
+    background-color: #232429;
+    flex-basis: 100%;
+
+    @media @md-xl {
       display: none;
     }
   }
 
+  esl-sidebar {
+    background-color: #232429;
+  }
+
   .main-scroll {
+    z-index: 3;
     position: fixed;
+    top: 56px;
+    height: inherit;
   }
 
   .sidebar-scrollbar {

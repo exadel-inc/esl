@@ -1,8 +1,12 @@
 @import (reference) "../common/variables.less";
 
 .header {
-  background-color: @landing-bg-color;
+  z-index: 3;
   max-height: 56px;
+
+  .landing-layout & {
+    background-color: transparent;
+  }
 
   &-nav {
     display: flex;
@@ -37,6 +41,7 @@
   &-short-name {
     text-transform: uppercase;
   }
+
   &-short-name, &-long-name {
     margin-left: 4px;
   }
@@ -50,6 +55,40 @@
     position: absolute;
     right: 20px;
     width: 30px;
+    height: 20px;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+
+    transition: border .5s ease-in-out;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 2px;
+
+      position: absolute;
+      top: 50%;
+      left: 50%;
+
+      background: white;
+
+      transform: translate(-50%, -50%);
+      transition: transform .5s ease-in-out;
+    }
+
+    &[active] {
+      border-color: transparent;
+
+      &::before {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      &::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+    }
   }
 
   &-li {
