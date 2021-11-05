@@ -3,9 +3,9 @@
 
 {% block content %}
   {% include 'sidebar.njk' %}
+  {% include 'header.njk' %}
 
   <main class="esl-scrollable-content">
-    {% include 'header.njk' %}
     <div class="content {{ containerCls or 'container-fluid' }}">
       {% if title %}
         <h1 class="text-center pt-2">
