@@ -21,5 +21,5 @@ module.exports = (config) => {
 
   config.addFilter('sortByName', sortFilter(nameComparer));
   config.addFilter('sortByNameAndOrder', sortFilter(compose(orderComparer, nameComparer)));
-  config.addFilter('filterIgnore', filterIgnore)
+  config.addFilter('filterIgnore', filterIgnore);
 };
