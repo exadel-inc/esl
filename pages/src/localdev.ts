@@ -46,6 +46,7 @@ import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
 import './sidebar/sidebar';
+import './marquee/marquee';
 
 ESLImage.register();
 ESLMedia.register();
