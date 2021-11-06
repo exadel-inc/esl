@@ -5,7 +5,7 @@ layout: content
 <div class="collection-grid">
   {% for item in collections[collection] | notIgnored | sortByName %}
     <a class="collection-grid-item"
-        href="{{ item.url | url }}">
+       href="{{ item.url | url }}">
       <div class="collection-grid-title collection-grid-box">
         <span>{{ item.data.name }}</span>
       </div>
