@@ -8,9 +8,6 @@ module.exports = (config) => {
     return [...values].sort(comparer);
   };
 
-  /** filter by ignore */
-  const filterIgnore = (collection) => collection.filter( item => !item.data.ignore )
-
   /** Comparer composer */
   const compose = (cmpA, cmpB) => (a, b) => cmpA(a, b) || cmpB(a, b);
 
@@ -21,5 +18,4 @@ module.exports = (config) => {
 
   config.addFilter('sortByName', sortFilter(nameComparer));
   config.addFilter('sortByNameAndOrder', sortFilter(compose(orderComparer, nameComparer)));
-  config.addFilter('filterIgnore', filterIgnore);
 };
