@@ -15,8 +15,11 @@ interface SidebarActionParams extends ToggleableActionParams {
 export class ESLDemoSidebar extends ESLToggleable {
   static is = 'esl-d-sidebar';
 
-  @prop() public closeOnEsc: boolean = true;
-  @prop() public submenus: string = '.sb-dropdown-content';
+  @prop() public closeOnEsc = true;
+  @prop() public closeOnOutsideAction = true;
+
+  @prop() public submenus: string = '.sidebar-nav-secondary';
+  @prop() public activeLinkSel: string = '.sidebar-nav-secondary-item.active';
 
   @attr({name: 'animation'}) protected _animation: boolean;
 
@@ -39,6 +42,22 @@ export class ESLDemoSidebar extends ESLToggleable {
     this.toggle(shouldActivate, {force: true, initiator: 'init', immediate: true});
   }
 
+  public collapseAll() {
+    this.$submenus.forEach((menu) => menu.hide({activator: this}));
+  }
+
+  public expandActive(noCollapse: boolean = false) {
+    this.$submenus
+      .filter((menu) => !!menu.querySelector(this.activeLinkSel))
+      .forEach((menu) => menu.show({noCollapse, activator: this}));
+  }
+
+  protected updateA11y() {
+    const targetEl = this.$a11yTarget;
+    if (!targetEl) return;
+    targetEl.setAttribute('aria-expanded', String(this.open));
+  }
+
   protected onShow(params: SidebarActionParams) {
     this._animation = !params.immediate;
     super.onShow(params);
@@ -56,19 +75,9 @@ export class ESLDemoSidebar extends ESLToggleable {
     this.toggle(shouldActivate, {initiator: 'bpchange'});
   }
 
-  public collapseAll() {
-    this.$submenus.forEach((menu) => menu.hide({activator: this}));
-  }
-
-  public expandActive(noCollapse: boolean = false) {
-    this.$submenus
-      .filter((menu) => !!menu.querySelector('.nav-dropdown-item-selected'))
-      .forEach((menu) => menu.show({noCollapse, activator: this}));
-  }
-
-  protected updateA11y() {
-    const targetEl = this.$a11yTarget;
-    if (!targetEl) return;
-    targetEl.setAttribute('aria-expanded', String(this.open));
+  @bind
+  protected _onOutsideAction(e: MouseEvent) {
+    if (ESLMediaQuery.for('@+MD').matches) return;
+    super._onOutsideAction(e);
   }
 }
