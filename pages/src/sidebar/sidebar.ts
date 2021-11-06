@@ -1,18 +1,19 @@
 import {prop} from '../../../src/modules/esl-utils/decorators/prop';
 import {bind} from '../../../src/modules/esl-utils/decorators/bind';
-import {attr} from '../../../src/modules/esl-base-element/decorators/attr';
 import {ready} from '../../../src/modules/esl-utils/decorators/ready';
+import {attr} from '../../../src/modules/esl-base-element/decorators/attr';
 import {ESLToggleable} from '../../../src/modules/esl-toggleable/core/esl-toggleable';
 import {ESLMediaQuery} from '../../../src/modules/esl-media-query/core/esl-media-query';
 
 import type {ToggleableActionParams} from '../../../src/modules/esl-toggleable/core/esl-toggleable';
 
 interface SidebarActionParams extends ToggleableActionParams {
+  /** Change state without animation */
   immediate: boolean;
 }
 
-export class ESLSidebar extends ESLToggleable {
-  static is = 'esl-sidebar';
+export class ESLDemoSidebar extends ESLToggleable {
+  static is = 'esl-d-sidebar';
 
   @prop() public closeOnEsc: boolean = true;
   @prop() public submenus: string = '.sb-dropdown-content';
@@ -71,4 +72,3 @@ export class ESLSidebar extends ESLToggleable {
     targetEl.setAttribute('aria-expanded', String(this.open));
   }
 }
-ESLSidebar.register();

@@ -1,10 +1,10 @@
 @import (reference) "../common/variables.less";
 
-esl-sidebar {
+esl-d-sidebar {
   display: block;
 
-  color: white;
-  background: #232429;
+  color: @nav-dark-fg;
+  background: @nav-dark-bg;
 
   position: fixed;
   z-index: 8;
@@ -21,7 +21,7 @@ esl-sidebar {
   }
 
   @media @xs-sm {
-    &:not(.esl-sidebar) {
+    &:not(.esl-d-sidebar) {
       display: none;
     }
     visibility: hidden;

@@ -1,6 +1,6 @@
 {% from 'navigation/sidebar-menu.njk' import menu with context %}
 
-<esl-sidebar id="sidebar" class="open">
+<esl-d-sidebar id="sidebar" class="open">
   <nav class="sidebar-nav">
     <a class="sidebar-heading" href="{{ '/' | url }}">
       <span class="sidebar-logo logo-light logo-animated">{% include 'static/assets/logo.svg' %}</span>
@@ -25,6 +25,6 @@
 
       <esl-scrollbar class="sidebar-scrollbar" target="::prev"></esl-scrollbar>
     </div>
-    <esl-trigger class="sidebar-trigger-btn sidebar-arrows-icon" target="::parent(esl-sidebar)" mode="toggle"></esl-trigger>
+    <esl-trigger class="sidebar-trigger-btn sidebar-arrows-icon" target="#sidebar" mode="toggle"></esl-trigger>
   </nav>
-</esl-sidebar>
+</esl-d-sidebar>
