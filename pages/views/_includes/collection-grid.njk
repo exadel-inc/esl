@@ -1,6 +1,6 @@
 {% macro grid(collection) %}
   <div class="collection-grid">
-  {% for item in collections[collection] | notIgnored %}
+    {% for item in collections[collection] | notIgnored %}
       <a class="collection-grid-item"
          href="{{ item.url | url }}">
         <div class="collection-grid-title collection-grid-box">
@@ -12,6 +12,6 @@
           {% endif %}
         </div>
       </a>
-  {% endfor %}
+    {% endfor %}
   </div>
 {% endmacro %}

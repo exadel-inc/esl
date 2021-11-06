@@ -12,9 +12,9 @@
     {% if collections[collection] %}
       <ul class="footer-accordion-list">
         {% for item in collections[collection] | notIgnored | released | sortByNameAndOrder %}
-            <li class="footer-accordion-item" {% if isActive %}aria-current="page"{% endif %}>
-              <a class="footer-accordion-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
-            </li>
+          <li class="footer-accordion-item" {% if isActive %}aria-current="page"{% endif %}>
+            <a class="footer-accordion-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
+          </li>
         {% endfor %}
       </ul>
     {% endif %}
