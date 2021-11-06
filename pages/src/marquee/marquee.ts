@@ -13,6 +13,8 @@ onDocumentReady(() => {
   let $active: HTMLElement[] = [];
   const $stars: HTMLElement[] = Array.from(document.querySelectorAll(STARS_SEL)) ;
 
+  if ($stars.length < 2) return;
+
   const randomIndex = () => Math.floor(Math.random() * $stars.length);
   const randomStar = () => $stars[randomIndex()];
 

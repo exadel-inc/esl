@@ -2,8 +2,8 @@
 {% set baseClass = 'sidebar-layout' %}
 
 {% block content %}
-  {% include 'header.njk' %}
-  {% include 'sidebar.njk' %}
+  {% include 'navigation/header.njk' %}
+  {% include 'navigation/sidebar.njk' %}
 
   <main class="esl-scrollable-content">
     <div class="content {{ containerCls or 'container-fluid' }} {{ 'container-aside' if aside }}">
@@ -27,7 +27,7 @@
     </div>
 
     <footer class="footer-compact container-fluid">
-      {% include 'footer-compact.njk' %}
+      {% include 'navigation/footer-compact.njk' %}
     </footer>
 
     <esl-scrollbar target="::parent" class="main-scroll"></esl-scrollbar>

@@ -1,12 +1,12 @@
-<esl-sidebar open
-            id="sidebar"
-            class="open {{ 'landing' if functions.isLanding(page.url) }}">
+{% from 'navigation/sidebar-menu.njk' import menu with context %}
+
+<esl-sidebar id="sidebar" class="open">
   <nav class="sidebar-nav">
-    <a class="sidebar-heading decoration-none logo-light logo-animated mr-5" href="{{ '/' | url }}">
-      <span class="sidebar-logo">{% include 'static/assets/logo.svg' %}</span>
+    <a class="sidebar-heading" href="{{ '/' | url }}">
+      <span class="sidebar-logo logo-light logo-animated">{% include 'static/assets/logo.svg' %}</span>
       <span class="sidebar-title">{{ site.name }}</span>
     </a>
-    {% from 'sidebar-menu.njk' import menu with context %}
+
     <div class="sb-nav-list-wrapper">
       <ul class="sidebar-nav-list esl-scrollable-content">
         <li class="sidebar-nav-item">
@@ -22,8 +22,9 @@
           {{ menu ('Utils', 'utils', 'static/assets/sidebar/utils.svg') }}
         </li>
       </ul>
+
       <esl-scrollbar class="sidebar-scrollbar" target="::prev"></esl-scrollbar>
     </div>
-    <esl-trigger class="sidebar-ico-btn sidebar-arrows-icon" target="::parent(esl-sidebar)" mode="toggle"></esl-trigger>
+    <esl-trigger class="sidebar-trigger-btn sidebar-arrows-icon" target="::parent(esl-sidebar)" mode="toggle"></esl-trigger>
   </nav>
 </esl-sidebar>
