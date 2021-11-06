@@ -11,7 +11,7 @@ class TestMediaSource extends HTMLElement {
     form.innerHTML = `
       <fieldset>
         <legend>Video Settings:</legend>
-          <div class="input-group mb-2 mr-sm-2">
+          <div class="input-group mb-2">
           <select class="form-control" name="media-type">
             <option value="auto">- Auto -</option>
             <option value="audio">HTML Audio</option>
@@ -21,16 +21,16 @@ class TestMediaSource extends HTMLElement {
             <option value="iframe">Iframe</option>
           </select>
         </div>
-        <div class="input-group mb-2 mr-sm-2">
+        <div class="input-group mb-2">
           <input type="text" class="form-control" placeholder="Media src" name="media-src" autocomplete="on"/>
         </div>
-        <div class="input-group mb-2 mr-sm-2">
+        <div class="input-group mb-2">
           <input type="text" class="form-control" placeholder="Media id" name="media-id" autocomplete="on"/>
         </div>
-        <div class="input-group mb-2 mr-sm-2">
+        <div class="input-group mb-2">
           <input type="text" class="form-control" placeholder="Player id" name="player-id" autocomplete="on"/>
         </div>
-        <div class="input-group mb-2 mr-sm-2">
+        <div class="input-group mb-2">
           <input type="text" class="form-control" placeholder="Player account" name="player-account" autocomplete="on"/>
         </div>
 

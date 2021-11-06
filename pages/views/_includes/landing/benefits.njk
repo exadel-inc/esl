@@ -6,10 +6,12 @@
         <div class="benefit-icon">
           {% include "static/assets/" + item.icon %}
         </div>
-        <div class="benefit-content-name">{{ item.name }}</div>
-        <p class="benefit-content-text">
-          {{ item.text }}
-        </p>
+        <div class="benefit-content">
+          <div class="benefit-content-name">{{ item.name }}</div>
+          <p class="benefit-content-text">
+            {{ item.text }}
+          </p>
+        </div>
       </li>
     {% endfor %}
   </ul>
