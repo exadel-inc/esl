@@ -1,6 +1,7 @@
 import {prop} from '../../../src/modules/esl-utils/decorators/prop';
 import {ready} from '../../../src/modules/esl-utils/decorators/ready';
 import {ESLToggleable} from '../../../src/modules/esl-toggleable/core/esl-toggleable';
+import {ESLMediaQuery} from '../../../src/modules/esl-media-query/core/esl-media-query';
 import type {ToggleableActionParams} from '../../../src/modules/esl-toggleable/core/esl-toggleable';
 
 export class ESLSidebar extends ESLToggleable {
@@ -17,6 +18,10 @@ export class ESLSidebar extends ESLToggleable {
   @ready
   protected connectedCallback() {
     super.connectedCallback();
+  }
+
+  protected setInitialState() {
+    ESLMediaQuery.for('@SM, @XS').matches ? this.hide({force: true, initiator: 'init'}) : this.show({force: true, initiator: 'init'});
   }
 
   protected onShow(params: ToggleableActionParams) {
