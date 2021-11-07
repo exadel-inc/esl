@@ -10,7 +10,14 @@ esl-d-sidebar {
   .sidebar-nav-secondary-item {
     display: block;
     position: relative;
-    padding: 10px 35px 10px 65px;
+    padding: 10px 35px 10px 75px;
+
+    @media @sm {
+      padding-left: 85px;
+    }
+    @media @md-xl {
+      padding-left: 65px;
+    }
 
     &.active {
       color: @nav-dark-selected;
@@ -28,7 +35,7 @@ esl-d-sidebar {
   }
   .sidebar-nav-secondary-link {
     display: block;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
     text-decoration: none;
 
