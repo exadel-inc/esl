@@ -45,8 +45,14 @@ import {
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
-import './sidebar/sidebar';
-import './marquee/marquee';
+import {ESLDemoSidebar} from './navigation/navigation';
+import {ESLDemoMarquee} from './marquee/marquee';
+
+// Register Demo components
+ESLDemoSidebar.register();
+ESLDemoMarquee.register();
+
+// Register ESL Components
 
 ESLImage.register();
 ESLMedia.register();

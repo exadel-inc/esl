@@ -1,0 +1,48 @@
+@import (reference) "../../common/variables.less";
+
+esl-d-sidebar {
+  .sidebar-nav-secondary {
+    width: 100%;
+  }
+  .sidebar-nav-secondary-list {
+    padding: 2px 0;
+  }
+  .sidebar-nav-secondary-item {
+    display: block;
+    position: relative;
+    padding: 10px 35px 10px 75px;
+
+    @media @sm {
+      padding-left: 85px;
+    }
+    @media @md-xl {
+      padding-left: 65px;
+    }
+
+    &.active {
+      color: @nav-dark-selected;
+      background: fade(@nav-dark-selected, 20%);
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 1px;
+        height: 100%;
+        border-left: 3px solid @nav-dark-accent;
+      }
+    }
+  }
+  .sidebar-nav-secondary-link {
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: none;
+
+    color: inherit;
+
+    &:hover {
+      color: @nav-dark-hover;
+    }
+  }
+}

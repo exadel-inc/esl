@@ -1,0 +1,169 @@
+@import (reference) "../../common/variables.less";
+
+.header {
+  z-index: 10;
+
+  color: @landing-fg-color;
+  background-color: @landing-bg-color;
+
+  max-height: 56px;
+  @media @md-xl {
+    max-height: 84px;
+  }
+
+  @media @md-xl {
+    .landing-layout & {
+      background-color: transparent;
+    }
+  }
+
+  &-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 56px;
+
+    @media @md-xl {
+      height: 84px;
+    }
+  }
+
+  &-links {
+    display: none;
+    flex: 1 0 auto;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+
+    @media @md-xl {
+      display: flex;
+    }
+  }
+
+  &-link {
+    color: @nav-dark-fg;
+    text-decoration: none;
+
+    &:hover {
+      color: @nav-dark-hover;
+    }
+  }
+
+  &-li {
+    list-style-type: none;
+    font-size: 16px;
+
+    margin: 0 10px;
+    @media @lg-xl {
+      margin: 0 20px;
+    }
+
+    svg {
+      height: 24px;
+    }
+  }
+
+  &-utility {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    flex: 1 0 auto;
+    margin-left: auto;
+    justify-self: flex-end;
+  }
+
+  &-logo {
+    flex: 1 0 auto;
+
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+
+    @media @md-xl {
+      font-size: 1.2rem;
+    }
+
+    svg {
+      height: 48px;
+
+      @media @md-xl {
+        height: 66px;
+      }
+    }
+  }
+
+  &-btn {
+    display: none;
+    @media @md-xl {
+      display: block;
+      width: auto;
+    }
+  }
+
+  &-hamburger {
+    display: block;
+    @media @md-xl {
+      display: none;
+    }
+
+    position: relative;
+    width: 30px;
+    height: 22px;
+    margin: 0 2px;
+
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+
+    transition: border .5s ease-in-out;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 2px;
+
+      position: absolute;
+      top: 50%;
+      left: 50%;
+
+      background: white;
+
+      transform: translate(-50%, -50%);
+      transition: transform .5s ease-in-out;
+    }
+
+    &[active] {
+      border-color: transparent;
+
+      &::before {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      &::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+    }
+  }
+
+  &-short-name {
+    display: none;
+    text-transform: uppercase;
+    @media @md {
+      display: inline-block;
+    }
+  }
+
+  &-long-name {
+    display: inline-block;
+    @media @md {
+      display: none;
+    }
+  }
+
+  &-short-name, &-long-name {
+    margin-left: 4px;
+  }
+}
