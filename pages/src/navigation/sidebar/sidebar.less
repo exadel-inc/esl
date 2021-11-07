@@ -1,0 +1,59 @@
+@import (reference) "../../common/variables.less";
+
+esl-d-sidebar {
+  display: block;
+
+  color: @nav-dark-fg;
+  background: @nav-dark-bg;
+
+  position: fixed;
+  z-index: 8;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  max-width: 0;
+
+  &[animation] {
+    transition: max-width .5s ease-in-out, visibility .5s linear;
+    &.open {
+      transition: max-width .5s ease-in-out, visibility 0s linear;
+    }
+  }
+
+  @media @xs-sm {
+    &:not(.esl-d-sidebar) {
+      display: none;
+    }
+    visibility: hidden;
+    &.open {
+      visibility: visible;
+    }
+  }
+
+  @media @sm {
+    width: 400px;
+  }
+  @media @md-xl {
+    position: relative;
+    width: 270px;
+    max-width: 72px;
+  }
+
+  &.open {
+    max-width: 100vw;
+    @media @md-xl {
+      max-width: 270px;
+    }
+  }
+
+  @media @md-xl {
+    .landing-layout & {
+      display: none;
+    }
+  }
+}
+
+@import "./sidebar-controls.less";
+@import "./sidebar-content.less";
+@import "./sidebar-primary-nav.less";
+@import "./sidebar-seccondary-nav.less";

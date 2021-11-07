@@ -1,12 +1,12 @@
 <header class="header">
   <nav class="container header-nav">
     <div class="header-container">
-      <a class="header-link header-logo logo-light logo-animated" href="{{ '/' | url }}">
+      <a class="header-link header-logo logo-light logo-animated" href="{{ '/' | url }}" aria-label="Landing page">
         {% include 'static/assets/logo.svg' %}
         <span class="header-short-name">esl</span>
         <span class="header-long-name">{{ site.name }}</span>
       </a>
-      <esl-trigger class="header-hamburger" target="#sidebar" mode="toggle"></esl-trigger>
+      <esl-trigger class="header-hamburger" target="#sidebar" aria-label="Navigation Menu"></esl-trigger>
       <ul class="header-links">
         <li class="header-li"><a class="header-link" href="{{ '/examples' | url }}">Examples</a></li>
         <li class="header-li"><a class="header-link" href="{{ '/components' | url }}">Components</a></li>

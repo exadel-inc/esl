@@ -5,16 +5,11 @@
   display: flex;
   flex-wrap: wrap;
 
-  color: #fff;
+  color: @landing-fg-color;
   background-color: @landing-bg-color;
 
   header {
-    background-color: @landing-bg-color;
     flex-basis: 100%;
-  }
-
-  esl-sidebar {
-    background-color: @landing-bg-color;
   }
 
   main {
@@ -30,7 +25,7 @@
   }
 
   .main-scroll {
-    z-index: 3;
+    z-index: 5;
     position: fixed;
     top: 56px;
     height: inherit;
