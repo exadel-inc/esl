@@ -45,7 +45,7 @@ import {
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
-import {ESLDemoSidebar} from './sidebar/sidebar';
+import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoMarquee} from './marquee/marquee';
 
 // Register Demo components
