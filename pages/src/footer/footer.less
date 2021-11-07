@@ -79,6 +79,11 @@
   }
 
   &-accordion-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 46px;
+
     &[active] {
       .footer-accordion-arrow::after {
         top: 12px;
@@ -100,13 +105,6 @@
     border-top: 2px solid;
     padding: 16px 0;
     border-image: linear-gradient(to right, #131A2E, #00a6ff,#00a6ff, #ffffff, #131A2E) 47% 0%;
-  }
-
-  &-accordion-trigger {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 46px;
   }
 
   &-accordion-title {

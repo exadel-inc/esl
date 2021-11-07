@@ -21,6 +21,11 @@
 
   &-link {
     color: white;
+
+    &:hover {
+      text-decoration: none;
+      color: #0097E7;
+    }
   }
 
   &-logo {
@@ -33,11 +38,6 @@
     }
   }
 
-  &-link:hover {
-    text-decoration: none;
-    color: #0097E7;
-  }
-
   &-short-name {
     text-transform: uppercase;
   }
@@ -45,7 +45,6 @@
   &-short-name, &-long-name {
     margin-left: 4px;
   }
-
 
   &-links, &-short-name {
     display: none;
@@ -136,8 +135,6 @@
     }
 
     &-li {
-      font-size: 16px;
-
       &:not(:first-child) {
         margin-left: 20px;
       }
