@@ -23,6 +23,7 @@
     position: relative;
     z-index: 1;
     flex: 1 1 auto;
+    max-width: 100%;
 
     text-align: center;
     @media @sm-xl {
@@ -64,6 +65,10 @@
 
     @media @md-xl {
       margin: -10% auto;
+    }
+
+    > svg {
+      min-height: 200px;
     }
   }
 }
