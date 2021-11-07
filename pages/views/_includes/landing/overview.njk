@@ -1,2 +1,35 @@
-<!-- Overview component -->
-<div style="margin: 20px auto"></div>
+<div class="overview container">
+  <esl-carousel class="overview-carousel">
+
+    <button class="overview-btn-prev-wrapper" data-slide-target="prev"></button>
+
+    <div data-slides-area class="overview-slides-area">
+      <esl-carousel-slide active
+                          class="overview-slide"
+                          style="background: transparent">
+        <h2 class="overview-title">{{ benefits.title }}</h2>
+        <p class="overview-description">{{ benefits.title }}</p>
+        <ul class="overview-container">
+          {% for item in benefits.benefits %}
+            <li class="overview-item">
+              <div class="overview-icon">
+                {% include "static/assets/" + item.icon %}
+              </div>
+              <div class="overview-content">
+                <div class="overview-content-name">{{ item.name }}</div>
+                <p class="overview-content-text">
+                  {{ item.text }}
+                </p>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </esl-carousel-slide>
+    </div>
+
+    <button class="overview-btn-next-wrapper" data-slide-target="next"></button>
+
+    <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+
+  </esl-carousel>
+</div>
