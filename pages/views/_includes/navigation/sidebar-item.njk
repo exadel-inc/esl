@@ -12,13 +12,15 @@
     </esl-trigger>
   </div>
 
-  <esl-panel class="sidebar-nav-secondary {{ 'open' if isPrimaryActive }}"
+  <esl-panel id="sidebar-{{ collection }}-menu"
+             class="sidebar-nav-secondary {{ 'open' if isPrimaryActive }}"
              group="esl-nav"
              fallback-duration="400">
     <ul class="sidebar-nav-secondary-list">
       {% for item in collections[collection] | released | sortByNameAndOrder %}
         {% set isActive = page.url === item.url %}
-        <li class="sidebar-nav-secondary-item {{ 'active' if isActive }}">
+        <li class="sidebar-nav-secondary-item {{ 'active' if isActive }}"
+            {% if isActive %}aria-selected="true"{% endif %}>
           <a class="sidebar-nav-secondary-link"
              {% if isActive %}aria-current="page"{% endif %}
              href="{{ item.url | url }}">

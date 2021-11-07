@@ -3,6 +3,7 @@ import {bind} from '../../../src/modules/esl-utils/decorators/bind';
 import {ready} from '../../../src/modules/esl-utils/decorators/ready';
 import {range} from '../../../src/modules/esl-utils/misc/array';
 import {memoize} from '../../../src/modules/esl-utils/decorators/memoize';
+import {isIE} from '../../../src/modules/esl-utils/environment/device-detector';
 
 export class ESLDemoMarquee extends ESLBaseElement {
   static is = 'esl-d-marquee';
@@ -23,6 +24,7 @@ export class ESLDemoMarquee extends ESLBaseElement {
   @ready
   protected connectedCallback() {
     super.connectedCallback();
+    if (isIE) return;
     this.startAnimation();
   }
   protected disconnectedCallback() {
