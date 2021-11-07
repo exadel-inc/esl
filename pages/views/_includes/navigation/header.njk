@@ -1,31 +1,29 @@
 <header class="header">
-  <nav class="container header-nav">
-    <div class="header-container">
-      <a class="header-link header-logo logo-light logo-animated" href="{{ '/' | url }}" aria-label="Landing page">
-        {% include 'static/assets/logo.svg' %}
-        <span class="header-short-name">esl</span>
-        <span class="header-long-name">{{ site.name }}</span>
-      </a>
-      <esl-trigger class="header-hamburger" target="#sidebar" aria-label="Navigation Menu"></esl-trigger>
-      <ul class="header-links">
-        <li class="header-li"><a class="header-link" href="{{ '/examples' | url }}">Examples</a></li>
-        <li class="header-li"><a class="header-link" href="{{ '/components' | url }}">Components</a></li>
-        <li class="header-li"><a class="header-link" href="{{ '/utils' | url }}">Utils</a></li>
-        <li class="header-li">
-          <a href="{{ site.github.url }}" target="_blank">
-            {% include 'static/assets/common/github.svg' %}
-          </a>
-        </li>
-        {# Hide it temporarily until search integration #}
-        {# <li class="header-li">
+  <nav class="header-container container">
+    <a class="header-link header-logo logo-light logo-animated" href="{{ '/' | url }}" aria-label="Landing page">
+      {% include 'static/assets/logo.svg' %}
+      <span class="header-short-name">esl</span>
+      <span class="header-long-name">{{ site.name }}</span>
+    </a>
+    <ul class="header-links">
+      <li class="header-li"><a class="header-link" href="{{ '/examples' | url }}">Examples</a></li>
+      <li class="header-li"><a class="header-link" href="{{ '/components' | url }}">Components</a></li>
+      <li class="header-li"><a class="header-link" href="{{ '/utils' | url }}">Utils</a></li>
+      <li class="header-li">
+        <a href="{{ site.github.url }}" target="_blank">
+          {% include 'static/assets/common/github.svg' %}
+        </a>
+      </li>
+      {# Hide it temporarily until search integration #}
+      {# <li class="header-li">
           <button>
             {% include 'static/assets/common/search.svg' %}
           </button>
         </li> #}
-      </ul>
-      <div class="header-btn">
-        <a class="btn btn-lg btn-primary" href="{{ '/introduction/installation-guide' | url }}">Get started</a>
-      </div>
+    </ul>
+    <div class="header-utility">
+      <a class="header-btn btn btn-lg btn-primary" href="{{ '/introduction/installation-guide' | url }}">Get started</a>
+      <esl-trigger class="header-hamburger" target="#sidebar" aria-label="Navigation Menu"></esl-trigger>
     </div>
   </nav>
 </header>

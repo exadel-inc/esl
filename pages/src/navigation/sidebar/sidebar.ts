@@ -72,7 +72,7 @@ export class ESLDemoSidebar extends ESLToggleable {
   @bind
   protected onBreakpointChange() {
     const shouldActivate = ESLMediaQuery.for('@+MD').matches;
-    this.toggle(shouldActivate, {initiator: 'bpchange'});
+    this.toggle(shouldActivate, {initiator: 'bpchange', immediate: !shouldActivate});
   }
 
   @bind

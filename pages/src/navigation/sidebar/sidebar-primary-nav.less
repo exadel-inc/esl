@@ -25,7 +25,14 @@ esl-d-sidebar {
   // Primary Heading
   .sidebar-nav-item-heading {
     display: flex;
-    padding: 10px 40px 10px 20px;
+    padding: 10px 40px 10px 30px;
+
+    @media @sm {
+      padding-left: 40px;
+    }
+    @media @md-xl {
+      padding-left: 20px;
+    }
 
     &.active {
       color: @nav-dark-selected;
