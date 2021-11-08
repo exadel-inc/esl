@@ -1,3 +1,11 @@
+## [3.4.1](https://github.com/exadel-inc/esl/compare/v3.4.0...v3.4.1) (2021-11-08)
+
+
+### Bug Fixes
+
+* **esl-utils:** scrollIntoViewAsync() method signature ([6817b31](https://github.com/exadel-inc/esl/commit/6817b31dea274bf57e271d34dcfb7625d1e9b57f))
+* **esl-utils:** update dispatch parameter type ([0834a97](https://github.com/exadel-inc/esl/commit/0834a974babf59aaef1bacb753057586a433a056))
+
 # [3.4.0](https://github.com/exadel-inc/esl/compare/v3.3.0...v3.4.0) (2021-10-21)
 
 
