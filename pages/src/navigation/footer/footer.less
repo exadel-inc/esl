@@ -46,19 +46,13 @@
     border-color: #00a6ff;
   }
 
-  &-start-link, &-link {
+  &-start-link {
     color: #0097E7;
   }
 
-  &-start-link:hover, &-link:hover,  &-accordion-link:hover {
+  &-start-link:hover,  &-accordion-link:hover {
     text-decoration: none;
     color: #00a6ff;
-  }
-
-  &-links {
-    display: inline-block;
-    font-size: 0.75rem;
-    margin-top: 20px;
   }
 
   &-accordion-arrow::after {
@@ -113,6 +107,10 @@
     font-size: 1.25rem;
   }
 
+  &-accordion-container {
+    margin: 0;
+  }
+
   &-accordion-content {
     margin: 0 15px;
     z-index: 99;
@@ -128,19 +126,22 @@
     }
   }
 
-  &-links-container {
+  &-common-links-container {
     display: flex;
+    align-items: flex-end;
     justify-content: space-between;
-    padding: 20px;
+    padding: 20px 10px;
   }
 
-  &-accordion-container {
-    margin: 0;
+  &-common-links {
+    font-size: 0.8rem;
   }
-
-  &-icon-link {
-    width: 25px;
-    padding-bottom: 10px;
+  &-common-links &-link {
+    padding: 0 10px;
+    > svg {
+      width: 25px;
+      height: 25px;
+    }
   }
 }
 
@@ -206,13 +207,13 @@
       font-size: 1.625rem;
     }
 
-    &-links-container {
-      margin: 40px 10px;
-      padding: 0;
-    }
-
     &-hr-open {
       display: none;
+    }
+
+    &-common-links-container {
+      padding: 10px 0;
+      margin-bottom: 40px;
     }
   }
 }

@@ -54,13 +54,14 @@ ol, ul {
 }
 
 a {
-  color: #007bff;
+  color: @link-fg;
   text-decoration: none;
   background-color: transparent;
 
   &:hover {
-    color: #0056b3;
+    color: @link-hover-fg;
     text-decoration: underline;
+    text-decoration-color: @link-hover-underline;
   }
 
   &:not([href]),
