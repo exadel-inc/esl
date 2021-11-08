@@ -4,7 +4,7 @@
   <hr class="footer-hr">
   <div class="footer-start">
     <span class="footer-text">Ready to get started?</span>
-    <a href="{{ '/introduction/installation-guide' | url }}"
+    <a href="{{ '/introduction' | url }}"
        class="footer-start-link">
       Get started
     </a>
@@ -25,13 +25,15 @@
       </li>
     </ul>
   </esl-panel-group>
-  <div class="footer-accordion footer-links-container">
-    <div class="footer-links">
-      <a href="#">Terms & Conditions</a>
-      <a href="#">Privacy Policy</a>
+  <div class="footer-common-links-container">
+    <div class="footer-common-links">
+      <a class="footer-link" href="#">Terms & Conditions</a>
+      <a class="footer-link" href="#">Privacy Policy</a>
     </div>
-    <a class="footer-icon-link footer-links" href="{{ site.github.url }}" target="_blank">
-      {% include 'static/assets/common/github.svg' %}
-    </a>
+    <div class="footer-common-links footer-common-links-right">
+      <a class="footer-link" href="{{ site.github.url }}" target="_blank">
+        {% include 'static/assets/common/github.svg' %}
+      </a>
+    </div>
   </div>
 </div>
