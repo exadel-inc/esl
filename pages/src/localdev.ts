@@ -46,7 +46,7 @@ import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
 import {ESLDemoSidebar} from './navigation/navigation';
-import {ESLDemoMarquee} from './marquee/marquee';
+import {ESLDemoMarquee} from './landing/landing';
 
 // Register Demo components
 ESLDemoSidebar.register();
