@@ -159,19 +159,21 @@
   &-short-name {
     display: none;
     text-transform: uppercase;
-    @media @md {
+    @media @xs-md {
       display: inline-block;
     }
   }
 
   &-long-name {
     display: inline-block;
-    @media @md {
+    @media @xs-md {
       display: none;
     }
   }
 
   &-short-name, &-long-name {
-    margin-left: 10px;
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-left: 11px;
   }
 }

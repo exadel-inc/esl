@@ -1,5 +1,17 @@
 @import "./variables.less";
 
+html {
+  font-family: sans-serif;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+  color: @body-fg;
+  background: @body-bg;
+}
+
 p {
   margin-top: 0;
   margin-bottom: 1rem;
@@ -14,26 +26,22 @@ h1, h2, h3, h4, h5,
 }
 
 h1, .h1 {
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   @media @sm-xl {
-    font-size: 4.5rem;
+    font-size: 3rem;
     margin-bottom: 1rem;
   }
 }
-
 h2, .h2 {
-  font-size: 3rem;
+  font-size: 2rem;
   margin-bottom: 2rem;
 }
-
 h3, .h3 {
-  font-size: 2rem;
+  font-size: 1.75rem;
 }
-
 h4, .h4 {
   font-size: 1.5rem;
 }
-
 h5, .h5 {
   font-size: 1.25rem;
 }
@@ -45,9 +53,6 @@ b, strong {
 ol, ul {
   margin-top: 0;
   margin-bottom: 1rem;
-}
-
-ol, ul {
   ol, ul {
     margin-bottom: 0;
   }
@@ -68,5 +73,15 @@ a {
   &:not([href]):hover {
     color: inherit;
     text-decoration: none;
+  }
+}
+
+.landing-layout {
+  font-size: 1.175rem;
+  h2, .h2 {
+    font-size: 2.5rem;
+  }
+  h3, .h3 {
+    font-size: 2rem;
   }
 }
