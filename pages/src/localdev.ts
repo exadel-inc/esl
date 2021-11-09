@@ -8,7 +8,7 @@ import '../../src/polyfills/polyfills.validate';
 // With Namespace
 import '../../src/modules/lib';
 // Config
-import './common/variables';
+import './common/breakpoints';
 
 import {
   ESLImage,
