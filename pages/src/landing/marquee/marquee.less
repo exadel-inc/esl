@@ -35,9 +35,10 @@
   &-illustration {
     position: absolute;
     top: 0;
-
+    left: calc(~'50% - 150px');
     width: 300px;
     @media @sm {
+      left: calc(~'50% - 175px');
       width: 350px;
     }
     @media @md-xl {
@@ -95,7 +96,8 @@
     }
 
     > svg {
-      min-height: 200px;
+      min-width: 300px;
+      min-height: 300px;
     }
   }
 }
