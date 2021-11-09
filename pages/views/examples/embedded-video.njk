@@ -2,7 +2,6 @@
 layout: content
 title: Embedded Video
 name: Embedded Video
-containerCls: container
 tags: examples
 icon: examples/embedded-video.svg
 aside:
@@ -11,69 +10,63 @@ aside:
 ---
 {% import 'lorem.njk' as lorem %}
 
-<div class="row justify-content-around">
-  <section class="col-sm-6" data-demo="1">
-    <div class="demo">
-      <h3 class="text-center">YouTube video</h3>
-      <p>ESL Media has full support of YouTube provider.
-        And you can use esl media component the same way as a native video element</p>
-      <hr/>
-      <div class="img-container img-container-16-9 img-container-loaded">
-        <esl-media group="demo-media"
-                   media-type="youtube"
-                   media-id="5LD-EoiTjuY"
-                   load-condition="(min-width: 320px)"
-                   load-cls-target="::parent(section)"
-                   load-cls-accepted="show-video"
-                   load-cls-declined="hide-video"
-                   ready-class="video-ready"
-                   ready-class-target="::parent"
-                   controls
-                   tabindex="0">
-        </esl-media>
-      </div>
+<div class="row">
+  <section class="col-md-6" data-demo="1">
+    <h2 class="text-center">YouTube video</h2>
+    <p>ESL Media has full support of YouTube provider.
+      And you can use esl media component the same way as a native video element</p>
+    <hr/>
+    <div class="img-container img-container-16-9 img-container-loaded">
+      <esl-media group="demo-media"
+                  media-type="youtube"
+                  media-id="5LD-EoiTjuY"
+                  load-condition="(min-width: 320px)"
+                  load-cls-target="::parent(section)"
+                  load-cls-accepted="show-video"
+                  load-cls-declined="hide-video"
+                  ready-class="video-ready"
+                  ready-class-target="::parent"
+                  controls
+                  tabindex="0">
+      </esl-media>
     </div>
     <div class="row btn-group-centered">
       <test-media-controls target="[data-demo='1'] esl-media"></test-media-controls>
     </div>
   </section>
-  <section class="col-sm-6" data-demo="2">
-    <div class="demo">
-      <h3 class="text-center">HTML video</h3>
-      <p>ESL Media can be used for simple HTML videos.
-        It brings us the ability to use extra features (like lazy loading or cropping) for simple videos.</p>
-      <hr/>
-      <div class="img-container img-container-16-9 img-container-loaded">
-        <esl-media group="demo-media"
-                   media-type="video"
-                   media-src="https://pixabay.com/videos/download/video-5200_large.mp4"
-                   load-condition="(min-width: 320px)"
-                   load-cls-target="::parent(section)"
-                   load-cls-accepted="show-video"
-                   load-cls-declined="hide-video"
-                   controls
-                   tabindex="0">
-        </esl-media>
-      </div>
+  <section class="col-md-6" data-demo="2">
+    <h2 class="text-center">HTML video</h2>
+    <p>ESL Media can be used for simple HTML videos.
+      It brings us the ability to use extra features (like lazy loading or cropping) for simple videos.</p>
+    <hr/>
+    <div class="img-container img-container-16-9 img-container-loaded">
+      <esl-media group="demo-media"
+                  media-type="video"
+                  media-src="https://pixabay.com/videos/download/video-5200_large.mp4"
+                  load-condition="(min-width: 320px)"
+                  load-cls-target="::parent(section)"
+                  load-cls-accepted="show-video"
+                  load-cls-declined="hide-video"
+                  controls
+                  tabindex="0">
+      </esl-media>
     </div>
     <div class="row btn-group-centered">
       <test-media-controls target="[data-demo='2'] esl-media"></test-media-controls>
     </div>
   </section>
-  <section class="col-sm6" data-demo="3">
-    <div class="demo">
-      <h3 class="text-center">Basic Iframe Example</h3>
-      <p>ESL Media also has build-in provider to wrap abstract iframe source. Here is a simple example for Vimeo
-        media source</p>
-      <p class="alert alert-warning">Basic Iframe provider has limited API so you can only show/hide/reinitialize
-        inner iframe</p>
-      <hr/>
-      <div class="img-container img-container-16-9 img-container-loaded">
-        <esl-media media-type="iframe"
-                   media-src="https://player.vimeo.com/video/1084537"
-                   tabindex="0">
-        </esl-media>
-      </div>
+  <section class="col-md-6" data-demo="3">
+    <h2 class="text-center">Basic Iframe Example</h2>
+    <p>ESL Media also has build-in provider to wrap abstract iframe source. Here is a simple example for Vimeo
+      media source</p>
+    <p class="alert alert-warning">Basic Iframe provider has limited API so you can only show/hide/reinitialize
+      inner iframe</p>
+    <hr/>
+    <div class="img-container img-container-16-9 img-container-loaded">
+      <esl-media media-type="iframe"
+                  media-src="https://player.vimeo.com/video/1084537"
+                  tabindex="0">
+      </esl-media>
     </div>
     <div class="row btn-group-centered">
       <test-media-controls target="[data-demo='3'] esl-media" actions="play,stop"></test-media-controls>
@@ -81,7 +74,7 @@ aside:
   </section>
 
   <section class="col-12" data-demo="5">
-    <h3 class="text-center">HTML video background</h3>
+    <h2 class="text-center">HTML video background</h2>
     <p class="text-center">Cropping and decorations features of ESL Media allows us to use it as an active background
       for the block.</p>
     <hr/>
@@ -102,7 +95,7 @@ aside:
     </div>
   </section>
   <section class="col-12" data-demo="6">
-    <h3 class="text-center">YouTube video background</h3>
+    <h2 class="text-center">YouTube video background</h2>
     <p class="text-center">We still can use any source in background mode</p>
     <hr/>
     <div class="demo-marquee" style="height: 400px">

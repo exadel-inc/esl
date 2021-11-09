@@ -14,7 +14,7 @@ aside:
 <section class="row">
   <div class="col-12">
     <h4>Click event</h4>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable1"
                       body-class="toggleable-opened"
                       close-on=".close-button"
@@ -41,7 +41,7 @@ aside:
 <section class="row">
   <div class="col-12">
     <h4>Hover event</h4>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable2"
                       body-class="toggleable-opened"
                       close-on=".close-button"
@@ -73,7 +73,7 @@ aside:
 <section class="row">
   <div class="col-12">
     <h4>Class toggle</h4>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable class="d-block alert" active-class="alert-success !alert-danger">
         <strong>Toggleable can be used to switch state.</strong> You can toggle it using the trigger below.
       </esl-toggleable>
@@ -110,7 +110,7 @@ aside:
     </div>
     <p>Triggers</p>
     <div>
-      <esl-trigger class="btn btn-dark" target="::parent(section)::find(.toggleable)">
+      <esl-trigger class="btn btn-dark mb-1" target="::parent(section)::find(.toggleable)">
         Toggle toggleable
       </esl-trigger>
       <button id="prevArea" class="btn btn-danger">
@@ -137,7 +137,7 @@ aside:
     <h4>Group of toggleables (click event)</h4>
     <div class="b-marker alert alert-info">Body class marker active</div>
 
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable3"
                       group="group1"
                       body-class="body-marker"
@@ -152,7 +152,7 @@ aside:
         </div>
       </esl-toggleable>
     </div>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable4"
                       group="group1"
                       body-class="body-marker"
@@ -166,7 +166,7 @@ aside:
         </div>
       </esl-toggleable>
     </div>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable5"
                       group="group1"
                       body-class="body-marker"
@@ -183,7 +183,7 @@ aside:
     <p>Triggers</p>
     <p>
       <esl-trigger target="#toggleable3" mode="toggle" a11y-target="button">
-        <button type="button" class="btn btn-info">Toggle 1</button>
+        <button type="button" class="btn btn-info mb-1">Toggle 1</button>
       </esl-trigger>
       <esl-trigger target="#toggleable4" mode="toggle" a11y-target="button">
         <button type="button" class="btn btn-info">Toggle 2</button>
@@ -199,7 +199,7 @@ aside:
 <section class="row">
   <div class="col-12">
     <h4>Group of toggleables (hover event)</h4>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable6"
                       group="group2"
                       body-class="toggleable-group-opened"
@@ -214,7 +214,7 @@ aside:
         </div>
       </esl-toggleable>
     </div>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable7"
                       group="group2"
                       body-class="toggleable-group-opened"
@@ -229,7 +229,7 @@ aside:
         </div>
       </esl-toggleable>
     </div>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable8"
                       group="group2"
                       body-class="toggleable-group-opened"
@@ -246,7 +246,7 @@ aside:
     </div>
     <p>Triggers</p>
     <p>
-      <esl-trigger target="#toggleable6" mode="toggle" class="btn btn-info" track-hover>Toggle 1</esl-trigger>
+      <esl-trigger target="#toggleable6" mode="toggle" class="btn btn-info mb-1" track-hover>Toggle 1</esl-trigger>
       <esl-trigger target="#toggleable7" mode="toggle" class="btn btn-info" track-hover>Toggle 2</esl-trigger>
       <esl-trigger target="#toggleable8" mode="toggle" class="btn btn-info" track-hover>Toggle 3</esl-trigger>
     </p>
