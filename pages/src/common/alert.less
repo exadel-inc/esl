@@ -1,3 +1,5 @@
+@import (reference) "./variables.less";
+
 .alert {
   position: relative;
   padding: 0.75rem 1.25rem;
@@ -18,14 +20,14 @@
   }
 
   &-warning {
-    color: #856404;
-    background-color: #fff3cd;
-    border-color: #ffeeba;
+    color: @primary-blue;
+    background-color: rgba(0, 151, 231, 0.2);
+    border-color: rgba(0, 151, 231, 0.25)
   }
 
   &-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
+    color: @primary-orange-dark;
+    background-color: rgba(198, 54, 26, 0.2);
+    border-color: rgba(198, 54, 26, 0.25);
   }
 }

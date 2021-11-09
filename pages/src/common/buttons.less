@@ -45,13 +45,13 @@
 
   &-primary {
     color: #fff;
-    background-color: #0097E7;
+    background-color: @primary-blue;
     border-color: transparent;
 
     &:hover,
     &:focus {
       color: #fff;
-      border-color: #0097E7;
+      border-color: @primary-blue;
       background-color: #007bff;
     }
 
@@ -93,31 +93,31 @@
 
   &-success {
     color: #fff;
-    background-color: #28a745;
-    border-color: #28a745;
+    background-color: @primary-orange;
+    border-color: @primary-orange;
 
     &:hover,
     &:focus {
       color: #fff;
-      background-color: #218838;
-      border-color: #1e7e34;
+      background-color: rgb(255, 76, 11);
+      border-color: @primary-orange;
     }
     &:focus {
-      box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
+      box-shadow: 0 0 0 0.2rem rgba(255, 93, 36, 0.5);
     }
     &:disabled {
       color: #fff;
-      background-color: #28a745;
-      border-color: #28a745;
+      background-color: @primary-orange;
+      border-color: @primary-orange;
     }
 
     &:not(:disabled):active {
       color: #fff;
-      background-color: #1e7e34;
-      border-color: #1c7430;
+      background-color: rgb(255, 76, 11);
+      border-color: rgb(255, 76, 11);
 
       &:focus {
-        box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
+        box-shadow: 0 0 0 0.2rem rgba(255, 93, 36, 0.5);
       }
     }
   }
@@ -156,17 +156,17 @@
 
   &-danger {
     color: #fff;
-    background-color: #dc3545;
-    border-color: #dc3545;
+    background-color: @primary-orange-dark;
+    border-color: @primary-orange-dark;
 
     &:hover,
     &:focus {
       color: #fff;
-      background-color: #c82333;
-      border-color: #bd2130;
+      background-color: rgb(192, 36, 4);
+      border-color: @primary-orange-dark;
     }
     &:focus {
-      box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, 0.5);
+      box-shadow: 0 0 0 0.2rem rgba(198, 54, 26, 0.5);
     }
     &:disabled {
       color: #fff;
