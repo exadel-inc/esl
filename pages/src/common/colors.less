@@ -1,10 +1,9 @@
-//@ex-1: #0082ca;
-//@ex-2: #40bfef;
+//@ex: #40bfef;
 
 /* Colors */
-@primary-blue: #0082ca;
+@primary-blue: #0097E7;
 @primary-dark-blue: #0066ff;
-@primary-light-blue: #8bc2ff;
+@secondary-blue: #8bc2ff;
 
 @primary-orange: #ff5d24;
 @primary-orange-dark: #c6361a;
@@ -42,11 +41,12 @@
 // Backgrounds
 .bg {
   &-info {
-    background-color: #17a2b8 !important;
+    background-color: @secondary-blue !important;
+    border-radius: 8px;
   }
 
   &-danger {
-    background-color: #dc3545 !important;
+    background-color: @primary-orange-dark !important;
   }
 
   &-white {
@@ -56,11 +56,8 @@
 
 // Borders
 .border {
-  border: 1px solid #dee2e6 !important;
-}
-
-.border-primary {
-  border-color: #007bff !important;
+  border: 1px solid @secondary-blue !important;
+  border-radius: 8px;
 }
 
 // Svg

@@ -3,6 +3,8 @@
 // Normalization of HTML elements, manually forked from Normalize.css to remove
 // styles targeting irrelevant browsers while applying new styles.
 
+@import "./variables.less";
+
 *,
 *::before,
 *::after {
@@ -58,7 +60,7 @@ code {
 
 code {
   font-size: 87.5%;
-  color: #e83e8c;
+  color: @primary-blue;
   word-wrap: break-word;
 }
 
