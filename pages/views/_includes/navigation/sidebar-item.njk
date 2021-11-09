@@ -2,7 +2,7 @@
   {% set isPrimaryActive = functions.isActivePath(page.url, collection) %}
 
   <div class="sidebar-nav-item-heading {{ 'active' if isPrimaryActive }}">
-    <a class="sidebar-nav-item-link" href="{{ ('/' + collection) | url }}">
+    <a class="sidebar-nav-item-link icon-link" href="{{ ('/' + collection) | url }}">
       {% include icon %}
     </a>
     <esl-trigger class="sidebar-nav-item-trigger sidebar-nav-item-arrow"

@@ -7,13 +7,13 @@ esl-d-sidebar {
   background: @nav-dark-bg;
 
   position: fixed;
-  z-index: 8;
+  z-index: 10;
   left: 0;
   height: 100vh;
   width: 100vw;
   max-width: 0;
 
-  box-shadow: 4px 0 8px 0 rgba(0, 0, 0, .5);
+  box-shadow: 4px 8px 8px 0 rgba(0, 0, 0, .5);
 
   &[animation] {
     transition: max-width .5s ease-in-out, visibility .5s linear;
@@ -23,6 +23,10 @@ esl-d-sidebar {
   }
 
   @media @xs-sm {
+    position: fixed;
+    top: 56px;
+    height: calc(100vh - 56px);
+
     &:not(.esl-d-sidebar) {
       display: none;
     }

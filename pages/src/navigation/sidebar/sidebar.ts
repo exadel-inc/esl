@@ -38,8 +38,9 @@ export class ESLDemoSidebar extends ESLToggleable {
   }
 
   protected setInitialState() {
-    const shouldActivate = ESLMediaQuery.for('@+MD').matches;
-    this.toggle(shouldActivate, {force: true, initiator: 'init', immediate: true});
+    const mediaMatches = ESLMediaQuery.for('@+MD').matches;
+    const expanded = JSON.parse(localStorage.getItem('sidebar-expanded') || '{}');
+    this.toggle(mediaMatches && expanded, {force: true, initiator: 'init', immediate: true});
   }
 
   public collapseAll() {
@@ -59,11 +60,13 @@ export class ESLDemoSidebar extends ESLToggleable {
   }
 
   protected onShow(params: SidebarActionParams) {
+    localStorage.setItem('sidebar-expanded', JSON.stringify(true));
     this._animation = !params.immediate;
     super.onShow(params);
     this.expandActive(params.initiator === 'init');
   }
   protected onHide(params: SidebarActionParams) {
+    localStorage.setItem('sidebar-expanded', JSON.stringify(false));
     this._animation = !params.immediate;
     super.onHide(params);
     this.collapseAll();

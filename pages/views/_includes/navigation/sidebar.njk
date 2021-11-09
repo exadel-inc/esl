@@ -28,3 +28,14 @@
     <esl-trigger class="sidebar-trigger-btn sidebar-arrows-icon" target="#sidebar" mode="toggle"></esl-trigger>
   </nav>
 </esl-d-sidebar>
+<script>
+  if (!JSON.parse(localStorage.getItem('sidebar-expanded') || '{}'))
+  {
+    const sidebar = document.querySelector('#sidebar');
+    sidebar.classList.remove('open');
+
+    sidebar.querySelector('.sidebar-trigger-btn').removeAttribute('active', '');
+    const menus = sidebar.querySelectorAll('.sidebar-nav-secondary')
+      .forEach((menu) => menu.classList.remove('open'));
+  }
+</script>
