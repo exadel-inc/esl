@@ -29,10 +29,10 @@ aside:
       </esl-toggleable>
     </div>
     <p>Triggers</p>
-    <div>
-      <esl-trigger target="#toggleable1" mode="toggle" class="btn btn-primary">Toggle</esl-trigger>
-      <esl-trigger target="#toggleable1" mode="show" class="btn btn-success">Show</esl-trigger>
-      <esl-trigger target="#toggleable1" mode="hide" class="btn btn-dark">Hide</esl-trigger>
+    <div class="btn-container">
+      <esl-trigger target="#toggleable1" mode="toggle" class="btn btn-sec-blue">Toggle</esl-trigger>
+      <esl-trigger target="#toggleable1" mode="show" class="btn btn-sec-blue">Show</esl-trigger>
+      <esl-trigger target="#toggleable1" mode="hide" class="btn btn-sec-blue">Hide</esl-trigger>
     </div>
   </div>
 </section>
@@ -55,15 +55,15 @@ aside:
       </esl-toggleable>
     </div>
     <p>Triggers</p>
-    <div>
+    <div class="btn-container">
       <esl-trigger target="#toggleable2" mode="toggle" a11y-target="button" track-hover>
-        <button type="button" class="btn btn-primary">Toggle</button>
+        <button type="button" class="btn btn-sec-blue">Toggle</button>
       </esl-trigger>
       <esl-trigger target="#toggleable2" mode="show" a11y-target="button" track-hover>
-        <button type="button" class="btn btn-success">Show</button>
+        <button type="button" class="btn btn-sec-blue">Show</button>
       </esl-trigger>
       <esl-trigger target="#toggleable2" mode="hide" a11y-target="button" track-hover>
-        <button type="button" class="btn btn-dark">Hide</button>
+        <button type="button" class="btn btn-sec-blue">Hide</button>
       </esl-trigger>
     </div>
   </div>
@@ -79,8 +79,8 @@ aside:
       </esl-toggleable>
     </div>
     <p>Triggers</p>
-    <div>
-      <esl-trigger target="::parent(.row)::find(esl-toggleable)" class="btn btn-primary">Toggle type</esl-trigger>
+    <div class="btn-container">
+      <esl-trigger target="::parent(.row)::find(esl-toggleable)" class="btn btn-sec-orange">Toggle type</esl-trigger>
     </div>
   </div>
 </section>
@@ -109,19 +109,10 @@ aside:
       </esl-toggleable>
     </div>
     <p>Triggers</p>
-    <div>
-      <esl-trigger class="btn btn-dark mb-1" target="::parent(section)::find(.toggleable)">
+    <div class="btn-container">
+      <esl-trigger class="btn btn-sec-blue" target="::parent(section)::find(.toggleable)">
         Toggle toggleable
       </esl-trigger>
-      <button id="prevArea" class="btn btn-danger">
-        Prevent Click Zone
-      </button>
-      <script>
-        document.querySelector('#prevArea').addEventListener('click', function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-        });
-      </script>
     </div>
   </div>
 </section>
@@ -181,17 +172,17 @@ aside:
       </esl-toggleable>
     </div>
     <p>Triggers</p>
-    <p>
+    <div class="btn-container">
       <esl-trigger target="#toggleable3" mode="toggle" a11y-target="button">
-        <button type="button" class="btn btn-info mb-1">Toggle 1</button>
+        <button type="button" class="btn btn-sec-blue">Toggle 1</button>
       </esl-trigger>
       <esl-trigger target="#toggleable4" mode="toggle" a11y-target="button">
-        <button type="button" class="btn btn-info">Toggle 2</button>
+        <button type="button" class="btn btn-sec-blue">Toggle 2</button>
       </esl-trigger>
       <esl-trigger target="#toggleable5" mode="toggle" a11y-target="button">
-        <button type="button" class="btn btn-info">Toggle 3</button>
+        <button type="button" class="btn btn-sec-blue">Toggle 3</button>
       </esl-trigger>
-    </p>
+    </div>
   </div>
 </section>
 <hr/>
@@ -245,10 +236,10 @@ aside:
       </esl-toggleable>
     </div>
     <p>Triggers</p>
-    <p>
-      <esl-trigger target="#toggleable6" mode="toggle" class="btn btn-info mb-1" track-hover>Toggle 1</esl-trigger>
-      <esl-trigger target="#toggleable7" mode="toggle" class="btn btn-info" track-hover>Toggle 2</esl-trigger>
-      <esl-trigger target="#toggleable8" mode="toggle" class="btn btn-info" track-hover>Toggle 3</esl-trigger>
-    </p>
+    <div class="btn-container">
+      <esl-trigger target="#toggleable6" mode="toggle" class="btn btn-sec-blue" track-hover>Toggle 1</esl-trigger>
+      <esl-trigger target="#toggleable7" mode="toggle" class="btn btn-sec-blue" track-hover>Toggle 2</esl-trigger>
+      <esl-trigger target="#toggleable8" mode="toggle" class="btn btn-sec-blue" track-hover>Toggle 3</esl-trigger>
+    </div>
   </div>
 </section>

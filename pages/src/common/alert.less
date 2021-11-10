@@ -7,27 +7,20 @@
   border: 1px solid transparent;
   border-radius: 0.25rem;
 
-  &-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
+  .alert-color(@cls, @color) {
+    &-@{cls} {
+      color: @color;
+      background-color: mix(@color, #fff, 25%);
+      border-color: mix(@color, #fff, 35%);
+    }
   }
 
-  &-info {
-    color: #0c5460;
-    background-color: #d1ecf1;
-    border-color: #bee5eb;
-  }
+  .alert-color(~'success', @primary-green);
+  .alert-color(~'info', @primary-blue);
+  .alert-color(~'warning', @primary-orange);
+  .alert-color(~'danger', @primary-orange-dark);
+}
 
-  &-warning {
-    color: @primary-blue;
-    background-color: rgba(0, 151, 231, 0.2);
-    border-color: rgba(0, 151, 231, 0.25)
-  }
-
-  &-danger {
-    color: @primary-orange-dark;
-    background-color: rgba(198, 54, 26, 0.2);
-    border-color: rgba(198, 54, 26, 0.25);
-  }
+esl-alert.alert {
+  position: absolute;
 }

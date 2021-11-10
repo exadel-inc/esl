@@ -1,13 +1,16 @@
 @import (reference) "../../common/variables.less";
 
 .footer {
+  @footer-primary: @primary-blue;
+ // @test: #00a6ff;
+  @footer-gradient: linear-gradient(to right, #131A2E, @footer-primary,@footer-primary, #ffffff, #131A2E) 47% 0%;
 
   &-hr {
     width: 100%;
     border: none;
     height: 2px;
     margin: 0;
-    background: linear-gradient(to right, #131A2E, #00a6ff,#00a6ff, #ffffff, #131A2E) 47% 0%;
+    background: @footer-gradient;
   }
 
   &-accordion-link {
@@ -15,6 +18,11 @@
     color: white;
     padding: 10px;
     font-size: 1.125rem;
+
+    &:hover {
+      text-decoration: none;
+      color: @secondary-blue;
+    }
   }
 
   &-start {
@@ -38,21 +46,15 @@
     margin-left: 30px;
     width: 180px;
     height: 55px;
-    border: 1px solid #0097E7;
     border-radius: 6px;
-  }
 
-  &-start-link:hover {
-    border-color: #00a6ff;
-  }
+    color: @primary-blue;
+    border: 1px solid @primary-blue;
 
-  &-start-link {
-    color: #0097E7;
-  }
-
-  &-start-link:hover,  &-accordion-link:hover {
-    text-decoration: none;
-    color: #00a6ff;
+    &:hover {
+      border-color: @footer-primary;
+      text-decoration: none;
+    }
   }
 
   &-accordion-arrow::after {
@@ -83,11 +85,11 @@
         top: 12px;
         transform: rotate(45deg);
         transition: transform .5s ease-in-out, top .5s ease-in-out;
-        border-color: #00a6ff;
+        border-color: @footer-primary;
       }
 
       .footer-accordion-title {
-        color: #0097E7;
+        color: @primary-blue;
       }
     }
   }
@@ -98,7 +100,7 @@
     color: white;
     border-top: 2px solid;
     padding: 16px 0;
-    border-image: linear-gradient(to right, #131A2E, #00a6ff,#00a6ff, #ffffff, #131A2E) 47% 0%;
+    border-image: @footer-gradient;
   }
 
   &-accordion-title {
