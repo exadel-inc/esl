@@ -1,7 +1,7 @@
 {% macro related(pages, collection, title) %}
   {% if pages %}
     <div class="related-card">
-      <h4 class="related-card-heading">{{ title }}</h4>
+      <h2 class="related-card-heading">{{ title }}</h2>
       <ul class="related-card-list">
         {% set links = functions.findItemsByName(pages, collections[collection]) %}
         {% for page in links | released %}

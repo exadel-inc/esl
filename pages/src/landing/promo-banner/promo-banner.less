@@ -1,3 +1,5 @@
+@import (reference) "../../common/variables.less";
+
 .promo-banner {
   position: relative;
   display: flex;
@@ -31,8 +33,6 @@
 
   &-content {
     z-index: 1;
-    display: flex;
-    flex-direction: column;
     text-align: center;
     color: #ffffff;
   }
@@ -42,29 +42,10 @@
   }
 
   &-link {
-    display: flex;
-    justify-content: center;
-    align-self: center;
-    align-items: center;
-    width: 205px;
-    height: 55px;
     margin: 15px 0 45px;
-    font-size: 1rem;
-    font-weight: 500;
-    color: #24c3c9;
-    border: 2px solid #24c3c9;
-    border-radius: 12px;
-    text-decoration: none;
-    cursor: pointer;
-
+    padding: 0.8rem 2.75rem;
     @media @sm {
-      width: 180px;
-    }
-
-    &:hover {
-      color: #24c3c9;
-      box-shadow: 0 0 4px #24c3c9;
-      text-decoration: none;
+      padding: 0.8rem 2rem;
     }
   }
 }

@@ -2,7 +2,6 @@
 layout: content
 title: Scrollbar
 name: Scrollbar
-containerCls: container
 tags: examples
 icon: examples/scrollbar.svg
 aside:
@@ -13,23 +12,25 @@ aside:
 
 <section class="row">
   <div class="col-12">
-    <esl-trigger target=".test-popup.tp-1">
-      <button class="btn btn-primary mb-2">Toggle Modal (Vertical, Page Scroll Lock)</button>
-    </esl-trigger>
-    <esl-trigger target=".test-popup.tp-2">
-      <button class="btn btn-primary mb-2">Toggle Modal (Vertical)</button>
-    </esl-trigger>
-    <esl-trigger target=".test-popup.tp-3">
-      <button class="btn btn-primary mb-2">Toggle Modal (Horizontal)</button>
-    </esl-trigger>
+    <div class="btn-container">
+      <esl-trigger class="btn btn-sec-blue" target=".test-popup.tp-1">
+        Toggle Modal (Vertical, Page Scroll Lock)
+      </esl-trigger>
+      <esl-trigger class="btn btn-sec-blue" target=".test-popup.tp-2">
+        Toggle Modal (Vertical)
+      </esl-trigger>
+      <esl-trigger class="btn btn-sec-blue" target=".test-popup.tp-3">
+        Toggle Modal (Horizontal)
+      </esl-trigger>
+    </div>
   </div>
 </section>
 
 <section class="row">
-  <div class="col-12 m-auto" style="background: #c3d4e6;">
-    <div class="content esl-scrollable-content">
-      <div style="height: 400px; padding: 30px 60px;">
-        <h5>Scroll appears only if content too long for the area</h5>
+  <div class="col-12 m-auto">
+    <div class="content esl-scrollable-content border">
+      <div style="height: 400px">
+        <h2>Scroll appears only if content too long for the area</h2>
         {{ lorem.paragraphs(2) }}
       </div>
     </div>
@@ -38,10 +39,10 @@ aside:
 </section>
 
 <section class="row">
-  <div class="col-12 m-auto" style="padding: 30px 0; position: relative; background: #c3e6cb;">
-    <div class="content esl-scrollable-content">
-      <div style="height: 500px; padding: 30px 60px;">
-        <h5>Simple vertical scroll example</h5>
+  <div class="col-12 m-auto pt-2" style="position: relative;">
+    <div class="content esl-scrollable-content border">
+      <div style="height: 500px">
+        <h2>Simple vertical scroll example</h2>
         {{ lorem.paragraphs(7) }}
       </div>
       <esl-scrollbar target="::parent"></esl-scrollbar>
@@ -50,10 +51,10 @@ aside:
 </section>
 
 <section class="row">
-  <div class="col-12 m-auto" style="position: relative; background: #e6e5b8;">
-    <div class="content esl-scrollable-content">
-      <div style="width: 1900px; padding: 60px 30px;">
-        <h5>Simple horizontal scroll example</h5>
+  <div class="col-12 m-auto" style="position: relative;">
+    <div class="content esl-scrollable-content border">
+      <div style="width: 1900px;">
+        <h2>Simple horizontal scroll example</h2>
         {{ lorem.paragraphs(3) }}
       </div>
       <esl-scrollbar target="::parent" horizontal></esl-scrollbar>
@@ -62,6 +63,17 @@ aside:
 </section>
 
 <style>
+  .content.esl-scrollable-content {
+    background: #fff;
+    padding: 15px;
+  }
+
+  @media (min-width: 600px) and (max-width: 999999px) {
+    .content.esl-scrollable-content {
+      padding: 30px 60px;
+    }
+  }
+
   .test-popup {
     position: absolute;
     height: 500px;

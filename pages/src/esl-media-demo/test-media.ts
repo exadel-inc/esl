@@ -69,7 +69,7 @@ class TestMediaControls extends HTMLElement {
 
 function renderButton(actionName: string, action: TestMediaAction) {
   const btn = document.createElement('button');
-  btn.className = 'btn btn-primary';
+  btn.className = 'btn btn-sec-blue';
   btn.dataset.action = actionName;
   btn.textContent = action.title;
   return btn;
