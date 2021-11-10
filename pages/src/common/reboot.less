@@ -3,6 +3,8 @@
 // Normalization of HTML elements, manually forked from Normalize.css to remove
 // styles targeting irrelevant browsers while applying new styles.
 
+@import "./variables.less";
+
 *,
 *::before,
 *::after {
@@ -58,7 +60,7 @@ code {
 
 code {
   font-size: 87.5%;
-  color: #e83e8c;
+  color: #DD4A68;
   word-wrap: break-word;
 }
 
@@ -90,18 +92,6 @@ svg {
 label {
   display: inline-block;
   margin-bottom: 0.5rem;
-}
-
-button {
-  border-radius: 0;
-
-  &:focus {
-    // fallback definition
-    // stylelint-disable declaration-block-no-duplicate-properties
-    outline: 1px dotted;
-    outline: 5px auto -webkit-focus-ring-color;
-    // stylelint-enable declaration-block-no-duplicate-properties
-  }
 }
 
 input,
@@ -154,6 +144,10 @@ button:focus {
   background-color: transparent;
 }
 
+button {
+  border-radius: 0;
+}
+
 input[type="radio"] {
   box-sizing: border-box;
   padding: 0;
@@ -168,4 +162,10 @@ fieldset {
   padding: 0;
   margin: 0;
   border: 0;
+}
+
+audio {
+  &::-webkit-media-controls-enclosure {
+    border: 1px solid rgba(0, 0, 0, 0.6);
+  }
 }

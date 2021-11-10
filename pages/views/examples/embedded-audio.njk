@@ -2,7 +2,6 @@
 layout: content
 title: Embedded Audio
 name: Embedded Audio
-containerCls: container
 tags: examples
 icon: examples/embedded-audio.svg
 aside:
@@ -11,12 +10,11 @@ aside:
 ---
 {% import 'lorem.njk' as lorem %}
 
-<div class="row justify-content-around">
+<div class="row">
   <section class="col-sm-6" data-demo="4">
-    <div class="demo">
-      <h3 class="text-center">Basic Audio Example</h3>
+    <div class="mb-1">
+      <h2>Basic Audio Example</h2>
       <p>ESL Media also supports simple HTML audio.</p>
-      <hr/>
       <esl-media group="demo-media"
                  controls
                  media-type="audio"
@@ -24,7 +22,7 @@ aside:
                  tabindex="0">
       </esl-media>
     </div>
-    <div class="row btn-group-centered">
+    <div class="btn-group-centered">
       <test-media-controls target="[data-demo='4'] esl-media"></test-media-controls>
     </div>
   </section>

@@ -2,7 +2,6 @@
 layout: content
 title: Toggleable
 name: Toggleable
-containerCls: container
 tags: examples
 icon: examples/toggleable.svg
 aside:
@@ -15,7 +14,7 @@ aside:
 <section class="row">
   <div class="col-12">
     <h4>Click event</h4>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable1"
                       body-class="toggleable-opened"
                       close-on=".close-button"
@@ -30,10 +29,10 @@ aside:
       </esl-toggleable>
     </div>
     <p>Triggers</p>
-    <div>
-      <esl-trigger target="#toggleable1" mode="toggle" class="btn btn-primary">Toggle</esl-trigger>
-      <esl-trigger target="#toggleable1" mode="show" class="btn btn-success">Show</esl-trigger>
-      <esl-trigger target="#toggleable1" mode="hide" class="btn btn-dark">Hide</esl-trigger>
+    <div class="btn-container">
+      <esl-trigger target="#toggleable1" mode="toggle" class="btn btn-sec-blue">Toggle</esl-trigger>
+      <esl-trigger target="#toggleable1" mode="show" class="btn btn-sec-blue">Show</esl-trigger>
+      <esl-trigger target="#toggleable1" mode="hide" class="btn btn-sec-blue">Hide</esl-trigger>
     </div>
   </div>
 </section>
@@ -42,7 +41,7 @@ aside:
 <section class="row">
   <div class="col-12">
     <h4>Hover event</h4>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable2"
                       body-class="toggleable-opened"
                       close-on=".close-button"
@@ -56,15 +55,15 @@ aside:
       </esl-toggleable>
     </div>
     <p>Triggers</p>
-    <div>
+    <div class="btn-container">
       <esl-trigger target="#toggleable2" mode="toggle" a11y-target="button" track-hover>
-        <button type="button" class="btn btn-primary">Toggle</button>
+        <button type="button" class="btn btn-sec-blue">Toggle</button>
       </esl-trigger>
       <esl-trigger target="#toggleable2" mode="show" a11y-target="button" track-hover>
-        <button type="button" class="btn btn-success">Show</button>
+        <button type="button" class="btn btn-sec-blue">Show</button>
       </esl-trigger>
       <esl-trigger target="#toggleable2" mode="hide" a11y-target="button" track-hover>
-        <button type="button" class="btn btn-dark">Hide</button>
+        <button type="button" class="btn btn-sec-blue">Hide</button>
       </esl-trigger>
     </div>
   </div>
@@ -74,14 +73,14 @@ aside:
 <section class="row">
   <div class="col-12">
     <h4>Class toggle</h4>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable class="d-block alert" active-class="alert-success !alert-danger">
         <strong>Toggleable can be used to switch state.</strong> You can toggle it using the trigger below.
       </esl-toggleable>
     </div>
     <p>Triggers</p>
-    <div>
-      <esl-trigger target="::parent(.row)::find(esl-toggleable)" class="btn btn-primary">Toggle type</esl-trigger>
+    <div class="btn-container">
+      <esl-trigger target="::parent(.row)::find(esl-toggleable)" class="btn btn-sec-orange">Toggle type</esl-trigger>
     </div>
   </div>
 </section>
@@ -110,19 +109,10 @@ aside:
       </esl-toggleable>
     </div>
     <p>Triggers</p>
-    <div>
-      <esl-trigger class="btn btn-dark" target="::parent(section)::find(.toggleable)">
+    <div class="btn-container">
+      <esl-trigger class="btn btn-sec-blue" target="::parent(section)::find(.toggleable)">
         Toggle toggleable
       </esl-trigger>
-      <button id="prevArea" class="btn btn-danger">
-        Prevent Click Zone
-      </button>
-      <script>
-        document.querySelector('#prevArea').addEventListener('click', function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-        });
-      </script>
     </div>
   </div>
 </section>
@@ -138,7 +128,7 @@ aside:
     <h4>Group of toggleables (click event)</h4>
     <div class="b-marker alert alert-info">Body class marker active</div>
 
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable3"
                       group="group1"
                       body-class="body-marker"
@@ -153,7 +143,7 @@ aside:
         </div>
       </esl-toggleable>
     </div>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable4"
                       group="group1"
                       body-class="body-marker"
@@ -167,7 +157,7 @@ aside:
         </div>
       </esl-toggleable>
     </div>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable5"
                       group="group1"
                       body-class="body-marker"
@@ -182,17 +172,17 @@ aside:
       </esl-toggleable>
     </div>
     <p>Triggers</p>
-    <p>
+    <div class="btn-container">
       <esl-trigger target="#toggleable3" mode="toggle" a11y-target="button">
-        <button type="button" class="btn btn-info">Toggle 1</button>
+        <button type="button" class="btn btn-sec-blue">Toggle 1</button>
       </esl-trigger>
       <esl-trigger target="#toggleable4" mode="toggle" a11y-target="button">
-        <button type="button" class="btn btn-info">Toggle 2</button>
+        <button type="button" class="btn btn-sec-blue">Toggle 2</button>
       </esl-trigger>
       <esl-trigger target="#toggleable5" mode="toggle" a11y-target="button">
-        <button type="button" class="btn btn-info">Toggle 3</button>
+        <button type="button" class="btn btn-sec-blue">Toggle 3</button>
       </esl-trigger>
-    </p>
+    </div>
   </div>
 </section>
 <hr/>
@@ -200,7 +190,7 @@ aside:
 <section class="row">
   <div class="col-12">
     <h4>Group of toggleables (hover event)</h4>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable6"
                       group="group2"
                       body-class="toggleable-group-opened"
@@ -215,7 +205,7 @@ aside:
         </div>
       </esl-toggleable>
     </div>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable7"
                       group="group2"
                       body-class="toggleable-group-opened"
@@ -230,7 +220,7 @@ aside:
         </div>
       </esl-toggleable>
     </div>
-    <div style="height: 70px;">
+    <div style="min-height: 70px;">
       <esl-toggleable id="toggleable8"
                       group="group2"
                       body-class="toggleable-group-opened"
@@ -246,10 +236,10 @@ aside:
       </esl-toggleable>
     </div>
     <p>Triggers</p>
-    <p>
-      <esl-trigger target="#toggleable6" mode="toggle" class="btn btn-info" track-hover>Toggle 1</esl-trigger>
-      <esl-trigger target="#toggleable7" mode="toggle" class="btn btn-info" track-hover>Toggle 2</esl-trigger>
-      <esl-trigger target="#toggleable8" mode="toggle" class="btn btn-info" track-hover>Toggle 3</esl-trigger>
-    </p>
+    <div class="btn-container">
+      <esl-trigger target="#toggleable6" mode="toggle" class="btn btn-sec-blue" track-hover>Toggle 1</esl-trigger>
+      <esl-trigger target="#toggleable7" mode="toggle" class="btn btn-sec-blue" track-hover>Toggle 2</esl-trigger>
+      <esl-trigger target="#toggleable8" mode="toggle" class="btn btn-sec-blue" track-hover>Toggle 3</esl-trigger>
+    </div>
   </div>
 </section>

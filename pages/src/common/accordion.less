@@ -10,7 +10,7 @@
   background-color: #fff;
   background-clip: border-box;
 
-  border: 1px solid @primary-dark-blue;
+  border: 1px solid @secondary-blue;
   border-radius: 0.3rem;
 
   margin-bottom: 0.5em;
@@ -30,9 +30,10 @@
     &:first-child {
       border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
     }
-  }
-  &-header[active] {
-    color: @primary-dark-blue;
-    border-bottom-color: @primary-dark-blue;
+
+    &[active] {
+      color: @primary-blue;
+      border-bottom-color: @secondary-blue;
+    }
   }
 }
