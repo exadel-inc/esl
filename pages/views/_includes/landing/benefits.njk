@@ -1,8 +1,8 @@
 <div class="benefit container">
   <h2>{{ benefits.title }}</h2>
-  <ul class="benefit-container">
+  <div class="benefit-container">
     {% for item in benefits.benefits %}
-      <li class="benefit-item">
+      <esl-animate class="benefit-item" esl-animate>
         <div class="benefit-icon">
           {% include "static/assets/" + item.icon %}
         </div>
@@ -12,9 +12,9 @@
             {{ item.text }}
           </p>
         </div>
-      </li>
+      </esl-animate>
     {% endfor %}
-  </ul>
+  </div>
 
   {% include 'static/assets/common/accent-invert.svg' %}
 </div>
