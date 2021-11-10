@@ -43,8 +43,8 @@ export class ESLDemoSidebar extends ESLToggleable {
 
   protected setInitialState() {
     const isDesktop = ESLMediaQuery.for('@+MD').matches;
-    const expanded = !localStorage.getItem('sidebar-collapsed');
-    this.toggle(isDesktop && expanded, {force: true, initiator: 'init', immediate: true});
+    const isStoredOpen = !localStorage.getItem('sidebar-collapsed');
+    this.toggle(isDesktop && isStoredOpen, {force: true, initiator: 'init', immediate: true});
   }
 
   public collapseAll() {
@@ -83,8 +83,8 @@ export class ESLDemoSidebar extends ESLToggleable {
   @bind
   protected onBreakpointChange() {
     const isDesktop = ESLMediaQuery.for('@+MD').matches;
-    const expanded = !localStorage.getItem('sidebar-collapsed');
-    this.toggle(isDesktop && expanded, {force: true, initiator: 'bpchange', immediate: !isDesktop});
+    const isStoredOpen = !localStorage.getItem('sidebar-collapsed');
+    this.toggle(isDesktop && isStoredOpen, {force: true, initiator: 'bpchange', immediate: !isDesktop});
   }
 
   @bind
