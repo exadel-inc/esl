@@ -31,9 +31,31 @@
       border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
     }
 
+    &-arrow::after {
+      content: '';
+
+      position: absolute;
+      top: 20px;
+      right: 11px;
+      width: 7px;
+      height: 7px;
+  
+      border-left: 2px solid @body-fg;
+      border-top: 2px solid @body-fg;
+  
+      transform: rotate(225deg);
+      transform-origin: center;
+      transition: transform .5s ease-in-out, top .5s ease-in-out;
+    }
+
     &[active] {
       color: @primary-blue;
       border-bottom-color: @secondary-blue;
+
+      &.esl-accordion-header-arrow::after {
+        transform: rotate(45deg);
+        border-color: @primary-blue;
+      }
     }
   }
 }

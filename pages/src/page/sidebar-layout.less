@@ -56,8 +56,12 @@
   .main-scroll {
     z-index: 3;
     position: fixed;
-    top: 56px;
+    top: 0;
     height: inherit;
+
+    @media @xs-sm {
+      top: 56px;
+    }
   }
 
   .sidebar-scrollbar {
