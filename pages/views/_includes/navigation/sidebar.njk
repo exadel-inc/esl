@@ -29,13 +29,12 @@
   </nav>
 </esl-d-sidebar>
 <script>
-  if (!JSON.parse(localStorage.getItem('sidebar-expanded') || '{}'))
-  {
+  if (localStorage.getItem('sidebar-collapsed')) {
     const sidebar = document.querySelector('#sidebar');
     sidebar.classList.remove('open');
 
-    sidebar.querySelector('.sidebar-trigger-btn').removeAttribute('active', '');
-    const menus = sidebar.querySelectorAll('.sidebar-nav-secondary')
+    sidebar.querySelector('.sidebar-trigger-btn').removeAttribute('active');
+    Array.from(sidebar.querySelectorAll('.sidebar-nav-secondary'))
       .forEach((menu) => menu.classList.remove('open'));
   }
 </script>

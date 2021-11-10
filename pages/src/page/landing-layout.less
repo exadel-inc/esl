@@ -1,6 +1,7 @@
 @import (reference) "../common/variables.less";
 @import "./base-layout.less";
 
+
 .landing-layout {
   height: 100vh;
   display: flex;
@@ -9,6 +10,26 @@
   color: @landing-fg-color;
   background-color: @landing-bg-color;
 
+  .header-shadow {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    box-shadow: none;
+
+    transition: box-shadow .3s ease-in-out;
+
+    @media @xs-sm {
+      height: 56px;
+    }
+
+    @media @md-xl {
+      height: 84px;
+    }
+  }
+
+  .esl-scrollbar:not([at-start]) + .header-shadow {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+  }
 
   header {
     flex-basis: 100%;

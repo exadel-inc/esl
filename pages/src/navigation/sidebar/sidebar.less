@@ -7,9 +7,9 @@ esl-d-sidebar {
   background: @nav-dark-bg;
 
   position: fixed;
+  top: 56px;
   z-index: 10;
-  left: 0;
-  height: 100vh;
+  height: calc(100vh - 56px);
   width: 100vw;
   max-width: 0;
 
@@ -23,9 +23,6 @@ esl-d-sidebar {
   }
 
   @media @xs-sm {
-    position: fixed;
-    top: 56px;
-    height: calc(100vh - 56px);
 
     &:not(.esl-d-sidebar) {
       display: none;
@@ -41,6 +38,8 @@ esl-d-sidebar {
   }
   @media @md-xl {
     position: relative;
+    top: 0;
+    height: 100vh;
     width: 16.875rem;
     max-width: 72px;
   }

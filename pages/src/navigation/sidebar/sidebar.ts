@@ -37,9 +37,13 @@ export class ESLDemoSidebar extends ESLToggleable {
     ESLMediaQuery.for('@+MD').removeListener(this.onBreakpointChange);
   }
 
+  protected storeState() {
+    this.open ? localStorage.removeItem('sidebar-collapsed') : localStorage.setItem('sidebar-collapsed', 'true');
+  }
+
   protected setInitialState() {
     const mediaMatches = ESLMediaQuery.for('@+MD').matches;
-    const expanded = JSON.parse(localStorage.getItem('sidebar-expanded') || '{}');
+    const expanded = !localStorage.getItem('sidebar-collapsed');
     this.toggle(mediaMatches && expanded, {force: true, initiator: 'init', immediate: true});
   }
 
@@ -60,16 +64,16 @@ export class ESLDemoSidebar extends ESLToggleable {
   }
 
   protected onShow(params: SidebarActionParams) {
-    localStorage.setItem('sidebar-expanded', JSON.stringify(true));
     this._animation = !params.immediate;
     super.onShow(params);
     this.expandActive(params.initiator === 'init');
+    this.storeState();
   }
   protected onHide(params: SidebarActionParams) {
-    localStorage.setItem('sidebar-expanded', JSON.stringify(false));
     this._animation = !params.immediate;
     super.onHide(params);
     this.collapseAll();
+    this.storeState();
   }
 
   @bind
