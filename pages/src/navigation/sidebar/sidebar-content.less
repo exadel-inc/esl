@@ -46,6 +46,18 @@ esl-d-sidebar {
     text-transform: uppercase;
   }
 
+  .sidebar-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+    margin-top: 0;
+    @media @md-lg {
+      margin-top: 30px;
+    }
+  }
+
   .sidebar-scrollbar {
     @media (hover: hover) {
       opacity: .4;

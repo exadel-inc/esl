@@ -7,18 +7,30 @@ esl-d-sidebar {
   background: @nav-dark-bg;
 
   position: fixed;
-  z-index: 8;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
+  top: @header-height-mobile;
+  z-index: 10;
+  height: calc(~'100vh - @{header-height-mobile}');
   max-width: 0;
 
-  box-shadow: 4px 0 8px 0 rgba(0, 0, 0, .5);
+  box-shadow: 4px 8px 8px 0 rgba(0, 0, 0, .5);
+  @media @md-xl{
+    box-shadow: 4px 0 8px 0 rgba(0, 0, 0, .5);
+  }
 
   &[animation] {
     transition: max-width .5s ease-in-out, visibility .5s linear;
     &.open {
       transition: max-width .5s ease-in-out, visibility 0s linear;
+    }
+  }
+
+  &, & .sidebar-content {
+    width: 100vw;
+    @media @sm {
+      width: 20rem;
+    }
+    @media @md-xl {
+      width: 16.875rem;
     }
   }
 
@@ -32,12 +44,10 @@ esl-d-sidebar {
     }
   }
 
-  @media @sm {
-    width: 20rem;
-  }
   @media @md-xl {
     position: relative;
-    width: 16.875rem;
+    top: 0;
+    height: 100vh;
     max-width: 72px;
   }
 

@@ -6,9 +6,10 @@
   color: @landing-fg-color;
   background-color: @landing-bg-color;
 
-  max-height: 56px;
+  height: @header-height-mobile;
+
   @media @md-xl {
-    max-height: 84px;
+    height: @header-height-desktop;
   }
 
   @media @md-xl {
@@ -22,11 +23,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 56px;
-
-    @media @md-xl {
-      height: 84px;
-    }
+    height: 100%;
   }
 
   &-links {
