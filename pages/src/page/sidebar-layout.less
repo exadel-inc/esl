@@ -14,22 +14,22 @@
     position: fixed;
     top: 0;
     width: 100vw;
+    height: @header-height-mobile;
+    pointer-events: none;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
 
-    @media @xs-sm {
-      height: 56px;
+    @media @md-xl {
+      height: 0;
     }
   }
 
   main {
-    @media @xs-sm {
-      height: calc(100vh - 56px);
-      flex: 0 0 100%;
-    }
+    flex: 0 0 100%;
+    height: calc(~'100vh - @{header-height-mobile}');
 
     @media @md-xl {
-      height: 100vh;
       flex: 1 0 0;
+      height: 100vh;
     }
 
     display: flex;
@@ -56,11 +56,11 @@
   .main-scroll {
     z-index: 3;
     position: fixed;
-    top: 0;
+    top: @header-height-mobile;
     height: inherit;
 
-    @media @xs-sm {
-      top: 56px;
+    @media @md-xl {
+      top: 0;
     }
   }
 }

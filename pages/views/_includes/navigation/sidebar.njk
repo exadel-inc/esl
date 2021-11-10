@@ -7,7 +7,7 @@
       <span class="sidebar-title">{{ site.name }}</span>
     </a>
 
-    <div class="sb-nav-list-wrapper">
+    <div class="sidebar-content">
       <ul class="sidebar-nav-list esl-scrollable-content">
         <li class="sidebar-nav-item">
           {{ navitem ('Introduction', 'introduction', 'static/assets/sidebar/intro.svg') }}
@@ -25,7 +25,7 @@
 
       <esl-scrollbar class="sidebar-scrollbar" target="::prev"></esl-scrollbar>
     </div>
-    <esl-trigger class="sidebar-trigger-btn sidebar-arrows-icon" target="#sidebar" mode="toggle"></esl-trigger>
+    <esl-trigger class="sidebar-trigger-btn sidebar-arrows-icon" target="#sidebar" data-store></esl-trigger>
   </nav>
 </esl-d-sidebar>
 <script>
