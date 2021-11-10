@@ -47,12 +47,12 @@ import './esl-media-demo/test-media-source';
 
 import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoMarquee} from './marquee/marquee';
-import {ESLAnimate} from './benefits/benefit';
+import {ESLDemoAnimate} from './benefits/benefit';
 
 // Register Demo components
 ESLDemoSidebar.register();
 ESLDemoMarquee.register();
-ESLAnimate.register();
+ESLDemoAnimate.register();
 
 // Register ESL Components
 

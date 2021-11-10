@@ -1,31 +1,32 @@
 import {ready} from '../../../src/modules/esl-utils/decorators/ready';
 import {memoize} from '../../../src/modules/esl-utils/decorators/memoize';
 import {bind} from '../../../src/modules/esl-utils/decorators/bind';
+
 import {ESLBaseElement} from '../../../src/modules/esl-base-element/core';
 
-
-const options = {
+const options: IntersectionObserverInit  = {
   threshold: [0.5]
 };
 
-interface Iconfig {
+interface ESLAnimateConfig {
   group?: boolean;
   repeat?: boolean;
   delete?: boolean;
 }
 
-class AnimateService {
+class ESLAnimateService {
 
   private _markedElements: Element[] = [];
   private _io = new IntersectionObserver(this.onIntersect, options);
-  private _configMap = new WeakMap<Element, Iconfig>();
+  private _configMap = new WeakMap<Element, ESLAnimateConfig>();
+  private _defaultConfig: ESLAnimateConfig = {repeat: false, group: false, delete: false};
 
   @memoize()
   static get instance() {
-    return new AnimateService();
+    return new ESLAnimateService();
   }
 
-  configFor(el: Element): Iconfig | undefined {
+  configFor(el: Element): ESLAnimateConfig | undefined {
     return this._configMap.get(el);
   }
 
@@ -34,7 +35,6 @@ class AnimateService {
   */
   @bind
   private onIntersect(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
-    console.log(entries);
     entries.forEach((entry: IntersectionObserverEntry) => {
       const target = entry.target;
       const config = this.configFor(target);
@@ -56,24 +56,27 @@ class AnimateService {
   /**
   * Method to show up HTMLElement
   */
-  private makeAppear() {
+  private handleAnimation() {
     let counter = 0;
     this._markedElements.forEach(el => {
-      if (this.configFor(el)?.group) {
+      const config = this.configFor(el);
+      if (config?.group) {
         setTimeout(() => el.setAttribute('esl-animate', 'false'), 100 * counter);
         counter++;
       } else {
         el.setAttribute('esl-animate', 'false');
       }
-      this.configFor(el)?.delete && this._configMap.delete(el);
+      config?.delete && this._configMap.delete(el);
     });
     this._markedElements = [];
   }
 
-  private postponedAnimate = () => setTimeout(() => this.makeAppear(), 100);
+  private postponedAnimate() {
+    setTimeout(() => this.handleAnimation(), 100);
+  }
 
-  public subscribe(el: HTMLElement, config?: Iconfig) {
-    this._configMap.set(el, Object.assign({repeat: false, group: false, delete: false}, config));
+  public subscribe(el: HTMLElement, config?: ESLAnimateConfig) {
+    this._configMap.set(el, Object.assign(this._defaultConfig, config));
     this._io.observe(el);
   }
 
@@ -81,20 +84,17 @@ class AnimateService {
     this._io.unobserve(el);
   }
 }
-
-
-export class ESLAnimate extends ESLBaseElement {
-  static is = 'esl-animate';
+export class ESLDemoAnimate extends ESLBaseElement {
+  static is = 'esl-d-animate';
 
   @ready
   connectedCallback() {
     super.connectedCallback();
-    AnimateService.instance.subscribe(this, {repeat : true, group: true});
+    ESLAnimateService.instance.subscribe(this, {repeat : true, group: true});
   }
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
-    AnimateService.instance.unsubscribe(this);
+    ESLAnimateService.instance.unsubscribe(this);
   }
 }
-

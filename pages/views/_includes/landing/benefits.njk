@@ -2,7 +2,7 @@
   <h2>{{ benefits.title }}</h2>
   <div class="benefit-container">
     {% for item in benefits.benefits %}
-      <esl-animate class="benefit-item" esl-animate>
+      <esl-d-animate class="benefit-item" esl-animate>
         <div class="benefit-icon">
           {% include "static/assets/" + item.icon %}
         </div>
@@ -12,7 +12,7 @@
             {{ item.text }}
           </p>
         </div>
-      </esl-animate>
+      </esl-d-animate>
     {% endfor %}
   </div>
 
