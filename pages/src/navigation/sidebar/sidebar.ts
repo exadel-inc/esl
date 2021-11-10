@@ -37,9 +37,14 @@ export class ESLDemoSidebar extends ESLToggleable {
     ESLMediaQuery.for('@+MD').removeListener(this.onBreakpointChange);
   }
 
+  protected storeState() {
+    this.open ? localStorage.removeItem('sidebar-collapsed') : localStorage.setItem('sidebar-collapsed', 'true');
+  }
+
   protected setInitialState() {
-    const shouldActivate = ESLMediaQuery.for('@+MD').matches;
-    this.toggle(shouldActivate, {force: true, initiator: 'init', immediate: true});
+    const isDesktop = ESLMediaQuery.for('@+MD').matches;
+    const isStoredOpen = !localStorage.getItem('sidebar-collapsed');
+    this.toggle(isDesktop && isStoredOpen, {force: true, initiator: 'init', immediate: true});
   }
 
   public collapseAll() {
@@ -62,17 +67,24 @@ export class ESLDemoSidebar extends ESLToggleable {
     this._animation = !params.immediate;
     super.onShow(params);
     this.expandActive(params.initiator === 'init');
+    if (params.activator && params.activator.hasAttribute('data-store')) {
+      this.storeState();
+    }
   }
   protected onHide(params: SidebarActionParams) {
     this._animation = !params.immediate;
     super.onHide(params);
     this.collapseAll();
+    if (params.activator && params.activator.hasAttribute('data-store')) {
+      this.storeState();
+    }
   }
 
   @bind
   protected onBreakpointChange() {
-    const shouldActivate = ESLMediaQuery.for('@+MD').matches;
-    this.toggle(shouldActivate, {initiator: 'bpchange', immediate: !shouldActivate});
+    const isDesktop = ESLMediaQuery.for('@+MD').matches;
+    const isStoredOpen = !localStorage.getItem('sidebar-collapsed');
+    this.toggle(isDesktop && isStoredOpen, {force: true, initiator: 'bpchange', immediate: !isDesktop});
   }
 
   @bind

@@ -9,6 +9,23 @@
   color: @landing-fg-color;
   background-color: @landing-bg-color;
 
+  .header-shadow {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: @header-height-mobile;
+    pointer-events: none;
+    box-shadow: none;
+    transition: box-shadow .3s ease-in-out;
+
+    @media @md-xl {
+      height: @header-height-desktop;
+    }
+  }
+
+  .esl-scrollbar:not([at-start]) + .header-shadow {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+  }
 
   header {
     flex-basis: 100%;
@@ -16,32 +33,27 @@
 
   main {
     flex: 1 0 100%;
-
-    @media @xs-sm {
-      height: calc(100vh - 56px);
-    }
-
+    height: calc(~'100vh - @{header-height-mobile}');
     @media @md-xl {
-      height: calc(100vh - 84px);
+      height: calc(~'100vh - @{header-height-desktop}');
     }
   }
 
   .main-scroll {
     z-index: 5;
     position: fixed;
-    top: 56px;
     height: inherit;
 
+    top: @header-height-mobile;
     @media @md-xl {
-      top: 84px;
+      top: @header-height-desktop;
     }
-  }
 
-  .scrollbar-thumb {
-    background: #4a4a55;
-  }
-
-  .scrollbar-track {
-    background: #2e2f35;
+    .scrollbar-thumb {
+      background: #4a4a55;
+    }
+    .scrollbar-track {
+      background: #2e2f35;
+    }
   }
 }

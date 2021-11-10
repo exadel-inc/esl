@@ -45,4 +45,40 @@ esl-d-sidebar {
     line-height: 20px;
     text-transform: uppercase;
   }
+
+  .sidebar-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+    margin-top: 0;
+    @media @md-lg {
+      margin-top: 30px;
+    }
+  }
+
+  .sidebar-scrollbar {
+    @media (hover: hover) {
+      opacity: .4;
+      transition: opacity .3s linear;
+    }
+
+    .scrollbar-track {
+      background: rgba(255, 255, 255, .3);
+    }
+
+    .scrollbar-thumb {
+      background: rgba(0, 0, 0, .4);
+    }
+
+    &[dragging] .scrollbar-thumb {
+      background: rgba(0, 0, 0, .6);
+      box-shadow: inset 0 0 4px 0 rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &:hover .sidebar-scrollbar {
+    opacity: 1;
+  }
 }

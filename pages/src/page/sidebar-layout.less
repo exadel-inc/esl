@@ -10,15 +10,26 @@
     padding: 1rem 0;
   }
 
-  main {
-    @media @xs-sm {
-      height: calc(100vh - 56px);
-      flex: 0 0 100%;
-    }
+  .header-shadow {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: @header-height-mobile;
+    pointer-events: none;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
 
     @media @md-xl {
-      height: 100vh;
+      height: 0;
+    }
+  }
+
+  main {
+    flex: 0 0 100%;
+    height: calc(~'100vh - @{header-height-mobile}');
+
+    @media @md-xl {
       flex: 1 0 0;
+      height: 100vh;
     }
 
     display: flex;
@@ -45,17 +56,11 @@
   .main-scroll {
     z-index: 3;
     position: fixed;
-    top: 56px;
+    top: @header-height-mobile;
     height: inherit;
-  }
 
-  .sidebar-scrollbar {
-    .scrollbar-thumb {
-      background: #4a4a55;
-    }
-
-    .scrollbar-track {
-      background: #2e2f35;
+    @media @md-xl {
+      top: 0;
     }
   }
 }
