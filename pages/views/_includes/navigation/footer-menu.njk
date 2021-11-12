@@ -1,19 +1,16 @@
 {% macro menu(title, collection) %}
-  <esl-trigger class="footer-accordion-trigger"
-               target="::next"
-               hover-hide-delay="400">
-    <div class="footer-accordion-title footer-accordion-arrow {{ 'nav-item-selected' if collection in page.url }}">
-      {{ title }}
-    </div>
+  <h4 class="footer-title">{{ title }}</h4>
+  <esl-trigger class="footer-accordion-trigger" target="::next" hover-hide-delay="400">
+    {{ title }} <span class="arrow"></span>
   </esl-trigger>
   <esl-panel class="footer-accordion-content"
              fallback-duration="400"
              close-on-esc>
     {% if collections[collection] %}
-      <ul class="footer-accordion-list">
+      <ul class="footer-list">
         {% for item in collections[collection] | notIgnored | released | sortByNameAndOrder %}
-          <li class="footer-accordion-item" {% if isActive %}aria-current="page"{% endif %}>
-            <a class="footer-accordion-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
+          <li class="footer-item" {% if isActive %}aria-current="page"{% endif %}>
+            <a class="footer-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
           </li>
         {% endfor %}
       </ul>
