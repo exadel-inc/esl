@@ -48,6 +48,8 @@ import './esl-media-demo/test-media-source';
 import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoMarquee} from './landing/landing';
 
+import './banner/redesign';
+
 // Register Demo components
 ESLDemoSidebar.register();
 ESLDemoMarquee.register();
@@ -71,8 +73,11 @@ ESLA11yGroup.register();
 ESLTabs.register();
 
 ESLScrollbar.register();
+
 ESLAlert.register();
-ESLAlert.init();
+ESLAlert.init({
+  closeOnOutsideAction: true
+});
 
 ESLSelectList.register();
 ESLSelect.register();
