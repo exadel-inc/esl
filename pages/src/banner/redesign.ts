@@ -9,7 +9,7 @@ onDocumentReady(() => {
   sessionStorage.setItem(KEY, '1');
 
   const detail: AlertActionParams = {
-    cls: 'alert alert-info',
+    cls: 'alert alert-info banner-alert',
     html: `
         <div class="banner-text">
           <p>Hey dear ESL site visitor, it is a preview version of our site redesign.</p>
