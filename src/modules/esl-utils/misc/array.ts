@@ -2,6 +2,21 @@ import {identity} from './functions';
 
 type Tuple<T> = [T?, T?];
 
+interface ArrayLike<T = any> {
+  [key: number]: T;
+  length: number;
+}
+
+export const isArrayLike = (value: any): value is ArrayLike => {
+  return Array.isArray(value) ||
+    (!!value &&
+      typeof value === 'object' &&
+      typeof value.length === 'number' &&
+      value.length >= 0 &&
+      (value.length - 1) in value
+    );
+};
+
 /** Split array into tuples */
 export const tuple = <T>(arr: T[]): Tuple<T>[] => arr.reduce((acc: Tuple<T>[], el) => {
   if (acc.length === 0 || acc[acc.length - 1].length >= 2) acc.push([]);
@@ -18,6 +33,11 @@ export const wrap = <T>(arr: undefined | null | T | T[]): T[] => {
   if (arr === undefined || arr === null) return [];
   if (Array.isArray(arr)) return arr;
   return [arr];
+};
+
+/** Unwraps and returns the first element if passed object is array-like, returns original object otherwise */
+export const unwrap = <T>(value: [T?, ...any] | T): T => {
+  return isArrayLike(value) ? Array.from(value as Iterable<T>)[0] : value;
 };
 
 /** Make array values unique */

@@ -1,4 +1,4 @@
-import {flat, range, tuple, uniq, wrap, groupBy} from '../array';
+import {flat, range, tuple, uniq, wrap, unwrap, groupBy} from '../array';
 
 describe('misc/array helper tests', () => {
   test('tuple', () => {
@@ -47,6 +47,44 @@ describe('misc/array helper tests', () => {
 });
 
 type V = string | number;
+
+describe('unwrap', () => {
+  document.body.innerHTML = '<div>1</div><div>2</div>';
+
+  test('NodeList to unwrap into first Node', () => {
+    expect(unwrap(document.querySelectorAll('div'))).toEqual(document.querySelector('div'));
+  });
+
+  test.each([
+    [[1], 1],
+    [[1, 2], 1],
+    [[[1, 2], 3], [1, 2]],
+    [[{a: 2}, {a: 2, b:3}, {a: 2, b:3}], {a: 2}],
+    [[{a: 2}, {a: 2, b:3}, {a: 2, b:3}], {a: 2}]
+  ])('array %p to unwrap into %o', (a: any, expected: any) => {
+    expect(unwrap(a)).toEqual(expected);
+  });
+
+  test.each([
+    [1, 1],
+    [{a: 1, b: 2}, {a: 1, b: 2}],
+    [{0: 1, 1: 2, length: 2}, 1],
+    [{length: 2}, {length: 2}]
+  ])('non-array value %p to unwrap into %o', (a: any, expected: any) => {
+    expect(unwrap(a)).toEqual(expected);
+  });
+
+  test.each([
+    [undefined],
+    [[]]
+  ])('value %p to unwrap into undefined', (a: any) => {
+    expect(unwrap(a)).toEqual(undefined);
+  });
+
+  test('null to be returned', () => {
+    expect(unwrap(null)).toEqual(null);
+  });
+});
 
 describe('misc/groupBy', () => {
   test.each([
