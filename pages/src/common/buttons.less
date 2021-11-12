@@ -47,6 +47,12 @@
     line-height: 1.8;
     font-weight: 500;
   }
+  &-spaced {
+    padding: 0.8rem 2.75rem;
+    @media @sm {
+      padding: 0.8rem 2rem;
+    }
+  }
 
   .sec-color-btn(@cls, @color) {
     &-sec-@{cls} {
@@ -90,10 +96,10 @@
   }
 
   &-container {
-    margin: -5px;
+    margin: -0.4rem;
   }
   &-container & {
-    margin: 5px;
+    margin: 0.4rem;
   }
   &-group-centered {
     justify-content: center;

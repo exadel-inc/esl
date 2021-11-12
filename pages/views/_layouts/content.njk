@@ -17,7 +17,7 @@
 
       {% if aside %}
         <aside class="aside">
-          {% from 'related.njk' import related with context %}
+          {% from 'navigation/related-links.njk' import related with context %}
           {{ related(aside.components, 'components', 'Related Components') }}
           {{ related(aside.examples, 'examples', 'Related Examples') }}
         </aside>
