@@ -17,7 +17,7 @@ ESLAlert is a component to show small notifications on your pages. ESLAlert can 
 First, use the common approach to register component: `ESLAlert.register()`.
 Then you can attach `<esl-alert>` component to the expected place in the document or initialize it globally by using `ESLAlert.init` shortcut.
 
-ESL Alert listens to DOM alerts to control its state. 
+ESL Alert listens to DOM events to control its state. 
 By default, the target to catch alerts is the `esl-alert` parent element. 
 Target can be changed using `target` attribute with the [TraversingQuery](https://exadel-inc.github.io/esl/utils/esl-traversing-query/) support, 
 or through the `$target` property that accepts any EventTarget instance (including the window). 
