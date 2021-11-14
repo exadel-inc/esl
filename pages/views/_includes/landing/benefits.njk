@@ -1,7 +1,7 @@
 <div class="benefit container">
   <h2>{{ benefits.title }}</h2>
   <ul class="benefit-container">
-    {% for item in benefits.benefits %}
+    {% for item in landing.benefits.items %}
       <li class="benefit-item">
         <div class="benefit-icon">
           {% include "static/assets/" + item.icon %}
