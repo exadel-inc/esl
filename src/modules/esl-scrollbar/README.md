@@ -77,4 +77,4 @@ Use the full module path to import it
 
 ### Events
 
-- `esl:change:scroll` (non bubbles) - thrown every time the scroll change state/position
+- `esl:change:scroll` (non-bubbling) - thrown every time the scroll change state/position
