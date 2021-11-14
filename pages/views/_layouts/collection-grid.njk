@@ -3,7 +3,7 @@ layout: content
 ---
 
 <div class="collection-grid">
-  {% for item in collections[collection] | notIgnored | sortByName %}
+  {% for item in collections[collection] | notIgnored | released | sortByName %}
     <a class="collection-grid-item"
        href="{{ item.url | url }}">
       <div class="collection-grid-title collection-grid-box">
