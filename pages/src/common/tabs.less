@@ -81,6 +81,9 @@
 
 .esl-d-tab-item > esl-tab {
   display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
   min-height: 100%;
   margin: 0;
   padding: .5rem 1rem;
@@ -99,5 +102,12 @@
     color: @primary-blue;
     background-color: #fff;
     border-color: @secondary-blue @secondary-blue #fff;
+  }
+
+  @media @sm {
+    max-width: 400px;
+  }
+  @media @md-xl {
+    max-width: 600px;
   }
 }
