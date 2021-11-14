@@ -63,7 +63,7 @@ export class ESLAlert extends ESLToggleable {
     let alert = document.querySelector(`body > ${ESLAlert.is}`);
     if (!alert) {
       alert = document.createElement(ESLAlert.is) as ESLAlert;
-      Object.assign(alert, options);
+      options && Object.assign(alert, options);
       document.body.appendChild(alert);
     }
     return alert;
