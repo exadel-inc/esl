@@ -41,8 +41,8 @@ You can visit our **[Demo Site](https://exadel-inc.github.io/esl/)** (*draft*).
 - ##### [ESL Utils](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-utils/README.md)
 
 ---
-<a name="instalation_guide"></a>
 ## Installation Guide
+<a name="instalation_guide"></a>
 
 0. Preconditions:
    - Make sure you have all needed polyfills to support browsers from your browser-support list. 
@@ -85,9 +85,9 @@ You can visit our **[Demo Site](https://exadel-inc.github.io/esl/)** (*draft*).
     *You can pass custom tag name to 'register' function, but use this option only in an exceptional situation.*
 
 ---
+## Roadmap
 <a name="roadmap"></a>
 
-## Roadmap
 - ESL Carousel component
 - ESL Animate service
 - Sharable assets from demo site (styles components)
