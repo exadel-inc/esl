@@ -21,16 +21,7 @@ esl-d-sidebar {
 
     &.active {
       color: @nav-dark-selected;
-      background: fade(@nav-dark-selected, 20%);
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 1px;
-        height: 100%;
-        border-left: 3px solid @nav-dark-accent;
-      }
+      background: linear-gradient(to right, fade(@nav-dark-selected, 25%), fade(@nav-dark-selected, 0%));
     }
   }
   .sidebar-nav-secondary-link {

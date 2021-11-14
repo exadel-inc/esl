@@ -15,6 +15,7 @@ esl-d-sidebar {
 
   // Primary Heading
   .sidebar-nav-item-heading {
+    position: relative;
     display: flex;
     padding: 10px 40px 10px 25px;
 
@@ -27,7 +28,16 @@ esl-d-sidebar {
 
     &.active {
       color: @nav-dark-selected;
-      background: fade(@nav-dark-selected, 20%);
+      background: linear-gradient(to right, fade(@nav-dark-selected, 25%), fade(@nav-dark-selected, 0%));
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 1px;
+        height: 100%;
+        border-left: 3px solid @nav-dark-accent;
+      }
     }
   }
   .sidebar-nav-item-link {
