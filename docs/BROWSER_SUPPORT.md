@@ -1,6 +1,7 @@
 # Browser Support
 
 <a name="content"></a>
+
 Exadel Smart Library does not have dependencies but uses the following list of native browser features:
 
 - ECMAScript 6 features
