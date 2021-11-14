@@ -1,6 +1,10 @@
+# Installation Guide
+
+<a name="content"></a>
+
 1. Preconditions:  
   Make sure you have all needed polyfills to support browsers from your browser-support list. 
-    - See Browser support & Polyfills for details.
+    - See [Browser support & Polyfills](./BROWSER_SUPPORT.md) for details.
     - Use bundler to build your project. Currently, only ESL modules are available for consumption.
 
 2. Install esl [npm dependency](https://www.npmjs.com/package/@exadel/esl):
