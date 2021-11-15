@@ -1,12 +1,12 @@
 # UIP Setting
 
-[UIPSetting](src/plugins/settings/settings/setting/README.md) - custom element for manipulating with elements attributes. Custom settings should extend
-*UIPSetting* class if you want them to be connected with [UIPSettings](src/plugins/settings/settings/README.md) properly.
+[UIPSetting](src/settings/setting/README.md) - custom element for manipulating with elements attributes. Custom settings should extend
+*UIPSetting* class if you want them to be connected with [UIPSettings](src/plugins/settings/README.md) properly.
 
 ## Description:
 
-- Processes markup to update own value via **updateFrom()** (uses [UIPStateModel](src/core/README.md#uip-state-model) by default).
-- Updates markup with **applyTo()** (uses [UIPStateModel](src/core/README.md#uip-state-model) by default).
+- Processes markup to update own value via **updateFrom()** (uses [UIPStateModel](src/core/base/README.md#uip-state-model) by default).
+- Updates markup with **applyTo()** (uses [UIPStateModel](src/core/base/README.md#uip-state-model) by default).
 - Dispatches **uip:change** event to let *UIPSettings* know about setting changes.
 
 These things have default implementation. Also, there are **isValid()** and **setInconsistency()** methods to deal with
@@ -23,9 +23,9 @@ The following attributes used:
 - **attribute** - attribute of the **target** which is changed by the setting.
 
 You can see the examples of custom settings here (these are distributed together with other *UIP* elements):
-- [UIPTextSetting](src/plugins/settings/settings/setting/text-setting/README.md)
-- [UIPBoolSetting](src/plugins/settings/settings/setting/bool-setting/README.md)
-- [UIPSelectSetting](src/plugins/settings/settings/setting/select-setting/README.md)
+- [UIPTextSetting](src/settings/text-setting/README.md)
+- [UIPBoolSetting](src/settings/bool-setting/README.md)
+- [UIPSelectSetting](src/settings/select-setting/README.md)
 
 ## Example:
 

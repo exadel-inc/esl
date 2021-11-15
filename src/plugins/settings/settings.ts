@@ -1,5 +1,5 @@
-import {UIPPlugin} from '../../../core/registration';
-import {UIPSetting} from './setting/setting';
+import {UIPPlugin} from '../../core/registration';
+import {UIPSetting} from '../../settings/setting/setting';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';

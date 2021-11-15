@@ -1,10 +1,10 @@
 import {attr, boolAttr} from '@exadel/esl/modules/esl-base-element/core';
 import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
 
-import {UIPSetting} from '../setting';
-import {ChangeAttrConfig, UIPStateModel} from '../../../../../core/registration';
-import TokenListUtils from '../../../../../utils/token-list-utils';
-import {WARNING_MSG} from '../../../../../utils/warning-msg';
+import {UIPSetting} from '../setting/setting';
+import {ChangeAttrConfig, UIPStateModel} from '../../core/registration';
+import TokenListUtils from '../../utils/token-list-utils';
+import {WARNING_MSG} from '../../utils/warning-msg';
 
 import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 
