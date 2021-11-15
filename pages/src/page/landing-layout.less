@@ -2,9 +2,13 @@
 @import "./base-layout.less";
 
 .landing-layout {
-  height: 100vh;
   display: flex;
   flex-wrap: wrap;
+
+  /* stylelint-disable */
+  height: 100vh;
+  height: var(--100vh, 100vh);
+  /* stylelint-enable */
 
   color: @landing-fg-color;
   background-color: @landing-bg-color;
@@ -33,9 +37,15 @@
 
   main {
     flex: 1 0 100%;
+    /* stylelint-disable */
     height: calc(~'100vh - @{header-height-mobile}');
+    height: calc(~'var(--100vh, 100vh) - @{header-height-mobile}');
+    /* stylelint-enable */
     @media @md-xl {
+      /* stylelint-disable */
       height: calc(~'100vh - @{header-height-desktop}');
+      height: calc(~'var(--100vh, 100vh) - @{header-height-desktop}');
+      /* stylelint-enable */
     }
   }
 

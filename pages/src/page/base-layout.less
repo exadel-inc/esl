@@ -1,6 +1,9 @@
 body {
   display: flex;
-  min-height: 100vh;
+  /* stylelint-disable */
+  height: 100vh;
+  height: var(--100vh, 100vh);
+  /* stylelint-enable */
   flex-direction: column;
 }
 main {

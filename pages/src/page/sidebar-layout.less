@@ -2,9 +2,13 @@
 @import "./base-layout.less";
 
 .sidebar-layout {
-  height: 100vh;
   display: flex;
   flex-wrap: wrap;
+
+  /* stylelint-disable */
+  height: 100vh;
+  height: var(--100vh, 100vh);
+  /* stylelint-enable */
 
   .page-title {
     padding: 1rem 0;
@@ -25,11 +29,17 @@
 
   main {
     flex: 0 0 100%;
+    /* stylelint-disable */
     height: calc(~'100vh - @{header-height-mobile}');
+    height: calc(~'var(--100vh, 100vh) - @{header-height-mobile}');
+    /* stylelint-enable */
 
     @media @md-xl {
       flex: 1 0 0;
+      /* stylelint-disable */
       height: 100vh;
+      height: var(--100vh, 100vh);
+      /* stylelint-enable */
     }
 
     display: flex;

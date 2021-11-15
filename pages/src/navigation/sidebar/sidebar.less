@@ -9,11 +9,14 @@ esl-d-sidebar {
   position: fixed;
   top: @header-height-mobile;
   z-index: 10;
+  /* stylelint-disable */
   height: calc(~'100vh - @{header-height-mobile}');
+  height: calc(~'var(--100vh, 100vh) - @{header-height-mobile}');
+  /* stylelint-enable */
   max-width: 0;
 
   box-shadow: 4px 8px 8px 0 rgba(0, 0, 0, .5);
-  @media @md-xl{
+  @media @md-xl {
     box-shadow: 4px 0 8px 0 rgba(0, 0, 0, .5);
   }
 
@@ -47,7 +50,10 @@ esl-d-sidebar {
   @media @md-xl {
     position: relative;
     top: 0;
+    /* stylelint-disable */
     height: 100vh;
+    height: var(--100vh, 100vh);
+    /* stylelint-enable */
     max-width: 72px;
   }
 
