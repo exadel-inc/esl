@@ -54,8 +54,10 @@ esl-d-sidebar {
 
   .sidebar-nav-item-trigger {
     flex: 1 0 auto;
-    padding: 0 0 0 16px;
+    margin: 0 0 0 16px;
+    padding: 0;
     opacity: 0;
+    pointer-events: none;
 
     font-size: 1.125rem;
     font-weight: 500;
@@ -64,6 +66,7 @@ esl-d-sidebar {
 
     &:hover {
       color: @nav-dark-hover;
+      pointer-events: all;
     }
   }
   &.open .sidebar-nav-item-trigger {
