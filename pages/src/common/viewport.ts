@@ -15,7 +15,7 @@ export const updateViewportVariables = () => {
 export const updateViewportVariablesDebounced = rafDecorator(updateViewportVariables);
 
 export const initViewportVariables = () => {
-  // IE is not support CSS Variables (hopefully same as 100vh issue :D)
+  // IE doesn’t support CSS Variables (hopefully same as 100vh issue :D)
   if (DeviceDetector.isIE) return;
 
   updateViewportVariables();

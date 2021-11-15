@@ -70,14 +70,14 @@
 
     @media @md-xl {
       text-align: start;
-      flex: 1 0 0px;
+      flex: 1 0 0;
       border: none;
     }
   }
 
   &-column-2 {
     @media @md-xl {
-      flex: 2 0 0px;
+      flex: 2 0 0;
       .footer-list {
         display: flex;
         flex-direction: column;
@@ -120,8 +120,8 @@
     transition: transform .5s ease-in-out;
 
     &::after {
-      display: block;
       content: '';
+      display: block;
       width: 7px;
       height: 7px;
 
