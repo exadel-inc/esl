@@ -1,4 +1,4 @@
-const markdown = require('./pages/11y/markdown');
+const markdown = require('./pages/e11y/markdown');
 const {isDev} = require('./pages/views/_data/env');
 
 
