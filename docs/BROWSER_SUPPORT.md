@@ -24,7 +24,7 @@ Exadel Smart Library does not have dependencies but uses the following list of n
 
 All of them are fully supported by modern browsers such as Chrome, Firefox, Safari or Edge (>43).
 
-In order to make ESL work in older browsers you can use a "light" polyfills list of IntersectionObserver, ResizeObserver and Custom Elements (Older versions of Edge and Safari)
+In order to make ESL work in older browsers, you can use a "light" polyfills list of IntersectionObserver, ResizeObserver and Custom Elements (for older versions of Edge and Safari).
 
 Or make the library work in IE11 or Edge (<14) by using the "full" polyfills list provided.
 

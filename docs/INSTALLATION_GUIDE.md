@@ -21,7 +21,7 @@
    ```typescript
    import '@exadel/esl/modules/esl-media/providers/iframe-provider';
    ```
-   - some modules contain cumulative all entries.
+   - some modules contain cumulative `all.js` entries.
 
 4. Styles are distributed in two versions:
    - 'ready to use' `core.css` or `core.less`
