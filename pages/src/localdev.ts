@@ -49,8 +49,6 @@ import {initViewportVariables} from './common/viewport';
 import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoMarquee} from './landing/landing';
 
-import './banner/redesign';
-
 initViewportVariables();
 
 // Register Demo components
