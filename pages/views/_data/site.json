@@ -1,8 +1,13 @@
 {
   "name": "Exadel Smart Library",
   "url": "https://exadel-inc.github.io/esl",
+  "urlPrefix": "/esl",
   "github": {
     "url": "https://github.com/exadel-inc/esl",
     "srcUrl": "https://github.com/exadel-inc/esl/tree/main/"
+  },
+  "rewriteRules": {
+    "docs/INSTALLATION_GUIDE.md": "/introduction",
+    "docs/BROWSER_SUPPORT.md": "/introduction/browser-support"
   }
 }

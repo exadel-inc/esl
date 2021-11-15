@@ -1,3 +1,5 @@
+@import (reference) "./variables.less";
+
 .alert {
   position: relative;
   padding: 0.75rem 1.25rem;
@@ -5,27 +7,21 @@
   border: 1px solid transparent;
   border-radius: 0.25rem;
 
-  &-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
+  .alert-color(@cls, @color) {
+    &-@{cls} {
+      color: @color;
+      text-shadow: 0 0 1px fade(mix(@color, #000, 50%), 25%);
+      background-color: mix(@color, #fff, 15%);
+      border-color: mix(@color, #fff, 35%);
+    }
   }
 
-  &-info {
-    color: #0c5460;
-    background-color: #d1ecf1;
-    border-color: #bee5eb;
-  }
+  .alert-color(~'success', @primary-green);
+  .alert-color(~'info', @primary-blue);
+  .alert-color(~'warning', @primary-orange);
+  .alert-color(~'danger', @primary-orange-dark);
+}
 
-  &-warning {
-    color: #856404;
-    background-color: #fff3cd;
-    border-color: #ffeeba;
-  }
-
-  &-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-  }
+esl-alert.alert {
+  position: absolute;
 }

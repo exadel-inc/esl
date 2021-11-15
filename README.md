@@ -42,10 +42,11 @@ You can visit our **[Demo Site](https://exadel-inc.github.io/esl/)** (*draft*).
 
 ---
 ## Installation Guide
+<a name="instalation_guide"></a>
 
 0. Preconditions:
    - Make sure you have all needed polyfills to support browsers from your browser-support list. 
-   See [Browser support & Polyfills](#browser-support--polyfills) for details.
+   See [Browser support & Polyfills](https://github.com/exadel-inc/esl/blob/HEAD/docs/BROWSER_SUPPORT.md) for details.
    - Use bundler to build your project. Currently, only ES6 modules are available for consumption.
 
 1. Install [esl npm dependency](https://www.npmjs.com/package/@exadel/esl)
@@ -83,54 +84,25 @@ You can visit our **[Demo Site](https://exadel-inc.github.io/esl/)** (*draft*).
     ```
     *You can pass custom tag name to 'register' function, but use this option only in an exceptional situation.*
 
-## Browser support & Polyfills
-
-Exadel Smart Library does not have dependencies but uses the following list of native browser features:
-
-- Ecma Script 6 features
-  - [Array.from](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from) (no Iterable Objects support required)
-  - [Array.prototype.find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) 
-  - [Array.prototype.findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex) 
-  - [Array.prototype.include](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes)
-  - [Object.is](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is)
-  - [ES6 Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
-- Web API
-  - [Custom Events](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent)
-  - [Node.isConnected](https://developer.mozilla.org/en-US/docs/Web/API/Node/isConnected)
-  - [Element.matches](https://developer.mozilla.org/en-US/docs/Web/API/Element/matches)
-  - [Element.closest](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest)
-  - [Element.toggleAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/toggleAttribute)
-  - [KeyboardEvent.key](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)  
-  - [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver)
-  - [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
-  - [Custom Elements](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements)
-
-
-All of them are fully supported by modern browsers, such as Chrome, Firefox, Safari or Edge (>43).
-
-In order to make ESL work in older browsers you can use a "light" polyfills list of IntersectionObserver, ResizeObserver and Custom Elements
-(Older versions of Edge and Safari)
-
-Or make the library work in IE11 or Edge (<14) by using the "full" polyfills list provided.
-
-See more details on what polyfill approach might look like in the test-server examples.
-
-Also, ESL has built-in polyfills for some of DOM and ES6 features. They are available under [./polyfills](https://github.com/exadel-inc/esl/blob/HEAD/src/polyfills) directory.
-
 ---
-
 ## Roadmap
-- Interactive Documentation + demo site redesign
+<a name="roadmap"></a>
+
 - ESL Carousel component
-- [UI Playground](https://github.com/exadel-inc/ui-playground) integration to demo site
+- ESL Animate service
+- Sharable assets from demo site (styles components)
+- Interactive Documentation and more demo site features
+- Demo pages [UI Playground](https://github.com/exadel-inc/ui-playground) integration
 - More helpers and sugar of ESLBaseElement (event listener helpers and decorators)
 - Stable version of ESL Footnotes and ESL Popup components
 - Extension of esl-form elements (custom form base, helpers, validation and more)
-- Anchor Navigation component  
-- ESLToast component
+- Anchor Navigation component
 - More components in the library
 
+<a name="roadmap_end"></a>
+
 ---
+<a name="contributing"></a>
 
 ## Development Information for contributors
 
@@ -144,6 +116,7 @@ you can find useful information about the project processes and agreements here:
 - #### [🔗 Contributor Licence Agreement](https://github.com/exadel-inc/esl/blob/HEAD/CLA.md)
 
 ---
+<a name="team"></a>
 
 **ESL Core Team**: 
 [Alexey Stsefanovich](https://github.com/ala-n), 

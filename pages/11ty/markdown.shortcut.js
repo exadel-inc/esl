@@ -2,35 +2,46 @@ const path = require('path');
 const fsAsync = require('fs').promises;
 
 const {JSDOM} = require('jsdom');
-const {isDev} = require('./env.config');
 const {markdown} = require('./markdown.lib');
 
-const {github} = require('../views/_data/site.json');
-
-const fileCache = new Map();
-
-const parseFile = async (filePath) => {
-  const absolutePath = path.resolve(__dirname, '../../', filePath);
-
-  if (!isDev && fileCache.has(absolutePath)) return fileCache.get(absolutePath);
-
-  const data = await fsAsync.readFile(absolutePath);
-  const content = data.toString();
-  const renderedContent = markdown.render(content);
-
-  fileCache.set(absolutePath, renderedContent);
-  return renderedContent;
-};
+const {github, rewriteRules, urlPrefix} = require('../views/_data/site.json');
 
 class MDRenderer {
-  static wrapContent(content) {
-    return `<div class="markdown-container">${content}</div>`;
+  static async render(filePath, startAnchor, endAnchor) {
+    try {
+      const content = await MDRenderer.parseFile(filePath);
+      const {window} = new JSDOM(content);
+
+      // Exclude part before start anchor
+      if (startAnchor) {
+        const startAnchorElement = MDRenderer.findAnchor(window.document, startAnchor);
+        while (startAnchorElement.previousSibling) startAnchorElement.previousSibling.remove();
+        startAnchorElement.remove();
+      }
+
+      // Exclude part after end anchor
+      if (endAnchor) {
+        const endAnchorElement = MDRenderer.findAnchor(window.document, endAnchor);
+        while (endAnchorElement.nextSibling) endAnchorElement.nextSibling.remove();
+        endAnchorElement.remove();
+      }
+
+      // Resolve content links
+      MDRenderer.resolveLinks(window.document.body, filePath);
+
+      // Render result content
+      return MDRenderer.renderContent(window.document.body);
+    } catch (e) {
+      return `Rendering error: ${e}`;
+    }
   }
 
-  static resolveLinks(dom, fileBase) {
-    dom.querySelectorAll('a[href^="."]').forEach((node) => {
-      node.href = github.srcUrl + path.join(path.dirname(fileBase), node.href);
-    });
+  /** Read file and render markdown */
+  static async parseFile(filePath) {
+    const absolutePath = path.resolve(__dirname, '../../', filePath);
+    const data = await fsAsync.readFile(absolutePath);
+    const content = data.toString();
+    return markdown.render(content);
   }
 
   static findAnchor(dom, name) {
@@ -39,28 +50,26 @@ class MDRenderer {
     return anchor && anchor.matches(':only-child') ? anchor.parentElement : anchor;
   }
 
-  static async render(filePath, startAnchor, endAnchor) {
-    try {
-      const content = await parseFile(filePath);
+  static renderContent(content) {
+    return `<div class="markdown-container">${content.innerHTML}</div>`;
+  }
 
-      if (!startAnchor) return MDRenderer.wrapContent(content);
-
-      const { window } = new JSDOM(content);
-
-      MDRenderer.resolveLinks(window.document, filePath);
-
-      let node = MDRenderer.findAnchor(window.document, startAnchor);
-      let endNode = MDRenderer.findAnchor(window.document, endAnchor);
-      let partContent = '';
-
-      for (node = node.nextSibling; !!node && node !== endNode; node = node.nextSibling) {
-        partContent += node.outerHTML || node.textContent;
-      }
-
-      return MDRenderer.wrapContent(partContent);
-    } catch (e) {
-      return `Rendering error: ${e}`;
+  static resolveLinks(dom, basePath) {
+    dom.querySelectorAll('a[href^="."]').forEach((link) => {
+      const absolutePath = path.join(path.dirname(basePath), link.href);
+      const resultPath = MDRenderer.processRewriteRules(absolutePath);
+      console.info(`Rewrite link "${link.href}" to "${resultPath}"`);
+      link.href = resultPath;
+    });
+  }
+  static processRewriteRules(_path) {
+    const linkPath = _path.replace(/\\/g, '/');
+    for (const [key, value] of Object.entries(rewriteRules)) {
+      if (!linkPath.endsWith(key)) continue;
+      if (value.startsWith('/')) return urlPrefix + value;
+      return value;
     }
+    return github.srcUrl + _path;
   }
 }
 

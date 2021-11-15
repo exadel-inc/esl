@@ -10,5 +10,5 @@ const draftsFilter = (values) => {
 
 module.exports = function (config) {
   config.addFilter('released', isDev ? identical : draftsFilter);
-  config.addFilter('released-strict', draftsFilter);
+  config.addFilter('releasedStrict', draftsFilter);
 };
