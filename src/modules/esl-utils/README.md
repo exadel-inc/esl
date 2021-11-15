@@ -92,7 +92,7 @@ Even if you use the whole utils module, it is still tiny.
     - ##### <a href="./misc/functions.ts" target="_blank">Function</a> - simple functions and types.
   
     - ##### <a href="./misc/memoize.ts" target="_blank">Memoize</a> - a memoization function decorator. 
-      Memoization patten allows executing pure function once and then use the cached result.
+      Memoization patten allows executing pure function once and then uses the cached result.
   
     - ##### <a href="./misc/object.ts" target="_blank">Object</a> - object common utils.
   

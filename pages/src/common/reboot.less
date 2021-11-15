@@ -3,6 +3,8 @@
 // Normalization of HTML elements, manually forked from Normalize.css to remove
 // styles targeting irrelevant browsers while applying new styles.
 
+@import "./variables.less";
+
 *,
 *::before,
 *::after {
@@ -13,8 +15,8 @@
   margin: 0;
   padding: 0;
 
-  &:focus {
-    outline: 1px dotted gray;
+  &:focus-visible {
+    outline: 2px dashed #1fc2ff;
   }
 }
 
@@ -43,74 +45,11 @@ hr {
   margin-top: 1rem;
   margin-bottom: 1rem;
   border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, .1);
 }
 
-p {
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-
-h1, h2, h3, h4, h5, .h5 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  line-height: 1.2;
-}
-
-h1 {
-  font-size: 2.5rem;
-}
-
-h2 {
-  font-size: 2rem;
-}
-
-h3 {
-  font-size: 1.75rem;
-}
-
-h4 {
-  font-size: 1.5rem;
-}
-
-h5, .h5 {
-  font-size: 1.25rem;
-}
-
-b,
-strong {
-  font-weight: bolder;
-}
-
-ol,
-ul {
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-
-ol ol,
-ul ul,
-ol ul,
-ul ol {
-  margin-bottom: 0;
-}
-
-a {
-  color: #007bff;
-  text-decoration: none;
-  background-color: transparent;
-
-  &:hover {
-    color: #0056b3;
-    text-decoration: underline;
-  }
-
-  &:not([href]),
-  &:not([href]):hover {
-    color: inherit;
-    text-decoration: none;
-  }
+section {
+  margin-bottom: 20px;
 }
 
 pre,
@@ -121,7 +60,7 @@ code {
 
 code {
   font-size: 87.5%;
-  color: #e83e8c;
+  color: #DD4A68;
   word-wrap: break-word;
 }
 
@@ -153,18 +92,6 @@ svg {
 label {
   display: inline-block;
   margin-bottom: 0.5rem;
-}
-
-button {
-  border-radius: 0;
-
-  &:focus {
-    // fallback definition
-    // stylelint-disable declaration-block-no-duplicate-properties
-    outline: 1px dotted;
-    outline: 5px auto -webkit-focus-ring-color;
-    // stylelint-enable declaration-block-no-duplicate-properties
-  }
 }
 
 input,
@@ -209,6 +136,18 @@ button::-moz-focus-inner,
   border-style: none;
 }
 
+button,
+button:active,
+button:focus {
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+button {
+  border-radius: 0;
+}
+
 input[type="radio"] {
   box-sizing: border-box;
   padding: 0;
@@ -223,4 +162,10 @@ fieldset {
   padding: 0;
   margin: 0;
   border: 0;
+}
+
+audio {
+  &::-webkit-media-controls-enclosure {
+    border: 1px solid rgba(0, 0, 0, .6);
+  }
 }

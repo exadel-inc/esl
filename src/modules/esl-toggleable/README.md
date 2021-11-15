@@ -15,7 +15,7 @@ Use `ESLToggleableDispatcher.init()` to initialize (and bind) ESLToggleableDispa
 
 ---
 
-### Toggleable Attributes / Property
+### Toggleable Attributes / Properties
  - `open` - active state marker
 
  - `body-class` - CSS class to add on the body element

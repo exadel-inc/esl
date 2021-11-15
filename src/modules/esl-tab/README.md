@@ -9,7 +9,7 @@ Authors: *Julia Murashko*
 ESLTabs is a container component for Tabs trigger group. Uses ESLTab as an item. Each individual ESLTab can control
 ESLToggleable or, usually, ESLPanel.
 
-### ESLTabs Attributes / Property
+### ESLTabs Attributes / Properties
 
 - `container` - inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable
 
