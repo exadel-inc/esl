@@ -10,7 +10,8 @@
   .alert-color(@cls, @color) {
     &-@{cls} {
       color: @color;
-      background-color: mix(@color, #fff, 10%);
+      text-shadow: 0 0 1px fade(mix(@color, #000, 50%), 25%);
+      background-color: mix(@color, #fff, 15%);
       border-color: mix(@color, #fff, 35%);
     }
   }
