@@ -20,7 +20,7 @@ Specefy the page url or urls where the bug was reproduced.
 **Screenshots**
 If applicable, add screenshots to help explain.
 
-**Expected behavior/code**
+**Expected behavior**
 A clear and concise description of what you expected to happen (or code).
 
 **Possible Solution**
