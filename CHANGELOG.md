@@ -3,18 +3,16 @@
 
 ### Bug Fixes
 
-* add correct footer class ([cea57f8](https://github.com/exadel-inc/esl/commit/cea57f81b240bdedd0dcdcc1fecb577c27114a85))
 * **esl-alert:** default alert background color changed ([0243e63](https://github.com/exadel-inc/esl/commit/0243e632efd2a6a27679f3b942fa828f2c5bcfe2))
 * **esl-popup:** fix arrow position for adjacent axis ([b37d550](https://github.com/exadel-inc/esl/commit/b37d55021659c6781f516641f5fc88eda77aaf39))
 * **esl-select:** return min-width ([c07ceba](https://github.com/exadel-inc/esl/commit/c07ceba75b320e4bc7eaa0c4333d7cfb51ee6d43))
-* **gh-pages:** mobile view of category cards ([652e413](https://github.com/exadel-inc/esl/commit/652e413518b2fcecaba38ab98b14833dacf8bac1))
 
 
 ### Features
-
-* add ability to scrollIntoView to detect when scrolling stops ([d1a4845](https://github.com/exadel-inc/esl/commit/d1a48452f1fcdfd7347f86bf6d09eeeb2dc1d80a))
+* **gh-pages** new demo site released
+* **esl-utils** add ability to scrollIntoView to detect when scrolling stops ([d1a4845](https://github.com/exadel-inc/esl/commit/d1a48452f1fcdfd7347f86bf6d09eeeb2dc1d80a))
 * **esl-alert:** ability to control initial params ([1cda5ea](https://github.com/exadel-inc/esl/commit/1cda5ea2d4d121cb73b50f2dbf7518151081db85))
-* **side-nav:** add side navigation ([c990d2c](https://github.com/exadel-inc/esl/commit/c990d2c82530220bce7d6b5cadd0390865ada58e))
+
 
 ## [3.4.1](https://github.com/exadel-inc/esl/compare/v3.4.0...v3.4.1) (2021-11-08)
 
