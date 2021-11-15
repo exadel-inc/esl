@@ -24,7 +24,7 @@ export class ESLAnimateService  {
   protected postponedAnimate = debounce(() => this.handleAnimation(), 100);
 
   @memoize()
-  static get instance() {
+  private static get instance() {
     return new ESLAnimateService();
   }
   /**
@@ -34,7 +34,7 @@ export class ESLAnimateService  {
   protected onIntersect(entries: IntersectionObserverEntry[], observer: IntersectionObserver): void {
     entries.forEach((entry: IntersectionObserverEntry) => {
       const target = entry.target;
-      const config = this.configFor(target);
+      const config = ESLAnimateService.configFor(target);
       if (!config) return;
       if (entry.isIntersecting) {
         this._markedElements.push(target);
@@ -57,7 +57,7 @@ export class ESLAnimateService  {
   protected handleAnimation(): void {
     let counter = 0;
     this._markedElements.forEach((el) => {
-      const config = this.configFor(el);
+      const config = ESLAnimateService.configFor(el);
       // console.log(el, config);
       if (!config) return;
       if (config.group) {
@@ -81,28 +81,28 @@ export class ESLAnimateService  {
    * @param config - optional animation configuration
    */
 
-  public  observe(el: Element | Element[], config?: ESLAnimateConfig): void {
+   static observe(el: Element | Element[], config?: ESLAnimateConfig): void {
     wrap(el).forEach((item: Element) => {
       item.setAttribute('esl-animate', '');
-      this._configMap.set(item, Object.assign({}, ESLAnimateService.DEFUALT_CONFIG, config));
-      this._io.observe(item);
+      this.instance._configMap.set(item, Object.assign({}, this.DEFUALT_CONFIG, config));
+      this.instance._io.observe(item);
     });
   }
 
   /**
    * Unobserve element or elements
    */
-  public  unobserve(el: Element | Element[]): void {
+   static unobserve(el: Element | Element[]): void {
     wrap(el).forEach((item: Element) => {
-      this._io.unobserve(item);
-      this._configMap.delete(item);
+      this.instance._io.unobserve(item);
+      this.instance._configMap.delete(item);
     });
   }
 
   /**
   * @returns if service observing passed element
   */
-  public  configFor(el: Element): ESLAnimateConfig | undefined {
-    return this._configMap.get(el);
+   static configFor(el: Element): ESLAnimateConfig | undefined {
+    return this.instance._configMap.get(el);
   }
 }

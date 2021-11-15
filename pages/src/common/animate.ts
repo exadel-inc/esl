@@ -7,7 +7,7 @@ interface Iconfig{
 }
 
 function animate(className: string, config?: Iconfig): void {
-  ESLAnimateService.instance.observe(TraversingQuery.all(className), config);
+  ESLAnimateService.observe(TraversingQuery.all(className), config);
 }
 
 animate('.animate-ul-group', {group: 100, repeat: true});
