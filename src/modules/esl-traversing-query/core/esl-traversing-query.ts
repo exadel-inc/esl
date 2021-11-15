@@ -94,21 +94,22 @@ export class TraversingQuery {
     return uniq(result);
   }
 
-  static traverse(query: string, findFirst: boolean, base?: Element) {
+  static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | null | Document = document) {
+    if (scope === null) throw new Error();
     const parts = query.split(this.PROCESSORS_REGEX).map((term) => term.trim());
     const rootSel = parts.shift();
     const baseCollection = base ? [base] : [];
-    const initial: Element[] = rootSel ? Array.from(document.querySelectorAll(rootSel)) : baseCollection;
+    const initial: Element[] = rootSel ? Array.from(scope.querySelectorAll(rootSel)) : baseCollection;
     return this.traverseChain(initial, tuple(parts), findFirst);
   }
 
   /** @returns first matching element reached via {@link TraversingQuery} rules */
-  static first(query: string, base?: Element): Element | null {
-    return TraversingQuery.traverse(query, true, base)[0] || null;
+  static first(query: string, base?: Element | null, scope?: Element | null): Element | null {
+    return TraversingQuery.traverse(query, true, base, scope)[0] || null;
   }
   /** @returns Array of all matching elements reached via {@link TraversingQuery} rules */
-  static all(query: string, base?: Element): Element[] {
-    return TraversingQuery.traverse(query, false, base);
+  static all(query: string, base?: Element | null, scope?: Element | null): Element[] {
+    return TraversingQuery.traverse(query, false, base, scope);
   }
 }
 
