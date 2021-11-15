@@ -3,7 +3,7 @@
 <a name="content"></a>
 
 1. Preconditions:  
-  Make sure you have all needed polyfills to support browsers from your browser-support list. 
+  Make sure you have all the needed polyfills to support browsers from your browser-support list. 
     - See [Browser support & Polyfills](./BROWSER_SUPPORT.md) for details.
     - Use bundler to build your project. Currently, only ESL modules are available for consumption.
 
@@ -38,4 +38,4 @@
    ```typescript
    ESLImage.register();
    ```
-   You can pass custom tag name to 'register' function, but use this option only in an exceptional situation.
+   You can pass custom tags name to the 'register' function, but use this option only in an exceptional situation.

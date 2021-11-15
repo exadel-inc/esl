@@ -13,7 +13,7 @@ onDocumentReady(() => {
     html: `
         <div class="banner-text">
           <p>Hey dear ESL site visitor, it is a preview version of our site redesign.</p>
-          <p>We hope you like it. Fell free to create an issue on GitHub in case you are faced with a bug.</p>
+          <p>We hope you like it. Feel free to create an issue on GitHub in case you are faced with a bug.</p>
           <p>Enjoy the new experience of ESL presentation!</p>
         </div>
         <span class="close"></span>
