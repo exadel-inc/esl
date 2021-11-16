@@ -1,10 +1,10 @@
 # UIP Editor
 
-[UIPEditor](README.md) - custom element, code editor for changing current markup. It allows user to manually configure
-the component inside [UIPPreview](../preview/README.md). Extends [UIPPlugin](../core/README.md#uip-plugin).
+**UIPEditor** - custom element, code editor for changing current markup. It allows user to manually configure
+the component inside [UIPPreview](src/core/preview/README.md). Extends [UIPPlugin](src/core/README.md#uip-plugin).
 
 ## Description
-[UIPEditor](README.md) based on [ACE](https://ace.c9.io/) editor, which means you can use this editor's API for
+**UIPEditor** based on [ACE](https://ace.c9.io/) editor, which means you can use this editor's API for
 customization. You can change theme, mode, shortcuts, etc.
 
 To see the full power of [ACE](https://ace.c9.io/) editor you can click [here](https://ace.c9.io/build/kitchen-sink.html)

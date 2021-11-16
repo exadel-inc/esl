@@ -38,7 +38,7 @@ export class UIPSelectSetting extends UIPSetting {
     super.connectedCallback();
     if (this.$field) return;
 
-    this.$field = document.createElement('esl-select') as ESLSelect;
+    this.$field = document.createElement('esl-select');
     this.$field.name = this.label;
     this.initSelect();
 

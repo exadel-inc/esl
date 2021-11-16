@@ -9,8 +9,9 @@
 node_modules
 
 # Generated surces
-/lib
+/bundles
 /esm
+/pages/dist
 
 # Logs & Tmp
 npm-debug.log

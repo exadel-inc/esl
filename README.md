@@ -8,14 +8,16 @@
 | **Note: Project is under development** |
 | --- |
 
-UIPlayground is a solution for presenting your custom components.
+**UIPlayground** is a solution for presenting your custom components.
 
 With the help of *UIP* components we allow user to *'play'* with a component.
-You can choose from the variety of component's templates ([UIP Snippets](./src/snippets/README.md)),
-play with the component's settings ([UIP Settings](./src/settings/README.md))
-or even change its markup ([UIP Editor](./src/editor/README.md))!
+You can choose from the variety of component's templates ([UIP Snippets](src/core/snippets/README.md)),
+play with the component's settings ([UIP Settings](src/plugins/settings/settings/README.md))
+or even change its markup ([UIP Editor](src/plugins/editor/README.md))!
 
 Every element (except the *UIP Root*) isn't required, so you can combine them the way you want.
+
+![](docs/images/screenshot.png)
 
 ---
 ## UIP elements:
@@ -24,15 +26,15 @@ Every element (except the *UIP Root*) isn't required, so you can combine them th
   - #### [UIP Root](src/core/README.md#uip-root)
   - #### [UIP State Model](src/core/README.md#uip-state-model)
 - ### Components
-  - #### [UIP Options](./src/options/README.md)
-  - #### [UIP Snippets](./src/snippets/README.md)
-  - #### [UIP Preview](./src/preview/README.md)
-  - #### [UIP Editor](./src/editor/README.md)
-  - #### [UIP Settings](./src/settings/README.md)
-    - ##### [UIP Setting](./src/settings/setting/README.md)
-    - ##### [UIP Text Setting](./src/settings/setting/text-setting/README.md)
-    - ##### [UIP Bool Setting](./src/settings/setting/bool-setting/README.md)
-    - ##### [UIP Select Setting](./src/settings/setting/select-setting/README.md)
+  - #### [UIP Options](src/plugins/options/README.md)
+  - #### [UIP Snippets](src/core/snippets/README.md)
+  - #### [UIP Preview](src/core/preview/README.md)
+  - #### [UIP Editor](src/plugins/editor/README.md)
+  - #### [UIP Settings](src/plugins/settings/settings/README.md)
+    - ##### [UIP Setting](src/plugins/settings/settings/setting/README.md)
+    - ##### [UIP Text Setting](src/plugins/settings/settings/setting/text-setting/README.md)
+    - ##### [UIP Bool Setting](src/plugins/settings/settings/setting/bool-setting/README.md)
+    - ##### [UIP Select Setting](src/plugins/settings/settings/setting/select-setting/README.md)
 ---
 ## Example:
 ```html
@@ -82,13 +84,10 @@ Every element (except the *UIP Root*) isn't required, so you can combine them th
 
 ---
 
-## Development Information for contributors
+## License
 
-If you are a part of ESL team or want to contribute to the project
-you can find useful information about the project processes and agreements here:
-
-
-- #### [Contributor Licence Agreement](https://github.com/exadel-inc/ui-playground/blob/HEAD/CLA.md)
+Distributed under the MIT License. See [LICENSE](https://github.com/exadel-inc/ui-playground/blob/HEAD/CLA.md)
+for more information.
 
 ---
 
