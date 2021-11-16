@@ -1,4 +1,4 @@
-# [ESL](https://exadel-inc.github.io/esl/) Popup
+# [ESL](https://esl-ui.com/) Popup
 
 Version: *2.0.0-beta*.  
 
@@ -19,7 +19,7 @@ ESLPopup is based on ESLToggleable and works in pair with ESLTrigger that allows
   - `fit` - default, popup will always be positioned in the right place. Position dynamically updates so it will always be visible
   - empty or unsupported value - will not be prevented from overflowing clipping boundaries, such as the viewport
 
-ESLPopup extends [ESLToggleable](https://exadel-inc.github.io/esl/components/esl-toggleable/) you can find other supported options in its documentation.
+ESLPopup extends [ESLToggleable](https://esl-ui.com/components/esl-toggleable/) you can find other supported options in its documentation.
 
 ### Readonly Attributes
 

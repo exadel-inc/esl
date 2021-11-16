@@ -1,4 +1,4 @@
-# [ESL](https://exadel-inc.github.io/esl/) Panel
+# [ESL](https://esl-ui.com/) Panel
 
 Version: *2.1.0*.  
 
@@ -23,4 +23,4 @@ ESLPanel.register();
  - `initial-params` - initial params for current ESLPanel instance
  - `animating` - marker of animation process running
 
-ESLPanel extends [ESLToggleable](https://exadel-inc.github.io/esl/components/esl-toggleable/) you can find other supported options in its documentation.
+ESLPanel extends [ESLToggleable](https://esl-ui.com/components/esl-toggleable/) you can find other supported options in its documentation.

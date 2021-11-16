@@ -1,4 +1,4 @@
-# [ESL](https://exadel-inc.github.io/esl/) Footnotes
+# [ESL](https://esl-ui.com/) Footnotes
 
 Version: *1.0.0-beta*.
 

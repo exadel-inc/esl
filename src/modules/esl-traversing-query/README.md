@@ -1,4 +1,4 @@
-# [ESL](https://exadel-inc.github.io/esl/) Traversing Query
+# [ESL](https://esl-ui.com/) Traversing Query
 
 Version: *1.0.0*.
 

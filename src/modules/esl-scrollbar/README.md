@@ -1,4 +1,4 @@
-# [ESL](https://exadel-inc.github.io/esl/) Scrollbar
+# [ESL](https://esl-ui.com/) Scrollbar
 
 Version: *1.3.0*
 
@@ -16,7 +16,7 @@ ESLScrollbar is entirely configurable and can be styled through CSS.
 - both scroll directions: `vertical` and `horizontal`.  
   Direction can be defined with the boolean `horizontal` attribute.
 
-- independent target scrollable element definition using [TraversingQuery](https://exadel-inc.github.io/esl/utils/esl-traversing-query/)
+- independent target scrollable element definition using [TraversingQuery](https://esl-ui.com/utils/esl-traversing-query/)
 
 - complete customization from CSS
 
@@ -54,7 +54,7 @@ Use the full module path to import it
 
 - `horizontal` \[boolean] - horizontal scroll direction marker
 
-- `target` - [TraversingQuery](https://exadel-inc.github.io/esl/utils/esl-traversing-query/) to find the container of scrollable content
+- `target` - [TraversingQuery](https://esl-ui.com/utils/esl-traversing-query/) to find the container of scrollable content
 
 - `thumb-class` (default `scrollbar-thumb`) - class(es) that will be added to the scroll thumb
 

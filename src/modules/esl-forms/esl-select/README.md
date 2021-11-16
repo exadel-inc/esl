@@ -1,4 +1,4 @@
-# [ESL](https://exadel-inc.github.io/esl/) Select
+# [ESL](https://esl-ui.com/) Select
 
 Version: *1.1.0*
 
