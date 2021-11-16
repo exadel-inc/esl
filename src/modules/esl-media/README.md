@@ -1,4 +1,4 @@
-# [ESL](https://esl-ui.com/) Media
+# [ESL](../../../) Media
 
 Version: *1.2.0*
 
@@ -20,7 +20,7 @@ using a single tag as well as work with external providers using simple native-l
    - Brightcove (`brightcove` type)
    - Abstract Iframe (`iframe` type)
  
- - `load-conditions` - restriction to load esl-media. Uses [ESLMediaQuery](https://esl-ui.com/utils/esl-media-query/) syntax.
+ - `load-conditions` - restriction to load esl-media. Uses [ESLMediaQuery](../esl-media-query/README.md) syntax.
  
  - `play-in-viewport` - feature that restricts active state to only visible components on the page.
  
@@ -43,7 +43,7 @@ using a single tag as well as work with external providers using simple native-l
  - `group` (optional) - group name, only one media player can be active in bounds of the group
  
  - `ready-class` - class to add when the resource is ready
- - `ready-class-target` - [TraversingQuery](https://esl-ui.com/utils/esl-traversing-query/) to define a target for `ready-class`
+ - `ready-class-target` - [TraversingQuery](../esl-traversing-query/README.md) to define a target for `ready-class`
 
  - `disabled` (boolean) - marker that prevents media api initialization
  

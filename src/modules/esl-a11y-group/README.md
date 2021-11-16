@@ -1,4 +1,4 @@
-# [ESL](https://esl-ui.com/) A11yGroup
+# [ESL](../../../) A11yGroup
 
 Version: _1.0.0_
 
@@ -11,7 +11,7 @@ ESLA11yGroup tracks keyboard to loop focus of the targeting elements (with arrow
 
 ### Attributes / Properties
 
-- `targets` - property to declare targets for the group using [TraversingQuery](https://esl-ui.com/utils/esl-traversing-query/) syntax. Use group parent element as a base element
+- `targets` - property to declare targets for the group using [TraversingQuery](../esl-traversing-query/README.md) syntax. Use group parent element as a base element
 - `activate-selected` - activates the element using `click` event on selection change via esl-a11y-group
 - `prevent-scroll` - prevents scroll when target receives focus
 

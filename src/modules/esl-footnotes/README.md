@@ -1,4 +1,4 @@
-# [ESL](https://esl-ui.com/) Footnotes
+# [ESL](../../../) Footnotes
 
 Version: *1.0.0-beta*.
 
@@ -31,6 +31,6 @@ The elements are interrelated and don't make sense on their own. This is because
 
 - `html` - content of note tooltip. If not present, it fills with innerHTML of ESLNote
 
-- `track-click` - `ESLMediaQuery` to define allowed to track click event media. (`all` by default)
+- `track-click` - [MediaQuery](../esl-media-query/README.md) to define allowed to track click event media. (`all` by default)
   
-- `track-hover` - `ESLMediaQuery` to define allowed to track hover event media. (`all` by default)
+- `track-hover` - [MediaQuery](../esl-media-query/README.md) to define allowed to track hover event media. (`all` by default)
