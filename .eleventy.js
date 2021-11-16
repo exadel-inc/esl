@@ -1,7 +1,6 @@
-const { isDev } = require('./pages/views/_data/env');
-const markdownIt = require("markdown-it")({
-  html: true
-});
+const markdown = require('./pages/e11y/markdown');
+const {isDev} = require('./pages/views/_data/env');
+
 
 module.exports = config => {
   config.addWatchTarget('src/**/*.md');
@@ -10,7 +9,7 @@ module.exports = config => {
   });
 
   config.addPairedShortcode(
-    'markdown', (content) => markdownIt.render(content)
+    'markdown', (content) => markdown.render(content)
   );
 
   config.setBrowserSyncConfig({
