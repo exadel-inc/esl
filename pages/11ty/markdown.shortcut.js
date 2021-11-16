@@ -56,20 +56,19 @@ class MDRenderer {
 
   static resolveLinks(dom, basePath) {
     dom.querySelectorAll('a[href^="."]').forEach((link) => {
-      const absolutePath = path.join(path.dirname(basePath), link.href);
+      const absolutePath = path.join(path.dirname(basePath), link.href).replace(/\\/g, '/');
       const resultPath = MDRenderer.processRewriteRules(absolutePath);
       console.info(`Rewrite link "${link.href}" to "${resultPath}"`);
       link.href = resultPath;
     });
   }
-  static processRewriteRules(_path) {
-    const linkPath = _path.replace(/\\/g, '/');
+  static processRewriteRules(linkPath) {
     for (const [key, value] of Object.entries(rewriteRules)) {
       if (!linkPath.endsWith(key)) continue;
       if (value.startsWith('/')) return urlPrefix + value;
       return value;
     }
-    return github.srcUrl + _path;
+    return github.srcUrl + linkPath;
   }
 }
 

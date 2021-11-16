@@ -1,4 +1,4 @@
-# [ESL](https://exadel-inc.github.io/esl/) Media Query Utils
+# [ESL](../../../) Media Query Utils
 
 Version: *2.0.0*
 

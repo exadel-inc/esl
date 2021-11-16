@@ -1,4 +1,4 @@
-# [ESL](https://exadel-inc.github.io/esl/) Base Element
+# [ESL](../../../) Base Element
 
 Version: *1.0.0*
 
