@@ -1,3 +1,22 @@
+# [1.0.0-beta.8](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2021-11-16)
+
+
+### Bug Fixes
+
+* **docs:** pr fix ([9e1a22c](https://github.com/exadel-inc/ui-playground/commit/9e1a22cb4c34f1ac42acc7dc013c876c24eecbfe))
+* **eleventy:** update urls with base path ([56c365a](https://github.com/exadel-inc/ui-playground/commit/56c365aef3f47057ff7365e42e8ca79bb1bf14ce))
+
+
+### Features
+
+* **gh-actions:** add gh action for deploying to gh pages ([6680ef2](https://github.com/exadel-inc/ui-playground/commit/6680ef2e97920c223722fbc56c728dce2c7af70f))
+* **gh-actions:** update actions version ([b94b56a](https://github.com/exadel-inc/ui-playground/commit/b94b56aa81ba88c19d8f7897f7e29163a3f08a00))
+* **gh-pages:** add sitemap ([94fb6de](https://github.com/exadel-inc/ui-playground/commit/94fb6de6fb0c5d45445de3bd70984d858e474976))
+* **landing-page:** add core and general sections ([81e2250](https://github.com/exadel-inc/ui-playground/commit/81e22500bb3f4e1dac3ce8678773994366b59f93))
+* **landing-page:** add UIPSetting docs to landing page ([0c660f7](https://github.com/exadel-inc/ui-playground/commit/0c660f7b91ddb94624c6451c1b69b86349b89f18))
+* **markdown:** update markdown links ([2a1faa9](https://github.com/exadel-inc/ui-playground/commit/2a1faa98b848d0c5c56e59b0626d8a3778e2d650))
+* **uip-snippets:** hide uip-snippets when there is only one snippet ([3556008](https://github.com/exadel-inc/ui-playground/commit/3556008ff0c6b20e8a6103b0972e6589cbb3a92c))
+
 # [1.0.0-beta.7](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2021-08-24)
 
 
