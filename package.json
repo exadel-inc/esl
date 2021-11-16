@@ -9,9 +9,9 @@
     "editor",
     "custom elements"
   ],
-  "types": "esm/playground.d.ts",
-  "module": "esm/playground.js",
-  "style": "esm/playground.css",
+  "types": "esm/registration.d.ts",
+  "module": "esm/registration.js",
+  "style": "esm/registration.css",
   "files": [
     "esm/**/*",
     "tsconfig.json",
