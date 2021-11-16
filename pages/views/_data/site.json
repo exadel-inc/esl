@@ -8,6 +8,9 @@
   },
   "rewriteRules": {
     "docs/INSTALLATION_GUIDE.md": "/introduction",
-    "docs/BROWSER_SUPPORT.md": "/introduction/browser-support"
+    "docs/BROWSER_SUPPORT.md": "/introduction/browser-support",
+    "src/modules/esl-base-element/README.md": "/utils/esl-base-element",
+    "src/modules/esl-media-query/README.md": "/utils/esl-media-query",
+    "src/modules/esl-traversing-query/README.md": "/utils/esl-traversing-query"
   }
 }
