@@ -1,3 +1,5 @@
+@import (reference) "./variables.less";
+
 .badge {
   display: inline-block;
   padding: 0.25em 0.4em;
@@ -17,6 +19,11 @@
     display: none;
   }
 
+  &-md {
+    padding: 0.4em 0.8em;
+    font-size: 80%;
+  }
+
   &-warning {
     color: #212529;
     background-color: #ffc107;
@@ -25,6 +32,12 @@
   &-danger {
     color: #fff;
     background-color: #dc3545;
+  }
+
+  &-link {
+    font-weight: 500;
+    background-color: #fff;
+    border: 1px solid @secondary-blue;
   }
 
   &-sup {

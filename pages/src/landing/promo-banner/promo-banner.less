@@ -1,0 +1,56 @@
+@import (reference) "../../common/variables.less";
+
+.promo-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 740px;
+  overflow: hidden;
+  background: linear-gradient(rgba(0, 0, 0, 0), #0d395a 40%, rgba(0, 0, 0, 0));
+
+  .accent-shape-left,
+  .accent-shape-right {
+    position: absolute;
+    width: 500px;
+    @media @sm {
+      width: 400px;
+    }
+    @media @xs {
+      width: 340px;
+    }
+  }
+
+  .accent-shape-left {
+    top: 70px;
+    left: -230px;
+  }
+
+  .accent-shape-right {
+    right: -250px;
+    bottom: 50px;
+    transform: rotate(-20deg);
+  }
+
+  &-content {
+    z-index: 1;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  &-heading {
+    margin-top: 60px;
+  }
+
+  &-text {
+    max-width: 60%;
+    margin: 0 auto 1.5rem;
+
+    @media @xs {
+      max-width: 85%;
+    }
+  }
+
+  &-btn-container {
+    margin-bottom: 45px;
+  }
+}
