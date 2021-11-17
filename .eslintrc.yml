@@ -1,5 +1,4 @@
 # Library's global linting rules
-
 env:
   browser: true
   es6: true
@@ -17,11 +16,12 @@ extends:
   - './eslint/coderules.eslintrc.yml'
   - './eslint/import.eslintrc.yml'
   - './eslint/sonarjs.eslintrc.yml'
+  - './eslint/tests.eslintrc.yml'
 
 # TS configuration
 parser: '@typescript-eslint/parser'
 parserOptions:
-  project: 'tsconfig.json'
+  project: 'tsconfig.eslint.json'
   sourceType: module
 
 # Lint additional plugins

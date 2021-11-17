@@ -10,8 +10,13 @@ export class MatchMediaMock implements MediaQueryList {
     this._matches = (media === '' || media === 'all');
   }
 
-  get matches() { return this._matches; }
-  set matches(match) { this.set(match); }
+  get matches() {
+    return this._matches;
+  }
+  set matches(match) {
+    this.set(match);
+  }
+
   set(matches: boolean, notify = (matches === this._matches)) {
     this._matches = matches;
     if (!notify) return;
@@ -42,4 +47,4 @@ export const getMatchMediaMock = memoizeFn(
 );
 export const matchMediaMock = jest.fn((q) => getMatchMediaMock(q.trim()));
 
-Object.defineProperty(window, 'matchMedia', { writable: true, value: matchMediaMock });
+Object.defineProperty(window, 'matchMedia', {writable: true, value: matchMediaMock});

@@ -1,17 +1,21 @@
 // TODO: review after base styles creation
 // TODO: share with core ?
-.esl-sample-menu {
+@import (reference) "./variables.less";
+
+.esl-example-menu {
   display: flex;
+  align-items: center;
   width: 100%;
-  height: 38px;
-  background-color: #343a40;
+  min-height: 3.5rem;
+  background-color: @primary-blue;
+  border-radius: 8px;
+  padding: 0 .5rem;
 
   .menu-item {
     position: relative;
     display: block;
     list-style: none;
-    color: white;
-    text-decoration: none;
+    color: #fff;
   }
 
   .menu-item-btn {
@@ -32,13 +36,6 @@
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
 
-  .menu-item-btn:active,
-  .menu-item-btn[active],
-  .menu-item-btn:hover,
-  .menu-item-btn:focus-visible {
-    color: #8bc2ff;
-  }
-
   .menu-item-arrow::after {
     display: inline-block;
     content: '';
@@ -57,12 +54,12 @@
 
     margin: 0;
     min-width: 200px;
-    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.25);
     z-index: 99;
 
-    color: white;
-    box-shadow: 2px 2px 6px rgba(0,0,0, .4);
-    background-color: #343a40;
+    color: black;
+    border-radius: 8px;
+    box-shadow: 2px 2px 6px rgba(161, 160, 160, .4);
+    background-color: #fff;
     transform: translate3d(0,0,0);
 
     transition: max-height .3s ease-in-out, visibility 0s linear .3s;
@@ -76,22 +73,23 @@
   }
 }
 
-.esl-sample-menu-400 {
+.esl-example-menu-400 {
   width: 300px;
   padding: 5px 10px;
 }
-.esl-sample-sub-menu {
+
+.esl-example-sub-menu {
   min-width: 180px;
-  padding: 0 5px 2px;
+  padding: 0;
 
   li {
     list-style-type: none;
-    padding: 12px 6px;
-    color: white;
+    padding: 12px 10px;
+    cursor: pointer;
   }
   li:hover {
-    color: rgb(202, 201, 201);
-    text-decoration: underline;
+    color: @primary-blue;
+    background: fade(@primary-blue, 15%);
   }
   li:not(:first-of-type) {
     border-top: 1px solid rgb(202, 201, 201);

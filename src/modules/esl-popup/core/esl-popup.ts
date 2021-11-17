@@ -206,8 +206,8 @@ export class ESLPopup extends ESLToggleable {
     this.style.top = `${popup.y}px`;
     // set arrow position
     if (this.$arrow) {
-      this.$arrow.style.left = ['top', 'bottom'].includes(placedAt) ? `${arrow.x}px` : 'none';
-      this.$arrow.style.top = ['left', 'right'].includes(placedAt) ? `${arrow.y}px` : 'none';
+      this.$arrow.style.left = ['top', 'bottom'].includes(placedAt) ? `${arrow.x}px` : '';
+      this.$arrow.style.top = ['left', 'right'].includes(placedAt) ? `${arrow.y}px` : '';
     }
   }
 }

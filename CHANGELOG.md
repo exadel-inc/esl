@@ -1,3 +1,42 @@
+# [3.5.0](https://github.com/exadel-inc/esl/compare/v3.4.1...v3.5.0) (2021-11-15)
+
+
+### Bug Fixes
+
+* **esl-alert:** default alert background color changed ([0243e63](https://github.com/exadel-inc/esl/commit/0243e632efd2a6a27679f3b942fa828f2c5bcfe2))
+* **esl-popup:** fix arrow position for adjacent axis ([b37d550](https://github.com/exadel-inc/esl/commit/b37d55021659c6781f516641f5fc88eda77aaf39))
+* **esl-select:** return min-width ([c07ceba](https://github.com/exadel-inc/esl/commit/c07ceba75b320e4bc7eaa0c4333d7cfb51ee6d43))
+
+
+### Features
+* **gh-pages** new demo site released
+* **esl-utils** add ability to scrollIntoView to detect when scrolling stops ([d1a4845](https://github.com/exadel-inc/esl/commit/d1a48452f1fcdfd7347f86bf6d09eeeb2dc1d80a))
+* **esl-alert:** ability to control initial params ([1cda5ea](https://github.com/exadel-inc/esl/commit/1cda5ea2d4d121cb73b50f2dbf7518151081db85))
+
+
+## [3.4.1](https://github.com/exadel-inc/esl/compare/v3.4.0...v3.4.1) (2021-11-08)
+
+
+### Bug Fixes
+
+* **esl-utils:** scrollIntoViewAsync() method signature ([6817b31](https://github.com/exadel-inc/esl/commit/6817b31dea274bf57e271d34dcfb7625d1e9b57f))
+* **esl-utils:** update dispatch parameter type ([0834a97](https://github.com/exadel-inc/esl/commit/0834a974babf59aaef1bacb753057586a433a056))
+
+# [3.4.0](https://github.com/exadel-inc/esl/compare/v3.3.0...v3.4.0) (2021-10-21)
+
+
+### Bug Fixes
+
+* **esl-trigger:** remove debug information about incorrect target ([1b4bea9](https://github.com/exadel-inc/esl/commit/1b4bea973bd236c30d2b3654dd6979578faabf00))
+
+
+### Features
+
+* **esl-forms:** add TSX shapes for ESLSelect and ESLSelectList ([ab1c550](https://github.com/exadel-inc/esl/commit/ab1c550292f8a19bdb4deb1458e2f0b9b7a58ca3))
+* **esl-scrollbar:** default inactive state for arrows in the boundary stages ([9a72663](https://github.com/exadel-inc/esl/commit/9a7266374cb3c795a7b5fd01cbff02c71b111cb5))
+* **esl-utils:** add `repeatSequence` utility to call async function in chain n-th count of times ([03eff4c](https://github.com/exadel-inc/esl/commit/03eff4c08064024025a16186c57eab6d9d403028))
+* **esl-utils:** add a capitalize method to `esl-utils/misc/format.ts` ([#554](https://github.com/exadel-inc/esl/issues/554)) ([a2c19fc](https://github.com/exadel-inc/esl/commit/a2c19fcfbc0bbdfbac6b28ceb01100990fed219a))
+
 # [3.3.0](https://github.com/exadel-inc/esl/compare/v3.2.0...v3.3.0) (2021-10-08)
 
 

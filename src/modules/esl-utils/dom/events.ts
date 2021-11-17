@@ -11,7 +11,7 @@ export abstract class EventUtils {
    * @param eventName - event name
    * @param eventInit - custom event init. See {@link CustomEventInit}
    */
-  public static dispatch(el: HTMLElement, eventName: string, eventInit?: CustomEventInit) {
+  public static dispatch(el: EventTarget, eventName: string, eventInit?: CustomEventInit) {
     const init = Object.assign({
       bubbles: true,
       composed: true,

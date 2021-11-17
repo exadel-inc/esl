@@ -1,4 +1,4 @@
-# [ESL](https://exadel-inc.github.io/esl/) Trigger
+# [ESL](../../../) Trigger
 
 Version: *2.0.0*
 
@@ -18,9 +18,9 @@ ESLTrigger - a custom element, that allows to trigger ESLToggleable instances st
 
 - `target` - target Toggleable TraversingQuery selector (`next` by default)
 
-- `track-click` - `ESLMediaQuery` to define allowed to track click event media. (Default: `all`)
+- `track-click` - [MediaQuery](../esl-media-query/README.md) to define allowed to track click event media. (Default: `all`)
   
-- `track-hover` - `ESLMediaQuery` to define allowed to track hover event media. (Default: `not all`)
+- `track-hover` - [MediaQuery](../esl-media-query/README.md) to define allowed to track hover event media. (Default: `not all`)
 
 - `mode` - action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values (`toggle` by default)
 

@@ -42,7 +42,7 @@ describe('misc/array helper tests', () => {
 
   test('range', () => {
     expect(range(3)).toEqual([0, 1, 2]);
-    expect(range(9, (x) => x / 8)).toEqual([...Array(9).keys()].map((x) => x / 8))
+    expect(range(9, (x) => x / 8)).toEqual([...Array(9).keys()].map((x) => x / 8));
   });
 });
 
@@ -50,13 +50,41 @@ type V = string | number;
 
 describe('misc/groupBy', () => {
   test.each([
-    [[1, 2, 10, 4, 3], (i: number) => i % 2 > 0 ? 'odd' : 'even', { odd: [1, 3], even: [2, 10, 4] }],
-    [['cat', 'fat', 'kitten'], (i: string) => i.length, { 3: ['cat', 'fat'], 6: ['kitten']}],
-    [['Fog', 'Tea', 'ocean', 'rain'], (i: string) => i[0] === i[0].toUpperCase() ? 'uppercase' : 'lowercase', { uppercase: ['Fog', 'Tea'], lowercase: ['ocean', 'rain']}],
-    [[{ a: 2, b: 1 }, {b: 2}, {a: 1}, {}], (i: Record<string, number>) => i['a'] ? i['a'] : 'undefined', { 2: [{a: 2, b: 1}], undefined: [{b: 2}, {}], 1: [{a: 1}] }],
-    [[100, 20, 10, 101, 300], (i: number) => String(i)[0], { '1': [100, 10, 101], '2': [20], '3': [300] }],
-    [[], (i: any) => i, {}],
-    [[[5, 2], [1, 0], [5, 4]], (i: number[]) => i[0], { 5: [[5, 2], [5, 4]], 1: [[1,0]]}]
+    [
+      [1, 2, 10, 4, 3],
+      (i: number) => i % 2 > 0 ? 'odd' : 'even',
+      {odd: [1, 3], even: [2, 10, 4]}
+    ],
+    [
+      ['cat', 'fat', 'kitten'],
+      (i: string) => i.length,
+      {3: ['cat', 'fat'], 6: ['kitten']}
+    ],
+    [
+      ['Fog', 'Tea', 'ocean', 'rain'],
+      (i: string) => i[0] === i[0].toUpperCase() ? 'uppercase' : 'lowercase',
+      {uppercase: ['Fog', 'Tea'], lowercase: ['ocean', 'rain']}
+    ],
+    [
+      [{a: 2, b: 1}, {b: 2}, {a: 1}, {}],
+      (i: Record<string, number>) => i['a'] ? i['a'] : 'undefined',
+      {2: [{a: 2, b: 1}], undefined: [{b: 2}, {}], 1: [{a: 1}]}
+    ],
+    [
+      [100, 20, 10, 101, 300],
+      (i: number) => String(i)[0],
+      {'1': [100, 10, 101], '2': [20], '3': [300]}
+    ],
+    [
+      [],
+      (i: any) => i,
+      {}
+    ],
+    [
+      [[5, 2], [1, 0], [5, 4]],
+      (i: number[]) => i[0],
+      {5: [[5, 2], [5, 4]], 1: [[1, 0]]}
+    ]
   ])('array %p with criteria %p to transform into %o', (a: any[], b: (t: any) => V, expected: Record<V, any>) => {
     expect(groupBy(a, b)).toEqual(expected);
   });

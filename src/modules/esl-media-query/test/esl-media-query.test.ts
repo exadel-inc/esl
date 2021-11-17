@@ -1,21 +1,18 @@
 import {DDMock} from '../../esl-utils/test/deviceDetector.mock';
 import {ESLMediaQuery, ESLScreenBreakpoints, ESLScreenDPR} from '../core';
-import {getMatchMediaMock, matchMediaMock} from '../../esl-utils/test/matchMedia.mock';
-import {NOT_ALL} from '../core/conditions/media-query-base';
 
 /**
  * ESL Media Query tests
- *
  * Require mocked DeviceDetector and matchMedia
  *
  * Realization of ESL Media Query implies next query parsing cases
  * (examples for desktop device):
- * - '@mobile and @+sm' --> 'not all (min-width: 768px)'
- * - '@1x and @mobile and @sm' --> '(min-resolution: 96.0dpi) not all (min-width: 768px) and (max-width: 991px)'
- * - '@+sm, @desktop' --> '(min-width: 768px),'
- * - '@mobile, @desktop' --> 'not all,'
- * - '@desktop, @1x' --> ', (min-resolution: 96.0dpi)'
- * - '@1x, @desktop, @sm' --> '(min-resolution: 96.0dpi), , (min-width: 768px) and (max-width: 991px)'
+ * - `@mobile and @+sm` --\> 'not all (min-width: 768px)'
+ * - `@1x and @mobile and @sm` --\> '(min-resolution: 96.0dpi) not all (min-width: 768px) and (max-width: 991px)'
+ * - `@+sm, @desktop` --\> '(min-width: 768px),'
+ * - `@mobile, @desktop` --\> 'not all,'
+ * - `@desktop, @1x` --\> ', (min-resolution: 96.0dpi)'
+ * - `@1x, @desktop, @sm` --\> '(min-resolution: 96.0dpi), , (min-width: 768px) and (max-width: 991px)'
  */
 describe('ESLMediaQuery', () => {
   beforeAll(() => {

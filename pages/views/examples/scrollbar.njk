@@ -1,120 +1,42 @@
 ---
-layout: basic
+layout: content
 title: Scrollbar
 name: Scrollbar
-containerCls: container
-tags: samples
+tags: examples
+icon: examples/scrollbar.svg
+aside:
+  components:
+    - esl-scrollbar
 ---
 {% import 'lorem.njk' as lorem %}
 
-<section class="row">
-  <div class="col-12">
-    <h2>Related Components: </h2>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="{{ '/components/esl-scrollbar' | url }}">ESL Scrollbar</a></li>
-    </ul>
-  </div>
-</section>
-
-<section class="row">
-  <div class="col-12">
-    <esl-trigger target=".test-popup.tp-1">
-      <button class="btn btn-primary mb-1">Toggle Modal (Vertical, Page Scroll Lock)</button>
-    </esl-trigger>
-    <esl-trigger target=".test-popup.tp-2">
-      <button class="btn btn-primary mb-1">Toggle Modal (Vertical)</button>
-    </esl-trigger>
-    <esl-trigger target=".test-popup.tp-3">
-      <button class="btn btn-primary mb-1">Toggle Modal (Horizontal)</button>
-    </esl-trigger>
-  </div>
-</section>
-
-<section class="row">
-  <div class="col-12 m-auto" style="background: #c3d4e6;">
-    <div class="content esl-scrollable-content">
-      <div style="height: 400px; padding: 30px 60px;">
-        <h5>Scroll appears only if content too long for the area</h5>
-        {{ lorem.paragraphs(2) }}
-      </div>
-    </div>
-    <esl-scrollbar class="animate" target="::prev"></esl-scrollbar>
-  </div>
-</section>
-
-<section class="row">
-  <div class="col-12 m-auto" style="padding: 30px 0; position: relative; background: #c3e6cb;">
-    <div class="content esl-scrollable-content">
-      <div style="height: 500px; padding: 30px 60px;">
-        <h5>Simple vertical scroll example</h5>
-        {{ lorem.paragraphs(7) }}
-      </div>
-      <esl-scrollbar target="::parent"></esl-scrollbar>
-    </div>
-  </div>
-</section>
-
-<section class="row">
-  <div class="col-12 m-auto" style="position: relative; background: #e6e5b8;">
-    <div class="content esl-scrollable-content">
-      <div style="width: 1900px; padding: 60px 30px;">
-        <h5>Simple horizontal scroll example</h5>
-        {{ lorem.paragraphs(3) }}
-      </div>
-      <esl-scrollbar target="::parent" horizontal></esl-scrollbar>
-    </div>
-  </div>
-</section>
-
-<style>
-  .test-popup {
-    position: absolute;
-    height: 500px;
-    width: 400px;
-    z-index: 100;
-    box-shadow: 0 0 16px 8px rgba(0, 0, 0, .4);
-    overflow: hidden;
-    resize: both;
-  }
-
-  .test-popup .esl-scrollable-content {
-    max-height: 100%;
-    padding: 20px;
-  }
-
-  .test-popup esl-scrollbar {
-    right: 4px;
-  }
-</style>
-
-<esl-popup class="test-popup tp-1"
-           close-on-outside-action
-           disable-scroll="native"
-           style="background: #e6c3c3;">
-  <div class="esl-scrollable-content">
-    <div>
+<section style="resize: both; overflow: hidden; max-width: 100%" class="border bg-white relative-block">
+  <div style="max-width: 100%; max-height: 100%;" class="p-4 esl-scrollable-content">
+    <div style="min-width: 50vw">
+      <h2>Scroll appears only if content is too long for the area (resize the section to see scrollbar in action)</h2>
       {{ lorem.paragraphs(4) }}
     </div>
   </div>
-  <esl-scrollbar class="test-scrollbar-1" target="::prev"></esl-scrollbar>
-</esl-popup>
-<esl-popup class="test-popup tp-2"
-           close-on-outside-action
-           style="background: #9fe6d2;">
-  <div class="esl-scrollable-content">
-    <div>
-      {{ lorem.paragraphs(4) }}
+  <esl-scrollbar class="scrollbar-blue" target="::prev(.esl-scrollable-content)"></esl-scrollbar>
+  <esl-scrollbar class="scrollbar-blue scrollbar-second" target="::prev(.esl-scrollable-content)" horizontal></esl-scrollbar>
+</section>
+
+<section class="border bg-white relative-block">
+  <div class="p-4 esl-scrollable-content">
+    <div style="height: 500px">
+      <h2>Simple vertical scroll example</h2>
+      {{ lorem.paragraphs(7) }}
     </div>
   </div>
-  <esl-scrollbar class="test-scrollbar-1" target="::prev"></esl-scrollbar>
-</esl-popup>
-<esl-popup class="test-popup tp-3"
-           close-on-outside-action
-           style="background: #e6c3c3;">
-  <div class="esl-scrollable-content">
-    <div style="width: 1900px; padding: 30px 10px;">
+  <esl-scrollbar class="scrollbar-blue" target="::prev"></esl-scrollbar>
+</section>
+
+<section class="border bg-white relative-block">
+  <div class="p-4 esl-scrollable-content">
+    <div style="width: 1900px;">
+      <h2>Simple horizontal scroll example</h2>
       {{ lorem.paragraphs(3) }}
     </div>
   </div>
-  <esl-scrollbar class="test-scrollbar-2" target="::prev" horizontal></esl-scrollbar>
-</esl-popup>
+  <esl-scrollbar class="scrollbar-blue" target="::prev" horizontal></esl-scrollbar>
+</section>

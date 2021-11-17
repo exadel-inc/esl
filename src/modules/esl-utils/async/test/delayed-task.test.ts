@@ -13,7 +13,7 @@ describe('async/delayed-task', () => {
     expect(fn2).toBeCalledTimes(1);
     task.put(fn2);
     expect(fn2).toBeCalledTimes(2);
-    task.put(fn1)
+    task.put(fn1);
     expect(fn1).toBeCalledTimes(2);
     expect(fn2).toBeCalledTimes(2);
   });
@@ -96,7 +96,7 @@ describe('async/delayed-task', () => {
 
     expect(task.put(fn1, 0)).toBeNull();
     expect(task.put(fn2, 0)).toBe(fn1);
-    expect(typeof task.fn).toBe('function')
+    expect(typeof task.fn).toBe('function');
     expect(task.put(fn1, 0)).toBe(fn2);
     expect(task.cancel()).toBe(fn1);
     expect(task.fn).toBeNull();
