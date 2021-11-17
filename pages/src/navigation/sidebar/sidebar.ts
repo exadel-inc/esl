@@ -19,7 +19,7 @@ export class ESLDemoSidebar extends ESLToggleable {
   @prop() public closeOnOutsideAction = true;
 
   @prop() public submenus: string = '.sidebar-nav-secondary';
-  @prop() public activeLinkSel: string = '.sidebar-nav-secondary-item.active';
+  @prop() public activeMenuAttr: string = 'data-open';
 
   @attr({name: 'animation'}) protected _animation: boolean;
 
@@ -53,7 +53,7 @@ export class ESLDemoSidebar extends ESLToggleable {
 
   public expandActive(noCollapse: boolean = false) {
     this.$submenus
-      .filter((menu) => !!menu.querySelector(this.activeLinkSel))
+      .filter((menu) => !!menu.hasAttribute('data-open'))
       .forEach((menu) => menu.show({noCollapse, activator: this}));
   }
 
