@@ -29,6 +29,7 @@ import {
   ESLNote,
   ESLFootnotes,
   ESLTooltip,
+  ESLAnimate
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -36,7 +37,6 @@ import '../../src/modules/esl-media/providers/html5/audio-provider';
 import '../../src/modules/esl-media/providers/html5/video-provider';
 import '../../src/modules/esl-media/providers/youtube-provider';
 import '../../src/modules/esl-media/providers/brightcove-provider';
-import './common/animate';
 
 import {
   ESLCarousel,
@@ -87,6 +87,8 @@ ESLSelect.register();
 ESLFootnotes.register();
 ESLNote.register();
 ESLTooltip.register();
+
+ESLAnimate.register();
 
 ESLCarousel.register();
 ESLCarouselPlugins.Dots.register();

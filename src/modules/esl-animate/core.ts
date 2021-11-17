@@ -1,1 +1,1 @@
-export * from './core/esl-animate-service';
+export * from './core/esl-animate';
