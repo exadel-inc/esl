@@ -7,6 +7,7 @@
 
   <main class="esl-scrollable-content">
     <div class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }}">
+      <esl-d-rtl-switcher target="::parent"></esl-d-rtl-switcher>
       {% if title %}
         <h1 class="page-title">
           {{ title | safe }}

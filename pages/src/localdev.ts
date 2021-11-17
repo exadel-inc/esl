@@ -47,6 +47,7 @@ import './esl-media-demo/test-media-source';
 
 import {initViewportVariables} from './common/viewport';
 import {ESLDemoSidebar} from './navigation/navigation';
+import {ESLDemoRTLSwitcher} from './rtl-switcher/rtl-switcher';
 import {ESLDemoMarquee} from './landing/landing';
 
 initViewportVariables();
@@ -54,6 +55,7 @@ initViewportVariables();
 // Register Demo components
 ESLDemoSidebar.register();
 ESLDemoMarquee.register();
+ESLDemoRTLSwitcher.register();
 
 // Register ESL Components
 
