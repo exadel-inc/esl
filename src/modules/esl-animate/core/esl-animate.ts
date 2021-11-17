@@ -8,14 +8,14 @@ interface ESLAnimateConfig {
   group?: number | false;
   /* Observe and animate element(s) infinitely */
   repeat?: boolean;
-  /* Protected by defult */
+  /* Protected by default */
   delete?: boolean;
 }
 
 /* Service to animate elements on viewport intersection */
 export class ESLAnimateService {
 
-  protected static readonly DEFUALT_CONFIG: ESLAnimateConfig = {repeat: false, group: false, delete: false};
+  protected static readonly DEFAULT_CONFIG: ESLAnimateConfig = {repeat: false, group: false, delete: false};
   protected static readonly OPTIONS_OBSERVER: IntersectionObserverInit = {threshold: [0.5]};
 
   protected _markedElements: Element[] = [];
@@ -80,7 +80,7 @@ export class ESLAnimateService {
   static observe(el: Element | Element[], config?: ESLAnimateConfig): void {
     wrap(el).forEach((item: Element) => {
       item.setAttribute('esl-animate', '');
-      this.instance._configMap.set(item, Object.assign({}, this.DEFUALT_CONFIG, config));
+      this.instance._configMap.set(item, Object.assign({}, this.DEFAULT_CONFIG, config));
       this.instance._io.observe(item);
     });
   }
