@@ -4,7 +4,7 @@
 {% block head %}
   <script>
     /* Polyfill */
-    (function () {
+    {# (function () {
       let version = '';
       if (!window.Promise || !window.CustomEvent) {
         version = 'full';
@@ -12,7 +12,19 @@
         version = 'light';
       }
       (version) && document.write('<script type="text/javascript" src="{{ '/bundles/polyfill-' | url }}' + version + '.js"><\/script>');
-    })();
+    })(); #}
+
+     (function () {
+        let version = '';
+        if (!window.Promise || !window.CustomEvent || !Object.assign || !Array.from || !window.URLSearchParams){
+          version = 'full';
+        } else if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype) || !window.customElements || !window.IntersectionObserver || !window.ResizeObserver || !window.scrollBy){
+          version = 'medium';
+        } else if (!('IntersectionObserver' in window && 'IntersectionObserverEntry' in window && 'ResizeObserver' in window)) {
+          version = 'ligth';
+        }
+        (version) && document.write('<script type="text/javascript" src="{{ '/bundles/polyfill-' | url }}' + version + '.js"><\/script>');
+     })();
   </script>
 
   <link rel="icon" type="image/png" href="{{ '/assets/logo-64x64.png' | url }}" />
