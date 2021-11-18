@@ -46,18 +46,18 @@ function calcBasicArrowAdjust(size: number, ratio: number): number {
    *   1 when ratio greater 0.5
    */
   const sign = Math.sign(ratio - 0.5);
-  return sign * size / 2;
+  return sign * size;
 }
 
 /**
  * Calculates the position of the popup on the minor axis
+ * @param cfg - popup position config
  * @param centerPosition - position of the center of the trigger on the minor axis
- * @param popupSize - the size of the popup by the minor axis
- * @param arrowSize - the size of the arrow by the minor axis
- * @param offsetArrowRatio - the value of the arrow offset
+ * @param dimensionName - the name of dimension (height or width)
  */
-function calcPopupPositionByMinorAxis(centerPosition: number, popupSize: number, arrowSize: number, offsetArrowRatio: number): number {
-  return centerPosition - popupSize * offsetArrowRatio + calcBasicArrowAdjust(arrowSize, offsetArrowRatio);
+function calcPopupPositionByMinorAxis(cfg: PopupPositionConfig, centerPosition: number, dimensionName: 'height' | 'width'): number {
+  return centerPosition - cfg.element[dimensionName] * cfg.offsetArrowRatio +
+    calcBasicArrowAdjust(cfg.marginArrow + cfg.arrow[dimensionName] / 2, cfg.offsetArrowRatio);
 }
 
 /**
@@ -65,21 +65,19 @@ function calcPopupPositionByMinorAxis(centerPosition: number, popupSize: number,
  * @param cfg - popup position config
  * */
 function calcPopupBasicRect(cfg: PopupPositionConfig): Rect {
-  let x = calcPopupPositionByMinorAxis(cfg.inner.cx, cfg.element.width, cfg.arrow.width, cfg.offsetArrowRatio);
+  let x = calcPopupPositionByMinorAxis(cfg, cfg.inner.cx, 'width');
   let y = cfg.inner.y - cfg.element.height;
   switch (cfg.position) {
     case 'left':
       x = cfg.inner.x - cfg.element.width;
-      // y = cfg.inner.cy - cfg.element.height * cfg.offsetArrowRatio + calcBasicArrowAdjust(cfg.arrow.height, cfg.offsetArrowRatio);
-      y = calcPopupPositionByMinorAxis(cfg.inner.cy, cfg.element.height, cfg.arrow.height, cfg.offsetArrowRatio);
+      y = calcPopupPositionByMinorAxis(cfg, cfg.inner.cy, 'height');
       break;
     case 'right':
       x = cfg.inner.right;
-      // y = cfg.inner.cy - cfg.element.height * cfg.offsetArrowRatio + calcBasicArrowAdjust(cfg.arrow.height, cfg.offsetArrowRatio);
-      y = calcPopupPositionByMinorAxis(cfg.inner.cy, cfg.element.height, cfg.arrow.height, cfg.offsetArrowRatio);
+      y = calcPopupPositionByMinorAxis(cfg, cfg.inner.cy, 'height');
       break;
     case 'bottom':
-      x = calcPopupPositionByMinorAxis(cfg.inner.cx, cfg.element.width, cfg.arrow.width, cfg.offsetArrowRatio);
+      x = calcPopupPositionByMinorAxis(cfg, cfg.inner.cx, 'width');
       y = cfg.inner.bottom;
       break;
   }
