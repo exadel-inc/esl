@@ -16,10 +16,10 @@ export class ESLDemoRTLSwitcher extends ESLBaseElement {
 
   @ready
   protected connectedCallback() {
-    super.connectedCallback();
     this.bindEvents();
-    this.updateTargetFromSelector();
+    this.updateTarget();
     this.setInitialDirection();
+    super.connectedCallback();
   }
 
   @ready
@@ -32,15 +32,15 @@ export class ESLDemoRTLSwitcher extends ESLBaseElement {
     return this._$target;
   }
 
-  public set $target(newPopupInstance) {
-    this._$target = newPopupInstance;
+  public set $target(targetElement: HTMLElement | undefined) {
+    this._$target = targetElement;
   }
 
   public get $active(): boolean {
     return this.$target?.dir === 'rtl';
   }
 
-  protected updateTargetFromSelector() {
+  protected updateTarget() {
     if (!this.target) return;
     this.$target = TraversingQuery.first(this.target, this) as HTMLElement;
   }
@@ -63,6 +63,7 @@ export class ESLDemoRTLSwitcher extends ESLBaseElement {
 
   @bind
   protected _onClick(event: MouseEvent) {
+    if (!this.$target) return;
     event.preventDefault();
     this.toggleRTLDirection();
     this.updateState();
