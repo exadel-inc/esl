@@ -23,7 +23,10 @@ export interface IntersectionRatioRect {
 export interface PopupPositionConfig {
   position: PositionType;
   behavior: string;
+  marginArrow: number;
+  offsetArrowRatio: number;
   intersectionRatio: IntersectionRatioRect;
+  arrow: DOMRect | Rect;
   element: DOMRect;
   inner: Rect;
   outer: Rect;
@@ -31,23 +34,52 @@ export interface PopupPositionConfig {
 }
 
 /**
+ * Calculates the base offset of the arrow from the edge of the popup, in pixels,
+ * based on the size of the popup and the value of the arrow offset
+ * @param size - the size of the popup
+ * @param ratio - the value of the arrow offset
+ */
+function calcBasicArrowAdjust(size: number, ratio: number): number {
+  /** Sign should be:
+   *  -1 when ratio less 0.5
+   *   0 when ratio equal 0.5
+   *   1 when ratio greater 0.5
+   */
+  const sign = Math.sign(ratio - 0.5);
+  return sign * size / 2;
+}
+
+/**
+ * Calculates the position of the popup on the minor axis
+ * @param centerPosition - position of the center of the trigger on the minor axis
+ * @param popupSize - the size of the popup by the minor axis
+ * @param arrowSize - the size of the arrow by the minor axis
+ * @param offsetArrowRatio - the value of the arrow offset
+ */
+function calcPopupPositionByMinorAxis(centerPosition: number, popupSize: number, arrowSize: number, offsetArrowRatio: number): number {
+  return centerPosition - popupSize * offsetArrowRatio + calcBasicArrowAdjust(arrowSize, offsetArrowRatio);
+}
+
+/**
  * Calculate Rect for given popup position config.
  * @param cfg - popup position config
  * */
 function calcPopupBasicRect(cfg: PopupPositionConfig): Rect {
-  let x = cfg.inner.cx - cfg.element.width / 2;
+  let x = calcPopupPositionByMinorAxis(cfg.inner.cx, cfg.element.width, cfg.arrow.width, cfg.offsetArrowRatio);
   let y = cfg.inner.y - cfg.element.height;
   switch (cfg.position) {
     case 'left':
       x = cfg.inner.x - cfg.element.width;
-      y = cfg.inner.cy - cfg.element.height / 2;
+      // y = cfg.inner.cy - cfg.element.height * cfg.offsetArrowRatio + calcBasicArrowAdjust(cfg.arrow.height, cfg.offsetArrowRatio);
+      y = calcPopupPositionByMinorAxis(cfg.inner.cy, cfg.element.height, cfg.arrow.height, cfg.offsetArrowRatio);
       break;
     case 'right':
       x = cfg.inner.right;
-      y = cfg.inner.cy - cfg.element.height / 2;
+      // y = cfg.inner.cy - cfg.element.height * cfg.offsetArrowRatio + calcBasicArrowAdjust(cfg.arrow.height, cfg.offsetArrowRatio);
+      y = calcPopupPositionByMinorAxis(cfg.inner.cy, cfg.element.height, cfg.arrow.height, cfg.offsetArrowRatio);
       break;
     case 'bottom':
-      x = cfg.inner.cx - cfg.element.width / 2;
+      x = calcPopupPositionByMinorAxis(cfg.inner.cx, cfg.element.width, cfg.arrow.width, cfg.offsetArrowRatio);
       y = cfg.inner.bottom;
       break;
   }
@@ -114,7 +146,7 @@ function fitByMajorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): Pos
  * @param rect - popup position rect
  * @param arrow - arrow position value
  * */
-function fitByMinorAxisHorizontal(cfg: PopupPositionConfig, rect: Rect, arrow: Point) {
+function fitByMinorAxisHorizontal(cfg: PopupPositionConfig, rect: Rect, arrow: Point): void {
   if (cfg.trigger.x < cfg.outer.x || cfg.trigger.right > cfg.outer.right) return; // cancel fit mode if the element is out of window offset bounds
 
   let arrowAdjust = 0;
@@ -136,7 +168,7 @@ function fitByMinorAxisHorizontal(cfg: PopupPositionConfig, rect: Rect, arrow: P
  * @param rect - popup position rect
  * @param arrow - arrow position value
  * */
-function fitByMinorAxisVertical(cfg: PopupPositionConfig, rect: Rect, arrow: Point) {
+function fitByMinorAxisVertical(cfg: PopupPositionConfig, rect: Rect, arrow: Point): void {
   if (cfg.trigger.y < cfg.outer.y || cfg.trigger.bottom > cfg.outer.bottom) return; // cancel fit mode if the element is out of window offset bounds
 
   let arrowAdjust = 0;
@@ -157,7 +189,7 @@ function fitByMinorAxisVertical(cfg: PopupPositionConfig, rect: Rect, arrow: Poi
  * @param rect - popup position rect
  * @param arrow - arrow position value
  * */
-function fitByMinorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point) {
+function fitByMinorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): void {
   if (cfg.behavior !== 'fit') return;
 
   if (['left', 'right'].includes(cfg.position)) {
@@ -168,14 +200,23 @@ function fitByMinorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point) {
 }
 
 /**
+ * Calculate the usable size available for the arrow
+ * @param cfg - popup position config
+ * @param dimensionName - the name of dimension (height or width)
+ */
+function calcUsableSizeForArrow(cfg: PopupPositionConfig, dimensionName: 'height' | 'width'): number {
+  return cfg.element[dimensionName] - cfg.arrow[dimensionName] - 2 * cfg.marginArrow;
+}
+
+/**
  * Calculate popup and arrow popup positions.
  * @param cfg - popup position config
  * */
 export function calcPopupPosition(cfg: PopupPositionConfig): PopupPositionValue {
   const popup = calcPopupBasicRect(cfg);
   const arrow = {
-    x: cfg.element.width / 2,
-    y: cfg.element.height / 2,
+    x: cfg.marginArrow + calcUsableSizeForArrow(cfg, 'width') * cfg.offsetArrowRatio,
+    y: cfg.marginArrow + calcUsableSizeForArrow(cfg, 'height') * cfg.offsetArrowRatio,
     position: cfg.position
   };
 
