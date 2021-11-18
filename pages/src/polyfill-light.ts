@@ -8,5 +8,3 @@ window.ResizeObserver = window.ResizeObserver || ResizeObserver;
 
 import SmoothScroll from 'smoothscroll-polyfill';
 SmoothScroll.polyfill();
-
-import '../../polyfills/polyfills.es6';

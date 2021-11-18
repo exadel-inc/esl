@@ -1,5 +1,5 @@
 /**
- * Target: Edge, Safari 9
+ * Target: iOS, Safari 13.0.0
  */
 import '@webcomponents/custom-elements/custom-elements.min';
 
