@@ -3,7 +3,7 @@ layout: popup
 title: Popup
 seoTitle: Popup UI examples based on ESL web components
 name: Popup
-tags: [examples, draft]
+tags: [examples, beta]
 icon: examples/popup.svg
 aside:
   components:
@@ -12,7 +12,36 @@ aside:
     - esl-trigger
 ---
 
-<section class="row justify-content-between">
+<section id="popup-controls">
+  <div>
+    <label for="marginArrow">Arrow margin:</label>
+    <input type="text" id="marginArrow" name="marginArrow" min="0" max="100" value="5" size="3">
+  </div>
+  <div>
+    <label for="offsetArrow">Arrow offset:</label>
+    <input type="range" id="offsetArrow" name="offsetArrow" min="0" max="100" value="50" step="1">
+  </div>
+  <script>
+    var elMarginArrow = document.querySelector('#marginArrow');
+    var handlerMarginArrowChange = function() {
+      Array.from(document.querySelectorAll('esl-popup')).forEach(function(el) {
+        el.setAttribute('margin-arrow', elMarginArrow.value);
+      });
+    };
+    elMarginArrow.addEventListener('change', handlerMarginArrowChange);
+  </script>
+  <script>
+    var elOffsetArrow = document.querySelector('#offsetArrow');
+    var handlerOffsetArrowChange = function() {
+      Array.from(document.querySelectorAll('esl-popup')).forEach(function(el) {
+        el.setAttribute('offset-arrow', elOffsetArrow.value);
+      });
+    };
+    elOffsetArrow.addEventListener('change', handlerOffsetArrowChange);
+  </script>
+</section>
+
+<section class="row justify-content-between"">
   <esl-trigger target="#popup1" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
   <esl-trigger target="#popup1" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
   <esl-trigger target="#popup1" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
@@ -27,6 +56,23 @@ aside:
   <esl-trigger target="#popup2" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
   <esl-trigger target="#popup2" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
   <esl-trigger target="#popup2" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+</section>
+
+<section class="row justify-content-between">
+  <esl-trigger target="#popup01" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+  <esl-trigger target="#popup01" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+  <esl-trigger target="#popup01" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+</section>
+
+<section class="row justify-content-between">
+  <esl-trigger target="#popup03" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
+  <esl-trigger target="#popup04" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
+</section>
+
+<section class="row justify-content-between">
+  <esl-trigger target="#popup02" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+  <esl-trigger target="#popup02" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+  <esl-trigger target="#popup02" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
 </section>
 
 <section class="row">

@@ -1,4 +1,5 @@
 import {identity} from './functions';
+import {isArrayLike} from './object';
 
 type Tuple<T> = [T?, T?];
 
@@ -13,14 +14,23 @@ export const tuple = <T>(arr: T[]): Tuple<T>[] => arr.reduce((acc: Tuple<T>[], e
 export const flat = <T>(arr: (null | T | T[])[]): T[] =>
   arr.reduce((acc: T[], el) => el ? acc.concat(el) : acc, []) as T[];
 
-/** Wrap passed object to array */
+/** Wraps passed object or primitive to array */
 export const wrap = <T>(arr: undefined | null | T | T[]): T[] => {
   if (arr === undefined || arr === null) return [];
   if (Array.isArray(arr)) return arr;
   return [arr];
 };
 
-/** Make array values unique */
+/** Unwraps and returns the first element if passed object is array-like, returns original object otherwise */
+export function unwrap(value: []): undefined;
+export function unwrap<T>(value: (ArrayLike<T> & {0: T}) | T): T;
+export function unwrap<T extends Node>(value: NodeListOf<T>): T | undefined;
+export function unwrap(value: any): any;
+export function unwrap(value: any): any {
+  return isArrayLike(value) ? value[0] : value;
+}
+
+/** Makes array values unique */
 export const uniq = <T> (arr: T[]): T[] => {
   const result: T[] = [];
   const set = new Set<T>();
