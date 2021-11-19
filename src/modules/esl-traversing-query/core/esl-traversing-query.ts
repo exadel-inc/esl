@@ -94,8 +94,7 @@ export class TraversingQuery {
     return uniq(result);
   }
 
-  static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | null | Document = document) {
-    if (scope === null) throw new Error();
+  static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document) {
     const parts = query.split(this.PROCESSORS_REGEX).map((term) => term.trim());
     const rootSel = parts.shift();
     const baseCollection = base ? [base] : [];
@@ -104,11 +103,11 @@ export class TraversingQuery {
   }
 
   /** @returns first matching element reached via {@link TraversingQuery} rules */
-  static first(query: string, base?: Element | null, scope?: Element | null): Element | null {
+  static first(query: string, base?: Element | null, scope?: Element): Element | null {
     return TraversingQuery.traverse(query, true, base, scope)[0] || null;
   }
   /** @returns Array of all matching elements reached via {@link TraversingQuery} rules */
-  static all(query: string, base?: Element | null, scope?: Element | null): Element[] {
+  static all(query: string, base?: Element | null, scope?: Element): Element[] {
     return TraversingQuery.traverse(query, false, base, scope);
   }
 }
