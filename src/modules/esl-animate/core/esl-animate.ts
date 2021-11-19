@@ -9,10 +9,23 @@ export class ESLAnimate extends ESLBaseElement {
   @attr({}) public group: number | false;
   @boolAttr({}) public repeat: boolean;
 
-  @ready
-  connectedCallback() {
-    super.connectedCallback();
+  static get observedAttributes() {
+    return ['group', 'repeat'];
+  }
+
+  protected reanimate() {
     ESLAnimateService.observe(this, {repeat: this.repeat, group: this.group ? +this.group : false});
+  }
+
+  protected attributeChangedCallback() {
+    if (!this.connected) return;
+    this.reanimate();
+  }
+
+  @ready
+  protected connectedCallback() {
+    super.connectedCallback();
+    this.reanimate();
   }
 
   protected disconnectedCallback() {

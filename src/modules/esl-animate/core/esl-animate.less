@@ -1,14 +1,17 @@
-.get-upstairs {
-  position: relative;
-  top: 50px;
-}
-
 [esl-animate] {
   opacity: 0;
-  transition: top 1s, opacity 1s;
+}
+
+.esl-animate-slide-up {
+  transform: translate(0px, 20%);
 }
 
 [esl-animate="done"] {
+  transition: opacity 1s;
   opacity: 1;
-  top: 0px;
+}
+
+[esl-animate="done"].esl-animate-slide-up {
+  transition: transform 1s, opacity 1s;
+  transform: translate(0px, 0%);
 }
