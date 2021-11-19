@@ -314,7 +314,7 @@ icon: examples/carousel.svg
   <div class="row flex-column">
     <h2>Demo 1: </h2>
     <p>3 slides with 2 active slides to check if RAF helps to animate first one</p>
-    <esl-carousel>
+    <esl-carousel config="{count: 2}">
 
       <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
         <span class="icon-arrow-prev"></span>
@@ -863,7 +863,7 @@ icon: examples/carousel.svg
   <div class="row flex-column">
     <a href="javascript:void 0" class="sr-only">Fake anchor</a>
     <h2>Demo 1: </h2>
-    <esl-carousel config="{view: single}">
+    <esl-carousel config="{count: 1}">
       <esl-carousel-autoplay-plugin timeout="5000"></esl-carousel-autoplay-plugin>
 
       <button class="arrow-prev" onclick="void 0" data-slide-target="prev">

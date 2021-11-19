@@ -4,6 +4,7 @@ import {EventUtils} from '../../esl-utils/dom/events';
 import {ESLCarouselPlugin} from './esl-carousel-plugin';
 
 import type {Point} from '../../esl-utils/dom/events';
+import {bind} from '../../esl-utils/decorators/bind';
 
 /**
  * Slide Carousel Touch plugin
@@ -14,6 +15,8 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
 
   private isTouchStarted = false;
   private startPoint: Point = {x: 0, y: 0};
+  private movePoint: Point = {x: 0, y: 0};
+  protected currentIndex: number;
 
   public bind() {
     const events = DeviceDetector.TOUCH_EVENTS;
@@ -21,6 +24,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     this.carousel.addEventListener(events.START, this.onTouchStart);
     this.carousel.addEventListener(events.MOVE, this.onTouchMove);
     this.carousel.addEventListener(events.END, this.onTouchEnd);
+    this.carousel.addEventListener('transitionend', this._onTransitionEnd);
   }
 
   public unbind() {
@@ -29,6 +33,8 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     this.carousel.removeEventListener(events.START, this.onTouchStart);
     this.carousel.removeEventListener(events.MOVE, this.onTouchMove);
     this.carousel.removeEventListener(events.END, this.onTouchEnd);
+    this.carousel.removeEventListener('transitionend', this._onTransitionEnd);
+
   }
 
   onTouchStart = (event: TouchEvent | PointerEvent) => {
@@ -40,39 +46,64 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     }
     this.isTouchStarted = true;
     this.startPoint = EventUtils.normalizeTouchPoint(event);
+    this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', true));
   };
 
   onTouchMove = (event: TouchEvent | PointerEvent) => {
     if (!this.isTouchStarted) return;
-    // const point = EventUtils.normalizeTouchPoint(event);
-    // const offset = {
-    // 	x: point.x - this.startPoint.x,
-    // 	y: point.y - this.startPoint.y
-    // };
+    const point = EventUtils.normalizeTouchPoint(event);
+    // const prevPoint = this.isMoved ? this.movePoint : this.startPoint;
+    this.movePoint = point;
+    const shiftX = point.x - this.startPoint.x;
+
+    const width = parseFloat(getComputedStyle(this.carousel.$slides[0]).width);
+    const count = Math.floor(Math.abs(shiftX) / width);
+
+    let offset = shiftX;
+    if (count > 0) {
+      offset = shiftX < 0 ? shiftX + count * width : shiftX + count * width;
+    }
+
+    if (count > 0) {
+      this.currentIndex = this.carousel.normalizeIndex(this.carousel.firstIndex + count);
+      this._setOrderFrom(this.currentIndex);
+    }
+
+    // this.carousel.toggleAttribute('animate', true);
+    // this.carousel.goTo(nextIndex, direction);
+    this.carousel.$slidesArea!.style.transform = `translateX(${offset}px)`;
   };
+
+  protected _setOrderFrom(index: number) {
+    if (index < 0 || index > this.carousel.count) return;
+
+    let $slide = this.carousel.$slides[index];
+    for (let order = 0; order < this.carousel.count; order++) {
+      if (order === 0) this.currentIndex = $slide.index;
+      $slide.style.order = String(order);
+      $slide = this.carousel.getNextSlide($slide);
+    }
+  }
+
 
   onTouchEnd = (event: TouchEvent | PointerEvent) => {
     if (!this.isTouchStarted) return;
-    const point = EventUtils.normalizeTouchPoint(event);
-    const offset = {
-      x: point.x - this.startPoint.x,
-      y: point.y - this.startPoint.y
-    };
-    this.isTouchStarted = false;
-
-    // TODO: temporary, update according final implementation
-    if (Math.abs(offset.x) < Math.abs(offset.y)) return; // Direction
-    if (Math.abs(offset.x) < 100) return; // Tolerance
-
-    // Swipe gesture example
-    if (offset.x < 0) {
-      this.carousel.goNext();
-    } else {
-      this.carousel.goPrev();
+    this.carousel.$slides.forEach((el) => el._setActive(false));
+    for (let i = 0; i < this.carousel.activeCount; i++) {
+      this.carousel.slideAt(this.currentIndex + i)._setActive(true);
     }
-    event.preventDefault();
-    event.stopPropagation();
+    this.carousel.toggleAttribute('animate');
+    this.carousel.$slidesArea!.style.transform = 'translateX(0px)';
+    this.isTouchStarted = false;
   };
+
+  @bind
+  protected _onTransitionEnd(e?: TransitionEvent) {
+    if (!e || e.propertyName === 'transform') {
+      this.carousel.toggleAttribute('animate', false);
+      this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', false));
+    }
+  }
 }
 
 declare global {

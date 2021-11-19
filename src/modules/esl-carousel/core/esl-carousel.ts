@@ -22,8 +22,6 @@ interface CarouselConfig { // Registry
 
 export type CarouselDirection = 'next' | 'prev';
 
-// TODO: add ability to choose the number of an active slide
-
 /**
  * ESL Carousel component
  * @author Julia Murashko
@@ -52,16 +50,6 @@ export class ESLCarousel extends ESLBaseElement {
       return activeIndexes;
     }, []);
   }
-
-  // get $activeSlides(): ESLCarouselSlide[] {
-  //   return this.$slides.reduce((activeSlides: ESLCarouselSlide[], el, index) => {
-  //     if (el.active) {
-  //       activeSlides.push(el);
-  //     }
-  //     return activeSlides;
-  //   }, []);
-  // }
-
 
   private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     // TODO: change observed attributes
@@ -95,9 +83,8 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   private update(force: boolean = false) {
-    const count = this.$slides.filter((el) => el.hasAttribute('active')).length;
     const config: CarouselConfig = Object.assign(
-      {view: 'multiple', count},
+      {view: 'multiple', count: 1},
       this.configRules.activeValue
     );
 
