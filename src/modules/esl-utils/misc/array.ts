@@ -14,7 +14,7 @@ export const tuple = <T>(arr: T[]): Tuple<T>[] => arr.reduce((acc: Tuple<T>[], e
 export const flat = <T>(arr: (null | T | T[])[]): T[] =>
   arr.reduce((acc: T[], el) => el ? acc.concat(el) : acc, []) as T[];
 
-/** Wrap passed object or primitive to array */
+/** Wraps passed object or primitive to array */
 export const wrap = <T>(arr: undefined | null | T | T[]): T[] => {
   if (arr === undefined || arr === null) return [];
   if (Array.isArray(arr)) return arr;
@@ -30,7 +30,7 @@ export function unwrap(value: any): any {
   return isArrayLike(value) ? value[0] : value;
 }
 
-/** Make array values unique */
+/** Makes array values unique */
 export const uniq = <T> (arr: T[]): T[] => {
   const result: T[] = [];
   const set = new Set<T>();
