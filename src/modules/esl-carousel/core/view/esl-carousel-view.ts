@@ -12,7 +12,9 @@ export abstract class ESLCarouselView {
   public abstract bind(): void;
   public abstract unbind(): void;
 
+  public abstract onBeforeAnimate(): Promise<void>;
   public abstract onAnimate(index: number, direction: CarouselDirection): Promise<void>;
+  public abstract onAfterAnimate(): Promise<void>;
 
   public abstract onMove(offset: number): void;
 

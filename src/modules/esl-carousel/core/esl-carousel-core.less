@@ -15,7 +15,7 @@ esl-carousel {
   &[animate] {
     [data-slides-area] {
       // animation
-      transition: transform 1s linear;
+      transition: transform .5s linear;
     }
   }
 
@@ -25,9 +25,7 @@ esl-carousel {
     padding-bottom: 71px;
     width: 780px;
     z-index: 0;
-
-    // animation
-    transition: transform 1s linear;
+    transform: translateX(0);
   }
 
   esl-carousel-slide {
@@ -41,6 +39,9 @@ esl-carousel {
 
     &:not([visible]):not([active]) {
       display: none;
+    }
+    &::after {
+      content: attr(style);
     }
   }
 

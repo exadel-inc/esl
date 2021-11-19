@@ -1,0 +1,52 @@
+---
+layout: content
+title: Carousel
+name: Carousel
+tags: [examples, draft]
+icon: examples/carousel.svg
+---
+<div class="container-fluid">
+  <div class="row flex-column">
+    <h2>Demo 1: </h2>
+    <p>3 slides with 2 active slides to check if RAF helps to animate first one</p>
+    <esl-carousel>
+
+      <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
+        <span class="icon-arrow-prev"></span>
+      </button>
+
+
+      <div class="esl-carousel-content">
+        <div data-slides-area>
+          <!-- CAROUSEL-ITEM -->
+          <esl-carousel-slide
+            style="background: {{ functions.randomColor() }}">
+            <div class="post-text">
+              <p>111</p>
+            </div>
+          </esl-carousel-slide>
+
+          <esl-carousel-slide active style="background: {{ functions.randomColor() }}">
+            <div class="post-text">
+              <p>222</p>
+            </div>
+          </esl-carousel-slide>
+
+          <esl-carousel-slide active style="background: {{ functions.randomColor() }}">
+            <div class="post-text">
+              <p>333</p>
+            </div>
+          </esl-carousel-slide>
+          <!-- /CAROUSEL-ITEM -->
+        </div>
+      </div>
+
+      <button class="arrow-next" onclick="void 0" data-slide-target="next">
+        <span class="icon-arrow-next"></span>
+      </button>
+
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+
+    </esl-carousel>
+  </div>
+</div>

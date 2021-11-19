@@ -95,8 +95,9 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   private update(force: boolean = false) {
+    const count = this.$slides.filter((el) => el.hasAttribute('active')).length;
     const config: CarouselConfig = Object.assign(
-      {view: 'multiple', count: 1},
+      {view: 'multiple', count},
       this.configRules.activeValue
     );
 
@@ -274,7 +275,9 @@ export class ESLCarousel extends ESLBaseElement {
     if (!this.$$fire('slide:change', eventDetails)) return;
 
     if (this._view && firstIndex !== nextIndex) {
+      await this._view.onBeforeAnimate();
       await this._view.onAnimate(nextIndex, direction);
+      await this._view.onAfterAnimate();
     }
 
     this.$slides.forEach((el) => el._setActive(false));
