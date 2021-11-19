@@ -1,4 +1,4 @@
-# [ESL](https://exadel-inc.github.io/esl/) Utils
+# [ESL](https://esl-ui.com/) Utils
 
 <a name="intro"></a>
 
@@ -53,7 +53,7 @@ Even if you use the whole utils module, it is still tiny.
 
 - #### DOM Helpers
 
-    - ##### <a href="./dom/api.ts" target="_blank">DOM API Utils</a> - a basic dom api helpers
+    - ##### <a href="./dom/api.ts" target="_blank">DOM API Utils</a> - a basic dom api helpers.
 
     - ##### <a href="./dom/class.ts" target="_blank">CSSClass</a> - a utility to work with CSS classes. 
       Supports JQuery-like enumeration, inversion syntax and locks.  
@@ -85,7 +85,7 @@ Even if you use the whole utils module, it is still tiny.
 
     - ##### <a href="./misc/array.ts" target="_blank">Array</a> - an array utils (uniq, flat, wrap, etc.).
   
-    - ##### <a href="./misc/set.ts" target="_blank">Set</a> - a set or an array with uniq values utils
+    - ##### <a href="./misc/set.ts" target="_blank">Set</a> - a set or an array with uniq values utils.
 
     - ##### <a href="./misc/format.ts" target="_blank">Format</a> - string format utils.
   
