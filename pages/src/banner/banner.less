@@ -1,0 +1,25 @@
+@import (reference) "../common/variables.less";
+
+.banner {
+  &-alert {
+    width: 80%;
+    right: 10%;
+    @media @md-xl {
+      width: 60%;
+      right: 20%;
+    }
+  }
+
+  &-text {
+    text-align: center;
+    font-weight: 500;
+
+    p {
+      margin: 0.05rem;
+    }
+
+    @media @xs-sm {
+      font-size: 0.85rem;
+    }
+  }
+}

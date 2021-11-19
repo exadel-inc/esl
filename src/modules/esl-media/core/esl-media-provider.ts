@@ -20,7 +20,7 @@ export interface MediaProviderConfig {
   controls: boolean;
   autoplay: boolean;
   title: string;
-  preload?: string;
+  preload?: 'none' | 'metadata' | 'auto' | '';
   playsinline?: boolean;
 }
 

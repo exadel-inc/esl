@@ -1,31 +1,19 @@
 ---
-layout: basic
+layout: content
 title: ESL Toggleable
 name: ESL Toggleable
-containerCls: container
 tags: components
+iconAlt: '<esl-toggleable/>'
+aside:
+  components:
+    - esl-trigger
+    - esl-panel
+    - esl-popup
+  examples:
+    - toggleable
+    - accordion
+    - tabs
+    - menu
 ---
 
 {% mdRender 'src/modules/esl-toggleable/README.md', 'intro' %}
-
-<section class="row">
-  <div class="col-12">
-    <h2>Related components: </h2>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="{{ '/components/esl-trigger' | url }}">ESL Trigger</a></li>
-      <li class="list-inline-item"><a href="{{ '/components/esl-panel' | url }}">ESL Panel</a></li>
-    </ul>
-  </div>
-</section>
-
-<section class="row">
-  <div class="col-12">
-    <h2>Related Examples: </h2>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="{{ '/examples/toggleable' | url }}">Toggleables</a></li>
-      <li class="list-inline-item"><a href="{{ '/examples/accordion' | url }}">Accordion</a></li>
-      <li class="list-inline-item"><a href="{{ '/examples/tabs' | url }}">Tabs</a></li>
-      <li class="list-inline-item"><a href="{{ '/examples/menu' | url }}">Menu</a></li>
-    </ul>
-  </div>
-</section>

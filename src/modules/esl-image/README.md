@@ -1,4 +1,4 @@
-# [ESL](https://exadel-inc.github.io/esl/) Image
+# [ESL](../../../) Image
 
 Version: *1.2.1*
 
@@ -36,7 +36,7 @@ In case `alt` is not provided then an empty value is used as a fallback.
 
 ### Attributes:
 
-- **data-src** - src paths with queriy congitions. See [ESLMediaQuery](https://exadel-inc.github.io/esl/utils/esl-media-query/) (watched value)
+- **data-src** - src paths with query conditions. See [ESLMediaQuery](../esl-media-query/README.md) (watched value)
 
 - **data-src-base** - base src path for paths described in data-src (watched value)
 
@@ -63,7 +63,7 @@ In case `alt` is not provided then an empty value is used as a fallback.
 
 - **container-class-state** (optional) - image state in which the container will be marked with `container-class` (can be 'ready', 'loaded' or 'error')
 
-- **container-class-target** (optional) - [TraversingQuery](https://exadel-inc.github.io/esl/utils/esl-traversing-query/) to find the target to add `container-class` to ('::parent' by default).
+- **container-class-target** (optional) - [TraversingQuery](../esl-traversing-query/README.md) to find the target to add `container-class` to ('::parent' by default).
 
 NOTE: ESL Image supports `title` attribute like any HTML element, no additional reflection for that attribute is needed - it will work correctly according to HTML5.* REC
 
