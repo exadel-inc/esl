@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ lang or 'en' }}" {% if scrollbar %} class="esl-scrollable-content" {% endif %}>
 <head>
-  {% if title %}
-    <title>{{ 'ESL | ' + title }}</title>
-  {% else %}
-    <title>ESL</title>
-  {% endif %}
+  <title>{{ seoTitle or title or site.description }}</title>
   {# Site meta information #}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
