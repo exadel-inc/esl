@@ -2,7 +2,6 @@ import {ready} from '../../../src/modules/esl-utils/decorators/ready';
 import {attr} from '../../../src/modules/esl-base-element/decorators/attr';
 import {bind} from '../../../src/modules/esl-utils/decorators/bind';
 import {boolAttr, ESLBaseElement} from '../../../src/modules/esl-base-element/core';
-
 import {TraversingQuery} from '../../../src/modules/all';
 
 export class ESLDemoRTLSwitcher extends ESLBaseElement {
