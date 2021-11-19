@@ -9,18 +9,29 @@ import {ESLToggleable} from '../../esl-toggleable/core';
 import {Rect} from '../../esl-utils/dom/rect';
 import {getListScrollParents} from '../../esl-utils/dom/scroll';
 import {getWindowRect} from '../../esl-utils/dom/window';
+import {parseNumber} from '../../esl-utils/misc/format';
 import {calcPopupPosition} from './esl-popup-position';
 
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
 import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
 
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
+const DEFAULT_OFFSET_ARROW = 50;
+
+const parsePercent = (value: string | number, nanValue: number = 0): number => {
+  const rawValue = parseNumber(value, nanValue);
+  return Math.max(0, Math.min(rawValue !== undefined ? rawValue : nanValue, 100));
+};
 
 export interface PopupActionParams extends ToggleableActionParams {
   /** popup position relative to trigger */
   position?: PositionType;
   /** popup behavior if it does not fit in the window */
   behavior?: string;
+  /** Margins on the edges of the arrow. */
+  marginArrow?: string;
+  /** offset of the arrow as a percentage of the popup edge (0% - at the left edge, 100% - at the right edge, for RTL it is vice versa) */
+  offsetArrow?: string;
   /** offset in pixels from trigger element */
   offsetTrigger?: number;
   /** offset in pixels from the edges of the window */
@@ -53,6 +64,20 @@ export class ESLPopup extends ESLToggleable {
   /** Popup behavior if it does not fit in the window ('fit' by default) */
   @attr({defaultValue: 'fit'}) public behavior: string;
 
+  /**
+   * Margins on the edges of the arrow.
+   * This is the value in pixels that will be between the edge of the popup and
+   * the arrow at extreme positions of the arrow (when offsetArrow is set to 0 or 100)
+   */
+  @attr({defaultValue: '5'}) public marginArrow: string;
+
+  /**
+   * Offset of the arrow as a percentage of the popup edge
+   * (0% - at the left edge,
+   *  100% - at the right edge,
+   *  for RTL it is vice versa) */
+  @attr({defaultValue: `${DEFAULT_OFFSET_ARROW}`}) public offsetArrow: string;
+
   /** Default params to merge into passed action params */
   @jsonAttr<PopupActionParams>({defaultValue: {
     offsetTrigger: 3,
@@ -77,6 +102,10 @@ export class ESLPopup extends ESLToggleable {
     return ['top', 'bottom'].includes(this.position);
   }
 
+  protected get _offsetArrowRatio() {
+    return parsePercent(this.offsetArrow, DEFAULT_OFFSET_ARROW) / 100;
+  }
+
   public onShow(params: PopupActionParams) {
     super.onShow(params);
 
@@ -85,6 +114,12 @@ export class ESLPopup extends ESLToggleable {
     }
     if (params.behavior) {
       this.behavior = params.behavior;
+    }
+    if (params.marginArrow) {
+      this.marginArrow = params.marginArrow;
+    }
+    if (params.offsetArrow) {
+      this.offsetArrow = params.offsetArrow;
     }
     this._offsetTrigger = params.offsetTrigger || 0;
     this._offsetWindow = params.offsetWindow || 0;
@@ -191,7 +226,10 @@ export class ESLPopup extends ESLToggleable {
     const config = {
       position: this.position,
       behavior: this.behavior,
+      marginArrow: +this.marginArrow,
+      offsetArrowRatio: this._offsetArrowRatio,
       intersectionRatio: this._intersectionRatio,
+      arrow: arrowRect,
       element: popupRect,
       trigger,
       inner: Rect.from(trigger).grow(innerMargin),
