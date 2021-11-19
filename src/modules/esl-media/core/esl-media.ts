@@ -64,7 +64,7 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr() public playInViewport: boolean;
 
   /** Preload resource */
-  @attr({defaultValue: 'auto'}) public preload: string;
+  @attr({defaultValue: 'auto'}) public preload: 'none' | 'metadata' | 'auto' | '';
 
   /** Ready state class/classes */
   @attr() public readyClass: string;
