@@ -1,21 +1,7 @@
 import {identity} from './functions';
+import {isArrayLike} from './object';
 
 type Tuple<T> = [T?, T?];
-
-interface ArrayLike<T = any> {
-  [key: number]: T;
-  length: number;
-}
-
-export const isArrayLike = (value: any): value is ArrayLike => {
-  return Array.isArray(value) ||
-    (!!value &&
-      typeof value === 'object' &&
-      typeof value.length === 'number' &&
-      value.length >= 0 &&
-      (value.length - 1) in value
-    );
-};
 
 /** Split array into tuples */
 export const tuple = <T>(arr: T[]): Tuple<T>[] => arr.reduce((acc: Tuple<T>[], el) => {
@@ -28,7 +14,7 @@ export const tuple = <T>(arr: T[]): Tuple<T>[] => arr.reduce((acc: Tuple<T>[], e
 export const flat = <T>(arr: (null | T | T[])[]): T[] =>
   arr.reduce((acc: T[], el) => el ? acc.concat(el) : acc, []) as T[];
 
-/** Wrap passed object to array */
+/** Wrap passed object or primitive to array */
 export const wrap = <T>(arr: undefined | null | T | T[]): T[] => {
   if (arr === undefined || arr === null) return [];
   if (Array.isArray(arr)) return arr;
@@ -36,9 +22,13 @@ export const wrap = <T>(arr: undefined | null | T | T[]): T[] => {
 };
 
 /** Unwraps and returns the first element if passed object is array-like, returns original object otherwise */
-export const unwrap = <T>(value: [T?, ...any] | T): T => {
-  return isArrayLike(value) ? Array.from(value as Iterable<T>)[0] : value;
-};
+export function unwrap(value: []): undefined;
+export function unwrap<T>(value: (ArrayLike<T> & {0: T}) | T): T;
+export function unwrap<T extends Node>(value: NodeListOf<T>): T | undefined;
+export function unwrap(value: any): any;
+export function unwrap(value: any): any {
+  return isArrayLike(value) ? value[0] : value;
+}
 
 /** Make array values unique */
 export const uniq = <T> (arr: T[]): T[] => {
