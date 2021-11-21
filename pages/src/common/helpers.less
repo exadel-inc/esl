@@ -1,3 +1,5 @@
+@import (reference) "./variables.less";
+
 // Block
 .d-block {
   display: block !important;
@@ -11,6 +13,14 @@
 // Position
 .relative-block {
   position: relative;
+}
+
+.hide {
+  @media @xs {
+    &-xs {
+      display: none;
+    }
+  }
 }
 
 // Margin
@@ -89,6 +99,11 @@
 // Padding-bottom
 .pb-2 {
   padding-bottom: 0.5rem !important;
+}
+
+// Border radius
+.round {
+  border-radius: 0.5rem;
 }
 
 // List helpers
