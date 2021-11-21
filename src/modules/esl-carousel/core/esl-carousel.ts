@@ -21,6 +21,7 @@ interface CarouselConfig { // Registry
 }
 
 export type CarouselDirection = 'next' | 'prev';
+export type CarouselSlideTarget = number | 'next' | 'prev' | `g${number}`;
 
 /**
  * ESL Carousel component
@@ -267,14 +268,15 @@ export class ESLCarousel extends ESLBaseElement {
       await this._view.onAfterAnimate();
     }
 
-    this.$slides.forEach((el) => el._setActive(false));
+    this.$slides.forEach((el) => (el.active = false));
     for (let i = 0; i < this.activeCount; i++) {
-      this.slideAt(nextIndex + i)._setActive(true);
+      this.slideAt(nextIndex + i).active = true;
     }
 
     this.$$fire('slide:changed', eventDetails);
   }
 
+  //TODO: discuss names in the final API
   public goPrev(count: number = this.activeCount) {
     return this.goTo(this.firstIndex - count, 'prev');
   }
@@ -289,6 +291,18 @@ export class ESLCarousel extends ESLBaseElement {
 
   public slideAt(index: number) {
     return this.$slides[this.normalizeIndex(index)];
+  }
+
+  // TODO: discuss , created to cover onClick functionality
+  public toIndex(target: CarouselSlideTarget) {
+    if ('prev' === target) return this.normalizeIndex(this.firstIndex - 1);
+    if ('next' === target) return this.normalizeIndex(this.firstIndex + 1);
+    if (typeof target === 'number' || !isNaN(+target)) return this.normalizeIndex(+target - 1);
+    if ('g' !== target[0]) return this.firstIndex;
+    const group = +(target.substring(1)) - 1;
+    const lastGroup = Math.floor(this.count / this.activeCount);
+    const index = group === lastGroup ? this.count - this.activeCount : this.activeCount * group;
+    return this.normalizeIndex(index);
   }
 
   public getPrevSlide(slide: number | ESLCarouselSlide) {
