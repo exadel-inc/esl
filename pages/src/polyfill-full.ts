@@ -8,5 +8,3 @@ import '../../src/polyfills/polyfills.es5';
 import '@webcomponents/webcomponents-platform';
 
 import './polyfill-medium';
-
-import './polyfill-light';
