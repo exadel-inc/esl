@@ -1,6 +1,63 @@
-import {defined, deepCompare, getPropertyDescriptor, get, set, copyDefinedKeys, copy, omit, deepMerge} from '../object';
+import {
+  defined,
+  deepCompare,
+  getPropertyDescriptor,
+  get,
+  set,
+  copyDefinedKeys,
+  copy,
+  omit,
+  deepMerge,
+  isObject,
+  isObjectLike,
+  isPrimitive,
+  isPrototype,
+  isArrayLike
+} from '../object';
 
 describe('misc/object', () => {
+  describe('Type Guards', () => {
+    test('isObject', () => {
+      expect(isObject(undefined)).toBe(false);
+      expect(isObject(null)).toBe(false);
+      expect(isObject('1')).toBe(false);
+      expect(isObject({})).toBe(true);
+      expect(isObject([])).toBe(true);
+      expect(isObject(() => true)).toBe(false);
+    });
+    test('isObjectLike', () => {
+      expect(isObjectLike(null)).toBe(false);
+      expect(isObjectLike({})).toBe(true);
+      expect(isObjectLike([])).toBe(true);
+      expect(isObjectLike(() => true)).toBe(true);
+    });
+    test('isPrimitive', () => {
+      expect(isPrimitive(undefined)).toBe(true);
+      expect(isPrimitive(null)).toBe(true);
+      expect(isPrimitive(0)).toBe(true);
+      expect(isPrimitive('')).toBe(true);
+      expect(isPrimitive(Symbol())).toBe(true);
+      expect(isPrimitive({})).toBe(false);
+      expect(isPrimitive(() => true)).toBe(false);
+    });
+    test('isPrototype', () => {
+      expect(isPrototype({})).toBe(false);
+      class Test {}
+      expect(isPrototype(Test)).toBe(false);
+      expect(isPrototype(Test.prototype)).toBe(true);
+      expect(isPrototype(Array)).toBe(false);
+      expect(isPrototype(Array.prototype)).toBe(true);
+    });
+    test('isArrayLike', () => {
+      expect(isArrayLike({})).toBe(false);
+      expect(isArrayLike([])).toBe(true);
+      expect(isArrayLike([1])).toBe(true);
+      expect(isArrayLike({length: 0})).toBe(true);
+      expect(isArrayLike({length: 1, 0: null})).toBe(true);
+      expect(isArrayLike(document.querySelectorAll('*'))).toBe(true);
+    });
+  });
+
   describe('deepCompare', () => {
     test.each([
       [null, null],
@@ -40,7 +97,7 @@ describe('misc/object', () => {
   });
 
   describe('getPropertyDescriptor', () => {
-    test('simple', ()=> {
+    test('simple', () => {
       const object = {
         a: 1,
         get b() { return 2; }
@@ -59,7 +116,7 @@ describe('misc/object', () => {
       expect(getPropertyDescriptor(object, 'f')).toBeFalsy();
     });
 
-    test('1 lvl', ()=> {
+    test('1 lvl', () => {
       class A {
         a = 1;
         b() { return 2; }
@@ -73,7 +130,7 @@ describe('misc/object', () => {
       expect(getPropertyDescriptor(obj, 'c')).toHaveProperty('get');
     });
 
-    test('2 lvl', ()=> {
+    test('2 lvl', () => {
       class A {
         a() { return 3; }
         get b() { return 3; }
@@ -206,7 +263,7 @@ describe('misc/object', () => {
       expect(deepMerge(...args)).toEqual(result);
     });
 
-    test('merge array + object', ()  => {
+    test('merge array + object', () => {
       const res = deepMerge([1, 2], {a: 1});
       const exp: any = [1, 2];
       exp.a = 1;
