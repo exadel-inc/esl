@@ -1,7 +1,7 @@
 # UIP Options
 
 **UIPOptions** - custom element which provides visual controls for changing UIP visual appearance.
-Extends [UIPPlugin](src/core/README.md#uip-plugin).
+Extends [UIPPlugin](src/core/base/README.md#uip-plugin).
 
 ## Description:
 

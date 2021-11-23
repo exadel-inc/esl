@@ -1,9 +1,9 @@
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 
-import {UIPSetting} from '../setting';
-import {ChangeAttrConfig, UIPStateModel} from '../../../../../core/registration';
-import TokenListUtils from '../../../../../utils/token-list-utils';
-import {WARNING_MSG} from '../../../../../utils/warning-msg';
+import {UIPSetting} from '../setting/setting';
+import {ChangeAttrConfig, UIPStateModel} from '../../core/registration';
+import TokenListUtils from '../../utils/token-list-utils';
+import {WARNING_MSG} from '../../utils/warning-msg';
 
 /**
  * Custom setting to add/remove attributes or append values to attribute.

@@ -1,7 +1,7 @@
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 
-import {UIPSetting} from '../setting';
-import {WARNING_MSG} from '../../../../../utils/warning-msg';
+import {UIPSetting} from '../setting/setting';
+import {WARNING_MSG} from '../../utils/warning-msg';
 
 /**
  * Custom setting for inputting attribute's value.

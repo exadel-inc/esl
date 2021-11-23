@@ -1,12 +1,11 @@
 import {attr, boolAttr} from '@exadel/esl/modules/esl-base-element/core';
 import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
-import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 
-import {UIPSetting} from '../setting';
-import {ChangeAttrConfig, UIPStateModel} from '../../../../../core/base/model';
-import TokenListUtils from '../../../../../utils/token-list-utils';
-import {WARNING_MSG} from '../../../../../utils/warning-msg';
+import {UIPSetting} from '../setting/setting';
+import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
+import TokenListUtils from '../../utils/token-list-utils';
+import {WARNING_MSG} from '../../utils/warning-msg';
 
 /**
  * Custom setting for selecting attribute's value.
@@ -30,7 +29,6 @@ export class UIPSelectSetting extends UIPSetting {
   /** Select field to change setting's value. */
   protected $field: ESLSelect;
 
-  @memoize()
   protected get settingOptions(): string[] {
     return this.$field.options.map(opt => opt.value);
   }

@@ -28,7 +28,7 @@ export default class TokenListUtils {
   static intersection<T>(...rest: T[][]): T[];
   static intersection<T>(a: T[], b: T[], ...rest: T[][]): T[] {
     if (rest.length) return TokenListUtils.intersection(a, TokenListUtils.intersection(b, ...rest));
-    return a.filter(Set.prototype.has, new Set(b));
+    return b ? a.filter(Set.prototype.has, new Set(b)) : a;
   }
 
   /** Remove all element appearances from array. */

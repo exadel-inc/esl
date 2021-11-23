@@ -1,4 +1,5 @@
 const Prism = require('prismjs');
+const {isDev} = require('../views/_data/env');
 
 const highlight = (str, lang) => {
   try {
@@ -12,7 +13,13 @@ const highlight = (str, lang) => {
 
 const markdownIt = require("markdown-it")({
   html: true,
-  highlight: highlight
-});
+  highlight: highlight,
+  replaceLink: function (link) {
+    const domain = isDev ? 'http://localhost:3005/ui-playground' : 'https://exadel-inc.github.io/ui-playground';
+    // if link isn't external, then we replace it
+    return !link.search(/^https?:\/\//) ? link :
+      domain + link.replaceAll(/(src)|(README.md)/g, '')
+  }
+}).use(require('markdown-it-replace-link'));
 
 module.exports = markdownIt;
