@@ -1,20 +1,24 @@
-import {ready} from '../../all';
+import {memoize, ready, TraversingQuery} from '../../all';
 import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
-import {ESLAnimateService} from './esl-animate-service';
 
+import {ESLAnimateService} from './esl-animate-service';
 
 export class ESLAnimate extends ESLBaseElement {
   static is = 'esl-animate';
 
-  @attr({}) public group: number | false;
-  @boolAttr({}) public repeat: boolean;
+  @attr({defaultValue: 'in'}) public cls: string;
+  @attr({defaultValue: '-1'}) public group: string;
+  @attr() public target: string;
+
+  @boolAttr() public repeat: boolean;
 
   static get observedAttributes() {
-    return ['group', 'repeat'];
+    return ['group', 'repeat', 'target'];
   }
 
-  protected reanimate() {
-    ESLAnimateService.observe(this, {repeat: this.repeat, group: this.group ? +this.group : false});
+  @memoize()
+  public get $targets() {
+    return TraversingQuery.all(this.target, this);
   }
 
   protected attributeChangedCallback() {
@@ -28,8 +32,19 @@ export class ESLAnimate extends ESLBaseElement {
     this.reanimate();
   }
 
+  @ready
   protected disconnectedCallback() {
     super.disconnectedCallback();
-    ESLAnimateService.unobserve(this);
+    ESLAnimateService.unobserve(this.$targets);
+  }
+
+  protected reanimate() {
+    ESLAnimateService.unobserve(this.$targets);
+    memoize.clear(this, '$targets');
+    ESLAnimateService.observe(this.$targets, {
+      cls: this.cls,
+      repeat: this.repeat,
+      group: +(this.group || '100')
+    });
   }
 }
