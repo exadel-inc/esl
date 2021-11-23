@@ -34,30 +34,13 @@ export interface PopupPositionConfig {
 }
 
 /**
- * Calculates the base offset of the arrow from the edge of the popup, in pixels,
- * based on the size of the popup and the value of the arrow offset
- * @param size - the size of the popup
- * @param ratio - the value of the arrow offset
- */
-function calcBasicArrowAdjust(size: number, ratio: number): number {
-  /** Sign should be:
-   *  -1 when ratio less 0.5
-   *   0 when ratio equal 0.5
-   *   1 when ratio greater 0.5
-   */
-  const sign = Math.sign(ratio - 0.5);
-  return sign * size;
-}
-
-/**
  * Calculates the position of the popup on the minor axis
  * @param cfg - popup position config
  * @param centerPosition - position of the center of the trigger on the minor axis
  * @param dimensionName - the name of dimension (height or width)
  */
 function calcPopupPositionByMinorAxis(cfg: PopupPositionConfig, centerPosition: number, dimensionName: 'height' | 'width'): number {
-  return centerPosition - cfg.element[dimensionName] * cfg.offsetArrowRatio +
-    calcBasicArrowAdjust(cfg.marginArrow + cfg.arrow[dimensionName] / 2, cfg.offsetArrowRatio);
+  return centerPosition - cfg.arrow[dimensionName] / 2 - cfg.marginArrow - calcUsableSizeForArrow(cfg, dimensionName) * cfg.offsetArrowRatio;
 }
 
 /**
