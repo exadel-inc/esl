@@ -1,35 +1,30 @@
 ---
-layout: basic
+layout: content
 title: Embedded Audio
+seoTitle: Embedded audio examples based on ESL web components
 name: Embedded Audio
-containerCls: container
 tags: examples
+icon: examples/embedded-audio.svg
+aside:
+  components:
+    - esl-media
+  examples:
+    - embedded-video
 ---
 {% import 'lorem.njk' as lorem %}
 
-<section class="row">
-  <div class="col-12">
-    <h2>Related Components: </h2>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="{{ '/components/esl-media' | url }}">ESL Media</a></li>
-    </ul>
-  </div>
-</section>
-
-<div class="row justify-content-around">
-  <section class="col-md-6" data-demo="4">
-    <div class="demo">
-      <h3 class="text-center">Basic Audio Example</h3>
-      <p>ESL Media also supports simple HTML audio.</p>
-      <hr/>
-      <esl-media group="demo-media"
-                 controls
+<div class="row">
+  <section class="col-sm-6" data-demo="4">
+    <div class="mb-1">
+      <h2>Basic Audio Example</h2>
+      <p>ESL Media supports simple HTML audio in mp3, wav or aac formats:</p>
+      <esl-media controls
                  media-type="audio"
                  media-src="https://html5book.ru/examples/media/track.mp3"
                  tabindex="0">
       </esl-media>
     </div>
-    <div class="row btn-group-centered">
+    <div class="btn-group-centered">
       <test-media-controls target="[data-demo='4'] esl-media"></test-media-controls>
     </div>
   </section>

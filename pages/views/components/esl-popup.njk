@@ -1,19 +1,17 @@
 ---
-layout: basic
+layout: content
 title: ESL Popup
+seoTitle: ESL Popup - custom element to show absolutely positioned popup area
 name: ESL Popup
-containerCls: container
 tags: [components, beta]
+iconAlt: '<esl-popup/>'
+aside:
+  components:
+    - esl-toggleable
+    - esl-trigger
+  examples:
+    - popup
+    - scrollbar
 ---
 
 {% mdRender 'src/modules/esl-popup/README.md', 'intro' %}
-
-<section class="row">
-  <div class="col-12">
-    <h2>Related Examples: </h2>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="{{ '/examples/popup' | url }}">Popup</a></li>
-      <li class="list-inline-item"><a href="{{ '/examples/scrollbar' | url }}">Scrollbar</a></li>
-    </ul>
-  </div>
-</section>

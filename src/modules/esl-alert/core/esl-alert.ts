@@ -59,10 +59,14 @@ export class ESLAlert extends ESLToggleable {
   private _clearTimeout: number;
 
   /** Creates global alert instance (using body element as a base) */
-  public static init() {
-    if (document.querySelector(`body > ${ESLAlert.is}`)) return;
-    const alert = document.createElement(ESLAlert.is) as ESLAlert;
-    document.body.appendChild(alert);
+  public static init(options?: Partial<ESLAlert>) {
+    let alert = document.querySelector(`body > ${ESLAlert.is}`);
+    if (!alert) {
+      alert = document.createElement(ESLAlert.is) as ESLAlert;
+      options && Object.assign(alert, options);
+      document.body.appendChild(alert);
+    }
+    return alert;
   }
 
   protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {

@@ -1,163 +1,120 @@
 ---
-layout: basic
+layout: content
 title: Accordion
+seoTitle: Accordion UI examples based on ESL web components
 name: Accordion
-containerCls: container
 tags: examples
+icon: examples/accordion.svg
+aside:
+  components:
+    - esl-panel
+    - esl-panel-group
+    - esl-trigger
+    - esl-toggleable
+  examples:
+    - tabs
+    - toggleable
 ---
 {% import 'lorem.njk' as lorem %}
 
 <section class="row">
   <div class="col-12">
-    <h2>Related Components: </h2>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="{{ '/components/esl-trigger' | url }}">ESL Trigger</a></li>
-      <li class="list-inline-item"><a href="{{ '/components/esl-panel' | url }}">ESL Panel</a></li>
-      <li class="list-inline-item"><a href="{{ '/components/esl-toggleable' | url }}">ESL Toggleable</a></li>
-    </ul>
-  </div>
-</section>
-
-<section class="row">
-  <style>
-    .card-header[active] {
-      box-shadow: inset 0 0 6px rgba(0, 0, 0, .25);
-      border-radius: 0;
-    }
-  </style>
-  <div class="col-12">
-    <esl-panel-group class="accordion-group mb-2">
-      <h3> Simple accordion </h3>
-      <div class="card">
-        <esl-trigger class="card-header" target="::next">
-          <h5 class="mb-0">
-            <button class="btn btn-link">
-              Toggle Accordion #1
-            </button>
-          </h5>
+    <esl-panel-group class="accordion-group mb-4">
+      <h2>Simple accordion</h2>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #1
         </esl-trigger>
-        <esl-panel open initial-params="{noAnimation: true}">
-          <div class="card-body">
+        <esl-panel open class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
             {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
       </div>
-      <div class="card">
-        <esl-trigger class="card-header" target="::next">
-          <h5 class="mb-0">
-            <button class="btn btn-link">
-              Toggle Accordion #2
-            </button>
-          </h5>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #2
         </esl-trigger>
-        <esl-panel>
-          <div class="card-body">
+        <esl-panel class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
             {{ lorem.paragraphs(2) }}
           </div>
         </esl-panel>
       </div>
-      <div class="card">
-        <esl-trigger class="card-header" target="::next">
-          <h5 class="mb-0">
-            <button class="btn btn-link">
-              Toggle Accordion #3
-            </button>
-          </h5>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #3
         </esl-trigger>
-        <esl-panel>
-          <div class="card-body">
-            {{ lorem.paragraphs(2) }}
+        <esl-panel class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(3) }}
           </div>
         </esl-panel>
       </div>
     </esl-panel-group>
 
-    <esl-panel-group class="accordion-group mb-2">
-      <h3> Hover accordion </h3>
-      <div class="card">
-        <esl-trigger class="card-header" target="::parent::find(.clps)" track-hover hide-delay="250">
-          <h5 class="mb-0">
-            <button class="btn btn-link">
-              Toggle Accordion #1
-            </button>
-          </h5>
+    <esl-panel-group class="accordion-group mb-4">
+      <h2>Hover accordion</h2>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next" track-click="not all" track-hover hide-delay="250">
+          Toggle Accordion #1
         </esl-trigger>
-        <esl-panel class="clps" default-params="{hideDelay: 100}">
-          <div class="card-body">
+        <esl-panel class="esl-d-accordion-panel" default-params="{hideDelay: 100}">
+          <div class="esl-d-accordion-body">
             {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
       </div>
-      <div class="card">
-        <esl-trigger class="card-header" target="::next" track-hover hide-delay="250">
-          <h5 class="mb-0">
-            <button class="btn btn-link">
-              Toggle Accordion #2
-            </button>
-          </h5>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next" track-click="not all" track-hover hide-delay="250">
+          Toggle Accordion #2
         </esl-trigger>
-        <esl-panel default-params="{hideDelay: 100}">
-          <div class="card-body">
+        <esl-panel class="esl-d-accordion-panel" default-params="{hideDelay: 100}">
+          <div class="esl-d-accordion-body">
             {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
       </div>
-      <div class="card">
-        <esl-trigger class="card-header" target="::next" track-hover hide-delay="250">
-          <h5 class="mb-0">
-            <button class="btn btn-link">
-              Toggle Accordion #3
-            </button>
-          </h5>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next" track-click="not all" track-hover hide-delay="250">
+          Toggle Accordion #3
         </esl-trigger>
-        <esl-panel default-params="{hideDelay: 100}">
-          <div class="card-body">
+        <esl-panel class="esl-d-accordion-panel" default-params="{hideDelay: 100}">
+          <div class="esl-d-accordion-body">
             {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
       </div>
     </esl-panel-group>
 
-    <esl-panel-group class="accordion-group mb-2" accordion-group="multiple">
-      <h3> Simple accordion (multiple open items) </h3>
-      <div class="card">
-        <esl-trigger class="card-header" target="::next">
-          <h5 class="mb-0">
-            <button class="btn btn-link">
-              Toggle Accordion #1
-            </button>
-          </h5>
+    <esl-panel-group class="accordion-group mb-4" accordion-group="multiple">
+      <h2>Simple accordion (multiple open items)</h2>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #1
         </esl-trigger>
-        <esl-panel open initial-params="{noAnimation: true}">
-          <div class="card-body">
+        <esl-panel open class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
             {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
       </div>
-      <div class="card">
-        <esl-trigger class="card-header" target="::next">
-          <h5 class="mb-0">
-            <button class="btn btn-link">
-              Toggle Accordion #2
-            </button>
-          </h5>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #2
         </esl-trigger>
-        <esl-panel open initial-params="{noAnimation: true}">
-          <div class="card-body">
+        <esl-panel open class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
             {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>
       </div>
-      <div class="card">
-        <esl-trigger class="card-header" target="::next">
-          <h5 class="mb-0">
-            <button class="btn btn-link">
-              Toggle Accordion #3
-            </button>
-          </h5>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #3
         </esl-trigger>
-        <esl-panel>
-          <div class="card-body">
+        <esl-panel class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
             {{ lorem.paragraphs(1) }}
           </div>
         </esl-panel>

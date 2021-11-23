@@ -1,4 +1,4 @@
-# [ESL](https://exadel-inc.github.io/esl/) Media Query Utils
+# [ESL](../../../) Media Query Utils
 
 Version: *2.0.0*
 
@@ -16,7 +16,7 @@ having extra conditions inside the query (`all and all` still a valid condition)
 
 - Native [Media Query Features](https://www.w3.org/TR/css3-mediaqueries/#media1)  
   (e.g. `(min-wigth: 300px)`, `(orientation: landscape)`, `(min-wigth: 300px) and (orientation: landscape)`).
-- Shortcuts for DPR (Device Pixel Ratio) detection  
+- Shortcuts for DPR (Device Pixel Ratio) detection.  
   Syntax `@x<dpr_value>` (e.g. `@x1`, `@x2`, `@x1.5`).
 - Can block queries with DPR value greater than 1 for PageSpeedBots.
 - Screen breakpoints shortcuts (e.g. `@XS`, `@md`, `@+LG`, `@-MD`)  
@@ -36,7 +36,7 @@ having extra conditions inside the query (`all and all` still a valid condition)
   - `@BLINK` - detects Blink engine based browsers (e.g. Google Chrome, Opera)
   - `@SAFARI` - detects safari browsers
   - `@SAFARI-IOS` - detects mobile safari browsers  
-- `or` operation alias in addition to `,` (`@xs or @mobile` is the same as `@xs, @mobile`)
+- `or` operation alias in addition to "`,`" (`@xs or @mobile` is the same as `@xs, @mobile`)
 - Multiple `not` operators, that is not sensitive to position
   (e.g. `not @ie`, `not @xs and not @mobile`)
 ---
@@ -94,8 +94,8 @@ Note: ESLMediaQuery has no real instances and represents `IMediaQueryConditionIn
 `IMediaQueryConditionInterface` is implemented by 4 types of inner conditions:
   - `MediaQueryConstCondition` with only two possible instances `ALL` and `NOT_ALL`
   - `MediaQueryCondition` - simple wrapper around native MediaQueryList object
-  - `MediaQueryConjunction` - `and` condition container
-  - `MediaQueryDisjunction` - `or' condition container
+  - `MediaQueryConjunction` - group of conditions unified by `and` operator
+  - `MediaQueryDisjunction` - group of conditions unified by `or` operator
 
 The `ESLMediaQuery`(`IMediaQueryConditionInterface`) instances provide the following set of properties and methods:
   - `matches` - boolean getter that returns if the current environment configuration is acceptable for current query condition
@@ -111,7 +111,7 @@ The `ESLMediaQuery`(`IMediaQueryConditionInterface`) instances provide the follo
 Pair of ESLMediaQuery and payload value. 
 ESLMediaRule is used as an item for [ESLMediaRuleList](#eslmediarulelist).  
 ESLMediaRule can be parsed from `<ESL Media Query> => <value>` syntax string, 
-e.g. `@XS => 1` (`1` is a payload) or `@+LG and @DESKTOP => desktop` (`'desktop'` is a payload).
+e.g. `@XS => 1` (`1` is the payload) or `@+LG and @DESKTOP => desktop` (`'desktop'` is the payload).
 
 --- 
 
@@ -129,8 +129,8 @@ ESLMediaRuleList should be generalized with the result value type and according 
 - `ESLMediaRuleList.OBJECT_PARSER` - out of the box object payload parser (uses evaluation).
 
 Examples:
-- ` 1 | @XS => 2` - the RuleList result depends on environment and equals '1' on all screen breakpoints except XS, 
-  on XS it changes to '2'.  
+- ` 1 | @XS => 2` - the RuleList result depends on environment and equals `'1'` on all screen breakpoints except XS, 
+  on XS it changes to `'2'`.  
 
 - ` @XS => {option: 1} | @+SM => {option: 2}` - the RuleList result depends on environment and equals `{option: 1}` 
   on XS breakpoint, and equals `{option: 2}` on SM and upper breakpoints.

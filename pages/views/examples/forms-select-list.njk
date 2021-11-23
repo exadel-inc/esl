@@ -1,9 +1,13 @@
 ---
-layout: basic
+layout: content
 title: Forms - Select List
+seoTitle: Custom select list examples based on ESL web components
 name: Select List
-containerCls: container
 tags: [examples, beta]
+icon: examples/select-list.svg
+aside:
+  components:
+    - esl-select-list
 ---
 
 <section class="row">
@@ -14,12 +18,11 @@ tags: [examples, beta]
         width: 100%;
       }
     </style>
-    <div class="row demo">
-      <form class="form bg-white border border-primary p-4" action="javascript: void 0;">
+      <form class="form bg-white border p-4" action="javascript: void 0;">
         <div class="">
-          <div class="form-group">
-            <label for="country_field" class="form-label">Please select your country: </label>
-            <esl-select-list select-all-label="Select All Countries">
+          <div class="form-group p-1">
+            <label for="country_field" class="form-label">Please select your country:</label>
+            <esl-select-list class="form-control border p-1" select-all-label="Select All Countries">
               <select esl-select-target
                       id="country_field"
                       name="country_field"
@@ -223,9 +226,9 @@ tags: [examples, beta]
             </esl-select-list>
           </div>
 
-          <div class="form-group">
+          <div class="form-group p-1">
             <label for="color_field_3" class="form-label">Color List</label>
-            <esl-select-list class="form-control" select-all-label="Select All Colors">
+            <esl-select-list class="form-control border" select-all-label="Select All Colors">
               <select esl-select-target
                       multiple
                       id="color_field_3"
@@ -298,11 +301,10 @@ tags: [examples, beta]
           </div>
         </div>
         <div class="form-group">
-          <button class="btn btn-primary">Submit</button>
-          <button type="reset" class="btn btn-danger">Reset</button>
+          <button class="btn btn-sec-blue">Submit</button>
+          <button type="reset" class="btn btn-sec-orange">Reset</button>
         </div>
       </form>
-    </div>
 
     <div class="demo-info panel panel-info">
     </div>

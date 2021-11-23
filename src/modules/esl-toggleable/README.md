@@ -1,4 +1,4 @@
-# [ESL](https://exadel-inc.github.io/esl/) Toggleable
+# [ESL](https://esl-ui.com/) Toggleable
 
 Version: *2.2.0*
 
@@ -15,7 +15,7 @@ Use `ESLToggleableDispatcher.init()` to initialize (and bind) ESLToggleableDispa
 
 ---
 
-### Toggleable Attributes / Property
+### Toggleable Attributes / Properties
  - `open` - active state marker
 
  - `body-class` - CSS class to add on the body element

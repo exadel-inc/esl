@@ -1,5 +1,5 @@
 import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
-import type {ESLMedia} from './esl-media';
+import type {ESLMedia, ESLMediaFillMode} from './esl-media';
 
 /**
  * Tag declaration interface of ESLMedia element
@@ -19,7 +19,7 @@ export type ESLMediaTagShape = ({
   /** Define media player group */
   group: string;
   /** Define media fill mode */
-  'fill-mode'?: string;
+  'fill-mode'?: ESLMediaFillMode;
   /** Define preferable aspect ratio */
   'aspect-ratio'?: string;
 
@@ -38,7 +38,7 @@ export type ESLMediaTagShape = ({
   /** Define viewport control marker */
   'play-in-viewport'?: boolean;
   /** Define preload media param */
-  'preload'?: string;
+  'preload'?: 'none' | 'metadata' | 'auto' | '';
   /** Allow play media inline */
   'playsinline'?: boolean;
 

@@ -1,3 +1,5 @@
+@import (reference) "./variables.less";
+
 .form-control {
   display: block;
   width: 100%;
@@ -9,7 +11,7 @@
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: 1px solid @secondary-blue;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
@@ -68,7 +70,7 @@ select.form-control:focus::-ms-value {
 
   > .form-control {
     position: relative;
-    flex: 1 1 0%;
+    flex: 1 1 0px;
     min-width: 0;
     margin-bottom: 0;
 
