@@ -276,10 +276,11 @@ export class ESLCarousel extends ESLBaseElement {
     this.$$fire('slide:changed', eventDetails);
   }
 
-  //TODO: discuss names in the final API
+  //TODO: rename
   public goPrev(count: number = this.activeCount) {
     return this.goTo(this.firstIndex - count, 'prev');
   }
+  //TODO: rename
   public goNext(count: number = this.activeCount) {
     return this.goTo(this.firstIndex + count, 'next');
   }
@@ -293,10 +294,10 @@ export class ESLCarousel extends ESLBaseElement {
     return this.$slides[this.normalizeIndex(index)];
   }
 
-  // TODO: discuss , created to cover onClick functionality
+  // TODO: 'get'  discuss , created to cover onClick functionality
   public toIndex(target: CarouselSlideTarget) {
-    if ('prev' === target) return this.normalizeIndex(this.firstIndex - 1);
-    if ('next' === target) return this.normalizeIndex(this.firstIndex + 1);
+    if ('prev' === target) return this.normalizeIndex(this.firstIndex - this.activeCount);
+    if ('next' === target) return this.normalizeIndex(this.firstIndex + this.activeCount);
     if (typeof target === 'number' || !isNaN(+target)) return this.normalizeIndex(+target - 1);
     if ('g' !== target[0]) return this.firstIndex;
     const group = +(target.substring(1)) - 1;
@@ -305,11 +306,12 @@ export class ESLCarousel extends ESLBaseElement {
     return this.normalizeIndex(index);
   }
 
+  // TODO: remove use slide traversing
   public getPrevSlide(slide: number | ESLCarouselSlide) {
     if (typeof slide !== 'number') slide = slide.index;
     return this.slideAt(slide - 1);
   }
-
+  // TODO: remove use slide traversing
   public getNextSlide(slide: number | ESLCarouselSlide) {
     if (typeof slide !== 'number') slide = slide.index;
     return this.slideAt(slide + 1);

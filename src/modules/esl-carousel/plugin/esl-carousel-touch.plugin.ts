@@ -83,9 +83,9 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     if (!this.isTouchStarted) return;
     if (this.carousel.hasAttribute('animate')) return;
 
-    this.carousel.$slides.forEach((el) => el._setActive(false));
+    this.carousel.$slides.forEach((el) => el.active = false);
     for (let i = 0; i < this.carousel.activeCount; i++) {
-      this.carousel.slideAt(this.currentIndex + i)._setActive(true);
+      this.carousel.slideAt(this.currentIndex + i).active = true;
     }
 
     this.carousel.toggleAttribute('animate', true);
@@ -98,7 +98,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     const eventDetails = {
       detail: {direction}
     };
-    this.$$fire('slide:changed', eventDetails);
+    this.carousel.$$fire('slide:changed', eventDetails);
   };
 
   @bind
