@@ -6,6 +6,7 @@ module.exports = {
   entry: {
     'localdev': './src/localdev.ts',
     'polyfill-full': './src/polyfill-full.ts',
+    'polyfill-medium': './src/polyfill-medium.ts',
     'polyfill-light': './src/polyfill-light.ts'
   },
   resolve: {
