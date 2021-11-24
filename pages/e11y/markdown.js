@@ -18,7 +18,7 @@ const markdownIt = require("markdown-it")({
     const domain = isDev ? 'http://localhost:3005/ui-playground' : 'https://exadel-inc.github.io/ui-playground';
     // if link isn't external, then we replace it
     return !link.search(/^https?:\/\//) ? link :
-      domain + link.replaceAll(/(src)|(README.md)/g, '')
+      domain + link.replace(/(src)|(README.md)/g, '')
   }
 }).use(require('markdown-it-replace-link'));
 
