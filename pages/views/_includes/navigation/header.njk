@@ -14,12 +14,14 @@
           {% include 'static/assets/common/github.svg' %}
         </a>
       </li>
-      {# Hide it temporarily until search integration #}
-      {# <li class="header-li">
-          <button>
-            {% include 'static/assets/common/search.svg' %}
-          </button>
-        </li> #}
+      <li class="header-li header-search">
+        <esl-toggleable class="header-search-box">
+          <div class="gcse-searchbox-only" data-resultsUrl="{{ '/search.html' | url }}"></div>
+        </esl-toggleable>
+        <esl-trigger class="header-search-trigger" target="::prev">
+          {% include 'static/assets/common/search.svg' %}
+        </esl-trigger>
+      </li>
     </ul>
     <div class="header-utility">
       <a class="header-btn btn btn-lg btn-sec-blue" href="{{ '/introduction' | url }}">Get started</a>
