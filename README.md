@@ -132,6 +132,7 @@ you can find useful information about the project processes and agreements here:
 [Andrey Belous](https://github.com/andreybelous),
 [Dzianis Mantsevich](https://github.com/dmantsevich), 
 [Feoktyst Shovchko](https://github.com/fshovchko), 
+[Iryna Pavlenko](https://www.linkedin.com/in/iryna-pavlenko-270930107/),
 [Liubou Masiuk](https://github.com/liubou-masiuk), 
 [Natallia Harshunova](https://github.com/nattallius), 
 [Yana Bernatskaya](https://github.com/YanaBr).
