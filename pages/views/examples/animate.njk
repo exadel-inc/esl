@@ -12,8 +12,8 @@ aside:
 <section>
   <h2>Grouped and repetitive animation</h2>
   <ul class="round simple-grid">
-    <esl-animate target="::parent::child(li)" group></esl-animate>
-    {% for i in range(0, 96) -%}
+    <esl-animate target="::parent::child(li)" group repeat></esl-animate>
+    {% for i in range(0, 100) -%}
       <li class="bg-blue round esl-animate-slide simple-grid-cell {{ 'hide-xs' if i >= 12 }}"
           is="my-comp my-com-2"></li>
     {%- endfor %}
@@ -23,7 +23,7 @@ aside:
 <section>
   <h2>Single animation</h2>
   <div class="simple-grid">
-    {% for i in range(0, 48) -%}
+    {% for i in range(0, 100) -%}
       <esl-animate class="esl-animate-fade simple-grid-cell bg-green round">
 
       </esl-animate>

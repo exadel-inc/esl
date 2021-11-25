@@ -72,7 +72,7 @@ export class ESLAnimateService {
   protected _entries: Element[] = [];
   protected _configMap = new WeakMap<Element, ESLAnimateConfig>();
 
-  protected deferredOnAnimate = debounce(() => this.onAnimate(), 250);
+  protected deferredOnAnimate = debounce(() => this.onAnimate(), 100);
 
   /**
    * Subscribe ESlAnimateService on element(s) to animate it on viewport intersection
@@ -95,24 +95,25 @@ export class ESLAnimateService {
 
   /** Intersection observable callback */
   @bind
-  protected onIntersect(entries: IntersectionObserverEntry[], observer: IntersectionObserver): void {
-    entries.forEach(({target, intersectionRatio}: IntersectionObserverEntry) => {
+  protected onIntersect(entries: IntersectionObserverEntry[]): void {
+    entries.forEach(({target, intersectionRatio, isIntersecting}: IntersectionObserverEntry) => {
       const config = this.getConfigFor(target);
       if (!config) return;
 
       if (intersectionRatio >= 0.4) {
         this._entries.push(target);
-        this.deferredOnAnimate();
-        if (!config.repeat) {
-          observer.unobserve(target);
-          config._unsubscribe = true;
-        }
       }
+
+      if (!isIntersecting) {
+        this._entries = this._entries.filter(item => item !== target);
+      }
+
       if (intersectionRatio <= 0.1 && config.repeat) {
         target.classList.remove(config.cls);
         config._timeout && clearTimeout(config._timeout);
       }
     });
+    this.deferredOnAnimate();
   }
 
   /** Method to show up HTMLElement */
@@ -124,10 +125,13 @@ export class ESLAnimateService {
 
       if (typeof config.group === 'number' && config.group >= 0) {
         time += config.group;
-        target.classList.remove(config.cls);
         config._timeout = window.setTimeout(() => target.classList.add(config.cls), time);
       } else {
         target.classList.add(config.cls);
+      }
+      if (!config.repeat) {
+        this._io.unobserve(target);
+        config._unsubscribe = true;
       }
       config._unsubscribe && this._configMap.delete(target);
       return time;
