@@ -5,15 +5,15 @@ import '../../src/polyfills/polyfills.es6';
 // Validate environment
 import '../../src/polyfills/polyfills.validate';
 
-import './common/test-media';
-import './common/test-media-source';
-
 // With Namespace
 import '../../src/modules/lib';
+// Config
+import './common/breakpoints';
 
 import {
   ESLImage,
   ESLMedia,
+  ESLToggleable,
   ESLPopup,
   ESLPanel,
   ESLPanelGroup,
@@ -42,10 +42,26 @@ import {
   ESLCarouselPlugins
 } from '../../src/modules/draft/all';
 
+import './esl-media-demo/test-media';
+import './esl-media-demo/test-media-source';
+
+import {initViewportVariables} from './common/viewport';
+import {ESLDemoSidebar} from './navigation/navigation';
+import {ESLDemoMarquee} from './landing/landing';
+
+initViewportVariables();
+
+// Register Demo components
+ESLDemoSidebar.register();
+ESLDemoMarquee.register();
+
+// Register ESL Components
+
 ESLImage.register();
 ESLMedia.register();
 
 ESLToggleableDispatcher.init();
+ESLToggleable.register();
 ESLPopup.register();
 
 ESLPanelGroup.register();
@@ -58,8 +74,11 @@ ESLA11yGroup.register();
 ESLTabs.register();
 
 ESLScrollbar.register();
+
 ESLAlert.register();
-ESLAlert.init();
+ESLAlert.init({
+  closeOnOutsideAction: true
+});
 
 ESLSelectList.register();
 ESLSelect.register();

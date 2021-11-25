@@ -12,6 +12,7 @@ export * from './esl-toggleable/core';
 export * from './esl-popup/core';
 export * from './esl-trigger/core';
 
+export * from './esl-panel-group/core';
 export * from './esl-panel/core';
 
 export * from './esl-tab/core';
@@ -22,6 +23,5 @@ export * from './esl-alert/core';
 
 export * from './esl-forms/all';
 
-export * from './esl-note/core';
 export * from './esl-footnotes/core';
 export * from './esl-tooltip/core';

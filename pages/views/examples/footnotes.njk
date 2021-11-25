@@ -1,0 +1,60 @@
+---
+layout: content
+title: Footnotes
+seoTitle: Auto-collected footnotes custom elements example based on ESL web components
+name: Footnotes
+tags: [examples, beta]
+icon: examples/footnotes.svg
+aside:
+  components:
+    - esl-footnotes
+    - esl-popup
+---
+
+<section class="row">
+  <div class="col-12">
+    <h2>Text with notes</h2>
+    <div>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>et dolore magna</esl-note> aliqua. Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet <esl-note>massa vitae tortor</esl-note>. Ut aliquam purus sit amet luctus venenatis lectus magna.</p>
+      <p>Dolor magna eget est lorem ipsum dolor sit amet. Vel orci porta non pulvinar neque laoreet suspendisse interdum consectetur. In vitae turpis massa sed elementum tempus egestas sed. Dui accumsan sit amet nulla facilisi morbi tempus. Diam quam nulla porttitor massa. Aliquet enim tortor at auctor urna nunc id cursus metus. Volutpat maecenas volutpat blandit aliquam etiam erat. Est pellentesque elit <esl-note>ullamcorper dignissim cras</esl-note> tincidunt lobortis feugiat. Sagittis purus sit amet volutpat consequat. Sit amet porttitor eget dolor morbi. Et netus et malesuada fames ac turpis. Egestas egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate. Pulvinar pellentesque habitant morbi tristique senectus et netus et malesuada. Sit amet cursus sit amet dictum. Potenti nullam ac tortor vitae purus faucibus ornare. In nulla posuere sollicitudin aliquam ultrices sagittis orci. Blandit volutpat maecenas volutpat blandit aliquam etiam erat. Aliquam ultrices sagittis orci a. Sit amet consectetur adipiscing elit pellentesque habitant.</p>
+      <p>Mattis molestie a iaculis at erat pellentesque adipiscing commodo. Massa tincidunt nunc pulvinar sapien et ligula. Lectus urna duis convallis convallis tellus id interdum. Elit sed vulputate mi sit. Adipiscing commodo elit at imperdiet dui accumsan sit amet nulla. Lacus viverra vitae congue eu consequat ac felis donec et. Eget mauris pharetra et ultrices neque ornare <esl-note>aenean euismod elementum</esl-note>. Mattis aliquam faucibus purus in massa tempor nec feugiat nisl. Est ante in nibh <esl-note>mauris cursus mattis molestie</esl-note>. Velit dignissim sodales ut eu. Quam lacus suspendisse faucibus interdum posuere. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Vulputate enim nulla aliquet porttitor. Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui. Arcu non sodales neque sodales ut etiam. Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac. A scelerisque purus semper eget duis at tellus at urna. Feugiat nibh sed pulvinar proin gravida hendrerit lectus. Arcu bibendum at varius <esl-note>et dolore magna</esl-note> vel pharetra vel turpis.</p>
+      <esl-footnotes grouping="disable"></esl-footnotes>
+    </div>
+
+    <h2>Text without footnotes container</h2>
+    <div>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>et dolore magna</esl-note> aliqua. Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet <esl-note>massa vitae tortor</esl-note>. Ut aliquam purus sit amet luctus venenatis lectus magna.</p>
+    </div>
+
+    <h2>Text with nested notes</h2>
+    <div class="demo-nested">
+      <div class="row">
+        <div class="col-md-4">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>et dolore magna</esl-note> aliqua. Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet <esl-note>massa vitae <a href="https://github.com">eiusmod</a> tortor</esl-note>. Ut aliquam purus sit amet luctus venenatis lectus magna.</p>
+          <esl-footnotes></esl-footnotes>
+        </div>
+        <div class="col-md-4">
+          <p>Dolor magna eget est lorem ipsum dolor sit amet. Vel orci porta non pulvinar neque laoreet suspendisse interdum consectetur. In vitae turpis massa sed elementum tempus egestas sed. Dui accumsan sit amet nulla facilisi morbi tempus. Diam quam nulla porttitor massa. Aliquet enim tortor at auctor urna nunc id cursus metus. Volutpat maecenas volutpat blandit aliquam etiam erat. Est pellentesque elit <esl-note>ullamcorper dignissim cras</esl-note> tincidunt lobortis feugiat. Sagittis purus sit amet volutpat consequat. Sit amet porttitor eget dolor morbi. Et netus et malesuada fames ac turpis. Egestas egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate. Pulvinar pellentesque habitant morbi tristique senectus et netus et malesuada. Sit amet cursus sit amet dictum. Potenti nullam ac tortor vitae purus faucibus ornare. In nulla posuere sollicitudin aliquam ultrices sagittis orci. Blandit volutpat maecenas volutpat blandit aliquam etiam erat. Aliquam ultrices sagittis orci a<esl-note>et dolore magna</esl-note>. Sit amet consectetur adipiscing elit pellentesque habitant.</p>
+        </div>
+        <div class="col-md-4">
+          <p>Mattis molestie a iaculis at erat pellentesque adipiscing commodo. Massa tincidunt nunc pulvinar sapien et ligula. Lectus urna duis convallis convallis tellus id interdum. Elit sed vulputate mi sit. Adipiscing commodo elit at imperdiet dui accumsan sit amet nulla. Lacus viverra vitae congue eu consequat ac felis donec et. Eget mauris pharetra et ultrices neque ornare <esl-note>aenean euismod elementum</esl-note>. Mattis aliquam faucibus purus in massa tempor nec feugiat nisl. Est ante in nibh <esl-note>mauris cursus mattis molestie</esl-note>. Velit dignissim sodales ut eu. Quam lacus suspendisse faucibus interdum posuere. Magna fringilla urna porttitor rhoncus dolor purus non enim praesent. Vulputate enim nulla aliquet porttitor. Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui. Arcu non sodales neque sodales ut etiam. Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac. A scelerisque purus semper eget duis at tellus at urna. Feugiat nibh sed pulvinar proin gravida hendrerit lectus. Arcu bibendum at varius vel pharetra vel turpis.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <p>Ullamcorper a lacus vestibulum sed arcu. Egestas tellus rutrum tellus pellentesque. Egestas diam in arcu <esl-note>cursus</esl-note>. Diam volutpat commodo sed egestas. Sit amet justo donec enim diam vulputate ut pharetra. Facilisis mauris sit amet massa vitae tortor condimentum lacinia. Fames ac turpis egestas integer eget. Id volutpat lacus laoreet non curabitur gravida. Orci phasellus egestas tellus rutrum tellus pellentesque eu. At risus viverra adipiscing at in tellus integer feugiat. Semper quis lectus nulla at. Massa id neque aliquam vestibulum morbi. Eget nunc lobortis mattis aliquam faucibus purus in. Urna porttitor rhoncus dolor purus non enim praesent elementum. Amet consectetur adipiscing elit pellentesque habitant morbi. Ullamcorper malesuada proin libero nunc consequat interdum varius sit. Ridiculus mus mauris vitae ultricies leo integer malesuada nunc. At varius vel pharetra vel turpis nunc eget.</p>
+        </div>
+        <div class="col-sm-6">
+          <p>Lobortis elementum nibh tellus molestie nunc non. Tellus orci ac auctor augue. Orci nulla pellentesque dignissim enim sit amet. Massa tincidunt dui ut ornare lectus sit amet est placerat. Nisl pretium fusce id velit ut tortor pretium viverra. Porttitor massa id neque aliquam. Pulvinar proin gravida hendrerit lectus. Gravida neque convallis a cras. Urna nunc id cursus metus aliquam eleifend mi in nulla. Eu turpis egestas pretium aenean pharetra magna ac placerat vestibulum. Sed odio morbi quis commodo odio aenean. Molestie ac feugiat sed lectus vestibulum. Consequat semper viverra nam libero justo laoreet. Et netus et malesuada fames ac turpis egestas integer eget. Commodo nulla facilisi nullam vehicula ipsum a arcu cursus. Molestie at elementum eu facilisis. Sit amet consectetur adipiscing elit ut. Fermentum iaculis <esl-note>et dolore magna</esl-note> eu non diam phasellus vestibulum lorem sed.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <esl-footnotes scope-target="::parent(.demo-nested)"></esl-footnotes>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

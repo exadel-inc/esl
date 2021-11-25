@@ -20,7 +20,7 @@ export interface MediaProviderConfig {
   controls: boolean;
   autoplay: boolean;
   title: string;
-  preload?: string;
+  preload?: 'none' | 'metadata' | 'auto' | '';
   playsinline?: boolean;
 }
 
@@ -56,10 +56,7 @@ export abstract class BaseProvider {
     this.component = component;
   }
 
-  /**
-   * Wraps _ready promise
-   * @returns {Promise}
-   */
+  /** Wraps _ready promise */
   get ready() {
     if (!this._ready) {
       const res = Promise.reject('Not Initialized');
@@ -83,16 +80,16 @@ export abstract class BaseProvider {
     return (this.constructor as typeof BaseProvider).providerName;
   }
 
-  /** @returns {PlayerStates} - current state of the player */
+  /** @returns current state of the player */
   public abstract get state(): PlayerStates;
 
-  /** @returns {number} - recommended aspect ratio */
+  /** @returns recommended aspect ratio */
   public abstract get defaultAspectRatio(): number;
 
-  /** @returns {number} - resource duration */
+  /** @returns resource duration */
   public abstract get duration(): number;
 
-  /** @returns {number} - resource current time */
+  /** @returns resource current time */
   public abstract get currentTime(): number;
 
   /** Low-level provider 'seek to' method implementation */
@@ -128,7 +125,7 @@ export abstract class BaseProvider {
    * If the player is PAUSED then it starts playing otherwise it pause playing
    */
   protected toggle() {
-    if (this.state === PlayerStates.PAUSED) {
+    if ([PlayerStates.PAUSED, PlayerStates.UNSTARTED, PlayerStates.VIDEO_CUED].includes(this.state)) {
       return this.play();
     } else {
       return this.pause();

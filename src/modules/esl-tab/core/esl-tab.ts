@@ -30,8 +30,17 @@ export class ESLTab extends ESLTrigger {
     target.setAttribute('tabindex', this.active ? '0' : '-1');
 
     // TODO: auto generate
-    if (this.$target.id) {
+    if (this.$target && this.$target.id) {
       this.setAttribute('aria-controls', this.$target.id);
     }
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Tab: typeof ESLTab;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-tab': ESLTab;
   }
 }

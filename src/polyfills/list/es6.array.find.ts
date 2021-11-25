@@ -2,7 +2,7 @@ type FindPredicate<T> = (T: any, index: number, array: T[]) => boolean;
 
 /**
  * Group: ES6 shim
- * Target Browsers: IE11, Edge < 14
+ * Target Browsers: `IE11`, `Edge < 14`
  * Array.prototype.findIndex && Array.prototype.findIndex
  */
 if (typeof Array.prototype.findIndex !== 'function') {

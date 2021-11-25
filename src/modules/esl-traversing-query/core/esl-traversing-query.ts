@@ -1,7 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {tuple, wrap, uniq} from '../../esl-utils/misc/array';
 import {unwrapParenthesis} from '../../esl-utils/misc/format';
-import {TraversingUtils} from '../../esl-utils/dom/traversing';
+import {findAll, findChildren, findNext, findParent, findPrev} from '../../esl-utils/dom/traversing';
 
 type ProcessorDescriptor = [string?, string?];
 type ElementProcessor = (base: Element, sel: string) => Element | Element[] | null;
@@ -18,28 +18,29 @@ type CollectionProcessor = (els: Element[], sel: string) => Element[];
  * - ::first, ::last and :nth(#) limitation pseudo-selectors
  * - ::filter, ::not filtration pseudo-selectors
  *
- * @example "#id .class [attr]" - find by CSS selector in a current document
- * @example "" - get current base element
- * @example "::next" - get next sibling element
- * @example "::prev" - get previous sibling element
- * @example "::parent" - get base element parent
- * @example "::parent(#id .class [attr])" - find the closest parent matching passed selector
- * @example "::child(#id .class [attr])" - find direct child element(s) that match passed selector
- * @example "::find(#id .class [attr])" - find child element(s) that match passed selector
- * @example "::find(buttons, a)::not([hidden])" - find all buttons and anchors that are not have hidden attribute
- * @example "::find(buttons, a)::filter(:first-child)" - find all buttons and anchors that are first child in container
- * @example "::parent::child(some-tag)" - find direct child element(s) that match tag 'some-tag' in the parent
- * @example "#id .class [attr]::parent" - find parent of element matching selector '#id .class [attr]' in document
- * @example "::find(.row)::last::parent" - find parent of the last element matching selector '.row' from the base element subtree
+ * @example
+ * - `#id .class [attr]` - find by CSS selector in a current document
+ * - ` ` - get current base element
+ * - `::next` - get next sibling element
+ * - `::prev` - get previous sibling element
+ * - `::parent` - get base element parent
+ * - `::parent(#id .class [attr])` - find the closest parent matching passed selector
+ * - `::child(#id .class [attr])` - find direct child element(s) that match passed selector
+ * - `::find(#id .class [attr])` - find child element(s) that match passed selector
+ * - `::find(buttons, a)::not([hidden])` - find all buttons and anchors that are not have hidden attribute
+ * - `::find(buttons, a)::filter(:first-child)` - find all buttons and anchors that are first child in container
+ * - `::parent::child(some-tag)` - find direct child element(s) that match tag 'some-tag' in the parent
+ * - `#id .class [attr]::parent` - find parent of element matching selector '#id .class [attr]' in document
+ * - `::find(.row)::last::parent` - find parent of the last element matching selector '.row' from the base element subtree
  */
 @ExportNs('TraversingQuery')
 export class TraversingQuery {
   private static ELEMENT_PROCESSORS: Record<string, ElementProcessor> = {
-    '::find': TraversingUtils.findAll,
-    '::next': TraversingUtils.findNext,
-    '::prev': TraversingUtils.findPrev,
-    '::child': TraversingUtils.findChildren,
-    '::parent': TraversingUtils.findParent
+    '::find': findAll,
+    '::next': findNext,
+    '::prev': findPrev,
+    '::child': findChildren,
+    '::parent': findParent
   };
   private static COLLECTION_PROCESSORS: Record<string, CollectionProcessor> = {
     '::first': (list: Element[]) => list.slice(0, 1),
@@ -53,7 +54,7 @@ export class TraversingQuery {
   };
 
   /**
-   * @return RegExp that selects all known processors in query string
+   * @returns RegExp that selects all known processors in query string
    * e.g. /(::parent|::child|::next|::prev)/
    */
   private static get PROCESSORS_REGEX() {
@@ -93,20 +94,26 @@ export class TraversingQuery {
     return uniq(result);
   }
 
-  static traverse(query: string, findFirst: boolean, base?: Element) {
+  static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document) {
     const parts = query.split(this.PROCESSORS_REGEX).map((term) => term.trim());
     const rootSel = parts.shift();
     const baseCollection = base ? [base] : [];
-    const initial: Element[] = rootSel ? Array.from(document.querySelectorAll(rootSel)) : baseCollection;
+    const initial: Element[] = rootSel ? Array.from(scope.querySelectorAll(rootSel)) : baseCollection;
     return this.traverseChain(initial, tuple(parts), findFirst);
   }
 
-  /** @return first matching element reached via {@class TraversingQuery} rules */
-  static first(query: string, base?: Element): Element | null {
-    return TraversingQuery.traverse(query, true, base)[0] || null;
+  /** @returns first matching element reached via {@link TraversingQuery} rules */
+  static first(query: string, base?: Element | null, scope?: Element): Element | null {
+    return TraversingQuery.traverse(query, true, base, scope)[0] || null;
   }
-  /** @return Array of all matching elements reached via {@class TraversingQuery} rules */
-  static all(query: string, base?: Element): Element[] {
-    return TraversingQuery.traverse(query, false, base);
+  /** @returns Array of all matching elements reached via {@link TraversingQuery} rules */
+  static all(query: string, base?: Element | null, scope?: Element): Element[] {
+    return TraversingQuery.traverse(query, false, base, scope);
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    TraversingQuery: typeof TraversingQuery;
   }
 }

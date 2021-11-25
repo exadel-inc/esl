@@ -1,10 +1,26 @@
-# [ESL](../../../README.md) Popup
+# [ESL](../../../) Popup
 
-Version: *1.0.0-beta*.  
-***Important Notice: the component is under beta version, it tested and ready to use but be aware of its potential critical API changes.***
+Version: *2.0.0-beta*.  
 
-Authors: *Alexey Stsefanovich (ala'n)*.
+Authors: *Alexey Stsefanovich (ala'n), Dmytro Shovchko*.
 
-ESLPopup - is a custom element, that implements ESLBasicPopup and allows controlling page scroll with the instance state changes. 
+***Important Notice: the component is under beta version, it is tested and ready to use but be aware of its potential critical API changes.***
 
-Description TBD.
+<a name="intro"></a>
+
+ESLPopup is a custom element that is used as a wrapper for content that can be displayed as a pop-up GUI element.
+ESLPopup is based on ESLToggleable and works in pair with ESLTrigger that allows triggering ESLPopup instances state changes.
+
+### ESLPopup Attributes | Properties:
+
+- `position` (string) - popup position relative to the trigger (currently supported: 'top', 'bottom', 'left', 'right' ) ('top' by default)
+  
+- `behavior` (string) - popup behavior if it does not fit in the window ('fit' by default). Available options:
+  - `fit` - default, popup will always be positioned in the right place. Position dynamically updates so it will always be visible
+  - empty or unsupported value - will not be prevented from overflowing clipping boundaries, such as the viewport
+
+ESLPopup extends [ESLToggleable](../esl-toggleable/README.md) you can find other supported options in its documentation.
+
+### Readonly Attributes
+
+- `placed-at` (string) - popup updated position relative to the trigger. In other words, this is the real position of the popup relative to the trigger after the position update in the case when 'fit' behavior is enabled

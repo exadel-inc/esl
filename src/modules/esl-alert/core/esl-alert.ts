@@ -10,7 +10,7 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
 
 export interface AlertActionParams extends ToggleableActionParams {
-  /** text to be shown; pass empty string or null to hide */
+  /** text to be shown; passes empty string or null to hide */
   text?: string;
   /** html content */
   html?: string;
@@ -42,7 +42,10 @@ export class ESLAlert extends ESLToggleable {
     hideDelay: 2500
   };
 
-  /** Define the scope (using {@link TraversingQuery} syntax) element to listen to activation event. Parent element by default */
+  /**
+   * Defines the scope (using {@link TraversingQuery} syntax) element to listen for an activation event.
+   * Parent element by default
+   */
   @attr({defaultValue: '::parent'}) public target: string;
 
   /** Default show/hide params for current ESLAlert instance */
@@ -55,11 +58,15 @@ export class ESLAlert extends ESLToggleable {
   private _$target: EventTarget;
   private _clearTimeout: number;
 
-  /** Create global alert instance (using body element as a base) */
-  public static init() {
-    if (document.querySelector(`body > ${ESLAlert.is}`)) return;
-    const alert = document.createElement(ESLAlert.is) as ESLAlert;
-    document.body.appendChild(alert);
+  /** Creates global alert instance (using body element as a base) */
+  public static init(options?: Partial<ESLAlert>) {
+    let alert = document.querySelector(`body > ${ESLAlert.is}`);
+    if (!alert) {
+      alert = document.createElement(ESLAlert.is) as ESLAlert;
+      options && Object.assign(alert, options);
+      document.body.appendChild(alert);
+    }
+    return alert;
   }
 
   protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
@@ -148,5 +155,14 @@ export class ESLAlert extends ESLToggleable {
       this.hide(params);
     }
     e.stopPropagation();
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Alert: typeof ESLAlert;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-alert': ESLAlert;
   }
 }

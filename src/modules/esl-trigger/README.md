@@ -1,10 +1,12 @@
-# [ESL](../../../README.md) Trigger
+# [ESL](../../../) Trigger
 
 Version: *2.0.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*
 
-ESLTrigger - custom element, that allows to trigger ESLToggleable instances state changes.
+<a name="intro"></a>
+
+ESLTrigger - a custom element, that allows to trigger ESLToggleable instances state changes.
 
 ### Attributes / Properties
 
@@ -16,9 +18,9 @@ ESLTrigger - custom element, that allows to trigger ESLToggleable instances stat
 
 - `target` - target Toggleable TraversingQuery selector (`next` by default)
 
-- `track-click` - `ESLMediaQuery` to define allowed to track click event media. (Default: `all`)
+- `track-click` - [MediaQuery](../esl-media-query/README.md) to define allowed to track click event media. (Default: `all`)
   
-- `track-hover` - `ESLMediaQuery` to define allowed to track hover event media. (Default: `not all`)
+- `track-hover` - [MediaQuery](../esl-media-query/README.md) to define allowed to track hover event media. (Default: `not all`)
 
 - `mode` - action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values (`toggle` by default)
 

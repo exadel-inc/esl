@@ -1,6 +1,9 @@
+import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-element.shape';
+import type {ESLMedia, ESLMediaFillMode} from './esl-media';
+
 /**
  * Tag declaration interface of ESLMedia element
- * Used for JSX declaration
+ * Used for TSX declaration
  */
 export type ESLMediaTagShape = ({
   /** Define media player id */
@@ -16,7 +19,7 @@ export type ESLMediaTagShape = ({
   /** Define media player group */
   group: string;
   /** Define media fill mode */
-  'fill-mode'?: string;
+  'fill-mode'?: ESLMediaFillMode;
   /** Define preferable aspect ratio */
   'aspect-ratio'?: string;
 
@@ -35,7 +38,7 @@ export type ESLMediaTagShape = ({
   /** Define viewport control marker */
   'play-in-viewport'?: boolean;
   /** Define preload media param */
-  'preload'?: string;
+  'preload'?: 'none' | 'metadata' | 'auto' | '';
   /** Allow play media inline */
   'playsinline'?: boolean;
 
@@ -54,6 +57,15 @@ export type ESLMediaTagShape = ({
   /** Define class to mark player declined state */
   'load-cls-declined'?: string;
 
-  /** Allowed children */
-  children: [];
-};
+  /** Children are not allowed for ESLMedia */
+  children?: never[];
+} & ESLBaseElementShape<ESLMedia>;
+
+declare global {
+  namespace JSX {
+    export interface IntrinsicElements {
+      /** {@link ESLMedia} custom tag */
+      'esl-media': ESLMediaTagShape;
+    }
+  }
+}

@@ -19,16 +19,20 @@ export class ESLA11yGroup extends ESLBaseElement {
 
   /** Target elements multiple selector ({@link TraversingQuery} syntax) */
   @attr({defaultValue: '::child'}) public targets: string;
-  /** Activate target (via click event) on selection */
-  @boolAttr({}) public activateSelected: boolean;
 
-  /** @returns {HTMLElement} root element of the group */
-  public get $root(): HTMLElement {
-    return this.parentElement as HTMLElement;
+  /** Activates target (via click event) on selection */
+  @boolAttr({}) public activateSelected: boolean;
+  /** Prevents scroll when target receives focus */
+  @boolAttr({}) public preventScroll: boolean;
+
+  /** @returns HTMLElement root element of the group */
+  public get $root(): HTMLElement | null {
+    return this.parentElement;
   }
-  /** @returns {HTMLElement[]} targets of the group */
+  /** @returns HTMLElement[] targets of the group */
   public get $targets(): HTMLElement[] {
-    return TraversingQuery.all(this.targets, this.$root) as [];
+    if (!this.$root) return [];
+    return TraversingQuery.all(this.targets, this.$root) as HTMLElement[];
   }
 
   protected connectedCallback() {
@@ -41,10 +45,10 @@ export class ESLA11yGroup extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    this.$root.addEventListener('keydown', this._onKeydown);
+    this.$root?.addEventListener('keydown', this._onKeydown);
   }
   protected unbindEvents() {
-    this.$root.removeEventListener('keydown', this._onKeydown);
+    this.$root?.removeEventListener('keydown', this._onKeydown);
   }
 
   @bind
@@ -69,27 +73,36 @@ export class ESLA11yGroup extends ESLBaseElement {
     if (!from) return;
     const targetEl = this[target](from);
     if (!targetEl) return;
-    targetEl.focus();
+    targetEl.focus({preventScroll: this.preventScroll});
     this.activateSelected && targetEl.click();
   }
 
-  /** @returns {HTMLElement} next target fot trigger */
+  /** @returns HTMLElement next target fot trigger */
   public next(trigger: HTMLElement) {
     const triggers = this.$targets;
     const index = triggers.indexOf(trigger);
     return triggers[(index + 1) % triggers.length];
   }
 
-  /** @returns {HTMLElement} previous target fot trigger */
+  /** @returns HTMLElement previous target fot trigger */
   public prev(trigger: HTMLElement): HTMLElement | undefined {
     const triggers = this.$targets;
     const index = triggers.indexOf(trigger);
     return triggers[(index - 1 + triggers.length) % triggers.length];
   }
 
-  /** @returns {HTMLElement} currently focused element from targets */
+  /** @returns HTMLElement currently focused element from targets */
   public current(): HTMLElement | null {
     const $active = document.activeElement as HTMLElement;
     return this.$targets.includes($active) ? $active : null;
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    A11yGroup: typeof ESLA11yGroup;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-a11y-group': ESLA11yGroup;
   }
 }

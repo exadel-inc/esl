@@ -68,7 +68,7 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /**
-   * @returns {number} first active index
+   * @returns number first active index
    */
   get firstIndex(): number {
     const index = this.$slides.findIndex((slide) => {
@@ -287,5 +287,16 @@ export class ESLCarousel extends ESLBaseElement {
   public static register(tagName?: string) {
     ESLCarouselSlide.register((tagName || ESLCarousel.is) + '-slide');
     customElements.whenDefined(ESLCarouselSlide.is).then(() => super.register.call(this, tagName));
+  }
+}
+
+declare global {
+  export interface ESLCarouselPlugins {}
+  export interface ESLLibrary {
+    Carousel: typeof ESLCarousel;
+    CarouselPlugin: typeof ESLCarouselPlugin;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-carousel': ESLCarousel;
   }
 }

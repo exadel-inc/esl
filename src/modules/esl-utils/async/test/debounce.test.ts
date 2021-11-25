@@ -1,54 +1,67 @@
 import {debounce} from '../debounce';
 
 describe('async/debounce', () => {
-  test('basic scenario', (done) => {
+  beforeAll(() =>  jest.useFakeTimers());
+  afterAll(() => jest.useRealTimers());
+
+  test('basic scenario', () => {
     const fn = jest.fn();
-    const debounced = debounce(fn, 20);
+    const debounced = debounce(fn, 50);
 
-    expect(typeof debounced).toBe('function');
-
-    expect(debounced()).toBeInstanceOf(Promise);
-    expect(debounced()).toBeInstanceOf(Promise);
-    setTimeout(() => debounced());
+    expect(debounced()).toBeUndefined();
+    debounced();
+    jest.advanceTimersByTime(25);
+    expect(debounced()).toBeUndefined();
     expect(fn).toBeCalledTimes(0);
-    setTimeout(() => {
-      expect(fn).toBeCalledTimes(1);
-      done();
-    }, 100);
-  }, 150);
+    jest.advanceTimersByTime(50);
+    expect(fn).toBeCalledTimes(1);
+  });
 
   test('call context', () => {
     const fn = function () { return this; };
     const debounced = debounce(fn, 0);
-
     const context = {};
-    return debounced.call(context).then((val: any) => expect(val).toBe(context));
-  }, 50);
+    debounced.call(context);
+    const promise$ = debounced.promise;
+    jest.runAllTimers();
+    return expect(promise$).resolves.toBe(context);
+  });
+
+  test('call context bind', () => {
+    const fn = function () { return this; };
+    const context = {};
+    const debounced = debounce(fn, 0, context);
+    debounced.call({});
+    const promise$ = debounced.promise;
+    jest.runAllTimers();
+    return expect(promise$).resolves.toBe(context);
+  });
 
   test('cancel debounce', () => {
     const fn = jest.fn();
     const debounced = debounce(fn, 10);
-    const promise = debounced();
+    const promise = debounced.promise;
     debounced();
     debounced.cancel();
 
-    return promise.catch(() => expect(fn).toBeCalledTimes(0))
+    return promise.catch(() => expect(fn).toBeCalledTimes(0));
   }, 100);
 
   test('deferred result', () => {
     const fn = jest.fn((n) => n + 1);
-    const debounced = debounce(fn as (n: number) => number);
+    const debounced = debounce(fn as (n: number) => number, 20);
 
     expect(debounced.promise).toBeInstanceOf(Promise);
     expect(debounced(1)).toBe(debounced(2));
-    expect(debounced.promise).toBe(debounced(3));
     expect(debounced.promise).toBeInstanceOf(Promise);
-    setTimeout(() => debounced(4), 20);
     expect(fn).toBeCalledTimes(0);
+    jest.advanceTimersByTime(10);
+    expect(fn).toBeCalledTimes(0);
+    debounced(4);
+    const promise$ = debounced.promise;
+    jest.advanceTimersByTime(20);
+    expect(fn).toBeCalledTimes(1);
 
-    return debounced.promise.then((n) => {
-      expect(n).toBe(4);
-      expect(fn).toBeCalledTimes(1);
-    });
-  }, 100);
+    return expect(promise$).resolves.toBe(5);
+  });
 });

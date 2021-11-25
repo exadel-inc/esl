@@ -1,19 +1,23 @@
-# [ESL](../../../README.md) Alert
+# [ESL](../../../) Alert
 
 Version: *1.0.0*
 
 Authors: *Julia Murashko*
 
+<a name="intro"></a>
+
 ESLAlert is a component to show small notifications on your pages. ESLAlert can have multiple instances on the page.
 
 ---
 
-##Usage
+<a name="usage"></a>
+
+## Usage
 
 First, use the common approach to register component: `ESLAlert.register()`.
 Then you can attach `<esl-alert>` component to the expected place in the document or initialize it globally by using `ESLAlert.init` shortcut.
 
-ESL Alert listens to DOM alerts to control its state. 
+ESL Alert listens to DOM events to control its state. 
 By default, the target to catch alerts is the `esl-alert` parent element. 
 Target can be changed using `target` attribute with the [TraversingQuery](../esl-traversing-query/README.md) support, 
 or through the `$target` property that accepts any EventTarget instance (including the window). 
@@ -30,6 +34,8 @@ Use CustomEvent `details` to customize alert. Alert `details` accepts the follow
 
 If one of `esl-alert`s catches the activation event it will prevent its propagation to parent elements.
 
+<a name="example"></a>
+
 ## Example
 ```html
 <body>
@@ -42,7 +48,7 @@ If one of `esl-alert`s catches the activation event it will prevent its propagat
 </body>
 ```
 
-```javascript
+```js
 // my-component
 this.dispatchEvent(new CustomEvent(`esl:alert:show`, {
   detail: {

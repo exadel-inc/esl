@@ -1,8 +1,10 @@
-# [ESL](../../../README.md) Toggleable
+# [ESL](https://esl-ui.com/) Toggleable
 
-Version: *2.0.0*
+Version: *2.2.0*
 
 Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*
+
+<a name="intro"></a>
 
 ESLToggleable - a custom element, that is used as a base for "Popup-like" components creation.
 
@@ -13,7 +15,7 @@ Use `ESLToggleableDispatcher.init()` to initialize (and bind) ESLToggleableDispa
 
 ---
 
-### Toggleable Attributes / Property
+### Toggleable Attributes / Properties
  - `open` - active state marker
 
  - `body-class` - CSS class to add on the body element

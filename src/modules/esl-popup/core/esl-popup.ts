@@ -1,20 +1,46 @@
+import {range} from '../../esl-utils/misc/array';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, jsonAttr} from '../../esl-base-element/core';
+import {bind} from '../../esl-utils/decorators/bind';
+import {ready} from '../../esl-utils/decorators/ready';
 import {prop} from '../../esl-utils/decorators/prop';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
+import {Rect} from '../../esl-utils/dom/rect';
+import {getListScrollParents} from '../../esl-utils/dom/scroll';
+import {getWindowRect} from '../../esl-utils/dom/window';
+import {parseNumber} from '../../esl-utils/misc/format';
+import {calcPopupPosition} from './esl-popup-position';
 
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
+import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
+
+const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
+const DEFAULT_OFFSET_ARROW = 50;
+
+const parsePercent = (value: string | number, nanValue: number = 0): number => {
+  const rawValue = parseNumber(value, nanValue);
+  return Math.max(0, Math.min(rawValue !== undefined ? rawValue : nanValue, 100));
+};
 
 export interface PopupActionParams extends ToggleableActionParams {
   /** popup position relative to trigger */
-  position?: string;
+  position?: PositionType;
   /** popup behavior if it does not fit in the window */
   behavior?: string;
+  /** Margins on the edges of the arrow. */
+  marginArrow?: string;
+  /** offset of the arrow as a percentage of the popup edge (0% - at the left edge, 100% - at the right edge, for RTL it is vice versa) */
+  offsetArrow?: string;
   /** offset in pixels from trigger element */
   offsetTrigger?: number;
   /** offset in pixels from the edges of the window */
   offsetWindow?: number;
+}
+
+export interface ActivatorObserver {
+  unsubscribers?: (() => void)[];
+  observer?: IntersectionObserver;
 }
 
 @ExportNs('Popup')
@@ -26,9 +52,31 @@ export class ESLPopup extends ESLToggleable {
   protected _offsetTrigger: number;
   protected _offsetWindow: number;
   protected _deferredUpdatePosition = rafDecorator(() => this._updatePosition());
+  protected _activatorObserver: ActivatorObserver;
+  protected _intersectionRatio: IntersectionRatioRect = {};
 
-  @attr({defaultValue: 'top'}) public position: string;
+  /**
+   * Popup position relative to the trigger.
+   * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
+   */
+  @attr({defaultValue: 'top'}) public position: PositionType;
+
+  /** Popup behavior if it does not fit in the window ('fit' by default) */
   @attr({defaultValue: 'fit'}) public behavior: string;
+
+  /**
+   * Margins on the edges of the arrow.
+   * This is the value in pixels that will be between the edge of the popup and
+   * the arrow at extreme positions of the arrow (when offsetArrow is set to 0 or 100)
+   */
+  @attr({defaultValue: '5'}) public marginArrow: string;
+
+  /**
+   * Offset of the arrow as a percentage of the popup edge
+   * (0% - at the left edge,
+   *  100% - at the right edge,
+   *  for RTL it is vice versa) */
+  @attr({defaultValue: `${DEFAULT_OFFSET_ARROW}`}) public offsetArrow: string;
 
   /** Default params to merge into passed action params */
   @jsonAttr<PopupActionParams>({defaultValue: {
@@ -40,32 +88,22 @@ export class ESLPopup extends ESLToggleable {
   @prop() public closeOnEsc = true;
   @prop() public closeOnOutsideAction = true;
 
+  @ready
   public connectedCallback() {
-    this.$arrow = this.querySelector('.esl-popup-arrow');
-
     super.connectedCallback();
+    this.$arrow = this.querySelector('span.esl-popup-arrow');
   }
 
-  protected bindEvents() {
-    super.bindEvents();
-    window.addEventListener('resize', this._deferredUpdatePosition);
+  protected get _isPositioningAlongHorizontal() {
+    return ['left', 'right'].includes(this.position);
   }
 
-  protected unbindEvents() {
-    super.unbindEvents();
-    window.removeEventListener('resize', this._deferredUpdatePosition);
+  protected get _isPositioningAlongVertical() {
+    return ['top', 'bottom'].includes(this.position);
   }
 
-  protected get _windowWidth() {
-    return document.documentElement.clientWidth || document.body.clientWidth;
-  }
-
-  protected get _windowX() {
-    return window.scrollX || window.pageXOffset;
-  }
-
-  protected get _windowY() {
-    return window.scrollY || window.pageYOffset;
+  protected get _offsetArrowRatio() {
+    return parsePercent(this.offsetArrow, DEFAULT_OFFSET_ARROW) / 100;
   }
 
   public onShow(params: PopupActionParams) {
@@ -77,92 +115,146 @@ export class ESLPopup extends ESLToggleable {
     if (params.behavior) {
       this.behavior = params.behavior;
     }
+    if (params.marginArrow) {
+      this.marginArrow = params.marginArrow;
+    }
+    if (params.offsetArrow) {
+      this.offsetArrow = params.offsetArrow;
+    }
     this._offsetTrigger = params.offsetTrigger || 0;
     this._offsetWindow = params.offsetWindow || 0;
 
+    this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
+    setTimeout(() => {
+      // running as a separate task solves the problem with incorrect positioning on the first showing
+      this._updatePosition();
+      this.style.visibility = 'visible';
+      this.activator && this._addActivatorObserver(this.activator);
+    });
+  }
+
+  public onHide(params: PopupActionParams) {
+    super.onHide(params);
+
+    this.activator && this._removeActivatorObserver(this.activator);
+  }
+
+  protected _checkIntersectionForAdjacentAxis(isAdjacentAxis: boolean, intersectionRatio: number) {
+    if (isAdjacentAxis && intersectionRatio < INTERSECTION_LIMIT_FOR_ADJACENT_AXIS) {
+      this.hide();
+    }
+  }
+
+  @bind
+  protected onActivatorIntersection(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
+    const entry = entries[0];
+    this._intersectionRatio = {};
+    if (!entry.isIntersecting) {
+      this.hide();
+      return;
+    }
+
+    if (entry.intersectionRect.y !== entry.boundingClientRect.y) {
+      this._intersectionRatio.top = entry.intersectionRect.height / entry.boundingClientRect.height;
+      this._checkIntersectionForAdjacentAxis(this._isPositioningAlongHorizontal, this._intersectionRatio.top);
+    }
+    if (entry.intersectionRect.bottom !== entry.boundingClientRect.bottom) {
+      this._intersectionRatio.bottom = entry.intersectionRect.height / entry.boundingClientRect.height;
+      this._checkIntersectionForAdjacentAxis(this._isPositioningAlongHorizontal, this._intersectionRatio.bottom);
+    }
+    if (entry.intersectionRect.x !== entry.boundingClientRect.x) {
+      this._intersectionRatio.left = entry.intersectionRect.width / entry.boundingClientRect.width;
+      this._checkIntersectionForAdjacentAxis(this._isPositioningAlongVertical, this._intersectionRatio.left);
+    }
+    if (entry.intersectionRect.right !== entry.boundingClientRect.right) {
+      this._intersectionRatio.right = entry.intersectionRect.width / entry.boundingClientRect.width;
+      this._checkIntersectionForAdjacentAxis(this._isPositioningAlongVertical, this._intersectionRatio.right);
+    }
+  }
+
+  @bind
+  protected onActivatorScroll(e: Event) {
     this._updatePosition();
   }
 
-  protected set _arrowPosition(value: string) {
-    if (!this.$arrow) return;
+  protected _addActivatorObserver(target: HTMLElement) {
+    const scrollParents = getListScrollParents(target);
 
-    this.$arrow.setAttribute('position', value);
+    const unsubscribers = scrollParents.map(($root) => {
+      const options = {passive: true} as EventListenerOptions;
+      $root.addEventListener('scroll', this.onActivatorScroll, options);
+      return () => {
+        $root && $root.removeEventListener('scroll', this.onActivatorScroll, options);
+      };
+    });
+
+    const options = {
+      rootMargin: '0px',
+      threshold: range(9, (x) => x / 8)
+    } as IntersectionObserverInit;
+
+    const observer = new IntersectionObserver(this.onActivatorIntersection, options);
+    observer.observe(target);
+
+    window.addEventListener('resize', this._deferredUpdatePosition);
+    window.addEventListener('scroll', this._deferredUpdatePosition);
+
+    this._activatorObserver = {
+      unsubscribers,
+      observer
+    };
+  }
+
+  protected _removeActivatorObserver(target: HTMLElement) {
+    window.removeEventListener('resize', this._deferredUpdatePosition);
+    window.removeEventListener('scroll', this._deferredUpdatePosition);
+    this._activatorObserver.observer?.disconnect();
+    this._activatorObserver.observer = undefined;
+    this._activatorObserver.unsubscribers?.forEach((cb) => cb());
+    this._activatorObserver.unsubscribers = [];
   }
 
   protected _updatePosition() {
     if (!this.activator) return;
 
-    const {left, top, arrowLeft, arrowTop, position} = this._calculatePosition(this.activator);
+    const triggerRect = this.activator.getBoundingClientRect();
+    const popupRect = this.getBoundingClientRect();
+    const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new Rect();
+    const trigger = new Rect(triggerRect.left, triggerRect.top + window.pageYOffset, triggerRect.width, triggerRect.height);
+    const innerMargin = this._offsetTrigger + arrowRect.width / 2;
 
+    const config = {
+      position: this.position,
+      behavior: this.behavior,
+      marginArrow: +this.marginArrow,
+      offsetArrowRatio: this._offsetArrowRatio,
+      intersectionRatio: this._intersectionRatio,
+      arrow: arrowRect,
+      element: popupRect,
+      trigger,
+      inner: Rect.from(trigger).grow(innerMargin),
+      outer: getWindowRect().shrink(this._offsetWindow)
+    };
+
+    const {placedAt, popup, arrow} = calcPopupPosition(config);
+
+    this.setAttribute('placed-at', placedAt);
     // set popup position
-    this.style.left = `${left}px`;
-    this.style.top = `${top}px`;
-
+    this.style.left = `${popup.x}px`;
+    this.style.top = `${popup.y}px`;
     // set arrow position
     if (this.$arrow) {
-      this.$arrow.style.left = `${arrowLeft}px`;
-      this._arrowPosition = position;
+      this.$arrow.style.left = ['top', 'bottom'].includes(placedAt) ? `${arrow.x}px` : '';
+      this.$arrow.style.top = ['left', 'right'].includes(placedAt) ? `${arrow.y}px` : '';
     }
   }
+}
 
-  protected _calculatePosition($activator: HTMLElement) {
-    const {left, arrowLeft} = this._calculateLeft($activator);
-    const {top, arrowTop, position} = this._calculateTop($activator);
-
-    return {
-      left,
-      top,
-      arrowLeft,
-      arrowTop,
-      position
-    };
+declare global {
+  export interface ESLLibrary {
+    Popup: typeof ESLPopup;
   }
-
-  protected _calculateLeft($activator: HTMLElement) {
-    const triggerRect = $activator.getBoundingClientRect();
-    const triggerPosX = triggerRect.left + this._windowX;
-    const centerX = triggerPosX + triggerRect.width / 2;
-
-    let arrowAdjust = 0;
-    let left = centerX - this.offsetWidth / 2;
-
-    if (this.behavior === 'fit' && left < this._offsetWindow) {
-      arrowAdjust += left - this._offsetWindow;
-      left = this._offsetWindow;
-    }
-
-    const right = this._windowWidth - (left + this.offsetWidth);
-    if (this.behavior === 'fit' && right < this._offsetWindow) {
-      arrowAdjust -= right - this._offsetWindow;
-      left += right - this._offsetWindow;
-    }
-    const arrowLeft = this.clientWidth / 2 + arrowAdjust;
-
-    return {
-      left,
-      arrowLeft
-    };
-  }
-
-  protected _calculateTop($activator: HTMLElement) {
-    const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new DOMRect();
-    const triggerRect = $activator.getBoundingClientRect();
-    const triggerPosY = triggerRect.top + this._windowY;
-    const arrowHeight = arrowRect.height / 2;
-
-    let arrowTop = triggerPosY - this._offsetTrigger - arrowHeight;
-    let top = arrowTop - this.offsetHeight;
-    let position = 'top';
-    if (this.behavior === 'fit' && this._windowY > top) {  /* show popup at the bottom of trigger */
-      arrowTop = triggerPosY + triggerRect.height + this._offsetTrigger;
-      top = arrowTop + arrowHeight + this._offsetTrigger;
-      position = 'bottom';
-    }
-
-    return {
-      top,
-      arrowTop,
-      position
-    };
+  export interface HTMLElementTagNameMap {
+    'esl-popup': ESLPopup;
   }
 }

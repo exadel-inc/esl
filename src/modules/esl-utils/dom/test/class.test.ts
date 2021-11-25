@@ -122,3 +122,41 @@ describe('CSSClassUtils tests:', () => {
     });
   });
 });
+
+describe('multiple targets', () => {
+  const els = [
+    document.createElement('div'),
+    document.createElement('div'),
+    document.createElement('div')
+  ];
+
+  beforeEach(() => els.forEach((el) => el.className = ''));
+  test('add', () => {
+    CSSClassUtils.add(els, 'a b');
+    for (const el of els) {
+      expect(el.classList.contains('a')).toBeTruthy();
+      expect(el.classList.contains('b')).toBeTruthy();
+    }
+    CSSClassUtils.add(els, '!a !b');
+    for (const el of els) {
+      expect(el.classList.contains('a')).toBeFalsy();
+      expect(el.classList.contains('b')).toBeFalsy();
+    }
+  });
+  test('remove', () => {
+    CSSClassUtils.remove(els, '!a !b');
+    for (const el of els) {
+      expect(el.classList.contains('a')).toBeTruthy();
+      expect(el.classList.contains('b')).toBeTruthy();
+    }
+    CSSClassUtils.remove(els, 'a b');
+    for (const el of els) {
+      expect(el.classList.contains('a')).toBeFalsy();
+      expect(el.classList.contains('b')).toBeFalsy();
+    }
+  });
+  test('trivial',  () => {
+    expect(() => CSSClassUtils.add([], 'a')).not.toThrowError();
+    expect(() => CSSClassUtils.remove([], 'a')).not.toThrowError();
+  });
+});

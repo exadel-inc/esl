@@ -37,3 +37,12 @@ export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
     return `<button role="button" class="carousel-dot ${isActive ? 'active-dot' : ''}" data-slide-target="g${index + 1}"></button>`;
   }
 }
+
+declare global {
+  export interface ESLCarouselPlugins {
+    Dots: typeof ESLCarouselDotsPlugin;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-carousel-dots': ESLCarouselDotsPlugin;
+  }
+}

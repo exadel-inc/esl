@@ -74,3 +74,12 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     event.stopPropagation();
   };
 }
+
+declare global {
+  export interface ESLCarouselPlugins {
+    Touch: typeof ESLCarouselTouchPlugin;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-carousel-touch-plugin': ESLCarouselTouchPlugin;
+  }
+}

@@ -1,6 +1,8 @@
-# [ESL](../../../README.md) Utils
+# [ESL](https://esl-ui.com/) Utils
 
-ESL Utils - is a module that contains a set of common utilities for working with DOM, BOM and other simple but handy things that are used by ESL components, but can also be used in client code.
+<a name="intro"></a>
+
+ESL Utils is a module that contains a set of common utilities for working with DOM, BOM and other simple but handy things that are used by ESL components, but can also be used in client code.
 
 All ESL Utils helpers are super simple and atomic, be sure that none of the utilities requires the whole library. 
 Even if you use the whole utils module, it is still tiny.
@@ -9,73 +11,89 @@ Even if you use the whole utils module, it is still tiny.
 
 ## Modules
 
-- ### Abstract
+- #### Abstract
 
-  - #### [Observable](./abstract/observable.ts) - small base class that implements observable pattern. 
+  - ##### <a href="./abstract/observable.ts" target="_blank">Observable</a> - a small base class that implements observable pattern. 
 
 
-- ### Async
+- #### Async
   
-  - #### [Aggregate](./async/aggregate.ts) - throttle function decorator with aggregation.
+  - ##### <a href="./async/aggregate.ts" target="_blank">Aggregate</a> - a throttle function decorator with aggregation.
     Limits decorated function calls to one call in passed `time`. The decorated function `callback` will be called once 
     at the end of the timeout with the list of the first arguments in the calls.
 
-  - #### [Debounce](./async/debounce.ts) - debounce function decorator.
+  - ##### <a href="./async/debounce.ts" target="_blank">Debounce</a> - a debounce function decorator.
     Debouncing is a pattern commonly used for rate limiting function calls with a timeout.
 
-  - #### [Delayed Task](./async/delayed-task.ts) - common helper to plan task (function) to be executed with or without a timeout.
+  - ##### <a href="./async/delayed-task.ts" target="_blank">Delayed Task</a> - a common helper to plan task (function) to be executed with or without a timeout.
     New task planning request cancels the previous task in a DelayedTask instance in case it has not happened yet. 
 
-  - #### [Promise Utils](./async/promise.ts) - a set of Promise helpers.
+  - ##### <a href="./async/promise.ts" target="_blank">Promise Utils</a> - a set of Promise helpers.
     Allows converting DOM Events, timeouts, pooling check, etc. to ES6 Promise or create a Deferred object 
     that allows to resolve or reject related Promise.
 
-  - #### [RAF(Rendering callback) Utils](./async/raf.ts) - Request Animation Frame common helpers.
+  - ##### <a href="./async/raf.ts" target="_blank">RAF(Rendering callback) Utils</a> - Request Animation Frame common helpers.
     Includes RAF Decorator that postpones multiple function calls to a single one before rendering. 
     Also includes `afterNextRender` deferring function.
 
-  - #### [Throttle](./async/throttle.ts) - throttling function decorator.
+  - ##### <a href="./async/throttle.ts" target="_blank">Throttle</a> - a throttling function decorator.
     Throttling is a pattern that allows to limit function call to one execution per timeout.
 
 
-- ### TS Decorators
+- #### TS Decorators
 
-    - #### [@bind](./decorators/bind.ts) - TS decorator to bind method context to current class instance.
+    - ##### <a href="./decorators/bind.ts" target="_blank">@bind</a> - a TS decorator to bind method context to current class instance.
 
-    - #### [@memoize](./decorators/memoize.ts) - TS decorator to make method or get accessor memoized.
+    - ##### <a href="./decorators/memoize.ts" target="_blank">@memoize</a> - a TS decorator to make method or get accessor memoized.
 
-    - #### [@prop](./decorators/prop.ts) - TS decorator to define a field on the prototype level.
+    - ##### <a href="./decorators/prop.ts" target="_blank">@prop</a> - a TS decorator to define a field on the prototype level.
 
-- ### DOM Helpers
-  
-    - #### [Keys](src/modules/esl-utils/dom/keys.ts) - keyboard keys constants.
-  
-    - #### [RTL Utils](./dom/rtl.ts) - Utils to detect RTL and RTL-specific browsers behavior.
-  
-    - #### [Scripts](./dom/script.ts) - script loading utility to limit and track loading.
-  
-    - #### [Scroll](./dom/scroll.ts) - scroll locking methods. 
-      *Note: uses [scroll.less](./dom/scroll.less) styles.*
-  
-    - #### [CSSClass](./dom/class.ts) - is a utility to work with CSS classes. Supports JQuery-like enumeration, inversion syntax and locks.
-  
-    - #### [DOM Traversing](./dom/traversing.ts) - a set of utils to find DOM elements or check their relations.
-  
-- ### Environment
-  
-    - #### [Device Detector](./environment/device-detector.ts) - set of user agent based checks such as engine or device type.
-  
-- ### Miscellaneous Utils
+    - ##### <a href="./decorators/ready.ts" target="_blank">@ready</a> - a TS decorator to postpone method execution until DOM is ready 
+      See `esl-utils.dom.ready#onDocumentReady` utility function for details
 
-    - #### [Array](./misc/array.ts) - array utils (uniq, flat, wrap, etc.).
+- #### DOM Helpers
+
+    - ##### <a href="./dom/api.ts" target="_blank">DOM API Utils</a> - a basic dom api helpers.
+
+    - ##### <a href="./dom/class.ts" target="_blank">CSSClass</a> - a utility to work with CSS classes. 
+      Supports JQuery-like enumeration, inversion syntax and locks.  
+
+    - ##### <a href="./dom/focus.ts" target="_blank">Focus</a> - a focus order helpers.
+
+    - ##### <a href="./dom/keys.ts" target="_blank">Keys</a> - a keyboard keys constants.
+
+    - ##### <a href="./dom/ready.ts" target="_blank">Ready</a> - a utility to postpone callback to the task after DOM Ready.
+
+    - ##### <a href="./dom/rect.ts" target="_blank">Rect</a> - a rectangle utility class to provide position calculations.
+
+    - ##### <a href="./dom/rtl.ts" target="_blank">RTL Utils</a> - Utils to detect RTL and RTL-specific browsers behavior.
   
-    - #### [Format](./misc/format.ts) - string format utils.
+    - ##### <a href="./dom/script.ts" target="_blank">Scripts</a> - a script loading utility to limit and track loading.
   
-    - #### [Function](./misc/functions.ts) - simple functions and types.
+    - ##### <a href="./dom/scroll.ts" target="_blank">Scroll</a> - a scroll utility methods like locking, traversing for closest scrollable, etc. 
+      *Note: uses <a href="./dom/scroll.less" target="_blank">scroll.less</a> styles.*
   
-    - #### [Memoize](./misc/memoize.ts) - memoization function decorator. 
-      Memoization patten allows executing pure function once and then use the cached result.
+    - ##### <a href="./dom/traversing.ts" target="_blank">DOM Traversing</a> - a set of utils to find DOM elements or check their relations.
+
+    - ##### <a href="./dom/window.ts" target="_blank">Window</a> - a browser window object utils.
   
-    - #### [Object](./misc/object.ts) - object common utils.
+- #### Environment
   
-    - #### [UID](./misc/uid.ts) - unique identifier generation util.
+    - ##### <a href="./environment/device-detector.ts" target="_blank">Device Detector</a> - a set of user agent based checks such as engine or device type.
+
+- #### Miscellaneous Utils
+
+    - ##### <a href="./misc/array.ts" target="_blank">Array</a> - an array utils (uniq, flat, wrap, etc.).
+  
+    - ##### <a href="./misc/set.ts" target="_blank">Set</a> - a set or an array with uniq values utils.
+
+    - ##### <a href="./misc/format.ts" target="_blank">Format</a> - string format utils.
+  
+    - ##### <a href="./misc/functions.ts" target="_blank">Function</a> - simple functions and types.
+  
+    - ##### <a href="./misc/memoize.ts" target="_blank">Memoize</a> - a memoization function decorator. 
+      Memoization patten allows executing pure function once and then uses the cached result.
+  
+    - ##### <a href="./misc/object.ts" target="_blank">Object</a> - object common utils.
+  
+    - ##### <a href="./misc/uid.ts" target="_blank">UID</a> - unique identifier generation utils.

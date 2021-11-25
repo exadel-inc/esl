@@ -11,7 +11,9 @@
 
 Exadel Smart Library (**ESL**) is a web components based library that gives you a set of **lightweight** and **flexible** custom elements to easily create basic UX modules and make your websites super fast.
 
-**[Demo Site](https://exadel-inc.github.io/esl/)** (*draft*)
+You can visit our **[Demo Site](https://esl-ui.com/)**.
+
+<p align="center" >★ <b>Try out our open library and if you like it please support us with a star on GitHub</b> ★</p>
 
 ## Library Structure
 ### Components
@@ -40,10 +42,11 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
 
 ---
 ## Installation Guide
+<a name="instalation_guide"></a>
 
 0. Preconditions:
    - Make sure you have all needed polyfills to support browsers from your browser-support list. 
-   See [Browser support & Polyfills](#browser-support--polyfills) for details.
+   See [Browser support & Polyfills](https://github.com/exadel-inc/esl/blob/HEAD/docs/BROWSER_SUPPORT.md) for details.
    - Use bundler to build your project. Currently, only ES6 modules are available for consumption.
 
 1. Install [esl npm dependency](https://www.npmjs.com/package/@exadel/esl)
@@ -69,10 +72,10 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
 3. [Optional] Setup environment configuration, e.g. custom screen breakpoints.
 
     ```javascript
-    import {ESLMediaBreakpoints} from '@exadel/esl/modules/esl-media-query/core';
+    import {ESLScreenBreakpoints} from '@exadel/esl/modules/esl-media-query/core';
 
     // define XS screen breakpoint for up to 800px screen width
-    ESLMediaBreakpoints.addCustomBreakpoint('XS', 1, 800); 
+    ESLScreenBreakpoints.addCustomBreakpoint('XS', 1, 800); 
     ```
 
 4.  Register components via `register` static method call
@@ -81,83 +84,54 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
     ```
     *You can pass custom tag name to 'register' function, but use this option only in an exceptional situation.*
 
-## Browser support & Polyfills
-
-Exadel Smart Library does not have dependencies but uses the following list of native browser features:
-
-- Ecma Script 6 features
-  - [Array.from](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from) (no Iterable Objects support required)
-  - [Array.prototype.find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) 
-  - [Array.prototype.findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex) 
-  - [Array.prototype.include](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes)
-  - [Object.is](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is)
-  - [ES6 Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
-- Web API
-  - [Custom Events](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent)
-  - [Node.isConnected](https://developer.mozilla.org/en-US/docs/Web/API/Node/isConnected)
-  - [Element.matches](https://developer.mozilla.org/en-US/docs/Web/API/Element/matches)
-  - [Element.closest](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest)
-  - [Element.toggleAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/toggleAttribute)
-  - [KeyboardEvent.key](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)  
-  - [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver)
-  - [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
-  - [Custom Elements](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements)
-
-
-All of them are fully supported by modern browsers, such as Chrome, Firefox, Safari or Edge (>43).
-
-In order to make ESL work in older browsers you can use a "light" polyfills list of IntersectionObserver, ResizeObserver and Custom Elements
-(Older versions of Edge and Safari)
-
-Or make the library work in IE11 or Edge (<14) by using the "full" polyfills list provided.
-
-See more details on what polyfill approach might look like in the test-server examples.
-
-Also, ESL has built-in polyfills for some of DOM and ES6 features. They are available under [./polyfills](https://github.com/exadel-inc/esl/blob/HEAD/src/polyfills) directory.
-
 ---
-
 ## Roadmap
+<a name="roadmap"></a>
 
-- [UI Playground](https://github.com/exadel-inc/ui-playground) (_will be available soon_) demo server
-- More helpers and sugar of ESLBaseElement (event listener helpers and decorators)  
-- Extension of esl-utils
-- Dynamic Footnotes component
+- ESL Carousel component
+- ESL Animate service
+- Sharable assets from demo site (styles components)
+- Interactive Documentation and more demo site features
+- Demo pages [UI Playground](https://github.com/exadel-inc/ui-playground) integration
+- More helpers and sugar of ESLBaseElement (event listener helpers and decorators)
+- Stable version of ESL Footnotes and ESL Popup components
 - Extension of esl-form elements (custom form base, helpers, validation and more)
-- ESLCarousel component
-- ESLToast component
+- Anchor Navigation component
 - More components in the library
 
+<a name="roadmap_end"></a>
+
 ---
+<a name="contributing"></a>
 
 ## Development Information for contributors
 
 If you are a part of ESL team or want to contribute to the project
 you can find useful information about the project processes and agreements here:
 
-- #### [Development: Scripts](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/scripts.md)
+- #### [🔗 Contribution Guide](https://github.com/exadel-inc/esl/blob/HEAD/CONTRIBUTING.md)
 
-- #### [Development: Styleguide](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/styleguide.md)
+- #### [🔗 Development Guide](https://github.com/exadel-inc/esl/blob/HEAD/docs/DEVELOPMENT.md)
 
-- #### [Development: Commit Convention](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/commit.md)
-
-- #### [Branches Flow](https://github.com/exadel-inc/esl/blob/HEAD/docs/contribute/branches.md)
-  
-- #### [Contributor Licence Agreement](https://github.com/exadel-inc/esl/blob/HEAD/CLA.md)
+- #### [🔗 Contributor Licence Agreement](https://github.com/exadel-inc/esl/blob/HEAD/CLA.md)
 
 ---
+<a name="team"></a>
 
 **ESL Core Team**: 
 [Alexey Stsefanovich](https://github.com/ala-n), 
 [Julia Murashko](https://github.com/julia-murashko), 
-[Yuliya Adamskaya](https://github.com/yadamskaya).
+[Yuliya Adamskaya](https://github.com/yadamskaya),
+[Dmytro Shovchko](https://github.com/dshovchko),
+[Anna Barmina](https://github.com/abarmina).
 
 **ESL Contributors**: 
-[Aliaksandr Auseyeu](https://github.com/alexanderavseev), 
-[Anna Barmina](https://github.com/abarmina),
-[Andrey Belous](https://github.com/andreybelous), 
-[Dmytro Shovchko](https://github.com/dshovchko), 
+[Aliaksandr Auseyeu](https://github.com/alexanderavseev),
+[Anna-Mariia Petryk](https://github.com/Anna-MariiaPetryk),
+[Anastasiya Lesun](https://github.com/NastaLeo),
+[Andrey Belous](https://github.com/andreybelous),
 [Dzianis Mantsevich](https://github.com/dmantsevich), 
+[Feoktyst Shovchko](https://github.com/fshovchko), 
 [Liubou Masiuk](https://github.com/liubou-masiuk), 
 [Natallia Harshunova](https://github.com/nattallius), 
 [Yana Bernatskaya](https://github.com/YanaBr).

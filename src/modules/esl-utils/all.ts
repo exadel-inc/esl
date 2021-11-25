@@ -1,10 +1,12 @@
-// Common
+// Miscellanies
 export * as UID from './misc/uid';
+export * as SetUtils from './misc/set';
 export * as ArrayUtils from './misc/array';
 export * as ObjectUtils from './misc/object';
 export * as FormatUtils from './misc/format';
 export * as FunctionUtils from './misc/functions';
 
+// Memoization decorator
 export * from './misc/memoize';
 
 // Common
@@ -25,6 +27,7 @@ export * from './async/throttle';
 export * from './async/delayed-task';
 
 // DOM
+export * from './dom/api';
 export * from './dom/class';
 export * from './dom/events';
 export * from './dom/focus';
@@ -34,6 +37,7 @@ export * from './dom/rtl';
 export * from './dom/script';
 export * from './dom/scroll';
 export * from './dom/traversing';
+export * from './dom/window';
 
 // Device detection
 export * from './environment/device-detector';

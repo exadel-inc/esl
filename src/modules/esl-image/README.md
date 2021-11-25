@@ -1,10 +1,12 @@
-# [ESL](../../../README.md) Image
+# [ESL](../../../) Image
 
 Version: *1.2.1*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*
 
-ESLImage - custom element, that provides flexible ways to include images on web pages. 
+<a name="intro"></a>
+
+ESLImage - a custom element, that provides flexible ways to include images on web pages. 
 Was originally developed as an alternative to `<picture>` element, but with more features inside.
 
 --- 
@@ -34,7 +36,7 @@ In case `alt` is not provided then an empty value is used as a fallback.
 
 ### Attributes:
 
-- **data-src** - src paths with queriy congitions. See [ESLMediaQuery](../esl-media-query/README.md) (watched value)
+- **data-src** - src paths with query conditions. See [ESLMediaQuery](../esl-media-query/README.md) (watched value)
 
 - **data-src-base** - base src path for paths described in data-src (watched value)
 
@@ -61,7 +63,7 @@ In case `alt` is not provided then an empty value is used as a fallback.
 
 - **container-class-state** (optional) - image state in which the container will be marked with `container-class` (can be 'ready', 'loaded' or 'error')
 
-- **container-class-target** (optional) - [TraversingQuery](./../esl-traversing-query/README.md) to find the target to add `container-class` to ('::parent' by default).
+- **container-class-target** (optional) - [TraversingQuery](../esl-traversing-query/README.md) to find the target to add `container-class` to ('::parent' by default).
 
 NOTE: ESL Image supports `title` attribute like any HTML element, no additional reflection for that attribute is needed - it will work correctly according to HTML5.* REC
 

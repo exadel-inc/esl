@@ -82,7 +82,7 @@ export class ESLSelectList extends ESLSelectWrapper {
   }
 
   protected bindSelect() {
-    const target = this.querySelector('[esl-select-target]') as HTMLSelectElement;
+    const target = this.querySelector('[esl-select-target]');
     if (!target || !(target instanceof HTMLSelectElement)) return;
     this.$select = target;
   }
@@ -177,5 +177,14 @@ export class ESLSelectList extends ESLSelectWrapper {
       this.$items[(index + increment + count) % count].focus();
       e.preventDefault();
     }
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    SelectList: typeof ESLSelectList;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-select-list': ESLSelectList;
   }
 }

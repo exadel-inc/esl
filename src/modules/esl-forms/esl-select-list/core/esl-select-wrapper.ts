@@ -39,7 +39,7 @@ export interface ESLSelectModel {
 }
 
 /**
- * Base class for {@link HTMLSelectElement} wrapper element, implements {@link ESLSelectModel) options source
+ * Base class for {@link HTMLSelectElement} wrapper element, implements {@link ESLSelectModel} options source
  */
 export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSelectModel {
   protected static observationConfig: MutationObserverInit = {

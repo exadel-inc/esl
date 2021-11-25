@@ -3,13 +3,12 @@ import {ESLCarousel} from '../core/esl-carousel';
 
 /**
  * {@link ESLCarousel} Plugin base class.
- * The ESL Carousel Plugin should have the dom representation so it's {@extends HTMLElement}.
+ * The ESL Carousel Plugin should have the dom representation so it's extends {@link ESLBaseElement}
  * Use the attributes to path the plugin options, the same as with any custom elements.
- * @abstract
  */
 export abstract class ESLCarouselPlugin extends ESLBaseElement {
   /**
-   * {boolean} freePlacement marker define the restriction for the plugin placement.
+   * Marker to define the restriction for the plugin placement.
    * If freePlacement is false - plugin element should be child of ESLCarousel element.
    * If freePlacement is true - plugin can be placed anywhere inside of carousel.
    */
@@ -29,16 +28,16 @@ export abstract class ESLCarouselPlugin extends ESLBaseElement {
   private _carousel?: ESLCarousel;
 
   /**
-   * @returns {string} plugin unique key, ESLCarousel can not own more then one plugin with the same key
+   * @returns plugin unique key, ESLCarousel can not own more then one plugin with the same key
    */
   public get key() {
     return this.nodeName.toLowerCase();
   }
   /**
-   * @returns {ESLCarousel} owner of plugin
+   * @returns owner of plugin
    */
   public get carousel(): ESLCarousel {
-    return this._carousel as ESLCarousel;
+    return this._carousel!;
   }
 
   protected connectedCallback() {

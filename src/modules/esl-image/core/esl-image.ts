@@ -15,7 +15,9 @@ type LoadState = 'error' | 'loaded' | 'ready';
 const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);
 
 /**
- * ESL Image
+ * ESLImage - custom element, that provides flexible ways to include images on web pages.
+ * Was originally developed as an alternative to `<picture>` element, but with more features inside.
+ *
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya
  */
 @ExportNs('Image')
@@ -99,7 +101,7 @@ export class ESLImage extends ESLBaseElement {
         this.updateA11y();
         break;
       case 'data-src':
-        this.srcRules = ESLMediaRuleList.parse<string>(newVal, ESLMediaRuleList.STRING_PARSER);
+        this.srcRules = ESLMediaRuleList.parse(newVal);
         this.refresh();
         break;
       case 'data-src-base':
@@ -116,7 +118,7 @@ export class ESLImage extends ESLBaseElement {
 
   public get srcRules() {
     if (!this._srcRules) {
-      this.srcRules = ESLMediaRuleList.parse<string>(this.src, ESLMediaRuleList.STRING_PARSER);
+      this.srcRules = ESLMediaRuleList.parse(this.src);
     }
     return this._srcRules;
   }
@@ -307,5 +309,14 @@ export class ESLImage extends ESLBaseElement {
 
   public static isEmptyImage(src: string) {
     return src === ESLImage.EMPTY_IMAGE;
+  }
+}
+
+declare global {
+  export interface ESLLibrary {
+    Image: typeof ESLImage;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-image': ESLImage;
   }
 }

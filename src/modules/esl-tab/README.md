@@ -1,13 +1,15 @@
-# [ESL](../../../README.md) Tab & Tab Container
+# [ESL](h../../../) Tab & Tab Container
 
 Version: *1.0.0*
 
 Authors: *Julia Murashko*
 
-ESLTabs is container component for Tabs trigger group. Uses ESLTab as an item. Each individual ESLTab can control
+<a name="intro"></a>
+
+ESLTabs is a container component for Tabs trigger group. Uses ESLTab as an item. Each individual ESLTab can control
 ESLToggleable or, usually, ESLPanel.
 
-### ESLTabs Attributes / Property
+### ESLTabs Attributes / Properties
 
 - `container` - inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable
 
@@ -20,7 +22,6 @@ ESLToggleable or, usually, ESLPanel.
 ### Example
 
 ```html
-
 <div class="tabs">
   <esl-tabs scrollable>
     <!-- Left arrow -->
