@@ -46,8 +46,16 @@ export class ESLNote extends ESLBaseElement {
     return ['tooltip-shown'];
   }
 
-  get index(): number {
+  public get index(): number {
     return this._index;
+  }
+  public set index(value: number) {
+    this._index = value;
+    this.innerHTML = this.renderedIndex;
+  }
+
+  public get renderedIndex() {
+    return `${this._index}`;
   }
 
   @ready
@@ -100,18 +108,13 @@ export class ESLNote extends ESLBaseElement {
   public link(footnotes: ESLFootnotes, index: number) {
     this.linked = true;
     this._$footnotes = footnotes;
-    this.setIndex(index);
+    this.index = index;
     this.tabIndex = 0;
   }
 
   public unlink() {
     this.restore();
     this._sendResponseToFootnote();
-  }
-
-  public setIndex(index: number) {
-    this._index = index;
-    this.innerHTML = `${index}`;
   }
 
   protected restore() {

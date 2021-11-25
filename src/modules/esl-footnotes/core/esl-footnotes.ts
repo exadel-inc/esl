@@ -37,7 +37,7 @@ export class ESLFootnotes extends ESLBaseElement {
 
   public reindex() {
     this._notes = sortFootnotes(this._notes);
-    this._notes.forEach((note, index) => note.setIndex(index + 1));
+    this._notes.forEach((note, index) => note.index = index + 1);
   }
 
   protected connectedCallback() {
@@ -95,7 +95,7 @@ export class ESLFootnotes extends ESLBaseElement {
   }
 
   protected buildItemIndex(footnote: FootnotesItem): string {
-    return `<span class="esl-footnotes-index">${footnote.index}</span>`;
+    return `<span class="esl-footnotes-index">${footnote.renderedIndex.join(', ')}</span>`;
   }
 
   protected buildItemText(footnote: FootnotesItem): string {
