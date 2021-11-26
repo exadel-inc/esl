@@ -12,11 +12,10 @@
 Exadel Smart Library (**ESL**) is a web components based library that gives you a set of **lightweight** and **flexible** custom elements to easily create basic UX modules and make your websites super fast.
 
 <p align="center">
-<a style="color: #0097E7; border: 2px solid #0097E7; border-radius: 12px; padding: 8px 16px; font-size: 18px; font-weight: 500;" 
-   href="https://esl-ui.com"> Project Site / Live Examples </a>
+<a href="https://esl-ui.com"><img src="./docs/images/btn.png" alt="Project Site / Live Examples" width="350" height="65" title="Project Site / Live Examples"/></a>
 </p>
 
-<p align="center" >★ <b>Try out our open library and if you like it please support us with a star on GitHub</b> ★</p>
+<p align="center" >★ <b>Try out our open source library and, if you like it, please support us with a star on GitHub</b> ★</p>
 
 ## Library Structure
 ### Components
@@ -160,7 +159,7 @@ People, who architect, maintain, and keep the idea of the ESL
 
 **ESL Contributors**: 
 
-People, who actively contributing to the ESL
+People, who are actively contributing to the ESL
 
 <table><tbody><tr>
 <td align="center" valign="top" width="20%">
