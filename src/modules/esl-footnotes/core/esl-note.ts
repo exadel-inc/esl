@@ -54,7 +54,7 @@ export class ESLNote extends ESLBaseElement {
     this.innerHTML = this.renderedIndex;
   }
 
-  public get renderedIndex() {
+  public get renderedIndex(): string {
     return `${this._index}`;
   }
 

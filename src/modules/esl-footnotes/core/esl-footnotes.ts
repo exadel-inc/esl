@@ -21,6 +21,9 @@ export class ESLFootnotes extends ESLBaseElement {
   /** Grouping note instances with identical content enable/disable */
   @attr({defaultValue: 'enable'}) public grouping: string;
 
+  /** Label for 'return to note' button title */
+  @attr({defaultValue: 'Back to note'}) public backToNoteLabel: string;
+
   protected _notes: ESLNote[] = [];
 
   @memoize()
@@ -103,7 +106,7 @@ export class ESLFootnotes extends ESLBaseElement {
   }
 
   protected buildItemBack(footnote: FootnotesItem): string {
-    return '<span class="esl-footnotes-back-to-note" tabindex="0"></span>';
+    return `<span class="esl-footnotes-back-to-note" tabindex="0" title="${this.backToNoteLabel}"></span>`;
   }
 
   @bind
