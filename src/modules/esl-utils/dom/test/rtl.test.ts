@@ -22,6 +22,22 @@ describe('RTLUtils', () => {
       gcsSpy.mockImplementationOnce(() => ({direction: 'rtl'} as CSSStyleDeclaration));
       expect(RTLUtils.isRtl(el)).toBe(true);
     });
+
+    test('normalizeScrollLeft', () => {
+      const el = document.createElement('div');
+
+      jest.spyOn(el, 'scrollWidth', 'get').mockImplementation(() => 1000);
+      jest.spyOn(el, 'clientWidth', 'get').mockImplementation(() => 100);
+
+      console.log(RTLUtils.normalizeScrollLeft(el, null, false));
+
+      expect(RTLUtils.normalizeScrollLeft(el)).toBe(0);
+      expect(RTLUtils.normalizeScrollLeft(el, 50)).toBe(50);
+      expect(RTLUtils.normalizeScrollLeft(el, 50, false)).toBe(50);
+      expect(RTLUtils.normalizeScrollLeft(el, null, false)).toBe(0);
+      expect(RTLUtils.normalizeScrollLeft(el, 50, true)).toBe(850);
+      expect(RTLUtils.normalizeScrollLeft(el, null, true)).toBe(900);
+    });
   });
 
   test('scrollType', () => {
