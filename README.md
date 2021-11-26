@@ -1,4 +1,4 @@
-# Exadel Smart Library &#9881;
+# Exadel Smart Library
 <p align="center">
   <img width="300" height="300" src="https://github.com/exadel-inc/esl/blob/main/docs/images/logo.png?raw=true">
 </p>
@@ -11,9 +11,11 @@
 
 Exadel Smart Library (**ESL**) is a web components based library that gives you a set of **lightweight** and **flexible** custom elements to easily create basic UX modules and make your websites super fast.
 
-You can visit our **[Demo Site](https://esl-ui.com/)**.
+<p align="center">
+<a href="https://esl-ui.com"><img src="./docs/images/btn.png" alt="Project Site / Live Examples" width="350" height="65" title="Project Site / Live Examples"/></a>
+</p>
 
-<p align="center" >★ <b>Try out our open library and if you like it please support us with a star on GitHub</b> ★</p>
+<p align="center" >★ <b>Try out our open source library and, if you like it, please support us with a star on GitHub</b> ★</p>
 
 ## Library Structure
 ### Components
@@ -118,24 +120,120 @@ you can find useful information about the project processes and agreements here:
 ---
 <a name="team"></a>
 
-**ESL Core Team**: 
-[Alexey Stsefanovich](https://github.com/ala-n), 
-[Julia Murashko](https://github.com/julia-murashko), 
-[Yuliya Adamskaya](https://github.com/yadamskaya),
-[Dmytro Shovchko](https://github.com/dshovchko),
-[Anna Barmina](https://github.com/abarmina).
+**ESL Core Team**
+
+People, who architect, maintain, and keep the idea of the ESL
+
+<table><tbody><tr>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/ala-n">
+        <img src="https://github.com/ala-n.png?s=75" width="75" height="75"><br/>
+        Alexey Stsefanovich
+    </a>
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/julia-murashko">
+        <img src="https://github.com/julia-murashko.png?s=75" width="75" height="75"><br/>
+        Julia Murashko
+    </a>
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/yadamskaya">
+        <img src="https://github.com/yadamskaya.png?s=75" width="75" height="75"><br/>
+        Yuliya Adamskaya
+    </a>
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/dshovchko">
+        <img src="https://github.com/dshovchko.png?s=75" width="75" height="75"><br/>
+        Dmytro Shovchko
+    </a>
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/abarmina">
+        <img src="https://github.com/abarmina.png?s=75" width="75" height="75"><br/>
+        Anna Barmina
+    </a>
+</td>
+</tr></tbody></table>
 
 **ESL Contributors**: 
-[Aliaksandr Auseyeu](https://github.com/alexanderavseev),
-[Anna-Mariia Petryk](https://github.com/Anna-MariiaPetryk),
-[Anastasiya Lesun](https://github.com/NastaLeo),
-[Andrey Belous](https://github.com/andreybelous),
-[Dzianis Mantsevich](https://github.com/dmantsevich), 
-[Feoktyst Shovchko](https://github.com/fshovchko), 
-[Iryna Pavlenko](https://www.linkedin.com/in/iryna-pavlenko-270930107/),
-[Liubou Masiuk](https://github.com/liubou-masiuk), 
-[Natallia Harshunova](https://github.com/nattallius), 
-[Yana Bernatskaya](https://github.com/YanaBr).
+
+People, who are actively contributing to the ESL
+
+<table><tbody><tr>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/Anna-MariiaPetryk">
+        <img src="https://github.com/Anna-MariiaPetryk.png?s=75" width="75" height="75"><br/>
+        Anna-Mariia Petryk
+    </a><br/>
+    Developer
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/NastaLeo">
+        <img src="https://github.com/NastaLeo.png?s=75" width="75" height="75"><br/>
+        Anastasiya Lesun
+    </a><br/>
+    Developer
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/fshovchko">
+        <img src="https://github.com/fshovchko.png?s=75" width="75" height="75"><br/>
+        Feoktyst Shovchko
+    </a><br/>
+    Developer
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/nattallius">
+        <img src="https://github.com/nattallius.png?s=75" width="75" height="75"><br/>
+        Natallia Harshunova
+    </a><br/>
+    Developer
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/YanaBr">
+        <img src="https://github.com/YanaBr.png?s=75" width="75" height="75"><br/>
+        Yana Bernatskaya
+    </a><br/>
+    Developer
+</td>
+</tr><tr>
+<td align="center" valign="top" width="20%">
+    <a href="https://www.linkedin.com/in/iryna-pavlenko-270930107">
+        <img src="https://static-exp1.licdn.com/sc/h/244xhbkr7g40x6bsu4gi6q4ry?s=75" width="75" height="75"><br/>
+         Iryna Pavlenko
+    </a><br/>
+    Designer
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/alexanderavseev">
+        <img src="https://github.com/alexanderavseev.png?s=75" width="75" height="75"><br/>
+        Aliaksandr Auseyeu
+    </a><br/>
+    Consultant
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/andreybelous">
+        <img src="https://github.com/andreybelous.png?s=75" width="75" height="75"><br/>
+        Andrey Belous
+    </a><br/>
+    Consultant
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/dmantsevich">
+        <img src="https://github.com/dmantsevich.png?s=75" width="75" height="75"><br/>
+        Dzianis Mantsevich
+    </a><br/>
+    Consultant
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/liubou-masiuk">
+        <img src="https://github.com/liubou-masiuk.png?s=75" width="75" height="75"><br/>
+        Liubou Masiuk
+    </a><br/>
+    Consultant
+</td>
+</tr></tbody></table>
 
 **Exadel, Inc.**
 
