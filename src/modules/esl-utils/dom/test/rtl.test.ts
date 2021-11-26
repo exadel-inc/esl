@@ -29,8 +29,6 @@ describe('RTLUtils', () => {
       jest.spyOn(el, 'scrollWidth', 'get').mockImplementation(() => 1000);
       jest.spyOn(el, 'clientWidth', 'get').mockImplementation(() => 100);
 
-      console.log(RTLUtils.normalizeScrollLeft(el, null, false));
-
       expect(RTLUtils.normalizeScrollLeft(el)).toBe(0);
       expect(RTLUtils.normalizeScrollLeft(el, 50)).toBe(50);
       expect(RTLUtils.normalizeScrollLeft(el, 50, false)).toBe(50);
