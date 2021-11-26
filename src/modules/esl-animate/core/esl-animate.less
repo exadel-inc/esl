@@ -1,0 +1,24 @@
+esl-animate {
+  display: inline-block;
+  &:empty {
+    display: none;
+  }
+}
+
+.esl-animate-fade {
+  opacity: 0;
+  &.in {
+    opacity: 1;
+    transition: opacity 1.5s;
+  }
+}
+
+.esl-animate-slide {
+  opacity: 0;
+  transform: translateY(30px);
+  &.in {
+    opacity: 1;
+    transform: translateY(0px);
+    transition: transform 1s, opacity 1s;
+  }
+}

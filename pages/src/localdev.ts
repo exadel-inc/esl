@@ -28,7 +28,8 @@ import {
   ESLSelectList,
   ESLNote,
   ESLFootnotes,
-  ESLTooltip
+  ESLTooltip,
+  ESLAnimate
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -86,6 +87,8 @@ ESLSelect.register();
 ESLFootnotes.register();
 ESLNote.register();
 ESLTooltip.register();
+
+ESLAnimate.register();
 
 ESLCarousel.register();
 ESLCarouselPlugins.Dots.register();
