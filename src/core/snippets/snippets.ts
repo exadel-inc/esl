@@ -20,6 +20,7 @@ export class UIPSnippets extends UIPPlugin {
     this.render();
     this.bindEvents();
 
+    if (this.$items.length < 2) this.classList.add('hide-snippets');
     // Initial update
     setTimeout(() => this.$active = this.$active || this.$items[0]);
   }
@@ -37,6 +38,7 @@ export class UIPSnippets extends UIPPlugin {
     this.removeEventListener('click', this._onClick);
   }
 
+  @memoize()
   public get $items(): HTMLElement[] {
     const items = this.querySelectorAll(`.${UIPSnippets.ITEM_CLASS}`);
     return Array.from(items) as HTMLElement[];

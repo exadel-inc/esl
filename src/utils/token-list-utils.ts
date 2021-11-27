@@ -25,11 +25,10 @@ export default class TokenListUtils {
   }
 
   /** Get array which contains only common elements from arrays. */
-  static intersection<T>(...arrays: T[][]): T[] {
-    return Array.from(arrays.reduce((intersect, arr) => {
-      arr.forEach(val => !intersect.has(val) && intersect.delete(val));
-      return intersect;
-    }, new Set(arrays[0])));
+  static intersection<T>(...rest: T[][]): T[];
+  static intersection<T>(a: T[], b: T[], ...rest: T[][]): T[] {
+    if (rest.length) return TokenListUtils.intersection(a, TokenListUtils.intersection(b, ...rest));
+    return b ? a.filter(Set.prototype.has, new Set(b)) : a;
   }
 
   /** Remove all element appearances from array. */
