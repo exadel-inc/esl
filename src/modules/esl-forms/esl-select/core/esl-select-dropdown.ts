@@ -1,12 +1,14 @@
-import {ESLToggleable} from '../../../esl-toggleable/core/esl-toggleable';
+import {ESLPopup} from '../../../esl-popup/core/esl-popup';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {prop} from '../../../esl-utils/decorators/prop';
 import {TAB} from '../../../esl-utils/dom/keys';
 import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';
+import {attr} from '../../../esl-base-element/core';
 
 import type {ESLSelect} from './esl-select';
 import type {ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
+import type {PositionType} from '../../../esl-popup/core/esl-popup-position';
 
 /**
  * ESLSelectDropdown component
@@ -15,8 +17,12 @@ import type {ToggleableActionParams} from '../../../esl-toggleable/core/esl-togg
  * Auxiliary inner custom component to render {@link ESLSelect} dropdown section
  * Uses {@link ESLSelectList} to render the content
  */
-export class ESLSelectDropdown extends ESLToggleable {
+export class ESLSelectDropdown extends ESLPopup {
   public static readonly is = 'esl-select-dropdown';
+
+  @attr({defaultValue: ''}) public behavior: string;
+  @attr({defaultValue: 'bottom'}) public position: PositionType;
+
   public static register() {
     ESLSelectList.register();
     super.register();
@@ -40,11 +46,11 @@ export class ESLSelectDropdown extends ESLToggleable {
 
   protected setInitialState() {}
 
-  protected connectedCallback() {
+  public connectedCallback() {
     super.connectedCallback();
     this.appendChild(this.$list);
   }
-  protected disconnectedCallback() {
+  public disconnectedCallback() {
     super.disconnectedCallback();
     this.removeChild(this.$list);
   }
@@ -58,7 +64,7 @@ export class ESLSelectDropdown extends ESLToggleable {
     window.removeEventListener('resize', this._deferredUpdatePosition);
   }
 
-  protected onShow(params: ToggleableActionParams) {
+  public onShow(params: ToggleableActionParams) {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
@@ -71,7 +77,8 @@ export class ESLSelectDropdown extends ESLToggleable {
     focusable?.focus({preventScroll: true});
     this.updatePosition();
   }
-  protected onHide(params: ToggleableActionParams) {
+
+  public onHide(params: ToggleableActionParams) {
     const select = this.activator;
     super.onHide(params);
     this._disposeTimeout = window.setTimeout(() => {
