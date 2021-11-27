@@ -8,9 +8,9 @@ Extends [UIPSetting](src/settings/setting/README.md).
 Setting behaves like 'range' input with value displayed below. It has the
 following attributes:
 
-- *min* - minimum range value.
-- *max* - maximum range value.
-- *step* - step between range's values.
+- *min* - minimum range value (default: 0).
+- *max* - maximum range value (default: 0).
+- *step* - step between range's values (default: 0).
 
 ## Example:
 

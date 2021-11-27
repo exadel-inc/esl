@@ -1,56 +1,60 @@
 import {UIPSetting} from '../setting/setting';
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {WARNING_MSG} from '../../utils/warning-msg';
+import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 
 export class UIPSliderSetting extends UIPSetting {
   public static is = 'uip-slider-setting';
-  /** CSS Class added when setting has inconsistent state. */
-  public static inconsistencyClass = 'inconsistency-marker';
 
   /** Setting's visible name. */
   @attr({defaultValue: ''}) public label: string;
   /** Minimum range value. */
   @attr({defaultValue: '0'}) public min: string;
   /** Maximum range value. */
-  @attr({defaultValue: '100'}) public max: string;
+  @attr({defaultValue: '0'}) public max: string;
   /** Step for range. */
-  @attr({defaultValue: '1'}) public step: string;
-  /** Range input to change setting's value. */
-  protected $field: HTMLInputElement;
-  /** Range value displayed below. */
-  protected $fieldValue: HTMLDivElement;
+  @attr({defaultValue: '0'}) public step: string;
 
   protected connectedCallback() {
     super.connectedCallback();
-    if (this.$field) return;
 
-    this.initSlider();
-    this.initSliderValue();
-    const label = document.createElement('label');
-    label.innerText = this.label;
-    label.appendChild(this.$field);
-
-    this.innerHTML = '';
-    this.append(label);
+    this.updateConfiguration();
+    this.append(this.$label);
     this.append(this.$fieldValue);
   }
 
-  protected initSlider() {
-    this.$field = document.createElement('input');
-    this.$field.type = 'range';
-    this.$field.min = this.min;
-    this.$field.max = this.max;
-    this.$field.step = this.step;
-    this.$field.name = this.label;
+  @memoize()
+  protected get $field(): HTMLInputElement {
+    const $field = document.createElement('input');
+    $field.type = 'range';
+
+    $field.min = this.min;
+    $field.max = this.max;
+    $field.step = this.step;
+
+    return $field;
   }
 
-  protected initSliderValue() {
-    this.$fieldValue = document.createElement('div');
-    this.$fieldValue.classList.add('slider-value');
-    this.$field.addEventListener('input', () => this.updateSliderValue());
+  @memoize()
+  protected get $label(): HTMLLabelElement {
+    const $label = document.createElement('label');
+    $label.innerHTML = `<span>${this.label}</span>`;
+    return $label;
   }
 
-  protected updateSliderValue() {
+  protected updateConfiguration() {
+    this.$field.addEventListener('input', this.updateSliderValue);
+    this.$label.append(this.$field);
+  }
+
+  @memoize()
+  protected get $fieldValue(): HTMLDivElement {
+    const $fieldValue = document.createElement('div');
+    $fieldValue.classList.add('slider-value');
+    return $fieldValue;
+  }
+
+  protected updateSliderValue = () => {
     this.$fieldValue.textContent = `Value: ${this.$field.value}`;
   }
 
@@ -59,12 +63,18 @@ export class UIPSliderSetting extends UIPSetting {
   }
 
   protected setValue(value: string | null): void {
-    this.$field.value = value || '0';
+    this.$field.value = value || this.min;
     this.updateSliderValue();
   }
 
   protected setInconsistency(msg = WARNING_MSG.inconsistent): void {
-    this.$field.value = '0';
+    this.$field.value = this.min;
     this.$fieldValue.textContent = msg;
+  }
+
+  protected disconnectedCallback() {
+    this.$field.removeEventListener('input', this.updateSliderValue);
+    this.innerHTML = '';
+    super.disconnectedCallback();
   }
 }
