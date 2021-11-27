@@ -56,7 +56,7 @@ export class UIPSliderSetting extends UIPSetting {
 
   protected updateSliderValue = () => {
     this.$fieldValue.textContent = `Value: ${this.$field.value}`;
-  }
+  };
 
   protected getDisplayedValue(): string {
     return this.$field.value;
