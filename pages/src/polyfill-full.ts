@@ -7,7 +7,4 @@ import '../../src/polyfills/polyfills.es5';
 
 import '@webcomponents/webcomponents-platform';
 
-import SmoothScroll from 'smoothscroll-polyfill';
-SmoothScroll.polyfill();
-
-import './polyfill-light';
+import './polyfill-medium';

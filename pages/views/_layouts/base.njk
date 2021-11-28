@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="{{ lang or 'en' }}" {% if scrollbar %} class="esl-scrollable-content" {% endif %}>
 <head>
-  <title>{{ title or 'Home' }}</title>
+  <title>{{ seoTitle or title or site.description }}</title>
+  <link rel="canonical" href="{{page.url | canonical | url }}"/>
   {# Site meta information #}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% if description %}
+    <meta name="description" content="{{ description | escape}}">
+  {% endif %}
+
+  {# Additional site meta information #}
   {% block meta %}{% endblock meta %}
   {# Site icon #}
   <link rel="icon" type="image/png" href="{{ '/assets/logo-64x64.png' | url }}" />

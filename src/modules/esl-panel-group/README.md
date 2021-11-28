@@ -2,7 +2,9 @@
 
 Version: *2.1.0*.  
 
-Authors: *Julia Murashko*.
+Authors: *Julia Murashko*
+
+<a name="intro"></a>
 
 ESLPanelGroup is a custom element that is used as a container for a group of ESLPanels.
 ESLPanelGroup provides group behaviour, such as synchronized content state change.
