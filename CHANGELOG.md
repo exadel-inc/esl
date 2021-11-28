@@ -1,3 +1,11 @@
+# [3.7.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.6.0...v3.7.0-beta.1) (2021-11-28)
+
+
+### Features
+
+* **esl-footnotes:** add back-to-note-label to outputting title for the button ([717c23f](https://github.com/exadel-inc/esl/commit/717c23ffe30f5d9963d7463262e4739d2d7d0b1d))
+* **esl-footnotes:** add separate method to render content of connected note ([bea4379](https://github.com/exadel-inc/esl/commit/bea4379d35aab4f2e550cb4af13622eee733877e))
+
 # [3.6.0](https://github.com/exadel-inc/esl/compare/v3.5.0...v3.6.0) (2021-11-23)
 
 
