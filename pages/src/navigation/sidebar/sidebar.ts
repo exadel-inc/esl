@@ -53,7 +53,7 @@ export class ESLDemoSidebar extends ESLToggleable {
 
   public expandActive(noCollapse: boolean = false) {
     this.$submenus
-      .filter((menu) => !!menu.hasAttribute('data-open'))
+      .filter((menu) => menu.hasAttribute('data-open'))
       .forEach((menu) => menu.show({noCollapse, activator: this}));
   }
 
