@@ -13,9 +13,39 @@ esl-animate {
   }
 }
 
-.esl-animate-slide {
+.esl-animate-slide-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  &.in {
+    opacity: 1;
+    transform: translateX(0px);
+    transition: transform 1s, opacity 1s;
+  }
+}
+
+.esl-animate-slide-right {
+  opacity: 0;
+  transform: translateX(30px);
+  &.in {
+    opacity: 1;
+    transform: translateX(0px);
+    transition: transform 1s, opacity 1s;
+  }
+}
+
+.esl-animate-slide-up {
   opacity: 0;
   transform: translateY(30px);
+  &.in {
+    opacity: 1;
+    transform: translateY(0px);
+    transition: transform 1s, opacity 1s;
+  }
+}
+
+.esl-animate-slide-down {
+  opacity: 0;
+  transform: translateY(-30px);
   &.in {
     opacity: 1;
     transform: translateY(0px);

@@ -7,9 +7,9 @@ export class ESLAnimate extends ESLBaseElement {
   static is = 'esl-animate';
 
   @attr({defaultValue: 'in'}) public cls: string;
-  @attr({defaultValue: '-1'}) public group: string;
+  @boolAttr() public group: boolean;
+  @attr({defaultValue: '100'}) public groupDelay: string;
   @attr() public target: string;
-
   @boolAttr() public repeat: boolean;
 
   static get observedAttributes() {
@@ -44,7 +44,8 @@ export class ESLAnimate extends ESLBaseElement {
     ESLAnimateService.observe(this.$targets, {
       cls: this.cls,
       repeat: this.repeat,
-      group: +(this.group || '100')
+      group: this.group,
+      groupDelay: +this.groupDelay
     });
   }
 }

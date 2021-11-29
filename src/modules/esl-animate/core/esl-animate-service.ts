@@ -3,32 +3,18 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {debounce} from '../../esl-utils/async/debounce';
 import {memoize} from '../../esl-utils/decorators/memoize';
 
-// /** ESLAnimate service animation options */
-// export interface ESLAnimateConfig {
-//   /** Class to mark element animated*/
-//   cls: string;
-//
-//   /** Delay to display element(s) after previous one. If negative or false then play animation immodestly */
-//   group: string; //number | false;
-//   groupDelay: number;
-//
-//   /** Do not unsubscribe after animate and repeat animation on each viewport intersection */
-//   repeat: 'forward' | boolean;
-//
-//   /** @private animation requested */
-//   _timeout?: number;
-//   /** @private marker to unobserve */
-//   _unsubscribe?: boolean;
-// }
-
 /** ESLAnimate service animation options */
 export interface ESLAnimateConfig {
-  /** Class to mark element animated*/
+  /** Class to mark element animated */
   cls: string;
 
-  /** Delay to display element(s) after previous one. If negative or false then play animation immodestly */
-  group: number | false;
+  /** Animate items in group one by one, using groupDelay */
+  group: boolean;
 
+  /** Delay to display element(s) after previous one. Used when group animation is enabled. Default: 100ms */
+  groupDelay: number;
+
+  // 'forward' | boolean;
   /** Do not unsubscribe after animate and repeat animation on each viewport intersection */
   repeat: boolean;
 
@@ -41,7 +27,7 @@ export interface ESLAnimateConfig {
 /** Service to animate elements on viewport intersection */
 export class ESLAnimateService {
 
-  protected static readonly DEFAULT_CONFIG: ESLAnimateConfig = {cls: 'in', repeat: false, group: false};
+  protected static readonly DEFAULT_CONFIG: ESLAnimateConfig = {cls: 'in', repeat: false, group: false, groupDelay: 100};
   protected static readonly OPTIONS_OBSERVER: IntersectionObserverInit = {threshold: [0.01, 0.4]};
 
   /**
@@ -123,8 +109,8 @@ export class ESLAnimateService {
       const config = this.getConfigFor(target);
       if (!config) return;
 
-      if (typeof config.group === 'number' && config.group >= 0) {
-        time += config.group;
+      if (config.group) {
+        time += config.groupDelay;
         config._timeout = window.setTimeout(() => target.classList.add(config.cls), time);
       } else {
         target.classList.add(config.cls);
