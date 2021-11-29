@@ -14,6 +14,7 @@
 
   <esl-panel id="sidebar-{{ collection }}-menu"
              class="sidebar-nav-secondary {{ 'open' if isPrimaryActive }}"
+             {% if isPrimaryActive %}data-open{% endif %}
              group="esl-nav"
              fallback-duration="400">
     <ul class="sidebar-nav-secondary-list">
