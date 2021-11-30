@@ -250,10 +250,12 @@ export class ESLPopup extends ESLToggleable {
    */
   @bind
   protected _startUpdateLoop() {
+    if (this._updateLoopID) return;
+
     let same = 0;
     let lastRect = new Rect();
     const updateLoop = () => {
-      if (!this.activator || this._updateLoopID) {
+      if (!this.activator) {
         this._stopUpdateLoop();
         return;
       }
