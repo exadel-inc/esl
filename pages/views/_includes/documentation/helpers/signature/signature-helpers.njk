@@ -1,0 +1,56 @@
+{% import '../return-helpers.njk' as returnHelpers %}
+
+{% macro getSignature(itemObject) %}
+  <p class="docs-signature">
+
+    {% if itemObject.kindString === 'Type alias' %}
+      {{ typeAliasSignature(itemObject) }}
+    {% elif itemObject.kindString === 'Property' %}
+      {{ propertySignature(itemObject) }}
+    {% elif itemObject.kindString === 'Parameter' or itemObject.kindString === 'Call signature' %}
+      {{ parameterSignature(itemObject) }}
+    {% elif itemObject.kindString === 'Variable'%}
+      {{ variableSignature(itemObject) }}
+    {% elif itemObject.kindString === 'Accessor'%}
+      {{ accessorSignature(itemObject) }}
+    {% else %}
+      {{ defaultSignature(itemObject) }}
+    {% endif %}
+
+    {% if itemObject.returns %}
+      <span>: {{ returnHelpers.getReturnSignature(itemObject) }}</span>
+    {% endif %}
+
+    {% if itemObject.defaultValue %}
+      <span class="text-gray"> = {{ itemObject.defaultValue }} </span>
+    {% endif %}
+  </p>
+{% endmacro %}
+
+{% macro typeAliasSignature(itemObject) %}
+  {{ itemObject.name }}{{ itemObject.typeParameter }}: {{ itemObject.signature }}
+{% endmacro %}
+
+{% macro propertySignature(itemObject) %}
+  {% if itemObject.type.name or itemObject.returns %}
+    {{ itemObject.name }}: {{ itemObject.typeParameter }}{{ itemObject.signature }}  
+  {% else %}
+    {{ itemObject.signature }}
+  {% endif %}
+{% endmacro %}
+
+{% macro parameterSignature(itemObject) %}
+  {{ itemObject.signature }}
+{% endmacro %}
+
+{% macro variableSignature(itemObject) %}
+  {{ itemObject.name }}:{{itemObject.type}}{{ itemObject.typeParameter }}
+{% endmacro %}
+
+{% macro accessorSignature(itemObject) %}
+  <span class="text-gray">get </span>{{ itemObject.name }}{{ itemObject.typeParameter }}{{ itemObject.signature }}
+{% endmacro %}
+
+{% macro defaultSignature(itemObject) %}
+  {{ itemObject.name }}{{ itemObject.typeParameter }}{{ itemObject.signature }}
+{% endmacro %}

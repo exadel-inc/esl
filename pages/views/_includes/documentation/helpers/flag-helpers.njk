@@ -1,0 +1,7 @@
+{% macro getFlags(itemObject) %}
+  {% for flagName, flagValue in itemObject.flags %}
+    <span class="docs-flags">
+      {{ flagName }}
+    </span>
+  {% endfor %}
+{% endmacro %}

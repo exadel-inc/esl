@@ -1,0 +1,19 @@
+{% import './section-render-helpers.njk' as sectionHelpers %}
+
+{% macro renderInterface(item) %}
+  <h2>Interface {{item.name}}</h2>
+  {{sectionHelpers.renderSection(item)}}
+  {% if item.interface.Method %}
+    <h3>Methods</h3>
+    {% for methodObject in item.interface.Method %}
+      {{sectionHelpers.renderSection(methodObject)}}
+    {% endfor %}
+  {% endif %}
+
+  {% if item.interface.Property %}
+    <h3>Properties</h3>
+    {% for propertyObject in item.interface.Property %}
+      {{sectionHelpers.renderSection(propertyObject)}}
+    {% endfor %}
+  {% endif %}
+{% endmacro %}

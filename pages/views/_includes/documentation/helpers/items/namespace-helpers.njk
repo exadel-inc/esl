@@ -1,0 +1,26 @@
+{% import './section-render-helpers.njk' as sectionHelpers %}
+
+{% macro renderNamespace(item) %}
+  <h2>Namespace {{item.name}}</h2>
+
+  {% if item.Variable %}
+    <h3>Variables</h3>
+    {% for variable in item.Variable %}
+      {{sectionHelpers.renderSection(variable)}}
+    {% endfor %}
+  {% endif %}
+
+  {% if item['Type alias'] %}
+    <h3>Type aliases</h3>
+    {% for alias in item['Type alias'] %}
+      {{sectionHelpers.renderSection(alias)}}
+    {% endfor %}
+  {% endif %}
+
+  {% if item.Function %}
+    <h3>Functions</h3>
+    {% for function in item.Function %}
+      {{sectionHelpers.renderSection(function)}}
+    {% endfor %}
+  {% endif %}
+{% endmacro %}

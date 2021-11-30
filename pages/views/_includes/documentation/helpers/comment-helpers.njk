@@ -1,0 +1,28 @@
+{% macro getComment(itemObject) %}
+  <div class="docs-comment">
+    {% if itemObject.comment.shortText %}
+      <p class="docs-comment-short-text">{{ itemObject.comment.shortText }}</p>
+    {% endif %}
+
+    {% if itemObject.comment.text %}
+      <p class="docs-comment-text">{{ itemObject.comment.text }}</p>
+    {% endif %}
+
+    {% if itemObject.comment.tags %}
+      <ul class="docs-comment-tag-list">
+        {% for tag in itemObject.comment.tags %}
+          <li>
+            <span class="docs-comment-tag-name">{{ tag.tag }}</span>
+            <p class="docs-comment-tag-text">{{ tag.text }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% macro getCommentReturns(itemObject) %}
+  {% if itemObject.comment.returns %}
+    <p class="docs-comment">{{ itemObject.comment.returns }}</p>
+  {% endif %}
+{% endmacro %}

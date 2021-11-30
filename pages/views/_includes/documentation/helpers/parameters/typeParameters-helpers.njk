@@ -1,0 +1,15 @@
+{% macro getTypeParameters(itemObject) %}
+  {% if itemObject.typeParameters %}
+    <div>
+      <h4>Type parameters</h4>
+      <ul class="docs-list">
+        {% for typeParameter in itemObject.typeParameters %}
+          <li>
+            <h5>{{ typeParameter }}</h5>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  
+{% endmacro %}

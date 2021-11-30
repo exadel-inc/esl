@@ -1,0 +1,38 @@
+{% import './comment-helpers.njk' as commentHelpers %}
+{% import './source-helpers.njk' as sourceHelpers %}
+{% import './return-helpers.njk' as returnHelpers %}
+{% import './signature-block-helpers.njk' as signatureHelpers %}
+{% import './parameters/typeParameters-helpers.njk' as typeParametersHelpers %}
+{% import './parameters/declaration-helpers.njk' as declarationHelpers %}
+
+{% macro getItemDescription(item) %}
+  {{signatureHelpers.getSignatureBlock(item)}}
+
+  {% if not item.signatures %}
+    {{typeParametersHelpers.getTypeParameters(item)}}
+  {% endif %}
+
+  {{declarationHelpers.getTypeDeclaration(item)}}
+  {{declarationHelpers.getParametersList(item)}}
+  {{returnHelpers.getReturnType(item)}}
+  {{commentHelpers.getCommentReturns(item)}}
+{% endmacro %}
+
+{% macro getVariableItemDescription(item) %}
+  <div>
+    <span class="docs-signature-span">
+      <p class="docs-signature">
+        {{item.name}}:
+        {% if item.Property.signature %}
+          {{item.Property.signature}}
+        {% else %}
+          "{{item.Property}}"
+        {% endif %}
+        <span class="text-gray"> = {{item.defaultValue}}</span>
+      </p>
+    </span>
+    {{sourceHelpers.getSources(item)}}
+    {{commentHelpers.getComment(item)}}
+    {{declarationHelpers.getTypeDeclaration(item.Property)}}
+  </div>
+{% endmacro %}

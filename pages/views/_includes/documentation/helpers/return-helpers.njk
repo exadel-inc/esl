@@ -1,0 +1,22 @@
+{% macro getReturnType(itemObject) %}
+
+  {% from './item-description-helpers.njk' import getItemDescription with context %}
+
+  {% if itemObject.returns %}
+    {% if itemObject.returns.signatures %}
+      <div>
+        <h4 class="docs-parameter">Returns {{itemObject.returns.type}}{{getItemDescription(itemObject.returns)}}</h4>
+      </div>
+    {% else %}
+      <h4>Returns <span class="docs-item-type">{{itemObject.returns}}</span></h4>
+    {% endif %}
+  {% endif %}
+{% endmacro %}
+
+{% macro getReturnSignature(itemObject) %}
+  {% if itemObject.returns.signatures %}
+    <span class="docs-item-type">{{itemObject.returns.type}}</span>
+  {% else %}
+    <span class="docs-item-type">{{itemObject.returns}}</span>
+  {% endif %}
+{% endmacro %}

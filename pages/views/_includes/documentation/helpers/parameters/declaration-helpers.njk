@@ -1,0 +1,84 @@
+{% import '../comment-helpers.njk' as commentHelpers %}
+{% import '../flag-helpers.njk' as flagHelpers %}
+{% import '../signature-block-helpers.njk' as signatureHelpers %}
+{% import '../return-helpers.njk' as returnHelpers %}
+
+{% macro getParametersList(itemObject) %}
+  {% if (itemObject.Parameter) %}
+    <div>
+      <h4>Parameters</h4>
+      <ul class="docs-list">
+        {% if itemObject.Parameter %}
+          {% for parameterObject in itemObject.Parameter %}
+            <li>{{ getParameter(parameterObject) }}</li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro getParameter(parameterObject) %}
+  <div class="docs-parameter">
+    {{flagHelpers.getFlags(parameterObject)}}
+    <p class="docs-parameter-signature">
+      {% if parameterObject.name and parameterObject.type %}
+        {{ parameterObject.name }}: <span class="docs-item-type">{{ parameterObject.type }}</span>
+      {% else %}
+        {{ parameterObject.signature }}
+      {% endif %}
+
+      {% if parameterObject.defaultValue %}
+        = <span class="text-gray">{{ parameterObject.defaultValue }}</span> 
+      {% endif %}
+
+      {% if parameterObject.signatures %}
+        {{ signatureHelpers.getSignatureBlock(parameterObject) }}
+      {% endif %}
+    </p>
+  </div>
+  {{ commentHelpers.getComment(parameterObject) }}
+{% endmacro %}
+
+{% macro getTypeDeclaration(itemObject) %}
+  {% if (itemObject.Property) or (itemObject.Method) %}
+
+    <div>
+      <h4>Type declaration</h4>
+      <ul class="docs-list">
+        {% if itemObject.Property %}
+          {% for property in itemObject.Property %}
+            <li>{{ getParameter(property) }}</li>
+          {% endfor %}
+        {% endif %}
+
+        {% if itemObject.Method %}
+          {% for methodObject in itemObject.Method %}
+            <li>
+              <div>
+                <p>{{ methodObject.name }}: function</p>
+                {{signatureHelpers.getSignatureBlock(methodObject)}}
+              </div>
+            </li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+
+  {% elif (itemObject.kindString === 'Property' or itemObject.kindString === 'Type alias') and itemObject.returns %}
+
+    <div>
+      <h4>Type declaration</h4>
+      <ul class="docs-list unstyled-list">
+        <li>
+          <span class="docs-signature-span">
+            <p class="docs-signature">{{ itemObject.typeParameter }}{{ itemObject.signature }} => 
+              <span class="docs-item-type">{{ returnHelpers.getReturnSignature(itemObject) }}</span>
+            </p>
+          </span>
+        </li>
+      </ul>
+    </div>
+
+  {% endif %}
+{% endmacro %}

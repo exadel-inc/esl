@@ -1,0 +1,16 @@
+{% import '../item-description-helpers.njk' as itemHelpers %}
+{% import '../flag-helpers.njk' as flagHelpers %}
+
+{% macro renderSection(item) %}
+  <section class="docs-section">
+    <h3>{{flagHelpers.getFlags(item)}}{{item.name}}</h3>
+    {{itemHelpers.getItemDescription(item)}}
+  </section>
+{% endmacro %}
+
+{% macro renderVariable(item) %}
+  <section class="docs-section">
+    <h3>{{flagHelpers.getFlags(item)}}{{item.name}}</h3>
+    {{itemHelpers.getVariableItemDescription(item)}}
+  </section>
+{% endmacro %}

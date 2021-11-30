@@ -1,0 +1,30 @@
+{% macro getSignatureBlock(itemObject) %}
+
+  {% from './item-description-helpers.njk' import getItemDescription with context %}
+  {% import './comment-helpers.njk' as commentHelpers %}
+  {% import './source-helpers.njk' as sourceHelpers %}
+  {% import './parameters/declaration-helpers.njk' as declarationHelpers %}
+  {% import './parameters/typeParameters-helpers.njk' as typeParametersHelpers %}
+  {% import './signature/signature-helpers.njk' as signatureHelpers %}
+
+  {% if itemObject.signatures %}
+
+    {% for signatureObject in itemObject.signatures %}
+      {{ getItemDescription(signatureObject) }}
+    {% endfor %}
+
+  {% else %}
+
+    <div>
+      <span class="docs-signature-span">
+        {{ signatureHelpers.getSignature(itemObject) }}
+      </span>
+      {% if itemObject.kindString !== 'Call signature' %}
+        {{ sourceHelpers.getSources(itemObject) }}
+        {{ commentHelpers.getComment(itemObject) }}
+      {% endif %}
+    </div>
+
+  {% endif %}
+
+{% endmacro %}

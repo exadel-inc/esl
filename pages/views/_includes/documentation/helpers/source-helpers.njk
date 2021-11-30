@@ -1,0 +1,13 @@
+{% macro getSources(item) %}
+  {% if item.sources %}
+    <aside class="docs-sources text-gray">Defined in:
+      <ul class="docs-sources-list unstyled-list">
+        {% for source in item.sources %}
+          <li>
+            <p>{{source}}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </aside>
+  {% endif %}
+{% endmacro %}

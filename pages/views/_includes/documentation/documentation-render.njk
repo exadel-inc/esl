@@ -1,0 +1,55 @@
+{% import './helpers/items/section-render-helpers.njk' as sectionHelpers %}
+{% import './helpers/items/namespace-helpers.njk' as namespaceHelpers %}
+{% import './helpers/items/class-helpers.njk' as classHelpers %}
+{% import './helpers/items/interface-helpers.njk' as interfaceHelpers %}
+
+{% macro renderPageContent(itemsObject) %}
+  {{ renderIndex(itemsObject) }}
+  {{ renderItems(itemsObject) }}
+{% endmacro %}
+
+{% set sectionName = {
+  'Namespace': 'Namespaces',
+  'Class': 'Classes',
+  'Interface': 'Interfaces',
+  'Variable': 'Variables',
+  'Function': 'Functions',
+  'Type alias': 'Type aliases'
+} %}
+
+{% macro renderIndex(itemsObject) %}
+  <section class="docs-section">
+    {% for collectionName, collectionItem in itemsObject %}
+      <h3>{{ sectionName[collectionName] }}</h3>
+      <ul class="docs-index-list">
+        {% for subitem in collectionItem %}
+          <li class="docs-index-list-item">
+            <a class="docs-index-list-link" href="#{{collectionName}}{{subitem.name}}">{{ subitem.name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endfor %}
+  </section>
+{% endmacro %}
+
+{% macro renderItems(itemsObject) %}
+  {% for collectionName, collectionItem in itemsObject %}
+    <hr/>
+    <h1>{{ sectionName[collectionName] }}</h1>
+    <hr/>
+    {% for item in collectionItem %}
+      <a id="{{collectionName}}{{item.name}}"></a>
+      {% if item.kindString === "Namespace" %}
+        {{ namespaceHelpers.renderNamespace(item) }}
+      {% elif item.kindString === "Class" %}
+        {{ classHelpers.renderClass(item) }}
+      {% elif item.kindString === "Interface" %}
+        {{ interfaceHelpers.renderInterface(item) }}
+      {% elif item.kindString === "Variable" %}
+        {{ sectionHelpers.renderVariable(item) }}
+      {% else %}
+        {{ sectionHelpers.renderSection(item) }}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+{% endmacro %}

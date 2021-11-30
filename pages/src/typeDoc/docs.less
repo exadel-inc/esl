@@ -1,0 +1,102 @@
+@import (reference) "../common/variables.less";
+
+.docs-section {
+  border-radius: 0.3rem;
+  border: 1px solid @secondary-blue;
+  margin-bottom: 60px;
+  padding: 10px;
+}
+
+.docs-index-list {
+  list-style: none;
+  columns: 4;
+  -webkit-columns: 4;
+  -moz-columns: 4;
+
+  &-item {
+    margin-bottom: 5px;
+  }
+
+  &-link {
+    margin: 5px;
+  }
+}
+
+.docs-list {
+  margin-left: 40px;
+}
+
+.docs-sources {
+  display: flex;
+  font-size: 14px;
+
+  &-list {
+    margin: 0;
+  }
+}
+
+.docs-flags {
+  margin-right: 10px;
+  padding: 2px;
+  color: white;
+  background-color: @primary-blue;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.docs-signature-span {
+  display: block;
+  margin: 10px -11px;
+  padding: 5px 20px;
+
+  border-radius: 0.3rem;
+  border: 1px solid @secondary-blue;
+}
+
+.docs-signature {
+  display: inline;
+  font-size: 14px;
+}
+
+.docs-parameter {
+  display: inline;
+
+  &-signature {
+    display: inline;
+  }
+}
+
+.docs-item-type {
+  font-weight: normal;
+  font-style: italic;
+}
+
+.docs-comment {
+
+  &-short-text {
+    white-space: pre-wrap;
+  }
+
+  &-text {
+    white-space: pre-wrap;
+    margin-top: 20px;
+  }
+
+  &-tag-name {
+    float: left;
+    padding: 0 5px;
+
+    border: 1px solid @secondary-blue;
+    border-radius: 0.3rem;
+  }
+
+  &-tag-list {
+    display: flex;
+    list-style: none;
+    margin-top: 20px;
+
+    li {
+      width: 100%;
+    }
+  }
+}
