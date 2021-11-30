@@ -17,6 +17,7 @@ import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
 
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
 const DEFAULT_OFFSET_ARROW = 50;
+const scrollOptions = {passive: true} as EventListenerOptions;
 
 const parsePercent = (value: string | number, nanValue: number = 0): number => {
   const rawValue = parseNumber(value, nanValue);
@@ -184,15 +185,11 @@ export class ESLPopup extends ESLToggleable {
 
   protected _addActivatorObserver(target: HTMLElement) {
     const scrollParents = getListScrollParents(target);
-    const scrollOptions = {passive: true} as EventListenerOptions;
 
     const unsubscribers = scrollParents.map(($root) => {
-      // const options = {passive: true} as EventListenerOptions;
       $root.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
-      // $root.addEventListener('scroll', this._startUpdateLoop);
       return () => {
         $root && $root.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
-        // $root && $root.removeEventListener('scroll', this._startUpdateLoop);
       };
     });
 
@@ -205,8 +202,7 @@ export class ESLPopup extends ESLToggleable {
     observer.observe(target);
 
     window.addEventListener('resize', this._deferredUpdatePosition);
-    window.addEventListener('scroll', this._deferredUpdatePosition, scrollOptions);
-    // window.addEventListener('scroll', this._startUpdateLoop);
+    window.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
 
     this._activatorObserver = {
       unsubscribers,
@@ -218,8 +214,7 @@ export class ESLPopup extends ESLToggleable {
 
   protected _removeActivatorObserver(target: HTMLElement) {
     window.removeEventListener('resize', this._deferredUpdatePosition);
-    window.removeEventListener('scroll', this._deferredUpdatePosition);
-    // window.removeEventListener('scroll', this._startUpdateLoop);
+    window.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
     this._activatorObserver.observer?.disconnect();
     this._activatorObserver.observer = undefined;
     this._activatorObserver.unsubscribers?.forEach((cb) => cb());
@@ -236,7 +231,7 @@ export class ESLPopup extends ESLToggleable {
     let lastRect = new Rect();
     const updateLoop = () => {
       if (!this.activator) {
-        this._updateLoopID = 0;
+        this._stopUpdateLoop();
         return;
       }
 
@@ -247,7 +242,7 @@ export class ESLPopup extends ESLToggleable {
       }
 
       if (same++ > 2) {
-        this._updateLoopID = 0;
+        this._stopUpdateLoop();
         return;
       }
       this._updatePosition();
@@ -261,6 +256,7 @@ export class ESLPopup extends ESLToggleable {
   protected _stopUpdateLoop() {
     if (!this._updateLoopID) return;
     cancelAnimationFrame(this._updateLoopID);
+    this._updateLoopID = 0;
   }
 
   protected _updatePosition() {
