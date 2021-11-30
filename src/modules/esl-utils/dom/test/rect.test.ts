@@ -22,44 +22,53 @@ describe('Rect instance constructor()', () => {
   });
 });
 
+describe('Rect static method from()', () => {
+  test('creates instance of Rect with passed values', () => {
+    const rect = new Rect(1, 2, 3, 4);
+    expect(Rect.from({})).toEqual(new Rect());
+    expect(Rect.from({left: 1, top: 2, width: 3, height: 4})).toEqual(rect);
+    expect(Rect.from({x: 1, y: 2, width: 3, height: 4})).toEqual(rect);
+  });
+});
+
 describe('Rect instance methods', () => {
-  let rect1: Rect;
+  let rect: Rect;
 
   beforeEach(() => {
-    rect1 = new Rect(1, 2, 3, 4);
+    rect = new Rect(1, 2, 3, 4);
   });
 
   test('returns top coordinate value of Rect', () => {
-    expect(rect1.top).toEqual(rect1.y);
+    expect(rect.top).toEqual(rect.y);
   });
 
   test('returns left coordinate value of Rect', () => {
-    expect(rect1.left).toEqual(rect1.x);
+    expect(rect.left).toEqual(rect.x);
   });
 
   test('returns right coordinate value of Rect', () => {
-    expect(rect1.right).toEqual(rect1.x + rect1.width);
+    expect(rect.right).toEqual(rect.x + rect.width);
   });
 
   test('returns bottom coordinate value of Rect', () => {
-    expect(rect1.bottom).toEqual(rect1.y + rect1.height);
+    expect(rect.bottom).toEqual(rect.y + rect.height);
   });
 
   test('returns center X coordinate value of the Rect', () => {
-    expect(rect1.cx).toEqual(rect1.x + 3  / 2);
+    expect(rect.cx).toEqual(rect.x + 3  / 2);
   });
 
   test('returns center Y coordinate value of the Rect', () => {
-    expect(rect1.cy).toEqual(rect1.y + 4 / 2);
+    expect(rect.cy).toEqual(rect.y + 4 / 2);
   });
 
   test('returns Rect grown by passed increment', () => {
     const value = 2;
-    expect(rect1.grow(value)).toEqual(new Rect(1 - value, 2 - value, 3 + 2 * value, 4 +  2 * value));
+    expect(rect.grow(value)).toEqual(new Rect(1 - value, 2 - value, 3 + 2 * value, 4 +  2 * value));
   });
 
   test('returns Rect shrunk by passed decrement', () => {
     const value = 2;
-    expect(rect1.shrink(2)).toEqual(new Rect(1 + value, 2 + value, 3 + 2 * (-value), 4 +  2 * (-value)));
+    expect(rect.shrink(2)).toEqual(new Rect(1 + value, 2 + value, 3 + 2 * (-value), 4 +  2 * (-value)));
   });
 });
