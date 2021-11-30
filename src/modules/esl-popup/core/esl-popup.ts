@@ -55,6 +55,8 @@ export class ESLPopup extends ESLToggleable {
   protected _activatorObserver: ActivatorObserver;
   protected _intersectionRatio: IntersectionRatioRect = {};
 
+  protected _updateLoopID: number;
+
   /**
    * Popup position relative to the trigger.
    * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
@@ -130,12 +132,14 @@ export class ESLPopup extends ESLToggleable {
       this._updatePosition();
       this.style.visibility = 'visible';
       this.activator && this._addActivatorObserver(this.activator);
+      this._startUpdateLoop();
     });
   }
 
   public onHide(params: PopupActionParams) {
     super.onHide(params);
 
+    this._stopUpdateLoop();
     this.activator && this._removeActivatorObserver(this.activator);
   }
 
@@ -174,17 +178,21 @@ export class ESLPopup extends ESLToggleable {
 
   @bind
   protected onActivatorScroll(e: Event) {
+    if (this._updateLoopID) return;
     this._updatePosition();
   }
 
   protected _addActivatorObserver(target: HTMLElement) {
     const scrollParents = getListScrollParents(target);
+    const scrollOptions = {passive: true} as EventListenerOptions;
 
     const unsubscribers = scrollParents.map(($root) => {
-      const options = {passive: true} as EventListenerOptions;
-      $root.addEventListener('scroll', this.onActivatorScroll, options);
+      // const options = {passive: true} as EventListenerOptions;
+      $root.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
+      // $root.addEventListener('scroll', this._startUpdateLoop);
       return () => {
-        $root && $root.removeEventListener('scroll', this.onActivatorScroll, options);
+        $root && $root.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
+        // $root && $root.removeEventListener('scroll', this._startUpdateLoop);
       };
     });
 
@@ -197,21 +205,62 @@ export class ESLPopup extends ESLToggleable {
     observer.observe(target);
 
     window.addEventListener('resize', this._deferredUpdatePosition);
-    window.addEventListener('scroll', this._deferredUpdatePosition);
+    window.addEventListener('scroll', this._deferredUpdatePosition, scrollOptions);
+    // window.addEventListener('scroll', this._startUpdateLoop);
 
     this._activatorObserver = {
       unsubscribers,
       observer
     };
+
+    document.body.addEventListener('transitionstart', this._startUpdateLoop);
   }
 
   protected _removeActivatorObserver(target: HTMLElement) {
     window.removeEventListener('resize', this._deferredUpdatePosition);
     window.removeEventListener('scroll', this._deferredUpdatePosition);
+    // window.removeEventListener('scroll', this._startUpdateLoop);
     this._activatorObserver.observer?.disconnect();
     this._activatorObserver.observer = undefined;
     this._activatorObserver.unsubscribers?.forEach((cb) => cb());
     this._activatorObserver.unsubscribers = [];
+
+    document.body.removeEventListener('transitionstart', this._startUpdateLoop);
+  }
+
+  @bind
+  protected _startUpdateLoop() {
+    if (!this.activator || this._updateLoopID) return;
+
+    let same = 0;
+    let lastRect = new Rect();
+    const updateLoop = () => {
+      if (!this.activator) {
+        this._updateLoopID = 0;
+        return;
+      }
+
+      const newRect = Rect.from(this.activator.getBoundingClientRect());
+      if (!Rect.isEqual(lastRect, newRect)) {
+        same = 0;
+        lastRect = newRect;
+      }
+
+      if (same++ > 2) {
+        this._updateLoopID = 0;
+        return;
+      }
+      this._updatePosition();
+      this._updateLoopID = requestAnimationFrame(updateLoop);
+    };
+
+    this._updateLoopID = requestAnimationFrame(updateLoop);
+  }
+
+  @bind
+  protected _stopUpdateLoop() {
+    if (!this._updateLoopID) return;
+    cancelAnimationFrame(this._updateLoopID);
   }
 
   protected _updatePosition() {
