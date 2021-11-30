@@ -2,6 +2,7 @@ import {UIPSetting} from '../setting/setting';
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {WARNING_MSG} from '../../utils/warning-msg';
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
+import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 
 export class UIPSliderSetting extends UIPSetting {
   public static is = 'uip-slider-setting';
@@ -21,6 +22,12 @@ export class UIPSliderSetting extends UIPSetting {
     this.updateConfiguration();
     this.append(this.$label);
     this.append(this.$fieldValue);
+  }
+
+  protected disconnectedCallback() {
+    this.$field.removeEventListener('input', this.updateSliderValue);
+    this.innerHTML = '';
+    super.disconnectedCallback();
   }
 
   @memoize()
@@ -54,7 +61,8 @@ export class UIPSliderSetting extends UIPSetting {
     return $fieldValue;
   }
 
-  protected updateSliderValue = () => {
+  @bind
+  protected updateSliderValue() {
     this.$fieldValue.textContent = `Value: ${this.$field.value}`;
   };
 
@@ -70,11 +78,5 @@ export class UIPSliderSetting extends UIPSetting {
   protected setInconsistency(msg = WARNING_MSG.inconsistent): void {
     this.$field.value = this.min;
     this.$fieldValue.textContent = msg;
-  }
-
-  protected disconnectedCallback() {
-    this.$field.removeEventListener('input', this.updateSliderValue);
-    this.innerHTML = '';
-    super.disconnectedCallback();
   }
 }
