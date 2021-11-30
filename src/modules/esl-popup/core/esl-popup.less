@@ -1,14 +1,12 @@
-@POPUP_ARROW_SIZE: 20px;
-@POPUP_BACKGROUND_COLOR: #FFF;
-@POPUP_BORDER_COLOR: #DBDBDB;
-@POPUP_BORDER_WIDTH: 1px;
-@POPUP_Z_INDEX: 999;
-
-.esl-popup-arrow(@popupArrowSize, @popupBackgroundColor, @popupBorderColor, @popupBorderWidth) {
+.esl-popup-arrow-init(@arrowClassName: esl-popup-arrow,
+                      @popupArrowSize: 20px,
+                      @popupBackgroundColor: #FFF,
+                      @popupBorderColor: #DBDBDB,
+                      @popupBorderWidth: 1px) {
   @popupArrowHalf: (@popupArrowSize / 2);
   @popupArrowShift: (@popupArrowSize * 0.2071 - @popupBorderWidth);  // 0.2071 = (sqrt(2) - 1) / 2  (Don't ask why, it's an axiom)
 
-  .esl-popup-arrow {
+  .@{arrowClassName} {
     position: absolute;
     top: (-@popupArrowHalf - @popupBorderWidth);
     bottom: 100%;
@@ -23,7 +21,7 @@
   }
 
   &[placed-at=top] {
-    .esl-popup-arrow {
+    .@{arrowClassName} {
       top: auto;
       bottom: (-@popupArrowHalf - @popupBorderWidth);
       transform: rotate(225deg);
@@ -31,7 +29,7 @@
   }
 
   &[placed-at=left] {
-    .esl-popup-arrow {
+    .@{arrowClassName} {
       right: (-@popupArrowHalf - @popupBorderWidth);
       left: auto;
       transform: rotate(135deg);
@@ -40,7 +38,7 @@
   }
 
   &[placed-at=right] {
-    .esl-popup-arrow {
+    .@{arrowClassName} {
       left: (-@popupArrowHalf - @popupBorderWidth - @popupArrowShift);
       right: auto;
       transform: rotate(315deg);
@@ -49,31 +47,39 @@
   }
 }
 
-.esl-popup {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: block;
-  opacity: 0;
-  visibility: hidden;
-  transition: visibility 0.5s 0.2s;
-  box-sizing: border-box;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-  border: @POPUP_BORDER_WIDTH solid @POPUP_BORDER_COLOR;
-  background: @POPUP_BACKGROUND_COLOR;
-  cursor: default;
-  will-change: auto;
+.esl-popup-init(@className: esl-popup,
+                @arrowClassName: esl-popup-arrow,
+                @arrowSize: 20px,
+                @backgroundColor: #FFF,
+                @borderColor: #DBDBDB,
+                @borderWidth: 1px,
+                @zIndex: 999) {
+  .@{className} {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transition: visibility 0.5s 0.2s;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    border: @borderWidth solid @borderColor;
+    background: @backgroundColor;
+    cursor: default;
+    will-change: auto;
 
-  &[open] {
-    z-index: @POPUP_Z_INDEX;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.15s, transform 0.2s;
+    &[open] {
+      z-index: @zIndex;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.15s, transform 0.2s;
+    }
+
+    &:not([open]) {
+      display: none;
+    }
+
+    .esl-popup-arrow-init(@arrowClassName, @arrowSize, @backgroundColor, @borderColor, @borderWidth);
   }
-
-  &:not([open]) {
-    display: none;
-  }
-
-  .esl-popup-arrow(@POPUP_ARROW_SIZE, @POPUP_BACKGROUND_COLOR, @POPUP_BORDER_COLOR, @POPUP_BORDER_WIDTH);
 }
