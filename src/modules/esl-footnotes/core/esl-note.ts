@@ -156,6 +156,7 @@ export class ESLNote extends ESLBaseElement {
   protected _onClick(event: MouseEvent) {
     if (!this.allowClick) return;
     event.preventDefault();
+    event.stopPropagation();
     return this.toggleTooltip({event});
   }
 
@@ -164,6 +165,7 @@ export class ESLNote extends ESLBaseElement {
   protected _onKeydown(event: KeyboardEvent) {
     if (![ENTER, SPACE].includes(event.key)) return;
     event.preventDefault();
+    event.stopPropagation();
     return this.toggleTooltip({event});
   }
 
