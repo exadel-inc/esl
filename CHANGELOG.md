@@ -1,3 +1,17 @@
+# [3.7.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.7.0-beta.1...v3.7.0-beta.2) (2021-11-30)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** add event propagation stop at esl-note ([d69ff60](https://github.com/exadel-inc/esl/commit/d69ff60822d6976fbd2c03302322f89d8a504aa3))
+
+
+### Features
+
+* **esl-popup:** add updating position on transition ([8fb47ed](https://github.com/exadel-inc/esl/commit/8fb47ed866b7c67f93919edcf66b7611eabcbe1f))
+* **esl-popup:** create esl-popup-init mixin to make it easier to initialize styles ([6e78265](https://github.com/exadel-inc/esl/commit/6e7826561d3c7be943dbedd75f94ab1bdcb6f280))
+* **esl-utils:** add static method isEqual() to Rect ([128cbcb](https://github.com/exadel-inc/esl/commit/128cbcbd0f470a960f5ab50479e765f43b31e3b2))
+
 # [3.7.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.6.0...v3.7.0-beta.1) (2021-11-28)
 
 
