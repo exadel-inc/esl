@@ -44,3 +44,4 @@ export * from './environment/device-detector';
 
 // Fixes
 export * as IEFixes from './fixes/ie-fixes';
+export * from './fixes/viewport';
