@@ -4,6 +4,7 @@ import {memoize} from '../../esl-utils/decorators/memoize';
 import {ESLBaseElement, attr} from '../../esl-base-element/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {EventUtils} from '../../esl-utils/dom/events';
+import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {sequentialUID} from '../../esl-utils/misc/uid';
 import {compileFootnotesGroupedList, compileFootnotesNongroupedList, sortFootnotes} from './esl-footnotes-data';
 
@@ -63,12 +64,14 @@ export class ESLFootnotes extends ESLBaseElement {
       this.scopeEl.addEventListener(`${ESLFootnotes.eventNs}:response`, this._onNoteSubscribe);
     }
     this.addEventListener('click', this._onClick);
+    this.addEventListener('keydown', this._onKeydown);
   }
   protected unbindEvents() {
     if (this.scopeEl) {
       this.scopeEl.removeEventListener(`${ESLFootnotes.eventNs}:response`, this._onNoteSubscribe);
     }
     this.removeEventListener('click', this._onClick);
+    this.removeEventListener('keydown', this._onKeydown);
   }
 
   public linkNote(note: ESLNote) {
@@ -126,6 +129,11 @@ export class ESLFootnotes extends ESLBaseElement {
       const order = orderAttr?.split(',').map((item) => +item);
       order && this._onBackToNote(order);
     }
+  }
+
+  @bind
+  protected _onKeydown(event: KeyboardEvent) {
+    if ([ENTER, SPACE].includes(event.key)) this._onClick(event);
   }
 
   protected _onBackToNote(order: number[]) {
