@@ -112,9 +112,9 @@ export class ESLTooltip extends ESLPopup {
   }
 
   protected _onTabKey(e: KeyboardEvent) {
-    if (this.activator &&
-        (!this.lastFocusableElement || e.target === this.lastFocusableElement) &&
-        !e.shiftKey) {
+    if (!this.activator) return;
+    const {lastFocusableElement} = this;
+    if ((!lastFocusableElement || e.target === lastFocusableElement) && !e.shiftKey) {
       this.activator.focus();
       e.stopPropagation();
       e.preventDefault();
