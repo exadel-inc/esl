@@ -1,7 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
+import {bind} from '../../esl-utils/decorators/bind';
 import {memoize} from '../../esl-utils/decorators/memoize';
+import {TAB} from '../../esl-utils/dom/keys';
+import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 
 import type {PopupActionParams} from '../../esl-popup/core';
@@ -29,6 +32,15 @@ export class ESLTooltip extends ESLPopup {
     return document.createElement('esl-tooltip');
   }
 
+  public get focusableElements(): Element[] {
+    return getKeyboardFocusableElements(this);
+  }
+
+  public get lastFocusableElement(): Element | null {
+    const els = this.focusableElements;
+    return els.length ? els[els.length - 1] : null;
+  }
+
   public static show(params: TooltipActionParams = {}) {
     ESLTooltip.sharedInstance.hide(params);
     ESLTooltip.sharedInstance.show(params);
@@ -44,6 +56,7 @@ export class ESLTooltip extends ESLPopup {
     }
     super.connectedCallback();
     this.classList.add(ESLPopup.is);
+    this.tabIndex = 0;
   }
 
   protected setInitialState() {}
@@ -76,14 +89,35 @@ export class ESLTooltip extends ESLPopup {
     document.body.appendChild(this);
     super.onShow(params);
     this._updateActivatorState(true);
+
+    setTimeout(() => {
+      this.focus();
+    });
   }
 
   public onHide(params: TooltipActionParams) {
+    this.activator?.focus();
     this._updateActivatorState(false);
     super.onHide(params);
     document.body.removeChild(this);
     if (params.extraClass) {
       CSSClassUtils.remove(this, params.extraClass);
+    }
+  }
+
+  @bind
+  protected _onKeyboardEvent(e: KeyboardEvent) {
+    super._onKeyboardEvent(e);
+    if (e.key === TAB) this._onTabKey(e);
+  }
+
+  protected _onTabKey(e: KeyboardEvent) {
+    if (this.activator &&
+        (!this.lastFocusableElement || e.target === this.lastFocusableElement) &&
+        !e.shiftKey) {
+      this.activator.focus();
+      e.stopPropagation();
+      e.preventDefault();
     }
   }
 
