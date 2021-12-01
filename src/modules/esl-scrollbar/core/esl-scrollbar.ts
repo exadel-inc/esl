@@ -49,6 +49,10 @@ export class ESLScrollbar extends ESLBaseElement {
   protected _resizeObserver = new ResizeObserver(this.deferredRefresh);
   protected _mutationObserver = new MutationObserver((rec) => this.updateContentObserve(rec));
 
+  protected _timer: number;
+  protected _y: number = 0;
+  protected  distance: number;
+
   static get observedAttributes() {
     return ['target', 'horizontal'];
   }
@@ -64,6 +68,7 @@ export class ESLScrollbar extends ESLBaseElement {
   @ready
   protected disconnectedCallback() {
     this.unbindEvents();
+    clearInterval(this._timer);
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
@@ -104,6 +109,7 @@ export class ESLScrollbar extends ESLBaseElement {
   protected bindEvents() {
     this.addEventListener('click', this._onClick);
     this.$scrollbarThumb.addEventListener('mousedown', this._onMouseDown);
+    this.$scrollbarTrack.addEventListener('mousedown', this._onMouseDownContinuScroll);
     window.addEventListener('esl:refresh', this._onRefresh);
   }
 
@@ -137,6 +143,7 @@ export class ESLScrollbar extends ESLBaseElement {
   protected unbindEvents() {
     this.removeEventListener('click', this._onClick);
     this.$scrollbarThumb.removeEventListener('mousedown', this._onMouseDown);
+    this.$scrollbarTrack.removeEventListener('mousedown', this._onMouseDownContinuScroll);
     this.unbindTargetEvents();
     window.removeEventListener('esl:refresh', this._onRefresh);
   }
@@ -254,6 +261,60 @@ export class ESLScrollbar extends ESLBaseElement {
     event.preventDefault();
   }
 
+  @bind
+  protected _onMouseDownContinuScroll(event: MouseEvent) {
+    if (event.target === this.$scrollbarThumb || event.target !== this.$scrollbarTrack) return;
+    const clickCoordinates = EventUtils.normalizeCoordinates(event, this.$scrollbarTrack);
+    const clickPosition = this.horizontal ? clickCoordinates.x : clickCoordinates.y;
+
+    const initialPosition =  this.position;
+    const newPosition =  clickPosition / (this.horizontal ? this.offsetWidth : this.offsetHeight);
+
+    const scrollDown = newPosition > initialPosition ;
+    const distance = Math.abs(initialPosition - newPosition);
+    // console.log('initialPosition = ' + initialPosition);
+    // console.log('newPosition = ' + newPosition);
+    // console.log('distance = ' + distance);
+
+    this._y = 0;
+    const step = 30;
+
+
+    this._timer = window.setInterval(()=> {
+      this._y += 1 / step;
+      // console.log('y = ' + this._y);
+
+      if (this._y > 1) {
+        clearInterval(this._timer);
+        return;
+      }
+
+      const x = this.easeInOutQuart(this._y);
+      // console.log(' x = ' + x);
+
+      // scrollDown
+      //   ? console.log(' moved to  = ' + (initialPosition + distance * x))
+      //   : console.log(' moved to  = ' + (initialPosition - distance * x));
+      this.position = scrollDown
+        ? initialPosition + distance * x
+        : initialPosition - distance * x;
+
+    }, 50);
+
+  }
+
+
+  @bind
+  private easeInOutQuart(x: number): number {
+    return x === 0
+      ? 0
+      : x === 1
+        ? 1
+        : x < 0.5 ? Math.pow(2, 20 * x - 10) / 2
+          : (2 -  Math.pow(2, -20 * x + 10)) / 2;
+  }
+
+
   /** Set position on drug */
   protected _dragToCoordinate(mousePosition: number) {
     const positionChange = mousePosition - this._initialMousePosition;
@@ -300,13 +361,15 @@ export class ESLScrollbar extends ESLBaseElement {
   /** Handler for track clicks. Move scroll to selected position */
   @bind
   protected _onClick(event: MouseEvent) {
-    if (event.target !== this.$scrollbarTrack && event.target !== this) return;
+    clearInterval(this._timer);
+    if (event.target !== this.$scrollbarTrack && event.target !== this || this._y * 100 > 10)  return;
     const clickCoordinates = EventUtils.normalizeCoordinates(event, this.$scrollbarTrack);
     const clickPosition = this.horizontal ? clickCoordinates.x : clickCoordinates.y;
 
     const freeTrackArea = this.trackOffset - this.thumbOffset; // px
     const clickPositionNoOffset = clickPosition - this.thumbOffset / 2;
     const newPosition = clickPositionNoOffset / freeTrackArea;  // abs % to track
+
 
     this.position = Math.min(this.position + this.thumbSize,
       Math.max(this.position - this.thumbSize, newPosition));
