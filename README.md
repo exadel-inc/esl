@@ -127,31 +127,31 @@ People, who architect, maintain, and keep the idea of the ESL
 <table><tbody><tr>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/ala-n">
-        <img src="https://github.com/ala-n.png?s=75" width="75" height="75"><br/>
+        <img src="https://github.com/ala-n.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Alexey Stsefanovich
     </a>
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/julia-murashko">
-        <img src="https://github.com/julia-murashko.png?s=75" width="75" height="75"><br/>
+        <img src="https://github.com/julia-murashko.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Julia Murashko
     </a>
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/yadamskaya">
-        <img src="https://github.com/yadamskaya.png?s=75" width="75" height="75"><br/>
+        <img src="https://github.com/yadamskaya.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Yuliya Adamskaya
     </a>
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/dshovchko">
-        <img src="https://github.com/dshovchko.png?s=75" width="75" height="75"><br/>
+        <img src="https://github.com/dshovchko.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Dmytro Shovchko
     </a>
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/abarmina">
-        <img src="https://github.com/abarmina.png?s=75" width="75" height="75"><br/>
+        <img src="https://github.com/abarmina.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Anna Barmina
     </a>
 </td>
@@ -164,35 +164,35 @@ People, who are actively contributing to the ESL
 <table><tbody><tr>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/Anna-MariiaPetryk">
-        <img src="https://github.com/Anna-MariiaPetryk.png?s=75" width="75" height="75"><br/>
+        <img src="https://github.com/Anna-MariiaPetryk.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Anna-Mariia Petryk
     </a><br/>
     Developer
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/NastaLeo">
-        <img src="https://github.com/NastaLeo.png?s=75" width="75" height="75"><br/>
+        <img src="https://github.com/NastaLeo.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Anastasiya Lesun
     </a><br/>
     Developer
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/fshovchko">
-        <img src="https://github.com/fshovchko.png?s=75" width="75" height="75"><br/>
+        <img src="https://github.com/fshovchko.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Feoktyst Shovchko
     </a><br/>
     Developer
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/nattallius">
-        <img src="https://github.com/nattallius.png?s=75" width="75" height="75"><br/>
+        <img src="https://github.com/nattallius.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Natallia Harshunova
     </a><br/>
     Developer
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/YanaBr">
-        <img src="https://github.com/YanaBr.png?s=75" width="75" height="75"><br/>
+        <img src="https://github.com/YanaBr.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Yana Bernatskaya
     </a><br/>
     Developer
@@ -200,35 +200,35 @@ People, who are actively contributing to the ESL
 </tr><tr>
 <td align="center" valign="top" width="20%">
     <a href="https://www.linkedin.com/in/iryna-pavlenko-270930107">
-        <img src="https://static-exp1.licdn.com/sc/h/244xhbkr7g40x6bsu4gi6q4ry?s=75" width="75" height="75"><br/>
+        <img src="https://static-exp1.licdn.com/sc/h/244xhbkr7g40x6bsu4gi6q4ry?s=75" width="75" height="75" style="min-width: 75px"><br/>
          Iryna Pavlenko
     </a><br/>
     Designer
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/alexanderavseev">
-        <img src="https://github.com/alexanderavseev.png?s=75" width="75" height="75"><br/>
+        <img src="https://github.com/alexanderavseev.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Aliaksandr Auseyeu
     </a><br/>
     Consultant
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/andreybelous">
-        <img src="https://github.com/andreybelous.png?s=75" width="75" height="75"><br/>
+        <img src="https://github.com/andreybelous.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Andrey Belous
     </a><br/>
     Consultant
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/dmantsevich">
-        <img src="https://github.com/dmantsevich.png?s=75" width="75" height="75"><br/>
+        <img src="https://github.com/dmantsevich.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Dzianis Mantsevich
     </a><br/>
     Consultant
 </td>
 <td align="center" valign="top" width="20%">
     <a href="https://github.com/liubou-masiuk">
-        <img src="https://github.com/liubou-masiuk.png?s=75" width="75" height="75"><br/>
+        <img src="https://github.com/liubou-masiuk.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Liubou Masiuk
     </a><br/>
     Consultant

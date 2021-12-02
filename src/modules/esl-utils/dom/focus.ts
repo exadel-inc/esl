@@ -17,3 +17,12 @@ export const handleFocusChain = (e: KeyboardEvent, first: HTMLElement, last: HTM
     return true;
   }
 };
+
+/**
+ * Gets keyboard-focusable elements within a specified root element
+ * @param root - root element
+ */
+export const getKeyboardFocusableElements = (root: HTMLElement | Document = document): Element[] => {
+  return Array.from(root.querySelectorAll('a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'))
+    .filter(el => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden'));
+};

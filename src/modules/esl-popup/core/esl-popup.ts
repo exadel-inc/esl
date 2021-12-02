@@ -17,6 +17,7 @@ import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
 
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
 const DEFAULT_OFFSET_ARROW = 50;
+const scrollOptions = {passive: true} as EventListenerOptions;
 
 const parsePercent = (value: string | number, nanValue: number = 0): number => {
   const rawValue = parseNumber(value, nanValue);
@@ -54,6 +55,7 @@ export class ESLPopup extends ESLToggleable {
   protected _deferredUpdatePosition = rafDecorator(() => this._updatePosition());
   protected _activatorObserver: ActivatorObserver;
   protected _intersectionRatio: IntersectionRatioRect = {};
+  protected _updateLoopID: number;
 
   /**
    * Popup position relative to the trigger.
@@ -94,18 +96,26 @@ export class ESLPopup extends ESLToggleable {
     this.$arrow = this.querySelector('span.esl-popup-arrow');
   }
 
+  /** Is position along horizontal axis? */
   protected get _isPositioningAlongHorizontal() {
     return ['left', 'right'].includes(this.position);
   }
 
+  /** Is position along vertical axis? */
   protected get _isPositioningAlongVertical() {
     return ['top', 'bottom'].includes(this.position);
   }
 
+  /** Get offsets arrow ratio */
   protected get _offsetArrowRatio() {
     return parsePercent(this.offsetArrow, DEFAULT_OFFSET_ARROW) / 100;
   }
 
+  /**
+   * Actions to execute on show popup.
+   * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
+   * Adds CSS classes, update a11y and fire esl:refresh event by default.
+   */
   public onShow(params: PopupActionParams) {
     super.onShow(params);
 
@@ -130,21 +140,33 @@ export class ESLPopup extends ESLToggleable {
       this._updatePosition();
       this.style.visibility = 'visible';
       this.activator && this._addActivatorObserver(this.activator);
+      this._startUpdateLoop();
     });
   }
 
+  /**
+   * Actions to execute on hide popup.
+   * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
+   * Removes CSS classes and update a11y by default.
+   */
   public onHide(params: PopupActionParams) {
     super.onHide(params);
 
+    this._stopUpdateLoop();
     this.activator && this._removeActivatorObserver(this.activator);
   }
 
+  /**
+   * Checks activator intersection for adjacent axis.
+   * Hides the popup if the intersection ratio exceeds the limit.
+   */
   protected _checkIntersectionForAdjacentAxis(isAdjacentAxis: boolean, intersectionRatio: number) {
     if (isAdjacentAxis && intersectionRatio < INTERSECTION_LIMIT_FOR_ADJACENT_AXIS) {
       this.hide();
     }
   }
 
+  /** Actions to execute on activator intersection event. */
   @bind
   protected onActivatorIntersection(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
     const entry = entries[0];
@@ -172,19 +194,21 @@ export class ESLPopup extends ESLToggleable {
     }
   }
 
+  /** Actions to execute on activator scroll event. */
   @bind
   protected onActivatorScroll(e: Event) {
+    if (this._updateLoopID) return;
     this._updatePosition();
   }
 
+  /** Creates listeners and observers to observe activator after showing popup */
   protected _addActivatorObserver(target: HTMLElement) {
     const scrollParents = getListScrollParents(target);
 
     const unsubscribers = scrollParents.map(($root) => {
-      const options = {passive: true} as EventListenerOptions;
-      $root.addEventListener('scroll', this.onActivatorScroll, options);
+      $root.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
       return () => {
-        $root && $root.removeEventListener('scroll', this.onActivatorScroll, options);
+        $root && $root.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
       };
     });
 
@@ -197,23 +221,74 @@ export class ESLPopup extends ESLToggleable {
     observer.observe(target);
 
     window.addEventListener('resize', this._deferredUpdatePosition);
-    window.addEventListener('scroll', this._deferredUpdatePosition);
+    window.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
 
     this._activatorObserver = {
       unsubscribers,
       observer
     };
+
+    document.body.addEventListener('transitionstart', this._startUpdateLoop);
   }
 
+  /** Removes activator listeners and observers after hiding popup */
   protected _removeActivatorObserver(target: HTMLElement) {
     window.removeEventListener('resize', this._deferredUpdatePosition);
-    window.removeEventListener('scroll', this._deferredUpdatePosition);
+    window.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
     this._activatorObserver.observer?.disconnect();
     this._activatorObserver.observer = undefined;
     this._activatorObserver.unsubscribers?.forEach((cb) => cb());
     this._activatorObserver.unsubscribers = [];
+
+    document.body.removeEventListener('transitionstart', this._startUpdateLoop);
   }
 
+  /**
+   * Starts loop for update position of popup.
+   * The loop ends when the position and size of the activator have not changed
+   * for the last 2 frames of the animation.
+   */
+  @bind
+  protected _startUpdateLoop() {
+    if (this._updateLoopID) return;
+
+    let same = 0;
+    let lastRect = new Rect();
+    const updateLoop = () => {
+      if (!this.activator) {
+        this._stopUpdateLoop();
+        return;
+      }
+
+      const newRect = Rect.from(this.activator.getBoundingClientRect());
+      if (!Rect.isEqual(lastRect, newRect)) {
+        same = 0;
+        lastRect = newRect;
+      }
+
+      if (same++ > 2) {
+        this._stopUpdateLoop();
+        return;
+      }
+      this._updatePosition();
+      this._updateLoopID = requestAnimationFrame(updateLoop);
+    };
+
+    this._updateLoopID = requestAnimationFrame(updateLoop);
+  }
+
+  /**
+   * Stops loop for update position of popup.
+   * Also cancels the animation frame request.
+   */
+  @bind
+  protected _stopUpdateLoop() {
+    if (!this._updateLoopID) return;
+    cancelAnimationFrame(this._updateLoopID);
+    this._updateLoopID = 0;
+  }
+
+  /** Updates position of popup and its arrow */
   protected _updatePosition() {
     if (!this.activator) return;
 

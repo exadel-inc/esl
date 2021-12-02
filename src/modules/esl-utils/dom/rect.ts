@@ -19,6 +19,15 @@ export class Rect {
     return new this(rect.x || rect.left, rect.y || rect.top, rect.width, rect.height);
   }
 
+  /**
+   * The static method checks the equality of the two Rect instances.
+   * @param rect1 - first instance of Rect
+   * @param rect2 - second instance of Rect
+   * */
+  public static isEqual(rect1: Rect, rect2: Rect): boolean {
+    return rect1.x === rect2.x && rect1.y === rect2.y && rect1.width === rect2.width && rect1.height === rect2.height;
+  }
+
   public constructor(x?: number, y?: number, width?: number, height?: number) {
     this.x = x || 0;
     this.y = y || 0;
