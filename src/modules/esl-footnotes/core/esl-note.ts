@@ -98,6 +98,7 @@ export class ESLNote extends ESLBaseElement {
   }
 
   public activate() {
+    EventUtils.dispatch(this, 'esl:show:request');
     scrollIntoView(this, {behavior: 'smooth', block: 'nearest'}).then(() => this.showTooltip());
   }
 
