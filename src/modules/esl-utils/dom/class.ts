@@ -15,7 +15,7 @@ const lock = (el: Element, className: string, locker: Element) => {
 };
 /**
  * Manage className unlock for the element
- * @returns true if className have no lockes
+ * @returns true if className have no locks
  */
 const unlock = (el: Element, className: string, locker: Element) => {
   const elLocks = lockStore.get(el);
@@ -31,7 +31,7 @@ const unlock = (el: Element, className: string, locker: Element) => {
  * Supports inversion and locker management.
  */
 const add = (el: Element, className: string, locker?: Element): void => {
-  if (className[0] === '!') return CSSClassUtils.remove(el, className.substr(1), locker);
+  if (className[0] === '!') return CSSClassUtils.remove(el, className.substring(1), locker);
   if (locker) lock(el, className, locker);
   el.classList.add(className);
 };
@@ -41,7 +41,7 @@ const add = (el: Element, className: string, locker?: Element): void => {
  * Supports inversion and locker management.
  */
 const remove = (el: Element, className: string, locker?: Element): void => {
-  if (className[0] === '!') return CSSClassUtils.add(el, className.substr(1), locker);
+  if (className[0] === '!') return CSSClassUtils.add(el, className.substring(1), locker);
   if (locker && !unlock(el, className, locker)) return;
   if (!locker) CSSClassUtils.unlock(el, className);
   el.classList.remove(className);
