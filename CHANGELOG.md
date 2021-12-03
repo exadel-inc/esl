@@ -1,3 +1,10 @@
+# [3.7.0-beta.4](https://github.com/exadel-inc/esl/compare/v3.7.0-beta.3...v3.7.0-beta.4) (2021-12-03)
+
+
+### Features
+
+* **esl-footnotes:** add dispatch esl:show:request event on activate esl-note ([023b7c6](https://github.com/exadel-inc/esl/commit/023b7c6aed677b7734a31aec6d4d1ab64d280388))
+
 # [3.7.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.7.0-beta.2...v3.7.0-beta.3) (2021-12-01)
 
 
