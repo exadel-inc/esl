@@ -1,14 +1,14 @@
 import {wrap} from '../misc/array';
 
 /** Describe locker elements collection per class name */
-type Locks = Map<string, Set<HTMLElement>>;
+type Locks = Map<string, Set<Element>>;
 /** Store locks for key element classes*/
-const lockStore = new WeakMap<HTMLElement, Locks>();
+const lockStore = new WeakMap<Element, Locks>();
 
 /** Mange className lock for the element */
-const lock = (el: HTMLElement, className: string, locker: HTMLElement) => {
+const lock = (el: Element, className: string, locker: Element) => {
   const elLocks: Locks = lockStore.get(el) || new Map();
-  const classLocks: Set<HTMLElement> = elLocks.get(className) || new Set();
+  const classLocks: Set<Element> = elLocks.get(className) || new Set();
   classLocks.add(locker);
   elLocks.set(className, classLocks);
   lockStore.set(el, elLocks);
@@ -17,7 +17,7 @@ const lock = (el: HTMLElement, className: string, locker: HTMLElement) => {
  * Manage className unlock for the element
  * @returns true if className have no lockes
  */
-const unlock = (el: HTMLElement, className: string, locker: HTMLElement) => {
+const unlock = (el: Element, className: string, locker: Element) => {
   const elLocks = lockStore.get(el);
   if (!elLocks) return true;
   const classLocks = elLocks.get(className);
@@ -30,7 +30,7 @@ const unlock = (el: HTMLElement, className: string, locker: HTMLElement) => {
  * Add single class to the element.
  * Supports inversion and locker management.
  */
-const add = (el: HTMLElement, className: string, locker?: HTMLElement): void => {
+const add = (el: Element, className: string, locker?: Element): void => {
   if (className[0] === '!') return CSSClassUtils.remove(el, className.substr(1), locker);
   if (locker) lock(el, className, locker);
   el.classList.add(className);
@@ -40,7 +40,7 @@ const add = (el: HTMLElement, className: string, locker?: HTMLElement): void => 
  * Remove single class from the element.
  * Supports inversion and locker management.
  */
-const remove = (el: HTMLElement, className: string, locker?: HTMLElement): void => {
+const remove = (el: Element, className: string, locker?: Element): void => {
   if (className[0] === '!') return CSSClassUtils.add(el, className.substr(1), locker);
   if (locker && !unlock(el, className, locker)) return;
   if (!locker) CSSClassUtils.unlock(el, className);
@@ -68,7 +68,7 @@ export abstract class CSSClassUtils {
    * Add all classes from the class token string to the element.
    * @see CSSClassUtils
    * */
-  public static add(els: HTMLElement | HTMLElement[], cls: string | null | undefined, locker?: HTMLElement) {
+  public static add(els: Element | Element[], cls: string | null | undefined, locker?: Element) {
     const tokens = CSSClassUtils.splitTokens(cls);
     wrap(els).forEach((el) => tokens.forEach((className) => add(el, className, locker)));
   }
@@ -77,7 +77,7 @@ export abstract class CSSClassUtils {
    * Remove all classes from the class token string to the element.
    * @see CSSClassUtils
    * */
-  public static remove(els: HTMLElement | HTMLElement[], cls: string | null | undefined, locker?: HTMLElement) {
+  public static remove(els: Element | Element[], cls: string | null | undefined, locker?: Element) {
     const tokens = CSSClassUtils.splitTokens(cls);
     wrap(els).forEach((el) => tokens.forEach((className) => remove(el, className, locker)));
   }
@@ -86,12 +86,12 @@ export abstract class CSSClassUtils {
    * Toggle all classes from the class token string on the element to the passed state.
    * @see CSSClassUtils
    * */
-  public static toggle(els: HTMLElement | HTMLElement[], cls: string | null | undefined, state: boolean, locker?: HTMLElement) {
+  public static toggle(els: Element | Element[], cls: string | null | undefined, state: boolean, locker?: Element) {
     (state ? CSSClassUtils.add : CSSClassUtils.remove)(els, cls, locker);
   }
 
   /** Remove all lockers for the element or passed element className */
-  public static unlock(els: HTMLElement | HTMLElement[], className?: string) {
+  public static unlock(els: Element | Element[], className?: string) {
     if (className) {
       wrap(els).forEach((el) => lockStore.get(el)?.delete(className));
     } else {
