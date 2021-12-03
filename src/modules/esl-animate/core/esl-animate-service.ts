@@ -2,22 +2,29 @@ import {wrap} from '../../esl-utils/misc/array';
 import {bind} from '../../esl-utils/decorators/bind';
 import {debounce} from '../../esl-utils/async/debounce';
 import {memoize} from '../../esl-utils/decorators/memoize';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 
-/** ESLAnimate service animation options */
+/** ESLAnimateService animation options */
 export interface ESLAnimateConfig {
   /** Class to mark element animated */
   cls: string;
 
+  /** Animate if class already presented */
+  force?: boolean;
+
   /** Animate items in group one by one, using groupDelay */
-  group: boolean;
+  group?: boolean;
 
   /** Delay to display element(s) after previous one. Used when group animation is enabled. Default: 100ms */
   groupDelay: number;
 
   // 'forward' | boolean;
   /** Do not unsubscribe after animate and repeat animation on each viewport intersection */
-  repeat: boolean;
+  repeat?: boolean;
+}
 
+/** ESLAnimateService animation inner options. Contains system animation properties */
+interface ESLAnimateConfigInner extends ESLAnimateConfig {
   /** @private animation requested */
   _timeout?: number;
   /** @private marker to unobserve */
@@ -27,8 +34,10 @@ export interface ESLAnimateConfig {
 /** Service to animate elements on viewport intersection */
 export class ESLAnimateService {
 
-  protected static readonly DEFAULT_CONFIG: ESLAnimateConfig = {cls: 'in', repeat: false, group: false, groupDelay: 100};
-  protected static readonly OPTIONS_OBSERVER: IntersectionObserverInit = {threshold: [0.01, 0.4]};
+  /** ESLAnimateService default animation configuration */
+  protected static DEFAULT_CONFIG: ESLAnimateConfig = {cls: 'in', groupDelay: 100};
+  /** ESLAnimationService IntersectionObserver properties */
+  protected static OPTIONS_OBSERVER: IntersectionObserverInit = {threshold: [0.001, 0.2, 0.4, 0.6]};
 
   /**
    * Subscribe ESlAnimateService on element(s) to animate it on viewport intersection
@@ -56,9 +65,9 @@ export class ESLAnimateService {
 
   protected _io = new IntersectionObserver(this.onIntersect, ESLAnimateService.OPTIONS_OBSERVER);
   protected _entries: Element[] = [];
-  protected _configMap = new WeakMap<Element, ESLAnimateConfig>();
+  protected _configMap = new WeakMap<Element, ESLAnimateConfigInner>();
 
-  protected deferredOnAnimate = debounce(() => this.onAnimate(), 100);
+  protected deferredOnAnimate = debounce(() => this.onAnimate(), 50);
 
   /**
    * Subscribe ESlAnimateService on element(s) to animate it on viewport intersection
@@ -66,10 +75,8 @@ export class ESLAnimateService {
    * @param config - optional animation configuration
    */
   public observe(el: Element, config: string | Partial<ESLAnimateConfig> = {}): void {
-    if (typeof config === 'string') config = {cls: config};
-    const cfg: ESLAnimateConfig = Object.assign({}, ESLAnimateService.DEFAULT_CONFIG, config);
-    this._configMap.set(el, cfg);
-    el.classList.remove(cfg.cls);
+    const cfg = this.setConfigFor(el, config);
+    cfg.force && CSSClassUtils.remove(el, cfg.cls);
     this._io.observe(el);
   }
 
@@ -95,7 +102,7 @@ export class ESLAnimateService {
       }
 
       if (intersectionRatio <= 0.1 && config.repeat) {
-        target.classList.remove(config.cls);
+        CSSClassUtils.remove(target, config.cls);
         config._timeout && clearTimeout(config._timeout);
       }
     });
@@ -111,9 +118,9 @@ export class ESLAnimateService {
 
       if (config.group) {
         time += config.groupDelay;
-        config._timeout = window.setTimeout(() => target.classList.add(config.cls), time);
+        config._timeout = window.setTimeout(() => CSSClassUtils.add(target, config.cls), time);
       } else {
-        target.classList.add(config.cls);
+        CSSClassUtils.add(target, config.cls);
       }
       if (!config.repeat) {
         this._io.unobserve(target);
@@ -126,7 +133,14 @@ export class ESLAnimateService {
   }
 
   /** Returns config */
-  protected getConfigFor(el: Element): ESLAnimateConfig | undefined {
+  protected getConfigFor(el: Element): ESLAnimateConfigInner | undefined {
     return this._configMap.get(el);
+  }
+  /** Returns config */
+  protected setConfigFor(el: Element, config: string | Partial<ESLAnimateConfig>): ESLAnimateConfigInner {
+    if (typeof config === 'string') config = {cls: config};
+    const cfg: ESLAnimateConfig = Object.assign({}, ESLAnimateService.DEFAULT_CONFIG, config);
+    this._configMap.set(el, cfg);
+    return cfg;
   }
 }
