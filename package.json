@@ -72,7 +72,7 @@
   },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.6",
-    "@types/video.js": "7.3.27",
+    "@types/video.js": "7.3.28",
     "@types/youtube": "0.0.46"
   },
   "devDependencies": {
@@ -107,10 +107,10 @@
     "html-minifier": "^4.0.0",
     "husky": "^7.0.4",
     "intersection-observer": "^0.12.0",
-    "jest": "^27.4.2",
+    "jest": "^27.4.3",
     "less": "^4.1.2",
     "lintspaces-cli": "^0.7.1",
-    "postcss": "^8.4.1",
+    "postcss": "^8.4.4",
     "postcss-less": "^5.0.0",
     "prismjs": "^1.25.0",
     "promise-polyfill": "^8.2.1",
