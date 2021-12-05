@@ -2,11 +2,12 @@ import {wrap} from '../../esl-utils/misc/array';
 import {bind} from '../../esl-utils/decorators/bind';
 import {debounce} from '../../esl-utils/async/debounce';
 import {memoize} from '../../esl-utils/decorators/memoize';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 
 /** ESLAnimateService animation options */
 export interface ESLAnimateConfig {
-  /** Class to mark element animated */
+  /** Class(es) to mark element animated */
   cls: string;
 
   /** Animate if class already presented */
@@ -31,6 +32,7 @@ interface ESLAnimateConfigInner extends ESLAnimateConfig {
 }
 
 /** Service to animate elements on viewport intersection */
+@ExportNs('AnimateService')
 export class ESLAnimateService {
 
   /** ESLAnimateService default animation configuration */
@@ -121,7 +123,7 @@ export class ESLAnimateService {
     });
   }
 
-  /** Animates passed item*/
+  /** Animates passed item */
   protected onAnimateItem(item: Element) {
     const config = this.getConfigFor(item);
     if (!config) return;
