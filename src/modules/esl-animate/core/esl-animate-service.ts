@@ -18,7 +18,6 @@ export interface ESLAnimateConfig {
   /** Delay to display element(s) after previous one. Used when group animation is enabled. Default: 100ms */
   groupDelay: number;
 
-  // 'forward' | boolean;
   /** Do not unsubscribe after animate and repeat animation on each viewport intersection */
   repeat?: boolean;
 }
@@ -64,10 +63,10 @@ export class ESLAnimateService {
   }
 
   protected _io = new IntersectionObserver(this.onIntersect, ESLAnimateService.OPTIONS_OBSERVER);
-  protected _entries: Element[] = [];
+  protected _entries: Set<Element> = new Set();
   protected _configMap = new WeakMap<Element, ESLAnimateConfigInner>();
 
-  protected deferredOnAnimate = debounce(() => this.onAnimate(), 50);
+  protected deferredOnAnimate = debounce(() => this.onAnimate(), 100);
 
   /**
    * Subscribe ESlAnimateService on element(s) to animate it on viewport intersection
@@ -93,15 +92,10 @@ export class ESLAnimateService {
       const config = this.getConfigFor(target);
       if (!config) return;
 
-      if (intersectionRatio >= 0.4) {
-        this._entries.push(target);
-      }
+      if (intersectionRatio >= 0.4) this._entries.add(target);
+      if (!isIntersecting) this._entries.delete(target);
 
-      if (!isIntersecting) {
-        this._entries = this._entries.filter(item => item !== target);
-      }
-
-      if (intersectionRatio <= 0.1 && config.repeat) {
+      if (config.repeat && intersectionRatio <= 0.1) {
         CSSClassUtils.remove(target, config.cls);
         config._timeout && clearTimeout(config._timeout);
       }
@@ -109,27 +103,36 @@ export class ESLAnimateService {
     this.deferredOnAnimate();
   }
 
-  /** Method to show up HTMLElement */
+  /** Process animation query */
   protected onAnimate(): void {
-    this._entries.sort((a: HTMLElement, b: HTMLElement) => a.offsetTop - b.offsetTop);
-    this._entries.reduce((time, target) => {
+    let time = 0;
+    this._entries.forEach((target) => {
       const config = this.getConfigFor(target);
       if (!config) return;
 
+      if (config._timeout) window.clearTimeout(config._timeout);
       if (config.group) {
+        config._timeout = window.setTimeout(() => this.onAnimateItem(target), time);
         time += config.groupDelay;
-        config._timeout = window.setTimeout(() => CSSClassUtils.add(target, config.cls), time);
       } else {
-        CSSClassUtils.add(target, config.cls);
+        this.onAnimateItem(target);
       }
-      if (!config.repeat) {
-        this._io.unobserve(target);
-        config._unsubscribe = true;
-      }
-      config._unsubscribe && this._configMap.delete(target);
-      return time;
-    }, 0);
-    this._entries = [];
+      config._unsubscribe = !config.repeat;
+    });
+  }
+
+  /** Animates passed item*/
+  protected onAnimateItem(item: Element) {
+    const config = this.getConfigFor(item);
+    if (!config) return;
+
+    CSSClassUtils.add(item, config.cls);
+    this._entries.delete(item);
+
+    if (config._unsubscribe) {
+      this._io.unobserve(item);
+      this._configMap.delete(item);
+    }
   }
 
   /** Returns config */
