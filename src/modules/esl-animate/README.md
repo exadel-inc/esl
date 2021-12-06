@@ -18,14 +18,14 @@ Features:
 - JS API (Service) + Custom Element - Plugin for simple initialization
 
 ## ESLAnimateService
-ESLAnimateService - is a core of esl-animate module. Element is needs to be observed by ESLAnimateService 
+ESLAnimateService - is a core of esl-animate module. Element needs to be observed by ESLAnimateService 
 in order to be animated.
 
 ### Service API:
 - `ESLAnimateService.observe(els, config)` - method to start element observation
   - `els` - Element or array of Elements to observe and animate
-  - `config` - optional ESLAnimateConfig object to describe animate functionality behaviour
-- `ESLAnimateService.unobserve(els)` - method to unsubscribe ESLAnimateService from elements observation
+  - `config` - an optional ESLAnimateConfig object to describe the behavior of the animation functionality
+- `ESLAnimateService.unobserve(els)` - method to unsubscribe ESLAnimateService from observing elements
 - `ESLAnimateService.isObserved(el)` - check if element observed by ESLAnimateService
 
 ### ESLAnimateConfig (Configuration API)
