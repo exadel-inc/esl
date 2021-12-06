@@ -1,3 +1,19 @@
+# [3.6.0](https://github.com/exadel-inc/esl/compare/v3.5.0...v3.6.0) (2021-11-23)
+
+
+### Bug Fixes
+
+* **esl-media:** `preload` and `fill-mode` types restricted ([4c41cb3](https://github.com/exadel-inc/esl/commit/4c41cb338c49559a3425029fd31f9957c741b3aa))
+* **esl-poup:** fix popup positioning ([61b0237](https://github.com/exadel-inc/esl/commit/61b0237f3b7fc9c14f786d382b0900ceffeaa9d0))
+
+
+### Features
+
+* **esl-popup:** add new feature to be able to set position of arrow on popup ([7973e1f](https://github.com/exadel-inc/esl/commit/7973e1f4f2281f538abb7783046463d2b7967fa2))
+* **esl-traversing-query:** add ability to restrict global scope ([3e136c0](https://github.com/exadel-inc/esl/commit/3e136c09245f10dd5bfe24cc0c7deb94551f8aed))
+* **esl-utils:** array unwrap utility ([45c50a0](https://github.com/exadel-inc/esl/commit/45c50a067b9a0de42e1740ae6bba0264d1229280))
+* **esl-utils:** fix `isPrimitive` check and `isObject` return type, add `isArrayLike` ([80b8aa0](https://github.com/exadel-inc/esl/commit/80b8aa04068f9d047c459769ce32a71a5ddaf0d9))
+
 # [3.5.0](https://github.com/exadel-inc/esl/compare/v3.4.1...v3.5.0) (2021-11-15)
 
 

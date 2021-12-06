@@ -41,11 +41,10 @@
 
   &[placed-at=right] {
     .esl-popup-arrow {
-      left: auto;
+      left: (-@popupArrowHalf - @popupBorderWidth - @popupArrowShift);
       right: auto;
       transform: rotate(315deg);
       margin-top: @popupArrowShift;
-      margin-left: (-@popupArrowHalf - @popupBorderWidth);
     }
   }
 }

@@ -40,7 +40,7 @@ describe('Traversing Query tests', () => {
     '::child(.btn)',
     '::parent',
     '::parent(body)'
-  ])('Null check: TraversingQuery.all/one("%s", null)', (sel) => {
+  ])('Null check: TraversingQuery.all/one(%s, null)', (sel) => {
     expect(TraversingQuery.first(sel)).toBe(null);
     expect(TraversingQuery.all(sel)).toEqual([]);
   });
@@ -49,6 +49,7 @@ describe('Traversing Query tests', () => {
     // Simple queries
     ['#null', undefined, []],
     ['#btn3', undefined, [btn3]],
+    ['#btn3', null, [btn3]],
     ['section', undefined, [root]],
     ['section > .row', undefined, [row1, row2]],
     ['section > .row:first-child', undefined, [row1]],
@@ -109,10 +110,20 @@ describe('Traversing Query tests', () => {
     ['::parent::next::find(.col-2)', article1, [article2]],
     ['::parent(.container)::find(.btn)::last', btn5, [btn6]],
     ['::parent(.container)::child(.row)::last::find(.col-2)', article1, [article2]],
-  ])('Main check: TraversingQuery.all/one, Sel: "%s", Base: %p.', (sel, base, expectedCollection) => {
-    expect(TraversingQuery.first(sel, base as Element))
+  ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p.', (sel, base, expectedCollection) => {
+    expect(TraversingQuery.first(sel, base as Element | null))
       .toBe(expectedCollection.length > 0 ? expectedCollection[0] : null);
-    expect(TraversingQuery.all(sel, base as Element))
+    expect(TraversingQuery.all(sel, base as Element | null))
+      .toEqual(expectedCollection);
+  });
+
+  test.each([
+    ['#row1', null, root, [row1]],
+    ['#row1', null, row2, []],
+  ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p., Scope: %p.', (sel, base, scope, expectedCollection) => {
+    expect(TraversingQuery.first(sel, base as Element | null, scope as Element))
+      .toBe(expectedCollection.length > 0 ? expectedCollection[0] : null);
+    expect(TraversingQuery.all(sel, base as Element | null, scope as Element))
       .toEqual(expectedCollection);
   });
 });
