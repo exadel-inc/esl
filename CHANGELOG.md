@@ -1,3 +1,38 @@
+# [3.7.0-beta.4](https://github.com/exadel-inc/esl/compare/v3.7.0-beta.3...v3.7.0-beta.4) (2021-12-03)
+
+
+### Features
+
+* **esl-footnotes:** add dispatch esl:show:request event on activate esl-note ([023b7c6](https://github.com/exadel-inc/esl/commit/023b7c6aed677b7734a31aec6d4d1ab64d280388))
+
+# [3.7.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.7.0-beta.2...v3.7.0-beta.3) (2021-12-01)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** fix handling keydown event on return to note button ([83b4131](https://github.com/exadel-inc/esl/commit/83b4131c488b30692997f97a5440cfa3c30523b3))
+
+
+### Features
+
+* **esl-tooltip:** add focus out handling to return focus to activator ([4b20ef8](https://github.com/exadel-inc/esl/commit/4b20ef84d7bac792e43a0b77caec1695faf6c4e1))
+* **esl-utils:** `ESLVSizeCSSProxy` utility to fix 100vh problem is introduced ([5bae888](https://github.com/exadel-inc/esl/commit/5bae8882f87797741ef10cc835e50f7485fe63c8))
+* **esl-utils:** add helper method to get keyboard-focusable elements within a specified element ([3577397](https://github.com/exadel-inc/esl/commit/3577397adc339eb15313637bb1672de159b279d8))
+
+# [3.7.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.7.0-beta.1...v3.7.0-beta.2) (2021-11-30)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** add event propagation stop at esl-note ([d69ff60](https://github.com/exadel-inc/esl/commit/d69ff60822d6976fbd2c03302322f89d8a504aa3))
+
+
+### Features
+
+* **esl-popup:** add updating position on transition ([8fb47ed](https://github.com/exadel-inc/esl/commit/8fb47ed866b7c67f93919edcf66b7611eabcbe1f))
+* **esl-popup:** create esl-popup-init mixin to make it easier to initialize styles ([6e78265](https://github.com/exadel-inc/esl/commit/6e7826561d3c7be943dbedd75f94ab1bdcb6f280))
+* **esl-utils:** add static method isEqual() to Rect ([128cbcb](https://github.com/exadel-inc/esl/commit/128cbcbd0f470a960f5ab50479e765f43b31e3b2))
+
 # [3.7.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.6.0...v3.7.0-beta.1) (2021-11-28)
 
 
