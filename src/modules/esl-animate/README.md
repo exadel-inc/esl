@@ -61,7 +61,7 @@ Default: empty (animates itself)
     ...
 </ul>
 ```
-Note: `<esl-animate>` hidden (`display: none`) by default when it has no content inside
+Note: `<esl-animate>` hidden (`display: none`) by default when there is no content inside
 
 - wrapper (no target attribute defined)
 ```html
