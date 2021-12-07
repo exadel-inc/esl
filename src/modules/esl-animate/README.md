@@ -18,7 +18,7 @@ Features:
 - JS API (Service) + Custom Element - Plugin for simple initialization
 
 ## ESLAnimateService
-ESLAnimateService - is a core of esl-animate module. Element needs to be observed by ESLAnimateService 
+ESLAnimateService is a core of esl-animate module. Element needs to be observed by ESLAnimateService 
 in order to be animated.
 
 ### Service API:
