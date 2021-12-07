@@ -122,15 +122,15 @@ export class ESLAnimateService {
 
   /** Process animation query */
   protected onAnimate(): void {
-    let time = 0;
+    let time = -1;
     this._entries.forEach((target) => {
       const config = this.getConfigFor(target);
       if (!config) return;
 
       if (config._timeout) window.clearTimeout(config._timeout);
       if (config.group) {
+        time = time === -1 ? 0 : (time + config.groupDelay);
         config._timeout = window.setTimeout(() => this.onAnimateItem(target), time);
-        time += config.groupDelay; // ?
       } else {
         this.onAnimateItem(target);
       }
