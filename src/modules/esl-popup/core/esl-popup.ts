@@ -1,6 +1,6 @@
 import {range} from '../../esl-utils/misc/array';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, jsonAttr} from '../../esl-base-element/core';
+import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {prop} from '../../esl-utils/decorators/prop';
@@ -29,6 +29,8 @@ export interface PopupActionParams extends ToggleableActionParams {
   position?: PositionType;
   /** popup behavior if it does not fit in the window */
   behavior?: string;
+  /** Disable hiding the popup depending on the visibility of the activator */
+  disableActivatorObservation?: boolean;
   /** Margins on the edges of the arrow. */
   marginArrow?: string;
   /** offset of the arrow as a percentage of the popup edge (0% - at the left edge, 100% - at the right edge, for RTL it is vice versa) */
@@ -63,9 +65,11 @@ export class ESLPopup extends ESLToggleable {
    */
   @attr({defaultValue: 'top'}) public position: PositionType;
 
-  /** Popup behavior if it does not fit in the window ('fit' by default) */
+  /** Disable hiding the popup depending on the visibility of the activator */
   @attr({defaultValue: 'fit'}) public behavior: string;
 
+  /** */
+  @boolAttr() public disableActivatorObservation: boolean;
   /**
    * Margins on the edges of the arrow.
    * This is the value in pixels that will be between the edge of the popup and
@@ -124,6 +128,9 @@ export class ESLPopup extends ESLToggleable {
     }
     if (params.behavior) {
       this.behavior = params.behavior;
+    }
+    if (params.disableActivatorObservation) {
+      this.disableActivatorObservation = params.disableActivatorObservation;
     }
     if (params.marginArrow) {
       this.marginArrow = params.marginArrow;
@@ -205,29 +212,29 @@ export class ESLPopup extends ESLToggleable {
   protected _addActivatorObserver(target: HTMLElement) {
     const scrollParents = getListScrollParents(target);
 
-    const unsubscribers = scrollParents.map(($root) => {
-      $root.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
-      return () => {
-        $root && $root.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
-      };
-    });
+    this._activatorObserver = {
+      unsubscribers: scrollParents.map(($root) => {
+        $root.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
+        return () => {
+          $root && $root.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
+        };
+      })
+    };
 
-    const options = {
-      rootMargin: '0px',
-      threshold: range(9, (x) => x / 8)
-    } as IntersectionObserverInit;
+    if (!this.disableActivatorObservation) {
+      const options = {
+        rootMargin: '0px',
+        threshold: range(9, (x) => x / 8)
+      } as IntersectionObserverInit;
 
-    const observer = new IntersectionObserver(this.onActivatorIntersection, options);
-    observer.observe(target);
+      const observer = new IntersectionObserver(this.onActivatorIntersection, options);
+      observer.observe(target);
+
+      this._activatorObserver.observer = observer;
+    }
 
     window.addEventListener('resize', this._deferredUpdatePosition);
     window.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
-
-    this._activatorObserver = {
-      unsubscribers,
-      observer
-    };
-
     document.body.addEventListener('transitionstart', this._startUpdateLoop);
   }
 

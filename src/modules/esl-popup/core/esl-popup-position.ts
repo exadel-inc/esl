@@ -82,13 +82,13 @@ function getOppositePosition(position: PositionType): PositionType {
 }
 
 /**
- * Update popup and arrow positions to fit by major axis.
+ * Update popup and arrow positions to fit on major axis.
  * @param cfg - popup position config
  * @param rect - popup position rect
  * @param arrow - arrow position value
  * */
-function fitByMajorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): PositionType {
-  if (cfg.behavior !== 'fit') return cfg.position;
+function fitOnMajorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): PositionType {
+  if (cfg.behavior !== 'fit' && cfg.behavior !== 'fit-on-major') return cfg.position;
 
   let isMirrored = false;
   switch (cfg.position) {
@@ -122,12 +122,12 @@ function fitByMajorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): Pos
 }
 
 /**
- * Update popup and arrow positions to fit by minor horizontal axis.
+ * Update popup and arrow positions to fit on minor horizontal axis.
  * @param cfg - popup position config
  * @param rect - popup position rect
  * @param arrow - arrow position value
  * */
-function fitByMinorAxisHorizontal(cfg: PopupPositionConfig, rect: Rect, arrow: Point): void {
+function fitOnMinorAxisHorizontal(cfg: PopupPositionConfig, rect: Rect, arrow: Point): void {
   if (cfg.trigger.x < cfg.outer.x || cfg.trigger.right > cfg.outer.right) return; // cancel fit mode if the element is out of window offset bounds
 
   let arrowAdjust = 0;
@@ -149,7 +149,7 @@ function fitByMinorAxisHorizontal(cfg: PopupPositionConfig, rect: Rect, arrow: P
  * @param rect - popup position rect
  * @param arrow - arrow position value
  * */
-function fitByMinorAxisVertical(cfg: PopupPositionConfig, rect: Rect, arrow: Point): void {
+function fitOnMinorAxisVertical(cfg: PopupPositionConfig, rect: Rect, arrow: Point): void {
   if (cfg.trigger.y < cfg.outer.y || cfg.trigger.bottom > cfg.outer.bottom) return; // cancel fit mode if the element is out of window offset bounds
 
   let arrowAdjust = 0;
@@ -165,18 +165,18 @@ function fitByMinorAxisVertical(cfg: PopupPositionConfig, rect: Rect, arrow: Poi
 }
 
 /**
- * Update popup and arrow positions to fit by minor axis.
+ * Update popup and arrow positions to fit on minor axis.
  * @param cfg - popup position config
  * @param rect - popup position rect
  * @param arrow - arrow position value
  * */
-function fitByMinorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): void {
-  if (cfg.behavior !== 'fit') return;
+function fitOnMinorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): void {
+  if (cfg.behavior !== 'fit' && cfg.behavior !== 'fit-on-minor') return;
 
   if (['left', 'right'].includes(cfg.position)) {
-    fitByMinorAxisVertical(cfg, rect, arrow);
+    fitOnMinorAxisVertical(cfg, rect, arrow);
   } else {
-    fitByMinorAxisHorizontal(cfg, rect, arrow);
+    fitOnMinorAxisHorizontal(cfg, rect, arrow);
   }
 }
 
@@ -201,8 +201,8 @@ export function calcPopupPosition(cfg: PopupPositionConfig): PopupPositionValue 
     position: cfg.position
   };
 
-  const placedAt = fitByMajorAxis(cfg, popup, arrow);
-  fitByMinorAxis(cfg, popup, arrow);
+  const placedAt = fitOnMajorAxis(cfg, popup, arrow);
+  fitOnMinorAxis(cfg, popup, arrow);
 
   return {
     popup,
