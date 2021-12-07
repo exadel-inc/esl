@@ -33,9 +33,9 @@ export interface ESLAnimateConfig {
 
 /** ESLAnimateService animation inner options. Contains system animation properties */
 interface ESLAnimateConfigInner extends Required<ESLAnimateConfig> {
-  /** @private animation requested */
+  /** (private) animation requested */
   _timeout?: number;
-  /** @private marker to unobserve */
+  /** (private) marker to unobserve */
   _unsubscribe?: boolean;
 }
 
