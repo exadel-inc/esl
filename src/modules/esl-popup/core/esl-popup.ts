@@ -7,6 +7,7 @@ import {prop} from '../../esl-utils/decorators/prop';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {Rect} from '../../esl-utils/dom/rect';
+import {RTLUtils} from '../../esl-utils/dom/rtl';
 import {getListScrollParents} from '../../esl-utils/dom/scroll';
 import {getWindowRect} from '../../esl-utils/dom/window';
 import {parseNumber} from '../../esl-utils/misc/format';
@@ -68,7 +69,7 @@ export class ESLPopup extends ESLToggleable {
   /** Disable hiding the popup depending on the visibility of the activator */
   @attr({defaultValue: 'fit'}) public behavior: string;
 
-  /** */
+  /** Disable hiding the popup depending on the visibility of the activator */
   @boolAttr() public disableActivatorObservation: boolean;
   /**
    * Margins on the edges of the arrow.
@@ -111,8 +112,9 @@ export class ESLPopup extends ESLToggleable {
   }
 
   /** Get offsets arrow ratio */
-  protected get _offsetArrowRatio() {
-    return parsePercent(this.offsetArrow, DEFAULT_OFFSET_ARROW) / 100;
+  protected get _offsetArrowRatio(): number {
+    const ratio = parsePercent(this.offsetArrow, DEFAULT_OFFSET_ARROW) / 100;
+    return RTLUtils.isRtl(this) ? 1 - ratio : ratio;
   }
 
   /**
