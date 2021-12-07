@@ -37,6 +37,9 @@ in order to be animated.
 - `repeat` (boolean) - refresh (re-animate) items when they became invisible (exit viewport)
 - `force` (boolean) - if true then allows to re-animate items when ESLAnimateService subscribed 
 on already animated item
+- `ratio` (0.2|0.4|0.6|0.8) - intersection ratio to consider element as visible.
+Only 0.2 (20%), 0.4 (40%), 0.6 (60%), 0.8 (80%) values are allowed due to share of IntersectionObserver instance
+with a fixed set of thresholds defined.
 
 ## ESLAnimate
 ESLAnimate (`<esl-animate>`) - custom element to automatically initialize ESLAnimateService from html
@@ -50,6 +53,9 @@ Default: empty (animates itself)
 (item will start animation with a delay after previous item animation start)
 - `group-delay` - number of milliseconds to delay animation in group
 - `repeat` (boolean) - refresh (re-animate) items when they became invisible (exit viewport)
+- `ratio` - number of intersection ratio to consider element as visible
+Only 0.2 (20%), 0.4 (40%), 0.6 (60%), 0.8 (80%) values are allowed due to share of IntersectionObserver instance
+with a fixed set of thresholds defined.
 
 ### Use cases
 - plugin (target attribute defined)

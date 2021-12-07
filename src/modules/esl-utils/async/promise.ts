@@ -87,7 +87,7 @@ export function tryUntil<T>(callback: () => T, tryCount = 2, timeout = 100): Pro
  * @param callback - async chain function
  * @param count - count o calls
  * @returns sequence end promise
- **/
+ */
 export function repeatSequence<T>(callback: () => Promise<T>, count = 1): Promise<T> {
   if (count < 1) return Promise.reject();
   if (count === 1) return Promise.resolve().then(callback);

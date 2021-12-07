@@ -1,5 +1,8 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {memoize, ready, TraversingQuery} from '../../all';
+import {ready} from '../../esl-utils/decorators/ready';
+import {memoize} from '../../esl-utils/decorators/memoize';
+import {TraversingQuery} from '../../esl-traversing-query/core';
+import {parseNumber} from '../../esl-utils/misc/format';
 import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
 
 import {ESLAnimateService} from './esl-animate-service';
@@ -12,7 +15,7 @@ import {ESLAnimateService} from './esl-animate-service';
  * `<esl-animate target="::next"></esl-animate><div>Content</div>`
  * - trough the content wrapping
  * `<esl-animate>Content</esl-animate>`
- **/
+ */
 @ExportNs('Animate')
 export class ESLAnimate extends ESLBaseElement {
   static is = 'esl-animate';
@@ -40,6 +43,13 @@ export class ESLAnimate extends ESLBaseElement {
    * @see ESLAnimateConfig.repeat
    */
   @boolAttr() public repeat: boolean;
+
+  /**
+   * Intersection ratio to consider element as visible.
+   * Only 0.2 (20%), 0.4 (40%), 0.6 (60%), 0.8 (80%) values are allowed due to share of IntersectionObserver instance
+   * with a fixed set of thresholds defined.
+   */
+  @attr() public ratio: string;
 
   /**
    * Define target(s) to observe and animate
@@ -82,9 +92,10 @@ export class ESLAnimate extends ESLBaseElement {
     ESLAnimateService.observe(this.$targets, {
       force: true,
       cls: this.cls,
+      ratio: parseNumber(this.ratio, 0.4),
       repeat: this.repeat,
       group: this.group,
-      groupDelay: +this.groupDelay
+      groupDelay: parseNumber(this.groupDelay, 0)
     });
   }
 }

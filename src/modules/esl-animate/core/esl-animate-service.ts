@@ -8,7 +8,7 @@ import {CSSClassUtils} from '../../esl-utils/dom/class';
 /** ESLAnimateService animation options */
 export interface ESLAnimateConfig {
   /** Class(es) to mark element animated */
-  cls: string;
+  cls?: string;
 
   /** Animate if class already presented */
   force?: boolean;
@@ -17,14 +17,22 @@ export interface ESLAnimateConfig {
   group?: boolean;
 
   /** Delay to display element(s) after previous one. Used when group animation is enabled. Default: 100ms */
-  groupDelay: number;
+  groupDelay?: number;
 
   /** Do not unsubscribe after animate and repeat animation on each viewport intersection */
   repeat?: boolean;
+
+  /**
+   * Intersection ratio to consider element as visible.
+   * Only 0.2 (20%), 0.4 (40%), 0.6 (60%), 0.8 (80%) values are allowed due to share of IntersectionObserver instance
+   * with a fixed set of thresholds defined.
+   * Default: 0.4 (40%)
+   */
+  ratio?: number;
 }
 
 /** ESLAnimateService animation inner options. Contains system animation properties */
-interface ESLAnimateConfigInner extends ESLAnimateConfig {
+interface ESLAnimateConfigInner extends Required<ESLAnimateConfig> {
   /** @private animation requested */
   _timeout?: number;
   /** @private marker to unobserve */
@@ -36,16 +44,16 @@ interface ESLAnimateConfigInner extends ESLAnimateConfig {
 export class ESLAnimateService {
 
   /** ESLAnimateService default animation configuration */
-  protected static DEFAULT_CONFIG: ESLAnimateConfig = {cls: 'in', groupDelay: 100};
+  protected static DEFAULT_CONFIG: ESLAnimateConfig = {cls: 'in', groupDelay: 100, ratio: 0.4};
   /** ESLAnimationService IntersectionObserver properties */
-  protected static OPTIONS_OBSERVER: IntersectionObserverInit = {threshold: [0.001, 0.2, 0.4, 0.6]};
+  protected static OPTIONS_OBSERVER: IntersectionObserverInit = {threshold: [0.001, 0.2, 0.4, 0.6, 0.8]};
 
   /**
    * Subscribe ESlAnimateService on element(s) to animate it on viewport intersection
    * @param target - element(s) or elements to observe and animate
    * @param config - optional animation configuration
    */
-  public static observe(target: Element | Element[], config: string | Partial<ESLAnimateConfig> = {}): void {
+  public static observe(target: Element | Element[], config: ESLAnimateConfig = {}): void {
     wrap(target).forEach((item: Element) => this.instance.observe(item, config));
   }
 
@@ -75,7 +83,7 @@ export class ESLAnimateService {
    * @param el - element or elements to observe and animate
    * @param config - optional animation configuration
    */
-  public observe(el: Element, config: string | Partial<ESLAnimateConfig> = {}): void {
+  public observe(el: Element, config: ESLAnimateConfig = {}): void {
     const cfg = this.setConfigFor(el, config);
     cfg.force && CSSClassUtils.remove(el, cfg.cls);
     this._io.observe(el);
@@ -94,12 +102,19 @@ export class ESLAnimateService {
       const config = this.getConfigFor(target);
       if (!config) return;
 
-      if (intersectionRatio >= 0.4) this._entries.add(target);
-      if (!isIntersecting) this._entries.delete(target);
+      // Item will be marked as visible in case it intersecting to the viewport with a ratio grater then passed visibleRatio
+      if (isIntersecting && intersectionRatio >= config.ratio) {
+        this._entries.add(target);
+      }
 
-      if (config.repeat && intersectionRatio <= 0.1) {
-        CSSClassUtils.remove(target, config.cls);
-        config._timeout && clearTimeout(config._timeout);
+      // Item considered as invisible in case it is going to be intersected less then 1% of it's area
+      if (!isIntersecting && intersectionRatio <= 0.01) {
+        this._entries.delete(target);
+
+        if (config.repeat) {
+          CSSClassUtils.remove(target, config.cls);
+          config._timeout && clearTimeout(config._timeout);
+        }
       }
     });
     this.deferredOnAnimate();
@@ -115,7 +130,7 @@ export class ESLAnimateService {
       if (config._timeout) window.clearTimeout(config._timeout);
       if (config.group) {
         config._timeout = window.setTimeout(() => this.onAnimateItem(target), time);
-        time += config.groupDelay;
+        time += config.groupDelay; // ?
       } else {
         this.onAnimateItem(target);
       }
@@ -142,9 +157,8 @@ export class ESLAnimateService {
     return this._configMap.get(el);
   }
   /** Returns config */
-  protected setConfigFor(el: Element, config: string | Partial<ESLAnimateConfig>): ESLAnimateConfigInner {
-    if (typeof config === 'string') config = {cls: config};
-    const cfg: ESLAnimateConfig = Object.assign({}, ESLAnimateService.DEFAULT_CONFIG, config);
+  protected setConfigFor(el: Element, config: ESLAnimateConfig): ESLAnimateConfigInner {
+    const cfg = Object.assign({}, ESLAnimateService.DEFAULT_CONFIG, config) as ESLAnimateConfigInner;
     this._configMap.set(el, cfg);
     return cfg;
   }
