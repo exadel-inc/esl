@@ -1,3 +1,17 @@
+# [3.7.0](https://github.com/exadel-inc/esl/compare/v3.6.0...v3.7.0) (2021-12-07)
+
+
+### Bug Fixes
+
+* **esl-utils:** `CSSClassUtils` utility should support lower DOM API ([594b889](https://github.com/exadel-inc/esl/commit/594b8892db600f3fcb99915fe28ea062a5942281))
+* **esl-utils:** fix usage of deprecated substr in `CSSClassUtils` ([c142152](https://github.com/exadel-inc/esl/commit/c142152edfab5ab5398a53eb3029cb94fc03eb94))
+
+
+### Features
+
+* **esl-animate:** make a new module "esl-animate" to animate elements on viewport intersecting ([e369350](https://github.com/exadel-inc/esl/commit/e3693507b65194ec952ada37d5255bc6f9d48b31))
+* **esl-utils:** `ESLVSizeCSSProxy` utility to fix 100vh problem is introduced ([5bae888](https://github.com/exadel-inc/esl/commit/5bae8882f87797741ef10cc835e50f7485fe63c8))
+
 # [3.6.0](https://github.com/exadel-inc/esl/compare/v3.5.0...v3.6.0) (2021-11-23)
 
 
