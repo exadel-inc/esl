@@ -41,8 +41,11 @@ export class ESLTooltip extends ESLPopup {
     return els.length ? els[els.length - 1] : null;
   }
 
+  public static get open(): boolean {
+    return ESLTooltip.sharedInstance.open;
+  }
+
   public static show(params: TooltipActionParams = {}) {
-    ESLTooltip.sharedInstance.hide(params);
     ESLTooltip.sharedInstance.show(params);
   }
 
@@ -96,7 +99,7 @@ export class ESLTooltip extends ESLPopup {
   }
 
   public onHide(params: TooltipActionParams) {
-    this.activator?.focus();
+    this.activator?.focus({preventScroll: true});
     this._updateActivatorState(false);
     super.onHide(params);
     document.body.removeChild(this);
