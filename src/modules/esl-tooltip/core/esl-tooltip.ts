@@ -41,7 +41,7 @@ export class ESLTooltip extends ESLPopup {
     return els.length ? els[els.length - 1] : null;
   }
 
-  public static isOpen(): boolean {
+  public static get open(): boolean {
     return ESLTooltip.sharedInstance.open;
   }
 

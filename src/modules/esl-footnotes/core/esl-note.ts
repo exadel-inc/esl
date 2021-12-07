@@ -98,7 +98,7 @@ export class ESLNote extends ESLBaseElement {
   }
 
   public activate() {
-    if (ESLTooltip.isOpen()) {
+    if (ESLTooltip.open) {
       this.hideTooltip();
     }
     EventUtils.dispatch(this, 'esl:show:request');
@@ -141,7 +141,7 @@ export class ESLNote extends ESLBaseElement {
   public showTooltip(params: ToggleableActionParams = {}) {
     const actionParams = this.mergeToggleableParams({
     }, params);
-    if (ESLTooltip.isOpen()) {
+    if (ESLTooltip.open) {
       this.hideTooltip();
     }
     ESLTooltip.show(actionParams);
