@@ -52,6 +52,7 @@ function calcPopupPositionByMinorAxis(cfg: PopupPositionConfig, centerPosition: 
 }
 
 /**
+ * TODO: optimize switch
  * Calculate Rect for given popup position config.
  * @param cfg - popup position config
  * */
@@ -90,6 +91,7 @@ function getOppositePosition(position: PositionType): PositionType {
 }
 
 /**
+ * TODO: move the actionsToFit definition outside the function and optimize
  * Update popup and arrow positions to fit on major axis.
  * @param cfg - popup position config
  * @param rect - popup position rect
@@ -131,6 +133,7 @@ function fitOnMajorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): Pos
 }
 
 /**
+ * TODO: rethink fitOnMinorAxisHorizontal and fitOnMinorAxisVertical to simplify code
  * Update popup and arrow positions to fit on minor horizontal axis.
  * @param cfg - popup position config
  * @param rect - popup position rect
