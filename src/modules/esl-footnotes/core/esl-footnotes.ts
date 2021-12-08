@@ -27,11 +27,13 @@ export class ESLFootnotes extends ESLBaseElement {
 
   protected _notes: ESLNote[] = [];
 
+  /** Scope element */
   @memoize()
-  protected get scopeEl() {
+  protected get scopeEl(): HTMLElement {
     return TraversingQuery.first(this.scopeTarget, this) as HTMLElement;
   }
 
+  /** List of notes to show */
   protected get footnotesList(): FootnotesItem[] {
     this.reindex();
     return this.grouping !== 'enable'
@@ -39,7 +41,8 @@ export class ESLFootnotes extends ESLBaseElement {
       : compileFootnotesGroupedList(this._notes);
   }
 
-  public reindex() {
+  /** Reindex list of notes */
+  public reindex(): void {
     this._notes = sortFootnotes(this._notes);
     this._notes.forEach((note, index) => note.index = index + 1);
   }
@@ -59,14 +62,14 @@ export class ESLFootnotes extends ESLBaseElement {
     this._notes = [];
   }
 
-  protected bindEvents() {
+  protected bindEvents(): void {
     if (this.scopeEl) {
       this.scopeEl.addEventListener(`${ESLFootnotes.eventNs}:response`, this._onNoteSubscribe);
     }
     this.addEventListener('click', this._onClick);
     this.addEventListener('keydown', this._onKeydown);
   }
-  protected unbindEvents() {
+  protected unbindEvents(): void {
     if (this.scopeEl) {
       this.scopeEl.removeEventListener(`${ESLFootnotes.eventNs}:response`, this._onNoteSubscribe);
     }
@@ -74,46 +77,55 @@ export class ESLFootnotes extends ESLBaseElement {
     this.removeEventListener('keydown', this._onKeydown);
   }
 
-  public linkNote(note: ESLNote) {
+  /** Add note to footnotes list */
+  public linkNote(note: ESLNote): void {
     if (this._notes.includes(note)) return;
     this._notes.push(note);
     const index = +sequentialUID(ESLFootnotes.is, '');
     note.link(this, index);
   }
 
-  public unlinkNote(note: ESLNote) {
+  /** Remove note from footnotes list */
+  public unlinkNote(note: ESLNote): void {
     this._notes = this._notes.filter((el) => el !== note);
     this.update();
   }
 
-  public update() {
+  /** Update content of footnotes */
+  public update(): void {
     this.innerHTML = this.buildItems();
   }
 
+  /** Build content of footnotes */
   protected buildItems(): string {
     const items = this.footnotesList.map((footnote) => this.buildItem(footnote)).join('');
     return `<ul class="esl-footnotes-items">${items}</ul>`;
   }
 
+  /** Build one item from footnotes list */
   protected buildItem(footnote: FootnotesItem): string {
     const item = `${this.buildItemIndex(footnote)}${this.buildItemText(footnote)}${this.buildItemBack(footnote)}`;
     return `<li class="esl-footnotes-item" data-order="${footnote.index}">${item}</li>`;
   }
 
+  /** Build item index */
   protected buildItemIndex(footnote: FootnotesItem): string {
     return `<span class="esl-footnotes-index">${footnote.renderedIndex.join(', ')}</span>`;
   }
 
+  /** Build item text */
   protected buildItemText(footnote: FootnotesItem): string {
     return `<span class="esl-footnotes-text">${footnote.text}</span>`;
   }
 
+  /** Build item back-to-note button */
   protected buildItemBack(footnote: FootnotesItem): string {
     return `<span class="esl-footnotes-back-to-note" tabindex="0" title="${this.backToNoteLabel}"></span>`;
   }
 
+  /** Handles `response` event from note */
   @bind
-  protected _onNoteSubscribe(e: CustomEvent) {
+  protected _onNoteSubscribe(e: CustomEvent): void {
     const note = e.target as ESLNote;
     this.linkNote(note);
     this.update();
@@ -121,8 +133,9 @@ export class ESLFootnotes extends ESLBaseElement {
     e.stopImmediatePropagation();
   }
 
+  /** Handles `click` event */
   @bind
-  protected _onClick(e: MouseEvent | KeyboardEvent) {
+  protected _onClick(e: MouseEvent | KeyboardEvent): void {
     const target = e.target as HTMLElement;
     if (target && target.classList.contains('esl-footnotes-back-to-note')) {
       const orderAttr = target.closest('.esl-footnotes-item')?.getAttribute('data-order');
@@ -131,12 +144,14 @@ export class ESLFootnotes extends ESLBaseElement {
     }
   }
 
+  /** Handles `keydown` event */
   @bind
-  protected _onKeydown(event: KeyboardEvent) {
+  protected _onKeydown(event: KeyboardEvent): void {
     if ([ENTER, SPACE].includes(event.key)) this._onClick(event);
   }
 
-  protected _onBackToNote(order: number[]) {
+  /** Actions on back-to-note click  */
+  protected _onBackToNote(order: number[]): void {
     const index = order[order.length - 1];
     this._notes.forEach((note) => {
       note.highlight(order.includes(note.index));
@@ -146,13 +161,17 @@ export class ESLFootnotes extends ESLBaseElement {
     });
   }
 
-  public turnOffHighlight(note: ESLNote) {
+  /** Turn off highlight from notes with the same text */
+  public turnOffHighlight(note: ESLNote): void {
     this._notes
       .filter((item) => note.html === item.html)
       .forEach((item) => item.highlight(false));
   }
 
-  protected _sendRequestToNote() {
+  /**
+   * Send a request to all notes, expecting to get a response from
+   * the unlinked ones and link up with them */
+  protected _sendRequestToNote(): void {
     EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:request`);
   }
 }

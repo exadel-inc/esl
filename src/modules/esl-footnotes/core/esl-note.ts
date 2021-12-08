@@ -46,6 +46,7 @@ export class ESLNote extends ESLBaseElement {
     return ['tooltip-shown'];
   }
 
+  /** Note index */
   public get index(): number {
     return this._index;
   }
@@ -54,6 +55,7 @@ export class ESLNote extends ESLBaseElement {
     this.innerHTML = this.renderedIndex;
   }
 
+  /** Displayed note index */
   public get renderedIndex(): string {
     return `${this._index}`;
   }
@@ -82,14 +84,14 @@ export class ESLNote extends ESLBaseElement {
     }
   }
 
-  protected bindEvents() {
+  protected bindEvents(): void {
     document.body.addEventListener(`${ESLFootnotes.eventNs}:request`, this._onFootnotesReady);
     this.addEventListener('click', this._onClick);
     this.addEventListener('keydown', this._onKeydown);
     this.addEventListener('mouseenter', this._onMouseEnter);
     this.addEventListener('mouseleave', this._onMouseLeave);
   }
-  protected unbindEvents() {
+  protected unbindEvents(): void {
     document.body.removeEventListener(`${ESLFootnotes.eventNs}:request`, this._onFootnotesReady);
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('keydown', this._onKeydown);
@@ -97,7 +99,8 @@ export class ESLNote extends ESLBaseElement {
     this.removeEventListener('mouseleave', this._onMouseLeave);
   }
 
-  public activate() {
+  /** Activate note */
+  public activate(): void {
     if (ESLTooltip.open) {
       this.hideTooltip();
     }
@@ -105,23 +108,27 @@ export class ESLNote extends ESLBaseElement {
     scrollIntoView(this, {behavior: 'smooth', block: 'nearest'}).then(() => this.showTooltip());
   }
 
-  public highlight(enable: boolean = true) {
+  /** Highlight note */
+  public highlight(enable: boolean = true): void {
     this.classList.toggle('highlight', enable);
   }
 
-  public link(footnotes: ESLFootnotes, index: number) {
+  /** Link note with footnotes */
+  public link(footnotes: ESLFootnotes, index: number): void {
     this.linked = true;
     this._$footnotes = footnotes;
     this.index = index;
     this.tabIndex = 0;
   }
 
-  public unlink() {
+  /** Unlink note from footnotes */
+  public unlink(): void {
     this.restore();
     this._sendResponseToFootnote();
   }
 
-  protected restore() {
+  /** Restore original note content after unlinking */
+  protected restore(): void {
     this.linked = false;
     this._$footnotes = null;
     this.innerHTML = this.html;
@@ -129,7 +136,7 @@ export class ESLNote extends ESLBaseElement {
   }
 
   /** Merge params to pass to the toggleable */
-  protected mergeToggleableParams(this: ESLNote, ...params: ToggleableActionParams[]) {
+  protected mergeToggleableParams(this: ESLNote, ...params: ToggleableActionParams[]): ToggleableActionParams {
     return Object.assign({
       initiator: 'note',
       activator: this,
@@ -138,7 +145,7 @@ export class ESLNote extends ESLBaseElement {
   }
 
   /** Show tooltip with passed params */
-  public showTooltip(params: ToggleableActionParams = {}) {
+  public showTooltip(params: ToggleableActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
     }, params);
     if (ESLTooltip.open) {
@@ -148,19 +155,19 @@ export class ESLNote extends ESLBaseElement {
     this.highlight();
   }
   /** Hide tooltip with passed params */
-  public hideTooltip(params: ToggleableActionParams = {}) {
+  public hideTooltip(params: ToggleableActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
     }, params);
     ESLTooltip.hide(actionParams);
   }
   /** Toggles tooltip with passed params */
-  public toggleTooltip(params: ToggleableActionParams = {}, state: boolean = !this.tooltipShown) {
+  public toggleTooltip(params: ToggleableActionParams = {}, state: boolean = !this.tooltipShown): void {
     state ? this.showTooltip(params) : this.hideTooltip(params);
   }
 
   /** Handles `click` event */
   @bind
-  protected _onClick(event: MouseEvent) {
+  protected _onClick(event: MouseEvent): void {
     if (!this.allowClick) return;
     event.preventDefault();
     event.stopPropagation();
@@ -169,7 +176,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Handles `keydown` event */
   @bind
-  protected _onKeydown(event: KeyboardEvent) {
+  protected _onKeydown(event: KeyboardEvent): void {
     if (![ENTER, SPACE].includes(event.key)) return;
     event.preventDefault();
     event.stopPropagation();
@@ -178,7 +185,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Handles hover `mouseenter` event */
   @bind
-  protected _onMouseEnter(event: MouseEvent) {
+  protected _onMouseEnter(event: MouseEvent): void {
     if (!this.allowHover) return;
     this.showTooltip({event});
     event.preventDefault();
@@ -186,19 +193,21 @@ export class ESLNote extends ESLBaseElement {
 
   /** Handles hover `mouseleave` event */
   @bind
-  protected _onMouseLeave(event: MouseEvent) {
+  protected _onMouseLeave(event: MouseEvent): void {
     if (!this.allowHover) return;
     this.hideTooltip({event, trackHover: true});
     event.preventDefault();
   }
 
+  /** Handles footnotes request event */
   @bind
-  protected _onFootnotesReady(e: CustomEvent) {
+  protected _onFootnotesReady(e: CustomEvent): void {
     if (this.linked) return;
     this._sendResponseToFootnote();
   }
 
-  protected _sendResponseToFootnote() {
+  /** Send response to footnotes */
+  protected _sendResponseToFootnote(): void {
     EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:response`);
   }
 }
