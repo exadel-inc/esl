@@ -137,7 +137,10 @@ function fitOnMajorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): Pos
  * @param arrow - arrow position value
  * */
 function fitOnMinorAxisHorizontal(cfg: PopupPositionConfig, rect: Rect, arrow: Point): void {
-  if (cfg.trigger.x < cfg.outer.x || cfg.trigger.right > cfg.outer.right) return; // cancel fit mode if the element is out of window offset bounds
+  if (cfg.outer.width < cfg.element.width ||  // cancel fit mode if the popup width is greater than the outer limiter width
+      cfg.trigger.x < cfg.outer.x ||          // or the trigger is outside the outer limiting element
+      cfg.trigger.right > cfg.outer.right
+  ) return;
 
   let arrowAdjust = 0;
   if (rect.x < cfg.outer.x) {
@@ -159,7 +162,10 @@ function fitOnMinorAxisHorizontal(cfg: PopupPositionConfig, rect: Rect, arrow: P
  * @param arrow - arrow position value
  * */
 function fitOnMinorAxisVertical(cfg: PopupPositionConfig, rect: Rect, arrow: Point): void {
-  if (cfg.trigger.y < cfg.outer.y || cfg.trigger.bottom > cfg.outer.bottom) return; // cancel fit mode if the element is out of window offset bounds
+  if (cfg.outer.height < cfg.element.height ||  // cancel fit mode if the popup height is greater than the outer limiter height
+      cfg.trigger.y < cfg.outer.y ||            // or the trigger is outside the outer limiting element
+      cfg.trigger.bottom > cfg.outer.bottom
+  ) return;
 
   let arrowAdjust = 0;
   if (rect.y < cfg.outer.y) {
