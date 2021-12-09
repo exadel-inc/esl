@@ -51,7 +51,7 @@ export class ESLFootnotes extends ESLBaseElement {
     super.connectedCallback();
 
     this.bindEvents();
-    this._sendRequestToNote();
+    this._notifyNotes();
   }
 
   protected disconnectedCallback() {
@@ -171,7 +171,7 @@ export class ESLFootnotes extends ESLBaseElement {
   /**
    * Sends a request to all notes, expecting to get a response from
    * the unlinked ones and link up with them */
-  protected _sendRequestToNote(): void {
+  protected _notifyNotes(): void {
     EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:request`);
   }
 }
