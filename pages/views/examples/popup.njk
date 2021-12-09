@@ -1,8 +1,9 @@
 ---
 layout: popup
 title: Popup
+seoTitle: Popup UI examples based on ESL web components
 name: Popup
-tags: [examples, draft]
+tags: [examples, beta]
 icon: examples/popup.svg
 aside:
   components:
@@ -10,6 +11,37 @@ aside:
     - esl-toggleable
     - esl-trigger
 ---
+
+<section id="popup-controls">
+  <div>
+    <label for="marginArrow">Arrow margin:</label>
+    <input type="text" id="marginArrow" name="marginArrow" min="0" max="100" value="5" size="3">
+  </div>
+  <div>
+    <label for="offsetArrow">Arrow offset:</label>
+    <input type="range" id="offsetArrow" name="offsetArrow" min="0" max="100" value="50" step="1">
+  </div>
+  <script>
+    var elMarginArrow = document.querySelector('#marginArrow');
+    var handlerMarginArrowChange = function() {
+      Array.from(document.querySelectorAll('esl-popup')).forEach(function(el) {
+        el.setAttribute('margin-arrow', elMarginArrow.value);
+      });
+    };
+    elMarginArrow.addEventListener('change', handlerMarginArrowChange);
+  </script>
+  <script>
+    var elOffsetArrow = document.querySelector('#offsetArrow');
+    var handlerOffsetArrowChange = function() {
+      Array.from(document.querySelectorAll('esl-popup')).forEach(function(el) {
+        el.setAttribute('offset-arrow', elOffsetArrow.value);
+      });
+    };
+    elOffsetArrow.addEventListener('change', handlerOffsetArrowChange);
+  </script>
+</section>
+
+<h2>Popups with an arrow</h2>
 
 <section class="row justify-content-between">
   <esl-trigger target="#popup1" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
@@ -28,25 +60,21 @@ aside:
   <esl-trigger target="#popup2" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
 </section>
 
-<section class="row">
-  <div id="a" style="margin: 599px 0; height: 800px; overflow-y: auto; width: 100%; background-color: azure;">
-    <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
-    <esl-trigger target="#popup1" mode="toggle" class="btn btn-sec-blue">Trigger B</esl-trigger>
-    <div id="b" style="margin: 599px 0; height: 650px; overflow-y: auto; width: 100%; background-color: beige;">
-      <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
-      <esl-trigger target="#popup1" mode="toggle" class="btn btn-sec-blue">Trigger B</esl-trigger>
-      <div id="c" style="margin: 599px 0; height: 500px; overflow-y: auto; width: 100%; background-color: bisque;">
-        <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
-        <esl-trigger target="#popup1" mode="toggle" class="btn btn-sec-blue">Trigger C</esl-trigger>
-        <div id="d" style="margin: 599px 0; height: 350px; overflow-y: auto; width: 100%; background-color: tan;">
-          <p>Lorem</p><p>ipsum</p><p>dot</p><p>color</p>
-          <esl-trigger target="#popup1" mode="toggle" class="btn btn-sec-blue">Trigger D (top)</esl-trigger>
-          <esl-trigger target="#popup2" mode="toggle" class="btn btn-sec-blue">Trigger D (bottom)</esl-trigger>
-          <esl-trigger target="#popup3" mode="toggle" class="btn btn-sec-blue">Trigger D (left)</esl-trigger>
-          <esl-trigger target="#popup4" mode="toggle" class="btn btn-sec-blue">Trigger D (right)</esl-trigger>
-          <esl-popup id="popup9" position="top">Exadel Smart Library Popup content<span class="esl-popup-arrow"></span></esl-popup>
-        </div>
-      </div>
-    </div>
-  </div>
+<h2>Popups without an arrow</h2>
+
+<section class="row justify-content-between">
+  <esl-trigger target="#popup01" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+  <esl-trigger target="#popup01" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+  <esl-trigger target="#popup01" mode="toggle" class="btn btn-sec-blue">Top</esl-trigger>
+</section>
+
+<section class="row justify-content-between">
+  <esl-trigger target="#popup03" mode="toggle" class="btn btn-sec-blue">Left</esl-trigger>
+  <esl-trigger target="#popup04" mode="toggle" class="btn btn-sec-blue">Right</esl-trigger>
+</section>
+
+<section class="row justify-content-between">
+  <esl-trigger target="#popup02" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+  <esl-trigger target="#popup02" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
+  <esl-trigger target="#popup02" mode="toggle" class="btn btn-sec-blue">Bottom</esl-trigger>
 </section>

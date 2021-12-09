@@ -1,71 +1,85 @@
-@POPUP_ARROW_SIZE: 20px;
-@POPUP_ARROW_HALF: (@POPUP_ARROW_SIZE / 2);
-@POPUP_BORDER_COLOR: #DBDBDB;
-@POPUP_Z_INDEX: 999;
+.esl-popup-arrow-init(@arrowClassName: esl-popup-arrow,
+                      @popupArrowSize: 20px,
+                      @popupBackgroundColor: #FFF,
+                      @popupBorderColor: #DBDBDB,
+                      @popupBorderWidth: 1px) {
+  @popupArrowHalf: (@popupArrowSize / 2);
+  @popupArrowShift: (@popupArrowSize * 0.2071 - @popupBorderWidth);  // 0.2071 = (sqrt(2) - 1) / 2  (Don't ask why, it's an axiom)
 
-.esl-popup {
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 0;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-  border: 1px solid @POPUP_BORDER_COLOR;
-  background: #FFF;
-  cursor: default;
-  opacity: 0;
-  will-change: auto;
-  transition: visibility 0.5s 0.2s;
-  visibility: hidden;
-  box-sizing: border-box;
-
-  &[open] {
-    opacity: 1;
-    z-index: @POPUP_Z_INDEX;
-    visibility: visible;
-    transition: opacity 0.15s, transform 0.2s;
-  }
-
-  &:not([open]) {
-    display: none;
-  }
-
-  .esl-popup-arrow {
+  .@{arrowClassName} {
     position: absolute;
+    top: (-@popupArrowHalf - @popupBorderWidth);
     bottom: 100%;
-    background: #FFF;
-    width: @POPUP_ARROW_SIZE;
-    height: @POPUP_ARROW_SIZE;
-    transform: rotate(45deg);
-    margin-left: -@POPUP_ARROW_HALF;
-    top: (-@POPUP_ARROW_HALF - 1);
-    border-left: 1px solid @POPUP_BORDER_COLOR;
-    border-top: 1px solid @POPUP_BORDER_COLOR;
     z-index: -1;
+    transform: rotate(45deg);
+    width: @popupArrowSize;
+    height: @popupArrowSize;
+    margin-left: @popupArrowShift;
+    border-left: @popupBorderWidth solid @popupBorderColor;
+    border-top: @popupBorderWidth solid @popupBorderColor;
+    background: @popupBackgroundColor;
   }
 
   &[placed-at=top] {
-    .esl-popup-arrow {
-      bottom: (-@POPUP_ARROW_HALF - 1);
+    .@{arrowClassName} {
       top: auto;
+      bottom: (-@popupArrowHalf - @popupBorderWidth);
       transform: rotate(225deg);
     }
   }
 
   &[placed-at=left] {
-    .esl-popup-arrow {
-      right: (-@POPUP_ARROW_HALF - 1);
+    .@{arrowClassName} {
+      right: (-@popupArrowHalf - @popupBorderWidth);
       left: auto;
-      margin-top: -@POPUP_ARROW_HALF;
       transform: rotate(135deg);
+      margin-top: @popupArrowShift;
     }
   }
 
   &[placed-at=right] {
-    .esl-popup-arrow {
-      left: auto;
+    .@{arrowClassName} {
+      left: (-@popupArrowHalf - @popupBorderWidth - @popupArrowShift);
       right: auto;
-      margin-top: -@POPUP_ARROW_HALF;
       transform: rotate(315deg);
+      margin-top: @popupArrowShift;
     }
+  }
+}
+
+.esl-popup-init(@className: esl-popup,
+                @arrowClassName: esl-popup-arrow,
+                @arrowSize: 20px,
+                @backgroundColor: #FFF,
+                @borderColor: #DBDBDB,
+                @borderWidth: 1px,
+                @zIndex: 999) {
+  .@{className} {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transition: visibility 0.5s 0.2s;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    border: @borderWidth solid @borderColor;
+    background: @backgroundColor;
+    cursor: default;
+    will-change: auto;
+
+    &[open] {
+      z-index: @zIndex;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.15s, transform 0.2s;
+    }
+
+    &:not([open]) {
+      display: none;
+    }
+
+    .esl-popup-arrow-init(@arrowClassName, @arrowSize, @backgroundColor, @borderColor, @borderWidth);
   }
 }

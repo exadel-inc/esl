@@ -112,17 +112,19 @@ export function isScrollParent(element: Element): boolean {
  */
 export function scrollIntoView(element: Element, options?: boolean | ScrollIntoViewOptions | undefined): Promise<boolean> {
   let same = 0;
+  let lastLeft: number;
   let lastTop: number;
   const check = () => {
-    const newTop = element.getBoundingClientRect().top;
+    const {top, left} = element.getBoundingClientRect();
 
-    if (newTop !== lastTop) {
+    if (top !== lastTop || left !== lastLeft) {
       same = 0;
-      lastTop = newTop;
+      lastTop = top;
+      lastLeft = left;
     }
     return same++ > 2;
   };
 
   element.scrollIntoView(options);
-  return tryUntil(check, 80, 125); // will check top position every 125ms, but not more than 80 times (10s)
+  return tryUntil(check, 333, 30); // will check top position every 30ms, but not more than 250 times (10s)
 }
