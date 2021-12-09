@@ -41,7 +41,7 @@ export class ESLFootnotes extends ESLBaseElement {
       : compileFootnotesGroupedList(this._notes);
   }
 
-  /** Reindex list of notes */
+  /** Reindexes the list of notes */
   public reindex(): void {
     this._notes = sortFootnotes(this._notes);
     this._notes.forEach((note, index) => note.index = index + 1);
@@ -77,7 +77,7 @@ export class ESLFootnotes extends ESLBaseElement {
     this.removeEventListener('keydown', this._onKeydown);
   }
 
-  /** Add note to footnotes list */
+  /** Adds the note to the footnotes list */
   public linkNote(note: ESLNote): void {
     if (this._notes.includes(note)) return;
     this._notes.push(note);
@@ -85,40 +85,40 @@ export class ESLFootnotes extends ESLBaseElement {
     note.link(this, index);
   }
 
-  /** Remove note from footnotes list */
+  /** Removes the note from the footnotes list */
   public unlinkNote(note: ESLNote): void {
     this._notes = this._notes.filter((el) => el !== note);
     this.update();
   }
 
-  /** Update content of footnotes */
+  /** Updates the content of footnotes */
   public update(): void {
     this.innerHTML = this.buildItems();
   }
 
-  /** Build content of footnotes */
+  /** Builds content of footnotes */
   protected buildItems(): string {
     const items = this.footnotesList.map((footnote) => this.buildItem(footnote)).join('');
     return `<ul class="esl-footnotes-items">${items}</ul>`;
   }
 
-  /** Build one item from footnotes list */
+  /** Builds one item from footnotes list */
   protected buildItem(footnote: FootnotesItem): string {
     const item = `${this.buildItemIndex(footnote)}${this.buildItemText(footnote)}${this.buildItemBack(footnote)}`;
     return `<li class="esl-footnotes-item" data-order="${footnote.index}">${item}</li>`;
   }
 
-  /** Build item index */
+  /** Builds item index */
   protected buildItemIndex(footnote: FootnotesItem): string {
     return `<span class="esl-footnotes-index">${footnote.renderedIndex.join(', ')}</span>`;
   }
 
-  /** Build item text */
+  /** Builds item text */
   protected buildItemText(footnote: FootnotesItem): string {
     return `<span class="esl-footnotes-text">${footnote.text}</span>`;
   }
 
-  /** Build item back-to-note button */
+  /** Builds item back-to-note button */
   protected buildItemBack(footnote: FootnotesItem): string {
     return `<span class="esl-footnotes-back-to-note" tabindex="0" title="${this.backToNoteLabel}"></span>`;
   }
@@ -161,7 +161,7 @@ export class ESLFootnotes extends ESLBaseElement {
     });
   }
 
-  /** Turn off highlight from notes with the same text */
+  /** Turns off highlight for notes with the same text */
   public turnOffHighlight(note: ESLNote): void {
     this._notes
       .filter((item) => note.html === item.html)
@@ -169,7 +169,7 @@ export class ESLFootnotes extends ESLBaseElement {
   }
 
   /**
-   * Send a request to all notes, expecting to get a response from
+   * Sends a request to all notes, expecting to get a response from
    * the unlinked ones and link up with them */
   protected _sendRequestToNote(): void {
     EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:request`);

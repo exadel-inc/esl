@@ -57,12 +57,12 @@ export class ESLTooltip extends ESLPopup {
     return ESLTooltip.sharedInstance.open;
   }
 
-  /** Change the element state to active */
+  /** Changes the element state to active */
   public static show(params: TooltipActionParams = {}): void {
     ESLTooltip.sharedInstance.show(params);
   }
 
-  /** Change the element state to inactive */
+  /** Changes the element state to inactive */
   public static hide(params: TooltipActionParams = {}): void {
     ESLTooltip.sharedInstance.hide(params);
   }
@@ -76,10 +76,10 @@ export class ESLTooltip extends ESLPopup {
     this.tabIndex = 0;
   }
 
-  /** Set initial state of the Tooltip */
+  /** Sets initial state of the Tooltip */
   protected setInitialState() {}
 
-  /** Create arrow at Tooltip */
+  /** Creates arrow at Tooltip */
   @memoize()
   protected _createArrow(): HTMLElement {
     const arrow = document.createElement('span');
@@ -87,7 +87,7 @@ export class ESLTooltip extends ESLPopup {
     return arrow;
   }
 
-  /** Appent arrow to Tooltip */
+  /** Appends arrow to Tooltip */
   protected _appendArrow(): void {
     this.$arrow = this._createArrow();
     this.appendChild(this.$arrow);

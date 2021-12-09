@@ -46,7 +46,7 @@ export class ESLNote extends ESLBaseElement {
     return ['tooltip-shown'];
   }
 
-  /** Note index */
+  /** Note index in the scope content */
   public get index(): number {
     return this._index;
   }
@@ -55,7 +55,7 @@ export class ESLNote extends ESLBaseElement {
     this.innerHTML = this.renderedIndex;
   }
 
-  /** Displayed note index */
+  /** Note index in the displayed list of footnotes */
   public get renderedIndex(): string {
     return `${this._index}`;
   }
@@ -99,7 +99,7 @@ export class ESLNote extends ESLBaseElement {
     this.removeEventListener('mouseleave', this._onMouseLeave);
   }
 
-  /** Activate note */
+  /** Activates note */
   public activate(): void {
     if (ESLTooltip.open) {
       this.hideTooltip();
@@ -108,12 +108,12 @@ export class ESLNote extends ESLBaseElement {
     scrollIntoView(this, {behavior: 'smooth', block: 'nearest'}).then(() => this.showTooltip());
   }
 
-  /** Highlight note */
+  /** Highlights note */
   public highlight(enable: boolean = true): void {
     this.classList.toggle('highlight', enable);
   }
 
-  /** Link note with footnotes */
+  /** Links note with footnotes */
   public link(footnotes: ESLFootnotes, index: number): void {
     this.linked = true;
     this._$footnotes = footnotes;
@@ -121,13 +121,13 @@ export class ESLNote extends ESLBaseElement {
     this.tabIndex = 0;
   }
 
-  /** Unlink note from footnotes */
+  /** Unlinks note from footnotes */
   public unlink(): void {
     this.restore();
     this._sendResponseToFootnote();
   }
 
-  /** Restore original note content after unlinking */
+  /** Restores original note content after unlinking */
   protected restore(): void {
     this.linked = false;
     this._$footnotes = null;
@@ -144,7 +144,7 @@ export class ESLNote extends ESLBaseElement {
     }, ...params);
   }
 
-  /** Show tooltip with passed params */
+  /** Shows tooltip with passed params */
   public showTooltip(params: ToggleableActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
     }, params);
@@ -154,7 +154,7 @@ export class ESLNote extends ESLBaseElement {
     ESLTooltip.show(actionParams);
     this.highlight();
   }
-  /** Hide tooltip with passed params */
+  /** Hides tooltip with passed params */
   public hideTooltip(params: ToggleableActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
     }, params);
@@ -206,7 +206,7 @@ export class ESLNote extends ESLBaseElement {
     this._sendResponseToFootnote();
   }
 
-  /** Send response to footnotes */
+  /** Sends the response to footnotes */
   protected _sendResponseToFootnote(): void {
     EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:response`);
   }
