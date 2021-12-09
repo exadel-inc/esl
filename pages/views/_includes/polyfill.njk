@@ -1,10 +1,11 @@
 <script>
-  /* Polyfill */
   (function () {
-    let version = '';
-    if (!window.Promise || !window.CustomEvent) {
+    var version = '';
+    if (!window.Promise || !window.CustomEvent){
       version = 'full';
-    } else if (!('getRootNode' in Element.prototype) || !window.customElements || !window.IntersectionObserver || !window.ResizeObserver) {
+    } else if (!('getRootNode' in Element.prototype) || !window.customElements){
+      version = 'medium';
+    } else if (!window.scrollBy || !window.IntersectionObserver || !window.ResizeObserver || !window.ResizeObserver) {
       version = 'light';
     }
     (version) && document.write('<script type="text/javascript" src="{{ '/bundles/polyfill-' | url }}' + version + '.js"><\/script>');
