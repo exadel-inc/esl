@@ -42,16 +42,14 @@ export class ESLScrollbar extends ESLBaseElement {
   protected $scrollbarTrack: HTMLElement;
 
   protected _$target: HTMLElement | null;
+  protected _targetPosition: number;
   protected _initialPosition: number;
   protected _initialMousePosition: number;
 
   protected deferredRefresh = rafDecorator(() => this.refresh());
+  protected _scrollTimer: number = 0;
   protected _resizeObserver = new ResizeObserver(this.deferredRefresh);
   protected _mutationObserver = new MutationObserver((rec) => this.updateContentObserve(rec));
-
-  protected _timer: number;
-  protected _y: number = 0;
-  protected  distance: number;
 
   static get observedAttributes() {
     return ['target', 'horizontal'];
@@ -68,7 +66,7 @@ export class ESLScrollbar extends ESLBaseElement {
   @ready
   protected disconnectedCallback() {
     this.unbindEvents();
-    clearInterval(this._timer);
+    this._scrollTimer && window.clearTimeout(this._scrollTimer);
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
@@ -107,9 +105,7 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    this.addEventListener('click', this._onClick);
-    this.$scrollbarThumb.addEventListener('mousedown', this._onMouseDown);
-    this.$scrollbarTrack.addEventListener('mousedown', this._onMouseDownContinuScroll);
+    this.addEventListener('mousedown', this._onMouseDown);
     window.addEventListener('esl:refresh', this._onRefresh);
   }
 
@@ -141,9 +137,7 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   protected unbindEvents() {
-    this.removeEventListener('click', this._onClick);
-    this.$scrollbarThumb.removeEventListener('mousedown', this._onMouseDown);
-    this.$scrollbarTrack.removeEventListener('mousedown', this._onMouseDownContinuScroll);
+    this.removeEventListener('mousedown', this._onMouseDown);
     this.unbindTargetEvents();
     window.removeEventListener('esl:refresh', this._onRefresh);
   }
@@ -242,78 +236,48 @@ export class ESLScrollbar extends ESLBaseElement {
     this.updateMarkers();
   }
 
+  /** Returns position from MouseEvent coordinates */
+  public toPosition(event: MouseEvent) {
+    const clickCoordinates = EventUtils.normalizeCoordinates(event, this.$scrollbarTrack);
+    const clickPosition = this.horizontal ? clickCoordinates.x : clickCoordinates.y;
+    const freeTrackArea = this.trackOffset - this.thumbOffset; // size of free track px
+    const clickPositionNoOffset = clickPosition - this.thumbOffset / 2;
+    return this.normalizePosition(clickPositionNoOffset / freeTrackArea);
+  }
+
   // Event listeners
   /** `mousedown` event to track thumb drag start */
   @bind
   protected _onMouseDown(event: MouseEvent) {
-    this.toggleAttribute('dragging', true);
-    this.$target?.style.setProperty('scroll-behavior', 'auto');
-
     this._initialPosition = this.position;
     this._initialMousePosition = this.horizontal ? event.clientX : event.clientY;
 
-    // Attach drag listeners
-    window.addEventListener('mousemove', this._onMouseMove);
+    if (event.target === this.$scrollbarThumb) {
+      this.toggleAttribute('dragging', true);
+      this.$target?.style.setProperty('scroll-behavior', 'auto');
+      // Attach drag listeners
+      window.addEventListener('mousemove', this._onMouseMove);
+      window.addEventListener('click', this._onBodyClick, {capture: true});
+    } else {
+      // Long scroll handler
+      this._targetPosition = this.toPosition(event);
+      this._onLongScrollTick(true);
+    }
     window.addEventListener('mouseup', this._onMouseUp);
-    window.addEventListener('click', this._onBodyClick, {capture: true});
 
     // Prevents default text selection, etc.
     event.preventDefault();
   }
 
   @bind
-  protected _onMouseDownContinuScroll(event: MouseEvent) {
-    if (event.target === this.$scrollbarThumb || event.target !== this.$scrollbarTrack) return;
-    const clickCoordinates = EventUtils.normalizeCoordinates(event, this.$scrollbarTrack);
-    const clickPosition = this.horizontal ? clickCoordinates.x : clickCoordinates.y;
+  protected _onLongScrollTick(first: boolean) {
+    this._scrollTimer && window.clearTimeout(this._scrollTimer);
+    this._scrollTimer = window.setTimeout(this._onLongScrollTick, 400);
 
-    const initialPosition =  this.position;
-    const newPosition =  clickPosition / (this.horizontal ? this.offsetWidth : this.offsetHeight);
-
-    const scrollDown = newPosition > initialPosition ;
-    const distance = Math.abs(initialPosition - newPosition);
-    // console.log('initialPosition = ' + initialPosition);
-    // console.log('newPosition = ' + newPosition);
-    // console.log('distance = ' + distance);
-
-    this._y = 0;
-    const step = 30;
-
-
-    this._timer = window.setInterval(()=> {
-      this._y += 1 / step;
-      // console.log('y = ' + this._y);
-
-      if (this._y > 1) {
-        clearInterval(this._timer);
-        return;
-      }
-
-      const x = this.easeInOutQuart(this._y);
-      // console.log(' x = ' + x);
-
-      // scrollDown
-      //   ? console.log(' moved to  = ' + (initialPosition + distance * x))
-      //   : console.log(' moved to  = ' + (initialPosition - distance * x));
-      this.position = scrollDown
-        ? initialPosition + distance * x
-        : initialPosition - distance * x;
-
-    }, 50);
-
+    const position = this.position;
+    const allowedOffset = (first ? 1 : 1.5) * this.thumbSize;
+    this.position = Math.min(position + allowedOffset, Math.max(position - allowedOffset, this._targetPosition));
   }
-
-
-  @bind
-  private easeInOutQuart(x: number): number {
-    return x === 0
-      ? 0
-      : x === 1
-        ? 1
-        : x < 0.5 ? Math.pow(2, 20 * x - 10) / 2
-          : (2 -  Math.pow(2, -20 * x + 10)) / 2;
-  }
-
 
   /** Set position on drug */
   protected _dragToCoordinate(mousePosition: number) {
@@ -342,6 +306,7 @@ export class ESLScrollbar extends ESLBaseElement {
   /** `mouseup` short-time document handler for drag end action */
   @bind
   protected _onMouseUp() {
+    this._scrollTimer && window.clearTimeout(this._scrollTimer);
     this.toggleAttribute('dragging', false);
     this.$target?.style.removeProperty('scroll-behavior');
 
@@ -356,23 +321,6 @@ export class ESLScrollbar extends ESLBaseElement {
     event.stopImmediatePropagation();
 
     window.removeEventListener('click', this._onBodyClick, {capture: true});
-  }
-
-  /** Handler for track clicks. Move scroll to selected position */
-  @bind
-  protected _onClick(event: MouseEvent) {
-    clearInterval(this._timer);
-    if (event.target !== this.$scrollbarTrack && event.target !== this || this._y * 100 > 10)  return;
-    const clickCoordinates = EventUtils.normalizeCoordinates(event, this.$scrollbarTrack);
-    const clickPosition = this.horizontal ? clickCoordinates.x : clickCoordinates.y;
-
-    const freeTrackArea = this.trackOffset - this.thumbOffset; // px
-    const clickPositionNoOffset = clickPosition - this.thumbOffset / 2;
-    const newPosition = clickPositionNoOffset / freeTrackArea;  // abs % to track
-
-
-    this.position = Math.min(this.position + this.thumbSize,
-      Math.max(this.position - this.thumbSize, newPosition));
   }
 
   /**
