@@ -67,7 +67,7 @@ export class ESLPopup extends ESLToggleable {
    */
   @attr({defaultValue: 'top'}) public position: PositionType;
 
-  /** Disable hiding the popup depending on the visibility of the activator */
+  /** Popup behavior if it does not fit in the window ('fit' by default) */
   @attr({defaultValue: 'fit'}) public behavior: string;
 
   /** Disable hiding the popup depending on the visibility of the activator */
