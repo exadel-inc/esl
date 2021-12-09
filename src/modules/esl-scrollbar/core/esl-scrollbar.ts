@@ -242,7 +242,7 @@ export class ESLScrollbar extends ESLBaseElement {
     const clickPosition = this.horizontal ? clickCoordinates.x : clickCoordinates.y;
     const freeTrackArea = this.trackOffset - this.thumbOffset; // size of free track px
     const clickPositionNoOffset = clickPosition - this.thumbOffset / 2;
-    return this.normalizePosition(clickPositionNoOffset / freeTrackArea);
+    return Math.max(0, Math.min(1, clickPositionNoOffset / freeTrackArea));
   }
 
   // Event listeners
@@ -272,11 +272,13 @@ export class ESLScrollbar extends ESLBaseElement {
   @bind
   protected _onLongScrollTick(first: boolean) {
     this._scrollTimer && window.clearTimeout(this._scrollTimer);
-    this._scrollTimer = window.setTimeout(this._onLongScrollTick, 400);
 
     const position = this.position;
     const allowedOffset = (first ? 1 : 1.5) * this.thumbSize;
     this.position = Math.min(position + allowedOffset, Math.max(position - allowedOffset, this._targetPosition));
+
+    if (this.position === this._targetPosition) return;
+    this._scrollTimer = window.setTimeout(this._onLongScrollTick, 400);
   }
 
   /** Set position on drug */
