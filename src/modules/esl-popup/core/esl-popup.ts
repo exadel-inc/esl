@@ -220,7 +220,7 @@ export class ESLPopup extends ESLToggleable {
   }
 
   /** Creates listeners and observers to observe activator after showing popup */
-  protected _addActivatorObserver(target: HTMLElement) {
+  protected _addActivatorObserver(target: HTMLElement): void {
     const scrollParents = getListScrollParents(target);
 
     this._activatorObserver = {
