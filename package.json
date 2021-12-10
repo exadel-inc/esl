@@ -14,7 +14,12 @@
     "web components utils",
     "custom elements",
     "custom elements ts",
-    "component library"
+    "component library",
+    "animate",
+    "accordion",
+    "tabs",
+    "embedded-video",
+    "scrollbar"
   ],
   "repository": {
     "type": "git",
