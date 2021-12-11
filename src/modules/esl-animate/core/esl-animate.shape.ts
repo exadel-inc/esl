@@ -5,7 +5,6 @@ import type {ESLAnimate} from './esl-animate';
  * Tag declaration interface of {@link ESLAnimate} element
  * Used for TSX declaration
  */
-
 export interface ESLAnimateShape extends ESLBaseElementShape<ESLAnimate> {
   /**
    * Class(es) to add on viewport intersection
