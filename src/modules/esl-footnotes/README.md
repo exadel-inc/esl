@@ -22,6 +22,8 @@ The elements are interrelated and don't make sense on their own. This is because
   -  `enable` - default, notes with identical content will be grouped
   -  `disable` - without grouping
 
+- `back-to-note-label` (string) - a text label to show in the title on the return-to-note button ('Back to note' by default)
+
 
 ### ESLNote Attributes | Properties:
 

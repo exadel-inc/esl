@@ -11,6 +11,7 @@ import '../../src/modules/lib';
 import './common/breakpoints';
 
 import {
+  ESLVSizeCSSProxy,
   ESLImage,
   ESLMedia,
   ESLToggleable,
@@ -28,7 +29,8 @@ import {
   ESLSelectList,
   ESLNote,
   ESLFootnotes,
-  ESLTooltip
+  ESLTooltip,
+  ESLAnimate
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -45,11 +47,10 @@ import {
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
-import {initViewportVariables} from './common/viewport';
 import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoMarquee} from './landing/landing';
 
-initViewportVariables();
+ESLVSizeCSSProxy.observe();
 
 // Register Demo components
 ESLDemoSidebar.register();
@@ -86,6 +87,8 @@ ESLSelect.register();
 ESLFootnotes.register();
 ESLNote.register();
 ESLTooltip.register();
+
+ESLAnimate.register();
 
 ESLCarousel.register();
 ESLCarouselPlugins.Dots.register();

@@ -1,3 +1,125 @@
+# [3.8.0](https://github.com/exadel-inc/esl/compare/v3.7.0...v3.8.0) (2021-12-10)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** add event propagation stop at esl-note ([d69ff60](https://github.com/exadel-inc/esl/commit/d69ff60822d6976fbd2c03302322f89d8a504aa3))
+* **esl-footnotes:** fix handling keydown event on return to note button ([83b4131](https://github.com/exadel-inc/esl/commit/83b4131c488b30692997f97a5440cfa3c30523b3))
+* **esl-footnotes:** fix inappropriate behaviour when activating note through the return to note ([c054226](https://github.com/exadel-inc/esl/commit/c054226f6466fbbc59da994d725e5023657d7c49))
+* **esl-popup:** fix wrong arrow position when popup size greater than size outer limiter ([d6f7c2e](https://github.com/exadel-inc/esl/commit/d6f7c2eb377cd539521dce692a76900c3b65810f))
+* **esl-utils:** fix scrollIntoView resolution and horizontal scroll ([15e0891](https://github.com/exadel-inc/esl/commit/15e0891655bc4bc4ae6b0b5d58ca1a30a9986ee5))
+
+
+### Features
+
+* **esl-footnotes:** add back-to-note-label to outputting title for the button ([717c23f](https://github.com/exadel-inc/esl/commit/717c23ffe30f5d9963d7463262e4739d2d7d0b1d))
+* **esl-footnotes:** add dispatch esl:show:request event on activate esl-note ([023b7c6](https://github.com/exadel-inc/esl/commit/023b7c6aed677b7734a31aec6d4d1ab64d280388))
+* **esl-footnotes:** add separate method to render content of connected note ([bea4379](https://github.com/exadel-inc/esl/commit/bea4379d35aab4f2e550cb4af13622eee733877e))
+* **esl-popup:** add disable activator observation attribute and add to behavior new values ([bcd8212](https://github.com/exadel-inc/esl/commit/bcd8212ff8acbf90e9d7c7f464800faad5163093))
+* **esl-popup:** add RTL support ([9aab290](https://github.com/exadel-inc/esl/commit/9aab290738547a5b8d7b64e0437e00cdacc13d1c))
+* **esl-popup:** add updating position on transition ([8fb47ed](https://github.com/exadel-inc/esl/commit/8fb47ed866b7c67f93919edcf66b7611eabcbe1f))
+* **esl-popup:** create esl-popup-init mixin to make it easier to initialize styles ([6e78265](https://github.com/exadel-inc/esl/commit/6e7826561d3c7be943dbedd75f94ab1bdcb6f280))
+* **esl-tooltip:** add focus out handling to return focus to activator ([4b20ef8](https://github.com/exadel-inc/esl/commit/4b20ef84d7bac792e43a0b77caec1695faf6c4e1))
+* **esl-utils:** add helper method to get keyboard-focusable elements within a specified element ([3577397](https://github.com/exadel-inc/esl/commit/3577397adc339eb15313637bb1672de159b279d8))
+* **esl-utils:** add static method isEqual() to Rect ([128cbcb](https://github.com/exadel-inc/esl/commit/128cbcbd0f470a960f5ab50479e765f43b31e3b2))
+
+# [3.8.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.7.0...v3.8.0-beta.1) (2021-12-07)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** add event propagation stop at esl-note ([d69ff60](https://github.com/exadel-inc/esl/commit/d69ff60822d6976fbd2c03302322f89d8a504aa3))
+* **esl-footnotes:** fix handling keydown event on return to note button ([83b4131](https://github.com/exadel-inc/esl/commit/83b4131c488b30692997f97a5440cfa3c30523b3))
+* **esl-footnotes:** fix inappropriate behaviour when activating note through the return to note ([c054226](https://github.com/exadel-inc/esl/commit/c054226f6466fbbc59da994d725e5023657d7c49))
+* **esl-utils:** fix scrollIntoView resolution and horizontal scroll ([15e0891](https://github.com/exadel-inc/esl/commit/15e0891655bc4bc4ae6b0b5d58ca1a30a9986ee5))
+
+
+### Features
+
+* **esl-footnotes:** add back-to-note-label to outputting title for the button ([717c23f](https://github.com/exadel-inc/esl/commit/717c23ffe30f5d9963d7463262e4739d2d7d0b1d))
+* **esl-footnotes:** add dispatch esl:show:request event on activate esl-note ([023b7c6](https://github.com/exadel-inc/esl/commit/023b7c6aed677b7734a31aec6d4d1ab64d280388))
+* **esl-footnotes:** add separate method to render content of connected note ([bea4379](https://github.com/exadel-inc/esl/commit/bea4379d35aab4f2e550cb4af13622eee733877e))
+* **esl-popup:** add disable activator observation attribute and add to behavior new values ([bcd8212](https://github.com/exadel-inc/esl/commit/bcd8212ff8acbf90e9d7c7f464800faad5163093))
+* **esl-popup:** add RTL support ([9aab290](https://github.com/exadel-inc/esl/commit/9aab290738547a5b8d7b64e0437e00cdacc13d1c))
+* **esl-popup:** add updating position on transition ([8fb47ed](https://github.com/exadel-inc/esl/commit/8fb47ed866b7c67f93919edcf66b7611eabcbe1f))
+* **esl-popup:** create esl-popup-init mixin to make it easier to initialize styles ([6e78265](https://github.com/exadel-inc/esl/commit/6e7826561d3c7be943dbedd75f94ab1bdcb6f280))
+* **esl-tooltip:** add focus out handling to return focus to activator ([4b20ef8](https://github.com/exadel-inc/esl/commit/4b20ef84d7bac792e43a0b77caec1695faf6c4e1))
+* **esl-utils:** add helper method to get keyboard-focusable elements within a specified element ([3577397](https://github.com/exadel-inc/esl/commit/3577397adc339eb15313637bb1672de159b279d8))
+* **esl-utils:** add static method isEqual() to Rect ([128cbcb](https://github.com/exadel-inc/esl/commit/128cbcbd0f470a960f5ab50479e765f43b31e3b2))
+
+# [3.7.0-beta.4](https://github.com/exadel-inc/esl/compare/v3.7.0-beta.3...v3.7.0-beta.4) (2021-12-03)
+
+
+### Features
+
+* **esl-footnotes:** add dispatch esl:show:request event on activate esl-note ([023b7c6](https://github.com/exadel-inc/esl/commit/023b7c6aed677b7734a31aec6d4d1ab64d280388))
+
+# [3.7.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.7.0-beta.2...v3.7.0-beta.3) (2021-12-01)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** fix handling keydown event on return to note button ([83b4131](https://github.com/exadel-inc/esl/commit/83b4131c488b30692997f97a5440cfa3c30523b3))
+
+
+### Features
+
+* **esl-tooltip:** add focus out handling to return focus to activator ([4b20ef8](https://github.com/exadel-inc/esl/commit/4b20ef84d7bac792e43a0b77caec1695faf6c4e1))
+* **esl-utils:** `ESLVSizeCSSProxy` utility to fix 100vh problem is introduced ([5bae888](https://github.com/exadel-inc/esl/commit/5bae8882f87797741ef10cc835e50f7485fe63c8))
+* **esl-utils:** add helper method to get keyboard-focusable elements within a specified element ([3577397](https://github.com/exadel-inc/esl/commit/3577397adc339eb15313637bb1672de159b279d8))
+
+# [3.7.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.7.0-beta.1...v3.7.0-beta.2) (2021-11-30)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** add event propagation stop at esl-note ([d69ff60](https://github.com/exadel-inc/esl/commit/d69ff60822d6976fbd2c03302322f89d8a504aa3))
+
+
+### Features
+
+* **esl-popup:** add updating position on transition ([8fb47ed](https://github.com/exadel-inc/esl/commit/8fb47ed866b7c67f93919edcf66b7611eabcbe1f))
+* **esl-popup:** create esl-popup-init mixin to make it easier to initialize styles ([6e78265](https://github.com/exadel-inc/esl/commit/6e7826561d3c7be943dbedd75f94ab1bdcb6f280))
+* **esl-utils:** add static method isEqual() to Rect ([128cbcb](https://github.com/exadel-inc/esl/commit/128cbcbd0f470a960f5ab50479e765f43b31e3b2))
+
+# [3.7.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.6.0...v3.7.0-beta.1) (2021-11-28)
+
+
+### Features
+
+* **esl-footnotes:** add back-to-note-label to outputting title for the button ([717c23f](https://github.com/exadel-inc/esl/commit/717c23ffe30f5d9963d7463262e4739d2d7d0b1d))
+* **esl-footnotes:** add separate method to render content of connected note ([bea4379](https://github.com/exadel-inc/esl/commit/bea4379d35aab4f2e550cb4af13622eee733877e))
+
+# [3.7.0](https://github.com/exadel-inc/esl/compare/v3.6.0...v3.7.0) (2021-12-07)
+
+
+### Bug Fixes
+
+* **esl-utils:** `CSSClassUtils` utility should support lower DOM API ([594b889](https://github.com/exadel-inc/esl/commit/594b8892db600f3fcb99915fe28ea062a5942281))
+* **esl-utils:** fix usage of deprecated substr in `CSSClassUtils` ([c142152](https://github.com/exadel-inc/esl/commit/c142152edfab5ab5398a53eb3029cb94fc03eb94))
+
+
+### Features
+
+* **esl-animate:** make a new module "esl-animate" to animate elements on viewport intersecting ([e369350](https://github.com/exadel-inc/esl/commit/e3693507b65194ec952ada37d5255bc6f9d48b31))
+* **esl-utils:** `ESLVSizeCSSProxy` utility to fix 100vh problem is introduced ([5bae888](https://github.com/exadel-inc/esl/commit/5bae8882f87797741ef10cc835e50f7485fe63c8))
+
+# [3.6.0](https://github.com/exadel-inc/esl/compare/v3.5.0...v3.6.0) (2021-11-23)
+
+
+### Bug Fixes
+
+* **esl-media:** `preload` and `fill-mode` types restricted ([4c41cb3](https://github.com/exadel-inc/esl/commit/4c41cb338c49559a3425029fd31f9957c741b3aa))
+* **esl-poup:** fix popup positioning ([61b0237](https://github.com/exadel-inc/esl/commit/61b0237f3b7fc9c14f786d382b0900ceffeaa9d0))
+
+
+### Features
+
+* **esl-popup:** add new feature to be able to set position of arrow on popup ([7973e1f](https://github.com/exadel-inc/esl/commit/7973e1f4f2281f538abb7783046463d2b7967fa2))
+* **esl-traversing-query:** add ability to restrict global scope ([3e136c0](https://github.com/exadel-inc/esl/commit/3e136c09245f10dd5bfe24cc0c7deb94551f8aed))
+* **esl-utils:** array unwrap utility ([45c50a0](https://github.com/exadel-inc/esl/commit/45c50a067b9a0de42e1740ae6bba0264d1229280))
+* **esl-utils:** fix `isPrimitive` check and `isObject` return type, add `isArrayLike` ([80b8aa0](https://github.com/exadel-inc/esl/commit/80b8aa04068f9d047c459769ce32a71a5ddaf0d9))
+
 # [3.5.0](https://github.com/exadel-inc/esl/compare/v3.4.1...v3.5.0) (2021-11-15)
 
 

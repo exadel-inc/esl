@@ -1,7 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
+import {bind} from '../../esl-utils/decorators/bind';
 import {memoize} from '../../esl-utils/decorators/memoize';
+import {TAB} from '../../esl-utils/dom/keys';
+import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 
 import type {PopupActionParams} from '../../esl-popup/core';
@@ -20,47 +23,78 @@ export interface TooltipActionParams extends PopupActionParams {
 export class ESLTooltip extends ESLPopup {
   static is = 'esl-tooltip';
 
+  /**
+   * Tooltip position relative to the trigger.
+   * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
+   */
   @attr({defaultValue: 'top'}) public position: PositionType;
+
+  /** Tooltip behavior if it does not fit in the window ('fit' by default) */
   @attr({defaultValue: 'fit'}) public behavior: string;
+
+  /** Disable arrow at Tooltip */
   @boolAttr() public disableArrow: boolean;
 
+  /** Shared instanse of Tooltip */
   @memoize()
   public static get sharedInstance(): ESLTooltip {
     return document.createElement('esl-tooltip');
   }
 
-  public static show(params: TooltipActionParams = {}) {
-    ESLTooltip.sharedInstance.hide(params);
+  /** List of all focusable elements inside Tooltip */
+  public get focusableElements(): Element[] {
+    return getKeyboardFocusableElements(this);
+  }
+
+  /** Last focusable element inside Tooltip */
+  public get lastFocusableElement(): Element | null {
+    const els = this.focusableElements;
+    return els.length ? els[els.length - 1] : null;
+  }
+
+  /** Active state marker */
+  public static get open(): boolean {
+    return ESLTooltip.sharedInstance.open;
+  }
+
+  /** Changes the element state to active */
+  public static show(params: TooltipActionParams = {}): void {
     ESLTooltip.sharedInstance.show(params);
   }
 
-  public static hide(params: TooltipActionParams = {}) {
+  /** Changes the element state to inactive */
+  public static hide(params: TooltipActionParams = {}): void {
     ESLTooltip.sharedInstance.hide(params);
   }
 
-  public connectedCallback() {
+  public connectedCallback(): void {
     if (!this.disableArrow) {
       this._appendArrow();
     }
     super.connectedCallback();
     this.classList.add(ESLPopup.is);
+    this.tabIndex = 0;
   }
 
+  /** Sets initial state of the Tooltip */
   protected setInitialState() {}
 
+  /** Creates arrow at Tooltip */
   @memoize()
-  protected _createArrow() {
+  protected _createArrow(): HTMLElement {
     const arrow = document.createElement('span');
     arrow.className = 'esl-popup-arrow';
     return arrow;
   }
 
-  protected _appendArrow() {
+  /** Appends arrow to Tooltip */
+  protected _appendArrow(): void {
     this.$arrow = this._createArrow();
     this.appendChild(this.$arrow);
   }
 
-  public onShow(params: TooltipActionParams) {
+  /** Actions to execute on show Tooltip. */
+  public onShow(params: TooltipActionParams): void {
     if (params.disableArrow) {
       this.disableArrow = params.disableArrow;
     }
@@ -76,9 +110,15 @@ export class ESLTooltip extends ESLPopup {
     document.body.appendChild(this);
     super.onShow(params);
     this._updateActivatorState(true);
+
+    setTimeout(() => {
+      this.focus();
+    });
   }
 
-  public onHide(params: TooltipActionParams) {
+  /** Actions to execute on hide Tooltip. */
+  public onHide(params: TooltipActionParams): void {
+    this.activator?.focus({preventScroll: true});
     this._updateActivatorState(false);
     super.onHide(params);
     document.body.removeChild(this);
@@ -87,7 +127,23 @@ export class ESLTooltip extends ESLPopup {
     }
   }
 
-  protected _updateActivatorState(newState: boolean) {
+  @bind
+  protected _onKeyboardEvent(e: KeyboardEvent): void {
+    super._onKeyboardEvent(e);
+    if (e.key === TAB) this._onTabKey(e);
+  }
+
+  protected _onTabKey(e: KeyboardEvent): void {
+    if (!this.activator) return;
+    const {lastFocusableElement} = this;
+    if ((!lastFocusableElement || e.target === lastFocusableElement) && !e.shiftKey) {
+      this.activator.focus();
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  }
+
+  protected _updateActivatorState(newState: boolean): void {
     this.activator?.toggleAttribute('tooltip-shown', newState);
   }
 }
