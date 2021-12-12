@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "private": false,
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
@@ -14,7 +14,12 @@
     "web components utils",
     "custom elements",
     "custom elements ts",
-    "component library"
+    "component library",
+    "animate",
+    "accordion",
+    "tabs",
+    "embedded-video",
+    "scrollbar"
   ],
   "repository": {
     "type": "git",
@@ -95,7 +100,7 @@
     "browser-sync": "^2.27.7",
     "chalk": "^4.1.2",
     "chokidar-cli": "^3.0.0",
-    "clean-css-cli": "^5.4.2",
+    "clean-css-cli": "^5.5.0",
     "concurrently": "^6.4.0",
     "copyfiles": "^2.4.1",
     "eslint": "^8.4.1",
@@ -107,7 +112,7 @@
     "html-minifier": "^4.0.0",
     "husky": "^7.0.4",
     "intersection-observer": "^0.12.0",
-    "jest": "^27.4.3",
+    "jest": "^27.4.4",
     "less": "^4.1.2",
     "lintspaces-cli": "^0.7.1",
     "postcss": "^8.4.4",
@@ -118,9 +123,9 @@
     "semantic-release": "^18.0.1",
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^14.1.0",
-    "ts-jest": "^27.1.0",
+    "ts-jest": "^27.1.1",
     "ts-loader": "^9.2.6",
-    "typescript": "4.5.2",
+    "typescript": "4.5.3",
     "webpack": "^5.65.0",
     "webpack-cli": "^4.9.1"
   },
