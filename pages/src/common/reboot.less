@@ -15,7 +15,7 @@
   margin: 0;
   padding: 0;
 
-  &:focus-visible {
+  &:focus:focus-visible {
     outline: 2px dashed #1fc2ff;
   }
 }
@@ -33,7 +33,7 @@ footer, header, main, nav, section {
   display: block;
 }
 
-[tabindex="-1"]:focus:not(:focus-visible) {
+[tabindex]:focus:not(:focus-visible) {
   outline: 0 !important;
 }
 
@@ -143,6 +143,9 @@ button:focus {
   border: none;
   outline: none;
   background-color: transparent;
+}
+button:focus:focus-visible {
+  outline: 2px dashed #1fc2ff;
 }
 
 button {

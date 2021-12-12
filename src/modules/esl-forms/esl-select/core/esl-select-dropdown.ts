@@ -4,6 +4,7 @@ import {prop} from '../../../esl-utils/decorators/prop';
 import {TAB} from '../../../esl-utils/dom/keys';
 import {ESLSelectList} from '../../esl-select-list/core';
 import {jsonAttr} from '../../../esl-base-element/core';
+import {afterNextRender} from '../../../esl-utils/async/raf';
 
 import type {ESLSelect} from './esl-select';
 import type {PositionType, PopupActionParams} from '../../../esl-popup/core';
@@ -70,7 +71,7 @@ export class ESLSelectDropdown extends ESLPopup {
 
     super.onShow(params);
     const focusable: HTMLElement | null = this.querySelector('[tabindex]');
-    focusable?.focus({preventScroll: true});
+    focusable && afterNextRender(() => focusable.focus({preventScroll: true}));
   }
 
   public onHide(params: ToggleableActionParams) {
@@ -80,7 +81,7 @@ export class ESLSelectDropdown extends ESLPopup {
       if (this.parentNode !== document.body) return;
       document.body.removeChild(this);
     }, 1000);
-    select && setTimeout(() => select.focus({preventScroll: true}), 0);
+    select && afterNextRender(() => select.focus({preventScroll: true}));
   }
 
   @bind
