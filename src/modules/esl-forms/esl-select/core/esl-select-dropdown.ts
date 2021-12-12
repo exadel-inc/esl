@@ -2,13 +2,12 @@ import {ESLPopup} from '../../../esl-popup/core/esl-popup';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {prop} from '../../../esl-utils/decorators/prop';
 import {TAB} from '../../../esl-utils/dom/keys';
-import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';
-import {attr} from '../../../esl-base-element/core';
+import {jsonAttr} from '../../../esl-base-element/core';
 
 import type {ESLSelect} from './esl-select';
+import type {PositionType, PopupActionParams} from '../../../esl-popup/core';
 import type {ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
-import type {PositionType} from '../../../esl-popup/core/esl-popup-position';
 
 /**
  * ESLSelectDropdown component
@@ -20,8 +19,15 @@ import type {PositionType} from '../../../esl-popup/core/esl-popup-position';
 export class ESLSelectDropdown extends ESLPopup {
   public static readonly is = 'esl-select-dropdown';
 
-  @attr({defaultValue: ''}) public behavior: string;
-  @attr({defaultValue: 'bottom'}) public position: PositionType;
+  @prop() public behavior: string = '';
+  @prop() public position: PositionType = 'bottom';
+
+  /** Default params to merge into passed action params */
+  @jsonAttr<PopupActionParams>({defaultValue: {
+    offsetTrigger: 0,
+    offsetWindow: 15
+  }})
+  public defaultParams: PopupActionParams;
 
   public static register() {
     ESLSelectList.register();
@@ -34,7 +40,6 @@ export class ESLSelectDropdown extends ESLPopup {
   /** Inner ESLSelectList component */
   protected $list: ESLSelectList;
   protected _disposeTimeout: number;
-  protected _deferredUpdatePosition = rafDecorator(() => this.updatePosition());
 
   @prop() public closeOnEsc = true;
   @prop() public closeOnOutsideAction = true;
@@ -55,15 +60,6 @@ export class ESLSelectDropdown extends ESLPopup {
     this.removeChild(this.$list);
   }
 
-  protected bindEvents() {
-    super.bindEvents();
-    window.addEventListener('resize', this._deferredUpdatePosition);
-  }
-  protected unbindEvents() {
-    super.unbindEvents();
-    window.removeEventListener('resize', this._deferredUpdatePosition);
-  }
-
   public onShow(params: ToggleableActionParams) {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
@@ -75,7 +71,6 @@ export class ESLSelectDropdown extends ESLPopup {
     super.onShow(params);
     const focusable: HTMLElement | null = this.querySelector('[tabindex]');
     focusable?.focus({preventScroll: true});
-    this.updatePosition();
   }
 
   public onHide(params: ToggleableActionParams) {
@@ -102,15 +97,12 @@ export class ESLSelectDropdown extends ESLPopup {
     if (last && e.target === first && e.shiftKey) last.focus();
   }
 
-  @bind
-  public updatePosition() {
+  protected _updatePosition() {
     if (!this.activator) return;
-    const windowY = window.scrollY || window.pageYOffset;
     const rect = this.activator.getBoundingClientRect();
-
-    this.style.top = `${windowY + rect.top + rect.height}px`;
-    this.style.left = `${rect.left}px`;
     this.style.width = `${rect.width}px`;
+    // TODO: fix potential reflow
+    super._updatePosition();
   }
 }
 
