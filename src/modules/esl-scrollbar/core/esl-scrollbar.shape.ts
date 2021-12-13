@@ -18,7 +18,7 @@ export interface ESLScrollbarTagShape extends ESLBaseElementShape<ESLScrollbar> 
   'track-class'?: string;
 
   /** Disable continuous scroll when the mouse pressed on scrollbar */
-  'no-ong-scroll'?: boolean;
+  'no-long-scroll'?: boolean;
 
   /** Children are not allowed for ESLScrollbar*/
   children?: never[];
