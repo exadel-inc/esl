@@ -262,15 +262,15 @@ export class ESLScrollbar extends ESLBaseElement {
       this.$target?.style.setProperty('scroll-behavior', 'auto');
       // Attach drag listeners
       window.addEventListener('click', this._onBodyClick, {capture: true});
-      (window.MouseEvent && event instanceof MouseEvent) && window.addEventListener('mousemove', this._onPointerMove);
-      (window.TouchEvent && event instanceof TouchEvent) && window.addEventListener('touchmove', this._onPointerMove, {passive: false});
+      EventUtils.isMouseEvent(event) && window.addEventListener('mousemove', this._onPointerMove);
+      EventUtils.isTouchEvent(event) && window.addEventListener('touchmove', this._onPointerMove, {passive: false});
     } else {
       // Long scroll handler
       this._targetPosition = this.toPosition(event);
       this._onLongScrollTick(true);
     }
-    (window.MouseEvent && event instanceof MouseEvent) && window.addEventListener('mouseup', this._onPointerUp);
-    (window.TouchEvent && event instanceof TouchEvent) && window.addEventListener('touchend', this._onPointerUp, {passive: false});
+    EventUtils.isMouseEvent(event) && window.addEventListener('mouseup', this._onPointerUp);
+    EventUtils.isTouchEvent(event) && window.addEventListener('touchend', this._onPointerUp, {passive: false});
 
     // Prevents default text selection, etc.
     event.preventDefault();
@@ -320,11 +320,11 @@ export class ESLScrollbar extends ESLBaseElement {
     this.$target?.style.removeProperty('scroll-behavior');
 
     // Unbind drag listeners
-    if (window.MouseEvent && event instanceof MouseEvent) {
+    if (EventUtils.isMouseEvent(event)) {
       window.removeEventListener('mousemove', this._onPointerMove);
       window.removeEventListener('mouseup', this._onPointerMove);
     }
-    if (window.TouchEvent && event instanceof TouchEvent) {
+    if (EventUtils.isTouchEvent(event)) {
       window.removeEventListener('touchmove', this._onPointerMove);
       window.removeEventListener('touchend', this._onPointerMove);
     }
