@@ -48,12 +48,14 @@ import './esl-media-demo/test-media-source';
 import {initViewportVariables} from './common/viewport';
 import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoMarquee} from './landing/landing';
+import {ESLDemoSearchBox} from './navigation/header/search-box';
 
 initViewportVariables();
 
 // Register Demo components
 ESLDemoSidebar.register();
 ESLDemoMarquee.register();
+ESLDemoSearchBox.register();
 
 // Register ESL Components
 
