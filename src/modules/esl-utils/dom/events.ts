@@ -27,7 +27,7 @@ export abstract class EventUtils {
   }
 
   /** Normalize TouchEvent or PointerEvent */
-  public static normalizeTouchPoint(event: TouchEvent | PointerEvent): Point {
+  public static normalizeTouchPoint(event: TouchEvent | PointerEvent | MouseEvent): Point {
     const source = (event instanceof TouchEvent) ? event.changedTouches[0] : event;
     return {
       x: source.pageX,
@@ -36,13 +36,14 @@ export abstract class EventUtils {
   }
 
   /** Normalize MouseEvent */
-  public static normalizeCoordinates(event: MouseEvent, elem: HTMLElement): Point {
+  public static normalizeCoordinates(event: TouchEvent | PointerEvent | MouseEvent, elem: HTMLElement): Point {
+    const source = (event instanceof TouchEvent) ? event.changedTouches[0] : event;
     const props = elem.getBoundingClientRect();
     const top = props.top + window.scrollY;
     const left = props.left + window.scrollX;
     return {
-      x: event.pageX - left,
-      y: event.pageY - top
+      x: source.pageX - left,
+      y: source.pageY - top
     };
   }
 
