@@ -48,7 +48,7 @@ import './esl-media-demo/test-media-source';
 import {initViewportVariables} from './common/viewport';
 import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoMarquee} from './landing/landing';
-import {ESLDemoSearchBox} from './navigation/header/search-box';
+import {ESLDemoSearchBox} from './navigation/header/header-search';
 
 initViewportVariables();
 
