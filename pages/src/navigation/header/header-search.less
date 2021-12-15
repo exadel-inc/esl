@@ -1,0 +1,45 @@
+@import "../../common/colors.less";
+
+// overwrite the default search styles in the header
+.header-search-box {
+  .gsc-search-box {
+    margin-bottom: 0;
+
+    .gsc-input-box {
+      width: 0;
+      padding: 0;
+      overflow: hidden;
+      border: none;
+
+      transition: width 1s linear;
+
+      .gsib_a,
+      .gsib_b {
+        padding-top: 4px;
+      }
+    }
+
+    button.gsc-search-button {
+      padding: 0;
+      margin-left: 5px;
+
+      border-color: transparent;
+      background-color: transparent;
+
+      &:hover > svg,
+      &:active > svg {
+        filter: drop-shadow(0 0 4px @primary-blue);
+      }
+
+      & > svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .gsc-input-box,
+    button.gsc-search-button {
+      border-radius: 0.75rem;
+    }
+  }
+}

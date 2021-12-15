@@ -5,21 +5,21 @@
       <span class="header-short-name">esl</span>
       <span class="header-long-name">{{ site.name }}</span>
     </a>
-    <ul class="header-links">
-      <li class="header-li"><a class="header-link" href="{{ '/examples' | url }}">Examples</a></li>
-      <li class="header-li"><a class="header-link" href="{{ '/components' | url }}">Components</a></li>
-      <li class="header-li"><a class="header-link" href="{{ '/utils' | url }}">Utils</a></li>
-      <li class="header-li">
+    <ul class="header-nav">
+      <li class="header-nav-item"><a class="header-link" href="{{ '/examples' | url }}">Examples</a></li>
+      <li class="header-nav-item"><a class="header-link" href="{{ '/components' | url }}">Components</a></li>
+      <li class="header-nav-item"><a class="header-link" href="{{ '/utils' | url }}">Utils</a></li>
+      <li class="header-nav-item">
         <a class="header-link icon-link" href="{{ site.github.url }}" target="_blank">
           {% include 'static/assets/common/github.svg' %}
         </a>
       </li>
-      <li class="header-li header-search">
-        <esl-toggleable class="header-search-box">
+      <li class="header-nav-item header-search">
+        <esl-d-search-box class="header-search-box" post-cls="visible" post-cls-delay="1000">
           <div class="gcse-searchbox-only" data-resultsUrl="{{ '/search.html' | url }}"></div>
-        </esl-toggleable>
-        <esl-trigger class="header-search-trigger" target="::prev">
-          {% include 'static/assets/common/search.svg' %}
+        </esl-d-search-box>
+        <esl-trigger active-class="active" class="header-link icon-link header-search-trigger" target="::prev">
+          {% include 'static/assets/common/header-search.svg' %}
         </esl-trigger>
       </li>
     </ul>
