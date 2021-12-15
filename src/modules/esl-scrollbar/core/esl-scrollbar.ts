@@ -107,8 +107,8 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    this.addEventListener('mousedown', this._onPointerDown);
-    this.addEventListener('touchstart', this._onPointerDown);
+    window.MouseEvent && this.addEventListener('mousedown', this._onPointerDown);
+    window.TouchEvent && this.addEventListener('touchstart', this._onPointerDown);
     window.addEventListener('esl:refresh', this._onRefresh);
   }
 
@@ -140,8 +140,8 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   protected unbindEvents() {
-    this.removeEventListener('mousedown', this._onPointerDown);
-    this.removeEventListener('touchstart', this._onPointerDown);
+    window.MouseEvent && this.removeEventListener('mousedown', this._onPointerDown);
+    window.TouchEvent && this.removeEventListener('touchstart', this._onPointerDown);
     this.unbindTargetEvents();
     window.removeEventListener('esl:refresh', this._onRefresh);
   }
@@ -262,15 +262,15 @@ export class ESLScrollbar extends ESLBaseElement {
       this.$target?.style.setProperty('scroll-behavior', 'auto');
       // Attach drag listeners
       window.addEventListener('click', this._onBodyClick, {capture: true});
-      (event instanceof MouseEvent) && window.addEventListener('mousemove', this._onPointerMove);
-      (event instanceof TouchEvent) && window.addEventListener('touchmove', this._onPointerMove, {passive: false});
+      (window.MouseEvent && event instanceof MouseEvent) && window.addEventListener('mousemove', this._onPointerMove);
+      (window.TouchEvent && event instanceof TouchEvent) && window.addEventListener('touchmove', this._onPointerMove, {passive: false});
     } else {
       // Long scroll handler
       this._targetPosition = this.toPosition(event);
       this._onLongScrollTick(true);
     }
-    (event instanceof MouseEvent) &&  window.addEventListener('mouseup', this._onPointerUp);
-    (event instanceof TouchEvent) && window.addEventListener('touchend', this._onPointerUp, {passive: false});
+    (window.MouseEvent && event instanceof MouseEvent) && window.addEventListener('mouseup', this._onPointerUp);
+    (window.TouchEvent && event instanceof TouchEvent) && window.addEventListener('touchend', this._onPointerUp, {passive: false});
 
     // Prevents default text selection, etc.
     event.preventDefault();
@@ -320,8 +320,14 @@ export class ESLScrollbar extends ESLBaseElement {
     this.$target?.style.removeProperty('scroll-behavior');
 
     // Unbind drag listeners
-    window.removeEventListener('mousemove', this._onPointerMove);
-    window.removeEventListener('mouseup', this._onPointerUp);
+    if (window.MouseEvent && event instanceof MouseEvent) {
+      window.removeEventListener('mousemove', this._onPointerMove);
+      window.removeEventListener('mouseup', this._onPointerMove);
+    }
+    if (window.TouchEvent && event instanceof TouchEvent) {
+      window.removeEventListener('touchmove', this._onPointerMove);
+      window.removeEventListener('touchend', this._onPointerMove);
+    }
   }
 
   /** Body `click` short-time handler to prevent clicks event on thumb drag. Handles capture phase */
