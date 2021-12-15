@@ -38,8 +38,8 @@ export abstract class EventUtils {
   /** Normalize MouseEvent */
   public static normalizeCoordinates(event: MouseEvent, elem: HTMLElement): Point {
     const props = elem.getBoundingClientRect();
-    const top = props.top + window.pageYOffset;
-    const left = props.left + window.pageXOffset;
+    const top = props.top + window.scrollY;
+    const left = props.left + window.scrollX;
     return {
       x: event.pageX - left,
       y: event.pageY - top
