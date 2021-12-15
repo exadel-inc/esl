@@ -252,7 +252,7 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   // Event listeners
-  /** Handles `mousedown` / `touchstart` event to mange thumb drag start and scroll clicks */
+  /** Handles `mousedown` / `touchstart` event to manage thumb drag start and scroll clicks */
   @bind
   protected _onPointerDown(event: MouseEvent | TouchEvent) {
     this._initialPosition = this.position;

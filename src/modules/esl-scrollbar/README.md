@@ -60,7 +60,7 @@ Use the full module path to import it
 
 - `track-class` (default `scrollbar-track`) - class(es) that will be added to the scroll track
 
-- `no-continuous-scroll` \[boolean] (default `false`) - disable continuous scroll when the mouse pressed on scrollbar
+- `no-continuous-scroll` \[boolean] (default `false`) - disable continuous scroll when the mouse button is pressed on the scrollbar
 
 ### Readonly Attributes
 
