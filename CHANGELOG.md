@@ -1,3 +1,18 @@
+# [3.9.0](https://github.com/exadel-inc/esl/compare/v3.8.0...v3.9.0) (2021-12-15)
+
+
+### Bug Fixes
+
+* **esl-utils:** add support for Touch and Pointer events in normalize utilities ([a5a183c](https://github.com/exadel-inc/esl/commit/a5a183c34655aa04899ed66d57eeac59d5c6a5a5))
+
+
+### Features
+
+* **esl-animate:** add jsx/tsx support ([3db5644](https://github.com/exadel-inc/esl/commit/3db564497ea478dc263199cce7c1e232a41d06c4))
+* **esl-scrollbar:** api simplified + performance improvements ([81b8824](https://github.com/exadel-inc/esl/commit/81b8824535253477efb06c8dc640e92746d1da56))
+* **esl-scrollbar:** support for continues click on the scrollbar area ([#688](https://github.com/exadel-inc/esl/issues/688)) ([aae79b4](https://github.com/exadel-inc/esl/commit/aae79b43d05d2ef2a3de144075cddeaf48207d98))
+* **esl-scrollbar:** support for touch actions on scrollbar ([acc42f7](https://github.com/exadel-inc/esl/commit/acc42f702273a1612f551e0df0fdce7c9df8195d))
+
 # [3.8.0](https://github.com/exadel-inc/esl/compare/v3.7.0...v3.8.0) (2021-12-10)
 
 
