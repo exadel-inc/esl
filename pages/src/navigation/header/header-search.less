@@ -5,13 +5,19 @@
   .gsc-search-box {
     margin-bottom: 0;
 
+    td.gsc-input {
+      padding-right: 0;
+    }
+
     .gsc-input-box {
       width: 0;
       padding: 0;
       overflow: hidden;
       border: none;
+      border-radius: 0.75rem;
 
-      transition: width 1s linear;
+      transition: width .5s ease-in-out;
+      will-change: width;
 
       .gsib_a,
       .gsib_b {
@@ -20,8 +26,8 @@
     }
 
     button.gsc-search-button {
-      padding: 0;
-      margin-left: 5px;
+      margin: 0;
+      padding: 4px 8px;
 
       border-color: transparent;
       background-color: transparent;
@@ -35,11 +41,6 @@
         width: 24px;
         height: 24px;
       }
-    }
-
-    .gsc-input-box,
-    button.gsc-search-button {
-      border-radius: 0.75rem;
     }
   }
 }

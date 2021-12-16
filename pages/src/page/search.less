@@ -1,11 +1,25 @@
 @import "../common/colors.less";
 
 // overwrite default search styles on the search page
-button.gsc-search-button {
-  font-size: inherit;
-  border: 2px solid @primary-blue;
-}
+main {
+  .gsc-control-cse {
+    padding: 0;
+  }
 
-.gsc-search-box table.gsc-search-box td.gsc-input {
-  padding-right: 0;
+  table.gsc-input:focus-within {
+    box-shadow: 0 0 4px 2px #1fc2ff;
+  }
+
+  button.gsc-search-button {
+    font-size: inherit;
+    border: 2px solid @primary-blue;
+
+    &:focus-visible {
+      outline: 2px dashed #1fc2ff;
+    }
+  }
+
+  .gsc-search-box table.gsc-search-box td.gsc-input {
+    padding-right: 0;
+  }
 }
