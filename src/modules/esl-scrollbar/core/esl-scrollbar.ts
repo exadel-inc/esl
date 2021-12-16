@@ -44,9 +44,9 @@ export class ESLScrollbar extends ESLBaseElement {
   protected $scrollbarTrack: HTMLElement;
 
   protected _$target: HTMLElement | null;
-  protected _pointerShift: number;
   protected _pointerPosition: number;
   protected _initialPosition: number;
+  protected _initialMousePosition: number;
 
   protected _deferredDrag = rafDecorator((e) => this._onPointerDrag(e));
   protected _deferredRefresh = rafDecorator(() => this.refresh());
@@ -257,7 +257,8 @@ export class ESLScrollbar extends ESLBaseElement {
   protected _onPointerDown(event: MouseEvent | TouchEvent) {
     this._initialPosition = this.position;
     this._pointerPosition = this.toPosition(event);
-    this._pointerShift = this._pointerPosition - this._initialPosition;
+    const point = EventUtils.normalizeTouchPoint(event);
+    this._initialMousePosition = this.horizontal ? point.x : point.y;
 
     if (event.target === this.$scrollbarThumb) {
       this._onThumbPointerDown(event); // Drag start handler
@@ -297,9 +298,15 @@ export class ESLScrollbar extends ESLBaseElement {
     EventUtils.isTouchEvent(event) && window.addEventListener('touchmove', this._onPointerMove, {passive: false});
   }
 
-  /** Sets position on drug */
+  /** Sets position on drag */
   protected _onPointerDrag(event: MouseEvent | TouchEvent) {
-    this.position = this.toPosition(event) - this._pointerShift;
+    const point = EventUtils.normalizeTouchPoint(event);
+    const mousePosition = this.horizontal ? point.x : point.y;
+    const positionChange = mousePosition - this._initialMousePosition;
+    const scrollableAreaHeight = this.trackOffset - this.thumbOffset;
+    const absChange = scrollableAreaHeight ? (positionChange / scrollableAreaHeight) : 0;
+    this.position = this._initialPosition + absChange;
+
     this.updateMarkers();
   }
 
