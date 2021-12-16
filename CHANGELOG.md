@@ -1,3 +1,10 @@
+## [3.9.1](https://github.com/exadel-inc/esl/compare/v3.9.0...v3.9.1) (2021-12-16)
+
+
+### Bug Fixes
+
+* **esl-scrollbar:** fix drag behaviour for short scroll ([03b179d](https://github.com/exadel-inc/esl/commit/03b179d5c0e1dbf974b8e61af700ffff7bc4decc))
+
 # [3.9.0](https://github.com/exadel-inc/esl/compare/v3.8.0...v3.9.0) (2021-12-15)
 
 
