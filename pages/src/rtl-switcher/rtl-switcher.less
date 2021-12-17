@@ -1,0 +1,34 @@
+esl-d-rtl-switcher {
+  display: block;
+  position: relative;
+  width: 60px;
+  height: 34px;
+  border-radius: 15px;
+  border: 2px solid @secondary-blue;
+
+  background-color: @primary-blue;
+  transition: background-color .2s ease-in-out;
+
+  &::after {
+    content: "";
+    position: absolute;
+
+    box-shadow: 0 0 3px @secondary-blue;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    transform-origin: center;
+
+    height: 80%;
+    width: 50%;
+    top: 10%;
+    left: 5%;
+
+    transition: left .2s ease-in-out;
+  }
+
+  &[active] {
+    &::after {
+      left: 45%;
+    }
+  }
+}

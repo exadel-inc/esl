@@ -48,6 +48,7 @@ import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
 import {ESLDemoSidebar} from './navigation/navigation';
+import {ESLDemoRTLSwitcher} from './rtl-switcher/rtl-switcher';
 import {ESLDemoMarquee} from './landing/landing';
 
 ESLVSizeCSSProxy.observe();
@@ -55,6 +56,7 @@ ESLVSizeCSSProxy.observe();
 // Register Demo components
 ESLDemoSidebar.register();
 ESLDemoMarquee.register();
+ESLDemoRTLSwitcher.register();
 
 // Register ESL Components
 
