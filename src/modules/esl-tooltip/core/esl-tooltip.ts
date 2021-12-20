@@ -46,6 +46,12 @@ export class ESLTooltip extends ESLPopup {
     return getKeyboardFocusableElements(this);
   }
 
+  /** First focusable element inside Tooltip */
+  public get firstFocusableElement(): Element | null {
+    const els = this.focusableElements;
+    return els.length ? els[0] : null;
+  }
+
   /** Last focusable element inside Tooltip */
   public get lastFocusableElement(): Element | null {
     const els = this.focusableElements;
@@ -145,8 +151,12 @@ export class ESLTooltip extends ESLPopup {
 
   protected _onTabKey(e: KeyboardEvent): void {
     if (!this.activator) return;
-    const {lastFocusableElement} = this;
-    if ((!lastFocusableElement || e.target === lastFocusableElement) && !e.shiftKey) {
+    const {firstFocusableElement, lastFocusableElement} = this;
+    if (
+      !lastFocusableElement ||
+      e.target === lastFocusableElement && !e.shiftKey ||
+      e.target === firstFocusableElement && e.shiftKey
+    ) {
       this.activator.focus();
       e.stopPropagation();
       e.preventDefault();
