@@ -5,7 +5,7 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {ready} from '../../esl-utils/decorators/ready';
 import {prop} from '../../esl-utils/decorators/prop';
-import {rafDecorator} from '../../esl-utils/async/raf';
+import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {Rect} from '../../esl-utils/dom/rect';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
@@ -148,13 +148,8 @@ export class ESLPopup extends ESLToggleable {
     this._offsetWindow = params.offsetWindow || 0;
 
     this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
-    setTimeout(() => {
-      // running as a separate task solves the problem with incorrect positioning on the first showing
-      this._updatePosition();
-      this.style.visibility = 'visible';
-      this.activator && this._addActivatorObserver(this.activator);
-      this._startUpdateLoop();
-    });
+
+    afterNextRender(() => this.afterOnShow()); // running as a separate task solves the problem with incorrect positioning on the first showing
   }
 
   /**
@@ -163,6 +158,7 @@ export class ESLPopup extends ESLToggleable {
    * Removes CSS classes and update a11y by default.
    */
   public onHide(params: PopupActionParams): void {
+    this.beforeOnHide();
     super.onHide(params);
 
     this._stopUpdateLoop();
@@ -173,6 +169,21 @@ export class ESLPopup extends ESLToggleable {
     memoize.clear(this, '_isMajorAxisVertical');
     memoize.clear(this, '_offsetArrowRatio');
   }
+
+  /**
+   * Actions to execute after show popup.
+   */
+  protected afterOnShow(): void {
+    this._updatePosition();
+    this.style.visibility = 'visible';
+    this.activator && this._addActivatorObserver(this.activator);
+    this._startUpdateLoop();
+  }
+
+  /**
+   * Actions to execute before hide popup.
+   */
+  protected beforeOnHide(): void {}
 
   /**
    * Checks activator intersection for adjacent axis.

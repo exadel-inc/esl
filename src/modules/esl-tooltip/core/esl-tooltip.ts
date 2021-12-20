@@ -110,21 +110,31 @@ export class ESLTooltip extends ESLPopup {
     document.body.appendChild(this);
     super.onShow(params);
     this._updateActivatorState(true);
-
-    setTimeout(() => {
-      this.focus();
-    });
   }
 
   /** Actions to execute on hide Tooltip. */
   public onHide(params: TooltipActionParams): void {
-    this.activator?.focus({preventScroll: true});
     this._updateActivatorState(false);
     super.onHide(params);
     document.body.removeChild(this);
     if (params.extraClass) {
       CSSClassUtils.remove(this, params.extraClass);
     }
+  }
+
+  /**
+   * Actions to execute after show popup.
+   */
+  protected afterOnShow(): void {
+    super.afterOnShow();
+    this.focus({preventScroll: true});
+  }
+
+  /**
+   * Actions to execute before hide popup.
+   */
+  protected beforeOnHide(): void {
+    this.activator?.focus({preventScroll: true});
   }
 
   @bind
