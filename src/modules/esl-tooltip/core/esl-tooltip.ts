@@ -54,17 +54,17 @@ export class ESLTooltip extends ESLPopup {
 
   /** Active state marker */
   public static get open(): boolean {
-    return ESLTooltip.sharedInstance.open;
+    return this.sharedInstance.open;
   }
 
   /** Changes the element state to active */
   public static show(params: TooltipActionParams = {}): void {
-    ESLTooltip.sharedInstance.show(params);
+    this.sharedInstance.show(params);
   }
 
   /** Changes the element state to inactive */
   public static hide(params: TooltipActionParams = {}): void {
-    ESLTooltip.sharedInstance.hide(params);
+    this.sharedInstance.hide(params);
   }
 
   public connectedCallback(): void {
