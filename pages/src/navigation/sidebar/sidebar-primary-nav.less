@@ -40,6 +40,7 @@ esl-d-sidebar {
       }
     }
   }
+
   .sidebar-nav-item-link {
     flex: 0 0 auto;
     display: inline-flex;
@@ -66,6 +67,10 @@ esl-d-sidebar {
     &:hover {
       color: @nav-dark-hover;
     }
+  }
+  a.sidebar-nav-item-trigger {
+    color: @nav-dark-fg;
+    text-decoration: none;
   }
   &.open .sidebar-nav-item-trigger {
     opacity: 1;
