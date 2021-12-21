@@ -118,7 +118,7 @@ export class ESLTooltip extends ESLPopup {
     this._updateActivatorState(true);
   }
 
-  /** Actions to execute on hide Tooltip. */
+  /** Actions to execute on Tooltip hiding. */
   public onHide(params: TooltipActionParams): void {
     this._updateActivatorState(false);
     super.onHide(params);
@@ -129,7 +129,7 @@ export class ESLTooltip extends ESLPopup {
   }
 
   /**
-   * Actions to execute after show popup.
+   * Actions to execute after showing of popup.
    */
   protected afterOnShow(): void {
     super.afterOnShow();
@@ -137,7 +137,7 @@ export class ESLTooltip extends ESLPopup {
   }
 
   /**
-   * Actions to execute before hide popup.
+   * Actions to execute before hiding of popup.
    */
   protected beforeOnHide(): void {
     this.activator?.focus({preventScroll: true});

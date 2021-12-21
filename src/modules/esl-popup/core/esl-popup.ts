@@ -155,7 +155,7 @@ export class ESLPopup extends ESLToggleable {
   /**
    * Actions to execute on hide popup.
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
-   * Removes CSS classes and update a11y by default.
+   * Removes CSS classes and updates a11y by default.
    */
   public onHide(params: PopupActionParams): void {
     this.beforeOnHide();
@@ -171,7 +171,7 @@ export class ESLPopup extends ESLToggleable {
   }
 
   /**
-   * Actions to execute after show popup.
+   * Actions to execute after showing of popup.
    */
   protected afterOnShow(): void {
     this._updatePosition();
@@ -181,7 +181,7 @@ export class ESLPopup extends ESLToggleable {
   }
 
   /**
-   * Actions to execute before hide popup.
+   * Actions to execute before hiding of popup.
    */
   protected beforeOnHide(): void {}
 
