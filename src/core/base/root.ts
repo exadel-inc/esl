@@ -28,13 +28,13 @@ export class UIPRoot extends ESLBaseElement {
   @attr({defaultValue: 'uip-light'}) public theme: string;
 
   /**
-   * Attribute for controlling UIP components' theme.
-   * Has two values: `uip-light` and `uip-dark`.
+   * Attribute for controlling preview's content direction.
+   * Has two values: `LTR` and `RTL`.
    */
   @attr({defaultValue: 'LTR'}) public direction: string;
 
   /**
-   * Attibute for setup media query rules
+   * Attribute for setup media query rules
    */
   @attr({defaultValue: '@-SM => horizontal'}) public rewriteMode: string;
 
@@ -76,7 +76,7 @@ export class UIPRoot extends ESLBaseElement {
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (oldVal === newVal) return;
-    if (attrName === 'mode' || attrName === 'theme' || attrName === 'direction') {
+    if (['mode', 'direction', 'theme'].includes(attrName)) {
       this._updateStyles(attrName, oldVal, newVal);
       EventUtils.dispatch(this, 'uip:configchange', {
         bubbles: false,

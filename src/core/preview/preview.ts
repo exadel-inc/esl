@@ -10,6 +10,7 @@ export class UIPPreview extends UIPPlugin {
 
   protected connectedCallback() {
     super.connectedCallback();
+    if (this.root) this.dir = this.root.direction;
 
     this.bindEvents();
   }
@@ -32,7 +33,6 @@ export class UIPPreview extends UIPPlugin {
   /** Callback to catch direction changes from {@link UIPRoot}. */
   @bind
   protected _onRootConfigChange(e: CustomEvent) {
-    console.log(e);
     if (e.detail.attribute !== 'direction') return false;
     this.$inner.dir = e.detail.value;
   }
