@@ -36,6 +36,7 @@ export class UIPOptions extends UIPPlugin {
     this.innerHTML = '';
     this.renderMode();
     this.renderTheme();
+    this.renderDirection();
   }
 
   protected renderMode() {
@@ -74,16 +75,36 @@ export class UIPOptions extends UIPPlugin {
     this.appendChild($theme);
   }
 
+  protected renderDirection() {
+    const $dir = document.createElement('div');
+    CSSClassUtils.add($dir, 'uip-option dir');
+    const dirOptionId = randUID();
+    $dir.innerHTML = `
+        <div class="option-item">
+            <input type="radio" id=${dirOptionId}-uip-ltr name=${dirOptionId}-dir direction="LTR"
+            class="option-radio-btn" ${this.root?.direction === 'LTR' ? 'checked' : ''}>
+            <label class="option-label" for=${dirOptionId}-uip-ltr>LTR</label>
+        </div>
+        <div class="option-item">
+            <input type="radio" id=${dirOptionId}-uip-rtl name=${dirOptionId}-dir direction="RTL"
+            class="option-radio-btn" ${this.root?.direction === 'RTL' ? 'checked' : ''}>
+            <label class="option-label" for=${dirOptionId}-uip-rtl>RTL</label>
+        </div>`;
+    this.appendChild($dir);
+  }
+
   @bind
   protected _onOptionChange(e: Event) {
     const target = e.target as HTMLElement;
 
     const mode = target.getAttribute('mode');
     const theme = target.getAttribute('theme');
+    const dir = target.getAttribute('direction');
 
     if (this.root) {
       if (mode) this.root.mode = mode;
       if (theme) this.root.theme = theme;
+      if (dir) this.root.direction = dir;
     }
   }
 

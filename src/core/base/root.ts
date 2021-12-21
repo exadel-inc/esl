@@ -28,6 +28,12 @@ export class UIPRoot extends ESLBaseElement {
   @attr({defaultValue: 'uip-light'}) public theme: string;
 
   /**
+   * Attribute for controlling UIP components' theme.
+   * Has two values: `uip-light` and `uip-dark`.
+   */
+  @attr({defaultValue: 'LTR'}) public direction: string;
+
+  /**
    * Attibute for setup media query rules
    */
   @attr({defaultValue: '@-SM => horizontal'}) public rewriteMode: string;
@@ -36,7 +42,7 @@ export class UIPRoot extends ESLBaseElement {
   private _rewriteModeRL: ESLMediaRuleList<string>;
 
   static get observedAttributes() {
-    return ['theme', 'mode', 'rewrite-mode'];
+    return ['theme', 'mode', 'rewrite-mode', 'direction'];
   }
 
   /** {@link UIPStateModel} instance to store UI Playground state. */
@@ -48,6 +54,7 @@ export class UIPRoot extends ESLBaseElement {
     this.applyRewriteQuery(this.rewriteMode);
     super.connectedCallback();
     this.theme = String(this.theme);
+    this.direction = String(this.direction);
     this._lastMode = this.mode = String(this.mode);
     this._onQueryChange();
   }
@@ -69,7 +76,7 @@ export class UIPRoot extends ESLBaseElement {
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (oldVal === newVal) return;
-    if (attrName === 'mode' || attrName === 'theme') {
+    if (attrName === 'mode' || attrName === 'theme' || attrName === 'direction') {
       this._updateStyles(attrName, oldVal, newVal);
       EventUtils.dispatch(this, 'uip:configchange', {
         bubbles: false,
