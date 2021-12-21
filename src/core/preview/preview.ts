@@ -10,7 +10,7 @@ export class UIPPreview extends UIPPlugin {
 
   protected connectedCallback() {
     super.connectedCallback();
-    if (this.root) this.dir = this.root.direction;
+    if (this.root) this.$inner.dir = this.root.direction;
 
     this.bindEvents();
   }
