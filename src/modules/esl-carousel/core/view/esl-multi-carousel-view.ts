@@ -1,3 +1,4 @@
+import {promisifyNextRender} from '../../../esl-utils/async/raf';
 import {promisifyEvent, repeatSequence, resolvePromise} from '../../../esl-utils/async/promise';
 import {ESLCarouselView} from './esl-carousel-view';
 import type {ESLCarousel, CarouselDirection} from '../esl-carousel';
@@ -88,13 +89,14 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     const shiftX = direction === 'next' ? 0 : -offset;
     this.carousel.$slidesArea!.style.transform = `translateX(${shiftX}px)`;
 
-    // TODO
-    +this.carousel.$slidesArea!.offsetLeft;
-    this.carousel.toggleAttribute('animate', true);
-    return Promise.resolve();
+    return promisifyNextRender();
+    // +this.carousel.$slidesArea!.offsetLeft;
+    // return Promise.resolve();
   }
 
   protected async onStepAnimate(direction: CarouselDirection): Promise<void> {
+    this.carousel.toggleAttribute('animate', true);
+
     const offsetIndex = direction === 'next' ? this.carousel.normalizeIndex(this.currentIndex + 1) : this.currentIndex;
     const offset = this.carousel.$slides[offsetIndex].offsetLeft;
     const shiftX = direction === 'next' ? -offset : 0;
