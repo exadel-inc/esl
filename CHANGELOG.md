@@ -1,3 +1,10 @@
+## [3.10.1-beta.1](https://github.com/exadel-inc/esl/compare/v3.10.0...v3.10.1-beta.1) (2021-12-22)
+
+
+### Bug Fixes
+
+* **esl-tooltip:** fix focus out behavior after SHIFT+TAB keypress ([98821a0](https://github.com/exadel-inc/esl/commit/98821a04131f4af234b0f3233f8825d786386a8d))
+
 # [3.10.0](https://github.com/exadel-inc/esl/compare/v3.9.1...v3.10.0) (2021-12-22)
 
 
