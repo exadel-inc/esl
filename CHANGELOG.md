@@ -1,3 +1,17 @@
+# [3.10.0](https://github.com/exadel-inc/esl/compare/v3.9.1...v3.10.0) (2021-12-22)
+
+
+### Bug Fixes
+
+* **esl-scrollbar:** fix event subscriber leak ([abaf22a](https://github.com/exadel-inc/esl/commit/abaf22a9ec6380fec3d6676dc7f6944688724c1c))
+* **esl-toggleable:** fix `_onOutsideAction` and `_onClick` signature ([0a2600b](https://github.com/exadel-inc/esl/commit/0a2600b66d0ade06fa19e811cfdb1a8fc050dd37))
+* **esl-toggleable:** fix wrong and missing TSX shape attributes ([0dc77ff](https://github.com/exadel-inc/esl/commit/0dc77ffe2b7cf55d7cb3c71e15d65604b7a82fb4))
+
+
+### Features
+
+* **esl-toggleable:** `keypress` event now also considered as an outside action ([b3c5374](https://github.com/exadel-inc/esl/commit/b3c537430287f2fd909824d4cabab986f368debe))
+
 ## [3.9.1](https://github.com/exadel-inc/esl/compare/v3.9.0...v3.9.1) (2021-12-16)
 
 
