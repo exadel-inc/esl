@@ -331,11 +331,11 @@ export class ESLScrollbar extends ESLBaseElement {
     // Unbind drag listeners
     if (EventUtils.isMouseEvent(event)) {
       window.removeEventListener('mousemove', this._onPointerMove);
-      window.removeEventListener('mouseup', this._onPointerMove);
+      window.removeEventListener('mouseup', this._onPointerUp);
     }
     if (EventUtils.isTouchEvent(event)) {
       window.removeEventListener('touchmove', this._onPointerMove);
-      window.removeEventListener('touchend', this._onPointerMove);
+      window.removeEventListener('touchend', this._onPointerUp);
     }
   }
 
