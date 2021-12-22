@@ -26,4 +26,6 @@ export * from './esl-forms/all';
 export * from './esl-footnotes/core';
 export * from './esl-tooltip/core';
 
+export * from './esl-animate/core';
+
 export * from './esl-carousel/all';

@@ -23,6 +23,21 @@ esl-d-sidebar {
       color: @nav-dark-selected;
       background: linear-gradient(to right, fade(@nav-dark-selected, 25%), fade(@nav-dark-selected, 0%));
     }
+
+    &.draft::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 24px;
+      width: 1.15rem;
+      height: 1.15rem;
+      transform: translateY(-50%);
+
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-image: url('/assets/common/flask.svg');
+    }
   }
   .sidebar-nav-secondary-link {
     display: block;

@@ -30,6 +30,7 @@ import {
   ESLNote,
   ESLFootnotes,
   ESLTooltip,
+  ESLAnimate,
 
   ESLCarousel,
   ESLCarouselDotsPlugin,
@@ -87,6 +88,8 @@ ESLSelect.register();
 ESLFootnotes.register();
 ESLNote.register();
 ESLTooltip.register();
+
+ESLAnimate.register();
 
 ESLCarousel.register();
 ESLCarouselDotsPlugin.register();
