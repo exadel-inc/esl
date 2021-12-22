@@ -115,7 +115,9 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Update element state according to current mode */
   protected updateMode() {
+    const prevMode = this.getAttribute('view');
     this.setAttribute('view', this.currentMode);
+
     const $target = TraversingQuery.first(this.modeClsTarget, this);
     if (!$target) return;
     ESLPanelGroup.supportedModes.forEach((mode) => {
@@ -123,6 +125,8 @@ export class ESLPanelGroup extends ESLBaseElement {
     });
 
     this.reset();
+
+    this.$$fire('change:mode', {detail: {prevMode, currentMode: this.currentMode}});
   }
 
   /** @returns Panels that are processed by the current panel group */
