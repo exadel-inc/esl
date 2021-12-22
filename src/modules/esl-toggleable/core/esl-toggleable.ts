@@ -256,14 +256,14 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   @bind
-  protected _onClick(e: MouseEvent) {
+  protected _onClick(e: PointerEvent) {
     const target = e.target as HTMLElement;
     if (this.closeTrigger && target.closest(this.closeTrigger)) {
       this.hide({initiator: 'close', activator: target, event: e});
     }
   }
   @bind
-  protected _onOutsideAction(e: MouseEvent) {
+  protected _onOutsideAction(e: Event) {
     const target = e.target as HTMLElement;
     if (this.contains(target)) return;
     if (this.activator && this.activator.contains(target)) return;
