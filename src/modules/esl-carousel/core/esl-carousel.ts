@@ -38,10 +38,15 @@ export class ESLCarousel extends ESLBaseElement {
 
   @attr() public config: string;
 
-  private _configRules: ESLMediaRuleList<CarouselConfig | null>;
-  private _currentConfig: CarouselConfig = {};
-  private _view: ESLCarouselView | null;
-  private readonly _plugins = new Map<string, ESLCarouselPlugin>();
+  protected _configRules: ESLMediaRuleList<CarouselConfig | null>;
+  protected _currentConfig: CarouselConfig = {};
+  protected _view: ESLCarouselView | null;
+  protected readonly _plugins = new Map<string, ESLCarouselPlugin>();
+
+  // TODO: rename
+  get view() {
+    return this._view;
+  }
 
   get activeIndexes(): number[] {
     return this.$slides.reduce((activeIndexes: number[], el, index) => {
@@ -243,7 +248,7 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  public async goTo(nextIndex: number, direction?: CarouselDirection, force: boolean = false) {
+  public async goTo(nextIndex: number, direction?: CarouselDirection | null, force: boolean = false) {
     // TODO: ?
     if (this.dataset.isAnimated) return;
 

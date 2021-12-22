@@ -1,6 +1,7 @@
 import {promisifyNextRender} from '../../../esl-utils/async/raf';
 import {promisifyEvent, repeatSequence, resolvePromise} from '../../../esl-utils/async/promise';
 import {ESLCarouselView} from './esl-carousel-view';
+
 import type {ESLCarousel, CarouselDirection} from '../esl-carousel';
 import type {ESLCarouselSlide} from '../esl-carousel-slide';
 
@@ -122,10 +123,43 @@ export class ESLMultiCarouselView extends ESLCarouselView {
 
   // tslint:disable-next-line:no-empty
   public onMove(offset: number) {
+    this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', true));
+
+    const width = parseFloat(getComputedStyle(this.carousel.$slides[0]).width);
+    const sign = offset < 0 ? 1 : -1;
+    const count = Math.floor(Math.abs(offset) / width);
+
+    this.currentIndex = this.carousel.normalizeIndex(this.carousel.firstIndex + count * sign);
+    const orderIndex = offset < 0 ? this.currentIndex : this.carousel.normalizeIndex(this.currentIndex - 1);
+    this._setOrderFrom(orderIndex);
+
+    const stageOffset = offset < 0 ? offset + count * width : offset - (count + 1) * width;
+    this.carousel.$slidesArea!.style.transform = `translateX(${stageOffset}px)`;
   }
 
   // tslint:disable-next-line:no-empty
-  public commit() {
+  public async commit(direction?: CarouselDirection) {
+    // if (this.carousel.hasAttribute('animate')) return;
+    this.carousel.toggleAttribute('animate', true);
+    this.carousel.$slidesArea!.style.transform = 'translateX(0px)';
+
+    this.currentIndex = this.carousel.normalizeIndex(this.currentIndex);
+    direction = direction || this.carousel.getDirection(this.carousel.firstIndex, this.currentIndex);
+    this._setOrderFrom(this.currentIndex);
+
+    this.carousel.$slides.forEach((el) => el.active = false);
+    for (let i = 0; i < this.carousel.activeCount; i++) {
+      this.carousel.slideAt(this.currentIndex + i).active = true;
+    }
+    await promisifyEvent(this.carousel.$slidesArea!, 'transitionend').catch(resolvePromise);
+
+    this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', false));
+    this.carousel.toggleAttribute('animate', false);
+
+    // TODO: change info
+    this.carousel.$$fire('slide:changed', {
+      detail: {direction}
+    });
   }
 
   protected _setOrderFrom(index: number) {

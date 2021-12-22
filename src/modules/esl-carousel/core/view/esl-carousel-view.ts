@@ -18,7 +18,7 @@ export abstract class ESLCarouselView {
 
   public abstract onMove(offset: number): void;
 
-  public abstract commit(): void;
+  public abstract commit(direction?: CarouselDirection): void;
 
   public abstract draw(): void;
 }
