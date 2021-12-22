@@ -1,3 +1,10 @@
+# [3.11.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.10.1-beta.1...v3.11.0-beta.1) (2021-12-22)
+
+
+### Features
+
+* **esl-panel-group:** dispatch change:mode event ([8d41dbd](https://github.com/exadel-inc/esl/commit/8d41dbd69ac703858f1dd8d43ece748da58780f1))
+
 ## [3.10.1-beta.1](https://github.com/exadel-inc/esl/compare/v3.10.0...v3.10.1-beta.1) (2021-12-22)
 
 
