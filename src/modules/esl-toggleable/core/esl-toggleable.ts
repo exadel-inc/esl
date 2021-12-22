@@ -134,9 +134,11 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Bind outside action event listeners */
   protected bindOutsideEventTracking(track: boolean) {
+    document.body.removeEventListener('keypress', this._onOutsideAction, true);
     document.body.removeEventListener('mouseup', this._onOutsideAction, true);
     document.body.removeEventListener('touchend', this._onOutsideAction, true);
     if (track) {
+      document.body.addEventListener('keypress', this._onOutsideAction, true);
       document.body.addEventListener('mouseup', this._onOutsideAction, true);
       document.body.addEventListener('touchend', this._onOutsideAction, true);
     }
@@ -256,14 +258,14 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   @bind
-  protected _onClick(e: MouseEvent) {
+  protected _onClick(e: PointerEvent) {
     const target = e.target as HTMLElement;
     if (this.closeTrigger && target.closest(this.closeTrigger)) {
       this.hide({initiator: 'close', activator: target, event: e});
     }
   }
   @bind
-  protected _onOutsideAction(e: MouseEvent) {
+  protected _onOutsideAction(e: Event) {
     const target = e.target as HTMLElement;
     if (this.contains(target)) return;
     if (this.activator && this.activator.contains(target)) return;
