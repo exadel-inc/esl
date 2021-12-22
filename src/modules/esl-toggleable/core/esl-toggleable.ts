@@ -134,9 +134,11 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Bind outside action event listeners */
   protected bindOutsideEventTracking(track: boolean) {
+    document.body.removeEventListener('keypress', this._onOutsideAction, true);
     document.body.removeEventListener('mouseup', this._onOutsideAction, true);
     document.body.removeEventListener('touchend', this._onOutsideAction, true);
     if (track) {
+      document.body.addEventListener('keypress', this._onOutsideAction, true);
       document.body.addEventListener('mouseup', this._onOutsideAction, true);
       document.body.addEventListener('touchend', this._onOutsideAction, true);
     }
