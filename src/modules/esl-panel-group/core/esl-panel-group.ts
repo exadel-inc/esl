@@ -116,17 +116,19 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Update element state according to current mode */
   protected updateMode() {
     const prevMode = this.getAttribute('view');
-    this.setAttribute('view', this.currentMode);
+    const currentMode = this.currentMode;
+    this.setAttribute('view', currentMode);
 
     const $target = TraversingQuery.first(this.modeClsTarget, this);
-    if (!$target) return;
-    ESLPanelGroup.supportedModes.forEach((mode) => {
-      $target.classList.toggle(`esl-${mode}-view`, this.currentMode === mode);
+    $target && ESLPanelGroup.supportedModes.forEach((mode) => {
+      $target.classList.toggle(`esl-${mode}-view`, currentMode === mode);
     });
 
     this.reset();
 
-    this.$$fire('change:mode', {detail: {prevMode, currentMode: this.currentMode}});
+    if (prevMode !== currentMode) {
+      this.$$fire('change:mode', {detail: {prevMode, currentMode}});
+    }
   }
 
   /** @returns Panels that are processed by the current panel group */

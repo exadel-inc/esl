@@ -36,3 +36,8 @@ Use `ESLToggleableDispatcher.init()` to initialize (and bind) ESLToggleableDispa
  - `show` - trigger element activation
  - `hide` - trigger element deactivation
  - `toggle` - toggle element state
+
+### Events
+
+- `esl:show` - thrown when toggleable change its state to active(open)
+- `esl:hide` - thrown when toggleable change its state to inactive
