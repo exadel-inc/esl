@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESC} from '../../esl-utils/dom/keys';
+import {ESC, SYSTEM_KEYS} from '../../esl-utils/dom/keys';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {bind} from '../../esl-utils/decorators/bind';
 import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
@@ -134,11 +134,11 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Bind outside action event listeners */
   protected bindOutsideEventTracking(track: boolean) {
-    document.body.removeEventListener('keypress', this._onOutsideAction, true);
+    document.body.removeEventListener('keydown', this._onOutsideAction, true);
     document.body.removeEventListener('mouseup', this._onOutsideAction, true);
     document.body.removeEventListener('touchend', this._onOutsideAction, true);
     if (track) {
-      document.body.addEventListener('keypress', this._onOutsideAction, true);
+      document.body.addEventListener('keydown', this._onOutsideAction, true);
       document.body.addEventListener('mouseup', this._onOutsideAction, true);
       document.body.addEventListener('touchend', this._onOutsideAction, true);
     }
@@ -258,17 +258,19 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   @bind
-  protected _onClick(e: PointerEvent) {
+  protected _onClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (this.closeTrigger && target.closest(this.closeTrigger)) {
       this.hide({initiator: 'close', activator: target, event: e});
     }
   }
+
   @bind
   protected _onOutsideAction(e: Event) {
     const target = e.target as HTMLElement;
     if (this.contains(target)) return;
     if (this.activator && this.activator.contains(target)) return;
+    if (e instanceof KeyboardEvent && SYSTEM_KEYS.includes(e.key)) return;
     // Used 0 delay to decrease priority of the request
     this.hide({initiator: 'outsideaction', hideDelay: 0, event: e});
   }

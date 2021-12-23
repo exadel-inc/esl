@@ -88,7 +88,7 @@ export class ESLDemoSidebar extends ESLToggleable {
   }
 
   @bind
-  protected _onOutsideAction(e: MouseEvent) {
+  protected _onOutsideAction(e: Event) {
     if (ESLMediaQuery.for('@+MD').matches) return;
     super._onOutsideAction(e);
   }
