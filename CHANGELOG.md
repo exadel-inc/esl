@@ -1,3 +1,10 @@
+# [3.11.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.11.0-beta.2...v3.11.0-beta.3) (2021-12-23)
+
+
+### Bug Fixes
+
+* **esl-toggleable:** improve outside keyboard events handling ([38160b6](https://github.com/exadel-inc/esl/commit/38160b66d4fec7c93b072b1d857fd9d2b093416f))
+
 # [3.11.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.11.0-beta.1...v3.11.0-beta.2) (2021-12-23)
 
 
