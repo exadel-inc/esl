@@ -20,6 +20,8 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** Horizontal scroll orientation marker */
   @boolAttr() public horizontal: boolean;
+  /** Disable continuous scroll when the mouse pressed on scrollbar */
+  @boolAttr() public noContinuousScroll: boolean;
 
   /** Target element {@link TraversingQuery} selector. Parent element by default */
   @attr({defaultValue: '::parent'}) public target: string;
@@ -42,11 +44,14 @@ export class ESLScrollbar extends ESLBaseElement {
   protected $scrollbarTrack: HTMLElement;
 
   protected _$target: HTMLElement | null;
+  protected _pointerPosition: number;
   protected _initialPosition: number;
   protected _initialMousePosition: number;
 
-  protected deferredRefresh = rafDecorator(() => this.refresh());
-  protected _resizeObserver = new ResizeObserver(this.deferredRefresh);
+  protected _deferredDrag = rafDecorator((e) => this._onPointerDrag(e));
+  protected _deferredRefresh = rafDecorator(() => this.refresh());
+  protected _scrollTimer: number = 0;
+  protected _resizeObserver = new ResizeObserver(this._deferredRefresh);
   protected _mutationObserver = new MutationObserver((rec) => this.updateContentObserve(rec));
 
   static get observedAttributes() {
@@ -64,6 +69,7 @@ export class ESLScrollbar extends ESLBaseElement {
   @ready
   protected disconnectedCallback() {
     this.unbindEvents();
+    this._scrollTimer && window.clearTimeout(this._scrollTimer);
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
@@ -87,7 +93,7 @@ export class ESLScrollbar extends ESLBaseElement {
     this.unbindTargetEvents();
     this._$target = content;
     this.bindTargetEvents();
-    this.deferredRefresh();
+    this._deferredRefresh();
   }
 
   protected render() {
@@ -102,8 +108,8 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   protected bindEvents() {
-    this.addEventListener('click', this._onClick);
-    this.$scrollbarThumb.addEventListener('mousedown', this._onMouseDown);
+    window.MouseEvent && this.addEventListener('mousedown', this._onPointerDown);
+    window.TouchEvent && this.addEventListener('touchstart', this._onPointerDown);
     window.addEventListener('esl:refresh', this._onRefresh);
   }
 
@@ -131,12 +137,12 @@ export class ESLScrollbar extends ESLBaseElement {
         .filter((el) => el instanceof Element)
         .forEach((el: Element) => this._resizeObserver.unobserve(el));
     });
-    if (contentChanges.length) this.deferredRefresh();
+    if (contentChanges.length) this._deferredRefresh();
   }
 
   protected unbindEvents() {
-    this.removeEventListener('click', this._onClick);
-    this.$scrollbarThumb.removeEventListener('mousedown', this._onMouseDown);
+    window.MouseEvent && this.removeEventListener('mousedown', this._onPointerDown);
+    window.TouchEvent && this.removeEventListener('touchstart', this._onPointerDown);
     this.unbindTargetEvents();
     window.removeEventListener('esl:refresh', this._onRefresh);
   }
@@ -192,14 +198,14 @@ export class ESLScrollbar extends ESLBaseElement {
     this.update();
   }
 
-  /** Normalize position value (between 0.0 and 1.0) */
+  /** Normalizes position value (between 0.0 and 1.0) */
   protected normalizePosition(position: number) {
     const relativePosition = Math.min(1, Math.max(0, position));
     if (this.$target && !RTLUtils.isRtl(this.$target)) return relativePosition;
     return RTLUtils.scrollType === 'negative' ? (relativePosition - 1) : (1 - relativePosition);
   }
 
-  /** Scroll target element to passed position */
+  /** Scrolls target element to passed position */
   protected scrollTargetTo(pos: number) {
     if (!this.$target) return;
     this.$target.scrollTo({
@@ -208,7 +214,7 @@ export class ESLScrollbar extends ESLBaseElement {
     });
   }
 
-  /** Update thumb size and position */
+  /** Updates thumb size and position */
   public update() {
     this.$$fire('change:scroll', {bubbles: false});
     if (!this.$scrollbarThumb || !this.$scrollbarTrack) return;
@@ -221,7 +227,7 @@ export class ESLScrollbar extends ESLBaseElement {
     Object.assign(this.$scrollbarThumb.style, style);
   }
 
-  /** Update auxiliary markers */
+  /** Updates auxiliary markers */
   public updateMarkers() {
     const {position, thumbSize} =  this;
     this.toggleAttribute('at-start', thumbSize < 1 && position <= 0);
@@ -229,33 +235,73 @@ export class ESLScrollbar extends ESLBaseElement {
     this.toggleAttribute('inactive', thumbSize >= 1);
   }
 
-  /** Refresh scroll state and position */
+  /** Refreshes scroll state and position */
   public refresh() {
     this.update();
     this.updateMarkers();
   }
 
+  /** Returns position from MouseEvent coordinates (not normalized) */
+  public toPosition(event: MouseEvent | TouchEvent) {
+    const {horizontal, thumbOffset, trackOffset} = this;
+    const point = EventUtils.normalizeCoordinates(event, this.$scrollbarTrack);
+    const pointPosition = horizontal ? point.x : point.y;
+    const freeTrackArea = trackOffset - thumbOffset; // size of free track px
+    const clickPositionNoOffset = pointPosition - thumbOffset / 2;
+    return clickPositionNoOffset / freeTrackArea;
+  }
+
   // Event listeners
-  /** `mousedown` event to track thumb drag start */
+  /** Handles `mousedown` / `touchstart` event to manage thumb drag start and scroll clicks */
   @bind
-  protected _onMouseDown(event: MouseEvent) {
-    this.toggleAttribute('dragging', true);
-    this.$target?.style.setProperty('scroll-behavior', 'auto');
-
+  protected _onPointerDown(event: MouseEvent | TouchEvent) {
     this._initialPosition = this.position;
-    this._initialMousePosition = this.horizontal ? event.clientX : event.clientY;
+    this._pointerPosition = this.toPosition(event);
+    const point = EventUtils.normalizeTouchPoint(event);
+    this._initialMousePosition = this.horizontal ? point.x : point.y;
 
-    // Attach drag listeners
-    window.addEventListener('mousemove', this._onMouseMove);
-    window.addEventListener('mouseup', this._onMouseUp);
-    window.addEventListener('click', this._onBodyClick, {capture: true});
+    if (event.target === this.$scrollbarThumb) {
+      this._onThumbPointerDown(event); // Drag start handler
+    } else {
+      this._onPointerDownTick(true); // Continuous scroll and click handler
+    }
+
+    // Subscribe inverse handlers
+    EventUtils.isMouseEvent(event) && window.addEventListener('mouseup', this._onPointerUp);
+    EventUtils.isTouchEvent(event) && window.addEventListener('touchend', this._onPointerUp, {passive: false});
 
     // Prevents default text selection, etc.
     event.preventDefault();
   }
 
-  /** Set position on drug */
-  protected _dragToCoordinate(mousePosition: number) {
+  /** Handles a scroll click / continuous scroll*/
+  @bind
+  protected _onPointerDownTick(first: boolean) {
+    this._scrollTimer && window.clearTimeout(this._scrollTimer);
+
+    const position = this.position;
+    const allowedOffset = (first ? 1 : 1.5) * this.thumbSize;
+    this.position = Math.min(position + allowedOffset, Math.max(position - allowedOffset, this._pointerPosition));
+
+    if (this.position === this._pointerPosition || this.noContinuousScroll) return;
+    this._scrollTimer = window.setTimeout(this._onPointerDownTick, 400);
+  }
+
+  /** Handles thumb drag start */
+  @bind
+  protected _onThumbPointerDown(event: MouseEvent | TouchEvent) {
+    this.toggleAttribute('dragging', true);
+    this.$target?.style.setProperty('scroll-behavior', 'auto');
+    // Attach drag listeners
+    window.addEventListener('click', this._onBodyClick, {capture: true});
+    EventUtils.isMouseEvent(event) && window.addEventListener('mousemove', this._onPointerMove);
+    EventUtils.isTouchEvent(event) && window.addEventListener('touchmove', this._onPointerMove, {passive: false});
+  }
+
+  /** Sets position on drag */
+  protected _onPointerDrag(event: MouseEvent | TouchEvent) {
+    const point = EventUtils.normalizeTouchPoint(event);
+    const mousePosition = this.horizontal ? point.x : point.y;
     const positionChange = mousePosition - this._initialMousePosition;
     const scrollableAreaHeight = this.trackOffset - this.thumbOffset;
     const absChange = scrollableAreaHeight ? (positionChange / scrollableAreaHeight) : 0;
@@ -263,16 +309,13 @@ export class ESLScrollbar extends ESLBaseElement {
 
     this.updateMarkers();
   }
-  protected _deferredDragToCoordinate = rafDecorator(this._dragToCoordinate);
 
   /** `mousemove` document handler for thumb drag event. Active only if drag action is active */
   @bind
-  protected _onMouseMove(event: MouseEvent) {
+  protected _onPointerMove(event: MouseEvent | TouchEvent) {
     if (!this.dragging) return;
-
     // Request position update
-    this._deferredDragToCoordinate(this.horizontal ? event.clientX : event.clientY);
-
+    this._deferredDrag(event);
     // Prevents default text selection, etc.
     event.preventDefault();
     event.stopPropagation();
@@ -280,13 +323,20 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** `mouseup` short-time document handler for drag end action */
   @bind
-  protected _onMouseUp() {
+  protected _onPointerUp(event: MouseEvent | TouchEvent) {
+    this._scrollTimer && window.clearTimeout(this._scrollTimer);
     this.toggleAttribute('dragging', false);
     this.$target?.style.removeProperty('scroll-behavior');
 
     // Unbind drag listeners
-    window.removeEventListener('mousemove', this._onMouseMove);
-    window.removeEventListener('mouseup', this._onMouseUp);
+    if (EventUtils.isMouseEvent(event)) {
+      window.removeEventListener('mousemove', this._onPointerMove);
+      window.removeEventListener('mouseup', this._onPointerUp);
+    }
+    if (EventUtils.isTouchEvent(event)) {
+      window.removeEventListener('touchmove', this._onPointerMove);
+      window.removeEventListener('touchend', this._onPointerUp);
+    }
   }
 
   /** Body `click` short-time handler to prevent clicks event on thumb drag. Handles capture phase */
@@ -295,21 +345,6 @@ export class ESLScrollbar extends ESLBaseElement {
     event.stopImmediatePropagation();
 
     window.removeEventListener('click', this._onBodyClick, {capture: true});
-  }
-
-  /** Handler for track clicks. Move scroll to selected position */
-  @bind
-  protected _onClick(event: MouseEvent) {
-    if (event.target !== this.$scrollbarTrack && event.target !== this) return;
-    const clickCoordinates = EventUtils.normalizeCoordinates(event, this.$scrollbarTrack);
-    const clickPosition = this.horizontal ? clickCoordinates.x : clickCoordinates.y;
-
-    const freeTrackArea = this.trackOffset - this.thumbOffset; // px
-    const clickPositionNoOffset = clickPosition - this.thumbOffset / 2;
-    const newPosition = clickPositionNoOffset / freeTrackArea;  // abs % to track
-
-    this.position = Math.min(this.position + this.thumbSize,
-      Math.max(this.position - this.thumbSize, newPosition));
   }
 
   /**
@@ -321,7 +356,7 @@ export class ESLScrollbar extends ESLBaseElement {
     const target = event.target as HTMLElement;
     if (event.type === 'scroll' && this.dragging) return;
     if (event.type === 'esl:refresh' && !isRelativeNode(target.parentNode, this.$target)) return;
-    this.deferredRefresh();
+    this._deferredRefresh();
   }
 }
 
