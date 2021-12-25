@@ -31,7 +31,7 @@ export class UIPRoot extends ESLBaseElement {
    * Attribute for controlling preview's content direction.
    * Has two values: `LTR` and `RTL`.
    */
-  @attr({defaultValue: 'LTR'}) public direction: string;
+  @attr({defaultValue: 'ltr'}) public direction: string;
 
   /**
    * Attribute for setup media query rules

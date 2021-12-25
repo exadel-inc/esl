@@ -81,13 +81,13 @@ export class UIPOptions extends UIPPlugin {
     const dirOptionId = randUID();
     $dir.innerHTML = `
         <div class="option-item">
-            <input type="radio" id=${dirOptionId}-uip-ltr name=${dirOptionId}-dir direction="LTR"
-            class="option-radio-btn" ${this.root?.direction === 'LTR' ? 'checked' : ''}>
+            <input type="radio" id=${dirOptionId}-uip-ltr name=${dirOptionId}-dir direction="ltr"
+            class="option-radio-btn" ${this.root?.direction === 'ltr' ? 'checked' : ''}>
             <label class="option-label" for=${dirOptionId}-uip-ltr>LTR</label>
         </div>
         <div class="option-item">
-            <input type="radio" id=${dirOptionId}-uip-rtl name=${dirOptionId}-dir direction="RTL"
-            class="option-radio-btn" ${this.root?.direction === 'RTL' ? 'checked' : ''}>
+            <input type="radio" id=${dirOptionId}-uip-rtl name=${dirOptionId}-dir direction="rtl"
+            class="option-radio-btn" ${this.root?.direction === 'rtl' ? 'checked' : ''}>
             <label class="option-label" for=${dirOptionId}-uip-rtl>RTL</label>
         </div>`;
     this.appendChild($dir);

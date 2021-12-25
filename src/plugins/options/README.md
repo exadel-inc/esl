@@ -9,12 +9,12 @@ Extends [UIPPlugin](src/core/base/README.md#uip-plugin).
 
 - **Theme** can be *light* (default) and *dark*. It sets color theme for other elements.
 - **Mode** can be *vertical* (default) and *horizontal*. It controls UIP container's layout.
-- **Direction** can be *LTR* (default) and *RTL*. It changes the direction of preview's content.
+- **Direction** can be *ltr* (default) and *rtl*. It changes the direction of preview's content.
 
 These options can be manually set (and observed) with corresponding attributes:
 
 ```html
-<uip-root mode="horizontal" theme="dark" direction="RTL"></uip-root>
+<uip-root mode="horizontal" theme="dark" direction="rtl"></uip-root>
 ```
 
 **UIPOptions** element doesn't produce or observe UIPStateModel changes.
