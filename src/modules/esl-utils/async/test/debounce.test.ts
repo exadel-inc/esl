@@ -40,12 +40,12 @@ describe('async/debounce', () => {
   test('cancel debounce', () => {
     const fn = jest.fn();
     const debounced = debounce(fn, 10);
-    const promise = debounced.promise;
     debounced();
-    debounced.cancel();
-
+    setTimeout(() => debounced.cancel());
+    const promise = debounced.promise;
+    jest.runAllTimers();
     return promise.catch(() => expect(fn).toBeCalledTimes(0));
-  }, 100);
+  });
 
   test('deferred result', () => {
     const fn = jest.fn((n) => n + 1);
