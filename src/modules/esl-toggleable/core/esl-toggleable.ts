@@ -3,6 +3,7 @@ import {ESC} from '../../esl-utils/dom/keys';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {bind} from '../../esl-utils/decorators/bind';
 import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
+import {sequentialUID} from '../../esl-utils/misc/uid';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
@@ -57,6 +58,8 @@ export class ESLToggleable extends ESLBaseElement {
   /** Selector to mark inner close triggers */
   @attr({name: 'close-on'}) public closeTrigger: string;
 
+  /** Not to allow auto id */
+  @boolAttr() public noAutoId: boolean;
   /** Close the Toggleable on ESC keyboard event */
   @boolAttr() public closeOnEsc: boolean;
   /** Close the Toggleable on a click/tap outside */
@@ -87,6 +90,9 @@ export class ESLToggleable extends ESLBaseElement {
 
   protected connectedCallback() {
     super.connectedCallback();
+    if (!this.id && !this.noAutoId) {
+      this.id = sequentialUID(ESLToggleable.is, 'esl-toggleable-');
+    }
     this.initiallyOpened = this.hasAttribute('open');
     this.bindEvents();
     this.setInitialState();

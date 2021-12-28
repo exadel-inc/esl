@@ -17,6 +17,8 @@ export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable> 
   /** Define Toggleable group meta information to organize groups */
   'group'?: string;
 
+  /** Disable auto id */
+  'no-auto-id'?: boolean;
   /** Define selector to mark inner close triggers */
   'close-on'?: string;
   /** Enable close the Toggleable on ESC keyboard event */

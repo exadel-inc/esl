@@ -21,6 +21,7 @@ Use `ESLToggleableDispatcher.init()` to initialize (and bind) ESLToggleableDispa
  - `body-class` - CSS class to add on the body element
  - `active-class` - CSS class to add when the Toggleable is active
  - `group` (`groupName`) - Toggleable group meta information to organize groups
+ - `no-auto-id` - Not to allow auto id
  - `close-on` (`closeTrigger`) - Selector to mark inner close triggers
  - `close-on-esc` - Close the Toggleable on ESC keyboard event
  - `close-on-outside-action` - Close the Toggleable on a click/tap outside
