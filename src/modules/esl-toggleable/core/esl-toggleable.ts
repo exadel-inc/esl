@@ -58,7 +58,7 @@ export class ESLToggleable extends ESLBaseElement {
   /** Selector to mark inner close triggers */
   @attr({name: 'close-on'}) public closeTrigger: string;
 
-  /** Not to allow auto id */
+  /** Disallow automatic id creation when it's empty */
   @boolAttr() public noAutoId: boolean;
   /** Close the Toggleable on ESC keyboard event */
   @boolAttr() public closeOnEsc: boolean;
@@ -91,7 +91,8 @@ export class ESLToggleable extends ESLBaseElement {
   protected connectedCallback() {
     super.connectedCallback();
     if (!this.id && !this.noAutoId) {
-      this.id = sequentialUID(ESLToggleable.is, 'esl-toggleable-');
+      const tag = (this.constructor as typeof ESLToggleable).is;
+      this.id = sequentialUID(tag, tag + '-');
     }
     this.initiallyOpened = this.hasAttribute('open');
     this.bindEvents();
