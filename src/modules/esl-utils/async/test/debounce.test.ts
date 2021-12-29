@@ -41,10 +41,12 @@ describe('async/debounce', () => {
     const fn = jest.fn();
     const debounced = debounce(fn, 10);
     debounced();
-    setTimeout(() => debounced.cancel());
     const promise = debounced.promise;
-    jest.runAllTimers();
-    return promise.catch(() => expect(fn).toBeCalledTimes(0));
+    debounced.cancel();
+    return promise.then(
+      () => expect(fn).toBeCalledTimes(-1),
+      () => expect(fn).toBeCalledTimes(0)
+    );
   });
 
   test('deferred result', () => {
