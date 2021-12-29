@@ -44,7 +44,9 @@ describe('async/debounce', () => {
     const promise = debounced.promise;
     debounced.cancel();
     return promise.then(
-      () => expect(fn).toBeCalledTimes(-1),
+      () => {
+        throw new Error('Promise shouldn`t be resolved');
+      },
       () => expect(fn).toBeCalledTimes(0)
     );
   });
