@@ -1,14 +1,12 @@
-import {
-  prop,
-  afterNextRender,
-  CSSClassUtils,
-  ESLToggleable,
-  TraversingQuery,
-  FormatUtils
-} from '../../../../src/modules/all';
-import { attr, boolAttr } from '../../../../src/modules/esl-base-element/core';
+import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
+import {CSSClassUtils} from '../../../../src/modules/esl-utils/dom/class';
+import {afterNextRender} from '../../../../src/modules/esl-utils/async/raf';
+import {parseNumber} from '../../../../src/modules/esl-utils/misc/format';
+import {attr, boolAttr} from '../../../../src/modules/esl-base-element/core';
+import {TraversingQuery} from '../../../../src/modules/esl-traversing-query/core';
+import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core';
 
-import type {ToggleableActionParams} from '../../../../src/modules/all';
+import type {ToggleableActionParams} from '../../../../src/modules/esl-toggleable/core';
 
 export class ESLDemoSearchBox extends ESLToggleable {
   static is = 'esl-d-search-box';
@@ -26,8 +24,8 @@ export class ESLDemoSearchBox extends ESLToggleable {
     afterNextRender(() => super.onShow(params));
     if (this.autofocus) {
       const $focusEl = TraversingQuery.first(this.firstFocusable, this) as HTMLElement;
-      $focusEl && window.setTimeout(() => $focusEl.focus(), FormatUtils.parseNumber(this.postClsDelay));
-    };
+      $focusEl && window.setTimeout(() => $focusEl.focus(), parseNumber(this.postClsDelay));
+    }
   }
 
   public onHide(params: ToggleableActionParams): void {
@@ -35,6 +33,6 @@ export class ESLDemoSearchBox extends ESLToggleable {
     window.setTimeout(() => {
       CSSClassUtils.remove(this, this.postCls);
       this.activator?.focus({preventScroll: true});
-    }, FormatUtils.parseNumber(this.postClsDelay));
+    }, parseNumber(this.postClsDelay));
   }
 }
