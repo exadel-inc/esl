@@ -32,16 +32,15 @@ export class ESLPanelGroup extends ESLBaseElement {
   @attr({defaultValue: 'auto'}) public fallbackDuration: number | 'auto';
   /** List of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations) */
   @attr() public noCollapse: string;
-
   /**
    * Define accordion behavior
    * `single` allows only one Panel to be open.
    * `multiple` allows any number of open Panels.
    * */
   @attr({defaultValue: 'single'}) public accordionGroup: string;
-
   /** Action params for show/hide requests from the group to child panels */
   @jsonAttr() public actionParams: PanelActionParams;
+
 
   /** Height of previous active panel */
   protected _previousHeight: number = 0;
@@ -50,22 +49,6 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   static get observedAttributes() {
     return ['mode', 'accordion-group'];
-  }
-
-  /** ESLMediaRuleList instance of the mode mapping */
-  @memoize()
-  public get modeRules() {
-    return ESLMediaRuleList.parse(this.mode);
-  }
-
-  /** @returns current mode */
-  public get currentMode(): string {
-    return this.modeRules.activeValue || '';
-  }
-
-  /** @returns merged panel action params for show/hide requests from the group */
-  protected get mergedActionParams(): PanelActionParams {
-    return Object.assign({initiator: 'group', activator: this}, this.actionParams);
   }
 
   protected connectedCallback() {
@@ -116,7 +99,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.removeEventListener('transitionend', this._onTransitionEnd);
   }
 
-  /** Update element state according to current mode */
+  /** Updates element state according to current mode */
   protected updateMode() {
     const prevMode = this.getAttribute('view');
     const currentMode = this.currentMode;
@@ -134,28 +117,44 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
-  /** @returns Panels that are processed by the current panel group */
+  /** @returns ESLMediaRuleList instance of the mode mapping */
+  @memoize()
+  public get modeRules() {
+    return ESLMediaRuleList.parse(this.mode);
+  }
+
+  /** @returns current mode */
+  public get currentMode(): string {
+    return this.modeRules.activeValue || '';
+  }
+
+  /** @returns panels that are processed by the current panel group */
   public get $panels(): ESLPanel[] {
     const els = Array.from(this.querySelectorAll(ESLPanel.is));
     return els.filter((el) => this.includesPanel(el)) as ESLPanel[];
   }
 
-  /** @returns Panels that are active */
+  /** @returns panels that are active */
   public get $activePanels() {
     return this.$panels.filter((el: ESLPanel) => el.open);
   }
 
-  /** @returns Whether the collapse/expand animation should be handheld by the group */
+  /** @returns whether the collapse/expand animation should be handheld by the group */
   public get shouldCollapse() {
     const noCollapseModes = this.noCollapse.split(',').map((mode) => mode.trim());
     return !noCollapseModes.includes('all') && !noCollapseModes.includes(this.currentMode);
   }
 
-  /** @returns Action params config that is used by controlled {@link ESLPanel}s */
+  /** @returns action params config that's used (inherited) by controlled {@link ESLPanel}s */
   public get panelConfig(): PanelActionParams {
     return {
       noCollapse: !this.shouldCollapse || (this.currentMode === 'tabs')
     };
+  }
+
+  /** @returns merged panel action params for show/hide requests from the group */
+  public get panelRequestsConfig(): PanelActionParams {
+    return Object.assign({initiator: 'group', activator: this}, this.actionParams);
   }
 
   /** Condition-guard to check if the passed target is a Panel that should be controlled by the Group */
@@ -164,20 +163,20 @@ export class ESLPanelGroup extends ESLBaseElement {
     return target.$group === this;
   }
 
-  /** Show all panels besides excluded ones */
+  /** Shows all panels besides excluded ones */
   public showAll(excluded: ESLPanel[] = []) {
-    this.$panels.forEach((el) => !excluded.includes(el) && el.show(this.mergedActionParams));
+    this.$panels.forEach((el) => !excluded.includes(el) && el.show(this.panelRequestsConfig));
   }
-  /** Hide all active panels besides excluded ones */
+  /** Hides all active panels besides excluded ones */
   public hideAll(excluded: ESLPanel[] = []) {
-    this.$activePanels.forEach((el) => !excluded.includes(el) && el.hide(this.mergedActionParams));
+    this.$activePanels.forEach((el) => !excluded.includes(el) && el.hide(this.panelRequestsConfig));
   }
-  /** Toggle all panels by predicate */
+  /** Toggles all panels by predicate */
   public toggleAllBy(shouldOpen: (panel: ESLPanel) => boolean) {
-    this.$panels.forEach((panel) => panel.toggle(shouldOpen(panel), this.mergedActionParams));
+    this.$panels.forEach((panel) => panel.toggle(shouldOpen(panel), this.panelRequestsConfig));
   }
 
-  /** Reset to default state applicable to the current mode */
+  /** Resets to default state applicable to the current mode */
   public reset() {
     ESLPanel.registered.then(() => {
       if (this.currentMode === 'open') this.toggleAllBy(() => true);
@@ -191,7 +190,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     });
   }
 
-  /** Animate the height of the component */
+  /** Animates the height of the component */
   protected onAnimate(from: number, to: number) {
     const hasCurrent = this.style.height && this.style.height !== 'auto';
     if (hasCurrent) {
@@ -219,7 +218,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     CSSClassUtils.remove(this, this.animationClass);
   }
 
-  /** Init a fallback timer to call post-animate action */
+  /** Inits a fallback timer to call post-animate action */
   protected fallbackAnimate() {
     const time = +this.fallbackDuration;
     if (isNaN(time) || time < 0) return;
@@ -264,7 +263,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this._previousHeight = this.offsetHeight;
   }
 
-  /** Catching CSS transition end event to start post-animate processing */
+  /** Catches CSS transition end event to start post-animate processing */
   @bind
   protected _onTransitionEnd(e?: TransitionEvent) {
     if (!e || e.propertyName === 'height') {
