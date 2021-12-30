@@ -25,6 +25,7 @@ ESLPanelGroup.register();
 - `accordion-group` - defines accordion behavior: 
   * `single` (default) allows only one Panel to be open.
   * `multiple` allows any number of open Panels.
+- `action-params` - json of action params for show/hide requests from the group to child panels
 
 ### Events
 

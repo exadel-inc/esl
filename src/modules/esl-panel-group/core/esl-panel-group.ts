@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, ESLBaseElement} from '../../esl-base-element/core';
+import {attr, jsonAttr, ESLBaseElement} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {bind} from '../../esl-utils/decorators/bind';
 import {memoize} from '../../esl-utils/decorators/memoize';
@@ -40,6 +40,8 @@ export class ESLPanelGroup extends ESLBaseElement {
    * */
   @attr({defaultValue: 'single'}) public accordionGroup: string;
 
+  /** Action params for show/hide requests from the group to child panels */
+  @jsonAttr() public actionParams: PanelActionParams;
 
   /** Height of previous active panel */
   protected _previousHeight: number = 0;
@@ -61,8 +63,9 @@ export class ESLPanelGroup extends ESLBaseElement {
     return this.modeRules.activeValue || '';
   }
 
-  protected get actionParams(): PanelActionParams {
-    return {initiator: 'group', activator: this};
+  /** @returns merged panel action params for show/hide requests from the group */
+  protected get mergedActionParams(): PanelActionParams {
+    return Object.assign({initiator: 'group', activator: this}, this.actionParams);
   }
 
   protected connectedCallback() {
@@ -163,15 +166,15 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Show all panels besides excluded ones */
   public showAll(excluded: ESLPanel[] = []) {
-    this.$panels.forEach((el) => !excluded.includes(el) && el.show(this.actionParams));
+    this.$panels.forEach((el) => !excluded.includes(el) && el.show(this.mergedActionParams));
   }
   /** Hide all active panels besides excluded ones */
   public hideAll(excluded: ESLPanel[] = []) {
-    this.$activePanels.forEach((el) => !excluded.includes(el) && el.hide(this.actionParams));
+    this.$activePanels.forEach((el) => !excluded.includes(el) && el.hide(this.mergedActionParams));
   }
   /** Toggle all panels by predicate */
   public toggleAllBy(shouldOpen: (panel: ESLPanel) => boolean) {
-    this.$panels.forEach((panel) => panel.toggle(shouldOpen(panel), this.actionParams));
+    this.$panels.forEach((panel) => panel.toggle(shouldOpen(panel), this.mergedActionParams));
   }
 
   /** Reset to default state applicable to the current mode */
