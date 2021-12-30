@@ -153,8 +153,8 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** @returns merged panel action params for show/hide requests from the group */
-  public get panelRequestsConfig(): PanelActionParams {
-    return Object.assign({initiator: 'group', activator: this}, this.actionParams);
+  protected mergeActionParams(...params: PanelActionParams[]): PanelActionParams {
+    return Object.assign({initiator: 'group', activator: this}, ...params);
   }
 
   /** Condition-guard to check if the passed target is a Panel that should be controlled by the Group */
@@ -164,28 +164,28 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Shows all panels besides excluded ones */
-  public showAll(excluded: ESLPanel[] = []) {
-    this.$panels.forEach((el) => !excluded.includes(el) && el.show(this.panelRequestsConfig));
+  public showAll(excluded: ESLPanel[] = [], params: PanelActionParams = {}) {
+    this.$panels.forEach((el) => !excluded.includes(el) && el.show(this.mergeActionParams(params)));
   }
   /** Hides all active panels besides excluded ones */
-  public hideAll(excluded: ESLPanel[] = []) {
-    this.$activePanels.forEach((el) => !excluded.includes(el) && el.hide(this.panelRequestsConfig));
+  public hideAll(excluded: ESLPanel[] = [], params: PanelActionParams = {}) {
+    this.$activePanels.forEach((el) => !excluded.includes(el) && el.hide(this.mergeActionParams(params)));
   }
   /** Toggles all panels by predicate */
-  public toggleAllBy(shouldOpen: (panel: ESLPanel) => boolean) {
-    this.$panels.forEach((panel) => panel.toggle(shouldOpen(panel), this.panelRequestsConfig));
+  public toggleAllBy(shouldOpen: (panel: ESLPanel) => boolean, params: PanelActionParams = {}) {
+    this.$panels.forEach((panel) => panel.toggle(shouldOpen(panel), this.mergeActionParams(params)));
   }
 
   /** Resets to default state applicable to the current mode */
   public reset() {
     ESLPanel.registered.then(() => {
-      if (this.currentMode === 'open') this.toggleAllBy(() => true);
+      if (this.currentMode === 'open') this.toggleAllBy(() => true, this.actionParams);
       if (this.currentMode === 'tabs' || (this.currentMode === 'accordion' && this.accordionGroup === 'single')) {
         const $activePanel = this.$panels.find((panel) => panel.initiallyOpened);
-        this.toggleAllBy((panel) => panel === $activePanel);
+        this.toggleAllBy((panel) => panel === $activePanel, this.actionParams);
       }
       if (this.currentMode === 'accordion' && this.accordionGroup === 'multiple') {
-        this.toggleAllBy((panel) => panel.initiallyOpened);
+        this.toggleAllBy((panel) => panel.initiallyOpened, this.actionParams);
       }
     });
   }
