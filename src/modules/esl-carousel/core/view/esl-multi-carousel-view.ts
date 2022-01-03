@@ -168,7 +168,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     let $slide = this.carousel.$slides[index];
     for (let order = 0; order < this.carousel.count; order++) {
       $slide.style.order = String(order);
-      $slide = this.carousel.getNextSlide($slide);
+      $slide = $slide.$nextCyclic;
     }
   }
 }

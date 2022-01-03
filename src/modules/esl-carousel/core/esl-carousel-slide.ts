@@ -23,20 +23,20 @@ export class ESLCarouselSlide extends ESLBaseElement {
   }
 
   /** @returns next slide sibling */
-  public get $next() {
-    return findNext(this, (this.constructor as typeof ESLCarouselSlide).is);
+  public get $next(): ESLCarouselSlide {
+    return findNext(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
   }
   /** @returns prev slide sibling */
-  public get $prev() {
-    return findPrev(this, (this.constructor as typeof ESLCarouselSlide).is);
+  public get $prev(): ESLCarouselSlide {
+    return findPrev(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
   }
 
   /** @returns next slide sibling (uses cyclic find) */
-  public get $nextCyclic() {
-    return findNextSlideLooped(this, (this.constructor as typeof ESLCarouselSlide).is);
+  public get $nextCyclic(): ESLCarouselSlide {
+    return findNextSlideLooped(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
   }
   /** @returns previous slide sibling (uses cyclic find)  */
-  public get $prevCyclic() {
-    return findPrevSlideLooped(this, (this.constructor as typeof ESLCarouselSlide).is);
+  public get $prevCyclic(): ESLCarouselSlide {
+    return findPrevSlideLooped(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
   }
 }

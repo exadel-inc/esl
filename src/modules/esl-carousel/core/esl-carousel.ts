@@ -229,7 +229,7 @@ export class ESLCarousel extends ESLBaseElement {
     const arr: ESLCarouselSlide[] = [];
     while ($slide?.active && i > 0) {
       arr.push($slide);
-      $slide = this.getNextSlide($slide);
+      $slide = $slide.$nextCyclic;
       i--;
     }
     return arr;
@@ -316,17 +316,6 @@ export class ESLCarousel extends ESLBaseElement {
     const lastGroup = Math.floor(this.count / this.activeCount);
     const index = group === lastGroup ? this.count - this.activeCount : this.activeCount * group;
     return this.normalizeIndex(index);
-  }
-
-  // TODO: remove use slide traversing
-  public getPrevSlide(slide: number | ESLCarouselSlide) {
-    if (typeof slide !== 'number') slide = slide.index;
-    return this.slideAt(slide - 1);
-  }
-  // TODO: remove use slide traversing
-  public getNextSlide(slide: number | ESLCarouselSlide) {
-    if (typeof slide !== 'number') slide = slide.index;
-    return this.slideAt(slide + 1);
   }
 
   public getDirection(from: number, to: number) {
