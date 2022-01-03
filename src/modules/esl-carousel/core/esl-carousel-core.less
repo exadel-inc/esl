@@ -1,21 +1,12 @@
 // CORE styles
-@SLIDE_CAROUSEL_ANIMATION: 1s linear;
 
 esl-carousel {
   display: flex;
   position: relative;
   justify-content: center;
 
-  // TODO class
   .esl-carousel-content {
     overflow: hidden;
-  }
-
-  &[animate] {
-    [data-slides-area] {
-      // animation
-      transition: transform .5s linear;
-    }
   }
 
   [data-slides-area] {
@@ -34,84 +25,5 @@ esl-carousel {
     min-height: 150px;
     margin: 0 5px;
     z-index: 1;
-
-    &:not([visible]):not([active]) {
-      visibility: hidden;
-    }
-    &::after {
-      content: attr(style);
-    }
-  }
-
-  esl-carousel-slide[active] {
-    display: block;
-    position: relative;
-    visibility: visible;
-    z-index: 2;
-    opacity: 1;
-  }
-
-  // Single Carousel Animation
-  esl-carousel-slide[active],
-  esl-carousel-slide.left,
-  esl-carousel-slide.right {
-    display: block;
-    visibility: visible;
-  }
-  esl-carousel-slide.prev {
-    position: absolute;
-  }
-
-  esl-carousel-slide.left {
-    animation: move-from-left @SLIDE_CAROUSEL_ANIMATION;
-  }
-  esl-carousel-slide.left.prev {
-    animation: move-form-active-to-left @SLIDE_CAROUSEL_ANIMATION;
-  }
-  esl-carousel-slide.right {
-    animation: move-from-right @SLIDE_CAROUSEL_ANIMATION;
-  }
-  esl-carousel-slide.right.prev {
-    animation: move-form-active-to-right @SLIDE_CAROUSEL_ANIMATION;
-  }
-
-  @keyframes move-from-left {
-    from {
-      left: -100%;
-    }
-    to {
-      left: 0;
-    }
-  }
-  @keyframes move-form-active-to-left {
-    from {
-      left: 0;
-    }
-    to {
-      left: 100%;
-    }
-  }
-  @keyframes move-from-right {
-    from {
-      left: 100%;
-    }
-    to {
-      left: 0;
-    }
-  }
-  @keyframes move-form-active-to-right {
-    from {
-      left: 0;
-    }
-    to {
-      left: -100%;
-    }
-  }
-
-  // TODO: check if it's necessary
-  // Multi Carousel Animation
-  &[view="multi"] esl-carousel-slide {
-    display: block;
-    transition: transform 1s linear;
   }
 }

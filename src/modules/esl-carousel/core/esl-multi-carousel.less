@@ -1,0 +1,20 @@
+@SLIDE_CAROUSEL_ANIMATION: .5s linear;
+
+esl-carousel.multi-carousel {
+  &[animate] {
+    [data-slides-area] {
+      // animation
+      transition: transform @SLIDE_CAROUSEL_ANIMATION;
+    }
+  }
+
+  esl-carousel-slide {
+    &:not([visible]):not([active]) {
+      visibility: hidden;
+    }
+
+    &::after {
+      content: attr(style);
+    }
+  }
+}

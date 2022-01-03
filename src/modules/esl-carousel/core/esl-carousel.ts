@@ -90,7 +90,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   private update(force: boolean = false) {
     const config: CarouselConfig = Object.assign(
-      {view: 'multiple', count: 1},
+      {view: 'single', count: 1},
       this.configRules.activeValue
     );
 
@@ -102,15 +102,11 @@ export class ESLCarousel extends ESLBaseElement {
     const viewType = this.activeConfig.view;
     if (!viewType) return;
 
-    // TODO: somehow compare active view & selected view
-    // this._view && this._view.unbind();
+    this._view && this._view.unbind();
     this._view = ESLCarouselViewRegistry.instance.createViewInstance(viewType, this);
-    // this._view && this._view.bind();
+    this._view && this._view.bind();
 
-    if (force || this.activeIndexes.length !== this.activeConfig.count) {
-      this._view && this._view.draw();
-      // this.goTo(this.firstIndex, '', true);
-    }
+    this.goTo(this.firstIndex, 'next', true);
   }
 
   private getNextGroup(shiftGroupsCount: number) {

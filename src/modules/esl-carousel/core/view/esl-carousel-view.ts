@@ -4,6 +4,7 @@ import type {CarouselDirection, ESLCarousel} from '../esl-carousel';
 
 export abstract class ESLCarouselView {
   protected readonly carousel: ESLCarousel;
+  public static is = '';
 
   protected constructor(carousel: ESLCarousel) {
     this.carousel = carousel; // TODO: unsafe while lifecycle is not clear

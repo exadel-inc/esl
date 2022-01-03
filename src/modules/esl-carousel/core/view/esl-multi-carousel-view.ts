@@ -7,6 +7,8 @@ import type {ESLCarouselSlide} from '../esl-carousel-slide';
 
 export class ESLMultiCarouselView extends ESLCarouselView {
 
+  public static is = 'multi-carousel';
+
   protected currentIndex: number = 0;
 
   public constructor(carousel: ESLCarousel) {
@@ -14,9 +16,12 @@ export class ESLMultiCarouselView extends ESLCarouselView {
   }
 
   public bind() {
+    this.carousel.classList.add(ESLMultiCarouselView.is);
     this.draw();
   }
   public unbind() {
+    this.carousel.classList.remove(ESLMultiCarouselView.is);
+
     this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', false));
     this.carousel.$slidesArea!.style.transform = 'translateX(0px)';
     this.carousel.$slides.forEach((el) => {
@@ -103,7 +108,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     const shiftX = direction === 'next' ? -offset : 0;
     this.carousel.$slidesArea!.style.transform = `translateX(${shiftX}px)`;
 
-    // TODO: ! and take 1000 from styles
+    // TODO: !
     return promisifyEvent(this.carousel.$slidesArea!, 'transitionend')
       .catch(resolvePromise);
   }
@@ -121,7 +126,6 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     return Promise.resolve();
   }
 
-  // tslint:disable-next-line:no-empty
   public onMove(offset: number) {
     this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', true));
 
@@ -137,7 +141,6 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this.carousel.$slidesArea!.style.transform = `translateX(${stageOffset}px)`;
   }
 
-  // tslint:disable-next-line:no-empty
   public async commit(direction?: CarouselDirection) {
     // if (this.carousel.hasAttribute('animate')) return;
     this.carousel.toggleAttribute('animate', true);
