@@ -283,11 +283,18 @@ export class ESLCarousel extends ESLBaseElement {
 
   //TODO: rename
   public goPrev(count: number = this.activeCount) {
-    return this.goTo(this.firstIndex - count, 'prev');
+    const normalizedIndex = this.normalizeIndex(this.firstIndex - count);
+    // make the first slide active if the circle is over
+    const index = this.firstIndex !== 0 && normalizedIndex >= this.firstIndex ? 0 : normalizedIndex;
+    return this.goTo(index, 'prev');
   }
   //TODO: rename
   public goNext(count: number = this.activeCount) {
-    return this.goTo(this.firstIndex + count, 'next');
+    const lastIndex = this.firstIndex + count + this.activeCount;
+    // make the last slide active if the circle is over
+    const index = this.firstIndex + this.activeCount !== this.count && lastIndex > this.count - 1 ?
+      this.count - this.activeCount : this.normalizeIndex(this.firstIndex + count);
+    return this.goTo(index, 'next');
   }
 
   // TODO utils or private notation
