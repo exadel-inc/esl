@@ -1,3 +1,67 @@
+# [3.11.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.11.0-beta.2...v3.11.0-beta.3) (2021-12-23)
+
+
+### Bug Fixes
+
+* **esl-toggleable:** improve outside keyboard events handling ([38160b6](https://github.com/exadel-inc/esl/commit/38160b66d4fec7c93b072b1d857fd9d2b093416f))
+
+# [3.11.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.11.0-beta.1...v3.11.0-beta.2) (2021-12-23)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** fix event trowing when class target not specified ([4ad5e56](https://github.com/exadel-inc/esl/commit/4ad5e56d6d28c995e8b978c0d0c8a84d05ea41da))
+
+# [3.11.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.10.1-beta.1...v3.11.0-beta.1) (2021-12-22)
+
+
+### Features
+
+* **esl-panel-group:** dispatch change:mode event ([8d41dbd](https://github.com/exadel-inc/esl/commit/8d41dbd69ac703858f1dd8d43ece748da58780f1))
+
+## [3.10.1-beta.1](https://github.com/exadel-inc/esl/compare/v3.10.0...v3.10.1-beta.1) (2021-12-22)
+
+
+### Bug Fixes
+
+* **esl-tooltip:** fix focus out behavior after SHIFT+TAB keypress ([98821a0](https://github.com/exadel-inc/esl/commit/98821a04131f4af234b0f3233f8825d786386a8d))
+
+# [3.10.0](https://github.com/exadel-inc/esl/compare/v3.9.1...v3.10.0) (2021-12-22)
+
+
+### Bug Fixes
+
+* **esl-scrollbar:** fix event subscriber leak ([abaf22a](https://github.com/exadel-inc/esl/commit/abaf22a9ec6380fec3d6676dc7f6944688724c1c))
+* **esl-toggleable:** fix `_onOutsideAction` and `_onClick` signature ([0a2600b](https://github.com/exadel-inc/esl/commit/0a2600b66d0ade06fa19e811cfdb1a8fc050dd37))
+* **esl-toggleable:** fix wrong and missing TSX shape attributes ([0dc77ff](https://github.com/exadel-inc/esl/commit/0dc77ffe2b7cf55d7cb3c71e15d65604b7a82fb4))
+
+
+### Features
+
+* **esl-toggleable:** `keypress` event now also considered as an outside action ([b3c5374](https://github.com/exadel-inc/esl/commit/b3c537430287f2fd909824d4cabab986f368debe))
+
+## [3.9.1](https://github.com/exadel-inc/esl/compare/v3.9.0...v3.9.1) (2021-12-16)
+
+
+### Bug Fixes
+
+* **esl-scrollbar:** fix drag behaviour for short scroll ([03b179d](https://github.com/exadel-inc/esl/commit/03b179d5c0e1dbf974b8e61af700ffff7bc4decc))
+
+# [3.9.0](https://github.com/exadel-inc/esl/compare/v3.8.0...v3.9.0) (2021-12-15)
+
+
+### Bug Fixes
+
+* **esl-utils:** add support for Touch and Pointer events in normalize utilities ([a5a183c](https://github.com/exadel-inc/esl/commit/a5a183c34655aa04899ed66d57eeac59d5c6a5a5))
+
+
+### Features
+
+* **esl-animate:** add jsx/tsx support ([3db5644](https://github.com/exadel-inc/esl/commit/3db564497ea478dc263199cce7c1e232a41d06c4))
+* **esl-scrollbar:** api simplified + performance improvements ([81b8824](https://github.com/exadel-inc/esl/commit/81b8824535253477efb06c8dc640e92746d1da56))
+* **esl-scrollbar:** support for continues click on the scrollbar area ([#688](https://github.com/exadel-inc/esl/issues/688)) ([aae79b4](https://github.com/exadel-inc/esl/commit/aae79b43d05d2ef2a3de144075cddeaf48207d98))
+* **esl-scrollbar:** support for touch actions on scrollbar ([acc42f7](https://github.com/exadel-inc/esl/commit/acc42f702273a1612f551e0df0fdce7c9df8195d))
+
 # [3.8.0](https://github.com/exadel-inc/esl/compare/v3.7.0...v3.8.0) (2021-12-10)
 
 

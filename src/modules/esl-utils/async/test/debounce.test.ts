@@ -40,12 +40,16 @@ describe('async/debounce', () => {
   test('cancel debounce', () => {
     const fn = jest.fn();
     const debounced = debounce(fn, 10);
-    const promise = debounced.promise;
     debounced();
+    const promise = debounced.promise;
     debounced.cancel();
-
-    return promise.catch(() => expect(fn).toBeCalledTimes(0));
-  }, 100);
+    return promise.then(
+      () => {
+        throw new Error('Promise shouldn`t be resolved');
+      },
+      () => expect(fn).toBeCalledTimes(0)
+    );
+  });
 
   test('deferred result', () => {
     const fn = jest.fn((n) => n + 1);
