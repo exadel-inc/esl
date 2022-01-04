@@ -5,15 +5,16 @@ Extends [UIPPlugin](src/core/base/README.md#uip-plugin).
 
 ## Description:
 
-**UIPOptions** component supports two settings: **theme** and **mode**.
+**UIPOptions** component supports three settings: **theme**, **mode** and **direction**.
 
-- **Theme** option has two values: *light* (default) and *dark*. It sets color theme for other elements.
-- **Mode** option also has two values: *vertical* (default) and *horizontal*. It controls UIP container's layout.
+- **Theme** can be *light* (default) and *dark*. It sets color theme for other elements.
+- **Mode** can be *vertical* (default) and *horizontal*. It controls UIP container's layout.
+- **Direction** can be *ltr* (default) and *rtl*. It changes the direction of preview's content.
 
-These options can be manually set (and observed) with corresponding *theme* and *mode* attributes:
+These options can be manually set (and observed) with corresponding attributes:
 
 ```html
-<uip-options label="Options:" mode="horizontal" theme="dark"></uip-options>
+<uip-root mode="horizontal" theme="dark" direction="rtl"></uip-root>
 ```
 
 **UIPOptions** element doesn't produce or observe UIPStateModel changes.
