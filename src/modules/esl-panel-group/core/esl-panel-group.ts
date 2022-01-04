@@ -39,7 +39,7 @@ export class ESLPanelGroup extends ESLBaseElement {
    * */
   @attr({defaultValue: 'single'}) public accordionGroup: string;
   /** Action params to pass into panels when executing reset (e.g. mode changed) */
-  @jsonAttr() public resetParams: PanelActionParams;
+  @jsonAttr({defaultValue: {noCollapse: true}}) public resetParams: PanelActionParams;
 
 
   /** Height of previous active panel */
