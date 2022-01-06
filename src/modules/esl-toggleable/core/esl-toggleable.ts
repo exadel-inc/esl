@@ -267,8 +267,11 @@ export class ESLToggleable extends ESLBaseElement {
   /** @returns if the passed event should trigger hide action */
   public isOutsideAction(e: Event): boolean {
     const target = e.target as HTMLElement;
+    // target is inside current toggleable
     if (this.contains(target)) return false;
+    // target is inside last activator
     if (this.activator && this.activator.contains(target)) return false;
+    // Event is not a system command key
     return !(e instanceof KeyboardEvent && SYSTEM_KEYS.includes(e.key));
   }
 
