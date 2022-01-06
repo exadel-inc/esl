@@ -1,67 +1,110 @@
-export function debug() {
-  return (target: any, name?: string, descriptor?: any) => {
-    let target2 = '' as any;
+export function debug(what: any) {
+  return <T extends ClassDecorator> (target: any, name?: string, descriptor?: TypedPropertyDescriptor<T>) => {
     if (descriptor) {
       throw new TypeError('Only classes can be decorated via @debug');
     }
 
-    Object.getOwnPropertyNames(target.prototype).forEach((methodName: string) => {
+    let newTarget = '' as any;
 
-      const descriptor3 = Object.getOwnPropertyDescriptor(target.prototype, methodName) as any;
-      const original = descriptor3.value;
-      if (descriptor3.get && !original) {
-        const now = Date.now();
-        const original2 = descriptor3.get;
-        descriptor3.configurable = true;
-        descriptor3.get = function (...args: any[]) {
+    Object.getOwnPropertyNames(target.prototype).forEach((propertyName: string) => {
 
-          // printArgs(target.constructor.name, name, args);
-          const ret = original2.apply(this, args);
-          // debug("<= %s.%s: %s", target.constructor.name, name, ret);
-          console.log(`[${target.name}][Acessor][get][${methodName}] Execution time: ${Date.now() - now}ms`, ret);
-          return ret;
-        };
-        Object.defineProperty(target2.prototype, methodName, descriptor3);
-        // target2.prototype[methodName] = descriptor3;
-        return descriptor3;
+      const propertyDescriptor = Object.getOwnPropertyDescriptor(target.prototype, propertyName) as any;
+      const propertyValue = propertyDescriptor.value;
+
+      if (what?.accessor && propertyDescriptor.get && !propertyValue) {
+        newTarget = logGetter(target, newTarget, propertyName, propertyDescriptor);
       }
 
-      if (descriptor3.set && !original) {
-        const now = Date.now();
-        const original2 = descriptor3.set;
-        descriptor3.configurable = true;
-        descriptor3.set = function(...args: any[]) {
-          const ret = original2.apply(this, args);
-          console.log(`[${target.name}][Acessor][set][${methodName}] Execution time: ${Date.now() - now}ms`, ret);
-          return ret;
-        };
-        Object.defineProperty(target2.prototype, methodName, descriptor3);
-        return descriptor3;
+      if (what?.accessor && propertyDescriptor.set && !propertyValue) {
+        newTarget = logSetter(target, newTarget, propertyName, propertyDescriptor);
       }
 
-      if (typeof original !== 'function') {
+      if (typeof propertyValue !== 'function') {
         return;
       }
 
-      if (methodName === 'constructor') {
-        const now = Date.now();
-        target2 = class extends target {
-          constructor(...args: any[]) {
-            super(args);
-            console.log(`[${target.name}][Constructor][${methodName}] Execution time: ${Date.now() - now}ms`, args);
-          }
-        };
-      } else {
-        target2.prototype[methodName] = function (...args: any[]) {
-          const now = Date.now();
-          const ret = original.apply(this, args);
-          console.log(`[${target.name}][Method][${methodName}] Execution time: ${Date.now() - now}ms`, args);
-
-          return ret;
-        };
+      if (what?.accessor && propertyName === 'constructor') {
+        newTarget = logConstructor(target, propertyName);
+      } else if (what?.method && typeof propertyValue === 'function') {
+        newTarget.prototype[propertyName] = logFunction(target, propertyName, propertyValue);
       }
     });
 
-    return target2;
+    return newTarget;
   };
 }
+
+const logConstructor = (target: any, propertyName: string) => {
+  return class extends target {
+    constructor(...passedArgs: any[]) {
+      const now = Date.now();
+      super(passedArgs);
+
+      console.log(`\n[${target.name}][${propertyName}] Execution time: ${Date.now() - now}ms`);
+      if (passedArgs) {
+        console.log('arguments:', passedArgs);
+      }
+    }
+  };
+};
+
+const logFunction = (target: any, propertyName: string, propertyValue: any) => {
+  return function (...passedArgs: any[]) {
+    const now = Date.now();
+    const returnArgs = propertyValue.apply(this, passedArgs);
+
+    console.log(`\n[${target.name}][Method][${propertyName}] Execution time: ${Date.now() - now}ms`);
+    if (passedArgs) {
+      console.log('arguments:', passedArgs);
+    }
+    if (returnArgs) {
+      console.log('returns:', returnArgs);
+    }
+
+    return returnArgs;
+  };
+};
+
+const logSetter = (target: any, newTarget: any, propertyName: string, propertyDescriptor: any) => {
+  const setFunction = propertyDescriptor.set;
+
+  propertyDescriptor.set = function (...passedArgs: any[]) {
+    const startTime = Date.now();
+    const returnArgs = setFunction.apply(this, passedArgs);
+
+    console.log(`\n[${target.name}][Acessor][set][${propertyName}] Execution time: ${Date.now() - startTime}ms`);
+    if (passedArgs) {
+      console.log('arguments:', passedArgs);
+    }
+
+    return returnArgs;
+  };
+
+  Object.defineProperty(newTarget.prototype, propertyName, propertyDescriptor);
+
+  return newTarget;
+};
+
+const logGetter = (target: any, newTarget: any, propertyName: string, propertyDescriptor: any) => {
+  const getFunction = propertyDescriptor.get;
+  propertyDescriptor.configurable = true;
+
+  propertyDescriptor.get = function (...passedArgs: any[]) {
+    const startTime = Date.now();
+    const returnArgs = getFunction.apply(this, passedArgs);
+
+    console.log(`\n[${target.name}][Acessor][get][${propertyName}] Execution time: ${Date.now() - startTime}ms`);
+    if (passedArgs) {
+      console.log('arguments:', passedArgs);
+    }
+    if (returnArgs) {
+      console.log('returns:', returnArgs);
+    }
+
+    return returnArgs;
+  };
+
+  Object.defineProperty(newTarget.prototype, propertyName, propertyDescriptor);
+
+  return newTarget;
+};
