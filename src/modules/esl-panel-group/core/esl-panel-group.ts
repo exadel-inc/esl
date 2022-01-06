@@ -2,6 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, jsonAttr, ESLBaseElement} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {bind} from '../../esl-utils/decorators/bind';
+import {format} from '../../esl-utils/misc/format';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
@@ -24,6 +25,8 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Rendering mode of the component (takes values from the list of supported modes; 'accordion' by default) */
   @attr({defaultValue: 'accordion'}) public mode: string;
+  /** Rendering mode class pattern. Uses {@link format} syntax for `mode` placeholder */
+  @attr({defaultValue: 'esl-{mode}-view'}) public modeCls: string;
   /** Element {@link TraversingQuery} selector to add class that identifies the rendering mode (ESLPanelGroup itself by default) */
   @attr({defaultValue: ''}) public modeClsTarget: string;
   /** Class(es) to be added during animation ('animate' by default) */
@@ -101,20 +104,30 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Updates element state according to current mode */
   protected updateMode() {
-    const prevMode = this.getAttribute('view');
+    const prevMode = this.getAttribute('current-mode');
     const currentMode = this.currentMode;
+    this.setAttribute('current-mode', currentMode);
+    // TODO: @deprecated will be removed with the 4th esl version
     this.setAttribute('view', currentMode);
 
-    const $target = TraversingQuery.first(this.modeClsTarget, this);
-    $target && ESLPanelGroup.supportedModes.forEach((mode) => {
-      $target.classList.toggle(`esl-${mode}-view`, currentMode === mode);
-    });
-
+    this.updateModeCls();
     this.reset();
 
     if (prevMode !== currentMode) {
       this.$$fire('change:mode', {detail: {prevMode, currentMode}});
     }
+  }
+
+  /** Updates mode class marker */
+  protected updateModeCls() {
+    const {modeCls, currentMode} = this;
+    if (!modeCls) return;
+    const $target = TraversingQuery.first(this.modeClsTarget, this);
+    if (!$target) return;
+    ESLPanelGroup.supportedModes.forEach((mode) => {
+      const className = format(modeCls, {mode});
+      $target.classList.toggle(className, currentMode === mode);
+    });
   }
 
   /** @returns ESLMediaRuleList instance of the mode mapping */
