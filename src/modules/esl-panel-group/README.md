@@ -25,7 +25,7 @@ ESLPanelGroup.register();
 - `accordion-group` - defines accordion behavior: 
   * `single` (default) allows only one Panel to be open.
   * `multiple` allows any number of open Panels.
-- `reset-params` - json of action params to pass into panels when executing reset (e.g. mode changed)
+- `transform-params` - json of action params to pass into panels when executing reset action (happens when mode is changed)
 
 ### Events
 

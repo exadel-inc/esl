@@ -38,8 +38,8 @@ export class ESLPanelGroup extends ESLBaseElement {
    * `multiple` allows any number of open Panels.
    * */
   @attr({defaultValue: 'single'}) public accordionGroup: string;
-  /** Action params to pass into panels when executing reset (e.g. mode changed) */
-  @jsonAttr({defaultValue: {noCollapse: true}}) public resetParams: PanelActionParams;
+  /** Action params to pass into panels when executing reset action (happens when mode is changed) */
+  @jsonAttr({defaultValue: {noCollapse: true}}) public transformParams: PanelActionParams;
 
 
   /** Height of previous active panel */
@@ -179,13 +179,13 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Resets to default state applicable to the current mode */
   public reset() {
     ESLPanel.registered.then(() => {
-      if (this.currentMode === 'open') this.toggleAllBy(() => true, this.resetParams);
+      if (this.currentMode === 'open') this.toggleAllBy(() => true, this.transformParams);
       if (this.currentMode === 'tabs' || (this.currentMode === 'accordion' && this.accordionGroup === 'single')) {
         const $activePanel = this.$panels.find((panel) => panel.initiallyOpened);
-        this.toggleAllBy((panel) => panel === $activePanel, this.resetParams);
+        this.toggleAllBy((panel) => panel === $activePanel, this.transformParams);
       }
       if (this.currentMode === 'accordion' && this.accordionGroup === 'multiple') {
-        this.toggleAllBy((panel) => panel.initiallyOpened, this.resetParams);
+        this.toggleAllBy((panel) => panel.initiallyOpened, this.transformParams);
       }
     });
   }
