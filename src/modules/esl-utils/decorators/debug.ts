@@ -1,4 +1,5 @@
-export function debug(what: any) {
+export function debug(logMembers: any = {constructor: true, accessor: true, method: true}) {
+
   return <T extends ClassDecorator> (target: any, name?: string, descriptor?: TypedPropertyDescriptor<T>) => {
     if (descriptor) {
       throw new TypeError('Only classes can be decorated via @debug');
@@ -11,11 +12,11 @@ export function debug(what: any) {
       const propertyDescriptor = Object.getOwnPropertyDescriptor(target.prototype, propertyName) as any;
       const propertyValue = propertyDescriptor.value;
 
-      if (what?.accessor && propertyDescriptor.get && !propertyValue) {
+      if (logMembers?.accessor && propertyDescriptor.get && !propertyValue) {
         newTarget = logGetter(target, newTarget, propertyName, propertyDescriptor);
       }
 
-      if (what?.accessor && propertyDescriptor.set && !propertyValue) {
+      if (logMembers?.accessor && propertyDescriptor.set && !propertyValue) {
         newTarget = logSetter(target, newTarget, propertyName, propertyDescriptor);
       }
 
@@ -23,9 +24,9 @@ export function debug(what: any) {
         return;
       }
 
-      if (what?.accessor && propertyName === 'constructor') {
+      if (logMembers?.constructor && propertyName === 'constructor') {
         newTarget = logConstructor(target, propertyName);
-      } else if (what?.method && typeof propertyValue === 'function') {
+      } else if (logMembers?.method && typeof propertyValue === 'function') {
         newTarget.prototype[propertyName] = logFunction(target, propertyName, propertyValue);
       }
     });
