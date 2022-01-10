@@ -1,16 +1,18 @@
 import {range} from '../../esl-utils/misc/array';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, jsonAttr} from '../../esl-base-element/core';
+import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
+import {memoize} from '../../esl-utils/decorators/memoize';
 import {ready} from '../../esl-utils/decorators/ready';
 import {prop} from '../../esl-utils/decorators/prop';
-import {rafDecorator} from '../../esl-utils/async/raf';
+import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {Rect} from '../../esl-utils/dom/rect';
+import {RTLUtils} from '../../esl-utils/dom/rtl';
 import {getListScrollParents} from '../../esl-utils/dom/scroll';
 import {getWindowRect} from '../../esl-utils/dom/window';
 import {parseNumber} from '../../esl-utils/misc/format';
-import {calcPopupPosition} from './esl-popup-position';
+import {calcPopupPosition, isMajorAxisHorizontal} from './esl-popup-position';
 
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
 import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
@@ -29,6 +31,8 @@ export interface PopupActionParams extends ToggleableActionParams {
   position?: PositionType;
   /** popup behavior if it does not fit in the window */
   behavior?: string;
+  /** Disable hiding the popup depending on the visibility of the activator */
+  disableActivatorObservation?: boolean;
   /** Margins on the edges of the arrow. */
   marginArrow?: string;
   /** offset of the arrow as a percentage of the popup edge (0% - at the left edge, 100% - at the right edge, for RTL it is vice versa) */
@@ -66,6 +70,8 @@ export class ESLPopup extends ESLToggleable {
   /** Popup behavior if it does not fit in the window ('fit' by default) */
   @attr({defaultValue: 'fit'}) public behavior: string;
 
+  /** Disable hiding the popup depending on the visibility of the activator */
+  @boolAttr() public disableActivatorObservation: boolean;
   /**
    * Margins on the edges of the arrow.
    * This is the value in pixels that will be between the edge of the popup and
@@ -91,24 +97,28 @@ export class ESLPopup extends ESLToggleable {
   @prop() public closeOnOutsideAction = true;
 
   @ready
-  public connectedCallback() {
+  public connectedCallback(): void {
     super.connectedCallback();
     this.$arrow = this.querySelector('span.esl-popup-arrow');
   }
 
-  /** Is position along horizontal axis? */
-  protected get _isPositioningAlongHorizontal() {
-    return ['left', 'right'].includes(this.position);
+  /** Checks that the position along the horizontal axis */
+  @memoize()
+  protected get _isMajorAxisHorizontal(): boolean {
+    return isMajorAxisHorizontal(this.position);
   }
 
-  /** Is position along vertical axis? */
-  protected get _isPositioningAlongVertical() {
-    return ['top', 'bottom'].includes(this.position);
+  /** Checks that the position along the vertical axis */
+  @memoize()
+  protected get _isMajorAxisVertical(): boolean {
+    return !isMajorAxisHorizontal(this.position);
   }
 
   /** Get offsets arrow ratio */
-  protected get _offsetArrowRatio() {
-    return parsePercent(this.offsetArrow, DEFAULT_OFFSET_ARROW) / 100;
+  @memoize()
+  protected get _offsetArrowRatio(): number {
+    const ratio = parsePercent(this.offsetArrow, DEFAULT_OFFSET_ARROW) / 100;
+    return RTLUtils.isRtl(this) ? 1 - ratio : ratio;
   }
 
   /**
@@ -116,7 +126,7 @@ export class ESLPopup extends ESLToggleable {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Adds CSS classes, update a11y and fire esl:refresh event by default.
    */
-  public onShow(params: PopupActionParams) {
+  public onShow(params: PopupActionParams): void {
     super.onShow(params);
 
     if (params.position) {
@@ -124,6 +134,9 @@ export class ESLPopup extends ESLToggleable {
     }
     if (params.behavior) {
       this.behavior = params.behavior;
+    }
+    if (params.disableActivatorObservation) {
+      this.disableActivatorObservation = params.disableActivatorObservation;
     }
     if (params.marginArrow) {
       this.marginArrow = params.marginArrow;
@@ -135,32 +148,48 @@ export class ESLPopup extends ESLToggleable {
     this._offsetWindow = params.offsetWindow || 0;
 
     this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
-    setTimeout(() => {
-      // running as a separate task solves the problem with incorrect positioning on the first showing
-      this._updatePosition();
-      this.style.visibility = 'visible';
-      this.activator && this._addActivatorObserver(this.activator);
-      this._startUpdateLoop();
-    });
+
+    afterNextRender(() => this.afterOnShow()); // running as a separate task solves the problem with incorrect positioning on the first showing
   }
 
   /**
    * Actions to execute on hide popup.
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
-   * Removes CSS classes and update a11y by default.
+   * Removes CSS classes and updates a11y by default.
    */
-  public onHide(params: PopupActionParams) {
+  public onHide(params: PopupActionParams): void {
+    this.beforeOnHide();
     super.onHide(params);
 
     this._stopUpdateLoop();
     this.activator && this._removeActivatorObserver(this.activator);
+
+    // clear all memoize data
+    memoize.clear(this, '_isMajorAxisHorizontal');
+    memoize.clear(this, '_isMajorAxisVertical');
+    memoize.clear(this, '_offsetArrowRatio');
   }
+
+  /**
+   * Actions to execute after showing of popup.
+   */
+  protected afterOnShow(): void {
+    this._updatePosition();
+    this.style.visibility = 'visible';
+    this.activator && this._addActivatorObserver(this.activator);
+    this._startUpdateLoop();
+  }
+
+  /**
+   * Actions to execute before hiding of popup.
+   */
+  protected beforeOnHide(): void {}
 
   /**
    * Checks activator intersection for adjacent axis.
    * Hides the popup if the intersection ratio exceeds the limit.
    */
-  protected _checkIntersectionForAdjacentAxis(isAdjacentAxis: boolean, intersectionRatio: number) {
+  protected _checkIntersectionForAdjacentAxis(isAdjacentAxis: boolean, intersectionRatio: number): void {
     if (isAdjacentAxis && intersectionRatio < INTERSECTION_LIMIT_FOR_ADJACENT_AXIS) {
       this.hide();
     }
@@ -168,7 +197,7 @@ export class ESLPopup extends ESLToggleable {
 
   /** Actions to execute on activator intersection event. */
   @bind
-  protected onActivatorIntersection(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
+  protected onActivatorIntersection(entries: IntersectionObserverEntry[], observer: IntersectionObserver): void {
     const entry = entries[0];
     this._intersectionRatio = {};
     if (!entry.isIntersecting) {
@@ -178,61 +207,61 @@ export class ESLPopup extends ESLToggleable {
 
     if (entry.intersectionRect.y !== entry.boundingClientRect.y) {
       this._intersectionRatio.top = entry.intersectionRect.height / entry.boundingClientRect.height;
-      this._checkIntersectionForAdjacentAxis(this._isPositioningAlongHorizontal, this._intersectionRatio.top);
+      this._checkIntersectionForAdjacentAxis(this._isMajorAxisHorizontal, this._intersectionRatio.top);
     }
     if (entry.intersectionRect.bottom !== entry.boundingClientRect.bottom) {
       this._intersectionRatio.bottom = entry.intersectionRect.height / entry.boundingClientRect.height;
-      this._checkIntersectionForAdjacentAxis(this._isPositioningAlongHorizontal, this._intersectionRatio.bottom);
+      this._checkIntersectionForAdjacentAxis(this._isMajorAxisHorizontal, this._intersectionRatio.bottom);
     }
     if (entry.intersectionRect.x !== entry.boundingClientRect.x) {
       this._intersectionRatio.left = entry.intersectionRect.width / entry.boundingClientRect.width;
-      this._checkIntersectionForAdjacentAxis(this._isPositioningAlongVertical, this._intersectionRatio.left);
+      this._checkIntersectionForAdjacentAxis(this._isMajorAxisVertical, this._intersectionRatio.left);
     }
     if (entry.intersectionRect.right !== entry.boundingClientRect.right) {
       this._intersectionRatio.right = entry.intersectionRect.width / entry.boundingClientRect.width;
-      this._checkIntersectionForAdjacentAxis(this._isPositioningAlongVertical, this._intersectionRatio.right);
+      this._checkIntersectionForAdjacentAxis(this._isMajorAxisVertical, this._intersectionRatio.right);
     }
   }
 
   /** Actions to execute on activator scroll event. */
   @bind
-  protected onActivatorScroll(e: Event) {
+  protected onActivatorScroll(e: Event): void {
     if (this._updateLoopID) return;
     this._updatePosition();
   }
 
   /** Creates listeners and observers to observe activator after showing popup */
-  protected _addActivatorObserver(target: HTMLElement) {
+  protected _addActivatorObserver(target: HTMLElement): void {
     const scrollParents = getListScrollParents(target);
 
-    const unsubscribers = scrollParents.map(($root) => {
-      $root.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
-      return () => {
-        $root && $root.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
-      };
-    });
+    this._activatorObserver = {
+      unsubscribers: scrollParents.map(($root) => {
+        $root.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
+        return () => {
+          $root && $root.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
+        };
+      })
+    };
 
-    const options = {
-      rootMargin: '0px',
-      threshold: range(9, (x) => x / 8)
-    } as IntersectionObserverInit;
+    if (!this.disableActivatorObservation) {
+      const options = {
+        rootMargin: '0px',
+        threshold: range(9, (x) => x / 8)
+      } as IntersectionObserverInit;
 
-    const observer = new IntersectionObserver(this.onActivatorIntersection, options);
-    observer.observe(target);
+      const observer = new IntersectionObserver(this.onActivatorIntersection, options);
+      observer.observe(target);
+
+      this._activatorObserver.observer = observer;
+    }
 
     window.addEventListener('resize', this._deferredUpdatePosition);
     window.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
-
-    this._activatorObserver = {
-      unsubscribers,
-      observer
-    };
-
     document.body.addEventListener('transitionstart', this._startUpdateLoop);
   }
 
   /** Removes activator listeners and observers after hiding popup */
-  protected _removeActivatorObserver(target: HTMLElement) {
+  protected _removeActivatorObserver(target: HTMLElement): void {
     window.removeEventListener('resize', this._deferredUpdatePosition);
     window.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
     this._activatorObserver.observer?.disconnect();
@@ -249,7 +278,7 @@ export class ESLPopup extends ESLToggleable {
    * for the last 2 frames of the animation.
    */
   @bind
-  protected _startUpdateLoop() {
+  protected _startUpdateLoop(): void {
     if (this._updateLoopID) return;
 
     let same = 0;
@@ -282,14 +311,14 @@ export class ESLPopup extends ESLToggleable {
    * Also cancels the animation frame request.
    */
   @bind
-  protected _stopUpdateLoop() {
+  protected _stopUpdateLoop(): void {
     if (!this._updateLoopID) return;
     cancelAnimationFrame(this._updateLoopID);
     this._updateLoopID = 0;
   }
 
   /** Updates position of popup and its arrow */
-  protected _updatePosition() {
+  protected _updatePosition(): void {
     if (!this.activator) return;
 
     const triggerRect = this.activator.getBoundingClientRect();
@@ -319,8 +348,8 @@ export class ESLPopup extends ESLToggleable {
     this.style.top = `${popup.y}px`;
     // set arrow position
     if (this.$arrow) {
-      this.$arrow.style.left = ['top', 'bottom'].includes(placedAt) ? `${arrow.x}px` : '';
-      this.$arrow.style.top = ['left', 'right'].includes(placedAt) ? `${arrow.y}px` : '';
+      this.$arrow.style.left = this._isMajorAxisVertical ? `${arrow.x}px` : '';
+      this.$arrow.style.top = this._isMajorAxisHorizontal ? `${arrow.y}px` : '';
     }
   }
 }

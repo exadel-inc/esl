@@ -29,7 +29,8 @@ import {
   ESLSelectList,
   ESLNote,
   ESLFootnotes,
-  ESLTooltip
+  ESLTooltip,
+  ESLAnimate
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -48,12 +49,14 @@ import './esl-media-demo/test-media-source';
 
 import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoMarquee} from './landing/landing';
+import {ESLDemoSearchBox} from './navigation/header/header-search';
 
 ESLVSizeCSSProxy.observe();
 
 // Register Demo components
 ESLDemoSidebar.register();
 ESLDemoMarquee.register();
+ESLDemoSearchBox.register();
 
 // Register ESL Components
 
@@ -86,6 +89,8 @@ ESLSelect.register();
 ESLFootnotes.register();
 ESLNote.register();
 ESLTooltip.register();
+
+ESLAnimate.register();
 
 ESLCarousel.register();
 ESLCarouselPlugins.Dots.register();

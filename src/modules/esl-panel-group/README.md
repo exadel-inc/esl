@@ -25,3 +25,7 @@ ESLPanelGroup.register();
 - `accordion-group` - defines accordion behavior: 
   * `single` (default) allows only one Panel to be open.
   * `multiple` allows any number of open Panels.
+
+### Events
+
+- `esl:change:mode` - thrown when panel group changes mode

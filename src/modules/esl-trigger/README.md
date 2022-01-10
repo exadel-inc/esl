@@ -35,3 +35,7 @@ ESLTrigger - a custom element, that allows to trigger ESLToggleable instances st
 - `hover-show-delay` - show delay override value for hover (number in ms or `none`)
 
 - `hover-hide-delay` - hide delay override value for hover (number in ms or `none`)
+
+### Events
+
+- `esl:change:active` - thrown when trigger changes its state

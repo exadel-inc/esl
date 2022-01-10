@@ -11,12 +11,16 @@ export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable> 
   /** Define CSS class to add when the Toggleable is active */
   'active-class'?: string;
 
+  /** Open toggleable marker. Can be used to define initial state */
+  'open'?: boolean;
+
   /** Define Toggleable group meta information to organize groups */
-  'group-name'?: string;
+  'group'?: string;
 
+  /** Disallow automatic id creation when it's empty */
+  'no-auto-id'?: boolean;
   /** Define selector to mark inner close triggers */
-  'close-trigger'?: string;
-
+  'close-on'?: string;
   /** Enable close the Toggleable on ESC keyboard event */
   'close-on-esc'?: boolean;
   /** Enable close the Toggleable on a click/tap outside */

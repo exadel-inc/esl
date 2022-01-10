@@ -19,6 +19,7 @@ export const handleFocusChain = (e: KeyboardEvent, first: HTMLElement, last: HTM
 };
 
 /**
+ * TODO: add visibility check
  * Gets keyboard-focusable elements within a specified root element
  * @param root - root element
  */
