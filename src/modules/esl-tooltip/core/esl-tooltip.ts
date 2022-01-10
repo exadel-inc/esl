@@ -77,7 +77,7 @@ export class ESLTooltip extends ESLPopup {
   }
 
   /** Sets initial state of the Tooltip */
-  protected setInitialState() {}
+  protected setInitialState(): void {}
 
   /** Creates arrow at Tooltip */
   @memoize()
