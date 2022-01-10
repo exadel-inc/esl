@@ -29,7 +29,7 @@ describe('Decorator: @debug', () => {
     test('Getter call', () => {
       const newInstance = new TestClass();
       expect((console.log as jest.Mock).mock.calls).toEqual([
-        ['\n[TestClass][constructor] Execution time: 0ms'],
+        [expect.stringContaining('\n[TestClass][constructor] Execution time:')],
         ['arguments:', []],
       ]);
     });
@@ -39,7 +39,7 @@ describe('Decorator: @debug', () => {
     test('Getter call', () => {
       instance.testClassAccesor;
       expect((console.log as jest.Mock).mock.calls).toEqual([
-        ['\n[TestClass][Acessor][get][testClassAccesor] Execution time: 0ms'],
+        [expect.stringContaining('\n[TestClass][Getter][testClassAccesor] Execution time:')],
         ['arguments:', []],
         ['returns:', 'getter return']
       ]);
@@ -48,7 +48,7 @@ describe('Decorator: @debug', () => {
     test('Setter call', () => {
       instance.testClassAccesor = 'setter argument string';
       expect((console.log as jest.Mock).mock.calls).toEqual([
-        ['\n[TestClass][Acessor][set][testClassAccesor] Execution time: 0ms'],
+        [expect.stringContaining('\n[TestClass][Setter][testClassAccesor] Execution time:')],
         ['arguments:', ['setter argument string']]
       ]);
     });
@@ -58,7 +58,7 @@ describe('Decorator: @debug', () => {
     test('Function call with return value', () => {
       instance.testClassReturnFunction();
       expect((console.log as jest.Mock).mock.calls).toEqual([
-        ['\n[TestClass][Method][testClassReturnFunction] Execution time: 0ms'],
+        [expect.stringContaining('\n[TestClass][Function][testClassReturnFunction] Execution time:')],
         ['arguments:', []],
         ['returns:', 'function return']
       ]);
@@ -67,7 +67,7 @@ describe('Decorator: @debug', () => {
     test('Function call', () => {
       instance.testClassFunction('function argument');
       expect((console.log as jest.Mock).mock.calls).toEqual([
-        ['\n[TestClass][Method][testClassFunction] Execution time: 0ms'],
+        [expect.stringContaining('\n[TestClass][Function][testClassFunction] Execution time:')],
         ['arguments:', ['function argument']],
       ]);
     });
