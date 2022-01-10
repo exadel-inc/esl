@@ -6,17 +6,16 @@ export function debug(logMembers: any = {constructor: true, accessor: true, meth
     }
 
     let newTarget = '' as any;
-
     Object.getOwnPropertyNames(target.prototype).forEach((propertyName: string) => {
 
       const propertyDescriptor = Object.getOwnPropertyDescriptor(target.prototype, propertyName) as any;
       const propertyValue = propertyDescriptor.value;
 
-      if (logMembers?.accessor && propertyDescriptor.get && !propertyValue) {
+      if (logMembers?.accessor && propertyDescriptor.get && propertyDescriptor.configurable && !propertyValue) {
         newTarget = logGetter(target, newTarget, propertyName, propertyDescriptor);
       }
 
-      if (logMembers?.accessor && propertyDescriptor.set && !propertyValue) {
+      if (logMembers?.accessor && propertyDescriptor.set && propertyDescriptor.configurable && !propertyValue) {
         newTarget = logSetter(target, newTarget, propertyName, propertyDescriptor);
       }
 
@@ -35,32 +34,38 @@ export function debug(logMembers: any = {constructor: true, accessor: true, meth
   };
 }
 
+const logArguments = (passedArgs: any) => {
+  if (passedArgs) {
+    console.log('arguments:', passedArgs);
+  }
+};
+
+const logReturn = (returnArgs: any) => {
+  if (returnArgs) {
+    console.log('returns:', returnArgs);
+  }
+};
+
 const logConstructor = (target: any, propertyName: string) => {
   return class extends target {
     constructor(...passedArgs: any[]) {
-      const now = Date.now();
+      const now = performance.now();
       super(passedArgs);
 
-      console.log(`\n[${target.name}][${propertyName}] Execution time: ${Date.now() - now}ms`);
-      if (passedArgs) {
-        console.log('arguments:', passedArgs);
-      }
+      console.log(`\n[${target.name}][${propertyName}] Execution time: ${performance.now() - now}ms`);
+      logArguments(passedArgs);
     }
   };
 };
 
-const logFunction = (target: any, propertyName: string, propertyValue: any) => {
+const logFunction = (target: any, propertyName: string, propertyValue: any, propertType: string = 'Function') => {
   return function (...passedArgs: any[]) {
-    const now = Date.now();
+    const now = performance.now();
     const returnArgs = propertyValue.apply(this, passedArgs);
 
-    console.log(`\n[${target.name}][Method][${propertyName}] Execution time: ${Date.now() - now}ms`);
-    if (passedArgs) {
-      console.log('arguments:', passedArgs);
-    }
-    if (returnArgs) {
-      console.log('returns:', returnArgs);
-    }
+    console.log(`\n[${target.name}][${propertType}][${propertyName}] Execution time: ${performance.now() - now}ms`);
+    logArguments(passedArgs);
+    logReturn(returnArgs);
 
     return returnArgs;
   };
@@ -68,19 +73,7 @@ const logFunction = (target: any, propertyName: string, propertyValue: any) => {
 
 const logSetter = (target: any, newTarget: any, propertyName: string, propertyDescriptor: any) => {
   const setFunction = propertyDescriptor.set;
-
-  propertyDescriptor.set = function (...passedArgs: any[]) {
-    const startTime = Date.now();
-    const returnArgs = setFunction.apply(this, passedArgs);
-
-    console.log(`\n[${target.name}][Acessor][set][${propertyName}] Execution time: ${Date.now() - startTime}ms`);
-    if (passedArgs) {
-      console.log('arguments:', passedArgs);
-    }
-
-    return returnArgs;
-  };
-
+  propertyDescriptor.set = logFunction(target, propertyName, setFunction, 'Setter');
   Object.defineProperty(newTarget.prototype, propertyName, propertyDescriptor);
 
   return newTarget;
@@ -88,23 +81,7 @@ const logSetter = (target: any, newTarget: any, propertyName: string, propertyDe
 
 const logGetter = (target: any, newTarget: any, propertyName: string, propertyDescriptor: any) => {
   const getFunction = propertyDescriptor.get;
-  propertyDescriptor.configurable = true;
-
-  propertyDescriptor.get = function (...passedArgs: any[]) {
-    const startTime = Date.now();
-    const returnArgs = getFunction.apply(this, passedArgs);
-
-    console.log(`\n[${target.name}][Acessor][get][${propertyName}] Execution time: ${Date.now() - startTime}ms`);
-    if (passedArgs) {
-      console.log('arguments:', passedArgs);
-    }
-    if (returnArgs) {
-      console.log('returns:', returnArgs);
-    }
-
-    return returnArgs;
-  };
-
+  propertyDescriptor.get = logFunction(target, propertyName, getFunction, 'Getter');
   Object.defineProperty(newTarget.prototype, propertyName, propertyDescriptor);
 
   return newTarget;
