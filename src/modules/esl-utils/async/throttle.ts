@@ -24,7 +24,7 @@ export function throttle<F extends AnyToAnyFnSignature>(fn: F, threshold = 250, 
   let timeout: number | null = null;
   let deferred: Deferred<ReturnType<F>> | null = null;
 
-  function throttledSubject(...args: any[]) {
+  function throttledSubject(...args: any[]): void {
     const now = Date.now();
 
     if (!last || now >= last + threshold) {

@@ -27,7 +27,7 @@ export function debounce<F extends AnyToAnyFnSignature>(fn: F, wait = 10, thisAr
   let timeout: number | null = null;
   let deferred: Deferred<ReturnType<F>> | null = null;
 
-  function debouncedSubject(...args: any[]) {
+  function debouncedSubject(...args: any[]): void {
     deferred = deferred || createDeferred();
     (typeof timeout === 'number') && clearTimeout(timeout);
     timeout = window.setTimeout(() => {
@@ -37,7 +37,7 @@ export function debounce<F extends AnyToAnyFnSignature>(fn: F, wait = 10, thisAr
       deferred = null;
     }, wait);
   }
-  function cancel() {
+  function cancel(): void {
     (typeof timeout === 'number') && clearTimeout(timeout);
     timeout = null;
     deferred?.reject();

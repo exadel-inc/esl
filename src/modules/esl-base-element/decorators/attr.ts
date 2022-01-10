@@ -13,13 +13,13 @@ type AttrDescriptor = {
   defaultValue?: string | boolean | null;
 };
 
-function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string | boolean | null | undefined) {
-  function get() {
+function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string | boolean | null | undefined): PropertyDescriptor {
+  function get(): string | boolean | null | undefined {
     const value = this.getAttribute(attrName);
     return typeof value === 'string' ? value : defaultValue;
   }
 
-  function set(value: string | boolean | null | undefined) {
+  function set(value: string | boolean | null | undefined): void {
     if (value === undefined || value === null || value === false) {
       this.removeAttribute(attrName);
     } else {
@@ -31,16 +31,16 @@ function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue
 }
 
 const buildAttrName =
-  (propName: string, dataAttr: boolean) => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
+  (propName: string, dataAttr: boolean): string => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 
 /**
  * Decorator to map current property to element attribute value.
  * Maps string type property.
  * @param config - mapping configuration. See {@link AttrDescriptor}
  */
-export const attr = (config: AttrDescriptor = {}) => {
+export const attr = (config: AttrDescriptor = {}): PropertyDecorator => {
   config = Object.assign({defaultValue: ''}, config);
-  return (target: ESLBaseElement, propName: string) => {
+  return (target: ESLBaseElement, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildSimpleDescriptor(attrName, !!config.readonly, config.defaultValue));
   };

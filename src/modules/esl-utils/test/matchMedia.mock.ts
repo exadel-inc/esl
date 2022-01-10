@@ -10,34 +10,34 @@ export class MatchMediaMock implements MediaQueryList {
     this._matches = (media === '' || media === 'all');
   }
 
-  get matches() {
+  get matches(): boolean {
     return this._matches;
   }
-  set matches(match) {
+  set matches(match: boolean) {
     this.set(match);
   }
 
-  set(matches: boolean, notify = (matches === this._matches)) {
+  set(matches: boolean, notify = (matches === this._matches)): void {
     this._matches = matches;
     if (!notify) return;
     this._listeners.forEach((cb) => cb());
   }
 
-  onchange() {}
-  dispatchEvent(event: Event) {
+  onchange(): void {}
+  dispatchEvent(event: Event): boolean {
     this._listeners.forEach((cb) => cb());
     return false;
   }
-  addListener(cb: any) {
+  addListener(cb: any): void {
     this._listeners.add(cb);
   }
-  removeListener(cb: any) {
+  removeListener(cb: any): void {
     this._listeners.delete(cb);
   }
-  addEventListener(event: string, cb: any) {
+  addEventListener(event: string, cb: any): void {
     this.addListener(cb);
   }
-  removeEventListener(event: string, cb: any) {
+  removeEventListener(event: string, cb: any): void {
     this.removeListener(cb);
   }
 }
