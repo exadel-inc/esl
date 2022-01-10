@@ -6,7 +6,7 @@ const RATIO_TO_DEACTIVATE = 0.20; // TODO: customizable, at least global
 let iObserver: IntersectionObserver;
 
 /** ESL Media Play-In-Viewport IntersectionObserver instance */
-export function getIObserver(lazy: boolean = false) {
+export function getIObserver(lazy: boolean = false): IntersectionObserver {
   if (!iObserver && !lazy) {
     iObserver = new IntersectionObserver(function (entries) {
       entries.forEach(handleViewport);
@@ -17,7 +17,7 @@ export function getIObserver(lazy: boolean = false) {
   return iObserver;
 }
 
-function handleViewport(entry: IntersectionObserverEntry) {
+function handleViewport(entry: IntersectionObserverEntry): void {
   const {target: video} = entry;
   if (!(video instanceof ESLMedia)) return;
 
