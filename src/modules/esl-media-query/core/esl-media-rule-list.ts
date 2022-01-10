@@ -119,7 +119,7 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
     return Object.assign({}, this.default.payload || {}, value);
   }
 
-  /** {@link ESLMediaRule} that is used as a default */
+  /** {@link ESLMediaRule} that is used as a default rule */
   public get default(): ESLMediaRule<T | undefined> | undefined {
     return this._default;
   }
