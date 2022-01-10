@@ -26,7 +26,20 @@ describe('Decorator: @debug', () => {
   const instance = new TestClass();
 
   describe('Constructor log', () => {
+    test('Validation check', () => {
+      expect(function () {
+        class Test {
+          // @ts-ignore
+          @debug() public test() {
+            return 'a';
+          }
+        }
+        new Test();
+      }).toThrow(TypeError);
+    });
+
     test('Getter call', () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const newInstance = new TestClass();
       expect((console.log as jest.Mock).mock.calls).toEqual([
         [expect.stringContaining('\n[TestClass][constructor] Execution time:')],
