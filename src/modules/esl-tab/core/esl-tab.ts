@@ -16,14 +16,14 @@ export class ESLTab extends ESLTrigger {
   @attr({defaultValue: 'show'}) public mode: string;
   @attr({defaultValue: 'active'}) public activeClass: string;
 
-  public initA11y() {
+  public initA11y(): void {
     const target = this.$a11yTarget;
     if (!target) return;
     if (target.hasAttribute('role')) return;
     target.setAttribute('role', 'tab');
   }
 
-  public updateA11y() {
+  public updateA11y(): void {
     const target = this.$a11yTarget;
     if (!target) return;
     target.setAttribute('aria-selected', String(this.active));
