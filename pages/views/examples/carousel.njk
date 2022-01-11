@@ -11,7 +11,7 @@ icon: examples/carousel.svg
   <div class="row flex-column">
     <h2>Demo 1: </h2>
     <p>The first slide is active (1 slide)</p>
-    <esl-carousel>
+    <esl-carousel  config="@-SM => {count: 2, view: 'multiple'} | @+MD => {view: 'slide'}">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
       <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
         <span class="icon-arrow-prev"></span>

@@ -141,6 +141,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this.carousel.$slidesArea!.style.transform = `translateX(${stageOffset}px)`;
   }
 
+  // TODO: make slide active if it's visible
   public async commit(direction?: CarouselDirection) {
     // if (this.carousel.hasAttribute('animate')) return;
     this.carousel.toggleAttribute('animate', true);

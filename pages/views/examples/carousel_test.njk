@@ -9,7 +9,7 @@ icon: examples/carousel.svg
   <div class="row flex-column">
     <h2>Demo 1: </h2>
     <p>3 slides with 2 active slides to check if RAF helps to animate first one</p>
-    <esl-carousel config="@-LG => {count: 2, view: 'multiple'} | @XL => {view: 'single'}">
+    <esl-carousel config="@-SM => {count: 2, view: 'multiple'} | @+MD => {view: 'slide'}">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
 
 
@@ -52,3 +52,5 @@ icon: examples/carousel.svg
     </esl-carousel>
   </div>
 </div>
+
+

@@ -90,7 +90,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   private update(force: boolean = false) {
     const config: CarouselConfig = Object.assign(
-      {view: 'single', count: 1},
+      {view: 'multiple', count: 1},
       this.configRules.activeValue
     );
 
@@ -207,9 +207,10 @@ export class ESLCarousel extends ESLBaseElement {
     return this.querySelector('[data-slides-area]');
   }
 
+  // TODO: discuss null
   public get $activeSlide() {
     const actives = this.$slides.filter((el) => el.active);
-    if (actives.length === 0) return null;
+    // if (actives.length === 0) return null;
     if (actives.length === this.$slides.length) return this.$slides[0];
 
     // TODO try to make the same as activeSlides
@@ -217,6 +218,7 @@ export class ESLCarousel extends ESLBaseElement {
       const prevIndex = this.normalizeIndex(slide.index - 1);
       if (!this.$slides[prevIndex].active) return slide;
     }
+    return this.$slides[0];
   }
 
   public get $activeSlides() {
@@ -264,7 +266,7 @@ export class ESLCarousel extends ESLBaseElement {
     if (!this.$$fire('slide:change', eventDetails)) return;
 
     if (this._view && firstIndex !== nextIndex) {
-      await this._view.onBeforeAnimate();
+      await this._view.onBeforeAnimate(nextIndex, direction);
       await this._view.onAnimate(nextIndex, direction);
       await this._view.onAfterAnimate();
     }
@@ -277,14 +279,14 @@ export class ESLCarousel extends ESLBaseElement {
     this.$$fire('slide:changed', eventDetails);
   }
 
-  //TODO: rename
+  // TODO: rename
   public goPrev(count: number = this.activeCount) {
     const normalizedIndex = this.normalizeIndex(this.firstIndex - count);
     // make the first slide active if the circle is over
     const index = this.firstIndex !== 0 && normalizedIndex >= this.firstIndex ? 0 : normalizedIndex;
     return this.goTo(index, 'prev');
   }
-  //TODO: rename
+  // TODO: rename
   public goNext(count: number = this.activeCount) {
     const lastIndex = this.firstIndex + count + this.activeCount;
     // make the last slide active if the circle is over
