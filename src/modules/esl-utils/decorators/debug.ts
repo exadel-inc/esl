@@ -1,6 +1,8 @@
-export function debug(logMembers: any = {constructor: true, accessor: true, method: true}) {
+/** Decorator "debug" allows to temporairly decorate class with logger */
+export function debug(logMembers: any = {constructor: true, accessor: true, method: true}): ClassDecorator {
 
-  return <T extends ClassDecorator> (target: any, name?: string, descriptor?: TypedPropertyDescriptor<T>) => {
+  return <T extends ClassDecorator> (target: any, name?: string, descriptor?: TypedPropertyDescriptor<T>): any => {
+    // Validation check
     if (descriptor) {
       throw new TypeError('Only classes can be decorated via @debug');
     }
@@ -8,6 +10,7 @@ export function debug(logMembers: any = {constructor: true, accessor: true, meth
     let newTarget = '' as any;
     Object.getOwnPropertyNames(target.prototype).forEach((propertyName: string) => {
 
+      // Original member of a class
       const propertyDescriptor = Object.getOwnPropertyDescriptor(target.prototype, propertyName) as any;
       const propertyValue = propertyDescriptor.value;
 
@@ -34,19 +37,22 @@ export function debug(logMembers: any = {constructor: true, accessor: true, meth
   };
 }
 
-const logArguments = (passedArgs: any) => {
+/** Log function for passed arguments */
+const logArguments = (passedArgs: any): void => {
   if (passedArgs) {
     console.log('arguments:', passedArgs);
   }
 };
 
-const logReturn = (returnArgs: any) => {
+/** Log function return arguments */
+const logReturn = (returnArgs: any): void => {
   if (returnArgs) {
     console.log('returns:', returnArgs);
   }
 };
 
-const logConstructor = (target: any, propertyName: string) => {
+/** Log function for class constructor */
+const logConstructor = (target: any, propertyName: string): any => {
   return class extends target {
     constructor(...passedArgs: any[]) {
       const now = performance.now();
@@ -58,12 +64,13 @@ const logConstructor = (target: any, propertyName: string) => {
   };
 };
 
-const logFunction = (target: any, propertyName: string, propertyValue: any, propertType: string = 'Function') => {
+/** Log function for passed function */
+const logFunction = (target: any, propertyName: string, propertyValue: any, propertyType: string = 'Function'): any => {
   return function (...passedArgs: any[]) {
     const now = performance.now();
     const returnArgs = propertyValue.apply(this, passedArgs);
 
-    console.log(`\n[${target.name}][${propertType}][${propertyName}] Execution time: ${performance.now() - now}ms`);
+    console.log(`\n[${target.name}][${propertyType}][${propertyName}] Execution time: ${performance.now() - now}ms`);
     logArguments(passedArgs);
     logReturn(returnArgs);
 
@@ -71,7 +78,8 @@ const logFunction = (target: any, propertyName: string, propertyValue: any, prop
   };
 };
 
-const logSetter = (target: any, newTarget: any, propertyName: string, propertyDescriptor: any) => {
+/** Log function for set accessor */
+const logSetter = (target: any, newTarget: any, propertyName: string, propertyDescriptor: TypedPropertyDescriptor<ClassDecorator>): any => {
   const setFunction = propertyDescriptor.set;
   propertyDescriptor.set = logFunction(target, propertyName, setFunction, 'Setter');
   Object.defineProperty(newTarget.prototype, propertyName, propertyDescriptor);
@@ -79,7 +87,8 @@ const logSetter = (target: any, newTarget: any, propertyName: string, propertyDe
   return newTarget;
 };
 
-const logGetter = (target: any, newTarget: any, propertyName: string, propertyDescriptor: any) => {
+/** Log function for get accessor */
+const logGetter = (target: any, newTarget: any, propertyName: string, propertyDescriptor: TypedPropertyDescriptor<ClassDecorator>): any => {
   const getFunction = propertyDescriptor.get;
   propertyDescriptor.get = logFunction(target, propertyName, getFunction, 'Getter');
   Object.defineProperty(newTarget.prototype, propertyName, propertyDescriptor);
