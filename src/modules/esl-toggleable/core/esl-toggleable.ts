@@ -264,6 +264,17 @@ export class ESLToggleable extends ESLBaseElement {
     targetEl.setAttribute('aria-hidden', String(!this._open));
   }
 
+  /** @returns if the passed event should trigger hide action */
+  public isOutsideAction(e: Event): boolean {
+    const target = e.target as HTMLElement;
+    // target is inside current toggleable
+    if (this.contains(target)) return false;
+    // target is inside last activator
+    if (this.activator && this.activator.contains(target)) return false;
+    // Event is not a system command key
+    return !(e instanceof KeyboardEvent && SYSTEM_KEYS.includes(e.key));
+  }
+
   @bind
   protected _onClick(e: MouseEvent): void {
     const target = e.target as HTMLElement;
@@ -274,10 +285,7 @@ export class ESLToggleable extends ESLBaseElement {
 
   @bind
   protected _onOutsideAction(e: Event): void {
-    const target = e.target as HTMLElement;
-    if (this.contains(target)) return;
-    if (this.activator && this.activator.contains(target)) return;
-    if (e instanceof KeyboardEvent && SYSTEM_KEYS.includes(e.key)) return;
+    if (!this.isOutsideAction(e)) return;
     // Used 0 delay to decrease priority of the request
     this.hide({initiator: 'outsideaction', hideDelay: 0, event: e});
   }
