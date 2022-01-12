@@ -131,7 +131,9 @@ export class ESLNote extends ESLBaseElement {
   protected restore(): void {
     this.linked = false;
     this._$footnotes = null;
-    this.innerHTML = this.html;
+    if (this.html) {
+      this.innerHTML = this.html;
+    }
     this.tabIndex = -1;
   }
 
