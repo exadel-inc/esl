@@ -10,6 +10,16 @@
     <div class="sidebar-content">
       <ul class="sidebar-nav-list esl-scrollable-content">
         <li class="sidebar-nav-item">
+          <div class="sidebar-nav-item-heading {{ 'active' if functions.isActivePath(page.url, 'search') }}">
+            <a class="sidebar-nav-item-link icon-link" href="{{ '/search.html' | url }}">
+              {% include 'static/assets/sidebar/search.svg' %}
+            </a>
+            <a class="sidebar-nav-item-trigger" href="{{ '/search.html' | url }}">
+              Search
+            </a>
+          </div>
+        </li>
+        <li class="sidebar-nav-item">
           {{ navitem ('Introduction', 'introduction', 'static/assets/sidebar/intro.svg') }}
         </li>
         <li class="sidebar-nav-item">

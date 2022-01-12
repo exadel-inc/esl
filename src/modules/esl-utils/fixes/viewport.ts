@@ -3,8 +3,8 @@ import {DeviceDetector} from '../environment/device-detector';
 
 /**
  * Small utility to provide 100vw and 100vh alternative CSS Variables
- * - vwProp (default: `--100vw`) - is a scroll independent viewport width value
- * - vhProp (default: `--100vh`) - is a device independent viewport height value (also known as 100vh iOS fix)
+ * - vwProp (default: `--100vw`) - scroll independent viewport width value
+ * - vhProp (default: `--100vh`) - device independent viewport height value (also known as 100vh iOS fix)
  */
 export class ESLVSizeCSSProxy {
   public static vwProp = '--100vw';

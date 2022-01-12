@@ -17,7 +17,13 @@ ESLPopup is based on ESLToggleable and works in pair with ESLTrigger that allows
   
 - `behavior` (string) - popup behavior if it does not fit in the window ('fit' by default). Available options:
   - `fit` - default, popup will always be positioned in the right place. Position dynamically updates so it will always be visible
+  - `fit-major` - same as fit, but position dynamically updates only on major axes. Looks like a flip in relation to the trigger
+  - `fit-minor` - same as fit, but position dynamically updates only on minor axes. Looks like alignment to the arrow
   - empty or unsupported value - will not be prevented from overflowing clipping boundaries, such as the viewport
+  
+- `disable-activator-observation` (boolean) - disable hiding the popup depending on the visibility of the activator
+- `margin-arrow` - margins on the edges of the arrow. This is the value in pixels that will be between the edge of the popup and the arrow at extreme positions of the arrow when offsetArrow is set to 0 or 100 (5 by default)
+- `offset-arrow` - offset of the arrow as a percentage of the popup edge. 0% - at the left edge, 100% - at the right edge, for RTL it is vice versa (50 by default)
 
 ESLPopup extends [ESLToggleable](../esl-toggleable/README.md) you can find other supported options in its documentation.
 

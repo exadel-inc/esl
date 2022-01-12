@@ -97,13 +97,13 @@ describe('EventUtils', () => {
       jest.spyOn(elem, 'getBoundingClientRect').mockReturnValue(boundingClientRect);
 
       Object.assign(window, {
-        pageXOffset: 100,
-        pageYOffset: 200,
+        scrollX: 100,
+        scrollY: 200,
       });
 
       expect(EventUtils.normalizeCoordinates(event, elem)).toEqual({
-        x:  pageX - (boundingClientRect.left + window.pageXOffset),
-        y:  pageY - (boundingClientRect.top + window.pageYOffset),
+        x:  pageX - (boundingClientRect.left + window.scrollX),
+        y:  pageY - (boundingClientRect.top + window.scrollY),
       });
     });
   });
