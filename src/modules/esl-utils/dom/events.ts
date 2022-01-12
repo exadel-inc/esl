@@ -11,7 +11,7 @@ export abstract class EventUtils {
    * @param eventName - event name
    * @param eventInit - custom event init. See {@link CustomEventInit}
    */
-  public static dispatch(el: EventTarget, eventName: string, eventInit?: CustomEventInit) {
+  public static dispatch(el: EventTarget, eventName: string, eventInit?: CustomEventInit): boolean {
     const init = Object.assign({
       bubbles: true,
       composed: true,
@@ -21,7 +21,7 @@ export abstract class EventUtils {
   }
 
   /** Get original CustomEvent source */
-  public static source(e: CustomEvent) {
+  public static source(e: CustomEvent): EventTarget | null {
     const targets = (e.composedPath && e.composedPath());
     return targets ? targets[0] : e.target;
   }
@@ -58,12 +58,12 @@ export abstract class EventUtils {
   }
 
   /** Stub method to prevent event from bubbling out of target */
-  public static stopPropagation(e?: Event) {
+  public static stopPropagation(e?: Event): void {
     e?.stopPropagation();
   }
 
   /** Stub method to prevent default event behaviour */
-  public static preventDefault(e?: Event) {
+  public static preventDefault(e?: Event): void {
     e?.preventDefault();
   }
 }

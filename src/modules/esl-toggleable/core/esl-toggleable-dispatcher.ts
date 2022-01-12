@@ -18,7 +18,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
    * Initialize ToggleableGroupDispatcher
    * Uses esl-toggleable-dispatcher tag and document body root by default
    */
-  public static init(root: HTMLElement = document.body, tagName: string = this.is) {
+  public static init(root: HTMLElement = document.body, tagName: string = this.is): void {
     if (!root) throw new Error('Root element should be specified');
     const instances = root.getElementsByTagName(tagName);
     if (instances.length) return;
@@ -29,23 +29,23 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
   protected _root: HTMLElement | null;
   protected _popups: Map<string, ESLToggleable> = new Map<string, ESLToggleable>();
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.root = this.parentElement;
   }
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this.root = null;
   }
 
-  protected bindEvents() {
+  protected bindEvents(): void {
     if (!this.root) return;
     this.root.addEventListener('esl:before:show', this._onBeforeShow);
     this.root.addEventListener('esl:show', this._onShow);
     this.root.addEventListener('esl:hide', this._onHide);
     this.root.addEventListener('esl:change:group', this._onChangeGroup);
   }
-  protected unbindEvents() {
+  protected unbindEvents(): void {
     if (!this.root) return;
     this.root.removeEventListener('esl:before:show', this._onBeforeShow);
     this.root.removeEventListener('esl:show', this._onShow);
@@ -70,7 +70,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
   }
 
   /** Hide active element in group */
-  public hideActive(groupName: string, activator?: HTMLElement) {
+  public hideActive(groupName: string, activator?: HTMLElement): void {
     const active = this.getActive(groupName);
     if (!active || active === activator) return;
     active.hide({
@@ -81,7 +81,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
   }
 
   /** Set active element in group */
-  public setActive(groupName: string, popup: ESLToggleable) {
+  public setActive(groupName: string, popup: ESLToggleable): void {
     if (!groupName) return;
     this.hideActive(groupName, popup);
     this._popups.set(groupName, popup);
@@ -93,14 +93,14 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
   }
 
   /** Delete element from the group if passed element is currently active */
-  public deleteActive(groupName: string, popup: ESLToggleable) {
+  public deleteActive(groupName: string, popup: ESLToggleable): void {
     if (this.getActive(groupName) !== popup) return;
     this._popups.delete(groupName);
   }
 
   /** Hide active element before e.target will be shown */
   @bind
-  protected _onBeforeShow(e: CustomEvent) {
+  protected _onBeforeShow(e: CustomEvent): void {
     const target = EventUtils.source(e);
     if (!this.isAcceptable(target)) return;
     this.hideActive(target.groupName, target);
@@ -108,7 +108,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
 
   /** Update active element after a new element is shown */
   @bind
-  protected _onShow(e: CustomEvent) {
+  protected _onShow(e: CustomEvent): void {
     const target = EventUtils.source(e);
     if (!this.isAcceptable(target)) return;
 
@@ -117,7 +117,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
 
   /** Update group state after active element is hidden */
   @bind
-  protected _onHide(e: CustomEvent) {
+  protected _onHide(e: CustomEvent): void {
     const target = EventUtils.source(e);
     if (!this.isAcceptable(target)) return;
 
@@ -126,7 +126,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
 
   /** Update active elements */
   @bind
-  protected _onChangeGroup(e: CustomEvent) {
+  protected _onChangeGroup(e: CustomEvent): void {
     const target = EventUtils.source(e);
     if (!this.isAcceptable(target)) return;
 

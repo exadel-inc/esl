@@ -40,13 +40,13 @@ export class ESLTabs extends ESLBaseElement {
   protected _deferredUpdateArrows = debounce(this.updateArrows, 100, this);
   protected _deferredFitToViewport = debounce(this.fitToViewport, 100, this);
 
-  static get observedAttributes() {
+  static get observedAttributes(): string[] {
     return ['scrollable'];
   }
 
   /** ESLMediaRuleList instance of the scrollable type mapping */
   @memoize()
-  public get scrollableTypeRules() {
+  public get scrollableTypeRules(): ESLMediaRuleList<string> {
     return ESLMediaRuleList.parse(this.scrollable);
   }
 
@@ -55,19 +55,19 @@ export class ESLTabs extends ESLBaseElement {
     return this.scrollableTypeRules.activeValue || '';
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.scrollableTypeRules.addListener(this._onScrollableTypeChange);
     this.updateScrollableType();
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this.scrollableTypeRules.removeListener(this._onScrollableTypeChange);
     this.unbindScrollableEvents();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'scrollable') {
       this.scrollableTypeRules.removeListener(this._onScrollableTypeChange);
@@ -77,7 +77,7 @@ export class ESLTabs extends ESLBaseElement {
     }
   }
 
-  protected bindScrollableEvents() {
+  protected bindScrollableEvents(): void {
     this.addEventListener('esl:change:active', this._onTriggerStateChange);
     this.addEventListener('click', this._onClick, false);
     this.addEventListener('focusin', this._onFocus);
@@ -85,7 +85,7 @@ export class ESLTabs extends ESLBaseElement {
 
     window.addEventListener('resize', this._onResize);
   }
-  protected unbindScrollableEvents() {
+  protected unbindScrollableEvents(): void {
     this.removeEventListener('esl:change:active', this._onTriggerStateChange);
     this.removeEventListener('click', this._onClick, false);
     this.removeEventListener('focusin', this._onFocus);
@@ -116,7 +116,7 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   /** Move scroll to the next/previous item */
-  public moveTo(direction: string, behavior: ScrollBehavior = 'smooth') {
+  public moveTo(direction: string, behavior: ScrollBehavior = 'smooth'): void {
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget) return;
     let left = $scrollableTarget.offsetWidth;
@@ -145,7 +145,7 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   /** Get scroll offset position from the selected item rectangle */
-  protected calcScrollOffset(itemRect: DOMRect, areaRect: DOMRect) {
+  protected calcScrollOffset(itemRect: DOMRect, areaRect: DOMRect): number | undefined {
     const isReversedRTL = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'reverse';
 
     if (this.currentScrollableType === 'center') {
@@ -162,7 +162,7 @@ export class ESLTabs extends ESLBaseElement {
     }
   }
 
-  protected updateArrows() {
+  protected updateArrows(): void {
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget) return;
 
@@ -177,7 +177,7 @@ export class ESLTabs extends ESLBaseElement {
     $rightArrow && $rightArrow.toggleAttribute('disabled', !(swapSides ? scrollStart : scrollEnd));
   }
 
-  protected updateMarkers() {
+  protected updateMarkers(): void {
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget) return;
 
@@ -186,7 +186,7 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   /** Update element state according to scrollable type */
-  protected updateScrollableType() {
+  protected updateScrollableType(): void {
     ESLTabs.supportedScrollableTypes.forEach((type) => {
       CSSClassUtils.toggle(this, `${type}-alignment`, this.currentScrollableType === type);
     });
@@ -201,13 +201,13 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   @bind
-  protected _onTriggerStateChange({detail}: CustomEvent) {
+  protected _onTriggerStateChange({detail}: CustomEvent): void {
     if (!detail.active) return;
     this._deferredFitToViewport(this.$current);
   }
 
   @bind
-  protected _onClick(event: Event) {
+  protected _onClick(event: Event): void {
     const eventTarget: HTMLElement = event.target as HTMLElement;
     const target: HTMLElement | null = eventTarget.closest('[data-tab-direction]');
     const direction = target && target.dataset.tabDirection;
@@ -217,13 +217,13 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   @bind
-  protected _onFocus(e: FocusEvent) {
+  protected _onFocus(e: FocusEvent): void {
     const target = e.target;
     if (target instanceof ESLTab) this._deferredFitToViewport(target);
   }
 
   @bind
-  protected _onScroll() {
+  protected _onScroll(): void {
     this._deferredUpdateArrows();
   }
 
@@ -232,7 +232,7 @@ export class ESLTabs extends ESLBaseElement {
 
   /** Handles scrollable type change */
   @bind
-  protected _onScrollableTypeChange() {
+  protected _onScrollableTypeChange(): void {
     this.updateScrollableType();
   }
 }

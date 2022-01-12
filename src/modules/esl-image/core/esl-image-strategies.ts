@@ -19,53 +19,53 @@ export interface ESLImageStrategyMap {
 
 export const STRATEGIES: ESLImageStrategyMap = {
   'cover': {
-    apply(img, shadowImg) {
+    apply(img, shadowImg): void {
       const src = shadowImg.src;
       const isEmpty = !src || ESLImage.isEmptyImage(src);
       img.style.backgroundImage = isEmpty ? '' : `url("${src}")`;
     },
-    clear(img) {
+    clear(img): void {
       img.style.backgroundImage = '';
     }
   },
   'save-ratio': {
-    apply(img, shadowImg) {
+    apply(img, shadowImg): void {
       const src = shadowImg.src;
       const isEmpty = !src || ESLImage.isEmptyImage(src);
       img.style.backgroundImage = isEmpty ? '' : `url("${src}")`;
       if (shadowImg.width === 0) return;
       img.style.paddingTop = isEmpty ? '' : `${(shadowImg.height * 100 / shadowImg.width)}%`;
     },
-    clear(img) {
+    clear(img): void {
       img.style.paddingTop = '';
       img.style.backgroundImage = '';
     }
   },
   'fit': {
-    apply(img, shadowImg) {
+    apply(img, shadowImg): void {
       const innerImg = img.attachInnerImage();
       innerImg.src = shadowImg.src;
       innerImg.removeAttribute('width');
     },
-    clear(img) {
+    clear(img): void {
       img.removeInnerImage();
     }
   },
   'origin': {
-    apply(img, shadowImg) {
+    apply(img, shadowImg): void {
       const innerImg = img.attachInnerImage();
       innerImg.src = shadowImg.src;
       innerImg.width = shadowImg.width / window.devicePixelRatio;
     },
-    clear(img) {
+    clear(img): void {
       img.removeInnerImage();
     }
   },
   'inner-svg': {
-    apply(img, shadowImg) {
+    apply(img, shadowImg): void {
       const request = new XMLHttpRequest();
       request.open('GET', shadowImg.src, true);
-      request.onreadystatechange = () => {
+      request.onreadystatechange = (): void => {
         if (request.readyState !== 4 || request.status !== 200) return;
         const tmp = document.createElement('div');
         tmp.innerHTML = request.responseText;
@@ -75,7 +75,7 @@ export const STRATEGIES: ESLImageStrategyMap = {
       };
       request.send();
     },
-    clear(img) {
+    clear(img): void {
       img.innerHTML = '';
     }
   }

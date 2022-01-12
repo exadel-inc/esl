@@ -16,18 +16,18 @@ export class MediaQueryCondition implements IMediaQueryCondition {
     this._mq = matchMedia(query.trim() || 'all');
   }
 
-  public get matches() {
+  public get matches(): boolean {
     return this._inverted ? !this._mq.matches : this._mq.matches;
   }
 
-  public addListener(listener: VoidFunction) {
+  public addListener(listener: VoidFunction): void {
     if (typeof this._mq.addEventListener === 'function') {
       this._mq.addEventListener('change', listener);
     } else {
       this._mq.addListener(listener);
     }
   }
-  public removeListener(listener: VoidFunction) {
+  public removeListener(listener: VoidFunction): void {
     if (typeof this._mq.removeEventListener === 'function') {
       this._mq.removeEventListener('change', listener);
     } else {
@@ -42,7 +42,7 @@ export class MediaQueryCondition implements IMediaQueryCondition {
     return this;
   }
 
-  public toString() {
+  public toString(): string {
     const query = this._mq.media;
     const inverted = this._inverted;
     const complex = inverted && /\)[\s\w]+\(/.test(query);

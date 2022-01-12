@@ -1,6 +1,8 @@
 import {BaseProvider, PlayerStates} from '../core/esl-media-provider';
 import {randUID} from '../../esl-utils/misc/uid';
 
+import type {MediaProviderConfig} from '../core/esl-media-provider';
+
 /**
  * Simple Basic Iframe provider for {@link ESLMedia}
  * @author Alexey Stsefanovich (ala'n)
@@ -12,7 +14,7 @@ export class IframeBasicProvider extends BaseProvider {
   private _state: PlayerStates = PlayerStates.UNINITIALIZED;
   protected _el: HTMLIFrameElement;
 
-  static parseUrl(url: string) {
+  static parseUrl(url: string): Partial<MediaProviderConfig> | null {
     try {
       if (!url) return null;
       const {protocol} = new URL(url);
@@ -23,7 +25,7 @@ export class IframeBasicProvider extends BaseProvider {
     }
   }
 
-  protected buildIframe() {
+  protected buildIframe(): HTMLIFrameElement {
     const el = document.createElement('iframe');
     el.id = 'esl-media-iframe-' + randUID();
     el.className = 'esl-media-inner esl-media-iframe';
@@ -38,12 +40,12 @@ export class IframeBasicProvider extends BaseProvider {
     return el;
   }
 
-  public bind() {
+  public bind(): void {
     if (this._state !== PlayerStates.UNINITIALIZED) return;
     this._ready = new Promise((resolve, reject) => {
       this._el = this.buildIframe();
-      this._el.onload = () => resolve(this);
-      this._el.onerror = (e) => reject(e);
+      this._el.onload = (): void => resolve(this);
+      this._el.onerror = (e): void => reject(e);
       this._state = PlayerStates.UNSTARTED;
       this.component.appendChild(this._el);
     });
@@ -55,31 +57,31 @@ export class IframeBasicProvider extends BaseProvider {
     this._ready.catch((e) => this.component._onError(e));
   }
 
-  public unbind() {
+  public unbind(): void {
     this.component._onDetach();
     this._state = PlayerStates.UNINITIALIZED;
     super.unbind();
   }
 
-  get ready() {
+  get ready(): Promise<any> {
     return Promise.resolve();
   }
 
-  public focus() {
+  public focus(): void {
     if (this._el && this._el.contentWindow) {
       this._el.contentWindow.focus();
     }
   }
 
-  public get state() {
+  public get state(): PlayerStates {
     return this._state;
   }
 
-  public get duration() {
+  public get duration(): number {
     return 0;
   }
 
-  public get currentTime() {
+  public get currentTime(): number {
     return 0;
   }
 
@@ -87,21 +89,21 @@ export class IframeBasicProvider extends BaseProvider {
     return 0;
   }
 
-  public seekTo(pos: number) {
+  public seekTo(pos: number): void {
     console.error('[ESLMedia] Unsupported action: can not execute seekTo on abstract iframe provider');
   }
 
-  public play() {
+  public play(): void {
     if (this.state === PlayerStates.UNINITIALIZED) {
       this.bind();
     }
   }
 
-  public pause() {
+  public pause(): void {
     this.unbind();
   }
 
-  public stop() {
+  public stop(): void {
     this.unbind();
   }
 }

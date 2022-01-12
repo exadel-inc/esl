@@ -67,9 +67,9 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
   }
 
   /** Preprocess simple query term by applying replacers and shortcuts rules */
-  protected static preprocess(term: string) {
+  protected static preprocess(term: string): string {
     if (!this.SHORTCUT_PATTERN.test(term)) return term;
-    const shortcut = term.trim().substr(1).toLowerCase();
+    const shortcut = term.trim().substring(1).toLowerCase();
     for (const replacer of this._preprocessors) {
       const result = replacer.process(shortcut);
       if (typeof result === 'string') return result;
