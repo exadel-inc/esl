@@ -1,3 +1,31 @@
+# [3.11.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.11.0-beta.2...v3.11.0-beta.3) (2021-12-23)
+
+
+### Bug Fixes
+
+* **esl-toggleable:** improve outside keyboard events handling ([38160b6](https://github.com/exadel-inc/esl/commit/38160b66d4fec7c93b072b1d857fd9d2b093416f))
+
+# [3.11.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.11.0-beta.1...v3.11.0-beta.2) (2021-12-23)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** fix event trowing when class target not specified ([4ad5e56](https://github.com/exadel-inc/esl/commit/4ad5e56d6d28c995e8b978c0d0c8a84d05ea41da))
+
+# [3.11.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.10.1-beta.1...v3.11.0-beta.1) (2021-12-22)
+
+
+### Features
+
+* **esl-panel-group:** dispatch change:mode event ([8d41dbd](https://github.com/exadel-inc/esl/commit/8d41dbd69ac703858f1dd8d43ece748da58780f1))
+
+## [3.10.1-beta.1](https://github.com/exadel-inc/esl/compare/v3.10.0...v3.10.1-beta.1) (2021-12-22)
+
+
+### Bug Fixes
+
+* **esl-tooltip:** fix focus out behavior after SHIFT+TAB keypress ([98821a0](https://github.com/exadel-inc/esl/commit/98821a04131f4af234b0f3233f8825d786386a8d))
+
 # [3.10.0](https://github.com/exadel-inc/esl/compare/v3.9.1...v3.10.0) (2021-12-22)
 
 
