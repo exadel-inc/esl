@@ -43,7 +43,7 @@ export class ESLFootnotes extends ESLBaseElement {
 
   /** Reindexes the list of notes */
   public reindex(): void {
-    this._notes = sortFootnotes(this._notes);
+    this._sortNotes();
     this._notes.forEach((note, index) => note.index = index + 1);
   }
 
@@ -121,6 +121,11 @@ export class ESLFootnotes extends ESLBaseElement {
   /** Builds item back-to-note button */
   protected buildItemBack(footnote: FootnotesItem): string {
     return `<span class="esl-footnotes-back-to-note" tabindex="0" title="${this.backToNoteLabel}"></span>`;
+  }
+
+  /** Sorts linked notes */
+  protected _sortNotes(): void {
+    this._notes = sortFootnotes(this._notes);
   }
 
   /** Handles `response` event from note */
