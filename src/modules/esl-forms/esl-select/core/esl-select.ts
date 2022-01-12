@@ -19,10 +19,10 @@ import {ESLSelectDropdown} from './esl-select-dropdown';
 @ExportNs('Select')
 export class ESLSelect extends ESLSelectWrapper {
   public static readonly is = 'esl-select';
-  public static get observedAttributes() {
+  public static get observedAttributes(): string[] {
     return ['disabled'];
   }
-  public static register() {
+  public static register(): void {
     ESLSelectDropdown.register();
     ESLSelectRenderer.register();
     super.register();
@@ -60,11 +60,11 @@ export class ESLSelect extends ESLSelectWrapper {
     this.$dropdown = document.createElement(ESLSelectDropdown.is);
   }
 
-  protected attributeChangedCallback(attrName: string) {
+  protected attributeChangedCallback(attrName: string): void {
     if (attrName === 'disabled') this._updateDisabled();
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
 
     this.$select = this.querySelector('[esl-select-target]')!;
@@ -75,32 +75,32 @@ export class ESLSelect extends ESLSelectWrapper {
     this.bindEvents();
     this._onUpdate();
   }
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this.unbindEvents();
     this._dispose();
   }
 
   /** Catches the focus */
-  public focus(options?: FocusOptions) {
+  public focus(options?: FocusOptions): void {
     this.$select.focus(options);
   }
   /** Updates select component */
-  public update(valueChanged = true) {
+  public update(valueChanged = true): void {
     this._onUpdate();
     if (!valueChanged) return;
     // TODO: silent updates
     EventUtils.dispatch(this, 'esl:change:value', {detail: {event: null}});
   }
 
-  protected bindEvents() {
+  protected bindEvents(): void {
     this.addEventListener('click', this._onClick);
     this.addEventListener('keydown', this._onKeydown);
     this.addEventListener('focusout', this._onUpdate);
     this.$dropdown.addEventListener('esl:show', this._onPopupStateChange);
     this.$dropdown.addEventListener('esl:hide', this._onPopupStateChange);
   }
-  protected unbindEvents() {
+  protected unbindEvents(): void {
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('keydown', this._onKeydown);
     this.removeEventListener('focusout', this._onUpdate);
@@ -108,19 +108,19 @@ export class ESLSelect extends ESLSelectWrapper {
     this.$dropdown.removeEventListener('esl:hide', this._onPopupStateChange);
   }
 
-  protected _prepare() {
+  protected _prepare(): void {
     this.$renderer.className = this.$select.className;
     this.$renderer.emptyText = this.placeholder;
     this.$renderer.moreLabelFormat = this.moreLabelFormat;
     this.$dropdown.$owner = this;
     this.appendChild(this.$renderer);
   }
-  protected _dispose() {
+  protected _dispose(): void {
     this.$select.className = this.$renderer.className;
     this.removeChild(this.$renderer);
   }
 
-  protected _updateDisabled() {
+  protected _updateDisabled(): void {
     this.setAttribute('aria-disabled', String(this.disabled));
     if (!this.$select) return;
     this.$select.disabled = this.disabled;
@@ -128,13 +128,13 @@ export class ESLSelect extends ESLSelectWrapper {
   }
 
   @bind
-  protected _onChange(event: Event) {
+  protected _onChange(event: Event): void {
     this._onUpdate();
     EventUtils.dispatch(this, 'esl:change:value', {detail: {event}});
   }
 
   @bind
-  protected _onUpdate() {
+  protected _onUpdate(): void {
     const hasValue = this.hasSelected();
     this.toggleAttribute('has-value', hasValue);
     CSSClassUtils.toggle(this, this.hasValueClass, hasValue);
@@ -145,7 +145,7 @@ export class ESLSelect extends ESLSelectWrapper {
   }
 
   @bind
-  protected _onClick() {
+  protected _onClick(): void {
     if (this.disabled) return;
     this.$dropdown.toggle(!this.$dropdown.open, {
       activator: this,
@@ -154,7 +154,7 @@ export class ESLSelect extends ESLSelectWrapper {
   }
 
   @bind
-  protected _onKeydown(e: KeyboardEvent) {
+  protected _onKeydown(e: KeyboardEvent): void {
     if ([ENTER, SPACE].includes(e.key)) {
       this.click();
       e.preventDefault();
@@ -162,7 +162,7 @@ export class ESLSelect extends ESLSelectWrapper {
   }
 
   @bind
-  protected _onPopupStateChange(e: CustomEvent) {
+  protected _onPopupStateChange(e: CustomEvent): void {
     if (e.target !== this.$dropdown) return;
     this.open = this.$dropdown.open;
     this._onUpdate();

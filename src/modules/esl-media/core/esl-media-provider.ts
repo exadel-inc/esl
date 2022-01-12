@@ -57,7 +57,7 @@ export abstract class BaseProvider {
   }
 
   /** Wraps _ready promise */
-  get ready() {
+  get ready(): Promise<any> {
     if (!this._ready) {
       const res = Promise.reject('Not Initialized');
       res.catch((e) => console.log('Rejected Media Operation: ', e));
@@ -105,11 +105,11 @@ export abstract class BaseProvider {
   protected abstract stop(): void | Promise<any>;
 
   /** Set focus to the inner content */
-  public focus() {
+  public focus(): void {
     this._el?.focus();
   }
 
-  protected onConfigChange(param: ProviderObservedParams, value: boolean) {
+  protected onConfigChange(param: ProviderObservedParams, value: boolean): void {
     this.config[param] = value;
   }
 
@@ -124,7 +124,7 @@ export abstract class BaseProvider {
    * Executes toggle action:
    * If the player is PAUSED then it starts playing otherwise it pause playing
    */
-  protected toggle() {
+  protected toggle(): void | Promise<any> {
     if ([PlayerStates.PAUSED, PlayerStates.UNSTARTED, PlayerStates.VIDEO_CUED].includes(this.state)) {
       return this.play();
     } else {
@@ -132,34 +132,22 @@ export abstract class BaseProvider {
     }
   }
 
-  /**
-   * Executes onConfigChange action when api is ready
-   * @returns Promise
-   */
-  public onSafeConfigChange(param: ProviderObservedParams, value: boolean) {
+  /** Executes onConfigChange action when api is ready */
+  public onSafeConfigChange(param: ProviderObservedParams, value: boolean): void {
     this.ready.then(() => this.onConfigChange(param, value));
   }
 
-  /**
-   * Executes seekTo action when api is ready
-   * @returns Promise
-   */
+  /** Executes seekTo action when api is ready */
   public safeSeekTo(pos: number): Promise<void> {
     return this.ready.then(() => this.seekTo(pos));
   }
 
-  /**
-   * Executes play when api is ready
-   * @returns Promise
-   */
+  /** Executes play when api is ready */
   public safePlay(): Promise<void> {
     return this.ready.then(() => this.play());
   }
 
-  /**
-   * Executes pause when api is ready
-   * @returns Promise
-   */
+  /** Executes pause when api is ready */
   public safePause(): Promise<void> {
     return this.ready.then(() => this.pause());
   }

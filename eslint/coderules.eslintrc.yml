@@ -125,6 +125,9 @@ rules:
   # It's recommended to pass a compareFn to the Array.sort method
   '@typescript-eslint/require-array-sort-compare': warn
 
+  # Warns if missed return type on functions or class methods
+  '@typescript-eslint/explicit-function-return-type': warn
+
   # Allows the delete operator with computed key expressions
   '@typescript-eslint/no-dynamic-delete': off
 
@@ -164,9 +167,6 @@ rules:
 
   # There is no preferences for interfaces or types
   '@typescript-eslint/consistent-type-definitions': off
-
-  # Do not require explicit return types on functions and class methods
-  '@typescript-eslint/explicit-function-return-type': off
 
   # Do not require explicit accessibility modifiers on class properties and methods
   '@typescript-eslint/explicit-member-accessibility': off

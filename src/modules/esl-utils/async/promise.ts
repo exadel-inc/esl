@@ -35,7 +35,7 @@ export function promisifyEvent(
   options?: boolean | AddEventListenerOptions
 ): Promise<Event> {
   return new Promise((resolve, reject) => {
-    function eventCallback(e: Event) {
+    function eventCallback(e: Event): void {
       target.removeEventListener(event, eventCallback, options);
       resolve(e);
     }
@@ -64,7 +64,7 @@ export function promisifyMarker(target: HTMLElement, marker: string, event: stri
  */
 export function tryUntil<T>(callback: () => T, tryCount = 2, timeout = 100): Promise<T> {
   return new Promise((resolve, reject) => {
-    (function check() {
+    (function check(): void {
       let result: T | undefined;
       try {
         result = callback();

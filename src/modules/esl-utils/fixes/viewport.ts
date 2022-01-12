@@ -11,7 +11,7 @@ export class ESLVSizeCSSProxy {
   public static vhProp = '--100vh';
 
   /** Inits custom CSS variables for viewport sizes and it's observation */
-  public static observe() {
+  public static observe(): void {
     // IE doesn’t support CSS Variables (hopefully same as 100vh issue :D)
     if (DeviceDetector.isIE) return;
 
@@ -19,12 +19,12 @@ export class ESLVSizeCSSProxy {
     window.addEventListener('resize', this.updateDebounced);
   }
   /** Destroys observer */
-  public static destroy() {
+  public static destroy(): void {
     window.removeEventListener('resize', this.updateDebounced);
   }
 
   /** Update custom CSS variables with actual viewport sizes */
-  protected static update() {
+  protected static update(): void {
     const $html = document.documentElement;
     $html.style.setProperty(this.vwProp, `${this.viewportWidth}px`);
     $html.style.setProperty(this.vhProp, `${this.viewportHeight}px`);
