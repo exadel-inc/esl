@@ -16,7 +16,7 @@ import type {ToggleableActionParams} from '../../esl-toggleable/core/esl-togglea
 export class ESLNote extends ESLBaseElement {
   static is = 'esl-note';
 
-  static get observedAttributes() {
+  static get observedAttributes(): string[] {
     return ['tooltip-shown', 'ignore-footnotes'];
   }
 
@@ -234,7 +234,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Actions on breakpoint changing */
   @bind
-  protected _onBPChange() {
+  protected _onBPChange(): void {
     if (ESLTooltip.open) {
       this.hideTooltip();
     }

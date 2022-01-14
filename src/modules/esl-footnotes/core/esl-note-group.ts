@@ -9,7 +9,7 @@ export class ESLNoteGroup extends ESLBaseElement {
   static is = 'esl-note-group';
   static readonly noteTag: string = 'esl-note';
 
-  static get observedAttributes() {
+  static get observedAttributes(): string[] {
     return ['ignore-footnotes'];
   }
 
