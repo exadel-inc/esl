@@ -19,18 +19,18 @@ export class ESLEnvShortcuts {
    * @param shortcut - term to find in query
    * @param value - media query string or boolean result (that represents `all` or `not all` conditions)
    */
-  public static add(shortcut: string, value: string | boolean) {
+  public static add(shortcut: string, value: string | boolean): void {
     if (!['boolean', 'string'].includes(typeof value)) value = false;
-    return shortcuts.set(shortcut.toLowerCase(), value);
+    shortcuts.set(shortcut.toLowerCase(), value);
   }
 
   /** Remove mapping for passed shortcut term */
-  public static remove(shortcut: string) {
+  public static remove(shortcut: string): boolean {
     return shortcuts.delete(shortcut.toLowerCase());
   }
 
   /** Replaces shortcut to registered result */
-  public static process(match: string) {
+  public static process(match: string): string | boolean | undefined {
     if (shortcuts.has(match)) return shortcuts.get(match);
   }
 }

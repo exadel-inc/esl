@@ -11,12 +11,12 @@ type BoolAttrDescriptor = {
   dataAttr?: boolean;
 };
 
-function buildConditionalDescriptor(attrName: string, readOnly: boolean) {
-  function get() {
+function buildConditionalDescriptor(attrName: string, readOnly: boolean): PropertyDescriptor {
+  function get(): boolean {
     return this.hasAttribute(attrName);
   }
 
-  function set(value: boolean) {
+  function set(value: boolean): void {
     this.toggleAttribute(attrName, value);
   }
 
@@ -24,15 +24,15 @@ function buildConditionalDescriptor(attrName: string, readOnly: boolean) {
 }
 
 const buildAttrName =
-  (propName: string, dataAttr: boolean) => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
+  (propName: string, dataAttr: boolean): string => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 
 /**
  * Decorator to map current property to element boolean (marker) attribute state.
  * Maps boolean type property.
  * @param config - mapping configuration. See {@link BoolAttrDescriptor}
  */
-export const boolAttr = (config: BoolAttrDescriptor = {}) => {
-  return (target: ESLBaseElement, propName: string) => {
+export const boolAttr = (config: BoolAttrDescriptor = {}): PropertyDecorator => {
+  return (target: ESLBaseElement, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildConditionalDescriptor(attrName, !!config.readonly));
   };

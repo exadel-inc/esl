@@ -32,7 +32,7 @@ export class ESLAlert extends ESLToggleable {
   static is = 'esl-alert';
   static eventNs = 'esl:alert';
 
-  static get observedAttributes() {
+  static get observedAttributes(): string[] {
     return ['target'];
   }
 
@@ -59,8 +59,8 @@ export class ESLAlert extends ESLToggleable {
   private _clearTimeout: number;
 
   /** Creates global alert instance (using body element as a base) */
-  public static init(options?: Partial<ESLAlert>) {
-    let alert = document.querySelector(`body > ${ESLAlert.is}`);
+  public static init(options?: Partial<ESLAlert>): ESLAlert {
+    let alert: ESLAlert = document.querySelector(`body > ${ESLAlert.is}`)!;
     if (!alert) {
       alert = document.createElement(ESLAlert.is) as ESLAlert;
       options && Object.assign(alert, options);
@@ -74,14 +74,14 @@ export class ESLAlert extends ESLToggleable {
     return Object.assign({}, type.defaultConfig, this.defaultParams || {}, params || {});
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected) return;
     if (attrName === 'target') {
       this.$target = TraversingQuery.first(this.target) as EventTarget;
     }
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.setAttribute('role', this.getAttribute('role') || 'alert');
     this.$content = document.createElement('div');
@@ -94,13 +94,13 @@ export class ESLAlert extends ESLToggleable {
     }
   }
 
-  protected unbindEvents() {
+  protected unbindEvents(): void {
     super.unbindEvents();
     this.unbindTargetEvents();
   }
 
   /** Target element to listen to activation events */
-  public get $target() {
+  public get $target(): EventTarget {
     return this._$target;
   }
   public set $target($el: EventTarget) {
@@ -109,18 +109,18 @@ export class ESLAlert extends ESLToggleable {
     this.bindTargetEvents();
   }
 
-  protected bindTargetEvents() {
+  protected bindTargetEvents(): void {
     if (!this.$target || !this.connected) return;
     this.$target.addEventListener(`${ESLAlert.eventNs}:show`, this._onTargetEvent);
     this.$target.addEventListener(`${ESLAlert.eventNs}:hide`, this._onTargetEvent);
   }
-  protected unbindTargetEvents() {
+  protected unbindTargetEvents(): void {
     if (!this.$target) return;
     this.$target.removeEventListener(`${ESLAlert.eventNs}:show`, this._onTargetEvent);
     this.$target.removeEventListener(`${ESLAlert.eventNs}:hide`, this._onTargetEvent);
   }
 
-  protected onShow(params: AlertActionParams) {
+  protected onShow(params: AlertActionParams): void {
     if (this._clearTimeout) window.clearTimeout(this._clearTimeout);
     if (params.html || params.text) {
       this.render(params);
@@ -128,24 +128,24 @@ export class ESLAlert extends ESLToggleable {
     }
     this.hide(params);
   }
-  protected onHide(params: AlertActionParams) {
+  protected onHide(params: AlertActionParams): void {
     super.onHide(params);
     this._clearTimeout = window.setTimeout(() => this.clear(), params.hideTime);
   }
 
-  protected render({text, html, cls}: AlertActionParams) {
+  protected render({text, html, cls}: AlertActionParams): void {
     CSSClassUtils.remove(this, this.activeCls);
     CSSClassUtils.add(this, this.activeCls = cls);
     if (html) this.$content.innerHTML = html;
     if (text) this.$content.textContent = text;
   }
-  protected clear() {
+  protected clear(): void {
     this.$content.innerHTML = '';
     CSSClassUtils.remove(this, this.activeCls);
   }
 
   @bind
-  protected _onTargetEvent(e: CustomEvent) {
+  protected _onTargetEvent(e: CustomEvent): void {
     if (e.type === `${ESLAlert.eventNs}:show`) {
       const params = Object.assign({}, e.detail, {force: true});
       this.show(params);

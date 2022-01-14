@@ -6,7 +6,7 @@ export interface FootnotesItem {
   text: string;
 }
 
-/** Convert notes list to footnotes items list */
+/** Converts notes list to footnotes items list */
 function convertNotesToFootnotesList(notes: ESLNote[]): FootnotesItem[] {
   return notes.map(({index, renderedIndex, html}) => ({
     index: [`${index}`],
@@ -15,12 +15,12 @@ function convertNotesToFootnotesList(notes: ESLNote[]): FootnotesItem[] {
   }));
 }
 
-/** Compile footnotes non-grouped list */
+/** Compiles footnotes non-grouped list */
 export function compileFootnotesNongroupedList(notes: ESLNote[]): FootnotesItem[] {
   return convertNotesToFootnotesList(notes.filter((note) => note.allowFootnotes));
 }
 
-/** Compile footnotes grouped list */
+/** Compiles footnotes grouped list */
 export function compileFootnotesGroupedList(notes: ESLNote[]): FootnotesItem[] {
   const map = new Map() ;
   convertNotesToFootnotesList(notes.filter((note) => note.allowFootnotes)).forEach((note) => {
@@ -36,11 +36,15 @@ export function compileFootnotesGroupedList(notes: ESLNote[]): FootnotesItem[] {
   return groupedList;
 }
 
-/** Sort notes list */
+/** Sorts notes list */
 export function sortFootnotes(notes: ESLNote[]): ESLNote[] {
-  return notes.sort((note1: ESLNote, note2: ESLNote) => {
-    const rect1 = note1.getBoundingClientRect();
-    const rect2 = note2.getBoundingClientRect();
-    return rect1.top - rect2.top || rect1.left - rect2.left;
+  return notes.sort((note1: ESLNote, note2: ESLNote): number => {
+    if (note1 === note2) return 0;
+    // eslint-disable-next-line no-bitwise
+    if (note1.compareDocumentPosition(note2) & Node.DOCUMENT_POSITION_PRECEDING) {
+      // note2 comes before note1
+      return 1;
+    }
+    return -1;
   });
 }

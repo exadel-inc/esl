@@ -37,19 +37,19 @@ export abstract class ESLScreenBreakpoints {
   }
 
   /** @returns known breakpoint shortcut instance */
-  public static get(name: string) {
+  public static get(name: string): ESLScreenBreakpoint | undefined {
     return registry.get((name || '').toLowerCase());
   }
 
   /** All available breakpoints names */
-  public static get names() {
+  public static get names(): string[] {
     const keys: string[] = [];
     registry.forEach((value, key) => keys.push(key));
     return keys;
   }
 
   /** @returns breakpoints shortcut replacement */
-  public static process(term: string) {
+  public static process(term: string): string | undefined {
     const [, sign, bp] = term.match(ESLScreenBreakpoints.BP_REGEXP) || [];
     const shortcut = ESLScreenBreakpoints.get(bp);
     if (!shortcut) return;
@@ -79,7 +79,7 @@ export class ESLScreenBreakpoint {
     return `(max-width: ${this.max}px)`;
   }
 
-  public toString() {
+  public toString(): string {
     return `[${this.name}]: ${this.min} to ${this.max}`;
   }
 }

@@ -68,7 +68,7 @@ export class ESLAnimateService {
   }
 
   @memoize()
-  private static get instance() {
+  private static get instance(): ESLAnimateService {
     return new ESLAnimateService();
   }
 
@@ -139,7 +139,7 @@ export class ESLAnimateService {
   }
 
   /** Animates passed item */
-  protected onAnimateItem(item: Element) {
+  protected onAnimateItem(item: Element): void {
     const config = this.getConfigFor(item);
     if (!config) return;
 

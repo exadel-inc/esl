@@ -29,8 +29,8 @@ export function memoizeFn<F extends AnyToAnyFnSignature>(fn: F, hashFn: MemoHash
   }
 
   memo.cache = new Map<null | string, ReturnType<F>>();
-  memo.clear = () => memo.cache.clear();
-  memo.has = (...args: Parameters<F>) => {
+  memo.clear = (): void => memo.cache.clear();
+  memo.has = (...args: Parameters<F>): boolean => {
     const key = hashFn(...args);
     return key === undefined ? false : memo.cache.has(key);
   };
@@ -48,7 +48,7 @@ export type MemoHashFn<F extends AnyToAnyFnSignature = AnyToAnyFnSignature> = (.
  * Default arguments hash function.
  * Supports only 0-1 arguments with a primitive type.
  */
-export function defaultArgsHashFn(...args: any[]) {
+export function defaultArgsHashFn(...args: any[]): string | null | undefined {
   if (args.length === 0) return null;
   if (args.length > 1) return;
   if (typeof args[0] !== 'string' && typeof args[0] !== 'number' && typeof args[0] !== 'boolean') return;

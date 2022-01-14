@@ -54,7 +54,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
   private _mutationObserver = new MutationObserver(this._onTargetMutation.bind(this));
 
   /** Native select that is wrapped */
-  public get $select() {
+  public get $select(): HTMLSelectElement {
     return this._$select;
   }
   public set $select(select: HTMLSelectElement) {
@@ -63,40 +63,40 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
     this._onTargetChange(select, prev);
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.ownerDocument.addEventListener('reset', this._onReset);
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this.ownerDocument.removeEventListener('reset', this._onReset);
     this._mutationObserver.disconnect();
     this._$select && this._$select.removeEventListener('change', this._onChange);
   }
 
-  protected _onChange(event?: Event) {}
-  protected _onListChange() {}
+  protected _onChange(event?: Event): void {}
+  protected _onListChange(): void {}
   protected _onTargetChange(newTarget: HTMLSelectElement | undefined,
-                            oldTarget: HTMLSelectElement | undefined) {
+                            oldTarget: HTMLSelectElement | undefined): void {
     if (oldTarget) oldTarget.removeEventListener('change', this._onChange);
     if (newTarget) newTarget.addEventListener('change', this._onChange);
     this._mutationObserver.disconnect();
     const type = (this.constructor as typeof ESLSelectWrapper);
     if (newTarget) this._mutationObserver.observe(newTarget, type.observationConfig);
   }
-  protected _onTargetMutation(changes: MutationRecord[]) {
-    const isListChange = (change: MutationRecord) => change.addedNodes.length + change.removedNodes.length > 0;
+  protected _onTargetMutation(changes: MutationRecord[]): void {
+    const isListChange = (change: MutationRecord): boolean => change.addedNodes.length + change.removedNodes.length > 0;
     changes.some(isListChange) ? this._onListChange() : this._onChange();
   }
 
   @bind
-  protected _onReset(event: Event) {
+  protected _onReset(event: Event): void {
     if (!event.target || event.target !== this.form) return;
     setTimeout(() => this._onChange(event));
   }
 
-  public get multiple() {
+  public get multiple(): boolean {
     return this.$select && this.$select.multiple;
   }
 
@@ -111,7 +111,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
     return this.options.find((item) => item.value === value);
   }
 
-  public setSelected(value: string, state: boolean) {
+  public setSelected(value: string, state: boolean): void {
     const option = this.getOption(value);
     option && (option.selected = state);
     EventUtils.dispatch(this.$select, 'change');
@@ -128,17 +128,17 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
     return this.options.every((item) => item.selected || item.disabled);
   }
 
-  public setAllSelected(state: boolean) {
-    if (!this.multiple) return false;
+  public setAllSelected(state: boolean): void {
+    if (!this.multiple) return;
     this.options.forEach((item: HTMLOptionElement) => item.selected = !item.disabled && state);
     EventUtils.dispatch(this.$select, 'change');
   }
 
   // Proxy select methods and values
-  public get value() {
+  public get value(): string | undefined {
     return this.$select?.value;
   }
-  public get values() {
+  public get values(): string[] {
     return this.selectedOptions.map((item: HTMLOptionElement) => item.value);
   }
 

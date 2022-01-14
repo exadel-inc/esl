@@ -47,16 +47,16 @@ export class ESLNote extends ESLBaseElement {
   protected _index: number;
 
   /** Marker to allow track hover */
-  public get allowHover() {
+  public get allowHover(): boolean {
     return DeviceDetector.hasHover && ESLMediaQuery.for(this.trackHover).matches;
   }
   /** Marker to allow track clicks */
-  public get allowClick() {
+  public get allowClick(): boolean {
     return ESLMediaQuery.for(this.trackClick).matches;
   }
 
   /** Marker to allow footnotes to pick up this note */
-  public get allowFootnotes() {
+  public get allowFootnotes(): boolean {
     return !ESLMediaQuery.for(this.ignoreFootnotes).matches;
   }
 
@@ -75,7 +75,7 @@ export class ESLNote extends ESLBaseElement {
   }
 
   @ready
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     if (!this.html) {
       this.html = this.innerHTML;
     }
@@ -85,7 +85,7 @@ export class ESLNote extends ESLBaseElement {
     this._sendResponseToFootnote();
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this.unbindEvents();
     this._$footnotes?.unlinkNote(this);
@@ -162,7 +162,9 @@ export class ESLNote extends ESLBaseElement {
   protected restore(): void {
     this.linked = false;
     this._$footnotes = null;
-    this.innerHTML = this.html;
+    if (this.html) {
+      this.innerHTML = this.html;
+    }
     this.tabIndex = -1;
   }
 

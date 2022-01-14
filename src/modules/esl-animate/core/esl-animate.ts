@@ -58,35 +58,35 @@ export class ESLAnimate extends ESLBaseElement {
    */
   @attr() public target: string;
 
-  static get observedAttributes() {
+  static get observedAttributes(): string[] {
     return ['group', 'repeat', 'target'];
   }
 
   /** Elements-targets found by target query */
   @memoize()
-  public get $targets() {
-    return TraversingQuery.all(this.target, this);
+  public get $targets(): HTMLElement[] {
+    return TraversingQuery.all(this.target, this) as HTMLElement[];
   }
 
-  protected attributeChangedCallback() {
+  protected attributeChangedCallback(): void {
     if (!this.connected) return;
     this.reanimate();
   }
 
   @ready
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.reanimate();
   }
 
   @ready
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     ESLAnimateService.unobserve(this.$targets);
   }
 
   /** Reinitialize {@link ESLAnimateService} for targets */
-  public reanimate() {
+  public reanimate(): void {
     ESLAnimateService.unobserve(this.$targets);
     memoize.clear(this, '$targets');
     ESLAnimateService.observe(this.$targets, {

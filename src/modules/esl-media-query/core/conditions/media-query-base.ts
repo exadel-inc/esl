@@ -21,18 +21,18 @@ export interface IMediaQueryCondition {
 class MediaQueryConstCondition implements IMediaQueryCondition {
   constructor(private readonly _matches: boolean) {}
 
-  public get matches() {
+  public get matches(): boolean {
     return this._matches;
   }
 
-  public addListener(cb: VoidFunction) {}
-  public removeListener(cb: VoidFunction) {}
+  public addListener(cb: VoidFunction): void {}
+  public removeListener(cb: VoidFunction): void {}
 
-  public optimize() {
+  public optimize(): IMediaQueryCondition {
     return this;
   }
 
-  public toString() {
+  public toString(): string {
     return this._matches ? 'all' : 'not all';
   }
 

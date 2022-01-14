@@ -1,6 +1,6 @@
 /** Check that `nodeA` and `nodeB` are from the same tree path */
-export const isRelativeNode = (nodeA: Node | null, nodeB: Node | null) => {
-  return nodeA && nodeB && (nodeA.contains(nodeB) || nodeB.contains(nodeA));
+export const isRelativeNode = (nodeA: Node | null, nodeB: Node | null): boolean => {
+  return !!(nodeA && nodeB) && (nodeA.contains(nodeB) || nodeB.contains(nodeA));
 };
 
 /** Create function that finds next dom element, that matches selector, in the sequence declared by `next` function */
