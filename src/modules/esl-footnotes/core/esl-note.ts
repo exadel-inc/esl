@@ -34,15 +34,15 @@ export class ESLNote extends ESLBaseElement {
   protected _index: number;
 
   /** Marker to allow track hover */
-  public get allowHover() {
+  public get allowHover(): boolean {
     return DeviceDetector.hasHover && ESLMediaQuery.for(this.trackHover).matches;
   }
   /** Marker to allow track clicks */
-  public get allowClick() {
+  public get allowClick(): boolean {
     return ESLMediaQuery.for(this.trackClick).matches;
   }
 
-  static get observedAttributes() {
+  static get observedAttributes(): string[] {
     return ['tooltip-shown'];
   }
 
@@ -61,7 +61,7 @@ export class ESLNote extends ESLBaseElement {
   }
 
   @ready
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     if (!this.html) {
       this.html = this.innerHTML;
     }
@@ -70,14 +70,14 @@ export class ESLNote extends ESLBaseElement {
     this._sendResponseToFootnote();
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this.unbindEvents();
     this._$footnotes?.unlinkNote(this);
     this.restore();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'tooltip-shown' && newVal === null) {
       this._$footnotes?.turnOffHighlight(this);

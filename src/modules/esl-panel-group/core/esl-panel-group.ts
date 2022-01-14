@@ -50,11 +50,11 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Fallback setTimeout timer */
   protected _fallbackTimer: number = 0;
 
-  static get observedAttributes() {
+  static get observedAttributes(): string[] {
     return ['mode', 'accordion-group'];
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.bindEvents();
 
@@ -62,14 +62,14 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.updateMode();
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this.modeRules.removeListener(this._onModeChange);
 
     this.unbindEvents();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'mode') {
       this.modeRules.removeListener(this._onModeChange);
@@ -86,7 +86,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
-  protected bindEvents() {
+  protected bindEvents(): void {
     this.addEventListener('esl:before:show', this._onBeforeShow);
     this.addEventListener('esl:show', this._onShow);
     this.addEventListener('esl:before:hide', this._onBeforeHide);
@@ -94,7 +94,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.addEventListener('transitionend', this._onTransitionEnd);
   }
 
-  protected unbindEvents() {
+  protected unbindEvents(): void {
     this.removeEventListener('esl:before:show', this._onBeforeShow);
     this.removeEventListener('esl:show', this._onShow);
     this.removeEventListener('esl:before:hide', this._onBeforeHide);
@@ -103,7 +103,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Updates element state according to current mode */
-  protected updateMode() {
+  protected updateMode(): void {
     const prevMode = this.getAttribute('current-mode');
     const currentMode = this.currentMode;
     this.setAttribute('current-mode', currentMode);
@@ -119,7 +119,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Updates mode class marker */
-  protected updateModeCls() {
+  protected updateModeCls(): void {
     const {modeCls, currentMode} = this;
     if (!modeCls) return;
     const $target = TraversingQuery.first(this.modeClsTarget, this);
@@ -132,7 +132,7 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** @returns ESLMediaRuleList instance of the mode mapping */
   @memoize()
-  public get modeRules() {
+  public get modeRules(): ESLMediaRuleList<string> {
     return ESLMediaRuleList.parse(this.mode);
   }
 
@@ -148,12 +148,12 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** @returns panels that are active */
-  public get $activePanels() {
+  public get $activePanels(): ESLPanel[] {
     return this.$panels.filter((el: ESLPanel) => el.open);
   }
 
   /** @returns whether the collapse/expand animation should be handheld by the group */
-  public get shouldCollapse() {
+  public get shouldCollapse(): boolean {
     const noCollapseModes = this.noCollapse.split(',').map((mode) => mode.trim());
     return !noCollapseModes.includes('all') && !noCollapseModes.includes(this.currentMode);
   }
@@ -177,20 +177,20 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Shows all panels besides excluded ones */
-  public showAll(excluded: ESLPanel[] = [], params: PanelActionParams = {}) {
+  public showAll(excluded: ESLPanel[] = [], params: PanelActionParams = {}): void {
     this.$panels.forEach((el) => !excluded.includes(el) && el.show(this.mergeActionParams(params)));
   }
   /** Hides all active panels besides excluded ones */
-  public hideAll(excluded: ESLPanel[] = [], params: PanelActionParams = {}) {
+  public hideAll(excluded: ESLPanel[] = [], params: PanelActionParams = {}): void {
     this.$activePanels.forEach((el) => !excluded.includes(el) && el.hide(this.mergeActionParams(params)));
   }
   /** Toggles all panels by predicate */
-  public toggleAllBy(shouldOpen: (panel: ESLPanel) => boolean, params: PanelActionParams = {}) {
+  public toggleAllBy(shouldOpen: (panel: ESLPanel) => boolean, params: PanelActionParams = {}): void {
     this.$panels.forEach((panel) => panel.toggle(shouldOpen(panel), this.mergeActionParams(params)));
   }
 
   /** Resets to default state applicable to the current mode */
-  public reset() {
+  public reset(): void {
     ESLPanel.registered.then(() => {
       if (this.currentMode === 'open') this.toggleAllBy(() => true, this.transformParams);
       if (this.currentMode === 'tabs' || (this.currentMode === 'accordion' && this.accordionGroup === 'single')) {
@@ -204,7 +204,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Animates the height of the component */
-  protected onAnimate(from: number, to: number) {
+  protected onAnimate(from: number, to: number): void {
     const hasCurrent = this.style.height && this.style.height !== 'auto';
     if (hasCurrent) {
       this.style.height = `${to}px`;
@@ -221,18 +221,18 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Pre-processing animation action */
-  protected beforeAnimate() {
+  protected beforeAnimate(): void {
     CSSClassUtils.add(this, this.animationClass);
   }
 
   /** Post-processing animation action */
-  protected afterAnimate() {
+  protected afterAnimate(): void {
     this.style.removeProperty('height');
     CSSClassUtils.remove(this, this.animationClass);
   }
 
   /** Inits a fallback timer to call post-animate action */
-  protected fallbackAnimate() {
+  protected fallbackAnimate(): void {
     const time = +this.fallbackDuration;
     if (isNaN(time) || time < 0) return;
     if (this._fallbackTimer) clearTimeout(this._fallbackTimer);
@@ -241,7 +241,7 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Process {@link ESLPanel} pre-show event */
   @bind
-  protected _onBeforeShow(e: CustomEvent) {
+  protected _onBeforeShow(e: CustomEvent): void {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
     if (this.currentMode === 'accordion' && this.accordionGroup === 'multiple') return;
@@ -250,7 +250,7 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Process {@link ESLPanel} show event */
   @bind
-  protected _onShow(e: CustomEvent) {
+  protected _onShow(e: CustomEvent): void {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
     if (this.currentMode !== 'tabs') return;
@@ -265,7 +265,7 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Process {@link ESLPanel} pre-hide event */
   @bind
-  protected _onBeforeHide(e: CustomEvent) {
+  protected _onBeforeHide(e: CustomEvent): void {
     // TODO: refactor
     if (this.currentMode === 'open') {
       e.preventDefault();
@@ -278,7 +278,7 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Catches CSS transition end event to start post-animate processing */
   @bind
-  protected _onTransitionEnd(e?: TransitionEvent) {
+  protected _onTransitionEnd(e?: TransitionEvent): void {
     if (!e || e.propertyName === 'height') {
       this.afterAnimate();
     }
@@ -286,7 +286,7 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Handles mode change */
   @bind
-  protected _onModeChange() {
+  protected _onModeChange(): void {
     this.updateMode();
   }
 }

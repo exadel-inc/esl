@@ -4,7 +4,7 @@ import {ESLImage} from './esl-image';
 let iObserver: IntersectionObserver;
 
 /** ESL Image lazy loading IntersectionObserver instance */
-export function getIObserver() {
+export function getIObserver(): IntersectionObserver {
   if (!iObserver) {
     iObserver = new IntersectionObserver(function (entries) {
       entries.forEach(handleViewport);
@@ -16,7 +16,7 @@ export function getIObserver() {
   return iObserver;
 }
 
-function handleViewport(entry: IntersectionObserverEntry) {
+function handleViewport(entry: IntersectionObserverEntry): void {
   const {target: image} = entry;
   if (!(image instanceof ESLImage)) return;
 

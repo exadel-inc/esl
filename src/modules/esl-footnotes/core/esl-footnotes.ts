@@ -47,14 +47,14 @@ export class ESLFootnotes extends ESLBaseElement {
     this._notes.forEach((note, index) => note.index = index + 1);
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
 
     this.bindEvents();
     this._notifyNotes();
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
 
     this.unbindEvents();

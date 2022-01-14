@@ -10,12 +10,12 @@ const managerMap = new Map<string, ESLMedia>();
  */
 export class MediaGroupRestrictionManager {
   /** @internal */
-  static get managerMap() {
+  static get managerMap(): Map<string, ESLMedia> {
     return managerMap;
   }
 
   /** Register instance play state in group */
-  public static registerPlay(instance: ESLMedia) {
+  public static registerPlay(instance: ESLMedia): void {
     if (instance.group) {
       const current = managerMap.get(instance.group);
       managerMap.set(instance.group, instance);
@@ -27,7 +27,7 @@ export class MediaGroupRestrictionManager {
   }
 
   /** Unregister instance */
-  public static unregister(instance: ESLMedia) {
+  public static unregister(instance: ESLMedia): void {
     if (instance.group) {
       const reg = managerMap.get(instance.group);
       if (reg === instance) managerMap.delete(instance.group);

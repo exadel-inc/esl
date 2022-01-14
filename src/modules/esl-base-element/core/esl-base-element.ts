@@ -10,16 +10,16 @@ export abstract class ESLBaseElement extends HTMLElement {
 
   protected _connected: boolean = false;
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     this._connected = true;
     this.classList.add((this.constructor as typeof ESLBaseElement).is);
   }
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     this._connected = false;
   }
 
   /** Check that the element is connected and `connectedCallback` has been executed */
-  public get connected() {
+  public get connected(): boolean {
     return this._connected;
   }
 
@@ -37,7 +37,7 @@ export abstract class ESLBaseElement extends HTMLElement {
    * Register component in the {@link customElements} registry
    * @param tagName - custom tag name to register custom element
    */
-  public static register(this: typeof ESLBaseElement, tagName?: string) {
+  public static register(this: typeof ESLBaseElement, tagName?: string): void {
     tagName = tagName || this.is;
     if (!tagName) throw new Error('Can not define custom element');
     const constructor: any = customElements.get(tagName);
@@ -51,7 +51,7 @@ export abstract class ESLBaseElement extends HTMLElement {
     customElements.define(tagName, this as any as CustomElementConstructor);
   }
 
-  public static get registered() {
+  public static get registered(): Promise<CustomElementConstructor> {
     return customElements.whenDefined(this.is);
   }
 }
