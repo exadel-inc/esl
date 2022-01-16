@@ -1,17 +1,32 @@
 import {Observable} from '../../../esl-utils/abstract/observable';
+import {memoize} from '../../../esl-utils/decorators/memoize';
 
 import type {CarouselDirection, ESLCarousel} from '../esl-carousel';
 
 export abstract class ESLCarouselView {
-  protected readonly carousel: ESLCarousel;
   public static is = '';
 
-  protected constructor(carousel: ESLCarousel) {
+  protected readonly carousel: ESLCarousel;
+
+  constructor(carousel: ESLCarousel) {
     this.carousel = carousel; // TODO: unsafe while lifecycle is not clear
   }
 
-  public abstract bind(): void;
-  public abstract unbind(): void;
+  public bind(): void {
+    const type = this.constructor as typeof ESLCarouselView;
+    this.carousel.classList.add(`${type.is}-carousel`);
+
+    this.onBind();
+  }
+  public unbind(): void {
+    const type = this.constructor as typeof ESLCarouselView;
+    this.carousel.classList.remove(`${type.is}-carousel`);
+
+    this.onUnbind();
+  }
+
+  public onBind(): void {}
+  public onUnbind(): void {}
 
   public abstract onBeforeAnimate(index?: number, direction?: CarouselDirection): Promise<void>;
   public abstract onAnimate(index: number, direction: CarouselDirection): Promise<void>;
@@ -21,32 +36,28 @@ export abstract class ESLCarouselView {
 
   public abstract commit(direction?: CarouselDirection): void;
 
-  public abstract draw(): void;
+  // Register API
+  @memoize()
+  public static get registry(): ESLCarouselViewRegistry {
+    return new ESLCarouselViewRegistry();
+  }
+  public static register(this: typeof ESLCarouselView & ESLCarouselViewConstructor): void {
+    this.registry.register(this.is, this);
+  }
 }
-
 export type ESLCarouselViewConstructor = new(carousel: ESLCarousel) => ESLCarouselView;
 
-let eslRegistryInstance: ESLCarouselViewRegistry | null = null;
 export class ESLCarouselViewRegistry extends Observable<(name: string, view: ESLCarouselViewConstructor) => void> {
-  private registry = new Map<string, ESLCarouselViewConstructor>();
+  private store = new Map<string, ESLCarouselViewConstructor>();
 
-  public static get instance(): ESLCarouselViewRegistry {
-    if (eslRegistryInstance === null) {
-      eslRegistryInstance = new ESLCarouselViewRegistry();
-    }
-    return eslRegistryInstance;
-  }
-
-  public createViewInstance(name: string, carousel: ESLCarousel): ESLCarouselView | null {
-    const View = this.registry.get(name);
+  public create(name: string, carousel: ESLCarousel): ESLCarouselView | null {
+    const View = this.store.get(name);
     return View ? new View(carousel) : null;
   }
 
-  public registerView(name: string, view: ESLCarouselViewConstructor): void {
-    if (this.registry.has(name)) {
-      throw new Error(`View with name ${name} already defined`);
-    }
-    this.registry.set(name, view);
+  public register(name: string, view: ESLCarouselViewConstructor): void {
+    if (this.store.has(name)) throw new Error(`View with name ${name} already defined`);
+    this.store.set(name, view);
     this.fire(name, view);
   }
 }

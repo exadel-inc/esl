@@ -8,11 +8,9 @@ import {memoize} from '../../esl-utils/decorators/memoize';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 
 import {ESLCarouselSlide} from './esl-carousel-slide';
-import {ESLCarouselViewRegistry} from './view/esl-carousel-view';
+import {ESLCarouselView} from './view/esl-carousel-view';
 
-import type {ESLCarouselView} from './view/esl-carousel-view';
 import type {ESLCarouselPlugin} from '../plugin/esl-carousel-plugin';
-
 
 interface CarouselConfig { // Registry
   view?: string;
@@ -104,7 +102,7 @@ export class ESLCarousel extends ESLBaseElement {
     if (!viewType) return;
 
     this._view && this._view.unbind();
-    this._view = ESLCarouselViewRegistry.instance.createViewInstance(viewType, this);
+    this._view = ESLCarouselView.registry.create(viewType, this);
     this._view && this._view.bind();
 
     this.goTo(this.firstIndex, 'next', true);
@@ -180,14 +178,14 @@ export class ESLCarousel extends ESLBaseElement {
     this.goTo(this.firstIndex, 'next', true);
     this._bindEvents();
 
-    ESLCarouselViewRegistry.instance.addListener(this._onRegistryChange);
+    ESLCarouselView.registry.addListener(this._onRegistryChange);
   }
 
   protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this._unbindEvents();
 
-    ESLCarouselViewRegistry.instance.removeListener(this._onRegistryChange);
+    ESLCarouselView.registry.removeListener(this._onRegistryChange);
   }
 
   public get activeConfig(): CarouselConfig {

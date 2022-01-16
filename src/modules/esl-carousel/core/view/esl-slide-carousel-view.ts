@@ -2,25 +2,13 @@ import {promisifyEvent, resolvePromise} from '../../../esl-utils/async/promise';
 import {promisifyNextRender} from '../../../esl-utils/async/raf';
 import {ESLCarouselView} from './esl-carousel-view';
 
-import type {ESLCarousel, CarouselDirection} from '../esl-carousel';
+import type {CarouselDirection} from '../esl-carousel';
 
 export class ESLSlideCarouselView extends ESLCarouselView {
-  public static is = 'slide-carousel';
-
-  public constructor(carousel: ESLCarousel) {
-    super(carousel);
-  }
-
-  public bind(): void {
-    this.carousel.classList.add(ESLSlideCarouselView.is);
-    this.draw();
-  }
-  public unbind(): void {
-    this.carousel.classList.remove(ESLSlideCarouselView.is);
-  }
+  public static is = 'slide';
 
   // TODO: check
-  public draw(): void {
+  public onBind(): void {
     const {$slides, $slidesArea} = this.carousel;
     if (!$slidesArea || !$slides.length) return;
 
