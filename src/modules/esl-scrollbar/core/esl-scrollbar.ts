@@ -54,12 +54,12 @@ export class ESLScrollbar extends ESLBaseElement {
   protected _resizeObserver = new ResizeObserver(this._deferredRefresh);
   protected _mutationObserver = new MutationObserver((rec) => this.updateContentObserve(rec));
 
-  static get observedAttributes() {
+  static get observedAttributes(): string[] {
     return ['target', 'horizontal'];
   }
 
   @ready
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.findTarget();
     this.render();
@@ -67,25 +67,25 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   @ready
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     this.unbindEvents();
     this._scrollTimer && window.clearTimeout(this._scrollTimer);
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected && oldVal === newVal) return;
     if (attrName === 'target') this.findTarget();
     if (attrName === 'horizontal') this.refresh();
   }
 
-  protected findTarget() {
+  protected findTarget(): void {
     this.$target = this.target ?
       TraversingQuery.first(this.target, this) as HTMLElement :
       null;
   }
 
   /** Target element to observe and scroll */
-  public get $target() {
+  public get $target(): HTMLElement | null {
     return this._$target || null;
   }
 
@@ -96,7 +96,7 @@ export class ESLScrollbar extends ESLBaseElement {
     this._deferredRefresh();
   }
 
-  protected render() {
+  protected render(): void {
     this.innerHTML = '';
     this.$scrollbarTrack = document.createElement('div');
     this.$scrollbarTrack.className = this.trackClass;
@@ -107,13 +107,13 @@ export class ESLScrollbar extends ESLBaseElement {
     this.appendChild(this.$scrollbarTrack);
   }
 
-  protected bindEvents() {
+  protected bindEvents(): void {
     window.MouseEvent && this.addEventListener('mousedown', this._onPointerDown);
     window.TouchEvent && this.addEventListener('touchstart', this._onPointerDown);
     window.addEventListener('esl:refresh', this._onRefresh);
   }
 
-  protected bindTargetEvents() {
+  protected bindTargetEvents(): void {
     if (!this.$target) return;
     if (document.documentElement === this.$target) {
       window.addEventListener('resize', this._onRefresh, {passive: true});
@@ -126,7 +126,7 @@ export class ESLScrollbar extends ESLBaseElement {
     }
   }
 
-  protected updateContentObserve(recs: MutationRecord[] = []) {
+  protected updateContentObserve(recs: MutationRecord[] = []): void {
     if (!this.$target) return;
     const contentChanges = recs.filter((rec) => rec.type === 'childList');
     contentChanges.forEach((rec) => {
@@ -140,14 +140,14 @@ export class ESLScrollbar extends ESLBaseElement {
     if (contentChanges.length) this._deferredRefresh();
   }
 
-  protected unbindEvents() {
+  protected unbindEvents(): void {
     window.MouseEvent && this.removeEventListener('mousedown', this._onPointerDown);
     window.TouchEvent && this.removeEventListener('touchstart', this._onPointerDown);
     this.unbindTargetEvents();
     window.removeEventListener('esl:refresh', this._onRefresh);
   }
 
-  protected unbindTargetEvents() {
+  protected unbindTargetEvents(): void {
     if (!this.$target) return;
     if (document.documentElement === this.$target) {
       window.removeEventListener('resize', this._onRefresh);
@@ -160,7 +160,7 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   /** @readonly Scrollable distance size value (px) */
-  public get scrollableSize() {
+  public get scrollableSize(): number {
     if (!this.$target) return 0;
     return this.horizontal ?
       this.$target.scrollWidth - this.$target.clientWidth :
@@ -168,17 +168,17 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   /** @readonly Track size value (px) */
-  public get trackOffset() {
+  public get trackOffset(): number {
     return this.horizontal ? this.$scrollbarTrack.offsetWidth : this.$scrollbarTrack.offsetHeight;
   }
 
   /** @readonly Thumb size value (px) */
-  public get thumbOffset() {
+  public get thumbOffset(): number {
     return this.horizontal ? this.$scrollbarThumb.offsetWidth : this.$scrollbarThumb.offsetHeight;
   }
 
   /** @readonly Relative thumb size value (between 0.0 and 1.0) */
-  public get thumbSize() {
+  public get thumbSize(): number {
     // behave as native scroll
     if (!this.$target || !this.$target.scrollWidth || !this.$target.scrollHeight) return 1;
     const areaSize = this.horizontal ? this.$target.clientWidth : this.$target.clientHeight;
@@ -187,26 +187,26 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   /** Relative position value (between 0.0 and 1.0) */
-  public get position() {
+  public get position(): number {
     if (!this.$target) return 0;
     const scrollOffset = this.horizontal ? RTLUtils.normalizeScrollLeft(this.$target) : this.$target.scrollTop;
     return this.scrollableSize ? (scrollOffset / this.scrollableSize) : 0;
   }
 
-  public set position(position) {
+  public set position(position: number) {
     this.scrollTargetTo(this.scrollableSize * this.normalizePosition(position));
     this.update();
   }
 
   /** Normalizes position value (between 0.0 and 1.0) */
-  protected normalizePosition(position: number) {
+  protected normalizePosition(position: number): number {
     const relativePosition = Math.min(1, Math.max(0, position));
     if (this.$target && !RTLUtils.isRtl(this.$target)) return relativePosition;
     return RTLUtils.scrollType === 'negative' ? (relativePosition - 1) : (1 - relativePosition);
   }
 
   /** Scrolls target element to passed position */
-  protected scrollTargetTo(pos: number) {
+  protected scrollTargetTo(pos: number): void {
     if (!this.$target) return;
     this.$target.scrollTo({
       [this.horizontal ? 'left' : 'top']: pos,
@@ -215,7 +215,7 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   /** Updates thumb size and position */
-  public update() {
+  public update(): void {
     this.$$fire('change:scroll', {bubbles: false});
     if (!this.$scrollbarThumb || !this.$scrollbarTrack) return;
     const thumbSize = this.trackOffset * this.thumbSize;
@@ -228,7 +228,7 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   /** Updates auxiliary markers */
-  public updateMarkers() {
+  public updateMarkers(): void {
     const {position, thumbSize} =  this;
     this.toggleAttribute('at-start', thumbSize < 1 && position <= 0);
     this.toggleAttribute('at-end', thumbSize < 1 && position >= 1);
@@ -236,13 +236,13 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   /** Refreshes scroll state and position */
-  public refresh() {
+  public refresh(): void {
     this.update();
     this.updateMarkers();
   }
 
   /** Returns position from MouseEvent coordinates (not normalized) */
-  public toPosition(event: MouseEvent | TouchEvent) {
+  public toPosition(event: MouseEvent | TouchEvent): number {
     const {horizontal, thumbOffset, trackOffset} = this;
     const point = EventUtils.normalizeCoordinates(event, this.$scrollbarTrack);
     const pointPosition = horizontal ? point.x : point.y;
@@ -254,7 +254,7 @@ export class ESLScrollbar extends ESLBaseElement {
   // Event listeners
   /** Handles `mousedown` / `touchstart` event to manage thumb drag start and scroll clicks */
   @bind
-  protected _onPointerDown(event: MouseEvent | TouchEvent) {
+  protected _onPointerDown(event: MouseEvent | TouchEvent): void {
     this._initialPosition = this.position;
     this._pointerPosition = this.toPosition(event);
     const point = EventUtils.normalizeTouchPoint(event);
@@ -276,7 +276,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** Handles a scroll click / continuous scroll*/
   @bind
-  protected _onPointerDownTick(first: boolean) {
+  protected _onPointerDownTick(first: boolean): void {
     this._scrollTimer && window.clearTimeout(this._scrollTimer);
 
     const position = this.position;
@@ -289,7 +289,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** Handles thumb drag start */
   @bind
-  protected _onThumbPointerDown(event: MouseEvent | TouchEvent) {
+  protected _onThumbPointerDown(event: MouseEvent | TouchEvent): void {
     this.toggleAttribute('dragging', true);
     this.$target?.style.setProperty('scroll-behavior', 'auto');
     // Attach drag listeners
@@ -299,7 +299,7 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   /** Sets position on drag */
-  protected _onPointerDrag(event: MouseEvent | TouchEvent) {
+  protected _onPointerDrag(event: MouseEvent | TouchEvent): void {
     const point = EventUtils.normalizeTouchPoint(event);
     const mousePosition = this.horizontal ? point.x : point.y;
     const positionChange = mousePosition - this._initialMousePosition;
@@ -312,7 +312,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** `mousemove` document handler for thumb drag event. Active only if drag action is active */
   @bind
-  protected _onPointerMove(event: MouseEvent | TouchEvent) {
+  protected _onPointerMove(event: MouseEvent | TouchEvent): void {
     if (!this.dragging) return;
     // Request position update
     this._deferredDrag(event);
@@ -323,7 +323,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** `mouseup` short-time document handler for drag end action */
   @bind
-  protected _onPointerUp(event: MouseEvent | TouchEvent) {
+  protected _onPointerUp(event: MouseEvent | TouchEvent): void {
     this._scrollTimer && window.clearTimeout(this._scrollTimer);
     this.toggleAttribute('dragging', false);
     this.$target?.style.removeProperty('scroll-behavior');
@@ -341,7 +341,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** Body `click` short-time handler to prevent clicks event on thumb drag. Handles capture phase */
   @bind
-  protected _onBodyClick(event: MouseEvent) {
+  protected _onBodyClick(event: MouseEvent): void {
     event.stopImmediatePropagation();
 
     window.removeEventListener('click', this._onBodyClick, {capture: true});
@@ -352,7 +352,7 @@ export class ESLScrollbar extends ESLBaseElement {
    * @param event - instance of 'resize' or 'scroll' or 'esl:refresh' event.
    */
   @bind
-  protected _onRefresh(event: Event) {
+  protected _onRefresh(event: Event): void {
     const target = event.target as HTMLElement;
     if (event.type === 'scroll' && this.dragging) return;
     if (event.type === 'esl:refresh' && !isRelativeNode(target.parentNode, this.$target)) return;

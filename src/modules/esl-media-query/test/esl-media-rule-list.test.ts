@@ -10,8 +10,8 @@ describe('ESLMediaRuleList', () => {
     const mrl = ESLMediaRuleList.parse('123');
     expect(mrl.rules.length).toBe(1);
     expect(mrl.default).toBeDefined();
-    expect(mrl.default.default).toBe(true);
-    expect(mrl.default.payload).toBe('123');
+    expect(mrl.default?.default).toBe(true);
+    expect(mrl.default?.payload).toBe('123');
 
     expect(mrl.active).toBeDefined();
     expect(mrl.activeValue).toBe('123');

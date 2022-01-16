@@ -35,24 +35,24 @@ export class ESLA11yGroup extends ESLBaseElement {
     return TraversingQuery.all(this.targets, this.$root) as HTMLElement[];
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.bindEvents();
   }
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this.unbindEvents();
   }
 
-  protected bindEvents() {
+  protected bindEvents(): void {
     this.$root?.addEventListener('keydown', this._onKeydown);
   }
-  protected unbindEvents() {
+  protected unbindEvents(): void {
     this.$root?.removeEventListener('keydown', this._onKeydown);
   }
 
   @bind
-  protected _onKeydown(e: KeyboardEvent) {
+  protected _onKeydown(e: KeyboardEvent): void {
     const target = e.target as HTMLElement;
 
     if (!this.$targets.includes(target)) return;
@@ -69,7 +69,7 @@ export class ESLA11yGroup extends ESLBaseElement {
   }
 
   /** Go to the target from the passed element or currently focused target by default */
-  public goTo(target: GroupTarget, from: HTMLElement | null = this.current()) {
+  public goTo(target: GroupTarget, from: HTMLElement | null = this.current()): void {
     if (!from) return;
     const targetEl = this[target](from);
     if (!targetEl) return;
@@ -78,7 +78,7 @@ export class ESLA11yGroup extends ESLBaseElement {
   }
 
   /** @returns HTMLElement next target fot trigger */
-  public next(trigger: HTMLElement) {
+  public next(trigger: HTMLElement): HTMLElement | undefined {
     const triggers = this.$targets;
     const index = triggers.indexOf(trigger);
     return triggers[(index + 1) % triggers.length];

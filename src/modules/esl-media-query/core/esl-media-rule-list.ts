@@ -60,7 +60,7 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
    * ESLMediaRuleList.fromTuple('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL')
    * ```
    */
-  public static parseTuple(values: string, mask: string) {
+  public static parseTuple(values: string, mask: string): ESLMediaRuleList<string> {
     const valueList = values.split('|');
     const conditions = mask.split('|');
     if (valueList.length !== conditions.length) throw new Error('Value doesn\'t correspond to mask');
@@ -69,7 +69,7 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
   }
 
   private readonly _rules: ESLMediaRule<T>[];
-  private readonly _default: ESLMediaRule<T | undefined>;
+  private readonly _default: ESLMediaRule<T | undefined> | undefined;
   private _active: ESLMediaRule<T | undefined>;
 
   private constructor(rules: ESLMediaRule<T>[]) {
@@ -80,26 +80,26 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
   }
 
   /** Subscribes to the instance active rule change */
-  public addListener(listener: RuleChangedCallback<T>) {
+  public addListener(listener: RuleChangedCallback<T>): void {
     super.addListener(listener);
     if (this._listeners.size > 1) return;
     this._rules.forEach((rule) => rule.addListener(this._onMatchChanged));
   }
 
   /** Unsubscribes from the instance active rule change */
-  public removeListener(listener: RuleChangedCallback<T>) {
+  public removeListener(listener: RuleChangedCallback<T>): void {
     super.removeListener(listener);
     if (this._listeners.size) return;
     this._rules.forEach((rule) => rule.removeListener(this._onMatchChanged));
   }
 
   /** List of inner {@link ESLMediaRule}s */
-  public get rules() {
+  public get rules(): ESLMediaRule<T>[] {
     return this._rules;
   }
 
   /** Cached active {@link ESLMediaRule} */
-  public get active() {
+  public get active(): ESLMediaRule<T | undefined> {
     if (!this._active || !this._listeners.size) {
       this._active = this.activeRule;
     }
@@ -116,16 +116,16 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
   public get activeValue(): T | undefined {
     const value = this.active.payload;
     if (isPrimitive(value) || !this.default || isPrimitive(this.default.payload)) return value;
-    return Object.assign({}, this._default.payload || {}, value);
+    return Object.assign({}, this.default.payload || {}, value);
   }
 
-  /** {@link ESLMediaRule} that is used as a default */
-  public get default() {
+  /** {@link ESLMediaRule} that is used as a default rule */
+  public get default(): ESLMediaRule<T | undefined> | undefined {
     return this._default;
   }
 
   /** Handle inner rules state change */
-  private _onMatchChanged() {
+  private _onMatchChanged(): void {
     const rule = this.activeRule;
     if (this._active === rule) return;
     this.fire(this._active = rule, this);

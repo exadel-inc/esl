@@ -49,7 +49,7 @@ export class BrightcoveProvider extends BaseProvider {
   }
 
   /** Build video brightcove element */
-  protected buildVideo() {
+  protected buildVideo(): HTMLElement {
     const el = document.createElement('video-js');
     el.id = 'esl-media-brightcove-' + randUID();
     el.className = 'esl-media-inner esl-media-brightcove ' + this.videojsClasses;
@@ -104,7 +104,7 @@ export class BrightcoveProvider extends BaseProvider {
     return this.$$fromEvent('loadedmetadata');
   }
 
-  public bind() {
+  public bind(): void {
     const Provider = (this.constructor as typeof BrightcoveProvider);
     this._account = Provider.getAccount(this.component);
     this._el = this.buildVideo();
@@ -116,24 +116,24 @@ export class BrightcoveProvider extends BaseProvider {
       .catch((e) => this.component._onError(e));
   }
 
-  public unbind() {
+  public unbind(): void {
     this.component._onDetach();
     this._api && this._api.dispose();
     super.unbind();
   }
 
-  protected onConfigChange(param: ProviderObservedParams, value: boolean) {
+  protected onConfigChange(param: ProviderObservedParams, value: boolean): void {
     super.onConfigChange(param, value);
     if (typeof this._api[param] === 'function') {
       this._api[param](value);
     }
   }
 
-  public focus() {
+  public focus(): void {
     this._api && this._api.focus();
   }
 
-  public get state() {
+  public get state(): PlayerStates {
     if (this._api) {
       if (this._api.ended()) return PlayerStates.ENDED;
       if (this._api.paused()) return PlayerStates.PAUSED;
@@ -148,37 +148,37 @@ export class BrightcoveProvider extends BaseProvider {
     return this._api.videoWidth() / this._api.videoHeight();
   }
 
-  public get currentTime() {
+  public get currentTime(): number {
     return this._api ? this._api.currentTime() : 0;
   }
 
-  public get duration() {
+  public get duration(): number {
     return this._api ? this._api.duration() : 0;
   }
 
-  public seekTo(pos: number) {
+  public seekTo(pos: number): void {
     this._api.currentTime(pos);
   }
 
-  public play() {
+  public play(): void {
     this._api.play();
   }
 
-  public pause() {
+  public pause(): void {
     this._api.pause();
   }
 
-  public stop() {
+  public stop(): void {
     this._api.currentTime(0);
     this._api.pause();
   }
 
   // Overrides to set tech autoplay marker
-  public safePlay() {
+  public safePlay(): Promise<any> {
     this._autoplay = true;
     return super.safePlay();
   }
-  public safeStop() {
+  public safeStop(): Promise<any> {
     this._autoplay = true;
     return super.safeStop();
   }

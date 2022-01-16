@@ -1,7 +1,7 @@
 /** Checks that passed value is object, but not a callable-object (function) */
 export const isObject = (obj: any): obj is Record<string, any> => !!obj && typeof obj === 'object';
 /** Checks that passed value is an object or function */
-export const isObjectLike = (obj: any) => isObject(obj) || typeof obj === 'function';
+export const isObjectLike = (obj: any): boolean => isObject(obj) || typeof obj === 'function';
 /** Checks if the passed value is primitive */
 export const isPrimitive = (obj: any): obj is string | number | boolean | symbol | undefined | null =>
   obj === null ||
@@ -11,7 +11,7 @@ export const isPrimitive = (obj: any): obj is string | number | boolean | symbol
   typeof obj === 'boolean' ||
   typeof obj === 'symbol';
 /** Checks that passed object is prototype of some class */
-export const isPrototype = (obj: any) => Object.hasOwnProperty.call(obj, 'constructor');
+export const isPrototype = (obj: any): boolean => Object.hasOwnProperty.call(obj, 'constructor');
 
 /** Array-like type definition */
 export type ArrayLike<T = any> = {
@@ -42,7 +42,7 @@ export function deepCompare(obj1: any, obj2: any): boolean {
 }
 
 /** Find the closest property descriptor */
-export function getPropertyDescriptor(o: any, prop: PropertyKey) {
+export function getPropertyDescriptor(o: any, prop: PropertyKey): PropertyDescriptor | undefined {
   let proto = o;
   while (proto) {
     const desc = Object.getOwnPropertyDescriptor(proto, prop);
@@ -52,7 +52,7 @@ export function getPropertyDescriptor(o: any, prop: PropertyKey) {
 }
 
 /** @returns first defined param */
-export function defined<T>(...params: T[]) {
+export function defined<T>(...params: T[]): T | undefined {
   for (const param of params) {
     if (param !== undefined) return param;
   }
@@ -60,7 +60,7 @@ export function defined<T>(...params: T[]) {
 
 /** Makes a plain copy of obj with properties satisfying the predicate
  * If no predicate provided copies all own properties */
-export function copy<T>(obj: T, predicate: CopyPredicate = () => true): Partial<T> {
+export function copy<T>(obj: T, predicate: CopyPredicate = (): boolean => true): Partial<T> {
   const result: any = Object.assign({}, obj || {});
   Object.keys(result).forEach((key) => {
     (!predicate(key, result[key])) && delete result[key];
@@ -74,7 +74,7 @@ export function copyDefinedKeys<T>(obj?: T): Partial<T> {
 }
 
 /** Omit copying provided properties from object */
-export function omit<T>(obj: T, keys: string[]) {
+export function omit<T>(obj: T, keys: string[]): Partial<T> {
   return copy(obj, key => !keys.includes(key));
 }
 
@@ -85,7 +85,7 @@ export function omit<T>(obj: T, keys: string[]) {
  * @param path - key path, use '.' as delimiter
  * @param value - value of property
  */
-export const set = (target: any, path: string, value: any) => {
+export const set = (target: any, path: string, value: any): void => {
   const parts = (path || '').split('.');
   const depth = parts.length - 1;
   parts.reduce((cur: any, key: string, index: number) => {

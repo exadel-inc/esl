@@ -1,12 +1,12 @@
 import {debounce} from '../../../src/modules/esl-utils/async/debounce';
 
 class TestMediaSource extends HTMLElement {
-  get target() {
+  get target(): HTMLElement | null {
     const targetSel = this.getAttribute('target');
     return document.querySelector(targetSel || '');
   }
 
-  private render() {
+  private render(): void {
     const form = document.createElement('form');
     form.innerHTML = `
       <fieldset>
@@ -52,7 +52,7 @@ class TestMediaSource extends HTMLElement {
     this.appendChild(form);
   }
 
-  private onChange() {
+  private onChange(): void {
     const target = this.target;
     const inputs = this.querySelectorAll('input[name], select[name]');
     Array.from(inputs).forEach((input: HTMLInputElement | HTMLSelectElement) => {
@@ -65,7 +65,7 @@ class TestMediaSource extends HTMLElement {
     });
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     this.render();
     this.addEventListener('change', debounce(() => this.onChange(), 750));
     this.onChange();

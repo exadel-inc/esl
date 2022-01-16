@@ -1,7 +1,7 @@
 /**
  * Creates new async script tag by id and src
  */
-const createAsyncScript = (id: string, src: string) => {
+const createAsyncScript = (id: string, src: string): HTMLScriptElement => {
   const script = document.createElement('script');
   script.id = id;
   script.async = true;
