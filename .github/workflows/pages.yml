@@ -2,8 +2,8 @@ name: GH Pages Build and Deploy
 
 on:
   schedule:
-    # Automatic build runs at 2:00 UTC daily
-    - cron: '0 2 * * *'
+    # Automatic build runs at 0:00 UTC daily
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 env:
