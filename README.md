@@ -91,12 +91,12 @@ Exadel Smart Library (**ESL**) is a web components based library that gives you 
 ## Roadmap
 <a name="roadmap"></a>
 
-- ESL Carousel component
-- ESL Animate service
-- Sharable assets from demo site (styles components)
+- ESL Carousel component (v4.0.0)
+- More helpers and sugar of ESLBaseElement (event listener helpers and decorators) (v4.0.0)
+- Migration to multi-package structure (v5.0.0)
 - Interactive Documentation and more demo site features
+- Sharable assets from demo site (styles components)
 - Demo pages [UI Playground](https://github.com/exadel-inc/ui-playground) integration
-- More helpers and sugar of ESLBaseElement (event listener helpers and decorators)
 - Stable version of ESL Footnotes and ESL Popup components
 - Extension of esl-form elements (custom form base, helpers, validation and more)
 - Anchor Navigation component

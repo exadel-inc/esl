@@ -4,7 +4,7 @@
  * KeyboardEvent.prototype.key shim to normalize key values to W3C spec
  * Based on published shim https://www.npmjs.com/package/shim-keyboard-event-key
  */
-(function (KeyboardEventProto) {
+(function (KeyboardEventProto): void {
   const desc = Object.getOwnPropertyDescriptor(KeyboardEventProto, 'key');
   if (!desc) return;
 

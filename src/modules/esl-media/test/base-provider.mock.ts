@@ -23,7 +23,7 @@ export class BaseProviderMock extends BaseProvider {
 
   protected seekTo(pos?: number): void | Promise<any> {}
 
-  public get state() {
+  public get state(): PlayerStates {
     return PlayerStates.UNINITIALIZED;
   }
 }

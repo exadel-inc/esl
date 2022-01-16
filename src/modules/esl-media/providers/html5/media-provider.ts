@@ -9,7 +9,7 @@ import type {MediaProviderConfig, ProviderObservedParams} from '../../core/esl-m
 export abstract class HTMLMediaProvider extends BaseProvider {
   static readonly urlPattern: RegExp;
 
-  static parseUrl(mediaSrc: string) {
+  static parseUrl(mediaSrc: string): Partial<MediaProviderConfig> | null {
     if (this.urlPattern.test(mediaSrc)) {
       return {mediaSrc};
     }
@@ -18,7 +18,7 @@ export abstract class HTMLMediaProvider extends BaseProvider {
 
   protected _el: HTMLMediaElement;
 
-  protected static applyElementSettings(el: HTMLMediaElement, cfg: MediaProviderConfig) {
+  protected static applyElementSettings(el: HTMLMediaElement, cfg: MediaProviderConfig): HTMLMediaElement {
     el.classList.add('esl-media-inner');
     el.autoplay = cfg.autoplay;
     el.preload = cfg.preload || 'auto' ;
@@ -32,19 +32,19 @@ export abstract class HTMLMediaProvider extends BaseProvider {
 
   protected abstract createElement(): HTMLMediaElement;
 
-  public onConfigChange(param: ProviderObservedParams, value: boolean) {
+  public onConfigChange(param: ProviderObservedParams, value: boolean): void {
     super.onConfigChange(param, value);
     HTMLMediaProvider.applyElementSettings(this._el, this.config);
   }
 
-  public bind() {
+  public bind(): void {
     this._el = this.createElement();
     HTMLMediaProvider.applyElementSettings(this._el, this.config);
     this.component.appendChild(this._el);
     this.bindListeners();
   }
 
-  protected bindListeners() {
+  protected bindListeners(): void {
     this._el.addEventListener('loadedmetadata', () => this.component._onReady());
     this._el.addEventListener('play', () => this.component._onPlay());
     this._el.addEventListener('pause', () => this.component._onPaused());
@@ -52,16 +52,16 @@ export abstract class HTMLMediaProvider extends BaseProvider {
     this._el.addEventListener('error', (e) => this.component._onError(e));
   }
 
-  public unbind() {
+  public unbind(): void {
     this.component._onDetach();
     super.unbind();
   }
 
-  get ready() {
+  get ready(): Promise<any> {
     return Promise.resolve();
   }
 
-  public get state() {
+  public get state(): PlayerStates {
     if (!this._el) return PlayerStates.UNINITIALIZED;
     if (this._el.ended) return PlayerStates.ENDED;
     if (!this._el.played || !this._el.played.length) return PlayerStates.UNSTARTED;
@@ -69,27 +69,27 @@ export abstract class HTMLMediaProvider extends BaseProvider {
     return PlayerStates.PLAYING;
   }
 
-  public get duration() {
+  public get duration(): number {
     return this._el ? this._el.duration : 0;
   }
 
-  public get currentTime() {
+  public get currentTime(): number {
     return this._el ? this._el.currentTime : 0;
   }
 
-  public seekTo(pos: number) {
+  public seekTo(pos: number): void {
     this._el.currentTime = pos;
   }
 
-  public play() {
+  public play(): Promise<any> {
     return this._el.play();
   }
 
-  public pause() {
-    return this._el.pause();
+  public pause(): void {
+    this._el.pause();
   }
 
-  public stop() {
+  public stop(): void {
     this._el.pause();
     this._el.currentTime = 0;
   }

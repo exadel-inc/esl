@@ -46,6 +46,12 @@ export class ESLTooltip extends ESLPopup {
     return getKeyboardFocusableElements(this);
   }
 
+  /** First focusable element inside Tooltip */
+  public get firstFocusableElement(): Element | null {
+    const els = this.focusableElements;
+    return els.length ? els[0] : null;
+  }
+
   /** Last focusable element inside Tooltip */
   public get lastFocusableElement(): Element | null {
     const els = this.focusableElements;
@@ -54,17 +60,17 @@ export class ESLTooltip extends ESLPopup {
 
   /** Active state marker */
   public static get open(): boolean {
-    return ESLTooltip.sharedInstance.open;
+    return this.sharedInstance.open;
   }
 
   /** Changes the element state to active */
   public static show(params: TooltipActionParams = {}): void {
-    ESLTooltip.sharedInstance.show(params);
+    this.sharedInstance.show(params);
   }
 
   /** Changes the element state to inactive */
   public static hide(params: TooltipActionParams = {}): void {
-    ESLTooltip.sharedInstance.hide(params);
+    this.sharedInstance.hide(params);
   }
 
   public connectedCallback(): void {
@@ -77,7 +83,7 @@ export class ESLTooltip extends ESLPopup {
   }
 
   /** Sets initial state of the Tooltip */
-  protected setInitialState() {}
+  protected setInitialState(): void {}
 
   /** Creates arrow at Tooltip */
   @memoize()
@@ -110,21 +116,31 @@ export class ESLTooltip extends ESLPopup {
     document.body.appendChild(this);
     super.onShow(params);
     this._updateActivatorState(true);
-
-    setTimeout(() => {
-      this.focus();
-    });
   }
 
-  /** Actions to execute on hide Tooltip. */
+  /** Actions to execute on Tooltip hiding. */
   public onHide(params: TooltipActionParams): void {
-    this.activator?.focus({preventScroll: true});
     this._updateActivatorState(false);
     super.onHide(params);
     document.body.removeChild(this);
     if (params.extraClass) {
       CSSClassUtils.remove(this, params.extraClass);
     }
+  }
+
+  /**
+   * Actions to execute after showing of popup.
+   */
+  protected afterOnShow(): void {
+    super.afterOnShow();
+    this.focus({preventScroll: true});
+  }
+
+  /**
+   * Actions to execute before hiding of popup.
+   */
+  protected beforeOnHide(): void {
+    this.activator?.focus({preventScroll: true});
   }
 
   @bind
@@ -135,8 +151,12 @@ export class ESLTooltip extends ESLPopup {
 
   protected _onTabKey(e: KeyboardEvent): void {
     if (!this.activator) return;
-    const {lastFocusableElement} = this;
-    if ((!lastFocusableElement || e.target === lastFocusableElement) && !e.shiftKey) {
+    const {firstFocusableElement, lastFocusableElement} = this;
+    if (
+      !lastFocusableElement ||
+      e.target === lastFocusableElement && !e.shiftKey ||
+      e.target === firstFocusableElement && e.shiftKey
+    ) {
       this.activator.focus();
       e.stopPropagation();
       e.preventDefault();

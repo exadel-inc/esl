@@ -1,3 +1,67 @@
+# [3.11.0](https://github.com/exadel-inc/esl/compare/v3.10.0...v3.11.0) (2022-01-12)
+
+
+### Bug Fixes
+
+* **esl-media-query:** fix `ESLMediaRuleList.prototype.default` type ([0ec7ef3](https://github.com/exadel-inc/esl/commit/0ec7ef3019ff7e56ab8c105c13163d534771febb))
+* **esl-panel-group:** fix event trowing when class target not specified ([4ad5e56](https://github.com/exadel-inc/esl/commit/4ad5e56d6d28c995e8b978c0d0c8a84d05ea41da))
+* **esl-toggleable:** improve outside keyboard events handling ([38160b6](https://github.com/exadel-inc/esl/commit/38160b66d4fec7c93b072b1d857fd9d2b093416f))
+* **esl-tooltip:** fix focus out behavior after SHIFT+TAB keypress ([98821a0](https://github.com/exadel-inc/esl/commit/98821a04131f4af234b0f3233f8825d786386a8d))
+* tests unhandled promise rejection ([d6ca55a](https://github.com/exadel-inc/esl/commit/d6ca55a7a0b11e2fe2e161dd04bf60609dfc9d0c))
+
+
+### Features
+
+* **esl-panel-group:** ability to define params for child panels requests ([08cf513](https://github.com/exadel-inc/esl/commit/08cf51385cae2514b220b9950d53d0afa4b1b5d3))
+* **esl-panel-group:** dispatch change:mode event ([8d41dbd](https://github.com/exadel-inc/esl/commit/8d41dbd69ac703858f1dd8d43ece748da58780f1))
+* **esl-panel-group:** make animation disabled on transform by default ([1815b00](https://github.com/exadel-inc/esl/commit/1815b006a6decfc91b275b5c28ae9da17b1bf311))
+* **esl-panel-group:** rename `view` attribute to `current-mode`; extend mode class API ([52188fe](https://github.com/exadel-inc/esl/commit/52188fe43457d2f362cd7cca0a126cbf01ffb9c9))
+* **esl-toggleable:** add id auto-creation feature for toggleable instances ([eaf02dc](https://github.com/exadel-inc/esl/commit/eaf02dc490dd0c92b6b9bbdf758769eeba15d62d))
+* **gh-pages:** GSS integration ([#723](https://github.com/exadel-inc/esl/issues/723)) ([8c348be](https://github.com/exadel-inc/esl/commit/8c348be9e6c0a535b2b94c20634cdf1ab13fe5ef))
+* **gh-pages:** GSS integration ([#723](https://github.com/exadel-inc/esl/issues/723)) ([9636e1e](https://github.com/exadel-inc/esl/commit/9636e1eae99c5378d91f2d941663bd2c798fb7cc))
+
+# [3.11.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.11.0-beta.2...v3.11.0-beta.3) (2021-12-23)
+
+
+### Bug Fixes
+
+* **esl-toggleable:** improve outside keyboard events handling ([38160b6](https://github.com/exadel-inc/esl/commit/38160b66d4fec7c93b072b1d857fd9d2b093416f))
+
+# [3.11.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.11.0-beta.1...v3.11.0-beta.2) (2021-12-23)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** fix event trowing when class target not specified ([4ad5e56](https://github.com/exadel-inc/esl/commit/4ad5e56d6d28c995e8b978c0d0c8a84d05ea41da))
+
+# [3.11.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.10.1-beta.1...v3.11.0-beta.1) (2021-12-22)
+
+
+### Features
+
+* **esl-panel-group:** dispatch change:mode event ([8d41dbd](https://github.com/exadel-inc/esl/commit/8d41dbd69ac703858f1dd8d43ece748da58780f1))
+
+## [3.10.1-beta.1](https://github.com/exadel-inc/esl/compare/v3.10.0...v3.10.1-beta.1) (2021-12-22)
+
+
+### Bug Fixes
+
+* **esl-tooltip:** fix focus out behavior after SHIFT+TAB keypress ([98821a0](https://github.com/exadel-inc/esl/commit/98821a04131f4af234b0f3233f8825d786386a8d))
+
+# [3.10.0](https://github.com/exadel-inc/esl/compare/v3.9.1...v3.10.0) (2021-12-22)
+
+
+### Bug Fixes
+
+* **esl-scrollbar:** fix event subscriber leak ([abaf22a](https://github.com/exadel-inc/esl/commit/abaf22a9ec6380fec3d6676dc7f6944688724c1c))
+* **esl-toggleable:** fix `_onOutsideAction` and `_onClick` signature ([0a2600b](https://github.com/exadel-inc/esl/commit/0a2600b66d0ade06fa19e811cfdb1a8fc050dd37))
+* **esl-toggleable:** fix wrong and missing TSX shape attributes ([0dc77ff](https://github.com/exadel-inc/esl/commit/0dc77ffe2b7cf55d7cb3c71e15d65604b7a82fb4))
+
+
+### Features
+
+* **esl-toggleable:** `keypress` event now also considered as an outside action ([b3c5374](https://github.com/exadel-inc/esl/commit/b3c537430287f2fd909824d4cabab986f368debe))
+
 ## [3.9.1](https://github.com/exadel-inc/esl/compare/v3.9.0...v3.9.1) (2021-12-16)
 
 

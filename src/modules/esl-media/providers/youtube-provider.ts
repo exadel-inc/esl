@@ -20,7 +20,7 @@ export class YouTubeProvider extends BaseProvider {
   protected _el: HTMLDivElement | HTMLIFrameElement;
   protected _api: YT.Player;
 
-  static parseUrl(url: string) {
+  static parseUrl(url: string): Partial<MediaProviderConfig> | null {
     if (this.providerRegexp.test(url)) {
       const [, id] = url.match(this.idRegexp) || [];
       return id ? {mediaId: id} : null;
@@ -29,13 +29,13 @@ export class YouTubeProvider extends BaseProvider {
   }
 
   private static _coreApiPromise: Promise<void>;
-  protected static getCoreApi() {
+  protected static getCoreApi(): Promise<void> {
     if (!YouTubeProvider._coreApiPromise) {
       YouTubeProvider._coreApiPromise = new Promise((resolve) => {
         if (window.YT && window.YT.Player) return resolve(window.YT);
         loadScript('YT_API_SOURCE', '//www.youtube.com/iframe_api');
         const cbOrigin = window.onYouTubeIframeAPIReady;
-        window.onYouTubeIframeAPIReady = () => {
+        window.onYouTubeIframeAPIReady = (): void => {
           try {
             (typeof cbOrigin === 'function') && cbOrigin.apply(window);
           } catch (err) { // eslint-disable-line
@@ -63,7 +63,7 @@ export class YouTubeProvider extends BaseProvider {
     };
   }
 
-  protected static buildIframe(sm: MediaProviderConfig) {
+  protected static buildIframe(sm: MediaProviderConfig): HTMLDivElement | HTMLIFrameElement {
     const el = document.createElement('div');
     el.id = 'esl-media-yt-' + randUID();
     el.className = 'esl-media-inner esl-media-youtube';
@@ -75,7 +75,7 @@ export class YouTubeProvider extends BaseProvider {
     return el;
   }
 
-  public bind() {
+  public bind(): void {
     this._el = YouTubeProvider.buildIframe(this.config);
     this.component.appendChild(this._el);
     this._ready = YouTubeProvider.getCoreApi()
@@ -85,22 +85,22 @@ export class YouTubeProvider extends BaseProvider {
   }
 
   /** Init YT.Player on target element */
-  protected onCoreApiReady() {
+  protected onCoreApiReady(): Promise<any> {
     return new Promise((resolve, reject) => {
       console.debug('[ESL]: Media Youtube Player initialization for ', this);
       this._api = new YT.Player(this._el.id, {
         videoId: this.config.mediaId,
         events: {
-          onError: (e) => reject(e),
-          onReady: () => resolve(this),
-          onStateChange: (e) => this._onStateChange(e)
+          onError: (e): void => reject(e),
+          onReady: (): void => resolve(this),
+          onStateChange: (e): void => this._onStateChange(e)
         },
         playerVars: YouTubeProvider.mapOptions(this.config)
       });
     });
   }
   /** Post YT.Player init actions */
-  protected onPlayerReady() {
+  protected onPlayerReady(): void {
     console.debug('[ESL]: Media Youtube Player ready ', this);
     this._el = this._api.getIframe();
     if (this.config.muted) {
@@ -109,13 +109,13 @@ export class YouTubeProvider extends BaseProvider {
     this.component._onReady();
   }
 
-  public unbind() {
+  public unbind(): void {
     this.component._onDetach();
     this._api && this._api.destroy();
     super.unbind();
   }
 
-  private _onStateChange(event: YT.OnStateChangeEvent) {
+  private _onStateChange(event: YT.OnStateChangeEvent): void {
     switch (+event.data) {
       case PlayerStates.PLAYING:
         this.component._onPlay();
@@ -133,31 +133,31 @@ export class YouTubeProvider extends BaseProvider {
     }
   }
 
-  protected onConfigChange(param: ProviderObservedParams, value: boolean) {
+  protected onConfigChange(param: ProviderObservedParams, value: boolean): void {
     super.onConfigChange(param, value);
     if (param === 'muted') {
       value ? this._api.mute() : this._api.unMute();
     }
   }
 
-  public focus() {
+  public focus(): void {
     if (this._el instanceof HTMLIFrameElement && this._el.contentWindow) {
       this._el.contentWindow.focus();
     }
   }
 
-  public get state() {
+  public get state(): PlayerStates {
     if (this._api && typeof this._api.getPlayerState === 'function') {
       return this._api.getPlayerState() as number as PlayerStates;
     }
     return PlayerStates.UNINITIALIZED;
   }
 
-  public get duration() {
+  public get duration(): number {
     return this._api ? this._api.getDuration() : 0;
   }
 
-  public get currentTime() {
+  public get currentTime(): number {
     return this._api ? this._api.getCurrentTime() : 0;
   }
 
@@ -165,22 +165,22 @@ export class YouTubeProvider extends BaseProvider {
     return DEFAULT_ASPECT_RATIO;
   }
 
-  public seekTo(pos: number) {
+  public seekTo(pos: number): void {
     this._api.seekTo(pos, false);
   }
 
-  public play() {
+  public play(): void {
     if (this.state === PlayerStates.ENDED) {
       this._api.seekTo(0, false);
     }
     this._api.playVideo();
   }
 
-  public pause() {
+  public pause(): void {
     this._api.pauseVideo();
   }
 
-  public stop() {
+  public stop(): void {
     this._api.stopVideo();
   }
 }

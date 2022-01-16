@@ -57,13 +57,13 @@ export class TraversingQuery {
    * @returns RegExp that selects all known processors in query string
    * e.g. /(::parent|::child|::next|::prev)/
    */
-  private static get PROCESSORS_REGEX() {
+  private static get PROCESSORS_REGEX(): RegExp {
     const keys = Object.keys(this.ELEMENT_PROCESSORS).concat(Object.keys(this.COLLECTION_PROCESSORS));
     return new RegExp(`(${keys.join('|')})`, 'g');
   }
 
-  private static isCollectionProcessor([name]: ProcessorDescriptor) {
-    return name && (name in this.COLLECTION_PROCESSORS);
+  private static isCollectionProcessor([name]: ProcessorDescriptor): boolean {
+    return !!name && (name in this.COLLECTION_PROCESSORS);
   }
   private static processElement(el: Element, [name, selString]: ProcessorDescriptor): Element[] {
     const sel = unwrapParenthesis(selString || '');
@@ -94,7 +94,7 @@ export class TraversingQuery {
     return uniq(result);
   }
 
-  static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document) {
+  static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
     const parts = query.split(this.PROCESSORS_REGEX).map((term) => term.trim());
     const rootSel = parts.shift();
     const baseCollection = base ? [base] : [];
