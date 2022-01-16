@@ -30,7 +30,7 @@ let eslRegistryInstance: ESLCarouselViewRegistry | null = null;
 export class ESLCarouselViewRegistry extends Observable<(name: string, view: ESLCarouselViewConstructor) => void> {
   private registry = new Map<string, ESLCarouselViewConstructor>();
 
-  public static get instance() {
+  public static get instance(): ESLCarouselViewRegistry {
     if (eslRegistryInstance === null) {
       eslRegistryInstance = new ESLCarouselViewRegistry();
     }
@@ -42,7 +42,7 @@ export class ESLCarouselViewRegistry extends Observable<(name: string, view: ESL
     return View ? new View(carousel) : null;
   }
 
-  public registerView(name: string, view: ESLCarouselViewConstructor) {
+  public registerView(name: string, view: ESLCarouselViewConstructor): void {
     if (this.registry.has(name)) {
       throw new Error(`View with name ${name} already defined`);
     }

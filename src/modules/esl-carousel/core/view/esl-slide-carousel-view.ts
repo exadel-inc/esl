@@ -5,23 +5,22 @@ import {ESLCarouselView} from './esl-carousel-view';
 import type {ESLCarousel, CarouselDirection} from '../esl-carousel';
 
 export class ESLSlideCarouselView extends ESLCarouselView {
-
   public static is = 'slide-carousel';
 
   public constructor(carousel: ESLCarousel) {
     super(carousel);
   }
 
-  public bind() {
+  public bind(): void {
     this.carousel.classList.add(ESLSlideCarouselView.is);
     this.draw();
   }
-  public unbind() {
+  public unbind(): void {
     this.carousel.classList.remove(ESLSlideCarouselView.is);
   }
 
   // TODO: check
-  public draw() {
+  public draw(): void {
     const {$slides, $slidesArea} = this.carousel;
     if (!$slidesArea || !$slides.length) return;
 
@@ -35,7 +34,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     });
   }
 
-  public async onBeforeAnimate(index: number, direction: CarouselDirection) {
+  public async onBeforeAnimate(index: number, direction: CarouselDirection): Promise<void> {
     if (this.carousel.hasAttribute('animate')) return Promise.reject();
 
     const $activeSlide = this.carousel.$activeSlide;
@@ -49,7 +48,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     return promisifyNextRender();
   }
 
-  public async onAnimate(nextIndex: number, direction: CarouselDirection) {
+  public async onAnimate(nextIndex: number, direction: CarouselDirection): Promise<void> {
     this.carousel.toggleAttribute('animate', true);
 
     // TODO: !
@@ -57,7 +56,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
       .catch(resolvePromise);
   }
 
-  public async onAfterAnimate() {
+  public async onAfterAnimate(): Promise<void> {
     this.carousel.toggleAttribute('animate', false);
     this.carousel.toggleAttribute('direction', false);
     this.carousel.$slides.forEach((slide) => {
@@ -68,7 +67,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     return Promise.resolve();
   }
 
-  public onMove(offset: number) {
+  public onMove(offset: number): void {
     const width = parseFloat(getComputedStyle(this.carousel.$activeSlide as Element).width);
 
     if (Math.abs(offset) > width) return;
@@ -83,7 +82,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     this.carousel.$slidesArea!.style.transform = `translateX(${-($activeSlide?.offsetLeft || 0) + offset}px)`;
   }
 
-  public async commit(direction: CarouselDirection) {
+  public async commit(direction: CarouselDirection): Promise<void> {
     const width = parseFloat(getComputedStyle(this.carousel.$activeSlide as Element).width);
     const $activeSlide = this.carousel.$activeSlide;
     const $nextSlide = $activeSlide.$nextCyclic;

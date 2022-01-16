@@ -32,7 +32,7 @@ export class ESLCarousel extends ESLBaseElement {
   public static is = 'esl-carousel';
   public static Slide = ESLCarouselSlide;
 
-  static get observedAttributes() {
+  static get observedAttributes(): string[] {
     return ['config'];
   }
 
@@ -44,7 +44,8 @@ export class ESLCarousel extends ESLBaseElement {
   protected readonly _plugins = new Map<string, ESLCarouselPlugin>();
 
   // TODO: rename
-  get view() {
+  // TODO: should be not none
+  get view(): ESLCarouselView | null {
     return this._view;
   }
 
@@ -57,7 +58,7 @@ export class ESLCarousel extends ESLBaseElement {
     }, []);
   }
 
-  private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  private attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     // TODO: change observed attributes
     if (attrName === 'config') {
       this.configRules = ESLMediaRuleList.parse<CarouselConfig>(this.config, ESLMediaRuleList.OBJECT_PARSER);
@@ -65,15 +66,15 @@ export class ESLCarousel extends ESLBaseElement {
     }
   }
 
-  protected _bindEvents() {
+  protected _bindEvents(): void {
     this.addEventListener('click', this._onClick, false);
   }
 
-  protected _unbindEvents() {
+  protected _unbindEvents(): void {
     this.removeEventListener('click', this._onClick, false);
   }
 
-  get configRules() {
+  get configRules(): ESLMediaRuleList<CarouselConfig | null> {
     if (!this._configRules) {
       this.configRules = ESLMediaRuleList.parse<CarouselConfig>(this.config, ESLMediaRuleList.OBJECT_PARSER);
     }
@@ -88,7 +89,7 @@ export class ESLCarousel extends ESLBaseElement {
     this._configRules.addListener(this._onMatchChange);
   }
 
-  private update(force: boolean = false) {
+  private update(force: boolean = false): void {
     const config: CarouselConfig = Object.assign(
       {view: 'multiple', count: 1},
       this.configRules.activeValue
@@ -109,7 +110,7 @@ export class ESLCarousel extends ESLBaseElement {
     this.goTo(this.firstIndex, 'next', true);
   }
 
-  private getNextGroup(shiftGroupsCount: number) {
+  private getNextGroup(shiftGroupsCount: number): number {
     // get number of group of current active slides by last index of this group
     const lastIndex = this.activeIndexes.length - 1;
     const currentGroup = Math.floor(this.activeIndexes[lastIndex] / this.activeCount);
@@ -120,7 +121,7 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   // move to core plugin
-  protected _onClick(event: MouseEvent) {
+  protected _onClick(event: MouseEvent): void {
     const eventTarget: HTMLElement = event.target as HTMLElement;
     const markedTarget: HTMLElement | null = eventTarget.closest('[data-slide-target]');
     if (markedTarget && markedTarget.dataset.slideTarget) {
@@ -140,39 +141,39 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   @bind
-  protected _onMatchChange() {
+  protected _onMatchChange(): void {
     this.update();
   }
   @bind
-  protected _onRegistryChange() {
+  protected _onRegistryChange(): void {
     if (!this._view) this.update(true);
   }
 
   // Plugin management
-  public addPlugin(plugin: ESLCarouselPlugin) {
+  public addPlugin(plugin: ESLCarouselPlugin): void {
     if (plugin.carousel) return;
     this.appendChild(plugin);
   }
 
-  public removePlugin(plugin: ESLCarouselPlugin | string | undefined) {
+  public removePlugin(plugin: ESLCarouselPlugin | string | undefined): void {
     if (typeof plugin === 'string') plugin = this._plugins.get(plugin);
     if (!plugin || plugin.carousel !== this) return;
     plugin.parentNode && plugin.parentNode.removeChild(plugin);
   }
 
-  public _addPlugin(plugin: ESLCarouselPlugin) {
+  public _addPlugin(plugin: ESLCarouselPlugin): void {
     if (this._plugins.has(plugin.key)) return;
     this._plugins.set(plugin.key, plugin);
     if (this.isConnected) plugin.bind();
   }
 
-  public _removePlugin(plugin: ESLCarouselPlugin) {
+  public _removePlugin(plugin: ESLCarouselPlugin): void {
     if (!this._plugins.has(plugin.key)) return;
     plugin.unbind();
     this._plugins.delete(plugin.key);
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
 
     this.update(true);
@@ -182,7 +183,7 @@ export class ESLCarousel extends ESLBaseElement {
     ESLCarouselViewRegistry.instance.addListener(this._onRegistryChange);
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this._unbindEvents();
 
@@ -208,7 +209,7 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   // TODO: discuss null
-  public get $activeSlide() {
+  public get $activeSlide(): ESLCarouselSlide {
     const actives = this.$slides.filter((el) => el.active);
     // if (actives.length === 0) return null;
     if (actives.length === this.$slides.length) return this.$slides[0];
@@ -221,7 +222,7 @@ export class ESLCarousel extends ESLBaseElement {
     return this.$slides[0];
   }
 
-  public get $activeSlides() {
+  public get $activeSlides(): ESLCarouselSlide[] {
     let $slide = this.$activeSlide;
     let i = this.count;
     const arr: ESLCarouselSlide[] = [];
@@ -246,7 +247,7 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  public async goTo(nextIndex: number, direction?: CarouselDirection | null, force: boolean = false) {
+  public async goTo(nextIndex: number, direction?: CarouselDirection | null, force: boolean = false): Promise<void> {
     // TODO: ?
     if (this.dataset.isAnimated) return;
 
@@ -280,14 +281,14 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   // TODO: rename
-  public goPrev(count: number = this.activeCount) {
+  public goPrev(count: number = this.activeCount): Promise<void> {
     const normalizedIndex = this.normalizeIndex(this.firstIndex - count);
     // make the first slide active if the circle is over
     const index = this.firstIndex !== 0 && normalizedIndex >= this.firstIndex ? 0 : normalizedIndex;
     return this.goTo(index, 'prev');
   }
   // TODO: rename
-  public goNext(count: number = this.activeCount) {
+  public goNext(count: number = this.activeCount): Promise<void> {
     const lastIndex = this.firstIndex + count + this.activeCount;
     // make the last slide active if the circle is over
     const index = this.firstIndex + this.activeCount !== this.count && lastIndex > this.count - 1 ?
@@ -296,16 +297,16 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   // TODO utils or private notation
-  public normalizeIndex(index: number) {
+  public normalizeIndex(index: number): number {
     return (index + this.count) % this.count;
   }
 
-  public slideAt(index: number) {
+  public slideAt(index: number): ESLCarouselSlide {
     return this.$slides[this.normalizeIndex(index)];
   }
 
   // TODO: 'get'  discuss , created to cover onClick functionality
-  public toIndex(target: CarouselSlideTarget) {
+  public toIndex(target: CarouselSlideTarget): number {
     if ('prev' === target) return this.normalizeIndex(this.firstIndex - this.activeCount);
     if ('next' === target) return this.normalizeIndex(this.firstIndex + this.activeCount);
     if (typeof target === 'number' || !isNaN(+target)) return this.normalizeIndex(+target - 1);
@@ -316,7 +317,7 @@ export class ESLCarousel extends ESLBaseElement {
     return this.normalizeIndex(index);
   }
 
-  public getDirection(from: number, to: number) {
+  public getDirection(from: number, to: number): CarouselDirection {
     const abs = Math.abs(from - to);
     if (to > from) {
       return abs > (this.count - abs) % this.count ? 'prev' : 'next';
@@ -325,7 +326,7 @@ export class ESLCarousel extends ESLBaseElement {
     }
   }
 
-  public static register(tagName?: string) {
+  public static register(tagName?: string): void {
     ESLCarouselSlide.register((tagName || ESLCarousel.is) + '-slide');
     customElements.whenDefined(ESLCarouselSlide.is).then(() => super.register.call(this, tagName));
   }

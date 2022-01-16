@@ -6,7 +6,6 @@ import type {ESLCarousel, CarouselDirection} from '../esl-carousel';
 import type {ESLCarouselSlide} from '../esl-carousel-slide';
 
 export class ESLMultiCarouselView extends ESLCarouselView {
-
   public static is = 'multi-carousel';
 
   protected currentIndex: number = 0;
@@ -15,11 +14,11 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     super(carousel);
   }
 
-  public bind() {
+  public bind(): void {
     this.carousel.classList.add(ESLMultiCarouselView.is);
     this.draw();
   }
-  public unbind() {
+  public unbind(): void {
     this.carousel.classList.remove(ESLMultiCarouselView.is);
 
     this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', false));
@@ -30,12 +29,12 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this.carousel.toggleAttribute('animate', false);
   }
 
-  public nextIndex(direction: CarouselDirection) {
+  public nextIndex(direction: CarouselDirection): number {
     const offset = direction === 'next' ? this.carousel.activeCount : -1;
     return this.carousel.normalizeIndex(this.currentIndex + offset);
   }
 
-  protected getDistance(slide: ESLCarouselSlide | number, direction: CarouselDirection) {
+  protected getDistance(slide: ESLCarouselSlide | number, direction: CarouselDirection): number {
     if (typeof slide !== 'number') slide = slide.index;
     let count = 0;
     if (direction === 'prev') {
@@ -46,7 +45,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     return count;
   }
 
-  public draw() {
+  public draw(): void {
     const {$slides, $slidesArea} = this.carousel;
     if (!$slidesArea || !$slides.length) return;
 
@@ -63,15 +62,15 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this._setOrderFrom(this.currentIndex);
   }
 
-  public async onBeforeAnimate() {
+  public async onBeforeAnimate(): Promise<void> {
     if (this.carousel.hasAttribute('animate')) return Promise.reject();
     return Promise.resolve();
   }
 
-  public onAnimate(nextIndex: number, direction: CarouselDirection) {
+  public onAnimate(nextIndex: number, direction: CarouselDirection): Promise<void> {
     this.currentIndex = this.carousel.firstIndex;
 
-    const animateSlide = () =>
+    const animateSlide = (): Promise<void> =>
       this.onBeforeStepAnimate(direction)
         .then(() => this.onStepAnimate(direction))
         .then(() => this.onAfterStepAnimate(direction));
@@ -79,7 +78,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     return repeatSequence(animateSlide, this.getDistance(nextIndex, direction));
   }
 
-  public async onAfterAnimate() {
+  public async onAfterAnimate(): Promise<void> {
     this.carousel.$slidesArea!.style.transform = 'none';
     return Promise.resolve();
   }
@@ -126,7 +125,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     return Promise.resolve();
   }
 
-  public onMove(offset: number) {
+  public onMove(offset: number): void {
     this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', true));
 
     const width = parseFloat(getComputedStyle(this.carousel.$slides[0]).width);
@@ -142,7 +141,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
   }
 
   // TODO: make slide active if it's visible
-  public async commit(direction?: CarouselDirection) {
+  public async commit(direction?: CarouselDirection): Promise<void> {
     // if (this.carousel.hasAttribute('animate')) return;
     this.carousel.toggleAttribute('animate', true);
     this.carousel.$slidesArea!.style.transform = 'translateX(0px)';
@@ -166,7 +165,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     });
   }
 
-  protected _setOrderFrom(index: number) {
+  protected _setOrderFrom(index: number): void {
     if (index < 0 || index > this.carousel.count) return;
 
     let $slide = this.carousel.$slides[index];
