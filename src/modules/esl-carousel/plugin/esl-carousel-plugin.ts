@@ -30,7 +30,7 @@ export abstract class ESLCarouselPlugin extends ESLBaseElement {
   /**
    * @returns plugin unique key, ESLCarousel can not own more then one plugin with the same key
    */
-  public get key() {
+  public get key(): string {
     return this.nodeName.toLowerCase();
   }
   /**
@@ -40,7 +40,7 @@ export abstract class ESLCarouselPlugin extends ESLBaseElement {
     return this._carousel!;
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     const carousel = this.findCarouselOwner();
     if (carousel instanceof ESLCarousel) {
       this._carousel = carousel;
@@ -49,7 +49,7 @@ export abstract class ESLCarouselPlugin extends ESLBaseElement {
       throw new Error('Invalid esl-carousel-plugin placement: plugin element should be placed under the esl-carousel node');
     }
   }
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     if (this.carousel) {
       this.carousel._removePlugin(this);
       delete this._carousel;
@@ -68,7 +68,7 @@ export abstract class ESLCarouselPlugin extends ESLBaseElement {
    */
   public abstract unbind(): void;
 
-  public static register(tagName?: string) {
+  public static register(tagName?: string): void {
     customElements.whenDefined(ESLCarousel.is).then(() => super.register.call(this, tagName));
   }
 }

@@ -1,5 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr} from '../../esl-base-element/core';
+import {attr, boolAttr} from '../../esl-base-element/core';
+import {bind} from '../../esl-utils/decorators/bind';
 import {ESLCarouselPlugin} from './esl-carousel-plugin';
 
 /**
@@ -15,18 +16,9 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
   @attr({defaultValue: 'next'}) public direction: string;
   @attr({defaultValue: '5000'}) public timeout: number;
 
-  private _active: boolean;
+  @boolAttr() public active: boolean;
+
   private _timeout: number | null = null;
-
-  constructor() {
-    super();
-    this._onInterval = this._onInterval.bind(this);
-    this._onInteract = this._onInteract.bind(this);
-  }
-
-  public get active() {
-    return this._active;
-  }
 
   public bind(): void {
     this.carousel.addEventListener('mouseover', this._onInteract);
@@ -35,7 +27,6 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
     this.carousel.addEventListener('focusout', this._onInteract);
     this.carousel.addEventListener('esl:slide:changed', this._onInteract);
     this.start();
-    // console.log('Auto-advance plugin attached successfully to ', this.carousel);
   }
   public unbind(): void {
     this.carousel.removeEventListener('mouseover', this._onInteract);
@@ -44,25 +35,25 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
     this.carousel.removeEventListener('focusout', this._onInteract);
     this.carousel.removeEventListener('esl:slide:changed', this._onInteract);
     this.stop();
-    // console.log('Auto-advance plugin detached successfully from ', this.carousel);
   }
 
-  public start() {
-    this._active = true;
+  public start(): void {
+    this.active = true;
     this.reset();
   }
-  public stop() {
-    this._active = false;
+  public stop(): void {
+    this.active = false;
     this.reset();
   }
 
-  public reset() {
+  public reset(): void {
     if (typeof this._timeout === 'number') clearTimeout(this._timeout);
-    this._timeout = this._active ? window.setTimeout(this._onInterval, this.timeout) : null;
+    this._timeout = this.active ? window.setTimeout(this._onInterval, this.timeout) : null;
   }
 
-  protected _onInterval() {
-    if (!this._active) return;
+  @bind
+  protected _onInterval(): void {
+    if (!this.active) return;
     switch (this.direction) {
       case 'next':
         this.carousel.goNext();
@@ -74,7 +65,8 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
     this.reset();
   }
 
-  protected _onInteract(e: Event) {
+  @bind
+  protected _onInteract(e: Event): void {
     switch (e.type) {
       case 'mouseover':
       case 'focusin':

@@ -15,13 +15,13 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
   protected startPoint: Point = {x: 0, y: 0};
   protected isTouchStarted = false;
 
-  public bind() {
+  public bind(): void {
     const $area: HTMLElement = this.carousel.$slidesArea!;
     window.MouseEvent && $area.addEventListener('mousedown', this.onPointerDown);
     window.TouchEvent && $area.addEventListener('touchstart', this.onPointerDown);
   }
 
-  public unbind() {
+  public unbind(): void {
     this.carousel.$slidesArea!.removeEventListener('mousedown', this.onPointerDown);
     this.carousel.$slidesArea!.removeEventListener('mousemove', this.onPointerMove);
     this.carousel.$slidesArea!.removeEventListener('mouseup', this.onPointerUp);
@@ -30,18 +30,21 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     this.carousel.$slidesArea!.removeEventListener('touchend', this.onPointerUp);
   }
 
+  protected isIgnoredEvent(event: TouchEvent | PointerEvent | MouseEvent): boolean | undefined {
+    // Multi-touch gesture
+    if (EventUtils.isTouchEvent(event) && event.touches.length !== 1) return true;
+    // Non-primary mouse button initiate drug event
+    if (EventUtils.isMouseEvent(event) && event.button !== 0) return true;
+    // TODO: form events focus handler
+  }
+
   @bind
-  protected onPointerDown(event: TouchEvent | PointerEvent | MouseEvent) {
+  protected onPointerDown(event: TouchEvent | PointerEvent | MouseEvent): void {
     if (this.carousel.hasAttribute('animate')) return;
 
-    // TODO: precondition for focused element ?
-    if ((event instanceof TouchEvent && event.touches.length !== 1) ||
-      (event instanceof PointerEvent && event.pointerType !== 'touch')) {
-      this.isTouchStarted = false;
-      return;
-    }
+    this.isTouchStarted = !this.isIgnoredEvent(event);
+    if (!this.isTouchStarted) return;
 
-    this.isTouchStarted = true;
     this.startPoint = EventUtils.normalizeTouchPoint(event);
 
     EventUtils.isMouseEvent(event) && window.addEventListener('mousemove', this.onPointerMove);
@@ -51,7 +54,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
   }
 
   @bind
-  protected onPointerMove(event: TouchEvent | PointerEvent | MouseEvent) {
+  protected onPointerMove(event: TouchEvent | PointerEvent | MouseEvent): void {
     if (!this.isTouchStarted) return;
 
     const point = EventUtils.normalizeTouchPoint(event);
@@ -60,7 +63,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
   }
 
   @bind
-  protected onPointerUp(event: TouchEvent | PointerEvent | MouseEvent) {
+  protected onPointerUp(event: TouchEvent | PointerEvent | MouseEvent): void {
     if (!this.isTouchStarted) return;
     const point = EventUtils.normalizeTouchPoint(event);
     const shiftX = point.x - this.startPoint.x;

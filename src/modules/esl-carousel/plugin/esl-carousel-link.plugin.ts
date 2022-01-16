@@ -1,6 +1,8 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr} from '../../esl-base-element/core';
+import {bind} from '../../esl-utils/decorators/bind';
 import {ESLCarousel} from '../core/esl-carousel';
+import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 import {ESLCarouselPlugin} from './esl-carousel-plugin';
 
 /**
@@ -10,7 +12,7 @@ import {ESLCarouselPlugin} from './esl-carousel-plugin';
 export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
   public static is = 'esl-carousel-link-plugin';
 
-  public static get observedAttributes() {
+  public static get observedAttributes(): string[] {
     return ['to', 'direction'];
   }
 
@@ -19,14 +21,9 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
 
   private _target: ESLCarousel | null;
 
-  constructor() {
-    super();
-    this._onSlideChange = this._onSlideChange.bind(this);
-  }
-
-  public bind() {
+  public bind(): void {
     if (!this.target) {
-      this.target = document.querySelector(this.to);
+      this.target = TraversingQuery.first(this.to) as ESLCarousel | null;
     }
     if (!(this.target instanceof ESLCarousel)) return;
 
@@ -38,19 +35,20 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
     }
   }
 
-  public unbind() {
+  public unbind(): void {
     this.target && this.target.removeEventListener('esl:slide:changed', this._onSlideChange);
     this.carousel && this.carousel.removeEventListener('esl:slide:changed', this._onSlideChange);
   }
 
-  protected _onSlideChange(e: CustomEvent) {
+  @bind
+  protected _onSlideChange(e: CustomEvent): void {
     if (!this.target || !this.carousel) return;
     const $target = e.target === this.carousel ? this.target : this.carousel;
     const $source = e.target === this.carousel ? this.carousel : this.target;
     $target.goTo($source.firstIndex, e.detail.direction);
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (this.carousel && oldVal !== newVal) {
       this.unbind();
       if (attrName === 'to') {
@@ -60,10 +58,10 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
     }
   }
 
-  get target() {
+  get target(): ESLCarousel | null {
     return this._target;
   }
-  set target(target) {
+  set target(target: ESLCarousel | null) {
     this._target = target;
   }
 }
