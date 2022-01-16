@@ -2,7 +2,8 @@
   "debug": true,
   "branches": [
     "main",
-    {"name": "main-beta", "channel": "beta", "prerelease": "beta"}
+    {"name": "main-beta", "channel": "beta", "prerelease": "beta"},
+    {"name": "main-next", "channel": "next", "prerelease": "next"}
   ],
   "tagFormat": "v${version}",
   "plugins": [
