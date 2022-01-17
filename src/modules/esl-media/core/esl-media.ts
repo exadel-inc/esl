@@ -370,7 +370,6 @@ export class ESLMedia extends ESLBaseElement {
     (this._provider) && this._provider.safeSeekTo(time);
   }
 
-  // TODO: simplify - ESLMediaQuery is lazy for primitives, it make sense to init it unconditionally
   /** ESLMediaQuery to limit ESLMedia loading */
   public get conditionQuery(): ESLMediaQuery {
     return ESLMediaQuery.for(this.loadCondition);
