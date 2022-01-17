@@ -1,3 +1,16 @@
+# [3.12.0](https://github.com/exadel-inc/esl/compare/v3.11.0...v3.12.0) (2022-01-17)
+
+
+### Bug Fixes
+
+* **esl-media:** fix missing load condition reinitialization and docs ([4f136d7](https://github.com/exadel-inc/esl/commit/4f136d7b37e06fc0c8ed4b00a150d943e3cad941))
+* **esl-media:** style/performance improvement for condition query ([#777](https://github.com/exadel-inc/esl/issues/777)) ([48bfed5](https://github.com/exadel-inc/esl/commit/48bfed540eedc4b766452c8dfea7b650e6e0a98c))
+
+
+### Features
+
+* **esl-toggleable:** add handler for esl:show:request ([ff0556a](https://github.com/exadel-inc/esl/commit/ff0556a41760473ed0a11af087f3a97e550c9b40))
+
 # [3.11.0](https://github.com/exadel-inc/esl/compare/v3.10.0...v3.11.0) (2022-01-12)
 
 
