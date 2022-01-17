@@ -130,11 +130,13 @@ export class ESLToggleable extends ESLBaseElement {
   protected bindEvents(): void {
     this.addEventListener('click', this._onClick);
     this.addEventListener('keydown', this._onKeyboardEvent);
+    this.addEventListener('esl:show:request', this._onShowRequest);
   }
 
   protected unbindEvents(): void {
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('keydown', this._onKeyboardEvent);
+    this.removeEventListener('esl:show:request', this._onShowRequest);
     this.bindOutsideEventTracking(false);
     this.bindHoverStateTracking(false);
   }
@@ -308,6 +310,12 @@ export class ESLToggleable extends ESLBaseElement {
     const hideDelay = this._trackHoverDelay;
     const baseParams: ToggleableActionParams = {initiator: 'mouseleave', trackHover: true, activator: this.activator, event: e, hideDelay};
     this.hide(Object.assign(baseParams, this.trackHoverParams));
+  }
+
+  /** Actions to execute on show request */
+  @bind
+  protected _onShowRequest(): void {
+    this.show();
   }
 }
 
