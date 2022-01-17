@@ -88,7 +88,7 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr({readonly: true}) public error: boolean;
 
   private _provider: BaseProvider | null;
-  private _conditionQuery: ESLMediaQuery | null;
+  private _conditionQuery: ESLMediaQuery;
 
   private deferredResize = rafDecorator(() => this._onResize());
   private deferredReinitialize = debounce(() => this.reinitInstance());
@@ -166,9 +166,7 @@ export class ESLMedia extends ESLBaseElement {
 
   protected bindEvents(): void {
     ESLMediaProviderRegistry.instance.addListener(this._onRegistryStateChange);
-    if (this.conditionQuery) {
-      this.conditionQuery.addListener(this.deferredReinitialize);
-    }
+    this.conditionQuery.addListener(this.deferredReinitialize);
     if (this.fillModeEnabled) {
       window.addEventListener('resize', this.deferredResize);
     }
@@ -177,9 +175,7 @@ export class ESLMedia extends ESLBaseElement {
   }
   protected unbindEvents(): void {
     ESLMediaProviderRegistry.instance.removeListener(this._onRegistryStateChange);
-    if (this.conditionQuery) {
-      this.conditionQuery.removeListener(this.deferredReinitialize);
-    }
+    this.conditionQuery.removeListener(this.deferredReinitialize);
     if (this.fillModeEnabled) {
       window.removeEventListener('resize', this.deferredResize);
     }
@@ -189,8 +185,7 @@ export class ESLMedia extends ESLBaseElement {
 
   public canActivate(): boolean {
     if (this.disabled) return false;
-    if (this.conditionQuery) return this.conditionQuery.matches;
-    return true;
+    return this.conditionQuery.matches;
   }
 
   private reinitInstance(): void {
@@ -376,10 +371,10 @@ export class ESLMedia extends ESLBaseElement {
 
   // TODO: simplify - ESLMediaQuery is lazy for primitives, it make sense to init it unconditionally
   /** ESLMediaQuery to limit ESLMedia loading */
-  public get conditionQuery(): ESLMediaQuery | null {
-    if (!this._conditionQuery && this._conditionQuery !== null) {
+  public get conditionQuery(): ESLMediaQuery {
+    if (!this._conditionQuery) {
       const query = this.getAttribute('load-condition');
-      this._conditionQuery = query ? ESLMediaQuery.for(query) : null;
+      this._conditionQuery = query ? ESLMediaQuery.for(query) : ESLMediaQuery.for('all');
     }
     return this._conditionQuery;
   }
