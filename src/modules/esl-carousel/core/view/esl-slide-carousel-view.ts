@@ -1,8 +1,7 @@
 import {promisifyEvent, resolvePromise} from '../../../esl-utils/async/promise';
 import {promisifyNextRender} from '../../../esl-utils/async/raf';
 import {ESLCarouselView} from './esl-carousel-view';
-
-import type {CarouselDirection} from '../esl-carousel';
+import type {CarouselDirection} from '../esl-carousel-utils';
 
 export class ESLSlideCarouselView extends ESLCarouselView {
   public static is = 'slide';

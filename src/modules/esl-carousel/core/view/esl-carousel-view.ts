@@ -1,7 +1,8 @@
 import {Observable} from '../../../esl-utils/abstract/observable';
 import {memoize} from '../../../esl-utils/decorators/memoize';
 
-import type {CarouselDirection, ESLCarousel} from '../esl-carousel';
+import type {ESLCarousel} from '../esl-carousel';
+import type {CarouselDirection} from '../esl-carousel-utils';
 
 export abstract class ESLCarouselView {
   public static is = '';
@@ -10,6 +11,10 @@ export abstract class ESLCarouselView {
 
   constructor(carousel: ESLCarousel) {
     this.carousel = carousel; // TODO: unsafe while lifecycle is not clear
+  }
+
+  public get size(): number {
+    return this.carousel.count;
   }
 
   public bind(): void {

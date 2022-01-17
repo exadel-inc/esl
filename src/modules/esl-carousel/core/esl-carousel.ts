@@ -7,19 +7,18 @@ import {deepCompare} from '../../esl-utils/misc/object';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 
+import {calcDirection, normalizeIndex} from './esl-carousel-utils';
 import {ESLCarouselSlide} from './esl-carousel-slide';
 import {ESLCarouselView} from './view/esl-carousel-view';
 
 import type {ESLCarouselPlugin} from '../plugin/esl-carousel-plugin';
+import type {CarouselDirection, CarouselSlideTarget} from './esl-carousel-utils';
 
 interface CarouselConfig { // Registry
   view?: string;
   count?: number;
   className?: string;
 }
-
-export type CarouselDirection = 'next' | 'prev';
-export type CarouselSlideTarget = number | 'next' | 'prev' | `g${number}`;
 
 /**
  * ESL Carousel component
@@ -214,7 +213,7 @@ export class ESLCarousel extends ESLBaseElement {
 
     // TODO try to make the same as activeSlides
     for (const slide of actives) {
-      const prevIndex = this.normalizeIndex(slide.index - 1);
+      const prevIndex = normalizeIndex(slide.index - 1, this.count);
       if (!this.$slides[prevIndex].active) return slide;
     }
     return this.$slides[0];
@@ -251,11 +250,11 @@ export class ESLCarousel extends ESLBaseElement {
 
     const {firstIndex} = this;
 
-    nextIndex = this.normalizeIndex(nextIndex);
+    nextIndex = normalizeIndex(nextIndex, this.count);
 
     if (firstIndex === nextIndex && !force) return;
 
-    direction = direction || this.getDirection(firstIndex, nextIndex);
+    direction = direction || calcDirection(firstIndex, nextIndex, this.count);
 
     // TODO: change info
     const eventDetails = {
@@ -280,7 +279,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   // TODO: rename
   public goPrev(count: number = this.activeCount): Promise<void> {
-    const normalizedIndex = this.normalizeIndex(this.firstIndex - count);
+    const normalizedIndex = normalizeIndex(this.firstIndex - count, this.count);
     // make the first slide active if the circle is over
     const index = this.firstIndex !== 0 && normalizedIndex >= this.firstIndex ? 0 : normalizedIndex;
     return this.goTo(index, 'prev');
@@ -290,38 +289,24 @@ export class ESLCarousel extends ESLBaseElement {
     const lastIndex = this.firstIndex + count + this.activeCount;
     // make the last slide active if the circle is over
     const index = this.firstIndex + this.activeCount !== this.count && lastIndex > this.count - 1 ?
-      this.count - this.activeCount : this.normalizeIndex(this.firstIndex + count);
+      this.count - this.activeCount : normalizeIndex(this.firstIndex + count, this.count);
     return this.goTo(index, 'next');
   }
 
-  // TODO utils or private notation
-  public normalizeIndex(index: number): number {
-    return (index + this.count) % this.count;
-  }
-
   public slideAt(index: number): ESLCarouselSlide {
-    return this.$slides[this.normalizeIndex(index)];
+    return this.$slides[normalizeIndex(index, this.count)];
   }
 
   // TODO: 'get'  discuss , created to cover onClick functionality
   public toIndex(target: CarouselSlideTarget): number {
-    if ('prev' === target) return this.normalizeIndex(this.firstIndex - this.activeCount);
-    if ('next' === target) return this.normalizeIndex(this.firstIndex + this.activeCount);
-    if (typeof target === 'number' || !isNaN(+target)) return this.normalizeIndex(+target - 1);
+    if ('prev' === target) return normalizeIndex(this.firstIndex - this.activeCount, this.count);
+    if ('next' === target) return normalizeIndex(this.firstIndex + this.activeCount, this.count);
+    if (typeof target === 'number' || !isNaN(+target)) return normalizeIndex(+target - 1, this.count);
     if ('g' !== target[0]) return this.firstIndex;
     const group = +(target.substring(1)) - 1;
     const lastGroup = Math.floor(this.count / this.activeCount);
     const index = group === lastGroup ? this.count - this.activeCount : this.activeCount * group;
-    return this.normalizeIndex(index);
-  }
-
-  public getDirection(from: number, to: number): CarouselDirection {
-    const abs = Math.abs(from - to);
-    if (to > from) {
-      return abs > (this.count - abs) % this.count ? 'prev' : 'next';
-    } else {
-      return abs < (this.count - abs) % this.count ? 'prev' : 'next';
-    }
+    return normalizeIndex(index, this.count);
   }
 
   public static register(tagName?: string): void {

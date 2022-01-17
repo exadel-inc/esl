@@ -1,27 +1,25 @@
 import {promisifyNextRender} from '../../../esl-utils/async/raf';
 import {promisifyEvent, repeatSequence, resolvePromise} from '../../../esl-utils/async/promise';
+
+import {calcDirection, normalizeIndex} from '../esl-carousel-utils';
 import {ESLCarouselView} from './esl-carousel-view';
 
-import type {ESLCarousel, CarouselDirection} from '../esl-carousel';
 import type {ESLCarouselSlide} from '../esl-carousel-slide';
+import type {CarouselDirection} from '../esl-carousel-utils';
+
 
 export class ESLMultiCarouselView extends ESLCarouselView {
   public static is = 'multi';
 
   protected currentIndex: number = 0;
 
-  public nextIndex(direction: CarouselDirection): number {
-    const offset = direction === 'next' ? this.carousel.activeCount : -1;
-    return this.carousel.normalizeIndex(this.currentIndex + offset);
-  }
-
   protected getDistance(slide: ESLCarouselSlide | number, direction: CarouselDirection): number {
     if (typeof slide !== 'number') slide = slide.index;
     let count = 0;
     if (direction === 'prev') {
-      count = this.carousel.normalizeIndex(this.carousel.firstIndex - slide);
+      count = normalizeIndex(this.carousel.firstIndex - slide, this.size);
     } else if (direction === 'next') {
-      count = this.carousel.normalizeIndex(slide - this.carousel.firstIndex);
+      count = normalizeIndex(slide - this.carousel.firstIndex, this.size);
     }
     return count;
   }
@@ -76,10 +74,10 @@ export class ESLMultiCarouselView extends ESLCarouselView {
   protected async onBeforeStepAnimate(direction: CarouselDirection): Promise<void> {
     this.carousel.$slides.forEach((el) => el.toggleAttribute('visible'));
 
-    const orderIndex = direction === 'next' ? this.currentIndex : this.carousel.normalizeIndex(this.currentIndex - 1);
+    const orderIndex = direction === 'next' ? this.currentIndex : normalizeIndex(this.currentIndex - 1, this.size);
     this._setOrderFrom(orderIndex);
 
-    const offsetIndex = direction === 'next' ? this.carousel.normalizeIndex(this.currentIndex + 1) : this.currentIndex;
+    const offsetIndex = direction === 'next' ? normalizeIndex(this.currentIndex + 1, this.size) : this.currentIndex;
     const offset = this.carousel.$slides[offsetIndex].offsetLeft;
     const shiftX = direction === 'next' ? 0 : -offset;
     this.carousel.$slidesArea!.style.transform = `translateX(${shiftX}px)`;
@@ -92,7 +90,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
   protected async onStepAnimate(direction: CarouselDirection): Promise<void> {
     this.carousel.toggleAttribute('animate', true);
 
-    const offsetIndex = direction === 'next' ? this.carousel.normalizeIndex(this.currentIndex + 1) : this.currentIndex;
+    const offsetIndex = direction === 'next' ? normalizeIndex(this.currentIndex + 1, this.size) : this.currentIndex;
     const offset = this.carousel.$slides[offsetIndex].offsetLeft;
     const shiftX = direction === 'next' ? -offset : 0;
     this.carousel.$slidesArea!.style.transform = `translateX(${shiftX}px)`;
@@ -107,7 +105,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this.carousel.$slidesArea!.style.transform = 'translateX(0px)';
 
     this.currentIndex = direction === 'next' ? this.currentIndex + 1 : this.currentIndex - 1;
-    this.currentIndex = this.carousel.normalizeIndex(this.currentIndex);
+    this.currentIndex = normalizeIndex(this.currentIndex, this.size);
 
     this._setOrderFrom(this.currentIndex);
 
@@ -122,8 +120,8 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     const sign = offset < 0 ? 1 : -1;
     const count = Math.floor(Math.abs(offset) / width);
 
-    this.currentIndex = this.carousel.normalizeIndex(this.carousel.firstIndex + count * sign);
-    const orderIndex = offset < 0 ? this.currentIndex : this.carousel.normalizeIndex(this.currentIndex - 1);
+    this.currentIndex = normalizeIndex(this.carousel.firstIndex + count * sign, this.size);
+    const orderIndex = offset < 0 ? this.currentIndex : normalizeIndex(this.currentIndex - 1, this.size);
     this._setOrderFrom(orderIndex);
 
     const stageOffset = offset < 0 ? offset + count * width : offset - (count + 1) * width;
@@ -136,8 +134,8 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this.carousel.toggleAttribute('animate', true);
     this.carousel.$slidesArea!.style.transform = 'translateX(0px)';
 
-    this.currentIndex = this.carousel.normalizeIndex(this.currentIndex);
-    direction = direction || this.carousel.getDirection(this.carousel.firstIndex, this.currentIndex);
+    this.currentIndex = normalizeIndex(this.currentIndex, this.size);
+    direction = direction || calcDirection(this.carousel.firstIndex, this.currentIndex, this.size);
     this._setOrderFrom(this.currentIndex);
 
     this.carousel.$slides.forEach((el) => el.active = false);
