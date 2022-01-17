@@ -17,13 +17,13 @@ function convertNotesToFootnotesList(notes: ESLNote[]): FootnotesItem[] {
 
 /** Compiles footnotes non-grouped list */
 export function compileFootnotesNongroupedList(notes: ESLNote[]): FootnotesItem[] {
-  return convertNotesToFootnotesList(notes);
+  return convertNotesToFootnotesList(notes.filter((note) => note.allowFootnotes));
 }
 
 /** Compiles footnotes grouped list */
 export function compileFootnotesGroupedList(notes: ESLNote[]): FootnotesItem[] {
   const map = new Map() ;
-  convertNotesToFootnotesList(notes).forEach((note) => {
+  convertNotesToFootnotesList(notes.filter((note) => note.allowFootnotes)).forEach((note) => {
     const {index, renderedIndex, text} = note;
     map.has(text) ? map.set(text, {
       index: [...map.get(text).index, ...index],
