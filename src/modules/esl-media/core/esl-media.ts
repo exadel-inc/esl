@@ -75,7 +75,7 @@ export class ESLMedia extends ESLBaseElement {
   @attr() public loadClsAccepted: string;
   /** Class / classes to add when media is declined */
   @attr() public loadClsDeclined: string;
-  /** load-condition . Default: `all` */
+  /** Condition {@link ESLMediaQuery} to allow load of media resource. Default: `all` */
   @attr({defaultValue: 'all'}) public loadCondition: string;
   /** Target element {@link TraversingQuery} select to add accepted/declined classes */
   @attr({defaultValue: '::parent'}) public loadClsTarget: string;
@@ -105,6 +105,7 @@ export class ESLMedia extends ESLBaseElement {
   static get observedAttributes(): string[] {
     return [
       'disabled',
+      'load-condition',
       'media-type',
       'media-id',
       'media-src',
@@ -161,6 +162,11 @@ export class ESLMedia extends ESLBaseElement {
         this.playInViewport ?
           this.attachViewportConstraint() :
           this.detachViewportConstraint();
+        break;
+      case 'load-condition':
+        ESLMediaQuery.for(oldVal).removeListener(this.deferredReinitialize);
+        ESLMediaQuery.for(newVal).addListener(this.deferredReinitialize);
+        this.deferredReinitialize();
         break;
     }
   }
