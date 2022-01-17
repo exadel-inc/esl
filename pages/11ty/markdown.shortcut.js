@@ -1,6 +1,7 @@
 const path = require('path');
 const fsAsync = require('fs').promises;
 
+const color = require('kleur');
 const {JSDOM} = require('jsdom');
 const {markdown} = require('./markdown.lib');
 
@@ -58,7 +59,7 @@ class MDRenderer {
     dom.querySelectorAll('a[href^="."]').forEach((link) => {
       const absolutePath = path.join(path.dirname(basePath), link.href).replace(/\\/g, '/');
       const resultPath = MDRenderer.processRewriteRules(absolutePath);
-      console.info(`Rewrite link "${link.href}" to "${resultPath}"`);
+      console.log(color.yellow(`Rewrite link "${link.href}" to "${resultPath}"`));
       link.href = resultPath;
     });
   }

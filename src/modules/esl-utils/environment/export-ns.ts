@@ -3,8 +3,8 @@ const NS_NAME = 'ESL';
 /**
  * Nested declaration helper
  */
-function define(root: any, name: string, value: any) {
-  return name.split('.').reduce((obj: any, key, index, parts) => {
+function define(root: any, name: string, value: any): void {
+  name.split('.').reduce((obj: any, key, index, parts) => {
     if (parts.length === index + 1) {
       return (obj[key] = obj[key] || value);
     }
@@ -20,7 +20,7 @@ function define(root: any, name: string, value: any) {
  * Method to manually declare key in library namespace
  * See {@link ExportNs} decorator for details
  */
-export const exportNs = (name: string, module: any) => {
+export const exportNs = (name: string, module: any): void => {
   if (!(NS_NAME in window)) return;
   define((window as any)[NS_NAME], name, module);
 };
@@ -37,11 +37,11 @@ export const exportNs = (name: string, module: any) => {
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function ExportNs<T extends Function>(name?: string) {
-  return (module: T) => exportNs(name || module.name, module);
+  return (module: T): void => exportNs(name || module.name, module);
 }
 
 /** Declare ESL global */
-ExportNs.declare = () => {
+ExportNs.declare = (): void => {
   if ('ESL' in window) return;
   Object.defineProperty(window, 'ESL', {value: {}});
 };

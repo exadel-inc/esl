@@ -17,7 +17,7 @@ import type {ToggleableActionParams} from '../../../esl-toggleable/core/esl-togg
  */
 export class ESLSelectDropdown extends ESLToggleable {
   public static readonly is = 'esl-select-dropdown';
-  public static register() {
+  public static register(): void {
     ESLSelectList.register();
     super.register();
   }
@@ -38,27 +38,27 @@ export class ESLSelectDropdown extends ESLToggleable {
     this.$list = document.createElement(ESLSelectList.is);
   }
 
-  protected setInitialState() {}
+  protected setInitialState(): void {}
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.appendChild(this.$list);
   }
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeChild(this.$list);
   }
 
-  protected bindEvents() {
+  protected bindEvents(): void {
     super.bindEvents();
     window.addEventListener('resize', this._deferredUpdatePosition);
   }
-  protected unbindEvents() {
+  protected unbindEvents(): void {
     super.unbindEvents();
     window.removeEventListener('resize', this._deferredUpdatePosition);
   }
 
-  protected onShow(params: ToggleableActionParams) {
+  protected onShow(params: ToggleableActionParams): void {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
@@ -71,7 +71,7 @@ export class ESLSelectDropdown extends ESLToggleable {
     focusable?.focus({preventScroll: true});
     this.updatePosition();
   }
-  protected onHide(params: ToggleableActionParams) {
+  protected onHide(params: ToggleableActionParams): void {
     const select = this.activator;
     super.onHide(params);
     this._disposeTimeout = window.setTimeout(() => {
@@ -82,12 +82,12 @@ export class ESLSelectDropdown extends ESLToggleable {
   }
 
   @bind
-  protected _onKeyboardEvent(e: KeyboardEvent) {
+  protected _onKeyboardEvent(e: KeyboardEvent): void {
     super._onKeyboardEvent(e);
     if (e.key === TAB) this._onTabKey(e);
   }
 
-  protected _onTabKey(e: KeyboardEvent) {
+  protected _onTabKey(e: KeyboardEvent): void {
     const els = this.querySelectorAll('[tabindex]');
     const first = els[0] as HTMLElement;
     const last = els[els.length - 1] as HTMLElement;
@@ -96,7 +96,7 @@ export class ESLSelectDropdown extends ESLToggleable {
   }
 
   @bind
-  public updatePosition() {
+  public updatePosition(): void {
     if (!this.activator) return;
     const windowY = window.scrollY || window.pageYOffset;
     const rect = this.activator.getBoundingClientRect();

@@ -13,13 +13,13 @@ interface JsonAttrDescriptor<T> {
   defaultValue?: T;
 }
 
-function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, defaultValue: T | null) {
-  function get() {
+function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, defaultValue: T | null): PropertyDescriptor {
+  function get(): T | null {
     const attrContent = (this.getAttribute(attrName) || '').trim();
     return evaluate(attrContent, defaultValue);
   }
 
-  function set(value: any) {
+  function set(value: any): void {
     if (typeof value !== 'object') {
       console.error('Can not set json value: value should be object');
     }
@@ -39,16 +39,16 @@ function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, default
 }
 
 const buildAttrName =
-  (propName: string, dataAttr: boolean) => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
+  (propName: string, dataAttr: boolean): string => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 
 /**
  * Decorator to map current property to element attribute value using JSON (de-)serialization rules.
  * Maps object type property.
  * @param config - mapping configuration. See {@link JsonAttrDescriptor}
  */
-export const jsonAttr = <T>(config: JsonAttrDescriptor<T> = {}) => {
+export const jsonAttr = <T>(config: JsonAttrDescriptor<T> = {}): PropertyDecorator => {
   config = Object.assign({defaultValue: {}}, config);
-  return (target: ESLBaseElement, propName: string) => {
+  return (target: ESLBaseElement, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildJsonAttrDescriptor(attrName, !!config.readonly, config.defaultValue));
   };

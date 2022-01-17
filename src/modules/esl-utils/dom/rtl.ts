@@ -5,7 +5,7 @@ export type ScrollType = 'default' | 'negative' | 'reverse';
 // TODO: functional
 export abstract class RTLUtils {
   /** Check if the element in a RTL direction context */
-  static isRtl(el: HTMLElement = document.body) {
+  static isRtl(el: HTMLElement = document.body): boolean {
     return getComputedStyle(el).direction === 'rtl';
   }
 
@@ -39,7 +39,7 @@ export abstract class RTLUtils {
 }
 
 /** Creates the dummy test element with a horizontal scroll presented */
-function createDummyEl() {
+function createDummyEl(): HTMLElement {
   const el = document.createElement('div');
   el.appendChild(document.createTextNode('ESL!'));
   el.dir = 'rtl';

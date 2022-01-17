@@ -21,16 +21,16 @@ export class ESLMediaRule<T> {
     this._payload = payload;
   }
 
-  public toString() {
+  public toString(): string {
     return `${this._query} => ${this._payload}`;
   }
 
   /** Subscribes on inner {@link ESLMediaQuery} changes */
-  public addListener(listener: () => void) {
+  public addListener(listener: () => void): void {
     this._query.addListener(listener);
   }
   /** Unsubscribes from inner {@link ESLMediaQuery} changes */
-  public removeListener(listener: () => void) {
+  public removeListener(listener: () => void): void {
     this._query.removeListener(listener);
   }
 
@@ -51,7 +51,7 @@ export class ESLMediaRule<T> {
   }
 
   /** Parse the rule string to the {@link ESLMediaRule} instance */
-  public static parse<U>(lex: string, parser: PayloadParser<U>) {
+  public static parse<U>(lex: string, parser: PayloadParser<U>): ESLMediaRule<U> | undefined {
     const parts = lex.split('=>');
     const query = parts.length === 2 ? parts[0] : '';
     const payload = parts.length === 2 ? parts[1] : parts[0];
@@ -61,11 +61,11 @@ export class ESLMediaRule<T> {
   }
 
   /** Shortcut to create always active {@link ESLMediaRule} with passed value */
-  public static all<U>(payload: U) {
+  public static all<U>(payload: U): ESLMediaRule<U> {
     return new ESLMediaRule<U>(payload, 'all');
   }
   /** Shortcut to create condition-less {@link ESLMediaRule} */
-  public static default<U>(payload: U) {
+  public static default<U>(payload: U): ESLMediaRule<U> {
     return new ESLMediaRule<U>(payload);
   }
   /** Shortcut to create always inactive {@link ESLMediaRule} */
