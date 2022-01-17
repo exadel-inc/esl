@@ -75,6 +75,8 @@ export class ESLMedia extends ESLBaseElement {
   @attr() public loadClsAccepted: string;
   /** Class / classes to add when media is declined */
   @attr() public loadClsDeclined: string;
+  /** load-condition . Default: `all` */
+  @attr({defaultValue: 'all'}) public loadCondition: string;
   /** Target element {@link TraversingQuery} select to add accepted/declined classes */
   @attr({defaultValue: '::parent'}) public loadClsTarget: string;
 
@@ -88,7 +90,6 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr({readonly: true}) public error: boolean;
 
   private _provider: BaseProvider | null;
-  private _conditionQuery: ESLMediaQuery;
 
   private deferredResize = rafDecorator(() => this._onResize());
   private deferredReinitialize = debounce(() => this.reinitInstance());
@@ -372,11 +373,7 @@ export class ESLMedia extends ESLBaseElement {
   // TODO: simplify - ESLMediaQuery is lazy for primitives, it make sense to init it unconditionally
   /** ESLMediaQuery to limit ESLMedia loading */
   public get conditionQuery(): ESLMediaQuery {
-    if (!this._conditionQuery) {
-      const query = this.getAttribute('load-condition');
-      this._conditionQuery = query ? ESLMediaQuery.for(query) : ESLMediaQuery.for('all');
-    }
-    return this._conditionQuery;
+    return ESLMediaQuery.for(this.loadCondition);
   }
 
   /** Fill mode should be handled for element */
