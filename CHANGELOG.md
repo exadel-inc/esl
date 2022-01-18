@@ -1,3 +1,10 @@
+## [3.12.1](https://github.com/exadel-inc/esl/compare/v3.12.0...v3.12.1) (2022-01-18)
+
+
+### Bug Fixes
+
+* **esl-media:** fix incorrect `load-condition` definition in shape ([94e8d77](https://github.com/exadel-inc/esl/commit/94e8d7784392585ce787d35fee3cce1e1b07a7c7))
+
 # [3.12.0](https://github.com/exadel-inc/esl/compare/v3.11.0...v3.12.0) (2022-01-17)
 
 
