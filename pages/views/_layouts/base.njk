@@ -21,30 +21,6 @@
   {% block headlib %}
     <link rel="stylesheet" type="text/css" href="{{ '/bundles/localdev.css' | url }}" />
   {% endblock %}
-  {% block head %}
-    <script async>
-      if (window.location.pathname === '/search.html') {
-        addScript();
-      }
-      
-      if (window.location.pathname === '/') {
-        document.addEventListener('DOMContentLoaded', function() {
-          var searchBar = document.querySelector('.header-search-box');
-          var searchBarShowHandler = function() {
-            addScript();
-            searchBar.removeEventListener('esl:show', searchBarShowHandler)
-          }
-          searchBar.addEventListener('esl:show', searchBarShowHandler);
-        });
-      }
-
-      function addScript() {
-        var gssScript = document.createElement('script');
-        gssScript.setAttribute('src', 'https://cse.google.com/cse.js?cx=3171f866738b34f02');
-        document.querySelector('head').appendChild(gssScript);
-      }
-    </script>
-  {% endblock %}
 </head>
 <body>
 

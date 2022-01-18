@@ -1,4 +1,5 @@
 import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
+import {loadScript} from '../../../../modules/esl-utils/dom/script';
 import {CSSClassUtils} from '../../../../src/modules/esl-utils/dom/class';
 import {afterNextRender} from '../../../../src/modules/esl-utils/async/raf';
 import {parseNumber} from '../../../../src/modules/esl-utils/misc/format';
@@ -20,6 +21,7 @@ export class ESLDemoSearchBox extends ESLToggleable {
   @prop() public closeOnOutsideAction = true;
 
   public onShow(params: ToggleableActionParams): void {
+    loadScript('gss', 'https://cse.google.com/cse.js?cx=3171f866738b34f02');
     CSSClassUtils.add(this, this.postCls);
     afterNextRender(() => super.onShow(params));
     if (this.autofocus) {
