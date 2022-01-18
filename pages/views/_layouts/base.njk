@@ -22,7 +22,30 @@
     <link rel="stylesheet" type="text/css" href="{{ '/bundles/localdev.css' | url }}" />
   {% endblock %}
   {% block head %}
-    <script async src="https://cse.google.com/cse.js?cx=3171f866738b34f02"></script>
+    <script async>
+      if(window.location.pathname === '/search.html') {
+        addScript();
+      }
+      
+      if(window.location.pathname === '/') {
+        document.addEventListener("DOMContentLoaded", function() {
+          var searchBar = document.querySelector('.header-search-box');
+          var searchBarObserver = new MutationObserver(function() {
+            if(searchBar.classList.contains('open')) {
+              addScript();
+              searchBarObserver.disconnect();
+            }
+          });
+          searchBarObserver.observe(searchBar, {attributes: true});
+        });
+      }
+
+      function addScript() {
+        var gssScript = document.createElement('script');
+        gssScript.setAttribute('src', 'https://cse.google.com/cse.js?cx=3171f866738b34f02');
+        document.getElementsByTagName('head')[0].appendChild(gssScript);
+      }
+    </script>
   {% endblock %}
 </head>
 <body>
