@@ -51,7 +51,7 @@ export type ESLMediaTagShape = ({
   'ready-class'?: string;
 
   /** Define condition {@link ESLMediaQuery} to allow load of media resource */
-  'load-condition': string;
+  'load-condition'?: string;
   /** Define ESL Traversing Query to find target for load-cls-accepted / load-cls-declined */
   'load-cls-target'?: string;
   /** Define class to mark player accepted state */
