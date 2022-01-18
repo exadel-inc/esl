@@ -23,27 +23,25 @@
   {% endblock %}
   {% block head %}
     <script async>
-      if(window.location.pathname === '/search.html') {
+      if (window.location.pathname === '/search.html') {
         addScript();
       }
       
-      if(window.location.pathname === '/') {
-        document.addEventListener("DOMContentLoaded", function() {
+      if (window.location.pathname === '/') {
+        document.addEventListener('DOMContentLoaded', function() {
           var searchBar = document.querySelector('.header-search-box');
-          var searchBarObserver = new MutationObserver(function() {
-            if(searchBar.classList.contains('open')) {
-              addScript();
-              searchBarObserver.disconnect();
-            }
-          });
-          searchBarObserver.observe(searchBar, {attributes: true});
+          var searchBarShowHandler = function() {
+            addScript();
+            searchBar.removeEventListener('esl:show', searchBarShowHandler)
+          }
+          searchBar.addEventListener('esl:show', searchBarShowHandler);
         });
       }
 
       function addScript() {
         var gssScript = document.createElement('script');
         gssScript.setAttribute('src', 'https://cse.google.com/cse.js?cx=3171f866738b34f02');
-        document.getElementsByTagName('head')[0].appendChild(gssScript);
+        document.querySelector('head').appendChild(gssScript);
       }
     </script>
   {% endblock %}
