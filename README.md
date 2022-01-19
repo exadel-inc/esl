@@ -20,6 +20,12 @@ their tech stack.
 
 <p align="center" >★ <b>Check out our UI component library and support it with a star</b> ★</p>
 
+- [Overview](#overview)
+- [Library Structure](#library-structure)
+- [Installation Guide](#installation-guide)
+- [Roadmap](#roadmap)
+- [Development Information for Contributors](#development-information-for-contributors)
+
 ## Overview
 
 Exadel Smart Library, or ESL for short, is a free web UI components library that reduces routine tasks and lets 
@@ -136,7 +142,7 @@ Our web UI components library uses utilities to build components with simpler sy
 ---
 <a name="contributing"></a>
 
-## Development Information for contributors
+## Development Information for Contributors
 
 If you are a part of ESL team or want to contribute to the project
 you can find useful information about the project processes and agreements here:
