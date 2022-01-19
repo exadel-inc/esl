@@ -9,9 +9,10 @@
 [![build](https://img.shields.io/github/workflow/status/exadel-inc/esl/validate/main?style=for-the-badge)](https://github.com/exadel-inc/esl/actions/workflows/validate.yml)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge)](./README.md)
 
-Exadel Smart Library (**ESL**) is a web components based UI components library that gives you a set of 
-**lightweight** and **flexible** custom elements to easily create basic UX modules and make your websites super fast.
-ESL web UI components library is compatible with any framework which makes ESL ideal for projects regardless of their tech stack
+Exadel Smart Library (**ESL**) is an open-source **lightweight** and **flexible** UI component library based on web components.
+Build UX modules with custom components provided by our library and make sites work faster. 
+ESL web UI components library is compatible with any framework which makes ESL ideal for projects regardless of 
+their tech stack.
 
 <p align="center">
 <a href="https://esl-ui.com"><img src="./docs/images/welcome-btn.png" alt="Visit our UI component library website with examples" width="409" height="75" title="Click to visit our UI component library website with examples"/></a>
@@ -21,15 +22,15 @@ ESL web UI components library is compatible with any framework which makes ESL i
 
 ## Overview
 
-Exadel Smart Library, or ESL for short, is a free web UI components library that reduces routine tasks 
-and lets you efficiently create websites with multiple web components at hand. 
+Exadel Smart Library, or ESL for short, is a free web UI components library that reduces routine tasks and lets 
+you efficiently create websites with multiple web components at hand. 
 While looking for the best UI component library, keep in mind that it should be compatible with other libraries 
 and frameworks. And ESL is!
 
 The UI component library allows you to access the toolkit full of reusable components. 
-You can utilize these web components to complement projects or build your infrastructure from the ground 
-up using ESL alone. Our web UI components library is accurate and you can easily work around styles 
-to make your projects consistent.
+You can utilize these web components to complement projects or build your infrastructure from the ground up using 
+ESL alone. Our web UI components library is accurate, so the only thing you should focus on is applying styles 
+to meet your project needs.
 
 ESL based just on Web API and ECMAScript 6 features which let our web UI components library 
 work well across all modern browsers such as Firefox, Chrome, Safari, Opera, or Edge. ESL can 
@@ -37,8 +38,11 @@ also work on IE11 when the whole list of polyfills is provided (see [Browser sup
 
 
 ## Library Structure
-### Base Components
-With our UI component library, you get flexible syntax sugar meant for building over basic components and controlling the life cycle of those components.
+
+While building the UI component library, we included components, form components, and utilities that solve complex project architecture problems and comply with the DRY principle. See the rundown of the web components and read the specs.
+
+### Base Elements
+With our UI component library, you get flexible syntax sugar meant for building over basic components and controlling their life cycle.
 
 - ##### [ESL Base Element](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-base-element/README.md)
 
