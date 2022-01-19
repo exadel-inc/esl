@@ -10,7 +10,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge)](./README.md)
 
 Exadel Smart Library (**ESL**) is an open-source **lightweight** and **flexible** UI component library based on web components.
-Build UX modules with custom components provided by our library and make sites work faster. 
+Build UX modules with custom components provided by our library to make sites work faster. 
 ESL web UI components library is compatible with any framework which makes ESL ideal for projects regardless of 
 their tech stack.
 
@@ -71,7 +71,7 @@ Our HTML UI component library provides you with all elements you need to constru
 - ##### [ESL Select List](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select-list/README.md)
 
 ### Utilities
-Our web UI components library uses utilities to build components with simpler syntax sugar and a big set of helpers.
+Our web UI components library equips you with utilities to build components using simplifying syntax sugar and a big set of helpers
 
 - ##### [ESL A11yGroup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-a11y-group/README.md)
 - ##### [ESL Media Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media-query/README.md)
