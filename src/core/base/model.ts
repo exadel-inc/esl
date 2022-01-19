@@ -44,7 +44,7 @@ export class UIPStateModel extends Observable {
     if (!root || root.innerHTML !== this.html) {
       this._html = root;
       this._lastModifier = modifier;
-      this.fire();
+      Promise.resolve().then(() => this.fire());
     }
   }
 
@@ -74,7 +74,7 @@ export class UIPStateModel extends Observable {
 
     UIPStateModel.setAttribute(elements, attribute, 'transform' in cfg ? cfg.transform : cfg.value);
     this._lastModifier = modifier;
-    this.fire();
+    Promise.resolve().then(() => this.fire());
   }
 
   protected static setAttribute(elements: Element[], attr: string, transform: TransformSignature | string | boolean) {
@@ -83,7 +83,7 @@ export class UIPStateModel extends Observable {
       if (typeof transformed === 'string') {
         el.setAttribute(attr, transformed);
       } else {
-         transformed ? el.setAttribute(attr, '') : el.removeAttribute(attr);
+        transformed ? el.setAttribute(attr, '') : el.removeAttribute(attr);
       }
     });
   }
