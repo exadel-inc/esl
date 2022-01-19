@@ -33,12 +33,12 @@ you efficiently create websites with multiple web components at hand.
 While looking for the best UI component library, keep in mind that it should be compatible with other libraries 
 and frameworks. And ESL is!
 
-The UI component library allows you to access the toolkit full of reusable components. 
+The UI component library allows you to access the toolkit with plenty of reusable components. 
 You can utilize these web components to complement projects or build your infrastructure from the ground up using 
 ESL alone. Our web UI components library is accurate, so the only thing you should focus on is applying styles 
 to meet your project needs.
 
-ESL based just on Web API and ECMAScript 6 features which let our web UI components library 
+ESL is based just on Web API and ECMAScript 6 features which let our web UI components library 
 work well across all modern browsers such as Firefox, Chrome, Safari, Opera, or Edge. ESL can 
 also work on IE11 when the whole list of polyfills is provided (see [Browser support & Polyfills](https://github.com/exadel-inc/esl/blob/HEAD/docs/BROWSER_SUPPORT.md) for more details). 
 
