@@ -1,11 +1,12 @@
 import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
-import {loadScript} from '../../../../modules/esl-utils/dom/script';
+import {memoize} from '../../../../src/modules/esl-utils/decorators/memoize';
 import {CSSClassUtils} from '../../../../src/modules/esl-utils/dom/class';
 import {afterNextRender} from '../../../../src/modules/esl-utils/async/raf';
 import {parseNumber} from '../../../../src/modules/esl-utils/misc/format';
 import {attr, boolAttr} from '../../../../src/modules/esl-base-element/core';
 import {TraversingQuery} from '../../../../src/modules/esl-traversing-query/core';
 import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core';
+import {loadSearchScript} from '../../search/search-script';
 
 import type {ToggleableActionParams} from '../../../../src/modules/esl-toggleable/core';
 
@@ -20,8 +21,13 @@ export class ESLDemoSearchBox extends ESLToggleable {
 
   @prop() public closeOnOutsideAction = true;
 
+  @memoize()
+  private memoizeSearchScript(): Promise<Event> {
+    return loadSearchScript();
+  }
+
   public onShow(params: ToggleableActionParams): void {
-    loadScript('gss', 'https://cse.google.com/cse.js?cx=3171f866738b34f02');
+    this.memoizeSearchScript();
     CSSClassUtils.add(this, this.postCls);
     afterNextRender(() => super.onShow(params));
     if (this.autofocus) {
