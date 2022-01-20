@@ -50,10 +50,12 @@ export class UIPSettings extends UIPPlugin {
 
   protected bindEvents() {
     this.addEventListener('uip:change', this._onSettingChanged);
+    this.root?.addEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected unbindEvents(): void {
     this.removeEventListener('uip:change', this._onSettingChanged);
+    this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected _onSettingChanged(e: any) {
@@ -70,5 +72,12 @@ export class UIPSettings extends UIPPlugin {
   protected _onRootStateChange(): void {
     this.settings.forEach(setting => setting.updateFrom(this.model!));
   }
-}
 
+  @bind
+  protected _onRootConfigChange(e: CustomEvent) {
+    if (e.detail.attribute !== 'settings') return false;
+    e.detail.value === 'collapsed'
+      ? this.classList.add('collapsed')
+      : this.classList.remove('collapsed');
+  }
+}

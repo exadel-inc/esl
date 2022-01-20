@@ -12,15 +12,22 @@ export class UIPSnippets extends UIPPlugin {
   public static ACTIVE_CLASS = 'active';
   /** CSS Class for snippets list items. */
   public static ITEM_CLASS = 'snippets-list-item';
-  /** CSS query for snippets. */
-  public static CONTENT_SEL = '[uip-snippet]';
+  /** CSS query for dropdown control. */
+  public static DROPDOWN_CTRL = '.snippets-dropdown-control';
+  /** CSS qurty for dropdown wrapper */
+  public static DROPDOWN_WRAPPER = '.snippets-dropdown-wrapper';
+  /** Index of current snippet list item*/
+  public static currentIndex = 0;
 
   protected connectedCallback() {
     super.connectedCallback();
     this.render();
     this.bindEvents();
 
-    if (this.$items.length < 2) this.classList.add('hide-snippets');
+    if (this.model) {
+      this.model.applySnippet(this.model.snippets[UIPSnippets.currentIndex], this);
+      this.updateTitleText(this.model.activeSnippet);
+    }
     // Initial update
     setTimeout(() => this.$active = this.$active || this.$items[0]);
   }
@@ -31,11 +38,13 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   protected bindEvents() {
-    this.addEventListener('click', this._onClick);
+    this.querySelector('.snippets-list')?.addEventListener('click', this._onListClick);
+    this.querySelector(UIPSnippets.DROPDOWN_CTRL)?.addEventListener('click', this._onDropdownClick);
   }
 
   protected unbindEvents() {
-    this.removeEventListener('click', this._onClick);
+    this.querySelector('.snippets-list')?.removeEventListener('click', this._onListClick);
+    this.querySelector(UIPSnippets.DROPDOWN_CTRL)?.removeEventListener('click', this._onDropdownClick);
   }
 
   @memoize()
@@ -49,20 +58,34 @@ export class UIPSnippets extends UIPPlugin {
   }
   public set $active(snippet: HTMLElement | null) {
     this.$items.forEach((item) => item.classList.toggle(UIPSnippets.ACTIVE_CLASS, snippet === item));
-    this.applyActive();
   }
 
   @memoize()
   public get $scroll() {
     const $scroll = document.createElement('esl-scrollbar');
-    $scroll.setAttribute('target', '::prev(.snippets-list)');
+    $scroll.setAttribute('target', '::prev');
     return $scroll;
   }
 
   /** Render snippets list. */
   protected render(): void {
-    const snippets = this.querySelectorAll(UIPSnippets.CONTENT_SEL);
+    const snippets = this.model!.snippets;
     if (!snippets.length) return;
+    const $title = document.createElement('span');
+    $title.className = 'snippets-title';
+
+    snippets.length > 1
+      ? this.renderDropdown(snippets, $title)
+      : this.appendChild($title);
+  }
+
+  protected renderDropdown(snippets: HTMLTemplateElement[], title: HTMLElement) {
+    const $dropdown = document.createElement('div');
+    $dropdown.className = 'snippets-dropdown';
+    const $control = document.createElement('div');
+    $control.className = 'snippets-dropdown-control';
+    const $content = document.createElement('div');
+    $content.className = 'snippets-dropdown-wrapper';
     const $ul = document.createElement('ul');
     $ul.className = 'snippets-list esl-scrollable-content';
 
@@ -70,9 +93,12 @@ export class UIPSnippets extends UIPPlugin {
       .map((snippet: HTMLTemplateElement) => this.buildListItem(snippet))
       .forEach((item) => item && $ul.appendChild(item));
 
-    this.$inner.appendChild($ul);
-    this.$scroll && this.$inner.appendChild(this.$scroll);
-    this.appendChild(this.$inner);
+    $content.appendChild($ul);
+    this.$scroll && $content.appendChild(this.$scroll);
+    $control.appendChild(title);
+    this.appendChild($control);
+    $dropdown.appendChild($content);
+    this.appendChild($dropdown);
   }
 
   /** Build snippets list item. */
@@ -83,21 +109,42 @@ export class UIPSnippets extends UIPPlugin {
     const $li = document.createElement('li');
     $li.classList.add(UIPSnippets.ITEM_CLASS);
     $li.textContent = label;
-    $li.appendChild(snippet);
     return $li;
   }
 
-  /** Apply active snippet's markup to {@link UIPStateModel}. */
-  protected applyActive(): void {
-    const tmpl = this.$active?.querySelector(UIPSnippets.CONTENT_SEL);
-    if (!tmpl || !this.model) return;
-    this.model.setHtml(tmpl.innerHTML, this);
+  protected updateTitleText(snippet: HTMLTemplateElement) {
+    const titleText = this.querySelector('.snippets-title') as HTMLElement;
+    titleText.textContent = `${snippet.getAttribute('label')}`;
   }
 
   @bind
-  protected _onClick(event: Event) {
+  protected _onListClick(event: Event) {
     const target = event.target as HTMLElement;
-    if (!target.classList.contains(UIPSnippets.ITEM_CLASS)) return;
-    this.$active = target;
+    const index = this.$items.indexOf(target);
+    if (index < 0) return;
+
+    this.toggleDropdown();
+
+    if (UIPSnippets.currentIndex !== index && index >= 0 && this.model) {
+      this.model.applySnippet(this.model.snippets[index], this);
+      this.$active = target;
+      UIPSnippets.currentIndex = index;
+      this.updateTitleText(this.model.activeSnippet);
+    }
+  }
+
+  @bind
+  protected _onDropdownClick() {
+    this.toggleDropdown();
+  }
+
+  toggleDropdown() {
+    this.querySelector(UIPSnippets.DROPDOWN_WRAPPER)?.classList.contains('open')
+      ? this.querySelector(UIPSnippets.DROPDOWN_WRAPPER)?.classList.remove('open')
+      : this.querySelector(UIPSnippets.DROPDOWN_WRAPPER)?.classList.add('open');
+
+    this.querySelector(UIPSnippets.DROPDOWN_CTRL)?.classList.contains('open')
+      ? this.querySelector(UIPSnippets.DROPDOWN_CTRL)?.classList.remove('open')
+      : this.querySelector(UIPSnippets.DROPDOWN_CTRL)?.classList.add('open');
   }
 }

@@ -101,7 +101,7 @@ export class UIPEditor extends UIPPlugin {
     if (this.model!.lastModifier === this) return;
 
     const markup = this.model!.html;
-    this.editor && this.setEditorValue(markup);
+    setTimeout( () => this.editor && this.setEditorValue(markup));
   }
 
   protected setEditorValue(value: string): void {
@@ -118,14 +118,22 @@ export class UIPEditor extends UIPPlugin {
   /** Callback to catch theme changes from {@link UIPRoot}. */
   @bind
   protected _onRootConfigChange(e: CustomEvent) {
-    if (e.detail.attribute !== 'theme') return false;
-    const value = e.detail.value;
-    const defaultTheme = UIPEditor.defaultOptions.theme;
+    if (!['theme', 'editor'].includes(e.detail.attribute)) return false;
+    if (e.detail.attribute === 'theme') {
+      const value = e.detail.value;
+      const defaultTheme = UIPEditor.defaultOptions.theme;
 
-    const theme = !Object.hasOwnProperty.call(UIPEditor.themesMapping, value)
-      ? defaultTheme
-      : UIPEditor.themesMapping[value];
+      const theme = !Object.hasOwnProperty.call(UIPEditor.themesMapping, value)
+        ? defaultTheme
+        : UIPEditor.themesMapping[value];
 
-    this.setEditorConfig({theme});
+      this.setEditorConfig({theme});
+    }
+
+    if (e.detail.attribute === 'editor') {
+      e.detail.value === 'collapsed'
+        ? this.classList.add('collapsed')
+        : this.classList.remove('collapsed');
+    }
   }
 }

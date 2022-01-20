@@ -1,13 +1,11 @@
-@import "./option/mode";
 @import "./option/theme";
 @import "./option/direction";
 
 .uip-options {
   display: flex;
-  flex: 0 1 auto;
-  align-items: baseline;
-  width: 100%;
-  margin: 0;
+  align-items: center;
+  height: 100%;
+  margin-left: auto;
 
   &[label]::before {
     position: static;
@@ -22,7 +20,8 @@
   }
 
   .option-item {
-    .option-radio-btn {
+    .option-radio-btn,
+    .option-checkbox {
       display: none;
 
       &:checked + .option-label {

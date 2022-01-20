@@ -33,6 +33,9 @@ export class UIPStateModel extends Observable {
   /** Last {@link UIPPlugin} element which changed markup. */
   private _lastModifier: UIPPlugin;
 
+  private _snippets: HTMLTemplateElement[];
+  private _activeSnippet: HTMLTemplateElement;
+
   /**
    * Set current markup state to the passed one.
    * @param markup - new state
@@ -54,6 +57,23 @@ export class UIPStateModel extends Observable {
 
   public get lastModifier() {
     return this._lastModifier;
+  }
+
+  public get snippets() {
+    return this._snippets;
+  }
+
+  public get activeSnippet() {
+    return this._activeSnippet;
+  }
+
+  public registerSnippets(snippets: HTMLTemplateElement[]) {
+    this._snippets = snippets;
+  }
+
+  public applySnippet(snippet: HTMLTemplateElement, modifier: UIPPlugin) {
+    this._activeSnippet = snippet;
+    this.setHtml(snippet.innerHTML, modifier);
   }
 
   /**

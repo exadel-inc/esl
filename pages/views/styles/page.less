@@ -4,6 +4,19 @@
   box-sizing: border-box;
 }
 
+html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
 a {
   color: #007bff;
   text-decoration: none;
@@ -11,12 +24,6 @@ a {
   &:hover {
     opacity: .7;
   }
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 }
 
 .header {
@@ -29,6 +36,8 @@ body {
 
 .main {
   position: relative;
+  display: flex;
+  flex-direction: column;
   flex: 1 0 auto;
   background-color: #f9f9f9;
 
@@ -40,6 +49,7 @@ body {
 }
 
 .content {
+  flex: 1 0 auto;
   width: 100%;
   margin-right: auto;
   margin-left: auto;
