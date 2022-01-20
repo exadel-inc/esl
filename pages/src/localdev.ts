@@ -29,6 +29,7 @@ import {
   ESLSelect,
   ESLSelectList,
   ESLNote,
+  ESLNoteGroup,
   ESLFootnotes,
   ESLTooltip,
   ESLAnimate
@@ -90,6 +91,7 @@ ESLSelect.register();
 
 ESLFootnotes.register();
 ESLNote.register();
+ESLNoteGroup.register();
 ESLTooltip.register();
 
 ESLAnimate.register();
