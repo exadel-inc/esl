@@ -88,7 +88,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   private update(force: boolean = false): void {
     const config: CarouselConfig = Object.assign(
-      {view: 'multiple', count: 1},
+      {view: 'multi', count: 1},
       this.configRules.activeValue
     );
 
