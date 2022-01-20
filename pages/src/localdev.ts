@@ -16,6 +16,7 @@ import {
   ESLMedia,
   ESLToggleable,
   ESLPopup,
+  ESLPopupProxy,
   ESLPanel,
   ESLPanelGroup,
   ESLTrigger,
@@ -66,6 +67,7 @@ ESLMedia.register();
 ESLToggleableDispatcher.init();
 ESLToggleable.register();
 ESLPopup.register();
+ESLPopupProxy.register();
 
 ESLPanelGroup.register();
 ESLPanel.register();
