@@ -71,7 +71,8 @@ Our HTML UI component library provides you with all elements you need to constru
 - ##### [ESL Select List](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select-list/README.md)
 
 ### Utilities
-Our web UI components library equips you with utilities to build components using simplifying syntax sugar and a big set of helpers
+Our web UI component library equips you with utilities to build components using simplifying syntax sugar and a 
+big set of helpers.
 
 - ##### [ESL A11yGroup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-a11y-group/README.md)
 - ##### [ESL Media Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media-query/README.md)
@@ -83,16 +84,16 @@ Our web UI components library equips you with utilities to build components usin
 <a name="instalation_guide"></a>
 
 0. Preconditions:
-   - Make sure you have all needed polyfills to support browsers from your browser-support list. 
+   - Make sure you have all needed polyfills to support browsers from your browser-support list.
    See [Browser support & Polyfills](https://github.com/exadel-inc/esl/blob/HEAD/docs/BROWSER_SUPPORT.md) for details.
    - Use bundler to build your project. Currently, only ES6 modules are available for consumption.
 
-1. Install [esl npm dependency](https://www.npmjs.com/package/@exadel/esl)
+1. Install [esl npm dependency](https://www.npmjs.com/package/@exadel/esl):
     ```
     npm i @exadel/esl --save
     ```
 
-2. Import Components/Modules you need.
+2. Import Components/Modules you need:
 
     ```javascript
     import '@exadel/esl/modules/esl-component/core';
@@ -107,7 +108,7 @@ Our web UI components library equips you with utilities to build components usin
       - 'ready to use' `core.css` or `core.less`
       - mixin version `core.mixin.less` for custom tagname definition
 
-3. [Optional] Setup environment configuration, e.g. custom screen breakpoints.
+3. [Optional] Setup environment configuration, e.g. custom screen breakpoints:
 
     ```javascript
     import {ESLScreenBreakpoints} from '@exadel/esl/modules/esl-media-query/core';
@@ -116,7 +117,7 @@ Our web UI components library equips you with utilities to build components usin
     ESLScreenBreakpoints.addCustomBreakpoint('XS', 1, 800); 
     ```
 
-4.  Register components via `register` static method call
+4.  Register web components via `register` static method call:
     ```javascript
     ESLImage.register();
     ```
@@ -144,7 +145,7 @@ Our web UI components library equips you with utilities to build components usin
 
 ## Development Information for Contributors
 
-If you are a part of ESL team or want to contribute to the project
+If you are part of ESL team or want to contribute to the project,
 you can find useful information about the project processes and agreements here:
 
 - #### [🔗 Contribution Guide](https://github.com/exadel-inc/esl/blob/HEAD/CONTRIBUTING.md)
@@ -158,7 +159,7 @@ you can find useful information about the project processes and agreements here:
 
 **ESL Core Team**
 
-People, who architect, maintain, and keep the idea of the ESL
+People who architect, maintain, and keep the idea of the ESL
 
 <table><tbody><tr>
 <td align="center" valign="top" width="20%">
@@ -195,7 +196,7 @@ People, who architect, maintain, and keep the idea of the ESL
 
 **ESL Contributors**: 
 
-People, who are actively contributing to the ESL
+People who are actively contributing to the ESL
 
 <table><tbody><tr>
 <td align="center" valign="top" width="20%">
