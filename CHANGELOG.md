@@ -1,3 +1,45 @@
+# [3.13.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.1...v3.13.0-beta.2) (2022-01-18)
+
+
+### Bug Fixes
+
+* **esl-media:** fix incorrect `load-condition` definition in shape ([94e8d77](https://github.com/exadel-inc/esl/commit/94e8d7784392585ce787d35fee3cce1e1b07a7c7))
+
+## [3.12.1](https://github.com/exadel-inc/esl/compare/v3.12.0...v3.12.1) (2022-01-18)
+
+
+### Bug Fixes
+
+* **esl-media:** fix incorrect `load-condition` definition in shape ([94e8d77](https://github.com/exadel-inc/esl/commit/94e8d7784392585ce787d35fee3cce1e1b07a7c7))
+
+# [3.13.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.12.0...v3.13.0-beta.1) (2022-01-17)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** fix the sort order of notes ([e299def](https://github.com/exadel-inc/esl/commit/e299def2b6e2daac0c4baa2b9ea6a3f6405da1c9))
+* **esl-note:** fix the corruption of the note's content ([bd0340d](https://github.com/exadel-inc/esl/commit/bd0340d44388c95b2cd749bcf8380d15460a1b3d))
+
+
+### Features
+
+* **esl-footnotes:** add ignore-footnotes attribute to disallow footnotes to pick up a note ([9b8db3e](https://github.com/exadel-inc/esl/commit/9b8db3e17a3f0f8ecde8833146f44aeaf1e01d30))
+* **esl-footnotes:** create els-note-group element ([ffce746](https://github.com/exadel-inc/esl/commit/ffce746973011ec333c08365e317535f8115d43c))
+* **esl-toggleable:** add handler for esl:show:request ([0d32ae9](https://github.com/exadel-inc/esl/commit/0d32ae9f86247d95d1f9e9ba465f77f78a10957a))
+
+# [3.12.0](https://github.com/exadel-inc/esl/compare/v3.11.0...v3.12.0) (2022-01-17)
+
+
+### Bug Fixes
+
+* **esl-media:** fix missing load condition reinitialization and docs ([4f136d7](https://github.com/exadel-inc/esl/commit/4f136d7b37e06fc0c8ed4b00a150d943e3cad941))
+* **esl-media:** style/performance improvement for condition query ([#777](https://github.com/exadel-inc/esl/issues/777)) ([48bfed5](https://github.com/exadel-inc/esl/commit/48bfed540eedc4b766452c8dfea7b650e6e0a98c))
+
+
+### Features
+
+* **esl-toggleable:** add handler for esl:show:request ([ff0556a](https://github.com/exadel-inc/esl/commit/ff0556a41760473ed0a11af087f3a97e550c9b40))
+
 # [3.11.0](https://github.com/exadel-inc/esl/compare/v3.10.0...v3.11.0) (2022-01-12)
 
 
