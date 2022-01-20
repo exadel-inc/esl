@@ -2,7 +2,7 @@ import {toKebabCase} from '../../esl-utils/misc/format';
 import type {ESLBaseElement} from '../core/esl-base-element';
 
 /** HTML attribute mapping configuration */
-type AttrDescriptor = {
+type AttrDescriptor<T> = {
   /** HTML attribute name. Uses kebab-cased variable name by default */
   name?: string;
   /** Create getter only */
@@ -10,16 +10,21 @@ type AttrDescriptor = {
   /** Use data-* attribute */
   dataAttr?: boolean;
   /** Default property value. Used if no attribute is present on the element. Empty string by default. */
-  defaultValue?: string | boolean | null;
+  defaultValue?: T | null;
+  /** Parser allows to edit atrebutate values*/
+  parser?: (value: string) => T;
 };
 
-function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string | boolean | null | undefined): PropertyDescriptor {
-  function get(): string | boolean | null | undefined {
+
+function buildSimpleDescriptor<T>(attrName: string, readOnly: boolean, defaultValue: T, parser?: (value: string) => T): PropertyDescriptor {
+
+  function get(): T | string {
     const value = this.getAttribute(attrName);
-    return typeof value === 'string' ? value : defaultValue;
+    if (typeof value === 'string') return parser ? parser(value) : value;
+    return defaultValue;
   }
 
-  function set(value: string | boolean | null | undefined): void {
+  function set(value: T | boolean): void {
     if (value === undefined || value === null || value === false) {
       this.removeAttribute(attrName);
     } else {
@@ -38,10 +43,10 @@ const buildAttrName =
  * Maps string type property.
  * @param config - mapping configuration. See {@link AttrDescriptor}
  */
-export const attr = (config: AttrDescriptor = {}): PropertyDecorator => {
+export const attr = (config: AttrDescriptor<string> | AttrDescriptor<boolean> | AttrDescriptor<number> = {}): PropertyDecorator => {
   config = Object.assign({defaultValue: ''}, config);
   return (target: ESLBaseElement, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
-    Object.defineProperty(target, propName, buildSimpleDescriptor(attrName, !!config.readonly, config.defaultValue));
+    Object.defineProperty(target, propName, buildSimpleDescriptor(attrName, !!config.readonly, config.defaultValue, config.parser));
   };
 };
