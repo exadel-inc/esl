@@ -54,7 +54,7 @@ export class ESLPopup extends ESLToggleable {
   public static is = 'esl-popup';
 
   public $arrow: HTMLElement | null;
-  public $proxy: ESLPopupPlaceholder | null;
+  public $placeholder: ESLPopupPlaceholder | null;
 
   protected _offsetTrigger: number;
   protected _offsetWindow: number;
@@ -126,15 +126,15 @@ export class ESLPopup extends ESLToggleable {
 
   /** Moves popup into document.body */
   protected moveToBody(): void {
-    const {parentNode, $proxy} = this;
+    const {parentNode, $placeholder} = this;
     if (parentNode && parentNode !== document.body) {
-      if ($proxy) {
+      if ($placeholder) {
         // to be safe and prevent leaks
-        $proxy.parentNode?.removeChild($proxy);
+        $placeholder.parentNode?.removeChild($placeholder);
       }
-      // replace this with proxy element
-      this.$proxy = ESLPopupPlaceholder.from(this);
-      parentNode.replaceChild(this.$proxy, this);
+      // replace this with placeholder element
+      this.$placeholder = ESLPopupPlaceholder.from(this);
+      parentNode.replaceChild(this.$placeholder, this);
       document.body.appendChild(this);
     }
   }
