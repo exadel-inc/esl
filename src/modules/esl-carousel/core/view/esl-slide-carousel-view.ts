@@ -69,7 +69,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     this.carousel.$slidesArea!.style.transform = `translateX(${-($activeSlide?.offsetLeft || 0) + offset}px)`;
   }
 
-  public async commit(direction: CarouselDirection): Promise<void> {
+  public async commit(offset: number): Promise<void> {
     const width = parseFloat(getComputedStyle(this.carousel.$activeSlide as Element).width);
     const $activeSlide = this.carousel.$activeSlide;
     const $nextSlide = $activeSlide.$nextCyclic;
@@ -77,7 +77,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
 
     this.carousel.toggleAttribute('animate', true);
 
-    const sign = direction === 'next' ? 1 : -1;
+    const sign = offset > 0 ? 1 : -1;
     this.carousel.$slidesArea!.style.transform = `translateX(${-$activeSlide.offsetLeft + sign * width}px)`;
 
     await promisifyEvent(this.carousel.$slidesArea!, 'transitionend').catch(resolvePromise);
@@ -93,6 +93,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     $nextSlide?.classList.remove('next');
 
     // TODO: change info
+    const direction = offset > 0 ? 'next' : 'prev';
     this.carousel.$$fire('slide:changed', {
       detail: {direction}
     });

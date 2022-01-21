@@ -83,8 +83,6 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this.carousel.$slidesArea!.style.transform = `translateX(${shiftX}px)`;
 
     return promisifyNextRender();
-    // +this.carousel.$slidesArea!.offsetLeft;
-    // return Promise.resolve();
   }
 
   protected async onStepAnimate(direction: CarouselDirection): Promise<void> {
@@ -118,8 +116,8 @@ export class ESLMultiCarouselView extends ESLCarouselView {
 
     const width = parseFloat(getComputedStyle(this.carousel.$slides[0]).width);
     const sign = offset < 0 ? 1 : -1;
-    const count = Math.floor(Math.abs(offset) / width);
 
+    const count = Math.floor(Math.abs(offset) / width);
     this.currentIndex = normalizeIndex(this.carousel.firstIndex + count * sign, this.size);
     const orderIndex = offset < 0 ? this.currentIndex : normalizeIndex(this.currentIndex - 1, this.size);
     this._setOrderFrom(orderIndex);
@@ -128,13 +126,28 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this.carousel.$slidesArea!.style.transform = `translateX(${stageOffset}px)`;
   }
 
-  // TODO: make slide active if it's visible
-  public async commit(direction?: CarouselDirection): Promise<void> {
-    // if (this.carousel.hasAttribute('animate')) return;
-    this.carousel.toggleAttribute('animate', true);
-    this.carousel.$slidesArea!.style.transform = 'translateX(0px)';
+  public async commit(offset: number): Promise<void> {
+    // calculate offset to move to
+    const width = parseFloat(getComputedStyle(this.carousel.$slides[0]).width);
+    const shiftCount = Math.abs(offset) % width >= width / 4 ? 1 : 0;
+    const stageOffset = offset < 0 ? -shiftCount * width : (shiftCount - 1) * width;
 
-    this.currentIndex = normalizeIndex(this.currentIndex, this.size);
+    this.carousel.toggleAttribute('animate', true);
+    this.carousel.$slidesArea!.style.transform = `translateX(${stageOffset}px)`;
+
+    await promisifyEvent(this.carousel.$slidesArea!, 'transitionend').catch(resolvePromise);
+
+    // clear animation
+    this.carousel.toggleAttribute('animate', false);
+    this.carousel.$slidesArea!.style.transform = 'translateX(0)';
+    this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', false));
+
+    const sign = offset < 0 ? 1 : -1;
+    const count = Math.abs(offset) % width >= width / 4 ?
+      Math.ceil(Math.abs(offset) / width) : Math.floor(Math.abs(offset) / width);
+    this.currentIndex = normalizeIndex(this.carousel.firstIndex + count * sign, this.size);
+
+    let direction = offset > 0 ? 'next' : 'prev'; // TODO
     direction = direction || calcDirection(this.carousel.firstIndex, this.currentIndex, this.size);
     this._setOrderFrom(this.currentIndex);
 
@@ -142,10 +155,6 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     for (let i = 0; i < this.carousel.activeCount; i++) {
       this.carousel.slideAt(this.currentIndex + i).active = true;
     }
-    await promisifyEvent(this.carousel.$slidesArea!, 'transitionend').catch(resolvePromise);
-
-    this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', false));
-    this.carousel.toggleAttribute('animate', false);
 
     // TODO: change info
     this.carousel.$$fire('slide:changed', {

@@ -39,7 +39,7 @@ export abstract class ESLCarouselView {
 
   public abstract onMove(offset: number): void;
 
-  public abstract commit(direction?: CarouselDirection): void;
+  public abstract commit(offset?: number): void;
 
   // Register API
   @memoize()
