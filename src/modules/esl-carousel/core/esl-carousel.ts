@@ -118,6 +118,8 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   // move to core plugin
+  /** Handles `click` event */
+  // TODO: focus disappear after click
   protected _onClick(event: MouseEvent): void {
     const eventTarget: HTMLElement = event.target as HTMLElement;
     const markedTarget: HTMLElement | null = eventTarget.closest('[data-slide-target]');
@@ -178,6 +180,8 @@ export class ESLCarousel extends ESLBaseElement {
     this._bindEvents();
 
     ESLCarouselView.registry.addListener(this._onRegistryChange);
+    const ariaLabel = this.hasAttribute('aria-label');
+    !ariaLabel && this.setAttribute('aria-label', 'Carousel');
   }
 
   protected disconnectedCallback(): void {

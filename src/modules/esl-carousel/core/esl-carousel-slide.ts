@@ -1,11 +1,5 @@
 import {boolAttr, ESLBaseElement} from '../../esl-base-element/core';
-import {createSequenceFinder, findNext, findPrev} from '../../esl-utils/dom/traversing';
-
-
-const findNextSlideLooped =
-  createSequenceFinder((el) => el.nextElementSibling || (el.parentElement && el.parentElement.firstElementChild));
-const findPrevSlideLooped =
-  createSequenceFinder((el) => el.previousElementSibling || (el.parentElement && el.parentElement.lastElementChild));
+import {findNext, findPrev, findNextLooped, findPrevLooped} from '../../esl-utils/dom/traversing';
 
 /**
  * Carousel Slide (Item) component
@@ -14,6 +8,12 @@ const findPrevSlideLooped =
 export class ESLCarouselSlide extends ESLBaseElement {
   /** @returns if the slide is active */
   @boolAttr() public active: boolean;
+
+  protected connectedCallback(): void {
+    super.connectedCallback();
+    this.setAttribute('role', 'group');
+    this.setAttribute('aria-label', `slide ${this.index + 1}`);
+  }
 
   /** @returns index of the slide in the carousel */
   public get index(): number {
@@ -33,10 +33,10 @@ export class ESLCarouselSlide extends ESLBaseElement {
 
   /** @returns next slide sibling (uses cyclic find) */
   public get $nextCyclic(): ESLCarouselSlide {
-    return findNextSlideLooped(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
+    return findNextLooped(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
   }
   /** @returns previous slide sibling (uses cyclic find)  */
   public get $prevCyclic(): ESLCarouselSlide {
-    return findPrevSlideLooped(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
+    return findPrevLooped(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
   }
 }

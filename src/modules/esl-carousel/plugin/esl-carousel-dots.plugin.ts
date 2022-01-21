@@ -1,4 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {bind} from '../../esl-utils/decorators/bind';
+import {ARROW_LEFT, ARROW_RIGHT} from '../../esl-utils/dom/keys';
+import {findNextLooped, findPrevLooped} from '../../esl-utils/dom/traversing';
 import {ESLCarouselPlugin} from './esl-carousel-plugin';
 
 /**
@@ -17,11 +20,13 @@ export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
   public bind(): void {
     this.rerender();
     this.carousel.addEventListener('esl:slide:changed', this._onUpdate);
+    this.addEventListener('keydown', this._onKeydown);
   }
 
   public unbind(): void {
     this.innerHTML = '';
     this.carousel.removeEventListener('esl:slide:changed', this._onUpdate);
+    this.removeEventListener('keydown', this._onKeydown);
   }
 
   public rerender(): void {
@@ -34,7 +39,23 @@ export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
   }
 
   public buildDot(index: number, isActive: boolean): string {
-    return `<button role="button" class="carousel-dot ${isActive ? 'active-dot' : ''}" data-slide-target="g${index + 1}"></button>`;
+    return `<button role="button" class="carousel-dot ${isActive ? 'active-dot' : ''}"
+            aria-current="${isActive ? 'true' : 'false'}" data-slide-target="g${index + 1}"></button>`;
+  }
+
+  /** Handles `keydown` event */
+  @bind
+  protected _onKeydown(event: KeyboardEvent): void {
+    if (ARROW_LEFT === event.key) {
+      const $eventTarget: HTMLElement = event.target as HTMLElement;
+      const $nextDot = findPrevLooped($eventTarget, '.carousel-dot') as HTMLElement;
+      $nextDot.click();
+    }
+    if (ARROW_RIGHT === event.key) {
+      const $eventTarget: HTMLElement = event.target as HTMLElement;
+      const $nextDot = findNextLooped($eventTarget, '.carousel-dot') as HTMLElement;
+      $nextDot.click();
+    }
   }
 }
 
