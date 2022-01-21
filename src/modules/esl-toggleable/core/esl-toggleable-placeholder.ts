@@ -11,12 +11,14 @@ export class ESLToggleablePlaceholder extends ESLBaseElement {
 
   public $origin: ESLToggleable | null;
 
+  /** Сreates a placeholder for a given element of the toggleable's descendant */
   public static from<T extends typeof ESLToggleablePlaceholder>(this: T, $el: ESLToggleable): InstanceType<T> {
     const $placeholder = document.createElement(this.is) as InstanceType<T>;
     $placeholder.$origin = $el;
     return $placeholder;
   }
 
+  /** List of attributes allowed to copy from origin to this element */
   protected get allowedAttrs(): string[] {
     return ['id', 'class'].concat((this.constructor as typeof ESLToggleablePlaceholder).allowedExtraAttrs);
   }
@@ -26,6 +28,7 @@ export class ESLToggleablePlaceholder extends ESLBaseElement {
     super.connectedCallback();
   }
 
+  /** Copies allowed attributes from origin to this element */
   protected copyAttributesFromOrigin(): void {
     if (!this.$origin) return;
 
