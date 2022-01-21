@@ -8,7 +8,7 @@ import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
-import {ESLToggleableProxy} from '../../esl-toggleable/core/esl-toggleable-proxy';
+import {ESLToggleablePlaceholder} from '../../esl-toggleable/core';
 
 import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 
@@ -129,8 +129,8 @@ export class ESLTrigger extends ESLBaseElement {
     if (!this.target) return;
     this.$target = TraversingQuery.first(this.target, this) as ESLToggleable;
 
-    if (this.$target instanceof ESLToggleableProxy && this.$target.$origin) {
-      // change target if it is an instance of the proxy element
+    if (this.$target instanceof ESLToggleablePlaceholder && this.$target.$origin) {
+      // change target if it is an instance of the placeholder element
       this.$target = this.$target.$origin;
     }
   }

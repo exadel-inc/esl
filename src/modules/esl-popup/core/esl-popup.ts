@@ -13,7 +13,7 @@ import {getListScrollParents} from '../../esl-utils/dom/scroll';
 import {getWindowRect} from '../../esl-utils/dom/window';
 import {parseNumber} from '../../esl-utils/misc/format';
 import {calcPopupPosition, isMajorAxisHorizontal} from './esl-popup-position';
-import {ESLPopupProxy} from './esl-popup-proxy';
+import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
 import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
@@ -54,7 +54,7 @@ export class ESLPopup extends ESLToggleable {
   public static is = 'esl-popup';
 
   public $arrow: HTMLElement | null;
-  public $proxy: ESLPopupProxy | null;
+  public $proxy: ESLPopupPlaceholder | null;
 
   protected _offsetTrigger: number;
   protected _offsetWindow: number;
@@ -133,7 +133,7 @@ export class ESLPopup extends ESLToggleable {
         $proxy.parentNode?.removeChild($proxy);
       }
       // replace this with proxy element
-      this.$proxy = ESLPopupProxy.from(this);
+      this.$proxy = ESLPopupPlaceholder.from(this);
       parentNode.replaceChild(this.$proxy, this);
       document.body.appendChild(this);
     }

@@ -11,13 +11,13 @@ const cloneAttributes = (target: HTMLElement, source: HTMLElement): void => {
   });
 };
 
-@ExportNs('ToggleableProxy')
-export class ESLToggleableProxy extends ESLBaseElement {
-  static is = 'esl-toggleable-proxy';
+@ExportNs('ToggleablePlaceholder')
+export class ESLToggleablePlaceholder extends ESLBaseElement {
+  static is = 'esl-toggleable-placeholder';
 
   public $origin: ESLToggleable | null;
 
-  public static from<T extends typeof ESLToggleableProxy>(this: T, $el: ESLToggleable): InstanceType<T> {
+  public static from<T extends typeof ESLToggleablePlaceholder>(this: T, $el: ESLToggleable): InstanceType<T> {
     const $proxy = document.createElement(this.is) as InstanceType<T>;
     $proxy.$origin = $el;
     cloneAttributes($proxy, $el);
@@ -27,9 +27,9 @@ export class ESLToggleableProxy extends ESLBaseElement {
 
 declare global {
   export interface ESLLibrary {
-    ToggleableProxy: typeof ESLToggleableProxy;
+    ToggleableProxy: typeof ESLToggleablePlaceholder;
   }
   export interface HTMLElementTagNameMap {
-    'esl-toggleable-proxy': ESLToggleableProxy;
+    'esl-toggleable-placeholder': ESLToggleablePlaceholder;
   }
 }
