@@ -3,31 +3,49 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 
 import type {ESLToggleable} from '../../esl-toggleable/core';
 
-const cloneAttributes = (target: HTMLElement, source: HTMLElement): void => {
-  [...source.attributes].forEach((attribute) => {
-    if (attribute.nodeValue) {
-      target.setAttribute(attribute.nodeName === 'id' ? 'proxy-id' : attribute.nodeName, attribute.nodeValue);
-    }
-  });
-};
-
 @ExportNs('ToggleablePlaceholder')
 export class ESLToggleablePlaceholder extends ESLBaseElement {
-  static is = 'esl-toggleable-placeholder';
+  public static is = 'esl-toggleable-placeholder';
+
+  public static readonly allowedExtraAttrs: string[] = [];
 
   public $origin: ESLToggleable | null;
 
   public static from<T extends typeof ESLToggleablePlaceholder>(this: T, $el: ESLToggleable): InstanceType<T> {
-    const $proxy = document.createElement(this.is) as InstanceType<T>;
-    $proxy.$origin = $el;
-    cloneAttributes($proxy, $el);
-    return $proxy;
+    const $placeholder = document.createElement(this.is) as InstanceType<T>;
+    $placeholder.$origin = $el;
+    return $placeholder;
+  }
+
+  protected get allowedAttrs(): string[] {
+    return ['id', 'class'].concat((this.constructor as typeof ESLToggleablePlaceholder).allowedExtraAttrs);
+  }
+
+  public connectedCallback(): void {
+    this.copyAttributesFromOrigin();
+    super.connectedCallback();
+  }
+
+  protected copyAttributesFromOrigin(): void {
+    if (!this.$origin) return;
+
+    [...this.$origin.attributes]
+      .filter((attr) => this.allowedAttrs.includes(attr.nodeName))
+      .forEach((attr) => {
+        const {nodeName, nodeValue} = attr;
+        if (nodeValue) {
+          this.setAttribute(nodeName === 'id' ? 'original-id' : nodeName, nodeValue);
+        }
+      });
+
+    // sanitize class list of placeholder from the tag name of origin's element
+    this.classList.remove((this.$origin.constructor as typeof ESLBaseElement).is);
   }
 }
 
 declare global {
   export interface ESLLibrary {
-    ToggleableProxy: typeof ESLToggleablePlaceholder;
+    ToggleablePlaceholder: typeof ESLToggleablePlaceholder;
   }
   export interface HTMLElementTagNameMap {
     'esl-toggleable-placeholder': ESLToggleablePlaceholder;
