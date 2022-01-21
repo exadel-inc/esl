@@ -6,7 +6,19 @@ name: Carousel
 tags: [examples, draft]
 icon: examples/carousel.svg
 ---
-
+<style>
+  esl-carousel-slide::after {
+    content: attr(style);
+    position: absolute;
+    top: 30px;
+    left: 5px;
+  }
+  esl-carousel-slide > div {
+    background: {{ functions.randomColor() }};
+    margin: 0 5px;
+    height: 100%;
+  }
+</style>
 <div class="container-fluid">
   <div class="row flex-column">
     <h2>Demo 1: </h2>
@@ -21,99 +33,98 @@ icon: examples/carousel.svg
 
         <div data-slides-area>
           <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide active
-                              style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide active>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>111</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>222</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>333</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>444</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>555</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>666</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>777</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>888</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>999</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>101010</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>111111</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>121212</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>131313</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>141414</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>151515</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>161616</p>
             </div>
           </esl-carousel-slide>
@@ -144,99 +155,98 @@ icon: examples/carousel.svg
       <div class="esl-carousel-content">
         <div data-slides-area>
           <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>111</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide active
-                              style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide active>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>222</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>333</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>444</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>555</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>666</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>777</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>888</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>999</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>101010</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>111111</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>121212</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>131313</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>141414</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>151515</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>161616</p>
             </div>
           </esl-carousel-slide>
@@ -267,33 +277,32 @@ icon: examples/carousel.svg
       <div class="esl-carousel-content">
         <div data-slides-area>
           <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide active
-                              style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide active>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>111</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide active style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide active>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>222</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide active style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide active>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>333</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>444</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>555</p>
             </div>
           </esl-carousel-slide>
@@ -325,21 +334,20 @@ icon: examples/carousel.svg
       <div class="esl-carousel-content">
         <div data-slides-area>
           <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide
-            style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>111</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide active style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide active>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>222</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide active style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide active>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>333</p>
             </div>
           </esl-carousel-slide>
@@ -374,81 +382,80 @@ icon: examples/carousel.svg
       <div class="esl-carousel-content">
         <div data-slides-area>
           <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide active
-                              style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide active>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>111</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>222</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>333</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>444</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>555</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>666</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>777</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>888</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>999</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>101010</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>111111</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>121212</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>131313</p>
             </div>
           </esl-carousel-slide>
@@ -485,106 +492,106 @@ icon: examples/carousel.svg
         <div data-slides-area>
           <!-- CAROUSEL-ITEM -->
           <esl-carousel-slide
-            style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          >
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>111</p>
             </div>
           </esl-carousel-slide>
 
           <esl-carousel-slide
-            style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          >
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>222</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>333</p>
             </div>
           </esl-carousel-slide>
 
           <esl-carousel-slide first
-                              style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          >
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>444</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>555</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>666</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>777</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>888</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>999</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>101010</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>111111</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>121212</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>131313</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>141010</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>151111</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>161212</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>171313</p>
             </div>
           </esl-carousel-slide>
@@ -620,101 +627,98 @@ icon: examples/carousel.svg
       <div class="esl-carousel-content">
         <div data-slides-area>
           <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide active
-                              style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide active>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>First Slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide active
-                              style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide active>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Second Slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide active
-                              style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide active>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Third Slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Fourth Slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Fiveth Slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Sixth Slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Seventh Slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Eighth Slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Nineth Slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Tenth slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Eleventh Slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Twelfth Slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Thirteenth Slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Fourteenth Slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Fiveteenth Slide</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>Sixteenth Slide</p>
             </div>
           </esl-carousel-slide>
@@ -753,101 +757,98 @@ icon: examples/carousel.svg
       <div class="esl-carousel-content">
         <div data-slides-area>
           <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide active
-                              style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="1">
+          <esl-carousel-slide active>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="1">
               <p>111</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide active
-                              style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="2">
+          <esl-carousel-slide active>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="2">
               <p>222</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide active
-                              style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="3">
+          <esl-carousel-slide active>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="3">
               <p>333</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="4">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="4">
               <p>444</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="5">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="5">
               <p>555</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="6">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="6">
               <p>666</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="7">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="7">
               <p>777</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="8">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="8">
               <p>888</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="9">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="9">
               <p>999</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="10">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="10">
               <p>101010</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="11">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="11">
               <p>111111</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="12">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="12">
               <p>121212</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="13">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="13">
               <p>131313</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="14">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="14">
               <p>141414</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="15">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="15">
               <p>151515</p>
             </div>
           </esl-carousel-slide>
 
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text" data-slide-target="16">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="16">
               <p>161616</p>
             </div>
           </esl-carousel-slide>
@@ -875,29 +876,28 @@ icon: examples/carousel.svg
       <div class="esl-carousel-content">
         <div data-slides-area>
           <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide data-active-slide
-                              style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide data-active-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>aaa</p>
             </div>
           </esl-carousel-slide>
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>bbb</p>
             </div>
           </esl-carousel-slide>
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>ccc</p>
             </div>
           </esl-carousel-slide>
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>ddd</p>
             </div>
           </esl-carousel-slide>
-          <esl-carousel-slide style="background: {{ functions.randomColor() }}">
-            <div class="post-text">
+          <esl-carousel-slide>
+            <div class="post-text" style="background: {{ functions.randomColor() }}">
               <p>eee</p>
             </div>
           </esl-carousel-slide>
