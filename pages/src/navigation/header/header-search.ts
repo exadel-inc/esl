@@ -1,5 +1,5 @@
 import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
-import {memoize} from '../../../../src/modules/esl-utils/decorators/memoize';
+import {memoizeFn} from '../../../../src/modules/esl-utils/misc/memoize';
 import {CSSClassUtils} from '../../../../src/modules/esl-utils/dom/class';
 import {afterNextRender} from '../../../../src/modules/esl-utils/async/raf';
 import {parseNumber} from '../../../../src/modules/esl-utils/misc/format';
@@ -21,19 +21,22 @@ export class ESLDemoSearchBox extends ESLToggleable {
 
   @prop() public closeOnOutsideAction = true;
 
-  @memoize()
-  private memoizeSearchScript(): Promise<Event> {
-    return loadSearchScript();
-  }
+  searchScript = memoizeFn(() => loadSearchScript());
 
   public onShow(params: ToggleableActionParams): void {
-    this.memoizeSearchScript();
     CSSClassUtils.add(this, this.postCls);
+    this.searchScript()
+      .then(() => this.afterSearchScriptLoad(params));
+  }
+
+  private afterSearchScriptLoad (params: ToggleableActionParams): void {
+    const loadingAnimationEL = this.querySelector('.animation-loading')!;
     afterNextRender(() => super.onShow(params));
     if (this.autofocus) {
       const $focusEl = TraversingQuery.first(this.firstFocusable, this) as HTMLElement;
       $focusEl && window.setTimeout(() => $focusEl.focus(), parseNumber(this.postClsDelay));
     }
+    CSSClassUtils.add(loadingAnimationEL, 'disabled');
   }
 
   public onHide(params: ToggleableActionParams): void {
