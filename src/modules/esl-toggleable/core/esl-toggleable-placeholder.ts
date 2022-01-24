@@ -7,7 +7,8 @@ import type {ESLToggleable} from '../../esl-toggleable/core';
 export class ESLToggleablePlaceholder extends ESLBaseElement {
   public static is = 'esl-toggleable-placeholder';
 
-  public static readonly allowedExtraAttrs: string[] = [];
+  /** List of attributes allowed to copy from origin to this element */
+  public static readonly allowedAttrs: string[] = ['id', 'class'];
 
   public $origin: ESLToggleable | null;
 
@@ -16,11 +17,6 @@ export class ESLToggleablePlaceholder extends ESLBaseElement {
     const $placeholder = document.createElement(this.is) as InstanceType<T>;
     $placeholder.$origin = $el;
     return $placeholder;
-  }
-
-  /** List of attributes allowed to copy from origin to this element */
-  protected get allowedAttrs(): string[] {
-    return ['id', 'class'].concat((this.constructor as typeof ESLToggleablePlaceholder).allowedExtraAttrs);
   }
 
   public connectedCallback(): void {
@@ -33,7 +29,7 @@ export class ESLToggleablePlaceholder extends ESLBaseElement {
     if (!this.$origin) return;
 
     [...this.$origin.attributes]
-      .filter((attr) => this.allowedAttrs.includes(attr.nodeName))
+      .filter((attr) => (this.constructor as typeof ESLToggleablePlaceholder).allowedAttrs.includes(attr.nodeName))
       .forEach((attr) => {
         const {nodeName, nodeValue} = attr;
         if (nodeValue) {
