@@ -1,5 +1,4 @@
 import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
-import {memoizeFn} from '../../../../src/modules/esl-utils/misc/memoize';
 import {CSSClassUtils} from '../../../../src/modules/esl-utils/dom/class';
 import {afterNextRender} from '../../../../src/modules/esl-utils/async/raf';
 import {parseNumber} from '../../../../src/modules/esl-utils/misc/format';
@@ -21,19 +20,29 @@ export class ESLDemoSearchBox extends ESLToggleable {
 
   @prop() public closeOnOutsideAction = true;
 
-  searchScript = memoizeFn(() => loadSearchScript());
+  private isSearchScriptLoaded: boolean = false;
 
   public onShow(params: ToggleableActionParams): void {
     CSSClassUtils.add(this, this.postCls);
-    this.searchScript();
-
-    (window as any).__gcse = {
-      parsetags: 'onload',
-      initializationCallback: (): void => this.afterSearchScriptLoad(params)
-    };
+    this.onShowActions(params);
   }
 
-  private afterSearchScriptLoad(params: ToggleableActionParams): void {
+  private onShowActions(params: any): void {
+    if (this.isSearchScriptLoaded) {
+      this.showSearchElements(params);
+    } else {
+      loadSearchScript().then(() => {
+        this.isSearchScriptLoaded = true;
+
+        (window as any).__gcse = {
+          parsetags: 'onload',
+          initializationCallback: (): void => this.showSearchElements(params)
+        };
+      });
+    }
+  }
+
+  private showSearchElements(params: ToggleableActionParams): void {
     afterNextRender(() => super.onShow(params));
     if (this.autofocus) {
       const $focusEl = TraversingQuery.first(this.firstFocusable, this) as HTMLElement;
