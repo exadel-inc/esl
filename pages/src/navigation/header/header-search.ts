@@ -30,12 +30,12 @@ export class ESLDemoSearchBox extends ESLToggleable {
   }
 
   private afterSearchScriptLoad (params: ToggleableActionParams): void {
-    const loadingAnimationEL = this.querySelector('.animation-loading')!;
     afterNextRender(() => super.onShow(params));
     if (this.autofocus) {
       const $focusEl = TraversingQuery.first(this.firstFocusable, this) as HTMLElement;
       $focusEl && window.setTimeout(() => $focusEl.focus(), parseNumber(this.postClsDelay));
     }
+    const loadingAnimationEL = this.querySelector('.animation-loading')!;
     CSSClassUtils.add(loadingAnimationEL, 'disabled');
   }
 
