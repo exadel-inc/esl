@@ -7,7 +7,7 @@ import {deepCompare} from '../../esl-utils/misc/object';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 
-import {calcDirection, normalizeIndex} from './esl-carousel-utils';
+import {calcDirection, normalizeIndex, toIndex} from './esl-carousel-utils';
 import {ESLCarouselSlide} from './esl-carousel-slide';
 import {ESLCarouselView} from './view/esl-carousel-view';
 
@@ -124,18 +124,8 @@ export class ESLCarousel extends ESLBaseElement {
     const eventTarget: HTMLElement = event.target as HTMLElement;
     const markedTarget: HTMLElement | null = eventTarget.closest('[data-slide-target]');
     if (markedTarget && markedTarget.dataset.slideTarget) {
-      const target = markedTarget.dataset.slideTarget;
-      if ('prev' === target) {
-        this.goPrev();
-      } else if ('next' === target) {
-        this.goNext();
-      } else if ('g' === target[0]) {
-        const group = +(target.substr(1)) - 1;
-        const lastGroup = Math.floor(this.count / this.activeCount);
-        this.goTo(group === lastGroup ? this.count - this.activeCount : this.activeCount * group);
-      } else {
-        this.goTo(+target - 1);
-      }
+      const target = markedTarget.dataset.slideTarget as CarouselSlideTarget;
+      this.goTo(target);
     }
   }
 
@@ -248,13 +238,14 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  public async goTo(nextIndex: number, direction?: CarouselDirection | null, force: boolean = false): Promise<void> {
+  public async goTo(nextIndex: CarouselSlideTarget, direction?: CarouselDirection | null, force: boolean = false): Promise<void> {
     // TODO: ?
     if (this.dataset.isAnimated) return;
 
     const {firstIndex} = this;
 
-    nextIndex = normalizeIndex(nextIndex, this.count);
+    nextIndex = toIndex(nextIndex, this);
+    //nextIndex = normalizeIndex(nextIndex, this.count);
 
     if (firstIndex === nextIndex && !force) return;
 
@@ -281,36 +272,8 @@ export class ESLCarousel extends ESLBaseElement {
     this.$$fire('slide:changed', eventDetails);
   }
 
-  // TODO: rename
-  public goPrev(count: number = this.activeCount): Promise<void> {
-    const normalizedIndex = normalizeIndex(this.firstIndex - count, this.count);
-    // make the first slide active if the circle is over
-    const index = this.firstIndex !== 0 && normalizedIndex >= this.firstIndex ? 0 : normalizedIndex;
-    return this.goTo(index, 'prev');
-  }
-  // TODO: rename
-  public goNext(count: number = this.activeCount): Promise<void> {
-    const lastIndex = this.firstIndex + count + this.activeCount;
-    // make the last slide active if the circle is over
-    const index = this.firstIndex + this.activeCount !== this.count && lastIndex > this.count - 1 ?
-      this.count - this.activeCount : normalizeIndex(this.firstIndex + count, this.count);
-    return this.goTo(index, 'next');
-  }
-
   public slideAt(index: number): ESLCarouselSlide {
     return this.$slides[normalizeIndex(index, this.count)];
-  }
-
-  // TODO: 'get'  discuss , created to cover onClick functionality
-  public toIndex(target: CarouselSlideTarget): number {
-    if ('prev' === target) return normalizeIndex(this.firstIndex - this.activeCount, this.count);
-    if ('next' === target) return normalizeIndex(this.firstIndex + this.activeCount, this.count);
-    if (typeof target === 'number' || !isNaN(+target)) return normalizeIndex(+target - 1, this.count);
-    if ('g' !== target[0]) return this.firstIndex;
-    const group = +(target.substring(1)) - 1;
-    const lastGroup = Math.floor(this.count / this.activeCount);
-    const index = group === lastGroup ? this.count - this.activeCount : this.activeCount * group;
-    return normalizeIndex(index, this.count);
   }
 
   public static register(tagName?: string): void {
