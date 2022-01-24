@@ -25,11 +25,15 @@ export class ESLDemoSearchBox extends ESLToggleable {
 
   public onShow(params: ToggleableActionParams): void {
     CSSClassUtils.add(this, this.postCls);
-    this.searchScript()
-      .then(() => this.afterSearchScriptLoad(params));
+    this.searchScript();
+
+    (window as any).__gcse = {
+      parsetags: 'onload',
+      initializationCallback: (): void => this.afterSearchScriptLoad(params)
+    };
   }
 
-  private afterSearchScriptLoad (params: ToggleableActionParams): void {
+  private afterSearchScriptLoad(params: ToggleableActionParams): void {
     afterNextRender(() => super.onShow(params));
     if (this.autofocus) {
       const $focusEl = TraversingQuery.first(this.firstFocusable, this) as HTMLElement;

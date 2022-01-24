@@ -8,9 +8,16 @@ export class ESLDemoSearchPageWrapper extends ESLBaseElement {
 
   @ready
   protected connectedCallback(): void {
-    loadSearchScript().then(() => {
-      const loadingAnimationEL = this.querySelector('.animation-loading')!;
-      CSSClassUtils.add(loadingAnimationEL, 'disabled');
-    });
+    loadSearchScript();
+
+    (window as any).__gcse = {
+      parsetags: 'onload',
+      initializationCallback: (): void => this.afterSearchScriptLoad()
+    };
+  }
+
+  private afterSearchScriptLoad(): void {
+    const loadingAnimationEL = this.querySelector('.animation-loading')!;
+    CSSClassUtils.add(loadingAnimationEL, 'disabled');
   }
 }
