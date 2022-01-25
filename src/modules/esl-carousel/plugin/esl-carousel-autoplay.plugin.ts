@@ -54,14 +54,7 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
   @bind
   protected _onInterval(): void {
     if (!this.active) return;
-    switch (this.direction) {
-      case 'next':
-        this.carousel.goNext();
-        return;
-      case 'prev':
-        this.carousel.goPrev();
-        return;
-    }
+    this.carousel.goTo(this.direction);
     this.reset();
   }
 
