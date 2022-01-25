@@ -37,7 +37,7 @@ export class ESLToggleablePlaceholder extends ESLBaseElement {
     (this.constructor as typeof ESLToggleablePlaceholder).allowedAttrs.forEach((name) => {
       const value = $origin.getAttribute(name);
       if (value) {
-        this.setAttribute(this.buildAttrName(name), value); // No checks or constraints required
+        this.setAttribute(this.buildAttrName(name), value);
       }
     });
 
