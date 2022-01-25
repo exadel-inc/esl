@@ -1,5 +1,8 @@
 import {toKebabCase} from '../../esl-utils/misc/format';
+import {identity} from '../../esl-utils/misc/functions';
+
 import type {ESLBaseElement} from '../core/esl-base-element';
+import type {Serializer} from './serializers';
 
 /** HTML attribute mapping configuration */
 type AttrDescriptor<T> = {
@@ -10,21 +13,21 @@ type AttrDescriptor<T> = {
   /** Use data-* attribute */
   dataAttr?: boolean;
   /** Default property value. Used if no attribute is present on the element. Empty string by default. */
-  defaultValue?: T | null;
-  /** Parser allows to edit atrebutate values*/
-  parser?: (value: string) => T;
+  defaultValue?: T ;
+  /** Serializer allows to edit atrebutate values*/
+  serializer?: Serializer<T>;
 };
 
+function buildSimpleDescriptor<T>(attrName: string, readOnly: boolean, defaultValue: T, serializer: Serializer<T>): PropertyDescriptor {
 
-function buildSimpleDescriptor<T>(attrName: string, readOnly: boolean, defaultValue: T, parser?: (value: string) => T): PropertyDescriptor {
-
-  function get(): T | string {
+  function get(): T {
     const value = this.getAttribute(attrName);
-    if (typeof value === 'string') return parser ? parser(value) : value;
+    if (typeof value === 'string') return serializer.parse(value);
     return defaultValue;
   }
 
-  function set(value: T | boolean): void {
+  function set(val: T): void {
+    const value = serializer.serialize(val);
     if (value === undefined || value === null || value === false) {
       this.removeAttribute(attrName);
     } else {
@@ -43,10 +46,12 @@ const buildAttrName =
  * Maps string type property.
  * @param config - mapping configuration. See {@link AttrDescriptor}
  */
-export const attr = (config: AttrDescriptor<string> | AttrDescriptor<boolean> | AttrDescriptor<number> = {}): PropertyDecorator => {
-  config = Object.assign({defaultValue: ''}, config);
+
+export const attr = <T = string>(config: AttrDescriptor<T> = {}): PropertyDecorator => {
+  config = Object.assign({defaultValue: '', serializer : {parse: identity, serialize: identity}}, config);
+
   return (target: ESLBaseElement, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
-    Object.defineProperty(target, propName, buildSimpleDescriptor(attrName, !!config.readonly, config.defaultValue, config.parser));
+    Object.defineProperty(target, propName, buildSimpleDescriptor(attrName, !!config.readonly, config.defaultValue, config.serializer!));
   };
 };

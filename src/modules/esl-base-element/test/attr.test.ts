@@ -1,5 +1,9 @@
 import '../../../polyfills/es5-target-shim';
+import {ESLMediaQuery} from '../../all';
 import {ESLBaseElement, attr} from '../core';
+import {toNumber, toMediaQueryCondition} from '../decorators/serializers';
+
+import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/media-query-base';
 
 describe('Decorator: attr', () => {
 
@@ -18,6 +22,10 @@ describe('Decorator: attr', () => {
     public readonlyField: string;
     @attr({defaultValue: 'def'})
     public defField: string | boolean;
+    @attr({defaultValue: 55, serializer: toNumber})
+    public defNum: number;
+    @attr({defaultValue: ESLMediaQuery.NOT_ALL, serializer: toMediaQueryCondition})
+    public defM: IMediaQueryCondition | string;
   }
 
   TestElement.register('test-el-attr');
@@ -100,6 +108,22 @@ describe('Decorator: attr', () => {
     el.defField = false;
     expect(el.defField).toBe('def');
     expect(el.hasAttribute('def-field')).toBe(false);
+  });
+
+  test('Decorator: attr - serializer number', () => {
+    expect(el.defNum).toBe(55);
+    el.defNum = 44;
+    expect(el.defNum).toBe(44);
+    expect(el.getAttribute('def-num')).toBe('44');
+  });
+
+  test('Decorator: attr - serializer ESLMediaQuery', () => {
+    expect(el.defM).toBe(ESLMediaQuery.NOT_ALL);
+    el.defM = 'all';
+    expect(el.getAttribute('def-m')).toBe('all');
+    expect(el.defM).toBe(ESLMediaQuery.ALL);
+    el.defM = ESLMediaQuery.NOT_ALL;
+    expect(el.defM).toBe(ESLMediaQuery.NOT_ALL);
   });
 
   afterAll(() => {
