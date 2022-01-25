@@ -7,7 +7,7 @@ import {deepCompare} from '../../esl-utils/misc/object';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 
-import {calcDirection, normalizeIndex, toIndex} from './esl-carousel-utils';
+import {normalizeIndex, toIndex, toDirection} from './esl-carousel-utils';
 import {ESLCarouselSlide} from './esl-carousel-slide';
 import {ESLCarouselView} from './view/esl-carousel-view';
 
@@ -18,6 +18,13 @@ interface CarouselConfig { // Registry
   view?: string;
   count?: number;
   className?: string;
+}
+
+interface CarouselChangeParams {
+  direction?: CarouselDirection;
+  force?: boolean;
+  // TODO: implement
+  noAnimation?: boolean;
 }
 
 /**
@@ -104,7 +111,7 @@ export class ESLCarousel extends ESLBaseElement {
     this._view = ESLCarouselView.registry.create(viewType, this);
     this._view && this._view.bind();
 
-    this.goTo(this.firstIndex, 'next', true);
+    this.goTo(this.firstIndex, {force: true});
   }
 
   private getNextGroup(shiftGroupsCount: number): number {
@@ -117,15 +124,13 @@ export class ESLCarousel extends ESLBaseElement {
     return (currentGroup + shiftGroupsCount + countGroups) % countGroups;
   }
 
-  // move to core plugin
   /** Handles `click` event */
   // TODO: focus disappear after click
   protected _onClick(event: MouseEvent): void {
     const eventTarget: HTMLElement = event.target as HTMLElement;
     const markedTarget: HTMLElement | null = eventTarget.closest('[data-slide-target]');
     if (markedTarget && markedTarget.dataset.slideTarget) {
-      const target = markedTarget.dataset.slideTarget as CarouselSlideTarget;
-      this.goTo(target);
+      this.goTo(markedTarget.dataset.slideTarget as CarouselSlideTarget);
     }
   }
 
@@ -166,7 +171,7 @@ export class ESLCarousel extends ESLBaseElement {
     super.connectedCallback();
 
     this.update(true);
-    this.goTo(this.firstIndex, 'next', true);
+    this.goTo(this.firstIndex, {force: true});
     this._bindEvents();
 
     ESLCarouselView.registry.addListener(this._onRegistryChange);
@@ -238,18 +243,16 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  public async goTo(nextIndex: CarouselSlideTarget, direction?: CarouselDirection | null, force: boolean = false): Promise<void> {
+  public async goTo(target: CarouselSlideTarget, params: CarouselChangeParams = {}): Promise<void> {
     // TODO: ?
     if (this.dataset.isAnimated) return;
 
     const {firstIndex} = this;
 
-    nextIndex = toIndex(nextIndex, this);
-    //nextIndex = normalizeIndex(nextIndex, this.count);
+    const index = toIndex(target, this);
+    const direction = params.direction || toDirection(target, index, this);
 
-    if (firstIndex === nextIndex && !force) return;
-
-    direction = direction || calcDirection(firstIndex, nextIndex, this.count);
+    if (firstIndex === index && !params.force) return;
 
     // TODO: change info
     const eventDetails = {
@@ -258,15 +261,15 @@ export class ESLCarousel extends ESLBaseElement {
 
     if (!this.$$fire('slide:change', eventDetails)) return;
 
-    if (this._view && firstIndex !== nextIndex) {
-      await this._view.onBeforeAnimate(nextIndex, direction);
-      await this._view.onAnimate(nextIndex, direction);
+    if (this._view && firstIndex !== index) {
+      await this._view.onBeforeAnimate(index, direction);
+      await this._view.onAnimate(index, direction);
       await this._view.onAfterAnimate();
     }
 
     this.$slides.forEach((el) => (el.active = false));
     for (let i = 0; i < this.activeCount; i++) {
-      this.slideAt(nextIndex + i).active = true;
+      this.slideAt(index + i).active = true;
     }
 
     this.$$fire('slide:changed', eventDetails);
