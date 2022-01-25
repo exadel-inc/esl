@@ -24,21 +24,25 @@ export class ESLToggleablePlaceholder extends ESLBaseElement {
     super.connectedCallback();
   }
 
+  /** Builds attribute name for copy */
+  protected buildAttrName(name: string): string {
+    return name === 'id' ? 'original-id' : name;
+  }
+
   /** Copies allowed attributes from origin to this element */
   protected copyAttributesFromOrigin(): void {
-    if (!this.$origin) return;
+    const {$origin} = this;
+    if (!$origin) return;
 
-    [...this.$origin.attributes]
-      .filter((attr) => (this.constructor as typeof ESLToggleablePlaceholder).allowedAttrs.includes(attr.nodeName))
-      .forEach((attr) => {
-        const {nodeName, nodeValue} = attr;
-        if (nodeValue) {
-          this.setAttribute(nodeName === 'id' ? 'original-id' : nodeName, nodeValue);
-        }
-      });
+    (this.constructor as typeof ESLToggleablePlaceholder).allowedAttrs.forEach((name) => {
+      const value = $origin.getAttribute(name);
+      if (value) {
+        this.setAttribute(this.buildAttrName(name), value); // No checks or constraints required
+      }
+    });
 
     // sanitize class list of placeholder from the tag name of origin's element
-    this.classList.remove((this.$origin.constructor as typeof ESLBaseElement).is);
+    this.classList.remove(($origin.constructor as typeof ESLBaseElement).is);
   }
 }
 
