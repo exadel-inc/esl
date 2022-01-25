@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "experimentalDecorators": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "target": "ES6",
+    "downlevelIteration": true,
+    "module": "ES2015",
+    "moduleResolution": "Node",
+    "lib": [
+      "ES2015",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "rootDir": "./src",
+    "outDir": "./lib"
+  },
+  "extends": "../../tsconfig.json",
+  "include": [
+    "src/**/*"
+  ]
+}
