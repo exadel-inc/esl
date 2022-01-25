@@ -6,7 +6,7 @@ type Locks = Map<string, Set<Element>>;
 const lockStore = new WeakMap<Element, Locks>();
 
 /** Mange className lock for the element */
-const lock = (el: Element, className: string, locker: Element) => {
+const lock = (el: Element, className: string, locker: Element): void => {
   const elLocks: Locks = lockStore.get(el) || new Map();
   const classLocks: Set<Element> = elLocks.get(className) || new Set();
   classLocks.add(locker);
@@ -17,7 +17,7 @@ const lock = (el: Element, className: string, locker: Element) => {
  * Manage className unlock for the element
  * @returns true if className have no locks
  */
-const unlock = (el: Element, className: string, locker: Element) => {
+const unlock = (el: Element, className: string, locker: Element): boolean => {
   const elLocks = lockStore.get(el);
   if (!elLocks) return true;
   const classLocks = elLocks.get(className);
@@ -68,7 +68,7 @@ export abstract class CSSClassUtils {
    * Add all classes from the class token string to the element.
    * @see CSSClassUtils
    * */
-  public static add(els: Element | Element[], cls: string | null | undefined, locker?: Element) {
+  public static add(els: Element | Element[], cls: string | null | undefined, locker?: Element): void {
     const tokens = CSSClassUtils.splitTokens(cls);
     wrap(els).forEach((el) => tokens.forEach((className) => add(el, className, locker)));
   }
@@ -77,7 +77,7 @@ export abstract class CSSClassUtils {
    * Remove all classes from the class token string to the element.
    * @see CSSClassUtils
    * */
-  public static remove(els: Element | Element[], cls: string | null | undefined, locker?: Element) {
+  public static remove(els: Element | Element[], cls: string | null | undefined, locker?: Element): void {
     const tokens = CSSClassUtils.splitTokens(cls);
     wrap(els).forEach((el) => tokens.forEach((className) => remove(el, className, locker)));
   }
@@ -86,12 +86,12 @@ export abstract class CSSClassUtils {
    * Toggle all classes from the class token string on the element to the passed state.
    * @see CSSClassUtils
    * */
-  public static toggle(els: Element | Element[], cls: string | null | undefined, state: boolean, locker?: Element) {
+  public static toggle(els: Element | Element[], cls: string | null | undefined, state: boolean, locker?: Element): void {
     (state ? CSSClassUtils.add : CSSClassUtils.remove)(els, cls, locker);
   }
 
   /** Remove all lockers for the element or passed element className */
-  public static unlock(els: Element | Element[], className?: string) {
+  public static unlock(els: Element | Element[], className?: string): void {
     if (className) {
       wrap(els).forEach((el) => lockStore.get(el)?.delete(className));
     } else {

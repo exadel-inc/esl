@@ -9,7 +9,7 @@ import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-qu
 import {getIObserver} from './esl-image-iobserver';
 import {STRATEGIES} from './esl-image-strategies';
 
-import type {ESLImageRenderStrategy} from './esl-image-strategies';
+import type {ESLImageRenderStrategy, ESLImageStrategyMap} from './esl-image-strategies';
 
 type LoadState = 'error' | 'loaded' | 'ready';
 const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);
@@ -27,15 +27,15 @@ export class ESLImage extends ESLBaseElement {
   // Default container class value
   public static DEFAULT_CONTAINER_CLS = 'img-container-loaded';
 
-  public static get STRATEGIES() {
+  public static get STRATEGIES(): ESLImageStrategyMap {
     return STRATEGIES;
   }
 
-  static get EMPTY_IMAGE() {
+  static get EMPTY_IMAGE(): string {
     return 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
   }
 
-  static get observedAttributes() {
+  static get observedAttributes(): string[] {
     return ['alt', 'role', 'mode', 'aria-label', 'data-src', 'data-src-base', 'lazy-triggered'];
   }
 
@@ -65,7 +65,7 @@ export class ESLImage extends ESLBaseElement {
   private _detachLazyTrigger: () => void;
   private _shadowImageElement: HTMLImageElement;
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.alt =
       this.alt || this.getAttribute('aria-label') || this.getAttribute('data-alt') || '';
@@ -74,7 +74,7 @@ export class ESLImage extends ESLBaseElement {
     if (this.lazyObservable) {
       this.removeAttribute('lazy-triggered');
       getIObserver().observe(this);
-      this._detachLazyTrigger = function () {
+      this._detachLazyTrigger = function (): void {
         getIObserver().unobserve(this);
         this._detachLazyTrigger = null;
       };
@@ -82,7 +82,7 @@ export class ESLImage extends ESLBaseElement {
     this.refresh();
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this._detachLazyTrigger && this._detachLazyTrigger();
     if (this._srcRules) {
@@ -90,7 +90,7 @@ export class ESLImage extends ESLBaseElement {
     }
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
       case 'aria-label':
@@ -116,7 +116,7 @@ export class ESLImage extends ESLBaseElement {
     }
   }
 
-  public get srcRules() {
+  public get srcRules(): ESLMediaRuleList<string> {
     if (!this._srcRules) {
       this.srcRules = ESLMediaRuleList.parse(this.src);
     }
@@ -131,35 +131,35 @@ export class ESLImage extends ESLBaseElement {
     this._srcRules.addListener(this._onMediaMatchChange);
   }
 
-  public get currentSrc() {
+  public get currentSrc(): string {
     return this._currentSrc;
   }
 
-  public get empty() {
+  public get empty(): boolean {
     return !this._currentSrc || ESLImage.isEmptyImage(this._currentSrc);
   }
 
-  public get canUpdate() {
+  public get canUpdate(): boolean {
     return this.lazyTriggered || this.lazy === 'none';
   }
 
-  public get lazyObservable() {
+  public get lazyObservable(): boolean {
     return this.lazy !== 'none' && this.lazy !== 'manual';
   }
 
-  public get originalWidth() {
+  public get originalWidth(): number {
     return this._shadowImageElement ? this._shadowImageElement.width : 0;
   }
 
-  public get originalHeight() {
+  public get originalHeight(): number {
     return this._shadowImageElement ? this._shadowImageElement.height : 0;
   }
 
-  public triggerLoad() {
+  public triggerLoad(): void {
     this.setAttribute('lazy-triggered', '');
   }
 
-  protected changeMode(oldVal: string, newVal: string) {
+  protected changeMode(oldVal: string, newVal: string): void {
     oldVal = oldVal || 'save-ratio';
     newVal = newVal || 'save-ratio';
     if (oldVal === newVal) return;
@@ -171,7 +171,7 @@ export class ESLImage extends ESLBaseElement {
     if (this.loaded) this.syncImage();
   }
 
-  protected update(force: boolean = false) {
+  protected update(force: boolean = false): void {
     if (!this.canUpdate) return;
 
     const src = this.getPath(this.srcRules.activeValue);
@@ -192,21 +192,21 @@ export class ESLImage extends ESLBaseElement {
     this._detachLazyTrigger && this._detachLazyTrigger();
   }
 
-  protected updateA11y() {
+  protected updateA11y(): void {
     const role = this.getAttribute('role') || 'img';
     this.setAttribute('role', role);
     this.innerImage && (this.innerImage.alt = this.alt);
     if (role === 'img') this.setAttribute('aria-label', this.alt);
   }
 
-  protected getPath(src: string | undefined) {
+  protected getPath(src: string | undefined): string {
     if (!src || src === '0' || src === 'none') {
       return ESLImage.EMPTY_IMAGE;
     }
     return this.srcBase + src;
   }
 
-  public refresh() {
+  public refresh(): void {
     this.removeAttribute('loaded');
     this.removeAttribute('ready');
     this.updateContainerClasses();
@@ -214,18 +214,18 @@ export class ESLImage extends ESLBaseElement {
     this.update(true);
   }
 
-  private syncImage() {
+  private syncImage(): void {
     const strategy = STRATEGIES[this.mode];
     this._strategy = strategy;
     strategy && strategy.apply(this, this._shadowImg);
   }
 
-  private clearImage() {
+  private clearImage(): void {
     this._strategy && this._strategy.clear(this);
     this._strategy = null;
   }
 
-  public get innerImage() {
+  public get innerImage(): HTMLImageElement | null {
     return this._innerImg;
   }
 
@@ -242,7 +242,7 @@ export class ESLImage extends ESLBaseElement {
     return this._innerImg;
   }
 
-  public removeInnerImage() {
+  public removeInnerImage(): void {
     if (!this.innerImage) return;
     this.removeChild(this.innerImage);
     setTimeout(() => {
@@ -252,7 +252,7 @@ export class ESLImage extends ESLBaseElement {
     });
   }
 
-  protected get _shadowImg() {
+  protected get _shadowImg(): HTMLImageElement {
     if (!this._shadowImageElement) {
       this._shadowImageElement = new Image();
       this._shadowImageElement.onload = this._onLoad;
@@ -261,31 +261,31 @@ export class ESLImage extends ESLBaseElement {
     return this._shadowImageElement;
   }
 
-  protected get _shadowImgError() {
+  protected get _shadowImgError(): boolean {
     if (!this._shadowImg.complete) return false;
     if (this._shadowImg.src.substr(-4) === '.svg') return false;
     return this._shadowImg.naturalHeight <= 0;
   }
 
   @bind
-  private _onLoad() {
+  private _onLoad(): void {
     this.syncImage();
     this._onReadyState(true);
     this.updateContainerClasses();
   }
 
   @bind
-  private _onError() {
+  private _onError(): void {
     this._onReadyState(false);
     this.updateContainerClasses();
   }
 
   @bind
-  private _onMediaMatchChange() {
+  private _onMediaMatchChange(): void {
     this.update();
   }
 
-  private _onReadyState(successful: boolean) {
+  private _onReadyState(successful: boolean): void {
     if (this.ready) return;
     this.toggleAttribute('loaded', successful);
     this.toggleAttribute('error', !successful);
@@ -294,7 +294,7 @@ export class ESLImage extends ESLBaseElement {
     this.$$fire('ready');
   }
 
-  public updateContainerClasses() {
+  public updateContainerClasses(): void {
     if (this.containerClass === null) return;
     const cls = this.containerClass || (this.constructor as typeof ESLImage).DEFAULT_CONTAINER_CLS;
     const state = isLoadState(this.containerClassState) && this[this.containerClassState];
@@ -307,7 +307,7 @@ export class ESLImage extends ESLBaseElement {
     return EventUtils.dispatch(this, eventName, eventInit);
   }
 
-  public static isEmptyImage(src: string) {
+  public static isEmptyImage(src: string): boolean {
     return src === ESLImage.EMPTY_IMAGE;
   }
 }

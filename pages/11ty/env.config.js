@@ -5,7 +5,6 @@ const isDev = env === 'development';
 const context = {isDev, version, env};
 
 module.exports = (config) => {
-  // Waiting for 11ty 1.0.0
-  // config.addGlobalData('env', context);
+  config.addGlobalData('env', context);
 };
 Object.assign(module.exports, context);

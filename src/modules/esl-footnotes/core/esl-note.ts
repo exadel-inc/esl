@@ -17,14 +17,27 @@ import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
 export class ESLNote extends ESLBaseElement {
   static is = 'esl-note';
 
+  static get observedAttributes(): string[] {
+    return ['tooltip-shown', 'ignore-footnotes'];
+  }
+
   /** Linked state marker */
   @boolAttr() public linked: boolean;
-
+  /** Standalone state marker */
+  @boolAttr() public standalone: boolean;
   /** Tooltip state marker */
   @boolAttr() public tooltipShown: boolean;
 
+  /** Media query to specify that footnotes must ignore this note. Default: `not all` */
+  @attr({defaultValue: 'not all'}) public ignoreFootnotes: string;
+
   /** Tooltip content */
   @attr() public html: string;
+  /**
+   * Note label in stand-alone mode (detached from footnotes),
+   * in the connected state it is a numeric index that is calculated automatically
+   */
+  @attr({defaultValue: '*'}) public standaloneLabel: string;
 
   /** Click event tracking media query. Default: `all` */
   @attr({defaultValue: 'all'}) public trackClick: string;
@@ -38,16 +51,17 @@ export class ESLNote extends ESLBaseElement {
   protected _index: number;
 
   /** Marker to allow track hover */
-  public get allowHover() {
+  public get allowHover(): boolean {
     return DeviceDetector.hasHover && ESLMediaQuery.for(this.trackHover).matches;
   }
   /** Marker to allow track clicks */
-  public get allowClick() {
+  public get allowClick(): boolean {
     return ESLMediaQuery.for(this.trackClick).matches;
   }
 
-  static get observedAttributes() {
-    return ['tooltip-shown'];
+  /** Marker to allow footnotes to pick up this note */
+  public get allowFootnotes(): boolean {
+    return !ESLMediaQuery.for(this.ignoreFootnotes).matches;
   }
 
   /** Note index in the scope content */
@@ -61,30 +75,36 @@ export class ESLNote extends ESLBaseElement {
 
   /** Note index in the displayed list of footnotes */
   public get renderedIndex(): string {
-    return `${this._index}`;
+    return this.allowFootnotes ? `${this._index}` : this.standaloneLabel;
   }
 
   @ready
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     if (!this.html) {
       this.html = this.innerHTML;
     }
+    this.update();
     super.connectedCallback();
     this.bindEvents();
     this._sendResponseToFootnote();
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this.unbindEvents();
     this._$footnotes?.unlinkNote(this);
     this.restore();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'tooltip-shown' && newVal === null) {
       this._$footnotes?.turnOffHighlight(this);
+    }
+    if (attrName === 'ignore-footnotes') {
+      oldVal && ESLMediaQuery.for(oldVal).removeListener(this._onBPChange);
+      newVal && ESLMediaQuery.for(newVal).addListener(this._onBPChange);
+      this._onBPChange();
     }
   }
 
@@ -94,6 +114,8 @@ export class ESLNote extends ESLBaseElement {
     this.addEventListener('keydown', this._onKeydown);
     this.addEventListener('mouseenter', this._onMouseEnter);
     this.addEventListener('mouseleave', this._onMouseLeave);
+
+    ESLMediaQuery.for(this.ignoreFootnotes).addListener(this._onBPChange);
   }
   protected unbindEvents(): void {
     document.body.removeEventListener(`${ESLFootnotes.eventNs}:request`, this._onFootnotesReady);
@@ -101,6 +123,8 @@ export class ESLNote extends ESLBaseElement {
     this.removeEventListener('keydown', this._onKeydown);
     this.removeEventListener('mouseenter', this._onMouseEnter);
     this.removeEventListener('mouseleave', this._onMouseLeave);
+
+    ESLMediaQuery.for(this.ignoreFootnotes).removeListener(this._onBPChange);
   }
 
   /** Activates note */
@@ -123,19 +147,28 @@ export class ESLNote extends ESLBaseElement {
     this._$footnotes = footnotes;
     this.index = index;
     this.tabIndex = 0;
+    this.update();
   }
 
   /** Unlinks note from footnotes */
   public unlink(): void {
     this.restore();
+    this.update();
     this._sendResponseToFootnote();
+  }
+
+  /** Updates note state */
+  public update(): void {
+    this.standalone = !(this.linked && this.allowFootnotes);
   }
 
   /** Restores original note content after unlinking */
   protected restore(): void {
     this.linked = false;
     this._$footnotes = null;
-    this.innerHTML = this.html;
+    if (this.html) {
+      this.innerHTML = this.html;
+    }
     this.tabIndex = -1;
   }
 
@@ -202,6 +235,17 @@ export class ESLNote extends ESLBaseElement {
     if (!this.allowHover) return;
     this.hideTooltip({event, trackHover: true});
     event.preventDefault();
+  }
+
+  /** Actions on breakpoint changing */
+  @bind
+  protected _onBPChange(): void {
+    if (ESLTooltip.open) {
+      this.hideTooltip();
+    }
+    this.innerHTML = this.renderedIndex;
+    this.update();
+    this._$footnotes?.update();
   }
 
   /** Handles footnotes request event */

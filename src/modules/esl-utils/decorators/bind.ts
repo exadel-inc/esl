@@ -15,7 +15,7 @@ export function bind<T extends Function>(target: object,
     enumerable: descriptor.enumerable,
     configurable: descriptor.configurable,
 
-    get() {
+    get(): T {
       // Accessing via prototype returns original function
       // If the constructor property is in the context then it's not an instance
       if (!this || this === target || Object.hasOwnProperty.call(this, 'constructor')) {
@@ -36,7 +36,7 @@ export function bind<T extends Function>(target: object,
       // Return binding
       return bindings.get(fn);
     },
-    set(value: T) {
+    set(value: T): void {
       Object.defineProperty(this, propertyKey, {
         writable: true,
         enumerable: false,

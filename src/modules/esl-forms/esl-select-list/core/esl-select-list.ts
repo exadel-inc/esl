@@ -15,11 +15,11 @@ import {ESLSelectWrapper} from './esl-select-wrapper';
 @ExportNs('SelectList')
 export class ESLSelectList extends ESLSelectWrapper {
   public static readonly is = 'esl-select-list';
-  public static get observedAttributes() {
+  public static get observedAttributes(): string[] {
     return ['select-all-label', 'disabled'];
   }
 
-  public static register() {
+  public static register(): void {
     ESLSelectItem.register();
     super.register();
   }
@@ -49,7 +49,7 @@ export class ESLSelectList extends ESLSelectWrapper {
     this.$selectAll.classList.add('esl-select-all-item');
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || newVal === oldVal) return;
     if (attrName === 'select-all-label') {
       this.$selectAll.textContent = newVal;
@@ -59,7 +59,7 @@ export class ESLSelectList extends ESLSelectWrapper {
     }
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
 
     this.appendChild(this.$selectAll);
@@ -71,7 +71,7 @@ export class ESLSelectList extends ESLSelectWrapper {
 
     this._updateDisabled();
   }
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
 
     this.appendChild(this.$selectAll);
@@ -81,24 +81,24 @@ export class ESLSelectList extends ESLSelectWrapper {
     this.unbindEvents();
   }
 
-  protected bindSelect() {
+  protected bindSelect(): void {
     const target = this.querySelector('[esl-select-target]');
     if (!target || !(target instanceof HTMLSelectElement)) return;
     this.$select = target;
   }
 
-  public bindEvents() {
+  public bindEvents(): void {
     if (!this.$select) return;
     this.addEventListener('click', this._onClick);
     this.addEventListener('keydown', this._onKeydown);
   }
-  public unbindEvents() {
+  public unbindEvents(): void {
     if (!this.$select) return;
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('keydown', this._onKeydown);
   }
 
-  protected _renderItems() {
+  protected _renderItems(): void {
     if (!this.$select) return;
     this.$list.innerHTML = '';
     this.$items = this.options.map(ESLSelectItem.build);
@@ -110,13 +110,13 @@ export class ESLSelectList extends ESLSelectWrapper {
     }
     this.toggleAttribute('multiple', this.multiple);
   }
-  protected _renderGroup(items: ESLSelectItem[]) {
+  protected _renderGroup(items: ESLSelectItem[]): void {
     items.forEach((item) => this.$list.appendChild(item));
     const [last] = items.slice(-1);
     last && last.classList.add('last-in-group');
   }
 
-  protected _updateSelectAll() {
+  protected _updateSelectAll(): void {
     if (!this.multiple) {
       this.$selectAll.removeAttribute('tabindex');
       return;
@@ -125,14 +125,14 @@ export class ESLSelectList extends ESLSelectWrapper {
     this.$selectAll.selected = this.isAllSelected();
     this.$selectAll.textContent = this.selectAllLabel;
   }
-  protected _updateDisabled() {
+  protected _updateDisabled(): void {
     this.setAttribute('aria-disabled', String(this.disabled));
     if (!this.$select) return;
     this.$select.disabled = this.disabled;
   }
 
   @bind
-  protected _onTargetChange(newTarget: HTMLSelectElement | undefined, oldTarget: HTMLSelectElement | undefined) {
+  protected _onTargetChange(newTarget: HTMLSelectElement | undefined, oldTarget: HTMLSelectElement | undefined): void {
     super._onTargetChange(newTarget, oldTarget);
     this._updateSelectAll();
     this._renderItems();
@@ -141,18 +141,18 @@ export class ESLSelectList extends ESLSelectWrapper {
   }
 
   @bind
-  public _onChange() {
+  public _onChange(): void {
     this._updateSelectAll();
     this.$items.forEach((item) => item.update());
   }
 
   @bind
-  public _onListChange() {
+  public _onListChange(): void {
     this._renderItems();
   }
 
   @bind
-  protected _onClick(e: MouseEvent | KeyboardEvent) {
+  protected _onClick(e: MouseEvent | KeyboardEvent): void {
     if (this.disabled) return;
     const target = e.target;
     if (!target || !(target instanceof ESLSelectItem)) return;
@@ -164,7 +164,7 @@ export class ESLSelectList extends ESLSelectWrapper {
   }
 
   @bind
-  protected _onKeydown(e: KeyboardEvent) {
+  protected _onKeydown(e: KeyboardEvent): void {
     if ([ENTER, SPACE].includes(e.key)) {
       this._onClick(e);
       e.preventDefault();

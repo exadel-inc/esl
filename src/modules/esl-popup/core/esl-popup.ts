@@ -253,7 +253,7 @@ export class ESLPopup extends ESLToggleable {
     this._activatorObserver = {
       unsubscribers: scrollParents.map(($root) => {
         $root.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
-        return () => {
+        return (): void => {
           $root && $root.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
         };
       })
@@ -299,7 +299,7 @@ export class ESLPopup extends ESLToggleable {
 
     let same = 0;
     let lastRect = new Rect();
-    const updateLoop = () => {
+    const updateLoop = (): void => {
       if (!this.activator) {
         this._stopUpdateLoop();
         return;

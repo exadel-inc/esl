@@ -11,7 +11,7 @@ export function memoize<H extends MemoHashFn>(hashFn: H): MethodTypedDecorator<(
  * @see memoizeFn Original memoizeFn function decorator.
  */
 export function memoize(hashFn: MemoHashFn = defaultArgsHashFn) {
-  return function (target: any, prop: string, descriptor: TypedPropertyDescriptor<any>) {
+  return function (target: any, prop: string, descriptor: TypedPropertyDescriptor<any>): void {
     if (!descriptor || typeof (descriptor.value || descriptor.get) !== 'function') {
       throw new TypeError('Only get accessors or class methods can be decorated via @memoize');
     }
@@ -30,7 +30,7 @@ export function memoize(hashFn: MemoHashFn = defaultArgsHashFn) {
 
 // Lock storage to prevent cache logic for some key
 const locks = new WeakMap();
-const defineOwnKeySafe = (obj: any, prop: string, value: any) => {
+const defineOwnKeySafe = (obj: any, prop: string, value: any): void => {
   locks.set(obj, prop); // IE try to get key with the prototype instance call, so we lock it
   Object.defineProperty(obj, prop, {value, writable: true, configurable: true});
   locks.delete(obj); // Free property key
@@ -38,7 +38,7 @@ const defineOwnKeySafe = (obj: any, prop: string, value: any) => {
 
 /** Cache getter result as an object own property */
 function memoizeGetter(originalMethod: any, prop: string) {
-  return function (this: any, ...args: any[]): any {
+  return function (): any {
     if (locks.get(this) === prop) return originalMethod;
     const value = originalMethod.call(this);
     defineOwnKeySafe(this, prop, value);
@@ -62,7 +62,7 @@ function memoizeMethod(originalMethod: any, prop: string, hashFn: MemoHashFn) {
  * Note: be sure that you targeting memoized property or function.
  * Clear utility has no 100% check to prevent modifying incorrect (not memoized) property keys
  */
-memoize.clear = function (target: any, property: string) {
+memoize.clear = function (target: any, property: string): void {
   const desc = getPropertyDescriptor(target, property);
   if (!desc) return;
   if (typeof desc.get === 'function' && typeof (desc.get as any).clear === 'function') return (desc.get as any).clear();
@@ -71,7 +71,7 @@ memoize.clear = function (target: any, property: string) {
 };
 
 /** Check if property has cache for the passed params */
-memoize.has = function (target: any, property: string, ...params: any[]) {
+memoize.has = function (target: any, property: string, ...params: any[]): boolean {
   const desc = getPropertyDescriptor(target, property);
   if (!desc) return false;
   if (typeof desc.get === 'function' && typeof (desc.get as any).has === 'function') return (desc.get as any).has(...params);

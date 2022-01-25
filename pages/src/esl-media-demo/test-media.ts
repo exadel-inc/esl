@@ -31,16 +31,16 @@ class TestMediaControls extends HTMLElement {
   };
   public static ACTIONS_ALL = Object.keys(TestMediaControls.ACTIONS).join(',');
 
-  get target() {
+  get target(): HTMLElement[] {
     const targetSel = this.getAttribute('target');
     return targetSel ? Array.from(document.querySelectorAll(targetSel)) : [];
   }
 
-  get actions() {
+  get actions(): string {
     return this.getAttribute('actions') || TestMediaControls.ACTIONS_ALL;
   }
 
-  private render() {
+  private render(): void {
     const actionList = this.actions.split(',');
 
     this.innerHTML = '';
@@ -51,7 +51,7 @@ class TestMediaControls extends HTMLElement {
     }
   }
 
-  private onClick(e: Event) {
+  private onClick(e: Event): void {
     const target = e.target as HTMLElement;
     const actionName = target.dataset.action;
     if (actionName && TestMediaControls.ACTIONS[actionName]) {
@@ -61,13 +61,13 @@ class TestMediaControls extends HTMLElement {
     }
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     this.render();
     this.addEventListener('click', this.onClick.bind(this));
   }
 }
 
-function renderButton(actionName: string, action: TestMediaAction) {
+function renderButton(actionName: string, action: TestMediaAction): HTMLButtonElement {
   const btn = document.createElement('button');
   btn.className = 'btn btn-sec-blue';
   btn.dataset.action = actionName;

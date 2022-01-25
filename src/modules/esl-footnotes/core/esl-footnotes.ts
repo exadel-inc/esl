@@ -1,6 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {memoize} from '../../esl-utils/decorators/memoize';
+import {debounce} from '../../esl-utils/async/debounce';
 import {ESLBaseElement, attr} from '../../esl-base-element/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {EventUtils} from '../../esl-utils/dom/events';
@@ -26,11 +27,17 @@ export class ESLFootnotes extends ESLBaseElement {
   @attr({defaultValue: 'Back to note'}) public backToNoteLabel: string;
 
   protected _notes: ESLNote[] = [];
+  protected deferredOnUpdate = debounce(() => this._onUpdate(), 150);
 
   /** Scope element */
   @memoize()
   protected get scopeEl(): HTMLElement {
     return TraversingQuery.first(this.scopeTarget, this) as HTMLElement;
+  }
+
+  /** Notes that are allowed to be processed by footnotes */
+  public get notes(): ESLNote[] {
+    return this._notes.filter((note) => note.allowFootnotes);
   }
 
   /** List of notes to show */
@@ -41,20 +48,14 @@ export class ESLFootnotes extends ESLBaseElement {
       : compileFootnotesGroupedList(this._notes);
   }
 
-  /** Reindexes the list of notes */
-  public reindex(): void {
-    this._notes = sortFootnotes(this._notes);
-    this._notes.forEach((note, index) => note.index = index + 1);
-  }
-
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
 
     this.bindEvents();
     this._notifyNotes();
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
 
     this.unbindEvents();
@@ -85,15 +86,26 @@ export class ESLFootnotes extends ESLBaseElement {
     note.link(this, index);
   }
 
+  /** Reindexes the list of notes */
+  public reindex(): void {
+    this._sortNotes();
+    this.notes.forEach((note, index) => note.index = index + 1);
+  }
+
   /** Removes the note from the footnotes list */
   public unlinkNote(note: ESLNote): void {
     this._notes = this._notes.filter((el) => el !== note);
-    this.update();
+    this.deferredOnUpdate();
   }
 
   /** Updates the content of footnotes */
   public update(): void {
-    this.innerHTML = this.buildItems();
+    this.deferredOnUpdate();
+  }
+
+  /** Sorts list of notes */
+  protected _sortNotes(): void {
+    this._notes = sortFootnotes(this._notes);
   }
 
   /** Builds content of footnotes */
@@ -123,12 +135,18 @@ export class ESLFootnotes extends ESLBaseElement {
     return `<span class="esl-footnotes-back-to-note" tabindex="0" title="${this.backToNoteLabel}"></span>`;
   }
 
+  /** Actions on update footnotes */
+  @bind
+  protected _onUpdate(): void {
+    this.innerHTML = this.buildItems();
+  }
+
   /** Handles `response` event from note */
   @bind
   protected _onNoteSubscribe(e: CustomEvent): void {
     const note = e.target as ESLNote;
     this.linkNote(note);
-    this.update();
+    this.deferredOnUpdate();
 
     e.stopImmediatePropagation();
   }
@@ -153,7 +171,7 @@ export class ESLFootnotes extends ESLBaseElement {
   /** Actions on back-to-note click  */
   protected _onBackToNote(order: number[]): void {
     const index = order[order.length - 1];
-    this._notes.forEach((note) => {
+    this.notes.forEach((note) => {
       note.highlight(order.includes(note.index));
       if (note.index === index) {
         note.activate();
