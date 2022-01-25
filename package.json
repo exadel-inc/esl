@@ -1,8 +1,11 @@
 {
-  "name": "@exadel/esl",
+  "name": "esl",
   "version": "3.12.1",
-  "private": false,
+  "private": true,
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
+  "workspaces": [
+    "packages/*"
+  ],
   "license": "MIT",
   "homepage": "https://esl-ui.com/",
   "keywords": [
@@ -25,14 +28,6 @@
     "type": "git",
     "url": "git+https://github.com/exadel-inc/esl.git"
   },
-  "files": [
-    "modules/**/*",
-    "polyfills/**/*",
-    "tsconfig.json",
-    "CLA.md"
-  ],
-  "module": "modules/all.js",
-  "types": "modules/all.d.ts",
   "sideEffects": [
     "modules/lib.js",
     "src/modules/lib.ts",
@@ -70,7 +65,7 @@
     "lint:js": "eslint src/**/*.ts pages/src/**/*.ts --max-warnings 3",
     "lint:css": "stylelint src/**/*.less pages/src/**/*.less",
     "lint:spaces": "lintspaces ./pages/{src,views,controller}/**/*.{html,less,json} ./src/**/*.{less} -n -t -d spaces",
-    "prepare": "husky install && npm run build",
+    "prepare": "husky install",
     "preversion": "npm test"
   },
   "engines": {
@@ -84,7 +79,7 @@
   "devDependencies": {
     "@11ty/eleventy": "^1.0.0",
     "@commitlint/cli": "^16.0.2",
-    "@commitlint/config-conventional": "^16.0.0",
+    "@commitlint/config-conpmentional": "^16.0.0",
     "@juggle/resize-observer": "^3.3.1",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/commit-analyzer": "^9.0.2",
