@@ -3,7 +3,7 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {ready} from '../../esl-utils/decorators/ready';
 
 const setAttribute = ($el: HTMLElement, attrName: string, attrValue: string | null): void => {
-  if (attrValue) {
+  if (attrValue !== null) {
     $el.setAttribute(attrName, attrValue);
   } else {
     $el.removeAttribute(attrName);
@@ -24,8 +24,8 @@ export class ESLNoteGroup extends ESLBaseElement {
     return (this.constructor as typeof ESLNoteGroup).noteTag;
   }
 
-  /** Array of child elements */
-  public get childEls(): HTMLElement[] {
+  /** Array of child notes */
+  public get notes(): HTMLElement[] {
     return Array.from(this.querySelectorAll(this._childTagName));
   }
 
@@ -37,13 +37,14 @@ export class ESLNoteGroup extends ESLBaseElement {
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
-    this.childEls.forEach((el) => setAttribute(el, attrName, newVal));
+    this.notes.forEach((el) => setAttribute(el, attrName, newVal));
   }
 
   /** Propagates attributes values from the list to all child notes */
   protected propagateAttributes(): void {
-    this.childEls.forEach((el): void => {
-      (this.constructor as typeof ESLNoteGroup).observedAttributes.forEach((attrName) => {
+    const attrs = (this.constructor as typeof ESLNoteGroup).observedAttributes;
+    this.notes.forEach((el): void => {
+      attrs.forEach((attrName) => {
         const value = this.getAttribute(attrName);
         setAttribute(el, attrName, value);
       });
