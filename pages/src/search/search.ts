@@ -9,7 +9,10 @@ export class ESLDemoSearchPageWrapper extends ESLBaseElement {
   @ready
   protected connectedCallback(): void {
     loadSearchScript();
+    this.initSeatchScript();
+  }
 
+  private initSeatchScript(): void {
     (window as any).__gcse = {
       parsetags: 'onload',
       initializationCallback: (): void => this.afterSearchScriptLoad()

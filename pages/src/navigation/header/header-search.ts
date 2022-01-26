@@ -27,19 +27,22 @@ export class ESLDemoSearchBox extends ESLToggleable {
     this.onShowActions(params);
   }
 
-  private onShowActions(params: any): void {
+  private onShowActions(params: ToggleableActionParams): void {
     if (this.isSearchScriptLoaded) {
       this.showSearchElements(params);
     } else {
       loadSearchScript().then(() => {
         this.isSearchScriptLoaded = true;
-
-        (window as any).__gcse = {
-          parsetags: 'onload',
-          initializationCallback: (): void => this.showSearchElements(params)
-        };
+        this.initSearchScript(params);
       });
     }
+  }
+
+  private initSearchScript(params: ToggleableActionParams): void {
+    (window as any).__gcse = {
+      parsetags: 'onload',
+      initializationCallback: (): void => this.showSearchElements(params)
+    };
   }
 
   private showSearchElements(params: ToggleableActionParams): void {
