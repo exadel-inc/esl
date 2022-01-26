@@ -115,6 +115,8 @@ describe('Decorator: attr', () => {
     el.defNum = 44;
     expect(el.defNum).toBe(44);
     expect(el.getAttribute('def-num')).toBe('44');
+    expect(el.setAttribute('def-num', ''));
+    expect(el.defNum).toBe(0);
   });
 
   test('Decorator: attr - serializer ESLMediaQuery', () => {

@@ -1,5 +1,5 @@
 
-import {ESLMediaQuery} from '../../all';
+import {ESLMediaQuery} from '../../esl-media-query/core';
 import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/media-query-base';
 
 export type Serializer<T> = {
@@ -7,13 +7,13 @@ export type Serializer<T> = {
   serialize: (value: T) => string | boolean | null;
 };
 
-export const  toNumber: Serializer<number> = {
-  parse: (val: string): number => +val,
-  serialize: String,
+export const toNumber: Serializer<number> = {
+  parse: Number,
+  serialize: String
 };
 
-export const  toMediaQueryCondition: Serializer<IMediaQueryCondition> = {
+export const toMediaQueryCondition: Serializer<IMediaQueryCondition> = {
   parse: ESLMediaQuery.for,
-  serialize: String,
+  serialize: String
 };
 

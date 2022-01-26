@@ -13,7 +13,7 @@ type AttrDescriptor<T> = {
   /** Use data-* attribute */
   dataAttr?: boolean;
   /** Default property value. Used if no attribute is present on the element. Empty string by default. */
-  defaultValue?: T ;
+  defaultValue?: T;
   /** Serializer allows to edit atrebutate values*/
   serializer?: Serializer<T>;
 };
@@ -48,7 +48,7 @@ const buildAttrName =
  */
 
 export const attr = <T = string>(config: AttrDescriptor<T> = {}): PropertyDecorator => {
-  config = Object.assign({defaultValue: '', serializer : {parse: identity, serialize: identity}}, config);
+  config = Object.assign({defaultValue: '', serializer: {parse: identity, serialize: identity}}, config);
 
   return (target: ESLBaseElement, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
