@@ -14,6 +14,7 @@ import {getListScrollParents} from '../../esl-utils/dom/scroll';
 import {getWindowRect} from '../../esl-utils/dom/window';
 import {parseNumber} from '../../esl-utils/misc/format';
 import {calcPopupPosition, isMajorAxisHorizontal} from './esl-popup-position';
+import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
 import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
@@ -56,6 +57,7 @@ export class ESLPopup extends ESLToggleable {
   public static is = 'esl-popup';
 
   public $arrow: HTMLElement | null;
+  public $placeholder: ESLPopupPlaceholder | null;
 
   protected _offsetTrigger: number;
   protected _offsetContainer: number;
@@ -112,6 +114,7 @@ export class ESLPopup extends ESLToggleable {
   public connectedCallback(): void {
     super.connectedCallback();
     this.$arrow = this.querySelector('span.esl-popup-arrow');
+    this.moveToBody();
   }
 
   /** Checks that the position along the horizontal axis */
@@ -131,6 +134,20 @@ export class ESLPopup extends ESLToggleable {
   protected get _offsetArrowRatio(): number {
     const ratio = parsePercent(this.offsetArrow, DEFAULT_OFFSET_ARROW) / 100;
     return RTLUtils.isRtl(this) ? 1 - ratio : ratio;
+  }
+
+  /** Moves popup into document.body */
+  protected moveToBody(): void {
+    const {parentNode, $placeholder} = this;
+    if (!parentNode || parentNode === document.body) return;
+
+    // to be safe and prevent leaks
+    $placeholder && $placeholder.parentNode?.removeChild($placeholder);
+
+    // replace this with placeholder element
+    this.$placeholder = ESLPopupPlaceholder.from(this);
+    parentNode.replaceChild(this.$placeholder, this);
+    document.body.appendChild(this);
   }
 
   /**
