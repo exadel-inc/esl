@@ -127,16 +127,15 @@ export class ESLPopup extends ESLToggleable {
   /** Moves popup into document.body */
   protected moveToBody(): void {
     const {parentNode, $placeholder} = this;
-    if (parentNode && parentNode !== document.body) {
-      if ($placeholder) {
-        // to be safe and prevent leaks
-        $placeholder.parentNode?.removeChild($placeholder);
-      }
-      // replace this with placeholder element
-      this.$placeholder = ESLPopupPlaceholder.from(this);
-      parentNode.replaceChild(this.$placeholder, this);
-      document.body.appendChild(this);
-    }
+    if (!parentNode || parentNode === document.body) return;
+
+    // to be safe and prevent leaks
+    $placeholder && $placeholder.parentNode?.removeChild($placeholder);
+
+    // replace this with placeholder element
+    this.$placeholder = ESLPopupPlaceholder.from(this);
+    parentNode.replaceChild(this.$placeholder, this);
+    document.body.appendChild(this);
   }
 
   /**
