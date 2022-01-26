@@ -32,6 +32,7 @@ export class UIPStateModel extends Observable {
   private _html = new DOMParser().parseFromString('', 'text/html').body;
   /** Last {@link UIPPlugin} element which changed markup. */
   private _lastModifier: UIPPlugin;
+  private _isFired = false;
 
   /**
    * Set current markup state to the passed one.
@@ -44,7 +45,7 @@ export class UIPStateModel extends Observable {
     if (!root || root.innerHTML !== this.html) {
       this._html = root;
       this._lastModifier = modifier;
-      Promise.resolve().then(() => this.fire());
+      this.promisifiedFiring();
     }
   }
 
@@ -52,7 +53,7 @@ export class UIPStateModel extends Observable {
     return this._html ? this._html.innerHTML : '';
   }
 
-  public get lastModifier() {
+  public get lastModifier(): UIPPlugin {
     return this._lastModifier;
   }
 
@@ -74,7 +75,17 @@ export class UIPStateModel extends Observable {
 
     UIPStateModel.setAttribute(elements, attribute, 'transform' in cfg ? cfg.transform : cfg.value);
     this._lastModifier = modifier;
-    Promise.resolve().then(() => this.fire());
+    this.promisifiedFiring();
+  }
+
+  protected promisifiedFiring() {
+    if (!this._isFired) {
+      this._isFired = true;
+      Promise.resolve().then(() => {
+        this.fire();
+        this._isFired = false;
+      });
+    }
   }
 
   protected static setAttribute(elements: Element[], attr: string, transform: TransformSignature | string | boolean) {
