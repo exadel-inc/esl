@@ -1,3 +1,19 @@
+# [3.13.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.2...v3.13.0-beta.3) (2022-01-26)
+
+
+### Features
+
+* **esl-footnotes:** add activate timeout ([c91d4e8](https://github.com/exadel-inc/esl/commit/c91d4e83a53726c14b4018b391e0e907ef615c7b))
+* **esl-footnotes:** add container attribute to esl-note-group ([621ab2e](https://github.com/exadel-inc/esl/commit/621ab2e97ff7dc12dd6d534aef0cb8afe72329d5))
+* **esl-footnotes:** add container attribute to set up bounds of visibility ([f420ac6](https://github.com/exadel-inc/esl/commit/f420ac6c61439de75478e28a69a12ad66f98dfc5))
+* **esl-popup:** add container attribute to set up bounds of visibility ([5ae9238](https://github.com/exadel-inc/esl/commit/5ae92386d0f9a336d65c6be48080548174eda9e0))
+* **esl-popup:** add the ability to esl-popup to move into body in case when it is not in body ([13d3733](https://github.com/exadel-inc/esl/commit/13d3733b4012ef8958af3e823719c4b150985272))
+* **esl-popup:** create esl-popup-proxy component ([ee27f90](https://github.com/exadel-inc/esl/commit/ee27f90506910d77c9dc794205cf9bfe7652c413))
+* **esl-toggleable:** create esl-toggleable-proxy element ([d0fb90e](https://github.com/exadel-inc/esl/commit/d0fb90e6397b5e1eb1ad19fbf541c3791980d5ec))
+* **esl-trigger:** add the ability for the target to get origin from proxied element ([523752a](https://github.com/exadel-inc/esl/commit/523752a394918fdcccba001a7e182d6639a87afc))
+* rename elements from *-proxy to *-placeholder ([b98fe34](https://github.com/exadel-inc/esl/commit/b98fe345d9e86aae58160b9e01d5dfe137747b55))
+* update husky ([d15499d](https://github.com/exadel-inc/esl/commit/d15499db4026437ea26c70084e740d822e17bf35))
+
 # [3.13.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.1...v3.13.0-beta.2) (2022-01-18)
 
 
