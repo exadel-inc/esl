@@ -3,6 +3,7 @@ import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {ESLTooltip} from '../../esl-tooltip/core';
+import {promisifyTimeout} from '../../esl-utils/async/promise';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {scrollIntoView} from '../../esl-utils/dom/scroll';
@@ -16,6 +17,9 @@ import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
   static is = 'esl-note';
+
+  /** Timeout before activating note (to have time to show content with this note) */
+  static readonly activateTimeout = 150;
 
   static get observedAttributes(): string[] {
     return ['tooltip-shown', 'ignore-footnotes'];
@@ -133,7 +137,10 @@ export class ESLNote extends ESLBaseElement {
       this.hideTooltip();
     }
     EventUtils.dispatch(this, 'esl:show:request');
-    scrollIntoView(this, {behavior: 'smooth', block: 'nearest'}).then(() => this.showTooltip());
+    // TODO: replace timeout with a more reliable mechanism to have time to show content with this note
+    promisifyTimeout((this.constructor as typeof ESLNote).activateTimeout)
+      .then(() => scrollIntoView(this, {behavior: 'smooth', block: 'center'}))
+      .then(() => this.showTooltip());
   }
 
   /** Highlights note */
