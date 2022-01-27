@@ -59,7 +59,6 @@ ESLVSizeCSSProxy.observe();
 ESLDemoSidebar.register();
 ESLDemoMarquee.register();
 ESLDemoSearchBox.register();
-ESLDemoSearchBox.register();
 ESLDemoSearchPageWrapper.register();
 
 // Register ESL Components
