@@ -29,6 +29,7 @@ export class UIPSettings extends UIPPlugin {
     super.connectedCallback();
     this.bindEvents();
     this.updateInner();
+    this.root && this.toggleSettings(this.root.settings);
   }
 
   /** Initialize settings layout. */
@@ -76,7 +77,11 @@ export class UIPSettings extends UIPPlugin {
   @bind
   protected _onRootConfigChange(e: CustomEvent) {
     if (e.detail.attribute !== 'settings') return false;
-    e.detail.value === 'collapsed'
+    this.toggleSettings(e.detail.value);
+  }
+
+  protected toggleSettings(value: string): void {
+    value === 'collapsed'
       ? this.classList.add('collapsed')
       : this.classList.remove('collapsed');
   }

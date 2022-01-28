@@ -32,12 +32,6 @@
           transition: transform .3s ease-in-out;
         }
 
-        &.open {
-          &::before {
-            transform: rotateX(180deg);
-          }
-        }
-
         &:hover {
           .snippets-dropdown-title {
             opacity: .7;
@@ -54,13 +48,6 @@
         visibility: hidden;
         border: 1px solid @section-border;
         transition: max-height .3s ease-in-out, visibility 0s .25s, box-shadow .3s ease-in-out;
-
-        &.open {
-          max-height: 150px;
-          visibility: visible;
-          box-shadow: 0 4px 6px 0 rgb(0 0 0 / 20%);
-          transition: max-height .3s ease-in-out, visibility 0s;
-        }
       }
     }
 
@@ -89,7 +76,20 @@
     }
   }
 
-  &.hide-snippets {
-    display: none;
+  &.dropdown-open {
+    .snippets-dropdown {
+      &-control {
+        &::before {
+          transform: rotateX(180deg);
+        }
+      }
+
+      &-wrapper {
+        max-height: 150px;
+        visibility: visible;
+        box-shadow: 0 4px 6px 0 rgb(0 0 0 / 20%);
+        transition: max-height .3s ease-in-out, visibility 0s;
+      }
+    }
   }
 }

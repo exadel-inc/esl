@@ -8,16 +8,22 @@ import {UIPPlugin} from '../base/plugin';
  */
 export class UIPSnippets extends UIPPlugin {
   public static is = 'uip-snippets';
+  /** CSS Class for snippets list. */
+  public static LIST = 'snippets-list';
+/** CSS Class for snippets list item. */
+  public static LIST_ITEM = 'snippets-list-item';
   /** CSS Class added to active snippet. */
-  public static ACTIVE_CLASS = 'active';
-  /** CSS Class for snippets list items. */
-  public static ITEM_CLASS = 'snippets-list-item';
-  /** CSS query for dropdown control. */
-  public static DROPDOWN_CTRL = '.snippets-dropdown-control';
-  /** CSS qurty for dropdown wrapper */
-  public static DROPDOWN_WRAPPER = '.snippets-dropdown-wrapper';
+  public static ACTIVE_ITEM = 'active';
+/** CSS Class for snippets dropdown. */
+  public static DROPDOWN = 'snippets-dropdown';
+/** CSS Class for snippets title. */
+  public static TITLE = 'snippets-title';
+  /** CSS Class for dropdown control. */
+  public static DROPDOWN_CTRL = 'snippets-dropdown-control';
+  /** CSS Class for dropdown wrapper. */
+  public static DROPDOWN_WRAPPER = 'snippets-dropdown-wrapper';
   /** Index of current snippet list item*/
-  public static currentIndex = 0;
+  public currentIndex = 0;
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -25,7 +31,7 @@ export class UIPSnippets extends UIPPlugin {
     this.bindEvents();
 
     if (this.model) {
-      this.model.applySnippet(this.model.snippets[UIPSnippets.currentIndex], this);
+      this.model.applySnippet(this.model.snippets[this.currentIndex], this);
       this.updateTitleText(this.model.activeSnippet);
     }
     // Initial update
@@ -38,26 +44,26 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   protected bindEvents() {
-    this.querySelector('.snippets-list')?.addEventListener('click', this._onListClick);
-    this.querySelector(UIPSnippets.DROPDOWN_CTRL)?.addEventListener('click', this._onDropdownClick);
+    this.querySelector(`.${UIPSnippets.LIST}`)?.addEventListener('click', this._onListClick);
+    this.querySelector(`.${UIPSnippets.DROPDOWN_CTRL}`)?.addEventListener('click', this._onDropdownClick);
   }
 
   protected unbindEvents() {
-    this.querySelector('.snippets-list')?.removeEventListener('click', this._onListClick);
-    this.querySelector(UIPSnippets.DROPDOWN_CTRL)?.removeEventListener('click', this._onDropdownClick);
+    this.querySelector(`.${UIPSnippets.LIST}`)?.removeEventListener('click', this._onListClick);
+    this.querySelector(`.${UIPSnippets.DROPDOWN_CTRL}`)?.removeEventListener('click', this._onDropdownClick);
   }
 
   @memoize()
   public get $items(): HTMLElement[] {
-    const items = this.querySelectorAll(`.${UIPSnippets.ITEM_CLASS}`);
+    const items = this.querySelectorAll(`.${UIPSnippets.LIST_ITEM}`);
     return Array.from(items) as HTMLElement[];
   }
 
   public get $active(): HTMLElement | null {
-    return this.$items.find(item => item.classList.contains(UIPSnippets.ACTIVE_CLASS)) || null;
+    return this.$items.find(item => item.classList.contains(UIPSnippets.ACTIVE_ITEM)) || null;
   }
   public set $active(snippet: HTMLElement | null) {
-    this.$items.forEach((item) => item.classList.toggle(UIPSnippets.ACTIVE_CLASS, snippet === item));
+    this.$items.forEach((item) => item.classList.toggle(UIPSnippets.ACTIVE_ITEM, snippet === item));
   }
 
   @memoize()
@@ -72,7 +78,7 @@ export class UIPSnippets extends UIPPlugin {
     const snippets = this.model!.snippets;
     if (!snippets.length) return;
     const $title = document.createElement('span');
-    $title.className = 'snippets-title';
+    $title.className = UIPSnippets.TITLE;
 
     snippets.length > 1
       ? this.renderDropdown(snippets, $title)
@@ -81,13 +87,13 @@ export class UIPSnippets extends UIPPlugin {
 
   protected renderDropdown(snippets: HTMLTemplateElement[], title: HTMLElement) {
     const $dropdown = document.createElement('div');
-    $dropdown.className = 'snippets-dropdown';
+    $dropdown.className = UIPSnippets.DROPDOWN;
     const $control = document.createElement('div');
-    $control.className = 'snippets-dropdown-control';
+    $control.className = UIPSnippets.DROPDOWN_CTRL;
     const $content = document.createElement('div');
-    $content.className = 'snippets-dropdown-wrapper';
+    $content.className = UIPSnippets.DROPDOWN_WRAPPER;
     const $ul = document.createElement('ul');
-    $ul.className = 'snippets-list esl-scrollable-content';
+    $ul.className = `${UIPSnippets.LIST} esl-scrollable-content`;
 
     Array.from(snippets)
       .map((snippet: HTMLTemplateElement) => this.buildListItem(snippet))
@@ -107,13 +113,13 @@ export class UIPSnippets extends UIPPlugin {
     if (!label) return;
 
     const $li = document.createElement('li');
-    $li.classList.add(UIPSnippets.ITEM_CLASS);
+    $li.classList.add(UIPSnippets.LIST_ITEM);
     $li.textContent = label;
     return $li;
   }
 
   protected updateTitleText(snippet: HTMLTemplateElement) {
-    const titleText = this.querySelector('.snippets-title') as HTMLElement;
+    const titleText = this.querySelector(`.${UIPSnippets.TITLE}`) as HTMLElement;
     titleText.textContent = `${snippet.getAttribute('label')}`;
   }
 
@@ -125,10 +131,10 @@ export class UIPSnippets extends UIPPlugin {
 
     this.toggleDropdown();
 
-    if (UIPSnippets.currentIndex !== index && index >= 0 && this.model) {
+    if (this.currentIndex !== index && this.model) {
       this.model.applySnippet(this.model.snippets[index], this);
       this.$active = target;
-      UIPSnippets.currentIndex = index;
+      this.currentIndex = index;
       this.updateTitleText(this.model.activeSnippet);
     }
   }
@@ -138,13 +144,9 @@ export class UIPSnippets extends UIPPlugin {
     this.toggleDropdown();
   }
 
-  toggleDropdown() {
-    this.querySelector(UIPSnippets.DROPDOWN_WRAPPER)?.classList.contains('open')
-      ? this.querySelector(UIPSnippets.DROPDOWN_WRAPPER)?.classList.remove('open')
-      : this.querySelector(UIPSnippets.DROPDOWN_WRAPPER)?.classList.add('open');
-
-    this.querySelector(UIPSnippets.DROPDOWN_CTRL)?.classList.contains('open')
-      ? this.querySelector(UIPSnippets.DROPDOWN_CTRL)?.classList.remove('open')
-      : this.querySelector(UIPSnippets.DROPDOWN_CTRL)?.classList.add('open');
+  toggleDropdown(): void {
+    this.classList.contains('dropdown-open')
+      ? this.classList.remove('dropdown-open')
+      : this.classList.add('dropdown-open');
   }
 }

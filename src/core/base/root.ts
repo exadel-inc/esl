@@ -47,8 +47,10 @@ export class UIPRoot extends ESLBaseElement {
   protected connectedCallback() {
     super.connectedCallback();
     this.theme = String(this.theme);
+    this.settings = String(this.settings);
+    this.editor = String(this.editor);
     this.direction = String(this.direction);
-    this._model.registerSnippets(this.$snippets);
+    this._model.snippets = this.$snippets;
   }
 
   protected disconnectedCallback() {
@@ -85,7 +87,6 @@ export class UIPRoot extends ESLBaseElement {
   }
 
   public get $snippets(): HTMLTemplateElement[] {
-    const snippets = this.querySelectorAll(UIPRoot.SNIPPET_SEL);
-    return Array.from(snippets) as HTMLTemplateElement[];
+    return Array.from(this.querySelectorAll(UIPRoot.SNIPPET_SEL));
   }
 }

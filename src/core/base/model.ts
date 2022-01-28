@@ -55,20 +55,20 @@ export class UIPStateModel extends Observable {
     return this._html ? this._html.innerHTML : '';
   }
 
-  public get lastModifier() {
+  public get lastModifier(): UIPPlugin {
     return this._lastModifier;
   }
 
-  public get snippets() {
+  public get snippets(): HTMLTemplateElement[] {
     return this._snippets;
   }
 
-  public get activeSnippet() {
-    return this._activeSnippet;
+  public set snippets(snippets: HTMLTemplateElement[]) {
+    this._snippets = snippets;
   }
 
-  public registerSnippets(snippets: HTMLTemplateElement[]) {
-    this._snippets = snippets;
+  public get activeSnippet(): HTMLTemplateElement {
+    return this._activeSnippet;
   }
 
   public applySnippet(snippet: HTMLTemplateElement, modifier: UIPPlugin) {
