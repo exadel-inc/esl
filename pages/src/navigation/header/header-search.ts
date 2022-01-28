@@ -1,12 +1,11 @@
 import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
 import {CSSClassUtils} from '../../../../src/modules/esl-utils/dom/class';
 import {afterNextRender} from '../../../../src/modules/esl-utils/async/raf';
-import {memoizeFn} from '../../../../src/modules/esl-utils/misc/memoize';
 import {parseNumber} from '../../../../src/modules/esl-utils/misc/format';
 import {attr, boolAttr} from '../../../../src/modules/esl-base-element/core';
 import {TraversingQuery} from '../../../../src/modules/esl-traversing-query/core';
 import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core';
-import {loadSearchScript} from '../../search/search-script';
+import {requestGss} from '../../search/search-script';
 
 import type {ToggleableActionParams} from '../../../../src/modules/esl-toggleable/core';
 
@@ -21,11 +20,9 @@ export class ESLDemoSearchBox extends ESLToggleable {
 
   @prop() public closeOnOutsideAction = true;
 
-  memoizeSearchScript = memoizeFn(() => loadSearchScript());
-
   public onShow(params: ToggleableActionParams): void {
     CSSClassUtils.add(this, this.postCls);
-    this.memoizeSearchScript().then(() => this.showSearchElements(params));
+    requestGss().then(() => this.showSearchElements(params));
   }
 
   private showSearchElements(params: ToggleableActionParams): void {
