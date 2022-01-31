@@ -16,9 +16,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
 
     const slideWidth = parseFloat(slidesAreaStyles.width) - parseFloat(slideStyles.marginLeft) - parseFloat(slideStyles.marginRight);
 
-    $slides.forEach((slide) => {
-      slide.style.minWidth = slideWidth + 'px';
-    });
+    $slides.forEach((slide) => slide.style.minWidth = slideWidth + 'px');
   }
 
   public async onBeforeAnimate(index: number, direction: CarouselDirection): Promise<void> {
