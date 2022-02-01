@@ -45,6 +45,8 @@ export interface PopupActionParams extends ToggleableActionParams {
   offsetContainer?: number;
   /** Target to container element to define bounds of popups visibility */
   container?: string;
+  /** Container element that defines bounds of popups visibility (is not taken into account if the container attr is set on popup) */
+  containerEl?: HTMLElement;
 }
 
 export interface ActivatorObserver {
@@ -59,6 +61,7 @@ export class ESLPopup extends ESLToggleable {
   public $arrow: HTMLElement | null;
   public $placeholder: ESLPopupPlaceholder | null;
 
+  protected _containerEl?: HTMLElement;
   protected _offsetTrigger: number;
   protected _offsetContainer: number;
   protected _deferredUpdatePosition = rafDecorator(() => this._updatePosition());
@@ -106,8 +109,8 @@ export class ESLPopup extends ESLToggleable {
 
   /** Container element that define bounds of popups visibility */
   @memoize()
-  protected get $container(): HTMLElement | null {
-    return this.container ? TraversingQuery.first(this.container, this) as HTMLElement : null;
+  protected get $container(): HTMLElement | undefined {
+    return this.container ? TraversingQuery.first(this.container, this) as HTMLElement : this._containerEl;
   }
 
   @ready
@@ -176,6 +179,7 @@ export class ESLPopup extends ESLToggleable {
     if (params.container) {
       this.container = params.container;
     }
+    this._containerEl = params.containerEl;
     this._offsetTrigger = params.offsetTrigger || 0;
     this._offsetContainer = params.offsetContainer || 0;
 
