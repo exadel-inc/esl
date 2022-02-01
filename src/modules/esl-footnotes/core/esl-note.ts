@@ -11,7 +11,8 @@ import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLFootnotes} from './esl-footnotes';
 
-import type {ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
+import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
+
 
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
@@ -46,6 +47,9 @@ export class ESLNote extends ESLBaseElement {
   @attr({defaultValue: 'all'}) public trackClick: string;
   /** Hover event tracking media query. Default: `all` */
   @attr({defaultValue: 'all'}) public trackHover: string;
+
+  /** Target to container element {@link TraversingQuery} to define bounds of tooltip visibility (window by default) */
+  @attr() public container: string;
 
   protected _$footnotes: ESLFootnotes | null;
   protected _index: number;
@@ -178,16 +182,17 @@ export class ESLNote extends ESLBaseElement {
   }
 
   /** Merge params to pass to the toggleable */
-  protected mergeToggleableParams(this: ESLNote, ...params: ToggleableActionParams[]): ToggleableActionParams {
+  protected mergeToggleableParams(this: ESLNote, ...params: TooltipActionParams[]): TooltipActionParams {
     return Object.assign({
       initiator: 'note',
       activator: this,
+      container: this.container,
       html: this.html
     }, ...params);
   }
 
   /** Shows tooltip with passed params */
-  public showTooltip(params: ToggleableActionParams = {}): void {
+  public showTooltip(params: TooltipActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
     }, params);
     if (ESLTooltip.open) {
@@ -197,13 +202,13 @@ export class ESLNote extends ESLBaseElement {
     this.highlight();
   }
   /** Hides tooltip with passed params */
-  public hideTooltip(params: ToggleableActionParams = {}): void {
+  public hideTooltip(params: TooltipActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
     }, params);
     ESLTooltip.hide(actionParams);
   }
   /** Toggles tooltip with passed params */
-  public toggleTooltip(params: ToggleableActionParams = {}, state: boolean = !this.tooltipShown): void {
+  public toggleTooltip(params: TooltipActionParams = {}, state: boolean = !this.tooltipShown): void {
     state ? this.showTooltip(params) : this.hideTooltip(params);
   }
 
