@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl",
-  "version": "3.13.0-beta.2",
+  "version": "3.13.0-beta.3",
   "private": false,
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
@@ -78,7 +78,7 @@
   },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.6",
-    "@types/video.js": "7.3.29",
+    "@types/video.js": "7.3.30",
     "@types/youtube": "0.0.46"
   },
   "devDependencies": {
