@@ -113,6 +113,14 @@ export class ESLPopup extends ESLToggleable {
     return this.container ? TraversingQuery.first(this.container, this) as HTMLElement : this._containerEl;
   }
 
+  /** Get the size and position of the container */
+  protected get containerRect(): Rect {
+    const {$container} = this;
+    if (!$container) return getWindowRect();
+    const containerRect = $container.getBoundingClientRect();
+    return new Rect(containerRect.left, containerRect.top + window.pageYOffset, containerRect.width, containerRect.height);
+  }
+
   @ready
   public connectedCallback(): void {
     super.connectedCallback();
@@ -363,7 +371,6 @@ export class ESLPopup extends ESLToggleable {
     const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new Rect();
     const trigger = new Rect(triggerRect.left, triggerRect.top + window.pageYOffset, triggerRect.width, triggerRect.height);
     const innerMargin = this._offsetTrigger + arrowRect.width / 2;
-    const containerRect = this.$container ? Rect.from(this.$container.getBoundingClientRect()) : getWindowRect();
 
     const config = {
       position: this.position,
@@ -375,7 +382,7 @@ export class ESLPopup extends ESLToggleable {
       element: popupRect,
       trigger,
       inner: Rect.from(trigger).grow(innerMargin),
-      outer: containerRect.shrink(this._offsetContainer)
+      outer: this.containerRect.shrink(this._offsetContainer)
     };
 
     const {placedAt, popup, arrow} = calcPopupPosition(config);
