@@ -10,6 +10,7 @@ aside:
     - esl-footnotes
     - esl-popup
 ---
+{% import 'lorem.njk' as lorem %}
 
 <section class="row">
   <div class="col-12">
@@ -119,6 +120,7 @@ aside:
           </esl-trigger>
           <esl-panel class="esl-d-accordion-panel">
             <div class="esl-d-accordion-body">
+              {{ lorem.paragraphs(7) }}
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>I am note 3 from accordion</esl-note> aliqua. Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo <esl-note>I am note 4 from accordion</esl-note> quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.</p>
             </div>
           </esl-panel>
@@ -168,19 +170,22 @@ aside:
                         mode-cls-target="::parent">
           <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
             <div class="esl-d-tab-body">
+              {{ lorem.paragraphs(14) }}
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor <esl-note>I am note 1 from tabs</esl-note> incididunt ut labore aliqua. Donec massa sapien faucibus <esl-note>I am note 2 from tabs</esl-note> et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.</p>
             </div>
           </esl-panel>
           <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
             <div class="esl-d-tab-body">
-              <p>Auctor neque vitae tempus quam. In mollis nunc sed id semper risus in hendrerit gravida. Nulla pharetra diam sit amet. Id neque aliquam vestibulum morbi blandit cursus risus at. Amet commodo nulla facilisi nullam vehicula. Magna ac placerat vestibulum lectus. Adipiscing at in tellus integer feugiat scelerisque.</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>I am note 3 from tabs</esl-note> aliqua. Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus <esl-note>I am note 4 from tabs</esl-note> sit amet luctus venenatis lectus magna.</p>
+              <p>Auctor neque vitae tempus quam. In mollis nunc sed id semper risus in hendrerit gravida. Nulla <esl-note>I am note 3 from tabs</esl-note> pharetra diam sit amet. Id neque aliquam vestibulum morbi blandit cursus risus at. Amet commodo nulla facilisi nullam vehicula. Magna ac placerat vestibulum lectus. Adipiscing at in tellus integer feugiat scelerisque.</p>
+              {{ lorem.paragraphs(7) }}
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore aliqua. Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus <esl-note>I am note 4 from tabs</esl-note> sit amet luctus venenatis lectus magna.</p>
             </div>
           </esl-panel>
           <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
             <div class="esl-d-tab-body">
-              <p>Nam libero justo laoreet sit amet cursus. Nibh ipsum consequat nisl vel pretium. Elit sed vulputate mi sit amet. Urna condimentum mattis pellentesque id. Non nisi est sit amet facilisis magna etiam tempor. Arcu risus quis varius quam quisque. At auctor urna nunc id cursus metus aliquam eleifend. Dignissim suspendisse in est ante in nibh mauris cursus mattis. Phasellus vestibulum lorem sed risus ultricies tristique nulla. Cursus risus at ultrices mi tempus imperdiet nulla malesuada. Ultrices dui sapien eget mi proin sed libero. Quis risus sed vulputate odio ut enim. Morbi tristique senectus et netus. Tellus mauris a diam maecenas sed enim ut. Id leo in vitae turpis massa sed.</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <esl-note>I am note 5 from tabs</esl-note> aliqua. Donec massa sapien faucibus <esl-note>I am note 6 from tabs</esl-note> et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.</p>
+              <p>Nam libero justo laoreet sit amet cursus. Nibh ipsum consequat nisl vel pretium. Elit sed vulputate mi sit amet. Urna condimentum <esl-note>I am note 5 from tabs</esl-note> mattis pellentesque id. Non nisi est sit amet facilisis magna etiam tempor. Arcu risus quis varius quam quisque. At auctor urna nunc id cursus metus aliquam eleifend. Dignissim suspendisse in est ante in nibh mauris cursus mattis. Phasellus vestibulum lorem sed risus ultricies tristique nulla. Cursus risus at ultrices mi tempus imperdiet nulla malesuada. Ultrices dui sapien eget mi proin sed libero. Quis risus sed vulputate odio ut enim. Morbi tristique senectus et netus. Tellus mauris a diam maecenas sed enim ut. Id leo in vitae turpis massa sed.</p>
+              {{ lorem.paragraphs(15) }}
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore aliqua. Donec massa sapien faucibus <esl-note>I am note 6 from tabs</esl-note> et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.</p>
             </div>
           </esl-panel>
         </esl-panel-group>
