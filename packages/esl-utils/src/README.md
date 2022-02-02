@@ -1,10 +1,10 @@
-# [ESL](https://esl-ui.com/) Utils
+# [ESL](../../../../) Utils
 
 <a name="intro"></a>
 
 ESL Utils is a module that contains a set of common utilities for working with DOM, BOM and other simple but handy things that are used by ESL components, but can also be used in client code.
 
-All ESL Utils helpers are super simple and atomic, be sure that none of the utilities requires the whole library. 
+All ESL Utils helpers are super simple and atomic, be sure that none of the utilities requires the whole library.
 Even if you use the whole utils module, it is still tiny.
 
 ---
@@ -13,27 +13,27 @@ Even if you use the whole utils module, it is still tiny.
 
 - #### Abstract
 
-  - ##### <a href="./abstract/observable.ts" target="_blank">Observable</a> - a small base class that implements observable pattern. 
+  - ##### <a href="./abstract/observable.ts" target="_blank">Observable</a> - a small base class that implements observable pattern.
 
 
 - #### Async
-  
+
   - ##### <a href="./async/aggregate.ts" target="_blank">Aggregate</a> - a throttle function decorator with aggregation.
-    Limits decorated function calls to one call in passed `time`. The decorated function `callback` will be called once 
+    Limits decorated function calls to one call in passed `time`. The decorated function `callback` will be called once
     at the end of the timeout with the list of the first arguments in the calls.
 
   - ##### <a href="./async/debounce.ts" target="_blank">Debounce</a> - a debounce function decorator.
     Debouncing is a pattern commonly used for rate limiting function calls with a timeout.
 
   - ##### <a href="./async/delayed-task.ts" target="_blank">Delayed Task</a> - a common helper to plan task (function) to be executed with or without a timeout.
-    New task planning request cancels the previous task in a DelayedTask instance in case it has not happened yet. 
+    New task planning request cancels the previous task in a DelayedTask instance in case it has not happened yet.
 
   - ##### <a href="./async/promise.ts" target="_blank">Promise Utils</a> - a set of Promise helpers.
-    Allows converting DOM Events, timeouts, pooling check, etc. to ES6 Promise or create a Deferred object 
+    Allows converting DOM Events, timeouts, pooling check, etc. to ES6 Promise or create a Deferred object
     that allows to resolve or reject related Promise.
 
   - ##### <a href="./async/raf.ts" target="_blank">RAF(Rendering callback) Utils</a> - Request Animation Frame common helpers.
-    Includes RAF Decorator that postpones multiple function calls to a single one before rendering. 
+    Includes RAF Decorator that postpones multiple function calls to a single one before rendering.
     Also includes `afterNextRender` deferring function.
 
   - ##### <a href="./async/throttle.ts" target="_blank">Throttle</a> - a throttling function decorator.
@@ -48,15 +48,15 @@ Even if you use the whole utils module, it is still tiny.
 
     - ##### <a href="./decorators/prop.ts" target="_blank">@prop</a> - a TS decorator to define a field on the prototype level.
 
-    - ##### <a href="./decorators/ready.ts" target="_blank">@ready</a> - a TS decorator to postpone method execution until DOM is ready 
+    - ##### <a href="./decorators/ready.ts" target="_blank">@ready</a> - a TS decorator to postpone method execution until DOM is ready
       See `esl-utils.dom.ready#onDocumentReady` utility function for details
 
 - #### DOM Helpers
 
     - ##### <a href="./dom/api.ts" target="_blank">DOM API Utils</a> - a basic dom api helpers.
 
-    - ##### <a href="./dom/class.ts" target="_blank">CSSClass</a> - a utility to work with CSS classes. 
-      Supports JQuery-like enumeration, inversion syntax and locks.  
+    - ##### <a href="./dom/class.ts" target="_blank">CSSClass</a> - a utility to work with CSS classes.
+      Supports JQuery-like enumeration, inversion syntax and locks.
 
     - ##### <a href="./dom/focus.ts" target="_blank">Focus</a> - a focus order helpers.
 
@@ -67,33 +67,33 @@ Even if you use the whole utils module, it is still tiny.
     - ##### <a href="./dom/rect.ts" target="_blank">Rect</a> - a rectangle utility class to provide position calculations.
 
     - ##### <a href="./dom/rtl.ts" target="_blank">RTL Utils</a> - Utils to detect RTL and RTL-specific browsers behavior.
-  
+
     - ##### <a href="./dom/script.ts" target="_blank">Scripts</a> - a script loading utility to limit and track loading.
-  
-    - ##### <a href="./dom/scroll.ts" target="_blank">Scroll</a> - a scroll utility methods like locking, traversing for closest scrollable, etc. 
+
+    - ##### <a href="./dom/scroll.ts" target="_blank">Scroll</a> - a scroll utility methods like locking, traversing for closest scrollable, etc.
       *Note: uses <a href="./dom/scroll.less" target="_blank">scroll.less</a> styles.*
-  
+
     - ##### <a href="./dom/traversing.ts" target="_blank">DOM Traversing</a> - a set of utils to find DOM elements or check their relations.
 
     - ##### <a href="./dom/window.ts" target="_blank">Window</a> - a browser window object utils.
-  
+
 - #### Environment
-  
+
     - ##### <a href="./environment/device-detector.ts" target="_blank">Device Detector</a> - a set of user agent based checks such as engine or device type.
 
 - #### Miscellaneous Utils
 
     - ##### <a href="./misc/array.ts" target="_blank">Array</a> - an array utils (uniq, flat, wrap, etc.).
-  
+
     - ##### <a href="./misc/set.ts" target="_blank">Set</a> - a set or an array with uniq values utils.
 
     - ##### <a href="./misc/format.ts" target="_blank">Format</a> - string format utils.
-  
+
     - ##### <a href="./misc/functions.ts" target="_blank">Function</a> - simple functions and types.
-  
-    - ##### <a href="./misc/memoize.ts" target="_blank">Memoize</a> - a memoization function decorator. 
+
+    - ##### <a href="./misc/memoize.ts" target="_blank">Memoize</a> - a memoization function decorator.
       Memoization patten allows executing pure function once and then uses the cached result.
-  
+
     - ##### <a href="./misc/object.ts" target="_blank">Object</a> - object common utils.
-  
+
     - ##### <a href="./misc/uid.ts" target="_blank">UID</a> - unique identifier generation utils.
