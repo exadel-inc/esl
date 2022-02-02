@@ -1,5 +1,6 @@
 import {toKebabCase} from '../../esl-utils/misc/format';
 import type {ESLBaseElement} from '../core/esl-base-element';
+import type {ESLMixinElement} from '../core/esl-mixin-element';
 
 /** HTML attribute mapping configuration */
 type AttrDescriptor = {
@@ -40,7 +41,7 @@ const buildAttrName =
  */
 export const attr = (config: AttrDescriptor = {}): PropertyDecorator => {
   config = Object.assign({defaultValue: ''}, config);
-  return (target: ESLBaseElement, propName: string): void => {
+  return (target: ESLBaseElement | ESLMixinElement, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildSimpleDescriptor(attrName, !!config.readonly, config.defaultValue));
   };

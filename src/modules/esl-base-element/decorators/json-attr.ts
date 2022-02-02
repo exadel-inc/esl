@@ -1,5 +1,6 @@
 import {toKebabCase, evaluate} from '../../esl-utils/misc/format';
 import type {ESLBaseElement} from '../core/esl-base-element';
+import type {ESLMixinElement} from '../core/esl-mixin-element';
 
 /** HTML attribute to object property mapping configuration */
 interface JsonAttrDescriptor<T> {
@@ -48,7 +49,7 @@ const buildAttrName =
  */
 export const jsonAttr = <T>(config: JsonAttrDescriptor<T> = {}): PropertyDecorator => {
   config = Object.assign({defaultValue: {}}, config);
-  return (target: ESLBaseElement, propName: string): void => {
+  return (target: ESLBaseElement | ESLMixinElement, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildJsonAttrDescriptor(attrName, !!config.readonly, config.defaultValue));
   };

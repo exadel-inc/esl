@@ -1,5 +1,6 @@
 import {toKebabCase} from '../../esl-utils/misc/format';
 import type {ESLBaseElement} from '../core/esl-base-element';
+import type {ESLMixinElement} from '../core/esl-mixin-element';
 
 /** HTML boolean (marker) attribute mapping configuration */
 type BoolAttrDescriptor = {
@@ -32,7 +33,7 @@ const buildAttrName =
  * @param config - mapping configuration. See {@link BoolAttrDescriptor}
  */
 export const boolAttr = (config: BoolAttrDescriptor = {}): PropertyDecorator => {
-  return (target: ESLBaseElement, propName: string): void => {
+  return (target: ESLBaseElement | ESLMixinElement, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildConditionalDescriptor(attrName, !!config.readonly));
   };
