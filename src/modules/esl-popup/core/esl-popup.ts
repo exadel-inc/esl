@@ -45,6 +45,8 @@ export interface PopupActionParams extends ToggleableActionParams {
   offsetContainer?: number;
   /** Target to container element to define bounds of popups visibility */
   container?: string;
+  /** Container element that defines bounds of popups visibility (is not taken into account if the container attr is set on popup) */
+  containerEl?: HTMLElement;
 }
 
 export interface ActivatorObserver {
@@ -59,6 +61,7 @@ export class ESLPopup extends ESLToggleable {
   public $arrow: HTMLElement | null;
   public $placeholder: ESLPopupPlaceholder | null;
 
+  protected _containerEl?: HTMLElement;
   protected _offsetTrigger: number;
   protected _offsetContainer: number;
   protected _deferredUpdatePosition = rafDecorator(() => this._updatePosition());
@@ -106,8 +109,16 @@ export class ESLPopup extends ESLToggleable {
 
   /** Container element that define bounds of popups visibility */
   @memoize()
-  protected get $container(): HTMLElement | null {
-    return this.container ? TraversingQuery.first(this.container, this) as HTMLElement : null;
+  protected get $container(): HTMLElement | undefined {
+    return this.container ? TraversingQuery.first(this.container, this) as HTMLElement : this._containerEl;
+  }
+
+  /** Get the size and position of the container */
+  protected get containerRect(): Rect {
+    const {$container} = this;
+    if (!$container) return getWindowRect();
+    const containerRect = $container.getBoundingClientRect();
+    return new Rect(containerRect.left, containerRect.top + window.pageYOffset, containerRect.width, containerRect.height);
   }
 
   @ready
@@ -176,6 +187,7 @@ export class ESLPopup extends ESLToggleable {
     if (params.container) {
       this.container = params.container;
     }
+    this._containerEl = params.containerEl;
     this._offsetTrigger = params.offsetTrigger || 0;
     this._offsetContainer = params.offsetContainer || 0;
 
@@ -359,7 +371,6 @@ export class ESLPopup extends ESLToggleable {
     const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new Rect();
     const trigger = new Rect(triggerRect.left, triggerRect.top + window.pageYOffset, triggerRect.width, triggerRect.height);
     const innerMargin = this._offsetTrigger + arrowRect.width / 2;
-    const containerRect = this.$container ? Rect.from(this.$container.getBoundingClientRect()) : getWindowRect();
 
     const config = {
       position: this.position,
@@ -371,7 +382,7 @@ export class ESLPopup extends ESLToggleable {
       element: popupRect,
       trigger,
       inner: Rect.from(trigger).grow(innerMargin),
-      outer: containerRect.shrink(this._offsetContainer)
+      outer: this.containerRect.shrink(this._offsetContainer)
     };
 
     const {placedAt, popup, arrow} = calcPopupPosition(config);
