@@ -2,11 +2,14 @@
   "name": "@esl/utils",
   "version": "1.0.0",
   "private": false,
-  "main": "lib/index.js",
+  "main": "lib/all.js",
   "files": [ "lib" ],
   "repository": {
     "type" : "git",
     "url" : "https://github.com/exadel-inc/esl.git",
     "directory": "packages/esl-utils"
+  },
+  "dependencies": {
+    "@esl/element": "1.0.0"
   }
 }
