@@ -95,6 +95,7 @@ export class ESLNote extends ESLBaseElement {
     this._sendResponseToFootnote();
   }
 
+  @ready
   protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this.unbindEvents();
