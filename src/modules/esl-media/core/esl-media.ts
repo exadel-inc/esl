@@ -75,6 +75,8 @@ export class ESLMedia extends ESLBaseElement {
   @attr() public loadClsAccepted: string;
   /** Class / classes to add when media is declined */
   @attr() public loadClsDeclined: string;
+  /** Condition {@link ESLMediaQuery} to allow load of media resource. Default: `all` */
+  @attr({defaultValue: 'all'}) public loadCondition: string;
   /** Target element {@link TraversingQuery} select to add accepted/declined classes */
   @attr({defaultValue: '::parent'}) public loadClsTarget: string;
 
@@ -88,7 +90,6 @@ export class ESLMedia extends ESLBaseElement {
   @boolAttr({readonly: true}) public error: boolean;
 
   private _provider: BaseProvider | null;
-  private _conditionQuery: ESLMediaQuery | null;
 
   private deferredResize = rafDecorator(() => this._onResize());
   private deferredReinitialize = debounce(() => this.reinitInstance());
@@ -104,6 +105,7 @@ export class ESLMedia extends ESLBaseElement {
   static get observedAttributes(): string[] {
     return [
       'disabled',
+      'load-condition',
       'media-type',
       'media-id',
       'media-src',
@@ -161,14 +163,17 @@ export class ESLMedia extends ESLBaseElement {
           this.attachViewportConstraint() :
           this.detachViewportConstraint();
         break;
+      case 'load-condition':
+        ESLMediaQuery.for(oldVal).removeListener(this.deferredReinitialize);
+        ESLMediaQuery.for(newVal).addListener(this.deferredReinitialize);
+        this.deferredReinitialize();
+        break;
     }
   }
 
   protected bindEvents(): void {
     ESLMediaProviderRegistry.instance.addListener(this._onRegistryStateChange);
-    if (this.conditionQuery) {
-      this.conditionQuery.addListener(this.deferredReinitialize);
-    }
+    this.conditionQuery.addListener(this.deferredReinitialize);
     if (this.fillModeEnabled) {
       window.addEventListener('resize', this.deferredResize);
     }
@@ -177,9 +182,7 @@ export class ESLMedia extends ESLBaseElement {
   }
   protected unbindEvents(): void {
     ESLMediaProviderRegistry.instance.removeListener(this._onRegistryStateChange);
-    if (this.conditionQuery) {
-      this.conditionQuery.removeListener(this.deferredReinitialize);
-    }
+    this.conditionQuery.removeListener(this.deferredReinitialize);
     if (this.fillModeEnabled) {
       window.removeEventListener('resize', this.deferredResize);
     }
@@ -189,8 +192,7 @@ export class ESLMedia extends ESLBaseElement {
 
   public canActivate(): boolean {
     if (this.disabled) return false;
-    if (this.conditionQuery) return this.conditionQuery.matches;
-    return true;
+    return this.conditionQuery.matches;
   }
 
   private reinitInstance(): void {
@@ -374,14 +376,9 @@ export class ESLMedia extends ESLBaseElement {
     (this._provider) && this._provider.safeSeekTo(time);
   }
 
-  // TODO: simplify - ESLMediaQuery is lazy for primitives, it make sense to init it unconditionally
   /** ESLMediaQuery to limit ESLMedia loading */
-  public get conditionQuery(): ESLMediaQuery | null {
-    if (!this._conditionQuery && this._conditionQuery !== null) {
-      const query = this.getAttribute('load-condition');
-      this._conditionQuery = query ? ESLMediaQuery.for(query) : null;
-    }
-    return this._conditionQuery;
+  public get conditionQuery(): ESLMediaQuery {
+    return ESLMediaQuery.for(this.loadCondition);
   }
 
   /** Fill mode should be handled for element */

@@ -16,6 +16,7 @@ import {
   ESLMedia,
   ESLToggleable,
   ESLPopup,
+  ESLPopupPlaceholder,
   ESLPanel,
   ESLPanelGroup,
   ESLTrigger,
@@ -28,6 +29,7 @@ import {
   ESLSelect,
   ESLSelectList,
   ESLNote,
+  ESLNoteGroup,
   ESLFootnotes,
   ESLTooltip,
   ESLAnimate,
@@ -51,6 +53,7 @@ import './esl-media-demo/test-media-source';
 import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoMarquee} from './landing/landing';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
+import {ESLDemoSearchPageWrapper} from './search/search';
 
 ESLVSizeCSSProxy.observe();
 
@@ -58,6 +61,7 @@ ESLVSizeCSSProxy.observe();
 ESLDemoSidebar.register();
 ESLDemoMarquee.register();
 ESLDemoSearchBox.register();
+ESLDemoSearchPageWrapper.register();
 
 // Register ESL Components
 
@@ -67,6 +71,7 @@ ESLMedia.register();
 ESLToggleableDispatcher.init();
 ESLToggleable.register();
 ESLPopup.register();
+ESLPopupPlaceholder.register();
 
 ESLPanelGroup.register();
 ESLPanel.register();
@@ -89,6 +94,7 @@ ESLSelect.register();
 
 ESLFootnotes.register();
 ESLNote.register();
+ESLNoteGroup.register();
 ESLTooltip.register();
 
 ESLAnimate.register();
