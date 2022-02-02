@@ -1,24 +1,23 @@
 module.exports = {
   testEnvironment: 'jsdom',
   preset: 'ts-jest',
-  roots: ['src/modules'],
+  roots: ['packages'],
   testRegex: '/test/(.+)\\.test\\.ts$',
   moduleFileExtensions: ['ts', 'js', 'json'],
   coverageDirectory: '.report',
   coverageReporters: ['lcov', 'html'],
   setupFiles: [
-    './src/modules/esl-utils/test/deviceDetector.mock.ts',
-    './src/modules/esl-utils/test/matchMedia.mock.ts'
+    './packages/esl-utils/src/test/deviceDetector.mock.ts',
+    './packages/esl-utils/src/test/matchMedia.mock.ts'
   ],
   collectCoverageFrom: [
-    'src/modules/**/*.ts',
+    'packages/**/*.ts',
     // test dir
-    '!src/**/test/*.ts',
+    '!packages/**/test/*.ts',
     // cumulative exclude
-    '!src/modules/*.ts',
-    '!src/modules/*/*.ts',
+    '!packages/*/src/*.ts',
     // beta modules exclude
-    '!src/modules/beta/**',
+    '!packages/draft/**',
     // libs exclude
     '!**/node_modules/**'
   ]
