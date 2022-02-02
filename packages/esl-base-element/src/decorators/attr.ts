@@ -1,4 +1,4 @@
-import {toKebabCase} from '../../esl-utils/misc/format';
+import {toKebabCase} from '@esl/utils/src/misc/format';
 import type {ESLBaseElement} from '../core/esl-base-element';
 
 /** HTML attribute mapping configuration */

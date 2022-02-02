@@ -1,4 +1,4 @@
-import '../../../polyfills/es5-target-shim';
+import '../../../../polyfills/es5-target-shim';
 import {ESLBaseElement, attr} from '../core';
 
 describe('Decorator: attr', () => {

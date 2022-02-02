@@ -1,0 +1,17 @@
+{
+  "name": "@esl/base-element",
+  "version": "1.0.0",
+  "private": false,
+  "main": "lib/core.js",
+  "module": "lib/core.js",
+  "types": "lib/core.d.ts",
+  "files": [ "lib" ],
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/exadel-inc/esl.git",
+    "directory": "packages/esl-base-element"
+  },
+  "dependencies": {
+    "@esl/utils": "1.0.0"
+  }
+}

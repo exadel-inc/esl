@@ -1,6 +1,4 @@
-# [ESL](../../../) Base Element
-
-Version: *1.0.0*
+# [ESL](../../../../) Base Element
 
 Authors: *Alexey Stsefanovich (ala'n)*
 
@@ -13,12 +11,12 @@ Provides the ESLBaseElement - a base class for custom element declaration, and a
  - `@boolAttr` - to map boolean property to HTML boolean (marker) attribute state.
  - `@jsonAttr` - to map object property to HTML attribute using JSON format to serialize / deserialize value.
 
-Use `@override` or `@constant` decorator to override property that was created 
+Use `@override` or `@constant` decorator to override property that was created
 via `@attr`, `@boolAttr` or `@jsonAttr` on the parent level.
 
 ### Base Element static API
 - `MyElement.is` - property that defines tag name
-  
+
 - `MyElement.register` - calls registration inside customElements registry
 - `MyElement.registered` - returns promise that will be resolved as soon as the component is registered
 
@@ -31,9 +29,9 @@ class MyCustomComponent extends ESLBaseElement {
     static is = 'my-element';
 
     /** Reflects 'my-string-prop' attribute */
-    @attr() public myStringProp: string; 
+    @attr() public myStringProp: string;
     /** Reflects to 'my-marker' attribute-marker */
-    @boolAttr() public myMarker: boolean; 
+    @boolAttr() public myMarker: boolean;
     /** Reflects to JSON value in 'my-config' attribute */
     @jsonAttr() public myConfig: Recorg<string, string>;
 

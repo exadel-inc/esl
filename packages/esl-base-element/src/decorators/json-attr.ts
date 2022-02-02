@@ -1,4 +1,4 @@
-import {toKebabCase, evaluate} from '../../esl-utils/misc/format';
+import {toKebabCase, evaluate} from '@esl/utils/src/misc/format';
 import type {ESLBaseElement} from '../core/esl-base-element';
 
 /** HTML attribute to object property mapping configuration */

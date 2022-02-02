@@ -1,4 +1,4 @@
-import {EventUtils} from '../../esl-utils/dom/events';
+import {EventUtils} from '@esl/utils/src/dom/events';
 
 /**
  * Base class for ESL custom elements.
