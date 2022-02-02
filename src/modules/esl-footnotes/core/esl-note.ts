@@ -3,7 +3,7 @@ import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {ESLTooltip} from '../../esl-tooltip/core';
-import {promisifyTimeout} from '../../esl-utils/async/promise';
+import {promisifyTimeout, repeatSequence} from '../../esl-utils/async/promise';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {scrollIntoView} from '../../esl-utils/dom/scroll';
@@ -20,7 +20,7 @@ export class ESLNote extends ESLBaseElement {
   static is = 'esl-note';
 
   /** Timeout before activating note (to have time to show content with this note) */
-  static readonly activateTimeout = 150;
+  static readonly activateTimeout = 100;
 
   static get observedAttributes(): string[] {
     return ['tooltip-shown', 'ignore-footnotes'];
@@ -88,6 +88,8 @@ export class ESLNote extends ESLBaseElement {
     if (!this.html) {
       this.html = this.innerHTML;
     }
+    this.index = 0;
+    this.linked = false;
     this.update();
     super.connectedCallback();
     this.bindEvents();
@@ -139,9 +141,11 @@ export class ESLNote extends ESLBaseElement {
     }
     EventUtils.dispatch(this, 'esl:show:request');
     // TODO: replace timeout with a more reliable mechanism to have time to show content with this note
-    promisifyTimeout((this.constructor as typeof ESLNote).activateTimeout)
-      .then(() => scrollIntoView(this, {behavior: 'smooth', block: 'center'}))
-      .then(() => this.showTooltip());
+    repeatSequence(() => {
+      return promisifyTimeout((this.constructor as typeof ESLNote).activateTimeout)
+        .then(() => scrollIntoView(this, {behavior: 'smooth', block: 'center'}))
+        .then(() => ESLTooltip.open || this.showTooltip());
+    }, 3);
   }
 
   /** Highlights note */
@@ -174,9 +178,7 @@ export class ESLNote extends ESLBaseElement {
   protected restore(): void {
     this.linked = false;
     this._$footnotes = null;
-    if (this.html) {
-      this.innerHTML = this.html;
-    }
+    this.index = 0;
     this.tabIndex = -1;
   }
 
