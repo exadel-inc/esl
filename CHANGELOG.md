@@ -1,3 +1,10 @@
+# [3.13.0-beta.5](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.4...v3.13.0-beta.5) (2022-02-02)
+
+
+### Bug Fixes
+
+* **els-footnotes:** add ready decorator to disconnected callback ([87aa3e7](https://github.com/exadel-inc/esl/commit/87aa3e78649605bce24acc313b76f1ad4694778e))
+
 # [3.13.0-beta.4](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.3...v3.13.0-beta.4) (2022-02-02)
 
 
