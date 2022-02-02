@@ -15,11 +15,8 @@
       "DOM",
       "DOM.Iterable"
     ],
-    "rootDir": "./src",
-    "outDir": "./lib"
+    "rootDir": "src",
+    "outDir": "lib"
   },
-  "extends": "../../tsconfig.json",
-  "include": [
-    "src/**/*"
-  ]
+  "extends": "../../tsconfig.json"
 }
