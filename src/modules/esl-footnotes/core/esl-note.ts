@@ -87,6 +87,8 @@ export class ESLNote extends ESLBaseElement {
     if (!this.html) {
       this.html = this.innerHTML;
     }
+    this.index = 0;
+    this.linked = false;
     this.update();
     super.connectedCallback();
     this.bindEvents();
@@ -173,9 +175,7 @@ export class ESLNote extends ESLBaseElement {
   protected restore(): void {
     this.linked = false;
     this._$footnotes = null;
-    if (this.html) {
-      this.innerHTML = this.html;
-    }
+    this.index = 0;
     this.tabIndex = -1;
   }
 
