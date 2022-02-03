@@ -1,12 +1,12 @@
-import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESC, SYSTEM_KEYS} from '../../esl-utils/dom/keys';
-import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {bind} from '../../esl-utils/decorators/bind';
-import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
-import {sequentialUID} from '../../esl-utils/misc/uid';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
-import {DelayedTask} from '../../esl-utils/async/delayed-task';
-import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
+import {ExportNs} from '@esl/utils/src/environment/export-ns';
+import {ESC, SYSTEM_KEYS} from '@esl/utils/src/dom/keys';
+import {CSSClassUtils} from '@esl/utils/src/dom/class';
+import {bind} from '@esl/utils/src/decorators/bind';
+import {defined, copyDefinedKeys} from '@esl/utils/src/misc/object';
+import {sequentialUID} from '@esl/utils/src/misc/uid';
+import {DeviceDetector} from '@esl/utils/src/environment/device-detector';
+import {DelayedTask} from '@esl/utils/src/async/delayed-task';
+import {ESLBaseElement, attr, jsonAttr, boolAttr} from '@esl/element/src/core';
 
 /** Default Toggleable action params type definition */
 export interface ToggleableActionParams {

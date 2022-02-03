@@ -1,13 +1,13 @@
-import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {ready} from '../../esl-utils/decorators/ready';
-import {parseNumber} from '../../esl-utils/misc/format';
-import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {ENTER, SPACE} from '../../esl-utils/dom/keys';
-import {TraversingQuery} from '../../esl-traversing-query/core';
-import {DeviceDetector} from '../../esl-utils/environment/device-detector';
-import {ESLMediaQuery} from '../../esl-media-query/core';
+import {ExportNs} from '@esl/utils/src/environment/export-ns';
+import {attr, boolAttr, ESLBaseElement} from '@esl/element/src/core';
+import {bind} from '@esl/utils/src/decorators/bind';
+import {ready} from '@esl/utils/src/decorators/ready';
+import {parseNumber} from '@esl/utils/src/misc/format';
+import {CSSClassUtils} from '@esl/utils/src/dom/class';
+import {ENTER, SPACE} from '@esl/utils/src/dom/keys';
+import {TraversingQuery} from '../../../../../src/modules/esl-traversing-query/core';
+import {DeviceDetector} from '@esl/utils/src/environment/device-detector';
+import {ESLMediaQuery} from '../../../../../src/modules/esl-media/core';
 
 import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 

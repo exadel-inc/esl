@@ -1,0 +1,18 @@
+{
+  "name": "@esl/toggleables",
+  "version": "2.2.0",
+  "private": false,
+  "main": "lib/core.js",
+  "module": "lib/core.js",
+  "types": "lib/core.d.ts",
+  "files": [ "lib" ],
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/exadel-inc/esl.git",
+    "directory": "packages/esl-toggleables"
+  },
+  "dependencies": {
+    "@esl/element": "1.0.0",
+    "@esl/utils": "1.0.0"
+  }
+}

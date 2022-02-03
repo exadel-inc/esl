@@ -11,20 +11,20 @@ import '../../src/modules/lib';
 import './common/breakpoints';
 
 import {
-  ESLVSizeCSSProxy,
+  // ESLVSizeCSSProxy,
   ESLImage,
   ESLMedia,
-  ESLToggleable,
+  // ESLToggleable,
   ESLPopup,
   ESLPanel,
   ESLPanelGroup,
-  ESLTrigger,
+  // ESLTrigger,
   ESLA11yGroup,
   ESLTabs,
   ESLTab,
   ESLScrollbar,
   ESLAlert,
-  ESLToggleableDispatcher,
+  // ESLToggleableDispatcher,
   ESLSelect,
   ESLSelectList,
   ESLNote,
@@ -51,7 +51,7 @@ import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoMarquee} from './landing/landing';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
 
-ESLVSizeCSSProxy.observe();
+// ESLVSizeCSSProxy.observe();
 
 // Register Demo components
 ESLDemoSidebar.register();
@@ -63,8 +63,8 @@ ESLDemoSearchBox.register();
 ESLImage.register();
 ESLMedia.register();
 
-ESLToggleableDispatcher.init();
-ESLToggleable.register();
+// ESLToggleableDispatcher.init();
+// ESLToggleable.register();
 ESLPopup.register();
 
 ESLPanelGroup.register();
