@@ -58,8 +58,9 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     if (!this.isTouchStarted) return;
 
     const point = EventUtils.normalizeTouchPoint(event);
-    const shiftX = point.x - this.startPoint.x;
-    this.carousel.view?.onMove(shiftX);
+    const offset = point.x - this.startPoint.x;
+
+    this._checkNonLoop(offset) && this.carousel.view?.onMove(offset);
   }
 
   @bind
@@ -68,7 +69,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     const point = EventUtils.normalizeTouchPoint(event);
     const offset = point.x - this.startPoint.x;
     // ignore single click
-    offset !== 0 && this.carousel.view?.commit(offset);
+    offset !== 0 && this._checkNonLoop(offset) && this.carousel.view?.commit(offset);
     this.isTouchStarted = false;
     // Unbind drag listeners
     if (EventUtils.isMouseEvent(event)) {
@@ -79,6 +80,15 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
       window.removeEventListener('touchmove', this.onPointerMove);
       window.removeEventListener('touchend', this.onPointerUp);
     }
+  }
+
+  /**
+   *
+   * */
+  protected _checkNonLoop(offset: number): boolean {
+    if (!this.carousel.loop && this.carousel.firstIndex + this.carousel.activeCount === this.carousel.count && offset < 0) return false;
+    if (!this.carousel.loop && this.carousel.firstIndex === 0 && offset > 0) return false;
+    return true;
   }
 }
 
