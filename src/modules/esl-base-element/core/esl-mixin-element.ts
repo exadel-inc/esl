@@ -1,19 +1,21 @@
-import {memoize} from '../../esl-utils/decorators/memoize';
 import {ESLMixinRegistry} from './esl-mixin-registry';
 
-/**
- * Base class for mixin element that attaches to the dom element via attribute
- */
+/** Base class for mixin element that attaches to the dom element via attribute */
 export class ESLMixinElement {
+  /** Root attribute to identify mixin targets. Should contain dash in the name. */
   static is: string;
+  /** Additional observed attributes */
   static observedAttributes: string[] = [];
 
+  /** Additional attributes observer */
   private __attr$$: MutationObserver;
 
-  constructor(public readonly $root: HTMLElement) {}
+  public constructor(
+    public readonly $root: HTMLElement
+  ) {}
 
+  /** Callback of mixin instance initialization */
   public connectedCallback(): void {
-    console.info(`Mixin ${(this.constructor as any).is} initialized on `, this.$root);
     const constructor = this.constructor as typeof ESLMixinElement;
     if (constructor.observedAttributes.length) {
       this.__attr$$ = new MutationObserver(([record]) => {
@@ -24,31 +26,33 @@ export class ESLMixinElement {
       this.__attr$$.observe(this.$root, {attributes: true, attributeFilter: constructor.observedAttributes});
     }
   }
+  /** Callback to execute on mixin instance destroy */
   public disconnectedCallback(): void {
-    console.info(`Mixin ${(this.constructor as any).is} removed from `, this.$root);
     if (this.__attr$$) this.__attr$$.disconnect();
   }
+  /** Callback to handle additional attributes change */
   public attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
+  /** Proxy for {@link Element.prototype.hasAttribute} */
   public hasAttribute(attr: string): boolean {
     return this.$root.hasAttribute(attr);
   }
+  /** Proxy for {@link Element.prototype.getAttribute} */
   public getAttribute(attr: string): string | null {
     return this.$root.getAttribute(attr);
   }
+  /** Proxy for {@link Element.prototype.setAttribute} */
   public setAttribute(attr: string, value: string): void {
     this.$root.setAttribute(attr, value);
   }
+  /** Proxy for {@link Element.prototype.toggleAttribute} */
   public toggleAttribute(attr: string, force?: boolean): boolean {
     return this.$root.toggleAttribute(attr, force);
   }
 
-  @memoize()
-  protected static get registry(): ESLMixinRegistry {
-    return new ESLMixinRegistry();
-  }
+  /** Register current mixin definition */
   public static register(): void {
-    this.registry.register(this);
+    (new ESLMixinRegistry()).register(this);
   }
 }
 
