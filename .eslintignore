@@ -5,9 +5,10 @@ jest.config.js
 build
 node_modules
 
-# Generated surces
+# Generated sources
 /modules
 /polyfills
+packages/*/lib
 
 # TODO: Temporary before esl-carousel release and repository restructuring
 /src/modules/draft
