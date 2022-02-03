@@ -1,4 +1,6 @@
 import {attr, boolAttr, ESLBaseElement} from '@esl/element';
+import {TraversingQuery} from '@esl/traversing-query';
+import {ESLMediaQuery} from '@esl/media-query';
 import {
   ENTER,
   SPACE,
@@ -9,8 +11,6 @@ import {
   bind,
   ready
 } from '@esl/utils';
-import {TraversingQuery} from '../../../../../src/modules/esl-traversing-query/core';
-import {ESLMediaQuery} from '../../../../../src/modules/esl-media-query/core/esl-media-query';
 
 import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 
