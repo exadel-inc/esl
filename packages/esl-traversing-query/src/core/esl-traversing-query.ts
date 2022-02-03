@@ -1,7 +1,13 @@
-import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {tuple, wrap, uniq} from '../../esl-utils/misc/array';
-import {unwrapParenthesis} from '../../esl-utils/misc/format';
-import {findAll, findChildren, findNext, findParent, findPrev} from '../../esl-utils/dom/traversing';
+import {
+  ExportNs,
+  ArrayUtils,
+  FormatUtils,
+  findAll,
+  findChildren,
+  findNext,
+  findParent,
+  findPrev
+} from '@esl/utils';
 
 type ProcessorDescriptor = [string?, string?];
 type ElementProcessor = (base: Element, sel: string) => Element | Element[] | null;
@@ -47,7 +53,7 @@ export class TraversingQuery {
     '::last': (list: Element[]) => list.slice(-1),
     '::nth': (list: Element[], sel?: string) => {
       const index = sel ? +sel : NaN;
-      return wrap(list[index - 1]);
+      return ArrayUtils.wrap(list[index - 1]);
     },
     '::not': (list: Element[], sel?: string) => list.filter((el) => !el.matches(sel || '')),
     '::filter': (list: Element[], sel?: string) => list.filter((el) => el.matches(sel || ''))
@@ -66,14 +72,14 @@ export class TraversingQuery {
     return !!name && (name in this.COLLECTION_PROCESSORS);
   }
   private static processElement(el: Element, [name, selString]: ProcessorDescriptor): Element[] {
-    const sel = unwrapParenthesis(selString || '');
+    const sel = FormatUtils.unwrapParenthesis(selString || '');
     if (!name || !(name in this.ELEMENT_PROCESSORS)) return [];
-    return wrap(this.ELEMENT_PROCESSORS[name](el, sel));
+    return ArrayUtils.wrap(this.ELEMENT_PROCESSORS[name](el, sel));
   }
   private static processCollection(els: Element[], [name, selString]: ProcessorDescriptor): Element[] {
-    const sel = unwrapParenthesis(selString || '');
+    const sel = FormatUtils.unwrapParenthesis(selString || '');
     if (!name || !(name in this.COLLECTION_PROCESSORS)) return [];
-    return wrap(this.COLLECTION_PROCESSORS[name](els, sel));
+    return ArrayUtils.wrap(this.COLLECTION_PROCESSORS[name](els, sel));
   }
 
   private static traverseChain(collection: Element[], processors: ProcessorDescriptor[], findFirst: boolean): Element[] {
@@ -91,7 +97,7 @@ export class TraversingQuery {
       if (findFirst) return resultCollection.slice(0, 1);
       result.push(...resultCollection);
     }
-    return uniq(result);
+    return ArrayUtils.uniq(result);
   }
 
   static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
@@ -99,7 +105,7 @@ export class TraversingQuery {
     const rootSel = parts.shift();
     const baseCollection = base ? [base] : [];
     const initial: Element[] = rootSel ? Array.from(scope.querySelectorAll(rootSel)) : baseCollection;
-    return this.traverseChain(initial, tuple(parts), findFirst);
+    return this.traverseChain(initial, ArrayUtils.tuple(parts), findFirst);
   }
 
   /** @returns first matching element reached via {@link TraversingQuery} rules */
