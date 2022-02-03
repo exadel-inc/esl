@@ -1,7 +1,7 @@
-import {ESLBaseElement} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {EventUtils} from '../../esl-utils/dom/events';
-import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {ESLBaseElement} from '@esl/element/src/core';
+import {bind} from '@esl/utils/src/decorators/bind';
+import {EventUtils} from '@esl/utils/src/dom/events';
+import {ExportNs} from '@esl/utils/src/environment/export-ns';
 import {ESLToggleable} from './esl-toggleable';
 
 /**
