@@ -2,14 +2,19 @@
   "name": "@esl/element",
   "version": "1.0.0",
   "private": false,
-  "main": "lib/core.js",
   "module": "lib/core.js",
   "types": "lib/core.d.ts",
+  "main": "lib/core.js",
   "files": [ "lib" ],
   "repository": {
     "type" : "git",
     "url" : "https://github.com/exadel-inc/esl.git",
     "directory": "packages/esl-element"
+  },
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
   },
   "dependencies": {
     "@esl/utils": "1.0.0"
