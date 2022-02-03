@@ -19,10 +19,12 @@ export function calcDirection(from: number, to: number, count: number): Carousel
 }
 
 /** @returns normalized numeric index from string with absolute or relative index */
-export function resolveIndex(index: number | string, current: number, count: number): number {
+export function resolveIndex(index: number | string, current: number, count: number, loop: boolean, activeCount: number): number {
   index = String(index);
   const isRelative = (index[0] === '+' || index[0] === '-');
-  return normalizeIndex(+index + (isRelative ? current : 0), count);
+  index = normalizeIndex(+index + (isRelative ? current : 0), count);
+  if (!loop && count - index < activeCount) return count - activeCount;
+  return index;
 }
 
 /** @returns normalized numeric index from group index */
@@ -48,10 +50,10 @@ export function prevGroup(current: number, activeCount: number, count: number): 
 }
 
 /** @returns normalized index from target definition and current state */
-export function toIndex(target: CarouselSlideTarget, {count, activeCount, firstIndex}: ESLCarousel): number {
+export function toIndex(target: CarouselSlideTarget, {count, activeCount, firstIndex, loop}: ESLCarousel): number {
   target = String(target);
   // Resolve absolute and relative indexes
-  if (!isNaN(+target)) return resolveIndex(target, firstIndex, count);
+  if (!isNaN(+target)) return resolveIndex(target, firstIndex, count, loop, activeCount);
   // Group index handler
   if ('g' === target[0]) return resolveGroupIndex(+target.substring(1), activeCount, count);
   // Next group handler
@@ -63,8 +65,12 @@ export function toIndex(target: CarouselSlideTarget, {count, activeCount, firstI
 }
 
 /** @returns preferable direction for target or nextIndex */
-export function toDirection(target: CarouselSlideTarget, nextIndex: number, {count, firstIndex}: ESLCarousel): CarouselDirection {
+export function toDirection(target: CarouselSlideTarget, nextIndex: number, {count, firstIndex, loop}: ESLCarousel): CarouselDirection {
   target = String(target);
+
+  if (!loop && nextIndex >= firstIndex) return 'next';
+  if (!loop && nextIndex <= firstIndex) return 'prev';
+
   if ('+' === target[0]) return 'next';
   if ('-' === target[0]) return 'prev';
   if ('next' === target || 'prev' === target) return target;
