@@ -56,6 +56,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     const width = parseFloat(getComputedStyle(this.carousel.$activeSlide as Element).width);
 
     if (Math.abs(offset) > width) return;
+    if (!this.checkNonLoop(offset)) return;
 
     const $activeSlide = this.carousel.$activeSlide;
     const $nextSlide = $activeSlide.$nextCyclic;
@@ -68,6 +69,8 @@ export class ESLSlideCarouselView extends ESLCarouselView {
   }
 
   public async commit(offset: number): Promise<void> {
+    if (!this.checkNonLoop(offset)) return;
+
     const width = parseFloat(getComputedStyle(this.carousel.$activeSlide as Element).width);
     const $activeSlide = this.carousel.$activeSlide;
     const $nextSlide = $activeSlide.$nextCyclic;
@@ -95,5 +98,11 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     this.carousel.$$fire('slide:changed', {
       detail: {direction}
     });
+  }
+
+  public checkNonLoop(offset: number) {
+    if (!this.carousel.loop && this.carousel.$activeSlide.index === this.carousel.count - 1 && offset < 0) return false;
+    if (!this.carousel.loop && this.carousel.$activeSlide.index === 0 && offset > 0) return false;
+    return true;
   }
 }
