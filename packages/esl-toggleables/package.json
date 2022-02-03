@@ -2,17 +2,24 @@
   "name": "@esl/toggleables",
   "version": "2.2.0",
   "private": false,
-  "main": "lib/core.js",
-  "module": "lib/core.js",
-  "types": "lib/core.d.ts",
+  "module": "lib/all.js",
+  "types": "lib/all.d.ts",
+  "main": "lib/all.js",
   "files": [ "lib" ],
   "repository": {
     "type" : "git",
     "url" : "https://github.com/exadel-inc/esl.git",
     "directory": "packages/esl-toggleables"
   },
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
+  },
   "dependencies": {
     "@esl/element": "1.0.0",
-    "@esl/utils": "1.0.0"
+    "@esl/utils": "1.0.0",
+    "@esl/media-query": "2.0.0",
+    "@esl/traversing-query": "1.0.0"
   }
 }
