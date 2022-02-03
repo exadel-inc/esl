@@ -1,6 +1,6 @@
 {
   "name": "@esl/media-query",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": false,
   "types": "lib/core.d.ts",
   "main": "lib/core.js",
