@@ -1,13 +1,16 @@
-import {ExportNs} from '@esl/utils/src/environment/export-ns';
-import {attr, boolAttr, ESLBaseElement} from '@esl/element/src/core';
-import {bind} from '@esl/utils/src/decorators/bind';
-import {ready} from '@esl/utils/src/decorators/ready';
-import {parseNumber} from '@esl/utils/src/misc/format';
-import {CSSClassUtils} from '@esl/utils/src/dom/class';
-import {ENTER, SPACE} from '@esl/utils/src/dom/keys';
+import {attr, boolAttr, ESLBaseElement} from '@esl/element';
+import {
+  ENTER,
+  SPACE,
+  FormatUtils,
+  CSSClassUtils,
+  ExportNs,
+  DeviceDetector,
+  bind,
+  ready
+} from '@esl/utils';
 import {TraversingQuery} from '../../../../../src/modules/esl-traversing-query/core';
-import {DeviceDetector} from '@esl/utils/src/environment/device-detector';
-import {ESLMediaQuery} from '../../../../../src/modules/esl-media/core';
+import {ESLMediaQuery} from '../../../../../src/modules/esl-media-query/core/esl-media-query';
 
 import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 
@@ -148,7 +151,7 @@ export class ESLTrigger extends ESLBaseElement {
   /** Show target toggleable with passed params */
   public showTarget(params: ToggleableActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
-      delay: parseNumber(this.showDelay)
+      delay: FormatUtils.parseNumber(this.showDelay)
     }, params);
     if (this.$target && typeof this.$target.show === 'function') {
       this.$target.show(actionParams);
@@ -157,7 +160,7 @@ export class ESLTrigger extends ESLBaseElement {
   /** Hide target toggleable with passed params */
   public hideTarget(params: ToggleableActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
-      delay: parseNumber(this.hideDelay)
+      delay: FormatUtils.parseNumber(this.hideDelay)
     }, params);
     if (this.$target && typeof this.$target.hide === 'function') {
       this.$target.hide(actionParams);
@@ -227,7 +230,7 @@ export class ESLTrigger extends ESLBaseElement {
   @bind
   protected _onMouseEnter(event: MouseEvent): void {
     if (!this.allowHover) return;
-    const delay = parseNumber(this.hoverShowDelay);
+    const delay = FormatUtils.parseNumber(this.hoverShowDelay);
     this.toggleTarget({event, delay}, this.mode !== 'hide');
     event.preventDefault();
   }
@@ -237,7 +240,7 @@ export class ESLTrigger extends ESLBaseElement {
   protected _onMouseLeave(event: MouseEvent): void {
     if (!this.allowHover) return;
     if (this.mode === 'show' || this.mode === 'hide') return;
-    const delay = parseNumber(this.hoverHideDelay);
+    const delay = FormatUtils.parseNumber(this.hoverHideDelay);
     this.hideTarget({event, delay, trackHover: true});
     event.preventDefault();
   }

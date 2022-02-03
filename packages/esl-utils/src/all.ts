@@ -39,8 +39,9 @@ export * from './dom/scroll';
 export * from './dom/traversing';
 export * from './dom/window';
 
-// Device detection
+// Environment
 export * from './environment/device-detector';
+export * from './environment/export-ns';
 
 // Fixes
 export * as IEFixes from './fixes/ie-fixes';

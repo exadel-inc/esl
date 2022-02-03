@@ -1,12 +1,15 @@
-import {ExportNs} from '@esl/utils/src/environment/export-ns';
-import {ESC, SYSTEM_KEYS} from '@esl/utils/src/dom/keys';
-import {CSSClassUtils} from '@esl/utils/src/dom/class';
-import {bind} from '@esl/utils/src/decorators/bind';
-import {defined, copyDefinedKeys} from '@esl/utils/src/misc/object';
-import {sequentialUID} from '@esl/utils/src/misc/uid';
-import {DeviceDetector} from '@esl/utils/src/environment/device-detector';
-import {DelayedTask} from '@esl/utils/src/async/delayed-task';
-import {ESLBaseElement, attr, jsonAttr, boolAttr} from '@esl/element/src/core';
+import {ESLBaseElement, attr, jsonAttr, boolAttr} from '@esl/element';
+import {
+  ESC,
+  SYSTEM_KEYS,
+  UID,
+  CSSClassUtils,
+  ExportNs,
+  ObjectUtils,
+  DeviceDetector,
+  DelayedTask,
+  bind
+} from '@esl/utils';
 
 /** Default Toggleable action params type definition */
 export interface ToggleableActionParams {
@@ -92,7 +95,7 @@ export class ESLToggleable extends ESLBaseElement {
     super.connectedCallback();
     if (!this.id && !this.noAutoId) {
       const tag = (this.constructor as typeof ESLToggleable).is;
-      this.id = sequentialUID(tag, tag + '-');
+      this.id = UID.sequentialUID(tag, tag + '-');
     }
     this.initiallyOpened = this.hasAttribute('open');
     this.bindEvents();
@@ -169,7 +172,7 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Function to merge the result action params */
   protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
-    return Object.assign({}, this.defaultParams, copyDefinedKeys(params));
+    return Object.assign({}, this.defaultParams, ObjectUtils.copyDefinedKeys(params));
   }
 
   /** Toggle the element state */
@@ -180,17 +183,17 @@ export class ESLToggleable extends ESLBaseElement {
   /** Change the element state to active */
   public show(params?: ToggleableActionParams): ESLToggleable {
     params = this.mergeDefaultParams(params);
-    this._task.put(this.showTask.bind(this, params), defined(params.showDelay, params.delay));
+    this._task.put(this.showTask.bind(this, params), ObjectUtils.defined(params.showDelay, params.delay));
     this.bindOutsideEventTracking(this.closeOnOutsideAction);
-    this.bindHoverStateTracking(!!params.trackHover, defined(params.hideDelay, params.delay));
+    this.bindHoverStateTracking(!!params.trackHover, ObjectUtils.defined(params.hideDelay, params.delay));
     return this;
   }
   /** Change the element state to inactive */
   public hide(params?: ToggleableActionParams): ESLToggleable {
     params = this.mergeDefaultParams(params);
-    this._task.put(this.hideTask.bind(this, params), defined(params.hideDelay, params.delay));
+    this._task.put(this.hideTask.bind(this, params), ObjectUtils.defined(params.hideDelay, params.delay));
     this.bindOutsideEventTracking(false);
-    this.bindHoverStateTracking(!!params.trackHover, defined(params.hideDelay, params.delay));
+    this.bindHoverStateTracking(!!params.trackHover, ObjectUtils.defined(params.hideDelay, params.delay));
     return this;
   }
 

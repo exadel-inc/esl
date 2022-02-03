@@ -1,4 +1,4 @@
-import type {ESLBaseElementShape} from '@esl/element/src/core/esl-base-element.shape';
+import type {ESLBaseElementShape} from '@esl/element';
 import type {ESLTrigger} from './esl-trigger';
 
 /**
