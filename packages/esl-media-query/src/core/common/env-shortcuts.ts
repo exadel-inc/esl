@@ -1,5 +1,4 @@
-import {DeviceDetector} from '../../../esl-utils/environment/device-detector';
-import {ExportNs} from '../../../esl-utils/environment/export-ns';
+import {DeviceDetector, ExportNs} from '@esl/utils';
 
 const shortcuts = new Map<string, string | boolean>();
 

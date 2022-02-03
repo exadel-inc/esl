@@ -1,4 +1,4 @@
-import {Observable} from '../../../esl-utils/abstract/observable';
+import {Observable} from '@esl/utils';
 import {ALL, NOT_ALL} from './media-query-base';
 
 import type {IMediaQueryCondition} from './media-query-base';

@@ -1,7 +1,4 @@
-import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {Observable} from '../../esl-utils/abstract/observable';
-import {evaluate} from '../../esl-utils/misc/format';
-import {isPrimitive} from '../../esl-utils/misc/object';
+import {ExportNs, Observable, ObjectUtils, FormatUtils} from '@esl/utils';
 import {ESLMediaRule} from './esl-media-rule';
 
 export type RulePayloadParser<T> = (val: string) => T | undefined;
@@ -24,7 +21,7 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
    * Object value parser. Uses {@link evaluate} to parse value
    * @returns value - parsed JS Object
    */
-  public static OBJECT_PARSER = <U>(val: string): U | undefined => evaluate(val);
+  public static OBJECT_PARSER = <U>(val: string): U | undefined => FormatUtils.evaluate(val);
 
   /**
    * Creates `ESLMediaRuleList` from string query representation
@@ -115,7 +112,7 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
   /** Active rule payload value */
   public get activeValue(): T | undefined {
     const value = this.active.payload;
-    if (isPrimitive(value) || !this.default || isPrimitive(this.default.payload)) return value;
+    if (ObjectUtils.isPrimitive(value) || !this.default || ObjectUtils.isPrimitive(this.default.payload)) return value;
     return Object.assign({}, this.default.payload || {}, value);
   }
 

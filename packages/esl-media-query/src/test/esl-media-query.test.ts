@@ -1,4 +1,4 @@
-import {DDMock} from '../../esl-utils/test/deviceDetector.mock';
+import {DDMock} from '@esl/utils/src/test/deviceDetector.mock';
 import {ESLMediaQuery, ESLScreenBreakpoints, ESLScreenDPR} from '../core';
 
 /**

@@ -1,4 +1,4 @@
-import {ExportNs} from '../../../esl-utils/environment/export-ns';
+import {ExportNs} from '@esl/utils';
 
 const registry = new Map<string, ESLScreenBreakpoint>();
 
