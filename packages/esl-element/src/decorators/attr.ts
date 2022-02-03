@@ -1,4 +1,4 @@
-import {toKebabCase} from '@esl/utils/src/misc/format';
+import {FormatUtils} from '@esl/utils';
 import type {ESLBaseElement} from '../core/esl-base-element';
 
 /** HTML attribute mapping configuration */
@@ -31,7 +31,7 @@ function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue
 }
 
 const buildAttrName =
-  (propName: string, dataAttr: boolean): string => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
+  (propName: string, dataAttr: boolean): string => dataAttr ? `data-${FormatUtils.toKebabCase(propName)}` : FormatUtils.toKebabCase(propName);
 
 /**
  * Decorator to map current property to element attribute value.

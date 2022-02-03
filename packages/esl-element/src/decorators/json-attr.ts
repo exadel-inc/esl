@@ -1,4 +1,4 @@
-import {toKebabCase, evaluate} from '@esl/utils/src/misc/format';
+import {FormatUtils} from '@esl/utils';
 import type {ESLBaseElement} from '../core/esl-base-element';
 
 /** HTML attribute to object property mapping configuration */
@@ -16,7 +16,7 @@ interface JsonAttrDescriptor<T> {
 function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, defaultValue: T | null): PropertyDescriptor {
   function get(): T | null {
     const attrContent = (this.getAttribute(attrName) || '').trim();
-    return evaluate(attrContent, defaultValue);
+    return FormatUtils.evaluate(attrContent, defaultValue);
   }
 
   function set(value: any): void {
@@ -39,7 +39,7 @@ function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, default
 }
 
 const buildAttrName =
-  (propName: string, dataAttr: boolean): string => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
+  (propName: string, dataAttr: boolean): string => dataAttr ? `data-${FormatUtils.toKebabCase(propName)}` : FormatUtils.toKebabCase(propName);
 
 /**
  * Decorator to map current property to element attribute value using JSON (de-)serialization rules.

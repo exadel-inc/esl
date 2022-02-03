@@ -1,4 +1,4 @@
-import {toKebabCase} from '@esl/utils/src/misc/format';
+import {FormatUtils} from '@esl/utils';
 import type {ESLBaseElement} from '../core/esl-base-element';
 
 /** HTML boolean (marker) attribute mapping configuration */
@@ -24,7 +24,7 @@ function buildConditionalDescriptor(attrName: string, readOnly: boolean): Proper
 }
 
 const buildAttrName =
-  (propName: string, dataAttr: boolean): string => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
+  (propName: string, dataAttr: boolean): string => dataAttr ? `data-${FormatUtils.toKebabCase(propName)}` : FormatUtils.toKebabCase(propName);
 
 /**
  * Decorator to map current property to element boolean (marker) attribute state.
