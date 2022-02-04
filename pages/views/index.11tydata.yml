@@ -26,7 +26,7 @@ landing:
         name: Efficient
         text: >
           Our team has reduced the work needed to create reusable UI components by giving you a reliable base
-          within our front end component library to customize and expand on for fast and accurate development.
+          to customize and expand on for fast and accurate development.
       - icon: benefits/fast.svg
         name: Fast
         text: >
@@ -41,7 +41,7 @@ landing:
         name: Powerful
         text: >
           While the modules in our web components library may be small, they’re also universal,
-          allowing you to mix and match the UI components at will to create large components.
+          allowing you to mix and match the UI components at will to create large modules.
       - icon: benefits/tested.svg
         name: Tested
         text: >
@@ -57,11 +57,11 @@ landing:
     title: Browser Support
     text:
       - >
-        Our web components library uses built-in browser features — Web API and ECMAScript 6 features
+        Our web components library uses built-in browser functionality — Web API and ECMAScript 6 features
         that are all fully supported by modern browsers such as Chrome, Firefox, Safari, or Edge.
       - >
         If you want our UI component library to work in older browsers,
-        you can use a different polyfill list — "light" and "full".
+        you can use one of the polyfill lists — "light" or "full".
     ctas:
       - text: Read More
         url: /introduction/browser-support
@@ -72,7 +72,7 @@ landing:
     text: >
       Join the array of consumers who have successfully utilized our UI component library.
       ESL brings to you a number of ultra-light reusable UI components to create unique layouts.
-      The utilities to improve development experience are right within our front end component library too.
+      The utilities to improve development experience are right within our library too.
     ctas:
       - text: Get started
         url: /introduction
