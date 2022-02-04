@@ -62,9 +62,10 @@ landing:
       - >
         If you want our UI component library to work in older browsers,
         you can use a different polyfill list — "light" and "full".
-    cta:
-      text: Read More
-      url: /introduction/browser-support
+    ctas:
+      - text: Read More
+        url: /introduction/browser-support
+        style: sec-blue
 
   promo:
     title: Let's Get Started
