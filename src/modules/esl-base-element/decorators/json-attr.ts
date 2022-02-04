@@ -14,6 +14,8 @@ interface JsonAttrDescriptor<T> {
   defaultValue?: T;
 }
 
+export type JsonAttrDecorator = (target: ESLBaseElement | ESLMixinElement, propName: string) => void;
+
 function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, defaultValue: T | null): PropertyDescriptor {
   function get(): T | null {
     const attrContent = (this.getAttribute(attrName) || '').trim();
@@ -47,7 +49,7 @@ const buildAttrName =
  * Maps object type property.
  * @param config - mapping configuration. See {@link JsonAttrDescriptor}
  */
-export const jsonAttr = <T>(config: JsonAttrDescriptor<T> = {}): PropertyDecorator => {
+export const jsonAttr = <T>(config: JsonAttrDescriptor<T> = {}): JsonAttrDecorator => {
   config = Object.assign({defaultValue: {}}, config);
   return (target: ESLBaseElement | ESLMixinElement, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);

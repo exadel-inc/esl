@@ -12,6 +12,8 @@ type BoolAttrDescriptor = {
   dataAttr?: boolean;
 };
 
+export type BoolAttrDecorator = (target: ESLBaseElement | ESLMixinElement, propName: string) => void;
+
 function buildConditionalDescriptor(attrName: string, readOnly: boolean): PropertyDescriptor {
   function get(): boolean {
     return this.hasAttribute(attrName);
@@ -32,7 +34,7 @@ const buildAttrName =
  * Maps boolean type property.
  * @param config - mapping configuration. See {@link BoolAttrDescriptor}
  */
-export const boolAttr = (config: BoolAttrDescriptor = {}): PropertyDecorator => {
+export const boolAttr = (config: BoolAttrDescriptor = {}): BoolAttrDecorator => {
   return (target: ESLBaseElement | ESLMixinElement, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildConditionalDescriptor(attrName, !!config.readonly));

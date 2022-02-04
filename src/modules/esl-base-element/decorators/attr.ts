@@ -14,6 +14,8 @@ type AttrDescriptor = {
   defaultValue?: string | boolean | null;
 };
 
+export type AttrDecorator = (target: ESLBaseElement | ESLMixinElement, propName: string) => void;
+
 function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string | boolean | null | undefined): PropertyDescriptor {
   function get(): string | boolean | null | undefined {
     const value = this.getAttribute(attrName);
@@ -39,7 +41,7 @@ const buildAttrName =
  * Maps string type property.
  * @param config - mapping configuration. See {@link AttrDescriptor}
  */
-export const attr = (config: AttrDescriptor = {}): PropertyDecorator => {
+export const attr = (config: AttrDescriptor = {}): AttrDecorator => {
   config = Object.assign({defaultValue: ''}, config);
   return (target: ESLBaseElement | ESLMixinElement, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
