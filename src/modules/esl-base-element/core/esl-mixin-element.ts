@@ -8,7 +8,7 @@ export class ESLMixinElement {
   static observedAttributes: string[] = [];
 
   /** Additional attributes observer */
-  private __attr$$: MutationObserver;
+  private _attr$$: MutationObserver;
 
   public constructor(
     public readonly $root: HTMLElement
@@ -18,42 +18,55 @@ export class ESLMixinElement {
   public connectedCallback(): void {
     const constructor = this.constructor as typeof ESLMixinElement;
     if (constructor.observedAttributes.length) {
-      this.__attr$$ = new MutationObserver(([record]) => {
-        if (!record.attributeName || !record.target) return;
-        const value = this.getAttribute(record.attributeName);
-        this.attributeChangedCallback(record.attributeName, record.oldValue, value);
-      });
-      this.__attr$$.observe(this.$root, {attributes: true, attributeFilter: constructor.observedAttributes});
+      this._attr$$ = new MutationObserver(this._onAttrMutation.bind(this));
+      this._attr$$.observe(this.$root, {attributes: true, attributeFilter: constructor.observedAttributes});
     }
   }
   /** Callback to execute on mixin instance destroy */
   public disconnectedCallback(): void {
-    if (this.__attr$$) this.__attr$$.disconnect();
+    if (this._attr$$) this._attr$$.disconnect();
   }
   /** Callback to handle additional attributes change */
   public attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
   /** Proxy for {@link Element.prototype.hasAttribute} */
-  public hasAttribute(attr: string): boolean {
-    return this.$root.hasAttribute(attr);
-  }
+  public readonly hasAttribute: typeof Element.prototype.hasAttribute;
   /** Proxy for {@link Element.prototype.getAttribute} */
-  public getAttribute(attr: string): string | null {
-    return this.$root.getAttribute(attr);
-  }
+  public readonly getAttribute: typeof Element.prototype.getAttribute;
   /** Proxy for {@link Element.prototype.setAttribute} */
-  public setAttribute(attr: string, value: string): void {
-    this.$root.setAttribute(attr, value);
-  }
+  public readonly setAttribute: typeof Element.prototype.setAttribute;
+  /** Proxy for {@link Element.prototype.removeAttribute} */
+  public readonly removeAttribute: typeof Element.prototype.removeAttribute;
   /** Proxy for {@link Element.prototype.toggleAttribute} */
-  public toggleAttribute(attr: string, force?: boolean): boolean {
-    return this.$root.toggleAttribute(attr, force);
+  public readonly toggleAttribute: typeof Element.prototype.toggleAttribute;
+
+  /** Attribute change mutation record processor */
+  private _onAttrMutation(records: MutationRecord[]): void {
+    records.forEach(({attributeName, oldValue}: MutationRecord) => {
+      if (!attributeName) return;
+      const newValue = this.getAttribute(attributeName);
+      this.attributeChangedCallback(attributeName, oldValue, newValue);
+    });
   }
 
+  /** Return mixin instance by element */
+  public static get<T extends typeof ESLMixinElement>(this: T, $el: HTMLElement): InstanceType<T> | null {
+    return ESLMixinRegistry.get($el, this.is) as InstanceType<T>;
+  }
   /** Register current mixin definition */
   public static register(): void {
     (new ESLMixinRegistry()).register(this);
   }
 }
+
+['hasAttribute', 'getAttribute', 'setAttribute', 'removeAttribute', 'toggleAttribute'].forEach((methodName: string) => {
+  Object.defineProperty(ESLMixinElement.prototype, methodName, {
+    configurable: true,
+    value(this: ESLMixinElement) {
+      // eslint-disable-next-line prefer-rest-params
+      return (Element.prototype as any)[methodName].apply(this.$root, arguments);
+    }
+  });
+});
 
 export type ConstructableESLMixin = typeof ESLMixinElement & (new($root: HTMLElement) => ESLMixinElement);
