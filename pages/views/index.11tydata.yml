@@ -45,7 +45,7 @@ landing:
       - icon: benefits/tested.svg
         name: Tested
         text: >
-          We test all of our utilities with unit tests to make ESL the best front end component library,
+          We cover all of our utilities with unit tests to make ESL the best front end component library,
           which means every new addition works just as expected.
       - icon: benefits/versatile.svg
         name: Versatile
