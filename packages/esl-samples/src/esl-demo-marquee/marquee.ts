@@ -1,9 +1,11 @@
-import {ESLBaseElement, attr} from '../../../../src/modules/esl-base-element/core';
-import {bind} from '../../../../src/modules/esl-utils/decorators/bind';
-import {ready} from '../../../../src/modules/esl-utils/decorators/ready';
-import {range} from '../../../../src/modules/esl-utils/misc/array';
-import {memoize} from '../../../../src/modules/esl-utils/decorators/memoize';
-import {isIE} from '../../../../src/modules/esl-utils/environment/device-detector';
+import {ESLBaseElement, attr} from '@esl/element';
+import {
+  bind,
+  ready,
+  range,
+  memoize,
+  isIE
+} from '@esl/utils';
 
 export class ESLDemoMarquee extends ESLBaseElement {
   static is = 'esl-d-marquee';
