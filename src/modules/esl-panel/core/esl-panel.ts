@@ -32,8 +32,8 @@ export class ESLPanel extends ESLToggleable {
   @attr({defaultValue: 'animate'}) public animateClass: string;
   /** Class(es) to be added during animation after next render ('post-animate' by default) */
   @attr({defaultValue: 'post-animate'}) public postAnimateClass: string;
-  /** Time to clear animation common params (max-height style + classes) (1s by default) */
-  @attr({defaultValue: '1000'}) public fallbackDuration: number | 'auto';
+  /** Time to clear animation common params (max-height style + classes) */
+  @attr() public fallbackDuration: number | 'auto' | '';
 
   /** Initial params for current ESLPanel instance */
   @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init'}})
@@ -104,6 +104,7 @@ export class ESLPanel extends ESLToggleable {
   /** Process animation */
   protected onAnimate(action: string): void {
     // set initial height
+    if (this.initialHeight === 0) this.afterAnimate();
     this.style.setProperty('max-height', `${action === 'hide' ? this._initialHeight : 0}px`);
     // make sure that browser apply initial height for animation
     afterNextRender(() => {
@@ -128,6 +129,7 @@ export class ESLPanel extends ESLToggleable {
 
   /** Init a fallback timer to call post-animate action */
   protected fallbackAnimate(): void {
+    if (!this.fallbackDuration) return;
     const time = +this.fallbackDuration;
     if (isNaN(time) || time < 0) return;
     if (this._fallbackTimer) clearTimeout(this._fallbackTimer);
