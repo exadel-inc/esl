@@ -1,5 +1,5 @@
-const yaml = require("js-yaml");
+const yaml = require('js-yaml');
 
 module.exports = (config) => {
-  config.addDataExtension("yml", contents => yaml.load(contents));
+  config.addDataExtension('yml', contents => yaml.load(contents));
 };
