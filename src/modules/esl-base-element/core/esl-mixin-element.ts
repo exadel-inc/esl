@@ -26,7 +26,7 @@ export class ESLMixinElement {
   public disconnectedCallback(): void {
     if (this._attr$$) this._attr$$.disconnect();
   }
-  /** Callback to handle additional attributes change */
+  /** Callback to handle changing of additional attributes */
   public attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
   /** Proxy for {@link Element.prototype.hasAttribute} */

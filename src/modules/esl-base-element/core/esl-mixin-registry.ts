@@ -8,7 +8,7 @@ let global: ESLMixinRegistry;
 
 /** Registry to store and initialize {@link ESLMixinElement} instances */
 export class ESLMixinRegistry {
-  /** Map that sores available mixins under their identifier (attribute) */
+  /** Map that stores available mixins under their identifier (attribute) */
   protected store = new Map<string, ConstructableESLMixin>();
   /** MutationObserver instance to track DOM changes and init mixins on-fly */
   protected mutation$$ = new MutationObserver(this._onMutation.bind(this));
