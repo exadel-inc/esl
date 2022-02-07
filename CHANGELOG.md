@@ -1,3 +1,27 @@
+# [3.13.0-beta.5](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.4...v3.13.0-beta.5) (2022-02-02)
+
+
+### Bug Fixes
+
+* **els-footnotes:** add ready decorator to disconnected callback ([87aa3e7](https://github.com/exadel-inc/esl/commit/87aa3e78649605bce24acc313b76f1ad4694778e))
+
+# [3.13.0-beta.4](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.3...v3.13.0-beta.4) (2022-02-02)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** fix behavior during connect/disconnect callbacks ([68a0553](https://github.com/exadel-inc/esl/commit/68a0553b409fa42b0251952401bee54a55fd24e6))
+* **esl-footnotes:** fix esl-note scroll into view on activate ([7a71a14](https://github.com/exadel-inc/esl/commit/7a71a143e0df804b07baa50cb0fb1a8f35fc438c))
+* **esl-footnotes:** fix esl-note-group attributes propagation ([9fe21b1](https://github.com/exadel-inc/esl/commit/9fe21b19daa87c95a2153ef932051ab8d27b1f81))
+* **esl-footnotes:** fix esl-note-group attributes propagation ([7f3d569](https://github.com/exadel-inc/esl/commit/7f3d569c3fc13353b7e4007de3142b7d537e810f))
+* **esl-footnotes:** replace container with containerEl at tooltip params ([5278b1f](https://github.com/exadel-inc/esl/commit/5278b1fe1be6107f0b5e089b7a9999111938cbe9))
+* **esl-popup:** fix the position of popups container ([e2d4ba4](https://github.com/exadel-inc/esl/commit/e2d4ba4a3c1a73d00abf5cb5dff0ff1eec2d96d3))
+
+
+### Features
+
+* **esl-popup:** add containerEl param to action params ([4321863](https://github.com/exadel-inc/esl/commit/43218638eed1b17f57be36ffc1adef3f4efd0b7e))
+
 # [3.13.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.2...v3.13.0-beta.3) (2022-01-26)
 
 

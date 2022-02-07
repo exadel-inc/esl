@@ -9,6 +9,7 @@ import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {scrollIntoView} from '../../esl-utils/dom/scroll';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
+import {TraversingQuery} from '../../esl-traversing-query/core';
 import {ESLFootnotes} from './esl-footnotes';
 
 import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
@@ -184,10 +185,11 @@ export class ESLNote extends ESLBaseElement {
 
   /** Merge params to pass to the toggleable */
   protected mergeToggleableParams(this: ESLNote, ...params: TooltipActionParams[]): TooltipActionParams {
+    const containerEl = this.container ? TraversingQuery.first(this.container, this) as HTMLElement : undefined;
     return Object.assign({
       initiator: 'note',
       activator: this,
-      container: this.container,
+      containerEl,
       html: this.html
     }, ...params);
   }
