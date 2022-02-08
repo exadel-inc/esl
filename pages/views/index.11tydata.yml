@@ -1,7 +1,7 @@
 seoTitle: ESL — A Web Components Library
 description: >
   ESL is an open-source UI component library based on web components.
-  Create user-friendly interfaces and build sites from the ground up faster using framework agnostic web components.
+  Create user-friendly interfaces and build sites from the ground up faster using our framework agnostic web components.
 
 landing:
   marquee:
@@ -45,20 +45,20 @@ landing:
       - icon: benefits/tested.svg
         name: Tested
         text: >
-          We cover all of our utilities with unit tests to make ESL the best front end component library,
+          We covered all of our utilities with unit tests to make ESL the best front end component library,
           which means every new addition works just as expected.
       - icon: benefits/versatile.svg
         name: Versatile
         text: >
-          Our UI component library doesn't introduce any additional restrictions as it offers library
-          and framework-agnostic web components that work with any tech stack of your choice.
+          Our UI component library doesn't introduce any additional restrictions as it offers
+          utilities and framework-agnostic web components that work with any tech stack of your choice.
 
   support:
     title: Browser Support
     text:
       - >
         Our web components library uses built-in browser functionality — Web API and ECMAScript 6 features
-        that are all fully supported by modern browsers such as Chrome, Firefox, Safari, or Edge.
+        that are fully supported by modern browsers such as Chrome, Firefox, Safari, or Edge.
       - >
         If you want our UI component library to work in older browsers,
         you can use one of the polyfill lists — "light" or "full".
@@ -70,9 +70,9 @@ landing:
   promo:
     title: Let's Get Started
     text: >
-      Join the array of consumers who have successfully utilized our UI component library.
-      ESL brings to you a number of ultra-light reusable UI components to create unique layouts.
-      The utilities to improve development experience are right within our library too.
+      Join the array of consumers who successfully use our UI component library.
+      ESL brings to you a number of ultra-light reusable UI components to create unique layouts
+      and utilities to improve the development experience.
     ctas:
       - text: Get started
         url: /introduction
