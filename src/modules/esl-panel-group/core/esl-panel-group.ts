@@ -31,8 +31,8 @@ export class ESLPanelGroup extends ESLBaseElement {
   @attr({defaultValue: ''}) public modeClsTarget: string;
   /** Class(es) to be added during animation ('animate' by default) */
   @attr({defaultValue: 'animate'}) public animationClass: string;
-  /** Time to clear animation common params (max-height style + classes) */
-  @attr() public fallbackDuration: number | 'auto' | '';
+  /** Time to clear animation common params (max-height style + classes) ('auto' by default) */
+  @attr({defaultValue: 'auto'}) public fallbackDuration: number | 'auto';
   /** List of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations) */
   @attr() public noCollapse: string;
   /**
@@ -234,7 +234,6 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Inits a fallback timer to call post-animate action */
   protected fallbackAnimate(): void {
-    if (!this.fallbackDuration) return;
     const time = +this.fallbackDuration;
     if (isNaN(time) || time < 0) return;
     if (this._fallbackTimer) clearTimeout(this._fallbackTimer);
