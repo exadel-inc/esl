@@ -67,3 +67,28 @@ export function format(str: string, source: Record<string, any>, matcher: RegExp
     return val === undefined ? match : val;
   });
 }
+
+/** Parses time, passed in seconds or milliseconds
+ * @example
+ * `.3s`, `4.5s`, `1000ms`
+ * @returns milliseconds
+*/
+export function parseTime(timeStr: string): number {
+  const isMilliseconds = timeStr.indexOf('ms') !== -1;
+  if (isMilliseconds) {
+    timeStr = timeStr.replace('ms', '');
+    return parseNumber(timeStr, NaN)!;
+  } else {
+    timeStr = timeStr.replace('s', '');
+    return parseNumber(timeStr, NaN)! * 1000;
+  }
+}
+
+/** Parses string of times, passed in seconds or milliseconds
+ * @example
+ * `.3s`, `4.5s,1000ms`, `1s, 5s`
+ * @returns array of milliseconds
+*/
+export function parseTimeSet(timeStr: string): number[] {
+  return timeStr.split(/[ ,]+/).map((timeSubstr) => parseTime(timeSubstr));
+}

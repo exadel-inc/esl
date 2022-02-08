@@ -6,7 +6,9 @@ import {
   parseAspectRatio,
   evaluate,
   format,
-  parseNumber
+  parseNumber,
+  parseTime,
+  parseTimeSet
 } from '../format';
 
 describe('misc/format helper tests', () => {
@@ -110,6 +112,37 @@ describe('misc/format helper tests', () => {
     ])(
       'args = %p, result: %p',
       (args, exp) => expect(parseNumber.apply(null, args)).toBe(exp)
+    );
+  });
+
+  describe('parseTime', () => {
+    test.each([
+      [['.3s'], 300],
+      [['.124s'], 124],
+      [['4s'], 4000],
+      [['350ms'], 350],
+      [['1024ms'], 1024],
+      [['five seconds'], NaN],
+      [['s'], NaN],
+      [['ms'], NaN],
+      [['.ms'], NaN]
+    ])(
+      'time = %p',
+      (time, num) => expect(parseTime.apply(null, time)).toBe(num)
+    );
+  });
+
+  describe('parseTimeSet', () => {
+    test.each([
+      [['.3s'], [300]],
+      [['.124s, .50s'], [124, 500]],
+      [['350ms, 1400ms'], [350, 1400]],
+      [['3s,1400ms'], [3000, 1400]],
+      [['1024ms, second'], [1024, NaN]],
+      [['ms, s'], [NaN, NaN]]
+    ])(
+      'time = %p',
+      (time, num) => expect(parseTimeSet.apply(null, time)).toStrictEqual(num)
     );
   });
 });
