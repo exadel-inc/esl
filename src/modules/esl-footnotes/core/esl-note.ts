@@ -2,6 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
+import {memoize} from '../../esl-utils/decorators/memoize';
 import {ESLTooltip} from '../../esl-tooltip/core';
 import {promisifyTimeout, repeatSequence} from '../../esl-utils/async/promise';
 import {EventUtils} from '../../esl-utils/dom/events';
@@ -13,6 +14,7 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 import {ESLFootnotes} from './esl-footnotes';
 
 import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
+import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/media-query-base';
 
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
@@ -53,7 +55,6 @@ export class ESLNote extends ESLBaseElement {
 
   protected _$footnotes: ESLFootnotes | null;
   protected _index: number;
-  protected _ignoreFootnotes: string;
 
   /** Marker to allow track hover */
   public get allowHover(): boolean {
@@ -66,7 +67,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Marker to allow footnotes to pick up this note */
   public get allowFootnotes(): boolean {
-    return !ESLMediaQuery.for(this.ignoreFootnotes).matches;
+    return !this.ignoreQuery.matches;
   }
 
   /** Note index in the scope content */
@@ -83,16 +84,11 @@ export class ESLNote extends ESLBaseElement {
     return this.allowFootnotes ? `${this._index}` : this.standaloneLabel;
   }
 
-  /** Note settings of ignoring by footnotes */
-  protected get ignoreFootnotes(): string {
-    return this._ignoreFootnotes;
-  }
-  protected set ignoreFootnotes(value: string) {
-    const oldValue = this._ignoreFootnotes;
-    oldValue && ESLMediaQuery.for(oldValue).removeListener(this._onBPChange);
-    const newValue = this.getClosestRelatedAttr('ignore') || value;
-    this._ignoreFootnotes = newValue;
-    newValue && ESLMediaQuery.for(newValue).addListener(this._onBPChange);
+  /** Query to describe conditions to ignore note by footnotes  */
+  @memoize()
+  public get ignoreQuery(): IMediaQueryCondition {
+    const ignore = this.getClosestRelatedAttr('ignore') || this.ignore;
+    return ESLMediaQuery.for(ignore);
   }
 
   @ready
@@ -117,7 +113,7 @@ export class ESLNote extends ESLBaseElement {
       this._$footnotes?.turnOffHighlight(this);
     }
     if (attrName === 'ignore') {
-      this.ignoreFootnotes = this.getClosestRelatedAttr('ignore') || newVal;
+      this.updateIgnoreQuery();
       this._onBPChange();
     }
   }
@@ -185,9 +181,11 @@ export class ESLNote extends ESLBaseElement {
     this.standalone = !(this.linked && this.allowFootnotes);
   }
 
-  /** Updates state of ignoring footnotes  */
-  public updateIgnore(): void {
-    this.ignoreFootnotes = this.getClosestRelatedAttr('ignore') || this.ignore;
+  /** Brings up to date ignore query */
+  public updateIgnoreQuery(): void {
+    this.ignoreQuery.removeListener(this._onBPChange);
+    memoize.clear(this, 'ignoreQuery');
+    this.ignoreQuery.addListener(this._onBPChange);
   }
 
   /** Initial initialization of the element during the connection to DOM */
@@ -195,7 +193,7 @@ export class ESLNote extends ESLBaseElement {
     if (!this.html) {
       this.html = this.innerHTML;
     }
-    this.updateIgnore();
+    this.updateIgnoreQuery();
     this.index = 0;
     this.linked = false;
     this.update();
