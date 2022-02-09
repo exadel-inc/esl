@@ -2,6 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
+import {memoize} from '../../esl-utils/decorators/memoize';
 import {ESLTooltip} from '../../esl-tooltip/core';
 import {promisifyTimeout, repeatSequence} from '../../esl-utils/async/promise';
 import {EventUtils} from '../../esl-utils/dom/events';
@@ -13,7 +14,7 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 import {ESLFootnotes} from './esl-footnotes';
 
 import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
-
+import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/media-query-base';
 
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
@@ -23,7 +24,7 @@ export class ESLNote extends ESLBaseElement {
   static readonly activateTimeout = 100;
 
   static get observedAttributes(): string[] {
-    return ['tooltip-shown', 'ignore-footnotes'];
+    return ['tooltip-shown', 'ignore'];
   }
 
   /** Linked state marker */
@@ -34,7 +35,7 @@ export class ESLNote extends ESLBaseElement {
   @boolAttr() public tooltipShown: boolean;
 
   /** Media query to specify that footnotes must ignore this note. Default: `not all` */
-  @attr({defaultValue: 'not all'}) public ignoreFootnotes: string;
+  @attr({defaultValue: 'not all'}) public ignore: string;
 
   /** Tooltip content */
   @attr() public html: string;
@@ -66,7 +67,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Marker to allow footnotes to pick up this note */
   public get allowFootnotes(): boolean {
-    return !ESLMediaQuery.for(this.ignoreFootnotes).matches;
+    return !this.queryToIgnore.matches;
   }
 
   /** Note index in the scope content */
@@ -83,14 +84,16 @@ export class ESLNote extends ESLBaseElement {
     return this.allowFootnotes ? `${this._index}` : this.standaloneLabel;
   }
 
+  /** Query to describe conditions to ignore note by footnotes  */
+  @memoize()
+  public get queryToIgnore(): IMediaQueryCondition {
+    const ignore = this.getClosestRelatedAttr('ignore') || this.ignore;
+    return ESLMediaQuery.for(ignore);
+  }
+
   @ready
   protected connectedCallback(): void {
-    if (!this.html) {
-      this.html = this.innerHTML;
-    }
-    this.index = 0;
-    this.linked = false;
-    this.update();
+    this.init();
     super.connectedCallback();
     this.bindEvents();
     this._sendResponseToFootnote();
@@ -109,9 +112,8 @@ export class ESLNote extends ESLBaseElement {
     if (attrName === 'tooltip-shown' && newVal === null) {
       this._$footnotes?.turnOffHighlight(this);
     }
-    if (attrName === 'ignore-footnotes') {
-      oldVal && ESLMediaQuery.for(oldVal).removeListener(this._onBPChange);
-      newVal && ESLMediaQuery.for(newVal).addListener(this._onBPChange);
+    if (attrName === 'ignore') {
+      this.updateQueryToIgnore();
       this._onBPChange();
     }
   }
@@ -122,8 +124,6 @@ export class ESLNote extends ESLBaseElement {
     this.addEventListener('keydown', this._onKeydown);
     this.addEventListener('mouseenter', this._onMouseEnter);
     this.addEventListener('mouseleave', this._onMouseLeave);
-
-    ESLMediaQuery.for(this.ignoreFootnotes).addListener(this._onBPChange);
   }
   protected unbindEvents(): void {
     document.body.removeEventListener(`${ESLFootnotes.eventNs}:request`, this._onFootnotesReady);
@@ -131,8 +131,14 @@ export class ESLNote extends ESLBaseElement {
     this.removeEventListener('keydown', this._onKeydown);
     this.removeEventListener('mouseenter', this._onMouseEnter);
     this.removeEventListener('mouseleave', this._onMouseLeave);
+  }
 
-    ESLMediaQuery.for(this.ignoreFootnotes).removeListener(this._onBPChange);
+  /** Gets attribute value from the closest element with group behavior settings */
+  protected getClosestRelatedAttr(attrName: string): string | null {
+    const tagName = (this.constructor as typeof ESLBaseElement).is;
+    const relatedAttrName = `${tagName}-${attrName}`;
+    const $closest = this.closest(`[${relatedAttrName}]`);
+    return $closest ? $closest.getAttribute(relatedAttrName) : null;
   }
 
   /** Activates note */
@@ -175,6 +181,24 @@ export class ESLNote extends ESLBaseElement {
     this.standalone = !(this.linked && this.allowFootnotes);
   }
 
+  /** Brings up to date ignore query */
+  public updateQueryToIgnore(): void {
+    this.queryToIgnore.removeListener(this._onBPChange);
+    memoize.clear(this, 'queryToIgnore');
+    this.queryToIgnore.addListener(this._onBPChange);
+  }
+
+  /** Initial initialization of the element during the connection to DOM */
+  protected init(): void {
+    if (!this.html) {
+      this.html = this.innerHTML;
+    }
+    this.updateQueryToIgnore();
+    this.index = 0;
+    this.linked = false;
+    this.update();
+  }
+
   /** Restores original note content after unlinking */
   protected restore(): void {
     this.linked = false;
@@ -185,7 +209,8 @@ export class ESLNote extends ESLBaseElement {
 
   /** Merge params to pass to the toggleable */
   protected mergeToggleableParams(this: ESLNote, ...params: TooltipActionParams[]): TooltipActionParams {
-    const containerEl = this.container ? TraversingQuery.first(this.container, this) as HTMLElement : undefined;
+    const container = this.getClosestRelatedAttr('container') || this.container;
+    const containerEl = container ? TraversingQuery.first(container, this) as HTMLElement : undefined;
     return Object.assign({
       initiator: 'note',
       activator: this,
