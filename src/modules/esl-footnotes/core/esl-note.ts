@@ -67,7 +67,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Marker to allow footnotes to pick up this note */
   public get allowFootnotes(): boolean {
-    return !this.ignoreQuery.matches;
+    return !this.queryToIgnore.matches;
   }
 
   /** Note index in the scope content */
@@ -86,7 +86,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Query to describe conditions to ignore note by footnotes  */
   @memoize()
-  public get ignoreQuery(): IMediaQueryCondition {
+  public get queryToIgnore(): IMediaQueryCondition {
     const ignore = this.getClosestRelatedAttr('ignore') || this.ignore;
     return ESLMediaQuery.for(ignore);
   }
@@ -113,7 +113,7 @@ export class ESLNote extends ESLBaseElement {
       this._$footnotes?.turnOffHighlight(this);
     }
     if (attrName === 'ignore') {
-      this.updateIgnoreQuery();
+      this.updateQueryToIgnore();
       this._onBPChange();
     }
   }
@@ -182,10 +182,10 @@ export class ESLNote extends ESLBaseElement {
   }
 
   /** Brings up to date ignore query */
-  public updateIgnoreQuery(): void {
-    this.ignoreQuery.removeListener(this._onBPChange);
-    memoize.clear(this, 'ignoreQuery');
-    this.ignoreQuery.addListener(this._onBPChange);
+  public updateQueryToIgnore(): void {
+    this.queryToIgnore.removeListener(this._onBPChange);
+    memoize.clear(this, 'queryToIgnore');
+    this.queryToIgnore.addListener(this._onBPChange);
   }
 
   /** Initial initialization of the element during the connection to DOM */
@@ -193,7 +193,7 @@ export class ESLNote extends ESLBaseElement {
     if (!this.html) {
       this.html = this.innerHTML;
     }
-    this.updateIgnoreQuery();
+    this.updateQueryToIgnore();
     this.index = 0;
     this.linked = false;
     this.update();
