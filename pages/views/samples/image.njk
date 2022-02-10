@@ -2,19 +2,19 @@
 title: Example with image
 ---
 
-<uip-root>
+<uip-root settings editor>
   <uip-header>
     <uip-snippets></uip-snippets>
     <uip-options></uip-options>
   </uip-header>
-  <template uip-snippet label="Image">
+  <script type="text/template" uip-snippet label="Image">
     <img class="demo-img" alt="patrick" src="{{ '/assets/patrick.png' | url }}">
-  </template>
-  <template uip-snippet label="link image">
+  </script>
+  <script type="text/template" uip-snippet label="link image">
     <a class="img-link" href="https://www.google.com/">
       <img class="demo-img img-256" alt="patrick" src="{{ '/assets/patrick.png' | url }}">
     </a>
-  </template>
+  </script>
   <uip-preview></uip-preview>
   <uip-settings target=".demo-img">
     <uip-text-setting label="Source" attribute="src"></uip-text-setting>

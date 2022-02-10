@@ -1,5 +1,5 @@
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
-import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {attr, boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPStateModel} from './model';
 import {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions';
 
@@ -22,12 +22,11 @@ export class UIPRoot extends ESLBaseElement {
    */
   @attr({defaultValue: 'uip-light'}) public theme: string;
 
-  /**
-   * Attributes for settings, editor, visibility state.
-   * Has two values: `expanded` and `collapsed`.
-   */
-  @attr({defaultValue: 'expanded'}) public settings: string;
-  @attr({defaultValue: 'expanded'}) public editor: string;
+  /** Attribute for settings' visibility state. */
+  @boolAttr() public settings: boolean;
+
+  /** Attribute for editor's visibility state. */
+  @boolAttr() public editor: boolean;
 
   /**
    * Attribute for controlling preview's content direction.
@@ -47,8 +46,6 @@ export class UIPRoot extends ESLBaseElement {
   protected connectedCallback() {
     super.connectedCallback();
     this.theme = String(this.theme);
-    this.settings = String(this.settings);
-    this.editor = String(this.editor);
     this.direction = String(this.direction);
     this._model.snippets = this.$snippets;
   }

@@ -63,7 +63,7 @@ export class UIPOptions extends UIPPlugin {
     $settings.innerHTML = `
         <div class="option-item">
             <input type="checkbox" id=${settingsControlId}-settings-control name=${settingsControlId}-control
-            class="option-checkbox" settings-control='settings' ${this.root?.settings === 'expanded' ? 'checked' : ''}>
+            class="option-checkbox" settings-control='settings' ${this.root?.settings ? 'checked' : ''}>
             <label class="option-label" for=${settingsControlId}-settings-control>Settings</label>
         </div>`;
     this.appendChild($settings);
@@ -76,7 +76,7 @@ export class UIPOptions extends UIPPlugin {
     $editor.innerHTML = `
         <div class="option-item">
             <input type="checkbox" id=${editorControlId}-settings-control name=${editorControlId}-control
-            class="option-checkbox" editor-control='editor' ${this.root?.editor === 'expanded' ? 'checked' : ''}>
+            class="option-checkbox" editor-control='editor' ${this.root?.editor ? 'checked' : ''}>
             <label class="option-label" for=${editorControlId}-settings-control>Editor</label>
         </div>`;
     this.appendChild($editor);
@@ -111,8 +111,8 @@ export class UIPOptions extends UIPPlugin {
 
     if (this.root) {
       if (theme) this.root.theme = theme;
-      if (settings) this.root.settings = target.checked ? 'expanded' : 'collapsed';
-      if (editor) this.root.editor = target.checked ? 'expanded' : 'collapsed';
+      if (settings) this.root.settings = target.checked;
+      if (editor) this.root.editor = target.checked;
       if (dir) this.root.direction = dir;
     }
   }

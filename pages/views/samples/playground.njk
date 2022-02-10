@@ -2,12 +2,12 @@
 title: Example with playground
 ---
 
-<uip-root>
+<uip-root settings editor>
   <uip-header>
     <uip-snippets></uip-snippets>
     <uip-options></uip-options>
   </uip-header>
-  <template uip-snippet label="Playground">
+  <script type="text/template" uip-snippet label="Playground">
     <uip-root>
       <uip-header>
         <uip-snippets></uip-snippets>
@@ -42,14 +42,14 @@ title: Example with playground
       </uip-settings>
       <uip-editor></uip-editor>
     </uip-root>
-  </template>
-  <template uip-snippet label="Users aqua list">
+  </script>
+  <script type="text/template" uip-snippet label="Users aqua list">
     <div class="user-list">
       <div class="user-block aqua-user">Alexander</div>
       <div class="user-block aqua-user">Alexey</div>
       <div class="user-block aqua-user">Marina</div>
     </div>
-  </template>
+  </script>
   <uip-preview></uip-preview>
   <uip-settings target=".user-list">
   </uip-settings>
