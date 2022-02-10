@@ -5,7 +5,8 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {ready} from '../../esl-utils/decorators/ready';
 import {prop} from '../../esl-utils/decorators/prop';
-import {rafDecorator} from '../../esl-utils/async/raf';
+import {TraversingQuery} from '../../esl-traversing-query/core';
+import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {Rect} from '../../esl-utils/dom/rect';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
@@ -13,6 +14,7 @@ import {getListScrollParents} from '../../esl-utils/dom/scroll';
 import {getWindowRect} from '../../esl-utils/dom/window';
 import {parseNumber} from '../../esl-utils/misc/format';
 import {calcPopupPosition, isMajorAxisHorizontal} from './esl-popup-position';
+import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
 import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
@@ -39,8 +41,12 @@ export interface PopupActionParams extends ToggleableActionParams {
   offsetArrow?: string;
   /** offset in pixels from trigger element */
   offsetTrigger?: number;
-  /** offset in pixels from the edges of the window */
-  offsetWindow?: number;
+  /** offset in pixels from the edges of the container (or window if the container is not defined) */
+  offsetContainer?: number;
+  /** Target to container element to define bounds of popups visibility */
+  container?: string;
+  /** Container element that defines bounds of popups visibility (is not taken into account if the container attr is set on popup) */
+  containerEl?: HTMLElement;
 }
 
 export interface ActivatorObserver {
@@ -53,9 +59,11 @@ export class ESLPopup extends ESLToggleable {
   public static is = 'esl-popup';
 
   public $arrow: HTMLElement | null;
+  public $placeholder: ESLPopupPlaceholder | null;
 
+  protected _containerEl?: HTMLElement;
   protected _offsetTrigger: number;
-  protected _offsetWindow: number;
+  protected _offsetContainer: number;
   protected _deferredUpdatePosition = rafDecorator(() => this._updatePosition());
   protected _activatorObserver: ActivatorObserver;
   protected _intersectionRatio: IntersectionRatioRect = {};
@@ -86,20 +94,38 @@ export class ESLPopup extends ESLToggleable {
    *  for RTL it is vice versa) */
   @attr({defaultValue: `${DEFAULT_OFFSET_ARROW}`}) public offsetArrow: string;
 
+  /** Target to container element {@link TraversingQuery} to define bounds of popups visibility (window by default) */
+  @attr() public container: string;
+
   /** Default params to merge into passed action params */
   @jsonAttr<PopupActionParams>({defaultValue: {
     offsetTrigger: 3,
-    offsetWindow: 15
+    offsetContainer: 15
   }})
   public defaultParams: PopupActionParams;
 
   @prop() public closeOnEsc = true;
   @prop() public closeOnOutsideAction = true;
 
+  /** Container element that define bounds of popups visibility */
+  @memoize()
+  protected get $container(): HTMLElement | undefined {
+    return this.container ? TraversingQuery.first(this.container, this) as HTMLElement : this._containerEl;
+  }
+
+  /** Get the size and position of the container */
+  protected get containerRect(): Rect {
+    const {$container} = this;
+    if (!$container) return getWindowRect();
+    const containerRect = $container.getBoundingClientRect();
+    return new Rect(containerRect.left, containerRect.top + window.pageYOffset, containerRect.width, containerRect.height);
+  }
+
   @ready
   public connectedCallback(): void {
     super.connectedCallback();
     this.$arrow = this.querySelector('span.esl-popup-arrow');
+    this.moveToBody();
   }
 
   /** Checks that the position along the horizontal axis */
@@ -119,6 +145,20 @@ export class ESLPopup extends ESLToggleable {
   protected get _offsetArrowRatio(): number {
     const ratio = parsePercent(this.offsetArrow, DEFAULT_OFFSET_ARROW) / 100;
     return RTLUtils.isRtl(this) ? 1 - ratio : ratio;
+  }
+
+  /** Moves popup into document.body */
+  protected moveToBody(): void {
+    const {parentNode, $placeholder} = this;
+    if (!parentNode || parentNode === document.body) return;
+
+    // to be safe and prevent leaks
+    $placeholder && $placeholder.parentNode?.removeChild($placeholder);
+
+    // replace this with placeholder element
+    this.$placeholder = ESLPopupPlaceholder.from(this);
+    parentNode.replaceChild(this.$placeholder, this);
+    document.body.appendChild(this);
   }
 
   /**
@@ -144,25 +184,25 @@ export class ESLPopup extends ESLToggleable {
     if (params.offsetArrow) {
       this.offsetArrow = params.offsetArrow;
     }
+    if (params.container) {
+      this.container = params.container;
+    }
+    this._containerEl = params.containerEl;
     this._offsetTrigger = params.offsetTrigger || 0;
-    this._offsetWindow = params.offsetWindow || 0;
+    this._offsetContainer = params.offsetContainer || 0;
 
     this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
-    setTimeout(() => {
-      // running as a separate task solves the problem with incorrect positioning on the first showing
-      this._updatePosition();
-      this.style.visibility = 'visible';
-      this.activator && this._addActivatorObserver(this.activator);
-      this._startUpdateLoop();
-    });
+
+    afterNextRender(() => this.afterOnShow()); // running as a separate task solves the problem with incorrect positioning on the first showing
   }
 
   /**
    * Actions to execute on hide popup.
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
-   * Removes CSS classes and update a11y by default.
+   * Removes CSS classes and updates a11y by default.
    */
   public onHide(params: PopupActionParams): void {
+    this.beforeOnHide();
     super.onHide(params);
 
     this._stopUpdateLoop();
@@ -172,7 +212,23 @@ export class ESLPopup extends ESLToggleable {
     memoize.clear(this, '_isMajorAxisHorizontal');
     memoize.clear(this, '_isMajorAxisVertical');
     memoize.clear(this, '_offsetArrowRatio');
+    memoize.clear(this, '$container');
   }
+
+  /**
+   * Actions to execute after showing of popup.
+   */
+  protected afterOnShow(): void {
+    this._updatePosition();
+    this.style.visibility = 'visible';
+    this.activator && this._addActivatorObserver(this.activator);
+    this._startUpdateLoop();
+  }
+
+  /**
+   * Actions to execute before hiding of popup.
+   */
+  protected beforeOnHide(): void {}
 
   /**
    * Checks activator intersection for adjacent axis.
@@ -226,7 +282,7 @@ export class ESLPopup extends ESLToggleable {
     this._activatorObserver = {
       unsubscribers: scrollParents.map(($root) => {
         $root.addEventListener('scroll', this.onActivatorScroll, scrollOptions);
-        return () => {
+        return (): void => {
           $root && $root.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
         };
       })
@@ -272,7 +328,7 @@ export class ESLPopup extends ESLToggleable {
 
     let same = 0;
     let lastRect = new Rect();
-    const updateLoop = () => {
+    const updateLoop = (): void => {
       if (!this.activator) {
         this._stopUpdateLoop();
         return;
@@ -326,7 +382,7 @@ export class ESLPopup extends ESLToggleable {
       element: popupRect,
       trigger,
       inner: Rect.from(trigger).grow(innerMargin),
-      outer: getWindowRect().shrink(this._offsetWindow)
+      outer: this.containerRect.shrink(this._offsetContainer)
     };
 
     const {placedAt, popup, arrow} = calcPopupPosition(config);

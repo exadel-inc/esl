@@ -1,3 +1,4 @@
+const color = require('kleur');
 /** ========================
  * It's too boring without any fun ;)
  * =========================*/
@@ -21,7 +22,8 @@ function catlog(text) {
   const catWidth = Math.max(...catLines.map((line) => line.length));
   const width = Math.max(text.length, catWidth, MIN_WIDTH) + 2;
   const result = catLines.map((line) => center(line, width, catWidth));
-  result.push('#' + center(text, width - 2) + '#');
+  result.push('');
+  result.push(color.bgGreen(center(text, width)));
   console.log(result.join('\n'));
 }
 

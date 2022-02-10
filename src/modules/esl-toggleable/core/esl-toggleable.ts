@@ -1,8 +1,9 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESC} from '../../esl-utils/dom/keys';
+import {ESC, SYSTEM_KEYS} from '../../esl-utils/dom/keys';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {bind} from '../../esl-utils/decorators/bind';
 import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
+import {sequentialUID} from '../../esl-utils/misc/uid';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
@@ -43,7 +44,7 @@ const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap(
 @ExportNs('Toggleable')
 export class ESLToggleable extends ESLBaseElement {
   static is = 'esl-toggleable';
-  static get observedAttributes() {
+  static get observedAttributes(): string[] {
     return ['open', 'group'];
   }
 
@@ -57,6 +58,8 @@ export class ESLToggleable extends ESLBaseElement {
   /** Selector to mark inner close triggers */
   @attr({name: 'close-on'}) public closeTrigger: string;
 
+  /** Disallow automatic id creation when it's empty */
+  @boolAttr() public noAutoId: boolean;
   /** Close the Toggleable on ESC keyboard event */
   @boolAttr() public closeOnEsc: boolean;
   /** Close the Toggleable on a click/tap outside */
@@ -85,20 +88,24 @@ export class ESLToggleable extends ESLBaseElement {
   /** Delay for track hover listeners actions */
   protected _trackHoverDelay: number | undefined;
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
+    if (!this.id && !this.noAutoId) {
+      const tag = (this.constructor as typeof ESLToggleable).is;
+      this.id = sequentialUID(tag, tag + '-');
+    }
     this.initiallyOpened = this.hasAttribute('open');
     this.bindEvents();
     this.setInitialState();
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this.unbindEvents();
     activators.delete(this);
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || newVal === oldVal) return;
     switch (attrName) {
       case 'open':
@@ -114,35 +121,39 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /** Set initial state of the Toggleable */
-  protected setInitialState() {
+  protected setInitialState(): void {
     if (this.initialParams) {
       this.toggle(this.initiallyOpened, this.initialParams);
     }
   }
 
-  protected bindEvents() {
+  protected bindEvents(): void {
     this.addEventListener('click', this._onClick);
     this.addEventListener('keydown', this._onKeyboardEvent);
+    this.addEventListener('esl:show:request', this._onShowRequest);
   }
 
-  protected unbindEvents() {
+  protected unbindEvents(): void {
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('keydown', this._onKeyboardEvent);
+    this.removeEventListener('esl:show:request', this._onShowRequest);
     this.bindOutsideEventTracking(false);
     this.bindHoverStateTracking(false);
   }
 
   /** Bind outside action event listeners */
-  protected bindOutsideEventTracking(track: boolean) {
+  protected bindOutsideEventTracking(track: boolean): void {
+    document.body.removeEventListener('keydown', this._onOutsideAction, true);
     document.body.removeEventListener('mouseup', this._onOutsideAction, true);
     document.body.removeEventListener('touchend', this._onOutsideAction, true);
     if (track) {
+      document.body.addEventListener('keydown', this._onOutsideAction, true);
       document.body.addEventListener('mouseup', this._onOutsideAction, true);
       document.body.addEventListener('touchend', this._onOutsideAction, true);
     }
   }
   /** Bind hover events listeners for the Toggleable itself */
-  protected bindHoverStateTracking(track: boolean, hideDelay?: number | string) {
+  protected bindHoverStateTracking(track: boolean, hideDelay?: number | string): void {
     if (!DeviceDetector.hasHover) return;
     this._trackHoverDelay = track && hideDelay !== undefined ? +hideDelay : undefined;
     if (this._trackHover === track) return;
@@ -162,12 +173,12 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /** Toggle the element state */
-  public toggle(state: boolean = !this.open, params?: ToggleableActionParams) {
+  public toggle(state: boolean = !this.open, params?: ToggleableActionParams): ESLToggleable {
     return state ? this.show(params) : this.hide(params);
   }
 
   /** Change the element state to active */
-  public show(params?: ToggleableActionParams) {
+  public show(params?: ToggleableActionParams): ESLToggleable {
     params = this.mergeDefaultParams(params);
     this._task.put(this.showTask.bind(this, params), defined(params.showDelay, params.delay));
     this.bindOutsideEventTracking(this.closeOnOutsideAction);
@@ -175,7 +186,7 @@ export class ESLToggleable extends ESLBaseElement {
     return this;
   }
   /** Change the element state to inactive */
-  public hide(params?: ToggleableActionParams) {
+  public hide(params?: ToggleableActionParams): ESLToggleable {
     params = this.mergeDefaultParams(params);
     this._task.put(this.hideTask.bind(this, params), defined(params.hideDelay, params.delay));
     this.bindOutsideEventTracking(false);
@@ -184,7 +195,7 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /** Actual show task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
-  protected showTask(params: ToggleableActionParams) {
+  protected showTask(params: ToggleableActionParams): void {
     if (!params.force && this.open) return;
     if (!params.silent && !this.$$fire('before:show', {detail: {params}})) return;
     this.activator = params.activator;
@@ -193,7 +204,7 @@ export class ESLToggleable extends ESLBaseElement {
     if (!params.silent) this.$$fire('show', {detail: {params}, cancelable: false});
   }
   /** Actual hide task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
-  protected hideTask(params: ToggleableActionParams) {
+  protected hideTask(params: ToggleableActionParams): void {
     if (!params.force && !this.open) return;
     if (!params.silent && !this.$$fire('before:hide', {detail: {params}})) return;
     this.open = false;
@@ -207,7 +218,7 @@ export class ESLToggleable extends ESLBaseElement {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Adds CSS classes, update a11y and fire esl:refresh event by default.
    */
-  protected onShow(params: ToggleableActionParams) {
+  protected onShow(params: ToggleableActionParams): void {
     CSSClassUtils.add(this, this.activeClass);
     CSSClassUtils.add(document.body, this.bodyClass, this);
     this.updateA11y();
@@ -219,14 +230,14 @@ export class ESLToggleable extends ESLBaseElement {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Removes CSS classes and update a11y by default.
    */
-  protected onHide(params: ToggleableActionParams) {
+  protected onHide(params: ToggleableActionParams): void {
     CSSClassUtils.remove(this, this.activeClass);
     CSSClassUtils.remove(document.body, this.bodyClass, this);
     this.updateA11y();
   }
 
   /** Active state marker */
-  public get open() {
+  public get open(): boolean {
     return this._open;
   }
   public set open(value: boolean) {
@@ -249,46 +260,62 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /** Called on show and on hide actions to update a11y state accordingly */
-  protected updateA11y() {
+  protected updateA11y(): void {
     const targetEl = this.$a11yTarget;
     if (!targetEl) return;
     targetEl.setAttribute('aria-hidden', String(!this._open));
   }
 
+  /** @returns if the passed event should trigger hide action */
+  public isOutsideAction(e: Event): boolean {
+    const target = e.target as HTMLElement;
+    // target is inside current toggleable
+    if (this.contains(target)) return false;
+    // target is inside last activator
+    if (this.activator && this.activator.contains(target)) return false;
+    // Event is not a system command key
+    return !(e instanceof KeyboardEvent && SYSTEM_KEYS.includes(e.key));
+  }
+
   @bind
-  protected _onClick(e: MouseEvent) {
+  protected _onClick(e: MouseEvent): void {
     const target = e.target as HTMLElement;
     if (this.closeTrigger && target.closest(this.closeTrigger)) {
       this.hide({initiator: 'close', activator: target, event: e});
     }
   }
+
   @bind
-  protected _onOutsideAction(e: MouseEvent) {
-    const target = e.target as HTMLElement;
-    if (this.contains(target)) return;
-    if (this.activator && this.activator.contains(target)) return;
+  protected _onOutsideAction(e: Event): void {
+    if (!this.isOutsideAction(e)) return;
     // Used 0 delay to decrease priority of the request
     this.hide({initiator: 'outsideaction', hideDelay: 0, event: e});
   }
 
   @bind
-  protected _onKeyboardEvent(e: KeyboardEvent) {
+  protected _onKeyboardEvent(e: KeyboardEvent): void {
     if (this.closeOnEsc && e.key === ESC) {
       this.hide({initiator: 'keyboard', event: e});
     }
   }
 
   @bind
-  protected _onMouseEnter(e: MouseEvent) {
+  protected _onMouseEnter(e: MouseEvent): void {
     const hideDelay = this._trackHoverDelay;
     const baseParams: ToggleableActionParams = {initiator: 'mouseenter', trackHover: true, activator: this.activator, event: e, hideDelay};
     this.show(Object.assign(baseParams, this.trackHoverParams));
   }
   @bind
-  protected _onMouseLeave(e: MouseEvent) {
+  protected _onMouseLeave(e: MouseEvent): void {
     const hideDelay = this._trackHoverDelay;
     const baseParams: ToggleableActionParams = {initiator: 'mouseleave', trackHover: true, activator: this.activator, event: e, hideDelay};
     this.hide(Object.assign(baseParams, this.trackHoverParams));
+  }
+
+  /** Actions to execute on show request */
+  @bind
+  protected _onShowRequest(): void {
+    this.show();
   }
 }
 

@@ -1,6 +1,6 @@
 # [ESL](../../../) Scrollbar
 
-Version: *1.3.0*
+Version: *2.0.0*
 
 Authors: *Yuliya Adamskaya*
 
@@ -60,6 +60,7 @@ Use the full module path to import it
 
 - `track-class` (default `scrollbar-track`) - class(es) that will be added to the scroll track
 
+- `no-continuous-scroll` \[boolean] (default `false`) - disable continuous scroll when the mouse button is pressed on the scrollbar
 
 ### Readonly Attributes
 

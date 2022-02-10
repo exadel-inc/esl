@@ -24,3 +24,12 @@ ESLPanel.register();
  - `animating` - marker of animation process running
 
 ESLPanel extends [ESLToggleable](../esl-toggleable/README.md) you can find other supported options in its documentation.
+
+### Events
+
+- `esl:before:show` - thrown when panel is going to change its state to expanded
+- `esl:before:hide` - thrown when panel is going to change its state to collapsed
+- `esl:show` - thrown when panel change its state to expanded
+- `esl:hide` - thrown when panel change its state to collapsed
+- `esl:after:show` - thrown when panel changed its state to expanded
+- `esl:after:hide` - thrown when panel changed its state to collapsed

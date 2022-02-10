@@ -18,18 +18,18 @@ class MediaQueryContainer extends Observable<(matches: boolean) => void> impleme
     this._onChildChange = this._onChildChange.bind(this);
   }
 
-  public addListener(listener: (matches: boolean) => void) {
+  public addListener(listener: (matches: boolean) => void): void {
     super.addListener(listener);
     if (this._listeners.size > 1) return;
     this.items.forEach((item) => item.addListener(this._onChildChange));
   }
-  public removeListener(listener: (matches: boolean) => void) {
+  public removeListener(listener: (matches: boolean) => void): void {
     super.removeListener(listener);
     if (this._listeners.size) return;
     this.items.forEach((item) => item.removeListener(this._onChildChange));
   }
 
-  public get matches() {
+  public get matches(): boolean {
     return false;
   }
 
@@ -39,7 +39,7 @@ class MediaQueryContainer extends Observable<(matches: boolean) => void> impleme
   }
 
   /** Handle query change and dispatch it on top level in case result value is changed */
-  protected _onChildChange() {
+  protected _onChildChange(): void {
     const {matches} = this;
     if (this._matches ===  matches) return;
     this.fire(this._matches = matches);
@@ -48,7 +48,7 @@ class MediaQueryContainer extends Observable<(matches: boolean) => void> impleme
 
 /** Conjunction (AND) group of media conditions */
 export class MediaQueryConjunction extends MediaQueryContainer {
-  public get matches() {
+  public get matches(): boolean {
     return this.items.every((item) => item.matches);
   }
 
@@ -61,14 +61,14 @@ export class MediaQueryConjunction extends MediaQueryContainer {
     return new MediaQueryConjunction(items);
   }
 
-  public toString() {
+  public toString(): string {
     return this.items.join(' and ');
   }
 }
 
 /** Disjunction (OR) group of media conditions */
 export class MediaQueryDisjunction extends MediaQueryContainer {
-  public get matches() {
+  public get matches(): boolean {
     return this.items.some((item) => item.matches);
   }
 
@@ -81,7 +81,7 @@ export class MediaQueryDisjunction extends MediaQueryContainer {
     return new MediaQueryDisjunction(items);
   }
 
-  public toString(pretty = false) {
+  public toString(pretty = false): string {
     return this.items.join(pretty ? ' or ' : ', ');
   }
 }

@@ -11,7 +11,7 @@ let evRegistryInstance: ESLMediaProviderRegistry | null = null;
 export class ESLMediaProviderRegistry extends Observable<(name: string, provider: ProviderType) => void> {
   private providersMap: Map<string, ProviderType> = new Map();
 
-  public static get instance() {
+  public static get instance(): ESLMediaProviderRegistry {
     if (!evRegistryInstance) {
       evRegistryInstance = new ESLMediaProviderRegistry();
     }
@@ -26,19 +26,19 @@ export class ESLMediaProviderRegistry extends Observable<(name: string, provider
   }
 
   /** Register provider */
-  public register(provider: ProviderType) {
+  public register(provider: ProviderType): void {
     if (!provider.providerName) throw new Error('Provider should have a name');
     this.providersMap.set(provider.providerName, provider);
     this.fire(provider.providerName, provider);
   }
 
   /** Check that provider is registered for passed name */
-  public has(name: string) {
+  public has(name: string): boolean {
     return this.providersMap.has(name);
   }
 
   /** Find provider by name */
-  public findByName(name: string) {
+  public findByName(name: string): ProviderType | null {
     if (!name || name === 'auto') return null;
     return this.providersMap.get(name.toLowerCase()) || null;
   }
@@ -64,7 +64,7 @@ export class ESLMediaProviderRegistry extends Observable<(name: string, provider
   }
 
   /** Create provider instance for passed configuration */
-  private static _create(provider: ProviderType, media: ESLMedia, cfg = provider.parseUrl(media.mediaSrc)) {
+  private static _create(provider: ProviderType, media: ESLMedia, cfg = provider.parseUrl(media.mediaSrc)): BaseProvider {
     const config = Object.assign({}, cfg || {}, provider.parseConfig(media));
     return new provider(media, config);
   }

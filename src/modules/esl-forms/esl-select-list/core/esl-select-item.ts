@@ -13,7 +13,7 @@ import type {ESLSelectOption} from './esl-select-wrapper';
 export class ESLSelectItem extends ESLBaseElement {
   public static readonly is: string = 'esl-select-item';
 
-  public static get observedAttributes() {
+  public static get observedAttributes(): string[] {
     return ['selected', 'disabled'];
   }
 
@@ -27,14 +27,14 @@ export class ESLSelectItem extends ESLBaseElement {
   /** Original option */
   public original: ESLSelectOption;
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.tabIndex = 0;
     this.setAttribute('role', 'checkbox');
     this.setAttribute('aria-selected', String(this.selected));
   }
 
-  protected attributeChangedCallback(attrName: string) {
+  protected attributeChangedCallback(attrName: string): void {
     if (attrName === 'selected') {
       this.setAttribute('aria-selected', String(this.selected));
     }
@@ -43,7 +43,7 @@ export class ESLSelectItem extends ESLBaseElement {
     }
   }
 
-  public update(option?: ESLSelectOption) {
+  public update(option?: ESLSelectOption): void {
     if (option) this.original = option;
     this.value = this.original.value;
     this.disabled = this.original.disabled;
@@ -52,7 +52,7 @@ export class ESLSelectItem extends ESLBaseElement {
   }
 
   /** Helper to create an option item */
-  public static build(option: ESLSelectOption) {
+  public static build(option: ESLSelectOption): ESLSelectItem {
     const item = document.createElement(ESLSelectItem.is) as ESLSelectItem;
     item.update(option);
     return item;

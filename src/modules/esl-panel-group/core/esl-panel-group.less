@@ -8,7 +8,7 @@ esl-panel-group {
     overflow: hidden;
   }
 
-  &[view='tabs'] {
+  &[current-mode='tabs'] {
     > esl-panel {
       opacity: 0;
       transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime, opacity @animationTime ease-in-out;
@@ -22,7 +22,7 @@ esl-panel-group {
 }
 
 // fix a11y
-esl-panel-group:not(.animate):not([view="open"]) esl-panel:not(.animate):not(.open) {
+esl-panel-group:not(.animate):not([current-mode="open"]) esl-panel:not(.animate):not(.open) {
   * {
     visibility: hidden !important;
   }

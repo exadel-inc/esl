@@ -1,12 +1,12 @@
 import {get} from './object';
 
 /** Converts string to kebab-case notation */
-export const toKebabCase = (str: string) => {
+export const toKebabCase = (str: string): string => {
   return str.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase();
 };
 
 /** Converts string to camelCase notation */
-export const toCamelCase = (str: string) => {
+export const toCamelCase = (str: string): string => {
   return str.trim().replace(/[\s-,_]+([a-zA-Z0-9]?)/g, (match: string, word: string) => word.toUpperCase());
 };
 
@@ -18,7 +18,7 @@ export const capitalize = (str: string): string => {
 };
 
 /** Unwraps string from parenthesis */
-export const unwrapParenthesis = (str: string) => {
+export const unwrapParenthesis = (str: string): string => {
   return str.trim().replace(/^\((.*)\)$/, '$1').trim();
 };
 
@@ -26,7 +26,7 @@ export const unwrapParenthesis = (str: string) => {
  * Parses number with the ability to pass an alternative fallback for NaN.
  * Note: falsy values except 0 are treated as NaN
  */
-export const parseNumber = (str: string | number, nanValue?: number | undefined) => {
+export const parseNumber = (str: string | number, nanValue?: number | undefined): number | undefined => {
   if (str === 0) return 0;
   const value = +(str || NaN);
   return isNaN(value) ? nanValue : value;
@@ -61,7 +61,7 @@ export function evaluate(str: string, defaultValue?: any): any {
 export const DEF_FORMAT_MATCHER = /{[{%]?([\w.]+)[%}]?}/g;
 
 /** Replaces `{key}` patterns in the string from the source object */
-export function format(str: string, source: Record<string, any>, matcher: RegExp = DEF_FORMAT_MATCHER) {
+export function format(str: string, source: Record<string, any>, matcher: RegExp = DEF_FORMAT_MATCHER): string {
   return str.replace(matcher, (match, key) => {
     const val = get(source, key);
     return val === undefined ? match : val;

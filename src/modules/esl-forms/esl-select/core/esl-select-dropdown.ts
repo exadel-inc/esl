@@ -30,7 +30,7 @@ export class ESLSelectDropdown extends ESLPopup {
   }})
   public defaultParams: PopupActionParams;
 
-  public static register() {
+  public static register(): void {
     ESLSelectList.register();
     super.register();
   }
@@ -50,18 +50,18 @@ export class ESLSelectDropdown extends ESLPopup {
     this.$list = document.createElement(ESLSelectList.is);
   }
 
-  protected setInitialState() {}
+  protected setInitialState(): void {}
 
-  public connectedCallback() {
+  public connectedCallback(): void {
     super.connectedCallback();
     this.appendChild(this.$list);
   }
-  public disconnectedCallback() {
+  public disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeChild(this.$list);
   }
 
-  public onShow(params: ToggleableActionParams) {
+  public onShow(params: ToggleableActionParams): void {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
@@ -74,7 +74,7 @@ export class ESLSelectDropdown extends ESLPopup {
     focusable && afterNextRender(() => focusable.focus({preventScroll: true}));
   }
 
-  public onHide(params: ToggleableActionParams) {
+  public onHide(params: ToggleableActionParams): void {
     const select = this.activator;
     super.onHide(params);
     this._disposeTimeout = window.setTimeout(() => {
@@ -85,12 +85,12 @@ export class ESLSelectDropdown extends ESLPopup {
   }
 
   @bind
-  protected _onKeyboardEvent(e: KeyboardEvent) {
+  protected _onKeyboardEvent(e: KeyboardEvent): void {
     super._onKeyboardEvent(e);
     if (e.key === TAB) this._onTabKey(e);
   }
 
-  protected _onTabKey(e: KeyboardEvent) {
+  protected _onTabKey(e: KeyboardEvent): void {
     const els = this.querySelectorAll('[tabindex]');
     const first = els[0] as HTMLElement;
     const last = els[els.length - 1] as HTMLElement;
@@ -98,7 +98,7 @@ export class ESLSelectDropdown extends ESLPopup {
     if (last && e.target === first && e.shiftKey) last.focus();
   }
 
-  protected _updatePosition() {
+  protected _updatePosition(): void {
     if (!this.activator) return;
     const rect = this.activator.getBoundingClientRect();
     this.style.width = `${rect.width}px`;

@@ -9,7 +9,7 @@ declare global {
 }
 
 /** Create and return sequential id */
-export const sequentialUID = (name: string, prefix: string = name) => {
+export const sequentialUID = (name: string, prefix: string = name): string => {
   const uid = (sequences.get(name) || 0) + 1;
   sequences.set(name, uid);
   return prefix + uid;

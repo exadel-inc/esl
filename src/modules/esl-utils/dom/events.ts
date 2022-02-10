@@ -11,7 +11,7 @@ export abstract class EventUtils {
    * @param eventName - event name
    * @param eventInit - custom event init. See {@link CustomEventInit}
    */
-  public static dispatch(el: EventTarget, eventName: string, eventInit?: CustomEventInit) {
+  public static dispatch(el: EventTarget, eventName: string, eventInit?: CustomEventInit): boolean {
     const init = Object.assign({
       bubbles: true,
       composed: true,
@@ -21,14 +21,24 @@ export abstract class EventUtils {
   }
 
   /** Get original CustomEvent source */
-  public static source(e: CustomEvent) {
+  public static source(e: CustomEvent): EventTarget | null {
     const targets = (e.composedPath && e.composedPath());
     return targets ? targets[0] : e.target;
   }
 
+  /** Check if the passed event is {@link MouseEvent} */
+  public static isMouseEvent(event: Event): event is MouseEvent {
+    return window.MouseEvent && event instanceof MouseEvent;
+  }
+
+  /** Check if the passed event is {@link TouchEvent} */
+  public static isTouchEvent(event: Event): event is TouchEvent {
+    return window.TouchEvent && event instanceof TouchEvent;
+  }
+
   /** Normalize TouchEvent or PointerEvent */
-  public static normalizeTouchPoint(event: TouchEvent | PointerEvent): Point {
-    const source = (event instanceof TouchEvent) ? event.changedTouches[0] : event;
+  public static normalizeTouchPoint(event: TouchEvent | PointerEvent | MouseEvent): Point {
+    const source = EventUtils.isTouchEvent(event) ? event.changedTouches[0] : event;
     return {
       x: source.pageX,
       y: source.pageY
@@ -36,23 +46,24 @@ export abstract class EventUtils {
   }
 
   /** Normalize MouseEvent */
-  public static normalizeCoordinates(event: MouseEvent, elem: HTMLElement): Point {
+  public static normalizeCoordinates(event: TouchEvent | PointerEvent | MouseEvent, elem: HTMLElement): Point {
+    const source = EventUtils.isTouchEvent(event) ? event.changedTouches[0] : event;
     const props = elem.getBoundingClientRect();
-    const top = props.top + window.pageYOffset;
-    const left = props.left + window.pageXOffset;
+    const top = props.top + window.scrollY;
+    const left = props.left + window.scrollX;
     return {
-      x: event.pageX - left,
-      y: event.pageY - top
+      x: source.pageX - left,
+      y: source.pageY - top
     };
   }
 
   /** Stub method to prevent event from bubbling out of target */
-  public static stopPropagation(e?: Event) {
+  public static stopPropagation(e?: Event): void {
     e?.stopPropagation();
   }
 
   /** Stub method to prevent default event behaviour */
-  public static preventDefault(e?: Event) {
+  public static preventDefault(e?: Event): void {
     e?.preventDefault();
   }
 }

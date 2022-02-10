@@ -41,7 +41,7 @@ export const isMobile = isMobileIOS || isAndroid || isLegacyMobile;
 export const isMobileSafari = isMobileIOS && isWebkit && /CriOS/i.test(userAgent);
 
 // Touch Detection
-export const isTouchDevice = (() => {
+export const isTouchDevice = ((): boolean => {
   const navApi: any = window.navigator;
   if (navApi.maxTouchPoints || navApi.msMaxTouchPoints) return true;
   return ('ontouchstart' in window) || ('DocumentTouch' in window && document instanceof Touch);
@@ -51,8 +51,13 @@ export const isTouchDevice = (() => {
 // Note: always true for IE
 export const hasHover = !matchMedia('(hover: none)').matches;
 
-// TODO: move to the touch/pointer utils
-export const TOUCH_EVENTS = (() => {
+type TouchEventsDefinition = {
+  START: string;
+  MOVE: string;
+  END: string;
+};
+/** @deprecated TODO: needs to be reworked or moved away from device detector */
+export const TOUCH_EVENTS = ((): TouchEventsDefinition => {
   const isTouch = isTouchDevice;
   return {
     START: isTouch ? 'touchstart' : 'pointerdown',
@@ -112,7 +117,7 @@ export abstract class DeviceDetector {
   // Note: always true for IE
   public static hasHover = hasHover;
 
-  // TODO: move to the touch/pointer utils
+  /** @deprecated TODO: needs to be reworked or moved away from device detector */
   static TOUCH_EVENTS = TOUCH_EVENTS;
 }
 
