@@ -20,8 +20,10 @@ import type {ToggleableActionParams} from '../../../esl-toggleable/core/esl-togg
 export class ESLSelectDropdown extends ESLPopup {
   public static readonly is = 'esl-select-dropdown';
 
-  @prop() public behavior: string = '';
+  @prop() public behavior: string = ''; // TODO: remove
   @prop() public position: PositionType = 'bottom';
+  @prop() public closeOnEsc = true;
+  @prop() public closeOnOutsideAction = true;
 
   /** Default params to merge into passed action params */
   @jsonAttr<PopupActionParams>({defaultValue: {
@@ -30,20 +32,12 @@ export class ESLSelectDropdown extends ESLPopup {
   }})
   public defaultParams: PopupActionParams;
 
-  public static register(): void {
-    ESLSelectList.register();
-    super.register();
-  }
-
   /** Owner ESLSelect instance */
   public $owner: ESLSelect;
-
   /** Inner ESLSelectList component */
-  protected $list: ESLSelectList;
+  public $list: ESLSelectList;
+  /** Timeout id to dispose */
   protected _disposeTimeout: number;
-
-  @prop() public closeOnEsc = true;
-  @prop() public closeOnOutsideAction = true;
 
   constructor() {
     super();
@@ -102,8 +96,12 @@ export class ESLSelectDropdown extends ESLPopup {
     if (!this.activator) return;
     const rect = this.activator.getBoundingClientRect();
     this.style.width = `${rect.width}px`;
-    // TODO: fix potential reflow
     super._updatePosition();
+  }
+
+  public static register(): void {
+    ESLSelectList.register();
+    super.register();
   }
 }
 
