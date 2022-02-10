@@ -77,11 +77,10 @@ export function parseTime(timeStr: string): number {
   const isMilliseconds = timeStr.indexOf('ms') !== -1;
   if (isMilliseconds) {
     timeStr = timeStr.replace('ms', '');
-    return parseNumber(timeStr, NaN)!;
   } else {
     timeStr = timeStr.replace('s', '');
-    return parseNumber(timeStr, NaN)! * 1000;
   }
+  return timeStr.indexOf('.') === timeStr.length - 1 ? NaN : parseNumber(timeStr, NaN)! * (isMilliseconds ? 1 : 1000);
 }
 
 /** Parses string of times, passed in seconds or milliseconds

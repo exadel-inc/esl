@@ -124,7 +124,10 @@ describe('misc/format helper tests', () => {
       [['1024ms'], 1024],
       [['five seconds'], NaN],
       [['s'], NaN],
+      [['4min'], NaN],
       [['ms'], NaN],
+      [['4.ms'], NaN],
+      [['350.s'], NaN],
       [['.ms'], NaN]
     ])(
       'time = %p',
@@ -139,6 +142,7 @@ describe('misc/format helper tests', () => {
       [['350ms, 1400ms'], [350, 1400]],
       [['3s,1400ms'], [3000, 1400]],
       [['1024ms, second'], [1024, NaN]],
+      [['350ms, 350.s'], [350, NaN]],
       [['ms, s'], [NaN, NaN]]
     ])(
       'time = %p',
