@@ -75,11 +75,7 @@ export function format(str: string, source: Record<string, any>, matcher: RegExp
 */
 export function parseTime(timeStr: string): number {
   const isMilliseconds = timeStr.indexOf('ms') !== -1;
-  if (isMilliseconds) {
-    timeStr = timeStr.replace('ms', '');
-  } else {
-    timeStr = timeStr.replace('s', '');
-  }
+  timeStr = timeStr.replace(isMilliseconds ? 'ms' : 's', '');
   return timeStr.indexOf('.') === timeStr.length - 1 ? NaN : parseNumber(timeStr, NaN)! * (isMilliseconds ? 1 : 1000);
 }
 
