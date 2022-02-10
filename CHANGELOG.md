@@ -1,3 +1,10 @@
+# [3.13.0-beta.6](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.5...v3.13.0-beta.6) (2022-02-10)
+
+
+### Features
+
+* **esl-footnotes:** add getting attribute value from  closest element with group behavior settings ([b286e92](https://github.com/exadel-inc/esl/commit/b286e92cdef5ab44058263e4c8fcdae474125b9f))
+
 # [3.13.0-beta.5](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.4...v3.13.0-beta.5) (2022-02-02)
 
 
