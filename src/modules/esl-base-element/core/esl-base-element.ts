@@ -1,8 +1,9 @@
 import {EventUtils} from '../../esl-utils/dom/events';
+import {CSSClassUtils} from '../../esl-utils/dom/class';
 
 /**
  * Base class for ESL custom elements.
- * Allows to define custom element with the optional custom tag name.
+ * Allows defining custom element with the optional custom tag name.
  */
 export abstract class ESLBaseElement extends HTMLElement {
   /** Custom element tag name */
@@ -22,6 +23,33 @@ export abstract class ESLBaseElement extends HTMLElement {
   public get connected(): boolean {
     return this._connected;
   }
+
+  /** Set CSS classes for current element */
+  public $$cls(cls: string, value?: boolean): boolean {
+    if (value === undefined) return CSSClassUtils.has(this, cls);
+    CSSClassUtils.toggle(this, cls, value);
+    return value;
+  }
+  // /** Get if passed CSS classes presented on the current element */
+  // public $$hasCls(cls: string): boolean {
+  //   return CSSClassUtils.has(this, cls);
+  // }
+
+  /** Get or set attribute */
+  public $$attr(name: string, value?: null | boolean | string): string | null {
+    const prevValue = this.getAttribute(name);
+    if (value === undefined) return prevValue;
+    if (value === null || value === false) {
+      this.removeAttribute(name);
+    } else {
+      this.setAttribute(name, value === true ? '' : value);
+    }
+    return prevValue;
+  }
+  // /** Get if passed attribute presented on the current element */
+  // public $$hasAttr(name: string) {
+  //   return this.hasAttribute(name);
+  // }
 
   /**
    * Dispatch component custom event.
