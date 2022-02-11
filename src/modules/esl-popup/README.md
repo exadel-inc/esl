@@ -11,6 +11,8 @@ Authors: *Alexey Stsefanovich (ala'n), Dmytro Shovchko*.
 ESLPopup is a custom element that is used as a wrapper for content that can be displayed as a pop-up GUI element.
 ESLPopup is based on ESLToggleable and works in pair with ESLTrigger that allows triggering ESLPopup instances state changes.
 
+ESLPopup can only function correctly if it is only inside the document.body. Therefore, when it connects to the DOM, it checks and if it is not in the body, it moves itself to the document.body and leaves an ESLPopupPlaceholder element in its place. 
+
 ### ESLPopup Attributes | Properties:
 
 - `position` (string) - popup position relative to the trigger (currently supported: 'top', 'bottom', 'left', 'right' ) ('top' by default)
@@ -21,8 +23,12 @@ ESLPopup is based on ESLToggleable and works in pair with ESLTrigger that allows
   - `fit-minor` - same as fit, but position dynamically updates only on minor axes. Looks like alignment to the arrow
   - empty or unsupported value - will not be prevented from overflowing clipping boundaries, such as the viewport
   
+- `container` - target to container element ([TraversingQuery](../esl-traversing-query/README.md) selector) to define bounds of popup visibility (window by default)
+  
 - `disable-activator-observation` (boolean) - disable hiding the popup depending on the visibility of the activator
+  
 - `margin-arrow` - margins on the edges of the arrow. This is the value in pixels that will be between the edge of the popup and the arrow at extreme positions of the arrow when offsetArrow is set to 0 or 100 (5 by default)
+  
 - `offset-arrow` - offset of the arrow as a percentage of the popup edge. 0% - at the left edge, 100% - at the right edge, for RTL it is vice versa (50 by default)
 
 ESLPopup extends [ESLToggleable](../esl-toggleable/README.md) you can find other supported options in its documentation.
