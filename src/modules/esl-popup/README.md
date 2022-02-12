@@ -11,7 +11,7 @@ Authors: *Alexey Stsefanovich (ala'n), Dmytro Shovchko*.
 ESLPopup is a custom element that is used as a wrapper for content that can be displayed as a pop-up GUI element.
 ESLPopup is based on ESLToggleable and works in pair with ESLTrigger that allows triggering ESLPopup instances state changes.
 
-ESLPopup can only function correctly if it is only inside the document.body. Therefore, when it connects to the DOM, it checks and if it is not in the body, it moves itself to the document.body and leaves an ESLPopupPlaceholder element in its place. 
+ESLPopup can only function correctly if it is only inside the document.body. Therefore, when it connects to the DOM, it checks if it's in the body, and if it's not, it moves itself to the document.body and leaves an ESLPopupPlaceholder element in its place. 
 
 ### ESLPopup Attributes | Properties:
 
