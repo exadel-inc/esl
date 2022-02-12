@@ -32,11 +32,11 @@ ESLNote is a badge with a number or symbol. When hovered or clicked (user-define
 
 ### ESLNote Attributes | Properties:
 
-- `linked` - read-only marker that exists only on the note linked with the footnotes
+- `linked` - read-only marker that appears only on the note linked with the footnotes
 
-- `standalone` - read-only marker indicates that the note remains independent of the notes even if it is linked with them (ignore mode, for example) and doesn't receive its ordinal index from the footnotes (the default * or a user-defined value is displayed)
+- `standalone` - read-only marker which indicates that the note remains independent of the notes even if it is linked with them (ignore mode, for example) and doesn't receive its ordinal index from the footnotes (the default * or a user-defined value is displayed)
 
-- `tooltip-shown` - read-only marker which exists when notes tooltip is shown
+- `tooltip-shown` - read-only marker which appears when notes tooltip is shown
 
 - `container` - target to container element ([TraversingQuery](../esl-traversing-query/README.md) selector) to define bounds of tooltip visibility (window by default)
 
