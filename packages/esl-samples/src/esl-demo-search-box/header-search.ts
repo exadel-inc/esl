@@ -2,7 +2,7 @@ import {prop} from '@esl/utils';
 import {
   CSSClassUtils,
   afterNextRender,
-  parseNumber
+  FormatUtils
 } from '@esl/utils';
 import {attr, boolAttr} from '@esl/element';
 import {TraversingQuery} from '@esl/traversing-query';
@@ -26,7 +26,7 @@ export class ESLDemoSearchBox extends ESLToggleable {
     afterNextRender(() => super.onShow(params));
     if (this.autofocus) {
       const $focusEl = TraversingQuery.first(this.firstFocusable, this) as HTMLElement;
-      $focusEl && window.setTimeout(() => $focusEl.focus(), parseNumber(this.postClsDelay));
+      $focusEl && window.setTimeout(() => $focusEl.focus(), FormatUtils.parseNumber(this.postClsDelay));
     }
   }
 
@@ -35,6 +35,6 @@ export class ESLDemoSearchBox extends ESLToggleable {
     window.setTimeout(() => {
       CSSClassUtils.remove(this, this.postCls);
       this.activator?.focus({preventScroll: true});
-    }, parseNumber(this.postClsDelay));
+    }, FormatUtils.parseNumber(this.postClsDelay));
   }
 }

@@ -2,7 +2,7 @@ import {ESLBaseElement, attr} from '@esl/element';
 import {
   bind,
   ready,
-  range,
+  ArrayUtils,
   memoize,
   isIE
 } from '@esl/utils';
@@ -55,9 +55,9 @@ export class ESLDemoMarquee extends ESLBaseElement {
 
   @bind
   protected _onIteration(): void {
-    const $candidates = range(+this.targetsNumber, () => this.$randomStar);
+    const $candidates = ArrayUtils.range(+this.targetsNumber, () => this.$randomStar);
     this._$active.forEach((star) => star.classList.remove('animate'));
-    $candidates.forEach((star) => star.classList.add('animate'));
+    $candidates.forEach((star: HTMLElement) => star.classList.add('animate'));
     this._$active = $candidates;
 
     this._animateTimer = window.setTimeout(this._onIteration, +this.iterationTime);
