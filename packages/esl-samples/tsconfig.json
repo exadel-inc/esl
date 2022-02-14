@@ -1,7 +1,13 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "lib"
+    "outDir": "lib",
+    "composite": true,
   },
-  "extends": "../../tsconfig.json"
+  "references": [
+    { "path": "../esl-utils" },
+    { "path": "../esl-element" },
+    { "path": "../esl-toggleables" }
+  ]
 }

@@ -14,11 +14,12 @@
   "scripts": {
     "clean": "tsc --build --clean",
     "build": "tsc --build",
-    "watch": "tsc --build --watch"
+    "watch": "tsc --build --watch",
+    "prepare": "npm run build"
   },
   "dependencies": {
-    "@esl/element": "1.0.0",
     "@esl/utils": "1.0.0",
+    "@esl/element": "1.0.0",
     "@esl/media-query": "2.0.0",
     "@esl/traversing-query": "1.0.0"
   }

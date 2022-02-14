@@ -12,6 +12,7 @@ node_modules
 target
 pages/dist
 packages/*/lib
+packages/*/tsconfig.tsbuildinfo
 
 # Generated surces
 /modules
