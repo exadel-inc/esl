@@ -40,7 +40,7 @@ ESLNote is a badge with a number or symbol. When it's hovered or clicked (user-d
 
 - `container` - defines container element ([TraversingQuery](../esl-traversing-query/README.md) selector) to determinate bounds of tooltip visibility (window by default)
 
-- `ignore` - [MediaQuery](../esl-media-query/README.md) to specify device media conditions when footnotes must ignore current note. (`not all` by default)
+- `ignore` - [MediaQuery](../esl-media-query/README.md) to specify device media conditions when footnotes must ignore current note (`not all` by default)
 
 - `html` - content of note tooltip. If not present, it fills with innerHTML of ESLNote
 
