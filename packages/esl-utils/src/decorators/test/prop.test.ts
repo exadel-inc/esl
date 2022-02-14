@@ -1,3 +1,5 @@
+// TODO: rewrite test without dependency on '@esl/element'
+
 // import '../../../../../polyfills/es5-target-shim';
 // import {ESLBaseElement, attr, boolAttr, jsonAttr} from '@esl/element';
 // import {prop} from '../prop';
