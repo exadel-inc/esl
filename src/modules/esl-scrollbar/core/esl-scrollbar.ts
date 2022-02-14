@@ -201,7 +201,9 @@ export class ESLScrollbar extends ESLBaseElement {
   /** Normalizes position value (between 0.0 and 1.0) */
   protected normalizePosition(position: number): number {
     const relativePosition = Math.min(1, Math.max(0, position));
-    if (this.$target && !RTLUtils.isRtl(this.$target)) return relativePosition;
+    if (!RTLUtils.isRtl(this.$target) || !this.horizontal) {
+      return relativePosition;
+    }
     return RTLUtils.scrollType === 'negative' ? (relativePosition - 1) : (1 - relativePosition);
   }
 
