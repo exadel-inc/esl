@@ -23,7 +23,7 @@ ESLPopup can only function correctly if it is only inside the document.body. The
   - `fit-minor` - same as fit, but position dynamically updates only on minor axes. Looks like alignment to the arrow
   - empty or unsupported value - will not be prevented from overflowing clipping boundaries, such as the viewport
   
-- `container` - target to container element ([TraversingQuery](../esl-traversing-query/README.md) selector) to define bounds of popup visibility (window by default)
+- `container` - defines container element ([TraversingQuery](../esl-traversing-query/README.md) selector) to determinate bounds of popup visibility (window by default)
   
 - `disable-activator-observation` (boolean) - disable hiding the popup depending on the visibility of the activator
   
