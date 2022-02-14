@@ -45,7 +45,7 @@ export class UIPStateModel extends Observable {
     if (!root || root.innerHTML !== this.html) {
       this._html = root;
       this._lastModifier = modifier;
-      this.promisifiedFiring();
+      this.promisifyFiring();
     }
   }
 
@@ -75,10 +75,10 @@ export class UIPStateModel extends Observable {
 
     UIPStateModel.setAttribute(elements, attribute, 'transform' in cfg ? cfg.transform : cfg.value);
     this._lastModifier = modifier;
-    this.promisifiedFiring();
+    this.promisifyFiring();
   }
 
-  protected promisifiedFiring() {
+  protected promisifyFiring() {
     if (!this._isFired) {
       this._isFired = true;
       Promise.resolve().then(() => {
