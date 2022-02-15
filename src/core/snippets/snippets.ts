@@ -115,13 +115,13 @@ export class UIPSnippets extends UIPPlugin {
 
   protected renderDropdown(snippets: HTMLTemplateElement[], title: HTMLElement) {
 
-    Array.from(snippets)
+    snippets
       .map((snippet: HTMLTemplateElement) => this.buildListItem(snippet))
       .forEach((item) => item && this.$snippetList.appendChild(item));
 
     this.$snippetList.classList.add('esl-scrollable-content');
     this.$dropdownWrapper.appendChild(this.$snippetList);
-    this.$scroll &&this.$dropdownWrapper.appendChild(this.$scroll);
+    this.$scroll && this.$dropdownWrapper.appendChild(this.$scroll);
 
     this.$dropdownControl.appendChild(title);
     this.appendChild(this.$dropdownControl);
@@ -167,8 +167,6 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   toggleDropdown(): void {
-    this.classList.contains('dropdown-open')
-      ? this.classList.remove('dropdown-open')
-      : this.classList.add('dropdown-open');
+    this.classList.toggle('dropdown-open');
   }
 }
