@@ -1,3 +1,4 @@
+import {setAttr} from '../../esl-utils/dom/attr';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 
@@ -30,26 +31,13 @@ export abstract class ESLBaseElement extends HTMLElement {
     CSSClassUtils.toggle(this, cls, value);
     return value;
   }
-  // /** Get if passed CSS classes presented on the current element */
-  // public $$hasCls(cls: string): boolean {
-  //   return CSSClassUtils.has(this, cls);
-  // }
 
   /** Get or set attribute */
   public $$attr(name: string, value?: null | boolean | string): string | null {
     const prevValue = this.getAttribute(name);
-    if (value === undefined) return prevValue;
-    if (value === null || value === false) {
-      this.removeAttribute(name);
-    } else {
-      this.setAttribute(name, value === true ? '' : value);
-    }
+    if (value !== undefined) setAttr(this, name, value);
     return prevValue;
   }
-  // /** Get if passed attribute presented on the current element */
-  // public $$hasAttr(name: string) {
-  //   return this.hasAttribute(name);
-  // }
 
   /**
    * Dispatch component custom event.
