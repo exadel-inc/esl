@@ -261,3 +261,5 @@ overrides:
     - '*.shape.ts'
     rules:
       '@typescript-eslint/no-namespace': off
+      # Temporary of as false positive
+      '@typescript-eslint/no-unnecessary-type-arguments': off
