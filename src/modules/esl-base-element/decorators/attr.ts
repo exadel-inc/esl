@@ -1,6 +1,6 @@
 import {toKebabCase} from '../../esl-utils/misc/format';
-import type {ESLBaseElement} from '../core/esl-base-element';
-import type {ESLMixinElement} from '../core/esl-mixin-element';
+import {getAttr, setAttr} from '../../esl-utils/dom/attr';
+import type {AttributeTarget} from '../../esl-utils/dom/attr';
 
 /** HTML attribute mapping configuration */
 type AttrDescriptor = {
@@ -14,20 +14,15 @@ type AttrDescriptor = {
   defaultValue?: string | boolean | null;
 };
 
-export type AttrDecorator = (target: ESLBaseElement | ESLMixinElement, propName: string) => void;
+export type AttrDecorator = (target: AttributeTarget, propName: string) => void;
 
 function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string | boolean | null | undefined): PropertyDescriptor {
   function get(): string | boolean | null | undefined {
-    const value = this.getAttribute(attrName);
-    return typeof value === 'string' ? value : defaultValue;
+    return getAttr(this, attrName, defaultValue);
   }
 
   function set(value: string | boolean | null | undefined): void {
-    if (value === undefined || value === null || value === false) {
-      this.removeAttribute(attrName);
-    } else {
-      this.setAttribute(attrName, value === true ? '' : value);
-    }
+    setAttr(this, attrName, value);
   }
 
   return readOnly ? {get} : {get, set};
@@ -43,7 +38,7 @@ const buildAttrName =
  */
 export const attr = (config: AttrDescriptor = {}): AttrDecorator => {
   config = Object.assign({defaultValue: ''}, config);
-  return (target: ESLBaseElement | ESLMixinElement, propName: string): void => {
+  return (target: AttributeTarget, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildSimpleDescriptor(attrName, !!config.readonly, config.defaultValue));
   };
