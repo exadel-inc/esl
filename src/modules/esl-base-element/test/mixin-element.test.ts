@@ -40,31 +40,31 @@ describe('ESLMixinElement', () => {
     });
   });
 
-  // describe('instance proxy', () => {
-  //   class TestMixin extends ESLMixinElement {
-  //     static is = 'test-mixin-2';
-  //
-  //     @attr() public val: string;
-  //   }
-  //
-  //   const $el = document.createElement('div');
-  //   $el.toggleAttribute(TestMixin.is, true);
-  //
-  //   beforeAll(() => {
-  //     document.body.appendChild($el);
-  //     TestMixin.register();
-  //   });
-  //
-  //   test('attr', async () => {
-  //     const mixin = TestMixin.get($el) as TestMixin;
-  //     expect($el.getAttribute('val')).toBe(null);
-  //
-  //     mixin.val = 'a';
-  //     expect($el.getAttribute('val')).toBe('a');
-  //   });
-  //
-  //   afterAll(() => {
-  //     while (document.body.lastElementChild) document.body.removeChild(document.body.lastElementChild);
-  //   });
-  // });
+  describe('instance proxy', () => {
+    class TestMixin extends ESLMixinElement {
+      static is = 'test-mixin-2';
+
+      @attr() public val: string;
+    }
+
+    const $el = document.createElement('div');
+    $el.toggleAttribute(TestMixin.is, true);
+
+    beforeAll(() => {
+      document.body.appendChild($el);
+      TestMixin.register();
+    });
+
+    test('attr', async () => {
+      const mixin = TestMixin.get($el) as TestMixin;
+      expect($el.getAttribute('val')).toBe(null);
+
+      mixin.val = 'a';
+      expect($el.getAttribute('val')).toBe('a');
+    });
+
+    afterAll(() => {
+      while (document.body.lastElementChild) document.body.removeChild(document.body.lastElementChild);
+    });
+  });
 });
