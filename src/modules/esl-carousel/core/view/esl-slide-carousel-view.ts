@@ -6,6 +6,10 @@ import type {CarouselDirection} from '../esl-carousel-utils';
 export class ESLSlideCarouselView extends ESLCarouselView {
   public static is = 'slide';
 
+  /**
+   * Processes binding of defined view to the carousel {@link ESLCarousel}.
+   * Prepare to view animation.
+   */
   // TODO: check
   public onBind(): void {
     const {$slides, $slidesArea} = this.carousel;
@@ -18,6 +22,20 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     $slides.forEach((slide) => slide.style.minWidth = this.slideWidth + 'px');
   }
 
+  /**
+   * Processes unbinding of defined view from the carousel {@link ESLCarousel}.
+   * Clear animation.
+   */
+  public onUnbind(): void {
+    this.carousel.toggleAttribute('animate', false);
+    this.carousel.toggleAttribute('direction', false);
+    this.carousel.$slides.forEach((slide) => {
+      slide.classList.remove('next');
+      slide.classList.remove('prev');
+    });
+  }
+
+  /** Pre-processing animation action. */
   public async onBeforeAnimate(index: number, direction: CarouselDirection): Promise<void> {
     if (this.carousel.hasAttribute('animate')) return Promise.reject();
 
@@ -32,6 +50,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     return promisifyNextRender();
   }
 
+  /** Processes animation. */
   public async onAnimate(nextIndex: number, direction: CarouselDirection): Promise<void> {
     this.carousel.toggleAttribute('animate', true);
 
@@ -40,6 +59,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
       .catch(resolvePromise);
   }
 
+  /** Post-processing animation action. */
   public async onAfterAnimate(): Promise<void> {
     this.carousel.toggleAttribute('animate', false);
     this.carousel.toggleAttribute('direction', false);
@@ -51,6 +71,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     return Promise.resolve();
   }
 
+  /** Handles the slides transition. */
   public onMove(offset: number): void {
     if (!this.isNonLoopBorders(offset)) return;
 
@@ -68,8 +89,8 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     this.carousel.$slidesArea!.style.transform = `translateX(${-($activeSlide?.offsetLeft || 0) + offset}px)`;
   }
 
+  /** Ends current transition and make permanent all changes performed in the transition. */
   public async commit(offset: number): Promise<void> {
-    // TODO: connect with onMove check
     if (!this.isNonLoopBorders(offset)) return;
 
     const width = parseFloat(getComputedStyle(this.carousel.$activeSlide as Element).width);
@@ -101,6 +122,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     });
   }
 
+  /** @returns marker if the carousel offset matches the loop borders */
   protected isNonLoopBorders(offset: number): boolean {
     if (this.carousel.loop) return true;
     const shiftCount = Math.ceil(Math.abs(offset) / this.slideWidth);

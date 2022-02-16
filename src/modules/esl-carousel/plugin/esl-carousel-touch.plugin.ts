@@ -12,7 +12,9 @@ import type {Point} from '../../esl-utils/dom/events';
 export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
   public static is = 'esl-carousel-touch-plugin';
 
+  /** Point to start from. */
   protected startPoint: Point = {x: 0, y: 0};
+  /** Marker whether touch event is started. */
   protected isTouchStarted = false;
 
   public bind(): void {
@@ -30,6 +32,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     this.carousel.$slidesArea!.removeEventListener('touchend', this.onPointerUp);
   }
 
+  /** @returns marker whether the event should be ignored. */
   protected isIgnoredEvent(event: TouchEvent | PointerEvent | MouseEvent): boolean | undefined {
     // Multi-touch gesture
     if (EventUtils.isTouchEvent(event) && event.touches.length !== 1) return true;
@@ -38,6 +41,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     // TODO: form events focus handler
   }
 
+  /** Processes `mousedown` and `touchstart` events. */
   @bind
   protected onPointerDown(event: TouchEvent | PointerEvent | MouseEvent): void {
     if (this.carousel.hasAttribute('animate')) return;
@@ -53,6 +57,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     EventUtils.isTouchEvent(event) && window.addEventListener('touchend', this.onPointerUp, {passive: false});
   }
 
+  /** Processes `mousemove` and `touchmove` events. */
   @bind
   protected onPointerMove(event: TouchEvent | PointerEvent | MouseEvent): void {
     if (!this.isTouchStarted) return;
@@ -64,6 +69,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     offset !== 0 && this.carousel.view?.onMove(offset);
   }
 
+  /** Processes `mouseup` and `touchend` events. */
   @bind
   protected onPointerUp(event: TouchEvent | PointerEvent | MouseEvent): void {
     if (!this.isTouchStarted) return;

@@ -14,6 +14,7 @@ export abstract class ESLCarouselView {
     this.carousel = carousel; // TODO: unsafe while lifecycle is not clear
   }
 
+  /**  @returns count of carousel slides. */
   public get size(): number {
     return this.carousel.count;
   }
@@ -31,15 +32,21 @@ export abstract class ESLCarouselView {
     this.onUnbind();
   }
 
+  /** Processes binding of defined view to the carousel {@link ESLCarousel}. */
   public onBind(): void {}
+  /** Processes unbinding of defined view from the carousel {@link ESLCarousel}. */
   public onUnbind(): void {}
 
+  /** Pre-processing animation action. */
   public abstract onBeforeAnimate(index?: number, direction?: CarouselDirection): Promise<void>;
+  /** Processes animation. */
   public abstract onAnimate(index: number, direction: CarouselDirection): Promise<void>;
+  /** Post-processing animation action. */
   public abstract onAfterAnimate(): Promise<void>;
 
+  /** Handles the slides transition. */
   public abstract onMove(offset: number): void;
-
+  /** Ends current transition and make permanent all changes performed in the transition. */
   public abstract commit(offset?: number): void;
 
   // Register API
@@ -56,9 +63,10 @@ export type ESLCarouselViewConstructor = new(carousel: ESLCarousel) => ESLCarous
 export class ESLCarouselViewRegistry extends Observable<(name: string, view: ESLCarouselViewConstructor) => void> {
   private store = new Map<string, ESLCarouselViewConstructor>();
 
-  public create(name: string, carousel: ESLCarousel): ESLCarouselView | null {
-    const View = this.store.get(name);
-    return View ? new View(carousel) : null;
+  public create(name: string, carousel: ESLCarousel): ESLCarouselView {
+    let View = this.store.get(name);
+    if (!View) [View] = this.store.values(); // take first View in store
+    return new View(carousel);
   }
 
   public register(name: string, view: ESLCarouselViewConstructor): void {

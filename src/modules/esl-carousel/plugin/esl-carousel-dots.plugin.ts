@@ -29,6 +29,7 @@ export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
     this.removeEventListener('keydown', this._onKeydown);
   }
 
+  /** Renders dots according to the carousel state. */
   public rerender(): void {
     let html = '';
     const activeDot = Math.floor(this.carousel.activeIndexes[this.carousel.activeCount - 1] / this.carousel.activeCount);
@@ -38,12 +39,13 @@ export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
     this.innerHTML = html;
   }
 
+  /** Builds content of dots. */
   public buildDot(index: number, isActive: boolean): string {
     return `<button role="button" class="carousel-dot ${isActive ? 'active-dot' : ''}"
             aria-current="${isActive ? 'true' : 'false'}" data-slide-target="g${index + 1}"></button>`;
   }
 
-  /** Handles `keydown` event */
+  /** Handles `keydown` event. */
   @bind
   protected _onKeydown(event: KeyboardEvent): void {
     if (ARROW_LEFT === event.key) {

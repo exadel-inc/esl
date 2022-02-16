@@ -14,24 +14,34 @@ import {ESLCarouselView} from './view/esl-carousel-view';
 import type {ESLCarouselPlugin} from '../plugin/esl-carousel-plugin';
 import type {CarouselDirection, CarouselSlideTarget} from './esl-carousel-utils';
 
+/** Config to define behavior of ESLCarousel */
 interface CarouselConfig { // Registry
+  /** Defines carousel rendering view. */
   view?: string;
+  /** Defines the total number of slides. */
   count?: number;
-  className?: string;
-  loop?: boolean; // TODO: move here
+  /** Defines if the carousel is in a loop. */
+  loop?: boolean;
+  /** Class(es) to mark the carousel element. */
+  cls?: string;
 }
 
-interface CarouselChangeParams {
+/** {@link ESLCarousel} action params interface */
+export interface CarouselActionParams {
+  /** Direction to move to. */
   direction?: CarouselDirection;
+  /** Force action independently of current state of the Carousel. */
   force?: boolean;
   // TODO: implement
   noAnimation?: boolean;
 }
 
 /**
- * ESL Carousel component
- * @author Julia Murashko
- **/
+ * ESLCarousel component
+ * @author Julia Murashko, Alexey Stsefanovich (ala'n)
+ *
+ * ESLCarousel - a slideshow component for cycling through slides {@link ESLCarouselSlide}.
+ */
 @ExportNs('Carousel')
 export class ESLCarousel extends ESLBaseElement {
   public static is = 'esl-carousel';
@@ -41,23 +51,29 @@ export class ESLCarousel extends ESLBaseElement {
     return ['config'];
   }
 
+  /** Config for current ESLCarousel instance. */
   @attr() public config: string;
 
   protected _configRules: ESLMediaRuleList<CarouselConfig | null>;
   protected _currentConfig: CarouselConfig = {};
-  protected _view: ESLCarouselView | null;
+  protected _view: ESLCarouselView;
   protected readonly _plugins = new Map<string, ESLCarouselPlugin>();
 
   // TODO: rename
-  // TODO: should be not none
-  get view(): ESLCarouselView | null {
+  /**  @returns carousel rendered view. */
+  get view(): ESLCarouselView {
+    if (!this._view) {
+      this.update(true);
+    }
     return this._view;
   }
 
+  /**  @returns marker if the carousel is in a loop. */
   get loop(): boolean {
     return this.activeConfig.loop || false;
   }
 
+  /** @returns list of active slide indexes. */
   get activeIndexes(): number[] {
     return this.$slides.reduce((activeIndexes: number[], el, index) => {
       if (el.active) {
@@ -78,7 +94,6 @@ export class ESLCarousel extends ESLBaseElement {
   protected _bindEvents(): void {
     this.addEventListener('click', this._onClick, false);
   }
-
   protected _unbindEvents(): void {
     this.removeEventListener('click', this._onClick, false);
   }
@@ -98,6 +113,7 @@ export class ESLCarousel extends ESLBaseElement {
     this._configRules.addListener(this._onMatchChange);
   }
 
+  /** Updates the config and the state that is associated with. */
   private update(force: boolean = false): void {
     const config: CarouselConfig = Object.assign(
       {view: 'multi', count: 1},
@@ -129,7 +145,7 @@ export class ESLCarousel extends ESLBaseElement {
     return (currentGroup + shiftGroupsCount + countGroups) % countGroups;
   }
 
-  /** Handles `click` event */
+  /** Handles `click` event. */
   // TODO: focus disappear after click
   protected _onClick(event: MouseEvent): void {
     const eventTarget: HTMLElement = event.target as HTMLElement;
@@ -198,18 +214,21 @@ export class ESLCarousel extends ESLBaseElement {
     this._currentConfig = Object.assign({}, config);
   }
 
+  /** @returns slides that are processed by the current carousel. */
   @memoize()
   public get $slides(): ESLCarouselSlide[] {
     const els = this.$slidesArea && this.$slidesArea.querySelectorAll(ESLCarouselSlide.is);
     return els ? Array.from(els) as ESLCarouselSlide[] : [];
   }
 
+  /** @returns slides carousel area. */
   @memoize()
   public get $slidesArea(): HTMLElement | null {
     return this.querySelector('[data-slides-area]');
   }
 
   // TODO: discuss null
+  /** @returns first active slide. */
   public get $activeSlide(): ESLCarouselSlide {
     const actives = this.$slides.filter((el) => el.active);
     // if (actives.length === 0) return null;
@@ -223,6 +242,7 @@ export class ESLCarousel extends ESLBaseElement {
     return this.$slides[0];
   }
 
+  /** @returns list of active slides. */
   public get $activeSlides(): ESLCarouselSlide[] {
     let $slide = this.$activeSlide;
     let i = this.count;
@@ -235,20 +255,24 @@ export class ESLCarousel extends ESLBaseElement {
     return arr;
   }
 
+  /** @returns count of slides. */
   public get count(): number {
     return this.$slides.length || 0;
   }
 
+  /** @returns count of active slides. */
   public get activeCount(): number {
     return this.activeConfig.count || 0;
   }
 
+  /** @returns index of first active slide. */
   public get firstIndex(): number {
     return this.$activeSlide?.index || 0;
   }
 
+  /** Goes to the target according to passed params. */
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  public async goTo(target: CarouselSlideTarget, params: CarouselChangeParams = {}): Promise<void> {
+  public async goTo(target: CarouselSlideTarget, params: CarouselActionParams = {}): Promise<void> {
     // TODO: ?
     if (this.dataset.isAnimated) return;
 
@@ -280,10 +304,15 @@ export class ESLCarousel extends ESLBaseElement {
     this.$$fire('slide:changed', eventDetails);
   }
 
+  /** Gets slide by index. */
   public slideAt(index: number): ESLCarouselSlide {
     return this.$slides[normalizeIndex(index, this.count)];
   }
 
+  /**
+   * Registers component in the {@link customElements} registry
+   * @param tagName - custom tag name to register custom element
+   */
   public static register(tagName?: string): void {
     ESLCarouselSlide.register((tagName || ESLCarousel.is) + '-slide');
     customElements.whenDefined(ESLCarouselSlide.is).then(() => super.register.call(this, tagName));

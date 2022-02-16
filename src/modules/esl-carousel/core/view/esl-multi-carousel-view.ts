@@ -11,8 +11,10 @@ import type {CarouselDirection} from '../esl-carousel-utils';
 export class ESLMultiCarouselView extends ESLCarouselView {
   public static is = 'multi';
 
+  /** First index of active slides. */
   protected currentIndex: number = 0;
 
+  /** Gets count of slides between active and passed considering given direction. */
   protected getDistance(slide: ESLCarouselSlide | number, direction: CarouselDirection): number {
     if (typeof slide !== 'number') slide = slide.index;
     let count = 0;
@@ -24,6 +26,10 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     return count;
   }
 
+  /**
+   * Processes binding of defined view to the carousel {@link ESLCarousel}.
+   * Prepare to view animation.
+   */
   public onBind(): void {
     const {$slides, $slidesArea} = this.carousel;
     if (!$slidesArea || !$slides.length) return;
@@ -36,6 +42,10 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this._setOrderFrom(this.currentIndex);
   }
 
+  /**
+   * Processes unbinding of defined view from the carousel {@link ESLCarousel}.
+   * Clear animation.
+   */
   public onUnbind(): void {
     this.carousel.$slides.forEach((el) => {
       el.toggleAttribute('visible', false);
@@ -45,11 +55,13 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this.carousel.toggleAttribute('animate', false);
   }
 
+  /** Pre-processing animation action. */
   public async onBeforeAnimate(): Promise<void> {
     if (this.carousel.hasAttribute('animate')) return Promise.reject();
     return Promise.resolve();
   }
 
+  /** Processes animation. */
   public onAnimate(nextIndex: number, direction: CarouselDirection): Promise<void> {
     this.currentIndex = this.carousel.firstIndex;
 
@@ -61,11 +73,13 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     return repeatSequence(animateSlide, this.getDistance(nextIndex, direction));
   }
 
+  /** Post-processing animation action. */
   public async onAfterAnimate(): Promise<void> {
     this.carousel.$slidesArea!.style.transform = 'none';
     return Promise.resolve();
   }
 
+  /** Pre-processing the transition animation of one slide. */
   protected async onBeforeStepAnimate(direction: CarouselDirection): Promise<void> {
     this.carousel.$slides.forEach((el) => el.toggleAttribute('visible'));
 
@@ -80,6 +94,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     return promisifyNextRender();
   }
 
+  /** Processes animation of one slide. */
   protected async onStepAnimate(direction: CarouselDirection): Promise<void> {
     this.carousel.toggleAttribute('animate', true);
 
@@ -93,6 +108,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
       .catch(resolvePromise);
   }
 
+  /** Post-processing the transition animation of one slide. */
   protected async onAfterStepAnimate(direction: CarouselDirection): Promise<void> {
     this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', false));
     this.carousel.$slidesArea!.style.transform = 'translateX(0px)';
@@ -106,6 +122,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     return Promise.resolve();
   }
 
+  /** Handles the slides transition. */
   public onMove(offset: number): void {
     this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', true));
 
@@ -127,6 +144,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this.carousel.$slidesArea!.style.transform = `translateX(${stageOffset}px)`;
   }
 
+  /** Ends current transition and make permanent all changes performed in the transition. */
   public async commit(offset: number): Promise<void> {
     // calculate offset to move to
     const shiftCount = Math.abs(offset) % this.slideWidth >= this.slideWidth / 4 ? 1 : 0;
@@ -170,6 +188,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     });
   }
 
+  /** Sets order style property for slides starting at index */
   protected _setOrderFrom(index: number): void {
     if (index < 0 || index > this.carousel.count) return;
 

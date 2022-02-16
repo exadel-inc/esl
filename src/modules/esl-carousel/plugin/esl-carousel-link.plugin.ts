@@ -40,6 +40,7 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
     this.carousel && this.carousel.removeEventListener('esl:slide:changed', this._onSlideChange);
   }
 
+  /** Handles event that fires when the carousel slides state is changed. */
   @bind
   protected _onSlideChange(e: CustomEvent): void {
     if (!this.target || !this.carousel) return;
