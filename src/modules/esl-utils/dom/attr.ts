@@ -1,6 +1,6 @@
 export type AttributeTarget = Element | {$host: Element};
 
-/** @returns attribute ao fallback. Identical to getAttribute by default */
+/** @returns attribute or passed fallback value. Identical to getAttribute by default */
 export function getAttr($el: AttributeTarget, name: string): string | null;
 export function getAttr<T>($el: AttributeTarget, name: string, fallback: T): string | T;
 export function getAttr($el: AttributeTarget, name: string, fallback: string | null = null): string | null {

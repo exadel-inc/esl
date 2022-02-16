@@ -100,7 +100,7 @@ export abstract class CSSClassUtils {
   }
 
   /**
-   * Check if all class from token string matches to the element pr elements.
+   * Check if all class from token string matches to the element or elements.
    * @see CSSClassUtils
    * */
   public static has(els: Element | Element[], cls: string): boolean {
