@@ -1,5 +1,5 @@
 <div class="benefit container">
-  <h2>{{ benefits.title }}</h2>
+  <h2>{{ landing.benefits.title }}</h2>
   <esl-animate target="::next::child" group></esl-animate>
   <ul class="benefit-container">
     {% for item in landing.benefits.items %}
@@ -9,9 +9,7 @@
         </div>
         <div class="benefit-content">
           <div class="benefit-content-name">{{ item.name }}</div>
-          <p class="benefit-content-text">
-            {{ item.text }}
-          </p>
+          <p class="benefit-content-text">{{ item.text }}</p>
         </div>
       </li>
     {% endfor %}
