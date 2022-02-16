@@ -1,3 +1,11 @@
+## [3.13.1](https://github.com/exadel-inc/esl/compare/v3.13.0...v3.13.1) (2022-02-16)
+
+
+### Bug Fixes
+
+* **esl-scrollbar:** :bug:`normalizePosition` method implementation ([b5dafec](https://github.com/exadel-inc/esl/commit/b5dafec6ea0e3393028c77012258ec8128b85e40))
+* **esl-scrollbar:** fix `normalizePosition` method to handle vertical scroll on RTL ([#839](https://github.com/exadel-inc/esl/issues/839)) ([a67c2a3](https://github.com/exadel-inc/esl/commit/a67c2a32262ad025fa328d9d63679d9acb52a550))
+
 # [3.13.0](https://github.com/exadel-inc/esl/compare/v3.12.1...v3.13.0) (2022-02-14)
 
 
