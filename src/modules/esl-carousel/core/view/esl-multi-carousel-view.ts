@@ -111,9 +111,17 @@ export class ESLMultiCarouselView extends ESLCarouselView {
 
     const sign = offset < 0 ? 1 : -1;
     const count = Math.floor(Math.abs(offset) / this.slideWidth);
-    this.currentIndex = normalizeIndex(this.carousel.firstIndex + count * sign, this.size);
-    const orderIndex = offset < 0 ? this.currentIndex : normalizeIndex(this.currentIndex - 1, this.size);
+
+    const nextIndex = this.carousel.firstIndex + count * sign;
+    if (nextIndex >= this.carousel.count || nextIndex < 0) return;
+
+    const currentIndex = normalizeIndex(this.carousel.firstIndex + count * sign, this.size);
+    if (offset > 0 && currentIndex - 1 < 0) return;
+    if (offset < 0 && currentIndex + this.carousel.activeCount >= this.carousel.count) return;
+
+    const orderIndex = offset < 0 ? currentIndex : normalizeIndex(currentIndex - 1, this.size);
     this._setOrderFrom(orderIndex);
+    this.currentIndex = currentIndex;
 
     const stageOffset = offset < 0 ? offset + count * this.slideWidth : offset - (count + 1) * this.slideWidth;
     this.carousel.$slidesArea!.style.transform = `translateX(${stageOffset}px)`;
@@ -137,7 +145,15 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     const sign = offset < 0 ? 1 : -1;
     const count = Math.abs(offset) % this.slideWidth >= this.slideWidth / 4 ?
       Math.ceil(Math.abs(offset) / this.slideWidth) : Math.floor(Math.abs(offset) / this.slideWidth);
-    this.currentIndex = normalizeIndex(this.carousel.firstIndex + count * sign, this.size);
+    const nextIndex = this.carousel.firstIndex + count * sign;
+
+    if (!this.carousel.loop && offset > 0 && nextIndex - 1 < 0) {
+      this.currentIndex = 0;
+    } else if (!this.carousel.loop && offset < 0 && nextIndex + this.carousel.activeCount >= this.carousel.count) {
+      this.currentIndex = this.carousel.count - this.carousel.activeCount;
+    } else {
+      this.currentIndex = normalizeIndex(nextIndex, this.size);
+    }
 
     let direction = offset > 0 ? 'next' : 'prev'; // TODO
     direction = direction || calcDirection(this.carousel.firstIndex, this.currentIndex, this.size);
