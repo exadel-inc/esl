@@ -1,3 +1,10 @@
+## [3.13.2](https://github.com/exadel-inc/esl/compare/v3.13.1...v3.13.2) (2022-02-16)
+
+
+### Bug Fixes
+
+* **esl-utils:** fix `RTLUtils.isRtl` types API ([f77791b](https://github.com/exadel-inc/esl/commit/f77791b22c99b6fec927c779b350caf2cbbbf918))
+
 ## [3.13.1](https://github.com/exadel-inc/esl/compare/v3.13.0...v3.13.1) (2022-02-16)
 
 
