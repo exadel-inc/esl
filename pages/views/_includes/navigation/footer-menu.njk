@@ -1,4 +1,4 @@
-{% macro menu(title, collection) %}
+{% macro menu(title, collection, additional) %}
   <h4 class="footer-title">{{ title }}</h4>
   <esl-trigger class="footer-accordion-trigger" target="::next" hover-hide-delay="400">
     {{ title }} <span class="arrow"></span>
@@ -6,14 +6,21 @@
   <esl-panel class="footer-accordion-content"
              fallback-duration="400"
              close-on-esc>
-    {% if collections[collection] %}
-      <ul class="footer-list">
+    <ul class="footer-list">
+      {% if collections[collection] %}
         {% for item in collections[collection] | notHidden | releasedStrict | sortByNameAndOrder %}
-          <li class="footer-item" {% if isActive %}aria-current="page"{% endif %}>
+          <li class="footer-item">
             <a class="footer-link" href="{{ item.url | url }}">{{ item.data.name }}</a>
           </li>
         {% endfor %}
-      </ul>
-    {% endif %}
+      {% endif %}
+      {% if additional %}
+        {% for item in additional %}
+          <li class="footer-item">
+            <a class="footer-link" href="{{ item.url | url }}" target="_blank">{{ item.text }}</a>
+          </li>
+        {% endfor %}
+      {% endif %}
+    </ul>
   </esl-panel>
 {% endmacro %}
