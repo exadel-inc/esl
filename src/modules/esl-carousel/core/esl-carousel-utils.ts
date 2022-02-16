@@ -23,8 +23,8 @@ export function resolveIndex(index: number | string, current: number, count: num
   index = String(index);
   const isRelative = (index[0] === '+' || index[0] === '-');
   index = normalizeIndex(+index + (isRelative ? current : 0), count);
-  if (!loop && count - index < activeCount) return count - activeCount;
-  return index;
+  // set boundaries for non-loop case
+  return loop ? index : Math.max(Math.min(count - activeCount, index), 0);
 }
 
 /** @returns normalized numeric index from group index */

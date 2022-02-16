@@ -18,6 +18,7 @@ interface CarouselConfig { // Registry
   view?: string;
   count?: number;
   className?: string;
+  loop?: boolean; // TODO: move here
 }
 
 interface CarouselChangeParams {
@@ -41,7 +42,6 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   @attr() public config: string;
-  @boolAttr() public loop: boolean;
 
   protected _configRules: ESLMediaRuleList<CarouselConfig | null>;
   protected _currentConfig: CarouselConfig = {};
@@ -52,6 +52,10 @@ export class ESLCarousel extends ESLBaseElement {
   // TODO: should be not none
   get view(): ESLCarouselView | null {
     return this._view;
+  }
+
+  get loop(): boolean {
+    return this.activeConfig.loop || false;
   }
 
   get activeIndexes(): number[] {
@@ -268,11 +272,11 @@ export class ESLCarousel extends ESLBaseElement {
       await this._view.onAfterAnimate();
     }
 
+    // TODO: move to commit method
     this.$slides.forEach((el) => (el.active = false));
     for (let i = 0; i < this.activeCount; i++) {
       this.slideAt(index + i).active = true;
     }
-
     this.$$fire('slide:changed', eventDetails);
   }
 

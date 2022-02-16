@@ -8,6 +8,7 @@ export abstract class ESLCarouselView {
   public static is = '';
 
   protected readonly carousel: ESLCarousel;
+  protected slideWidth: number = 0;
 
   constructor(carousel: ESLCarousel) {
     this.carousel = carousel; // TODO: unsafe while lifecycle is not clear

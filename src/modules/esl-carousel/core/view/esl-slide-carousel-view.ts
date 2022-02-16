@@ -14,9 +14,8 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     const slideStyles = getComputedStyle($slides[this.carousel.firstIndex]);
     const slidesAreaStyles = getComputedStyle($slidesArea);
 
-    const slideWidth = parseFloat(slidesAreaStyles.width) - parseFloat(slideStyles.marginLeft) - parseFloat(slideStyles.marginRight);
-
-    $slides.forEach((slide) => slide.style.minWidth = slideWidth + 'px');
+    this.slideWidth = parseFloat(slidesAreaStyles.width) - parseFloat(slideStyles.marginLeft) - parseFloat(slideStyles.marginRight);
+    $slides.forEach((slide) => slide.style.minWidth = this.slideWidth + 'px');
   }
 
   public async onBeforeAnimate(index: number, direction: CarouselDirection): Promise<void> {
@@ -53,6 +52,8 @@ export class ESLSlideCarouselView extends ESLCarouselView {
   }
 
   public onMove(offset: number): void {
+    if (!this.isNonLoopBorders(offset)) return;
+
     const width = parseFloat(getComputedStyle(this.carousel.$activeSlide as Element).width);
 
     if (Math.abs(offset) > width) return;
@@ -68,6 +69,9 @@ export class ESLSlideCarouselView extends ESLCarouselView {
   }
 
   public async commit(offset: number): Promise<void> {
+    // TODO: connect with onMove check
+    if (!this.isNonLoopBorders(offset)) return;
+
     const width = parseFloat(getComputedStyle(this.carousel.$activeSlide as Element).width);
     const $activeSlide = this.carousel.$activeSlide;
     const $nextSlide = $activeSlide.$nextCyclic;
@@ -95,5 +99,14 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     this.carousel.$$fire('slide:changed', {
       detail: {direction}
     });
+  }
+
+  protected isNonLoopBorders(offset: number): boolean {
+    if (this.carousel.loop) return true;
+    const shiftCount = Math.ceil(Math.abs(offset) / this.slideWidth);
+    const nextIndex = offset > 0 ?
+      this.carousel.firstIndex - shiftCount :
+      this.carousel.firstIndex + this.carousel.activeCount + shiftCount - 1;
+    return !(nextIndex < 0 || nextIndex >= this.carousel.count);
   }
 }
