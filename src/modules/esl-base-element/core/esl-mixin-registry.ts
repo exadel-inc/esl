@@ -1,7 +1,7 @@
 import type {ESLMixinElement, ConstructableESLMixin} from './esl-mixin-element';
 
 // Private key to store mixin instances
-const STORE = '__mixin';
+const STORE = '__mixins';
 
 // Singleton for registry
 let global: ESLMixinRegistry;

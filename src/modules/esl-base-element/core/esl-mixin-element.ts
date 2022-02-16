@@ -35,7 +35,7 @@ export class ESLMixinElement {
   private _onAttrMutation(records: MutationRecord[]): void {
     records.forEach(({attributeName, oldValue}: MutationRecord) => {
       if (!attributeName) return;
-      const newValue = this.$host.getAttribute(attributeName);
+      const newValue = this.$$attr(attributeName);
       this.attributeChangedCallback(attributeName, oldValue, newValue);
     });
   }
