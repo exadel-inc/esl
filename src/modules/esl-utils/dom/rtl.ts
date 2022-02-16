@@ -5,7 +5,7 @@ export type ScrollType = 'default' | 'negative' | 'reverse';
 // TODO: functional
 export abstract class RTLUtils {
   /** Check if the element in a RTL direction context */
-  static isRtl(el: HTMLElement | null): boolean {
+  static isRtl(el?: HTMLElement | null): boolean {
     return getComputedStyle(el || document.body).direction === 'rtl';
   }
 
