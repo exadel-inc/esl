@@ -1,6 +1,6 @@
 import {getAttr, setAttr} from '../../esl-utils/dom/attr';
 import {toKebabCase, evaluate} from '../../esl-utils/misc/format';
-import type {AttributeTarget} from '../../esl-utils/dom/attr';
+import type {AttributeDecorator, AttributeTarget} from '../../esl-utils/dom/attr';
 
 /** HTML attribute to object property mapping configuration */
 interface JsonAttrDescriptor<T> {
@@ -40,7 +40,7 @@ const buildAttrName =
  * Maps object type property.
  * @param config - mapping configuration. See {@link JsonAttrDescriptor}
  */
-export const jsonAttr = <T>(config: JsonAttrDescriptor<T> = {}): PropertyDecorator => {
+export const jsonAttr = <T>(config: JsonAttrDescriptor<T> = {}): AttributeDecorator => {
   config = Object.assign({defaultValue: {}}, config);
   return (target: AttributeTarget, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);

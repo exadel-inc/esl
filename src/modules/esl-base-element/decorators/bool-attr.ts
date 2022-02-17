@@ -1,6 +1,6 @@
 import {setAttr} from '../../esl-utils/dom/attr';
 import {toKebabCase} from '../../esl-utils/misc/format';
-import type {AttributeTarget} from '../../esl-utils/dom/attr';
+import type {AttributeDecorator, AttributeTarget} from '../../esl-utils/dom/attr';
 
 /** HTML boolean (marker) attribute mapping configuration */
 type BoolAttrDescriptor = {
@@ -31,7 +31,7 @@ const buildAttrName =
  * Maps boolean type property.
  * @param config - mapping configuration. See {@link BoolAttrDescriptor}
  */
-export const boolAttr = (config: BoolAttrDescriptor = {}): PropertyDecorator => {
+export const boolAttr = (config: BoolAttrDescriptor = {}): AttributeDecorator => {
   return (target: AttributeTarget, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildConditionalDescriptor(attrName, !!config.readonly));
