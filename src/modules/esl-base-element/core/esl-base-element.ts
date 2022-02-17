@@ -26,7 +26,7 @@ export abstract class ESLBaseElement extends HTMLElement {
   }
 
   /**
-   * Gets or sets CSS classes for current element.
+   * Gets or sets CSS classes for the current element.
    * @param cls - CSS classes query {@link CSSClassUtils}
    * @param value - boolean to set CSS class(es) state or undefined to skip mutation
    * @returns current classes state or passed state
@@ -38,11 +38,11 @@ export abstract class ESLBaseElement extends HTMLElement {
   }
 
   /**
-   * Gets or sets attribute for current element.
+   * Gets or sets an attribute for the current element.
    * If the `value` param is undefined then skips mutation.
    * @param name - attribute name
    * @param value - string attribute value, boolean attribute state or `null` to delete attribute
-   * @returns current attribute value or previous value for mutation
+   * @returns the current attribute value or previous value for mutation
    */
   public $$attr(name: string, value?: null | boolean | string): string | null {
     const prevValue = this.getAttribute(name);

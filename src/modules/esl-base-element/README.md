@@ -6,7 +6,7 @@ Authors: *Alexey Stsefanovich (ala'n)*
 
 <a name="intro"></a>
 
-Provides the core to create custom elements and ts decorators to simplify components creation.
+Provides the core for creating custom elements and ts decorators to simplify components creation.
 
 ## Base Element
 **ESLBaseElement** - base class for custom (tag) element declaration
@@ -23,25 +23,25 @@ Properties:
 - `connected` - readonly marker, true if element connected and base `connectedCallback` executed
 
 Attributes: 
-- `connectedCallback` - called when element appends to the DOM
-- `disconnectedCallback` - called when element is disconnected from the DOM
-- `attributeChangeCallback` - called when observed attribute has changed
+- `connectedCallback` - called when the element is appended to the DOM
+- `disconnectedCallback` - called when the element is disconnected from the DOM
+- `attributeChangeCallback` - called when the observable attribute is changed
 
 - `$$cls` - check or change element CSS classes (uses CSSClassUtils) 
 - `$$attr` - check or change element attributes
 - `$$fire` - dispatch event with `esl:` prefix
 
 
-### Element decorators:
+### Element decorators
 Works for both `ESLBaseElement` and `ESLMixinElement`.
 
  - `@attr` - to map string type property to HTML attribute.
  - `@boolAttr` - to map boolean property to HTML boolean (marker) attribute state.
  - `@jsonAttr` - to map object property to HTML attribute using JSON format to serialize / deserialize value.
 
-Use `@prop` decorator to override property 
-that was created via `@attr`, `@boolAttr` or `@jsonAttr` on the parent level
-with non attribute accessor value.
+Use the `@prop` decorator to override a property
+created via `@attr`, `@boolAttr` or `@jsonAttr` at the parent level
+with non-attribute accessor value.
 
 ### Base Example
 
