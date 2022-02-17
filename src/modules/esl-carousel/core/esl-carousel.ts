@@ -1,7 +1,7 @@
 import './esl-carousel.views';
 
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
+import {ESLBaseElement, attr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {deepCompare} from '../../esl-utils/misc/object';
 import {memoize} from '../../esl-utils/decorators/memoize';

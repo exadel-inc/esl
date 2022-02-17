@@ -19,7 +19,7 @@ export function calcDirection(from: number, to: number, count: number): Carousel
 }
 
 /** @returns normalized numeric index from string with absolute or relative index */
-export function resolveIndex(index: number | string, current: number, count: number, loop: boolean, activeCount: number): number {
+export function resolveIndex(index: number | string, current: number, count: number, activeCount: number, loop: boolean = false): number {
   index = String(index);
   const isRelative = (index[0] === '+' || index[0] === '-');
   index = normalizeIndex(+index + (isRelative ? current : 0), count);
@@ -53,7 +53,7 @@ export function prevGroup(current: number, activeCount: number, count: number): 
 export function toIndex(target: CarouselSlideTarget, {count, activeCount, firstIndex, loop}: ESLCarousel): number {
   target = String(target);
   // Resolve absolute and relative indexes
-  if (!isNaN(+target)) return resolveIndex(target, firstIndex, count, loop, activeCount);
+  if (!isNaN(+target)) return resolveIndex(target, firstIndex, count, activeCount, loop);
   // Group index handler
   if ('g' === target[0]) return resolveGroupIndex(+target.substring(1), activeCount, count);
   // Next group handler

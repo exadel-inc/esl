@@ -34,25 +34,26 @@ describe('ESLCarousel: Utils', () => {
   describe('resolveIndex', () => {
     describe('absolute index', () => {
       test.each([
-        [0, 5, 0],
-        [1, 5, 1],
-        [5, 5, 0],
-        [6, 5, 1],
-        ['2', 5, 2]
+        [0, 5, 2, 0],
+        [1, 5, 2, 1],
+        [5, 5, 2, 0],
+        [6, 5, 2, 1],
+        ['2', 5, 2, 2]
       ])(
         '(absolute index = %d, count = %d) => %d',
-        (index: number | string, count: number, result: number) => expect(resolveIndex(index, NaN, count)).toBe(result)
+        (index: number | string, count: number, activeCount: number, result: number) => expect(resolveIndex(index, NaN, count, activeCount, true)).toBe(result)
       );
     });
     describe('relative index', () => {
       test.each([
-        ['-1', 2, 5, 1],
-        ['+1', 2, 5, 3],
-        ['-3', 2, 5, 4],
-        ['+3', 2, 5, 0]
+        ['-1', 2, 5, 2, 1],
+        ['+1', 2, 5, 2, 3],
+        ['-3', 2, 5, 2, 4],
+        ['+3', 2, 5, 2, 0]
       ])(
         '(relative index = %d, current = %d, count = %d) => %d',
-        (index: string, firstIndex: number, count: number, result: number) => expect(resolveIndex(index, firstIndex, count)).toBe(result)
+        (index: string, firstIndex: number, count: number, activeCount: number, result: number) =>
+          expect(resolveIndex(index, firstIndex, count, activeCount, true)).toBe(result)
       );
     });
   });
