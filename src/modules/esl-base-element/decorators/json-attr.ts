@@ -42,7 +42,7 @@ const buildAttrName =
  */
 export const jsonAttr = <T>(config: JsonAttrDescriptor<T> = {}): AttributeDecorator => {
   config = Object.assign({defaultValue: {}}, config);
-  return (target: AttributeTarget, propName: string): void => {
+  return (target: Element | AttributeTarget, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildJsonAttrDescriptor(attrName, !!config.readonly, config.defaultValue));
   };

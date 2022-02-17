@@ -10,7 +10,7 @@ Provides the core to create custom elements and ts decorators to simplify compon
 
 ## Base elements:
 - **ESLBaseElement** - base class for standard custom element declaration
-- **ESLMixinElement** - base class to create mixin element that attaches to element via custom attribute
+- **ESLMixinElement** (beta) - base class to create mixin element that attaches to element via custom attribute
 
 ### Base Element static API
 - `MyElement.is` - property that defines tag name
@@ -19,20 +19,26 @@ Provides the core to create custom elements and ts decorators to simplify compon
 - `MyElement.register` - register component inside `customElements` registry
 - `MyElement.registered` - returns promise that will be resolved as soon as the component is registered
 
-### Mixin Element static API
+### Mixin Element static API (beta)
 - `MyMixinElement.is` - property that defines connection attribute name
 - `MyMixinElement.observedAttributes` - array of additional attributes to observe
 
-- `MyMixinElement.register` - register component inside `ESLMixinRegistry` 
+- `MyMixinElement.register` - register component inside `ESLMixinRegistry`
 
 ### Shared Element API
-- `connected` - readonly marker, true if element connected and base `connectedCallback` executed
-
 - `connectedCallback` - called when element appends to the DOM
-- `disconnectedCallback` - called when element is disconnected rom DOM
+- `disconnectedCallback` - called when element is disconnected from the DOM
 - `attributeChangeCallback` - called when observed attribute has changed
 
+- `$$cls` - check or change element CSS classes (uses CSSClassUtils) 
+- `$$attr` - check or change element attributes
 - `$$fire` - dispatch event with `esl:` prefix
+
+### Base Element API
+- `connected` - readonly marker, true if element connected and base `connectedCallback` executed
+
+### Mixin Element API (beta)
+- `$host` - readonly mixin target DOM element
 
 ### Element decorators:
 Works for both `ESLBaseElement` and `ESLMixinElement`.
@@ -78,7 +84,7 @@ MyCustomComponent.register();
 MyCustomComponent.register('my-tag');
 ```
 
-### Mixin Example
+### Mixin Example (beta)
 
 ```ts
 import {ESLMixinElement, attr, boolAttr, jsonAttr} from '@exadel/esl';

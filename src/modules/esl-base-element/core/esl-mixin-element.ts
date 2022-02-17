@@ -1,9 +1,16 @@
 import {setAttr} from '../../esl-utils/dom/attr';
+import {EventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMixinRegistry} from './esl-mixin-registry';
 
-/** Base class for mixin element that attaches to the dom element via attribute */
-export class ESLMixinElement {
+import type {AttributeTarget} from '../../esl-utils/dom/attr';
+
+/**
+ * Base class for mixin elements.
+ * Mixin elements attaches to the DOM element via attribute.
+ * Allows multiple mixin elements per one DOM element
+ */
+export class ESLMixinElement implements AttributeTarget {
   /** Root attribute to identify mixin targets. Should contain dash in the name. */
   static is: string;
   /** Additional observed attributes */
@@ -40,21 +47,42 @@ export class ESLMixinElement {
     });
   }
 
-  /** Set CSS classes for current element */
+  /**
+   * Gets or sets CSS classes for the `$host`
+   * @param cls - CSS classes query {@link CSSClassUtils}
+   * @param value - boolean to set CSS class(es) state or undefined to skip mutation
+   * @returns current classes state or passed state
+   */
   public $$cls(cls: string, value?: boolean): boolean {
     if (value === undefined) return CSSClassUtils.has(this.$host, cls);
     CSSClassUtils.toggle(this.$host, cls, value);
     return value;
   }
 
-  /** Get or set attribute */
+  /**
+   * Gets or sets attribute for the `$host`.
+   * If the `value` param is undefined then skips mutation.
+   * @param name - attribute name
+   * @param value - string attribute value, boolean attribute state or `null` to delete attribute
+   * @returns current attribute value or previous value for mutation
+   */
   public $$attr(name: string, value?: null | boolean | string): string | null {
     const prevValue = this.$host.getAttribute(name);
     if (value !== undefined) setAttr(this, name, value);
     return prevValue;
   }
 
-  /** Return mixin instance by element */
+  /**
+   * Dispatches component custom event on the `$host`.
+   * Uses 'esl:' prefix for event name, overridable to customize event namespaces.
+   * @param eventName - event name
+   * @param eventInit - custom event init. See {@link CustomEventInit}
+   */
+  public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
+    return EventUtils.dispatch(this.$host, 'esl:' + eventName, eventInit);
+  }
+
+  /** Returns mixin instance by element */
   public static get<T extends typeof ESLMixinElement>(this: T, $el: HTMLElement): InstanceType<T> | null {
     return ESLMixinRegistry.get($el, this.is) as InstanceType<T>;
   }

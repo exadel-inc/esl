@@ -32,7 +32,7 @@ const buildAttrName =
  * @param config - mapping configuration. See {@link BoolAttrDescriptor}
  */
 export const boolAttr = (config: BoolAttrDescriptor = {}): AttributeDecorator => {
-  return (target: AttributeTarget, propName: string): void => {
+  return (target: Element | AttributeTarget, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildConditionalDescriptor(attrName, !!config.readonly));
   };
