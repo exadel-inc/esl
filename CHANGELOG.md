@@ -1,3 +1,139 @@
+## [3.13.2](https://github.com/exadel-inc/esl/compare/v3.13.1...v3.13.2) (2022-02-16)
+
+
+### Bug Fixes
+
+* **esl-utils:** fix `RTLUtils.isRtl` types API ([f77791b](https://github.com/exadel-inc/esl/commit/f77791b22c99b6fec927c779b350caf2cbbbf918))
+
+## [3.13.1](https://github.com/exadel-inc/esl/compare/v3.13.0...v3.13.1) (2022-02-16)
+
+
+### Bug Fixes
+
+* **esl-scrollbar:** fix `normalizePosition` method to handle vertical scroll on RTL ([#839](https://github.com/exadel-inc/esl/issues/839)) ([a67c2a3](https://github.com/exadel-inc/esl/commit/a67c2a32262ad025fa328d9d63679d9acb52a550))
+
+# [3.13.0](https://github.com/exadel-inc/esl/compare/v3.12.1...v3.13.0) (2022-02-14)
+
+
+### Bug Fixes
+
+* **els-footnotes:** add ready decorator to disconnected callback ([87aa3e7](https://github.com/exadel-inc/esl/commit/87aa3e78649605bce24acc313b76f1ad4694778e))
+* **esl-footnotes:** fix behavior during connect/disconnect callbacks ([68a0553](https://github.com/exadel-inc/esl/commit/68a0553b409fa42b0251952401bee54a55fd24e6))
+* **esl-footnotes:** fix esl-note scroll into view on activate ([7a71a14](https://github.com/exadel-inc/esl/commit/7a71a143e0df804b07baa50cb0fb1a8f35fc438c))
+* **esl-footnotes:** fix esl-note-group attributes propagation ([9fe21b1](https://github.com/exadel-inc/esl/commit/9fe21b19daa87c95a2153ef932051ab8d27b1f81))
+* **esl-footnotes:** fix esl-note-group attributes propagation ([7f3d569](https://github.com/exadel-inc/esl/commit/7f3d569c3fc13353b7e4007de3142b7d537e810f))
+* **esl-footnotes:** fix the sort order of notes ([e299def](https://github.com/exadel-inc/esl/commit/e299def2b6e2daac0c4baa2b9ea6a3f6405da1c9))
+* **esl-footnotes:** replace container with containerEl at tooltip params ([5278b1f](https://github.com/exadel-inc/esl/commit/5278b1fe1be6107f0b5e089b7a9999111938cbe9))
+* **esl-note:** fix the corruption of the note's content ([bd0340d](https://github.com/exadel-inc/esl/commit/bd0340d44388c95b2cd749bcf8380d15460a1b3d))
+* **esl-popup:** fix the position of popups container ([e2d4ba4](https://github.com/exadel-inc/esl/commit/e2d4ba4a3c1a73d00abf5cb5dff0ff1eec2d96d3))
+
+
+### Features
+
+* **esl-footnotes:** add activate timeout ([c91d4e8](https://github.com/exadel-inc/esl/commit/c91d4e83a53726c14b4018b391e0e907ef615c7b))
+* **esl-footnotes:** add container attribute to esl-note-group ([621ab2e](https://github.com/exadel-inc/esl/commit/621ab2e97ff7dc12dd6d534aef0cb8afe72329d5))
+* **esl-footnotes:** add container attribute to set up bounds of visibility ([f420ac6](https://github.com/exadel-inc/esl/commit/f420ac6c61439de75478e28a69a12ad66f98dfc5))
+* **esl-footnotes:** add getting attribute value from  closest element with group behavior settings ([b286e92](https://github.com/exadel-inc/esl/commit/b286e92cdef5ab44058263e4c8fcdae474125b9f))
+* **esl-footnotes:** add ignore-footnotes attribute to disallow footnotes to pick up a note ([9b8db3e](https://github.com/exadel-inc/esl/commit/9b8db3e17a3f0f8ecde8833146f44aeaf1e01d30))
+* **esl-footnotes:** create els-note-group element ([ffce746](https://github.com/exadel-inc/esl/commit/ffce746973011ec333c08365e317535f8115d43c))
+* **esl-popup:** add container attribute to set up bounds of visibility ([5ae9238](https://github.com/exadel-inc/esl/commit/5ae92386d0f9a336d65c6be48080548174eda9e0))
+* **esl-popup:** add containerEl param to action params ([4321863](https://github.com/exadel-inc/esl/commit/43218638eed1b17f57be36ffc1adef3f4efd0b7e))
+* **esl-popup:** add the ability to esl-popup to move into body in case when it is not in body ([13d3733](https://github.com/exadel-inc/esl/commit/13d3733b4012ef8958af3e823719c4b150985272))
+* **esl-popup:** create esl-popup-proxy component ([ee27f90](https://github.com/exadel-inc/esl/commit/ee27f90506910d77c9dc794205cf9bfe7652c413))
+* **esl-toggleable:** add handler for esl:show:request ([0d32ae9](https://github.com/exadel-inc/esl/commit/0d32ae9f86247d95d1f9e9ba465f77f78a10957a))
+* **esl-toggleable:** create esl-toggleable-proxy element ([d0fb90e](https://github.com/exadel-inc/esl/commit/d0fb90e6397b5e1eb1ad19fbf541c3791980d5ec))
+* **esl-trigger:** add the ability for the target to get origin from proxied element ([523752a](https://github.com/exadel-inc/esl/commit/523752a394918fdcccba001a7e182d6639a87afc))
+* rename elements from *-proxy to *-placeholder ([b98fe34](https://github.com/exadel-inc/esl/commit/b98fe345d9e86aae58160b9e01d5dfe137747b55))
+
+# [3.13.0-beta.6](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.5...v3.13.0-beta.6) (2022-02-10)
+
+
+### Features
+
+* **esl-footnotes:** add getting attribute value from  closest element with group behavior settings ([b286e92](https://github.com/exadel-inc/esl/commit/b286e92cdef5ab44058263e4c8fcdae474125b9f))
+
+# [3.13.0-beta.5](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.4...v3.13.0-beta.5) (2022-02-02)
+
+
+### Bug Fixes
+
+* **els-footnotes:** add ready decorator to disconnected callback ([87aa3e7](https://github.com/exadel-inc/esl/commit/87aa3e78649605bce24acc313b76f1ad4694778e))
+
+# [3.13.0-beta.4](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.3...v3.13.0-beta.4) (2022-02-02)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** fix behavior during connect/disconnect callbacks ([68a0553](https://github.com/exadel-inc/esl/commit/68a0553b409fa42b0251952401bee54a55fd24e6))
+* **esl-footnotes:** fix esl-note scroll into view on activate ([7a71a14](https://github.com/exadel-inc/esl/commit/7a71a143e0df804b07baa50cb0fb1a8f35fc438c))
+* **esl-footnotes:** fix esl-note-group attributes propagation ([9fe21b1](https://github.com/exadel-inc/esl/commit/9fe21b19daa87c95a2153ef932051ab8d27b1f81))
+* **esl-footnotes:** fix esl-note-group attributes propagation ([7f3d569](https://github.com/exadel-inc/esl/commit/7f3d569c3fc13353b7e4007de3142b7d537e810f))
+* **esl-footnotes:** replace container with containerEl at tooltip params ([5278b1f](https://github.com/exadel-inc/esl/commit/5278b1fe1be6107f0b5e089b7a9999111938cbe9))
+* **esl-popup:** fix the position of popups container ([e2d4ba4](https://github.com/exadel-inc/esl/commit/e2d4ba4a3c1a73d00abf5cb5dff0ff1eec2d96d3))
+
+
+### Features
+
+* **esl-popup:** add containerEl param to action params ([4321863](https://github.com/exadel-inc/esl/commit/43218638eed1b17f57be36ffc1adef3f4efd0b7e))
+
+# [3.13.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.2...v3.13.0-beta.3) (2022-01-26)
+
+
+### Features
+
+* **esl-footnotes:** add activate timeout ([c91d4e8](https://github.com/exadel-inc/esl/commit/c91d4e83a53726c14b4018b391e0e907ef615c7b))
+* **esl-footnotes:** add container attribute to esl-note-group ([621ab2e](https://github.com/exadel-inc/esl/commit/621ab2e97ff7dc12dd6d534aef0cb8afe72329d5))
+* **esl-footnotes:** add container attribute to set up bounds of visibility ([f420ac6](https://github.com/exadel-inc/esl/commit/f420ac6c61439de75478e28a69a12ad66f98dfc5))
+* **esl-popup:** add container attribute to set up bounds of visibility ([5ae9238](https://github.com/exadel-inc/esl/commit/5ae92386d0f9a336d65c6be48080548174eda9e0))
+* **esl-popup:** add the ability to esl-popup to move into body in case when it is not in body ([13d3733](https://github.com/exadel-inc/esl/commit/13d3733b4012ef8958af3e823719c4b150985272))
+* **esl-popup:** create esl-popup-proxy component ([ee27f90](https://github.com/exadel-inc/esl/commit/ee27f90506910d77c9dc794205cf9bfe7652c413))
+* **esl-toggleable:** create esl-toggleable-proxy element ([d0fb90e](https://github.com/exadel-inc/esl/commit/d0fb90e6397b5e1eb1ad19fbf541c3791980d5ec))
+* **esl-trigger:** add the ability for the target to get origin from proxied element ([523752a](https://github.com/exadel-inc/esl/commit/523752a394918fdcccba001a7e182d6639a87afc))
+* rename elements from *-proxy to *-placeholder ([b98fe34](https://github.com/exadel-inc/esl/commit/b98fe345d9e86aae58160b9e01d5dfe137747b55))
+* update husky ([d15499d](https://github.com/exadel-inc/esl/commit/d15499db4026437ea26c70084e740d822e17bf35))
+
+# [3.13.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.13.0-beta.1...v3.13.0-beta.2) (2022-01-18)
+
+
+### Bug Fixes
+
+* **esl-media:** fix incorrect `load-condition` definition in shape ([94e8d77](https://github.com/exadel-inc/esl/commit/94e8d7784392585ce787d35fee3cce1e1b07a7c7))
+
+## [3.12.1](https://github.com/exadel-inc/esl/compare/v3.12.0...v3.12.1) (2022-01-18)
+
+
+### Bug Fixes
+
+* **esl-media:** fix incorrect `load-condition` definition in shape ([94e8d77](https://github.com/exadel-inc/esl/commit/94e8d7784392585ce787d35fee3cce1e1b07a7c7))
+
+# [3.13.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.12.0...v3.13.0-beta.1) (2022-01-17)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** fix the sort order of notes ([e299def](https://github.com/exadel-inc/esl/commit/e299def2b6e2daac0c4baa2b9ea6a3f6405da1c9))
+* **esl-note:** fix the corruption of the note's content ([bd0340d](https://github.com/exadel-inc/esl/commit/bd0340d44388c95b2cd749bcf8380d15460a1b3d))
+
+
+### Features
+
+* **esl-footnotes:** add ignore-footnotes attribute to disallow footnotes to pick up a note ([9b8db3e](https://github.com/exadel-inc/esl/commit/9b8db3e17a3f0f8ecde8833146f44aeaf1e01d30))
+* **esl-footnotes:** create els-note-group element ([ffce746](https://github.com/exadel-inc/esl/commit/ffce746973011ec333c08365e317535f8115d43c))
+* **esl-toggleable:** add handler for esl:show:request ([0d32ae9](https://github.com/exadel-inc/esl/commit/0d32ae9f86247d95d1f9e9ba465f77f78a10957a))
+
+# [3.12.0](https://github.com/exadel-inc/esl/compare/v3.11.0...v3.12.0) (2022-01-17)
+
+
+### Bug Fixes
+
+* **esl-media:** fix missing load condition reinitialization and docs ([4f136d7](https://github.com/exadel-inc/esl/commit/4f136d7b37e06fc0c8ed4b00a150d943e3cad941))
+* **esl-media:** style/performance improvement for condition query ([#777](https://github.com/exadel-inc/esl/issues/777)) ([48bfed5](https://github.com/exadel-inc/esl/commit/48bfed540eedc4b766452c8dfea7b650e6e0a98c))
+
+
+### Features
+
+* **esl-toggleable:** add handler for esl:show:request ([ff0556a](https://github.com/exadel-inc/esl/commit/ff0556a41760473ed0a11af087f3a97e550c9b40))
+
 # [3.11.0](https://github.com/exadel-inc/esl/compare/v3.10.0...v3.11.0) (2022-01-12)
 
 
