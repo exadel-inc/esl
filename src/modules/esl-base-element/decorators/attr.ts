@@ -1,6 +1,6 @@
 import {toKebabCase} from '../../esl-utils/misc/format';
 import {getAttr, setAttr} from '../../esl-utils/dom/attr';
-import type {AttributeTarget} from '../../esl-utils/dom/attr';
+import type {AttributeDecorator, AttributeTarget} from '../../esl-utils/dom/attr';
 
 /** HTML attribute mapping configuration */
 type AttrDescriptor = {
@@ -13,8 +13,6 @@ type AttrDescriptor = {
   /** Default property value. Used if no attribute is present on the element. Empty string by default. */
   defaultValue?: string | boolean | null;
 };
-
-export type AttrDecorator = (target: AttributeTarget, propName: string) => void;
 
 function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string | boolean | null | undefined): PropertyDescriptor {
   function get(): string | boolean | null | undefined {
@@ -36,7 +34,7 @@ const buildAttrName =
  * Maps string type property.
  * @param config - mapping configuration. See {@link AttrDescriptor}
  */
-export const attr = (config: AttrDescriptor = {}): AttrDecorator => {
+export const attr = (config: AttrDescriptor = {}): AttributeDecorator => {
   config = Object.assign({defaultValue: ''}, config);
   return (target: AttributeTarget, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);

@@ -1,4 +1,5 @@
 export type AttributeTarget = Element | {$host: Element};
+export type AttributeDecorator = (target: AttributeTarget, propName: string) => void;
 
 /** @returns attribute or passed fallback value. Identical to getAttribute by default */
 export function getAttr($el: AttributeTarget, name: string): string | null;
