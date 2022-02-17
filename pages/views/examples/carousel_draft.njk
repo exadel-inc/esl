@@ -1,0 +1,46 @@
+---
+layout: content
+title: Carousel Promo
+name: Carousel Promo
+tags: [examples, draft]
+icon: examples/carousel.svg
+---
+{% import 'lorem.njk' as lorem %}
+
+<div class="container-fluid">
+  <div class="row flex-column">
+    <h2>Demo 1: </h2>
+
+    <esl-carousel config="{count: 4}">
+      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+
+      <button class="arrow-prev icon-arrow-prev" data-slide-target="prev"></button>
+
+      <div style="margin: 10px 60px;" class="esl-carousel-content">
+        <div data-slides-area>
+          {% for item in cards %}
+          <esl-carousel-slide {{ 'active' if loop.first }}>
+            <div class="card">
+              <div class="card-image img-container img-container-16-9">
+                <esl-image lazy
+                           mode="cover"
+                           data-alt="{{ 'Carousel slide ' + loop.index }}"
+                           data-src="{{ '/assets/carousel/' + loop.index + '.jpg'  | url}}"></esl-image>
+              </div>
+              <div class="card-content">
+                <h5>{{ item.name }}</h5>
+                {{ lorem.string(12) }}
+              </div>
+            </div>
+          </esl-carousel-slide>
+          {% endfor %}
+        </div>
+      </div>
+
+      <button class="arrow-next icon-arrow-next" data-slide-target="next"></button>
+
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </esl-carousel>
+  </div>
+</div>
+
