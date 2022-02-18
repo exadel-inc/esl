@@ -104,10 +104,15 @@ export class ESLPanel extends ESLToggleable {
     // make sure that browser applies initial height for animation
     afterNextRender(() => {
       this.style.setProperty('max-height', `${to}px`);
-      afterNextRender(() => {
-        const distance = parseFloat(this.style.maxHeight) - this.clientHeight;
-        if (Math.abs(distance) <= 1) this.afterAnimate();
-      });
+      this.fallbackAnimate();
+    });
+  }
+
+  /** Check if transition happens and run afterAnimate step if no transition presented*/
+  protected fallbackAnimate(): void {
+    afterNextRender(() => {
+      const distance = parseFloat(this.style.maxHeight) - this.clientHeight;
+      if (Math.abs(distance) <= 1) this.afterAnimate();
     });
   }
 

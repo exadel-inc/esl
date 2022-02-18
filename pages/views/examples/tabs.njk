@@ -51,14 +51,15 @@ aside:
     <esl-panel-group class="esl-d-tab-group"
                      mode="tabs"
                      mode-cls-target="::parent">
+      {% set testText = lorem.paragraphs(2) %}
       <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
         <div class="esl-d-tab-body">
-          {{ lorem.paragraphs(2) }}
+          {{ testText }}
         </div>
       </esl-panel>
       <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
         <div class="esl-d-tab-body">
-          {{ lorem.paragraphs(1) }}
+          {{ testText }}
         </div>
       </esl-panel>
       <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
