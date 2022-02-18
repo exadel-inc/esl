@@ -118,7 +118,10 @@ export class ESLPanel extends ESLToggleable {
 
   /** Post-processing animation action */
   protected afterAnimate(): void {
+    const {animating} = this;
     this.clearAnimation();
+    // Prevent fallback calls from being tracked
+    if (!animating) return;
     this.$$fire(this.open ? 'after:show' : 'after:hide');
   }
 
