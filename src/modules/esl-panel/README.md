@@ -19,7 +19,6 @@ ESLPanel.register();
  - `active-class` - class(es) to be added for active state ('open' by default)
  - `animate-class` - class(es) to be added during animation ('animate' by default)
  - `post-animate-class` - class(es) to be added during animation after next render ('post-animate' by default)
- - `fallback-duration` - time to clear animation common params (max-height style + classes) (1s by default)
  - `initial-params` - initial params for current ESLPanel instance
  - `animating` - marker of animation process running
 
