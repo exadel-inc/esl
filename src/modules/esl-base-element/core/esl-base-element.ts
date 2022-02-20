@@ -25,14 +25,25 @@ export abstract class ESLBaseElement extends HTMLElement {
     return this._connected;
   }
 
-  /** Set CSS classes for current element */
+  /**
+   * Gets or sets CSS classes for the current element.
+   * @param cls - CSS classes query {@link CSSClassUtils}
+   * @param value - boolean to set CSS class(es) state or undefined to skip mutation
+   * @returns current classes state or passed state
+   */
   public $$cls(cls: string, value?: boolean): boolean {
     if (value === undefined) return CSSClassUtils.has(this, cls);
     CSSClassUtils.toggle(this, cls, value);
     return value;
   }
 
-  /** Get or set attribute */
+  /**
+   * Gets or sets an attribute for the current element.
+   * If the `value` param is undefined then skips mutation.
+   * @param name - attribute name
+   * @param value - string attribute value, boolean attribute state or `null` to delete attribute
+   * @returns the current attribute value or previous value for mutation
+   */
   public $$attr(name: string, value?: null | boolean | string): string | null {
     const prevValue = this.getAttribute(name);
     if (value !== undefined) setAttr(this, name, value);
@@ -40,7 +51,7 @@ export abstract class ESLBaseElement extends HTMLElement {
   }
 
   /**
-   * Dispatch component custom event.
+   * Dispatches component custom event.
    * Uses 'esl:' prefix for event name, overridable to customize event namespaces.
    * @param eventName - event name
    * @param eventInit - custom event init. See {@link CustomEventInit}
@@ -67,6 +78,7 @@ export abstract class ESLBaseElement extends HTMLElement {
     customElements.define(tagName, this as any as CustomElementConstructor);
   }
 
+  /** Shortcut for `customElements.whenDefined(currentCustomElement)` */
   public static get registered(): Promise<CustomElementConstructor> {
     return customElements.whenDefined(this.is);
   }
