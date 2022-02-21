@@ -4,6 +4,7 @@ import {
   getPropertyDescriptor,
   get,
   set,
+  setExt,
   copyDefinedKeys,
   copy,
   omit,
@@ -240,8 +241,31 @@ describe('misc/object', () => {
       [{c: 1}, 'a.b', 1, {a: {b: 1}, c: 1}],
       [{a: {c: 1}}, 'a.b', 1, {a: {b: 1, c: 1}}],
       [{a: 1}, 'a.b', 1, {a: {b: 1}}]
-    ])('get key "%s" from %p', (targ: any, key: string, val: any, expVal: any) => {
+    ])('set to %p key "%s with %p', (targ: any, key: string, val: any, expVal: any) => {
       set(targ, key, val);
+      expect(targ).toEqual(expVal);
+    });
+  });
+
+  describe('setExt', () => {
+    test.each([
+      [{}, 'a', 1, {a: 1}],
+      [{}, 'a.b', 1, {a: {b: 1}}],
+      [{c: 1}, 'a.b', 1, {a: {b: 1}, c: 1}],
+      [{a: {c: 1}}, 'a.b', 1, {a: {b: 1, c: 1}}],
+      [{a: 1}, 'a.b', 1, {a: {b: 1}}],
+      [{}, 'a[0]', 1, {a: [1]}],
+      [{}, 'a[1]', 1, {a: [undefined, 1]}],
+      [{}, 'a[0].b', 1, {a: [{b: 1}]}],
+      [{}, 'a[]', 1, {a: [1]}],
+      [{a: [2, 3]}, 'a[0]', 1, {a: [1, 3]}],
+      [{a: [3, 4]}, 'a[1]', 1, {a: [3, 1]}],
+      [{a: [7, 8]}, 'a[]', 1, {a: [7, 8, 1]}],
+      [[], '[]', 1, [1]],
+      [[1], '[]', 2, [1, 2]],
+      [[1, 2], '[1]', 3, [1, 3]]
+    ])('set to %p key \'%s\' with %p', (targ: any, key: string, val: any, expVal: any) => {
+      setExt(targ, key, val);
       expect(targ).toEqual(expVal);
     });
   });

@@ -89,8 +89,34 @@ export const set = (target: any, path: string, value: any): void => {
   const parts = (path || '').split('.');
   const depth = parts.length - 1;
   parts.reduce((cur: any, key: string, index: number) => {
-    if (index === depth) return cur[key] = value;
-    return cur[key] = isObjectLike(cur[key]) ? cur[key] : {};
+    if (index !== depth && isObjectLike(cur[key])) return cur[key];
+    return cur[key] = (index === depth) ? value : {};
+  }, target);
+};
+
+/**
+ * Set object property using "path" key
+ *
+ * @param target - object
+ * @param path - key path, use '.' as delimiter
+ * @param value - value of property
+ */
+export const setExt = (target: any, path: string, value: any): void => {
+  // TODO: micro-optimization if possible for the following lines
+  // remove initial bracket
+  path = (path || '').replace(/^\[/, '');
+  // split using special strategy:
+  // '[' join to the previous key to identify array consuming on the next part
+  // ']' is part of the current key to identify array index operation
+  const parts = path.replace(/(^|.)\[/g, '$1[.').split('.');
+  const depth = parts.length - 1;
+  parts.reduce((cur: any, keyInitial: string, index: number) => {
+    const keyArrIndex = keyInitial.replace(/\[$/, ''); // TODO: micro-optimization
+    const arrCreate = keyArrIndex.length !== keyInitial.length;
+    const keyArr = keyArrIndex.replace(/]$/, ''); // TODO: micro-optimization
+    const key = !keyArr && keyArrIndex ? (cur.length || 0) : keyArr;
+    if (index !== depth && isObjectLike(cur[key])) return cur[key];
+    return cur[key] = (index === depth) ? value : (arrCreate ? [] : {});
   }, target);
 };
 
