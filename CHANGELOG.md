@@ -1,3 +1,20 @@
+# [3.14.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.13.2...v3.14.0-beta.1) (2022-02-21)
+
+
+### Bug Fixes
+
+* **esl-core:** type and implementation improvements for attribute decorators ([73edd53](https://github.com/exadel-inc/esl/commit/73edd5340b5bef0e548ef00e932b4630907332b4))
+* **esl-media:** fix incorrect `group` definition in shape ([5358933](https://github.com/exadel-inc/esl/commit/5358933c62076a850cdf314f3a31205db5bd2b51))
+
+
+### Features
+
+* **esl-core:** extend `ESLBaseElement` with `$$cls` and `$$attr` methods ([65ab74a](https://github.com/exadel-inc/esl/commit/65ab74a5d1a749958e7d633e973fd679821a057a))
+* **esl-panel-group:** fallback-duration retired, now it's controlled out of the box ([d78553e](https://github.com/exadel-inc/esl/commit/d78553ec4ad474149eb1eba3b4be8d66db942e33))
+* **esl-panel:** ESLPanel no longer requires fallback-time definition ([6140ecd](https://github.com/exadel-inc/esl/commit/6140ecd902a0f888a77310fb8a607d5119b143fc))
+* **esl-utils:** add small attr utility ([f4ee57a](https://github.com/exadel-inc/esl/commit/f4ee57a8f151f82e1ce7cd187799e2cece3c8a10))
+* **esl-utils:** extend CSSClassUtils with `has` check ([f260823](https://github.com/exadel-inc/esl/commit/f260823c913e48313f572006dd6ebf376723461c))
+
 ## [3.13.2](https://github.com/exadel-inc/esl/compare/v3.13.1...v3.13.2) (2022-02-16)
 
 
