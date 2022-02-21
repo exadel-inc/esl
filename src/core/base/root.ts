@@ -1,6 +1,6 @@
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {attr, boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {UIPStateModel} from './model';
+import {SnippetTemplate, UIPStateModel} from './model';
 import {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions';
 
 /**
@@ -83,7 +83,7 @@ export class UIPRoot extends ESLBaseElement {
     this.classList.add(`${next}-${option}`);
   }
 
-  public get $snippets(): HTMLTemplateElement[] {
+  public get $snippets(): SnippetTemplate[] {
     return Array.from(this.querySelectorAll(UIPRoot.SNIPPET_SEL));
   }
 }

@@ -1,6 +1,7 @@
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {UIPPlugin} from '../base/plugin';
+import {SnippetTemplate} from '../base/model';
 
 /**
  * Container class for snippets (component's templates).
@@ -113,10 +114,10 @@ export class UIPSnippets extends UIPPlugin {
       : this.appendChild(this.$title);
   }
 
-  protected renderDropdown(snippets: HTMLTemplateElement[], title: HTMLElement) {
+  protected renderDropdown(snippets: SnippetTemplate[], title: HTMLElement) {
 
     snippets
-      .map((snippet: HTMLTemplateElement) => this.buildListItem(snippet))
+      .map((snippet: SnippetTemplate) => this.buildListItem(snippet))
       .forEach((item) => item && this.$snippetList.appendChild(item));
 
     this.$snippetList.classList.add('esl-scrollable-content');
@@ -131,7 +132,7 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   /** Build snippets list item. */
-  protected buildListItem(snippet: HTMLTemplateElement) {
+  protected buildListItem(snippet: SnippetTemplate) {
     const label = snippet.getAttribute('label');
     if (!label) return;
 
@@ -141,7 +142,7 @@ export class UIPSnippets extends UIPPlugin {
     return $li;
   }
 
-  protected updateTitleText(snippet: HTMLTemplateElement) {
+  protected updateTitleText(snippet: SnippetTemplate) {
     this.$title.textContent = `${snippet.getAttribute('label')}`;
   }
 
