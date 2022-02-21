@@ -216,7 +216,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
-  /** Check if transition happens and run afterAnimate step if transition is not presented */
+  /** Checks if transition happens and runs afterAnimate step if transition is not presented */
   protected fallbackAnimate(): void {
     afterNextRender(() => {
       const distance = parseFloat(this.style.height) - this.clientHeight;
