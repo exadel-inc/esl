@@ -13,7 +13,7 @@ export interface ESLPanelTagShape extends ESLToggleableTagShape<ESLPanel> {
   /** Define class(es) to be added during animation after next render ('post-animate' by default) */
   'post-animate-class'?: string;
 
-  /** @deprecated fallback time no longer required */
+  /** @deprecated fallback time is no longer required */
   'fallback-duration'?: string | number;
 }
 
