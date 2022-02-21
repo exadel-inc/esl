@@ -21,7 +21,6 @@ ESLPanelGroup.register();
 - `mode-cls` - rendering mode class pattern (default: `esl-{mode}-view`). Uses ESLUtils `format` syntax for `mode` placeholder
 - `mode-cls-target` - Element [ESLTraversingQuery](../esl-traversing-query/README.md)  selector to add class that identifies mode (ESLPanelGroup itself by default)
 - `animation-class` - class(es) to be added during animation ('animate' by default)
-- `fallback-duration` - time to clear animation common params (max-height style + classes) (2s by default)
 - `no-collapse` - list of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations)
 - `accordion-group` - defines accordion behavior: 
   * `single` (default) allows only one Panel to be open
