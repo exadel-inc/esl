@@ -1,4 +1,4 @@
-module.exports = {
+const ns = {
   randomColor() {
     return `#${Math.floor(Math.random() * 4095).toString(16).padStart(3, '0')}`;
   },
@@ -13,3 +13,8 @@ module.exports = {
       .filter((item) => !!item);
   }
 };
+
+module.exports = (config) => {
+  config.addGlobalData('functions', ns);
+};
+Object.assign(module.exports, ns);
