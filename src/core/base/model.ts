@@ -23,6 +23,9 @@ export type ChangeAttrConfig = {
   transform: TransformSignature
 });
 
+/** Type for both <script> or <template> containers. */
+export type SnippetTemplate = HTMLTemplateElement | HTMLScriptElement;
+
 /**
  * State holder class to store current UIP markup state.
  * Provides methods to modify the state.
@@ -33,6 +36,9 @@ export class UIPStateModel extends Observable {
   /** Last {@link UIPPlugin} element which changed markup. */
   private _lastModifier: UIPPlugin;
   private _isFired = false;
+
+  private _snippets: SnippetTemplate[];
+  private _activeSnippet: SnippetTemplate;
 
   /**
    * Set current markup state to the passed one.
@@ -55,6 +61,23 @@ export class UIPStateModel extends Observable {
 
   public get lastModifier(): UIPPlugin {
     return this._lastModifier;
+  }
+
+  public get snippets(): SnippetTemplate[] {
+    return this._snippets;
+  }
+
+  public set snippets(snippets: SnippetTemplate[]) {
+    this._snippets = snippets;
+  }
+
+  public get activeSnippet(): SnippetTemplate {
+    return this._activeSnippet;
+  }
+
+  public applySnippet(snippet: SnippetTemplate, modifier: UIPPlugin) {
+    this._activeSnippet = snippet;
+    this.setHtml(snippet.innerHTML, modifier);
   }
 
   /**

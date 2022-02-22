@@ -29,6 +29,7 @@ export class UIPSettings extends UIPPlugin {
     super.connectedCallback();
     this.bindEvents();
     this.updateInner();
+    this.toggleSettings();
   }
 
   /** Initialize settings layout. */
@@ -50,10 +51,12 @@ export class UIPSettings extends UIPPlugin {
 
   protected bindEvents() {
     this.addEventListener('uip:change', this._onSettingChanged);
+    this.root?.addEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected unbindEvents(): void {
     this.removeEventListener('uip:change', this._onSettingChanged);
+    this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected _onSettingChanged(e: any) {
@@ -70,5 +73,16 @@ export class UIPSettings extends UIPPlugin {
   protected _onRootStateChange(): void {
     this.settings.forEach(setting => setting.updateFrom(this.model!));
   }
-}
 
+  @bind
+  protected _onRootConfigChange(e: CustomEvent) {
+    if (e.detail.attribute !== 'settings') return;
+    this.toggleSettings();
+  }
+
+  protected toggleSettings(): void {
+    this.root?.settings
+      ? this.classList.remove('collapsed')
+      : this.classList.add('collapsed');
+  }
+}

@@ -24,37 +24,18 @@ export class UIPOptions extends UIPPlugin {
 
   protected bindEvents() {
     this.addEventListener('change', this._onOptionChange);
-    this.root?.addEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected unbindEvents() {
     this.removeEventListener('change', this._onOptionChange);
-    this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected render() {
     this.innerHTML = '';
-    this.renderMode();
     this.renderTheme();
+    this.renderSettingsControl();
+    this.renderEditorControl();
     this.renderDirection();
-  }
-
-  protected renderMode() {
-    const $mode = document.createElement('div');
-    CSSClassUtils.add($mode, 'uip-option mode');
-    const modeOptionId = randUID();
-    $mode.innerHTML = `
-        <div class="option-item">
-            <input type="radio" id=${modeOptionId}-vertical name=${modeOptionId}-mode mode="vertical"
-            class="option-radio-btn" ${this.root?.mode === 'vertical' ? 'checked' : ''}>
-            <label class="option-label" for=${modeOptionId}-vertical>Vertical</label>
-        </div>
-        <div class="option-item">
-            <input type="radio" id=${modeOptionId}-horizontal name=${modeOptionId}-mode mode="horizontal"
-            class="option-radio-btn" ${this.root?.mode === 'horizontal' ? 'checked' : ''}>
-            <label class="option-label" for=${modeOptionId}-horizontal>Horizontal</label>
-        </div>`;
-    this.appendChild($mode);
   }
 
   protected renderTheme() {
@@ -73,6 +54,32 @@ export class UIPOptions extends UIPPlugin {
             <label class="option-label" for=${themeOptionId}-uip-dark>Dark</label>
         </div>`;
     this.appendChild($theme);
+  }
+
+  protected renderSettingsControl() {
+    const $settings = document.createElement('div');
+    CSSClassUtils.add($settings, 'uip-option');
+    const settingsControlId = randUID();
+    $settings.innerHTML = `
+        <div class="option-item">
+            <input type="checkbox" id=${settingsControlId}-settings-control name=${settingsControlId}-control
+            class="option-checkbox" settings-control='settings' ${this.root?.settings ? 'checked' : ''}>
+            <label class="option-label" for=${settingsControlId}-settings-control>Settings</label>
+        </div>`;
+    this.appendChild($settings);
+  }
+
+  protected renderEditorControl() {
+    const $editor = document.createElement('div');
+    CSSClassUtils.add($editor, 'uip-option');
+    const editorControlId = randUID();
+    $editor.innerHTML = `
+        <div class="option-item">
+            <input type="checkbox" id=${editorControlId}-settings-control name=${editorControlId}-control
+            class="option-checkbox" editor-control='editor' ${this.root?.editor ? 'checked' : ''}>
+            <label class="option-label" for=${editorControlId}-settings-control>Editor</label>
+        </div>`;
+    this.appendChild($editor);
   }
 
   protected renderDirection() {
@@ -95,26 +102,18 @@ export class UIPOptions extends UIPPlugin {
 
   @bind
   protected _onOptionChange(e: Event) {
-    const target = e.target as HTMLElement;
+    const target = e.target as HTMLInputElement;
 
-    const mode = target.getAttribute('mode');
     const theme = target.getAttribute('theme');
+    const settings = target.getAttribute('settings-control');
+    const editor = target.getAttribute('editor-control');
     const dir = target.getAttribute('direction');
 
     if (this.root) {
-      if (mode) this.root.mode = mode;
       if (theme) this.root.theme = theme;
+      if (settings) this.root.settings = target.checked;
+      if (editor) this.root.editor = target.checked;
       if (dir) this.root.direction = dir;
     }
-  }
-
-  @bind
-  protected _onRootConfigChange(e: CustomEvent) {
-    this.checkMarker(e.detail.attribute, e.detail.value);
-  }
-
-  protected checkMarker(attr: string, value: string) {
-    const marker = (this.querySelector(`input[${attr}="${value}"]`) || this.querySelector(`input[${attr}]`)) as HTMLInputElement;
-    if (marker) marker.checked = true;
   }
 }

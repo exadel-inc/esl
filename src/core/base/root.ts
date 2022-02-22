@@ -1,8 +1,6 @@
-import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
-import {ESLMediaRuleList} from '@exadel/esl/modules/esl-media-query/core';
-import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {UIPStateModel} from './model';
+import {attr, boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {SnippetTemplate, UIPStateModel} from './model';
 import {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions';
 
 /**
@@ -15,11 +13,8 @@ export class UIPRoot extends ESLBaseElement {
   public static is = 'uip-root';
   private _model = new UIPStateModel();
 
-  /**
-   * Attribute for controlling UIP components' layout.
-   * Has two values: `vertical` and `horizontal`.
-   */
-  @attr({defaultValue: 'vertical'}) public mode: string;
+  /** CSS query for snippets. */
+  public static SNIPPET_SEL = '[uip-snippet]';
 
   /**
    * Attribute for controlling UIP components' theme.
@@ -27,22 +22,20 @@ export class UIPRoot extends ESLBaseElement {
    */
   @attr({defaultValue: 'uip-light'}) public theme: string;
 
+  /** Attribute for settings' visibility state. */
+  @boolAttr() public settings: boolean;
+
+  /** Attribute for editor's visibility state. */
+  @boolAttr() public editor: boolean;
+
   /**
    * Attribute for controlling preview's content direction.
    * Has two values: `LTR` and `RTL`.
    */
   @attr({defaultValue: 'ltr'}) public direction: string;
 
-  /**
-   * Attribute for setup media query rules
-   */
-  @attr({defaultValue: '@-SM => horizontal'}) public rewriteMode: string;
-
-  private _lastMode: string;
-  private _rewriteModeRL: ESLMediaRuleList<string>;
-
   static get observedAttributes() {
-    return ['theme', 'mode', 'rewrite-mode', 'direction'];
+    return ['theme', 'settings', 'editor', 'direction'];
   }
 
   /** {@link UIPStateModel} instance to store UI Playground state. */
@@ -51,17 +44,14 @@ export class UIPRoot extends ESLBaseElement {
   }
 
   protected connectedCallback() {
-    this.applyRewriteQuery(this.rewriteMode);
     super.connectedCallback();
     this.theme = String(this.theme);
     this.direction = String(this.direction);
-    this._lastMode = this.mode = String(this.mode);
-    this._onQueryChange();
+    this._model.snippets = this.$snippets;
   }
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
-    this.applyRewriteQuery(null);
   }
 
   /** Alias for {@link this.model.addListener}. */
@@ -76,19 +66,16 @@ export class UIPRoot extends ESLBaseElement {
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (oldVal === newVal) return;
-    if (['mode', 'direction', 'theme'].includes(attrName)) {
+    if (['direction', 'theme'].includes(attrName)) {
       this._updateStyles(attrName, oldVal, newVal);
-      EventUtils.dispatch(this, 'uip:configchange', {
-        bubbles: false,
-        detail: {
-          attribute: attrName,
-          value: newVal
-        }
-      });
     }
-    if (attrName === 'rewrite-mode') {
-      this.applyRewriteQuery(newVal);
-    }
+    EventUtils.dispatch(this, 'uip:configchange', {
+      bubbles: false,
+      detail: {
+        attribute: attrName,
+        value: newVal
+      }
+    });
   }
 
   protected _updateStyles(option: string, prev: string, next: string) {
@@ -96,31 +83,7 @@ export class UIPRoot extends ESLBaseElement {
     this.classList.add(`${next}-${option}`);
   }
 
-  /**
-   * @param query media query rule
-   * Parses media query rule
-   * Manages media query listeners
-   */
-  protected applyRewriteQuery(query: string | null) {
-    this._rewriteModeRL?.removeListener(this._onQueryChange);
-    if (!query) return;
-    this._rewriteModeRL = ESLMediaRuleList.parse(query, ESLMediaRuleList.STRING_PARSER);
-    this._rewriteModeRL.addListener(this._onQueryChange);
-  }
-
-  /**
-   * Callback to track resize event.
-   * Applies horizontal mode for mobile breakpoints.
-   */
-  @bind
-  protected _onQueryChange() {
-    const rewriteValue = this._rewriteModeRL.activeValue;
-
-    if (rewriteValue) {
-      this._lastMode = this.mode;
-      this.mode = rewriteValue;
-    } else {
-      this.mode = this._lastMode;
-    }
+  public get $snippets(): SnippetTemplate[] {
+    return Array.from(this.querySelectorAll(UIPRoot.SNIPPET_SEL));
   }
 }
