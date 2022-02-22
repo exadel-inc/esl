@@ -2,13 +2,9 @@ import {
   defined,
   deepCompare,
   getPropertyDescriptor,
-  get,
-  set,
-  setExt,
   copyDefinedKeys,
   copy,
   omit,
-  deepMerge,
   isObject,
   isObjectLike,
   isPrimitive,
@@ -214,115 +210,6 @@ describe('misc/object', () => {
       [{a: 1, b: {}}, [], {a: 1, b: {}}],
     ])('omit from %p properties %p', (inp, keys, out) => {
       expect(omit(inp, keys)).toEqual(out);
-    });
-  });
-
-  describe('get', () => {
-    test.each([
-      ['', {a: 1}, undefined],
-      ['a', undefined, undefined],
-      ['a', null, undefined],
-      ['a', 'a', undefined],
-      ['a', {}, undefined],
-      ['a', {a: 1}, 1],
-      ['a.b', {a: 1}, undefined],
-      ['a.b', {a: {b: 2}}, 2],
-      ['a.b.c', {a: {b: {c: {}}}}, {}],
-      ['a.b.d', {a: {b: {c: {}}}}, undefined]
-    ])('get key "%s" from %p', (key: string, source: any, expVal: any) => {
-      expect(get(source, key)).toEqual(expVal);
-    });
-  });
-
-  describe('set', () => {
-    test.each([
-      [{}, 'a', 1, {a: 1}],
-      [{}, 'a.b', 1, {a: {b: 1}}],
-      [{c: 1}, 'a.b', 1, {a: {b: 1}, c: 1}],
-      [{a: {c: 1}}, 'a.b', 1, {a: {b: 1, c: 1}}],
-      [{a: 1}, 'a.b', 1, {a: {b: 1}}]
-    ])('set to %p key "%s with %p', (targ: any, key: string, val: any, expVal: any) => {
-      set(targ, key, val);
-      expect(targ).toEqual(expVal);
-    });
-  });
-
-  describe('setExt', () => {
-    test.each([
-      [{}, 'a', 1, {a: 1}],
-      [{}, 'a.b', 1, {a: {b: 1}}],
-      [{c: 1}, 'a.b', 1, {a: {b: 1}, c: 1}],
-      [{a: {c: 1}}, 'a.b', 1, {a: {b: 1, c: 1}}],
-      [{a: 1}, 'a.b', 1, {a: {b: 1}}],
-      [{}, 'a[0]', 1, {a: [1]}],
-      [{}, 'a[1]', 1, {a: [undefined, 1]}],
-      [{}, 'a[0].b', 1, {a: [{b: 1}]}],
-      [{}, 'a[]', 1, {a: [1]}],
-      [{a: [2, 3]}, 'a[0]', 1, {a: [1, 3]}],
-      [{a: [3, 4]}, 'a[1]', 1, {a: [3, 1]}],
-      [{a: [7, 8]}, 'a[]', 1, {a: [7, 8, 1]}],
-      [[], '[]', 1, [1]],
-      [[1], '[]', 2, [1, 2]],
-      [[1, 2], '[1]', 3, [1, 3]]
-    ])('set to %p key \'%s\' with %p', (targ: any, key: string, val: any, expVal: any) => {
-      setExt(targ, key, val);
-      expect(targ).toEqual(expVal);
-    });
-  });
-
-  describe('deepMerge', () => {
-    test.each([
-      [{}, {}, {}],
-      [{a: [1]}, {a: 1}, {a: 1}],
-      [{a: 1}, {b: 2}, {c: 3}, {d: 4}, {a: 1, b: 2, c: 3, d: 4}],
-      [{a: 1}, {a: ['2']}, {a: ['2']}],
-      [[1, 2], [3], [3, 2]],
-      [{a: 1, b: 1}, {a: 2, c: 2}, {a: 2, b: 1, c: 2}],
-      [{a: {a: 1, b: 1}, b: 1}, {a: {a: 3, c: 3}}, {a: {a: 3, b: 1, c: 3}, b: 1}],
-      [{a: 1}, {b: 2}, {c: 3}, {a: 1, b: 2, c: 3}],
-      [{a: 'value', b: 'value'}, {a: null, b: ''}, {a: null, b: ''}],
-      [{a: [1, 2, {a: 1, b: 1}]}, {a: [3, 4, {a: 2, b: 2}]}, {a: [3, 4, {a: 2, b: 2}]}]
-    ])('basic cases %p %p %p', (...args: any[]) => {
-      const result = args.pop();
-      expect(deepMerge(...args)).toEqual(result);
-    });
-
-    test('merge array + object', () => {
-      const res = deepMerge([1, 2], {a: 1});
-      const exp: any = [1, 2];
-      exp.a = 1;
-      expect(res).toEqual(exp);
-    });
-
-    test('deep copy object', () => {
-      const obj = {a: 1, b: {c: 2}};
-      const copyObj = deepMerge(obj);
-
-      expect(copyObj).not.toBe(obj);
-      expect(copyObj).toEqual(obj);
-      expect(copyObj.b).not.toBe(obj.b);
-      expect(copyObj.b).toEqual(obj.b);
-    });
-
-    test('deep copy array', () => {
-      const obj = [1, 2, {a: 1, b: 3}];
-      const copyObj = deepMerge(obj);
-
-      expect(copyObj).not.toBe(obj);
-      expect(copyObj).toEqual(obj);
-      expect(copyObj[2]).not.toBe(obj[2]);
-      expect(copyObj[2]).toEqual(obj[2]);
-    });
-
-    test.each([
-      [null, {}], // ?? minor
-      [{}, undefined, {}],
-      [{}, null, {}],
-      [{}, 1, {}],
-      [{}, 'Hi', {}],
-    ])('edge case: %p %p %p', (...args: any[]) => {
-      const result = args.pop();
-      expect(deepMerge(...args)).toEqual(result);
     });
   });
 });
