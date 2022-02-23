@@ -136,7 +136,7 @@ export class ESLPanel extends ESLToggleable {
   /** Catching CSS transition end event to start post-animate processing */
   @bind
   protected _onTransitionEnd(e?: TransitionEvent): void {
-    if (!e || e.propertyName === 'max-height') {
+    if (!e || (e.propertyName === 'max-height' && e.target === this)) {
       this.afterAnimate();
     }
   }
