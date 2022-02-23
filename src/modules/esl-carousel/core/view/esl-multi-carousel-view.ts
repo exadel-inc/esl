@@ -1,4 +1,3 @@
-import {promisifyNextRender} from '../../../esl-utils/async/raf';
 import {promisifyEvent, repeatSequence, resolvePromise} from '../../../esl-utils/async/promise';
 
 import {calcDirection, normalizeIndex} from '../esl-carousel-utils';
@@ -67,7 +66,6 @@ export class ESLMultiCarouselView extends ESLCarouselView {
 
     const animateSlide = (): Promise<void> =>
       this.onBeforeStepAnimate(direction)
-        .then(() => this.onStepAnimate(direction))
         .then(() => this.onAfterStepAnimate(direction));
 
     return repeatSequence(animateSlide, this.getDistance(nextIndex, direction));
@@ -75,7 +73,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
 
   /** Post-processing animation action. */
   public async onAfterAnimate(): Promise<void> {
-    this.carousel.$slidesArea!.style.transform = 'none';
+    this.carousel.$slidesArea!.style.transform = 'translate3d(0px, 0px, 0px)';
     return Promise.resolve();
   }
 
@@ -86,32 +84,47 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     const orderIndex = direction === 'next' ? this.currentIndex : normalizeIndex(this.currentIndex - 1, this.size);
     this._setOrderFrom(orderIndex);
 
+    // // TODO: reflow
     const offsetIndex = direction === 'next' ? normalizeIndex(this.currentIndex + 1, this.size) : this.currentIndex;
     const offset = this.carousel.$slides[offsetIndex].offsetLeft;
-    const shiftX = direction === 'next' ? 0 : -offset;
-    this.carousel.$slidesArea!.style.transform = `translateX(${shiftX}px)`;
+    const shiftXBefore = direction === 'next' ? 0 : -offset;
+    this.carousel.$slidesArea!.style.transform = `translate3d(${shiftXBefore}px, 0px, 0px)`;
 
-    return promisifyNextRender();
+    this.carousel.toggleAttribute('animate', true);
+
+    // return promisifyNextRender();
+    +this.carousel.offsetLeft;
+
+    const shiftXAfter = direction === 'next' ? -offset : 0;
+    this.carousel.$slidesArea!.style.transform = `translate3d(${shiftXAfter}px, 0px, 0px)`;
+
+    return new Promise((resolve) => {
+      const cb = (e: TransitionEvent) => {
+        if (e.propertyName !== 'transform') return;
+        this.carousel.$slidesArea?.removeEventListener('transitionend', cb);
+        resolve();
+      };
+      this.carousel.$slidesArea?.addEventListener('transitionend', cb);
+    });
   }
 
   /** Processes animation of one slide. */
-  protected async onStepAnimate(direction: CarouselDirection): Promise<void> {
-    this.carousel.toggleAttribute('animate', true);
-
-    const offsetIndex = direction === 'next' ? normalizeIndex(this.currentIndex + 1, this.size) : this.currentIndex;
-    const offset = this.carousel.$slides[offsetIndex].offsetLeft;
-    const shiftX = direction === 'next' ? -offset : 0;
-    this.carousel.$slidesArea!.style.transform = `translateX(${shiftX}px)`;
-
-    // TODO: !
-    return promisifyEvent(this.carousel.$slidesArea!, 'transitionend')
-      .catch(resolvePromise);
-  }
+  // protected async onStepAnimate(direction: CarouselDirection): Promise<void> {
+  //   // TODO: move from
+  //   // this.carousel.toggleAttribute('animate', true);
+  //
+  //   // TODO: take from before
+  //   const offsetIndex = direction === 'next' ? normalizeIndex(this.currentIndex + 1, this.size) : this.currentIndex;
+  //   const offset = this.carousel.$slides[offsetIndex].offsetLeft;
+  //
+  //   // TODO: !
+  // }
 
   /** Post-processing the transition animation of one slide. */
   protected async onAfterStepAnimate(direction: CarouselDirection): Promise<void> {
+    // TODO: onAfterAnimate
     this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', false));
-    this.carousel.$slidesArea!.style.transform = 'translateX(0px)';
+    this.carousel.$slidesArea!.style.transform = 'translate3d(0px, 0px, 0px)';
 
     this.currentIndex = direction === 'next' ? this.currentIndex + 1 : this.currentIndex - 1;
     this.currentIndex = normalizeIndex(this.currentIndex, this.size);
@@ -119,6 +132,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this._setOrderFrom(this.currentIndex);
 
     this.carousel.toggleAttribute('animate', false);
+    +this.carousel.offsetLeft;
     return Promise.resolve();
   }
 
