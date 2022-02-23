@@ -1,4 +1,5 @@
-import {get, set, setExt} from '../object';
+import {get, set} from '../object';
+import type {PathKey} from '../object';
 
 describe('misc/object: path', () => {
   describe('get', () => {
@@ -22,25 +23,58 @@ describe('misc/object: path', () => {
     const x = Symbol();
     const y = Symbol();
 
-    test.each([
-      [{}, 'a', x, {a: x}],
-      [{}, 'a.b', x, {a: {b: x}}],
-      [{c: y}, 'a.b', x, {a: {b: x}, c: y}],
-      [{a: {c: y}}, 'a.b', x, {a: {b: x, c: y}}],
-      [{a: y}, 'a.b', x, {a: {b: x}}]
-    ])('set to %p key "%s with %p', (targ: any, key: string, val: any, expVal: any) => {
-      expect(set(targ, key, val)).toEqual(expVal);
-      expect(targ).toEqual(expVal);
+    describe('simple', () => {
+      test.each([
+        [{}, 'a', x, {a: x}],
+        [{}, 'a.b', x, {a: {b: x}}],
+        [{c: y}, 'a.b', x, {a: {b: x}, c: y}],
+        [{a: {c: y}}, 'a.b', x, {a: {b: x, c: y}}],
+        [{a: y}, 'a.b', x, {a: {b: x}}]
+      ])('set to %p key "%s with %p', (targ: any, key: string, val: any, expVal: any) => {
+        expect(set(targ, key, val)).toEqual(expVal);
+        expect(targ).toEqual(expVal);
+      });
     });
-    test.each([
-      [{}, ['a'], x, {a: x}],
-      [{}, [1], x, {'1': x}],
-      [[], [0], y, [y]],
-      [{}, ['a', 'b'], x, {a: {b: x}}],
-      [{c: y}, ['a', 'b'], x, {a: {b: x}, c: y}],
-    ])('set to %p key "%s with %p', (targ: any, keys: (number | string)[], val: any, expVal: any) => {
-      expect(set(targ, keys, val)).toEqual(expVal);
-      expect(targ).toEqual(expVal);
+
+    describe('array of simple keys', () => {
+      test.each([
+        [{}, ['a'], x, {a: x}],
+        [{}, [1], x, {'1': x}],
+        [[], [0], y, [y]],
+        [{}, ['a', 'b'], x, {a: {b: x}}],
+        [{c: y}, ['a', 'b'], x, {a: {b: x}, c: y}],
+      ])('set to %p key "%s with %p', (targ: any, keys: (number | string)[], val: any, expVal: any) => {
+        expect(set(targ, keys, val)).toEqual(expVal);
+        expect(targ).toEqual(expVal);
+      });
+    });
+
+    describe('path keys', () => {
+      test.each([
+        [{}, [{key: 'a'}], x, {a: x}],
+        [{}, [{key: 1}], x, {'1': x}],
+        [{}, [{key: 0, isIndex: true}], y, {0: y}],
+        [[], [{key: 0}], y, [y]],
+        [[], [{key: '', isIndex: true}], y, [y]],
+        [{}, [{key: 'a'}, {key: 'b'}], x, {a: {b: x}}],
+        [{}, [{key: 'a'}, {key: '', isIndex: true}], x, {a: [x]}],
+      ])('set to %p key "%s with %p', (targ: any, keys: PathKey[], val: any, expVal: any) => {
+        expect(set(targ, keys, val)).toEqual(expVal);
+        expect(targ).toEqual(expVal);
+      });
+    });
+
+    describe('path keys: override', () => {
+      test.each([
+        [{a: {c: y}}, [{key: 'a'}, {key: 'b'}], x, {a: {b: x, c: y}}],
+        [{a: {b: y}}, [{key: 'a'}, {key: 'b'}], x, {a: {b: x}}],
+        [{a: {b: y}}, [{key: 'a'}, {key: 'b', isIndexed: true}, 0], x, {a: {b: [x]}}],
+        [[x], [{key: '', isIndex: true}], y, [x, y]],
+        [[x], [{key: '0', isIndex: true}], y, [y]]
+      ])('set to %p key "%s with %p', (targ: any, keys: PathKey[], val: any, expVal: any) => {
+        expect(set(targ, keys, val)).toEqual(expVal);
+        expect(targ).toEqual(expVal);
+      });
     });
   });
 
@@ -55,7 +89,7 @@ describe('misc/object: path', () => {
         [{}, 'abc', x, {abc: x}],
         [{}, 'a.b.c', x, {a: {b: {c: x}}}]
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(setExt(targ, key, val)).toEqual(expVal);
+        expect(set(targ, key, val)).toEqual(expVal);
         expect(targ).toEqual(expVal);
       });
     });
@@ -68,7 +102,7 @@ describe('misc/object: path', () => {
         [{abc: y}, 'abc', x, {abc: x}],
         [{a: {b: {d: y}}}, 'a.b.c', x, {a: {b: {c: x, d: y}}}]
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(setExt(targ, key, val)).toEqual(expVal);
+        expect(set(targ, key, val)).toEqual(expVal);
       });
     });
 
@@ -81,7 +115,7 @@ describe('misc/object: path', () => {
         [{}, 'abc[0].b', x, {abc: [{b: x}]}],
         [{}, 'abc[0].b[0]', x, {abc: [{b: [x]}]}]
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(setExt(targ, key, val)).toEqual(expVal);
+        expect(set(targ, key, val)).toEqual(expVal);
       });
     });
 
@@ -94,7 +128,7 @@ describe('misc/object: path', () => {
         [{abc: [x, x]}, 'abc[0]', y, {abc: [y, x]}],
         [{abc: [x, x]}, 'abc[1]', y, {abc: [x, y]}]
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(setExt(targ, key, val)).toEqual(expVal);
+        expect(set(targ, key, val)).toEqual(expVal);
       });
     });
 
@@ -105,19 +139,35 @@ describe('misc/object: path', () => {
         [[x, x], '[]', y, [x, x, y]],
         [{a: [x]}, 'a[]', y, {a: [x, y]}]
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(setExt(targ, key, val)).toEqual(expVal);
+        expect(set(targ, key, val)).toEqual(expVal);
       });
     });
 
     describe('special cases', () => {
       test.each([
         [{}, '', x, {'': x}],
-        [{}, '[', x, {'[': x}],
-        [{}, ']', x, {']': x}],
-        [{}, '[abc]', y, {abc: y}],
-        [{}, '[a.b.c]', y, {'a.b.c': y}]
+
+        [{}, '[abc]', y, {abc: y}], // ???
+        [{}, '[a.b.c]', y, {'a.b.c': y}], // ???
+        [{}, 'a[a.b.c]', y, {a: {'a.b.c': y}}], // ???
+
+        // --------
+
+        [{}, '.', x, {'': x}], // ? +
+        [{}, 'a..b', x, {a: {'': {b: x}}}], // ? +
+
+        // ------
+
+        // [{}, '[[]', x, {'[': x}],
+
+        // [{}, '[[]]', x, {'[]': x}], // ideal
+        // [{}, 'a[[]]', x, {a: x}], // 2 option if smth went wrong ignore???? lodash beh.
+
+        // [{}, '[', x, {}], // ideally ignore
+        // [{}, ']', x, {}] // ideally ignore
+
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(setExt(targ, key, val)).toEqual(expVal);
+        expect(set(targ, key, val)).toEqual(expVal);
       });
     });
   });
