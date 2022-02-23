@@ -38,7 +38,7 @@ describe('misc/object: path', () => {
       [[], [0], y, [y]],
       [{}, ['a', 'b'], x, {a: {b: x}}],
       [{c: y}, ['a', 'b'], x, {a: {b: x}, c: y}],
-    ])('set to %p key "%s with %p', (targ: any, keys: (number|string)[], val: any, expVal: any) => {
+    ])('set to %p key "%s with %p', (targ: any, keys: (number | string)[], val: any, expVal: any) => {
       expect(set(targ, keys, val)).toEqual(expVal);
       expect(targ).toEqual(expVal);
     });

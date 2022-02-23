@@ -79,19 +79,39 @@ export function omit<T>(obj: T, keys: string[]): Partial<T> {
 }
 
 /**
+ * Gets object property using "path" key
+ * Creates empty object if sub-key value is not presented.
+ *
+ * @param data - object
+ * @param path - key path, use '.' as delimiter
+ * @param defaultValue - default
+ * @returns specified object property
+ */
+export const get = (data: any, path: string, defaultValue?: any): any => {
+  const parts = (path || '').split('.');
+  const result = parts.reduce((curr: any, key: string) => {
+    if (isObjectLike(curr)) return curr[key];
+    return undefined;
+  }, data);
+  return typeof result === 'undefined' ? defaultValue : result;
+};
+
+/**
  * Set object property using "path" key
  *
  * @param target - object
- * @param path - key path, use '.' as delimiter
+ * @param path - key path. string viw '.' as delimiter or array of keys
  * @param value - value of property
+ * @returns original object
  */
-export const set = (target: any, path: string, value: any): void => {
-  const parts = (path || '').split('.');
+export const set = (target: any, path: string | (number | string)[], value: any): any => {
+  const parts = Array.isArray(path) ? path : (path || '').split('.');
   const depth = parts.length - 1;
   parts.reduce((cur: any, key: string, index: number) => {
     if (index !== depth && isObjectLike(cur[key])) return cur[key];
     return cur[key] = (index === depth) ? value : {};
   }, target);
+  return target;
 };
 
 /**
@@ -100,8 +120,9 @@ export const set = (target: any, path: string, value: any): void => {
  * @param target - object
  * @param path - key path, use '.' as delimiter
  * @param value - value of property
+ * @returns original object
  */
-export const setExt = (target: any, path: string, value: any): void => {
+export const setExt = (target: any, path: string, value: any): any => {
   // TODO: micro-optimization if possible for the following lines
   // remove initial bracket
   path = (path || '').replace(/^\[/, '');
@@ -118,23 +139,7 @@ export const setExt = (target: any, path: string, value: any): void => {
     if (index !== depth && isObjectLike(cur[key])) return cur[key];
     return cur[key] = (index === depth) ? value : (arrCreate ? [] : {});
   }, target);
-};
-
-/**
- * Gets object property using "path" key
- * Creates empty object if sub-key value is not presented.
- *
- * @param data - object
- * @param path - key path, use '.' as delimiter
- * @param defaultValue - default
- */
-export const get = (data: any, path: string, defaultValue?: any): any => {
-  const parts = (path || '').split('.');
-  const result = parts.reduce((curr: any, key: string) => {
-    if (isObjectLike(curr)) return curr[key];
-    return undefined;
-  }, data);
-  return typeof result === 'undefined' ? defaultValue : result;
+  return target;
 };
 
 /**
