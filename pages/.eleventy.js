@@ -46,7 +46,6 @@ module.exports = (config) => {
     dataTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
     passthroughFileCopy: true,
-    templateFormats: ['md', 'njk'],
-    pathPrefix: '/'
+    templateFormats: ['md', 'njk']
   };
 };

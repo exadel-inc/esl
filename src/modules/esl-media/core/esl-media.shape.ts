@@ -17,7 +17,7 @@ export type ESLMediaTagShape = ({
   'media-type': string;
 }) & {
   /** Define media player group */
-  group: string;
+  group?: string;
   /** Define media fill mode */
   'fill-mode'?: ESLMediaFillMode;
   /** Define preferable aspect ratio */

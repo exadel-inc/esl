@@ -36,7 +36,7 @@ const buildAttrName =
  */
 export const attr = (config: AttrDescriptor = {}): AttributeDecorator => {
   config = Object.assign({defaultValue: ''}, config);
-  return (target: AttributeTarget, propName: string): void => {
+  return (target: Element | AttributeTarget, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildSimpleDescriptor(attrName, !!config.readonly, config.defaultValue));
   };
