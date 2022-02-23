@@ -279,7 +279,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Catches CSS transition end event to start post-animate processing */
   @bind
   protected _onTransitionEnd(e?: TransitionEvent): void {
-    if (!e || e.propertyName === 'height') {
+    if (!e || (e.propertyName === 'height' && e.target === this)) {
       this.afterAnimate();
     }
   }
