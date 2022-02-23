@@ -27,12 +27,36 @@ describe('misc/object: path', () => {
       test.each([
         [{}, 'a', x, {a: x}],
         [{}, 'a.b', x, {a: {b: x}}],
-        [{c: y}, 'a.b', x, {a: {b: x}, c: y}],
-        [{a: {c: y}}, 'a.b', x, {a: {b: x, c: y}}],
-        [{a: y}, 'a.b', x, {a: {b: x}}]
-      ])('set to %p key "%s with %p', (targ: any, key: string, val: any, expVal: any) => {
+        [{}, 'abc', x, {abc: x}],
+        [{}, 'a.b.c', x, {a: {b: {c: x}}}]
+      ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
         expect(set(targ, key, val)).toEqual(expVal);
         expect(targ).toEqual(expVal);
+      });
+    });
+
+    describe('simple parse mode', () => {
+      test.each([
+        [{}, 'a', x, {a: x}],
+        [{}, 'ab.bc', x, {ab: {bc: x}}],
+        [{}, 'a.b.c', x, {a: {b: {c: x}}}],
+        [{}, 'abc.[1]', x, {abc: {'[1]': x}}],
+        [{}, '[]', x, {'[]': x}],
+      ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
+        expect(set(targ, key, val, true)).toEqual(expVal);
+        expect(targ).toEqual(expVal);
+      });
+    });
+
+    describe('simple override', () => {
+      test.each([
+        [{b: y}, 'a', x, {a: x, b: y}],
+        [{a: {}}, 'a.b', x, {a: {b: x}}],
+        [{a: {}}, 'a.1', x, {a: {'1': x}}],
+        [{abc: y}, 'abc', x, {abc: x}],
+        [{a: {b: {d: y}}}, 'a.b.c', x, {a: {b: {c: x, d: y}}}]
+      ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
+        expect(set(targ, key, val)).toEqual(expVal);
       });
     });
 
@@ -76,37 +100,8 @@ describe('misc/object: path', () => {
         expect(targ).toEqual(expVal);
       });
     });
-  });
 
-  describe('setExt', () => {
-    const x = Symbol();
-    const y = Symbol();
-
-    describe('simple', () => {
-      test.each([
-        [{}, 'a', x, {a: x}],
-        [{}, 'a.b', x, {a: {b: x}}],
-        [{}, 'abc', x, {abc: x}],
-        [{}, 'a.b.c', x, {a: {b: {c: x}}}]
-      ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(set(targ, key, val)).toEqual(expVal);
-        expect(targ).toEqual(expVal);
-      });
-    });
-
-    describe('simple override', () => {
-      test.each([
-        [{b: y}, 'a', x, {a: x, b: y}],
-        [{a: {}}, 'a.b', x, {a: {b: x}}],
-        [{a: {}}, 'a.1', x, {a: {'1': x}}],
-        [{abc: y}, 'abc', x, {abc: x}],
-        [{a: {b: {d: y}}}, 'a.b.c', x, {a: {b: {c: x, d: y}}}]
-      ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(set(targ, key, val)).toEqual(expVal);
-      });
-    });
-
-    describe('array', () => {
+    describe('index support', () => {
       test.each([
         [{}, 'a[0]', x, {a: [x]}],
         [{}, 'a[1]', x, {a: [undefined, x]}],
