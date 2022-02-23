@@ -1,23 +1,5 @@
 import {isObjectLike} from './types';
 
-/**
- * Gets object property using "path" key
- * Creates empty object if sub-key value is not presented.
- *
- * @param data - object
- * @param path - key path, use '.' as delimiter
- * @param defaultValue - default
- * @returns specified object property
- */
-export const get = (data: any, path: string, defaultValue?: any): any => {
-  const parts = (path || '').split('.');
-  const result = parts.reduce((curr: any, key: string) => {
-    if (isObjectLike(curr)) return curr[key];
-    return undefined;
-  }, data);
-  return typeof result === 'undefined' ? defaultValue : result;
-};
-
 /** Key definition for {@link set} */
 export type PathKeyDef = {
   /** Key name */
@@ -34,13 +16,13 @@ const toKeyDef = (key: PathKey): PathKeyDef => typeof key === 'object' ? key : {
 
 /** Parse path to full {@link PathKeyDef} array */
 const parseKeys = (path: string | (number | string | PathKey)[], strict: boolean): PathKeyDef[] => {
-  if (typeof path === 'string' && path && !strict) return parseKeysExt(path);
+  if (typeof path === 'string' && path && !strict) return parseKeysExt(path).map(toKeyDef);
   const parts = Array.isArray(path) ? path : (path || '').split('.');
   return parts.map(toKeyDef);
 };
 
 /** Parse path to the PathKeysDefinition */
-export const parseKeysExt = (path: string): any => {
+export const parseKeysExt = (path: string): PathKeyDef[] => {
   let match;
   const parts: PathKeyDef[] = [];
   const matcher = /^([^[.]+)|\.([^[.]*)|\[([^\]]*)]/g;
@@ -54,6 +36,25 @@ export const parseKeysExt = (path: string): any => {
     }
   }
   return parts;
+};
+
+/**
+ * Gets object property using "path" key
+ * Creates empty object if sub-key value is not presented.
+ *
+ * @param data - object
+ * @param path - key path, use '.' as delimiter
+ * @param defaultValue - default
+ * @param simple - enable simple parsing mode (only '.' syntax separator, without collection support)
+ * @returns specified object property
+ */
+export const get = (data: any, path: string | PathKey[], defaultValue?: any, simple = false): any => {
+  const parts = parseKeys(path, simple);
+  const result = parts.reduce((curr: any, {key}: PathKeyDef) => {
+    if (isObjectLike(curr)) return curr[key];
+    return undefined;
+  }, data);
+  return typeof result === 'undefined' ? defaultValue : result;
 };
 
 /**
