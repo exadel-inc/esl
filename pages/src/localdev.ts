@@ -24,6 +24,7 @@ import {
   ESLTab,
   ESLScrollbar,
   ESLAlert,
+  ESLSortable,
   ESLToggleableDispatcher,
   ESLSelect,
   ESLSelectList,
@@ -91,6 +92,8 @@ ESLNote.register();
 ESLTooltip.register();
 
 ESLAnimate.register();
+
+ESLSortable.register();
 
 ESLCarousel.register();
 ESLCarouselPlugins.Dots.register();

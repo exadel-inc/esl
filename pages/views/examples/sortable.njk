@@ -1,0 +1,76 @@
+---
+layout: content
+title: Sortable
+seoTitle: Custom scroll ui examples based on ESL web components
+name: Sortable
+tags: [examples, draft]
+icon: examples/scrollbar.svg
+---
+{% import 'lorem.njk' as lorem %}
+
+<section class="border bg-white relative-block">
+  <div class="p-4">
+    <h2>Vertical list</h2>
+    <esl-sortable>
+      {% for i in range(1, 11) -%}
+        <div class="border esl-sortable-child-demo">{{i}}</div>
+      {%- endfor %}
+    </esl-sortable>
+  </div>
+</section>
+
+<section class="border bg-white relative-block">
+  <div class="p-4">
+    <h2>Active item return animation (1)</h2>
+    <esl-sortable animation="1">
+      {% for i in range(1, 3) -%}
+        <div class="border esl-sortable-child-demo">{{i}}</div>
+      {%- endfor %}
+    </esl-sortable>
+    <h2>Active item return animation (2)</h2>
+    <esl-sortable animation="2">
+      {% for i in range(4, 6) -%}
+        <div class="border esl-sortable-child-demo">{{i}}</div>
+      {%- endfor %}
+    </esl-sortable>
+  </div>
+</section>
+
+<section class="border bg-white relative-block">
+  <div class="p-4">
+    <h2>Horizontal list</h2>
+    <esl-sortable horizontal animation="1">
+      {% for i in range(1, 11) -%}
+        <div class="border esl-sortable-child-demo">{{i}}</div>
+      {%- endfor %}
+    </esl-sortable>
+  </div>
+</section>
+
+<section>
+  <h2>Group of lists</h2>
+  <div class="border bg-white d-flex p-4">
+    <div style="width: 33%">
+      <h3>List 1</h3>
+      <esl-sortable style="min-height: 50px" group="esl-demo-group" animation="2">
+        {% for i in range(1, 6) -%}
+          <div class="border esl-sortable-child-demo">{{i}}</div>
+        {%- endfor %}
+      </esl-sortable>
+    </div>
+
+    <div style="width: 33%">
+      <h3>List 2</h3>
+      <esl-sortable style="min-height: 50px" group="esl-demo-group" animation="2">
+        {% for i in range(6, 11) -%}
+          <div class="border esl-sortable-child-demo">{{i}}</div>
+        {%- endfor %}
+      </esl-sortable>
+    </div>
+
+    <div style="width: 33%">
+      <h3>Empty List</h3>
+      <esl-sortable style="min-height: 50px" group="esl-demo-group" animation="2"></esl-sortable>
+    </div>
+  </div>
+</section>

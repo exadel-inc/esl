@@ -27,3 +27,5 @@ export * from './esl-footnotes/core';
 export * from './esl-tooltip/core';
 
 export * from './esl-animate/core';
+
+export * from './esl-sortable/core';
