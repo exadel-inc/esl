@@ -1,6 +1,6 @@
 import {isObjectLike} from './types';
 
-/** Full key definition for {@link get} or {@link set} */
+/** Full key definition for {@link getBy} or {@link setBy} */
 export type PathKeyDef = {
   /** Key name */
   key: string | number;
@@ -9,7 +9,7 @@ export type PathKeyDef = {
   // /** Key should produce array is not exists */
   isIndexed?: boolean;
 };
-/** Key definition for {@link get} or {@link set} */
+/** Key definition for {@link getBy} or {@link setBy} */
 export type PathKey = PathKeyDef | string | number;
 
 /** @returns PathKeyDef from the PathDef */
@@ -62,7 +62,7 @@ const parseKeysPath = (path: string): PathKeyDef[] => {
  * @param defaultValue - default
  * @returns specified object property
  */
-export const get = (data: any, path: string | PathKey[], defaultValue?: any): any => {
+export const getBy = (data: any, path: string | PathKey[], defaultValue?: any): any => {
   const keys = parseKeys(path);
   const result = keys.reduce((curr: any, {key}: PathKeyDef) => {
     if (isObjectLike(curr)) return curr[key];
@@ -70,6 +70,12 @@ export const get = (data: any, path: string | PathKey[], defaultValue?: any): an
   }, data);
   return typeof result === 'undefined' ? defaultValue : result;
 };
+
+/**
+ * Get object property using "path" with a keys separated by `.`
+ * @see getBy
+ */
+export const get = (data: any, path: string, defaultValue?: any): any => getBy(data, (path || '').split('.'), defaultValue);
 
 /**
  * Set object property using "path" key
@@ -89,7 +95,7 @@ export const get = (data: any, path: string | PathKey[], defaultValue?: any): an
  * @param value - value of property
  * @returns original object
  */
-export const set = (target: any, path: string | PathKey[], value: any): any => {
+export const setBy = (target: any, path: string | PathKey[], value: any): any => {
   const keys = parseKeys(path);
   const depth = keys.length - 1;
   keys.reduce((cur: any, {key, isIndex, isIndexed}: PathKeyDef, pos: number) => {
@@ -100,3 +106,9 @@ export const set = (target: any, path: string | PathKey[], value: any): any => {
   }, target);
   return target;
 };
+
+/**
+ * Set object property using "path" with a keys separated by `.`
+ * @see setBy
+ */
+export const set = (target: any, path: string, value: any): any => setBy(target, (path || '').split('.'), value);

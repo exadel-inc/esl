@@ -1,7 +1,10 @@
-import {get, set, parseKeys} from '../object';
+import {getBy, setBy, parseKeys, set, get} from '../object';
 import type {PathKey, PathKeyDef} from '../object';
 
 describe('misc/object: path', () => {
+  const x = Symbol();
+  const y = Symbol();
+
   describe('parseKeys', () => {
     const normalize = (keys: PathKeyDef[]) => keys.map((key) => { key.isIndex = !!key.isIndex; return key;});
 
@@ -88,15 +91,12 @@ describe('misc/object: path', () => {
         ['a[0]', {a: [1, 2]}, 1],
         ['a[1]', {a: [1, 2]}, 2]
       ])('get key "%s" from %p', (key: string, source: any, expVal: any) => {
-        expect(get(source, key)).toEqual(expVal);
+        expect(getBy(source, key)).toEqual(expVal);
       });
     });
   });
 
   describe('set', () => {
-    const x = Symbol();
-    const y = Symbol();
-
     describe('simple', () => {
       test.each([
         [{}, 'a', x, {a: x}],
@@ -104,7 +104,7 @@ describe('misc/object: path', () => {
         [{}, 'abc', x, {abc: x}],
         [{}, 'a.b.c', x, {a: {b: {c: x}}}]
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(set(targ, key, val)).toEqual(expVal);
+        expect(setBy(targ, key, val)).toEqual(expVal);
         expect(targ).toEqual(expVal);
       });
     });
@@ -117,7 +117,7 @@ describe('misc/object: path', () => {
         [{abc: y}, 'abc', x, {abc: x}],
         [{a: {b: {d: y}}}, 'a.b.c', x, {a: {b: {c: x, d: y}}}]
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(set(targ, key, val)).toEqual(expVal);
+        expect(setBy(targ, key, val)).toEqual(expVal);
       });
     });
 
@@ -129,7 +129,7 @@ describe('misc/object: path', () => {
         [{}, ['a', 'b'], x, {a: {b: x}}],
         [{c: y}, ['a', 'b'], x, {a: {b: x}, c: y}],
       ])('set to %p key "%s with %p', (targ: any, keys: (number | string)[], val: any, expVal: any) => {
-        expect(set(targ, keys, val)).toEqual(expVal);
+        expect(setBy(targ, keys, val)).toEqual(expVal);
         expect(targ).toEqual(expVal);
       });
     });
@@ -144,7 +144,7 @@ describe('misc/object: path', () => {
         [{}, [{key: 'a'}, {key: 'b'}], x, {a: {b: x}}],
         [{}, [{key: 'a'}, {key: '', isIndex: true}], x, {a: [x]}],
       ])('set to %p key "%s with %p', (targ: any, keys: PathKey[], val: any, expVal: any) => {
-        expect(set(targ, keys, val)).toEqual(expVal);
+        expect(setBy(targ, keys, val)).toEqual(expVal);
         expect(targ).toEqual(expVal);
       });
     });
@@ -157,7 +157,7 @@ describe('misc/object: path', () => {
         [[x], [{key: '', isIndex: true}], y, [x, y]],
         [[x], [{key: '0', isIndex: true}], y, [y]]
       ])('set to %p key "%s with %p', (targ: any, keys: PathKey[], val: any, expVal: any) => {
-        expect(set(targ, keys, val)).toEqual(expVal);
+        expect(setBy(targ, keys, val)).toEqual(expVal);
         expect(targ).toEqual(expVal);
       });
     });
@@ -171,7 +171,7 @@ describe('misc/object: path', () => {
         [{}, 'abc[0].b', x, {abc: [{b: x}]}],
         [{}, 'abc[0].b[0]', x, {abc: [{b: [x]}]}]
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(set(targ, key, val)).toEqual(expVal);
+        expect(setBy(targ, key, val)).toEqual(expVal);
       });
     });
 
@@ -184,7 +184,7 @@ describe('misc/object: path', () => {
         [{abc: [x, x]}, 'abc[0]', y, {abc: [y, x]}],
         [{abc: [x, x]}, 'abc[1]', y, {abc: [x, y]}]
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(set(targ, key, val)).toEqual(expVal);
+        expect(setBy(targ, key, val)).toEqual(expVal);
       });
     });
 
@@ -195,7 +195,7 @@ describe('misc/object: path', () => {
         [[x, x], '[]', y, [x, x, y]],
         [{a: [x]}, 'a[]', y, {a: [x, y]}]
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(set(targ, key, val)).toEqual(expVal);
+        expect(setBy(targ, key, val)).toEqual(expVal);
       });
     });
 
@@ -208,7 +208,40 @@ describe('misc/object: path', () => {
         [{}, '.', x, {'': x}], // ? +
         [{}, 'a..b', x, {a: {'': {b: x}}}], // ? +
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
+        expect(setBy(targ, key, val)).toEqual(expVal);
+      });
+    });
+  });
+
+  describe('simple', () => {
+    describe('get', () => {
+      test.each([
+        ['', {a: 1}, undefined],
+        ['a', undefined, undefined],
+        ['a', null, undefined],
+        ['a', 'a', undefined],
+        ['a', {}, undefined],
+        ['a', {a: 1}, 1],
+        ['a.b', {a: 1}, undefined],
+        ['a.b', {a: {b: 2}}, 2],
+        ['a.b.c', {a: {b: {c: {}}}}, {}],
+        ['a.b.d', {a: {b: {c: {}}}}, undefined],
+        ['[1]', {'[1]': 1}, 1]
+      ])('get key "%s" from %p', (key: string, source: any, expVal: any) => {
+        expect(get(source, key)).toEqual(expVal);
+      });
+    });
+
+    describe('set', () => {
+      test.each([
+        [{}, 'a', x, {a: x}],
+        [{}, 'ab.bc', x, {ab: {bc: x}}],
+        [{}, 'a.b.c', x, {a: {b: {c: x}}}],
+        [{}, 'abc.[1]', x, {abc: {'[1]': x}}],
+        [{}, '[]', x, {'[]': x}],
+      ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
         expect(set(targ, key, val)).toEqual(expVal);
+        expect(targ).toEqual(expVal);
       });
     });
   });
