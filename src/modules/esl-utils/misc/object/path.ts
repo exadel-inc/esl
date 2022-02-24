@@ -23,16 +23,25 @@ const parseKeys = (path: string | (number | string | PathKey)[], strict: boolean
 
 /** Parse path to the PathKeysDefinition */
 export const parseKeysExt = (path: string): PathKeyDef[] => {
-  let match;
+  path = path || '.';
+
+  let start = 0;
   const parts: PathKeyDef[] = [];
-  const matcher = /^([^[.]+)|\.([^[.]*)|\[([^\]]*)]/g;
-  // eslint-disable-next-line no-cond-assign
-  while (match = matcher.exec(path)) {
-    const [, key1, key2, index] = match;
-    if (index !== undefined && (!index || !isNaN(+index))) {
-      parts.push({key: index, isIndex: true});
-    } else {
-      parts.push({key: key1 || key2 || index || ''});
+
+  while (start < path.length) {
+    let end = start = start + +(path[start] === '.'); // skip initial '.'
+    if (path[start] === '[') { // handle index syntax
+      end = ++start; // start bracket ignored
+      while (end < path.length && path[end] !== ']') ++end;
+      const key = path.substring(start, end);
+      const isIndex = !key || Math.floor(+key) === +key;
+      parts.push({key, isIndex});
+      start = ++end; // skip end bracket
+    } else { // handle simple key
+      while (end < path.length && path[end] !== '[' && path[end] !== '.') ++end;
+      const key = path.substring(start, end);
+      parts.push({key});
+      start = end;
     }
   }
   return parts;

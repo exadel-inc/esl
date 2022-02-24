@@ -1,21 +1,95 @@
-import {get, set} from '../object';
-import type {PathKey} from '../object';
+import {get, set, parseKeysExt} from '../object';
+import type {PathKey, PathKeyDef} from '../object';
 
 describe('misc/object: path', () => {
+  describe('parseKeys', () => {
+    const normalize = (keys: PathKeyDef[]) => keys.map((key) => { key.isIndex = !!key.isIndex; return key;});
+
+    describe('simple', () => {
+      test.each([
+        ['a', [{key: 'a'}]],
+        ['abc', [{key: 'abc'}]],
+        ['ab.cd', [{key: 'ab'}, {key: 'cd'}]],
+        ['a.b.c', [{key: 'a'}, {key: 'b'}, {key: 'c'}]],
+        ['a-b-c', [{key: 'a-b-c'}]],
+        ['$a$.#b#.@c@', [{key: '$a$'}, {key: '#b#'}, {key: '@c@'}]]
+      ])('Parse "%s" to %p', (path: string, keys: PathKeyDef[]) => {
+        expect(normalize(parseKeysExt(path))).toEqual(normalize(keys));
+      });
+    });
+
+    describe('index', () => {
+      test.each([
+        ['[1]', [{key: '1', isIndex: true}]],
+        ['[100]', [{key: '100', isIndex: true}]],
+        ['a[0]', [{key: 'a'}, {key: '0', isIndex: true}]],
+        ['a[0][1]', [{key: 'a'}, {key: '0', isIndex: true}, {key: '1', isIndex: true}]],
+        ['a[0].b', [{key: 'a'}, {key: '0', isIndex: true}, {key: 'b'}]],
+        ['a[0].b[1]', [{key: 'a'}, {key: '0', isIndex: true}, {key: 'b'}, {key: '1', isIndex: true}]]
+      ])('Parse "%s" to %p', (path: string, keys: PathKeyDef[]) => {
+        expect(normalize(parseKeysExt(path))).toEqual(normalize(keys));
+      });
+    });
+
+    describe('index push', () => {
+      test.each([
+        ['[]', [{key: '', isIndex: true}]],
+        ['a[]', [{key: 'a'}, {key: '', isIndex: true}]],
+        ['a[][]', [{key: 'a'}, {key: '', isIndex: true}, {key: '', isIndex: true}]],
+      ])('Parse "%s" to %p', (path: string, keys: PathKeyDef[]) => {
+        expect(normalize(parseKeysExt(path))).toEqual(normalize(keys));
+      });
+    });
+
+    describe('index escape', () => {
+      test.each([
+        ['[abc]', [{key: 'abc'}]],
+        ['[12th]', [{key: '12th'}]],
+        ['[12.12]', [{key: '12.12'}]],
+        ['[a.b.c]', [{key: 'a.b.c'}]]
+      ])('Parse "%s" to %p', (path: string, keys: PathKeyDef[]) => {
+        expect(normalize(parseKeysExt(path))).toEqual(normalize(keys));
+      });
+    });
+
+    describe('edge cases', () => {
+      test.each([
+        ['', [{key: ''}]],
+        ['.', [{key: ''}]],
+        ['..', [{key: ''}, {key: ''}]],
+        ['a..b', [{key: 'a'}, {key: ''}, {key: 'b'}]]
+        // --- Unhandled cases ---
+        // ['[[]]', [{key: '[]'}]],
+        // ['[]]', [{key: ']'}]]
+        // ['[[]', [{key: '['}]]
+        // [']', [{key: ''}]]
+        // ['[', [{key: ''}]]
+      ])('Parse "%s" to %p', (path: string, keys: PathKeyDef[]) => {
+        expect(normalize(parseKeysExt(path))).toEqual(normalize(keys));
+      });
+    });
+  });
+
   describe('get', () => {
-    test.each([
-      ['', {a: 1}, undefined],
-      ['a', undefined, undefined],
-      ['a', null, undefined],
-      ['a', 'a', undefined],
-      ['a', {}, undefined],
-      ['a', {a: 1}, 1],
-      ['a.b', {a: 1}, undefined],
-      ['a.b', {a: {b: 2}}, 2],
-      ['a.b.c', {a: {b: {c: {}}}}, {}],
-      ['a.b.d', {a: {b: {c: {}}}}, undefined]
-    ])('get key "%s" from %p', (key: string, source: any, expVal: any) => {
-      expect(get(source, key)).toEqual(expVal);
+    describe('simple', () => {
+      test.each([
+        ['', {a: 1}, undefined],
+        ['a', undefined, undefined],
+        ['a', null, undefined],
+        ['a', 'a', undefined],
+        ['a', {}, undefined],
+        ['a', {a: 1}, 1],
+        ['a.b', {a: 1}, undefined],
+        ['a.b', {a: {b: 2}}, 2],
+        ['a.b.c', {a: {b: {c: {}}}}, {}],
+        ['a.b.d', {a: {b: {c: {}}}}, undefined],
+        // index
+        ['[1]', {1: 1}, 1],
+        ['a[0]', {a: [1, 2]}, 1],
+        ['a[1]', {a: [1, 2]}, 2]
+      ])('get key "%s" from %p', (key: string, source: any, expVal: any) => {
+        expect(get(source, key)).toEqual(expVal);
+      });
     });
   });
 
@@ -31,19 +105,6 @@ describe('misc/object: path', () => {
         [{}, 'a.b.c', x, {a: {b: {c: x}}}]
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
         expect(set(targ, key, val)).toEqual(expVal);
-        expect(targ).toEqual(expVal);
-      });
-    });
-
-    describe('simple parse mode', () => {
-      test.each([
-        [{}, 'a', x, {a: x}],
-        [{}, 'ab.bc', x, {ab: {bc: x}}],
-        [{}, 'a.b.c', x, {a: {b: {c: x}}}],
-        [{}, 'abc.[1]', x, {abc: {'[1]': x}}],
-        [{}, '[]', x, {'[]': x}],
-      ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(set(targ, key, val, true)).toEqual(expVal);
         expect(targ).toEqual(expVal);
       });
     });
@@ -138,31 +199,29 @@ describe('misc/object: path', () => {
       });
     });
 
-    describe('special cases', () => {
+    describe('edge cases', () => {
       test.each([
         [{}, '', x, {'': x}],
-
         [{}, '[abc]', y, {abc: y}], // ???
         [{}, '[a.b.c]', y, {'a.b.c': y}], // ???
         [{}, 'a[a.b.c]', y, {a: {'a.b.c': y}}], // ???
-
-        // --------
-
         [{}, '.', x, {'': x}], // ? +
         [{}, 'a..b', x, {a: {'': {b: x}}}], // ? +
-
-        // ------
-
-        // [{}, '[[]', x, {'[': x}],
-
-        // [{}, '[[]]', x, {'[]': x}], // ideal
-        // [{}, 'a[[]]', x, {a: x}], // 2 option if smth went wrong ignore???? lodash beh.
-
-        // [{}, '[', x, {}], // ideally ignore
-        // [{}, ']', x, {}] // ideally ignore
-
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
         expect(set(targ, key, val)).toEqual(expVal);
+      });
+    });
+
+    describe('simple parse mode', () => {
+      test.each([
+        [{}, 'a', x, {a: x}],
+        [{}, 'ab.bc', x, {ab: {bc: x}}],
+        [{}, 'a.b.c', x, {a: {b: {c: x}}}],
+        [{}, 'abc.[1]', x, {abc: {'[1]': x}}],
+        [{}, '[]', x, {'[]': x}],
+      ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
+        expect(set(targ, key, val, true)).toEqual(expVal);
+        expect(targ).toEqual(expVal);
       });
     });
   });
