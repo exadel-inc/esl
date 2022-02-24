@@ -1,4 +1,4 @@
-import {get, set, parseKeysExt} from '../object';
+import {get, set, parseKeys} from '../object';
 import type {PathKey, PathKeyDef} from '../object';
 
 describe('misc/object: path', () => {
@@ -14,7 +14,7 @@ describe('misc/object: path', () => {
         ['a-b-c', [{key: 'a-b-c'}]],
         ['$a$.#b#.@c@', [{key: '$a$'}, {key: '#b#'}, {key: '@c@'}]]
       ])('Parse "%s" to %p', (path: string, keys: PathKeyDef[]) => {
-        expect(normalize(parseKeysExt(path))).toEqual(normalize(keys));
+        expect(normalize(parseKeys(path))).toEqual(normalize(keys));
       });
     });
 
@@ -27,7 +27,7 @@ describe('misc/object: path', () => {
         ['a[0].b', [{key: 'a'}, {key: '0', isIndex: true}, {key: 'b'}]],
         ['a[0].b[1]', [{key: 'a'}, {key: '0', isIndex: true}, {key: 'b'}, {key: '1', isIndex: true}]]
       ])('Parse "%s" to %p', (path: string, keys: PathKeyDef[]) => {
-        expect(normalize(parseKeysExt(path))).toEqual(normalize(keys));
+        expect(normalize(parseKeys(path))).toEqual(normalize(keys));
       });
     });
 
@@ -37,7 +37,7 @@ describe('misc/object: path', () => {
         ['a[]', [{key: 'a'}, {key: '', isIndex: true}]],
         ['a[][]', [{key: 'a'}, {key: '', isIndex: true}, {key: '', isIndex: true}]],
       ])('Parse "%s" to %p', (path: string, keys: PathKeyDef[]) => {
-        expect(normalize(parseKeysExt(path))).toEqual(normalize(keys));
+        expect(normalize(parseKeys(path))).toEqual(normalize(keys));
       });
     });
 
@@ -48,7 +48,7 @@ describe('misc/object: path', () => {
         ['[12.12]', [{key: '12.12'}]],
         ['[a.b.c]', [{key: 'a.b.c'}]]
       ])('Parse "%s" to %p', (path: string, keys: PathKeyDef[]) => {
-        expect(normalize(parseKeysExt(path))).toEqual(normalize(keys));
+        expect(normalize(parseKeys(path))).toEqual(normalize(keys));
       });
     });
 
@@ -65,7 +65,7 @@ describe('misc/object: path', () => {
         // [']', [{key: ''}]]
         // ['[', [{key: ''}]]
       ])('Parse "%s" to %p', (path: string, keys: PathKeyDef[]) => {
-        expect(normalize(parseKeysExt(path))).toEqual(normalize(keys));
+        expect(normalize(parseKeys(path))).toEqual(normalize(keys));
       });
     });
   });
@@ -209,19 +209,6 @@ describe('misc/object: path', () => {
         [{}, 'a..b', x, {a: {'': {b: x}}}], // ? +
       ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
         expect(set(targ, key, val)).toEqual(expVal);
-      });
-    });
-
-    describe('simple parse mode', () => {
-      test.each([
-        [{}, 'a', x, {a: x}],
-        [{}, 'ab.bc', x, {ab: {bc: x}}],
-        [{}, 'a.b.c', x, {a: {b: {c: x}}}],
-        [{}, 'abc.[1]', x, {abc: {'[1]': x}}],
-        [{}, '[]', x, {'[]': x}],
-      ])('Set to %p key \'%s\'', (targ: any, key: string, val: any, expVal: any) => {
-        expect(set(targ, key, val, true)).toEqual(expVal);
-        expect(targ).toEqual(expVal);
       });
     });
   });
