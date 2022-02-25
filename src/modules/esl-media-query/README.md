@@ -140,7 +140,7 @@ Parsing queries examples:
 ```typescript
 // Basic parsing
 ESLMediaRuleList.parse('1 | @XS => 2'); // first query from the sample above
-ESLMediaRuleList.parse('1 | @XS => 2', String); // the same as sumple above
+ESLMediaRuleList.parse('1 | @XS => 2', String); // the same as sample above
 ESLMediaRuleList.parse('1 | @XS => 2', Number); // first query from the sample above that store numeric values
 ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', ESLMediaRuleList.OBJECT_PARSER); // second query from the sample above with an object payloads
 ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', evaluate); // the same as sample above 
