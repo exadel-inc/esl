@@ -102,7 +102,7 @@ export class ESLMediaRuleList<T = any> extends Observable<RuleChangedCallback<T>
     this._rules.forEach((rule) => rule.removeListener(this._onMatchChanged));
   }
 
-  /** Array of {@link ESLMediaRule}s that forms current {@link ESLMediaRuleList} */
+  /** Array of {@link ESLMediaRule}s that forms the current {@link ESLMediaRuleList} */
   public get rules(): ESLMediaRule<T>[] {
     return this._rules;
   }

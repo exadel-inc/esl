@@ -125,7 +125,7 @@ It implements an observable interface, so you can observe active value changes.
 ESLMediaRuleList can be parsed from `<default_value> | <ESL Media Rule> | <ESL Media Rule>` string.
 
 ESLMediaRuleList should be generalized with the result value type and according payload parser.
-- `ESLMediaRuleList.STRING_PARSER` - out of the box string payload parser. (you can use String constructor instead)
+- `ESLMediaRuleList.STRING_PARSER` - out of the box string payload parser (you can use String constructor instead).
 - `ESLMediaRuleList.OBJECT_PARSER` - out of the box object payload parser (uses evaluation).
 
 Queries Examples:
@@ -143,7 +143,7 @@ ESLMediaRuleList.parse('1 | @XS => 2'); // first query from the sample above
 ESLMediaRuleList.parse('1 | @XS => 2', String); // the same as sample above
 ESLMediaRuleList.parse('1 | @XS => 2', Number); // first query from the sample above that store numeric values
 ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', ESLMediaRuleList.OBJECT_PARSER); // second query from the sample above with an object payloads
-ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', evaluate); // the same as sample above 
+ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', evaluate); // the same as the sample above 
 
 // Tupple parsing
 ESLMediaRuleList.parseTuple('1|2|3|4|5', '@xs|@sm|@md|@lg|@xl') // String payload example
