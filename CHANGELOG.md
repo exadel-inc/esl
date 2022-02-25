@@ -1,3 +1,10 @@
+# [3.14.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.14.0-beta.2...v3.14.0-beta.3) (2022-02-25)
+
+
+### Features
+
+* **esl-media-query:** extend `ESLMediaRuleList.parseTuple` with ability to pass Parser ([44e9a1c](https://github.com/exadel-inc/esl/commit/44e9a1cf108b82d13908e65ca2d4691b026c49a2))
+
 # [3.14.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.14.0-beta.1...v3.14.0-beta.2) (2022-02-23)
 
 
