@@ -1,6 +1,6 @@
 # [ESL](../../../) Media Query Utils
 
-Version: *2.0.0*
+Version: *2.1.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*
 
@@ -125,12 +125,27 @@ It implements an observable interface, so you can observe active value changes.
 ESLMediaRuleList can be parsed from `<default_value> | <ESL Media Rule> | <ESL Media Rule>` string.
 
 ESLMediaRuleList should be generalized with the result value type and according payload parser.
-- `ESLMediaRuleList.STRING_PARSER` - out of the box string payload parser.
+- `ESLMediaRuleList.STRING_PARSER` - out of the box string payload parser. (you can use String constructor instead)
 - `ESLMediaRuleList.OBJECT_PARSER` - out of the box object payload parser (uses evaluation).
 
-Examples:
+Queries Examples:
 - ` 1 | @XS => 2` - the RuleList result depends on environment and equals `'1'` on all screen breakpoints except XS, 
   on XS it changes to `'2'`.  
 
 - ` @XS => {option: 1} | @+SM => {option: 2}` - the RuleList result depends on environment and equals `{option: 1}` 
   on XS breakpoint, and equals `{option: 2}` on SM and upper breakpoints.
+
+Parsing queries examples:
+
+```typescript
+// Basic parsing
+ESLMediaRuleList.parse('1 | @XS => 2'); // first query from the sample above
+ESLMediaRuleList.parse('1 | @XS => 2', String); // the same as sumple above
+ESLMediaRuleList.parse('1 | @XS => 2', Number); // first query from the sample above that store numeric values
+ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', ESLMediaRuleList.OBJECT_PARSER); // second query from the sample above with an object payloads
+ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', evaluate); // the same as sample above 
+
+// Tupple parsing
+ESLMediaRuleList.parseTuple('1|2|3|4|5', '@xs|@sm|@md|@lg|@xl') // String payload example
+ESLMediaRuleList.parseTuple('1|2|3|4|5', '@xs|@sm|@md|@lg|@xl', Number) // Numeric payload sample
+```
