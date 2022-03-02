@@ -1,5 +1,5 @@
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
-import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {UIPStateModel} from './model';
 import {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions';
 
@@ -20,23 +20,23 @@ export class UIPRoot extends ESLBaseElement {
    * Attribute for controlling UIP components' theme.
    * Has two values: `uip-light` and `uip-dark`.
    */
-  @attr({defaultValue: 'uip-light'}) public theme: string;
+  @boolAttr() public darkTheme: boolean;
 
   /**
    * Attributes for settings, editor, visibility state.
    * Has two values: `expanded` and `collapsed`.
    */
-  @attr({defaultValue: 'expanded'}) public settings: string;
-  @attr({defaultValue: 'expanded'}) public editor: string;
+  @boolAttr() public settingsCollapsed: boolean;
+  @boolAttr() public editorCollapsed: boolean;
 
   /**
    * Attribute for controlling preview's content direction.
    * Has two values: `LTR` and `RTL`.
    */
-  @attr({defaultValue: 'ltr'}) public direction: string;
+  @boolAttr() public rtlDirection: boolean;
 
   static get observedAttributes() {
-    return ['theme', 'settings', 'editor', 'direction'];
+    return ['dark-theme', 'settings-collapsed', 'editor-collapsed', 'rtl-direction'];
   }
 
   /** {@link UIPStateModel} instance to store UI Playground state. */
@@ -46,15 +46,7 @@ export class UIPRoot extends ESLBaseElement {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.theme = String(this.theme);
-    this.settings = String(this.settings);
-    this.editor = String(this.editor);
-    this.direction = String(this.direction);
     this._model.snippets = this.$snippets;
-  }
-
-  protected disconnectedCallback() {
-    super.disconnectedCallback();
   }
 
   /** Alias for {@link this.model.addListener}. */
@@ -69,8 +61,8 @@ export class UIPRoot extends ESLBaseElement {
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     if (oldVal === newVal) return;
-    if (['direction', 'theme'].includes(attrName)) {
-      this._updateStyles(attrName, oldVal, newVal);
+    if (['rtl-direction', 'dark-theme'].includes(attrName)) {
+      this._updateStyles(attrName, newVal);
     }
     EventUtils.dispatch(this, 'uip:configchange', {
       bubbles: false,
@@ -81,9 +73,8 @@ export class UIPRoot extends ESLBaseElement {
     });
   }
 
-  protected _updateStyles(option: string, prev: string, next: string) {
-    this.classList.remove(`${prev}-${option}`);
-    this.classList.add(`${next}-${option}`);
+  protected _updateStyles(option: string, value: string) {
+    value === null ? this.classList.remove(option) : this.classList.add(option);
   }
 
   public get $snippets(): HTMLTemplateElement[] {
