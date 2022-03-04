@@ -3,6 +3,36 @@ import {ESLMediaRule} from '../core/esl-media-rule';
 import {ALL} from '../core/conditions/media-query-base';
 
 describe('ESLMediaRule', () => {
+  describe('create', () => {
+    test('empty strings', () => {
+      const rule = ESLMediaRule.create('', '', String);
+      expect(rule!.payload).toBe('');
+      expect(rule!.matches).toBe(true);
+      expect(rule!.default).toBe(true);
+    });
+    test('basic sample', () => {
+      const rule = ESLMediaRule.create('hi', 'not all', String);
+      expect(rule!.payload).toBe('hi');
+      expect(rule!.matches).toBe(false);
+      expect(rule!.default).toBe(false);
+    });
+    test('number parser', () => {
+      const rule = ESLMediaRule.create('1', 'all', Number);
+      expect(rule!.payload).toBe(1);
+      expect(rule!.matches).toBe(true);
+      expect(rule!.default).toBe(false);
+    });
+    test('number parser NaN', () => {
+      const rule = ESLMediaRule.create('hi', 'all', Number);
+      expect(rule!.payload).toBe(NaN);
+      expect(rule!.matches).toBe(true);
+      expect(rule!.default).toBe(false);
+    });
+    test('parser undefined result', () => {
+      const rule = ESLMediaRule.create('hi', 'all', () => undefined);
+      expect(rule).toBe(undefined);
+    });
+  });
 
   describe('parse', () => {
     test('all => 1', () => {

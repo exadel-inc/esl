@@ -5,7 +5,7 @@ const color = require('kleur');
 const {JSDOM} = require('jsdom');
 const {markdown} = require('./markdown.lib');
 
-const {github, rewriteRules, urlPrefix} = require('../views/_data/site.json');
+const {github, rewriteRules, urlPrefix} = require('./site.config');
 
 class MDRenderer {
   static async render(filePath, startAnchor, endAnchor) {

@@ -1,28 +1,49 @@
 # [ESL](../../../) Base Element
 
-Version: *1.0.0*
+Version: *1.1.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*
 
 <a name="intro"></a>
 
-Provides the ESLBaseElement - a base class for custom element declaration, and a set of common decorators.
+Provides the core for creating custom elements and ts decorators to simplify components creation.
 
-### Available decorators:
+## Base Element
+**ESLBaseElement** - base class for custom (tag) element declaration
+
+### Base Element static API
+- `MyElement.is` - property that defines tag name
+- `MyElement.observedAttributes` - array of attributes to observe
+
+- `MyElement.register` - register component inside `customElements` registry
+- `MyElement.registered` - returns promise that will be resolved as soon as the component is registered
+
+### Base Element API
+Properties:
+- `connected` - readonly marker, true if element connected and base `connectedCallback` executed
+
+Attributes: 
+- `connectedCallback` - called when the element is appended to the DOM
+- `disconnectedCallback` - called when the element is disconnected from the DOM
+- `attributeChangeCallback` - called when the observable attribute is changed
+
+- `$$cls` - check or change element CSS classes (uses CSSClassUtils) 
+- `$$attr` - check or change element attributes
+- `$$fire` - dispatch event with `esl:` prefix
+
+
+### Element decorators
+Works for both `ESLBaseElement` and `ESLMixinElement`.
+
  - `@attr` - to map string type property to HTML attribute.
  - `@boolAttr` - to map boolean property to HTML boolean (marker) attribute state.
  - `@jsonAttr` - to map object property to HTML attribute using JSON format to serialize / deserialize value.
 
-Use `@override` or `@constant` decorator to override property that was created 
-via `@attr`, `@boolAttr` or `@jsonAttr` on the parent level.
+Use the `@prop` decorator to override a property
+created via `@attr`, `@boolAttr` or `@jsonAttr` at the parent level
+with non-attribute accessor value.
 
-### Base Element static API
-- `MyElement.is` - property that defines tag name
-  
-- `MyElement.register` - calls registration inside customElements registry
-- `MyElement.registered` - returns promise that will be resolved as soon as the component is registered
-
-### Example
+### Base Example
 
 ```ts
 import {ESLBaseElement, attr, boolAttr, jsonAttr} from '@exadel/esl';
