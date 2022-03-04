@@ -1,9 +1,9 @@
 uip-option {
     display: block;
     margin: 0 0.5rem;
-    color: #5F5F5F;
+    color: @option-color;
     cursor: pointer;
-    fill-opacity: 0.25;
+    fill-opacity: 0.5;
 
     &[attribute="settings-collapsed"],
     &[attribute="editor-collapsed"],
@@ -16,14 +16,8 @@ uip-option {
         }   
     }
 
-    &[attribute="dark-theme"] {
-        svg {
-            stroke: none;
-        }
-        
-        &[active] {
-            color: @light-text;
-        }
+    &[attribute="dark-theme"] svg {
+        stroke: none;
     }
 
     esl-image {
