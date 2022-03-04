@@ -1,14 +1,42 @@
 uip-option {
     display: block;
-    cursor: pointer;
-    width: 1.5rem;
-    height: 1.5rem;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
     margin: 0 0.5rem;
+    color: #5F5F5F;
+    cursor: pointer;
+    fill-opacity: 0.25;
+
+    &[attribute="settings-collapsed"],
+    &[attribute="editor-collapsed"],
+    &[attribute="rtl-direction"] {
+        stroke-width: 0.1;
+
+        &[active] {
+            stroke-width: 0.7;
+            fill-opacity: 1;
+        }   
+    }
+
+    &[attribute="dark-theme"] {
+        svg {
+            stroke: none;
+        }
+        
+        &[active] {
+            color: @light-text;
+        }
+    }
 
     esl-image {
+        display: block;
+        height: 100%;
+        width: 100%;
         pointer-events: none;
+
+        svg {
+            width: 100%;
+            vertical-align: middle;
+            fill: currentColor;
+            stroke: currentColor;
+        }
     }
 }
