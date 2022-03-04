@@ -1,7 +1,6 @@
-import {ESLImage} from "@exadel/esl/modules/esl-image/core";
-import {attr, boolAttr, ESLBaseElement} from "@exadel/esl/modules/esl-base-element/core";
+import {attr, boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
-
+import {ESLImage} from '@exadel/esl/modules/esl-image/core';
 
 export type OptionConfig = {
     attribute: string;
@@ -24,7 +23,7 @@ export class UIPOption extends ESLBaseElement {
     static create(optionConfig: OptionConfig): UIPOption {
         const option = document.createElement('uip-option') as UIPOption;
         option.iconConfig = optionConfig.iconConfig;
-        option.icon = document.createElement('esl-image') as ESLImage;
+        option.icon = document.createElement('esl-image');
         option.icon.mode = 'inner-svg';
         option.icon.dataset.src = option.iconConfig.iconUrl;
         option.setAttribute('attribute', optionConfig.attribute);
