@@ -1,6 +1,6 @@
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {UIPStateModel} from './model';
+import {SnippetTemplate, UIPStateModel} from './model';
 import {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions';
 
 /**
@@ -21,14 +21,12 @@ export class UIPRoot extends ESLBaseElement {
    * Has two values: `uip-light` and `uip-dark`.
    */
   @boolAttr() public darkTheme: boolean;
-
   /**
    * Attributes for settings, editor, visibility state.
    * Has two values: `expanded` and `collapsed`.
    */
   @boolAttr() public settingsCollapsed: boolean;
   @boolAttr() public editorCollapsed: boolean;
-
   /**
    * Attribute for controlling preview's content direction.
    * Has two values: `LTR` and `RTL`.
@@ -77,7 +75,7 @@ export class UIPRoot extends ESLBaseElement {
     value === null ? this.classList.remove(option) : this.classList.add(option);
   }
 
-  public get $snippets(): HTMLTemplateElement[] {
+  public get $snippets(): SnippetTemplate[] {
     return Array.from(this.querySelectorAll(UIPRoot.SNIPPET_SEL));
   }
 }

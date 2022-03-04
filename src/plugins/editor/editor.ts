@@ -84,7 +84,6 @@ export class UIPEditor extends UIPPlugin {
     this.editor = edit(this.$inner);
     this.editor.setOption('useWorker', false);
     this.editor.setOption('mode', 'ace/mode/html');
-
     this.initEditorOptions();
   }
 
@@ -101,7 +100,7 @@ export class UIPEditor extends UIPPlugin {
     if (this.model!.lastModifier === this) return;
 
     const markup = this.model!.html;
-    setTimeout( () => this.editor && this.setEditorValue(markup));
+    setTimeout(() => this.editor && this.setEditorValue(markup));
   }
 
   protected setEditorValue(value: string): void {

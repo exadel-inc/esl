@@ -1,6 +1,7 @@
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {UIPPlugin} from '../base/plugin';
+import {SnippetTemplate} from '../base/model';
 
 /**
  * Container class for snippets (component's templates).
@@ -8,22 +9,52 @@ import {UIPPlugin} from '../base/plugin';
  */
 export class UIPSnippets extends UIPPlugin {
   public static is = 'uip-snippets';
-  /** CSS Class for snippets list. */
-  public static LIST = 'snippets-list';
-/** CSS Class for snippets list item. */
+  /** CSS Class for snippets list item. */
   public static LIST_ITEM = 'snippets-list-item';
   /** CSS Class added to active snippet. */
   public static ACTIVE_ITEM = 'active';
-/** CSS Class for snippets dropdown. */
-  public static DROPDOWN = 'snippets-dropdown';
-/** CSS Class for snippets title. */
-  public static TITLE = 'snippets-title';
-  /** CSS Class for dropdown control. */
-  public static DROPDOWN_CTRL = 'snippets-dropdown-control';
-  /** CSS Class for dropdown wrapper. */
-  public static DROPDOWN_WRAPPER = 'snippets-dropdown-wrapper';
   /** Index of current snippet list item*/
   public currentIndex = 0;
+
+  @memoize()
+  protected get $snippetList() {
+    const $el = document.createElement('div');
+    $el.className = 'snippets-list';
+
+    return $el;
+  }
+
+  @memoize()
+  protected get $title() {
+    const $el = document.createElement('span');
+    $el.className = 'snippets-title';
+
+    return $el;
+  }
+
+  @memoize()
+  protected get $dropdown() {
+    const $el = document.createElement('div');
+    $el.className = 'snippets-dropdown';
+
+    return $el;
+  }
+
+  @memoize()
+  protected get $dropdownControl() {
+    const $el = document.createElement('div');
+    $el.className = 'snippets-dropdown-control';
+
+    return $el;
+  }
+
+  @memoize()
+  protected get $dropdownWrapper() {
+    const $el = document.createElement('div');
+    $el.className = 'snippets-dropdown-wrapper';
+
+    return $el;
+  }
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -44,13 +75,13 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   protected bindEvents() {
-    this.querySelector(`.${UIPSnippets.LIST}`)?.addEventListener('click', this._onListClick);
-    this.querySelector(`.${UIPSnippets.DROPDOWN_CTRL}`)?.addEventListener('click', this._onDropdownClick);
+    this.$snippetList.addEventListener('click', this._onListClick);
+    this.$dropdownControl.addEventListener('click', this._onDropdownClick);
   }
 
   protected unbindEvents() {
-    this.querySelector(`.${UIPSnippets.LIST}`)?.removeEventListener('click', this._onListClick);
-    this.querySelector(`.${UIPSnippets.DROPDOWN_CTRL}`)?.removeEventListener('click', this._onDropdownClick);
+    this.$snippetList.removeEventListener('click', this._onListClick);
+    this.$dropdownControl.removeEventListener('click', this._onDropdownClick);
   }
 
   @memoize()
@@ -77,38 +108,31 @@ export class UIPSnippets extends UIPPlugin {
   protected render(): void {
     const snippets = this.model!.snippets;
     if (!snippets.length) return;
-    const $title = document.createElement('span');
-    $title.className = UIPSnippets.TITLE;
 
     snippets.length > 1
-      ? this.renderDropdown(snippets, $title)
-      : this.appendChild($title);
+      ? this.renderDropdown(snippets, this.$title)
+      : this.appendChild(this.$title);
   }
 
-  protected renderDropdown(snippets: HTMLTemplateElement[], title: HTMLElement) {
-    const $dropdown = document.createElement('div');
-    $dropdown.className = UIPSnippets.DROPDOWN;
-    const $control = document.createElement('div');
-    $control.className = UIPSnippets.DROPDOWN_CTRL;
-    const $content = document.createElement('div');
-    $content.className = UIPSnippets.DROPDOWN_WRAPPER;
-    const $ul = document.createElement('ul');
-    $ul.className = `${UIPSnippets.LIST} esl-scrollable-content`;
+  protected renderDropdown(snippets: SnippetTemplate[], title: HTMLElement) {
 
-    Array.from(snippets)
-      .map((snippet: HTMLTemplateElement) => this.buildListItem(snippet))
-      .forEach((item) => item && $ul.appendChild(item));
+    snippets
+      .map((snippet: SnippetTemplate) => this.buildListItem(snippet))
+      .forEach((item) => item && this.$snippetList.appendChild(item));
 
-    $content.appendChild($ul);
-    this.$scroll && $content.appendChild(this.$scroll);
-    $control.appendChild(title);
-    this.appendChild($control);
-    $dropdown.appendChild($content);
-    this.appendChild($dropdown);
+    this.$snippetList.classList.add('esl-scrollable-content');
+    this.$dropdownWrapper.appendChild(this.$snippetList);
+    this.$scroll && this.$dropdownWrapper.appendChild(this.$scroll);
+
+    this.$dropdownControl.appendChild(title);
+    this.appendChild(this.$dropdownControl);
+
+    this.$dropdown.appendChild(this.$dropdownWrapper);
+    this.appendChild(this.$dropdown);
   }
 
   /** Build snippets list item. */
-  protected buildListItem(snippet: HTMLTemplateElement) {
+  protected buildListItem(snippet: SnippetTemplate) {
     const label = snippet.getAttribute('label');
     if (!label) return;
 
@@ -118,9 +142,8 @@ export class UIPSnippets extends UIPPlugin {
     return $li;
   }
 
-  protected updateTitleText(snippet: HTMLTemplateElement) {
-    const titleText = this.querySelector(`.${UIPSnippets.TITLE}`) as HTMLElement;
-    titleText.textContent = `${snippet.getAttribute('label')}`;
+  protected updateTitleText(snippet: SnippetTemplate) {
+    this.$title.textContent = `${snippet.getAttribute('label')}`;
   }
 
   @bind
@@ -145,8 +168,6 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   toggleDropdown(): void {
-    this.classList.contains('dropdown-open')
-      ? this.classList.remove('dropdown-open')
-      : this.classList.add('dropdown-open');
+    this.classList.toggle('dropdown-open');
   }
 }
