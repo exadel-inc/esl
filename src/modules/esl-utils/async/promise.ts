@@ -1,7 +1,8 @@
 import type {AnyToAnyFnSignature} from '../misc/functions';
 
 /**
- * @returns Promise that will be resolved in `timeout` with optional `payload` if `isReject` is true, and will be rejected if `isReject` is false
+ * @returns Promise that will be resolved or rejected in `timeout` with an optional `payload`
+ * If `isReject` is `true` the result promise will be rejected, otherwise (by default) the result promise will be resolved
  */
 export function promisifyTimeout<T>(timeout: number, payload?: T, isReject?: boolean): Promise<T> {
   return new Promise<T>((resolve, reject) =>
