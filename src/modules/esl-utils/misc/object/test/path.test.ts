@@ -1,5 +1,5 @@
-import {getBy, setBy, parseKeys, set, get} from '../object';
-import type {PathKey, PathKeyDef} from '../object';
+import {getBy, setBy, parseKeys, set, get} from '../path';
+import type {PathKey, PathKeyDef} from '../path';
 
 describe('misc/object: path', () => {
   const x = Symbol();

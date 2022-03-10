@@ -6,7 +6,7 @@ export type PathKeyDef = {
   key: string | number;
   /** Key represents collection index */
   isIndex?: boolean;
-  // /** Key should produce array is not exists */
+  /** Key should produce array if not exists */
   isIndexed?: boolean;
 };
 /** Key definition for {@link getBy} or {@link setBy} */
@@ -15,13 +15,13 @@ export type PathKey = PathKeyDef | string | number;
 /** @returns PathKeyDef from the PathDef */
 const toKeyDef = (key: PathKey): PathKeyDef => typeof key === 'object' ? key : {key};
 
-/** Parse path to full {@link PathKeyDef} array */
+/** Parses path to full {@link PathKeyDef} array */
 export const parseKeys = (path: string | PathKey[]): PathKeyDef[] => {
   if (Array.isArray(path)) return path.map(toKeyDef);
   return parseKeysPath(path || '.');
 };
 
-/** Parse string path to full {@link PathKeyDef} array */
+/** Parses string path to full {@link PathKeyDef} array */
 const parseKeysPath = (path: string): PathKeyDef[] => {
   let start = 0;
   const parts: PathKeyDef[] = [];
@@ -72,13 +72,13 @@ export const getBy = (data: any, path: string | PathKey[], defaultValue?: any): 
 };
 
 /**
- * Get object property using "path" with a keys separated by `.`
+ * Gets object property using "path" with a keys separated by `.`
  * @see getBy
  */
 export const get = (data: any, path: string, defaultValue?: any): any => getBy(data, (path || '').split('.'), defaultValue);
 
 /**
- * Set object property using "path" key
+ * Sets object property using "path" key
  * Creates empty object if sub-key value is not presented.
  *
  * Supports three types of key definition
@@ -108,7 +108,7 @@ export const setBy = (target: any, path: string | PathKey[], value: any): any =>
 };
 
 /**
- * Set object property using "path" with a keys separated by `.`
+ * Sets object property using "path" with a keys separated by `.`
  * @see setBy
  */
 export const set = (target: any, path: string, value: any): any => setBy(target, (path || '').split('.'), value);

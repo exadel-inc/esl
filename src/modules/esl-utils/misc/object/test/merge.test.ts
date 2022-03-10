@@ -1,4 +1,4 @@
-import {deepMerge} from '../object';
+import {deepMerge} from '../merge';
 
 describe('misc/object: deepMerge', () => {
   test.each([
