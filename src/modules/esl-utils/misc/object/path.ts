@@ -1,6 +1,6 @@
 import {isObjectLike} from './types';
 
-/** Full key definition for {@link getBy} or {@link setBy} */
+/** Full key definition for {@link getByPath} or {@link setByPath} */
 export type PathKeyDef = {
   /** Key name */
   key: string | number;
@@ -9,7 +9,7 @@ export type PathKeyDef = {
   /** Key should produce array if not exists */
   isIndexed?: boolean;
 };
-/** Key definition for {@link getBy} or {@link setBy} */
+/** Key definition for {@link getByPath} or {@link setByPath} */
 export type PathKey = PathKeyDef | string | number;
 
 /** @returns PathKeyDef from the PathDef */
@@ -62,7 +62,7 @@ const parseKeysPath = (path: string): PathKeyDef[] => {
  * @param defaultValue - default
  * @returns specified object property
  */
-export const getBy = (data: any, path: string | PathKey[], defaultValue?: any): any => {
+export const getByPath = (data: any, path: string | PathKey[], defaultValue?: any): any => {
   const keys = parseKeys(path);
   const result = keys.reduce((curr: any, {key}: PathKeyDef) => {
     if (isObjectLike(curr)) return curr[key];
@@ -73,9 +73,9 @@ export const getBy = (data: any, path: string | PathKey[], defaultValue?: any): 
 
 /**
  * Gets object property using "path" with a keys separated by `.`
- * @see getBy
+ * @see getByPath
  */
-export const get = (data: any, path: string, defaultValue?: any): any => getBy(data, (path || '').split('.'), defaultValue);
+export const get = (data: any, path: string, defaultValue?: any): any => getByPath(data, (path || '').split('.'), defaultValue);
 
 /**
  * Sets object property using "path" key
@@ -95,7 +95,7 @@ export const get = (data: any, path: string, defaultValue?: any): any => getBy(d
  * @param value - value of property
  * @returns original object
  */
-export const setBy = (target: any, path: string | PathKey[], value: any): any => {
+export const setByPath = (target: any, path: string | PathKey[], value: any): any => {
   const keys = parseKeys(path);
   const depth = keys.length - 1;
   keys.reduce((cur: any, {key, isIndex, isIndexed}: PathKeyDef, pos: number) => {
@@ -109,6 +109,6 @@ export const setBy = (target: any, path: string | PathKey[], value: any): any =>
 
 /**
  * Sets object property using "path" with a keys separated by `.`
- * @see setBy
+ * @see setByPath
  */
-export const set = (target: any, path: string, value: any): any => setBy(target, (path || '').split('.'), value);
+export const set = (target: any, path: string, value: any): any => setByPath(target, (path || '').split('.'), value);
