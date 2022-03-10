@@ -45,7 +45,7 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
   protected static readonly SHORTCUT_PATTERN = /@([a-z0-9.+-]+)/i;
   protected static readonly _preprocessors: IMediaQueryPreprocessor[] = [];
 
-  /** Add {@link IMediaQueryPreprocessor} instance for query preprocessing step */
+  /** Adds {@link IMediaQueryPreprocessor} instance for query preprocessing step */
   public static use(preprocessor: IMediaQueryPreprocessor): typeof ESLMediaQuery {
     this._preprocessors.unshift(preprocessor);
     return this;

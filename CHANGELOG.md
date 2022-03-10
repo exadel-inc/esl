@@ -1,3 +1,19 @@
+# [3.14.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.14.0-beta.2...v3.14.0-beta.3) (2022-02-25)
+
+
+### Features
+
+* **esl-media-query:** extend `ESLMediaRuleList.parseTuple` with ability to pass Parser ([44e9a1c](https://github.com/exadel-inc/esl/commit/44e9a1cf108b82d13908e65ca2d4691b026c49a2))
+
+# [3.14.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.14.0-beta.1...v3.14.0-beta.2) (2022-02-23)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** fix animation-end handling target check ([2d66781](https://github.com/exadel-inc/esl/commit/2d6678123141cb2c20eed8f95449ab4126e847b0))
+* **esl-panel:** fix animation-end handling target check ([ea897fa](https://github.com/exadel-inc/esl/commit/ea897fabdbbe166adeac9f0c36bda69ca7c63ffd))
+* **gh-pages:** change loadScript import ([acad20a](https://github.com/exadel-inc/esl/commit/acad20acbdafc1d3f49482b65800e80acf8512dc))
+
 # [3.14.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.13.2...v3.14.0-beta.1) (2022-02-21)
 
 
