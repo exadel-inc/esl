@@ -39,7 +39,22 @@ describe('promise utils', () => {
   });
 
   describe('promisifyTimeout', () => {
-    test('promisifyTimeout', () => {
+    test('resolve without payload', () => {
+      const promise$ = promisifyTimeout(100);
+      jest.advanceTimersByTime(100);
+      return expect(promise$).resolves.toBeUndefined();
+    });
+    test('resolve', () => {
+      const promise$ = promisifyTimeout(100, true);
+      jest.advanceTimersByTime(100);
+      return expect(promise$).resolves.toBe(true);
+    });
+    test('reject', () => {
+      const promise$ = promisifyTimeout(100, false, true);
+      jest.advanceTimersByTime(100);
+      return expect(promise$).rejects.toBe(false);
+    });
+    test('timeout', () => {
       const resCb = jest.fn();
       const rejCb = jest.fn();
 
@@ -50,8 +65,6 @@ describe('promise utils', () => {
       expect(resCb).not.toBeCalled();
       expect(rejCb).not.toBeCalled();
       jest.advanceTimersByTime(100);
-
-      return expect(promise$).resolves.toBe(true);
     });
   });
 
