@@ -89,6 +89,14 @@ describe('CSSClassUtils tests:', () => {
     }, 1000);
   });
 
+  test('styles: has check', () => {
+    const el = document.createElement('div');
+    el.className = 'a b';
+    expect(CSSClassUtils.has(el, 'a')).toBe(true);
+    expect(CSSClassUtils.has(el, 'a b')).toBe(true);
+    expect(CSSClassUtils.has(el, 'c')).toBe(false);
+  });
+
   describe('reverse adding:', () => {
     test('add reverse', () => {
       const el = document.createElement('div');
@@ -106,6 +114,12 @@ describe('CSSClassUtils tests:', () => {
       CSSClassUtils.remove(el, '!b');
       expect(el.classList.contains('b')).toBeTruthy();
       expect(el.classList.length).toBe(2);
+    });
+    test('has reverse', () => {
+      const el = document.createElement('div');
+      el.className = 'a b';
+      expect(CSSClassUtils.has(el, '!a')).toBe(false);
+      expect(CSSClassUtils.has(el, '!c !d')).toBe(true);
     });
   });
 
@@ -154,6 +168,13 @@ describe('multiple targets', () => {
       expect(el.classList.contains('a')).toBeFalsy();
       expect(el.classList.contains('b')).toBeFalsy();
     }
+  });
+  test('has', () => {
+    expect(CSSClassUtils.has(els, 'a')).toBe(false);
+    CSSClassUtils.add(els, 'a');
+    expect(CSSClassUtils.has(els, 'a')).toBe(true);
+    CSSClassUtils.remove(els[0], 'a');
+    expect(CSSClassUtils.has(els, 'a')).toBe(false);
   });
   test('trivial',  () => {
     expect(() => CSSClassUtils.add([], 'a')).not.toThrowError();

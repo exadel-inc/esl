@@ -1,9 +1,9 @@
 import '../../../../polyfills/es5-target-shim';
-import {ESLBaseElement, attr, boolAttr, jsonAttr} from '../../../esl-base-element/core';
+import {attr, boolAttr, jsonAttr} from '../../../esl-base-element/core';
 import {prop} from '../prop';
 
 describe('Decorator: @prop', () => {
-  class TestBaseElement extends ESLBaseElement {
+  class TestBaseElement extends HTMLElement {
     @attr()
     public field: string;
     @boolAttr()
@@ -142,7 +142,7 @@ describe('Decorator: @prop', () => {
 
   test('Overriding own property produce error', () => {
     expect(() => {
-      class TestElement extends ESLBaseElement {
+      class TestElement extends HTMLElement {
         @prop({value: ''})
         @attr()
         public field: string;

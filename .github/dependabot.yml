@@ -9,7 +9,10 @@ updates:
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/"
+    versioning-strategy: increase
     schedule:
       interval: "daily"
     reviewers:
       - "@exadel-inc/esl-core-team"
+    assignees:
+      - "ala-n"
