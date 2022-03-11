@@ -1,3 +1,28 @@
+# [3.14.0](https://github.com/exadel-inc/esl/compare/v3.13.2...v3.14.0) (2022-03-11)
+
+
+### Bug Fixes
+
+* **esl-core:** type and implementation improvements for attribute decorators ([73edd53](https://github.com/exadel-inc/esl/commit/73edd5340b5bef0e548ef00e932b4630907332b4))
+* **esl-media:** fix incorrect `group` definition in shape ([5358933](https://github.com/exadel-inc/esl/commit/5358933c62076a850cdf314f3a31205db5bd2b51))
+* **esl-panel-group:** fix animation-end handling target check ([2d66781](https://github.com/exadel-inc/esl/commit/2d6678123141cb2c20eed8f95449ab4126e847b0))
+* **esl-panel:** fix animation-end handling target check ([ea897fa](https://github.com/exadel-inc/esl/commit/ea897fabdbbe166adeac9f0c36bda69ca7c63ffd))
+* **gh-pages:** change loadScript import ([acad20a](https://github.com/exadel-inc/esl/commit/acad20acbdafc1d3f49482b65800e80acf8512dc))
+
+
+### Features
+
+* **esl-core:** extend `ESLBaseElement` with `$$cls` and `$$attr` methods ([65ab74a](https://github.com/exadel-inc/esl/commit/65ab74a5d1a749958e7d633e973fd679821a057a))
+* **esl-media-query:** extend `ESLMediaRuleList.parseTuple` with ability to pass Parser ([44e9a1c](https://github.com/exadel-inc/esl/commit/44e9a1cf108b82d13908e65ca2d4691b026c49a2))
+* **esl-panel-group:** fallback-duration retired, now it's controlled out of the box ([d78553e](https://github.com/exadel-inc/esl/commit/d78553ec4ad474149eb1eba3b4be8d66db942e33))
+* **esl-panel:** ESLPanel no longer requires fallback-time definition ([6140ecd](https://github.com/exadel-inc/esl/commit/6140ecd902a0f888a77310fb8a607d5119b143fc))
+* **esl-utils:** `misc/object#get` API extended to be similar to `misc/object#set` ([474bd76](https://github.com/exadel-inc/esl/commit/474bd760f4738450d3692fdb08ea5da8d1b9be1b))
+* **esl-utils:** add `object#set` extended syntax support ([6d5799c](https://github.com/exadel-inc/esl/commit/6d5799c6dcb19da7e42e08a17b27e4eb1bfb589a))
+* **esl-utils:** add small attr utility ([f4ee57a](https://github.com/exadel-inc/esl/commit/f4ee57a8f151f82e1ce7cd187799e2cece3c8a10))
+* **esl-utils:** extend `promisifyTimeout` with ability to reject timeout ([#868](https://github.com/exadel-inc/esl/issues/868)) ([0594e5c](https://github.com/exadel-inc/esl/commit/0594e5ca8ec3aea82652fcc8abc3f7cfe87c3496)), closes [#858](https://github.com/exadel-inc/esl/issues/858)
+* **esl-utils:** extend `set` method with ability to pass an array of path keys ([9dfa77b](https://github.com/exadel-inc/esl/commit/9dfa77bc47d71ab0e2b440bfcc2cd83c91cf29b5))
+* **esl-utils:** extend CSSClassUtils with `has` check ([f260823](https://github.com/exadel-inc/esl/commit/f260823c913e48313f572006dd6ebf376723461c))
+
 # [3.14.0-beta.4](https://github.com/exadel-inc/esl/compare/v3.14.0-beta.3...v3.14.0-beta.4) (2022-03-11)
 
 
