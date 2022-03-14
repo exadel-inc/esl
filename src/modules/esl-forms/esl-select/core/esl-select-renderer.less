@@ -50,4 +50,8 @@ esl-select-renderer {
   &:not([multiple]) .esl-select-clear-btn {
     display: none;
   }
+
+  select:focus:focus-visible + & {
+    outline: @esl-select-focus-border;
+  }
 }

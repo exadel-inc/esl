@@ -1,11 +1,13 @@
-import {ESLToggleable} from '../../../esl-toggleable/core/esl-toggleable';
+import {ESLPopup} from '../../../esl-popup/core/esl-popup';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {prop} from '../../../esl-utils/decorators/prop';
 import {TAB} from '../../../esl-utils/dom/keys';
-import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';
+import {jsonAttr} from '../../../esl-base-element/core';
+import {afterNextRender} from '../../../esl-utils/async/raf';
 
 import type {ESLSelect} from './esl-select';
+import type {PositionType, PopupActionParams} from '../../../esl-popup/core';
 import type {ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
 
 /**
@@ -15,23 +17,27 @@ import type {ToggleableActionParams} from '../../../esl-toggleable/core/esl-togg
  * Auxiliary inner custom component to render {@link ESLSelect} dropdown section
  * Uses {@link ESLSelectList} to render the content
  */
-export class ESLSelectDropdown extends ESLToggleable {
+export class ESLSelectDropdown extends ESLPopup {
   public static readonly is = 'esl-select-dropdown';
-  public static register(): void {
-    ESLSelectList.register();
-    super.register();
-  }
+
+  @prop() public behavior: string = ''; // TODO: remove
+  @prop() public position: PositionType = 'bottom';
+  @prop() public closeOnEsc = true;
+  @prop() public closeOnOutsideAction = true;
+
+  /** Default params to merge into passed action params */
+  @jsonAttr<PopupActionParams>({defaultValue: {
+    offsetTrigger: 0,
+    offsetWindow: 15
+  }})
+  public defaultParams: PopupActionParams;
 
   /** Owner ESLSelect instance */
   public $owner: ESLSelect;
-
   /** Inner ESLSelectList component */
-  protected $list: ESLSelectList;
+  public $list: ESLSelectList;
+  /** Timeout id to dispose */
   protected _disposeTimeout: number;
-  protected _deferredUpdatePosition = rafDecorator(() => this.updatePosition());
-
-  @prop() public closeOnEsc = true;
-  @prop() public closeOnOutsideAction = true;
 
   constructor() {
     super();
@@ -40,25 +46,16 @@ export class ESLSelectDropdown extends ESLToggleable {
 
   protected setInitialState(): void {}
 
-  protected connectedCallback(): void {
+  public connectedCallback(): void {
     super.connectedCallback();
     this.appendChild(this.$list);
   }
-  protected disconnectedCallback(): void {
+  public disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeChild(this.$list);
   }
 
-  protected bindEvents(): void {
-    super.bindEvents();
-    window.addEventListener('resize', this._deferredUpdatePosition);
-  }
-  protected unbindEvents(): void {
-    super.unbindEvents();
-    window.removeEventListener('resize', this._deferredUpdatePosition);
-  }
-
-  protected onShow(params: ToggleableActionParams): void {
+  public onShow(params: ToggleableActionParams): void {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
@@ -68,17 +65,17 @@ export class ESLSelectDropdown extends ESLToggleable {
 
     super.onShow(params);
     const focusable: HTMLElement | null = this.querySelector('[tabindex]');
-    focusable?.focus({preventScroll: true});
-    this.updatePosition();
+    focusable && afterNextRender(() => focusable.focus({preventScroll: true}));
   }
-  protected onHide(params: ToggleableActionParams): void {
+
+  public onHide(params: ToggleableActionParams): void {
     const select = this.activator;
     super.onHide(params);
     this._disposeTimeout = window.setTimeout(() => {
       if (this.parentNode !== document.body) return;
       document.body.removeChild(this);
     }, 1000);
-    select && setTimeout(() => select.focus({preventScroll: true}), 0);
+    select && afterNextRender(() => select.focus({preventScroll: true}));
   }
 
   @bind
@@ -95,15 +92,16 @@ export class ESLSelectDropdown extends ESLToggleable {
     if (last && e.target === first && e.shiftKey) last.focus();
   }
 
-  @bind
-  public updatePosition(): void {
+  protected _updatePosition(): void {
     if (!this.activator) return;
-    const windowY = window.scrollY || window.pageYOffset;
     const rect = this.activator.getBoundingClientRect();
-
-    this.style.top = `${windowY + rect.top + rect.height}px`;
-    this.style.left = `${rect.left}px`;
     this.style.width = `${rect.width}px`;
+    super._updatePosition();
+  }
+
+  public static register(): void {
+    ESLSelectList.register();
+    super.register();
   }
 }
 
