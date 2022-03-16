@@ -2,6 +2,12 @@ import {setAttr} from '../../esl-utils/dom/attr';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 
+import type {
+  ESLListenerHandler,
+  ESLListenerDescriptor,
+  ESLListenerDescriptorFn
+} from '../../esl-utils/dom/events';
+
 /**
  * Base class for ESL custom elements.
  * Allows defining custom element with the optional custom tag name.
@@ -15,14 +21,34 @@ export abstract class ESLBaseElement extends HTMLElement {
   protected connectedCallback(): void {
     this._connected = true;
     this.classList.add((this.constructor as typeof ESLBaseElement).is);
+
+    EventUtils.subscribe(this);
   }
   protected disconnectedCallback(): void {
     this._connected = false;
+
+    EventUtils.unsubscribe(this);
   }
 
   /** Check that the element is connected and `connectedCallback` has been executed */
   public get connected(): boolean {
     return this._connected;
+  }
+
+  /** Subscribes event listener */
+  public $$on(
+    handler: ESLListenerHandler | ESLListenerDescriptorFn,
+    descriptor: ESLListenerDescriptor | string = handler as ESLListenerDescriptorFn
+  ): void {
+    return EventUtils.subscribe(this, handler, descriptor);
+  }
+
+  /** Unsubscribes event listener */
+  public $$off(
+    handler: ESLListenerHandler | ESLListenerDescriptorFn,
+    descriptor: ESLListenerDescriptor | string
+  ): void {
+    return EventUtils.unsubscribe(this, handler, descriptor);
   }
 
   /**

@@ -17,4 +17,33 @@ describe('dom/events: EventUtils', () => {
       expect((event as any).detail).toBe(customEventInit.detail);
     });
   });
+
+  describe('descriptors', () => {
+    test('singleton', () => {
+      const fn1 = () => undefined;
+      const fn2 = () => undefined;
+      fn1.event = fn2.event = 'test';
+
+      const obj = {onClick: fn1};
+      const proto = {onEvent: fn2};
+      Object.setPrototypeOf(obj, proto);
+
+      const desc = EventUtils.descriptors(obj);
+      expect(Array.isArray(desc)).toBe(true);
+      expect(desc.includes(fn1));
+      expect(desc.includes(fn2));
+    });
+  });
+
+  // describe('init', () => {
+  //   // TODO
+  // });
+  //
+  // describe('subscribe', () => {
+  //   // TODO
+  // });
+  //
+  // describe('unsubscribe', () => {
+  //   // TODO
+  // });
 });

@@ -7,6 +7,9 @@ describe('dom/events: availability', () => {
     touchPoint,
     offsetPoint,
 
-    EventUtils.dispatch
+    EventUtils.dispatch,
+    EventUtils.descriptors,
+    EventUtils.subscribe,
+    EventUtils.unsubscribe
   ])('%p is available', (fn) => expect(typeof fn).toBe('function'));
 });
