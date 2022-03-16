@@ -3,7 +3,7 @@ import {ExportNs} from '../../environment/export-ns';
 @ExportNs('EventUtils')
 export class EventUtils {
   /**
-   * Dispatch custom event.
+   * Dispatches custom event.
    * Event bubbles and is cancelable by default, use `eventInit` to override that.
    * @param el - element target
    * @param eventName - event name

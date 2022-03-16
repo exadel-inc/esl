@@ -1,19 +1,19 @@
-/** Check if the passed event is {@link MouseEvent} */
+/** Checks if the passed event is {@link MouseEvent} */
 export const isMouseEvent = (event: Event): event is MouseEvent => window.MouseEvent && event instanceof MouseEvent;
 
-/** Check if the passed event is {@link TouchEvent} */
+/** Checks if the passed event is {@link TouchEvent} */
 export const isTouchEvent = (event: Event): event is TouchEvent => window.TouchEvent && event instanceof TouchEvent;
 
-/** Check if the passed event is {@link PointerEvent} */
+/** Checks if the passed event is {@link PointerEvent} */
 export const isPointerEvent = (event: Event): event is PointerEvent => window.PointerEvent && event instanceof PointerEvent;
 
-/** Get original CustomEvent source */
+/** Gets the original CustomEvent source */
 export const getCompositeTarget = (e: CustomEvent): EventTarget | null => {
   const targets = (e.composedPath && e.composedPath());
   return targets ? targets[0] : e.target;
 };
 
-/** Point object coordinates */
+/** Object that describes coordinates */
 export interface Point {
   x: number;
   y: number;

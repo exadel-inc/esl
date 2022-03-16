@@ -69,7 +69,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
     return !!target.groupName && target.groupName !== 'none';
   }
 
-  /** Hide active element in group */
+  /** Hides active element in group */
   public hideActive(groupName: string, activator?: HTMLElement): void {
     const active = this.getActive(groupName);
     if (!active || active === activator) return;
@@ -80,25 +80,25 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
     });
   }
 
-  /** Set active element in group */
+  /** Sets active element in group */
   public setActive(groupName: string, popup: ESLToggleable): void {
     if (!groupName) return;
     this.hideActive(groupName, popup);
     this._popups.set(groupName, popup);
   }
 
-  /** Get active element in group or undefined if group doesn't exist */
+  /** Gets active element in group or undefined if group doesn't exist */
   public getActive(groupName: string): ESLToggleable | undefined {
     return this._popups.get(groupName);
   }
 
-  /** Delete element from the group if passed element is currently active */
+  /** Deletes element from the group if passed element is currently active */
   public deleteActive(groupName: string, popup: ESLToggleable): void {
     if (this.getActive(groupName) !== popup) return;
     this._popups.delete(groupName);
   }
 
-  /** Hide active element before e.target will be shown */
+  /** Hides active element before e.target will be shown */
   @bind
   protected _onBeforeShow(e: CustomEvent): void {
     const target = getCompositeTarget(e);
@@ -106,7 +106,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
     this.hideActive(target.groupName, target);
   }
 
-  /** Update active element after a new element is shown */
+  /** Updates active element after a new element is shown */
   @bind
   protected _onShow(e: CustomEvent): void {
     const target = getCompositeTarget(e);
@@ -115,7 +115,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
     this.setActive(target.groupName, target);
   }
 
-  /** Update group state after active element is hidden */
+  /** Updates group state after active element is hidden */
   @bind
   protected _onHide(e: CustomEvent): void {
     const target = getCompositeTarget(e);
@@ -124,7 +124,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
     this.deleteActive(target.groupName, target);
   }
 
-  /** Update active elements */
+  /** Updates active elements */
   @bind
   protected _onChangeGroup(e: CustomEvent): void {
     const target = getCompositeTarget(e);

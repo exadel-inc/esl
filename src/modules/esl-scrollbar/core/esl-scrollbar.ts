@@ -267,7 +267,7 @@ export class ESLScrollbar extends ESLBaseElement {
       this._onPointerDownTick(true); // Continuous scroll and click handler
     }
 
-    // Subscribe inverse handlers
+    // Subscribes inverse handlers
     isMouseEvent(event) && window.addEventListener('mouseup', this._onPointerUp);
     isTouchEvent(event) && window.addEventListener('touchend', this._onPointerUp, {passive: false});
 
@@ -293,7 +293,7 @@ export class ESLScrollbar extends ESLBaseElement {
   protected _onThumbPointerDown(event: MouseEvent | TouchEvent): void {
     this.toggleAttribute('dragging', true);
     this.$target?.style.setProperty('scroll-behavior', 'auto');
-    // Attach drag listeners
+    // Attaches drag listeners
     window.addEventListener('click', this._onBodyClick, {capture: true});
     isMouseEvent(event) && window.addEventListener('mousemove', this._onPointerMove);
     isTouchEvent(event) && window.addEventListener('touchmove', this._onPointerMove, {passive: false});
@@ -329,7 +329,7 @@ export class ESLScrollbar extends ESLBaseElement {
     this.toggleAttribute('dragging', false);
     this.$target?.style.removeProperty('scroll-behavior');
 
-    // Unbind drag listeners
+    // Unbinds drag listeners
     if (isMouseEvent(event)) {
       window.removeEventListener('mousemove', this._onPointerMove);
       window.removeEventListener('mouseup', this._onPointerUp);
