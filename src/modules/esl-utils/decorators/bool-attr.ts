@@ -1,6 +1,6 @@
-import {setAttr} from '../../esl-utils/dom/attr';
-import {toKebabCase} from '../../esl-utils/misc/format';
-import type {AttributeDecorator, AttributeTarget} from '../../esl-utils/dom/attr';
+import {setAttr} from '../dom/attr';
+import {toKebabCase} from '../misc/format';
+import type {AttributeDecorator, AttributeTarget} from '../dom/attr';
 
 /** HTML boolean (marker) attribute mapping configuration */
 type BoolAttrDescriptor = {
