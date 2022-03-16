@@ -1,4 +1,4 @@
-import {deepCompare, isSimilar} from '../compare';
+import {isEqual, isSimilar} from '../compare';
 
 describe('misc/object: compare', () => {
   describe('deepCompare', () => {
@@ -19,7 +19,7 @@ describe('misc/object: compare', () => {
       [[1, 2, 3], [1, 2, 3]],
       [[{}, {}], [{}, {}]],
       [[{a: 1}, {b: ''}], [{a: 1}, {b: ''}]]
-    ])('%p should be equal to %p', (a: any, b: any) => expect(deepCompare(a, b)).toBe(true));
+    ])('%p should be equal to %p', (a: any, b: any) => expect(isEqual(a, b)).toBe(true));
 
     test.each([
       [undefined, null],
@@ -36,7 +36,7 @@ describe('misc/object: compare', () => {
       [[], [1]],
       [[1], [1, 2]],
       [[2, 1], [1, 2]]
-    ])('%p should not be equal to %p', (a: any, b: any) => expect(deepCompare(a, b)).toBe(false));
+    ])('%p should not be equal to %p', (a: any, b: any) => expect(isEqual(a, b)).toBe(false));
   });
 
   describe('isSimilar', () => {
