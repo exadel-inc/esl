@@ -3,7 +3,7 @@ import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {rafDecorator} from '../../esl-utils/async/raf';
-import {EventUtils} from '../../esl-utils/dom/events';
+import {isMouseEvent, isTouchEvent, touchPoint, offsetPoint} from '../../esl-utils/dom/events';
 import {isRelativeNode} from '../../esl-utils/dom/traversing';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
@@ -244,8 +244,9 @@ export class ESLScrollbar extends ESLBaseElement {
   /** Returns position from MouseEvent coordinates (not normalized) */
   public toPosition(event: MouseEvent | TouchEvent): number {
     const {horizontal, thumbOffset, trackOffset} = this;
-    const point = EventUtils.normalizeCoordinates(event, this.$scrollbarTrack);
-    const pointPosition = horizontal ? point.x : point.y;
+    const point = touchPoint(event);
+    const offset = offsetPoint(this.$scrollbarTrack);
+    const pointPosition = horizontal ? point.x - offset.x : point.y - offset.y;
     const freeTrackArea = trackOffset - thumbOffset; // size of free track px
     const clickPositionNoOffset = pointPosition - thumbOffset / 2;
     return clickPositionNoOffset / freeTrackArea;
@@ -257,7 +258,7 @@ export class ESLScrollbar extends ESLBaseElement {
   protected _onPointerDown(event: MouseEvent | TouchEvent): void {
     this._initialPosition = this.position;
     this._pointerPosition = this.toPosition(event);
-    const point = EventUtils.normalizeTouchPoint(event);
+    const point = touchPoint(event);
     this._initialMousePosition = this.horizontal ? point.x : point.y;
 
     if (event.target === this.$scrollbarThumb) {
@@ -267,8 +268,8 @@ export class ESLScrollbar extends ESLBaseElement {
     }
 
     // Subscribe inverse handlers
-    EventUtils.isMouseEvent(event) && window.addEventListener('mouseup', this._onPointerUp);
-    EventUtils.isTouchEvent(event) && window.addEventListener('touchend', this._onPointerUp, {passive: false});
+    isMouseEvent(event) && window.addEventListener('mouseup', this._onPointerUp);
+    isTouchEvent(event) && window.addEventListener('touchend', this._onPointerUp, {passive: false});
 
     // Prevents default text selection, etc.
     event.preventDefault();
@@ -294,13 +295,13 @@ export class ESLScrollbar extends ESLBaseElement {
     this.$target?.style.setProperty('scroll-behavior', 'auto');
     // Attach drag listeners
     window.addEventListener('click', this._onBodyClick, {capture: true});
-    EventUtils.isMouseEvent(event) && window.addEventListener('mousemove', this._onPointerMove);
-    EventUtils.isTouchEvent(event) && window.addEventListener('touchmove', this._onPointerMove, {passive: false});
+    isMouseEvent(event) && window.addEventListener('mousemove', this._onPointerMove);
+    isTouchEvent(event) && window.addEventListener('touchmove', this._onPointerMove, {passive: false});
   }
 
   /** Sets position on drag */
   protected _onPointerDrag(event: MouseEvent | TouchEvent): void {
-    const point = EventUtils.normalizeTouchPoint(event);
+    const point = touchPoint(event);
     const mousePosition = this.horizontal ? point.x : point.y;
     const positionChange = mousePosition - this._initialMousePosition;
     const scrollableAreaHeight = this.trackOffset - this.thumbOffset;
@@ -329,11 +330,11 @@ export class ESLScrollbar extends ESLBaseElement {
     this.$target?.style.removeProperty('scroll-behavior');
 
     // Unbind drag listeners
-    if (EventUtils.isMouseEvent(event)) {
+    if (isMouseEvent(event)) {
       window.removeEventListener('mousemove', this._onPointerMove);
       window.removeEventListener('mouseup', this._onPointerUp);
     }
-    if (EventUtils.isTouchEvent(event)) {
+    if (isTouchEvent(event)) {
       window.removeEventListener('touchmove', this._onPointerMove);
       window.removeEventListener('touchend', this._onPointerUp);
     }

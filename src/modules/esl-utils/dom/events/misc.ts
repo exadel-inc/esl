@@ -1,0 +1,37 @@
+/** Check if the passed event is {@link MouseEvent} */
+export const isMouseEvent = (event: Event): event is MouseEvent => window.MouseEvent && event instanceof MouseEvent;
+
+/** Check if the passed event is {@link TouchEvent} */
+export const isTouchEvent = (event: Event): event is TouchEvent => window.TouchEvent && event instanceof TouchEvent;
+
+/** Check if the passed event is {@link PointerEvent} */
+export const isPointerEvent = (event: Event): event is PointerEvent => window.PointerEvent && event instanceof PointerEvent;
+
+/** Get original CustomEvent source */
+export const getCompositeTarget = (e: CustomEvent): EventTarget | null => {
+  const targets = (e.composedPath && e.composedPath());
+  return targets ? targets[0] : e.target;
+};
+
+/** Point object coordinates */
+export interface Point {
+  x: number;
+  y: number;
+}
+
+/** @returns touch point coordinates of {@link TouchEvent} or {@link PointerEvent} */
+export const touchPoint = (event: TouchEvent | PointerEvent | MouseEvent): Point => {
+  const source = isTouchEvent(event) ? event.changedTouches[0] : event;
+  return {
+    x: source.pageX,
+    y: source.pageY
+  };
+};
+
+/** @returns element offset point coordinates */
+export const offsetPoint = (el: Element): Point => {
+  const props = el.getBoundingClientRect();
+  const y = props.top + window.scrollY;
+  const x = props.left + window.scrollX;
+  return {x, y};
+};

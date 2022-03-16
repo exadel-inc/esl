@@ -1,6 +1,6 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
-import {EventUtils} from '../../esl-utils/dom/events';
+import {getCompositeTarget} from '../../esl-utils/dom/events';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLToggleable} from './esl-toggleable';
 
@@ -101,7 +101,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
   /** Hide active element before e.target will be shown */
   @bind
   protected _onBeforeShow(e: CustomEvent): void {
-    const target = EventUtils.source(e);
+    const target = getCompositeTarget(e);
     if (!this.isAcceptable(target)) return;
     this.hideActive(target.groupName, target);
   }
@@ -109,7 +109,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
   /** Update active element after a new element is shown */
   @bind
   protected _onShow(e: CustomEvent): void {
-    const target = EventUtils.source(e);
+    const target = getCompositeTarget(e);
     if (!this.isAcceptable(target)) return;
 
     this.setActive(target.groupName, target);
@@ -118,7 +118,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
   /** Update group state after active element is hidden */
   @bind
   protected _onHide(e: CustomEvent): void {
-    const target = EventUtils.source(e);
+    const target = getCompositeTarget(e);
     if (!this.isAcceptable(target)) return;
 
     this.deleteActive(target.groupName, target);
@@ -127,7 +127,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
   /** Update active elements */
   @bind
   protected _onChangeGroup(e: CustomEvent): void {
-    const target = EventUtils.source(e);
+    const target = getCompositeTarget(e);
     if (!this.isAcceptable(target)) return;
 
     const {oldGroupName, newGroupName} = e.detail;
