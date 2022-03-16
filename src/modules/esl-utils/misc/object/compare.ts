@@ -12,3 +12,12 @@ export function deepCompare(obj1: any, obj2: any): boolean {
   }
   return false;
 }
+
+/** Checks if all keys presented in the `mask` equal to the `obj` keys */
+export function isSimilar(obj: any, mask: any): boolean {
+  if (!isObject(obj)) return Object.is(obj, mask);
+  return Object.keys(mask).every((key: string) => {
+    if (isObject(mask[key])) return isSimilar(obj[key], mask[key]);
+    return Object.is(obj[key], mask[key]);
+  });
+}
