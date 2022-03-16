@@ -1,6 +1,6 @@
-import {toKebabCase} from '../../esl-utils/misc/format';
-import {getAttr, setAttr} from '../../esl-utils/dom/attr';
-import type {AttributeDecorator, AttributeTarget} from '../../esl-utils/dom/attr';
+import {toKebabCase} from '../misc/format';
+import {getAttr, setAttr} from '../dom/attr';
+import type {AttributeDecorator, AttributeTarget} from '../dom/attr';
 
 /** HTML attribute mapping configuration */
 type AttrDescriptor = {
