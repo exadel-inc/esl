@@ -157,6 +157,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** @returns action params config that's used (inherited) by controlled {@link ESLPanel}s */
   public get panelConfig(): PanelActionParams {
     return {
+      capturedBy: this.currentMode === 'tabs' ? this : undefined,
       noCollapse: !this.shouldCollapse || (this.currentMode === 'tabs')
     };
   }
@@ -230,9 +231,12 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Post-processing animation action */
-  protected afterAnimate(): void {
+  protected afterAnimate(silent?: boolean): void {
     this.style.removeProperty('height');
     CSSClassUtils.remove(this, this.animationClass);
+
+    if (silent) return;
+    this.$activePanels.forEach((panel) => panel.$$fire('after:show'));
   }
 
   /** Process {@link ESLPanel} pre-show event */
@@ -255,7 +259,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     if (this.shouldCollapse) {
       this.onAnimate(this._previousHeight, panel.initialHeight);
     } else {
-      afterNextRender(() => this.afterAnimate());
+      afterNextRender(() => this.afterAnimate(true));
     }
   }
 
