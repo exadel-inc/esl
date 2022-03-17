@@ -1,7 +1,7 @@
+import {attr} from '../../../../src/modules/esl-utils/decorators/attr';
 import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
 import {bind} from '../../../../src/modules/esl-utils/decorators/bind';
 import {ready} from '../../../../src/modules/esl-utils/decorators/ready';
-import {attr} from '../../../../src/modules/esl-base-element/decorators/attr';
 import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
 import {ESLMediaQuery} from '../../../../src/modules/esl-media-query/core/esl-media-query';
 

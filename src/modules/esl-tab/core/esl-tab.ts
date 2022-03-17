@@ -1,6 +1,6 @@
+import {attr} from '../../esl-utils/decorators/attr';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLTrigger} from '../../esl-trigger/core';
-import {attr} from '../../esl-base-element/decorators/attr';
 
 /**
  * ESlTab component
