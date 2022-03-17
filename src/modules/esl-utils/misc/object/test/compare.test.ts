@@ -1,7 +1,7 @@
 import {isEqual, isSimilar} from '../compare';
 
 describe('misc/object: compare', () => {
-  describe('deepCompare', () => {
+  describe('isEqual', () => {
     test.each([
       [null, null],
       [NaN, NaN],
@@ -45,23 +45,31 @@ describe('misc/object: compare', () => {
       [NaN, NaN],
       ['', ''],
       [{}, {}],
+
       [{a: 1}, {a: 1}],
       [{a: [1, 2, 3]}, {a: [1]}],
+      [{a: [1, 2, 3]}, {a: [2]}],
+
       [{a: 1, c: Infinity}, {a: 1}],
       [{a: 1, c: Infinity}, {c: Infinity}],
       [{a: {b: {c: 1}}}, {a: {b: {c: 1}}}],
-      [[{a: 1}, {b: ''}], [{a: 1}]]
-    ])('%p should be equal to %p', (a: any, b: any) => expect(isSimilar(a, b)).toBe(true));
+      [[{a: 1}, {b: ''}], [{a: 1}]],
+
+      [[1, 2, 3, 4, 5, 6], [3, 2]]
+    ])('%p should be similar to %p', (a: any, b: any) => expect(isSimilar(a, b)).toBe(true));
 
     test.each([
       [undefined, null],
       [1, 2],
       ['a', 'b'],
+
       [{a: 1}, {b: 2}],
+      [{a: [1, 2, 3]}, {a: [4]}],
       [{a: null, b: 1}, {a: {}}],
       [{a: {c: {b: 1}, d: 1}}, {a: {b: {c: 1}}}],
+
       [[], [1]],
       [[1], [1, 2]]
-    ])('%p should not be equal to %p', (a: any, b: any) => expect(isSimilar(a, b)).toBe(false));
+    ])('%p should not be similar to %p', (a: any, b: any) => expect(isSimilar(a, b)).toBe(false));
   });
 });

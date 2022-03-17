@@ -16,11 +16,15 @@ export function isEqual(obj1: any, obj2: any): boolean {
 /** @deprecated */
 export const deepCompare = isEqual;
 
-/** Checks if all keys presented in the `mask` equal to the `obj` keys */
+/**
+ * Checks if all keys presented in the `mask` are equal to the `obj` keys
+ * Note: array order is not taken into account and uses intersection strategy
+ */
 export function isSimilar(obj: any, mask: any): boolean {
-  if (!isObject(obj)) return Object.is(obj, mask);
-  return Object.keys(mask).every((key: string) => {
-    if (isObject(mask[key])) return isSimilar(obj[key], mask[key]);
-    return Object.is(obj[key], mask[key]);
-  });
+  if (Array.isArray(obj)) {
+    if (Array.isArray(mask)) return mask.every((key) => isSimilar(obj, key));
+    return obj.some((key) => isSimilar(key, mask));
+  }
+  if (!isObject(obj) || !isObject(mask)) return Object.is(obj, mask);
+  return Object.keys(mask).every((key: string) => isSimilar(obj[key], mask[key]));
 }
