@@ -43,4 +43,15 @@ describe('Decorator: listen', () => {
     const test = new TestInh();
     expect(EventUtils.descriptors(test).length).toBe(2);
   });
+
+  test('multiple decoration', () => {
+    expect(() => {
+      class Test extends HTMLElement {
+        @listen({event: 'event1'})
+        @listen({event: 'event2'})
+        onEvent() {}
+      }
+      new Test();
+    }).toThrowError();
+  });
 });
