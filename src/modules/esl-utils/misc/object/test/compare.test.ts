@@ -1,7 +1,7 @@
 import {isEqual, isSimilar} from '../compare';
 
 describe('misc/object: compare', () => {
-  describe('deepCompare', () => {
+  describe('isEqual', () => {
     test.each([
       [null, null],
       [NaN, NaN],
