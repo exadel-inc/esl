@@ -8,8 +8,8 @@ import type {
 } from '../../esl-utils/dom/events';
 
 /**
- * Base class for ESL custom elements.
- * Allows defining custom element with the optional custom tag name.
+ * Base class for ESL custom elements
+ * Allows defining custom element with the optional custom tag name
  */
 export abstract class ESLBaseElement extends HTMLElement {
   /** Custom element tag name */

@@ -1,4 +1,5 @@
 import '../../../polyfills/es5-target-shim';
+
 import {ESLBaseElement, listen} from '../core';
 import {randUID} from '../../esl-utils/misc/uid';
 import {EventUtils} from '../../esl-utils/dom/events/utils';
@@ -20,35 +21,43 @@ describe('ESLBaseElement: listeners', () => {
     expect(EventUtils.listeners(el).length).toBe(0);
   });
 
-  describe('listeners', () => {
-    class TestElement extends ESLBaseElement {}
+  describe('event accessors', () => {
+    class TestElement extends ESLBaseElement {
+      onEvent1() {}
+      onEvent2() {}
+    }
     TestElement.register('test-' + randUID());
-    const el = new TestElement();
 
-    const container = document.createElement('div');
-    container.className = 'container';
-    el.appendChild(container);
+    test('$$on', () => {
+      const mock = jest.spyOn(EventUtils, 'subscribe').mockImplementation();
 
-    const button = document.createElement('button');
-    button.innerHTML = 'Test <i>A</i>';
-    container.appendChild(button);
+      const el = new TestElement();
+      const desc = {event: 'click'};
 
-    beforeEach(() => document.body.appendChild(el));
-    afterEach(() => el.parentElement && document.body.removeChild(el));
+      el.$$on(el.onEvent1);
+      expect(mock).lastCalledWith(el, el.onEvent1, undefined);
 
-    test('subscribe full', () => {
-      const handle = jest.fn();
+      el.$$on(el.onEvent2, desc);
+      expect(mock).lastCalledWith(el, el.onEvent2, desc);
 
-      el.$$on(handle, {event: 'click'});
-      button.click();
+      el.$$on(el.onEvent2, 'test');
+      expect(mock).lastCalledWith(el, el.onEvent2, 'test');
+    });
 
-      expect(handle).toBeCalledTimes(1);
+    test('$$off', () => {
+      const mock = jest.spyOn(EventUtils, 'unsubscribe').mockImplementation(() => undefined);
 
-      el.$$off(handle, {event: 'click'});
-      button.click();
+      const el = new TestElement();
+      const desc = {event: 'click'};
 
-      expect(handle).toBeCalledTimes(1);
-      expect(EventUtils.listeners(el).length).toBe(0);
+      el.$$off(el.onEvent1);
+      expect(mock).lastCalledWith(el, el.onEvent1, undefined);
+
+      el.$$off(el.onEvent2, desc);
+      expect(mock).lastCalledWith(el, el.onEvent2, desc);
+
+      el.$$off(el.onEvent2, 'test');
+      expect(mock).lastCalledWith(el, el.onEvent2, 'test');
     });
   });
 });
