@@ -1,12 +1,34 @@
 import {isDescriptorFn} from '../dom/events';
+
+import type {ESLListenerHandler} from '../dom/events';
 import type {ESLListenerDescriptor} from '../dom/events/listener';
 
+type ListenDecorator<EType extends Event> =
+  (target: any, property: string, descriptor: TypedPropertyDescriptor<ESLListenerHandler<EType>>) => void;
+
 /**
- * Decorator to declare {@link ESLListenerDescriptorFn} method
- * @param desc - event listener configuration {@link ESLListenerDescriptor} or string to declare default event listener
+ * Decorator to make function listen DOM Event
+ * @param desc - event type string
  */
-export const listen = (desc: string | ESLListenerDescriptor) => {
-  return function listener<T extends (e: Event) => void>(target: HTMLElement,
+export function listen<K extends keyof HTMLElementEventMap>(desc: K): ListenDecorator<HTMLElementEventMap[K]>;
+/**
+ * Decorator to make function listen CustomEvent
+ * @param desc - custom event type string
+ */
+export function listen(desc: string): ListenDecorator<Event>;
+/**
+ * Decorator to make function listen DOM Event
+ * @param desc - event listener configuration {@link ESLListenerDescriptor}
+ */
+export function listen<K extends keyof HTMLElementEventMap>(desc: ESLListenerDescriptor<K>): ListenDecorator<HTMLElementEventMap[K]>;
+/**
+ * Decorator to make function listen DOM Event
+ * @param desc - event listener configuration {@link ESLListenerDescriptor}
+ */
+export function listen(desc: ESLListenerDescriptor): ListenDecorator<Event>;
+
+export function listen(desc: string | ESLListenerDescriptor): ListenDecorator<Event> {
+  return function listener<T extends ESLListenerHandler>(target: HTMLElement,
                                                          propertyKey: string,
                                                          descriptor: TypedPropertyDescriptor<T>): void {
     desc = typeof desc === 'string' ? {event: desc} : desc;
@@ -24,4 +46,4 @@ export const listen = (desc: string | ESLListenerDescriptor) => {
     // Allow collecting
     descriptor.enumerable = true;
   };
-};
+}

@@ -4,18 +4,19 @@ import {isSimilar} from '../../misc/object/compare';
 import {TraversingQuery} from '../../../esl-traversing-query/core';
 
 /** Describes callback handler */
-export type ESLListenerHandler = (e: Event, listener: ESLEventListener) => void;
+export type ESLListenerHandler<EType extends Event = Event> = (event: EType, listener?: ESLEventListener) => void;
+
 /** Descriptor to create {@link ESLEventListener} */
-export type ESLListenerDescriptor = {
+export type ESLListenerDescriptor<EType extends string = string> = {
   /** Event type (name) */
-  event: string;
+  event: EType;
   /** Use capture DOM Event phase */
   capture?: boolean;
 
   /** CSS selector to check delegated event */
   selector?: string;
   /** {@link TraversingQuery} selector or element target to subscribe */
-  target?: string | Element | Document | Window;
+  target?: string | EventTarget;
 
   /** Identifier to group event listeners */
   id?: string;
@@ -23,7 +24,10 @@ export type ESLListenerDescriptor = {
   auto?: boolean;
 };
 
+/** Condition (criteria) to find {@link ESLListenerDescriptor} */
 export type ESLListenerCriteria = undefined | string | ESLListenerHandler | Partial<ESLListenerDescriptor>;
+
+/** Function decorated as {@link ESLListenerDescriptor} */
 export type ESLListenerDescriptorFn = ESLListenerHandler & ESLListenerDescriptor;
 
 /** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
@@ -37,7 +41,7 @@ export class ESLEventListener implements ESLListenerDescriptor {
   public readonly event: string;
   public readonly capture?: boolean;
   public readonly selector?: string;
-  public readonly target?: string | Element | Document | Window;
+  public readonly target?: string | EventTarget;
 
   constructor(
     public readonly $host: HTMLElement,
@@ -51,11 +55,14 @@ export class ESLEventListener implements ESLListenerDescriptor {
 
   /** @returns target element to listen */
   @memoize()
-  public get $targets(): HTMLElement[] | [Element | Document | Window] {
+  public get $targets(): EventTarget[] {
     if (this.target instanceof Document || this.target instanceof Element || this.target instanceof Window) {
       return [this.target];
     }
-    return TraversingQuery.all(this.target || '', this.$host) as HTMLElement[];
+    if (typeof this.target === 'string') {
+      return TraversingQuery.all(this.target, this.$host);
+    }
+    return [this.$host];
   }
 
   /**
@@ -121,9 +128,9 @@ export class ESLEventListener implements ESLListenerDescriptor {
 
   /** Creates event listeners by handler and descriptors */
   public static create(target: HTMLElement, handler: ESLListenerHandler, desc: string | ESLListenerDescriptor): ESLEventListener[] {
-    const events = ESLEventListener.splitEventQ(typeof desc === 'string' ? desc : desc.event);
-    return events.map((event) => {
-      const spec = Object.assign({}, desc, {event});
+    desc = typeof desc === 'string' ? {event: desc} : desc;
+    return ESLEventListener.splitEventQ(desc.event).map((event) => {
+      const spec: ESLListenerDescriptor = Object.assign({}, desc, {event});
       return new ESLEventListener(target, handler, spec);
     });
   }

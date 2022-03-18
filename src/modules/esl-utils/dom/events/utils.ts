@@ -26,7 +26,11 @@ export class EventUtils {
     return el.dispatchEvent(new CustomEvent(eventName, init));
   }
 
-  /** Get currently subscribed listeners of the target */
+  /**
+   * Get currently subscribed listeners of the target
+   * @param target - host element (listeners context)
+   * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners list
+   */
   public static listeners(target: HTMLElement, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
     return ESLEventListener.get(target).filter((listener) => !criteria.length || criteria.every(listener.matches, listener));
   }
@@ -34,10 +38,14 @@ export class EventUtils {
   /** Subscribe all decorated (auto-subscribable) methods of the `target` */
   public static subscribe(target: HTMLElement): void;
   /** Subscribe decorated `handler` method of the `target` */
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
   public static subscribe(target: HTMLElement, handler: ESLListenerHandler): void;
-  /** Subscribe `handler` function with the passed `descriptor` or event*/
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  /** Subscribe `handler` function with the passed event type */
+  public static subscribe<EType extends keyof HTMLElementEventMap>(
+    target: HTMLElement,
+    handler: ESLListenerHandler<HTMLElementEventMap[EType]>,
+    descriptor: EType | ESLListenerDescriptor<EType>
+  ): void;
+  /** Subscribe `handler` function with the passed `descriptor` or event */
   public static subscribe(target: HTMLElement, handler: ESLListenerHandler, descriptor?: string | ESLListenerDescriptor): void;
   /** Creates and subscribe {@link ESLEventListener} */
   public static subscribe(
@@ -45,7 +53,7 @@ export class EventUtils {
     handler?: ESLListenerHandler,
     desc: string | ESLListenerDescriptor = handler as ESLListenerDescriptorFn
   ): void {
-    if (typeof handler === 'function' && desc) {
+    if (typeof handler === 'function' && typeof desc !== 'undefined') {
       ESLEventListener.create(target, handler, desc)
         .forEach((listener) => listener.subscribe());
     } else {
@@ -54,7 +62,11 @@ export class EventUtils {
     }
   }
 
-  /** Unsubscribes {@link ESLEventListener}(s) from the object */
+  /**
+   * Unsubscribes {@link ESLEventListener}(s) from the object
+   * @param target - host element (listeners context)
+   * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners to remove
+   */
   public static unsubscribe(target: HTMLElement, ...criteria: ESLListenerCriteria[]): void {
     EventUtils.listeners(target, ...criteria).forEach((listener) => listener.unsubscribe());
   }
