@@ -8,7 +8,7 @@ describe('dom/events: availability', () => {
     offsetPoint,
 
     EventUtils.dispatch,
-    EventUtils.descriptors,
+    EventUtils.listeners,
     EventUtils.subscribe,
     EventUtils.unsubscribe
   ])('%p is available', (fn) => expect(typeof fn).toBe('function'));

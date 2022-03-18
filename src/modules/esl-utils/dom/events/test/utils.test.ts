@@ -1,4 +1,5 @@
 import {EventUtils} from '../utils';
+import {ESLEventListener} from '../listener';
 
 describe('dom/events: EventUtils', () => {
   describe('dispatch', () => {
@@ -28,7 +29,7 @@ describe('dom/events: EventUtils', () => {
       const proto = {onEvent: fn2};
       Object.setPrototypeOf(obj, proto);
 
-      const desc = EventUtils.descriptors(obj);
+      const desc = ESLEventListener.descriptors(obj);
       expect(Array.isArray(desc)).toBe(true);
       expect(desc.includes(fn1));
       expect(desc.includes(fn2));

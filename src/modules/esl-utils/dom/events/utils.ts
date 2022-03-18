@@ -1,14 +1,12 @@
 import {ExportNs} from '../../environment/export-ns';
 import {ESLEventListener} from './listener';
 
-import type {ESLListenerDescriptor, ESLListenerHandler} from './listener';
-
-export type ESLEventCriteria = undefined | string | ESLListenerHandler | Partial<ESLListenerDescriptor>;
-export type ESLListenerDescriptorFn = ESLListenerHandler & ESLListenerDescriptor;
-
-// TODO: rename
-/** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
-export const isDescriptorFn = (obj: any): obj is ESLListenerDescriptorFn => typeof obj === 'function' && typeof obj.event === 'string';
+import type {
+  ESLListenerCriteria,
+  ESLListenerHandler,
+  ESLListenerDescriptor,
+  ESLListenerDescriptorFn
+} from './listener';
 
 @ExportNs('EventUtils')
 export class EventUtils {
@@ -28,19 +26,8 @@ export class EventUtils {
     return el.dispatchEvent(new CustomEvent(eventName, init));
   }
 
-  // TODO: remove or move
-  /** Gets descriptors from the passed object */
-  public static descriptors(target?: any): ESLListenerDescriptorFn[] {
-    if (!target) return [];
-    const desc: ESLListenerDescriptorFn[] = [];
-    for (const key in target) {
-      if (isDescriptorFn(target[key])) desc.push(target[key]);
-    }
-    return desc;
-  }
-
   /** Get currently subscribed listeners of the target */
-  public static listeners(target: HTMLElement, ...criteria: ESLEventCriteria[]): ESLEventListener[] {
+  public static listeners(target: HTMLElement, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
     return ESLEventListener.get(target).filter((listener) => !criteria.length || criteria.every(listener.matches, listener));
   }
 
@@ -56,26 +43,19 @@ export class EventUtils {
   public static subscribe(
     target: HTMLElement,
     handler?: ESLListenerHandler,
-    desc?: string | ESLListenerDescriptor
+    desc: string | ESLListenerDescriptor = handler as ESLListenerDescriptorFn
   ): void {
-    // TODO: refactor
-    if (isDescriptorFn(handler) && desc === undefined) {
-      handler.event.split(' ').forEach((event) => {
-        EventUtils.subscribe(target, handler, Object.assign({}, handler, {event}));
-      });
-      return;
-    }
     if (typeof handler === 'function' && desc) {
-      desc = typeof desc === 'string' ? {event: desc} : desc;
-      new ESLEventListener(target, handler, desc).subscribe();
-      return;
+      ESLEventListener.create(target, handler, desc)
+        .forEach((listener) => listener.subscribe());
+    } else {
+      ESLEventListener.descriptors(target)
+        .forEach((item) => item.auto && EventUtils.subscribe(target, item));
     }
-    EventUtils.descriptors(target)
-      .forEach((item) => item.auto && EventUtils.subscribe(target, item));
   }
 
   /** Unsubscribes {@link ESLEventListener}(s) from the object */
-  public static unsubscribe(target: HTMLElement, ...criteria: ESLEventCriteria[]): void {
+  public static unsubscribe(target: HTMLElement, ...criteria: ESLListenerCriteria[]): void {
     EventUtils.listeners(target, ...criteria).forEach((listener) => listener.unsubscribe());
   }
 }
