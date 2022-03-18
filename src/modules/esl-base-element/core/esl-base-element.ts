@@ -4,8 +4,7 @@ import {CSSClassUtils} from '../../esl-utils/dom/class';
 
 import type {
   ESLListenerHandler,
-  ESLListenerDescriptor,
-  ESLListenerDescriptorFn
+  ESLListenerDescriptor
 } from '../../esl-utils/dom/events';
 
 /**
@@ -37,16 +36,16 @@ export abstract class ESLBaseElement extends HTMLElement {
 
   /** Subscribes event listener */
   public $$on(
-    handler: ESLListenerHandler | ESLListenerDescriptorFn,
-    descriptor: ESLListenerDescriptor | string = handler as ESLListenerDescriptorFn
+    handler: ESLListenerHandler,
+    descriptor?: string | ESLListenerDescriptor
   ): void {
     return EventUtils.subscribe(this, handler, descriptor);
   }
 
   /** Unsubscribes event listener */
   public $$off(
-    handler: ESLListenerHandler | ESLListenerDescriptorFn,
-    descriptor: ESLListenerDescriptor | string
+    handler: string | ESLListenerHandler | Partial<ESLListenerDescriptor>,
+    descriptor?: string | Partial<ESLListenerDescriptor>
   ): void {
     return EventUtils.unsubscribe(this, handler, descriptor);
   }
