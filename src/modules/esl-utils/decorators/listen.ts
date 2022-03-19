@@ -1,7 +1,6 @@
 import {isDescriptorFn} from '../dom/events';
 
-import type {ESLListenerHandler} from '../dom/events';
-import type {ESLListenerDescriptor} from '../dom/events/listener';
+import type {ESLListenerHandler, ESLListenerDescriptor} from '../dom/events';
 
 type ListenDecorator<EType extends Event> =
   (target: any, property: string, descriptor: TypedPropertyDescriptor<ESLListenerHandler<EType>>) => void;

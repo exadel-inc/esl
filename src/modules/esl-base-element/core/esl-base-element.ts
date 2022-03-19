@@ -4,6 +4,7 @@ import {CSSClassUtils} from '../../esl-utils/dom/class';
 
 import type {
   ESLListenerHandler,
+  ESLListenerCriteria,
   ESLListenerDescriptor
 } from '../../esl-utils/dom/events';
 
@@ -34,20 +35,22 @@ export abstract class ESLBaseElement extends HTMLElement {
     return this._connected;
   }
 
-  /** Subscribes event listener */
-  public $$on(
-    handler: ESLListenerHandler,
-    descriptor?: string | ESLListenerDescriptor
-  ): void {
+  /** Subscribes `handler` method marked with `@listen` decorator */
+  public $$on(handler: ESLListenerHandler): void;
+  /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
+  public $$on<EType extends keyof HTMLElementEventMap>(
+    handler: ESLListenerHandler<HTMLElementEventMap[EType]>,
+    event: EType | ESLListenerDescriptor<EType>
+  ): void;
+  /** Subscribes `handler` function using passed custom event descriptor {@link ESLListenerDescriptor} or custom event name */
+  public $$on(handler: ESLListenerHandler, event: string | ESLListenerDescriptor): void;
+  public $$on(handler: ESLListenerHandler, descriptor?: string | ESLListenerDescriptor): void {
     return EventUtils.subscribe(this, handler, descriptor);
   }
 
   /** Unsubscribes event listener */
-  public $$off(
-    handler: string | ESLListenerHandler | Partial<ESLListenerDescriptor>,
-    descriptor?: string | Partial<ESLListenerDescriptor>
-  ): void {
-    return EventUtils.unsubscribe(this, handler, descriptor);
+  public $$off(...condition: ESLListenerCriteria[]): void {
+    return EventUtils.unsubscribe(this, ...condition);
   }
 
   /**

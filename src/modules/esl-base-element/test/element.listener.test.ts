@@ -51,7 +51,7 @@ describe('ESLBaseElement: listeners', () => {
       const desc = {event: 'click'};
 
       el.$$off(el.onEvent1);
-      expect(mock).lastCalledWith(el, el.onEvent1, undefined);
+      expect(mock).lastCalledWith(el, el.onEvent1);
 
       el.$$off(el.onEvent2, desc);
       expect(mock).lastCalledWith(el, el.onEvent2, desc);

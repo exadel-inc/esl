@@ -58,7 +58,7 @@ describe('dom/events: EventUtils', () => {
       const host = {};
       jest.spyOn(ESLEventListener, 'descriptors').mockReturnValue([listener1, listener2] as any);
       const createMock =
-        jest.spyOn(ESLEventListener, 'create').mockImplementation((host, cb, desc) => [desc] as any);
+        jest.spyOn(ESLEventListener, 'create').mockImplementation((el, cb, desc) => [desc] as any);
 
       EventUtils.subscribe(host as any);
       expect(listener1.subscribe).toBeCalled();
@@ -69,7 +69,7 @@ describe('dom/events: EventUtils', () => {
     test('single decorated', () => {
       const host = {};
       const createMock =
-        jest.spyOn(ESLEventListener, 'create').mockImplementation((host, cb, desc) => [desc] as any);
+        jest.spyOn(ESLEventListener, 'create').mockImplementation((el, cb, desc) => [desc] as any);
 
       EventUtils.subscribe(host as any, listener2);
       expect(listener2.subscribe).toBeCalled();
