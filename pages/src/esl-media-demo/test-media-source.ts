@@ -1,9 +1,28 @@
+import {attr} from '../../../src/modules/esl-utils/decorators/attr';
 import {debounce} from '../../../src/modules/esl-utils/async/debounce';
+import {ESLBaseElement} from '../../../src/modules/esl-base-element/core/esl-base-element';
+import {TraversingQuery} from '../../../src/modules/esl-traversing-query/core/esl-traversing-query';
 
-class TestMediaSource extends HTMLElement {
-  get target(): HTMLElement | null {
-    const targetSel = this.getAttribute('target');
-    return document.querySelector(targetSel || '');
+class ESLDemoMediaSource extends ESLBaseElement {
+  static is = 'esl-d-media-source';
+
+  @attr() public target: string;
+
+  protected onChangeDebounce = debounce(this.onChange, 750, this);
+
+  public get $targets(): HTMLElement[] {
+    return TraversingQuery.all(this.target, this) as HTMLElement[];
+  }
+
+  protected connectedCallback(): void {
+    super.connectedCallback();
+    this.render();
+    this.addEventListener('change', this.onChangeDebounce);
+    this.onChangeDebounce();
+  }
+  protected disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.removeEventListener('change', this.onChangeDebounce);
   }
 
   private render(): void {
@@ -48,28 +67,23 @@ class TestMediaSource extends HTMLElement {
       </fieldset>
     `;
     form.action = 'javascript: void 0;';
+
     this.innerHTML = '';
     this.appendChild(form);
   }
 
-  private onChange(): void {
-    const target = this.target;
+  protected onChange(): void {
     const inputs = this.querySelectorAll('input[name], select[name]');
     Array.from(inputs).forEach((input: HTMLInputElement | HTMLSelectElement) => {
-      if (!target) return;
-      if (input instanceof HTMLInputElement && input.type === 'checkbox') {
-        target.toggleAttribute(input.name, input.checked);
-      } else {
-        target.setAttribute(input.name, input.value);
-      }
+      this.$targets.forEach((target: HTMLElement) => {
+        if (input instanceof HTMLInputElement && input.type === 'checkbox') {
+          target.toggleAttribute(input.name, input.checked);
+        } else {
+          target.setAttribute(input.name, input.value);
+        }
+      });
     });
-  }
-
-  protected connectedCallback(): void {
-    this.render();
-    this.addEventListener('change', debounce(() => this.onChange(), 750));
-    this.onChange();
   }
 }
 
-customElements.define('test-media-source', TestMediaSource);
+ESLDemoMediaSource.register();
