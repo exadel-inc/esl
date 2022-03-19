@@ -13,7 +13,7 @@ export function isEqual(obj1: any, obj2: any): boolean {
   return false;
 }
 
-/** @deprecated alas for `isEqual` method */
+/** @deprecated alias for `isEqual` method */
 export const deepCompare = isEqual;
 
 /**

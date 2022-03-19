@@ -19,104 +19,99 @@ describe('dom/events: EventUtils', () => {
     });
   });
 
-  describe('descriptors', () => {
-    test('singleton', () => {
-      const fn1 = () => undefined;
-      const fn2 = () => undefined;
-      fn1.event = fn2.event = 'test';
+  describe('listeners', () => {
+    const list = [
+      {matches: jest.fn()},
+      {matches: jest.fn()}
+    ];
+    const host = {__listeners: list};
 
-      const obj = {onClick: fn1};
-      const proto = {onEvent: fn2};
-      Object.setPrototypeOf(obj, proto);
+    beforeEach(() => list.forEach(({matches}: any) => matches.mockReset()));
+    test('all', () => {
+      expect(EventUtils.listeners(host as any)).toEqual(list);
+    });
+    test('1 criteria', () => {
+      list[0].matches.mockReturnValue(false);
+      list[1].matches.mockReturnValue(true);
 
-      const desc = ESLEventListener.descriptors(obj);
-      expect(Array.isArray(desc)).toBe(true);
-      expect(desc.includes(fn1));
-      expect(desc.includes(fn2));
+      expect(EventUtils.listeners(host as any, 'a')).toEqual(list.slice(1));
+      expect(list[0].matches).lastCalledWith('a', expect.anything(), expect.anything());
+      expect(list[1].matches).lastCalledWith('a', expect.anything(), expect.anything());
+    });
+    test('2 criteria', () => {
+      list[0].matches.mockReturnValue(true);
+      list[1].matches.mockReturnValue(true);
+
+      expect(EventUtils.listeners(host as any, 'b', {})).toEqual(list);
+      expect(list[0].matches).toBeCalledTimes(2);
+      expect(list[1].matches).toBeCalledTimes(2);
     });
   });
 
   describe('subscribe', () => {
-    const div = document.createElement('div');
+    const listener1 =
+      Object.assign(() => undefined, {auto: true, subscribe: jest.fn()});
+    const listener2 =
+      Object.assign(() => undefined, {auto: false, subscribe: jest.fn()});
 
-    test('subscribe', ()  => {
-      const handle = jest.fn();
-      EventUtils.subscribe(div, handle, {event: 'click'});
+    test('all', () => {
+      const host = {};
+      jest.spyOn(ESLEventListener, 'descriptors').mockReturnValue([listener1, listener2] as any);
+      const createMock =
+        jest.spyOn(ESLEventListener, 'create').mockImplementation((host, cb, desc) => [desc] as any);
 
-      expect(EventUtils.listeners(div).length).toBe(1);
-
-      expect(handle).toBeCalledTimes(0);
-      div.click();
-      expect(handle).toBeCalledTimes(1);
+      EventUtils.subscribe(host as any);
+      expect(listener1.subscribe).toBeCalled();
+      expect(listener2.subscribe).not.toBeCalled();
+      expect(createMock).toBeCalledWith(host, expect.anything(), expect.anything());
     });
-  });
 
-  describe('subscribe: delegate', () => {
-    const div = document.createElement('div');
-    const btn = document.createElement('button');
-    div.appendChild(btn);
-    const span = document.createElement('span');
-    div.appendChild(span);
+    test('single decorated', () => {
+      const host = {};
+      const createMock =
+        jest.spyOn(ESLEventListener, 'create').mockImplementation((host, cb, desc) => [desc] as any);
 
-    test('subscribe', ()  => {
-      const handle = jest.fn();
-      EventUtils.subscribe(div, handle, {event: 'click', selector: 'button'});
+      EventUtils.subscribe(host as any, listener2);
+      expect(listener2.subscribe).toBeCalled();
+      expect(createMock).toBeCalledWith(host, expect.anything(), expect.anything());
+    });
 
-      expect(handle).toBeCalledTimes(0);
-      btn.click();
-      expect(handle).toBeCalledTimes(1);
-      span.click();
-      expect(handle).toBeCalledTimes(1);
+    test('single manual', () => {
+      const host = {};
+      const fn = jest.fn();
+      const desc = {event: 'test'};
+      const listener = {subscribe: jest.fn()};
+      const createMock =
+        jest.spyOn(ESLEventListener, 'create').mockImplementation(() => [listener] as any);
+
+      EventUtils.subscribe(host as any, fn, desc);
+      expect(listener.subscribe).toBeCalled();
+      expect(createMock).toBeCalledWith(host, fn, desc);
     });
   });
 
   describe('unsubscribe', () => {
-    const handle = jest.fn();
-    const div = document.createElement('div');
+    const list = [
+      {matches: jest.fn(), unsubscribe: jest.fn()},
+      {matches: jest.fn(), unsubscribe: jest.fn()}
+    ];
+    const host = {__listeners: list};
 
-    beforeEach(() => {
-      EventUtils.subscribe(div, handle, {id: 'test', event: 'click'});
+    beforeEach(() => list.forEach(({matches, unsubscribe}: any) => {
+      matches.mockReset();
+      unsubscribe.mockReset();
+    }));
+    test('all', () => {
+      EventUtils.unsubscribe(host as any);
+      expect(list[0].unsubscribe).toBeCalled();
+      expect(list[1].unsubscribe).toBeCalled();
     });
-
-    test('all', ()  => {
-      expect(EventUtils.listeners(div).length).toBe(1);
-      EventUtils.unsubscribe(div);
-      expect(EventUtils.listeners(div).length).toBe(0);
-    });
-
-    test('by id', ()  => {
-      EventUtils.unsubscribe(div, {id: 'testic'});
-      expect(EventUtils.listeners(div).length).toBe(1);
-      EventUtils.unsubscribe(div, {id: 'test'});
-      expect(EventUtils.listeners(div).length).toBe(0);
-    });
-
-    test('by event', ()  => {
-      EventUtils.unsubscribe(div, {event: 'mousedown'});
-      expect(EventUtils.listeners(div).length).toBe(1);
-      EventUtils.unsubscribe(div, {event: 'click'});
-      expect(EventUtils.listeners(div).length).toBe(0);
-    });
-
-    test('by event(string)', ()  => {
-      EventUtils.unsubscribe(div, 'test');
-      expect(EventUtils.listeners(div).length).toBe(1);
-      EventUtils.unsubscribe(div, 'click');
-      expect(EventUtils.listeners(div).length).toBe(0);
-    });
-
-    test('by handler', ()  => {
-      EventUtils.unsubscribe(div, () => 1);
-      expect(EventUtils.listeners(div).length).toBe(1);
-      EventUtils.unsubscribe(div, handle);
-      expect(EventUtils.listeners(div).length).toBe(0);
-    });
-
-    test('with multiple criteria', ()  => {
-      EventUtils.unsubscribe(div, handle, {event: 'key'});
-      expect(EventUtils.listeners(div).length).toBe(1);
-      EventUtils.unsubscribe(div, handle, {event: 'click'});
-      expect(EventUtils.listeners(div).length).toBe(0);
+    test('criteria', () => {
+      list[0].matches.mockReturnValue(false);
+      list[1].matches.mockReturnValue(true);
+      EventUtils.unsubscribe(host as any, 'test');
+      expect(list[0].unsubscribe).not.toBeCalled();
+      expect(list[1].unsubscribe).toBeCalled();
     });
   });
 });
