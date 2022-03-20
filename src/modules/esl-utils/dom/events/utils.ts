@@ -2,8 +2,9 @@ import {ExportNs} from '../../environment/export-ns';
 import {ESLEventListener} from './listener';
 
 import type {
-  ESLListenerCriteria,
   ESLListenerHandler,
+  ESLListenerCriteria,
+  ESLListenerEventMap,
   ESLListenerDescriptor,
   ESLListenerDescriptorFn
 } from './listener';
@@ -40,13 +41,11 @@ export class EventUtils {
   /** Subscribe decorated `handler` method of the `target` */
   public static subscribe(target: HTMLElement, handler: ESLListenerHandler): void;
   /** Subscribe `handler` function with the passed event type */
-  public static subscribe<EType extends keyof HTMLElementEventMap>(
+  public static subscribe<EType extends keyof ESLListenerEventMap>(
     target: HTMLElement,
-    handler: ESLListenerHandler<HTMLElementEventMap[EType]>,
-    descriptor: EType | ESLListenerDescriptor<EType>
+    handler: ESLListenerHandler<ESLListenerEventMap[EType]>,
+    descriptor?: EType | ESLListenerDescriptor<EType>
   ): void;
-  /** Subscribe `handler` function with the passed `descriptor` or event */
-  public static subscribe(target: HTMLElement, handler: ESLListenerHandler, descriptor?: string | ESLListenerDescriptor): void;
   /** Creates and subscribe {@link ESLEventListener} */
   public static subscribe(
     target: HTMLElement,

@@ -5,6 +5,7 @@ import {CSSClassUtils} from '../../esl-utils/dom/class';
 import type {
   ESLListenerHandler,
   ESLListenerCriteria,
+  ESLListenerEventMap,
   ESLListenerDescriptor
 } from '../../esl-utils/dom/events';
 
@@ -38,13 +39,11 @@ export abstract class ESLBaseElement extends HTMLElement {
   /** Subscribes `handler` method marked with `@listen` decorator */
   public $$on(handler: ESLListenerHandler): void;
   /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
-  public $$on<EType extends keyof HTMLElementEventMap>(
-    handler: ESLListenerHandler<HTMLElementEventMap[EType]>,
+  public $$on<EType extends keyof ESLListenerEventMap>(
+    handler: ESLListenerHandler<ESLListenerEventMap[EType]>,
     event: EType | ESLListenerDescriptor<EType>
   ): void;
-  /** Subscribes `handler` function using passed custom event descriptor {@link ESLListenerDescriptor} or custom event name */
-  public $$on(handler: ESLListenerHandler, event: string | ESLListenerDescriptor): void;
-  public $$on(handler: ESLListenerHandler, descriptor?: string | ESLListenerDescriptor): void {
+  public $$on(handler: ESLListenerHandler, descriptor?: keyof ESLListenerEventMap | ESLListenerDescriptor): void {
     return EventUtils.subscribe(this, handler, descriptor);
   }
 

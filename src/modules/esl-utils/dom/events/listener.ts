@@ -6,8 +6,14 @@ import {TraversingQuery} from '../../../esl-traversing-query/core';
 /** Describes callback handler */
 export type ESLListenerHandler<EType extends Event = Event> = (event: EType, listener?: ESLEventListener) => void;
 
+/** Extended event map with the custom event definition */
+export interface ESLListenerEventMap extends HTMLElementEventMap {
+  /** User custom event or group of events */
+  [e: string]: Event;
+}
+
 /** Descriptor to create {@link ESLEventListener} */
-export type ESLListenerDescriptor<EType extends string = string> = {
+export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = string> = {
   /** Event type (name) */
   event: EType;
   /** Use capture DOM Event phase */
@@ -25,7 +31,7 @@ export type ESLListenerDescriptor<EType extends string = string> = {
 };
 
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
-export type ESLListenerCriteria = undefined | string | ESLListenerHandler | Partial<ESLListenerDescriptor>;
+export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLListenerHandler | Partial<ESLListenerDescriptor>;
 
 /** Function decorated as {@link ESLListenerDescriptor} */
 export type ESLListenerDescriptorFn = ESLListenerHandler & ESLListenerDescriptor;

@@ -1,6 +1,6 @@
 import {isDescriptorFn} from '../dom/events';
 
-import type {ESLListenerHandler, ESLListenerDescriptor} from '../dom/events';
+import type {ESLListenerHandler, ESLListenerEventMap, ESLListenerDescriptor} from '../dom/events';
 
 type ListenDecorator<EType extends Event> =
   (target: any, property: string, descriptor: TypedPropertyDescriptor<ESLListenerHandler<EType>>) => void;
@@ -9,17 +9,12 @@ type ListenDecorator<EType extends Event> =
  * Decorator to make function listen DOM Event
  * @param desc - event type string
  */
-export function listen<K extends keyof HTMLElementEventMap>(desc: K): ListenDecorator<HTMLElementEventMap[K]>;
-/**
- * Decorator to make function listen CustomEvent
- * @param desc - custom event type string
- */
-export function listen(desc: string): ListenDecorator<Event>;
+export function listen<K extends keyof ESLListenerEventMap>(desc: K): ListenDecorator<ESLListenerEventMap[K]>;
 /**
  * Decorator to make function listen DOM Event
  * @param desc - event listener configuration {@link ESLListenerDescriptor}
  */
-export function listen<K extends keyof HTMLElementEventMap>(desc: ESLListenerDescriptor<K>): ListenDecorator<HTMLElementEventMap[K]>;
+export function listen<K extends keyof ESLListenerEventMap>(desc: ESLListenerDescriptor<K>): ListenDecorator<ESLListenerEventMap[K]>;
 /**
  * Decorator to make function listen DOM Event
  * @param desc - event listener configuration {@link ESLListenerDescriptor}
