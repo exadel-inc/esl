@@ -103,13 +103,13 @@ export class ESLEventListener implements ESLListenerDescriptor {
   public subscribe(): void {
     this.unsubscribe();
     memoize.clear(this, '$targets');
-    this.$targets.forEach((el: HTMLElement) => el.addEventListener(this.event, this.handle, this.capture));
+    this.$targets.forEach((el: EventTarget) => el.addEventListener(this.event, this.handle, this.capture));
     ESLEventListener.get(this.$host).push(this);
   }
 
   /** Unsubscribes event listener instance */
   public unsubscribe(): void {
-    this.$targets.forEach((el: HTMLElement) => el.removeEventListener(this.event, this.handle, this.capture));
+    this.$targets.forEach((el: EventTarget) => el.removeEventListener(this.event, this.handle, this.capture));
     const listeners = ESLEventListener.get(this.$host);
     const value = listeners.filter((listener) => listener !== this);
     Object.defineProperty(this.$host, STORE, {value, configurable: true});

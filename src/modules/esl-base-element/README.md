@@ -115,13 +115,13 @@ class MyCustomComponent {
 
   unbindEvents() {
     // Unsubscribe listener related to `onClick` method
-    this.$$on(this.onClick);
+    this.$$off(this.onClick);
 
     // Unsubscribe `event`
-    this.$$on('event');
+    this.$$off('event');
 
     // Unsubscribe host event listeners that hadled by `window`
-    this.$$on({ target: window });
+    this.$$off({ target: window });
 
     // Unsubscribe all events
     this.$$off();
