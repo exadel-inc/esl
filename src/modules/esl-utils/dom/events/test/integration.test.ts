@@ -5,7 +5,7 @@ describe('EventUtils: integration', () => {
     const div = document.createElement('div');
     const handle = jest.fn();
 
-    EventUtils.subscribe(div, handle, {event: 'click'});
+    EventUtils.subscribe(div, {event: 'click'}, handle);
 
     expect(EventUtils.listeners(div).length).toBe(1);
 
@@ -21,7 +21,7 @@ describe('EventUtils: integration', () => {
     const span = document.createElement('span');
     div.appendChild(span);
     const handle = jest.fn();
-    EventUtils.subscribe(div, handle, {event: 'click', selector: 'button'});
+    EventUtils.subscribe(div, {event: 'click', selector: 'button'}, handle);
 
     expect(handle).toBeCalledTimes(0);
     btn.click();
@@ -35,7 +35,7 @@ describe('EventUtils: integration', () => {
     const div = document.createElement('div');
 
     beforeEach(() => {
-      EventUtils.subscribe(div, handle, {id: 'test', event: 'click'});
+      EventUtils.subscribe(div, {id: 'test', event: 'click'}, handle);
     });
 
     test('all', ()  => {

@@ -37,15 +37,15 @@ describe('ESLBaseElement: listeners', () => {
       el.$$on(el.onEvent1);
       expect(mock).lastCalledWith(el, el.onEvent1, undefined);
 
-      el.$$on(el.onEvent2, desc);
-      expect(mock).lastCalledWith(el, el.onEvent2, desc);
+      el.$$on(desc, el.onEvent2);
+      expect(mock).lastCalledWith(el, desc, el.onEvent2);
 
-      el.$$on(el.onEvent2, 'test');
-      expect(mock).lastCalledWith(el, el.onEvent2, 'test');
+      el.$$on('test', el.onEvent2);
+      expect(mock).lastCalledWith(el, 'test', el.onEvent2);
     });
 
     test('$$off', () => {
-      const mock = jest.spyOn(EventUtils, 'unsubscribe').mockImplementation(() => undefined);
+      const mock = jest.spyOn(EventUtils, 'unsubscribe').mockImplementation(() => []);
 
       const el = new TestElement();
       const desc = {event: 'click'};

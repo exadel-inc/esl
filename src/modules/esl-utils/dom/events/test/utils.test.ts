@@ -66,7 +66,7 @@ describe('dom/events: EventUtils', () => {
       expect(createMock).toBeCalledWith(host, expect.anything(), expect.anything());
     });
 
-    test('single decorated', () => {
+    test('decorated handler', () => {
       const host = {};
       const createMock =
         jest.spyOn(ESLEventListener, 'create').mockImplementation((el, cb, desc) => [desc] as any);
@@ -76,7 +76,7 @@ describe('dom/events: EventUtils', () => {
       expect(createMock).toBeCalledWith(host, expect.anything(), expect.anything());
     });
 
-    test('single manual', () => {
+    test('manual descriptor', () => {
       const host = {};
       const fn = jest.fn();
       const desc = {event: 'test'};
@@ -84,9 +84,21 @@ describe('dom/events: EventUtils', () => {
       const createMock =
         jest.spyOn(ESLEventListener, 'create').mockImplementation(() => [listener] as any);
 
-      EventUtils.subscribe(host as any, fn, desc);
+      EventUtils.subscribe(host as any, desc, fn);
       expect(listener.subscribe).toBeCalled();
       expect(createMock).toBeCalledWith(host, fn, desc);
+    });
+
+    test('manual string descriptor', () => {
+      const host = {};
+      const fn = jest.fn();
+      const listener = {subscribe: jest.fn()};
+      const createMock =
+        jest.spyOn(ESLEventListener, 'create').mockImplementation(() => [listener] as any);
+
+      EventUtils.subscribe(host as any, 'click', fn);
+      expect(listener.subscribe).toBeCalled();
+      expect(createMock).toBeCalledWith(host, fn, 'click');
     });
   });
 
