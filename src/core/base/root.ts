@@ -16,21 +16,13 @@ export class UIPRoot extends ESLBaseElement {
   /** CSS query for snippets. */
   public static SNIPPET_SEL = '[uip-snippet]';
 
-  /**
-   * Attribute for controlling UIP components' theme.
-   * Has two values: `uip-light` and `uip-dark`.
-   */
+  /** Indicates that the UIP components' theme is dark. */
   @boolAttr() public darkTheme: boolean;
-  /**
-   * Attributes for settings, editor, visibility state.
-   * Has two values: `expanded` and `collapsed`.
-   */
+  /** Collapsed settings state marker. */
   @boolAttr() public settingsCollapsed: boolean;
+  /** Collapsed editor state marker. */
   @boolAttr() public editorCollapsed: boolean;
-  /**
-   * Attribute for controlling preview's content direction.
-   * Has two values: `LTR` and `RTL`.
-   */
+  /** Indicates that the direction of the preview content is RTL direction. */
   @boolAttr() public rtlDirection: boolean;
 
   static get observedAttributes() {
@@ -71,7 +63,7 @@ export class UIPRoot extends ESLBaseElement {
     });
   }
 
-  protected _updateStyles(option: string, value: string) {
+  private _updateStyles(option: string, value: string) {
     value === null ? this.classList.remove(option) : this.classList.add(option);
   }
 
