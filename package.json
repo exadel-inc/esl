@@ -78,7 +78,7 @@
   },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.7",
-    "@types/video.js": "7.3.31",
+    "@types/video.js": "7.3.32",
     "@types/youtube": "0.0.46"
   },
   "devDependencies": {
@@ -94,8 +94,8 @@
     "@semantic-release/release-notes-generator": "^10.0.3",
     "@types/jest": "^27.4.1",
     "@types/smoothscroll-polyfill": "^0.3.1",
-    "@typescript-eslint/eslint-plugin": "^5.15.0",
-    "@typescript-eslint/parser": "^5.15.0",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
     "@webcomponents/custom-elements": "1.5.0",
     "@webcomponents/webcomponents-platform": "1.0.1",
     "browser-sync": "^2.27.9",
