@@ -31,7 +31,7 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
 };
 
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
-export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLListenerHandler | Partial<ESLListenerDescriptor>;
+export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLListenerHandler | Partial<ESLEventListener>;
 
 /** Function decorated as {@link ESLListenerDescriptor} */
 export type ESLListenerDescriptorFn = ESLListenerHandler & ESLListenerDescriptor;
@@ -45,6 +45,7 @@ const STORE = '__listeners';
 export class ESLEventListener implements ESLListenerDescriptor {
   public readonly id: string;
   public readonly event: string;
+  public readonly auto?: boolean;
   public readonly capture?: boolean;
   public readonly selector?: string;
   public readonly target?: string | EventTarget;

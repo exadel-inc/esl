@@ -28,7 +28,7 @@ export class EventUtils {
   }
 
   /**
-   * Get currently subscribed listeners of the target
+   * Gets currently subscribed listeners of the target
    * @param target - host element (listeners context)
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners list
    */
@@ -36,17 +36,16 @@ export class EventUtils {
     return ESLEventListener.get(target).filter((listener) => !criteria.length || criteria.every(listener.matches, listener));
   }
 
-  /** Subscribe all decorated (auto-subscribable) methods of the `target` */
+  /** Subscribes all decorated (auto-subscribable) methods of the `target` */
   public static subscribe(target: HTMLElement): ESLEventListener[];
-  /** Subscribe decorated `handler` method of the `target` */
+  /** Subscribes decorated `handler` method of the `target` */
   public static subscribe(target: HTMLElement, handler: ESLListenerHandler): ESLEventListener[];
-  /** Subscribe `handler` function with the passed event type */
+  /** Subscribes `handler` function with the passed event type */
   public static subscribe<EType extends keyof ESLListenerEventMap>(
     target: HTMLElement,
     descriptor: EType | ESLListenerDescriptor<EType>,
     handler: ESLListenerHandler<ESLListenerEventMap[EType]>
   ): ESLEventListener[];
-  /** Creates and subscribe {@link ESLEventListener} */
   public static subscribe(
     target: HTMLElement,
     eventDesc?: string | ESLListenerDescriptor | ESLListenerHandler,
