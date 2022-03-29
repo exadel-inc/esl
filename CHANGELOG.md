@@ -1,3 +1,10 @@
+## [3.14.1](https://github.com/exadel-inc/esl/compare/v3.14.0...v3.14.1) (2022-03-29)
+
+
+### Bug Fixes
+
+* **esl-utils:** add IE compatibility for window rect obtaining ([d5e916c](https://github.com/exadel-inc/esl/commit/d5e916c31c6fd08eacad15ea4274ec57c3a6de2e))
+
 # [4.0.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.14.0...v4.0.0-beta.1) (2022-03-24)
 
 
