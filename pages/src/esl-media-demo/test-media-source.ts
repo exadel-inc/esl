@@ -1,5 +1,7 @@
 import {attr} from '../../../src/modules/esl-utils/decorators/attr';
+import {listen} from '../../../src/modules/esl-utils/decorators/listen';
 import {debounce} from '../../../src/modules/esl-utils/async/debounce';
+import {decorate} from '../../../src/modules/esl-utils/decorators/decorate';
 import {ESLBaseElement} from '../../../src/modules/esl-base-element/core/esl-base-element';
 import {TraversingQuery} from '../../../src/modules/esl-traversing-query/core/esl-traversing-query';
 
@@ -8,8 +10,6 @@ class ESLDemoMediaSource extends ESLBaseElement {
 
   @attr() public target: string;
 
-  protected onChangeDebounce = debounce(this.onChange, 750, this);
-
   public get $targets(): HTMLElement[] {
     return TraversingQuery.all(this.target, this) as HTMLElement[];
   }
@@ -17,15 +17,10 @@ class ESLDemoMediaSource extends ESLBaseElement {
   protected connectedCallback(): void {
     super.connectedCallback();
     this.render();
-    this.addEventListener('change', this.onChangeDebounce);
-    this.onChangeDebounce();
-  }
-  protected disconnectedCallback(): void {
-    super.disconnectedCallback();
-    this.removeEventListener('change', this.onChangeDebounce);
+    this.onChange();
   }
 
-  private render(): void {
+  protected render(): void {
     const form = document.createElement('form');
     form.innerHTML = `
       <fieldset>
@@ -72,6 +67,8 @@ class ESLDemoMediaSource extends ESLBaseElement {
     this.appendChild(form);
   }
 
+  @listen('change')
+  @decorate(debounce, 750)
   protected onChange(): void {
     const inputs = this.querySelectorAll('input[name], select[name]');
     Array.from(inputs).forEach((input: HTMLInputElement | HTMLSelectElement) => {

@@ -28,6 +28,8 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
   id?: string;
   /** Marks the listener to be automatically subscribed and unsubscribed within connected/disconnected elements hooks */
   auto?: boolean;
+  /** Unbind after first event catch */
+  once?: boolean;
 };
 
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
@@ -45,10 +47,11 @@ const STORE = '__listeners';
 export class ESLEventListener implements ESLListenerDescriptor {
   public readonly id: string;
   public readonly event: string;
+  public readonly once?: boolean;
   public readonly auto?: boolean;
+  public readonly target?: string | EventTarget;
   public readonly capture?: boolean;
   public readonly selector?: string;
-  public readonly target?: string | EventTarget;
 
   constructor(
     public readonly $host: HTMLElement,
@@ -88,7 +91,9 @@ export class ESLEventListener implements ESLListenerDescriptor {
 
   /** Handles caught event (used as callback for low-level subscriptions) */
   protected handle(e: Event): void {
-    if (this.isDelegatedTarget(e)) this.handler.call(this.$host, e, this);
+    if (!this.isDelegatedTarget(e)) return;
+    this.handler.call(this.$host, e, this);
+    if (this.once) this.unsubscribe();
   }
 
   /** Checks if the passed event can be handled by the curren event listener */

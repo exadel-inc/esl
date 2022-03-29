@@ -1,6 +1,5 @@
-import {bind} from '../../../src/modules/esl-utils/decorators/bind';
 import {TraversingQuery} from '../../../src/modules/esl-traversing-query/core';
-import {attr, ESLBaseElement} from '../../../src/modules/esl-base-element/core';
+import {attr, ESLBaseElement, listen} from '../../../src/modules/esl-base-element/core';
 
 interface MediaTarget {
   play(): any;
@@ -46,12 +45,6 @@ class ESLDemoMediaControls extends ESLBaseElement {
   protected connectedCallback(): void {
     super.connectedCallback();
     this.render();
-    this.addEventListener('click', this.onClick);
-  }
-
-  protected disconnectedCallback(): void {
-    super.disconnectedCallback();
-    this.removeEventListener('click', this.onClick);
   }
 
   private render(): void {
@@ -65,7 +58,7 @@ class ESLDemoMediaControls extends ESLBaseElement {
     }
   }
 
-  @bind
+  @listen('click')
   private onClick(e: MouseEvent): void {
     const target = e.target as HTMLElement;
     const actionName = target.dataset.action;
