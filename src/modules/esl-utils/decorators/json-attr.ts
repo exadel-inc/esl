@@ -1,6 +1,6 @@
-import {getAttr, setAttr} from '../../esl-utils/dom/attr';
-import {toKebabCase, evaluate} from '../../esl-utils/misc/format';
-import type {AttributeDecorator, AttributeTarget} from '../../esl-utils/dom/attr';
+import {getAttr, setAttr} from '../dom/attr';
+import {toKebabCase, evaluate} from '../misc/format';
+import type {AttributeDecorator, AttributeTarget} from '../dom/attr';
 
 /** HTML attribute to object property mapping configuration */
 interface JsonAttrDescriptor<T> {

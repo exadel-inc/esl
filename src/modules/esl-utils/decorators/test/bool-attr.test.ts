@@ -1,9 +1,9 @@
-import '../../../polyfills/es5-target-shim';
-import {ESLBaseElement, boolAttr} from '../core';
+import '../../../../polyfills/es5-target-shim';
+import {boolAttr} from '../bool-attr';
 
 describe('Decorator: boolAttr', () => {
 
-  class TestElement extends ESLBaseElement {
+  class TestElement extends HTMLElement {
     @boolAttr()
     public fieldDefault: boolean;
     @boolAttr({dataAttr: true})
@@ -16,8 +16,7 @@ describe('Decorator: boolAttr', () => {
     public readonlyField: boolean;
   }
 
-  TestElement.register('test-el-bool');
-
+  customElements.define('test-el-bool', TestElement);
   const el = new TestElement();
 
   beforeAll(() => {

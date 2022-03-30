@@ -39,6 +39,9 @@ Attributes:
 - `$$attr` - check or change element attributes
 - `$$fire` - dispatch event with `esl:` prefix
 
+- `$$on` - subscribe on event manually or subscribe decorated method
+- `$$off` - unsubscribe from event manually or unsubscribe decorated method
+
 ### Mixin Element API (beta)
 - `$host` - readonly mixin target DOM element
 
@@ -49,6 +52,8 @@ Works for both `ESLBaseElement` and `ESLMixinElement`.
  - `@boolAttr` - to map boolean property to HTML boolean (marker) attribute state.
  - `@jsonAttr` - to map object property to HTML attribute using JSON format to serialize / deserialize value.
 
+ - `@listen` - decorate method with `ESLListenerDescriptor` props
+
 Use the `@prop` decorator to override a property
 created via `@attr`, `@boolAttr` or `@jsonAttr` at the parent level
 with non-attribute accessor value.
@@ -56,7 +61,7 @@ with non-attribute accessor value.
 ### Base Example
 
 ```ts
-import {ESLBaseElement, attr, boolAttr, jsonAttr} from '@exadel/esl';
+import {ESLBaseElement, attr, boolAttr, jsonAttr, listen} from '@exadel/esl';
 
 class MyCustomComponent extends ESLBaseElement {
     static is = 'my-element';
@@ -84,6 +89,60 @@ MyCustomComponent.register();
 
 // Or register custom tag with passed tag name
 MyCustomComponent.register('my-tag');
+```
+
+### Event Listener example
+
+The following listeners will be subscribed and unsubscribed automatically 
+```ts
+import {ESLBaseElement, listen} from '@exadel/esl';
+
+class MyCustomComponent {
+  @listen('click')
+  onClick(e: MouseEvent) { /* Handle click event */}
+
+  @listen({event: 'click', selector: '.btn'})
+  onBtnClick(e: MouseEvent) { /* Handle btn click event */}
+}
+```
+
+### Event Listener manual example
+
+Manual event listeners management
+```ts
+import {ESLBaseElement, listen} from '@exadel/esl';
+
+class MyCustomComponent {
+  bindEvents() {
+    // Meta information fetched from `@listen` decorator 
+    this.$$on(this.onClick);
+    
+    // Subscribe event
+    this.$$on(this.onEvent, 'event');
+
+    // Subscribe event with descriptor
+    this.$$on(this.onEvent, { event: 'some-event' });
+  }
+
+  unbindEvents() {
+    // Unsubscribe listener related to `onClick` method
+    this.$$off(this.onClick);
+
+    // Unsubscribe `event`
+    this.$$off('event');
+
+    // Unsubscribe host event listeners that hadled by `window`
+    this.$$off({ target: window });
+
+    // Unsubscribe all events
+    this.$$off();
+  }
+  
+  @listen({event: 'click', auto: false})
+  onClick(e: MouseEvent) { /* Handle btn click event */}
+
+  onEvent(e: Event) { /* ... */}
+}
 ```
 
 ### Mixin Example (beta)

@@ -1,3 +1,6 @@
+import {TraversingQuery} from '../../../src/modules/esl-traversing-query/core';
+import {attr, ESLBaseElement, listen} from '../../../src/modules/esl-base-element/core';
+
 interface MediaTarget {
   play(): any;
   pause(): any;
@@ -10,7 +13,8 @@ interface TestMediaAction {
   render: (actionName: string, action: TestMediaAction) => HTMLElement;
 }
 
-class TestMediaControls extends HTMLElement {
+class ESLDemoMediaControls extends ESLBaseElement {
+  public static is = 'esl-d-media-controls';
 
   public static ACTIONS: {[key: string]: TestMediaAction} = {
     play: {
@@ -29,15 +33,18 @@ class TestMediaControls extends HTMLElement {
       render: renderButton
     }
   };
-  public static ACTIONS_ALL = Object.keys(TestMediaControls.ACTIONS).join(',');
+  public static ACTIONS_ALL = Object.keys(ESLDemoMediaControls.ACTIONS).join(',');
 
-  get target(): HTMLElement[] {
-    const targetSel = this.getAttribute('target');
-    return targetSel ? Array.from(document.querySelectorAll(targetSel)) : [];
+  @attr() public target: string;
+  @attr({defaultValue: ESLDemoMediaControls.ACTIONS_ALL}) public actions: string;
+
+  public get $targets(): HTMLElement[] {
+    return TraversingQuery.all(this.target, this) as HTMLElement[];
   }
 
-  get actions(): string {
-    return this.getAttribute('actions') || TestMediaControls.ACTIONS_ALL;
+  protected connectedCallback(): void {
+    super.connectedCallback();
+    this.render();
   }
 
   private render(): void {
@@ -45,25 +52,21 @@ class TestMediaControls extends HTMLElement {
 
     this.innerHTML = '';
     for (const actionName of actionList) {
-      const action: TestMediaAction = TestMediaControls.ACTIONS[actionName];
+      const action: TestMediaAction = ESLDemoMediaControls.ACTIONS[actionName];
       if (!action) return;
       this.appendChild(action.render(actionName, action));
     }
   }
 
-  private onClick(e: Event): void {
+  @listen('click')
+  private onClick(e: MouseEvent): void {
     const target = e.target as HTMLElement;
     const actionName = target.dataset.action;
-    if (actionName && TestMediaControls.ACTIONS[actionName]) {
-      const actionDesc = TestMediaControls.ACTIONS[actionName];
+    if (actionName && ESLDemoMediaControls.ACTIONS[actionName]) {
+      const actionDesc = ESLDemoMediaControls.ACTIONS[actionName];
       const actionFn = actionDesc.action;
-      this.target.forEach(($el) => actionFn.call($el, $el, actionName, actionDesc));
+      this.$targets.forEach(($el) => actionFn.call($el, $el, actionName, actionDesc));
     }
-  }
-
-  protected connectedCallback(): void {
-    this.render();
-    this.addEventListener('click', this.onClick.bind(this));
   }
 }
 
@@ -75,4 +78,4 @@ function renderButton(actionName: string, action: TestMediaAction): HTMLButtonEl
   return btn;
 }
 
-customElements.define('test-media-controls', TestMediaControls);
+ESLDemoMediaControls.register();

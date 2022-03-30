@@ -1,6 +1,6 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr} from '../../../esl-base-element/core';
-import {deepCompare} from '../../../esl-utils/misc/object';
+import {isEqual} from '../../../esl-utils/misc/object';
 import {ESLMediaRuleList} from '../../../esl-media-query/core';
 import {ESLCarouselSlide} from './esl-carousel-slide';
 import {ESLCarouselViewRegistry} from './view/esl-carousel-view';
@@ -207,7 +207,7 @@ export class ESLCarousel extends ESLBaseElement {
       this.configRules.activeValue
     );
 
-    if (!force && deepCompare(this.activeConfig, config)) {
+    if (!force && isEqual(this.activeConfig, config)) {
       return;
     }
     this.activeConfig = config;

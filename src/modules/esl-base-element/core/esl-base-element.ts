@@ -2,9 +2,17 @@ import {setAttr} from '../../esl-utils/dom/attr';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 
+import type {
+  ESLEventListener,
+  ESLListenerHandler,
+  ESLListenerCriteria,
+  ESLListenerEventMap,
+  ESLListenerDescriptor
+} from '../../esl-utils/dom/events';
+
 /**
- * Base class for ESL custom elements.
- * Allows defining custom element with the optional custom tag name.
+ * Base class for ESL custom elements
+ * Allows defining custom element with the optional custom tag name
  */
 export abstract class ESLBaseElement extends HTMLElement {
   /** Custom element tag name */
@@ -15,14 +23,34 @@ export abstract class ESLBaseElement extends HTMLElement {
   protected connectedCallback(): void {
     this._connected = true;
     this.classList.add((this.constructor as typeof ESLBaseElement).is);
+
+    EventUtils.subscribe(this);
   }
   protected disconnectedCallback(): void {
     this._connected = false;
+
+    EventUtils.unsubscribe(this);
   }
 
   /** Check that the element is connected and `connectedCallback` has been executed */
   public get connected(): boolean {
     return this._connected;
+  }
+
+  /** Subscribes `handler` method marked with `@listen` decorator */
+  public $$on(handler: ESLListenerHandler): ESLEventListener[];
+  /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
+  public $$on<EType extends keyof ESLListenerEventMap>(
+    event: EType | ESLListenerDescriptor<EType>,
+    handler: ESLListenerHandler<ESLListenerEventMap[EType]>
+  ): ESLEventListener[];
+  public $$on(event: any, handler?: any): ESLEventListener[] {
+    return EventUtils.subscribe(this, event, handler);
+  }
+
+  /** Unsubscribes event listener */
+  public $$off(...condition: ESLListenerCriteria[]): ESLEventListener[] {
+    return EventUtils.unsubscribe(this, ...condition);
   }
 
   /**
