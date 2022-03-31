@@ -10,7 +10,7 @@ import {OptionConfig, UIPOption} from './option/option';
 export class UIPOptions extends UIPPlugin {
   static is = 'uip-options';
   options: Map<string, UIPOption>;
-  optionsConfig: OptionConfig[] = [
+  UIPOptionsConfig: OptionConfig[] = [
     {
       attribute: 'dark-theme',
       iconConfig: {
@@ -43,7 +43,7 @@ export class UIPOptions extends UIPPlugin {
   protected connectedCallback() {
     super.connectedCallback();
     this.options = new Map(
-      this.optionsConfig.filter(option => !option.canActivate || option.canActivate())
+      this.UIPOptionsConfig.filter(option => !option.canActivate || option.canActivate())
       .map(option => [option.attribute, UIPOption.create(option)])
       );
     this.bindEvents();
@@ -80,11 +80,12 @@ export class UIPOptions extends UIPPlugin {
   protected onOptionClick(e: Event) {
     const option = e.target;
     if (!(option instanceof UIPOption)) return;
+    option.toggleState();
     this.root?.toggleAttribute(option.attribute, option.active);
   }
 
   public static register(tagName?: string) {
     UIPOption.register();
-    customElements.whenDefined(UIPOption.is).then(() => super.register.call(this, tagName));
+    UIPOption.registered.then(() => super.register.call(this, tagName));
   }
 }

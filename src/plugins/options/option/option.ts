@@ -34,7 +34,6 @@ export class UIPOption extends ESLBaseElement {
     protected connectedCallback(): void {
         super.connectedCallback();
         this.render();
-        this.bindEvents();
     }
 
     protected render() {
@@ -46,23 +45,5 @@ export class UIPOption extends ESLBaseElement {
         if (this.iconConfig.activeIconUrl) {
             this.icon.dataset.src = this.active ? this.iconConfig.activeIconUrl : this.iconConfig.iconUrl;
         }
-    }
-
-    @bind
-    protected onClick() {
-        this.toggleState();
-    }
-
-    protected bindEvents() {
-        this.addEventListener('click', this.onClick);
-    }
-
-    protected unbindEvents() {
-        this.removeEventListener('click', this.onClick);
-    }
-
-    protected disconnectedCallback(): void {
-        this.unbindEvents();
-        super.disconnectedCallback();
     }
 }

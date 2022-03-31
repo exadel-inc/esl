@@ -49,7 +49,7 @@ export class UIPRoot extends ESLBaseElement {
     this._model.removeListener(listener);
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string | null, newVal: string | null) {
     if (oldVal === newVal) return;
     if (['rtl-direction', 'dark-theme'].includes(attrName)) {
       this._updateStyles(attrName, newVal);
@@ -63,7 +63,7 @@ export class UIPRoot extends ESLBaseElement {
     });
   }
 
-  private _updateStyles(option: string, value: string) {
+  private _updateStyles(option: string, value: string | null) {
     value === null ? this.classList.remove(option) : this.classList.add(option);
   }
 
