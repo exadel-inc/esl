@@ -79,7 +79,7 @@ export class ESLEventListener implements ESLListenerDescriptor {
   public matches(desc?: ESLListenerCriteria): boolean {
     if (typeof desc === 'string') return this.event === desc;
     if (typeof desc === 'function') return this.handler === desc;
-    if (typeof desc === 'object') return isSimilar(this, desc);
+    if (typeof desc === 'object') return isSimilar(this, desc, false);
     return false;
   }
 
