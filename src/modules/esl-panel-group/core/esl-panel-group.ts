@@ -262,13 +262,13 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Process {@link ESLPanel} pre-hide event */
   @bind
   protected _onBeforeHide(e: CustomEvent): void {
-    // TODO: refactor
+    const panel = e.target;
+    if (!this.includesPanel(panel)) return;
     if (this.currentMode === 'open') {
+      // TODO: refactor
       e.preventDefault();
       return;
     }
-    const panel = e.target;
-    if (!this.includesPanel(panel)) return;
     this._previousHeight = this.clientHeight;
   }
 
