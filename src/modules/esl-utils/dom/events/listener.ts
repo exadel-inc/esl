@@ -26,6 +26,9 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
 
   /** Identifier to group event listeners */
   id?: string;
+  /** Component - event descriptor holder */
+  subhost?: unknown;
+
   /** Marks the listener to be automatically subscribed and unsubscribed within connected/disconnected elements hooks */
   auto?: boolean;
   /** Unbind after first event catch */
@@ -46,6 +49,7 @@ export class ESLEventListener implements ESLListenerDescriptor {
   public readonly target?: string | EventTarget;
   public readonly capture?: boolean;
   public readonly selector?: string;
+  public readonly subhost?: unknown;
 
   constructor(
     public readonly $host: HTMLElement,

@@ -4,6 +4,13 @@ import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMixinRegistry} from './esl-mixin-registry';
 
 import type {AttributeTarget} from '../../esl-utils/dom/attr';
+import type {
+  ESLEventListener,
+  ESLListenerCriteria,
+  ESLListenerDescriptor,
+  ESLListenerEventMap,
+  ESLListenerHandler
+} from '../../esl-utils/dom/events';
 
 /**
  * Base class for mixin elements.
@@ -30,11 +37,18 @@ export class ESLMixinElement implements AttributeTarget {
       this._attr$$ = new MutationObserver(this._onAttrMutation.bind(this));
       this._attr$$.observe(this.$host, {attributes: true, attributeFilter: constructor.observedAttributes});
     }
+
+    EventUtils.descriptors(this)
+      .forEach((desc) => EventUtils.subscribe(this.$host, {subhost: this}, desc));
   }
+
   /** Callback to execute on mixin instance destroy */
   public disconnectedCallback(): void {
     if (this._attr$$) this._attr$$.disconnect();
+
+    EventUtils.unsubscribe(this.$host, {subhost: this});
   }
+
   /** Callback to handle changing of additional attributes */
   public attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
@@ -45,6 +59,23 @@ export class ESLMixinElement implements AttributeTarget {
       const newValue = this.$$attr(attributeName);
       this.attributeChangedCallback(attributeName, oldValue, newValue);
     });
+  }
+
+  /** Subscribes `handler` method marked with `@listen` decorator */
+  public $$on(handler: ESLListenerHandler): ESLEventListener[];
+  /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
+  public $$on<EType extends keyof ESLListenerEventMap>(
+    event: EType | ESLListenerDescriptor<EType>,
+    handler: ESLListenerHandler<ESLListenerEventMap[EType]>
+  ): ESLEventListener[];
+  public $$on(event: any, handler?: any): ESLEventListener[] {
+    event = Object.assign(typeof event === 'string' ? {event} : event, {subhost: this});
+    return EventUtils.subscribe(this.$host, event, handler);
+  }
+
+  /** Unsubscribes event listener */
+  public $$off(...condition: ESLListenerCriteria[]): ESLEventListener[] {
+    return EventUtils.unsubscribe(this.$host, {subhost: this}, ...condition);
   }
 
   /**
