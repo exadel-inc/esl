@@ -5,9 +5,15 @@ import type {
   ESLListenerHandler,
   ESLListenerCriteria,
   ESLListenerEventMap,
-  ESLListenerDescriptor,
-  ESLListenerDescriptorFn
+  ESLListenerDescriptor
 } from './listener';
+
+/** Function decorated as {@link ESLListenerDescriptor} */
+export type ESLListenerDescriptorFn<EType extends keyof ESLListenerEventMap = string> =
+  ESLListenerHandler<ESLListenerEventMap[EType]> & ESLListenerDescriptor<EType>;
+
+/** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
+export const isDescriptorFn = (obj: any): obj is ESLListenerDescriptorFn => typeof obj === 'function' && typeof obj.event === 'string';
 
 @ExportNs('EventUtils')
 export class EventUtils {
@@ -27,6 +33,16 @@ export class EventUtils {
     return el.dispatchEvent(new CustomEvent(eventName, init));
   }
 
+  /** Gets descriptors from the passed object */
+  public static descriptors(target?: any, auto: boolean = true): ESLListenerDescriptorFn[] {
+    if (!target) return [];
+    const desc: ESLListenerDescriptorFn[] = [];
+    for (const key in target) {
+      if (isDescriptorFn(target[key]) && target[key].auto === auto) desc.push(target[key]);
+    }
+    return desc;
+  }
+
   /**
    * Gets currently subscribed listeners of the target
    * @param target - host element (listeners context)
@@ -36,8 +52,6 @@ export class EventUtils {
     return ESLEventListener.get(target).filter((listener) => !criteria.length || criteria.every(listener.matches, listener));
   }
 
-  /** Subscribes all decorated (auto-subscribable) methods of the `target` */
-  public static subscribe(target: HTMLElement): ESLEventListener[];
   /** Subscribes decorated `handler` method of the `target` */
   public static subscribe(target: HTMLElement, handler: ESLListenerHandler): ESLEventListener[];
   /** Subscribes `handler` function with the passed event type */
@@ -46,20 +60,22 @@ export class EventUtils {
     descriptor: EType | ESLListenerDescriptor<EType>,
     handler: ESLListenerHandler<ESLListenerEventMap[EType]>
   ): ESLEventListener[];
+  /** Subscribes `handler` descriptor function with the passed additional descriptor data */
+  public static subscribe<EType extends keyof ESLListenerEventMap>(
+    target: HTMLElement,
+    descriptor: Partial<ESLListenerDescriptor>,
+    handler: ESLListenerDescriptorFn<EType>
+  ): ESLEventListener[];
   public static subscribe(
     target: HTMLElement,
-    eventDesc?: string | ESLListenerDescriptor | ESLListenerHandler,
+    eventDesc: string | Partial<ESLListenerDescriptor> | ESLListenerHandler,
     handler: ESLListenerHandler = eventDesc as ESLListenerDescriptorFn
   ): ESLEventListener[] {
-    if (typeof handler === 'function' && typeof eventDesc !== 'undefined') {
-      const listeners = ESLEventListener.create(target, handler, eventDesc as string | ESLListenerDescriptor);
-      listeners.forEach((listener) => listener.subscribe());
-      return listeners;
-    } else {
-      return ESLEventListener.descriptors(target).reduce((listeners, desc) => {
-        return desc.auto ? listeners.concat(EventUtils.subscribe(target, desc)) : listeners;
-      }, [] as ESLEventListener[]);
-    }
+    if (typeof handler !== 'function') return [];
+    if (isDescriptorFn(handler) && eventDesc !== handler) eventDesc = Object.assign({}, eventDesc, handler);
+    const listeners = ESLEventListener.create(target, handler, eventDesc as string | ESLListenerDescriptor);
+    listeners.forEach((listener) => listener.subscribe());
+    return listeners;
   }
 
   /**
