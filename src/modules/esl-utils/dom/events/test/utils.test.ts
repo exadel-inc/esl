@@ -19,6 +19,33 @@ describe('dom/events: EventUtils', () => {
     });
   });
 
+  describe('descriptors', () => {
+    test('basic test 1', () => {
+      const fn1 = () => undefined;
+      const fn2 = () => undefined;
+      fn1.event = fn2.event = 'test';
+
+      const obj = {onClick: fn1};
+      const proto = {onEvent: fn2};
+      Object.setPrototypeOf(obj, proto);
+
+      const desc = EventUtils.descriptors(obj);
+      expect(Array.isArray(desc)).toBe(true);
+      expect(desc.includes(fn1));
+      expect(desc.includes(fn2));
+    });
+    test('basic test 2', () => {
+      const obj: any = document.createElement('div');
+
+      expect(EventUtils.descriptors(obj)).toEqual([]);
+
+      obj.onEvent = Object.assign(() => undefined, {event: 'event', auto: true});
+
+      expect(EventUtils.descriptors(obj).length).toEqual(1);
+      expect(EventUtils.descriptors(obj)[0]).toEqual(obj.onEvent);
+    });
+  });
+
   describe('listeners', () => {
     const list = [
       {matches: jest.fn()},
@@ -50,29 +77,15 @@ describe('dom/events: EventUtils', () => {
 
   describe('subscribe', () => {
     const listener1 =
-      Object.assign(() => undefined, {auto: true, subscribe: jest.fn()});
-    const listener2 =
       Object.assign(() => undefined, {auto: false, subscribe: jest.fn()});
-
-    test('all', () => {
-      const host = {};
-      jest.spyOn(ESLEventListener, 'descriptors').mockReturnValue([listener1, listener2] as any);
-      const createMock =
-        jest.spyOn(ESLEventListener, 'create').mockImplementation((el, cb, desc) => [desc] as any);
-
-      EventUtils.subscribe(host as any);
-      expect(listener1.subscribe).toBeCalled();
-      expect(listener2.subscribe).not.toBeCalled();
-      expect(createMock).toBeCalledWith(host, expect.anything(), expect.anything());
-    });
 
     test('decorated handler', () => {
       const host = {};
       const createMock =
         jest.spyOn(ESLEventListener, 'create').mockImplementation((el, cb, desc) => [desc] as any);
 
-      EventUtils.subscribe(host as any, listener2);
-      expect(listener2.subscribe).toBeCalled();
+      EventUtils.subscribe(host as any, listener1);
+      expect(listener1.subscribe).toBeCalled();
       expect(createMock).toBeCalledWith(host, expect.anything(), expect.anything());
     });
 

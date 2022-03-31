@@ -35,12 +35,6 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
 export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLListenerHandler | Partial<ESLEventListener>;
 
-/** Function decorated as {@link ESLListenerDescriptor} */
-export type ESLListenerDescriptorFn = ESLListenerHandler & ESLListenerDescriptor;
-
-/** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
-export const isDescriptorFn = (obj: any): obj is ESLListenerDescriptorFn => typeof obj === 'function' && typeof obj.event === 'string';
-
 const STORE = '__listeners';
 
 /** Event Listener instance, used as an 'inner' record to process subscriptions made by `EventUtils` */
@@ -126,16 +120,6 @@ export class ESLEventListener implements ESLListenerDescriptor {
     if (!host) return [];
     if (!Object.hasOwnProperty.call(host, STORE)) host[STORE] = [];
     return host[STORE];
-  }
-
-  /** Gets descriptors from the passed object */
-  public static descriptors(target?: any): ESLListenerDescriptorFn[] {
-    if (!target) return [];
-    const desc: ESLListenerDescriptorFn[] = [];
-    for (const key in target) {
-      if (isDescriptorFn(target[key])) desc.push(target[key]);
-    }
-    return desc;
   }
 
   /** Creates event listeners by handler and descriptors */
