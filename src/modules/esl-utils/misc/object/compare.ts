@@ -16,15 +16,17 @@ export function isEqual(obj1: any, obj2: any): boolean {
 /** @deprecated alias for `isEqual` method */
 export const deepCompare = isEqual;
 
+/** Check if arr and arr mask has intersection */
+function isIntersect(arrObj: any[], arrMask: any[], comparer: (a: any, b: any) => boolean): boolean {
+  return arrMask.every((key) => arrObj.some((itm) => comparer(itm, key)));
+}
+
 /**
  * Checks if all keys presented in the `mask` are equal to the `obj` keys
  * Note: array order is not taken into account and uses intersection strategy
  */
-export function isSimilar(obj: any, mask: any): boolean {
-  if (Array.isArray(obj)) {
-    if (Array.isArray(mask)) return mask.every((key) => isSimilar(obj, key));
-    return obj.some((key) => isSimilar(key, mask));
-  }
+export function isSimilar(obj: any, mask: any, deep: boolean = true): boolean {
+  if (Array.isArray(obj) && Array.isArray(mask)) return isIntersect(obj, mask, deep ? isSimilar : Object.is);
   if (!isObject(obj) || !isObject(mask)) return Object.is(obj, mask);
-  return Object.keys(mask).every((key: string) => isSimilar(obj[key], mask[key]));
+  return Object.keys(mask).every((key: string) => (deep ? isSimilar : Object.is)(obj[key], mask[key]));
 }
