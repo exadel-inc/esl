@@ -1,3 +1,10 @@
+## [3.14.2](https://github.com/exadel-inc/esl/compare/v3.14.1...v3.14.2) (2022-03-31)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** fix esl:before:hide bubbling from uncontrolled toggleables ([9212b6b](https://github.com/exadel-inc/esl/commit/9212b6beacd97d39d0410a464598e9e2e0bdb1c2))
+
 ## [3.14.1](https://github.com/exadel-inc/esl/compare/v3.14.0...v3.14.1) (2022-03-29)
 
 
