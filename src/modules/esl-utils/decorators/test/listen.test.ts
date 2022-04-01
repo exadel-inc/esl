@@ -1,7 +1,7 @@
 import '../../../../polyfills/es5-target-shim';
 
 import {listen} from '../listen';
-import {ESLEventListener} from '../../dom/events';
+import {EventUtils} from '../../dom/events';
 
 describe('Decorator: listen', () => {
   test('short', () => {
@@ -12,8 +12,8 @@ describe('Decorator: listen', () => {
     customElements.define('test-listen-1', Test);
 
     const test = new Test();
-    expect(ESLEventListener.descriptors(test).length).toBe(1);
-    expect(ESLEventListener.descriptors(test)[0].event).toBe('click');
+    expect(EventUtils.descriptors(test).length).toBe(1);
+    expect(EventUtils.descriptors(test)[0].event).toBe('click');
   });
 
   test('full', () => {
@@ -26,7 +26,7 @@ describe('Decorator: listen', () => {
     customElements.define('test-listen-2', Test);
 
     const test = new Test();
-    expect(ESLEventListener.descriptors(test).length).toBe(2);
+    expect(EventUtils.descriptors(test).length).toBe(2);
   });
 
   test('inheritance', () => {
@@ -41,7 +41,7 @@ describe('Decorator: listen', () => {
     customElements.define('test-listen-3', TestInh);
 
     const test = new TestInh();
-    expect(ESLEventListener.descriptors(test).length).toBe(2);
+    expect(EventUtils.descriptors(test).length).toBe(2);
   });
 
   test('multiple decoration', () => {

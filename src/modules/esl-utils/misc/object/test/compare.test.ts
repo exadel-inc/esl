@@ -40,6 +40,8 @@ describe('misc/object: compare', () => {
   });
 
   describe('isSimilar', () => {
+    const obj = {};
+
     test.each([
       [null, null],
       [NaN, NaN],
@@ -54,9 +56,8 @@ describe('misc/object: compare', () => {
       [{a: 1, c: Infinity}, {c: Infinity}],
       [{a: {b: {c: 1}}}, {a: {b: {c: 1}}}],
       [[{a: 1}, {b: ''}], [{a: 1}]],
-
-      [[1, 2, 3, 4, 5, 6], [3, 2]]
-    ])('%p should be similar to %p', (a: any, b: any) => expect(isSimilar(a, b)).toBe(true));
+      [[1, 2, 3, 4, 5], [3, 2]]
+    ])('%p should be deep similar to %p', (a: any, b: any) => expect(isSimilar(a, b)).toBe(true));
 
     test.each([
       [undefined, null],
@@ -68,8 +69,35 @@ describe('misc/object: compare', () => {
       [{a: null, b: 1}, {a: {}}],
       [{a: {c: {b: 1}, d: 1}}, {a: {b: {c: 1}}}],
 
+      [[3], 3],
       [[], [1]],
       [[1], [1, 2]]
-    ])('%p should not be similar to %p', (a: any, b: any) => expect(isSimilar(a, b)).toBe(false));
+    ])('%p should not be deep similar to %p', (a: any, b: any) => expect(isSimilar(a, b)).toBe(false));
+
+    test.each([
+      [null, null],
+      [NaN, NaN],
+      ['', ''],
+      [{}, {}],
+
+      [{a: 1}, {a: 1}],
+      [{a: obj}, {a: obj}],
+      [{a: 1, c: Infinity}, {c: Infinity}],
+
+      [[obj, {b: ''}], [obj]]
+    ])('%p should be flat similar to %p', (a: any, b: any) => expect(isSimilar(a, b, false)).toBe(true));
+
+    test.each([
+      [null, undefined],
+      [1, 2],
+      ['a', 'b'],
+
+      [{a: 1}, {a: 2}],
+      [{a: {b: 2}}, {a: {b: 2}}],
+      [{a: 1, c: {}}, {c: {}}],
+
+      [[{a: 1}, {b: ''}], [{a: 1}]],
+      [[{a: {}}, {b: ''}], [{a: {}}]]
+    ])('%p should not be flat similar to %p', (a: any, b: any) => expect(isSimilar(a, b, false)).toBe(false));
   });
 });
