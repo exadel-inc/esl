@@ -48,9 +48,9 @@ Attributes:
 ### Element decorators
 Works for both `ESLBaseElement` and `ESLMixinElement`.
 
- - `@attr` - to map string type property to HTML attribute.
- - `@boolAttr` - to map boolean property to HTML boolean (marker) attribute state.
- - `@jsonAttr` - to map object property to HTML attribute using JSON format to serialize / deserialize value.
+ - `@attr` - to map string type property to HTML attribute
+ - `@boolAttr` - to map boolean property to HTML boolean (marker) attribute state
+ - `@jsonAttr` - to map object property to HTML attribute using JSON format to serialize / deserialize value
 
  - `@listen` - decorate method with `ESLListenerDescriptor` props
 
@@ -64,24 +64,24 @@ with non-attribute accessor value.
 import {ESLBaseElement, attr, boolAttr, jsonAttr, listen} from '@exadel/esl';
 
 class MyCustomComponent extends ESLBaseElement {
-    static is = 'my-element';
+  static is = 'my-element';
 
-    /** Reflects 'my-string-prop' attribute */
-    @attr() public myStringProp: string; 
-    /** Reflects to 'my-marker' attribute-marker */
-    @boolAttr() public myMarker: boolean; 
-    /** Reflects to JSON value in 'my-config' attribute */
-    @jsonAttr() public myConfig: Recorg<string, string>;
+  /** Reflects 'my-string-prop' attribute */
+  @attr() public myStringProp: string;
+  /** Reflects to 'my-marker' attribute-marker */
+  @boolAttr() public myMarker: boolean;
+  /** Reflects to JSON value in 'my-config' attribute */
+  @jsonAttr() public myConfig: Recorg<string, string>;
 
-    connectedCallback() {
-        super.connectedCallback();
-        // Init my component
-    }
+  connectedCallback() {
+    super.connectedCallback();
+    // Init my component
+  }
 
-    disconnectedCallback() {
-        // Unsubscribe listeners, revert side effects
-        super.disconnectedCallback();
-    }
+  disconnectedCallback() {
+    // Unsubscribe listeners, revert side effects
+    super.disconnectedCallback();
+  }
 }
 
 // Register custom tag with name provided in the static `is` property
@@ -116,12 +116,12 @@ class MyCustomComponent {
   bindEvents() {
     // Meta information fetched from `@listen` decorator 
     this.$$on(this.onClick);
-    
+
     // Subscribe event
     this.$$on(this.onEvent, 'event');
 
     // Subscribe event with descriptor
-    this.$$on(this.onEvent, { event: 'some-event' });
+    this.$$on(this.onEvent, {event: 'some-event'});
   }
 
   unbindEvents() {
@@ -129,48 +129,51 @@ class MyCustomComponent {
     this.$$off(this.onClick);
 
     // Unsubscribe `event`
-    this.$$off('event');
+    this.$$off('event'); // or this.$$off(this.onEvent);
 
     // Unsubscribe host event listeners that hadled by `window`
-    this.$$off({ target: window });
+    this.$$off({target: window});
 
     // Unsubscribe all events
     this.$$off();
   }
-  
-  @listen({event: 'click', auto: false})
-  onClick(e: MouseEvent) { /* Handle btn click event */}
 
-  onEvent(e: Event) { /* ... */}
+  @listen({event: 'click', auto: false})
+  onClick(e: MouseEvent) { /* Handle btn click event */ }
+
+  onEvent(e: Event) { /* ... */ }
 }
 ```
 
 ### Mixin Example (beta)
 
 ```ts
-import {ESLMixinElement, attr, boolAttr, jsonAttr} from '@exadel/esl';
+import {ESLMixinElement, attr, boolAttr, jsonAttr, listen} from '@exadel/esl';
 
-class MyMixiinComponent extends ESLMixinElement {
-    static is = 'my-mixin-attr';
+class MyMixinComponent extends ESLMixinElement {
+  static is = 'my-mixin-attr';
 
-    /** Reflects 'my-string-prop' attribute */
-    @attr() public myStringProp: string; 
-    /** Reflects to 'my-marker' attribute-marker */
-    @boolAttr() public myMarker: boolean; 
-    /** Reflects to JSON value in 'my-config' attribute */
-    @jsonAttr() public myConfig: Recorg<string, string>;
+  /** Reflects 'my-string-prop' attribute */
+  @attr() public myStringProp: string;
+  /** Reflects to 'my-marker' attribute-marker */
+  @boolAttr() public myMarker: boolean;
+  /** Reflects to JSON value in 'my-config' attribute */
+  @jsonAttr() public myConfig: Recorg<string, string>;
 
-    connectedCallback() {
-        super.connectedCallback();
-        // Init my component
-    }
+  connectedCallback() {
+    super.connectedCallback();
+    // Init my component
+  }
 
-    disconnectedCallback() {
-        // Unsubscribe listeners, revert side effects
-        super.disconnectedCallback();
-    }
+  disconnectedCallback() {
+    // Unsubscribe listeners, revert side effects
+    super.disconnectedCallback();
+  }
+
+  @listen('click')
+  onClick(e: MouseEvent) { /* Handle btn click event */ }
 }
 
 // Register mixin element for attribute provided in the static `is` property
-MyCustomComponent.register();
+MyMixinComponent.register();
 ```
