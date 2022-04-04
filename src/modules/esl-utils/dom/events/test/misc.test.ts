@@ -2,6 +2,7 @@ import {
   isMouseEvent,
   isTouchEvent,
   isPointerEvent,
+  isPreferPassive,
   touchPoint,
   offsetPoint,
   getCompositeTarget
@@ -50,6 +51,18 @@ describe('dom/events: misc', () => {
       expect(isPointerEvent(new TouchEvent('touchstart'))).toBe(false);
       expect(isPointerEvent(new PointerEvent('pointerup'))).toBe(true);
       expect(isPointerEvent(new Event('test'))).toBe(false);
+    });
+
+    test('passive events', () => {
+      expect(isPreferPassive('wheel')).toBe(true);
+      expect(isPreferPassive('mousewheel')).toBe(true);
+      expect(isPreferPassive('touchmove')).toBe(true);
+      expect(isPreferPassive('touchstart')).toBe(true);
+
+      expect(isPreferPassive('click')).toBe(false);
+      expect(isPreferPassive('mousedown')).toBe(false);
+      expect(isPreferPassive('mousemove')).toBe(false);
+      expect(isPreferPassive('keydown')).toBe(false);
     });
   });
 
