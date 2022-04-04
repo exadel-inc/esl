@@ -10,7 +10,7 @@ Provides the core for creating custom elements and ts decorators to simplify com
 
 ## Base Element
 **ESLBaseElement** - base class for custom (tag) element declaration
-**ESLMixinElement** (beta) - base class to create mixin element that attaches to element via custom attribute
+**ESLMixinElement** (beta) - base class to create a mixin element that attaches to the element via a custom attribute
 
 ### Base Element static API
 - `MyElement.is` - property that defines tag name
