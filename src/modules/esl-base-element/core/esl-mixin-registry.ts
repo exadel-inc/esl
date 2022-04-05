@@ -32,7 +32,7 @@ export class ESLMixinRegistry {
       throw Error(`[ESL]: Illegal mixin attribute name "${mixin.is}"`);
     }
     if (this.store.has(mixin.is) && this.store.get(mixin.is) !== mixin) {
-      throw Error(`[ESL]: Attribute ${mixin.is} already occupied by another mixin`);
+      throw Error(`[ESL]: Attribute ${mixin.is} is already occupied by another mixin`);
     }
     this.store.set(mixin.is, mixin);
     this.invalidateRecursive();
