@@ -72,8 +72,9 @@ export class EventUtils {
     handler: ESLListenerHandler = eventDesc as ESLListenerDescriptorFn
   ): ESLEventListener[] {
     if (typeof handler !== 'function') return [];
-    if (isDescriptorFn(handler) && eventDesc !== handler) eventDesc = Object.assign({}, eventDesc, handler);
-    const listeners = ESLEventListener.create(target, handler, eventDesc as string | ESLListenerDescriptor);
+    if (typeof eventDesc === 'string') eventDesc = {event: eventDesc};
+    if (isDescriptorFn(handler) && eventDesc !== handler) eventDesc = Object.assign({}, handler, eventDesc);
+    const listeners = ESLEventListener.create(target, handler, eventDesc as ESLListenerDescriptor);
     listeners.forEach((listener) => listener.subscribe());
     return listeners;
   }

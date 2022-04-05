@@ -77,7 +77,7 @@ describe('dom/events: EventUtils', () => {
 
   describe('subscribe', () => {
     const listener1 =
-      Object.assign(() => undefined, {auto: false, subscribe: jest.fn()});
+      Object.assign(() => undefined, {auto: false, event: 'e1', subscribe: jest.fn()});
 
     test('decorated handler', () => {
       const host = {};
@@ -87,6 +87,17 @@ describe('dom/events: EventUtils', () => {
       EventUtils.subscribe(host as any, listener1);
       expect(listener1.subscribe).toBeCalled();
       expect(createMock).toBeCalledWith(host, expect.anything(), expect.anything());
+    });
+
+    test('merge decorated handler', () => {
+      const host = {};
+      const createMock =
+        jest.spyOn(ESLEventListener, 'create').mockImplementation((el, cb, desc) => [desc] as any);
+
+      EventUtils.subscribe(host as any, {event: 'e2'}, listener1);
+      expect(listener1.subscribe).toBeCalled();
+      const expDesc = Object.assign({}, listener1, {event: 'e2'});
+      expect(createMock).toBeCalledWith(host, expect.anything(), expDesc);
     });
 
     test('manual descriptor', () => {
@@ -111,7 +122,7 @@ describe('dom/events: EventUtils', () => {
 
       EventUtils.subscribe(host as any, 'click', fn);
       expect(listener.subscribe).toBeCalled();
-      expect(createMock).toBeCalledWith(host, fn, 'click');
+      expect(createMock).toBeCalledWith(host, fn, {event: 'click'});
     });
   });
 

@@ -13,6 +13,13 @@ export const getCompositeTarget = (e: CustomEvent): EventTarget | null => {
   return targets ? targets[0] : e.target;
 };
 
+const PASSIVE_EVENTS = ['wheel', 'mousewheel', 'touchstart', 'touchmove'];
+/**
+ * @returns true if the passed event should be passive by default
+ * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+ */
+export const isPassiveByDefault = (event: string): boolean => PASSIVE_EVENTS.includes(event);
+
 /** Object that describes coordinates */
 export interface Point {
   x: number;

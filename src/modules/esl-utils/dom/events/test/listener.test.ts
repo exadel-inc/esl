@@ -17,7 +17,7 @@ describe('dom/events: ESLEventListener', () => {
     test('one by string', () => {
       const host = document.createElement('div');
       const handler = jest.fn();
-      const result = ESLEventListener.create(host, handler, 'click');
+      const result = ESLEventListener.create(host, handler, {event: 'click'});
 
       expect(result.length).toBe(1);
       expect(result[0].event).toBe('click');
@@ -27,7 +27,7 @@ describe('dom/events: ESLEventListener', () => {
     test('multiple by string', () => {
       const host = document.createElement('div');
       const handler = jest.fn();
-      const result = ESLEventListener.create(host, handler, 'click keydown keypress');
+      const result = ESLEventListener.create(host, handler, {event: 'click keydown keypress'});
 
       expect(result.length).toBe(3);
       expect(result[0].handler).toBe(handler);
