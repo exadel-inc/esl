@@ -31,7 +31,7 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
   /** A string representing CSS selector to check delegated event target (undefined (disabled) by default) */
   selector?: string;
   /**
-   * A string selector find the target or {@link EventTarget} object to subscribe the event listener
+   * A string selector to find the target or {@link EventTarget} object to subscribe the event listener to
    * **Note**: string values are processed by the {@link TraversingQuery} syntax
    * (e.g. `button` selects all buttons globally, while `::find(button)` selects only buttons inside current element)
    */
@@ -39,8 +39,11 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
 
   /** Identifier of the event listener. Can be used to group and unsubscribe listeners */
   id?: string;
-  /** Component, event descriptor holder (used to identify mixin tha defines listener)*/
-  subhost?: unknown;
+  /**
+   * A reference to the component (mixin) that holds the event listener descriptor
+   * Used as a call context for the event listener handler if defined
+   */
+  context?: unknown;
 
   /** A boolean value indicating that the listener should be automatically subscribed within connected callback */
   auto?: boolean;
@@ -63,7 +66,7 @@ export class ESLEventListener implements ESLListenerDescriptor {
   public readonly capture?: boolean;
   public readonly passive?: boolean;
   public readonly selector?: string;
-  public readonly subhost?: unknown;
+  public readonly context?: unknown;
 
   constructor(
     public readonly $host: HTMLElement,
@@ -104,7 +107,7 @@ export class ESLEventListener implements ESLListenerDescriptor {
   /** Handles caught event (used as callback for low-level subscriptions) */
   protected handle(e: Event): void {
     if (!this.isDelegatedTarget(e)) return;
-    this.handler.call(this.subhost ?? this.$host, e, this);
+    this.handler.call(this.context ?? this.$host, e, this);
     if (this.once) this.unsubscribe();
   }
 

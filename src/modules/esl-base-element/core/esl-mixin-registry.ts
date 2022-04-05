@@ -56,6 +56,7 @@ export class ESLMixinRegistry {
     this.invalidateAll(root);
     Array.prototype.forEach.call(root.children, (child: Element) => this.invalidateRecursive(child as HTMLElement));
   }
+
   /** Invalidates all mixins on the element */
   public invalidateAll(el: HTMLElement): void {
     const hasStore = Object.hasOwnProperty.call(el, STORE);
@@ -67,6 +68,7 @@ export class ESLMixinRegistry {
       }
     });
   }
+
   /** Invalidates passed mixin on the element */
   public invalidate(el: HTMLElement, mixin: string): void {
     if (el.hasAttribute(mixin)) {
@@ -84,6 +86,7 @@ export class ESLMixinRegistry {
     const current = ESLMixinRegistry.get(el, mixin.is);
     if (current) current.disconnectedCallback();
   }
+
   /** Destroys all mixins on the element */
   public destroyAll(el: HTMLElement): void {
     const store = (el as any)[STORE] as Record<string, ESLMixinElement> | undefined;
@@ -112,16 +115,19 @@ export class ESLMixinRegistry {
     const store = (el as any)[STORE] as Record<string, ESLMixinElement> | undefined;
     return (store && store[mixin]) || null;
   }
+
   /** @returns if the passed mixin exists on the element */
   public static has(el: HTMLElement, mixin: string): boolean {
     return !!this.get(el, mixin);
   }
+
   /** Sets mixin instance to the element store */
   private static set(el: HTMLElement, mixin: ESLMixinElement): void {
     if (!Object.hasOwnProperty.call(el, STORE)) Object.defineProperty(el, STORE, {value: {}, configurable: true});
     const store = (el as any)[STORE] as Record<string, ESLMixinElement>;
     store[(mixin.constructor as ConstructableESLMixin).is] = mixin;
   }
+
   /** Inits mixin instance on the element */
   private static init(el: HTMLElement, Mixin: ConstructableESLMixin): ESLMixinElement | null {
     if (this.has(el, Mixin.is)) return null;
@@ -130,6 +136,7 @@ export class ESLMixinRegistry {
     instance.connectedCallback();
     return instance;
   }
+
   /** Destroys passed mixin on the element */
   private static destroy(el: HTMLElement, mixin: string): void {
     const store = (el as any)[STORE] as Record<string, ESLMixinElement>;

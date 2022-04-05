@@ -39,14 +39,14 @@ export class ESLMixinElement implements AttributeTarget {
     }
 
     EventUtils.descriptors(this)
-      .forEach((desc) => EventUtils.subscribe(this.$host, {subhost: this}, desc));
+      .forEach((desc) => EventUtils.subscribe(this.$host, {context: this}, desc));
   }
 
   /** Callback to execute on mixin instance destroy */
   public disconnectedCallback(): void {
     if (this._attr$$) this._attr$$.disconnect();
 
-    EventUtils.unsubscribe(this.$host, {subhost: this});
+    EventUtils.unsubscribe(this.$host, {context: this});
   }
 
   /** Callback to handle changing of additional attributes */
@@ -75,7 +75,7 @@ export class ESLMixinElement implements AttributeTarget {
 
   /** Unsubscribes event listener */
   public $$off(...condition: ESLListenerCriteria[]): ESLEventListener[] {
-    return EventUtils.unsubscribe(this.$host, {subhost: this}, ...condition);
+    return EventUtils.unsubscribe(this.$host, {context: this}, ...condition);
   }
 
   /**
