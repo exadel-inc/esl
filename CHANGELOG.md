@@ -1,3 +1,25 @@
+# [4.0.0-beta.2](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2022-04-05)
+
+
+### Bug Fixes
+
+* **esl-core:** make attr decorators correctly strict typed ([613c260](https://github.com/exadel-inc/esl/commit/613c2603a72dae1651007ce014a0f3c7836da101))
+* **esl-panel-group:** fix esl:before:hide bubbling from uncontrolled toggleables ([9212b6b](https://github.com/exadel-inc/esl/commit/9212b6beacd97d39d0410a464598e9e2e0bdb1c2))
+* **esl-utils:** add IE compatibility for window rect obtaining ([d5e916c](https://github.com/exadel-inc/esl/commit/d5e916c31c6fd08eacad15ea4274ec57c3a6de2e))
+* **esl-utils:** add IE compatibility for window rect obtaining ([882425e](https://github.com/exadel-inc/esl/commit/882425e2e643e129a258deb8ead22d1f9ab6b5b4))
+* **esl-utils:** fix `isSimilar` comparer for arrays, add flat comparer option ([251c59c](https://github.com/exadel-inc/esl/commit/251c59cd8a3ba46689ba3e7aa6891d7bf4ed43c7))
+* **esl-utils:** fix event descriptors merging and passive listeners support ([6ae7175](https://github.com/exadel-inc/esl/commit/6ae7175d37a0011073b6eaed35075f5e63d4747a))
+
+
+### Features
+
+* **esl-core:** add ability to define [mixin components]([#671](https://github.com/exadel-inc/esl/issues/671)) ([15f9f6c](https://github.com/exadel-inc/esl/commit/15f9f6caeea5a5a67b196b42adebea3de6e1efed))
+* **esl-core:** add ability to use event listener api for mixin components ([33ce7aa](https://github.com/exadel-inc/esl/commit/33ce7aa5c3625266b3900ed8d88f012f847945a6))
+* **esl-utils:** `[@decorate](https://github.com/decorate)` syntax-sugar to easily wrap (decorate) method ([1f996f9](https://github.com/exadel-inc/esl/commit/1f996f96665829d3734beae447a48c0b77621f8a))
+* **esl-utils:** ability to subscribe handle one event before unsubscribe ([3e1cbe6](https://github.com/exadel-inc/esl/commit/3e1cbe62e80d15f37e07a0d52d26fb0362c9b042))
+* **esl-utils:** create auxiliary `isPassiveByDefault` utility ([650d75f](https://github.com/exadel-inc/esl/commit/650d75f743299347237a6fdc7e30381749577dfe))
+* **esl-utils:** rework subscription API ([bf1c151](https://github.com/exadel-inc/esl/commit/bf1c1511c74b7323198db0533292a8e34fc9c025))
+
 ## [3.14.2](https://github.com/exadel-inc/esl/compare/v3.14.1...v3.14.2) (2022-03-31)
 
 
