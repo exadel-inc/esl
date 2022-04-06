@@ -13,29 +13,20 @@ export class UIPOptions extends UIPPlugin {
   UIPOptionsConfig: OptionConfig[] = [
     {
       attribute: 'dark-theme',
-      iconConfig: {
-        iconUrl: '../../static/icons/moon.svg',
-        activeIconUrl: '../../static/icons/sun.svg'
-      }
+      iconUrl: '../../static/icons/theme.svg',
     },
     {
       attribute: 'rtl-direction',
-      iconConfig: {
-        iconUrl: '../../static/icons/rtl.svg'
-      }
+      iconUrl: '../../static/icons/rtl.svg'
     },
     {
       attribute: 'settings-collapsed',
-      iconConfig: {
-        iconUrl: '../../static/icons/settings.svg'
-      },
+      iconUrl: '../../static/icons/settings.svg',
       canActivate: () => !!this.root?.querySelector('uip-settings')
     },
     {
       attribute: 'editor-collapsed',
-      iconConfig: {
-        iconUrl: '../../static/icons/editor.svg'
-      },
+      iconUrl: '../../static/icons/editor.svg',
       canActivate: () => !!this.root?.querySelector('uip-editor')
     }
   ];

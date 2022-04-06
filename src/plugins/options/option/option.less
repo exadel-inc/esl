@@ -4,22 +4,32 @@ uip-option {
     color: @option-color;
     cursor: pointer;
 
-    &[attribute="rtl-direction"],
-    &[attribute="editor-collapsed"][active],
-    &[attribute="settings-collapsed"][active] {
+    &.rtl-direction-option,
+    &.editor-collapsed-option.active,
+    &.settings-collapsed-option.active {
         stroke-width: 0.1;
         fill-opacity: 0.5;
     }
 
-    &[attribute="editor-collapsed"],
-    &[attribute="settings-collapsed"],
-    &[attribute="rtl-direction"][active] {
+    &.rtl-direction-option.active,
+    &.editor-collapsed-option,
+    &.settings-collapsed-option {
         stroke-width: 0.7;
         fill-opacity: 1;
     }
 
-    &[attribute="dark-theme"] svg {
-        stroke: none;
+    &.dark-theme-option {
+        svg {
+            stroke: none;
+        }
+
+        &:not(.active) .sun-icon {
+            display: none;
+        }
+
+        &.active .moon-icon {
+            display: none;
+        }
     }
 
     esl-image {
