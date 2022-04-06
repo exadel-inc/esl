@@ -3,7 +3,7 @@ import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {rafDecorator} from '../../esl-utils/async/raf';
-import {isMouseEvent, isTouchEvent, touchPoint, offsetPoint} from '../../esl-utils/dom/events';
+import {isMouseEvent, isTouchEvent, getTouchPoint, getOffsetPoint} from '../../esl-utils/dom/events';
 import {isRelativeNode} from '../../esl-utils/dom/traversing';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
@@ -244,8 +244,8 @@ export class ESLScrollbar extends ESLBaseElement {
   /** Returns position from MouseEvent coordinates (not normalized) */
   public toPosition(event: MouseEvent | TouchEvent): number {
     const {horizontal, thumbOffset, trackOffset} = this;
-    const point = touchPoint(event);
-    const offset = offsetPoint(this.$scrollbarTrack);
+    const point = getTouchPoint(event);
+    const offset = getOffsetPoint(this.$scrollbarTrack);
     const pointPosition = horizontal ? point.x - offset.x : point.y - offset.y;
     const freeTrackArea = trackOffset - thumbOffset; // size of free track px
     const clickPositionNoOffset = pointPosition - thumbOffset / 2;
@@ -258,7 +258,7 @@ export class ESLScrollbar extends ESLBaseElement {
   protected _onPointerDown(event: MouseEvent | TouchEvent): void {
     this._initialPosition = this.position;
     this._pointerPosition = this.toPosition(event);
-    const point = touchPoint(event);
+    const point = getTouchPoint(event);
     this._initialMousePosition = this.horizontal ? point.x : point.y;
 
     if (event.target === this.$scrollbarThumb) {
@@ -301,7 +301,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** Sets position on drag */
   protected _onPointerDrag(event: MouseEvent | TouchEvent): void {
-    const point = touchPoint(event);
+    const point = getTouchPoint(event);
     const mousePosition = this.horizontal ? point.x : point.y;
     const positionChange = mousePosition - this._initialMousePosition;
     const scrollableAreaHeight = this.trackOffset - this.thumbOffset;

@@ -3,8 +3,8 @@ import {
   isTouchEvent,
   isPointerEvent,
   isPassiveByDefault,
-  touchPoint,
-  offsetPoint,
+  getTouchPoint,
+  getOffsetPoint,
   getCompositeTarget
 } from '../misc';
 
@@ -82,7 +82,7 @@ describe('dom/events: misc', () => {
           pageY,
         } as any]
       });
-      expect(touchPoint(event)).toEqual({x: pageX, y: pageY});
+      expect(getTouchPoint(event)).toEqual({x: pageX, y: pageY});
     });
 
     test('returns normalized data from PointerEvent object', () => {
@@ -91,7 +91,7 @@ describe('dom/events: misc', () => {
         pageX,
         pageY
       });
-      expect(touchPoint(event)).toEqual({x: pageX, y: pageY});
+      expect(getTouchPoint(event)).toEqual({x: pageX, y: pageY});
     });
   });
 
@@ -109,7 +109,7 @@ describe('dom/events: misc', () => {
         scrollY: 200,
       });
 
-      expect(offsetPoint(elem)).toEqual({
+      expect(getOffsetPoint(elem)).toEqual({
         x:  (boundingClientRect.left + window.scrollX),
         y:  (boundingClientRect.top + window.scrollY)
       });
