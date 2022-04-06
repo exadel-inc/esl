@@ -1,5 +1,8 @@
 import {attr, boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {ESLImage} from '@exadel/esl/modules/esl-image/core';
+import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
+import {ENTER} from '@exadel/esl/modules/esl-utils/dom/keys';
 
 export type OptionConfig = {
     attribute: string;
@@ -23,14 +26,43 @@ export class UIPOption extends ESLBaseElement {
         return option;
     }
 
-    protected connectedCallback(): void {
+    protected connectedCallback() {
         super.connectedCallback();
         this.classList.add(`${this.attribute}-option`);
+        this.tabIndex = 0;
+        this.bindEvents();
         this.render();
     }
 
+    protected bindEvents() {
+        this.addEventListener('click', this._onClick);
+        this.addEventListener('keydown', this._onKeydown);
+    }
+    
     protected render() {
         this.icon && this.append(this.icon);
+    }
+
+    @bind
+    protected _onClick() {
+        this.toggleState();
+        EventUtils.dispatch(this, 'uip:optionclick');
+    }
+
+    @bind
+    protected _onKeydown(e: KeyboardEvent) {
+        if (ENTER !== e.key) return;
+        this.toggleState();
+        EventUtils.dispatch(this, 'uip:optionclick');
+    }
+
+    protected disconnectedCallback() {
+        this.unbindEvents();
+        this.disconnectedCallback();
+    }
+    
+    protected unbindEvents() {
+        this.removeEventListener('click', this._onClick);
     }
 
     public toggleState(force?: boolean) {

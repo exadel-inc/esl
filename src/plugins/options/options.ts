@@ -48,12 +48,12 @@ export class UIPOptions extends UIPPlugin {
   }
 
   protected bindEvents() {
-    this.addEventListener('click', this.onOptionClick);
+    this.addEventListener('uip:optionclick', this._onOptionClick);
     this.root?.addEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected unbindEvents() {
-    this.removeEventListener('click', this.onOptionClick);
+    this.removeEventListener('uip:optionclick', this._onOptionClick);
     this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
   }
 
@@ -68,10 +68,9 @@ export class UIPOptions extends UIPPlugin {
   }
 
   @bind
-  protected onOptionClick(e: Event) {
-    const option = e.target;
-    if (!(option instanceof UIPOption)) return;
-    option.toggleState();
+  protected _onOptionClick(e: Event) {
+    e.stopPropagation();
+    const option = e.target as UIPOption;
     this.root?.toggleAttribute(option.attribute, option.active);
   }
 
