@@ -222,7 +222,7 @@ export class ESLToggleable extends ESLBaseElement {
     CSSClassUtils.add(this, this.activeClass);
     CSSClassUtils.add(document.body, this.bodyClass, this);
     this.updateA11y();
-    this.$$fire('esl:refresh'); // To notify other components about content change
+    this.$$fire('refresh'); // To notify other components about content change
   }
 
   /**

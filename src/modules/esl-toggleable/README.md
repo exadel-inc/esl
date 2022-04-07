@@ -1,6 +1,6 @@
 # [ESL](https://esl-ui.com/) Toggleable
 
-Version: *2.2.0*
+Version: *2.2.1*
 
 Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*
 
