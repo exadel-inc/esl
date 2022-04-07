@@ -125,8 +125,7 @@ export class UIPEditor extends UIPPlugin {
         return this.setEditorConfig({theme: value === null ?
           UIPEditor.defaultOptions.theme : UIPEditor.themesMapping['uip-dark']});
       case 'editor-collapsed':
-        return value === null ?
-          this.classList.remove('collapsed') : this.classList.add('collapsed');
+        return this.classList.toggle('collapsed', value !== null);
       default:
         return;
     }

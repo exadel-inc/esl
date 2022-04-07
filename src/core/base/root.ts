@@ -67,7 +67,7 @@ export class UIPRoot extends ESLBaseElement {
   }
 
   private _updateStyles(option: string, value: string | null) {
-    value === null ? this.classList.remove(option) : this.classList.add(option);
+    this.classList.toggle(option, value !== null);
   }
 
   public get $snippets(): SnippetTemplate[] {

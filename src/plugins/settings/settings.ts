@@ -76,6 +76,6 @@ export class UIPSettings extends UIPPlugin {
   @bind
   protected _onRootConfigChange(e: CustomEvent) {
     if (e.detail.attribute !== 'settings-collapsed') return false;
-    e.detail.value === null ? this.classList.remove('collapsed') : this.classList.add('collapsed');
+    this.classList.toggle('collapsed', e.detail.value !== null);
   }
 }
