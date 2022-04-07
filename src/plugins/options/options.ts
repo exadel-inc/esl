@@ -33,10 +33,6 @@ export class UIPOptions extends UIPPlugin {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.options = new Map(
-      this.UIPOptionsConfig.filter(option => !option.canActivate || option.canActivate())
-      .map(option => [option.attribute, UIPOption.create(option)])
-      );
     this.bindEvents();
     this.render();
   }
@@ -58,6 +54,10 @@ export class UIPOptions extends UIPPlugin {
   }
 
   protected render() {
+    this.options = new Map(
+      this.UIPOptionsConfig.filter(option => !option.canActivate || option.canActivate())
+      .map(option => [option.attribute, UIPOption.create(option)])
+      );
     this.options.forEach(option => this.append(option));
   }
 

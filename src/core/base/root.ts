@@ -54,12 +54,15 @@ export class UIPRoot extends ESLBaseElement {
     if (['rtl-direction', 'dark-theme'].includes(attrName)) {
       this._updateStyles(attrName, newVal);
     }
-    EventUtils.dispatch(this, 'uip:configchange', {
-      bubbles: false,
-      detail: {
-        attribute: attrName,
-        value: newVal
-      }
+    // setTimeout to let other plugins init before dispatching
+    setTimeout(() => {
+      EventUtils.dispatch(this, 'uip:configchange', {
+        bubbles: false,
+        detail: {
+          attribute: attrName,
+          value: newVal
+        }
+      });
     });
   }
 

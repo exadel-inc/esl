@@ -38,7 +38,7 @@ export class UIPOption extends ESLBaseElement {
         this.addEventListener('click', this._onClick);
         this.addEventListener('keydown', this._onKeydown);
     }
-    
+
     protected render() {
         this.icon && this.append(this.icon);
     }
@@ -60,7 +60,7 @@ export class UIPOption extends ESLBaseElement {
         this.unbindEvents();
         this.disconnectedCallback();
     }
-    
+
     protected unbindEvents() {
         this.removeEventListener('click', this._onClick);
     }
