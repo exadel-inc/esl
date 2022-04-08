@@ -56,7 +56,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
 
   /** Pre-processing animation action. */
   public async onBeforeAnimate(): Promise<void> {
-    if (this.carousel.hasAttribute('animate')) return Promise.reject();
+    if (this.carousel.hasAttribute('animate')) return Promise.reject('Already animating');
     return Promise.resolve();
   }
 
@@ -65,8 +65,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this.currentIndex = this.carousel.firstIndex;
 
     const animateSlide = (): Promise<void> =>
-      this.onBeforeStepAnimate(direction)
-        .then(() => this.onAfterStepAnimate(direction));
+      this.onBeforeStepAnimate(direction).then(() => this.onAfterStepAnimate(direction));
 
     return repeatSequence(animateSlide, this.getDistance(nextIndex, direction));
   }
@@ -90,16 +89,14 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     const shiftXBefore = direction === 'next' ? 0 : -offset;
     this.carousel.$slidesArea!.style.transform = `translate3d(${shiftXBefore}px, 0px, 0px)`;
 
-    this.carousel.toggleAttribute('animate', true);
-
-    // return promisifyNextRender();
     +this.carousel.offsetLeft;
+    this.carousel.toggleAttribute('animate', true);
 
     const shiftXAfter = direction === 'next' ? -offset : 0;
     this.carousel.$slidesArea!.style.transform = `translate3d(${shiftXAfter}px, 0px, 0px)`;
 
     return new Promise((resolve) => {
-      const cb = (e: TransitionEvent) => {
+      const cb = (e: TransitionEvent): void => {
         if (e.propertyName !== 'transform') return;
         this.carousel.$slidesArea?.removeEventListener('transitionend', cb);
         resolve();

@@ -3,7 +3,7 @@ import './esl-carousel.views';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, attr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
-import {deepCompare} from '../../esl-utils/misc/object';
+import {isEqual} from '../../esl-utils/misc/object';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 
@@ -120,7 +120,7 @@ export class ESLCarousel extends ESLBaseElement {
       this.configRules.activeValue
     );
 
-    if (!force && deepCompare(this.activeConfig, config)) {
+    if (!force && isEqual(this.activeConfig, config)) {
       return;
     }
     this.activeConfig = config;
@@ -133,16 +133,6 @@ export class ESLCarousel extends ESLBaseElement {
     this._view && this._view.bind();
 
     this.goTo(this.firstIndex, {force: true});
-  }
-
-  private getNextGroup(shiftGroupsCount: number): number {
-    // get number of group of current active slides by last index of this group
-    const lastIndex = this.activeIndexes.length - 1;
-    const currentGroup = Math.floor(this.activeIndexes[lastIndex] / this.activeCount);
-    // get count of groups of slides
-    const countGroups = Math.ceil(this.count / this.activeCount);
-    // get number of group of next active slides
-    return (currentGroup + shiftGroupsCount + countGroups) % countGroups;
   }
 
   /** Handles `click` event. */
@@ -291,9 +281,13 @@ export class ESLCarousel extends ESLBaseElement {
     if (!this.$$fire('slide:change', eventDetails)) return;
 
     if (this._view && firstIndex !== index) {
-      await this._view.onBeforeAnimate(index, direction);
-      await this._view.onAnimate(index, direction);
-      await this._view.onAfterAnimate();
+      try {
+        await this._view.onBeforeAnimate(index, direction);
+        await this._view.onAnimate(index, direction);
+        await this._view.onAfterAnimate();
+      } catch (e: unknown) {
+        console.error(e);
+      }
     }
 
     // TODO: move to commit method
