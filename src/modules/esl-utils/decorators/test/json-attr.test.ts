@@ -1,9 +1,9 @@
-import '../../../polyfills/es5-target-shim';
-import {ESLBaseElement, jsonAttr} from '../core';
+import '../../../../polyfills/es5-target-shim';
+import {jsonAttr} from '../json-attr';
 
 describe('Decorator: jsonAttr', () => {
 
-  class TestElement extends ESLBaseElement {
+  class TestElement extends HTMLElement {
     @jsonAttr()
     public simple: any;
     @jsonAttr({dataAttr: true})
@@ -18,10 +18,12 @@ describe('Decorator: jsonAttr', () => {
     public defSimple: any;
   }
 
-  TestElement.register('test-el-bool');
-
+  customElements.define('test-el-bool', TestElement);
   const el = new TestElement();
-  document.body.append(el);
+
+  beforeAll(() => {
+    document.body.append(el);
+  });
 
   test('Decorator: jsonAttr - simple', () => {
     expect(el.simple).toEqual({});

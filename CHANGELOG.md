@@ -1,3 +1,137 @@
+# [4.0.0-beta.2](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2022-04-05)
+
+
+### Bug Fixes
+
+* **esl-core:** make attr decorators correctly strict typed ([613c260](https://github.com/exadel-inc/esl/commit/613c2603a72dae1651007ce014a0f3c7836da101))
+* **esl-panel-group:** fix esl:before:hide bubbling from uncontrolled toggleables ([9212b6b](https://github.com/exadel-inc/esl/commit/9212b6beacd97d39d0410a464598e9e2e0bdb1c2))
+* **esl-utils:** add IE compatibility for window rect obtaining ([d5e916c](https://github.com/exadel-inc/esl/commit/d5e916c31c6fd08eacad15ea4274ec57c3a6de2e))
+* **esl-utils:** add IE compatibility for window rect obtaining ([882425e](https://github.com/exadel-inc/esl/commit/882425e2e643e129a258deb8ead22d1f9ab6b5b4))
+* **esl-utils:** fix `isSimilar` comparer for arrays, add flat comparer option ([251c59c](https://github.com/exadel-inc/esl/commit/251c59cd8a3ba46689ba3e7aa6891d7bf4ed43c7))
+* **esl-utils:** fix event descriptors merging and passive listeners support ([6ae7175](https://github.com/exadel-inc/esl/commit/6ae7175d37a0011073b6eaed35075f5e63d4747a))
+
+
+### Features
+
+* **esl-core:** add ability to define [mixin components]([#671](https://github.com/exadel-inc/esl/issues/671)) ([15f9f6c](https://github.com/exadel-inc/esl/commit/15f9f6caeea5a5a67b196b42adebea3de6e1efed))
+* **esl-core:** add ability to use event listener api for mixin components ([33ce7aa](https://github.com/exadel-inc/esl/commit/33ce7aa5c3625266b3900ed8d88f012f847945a6))
+* **esl-utils:** `[@decorate](https://github.com/decorate)` syntax-sugar to easily wrap (decorate) method ([1f996f9](https://github.com/exadel-inc/esl/commit/1f996f96665829d3734beae447a48c0b77621f8a))
+* **esl-utils:** ability to subscribe handle one event before unsubscribe ([3e1cbe6](https://github.com/exadel-inc/esl/commit/3e1cbe62e80d15f37e07a0d52d26fb0362c9b042))
+* **esl-utils:** create auxiliary `isPassiveByDefault` utility ([650d75f](https://github.com/exadel-inc/esl/commit/650d75f743299347237a6fdc7e30381749577dfe))
+* **esl-utils:** rework subscription API ([bf1c151](https://github.com/exadel-inc/esl/commit/bf1c1511c74b7323198db0533292a8e34fc9c025))
+
+## [3.14.3](https://github.com/exadel-inc/esl/compare/v3.14.2...v3.14.3) (2022-04-07)
+
+
+### Bug Fixes
+
+* **esl-toggleable:** fix double `esl:` prefix for esl-toggleable `esl:refresh` dispatching ([3316da0](https://github.com/exadel-inc/esl/commit/3316da0c4378466c0bf34346e5791ee36fdfe0a8)), closes [#913](https://github.com/exadel-inc/esl/issues/913)
+
+## [3.14.2](https://github.com/exadel-inc/esl/compare/v3.14.1...v3.14.2) (2022-03-31)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** fix esl:before:hide bubbling from uncontrolled toggleables ([9212b6b](https://github.com/exadel-inc/esl/commit/9212b6beacd97d39d0410a464598e9e2e0bdb1c2))
+
+## [3.14.1](https://github.com/exadel-inc/esl/compare/v3.14.0...v3.14.1) (2022-03-29)
+
+
+### Bug Fixes
+
+* **esl-utils:** add IE compatibility for window rect obtaining ([d5e916c](https://github.com/exadel-inc/esl/commit/d5e916c31c6fd08eacad15ea4274ec57c3a6de2e))
+
+# [4.0.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.14.0...v4.0.0-beta.1) (2022-03-24)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** add `capturedBy` and fix 'after:show' dispatch ([9bdc98c](https://github.com/exadel-inc/esl/commit/9bdc98c98a2926fe42c7cd15007c31a19171027c))
+* **esl-utils:** move attribute decorators to the `esl-utils` ([6e5028a](https://github.com/exadel-inc/esl/commit/6e5028a0d147d9b6b9742088f97c6110c58523c0))
+
+
+### Features
+
+* **esl-core:** event listeners functionality introduced (`ESLEventListener`s) ([16ae8db](https://github.com/exadel-inc/esl/commit/16ae8db2c7c6f5d2488268c5ecf69b277f9db05b))
+* **esl-utils:** event utils destructuring ([a822738](https://github.com/exadel-inc/esl/commit/a82273883b9e7393790de5c75b01092b30838a5a))
+* **esl-utils:** extend object:compare utils with `isSimilar` method ([9aa937e](https://github.com/exadel-inc/esl/commit/9aa937e620456457aa9954be161da6816f002e66))
+
+
+### BREAKING CHANGES
+
+* **esl-utils:**  - `isMouseEvent`, `isTouchEvent` moved outside of `EventUtils`
+ - `normalizeTouchPoint` renamed to `touchPoint` and moved outside of `EventUtils`
+ - `normalizeCoordinates` removed `offsetPoint` introduced instead
+ to be used in combination with `touchPoint`
+
+# [3.14.0](https://github.com/exadel-inc/esl/compare/v3.13.2...v3.14.0) (2022-03-11)
+
+
+### Bug Fixes
+
+* **esl-core:** type and implementation improvements for attribute decorators ([73edd53](https://github.com/exadel-inc/esl/commit/73edd5340b5bef0e548ef00e932b4630907332b4))
+* **esl-media:** fix incorrect `group` definition in shape ([5358933](https://github.com/exadel-inc/esl/commit/5358933c62076a850cdf314f3a31205db5bd2b51))
+* **esl-panel-group:** fix animation-end handling target check ([2d66781](https://github.com/exadel-inc/esl/commit/2d6678123141cb2c20eed8f95449ab4126e847b0))
+* **esl-panel:** fix animation-end handling target check ([ea897fa](https://github.com/exadel-inc/esl/commit/ea897fabdbbe166adeac9f0c36bda69ca7c63ffd))
+* **gh-pages:** change loadScript import ([acad20a](https://github.com/exadel-inc/esl/commit/acad20acbdafc1d3f49482b65800e80acf8512dc))
+
+
+### Features
+
+* **esl-core:** extend `ESLBaseElement` with `$$cls` and `$$attr` methods ([65ab74a](https://github.com/exadel-inc/esl/commit/65ab74a5d1a749958e7d633e973fd679821a057a))
+* **esl-media-query:** extend `ESLMediaRuleList.parseTuple` with ability to pass Parser ([44e9a1c](https://github.com/exadel-inc/esl/commit/44e9a1cf108b82d13908e65ca2d4691b026c49a2))
+* **esl-panel-group:** fallback-duration retired, now it's controlled out of the box ([d78553e](https://github.com/exadel-inc/esl/commit/d78553ec4ad474149eb1eba3b4be8d66db942e33))
+* **esl-panel:** ESLPanel no longer requires fallback-time definition ([6140ecd](https://github.com/exadel-inc/esl/commit/6140ecd902a0f888a77310fb8a607d5119b143fc))
+* **esl-utils:** `misc/object#get` API extended to be similar to `misc/object#set` ([474bd76](https://github.com/exadel-inc/esl/commit/474bd760f4738450d3692fdb08ea5da8d1b9be1b))
+* **esl-utils:** add `object#set` extended syntax support ([6d5799c](https://github.com/exadel-inc/esl/commit/6d5799c6dcb19da7e42e08a17b27e4eb1bfb589a))
+* **esl-utils:** add small attr utility ([f4ee57a](https://github.com/exadel-inc/esl/commit/f4ee57a8f151f82e1ce7cd187799e2cece3c8a10))
+* **esl-utils:** extend `promisifyTimeout` with ability to reject timeout ([#868](https://github.com/exadel-inc/esl/issues/868)) ([0594e5c](https://github.com/exadel-inc/esl/commit/0594e5ca8ec3aea82652fcc8abc3f7cfe87c3496)), closes [#858](https://github.com/exadel-inc/esl/issues/858)
+* **esl-utils:** extend `set` method with ability to pass an array of path keys ([9dfa77b](https://github.com/exadel-inc/esl/commit/9dfa77bc47d71ab0e2b440bfcc2cd83c91cf29b5))
+* **esl-utils:** extend CSSClassUtils with `has` check ([f260823](https://github.com/exadel-inc/esl/commit/f260823c913e48313f572006dd6ebf376723461c))
+
+# [3.14.0-beta.4](https://github.com/exadel-inc/esl/compare/v3.14.0-beta.3...v3.14.0-beta.4) (2022-03-11)
+
+
+### Features
+
+* **esl-utils:** `misc/object#get` API extended to be similar to `misc/object#set` ([474bd76](https://github.com/exadel-inc/esl/commit/474bd760f4738450d3692fdb08ea5da8d1b9be1b))
+* **esl-utils:** add `object#set` extended syntax support ([6d5799c](https://github.com/exadel-inc/esl/commit/6d5799c6dcb19da7e42e08a17b27e4eb1bfb589a))
+* **esl-utils:** extend `promisifyTimeout` with ability to reject timeout ([#868](https://github.com/exadel-inc/esl/issues/868)) ([0594e5c](https://github.com/exadel-inc/esl/commit/0594e5ca8ec3aea82652fcc8abc3f7cfe87c3496)), closes [#858](https://github.com/exadel-inc/esl/issues/858)
+* **esl-utils:** extend `set` method with ability to pass an array of path keys ([9dfa77b](https://github.com/exadel-inc/esl/commit/9dfa77bc47d71ab0e2b440bfcc2cd83c91cf29b5))
+
+# [3.14.0-beta.3](https://github.com/exadel-inc/esl/compare/v3.14.0-beta.2...v3.14.0-beta.3) (2022-02-25)
+
+
+### Features
+
+* **esl-media-query:** extend `ESLMediaRuleList.parseTuple` with ability to pass Parser ([44e9a1c](https://github.com/exadel-inc/esl/commit/44e9a1cf108b82d13908e65ca2d4691b026c49a2))
+
+# [3.14.0-beta.2](https://github.com/exadel-inc/esl/compare/v3.14.0-beta.1...v3.14.0-beta.2) (2022-02-23)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** fix animation-end handling target check ([2d66781](https://github.com/exadel-inc/esl/commit/2d6678123141cb2c20eed8f95449ab4126e847b0))
+* **esl-panel:** fix animation-end handling target check ([ea897fa](https://github.com/exadel-inc/esl/commit/ea897fabdbbe166adeac9f0c36bda69ca7c63ffd))
+* **gh-pages:** change loadScript import ([acad20a](https://github.com/exadel-inc/esl/commit/acad20acbdafc1d3f49482b65800e80acf8512dc))
+
+# [3.14.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.13.2...v3.14.0-beta.1) (2022-02-21)
+
+
+### Bug Fixes
+
+* **esl-core:** type and implementation improvements for attribute decorators ([73edd53](https://github.com/exadel-inc/esl/commit/73edd5340b5bef0e548ef00e932b4630907332b4))
+* **esl-media:** fix incorrect `group` definition in shape ([5358933](https://github.com/exadel-inc/esl/commit/5358933c62076a850cdf314f3a31205db5bd2b51))
+
+
+### Features
+
+* **esl-core:** extend `ESLBaseElement` with `$$cls` and `$$attr` methods ([65ab74a](https://github.com/exadel-inc/esl/commit/65ab74a5d1a749958e7d633e973fd679821a057a))
+* **esl-panel-group:** fallback-duration retired, now it's controlled out of the box ([d78553e](https://github.com/exadel-inc/esl/commit/d78553ec4ad474149eb1eba3b4be8d66db942e33))
+* **esl-panel:** ESLPanel no longer requires fallback-time definition ([6140ecd](https://github.com/exadel-inc/esl/commit/6140ecd902a0f888a77310fb8a607d5119b143fc))
+* **esl-utils:** add small attr utility ([f4ee57a](https://github.com/exadel-inc/esl/commit/f4ee57a8f151f82e1ce7cd187799e2cece3c8a10))
+* **esl-utils:** extend CSSClassUtils with `has` check ([f260823](https://github.com/exadel-inc/esl/commit/f260823c913e48313f572006dd6ebf376723461c))
+
 ## [3.13.2](https://github.com/exadel-inc/esl/compare/v3.13.1...v3.13.2) (2022-02-16)
 
 
