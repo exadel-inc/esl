@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {EventUtils} from '../../esl-utils/dom/events';
+import {isMouseEvent, isTouchEvent, getTouchPoint} from '../../esl-utils/dom/events';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ESLCarouselPlugin} from './esl-carousel-plugin';
 
@@ -35,9 +35,9 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
   /** @returns marker whether the event should be ignored. */
   protected isIgnoredEvent(event: TouchEvent | PointerEvent | MouseEvent): boolean | undefined {
     // Multi-touch gesture
-    if (EventUtils.isTouchEvent(event) && event.touches.length !== 1) return true;
+    if (isTouchEvent(event) && event.touches.length !== 1) return true;
     // Non-primary mouse button initiate drug event
-    if (EventUtils.isMouseEvent(event) && event.button !== 0) return true;
+    if (isMouseEvent(event) && event.button !== 0) return true;
     // TODO: form events focus handler
   }
 
@@ -49,12 +49,12 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     this.isTouchStarted = !this.isIgnoredEvent(event);
     if (!this.isTouchStarted) return;
 
-    this.startPoint = EventUtils.normalizeTouchPoint(event);
+    this.startPoint = getTouchPoint(event);
 
-    EventUtils.isMouseEvent(event) && window.addEventListener('mousemove', this.onPointerMove);
-    EventUtils.isTouchEvent(event) && window.addEventListener('touchmove', this.onPointerMove, {passive: false});
-    EventUtils.isMouseEvent(event) && window.addEventListener('mouseup', this.onPointerUp);
-    EventUtils.isTouchEvent(event) && window.addEventListener('touchend', this.onPointerUp, {passive: false});
+    isMouseEvent(event) && window.addEventListener('mousemove', this.onPointerMove);
+    isTouchEvent(event) && window.addEventListener('touchmove', this.onPointerMove, {passive: false});
+    isMouseEvent(event) && window.addEventListener('mouseup', this.onPointerUp);
+    isTouchEvent(event) && window.addEventListener('touchend', this.onPointerUp, {passive: false});
   }
 
   /** Processes `mousemove` and `touchmove` events. */
@@ -62,7 +62,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
   protected onPointerMove(event: TouchEvent | PointerEvent | MouseEvent): void {
     if (!this.isTouchStarted) return;
 
-    const point = EventUtils.normalizeTouchPoint(event);
+    const point = getTouchPoint(event);
     const offset = point.x - this.startPoint.x;
 
     // ignore single click
@@ -73,17 +73,17 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
   @bind
   protected onPointerUp(event: TouchEvent | PointerEvent | MouseEvent): void {
     if (!this.isTouchStarted) return;
-    const point = EventUtils.normalizeTouchPoint(event);
+    const point = getTouchPoint(event);
     const offset = point.x - this.startPoint.x;
     // ignore single click
     offset !== 0 && this.carousel.view?.commit(offset);
     this.isTouchStarted = false;
     // Unbind drag listeners
-    if (EventUtils.isMouseEvent(event)) {
+    if (isMouseEvent(event)) {
       window.removeEventListener('mousemove', this.onPointerMove);
       window.removeEventListener('mouseup', this.onPointerUp);
     }
-    if (EventUtils.isTouchEvent(event)) {
+    if (isTouchEvent(event)) {
       window.removeEventListener('touchmove', this.onPointerMove);
       window.removeEventListener('touchend', this.onPointerUp);
     }
