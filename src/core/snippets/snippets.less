@@ -48,6 +48,11 @@
         visibility: hidden;
         border: 1px solid @section-border;
         transition: max-height .3s ease-in-out, visibility 0s .25s, box-shadow .3s ease-in-out;
+
+        .esl-scrollbar[at-start] {
+          visibility: hidden;
+          transition: visibility 0s;
+        }
       }
     }
 
@@ -89,6 +94,11 @@
         visibility: visible;
         box-shadow: 0 4px 6px 0 rgb(0 0 0 / 20%);
         transition: max-height .3s ease-in-out, visibility 0s;
+
+        .esl-scrollbar[at-start] {
+          visibility: initial;
+          transition: visibility 0s .3s;
+        }
       }
     }
   }
