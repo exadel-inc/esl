@@ -19,7 +19,7 @@ export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup
   'animation-class'?: string;
 
   /** Define a list of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations)*/
-  'no-collapse'?: string;
+  'no-animate'?: string;
 
   /** Define json of action params to pass into panels when executing reset action (happens when mode is changed) */
   'transform-params'?: string;

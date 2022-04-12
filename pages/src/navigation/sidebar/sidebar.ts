@@ -51,10 +51,10 @@ export class ESLDemoSidebar extends ESLToggleable {
     this.$submenus.forEach((menu) => menu.hide({activator: this}));
   }
 
-  public expandActive(noCollapse: boolean = false): void {
+  public expandActive(noAnimate: boolean = false): void {
     this.$submenus
       .filter((menu) => menu.hasAttribute('data-open'))
-      .forEach((menu) => menu.show({noCollapse, activator: this}));
+      .forEach((menu) => menu.show({noAnimate, activator: this}));
   }
 
   protected updateA11y(): void {
