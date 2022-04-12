@@ -73,15 +73,18 @@ export class ESLEventListener implements ESLListenerDescriptor {
     public readonly handler: ESLListenerHandler,
     desc: ESLListenerDescriptor
   ) {
-    desc.id = desc.id || sequentialUID('esl.event');
-    Object.assign(this, {capture: false, passive: isPassiveByDefault(this.event)}, desc);
     this.handle = this.handle.bind(this);
+    desc.id = desc.id || sequentialUID('esl.event');
+    Object.assign(this, {
+      capture: false,
+      passive: isPassiveByDefault(this.event)
+    }, desc);
   }
 
   /** @returns target element to listen */
   @memoize()
   public get $targets(): EventTarget[] {
-    if (this.target instanceof Document || this.target instanceof Element || this.target instanceof Window) {
+    if (typeof this.target === 'object' && this.target) {
       return [this.target];
     }
     if (typeof this.target === 'string') {
