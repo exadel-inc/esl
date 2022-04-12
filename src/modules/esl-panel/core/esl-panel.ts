@@ -10,6 +10,8 @@ import type {ToggleableActionParams} from '../../esl-toggleable/core';
 
 /** {@link ESLPanel} action params interface */
 export interface PanelActionParams extends ToggleableActionParams {
+  /** Panel group */
+  capturedBy?: ESLPanelGroup;
   /** Prevents collapsing/expanding animation */
   noAnimate?: boolean;
 }
@@ -71,6 +73,7 @@ export class ESLPanel extends ESLToggleable {
 
     this.beforeAnimate();
     if (params.noAnimate) {
+      if (params.capturedBy) return;
       afterNextRender(() => this.afterAnimate());
     } else {
       this.onAnimate(0, this._initialHeight);

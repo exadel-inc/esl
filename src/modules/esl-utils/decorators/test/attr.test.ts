@@ -1,9 +1,9 @@
-import '../../../polyfills/es5-target-shim';
-import {ESLBaseElement, attr} from '../core';
+import '../../../../polyfills/es5-target-shim';
+import {attr} from '../attr';
 
 describe('Decorator: attr', () => {
 
-  class TestElement extends ESLBaseElement {
+  class TestElement extends HTMLElement {
     @attr()
     public fieldDefault: string | boolean;
     @attr({defaultValue: null})
@@ -19,8 +19,7 @@ describe('Decorator: attr', () => {
     @attr({defaultValue: 'def'})
     public defField: string | boolean;
   }
-
-  TestElement.register('test-el-attr');
+  customElements.define('test-el-attr', TestElement);
   const el = new TestElement();
 
   beforeAll(() => {

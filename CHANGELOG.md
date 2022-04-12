@@ -1,3 +1,25 @@
+# [4.0.0-beta.2](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2022-04-05)
+
+
+### Bug Fixes
+
+* **esl-core:** make attr decorators correctly strict typed ([613c260](https://github.com/exadel-inc/esl/commit/613c2603a72dae1651007ce014a0f3c7836da101))
+* **esl-panel-group:** fix esl:before:hide bubbling from uncontrolled toggleables ([9212b6b](https://github.com/exadel-inc/esl/commit/9212b6beacd97d39d0410a464598e9e2e0bdb1c2))
+* **esl-utils:** add IE compatibility for window rect obtaining ([d5e916c](https://github.com/exadel-inc/esl/commit/d5e916c31c6fd08eacad15ea4274ec57c3a6de2e))
+* **esl-utils:** add IE compatibility for window rect obtaining ([882425e](https://github.com/exadel-inc/esl/commit/882425e2e643e129a258deb8ead22d1f9ab6b5b4))
+* **esl-utils:** fix `isSimilar` comparer for arrays, add flat comparer option ([251c59c](https://github.com/exadel-inc/esl/commit/251c59cd8a3ba46689ba3e7aa6891d7bf4ed43c7))
+* **esl-utils:** fix event descriptors merging and passive listeners support ([6ae7175](https://github.com/exadel-inc/esl/commit/6ae7175d37a0011073b6eaed35075f5e63d4747a))
+
+
+### Features
+
+* **esl-core:** add ability to define [mixin components]([#671](https://github.com/exadel-inc/esl/issues/671)) ([15f9f6c](https://github.com/exadel-inc/esl/commit/15f9f6caeea5a5a67b196b42adebea3de6e1efed))
+* **esl-core:** add ability to use event listener api for mixin components ([33ce7aa](https://github.com/exadel-inc/esl/commit/33ce7aa5c3625266b3900ed8d88f012f847945a6))
+* **esl-utils:** `[@decorate](https://github.com/decorate)` syntax-sugar to easily wrap (decorate) method ([1f996f9](https://github.com/exadel-inc/esl/commit/1f996f96665829d3734beae447a48c0b77621f8a))
+* **esl-utils:** ability to subscribe handle one event before unsubscribe ([3e1cbe6](https://github.com/exadel-inc/esl/commit/3e1cbe62e80d15f37e07a0d52d26fb0362c9b042))
+* **esl-utils:** create auxiliary `isPassiveByDefault` utility ([650d75f](https://github.com/exadel-inc/esl/commit/650d75f743299347237a6fdc7e30381749577dfe))
+* **esl-utils:** rework subscription API ([bf1c151](https://github.com/exadel-inc/esl/commit/bf1c1511c74b7323198db0533292a8e34fc9c025))
+
 ## [3.14.3](https://github.com/exadel-inc/esl/compare/v3.14.2...v3.14.3) (2022-04-07)
 
 
@@ -18,6 +40,29 @@
 ### Bug Fixes
 
 * **esl-utils:** add IE compatibility for window rect obtaining ([d5e916c](https://github.com/exadel-inc/esl/commit/d5e916c31c6fd08eacad15ea4274ec57c3a6de2e))
+
+# [4.0.0-beta.1](https://github.com/exadel-inc/esl/compare/v3.14.0...v4.0.0-beta.1) (2022-03-24)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** add `capturedBy` and fix 'after:show' dispatch ([9bdc98c](https://github.com/exadel-inc/esl/commit/9bdc98c98a2926fe42c7cd15007c31a19171027c))
+* **esl-utils:** move attribute decorators to the `esl-utils` ([6e5028a](https://github.com/exadel-inc/esl/commit/6e5028a0d147d9b6b9742088f97c6110c58523c0))
+
+
+### Features
+
+* **esl-core:** event listeners functionality introduced (`ESLEventListener`s) ([16ae8db](https://github.com/exadel-inc/esl/commit/16ae8db2c7c6f5d2488268c5ecf69b277f9db05b))
+* **esl-utils:** event utils destructuring ([a822738](https://github.com/exadel-inc/esl/commit/a82273883b9e7393790de5c75b01092b30838a5a))
+* **esl-utils:** extend object:compare utils with `isSimilar` method ([9aa937e](https://github.com/exadel-inc/esl/commit/9aa937e620456457aa9954be161da6816f002e66))
+
+
+### BREAKING CHANGES
+
+* **esl-utils:**  - `isMouseEvent`, `isTouchEvent` moved outside of `EventUtils`
+ - `normalizeTouchPoint` renamed to `touchPoint` and moved outside of `EventUtils`
+ - `normalizeCoordinates` removed `offsetPoint` introduced instead
+ to be used in combination with `touchPoint`
 
 # [3.14.0](https://github.com/exadel-inc/esl/compare/v3.13.2...v3.14.0) (2022-03-11)
 
