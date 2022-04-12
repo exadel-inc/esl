@@ -1,9 +1,10 @@
 .uip-editor {
-  display: block;
   grid-area: editor;
+  display: block;
   height: 300px;
   max-height: 300px;
   overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
 
   &-inner {
     height: 100%;
@@ -12,6 +13,7 @@
 
   &.collapsed {
     max-height: 0;
+
     &-inner {
       visibility: hidden;
       transition:  visibility 0s .3s;
