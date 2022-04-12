@@ -13,7 +13,7 @@ export interface PanelActionParams extends ToggleableActionParams {
   /** Panel group */
   capturedBy?: ESLPanelGroup;
   /** Prevents collapsing/expanding animation */
-  noCollapse?: boolean;
+  noAnimate?: boolean;
 }
 
 /**
@@ -72,7 +72,7 @@ export class ESLPanel extends ESLToggleable {
     super.onShow(params);
 
     this.beforeAnimate();
-    if (params.noCollapse) {
+    if (params.noAnimate) {
       if (params.capturedBy) return;
       afterNextRender(() => this.afterAnimate());
     } else {
@@ -86,7 +86,7 @@ export class ESLPanel extends ESLToggleable {
     super.onHide(params);
 
     this.beforeAnimate();
-    if (params.noCollapse) {
+    if (params.noAnimate) {
       afterNextRender(() => this.afterAnimate());
     } else {
       this.onAnimate(this._initialHeight, 0);
