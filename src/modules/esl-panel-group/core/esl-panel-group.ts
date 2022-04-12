@@ -32,7 +32,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Class(es) to be added during animation ('animate' by default) */
   @attr({defaultValue: 'animate'}) public animationClass: string;
   /** List of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations) */
-  @attr() public noCollapse: string;
+  @attr() public noAnimate: string;
   /**
    * Define accordion behavior
    * `single` allows only one Panel to be open.
@@ -40,7 +40,7 @@ export class ESLPanelGroup extends ESLBaseElement {
    * */
   @attr({defaultValue: 'single'}) public accordionGroup: string;
   /** Action params to pass into panels when executing reset action (happens when mode is changed) */
-  @jsonAttr({defaultValue: {noCollapse: true}}) public transformParams: PanelActionParams;
+  @jsonAttr({defaultValue: {noAnimate: true}}) public transformParams: PanelActionParams;
 
 
   /** Height of previous active panel */
@@ -103,8 +103,6 @@ export class ESLPanelGroup extends ESLBaseElement {
     const prevMode = this.getAttribute('current-mode');
     const currentMode = this.currentMode;
     this.setAttribute('current-mode', currentMode);
-    // TODO: @deprecated will be removed with the 4th esl version
-    this.setAttribute('view', currentMode);
 
     this.updateModeCls();
     this.reset();
@@ -149,16 +147,16 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** @returns whether the collapse/expand animation should be handheld by the group */
-  public get shouldCollapse(): boolean {
-    const noCollapseModes = this.noCollapse.split(',').map((mode) => mode.trim());
-    return !noCollapseModes.includes('all') && !noCollapseModes.includes(this.currentMode);
+  public get shouldAnimate(): boolean {
+    const noAnimateModes = this.noAnimate.split(',').map((mode) => mode.trim());
+    return !noAnimateModes.includes('all') && !noAnimateModes.includes(this.currentMode);
   }
 
   /** @returns action params config that's used (inherited) by controlled {@link ESLPanel}s */
   public get panelConfig(): PanelActionParams {
     return {
       capturedBy: this.currentMode === 'tabs' ? this : undefined,
-      noCollapse: !this.shouldCollapse || (this.currentMode === 'tabs')
+      noAnimate: !this.shouldAnimate || (this.currentMode === 'tabs')
     };
   }
 
@@ -256,7 +254,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     if (this.currentMode !== 'tabs') return;
 
     this.beforeAnimate();
-    if (this.shouldCollapse) {
+    if (this.shouldAnimate) {
       this.onAnimate(this._previousHeight, panel.initialHeight);
     } else {
       afterNextRender(() => this.afterAnimate(true));

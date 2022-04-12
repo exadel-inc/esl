@@ -1,3 +1,28 @@
+# [4.0.0-beta.3](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.2...v4.0.0-beta.3) (2022-04-12)
+
+
+### Bug Fixes
+
+* **esl-scrollbar:** fix non-passive listener of the scrollbar touchstart ([a3df8ec](https://github.com/exadel-inc/esl/commit/a3df8ec4b7a8eb3ccc67f02ad3116a13a86b26c6))
+* **esl-toggleable:** fix double `esl:` prefix for esl-toggleable `esl:refresh` dispatching ([3316da0](https://github.com/exadel-inc/esl/commit/3316da0c4378466c0bf34346e5791ee36fdfe0a8)), closes [#913](https://github.com/exadel-inc/esl/issues/913)
+* **esl-utils:** rename some event/misc utils ([36bdb8a](https://github.com/exadel-inc/esl/commit/36bdb8afa8fdd78f6c71232dfbf65c05a6f54d76))
+
+
+### Code Refactoring
+
+* **esl-panel-group:** remove deprecated `view` attribute ([e0c5410](https://github.com/exadel-inc/esl/commit/e0c5410d157017fa96133e9ccb84d364bdc55534))
+* **esl-panel:** rename noCollapse to noAnimate param ([3f5aa74](https://github.com/exadel-inc/esl/commit/3f5aa74be95eff047db076c33ecc9b8a199d15a4))
+
+
+### BREAKING CHANGES
+
+* **esl-panel-group:** `ESLPanelGroup` `view` attribute no longer supported
+* **esl-panel:** `PanelActionParams.noCollapse` renamed to `PanelActionParams.noAnimate`
+* **esl-panel:** `ESLPanelGroup.noCollapse` (with related attribute)
+renamed to `ESLPanelGroup.noAnimate` (`no-animate` attribute)
+* **esl-panel:** `ESLPanelGroup.shouldCollapse` renamed to `ESLPanelGroup.shouldAnimate`
+* **esl-utils:** rename `offsetPoint` to `getOffsetPoint` and `touchPoint` to `getTouchPoint`
+
 # [4.0.0-beta.2](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2022-04-05)
 
 
