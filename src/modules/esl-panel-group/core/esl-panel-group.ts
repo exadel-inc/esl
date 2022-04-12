@@ -103,8 +103,6 @@ export class ESLPanelGroup extends ESLBaseElement {
     const prevMode = this.getAttribute('current-mode');
     const currentMode = this.currentMode;
     this.setAttribute('current-mode', currentMode);
-    // TODO: @deprecated will be removed with the 4th esl version
-    this.setAttribute('view', currentMode);
 
     this.updateModeCls();
     this.reset();
