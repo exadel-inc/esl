@@ -28,7 +28,7 @@
     "build:ts": "tsc --project tsconfig.json",
     "build:less": "npm run build:less:cpy && npm run build:less:css",
     "build:less:cpy": "copyfiles -u 1 \"./src/**/*.less\" \"esm\"",
-    "build:less:css": "foreach -x \"lessc --npm-import=\"prefix=~\" #{path} #{dir}/#{name}.css\" -g \"esm/{*,*/*,plugins/settings/*}.less\"",
+    "build:less:css": "foreach -x \"lessc --npm-import=\"prefix=~\" #{path} #{dir}/#{name}.css\" -g \"esm/{*,*/*}.less\"",
     "clean-pages": "rimraf pages/dist/**",
     "minify:css": "cleancss -o pages/dist/bundles/playground.css pages/dist/bundles/playground.css",
     "build:watch": "npm run clean && webpack -c webpack.config.js --watch",
