@@ -216,7 +216,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** Updates thumb size and position */
   public update(): void {
-    this.$$fire('change:scroll', {bubbles: false});
+    this.$$fire('esl:change:scroll', {bubbles: false});
     if (!this.$scrollbarThumb || !this.$scrollbarTrack) return;
     const thumbSize = this.trackOffset * this.thumbSize;
     const thumbPosition = (this.trackOffset - thumbSize) * this.position;

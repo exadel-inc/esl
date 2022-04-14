@@ -125,7 +125,7 @@ export class ESLPanel extends ESLToggleable {
     this.clearAnimation();
     // Prevent fallback calls from being tracked
     if (!animating) return;
-    this.$$fire(this.open ? 'after:show' : 'after:hide');
+    this.$$fire(this.open ? 'esl:after:show' : 'esl:after:hide');
   }
 
   /** Clear animation properties */

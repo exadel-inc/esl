@@ -37,7 +37,7 @@ Attributes:
 
 - `$$cls` - check or change element CSS classes (uses CSSClassUtils) 
 - `$$attr` - check or change element attributes
-- `$$fire` - dispatch event with `esl:` prefix
+- `$$fire` - dispatch event
 
 - `$$on` - subscribe on event manually or subscribe decorated method
 - `$$off` - unsubscribe from event manually or unsubscribe decorated method

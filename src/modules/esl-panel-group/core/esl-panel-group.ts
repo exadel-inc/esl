@@ -108,7 +108,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.reset();
 
     if (prevMode !== currentMode) {
-      this.$$fire('change:mode', {detail: {prevMode, currentMode}});
+      this.$$fire('esl:change:mode', {detail: {prevMode, currentMode}});
     }
   }
 
@@ -234,7 +234,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     CSSClassUtils.remove(this, this.animationClass);
 
     if (silent) return;
-    this.$activePanels.forEach((panel) => panel.$$fire('after:show'));
+    this.$activePanels.forEach((panel) => panel.$$fire('esl:after:show'));
   }
 
   /** Process {@link ESLPanel} pre-show event */
