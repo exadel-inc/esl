@@ -68,13 +68,13 @@ export class ESLSortable extends ESLBaseElement {
   protected bindEvents(): void {
     this.addEventListener('mousedown', this._onMouseDown);
     this.addEventListener('transitionend', this._onTransitionOver);
-    this.addEventListener('esl:sortableinsert', this._onInsert);
+    this.addEventListener('esl:sortable:insert', this._onInsert);
   }
 
   protected unbindEvents(): void {
     this.removeEventListener('mousedown', this._onMouseDown);
     this.removeEventListener('transitionend', this._onTransitionOver);
-    this.removeEventListener('esl:sortableinsert', this._onInsert);
+    this.removeEventListener('esl:sortable:insert', this._onInsert);
   }
 
   @bind
@@ -152,11 +152,11 @@ export class ESLSortable extends ESLBaseElement {
     const placeholderParent = this._$placeholderElement.parentNode as ESLSortable;
     if (this._$targetElement.parentNode !== this && targetParent?.getAttribute('group') !== this.group) return;
 
-    placeholderParent.$$fire('sortableinsert', {detail: [this._$targetElement, this._$placeholderElement]});
+    placeholderParent.$$fire('sortable:insert', {detail: [this._$targetElement, this._$placeholderElement]});
 
     // Fired when element was dragged from one sortable to another
     if (placeholderParent !== targetParent) {
-      targetParent.$$fire('sortableinsert', {detail: [this._$targetElement, this._$placeholderElement]});
+      targetParent.$$fire('sortable:insert', {detail: [this._$targetElement, this._$placeholderElement]});
     }
   }
 
