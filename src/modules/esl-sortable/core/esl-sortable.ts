@@ -243,7 +243,7 @@ export class ESLSortable extends ESLBaseElement {
       leftValue += this.outerWidth(el);
       if (isInserted) return;
 
-      if (el === this._$placeholderElement && (this._$placeholderElement.parentNode !== this._$targetElement.parentNode)) {
+      if (this.animation === '1' && el === this._$placeholderElement && (this._$placeholderElement.parentNode !== this._$targetElement.parentNode)) {
         el.style.transition = `opacity ${this.duration}ms ease`;
       } else {
         el.style.transition = `left ${this.duration}ms ease, top ${this.duration}ms ease`;
@@ -286,9 +286,9 @@ export class ESLSortable extends ESLBaseElement {
     document.removeEventListener('mouseup', this._onMouseUp);
     if (!this._$cloneElement || !this._$targetElement) return;
 
-    if (this.animation === '2' && this.originSortable === this.targetSortable && this.originSortable !== null) {
+    if (this.animation === '2' && this.originSortable !== null) {
       afterNextRender(() => {
-        const thisRect = this.getBoundingClientRect();
+        const thisRect = this.targetSortable.getBoundingClientRect();
         this._$cloneElement.style.transform  = `translate3d(${thisRect.left + this.placeholderXPos}px, ${thisRect.top + this.placeholderYPos}px, 0)`;
         this._$cloneElement.style.transition = `transform ${this.duration}ms ease`;
       });
