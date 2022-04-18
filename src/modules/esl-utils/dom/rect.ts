@@ -82,11 +82,13 @@ export class Rect {
    * It increases the size of the Rect by moving each point on the edge of the Rect to a certain distance further away from the center of the Rect.
    * @param increment - distance to grow in pixels
    */
-  public grow(increment: number): Rect {
-    this.y -= increment;
-    this.x -= increment;
-    this.height += 2 * increment;
-    this.width += 2 * increment;
+  public grow(increment: number): Rect;
+  public grow(incrementX: number, incrementY: number): Rect;
+  public grow(incrementX: number, incrementY: number = incrementX): Rect {
+    this.y -= incrementY;
+    this.x -= incrementX;
+    this.height += 2 * incrementY;
+    this.width += 2 * incrementX;
     return this;
   }
 
@@ -95,7 +97,9 @@ export class Rect {
    * It reduces the size of the Rect by moving each point on the edge of the Rect to a certain distance closer to the center of the Rect.
    * @param decrement - distance to shrink in pixels
    */
-  public shrink(decrement: number): Rect {
-    return this.grow(-decrement);
+  public shrink(decrement: number): Rect;
+  public shrink(decrementX: number, decrementY: number): Rect;
+  public shrink(decrementX: number, decrementY: number = decrementX): Rect {
+    return this.grow(-decrementX, -decrementY);
   }
 }
