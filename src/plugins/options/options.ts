@@ -10,24 +10,29 @@ import {OptionConfig, UIPOption} from './option/option';
 export class UIPOptions extends UIPPlugin {
   static is = 'uip-options';
   options: Map<string, UIPOption>;
-  UIPOptionsConfig: OptionConfig[] = [
+  /** List of configs to create options. */
+  protected UIPOptionsConfig: OptionConfig[] = [
     {
       attribute: 'dark-theme',
       iconUrl: '../../static/icons/theme.svg',
+      canActivate: () => !this.hasAttribute('hide-theme')
     },
     {
       attribute: 'rtl-direction',
-      iconUrl: '../../static/icons/rtl.svg'
+      iconUrl: '../../static/icons/rtl.svg',
+      canActivate: () => !this.hasAttribute('hide-direction')
     },
     {
       attribute: 'settings-collapsed',
       iconUrl: '../../static/icons/settings.svg',
-      canActivate: () => !!this.root?.querySelector('uip-settings')
+      canActivate: () => !this.hasAttribute('hide-settings') &&
+      !!this.root?.querySelector('uip-settings')
     },
     {
       attribute: 'editor-collapsed',
       iconUrl: '../../static/icons/editor.svg',
-      canActivate: () => !!this.root?.querySelector('uip-editor')
+      canActivate: () => !this.hasAttribute('hide-editor') &&
+      !!this.root?.querySelector('uip-editor')
     }
   ];
 
