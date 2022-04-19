@@ -18,14 +18,17 @@ export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup
   /** Define class(es) to be added during animation ('animate' by default) */
   'animation-class'?: string;
 
-  /** Define time to clear animation common params (max-height style + classes) ('auto' by default) */
-  'fallback-duration'?: string | number;
-
   /** Define a list of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations)*/
-  'no-collapse'?: string;
+  'no-animate'?: string;
+
+  /** Define json of action params to pass into panels when executing reset action (happens when mode is changed) */
+  'transform-params'?: string;
 
   /** Allowed children */
   children: any;
+
+  /** @deprecated fallback time no longer required */
+  'fallback-duration'?: string | number;
 }
 
 declare global {

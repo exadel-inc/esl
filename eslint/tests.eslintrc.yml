@@ -12,3 +12,5 @@ overrides:
       '@typescript-eslint/ban-ts-comment': off
       # there is no need to evaluate tests strictly
       '@typescript-eslint/non-nullable-type-assertion-style': off
+      # return type on functions or class methods is not required in tests
+      '@typescript-eslint/explicit-function-return-type': off

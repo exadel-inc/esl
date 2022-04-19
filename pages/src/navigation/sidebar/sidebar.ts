@@ -1,7 +1,7 @@
+import {attr} from '../../../../src/modules/esl-utils/decorators/attr';
 import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
 import {bind} from '../../../../src/modules/esl-utils/decorators/bind';
 import {ready} from '../../../../src/modules/esl-utils/decorators/ready';
-import {attr} from '../../../../src/modules/esl-base-element/decorators/attr';
 import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
 import {ESLMediaQuery} from '../../../../src/modules/esl-media-query/core/esl-media-query';
 
@@ -28,42 +28,42 @@ export class ESLDemoSidebar extends ESLToggleable {
   }
 
   @ready
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     ESLMediaQuery.for('@+MD').addListener(this.onBreakpointChange);
   }
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     ESLMediaQuery.for('@+MD').removeListener(this.onBreakpointChange);
   }
 
-  protected storeState() {
+  protected storeState(): void {
     this.open ? localStorage.removeItem('sidebar-collapsed') : localStorage.setItem('sidebar-collapsed', 'true');
   }
 
-  protected setInitialState() {
+  protected setInitialState(): void {
     const isDesktop = ESLMediaQuery.for('@+MD').matches;
     const isStoredOpen = !localStorage.getItem('sidebar-collapsed');
     this.toggle(isDesktop && isStoredOpen, {force: true, initiator: 'init', immediate: true});
   }
 
-  public collapseAll() {
+  public collapseAll(): void {
     this.$submenus.forEach((menu) => menu.hide({activator: this}));
   }
 
-  public expandActive(noCollapse: boolean = false) {
+  public expandActive(noAnimate: boolean = false): void {
     this.$submenus
       .filter((menu) => menu.hasAttribute('data-open'))
-      .forEach((menu) => menu.show({noCollapse, activator: this}));
+      .forEach((menu) => menu.show({noAnimate, activator: this}));
   }
 
-  protected updateA11y() {
+  protected updateA11y(): void {
     const targetEl = this.$a11yTarget;
     if (!targetEl) return;
     targetEl.setAttribute('aria-expanded', String(this.open));
   }
 
-  protected onShow(params: SidebarActionParams) {
+  protected onShow(params: SidebarActionParams): void {
     this._animation = !params.immediate;
     super.onShow(params);
     this.expandActive(params.initiator === 'init');
@@ -71,7 +71,7 @@ export class ESLDemoSidebar extends ESLToggleable {
       this.storeState();
     }
   }
-  protected onHide(params: SidebarActionParams) {
+  protected onHide(params: SidebarActionParams): void {
     this._animation = !params.immediate;
     super.onHide(params);
     this.collapseAll();
@@ -81,14 +81,14 @@ export class ESLDemoSidebar extends ESLToggleable {
   }
 
   @bind
-  protected onBreakpointChange() {
+  protected onBreakpointChange(): void {
     const isDesktop = ESLMediaQuery.for('@+MD').matches;
     const isStoredOpen = !localStorage.getItem('sidebar-collapsed');
     this.toggle(isDesktop && isStoredOpen, {force: true, initiator: 'bpchange', immediate: !isDesktop});
   }
 
   @bind
-  protected _onOutsideAction(e: Event) {
+  protected _onOutsideAction(e: Event): void {
     if (ESLMediaQuery.for('@+MD').matches) return;
     super._onOutsideAction(e);
   }

@@ -45,7 +45,7 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
   protected static readonly SHORTCUT_PATTERN = /@([a-z0-9.+-]+)/i;
   protected static readonly _preprocessors: IMediaQueryPreprocessor[] = [];
 
-  /** Add {@link IMediaQueryPreprocessor} instance for query preprocessing step */
+  /** Adds {@link IMediaQueryPreprocessor} instance for query preprocessing step */
   public static use(preprocessor: IMediaQueryPreprocessor): typeof ESLMediaQuery {
     this._preprocessors.unshift(preprocessor);
     return this;
@@ -67,9 +67,9 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
   }
 
   /** Preprocess simple query term by applying replacers and shortcuts rules */
-  protected static preprocess(term: string) {
+  protected static preprocess(term: string): string {
     if (!this.SHORTCUT_PATTERN.test(term)) return term;
-    const shortcut = term.trim().substr(1).toLowerCase();
+    const shortcut = term.trim().substring(1).toLowerCase();
     for (const replacer of this._preprocessors) {
       const result = replacer.process(shortcut);
       if (typeof result === 'string') return result;

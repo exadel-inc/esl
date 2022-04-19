@@ -15,14 +15,14 @@
   {# Site icon #}
   <link rel="icon" type="image/png" href="{{ '/assets/logo-64x64.png' | url }}" />
 
+  {% if not env.isDev %}
+    {% include 'analytics.njk' %}
+  {% endif %}
   {% block polyfils %}
     {% include 'polyfill.njk' %}
   {% endblock %}
   {% block headlib %}
     <link rel="stylesheet" type="text/css" href="{{ '/bundles/localdev.css' | url }}" />
-  {% endblock %}
-  {% block head %}
-    <script async src="https://cse.google.com/cse.js?cx=3171f866738b34f02"></script>
   {% endblock %}
 </head>
 <body>

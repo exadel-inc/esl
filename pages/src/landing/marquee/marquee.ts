@@ -22,12 +22,12 @@ export class ESLDemoMarquee extends ESLBaseElement {
   private _animateTimer: number = 0;
 
   @ready
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     if (isIE) return;
     this.startAnimation();
   }
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     this.stopAnimation();
     super.disconnectedCallback();
   }
@@ -41,18 +41,18 @@ export class ESLDemoMarquee extends ESLBaseElement {
     return this.$stars[index];
   }
 
-  public startAnimation() {
+  public startAnimation(): void {
     memoize.clear(this, '$stars');
     this.stopAnimation();
     if (this.$stars.length < 2) return;
     this._animateTimer = window.setTimeout(this._onIteration, +this.iterationTime);
   }
-  public stopAnimation() {
+  public stopAnimation(): void {
     this._animateTimer && window.clearTimeout(this._animateTimer);
   }
 
   @bind
-  protected _onIteration() {
+  protected _onIteration(): void {
     const $candidates = range(+this.targetsNumber, () => this.$randomStar);
     this._$active.forEach((star) => star.classList.remove('animate'));
     $candidates.forEach((star) => star.classList.add('animate'));

@@ -55,8 +55,12 @@ Even if you use the whole utils module, it is still tiny.
 
     - ##### <a href="./dom/api.ts" target="_blank">DOM API Utils</a> - a basic dom api helpers.
 
+    - ##### <a href="./dom/attr.ts" target="_blank">Attributes</a> - utility to work with Element attributes.
+
     - ##### <a href="./dom/class.ts" target="_blank">CSSClass</a> - a utility to work with CSS classes. 
       Supports JQuery-like enumeration, inversion syntax and locks.  
+
+    - ##### <a href="./dom/events.ts" target="_blank">Event Utils</a> - utils to check, dispatch or listen events.
 
     - ##### <a href="./dom/focus.ts" target="_blank">Focus</a> - a focus order helpers.
 

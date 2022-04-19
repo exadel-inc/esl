@@ -4,4 +4,7 @@ title: Search
 permalink: search.html
 eleventyExcludeFromCollections: true
 ---
-<div class="gcse-search" data-resultsUrl="{{ '/search.html' | url }}"></div>
+<esl-d-search-page-wrapper>
+  <div class="animation-loading bg-blue m-auto"></div>
+  <div class="gcse-search" data-resultsUrl="{{ '/search.html' | url }}"></div>
+</esl-d-search-page-wrapper>

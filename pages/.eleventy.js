@@ -1,5 +1,5 @@
 const fs = require('fs');
-const chalk = require('chalk');
+const color = require('kleur');
 const {isDev} = require('./11ty/env.config');
 
 module.exports = (config) => {
@@ -8,11 +8,11 @@ module.exports = (config) => {
   for (const file of cfgFiles) {
     if (file.startsWith('_')) continue;
     try {
-      console.info(chalk.blue(`Initializing module: ${file}`));
+      console.info(color.blue(`Initializing module: ${file}`));
       require('./11ty/' + file)(config);
-      console.info(chalk.green(`Module ${file} initialized.`));
+      console.info(color.green(`Module ${file} initialized.`));
     } catch (e) {
-      console.error(chalk.red(`Module ${file} initialization failed`));
+      console.error(color.red(`Module ${file} initialization failed`));
       throw e;
     }
   }
@@ -46,7 +46,6 @@ module.exports = (config) => {
     dataTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
     passthroughFileCopy: true,
-    templateFormats: ['md', 'njk'],
-    pathPrefix: '/'
+    templateFormats: ['md', 'njk']
   };
 };

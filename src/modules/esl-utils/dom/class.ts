@@ -6,7 +6,7 @@ type Locks = Map<string, Set<Element>>;
 const lockStore = new WeakMap<Element, Locks>();
 
 /** Mange className lock for the element */
-const lock = (el: Element, className: string, locker: Element) => {
+const lock = (el: Element, className: string, locker: Element): void => {
   const elLocks: Locks = lockStore.get(el) || new Map();
   const classLocks: Set<Element> = elLocks.get(className) || new Set();
   classLocks.add(locker);
@@ -17,7 +17,7 @@ const lock = (el: Element, className: string, locker: Element) => {
  * Manage className unlock for the element
  * @returns true if className have no locks
  */
-const unlock = (el: Element, className: string, locker: Element) => {
+const unlock = (el: Element, className: string, locker: Element): boolean => {
   const elLocks = lockStore.get(el);
   if (!elLocks) return true;
   const classLocks = elLocks.get(className);
@@ -31,7 +31,7 @@ const unlock = (el: Element, className: string, locker: Element) => {
  * Supports inversion and locker management.
  */
 const add = (el: Element, className: string, locker?: Element): void => {
-  if (className[0] === '!') return CSSClassUtils.remove(el, className.substring(1), locker);
+  if (className[0] === '!') return remove(el, className.substring(1), locker);
   if (locker) lock(el, className, locker);
   el.classList.add(className);
 };
@@ -41,16 +41,25 @@ const add = (el: Element, className: string, locker?: Element): void => {
  * Supports inversion and locker management.
  */
 const remove = (el: Element, className: string, locker?: Element): void => {
-  if (className[0] === '!') return CSSClassUtils.add(el, className.substring(1), locker);
+  if (className[0] === '!') return add(el, className.substring(1), locker);
   if (locker && !unlock(el, className, locker)) return;
   if (!locker) CSSClassUtils.unlock(el, className);
   el.classList.remove(className);
 };
 
 /**
+ * Check if the element matches passed CSS class.
+ * Supports inversion.
+ */
+const has = (el: Element, className: string): boolean => {
+  if (className[0] === '!') return !has(el, className.substring(1));
+  return el.classList.contains(className);
+};
+
+/**
  * CSS class manipulation utilities.
  *
- * Allows to manipulate with CSS classes with the following set of sub-features:
+ * Allows manipulating with CSS classes with the following set of sub-features:
  * - JQuery-like enumeration - you can pass multiple tokens separated by space
  * - safe checks - empty or falsy token sting will be ignored without throwing an error
  * - inversion syntax - tokens that start from '!' will be processed with inverted action
@@ -68,7 +77,7 @@ export abstract class CSSClassUtils {
    * Add all classes from the class token string to the element.
    * @see CSSClassUtils
    * */
-  public static add(els: Element | Element[], cls: string | null | undefined, locker?: Element) {
+  public static add(els: Element | Element[], cls: string | null | undefined, locker?: Element): void {
     const tokens = CSSClassUtils.splitTokens(cls);
     wrap(els).forEach((el) => tokens.forEach((className) => add(el, className, locker)));
   }
@@ -77,7 +86,7 @@ export abstract class CSSClassUtils {
    * Remove all classes from the class token string to the element.
    * @see CSSClassUtils
    * */
-  public static remove(els: Element | Element[], cls: string | null | undefined, locker?: Element) {
+  public static remove(els: Element | Element[], cls: string | null | undefined, locker?: Element): void {
     const tokens = CSSClassUtils.splitTokens(cls);
     wrap(els).forEach((el) => tokens.forEach((className) => remove(el, className, locker)));
   }
@@ -86,12 +95,21 @@ export abstract class CSSClassUtils {
    * Toggle all classes from the class token string on the element to the passed state.
    * @see CSSClassUtils
    * */
-  public static toggle(els: Element | Element[], cls: string | null | undefined, state: boolean, locker?: Element) {
+  public static toggle(els: Element | Element[], cls: string | null | undefined, state: boolean, locker?: Element): void {
     (state ? CSSClassUtils.add : CSSClassUtils.remove)(els, cls, locker);
   }
 
+  /**
+   * Check if all class from token string matches to the element or elements.
+   * @see CSSClassUtils
+   * */
+  public static has(els: Element | Element[], cls: string): boolean {
+    const tokens = CSSClassUtils.splitTokens(cls);
+    return wrap(els).every((el) => tokens.every((className) => has(el, className)));
+  }
+
   /** Remove all lockers for the element or passed element className */
-  public static unlock(els: Element | Element[], className?: string) {
+  public static unlock(els: Element | Element[], className?: string): void {
     if (className) {
       wrap(els).forEach((el) => lockStore.get(el)?.delete(className));
     } else {

@@ -52,7 +52,7 @@ export class ESLSelectRenderer extends ESLBaseElement {
     return this.parentElement instanceof ESLSelect ? this.parentElement : null;
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.appendChild(this.$container);
     this.appendChild(this.$remove);
@@ -60,20 +60,20 @@ export class ESLSelectRenderer extends ESLBaseElement {
 
     customElements.whenDefined(ESLSelectRenderer.is).then(() => this.render());
   }
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeChild(this.$container);
     this.removeChild(this.$remove);
     this.unbindEvents();
   }
 
-  protected bindEvents() {
+  protected bindEvents(): void {
     if (!this.owner) return;
     this.owner.addEventListener('esl:change:value', this.render);
     this.$remove.addEventListener('click', this._onClear);
     window.addEventListener('resize', this._deferredRerender);
   }
-  protected unbindEvents() {
+  protected unbindEvents(): void {
     if (!this.owner) return;
     this.owner.removeEventListener('esl:change:value', this.render);
     this.$remove.removeEventListener('click', this._onClear);
@@ -82,7 +82,7 @@ export class ESLSelectRenderer extends ESLBaseElement {
 
   /** Rerender component with markers */
   @bind
-  public render() {
+  public render(): void {
     if (!this.owner) return;
     const selected = this.owner.selectedOptions;
     this.hasValue = !!selected.length;
@@ -91,7 +91,7 @@ export class ESLSelectRenderer extends ESLBaseElement {
   }
 
   /** Render item with a visible items limit */
-  protected apply(items: string[], limit: number) {
+  protected apply(items: string[], limit: number): void {
     const length = items.length;
     const rest = length - limit;
     const options = {rest, length, limit};
@@ -103,7 +103,7 @@ export class ESLSelectRenderer extends ESLBaseElement {
     }
   }
   /** Render items using adaptive algorithm */
-  protected applyItems(items: string[]) {
+  protected applyItems(items: string[]): void {
     let size = 0;
     do {
       this.apply(items, ++size); // Render with extended limit while it not fits to the container
@@ -113,7 +113,7 @@ export class ESLSelectRenderer extends ESLBaseElement {
 
   /** Handle clear button click */
   @bind
-  protected _onClear(e: MouseEvent) {
+  protected _onClear(e: MouseEvent): void {
     if (!this.owner) return;
     this.owner.setAllSelected(false);
     e.stopPropagation();

@@ -10,8 +10,10 @@ import type {ToggleableActionParams} from '../../esl-toggleable/core';
 
 /** {@link ESLPanel} action params interface */
 export interface PanelActionParams extends ToggleableActionParams {
+  /** Panel group */
+  capturedBy?: ESLPanelGroup;
   /** Prevents collapsing/expanding animation */
-  noCollapse?: boolean;
+  noAnimate?: boolean;
 }
 
 /**
@@ -32,8 +34,6 @@ export class ESLPanel extends ESLToggleable {
   @attr({defaultValue: 'animate'}) public animateClass: string;
   /** Class(es) to be added during animation after next render ('post-animate' by default) */
   @attr({defaultValue: 'post-animate'}) public postAnimateClass: string;
-  /** Time to clear animation common params (max-height style + classes) (1s by default) */
-  @attr({defaultValue: '1000'}) public fallbackDuration: number | 'auto';
 
   /** Initial params for current ESLPanel instance */
   @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init'}})
@@ -44,11 +44,9 @@ export class ESLPanel extends ESLToggleable {
 
   /** Inner height state that updates after show/hide actions but before show/hide events triggered */
   protected _initialHeight: number = 0;
-  /** Inner timer to cleanup animation styles */
-  protected _fallbackTimer: number = 0;
 
   /** @returns Previous active panel height at the start of the animation */
-  public get initialHeight() {
+  public get initialHeight(): number {
     return this._initialHeight;
   }
 
@@ -58,86 +56,90 @@ export class ESLPanel extends ESLToggleable {
     return this.closest(ESLPanelGroup.is);
   }
 
-  protected bindEvents() {
+  protected bindEvents(): void {
     super.bindEvents();
     this.addEventListener('transitionend', this._onTransitionEnd);
   }
 
-  protected unbindEvents() {
+  protected unbindEvents(): void {
     super.unbindEvents();
     this.removeEventListener('transitionend', this._onTransitionEnd);
   }
 
   /** Process show action */
-  protected onShow(params: PanelActionParams) {
+  protected onShow(params: PanelActionParams): void {
     this._initialHeight = this.scrollHeight;
     super.onShow(params);
 
     this.beforeAnimate();
-    if (params.noCollapse) {
+    if (params.noAnimate) {
+      if (params.capturedBy) return;
       afterNextRender(() => this.afterAnimate());
     } else {
-      this.onAnimate('show');
+      this.onAnimate(0, this._initialHeight);
     }
   }
 
   /** Process hide action */
-  protected onHide(params: PanelActionParams) {
+  protected onHide(params: PanelActionParams): void {
     this._initialHeight = this.scrollHeight;
     super.onHide(params);
 
     this.beforeAnimate();
-    if (params.noCollapse) {
+    if (params.noAnimate) {
       afterNextRender(() => this.afterAnimate());
     } else {
-      this.onAnimate('hide');
+      this.onAnimate(this._initialHeight, 0);
     }
   }
 
   /** Pre-processing animation action */
-  protected beforeAnimate() {
+  protected beforeAnimate(): void {
     this.toggleAttribute('animating', true);
     CSSClassUtils.add(this, this.animateClass);
     this.postAnimateClass && afterNextRender(() => CSSClassUtils.add(this, this.postAnimateClass));
   }
 
   /** Process animation */
-  protected onAnimate(action: string) {
+  protected onAnimate(from: number, to: number): void {
     // set initial height
-    this.style.setProperty('max-height', `${action === 'hide' ? this._initialHeight : 0}px`);
-    // make sure that browser apply initial height for animation
+    this.style.setProperty('max-height', `${from}px`);
+    // make sure that browser applies initial height for animation
     afterNextRender(() => {
-      this.style.setProperty('max-height', `${action === 'hide' ? 0 : this._initialHeight}px`);
+      this.style.setProperty('max-height', `${to}px`);
       this.fallbackAnimate();
     });
   }
 
+  /** Checks if transition happens and runs afterAnimate step if transition is not presented*/
+  protected fallbackAnimate(): void {
+    afterNextRender(() => {
+      const distance = parseFloat(this.style.maxHeight) - this.clientHeight;
+      if (Math.abs(distance) <= 1) this.afterAnimate();
+    });
+  }
+
   /** Post-processing animation action */
-  protected afterAnimate() {
+  protected afterAnimate(): void {
+    const {animating} = this;
     this.clearAnimation();
+    // Prevent fallback calls from being tracked
+    if (!animating) return;
     this.$$fire(this.open ? 'after:show' : 'after:hide');
   }
 
   /** Clear animation properties */
-  protected clearAnimation() {
+  protected clearAnimation(): void {
     this.toggleAttribute('animating', false);
     this.style.removeProperty('max-height');
     CSSClassUtils.remove(this, this.animateClass);
     CSSClassUtils.remove(this, this.postAnimateClass);
   }
 
-  /** Init a fallback timer to call post-animate action */
-  protected fallbackAnimate() {
-    const time = +this.fallbackDuration;
-    if (isNaN(time) || time < 0) return;
-    if (this._fallbackTimer) clearTimeout(this._fallbackTimer);
-    this._fallbackTimer = window.setTimeout(() => this.afterAnimate(), time);
-  }
-
   /** Catching CSS transition end event to start post-animate processing */
   @bind
-  protected _onTransitionEnd(e?: TransitionEvent) {
-    if (!e || e.propertyName === 'max-height') {
+  protected _onTransitionEnd(e?: TransitionEvent): void {
+    if (!e || (e.propertyName === 'max-height' && e.target === this)) {
       this.afterAnimate();
     }
   }
