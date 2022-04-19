@@ -82,7 +82,7 @@
     "@types/youtube": "0.0.46"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^1.0.0",
+    "@11ty/eleventy": "^1.0.1",
     "@commitlint/cli": "^16.2.3",
     "@commitlint/config-conventional": "^16.2.1",
     "@juggle/resize-observer": "^3.3.1",
