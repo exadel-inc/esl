@@ -65,10 +65,12 @@ describe('Rect instance methods', () => {
   test('returns Rect grown by passed increment', () => {
     const value = 2;
     expect(rect.grow(value)).toEqual(new Rect(1 - value, 2 - value, 3 + 2 * value, 4 +  2 * value));
+    expect(rect.grow(value, value + 2)).toEqual(new Rect(value - 5, value - 6, 7 + 2 * value, 12 +  2 * value));
   });
 
   test('returns Rect shrunk by passed decrement', () => {
     const value = 2;
-    expect(rect.shrink(2)).toEqual(new Rect(1 + value, 2 + value, 3 + 2 * (-value), 4 +  2 * (-value)));
+    expect(rect.shrink(value)).toEqual(new Rect(1 + value, 2 + value, 3 + 2 * (-value), 4 +  2 * (-value)));
+    expect(rect.shrink(value + 1, value + 3)).toEqual(new Rect(4 + value, 7 + value, 2 * (-value) - 3, 2 * (-value) - 6));
   });
 });
