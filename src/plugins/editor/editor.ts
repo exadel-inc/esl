@@ -84,12 +84,7 @@ export class UIPEditor extends UIPPlugin {
     this.editor = edit(this.$inner);
     this.editor.setOption('useWorker', false);
     this.editor.setOption('mode', 'ace/mode/html');
-
-    if (this.root) {
-      this.setEditorConfig({theme: UIPEditor.themesMapping[this.root.theme]});
-      this.toggleEditor();
-    }
-
+    this.initEditorOptions();
   }
 
   protected initEditorOptions(): void {
@@ -125,25 +120,14 @@ export class UIPEditor extends UIPPlugin {
     const attr = e.detail.attribute;
     const value = e.detail.value;
 
-    if (!['theme', 'editor'].includes(attr)) return;
-
-    if (attr === 'theme') {
-      const defaultTheme = UIPEditor.defaultOptions.theme;
-      const theme = !Object.hasOwnProperty.call(UIPEditor.themesMapping, value)
-        ? defaultTheme
-        : UIPEditor.themesMapping[value];
-
-      this.setEditorConfig({theme});
+    switch (attr) {
+      case 'dark-theme':
+        return this.setEditorConfig({theme: value === null ?
+          UIPEditor.defaultOptions.theme : UIPEditor.themesMapping['uip-dark']});
+      case 'editor-collapsed':
+        return this.classList.toggle('collapsed', value !== null);
+      default:
+        return;
     }
-
-    if (attr === 'editor') {
-      this.toggleEditor();
-    }
-  }
-
-  protected toggleEditor(): void {
-    this.root?.editor
-      ? this.classList.remove('collapsed')
-      : this.classList.add('collapsed');
   }
 }
