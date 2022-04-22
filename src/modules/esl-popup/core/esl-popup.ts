@@ -43,6 +43,8 @@ export interface PopupActionParams extends ToggleableActionParams {
   offsetTrigger?: number;
   /** offset in pixels from the edges of the container (or window if the container is not defined) */
   offsetContainer?: number;
+  /** margin around the element that is used as the viewport for checking the visibility of the popup activator */
+  intersectionMargin?: string;
   /** Target to container element to define bounds of popups visibility */
   container?: string;
   /** Container element that defines bounds of popups visibility (is not taken into account if the container attr is set on popup) */
@@ -66,6 +68,7 @@ export class ESLPopup extends ESLToggleable {
   protected _offsetContainer: number;
   protected _deferredUpdatePosition = rafDecorator(() => this._updatePosition());
   protected _activatorObserver: ActivatorObserver;
+  protected _intersectionMargin: string;
   protected _intersectionRatio: IntersectionRatioRect = {};
   protected _updateLoopID: number;
 
@@ -100,7 +103,8 @@ export class ESLPopup extends ESLToggleable {
   /** Default params to merge into passed action params */
   @jsonAttr<PopupActionParams>({defaultValue: {
     offsetTrigger: 3,
-    offsetContainer: 15
+    offsetContainer: 15,
+    intersectionMargin: '0px'
   }})
   public defaultParams: PopupActionParams;
 
@@ -190,6 +194,7 @@ export class ESLPopup extends ESLToggleable {
     this._containerEl = params.containerEl;
     this._offsetTrigger = params.offsetTrigger || 0;
     this._offsetContainer = params.offsetContainer || 0;
+    this._intersectionMargin = params.intersectionMargin || '0px';
 
     this.style.visibility = 'hidden'; // eliminates the blinking of the popup at the previous position
 
@@ -290,7 +295,7 @@ export class ESLPopup extends ESLToggleable {
 
     if (!this.disableActivatorObservation) {
       const options = {
-        rootMargin: '0px',
+        rootMargin: this._intersectionMargin,
         threshold: range(9, (x) => x / 8)
       } as IntersectionObserverInit;
 
