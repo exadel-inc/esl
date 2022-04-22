@@ -1,3 +1,46 @@
+# [1.0.0-beta.9](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2022-04-22)
+
+
+### Bug Fixes
+
+* fixed snippet dropdown scrollbar blinking ([17bc2a5](https://github.com/exadel-inc/ui-playground/commit/17bc2a5ae4949aec75c9f7e36382f95fb9bdbe5a))
+* **options:** lint fix ([5d71196](https://github.com/exadel-inc/ui-playground/commit/5d71196e08f3a24829f8cb2faad12af1c3a9f10b))
+* **options:** pr fix ([31cdd93](https://github.com/exadel-inc/ui-playground/commit/31cdd935565d7dddabfc79a64083c07b41b05e27))
+* **option:** style dark-theme options ([2c70b58](https://github.com/exadel-inc/ui-playground/commit/2c70b589aea9db43fded32bbcb79941b837c21a6))
+* **package-lock:** update lock.json ([bdd9606](https://github.com/exadel-inc/ui-playground/commit/bdd9606a09e364ca30b69c3c02b69f29c14856ec))
+* **plugins:** add UIPSettings to exports ([35b4507](https://github.com/exadel-inc/ui-playground/commit/35b45071407927462b93ef9fac089f7b7c91cf6a))
+* **replace-links:** replace 'replaceAll' with 'replace' to support 14th node ([c74ef33](https://github.com/exadel-inc/ui-playground/commit/c74ef3358124767f13d6f7656e9a0eaf8ab8fc2d))
+* **root:** refactor uip-root attributes' docs ([1cf7791](https://github.com/exadel-inc/ui-playground/commit/1cf77911b6c3fba0bf8e55e3e72ef5527bf67005))
+* **rtl-option:** change 'dir' target ([4c9a2d5](https://github.com/exadel-inc/ui-playground/commit/4c9a2d502cf62414623f7ef386bbb548efa0d2eb))
+* **select-setting:** fix empty option processing ([d1b9760](https://github.com/exadel-inc/ui-playground/commit/d1b9760e067372df588fdc9ecdcc0ec4f9a787cd))
+* **select-setting:** fix options processing ([bc9c8b8](https://github.com/exadel-inc/ui-playground/commit/bc9c8b8a64d841b7491d19be5eca11badf343ed9))
+* **select-setting:** fix styles path ([314370c](https://github.com/exadel-inc/ui-playground/commit/314370c1212c2c57bae1670ea3c4d0b8516b8f4e))
+* **select-setting:** pr fix ([ab525c4](https://github.com/exadel-inc/ui-playground/commit/ab525c49651d11b0e5c69b7d348ff17c7e733940))
+* **slider-setting:** cosmetic fix ([383d950](https://github.com/exadel-inc/ui-playground/commit/383d9507c89eeffa3f32c26d36ab88a8866c8336))
+* **slider-setting:** lint fix ([6d6110b](https://github.com/exadel-inc/ui-playground/commit/6d6110b3123ff1b54e0a4af74d57e768f918d7e4))
+* **slider-setting:** lint fix ([359b8ce](https://github.com/exadel-inc/ui-playground/commit/359b8ce84dcb3b3c56b108192e742384113dd1e8))
+* **slider-setting:** pr fix ([3ef3dcf](https://github.com/exadel-inc/ui-playground/commit/3ef3dcff0ba98f4e905e4281eb3e998e8c1b45db))
+
+
+### Features
+
+* changed layout; added editor/settings collapsing feat; added header ([cd27806](https://github.com/exadel-inc/ui-playground/commit/cd278066aa790a323d0a201e86d6a22e1ae1aafb))
+* **docs-links:** add plugin to replace links domains ([872a7b6](https://github.com/exadel-inc/ui-playground/commit/872a7b6ded1a0b07dd861cb436506c4632ed1f8b))
+* **icons:** add icons for options ([9d9154f](https://github.com/exadel-inc/ui-playground/commit/9d9154f2c15b6118331bd39f6a38eb99aa6f1828))
+* **option:** implement uip-option ([f363889](https://github.com/exadel-inc/ui-playground/commit/f3638891234bc608ac8ba7d9a413372d864215d4))
+* **options:** add attributes for hiding options ([3556108](https://github.com/exadel-inc/ui-playground/commit/35561081f556513a21909f890bb7bc82b9109bfb))
+* **options:** update options svg styles ([e4686ba](https://github.com/exadel-inc/ui-playground/commit/e4686bad2512edbf58988cc65ff5c2eaa051b034))
+* **rtl-option:** cosmetic fixes ([4f2f86c](https://github.com/exadel-inc/ui-playground/commit/4f2f86c4d0f274b2be48d203facd1dcb552f8417))
+* **rtl-option:** implement rtl switcher option ([6ca2a31](https://github.com/exadel-inc/ui-playground/commit/6ca2a3136d9baae298a6cc3d6bc390ed319cc160))
+* **rtl-option:** replace dir attribute with styles ([53f915f](https://github.com/exadel-inc/ui-playground/commit/53f915fce7867ff938a9e548528919b50d318f5a))
+* **slider-setting:** create docs/update examples for slider setting ([10f9768](https://github.com/exadel-inc/ui-playground/commit/10f97682db92cef47203e0cb573539adcde9b859))
+* **slider-setting:** implement slider setting ([96eb2b5](https://github.com/exadel-inc/ui-playground/commit/96eb2b55d330814433200342d2a85c9deb80903c))
+* **snippets:** method name fix ([38a4c5e](https://github.com/exadel-inc/ui-playground/commit/38a4c5eec5b010e5aa634b38efda63d3c8a36b4c))
+* **state:** fire state changing as microtask ([1d16afe](https://github.com/exadel-inc/ui-playground/commit/1d16afea26c5f0a9590c724d70867d542ba16e07))
+* **state:** rename method ([1f7917a](https://github.com/exadel-inc/ui-playground/commit/1f7917ab75a031d954f410e5e7c6c2d16bbe2392))
+* **state:** rename method ([e51f653](https://github.com/exadel-inc/ui-playground/commit/e51f653c598eb46119abb7816c083bce2396003c))
+* **state:** set fire state changing for several state modifications ([58c8304](https://github.com/exadel-inc/ui-playground/commit/58c8304d6823de697ea239b01ddea1d39abb732e))
+
 # [1.0.0-beta.8](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2021-11-16)
 
 
