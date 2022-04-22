@@ -23,6 +23,9 @@ export type ChangeAttrConfig = {
   transform: TransformSignature
 });
 
+/** Type for both <script> or <template> containers. */
+export type SnippetTemplate = HTMLTemplateElement | HTMLScriptElement;
+
 /**
  * State holder class to store current UIP markup state.
  * Provides methods to modify the state.
@@ -32,6 +35,10 @@ export class UIPStateModel extends Observable {
   private _html = new DOMParser().parseFromString('', 'text/html').body;
   /** Last {@link UIPPlugin} element which changed markup. */
   private _lastModifier: UIPPlugin;
+  private _isFired = false;
+
+  private _snippets: SnippetTemplate[];
+  private _activeSnippet: SnippetTemplate;
 
   /**
    * Set current markup state to the passed one.
@@ -44,7 +51,7 @@ export class UIPStateModel extends Observable {
     if (!root || root.innerHTML !== this.html) {
       this._html = root;
       this._lastModifier = modifier;
-      this.fire();
+      this.promisifyFiring();
     }
   }
 
@@ -52,8 +59,25 @@ export class UIPStateModel extends Observable {
     return this._html ? this._html.innerHTML : '';
   }
 
-  public get lastModifier() {
+  public get lastModifier(): UIPPlugin {
     return this._lastModifier;
+  }
+
+  public get snippets(): SnippetTemplate[] {
+    return this._snippets;
+  }
+
+  public set snippets(snippets: SnippetTemplate[]) {
+    this._snippets = snippets;
+  }
+
+  public get activeSnippet(): SnippetTemplate {
+    return this._activeSnippet;
+  }
+
+  public applySnippet(snippet: SnippetTemplate, modifier: UIPPlugin) {
+    this._activeSnippet = snippet;
+    this.setHtml(snippet.innerHTML, modifier);
   }
 
   /**
@@ -74,7 +98,17 @@ export class UIPStateModel extends Observable {
 
     UIPStateModel.setAttribute(elements, attribute, 'transform' in cfg ? cfg.transform : cfg.value);
     this._lastModifier = modifier;
-    this.fire();
+    this.promisifyFiring();
+  }
+
+  protected promisifyFiring() {
+    if (!this._isFired) {
+      this._isFired = true;
+      Promise.resolve().then(() => {
+        this.fire();
+        this._isFired = false;
+      });
+    }
   }
 
   protected static setAttribute(elements: Element[], attr: string, transform: TransformSignature | string | boolean) {
@@ -83,7 +117,7 @@ export class UIPStateModel extends Observable {
       if (typeof transformed === 'string') {
         el.setAttribute(attr, transformed);
       } else {
-         transformed ? el.setAttribute(attr, '') : el.removeAttribute(attr);
+        transformed ? el.setAttribute(attr, '') : el.removeAttribute(attr);
       }
     });
   }

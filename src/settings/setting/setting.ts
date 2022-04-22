@@ -2,9 +2,9 @@ import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 
-import {ChangeAttrConfig, UIPStateModel} from '../../../../core/registration';
-import {UIPSettings} from '../settings';
-import {WARNING_MSG} from '../../../../utils/warning-msg';
+import {ChangeAttrConfig, UIPStateModel} from '../../core/registration';
+import {UIPSettings} from '../../plugins/settings/settings';
+import {WARNING_MSG} from '../../utils/warning-msg';
 
 /**
  * Custom element for manipulating with elements attributes.

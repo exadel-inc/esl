@@ -1,12 +1,11 @@
 import {attr, boolAttr} from '@exadel/esl/modules/esl-base-element/core';
+import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
 
-import {UIPSetting} from '../setting';
-import {ChangeAttrConfig, UIPStateModel} from '../../../../../core/registration';
-import TokenListUtils from '../../../../../utils/token-list-utils';
-import {WARNING_MSG} from '../../../../../utils/warning-msg';
-
-import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
+import {UIPSetting} from '../setting/setting';
+import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
+import TokenListUtils from '../../utils/token-list-utils';
+import {WARNING_MSG} from '../../utils/warning-msg';
 
 /**
  * Custom setting for selecting attribute's value.
@@ -112,10 +111,18 @@ export class UIPSelectSetting extends UIPSetting {
     return this.multiple ? this.setValue('') : this.setInconsistency(WARNING_MSG.noMatch);
   }
 
-  /** Update setting's value for append {@link mode}. */
+  /** Update setting's value for {@link mode} = "append". */
   protected updateAppend(attrValues: (string | null)[]): void {
-    const commonOptions = TokenListUtils.intersection(
-      ...attrValues.map(val => TokenListUtils.split(val)), this.settingOptions);
+    // array of each attribute's value intersection with select options
+    const valuesOptions = attrValues.map(val => TokenListUtils.intersection(this.settingOptions, TokenListUtils.split(val)));
+
+    // make empty option active if no options intersections among attribute values
+    if (this.settingOptions.includes('') && valuesOptions.every(inter => !inter.length)) {
+      return this.setValue('');
+    }
+
+    // common options among all attribute values
+    const commonOptions = TokenListUtils.intersection(...valuesOptions);
 
     if (this.multiple || commonOptions.length) return this.setValue(TokenListUtils.join(commonOptions));
 

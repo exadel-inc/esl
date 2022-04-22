@@ -1,11 +1,11 @@
 import {UIPEditor} from './editor/editor';
 import {UIPOptions} from './options/options';
-import {registerSettings} from './settings/registration';
+import {UIPSettings} from './settings/settings';
 
-export {UIPEditor, UIPOptions, registerSettings};
+export {UIPEditor, UIPOptions, UIPSettings};
 
 export const registerPlugins = () => {
   UIPEditor.register();
   UIPOptions.register();
-  registerSettings();
+  UIPSettings.register();
 };

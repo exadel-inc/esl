@@ -1,8 +1,7 @@
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
-import {CSSClassUtils} from '@exadel/esl';
-import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
 
 import {UIPPlugin} from '../../core/registration';
+import {OptionConfig, UIPOption} from './option/option';
 
 /**
  * Custom element to provide controls for changing UIP visual appearance.
@@ -10,6 +9,32 @@ import {UIPPlugin} from '../../core/registration';
  */
 export class UIPOptions extends UIPPlugin {
   static is = 'uip-options';
+  options: Map<string, UIPOption>;
+  /** List of configs to create options. */
+  protected UIPOptionsConfig: OptionConfig[] = [
+    {
+      attribute: 'dark-theme',
+      iconUrl: '../../static/icons/theme.svg',
+      canActivate: () => !this.hasAttribute('hide-theme')
+    },
+    {
+      attribute: 'rtl-direction',
+      iconUrl: '../../static/icons/rtl.svg',
+      canActivate: () => !this.hasAttribute('hide-direction')
+    },
+    {
+      attribute: 'settings-collapsed',
+      iconUrl: '../../static/icons/settings.svg',
+      canActivate: () => !this.hasAttribute('hide-settings') &&
+      !!this.root?.querySelector('uip-settings')
+    },
+    {
+      attribute: 'editor-collapsed',
+      iconUrl: '../../static/icons/editor.svg',
+      canActivate: () => !this.hasAttribute('hide-editor') &&
+      !!this.root?.querySelector('uip-editor')
+    }
+  ];
 
   protected connectedCallback() {
     super.connectedCallback();
@@ -18,82 +43,44 @@ export class UIPOptions extends UIPPlugin {
   }
 
   protected disconnectedCallback() {
-    super.disconnectedCallback();
+    this.innerHTML = '';
     this.unbindEvents();
+    super.disconnectedCallback();
   }
 
   protected bindEvents() {
-    this.addEventListener('change', this._onOptionChange);
+    this.addEventListener('uip:optionclick', this._onOptionClick);
     this.root?.addEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected unbindEvents() {
-    this.removeEventListener('change', this._onOptionChange);
+    this.removeEventListener('uip:optionclick', this._onOptionClick);
     this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected render() {
-    this.innerHTML = '';
-    this.renderMode();
-    this.renderTheme();
-  }
-
-  protected renderMode() {
-    const $mode = document.createElement('div');
-    CSSClassUtils.add($mode, 'uip-option mode');
-    const modeOptionId = randUID();
-    $mode.innerHTML = `
-        <div class="option-item">
-            <input type="radio" id=${modeOptionId}-vertical name=${modeOptionId}-mode mode="vertical"
-            class="option-radio-btn" ${this.root?.mode === 'vertical' ? 'checked' : ''}>
-            <label class="option-label" for=${modeOptionId}-vertical>Vertical</label>
-        </div>
-        <div class="option-item">
-            <input type="radio" id=${modeOptionId}-horizontal name=${modeOptionId}-mode mode="horizontal"
-            class="option-radio-btn" ${this.root?.mode === 'horizontal' ? 'checked' : ''}>
-            <label class="option-label" for=${modeOptionId}-horizontal>Horizontal</label>
-        </div>`;
-    this.appendChild($mode);
-  }
-
-  protected renderTheme() {
-    const $theme = document.createElement('div');
-    CSSClassUtils.add($theme, 'uip-option theme');
-    const themeOptionId = randUID();
-    $theme.innerHTML = `
-        <div class="option-item">
-            <input type="radio" id=${themeOptionId}-uip-light name=${themeOptionId}-theme theme="uip-light"
-            class="option-radio-btn" ${this.root?.theme === 'uip-light' ? 'checked' : ''}>
-            <label class="option-label" for=${themeOptionId}-uip-light>Light</label>
-        </div>
-        <div class="option-item">
-            <input type="radio" id=${themeOptionId}-uip-dark name=${themeOptionId}-theme theme="uip-dark"
-            class="option-radio-btn" ${this.root?.theme === 'uip-dark' ? 'checked' : ''}>
-            <label class="option-label" for=${themeOptionId}-uip-dark>Dark</label>
-        </div>`;
-    this.appendChild($theme);
-  }
-
-  @bind
-  protected _onOptionChange(e: Event) {
-    const target = e.target as HTMLElement;
-
-    const mode = target.getAttribute('mode');
-    const theme = target.getAttribute('theme');
-
-    if (this.root) {
-      if (mode) this.root.mode = mode;
-      if (theme) this.root.theme = theme;
-    }
+    this.options = new Map(
+      this.UIPOptionsConfig.filter(option => !option.canActivate || option.canActivate())
+      .map(option => [option.attribute, UIPOption.create(option)])
+      );
+    this.options.forEach(option => this.append(option));
   }
 
   @bind
   protected _onRootConfigChange(e: CustomEvent) {
-    this.checkMarker(e.detail.attribute, e.detail.value);
+    const option = this.options.get(e.detail.attribute);
+    option?.toggleState(e.detail.value !== null);
   }
 
-  protected checkMarker(attr: string, value: string) {
-    const marker = (this.querySelector(`input[${attr}="${value}"]`) || this.querySelector(`input[${attr}]`)) as HTMLInputElement;
-    if (marker) marker.checked = true;
+  @bind
+  protected _onOptionClick(e: Event) {
+    e.stopPropagation();
+    const option = e.target as UIPOption;
+    this.root?.toggleAttribute(option.attribute, option.active);
+  }
+
+  public static register(tagName?: string) {
+    UIPOption.register();
+    UIPOption.registered.then(() => super.register.call(this, tagName));
   }
 }

@@ -5,8 +5,9 @@ const {isDev} = require('./pages/views/_data/env');
 module.exports = config => {
   config.addWatchTarget('src/**/*.md');
   config.addPassthroughCopy({
-    'pages/static/assets': 'assets',
+    'pages/static/assets': 'assets'
   });
+  config.addPassthroughCopy('static');
 
   config.addPairedShortcode(
     'markdown', (content) => markdown.render(content)

@@ -1,5 +1,5 @@
-import {UIPPlugin} from '../../../core/registration';
-import {UIPSetting} from './setting/setting';
+import {UIPPlugin} from '../../core/registration';
+import {UIPSetting} from '../../settings/setting/setting';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
@@ -50,10 +50,12 @@ export class UIPSettings extends UIPPlugin {
 
   protected bindEvents() {
     this.addEventListener('uip:change', this._onSettingChanged);
+    this.root?.addEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected unbindEvents(): void {
     this.removeEventListener('uip:change', this._onSettingChanged);
+    this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected _onSettingChanged(e: any) {
@@ -70,5 +72,10 @@ export class UIPSettings extends UIPPlugin {
   protected _onRootStateChange(): void {
     this.settings.forEach(setting => setting.updateFrom(this.model!));
   }
-}
 
+  @bind
+  protected _onRootConfigChange(e: CustomEvent) {
+    if (e.detail.attribute !== 'settings-collapsed') return false;
+    this.classList.toggle('collapsed', e.detail.value !== null);
+  }
+}

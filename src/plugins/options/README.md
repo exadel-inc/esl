@@ -1,24 +1,29 @@
 # UIP Options
 
 **UIPOptions** - custom element which provides visual controls for changing UIP visual appearance.
-Extends [UIPPlugin](src/core/README.md#uip-plugin).
+Extends [UIPPlugin](src/core/base/README.md#uip-plugin).
 
 ## Description:
 
-**UIPOptions** component supports two settings: **theme** and **mode**.
+**UIPOptions** component supports four options:
 
-- **Theme** option has two values: *light* (default) and *dark*. It sets color theme for other elements.
-- **Mode** option also has two values: *vertical* (default) and *horizontal*. It controls UIP container's layout.
+- **Theme** option toggles *light/dark* theme for UIP components. It uses root's *dark-theme* attribute and
+can be hidden with *hide-theme* options' attribute.
+- **Direction** option is used to change [UIPPreview](src/core/preview/README.md) content direction (*rtl/ltr*). It uses root's *rtl-direction* attribute and can be hidden with *hide-direction* options' attribute.
+- **Settings** option collapses/expands [UIPSettings](src/plugins/settings/README.md) plugin. It uses root's *settings-collapsed*
+attribute and can be hidden with *hide-settings* options' attribute.
+- **Editor** option collapses/expands [UIPEditor](src/plugins/editor/README.md) plugin. It uses root's *editor-collapsed*
+attribute and can be hidden with *hide-editor* options' attribute.
 
-These options can be manually set (and observed) with corresponding *theme* and *mode* attributes:
+These options can be manually set (and observed) with corresponding attributes:
 
 ```html
-<uip-options label="Options:" mode="horizontal" theme="dark"></uip-options>
+<uip-root rtl-direction dark-theme></uip-root>
 ```
 
 **UIPOptions** element doesn't produce or observe UIPStateModel changes.
 
 ## Example:
 ```html
-<uip-options label="Options:"></uip-options>
+<uip-options hide-theme hide-settings></uip-options>
 ```
