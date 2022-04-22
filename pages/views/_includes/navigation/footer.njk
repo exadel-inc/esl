@@ -13,14 +13,14 @@
         {{ menu ('Utils', 'utils') }}
       </li>
       <li class="footer-column">
-        {{ menu ('Help', 'introduction') }}
+        {{ menu ('Help', 'introduction', footer.additional) }}
       </li>
     </ul>
   </esl-panel-group>
   <div class="footer-common-links-container">
     <div class="footer-common-links">
       <div class="footer-copyright">
-        ESL v{{ env.version }} © 2021 <a class="footer-link" href="https://exadel.com" target="_blank">Exadel</a>, Inc.
+        ESL v{{ env.version }} © {{ env.date.getFullYear() }} <a class="footer-link" href="https://exadel.com" target="_blank">Exadel</a>, Inc.
         Code licenced under <a class="footer-link" href="https://github.com/exadel-inc/esl/blob/main/LICENSE" target="_blank">MIT</a>
       </div>
     </div>

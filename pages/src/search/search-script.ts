@@ -1,4 +1,4 @@
-import {loadScript} from '../../../modules/esl-utils/dom/script';
+import {loadScript} from '../../../src/modules/esl-utils/dom/script';
 import {memoizeFn} from '../../../src/modules/esl-utils/misc/memoize';
 
 function loadSearchScript(): Promise<Event> {

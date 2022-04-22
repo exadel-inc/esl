@@ -78,24 +78,38 @@ export class Rect {
   }
 
   /**
-   * Grow the Rect by the specified increment in pixels.
+   * Method that accepts one argument and grows the Rect by the specified increment in pixels.
    * It increases the size of the Rect by moving each point on the edge of the Rect to a certain distance further away from the center of the Rect.
-   * @param increment - distance to grow in pixels
+   * @param increment - distance to grow in pixels for both X and Y-axis
    */
-  public grow(increment: number): Rect {
-    this.y -= increment;
-    this.x -= increment;
-    this.height += 2 * increment;
-    this.width += 2 * increment;
+  public grow(increment: number): Rect;
+  /**
+   * Method that accepts two arguments where each specified increment grows the rect in different axis in pixels.
+   * @param incrementX -  distance to grow in pixels for X-axis
+   * @param incrementY -  distance to grow in pixels for Y-axis
+   */
+  public grow(incrementX: number, incrementY: number): Rect;
+  public grow(incrementX: number, incrementY: number = incrementX): Rect {
+    this.y -= incrementY;
+    this.x -= incrementX;
+    this.height += 2 * incrementY;
+    this.width += 2 * incrementX;
     return this;
   }
 
   /**
-   * Shrink the Rect by the specified decrement in pixels.
+   * Method that accepts one argument and shrinks the Rect by the specified decrement in pixels.
    * It reduces the size of the Rect by moving each point on the edge of the Rect to a certain distance closer to the center of the Rect.
-   * @param decrement - distance to shrink in pixels
+   * @param decrement - distance to shrink in pixels for both X and Y-axis
    */
-  public shrink(decrement: number): Rect {
-    return this.grow(-decrement);
+  public shrink(decrement: number): Rect;
+  /**
+   * Method that accepts two arguments where each specified decrement shrinks the rect in different axis in pixels.
+   * @param decrementX -  distance to shrink in pixels for X-axis
+   * @param decrementY -  distance to shrink in pixels for Y-axis
+   */
+  public shrink(decrementX: number, decrementY: number): Rect;
+  public shrink(decrementX: number, decrementY: number = decrementX): Rect {
+    return this.grow(-decrementX, -decrementY);
   }
 }

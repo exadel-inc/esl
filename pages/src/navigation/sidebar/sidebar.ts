@@ -1,7 +1,7 @@
+import {attr} from '../../../../src/modules/esl-utils/decorators/attr';
 import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
 import {bind} from '../../../../src/modules/esl-utils/decorators/bind';
 import {ready} from '../../../../src/modules/esl-utils/decorators/ready';
-import {attr} from '../../../../src/modules/esl-base-element/decorators/attr';
 import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
 import {ESLMediaQuery} from '../../../../src/modules/esl-media-query/core/esl-media-query';
 
@@ -51,10 +51,10 @@ export class ESLDemoSidebar extends ESLToggleable {
     this.$submenus.forEach((menu) => menu.hide({activator: this}));
   }
 
-  public expandActive(noCollapse: boolean = false): void {
+  public expandActive(noAnimate: boolean = false): void {
     this.$submenus
       .filter((menu) => menu.hasAttribute('data-open'))
-      .forEach((menu) => menu.show({noCollapse, activator: this}));
+      .forEach((menu) => menu.show({noAnimate, activator: this}));
   }
 
   protected updateA11y(): void {

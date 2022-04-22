@@ -31,10 +31,8 @@ export class ESLPanelGroup extends ESLBaseElement {
   @attr({defaultValue: ''}) public modeClsTarget: string;
   /** Class(es) to be added during animation ('animate' by default) */
   @attr({defaultValue: 'animate'}) public animationClass: string;
-  /** Time to clear animation common params (max-height style + classes) ('auto' by default) */
-  @attr({defaultValue: 'auto'}) public fallbackDuration: number | 'auto';
   /** List of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations) */
-  @attr() public noCollapse: string;
+  @attr() public noAnimate: string;
   /**
    * Define accordion behavior
    * `single` allows only one Panel to be open.
@@ -42,13 +40,11 @@ export class ESLPanelGroup extends ESLBaseElement {
    * */
   @attr({defaultValue: 'single'}) public accordionGroup: string;
   /** Action params to pass into panels when executing reset action (happens when mode is changed) */
-  @jsonAttr({defaultValue: {noCollapse: true}}) public transformParams: PanelActionParams;
+  @jsonAttr({defaultValue: {noAnimate: true}}) public transformParams: PanelActionParams;
 
 
   /** Height of previous active panel */
   protected _previousHeight: number = 0;
-  /** Fallback setTimeout timer */
-  protected _fallbackTimer: number = 0;
 
   static get observedAttributes(): string[] {
     return ['mode', 'accordion-group'];
@@ -107,8 +103,6 @@ export class ESLPanelGroup extends ESLBaseElement {
     const prevMode = this.getAttribute('current-mode');
     const currentMode = this.currentMode;
     this.setAttribute('current-mode', currentMode);
-    // TODO: @deprecated will be removed with the 4th esl version
-    this.setAttribute('view', currentMode);
 
     this.updateModeCls();
     this.reset();
@@ -153,15 +147,16 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** @returns whether the collapse/expand animation should be handheld by the group */
-  public get shouldCollapse(): boolean {
-    const noCollapseModes = this.noCollapse.split(',').map((mode) => mode.trim());
-    return !noCollapseModes.includes('all') && !noCollapseModes.includes(this.currentMode);
+  public get shouldAnimate(): boolean {
+    const noAnimateModes = this.noAnimate.split(',').map((mode) => mode.trim());
+    return !noAnimateModes.includes('all') && !noAnimateModes.includes(this.currentMode);
   }
 
   /** @returns action params config that's used (inherited) by controlled {@link ESLPanel}s */
   public get panelConfig(): PanelActionParams {
     return {
-      noCollapse: !this.shouldCollapse || (this.currentMode === 'tabs')
+      capturedBy: this.currentMode === 'tabs' ? this : undefined,
+      noAnimate: !this.shouldAnimate || (this.currentMode === 'tabs')
     };
   }
 
@@ -212,12 +207,20 @@ export class ESLPanelGroup extends ESLBaseElement {
     } else {
       // set initial height
       this.style.height = `${from}px`;
-      // make sure that browser apply initial height to animate
+      // make sure that browser applies initial height to animate
       afterNextRender(() => {
         this.style.height = `${to}px`;
         this.fallbackAnimate();
       });
     }
+  }
+
+  /** Checks if transition happens and runs afterAnimate step if transition is not presented */
+  protected fallbackAnimate(): void {
+    afterNextRender(() => {
+      const distance = parseFloat(this.style.height) - this.clientHeight;
+      if (Math.abs(distance) <= 1) this.afterAnimate();
+    });
   }
 
   /** Pre-processing animation action */
@@ -226,17 +229,12 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Post-processing animation action */
-  protected afterAnimate(): void {
+  protected afterAnimate(silent?: boolean): void {
     this.style.removeProperty('height');
     CSSClassUtils.remove(this, this.animationClass);
-  }
 
-  /** Inits a fallback timer to call post-animate action */
-  protected fallbackAnimate(): void {
-    const time = +this.fallbackDuration;
-    if (isNaN(time) || time < 0) return;
-    if (this._fallbackTimer) clearTimeout(this._fallbackTimer);
-    this._fallbackTimer = window.setTimeout(() => this.afterAnimate(), time);
+    if (silent) return;
+    this.$activePanels.forEach((panel) => panel.$$fire('after:show'));
   }
 
   /** Process {@link ESLPanel} pre-show event */
@@ -256,30 +254,30 @@ export class ESLPanelGroup extends ESLBaseElement {
     if (this.currentMode !== 'tabs') return;
 
     this.beforeAnimate();
-    if (this.shouldCollapse) {
+    if (this.shouldAnimate) {
       this.onAnimate(this._previousHeight, panel.initialHeight);
     } else {
-      afterNextRender(() => this.afterAnimate());
+      afterNextRender(() => this.afterAnimate(true));
     }
   }
 
   /** Process {@link ESLPanel} pre-hide event */
   @bind
   protected _onBeforeHide(e: CustomEvent): void {
-    // TODO: refactor
+    const panel = e.target;
+    if (!this.includesPanel(panel)) return;
     if (this.currentMode === 'open') {
+      // TODO: refactor
       e.preventDefault();
       return;
     }
-    const panel = e.target;
-    if (!this.includesPanel(panel)) return;
-    this._previousHeight = this.offsetHeight;
+    this._previousHeight = this.clientHeight;
   }
 
   /** Catches CSS transition end event to start post-animate processing */
   @bind
   protected _onTransitionEnd(e?: TransitionEvent): void {
-    if (!e || e.propertyName === 'height') {
+    if (!e || (e.propertyName === 'height' && e.target === this)) {
       this.afterAnimate();
     }
   }
