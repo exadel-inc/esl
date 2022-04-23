@@ -1,14 +1,23 @@
-export interface IMediaQueryCondition {
+export interface IMediaQueryCondition extends EventTarget {
   /** @returns true if current environment satisfies query */
   matches: boolean;
-  /** Attach listener to wrapped media query list */
-  addListener(cb: VoidFunction): void;
-  /** Detach listener from wrapped media query list */
-  removeListener(cb: VoidFunction): void;
+
+  /** @deprecated Use `addEventListener` instead */
+  addListener(cb: EventListener): void;
+  /** Subscribes to media query state change. Shortcut for `addEventListener('change', callback)` */
+  addEventListener(callback: EventListener): void;
+  /** Subscribes to media query state change. Implements {@link EventTarget} interface */
+  addEventListener(type: 'change', callback: EventListener): void;
+
+  /** @deprecated Use `removeEventListener` instead */
+  removeListener(cb: EventListener): void;
+  /** Unsubscribes from media query state change event. Shortcut for `removeEventListener('change', callback)` */
+  removeEventListener(callback: EventListener): void;
+  /** Unsubscribes from media query state change event. Implements {@link EventTarget} interface */
+  removeEventListener(type: 'change', callback: EventListener): void;
+
   /** Optimize condition with nested hierarchy */
   optimize(): IMediaQueryCondition;
-  /** Stringify condition */
-  toString(): string;
 }
 
 /**
@@ -25,13 +34,19 @@ class MediaQueryConstCondition implements IMediaQueryCondition {
     return this._matches;
   }
 
-  public addListener(cb: VoidFunction): void {}
-  public removeListener(cb: VoidFunction): void {}
+  public addListener(): void {}
+  public addEventListener(): void {}
+
+  public removeListener(): void {}
+  public removeEventListener(): void {}
+
+  public dispatchEvent(): boolean {
+    return false;
+  }
 
   public optimize(): IMediaQueryCondition {
     return this;
   }
-
   public toString(): string {
     return this._matches ? 'all' : 'not all';
   }

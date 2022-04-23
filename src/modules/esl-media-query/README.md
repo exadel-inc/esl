@@ -1,15 +1,17 @@
 # [ESL](../../../) Media Query Utils
 
-Version: *2.1.0*
+Version: *3.0.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*
 
 <a name="intro"></a>
 
-ESL Media Query is an extended browser MediaQueryList object and related utils.
+`ESLMediaQuery` is an extended browser `MediaQueryList` object and related utils.
 In addition to native Media Features, ESL Media Query allows special *shortcuts* to simplify syntax and query usage.
-ESLMediaQuery is more tolerant to logical operations and allows using of multiple 'not' operators or 
+`ESLMediaQuery` is more tolerant to logical operations and allows using of multiple 'not' operators or 
 having extra conditions inside the query (`all and all` still a valid condition).
+`ESLMediaQuery` implements `EventTarget` interface, so it's compatible to use with DOM EventListeners, 
+including `ESLEventListener` feature.
 
 <a name="features"></a>
 ### Supported ESL Media Query features
@@ -39,6 +41,9 @@ having extra conditions inside the query (`all and all` still a valid condition)
 - `or` operation alias in addition to "`,`" (`@xs or @mobile` is the same as `@xs, @mobile`)
 - Multiple `not` operators, that is not sensitive to position
   (e.g. `not @ie`, `not @xs and not @mobile`)
+- Implements `EventTarget` interface and compatible with `ESLEventListener`.  
+**Note**: `ESLMediaQuery` ignores event name passed to `EventTarget` interface methods
+
 ---
 
 <a name="breakpoints"></a>

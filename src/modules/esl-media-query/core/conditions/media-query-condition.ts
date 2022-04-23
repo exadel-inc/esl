@@ -20,19 +20,36 @@ export class MediaQueryCondition implements IMediaQueryCondition {
     return this._inverted ? !this._mq.matches : this._mq.matches;
   }
 
-  public addListener(listener: VoidFunction): void {
+  public addListener(cb: EventListener): void {
+    this.addEventListener(cb);
+  }
+  public addEventListener(callback: EventListener): void;
+  public addEventListener(type: 'change', callback: EventListener): void;
+  public addEventListener(type: any, callback: EventListener = type): void {
+    if (typeof callback !== 'function') return;
     if (typeof this._mq.addEventListener === 'function') {
-      this._mq.addEventListener('change', listener);
+      this._mq.addEventListener('change', callback);
     } else {
-      this._mq.addListener(listener);
+      this._mq.addListener(callback);
     }
   }
-  public removeListener(listener: VoidFunction): void {
+
+  public removeListener(cb: EventListener): void {
+    this.removeEventListener(cb);
+  }
+  public removeEventListener(callback: EventListener): void;
+  public removeEventListener(type: 'change', callback: EventListener): void;
+  public removeEventListener(type: any, callback: EventListener = type): void {
+    if (typeof callback !== 'function') return;
     if (typeof this._mq.removeEventListener === 'function') {
-      this._mq.removeEventListener('change', listener);
+      this._mq.removeEventListener('change', callback);
     } else {
-      this._mq.removeListener(listener);
+      this._mq.removeListener(callback);
     }
+  }
+
+  public dispatchEvent(event: Event): boolean {
+    return this._mq.dispatchEvent(event);
   }
 
   /** Optimize query. Can simplify query to {@link MediaQueryConstCondition} */

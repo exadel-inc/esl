@@ -201,4 +201,15 @@ describe('ESLMediaQuery', () => {
       expect(ESLMediaQuery.for(query)).toBe(ESLMediaQuery.for(query));
     });
   });
+
+  describe('EventTarget interface implementation', () => {
+    test('Methods availability', () => {
+      const mq = ESLMediaQuery.for('(max-width: 500px)');
+      expect(typeof mq.addEventListener).toBe('function');
+      expect(typeof mq.removeEventListener).toBe('function');
+      expect(typeof mq.dispatchEvent).toBe('function');
+    });
+
+    // TODO: tests for listener implementation (basic subscription, subscription to complex queries)
+  });
 });
