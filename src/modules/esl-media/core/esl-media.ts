@@ -164,8 +164,8 @@ export class ESLMedia extends ESLBaseElement {
           this.detachViewportConstraint();
         break;
       case 'load-condition':
-        ESLMediaQuery.for(oldVal).removeListener(this.deferredReinitialize);
-        ESLMediaQuery.for(newVal).addListener(this.deferredReinitialize);
+        ESLMediaQuery.for(oldVal).removeEventListener(this.deferredReinitialize);
+        ESLMediaQuery.for(newVal).addEventListener(this.deferredReinitialize);
         this.deferredReinitialize();
         break;
     }
@@ -173,7 +173,7 @@ export class ESLMedia extends ESLBaseElement {
 
   protected bindEvents(): void {
     ESLMediaProviderRegistry.instance.addListener(this._onRegistryStateChange);
-    this.conditionQuery.addListener(this.deferredReinitialize);
+    this.conditionQuery.addEventListener(this.deferredReinitialize);
     if (this.fillModeEnabled) {
       window.addEventListener('resize', this.deferredResize);
     }
@@ -182,7 +182,7 @@ export class ESLMedia extends ESLBaseElement {
   }
   protected unbindEvents(): void {
     ESLMediaProviderRegistry.instance.removeListener(this._onRegistryStateChange);
-    this.conditionQuery.removeListener(this.deferredReinitialize);
+    this.conditionQuery.removeEventListener(this.deferredReinitialize);
     if (this.fillModeEnabled) {
       window.removeEventListener('resize', this.deferredResize);
     }
