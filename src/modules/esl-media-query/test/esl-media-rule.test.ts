@@ -1,6 +1,6 @@
 import {ESLMediaRuleList} from '../core/esl-media-rule-list';
 import {ESLMediaRule} from '../core/esl-media-rule';
-import {ALL} from '../core/conditions/media-query-base';
+import {ESLMediaQuery} from '../core/esl-media-query';
 
 describe('ESLMediaRule', () => {
   describe('create', () => {
@@ -119,12 +119,12 @@ describe('ESLMediaRule', () => {
     const testRule = ESLMediaRule.parse('all => 1', ESLMediaRuleList.STRING_PARSER) as ESLMediaRule<string>;
 
     test('addListener', () => {
-      const spyAdd = jest.spyOn(ALL, 'addEventListener');
+      const spyAdd = jest.spyOn(ESLMediaQuery.ALL, 'addEventListener');
       testRule.addListener(callback);
       expect(spyAdd).toBeCalled();
     });
     test('removeListener', () => {
-      const spyRemove = jest.spyOn(ALL, 'removeEventListener');
+      const spyRemove = jest.spyOn(ESLMediaQuery.ALL, 'removeEventListener');
       testRule.removeListener(callback);
       expect(spyRemove).toBeCalled();
     });
