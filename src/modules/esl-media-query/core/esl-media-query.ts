@@ -5,7 +5,7 @@ import {ESLScreenDPR} from './common/screen-dpr';
 import {ESLScreenBreakpoints} from './common/screen-breakpoint';
 import {ESLEnvShortcuts} from './common/env-shortcuts';
 
-import {ALL, NOT_ALL} from './conditions/media-query-base';
+import {ALL, NOT_ALL} from './conditions/media-query-const';
 import {MediaQueryCondition} from './conditions/media-query-condition';
 import {MediaQueryConjunction, MediaQueryDisjunction} from './conditions/media-query-containers';
 
@@ -101,13 +101,15 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
   public abstract dispatchEvent(event: Event): boolean;
   public abstract toString(): string;
 
-  public abstract addListener(cb: EventListener): void;
   public abstract addEventListener(callback: EventListener): void;
   public abstract addEventListener(type: 'change', callback: EventListener): void;
-
-  public abstract removeListener(cb: EventListener): void;
   public abstract removeEventListener(callback: EventListener): void;
   public abstract removeEventListener(type: 'change', callback: EventListener): void;
+
+  /** @deprecated alias for `addEventListener` */
+  public abstract addListener(cb: EventListener): void;
+  /** @deprecated alias for `removeEventListener` */
+  public abstract removeListener(cb: EventListener): void;
 }
 
 // Register otb preprocessors

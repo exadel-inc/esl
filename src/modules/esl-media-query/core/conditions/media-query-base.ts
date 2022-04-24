@@ -2,14 +2,14 @@ export interface IMediaQueryCondition extends EventTarget {
   /** @returns true if current environment satisfies query */
   matches: boolean;
 
-  /** @deprecated Use `addEventListener` instead */
+  /** @deprecated alias for `addEventListener` */
   addListener(cb: EventListener): void;
   /** Subscribes to media query state change. Shortcut for `addEventListener('change', callback)` */
   addEventListener(callback: EventListener): void;
   /** Subscribes to media query state change. Implements {@link EventTarget} interface */
   addEventListener(type: 'change', callback: EventListener): void;
 
-  /** @deprecated Use `removeEventListener` instead */
+  /** @deprecated alias for `removeEventListener` */
   removeListener(cb: EventListener): void;
   /** Unsubscribes from media query state change event. Shortcut for `removeEventListener('change', callback)` */
   removeEventListener(callback: EventListener): void;
@@ -20,42 +20,63 @@ export interface IMediaQueryCondition extends EventTarget {
   optimize(): IMediaQueryCondition;
 }
 
-/**
- * Const media condition implementation
- * @author Alexey Stsefanovich (ala'n)
- *
- * Ignores listeners always return the same result.
- * Have only two instances: {@link ALL} and {@link NOT_ALL}
- */
-class MediaQueryConstCondition implements IMediaQueryCondition {
-  constructor(private readonly _matches: boolean) {}
+/** Custom event dispatched by {@link ESLMediaQuery} instances */
+export class ESLMediaChangeEvent extends Event {
+  /** `true` if the query is matches device conditions when event was dispatched */
+  public readonly matches: boolean;
+  public readonly target: IMediaQueryCondition;
 
-  public get matches(): boolean {
-    return this._matches;
+  constructor(matches: boolean) {
+    if (!window.Reflect) {
+      // ES5 Target
+      super('change');
+      this.matches = matches;
+    }
+    // ES6 target
+    const instance = Reflect.construct(Event, ['change'], ESLMediaChangeEvent.prototype.constructor);
+    return Object.assign(instance, {matches});
   }
 
-  public addListener(): void {}
-  public addEventListener(): void {}
-
-  public removeListener(): void {}
-  public removeEventListener(): void {}
-
-  public dispatchEvent(): boolean {
-    return false;
-  }
-
-  public optimize(): IMediaQueryCondition {
-    return this;
-  }
-  public toString(): string {
-    return this._matches ? 'all' : 'not all';
-  }
-
-  /** Compare const media condition with the passed query instance or string */
-  public eq(val: IMediaQueryCondition | string): boolean {
-    return val.toString().trim() === this.toString();
+  /** Returns serialized value of the current {@link ESLMediaQuery} */
+  public get media(): string {
+    return String(this.target);
   }
 }
 
-export const ALL = new MediaQueryConstCondition(true);
-export const NOT_ALL = new MediaQueryConstCondition(false);
+export abstract class MediaQueryConditionBase implements IMediaQueryCondition {
+  protected readonly _listeners = new Set<EventListener>();
+
+  public abstract matches: boolean;
+  public abstract optimize(): IMediaQueryCondition;
+
+  public addEventListener(callback: EventListener): void;
+  public addEventListener(type: 'change', callback: EventListener): void;
+  public addEventListener(type: any, callback: EventListener = type): void {
+    if (typeof callback !== 'function') return;
+    this._listeners.add(callback);
+  }
+
+  public removeEventListener(callback: EventListener): void;
+  public removeEventListener(type: 'change', callback: EventListener): void;
+  public removeEventListener(type: any, callback: EventListener = type): void {
+    if (typeof callback !== 'function') return;
+    this._listeners.delete(callback);
+  }
+
+  public dispatchEvent(e: Event): boolean {
+    Object.defineProperty(e, 'target', {value: this, enumerable: true});
+    Object.defineProperty(e, 'currentTarget', {value: this, enumerable: true});
+    Object.defineProperty(e, 'srcElement', {value: this, enumerable: true});
+    this._listeners.forEach((listener) => listener.call(this, e));
+    return e.defaultPrevented;
+  }
+
+  /** @deprecated alias for `addEventListener` */
+  public addListener: (cb: EventListener) => void;
+  /** @deprecated alias for `removeEventListener` */
+  public removeListener: (cb: EventListener) => void;
+}
+
+// Legacy methods
+MediaQueryConditionBase.prototype.addListener = MediaQueryConditionBase.prototype.addEventListener;
+MediaQueryConditionBase.prototype.removeListener = MediaQueryConditionBase.prototype.removeEventListener;
