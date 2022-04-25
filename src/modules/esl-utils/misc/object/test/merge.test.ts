@@ -45,12 +45,27 @@ describe('misc/object: deepMerge', () => {
   });
 
   test.each([
-    [null, {}], // ?? minor
+    [null, null],
+    [null, {}, {}],
+    [null, [], []],
     [{}, undefined, {}],
-    [{}, null, {}],
-    [{}, 1, {}],
-    [{}, 'Hi', {}],
+    [{}, null, null],
+    [{}, 1, 1],
+    [{}, 1, [], []],
+    [{}, 'Hi', 'Hi'],
+    [{}, 'Hi', {a: 1}, {a: 1}]
   ])('edge case: %p %p %p', (...args: any[]) => {
+    const result = args.pop();
+    expect(deepMerge(...args)).toEqual(result);
+  });
+
+  test.each([
+    [{a: undefined}, {a: 1}, {a: 1}],
+    [{a: 1}, {a: undefined}, {a: undefined}],
+    [{a: 1}, {a: null}, {a: null}],
+    [{a: {}}, {a: undefined}, {a: undefined}],
+    [{a: {b: {}}}, {a: {b: undefined}}, {a: {b: undefined}}]
+  ])('nested falsy: %p %p %p', (...args: any[]) => {
     const result = args.pop();
     expect(deepMerge(...args)).toEqual(result);
   });
