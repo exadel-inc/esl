@@ -19,7 +19,7 @@ jobs:
           PERSONAL_ACCESS_TOKEN : ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
           path-to-signatures: 'signatures/cla.json'
-          path-to-cla-document: 'https://github.com/exadel-inc/esl/blob/main/CLA.md'
+          path-to-document: 'https://github.com/exadel-inc/esl/blob/main/CLA.md'
 
           branch: 'history/cla'
           allowlist: ala-n,julia-murashko,yadamskaya,dshovchko,bot*

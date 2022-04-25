@@ -1,5 +1,6 @@
-import {toKebabCase} from '../../esl-utils/misc/format';
-import type {ESLBaseElement} from '../core/esl-base-element';
+import {setAttr} from '../dom/attr';
+import {toKebabCase} from '../misc/format';
+import type {AttributeDecorator, AttributeTarget} from '../dom/attr';
 
 /** HTML boolean (marker) attribute mapping configuration */
 type BoolAttrDescriptor = {
@@ -15,9 +16,8 @@ function buildConditionalDescriptor(attrName: string, readOnly: boolean): Proper
   function get(): boolean {
     return this.hasAttribute(attrName);
   }
-
-  function set(value: boolean): void {
-    this.toggleAttribute(attrName, value);
+  function set(value: unknown): void {
+    setAttr(this, attrName, !!value);
   }
 
   return readOnly ? {get} : {get, set};
@@ -31,8 +31,8 @@ const buildAttrName =
  * Maps boolean type property.
  * @param config - mapping configuration. See {@link BoolAttrDescriptor}
  */
-export const boolAttr = (config: BoolAttrDescriptor = {}): PropertyDecorator => {
-  return (target: ESLBaseElement, propName: string): void => {
+export const boolAttr = (config: BoolAttrDescriptor = {}): AttributeDecorator => {
+  return (target: Element | AttributeTarget, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildConditionalDescriptor(attrName, !!config.readonly));
   };

@@ -1,5 +1,6 @@
-import {toKebabCase, evaluate} from '../../esl-utils/misc/format';
-import type {ESLBaseElement} from '../core/esl-base-element';
+import {getAttr, setAttr} from '../dom/attr';
+import {toKebabCase, evaluate} from '../misc/format';
+import type {AttributeDecorator, AttributeTarget} from '../dom/attr';
 
 /** HTML attribute to object property mapping configuration */
 interface JsonAttrDescriptor<T> {
@@ -15,21 +16,14 @@ interface JsonAttrDescriptor<T> {
 
 function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, defaultValue: T | null): PropertyDescriptor {
   function get(): T | null {
-    const attrContent = (this.getAttribute(attrName) || '').trim();
+    const attrContent = getAttr(this, attrName, '').trim();
     return evaluate(attrContent, defaultValue);
   }
 
   function set(value: any): void {
-    if (typeof value !== 'object') {
-      console.error('Can not set json value: value should be object');
-    }
     try {
-      if (value) {
-        const serializedValue = JSON.stringify(value);
-        this.setAttribute(attrName, serializedValue);
-      } else {
-        this.removeAttribute(attrName);
-      }
+      if (typeof value !== 'object') throw Error('value should be object');
+      setAttr(this, attrName, value ? JSON.stringify(value) : false);
     } catch (e) {
       console.error('[ESL] jsonAttr: Can not set json value ', e);
     }
@@ -46,9 +40,9 @@ const buildAttrName =
  * Maps object type property.
  * @param config - mapping configuration. See {@link JsonAttrDescriptor}
  */
-export const jsonAttr = <T>(config: JsonAttrDescriptor<T> = {}): PropertyDecorator => {
+export const jsonAttr = <T>(config: JsonAttrDescriptor<T> = {}): AttributeDecorator => {
   config = Object.assign({defaultValue: {}}, config);
-  return (target: ESLBaseElement, propName: string): void => {
+  return (target: Element | AttributeTarget, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildJsonAttrDescriptor(attrName, !!config.readonly, config.defaultValue));
   };
