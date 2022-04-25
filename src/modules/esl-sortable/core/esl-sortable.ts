@@ -1,21 +1,18 @@
-import {afterNextRender, bind, TraversingQuery} from '../../all';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
+import {afterNextRender, bind} from '../../all';
+import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLBaseElement, attr} from '../../esl-base-element/core';
 import {ready} from '../../esl-utils/decorators/ready';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {ESLSortableItem} from './esl-sortable-item';
 
 @ExportNs('Sortable')
 export class ESLSortable extends ESLBaseElement {
   public static is = 'esl-sortable';
 
   /**
-   * Sets sortable children width to 100%
-   */
-  @boolAttr() public horizontal: boolean;
-
-  /**
    * Animation type when dragged element returns to original position
    */
-  @attr({defaultValue: '1'}) public animation: '1' | '2';
+  @attr({defaultValue: 'default'}) public animation: 'default' | 'smooth';
 
   /**
    * Children of sortables with identical group attribute vslue can be transfered between each other
@@ -25,36 +22,40 @@ export class ESLSortable extends ESLBaseElement {
   /**
    * Duration of recalculation transition
    */
-  @attr({defaultValue: '150'}) public duration: number;
+  @attr({defaultValue: '150'}) public transitionDuration: number;
 
   /** Inner state */
   private _transition: boolean;
 
-  /** X and Y values of dragged copied element */
-  private cloneXPos: number;
-  private cloneYPos: number;
-
-  /** X and Y values of element that was copied*/
-  private placeholderXPos: number;
-  private placeholderYPos: number;
+  /** Inner state */
+  private _empty: boolean;
 
   /** Sortable to which active element was dragged and will be added to */
   private targetSortable: ESLSortable = this;
 
   /** Sortable from which active element was dragged and will be deleted from */
-  private originSortable: ESLSortable = this;
+  private placeholderSortable: ESLSortable = this;
 
   /** Clone of the element */
-  private _$cloneElement: HTMLElement;
-
-  /** Element that is targeted to insert next to */
-  private _$targetElement: HTMLElement;
+  private _$cloneEl: ESLSortableItem;
 
   /** Original element which is copied */
-  private _$placeholderElement: HTMLElement;
+  private _$placeholderEl: ESLSortableItem;
+
+  /** Element that is targeted to insert next to */
+  private _$targetEl: ESLSortableItem | ESLSortable;
+
+  private get childrens(): Element[] {
+    return TraversingQuery.all('::child(ul)::child([esl-sortable-item])', this);
+  }
+
+  private get list(): Element {
+    return TraversingQuery.first('::child(ul)', this) || this.appendChild(document.createElement('ul'));
+  }
 
   @ready
   protected connectedCallback(): void {
+    ESLSortableItem.register();
     this.bindEvents();
     super.connectedCallback();
   }
@@ -79,140 +80,146 @@ export class ESLSortable extends ESLBaseElement {
 
   @bind
   protected _onMouseDown(): void {
-    if (this.transition || this._$cloneElement) return;
+    if (this.transition || this._$cloneEl) return;
     document.addEventListener('mousemove', this._onMouseMove);
     document.addEventListener('mouseup', this._onMouseUp);
   }
 
   @bind
   protected _onMouseMove(e: MouseEvent): void {
-    if (!this._$cloneElement) {
+    if (!this._$cloneEl) {
       this.addElementClone(e);
       return;
     }
-
-    this.recalculateClonePosition(e);
-    this._onItemMove(e);
+    this.updateCloneElPosition(e);
+    this.findTargetItem(e);
   }
 
-  private recalculateClonePosition(e: MouseEvent): void {
-    this._$cloneElement.style.transform = `translate3d(${this.cloneXPos + e.x}px, ${this.cloneYPos + e.y}px,0)`;
+  private updateCloneElPosition(e: MouseEvent): void {
+    this._$cloneEl.$host.style.transform = `translate3d(${this._$cloneEl._pos.x + e.x}px, ${this._$cloneEl._pos.y + e.y}px, 0)`;
   }
 
-  private addElementClone(e: any): void {
-    if (!TraversingQuery.first('::parent', e.target)?.classList.contains('esl-sortable')) {
+  /** Creates a copy of sortable's item */
+  private addElementClone(e: MouseEvent): void {
+    const placeholder = e.target as HTMLElement;
+    if (!placeholder) return;
+    const placeholderMixin = ESLSortableItem.get(placeholder);
+    if (placeholderMixin?.parent !== this) return;
+    this._$cloneEl = new ESLSortableItem(placeholder.cloneNode(true) as HTMLElement);
+
+    this._$placeholderEl = placeholderMixin;
+    placeholderMixin.placeholder = true;
+    placeholderMixin._pos = {x: placeholder.offsetLeft, y: placeholder.offsetTop};
+    const placeholderRect = placeholder.getBoundingClientRect();
+
+    this._$cloneEl._pos = {x: placeholderRect.x - e.x, y: placeholderRect.y - e.y};
+    this._$cloneEl.$$cls('esl-sortable-drag', true);
+    this._$cloneEl.$host.style.height = `${placeholder.offsetHeight}px`;
+    this._$cloneEl.$host.style.width = `${placeholder.offsetWidth}px`;
+
+    document.body.appendChild(this._$cloneEl.$host);
+    this.updateCloneElPosition(e);
+  }
+
+  private findTargetItem(e: MouseEvent): void {
+    if (this.targetSortable?.transition || this.placeholderSortable?.transition) return;
+    const target = document.elementsFromPoint(e.x, e.y)[1] as ESLSortable;
+    this.placeholderSortable = this._$placeholderEl.parent!;
+    if (this.isSortableEmpty(target) && this.isSortableFromGroup(target) && this.placeholderSortable !== target) {
+      this._$targetEl = target;
+      this._$targetEl.empty = true;
+      this._$targetEl.$$cls('esl-sortable-target', true);
+      this.targetSortable = this._$targetEl;
+      this.fireInsertEvents(true);
       return;
     }
-    this._$cloneElement = e.target.cloneNode(true) as HTMLElement;
-    this._$placeholderElement = e.target;
-    this._$placeholderElement.classList.add('esl-sortable-placeholder');
-    this.placeholderXPos = this._$placeholderElement.offsetLeft;
-    this.placeholderYPos = this._$placeholderElement.offsetTop;
 
-    const placeholderRect = this._$placeholderElement.getBoundingClientRect();
-    this.cloneXPos = placeholderRect.x - e.x;
-    this.cloneYPos = placeholderRect.y - e.y;
-
-    this._$cloneElement.classList.add('esl-sortable-drag');
-    this._$cloneElement.style.height = `${this._$placeholderElement.offsetHeight}px`;
-    this._$cloneElement.style.width = `${this._$placeholderElement.offsetWidth}px`;
-    document.body.appendChild(this._$cloneElement);
-    this.recalculateClonePosition(e);
-
-    // Target and origin sortables are originally assigned as this in case if element was dragged and returned to original position
-    this.targetSortable = this;
-    this.originSortable = this;
+    const targetMixin = ESLSortableItem.get(target);
+    if (!targetMixin?.parent || targetMixin.placeholder) return;
+    this._$targetEl = targetMixin;
+    this.targetSortable = targetMixin.parent;
+    this.fireInsertEvents(false);
   }
 
-  protected _onItemMove(e: any): void {
-    if (this.targetSortable?.transition || this.originSortable?.transition) return;
-
-    this._$targetElement = document.elementsFromPoint(e.x, e.y)[1] as any;
-    if (this.isSortableEmpty()) {
-      this._$targetElement.classList.add('esl-sortable-empty');
-      this.setTarget();
-      return;
-    }
-
-    if (!this._$targetElement?.parentElement?.classList.contains('esl-sortable') ||
-        this._$targetElement.classList.contains('esl-sortable-drag') ||
-        this._$targetElement.classList.contains('esl-sortable-placeholder')) {
-      return;
-    }
-    this.setTarget();
-  }
-
-  private setTarget(): void {
-    this._$targetElement.classList.add('esl-sortable-target');
-    this.fireInsertEvents();
-  }
-
-  private fireInsertEvents(): void {
-    const targetParent = (this.isSortableEmpty() ? this._$targetElement :  this._$targetElement.parentNode) as ESLSortable;
-    const placeholderParent = this._$placeholderElement.parentNode as ESLSortable;
-    if (this._$targetElement.parentNode !== this && targetParent?.getAttribute('group') !== this.group) return;
-
-    placeholderParent.$$fire('sortable:insert', {detail: [this._$targetElement, this._$placeholderElement]});
-
+  private fireInsertEvents(isSortableEmpty: boolean = false): void {
+    this._$targetEl.$$cls('esl-sortable-target', true);
+    if (!isSortableEmpty && !this.isSortableFromGroup(this.targetSortable)) return;
+    this.placeholderSortable.$$fire('sortable:insert', {detail: {target: this._$targetEl, placeholder: this._$placeholderEl, sameSortable: isSortableEmpty}});
     // Fired when element was dragged from one sortable to another
-    if (placeholderParent !== targetParent) {
-      targetParent.$$fire('sortable:insert', {detail: [this._$targetElement, this._$placeholderElement]});
+    if (this.targetSortable !== this.placeholderSortable) {
+      this.targetSortable.$$fire('sortable:insert', {detail: {target: this._$targetEl, placeholder: this._$placeholderEl, sameSortable: isSortableEmpty}});
     }
   }
 
-  /** Checks if sortable is empty and from the same group */
-  private isSortableEmpty(): boolean {
-    return this._$targetElement?.classList.contains('esl-sortable') &&
-    this._$targetElement?.getAttribute('group') === this.group &&
-    this._$targetElement.children.length === 0;
+  /** Checks if target is sortable */
+  private isSortable(el: HTMLElement): boolean {
+    return el.classList.contains('esl-sortable');
+  }
+
+  /** Checks if targeted sortable is empty */
+  private isSortableEmpty(el: ESLSortable): boolean {
+    return this.isSortable(el) ? el.childrens.length === 0 : false;
+  }
+
+  /** Checks if targeted sortable is from the same group */
+  private isSortableFromGroup(el: ESLSortable): boolean {
+    return this.isSortable(el) ? el.group === this.group : false;
   }
 
   @bind
-  protected _onInsert(e: any): void {
-    this._$targetElement = e.detail[0];
-    this._$placeholderElement = e.detail[1];
-    this.targetSortable = e.detail[0].parentElement.classList.contains('esl-sortable') ? e.detail[0].parentElement : e.detail[0];
-    this.originSortable = e.detail[1].parentElement;
+  protected _onInsert(e: CustomEvent): void {
+    this._$targetEl = e.detail.target;
+    this._$placeholderEl = e.detail.placeholder;
+    this.targetSortable = e.detail.sameSortable ? e.detail.target : e.detail.target.parent;
+    this.placeholderSortable = e.detail.placeholder.parent;
     this.insertChild();
   }
 
   /** Inner state */
-  public get transition(): boolean {
+  private get transition(): boolean {
     return this._transition;
   }
-  public set transition(value: boolean) {
+  private set transition(value: boolean) {
     this.toggleAttribute('transition', this._transition = value);
   }
+
+  /** Inner state */
+  private get empty(): boolean {
+    return this._empty;
+  }
+  private set empty(value: boolean) {
+    this.classList.toggle('esl-sortable-empty', this._empty = value);
+  }
+
   /** Method recalculates sortable's children position two times: before and after element insert */
   private insertChild(): void {
     this.targetSortable.transition = true;
-    this.originSortable.transition = true;
-
+    this.placeholderSortable.transition = true;
     this.positionItems();
     afterNextRender(() => {
-      if (this._$targetElement) this._$targetElement.classList.remove('esl-sortable-target');
+      if (this._$targetEl) this._$targetEl.$$cls('esl-sortable-target', false);
       // Necessary if element was transfered from one sortable to another
-      if (this._$placeholderElement.classList.contains('esl-sortable-group-inserted')) {
+      if (this._$placeholderEl.$$cls('esl-sortable-group-inserted')) {
         this.positionItems(true);
         return;
       }
 
-      if (this.targetSortable.classList.contains('esl-sortable-empty')) {
-        this.targetSortable.classList.remove('esl-sortable-empty');
-        this.targetSortable.appendChild(this._$placeholderElement);
+      if (this.targetSortable.empty) {
+        this.targetSortable.empty = false;
+        this.targetSortable.list.appendChild(this._$placeholderEl.$host);
       } else {
-        this._$targetElement.insertAdjacentElement(this.toInsertBefore() ? 'afterend' : 'beforebegin', this._$placeholderElement);
+        (this._$targetEl as ESLSortableItem).$host.insertAdjacentElement(this.isInsertedBefore() ? 'afterend' : 'beforebegin', this._$placeholderEl.$host);
       }
-      this._$placeholderElement.classList.add('esl-sortable-group-inserted');
+      this._$placeholderEl.$$cls('esl-sortable-group-inserted', true);
       this.positionItems(true);
     });
   }
 
   /** Checks if element has to be inserted before or after target element */
-  private toInsertBefore(): boolean {
-    const targetIndex = [...this.children].indexOf(this._$targetElement);
-    const placeholderIndex = [...this.children].indexOf(this._$placeholderElement);
-    return targetIndex > placeholderIndex && this.targetSortable === this.originSortable;
+  private isInsertedBefore(): boolean {
+    const targetIndex = this.childrens.indexOf((this._$targetEl as ESLSortableItem).$host);
+    const placeholderIndex = this.childrens.indexOf(this._$placeholderEl.$host);
+    return targetIndex > placeholderIndex && this.targetSortable === this.placeholderSortable;
   }
 
   /** Sets sortable's children position to absolute and manually calculates each element position */
@@ -220,8 +227,7 @@ export class ESLSortable extends ESLBaseElement {
     let rowHeight = 0;
     let leftValue = 0;
     let topValue = 0;
-
-    [...this.children].forEach((el: any) => {
+    this.childrens.forEach((el: HTMLElement) => {
       el.style.position = 'absolute';
 
       const elementFitsRow = leftValue + el.offsetWidth + parseInt(window.getComputedStyle(el).marginLeft, 10) < this.offsetWidth;
@@ -234,23 +240,23 @@ export class ESLSortable extends ESLBaseElement {
       el.style.left = `${leftValue}px`;
       el.style.top = `${topValue}px`;
 
-      if (el === this._$placeholderElement) {
-        this.placeholderXPos = leftValue;
-        this.placeholderYPos = topValue;
+      if (el === this._$placeholderEl.$host) {
+        this._$placeholderEl._pos.x = leftValue;
+        this._$placeholderEl._pos.y = topValue;
       }
 
       rowHeight = this.outerHeight(el) > rowHeight ? this.outerHeight(el) : rowHeight;
       leftValue += this.outerWidth(el);
       if (isInserted) return;
 
-      if (this.animation === '1' && el === this._$placeholderElement && (this._$placeholderElement.parentNode !== this._$targetElement.parentNode)) {
-        el.style.transition = `opacity ${this.duration}ms ease`;
+      if (this.animation === 'default' && el === this._$placeholderEl.$host && (this._$placeholderEl.parent !== (this._$targetEl as ESLSortableItem).parent)) {
+        el.style.transition = `opacity ${this.transitionDuration}ms ease`;
       } else {
-        el.style.transition = `left ${this.duration}ms ease, top ${this.duration}ms ease`;
+        el.style.transition = `left ${this.transitionDuration}ms ease, top ${this.transitionDuration}ms ease`;
       }
     });
     this.style.height = `${topValue + rowHeight}px`;
-    this.style.transition = `height ${this.duration}ms ease`;
+    this.style.transition = `height ${this.transitionDuration}ms ease`;
   }
 
   /** Calculates height with margins */
@@ -266,54 +272,43 @@ export class ESLSortable extends ESLBaseElement {
   }
 
   @bind
-  private _onTransitionOver(): void {
-    if (!this.transition || !this.originSortable || !this.targetSortable) return;
+  protected _onTransitionOver(): void {
+    if (!this.transition || !this.placeholderSortable || !this.targetSortable) return;
+    this._$placeholderEl.$host.classList.remove('esl-sortable-group-inserted');
+    this.placeholderSortable.childrens?.forEach((el: HTMLElement) => ESLSortableItem.get(el)?.clearInlineStyles());
+    this.targetSortable.childrens?.forEach((el: HTMLElement) => ESLSortableItem.get(el)?.clearInlineStyles());
 
-    this._$placeholderElement.classList.remove('esl-sortable-group-inserted');
-
-    [...this.originSortable.children]?.forEach((el: any) => this.removeInlineStyles(el));
-    [...this.targetSortable.children]?.forEach((el: any) => this.removeInlineStyles(el));
-
-    this.originSortable.transition = false;
+    this.placeholderSortable.transition = false;
     this.targetSortable.transition = false;
-    this.targetSortable = null as any;
-    this.originSortable = null as any;
   }
 
   @bind
   protected _onMouseUp(): void {
     document.removeEventListener('mousemove', this._onMouseMove);
     document.removeEventListener('mouseup', this._onMouseUp);
-    if (!this._$cloneElement || !this._$targetElement) return;
+    if (!this._$cloneEl) return;
 
-    if (this.animation === '2' && this.originSortable !== null) {
+    if (this.animation === 'smooth' && this.targetSortable !== null) {
       afterNextRender(() => {
-        const thisRect = this.targetSortable.getBoundingClientRect();
-        this._$cloneElement.style.transform  = `translate3d(${thisRect.left + this.placeholderXPos}px, ${thisRect.top + this.placeholderYPos}px, 0)`;
-        this._$cloneElement.style.transition = `transform ${this.duration}ms ease`;
+        const thisRect = this._$placeholderEl.parent!.getBoundingClientRect();
+        const placeholderXPos = thisRect.left + this._$placeholderEl._pos.x;
+        const placeholderYPos = thisRect.top + this._$placeholderEl._pos.y;
+        this._$cloneEl.$host.style.transform  = `translate3d(${placeholderXPos}px, ${placeholderYPos}px, 0)`;
+        this._$cloneEl.$host.style.transition = `transform ${this.transitionDuration}ms ease`;
       });
 
       setTimeout(() => {
         this.removeCloneElement();
-      }, this.duration);
+      }, this.transitionDuration);
       return;
     }
 
     this.removeCloneElement();
   }
 
-  protected removeCloneElement(): void {
-    document.body.removeChild(this._$cloneElement);
-    this._$placeholderElement.classList.remove('esl-sortable-placeholder');
-    this._$cloneElement = null as any;
-  }
-
-  private removeInlineStyles(targetElement: HTMLElement): void {
-    targetElement.style.position = '';
-    targetElement.style.top = '';
-    targetElement.style.height = '';
-    targetElement.style.width = '';
-    targetElement.style.left = '';
-    targetElement.style.transition = '';
+  private removeCloneElement(): void {
+    document.body.removeChild(this._$cloneEl.$host);
+    this._$placeholderEl.placeholder = false;
+    this._$cloneEl = null!;
   }
 }
