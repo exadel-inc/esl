@@ -2,7 +2,6 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
-import {EventUtils} from '../../esl-utils/dom/events';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
