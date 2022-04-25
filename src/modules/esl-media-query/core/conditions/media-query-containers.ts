@@ -37,7 +37,7 @@ abstract class MediaQueryContainer extends MediaQueryConditionBase {
     return false;
   }
 
-  /** Handles query change and dispatch it on top level in case result value is changed */
+  /** Handles query change and dispatches it on top level in case result value is changed */
   protected _onChange(): void {
     const {matches} = this;
     if (this._matches ===  matches) return;
