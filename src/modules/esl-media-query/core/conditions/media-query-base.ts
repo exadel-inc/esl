@@ -22,7 +22,7 @@ export interface IMediaQueryCondition extends EventTarget {
 
 /** Custom event dispatched by {@link ESLMediaQuery} instances */
 export class ESLMediaChangeEvent extends Event {
-  /** `true` if the query is matches device conditions when event was dispatched */
+  /** `true` if the query is matched device conditions when event was dispatched */
   public readonly matches: boolean;
   public readonly target: IMediaQueryCondition;
 

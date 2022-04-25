@@ -61,7 +61,7 @@ export class MediaQueryCondition extends MediaQueryConditionBase implements IMed
     return (inverted ? 'not ' : '') + (complex ? `(${query})` : query);
   }
 
-  /** Handle query change and dispatch it on top level in case result value is changed */
+  /** Handles query change and dispatch it on top level in case result value is changed */
   protected _onChange(): void {
     this.dispatchEvent(new ESLMediaChangeEvent(this._mq.matches));
   }

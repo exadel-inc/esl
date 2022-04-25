@@ -31,7 +31,7 @@ class MediaQueryConstCondition implements IMediaQueryCondition {
     return this._matches ? 'all' : 'not all';
   }
 
-  /** Compare const media condition with the passed query instance or string */
+  /** Compares const media condition with the passed query instance or string */
   public eq(val: IMediaQueryCondition | string): boolean {
     return String(val).trim() === this.toString();
   }
