@@ -39,7 +39,7 @@ export class MediaQueryCondition extends MediaQueryConditionBase implements IMed
   public removeEventListener(type: 'change', callback: EventListener): void;
   public removeEventListener(type: any, callback: EventListener = type): void {
     super.removeEventListener(type, callback);
-    if (this._listeners.size !== 0) return;
+    if (this._listeners.size) return;
     if (typeof this._mq.removeEventListener === 'function') {
       this._mq.removeEventListener('change', this._onChange);
     } else {
