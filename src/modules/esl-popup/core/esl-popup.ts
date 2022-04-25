@@ -41,8 +41,12 @@ export interface PopupActionParams extends ToggleableActionParams {
   offsetArrow?: string;
   /** offset in pixels from trigger element */
   offsetTrigger?: number;
-  /** offset in pixels from the edges of the container (or window if the container is not defined) */
-  offsetContainer?: number;
+  /**
+   * offset in pixels from the edges of the container (or window if the container is not defined)
+   *  value as a number for equals x and y offsets
+   *  value as an array for different x and y offsets
+   */
+  offsetContainer?: number | [number, number];
   /** margin around the element that is used as the viewport for checking the visibility of the popup activator */
   intersectionMargin?: string;
   /** Target to container element to define bounds of popups visibility */
@@ -65,7 +69,7 @@ export class ESLPopup extends ESLToggleable {
 
   protected _containerEl?: HTMLElement;
   protected _offsetTrigger: number;
-  protected _offsetContainer: number;
+  protected _offsetContainer: number | [number, number];
   protected _deferredUpdatePosition = rafDecorator(() => this._updatePosition());
   protected _activatorObserver: ActivatorObserver;
   protected _intersectionMargin: string;
@@ -376,6 +380,7 @@ export class ESLPopup extends ESLToggleable {
     const arrowRect = this.$arrow ? this.$arrow.getBoundingClientRect() : new Rect();
     const trigger = new Rect(triggerRect.left, triggerRect.top + window.pageYOffset, triggerRect.width, triggerRect.height);
     const innerMargin = this._offsetTrigger + arrowRect.width / 2;
+    const {containerRect} = this;
 
     const config = {
       position: this.position,
@@ -387,7 +392,9 @@ export class ESLPopup extends ESLToggleable {
       element: popupRect,
       trigger,
       inner: Rect.from(trigger).grow(innerMargin),
-      outer: this.containerRect.shrink(this._offsetContainer)
+      outer: (typeof this._offsetContainer === 'number') ?
+        containerRect.shrink(this._offsetContainer) :
+        containerRect.shrink(...this._offsetContainer)
     };
 
     const {placedAt, popup, arrow} = calcPopupPosition(config);
