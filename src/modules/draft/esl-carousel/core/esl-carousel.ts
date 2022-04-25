@@ -117,7 +117,7 @@ export class ESLCarousel extends ESLBaseElement {
       }
     };
 
-    const approved = this.$$fire('slide:change', eventDetails);
+    const approved = this.$$fire('esl:slide:change', eventDetails);
 
     if (this._view && approved && this.firstIndex !== nextIndex) {
       this._view.goTo(nextIndex, direction);
@@ -140,7 +140,7 @@ export class ESLCarousel extends ESLBaseElement {
       }
     }
 
-    this.$$fire('slide:changed', eventDetails);
+    this.$$fire('esl:slide:changed', eventDetails);
   }
 
   public prev() {

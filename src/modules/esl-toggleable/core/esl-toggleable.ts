@@ -113,7 +113,7 @@ export class ESLToggleable extends ESLBaseElement {
         this.toggle(this.open, {initiator: 'attribute', showDelay: 0, hideDelay: 0});
         break;
       case 'group':
-        this.$$fire('change:group',  {
+        this.$$fire('esl:change:group',  {
           detail: {oldGroupName: oldVal, newGroupName: newVal}
         });
         break;
@@ -197,20 +197,20 @@ export class ESLToggleable extends ESLBaseElement {
   /** Actual show task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected showTask(params: ToggleableActionParams): void {
     if (!params.force && this.open) return;
-    if (!params.silent && !this.$$fire('before:show', {detail: {params}})) return;
+    if (!params.silent && !this.$$fire('esl:before:show', {detail: {params}})) return;
     this.activator = params.activator;
     this.open = true;
     this.onShow(params);
-    if (!params.silent) this.$$fire('show', {detail: {params}, cancelable: false});
+    if (!params.silent) this.$$fire('esl:show', {detail: {params}, cancelable: false});
   }
   /** Actual hide task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected hideTask(params: ToggleableActionParams): void {
     if (!params.force && !this.open) return;
-    if (!params.silent && !this.$$fire('before:hide', {detail: {params}})) return;
+    if (!params.silent && !this.$$fire('esl:before:hide', {detail: {params}})) return;
     this.open = false;
     this.onHide(params);
     this.bindOutsideEventTracking(false);
-    if (!params.silent) this.$$fire('hide', {detail: {params}, cancelable: false});
+    if (!params.silent) this.$$fire('esl:hide', {detail: {params}, cancelable: false});
   }
 
   /**
@@ -222,7 +222,7 @@ export class ESLToggleable extends ESLBaseElement {
     CSSClassUtils.add(this, this.activeClass);
     CSSClassUtils.add(document.body, this.bodyClass, this);
     this.updateA11y();
-    this.$$fire('refresh'); // To notify other components about content change
+    this.$$fire('esl:refresh'); // To notify other components about content change
   }
 
   /**
