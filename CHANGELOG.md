@@ -1,3 +1,28 @@
+# [4.0.0-beta.4](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.3...v4.0.0-beta.4) (2022-04-25)
+
+
+### Bug Fixes
+
+* **esl-utils:** `deepMerge` primitive values merging improved, undefined arguments now ignored ([5b7b730](https://github.com/exadel-inc/esl/commit/5b7b73003acd4d29250af12603ced5d58c40aff6))
+
+
+### Code Refactoring
+
+* **esl-core:** Update `$$fire` method API ([4983cbc](https://github.com/exadel-inc/esl/commit/4983cbcdb583e0aacc4cbda49c019105fa9b66a4))
+
+
+### Features
+
+* **esl-footnotes:** add configurable intersectionMargin for the note tooltip activator observer ([b9b1599](https://github.com/exadel-inc/esl/commit/b9b159942e3534965f43cac94c140d5680308548))
+* **esl-popup:** add configurable rootMargin for the popup activator observer ([5d647d6](https://github.com/exadel-inc/esl/commit/5d647d60673a65e7b27472c1b68a1e174fa40740))
+* **esl-popup:** add extended offsetContainer configuration ([63cbc0a](https://github.com/exadel-inc/esl/commit/63cbc0a996a8578549360dadaa3bb17c53884bfe))
+* **esl-utils/rect:** ability to grow/shrink axis ([1c58a1c](https://github.com/exadel-inc/esl/commit/1c58a1c19b0aa82abf7eb73c40781e9c4a4860ba))
+
+
+### BREAKING CHANGES
+
+* **esl-core:** `$$fire` no longer add 'esl:' prefix to the fired events
+
 # [4.0.0-beta.3](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.2...v4.0.0-beta.3) (2022-04-12)
 
 
