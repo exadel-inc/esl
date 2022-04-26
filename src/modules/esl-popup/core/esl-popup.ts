@@ -318,12 +318,13 @@ export class ESLPopup extends ESLToggleable {
   protected _removeActivatorObserver(target: HTMLElement): void {
     window.removeEventListener('resize', this._deferredUpdatePosition);
     window.removeEventListener('scroll', this.onActivatorScroll, scrollOptions);
+    document.body.removeEventListener('transitionstart', this._startUpdateLoop);
+
+    if (!this._activatorObserver) return;
     this._activatorObserver.observer?.disconnect();
     this._activatorObserver.observer = undefined;
     this._activatorObserver.unsubscribers?.forEach((cb) => cb());
     this._activatorObserver.unsubscribers = [];
-
-    document.body.removeEventListener('transitionstart', this._startUpdateLoop);
   }
 
   /**
