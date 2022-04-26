@@ -27,13 +27,9 @@ export class ESLMediaChangeEvent extends Event {
   public readonly target: IMediaQueryCondition;
 
   constructor(matches: boolean) {
-    if (!window.Reflect) {
-      // ES5 Target
-      super('change');
-      this.matches = matches;
-    }
-    // ES6 target
-    const instance = Reflect.construct(Event, ['change'], ESLMediaChangeEvent.prototype.constructor);
+    const instance = window.Reflect ?
+      Reflect.construct(Event, ['change'], ESLMediaChangeEvent) :
+      (super('change'), this);
     return Object.assign(instance, {matches});
   }
 
