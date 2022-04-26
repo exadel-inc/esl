@@ -196,7 +196,7 @@ export class ESLTrigger extends ESLBaseElement {
   protected _onTargetStateChange(originalEvent?: Event): void {
     if (!this.updateState()) return;
     const detail = {active: this.active, originalEvent};
-    this.$$fire('change:active', {detail});
+    this.$$fire('esl:change:active', {detail});
   }
 
   /** Handles `click` event */
