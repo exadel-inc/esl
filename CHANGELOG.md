@@ -1,3 +1,17 @@
+# [4.0.0-beta.5](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.4...v4.0.0-beta.5) (2022-04-26)
+
+
+### Bug Fixes
+
+* **esl-core:** empty children explicitly check in recursion ([412b2ad](https://github.com/exadel-inc/esl/commit/412b2adee0b5698488f6f3def5dcd16e45ca7b45))
+* **esl-popup:** unsubscribe safe check (reproducible in IE11) ([63e842f](https://github.com/exadel-inc/esl/commit/63e842f1b2d4d146e5c5299629f38027fd08bc44))
+
+
+### Features
+
+* **polyfills:** `Event`, `CustomEvent`, `MouseEvent`, `KeyboardEvent`, `FocusEvent` extended polyfills ([9ca3c40](https://github.com/exadel-inc/esl/commit/9ca3c406ff1f6f99490fdf09d2f15bc450c7be57))
+* **polyfills:** `Object.assign` and `Array.from` extended polyfills ([590bca4](https://github.com/exadel-inc/esl/commit/590bca4fab39c566db68f7bc2440e5d84355a991))
+
 # [4.0.0-beta.4](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.3...v4.0.0-beta.4) (2022-04-25)
 
 
