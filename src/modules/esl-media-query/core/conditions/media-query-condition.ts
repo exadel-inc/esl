@@ -1,5 +1,6 @@
+import {SyntheticEventTarget} from '../../../esl-utils/abstract/event-target';
 import {ALL, NOT_ALL} from './media-query-const';
-import {ESLMediaChangeEvent, MediaQueryConditionBase} from './media-query-base';
+import {ESLMediaChangeEvent} from './media-query-base';
 import type {IMediaQueryCondition} from './media-query-base';
 
 /**
@@ -8,7 +9,7 @@ import type {IMediaQueryCondition} from './media-query-base';
  *
  * Wraps matchMedia instance
  */
-export class MediaQueryCondition extends MediaQueryConditionBase implements IMediaQueryCondition {
+export class MediaQueryCondition extends SyntheticEventTarget implements IMediaQueryCondition {
   protected readonly _inverted: boolean;
   protected readonly _mq: MediaQueryList;
 

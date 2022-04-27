@@ -1,5 +1,7 @@
-import {ESLMediaChangeEvent, MediaQueryConditionBase} from './media-query-base';
+import {SyntheticEventTarget} from '../../../esl-utils/abstract/event-target';
+import {ESLMediaChangeEvent} from './media-query-base';
 import {ALL, NOT_ALL} from './media-query-const';
+
 import type {IMediaQueryCondition} from './media-query-base';
 
 /**
@@ -8,7 +10,7 @@ import type {IMediaQueryCondition} from './media-query-base';
  *
  * Observe all child items. Dispatch changes when the whole condition result is changed
  */
-abstract class MediaQueryContainer extends MediaQueryConditionBase {
+abstract class MediaQueryContainer extends SyntheticEventTarget implements IMediaQueryCondition {
   protected _matches: boolean;
 
   constructor(protected readonly items: IMediaQueryCondition[] = []) {
@@ -33,6 +35,9 @@ abstract class MediaQueryContainer extends MediaQueryConditionBase {
     this.items.forEach((item) => item.removeEventListener('change', this._onChange));
   }
 
+  public optimize(): IMediaQueryCondition {
+    return this;
+  }
   public get matches(): boolean {
     return false;
   }

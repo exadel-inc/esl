@@ -27,10 +27,8 @@ export class ESLMediaChangeEvent extends Event {
   public readonly target: IMediaQueryCondition;
 
   constructor(matches: boolean) {
-    const instance = window.Reflect ?
-      Reflect.construct(Event, ['change'], ESLMediaChangeEvent) :
-      (super('change'), this);
-    return Object.assign(instance, {matches});
+    super('change');
+    this.matches = matches;
   }
 
   /** Returns serialized value of the current {@link ESLMediaQuery} */
@@ -38,41 +36,3 @@ export class ESLMediaChangeEvent extends Event {
     return String(this.target);
   }
 }
-
-export abstract class MediaQueryConditionBase implements IMediaQueryCondition {
-  protected readonly _listeners = new Set<EventListener>();
-
-  public abstract matches: boolean;
-  public abstract optimize(): IMediaQueryCondition;
-
-  public addEventListener(callback: EventListener): void;
-  public addEventListener(type: 'change', callback: EventListener): void;
-  public addEventListener(type: any, callback: EventListener = type): void {
-    if (typeof callback !== 'function') return;
-    this._listeners.add(callback);
-  }
-
-  public removeEventListener(callback: EventListener): void;
-  public removeEventListener(type: 'change', callback: EventListener): void;
-  public removeEventListener(type: any, callback: EventListener = type): void {
-    if (typeof callback !== 'function') return;
-    this._listeners.delete(callback);
-  }
-
-  public dispatchEvent(e: Event): boolean {
-    Object.defineProperty(e, 'target', {value: this, enumerable: true});
-    Object.defineProperty(e, 'currentTarget', {value: this, enumerable: true});
-    Object.defineProperty(e, 'srcElement', {value: this, enumerable: true});
-    this._listeners.forEach((listener) => listener.call(this, e));
-    return e.defaultPrevented;
-  }
-
-  /** @deprecated alias for `addEventListener` */
-  public addListener: (cb: EventListener) => void;
-  /** @deprecated alias for `removeEventListener` */
-  public removeListener: (cb: EventListener) => void;
-}
-
-// Legacy methods
-MediaQueryConditionBase.prototype.addListener = MediaQueryConditionBase.prototype.addEventListener;
-MediaQueryConditionBase.prototype.removeListener = MediaQueryConditionBase.prototype.removeEventListener;
