@@ -23,11 +23,12 @@ export class ESLSortableItem extends ESLMixinElement {
   }
 
   public clearInlineStyles(): void {
-    this.$host.style.position = '';
-    this.$host.style.top = '';
-    this.$host.style.height = '';
-    this.$host.style.width = '';
-    this.$host.style.left = '';
-    this.$host.style.transition = '';
+    const {$host} = this;
+    $host.style.position = '';
+    $host.style.top = '';
+    $host.style.height = '';
+    $host.style.width = '';
+    $host.style.left = '';
+    $host.style.transition = '';
   }
 }

@@ -168,10 +168,11 @@ export class ESLSortable extends ESLBaseElement {
 
   @bind
   protected _onInsert(e: CustomEvent): void {
-    this._$targetEl = e.detail.target;
-    this._$placeholderEl = e.detail.placeholder;
-    this.targetSortable = e.detail.sameSortable ? e.detail.target : e.detail.target.parent;
-    this.placeholderSortable = e.detail.placeholder.parent;
+    const {target, placeholder, sameSortable} = e.detail;
+    this._$targetEl = target;
+    this._$placeholderEl = placeholder;
+    this.targetSortable = sameSortable ? target : target.parent;
+    this.placeholderSortable = placeholder.parent;
     this.insertChild();
   }
 
@@ -240,9 +241,10 @@ export class ESLSortable extends ESLBaseElement {
       el.style.left = `${leftValue}px`;
       el.style.top = `${topValue}px`;
 
-      if (el === this._$placeholderEl.$host) {
-        this._$placeholderEl._pos.x = leftValue;
-        this._$placeholderEl._pos.y = topValue;
+      const {_$placeholderEl, transitionDuration} = this;
+      if (el === _$placeholderEl.$host) {
+        _$placeholderEl._pos.x = leftValue;
+        _$placeholderEl._pos.y = topValue;
       }
 
       rowHeight = this.outerHeight(el) > rowHeight ? this.outerHeight(el) : rowHeight;
@@ -275,8 +277,9 @@ export class ESLSortable extends ESLBaseElement {
   protected _onTransitionOver(): void {
     if (!this.transition || !this.placeholderSortable || !this.targetSortable) return;
     this._$placeholderEl.$host.classList.remove('esl-sortable-group-inserted');
-    this.placeholderSortable.childrens?.forEach((el: HTMLElement) => ESLSortableItem.get(el)?.clearInlineStyles());
-    this.targetSortable.childrens?.forEach((el: HTMLElement) => ESLSortableItem.get(el)?.clearInlineStyles());
+    const itemClearInlineStyles = (el: HTMLElement) => ESLSortableItem.get(el)?.clearInlineStyles();
+    this.placeholderSortable.childrens?.forEach(itemClearInlineStyles);
+    this.targetSortable.childrens?.forEach(itemClearInlineStyles);
 
     this.placeholderSortable.transition = false;
     this.targetSortable.transition = false;
