@@ -5,7 +5,7 @@ import type {ESLSortable} from './esl-sortable';
 export class ESLSortableItem extends ESLMixinElement {
   static is = 'esl-sortable-item';
 
-  public _pos: {
+  public pos: {
     x: number;
     y: number;
   };

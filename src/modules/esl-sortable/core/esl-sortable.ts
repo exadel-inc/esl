@@ -96,7 +96,7 @@ export class ESLSortable extends ESLBaseElement {
   }
 
   private updateCloneElPosition(e: MouseEvent): void {
-    this._$cloneEl.$host.style.transform = `translate3d(${this._$cloneEl._pos.x + e.x}px, ${this._$cloneEl._pos.y + e.y}px, 0)`;
+    this._$cloneEl.$host.style.transform = `translate3d(${this._$cloneEl.pos.x + e.x}px, ${this._$cloneEl.pos.y + e.y}px, 0)`;
   }
 
   /** Creates a copy of sortable's item */
@@ -109,10 +109,10 @@ export class ESLSortable extends ESLBaseElement {
 
     this._$placeholderEl = placeholderMixin;
     placeholderMixin.placeholder = true;
-    placeholderMixin._pos = {x: placeholder.offsetLeft, y: placeholder.offsetTop};
+    placeholderMixin.pos = {x: placeholder.offsetLeft, y: placeholder.offsetTop};
     const placeholderRect = placeholder.getBoundingClientRect();
 
-    this._$cloneEl._pos = {x: placeholderRect.x - e.x, y: placeholderRect.y - e.y};
+    this._$cloneEl.pos = {x: placeholderRect.x - e.x, y: placeholderRect.y - e.y};
     this._$cloneEl.$$cls('esl-sortable-drag', true);
     this._$cloneEl.$host.style.height = `${placeholder.offsetHeight}px`;
     this._$cloneEl.$host.style.width = `${placeholder.offsetWidth}px`;
@@ -144,16 +144,17 @@ export class ESLSortable extends ESLBaseElement {
   private fireInsertEvents(isSortableEmpty: boolean = false): void {
     this._$targetEl.$$cls('esl-sortable-target', true);
     if (!isSortableEmpty && !this.isSortableFromGroup(this.targetSortable)) return;
-    this.placeholderSortable.$$fire('sortable:insert', {detail: {target: this._$targetEl, placeholder: this._$placeholderEl, sameSortable: isSortableEmpty}});
+    const insertData = {detail: {target: this._$targetEl, placeholder: this._$placeholderEl, sameSortable: isSortableEmpty}};
+    this.placeholderSortable.$$fire('sortable:insert', insertData);
     // Fired when element was dragged from one sortable to another
     if (this.targetSortable !== this.placeholderSortable) {
-      this.targetSortable.$$fire('sortable:insert', {detail: {target: this._$targetEl, placeholder: this._$placeholderEl, sameSortable: isSortableEmpty}});
+      this.targetSortable.$$fire('sortable:insert', insertData);
     }
   }
 
   /** Checks if target is sortable */
   private isSortable(el: HTMLElement): boolean {
-    return el.classList.contains('esl-sortable');
+    return (el.constructor as typeof ESLBaseElement).is === 'esl-sortable';
   }
 
   /** Checks if targeted sortable is empty */
@@ -241,10 +242,10 @@ export class ESLSortable extends ESLBaseElement {
       el.style.left = `${leftValue}px`;
       el.style.top = `${topValue}px`;
 
-      const {_$placeholderEl, transitionDuration} = this;
+      const {_$placeholderEl} = this;
       if (el === _$placeholderEl.$host) {
-        _$placeholderEl._pos.x = leftValue;
-        _$placeholderEl._pos.y = topValue;
+        _$placeholderEl.pos.x = leftValue;
+        _$placeholderEl.pos.y = topValue;
       }
 
       rowHeight = this.outerHeight(el) > rowHeight ? this.outerHeight(el) : rowHeight;
@@ -277,7 +278,7 @@ export class ESLSortable extends ESLBaseElement {
   protected _onTransitionOver(): void {
     if (!this.transition || !this.placeholderSortable || !this.targetSortable) return;
     this._$placeholderEl.$host.classList.remove('esl-sortable-group-inserted');
-    const itemClearInlineStyles = (el: HTMLElement) => ESLSortableItem.get(el)?.clearInlineStyles();
+    const itemClearInlineStyles = (el: HTMLElement): void => ESLSortableItem.get(el)?.clearInlineStyles();
     this.placeholderSortable.childrens?.forEach(itemClearInlineStyles);
     this.targetSortable.childrens?.forEach(itemClearInlineStyles);
 
@@ -294,8 +295,8 @@ export class ESLSortable extends ESLBaseElement {
     if (this.animation === 'smooth' && this.targetSortable !== null) {
       afterNextRender(() => {
         const thisRect = this._$placeholderEl.parent!.getBoundingClientRect();
-        const placeholderXPos = thisRect.left + this._$placeholderEl._pos.x;
-        const placeholderYPos = thisRect.top + this._$placeholderEl._pos.y;
+        const placeholderXPos = thisRect.left + this._$placeholderEl.pos.x;
+        const placeholderYPos = thisRect.top + this._$placeholderEl.pos.y;
         this._$cloneEl.$host.style.transform  = `translate3d(${placeholderXPos}px, ${placeholderYPos}px, 0)`;
         this._$cloneEl.$host.style.transition = `transform ${this.transitionDuration}ms ease`;
       });
