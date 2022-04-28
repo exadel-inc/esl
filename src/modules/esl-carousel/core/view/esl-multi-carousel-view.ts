@@ -139,13 +139,15 @@ export class ESLMultiCarouselView extends ESLCarouselView {
 
     const sign = offset < 0 ? 1 : -1;
     const count = Math.floor(Math.abs(offset) / this.slideWidth);
-
     const nextIndex = this.carousel.firstIndex + count * sign;
-    if (nextIndex >= this.carousel.count || nextIndex < 0) return;
-
     const currentIndex = normalizeIndex(this.carousel.firstIndex + count * sign, this.size);
-    if (offset > 0 && currentIndex - 1 < 0) return;
-    if (offset < 0 && currentIndex + this.carousel.activeCount >= this.carousel.count) return;
+
+    // check non-loop state
+    if (!this.carousel.loop && nextIndex >= this.carousel.count || nextIndex < 0) return;
+    // check left border of non-loop state
+    if (!this.carousel.loop && offset > 0 && currentIndex - 1 < 0) return;
+    // check right border of non-loop state
+    if (!this.carousel.loop && offset < 0 && currentIndex + 1 + this.carousel.activeCount > this.carousel.count) return;
 
     const orderIndex = offset < 0 ? currentIndex : normalizeIndex(currentIndex - 1, this.size);
     this._setOrderFrom(orderIndex);
