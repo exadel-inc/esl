@@ -30,11 +30,11 @@ export class SyntheticEventTarget implements EventTarget {
   }
 
   /** @deprecated alias for `addEventListener` */
-  public addListener: (cb: EventListener) => void;
+  public addListener(cb: EventListener): void {
+    this.addEventListener(cb);
+  }
   /** @deprecated alias for `removeEventListener` */
-  public removeListener: (cb: EventListener) => void;
+  public removeListener(cb: EventListener): void {
+    this.removeEventListener(cb);
+  }
 }
-
-// Legacy methods
-SyntheticEventTarget.prototype.addListener = SyntheticEventTarget.prototype.addEventListener;
-SyntheticEventTarget.prototype.removeListener = SyntheticEventTarget.prototype.removeEventListener;
