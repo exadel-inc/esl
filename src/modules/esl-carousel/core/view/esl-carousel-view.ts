@@ -49,6 +49,14 @@ export abstract class ESLCarouselView {
   /** Ends current transition and make permanent all changes performed in the transition. */
   public abstract commit(offset?: number): void;
 
+  /** Sets active slides from passed index **/
+  public setActive(from: number): void {
+    this.carousel.$slides.forEach((el) => el.active = false);
+    for (let i = 0; i < this.carousel.activeCount; i++) {
+      this.carousel.slideAt(from + i).active = true;
+    }
+  }
+
   // Register API
   @memoize()
   public static get registry(): ESLCarouselViewRegistry {

@@ -290,11 +290,7 @@ export class ESLCarousel extends ESLBaseElement {
       }
     }
 
-    // TODO: move to commit method
-    this.$slides.forEach((el) => (el.active = false));
-    for (let i = 0; i < this.activeCount; i++) {
-      this.slideAt(index + i).active = true;
-    }
+    this._view.setActive(index);
     this.$$fire('slide:changed', eventDetails);
   }
 

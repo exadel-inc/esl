@@ -83,7 +83,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     const orderIndex = direction === 'next' ? this.currentIndex : normalizeIndex(this.currentIndex - 1, this.size);
     this._setOrderFrom(orderIndex);
 
-    // // TODO: reflow
+    // TODO: reflow
     const offsetIndex = direction === 'next' ? normalizeIndex(this.currentIndex + 1, this.size) : this.currentIndex;
     const offset = this.carousel.$slides[offsetIndex].offsetLeft;
     const shiftXBefore = direction === 'next' ? 0 : -offset;
@@ -202,10 +202,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     direction = direction || calcDirection(this.carousel.firstIndex, this.currentIndex, this.size);
     this._setOrderFrom(this.currentIndex);
 
-    this.carousel.$slides.forEach((el) => el.active = false);
-    for (let i = 0; i < this.carousel.activeCount; i++) {
-      this.carousel.slideAt(this.currentIndex + i).active = true;
-    }
+    this.setActive(this.currentIndex);
 
     // TODO: change info
     this.carousel.$$fire('slide:changed', {
