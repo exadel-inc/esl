@@ -139,15 +139,9 @@ export class ESLMultiCarouselView extends ESLCarouselView {
 
     const sign = offset < 0 ? 1 : -1;
     const count = Math.floor(Math.abs(offset) / this.slideWidth);
-    const nextIndex = this.carousel.firstIndex + count * sign;
     const currentIndex = normalizeIndex(this.carousel.firstIndex + count * sign, this.size);
 
-    // check non-loop state
-    if (!this.carousel.loop && nextIndex >= this.carousel.count || nextIndex < 0) return;
-    // check left border of non-loop state
-    if (!this.carousel.loop && offset > 0 && currentIndex - 1 < 0) return;
-    // check right border of non-loop state
-    if (!this.carousel.loop && offset < 0 && currentIndex + 1 + this.carousel.activeCount > this.carousel.count) return;
+    if (!this._checkNonLoop(offset)) return;
 
     const orderIndex = offset < 0 ? currentIndex : normalizeIndex(currentIndex - 1, this.size);
     this._setOrderFrom(orderIndex);
@@ -157,16 +151,34 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this.carousel.$slidesArea!.style.transform = `translateX(${stageOffset}px)`;
   }
 
+  protected _checkNonLoop(offset: number): boolean {
+    const sign = offset < 0 ? 1 : -1;
+    const count = Math.floor(Math.abs(offset) / this.slideWidth);
+    const nextIndex = this.carousel.firstIndex + count * sign;
+    const currentIndex = normalizeIndex(this.carousel.firstIndex + count * sign, this.size);
+
+    if (this.carousel.loop) return true;
+    // check non-loop state
+    if (nextIndex >= this.carousel.count || nextIndex < 0) return false;
+    // check left border of non-loop state
+    if (offset > 0 && currentIndex - 1 < 0) return false;
+    // check right border of non-loop state
+    return !(offset < 0 && currentIndex + 1 + this.carousel.activeCount > this.carousel.count);
+  }
+
   /** Ends current transition and make permanent all changes performed in the transition. */
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   public async commit(offset: number): Promise<void> {
-    // calculate offset to move to
-    const shiftCount = Math.abs(offset) % this.slideWidth >= this.slideWidth / 4 ? 1 : 0;
-    const stageOffset = offset < 0 ? -shiftCount * this.slideWidth : (shiftCount - 1) * this.slideWidth;
+    const achieveBorders = this._checkNonLoop(offset);
+    if (achieveBorders) {
+      // calculate offset to move to
+      const shiftCount = Math.abs(offset) % this.slideWidth >= this.slideWidth / 4 ? 1 : 0;
+      const stageOffset = offset < 0 ? -shiftCount * this.slideWidth : (shiftCount - 1) * this.slideWidth;
 
-    this.carousel.toggleAttribute('animate', true);
-    this.carousel.$slidesArea!.style.transform = `translateX(${stageOffset}px)`;
-
-    await promisifyEvent(this.carousel.$slidesArea!, 'transitionend').catch(resolvePromise);
+      this.carousel.toggleAttribute('animate', true);
+      this.carousel.$slidesArea!.style.transform = `translateX(${stageOffset}px)`;
+      await promisifyEvent(this.carousel.$slidesArea!, 'transitionend').catch(resolvePromise);
+    }
 
     // clear animation
     this.carousel.toggleAttribute('animate', false);
