@@ -1,3 +1,10 @@
+# [4.0.0-beta.6](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.5...v4.0.0-beta.6) (2022-04-26)
+
+
+### Bug Fixes
+
+* **polyfills:** optimized safe version of `Object.assign` polyfill ([96fc0dd](https://github.com/exadel-inc/esl/commit/96fc0dd12f0a45e5862e84d4fa4a5f40f76a964e))
+
 # [4.0.0-beta.5](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.4...v4.0.0-beta.5) (2022-04-26)
 
 
