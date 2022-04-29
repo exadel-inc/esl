@@ -6,11 +6,13 @@ import {ESLMediaRule} from './esl-media-rule';
 
 import type {RulePayloadParser} from './esl-media-rule';
 
-/** Custom event dispatched by {@link ESLMediaQuery} instances */
+/** Custom event dispatched by {@link ESLMediaRuleList} instances */
 export class ESLMediaRuleListEvent<T = any> extends Event {
-  /** `true` if the query is matches device conditions when event was dispatched */
+  /** Current value of target {@link ESLMediaRuleList} instances */
   public readonly current: T;
+  /** Previous value of target {@link ESLMediaRuleList} instances */
   public readonly previous: T;
+  /** Target {@link ESLMediaRuleList} instances */
   public readonly target: ESLMediaRuleList<T>;
 
   constructor(current: T, previous: T) {

@@ -22,7 +22,7 @@ const hashFn = (queries: string, values: string = queries): string => [queries, 
  * @example
  * ```ts
  * @media('@sm|@md|@lg', 'sm|md|lg')
- * protected onBreakpointChange(e: MediaQueryListEvent) { ... }
+ * protected onBreakpointChange(e: ESLMediaRuleListEvent) { ... }
  * ```
  */
 export const media = memoizeFn(mediaDecorator, hashFn);
