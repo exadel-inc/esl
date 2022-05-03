@@ -1,4 +1,5 @@
 import {attr} from '../../../../src/modules/esl-utils/decorators/attr';
+import {listen} from '../../../../src/modules/esl-utils/decorators/listen';
 import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
 import {bind} from '../../../../src/modules/esl-utils/decorators/bind';
 import {ready} from '../../../../src/modules/esl-utils/decorators/ready';
@@ -30,11 +31,6 @@ export class ESLDemoSidebar extends ESLToggleable {
   @ready
   protected connectedCallback(): void {
     super.connectedCallback();
-    ESLMediaQuery.for('@+MD').addListener(this.onBreakpointChange);
-  }
-  protected disconnectedCallback(): void {
-    super.disconnectedCallback();
-    ESLMediaQuery.for('@+MD').removeListener(this.onBreakpointChange);
   }
 
   protected storeState(): void {
@@ -80,9 +76,11 @@ export class ESLDemoSidebar extends ESLToggleable {
     }
   }
 
-  @bind
-  protected onBreakpointChange(): void {
-    const isDesktop = ESLMediaQuery.for('@+MD').matches;
+  @listen({
+    event: 'change',
+    target: ESLMediaQuery.for('@+MD')
+  })
+  protected onBreakpointChange({matches: isDesktop}: MediaQueryListEvent): void {
     const isStoredOpen = !localStorage.getItem('sidebar-collapsed');
     this.toggle(isDesktop && isStoredOpen, {force: true, initiator: 'bpchange', immediate: !isDesktop});
   }

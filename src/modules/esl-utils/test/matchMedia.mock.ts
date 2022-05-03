@@ -17,7 +17,7 @@ export class MatchMediaMock implements MediaQueryList {
     this.set(match);
   }
 
-  set(matches: boolean, notify = (matches === this._matches)): void {
+  set(matches: boolean, notify = (matches !== this._matches)): void {
     this._matches = matches;
     if (!notify) return;
     this._listeners.forEach((cb) => cb());

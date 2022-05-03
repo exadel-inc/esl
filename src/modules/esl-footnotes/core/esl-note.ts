@@ -186,9 +186,9 @@ export class ESLNote extends ESLBaseElement {
 
   /** Brings up to date ignore query */
   public updateQueryToIgnore(): void {
-    this.queryToIgnore.removeListener(this._onBPChange);
+    this.queryToIgnore.removeEventListener(this._onBPChange);
     memoize.clear(this, 'queryToIgnore');
-    this.queryToIgnore.addListener(this._onBPChange);
+    this.queryToIgnore.addEventListener(this._onBPChange);
   }
 
   /** Initial initialization of the element during the connection to DOM */
