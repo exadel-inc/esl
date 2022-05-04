@@ -6,913 +6,250 @@ name: Carousel
 tags: [examples, draft]
 icon: examples/carousel.svg
 ---
-<style>
-  esl-carousel-slide::after {
-    content: attr(style);
-    position: absolute;
-    top: 30px;
-    left: 5px;
-  }
-  esl-carousel-slide > div {
-    background: {{ functions.randomColor() }};
-    margin: 0 5px;
-    width: 100%;
-    height: 100%;
-  }
-</style>
-<div class="container-fluid">
-  <div class="row flex-column">
-    <h2>Demo 1: </h2>
-    <p>The first slide is active (1 slide)</p>
-    <esl-carousel  config="@-SM => {count: 2, view: 'multi'} | @+MD => {view: 'slide'}">
+
+<section class="container-fluid">
+  <h2>Demo 1: </h2>
+  <p>The first slide is active (1 slide)</p>
+
+  <div class="row flex-column" esl-carousel-container>
+    <button class="arrow-prev" data-slide-target="prev">
+      <span class="icon-arrow-prev"></span>
+    </button>
+    <esl-carousel config="@-SM => {count: 2, view: 'multi'} | @+MD => {view: 'slide'}">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
-      <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
-        <span class="icon-arrow-prev"></span>
-      </button>
-
-      <div class="esl-carousel-content">
-
-        <div data-slides-area>
-          <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide active>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>111</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>222</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>333</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>444</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>555</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>666</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>777</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>888</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>999</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>101010</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>111111</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>121212</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>131313</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>141414</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>151515</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>161616</p>
-            </div>
-          </esl-carousel-slide>
-          <!-- /CAROUSEL-ITEM -->
-        </div>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 16) %}
+        <esl-carousel-slide {{ active if i == 0}}>
+          <div class="card post-text" style="background: {{ functions.randomColor() }}">
+            <p><b>{{i + 1}}</b></p>
+          </div>
+        </esl-carousel-slide>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
       </div>
-
-      <button class="arrow-next" onclick="void 0" data-slide-target="next">
-        <span class="icon-arrow-next"></span>
-      </button>
-
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-
     </esl-carousel>
+    <button class="arrow-next" data-slide-target="next">
+      <span class="icon-arrow-next"></span>
+    </button>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
   </div>
-</div>
+</section>
 
-<div class="container-fluid">
-  <div class="row flex-column">
-    <h2>Demo 2: </h2>
-    <p>The second slide is active (1 slide) !!!</p>
-    <esl-carousel>
+<section class="container-fluid">
+  <h2>Demo 2: </h2>
+  <p>The second slide is active (1 slide) !!!</p>
 
-      <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
-        <span class="icon-arrow-prev"></span>
-      </button>
-
-      <div class="esl-carousel-content">
-        <div data-slides-area>
-          <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>111</p>
+  <div class="row flex-column" esl-carousel-container>
+    <button class="arrow-prev" data-slide-target="prev">
+      <span class="icon-arrow-prev"></span>
+    </button>
+    <esl-carousel config="@-SM => {count: 2, view: 'multi'} | @+MD => {view: 'slide'}">
+      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 16) %}
+          <esl-carousel-slide {{ active if i == 1}}>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}">
+              <p><b>{{i + 1}}</b></p>
             </div>
           </esl-carousel-slide>
-
-          <esl-carousel-slide active>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>222</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>333</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>444</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>555</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>666</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>777</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>888</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>999</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>101010</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>111111</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>121212</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>131313</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>141414</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>151515</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>161616</p>
-            </div>
-          </esl-carousel-slide>
-          <!-- /CAROUSEL-ITEM -->
-        </div>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
       </div>
-
-      <button class="arrow-next" onclick="void 0" data-slide-target="next">
-        <span class="icon-arrow-next"></span>
-      </button>
-
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-
     </esl-carousel>
+    <button class="arrow-next" data-slide-target="next">
+      <span class="icon-arrow-next"></span>
+    </button>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
   </div>
-</div>
+</section>
 
-<div class="container-fluid">
-  <div class="row flex-column">
-    <h2>Demo 1: </h2>
-    <p>5 slides with 3 active slides to check if RAF helps to animate first one</p>
+<section class="container-fluid">
+  <h2>Demo 1: </h2>
+  <p>5 slides with 3 active slides to check if RAF helps to animate first one</p>
+
+  <div class="row flex-column" esl-carousel-container>
+    <button class="arrow-prev" data-slide-target="prev">
+      <span class="icon-arrow-prev"></span>
+    </button>
     <esl-carousel config="{count: 3}">
-
-      <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
-        <span class="icon-arrow-prev"></span>
-      </button>
-
-      <div class="esl-carousel-content">
-        <div data-slides-area>
-          <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide active>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>111</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide active>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>222</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide active>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>333</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>444</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>555</p>
-            </div>
-          </esl-carousel-slide>
-          <!-- /CAROUSEL-ITEM -->
-        </div>
-      </div>
-
-      <button class="arrow-next" onclick="void 0" data-slide-target="next">
-        <span class="icon-arrow-next"></span>
-      </button>
-
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-
-    </esl-carousel>
-  </div>
-</div>
-
-<div class="container-fluid">
-  <div class="row flex-column">
-    <h2>Demo 1: </h2>
-    <p>3 slides with 2 active slides to check if RAF helps to animate first one</p>
-    <esl-carousel config="{count: 2}">
-
-      <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
-        <span class="icon-arrow-prev"></span>
-      </button>
-
-
-      <div class="esl-carousel-content">
-        <div data-slides-area>
-          <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>111</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide active>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>222</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide active>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>333</p>
-            </div>
-          </esl-carousel-slide>
-          <!-- /CAROUSEL-ITEM -->
-        </div>
-      </div>
-
-      <button class="arrow-next" onclick="void 0" data-slide-target="next">
-        <span class="icon-arrow-next"></span>
-      </button>
-
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-
-    </esl-carousel>
-  </div>
-</div>
-
-<div class="container-fluid">
-  <div class="row flex-column">
-    <h2>Demo 2: </h2>
-    <p>11 slides with different count of active slides </p>
-    <esl-carousel config="       {count: 5} |
-                                @LG => {count: 5} |
-                                @MD => {count: 4} |
-                                @SM => {count: 3} |
-                                @XS => {count: 1} |">
-
-      <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
-        <span class="icon-arrow-prev"></span>
-      </button>
-
-      <div class="esl-carousel-content">
-        <div data-slides-area>
-          <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide active>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>111</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>222</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>333</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>444</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>555</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>666</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>777</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>888</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>999</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>101010</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>111111</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>121212</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>131313</p>
-            </div>
-          </esl-carousel-slide>
-          <!-- /CAROUSEL-ITEM -->
-        </div>
-      </div>
-
-      <button class="arrow-next" onclick="void 0" data-slide-target="next">
-        <span class="icon-arrow-next"></span>
-      </button>
-
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-
-    </esl-carousel>
-  </div>
-</div>
-
-<div class="container-fluid">
-  <div class="row flex-column">
-    <h2>Demo 3: </h2>
-    <p>11 slides with different count of active slides (4 slide is active)</p>
-    <esl-carousel config="      {count: 5} |
-                                @LG => {count: 5} |
-                                @MD => {count: 4} |
-                                @SM => {count: 3} |
-                                @XS => {count: 1} |">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
-
-      <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
-        <span class="icon-arrow-prev"></span>
-      </button>
-
-      <div class="esl-carousel-content">
-        <div data-slides-area>
-          <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide
-          >
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>111</p>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 5) %}
+          <esl-carousel-slide {{ active if i < 3}}>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}">
+              <p><b>{{i + 1}}</b></p>
             </div>
           </esl-carousel-slide>
-
-          <esl-carousel-slide
-          >
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>222</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>333</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide first
-          >
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>444</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>555</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>666</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>777</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>888</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>999</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>101010</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>111111</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>121212</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>131313</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>141010</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>151111</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>161212</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>171313</p>
-            </div>
-          </esl-carousel-slide>
-          <!-- /CAROUSEL-ITEM -->
-        </div>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
       </div>
-
-      <button class="arrow-next" onclick="void 0" data-slide-target="next">
-        <span class="icon-arrow-next"></span>
-      </button>
-
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-
     </esl-carousel>
+    <button class="arrow-next" data-slide-target="next">
+      <span class="icon-arrow-next"></span>
+    </button>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
   </div>
-</div>
+</section>
 
-<div class="container-fluid">
-  <div class="row flex-column">
-    <h2>Demo 1: </h2>
-    <esl-carousel config="{count: 6} |
-                          @LG => {count: 5} |
-                          @MD => {count: 4} |
-                          @SM => {count: 3} |
-                          @XS => {count: 1} |">
+<section class="container-fluid">
+  <h2>Demo 1: </h2>
+  <p>3 slides with 2 active slides to check if RAF helps to animate first one</p>
+
+  <div class="row flex-column" esl-carousel-container>
+    <button class="arrow-prev" data-slide-target="prev">
+      <span class="icon-arrow-prev"></span>
+    </button>
+    <esl-carousel config="{count: 2}">
+      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 3) %}
+          <esl-carousel-slide {{ active if i > 0}}>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}">
+              <p><b>{{i + 1}}</b></p>
+            </div>
+          </esl-carousel-slide>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
+      </div>
+    </esl-carousel>
+    <button class="arrow-next" data-slide-target="next">
+      <span class="icon-arrow-next"></span>
+    </button>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
+  </div>
+</section>
+
+<section class="container-fluid">
+  <h2>Demo 2: </h2>
+  <p>11 slides with different count of active slides </p>
+
+  <div class="row flex-column" esl-carousel-container>
+    <button class="arrow-prev" data-slide-target="prev">
+      <span class="icon-arrow-prev"></span>
+    </button>
+    <esl-carousel config="{count: 5} | @MD => {count: 4} | @SM => {count: 3} | @XS => {count: 1}">
+      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 13) %}
+          <esl-carousel-slide>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}">
+              <p><b>{{i + 1}}</b></p>
+            </div>
+          </esl-carousel-slide>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
+      </div>
+    </esl-carousel>
+    <button class="arrow-next" data-slide-target="next">
+      <span class="icon-arrow-next"></span>
+    </button>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
+  </div>
+</section>
+
+<section class="container-fluid">
+  <h2>Demo 3: </h2>
+  <p>11 slides with different count of active slides (4 slide is active)</p>
+
+  <div class="row flex-column" esl-carousel-container>
+    <button class="arrow-prev" data-slide-target="prev">
+      <span class="icon-arrow-prev"></span>
+    </button>
+    <esl-carousel id="second-carousel" config="{count: 5} | @MD => {count: 4} | @SM => {count: 3} | @XS => {count: 1}">
+      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 13) %}
+          <esl-carousel-slide {{ active if i == 3}}>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}">
+              <p><b>{{i + 1}}</b></p>
+            </div>
+          </esl-carousel-slide>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
+      </div>
+    </esl-carousel>
+    <button class="arrow-next" data-slide-target="next">
+      <span class="icon-arrow-next"></span>
+    </button>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
+  </div>
+</section>
+
+<section class="container-fluid">
+  <h2>Linked carousel: </h2>
+
+  <div class="row flex-column" esl-carousel-container>
+    <button class="arrow-prev" data-slide-target="prev">
+      <span class="icon-arrow-prev"></span>
+    </button>
+    <esl-carousel config="{count: 6} | @LG => {count: 5} | @MD => {count: 4} | @SM => {count: 3} | @XS => {count: 1}">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
       <esl-carousel-link-plugin to="#second-carousel"></esl-carousel-link-plugin>
-
-      <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
-        <span class="icon-arrow-prev"></span>
-      </button>
-
-      <div class="esl-carousel-content">
-        <div data-slides-area>
-          <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide active>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>First Slide</p>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 13) %}
+          <esl-carousel-slide {{ active if i < 3}}>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}">
+              <p><b>{{i + 1}}</b></p>
             </div>
           </esl-carousel-slide>
-
-          <esl-carousel-slide active>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Second Slide</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide active>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Third Slide</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Fourth Slide</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Fiveth Slide</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Sixth Slide</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Seventh Slide</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Eighth Slide</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Nineth Slide</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Tenth slide</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Eleventh Slide</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Twelfth Slide</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Thirteenth Slide</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Fourteenth Slide</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Fiveteenth Slide</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>Sixteenth Slide</p>
-            </div>
-          </esl-carousel-slide>
-          <!-- /CAROUSEL-ITEM -->
-        </div>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
       </div>
-
-      <button class="arrow-next" onclick="void 0" data-slide-target="next">
-        <span class="icon-arrow-next"></span>
-      </button>
-
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-
     </esl-carousel>
-  </div>
-</div>
-
-<div class="container-fluid">
-  <div class="row flex-column">
-    <h2>Demo 2: </h2>
-
-    <style>
-      #second-carousel .post-text {
-        width: 100%;
-        height: 100%;
-        padding: 20px;
-        text-align: center;
-      }
-    </style>
-
-    <esl-carousel id="second-carousel"
-                  config="       {count: 6} |
-                                @SM => {count: 4} |
-                                @XS => {count: 2}">
-
-      <div class="esl-carousel-content">
-        <div data-slides-area>
-          <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide active>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="1">
-              <p>111</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide active>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="2">
-              <p>222</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide active>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="3">
-              <p>333</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="4">
-              <p>444</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="5">
-              <p>555</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="6">
-              <p>666</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="7">
-              <p>777</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="8">
-              <p>888</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="9">
-              <p>999</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="10">
-              <p>101010</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="11">
-              <p>111111</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="12">
-              <p>121212</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="13">
-              <p>131313</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="14">
-              <p>141414</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="15">
-              <p>151515</p>
-            </div>
-          </esl-carousel-slide>
-
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}" data-slide-target="16">
-              <p>161616</p>
-            </div>
-          </esl-carousel-slide>
-          <!-- /CAROUSEL-ITEM -->
-        </div>
-      </div>
-
+    <button class="arrow-next" data-slide-target="next">
+      <span class="icon-arrow-next"></span>
+    </button>
+    <div class="text-center">
       <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-
-    </esl-carousel>
+    </div>
   </div>
-</div>
+</section>
 
-<div class="container-fluid">
-  <div class="row flex-column">
-    <a href="javascript:void 0" class="sr-only">Fake anchor</a>
-    <h2>Demo 1: </h2>
-    <esl-carousel config="{count: 1}">
+<section class="container-fluid">
+  <h2>Demo 4 (Autoscroll): </h2>
+  <a href="javascript:void 0" class="sr-only">Fake anchor</a>
+  <div class="row flex-column" esl-carousel-container>
+    <button class="arrow-prev" data-slide-target="prev">
+      <span class="icon-arrow-prev"></span>
+    </button>
+    <esl-carousel id="second-carousel" config="{count: 1}">
       <esl-carousel-autoplay-plugin timeout="5000"></esl-carousel-autoplay-plugin>
-
-      <button class="arrow-prev" onclick="void 0" data-slide-target="prev">
-        <span class="icon-arrow-prev"></span>
-      </button>
-
-      <div class="esl-carousel-content">
-        <div data-slides-area>
-          <!-- CAROUSEL-ITEM -->
-          <esl-carousel-slide data-active-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>aaa</p>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 5) %}
+          <esl-carousel-slide {{ active if i == 0}}>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}">
+              <p><b>{{i + 1}}</b></p>
             </div>
           </esl-carousel-slide>
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>bbb</p>
-            </div>
-          </esl-carousel-slide>
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>ccc</p>
-            </div>
-          </esl-carousel-slide>
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>ddd</p>
-            </div>
-          </esl-carousel-slide>
-          <esl-carousel-slide>
-            <div class="post-text" style="background: {{ functions.randomColor() }}">
-              <p>eee</p>
-            </div>
-          </esl-carousel-slide>
-
-          <!-- /CAROUSEL-ITEM -->
-        </div>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
       </div>
-
-      <button class="arrow-next" onclick="void 0" data-slide-target="next">
-        <span class="icon-arrow-next"></span>
-      </button>
-
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-
     </esl-carousel>
+    <button class="arrow-next" data-slide-target="next">
+      <span class="icon-arrow-next"></span>
+    </button>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
   </div>
-</div>
+</section>

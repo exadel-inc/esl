@@ -1,7 +1,7 @@
 import './esl-carousel.views';
 
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr} from '../../esl-base-element/core';
+import {ESLBaseElement, attr, listen} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {isEqual} from '../../esl-utils/misc/object';
 import {memoize} from '../../esl-utils/decorators/memoize';
@@ -11,11 +11,12 @@ import {normalizeIndex, toIndex, toDirection} from './esl-carousel-utils';
 import {ESLCarouselSlide} from './esl-carousel-slide';
 import {ESLCarouselView} from './view/esl-carousel-view';
 
-import type {ESLCarouselPlugin} from '../plugin/esl-carousel-plugin';
+import type {ESLCarouselPlugin} from './esl-carousel-plugin';
 import type {CarouselDirection, CarouselSlideTarget} from './esl-carousel-utils';
+import {EventUtils} from '../../esl-utils/dom/events/utils';
 
 /** Config to define behavior of ESLCarousel */
-interface CarouselConfig { // Registry
+interface CarouselConfig {
   /** Defines carousel rendering view. */
   view?: string;
   /** Defines the total number of slides. */
@@ -54,10 +55,11 @@ export class ESLCarousel extends ESLBaseElement {
   /** Config for current ESLCarousel instance. */
   @attr() public config: string;
 
+  public readonly plugins = new Set<ESLCarouselPlugin>();
+
   protected _configRules: ESLMediaRuleList<CarouselConfig | null>;
   protected _currentConfig: CarouselConfig = {};
   protected _view: ESLCarouselView;
-  protected readonly _plugins = new Map<string, ESLCarouselPlugin>();
 
   // TODO: rename
   /**  @returns carousel rendered view. */
@@ -89,13 +91,6 @@ export class ESLCarousel extends ESLBaseElement {
       this.configRules = ESLMediaRuleList.parse<CarouselConfig>(this.config, ESLMediaRuleList.OBJECT_PARSER);
       this.update(true);
     }
-  }
-
-  protected _bindEvents(): void {
-    this.addEventListener('click', this._onClick, false);
-  }
-  protected _unbindEvents(): void {
-    this.removeEventListener('click', this._onClick, false);
   }
 
   get configRules(): ESLMediaRuleList<CarouselConfig | null> {
@@ -137,6 +132,11 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** Handles `click` event. */
   // TODO: focus disappear after click
+  @listen({
+    event: 'click',
+    target: '::parent([esl-carousel-container])',
+    selector: '[data-slide-target]'
+  })
   protected _onClick(event: MouseEvent): void {
     const eventTarget: HTMLElement = event.target as HTMLElement;
     const markedTarget: HTMLElement | null = eventTarget.closest('[data-slide-target]');
@@ -154,36 +154,11 @@ export class ESLCarousel extends ESLBaseElement {
     if (!this._view) this.update(true);
   }
 
-  // Plugin management
-  public addPlugin(plugin: ESLCarouselPlugin): void {
-    if (plugin.carousel) return;
-    this.appendChild(plugin);
-  }
-
-  public removePlugin(plugin: ESLCarouselPlugin | string | undefined): void {
-    if (typeof plugin === 'string') plugin = this._plugins.get(plugin);
-    if (!plugin || plugin.carousel !== this) return;
-    plugin.parentNode && plugin.parentNode.removeChild(plugin);
-  }
-
-  public _addPlugin(plugin: ESLCarouselPlugin): void {
-    if (this._plugins.has(plugin.key)) return;
-    this._plugins.set(plugin.key, plugin);
-    if (this.isConnected) plugin.bind();
-  }
-
-  public _removePlugin(plugin: ESLCarouselPlugin): void {
-    if (!this._plugins.has(plugin.key)) return;
-    plugin.unbind();
-    this._plugins.delete(plugin.key);
-  }
-
   protected connectedCallback(): void {
     super.connectedCallback();
 
     this.update(true);
     this.goTo(this.firstIndex, {force: true});
-    this._bindEvents();
 
     ESLCarouselView.registry.addListener(this._onRegistryChange);
     const ariaLabel = this.hasAttribute('aria-label');
@@ -192,8 +167,6 @@ export class ESLCarousel extends ESLBaseElement {
 
   protected disconnectedCallback(): void {
     super.disconnectedCallback();
-    this._unbindEvents();
-
     ESLCarouselView.registry.removeListener(this._onRegistryChange);
   }
 
@@ -278,7 +251,7 @@ export class ESLCarousel extends ESLBaseElement {
       detail: {direction}
     };
 
-    if (!this.$$fire('slide:change', eventDetails)) return;
+    if (!this.$$fire('esl:slide:change', eventDetails)) return;
 
     if (this._view && firstIndex !== index) {
       try {
@@ -291,7 +264,7 @@ export class ESLCarousel extends ESLBaseElement {
     }
 
     this._view.setActive(index);
-    this.$$fire('slide:changed', eventDetails);
+    this.$$fire('esl:slide:changed', eventDetails);
   }
 
   /** Gets slide by index. */

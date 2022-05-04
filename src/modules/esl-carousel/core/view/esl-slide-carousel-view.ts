@@ -16,9 +16,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     if (!$slidesArea || !$slides.length) return;
 
     const slideStyles = getComputedStyle($slides[this.carousel.firstIndex]);
-    const slidesAreaStyles = getComputedStyle($slidesArea);
-
-    this.slideWidth = parseFloat(slidesAreaStyles.width) - parseFloat(slideStyles.marginLeft) - parseFloat(slideStyles.marginRight);
+    this.slideWidth =  $slidesArea.offsetWidth - parseFloat(slideStyles.marginLeft) - parseFloat(slideStyles.marginRight);
     $slides.forEach((slide) => slide.style.minWidth = this.slideWidth + 'px');
   }
 

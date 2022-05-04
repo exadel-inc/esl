@@ -1,7 +1,8 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
-import {ESLCarouselPlugin} from './esl-carousel-plugin';
+
+import {ESLCarouselPlugin} from '../core/esl-carousel-plugin';
 
 /**
  * Slide Carousel Autoplay (Auto-Advance) plugin

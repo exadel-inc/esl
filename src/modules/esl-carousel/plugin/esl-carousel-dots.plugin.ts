@@ -2,7 +2,9 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ARROW_LEFT, ARROW_RIGHT} from '../../esl-utils/dom/keys';
 import {findNextLooped, findPrevLooped} from '../../esl-utils/dom/traversing';
-import {ESLCarouselPlugin} from './esl-carousel-plugin';
+
+import {ESLCarouselPlugin} from '../core/esl-carousel-plugin';
+import {listen} from '../../esl-utils/decorators/listen';
 
 /**
  * Slide Carousel Dots plugin
@@ -13,20 +15,16 @@ import {ESLCarouselPlugin} from './esl-carousel-plugin';
 @ExportNs('CarouselPlugins.Dots')
 export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
   public static is = 'esl-carousel-dots';
-  public static freePlacement = true;
-
-  private _onUpdate = (): void => this.rerender();
+  public static DEFAULT_TARGET = '::parent([esl-carousel-container])::find(esl-carousel)';
 
   public bind(): void {
     this.rerender();
     this.carousel.addEventListener('esl:slide:changed', this._onUpdate);
-    this.addEventListener('keydown', this._onKeydown);
   }
 
   public unbind(): void {
     this.innerHTML = '';
     this.carousel.removeEventListener('esl:slide:changed', this._onUpdate);
-    this.removeEventListener('keydown', this._onKeydown);
   }
 
   /** Renders dots according to the carousel state. */
@@ -41,12 +39,28 @@ export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
 
   /** Builds content of dots. */
   public buildDot(index: number, isActive: boolean): string {
-    return `<button role="button" class="carousel-dot ${isActive ? 'active-dot' : ''}"
-            aria-current="${isActive ? 'true' : 'false'}" data-slide-target="g${index + 1}"></button>`;
+    return `<button role="button"
+                data-group-index="${index + 1}"
+                class="carousel-dot ${isActive ? 'active-dot' : ''}"
+                aria-current="${isActive ? 'true' : 'false'}"></button>`;
+  }
+
+  @bind
+  protected _onUpdate(e: Event): void {
+    if (this.carousel !== e.target) return;
+    this.rerender();
+  }
+
+  @listen('click')
+  protected _onClick(event: PointerEvent): void {
+    const $target = (event.target as Element).closest('[data-group-index]');
+    if (!$target) return;
+    const index = +($target.getAttribute('data-group-index') || '0');
+    this.carousel.goTo('g' + index);
   }
 
   /** Handles `keydown` event. */
-  @bind
+  @listen('keydown')
   protected _onKeydown(event: KeyboardEvent): void {
     if (ARROW_LEFT === event.key) {
       const $eventTarget: HTMLElement = event.target as HTMLElement;

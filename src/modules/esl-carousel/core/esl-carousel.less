@@ -1,20 +1,16 @@
 // CORE styles
-
 esl-carousel {
   display: block;
-  width: 100%;
-  position: relative;
+  max-width: 100%;
+  padding: 5px 0;
 
-  .esl-carousel-content {
-    margin: 0 auto;
-    overflow: hidden;
-  }
+  position: relative;
+  overflow: hidden;
 
   [data-slides-area] {
     width: 100%;
     display: flex;
     position: relative;
-    padding-bottom: 71px;
     z-index: 0;
     transform: translate3d(0px, 0px, 0px);
   }
@@ -23,7 +19,7 @@ esl-carousel {
     display: flex;
     box-sizing: border-box;
     margin: 0;
-    padding: 0;
+    padding: 0 10px;
 
     position: relative;
     left: 0;
@@ -32,4 +28,8 @@ esl-carousel {
     min-width: 250px;
     min-height: 150px;
   }
+}
+
+[esl-carousel-container] {
+  position: relative;
 }

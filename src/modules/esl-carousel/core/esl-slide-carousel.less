@@ -1,9 +1,9 @@
-@SLIDE_CAROUSEL_ANIMATION: 2s linear;
-
 esl-carousel.slide-carousel {
+  @SLIDE_CAROUSEL_ANIMATION: 2s linear;
 
   esl-carousel-slide {
     display: none;
+    width: 100%;
   }
 
   esl-carousel-slide[active] {
@@ -30,11 +30,9 @@ esl-carousel.slide-carousel {
     order: 2;
   }
 
-  &[animate] {
-    [data-slides-area] {
-      // animation
-      transition: transform @SLIDE_CAROUSEL_ANIMATION;
-    }
+  &[animate] [data-slides-area] {
+    // animation
+    transition: transform @SLIDE_CAROUSEL_ANIMATION;
   }
 
   &[direction="prev"] {

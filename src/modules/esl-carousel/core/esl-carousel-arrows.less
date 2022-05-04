@@ -5,16 +5,16 @@ esl-carousel {
     display: none;
   }
 }
-.esl-carousel {
+[esl-carousel-container] {
   button.arrow-prev,
   button.arrow-next {
     display: block;
     position: absolute;
     top: 50%;
-    z-index: 2;
+    z-index: 3;
     width: 68px;
     height: 68px;
-    margin-top: -69.5px;
+    transform: translateY(-50%);
     background: none;
     border: none;
     opacity: .5;
@@ -24,10 +24,10 @@ esl-carousel {
     appearance: none;
   }
   button.arrow-next {
-    right: 0;
+    right: -60px;
   }
   button.arrow-prev {
-    left: 0;
+    left: -60px;
   }
 
   // TODO: refactor
