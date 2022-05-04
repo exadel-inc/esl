@@ -110,7 +110,7 @@ export class ESLMixinElement implements AttributeTarget {
    * @param eventInit - custom event init. See {@link CustomEventInit}
    */
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
-    return EventUtils.dispatch(this.$host, 'esl:' + eventName, eventInit);
+    return EventUtils.dispatch(this.$host, eventName, eventInit);
   }
 
   /** Returns mixin instance by element */

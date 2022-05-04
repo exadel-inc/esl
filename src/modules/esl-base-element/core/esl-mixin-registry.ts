@@ -54,6 +54,7 @@ export class ESLMixinRegistry {
   public invalidateRecursive(root: HTMLElement = document.body): void {
     if (!root) return;
     this.invalidateAll(root);
+    if (!root.children || !root.children.length) return;
     Array.prototype.forEach.call(root.children, (child: Element) => this.invalidateRecursive(child as HTMLElement));
   }
 

@@ -86,7 +86,7 @@ export abstract class ESLBaseElement extends HTMLElement {
    * @param eventInit - custom event init. See {@link CustomEventInit}
    */
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
-    return EventUtils.dispatch(this, 'esl:' + eventName, eventInit);
+    return EventUtils.dispatch(this, eventName, eventInit);
   }
 
   /**

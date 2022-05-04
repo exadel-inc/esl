@@ -53,6 +53,9 @@ export class ESLNote extends ESLBaseElement {
   /** Target to container element {@link TraversingQuery} to define bounds of tooltip visibility (window by default) */
   @attr() public container: string;
 
+  /** margin around the element that is used as the viewport for checking the visibility of the note tooltip */
+  @attr({defaultValue: '0px'})  public intersectionMargin: string;
+
   protected _$footnotes: ESLFootnotes | null;
   protected _index: number;
 
@@ -183,9 +186,9 @@ export class ESLNote extends ESLBaseElement {
 
   /** Brings up to date ignore query */
   public updateQueryToIgnore(): void {
-    this.queryToIgnore.removeListener(this._onBPChange);
+    this.queryToIgnore.removeEventListener(this._onBPChange);
     memoize.clear(this, 'queryToIgnore');
-    this.queryToIgnore.addListener(this._onBPChange);
+    this.queryToIgnore.addEventListener(this._onBPChange);
   }
 
   /** Initial initialization of the element during the connection to DOM */
@@ -215,7 +218,8 @@ export class ESLNote extends ESLBaseElement {
       initiator: 'note',
       activator: this,
       containerEl,
-      html: this.html
+      html: this.html,
+      intersectionMargin: this.intersectionMargin
     }, ...params);
   }
 

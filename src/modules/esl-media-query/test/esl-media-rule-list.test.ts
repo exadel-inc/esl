@@ -1,5 +1,5 @@
-import {ESLMediaRuleList} from '../core/esl-media-rule-list';
 import {getMatchMediaMock} from '../../esl-utils/test/matchMedia.mock';
+import {ESLMediaRuleList} from '../core/esl-media-rule-list';
 import {ESLScreenBreakpoints} from '../core/common/screen-breakpoint';
 
 describe('ESLMediaRuleList', () => {

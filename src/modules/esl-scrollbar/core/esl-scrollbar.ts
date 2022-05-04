@@ -109,7 +109,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   protected bindEvents(): void {
     window.MouseEvent && this.addEventListener('mousedown', this._onPointerDown);
-    window.TouchEvent && this.addEventListener('touchstart', this._onPointerDown);
+    window.TouchEvent && this.addEventListener('touchstart', this._onPointerDown, {passive: true});
     window.addEventListener('esl:refresh', this._onRefresh);
   }
 
@@ -216,7 +216,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** Updates thumb size and position */
   public update(): void {
-    this.$$fire('change:scroll', {bubbles: false});
+    this.$$fire('esl:change:scroll', {bubbles: false});
     if (!this.$scrollbarThumb || !this.$scrollbarTrack) return;
     const thumbSize = this.trackOffset * this.thumbSize;
     const thumbPosition = (this.trackOffset - thumbSize) * this.position;
@@ -269,10 +269,10 @@ export class ESLScrollbar extends ESLBaseElement {
 
     // Subscribes inverse handlers
     isMouseEvent(event) && window.addEventListener('mouseup', this._onPointerUp);
-    isTouchEvent(event) && window.addEventListener('touchend', this._onPointerUp, {passive: false});
+    isTouchEvent(event) && window.addEventListener('touchend', this._onPointerUp);
 
     // Prevents default text selection, etc.
-    event.preventDefault();
+    if (isMouseEvent(event)) event.preventDefault();
   }
 
   /** Handles a scroll click / continuous scroll*/

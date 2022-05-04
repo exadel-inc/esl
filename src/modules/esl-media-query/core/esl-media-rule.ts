@@ -26,12 +26,12 @@ export class ESLMediaRule<T = any> {
   }
 
   /** Subscribes on inner {@link ESLMediaQuery} changes */
-  public addListener(listener: () => void): void {
-    this._query.addListener(listener);
+  public addListener(listener: EventListener): void {
+    this._query.addEventListener(listener);
   }
   /** Unsubscribes from inner {@link ESLMediaQuery} changes */
-  public removeListener(listener: () => void): void {
-    this._query.removeListener(listener);
+  public removeListener(listener: EventListener): void {
+    this._query.removeEventListener(listener);
   }
 
   /** @returns if the inner {@link ESLMediaQuery} is matching current device configuration */

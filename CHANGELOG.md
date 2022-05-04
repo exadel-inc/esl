@@ -1,3 +1,74 @@
+# [4.0.0-beta.6](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.5...v4.0.0-beta.6) (2022-04-26)
+
+
+### Bug Fixes
+
+* **polyfills:** optimized safe version of `Object.assign` polyfill ([96fc0dd](https://github.com/exadel-inc/esl/commit/96fc0dd12f0a45e5862e84d4fa4a5f40f76a964e))
+
+# [4.0.0-beta.5](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.4...v4.0.0-beta.5) (2022-04-26)
+
+
+### Bug Fixes
+
+* **esl-core:** empty children explicitly check in recursion ([412b2ad](https://github.com/exadel-inc/esl/commit/412b2adee0b5698488f6f3def5dcd16e45ca7b45))
+* **esl-popup:** unsubscribe safe check (reproducible in IE11) ([63e842f](https://github.com/exadel-inc/esl/commit/63e842f1b2d4d146e5c5299629f38027fd08bc44))
+
+
+### Features
+
+* **polyfills:** `Event`, `CustomEvent`, `MouseEvent`, `KeyboardEvent`, `FocusEvent` extended polyfills ([9ca3c40](https://github.com/exadel-inc/esl/commit/9ca3c406ff1f6f99490fdf09d2f15bc450c7be57))
+* **polyfills:** `Object.assign` and `Array.from` extended polyfills ([590bca4](https://github.com/exadel-inc/esl/commit/590bca4fab39c566db68f7bc2440e5d84355a991))
+
+# [4.0.0-beta.4](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.3...v4.0.0-beta.4) (2022-04-25)
+
+
+### Bug Fixes
+
+* **esl-utils:** `deepMerge` primitive values merging improved, undefined arguments now ignored ([5b7b730](https://github.com/exadel-inc/esl/commit/5b7b73003acd4d29250af12603ced5d58c40aff6))
+
+
+### Code Refactoring
+
+* **esl-core:** Update `$$fire` method API ([4983cbc](https://github.com/exadel-inc/esl/commit/4983cbcdb583e0aacc4cbda49c019105fa9b66a4))
+
+
+### Features
+
+* **esl-footnotes:** add configurable intersectionMargin for the note tooltip activator observer ([b9b1599](https://github.com/exadel-inc/esl/commit/b9b159942e3534965f43cac94c140d5680308548))
+* **esl-popup:** add configurable rootMargin for the popup activator observer ([5d647d6](https://github.com/exadel-inc/esl/commit/5d647d60673a65e7b27472c1b68a1e174fa40740))
+* **esl-popup:** add extended offsetContainer configuration ([63cbc0a](https://github.com/exadel-inc/esl/commit/63cbc0a996a8578549360dadaa3bb17c53884bfe))
+* **esl-utils/rect:** ability to grow/shrink axis ([1c58a1c](https://github.com/exadel-inc/esl/commit/1c58a1c19b0aa82abf7eb73c40781e9c4a4860ba))
+
+
+### BREAKING CHANGES
+
+* **esl-core:** `$$fire` no longer add 'esl:' prefix to the fired events
+
+# [4.0.0-beta.3](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.2...v4.0.0-beta.3) (2022-04-12)
+
+
+### Bug Fixes
+
+* **esl-scrollbar:** fix non-passive listener of the scrollbar touchstart ([a3df8ec](https://github.com/exadel-inc/esl/commit/a3df8ec4b7a8eb3ccc67f02ad3116a13a86b26c6))
+* **esl-toggleable:** fix double `esl:` prefix for esl-toggleable `esl:refresh` dispatching ([3316da0](https://github.com/exadel-inc/esl/commit/3316da0c4378466c0bf34346e5791ee36fdfe0a8)), closes [#913](https://github.com/exadel-inc/esl/issues/913)
+* **esl-utils:** rename some event/misc utils ([36bdb8a](https://github.com/exadel-inc/esl/commit/36bdb8afa8fdd78f6c71232dfbf65c05a6f54d76))
+
+
+### Code Refactoring
+
+* **esl-panel-group:** remove deprecated `view` attribute ([e0c5410](https://github.com/exadel-inc/esl/commit/e0c5410d157017fa96133e9ccb84d364bdc55534))
+* **esl-panel:** rename noCollapse to noAnimate param ([3f5aa74](https://github.com/exadel-inc/esl/commit/3f5aa74be95eff047db076c33ecc9b8a199d15a4))
+
+
+### BREAKING CHANGES
+
+* **esl-panel-group:** `ESLPanelGroup` `view` attribute no longer supported
+* **esl-panel:** `PanelActionParams.noCollapse` renamed to `PanelActionParams.noAnimate`
+* **esl-panel:** `ESLPanelGroup.noCollapse` (with related attribute)
+renamed to `ESLPanelGroup.noAnimate` (`no-animate` attribute)
+* **esl-panel:** `ESLPanelGroup.shouldCollapse` renamed to `ESLPanelGroup.shouldAnimate`
+* **esl-utils:** rename `offsetPoint` to `getOffsetPoint` and `touchPoint` to `getTouchPoint`
+
 # [4.0.0-beta.2](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2022-04-05)
 
 
@@ -283,7 +354,7 @@
 ### Features
 
 * **esl-panel-group:** ability to define params for child panels requests ([08cf513](https://github.com/exadel-inc/esl/commit/08cf51385cae2514b220b9950d53d0afa4b1b5d3))
-* **esl-panel-group:** dispatch change:mode event ([8d41dbd](https://github.com/exadel-inc/esl/commit/8d41dbd69ac703858f1dd8d43ece748da58780f1))
+* **esl-panel-group:** dispatch esl:change:mode event ([8d41dbd](https://github.com/exadel-inc/esl/commit/8d41dbd69ac703858f1dd8d43ece748da58780f1))
 * **esl-panel-group:** make animation disabled on transform by default ([1815b00](https://github.com/exadel-inc/esl/commit/1815b006a6decfc91b275b5c28ae9da17b1bf311))
 * **esl-panel-group:** rename `view` attribute to `current-mode`; extend mode class API ([52188fe](https://github.com/exadel-inc/esl/commit/52188fe43457d2f362cd7cca0a126cbf01ffb9c9))
 * **esl-toggleable:** add id auto-creation feature for toggleable instances ([eaf02dc](https://github.com/exadel-inc/esl/commit/eaf02dc490dd0c92b6b9bbdf758769eeba15d62d))
@@ -309,7 +380,7 @@
 
 ### Features
 
-* **esl-panel-group:** dispatch change:mode event ([8d41dbd](https://github.com/exadel-inc/esl/commit/8d41dbd69ac703858f1dd8d43ece748da58780f1))
+* **esl-panel-group:** dispatch esl:change:mode event ([8d41dbd](https://github.com/exadel-inc/esl/commit/8d41dbd69ac703858f1dd8d43ece748da58780f1))
 
 ## [3.10.1-beta.1](https://github.com/exadel-inc/esl/compare/v3.10.0...v3.10.1-beta.1) (2021-12-22)
 
