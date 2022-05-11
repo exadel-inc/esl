@@ -8,6 +8,15 @@ import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
 
+interface ESLShowRequestDetails {
+  // Selector to ignore or exact predicate to check if the target should process request
+  ignore: string | ((target: EventTarget) => boolean);
+  // Delay to show targets
+  delay: number;
+  // Custom params to pass
+  params?: Record<string, ToggleableActionParams>;
+}
+
 /** Default Toggleable action params type definition */
 export interface ToggleableActionParams {
   /** Initiator string identifier */
@@ -314,8 +323,14 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Actions to execute on show request */
   @bind
-  protected _onShowRequest(): void {
-    this.show();
+  protected _onShowRequest(e: CustomEvent<ESLShowRequestDetails>): void {
+    const ignore = e.detail.ignore;
+    const target = e.target;
+    if (!target) return;
+    if (typeof ignore === 'string' && (target as Element).matches(ignore)) return;
+    if (typeof ignore === 'function' && ignore.call(target)) return;
+    const showParams = Object.assign({}, {...e.detail.params} || {}, {delay: e.detail.delay} || {});
+    this.show(showParams);
   }
 }
 
