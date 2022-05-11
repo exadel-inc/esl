@@ -324,13 +324,18 @@ export class ESLToggleable extends ESLBaseElement {
   /** Actions to execute on show request */
   @bind
   protected _onShowRequest(e: CustomEvent<ESLShowRequestDetails>): void {
-    const ignore = e.detail.ignore;
     const target = e.target;
     if (!target) return;
-    if (typeof ignore === 'string' && (target as Element).matches(ignore)) return;
-    if (typeof ignore === 'function' && ignore.call(target)) return;
-    const showParams = Object.assign({}, {...e.detail.params} || {}, {delay: e.detail.delay} || {});
-    this.show(showParams);
+    if (!e.detail) {
+      this.show();
+      return;
+    }
+    const ignore = e.detail.ignore;
+    if (typeof ignore === 'string' && (target as Element).matches(ignore) || typeof ignore === 'function' && ignore.call(target)) return;
+    this.show({
+      delay: e.detail.delay || 0,
+      ...e.detail.params
+    });
   }
 }
 
