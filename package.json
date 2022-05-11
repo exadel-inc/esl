@@ -110,7 +110,7 @@
     "eslint-plugin-tsdoc": "^0.2.16",
     "foreach-cli": "^1.8.1",
     "html-minifier": "^4.0.0",
-    "husky": "^7.0.4",
+    "husky": "^8.0.1",
     "intersection-observer": "^0.12.0",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
