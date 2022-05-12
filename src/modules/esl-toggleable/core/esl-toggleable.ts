@@ -10,9 +10,9 @@ import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/c
 
 interface ESLShowRequestDetails {
   // Selector to ignore or exact predicate to check if the target should process request
-  ignore: string | ((target: EventTarget) => boolean);
+  ignore?: string | ((target: EventTarget) => boolean);
   // Delay to show targets
-  delay: number;
+  delay?: number;
   // Custom params to pass
   params?: Record<string, ToggleableActionParams>;
 }
@@ -325,17 +325,15 @@ export class ESLToggleable extends ESLBaseElement {
   @bind
   protected _onShowRequest(e: CustomEvent<ESLShowRequestDetails>): void {
     const target = e.target;
+    const detail = e.detail;
     if (!target) return;
-    if (!e.detail) {
-      this.show();
-      return;
+    let showOptions;
+    if (detail) {
+      showOptions = Object.assign({delay: detail.delay} || {}, {...detail.params} || {});
+      const ignore = detail.ignore;
+      if (typeof ignore === 'string' && (target as Element).matches(ignore) || typeof ignore === 'function' && ignore.call(target)) return;
     }
-    const ignore = e.detail.ignore;
-    if (typeof ignore === 'string' && (target as Element).matches(ignore) || typeof ignore === 'function' && ignore.call(target)) return;
-    this.show({
-      delay: e.detail.delay || 0,
-      ...e.detail.params
-    });
+    this.show(showOptions);
   }
 }
 
