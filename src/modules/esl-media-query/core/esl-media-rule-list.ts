@@ -23,7 +23,7 @@ export class ESLMediaRuleListEvent<T = any> extends Event {
 
 /**
  * ESLMediaRuleList - {@link ESLMediaRule} observable collection
- * @author Yuliya Adamskaya
+ * @author Yuliya Adamskaya, Alexey Stsefanovich (ala'n)
  *
  * Represents observable object that wraps environment to value mapping
  */
@@ -46,7 +46,52 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    * @param parser - value parser function
    */
   public static parse<U>(query: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
-  public static parse(query: string, parser: RulePayloadParser<any> = String): ESLMediaRuleList {
+  /**
+   * Creates `ESLMediaRuleList` from two strings with a value  and conditions tuple
+   *
+   * @param values - values tuple string (uses '|' as separator)
+   * @param mask - media conditions tuple string (uses '|' as separator)
+   *
+   * @example
+   * ```ts
+   * ESLMediaRuleList.parseTuple('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL')
+   * ```
+   */
+  public static parse(values: string, mask: string): ESLMediaRuleList<string>;
+  /**
+   * Creates `ESLMediaRuleList` from two strings with a value  and conditions tuple
+   *
+   * @param values - values tuple string (uses '|' as separator)
+   * @param mask - media conditions tuple string (uses '|' as separator)
+   * @param parser - value parser function
+   *
+   * @example
+   * ```ts
+   * ESLMediaRuleList.parseTuple('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL', Number)
+   * ```
+   */
+  public static parse<U>(values: string, mask: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
+  public static parse(value: string, ...common: (string | RulePayloadParser<any>)[]): ESLMediaRuleList {
+    const parser: RulePayloadParser<any> = typeof common[common.length - 1] === 'function' ? common.pop() as any : String;
+    const query = common.pop();
+    return typeof query === 'string' ?
+      ESLMediaRuleList.parseTuple(value, query, parser) :
+      ESLMediaRuleList.parseQuery(value, parser);
+  }
+
+  /**
+   * Creates `ESLMediaRuleList` from string query representation
+   * Uses exact strings as rule list values
+   * @param query - query string
+   */
+  public static parseQuery(query: string): ESLMediaRuleList<string>;
+  /**
+   * Creates `ESLMediaRuleList` from string query representation
+   * @param query - query string
+   * @param parser - value parser function
+   */
+  public static parseQuery<U>(query: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
+  public static parseQuery(query: string, parser: RulePayloadParser<any> = String): ESLMediaRuleList {
     const rules = query.split('|')
       .map((lex: string) => ESLMediaRule.parse(lex, parser))
       .filter((rule: ESLMediaRule) => !!rule) as ESLMediaRule[];
