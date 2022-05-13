@@ -1,8 +1,17 @@
 import {ESLMediaRuleList} from '../esl-media-rule-list';
 import {memoizeFn} from '../../../esl-utils/misc/memoize';
 
+import type {RulePayloadParser} from '../esl-media-rule';
+
 // Defines rule to create a unique hash of @media params
-const hashFn = (queries: string, values: string = queries): string => [queries, values].join('=>');
+const hashFn = (...args: any[]): string | undefined => {
+  let serialized = '';
+  for (const arg of args) {
+    if (typeof arg === 'function' && !arg.name) return undefined;
+    serialized += typeof arg === 'function' ? arg.name : String(arg);
+  }
+  return serialized;
+};
 
 /**
  * Decorator to access active value of the passed {@link ESLMediaRuleList}
@@ -24,12 +33,18 @@ const hashFn = (queries: string, values: string = queries): string => [queries, 
  * @media('@sm|@md|@lg', 'sm|md|lg')
  * protected onBreakpointChange(e: ESLMediaRuleListEvent) { ... }
  * ```
+ *
+ * @deprecated until testing phase completed
  */
 export const media = memoizeFn(mediaDecorator, hashFn);
 
-/** `@media` decorator inner implementation */
-function mediaDecorator(queries: string, values: string = queries): PropertyDecorator {
-  const rules: ESLMediaRuleList<string> = ESLMediaRuleList.parseTuple(values, queries);
+
+function mediaDecorator(query: string): PropertyDecorator;
+function mediaDecorator<U>(query: string, parser: RulePayloadParser<U>): PropertyDecorator;
+function mediaDecorator(values: string, mask: string): PropertyDecorator;
+function mediaDecorator<U>(values: string, mask: string, parser: RulePayloadParser<U>): PropertyDecorator;
+function mediaDecorator(...args: any[]): PropertyDecorator {
+  const rules: ESLMediaRuleList = ESLMediaRuleList.parse(...args as Parameters<typeof ESLMediaRuleList.parse>);
 
   return function listener(target: HTMLElement, propertyKey: string, descriptor?: PropertyDescriptor): void {
     if (descriptor) {
