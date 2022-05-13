@@ -1,4 +1,4 @@
-import {isRelativeNode, findClosestBy} from '../traversing';
+import {isRelativeNode, findClosestBy, isMatches} from '../traversing';
 
 describe('Common: dom/traversing helper tests', () => {
   document.body.innerHTML = `
@@ -30,6 +30,14 @@ describe('Common: dom/traversing helper tests', () => {
     expect(isRelativeNode(btn1, root)).toBeTruthy();
     expect(isRelativeNode(document.body, document.createElement('div'))).toBeFalsy();
     expect(isRelativeNode(btn1, btn2)).toBeFalsy();
+  });
+
+  test('isMatches', () => {
+    expect(isMatches(root, 'section')).toBeTruthy();
+    expect(isMatches(root, () => true)).toBeTruthy();
+    expect(isMatches(root, 'section2')).toBeFalsy();
+    expect(isMatches(root, () => false)).toBeFalsy();
+    expect(isMatches(root)).toBeFalsy();
   });
 
   test('closestBy', () => {
