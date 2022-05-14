@@ -11,7 +11,7 @@ import {isMatches} from '../../esl-utils/dom/traversing';
 
 export interface ESLShowRequestDetails {
   // Selector to ignore or exact predicate to check if the target should process request
-  ignore?: string | ((target: EventTarget) => boolean);
+  ignore?: string | ((target: Element) => boolean);
   // Delay to show targets
   delay?: number;
   // Custom params to pass
