@@ -326,7 +326,7 @@ export class ESLToggleable extends ESLBaseElement {
   @bind
   protected _onShowRequest(e: CustomEvent<ESLShowRequestDetails>): void {
     const detail = e.detail;
-    if (detail?.ignore && isMatches(this, detail.ignore)) return;
+    if (isMatches(this, detail?.ignore)) return;
     const params = {event: e};
     if (detail && typeof detail.delay === 'number') Object.assign(params, {showDelay: detail.delay});
     if (detail && typeof detail.params === 'object') Object.assign(params, detail.params || {});
