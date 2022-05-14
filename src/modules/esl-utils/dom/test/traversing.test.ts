@@ -19,6 +19,7 @@ describe('Common: dom/traversing helper tests', () => {
     </section>
   `;
 
+  const div = document.createElement('div');
   const root = document.querySelector('section') as HTMLSelectElement;
   const row1 = document.querySelector('#row1') as HTMLDivElement;
   const btn1 = document.querySelector('#btn1') as HTMLButtonElement;
@@ -33,11 +34,11 @@ describe('Common: dom/traversing helper tests', () => {
   });
 
   test('isMatches', () => {
-    expect(isMatches(root, 'section')).toBeTruthy();
-    expect(isMatches(root, () => true)).toBeTruthy();
-    expect(isMatches(root, 'section2')).toBeFalsy();
-    expect(isMatches(root, () => false)).toBeFalsy();
-    expect(isMatches(root)).toBeFalsy();
+    expect(isMatches(div, (el) => div === el)).toBeTruthy();
+    expect(isMatches(div, (el) => root === el)).toBeFalsy();
+    expect(isMatches(div, 'div')).toBeTruthy();
+    expect(isMatches(div, 'span')).toBeFalsy();
+    expect(isMatches(div)).toBeFalsy();
   });
 
   test('closestBy', () => {

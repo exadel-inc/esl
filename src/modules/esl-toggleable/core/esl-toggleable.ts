@@ -329,7 +329,7 @@ export class ESLToggleable extends ESLBaseElement {
     if (detail?.ignore && isMatches(this, detail.ignore)) return;
     const params = {event: e};
     if (detail && typeof detail.delay === 'number') Object.assign(params, {showDelay: detail.delay});
-    if (detail && typeof detail.parms === 'object') Object.assign(params, detail.params || {});
+    if (detail && typeof detail.params === 'object') Object.assign(params, detail.params || {});
     this.show(params);
   }
 }

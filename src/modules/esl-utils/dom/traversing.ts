@@ -15,7 +15,7 @@ export const createSequenceFinder = (next: (el: Element) => Element | null) => {
 
 /** Checks if element matches passed selector or exact predicate function */
 export const isMatches = (el: Element, matcher?: string | ((el: Element) => boolean)): boolean => {
-  return (typeof matcher === 'string' && el.matches(matcher) || typeof matcher === 'function' && matcher.call(el));
+  return (typeof matcher === 'string' && el.matches(matcher) || typeof matcher === 'function' && matcher.call(this, el));
 };
 
 /** @returns first matching next sibling or null*/
