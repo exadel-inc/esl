@@ -1,7 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {evaluate} from '../../esl-utils/misc/format';
 import {deepMerge, isEqual} from '../../esl-utils/misc/object';
-import {SyntheticEventTarget} from '../../esl-utils/abstract/event-target';
+import {SyntheticEventTarget} from '../../esl-utils/dom/events';
 import {ESLMediaRule} from './esl-media-rule';
 
 import type {RulePayloadParser} from './esl-media-rule';
