@@ -14,7 +14,7 @@ const PASSIVE_EVENTS = ['wheel', 'mousewheel', 'touchstart', 'touchmove'];
  */
 export const isPassiveByDefault = (event: string): boolean => PASSIVE_EVENTS.includes(event);
 
-/** Gets the original CustomEvent source */
+/** Gets the original CustomEvent source in case event bubbles from Shadow DOM */
 export const getCompositeTarget = (e: CustomEvent): EventTarget | null => {
   const targets = (e.composedPath && e.composedPath());
   return targets ? targets[0] : e.target;
