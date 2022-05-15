@@ -9,14 +9,18 @@ export class SyntheticEventTarget implements EventTarget {
   public addEventListener(callback: EventListenerOrEventListenerObject): void;
   public addEventListener(type: 'change', callback: EventListenerOrEventListenerObject): void;
   public addEventListener(type: any, callback: EventListenerOrEventListenerObject = type): void {
-    if (!callback || typeof callback !== 'function' && typeof callback.handleEvent !== 'function') return;
+    if (!callback || typeof callback !== 'function' && typeof callback.handleEvent !== 'function') {
+      throw Error('addEventListener callback should be function or EventListenerObject');
+    }
     this._listeners.add(callback);
   }
 
   public removeEventListener(callback: EventListenerOrEventListenerObject): void;
   public removeEventListener(type: 'change', callback: EventListenerOrEventListenerObject): void;
   public removeEventListener(type: any, callback: EventListenerOrEventListenerObject = type): void {
-    if (!callback || typeof callback !== 'function' && typeof callback.handleEvent !== 'function') return;
+    if (!callback || typeof callback !== 'function' && typeof callback.handleEvent !== 'function') {
+      throw Error('addEventListener callback should be function or EventListenerObject');
+    }
     this._listeners.delete(callback);
   }
 
