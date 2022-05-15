@@ -57,7 +57,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    * ESLMediaRuleList.parseTuple('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL')
    * ```
    */
-  public static parse(values: string, mask: string): ESLMediaRuleList<string>;
+  public static parse(mask: string, values: string): ESLMediaRuleList<string>;
   /**
    * Creates `ESLMediaRuleList` from two strings with a value  and conditions tuple
    *
@@ -70,13 +70,13 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    * ESLMediaRuleList.parseTuple('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL', Number)
    * ```
    */
-  public static parse<U>(values: string, mask: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
-  public static parse(value: string, ...common: (string | RulePayloadParser<any>)[]): ESLMediaRuleList {
+  public static parse<U>(mask: string, values: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
+  public static parse(query: string, ...common: (string | RulePayloadParser<any>)[]): ESLMediaRuleList {
     const parser: RulePayloadParser<any> = typeof common[common.length - 1] === 'function' ? common.pop() as any : String;
-    const query = common.pop();
-    return typeof query === 'string' ?
-      ESLMediaRuleList.parseTuple(value, query, parser) :
-      ESLMediaRuleList.parseQuery(value, parser);
+    const value = common.pop();
+    return typeof value === 'string' ?
+      ESLMediaRuleList.parseTuple(query, value, parser) :
+      ESLMediaRuleList.parseQuery(query, parser);
   }
 
   /**
@@ -101,20 +101,20 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   /**
    * Creates `ESLMediaRuleList` from two strings with a value  and conditions tuple
    *
-   * @param values - values tuple string (uses '|' as separator)
    * @param mask - media conditions tuple string (uses '|' as separator)
+   * @param values - values tuple string (uses '|' as separator)
    *
    * @example
    * ```ts
    * ESLMediaRuleList.parseTuple('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL')
    * ```
    */
-  public static parseTuple(values: string, mask: string): ESLMediaRuleList<string>;
+  public static parseTuple(mask: string, values: string): ESLMediaRuleList<string>;
   /**
    * Creates `ESLMediaRuleList` from two strings with a value  and conditions tuple
    *
-   * @param values - values tuple string (uses '|' as separator)
    * @param mask - media conditions tuple string (uses '|' as separator)
+   * @param values - values tuple string (uses '|' as separator)
    * @param parser - value parser function
    *
    * @example
@@ -122,12 +122,12 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    * ESLMediaRuleList.parseTuple('1|2|3|4|5', '@XS|@SM|@MD|@LG|@XL', Number)
    * ```
    */
-  public static parseTuple<U>(values: string, mask: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
-  public static parseTuple(values: string, mask: string, parser: RulePayloadParser<any> = String): ESLMediaRuleList {
+  public static parseTuple<U>(mask: string, values: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
+  public static parseTuple(mask: string, values: string, parser: RulePayloadParser<any> = String): ESLMediaRuleList {
+    const queries = mask.split('|');
     const valueList = values.split('|');
-    const conditions = mask.split('|');
-    if (valueList.length !== conditions.length) throw new Error('Value doesn\'t correspond to mask');
-    const rules: (ESLMediaRule | undefined)[] = conditions.map((query, i) => ESLMediaRule.create(valueList[i], query, parser));
+    if (valueList.length !== queries.length) throw new Error('Value doesn\'t correspond to mask');
+    const rules: (ESLMediaRule | undefined)[] = queries.map((query, i) => ESLMediaRule.create(valueList[i], query, parser));
     const validRules = rules.filter((rule) => !!rule) as ESLMediaRule[];
     return new ESLMediaRuleList(validRules);
   }

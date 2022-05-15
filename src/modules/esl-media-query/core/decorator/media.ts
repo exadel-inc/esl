@@ -17,7 +17,7 @@ const hashFn = (...args: any[]): string | undefined => {
  * Decorator to access active value of the passed {@link ESLMediaRuleList}
  * Applicable to both properties and methods
  *
- * @param queries - media queries definitions separated by `|`
+ * @param query - media queries definitions separated by `|`
  * @param values - values for passed queries (equals to `queries` by default)
  *
  * If decorates property - creates an accessor for a current {@link ESLMediaRuleList} instance value
@@ -41,8 +41,8 @@ export const media = memoizeFn(mediaDecorator, hashFn);
 
 function mediaDecorator(query: string): PropertyDecorator;
 function mediaDecorator<U>(query: string, parser: RulePayloadParser<U>): PropertyDecorator;
-function mediaDecorator(values: string, mask: string): PropertyDecorator;
-function mediaDecorator<U>(values: string, mask: string, parser: RulePayloadParser<U>): PropertyDecorator;
+function mediaDecorator(mask: string, values: string): PropertyDecorator;
+function mediaDecorator<U>(mask: string, values: string, parser: RulePayloadParser<U>): PropertyDecorator;
 function mediaDecorator(...args: any[]): PropertyDecorator {
   const rules: ESLMediaRuleList = ESLMediaRuleList.parse(...args as Parameters<typeof ESLMediaRuleList.parse>);
 

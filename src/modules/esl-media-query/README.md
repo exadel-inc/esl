@@ -179,8 +179,8 @@ ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', ESLMediaRuleL
 ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', evaluate); // the same as the sample above 
 
 // Tupple parsing
-ESLMediaRuleList.parseTuple('1|2|3|4|5', '@xs|@sm|@md|@lg|@xl') // String payload example
-ESLMediaRuleList.parseTuple('1|2|3|4|5', '@xs|@sm|@md|@lg|@xl', Number) // Numeric payload sample
+ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5') // String payload example
+ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5',  Number) // Numeric payload sample
 ```
 
 ### ESLMediaRuleList API
@@ -204,7 +204,7 @@ Event Target methods:
 - `ESLMediaRuleList.prototype.removeEventListener(cb: EventListener)` or
 `ESLMediaRuleList.prototype.removeEventListener('change', cb: EventListener)` - unsubscribes from `ESLMediaRuleList` object value changes 
 
-### Decorator `@media` 
+### Decorator `@media` (beta, deprecated for now)
 
 Special `@media` decorator to simplify work with {@link ESLMediaRuleList} 
 come with `esl-media-query` module.
