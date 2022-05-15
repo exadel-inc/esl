@@ -106,15 +106,19 @@ describe('dom/events: SyntheticEventTarget', () => {
       const listener = jest.fn(() => {});
 
       et.addEventListener('change', listener);
-      expect(et.dispatchEvent(new CustomEvent('change'))).toBe(false);
+      const result = et.dispatchEvent(new Event('change', {cancelable: true}));
+      expect(listener).toBeCalled();
+      expect(result).toBe(false);
     });
 
-    test('not prevented', () => {
+    test('prevented', () => {
       const et = new SyntheticEventTarget();
       const listener = jest.fn((e: Event) => {e.preventDefault();});
 
       et.addEventListener('change', listener);
-      expect(et.dispatchEvent(new CustomEvent('change'))).toBe(true);
+      const result = et.dispatchEvent(new Event('change', {cancelable: true}));
+      expect(listener).toBeCalled();
+      expect(result).toBe(true);
     });
   });
 });

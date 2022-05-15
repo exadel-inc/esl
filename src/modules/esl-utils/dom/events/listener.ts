@@ -56,7 +56,12 @@ export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLLis
 
 const STORE = '__listeners';
 
-/** Event Listener instance, used as an 'inner' record to process subscriptions made by `EventUtils` */
+/**
+ * `EventListener` instance, used as an 'inner' record to process subscriptions made by `EventUtils`
+ * Uses `EventListenerObject` interface to subscribe on event.
+ *
+ * Use Chrome console `getEventListeners` method to check subscribers details when debugging ESLEventListener subscriptions.
+ * */
 export class ESLEventListener implements ESLListenerDescriptor, EventListenerObject {
   public readonly id: string;
   public readonly event: string;
