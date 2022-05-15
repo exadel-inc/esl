@@ -4,19 +4,19 @@
  * Ignores event type
  */
 export class SyntheticEventTarget implements EventTarget {
-  protected readonly _listeners = new Set<EventListener>();
+  protected readonly _listeners = new Set<EventListenerOrEventListenerObject>();
 
-  public addEventListener(callback: EventListener): void;
-  public addEventListener(type: 'change', callback: EventListener): void;
-  public addEventListener(type: any, callback: EventListener = type): void {
-    if (typeof callback !== 'function') return;
+  public addEventListener(callback: EventListenerOrEventListenerObject): void;
+  public addEventListener(type: 'change', callback: EventListenerOrEventListenerObject): void;
+  public addEventListener(type: any, callback: EventListenerOrEventListenerObject = type): void {
+    if (!callback || typeof callback !== 'function' && typeof callback.handleEvent !== 'function') return;
     this._listeners.add(callback);
   }
 
-  public removeEventListener(callback: EventListener): void;
-  public removeEventListener(type: 'change', callback: EventListener): void;
-  public removeEventListener(type: any, callback: EventListener = type): void {
-    if (typeof callback !== 'function') return;
+  public removeEventListener(callback: EventListenerOrEventListenerObject): void;
+  public removeEventListener(type: 'change', callback: EventListenerOrEventListenerObject): void;
+  public removeEventListener(type: any, callback: EventListenerOrEventListenerObject = type): void {
+    if (!callback || typeof callback !== 'function' && typeof callback.handleEvent !== 'function') return;
     this._listeners.delete(callback);
   }
 
@@ -25,7 +25,10 @@ export class SyntheticEventTarget implements EventTarget {
     Object.defineProperty(e, 'target', {get: target, enumerable: true});
     Object.defineProperty(e, 'currentTarget', {get: target, enumerable: true});
     Object.defineProperty(e, 'srcElement', {get: target, enumerable: true});
-    this._listeners.forEach((listener) => listener.call(this, e));
+    this._listeners.forEach((listener) => {
+      if (typeof listener === 'function') listener.call(this, e);
+      else listener.handleEvent.call(listener, e);
+    });
     return e.defaultPrevented;
   }
 
