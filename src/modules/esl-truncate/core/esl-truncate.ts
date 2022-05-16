@@ -151,10 +151,7 @@ export class ESLTruncate extends ESLBaseElement {
     }
 
     const avaliableHeight = this.getAvaliableHeight(el, heightWithoutLastChild ? heightWithoutLastChild : this.heightWithoutLastChild);
-    if (this.checkAvaliableHeight(avaliableHeight, heightWithoutLastChild, el)) return;
-
-    this.heightWithoutLastChild = heightWithoutLastChild;
-    this.checkLastChildNodeType(el, avaliableHeight);
+    this.checkAvaliableHeight(avaliableHeight, heightWithoutLastChild, el);
   }
 
   private checkLastChildNodeType(el: HTMLElement, avaliableHeight: number): void {
@@ -165,7 +162,7 @@ export class ESLTruncate extends ESLBaseElement {
     }
   }
 
-  private checkAvaliableHeight(avaliableHeight: number, heightWithoutLastChild: number, el: HTMLElement): boolean {
+  private checkAvaliableHeight(avaliableHeight: number, heightWithoutLastChild: number, el: HTMLElement): void {
     if (this.height < avaliableHeight) {
       if (!heightWithoutLastChild && el.previousSibling) {
         const previousSibling = this.getLastChild(el.previousSibling);
@@ -176,16 +173,16 @@ export class ESLTruncate extends ESLBaseElement {
         const lastChild = this.getLastChild(el.lastChild);
         lastChild.textContent = `${lastChild.textContent}${this.sign}`;
       }
-      return true;
     } else if (avaliableHeight === heightWithoutLastChild && el.lastChild) {
       el.removeChild(el.lastChild);
       const lastChild = this.getLastChild(el.lastChild);
       lastChild.textContent = lastChild?.textContent + this.sign;
       const arr = lastChild.textContent?.split(' ');
       heightWithoutLastChild < this.scrollHeight && this.checkLastWord({height: heightWithoutLastChild, item: lastChild, arr});
-      return true;
+    } else {
+      this.heightWithoutLastChild = heightWithoutLastChild;
+      this.checkLastChildNodeType(el, avaliableHeight);
     }
-    return false;
   }
 
   private getLastChild(el: ChildNode): ChildNode {
