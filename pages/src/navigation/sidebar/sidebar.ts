@@ -1,4 +1,4 @@
-import {attr} from '../../../../src/modules/esl-utils/decorators/attr';
+import {boolAttr} from '../../../../src/modules/esl-utils/decorators/bool-attr';
 import {listen} from '../../../../src/modules/esl-utils/decorators/listen';
 import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
 import {bind} from '../../../../src/modules/esl-utils/decorators/bind';
@@ -22,7 +22,7 @@ export class ESLDemoSidebar extends ESLToggleable {
   @prop() public submenus: string = '.sidebar-nav-secondary';
   @prop() public activeMenuAttr: string = 'data-open';
 
-  @attr({name: 'animation'}) protected _animation: boolean;
+  @boolAttr({name: 'animation'}) protected _animation: boolean;
 
   public get $submenus(): ESLToggleable[] {
     return Array.from(this.querySelectorAll(this.submenus));
