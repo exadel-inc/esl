@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
+import {attr, boolAttr, ESLBaseElement, jsonAttr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {parseNumber} from '../../esl-utils/misc/format';
@@ -11,6 +11,13 @@ import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLToggleablePlaceholder} from '../../esl-toggleable/core';
 
 import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
+
+export interface TriggerActionLabel {
+  /** Value of aria-label for active state */
+  active?: string;
+  /** Value of aria-label for inactive state */
+  inactive?: string;
+}
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
@@ -60,6 +67,9 @@ export class ESLTrigger extends ESLBaseElement {
    */
   @attr({defaultValue: '0'}) public hoverHideDelay: string;
 
+  /** Values of aria-label for active/inactive state */
+  @jsonAttr<TriggerActionLabel>({defaultValue: {}}) public a11yLabel: TriggerActionLabel;
+
   protected _$target: ESLToggleable | null;
 
   protected attributeChangedCallback(attrName: string): void {
@@ -81,6 +91,14 @@ export class ESLTrigger extends ESLBaseElement {
   /** Element target to setup aria attributes */
   public get $a11yTarget(): HTMLElement | null {
     return this.a11yTarget ? this.querySelector(this.a11yTarget) : this;
+  }
+
+  public get $a11yLabel(): string | null {
+    if (this.a11yLabel && Object.keys(this.a11yLabel).length) {
+      const label = this.$target?.open ? this.a11yLabel?.active : this.a11yLabel?.inactive;
+      return label ?? '';
+    }
+    return null;
   }
 
   /** Marker to allow track hover */
@@ -255,6 +273,7 @@ export class ESLTrigger extends ESLBaseElement {
     if (this.getAttribute('role') === 'button' && !this.hasAttribute('tabindex')) {
       this.setAttribute('tabindex', '0');
     }
+    typeof this.$a11yLabel === 'string' && this.setAttribute('aria-label', this.$a11yLabel);
   }
 
   /** Update aria attributes */
@@ -262,6 +281,7 @@ export class ESLTrigger extends ESLBaseElement {
     const target = this.$a11yTarget;
     if (!target) return;
 
+    typeof this.$a11yLabel === 'string' && this.setAttribute('aria-label', this.$a11yLabel);
     target.setAttribute('aria-expanded', String(this.active));
     if (this.$target && this.$target.id) {
       target.setAttribute('aria-controls', this.$target.id);

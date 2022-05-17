@@ -28,6 +28,8 @@ ESLTrigger - a custom element, that allows to trigger ESLToggleable instances st
 
 - `a11y-target` - selector of inner target element to place aria attributes. Uses trigger itself if blank
 
+- `a11y-label` - values of aria-label for active/inactive state
+
 - `show-delay` - show delay value (number in ms or `none`)
 
 - `hide-delay` - hide delay value (number in ms or `none`)
