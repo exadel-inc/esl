@@ -13,6 +13,13 @@ export const createSequenceFinder = (next: (el: Element) => Element | null) => {
   };
 };
 
+/** Checks if element matches passed selector or exact predicate function */
+export const isMatches = (el: Element, matcher?: string | ((el: Element) => boolean)): boolean => {
+  if (typeof matcher === 'string') return el.matches(matcher);
+  if (typeof matcher === 'function') return matcher(el);
+  return false;
+};
+
 /** @returns first matching next sibling or null*/
 export const findNext = createSequenceFinder((el) => el.nextElementSibling);
 /** @returns first matching previous sibling or null*/
