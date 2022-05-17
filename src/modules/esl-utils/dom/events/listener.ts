@@ -56,8 +56,13 @@ export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLLis
 
 const STORE = '__listeners';
 
-/** Event Listener instance, used as an 'inner' record to process subscriptions made by `EventUtils` */
-export class ESLEventListener implements ESLListenerDescriptor {
+/**
+ * `EventListener` instance, used as an 'inner' record to process subscriptions made by `EventUtils`
+ * Uses `EventListenerObject` interface to subscribe on event.
+ *
+ * Use Chrome console `getEventListeners` method to check subscribers details when debugging ESLEventListener subscriptions.
+ * */
+export class ESLEventListener implements ESLListenerDescriptor, EventListenerObject {
   public readonly id: string;
   public readonly event: string;
   public readonly once?: boolean;
@@ -73,7 +78,6 @@ export class ESLEventListener implements ESLListenerDescriptor {
     public readonly handler: ESLListenerHandler,
     desc: ESLListenerDescriptor
   ) {
-    this.handle = this.handle.bind(this);
     desc.id = desc.id || sequentialUID('esl.event');
     Object.assign(this, {
       capture: false,
@@ -108,7 +112,7 @@ export class ESLEventListener implements ESLListenerDescriptor {
   }
 
   /** Handles caught event (used as callback for low-level subscriptions) */
-  protected handle(e: Event): void {
+  public handleEvent(e: Event): void {
     if (!this.isDelegatedTarget(e)) return;
     this.handler.call(this.context ?? this.$host, e, this);
     if (this.once) this.unsubscribe();
@@ -128,14 +132,14 @@ export class ESLEventListener implements ESLListenerDescriptor {
     const {passive, capture} = this;
     this.unsubscribe();
     memoize.clear(this, '$targets');
-    this.$targets.forEach((el: EventTarget) => el.addEventListener(this.event, this.handle, {passive, capture}));
+    this.$targets.forEach((el: EventTarget) => el.addEventListener(this.event, this, {passive, capture}));
     ESLEventListener.get(this.$host).push(this);
   }
 
   /** Unsubscribes event listener instance */
   public unsubscribe(): void {
     const {capture} = this;
-    this.$targets.forEach((el: EventTarget) => el.removeEventListener(this.event, this.handle, {capture}));
+    this.$targets.forEach((el: EventTarget) => el.removeEventListener(this.event, this, {capture}));
     const listeners = ESLEventListener.get(this.$host);
     const value = listeners.filter((listener) => listener !== this);
     Object.defineProperty(this.$host, STORE, {value, configurable: true});
