@@ -7,6 +7,16 @@ import {sequentialUID} from '../../esl-utils/misc/uid';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
+import {isMatches} from '../../esl-utils/dom/traversing';
+
+export interface ESLShowRequestDetails {
+  // Selector to ignore or exact predicate to check if the target should process request
+  ignore?: string | ((target: Element) => boolean);
+  // Delay to show targets
+  delay?: number;
+  // Custom params to pass
+  params?: Record<string, ToggleableActionParams>;
+}
 
 /** Default Toggleable action params type definition */
 export interface ToggleableActionParams {
@@ -314,8 +324,13 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Actions to execute on show request */
   @bind
-  protected _onShowRequest(): void {
-    this.show();
+  protected _onShowRequest(e: CustomEvent<ESLShowRequestDetails>): void {
+    const detail = e.detail;
+    if (isMatches(this, detail?.ignore)) return;
+    const params = {event: e};
+    if (detail && typeof detail.delay === 'number') Object.assign(params, {showDelay: detail.delay});
+    if (detail && typeof detail.params === 'object') Object.assign(params, detail.params || {});
+    this.show(params);
   }
 }
 
