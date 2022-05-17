@@ -9,18 +9,14 @@ export class SyntheticEventTarget implements EventTarget {
   public addEventListener(callback: EventListenerOrEventListenerObject): void;
   public addEventListener(type: 'change', callback: EventListenerOrEventListenerObject): void;
   public addEventListener(type: any, callback: EventListenerOrEventListenerObject = type): void {
-    if (!callback || typeof callback !== 'function' && typeof callback.handleEvent !== 'function') {
-      throw Error('addEventListener callback should be function or EventListenerObject');
-    }
+    validateEventListenerType(callback);
     this._listeners.add(callback);
   }
 
   public removeEventListener(callback: EventListenerOrEventListenerObject): void;
   public removeEventListener(type: 'change', callback: EventListenerOrEventListenerObject): void;
   public removeEventListener(type: any, callback: EventListenerOrEventListenerObject = type): void {
-    if (!callback || typeof callback !== 'function' && typeof callback.handleEvent !== 'function') {
-      throw Error('addEventListener callback should be function or EventListenerObject');
-    }
+    validateEventListenerType(callback);
     this._listeners.delete(callback);
   }
 
@@ -43,5 +39,11 @@ export class SyntheticEventTarget implements EventTarget {
   /** @deprecated alias for `removeEventListener` */
   public removeListener(cb: EventListener): void {
     this.removeEventListener(cb);
+  }
+}
+
+function validateEventListenerType(callback: any): void | never {
+  if (!callback || typeof callback !== 'function' && typeof callback.handleEvent !== 'function') {
+    throw Error('Callback should be a function or EventListenerObject');
   }
 }
