@@ -4,6 +4,8 @@ import {ESLImage} from '@exadel/esl/modules/esl-image/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {ENTER} from '@exadel/esl/modules/esl-utils/dom/keys';
 
+import {UIPOptions} from '../options';
+
 /** Config used to create options. */
 export type OptionConfig = {
     /** Attribute to toggle. */
@@ -11,7 +13,7 @@ export type OptionConfig = {
     /** Location of option's icon. */
     iconUrl: string;
     /** Callback to indicate if option should be rendered. */
-    canActivate?: () => boolean;
+    canActivate?: (scope: UIPOptions) => boolean;
 };
 
 /** Custom element to toggle {@link UIPRoot} attributes. */
@@ -63,7 +65,7 @@ export class UIPOption extends ESLBaseElement {
 
     protected disconnectedCallback() {
         this.unbindEvents();
-        this.disconnectedCallback();
+        super.disconnectedCallback();
     }
 
     protected unbindEvents() {

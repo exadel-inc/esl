@@ -3,8 +3,8 @@ import {UIPStateModel, ChangeAttrConfig} from './base/model';
 import {UIPPlugin} from './base/plugin';
 
 import {UIPPreview} from './preview/preview';
-import {UIPSnippets} from './snippets/snippets';
-import {UIPHeader} from './header/header';
+import {UIPSnippets} from '../plugins/header/snippets/snippets';
+import {UIPHeader} from '../plugins/header/header';
 
 export {UIPRoot, UIPPlugin, UIPStateModel, UIPPreview, UIPSnippets, UIPHeader, ChangeAttrConfig};
 

@@ -1,5 +1,5 @@
 import {UIPEditor} from './editor/editor';
-import {UIPOptions} from './options/options';
+import {UIPOptions} from './header/options/options';
 import {UIPSettings} from './settings/settings';
 
 export {UIPEditor, UIPOptions, UIPSettings};

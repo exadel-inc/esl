@@ -1,6 +1,7 @@
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
+import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 
-import {UIPSetting} from '../setting/setting';
+import {UIPSetting} from '../../plugins/settings/setting';
 import {WARNING_MSG} from '../../utils/warning-msg';
 
 /**
@@ -12,16 +13,18 @@ export class UIPTextSetting extends UIPSetting {
 
   /** Setting's visible name. */
   @attr({defaultValue: ''}) public label: string;
+
   /** Text input to change setting's value. */
-  protected $field: HTMLInputElement;
+  @memoize()
+  protected get $field() {
+    const $field = document.createElement('input');
+    $field.type = 'text';
+    $field.name = this.label;
+    return $field;
+  }
 
   protected connectedCallback() {
     super.connectedCallback();
-    if (this.$field) return;
-
-    this.$field = document.createElement('input');
-    this.$field.type = 'text';
-    this.$field.name = this.label;
 
     const label = document.createElement('label');
     label.innerText = this.label;

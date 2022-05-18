@@ -2,8 +2,8 @@ import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 
-import {ChangeAttrConfig, UIPStateModel} from '../../core/registration';
-import {UIPSettings} from '../../plugins/settings/settings';
+import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
+import {UIPSettings} from './settings';
 import {WARNING_MSG} from '../../utils/warning-msg';
 
 /**
@@ -13,20 +13,14 @@ import {WARNING_MSG} from '../../utils/warning-msg';
  */
 export abstract class UIPSetting extends ESLBaseElement {
   static is = 'uip-setting';
-  /** Event fired when setting's value is changed. */
-  static changeEvent = 'change';
 
   /** [Target's]{@link target} attribute which is changed by setting. */
   @attr() public attribute: string;
   /** Target to which setting's changes are attached. */
   @attr() public target: string;
 
-  public get settingContainer(): HTMLElement | null {
-    return this.closest(UIPSettings.is);
-  }
-
-  public get settings() {
-    return this.settingContainer as UIPSettings;
+  public get $settings() {
+    return this.closest(UIPSettings.is) as UIPSettings;
   }
 
   protected connectedCallback() {
@@ -35,7 +29,7 @@ export abstract class UIPSetting extends ESLBaseElement {
     this.bindEvents();
 
     if (this.target) return;
-    const settingsTarget = this.settingContainer?.getAttribute('target');
+    const settingsTarget = this.$settings?.target;
     if (settingsTarget) this.target = settingsTarget;
   }
 
@@ -45,11 +39,11 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   protected bindEvents(): void {
-    this.addEventListener(UIPSetting.changeEvent, this._onChange);
+    this.addEventListener('change', this._onChange);
   }
 
   protected unbindEvents(): void {
-    this.removeEventListener(UIPSetting.changeEvent, this._onChange);
+    this.removeEventListener('change', this._onChange);
   }
 
   @bind
@@ -67,7 +61,7 @@ export abstract class UIPSetting extends ESLBaseElement {
       target: this.target,
       attribute: this.attribute,
       value: this.getDisplayedValue(),
-      modifier: this.settings
+      modifier: this.$settings
     };
     this.isValid() ? model.changeAttribute(cfg) : this.setInconsistency(WARNING_MSG.invalid);
   }
@@ -100,7 +94,7 @@ export abstract class UIPSetting extends ESLBaseElement {
    * Indicate setting's incorrect state
    * (e.g. multiple attribute values or no target provided).
    */
-  protected setInconsistency(msg = WARNING_MSG.inconsistent): void {
+  protected setInconsistency(msg: string = WARNING_MSG.inconsistent): void {
     return;
   }
 

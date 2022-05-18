@@ -2,7 +2,7 @@ import {attr, boolAttr} from '@exadel/esl/modules/esl-base-element/core';
 import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
 
-import {UIPSetting} from '../setting/setting';
+import {UIPSetting} from '../../plugins/settings/setting';
 import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
 import TokenListUtils from '../../utils/token-list-utils';
 import {WARNING_MSG} from '../../utils/warning-msg';
@@ -73,7 +73,7 @@ export class UIPSelectSetting extends UIPSetting {
     const cfg: ChangeAttrConfig = {
       target: this.target,
       attribute: this.attribute,
-      modifier: this.settings,
+      modifier: this.$settings,
       transform: this.transformValue.bind(this, this.getDisplayedValue())
     };
 
@@ -96,11 +96,11 @@ export class UIPSelectSetting extends UIPSetting {
 
     if (!attrValues.length) return this.setInconsistency(WARNING_MSG.noTarget);
 
-    this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
+    this.mode === 'replace' ? this.replaceFrom(attrValues) : this.appendFrom(attrValues);
   }
 
   /** Update setting's value for replace {@link mode}. */
-  protected updateReplace(attrValues: (string | null)[]): void {
+  protected replaceFrom(attrValues: (string | null)[]): void {
     if (!TokenListUtils.hasSameElements(attrValues)) return this.setInconsistency(WARNING_MSG.multiple);
 
     if (attrValues[0] !== null &&
@@ -112,7 +112,7 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   /** Update setting's value for {@link mode} = "append". */
-  protected updateAppend(attrValues: (string | null)[]): void {
+  protected appendFrom(attrValues: (string | null)[]): void {
     // array of each attribute's value intersection with select options
     const valuesOptions = attrValues.map(val => TokenListUtils.intersection(this.settingOptions, TokenListUtils.split(val)));
 
@@ -135,9 +135,9 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   protected setValue(value: string): void {
-    this.removeEventListener(UIPSelectSetting.changeEvent, this._onChange);
+    this.removeEventListener('change', this._onChange);
     value.split(' ').forEach(opt => this.$field.setSelected(opt, true));
-    this.addEventListener(UIPSelectSetting.changeEvent, this._onChange);
+    this.addEventListener('change', this._onChange);
   }
 
   protected setInconsistency(msg = WARNING_MSG.inconsistent): void {
