@@ -27,8 +27,11 @@ export interface ESLTriggerTagShape<T extends ESLTrigger = ESLTrigger> extends E
 
   /** Define selector of inner target element to place aria attributes */
   'a11y-target'?: string;
-  /** Define value of aria-label for active/inactive state */
-  'a11y-label'?: {active: string; inactive: string;};
+
+  /** Define value of aria-label for active state */
+  'a11y-label-active'?: string;
+  /** Define value of aria-label for inactive state */
+  'a11y-label-inactive'?: string;
 
   /** Define show delay value */
   'show-delay'?: string | number;

@@ -12,13 +12,6 @@ import {ESLToggleablePlaceholder} from '../../esl-toggleable/core';
 
 import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 
-export interface TriggerActionLabel {
-  /** Value of aria-label for active state */
-  active?: string;
-  /** Value of aria-label for inactive state */
-  inactive?: string;
-}
-
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
   public static is = 'esl-trigger';
@@ -51,6 +44,11 @@ export class ESLTrigger extends ESLBaseElement {
   /** Selector of inner target element to place aria attributes. Uses trigger itself if blank */
   @attr({defaultValue: ''}) public a11yTarget: string;
 
+  /** Value of aria-label for active state */
+  @attr({defaultValue: ''}) public a11yLabelActive: string;
+  /** Value of aria-label for inactive state */
+  @attr({defaultValue: ''}) public a11yLabelInactive: string;
+
   /** Show delay value */
   @attr({defaultValue: 'none'}) public showDelay: string;
   /** Hide delay value */
@@ -66,9 +64,6 @@ export class ESLTrigger extends ESLBaseElement {
    * Note: the value should be numeric in order to delay hover action triggers for correct handling on mobile browsers.
    */
   @attr({defaultValue: '0'}) public hoverHideDelay: string;
-
-  /** Values of aria-label for active/inactive state */
-  @jsonAttr<TriggerActionLabel>({defaultValue: {}}) public a11yLabel: TriggerActionLabel;
 
   protected _$target: ESLToggleable | null;
 
@@ -93,9 +88,10 @@ export class ESLTrigger extends ESLBaseElement {
     return this.a11yTarget ? this.querySelector(this.a11yTarget) : this;
   }
 
-  public get $a11yLabel(): string | null {
-    if (this.a11yLabel && Object.keys(this.a11yLabel).length) {
-      const label = this.$target?.open ? this.a11yLabel?.active : this.a11yLabel?.inactive;
+  /** Value to setup aria-label */
+  public get a11yLabel(): string | null {
+    if (this.a11yLabelActive || this.a11yLabelInactive) {
+      const label = this.$target?.open ? this.a11yLabelActive : this.a11yLabelInactive;
       return label ?? '';
     }
     return null;
@@ -273,7 +269,6 @@ export class ESLTrigger extends ESLBaseElement {
     if (this.getAttribute('role') === 'button' && !this.hasAttribute('tabindex')) {
       this.setAttribute('tabindex', '0');
     }
-    typeof this.$a11yLabel === 'string' && this.setAttribute('aria-label', this.$a11yLabel);
   }
 
   /** Update aria attributes */
@@ -281,7 +276,7 @@ export class ESLTrigger extends ESLBaseElement {
     const target = this.$a11yTarget;
     if (!target) return;
 
-    typeof this.$a11yLabel === 'string' && this.setAttribute('aria-label', this.$a11yLabel);
+    typeof this.a11yLabel === 'string' && this.setAttribute('aria-label', this.a11yLabel);
     target.setAttribute('aria-expanded', String(this.active));
     if (this.$target && this.$target.id) {
       target.setAttribute('aria-controls', this.$target.id);
