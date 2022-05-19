@@ -1,5 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
+import {setAttr} from '../../esl-utils/dom/attr';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {parseNumber} from '../../esl-utils/misc/format';
@@ -273,10 +274,10 @@ export class ESLTrigger extends ESLBaseElement {
     const target = this.$a11yTarget;
     if (!target) return;
 
-    this.a11yLabel ? target.setAttribute('aria-label', this.a11yLabel) : target.removeAttribute('aria-label');
-    target.setAttribute('aria-expanded', String(this.active));
+    setAttr(target, 'aria-label', this.a11yLabel);
+    setAttr(target, 'aria-expanded', String(this.active));
     if (this.$target && this.$target.id) {
-      target.setAttribute('aria-controls', this.$target.id);
+      setAttr(target, 'aria-controls', this.$target.id);
     }
   }
 }
