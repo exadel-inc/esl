@@ -45,9 +45,9 @@ export class ESLTrigger extends ESLBaseElement {
   @attr({defaultValue: ''}) public a11yTarget: string;
 
   /** Value of aria-label for active state */
-  @attr({defaultValue: ''}) public a11yLabelActive: string;
+  @attr() public a11yLabelActive: string;
   /** Value of aria-label for inactive state */
-  @attr({defaultValue: ''}) public a11yLabelInactive: string;
+  @attr() public a11yLabelInactive: string;
 
   /** Show delay value */
   @attr({defaultValue: 'none'}) public showDelay: string;
@@ -90,11 +90,8 @@ export class ESLTrigger extends ESLBaseElement {
 
   /** Value to setup aria-label */
   public get a11yLabel(): string | null {
-    if (this.a11yLabelActive || this.a11yLabelInactive) {
-      const label = this.$target?.open ? this.a11yLabelActive : this.a11yLabelInactive;
-      return label ?? '';
-    }
-    return null;
+    if (!this.$target) return null;
+    return (this.$target.open ? this.a11yLabelActive : this.a11yLabelInactive) || null;
   }
 
   /** Marker to allow track hover */
@@ -276,7 +273,7 @@ export class ESLTrigger extends ESLBaseElement {
     const target = this.$a11yTarget;
     if (!target) return;
 
-    typeof this.a11yLabel === 'string' && this.setAttribute('aria-label', this.a11yLabel);
+    this.a11yLabel ? target.setAttribute('aria-label', this.a11yLabel) : target.removeAttribute('aria-label');
     target.setAttribute('aria-expanded', String(this.active));
     if (this.$target && this.$target.id) {
       target.setAttribute('aria-controls', this.$target.id);
