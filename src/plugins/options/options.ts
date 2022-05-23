@@ -14,23 +14,19 @@ export class UIPOptions extends UIPPlugin {
   protected UIPOptionsConfig: OptionConfig[] = [
     {
       attribute: 'dark-theme',
-      iconUrl: '../../static/icons/theme.svg',
       canActivate: () => !this.hasAttribute('hide-theme')
     },
     {
       attribute: 'rtl-direction',
-      iconUrl: '../../static/icons/rtl.svg',
       canActivate: () => !this.hasAttribute('hide-direction')
     },
     {
       attribute: 'settings-collapsed',
-      iconUrl: '../../static/icons/settings.svg',
       canActivate: () => !this.hasAttribute('hide-settings') &&
       !!this.root?.querySelector('uip-settings')
     },
     {
       attribute: 'editor-collapsed',
-      iconUrl: '../../static/icons/editor.svg',
       canActivate: () => !this.hasAttribute('hide-editor') &&
       !!this.root?.querySelector('uip-editor')
     }
