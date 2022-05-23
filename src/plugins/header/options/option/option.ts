@@ -1,10 +1,11 @@
+// TODO: formatting, editiorconfig
 import {attr, boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {ESLImage} from '@exadel/esl/modules/esl-image/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {ENTER} from '@exadel/esl/modules/esl-utils/dom/keys';
 
-import {UIPOptions} from '../options';
+import type {UIPOptions} from '../options';
 
 /** Config used to create options. */
 export type OptionConfig = {
