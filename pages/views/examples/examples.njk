@@ -1,0 +1,11 @@
+---
+title: Examples
+---
+
+<ul class="uip-demo__list">
+  {% for example in collections.example %}
+    <li class="uip-demo__list-item">
+      <a href="{{ example.url | url }}">{{ example.data.title }}</a>
+    </li>
+  {%- endfor %}
+</ul>
