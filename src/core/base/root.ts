@@ -1,5 +1,5 @@
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
-import {attr, boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {SnippetTemplate, UIPStateModel} from './model';
 import {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions';
 
@@ -16,26 +16,17 @@ export class UIPRoot extends ESLBaseElement {
   /** CSS query for snippets. */
   public static SNIPPET_SEL = '[uip-snippet]';
 
-  /**
-   * Attribute for controlling UIP components' theme.
-   * Has two values: `uip-light` and `uip-dark`.
-   */
-  @attr({defaultValue: 'uip-light'}) public theme: string;
-
-  /** Attribute for settings' visibility state. */
-  @boolAttr() public settings: boolean;
-
-  /** Attribute for editor's visibility state. */
-  @boolAttr() public editor: boolean;
-
-  /**
-   * Attribute for controlling preview's content direction.
-   * Has two values: `LTR` and `RTL`.
-   */
-  @attr({defaultValue: 'ltr'}) public direction: string;
+  /** Indicates that the UIP components' theme is dark. */
+  @boolAttr() public darkTheme: boolean;
+  /** Collapsed settings state marker. */
+  @boolAttr() public settingsCollapsed: boolean;
+  /** Collapsed editor state marker. */
+  @boolAttr() public editorCollapsed: boolean;
+  /** Indicates that the direction of the preview content is RTL direction. */
+  @boolAttr() public rtlDirection: boolean;
 
   static get observedAttributes() {
-    return ['theme', 'settings', 'editor', 'direction'];
+    return ['dark-theme', 'settings-collapsed', 'editor-collapsed', 'rtl-direction'];
   }
 
   /** {@link UIPStateModel} instance to store UI Playground state. */
@@ -45,13 +36,7 @@ export class UIPRoot extends ESLBaseElement {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.theme = String(this.theme);
-    this.direction = String(this.direction);
     this._model.snippets = this.$snippets;
-  }
-
-  protected disconnectedCallback() {
-    super.disconnectedCallback();
   }
 
   /** Alias for {@link this.model.addListener}. */
@@ -64,23 +49,25 @@ export class UIPRoot extends ESLBaseElement {
     this._model.removeListener(listener);
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected attributeChangedCallback(attrName: string, oldVal: string | null, newVal: string | null) {
     if (oldVal === newVal) return;
-    if (['direction', 'theme'].includes(attrName)) {
-      this._updateStyles(attrName, oldVal, newVal);
+    if (['rtl-direction', 'dark-theme'].includes(attrName)) {
+      this._updateStyles(attrName, newVal);
     }
-    EventUtils.dispatch(this, 'uip:configchange', {
-      bubbles: false,
-      detail: {
-        attribute: attrName,
-        value: newVal
-      }
+    // setTimeout to let other plugins init before dispatching
+    setTimeout(() => {
+      EventUtils.dispatch(this, 'uip:configchange', {
+        bubbles: false,
+        detail: {
+          attribute: attrName,
+          value: newVal
+        }
+      });
     });
   }
 
-  protected _updateStyles(option: string, prev: string, next: string) {
-    this.classList.remove(`${prev}-${option}`);
-    this.classList.add(`${next}-${option}`);
+  private _updateStyles(option: string, value: string | null) {
+    this.classList.toggle(option, value !== null);
   }
 
   public get $snippets(): SnippetTemplate[] {

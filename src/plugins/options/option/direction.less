@@ -1,13 +1,11 @@
-.uip-root {
+.uip-root {  
+  & > .uip-preview {
+    direction: ltr;
+  }
+
   &.rtl-direction {
     & > .uip-preview {
       direction: rtl;
-    }
-  }
-
-  &.ltr-direction {
-    & > .uip-preview {
-      direction: ltr;
     }
   }
 }

@@ -1,0 +1,47 @@
+uip-option {
+    display: block;
+    margin: 0 0.5rem;
+    color: @option-color;
+    cursor: pointer;
+
+    &.rtl-direction-option,
+    &.editor-collapsed-option.active,
+    &.settings-collapsed-option.active {
+        stroke-width: 0.1;
+        fill-opacity: 0.5;
+    }
+
+    &.rtl-direction-option.active,
+    &.editor-collapsed-option,
+    &.settings-collapsed-option {
+        stroke-width: 0.7;
+        fill-opacity: 1;
+    }
+
+    &.dark-theme-option {
+        svg {
+            stroke: none;
+        }
+
+        &:not(.active) .sun-icon {
+            display: none;
+        }
+
+        &.active .moon-icon {
+            display: none;
+        }
+    }
+
+    esl-image {
+        display: block;
+        height: 100%;
+        width: 100%;
+
+        svg {
+            width: 100%;
+            vertical-align: middle;
+            fill: currentColor;
+            stroke: currentColor;
+        }
+    }
+}
