@@ -1,0 +1,40 @@
+@import (reference) "../common/variables.less";
+
+esl-scroll-controls {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: @primary-blue;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.esl-d-scroll-controls {
+  &-ul {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    list-style: none;
+    color: white;
+    width: 100%;
+  }
+
+  &-li {
+    margin-right: 10px;
+  }
+
+  &-behavior {
+    display: flex;
+    list-style: none;
+
+    &-option {
+      margin-top: 5px;
+      margin-right: 20px;
+    }
+  }
+
+  &-button {
+    background-color: white;
+    width: 100px;
+  }
+}

@@ -7,7 +7,7 @@ import {ESLTooltip} from '../../esl-tooltip/core';
 import {promisifyTimeout, repeatSequence} from '../../esl-utils/async/promise';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
-import {scrollIntoView} from '../../esl-utils/dom/scroll';
+import {scrollIntoView} from '../../esl-utils/misc/scrollIntoView';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';

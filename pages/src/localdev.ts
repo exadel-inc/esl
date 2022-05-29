@@ -48,10 +48,11 @@ import {
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
-import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoMarquee} from './landing/landing';
+import {ESLDemoScrollControls} from './esl-scrollable-options-demo/scrollable-options';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
 import {ESLDemoSearchPageWrapper} from './search/search';
+import {ESLDemoSidebar} from './navigation/navigation';
 
 ESLVSizeCSSProxy.observe();
 
@@ -60,6 +61,7 @@ ESLDemoSidebar.register();
 ESLDemoMarquee.register();
 ESLDemoSearchBox.register();
 ESLDemoSearchPageWrapper.register();
+ESLDemoScrollControls.register();
 
 // Register ESL Components
 

@@ -1,0 +1,44 @@
+.scrollable-test {
+  &-lvl {
+    &-1 {
+      display: flex;
+      margin: 30px;
+      min-width: 200px;
+      height: 200px;
+
+      &-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        width: 1050px;
+      }
+    }
+
+    &-2 {
+      height: 600px;
+      width: 600px;
+
+      &-wrapper {
+        overflow: hidden;
+        height: 600px;
+        width: 600px;
+        margin: 1000px 2000px;
+      }
+    }
+
+    &-3 {
+      &-wrapper {
+        overflow: hidden;
+        margin-top: 40px;
+        max-height: 100%;
+        max-width: 100%;
+      }
+    }
+  }
+
+  &-p {
+    color: white;
+    margin: auto;
+    font-size: 4em;
+  }
+}
