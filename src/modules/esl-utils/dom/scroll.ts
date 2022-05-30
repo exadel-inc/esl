@@ -1,5 +1,5 @@
-import {createDeferred} from '../async/promise';
 import {getNodeName, getParentNode} from './api';
+export * from '../misc/scrollIntoView';
 
 export type ScrollStrategy = 'none' | 'native' | 'pseudo';
 

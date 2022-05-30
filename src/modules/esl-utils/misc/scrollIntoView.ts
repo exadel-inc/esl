@@ -58,7 +58,8 @@ interface Rectangle {
 
 export function scrollIntoView(element: Element, options: boolean | ScrollIntoViewOptionsExtended = {block: 'start', inline: 'nearest'}): Promise<any> {
   const scrollablesArr = getListScrollParents(element);
-  if (!scrollablesArr) return Promise.reject();
+  const style = window.getComputedStyle(element);
+  if (!scrollablesArr || style.position === 'fixed') return Promise.reject();
   if (typeof options === 'boolean') {
     options = (options ? {block: 'start', inline: 'nearest'} : {block: 'end', inline: 'nearest'}) as ScrollIntoViewOptionsExtended;
   }
@@ -95,7 +96,9 @@ export function scrollIntoView(element: Element, options: boolean | ScrollIntoVi
   return Promise.all(deferredArr)
     .then(() => {
       const elRect = getElementDefaultDimensions(element, optionsObj);
-      if (Math.abs(elementRect.top - elRect.top) >= 2 && Math.abs(elementRect.left - elRect.left) >= 2) throw false;
+      if (Math.abs(elementRect.top - elRect.top) >= 2 && Math.abs(elementRect.left - elRect.left) >= 2) {
+        scrollIntoView(element, options);
+      }
     });
 }
 

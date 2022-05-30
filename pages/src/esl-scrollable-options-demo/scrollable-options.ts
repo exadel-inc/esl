@@ -1,22 +1,16 @@
 import {TraversingQuery} from '../../../src/modules/esl-traversing-query/core/esl-traversing-query';
-import {attr, ESLBaseElement} from '../../../src/modules/esl-base-element/core';
-import {scrollIntoView} from '../../../src/modules/esl-utils/misc/scrollIntoView';
+import {attr, ESLBaseElement, listen} from '../../../src/modules/esl-base-element/core';
+import {scrollIntoView} from '../../../src/modules/esl-utils/dom/scroll';
 import type {ESLSelect} from '../../../src/modules/all';
 
 export class ESLDemoScrollControls extends ESLBaseElement {
-  static is = 'esl-scroll-controls';
+  static is = 'esl-d-scroll-controls';
 
-  @attr() public for: string;
+  @attr() public target: string;
 
-  protected bindEvents(): void {
-    const scrollBtn = this.querySelector('#scrollIntoView')!;
-    scrollBtn.addEventListener('click', this._onClick);
-  }
-
-  public connectedCallback(): void {
+  protected connectedCallback(): void {
     this.render();
-    const forElements = TraversingQuery.all(this.for);
-    forElements.forEach((el: HTMLElement) => {
+    TraversingQuery.all(this.target).forEach((el: HTMLElement) => {
       const option = document.createElement('option');
       const scrollNameValue = el.getAttribute('scrollname');
       if (!scrollNameValue) return;
@@ -24,11 +18,11 @@ export class ESLDemoScrollControls extends ESLBaseElement {
       const target = TraversingQuery.first('#target') as ESLSelect;
       target.appendChild(option);
     });
-
-    this.bindEvents();
+    super.connectedCallback();
   }
 
-  private _onClick(): void {
+  @listen({event: 'click', selector: '#scrollIntoView'})
+  private onClick(): void {
     const behaviorOptions = TraversingQuery.all('[name="scroll-behavior"]') as HTMLInputElement[];
     const behavior = behaviorOptions.find((radio) => radio.checked)!.value as ScrollBehavior;
 
