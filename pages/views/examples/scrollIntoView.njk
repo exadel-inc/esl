@@ -10,26 +10,52 @@ aside:
     - esl-scrollbar
 ---
 
-<esl-d-scroll-controls target=".scrollable-test-lvl-1, .scrollable-test-lvl-2, .scrollable-test-lvl-3"></esl-d-scroll-controls>
+{% from 'scroll/scroll-controls.njk' import scrollControls with context %}
 
-<div class="scrollable-test-lvl-3-wrapper border bg-white relative-block">
-  <div scrollname="scrollableWrapper" style="height: 1200px" class="scrollable-test-lvl-3 p-4 esl-scrollable-content">
+<section>
+  <h2>Scroll with dynamic elements</h2>
 
-    <div class="scrollable-test-lvl-2-wrapper border bg-white relative-block">
-      <div scrollname="scrollableList" class="scrollable-test-lvl-2 p-4 esl-scrollable-content">
-        <ul class="scrollable-test-lvl-1-wrapper">
-          {% for i in range(1, 17) -%}
-            <li scrollname="{{ i }}" style="background: {{ functions.randomColor() }}" class="scrollable-test-lvl-1">
-              <p class="scrollable-test-p">{{ i }}</p>
-            </li>
-          {%- endfor %}
-        </ul>
+  {{ scrollControls ('.scrollable-test-dynamic') }}
+
+  <div class="scrollable-test-dynamic scrollable-test-dynamic-expandable relative-block">
+    Element will shrink / expand when ScrollIntoView is called on next sibling
+  </div>
+  <div scrollname="dynamic element" class="scrollable-test-dynamic scrollable-test-target relative-block">
+    I am dynamic element! Call ScrollIntoView on me!
+  </div>
+</section>
+
+<section>
+  <h2>Nested scroll</h2>
+
+  {{ scrollControls ('.scrollable-test-lvl-1, .scrollable-test-lvl-2, .scrollable-test-lvl-3') }}
+
+  <div class="scrollable-test-lvl-3-wrapper border relative-block">
+
+    <div scrollname="scrollableWrapper" style="height: 1200px" class="scrollable-test-lvl-3 p-4 esl-scrollable-content">
+      <div class="scrollable-test-lvl-2-wrapper border bg-white relative-block">
+        <div scrollname="scrollableList" class="scrollable-test-lvl-2 p-4 esl-scrollable-content">
+          <ul class="scrollable-test-lvl-1-wrapper">
+            {% for i in range(1, 17) -%}
+              <li scrollname="{{ i }}" style="background: {{ functions.randomColor() }}" class="scrollable-test-lvl-1">
+                <p class="scrollable-test-p">{{ i }}</p>
+              </li>
+            {%- endfor %}
+          </ul>
+        </div>
+        <esl-scrollbar class="scrollbar-blue" target="::prev(.esl-scrollable-content)"></esl-scrollbar>
+        <esl-scrollbar class="scrollbar-blue scrollbar-second" target="::prev(.esl-scrollable-content)" horizontal></esl-scrollbar>
       </div>
-      <esl-scrollbar class="scrollbar-blue" target="::prev(.esl-scrollable-content)"></esl-scrollbar>
-      <esl-scrollbar class="scrollbar-blue scrollbar-second" target="::prev(.esl-scrollable-content)" horizontal></esl-scrollbar>
     </div>
 
+    <esl-scrollbar class="scrollbar-white" target="::prev(.esl-scrollable-content)"></esl-scrollbar>
+    <esl-scrollbar class="scrollbar-white scrollbar-second" target="::prev(.esl-scrollable-content)" horizontal></esl-scrollbar>
   </div>
-  <esl-scrollbar class="scrollbar-blue" target="::prev(.esl-scrollable-content)"></esl-scrollbar>
-  <esl-scrollbar class="scrollbar-blue scrollbar-second" target="::prev(.esl-scrollable-content)" horizontal></esl-scrollbar>
-</div>
+</section>
+
+<script>
+  var controls = document.querySelector('esl-d-scroll-controls, [target=".scrollable-test-dynamic"]');
+  controls.querySelector('#scrollIntoView').addEventListener('click', function() {
+    document.querySelector('.scrollable-test-dynamic-expandable').classList.toggle('scrollable-test-dynamic-expanded');
+  })
+</script>

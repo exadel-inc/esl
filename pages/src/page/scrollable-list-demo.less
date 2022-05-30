@@ -1,3 +1,5 @@
+@import (reference) "../common/variables.less";
+
 .scrollable-test {
   &-lvl {
     &-1 {
@@ -26,13 +28,34 @@
       }
     }
 
-    &-3 {
-      &-wrapper {
-        overflow: hidden;
-        margin-top: 40px;
-        max-height: 100%;
-        max-width: 100%;
-      }
+    &-3-wrapper {
+      background-color: @secondary-green;
+      overflow: hidden;
+      max-height: 100%;
+      max-width: 100%;
+    }
+  }
+
+  &-dynamic {
+    background-color: @secondary-blue;
+    color: white;
+    padding: 30px;
+    font-size: 2rem;
+    text-align: center;
+    min-height: 200px;
+    margin-bottom: 40px;
+
+    &-expandable {
+      background-color: @secondary-green;
+      transition: min-height 1s ease;
+    }
+
+    &-expanded {
+      min-height: 1000px;
+    }
+
+    &-target {
+      background-color: @secondary-blue;
     }
   }
 

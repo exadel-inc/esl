@@ -96,7 +96,7 @@ export function scrollIntoView(element: Element, options: boolean | ScrollIntoVi
   return Promise.all(deferredArr)
     .then(() => {
       const elRect = getElementDefaultDimensions(element, optionsObj);
-      if (Math.abs(elementRect.top - elRect.top) >= 2 && Math.abs(elementRect.left - elRect.left) >= 2) {
+      if (Math.abs(elementRect.top - elRect.top) >= 2 || Math.abs(elementRect.left - elRect.left) >= 2) {
         scrollIntoView(element, options);
       }
     });
