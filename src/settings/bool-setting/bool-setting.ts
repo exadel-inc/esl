@@ -31,7 +31,7 @@ export class UIPBoolSetting extends UIPSetting {
 
   /** Checkbox field to change setting's value. */
   @memoize()
-  protected get $field() {
+  protected get $field(): HTMLInputElement {
     const $field = document.createElement('input');
     $field.type = 'checkbox';
     $field.name = this.label;

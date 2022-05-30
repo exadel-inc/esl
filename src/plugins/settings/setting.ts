@@ -1,6 +1,7 @@
 import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 
 import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
 import {UIPSettings} from './settings';
@@ -19,6 +20,7 @@ export abstract class UIPSetting extends ESLBaseElement {
   /** Target to which setting's changes are attached. */
   @attr() public target: string;
 
+  @memoize()
   public get $settings() {
     return this.closest(UIPSettings.is) as UIPSettings;
   }

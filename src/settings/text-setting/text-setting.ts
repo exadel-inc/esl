@@ -16,7 +16,7 @@ export class UIPTextSetting extends UIPSetting {
 
   /** Text input to change setting's value. */
   @memoize()
-  protected get $field() {
+  protected get $field(): HTMLInputElement {
     const $field = document.createElement('input');
     $field.type = 'text';
     $field.name = this.label;

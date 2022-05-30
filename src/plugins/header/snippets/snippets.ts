@@ -39,14 +39,14 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   @memoize()
-  protected get $dropdownControl() {
+  protected get $dropdownControl(): HTMLElement {
     const $el = document.createElement('div');
     $el.className = 'snippets-dropdown-control';
     return $el;
   }
 
   @memoize()
-  protected get $dropdownWrapper() {
+  protected get $dropdownWrapper(): HTMLElement {
     const $el = document.createElement('div');
     $el.className = 'snippets-dropdown-wrapper';
     return $el;
@@ -59,7 +59,7 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   @memoize()
-  public get $scroll() {
+  public get $scroll(): HTMLElement {
     const $scroll = document.createElement('esl-scrollbar');
     $scroll.setAttribute('target', '::prev');
     return $scroll;

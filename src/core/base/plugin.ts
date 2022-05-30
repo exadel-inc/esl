@@ -26,7 +26,7 @@ export abstract class UIPPlugin extends ESLBaseElement {
   }
 
   @memoize()
-  get $inner() {
+  protected get $inner() {
     const $inner = document.createElement('div');
     const pluginType = this.constructor as typeof UIPPlugin;
     $inner.className = `${pluginType.is}-inner uip-plugin-inner`;
