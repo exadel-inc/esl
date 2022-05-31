@@ -1,7 +1,9 @@
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
+import type {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions';
+
 import {SnippetTemplate, UIPStateModel} from './model';
-import {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions';
 
 /**
  * UI Playground root custom element definition,
@@ -11,7 +13,7 @@ import {AnyToVoidFnSignature} from '@exadel/esl/modules/esl-utils/misc/functions
  */
 export class UIPRoot extends ESLBaseElement {
   public static is = 'uip-root';
-  private _model = new UIPStateModel();
+  static observedAttributes = ['dark-theme', 'settings-collapsed', 'editor-collapsed', 'rtl-direction'];
 
   /** CSS query for snippets. */
   public static SNIPPET_SEL = '[uip-snippet]';
@@ -25,34 +27,36 @@ export class UIPRoot extends ESLBaseElement {
   /** Indicates that the direction of the preview content is RTL direction. */
   @boolAttr() public rtlDirection: boolean;
 
-  static get observedAttributes() {
-    return ['dark-theme', 'settings-collapsed', 'editor-collapsed', 'rtl-direction'];
+  /** {@link UIPStateModel} instance to store UI Playground state. */
+  @memoize()
+  public get model(): UIPStateModel {
+    return new UIPStateModel();
   }
 
-  /** {@link UIPStateModel} instance to store UI Playground state. */
-  public get model(): UIPStateModel {
-    return this._model;
+  /** @returns snippets template-holders */
+  public get $snippets(): SnippetTemplate[] {
+    return Array.from(this.querySelectorAll(UIPRoot.SNIPPET_SEL));
   }
 
   protected connectedCallback() {
     super.connectedCallback();
-    this._model.snippets = this.$snippets;
+    this.model.snippets = this.$snippets;
   }
 
   /** Alias for {@link this.model.addListener}. */
   public addStateListener(listener: AnyToVoidFnSignature) {
-    this._model.addListener(listener);
+    this.model.addListener(listener);
   }
 
   /** Alias for {@link this.model.removeListener}. */
   public removeStateListener(listener: AnyToVoidFnSignature) {
-    this._model.removeListener(listener);
+    this.model.removeListener(listener);
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string | null, newVal: string | null) {
     if (oldVal === newVal) return;
     if (['rtl-direction', 'dark-theme'].includes(attrName)) {
-      this._updateStyles(attrName, newVal);
+      this.classList.toggle(attrName, newVal !== null);
     }
     // setTimeout to let other plugins init before dispatching
     setTimeout(() => {
@@ -64,13 +68,5 @@ export class UIPRoot extends ESLBaseElement {
         }
       });
     });
-  }
-
-  private _updateStyles(option: string, value: string | null) {
-    this.classList.toggle(option, value !== null);
-  }
-
-  public get $snippets(): SnippetTemplate[] {
-    return Array.from(this.querySelectorAll(UIPRoot.SNIPPET_SEL));
   }
 }

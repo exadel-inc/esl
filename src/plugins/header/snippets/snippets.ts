@@ -1,7 +1,8 @@
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
-import {UIPPlugin} from '../base/plugin';
-import {SnippetTemplate} from '../base/model';
+
+import {UIPPlugin} from '../../../core/base/plugin';
+import {SnippetTemplate} from '../../../core/base/model';
 
 /**
  * Container class for snippets (component's templates).
@@ -20,7 +21,6 @@ export class UIPSnippets extends UIPPlugin {
   protected get $snippetList() {
     const $el = document.createElement('div');
     $el.className = 'snippets-list';
-
     return $el;
   }
 
@@ -28,7 +28,6 @@ export class UIPSnippets extends UIPPlugin {
   protected get $title() {
     const $el = document.createElement('span');
     $el.className = 'snippets-title';
-
     return $el;
   }
 
@@ -36,24 +35,34 @@ export class UIPSnippets extends UIPPlugin {
   protected get $dropdown() {
     const $el = document.createElement('div');
     $el.className = 'snippets-dropdown';
-
     return $el;
   }
 
   @memoize()
-  protected get $dropdownControl() {
+  protected get $dropdownControl(): HTMLElement {
     const $el = document.createElement('div');
     $el.className = 'snippets-dropdown-control';
-
     return $el;
   }
 
   @memoize()
-  protected get $dropdownWrapper() {
+  protected get $dropdownWrapper(): HTMLElement {
     const $el = document.createElement('div');
     $el.className = 'snippets-dropdown-wrapper';
-
     return $el;
+  }
+
+  @memoize()
+  public get $items(): HTMLElement[] {
+    const items = this.querySelectorAll(`.${UIPSnippets.LIST_ITEM}`);
+    return Array.from(items) as HTMLElement[];
+  }
+
+  @memoize()
+  public get $scroll(): HTMLElement {
+    const $scroll = document.createElement('esl-scrollbar');
+    $scroll.setAttribute('target', '::prev');
+    return $scroll;
   }
 
   protected connectedCallback() {
@@ -75,12 +84,12 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   protected bindEvents() {
-    this.$snippetList.addEventListener('click', this._onListClick);
+    this.$snippetList.addEventListener('click', this._onItemClick);
     this.$dropdownControl.addEventListener('click', this._onDropdownClick);
   }
 
   protected unbindEvents() {
-    this.$snippetList.removeEventListener('click', this._onListClick);
+    this.$snippetList.removeEventListener('click', this._onItemClick);
     this.$dropdownControl.removeEventListener('click', this._onDropdownClick);
     document.body.removeEventListener('mouseup', this.onOutsideAction, true);
   }
@@ -92,24 +101,11 @@ export class UIPSnippets extends UIPPlugin {
     this.toggleDropdown();
   }
 
-  @memoize()
-  public get $items(): HTMLElement[] {
-    const items = this.querySelectorAll(`.${UIPSnippets.LIST_ITEM}`);
-    return Array.from(items) as HTMLElement[];
-  }
-
   public get $active(): HTMLElement | null {
     return this.$items.find(item => item.classList.contains(UIPSnippets.ACTIVE_ITEM)) || null;
   }
   public set $active(snippet: HTMLElement | null) {
     this.$items.forEach((item) => item.classList.toggle(UIPSnippets.ACTIVE_ITEM, snippet === item));
-  }
-
-  @memoize()
-  public get $scroll() {
-    const $scroll = document.createElement('esl-scrollbar');
-    $scroll.setAttribute('target', '::prev');
-    return $scroll;
   }
 
   /** Render snippets list. */
@@ -155,7 +151,7 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   @bind
-  protected _onListClick(event: Event) {
+  protected _onItemClick(event: Event) {
     const target = event.target as HTMLElement;
     const index = this.$items.indexOf(target);
     if (index < 0) return;
@@ -175,7 +171,7 @@ export class UIPSnippets extends UIPPlugin {
     this.toggleDropdown();
   }
 
-  toggleDropdown(): void {
+  public toggleDropdown(): void {
     const isOpen = this.classList.contains('dropdown-open');
     if (isOpen) {
       document.body.removeEventListener('mouseup', this.onOutsideAction, true);

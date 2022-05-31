@@ -26,6 +26,8 @@ export type ChangeAttrConfig = {
 /** Type for both <script> or <template> containers. */
 export type SnippetTemplate = HTMLTemplateElement | HTMLScriptElement;
 
+
+// TODO: ts docs!
 /**
  * State holder class to store current UIP markup state.
  * Provides methods to modify the state.
@@ -51,7 +53,7 @@ export class UIPStateModel extends Observable {
     if (!root || root.innerHTML !== this.html) {
       this._html = root;
       this._lastModifier = modifier;
-      this.promisifyFiring();
+      this.dispatchChange();
     }
   }
 
@@ -98,10 +100,15 @@ export class UIPStateModel extends Observable {
 
     UIPStateModel.setAttribute(elements, attribute, 'transform' in cfg ? cfg.transform : cfg.value);
     this._lastModifier = modifier;
-    this.promisifyFiring();
+    this.dispatchChange();
   }
 
-  protected promisifyFiring() {
+
+
+  /**
+   * Planes microtask to dispatch model change event
+   */
+  protected dispatchChange() {
     if (!this._isFired) {
       this._isFired = true;
       Promise.resolve().then(() => {
