@@ -16,7 +16,7 @@ interface TestMediaAction {
 class ESLDemoMediaControls extends ESLBaseElement {
   public static is = 'esl-d-media-controls';
 
-  public static ACTIONS: {[key: string]: TestMediaAction} = {
+  public static ACTIONS: Record<string, TestMediaAction> = {
     play: {
       title: 'Play',
       action: (target: any) => target.play(),
