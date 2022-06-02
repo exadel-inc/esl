@@ -6,7 +6,7 @@ Authors: *Alexey Stsefanovich (ala'n)*
 
 <a name="intro"></a>
 
-Provides the core for creating custom elements and ts decorators to simplify components creation.
+Provides the core for creating custom elements and TS (TypeScript) decorators to simplify components creation.
 
 **ESLBaseElement** - base class for custom (tag) element declaration
 

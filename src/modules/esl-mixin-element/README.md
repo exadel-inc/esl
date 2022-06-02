@@ -6,7 +6,7 @@ Authors: *Alexey Stsefanovich (ala'n)*
 
 <a name="intro"></a>
 
-Provides the core for creating custom attribute elements (mixins) and ts decorators to simplify components creation.
+Provides the core for creating custom attribute elements (mixins) and TS (TypeScript) decorators to simplify components creation.
 
 **ESLMixinElement** - base class to create a mixin element that attaches to the element via a custom attribute
 
