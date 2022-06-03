@@ -106,7 +106,7 @@ ESL project consists of the following directories:
     - [📁 _layouts](../pages/views/_layouts) - 11ty pages layouts definitions
     - [📁 components](../pages/views/components) - ESL components articles
     - [📁 examples](../pages/views/examples) - examples articles
-    - [📁 utils](../pages/views/utils) - ESL utils articles
+    - [📁 core](../pages/views/core) - ESL utils articles
   - [🔧 .eleventy.js](../pages/.eleventy.js) - main 11ty configuration file
   - [🔧 tsconfig.json](../pages/tsconfig.json) - TS config for demo pages scripts
   - [🔧 webpack.config.js](../pages/webpack.config.js) - webpack build file for demo pages
