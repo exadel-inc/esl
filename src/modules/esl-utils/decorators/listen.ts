@@ -1,5 +1,6 @@
 import {isDescriptorFn} from '../dom/events';
 
+import type {PropertyProvider} from '../misc/functions';
 import type {ESLListenerHandler, ESLListenerEventMap, ESLListenerDescriptor} from '../dom/events';
 
 type ListenDecorator<EType extends Event> =
@@ -8,9 +9,9 @@ type ListenDecorator<EType extends Event> =
 /**
  * Decorator to declare listener ({@link ESLEventListener}) meta information
  * Defines auto-subscribable event
- * @param event - event type string
+ * @param event - event type string or event provider function
  */
-export function listen<K extends keyof ESLListenerEventMap>(event: K): ListenDecorator<ESLListenerEventMap[K]>;
+export function listen<K extends keyof ESLListenerEventMap>(event: K | PropertyProvider<K>): ListenDecorator<ESLListenerEventMap[K]>;
 /**
  * Decorator to declare listener ({@link ESLEventListener}) meta information using {@link ESLListenerDescriptor}
  * Defines auto-subscribable event by default
@@ -22,7 +23,7 @@ export function listen(desc: string | ESLListenerDescriptor): ListenDecorator<Ev
   return function listener<T extends ESLListenerHandler>(target: HTMLElement,
                                                          propertyKey: string,
                                                          descriptor: TypedPropertyDescriptor<T>): void {
-    desc = typeof desc === 'string' ? {event: desc} : desc;
+    desc = typeof desc === 'string' || typeof desc === 'function' ? {event: desc} : desc;
     desc = Object.assign({auto: true}, desc);
 
     if (!descriptor || typeof descriptor.value !== 'function') {
