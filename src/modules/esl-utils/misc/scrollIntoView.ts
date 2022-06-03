@@ -2,13 +2,15 @@ import {createDeferred} from '../async/promise';
 import {getListScrollParents} from '../dom/scroll';
 
 interface ScrollIntoViewOptionsExtended extends ScrollIntoViewOptions {
+  scrollDuration?: number;
+  scrollRepeatDuration?: number;
   offsetTop?: number;
   offsetLeft?: number;
 }
 
 interface StepOptions {
   deferred: any;
-  behavior: string;
+  duration: number;
   el: Element;
   top: number;
   left: number;
@@ -17,24 +19,9 @@ interface StepOptions {
   startLeft: number;
 }
 
-interface OffsetParams {
-  setting: string;
-  start: number;
-  length: number;
-  frameStart: number;
-  frameLength: number;
-}
-
 interface OverflowParams {
   scrollStart: number;
   elementStart: number;
-}
-
-interface Rectangle {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
 }
 
 interface Rectangle {
@@ -57,9 +44,9 @@ interface Rectangle {
  */
 
 export function scrollIntoView(element: Element, options: boolean | ScrollIntoViewOptionsExtended = {block: 'start', inline: 'nearest'}): Promise<any> {
-  const scrollablesArr = getListScrollParents(element);
+  const scrollablesList = getListScrollParents(element);
   const style = window.getComputedStyle(element);
-  if (!scrollablesArr || style.position === 'fixed') return Promise.reject();
+  if (!scrollablesList || style.position === 'fixed') return Promise.reject();
   if (typeof options === 'boolean') {
     options = (options ? {block: 'start', inline: 'nearest'} : {block: 'end', inline: 'nearest'}) as ScrollIntoViewOptionsExtended;
   }
@@ -68,7 +55,7 @@ export function scrollIntoView(element: Element, options: boolean | ScrollIntoVi
 
   const startTime = Date.now();
 
-  const deferredArr = scrollablesArr.map((scrollable: Element) => {
+  const deferredArr = scrollablesList.map((scrollable: Element) => {
     const deferred = createDeferred<void>();
     const newRect = calcNewRectangle(elementRect, scrollable, optionsObj);
 
@@ -79,7 +66,7 @@ export function scrollIntoView(element: Element, options: boolean | ScrollIntoVi
 
     step({
       deferred,
-      behavior: optionsObj.behavior || 'auto',
+      duration: optionsObj.scrollDuration || optionsObj.behavior === 'smooth' ? 900 : 0,
       el: scrollable,
       top: scrollTop.scrollStart,
       left: scrollLeft.scrollStart,
@@ -95,9 +82,11 @@ export function scrollIntoView(element: Element, options: boolean | ScrollIntoVi
 
   return Promise.all(deferredArr)
     .then(() => {
+      const elapsed = Date.now() - startTime;
+      if (elapsed > (optionsObj.scrollRepeatDuration || 5000)) return;
       const elRect = getElementDefaultDimensions(element, optionsObj);
       if (Math.abs(elementRect.top - elRect.top) >= 2 || Math.abs(elementRect.left - elRect.left) >= 2) {
-        scrollIntoView(element, options);
+        return scrollIntoView(element, options);
       }
     });
 }
@@ -105,19 +94,8 @@ export function scrollIntoView(element: Element, options: boolean | ScrollIntoVi
 /** Calculates element rectangle according to passed options */
 function calcNewRectangle(elRect: Rectangle, scrollable: Element, options: ScrollIntoViewOptionsExtended): Rectangle {
   const frame = scrollable.getBoundingClientRect();
-  const left = frame.left + calcOffset({
-    setting: options.inline!,
-    start: elRect.left,
-    length: elRect.width,
-    frameStart: frame.left,
-    frameLength: scrollable.clientWidth});
-
-  const top = frame.top + calcOffset({
-    setting: options.block!,
-    start: elRect.top,
-    length: elRect.height,
-    frameStart: frame.top,
-    frameLength: scrollable.clientHeight});
+  const left = frame.left + calcOffset(options.inline!, elRect.left, elRect.width, frame.left, scrollable.clientWidth);
+  const top = frame.top + calcOffset(options.block!, elRect.top, elRect.height, frame.top, scrollable.clientHeight);
 
   return {left, top, width: elRect.width, height: elRect.height};
 }
@@ -153,18 +131,19 @@ function recalcWithoutOverflow(scrollStart: number, elementStart: number, scroll
 }
 
 /** Returns where element should be located on axis */
-function calcOffset(obj: OffsetParams): number {
-  const elementEnd = obj.start + obj.length;
-  const frameEnd = obj.frameStart + obj.frameLength;
-  if (obj.setting === 'center') return obj.frameLength / 2 - obj.length / 2;
-  if (obj.setting === 'end') return obj.frameLength - obj.length;
-  if (obj.setting === 'nearest') {
-    if (obj.start >= obj.frameStart && elementEnd <= frameEnd ||
-      obj.start <= obj.frameStart && elementEnd >= frameEnd) return obj.start - obj.frameStart;
-    const middlePoint = (obj.start + elementEnd) / 2;
-    const distanceStart = Math.abs(obj.frameStart - middlePoint);
+function calcOffset(setting: ScrollLogicalPosition, start: number, length: number, frameStart: number, frameLength: number): number {
+  const elementEnd = start + length;
+  const frameEnd = frameStart + frameLength;
+  if (setting === 'center') return frameLength / 2 - length / 2;
+  if (setting === 'end') return frameLength - length;
+  if (setting === 'nearest') {
+    if (start >= frameStart && elementEnd <= frameEnd ||
+      start <= frameStart && elementEnd >= frameEnd) return start - frameStart;
+    const middlePoint = (start + elementEnd) / 2;
+    const distanceStart = Math.abs(frameStart - middlePoint);
     const distanceEnd = Math.abs(frameEnd - middlePoint);
-    return distanceStart < distanceEnd ? calcOffset(Object.assign(obj, {setting: 'start'})) : calcOffset(Object.assign(obj, {setting: 'end'}));
+    const newSetting = distanceStart < distanceEnd ? 'start' : 'end';
+    return calcOffset(newSetting, start, length, frameStart, frameLength);
   }
   return 0;
 }
@@ -176,17 +155,17 @@ function ease(time: number): number {
 /** Looping function that scrolls element to passed context position */
 function step(context: StepOptions): Promise<any> | number {
   const time = Date.now();
-  const duration = context.behavior === 'smooth' ? 1000 : 0;
-  let elapsed = (time - context.startTime) / duration;
+  const {startLeft, startTop, left, top} = context;
+  let elapsed = (time - context.startTime) / context.duration;
   elapsed = elapsed > 1 ? 1 : elapsed;
   const value = ease(elapsed);
 
-  const currentLeft = context.startLeft + (context.left - context.startLeft) * (value);
-  const currentTop = context.startTop + (context.top - context.startTop) * (value);
+  const currentLeft = startLeft + (left - startLeft) * (value);
+  const currentTop = startTop + (top - startTop) * (value);
   context.el.scrollLeft = currentLeft;
   context.el.scrollTop = currentTop;
 
-  if (currentLeft !== context.left || currentTop !== context.top) {
+  if (currentLeft !== left || currentTop !== top) {
     return window.requestAnimationFrame(() => step(context));
   }
   return context.deferred.resolve(true);
