@@ -9,53 +9,45 @@ describe('ESLMediaRuleList', () => {
   test('123 (default)', () => {
     const mrl = ESLMediaRuleList.parse('123');
     expect(mrl.rules.length).toBe(1);
-    expect(mrl.default).toBeDefined();
-    expect(mrl.default?.default).toBe(true);
-    expect(mrl.default?.payload).toBe('123');
-
-    expect(mrl.active).toBeDefined();
+    expect(mrl.active.length).toBeGreaterThan(0);
+    expect(mrl.value).toBe('123');
     expect(mrl.activeValue).toBe('123');
   });
 
   test('@sm => 1', () => {
     const mrl = ESLMediaRuleList.parse('@sm => 1');
     expect(mrl.rules.length).toBe(1);
-    expect(mrl.default).not.toBeDefined();
 
     mockSmMatchMedia.matches = false;
-    expect(mrl.active).toBeDefined();
-    expect(mrl.activeValue).toBe(undefined);
+    expect(mrl.value).toBe(undefined);
 
     mockSmMatchMedia.matches = true;
-    expect(mrl.active).toBeDefined();
-    expect(mrl.activeValue).toBe('1');
+    expect(mrl.value).toBe('1');
 
     mockSmMatchMedia.matches = false;
-    expect(mrl.active).toBeDefined();
-    expect(mrl.activeValue).toBe(undefined);
+    expect(mrl.value).toBe(undefined);
   });
 
   test('1 | @sm => 2 | @md => 3', () => {
     const mrl = ESLMediaRuleList.parse('1 | @sm => 2 | @md => 3');
     expect(mrl.rules.length).toBe(3);
-    expect(mrl.default).toBeDefined();
 
     mockSmMatchMedia.matches = false;
     mockMdMatchMedia.matches = false;
     expect(mrl.active).toBeDefined();
-    expect(mrl.activeValue).toBe('1');
+    expect(mrl.value).toBe('1');
 
     mockSmMatchMedia.matches = true;
     mockMdMatchMedia.matches = false;
-    expect(mrl.activeValue).toBe('2');
+    expect(mrl.value).toBe('2');
 
     mockSmMatchMedia.matches = false;
     mockMdMatchMedia.matches = true;
-    expect(mrl.activeValue).toBe('3');
+    expect(mrl.value).toBe('3');
 
     mockSmMatchMedia.matches = true;
     mockMdMatchMedia.matches = true;
-    expect(mrl.activeValue).toBe('3');
+    expect(mrl.value).toBe('3');
   });
 
   test('1 | @sm and @md => 2', () => {
@@ -68,20 +60,20 @@ describe('ESLMediaRuleList', () => {
 
     mockSmMatchMedia.matches = false;
     mockMdMatchMedia.matches = false;
-    expect(mrl.activeValue).toBe('1');
+    expect(mrl.value).toBe('1');
 
     mockSmMatchMedia.matches = true;
     mockMdMatchMedia.matches = false;
-    expect(mrl.activeValue).toBe('1');
+    expect(mrl.value).toBe('1');
 
     mockSmMatchMedia.matches = false;
     mockMdMatchMedia.matches = true;
-    expect(mrl.activeValue).toBe('1');
+    expect(mrl.value).toBe('1');
     expect(listener).not.toBeCalled();
 
     mockSmMatchMedia.matches = true;
     mockMdMatchMedia.matches = true;
-    expect(mrl.activeValue).toBe('2');
+    expect(mrl.value).toBe('2');
     expect(listener).toBeCalled();
   });
 
@@ -95,44 +87,42 @@ describe('ESLMediaRuleList', () => {
 
     mockSmMatchMedia.matches = false;
     mockMdMatchMedia.matches = false;
-    expect(mrl.activeValue).toBe('1');
+    expect(mrl.value).toBe('1');
     expect(listener).not.toBeCalled();
 
     mockSmMatchMedia.matches = true;
     mockMdMatchMedia.matches = false;
-    expect(mrl.activeValue).toBe('2');
+    expect(mrl.value).toBe('2');
     expect(listener).toBeCalled();
 
     mockSmMatchMedia.matches = false;
     mockMdMatchMedia.matches = true;
-    expect(mrl.activeValue).toBe('2');
+    expect(mrl.value).toBe('2');
 
     mockSmMatchMedia.matches = true;
     mockMdMatchMedia.matches = true;
-    expect(mrl.activeValue).toBe('2');
+    expect(mrl.value).toBe('2');
   });
 
-  test('1|2|3 with all|@sm|@md mask', () => {
-    const mrl = ESLMediaRuleList.parseTuple('1|2|3', 'all|@sm|@md');
+  test('all|@sm|@md ==> 1|2|3', () => {
+    const mrl = ESLMediaRuleList.parseTuple('all|@sm|@md', '1|2|3');
     expect(mrl.rules.length).toBe(3);
-    expect(mrl.default).not.toBeDefined();
 
     mockSmMatchMedia.matches = false;
     mockMdMatchMedia.matches = false;
-    expect(mrl.active).toBeDefined();
-    expect(mrl.activeValue).toBe('1');
+    expect(mrl.value).toBe('1');
 
     mockSmMatchMedia.matches = true;
     mockMdMatchMedia.matches = false;
-    expect(mrl.activeValue).toBe('2');
+    expect(mrl.value).toBe('2');
 
     mockSmMatchMedia.matches = false;
     mockMdMatchMedia.matches = true;
-    expect(mrl.activeValue).toBe('3');
+    expect(mrl.value).toBe('3');
 
     mockSmMatchMedia.matches = true;
     mockMdMatchMedia.matches = true;
-    expect(mrl.activeValue).toBe('3');
+    expect(mrl.value).toBe('3');
   });
 
   afterEach(() => {

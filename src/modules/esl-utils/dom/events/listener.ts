@@ -1,8 +1,10 @@
 import {sequentialUID} from '../../misc/uid';
+import {resolveProperty} from '../../misc/functions';
 import {memoize} from '../../decorators/memoize';
 import {isSimilar} from '../../misc/object/compare';
 import {TraversingQuery} from '../../../esl-traversing-query/core';
 import {isPassiveByDefault} from './misc';
+import type {PropertyProvider} from '../../misc/functions';
 
 /** Describes callback handler */
 export type ESLListenerHandler<EType extends Event = Event> = (event: EType, listener?: ESLEventListener) => void;
@@ -15,8 +17,8 @@ export interface ESLListenerEventMap extends HTMLElementEventMap {
 
 /** Descriptor to create {@link ESLEventListener} */
 export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = string> = {
-  /** A case-sensitive string representing the event type to listen for */
-  event: EType;
+  /** A case-sensitive string (or provider function) representing the event type to listen for */
+  event: EType | PropertyProvider<EType>;
   /**
    * A boolean value indicating that events for this listener will be dispatched on the capture phase.
    * @see AddEventListenerOptions.capture
@@ -28,14 +30,14 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
    */
   passive?: boolean;
 
-  /** A string representing CSS selector to check delegated event target (undefined (disabled) by default) */
-  selector?: string;
+  /** A string (or provider function) representing CSS selector to check delegated event target (undefined (disabled) by default) */
+  selector?: string | PropertyProvider<string>;
   /**
-   * A string selector to find the target or {@link EventTarget} object to subscribe the event listener to
+   * A string (or provider function) selector to find the target or {@link EventTarget} object to subscribe the event listener to
    * **Note**: string values are processed by the {@link TraversingQuery} syntax
    * (e.g. `button` selects all buttons globally, while `::find(button)` selects only buttons inside current element)
    */
-  target?: string | EventTarget;
+  target?: string | EventTarget | PropertyProvider<string | EventTarget>;
 
   /** Identifier of the event listener. Can be used to group and unsubscribe listeners */
   id?: string;
@@ -56,8 +58,13 @@ export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLLis
 
 const STORE = '__listeners';
 
-/** Event Listener instance, used as an 'inner' record to process subscriptions made by `EventUtils` */
-export class ESLEventListener implements ESLListenerDescriptor {
+/**
+ * `EventListener` instance, used as an 'inner' record to process subscriptions made by `EventUtils`
+ * Uses `EventListenerObject` interface to subscribe on event.
+ *
+ * Use Chrome console `getEventListeners` method to check subscribers details when debugging ESLEventListener subscriptions.
+ * */
+export class ESLEventListener implements ESLListenerDescriptor, EventListenerObject {
   public readonly id: string;
   public readonly event: string;
   public readonly once?: boolean;
@@ -73,8 +80,10 @@ export class ESLEventListener implements ESLListenerDescriptor {
     public readonly handler: ESLListenerHandler,
     desc: ESLListenerDescriptor
   ) {
-    this.handle = this.handle.bind(this);
+    desc = Object.assign({}, desc);
     desc.id = desc.id || sequentialUID('esl.event');
+    desc.target = resolveProperty(desc.target, desc.context || $host);
+    desc.selector = resolveProperty(desc.selector, desc.context || $host);
     Object.assign(this, {
       capture: false,
       passive: isPassiveByDefault(this.event)
@@ -108,7 +117,7 @@ export class ESLEventListener implements ESLListenerDescriptor {
   }
 
   /** Handles caught event (used as callback for low-level subscriptions) */
-  protected handle(e: Event): void {
+  public handleEvent(e: Event): void {
     if (!this.isDelegatedTarget(e)) return;
     this.handler.call(this.context ?? this.$host, e, this);
     if (this.once) this.unsubscribe();
@@ -128,14 +137,14 @@ export class ESLEventListener implements ESLListenerDescriptor {
     const {passive, capture} = this;
     this.unsubscribe();
     memoize.clear(this, '$targets');
-    this.$targets.forEach((el: EventTarget) => el.addEventListener(this.event, this.handle, {passive, capture}));
+    this.$targets.forEach((el: EventTarget) => el.addEventListener(this.event, this, {passive, capture}));
     ESLEventListener.get(this.$host).push(this);
   }
 
   /** Unsubscribes event listener instance */
   public unsubscribe(): void {
     const {capture} = this;
-    this.$targets.forEach((el: EventTarget) => el.removeEventListener(this.event, this.handle, {capture}));
+    this.$targets.forEach((el: EventTarget) => el.removeEventListener(this.event, this, {capture}));
     const listeners = ESLEventListener.get(this.$host);
     const value = listeners.filter((listener) => listener !== this);
     Object.defineProperty(this.$host, STORE, {value, configurable: true});
@@ -150,7 +159,8 @@ export class ESLEventListener implements ESLListenerDescriptor {
 
   /** Creates event listeners by handler and descriptors */
   public static create(target: HTMLElement, handler: ESLListenerHandler, desc: ESLListenerDescriptor): ESLEventListener[] {
-    return ESLEventListener.splitEventQ(desc.event).map((event) => {
+    const events = resolveProperty(desc.event, desc.context || target);
+    return ESLEventListener.splitEventQ(events).map((event) => {
       const spec: ESLListenerDescriptor = Object.assign({}, desc, {event});
       return new ESLEventListener(target, handler, spec);
     });

@@ -1,5 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
+import {setAttr} from '../../esl-utils/dom/attr';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {parseNumber} from '../../esl-utils/misc/format';
@@ -44,6 +45,11 @@ export class ESLTrigger extends ESLBaseElement {
   /** Selector of inner target element to place aria attributes. Uses trigger itself if blank */
   @attr({defaultValue: ''}) public a11yTarget: string;
 
+  /** Value of aria-label for active state */
+  @attr() public a11yLabelActive: string;
+  /** Value of aria-label for inactive state */
+  @attr() public a11yLabelInactive: string;
+
   /** Show delay value */
   @attr({defaultValue: 'none'}) public showDelay: string;
   /** Hide delay value */
@@ -81,6 +87,12 @@ export class ESLTrigger extends ESLBaseElement {
   /** Element target to setup aria attributes */
   public get $a11yTarget(): HTMLElement | null {
     return this.a11yTarget ? this.querySelector(this.a11yTarget) : this;
+  }
+
+  /** Value to setup aria-label */
+  public get a11yLabel(): string | null {
+    if (!this.$target) return null;
+    return (this.$target.open ? this.a11yLabelActive : this.a11yLabelInactive) || null;
   }
 
   /** Marker to allow track hover */
@@ -262,9 +274,10 @@ export class ESLTrigger extends ESLBaseElement {
     const target = this.$a11yTarget;
     if (!target) return;
 
-    target.setAttribute('aria-expanded', String(this.active));
+    setAttr(target, 'aria-label', this.a11yLabel);
+    setAttr(target, 'aria-expanded', String(this.active));
     if (this.$target && this.$target.id) {
-      target.setAttribute('aria-controls', this.$target.id);
+      setAttr(target, 'aria-controls', this.$target.id);
     }
   }
 }
