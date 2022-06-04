@@ -53,6 +53,7 @@ import {ESLDemoScrollControls} from './esl-scrollable-options-demo/scrollable-op
 import {ESLDemoSearchBox} from './navigation/header/header-search';
 import {ESLDemoSearchPageWrapper} from './search/search';
 import {ESLDemoSidebar} from './navigation/navigation';
+import {ESLDAnchorLink} from './anchor/anchor-link';
 
 ESLVSizeCSSProxy.observe();
 
@@ -62,6 +63,8 @@ ESLDemoMarquee.register();
 ESLDemoSearchBox.register();
 ESLDemoSearchPageWrapper.register();
 ESLDemoScrollControls.register();
+
+ESLDAnchorLink.register();
 
 // Register ESL Components
 
