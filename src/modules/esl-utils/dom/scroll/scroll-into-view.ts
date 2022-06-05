@@ -55,9 +55,9 @@ export function scrollIntoView(element: Element, options?: boolean | ScrollIntoV
 
   const startTime = Date.now();
 
-  const deferredArr = scrollablesList.map((scrollable: Element) => {
-    return scrollScrollable(scrollable, optionsObj, elementRect, currentPositionX, currentPositionY, startTime);
-  }, []);
+  const deferredArr = scrollablesList.map((scrollable: Element) =>
+    scrollScrollable(scrollable, optionsObj, elementRect, currentPositionX, currentPositionY, startTime)
+  , []);
 
   return Promise.all(deferredArr)
     .then(() => {
@@ -71,7 +71,6 @@ export function scrollIntoView(element: Element, options?: boolean | ScrollIntoV
       const positionMatchesByY = Math.abs(elementRect.top - newElementRect.top - (newPositionY - currentPositionY)) <= 2;
       const positionMatchesByX = Math.abs(elementRect.left - newElementRect.left - (newPositionX - currentPositionX)) <= 2;
       if (!positionMatchesByY || !positionMatchesByX) {
-        console.log('here');
         return scrollIntoView(element, Object.assign(options, {scrollRepeatDuration: scrollRepeatDuration! - elapsed}));
       }
     });
