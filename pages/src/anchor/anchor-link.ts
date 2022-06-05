@@ -3,7 +3,7 @@ import {listen} from '../../../src/modules/esl-utils/decorators/listen';
 import {afterNextRender} from '../../../src/modules/esl-utils/async/raf';
 import {memoize} from '../../../src/modules/esl-utils/decorators/memoize';
 import {EventUtils} from '../../../src/modules/esl-utils/dom/events/utils';
-import {scrollIntoView} from '../../../src/modules/esl-utils/misc/scrollIntoView';
+import {scrollIntoView} from '../../../src/modules/esl-utils/dom/scroll/scroll-into-view';
 
 export class ESLDAnchorLink extends ESLMixinElement {
   static is = 'esl-d-anchor';
