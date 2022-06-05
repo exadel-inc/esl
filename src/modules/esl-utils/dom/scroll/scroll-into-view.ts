@@ -71,7 +71,7 @@ export function scrollIntoView(element: Element, options?: boolean | ScrollIntoV
       const positionMatchesByY = Math.abs(elementRect.top - newElementRect.top - (newPositionY - currentPositionY)) <= 2;
       const positionMatchesByX = Math.abs(elementRect.left - newElementRect.left - (newPositionX - currentPositionX)) <= 2;
       if (!positionMatchesByY || !positionMatchesByX) {
-        return scrollIntoView(element, Object.assign(options, {scrollRepeatDuration: scrollRepeatDuration! - elapsed}));
+        return scrollIntoView(element, Object.assign(optionsObj, {scrollRepeatDuration: scrollRepeatDuration! - elapsed}));
       }
     });
 }
