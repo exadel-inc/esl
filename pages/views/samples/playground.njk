@@ -15,25 +15,25 @@ title: Example with playground
       </uip-header>
       <template uip-snippet label="Users list">
         <div class="user-list">
-          <div class="user-block aqua-user">Alexander</div>
-          <div class="user-block aqua-user">Alexey</div>
-          <div class="user-block aqua-user">Marina</div>
+          <div class="user-card aqua-user">Alexander</div>
+          <div class="user-card aqua-user">Alexey</div>
+          <div class="user-card aqua-user">Marina</div>
         </div>
       </template>
       <template uip-snippet label="Long users list" wrap-items>
         <div class="user-list">
-          <div class="user-block red-user">Anton</div>
-          <div class="user-block red-user">Dmitri</div>
-          <div class="user-block red-user">Alexandra</div>
-          <div class="user-block red-user">Artem</div>
-          <div class="user-block red-user">Marina</div>
-          <div class="user-block red-user">Alexander</div>
-          <div class="user-block red-user">Alexander</div>
+          <div class="user-card red-user">Anton</div>
+          <div class="user-card red-user">Dmitri</div>
+          <div class="user-card red-user">Alexandra</div>
+          <div class="user-card red-user">Artem</div>
+          <div class="user-card red-user">Marina</div>
+          <div class="user-card red-user">Alexander</div>
+          <div class="user-card red-user">Alexander</div>
         </div>
       </template>
       <uip-preview></uip-preview>
       <uip-settings target=".user-list">
-        <uip-select-setting label="User color" target=".user-block" attribute="class" mode="append">
+        <uip-select-setting label="User color" target=".user-card" attribute="class" mode="append">
           <option value="red-user">Red</option>
           <option value="aqua-user">Aqua</option>
           <option value="green-user">Green</option>
@@ -45,9 +45,9 @@ title: Example with playground
   </script>
   <script type="text/html" uip-snippet label="Users aqua list">
     <div class="user-list">
-      <div class="user-block aqua-user">Alexander</div>
-      <div class="user-block aqua-user">Alexey</div>
-      <div class="user-block aqua-user">Marina</div>
+      <div class="user-card aqua-user">Alexander</div>
+      <div class="user-card aqua-user">Alexey</div>
+      <div class="user-card aqua-user">Marina</div>
     </div>
   </script>
   <uip-preview></uip-preview>
