@@ -1,5 +1,5 @@
 import {createDeferred} from '../../async/promise';
-import {getListScrollParents} from './misc';
+import {getListScrollParents} from '../scroll';
 
 interface ScrollIntoViewOptionsExtended extends ScrollIntoViewOptions {
   scrollDuration?: number;
