@@ -1,5 +1,6 @@
 import {createDeferred} from '../../async/promise';
 import {getListScrollParents} from '../scroll';
+import {getWindowRect} from '../window';
 
 interface ScrollIntoViewOptionsExtended extends ScrollIntoViewOptions {
   scrollDuration?: number;
@@ -46,8 +47,7 @@ interface Rectangle {
 export function scrollIntoView(element: Element, options?: boolean | ScrollIntoViewOptionsExtended): Promise<any> {
   const scrollablesList = getListScrollParents(element);
   const style = window.getComputedStyle(element);
-  const currentPositionY = window.scrollY || window.pageYOffset;
-  const currentPositionX = window.scrollX || window.pageXOffset;
+  const currentWindowRect = getWindowRect();
 
   if (!scrollablesList || style.position === 'fixed') return Promise.reject();
   const optionsObj = normalizeOptions(options);
@@ -56,7 +56,7 @@ export function scrollIntoView(element: Element, options?: boolean | ScrollIntoV
   const startTime = Date.now();
 
   const deferredArr = scrollablesList.map((scrollable: Element) =>
-    scrollScrollable(scrollable, optionsObj, elementRect, currentPositionX, currentPositionY, startTime)
+    scrollScrollable(scrollable, optionsObj, elementRect, currentWindowRect.x, currentWindowRect.y, startTime)
   , []);
 
   return Promise.all(deferredArr)
@@ -65,11 +65,10 @@ export function scrollIntoView(element: Element, options?: boolean | ScrollIntoV
       const scrollRepeatDuration = optionsObj.scrollRepeatDuration;
       if (elapsed > scrollRepeatDuration!) return;
       const newElementRect = getElementRect(element, optionsObj);
-      const newPositionY = window.scrollY || window.pageYOffset;
-      const newPositionX = window.scrollX || window.pageXOffset;
+      const newWindowRect = getWindowRect();
 
-      const positionMatchesByY = Math.abs(elementRect.top - newElementRect.top - (newPositionY - currentPositionY)) <= 2;
-      const positionMatchesByX = Math.abs(elementRect.left - newElementRect.left - (newPositionX - currentPositionX)) <= 2;
+      const positionMatchesByY = Math.abs(elementRect.top - newElementRect.top - (newWindowRect.y - currentWindowRect.y)) <= 2;
+      const positionMatchesByX = Math.abs(elementRect.left - newElementRect.left - (newWindowRect.x - currentWindowRect.x)) <= 2;
       if (!positionMatchesByY || !positionMatchesByX) {
         return scrollIntoView(element, Object.assign(optionsObj, {scrollRepeatDuration: scrollRepeatDuration! - elapsed}));
       }
@@ -98,6 +97,8 @@ function scrollScrollable(
       startTop: scrollable.scrollTop + currentPosY,
       startLeft: scrollable.scrollLeft + currentPosX
     });
+
+    return deferred.promise;
   }
 
   const newRect = calcNewRectangle(elementRect, scrollable, options);
