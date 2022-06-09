@@ -31,9 +31,11 @@
         <li class="sidebar-nav-item">
           {{ navitem ('Examples', 'examples', 'static/assets/sidebar/examples.svg') }}
         </li>
+        {% if env.isDev %}
         <li class="sidebar-nav-item">
-          {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg') }}
+          {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg', { draft: true }) }}
         </li>
+        {% endif %}
       </ul>
 
       <esl-scrollbar class="sidebar-scrollbar" target="::prev"></esl-scrollbar>
