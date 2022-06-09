@@ -39,14 +39,14 @@ export class UIPOption extends ESLBaseElement {
   @bind
   protected _onClick() {
     this.toggleState();
-    EventUtils.dispatch(this, 'uip:optionclick');
+    this.$$fire('uip:optionclick');
   }
 
   @bind
   protected _onKeydown(e: KeyboardEvent) {
     if (ENTER !== e.key) return;
     this.toggleState();
-    EventUtils.dispatch(this, 'uip:optionclick');
+    this.$$fire('uip:optionclick');
   }
 
   protected disconnectedCallback() {
@@ -56,10 +56,11 @@ export class UIPOption extends ESLBaseElement {
 
   protected unbindEvents() {
     this.removeEventListener('click', this._onClick);
+    this.removeEventListener('keydown', this._onKeydown);
   }
 
   public toggleState(force?: boolean) {
     this.active = force === undefined ? !this.active : force;
-    this.classList.toggle('active', this.active);
+    this.$$cls('active', this.active);
   }
 }
