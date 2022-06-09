@@ -1,6 +1,8 @@
 import {createDeferred} from '../../async/promise';
 import {getListScrollParents} from '../scroll';
 import {getWindowRect} from '../window';
+import {ScrollUtils} from './utils';
+import type {Deferred} from '../../async/promise';
 
 interface ScrollIntoViewOptionsExtended extends ScrollIntoViewOptions {
   scrollDuration?: number;
@@ -10,7 +12,7 @@ interface ScrollIntoViewOptionsExtended extends ScrollIntoViewOptions {
 }
 
 interface StepOptions {
-  deferred: any;
+  deferred: Deferred<void>;
   scrollDuration: number;
   el: Element | Window;
   top: number;
@@ -44,12 +46,13 @@ interface Rectangle {
  * @param options - scrollIntoView options
  */
 
-export function scrollIntoView(element: Element, options?: boolean | ScrollIntoViewOptionsExtended): Promise<any> {
+export function scrollIntoView(element: Element, options?: boolean | ScrollIntoViewOptionsExtended): Promise<void> {
   const scrollablesList = getListScrollParents(element);
   const style = window.getComputedStyle(element);
   const currentWindowRect = getWindowRect();
 
-  if (!scrollablesList || style.position === 'fixed') return Promise.reject();
+  if (!scrollablesList || style.position === 'fixed' || style.display === 'none') return Promise.reject();
+  ScrollUtils.lock();
   const optionsObj = normalizeOptions(options);
   const elementRect = getElementRect(element, optionsObj);
 
@@ -61,17 +64,22 @@ export function scrollIntoView(element: Element, options?: boolean | ScrollIntoV
 
   return Promise.all(deferredArr)
     .then(() => {
+      ScrollUtils.unlock();
       const elapsed = Date.now() - startTime;
-      const scrollRepeatDuration = optionsObj.scrollRepeatDuration;
-      if (elapsed > scrollRepeatDuration!) return;
+      const scrollRepeatDuration = optionsObj.scrollRepeatDuration! - elapsed;
+      if (scrollRepeatDuration < 0) throw Promise.reject();
       const newElementRect = getElementRect(element, optionsObj);
       const newWindowRect = getWindowRect();
 
       const positionMatchesByY = Math.abs(elementRect.top - newElementRect.top - (newWindowRect.y - currentWindowRect.y)) <= 2;
       const positionMatchesByX = Math.abs(elementRect.left - newElementRect.left - (newWindowRect.x - currentWindowRect.x)) <= 2;
       if (!positionMatchesByY || !positionMatchesByX) {
-        return scrollIntoView(element, Object.assign(optionsObj, {scrollRepeatDuration: scrollRepeatDuration! - elapsed}));
+        return scrollIntoView(element, Object.assign(optionsObj, scrollRepeatDuration));
       }
+    })
+    .catch((err) => {
+      ScrollUtils.unlock();
+      return err;
     });
 }
 
@@ -82,42 +90,39 @@ function scrollScrollable(
     currentPosX: number,
     currentPosY: number,
     startTime: number): Promise<void> {
+
   const deferred = createDeferred<void>();
   const isPageScrollable = scrollable.scrollHeight === scrollable.clientHeight;
-
   const scrollDuration = options.behavior === 'auto' ? 0 : options.scrollDuration!;
+  const stepContext = {deferred, scrollDuration, startTime};
+
   if (isPageScrollable) {
+    // case when page is scrollable
     step({
-      deferred,
-      scrollDuration,
+      ...stepContext,
       el: window,
       top: elementRect.top + currentPosY,
       left: elementRect.left + currentPosX,
-      startTime,
       startTop: scrollable.scrollTop + currentPosY,
       startLeft: scrollable.scrollLeft + currentPosX
     });
+  } else {
+    const newRect = calcNewRectangle(elementRect, scrollable, options);
+    const scrollStartTop = elementRect.top + scrollable.scrollTop - newRect.top;
+    const scrollTop = recalcWithoutOverflow(scrollStartTop, newRect.top, scrollable.scrollHeight, scrollable.clientHeight);
+    const scrollStartLeft = elementRect.left + scrollable.scrollLeft - newRect.left;
+    const scrollLeft = recalcWithoutOverflow(scrollStartLeft, newRect.left, scrollable.scrollWidth, scrollable.clientWidth);
 
-    return deferred.promise;
+    step({
+      ...stepContext,
+      el: scrollable,
+      top: scrollTop.scrollStart,
+      left: scrollLeft.scrollStart,
+      startTop: scrollable.scrollTop,
+      startLeft: scrollable.scrollLeft
+    });
+    Object.assign(elementRect, {top: scrollTop.elementStart, left: scrollLeft.elementStart});
   }
-
-  const newRect = calcNewRectangle(elementRect, scrollable, options);
-  const scrollStartTop = elementRect.top + scrollable.scrollTop - newRect.top;
-  const scrollTop = recalcWithoutOverflow(scrollStartTop, newRect.top, scrollable.scrollHeight, scrollable.clientHeight);
-  const scrollStartLeft = elementRect.left + scrollable.scrollLeft - newRect.left;
-  const scrollLeft = recalcWithoutOverflow(scrollStartLeft, newRect.left, scrollable.scrollWidth, scrollable.clientWidth);
-
-  step({
-    deferred,
-    scrollDuration,
-    el: scrollable,
-    top: scrollTop.scrollStart,
-    left: scrollLeft.scrollStart,
-    startTime,
-    startTop: scrollable.scrollTop,
-    startLeft: scrollable.scrollLeft
-  });
-  Object.assign(elementRect, {top: scrollTop.elementStart, left: scrollLeft.elementStart});
 
   return deferred.promise;
 }
@@ -132,7 +137,7 @@ function normalizeOptions(options: ScrollIntoViewOptionsExtended | boolean = {bl
     block: options.block || 'start',
     behavior: options.behavior || 'auto',
     scrollDuration: options.scrollDuration || 900,
-    scrollRepeatDuration: options.scrollRepeatDuration || 5000,
+    scrollRepeatDuration: options.scrollRepeatDuration || 3000,
     offsetLeft: options.offsetLeft || 0,
     offsetTop: options.offsetTop || 0
   });
@@ -162,14 +167,15 @@ function getElementRect(element: Element, options: ScrollIntoViewOptionsExtended
 }
 
 /** Corrects calculated scroll and element position if it goes outside of frame */
-function recalcWithoutOverflow(scrollStart: number, elementStart: number, scrollLength: number, frameLength: number): OverflowParams {
-  if (scrollStart > scrollLength - frameLength) {
-    const overflow = scrollStart - (scrollLength - frameLength);
+function recalcWithoutOverflow(scrollStart: number, elementStart: number, frameScrollLength: number, frameLength: number): OverflowParams {
+  const frameScrollStart = frameScrollLength - frameLength;
+  if (scrollStart > frameScrollStart) {
+    const overflow = scrollStart - frameScrollStart;
     elementStart += overflow;
     scrollStart -= overflow;
   }
 
-  if (scrollStart < 0 && scrollStart < scrollLength - frameLength) {
+  if (scrollStart < 0 && scrollStart < frameScrollStart) {
     elementStart += scrollStart;
     scrollStart = 0;
   }
@@ -200,7 +206,7 @@ function ease(time: number): number {
 }
 
 /** Looping function that scrolls element to passed context position */
-function step(context: StepOptions): Promise<any> | number {
+function step(context: StepOptions): void {
   const time = Date.now();
   const {startLeft, startTop, left, top} = context;
   let elapsed = (time - context.startTime) / context.scrollDuration;
@@ -212,7 +218,8 @@ function step(context: StepOptions): Promise<any> | number {
   context.el.scrollTo(currentLeft, currentTop);
 
   if (currentLeft !== left || currentTop !== top) {
-    return window.requestAnimationFrame(() => step(context));
+    window.requestAnimationFrame(() => step(context));
+    return;
   }
-  return context.deferred.resolve(true);
+  context.deferred.resolve();
 }
