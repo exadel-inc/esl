@@ -6,10 +6,10 @@ import type {UIPOptions} from '../options';
 
 /** Config used to create options. */
 export type OptionConfig = {
-    /** Attribute to toggle. */
-    attribute: string;
-    /** Callback to indicate if option should be rendered. */
-    canActivate?: (scope: UIPOptions) => boolean;
+  /** Attribute to toggle. */
+  attribute: string;
+  /** Callback to indicate if option should be rendered. */
+  canActivate?: (scope: UIPOptions) => boolean;
 };
 
 /** Custom element to toggle {@link UIPRoot} attributes. */
