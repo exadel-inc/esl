@@ -1,15 +1,15 @@
 import {attr, boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
-import {ESLImage} from '@exadel/esl/modules/esl-image/core';
-import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {ENTER} from '@exadel/esl/modules/esl-utils/dom/keys';
+
+import type {UIPOptions} from '../options';
 
 /** Config used to create options. */
 export type OptionConfig = {
-  /** Attribute to toggle. */
-  attribute: string;
-  /** Callback to indicate if option should be rendered. */
-  canActivate?: () => boolean;
+    /** Attribute to toggle. */
+    attribute: string;
+    /** Callback to indicate if option should be rendered. */
+    canActivate?: (scope: UIPOptions) => boolean;
 };
 
 /** Custom element to toggle {@link UIPRoot} attributes. */
@@ -49,9 +49,9 @@ export class UIPOption extends ESLBaseElement {
     this.$$fire('uip:optionclick');
   }
 
-  protected disconnectedCallback() {
-    this.unbindEvents();
-    this.disconnectedCallback();
+  public toggleState(force?: boolean) {
+    this.active = force === undefined ? !this.active : force;
+    this.$$cls('active', this.active);
   }
 
   protected unbindEvents() {
@@ -59,8 +59,8 @@ export class UIPOption extends ESLBaseElement {
     this.removeEventListener('keydown', this._onKeydown);
   }
 
-  public toggleState(force?: boolean) {
-    this.active = force === undefined ? !this.active : force;
-    this.$$cls('active', this.active);
+  protected disconnectedCallback() {
+      this.unbindEvents();
+      super.disconnectedCallback();
   }
 }

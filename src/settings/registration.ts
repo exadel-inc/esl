@@ -1,4 +1,4 @@
-import {UIPSetting} from './setting/setting';
+import {UIPSetting} from '../plugins/settings/setting';
 import {UIPTextSetting} from './text-setting/text-setting';
 import {UIPSelectSetting} from './select-setting/select-setting';
 import {UIPBoolSetting} from './bool-setting/bool-setting';

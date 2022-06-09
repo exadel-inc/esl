@@ -1,15 +1,23 @@
 .user {
   &-list {
       display: flex;
+      justify-content: center;
   }
 
-  &-block {
+  &-card {
     width: 200px;
     height: 200px;
     padding: 5px;
     margin: 0 10px 20px 10px;
     text-align: center;
     overflow-wrap: break-word;
+  }
+
+  &-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
   }
 }
 
@@ -24,7 +32,7 @@
 
 .green-user {
   background-color: green;
-  color: green;
+  color: white;
 }
 
 .aqua-user {

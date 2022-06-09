@@ -18,6 +18,35 @@ To get updates from inner settings we listen for *uip:change* event, then pass m
 - **label** - settings section displayed name.
 - **target** - sets **target** attribute for all inner [UIPSetting](src/settings/setting/README.md) elements (can be overwritten
   by own attribute value).
+
+# UIP Setting
+
+[UIPSetting](src/settings/setting/README.md) - custom element for manipulating with elements attributes. Custom settings should extend
+*UIPSetting* class if you want them to be connected with [UIPSettings](src/plugins/settings/README.md) properly.
+
+## Description:
+
+- Processes markup to update own value via **updateFrom()** (uses [UIPStateModel](src/core/base/README.md#uip-state-model) by default).
+- Updates markup with **applyTo()** (uses [UIPStateModel](src/core/base/README.md#uip-state-model) by default).
+- Dispatches **uip:change** event to let *UIPSettings* know about setting changes.
+
+These things have default implementation. Also, there are **isValid()** and **setInconsistency()** methods to deal with
+incorrect setting states. **isValid()** can be used to add custom validation and **setInconsistency()** is used to somehow
+let user know about inconsistent state (when there are multiple setting values, no target, etc.).
+
+Methods needed to be implemented:
+- **getDisplayedValue()** for getting value from custom setting.
+- **setValue()** for setting setting value.
+
+The following attributes used:
+- **label** - setting displayed name.
+- **target** - sets target to which the setting is attached.
+- **attribute** - attribute of the **target** which is changed by the setting.
+
+You can see the examples of custom settings here (these are distributed together with other *UIP* elements):
+- [UIPTextSetting](src/settings/text-setting/README.md)
+- [UIPBoolSetting](src/settings/bool-setting/README.md)
+- [UIPSelectSetting](src/settings/select-setting/README.md)
   
 ## Example:
 

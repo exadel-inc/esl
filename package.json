@@ -16,7 +16,8 @@
     "esm/**/*",
     "tsconfig.json",
     "README.md",
-    "CLA.md"
+    "CLA.md",
+    "CHANGELOG.md"
   ],
   "sideEffects": [
     "src/**/*.less"
@@ -105,6 +106,7 @@
     "ts-loader": "^9.3.0",
     "typescript": "4.6.4",
     "webpack": "^5.72.0",
+    "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.2"
   }
 }

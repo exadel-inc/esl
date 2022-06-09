@@ -10,10 +10,10 @@ UIP components are organized in the following way:
     - Base components
         - [UIPRoot](src/core/base/README.md#uip-root)
     - [UIPPreview](src/core/preview/README.md)
-    - [UIPSnippets](src/core/snippets/README.md)
+    - [UIPSnippets](src/plugins/header/snippets/README.md)
 2. Plugins
     - [UIPEditor](src/plugins/editor/README.md)
-    - [UIPOptions](src/plugins/options/README.md)
+    - [UIPOptions](src/plugins/header/options/README.md)
     - [UIPSettings](src/plugins/settings/README.md)
         - [UIPBoolSetting](src/settings/bool-setting/README.md)
         - [UIPSelectSetting](src/settings/select-setting/README.md)
