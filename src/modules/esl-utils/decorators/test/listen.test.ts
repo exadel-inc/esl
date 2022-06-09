@@ -16,6 +16,18 @@ describe('Decorator: listen', () => {
     expect(EventUtils.descriptors(test)[0].event).toBe('click');
   });
 
+  test('provider', () => {
+    class Test extends HTMLElement {
+      @listen(() => 'test')
+      onEvent() {}
+    }
+    customElements.define('test-listen-1-provider', Test);
+
+    const test = new Test();
+    expect(EventUtils.descriptors(test).length).toBe(1);
+    expect(typeof EventUtils.descriptors(test)[0].event).toBe('function');
+  });
+
   test('full', () => {
     class Test extends HTMLElement {
       @listen({event: 'event1'})

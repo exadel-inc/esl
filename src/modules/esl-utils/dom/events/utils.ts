@@ -13,7 +13,7 @@ export type ESLListenerDescriptorFn<EType extends keyof ESLListenerEventMap = st
   ESLListenerHandler<ESLListenerEventMap[EType]> & ESLListenerDescriptor<EType>;
 
 /** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
-export const isDescriptorFn = (obj: any): obj is ESLListenerDescriptorFn => typeof obj === 'function' && typeof obj.event === 'string';
+export const isDescriptorFn = (obj: any): obj is ESLListenerDescriptorFn => typeof obj === 'function' && Object.hasOwnProperty.call(obj, 'event');
 
 @ExportNs('EventUtils')
 export class EventUtils {
