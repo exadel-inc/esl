@@ -49,7 +49,6 @@ import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
 import {ESLDemoMarquee} from './landing/landing';
-import {ESLDemoScrollControls} from './esl-scrollable-options-demo/scrollable-options';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
 import {ESLDemoSearchPageWrapper} from './search/search';
 import {ESLDemoSidebar} from './navigation/navigation';
@@ -62,7 +61,6 @@ ESLDemoSidebar.register();
 ESLDemoMarquee.register();
 ESLDemoSearchBox.register();
 ESLDemoSearchPageWrapper.register();
-ESLDemoScrollControls.register();
 ESLDemoAnchorLink.register();
 
 // Register ESL Components

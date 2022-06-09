@@ -1,31 +1,48 @@
 ---
 layout: empty
-title: Scroll Into View On Empty Page
-name: Scroll Into View On Empty Page
+title: Nested Accordion & Anchors
+name: Nested Accordion & Anchors
 tags: [examples, draft]
-icon: examples/scrollbar.svg
+icon: examples/accordion.svg
 scrollbar: true
+aside:
+  components:
+    - esl-trigger
+    - esl-panel
 ---
 
 {% import 'lorem.njk' as lorem %}
 
-<section class="mb-1">
+<nav class="mb-1">
   <h2>Nested accordion anchors</h2>
   <ul class="mx-4">
     <li><a esl-d-anchor class="btn-link" href="#1">Scroll to 1</a></li>
-    <li><a esl-d-anchor class="btn-link" href="#2.1">Scroll to 2.1</a></li>
-    <li><a esl-d-anchor class="btn-link" href="#2.2">Scroll to 2.2</a></li>
-    <li><a esl-d-anchor class="btn-link" href="#2.3">Scroll to 2.3</a></li>
-    <li><a esl-d-anchor class="btn-link" href="#2.3.1">Scroll to 2.3.1</a></li>
-    <li><a esl-d-anchor class="btn-link" href="#2.3.2">Scroll to 2.3.2</a></li>
-    <li><a esl-d-anchor class="btn-link" href="#2.3.3">Scroll to 2.3.3</a></li>
-    <li><a esl-d-anchor class="btn-link" href="#3">Scroll to 3</a></li>
-    <li><a esl-d-anchor class="btn-link" href="#3.1">Scroll to 3.1</a></li>
-    <li><a esl-d-anchor class="btn-link" href="#3.2">Scroll to 3.2</a></li>
-    <li><a esl-d-anchor class="btn-link" href="#3.3">Scroll to 3.3</a></li>
+    <li>
+      <a esl-d-anchor class="btn-link" href="#2">Scroll to 2</a>
+      <ul>
+        <li><a esl-d-anchor class="btn-link" href="#2.1">Scroll to 2.1</a></li>
+        <li><a esl-d-anchor class="btn-link" href="#2.2">Scroll to 2.2</a></li>
+        <li>
+          <a esl-d-anchor class="btn-link" href="#2.3">Scroll to 2.3</a>
+          <ul>
+            <li><a esl-d-anchor class="btn-link" href="#2.3.1">Scroll to 2.3.1</a></li>
+            <li><a esl-d-anchor class="btn-link" href="#2.3.2">Scroll to 2.3.2</a></li>
+            <li><a esl-d-anchor class="btn-link" href="#2.3.3">Scroll to 2.3.3</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a esl-d-anchor class="btn-link" href="#3">Scroll to 3</a>
+      <ul>
+        <li><a esl-d-anchor class="btn-link" href="#3.1">Scroll to 3.1</a></li>
+        <li><a esl-d-anchor class="btn-link" href="#3.2">Scroll to 3.2</a></li>
+        <li><a esl-d-anchor class="btn-link" href="#3.3">Scroll to 3.3</a></li>
+      </ul>
+    </li>
     <li><a esl-d-anchor class="btn-link" href="#4">Scroll to 4</a></li>
   </ul>
-</section>
+</nav>
 
 <section class="row">
   <div class="col-12">

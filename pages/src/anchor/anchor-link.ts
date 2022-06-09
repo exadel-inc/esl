@@ -4,6 +4,9 @@ import {afterNextRender} from '../../../src/modules/esl-utils/async/raf';
 import {memoize} from '../../../src/modules/esl-utils/decorators/memoize';
 import {EventUtils} from '../../../src/modules/esl-utils/dom/events/utils';
 
+/**
+ * Demo sample of anchor mixin
+ */
 export class ESLDemoAnchorLink extends ESLMixinElement {
   static is = 'esl-d-anchor';
 
@@ -26,6 +29,9 @@ export class ESLDemoAnchorLink extends ESLMixinElement {
 
     EventUtils.dispatch($target, 'esl:show:request');
     afterNextRender(() => {
+      // TODO: replace with scroll ext version
+      // scrollIntoView($target, {behavior: 'smooth'})
+      //   .then(() => console.log('Scroll to successful: ', $target));
       $target.scrollIntoView({behavior: 'smooth'});
     });
   }
