@@ -40,7 +40,7 @@ export class ESLDemoAnchorLink extends ESLMixinElement {
   protected onClick(e: PointerEvent): void {
     e.preventDefault();
     if (this.anchorHref) {
-      history.pushState(null, this.anchorHref, '#' + this.anchorHref);
+      history.pushState(null, '', '#' + this.anchorHref);
     }
     this.moveToTarget();
   }
