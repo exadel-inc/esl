@@ -19,6 +19,17 @@
         </li>
 
         <li class="esl-d-scroll-controls-li">
+          <label for="target" class="form-label">Target</label>
+          <esl-select style="display: block" placeholder="Target">
+            <select esl-select-target
+                    id="target"
+                    name="target"
+                    class="form-control">
+            </select>
+          </esl-select>
+        </li>
+
+        <li class="esl-d-scroll-controls-li">
           <label for="options_block" class="form-label">Block</label>
           <esl-select style="display: block"
                       placeholder="Block"
@@ -51,24 +62,23 @@
         </li>
 
         <li class="esl-d-scroll-controls-li">
-          <label for="target" class="form-label">Target</label>
-          <esl-select style="display: block" placeholder="Target">
-            <select esl-select-target
-                    id="target"
-                    name="target"
-                    class="form-control">
-            </select>
-          </esl-select>
+          <label>OffsetLeft</label>
+          <input type="text" class="form-control" id="offsetLeft" min="0" max="2000" value="0" size="3">
         </li>
 
         <li class="esl-d-scroll-controls-li">
-          <label for="marginArrow">OffsetLeft</label>
-          <input type="text" class="form-control" id="offsetLeft" name="scroll-offsetLeft" min="0" max="1000" value="0" size="3">
+          <label>OffsetTop</label>
+          <input type="text" class="form-control" id="offsetTop" min="0" max="2000" value="0" size="3">
         </li>
 
         <li class="esl-d-scroll-controls-li">
-          <label for="marginArrow">OffsetTop</label>
-          <input type="text" class="form-control" id="offsetTop" name="scroll-offsetTop" min="0" max="1000" value="0" size="3">
+          <label>Scroll Duration</label>
+          <input type="text" class="form-control" id="scrollDuration" min="0" max="10000" value="900" size="3">
+        </li>
+
+        <li class="esl-d-scroll-controls-li">
+          <label>Scroll Repeat Duration</label>
+          <input type="text" class="form-control" id="scrollRepeatDuration" min="0" max="10000" value="3000" size="3">
         </li>
 
         <li class="menu-item" style="margin-left: auto">
@@ -76,5 +86,6 @@
         </li>
       </ul>
     </form>
+    <esl-alert style="position: fixed"></esl-alert>
   </esl-d-scroll-controls>
 {% endmacro %}

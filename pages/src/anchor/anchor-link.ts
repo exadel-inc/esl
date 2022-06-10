@@ -3,6 +3,7 @@ import {listen} from '../../../src/modules/esl-utils/decorators/listen';
 import {afterNextRender} from '../../../src/modules/esl-utils/async/raf';
 import {memoize} from '../../../src/modules/esl-utils/decorators/memoize';
 import {EventUtils} from '../../../src/modules/esl-utils/dom/events/utils';
+import {scrollIntoView} from '../../../src/modules/esl-utils/dom/scroll';
 
 /**
  * Demo sample of anchor mixin
@@ -29,10 +30,7 @@ export class ESLDemoAnchorLink extends ESLMixinElement {
 
     EventUtils.dispatch($target, 'esl:show:request');
     afterNextRender(() => {
-      // TODO: replace with scroll ext version
-      // scrollIntoView($target, {behavior: 'smooth'})
-      //   .then(() => console.log('Scroll to successful: ', $target));
-      $target.scrollIntoView({behavior: 'smooth'});
+      scrollIntoView($target, {behavior: 'smooth'});
     });
   }
 

@@ -33,6 +33,21 @@ export class ESLDemoScrollControls extends ESLBaseElement {
 
     const offsetLeft = Number((TraversingQuery.first('::find(#offsetLeft)', this) as HTMLInputElement).value);
     const offsetTop = Number((TraversingQuery.first('::find(#offsetTop)', this) as HTMLInputElement).value);
-    scrollIntoView(target!, {behavior, block, inline, offsetLeft, offsetTop});
+
+    const scrollDuration = Number((TraversingQuery.first('::find(#scrollDuration)', this) as HTMLInputElement).value);
+    const scrollRepeatDuration = Number((TraversingQuery.first('::find(#scrollRepeatDuration)', this) as HTMLInputElement).value);
+    scrollIntoView(target!, {behavior, block, inline, offsetLeft, offsetTop, scrollRepeatDuration, scrollDuration})
+      .then(() => this.$$fire('esl:alert:show',
+        {detail: {
+          text: 'Sucessful scroll to given position',
+          cls: 'alert alert-info'
+        }})
+      )
+      .catch(() => this.$$fire('esl:alert:show',
+        {detail: {
+          text: 'Failed to scroll to given position',
+          cls: 'alert alert-danger'
+        }})
+      );
   }
 }

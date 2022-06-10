@@ -14,7 +14,6 @@ esl-d-scroll-controls {
   &-ul {
     margin: 0;
     flex-wrap: wrap;
-    align-items: center;
     list-style: none;
     color: white;
   }
@@ -28,7 +27,6 @@ esl-d-scroll-controls {
 
   &-li {
     margin-right: 10px;
-
     @media @md-lg {
       &:first-child {
         flex: 0 1 100%;
@@ -37,7 +35,8 @@ esl-d-scroll-controls {
   }
 
   &-behavior {
-    display: flex;
+    display: block;
+    margin: 0;
     list-style: none;
 
     &-option {

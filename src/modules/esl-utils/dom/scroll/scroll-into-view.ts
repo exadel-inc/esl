@@ -52,7 +52,7 @@ export function scrollIntoView(element: Element, options?: boolean | ScrollIntoV
   const currentWindowRect = getWindowRect();
 
   if (!scrollablesList || style.position === 'fixed' || style.display === 'none') return Promise.reject();
-  ScrollUtils.lock();
+  // ScrollUtils.lock();
   const optionsObj = normalizeOptions(options);
   const elementRect = getElementRect(element, optionsObj);
 
@@ -132,14 +132,15 @@ function normalizeOptions(options: ScrollIntoViewOptionsExtended | boolean = {bl
     options = (options ? {block: 'start', inline: 'nearest'} : {block: 'end', inline: 'nearest'});
   }
 
+  const {scrollDuration, scrollRepeatDuration, offsetLeft, offsetTop} = options;
   return Object.assign({}, {
     inline: options.inline || 'nearest',
     block: options.block || 'start',
     behavior: options.behavior || 'auto',
-    scrollDuration: options.scrollDuration || 900,
-    scrollRepeatDuration: options.scrollRepeatDuration || 3000,
-    offsetLeft: options.offsetLeft || 0,
-    offsetTop: options.offsetTop || 0
+    scrollDuration: typeof scrollDuration === 'number' ? scrollDuration : 900,
+    scrollRepeatDuration: typeof scrollRepeatDuration === 'number' ? scrollRepeatDuration : 3000,
+    offsetLeft: typeof offsetLeft === 'number' ?  offsetLeft : 0,
+    offsetTop: typeof offsetTop  === 'number' ? offsetTop : 0
   });
 }
 
