@@ -1,7 +1,6 @@
 import {createDeferred} from '../../async/promise';
 import {getListScrollParents} from '../scroll';
 import {getWindowRect} from '../window';
-import {ScrollUtils} from './utils';
 import type {Deferred} from '../../async/promise';
 
 interface ScrollIntoViewOptionsExtended extends ScrollIntoViewOptions {
@@ -34,6 +33,27 @@ interface Rectangle {
   height: number;
 }
 
+function preventDefault(e: Event): void {
+  e.preventDefault();
+}
+
+function preventDefaultForScrollKeys(e: KeyboardEvent): void {
+  const keys = ['PageDown', 'PageUp', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End', ' '];
+  if (keys.includes(e.key)) preventDefault(e);
+}
+
+function disableScroll(): void {
+  window.addEventListener('wheel', preventDefault, {passive: false});
+  window.addEventListener('touchmove', preventDefault, {passive: false});
+  window.addEventListener('keydown', preventDefaultForScrollKeys, {passive: false});
+}
+
+function enableScroll(): void {
+  window.removeEventListener('wheel', preventDefault);
+  window.removeEventListener('touchmove', preventDefault);
+  window.removeEventListener('keydown', preventDefaultForScrollKeys);
+}
+
 /**
  * This is a promise-based version of scrollIntoView().
  * Method scrolls the element's parent container such that the element on which
@@ -43,7 +63,7 @@ interface Rectangle {
  * Note: Please, use the native element.scrollIntoView() if you don't need a promise
  * to detect the moment when the scroll is finished or you don't use smooth behavior.
  * @param element - element to be made visible to the user
- * @param options - scrollIntoView options
+ * @param options - scrollIntoViewExtended options or boolean value
  */
 
 export function scrollIntoView(element: Element, options?: boolean | ScrollIntoViewOptionsExtended): Promise<void> {
@@ -52,7 +72,7 @@ export function scrollIntoView(element: Element, options?: boolean | ScrollIntoV
   const currentWindowRect = getWindowRect();
 
   if (!scrollablesList || style.position === 'fixed' || style.display === 'none') return Promise.reject();
-  // ScrollUtils.lock();
+  disableScroll();
   const optionsObj = normalizeOptions(options);
   const elementRect = getElementRect(element, optionsObj);
 
@@ -64,10 +84,10 @@ export function scrollIntoView(element: Element, options?: boolean | ScrollIntoV
 
   return Promise.all(deferredArr)
     .then(() => {
-      ScrollUtils.unlock();
+      enableScroll();
       const elapsed = Date.now() - startTime;
       const scrollRepeatDuration = optionsObj.scrollRepeatDuration! - elapsed;
-      if (scrollRepeatDuration < 0) throw Promise.reject();
+      if (scrollRepeatDuration < 0) return Promise.reject();
       const newElementRect = getElementRect(element, optionsObj);
       const newWindowRect = getWindowRect();
 
@@ -77,9 +97,9 @@ export function scrollIntoView(element: Element, options?: boolean | ScrollIntoV
         return scrollIntoView(element, Object.assign(optionsObj, scrollRepeatDuration));
       }
     })
-    .catch((err) => {
-      ScrollUtils.unlock();
-      return err;
+    .catch(() => {
+      enableScroll();
+      return Promise.reject();
     });
 }
 
