@@ -23,14 +23,19 @@
           {{ navitem ('Introduction', 'introduction', 'static/assets/sidebar/intro.svg') }}
         </li>
         <li class="sidebar-nav-item">
-          {{ navitem ('Examples', 'examples', 'static/assets/sidebar/examples.svg') }}
+          {{ navitem ('Core', 'core', 'static/assets/sidebar/utils.svg') }}
         </li>
         <li class="sidebar-nav-item">
           {{ navitem ('Components', 'components', 'static/assets/sidebar/components.svg') }}
         </li>
         <li class="sidebar-nav-item">
-          {{ navitem ('Utils', 'utils', 'static/assets/sidebar/utils.svg') }}
+          {{ navitem ('Examples', 'examples', 'static/assets/sidebar/examples.svg') }}
         </li>
+        {% if env.isDev %}
+        <li class="sidebar-nav-item">
+          {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg', { draft: true }) }}
+        </li>
+        {% endif %}
       </ul>
 
       <esl-scrollbar class="sidebar-scrollbar" target="::prev"></esl-scrollbar>
