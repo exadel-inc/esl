@@ -15,23 +15,19 @@ export class UIPOptions extends UIPPlugin {
   protected static UIPOptionsConfig: OptionConfig[] = [
     {
       attribute: 'dark-theme',
-      iconUrl: '../../static/icons/theme.svg',
       canActivate: (component) => !component.hasAttribute('hide-theme')
     },
     {
       attribute: 'rtl-direction',
-      iconUrl: '../../static/icons/rtl.svg',
       canActivate: (component) => !component.hasAttribute('hide-direction')
     },
     {
       attribute: 'settings-collapsed',
-      iconUrl: '../../static/icons/settings.svg',
       canActivate: (component) => !component.hasAttribute('hide-settings') &&
       !!component.root?.querySelector('uip-settings')
     },
     {
       attribute: 'editor-collapsed',
-      iconUrl: '../../static/icons/editor.svg',
       canActivate: (component) => !component.hasAttribute('hide-editor') &&
       !!component.root?.querySelector('uip-editor')
     }
@@ -50,12 +46,12 @@ export class UIPOptions extends UIPPlugin {
   }
 
   protected bindEvents() {
-    this.addEventListener('uip:optionclick', this._onOptionClick);
+    this.addEventListener('esl:uip:option:changed', this._onOptionClick);
     this.root?.addEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected unbindEvents() {
-    this.removeEventListener('uip:optionclick', this._onOptionClick);
+    this.removeEventListener('esl:uip:option:changed', this._onOptionClick);
     this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
   }
 
