@@ -1,15 +1,6 @@
 ---
-layout: basic
+title: Components
 ---
-
-<ul class="uip-demo__list">
-  <h3 class="uip-demo__list-title">General information</h3>
-  {% for page in collections.general %}
-    <li class="uip-demo__list-item">
-      <a href="{{ page.url | url }}">{{ page.data.title }}</a>
-    </li>
-  {%- endfor %}
-</ul>
 
 <ul class="uip-demo__list">
   <h3 class="uip-demo__list-title">Core</h3>
@@ -36,13 +27,4 @@ layout: basic
     </ul>
   {%- endif %}
 {%- endfor %}
-</ul>
-
-<ul class="uip-demo__list">
-  <h3 class="uip-demo__list-title" href="{{ '/examples/example/' | url }}">Examples</h3>
-  {% for example in collections.example %}
-    <li class="uip-demo__list-item">
-      <a href="{{ example.url | url }}">{{ example.data.title }}</a>
-    </li>
-  {%- endfor %}
 </ul>
