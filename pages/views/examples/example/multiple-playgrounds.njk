@@ -1,0 +1,78 @@
+---
+title: Example with multiple playgrounds
+---
+<div>
+  <section class="component-section">
+    <h1 class="component-title">USER CARD</h1>
+    <p class="component-description">
+      User card is a component for displaying user's info.
+      Can be in rectangle/rounded styles with multiple
+      colors supported.
+    </p>
+  </section>
+
+  <uip-root>
+    <uip-header>
+      <uip-snippets></uip-snippets>
+      <uip-options></uip-options>
+    </uip-header>
+    <script  type="text/html" uip-snippet label="Rectangle user card">
+        <div class="user-card user-block aqua-user">Alexander</div>
+    </script>
+    <script  type="text/html" uip-snippet label="Circle user card" wrap-items>
+        <div class="user-card user-circle aqua-user">Alexander</div>
+    </script>
+    <uip-preview></uip-preview>
+    <uip-settings target=".user-card">
+      <uip-select-setting label="User color" attribute="class" mode="append">
+        <option value="red-user">Red</option>
+        <option value="aqua-user">Aqua</option>
+        <option value="green-user">Green</option>
+      </uip-select-setting>
+    </uip-settings>
+    <uip-editor></uip-editor>
+  </uip-root>
+
+  <section class="component-section">
+    <h1 class="component-title">USER LIST</h1>
+    <p class="component-description">
+      User list is a component for displaying multiple users' info.
+      Can manually wrap list items on new lines.
+    </p>
+  </section>
+
+  <uip-root>
+    <uip-header>
+      <uip-snippets></uip-snippets>
+      <uip-options></uip-options>
+    </uip-header>
+    <script  type="text/html" uip-snippet label="Users aqua list">
+      <div class="user-list">
+        <div class="user-card aqua-user">Alexander</div>
+        <div class="user-card user-circle aqua-user">Alexey</div>
+        <div class="user-card aqua-user">Marina</div>
+      </div>
+    </script>
+    <script  type="text/html" uip-snippet label="Long red users list containing seven items" wrap-items>
+      <div class="user-list">
+        <div class="user-card red-user">Anton</div>
+        <div class="user-card red-user">Dmitri</div>
+        <div class="user-card red-user">Alexandra</div>
+        <div class="user-card red-user">Artem</div>
+        <div class="user-card red-user">Marina</div>
+        <div class="user-card red-user">Alexander</div>
+        <div class="user-card red-user">Alexander</div>
+      </div>
+    </script>
+    <uip-preview></uip-preview>
+    <uip-settings target=".user-list">
+      <uip-select-setting label="User color" target=".user-card" attribute="class" mode="append">
+        <option value="red-user">Red</option>
+        <option value="aqua-user">Aqua</option>
+        <option value="green-user">Green</option>
+      </uip-select-setting>
+      <uip-bool-setting label="Wrap items" attribute="wrap-items"></uip-bool-setting>
+    </uip-settings>
+    <uip-editor></uip-editor>
+  </uip-root>
+</div>

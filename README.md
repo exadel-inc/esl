@@ -11,7 +11,7 @@
 **UIPlayground** is a solution for presenting your custom components.
 
 With the help of *UIP* components we allow user to *'play'* with a component.
-You can choose from the variety of component's templates ([UIP Snippets](src/core/snippets/README.md)),
+You can choose from the variety of component's templates ([UIP Snippets](src/plugins/header/snippets/README.md)),
 play with the component's settings ([UIP Settings](src/plugins/settings/README.md))
 or even change its markup ([UIP Editor](src/plugins/editor/README.md))!
 
@@ -26,8 +26,8 @@ Every element (except the *UIP Root*) isn't required, so you can combine them th
   - #### [UIP Root](src/core/base/README.md#uip-root)
   - #### [UIP State Model](src/core/base/README.md#uip-state-model)
 - ### Components
-  - #### [UIP Options](src/plugins/options/README.md)
-  - #### [UIP Snippets](src/core/snippets/README.md)
+  - #### [UIP Options](src/plugins/header/options/README.md)
+  - #### [UIP Snippets](src/plugins/header/snippets/README.md)
   - #### [UIP Preview](src/core/preview/README.md)
   - #### [UIP Editor](src/plugins/editor/README.md)
   - #### [UIP Settings](src/plugins/settings/README.md)

@@ -1,6 +1,6 @@
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 
-import {UIPPlugin} from '../../core/registration';
+import {UIPPlugin} from '../../../core/base/plugin';
 import {OptionConfig, UIPOption} from './option/option';
 
 /**
@@ -9,30 +9,27 @@ import {OptionConfig, UIPOption} from './option/option';
  */
 export class UIPOptions extends UIPPlugin {
   static is = 'uip-options';
-  options: Map<string, UIPOption>;
+  public options: Map<string, UIPOption>;
+
   /** List of configs to create options. */
-  protected UIPOptionsConfig: OptionConfig[] = [
+  protected static UIPOptionsConfig: OptionConfig[] = [
     {
       attribute: 'dark-theme',
-      iconUrl: '../../static/icons/theme.svg',
-      canActivate: () => !this.hasAttribute('hide-theme')
+      canActivate: (component) => !component.hasAttribute('hide-theme')
     },
     {
       attribute: 'rtl-direction',
-      iconUrl: '../../static/icons/rtl.svg',
-      canActivate: () => !this.hasAttribute('hide-direction')
+      canActivate: (component) => !component.hasAttribute('hide-direction')
     },
     {
       attribute: 'settings-collapsed',
-      iconUrl: '../../static/icons/settings.svg',
-      canActivate: () => !this.hasAttribute('hide-settings') &&
-      !!this.root?.querySelector('uip-settings')
+      canActivate: (component) => !component.hasAttribute('hide-settings') &&
+      !!component.root?.querySelector('uip-settings')
     },
     {
       attribute: 'editor-collapsed',
-      iconUrl: '../../static/icons/editor.svg',
-      canActivate: () => !this.hasAttribute('hide-editor') &&
-      !!this.root?.querySelector('uip-editor')
+      canActivate: (component) => !component.hasAttribute('hide-editor') &&
+      !!component.root?.querySelector('uip-editor')
     }
   ];
 
@@ -49,20 +46,19 @@ export class UIPOptions extends UIPPlugin {
   }
 
   protected bindEvents() {
-    this.addEventListener('uip:optionclick', this._onOptionClick);
+    this.addEventListener('esl:uip:option:changed', this._onOptionClick);
     this.root?.addEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected unbindEvents() {
-    this.removeEventListener('uip:optionclick', this._onOptionClick);
+    this.removeEventListener('esl:uip:option:changed', this._onOptionClick);
     this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected render() {
-    this.options = new Map(
-      this.UIPOptionsConfig.filter(option => !option.canActivate || option.canActivate())
-      .map(option => [option.attribute, UIPOption.create(option)])
-      );
+    const options = UIPOptions.UIPOptionsConfig.filter(option => !option.canActivate || option.canActivate(this));
+    const entries: [string, UIPOption][] = options.map(option => [option.attribute, UIPOption.create(option)]);
+    this.options = new Map(entries);
     this.options.forEach(option => this.append(option));
   }
 

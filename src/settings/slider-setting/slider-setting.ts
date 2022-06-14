@@ -1,8 +1,9 @@
-import {UIPSetting} from '../setting/setting';
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
-import {WARNING_MSG} from '../../utils/warning-msg';
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+
+import {UIPSetting} from '../../plugins/settings/setting';
+import {WARNING_MSG} from '../../utils/warning-msg';
 
 export class UIPSliderSetting extends UIPSetting {
   public static is = 'uip-slider-setting';
