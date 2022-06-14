@@ -1,6 +1,6 @@
 import {attr, boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
-import {ENTER} from '@exadel/esl/modules/esl-utils/dom/keys';
+import {ENTER, SPACE} from '@exadel/esl/modules/esl-utils/dom/keys';
 
 import type {UIPOptions} from '../options';
 
@@ -39,14 +39,14 @@ export class UIPOption extends ESLBaseElement {
   @bind
   protected _onClick() {
     this.toggleState();
-    this.$$fire('uip:optionclick');
+    this.$$fire('uip:option:changed');
   }
 
   @bind
   protected _onKeydown(e: KeyboardEvent) {
-    if (ENTER !== e.key) return;
+    if (ENTER !== e.key && SPACE !== e.key) return;
     this.toggleState();
-    this.$$fire('uip:optionclick');
+    this.$$fire('uip:option:changed');
   }
 
   public toggleState(force?: boolean) {
