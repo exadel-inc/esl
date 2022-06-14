@@ -49,8 +49,12 @@
         display: none;
       }
 
-      .icon-link {
+      &.icon-link {
         display: flex;
+
+        @media @mobile {
+          display: none;
+        }
       }
     }
 
