@@ -1,3 +1,26 @@
+# [1.0.0-beta.10](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2022-06-15)
+
+
+### Bug Fixes
+
+* external dropdown menu is under internal dropdown menu (possible fixes) ([ea695c2](https://github.com/exadel-inc/ui-playground/commit/ea695c2938c780b2491adbce1954f68d2cf9f64c))
+* fix paths ([e285361](https://github.com/exadel-inc/ui-playground/commit/e285361582c11cbbc91cffb40082ec0b06057fe1))
+* **icons:** optimize svg icons ([0d71d2a](https://github.com/exadel-inc/ui-playground/commit/0d71d2a2bf98f3cfe5c8db3cbf0fac4a7a470dc3))
+* **page:** remove global .main styles from example ([a03212d](https://github.com/exadel-inc/ui-playground/commit/a03212d7b4910f89bf1db7a104841725a73d885b))
+* **path:** rename sample styles file ([f049ea8](https://github.com/exadel-inc/ui-playground/commit/f049ea84ac408a854eebeee30a00c985827700d7))
+* pr fixes ([3603cb9](https://github.com/exadel-inc/ui-playground/commit/3603cb91f44824ff8a4617456fabb0eeadea053a))
+* pr images ([a60fba8](https://github.com/exadel-inc/ui-playground/commit/a60fba853e1b3bd91f06ed0b12d7670cca0ec964))
+
+
+### Features
+
+* **options:** add SPACE key handling for options ([4c456b9](https://github.com/exadel-inc/ui-playground/commit/4c456b91b9bbefc0e5a393ab39c825222e4d1d27))
+* **options:** replace svg with inline background ([eb8170c](https://github.com/exadel-inc/ui-playground/commit/eb8170ca550a8520c601206cac60845fa0ff6b6e))
+* **playground:** create example with two uiproots ([0c66e7c](https://github.com/exadel-inc/ui-playground/commit/0c66e7c4765b3d3f0641c8d0e69c3a28cd43e164))
+* update header ([78adb8c](https://github.com/exadel-inc/ui-playground/commit/78adb8c4761bb3103825a1639908330a2865aee8))
+* update header (change selectors) ([c60ed14](https://github.com/exadel-inc/ui-playground/commit/c60ed14f731864af7d76c91a00e6ab7291b33287))
+* update header (remove unnecessary comments) ([d043d73](https://github.com/exadel-inc/ui-playground/commit/d043d730dda1ca1831729ebd4f47aa9a525c2be2))
+
 # [1.0.0-beta.9](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2022-04-22)
 
 
