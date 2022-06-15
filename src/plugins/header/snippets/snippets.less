@@ -1,0 +1,105 @@
+@import 'node_modules/@exadel/esl/modules/esl-scrollbar/core';
+
+.uip-snippets {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  .snippets {
+    &-dropdown {
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 200px;
+      z-index: 10;
+
+      &-control {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        height: 100%;
+
+        &::before {
+          content: '';
+          display: block;
+          min-width: 20px;
+          min-height: 8px;
+          transform-origin: center;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9' xml:space='preserve'%3E%3Cpolyline points='0,0 8,8 16,0' fill='none' stroke='black' stroke-width='2'%3E%3C/polyline%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: center;
+          transition: transform .3s ease-in-out;
+        }
+
+        &:hover {
+          .snippets-dropdown-title {
+            opacity: .7;
+          }
+        }
+      }
+
+      &-wrapper {
+        position: relative;
+        display: flex;
+        max-height: 0;
+        background-color: @light-theme-section;
+        overflow: hidden;
+        visibility: hidden;
+        border: 1px solid @section-border;
+        transition: max-height .3s ease-in-out, visibility 0s .25s, box-shadow .3s ease-in-out;
+
+        .scrollbar-collapsed();
+      }
+    }
+
+    &-list {
+      width: 100%;
+      margin-right: 20px;
+      padding-left: 10px;
+      list-style-type: none;
+
+      &-item {
+        padding: 5px 0;
+
+        &:not(:last-child) {
+          border-bottom: 1px solid @section-border;
+        }
+
+        &:hover {
+          cursor: pointer;
+          opacity: .7;
+        }
+
+        &.active {
+          font-weight: @active-font-weight;
+        }
+      }
+    }
+  }
+
+  &.dropdown-open {
+    .snippets-dropdown {
+      &-control {
+        &::before {
+          transform: rotateX(180deg);
+        }
+      }
+
+      &-wrapper {
+        max-height: 150px;
+        visibility: visible;
+        box-shadow: 0 4px 6px 0 rgb(0 0 0 / 20%);
+        transition: max-height .3s ease-in-out, visibility 0s;
+
+        .scrollbar-expanded();
+      }
+    }
+  }
+}
+
+.uip-preview {
+  .uip-snippets .snippets-dropdown {
+    z-index: 5;
+  }
+}

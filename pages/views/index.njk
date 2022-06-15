@@ -39,10 +39,10 @@ layout: basic
 </ul>
 
 <ul class="uip-demo__list">
-  <h3 class="uip-demo__list-title">Samples</h3>
-  {% for sample in collections.samples %}
+  <h3 class="uip-demo__list-title" href="{{ '/examples/example/' | url }}">Examples</h3>
+  {% for example in collections.example %}
     <li class="uip-demo__list-item">
-      <a href="{{ sample.url | url }}">{{ sample.data.title }}</a>
+      <a href="{{ example.url | url }}">{{ example.data.title }}</a>
     </li>
   {%- endfor %}
 </ul>

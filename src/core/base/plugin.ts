@@ -1,5 +1,6 @@
-import {memoize} from '@exadel/esl';
+import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+
 import {UIPRoot} from './root';
 import {UIPStateModel} from './model';
 
@@ -9,24 +10,15 @@ import {UIPStateModel} from './model';
  * Implements basic relation and styles
  */
 export abstract class UIPPlugin extends ESLBaseElement {
-  static get observedAttributes() {
-    return ['label'];
-  }
-
-  private _root: UIPRoot | null;
+  static observedAttributes = ['label'];
 
   /** Visible label */
   @attr() public label: string;
 
   /** @returns UIPRoot - playground root element */
+  @memoize()
   protected get root(): UIPRoot | null {
-    return this._root;
-  }
-
-  protected set root(root: UIPRoot | null) {
-    this._root?.removeStateListener(this._onRootStateChange);
-    this._root = root;
-    this._root?.addStateListener(this._onRootStateChange);
+    return this.closest(`${UIPRoot.is}`) as UIPRoot;
   }
 
   protected get model(): UIPStateModel | null {
@@ -34,9 +26,9 @@ export abstract class UIPPlugin extends ESLBaseElement {
   }
 
   @memoize()
-  get $inner() {
+  protected get $inner() {
     const $inner = document.createElement('div');
-    const pluginType = <typeof UIPPlugin>this.constructor;
+    const pluginType = this.constructor as typeof UIPPlugin;
     $inner.className = `${pluginType.is}-inner uip-plugin-inner`;
     return $inner;
   }
@@ -44,14 +36,14 @@ export abstract class UIPPlugin extends ESLBaseElement {
   protected connectedCallback() {
     super.connectedCallback();
     this.classList.add('uip-plugin');
-    this.root = this.closest(`${UIPRoot.is}`) as UIPRoot;
+    this.root?.addStateListener(this._onRootStateChange);
     this.root && this._onRootStateChange();
   }
 
   protected disconnectedCallback() {
-    this._root?.removeStateListener(this._onRootStateChange);
-    this.root = null;
+    this.root?.removeStateListener(this._onRootStateChange);
     super.disconnectedCallback();
+    memoize.clear(this, 'root');
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
