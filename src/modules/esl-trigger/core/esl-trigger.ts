@@ -16,10 +16,7 @@ import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/c
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
   public static is = 'esl-trigger';
-
-  static get observedAttributes(): string[] {
-    return ['target'];
-  }
+  public static observedAttributes = ['target'];
 
   /** @readonly Observed Toggleable active state marker */
   @boolAttr({readonly: true}) public active: boolean;

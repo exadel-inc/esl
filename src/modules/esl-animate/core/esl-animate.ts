@@ -18,7 +18,8 @@ import {ESLAnimateService} from './esl-animate-service';
  */
 @ExportNs('Animate')
 export class ESLAnimate extends ESLBaseElement {
-  static is = 'esl-animate';
+  public static is = 'esl-animate';
+  public static observedAttributes = ['group', 'repeat', 'target'];
 
   /**
    * Class(es) to add on viewport intersection
@@ -57,10 +58,6 @@ export class ESLAnimate extends ESLBaseElement {
    * Default: ` ` - current element, `<esl-animate>` behave as a wrapper
    */
   @attr() public target: string;
-
-  static get observedAttributes(): string[] {
-    return ['group', 'repeat', 'target'];
-  }
 
   /** Elements-targets found by target query */
   @memoize()

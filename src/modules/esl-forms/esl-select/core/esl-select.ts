@@ -19,9 +19,8 @@ import {ESLSelectDropdown} from './esl-select-dropdown';
 @ExportNs('Select')
 export class ESLSelect extends ESLSelectWrapper {
   public static readonly is = 'esl-select';
-  public static get observedAttributes(): string[] {
-    return ['disabled'];
-  }
+  public static observedAttributes = ['disabled'];
+
   public static register(): void {
     ESLSelectDropdown.register();
     ESLSelectRenderer.register();
