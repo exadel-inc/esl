@@ -56,7 +56,7 @@ describe('ESLMediaRuleList', () => {
 
     expect(mrl.rules.length).toBe(2);
 
-    mrl.addListener(listener);
+    mrl.addEventListener(listener);
 
     mockSmMatchMedia.matches = false;
     mockMdMatchMedia.matches = false;
@@ -83,7 +83,7 @@ describe('ESLMediaRuleList', () => {
 
     expect(mrl.rules.length).toBe(2);
 
-    mrl.addListener(listener);
+    mrl.addEventListener(listener);
 
     mockSmMatchMedia.matches = false;
     mockMdMatchMedia.matches = false;

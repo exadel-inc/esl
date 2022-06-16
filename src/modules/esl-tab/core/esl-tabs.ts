@@ -57,22 +57,22 @@ export class ESLTabs extends ESLBaseElement {
 
   protected connectedCallback(): void {
     super.connectedCallback();
-    this.scrollableTypeRules.addListener(this._onScrollableTypeChange);
+    this.scrollableTypeRules.addEventListener(this._onScrollableTypeChange);
     this.updateScrollableType();
   }
 
   protected disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.scrollableTypeRules.removeListener(this._onScrollableTypeChange);
+    this.scrollableTypeRules.removeEventListener(this._onScrollableTypeChange);
     this.unbindScrollableEvents();
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'scrollable') {
-      this.scrollableTypeRules.removeListener(this._onScrollableTypeChange);
+      this.scrollableTypeRules.removeEventListener(this._onScrollableTypeChange);
       memoize.clear(this, 'scrollableTypeRules');
-      this.scrollableTypeRules.addListener(this._onScrollableTypeChange);
+      this.scrollableTypeRules.addEventListener(this._onScrollableTypeChange);
       this.updateScrollableType();
     }
   }

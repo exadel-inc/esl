@@ -54,13 +54,13 @@ export class ESLPanelGroup extends ESLBaseElement {
     super.connectedCallback();
     this.bindEvents();
 
-    this.modeRules.addListener(this._onModeChange);
+    this.modeRules.addEventListener(this._onModeChange);
     this.updateMode();
   }
 
   protected disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.modeRules.removeListener(this._onModeChange);
+    this.modeRules.removeEventListener(this._onModeChange);
 
     this.unbindEvents();
   }
@@ -68,9 +68,9 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'mode') {
-      this.modeRules.removeListener(this._onModeChange);
+      this.modeRules.removeEventListener(this._onModeChange);
       memoize.clear(this, 'modeRules');
-      this.modeRules.addListener(this._onModeChange);
+      this.modeRules.addEventListener(this._onModeChange);
       this.updateMode();
     }
     if (attrName === 'accordion-group') {
