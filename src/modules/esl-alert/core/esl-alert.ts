@@ -29,15 +29,12 @@ export interface AlertActionParams extends ToggleableActionParams {
  */
 @ExportNs('Alert')
 export class ESLAlert extends ESLToggleable {
-  static is = 'esl-alert';
-  static eventNs = 'esl:alert';
-
-  static get observedAttributes(): string[] {
-    return ['target'];
-  }
+  public static is = 'esl-alert';
+  public static eventNs = 'esl:alert';
+  public static observedAttributes = ['target'];
 
   /** Default show/hide params for all ESLAlert instances */
-  static defaultConfig: AlertActionParams = {
+  public static defaultConfig: AlertActionParams = {
     hideTime: 300,
     hideDelay: 2500
   };

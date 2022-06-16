@@ -20,6 +20,7 @@ import {ESLTab} from './esl-tab';
 @ExportNs('Tabs')
 export class ESLTabs extends ESLBaseElement {
   public static is = 'esl-tabs';
+  public static observedAttributes = ['scrollable'];
 
   /** List of supported scrollable types */
   public static supportedScrollableTypes = ['disabled', 'side', 'center'];
@@ -39,10 +40,6 @@ export class ESLTabs extends ESLBaseElement {
 
   protected _deferredUpdateArrows = debounce(this.updateArrows, 100, this);
   protected _deferredFitToViewport = debounce(this.fitToViewport, 100, this);
-
-  static get observedAttributes(): string[] {
-    return ['scrollable'];
-  }
 
   /** ESLMediaRuleList instance of the scrollable type mapping */
   @memoize()

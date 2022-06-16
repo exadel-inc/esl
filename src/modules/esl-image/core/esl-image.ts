@@ -22,6 +22,7 @@ const isLoadState = (state: string): state is LoadState => ['error', 'loaded', '
 @ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
   public static is = 'esl-image';
+  public static observedAttributes = ['alt', 'role', 'mode', 'aria-label', 'data-src', 'data-src-base', 'lazy-triggered'];
 
   // Default container class value
   public static DEFAULT_CONTAINER_CLS = 'img-container-loaded';
@@ -30,12 +31,8 @@ export class ESLImage extends ESLBaseElement {
     return STRATEGIES;
   }
 
-  static get EMPTY_IMAGE(): string {
+  public static get EMPTY_IMAGE(): string {
     return 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-  }
-
-  static get observedAttributes(): string[] {
-    return ['alt', 'role', 'mode', 'aria-label', 'data-src', 'data-src-base', 'lazy-triggered'];
   }
 
   @attr() public alt: string;
