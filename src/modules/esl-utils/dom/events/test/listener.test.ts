@@ -24,6 +24,27 @@ describe('dom/events: ESLEventListener', () => {
       expect(result[0].handler).toBe(handler);
     });
 
+    test('via event provider', () => {
+      const host = document.createElement('div');
+      const handler = jest.fn();
+      const eventProvider = jest.fn(() => 'click');
+      const result = ESLEventListener.create(host, handler, {event: eventProvider});
+
+      expect(result.length).toBe(1);
+      expect(result[0].event).toBe('click');
+      expect(result[0].handler).toBe(handler);
+      expect(eventProvider).lastCalledWith(host);
+    });
+
+    test('via event provider with context', () => {
+      const context  = {};
+      const host = document.createElement('div');
+      const handler = jest.fn();
+      const eventProvider = jest.fn(() => 'click');
+      ESLEventListener.create(host, handler, {event: eventProvider, context});
+      expect(eventProvider).lastCalledWith(context);
+    });
+
     test('multiple by string', () => {
       const host = document.createElement('div');
       const handler = jest.fn();
@@ -59,6 +80,48 @@ describe('dom/events: ESLEventListener', () => {
       expect(result[1].event).toBe('e2');
       expect(result[0].selector).toBe('button');
       expect(result[1].selector).toBe('button');
+    });
+
+    test('option providers', () => {
+      const host = document.createElement('div');
+      const handler = jest.fn();
+      const eventProvider = jest.fn(() => 'test');
+      const targetProvider = jest.fn(() => '::not(btn)');
+      const selectorProvider = jest.fn(() => '.btn');
+
+      const [listener] = ESLEventListener.create(host, handler, {
+        event: eventProvider,
+        target: targetProvider,
+        selector: selectorProvider
+      });
+
+      expect(eventProvider).toBeCalledWith(host);
+      expect(targetProvider).toBeCalledWith(host);
+      expect(selectorProvider).toBeCalledWith(host);
+
+      expect(listener.event).toBe(eventProvider());
+      expect(listener.target).toBe(targetProvider());
+      expect(listener.selector).toBe(selectorProvider());
+    });
+
+    test('option providers vs context', () => {
+      const context  = {};
+      const host = document.createElement('div');
+      const handler = jest.fn();
+      const eventProvider = jest.fn(() => 'test');
+      const targetProvider = jest.fn(() => '::not(btn)');
+      const selectorProvider = jest.fn(() => '.btn');
+
+      ESLEventListener.create(host, handler, {
+        event: eventProvider,
+        target: targetProvider,
+        selector: selectorProvider,
+        context
+      });
+
+      expect(eventProvider).toBeCalledWith(context);
+      expect(targetProvider).toBeCalledWith(context);
+      expect(selectorProvider).toBeCalledWith(context);
     });
   });
 

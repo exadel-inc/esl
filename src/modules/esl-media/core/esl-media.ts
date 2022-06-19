@@ -30,6 +30,19 @@ export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 export class ESLMedia extends ESLBaseElement {
   public static is = 'esl-media';
   public static eventNs = 'esl:media:';
+  public static observedAttributes = [
+    'disabled',
+    'load-condition',
+    'media-type',
+    'media-id',
+    'media-src',
+    'fill-mode',
+    'aspect-ratio',
+    'play-in-viewport',
+    'muted',
+    'loop',
+    'controls'
+  ];
 
   /** Media resource identifier */
   @attr() public mediaId: string;
@@ -100,22 +113,6 @@ export class ESLMedia extends ESLBaseElement {
    */
   static get PLAYER_STATES(): typeof PlayerStates {
     return PlayerStates;
-  }
-
-  static get observedAttributes(): string[] {
-    return [
-      'disabled',
-      'load-condition',
-      'media-type',
-      'media-id',
-      'media-src',
-      'fill-mode',
-      'aspect-ratio',
-      'play-in-viewport',
-      'muted',
-      'loop',
-      'controls'
-    ];
   }
 
   static supports(name: string): boolean {

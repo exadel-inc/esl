@@ -18,11 +18,11 @@ describe('Decorator: @prop', () => {
 
   describe('Overriding @attr', () => {
     class TestElement extends TestBaseElement {
-      @prop({value: 'test'})
+      @prop('test')
       public field: string;
       @prop()
       public field4?: string;
-      @prop({value: 'test'})
+      @prop('test')
       public readonlyField: string;
     }
     customElements.define('attr-override-1', TestElement);
@@ -56,12 +56,12 @@ describe('Decorator: @prop', () => {
 
   describe('Overriding with a non writable', () => {
     class TestElement extends TestBaseElement {
-      @prop({value: 'test', readonly: true}) public field: string;
-      @prop({value: true, readonly: true}) public field2: boolean;
+      @prop('test', {enumerable: true, readonly: true}) public field: string;
+      @prop(true, {enumerable: true, readonly: true}) public field2: boolean;
     }
     class TestElement2 extends TestElement {
       @prop() public field: string = 'test2';
-      @prop({value: false}) public field2: boolean;
+      @prop(false) public field2: boolean;
     }
     customElements.define('attr-writable-override-1', TestElement);
     customElements.define('attr-writable-override-2', TestElement2);
@@ -85,7 +85,7 @@ describe('Decorator: @prop', () => {
 
   describe('Overriding @boolAttr', () => {
     class TestElement extends TestBaseElement {
-      @prop({value: true})
+      @prop(true)
       public field2: boolean;
     }
     customElements.define('bool-attr-override-1', TestElement);
@@ -107,7 +107,7 @@ describe('Decorator: @prop', () => {
 
   describe('Overriding @jsonAttr', () => {
     class TestElement extends TestBaseElement {
-      @prop({value: {a: 2}})
+      @prop({a: 2})
       public field3: {a: number};
     }
     customElements.define('json-attr-override-1', TestElement);

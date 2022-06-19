@@ -1,3 +1,55 @@
+# [4.0.0-beta.8](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.7...v4.0.0-beta.8) (2022-06-16)
+
+
+### Code Refactoring
+
+* **esl-core:** ESLMixinElement moved to separate module ([9d42adf](https://github.com/exadel-inc/esl/commit/9d42adfc4202ed9def4c86d36debe33d0d14331b))
+
+
+### Features
+
+* **esl-utils:** ability to pass Provider functions to `event`, `selector`, `target` listener options ([c3503b0](https://github.com/exadel-inc/esl/commit/c3503b0810556388187deb48b14c3cab450c5a8e))
+* **esl-utils:** simplify and extend `[@prop](https://github.com/prop)` decorator ([fd6ede3](https://github.com/exadel-inc/esl/commit/fd6ede34b0a3c7496083cb58aa9b726d4a692085))
+
+
+### BREAKING CHANGES
+
+* **esl-utils:** `@prop` signature changed
+`prop(value?: any, prototypeConfig: OverrideDecoratorConfig = {})`
+* **esl-core:** (beta only) ESLMixinElement now accessible under 'modules/esl-mixin-element/core'
+
+# [4.0.0-beta.7](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.6...v4.0.0-beta.7) (2022-05-19)
+
+
+### Code Refactoring
+
+* **esl-media-query:** change tuple `parseTuple` syntax param order ([49305f1](https://github.com/exadel-inc/esl/commit/49305f1564a047443f843a41614586b7f85ddb83))
+
+
+### Features
+
+* **esl-media-query:** `[@media](https://github.com/media)` decorator to shortcut access to the `ESLMediaRuleList` ([ffb59c2](https://github.com/exadel-inc/esl/commit/ffb59c2c619f50e32aa02af0f5212ebc8e829e62))
+* **esl-media-query:** `ESLMediaQuery` now implements `EventTarget` interface ([df2a11e](https://github.com/exadel-inc/esl/commit/df2a11e11c1b781ba261cb33c9eccfdb6a9623a3))
+* **esl-media-query:** `ESLMediaRuleList` API reworked with EventTarget interface and new calculation strategy ([b1d6891](https://github.com/exadel-inc/esl/commit/b1d6891d0c90553a5b89069096ab9596b71b6219))
+* **esl-togglable:** show:request additional data ([a121872](https://github.com/exadel-inc/esl/commit/a121872b6e69fd7fb7a71bdfa9058430e650f423))
+* **esl-trigger:** add support of aria-label ([5c18841](https://github.com/exadel-inc/esl/commit/5c188418720ad4a972caa7450563a29268d8ec97))
+* **esl-utils:** `ESLEventListener` now uses EventListenerObject interface to simplify debug ([e3ac838](https://github.com/exadel-inc/esl/commit/e3ac838d810b2c1d9aecc265bc0d7cbf5fb627c1))
+* **esl-utils:** created `SyntheticEventTarget` implementation ([e4f3eb8](https://github.com/exadel-inc/esl/commit/e4f3eb89e0dd8227937d476a8d2090730342de64))
+* **esl-utils:** extend `SyntheticEventTarget` with ability to subscribe `EventListenerObject` ([e4609e9](https://github.com/exadel-inc/esl/commit/e4609e9e53dfd97cdf9892b1e4f88561ee0eeb67))
+* **polyfills:** extended `es5-target-shim` ([ef53df9](https://github.com/exadel-inc/esl/commit/ef53df936dd2beda859a41e9f8a900199bb24f3e))
+
+
+### BREAKING CHANGES
+
+* **esl-media-query:** `ESLMediaRuleList.parseTuple` arguments order changed
+* **esl-media-query:** `ESLMediaRule` no longer supports default marker, now "default" is equal "all" query
+* **esl-media-query:** `ESLMediaRuleList` observation callback signature changed, now it should be `EventListener`
+* **esl-media-query:** `ESLMediaRuleList.prototype.default` removed as no longer default rules
+* **esl-media-query:** `ESLMediaRuleList` no longer fire events on rule change, now it's based on active valuer change
+* **esl-media-query:** `ESLMediaRuleList` now uses merging of all active rules to define result value, however you were still able to get the last active rule value
+* **esl-media-query:** `ESLMediaRuleList.prototype.active` now returns an array of active rules
+* **polyfills:** ES5 shim `shimES5ElementConstructor` replaced with `shimES5Constructor`
+
 # [4.0.0-beta.6](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.5...v4.0.0-beta.6) (2022-04-26)
 
 
