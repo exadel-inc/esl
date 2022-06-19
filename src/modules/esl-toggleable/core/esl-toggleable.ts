@@ -224,13 +224,13 @@ export class ESLToggleable extends ESLBaseElement {
   /**
    * Actions to execute on show toggleable.
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
-   * Adds CSS classes, update a11y and fire esl:refresh event by default.
+   * Adds CSS classes, update a11y and fire {@link ESLToggleable.REFRESH_EVENT} event by default.
    */
   protected onShow(params: ToggleableActionParams): void {
     CSSClassUtils.add(this, this.activeClass);
     CSSClassUtils.add(document.body, this.bodyClass, this);
     this.updateA11y();
-    this.$$fire('esl:refresh'); // To notify other components about content change
+    this.$$fire(this.REFRESH_EVENT); // To notify other components about content change
   }
 
   /**

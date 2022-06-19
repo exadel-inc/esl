@@ -174,7 +174,7 @@ export class ESLMedia extends ESLBaseElement {
     if (this.fillModeEnabled) {
       window.addEventListener('resize', this.deferredResize);
     }
-    window.addEventListener('esl:refresh', this._onRefresh);
+    window.addEventListener(this.REFRESH_EVENT, this._onRefresh);
     this.addEventListener('keydown', this._onKeydown);
   }
   protected unbindEvents(): void {
@@ -183,7 +183,7 @@ export class ESLMedia extends ESLBaseElement {
     if (this.fillModeEnabled) {
       window.removeEventListener('resize', this.deferredResize);
     }
-    window.removeEventListener('esl:refresh', this._onRefresh);
+    window.removeEventListener(this.REFRESH_EVENT, this._onRefresh);
     this.removeEventListener('keydown', this._onKeydown);
   }
 
