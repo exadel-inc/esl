@@ -26,4 +26,4 @@ jobs:
 
           signed-commit-message: 'chore: $contributorName has signed the CLA in #$pullRequestNo'
           create-file-commit-message: 'chore: created file for storing CLA Signatures'
-          custom-notsigned-prcomment: 'Thank you for your submission, we really appreciate it. We ask that you sign our  <a href="$pathToCLADocument">Contributor Licence Agreement</a> before we can accept your contribution. You can sign the CLA by just posting a Pull Request Comment same as the below format.'
+          custom-notsigned-prcomment: 'Thank you for your submission, we really appreciate it. We ask that you sign our  <a href="https://github.com/exadel-inc/esl/blob/main/CLA.md">Contributor Licence Agreement</a> before we can accept your contribution. You can sign the CLA by just posting a Pull Request Comment same as the below format.'
