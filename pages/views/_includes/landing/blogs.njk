@@ -1,0 +1,16 @@
+<div class="blog container">
+  <h2>{{ landing.blogs.title }}</h2>
+  <esl-animate target="::next::child" group></esl-animate>
+  <ul class="blog-container">
+    {% for item in landing.blogs.items | sortByDate | limit(3) %}
+      <li class="blog-item esl-animate-slide-left">
+        <div class="blog-content">
+          <div class="blog-content-name">{{ item.name }}</div>
+          <p class="blog-content-text">{{ item.text }}</p>
+        </div>
+        <a class="btn btn-{{ landing.blogs.cta.style }}" href="{{ item.url | url }}">{{ landing.blogs.cta.text }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+

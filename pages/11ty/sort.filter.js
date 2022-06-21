@@ -15,7 +15,10 @@ module.exports = (config) => {
   const nameComparer = (a, b) => a.data.name.localeCompare(b.data.name);
   /** Order metadata comparer */
   const orderComparer = (a, b) => (a.data.order || 0) - (b.data.order || 0);
+  /** Date metadata comparer */
+  const dateComparer = (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime();
 
   config.addFilter('sortByName', sortFilter(nameComparer));
   config.addFilter('sortByNameAndOrder', sortFilter(compose(orderComparer, nameComparer)));
+  config.addFilter('sortByDate', sortFilter(dateComparer));
 };
