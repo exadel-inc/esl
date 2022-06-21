@@ -1,0 +1,34 @@
+.sidebar {
+  display: none;
+  background-color: @dark-bg;
+  box-shadow: 4px 8px 8px 0 rgba(0, 0, 0, .5);
+  position: fixed;
+  top: @header-height;
+  z-index: 10;
+  width: 200px;
+  max-width: 200px;
+  height: calc(~'100vh - @{header-height}');
+  list-style: none;
+
+  transition: max-width .5s ease-in-out, visibility .5s linear;
+  &.open {
+    transition: max-width .5s ease-in-out, visibility 0s linear;
+  }
+
+  @media @mobile {
+    display: block;
+  }
+
+  .sidebar-nav-item {
+    margin: 10px;
+
+    &-link {
+      color: white;
+    }
+  }
+}
+
+.sidebar:not([open]) {
+  max-width: 0;
+  visibility: hidden;
+}
