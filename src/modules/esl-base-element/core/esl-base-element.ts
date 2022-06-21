@@ -85,7 +85,6 @@ export abstract class ESLBaseElement extends HTMLElement {
 
   /**
    * Dispatches component custom event.
-   * Uses 'esl:' prefix for event name, overridable to customize event namespaces.
    * @param eventName - event name
    * @param eventInit - custom event init. See {@link CustomEventInit}
    */
