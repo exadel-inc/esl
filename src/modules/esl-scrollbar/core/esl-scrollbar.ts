@@ -7,6 +7,7 @@ import {isMouseEvent, isTouchEvent, getTouchPoint, getOffsetPoint} from '../../e
 import {isRelativeNode} from '../../esl-utils/dom/traversing';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
+import {ScrollUtils} from '../../all';
 
 /**
  * ESLScrollbar is a reusable web component that replaces the browser's default scrollbar with
@@ -191,6 +192,7 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   public set position(position: number) {
+    if (this._$target && ScrollUtils.isScrollLocked(this._$target)) return;
     this.scrollTargetTo(this.scrollableSize * this.normalizePosition(position));
     this.update();
   }
