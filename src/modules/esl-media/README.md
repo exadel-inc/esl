@@ -86,7 +86,7 @@ using a single tag as well as work with external providers using simple native-l
  - `esl:media:paused` - (bubbles) fires when esl-media is paused
  - `esl:media:ended` - (bubbles) fires when esl-media is ended
  - `esl:media:detach` - (bubbles) fires after esl-media provider is detached (reinitialized / disconnected from the DOM)
- - `esl:media:mangedpause` - (bubbles) fires when media was paused by esl-media group restriction manager
+ - `esl:media:managedpause` - (bubbles) fires when media was paused by esl-media group restriction manager
  
 ### Examples:
 ```html
