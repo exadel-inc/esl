@@ -70,8 +70,8 @@ export class UIPSnippets extends UIPPlugin {
     this.render();
     this.bindEvents();
 
-    if (this.model) {
-      this.model.applySnippet(this.model.snippets[this.currentIndex], this);
+    if (this.model && this.model.snippets.length) {
+      this.model.html || this.model.applySnippet(this.model.snippets[this.currentIndex], this);
       this.updateTitleText(this.model.activeSnippet);
     }
     // Initial update
