@@ -1,5 +1,6 @@
 import {Observable} from '@exadel/esl/modules/esl-utils/abstract/observable';
 import {UIPPlugin} from './plugin';
+import {UIPRoot} from './root';
 
 /** Type for function to change attribute's current value. */
 export type TransformSignature = (current: string | null) => string | boolean | null;
@@ -11,7 +12,7 @@ export type ChangeAttrConfig = {
   /** Attribute to change. */
   attribute: string,
   /** Changes initiator. */
-  modifier: UIPPlugin
+  modifier: UIPPlugin | UIPRoot
 } & ({
   /** New {@link attribute} value. */
   value: string | boolean
@@ -36,7 +37,7 @@ export type SnippetTemplate = HTMLTemplateElement | HTMLScriptElement;
 export class UIPStateModel extends Observable {
   private _html = new DOMParser().parseFromString('', 'text/html').body;
   /** Last {@link UIPPlugin} element which changed markup. */
-  private _lastModifier: UIPPlugin;
+  private _lastModifier: UIPPlugin | UIPRoot;
   private _isFired = false;
 
   private _snippets: SnippetTemplate[];
@@ -47,7 +48,7 @@ export class UIPStateModel extends Observable {
    * @param markup - new state
    * @param modifier - plugin, that initiate the change
    */
-  public setHtml(markup: string, modifier: UIPPlugin) {
+  public setHtml(markup: string, modifier: UIPPlugin | UIPRoot) {
     const root = new DOMParser().parseFromString(markup, 'text/html').body;
 
     if (!root || root.innerHTML !== this.html) {
@@ -61,7 +62,7 @@ export class UIPStateModel extends Observable {
     return this._html ? this._html.innerHTML : '';
   }
 
-  public get lastModifier(): UIPPlugin {
+  public get lastModifier(): UIPPlugin | UIPRoot {
     return this._lastModifier;
   }
 
@@ -77,9 +78,11 @@ export class UIPStateModel extends Observable {
     return this._activeSnippet;
   }
 
-  public applySnippet(snippet: SnippetTemplate, modifier: UIPPlugin) {
-    this._activeSnippet = snippet;
-    this.setHtml(snippet.innerHTML, modifier);
+  public applySnippet(snippet: SnippetTemplate, modifier: UIPPlugin | UIPRoot) {
+    if (snippet) {
+      this._activeSnippet = snippet;
+      this.setHtml(snippet.innerHTML, modifier);
+    }
   }
 
   /**

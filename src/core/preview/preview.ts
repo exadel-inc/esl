@@ -11,11 +11,6 @@ export class UIPPreview extends UIPPlugin {
   @bind
   protected _onRootStateChange(): void {
     if (this.$inner.parentElement === this) this.removeChild(this.$inner);
-
-    this.model?.html ||
-    this.model?.snippets.length &&
-    this.model?.applySnippet(this.model?.snippets[0], this);
-
     this.$inner.innerHTML = this.model!.html;
     this.appendChild(this.$inner);
   }

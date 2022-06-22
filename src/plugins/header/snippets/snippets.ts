@@ -68,12 +68,8 @@ export class UIPSnippets extends UIPPlugin {
   protected connectedCallback() {
     super.connectedCallback();
     this.render();
+    this.updateTitleText();
     this.bindEvents();
-
-    if (this.model && this.model.snippets.length) {
-      this.model.html || this.model.applySnippet(this.model.snippets[this.currentIndex], this);
-      this.updateTitleText(this.model.activeSnippet);
-    }
     // Initial update
     setTimeout(() => this.$active = this.$active || this.$items[0]);
   }
@@ -146,8 +142,10 @@ export class UIPSnippets extends UIPPlugin {
     return $li;
   }
 
-  protected updateTitleText(snippet: SnippetTemplate) {
-    this.$title.textContent = `${snippet.getAttribute('label')}`;
+  protected updateTitleText(): void {
+    if (this.model) {
+      this.$title.textContent = `${this.model.activeSnippet.getAttribute('label')}`;
+    }
   }
 
   @bind
@@ -162,7 +160,7 @@ export class UIPSnippets extends UIPPlugin {
       this.model.applySnippet(this.model.snippets[index], this);
       this.$active = target;
       this.currentIndex = index;
-      this.updateTitleText(this.model.activeSnippet);
+      this.updateTitleText();
     }
   }
 

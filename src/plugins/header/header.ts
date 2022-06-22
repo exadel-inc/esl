@@ -10,22 +10,22 @@ export class UIPHeader extends UIPPlugin {
 
   protected connectedCallback(): void {
     super.connectedCallback();
-    !this.childElementCount && this.render();
+    !this.childElementCount && this.autofill();
   }
 
-  protected render() {
+  protected autofill(): void {
     this.querySelector('uip-snippets') ||  this.renderSnippets();
     this.querySelector('uip-options') || this.renderOptions();
   }
 
-  protected renderSnippets() {
+  protected renderSnippets(): void {
     if (this.model?.snippets.length) {
       const snippetsEl = document.createElement(UIPSnippets.is) as UIPSnippets;
       this.prepend(snippetsEl);
     }
   }
 
-  protected renderOptions() {
+  protected renderOptions(): void {
     const optionsEl = document.createElement(UIPOptions.is) as UIPSnippets;
     this.append(optionsEl);
   }
