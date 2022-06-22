@@ -124,7 +124,7 @@ describe('ESLMediaRuleList', () => {
     mockMdMatchMedia.matches = true;
     expect(mrl.value).toBe('3');
   });
-  test('all|@sm|@md ==> 1|2|2', () => {
+  test('all|@sm|@md ==> 1|2', () => {
     const mrl = ESLMediaRuleList.parseTuple('all|@sm|@md', '1|2');
     expect(mrl.rules.length).toBe(3);
 
