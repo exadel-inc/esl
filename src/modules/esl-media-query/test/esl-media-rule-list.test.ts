@@ -124,6 +124,46 @@ describe('ESLMediaRuleList', () => {
     mockMdMatchMedia.matches = true;
     expect(mrl.value).toBe('3');
   });
+  test('all|@sm|@md ==> 1|2', () => {
+    const mrl = ESLMediaRuleList.parseTuple('all|@sm|@md', '1|2');
+    expect(mrl.rules.length).toBe(3);
+
+    mockSmMatchMedia.matches = false;
+    mockMdMatchMedia.matches = false;
+    expect(mrl.value).toBe('1');
+
+    mockSmMatchMedia.matches = true;
+    mockMdMatchMedia.matches = false;
+    expect(mrl.value).toBe('2');
+
+    mockSmMatchMedia.matches = false;
+    mockMdMatchMedia.matches = true;
+    expect(mrl.value).toBe('2');
+
+    mockSmMatchMedia.matches = true;
+    mockMdMatchMedia.matches = true;
+    expect(mrl.value).toBe('2');
+  });
+  test('all|@sm|@md ==> 1', () => {
+    const mrl = ESLMediaRuleList.parseTuple('all|@sm|@md', '1');
+    expect(mrl.rules.length).toBe(3);
+
+    mockSmMatchMedia.matches = false;
+    mockMdMatchMedia.matches = false;
+    expect(mrl.value).toBe('1');
+
+    mockSmMatchMedia.matches = true;
+    mockMdMatchMedia.matches = false;
+    expect(mrl.value).toBe('1');
+
+    mockSmMatchMedia.matches = false;
+    mockMdMatchMedia.matches = true;
+    expect(mrl.value).toBe('1');
+
+    mockSmMatchMedia.matches = true;
+    mockMdMatchMedia.matches = true;
+    expect(mrl.value).toBe('1');
+  });
 
   afterEach(() => {
     mockSmMatchMedia.matches = false;
