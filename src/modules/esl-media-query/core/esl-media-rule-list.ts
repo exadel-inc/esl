@@ -130,7 +130,8 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   public static parseTuple(mask: string, values: string, parser: RulePayloadParser<any> = String): ESLMediaRuleList {
     const queries = mask.split('|');
     const valueList = values.split('|');
-    if (valueList.length !== queries.length) throw new Error('Value doesn\'t correspond to mask');
+      while (valueList.length < queries.length && valueList.length !== 0 ) valueList.push(valueList[valueList.length - 1]);
+    if (valueList.length !== queries.length) throw Error('Value doesn\'t correspond to mask');
     const rules: (ESLMediaRule | undefined)[] = queries.map((query, i) => ESLMediaRule.create(valueList[i], query, parser));
     const validRules = rules.filter((rule) => !!rule) as ESLMediaRule[];
     return new ESLMediaRuleList(validRules);
