@@ -79,10 +79,9 @@ export class UIPStateModel extends Observable {
   }
 
   public applySnippet(snippet: SnippetTemplate, modifier: UIPPlugin | UIPRoot) {
-    if (snippet) {
-      this._activeSnippet = snippet;
-      this.setHtml(snippet.innerHTML, modifier);
-    }
+    if (!snippet) return;
+    this._activeSnippet = snippet;
+    this.setHtml(snippet.innerHTML, modifier);
   }
 
   /**

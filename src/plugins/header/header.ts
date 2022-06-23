@@ -10,12 +10,12 @@ export class UIPHeader extends UIPPlugin {
 
   protected connectedCallback(): void {
     super.connectedCallback();
-    !this.childElementCount && this.autofill();
+    this.childElementCount || this.autofill();
   }
 
   protected autofill(): void {
-    this.querySelector('uip-snippets') ||  this.renderSnippets();
-    this.querySelector('uip-options') || this.renderOptions();
+    this.renderSnippets();
+    this.renderOptions();
   }
 
   protected renderSnippets(): void {
