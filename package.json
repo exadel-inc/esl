@@ -78,7 +78,7 @@
   },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.7",
-    "@types/video.js": "7.3.41",
+    "@types/video.js": "7.3.42",
     "@types/youtube": "0.0.46"
   },
   "devDependencies": {
