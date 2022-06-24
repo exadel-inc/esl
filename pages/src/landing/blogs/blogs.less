@@ -1,6 +1,6 @@
 @import (reference) "../../common/variables.less";
 
-.blog {
+.blogs {
   position: relative;
   margin-bottom: 2rem;
 
@@ -8,7 +8,7 @@
     display: flex;
     flex: 1 0 0px;
     align-items: center;
-    margin: 30px 20px;
+    margin: 30px 45px;
     list-style: none;
   }
 
@@ -33,17 +33,25 @@
     margin-bottom: 20px;
     font-size: 1.5rem;
   }
+
+  &-content-text {
+    margin-bottom: 20px;
+    font-size: 1rem;
+  }
+
 }
 
 @media @sm-xl {
-  .blog {
+  .blogs {
     &-item {
       display: block;
     }
+
     &-container {
       display: flex;
       flex-wrap: wrap;
     }
+
     &-icon {
       margin-bottom: 40px;
     }
@@ -51,18 +59,19 @@
 }
 
 @media @sm {
-  .blog-item {
+  .blogs-item {
     min-width: 245px;
     max-width: 350px;
   }
 }
 
 @media @md-lg {
-  .blog {
+  .blogs {
     &-item {
       min-width: 340px;
       max-width: 500px;
     }
+
     &-container {
       padding-bottom: 130px;
     }
@@ -70,11 +79,12 @@
 }
 
 @media @xl {
-  .blog {
+  .blogs {
     &-item {
       min-width: 400px;
       max-width: 500px;
     }
+
     &-container {
       padding-bottom: 150px;
     }
