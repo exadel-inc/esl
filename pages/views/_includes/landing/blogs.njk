@@ -1,3 +1,4 @@
+{% if env.isDev and collections.blogs and collections.blogs.length %}
 <div class="blogs container">
   <h2>{{ landing.blogs.title }}</h2>
   <esl-animate target="::next::child" group></esl-animate>
@@ -7,10 +8,10 @@
         <div class="blogs-content">
           <h4 class="blogs-content-name">{{ item.data.name }}</h4>
           <p class="blogs-content-text">{{ item.templateContent | text | trim(250) }}</p>
+          <a class="btn-link"  href="{{ item.url | url }}">{{ landing.blogs.cta.text }}</a>
         </div>
-        <a class="btn-link"  href="{{ item.url | url }}">{{ landing.blogs.cta.text }}</a>
       </li>
     {% endfor %}
   </ul>
 </div>
-
+{% endif %}
