@@ -67,7 +67,7 @@
   "dependencies": {
     "@exadel/esl": "^3.14.3",
     "@types/js-beautify": "^1.13.3",
-    "ace-builds": "^1.6.0",
+    "ace-builds": "^1.6.1",
     "js-beautify": "^1.14.4"
   },
   "devDependencies": {
