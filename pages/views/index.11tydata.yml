@@ -53,6 +53,10 @@ landing:
           Our UI component library doesn't introduce any additional restrictions — only benefits, as it offers
           utilities and framework-agnostic web components that work with any tech stack.
 
+  blogs:
+    title: Articles
+    cta:
+      text: READ MORE
   support:
     title: Browser Support
     text:
