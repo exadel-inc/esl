@@ -21,7 +21,6 @@
       "changelogFile": "CHANGELOG.md"
     }],
     ["@semantic-release/npm", {
-      "npmPublish": false,
       "tarballDir": "target"
     }],
     ["@semantic-release/git", {
