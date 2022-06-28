@@ -371,4 +371,24 @@ describe('Object.assign() polyfill', () => {
     });
     expect(() => Object.assign(target, {attr: 1})).toThrow(TestError);
   });
+
+  test('prototype pollution via __proto__', () => {
+    const maliciousPayload = '{"a": 1, "__proto__": {"polluted": true}}';
+    const a: any = {};
+    const result = Object.assign({}, JSON.parse(maliciousPayload));
+
+    expect(({} as any).polluted).not.toBe(true); // safe Plain Old Javascript Object
+    expect(a.polluted).not.toBe(true); // safe a input
+    expect(result.polluted).toBe(true);
+  });
+
+  test('prototype pollution via constructor', () => {
+    const maliciousPayload = '{"a": 1, "constructor": {"prototype": {"polluted": true}}}';
+    const a: any = {};
+    const result = Object.assign({}, JSON.parse(maliciousPayload));
+
+    expect(result.constructor.prototype.polluted).toBe(true);
+    expect(a.constructor.prototype.polluted).toBe(undefined);
+    expect(({} as any).constructor.prototype.polluted).toBe(undefined);
+  });
 });
