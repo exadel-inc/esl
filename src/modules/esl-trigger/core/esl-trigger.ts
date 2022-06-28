@@ -4,6 +4,7 @@ import {setAttr} from '../../esl-utils/dom/attr';
 import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {parseNumber} from '../../esl-utils/misc/format';
+import {identity} from '../../esl-utils/misc/functions';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {TraversingQuery} from '../../esl-traversing-query/core';
@@ -271,7 +272,9 @@ export class ESLTrigger extends ESLBaseElement {
     const target = this.$a11yTarget;
     if (!target) return;
 
-    setAttr(target, 'aria-label', this.a11yLabel);
+    if (identity(this.a11yLabelActive) || identity(this.a11yLabelInactive)) {
+      setAttr(target, 'aria-label', this.a11yLabel);
+    }
     setAttr(target, 'aria-expanded', String(this.active));
     if (this.$target && this.$target.id) {
       setAttr(target, 'aria-controls', this.$target.id);
