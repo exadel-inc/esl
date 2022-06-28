@@ -62,6 +62,7 @@ export class ESLSelectDropdown extends ESLToggleable {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
+    this.$owner.dropdownSelectClass && this.classList.add(this.$owner.dropdownSelectClass);
     this.$list.pinSelected = this.$owner.pinSelected;
     this.$list.selectAllLabel = this.$owner.selectAllLabel;
     this.$list.$select = this.$owner.$select;
