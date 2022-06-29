@@ -63,10 +63,8 @@ html.esl-disable-scroll {
   }
 }
 
-body {
-  &[esl-scroll-lock] {
-    overflow-x: hidden !important;
-    max-height: 100vh !important;
-    max-width: 100vw !important;
-  }
+body[esl-scroll-lock] {
+  overflow-x: hidden !important;
+  max-height: 100vh !important;
+  max-width: 100vw !important;
 }

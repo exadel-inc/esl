@@ -32,9 +32,7 @@ export function lockScroll(target: Element = document.documentElement, options?:
     initiatorSet.add(options.initiator);
     if (initiatorSet.size === 0) return;
   }
-  if (target !== document.documentElement && (target.scrollHeight === target.clientHeight || target.scrollWidth === target.clientWidth)) {
-    document.body.setAttribute('esl-scroll-lock', '');
-  }
+  toggleBodyScrollLock(target, true);
   target.setAttribute('esl-scroll-lock', '');
 }
 
@@ -49,8 +47,13 @@ export function unlockScroll(target: Element = document.documentElement, initiat
     initiatorSet.delete(initiator);
     if (initiatorSet.size > 0) return;
   }
-  if (target !== document.documentElement && (target.scrollHeight === target.clientHeight || target.scrollWidth === target.clientWidth)) {
-    document.body.removeAttribute('esl-scroll-lock');
-  }
+  toggleBodyScrollLock(target, false);
   target.removeAttribute('esl-scroll-lock');
+}
+
+/** Toggles scroll on document if target element has same dimensions as document */
+function toggleBodyScrollLock(target: Element, toggle: boolean): void {
+  if (target !== document.documentElement && (target.scrollHeight === target.clientHeight || target.scrollWidth === target.clientWidth)) {
+    document.documentElement.toggleAttribute('esl-scroll-lock', toggle);
+  }
 }
