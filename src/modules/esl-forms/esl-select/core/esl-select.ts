@@ -33,6 +33,8 @@ export class ESLSelect extends ESLSelectWrapper {
   @attr() public hasValueClass: string;
   /** Class(es) for focused state. Select is also focused if the dropdown list is opened */
   @attr() public hasFocusClass: string;
+  /** Class(es) for select dropdown */
+  @attr() public dropdownClass: string;
   /** Select all options text */
   @attr({defaultValue: 'Select All'}) public selectAllLabel: string;
 
