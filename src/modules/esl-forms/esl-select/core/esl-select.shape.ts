@@ -16,7 +16,7 @@ export interface ESLSelectTagShape extends ESLBaseElementShape<ESLSelect> {
   'has-focus-class'?: string;
 
   /** Define class(es) for select dropdown */
-  'dropdown-select-class'?: string;
+  'dropdown-class'?: string;
 
   /** Define label to select all options text ('Select All' by default) */
   'select-all-label'?: string;
