@@ -57,7 +57,16 @@ html.esl-disable-scroll {
 
 [esl-scroll-lock] {
   overflow: hidden !important;
+
   &::-webkit-scrollbar {
     display: none !important;
+  }
+}
+
+body {
+  &[esl-scroll-lock] {
+    overflow-x: hidden !important;
+    max-height: 100vh !important;
+    max-width: 100vw !important;
   }
 }

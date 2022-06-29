@@ -3,68 +3,54 @@ export type ScrollStrategy = 'none' | 'native' | 'pseudo';
 const $html = document.documentElement;
 const initiatorSet = new Set();
 
-// TODO: functional
+/** Check if elment is blocked from scrolling */
+export function isScrollLocked(target: Element): boolean {
+  return target.hasAttribute('esl-scroll-lock');
+}
 
-export abstract class ScrollUtils {
-  /** Check vertical scroll based on content height */
-  static hasVerticalScroll(target = $html): boolean {
-    return target.scrollHeight > target.clientHeight;
-  }
+/** Check vertical scroll based on content height */
+export function hasVerticalScroll(target = $html): boolean {
+  return target.scrollHeight > target.clientHeight;
+}
 
-  /**
-   * Disable scroll on the page.
-   * @param strategy - to make scroll visually disabled
-   * */
-  public static lock(strategy?: ScrollStrategy): void {
-    const hasScroll = ScrollUtils.hasVerticalScroll();
-    if (strategy && strategy !== 'none' && hasScroll) {
-      $html.classList.add(`esl-${strategy}-scroll`);
-    }
-    $html.classList.add('esl-disable-scroll');
-  }
+/** Check horizontal scroll based on content height */
+export function hasHorizontalScroll(target = $html): boolean {
+  return target.scrollWidth > target.clientWidth;
+}
 
-  /**
-   * Enable scroll on the page.
-   * */
-  public static unlock(): void {
-    $html.classList.remove('esl-disable-scroll', 'esl-pseudo-scroll', 'esl-native-scroll');
+/**
+ * Disable scroll on the element.
+ * @param target - scrollable element which will be blocked from scrolling
+ * @param strategy - to make scroll visually disabled
+ * @param initiator - object to associate request with
+ *
+ * TODO: currently requests with different strategy are not taken into account
+ * */
+export function lockScroll(target: Element = document.documentElement, options?: {strategy?: ScrollStrategy | null, initiator?: any}): void {
+  if (isScrollLocked(target)) return;
+  if (options?.initiator) {
+    initiatorSet.add(options.initiator);
+    if (initiatorSet.size === 0) return;
   }
+  if (target !== document.documentElement && (target.scrollHeight === target.clientHeight || target.scrollWidth === target.clientWidth)) {
+    document.body.setAttribute('esl-scroll-lock', '');
+  }
+  target.setAttribute('esl-scroll-lock', '');
+}
 
-  /**
-   * Disable scroll on the page.
-   * @param initiator - object to associate request with
-   * @param strategy - to make scroll visually disabled
-   *
-   * TODO: currently requests with different strategy is not taken into account
-   * */
-  public static requestLock(initiator: any, strategy?: ScrollStrategy): void {
-    initiator && initiatorSet.add(initiator);
-    (initiatorSet.size > 0) && ScrollUtils.lock(strategy);
+/**
+ * Enable scroll on the target element in case it was requested with given initiator.
+ * @param target - scrollable element
+ * @param initiator - object to associate request with
+ */
+export function unlockScroll(target: Element = document.documentElement, initiator?: any): void {
+  if (!isScrollLocked(target)) return;
+  if (initiator) {
+    initiatorSet.delete(initiator);
+    if (initiatorSet.size > 0) return;
   }
-
-  /**
-   * Enable scroll on the page in case it was requested with given initiator.
-   * @param initiator - object to associate request with
-   * @param strategy - to make scroll visually disabled
-   */
-  public static requestUnlock(initiator: any, strategy?: ScrollStrategy): void {
-    initiator && initiatorSet.delete(initiator);
-    (initiatorSet.size === 0) && ScrollUtils.unlock();
+  if (target !== document.documentElement && (target.scrollHeight === target.clientHeight || target.scrollWidth === target.clientWidth)) {
+    document.body.removeAttribute('esl-scroll-lock');
   }
-
-  public static lockScrollTriggers(target: Element): boolean {
-    if (this.isScrollLocked(target)) return true;
-    target.setAttribute('esl-scroll-lock', '');
-    return this.isScrollLocked(target);
-  }
-
-  public static unlockScrollTriggers(target: Element): boolean {
-    if (!this.isScrollLocked(target)) return true;
-    target.removeAttribute('esl-scroll-lock');
-    return this.isScrollLocked(target);
-  }
-
-  public static isScrollLocked(target: Element): boolean {
-    return target.hasAttribute('esl-scroll-lock');
-  }
+  target.removeAttribute('esl-scroll-lock');
 }
