@@ -25,9 +25,9 @@ type AttrDescriptor<T = string> = {
 const buildAttrName =
   (propName: string, dataAttr: boolean): string => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 
-export const toString = (val: string | null): string => val ?? '';
+export const toString = (val: string|null) => val ?? '';
 export const toNumber = parseFloat;
-export const toBoolean = (val: string | null): boolean => val !== null && val !== 'false';
+export const toBoolean = (val: string | null): Boolean => val !== null && val !== 'false';
 
 /**
  * Decorator to map current property to element attribute value.

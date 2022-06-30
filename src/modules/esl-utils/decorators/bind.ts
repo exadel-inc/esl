@@ -9,7 +9,7 @@ export function bind<T extends Function>(target: object,
     throw new TypeError('Only class methods can be decorated via @bind');
   }
   // Original function
-  const fn = descriptor.value;
+  var fn = descriptor.value;
 
   return {
     enumerable: descriptor.enumerable,
