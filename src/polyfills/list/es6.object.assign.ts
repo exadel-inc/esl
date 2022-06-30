@@ -14,10 +14,7 @@ function toObject(value: any): any {
 
 function copyProperty(from: any, to: any, name: string): void {
   const desc = Object.getOwnPropertyDescriptor(from, name);
-  if (desc !== undefined && desc.enumerable) {
-    const propValue = from[name];
-    to[name] = propValue;
-  }
+  if (desc !== undefined && desc.enumerable) to[name] = from[name];
 }
 
 if (!Object.assign) {

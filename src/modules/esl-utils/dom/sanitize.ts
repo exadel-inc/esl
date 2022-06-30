@@ -3,8 +3,7 @@ const isDangerousAttribute = (name: string, value: string): boolean => {
   const val = value.replace(/\s+/g, '').toLowerCase();
   if (['src', 'data', 'href', 'xlink:href'].includes(name)
     && (val.includes('javascript:') || val.includes('data:text/html'))) return true;
-  if (name.indexOf('on') === 0) return true;
-  return false;
+  return name.indexOf('on') === 0;
 };
 
 /** loops through each attribute, if it's dangerous, remove it */
