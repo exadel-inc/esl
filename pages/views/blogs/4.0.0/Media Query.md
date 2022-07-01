@@ -29,10 +29,10 @@ Starting from ESL release 4.0.0 ESL Media Query module got the following list of
 ### 1. EventTarget interface support
 
 Media conditions may not be static, so the native MediaQueryList supports listening of the query changes. But the
-ESLMediaQuery module fell into the same mistake as native MediaQueryList object standard, and supported only the
-custom `addListener` / `removeListner`. 
-In the 4th release of ESL, the whole module starts implementing EventTarget
-interface. 
+ESLMediaQuery module fell into the same mistake as the native MediaQueryList object standard, 
+and supported only the custom `addListener` / `removeListner`. 
+In the 4th release of ESL, the whole module starts implementing the EventTarget interface.
+
 ```typescript
     const condition = ESLMediaQuery.for('@xs or @sm');
     const onChange = () => {/*...*/};
