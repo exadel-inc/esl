@@ -43,9 +43,9 @@ export class ESLTrigger extends ESLBaseElement {
   @attr({defaultValue: ''}) public a11yTarget: string;
 
   /** Value of aria-label for active state */
-  @attr() public a11yLabelActive: string;
+  @attr({defaultValue: null}) public a11yLabelActive: string | null;
   /** Value of aria-label for inactive state */
-  @attr() public a11yLabelInactive: string;
+  @attr({defaultValue: null}) public a11yLabelInactive: string | null;
 
   /** Show delay value */
   @attr({defaultValue: 'none'}) public showDelay: string;
@@ -271,7 +271,9 @@ export class ESLTrigger extends ESLBaseElement {
     const target = this.$a11yTarget;
     if (!target) return;
 
-    setAttr(target, 'aria-label', this.a11yLabel);
+    if (this.a11yLabelActive !== null || this.a11yLabelInactive !== null) {
+      setAttr(target, 'aria-label', this.a11yLabel);
+    }
     setAttr(target, 'aria-expanded', String(this.active));
     if (this.$target && this.$target.id) {
       setAttr(target, 'aria-controls', this.$target.id);

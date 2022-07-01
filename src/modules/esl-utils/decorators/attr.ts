@@ -1,5 +1,5 @@
 import {identity} from '../misc/functions';
-import {toKebabCase} from '../misc/format';
+import {parseString, toKebabCase} from '../misc/format';
 import {getAttr, setAttr} from '../dom/attr';
 import type {AttributeDecorator, AttributeTarget} from '../dom/attr';
 
@@ -25,10 +25,6 @@ type AttrDescriptor<T = string> = {
 const buildAttrName =
   (propName: string, dataAttr: boolean): string => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 
-export const toString = (val: string | null): string => val ?? '';
-export const toNumber = parseFloat;
-export const toBoolean = (val: string | null): boolean => val !== null && val !== 'false';
-
 /**
  * Decorator to map current property to element attribute value.
  * Maps string type property.
@@ -41,7 +37,7 @@ export const attr = <T = string>(config: AttrDescriptor<T> = {}): AttributeDecor
     function get(): T | null {
       const val = getAttr(this, attrName);
       if (val === null && 'defaultValue' in config) return config.defaultValue as T;
-      return (config.parser || toString as AttrParser<any>)(val);
+      return (config.parser || parseString as AttrParser<any>)(val);
     }
     function set(value: T): void {
       setAttr(this, attrName, (config.serializer as AttrSerializer<any> || identity)(value));

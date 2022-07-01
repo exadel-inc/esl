@@ -1,5 +1,6 @@
 import '../../../../polyfills/es5-target-shim';
-import {attr, toBoolean, toNumber} from '../attr';
+import {attr} from '../attr';
+import {parseBoolean} from '../../misc/format';
 
 describe('Decorator: attr', () => {
 
@@ -19,9 +20,9 @@ describe('Decorator: attr', () => {
     @attr({defaultValue: 'def'})
     public defField: string | boolean;
 
-    @attr({parser: toNumber})
+    @attr({parser: parseFloat})
     public attrNumber: number;
-    @attr({parser: toBoolean, serializer: Boolean})
+    @attr({parser: parseBoolean, serializer: Boolean})
     public attrBoolean: boolean;
   }
   customElements.define('test-el-attr', TestElement);
