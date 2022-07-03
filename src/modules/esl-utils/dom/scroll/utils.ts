@@ -1,9 +1,9 @@
-export type ScrollStrategy = 'none' | 'native' | 'pseudo';
+import {getScrollParent} from './parent';
 
 const $html = document.documentElement;
 const initiatorSet = new Set();
 
-/** Check if elment is blocked from scrolling */
+/** Check if element is blocked from scrolling */
 export function isScrollLocked(target: Element): boolean {
   return target.hasAttribute('esl-scroll-lock');
 }
@@ -18,42 +18,51 @@ export function hasHorizontalScroll(target = $html): boolean {
   return target.scrollWidth > target.clientWidth;
 }
 
+export type ScrollLockOptions = {
+  /**
+   * Option to lock scroll:
+   * - 'none' | null | undefined - totally lock scroll with `overflow: hidden` option
+   * - 'native' (applicable for page only) - left page scroll visible but inactive
+   * - 'pseudo' (applicable for page only) - uses special flexbox hack on the page,
+   * to make page static on lock but with capability to overlap the scroll
+   */
+  strategy?: 'none' | 'native' | 'pseudo' | null;
+  /** Locks all scrollable parents */
+  recursive?: boolean;
+  /** Initiator (requester) object to limit lock operations by the query */
+  initiator?: any;
+};
+
 /**
  * Disable scroll on the element.
  * @param target - scrollable element which will be blocked from scrolling
- * @param strategy - to make scroll visually disabled
- * @param initiator - object to associate request with
- *
- * TODO: currently requests with different strategy are not taken into account
+ * @param options - additional options to lock scroll
  * */
-export function lockScroll(target: Element = document.documentElement, options?: {strategy?: ScrollStrategy | null, initiator?: any}): void {
-  if (isScrollLocked(target)) return;
-  if (options?.initiator) {
+export function lockScroll(target: Element = $html, options: ScrollLockOptions = {}): void {
+  if (options.initiator) {
     initiatorSet.add(options.initiator);
     if (initiatorSet.size === 0) return;
   }
-  toggleBodyScrollLock(target, true);
-  target.setAttribute('esl-scroll-lock', '');
+
+  const scrollable = target === $html ? target : getScrollParent(target);
+  scrollable.setAttribute('esl-scroll-lock', options.strategy || '');
+  if (options.recursive && scrollable.parentElement) lockScroll(scrollable.parentElement, options);
 }
 
 /**
  * Enable scroll on the target element in case it was requested with given initiator.
  * @param target - scrollable element
- * @param initiator - object to associate request with
+ * @param options - additional options to lock scroll
  */
-export function unlockScroll(target: Element = document.documentElement, initiator?: any): void {
-  if (!isScrollLocked(target)) return;
-  if (initiator) {
-    initiatorSet.delete(initiator);
+export function unlockScroll(target: Element = $html, options: ScrollLockOptions = {}): void {
+  if (options.initiator) {
+    initiatorSet.delete(options.initiator);
     if (initiatorSet.size > 0) return;
+  } else {
+    initiatorSet.clear();
   }
-  toggleBodyScrollLock(target, false);
-  target.removeAttribute('esl-scroll-lock');
-}
 
-/** Toggles scroll on document if target element has same dimensions as document */
-function toggleBodyScrollLock(target: Element, toggle: boolean): void {
-  if (target !== document.documentElement && (target.scrollHeight === target.clientHeight || target.scrollWidth === target.clientWidth)) {
-    document.documentElement.toggleAttribute('esl-scroll-lock', toggle);
-  }
+  const scrollable = target === $html ? target : getScrollParent(target);
+  scrollable.removeAttribute('esl-scroll-lock');
+  if (options.recursive && scrollable.parentElement) unlockScroll(scrollable.parentElement, options);
 }
