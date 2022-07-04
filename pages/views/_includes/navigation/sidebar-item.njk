@@ -14,8 +14,8 @@
       {% if opt.beta %}
         <sup class="badge badge-sup badge-warning">beta</sup>
       {% endif %}
-      {% if opt.draft %}
-        <sup class="badge badge-sup badge-danger">draft</sup>
+      {% if opt.new %}
+        <sup class="badge badge-sup badge-warning">new</sup>
       {% endif %}
     </esl-trigger>
   </div>
@@ -26,6 +26,7 @@
              group="esl-nav"
              fallback-duration="400">
     <ul class="sidebar-nav-secondary-list">
+      <esl-a11y-group targets="::child(li)::find(.sidebar-nav-secondary-link)"></esl-a11y-group>
       {% for item in items | sortByNameAndOrder %}
         {% set isActive = page.url === item.url %}
         {% set isDraft = [].concat(item.data.tags).includes('draft') %}

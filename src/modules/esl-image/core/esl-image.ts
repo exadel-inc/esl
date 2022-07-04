@@ -1,5 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
+import {prop} from '../../esl-utils/decorators/prop';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
@@ -24,7 +25,7 @@ export class ESLImage extends ESLBaseElement {
   public static is = 'esl-image';
   public static observedAttributes = ['alt', 'role', 'mode', 'aria-label', 'data-src', 'data-src-base', 'lazy-triggered'];
 
-  // Default container class value
+  /** Default container class value */
   public static DEFAULT_CONTAINER_CLS = 'img-container-loaded';
 
   public static get STRATEGIES(): ESLImageStrategyMap {
@@ -34,6 +35,13 @@ export class ESLImage extends ESLBaseElement {
   public static get EMPTY_IMAGE(): string {
     return 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
   }
+
+  /** Event that represents ready state of {@link ESLImage} */
+  @prop('ready') public READY_EVENT: string;
+  /** Event that represents successfully loaded state of {@link ESLImage} */
+  @prop('load') public LOAD_EVENT: string;
+  /** Event that represents error state of {@link ESLImage} */
+  @prop('error') public ERROR_EVENT: string;
 
   @attr() public alt: string;
   @attr({defaultValue: 'save-ratio'}) public mode: string;
@@ -259,7 +267,7 @@ export class ESLImage extends ESLBaseElement {
 
   protected get _shadowImgError(): boolean {
     if (!this._shadowImg.complete) return false;
-    if (this._shadowImg.src.substr(-4) === '.svg') return false;
+    if (this._shadowImg.src.substring(-4) === '.svg') return false;
     return this._shadowImg.naturalHeight <= 0;
   }
 
@@ -286,8 +294,9 @@ export class ESLImage extends ESLBaseElement {
     this.toggleAttribute('loaded', successful);
     this.toggleAttribute('error', !successful);
     this.toggleAttribute('ready', true);
-    this.$$fire(successful ? 'load' : 'error', {bubbles: false});
-    this.$$fire('ready', {bubbles: false});
+
+    this.$$fire(successful ? this.LOAD_EVENT : this.ERROR_EVENT, {bubbles: false});
+    this.$$fire(this.READY_EVENT, {bubbles: false});
   }
 
   public updateContainerClasses(): void {

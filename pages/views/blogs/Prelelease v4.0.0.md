@@ -3,6 +3,7 @@ layout: content
 name: Pre 4.0.0 Highlights (Part 1)
 title: Pre 4.0.0 Highlights (Part 1)
 tags: [blogs, draft]
+date: 2016-01-02
 ---
 
 Привет ребят!

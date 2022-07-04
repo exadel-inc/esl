@@ -28,7 +28,9 @@ export class ESLTab extends ESLTrigger {
     const target = this.$a11yTarget;
     if (!target) return;
 
-    setAttr(target, 'aria-label', this.a11yLabel);
+    if (this.a11yLabelActive !== null || this.a11yLabelInactive !== null) {
+      setAttr(target, 'aria-label', this.a11yLabel);
+    }
     setAttr(target, 'aria-selected', String(this.active));
     setAttr(target, 'tabindex', this.active ? '0' : '-1');
 
