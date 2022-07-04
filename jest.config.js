@@ -10,6 +10,11 @@ module.exports = {
     './src/modules/esl-utils/test/deviceDetector.mock.ts',
     './src/modules/esl-utils/test/matchMedia.mock.ts'
   ],
+  globals: {
+    'ts-jest': {
+      isolatedModules: true
+    }
+  },
   collectCoverageFrom: [
     'src/modules/**/*.ts',
     // test dir
