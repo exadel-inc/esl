@@ -11,7 +11,8 @@
       "releaseRules": [
         {"type": "refactor", "release": "patch"},
         {"type": "style", "release": "patch"},
-        {"type": "test", "release": "patch"}
+        {"type": "test", "release": "patch"},
+        {"type": "chore", "release": "patch", "scope": "patch"}
       ]
     }],
     ["@semantic-release/release-notes-generator", {
@@ -21,7 +22,6 @@
       "changelogFile": "CHANGELOG.md"
     }],
     ["@semantic-release/npm", {
-      "npmPublish": false,
       "tarballDir": "target"
     }],
     ["@semantic-release/git", {

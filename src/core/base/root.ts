@@ -40,7 +40,7 @@ export class UIPRoot extends ESLBaseElement {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.model.snippets = this.$snippets;
+    this.initSnippets();
   }
 
   /** Alias for {@link this.model.addListener}. */
@@ -51,6 +51,11 @@ export class UIPRoot extends ESLBaseElement {
   /** Alias for {@link this.model.removeListener}. */
   public removeStateListener(listener: AnyToVoidFnSignature) {
     this.model.removeListener(listener);
+  }
+
+  protected initSnippets(): void {
+    this.model.snippets = this.$snippets;
+    this.model.applySnippet(this.model.snippets[0], this);
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string | null, newVal: string | null) {
