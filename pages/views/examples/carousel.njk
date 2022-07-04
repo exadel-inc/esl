@@ -15,7 +15,7 @@ icon: examples/carousel.svg
     <button class="arrow-prev" data-slide-target="prev">
       <span class="icon-arrow-prev"></span>
     </button>
-    <esl-carousel config="@-SM => {count: 2, view: 'multi'} | @+MD => {view: 'slide'}">
+    <esl-carousel media="@-SM|@+MD" type="multi|slide" count="2|1">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
@@ -46,7 +46,7 @@ icon: examples/carousel.svg
     <button class="arrow-prev" data-slide-target="prev">
       <span class="icon-arrow-prev"></span>
     </button>
-    <esl-carousel config="@-SM => {count: 2, view: 'multi'} | @+MD => {view: 'slide'}">
+    <esl-carousel media="@-SM|@+MD" count="2|1" type="multi|slide">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
@@ -77,7 +77,7 @@ icon: examples/carousel.svg
     <button class="arrow-prev" data-slide-target="prev">
       <span class="icon-arrow-prev"></span>
     </button>
-    <esl-carousel config="{count: 3}">
+    <esl-carousel count="3" type="multi">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
@@ -108,7 +108,7 @@ icon: examples/carousel.svg
     <button class="arrow-prev" data-slide-target="prev">
       <span class="icon-arrow-prev"></span>
     </button>
-    <esl-carousel config="{count: 2}">
+    <esl-carousel count="2" type="multi">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
@@ -139,7 +139,7 @@ icon: examples/carousel.svg
     <button class="arrow-prev" data-slide-target="prev">
       <span class="icon-arrow-prev"></span>
     </button>
-    <esl-carousel config="{count: 5} | @MD => {count: 4} | @SM => {count: 3} | @XS => {count: 1}">
+    <esl-carousel media="all|@MD|@SM|@XS" count="5|4|3|1" type="multi">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
@@ -170,7 +170,7 @@ icon: examples/carousel.svg
     <button class="arrow-prev" data-slide-target="prev">
       <span class="icon-arrow-prev"></span>
     </button>
-    <esl-carousel id="second-carousel" config="{count: 5} | @MD => {count: 4} | @SM => {count: 3} | @XS => {count: 1}">
+    <esl-carousel id="second-carousel" media="all|@MD|@SM|@XS" count="5|4|3|1" type="multi">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
@@ -200,7 +200,7 @@ icon: examples/carousel.svg
     <button class="arrow-prev" data-slide-target="prev">
       <span class="icon-arrow-prev"></span>
     </button>
-    <esl-carousel config="{count: 6} | @LG => {count: 5} | @MD => {count: 4} | @SM => {count: 3} | @XS => {count: 1}">
+    <esl-carousel media="@XL|@LG|@MD|@SM|@XS" count="6|5|4|3|1" type="multi">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
       <esl-carousel-link-plugin to="#second-carousel"></esl-carousel-link-plugin>
       <div data-slides-area>
@@ -231,7 +231,7 @@ icon: examples/carousel.svg
     <button class="arrow-prev" data-slide-target="prev">
       <span class="icon-arrow-prev"></span>
     </button>
-    <esl-carousel id="second-carousel" config="{count: 1}">
+    <esl-carousel id="second-carousel" count="1" type="slide">
       <esl-carousel-autoplay-plugin timeout="5000"></esl-carousel-autoplay-plugin>
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->

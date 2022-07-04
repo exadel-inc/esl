@@ -14,9 +14,13 @@ export abstract class ESLCarouselView {
     this.carousel = carousel; // TODO: unsafe while lifecycle is not clear
   }
 
+  public get type(): string {
+    return (this.constructor as typeof ESLCarouselView).is;
+  }
+
   /**  @returns count of carousel slides. */
   public get size(): number {
-    return this.carousel.count;
+    return this.carousel.size;
   }
 
   public bind(): void {
@@ -52,7 +56,7 @@ export abstract class ESLCarouselView {
   /** Sets active slides from passed index **/
   public setActive(from: number): void {
     this.carousel.$slides.forEach((el) => el.active = false);
-    for (let i = 0; i < this.carousel.activeCount; i++) {
+    for (let i = 0; i < this.carousel.count; i++) {
       this.carousel.slideAt(from + i).active = true;
     }
   }

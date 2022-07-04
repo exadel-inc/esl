@@ -126,7 +126,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     const shiftCount = Math.ceil(Math.abs(offset) / this.slideWidth);
     const nextIndex = offset > 0 ?
       this.carousel.firstIndex - shiftCount :
-      this.carousel.firstIndex + this.carousel.activeCount + shiftCount - 1;
-    return !(nextIndex < 0 || nextIndex >= this.carousel.count);
+      this.carousel.firstIndex + this.carousel.count + shiftCount - 1;
+    return !(nextIndex < 0 || nextIndex >= this.carousel.size);
   }
 }

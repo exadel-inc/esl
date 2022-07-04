@@ -30,8 +30,8 @@ export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
   /** Renders dots according to the carousel state. */
   public rerender(): void {
     let html = '';
-    const activeDot = Math.floor(this.carousel.activeIndexes[this.carousel.activeCount - 1] / this.carousel.activeCount);
-    for (let i = 0; i < Math.ceil(this.carousel.count / this.carousel.activeCount); ++i) {
+    const activeDot = Math.floor(this.carousel.activeIndexes[this.carousel.count - 1] / this.carousel.count);
+    for (let i = 0; i < Math.ceil(this.carousel.size / this.carousel.count); ++i) {
       html += this.buildDot(i, i === activeDot);
     }
     this.innerHTML = html;

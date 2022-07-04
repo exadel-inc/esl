@@ -34,7 +34,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     if (!$slidesArea || !$slides.length) return;
 
     const slidesAreaStyles = getComputedStyle($slidesArea);
-    this.slideWidth = parseFloat(slidesAreaStyles.width) / this.carousel.activeCount;
+    this.slideWidth = parseFloat(slidesAreaStyles.width) / this.carousel.count;
     $slides.forEach((slide) => slide.style.minWidth = this.slideWidth + 'px');
 
     this.currentIndex = this.carousel.firstIndex;
@@ -159,11 +159,11 @@ export class ESLMultiCarouselView extends ESLCarouselView {
 
     if (this.carousel.loop) return true;
     // check non-loop state
-    if (nextIndex >= this.carousel.count || nextIndex < 0) return false;
+    if (nextIndex >= this.carousel.size || nextIndex < 0) return false;
     // check left border of non-loop state
     if (offset > 0 && currentIndex - 1 < 0) return false;
     // check right border of non-loop state
-    return !(offset < 0 && currentIndex + 1 + this.carousel.activeCount > this.carousel.count);
+    return !(offset < 0 && currentIndex + 1 + this.carousel.count > this.carousel.size);
   }
 
   /** Ends current transition and make permanent all changes performed in the transition. */
@@ -192,8 +192,8 @@ export class ESLMultiCarouselView extends ESLCarouselView {
 
     if (!this.carousel.loop && offset > 0 && nextIndex - 1 < 0) {
       this.currentIndex = 0;
-    } else if (!this.carousel.loop && offset < 0 && nextIndex + this.carousel.activeCount >= this.carousel.count) {
-      this.currentIndex = this.carousel.count - this.carousel.activeCount;
+    } else if (!this.carousel.loop && offset < 0 && nextIndex + this.carousel.count >= this.carousel.size) {
+      this.currentIndex = this.carousel.size - this.carousel.count;
     } else {
       this.currentIndex = normalizeIndex(nextIndex, this.size);
     }
@@ -212,10 +212,10 @@ export class ESLMultiCarouselView extends ESLCarouselView {
 
   /** Sets order style property for slides starting at index */
   protected _setOrderFrom(index: number): void {
-    if (index < 0 || index > this.carousel.count) return;
+    if (index < 0 || index > this.carousel.size) return;
 
     let $slide = this.carousel.$slides[index];
-    for (let order = 0; order < this.carousel.count; order++) {
+    for (let order = 0; order < this.carousel.size; order++) {
       $slide.style.order = String(order);
       $slide = $slide.$nextCyclic;
     }

@@ -50,22 +50,22 @@ export function prevGroup(current: number, activeCount: number, count: number): 
 }
 
 /** @returns normalized index from target definition and current state */
-export function toIndex(target: CarouselSlideTarget, {count, activeCount, firstIndex, loop}: ESLCarousel): number {
+export function toIndex(target: CarouselSlideTarget, {size, count, firstIndex, loop}: ESLCarousel): number {
   target = String(target);
   // Resolve absolute and relative indexes
-  if (!isNaN(+target)) return resolveIndex(target, firstIndex, count, activeCount, loop);
+  if (!isNaN(+target)) return resolveIndex(target, firstIndex, size, count, loop);
   // Group index handler
-  if ('g' === target[0]) return resolveGroupIndex(+target.substring(1), activeCount, count);
+  if ('g' === target[0]) return resolveGroupIndex(+target.substring(1), count, size);
   // Next group handler
-  if ('next' === target) return nextGroup(firstIndex, activeCount, count);
+  if ('next' === target) return nextGroup(firstIndex, count, size);
   // Prev index handler
-  if ('prev' === target) return prevGroup(firstIndex, activeCount, count);
+  if ('prev' === target) return prevGroup(firstIndex, count, size);
   // Fallback
   return firstIndex;
 }
 
 /** @returns preferable direction for target or nextIndex */
-export function toDirection(target: CarouselSlideTarget, nextIndex: number, {count, firstIndex, loop}: ESLCarousel): CarouselDirection {
+export function toDirection(target: CarouselSlideTarget, nextIndex: number, {size, firstIndex, loop}: ESLCarousel): CarouselDirection {
   target = String(target);
 
   if (!loop && nextIndex >= firstIndex) return 'next';
@@ -74,5 +74,5 @@ export function toDirection(target: CarouselSlideTarget, nextIndex: number, {cou
   if ('+' === target[0]) return 'next';
   if ('-' === target[0]) return 'prev';
   if ('next' === target || 'prev' === target) return target;
-  return calcDirection(firstIndex, nextIndex, count);
+  return calcDirection(firstIndex, nextIndex, size);
 }

@@ -13,7 +13,7 @@ icon: examples/carousel.svg
   <div esl-carousel-container>
     <button class="arrow-prev icon-arrow-prev" data-slide-target="prev"></button>
 
-    <esl-carousel config="{count: 5}">
+    <esl-carousel count="5" type="multi">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
       <div data-slides-area>
         {% for item in cards %}
@@ -41,4 +41,3 @@ icon: examples/carousel.svg
     <esl-carousel-dots class="carousel-dots-wrapper" target="esl-carousel"></esl-carousel-dots>
   </div>
 </section>
-

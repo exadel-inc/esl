@@ -12,7 +12,7 @@ icon: examples/carousel.svg
   <div class="row flex-column main-carousel" esl-carousel-container>
     <button class="arrow-prev icon-arrow-prev" data-slide-target="prev"></button>
 
-    <esl-carousel config="{view: 'slide'}">
+    <esl-carousel type="slide">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
       <esl-carousel-link-plugin to="#secondary-carousel"></esl-carousel-link-plugin>
       <div data-slides-area>
@@ -36,7 +36,7 @@ icon: examples/carousel.svg
   <div class="row flex-column marquee-nav-carousel" esl-carousel-container>
     <button class="arrow-prev icon-arrow-prev" data-slide-target="prev"></button>
 
-    <esl-carousel id="secondary-carousel" config="@+LG => {count: 5}">
+    <esl-carousel id="secondary-carousel" type="@+LG" count="5">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
       <div data-slides-area>
         {% for item in slides %}
