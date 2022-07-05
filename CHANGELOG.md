@@ -1,3 +1,43 @@
+# [4.0.0-beta.9](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.8...v4.0.0-beta.9) (2022-06-29)
+
+
+### Bug Fixes
+
+* **esl-image:** fix esl-image to prevent DOM XSS vulnerabilities ([4fd925d](https://github.com/exadel-inc/esl/commit/4fd925df8605994b0f7d345d77a425e0cdc487e8))
+* **esl-trigger:** custom aria-label maintaining in case a11yLabelActive and a11yLabelInactive are empty ([06d8f92](https://github.com/exadel-inc/esl/commit/06d8f924080849efe90c979151c6c342d4ca8ffc))
+* **esl-utils:** add ability to skip event listener through the target field ([75f6a18](https://github.com/exadel-inc/esl/commit/75f6a186ffcbd98e852627f479284edcb893583f))
+
+
+### Features
+
+* **esl-image:** prototype defined events ([f49ce01](https://github.com/exadel-inc/esl/commit/f49ce019d81cb76995c05d2dccc6621e8836af66))
+* **esl-media-query:** normalize data instead of fail ([3226156](https://github.com/exadel-inc/esl/commit/3226156264e58f085f023b0669179cc48f904c55))
+* **esl-media:** prototype defined events ([976a8b9](https://github.com/exadel-inc/esl/commit/976a8b9c54d4e0b40dcf9e5ee48024b1539e94f7))
+* **esl-select:** add `dropdown-class` param to specify dropdown additional CSS class(es) ([938357f](https://github.com/exadel-inc/esl/commit/938357fa6fb5db804f445f31eb4f73641dfbcccf))
+* **esl-utils:** `[@attr](https://github.com/attr)` extended with ability to pass Serializer/Parser ([012eb83](https://github.com/exadel-inc/esl/commit/012eb83ebcbba8315a2766af090239774c21234e))
+* **esl-utils:** create dom html sanitize method ([004642f](https://github.com/exadel-inc/esl/commit/004642f866ac1b2ed5278084963288d8c2fd17e0))
+* **gh-pages:** add blogs landing component ([fa71fe0](https://github.com/exadel-inc/esl/commit/fa71fe040ae4954ea55946b927751e33c9eb02ce))
+
+# [4.0.0-beta.8](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.7...v4.0.0-beta.8) (2022-06-16)
+
+
+### Code Refactoring
+
+* **esl-core:** ESLMixinElement moved to separate module ([9d42adf](https://github.com/exadel-inc/esl/commit/9d42adfc4202ed9def4c86d36debe33d0d14331b))
+
+
+### Features
+
+* **esl-utils:** ability to pass Provider functions to `event`, `selector`, `target` listener options ([c3503b0](https://github.com/exadel-inc/esl/commit/c3503b0810556388187deb48b14c3cab450c5a8e))
+* **esl-utils:** simplify and extend `[@prop](https://github.com/prop)` decorator ([fd6ede3](https://github.com/exadel-inc/esl/commit/fd6ede34b0a3c7496083cb58aa9b726d4a692085))
+
+
+### BREAKING CHANGES
+
+* **esl-utils:** `@prop` signature changed
+`prop(value?: any, prototypeConfig: OverrideDecoratorConfig = {})`
+* **esl-core:** (beta only) ESLMixinElement now accessible under 'modules/esl-mixin-element/core'
+
 # [4.0.0-beta.7](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.6...v4.0.0-beta.7) (2022-05-19)
 
 

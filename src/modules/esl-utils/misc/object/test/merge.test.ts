@@ -69,4 +69,24 @@ describe('misc/object: deepMerge', () => {
     const result = args.pop();
     expect(deepMerge(...args)).toEqual(result);
   });
+
+  test('prototype pollution via __proto__', () => {
+    const maliciousPayload = '{"a": 1, "__proto__": {"polluted": true}}';
+    const a: any = {};
+    const merged: any = deepMerge({}, JSON.parse(maliciousPayload));
+
+    expect(({} as any).polluted).not.toBe(true); // safe Plain Old Javascript Object
+    expect(a.polluted).not.toBe(true); // safe a input
+    expect(merged.polluted).toBe(true);
+  });
+
+  test('prototype pollution via constructor.prototype', () => {
+    const maliciousPayload = '{"a": 1, "constructor": {"prototype": {"polluted": true}}}';
+    const a: any = {};
+    const merged: any = deepMerge({}, JSON.parse(maliciousPayload));
+
+    expect(({} as any).polluted).not.toBe(true); // safe Plain Old Javascript Object
+    expect(a.polluted).not.toBe(true); // safe a input
+    expect(merged.constructor.prototype.polluted).toBe(true);
+  });
 });

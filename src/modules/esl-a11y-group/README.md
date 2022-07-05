@@ -1,6 +1,6 @@
 # [ESL](../../../) A11yGroup
 
-Version: _1.0.0_
+Version: _2.0.0_
 
 Authors: _Julia Murashko_
 
@@ -19,7 +19,7 @@ ESLA11yGroup tracks keyboard to loop focus of the targeting elements (with arrow
 
 ```html
 <div class="container">
-  <esl-a11y-group targets="::find(.target)"></esl-a11y-group>
+  <esl-a11y-group targets="::child(.target)"></esl-a11y-group>
   <button class="target"></button>
   <button class="target"></button>
   <button class="target"></button>

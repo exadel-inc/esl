@@ -18,14 +18,11 @@ import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/m
 
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
-  static is = 'esl-note';
+  public static is = 'esl-note';
+  public static observedAttributes = ['tooltip-shown', 'ignore'];
 
   /** Timeout before activating note (to have time to show content with this note) */
-  static readonly activateTimeout = 100;
-
-  static get observedAttributes(): string[] {
-    return ['tooltip-shown', 'ignore'];
-  }
+  public static readonly activateTimeout = 100;
 
   /** Linked state marker */
   @boolAttr() public linked: boolean;

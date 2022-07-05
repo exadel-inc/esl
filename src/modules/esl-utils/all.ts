@@ -38,6 +38,7 @@ export * from './dom/focus';
 export * from './dom/keys';
 export * from './dom/ready';
 export * from './dom/rtl';
+export * from './dom/sanitize';
 export * from './dom/script';
 export * from './dom/scroll';
 export * from './dom/traversing';

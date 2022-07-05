@@ -98,12 +98,12 @@ describe('ESLMediaRule', () => {
     const callback = () => void 0;
     const testRule = ESLMediaRule.parse('all => 1', ESLMediaRuleList.STRING_PARSER) as ESLMediaRule<string>;
 
-    test('addListener', () => {
+    test('addEventListener', () => {
       const spyAdd = jest.spyOn(ESLMediaQuery.ALL, 'addEventListener');
       testRule.addEventListener(callback);
       expect(spyAdd).toBeCalled();
     });
-    test('removeListener', () => {
+    test('removeEventListener', () => {
       const spyRemove = jest.spyOn(ESLMediaQuery.ALL, 'removeEventListener');
       testRule.removeEventListener(callback);
       expect(spyRemove).toBeCalled();
