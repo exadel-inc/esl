@@ -2,16 +2,22 @@ name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      dryRun:
+        type: boolean
+        required: false
+        description: 'Run in dry-run mode (no actual release)'
 
 env:
   node-version: 16.x
 
 jobs:
   release:
+    name: Release
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
 
@@ -24,7 +30,15 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
 
+      - name: Run Semantic Release in Dry Run mode
+        if: ${{ inputs.dryRun }}
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: npx semantic-release --dry-run
+
       - name: Run Semantic Release
+        if: ${{ !inputs.dryRun }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
