@@ -83,6 +83,10 @@ rules:
   unit-no-unknown: true
   # Disallow absolute paths for imports in bounds of library files
   esl-less/import-root: never
+  # Disallow long notation for hex colors
+  color-hex-length: short
+  # Disallow uppercase for hex colors
+  color-hex-case: lower
 
 overrides:
   # Demo site pages sources
