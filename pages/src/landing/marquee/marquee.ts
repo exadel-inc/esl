@@ -7,13 +7,7 @@ import {isIE} from '../../../../src/modules/esl-utils/environment/device-detecto
 
 export class ESLDemoMarquee extends ESLBaseElement {
   static is = 'esl-d-marquee';
-  static STARS_SEL = [
-    '#esl-logo-shield-stars > path',
-    '#esl-logo-border-inner-stars > path',
-    '#esl-logo-border-outer-stars > path',
-    '#esl-logo-wrench-left-stars > path',
-    '#esl-logo-wrench-right-stars > path'
-  ].join(',');
+  static STARS_SEL = 'use';
 
   @attr({defaultValue: '4'}) public targetsNumber: string;
   @attr({defaultValue: '3000'}) public iterationTime: string;
