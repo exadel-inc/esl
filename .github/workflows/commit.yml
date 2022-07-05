@@ -1,4 +1,4 @@
-name: Lint Commit Messages
+name: Commits
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ env:
 
 jobs:
   validate-commit:
-
+    name: Lint Messages
     runs-on: ubuntu-latest
 
     steps:

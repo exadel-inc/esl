@@ -1,4 +1,4 @@
-name: GH Pages Build and Deploy
+name: GH Pages
 
 on:
   schedule:
@@ -11,7 +11,7 @@ env:
 
 jobs:
   deploy-gh-pages:
-
+    name: Build and Deploy
     runs-on: ubuntu-latest
 
     steps:

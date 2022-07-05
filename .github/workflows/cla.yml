@@ -1,4 +1,4 @@
-name: CLA Assistant
+name: CLA
 
 on:
   issue_comment: # To detect standalone comment
@@ -8,6 +8,7 @@ on:
 
 jobs:
   cla-assistant:
+    name: Assistent Check
     runs-on: ubuntu-latest
 
     steps:
