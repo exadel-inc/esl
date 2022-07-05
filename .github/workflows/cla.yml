@@ -8,7 +8,7 @@ on:
 
 jobs:
   cla-assistant:
-    name: Assistent Check
+    name: Assistant Check
     runs-on: ubuntu-latest
 
     steps:
