@@ -1,11 +1,15 @@
 import {attr, boolAttr} from '@exadel/esl/modules/esl-base-element/core';
 import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
+import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 
 import {UIPSetting} from '../../plugins/settings/setting';
 import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
 import TokenListUtils from '../../utils/token-list-utils';
 import {WARNING_MSG} from '../../utils/warning-msg';
+import {UIPRoot} from '../../registration';
+
 
 /**
  * Custom setting for selecting attribute's value.
@@ -15,6 +19,7 @@ export class UIPSelectSetting extends UIPSetting {
   public static is = 'uip-select-setting';
   /** Option displayed when setting has inconsistent state. */
   public static inconsistentValue = 'inconsistent';
+  private static dropdownClass = 'uip-select-dropdown';
 
   /** Setting's visible name. */
   @attr({defaultValue: ''}) public label: string;
@@ -27,44 +32,67 @@ export class UIPSelectSetting extends UIPSetting {
   /** Indicates whether setting supports multiple values selected or not. */
   @boolAttr() public multiple: boolean;
   /** Select field to change setting's value. */
-  protected $field: ESLSelect;
+  @memoize()
+  protected get $field(): ESLSelect {
+    const $field = document.createElement('esl-select');
+    $field.name = this.label;
+    $field.dropdownClass = UIPSelectSetting.dropdownClass;
+    $field.$select = this.select;
+    $field.append(this.select);
+    return $field;
+  }
 
+  @memoize()
+  protected get $label(): HTMLLabelElement {
+    const $label = document.createElement('label');
+    $label.innerText = this.label;
+    return $label;
+  }
+
+  @memoize()
   protected get settingOptions(): string[] {
     return this.$field.options.map(opt => opt.value);
   }
 
-  protected connectedCallback() {
-    super.connectedCallback();
-    if (this.$field) return;
-
-    this.$field = document.createElement('esl-select');
-    this.$field.name = this.label;
-    this.initSelect();
-
-    const label = document.createElement('label');
-    label.innerText = this.label;
-    label.htmlFor = this.$field.$select.id;
-    this.appendChild(label);
-
-    this.innerHTML = '';
-    this.appendChild(this.$field);
-  }
-
   /** Initialization of {@link ESLSelect}. */
-  protected initSelect(): void {
+  @memoize()
+  protected get select(): HTMLSelectElement {
     const select = document.createElement('select');
     select.setAttribute('esl-select-target', '');
     select.multiple = this.multiple;
     select.id = `${UIPSelectSetting.is}-${randUID()}`;
-
     this.querySelectorAll('option').forEach(option => select.add(option));
+    return select;
+  }
 
-    select.addEventListener('change', () => {
-      select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
-    });
+  @memoize()
+  protected get root(): UIPRoot {
+    return this.closest(UIPRoot.is) as UIPRoot;
+  }
 
-    this.$field.$select = select;
-    this.$field.appendChild(select);
+  protected connectedCallback() {
+    super.connectedCallback();
+    this.$label.htmlFor = this.$field.$select.id;
+
+    this.innerHTML = '';
+    this.appendChild(this.$label);
+    this.appendChild(this.$field);
+    this.bindEvents();
+  }
+
+  protected disconnectedCallback(): void {
+    this.unbindEvents();
+    super.disconnectedCallback();
+  }
+
+  protected bindEvents(): void {
+    this.select.addEventListener('change', this.clearInconsistency);
+    this.root.addEventListener('uip:configchange', this.onRootThemeChange);
+  }
+
+  protected unbindEvents(): void {
+    this.select.removeEventListener('change', this.clearInconsistency);
+    this.root.removeEventListener('uip:configchange', this.onRootThemeChange);
   }
 
   applyTo(model: UIPStateModel) {
@@ -147,6 +175,19 @@ export class UIPSelectSetting extends UIPSetting {
 
     this.$field.$select.add(inconsistentOption, 0);
     this.$field.update();
+  }
+
+  @bind
+  protected clearInconsistency(): void {
+    this.select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
+  }
+
+  @bind
+  protected onRootThemeChange(e: CustomEvent): void {
+    if (e.detail.attribute !== 'dark-theme') return;
+    this.$field.removeAttribute('dropdown-class');
+    this.$field.dropdownClass = UIPSelectSetting.dropdownClass;
+    if (e.detail.value !== null) this.$field.dropdownClass += ' uip-dark-dropdown';
   }
 
   /** Reset [select]{@link $field} value. */

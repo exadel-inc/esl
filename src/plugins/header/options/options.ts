@@ -46,12 +46,12 @@ export class UIPOptions extends UIPPlugin {
   }
 
   protected bindEvents() {
-    this.addEventListener('esl:uip:option:changed', this._onOptionClick);
+    this.addEventListener('uip:option:changed', this._onOptionClick);
     this.root?.addEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected unbindEvents() {
-    this.removeEventListener('esl:uip:option:changed', this._onOptionClick);
+    this.removeEventListener('uip:option:changed', this._onOptionClick);
     this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
   }
 
