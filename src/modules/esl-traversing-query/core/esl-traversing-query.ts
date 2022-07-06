@@ -1,7 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {tuple, wrap, uniq} from '../../esl-utils/misc/array';
 import {unwrapParenthesis} from '../../esl-utils/misc/format';
-import {findAll, findChildren, findNext, findParent, findPrev} from '../../esl-utils/dom/traversing';
+import {findAll, findChildren, findNext, findParent, findClosest, findPrev} from '../../esl-utils/dom/traversing';
 
 type ProcessorDescriptor = [string?, string?];
 type ElementProcessor = (base: Element, sel: string) => Element | Element[] | null;
@@ -13,7 +13,7 @@ type CollectionProcessor = (els: Element[], sel: string) => Element[];
  * - plain CSS selectors
  * - relative selectors (selectors that don't start from a plain selector will use passed base Element as a root)
  * - ::next and ::prev sibling pseudo-selectors
- * - ::parent and ::child pseudo-selectors
+ * - ::parent, closest and ::child pseudo-selectors
  * - ::find pseudo-selector
  * - ::first, ::last and :nth(#) limitation pseudo-selectors
  * - ::filter, ::not filtration pseudo-selectors
@@ -25,6 +25,7 @@ type CollectionProcessor = (els: Element[], sel: string) => Element[];
  * - `::prev` - get previous sibling element
  * - `::parent` - get base element parent
  * - `::parent(#id .class [attr])` - find the closest parent matching passed selector
+ * - `::closest(#id .class [attr])` - find the closest ancestor including base element that matches passed selector
  * - `::child(#id .class [attr])` - find direct child element(s) that match passed selector
  * - `::find(#id .class [attr])` - find child element(s) that match passed selector
  * - `::find(buttons, a)::not([hidden])` - find all buttons and anchors that are not have hidden attribute
@@ -40,7 +41,8 @@ export class TraversingQuery {
     '::next': findNext,
     '::prev': findPrev,
     '::child': findChildren,
-    '::parent': findParent
+    '::parent': findParent,
+    '::closest': findClosest
   };
   private static COLLECTION_PROCESSORS: Record<string, CollectionProcessor> = {
     '::first': (list: Element[]) => list.slice(0, 1),
@@ -55,7 +57,7 @@ export class TraversingQuery {
 
   /**
    * @returns RegExp that selects all known processors in query string
-   * e.g. /(::parent|::child|::next|::prev)/
+   * e.g. /(::parent|:closest|::child|::next|::prev)/
    */
   private static get PROCESSORS_REGEX(): RegExp {
     const keys = Object.keys(this.ELEMENT_PROCESSORS).concat(Object.keys(this.COLLECTION_PROCESSORS));
