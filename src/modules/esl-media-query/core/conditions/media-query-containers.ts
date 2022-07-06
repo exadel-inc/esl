@@ -23,7 +23,7 @@ abstract class MediaQueryContainer extends SyntheticEventTarget implements IMedi
   public addEventListener(type: 'change', callback: EventListener): void;
   public addEventListener(type: any, callback: EventListener = type): void {
     super.addEventListener(type, callback);
-    if (this._listeners.size > 1) return;
+    if (this.hasEventListener(1)) return;
     this.items.forEach((item) => item.addEventListener('change', this._onChange));
   }
 
@@ -31,7 +31,7 @@ abstract class MediaQueryContainer extends SyntheticEventTarget implements IMedi
   public removeEventListener(type: 'change', callback: EventListener): void;
   public removeEventListener(type: any, callback: EventListener = type): void {
     super.removeEventListener(type, callback);
-    if (this._listeners.size) return;
+    if (this.hasEventListener()) return;
     this.items.forEach((item) => item.removeEventListener('change', this._onChange));
   }
 
