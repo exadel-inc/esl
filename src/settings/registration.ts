@@ -20,4 +20,4 @@ export const registeredSettings = () => {
   UIPSelectSetting.registered,
   UIPSliderSetting.registered,
   ]);
-}
+};
