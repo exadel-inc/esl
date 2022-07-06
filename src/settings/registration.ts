@@ -12,3 +12,12 @@ export const registerSettings = () => {
   UIPSelectSetting.register();
   UIPSliderSetting.register();
 };
+
+export const registeredSettings = () => {
+  return Promise.all([
+  UIPBoolSetting.registered,
+  UIPTextSetting.registered,
+  UIPSelectSetting.registered,
+  UIPSliderSetting.registered,
+  ]);
+}

@@ -18,7 +18,9 @@ export abstract class UIPSetting extends ESLBaseElement {
   /** [Target's]{@link target} attribute which is changed by setting. */
   @attr() public attribute: string;
   /** Target to which setting's changes are attached. */
-  @attr() public target: string;
+  public get target(): string {
+    return this.getAttribute('target') || this.$settings.target;
+  }
 
   @memoize()
   public get $settings() {
@@ -29,10 +31,6 @@ export abstract class UIPSetting extends ESLBaseElement {
     super.connectedCallback();
     this.classList.add(UIPSetting.is);
     this.bindEvents();
-
-    if (this.target) return;
-    const settingsTarget = this.$settings?.target;
-    if (settingsTarget) this.target = settingsTarget;
   }
 
   protected disconnectedCallback() {
