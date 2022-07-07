@@ -12,10 +12,7 @@ import type {ESLSelectOption} from './esl-select-wrapper';
 @ExportNs('SelectItem')
 export class ESLSelectItem extends ESLBaseElement {
   public static readonly is: string = 'esl-select-item';
-
-  public static get observedAttributes(): string[] {
-    return ['selected', 'disabled'];
-  }
+  public static observedAttributes = ['selected', 'disabled'];
 
   /** Option value */
   @attr() public value: string;

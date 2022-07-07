@@ -1,3 +1,4 @@
+import {sanitize} from '../../esl-utils/dom/sanitize';
 import {ESLImage} from './esl-image';
 
 /**
@@ -67,11 +68,7 @@ export const STRATEGIES: ESLImageStrategyMap = {
       request.open('GET', shadowImg.src, true);
       request.onreadystatechange = (): void => {
         if (request.readyState !== 4 || request.status !== 200) return;
-        const tmp = document.createElement('div');
-        tmp.innerHTML = request.responseText;
-        Array.from(tmp.querySelectorAll('script') || [])
-          .forEach((node: Element) => node.remove());
-        img.innerHTML = tmp.innerHTML;
+        img.innerHTML = sanitize(request.responseText, ['svg']);
       };
       request.send();
     },

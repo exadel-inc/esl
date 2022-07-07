@@ -26,6 +26,9 @@ module.exports = {
       }
     }]
   },
+  optimization: {
+    concatenateModules: false,
+  },
   output: {
     path: path.resolve(__dirname, 'dist/bundles'),
     filename: '[name].js'

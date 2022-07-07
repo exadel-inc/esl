@@ -17,6 +17,7 @@ import {RTLUtils} from '../../esl-utils/dom/rtl';
 @ExportNs('Scrollbar')
 export class ESLScrollbar extends ESLBaseElement {
   public static is = 'esl-scrollbar';
+  public static observedAttributes = ['target', 'horizontal'];
 
   /** Horizontal scroll orientation marker */
   @boolAttr() public horizontal: boolean;
@@ -53,10 +54,6 @@ export class ESLScrollbar extends ESLBaseElement {
   protected _scrollTimer: number = 0;
   protected _resizeObserver = new ResizeObserver(this._deferredRefresh);
   protected _mutationObserver = new MutationObserver((rec) => this.updateContentObserve(rec));
-
-  static get observedAttributes(): string[] {
-    return ['target', 'horizontal'];
-  }
 
   @ready
   protected connectedCallback(): void {
@@ -110,7 +107,7 @@ export class ESLScrollbar extends ESLBaseElement {
   protected bindEvents(): void {
     window.MouseEvent && this.addEventListener('mousedown', this._onPointerDown);
     window.TouchEvent && this.addEventListener('touchstart', this._onPointerDown, {passive: true});
-    window.addEventListener('esl:refresh', this._onRefresh);
+    window.addEventListener(this.REFRESH_EVENT, this._onRefresh);
   }
 
   protected bindTargetEvents(): void {
@@ -144,7 +141,7 @@ export class ESLScrollbar extends ESLBaseElement {
     window.MouseEvent && this.removeEventListener('mousedown', this._onPointerDown);
     window.TouchEvent && this.removeEventListener('touchstart', this._onPointerDown);
     this.unbindTargetEvents();
-    window.removeEventListener('esl:refresh', this._onRefresh);
+    window.removeEventListener(this.REFRESH_EVENT, this._onRefresh);
   }
 
   protected unbindTargetEvents(): void {
@@ -216,7 +213,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** Updates thumb size and position */
   public update(): void {
-    this.$$fire('change:scroll', {bubbles: false});
+    this.$$fire('esl:change:scroll', {bubbles: false});
     if (!this.$scrollbarThumb || !this.$scrollbarTrack) return;
     const thumbSize = this.trackOffset * this.thumbSize;
     const thumbPosition = (this.trackOffset - thumbSize) * this.position;
@@ -350,13 +347,13 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /**
    * Handler for refresh events to update the scroll.
-   * @param event - instance of 'resize' or 'scroll' or 'esl:refresh' event.
+   * @param event - instance of 'resize' or 'scroll' or {@link ESLScrollbar.REFRESH_EVENT} event.
    */
   @bind
   protected _onRefresh(event: Event): void {
     const target = event.target as HTMLElement;
     if (event.type === 'scroll' && this.dragging) return;
-    if (event.type === 'esl:refresh' && !isRelativeNode(target.parentNode, this.$target)) return;
+    if (event.type === this.REFRESH_EVENT && !isRelativeNode(target.parentNode, this.$target)) return;
     this._deferredRefresh();
   }
 }

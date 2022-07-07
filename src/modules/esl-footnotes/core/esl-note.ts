@@ -18,14 +18,11 @@ import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/m
 
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
-  static is = 'esl-note';
+  public static is = 'esl-note';
+  public static observedAttributes = ['tooltip-shown', 'ignore'];
 
   /** Timeout before activating note (to have time to show content with this note) */
-  static readonly activateTimeout = 100;
-
-  static get observedAttributes(): string[] {
-    return ['tooltip-shown', 'ignore'];
-  }
+  public static readonly activateTimeout = 100;
 
   /** Linked state marker */
   @boolAttr() public linked: boolean;
@@ -52,6 +49,9 @@ export class ESLNote extends ESLBaseElement {
 
   /** Target to container element {@link TraversingQuery} to define bounds of tooltip visibility (window by default) */
   @attr() public container: string;
+
+  /** margin around the element that is used as the viewport for checking the visibility of the note tooltip */
+  @attr({defaultValue: '0px'})  public intersectionMargin: string;
 
   protected _$footnotes: ESLFootnotes | null;
   protected _index: number;
@@ -183,9 +183,9 @@ export class ESLNote extends ESLBaseElement {
 
   /** Brings up to date ignore query */
   public updateQueryToIgnore(): void {
-    this.queryToIgnore.removeListener(this._onBPChange);
+    this.queryToIgnore.removeEventListener(this._onBPChange);
     memoize.clear(this, 'queryToIgnore');
-    this.queryToIgnore.addListener(this._onBPChange);
+    this.queryToIgnore.addEventListener(this._onBPChange);
   }
 
   /** Initial initialization of the element during the connection to DOM */
@@ -215,7 +215,8 @@ export class ESLNote extends ESLBaseElement {
       initiator: 'note',
       activator: this,
       containerEl,
-      html: this.html
+      html: this.html,
+      intersectionMargin: this.intersectionMargin
     }, ...params);
   }
 

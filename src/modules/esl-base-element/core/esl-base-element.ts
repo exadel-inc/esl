@@ -1,4 +1,5 @@
 import {setAttr} from '../../esl-utils/dom/attr';
+import {prop} from '../../esl-utils/decorators/prop';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 
@@ -17,6 +18,9 @@ import type {
 export abstract class ESLBaseElement extends HTMLElement {
   /** Custom element tag name */
   public static is = '';
+
+  /** Event to indicate component significant state change that may affect other components state */
+  @prop('esl:refresh') public REFRESH_EVENT: string;
 
   protected _connected: boolean = false;
 
@@ -81,12 +85,11 @@ export abstract class ESLBaseElement extends HTMLElement {
 
   /**
    * Dispatches component custom event.
-   * Uses 'esl:' prefix for event name, overridable to customize event namespaces.
    * @param eventName - event name
    * @param eventInit - custom event init. See {@link CustomEventInit}
    */
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
-    return EventUtils.dispatch(this, 'esl:' + eventName, eventInit);
+    return EventUtils.dispatch(this, eventName, eventInit);
   }
 
   /**

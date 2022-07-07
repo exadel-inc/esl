@@ -20,6 +20,7 @@ import type {PanelActionParams} from '../../esl-panel/core';
 @ExportNs('PanelGroup')
 export class ESLPanelGroup extends ESLBaseElement {
   public static is = 'esl-panel-group';
+  public static observedAttributes = ['mode', 'accordion-group'];
   /** List of supported modes */
   public static supportedModes = ['tabs', 'accordion', 'open'];
 
@@ -46,21 +47,17 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Height of previous active panel */
   protected _previousHeight: number = 0;
 
-  static get observedAttributes(): string[] {
-    return ['mode', 'accordion-group'];
-  }
-
   protected connectedCallback(): void {
     super.connectedCallback();
     this.bindEvents();
 
-    this.modeRules.addListener(this._onModeChange);
+    this.modeRules.addEventListener(this._onModeChange);
     this.updateMode();
   }
 
   protected disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.modeRules.removeListener(this._onModeChange);
+    this.modeRules.removeEventListener(this._onModeChange);
 
     this.unbindEvents();
   }
@@ -68,9 +65,9 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'mode') {
-      this.modeRules.removeListener(this._onModeChange);
+      this.modeRules.removeEventListener(this._onModeChange);
       memoize.clear(this, 'modeRules');
-      this.modeRules.addListener(this._onModeChange);
+      this.modeRules.addEventListener(this._onModeChange);
       this.updateMode();
     }
     if (attrName === 'accordion-group') {
@@ -108,7 +105,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.reset();
 
     if (prevMode !== currentMode) {
-      this.$$fire('change:mode', {detail: {prevMode, currentMode}});
+      this.$$fire('esl:change:mode', {detail: {prevMode, currentMode}});
     }
   }
 
@@ -234,7 +231,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     CSSClassUtils.remove(this, this.animationClass);
 
     if (silent) return;
-    this.$activePanels.forEach((panel) => panel.$$fire('after:show'));
+    this.$activePanels.forEach((panel) => panel.$$fire('esl:after:show'));
   }
 
   /** Process {@link ESLPanel} pre-show event */

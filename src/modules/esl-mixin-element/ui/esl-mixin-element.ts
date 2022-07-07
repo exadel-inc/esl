@@ -1,4 +1,5 @@
 import {setAttr} from '../../esl-utils/dom/attr';
+import {prop} from '../../esl-utils/decorators/prop';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMixinRegistry} from './esl-mixin-registry';
@@ -22,6 +23,9 @@ export class ESLMixinElement implements AttributeTarget {
   static is: string;
   /** Additional observed attributes */
   static observedAttributes: string[] = [];
+
+  /** Event to indicate component significant state change that may affect other components state */
+  @prop('esl:refresh') public REFRESH_EVENT: string;
 
   /** Additional attributes observer */
   private _attr$$: MutationObserver;
@@ -110,7 +114,7 @@ export class ESLMixinElement implements AttributeTarget {
    * @param eventInit - custom event init. See {@link CustomEventInit}
    */
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
-    return EventUtils.dispatch(this.$host, 'esl:' + eventName, eventInit);
+    return EventUtils.dispatch(this.$host, eventName, eventInit);
   }
 
   /** Returns mixin instance by element */

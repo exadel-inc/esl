@@ -1,4 +1,4 @@
-import {isRelativeNode, findClosestBy, findNext, findPrev, findParent, findClosest, findAll, findChildren} from '../traversing';
+import {isRelativeNode, findClosestBy, isMatches, findNext, findPrev, findParent, findClosest, findAll, findChildren} from '../traversing';
 
 describe('Common: dom/traversing helper tests', () => {
   document.body.innerHTML = `
@@ -19,6 +19,7 @@ describe('Common: dom/traversing helper tests', () => {
     </section>
   `;
 
+  const div = document.createElement('div');
   const root = document.querySelector('section') as HTMLSelectElement;
   const row1 = document.querySelector('#row1') as HTMLDivElement;
   const btn1 = document.querySelector('#btn1') as HTMLButtonElement;
@@ -37,6 +38,18 @@ describe('Common: dom/traversing helper tests', () => {
     test('returns false if nodes are not from the same tree path', () => {
       expect(isRelativeNode(document.body, document.createElement('div'))).toBeFalsy();
       expect(isRelativeNode(btn1, btn2)).toBeFalsy();
+    });
+  });
+
+  describe('isMatches', () => {
+    test('returns true if element matches passed selector or exact predicate function', () => {
+      expect(isMatches(div, (el) => div === el)).toBeTruthy();
+      expect(isMatches(div, 'div')).toBeTruthy();
+    });
+    test('returns false if element does not match passed selector or exact predicate function', () => {
+      expect(isMatches(div, (el) => root === el)).toBeFalsy();
+      expect(isMatches(div, 'span')).toBeFalsy();
+      expect(isMatches(div)).toBeFalsy();
     });
   });
 
