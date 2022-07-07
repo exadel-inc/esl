@@ -41,7 +41,7 @@ describe('Common: dom/traversing helper tests', () => {
   });
 
   describe('closestBy', () => {
-    test('finds closest parent node starting from the initial element', () => {
+    test('finds closest parent node starting from the base element', () => {
       expect(findClosestBy(null, (el: HTMLElement) => el.dataset.test === '1')).toBe(null);
       expect(findClosestBy(document.createElement('div'), (el: HTMLElement) => el.dataset.test === '1')).toBe(null);
       expect(findClosestBy(btn2, (el: HTMLElement) => el.classList.contains('btn'))).toBe(btn2);
@@ -49,7 +49,7 @@ describe('Common: dom/traversing helper tests', () => {
       expect(findClosestBy(btn2, (el: HTMLElement) => el.tagName.toLowerCase() === 'section')).toBeTruthy();
       expect(findClosestBy(article1, () => false)).toBe(null);
     });
-    test('finds closest parent node skiping the initial element', () => {
+    test('finds closest parent node skipping the base element', () => {
       expect(findClosestBy(btn2, (el: HTMLElement) => el.dataset.test === '1', true)).toBe(row1);
     });
   });
@@ -81,7 +81,7 @@ describe('Common: dom/traversing helper tests', () => {
       expect(findParent(btn1, '#row1')).toBe(row1);
       expect(findParent(btn2, '.container')).toBe(root);
     });
-    test('returns null if there are no parent element matching passed selector', () => {
+    test('returns null if there are no parent elements matching passed selector', () => {
       expect(findParent(btn2, '#row2')).toBe(null);
     });
   });
