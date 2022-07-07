@@ -13,7 +13,7 @@ type CollectionProcessor = (els: Element[], sel: string) => Element[];
  * - plain CSS selectors
  * - relative selectors (selectors that don't start from a plain selector will use passed base Element as a root)
  * - ::next and ::prev sibling pseudo-selectors
- * - ::parent, closest and ::child pseudo-selectors
+ * - ::parent, ::closest and ::child pseudo-selectors
  * - ::find pseudo-selector
  * - ::first, ::last and :nth(#) limitation pseudo-selectors
  * - ::filter, ::not filtration pseudo-selectors
@@ -57,7 +57,7 @@ export class TraversingQuery {
 
   /**
    * @returns RegExp that selects all known processors in query string
-   * e.g. /(::parent|:closest|::child|::next|::prev)/
+   * e.g. /(::parent|::closest|::child|::next|::prev)/
    */
   private static get PROCESSORS_REGEX(): RegExp {
     const keys = Object.keys(this.ELEMENT_PROCESSORS).concat(Object.keys(this.COLLECTION_PROCESSORS));
