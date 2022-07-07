@@ -47,7 +47,9 @@ describe('Traversing Query tests', () => {
       '::child',
       '::child(.btn)',
       '::parent',
-      '::parent(body)'
+      '::parent(body)',
+      '::closest',
+      '::closest(.btn)'
     ])('Null check: TraversingQuery.all/one(%s, null)', (sel) => {
       expect(TraversingQuery.first(sel)).toBe(null);
       expect(TraversingQuery.all(sel)).toEqual([]);
@@ -151,7 +153,8 @@ describe('Traversing Query tests', () => {
       ['::parent::find(.btn)', btn5, [btn1, btn2, btn3, btn4, btn5]],
       ['::parent::next::find(.col-2)', article1, [article2]],
       ['::parent(.container)::find(.btn)::last', btn5, [btn6]],
-      ['::parent(.container)::child(.row)::last::find(.col-2)', article1, [article2]]
+      ['::parent(.container)::child(.row)::last::find(.col-2)', article1, [article2]],
+      ['::closest(.row)::find(.col-1)', btn1, [article1]]
     ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
 
