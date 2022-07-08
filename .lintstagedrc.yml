@@ -1,5 +1,7 @@
-{
-  "*.ts": ["eslint --max-warnings 3", "jest --silent --noStackTrace --bail --findRelatedTests"],
-  "*.less": ["stylelint"],
-  "*": ["lintspaces -n -t -d spaces"]
-}
+"*.ts":
+  - "eslint --max-warnings 3"
+  - "jest --silent --noStackTrace --bail --findRelatedTests"
+"*.less":
+  - "stylelint"
+"*":
+  - "lintspaces -n -t -d spaces"
