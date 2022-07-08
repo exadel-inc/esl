@@ -4,10 +4,10 @@ export const isRelativeNode = (nodeA: Node | null, nodeB: Node | null): boolean 
   return !!(nodeA && nodeB) && (nodeA.contains(nodeB) || nodeB.contains(nodeA));
 };
 
-type iteratorFn = (el: Element) => Element | null;
+type IteratorFn = (el: Element) => Element | null;
 
 /** Create function that finds next dom element, that matches selector, in the sequence declared by `next` function */
-export const createSequenceFinder = (next: iteratorFn, includeSelf: boolean = false) => {
+export const createSequenceFinder = (next: IteratorFn, includeSelf: boolean = false) => {
   return function (base: Element, predicate: string | Predicate<Element>): Element | null {
     if (!predicate) return includeSelf ? base : next(base);
     for (let target: Element | null = includeSelf ? base : next(base); target; target = next(target)) {
