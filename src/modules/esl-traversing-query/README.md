@@ -13,7 +13,7 @@ Extended query supports:
  - relative selectors  
 NOTE: Selectors that don't start from a plain selector will use passed base Element as a root
  - `::next` and `::prev` sibling pseudo-selectors
- - `::parent` and `::child` pseudo-selectors
+ - `::parent`, `::closest` and `::child` pseudo-selectors
  - `::find` pseudo-selector
  - `::first`, `::last` and `:nth(#)` limitation pseudo-selectors
 
@@ -27,6 +27,7 @@ NOTE: Selectors that don't start from a plain selector will use passed base Elem
 - `::prev` - get previous sibling element
 - `::parent` - get base element parent
 - `::parent(#id .class [attr])` - find the closest parent, matching passed selector
+- `::closest(#id .class [attr])` - find the closest ancestor including base element that matches passed selector
 - `::child(#id .class [attr])` - find direct child element(s) that match passed selector
 - `::find(#id .class [attr])` - find child element(s) that match passed selector
 - `::parent::child(some-tag)` - find direct child element(s) that match tag 'some-tag' in the parent
