@@ -10,12 +10,19 @@
   user-select: none;
   pointer-events: none;
 
-  & path {
-    stroke-dasharray: 1679px;
-    stroke-dashoffset: 1679px;
-    animation: anim-line 2s ease;
-    animation-iteration-count: 1;
-    animation-fill-mode: both;
+  esl-animate & {
+    & path {
+      stroke-dasharray: 1679px;
+      stroke-dashoffset: 1679px;
+    }
+  }
+
+  esl-animate.in & {
+    & path {
+      animation: anim-line 2s ease;
+      animation-iteration-count: 1;
+      animation-fill-mode: both;
+    }
   }
 
   @keyframes anim-line {
