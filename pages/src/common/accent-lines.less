@@ -9,4 +9,19 @@
   border: none;
   user-select: none;
   pointer-events: none;
+
+  & path {
+    stroke-dasharray: 1679px;
+    stroke-dashoffset: 1679px;
+    animation: anim-line 2s ease;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+  }
+
+  @keyframes anim-line {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
 }
