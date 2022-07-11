@@ -1,5 +1,6 @@
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 
 import {UIPPlugin} from '../../../core/base/plugin';
 import {SnippetTemplate} from '../../../core/base/model';
@@ -69,7 +70,6 @@ export class UIPSnippets extends UIPPlugin {
     super.connectedCallback();
     this.render();
     this.updateTitleText();
-    this.bindEvents();
     // Initial update
     setTimeout(() => this.$active = this.$active || this.$items[0]);
   }
@@ -79,14 +79,7 @@ export class UIPSnippets extends UIPPlugin {
     this.unbindEvents();
   }
 
-  protected bindEvents() {
-    this.$snippetList.addEventListener('click', this._onItemClick);
-    this.$dropdownControl.addEventListener('click', this._onDropdownClick);
-  }
-
   protected unbindEvents() {
-    this.$snippetList.removeEventListener('click', this._onItemClick);
-    this.$dropdownControl.removeEventListener('click', this._onDropdownClick);
     document.body.removeEventListener('mouseup', this.onOutsideAction, true);
   }
 
@@ -148,7 +141,7 @@ export class UIPSnippets extends UIPPlugin {
     }
   }
 
-  @bind
+  @listen('click')
   protected _onItemClick(event: Event) {
     const target = event.target as HTMLElement;
     const index = this.$items.indexOf(target);
@@ -164,7 +157,7 @@ export class UIPSnippets extends UIPPlugin {
     }
   }
 
-  @bind
+  @listen('click')
   protected _onDropdownClick() {
     this.toggleDropdown();
   }

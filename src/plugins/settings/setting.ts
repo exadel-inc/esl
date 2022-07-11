@@ -1,6 +1,6 @@
 import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
-import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 
 import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
@@ -28,7 +28,6 @@ export abstract class UIPSetting extends ESLBaseElement {
   protected connectedCallback() {
     super.connectedCallback();
     this.classList.add(UIPSetting.is);
-    this.bindEvents();
 
     if (this.target) return;
     const settingsTarget = this.$settings?.target;
@@ -36,19 +35,10 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   protected disconnectedCallback() {
-    this.unbindEvents();
     super.disconnectedCallback();
   }
 
-  protected bindEvents(): void {
-    this.addEventListener('change', this._onChange);
-  }
-
-  protected unbindEvents(): void {
-    this.removeEventListener('change', this._onChange);
-  }
-
-  @bind
+  @listen('change')
   protected _onChange(e: Event): void {
     e.preventDefault();
     EventUtils.dispatch(this, 'uip:change');

@@ -4,6 +4,7 @@ import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 
 import {UIPPlugin} from '../../core/base/plugin';
 import {UIPSetting} from './setting';
+import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 
 /**
  * Custom element, container for [settings]{@link UIPSetting}.
@@ -28,7 +29,6 @@ export class UIPSettings extends UIPPlugin {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.bindEvents();
     this.updateInner();
   }
 
@@ -45,20 +45,10 @@ export class UIPSettings extends UIPPlugin {
   }
 
   protected disconnectedCallback(): void {
-    this.unbindEvents();
     super.disconnectedCallback();
   }
 
-  protected bindEvents() {
-    this.addEventListener('uip:change', this._onSettingChanged);
-    this.root?.addEventListener('uip:configchange', this._onRootConfigChange);
-  }
-
-  protected unbindEvents(): void {
-    this.removeEventListener('uip:change', this._onSettingChanged);
-    this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
-  }
-
+  @listen('uip:change')
   protected _onSettingChanged(e: any) {
     e.stopPropagation();
     if (!this.model) return;
@@ -74,7 +64,7 @@ export class UIPSettings extends UIPPlugin {
     this.settings.forEach(setting => setting.updateFrom(this.model!));
   }
 
-  @bind
+  @listen({event: 'uip:configchange', target: '.uip-root'})
   protected _onRootConfigChange(e: CustomEvent) {
     if (e.detail.attribute !== 'settings-collapsed') return false;
     this.classList.toggle('collapsed', e.detail.value !== null);
