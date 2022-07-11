@@ -76,14 +76,9 @@ export class UIPSnippets extends UIPPlugin {
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
-    this.unbindEvents();
   }
 
-  protected unbindEvents() {
-    document.body.removeEventListener('mouseup', this.onOutsideAction, true);
-  }
-
-  @bind
+  @listen({event: 'mouseup', target: document.body})
   protected onOutsideAction(e: Event) {
     const target = e.target as HTMLElement;
     if (this.contains(target)) return false;
@@ -164,11 +159,6 @@ export class UIPSnippets extends UIPPlugin {
 
   public toggleDropdown(): void {
     const isOpen = this.classList.contains('dropdown-open');
-    if (isOpen) {
-      document.body.removeEventListener('mouseup', this.onOutsideAction, true);
-    } else {
-      document.body.addEventListener('mouseup', this.onOutsideAction, true);
-    }
     this.classList.toggle('dropdown-open');
   }
 }
