@@ -80,6 +80,7 @@ export class UIPSnippets extends UIPPlugin {
 
   @listen({event: 'mouseup', target: document.body})
   protected onOutsideAction(e: Event) {
+    if (!this.classList.contains('dropdown-open')) return;
     const target = e.target as HTMLElement;
     if (this.contains(target)) return false;
     this.toggleDropdown();
@@ -158,7 +159,6 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   public toggleDropdown(): void {
-    const isOpen = this.classList.contains('dropdown-open');
     this.classList.toggle('dropdown-open');
   }
 }
