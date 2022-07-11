@@ -1,7 +1,7 @@
 import {getScrollParent} from './parent';
 
 const $html = document.documentElement;
-const initiatorSet = new Set();
+const initiatorMap = new Map();
 
 /** Checks if element is blocked from scrolling */
 export function isScrollLocked(target: Element): boolean {
@@ -40,8 +40,8 @@ export type ScrollLockOptions = {
  * */
 export function lockScroll(target: Element = $html, options: ScrollLockOptions = {}): void {
   if (options.initiator) {
-    initiatorSet.add(options.initiator);
-    if (initiatorSet.size === 0) return;
+    if (initiatorMap.get(target)) return;
+    initiatorMap.set(target, options.initiator);
   }
 
   const scrollable = target === $html ? target : getScrollParent(target);
@@ -52,15 +52,14 @@ export function lockScroll(target: Element = $html, options: ScrollLockOptions =
 /**
  * Enables scroll on the target element in case it was requested with given initiator.
  * @param target - scrollable element
- * @param options - additional options to lock scroll
+ * @param options - additional options to unlock scroll
  */
 export function unlockScroll(target: Element = $html, options: ScrollLockOptions = {}): void {
   if (options.initiator) {
-    initiatorSet.delete(options.initiator);
-    if (initiatorSet.size > 0) return;
-  } else {
-    initiatorSet.clear();
+    const initiator = initiatorMap.get(target);
+    if (initiator !== options.initiator) return;
   }
+  initiatorMap.delete(target);
 
   const scrollable = target === $html ? target : getScrollParent(target);
   scrollable.removeAttribute('esl-scroll-lock');
