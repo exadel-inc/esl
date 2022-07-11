@@ -4,45 +4,57 @@ const $html = document.documentElement;
 const $body = document.body;
 
 describe('Function isScrollParent', () => {
-  const element = document.createElement('div');
+  const target = document.createElement('div');
 
-  test('element isn`t scrollable', () => {
-    expect(isScrollable(element)).toBeFalsy();
+  describe('Element isn`t scrollable', () => {
+    test('element shouldn`t be scrollable without overflow property', () => {
+      expect(isScrollable(target)).toBeFalsy();
+    });
 
-    element.style.overflow = 'inherit';
-    expect(isScrollable(element)).toBeFalsy();
+    test('element shouldn`t be scrollable with overflow property value "inherit"', () => {
+      target.style.overflow = 'inherit';
+      expect(isScrollable(target)).toBeFalsy();
+    });
   });
 
-  test('element is scrollable', () => {
-    element.style.overflow = 'auto';
-    expect(isScrollable(element)).toBeTruthy();
+  describe('Element is scrollable', () => {
+    test('element should be scrollable with overflow property value "auto"', () => {
+      target.style.overflow = 'auto';
+      expect(isScrollable(target)).toBeTruthy();
+    });
 
-    element.style.overflow = 'scroll';
-    expect(isScrollable(element)).toBeTruthy();
+    test('element should be scrollable with overflow property value "scroll"', () => {
+      target.style.overflow = 'scroll';
+      expect(isScrollable(target)).toBeTruthy();
+    });
 
-    element.style.overflow = 'overlay';
-    expect(isScrollable(element)).toBeTruthy();
+    test('element should be scrollable with overflow property value "overlay"', () => {
+      target.style.overflow = 'overlay';
+      expect(isScrollable(target)).toBeTruthy();
+    });
 
-    element.style.overflow = 'hidden';
-    expect(isScrollable(element)).toBeTruthy();
+    test('element should be scrollable with overflow property value "hidden"', () => {
+      target.style.overflow = 'hidden';
+      expect(isScrollable(target)).toBeTruthy();
+    });
   });
 });
 
 describe('Function getScrollParent', () => {
-  const element = document.createElement('div');
+  const target = document.createElement('div');
 
   describe('Element doesn`t have scrollable parent(s)', () => {
-    beforeAll(() => element.style.overflow = '');
+    beforeAll(() => target.style.overflow = '');
 
-    test('scrollable parent not found for specified element', () => {
-      expect(getScrollParent(element)).toEqual($body);
+    test('scroll parent shouldn`t be found for specified element', () => {
+      expect(getScrollParent(target)).toEqual($body);
     });
 
-    test('scrollable parent not found for body element', () => {
+    test('scroll parent shouldn`t be found for target`s parent element', () => {
       expect(getScrollParent($body)).toEqual($body);
     });
 
-    test('scrollable parent not found for html element', () => {
+    test('scroll parent shouldn`t be found for html element', () => {
       expect(getScrollParent($html)).toEqual($body);
     });
   });
@@ -53,48 +65,48 @@ describe('Function getScrollParent', () => {
     const thirdLevelChild = document.createElement('div');
 
     secondLevelChild.appendChild(thirdLevelChild);
-    element.appendChild(firstLevelChild);
+    target.appendChild(firstLevelChild);
     firstLevelChild.appendChild(secondLevelChild);
 
-    beforeAll(() => element.style.overflow = 'auto');
+    beforeAll(() => target.style.overflow = 'auto');
 
-    test('specified element is scrollable', () => {
-      expect(getScrollParent(element)).toEqual(element);
+    test('target element should be scrollable', () => {
+      expect(getScrollParent(target)).toEqual(target);
     });
 
-    test('scrollable parent on 1st level of element tree', () => {
-      expect(getScrollParent(firstLevelChild)).toEqual(element);
+    test('parent should be scrollable on 1st level of element tree', () => {
+      expect(getScrollParent(firstLevelChild)).toEqual(target);
     });
 
-    test('scrollable parent on 2nd level of element tree', () => {
-      expect(getScrollParent(secondLevelChild)).toEqual(element);
+    test('parent should be scrollable on 2nd level of element tree', () => {
+      expect(getScrollParent(secondLevelChild)).toEqual(target);
     });
 
-    test('scrollable parent on 3rd level of element tree', () => {
-      expect(getScrollParent(thirdLevelChild)).toEqual(element);
+    test('parent should be scrollable on 3rd level of element tree', () => {
+      expect(getScrollParent(thirdLevelChild)).toEqual(target);
     });
   });
 });
 
 describe('Function getListScrollParents', () => {
-  const element = document.createElement('div');
+  const taget = document.createElement('div');
 
-  test('scroll parent(s) not found for element', () => {
-    expect(getListScrollParents(element)).toEqual([]);
+  test('target`s scroll parent(s) should not be found for element', () => {
+    expect(getListScrollParents(taget)).toEqual([]);
   });
 
-  test('scroll parent is element itself', () => {
-    element.style.overflow = 'auto';
-    expect(getListScrollParents(element)).toEqual([element]);
+  test('target`s scroll parent should be target element itself', () => {
+    taget.style.overflow = 'auto';
+    expect(getListScrollParents(taget)).toEqual([taget]);
   });
 
-  test('scroll parent is body element', () => {
-    element.style.overflow = '';
+  test('target`s scroll parent should be target`s parent element', () => {
+    taget.style.overflow = '';
     $body.style.overflow = 'auto';
-    expect(getListScrollParents(element)).toEqual([$body]);
+    expect(getListScrollParents(taget)).toEqual([$body]);
   });
 
-  test('multiple scrollable parents', () => {
+  test('target should have multiple scrollable parents', () => {
     const firstLevelChild = document.createElement('div');
     const secondLevelChild = document.createElement('div');
     const thirdLevelChild = document.createElement('div');
@@ -103,7 +115,7 @@ describe('Function getListScrollParents', () => {
     thirdLevelChild.style.overflow = 'auto';
 
     secondLevelChild.appendChild(thirdLevelChild);
-    element.appendChild(firstLevelChild);
+    taget.appendChild(firstLevelChild);
     firstLevelChild.appendChild(secondLevelChild);
 
     expect(getListScrollParents(thirdLevelChild)).toEqual([thirdLevelChild, firstLevelChild, $body]);

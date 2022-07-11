@@ -5,122 +5,142 @@ const $body = document.body;
 
 afterEach(() => jest.clearAllMocks());
 
+const mockElHeight = (el: Element) => {
+  jest.spyOn(el, 'scrollHeight', 'get').mockImplementation(() => 100);
+  jest.spyOn(el, 'clientHeight', 'get').mockImplementation(() => 99);
+};
+
+const mockElWidth = (el: Element) => {
+  jest.spyOn(el, 'scrollWidth', 'get').mockImplementation(() => 100);
+  jest.spyOn(el, 'clientWidth', 'get').mockImplementation(() => 99);
+};
+
 describe('Function hasVerticalScroll', () => {
-  test('Vertical scroll on default element', () => {
-    jest.spyOn($html, 'scrollHeight', 'get').mockImplementation(() => 100);
-    jest.spyOn($html, 'clientHeight', 'get').mockImplementation(() => 99);
+  test('should be vertical scroll on default element', () => {
+    mockElHeight($html);
     expect(hasVerticalScroll()).toBeTruthy();
   });
 
-  test('Vertical scroll on element', () => {
-    const element = document.createElement('div');
-    jest.spyOn(element, 'scrollHeight', 'get').mockImplementation(() => 100);
-    jest.spyOn(element, 'clientHeight', 'get').mockImplementation(() => 99);
-    expect(hasVerticalScroll(element)).toBeTruthy();
+  test('should be vertical scroll on target element', () => {
+    const target = document.createElement('div');
+    mockElHeight(target);
+    expect(hasVerticalScroll(target)).toBeTruthy();
   });
 });
 
 describe('Function hasHorizontalScroll', () => {
-  test('Horizontal scroll on default element', () => {
-    jest.spyOn($html, 'scrollWidth', 'get').mockImplementation(() => 100);
-    jest.spyOn($html, 'clientWidth', 'get').mockImplementation(() => 99);
+  test('should be horizontal scroll on default element', () => {
+    mockElWidth($html);
     expect(hasHorizontalScroll()).toBeTruthy();
   });
 
-  test('Horizontal scroll on element', () => {
-    const element = document.createElement('div');
-    jest.spyOn(element, 'scrollWidth', 'get').mockImplementation(() => 100);
-    jest.spyOn(element, 'clientWidth', 'get').mockImplementation(() => 99);
-    expect(hasHorizontalScroll(element)).toBeTruthy();
+  test('should be horizontal scroll on target element', () => {
+    const target = document.createElement('div');
+    mockElWidth(target);
+    expect(hasHorizontalScroll(target)).toBeTruthy();
   });
 });
 
 describe('Function isScrollLocked', () => {
-  test('locked Scroll', () => {
-    lockScroll($body);
-    expect($body.hasAttribute('esl-scroll-lock')).toBeTruthy();
-    expect(isScrollLocked($body)).toBeTruthy();
+  const target = document.createElement('div');
+  target.style.overflow = 'auto';
+  describe('Locked Scroll', () => {
+    beforeAll(() => lockScroll(target));
+    test('lock attribute should be set', () => expect(target.hasAttribute('esl-scroll-lock')).toBeTruthy());
+    test('target should be locked', () => expect(isScrollLocked(target)).toBeTruthy());
   });
 
-  test('unlocked Scroll', () => {
-    unlockScroll($body);
-    expect($body.hasAttribute('esl-scroll-lock')).toBeFalsy();
-    expect(isScrollLocked($body)).toBeFalsy();
+  describe('Unlocked Scroll', () => {
+    beforeAll(() => unlockScroll(target));
+    test('lock attribute should be removed', () => expect(target.hasAttribute('esl-scroll-lock')).toBeFalsy());
+    test('target should be locked', () => expect(isScrollLocked(target)).toBeFalsy());
   });
 });
 
 describe('Function lockScroll', () => {
-  const element = document.createElement('div');
+  const target = document.createElement('div');
+  $body.style.overflow = 'auto';
+  $html.style.overflow = 'auto';
 
-  test('lock on element`s parent', () => {
-    $body.style.overflow = 'auto';
-    lockScroll(element);
+  test('target`s parent should be locked', () => {
+    lockScroll(target);
     expect(isScrollLocked($body)).toBeTruthy();
   });
 
-  test('lock on element', () => {
-    element.style.overflow = 'auto';
-    lockScroll(element);
-    expect(isScrollLocked(element)).toBeTruthy();
+  test('target should be locked', () => {
+    target.style.overflow = 'auto';
+    lockScroll(target);
+    expect(isScrollLocked(target)).toBeTruthy();
   });
 
-  test('lock on default element', () => {
-    $html.style.overflow = 'auto';
+  test('default element should be locked', () => {
     lockScroll();
     expect(isScrollLocked($html)).toBeTruthy();
   });
 
+  describe('Scroll lock with recursive option', () => {
+    unlockScroll(target);
+    unlockScroll($body);
+    jest.spyOn(target, 'parentElement', 'get').mockImplementation(() => $body);
 
-  test('lock with recursive option', () => {
-    unlockScroll(element);
-    element.style.overflow = 'auto';
-    jest.spyOn(element, 'parentElement', 'get').mockImplementation(() => $body);
-    lockScroll(element, {recursive: true});
-    expect(isScrollLocked(element)).toBeTruthy();
-    expect(isScrollLocked($body)).toBeTruthy();
+    lockScroll(target, {recursive: true});
+    test('target should be locked', () => expect(isScrollLocked(target)).toBeTruthy());
+    test('target`s parent should be locked', () => expect(isScrollLocked($body)).toBeTruthy());
   });
 
   describe('Lock with initiator', () => {
-    test('lock with initiator', () => {
-      jest.spyOn(element, 'setAttribute');
-      lockScroll(element, {initiator: 'init'});
-      expect(element.setAttribute).toHaveBeenCalled();
-      expect(isScrollLocked(element)).toBeTruthy();
+    describe('Lock with initiator should be successful', () => {
+      beforeAll(() => {
+        jest.spyOn(target, 'setAttribute');
+        lockScroll(target, {initiator: 'init'});
+      });
+
+      test('setAttribute should have been called', () => expect(target.setAttribute).toHaveBeenCalled());
+      test('target should be locked', () => expect(isScrollLocked(target)).toBeTruthy());
     });
 
-    test('shoudn`t be locked second time', () => {
-      jest.spyOn(element, 'setAttribute');
-      lockScroll(element, {initiator: 'init'});
-      expect(element.setAttribute).toHaveBeenCalledTimes(0);
+    describe('Lock with duplicate initiator', () => {
+      beforeAll(() => {
+        jest.spyOn(target, 'setAttribute');
+        lockScroll(target, {initiator: 'init'});
+      });
+
+      test('setAttribute shouldn`t have been called again', () => expect(target.setAttribute).toHaveBeenCalledTimes(0));
+      test('target should be locked', () => expect(isScrollLocked(target)).toBeTruthy());
     });
 
-    test('each element should have it`s own initiator', () => {
-      unlockScroll(element, {initiator: 'init'});
-      jest.spyOn($body, 'setAttribute');
-      jest.spyOn(element, 'parentElement', 'get').mockImplementation(() => $body);
-      lockScroll(element, {initiator: 'init', recursive: true});
-      expect($body.setAttribute).toHaveBeenCalledTimes(1);
-      expect(isScrollLocked(element)).toBeTruthy();
-      expect(isScrollLocked($body)).toBeTruthy();
+    describe('Lock with initiator recursively', () => {
+      beforeAll(() => {
+        unlockScroll(target, {initiator: 'init'});
+        jest.spyOn($body, 'setAttribute');
+        jest.spyOn(target, 'parentElement', 'get').mockImplementation(() => $body);
+        lockScroll(target, {initiator: 'init', recursive: true});
+      });
+
+      test('setAttribute should have been called on target`s parent', () => expect($body.setAttribute).toHaveBeenCalledTimes(1));
+      test('target should be locked', () => expect(isScrollLocked(target)).toBeTruthy());
+      test('target`s parent should be locked', () => expect(isScrollLocked($body)).toBeTruthy());
     });
   });
 
   describe('Lock scroll with strategy', () => {
     $html.style.overflow = 'auto';
-    test('no strategy', () => {
+    test('should be locked with strategy `none`', () => {
       lockScroll($html, {strategy: 'none'});
       expect($html.getAttribute('esl-scroll-lock')).toBe('none');
+    });
 
+    test('should be locked without strategy', () => {
       lockScroll($html);
       expect($html.getAttribute('esl-scroll-lock')).toBe('');
     });
 
-    test('native strategy', () => {
+    test('should be locked with native strategy', () => {
       lockScroll($html, {strategy: 'native'});
       expect($html.getAttribute('esl-scroll-lock')).toBe('native');
     });
 
-    test('native strategy', () => {
+    test('should be locked with native strategy', () => {
       lockScroll($html, {strategy: 'pseudo'});
       expect($html.getAttribute('esl-scroll-lock')).toBe('pseudo');
     });
@@ -128,64 +148,111 @@ describe('Function lockScroll', () => {
 });
 
 describe('Function unlockScroll', () => {
-  const scrollableEl = document.createElement('div');
-
   $html.style.overflow = 'auto';
   $body.style.overflow = 'auto';
-  scrollableEl.style.overflow = 'auto';
 
-  test('lock on element', () => {
-    $body.style.overflow = 'auto';
-    lockScroll(scrollableEl);
-    lockScroll($body);
+  describe('Unlock scroll on target element', () => {
+    const target = document.createElement('div');
+    target.style.overflow = 'auto';
+    test('target should be initially locked', () => {
+      lockScroll(target);
+      expect(isScrollLocked(target)).toBeTruthy();
+    });
 
-    unlockScroll(scrollableEl);
-    expect(isScrollLocked(scrollableEl)).toBeFalsy();
+    test('target should be unlocked', () => {
+      unlockScroll(target);
+      expect(isScrollLocked(target)).toBeFalsy();
+    });
   });
 
-  test('unlock element`s first parent', () => {
-    const element = document.createElement('div');
-    lockScroll($body);
+  describe('Unlock scroll on target element`s parent', () => {
+    const first = document.createElement('div');
+    test('parent should be initially locked', () => {
+      lockScroll($body);
+      expect(isScrollLocked($body)).toBeTruthy();
+    });
 
-    unlockScroll(element);
-    expect(isScrollLocked($body)).toBeFalsy();
+    test('target should be unlocked', () => {
+      unlockScroll(first);
+      expect(isScrollLocked($body)).toBeFalsy();
+    });
   });
 
-  test('unlock default element', () => {
-    unlockScroll();
-    expect(isScrollLocked($html)).toBeFalsy();
+  describe('Unlock scroll on default element', () => {
+    test('default element should be initially locked', () => {
+      lockScroll();
+      expect(isScrollLocked($html)).toBeTruthy();
+    });
+
+    test('default element should be unlocked', () => {
+      unlockScroll();
+      expect(isScrollLocked($html)).toBeFalsy();
+    });
   });
 
-  test('unlock recursively', () => {
-    lockScroll(scrollableEl);
+  describe('Unlock multiple elements recursively', () => {
+    const target = document.createElement('div');
+    target.style.overflow = 'auto';
+    lockScroll(target);
     lockScroll($body);
     lockScroll($html);
-    jest.spyOn(scrollableEl, 'parentElement', 'get').mockImplementation(() => $body);
+    jest.spyOn(target, 'parentElement', 'get').mockImplementation(() => $body);
     jest.spyOn($body, 'parentElement', 'get').mockImplementation(() => $html);
 
-    unlockScroll(scrollableEl, {recursive: true});
-    expect(isScrollLocked(scrollableEl)).toBeFalsy();
-    expect(isScrollLocked($body)).toBeFalsy();
-    expect(isScrollLocked($html)).toBeFalsy();
+    unlockScroll(target, {recursive: true});
+
+    test('target element should be unlocked', () => expect(isScrollLocked(target)).toBeFalsy());
+    test('taget`s parent element should be unlocked', () => expect(isScrollLocked($body)).toBeFalsy());
+    test('default element should be unlocked', () => expect(isScrollLocked($html)).toBeFalsy());
   });
 
   describe('Unlock scroll with initiator', () => {
-    test('unlock with initiator', () => {
-      jest.spyOn(scrollableEl, 'removeAttribute');
-      lockScroll(scrollableEl, {initiator: 'init'});
+    const target = document.createElement('div');
+    target.style.overflow = 'auto';
 
-      unlockScroll(scrollableEl, {initiator: 'init'});
-      expect(scrollableEl.removeAttribute).toHaveBeenCalled();
-      expect(isScrollLocked(scrollableEl)).toBeFalsy();
+    test('target element should unlock with initiator', () => {
+      jest.spyOn(target, 'removeAttribute');
+      lockScroll(target, {initiator: 'init'});
+
+      unlockScroll(target, {initiator: 'init'});
+      expect(target.removeAttribute).toHaveBeenCalled();
+      expect(isScrollLocked(target)).toBeFalsy();
     });
 
-    test('shouldn`t unlock with wrong initiator', () => {
-      jest.spyOn(scrollableEl, 'removeAttribute');
-      lockScroll(scrollableEl, {initiator: 'init'});
+    test('target element shouldn`t unlock with wrong initiator', () => {
+      jest.spyOn(target, 'removeAttribute');
+      lockScroll(target, {initiator: 'init'});
 
-      unlockScroll(scrollableEl, {initiator: 'init2'});
-      expect(scrollableEl.removeAttribute).toHaveBeenCalledTimes(0);
-      expect(isScrollLocked(scrollableEl)).toBeTruthy();
+      unlockScroll(target, {initiator: 'init2'});
+      expect(target.removeAttribute).toHaveBeenCalledTimes(0);
+      expect(isScrollLocked(target)).toBeTruthy();
     });
+  });
+
+  describe('LockScroll handles concurrency on the single target correct, when multiple initiators are in acton', () => {
+    const target = document.createElement('div');
+    const first = document.createElement('div');
+    const second = document.createElement('div');
+    target.style.overflow = 'auto';
+
+    test('target should initially be unlocked', () => expect(isScrollLocked(target)).toBeFalsy());
+
+    test('first initiator should lock the target', () => {
+      lockScroll(target, {initiator: first});
+      expect(isScrollLocked(target)).toBeTruthy();
+    });
+
+    test('second initiator should lock the target', () => {
+      lockScroll(target, {initiator: second});
+      expect(isScrollLocked(target)).toBeTruthy();
+    });
+
+    test('first initiator should attempt to unlock the target, but the target still locked by the second one', () => {
+      unlockScroll(target, {initiator: first});
+      expect(isScrollLocked(target)).toBeTruthy();});
+
+    test('second initiator should completely unlock the target', () => {
+      unlockScroll(target, {initiator: second});
+      expect(isScrollLocked(target)).toBeFalsy();});
   });
 });
