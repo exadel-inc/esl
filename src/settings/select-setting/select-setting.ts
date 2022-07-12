@@ -1,4 +1,4 @@
-import {attr, boolAttr} from '@exadel/esl/modules/esl-base-element/core';
+import {attr, boolAttr, listen} from '@exadel/esl/modules/esl-base-element/core';
 import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
@@ -78,21 +78,6 @@ export class UIPSelectSetting extends UIPSetting {
     this.appendChild(this.$label);
     this.appendChild(this.$field);
     this.bindEvents();
-  }
-
-  protected disconnectedCallback(): void {
-    this.unbindEvents();
-    super.disconnectedCallback();
-  }
-
-  protected bindEvents(): void {
-    this.select.addEventListener('change', this.clearInconsistency);
-    this.root.addEventListener('uip:configchange', this.onRootThemeChange);
-  }
-
-  protected unbindEvents(): void {
-    this.select.removeEventListener('change', this.clearInconsistency);
-    this.root.removeEventListener('uip:configchange', this.onRootThemeChange);
   }
 
   applyTo(model: UIPStateModel) {
@@ -177,17 +162,17 @@ export class UIPSelectSetting extends UIPSetting {
     this.$field.update();
   }
 
-  @bind
+  @listen('change')
   protected clearInconsistency(): void {
     this.select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
   }
 
-  @bind
+  @listen({event: 'change', target: '.uip-root'})
   protected onRootThemeChange(e: CustomEvent): void {
     if (e.detail.attribute !== 'dark-theme') return;
-    this.$field.removeAttribute('dropdown-class');
-    this.$field.dropdownClass = UIPSelectSetting.dropdownClass;
-    if (e.detail.value !== null) this.$field.dropdownClass += ' uip-dark-dropdown';
+    let dropdownClass = UIPSelectSetting.dropdownClass
+    if (e.detail.value !== null) dropdownClass += ' uip-dark-dropdown';
+    this.$field.setAttribute('dropdown-class', dropdownClass);
   }
 
   /** Reset [select]{@link $field} value. */
