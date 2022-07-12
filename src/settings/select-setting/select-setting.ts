@@ -170,7 +170,7 @@ export class UIPSelectSetting extends UIPSetting {
   @listen({event: 'change', target: '.uip-root'})
   protected onRootThemeChange(e: CustomEvent): void {
     if (e.detail.attribute !== 'dark-theme') return;
-    let dropdownClass = UIPSelectSetting.dropdownClass
+    let dropdownClass = UIPSelectSetting.dropdownClass;
     if (e.detail.value !== null) dropdownClass += ' uip-dark-dropdown';
     this.$field.setAttribute('dropdown-class', dropdownClass);
   }
