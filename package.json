@@ -65,7 +65,7 @@
     "node": ">=14.17.0"
   },
   "dependencies": {
-    "@exadel/esl": "^4.0.0-beta.8",
+    "@exadel/esl": "^4.0.0-beta.10",
     "@types/js-beautify": "^1.13.3",
     "ace-builds": "^1.6.1",
     "js-beautify": "^1.14.4"
