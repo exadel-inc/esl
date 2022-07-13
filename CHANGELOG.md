@@ -1,3 +1,28 @@
+# [4.0.0-beta.10](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.9...v4.0.0-beta.10) (2022-07-08)
+
+
+### Features
+
+* **esl-select:** add dropdown-class to observed attributes ([29cc1c2](https://github.com/exadel-inc/esl/commit/29cc1c23e20c242c1f4b34a97ddd082fe55c54cb))
+* **esl-traversing-query:** add ability to find closest element ([ada6fbb](https://github.com/exadel-inc/esl/commit/ada6fbb172a2fb2cf0d435420ad8fb0a46e7766f))
+* **esl-utils:** `ScrollUtils` rewritten in a functional way, API updated ([#1051](https://github.com/exadel-inc/esl/issues/1051)) ([6f6c72f](https://github.com/exadel-inc/esl/commit/6f6c72f2d46bc1ba94d0b072df32782d79560313))
+* **esl-utils:** add ability to pass predicate to sequence finder ([dd8c3cb](https://github.com/exadel-inc/esl/commit/dd8c3cbb43ed529330c32459b9787949a0927a01))
+* **esl-utils:** move parsers to `esl-utils/misc/format` for shared usage ([e58270a](https://github.com/exadel-inc/esl/commit/e58270a2844379a612c1c218f7b9ea6f03bd9bcf))
+
+
+### BREAKING CHANGES
+
+* **esl-utils:** `ScrollUtils.lock` no longer accessible use `lockScroll(document.documentElement, {strategy: '...'})`
+* **esl-utils:** `ScrollUtils.unlock` no longer accessible use `unlockScroll(document.documentElement, {strategy: '...'})`
+* **esl-utils:** `ScrollUtils.lockRequest` no longer accessible use `lockScroll(document.documentElement, {strategy: '...', initiatior})`
+* **esl-utils:** `ScrollUtils.unlockRequest` no longer accessible use `unlockScroll(document.documentElement, {strategy: '...', initiatior})`
+
+Co-authored-by: fshovchko <fshovchko@exadel.com>
+Co-authored-by: nsmirnova <nsmirnova@exadel.com>
+Co-authored-by: ala'n (Alexey Stsefanovich) <astsefanovich@exadel.com>
+Co-authored-by: julia-murashko <ymurashka@exadel.com>
+Co-authored-by: Anastasiya Lesun <72765981+NastaLeo@users.noreply.github.com>
+
 # [4.0.0-beta.9](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.8...v4.0.0-beta.9) (2022-06-29)
 
 

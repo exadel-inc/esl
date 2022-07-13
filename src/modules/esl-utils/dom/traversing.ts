@@ -1,13 +1,18 @@
+import type {Predicate} from '../misc/functions';
 /** Check that `nodeA` and `nodeB` are from the same tree path */
 export const isRelativeNode = (nodeA: Node | null, nodeB: Node | null): boolean => {
   return !!(nodeA && nodeB) && (nodeA.contains(nodeB) || nodeB.contains(nodeA));
 };
 
+type IteratorFn = (el: Element) => Element | null;
+
 /** Create function that finds next dom element, that matches selector, in the sequence declared by `next` function */
-export const createSequenceFinder = (next: (el: Element) => Element | null) => {
-  return function (base: Element, sel: string): Element | null {
-    for (let target: Element | null = next(base); target; target = next(target)) {
-      if (!sel || target.matches(sel)) return target;
+export const createSequenceFinder = (next: IteratorFn, includeSelf: boolean = false) => {
+  return function (base: Element, predicate: string | Predicate<Element>): Element | null {
+    if (!predicate) return includeSelf ? base : next(base);
+    for (let target: Element | null = includeSelf ? base : next(base); target; target = next(target)) {
+      if (typeof predicate === 'string' && target.matches(predicate)) return target;
+      if (typeof predicate === 'function' && predicate.call(target, target)) return target;
     }
     return null;
   };
@@ -26,6 +31,8 @@ export const findNext = createSequenceFinder((el) => el.nextElementSibling);
 export const findPrev = createSequenceFinder((el) => el.previousElementSibling);
 /** @returns first matching parent or null*/
 export const findParent = createSequenceFinder((el) => el.parentElement);
+/** @returns first matching ancestor starting from passed element or null*/
+export const findClosest = createSequenceFinder((el) => el.parentElement, true);
 
 /** @returns Array of all matching elements in subtree or empty array */
 export const findAll = (base: Element, sel: string): Element[] => {
@@ -58,6 +65,7 @@ export abstract class TraversingUtils {
   static findNext = findNext;
   static findPrev = findPrev;
   static findParent = findParent;
+  static findClosest = findClosest;
 
   static findAll = findAll;
   static findChildren = findChildren;
