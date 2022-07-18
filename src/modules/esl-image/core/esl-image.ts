@@ -267,7 +267,7 @@ export class ESLImage extends ESLBaseElement {
 
   protected get _shadowImgError(): boolean {
     if (!this._shadowImg.complete) return false;
-    if (this._shadowImg.src.substring(-4) === '.svg') return false;
+    if (this._shadowImg.src.slice(-4) === '.svg') return false;
     return this._shadowImg.naturalHeight <= 0;
   }
 
