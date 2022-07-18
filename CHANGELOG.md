@@ -1,3 +1,10 @@
+# [4.0.0-beta.11](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.10...v4.0.0-beta.11) (2022-07-18)
+
+
+### Features
+
+* **esl-trigger:** add esc key event handler ([3dab6da](https://github.com/exadel-inc/esl/commit/3dab6dad39259f7e920c9a108757271cb58a216d))
+
 # [4.0.0-beta.10](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.9...v4.0.0-beta.10) (2022-07-08)
 
 
