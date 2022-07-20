@@ -77,7 +77,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     const point = getTouchPoint(event);
     const offset = point.x - this.startPoint.x;
     // ignore single click
-    offset !== 0 && this.carousel.view?.commit(offset);
+    offset !== 0 && this.carousel?.view.commit(offset);
     this.isTouchStarted = false;
     // Unbind drag listeners
     if (isMouseEvent(event)) {

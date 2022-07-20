@@ -91,6 +91,10 @@ export class ESLCarousel extends ESLBaseElement {
     return this.config.count;
   }
 
+  public get view(): ESLCarouselView {
+    return this._view;
+  }
+
   /** Updates the config and the state that is associated with. */
   public update(force: boolean = false): void {
     if (!force && this._view && isEqual(this.config, this.activeConfig)) return;
