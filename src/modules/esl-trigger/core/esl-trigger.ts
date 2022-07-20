@@ -5,7 +5,7 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {ready} from '../../esl-utils/decorators/ready';
 import {parseNumber} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {ENTER, SPACE} from '../../esl-utils/dom/keys';
+import {ENTER, SPACE, ESC} from '../../esl-utils/dom/keys';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
@@ -213,21 +213,23 @@ export class ESLTrigger extends ESLBaseElement {
   protected _onClick(event: MouseEvent): void {
     if (!this.allowClick || this.isTargetIgnored(event.target)) return;
     event.preventDefault();
-    switch (this.mode) {
-      case 'show':
-        return this.showTarget({event});
-      case 'hide':
-        return this.hideTarget({event});
-      default:
-        return this.toggleTarget({event});
-    }
+    this._onPrimaryEvent(event);
   }
 
   /** Handles `keydown` event */
   @bind
   protected _onKeydown(event: KeyboardEvent): void {
-    if (![ENTER, SPACE].includes(event.key) || this.isTargetIgnored(event.target)) return;
+    if (![ENTER, SPACE, ESC].includes(event.key) || this.isTargetIgnored(event.target)) return;
     event.preventDefault();
+    if (event.key === ESC) {
+      this.hideTarget({event});
+    } else {
+      this._onPrimaryEvent(event);
+    }
+  }
+
+  /** Handles target primary (observed) event */
+  protected _onPrimaryEvent(event: Event): void {
     switch (this.mode) {
       case 'show':
         return this.showTarget({event});

@@ -28,7 +28,7 @@ export class MediaQueryCondition extends SyntheticEventTarget implements IMediaQ
   public addEventListener(type: 'change', callback: EventListener): void;
   public addEventListener(type: any, callback: EventListener = type): void {
     super.addEventListener(type, callback);
-    if (this._listeners.size > 1) return;
+    if (this.hasEventListener(1)) return;
     if (typeof this._mq.addEventListener === 'function') {
       this._mq.addEventListener('change', this._onChange);
     } else {
@@ -40,7 +40,7 @@ export class MediaQueryCondition extends SyntheticEventTarget implements IMediaQ
   public removeEventListener(type: 'change', callback: EventListener): void;
   public removeEventListener(type: any, callback: EventListener = type): void {
     super.removeEventListener(type, callback);
-    if (this._listeners.size) return;
+    if (this.hasEventListener()) return;
     if (typeof this._mq.removeEventListener === 'function') {
       this._mq.removeEventListener('change', this._onChange);
     } else {

@@ -151,7 +151,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   public addEventListener(type: 'change', callback: EventListener): void;
   public addEventListener(type: any, callback: EventListener = type): void {
     super.addEventListener(type, callback);
-    if (this._listeners.size > 1) return;
+    if (this.hasEventListener(1)) return;
     this._value = this.computedValue;
     this.rules.forEach((rule) => rule.addEventListener(this._onMatchChanged));
   }
@@ -161,7 +161,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   public removeEventListener(type: 'change', callback: EventListener): void;
   public removeEventListener(type: any, callback: EventListener = type): void {
     super.removeEventListener(type, callback);
-    if (this._listeners.size) return;
+    if (this.hasEventListener()) return;
     delete this._value;
     this.rules.forEach((rule) => rule.removeEventListener(this._onMatchChanged));
   }
@@ -189,7 +189,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    * Uses cache if current object is under observation
    */
   public get value(): T | undefined {
-    if (!this._listeners.size) return this.computedValue;
+    if (!this.hasEventListener()) return this.computedValue;
     return Object.hasOwnProperty.call(this, '_value') ? this._value : this.computedValue;
   }
   /** Always computed value of the current {@link ESLMediaRuleList} object */

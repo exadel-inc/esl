@@ -1,54 +1,68 @@
-export type ScrollStrategy = 'none' | 'native' | 'pseudo';
+import {getScrollParent} from './parent';
 
 const $html = document.documentElement;
 const initiatorSet = new Set();
 
-// TODO: functional
+/** Checks if element is blocked from scrolling */
+export function isScrollLocked(target: Element): boolean {
+  return target.hasAttribute('esl-scroll-lock');
+}
 
-export abstract class ScrollUtils {
-  /** Check vertical scroll based on content height */
-  static hasVerticalScroll(target = $html): boolean {
-    return target.scrollHeight > target.clientHeight;
-  }
+/** Checks vertical scroll based on content height */
+export function hasVerticalScroll(target = $html): boolean {
+  return target.scrollHeight > target.clientHeight;
+}
 
+/** Checks  horizontal scroll based on content height */
+export function hasHorizontalScroll(target = $html): boolean {
+  return target.scrollWidth > target.clientWidth;
+}
+
+export type ScrollLockOptions = {
   /**
-   * Disable scroll on the page.
-   * @param strategy - to make scroll visually disabled
-   * */
-  public static lock(strategy?: ScrollStrategy): void {
-    const hasScroll = ScrollUtils.hasVerticalScroll();
-    if (strategy && strategy !== 'none' && hasScroll) {
-      $html.classList.add(`esl-${strategy}-scroll`);
-    }
-    $html.classList.add('esl-disable-scroll');
-  }
-
-  /**
-   * Enable scroll on the page.
-   * */
-  public static unlock(): void {
-    $html.classList.remove('esl-disable-scroll', 'esl-pseudo-scroll', 'esl-native-scroll');
-  }
-
-  /**
-   * Disable scroll on the page.
-   * @param initiator - object to associate request with
-   * @param strategy - to make scroll visually disabled
-   *
-   * TODO: currently requests with different strategy is not taken into account
-   * */
-  public static requestLock(initiator: any, strategy?: ScrollStrategy): void {
-    initiator && initiatorSet.add(initiator);
-    (initiatorSet.size > 0) && ScrollUtils.lock(strategy);
-  }
-
-  /**
-   * Enable scroll on the page in case it was requested with given initiator.
-   * @param initiator - object to associate request with
-   * @param strategy - to make scroll visually disabled
+   * Option to lock scroll:
+   * - 'none' | null | undefined - totally locks scroll with `overflow: hidden` option
+   * - 'native' (applicable for page only) - left page scroll visible but inactive
+   * - 'pseudo' (applicable for page only) - uses special flexbox hack on the page,
+   * to make page static on lock but with capability to overlap the scroll
    */
-  public static requestUnlock(initiator: any, strategy?: ScrollStrategy): void {
-    initiator && initiatorSet.delete(initiator);
-    (initiatorSet.size === 0) && ScrollUtils.unlock();
+  strategy?: 'none' | 'native' | 'pseudo' | null;
+  /** Locks all scrollable parents */
+  recursive?: boolean;
+  /** Initiator (requester) object to limit lock operations by the query */
+  initiator?: any;
+};
+
+/**
+ * Disables scroll on the element.
+ * @param target - scrollable element which will be blocked from scrolling
+ * @param options - additional options to lock scroll
+ * */
+export function lockScroll(target: Element = $html, options: ScrollLockOptions = {}): void {
+  if (options.initiator) {
+    initiatorSet.add(options.initiator);
+    if (initiatorSet.size === 0) return;
   }
+
+  const scrollable = target === $html ? target : getScrollParent(target);
+  scrollable.setAttribute('esl-scroll-lock', options.strategy || '');
+  if (options.recursive && scrollable.parentElement) lockScroll(scrollable.parentElement, options);
+}
+
+/**
+ * Enables scroll on the target element in case it was requested with given initiator.
+ * @param target - scrollable element
+ * @param options - additional options to lock scroll
+ */
+export function unlockScroll(target: Element = $html, options: ScrollLockOptions = {}): void {
+  if (options.initiator) {
+    initiatorSet.delete(options.initiator);
+    if (initiatorSet.size > 0) return;
+  } else {
+    initiatorSet.clear();
+  }
+
+  const scrollable = target === $html ? target : getScrollParent(target);
+  scrollable.removeAttribute('esl-scroll-lock');
+  if (options.recursive && scrollable.parentElement) unlockScroll(scrollable.parentElement, options);
 }

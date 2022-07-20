@@ -1,4 +1,4 @@
-name: Test and Lint
+name: Validate
 
 on:
   push:
@@ -11,12 +11,12 @@ env:
   node-version: 16.x
 
 jobs:
-  validate:
-
+  lint:
+    name: Linting
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node v${{ env.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -28,7 +28,21 @@ jobs:
         run: npm run lint:js
       - name: Run Linting CSS
         run: npm run lint:css
-      - name: Run Tests
-        run: npm run test:unit
       - name: Run Linting Format
         run: npm run lint:spaces
+
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node v${{ env.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          cache: 'npm'
+          node-version: ${{ env.node-version }}
+      - name: Install NPM Dependencies
+        run: npm ci
+      - name: Run Tests
+        run: npm run test:unit
