@@ -3,7 +3,7 @@ import {isScrollable, getScrollParent, getListScrollParents} from '../parent';
 const $html = document.documentElement;
 const $body = document.body;
 
-describe('Function isScrollParent', () => {
+describe('Function isScrollable', () => {
   const target = document.createElement('div');
 
   describe('Element isn`t scrollable', () => {
