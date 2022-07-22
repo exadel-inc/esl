@@ -44,7 +44,7 @@ export function lockScroll(target: Element = $html, options: ScrollLockOptions =
   if (initiator) {
     const initiatorList = initiatorMap.get(target);
     if (initiatorList) {
-      if (initiatorList.indexOf(initiator) >= 0) return;
+      if (initiatorList.includes(initiator)) return;
       initiatorList.push(initiator);
       if (initiatorList.length > 1) return;
     } else {
