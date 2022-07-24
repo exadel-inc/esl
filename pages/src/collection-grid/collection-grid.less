@@ -6,11 +6,14 @@
   justify-content: space-around;
   grid-gap: 15px 30px;
 
+
   &-item {
+    display: flex;
+    flex-direction: column;
     justify-self: center;
     width: 100%;
     max-width: 310px;
-    border: 1px solid #C8D6F0;
+    border: 1px solid #c8d6f0;
 
     &:hover {
       text-decoration: none;
@@ -28,7 +31,7 @@
   }
 
   &-title {
-    border-bottom: 1px solid #C8D6F0;
+    border-bottom: 1px solid #c8d6f0;
     height: 60px;
     font-size: 1.2rem;
     font-weight: 600;
@@ -58,4 +61,31 @@
   &-alt-small {
     font-size: 1.75rem;
   }
+
+  &-column {
+    grid-template-columns: 1fr;
+
+  }
+  &-column &-item {
+    max-width: 100%;
+    flex-direction: row;
+
+  }
+
+  &-column  &-svg {
+    min-height: 60px;
+    padding: 10px;
+    max-width: 60px;
+    order: -1;
+
+    svg {
+      width: 100%;
+    }
+  }
+
+  &-column &-title {
+    border-bottom: none;
+    justify-content: start;
+  }
+
 }

@@ -130,7 +130,8 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   public static parseTuple(mask: string, values: string, parser: RulePayloadParser<any> = String): ESLMediaRuleList {
     const queries = mask.split('|');
     const valueList = values.split('|');
-    if (valueList.length !== queries.length) throw new Error('Value doesn\'t correspond to mask');
+    while (valueList.length < queries.length && valueList.length !== 0) valueList.push(valueList[valueList.length - 1]);
+    if (valueList.length !== queries.length) throw Error('Value doesn\'t correspond to mask');
     const rules: (ESLMediaRule | undefined)[] = queries.map((query, i) => ESLMediaRule.create(valueList[i], query, parser));
     const validRules = rules.filter((rule) => !!rule) as ESLMediaRule[];
     return new ESLMediaRuleList(validRules);
@@ -150,7 +151,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   public addEventListener(type: 'change', callback: EventListener): void;
   public addEventListener(type: any, callback: EventListener = type): void {
     super.addEventListener(type, callback);
-    if (this._listeners.size > 1) return;
+    if (this.hasEventListener(1)) return;
     this._value = this.computedValue;
     this.rules.forEach((rule) => rule.addEventListener(this._onMatchChanged));
   }
@@ -160,7 +161,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   public removeEventListener(type: 'change', callback: EventListener): void;
   public removeEventListener(type: any, callback: EventListener = type): void {
     super.removeEventListener(type, callback);
-    if (this._listeners.size) return;
+    if (this.hasEventListener()) return;
     delete this._value;
     this.rules.forEach((rule) => rule.removeEventListener(this._onMatchChanged));
   }
@@ -188,7 +189,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    * Uses cache if current object is under observation
    */
   public get value(): T | undefined {
-    if (!this._listeners.size) return this.computedValue;
+    if (!this.hasEventListener()) return this.computedValue;
     return Object.hasOwnProperty.call(this, '_value') ? this._value : this.computedValue;
   }
   /** Always computed value of the current {@link ESLMediaRuleList} object */

@@ -19,9 +19,8 @@ import {ESLSelectDropdown} from './esl-select-dropdown';
 @ExportNs('Select')
 export class ESLSelect extends ESLSelectWrapper {
   public static readonly is = 'esl-select';
-  public static get observedAttributes(): string[] {
-    return ['disabled'];
-  }
+  public static observedAttributes = ['disabled', 'dropdown-class'];
+
   public static register(): void {
     ESLSelectDropdown.register();
     ESLSelectRenderer.register();
@@ -34,6 +33,8 @@ export class ESLSelect extends ESLSelectWrapper {
   @attr() public hasValueClass: string;
   /** Class(es) for focused state. Select is also focused if the dropdown list is opened */
   @attr() public hasFocusClass: string;
+  /** Class(es) for select dropdown */
+  @attr() public dropdownClass: string;
   /** Select all options text */
   @attr({defaultValue: 'Select All'}) public selectAllLabel: string;
 
@@ -60,8 +61,12 @@ export class ESLSelect extends ESLSelectWrapper {
     this.$dropdown = document.createElement(ESLSelectDropdown.is);
   }
 
-  protected attributeChangedCallback(attrName: string): void {
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (attrName === 'disabled') this._updateDisabled();
+    if (attrName === 'dropdown-class') {
+      this.$dropdown.$$cls(oldVal, false);
+      this.$dropdown.$$cls(newVal, true);
+    }
   }
 
   protected connectedCallback(): void {

@@ -1,3 +1,82 @@
+# [4.0.0-beta.12](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.11...v4.0.0-beta.12) (2022-07-18)
+
+
+### Bug Fixes
+
+* **esl-image:** fix wrong error status on svg images in FF ([cad6b40](https://github.com/exadel-inc/esl/commit/cad6b40ccce01aaea8b1869b2cd7d542939a4fd4))
+
+# [4.0.0-beta.11](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.10...v4.0.0-beta.11) (2022-07-18)
+
+
+### Features
+
+* **esl-trigger:** add esc key event handler ([3dab6da](https://github.com/exadel-inc/esl/commit/3dab6dad39259f7e920c9a108757271cb58a216d))
+
+# [4.0.0-beta.10](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.9...v4.0.0-beta.10) (2022-07-08)
+
+
+### Features
+
+* **esl-select:** add dropdown-class to observed attributes ([29cc1c2](https://github.com/exadel-inc/esl/commit/29cc1c23e20c242c1f4b34a97ddd082fe55c54cb))
+* **esl-traversing-query:** add ability to find closest element ([ada6fbb](https://github.com/exadel-inc/esl/commit/ada6fbb172a2fb2cf0d435420ad8fb0a46e7766f))
+* **esl-utils:** `ScrollUtils` rewritten in a functional way, API updated ([#1051](https://github.com/exadel-inc/esl/issues/1051)) ([6f6c72f](https://github.com/exadel-inc/esl/commit/6f6c72f2d46bc1ba94d0b072df32782d79560313))
+* **esl-utils:** add ability to pass predicate to sequence finder ([dd8c3cb](https://github.com/exadel-inc/esl/commit/dd8c3cbb43ed529330c32459b9787949a0927a01))
+* **esl-utils:** move parsers to `esl-utils/misc/format` for shared usage ([e58270a](https://github.com/exadel-inc/esl/commit/e58270a2844379a612c1c218f7b9ea6f03bd9bcf))
+
+
+### BREAKING CHANGES
+
+* **esl-utils:** `ScrollUtils.lock` no longer accessible use `lockScroll(document.documentElement, {strategy: '...'})`
+* **esl-utils:** `ScrollUtils.unlock` no longer accessible use `unlockScroll(document.documentElement, {strategy: '...'})`
+* **esl-utils:** `ScrollUtils.lockRequest` no longer accessible use `lockScroll(document.documentElement, {strategy: '...', initiatior})`
+* **esl-utils:** `ScrollUtils.unlockRequest` no longer accessible use `unlockScroll(document.documentElement, {strategy: '...', initiatior})`
+
+Co-authored-by: fshovchko <fshovchko@exadel.com>
+Co-authored-by: nsmirnova <nsmirnova@exadel.com>
+Co-authored-by: ala'n (Alexey Stsefanovich) <astsefanovich@exadel.com>
+Co-authored-by: julia-murashko <ymurashka@exadel.com>
+Co-authored-by: Anastasiya Lesun <72765981+NastaLeo@users.noreply.github.com>
+
+# [4.0.0-beta.9](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.8...v4.0.0-beta.9) (2022-06-29)
+
+
+### Bug Fixes
+
+* **esl-image:** fix esl-image to prevent DOM XSS vulnerabilities ([4fd925d](https://github.com/exadel-inc/esl/commit/4fd925df8605994b0f7d345d77a425e0cdc487e8))
+* **esl-trigger:** custom aria-label maintaining in case a11yLabelActive and a11yLabelInactive are empty ([06d8f92](https://github.com/exadel-inc/esl/commit/06d8f924080849efe90c979151c6c342d4ca8ffc))
+* **esl-utils:** add ability to skip event listener through the target field ([75f6a18](https://github.com/exadel-inc/esl/commit/75f6a186ffcbd98e852627f479284edcb893583f))
+
+
+### Features
+
+* **esl-image:** prototype defined events ([f49ce01](https://github.com/exadel-inc/esl/commit/f49ce019d81cb76995c05d2dccc6621e8836af66))
+* **esl-media-query:** normalize data instead of fail ([3226156](https://github.com/exadel-inc/esl/commit/3226156264e58f085f023b0669179cc48f904c55))
+* **esl-media:** prototype defined events ([976a8b9](https://github.com/exadel-inc/esl/commit/976a8b9c54d4e0b40dcf9e5ee48024b1539e94f7))
+* **esl-select:** add `dropdown-class` param to specify dropdown additional CSS class(es) ([938357f](https://github.com/exadel-inc/esl/commit/938357fa6fb5db804f445f31eb4f73641dfbcccf))
+* **esl-utils:** `[@attr](https://github.com/attr)` extended with ability to pass Serializer/Parser ([012eb83](https://github.com/exadel-inc/esl/commit/012eb83ebcbba8315a2766af090239774c21234e))
+* **esl-utils:** create dom html sanitize method ([004642f](https://github.com/exadel-inc/esl/commit/004642f866ac1b2ed5278084963288d8c2fd17e0))
+* **gh-pages:** add blogs landing component ([fa71fe0](https://github.com/exadel-inc/esl/commit/fa71fe040ae4954ea55946b927751e33c9eb02ce))
+
+# [4.0.0-beta.8](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.7...v4.0.0-beta.8) (2022-06-16)
+
+
+### Code Refactoring
+
+* **esl-core:** ESLMixinElement moved to separate module ([9d42adf](https://github.com/exadel-inc/esl/commit/9d42adfc4202ed9def4c86d36debe33d0d14331b))
+
+
+### Features
+
+* **esl-utils:** ability to pass Provider functions to `event`, `selector`, `target` listener options ([c3503b0](https://github.com/exadel-inc/esl/commit/c3503b0810556388187deb48b14c3cab450c5a8e))
+* **esl-utils:** simplify and extend `[@prop](https://github.com/prop)` decorator ([fd6ede3](https://github.com/exadel-inc/esl/commit/fd6ede34b0a3c7496083cb58aa9b726d4a692085))
+
+
+### BREAKING CHANGES
+
+* **esl-utils:** `@prop` signature changed
+`prop(value?: any, prototypeConfig: OverrideDecoratorConfig = {})`
+* **esl-core:** (beta only) ESLMixinElement now accessible under 'modules/esl-mixin-element/core'
+
 # [4.0.0-beta.7](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.6...v4.0.0-beta.7) (2022-05-19)
 
 

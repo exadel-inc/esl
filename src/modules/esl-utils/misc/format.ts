@@ -22,6 +22,12 @@ export const unwrapParenthesis = (str: string): string => {
   return str.trim().replace(/^\((.*)\)$/, '$1').trim();
 };
 
+/** Parses `null` and `undefined` as an empty string */
+export const parseString = (val: string | null): string => String(val ?? '');
+
+/** Parses string representation of the boolean value */
+export const parseBoolean = (val: string | null): boolean => val !== null && val !== 'false';
+
 /**
  * Parses number with the ability to pass an alternative fallback for NaN.
  * Note: falsy values except 0 are treated as NaN

@@ -15,9 +15,7 @@ import {ESLSelectWrapper} from './esl-select-wrapper';
 @ExportNs('SelectList')
 export class ESLSelectList extends ESLSelectWrapper {
   public static readonly is = 'esl-select-list';
-  public static get observedAttributes(): string[] {
-    return ['select-all-label', 'disabled'];
-  }
+  public static observedAttributes = ['select-all-label', 'disabled'];
 
   public static register(): void {
     ESLSelectItem.register();

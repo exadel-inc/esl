@@ -37,7 +37,7 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
    * **Note**: string values are processed by the {@link TraversingQuery} syntax
    * (e.g. `button` selects all buttons globally, while `::find(button)` selects only buttons inside current element)
    */
-  target?: string | EventTarget | PropertyProvider<string | EventTarget>;
+  target?: EventTarget | string | null | PropertyProvider<EventTarget | string | null>;
 
   /** Identifier of the event listener. Can be used to group and unsubscribe listeners */
   id?: string;
@@ -93,13 +93,10 @@ export class ESLEventListener implements ESLListenerDescriptor, EventListenerObj
   /** @returns target element to listen */
   @memoize()
   public get $targets(): EventTarget[] {
-    if (typeof this.target === 'object' && this.target) {
-      return [this.target];
-    }
-    if (typeof this.target === 'string') {
-      return TraversingQuery.all(this.target, this.$host);
-    }
-    return [this.$host];
+    if (typeof this.target === 'string') return TraversingQuery.all(this.target, this.$host);
+    if (typeof this.target === 'undefined') return [this.$host];
+    if (typeof this.target === 'object' && this.target) return [this.target];
+    return [];
   }
 
   /**

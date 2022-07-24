@@ -17,6 +17,8 @@ Uses "select with dropdown" view. Supports both single and multiple selection.
 
 - `has-focus-class` - class(es) for focused state. Select ia also focused if the dropdown list is opened
 
+- `dropdown-class` - class(es) for select dropdown
+
 - `select-all-label` - select all options text
 
 - `more-label-format` - text to add when there is not enough space to show all selected options inline. 

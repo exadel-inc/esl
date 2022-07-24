@@ -4,7 +4,19 @@
  * Ignores event type
  */
 export class SyntheticEventTarget implements EventTarget {
-  protected readonly _listeners = new Set<EventListenerOrEventListenerObject>();
+  private readonly _listeners = new Set<EventListenerOrEventListenerObject>();
+
+  // Parameter "type" will be used in future update
+  public hasEventListener(): boolean;
+  public hasEventListener(type: string | number): boolean;
+  public hasEventListener(type: string, minCount: number): boolean;
+  public hasEventListener(type: string | number = 'change', minCount: number = 0): boolean {
+    if (typeof type === 'number') {
+      minCount = type;
+      type = 'change';
+    }
+    return this._listeners.size > minCount;
+  }
 
   public addEventListener(callback: EventListenerOrEventListenerObject): void;
   public addEventListener(type: 'change', callback: EventListenerOrEventListenerObject): void;
