@@ -169,4 +169,13 @@ describe('Traversing Query tests', () => {
         .toEqual(expectedCollection);
     });
   });
+  describe('select multiple DOM elements via esl-traversing-query using comma', () => {
+    test.each([
+      ['::parent,::next', btn1, [row1, btn2]],
+      ['::next,::parent', btn1, [btn2, row1]],
+      ['::parent,::next', btn2, [row1, btn3]],
+      ['::find(button, article)::filter(:first-child)', row1, [btn1]],
+      ['::find(button, article)::filter(:last-child)', row1, [article1]],
+    ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
+  });
 });
