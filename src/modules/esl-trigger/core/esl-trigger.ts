@@ -63,6 +63,9 @@ export class ESLTrigger extends ESLBaseElement {
    */
   @attr({defaultValue: '0'}) public hoverHideDelay: string;
 
+  /** Prevent ESC keyboard event handling and target element hiding */
+  @boolAttr() public ignoreEsc: boolean;
+
   protected _$target: ESLToggleable | null;
 
   protected attributeChangedCallback(attrName: string): void {
@@ -222,6 +225,7 @@ export class ESLTrigger extends ESLBaseElement {
     if (![ENTER, SPACE, ESC].includes(event.key) || this.isTargetIgnored(event.target)) return;
     event.preventDefault();
     if (event.key === ESC) {
+      if (this.ignoreEsc) return;
       this.hideTarget({event});
     } else {
       this._onPrimaryEvent(event);

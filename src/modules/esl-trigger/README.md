@@ -22,6 +22,8 @@ ESLTrigger - a custom element, that allows to trigger ESLToggleable instances st
   
 - `track-hover` - [MediaQuery](../esl-media-query/README.md) to define allowed to track hover event media. (Default: `not all`)
 
+- `ignore-esc` - to disallow handle ESC keyboard event and hide target element
+
 - `mode` - action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values (`toggle` by default)
 
 - `ignore` - selector to ignore inner elements
