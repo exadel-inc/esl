@@ -116,7 +116,8 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     // TODO: change info
     const direction = offset > 0 ? 'next' : 'prev';
     this.carousel.$$fire('slide:changed', {
-      detail: {direction}
+      detail: {direction},
+      bubbles: false
     });
   }
 

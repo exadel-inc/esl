@@ -233,7 +233,8 @@ export class ESLCarousel extends ESLBaseElement {
 
     // TODO: change info
     const eventDetails = {
-      detail: {direction}
+      detail: {direction},
+      bubbles: false
     };
 
     if (!this.$$fire('esl:slide:change', eventDetails)) return;

@@ -206,7 +206,8 @@ export class ESLMultiCarouselView extends ESLCarouselView {
 
     // TODO: change info
     this.carousel.$$fire('slide:changed', {
-      detail: {direction}
+      detail: {direction},
+      bubbles: false
     });
   }
 
