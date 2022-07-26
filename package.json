@@ -95,7 +95,7 @@
     "@types/jest": "^28.1.6",
     "@types/smoothscroll-polyfill": "^0.3.1",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
-    "@typescript-eslint/parser": "^5.30.7",
+    "@typescript-eslint/parser": "^5.31.0",
     "@webcomponents/custom-elements": "1.5.0",
     "@webcomponents/webcomponents-platform": "1.0.1",
     "browser-sync": "^2.27.10",
