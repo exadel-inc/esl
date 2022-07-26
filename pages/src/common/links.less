@@ -1,10 +1,12 @@
 @import (reference) "./variables.less";
 
-@arrow-color-escaped: escape(@primary-blue);
-@arrow: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 471.2 471.2'%3E%3Cpath fill='@{arrow-color-escaped}' d='M456.57 248.48a18.45 18.45 0 0 0 5.43-12.9 17.88 17.88 0 0 0-5.43-12.9L340.08 106.19a18.34 18.34 0 0 0-25.93 25.93l85.26 85.13H27.53a18.33 18.33 0 1 0 0 36.66h371.88l-85.26 85.26a18.34 18.34 0 0 0 25.93 25.93z'/%3E%3C/svg%3E";
+@arrow: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 471.2 471.2'%3E%3Cpath d='M456.57 248.48a18.45 18.45 0 0 0 5.43-12.9 17.88 17.88 0 0 0-5.43-12.9L340.08 106.19a18.34 18.34 0 0 0-25.93 25.93l85.26 85.13H27.53a18.33 18.33 0 1 0 0 36.66h371.88l-85.26 85.26a18.34 18.34 0 0 0 25.93 25.93z'/%3E%3C/svg%3E";
 
 .arrow-link {
   color: @primary-blue;
+  font-size: 1rem;
+  font-weight: 600;
+
   &::after {
     content: '';
     display: inline-block;
@@ -13,13 +15,16 @@
     height: 1.27em;
     vertical-align: middle;
     transition: transform .3s ease-in-out;
-    background: url(@arrow) no-repeat;
+
+    -webkit-mask: url(@arrow) no-repeat 0 0.1em;
+    mask: url(@arrow) no-repeat 0 0.1em;
+
+    background-color: @primary-blue;
   }
   &:hover {
-    color: mix(@primary-blue, #fff, 80%);
-    text-decoration: none;
     &::after {
       transform: translateX(5px);
+      background-color: @link-hover-fg;
     }
   }
 }
