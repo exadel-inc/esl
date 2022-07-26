@@ -6,7 +6,7 @@
   }
 }
 
-body[esl-scroll-lock] {
+html[esl-scroll-lock] body {
   overflow: hidden !important;
 
   max-width: 100vw !important;
@@ -26,9 +26,7 @@ html[esl-scroll-lock='pseudo'] {
   }
 
   body {
-    overflow: hidden !important;
     flex: 1 1 100% !important;
-    max-height: 100vh !important;
   }
 
   &::before {
