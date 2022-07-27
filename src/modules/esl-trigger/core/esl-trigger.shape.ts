@@ -25,7 +25,7 @@ export interface ESLTriggerTagShape<T extends ESLTrigger = ESLTrigger> extends E
   /** Define hover event tracking media query */
   'track-hover'?: boolean | string;
 
-  /** Disallow handle ESC keyboard event and hide target element */
+  /** Disallow handle ESC keyboard event to hide target element */
   'ignore-esc'?: boolean;
 
   /** Define selector of inner target element to place aria attributes */

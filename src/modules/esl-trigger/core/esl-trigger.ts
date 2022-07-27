@@ -63,7 +63,7 @@ export class ESLTrigger extends ESLBaseElement {
    */
   @attr({defaultValue: '0'}) public hoverHideDelay: string;
 
-  /** Prevent ESC keyboard event handling and target element hiding */
+  /** Prevent ESC keyboard event handling for target element hiding */
   @boolAttr() public ignoreEsc: boolean;
 
   protected _$target: ESLToggleable | null;
