@@ -172,10 +172,27 @@ describe('Traversing Query tests', () => {
   describe('select multiple DOM elements via esl-traversing-query using comma', () => {
     test.each([
       ['::parent,::next', btn1, [row1, btn2]],
-      ['::next,::parent', btn1, [btn2, row1]],
-      ['::parent,::next', btn2, [row1, btn3]],
+      ['::next,  ::parent', btn1, [btn2, row1]],
+      ['::parent  ,::next', btn2, [row1, btn3]],
       ['::find(button, article)::filter(:first-child)', row1, [btn1]],
-      ['::find(button, article)::filter(:last-child)', row1, [article1]],
     ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
+  });
+  describe('split', () => {
+    test.each([
+      ['', ['']],
+      ['(,)', ['(,)']],
+      ['((,)', ['((,)']],
+      ['()),(,)', ['())','(,)']],
+      ['))(),((),)', ['))()','((),)']],
+      ['a,b', ['a', 'b']],
+      ['a, b', ['a', 'b']],
+      ['a,b ,c ', ['a', 'b', 'c']],
+      ['a,(b),c', ['a', '(b)', 'c']],
+      ['a,(b, b),c', ['a', '(b, b)', 'c']],
+      ['(a,b),c', ['(a,b)', 'c']],
+    ])('%s -> %p', (inp: string, out: string[]) =>
+    {
+      expect(TraversingQuery.splitQueries(inp)).toEqual(out);
+    });
   });
 });

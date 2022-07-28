@@ -96,38 +96,31 @@ export class TraversingQuery {
     return uniq(result);
   }
 
-  private static splitByComma = {
-    [Symbol.split](str: string): string[] {
-      let pos = 0;
-      let isInsideBrackets = false;
-      const comma = ',';
-      const openBracket = '(';
-      const closingBracket = ')';
-
-      const result = [];
-
-      for (let i = 0; i < str.length; i++) {
-        if (str[i] === openBracket) {
-          isInsideBrackets = true;
-        } else if (str[i] === closingBracket) {
-          isInsideBrackets = false;
-        }
-        if (str[i] === comma && !isInsideBrackets) {
-          result.push(str.substring(pos, i).trim());
-          pos = i + 1;
-        } else if (i === str.length - 1) {
-          result.push(str.substring(pos, i + 1).trim());
-        }
+  public static splitQueries(str: string): string[] {
+    let last = 0;
+    let stack = 0;
+    const result = [];
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] === '(') stack++;
+      if (str[i] === ')') stack = Math.max(0, stack - 1);
+      if (str[i] === ',' && !stack) {
+        result.push(str.substring(last, i).trim());
+        last = i + 1;
       }
-      return result;
     }
-  };
-
-  static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
-    const parts = query.split(TraversingQuery.splitByComma);
-    return parts.map(p => this.traverseOne(p, findFirst, base, scope)).reduce((p, c) => p.concat(c), []);
+    result.push(str.substring(last).trim());
+    return result;
   }
-  private static traverseOne(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
+  protected static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
+    const found: Element[] = [];
+    for (const part of TraversingQuery.splitQueries(query)) {
+      const els = this.traverseOne(part, findFirst, base, scope);
+      if (findFirst && els.length) return [els[0]];
+      found.push(...els);
+    }
+    return found;
+  }
+  protected static traverseOne(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
     const parts = query.split(this.PROCESSORS_REGEX).map((term) => term.trim());
     const rootSel = parts.shift();
     const baseCollection = base ? [base] : [];
