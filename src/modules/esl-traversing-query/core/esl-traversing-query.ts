@@ -121,7 +121,8 @@ export class TraversingQuery {
     }
     return found;
   }
-  protected static traverseOne(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
+
+  protected static traverseQuery(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
     const parts = query.split(this.PROCESSORS_REGEX).map((term) => term.trim());
     const rootSel = parts.shift();
     const baseCollection = base ? [base] : [];
