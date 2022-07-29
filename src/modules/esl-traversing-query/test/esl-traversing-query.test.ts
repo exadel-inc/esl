@@ -169,7 +169,7 @@ describe('Traversing Query tests', () => {
         .toEqual(expectedCollection);
     });
   });
-  describe('select multiple DOM elements via esl-traversing-query using comma', () => {
+  describe('TraversingQuery should support multiple queries separated by comma', () => {
     test.each([
       ['::parent,::next', btn1, [row1, btn2]],
       ['::next,  ::parent', btn1, [btn2, row1]],
