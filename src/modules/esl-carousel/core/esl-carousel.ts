@@ -113,6 +113,11 @@ export class ESLCarousel extends ESLBaseElement {
     this.update();
   }
 
+  @bind
+  protected _onResize(): void {
+    this.update(true);
+  }
+
   private attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected) return;
     memoize.clear(this, `${attrName}Cfg`);
@@ -144,6 +149,8 @@ export class ESLCarousel extends ESLBaseElement {
     this.typeRule.addEventListener(this._onUpdate);
     this.countRule.addEventListener(this._onUpdate);
     this.loopRule.addEventListener(this._onUpdate);
+
+    window.addEventListener('resize', this._onResize);
 
     const ariaLabel = this.hasAttribute('aria-label');
     !ariaLabel && this.setAttribute('aria-label', 'Carousel');
