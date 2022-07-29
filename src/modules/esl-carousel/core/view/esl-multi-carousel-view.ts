@@ -198,7 +198,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
       this.currentIndex = normalizeIndex(nextIndex, this.size);
     }
 
-    let direction = offset > 0 ? 'next' : 'prev'; // TODO
+    let direction = offset > 0 ? 'prev' : 'next';
     direction = direction || calcDirection(this.carousel.firstIndex, this.currentIndex, this.size);
     this._setOrderFrom(this.currentIndex);
 
