@@ -177,7 +177,8 @@ describe('Traversing Query tests', () => {
       ['::find(button, article)::filter(:first-child)', row1, [btn1]],
     ])('TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
-  describe('split', () => {
+
+  describe('TraversingQuery.splitQueries split string with query syntax in mind', () => {
     test.each([
       ['', ['']],
       ['(,)', ['(,)']],
