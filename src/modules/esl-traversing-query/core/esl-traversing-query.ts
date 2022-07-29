@@ -111,6 +111,7 @@ export class TraversingQuery {
     result.push(str.substring(last).trim());
     return result;
   }
+
   protected static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
     const found: Element[] = [];
     for (const part of TraversingQuery.splitQueries(query)) {
