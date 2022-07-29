@@ -175,7 +175,7 @@ describe('Traversing Query tests', () => {
       ['::next,  ::parent', btn1, [btn2, row1]],
       ['::parent  ,::next', btn2, [row1, btn3]],
       ['::find(button, article)::filter(:first-child)', row1, [btn1]],
-    ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
+    ])('TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
   describe('split', () => {
     test.each([
