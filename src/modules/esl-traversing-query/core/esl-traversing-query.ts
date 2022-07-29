@@ -115,7 +115,7 @@ export class TraversingQuery {
   protected static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
     const found: Element[] = [];
     for (const part of TraversingQuery.splitQueries(query)) {
-      const els = this.traverseOne(part, findFirst, base, scope);
+      const els = this.traverseQuery(part, findFirst, base, scope);
       if (findFirst && els.length) return [els[0]];
       found.push(...els);
     }
