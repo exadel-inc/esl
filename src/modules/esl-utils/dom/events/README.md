@@ -20,9 +20,10 @@ ESL has builtin mechanism to work with DOM events.
 ### `EventUtils.dispatch` 
 `EventUtils.dispatch` - short method to dispatches custom event.
 Event bubbles and is cancelable by default, use `eventInit` param to override that.
-```
+```typescript
 EventUtils.dispatch(
-  el: EventTarget, eventName: string, 
+  el: EventTarget, 
+  eventName: string, 
   eventInit?: CustomEventInit
 )
 ``` 
