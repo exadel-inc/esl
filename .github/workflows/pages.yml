@@ -1,4 +1,4 @@
-name: GH Pages Build and Deploy
+name: GH Pages
 
 on:
   schedule:
@@ -11,11 +11,11 @@ env:
 
 jobs:
   deploy-gh-pages:
-
+    name: Build and Deploy
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node v${{ env.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -26,7 +26,7 @@ jobs:
       - name: Build
         run: npm run build-pages
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.7
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: pages/dist

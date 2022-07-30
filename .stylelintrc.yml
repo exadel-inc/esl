@@ -15,6 +15,10 @@ rules:
   block-opening-brace-space-before:
     - always
     - severity: warning
+  # Disallow uppercase for hex colors
+  color-hex-case: lower
+  # Disallow invalid hex colors
+  color-hex-length: short
   # Disallow invalid hex colors
   color-no-invalid-hex: true
   # Disallow empty comments
@@ -25,6 +29,8 @@ rules:
     - severity: warning
   # Disallow duplicate properties within declaration blocks
   declaration-block-no-duplicate-properties: true
+  # Disallow absolute paths for imports in bounds of library files
+  esl-less/import-root: never
   # Disallow duplicated font family reverencing
   font-family-no-duplicate-names: true
   # Disallow missing font family keyword
@@ -81,8 +87,7 @@ rules:
     - severity: warning
   # Disallow unknown units
   unit-no-unknown: true
-  # Disallow absolute paths for imports in bounds of library files
-  esl-less/import-root: never
+
 
 overrides:
   # Demo site pages sources
