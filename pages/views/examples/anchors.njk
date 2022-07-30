@@ -1,0 +1,74 @@
+---
+layout: empty
+title: Anchors
+name: Anchors
+tags: [examples, draft]
+icon: examples/accordion.svg
+scrollbar: true
+aside:
+  components:
+    - esl-trigger
+    - esl-panel
+---
+
+{% import 'lorem.njk' as lorem %}
+
+<nav class="mb-1">
+  <h2>Accordion Block anchors</h2>
+  <ul class="mx-4">
+    <li><a esl-d-anchor class="btn-link" href="#II-1">Scroll to II - 1</a></li>
+    <li><a esl-d-anchor class="btn-link" href="#II-2">Scroll to II - 2</a></li>
+    <li><a esl-d-anchor class="btn-link" href="#II-3">Scroll to II - 3</a></li>
+    <li><a esl-d-anchor class="btn-link" href="#II-4">Scroll to II - 4</a></li>
+  </ul>
+</nav>
+<section class="row">
+  <div class="col-12">
+    <esl-panel-group class="accordion-group mb-4">
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #1
+        </esl-trigger>
+        <esl-panel open class="esl-d-accordion-panel">
+          <div id="II-1" class="esl-d-accordion-body">
+            {{ lorem.paragraphs(3) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #2
+        </esl-trigger>
+        <esl-panel class="esl-d-accordion-panel">
+          <div id="II-2" class="esl-d-accordion-body">
+            {{ lorem.paragraphs(7) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #3
+        </esl-trigger>
+        <esl-panel class="esl-d-accordion-panel">
+          <div id="II-3" class="esl-d-accordion-body">
+            {{ lorem.paragraphs(2) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #4
+        </esl-trigger>
+        <esl-panel open class="esl-d-accordion-panel">
+          <div id="II-4" class="esl-d-accordion-body">
+            {{ lorem.paragraphs(8) }}
+          </div>
+        </esl-panel>
+      </div>
+    </esl-panel-group>
+  </div>
+  <hr/>
+  <div>
+    {{ lorem.paragraphs(3) }}
+  </div>
+</section>
