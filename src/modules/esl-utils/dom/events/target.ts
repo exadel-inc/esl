@@ -3,50 +3,36 @@
  * Replicates behavior of native event
  * Doesn't give explicit access to callback storage
  */
-
-interface SyntheticTargetTypeListeners {
-  [type: string]: EventListenerOrEventListenerObject[];
-}
-
 export class SyntheticEventTarget implements EventTarget {
-  private readonly _listeners: SyntheticTargetTypeListeners = {};
+  private readonly _listeners: Record<string, EventListenerOrEventListenerObject[]> = {};
 
   public hasEventListener(): boolean;
   public hasEventListener(type: string | number): boolean;
   public hasEventListener(type: string, minCount: number): boolean;
   public hasEventListener(type: string | number = 'change', minCount: number = 0): boolean {
-    if (typeof type === 'number') {
-      minCount = type;
-      type = 'change';
-    }
+    if (typeof type !== 'string') return this.hasEventListener('change', type || 0);
     return this._listeners[type]?.length > minCount;
   }
 
   public addEventListener(callback: EventListenerOrEventListenerObject): void;
   public addEventListener(type: string, callback: EventListenerOrEventListenerObject): void;
-  public addEventListener(type: string | EventListenerOrEventListenerObject = 'change', callback?: EventListenerOrEventListenerObject): void {
-    if (typeof type !== 'string') {
-      callback = type;
-      type = 'change';
-    }
+  public addEventListener(type: string | EventListenerOrEventListenerObject, callback?: EventListenerOrEventListenerObject): void {
+    if (typeof type !== 'string') return this.addEventListener('change', type);
 
     validateEventListenerType(callback);
-    const listeners = this._listeners[type];
-    this.hasEventListener(type) ? listeners.push(callback!) : Object.assign(this._listeners, {[type]: [callback!]});
+    if (this._listeners[type] && this._listeners[type].includes(callback!)) return;
+    if (this._listeners[type]) this._listeners[type].push(callback!);
+    else Object.assign(this._listeners, {[type]: [callback]});
   }
 
   public removeEventListener(callback: EventListenerOrEventListenerObject): void;
   public removeEventListener(type: string, callback: EventListenerOrEventListenerObject): void;
-  public removeEventListener(type: string | EventListenerOrEventListenerObject = 'change', callback?: EventListenerOrEventListenerObject): void {
-    if (typeof type !== 'string') {
-      callback = type;
-      type = 'change';
-    }
+  public removeEventListener(type: string | EventListenerOrEventListenerObject, callback?: EventListenerOrEventListenerObject): void {
+    if (typeof type !== 'string') return this.removeEventListener('change', type);
 
     validateEventListenerType(callback);
-    const listeners = this._listeners[type];
-    const cbIndex = listeners?.indexOf(callback!);
-    if (cbIndex > -1) listeners.splice(cbIndex, 1);
+    if (!this._listeners[type]) return;
+    this._listeners[type] = this._listeners[type].filter((cb) => cb !== callback);
   }
 
   public dispatchEvent(e: Event): boolean {

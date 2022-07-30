@@ -2,9 +2,9 @@ import {SyntheticEventTarget} from '../target';
 
 describe('dom/events: SyntheticEventTarget', () => {
   describe('Handler function', () => {
-    const et = new SyntheticEventTarget();
-
     describe('Basic functionality', () => {
+      const et = new SyntheticEventTarget();
+
       const event1 = new CustomEvent('change');
       const event2 = new CustomEvent('change');
       const event3 = new CustomEvent('change');
@@ -31,15 +31,15 @@ describe('dom/events: SyntheticEventTarget', () => {
       });
 
       test('listener should be stored', () => {
-        expect(et.hasEventListener('change')).toBe(true);
+        expect(et.hasEventListener('change', 0)).toBe(true);
       });
 
       test('target shouldn`t have more listeners than it actually has', () => {
-        expect(et.hasEventListener('change', 3)).toBe(false);
+        expect(et.hasEventListener('change', 1)).toBe(false);
       });
 
       test('listener shouldn`t be stored for wrong event type', () => {
-        expect(et.hasEventListener('change2')).toBe(false);
+        expect(et.hasEventListener('change2', 0)).toBe(false);
       });
 
       test('listener shouldn`t be called third time', () => {
@@ -52,6 +52,8 @@ describe('dom/events: SyntheticEventTarget', () => {
     });
 
     describe('Shorthand API', () => {
+      const et = new SyntheticEventTarget();
+
       const event1 = new CustomEvent('change');
       const event2 = new CustomEvent('change');
 
@@ -65,12 +67,22 @@ describe('dom/events: SyntheticEventTarget', () => {
         expect(listener).toBeCalledWith(event1);
       });
 
-      test('listener should be stored', () => {
-        expect(et.hasEventListener()).toBe(true);
+      describe('Listener should be stored', () => {
+        test('should be valid to pass only event type', () => {
+          expect(et.hasEventListener('change')).toBe(true);
+        });
+
+        test('should be valid without passing any of the parameters', () => {
+          expect(et.hasEventListener()).toBe(true);
+        });
+      });
+
+      test('listener shouldn`t be stored for wrong event type', () => {
+        expect(et.hasEventListener('change2')).toBe(false);
       });
 
       test('target shouldn`t have more listeners than it actually has', () => {
-        expect(et.hasEventListener(2)).toBe(false);
+        expect(et.hasEventListener(1)).toBe(false);
       });
 
       test('listener shouldn`t be called second time', () => {
@@ -83,6 +95,8 @@ describe('dom/events: SyntheticEventTarget', () => {
     });
 
     describe('Legacy functionality', () => {
+      const et = new SyntheticEventTarget();
+
       const event1 = new CustomEvent('change');
       const event2 = new CustomEvent('change');
       const listener = jest.fn();
@@ -103,6 +117,7 @@ describe('dom/events: SyntheticEventTarget', () => {
     });
 
     describe('API restriction', () => {
+      const et = new SyntheticEventTarget();
       // @ts-ignore
       test('should fail without params', () => expect(() => et.addEventListener()).toThrowError());
       test('should fail with null passed as param', () => expect(() => et.addEventListener(null as any)).toThrowError());
@@ -191,6 +206,21 @@ describe('dom/events: SyntheticEventTarget', () => {
         expect(listener).toBeCalled();
         expect(result).toBe(true);
       });
+    });
+  });
+
+  describe('Listener duplicate subscription', () => {
+    const et = new SyntheticEventTarget();
+    const listener = jest.fn(() => {});
+
+    test('event should be subscribed', () => {
+      et.addEventListener('change', listener);
+      expect(et.hasEventListener(1)).toBe(false);
+    });
+
+    test('event shouldn`t be subscribed again', () => {
+      et.addEventListener('change', listener);
+      expect(et.hasEventListener(1)).toBe(false);
     });
   });
 });
