@@ -1,5 +1,6 @@
 # ESL Event Utils module
 
+<a name="intro"></a>
 ## `SyntheticEventTarget` class
 
 `SyntheticEventTarget` base class to emulate `EventTarget` behaviour 
