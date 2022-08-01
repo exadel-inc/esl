@@ -95,7 +95,9 @@ export class TraversingQuery {
     }
     return uniq(result);
   }
-
+  /**
+   * This can be solved by RegEx /(?<!\([^\)]*),(?![^\(]*\))/g)/, when the WebKit browser implements this feature
+   */
   public static splitQueries(str: string): string[] {
     let last = 0;
     let stack = 0;
