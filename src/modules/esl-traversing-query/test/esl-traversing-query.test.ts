@@ -169,21 +169,22 @@ describe('Traversing Query tests', () => {
         .toEqual(expectedCollection);
     });
   });
-  describe('select multiple DOM elements via esl-traversing-query using comma', () => {
+  describe('TraversingQuery should support multiple queries separated by comma', () => {
     test.each([
       ['::parent,::next', btn1, [row1, btn2]],
       ['::next,  ::parent', btn1, [btn2, row1]],
       ['::parent  ,::next', btn2, [row1, btn3]],
       ['::find(button, article)::filter(:first-child)', row1, [btn1]],
-    ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
+    ])('TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
-  describe('split', () => {
+
+  describe('TraversingQuery.splitQueries split string with query syntax in mind', () => {
     test.each([
       ['', ['']],
       ['(,)', ['(,)']],
       ['((,)', ['((,)']],
-      ['()),(,)', ['())','(,)']],
-      ['))(),((),)', ['))()','((),)']],
+      ['()),(,)', ['())', '(,)']],
+      ['))(),((),)', ['))()', '((),)']],
       ['a,b', ['a', 'b']],
       ['a, b', ['a', 'b']],
       ['a,b ,c ', ['a', 'b', 'c']],

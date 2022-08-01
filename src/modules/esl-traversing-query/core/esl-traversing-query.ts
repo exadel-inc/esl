@@ -95,9 +95,8 @@ export class TraversingQuery {
     }
     return uniq(result);
   }
-  /**
-   * This can be solved by RegEx /(?<!\([^\)]*),(?![^\(]*\))/g)/, when the WebKit browser implements this feature
-   */
+  /** Split multiple queries separated by comma (respects query brackets) */
+  /** This can be solved by RegEx /(?<!\([^\)]*),(?![^\(]*\))/g)/, when the WebKit browser implements this feature  */
   public static splitQueries(str: string): string[] {
     let last = 0;
     let stack = 0;
@@ -113,16 +112,18 @@ export class TraversingQuery {
     result.push(str.substring(last).trim());
     return result;
   }
+
   protected static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
     const found: Element[] = [];
     for (const part of TraversingQuery.splitQueries(query)) {
-      const els = this.traverseOne(part, findFirst, base, scope);
+      const els = this.traverseQuery(part, findFirst, base, scope);
       if (findFirst && els.length) return [els[0]];
       found.push(...els);
     }
     return found;
   }
-  protected static traverseOne(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
+
+  protected static traverseQuery(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
     const parts = query.split(this.PROCESSORS_REGEX).map((term) => term.trim());
     const rootSel = parts.shift();
     const baseCollection = base ? [base] : [];
