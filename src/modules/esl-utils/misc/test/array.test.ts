@@ -36,6 +36,7 @@ describe('misc/array helper tests', () => {
     expect(uniq([1, 1, 1, 1])).toEqual([1]);
     expect(uniq([1, 2, 3, 4])).toEqual([1, 2, 3, 4]);
     expect(uniq([1, 2, 1, 3, 2])).toEqual([1, 2, 3]);
+    expect(uniq([4, 4, 2, 1, 2])).toEqual([4, 2, 1]);
     expect(uniq([NaN, NaN])).toEqual([NaN]);
     expect(uniq([[1], [2], [1]])).toEqual([[1], [2], [1]]);
   });

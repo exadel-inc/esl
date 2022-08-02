@@ -95,6 +95,7 @@ export class TraversingQuery {
     }
     return uniq(result);
   }
+
   /** Split multiple queries separated by comma (respects query brackets) */
   // This can be solved by RegEx /(?<!\([^\)]*),(?![^\(]*\))/g)/, when the WebKit browser implements this feature
   public static splitQueries(str: string): string[] {
@@ -120,7 +121,7 @@ export class TraversingQuery {
       if (findFirst && els.length) return [els[0]];
       found.push(...els);
     }
-    return found;
+    return uniq(found);
   }
 
   protected static traverseQuery(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
