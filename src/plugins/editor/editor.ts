@@ -106,7 +106,7 @@ export class UIPEditor extends UIPPlugin {
   }
 
   /** Callback to catch theme changes from {@link UIPRoot}. */
-  @listen({event: 'uip:configchange', target: '.uip-root'})
+  @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
   protected _onRootConfigChange(e: CustomEvent) {
     const attr = e.detail.attribute;
     const value = e.detail.value;

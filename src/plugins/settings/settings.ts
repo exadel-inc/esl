@@ -64,7 +64,7 @@ export class UIPSettings extends UIPPlugin {
     this.settings.forEach(setting => setting.updateFrom(this.model!));
   }
 
-  @listen({event: 'uip:configchange', target: '.uip-root'})
+  @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
   protected _onRootConfigChange(e: CustomEvent) {
     if (e.detail.attribute !== 'settings-collapsed') return false;
     this.classList.toggle('collapsed', e.detail.value !== null);

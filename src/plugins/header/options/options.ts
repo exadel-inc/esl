@@ -50,7 +50,7 @@ export class UIPOptions extends UIPPlugin {
     this.options.forEach(option => this.append(option));
   }
 
-  @listen({event: 'uip:configchange', target: '.uip-root'})
+  @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
   protected _onRootConfigChange(e: CustomEvent) {
     const option = this.options.get(e.detail.attribute);
     option?.toggleState(e.detail.value !== null);
