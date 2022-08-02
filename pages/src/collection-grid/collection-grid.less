@@ -15,10 +15,15 @@
     max-width: 310px;
     border: 1px solid #c8d6f0;
 
+    &.draft:not(:hover) {
+      opacity: 30%;
+    }
+
     &:hover {
       text-decoration: none;
     }
   }
+
   &-item:hover &-box {
     color: @primary-blue;
   }
@@ -56,8 +61,9 @@
     color: white;
     -webkit-text-stroke: 1px @nav-dark-selected;
     text-shadow: -1px -1px 0 @nav-dark-selected, 1px -1px 0 @nav-dark-selected,
-      -1px 1px 0 @nav-dark-selected, 1px 1px 0 @nav-dark-selected;
+    -1px 1px 0 @nav-dark-selected, 1px 1px 0 @nav-dark-selected;
   }
+
   &-alt-small {
     font-size: 1.75rem;
   }
@@ -66,13 +72,14 @@
     grid-template-columns: 1fr;
 
   }
+
   &-column &-item {
     max-width: 100%;
     flex-direction: row;
 
   }
 
-  &-column  &-svg {
+  &-column &-svg {
     min-height: 60px;
     padding: 10px;
     max-width: 60px;

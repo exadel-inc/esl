@@ -5,8 +5,9 @@ layout: content
 
 <ul class="collection-grid unstyled-list {{ 'collection-grid-column' if list }}">
   {% for item in collections[collection] | notHidden | released | sortByName %}
-    <li >
-      <a class="collection-grid-item"
+    {% set isDraft = [].concat(item.data.tags).includes('draft') %}
+    <li>
+      <a class="collection-grid-item {{ 'draft' if isDraft }}"
          href="{{ item.url | url }}">
         <div class="collection-grid-title collection-grid-box">
           <span>{{ item.data.name }}</span>
