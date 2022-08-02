@@ -95,8 +95,35 @@ export class TraversingQuery {
     }
     return uniq(result);
   }
+  /** Split multiple queries separated by comma (respects query brackets) */
+  // This can be solved by RegEx /(?<!\([^\)]*),(?![^\(]*\))/g)/, when the WebKit browser implements this feature
+  public static splitQueries(str: string): string[] {
+    let last = 0;
+    let stack = 0;
+    const result = [];
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] === '(') stack++;
+      if (str[i] === ')') stack = Math.max(0, stack - 1);
+      if (str[i] === ',' && !stack) {
+        result.push(str.substring(last, i).trim());
+        last = i + 1;
+      }
+    }
+    result.push(str.substring(last).trim());
+    return result;
+  }
 
-  static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
+  protected static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
+    const found: Element[] = [];
+    for (const part of TraversingQuery.splitQueries(query)) {
+      const els = this.traverseQuery(part, findFirst, base, scope);
+      if (findFirst && els.length) return [els[0]];
+      found.push(...els);
+    }
+    return found;
+  }
+
+  protected static traverseQuery(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
     const parts = query.split(this.PROCESSORS_REGEX).map((term) => term.trim());
     const rootSel = parts.shift();
     const baseCollection = base ? [base] : [];
