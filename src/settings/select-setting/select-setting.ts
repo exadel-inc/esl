@@ -167,7 +167,7 @@ export class UIPSelectSetting extends UIPSetting {
     this.select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
   }
 
-  @listen({event: 'uip:configchange', target: '.uip-root'})
+  @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
   protected onRootThemeChange(e: CustomEvent): void {
     if (e.detail.attribute !== 'dark-theme') return;
     let dropdownClass = UIPSelectSetting.dropdownClass;
