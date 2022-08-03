@@ -169,12 +169,15 @@ describe('Traversing Query tests', () => {
         .toEqual(expectedCollection);
     });
   });
+
   describe('TraversingQuery should support multiple queries separated by comma', () => {
     test.each([
       ['::parent,::next', btn1, [row1, btn2]],
       ['::next,  ::parent', btn1, [btn2, row1]],
       ['::parent  ,::next', btn2, [row1, btn3]],
       ['::find(button, article)::filter(:first-child)', row1, [btn1]],
+      ['head::next, body', document.body, [document.body]],
+      ['body, head', document.body, [document.body, document.head]]
     ])('TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
 
