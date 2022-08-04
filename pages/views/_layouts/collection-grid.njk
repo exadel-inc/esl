@@ -6,11 +6,17 @@ layout: content
 <ul class="collection-grid unstyled-list {{ 'collection-grid-column' if list }}">
   {% for item in collections[collection] | notHidden | released | sortByName %}
     {% set isDraft = [].concat(item.data.tags).includes('draft') %}
+    {% set isBeta = [].concat(item.data.tags).includes('beta') %}
     <li>
       <a class="collection-grid-item {{ 'draft' if isDraft }}"
          href="{{ item.url | url }}">
         <div class="collection-grid-title collection-grid-box">
           <span>{{ item.data.name }}</span>
+          {% if isBeta %}
+            <span class="beta">
+           <sup class="badge badge-sup badge-warning">beta</sup>
+            </span>
+          {% endif %}
         </div>
         <div class="collection-grid-box collection-grid-svg">
           {% if item.data.icon %}

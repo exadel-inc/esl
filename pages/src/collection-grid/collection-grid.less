@@ -74,9 +74,24 @@
   }
 
   &-column &-item {
+    background-color: white;
+    border: none;
     max-width: 100%;
     flex-direction: row;
+    svg {
+      display: none;
+    }
 
+    &:hover  {
+      svg {
+        display: block;
+        fill: @primary-blue;
+      }
+    }
+
+    &.draft:not(:hover) {
+      opacity: 60%;
+    }
   }
 
   &-column &-svg {
@@ -95,4 +110,8 @@
     justify-content: start;
   }
 
+}
+
+.beta {
+  margin-left: 7px;
 }
