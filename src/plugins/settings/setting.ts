@@ -73,9 +73,11 @@ export abstract class UIPSetting extends ESLBaseElement {
    * active markup in {@link UIPStateModel}.
    */
   public updateFrom(model: UIPStateModel): void {
+    this.disable(false);
     const values = model.getAttribute(this.target, this.attribute);
 
     if (!values.length) {
+      this.disable(true);
       this.setInconsistency(WARNING_MSG.noTarget);
     } else if (values.some(value => value !== values[0])) {
       this.setInconsistency(WARNING_MSG.multiple);
@@ -97,6 +99,14 @@ export abstract class UIPSetting extends ESLBaseElement {
    * (e.g. multiple attribute values or no target provided).
    */
   protected setInconsistency(msg: string = WARNING_MSG.inconsistent): void {
+    return;
+  }
+
+  /**
+   * Disable setting.
+   * By default is used when there are no setting's targets.
+   */
+  protected disable(force?: boolean): void {
     return;
   }
 

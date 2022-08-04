@@ -12,8 +12,6 @@ import {WARNING_MSG} from '../../utils/warning-msg';
  */
 export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';
-  /** CSS Class added when setting has inconsistent state. */
-  public static inconsistencyClass = 'inconsistency-marker';
 
   /** Setting's visible name. */
   @attr({defaultValue: ''}) public label: string;
@@ -36,6 +34,13 @@ export class UIPBoolSetting extends UIPSetting {
     $field.type = 'checkbox';
     $field.name = this.label;
     return $field;
+  }
+
+  @memoize()
+  protected get $inconsistencyMarker(): HTMLElement {
+    const marker = document.createElement('div');
+    marker.classList.add('inconsistency-marker');
+    return marker;
   }
 
   protected connectedCallback() {
@@ -72,9 +77,13 @@ export class UIPBoolSetting extends UIPSetting {
   }
 
   updateFrom(model: UIPStateModel) {
+    this.disable(false);
     const attrValues = model.getAttribute(this.target, this.attribute);
 
-    if (!attrValues.length) return this.setInconsistency(WARNING_MSG.noTarget);
+    if (!attrValues.length) {
+      this.setInconsistency(WARNING_MSG.noTarget);
+      return this.disable(true);
+    }
 
     this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
   }
@@ -113,18 +122,18 @@ export class UIPBoolSetting extends UIPSetting {
     } else {
       this.$field.checked = value !== null;
     }
-
-    this.querySelector(`.${UIPBoolSetting.inconsistencyClass}`)?.remove();
+    this.$inconsistencyMarker.remove();
   }
 
   protected setInconsistency(msg = WARNING_MSG.inconsistent): void {
     this.$field.checked = false;
-    this.querySelector(`.${UIPBoolSetting.inconsistencyClass}`)?.remove();
+    this.$inconsistencyMarker.remove();
+    this.$inconsistencyMarker.innerText = msg;
+    this.append(this.$inconsistencyMarker);
+  }
 
-    const inconsistencyMarker = document.createElement('span');
-    inconsistencyMarker.classList.add(UIPBoolSetting.inconsistencyClass);
-    inconsistencyMarker.innerText = `(${msg})`;
-
-    this.appendChild(inconsistencyMarker);
+  protected disable(force?: boolean | undefined): void {
+    this.$inconsistencyMarker.classList.toggle('disabled', force);
+    this.$field.toggleAttribute('disabled', force);
   }
 }
