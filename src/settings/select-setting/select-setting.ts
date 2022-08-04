@@ -166,7 +166,7 @@ export class UIPSelectSetting extends UIPSetting {
     if (e.detail.attribute !== 'dark-theme') return;
     let dropdownClass = UIPSelectSetting.dropdownClass;
     if (e.detail.value !== null) dropdownClass += ' uip-dark-dropdown';
-    this.$field.dropdownClass = dropdownClass
+    this.$field.dropdownClass = dropdownClass;
   }
 
   /** Reset [select]{@link $field} value. */
