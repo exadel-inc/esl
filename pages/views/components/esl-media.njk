@@ -17,15 +17,43 @@ aside:
 
 <section class="row justify-content-around">
   <section class="col-12 row" data-demo="0">
-    <div class="col-sm-6 order-sm-2">
-      <h3 class="text-center">ESL Media Playgroud</h3>
-      <esl-d-media-source target="[data-demo='0'] esl-media"></esl-d-media-source>
-    </div>
-    <div class="demo col-sm-6 order-sm-1">
-      <div class="img-container img-container-16-9 img-container-loaded" style="border: solid black 1px;">
-        <esl-media group="demo-media" controls tabindex="0"></esl-media>
-      </div>
-      <esl-d-media-controls target="[data-demo='0'] esl-media"></esl-d-media-controls>
-    </div>
+    <uip-root>
+      <uip-header>
+        <uip-options></uip-options>
+      </uip-header>
+      <script type="text/html" uip-snippet label="ESL Media">
+          <h3 class="text-center">ESL Media</h3>
+          <div class="img-container img-container-16-9 img-container-loaded" style="border: solid black 1px;">
+            <esl-media group="demo-media" class="esl-media esl-media-demo-1" controls tabindex="0"></esl-media>
+          </div>
+          {# ESL Media Controls #}
+          <div class="esl-media-control">
+            <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').play()"> Play</button>
+            <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').pause()"> Pause
+            </button>
+            <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').stop()"> Stop</button>
+          </div>
+      </script>
+      <uip-preview></uip-preview>
+      <uip-settings target=".esl-image">
+        <label style="margin-bottom: 0;" for="" class="">Video settings:</label>
+        <uip-select-setting label="Media type" target=".esl-media" attribute="media-type">
+          <option value="auto">- Auto -</option>
+          <option value="audio">HTML Audio</option>
+          <option value="video">HTML Video</option>
+          <option value="youtube">Youtube</option>
+          <option value="brightcove">Brightcove</option>
+          <option value="iframe">Iframe</option>
+        </uip-select-setting>
+        <uip-text-setting label="Media src:" attribute="media-src" target=".esl-media"></uip-text-setting>
+        <uip-text-setting label="Media id:" attribute="media-id" target=".esl-media"></uip-text-setting>
+        <uip-text-setting label="Player id:" attribute="player-id" target=".esl-media"></uip-text-setting>
+        <uip-text-setting label="Player account:" attribute="player-account" target=".esl-media"></uip-text-setting>
+        <uip-bool-setting label="Muted" attribute="muted" target=".esl-media"></uip-bool-setting>
+        <uip-bool-setting label="Autoplay" attribute="autoplay" target=".esl-media"></uip-bool-setting>
+        <uip-bool-setting label="Disabled" attribute="disabled" target=".esl-media"></uip-bool-setting>
+      </uip-settings>
+      <uip-editor></uip-editor>
+    </uip-root>
   </section>
 </section>

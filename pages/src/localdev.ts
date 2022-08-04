@@ -10,6 +10,8 @@ import '../../src/modules/lib';
 // Config
 import './common/breakpoints';
 
+import {init} from '@exadel/ui-playground/esm/registration.js';
+
 import {
   ESLVSizeCSSProxy,
   ESLImage,
@@ -103,3 +105,4 @@ ESLCarouselPlugins.Dots.register();
 ESLCarouselPlugins.Link.register();
 ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
+init();
