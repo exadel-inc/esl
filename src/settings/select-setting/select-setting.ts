@@ -1,7 +1,6 @@
 import {attr, boolAttr, listen} from '@exadel/esl/modules/esl-base-element/core';
 import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
-import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 
 import {UIPSetting} from '../../plugins/settings/setting';
@@ -63,11 +62,6 @@ export class UIPSelectSetting extends UIPSetting {
     select.id = `${UIPSelectSetting.is}-${randUID()}`;
     this.querySelectorAll('option').forEach(option => select.add(option));
     return select;
-  }
-
-  @memoize()
-  protected get root(): UIPRoot {
-    return this.closest(UIPRoot.is) as UIPRoot;
   }
 
   protected connectedCallback() {
@@ -167,12 +161,12 @@ export class UIPSelectSetting extends UIPSetting {
     this.select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
   }
 
-  @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
+  @listen({event: 'uip:configchange', target: `::parent(.${UIPRoot.is})`})
   protected onRootThemeChange(e: CustomEvent): void {
     if (e.detail.attribute !== 'dark-theme') return;
     let dropdownClass = UIPSelectSetting.dropdownClass;
     if (e.detail.value !== null) dropdownClass += ' uip-dark-dropdown';
-    this.$field.setAttribute('dropdown-class', dropdownClass);
+    this.$field.dropdownClass = dropdownClass
   }
 
   /** Reset [select]{@link $field} value. */
