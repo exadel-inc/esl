@@ -2,7 +2,7 @@
 
 <a name="intro"></a>
 
-## `SyntheticEventTarget` class
+## <a name="target">`SyntheticEventTarget` class</a>
 `SyntheticEventTarget` base class to emulate `EventTarget` behaviour  for custom EventTargets. It supports both `EventListener` (`Function`) and `EventListenerObject` handlers.
 
 ### `addEventListener`
@@ -74,7 +74,7 @@ dispatchEvent(e: Event): boolean
 
 `e` - An event to dispatch.
 
-## `ESLEventListener` class
+## <a name="listener">`ESLEventListener` class</a>
 ESL has built-in mechanism to work with DOM events. `ESLEventListener` instance is used as an 'inner' record to process subscriptions made by `EventUtils`. Uses `EventListenerObject` interface to subscribe to event.
 
 ```typescript
@@ -160,7 +160,7 @@ ESLEventListener.create(target: HTMLElement, handler: ESLListenerHandler, desc: 
 
 `desc` - An object that specifies characteristics about the event listener. See [ESLListenerDescriptor](#listenerDesc).
 
-## `Event Utils` class
+## <a name="eUtils">`Event Utils` class</a>
 
 ### `EventUtils.dispatch`
 Method of the `EventUtils` interface that can be used to dispatch custom event. The event that is being dispatched is bubbling and cancelable by default.
@@ -235,7 +235,7 @@ unsubscribe(target: HTMLElement, ...criteria: ESLListenerCriteria[]): ESLEventLi
 
 `criteria` - An optional set of criteria to filter listeners to remove.
 
-## Miscellaneous Event Utils
+## <a name="misc">`Miscellaneous Event Utils`</a>
 
 ### Guards
 - `isMouseEvent` - Checks if the passed event is `MouseEvent`.
