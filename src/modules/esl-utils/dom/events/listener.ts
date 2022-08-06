@@ -120,7 +120,7 @@ export class ESLEventListener implements ESLListenerDescriptor, EventListenerObj
     if (this.once) this.unsubscribe();
   }
 
-  /** Checks if the passed event can be handled by the curren event listener */
+  /** Checks if the passed event can be handled by the current event listener */
   protected isDelegatedTarget(e: Event): boolean {
     if (typeof this.selector !== 'string') return true;
     const target = e.target;
