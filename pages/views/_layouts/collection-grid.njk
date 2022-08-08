@@ -12,8 +12,13 @@ layout: content
          href="{{ item.url | url }}">
         <div class="collection-grid-title collection-grid-box">
           <span>{{ item.data.name }}</span>
+          {% if isDraft %}
+            <span class="badge">
+           <sup class="badge badge-sup badge-warning">draft</sup>
+            </span>
+          {% endif %}
           {% if isBeta %}
-            <span class="beta">
+            <span class="badge">
            <sup class="badge badge-sup badge-warning">beta</sup>
             </span>
           {% endif %}
