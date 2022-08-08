@@ -6,9 +6,7 @@ tags: [blogs, draft]
 date: 2022-07-01
 ---
 
-Since this release, ESL has its own event handling mechanism.
-
-This ESL update heavily targeted events and everything involved with them, developing advanced API to work with them, if to be more correct.
+This ESL update heavily targeted events and everything involved with them, that means developing advanced event handling API, if to be more correct.
 
 ### ⚡ 1.0 Low Level API
 
