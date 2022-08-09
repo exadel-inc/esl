@@ -14,7 +14,7 @@
     width: 100%;
     max-width: 310px;
     border: 1px solid #c8d6f0;
-    transition-duration: .8s;
+    transition: opacity .8s;
 
     &.draft:not(:hover) .collection-grid-box {
       opacity: 30%;
@@ -30,7 +30,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    transition-duration: .8s;
+    transition: opacity .8s;
   }
   &-item.draft:not(:hover) &-box {
     opacity: 30%;
@@ -45,6 +45,8 @@
     font-size: 1.1rem;
     font-weight: 600;
     color: black;
+    padding: 5px 15px;
+    text-align: center;
   }
 
   &-divider {
@@ -120,6 +122,7 @@
   &-column &-title {
     border-bottom: none;
     justify-content: start;
+    padding: 0;
   }
 
 }
