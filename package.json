@@ -106,7 +106,7 @@
     "eslint": "^8.21.0",
     "eslint-plugin-editorconfig": "^4.0.2",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-sonarjs": "^0.14.0",
+    "eslint-plugin-sonarjs": "^0.15.0",
     "eslint-plugin-tsdoc": "^0.2.16",
     "foreach-cli": "^1.8.1",
     "html-minifier": "^4.0.0",
