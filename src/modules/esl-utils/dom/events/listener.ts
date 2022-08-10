@@ -129,13 +129,18 @@ export class ESLEventListener implements ESLListenerDescriptor, EventListenerObj
     return current.contains(target.closest(this.selector));
   }
 
-  /** (Re-)Subscribes event listener instance */
-  public subscribe(): void {
+  /**
+   * (Re-)Subscribes event listener instance
+   * @returns if subscription was successful
+   */
+  public subscribe(): boolean {
     const {passive, capture} = this;
     this.unsubscribe();
     memoize.clear(this, '$targets');
+    if (!this.$targets.length) return false;
     this.$targets.forEach((el: EventTarget) => el.addEventListener(this.event, this, {passive, capture}));
     ESLEventListener.get(this.$host).push(this);
+    return true;
   }
 
   /** Unsubscribes event listener instance */
