@@ -9,7 +9,7 @@
     <div class="content {{ containerCls or 'container' }} {{ 'container-aside' if aside }}">
       {% if title %}
         <h1 class="page-title">
-          {% if icon %}<span>{% include "static/assets/" + icon %}</span>{% endif %}
+          {% if icon and not aside %}{% include "static/assets/" + icon %}{% endif %}
           {{ title | safe }}
           {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
           {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}

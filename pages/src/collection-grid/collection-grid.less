@@ -32,10 +32,12 @@
     width: 100%;
     transition: opacity .8s;
   }
+
   &-item.draft:not(:hover) &-box {
     opacity: 30%;
 
   }
+
   &-item:hover &-box {
     color: @primary-blue;
   }
@@ -95,10 +97,10 @@
       display: none;
     }
 
-    &:hover  {
-      svg {
+    &:hover {
+      .arrows-icon.right {
         display: block;
-        fill: @primary-blue;
+        border-color: @primary-blue;
       }
       border-color: @primary-blue;
     }
@@ -123,6 +125,19 @@
     border-bottom: none;
     justify-content: start;
     padding: 0;
+  }
+  .arrows-icon {
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    display: none;
+    padding: 3px;
+    &:hover {
+      display: block;
+    }
+  }
+  .arrows-icon.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
   }
 
 }
