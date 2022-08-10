@@ -162,6 +162,9 @@ export class ESLEventListener implements ESLListenerDescriptor, EventListenerObj
   /** Creates event listeners by handler and descriptors */
   public static create(target: HTMLElement, handler: ESLListenerHandler, desc: ESLListenerDescriptor): ESLEventListener[] {
     const events = resolveProperty(desc.event, desc.context || target);
+    if (!events.length) {
+      console.warn('[ESL]: Can\'t create ESLEventListener with empty event type: %o %o', handler, desc);
+    }
     return ESLEventListener.splitEventQ(events).map((event) => {
       const spec: ESLListenerDescriptor = Object.assign({}, desc, {event});
       return new ESLEventListener(target, handler, spec);

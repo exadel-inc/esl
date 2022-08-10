@@ -89,6 +89,16 @@ describe('dom/events: EventUtils', () => {
       expect(createMock).toBeCalledWith(host, expect.anything(), expect.anything());
     });
 
+    test('decorated handler with empty override', () => {
+      const host = {};
+      const createMock =
+        jest.spyOn(ESLEventListener, 'create').mockImplementation((el, cb, desc) => [desc] as any);
+
+      EventUtils.subscribe(host as any, {}, listener1);
+      expect(listener1.subscribe).toBeCalled();
+      expect(createMock).toBeCalledWith(host, expect.anything(), expect.anything());
+    });
+
     test('merge decorated handler', () => {
       const host = {};
       const createMock =
