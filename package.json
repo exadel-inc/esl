@@ -78,7 +78,7 @@
   },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.7",
-    "@types/video.js": "7.3.43",
+    "@types/video.js": "7.3.44",
     "@types/youtube": "0.0.47"
   },
   "devDependencies": {
@@ -94,8 +94,8 @@
     "@semantic-release/release-notes-generator": "^10.0.3",
     "@types/jest": "^28.1.6",
     "@types/smoothscroll-polyfill": "^0.3.1",
-    "@typescript-eslint/eslint-plugin": "^5.32.0",
-    "@typescript-eslint/parser": "^5.32.0",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
     "@webcomponents/custom-elements": "1.5.0",
     "@webcomponents/webcomponents-platform": "1.0.1",
     "browser-sync": "^2.27.10",
@@ -106,7 +106,7 @@
     "eslint": "^8.21.0",
     "eslint-plugin-editorconfig": "^4.0.2",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-sonarjs": "^0.14.0",
+    "eslint-plugin-sonarjs": "^0.15.0",
     "eslint-plugin-tsdoc": "^0.2.16",
     "foreach-cli": "^1.8.1",
     "html-minifier": "^4.0.0",
@@ -119,7 +119,7 @@
     "less": "^4.1.3",
     "lint-staged": "^13.0.3",
     "lintspaces-cli": "^0.7.1",
-    "postcss": "^8.4.14",
+    "postcss": "^8.4.16",
     "postcss-less": "^6.0.0",
     "prismjs": "^1.28.0",
     "promise-polyfill": "^8.2.3",
