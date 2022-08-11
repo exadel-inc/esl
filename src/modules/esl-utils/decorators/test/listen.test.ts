@@ -29,7 +29,7 @@ describe('Decorator: @listen', () => {
     expect(typeof EventUtils.descriptors(test)[0].event).toBe('function');
   });
 
-  test('Multiple @listen declarations auto-subscribed correctly with a full event definition', () => {
+  test('Multiple @listen declarations should be auto-subscribed correctly with a full event definition', () => {
     class Test extends HTMLElement {
       @listen({event: 'event1'})
       onEvent1() {}
@@ -42,7 +42,7 @@ describe('Decorator: @listen', () => {
     expect(EventUtils.descriptors(test).length).toBe(2);
   });
 
-  test('Event listener definitions from the super class handled correctly', () => {
+  test('Event listener definitions from the superclass should be handled correctly', () => {
     class Test extends HTMLElement {
       @listen({event: 'event1'})
       onEvent1() {}
@@ -57,7 +57,7 @@ describe('Decorator: @listen', () => {
     expect(EventUtils.descriptors(test).length).toBe(2);
   });
 
-  test('Override event listener definition without decorator exclude subscription', () => {
+  test('Override event listener definition without decorator should exclude subscription', () => {
     class Test extends HTMLElement {
       @listen({event: 'event1'})
       onEvent() {}
@@ -87,7 +87,7 @@ describe('Decorator: @listen', () => {
     expect((test.onEvent as any as ESLListenerDescriptorFn).event).toBe('event1');
   });
 
-  test('Override event listener definition with a @listen({inherit: true, ...}) merge event description meta information', () => {
+  test('Override event listener definition with a @listen({inherit: true, ...}) should merge event description meta information', () => {
     class Test extends HTMLElement {
       @listen({event: 'event1', selector: 'e'})
       onEvent() {}

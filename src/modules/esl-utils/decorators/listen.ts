@@ -7,13 +7,13 @@ type ListenDecorator<EType extends Event> =
   (target: any, property: string, descriptor: TypedPropertyDescriptor<ESLListenerHandler<EType>>) => void;
 
 type ESLListenerDescriptorExt<T extends keyof ESLListenerEventMap = string> = Partial<ESLListenerDescriptor<T>> & {
-  /** Defines if the listener metadata should be inherited from the method of super class */
+  /** Defines if the listener metadata should be inherited from the method of the superclass */
   inherit?: boolean;
 };
 
 /**
  * Decorator to declare listener ({@link ESLEventListener}) meta information
- * Note no argument `@listen` decorator declares listener interpreted from the superclass
+ * `@listen` decorator without arguments declares a listener that is inherited from the superclass
  */
 export function listen(): ListenDecorator<Event>;
 /**
