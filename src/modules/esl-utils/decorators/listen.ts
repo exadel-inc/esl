@@ -13,11 +13,6 @@ type ESLListenerDescriptorExt<T extends keyof ESLListenerEventMap = string> = Pa
 
 /**
  * Decorator to declare listener ({@link ESLEventListener}) meta information
- * `@listen` decorator without arguments declares a listener that is inherited from the superclass
- */
-export function listen(): ListenDecorator<Event>;
-/**
- * Decorator to declare listener ({@link ESLEventListener}) meta information
  * Defines auto-subscribable event
  * @param event - event type string or event provider function
  */
@@ -29,7 +24,7 @@ export function listen<K extends keyof ESLListenerEventMap>(event: K | PropertyP
  */
 export function listen<K extends keyof ESLListenerEventMap>(desc: ESLListenerDescriptorExt<K>): ListenDecorator<ESLListenerEventMap[K]>;
 
-export function listen(desc: string | ESLListenerDescriptorExt = {inherit: true}): ListenDecorator<Event> {
+export function listen(desc: string | ESLListenerDescriptorExt): ListenDecorator<Event> {
   return function listener<T extends ESLListenerHandler>(target: HTMLElement,
                                                          propertyKey: string,
                                                          descriptor: TypedPropertyDescriptor<T>): void {
