@@ -48,12 +48,12 @@ import {
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
+import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
 import {ESLDemoSearchPageWrapper} from './search/search';
 import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoAnchorLink} from './anchor/anchor-link';
-import {ESLBackLink} from './back-link/back-link';
 
 ESLVSizeCSSProxy.observe();
 
@@ -63,10 +63,9 @@ ESLDemoMarquee.register();
 ESLDemoSearchBox.register();
 ESLDemoSearchPageWrapper.register();
 ESLDemoAnchorLink.register();
+ESLDemoBackLink.register();
 
 // Register ESL Components
-
-ESLBackLink.register();
 ESLImage.register();
 ESLMedia.register();
 

@@ -1,8 +1,7 @@
 import {ESLMixinElement} from '../../../src/modules/esl-mixin-element/core';
 
-
-export class ESLBackLink extends ESLMixinElement {
-  static is = 'esl-back-link';
+export class ESLDemoBackLink extends ESLMixinElement {
+  static is = 'esl-d-back-link';
 
   public connectedCallback(): void {
     super.connectedCallback();
@@ -10,7 +9,6 @@ export class ESLBackLink extends ESLMixinElement {
     const refUrl = new URL(document.referrer);
     if (refUrl.host !== window.location.host) return;
     this.$$attr('href', document.referrer);
-    this.$$attr(ESLBackLink.is, false);
+    this.$$attr(ESLDemoBackLink.is, false);
   }
-
 }
