@@ -6,7 +6,7 @@
                     gradientUnits="userSpaceOnUse">
       <stop offset=".01" stop-color="transparent"/>
       <stop offset=".286" stop-color="#0097E7"/>
-      <stop offset=".693" stop-color="#E9EFFD"/>
+      <stop offset=".693" stop-color="#7BD0D3"/>
       <stop offset=".995" stop-color="transparent"/>
     </linearGradient>
   </defs>
