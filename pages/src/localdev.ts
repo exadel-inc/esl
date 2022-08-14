@@ -53,6 +53,7 @@ import {ESLDemoSearchBox} from './navigation/header/header-search';
 import {ESLDemoSearchPageWrapper} from './search/search';
 import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoAnchorLink} from './anchor/anchor-link';
+import {ESLBackLink} from './back-link/back-link';
 
 ESLVSizeCSSProxy.observe();
 
@@ -65,6 +66,7 @@ ESLDemoAnchorLink.register();
 
 // Register ESL Components
 
+ESLBackLink.register();
 ESLImage.register();
 ESLMedia.register();
 
