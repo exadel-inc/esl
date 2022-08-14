@@ -1,5 +1,6 @@
 @import (reference) "../common/variables.less";
 
+// TODO: refactor
 .collection-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -14,11 +15,7 @@
     width: 100%;
     max-width: 310px;
     border: 1px solid #c8d6f0;
-    transition: opacity .8s;
-
-    &.draft:not(:hover) .collection-grid-box {
-      opacity: 30%;
-    }
+    transition: color .25s ease-in-out, border-color .25s ease-in-out;
 
     &:hover {
       text-decoration: none;
@@ -30,11 +27,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    transition: opacity .8s;
-  }
-
-  &-item.draft:not(:hover) &-box {
-    opacity: 30%;
   }
 
   &-item:hover &-box {
@@ -48,6 +40,16 @@
     color: black;
     padding: 5px 15px;
     text-align: center;
+    transition: color .25s ease-in-out;
+  }
+
+  &-item.draft &-box {
+    opacity: .3;
+    transition: opacity .25s ease-in-out, color .1s linear;
+  }
+  &-item.draft:hover &-box {
+    opacity: 1;
+    transition: opacity .25s ease-in-out, color .1s linear;
   }
 
   &-divider {
@@ -83,7 +85,6 @@
 
   &-column {
     grid-template-columns: 1fr 1fr;
-
   }
 
   &-column &-item {
@@ -136,7 +137,5 @@
   }
   .arrows-icon.right {
     transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
   }
-
 }
