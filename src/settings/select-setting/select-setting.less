@@ -8,5 +8,31 @@
   .esl-select-renderer {
     padding: 0 2px;
     border: 1px solid #ced4da;
+
+    &::after {
+      color: @dark-text;
+    }
+  }
+}
+
+.uip-select-dropdown {
+  .esl-select-item::before {
+    border-color: @dark-text;
+  }
+
+  .esl-select-item[selected]::before {
+    background-color: @dark-theme;
+  }
+
+  &.uip-dark-dropdown {
+    .esl-select-list {
+      background-color: @dark-theme;
+      color: @light-text;
+    }
+
+    .esl-select-item::before {
+      background-color: @dark-theme;
+      border-color: @light-text;
+    }
   }
 }

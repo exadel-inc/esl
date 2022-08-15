@@ -6,6 +6,7 @@ import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
 import {UIPSettings} from './settings';
 import {WARNING_MSG} from '../../utils/warning-msg';
+import {getAttr, setAttr} from '@exadel/esl/modules/esl-utils/dom/attr';
 
 /**
  * Custom element for manipulating with elements attributes.
@@ -18,7 +19,13 @@ export abstract class UIPSetting extends ESLBaseElement {
   /** [Target's]{@link target} attribute which is changed by setting. */
   @attr() public attribute: string;
   /** Target to which setting's changes are attached. */
-  @attr() public target: string;
+  public get target(): string {
+    return getAttr(this, 'target', this.$settings.target);
+  }
+
+  public set target(target: string) {
+    setAttr(this, 'target', target);
+  }
 
   @memoize()
   public get $settings() {
@@ -29,10 +36,6 @@ export abstract class UIPSetting extends ESLBaseElement {
     super.connectedCallback();
     this.classList.add(UIPSetting.is);
     this.bindEvents();
-
-    if (this.target) return;
-    const settingsTarget = this.$settings?.target;
-    if (settingsTarget) this.target = settingsTarget;
   }
 
   protected disconnectedCallback() {
