@@ -5,7 +5,7 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {format} from '../../esl-utils/misc/format';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {ESLMediaRuleList} from '../../esl-media-query/core';
+import {ESLMediaQuery, ESLMediaRuleList} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {ESLPanel} from '../../esl-panel/core';
 
@@ -32,8 +32,8 @@ export class ESLPanelGroup extends ESLBaseElement {
   @attr({defaultValue: ''}) public modeClsTarget: string;
   /** Class(es) to be added during animation ('animate' by default) */
   @attr({defaultValue: 'animate'}) public animationClass: string;
-  /** List of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations) */
-  @attr() public noAnimate: string;
+  /** List of breakpoints to disable collapse/expand animation (for both Group and Panel animations) */
+  @attr({defaultValue: 'not all'}) public noAnimate: string;
   /**
    * Define accordion behavior
    * `single` allows only one Panel to be open.
@@ -143,10 +143,9 @@ export class ESLPanelGroup extends ESLBaseElement {
     return this.$panels.filter((el: ESLPanel) => el.open);
   }
 
-  /** @returns whether the collapse/expand animation should be handheld by the group */
+  /** @returns whether the collapse/expand animation should be handheld by the breakpoints */
   public get shouldAnimate(): boolean {
-    const noAnimateModes = this.noAnimate.split(',').map((mode) => mode.trim());
-    return !noAnimateModes.includes('all') && !noAnimateModes.includes(this.currentMode);
+    return !ESLMediaQuery.for(this.noAnimate);
   }
 
   /** @returns action params config that's used (inherited) by controlled {@link ESLPanel}s */
