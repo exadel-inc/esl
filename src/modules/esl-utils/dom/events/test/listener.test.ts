@@ -14,6 +14,18 @@ describe('dom/events: ESLEventListener', () => {
   });
 
   describe('create', () => {
+    test('without event type', () => {
+      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => void 0);
+
+      const host = document.createElement('div');
+      const handler = jest.fn();
+      const result = ESLEventListener.create(host, handler, {event: ''});
+
+      expect(result.length).toBe(0);
+      expect(consoleSpy).toBeCalledTimes(1);
+      consoleSpy.mockClear();
+    });
+
     test('one by string', () => {
       const host = document.createElement('div');
       const handler = jest.fn();
