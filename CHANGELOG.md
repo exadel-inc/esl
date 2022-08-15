@@ -1,3 +1,19 @@
+# [4.0.0-beta.14](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.13...v4.0.0-beta.14) (2022-08-15)
+
+
+### Bug Fixes
+
+* **esl-traversing-query:** fix uniqueness of result on multiple query ([8ff4ec7](https://github.com/exadel-inc/esl/commit/8ff4ec773344cbf0d95fc6ceee3bb1ce47a806db))
+* **esl-utils:** fix page content jumping after scroll lock ([410f35f](https://github.com/exadel-inc/esl/commit/410f35f9f8fc152da97eeda0299e3ce2c38c1891))
+* **esl-utils:** optimize event subscription with a check for an active targets ([2b2585e](https://github.com/exadel-inc/esl/commit/2b2585e495e74ad5022ebb29239b955e942d96c2))
+
+
+### Features
+
+* **esl-utils:** ability to inherit ESLEventDescriptor from supertype method definition ([899698b](https://github.com/exadel-inc/esl/commit/899698bea0c9c3da72ccd8ac7b4f5d7d9ebd76d3))
+* **gh-pages:** add aurora accent to `promo-banner.njk` ([cfe5abb](https://github.com/exadel-inc/esl/commit/cfe5abb2f7e4f3cbf54ebb98c8fcd6f3c9bce766))
+* **gh-pages:** load animation by scrolling ([c8a6a15](https://github.com/exadel-inc/esl/commit/c8a6a1504ed37da64acd7a17588d08b08dd896dc))
+
 # [4.0.0-beta.13](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.12...v4.0.0-beta.13) (2022-08-02)
 
 
