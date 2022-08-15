@@ -15,6 +15,11 @@ export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
     if (!descriptor || typeof descriptor.value !== 'function') {
       throw new TypeError('Only class methods can be decorated');
     }
-    descriptor.value = decorator(descriptor.value, ...args);
+    const originalFn: Fn = descriptor.value;
+    descriptor.value = function BindDecoration(...selfArgs: Parameters<Fn>): ReturnType<Fn> {
+      const value: Fn = decorator(originalFn, ...args);
+      Object.defineProperty(this, propertyKey, {value, writable: true, configurable: true});
+      return value.apply(this, selfArgs);
+    } as Fn;
   };
 }
