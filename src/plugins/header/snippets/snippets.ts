@@ -137,7 +137,7 @@ export class UIPSnippets extends UIPPlugin {
     }
   }
 
-  @listen('click')
+  @listen({event: 'click', selector: '.snippets-list-item'})
   protected _onItemClick(event: Event) {
     const target = event.target as HTMLElement;
     const index = this.$items.indexOf(target);
@@ -153,7 +153,7 @@ export class UIPSnippets extends UIPPlugin {
     }
   }
 
-  @listen('click')
+  @listen({event: 'click', selector: '.snippets-dropdown-control'})
   protected _onDropdownClick() {
     this.toggleDropdown();
   }

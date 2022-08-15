@@ -135,7 +135,9 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   protected setValue(value: string): void {
+    this.$$off(this._onChange);
     value.split(' ').forEach(opt => this.$field.setSelected(opt, true));
+    this.$$on(this._onChange);
   }
 
   protected setInconsistency(msg = WARNING_MSG.inconsistent): void {
