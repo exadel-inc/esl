@@ -145,7 +145,7 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** @returns whether the collapse/expand animation should be handheld by the breakpoints */
   public get shouldAnimate(): boolean {
-    return !ESLMediaQuery.for(this.noAnimate);
+    return !ESLMediaQuery.for(this.noAnimate).matches;
   }
 
   /** @returns action params config that's used (inherited) by controlled {@link ESLPanel}s */
