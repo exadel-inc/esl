@@ -3,6 +3,7 @@ import {UIPHeader} from './header/header';
 import {UIPOptions} from './header/options/options';
 import {UIPSnippets} from './header/snippets/snippets';
 import {UIPSettings} from './settings/settings';
+import {registeredSettings} from '../registration';
 
 export {UIPEditor, UIPOptions, UIPSettings, UIPSnippets, UIPHeader};
 
@@ -11,5 +12,5 @@ export const registerPlugins = () => {
   UIPHeader.register();
   UIPOptions.register();
   UIPSnippets.register();
-  UIPSettings.register();
+  registeredSettings().then(() => UIPSettings.register());
 };
