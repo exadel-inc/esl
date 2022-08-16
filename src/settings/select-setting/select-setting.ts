@@ -71,7 +71,6 @@ export class UIPSelectSetting extends UIPSetting {
     this.innerHTML = '';
     this.appendChild(this.$label);
     this.appendChild(this.$field);
-    this.bindEvents();
   }
 
   applyTo(model: UIPStateModel) {
