@@ -78,11 +78,11 @@
   },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.7",
-    "@types/video.js": "7.3.44",
+    "@types/video.js": "7.3.45",
     "@types/youtube": "0.0.47"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^1.0.1",
+    "@11ty/eleventy": "^1.0.2",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@juggle/resize-observer": "^3.3.1",
@@ -92,10 +92,10 @@
     "@semantic-release/github": "^8.0.5",
     "@semantic-release/npm": "^9.0.1",
     "@semantic-release/release-notes-generator": "^10.0.3",
-    "@types/jest": "^28.1.6",
+    "@types/jest": "^28.1.7",
     "@types/smoothscroll-polyfill": "^0.3.1",
-    "@typescript-eslint/eslint-plugin": "^5.33.0",
-    "@typescript-eslint/parser": "^5.33.0",
+    "@typescript-eslint/eslint-plugin": "^5.33.1",
+    "@typescript-eslint/parser": "^5.33.1",
     "@webcomponents/custom-elements": "1.5.0",
     "browser-sync": "^2.27.10",
     "chokidar-cli": "^3.0.0",
