@@ -129,13 +129,18 @@ export class ESLEventListener implements ESLListenerDescriptor, EventListenerObj
     return current.contains(target.closest(this.selector));
   }
 
-  /** (Re-)Subscribes event listener instance */
-  public subscribe(): void {
+  /**
+   * (Re-)Subscribes event listener instance
+   * @returns if subscription was successful
+   */
+  public subscribe(): boolean {
     const {passive, capture} = this;
     this.unsubscribe();
     memoize.clear(this, '$targets');
+    if (!this.$targets.length) return false;
     this.$targets.forEach((el: EventTarget) => el.addEventListener(this.event, this, {passive, capture}));
     ESLEventListener.get(this.$host).push(this);
+    return true;
   }
 
   /** Unsubscribes event listener instance */
@@ -157,6 +162,9 @@ export class ESLEventListener implements ESLListenerDescriptor, EventListenerObj
   /** Creates event listeners by handler and descriptors */
   public static create(target: HTMLElement, handler: ESLListenerHandler, desc: ESLListenerDescriptor): ESLEventListener[] {
     const events = resolveProperty(desc.event, desc.context || target);
+    if (!events.length) {
+      console.warn('[ESL]: Can\'t create ESLEventListener with empty event type: %o %o', handler, desc);
+    }
     return ESLEventListener.splitEventQ(events).map((event) => {
       const spec: ESLListenerDescriptor = Object.assign({}, desc, {event});
       return new ESLEventListener(target, handler, spec);

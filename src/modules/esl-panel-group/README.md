@@ -21,7 +21,7 @@ ESLPanelGroup.register();
 - `mode-cls` - rendering mode class pattern (default: `esl-{mode}-view`). Uses ESLUtils `format` syntax for `mode` placeholder
 - `mode-cls-target` - Element [ESLTraversingQuery](../esl-traversing-query/README.md)  selector to add class that identifies mode (ESLPanelGroup itself by default)
 - `animation-class` - class(es) to be added during animation ('animate' by default)
-- `no-animate` - list of comma-separated "modes" to disable collapse/expand animation (for both Group and Panel animations)
+- `no-animate` - list of breakpoints to disable collapse/expand animation (for both Group and Panel animations)
 - `refresh-state` - defines behaviour of active panels in case of mode changing:
   * `initial` - activates initially opened panel(s)
   * `last` - maintain currently active panel(s) open
