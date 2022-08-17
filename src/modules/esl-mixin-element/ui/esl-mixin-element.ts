@@ -73,7 +73,7 @@ export class ESLMixinElement implements AttributeTarget {
     handler: ESLListenerHandler<ESLListenerEventMap[EType]>
   ): ESLEventListener[];
   public $$on(event: any, handler?: any): ESLEventListener[] {
-    event = Object.assign(typeof event === 'string' ? {event} : event, {subhost: this});
+    event = Object.assign(typeof event === 'string' ? {event} : event, {context: this});
     return EventUtils.subscribe(this.$host, event, handler);
   }
 
