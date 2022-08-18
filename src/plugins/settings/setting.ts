@@ -35,10 +35,6 @@ export abstract class UIPSetting extends ESLBaseElement {
   protected connectedCallback() {
     super.connectedCallback();
     this.classList.add(UIPSetting.is);
-
-    if (this.target) return;
-    const settingsTarget = this.$settings?.target;
-    if (settingsTarget) this.target = settingsTarget;
   }
 
   protected disconnectedCallback() {
