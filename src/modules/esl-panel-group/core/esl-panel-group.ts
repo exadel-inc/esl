@@ -20,7 +20,7 @@ import type {PanelActionParams} from '../../esl-panel/core';
 @ExportNs('PanelGroup')
 export class ESLPanelGroup extends ESLBaseElement {
   public static is = 'esl-panel-group';
-  public static observedAttributes = ['mode', 'accordion-group'];
+  public static observedAttributes = ['mode', 'accordion-group', 'refresh-strategy'];
   /** List of supported modes */
   public static supportedModes = ['tabs', 'accordion', 'open'];
 
@@ -81,6 +81,9 @@ export class ESLPanelGroup extends ESLBaseElement {
         return;
       }
       this.reset();
+    }
+    if (attrName === 'refresh-strategy') {
+      memoize.clear(this, 'refreshRules');
     }
   }
 
