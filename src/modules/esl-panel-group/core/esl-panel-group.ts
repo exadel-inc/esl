@@ -20,7 +20,7 @@ import type {PanelActionParams} from '../../esl-panel/core';
 @ExportNs('PanelGroup')
 export class ESLPanelGroup extends ESLBaseElement {
   public static is = 'esl-panel-group';
-  public static observedAttributes = ['mode', 'accordion-group'];
+  public static observedAttributes = ['mode', 'accordion-group', 'refresh-strategy'];
   /** List of supported modes */
   public static supportedModes = ['tabs', 'accordion', 'open'];
 
@@ -40,6 +40,11 @@ export class ESLPanelGroup extends ESLBaseElement {
    * `multiple` allows any number of open Panels.
    * */
   @attr({defaultValue: 'single'}) public accordionGroup: string;
+  /** Define active panel(s) behaviour in case of mode changing ('last' by default)
+   * `initial` - activates initially opened panel(s)
+   * `last` - try to preserve currently active panel(s)
+   * */
+  @attr({defaultValue: 'last'}) public refreshStrategy: string;
   /** Action params to pass into panels when executing reset action (happens when mode is changed) */
   @jsonAttr({defaultValue: {noAnimate: true}}) public transformParams: PanelActionParams;
 
@@ -76,6 +81,9 @@ export class ESLPanelGroup extends ESLBaseElement {
         return;
       }
       this.reset();
+    }
+    if (attrName === 'refresh-strategy') {
+      memoize.clear(this, 'refreshRules');
     }
   }
 
@@ -127,6 +135,17 @@ export class ESLPanelGroup extends ESLBaseElement {
     return ESLMediaRuleList.parse(this.mode);
   }
 
+  /** @returns ESLMediaRuleList instance of the refresh-strategy mapping */
+  @memoize()
+  public get refreshRules(): ESLMediaRuleList<string> {
+    return ESLMediaRuleList.parse(this.refreshStrategy);
+  }
+
+  /** @returns active refresh-strategy */
+  public get activeRefreshStrategy(): string {
+    return this.refreshRules.activeValue || 'last';
+  }
+
   /** @returns current mode */
   public get currentMode(): string {
     return this.modeRules.activeValue || '';
@@ -141,6 +160,11 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** @returns panels that are active */
   public get $activePanels(): ESLPanel[] {
     return this.$panels.filter((el: ESLPanel) => el.open);
+  }
+
+  /** @returns panels that was initially opened */
+  public get $initialPanels(): ESLPanel[] {
+    return this.$panels.filter((el: ESLPanel) => el.initiallyOpened);
   }
 
   /** @returns whether the collapse/expand animation should be handheld by the breakpoints */
@@ -176,20 +200,20 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.$activePanels.forEach((el) => !excluded.includes(el) && el.hide(this.mergeActionParams(params)));
   }
   /** Toggles all panels by predicate */
-  public toggleAllBy(shouldOpen: (panel: ESLPanel) => boolean, params: PanelActionParams = {}): void {
-    this.$panels.forEach((panel) => panel.toggle(shouldOpen(panel), this.mergeActionParams(params)));
+  public toggleAllBy(shouldOpen: ((panel: ESLPanel) => boolean) | ESLPanel[], params: PanelActionParams = {}): void {
+    const predicate = (Array.isArray(shouldOpen)) ? (panel: ESLPanel): boolean => shouldOpen.includes(panel) : shouldOpen;
+    this.$panels.forEach((panel) => panel.toggle(predicate(panel), this.mergeActionParams(params)));
   }
 
   /** Resets to default state applicable to the current mode */
   public reset(): void {
     ESLPanel.registered.then(() => {
-      if (this.currentMode === 'open') this.toggleAllBy(() => true, this.transformParams);
-      if (this.currentMode === 'tabs' || (this.currentMode === 'accordion' && this.accordionGroup === 'single')) {
-        const $activePanel = this.$panels.find((panel) => panel.initiallyOpened);
-        this.toggleAllBy((panel) => panel === $activePanel, this.transformParams);
-      }
-      if (this.currentMode === 'accordion' && this.accordionGroup === 'multiple') {
-        this.toggleAllBy((panel) => panel.initiallyOpened, this.transformParams);
+      if (this.currentMode === 'open') {
+        this.toggleAllBy(() => true, this.transformParams);
+      } else {
+        const isSingle = this.currentMode === 'tabs' || (this.currentMode === 'accordion' && this.accordionGroup === 'single');
+        const $activePanels = this.activeRefreshStrategy === 'last' ? this.$activePanels : this.$initialPanels;
+        this.toggleAllBy(isSingle ? $activePanels.slice(0, 1) : $activePanels, this.transformParams);
       }
     });
   }
