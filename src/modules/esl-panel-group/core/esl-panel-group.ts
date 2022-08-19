@@ -40,11 +40,11 @@ export class ESLPanelGroup extends ESLBaseElement {
    * `multiple` allows any number of open Panels.
    * */
   @attr({defaultValue: 'single'}) public accordionGroup: string;
-  /** Define active panels behaviour in case of mode changing ('last' by default)
+  /** Define active panel(s) behaviour in case of mode changing ('last' by default)
    * `initial` - activates initially opened panel(s)
    * `last` - try to preserve currently active panel(s)
    * */
-  @attr({defaultValue: 'last'}) public refreshState: string;
+  @attr({defaultValue: 'last'}) public refreshStrategy: string;
   /** Action params to pass into panels when executing reset action (happens when mode is changed) */
   @jsonAttr({defaultValue: {noAnimate: true}}) public transformParams: PanelActionParams;
 
@@ -132,14 +132,14 @@ export class ESLPanelGroup extends ESLBaseElement {
     return ESLMediaRuleList.parse(this.mode);
   }
 
-  /** @returns ESLMediaRuleList instance of the refresh-state mapping */
+  /** @returns ESLMediaRuleList instance of the refresh-strategy mapping */
   @memoize()
   public get refreshRules(): ESLMediaRuleList<string> {
-    return ESLMediaRuleList.parse(this.refreshState);
+    return ESLMediaRuleList.parse(this.refreshStrategy);
   }
 
-  /** @returns active refresh-state */
-  public get activeRefreshState(): string {
+  /** @returns active refresh-strategy */
+  public get activeRefreshStrategy(): string {
     return this.refreshRules.activeValue || 'last';
   }
 
@@ -209,7 +209,7 @@ export class ESLPanelGroup extends ESLBaseElement {
         this.toggleAllBy(() => true, this.transformParams);
       } else {
         const isSingle = this.currentMode === 'tabs' || (this.currentMode === 'accordion' && this.accordionGroup === 'single');
-        const $activePanels = this.activeRefreshState === 'last' ? this.$activePanels : this.$initialPanels;
+        const $activePanels = this.activeRefreshStrategy === 'last' ? this.$activePanels : this.$initialPanels;
         this.toggleAllBy(isSingle ? $activePanels.slice(0, 1) : $activePanels, this.transformParams);
       }
     });
