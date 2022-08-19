@@ -71,7 +71,6 @@ export class UIPSelectSetting extends UIPSetting {
     this.innerHTML = '';
     this.appendChild(this.$label);
     this.appendChild(this.$field);
-    this.bindEvents();
   }
 
   applyTo(model: UIPStateModel) {
@@ -142,9 +141,9 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   protected setValue(value: string): void {
-    this.removeEventListener('change', this._onChange);
+    this.$$off(this._onChange);
     value.split(' ').forEach(opt => this.$field.setSelected(opt, true));
-    this.addEventListener('change', this._onChange);
+    this.$$on(this._onChange);
   }
 
   protected setInconsistency(msg = WARNING_MSG.inconsistent): void {

@@ -1,6 +1,6 @@
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
-import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 
 import {UIPSetting} from '../../plugins/settings/setting';
 import {WARNING_MSG} from '../../utils/warning-msg';
@@ -26,7 +26,6 @@ export class UIPSliderSetting extends UIPSetting {
   }
 
   protected disconnectedCallback() {
-    this.$field.removeEventListener('input', this.updateSliderValue);
     this.innerHTML = '';
     super.disconnectedCallback();
   }
@@ -51,7 +50,6 @@ export class UIPSliderSetting extends UIPSetting {
   }
 
   protected updateConfiguration() {
-    this.$field.addEventListener('input', this.updateSliderValue);
     this.$label.append(this.$field);
   }
 
@@ -62,7 +60,7 @@ export class UIPSliderSetting extends UIPSetting {
     return $fieldValue;
   }
 
-  @bind
+  @listen('input')
   protected updateSliderValue() {
     this.$fieldValue.textContent = `Value: ${this.$field.value}`;
   }
