@@ -1,0 +1,34 @@
+.esl-avatar-text-size(@size) {
+  font-size: @size;
+  line-height: @size;
+}
+
+.esl-avatar-size(@size, @textSize: false) {
+  width: @size;
+  min-width: @size;
+  height: @size;
+  min-height: @size;
+  & when (isnumber(@textSize)) {
+    .esl-avatar-text {
+      .esl-avatar-text-size(@textSize);
+    }
+  }
+}
+
+esl-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #000;
+
+  &.with-image {
+    background: transparent;
+  }
+
+  .esl-avatar-text {
+    text-transform: uppercase;
+    color: #fff;
+  }
+}
