@@ -1,5 +1,6 @@
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 
 import {UIPPlugin} from '../../../core/base/plugin';
 import {SnippetTemplate} from '../../../core/base/model';
@@ -69,29 +70,17 @@ export class UIPSnippets extends UIPPlugin {
     super.connectedCallback();
     this.render();
     this.updateTitleText();
-    this.bindEvents();
     // Initial update
     setTimeout(() => this.$active = this.$active || this.$items[0]);
   }
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
-    this.unbindEvents();
   }
 
-  protected bindEvents() {
-    this.$snippetList.addEventListener('click', this._onItemClick);
-    this.$dropdownControl.addEventListener('click', this._onDropdownClick);
-  }
-
-  protected unbindEvents() {
-    this.$snippetList.removeEventListener('click', this._onItemClick);
-    this.$dropdownControl.removeEventListener('click', this._onDropdownClick);
-    document.body.removeEventListener('mouseup', this.onOutsideAction, true);
-  }
-
-  @bind
+  @listen({event: 'mouseup', target: document.body})
   protected onOutsideAction(e: Event) {
+    if (!this.classList.contains('dropdown-open')) return;
     const target = e.target as HTMLElement;
     if (this.contains(target)) return false;
     this.toggleDropdown();
@@ -148,7 +137,7 @@ export class UIPSnippets extends UIPPlugin {
     }
   }
 
-  @bind
+  @listen({event: 'click', selector: '.snippets-list-item'})
   protected _onItemClick(event: Event) {
     const target = event.target as HTMLElement;
     const index = this.$items.indexOf(target);
@@ -164,18 +153,12 @@ export class UIPSnippets extends UIPPlugin {
     }
   }
 
-  @bind
+  @listen({event: 'click', selector: '.snippets-dropdown-control'})
   protected _onDropdownClick() {
     this.toggleDropdown();
   }
 
   public toggleDropdown(): void {
-    const isOpen = this.classList.contains('dropdown-open');
-    if (isOpen) {
-      document.body.removeEventListener('mouseup', this.onOutsideAction, true);
-    } else {
-      document.body.addEventListener('mouseup', this.onOutsideAction, true);
-    }
     this.classList.toggle('dropdown-open');
   }
 }

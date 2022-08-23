@@ -9,6 +9,7 @@ import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
 import {jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
 
 import {UIPPlugin} from '../../core/registration';
+import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 
 /** Config interface to define inner ACE editor settings. */
 interface EditorConfig {
@@ -60,20 +61,10 @@ export class UIPEditor extends UIPPlugin {
   protected connectedCallback() {
     super.connectedCallback();
     this.initEditor();
-    this.bindEvents();
   }
 
   protected disconnectedCallback() {
-    this.unbindEvents();
     super.disconnectedCallback();
-  }
-
-  protected bindEvents() {
-    this.root?.addEventListener('uip:configchange', this._onRootConfigChange);
-  }
-
-  protected unbindEvents() {
-    this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   /** Initialize [Ace]{@link https://ace.c9.io/} editor. */
@@ -115,7 +106,7 @@ export class UIPEditor extends UIPPlugin {
   }
 
   /** Callback to catch theme changes from {@link UIPRoot}. */
-  @bind
+  @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
   protected _onRootConfigChange(e: CustomEvent) {
     const attr = e.detail.attribute;
     const value = e.detail.value;

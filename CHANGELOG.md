@@ -1,3 +1,26 @@
+# [1.0.0-beta.12](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2022-08-19)
+
+
+### Bug Fixes
+
+* **options:** remove margin-left for options ([d7d240c](https://github.com/exadel-inc/ui-playground/commit/d7d240cce1aafd3cdc81cba1e6f7fbbc3441e5ad))
+* **registration:** lint fix ([05b43e4](https://github.com/exadel-inc/ui-playground/commit/05b43e4295794deea57a4bcc1f76b4f3be42ed32))
+* **rtl-option:** add text-alignment to rtl option ([b97617c](https://github.com/exadel-inc/ui-playground/commit/b97617c22ea5d0523bc21f22aa8aaa87f551ca2a))
+* **select-setting:** lint fix ([1d07ee6](https://github.com/exadel-inc/ui-playground/commit/1d07ee697ad9925a8fda804490b00a4333a9bb02))
+* **select-setting:** lint fix ([c6f9b79](https://github.com/exadel-inc/ui-playground/commit/c6f9b797d2dee4613320ea79b9d47f4f5d0dca19))
+* **select-setting:** listen closest root only for theme changes ([148987e](https://github.com/exadel-inc/ui-playground/commit/148987ef928f612a6f139f78b8ae4fa34f9ed06a))
+* **select-setting:** refactor theme listener ([f840316](https://github.com/exadel-inc/ui-playground/commit/f840316dc8f5b7bbed50f565079f88ee69bafd88))
+* **select-setting:** reset select class on light theme ([a1d749e](https://github.com/exadel-inc/ui-playground/commit/a1d749e2e0dc368633e37fee5de9581f3f3bc0e2))
+* **select:** fix theme change event name for listener ([2b19b39](https://github.com/exadel-inc/ui-playground/commit/2b19b39843c060d183f17612c43c1c70e454bf15))
+* **settings:** change settings register order ([033df78](https://github.com/exadel-inc/ui-playground/commit/033df78593259a44850a34692cde38c3d39ea226))
+
+
+### Features
+
+* **select-setting:** add dark-theme styling ([6269d31](https://github.com/exadel-inc/ui-playground/commit/6269d319d6ffdca19a867c511f6350818682be72))
+
+# [1.0.0-beta.11](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2022-06-27)
+
 # [1.0.0-beta.10](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2022-06-15)
 
 

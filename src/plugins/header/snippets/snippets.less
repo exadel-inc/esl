@@ -12,8 +12,14 @@
       position: absolute;
       top: 100%;
       left: 0;
-      width: 200px;
+      width: auto;
+      min-width: 200px;
+      max-width: 50%;
       z-index: 10;
+
+      @media @mobile {
+        min-width: 100%;
+      }
 
       &-control {
         cursor: pointer;

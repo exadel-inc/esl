@@ -37,6 +37,14 @@ export class UIPBoolSetting extends UIPSetting {
   }
 
   @memoize()
+  protected get $label(): HTMLLabelElement {
+    const $label = document.createElement('label');
+    $label.innerText = this.label;
+    $label.append(this.$field);
+    return $label;
+  }
+
+  @memoize()
   protected get $inconsistencyMarker(): HTMLElement {
     const marker = document.createElement('div');
     marker.classList.add('inconsistency-marker');
@@ -45,13 +53,8 @@ export class UIPBoolSetting extends UIPSetting {
 
   protected connectedCallback() {
     super.connectedCallback();
-
-    const label = document.createElement('label');
-    label.innerText = this.label;
-    label.appendChild(this.$field);
-
-    this.innerHTML = '';
-    this.appendChild(label);
+    this.$label.remove();
+    this.insertBefore(this.$label, this.firstChild);
   }
 
   applyTo(model: UIPStateModel): void {
@@ -129,6 +132,7 @@ export class UIPBoolSetting extends UIPSetting {
     this.$field.checked = false;
     this.$inconsistencyMarker.remove();
     this.$inconsistencyMarker.innerText = msg;
+    console.log(this.$inconsistencyMarker);
     this.append(this.$inconsistencyMarker);
   }
 
