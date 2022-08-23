@@ -6,6 +6,11 @@ import type {ESLListenerHandler, ESLListenerEventMap, ESLListenerDescriptor} fro
 type ListenDecorator<EType extends Event> =
   (target: any, property: string, descriptor: TypedPropertyDescriptor<ESLListenerHandler<EType>>) => void;
 
+type ESLListenerDescriptorExt<T extends keyof ESLListenerEventMap = string> = Partial<ESLListenerDescriptor<T>> & {
+  /** Defines if the listener metadata should be inherited from the method of the superclass */
+  inherit?: boolean;
+};
+
 /**
  * Decorator to declare listener ({@link ESLEventListener}) meta information
  * Defines auto-subscribable event
@@ -17,14 +22,15 @@ export function listen<K extends keyof ESLListenerEventMap>(event: K | PropertyP
  * Defines auto-subscribable event by default
  * @param desc - event listener configuration {@link ESLListenerDescriptor}
  */
-export function listen<K extends keyof ESLListenerEventMap>(desc: ESLListenerDescriptor<K>): ListenDecorator<ESLListenerEventMap[K]>;
+export function listen<K extends keyof ESLListenerEventMap>(desc: ESLListenerDescriptorExt<K>): ListenDecorator<ESLListenerEventMap[K]>;
 
-export function listen(desc: string | ESLListenerDescriptor): ListenDecorator<Event> {
+export function listen(desc: string | ESLListenerDescriptorExt): ListenDecorator<Event> {
   return function listener<T extends ESLListenerHandler>(target: HTMLElement,
                                                          propertyKey: string,
                                                          descriptor: TypedPropertyDescriptor<T>): void {
+    const superDesc = Object.getPrototypeOf(target)[propertyKey];
     desc = typeof desc === 'string' || typeof desc === 'function' ? {event: desc} : desc;
-    desc = Object.assign({auto: true}, desc);
+    desc = Object.assign({auto: true}, desc.inherit && isDescriptorFn(superDesc) ? superDesc : {}, desc);
 
     if (!descriptor || typeof descriptor.value !== 'function') {
       throw new TypeError('Only class methods can be decorated via listener decorator');
