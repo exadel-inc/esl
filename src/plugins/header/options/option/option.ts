@@ -1,5 +1,5 @@
 import {attr, boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
-import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 import {ENTER, SPACE} from '@exadel/esl/modules/esl-utils/dom/keys';
 
 import type {UIPOptions} from '../options';
@@ -30,21 +30,15 @@ export class UIPOption extends ESLBaseElement {
     super.connectedCallback();
     this.classList.add(`${this.attribute}-option`);
     this.tabIndex = 0;
-    this.bindEvents();
   }
 
-  protected bindEvents() {
-    this.addEventListener('click', this._onClick);
-    this.addEventListener('keydown', this._onKeydown);
-  }
-
-  @bind
+  @listen('click')
   protected _onClick() {
     this.toggleState();
     this.$$fire('uip:option:changed');
   }
 
-  @bind
+  @listen('keydown')
   protected _onKeydown(e: KeyboardEvent) {
     if (ENTER !== e.key && SPACE !== e.key) return;
     this.toggleState();
@@ -56,13 +50,7 @@ export class UIPOption extends ESLBaseElement {
     this.$$cls('active', this.active);
   }
 
-  protected unbindEvents() {
-    this.removeEventListener('click', this._onClick);
-    this.removeEventListener('keydown', this._onKeydown);
-  }
-
   protected disconnectedCallback() {
-      this.unbindEvents();
       super.disconnectedCallback();
   }
 }

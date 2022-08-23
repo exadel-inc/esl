@@ -1,4 +1,4 @@
-import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 
 import {UIPPlugin} from '../../../core/base/plugin';
 import {OptionConfig, UIPOption} from './option/option';
@@ -41,24 +41,12 @@ export class UIPOptions extends UIPPlugin {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.bindEvents();
     this.render();
   }
 
   protected disconnectedCallback() {
     this.innerHTML = '';
-    this.unbindEvents();
     super.disconnectedCallback();
-  }
-
-  protected bindEvents() {
-    this.addEventListener('uip:option:changed', this._onOptionClick);
-    this.root?.addEventListener('uip:configchange', this._onRootConfigChange);
-  }
-
-  protected unbindEvents() {
-    this.removeEventListener('uip:option:changed', this._onOptionClick);
-    this.root?.removeEventListener('uip:configchange', this._onRootConfigChange);
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string | null, newVal: string | null) {
@@ -83,13 +71,13 @@ export class UIPOptions extends UIPPlugin {
     this.options.forEach(option => this.append(option));
   }
 
-  @bind
+  @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
   protected _onRootConfigChange(e: CustomEvent) {
     const option = this.options.get(e.detail.attribute);
     option?.toggleState(e.detail.value !== null);
   }
 
-  @bind
+  @listen('click')
   protected _onOptionClick(e: Event) {
     e.stopPropagation();
     const option = e.target as UIPOption;
