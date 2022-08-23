@@ -1,7 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, jsonAttr, ESLBaseElement} from '../../esl-base-element/core';
+import {attr, jsonAttr, ESLBaseElement, listen, prop} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
-import {bind} from '../../esl-utils/decorators/bind';
 import {format} from '../../esl-utils/misc/format';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
@@ -23,6 +22,9 @@ export class ESLPanelGroup extends ESLBaseElement {
   public static observedAttributes = ['mode', 'accordion-group'];
   /** List of supported modes */
   public static supportedModes = ['tabs', 'accordion', 'open'];
+
+  /** Event that dispatched on instance mode change */
+  @prop('esl:change:mode') public MODE_CHANGE_EVENT: string;
 
   /** Rendering mode of the component (takes values from the list of supported modes; 'accordion' by default) */
   @attr({defaultValue: 'accordion'}) public mode: string;
@@ -49,25 +51,15 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   protected connectedCallback(): void {
     super.connectedCallback();
-    this.bindEvents();
-
-    this.modeRules.addEventListener(this._onModeChange);
     this.updateMode();
-  }
-
-  protected disconnectedCallback(): void {
-    super.disconnectedCallback();
-    this.modeRules.removeEventListener(this._onModeChange);
-
-    this.unbindEvents();
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'mode') {
-      this.modeRules.removeEventListener(this._onModeChange);
+      this.$$off(this._onModeChange);
       memoize.clear(this, 'modeRules');
-      this.modeRules.addEventListener(this._onModeChange);
+      this.$$on(this._onModeChange);
       this.updateMode();
     }
     if (attrName === 'accordion-group') {
@@ -77,22 +69,6 @@ export class ESLPanelGroup extends ESLBaseElement {
       }
       this.reset();
     }
-  }
-
-  protected bindEvents(): void {
-    this.addEventListener('esl:before:show', this._onBeforeShow);
-    this.addEventListener('esl:show', this._onShow);
-    this.addEventListener('esl:before:hide', this._onBeforeHide);
-
-    this.addEventListener('transitionend', this._onTransitionEnd);
-  }
-
-  protected unbindEvents(): void {
-    this.removeEventListener('esl:before:show', this._onBeforeShow);
-    this.removeEventListener('esl:show', this._onShow);
-    this.removeEventListener('esl:before:hide', this._onBeforeHide);
-
-    this.removeEventListener('transitionend', this._onTransitionEnd);
   }
 
   /** Updates element state according to current mode */
@@ -105,7 +81,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.reset();
 
     if (prevMode !== currentMode) {
-      this.$$fire('esl:change:mode', {detail: {prevMode, currentMode}});
+      this.$$fire(this.MODE_CHANGE_EVENT, {detail: {prevMode, currentMode}});
     }
   }
 
@@ -234,7 +210,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Process {@link ESLPanel} pre-show event */
-  @bind
+  @listen('esl:before:show')
   protected _onBeforeShow(e: CustomEvent): void {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
@@ -243,7 +219,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Process {@link ESLPanel} show event */
-  @bind
+  @listen('esl:show')
   protected _onShow(e: CustomEvent): void {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
@@ -258,7 +234,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Process {@link ESLPanel} pre-hide event */
-  @bind
+  @listen('esl:before:hide')
   protected _onBeforeHide(e: CustomEvent): void {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
@@ -271,7 +247,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Catches CSS transition end event to start post-animate processing */
-  @bind
+  @listen('transitionend')
   protected _onTransitionEnd(e?: TransitionEvent): void {
     if (!e || (e.propertyName === 'height' && e.target === this)) {
       this.afterAnimate();
@@ -279,7 +255,10 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Handles mode change */
-  @bind
+  @listen({
+    event: 'change',
+    target: (group: ESLPanelGroup) => group.modeRules
+  })
   protected _onModeChange(): void {
     this.updateMode();
   }
