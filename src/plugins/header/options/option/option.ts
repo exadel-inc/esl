@@ -6,8 +6,10 @@ import type {UIPOptions} from '../options';
 
 /** Config used to create options. */
 export type OptionConfig = {
-  /** Attribute to toggle. */
-  attribute: string;
+  /** Attribute name used as absence marker of option icon */
+  attrName: string;
+  /** Controlled attribute to toggle on root. */
+  rootControlledAttr: string;
   /** Callback to indicate if option should be rendered. */
   canActivate?: (scope: UIPOptions) => boolean;
 };
@@ -20,7 +22,7 @@ export class UIPOption extends ESLBaseElement {
 
   static create(optionConfig: OptionConfig): UIPOption {
     const option = document.createElement('uip-option') as UIPOption;
-    option.setAttribute('attribute', optionConfig.attribute);
+    option.setAttribute('attribute', optionConfig.rootControlledAttr);
     return option;
   }
 
