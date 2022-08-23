@@ -48,7 +48,7 @@ export class UIPTextSetting extends UIPSetting {
     this.$field.placeholder = msg;
   }
 
-  protected disable(force?: boolean | undefined): void {
+  set disabled(force: boolean) {
     this.$field.toggleAttribute('disabled', force);
   }
 }

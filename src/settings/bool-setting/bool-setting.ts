@@ -54,7 +54,7 @@ export class UIPBoolSetting extends UIPSetting {
     this.appendChild(label);
   }
 
-  applyTo(model: UIPStateModel) {
+  applyTo(model: UIPStateModel): void {
     if (this.mode === 'replace') return super.applyTo(model);
 
     const cfg: ChangeAttrConfig = {
@@ -67,7 +67,7 @@ export class UIPBoolSetting extends UIPSetting {
     model.changeAttribute(cfg);
   }
 
-  transform(value: string | false,  attrValue: string | null) {
+  transform(value: string | false,  attrValue: string | null): string | null {
     if (!attrValue) return value || null;
 
     const attrTokens = TokenListUtils.remove(TokenListUtils.split(attrValue), this.value);
@@ -76,13 +76,13 @@ export class UIPBoolSetting extends UIPSetting {
     return TokenListUtils.join(attrTokens);
   }
 
-  updateFrom(model: UIPStateModel) {
-    this.disable(false);
+  updateFrom(model: UIPStateModel): void {
+    this.disabled = false;
     const attrValues = model.getAttribute(this.target, this.attribute);
 
     if (!attrValues.length) {
-      this.setInconsistency(WARNING_MSG.noTarget);
-      return this.disable(true);
+      this.disabled = true;
+      return this.setInconsistency(WARNING_MSG.noTarget);
     }
 
     this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
@@ -132,7 +132,7 @@ export class UIPBoolSetting extends UIPSetting {
     this.append(this.$inconsistencyMarker);
   }
 
-  protected disable(force?: boolean | undefined): void {
+  set disabled(force: boolean) {
     this.$inconsistencyMarker.classList.toggle('disabled', force);
     this.$field.toggleAttribute('disabled', force);
   }

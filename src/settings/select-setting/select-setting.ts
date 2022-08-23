@@ -95,7 +95,7 @@ export class UIPSelectSetting extends UIPSetting {
     const attrValues = model.getAttribute(this.target, this.attribute);
 
     if (!attrValues.length) {
-      this.disable(true);
+      this.disabled = true;
       return this.setInconsistency(WARNING_MSG.noTarget);
     }
 
@@ -152,13 +152,13 @@ export class UIPSelectSetting extends UIPSetting {
     this.$field.update();
   }
 
-  protected disable(force?: boolean | undefined): void {
+  set disabled(force: boolean) {
     this.$field.toggleAttribute('disabled', force);
   }
 
   /** Reset [select]{@link $field} value. */
   protected reset(): void {
-    this.disable(false);
+    this.disabled = false;
     this.$field.options.forEach(opt => opt.selected = false);
     this.$field.$select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
   }

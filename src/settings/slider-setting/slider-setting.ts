@@ -81,7 +81,7 @@ export class UIPSliderSetting extends UIPSetting {
     this.$fieldValue.textContent = msg;
   }
 
-  protected disable(force?: boolean | undefined): void {
+  set disabled(force: boolean) {
     this.$fieldValue.classList.toggle('disabled', force);
     this.$field.toggleAttribute('disabled', force);
   }
