@@ -1,0 +1,152 @@
+---
+layout: content
+title: Avatar
+seoTitle: Avatar component examples based on ESL web components
+name: Avatar
+tags: [examples, draft]
+icon: examples/image.svg
+aside:
+  components:
+    - esl-avatar
+---
+
+<section class="row">
+  <div class="col-12">
+    <div class="row mb-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
+        <div>
+          <h2>Text mode only</h2>
+          {% code 'html' %}
+            <esl-avatar
+              username="Quentin Tarantino">
+            </esl-avatar>
+          {% endcode %}
+          <p>ESL Avatar displays the user's initials. (First letter from the first name and first letter from the last name).</p>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 d-flex avatar-demo-container">
+        <div class="avatar-demo-wrapper">
+          <esl-avatar class="avatar-demo-4" username="Quentin Tarantino"></esl-avatar>
+          <esl-avatar class="avatar-demo-3" username="Quentin Tarantino"></esl-avatar>
+          <esl-avatar class="avatar-demo-2" username="Quentin Tarantino"></esl-avatar>
+          <esl-avatar class="avatar-demo-1" username="Quentin Tarantino"></esl-avatar>
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="row mb-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
+        <div>
+          <h2>With PNG image</h2>
+          {% code 'html' %}
+            <esl-avatar
+              username="Quentin Tarantino"
+              image-url="/assets/avatar/user.png">
+            </esl-avatar>
+          {% endcode %}
+          <p>ESL Avatar displays avatar image.</p>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 d-flex avatar-demo-container">
+        <div class="avatar-demo-wrapper">
+          <esl-avatar class="avatar-demo-4" username="Quentin Tarantino" image-url="/assets/avatar/user.png"></esl-avatar>
+          <esl-avatar class="avatar-demo-3" username="Quentin Tarantino" image-url="/assets/avatar/user.png"></esl-avatar>
+          <esl-avatar class="avatar-demo-2" username="Quentin Tarantino" image-url="/assets/avatar/user.png"></esl-avatar>
+          <esl-avatar class="avatar-demo-1" username="Quentin Tarantino" image-url="/assets/avatar/user.png"></esl-avatar>
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="row mb-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
+        <div>
+          <h2>With JPEG image</h2>
+          {% code 'html' %}
+            <esl-avatar
+              username="Quentin Tarantino"
+              image-url="/assets/avatar/user.jpg">
+            </esl-avatar>
+          {% endcode %}
+          <p>ESL Avatar displays avatar image.</p>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 d-flex avatar-demo-container">
+        <div class="avatar-demo-wrapper">
+          <esl-avatar class="avatar-demo-4" username="Quentin Tarantino" image-url="/assets/avatar/user.jpg"></esl-avatar>
+          <esl-avatar class="avatar-demo-3" username="Quentin Tarantino" image-url="/assets/avatar/user.jpg"></esl-avatar>
+          <esl-avatar class="avatar-demo-2" username="Quentin Tarantino" image-url="/assets/avatar/user.jpg"></esl-avatar>
+          <esl-avatar class="avatar-demo-1" username="Quentin Tarantino" image-url="/assets/avatar/user.jpg"></esl-avatar>
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="row mb-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
+        <div>
+          <h2>With SVG image</h2>
+          {% code 'html' %}
+            <esl-avatar
+              username="Quentin Tarantino"
+              image-url="/assets/avatar/user.svg">
+            </esl-avatar>
+          {% endcode %}
+          <p>ESL Avatar displays avatar image.</p>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 d-flex avatar-demo-container">
+        <div class="avatar-demo-wrapper">
+          <esl-avatar class="avatar-demo-4" username="Quentin Tarantino" image-url="/assets/avatar/user.svg"></esl-avatar>
+          <esl-avatar class="avatar-demo-3" username="Quentin Tarantino" image-url="/assets/avatar/user.svg"></esl-avatar>
+          <esl-avatar class="avatar-demo-2" username="Quentin Tarantino" image-url="/assets/avatar/user.svg"></esl-avatar>
+          <esl-avatar class="avatar-demo-1" username="Quentin Tarantino" image-url="/assets/avatar/user.svg"></esl-avatar>
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="row mb-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
+        <div>
+          <h2>With transparent PNG image</h2>
+          {% code 'html' %}
+            <esl-avatar
+              username="Quentin Tarantino"
+              image-url="/assets/avatar/transparent.png">
+            </esl-avatar>
+          {% endcode %}
+          <p>ESL Avatar displays avatar image.</p>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 d-flex avatar-demo-container">
+        <div class="avatar-demo-wrapper">
+          <esl-avatar class="avatar-demo-4" username="Quentin Tarantino" image-url="/assets/avatar/transparent.png"></esl-avatar>
+          <esl-avatar class="avatar-demo-3" username="Quentin Tarantino" image-url="/assets/avatar/transparent.png"></esl-avatar>
+          <esl-avatar class="avatar-demo-2" username="Quentin Tarantino" image-url="/assets/avatar/transparent.png"></esl-avatar>
+          <esl-avatar class="avatar-demo-1" username="Quentin Tarantino" image-url="/assets/avatar/transparent.png"></esl-avatar>
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="row mb-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
+        <div>
+          <h2>With image, but the image did not load</h2>
+          {% code 'html' %}
+            <esl-avatar
+              username="Quentin Tarantino"
+              image-url="/assets/non-existent-image.png">
+            </esl-avatar>
+          {% endcode %}
+          <p>ESL Avatar tries to load the image and switches to text mode displaying when it receives the error.</p>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 d-flex avatar-demo-container">
+        <div class="avatar-demo-wrapper">
+          <esl-avatar class="avatar-demo-4" username="Quentin Tarantino" image-url="/assets/non-existent-image.png"></esl-avatar>
+          <esl-avatar class="avatar-demo-3" username="Quentin Tarantino" image-url="/assets/non-existent-image.png"></esl-avatar>
+          <esl-avatar class="avatar-demo-2" username="Quentin Tarantino" image-url="/assets/non-existent-image.png"></esl-avatar>
+          <esl-avatar class="avatar-demo-1" username="Quentin Tarantino" image-url="/assets/non-existent-image.png"></esl-avatar>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
