@@ -10,6 +10,8 @@ import {ESLPanel} from '../../esl-panel/core';
 
 import type {PanelActionParams} from '../../esl-panel/core';
 
+const parseCount = (value: string): number => value === 'all' ? Number.POSITIVE_INFINITY : parseInt(value, 10);
+
 /**
  * ESLPanelGroup component
  * @author Julia Murashko
@@ -19,9 +21,9 @@ import type {PanelActionParams} from '../../esl-panel/core';
 @ExportNs('PanelGroup')
 export class ESLPanelGroup extends ESLBaseElement {
   public static is = 'esl-panel-group';
-  public static observedAttributes = ['mode', 'accordion-group', 'refresh-strategy'];
+  public static observedAttributes = ['mode', 'refresh-strategy', 'min-open-items', 'max-open-items'];
   /** List of supported modes */
-  public static supportedModes = ['tabs', 'accordion', 'open'];
+  public static supportedModes = ['tabs', 'accordion'];
 
   /** Event that dispatched on instance mode change */
   @prop('esl:change:mode') public MODE_CHANGE_EVENT: string;
@@ -38,12 +40,11 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** List of breakpoints to disable collapse/expand animation (for both Group and Panel animations) */
   @attr({defaultValue: 'not all'}) public noAnimate: string;
 
-  /**
-   * Define accordion behavior
-   * `single` allows only one Panel to be open.
-   * `multiple` allows any number of open Panels.
-   * */
-  @attr({defaultValue: 'single'}) public accordionGroup: string;
+  /** Define minimum number of panels that could be opened */
+  @attr({defaultValue: '1'}) public minOpenItems: string;
+  /** Define maximum number of panels that could be opened */
+  @attr({defaultValue: 'all'}) public maxOpenItems: string;
+
   /** Define active panel(s) behaviour in case of mode changing ('last' by default)
    * `initial` - activates initially opened panel(s)
    * `last` - try to preserve currently active panel(s)
@@ -69,11 +70,12 @@ export class ESLPanelGroup extends ESLBaseElement {
       this.$$on(this._onModeChange);
       this.updateMode();
     }
-    if (attrName === 'accordion-group') {
-      if (newVal !== 'single' && newVal !== 'multiple') {
-        this.accordionGroup = oldVal;
-        return;
-      }
+    if (attrName === 'min-open-items') {
+      memoize.clear(this, 'minOpenItems');
+      this.reset();
+    }
+    if (attrName === 'max-open-items') {
+      memoize.clear(this, 'maxOpenItems');
       this.reset();
     }
     if (attrName === 'refresh-strategy') {
@@ -119,6 +121,18 @@ export class ESLPanelGroup extends ESLBaseElement {
     return ESLMediaRuleList.parse(this.refreshStrategy);
   }
 
+  /** @returns ESLMediaRuleList instance of the min-open-items mapping */
+  @memoize()
+  public get minValues(): ESLMediaRuleList<number> {
+    return ESLMediaRuleList.parse(this.minOpenItems, parseCount);
+  }
+
+  /** @returns ESLMediaRuleList instance of the max-open-items mapping */
+  @memoize()
+  public get maxValues(): ESLMediaRuleList<number> {
+    return ESLMediaRuleList.parse(this.maxOpenItems, parseCount);
+  }
+
   /** @returns active refresh-strategy */
   public get activeRefreshStrategy(): string {
     return this.refreshRules.activeValue || 'last';
@@ -127,6 +141,18 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** @returns current mode */
   public get currentMode(): string {
     return this.modeRules.activeValue || '';
+  }
+
+  /** @returns current value of min-open-items */
+  public get currentMinValue(): number {
+    return Math.min(this.minValues.activeValue || 1, this.$panels.length) ;
+  }
+
+  /** @returns current value of max-open-items */
+  public get currentMaxValue(): number {
+    //attribute is ignored by tabs?
+    if (this.currentMode === 'tabs') return 1;
+    return Math.max(Math.min(this.maxValues.activeValue || 0, this.$panels.length), this.currentMinValue);
   }
 
   // TODO: does not support anything except esl-panel
@@ -187,13 +213,8 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Resets to default state applicable to the current mode */
   public reset(): void {
     ESLPanel.registered.then(() => {
-      if (this.currentMode === 'open') {
-        this.toggleAllBy(() => true, this.transformParams);
-      } else {
-        const isSingle = this.currentMode === 'tabs' || (this.currentMode === 'accordion' && this.accordionGroup === 'single');
-        const $activePanels = this.activeRefreshStrategy === 'last' ? this.$activePanels : this.$initialPanels;
-        this.toggleAllBy(isSingle ? $activePanels.slice(0, 1) : $activePanels, this.transformParams);
-      }
+      const $activePanels = this.activeRefreshStrategy === 'last' ? this.$activePanels : this.$initialPanels;
+      this.toggleAllBy(this.currentMinValue === this.$panels.length ? this.$panels : $activePanels.slice(0, this.currentMinValue), this.transformParams);
     });
   }
 
@@ -241,8 +262,14 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected _onBeforeShow(e: CustomEvent): void {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
-    if (this.currentMode === 'accordion' && this.accordionGroup === 'multiple') return;
-    this.hideAll([panel]);
+
+    // if (!this.currentMaxValue || (this.currentMaxValue - this.$activePanels.length >= 1)) return;
+    // this.currentMaxValue === 1 && this.hideAll([panel], {event: e});
+    // const rest = this.currentMaxValue < this.$activePanels.length ? this.$activePanels : this.$activePanels.slice(1, this.$activePanels.length);
+    // this.hideAll([panel, ...rest], {event: e});
+
+    if ((this.currentMaxValue - this.$activePanels.length >= 1)) return;
+    this.hideAll(this.currentMaxValue === 1 ? [panel] : [...this.$activePanels], {event: e});
   }
 
   /** Process {@link ESLPanel} show event */
@@ -263,12 +290,14 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Process {@link ESLPanel} pre-hide event */
   @listen('esl:before:hide')
   protected _onBeforeHide(e: CustomEvent): void {
-    const panel = e.target;
+    const {target: panel, detail} = e;
     if (!this.includesPanel(panel)) return;
-    if (this.currentMode === 'open') {
-      // TODO: refactor
-      e.preventDefault();
-      return;
+
+    const selfHandled = detail?.params?.event?.type === 'esl:before:show';
+    const activeNumber = this.$activePanels.length - 1 + Number(selfHandled);
+
+    if (this.currentMinValue === this.$panels.length || activeNumber === 0) {
+      return e.preventDefault();
     }
     this._previousHeight = this.clientHeight;
   }

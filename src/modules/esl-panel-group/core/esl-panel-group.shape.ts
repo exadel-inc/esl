@@ -8,7 +8,7 @@ import type {ESLPanelGroup} from './esl-panel-group';
 export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup> {
   /**
    * Define rendering mode of the component (takes values from the list of supported modes; 'accordion' by default)
-   * Supported values: `accordion|tabs|open`
+   * Supported values: `accordion|tabs`
    */
   'mode'?: string;
 
@@ -23,6 +23,12 @@ export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup
 
   /** Define active panel(s) behaviour in case of mode changing. Supported values: `last|initial`*/
   'refresh-strategy'?: string;
+
+  /** Define minimum number of panels that could be opened ('1' by default, supported values: values: `0 | 1 | number | all`) */
+  'min-open-items'?: string;
+
+  /** Define maximum number of panels that could be opened ('all' by default, supported values: values: `0 | 1 | all`) */
+  'max-open-items'?: string;
 
   /** Define json of action params to pass into panels when executing reset action (happens when mode is changed) */
   'transform-params'?: string;

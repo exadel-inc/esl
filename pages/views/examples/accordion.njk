@@ -19,8 +19,8 @@ aside:
 
 <section class="row">
   <div class="col-12">
-    <esl-panel-group class="accordion-group mb-4">
-      <h2>Simple accordion</h2>
+    <esl-panel-group class="accordion-group mb-4" max-open-items="1">
+      <h2>Simple single accordion</h2>
       <div class="esl-d-accordion">
         <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
           Toggle Accordion #1
@@ -53,7 +53,7 @@ aside:
       </div>
     </esl-panel-group>
 
-    <esl-panel-group class="accordion-group mb-4">
+    <esl-panel-group class="accordion-group mb-4" max-open-items="1">
       <h2>Hover accordion</h2>
       <div class="esl-d-accordion">
         <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next" track-click="not all" track-hover hide-delay="250">
@@ -87,8 +87,8 @@ aside:
       </div>
     </esl-panel-group>
 
-    <esl-panel-group class="accordion-group mb-4" accordion-group="multiple">
-      <h2>Simple accordion (multiple open items)</h2>
+    <esl-panel-group class="accordion-group mb-4" min-open-items="2" max-open-items="all">
+      <h2>Simple multiple accordion (minimum open panels - 2, maximum - all)</h2>
       <div class="esl-d-accordion">
         <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
           Toggle Accordion #1
@@ -104,6 +104,165 @@ aside:
           Toggle Accordion #2
         </esl-trigger>
         <esl-panel open class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #3
+        </esl-trigger>
+        <esl-panel class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+    </esl-panel-group>
+  </div>
+
+  <div>
+    <esl-panel-group class="accordion-group mb-4" min-open-items="3" max-open-items="1">
+      <h2>Simple multiple accordion (min open items - 3, max - 1)</h2>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #1
+        </esl-trigger>
+        <esl-panel open class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #2
+        </esl-trigger>
+        <esl-panel open class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #3
+        </esl-trigger>
+        <esl-panel open class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #4
+        </esl-trigger>
+        <esl-panel open class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+    </esl-panel-group>
+  </div>
+
+  <div>
+    <esl-panel-group class="accordion-group mb-4" min-open-items="0 | @+MD => all" max-open-items="1" >
+      <h2>Simple single accordion (min open items - 0, max - 1) transform to open from MD</h2>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #1
+        </esl-trigger>
+        <esl-panel open class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #2
+        </esl-trigger>
+        <esl-panel class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #3
+        </esl-trigger>
+        <esl-panel class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+    </esl-panel-group>
+  </div>
+
+  <div>
+    <esl-panel-group class="accordion-group mb-4"
+                     min-open-items="1 | @+MD => 2"
+                     max-open-items="1"
+                     refresh-strategy="initial | @+MD => last">
+      <h2>Simple single accordion (min open items - 1, refresh-strategy - initial) transform to multiple (max open - 2, refresh-strategy - last) from MD</h2>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #1
+        </esl-trigger>
+        <esl-panel open class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #2
+        </esl-trigger>
+        <esl-panel class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #3
+        </esl-trigger>
+        <esl-panel class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+    </esl-panel-group>
+  </div>
+
+  <div>
+    <esl-panel-group class="accordion-group mb-4"
+                     min-open-items="2 | @+MD => all"
+                     max-open-items="1">
+      <h2>Simple muptiple accordion (min open items - 2) transform to open from MD</h2>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #1
+        </esl-trigger>
+        <esl-panel open class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(1) }}
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #2
+        </esl-trigger>
+        <esl-panel class="esl-d-accordion-panel">
           <div class="esl-d-accordion-body">
             {{ lorem.paragraphs(1) }}
           </div>

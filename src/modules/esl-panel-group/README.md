@@ -25,9 +25,8 @@ ESLPanelGroup.register();
 - `refresh-strategy` - defines behaviour of active panel(s) in case of mode changing:
   * `initial` - activates initially opened panel(s)
   * `last` - maintain currently active panel(s) open
-- `accordion-group` - defines accordion behavior: 
-  * `single` (default) allows only one Panel to be open
-  * `multiple` allows any number of open Panels
+- `min-open-items` - defines minimum number ('0 | 1 | number | all') of panels that could be opened ('1' by default)
+- `max-open-items` - defines maximum number ('0 | 1 | all') of panels that could be opened ('all' by default)
 - `transform-params` - JSON of action params to pass into panels when executing reset action (happens when the mode is changed)
 
 ### Readonly attributes
