@@ -1,6 +1,6 @@
 # [ESL](../../../) Panel Group
 
-Version: *2.1.0*.  
+Version: *3.0.0*.  
 
 Authors: *Julia Murashko*
 

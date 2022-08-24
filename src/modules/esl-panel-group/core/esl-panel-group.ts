@@ -14,16 +14,17 @@ const parseCount = (value: string): number => value === 'all' ? Number.POSITIVE_
 
 /**
  * ESLPanelGroup component
- * @author Julia Murashko
+ * @author Julia Murashko, Anastasia Lesun, Alexey Stsefanovich (ala'n)
  *
  * ESLPanelGroup is a custom element that is used as a container for a group of {@link ESLPanel}s
  */
 @ExportNs('PanelGroup')
 export class ESLPanelGroup extends ESLBaseElement {
   public static is = 'esl-panel-group';
+
   public static observedAttributes = ['mode', 'refresh-strategy', 'min-open-items', 'max-open-items'];
   /** List of supported modes */
-  public static supportedModes = ['tabs', 'accordion'];
+  public static supportedModes = ['accordion', 'tabs'];
 
   /** Event that dispatched on instance mode change */
   @prop('esl:change:mode') public MODE_CHANGE_EVENT: string;
@@ -35,21 +36,26 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Element {@link TraversingQuery} selector to add class that identifies the rendering mode (ESLPanelGroup itself by default) */
   @attr({defaultValue: ''}) public modeClsTarget: string;
 
+  /**
+   * ESLMediaQuery string to define a list of media conditions
+   * to disable collapse/expand animation (for both Group and Panel animations)
+   */
+  @attr({defaultValue: 'not all'}) public noAnimate: string;
   /** Class(es) to be added during animation ('animate' by default) */
   @attr({defaultValue: 'animate'}) public animationClass: string;
-  /** List of breakpoints to disable collapse/expand animation (for both Group and Panel animations) */
-  @attr({defaultValue: 'not all'}) public noAnimate: string;
 
   /** Define minimum number of panels that could be opened */
   @attr({defaultValue: '1'}) public minOpenItems: string;
   /** Define maximum number of panels that could be opened */
   @attr({defaultValue: 'all'}) public maxOpenItems: string;
 
-  /** Define active panel(s) behaviour in case of mode changing ('last' by default)
+  /**
+   * Define active panel(s) behaviour in case of mode changing ('last' by default)
    * `initial` - activates initially opened panel(s)
    * `last` - try to preserve currently active panel(s)
-   * */
+   */
   @attr({defaultValue: 'last'}) public refreshStrategy: string;
+
   /** Action params to pass into panels when executing reset action (happens when mode is changed) */
   @jsonAttr({defaultValue: {noAnimate: true}}) public transformParams: PanelActionParams;
 
@@ -59,24 +65,18 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   protected connectedCallback(): void {
     super.connectedCallback();
-    this.updateMode();
+    this.refresh();
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
-    if (attrName === 'mode') {
-      this.$$off(this._onModeChange);
+    if (attrName === 'mode' || attrName === 'min-open-items' || attrName === 'max-open-items') {
+      this.$$off(this._onConfigChange);
       memoize.clear(this, 'modeRules');
-      this.$$on(this._onModeChange);
-      this.updateMode();
-    }
-    if (attrName === 'min-open-items') {
       memoize.clear(this, 'minOpenItems');
-      this.reset();
-    }
-    if (attrName === 'max-open-items') {
       memoize.clear(this, 'maxOpenItems');
-      this.reset();
+      this.$$on(this._onConfigChange);
+      this.refresh();
     }
     if (attrName === 'refresh-strategy') {
       memoize.clear(this, 'refreshRules');
@@ -84,7 +84,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Updates element state according to current mode */
-  protected updateMode(): void {
+  protected refresh(): void {
     const prevMode = this.getAttribute('current-mode');
     const currentMode = this.currentMode;
     this.setAttribute('current-mode', currentMode);
@@ -92,9 +92,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.updateModeCls();
     this.reset();
 
-    if (prevMode !== currentMode) {
-      this.$$fire(this.MODE_CHANGE_EVENT, {detail: {prevMode, currentMode}});
-    }
+    if (prevMode !== currentMode) this.$$fire(this.MODE_CHANGE_EVENT, {detail: {prevMode, currentMode}});
   }
 
   /** Updates mode class marker */
@@ -115,27 +113,22 @@ export class ESLPanelGroup extends ESLBaseElement {
     return ESLMediaRuleList.parse(this.mode);
   }
 
-  /** @returns ESLMediaRuleList instance of the refresh-strategy mapping */
-  @memoize()
-  public get refreshRules(): ESLMediaRuleList<string> {
-    return ESLMediaRuleList.parse(this.refreshStrategy);
-  }
-
   /** @returns ESLMediaRuleList instance of the min-open-items mapping */
   @memoize()
-  public get minValues(): ESLMediaRuleList<number> {
+  public get minValueRules(): ESLMediaRuleList<number> {
     return ESLMediaRuleList.parse(this.minOpenItems, parseCount);
   }
 
   /** @returns ESLMediaRuleList instance of the max-open-items mapping */
   @memoize()
-  public get maxValues(): ESLMediaRuleList<number> {
+  public get maxValueRules(): ESLMediaRuleList<number> {
     return ESLMediaRuleList.parse(this.maxOpenItems, parseCount);
   }
 
-  /** @returns active refresh-strategy */
-  public get activeRefreshStrategy(): string {
-    return this.refreshRules.activeValue || 'last';
+  /** @returns ESLMediaRuleList instance of the refresh-strategy mapping */
+  @memoize()
+  public get refreshRules(): ESLMediaRuleList<string> {
+    return ESLMediaRuleList.parse(this.refreshStrategy);
   }
 
   /** @returns current mode */
@@ -144,15 +137,20 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** @returns current value of min-open-items */
-  public get currentMinValue(): number {
-    return Math.min(this.minValues.activeValue || 1, this.$panels.length) ;
+  public get currentMinItems(): number {
+    return Math.min(this.minValueRules.activeValue || 1, this.$panels.length) ;
   }
 
   /** @returns current value of max-open-items */
-  public get currentMaxValue(): number {
+  public get currentMaxItems(): number {
     //attribute is ignored by tabs?
     if (this.currentMode === 'tabs') return 1;
-    return Math.max(Math.min(this.maxValues.activeValue || 0, this.$panels.length), this.currentMinValue);
+    return Math.max(Math.min(this.maxValueRules.activeValue || 0, this.$panels.length), this.currentMinItems);
+  }
+
+  /** @returns active refresh-strategy */
+  public get currentRefreshStrategy(): string {
+    return this.refreshRules.activeValue || 'last';
   }
 
   // TODO: does not support anything except esl-panel
@@ -213,8 +211,8 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Resets to default state applicable to the current mode */
   public reset(): void {
     ESLPanel.registered.then(() => {
-      const $activePanels = this.activeRefreshStrategy === 'last' ? this.$activePanels : this.$initialPanels;
-      this.toggleAllBy(this.currentMinValue === this.$panels.length ? this.$panels : $activePanels.slice(0, this.currentMinValue), this.transformParams);
+      const $activePanels = this.currentRefreshStrategy === 'last' ? this.$activePanels : this.$initialPanels;
+      this.toggleAllBy(this.currentMinItems === this.$panels.length ? this.$panels : $activePanels.slice(0, this.currentMinItems), this.transformParams);
     });
   }
 
@@ -268,8 +266,8 @@ export class ESLPanelGroup extends ESLBaseElement {
     // const rest = this.currentMaxValue < this.$activePanels.length ? this.$activePanels : this.$activePanels.slice(1, this.$activePanels.length);
     // this.hideAll([panel, ...rest], {event: e});
 
-    if ((this.currentMaxValue - this.$activePanels.length >= 1)) return;
-    this.hideAll(this.currentMaxValue === 1 ? [panel] : [...this.$activePanels], {event: e});
+    if ((this.currentMaxItems - this.$activePanels.length >= 1)) return;
+    this.hideAll(this.currentMaxItems === 1 ? [panel] : [...this.$activePanels], {event: e});
   }
 
   /** Process {@link ESLPanel} show event */
@@ -296,7 +294,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     const selfHandled = detail?.params?.event?.type === 'esl:before:show';
     const activeNumber = this.$activePanels.length - 1 + Number(selfHandled);
 
-    if (this.currentMinValue === this.$panels.length || activeNumber === 0) {
+    if (this.currentMinItems === this.$panels.length || activeNumber === 0) {
       return e.preventDefault();
     }
     this._previousHeight = this.clientHeight;
@@ -313,10 +311,10 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Handles mode change */
   @listen({
     event: 'change',
-    target: (group: ESLPanelGroup) => group.modeRules
+    target: (group: ESLPanelGroup) => [group.modeRules, group.minValueRules, group.maxValueRules]
   })
-  protected _onModeChange(): void {
-    this.updateMode();
+  protected _onConfigChange(): void {
+    this.refresh();
   }
 }
 
