@@ -1,4 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {defined} from '../../esl-utils/misc/object/utils';
 import {attr, jsonAttr, ESLBaseElement, listen, prop} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {format} from '../../esl-utils/misc/format';
@@ -28,6 +29,9 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Event that dispatched on instance mode change */
   @prop('esl:change:mode') public MODE_CHANGE_EVENT: string;
+
+  /** Child panels selector (Default `esl-panel`) */
+  @attr({defaultValue: ESLPanel.is}) public panelSel: string;
 
   /** Rendering mode of the component (takes values from the list of supported modes; 'accordion' by default) */
   @attr({defaultValue: 'accordion'}) public mode: string;
@@ -73,8 +77,8 @@ export class ESLPanelGroup extends ESLBaseElement {
     if (attrName === 'mode' || attrName === 'min-open-items' || attrName === 'max-open-items') {
       this.$$off(this._onConfigChange);
       memoize.clear(this, 'modeRules');
-      memoize.clear(this, 'minOpenItems');
-      memoize.clear(this, 'maxOpenItems');
+      memoize.clear(this, 'minValueRules');
+      memoize.clear(this, 'maxValueRules');
       this.$$on(this._onConfigChange);
       this.refresh();
     }
@@ -90,7 +94,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.setAttribute('current-mode', currentMode);
 
     this.updateModeCls();
-    this.reset();
+    ESLPanel.registered.then(() => this.reset());
 
     if (prevMode !== currentMode) this.$$fire(this.MODE_CHANGE_EVENT, {detail: {prevMode, currentMode}});
   }
@@ -138,14 +142,18 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** @returns current value of min-open-items */
   public get currentMinItems(): number {
-    return Math.min(this.minValueRules.activeValue || 1, this.$panels.length) ;
+    const min = 0;
+    const val = defined(this.minValueRules.activeValue, 1);
+    const max = this.currentMode === 'tabs' ? 1 : this.$panels.length;
+    return Math.min(max, Math.max(min, val)); // minmax
   }
 
   /** @returns current value of max-open-items */
   public get currentMaxItems(): number {
-    //attribute is ignored by tabs?
-    if (this.currentMode === 'tabs') return 1;
-    return Math.max(Math.min(this.maxValueRules.activeValue || 0, this.$panels.length), this.currentMinItems);
+    const min = this.currentMinItems;
+    const val = defined(this.maxValueRules.activeValue, Number.POSITIVE_INFINITY);
+    const max = this.currentMode === 'tabs' ? 1 : this.$panels.length;
+    return Math.min(max, Math.max(min, val)); // minmax
   }
 
   /** @returns active refresh-strategy */
@@ -153,10 +161,9 @@ export class ESLPanelGroup extends ESLBaseElement {
     return this.refreshRules.activeValue || 'last';
   }
 
-  // TODO: does not support anything except esl-panel
   /** @returns panels that are processed by the current panel group */
   public get $panels(): ESLPanel[] {
-    const els = Array.from(this.querySelectorAll(ESLPanel.is));
+    const els = Array.from(this.querySelectorAll(this.panelSel));
     return els.filter((el) => this.includesPanel(el)) as ESLPanel[];
   }
 
@@ -202,18 +209,25 @@ export class ESLPanelGroup extends ESLBaseElement {
   public hideAll(excluded: ESLPanel[] = [], params: PanelActionParams = {}): void {
     this.$activePanels.forEach((el) => !excluded.includes(el) && el.hide(this.mergeActionParams(params)));
   }
-  /** Toggles all panels by predicate */
-  public toggleAllBy(shouldOpen: ((panel: ESLPanel) => boolean) | ESLPanel[], params: PanelActionParams = {}): void {
-    const predicate = (Array.isArray(shouldOpen)) ? (panel: ESLPanel): boolean => shouldOpen.includes(panel) : shouldOpen;
-    this.$panels.forEach((panel) => panel.toggle(predicate(panel), this.mergeActionParams(params)));
-  }
 
   /** Resets to default state applicable to the current mode */
   public reset(): void {
-    ESLPanel.registered.then(() => {
-      const $activePanels = this.currentRefreshStrategy === 'last' ? this.$activePanels : this.$initialPanels;
-      this.toggleAllBy(this.currentMinItems === this.$panels.length ? this.$panels : $activePanels.slice(0, this.currentMinItems), this.transformParams);
-    });
+    const minItems = this.currentMinItems;
+    const maxItems = this.currentMaxItems;
+    // $activePanels - collection of items to open (ideally, without normalization)
+    const $activePanels = this.currentRefreshStrategy === 'last' ? this.$activePanels : this.$initialPanels;
+
+    // $extraPanels = non-active panels to reach the minimum of active panels
+    const $extraPanels = $activePanels.length < minItems ?
+      this.$panels.filter((item) => !$activePanels.includes(item)) :
+      [];
+
+    // $orderedPanels = $activePanels U ($panels / $activePanels) - the list of ordered panels
+    const $orderedPanels = $activePanels.concat($extraPanels);
+
+    const params = this.mergeActionParams(this.transformParams);
+    // Open all until max limit is reached
+    $orderedPanels.forEach((panel, index) => panel.toggle(index < maxItems, params));
   }
 
   /** Animates the height of the component */
@@ -261,13 +275,18 @@ export class ESLPanelGroup extends ESLBaseElement {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
 
-    // if (!this.currentMaxValue || (this.currentMaxValue - this.$activePanels.length >= 1)) return;
-    // this.currentMaxValue === 1 && this.hideAll([panel], {event: e});
-    // const rest = this.currentMaxValue < this.$activePanels.length ? this.$activePanels : this.$activePanels.slice(1, this.$activePanels.length);
-    // this.hideAll([panel, ...rest], {event: e});
+    const max = this.currentMaxItems;
+    const params = this.mergeActionParams({event: e});
 
-    if ((this.currentMaxItems - this.$activePanels.length >= 1)) return;
-    this.hideAll(this.currentMaxItems === 1 ? [panel] : [...this.$activePanels], {event: e});
+    // All currently active except requested to be open
+    const $activePanels = this.$activePanels.filter((el) => el !== panel);
+
+    // overflow = pretended to be active (current active + requested panel) - limit
+    const overflow = Math.max(0, $activePanels.length + 1 - max);
+    // close all extra active panels (not includes requested one)
+    $activePanels.slice(0, overflow).forEach((el) => el.hide(params));
+
+    if (max <= 0) return e.preventDefault();
   }
 
   /** Process {@link ESLPanel} show event */
@@ -294,9 +313,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     const selfHandled = detail?.params?.event?.type === 'esl:before:show';
     const activeNumber = this.$activePanels.length - 1 + Number(selfHandled);
 
-    if (this.currentMinItems === this.$panels.length || activeNumber === 0) {
-      return e.preventDefault();
-    }
+    if (activeNumber < this.currentMinItems) return e.preventDefault();
     this._previousHeight = this.clientHeight;
   }
 
@@ -309,6 +326,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Handles mode change */
+  // TODO: deduplicate call
   @listen({
     event: 'change',
     target: (group: ESLPanelGroup) => [group.modeRules, group.minValueRules, group.maxValueRules]

@@ -6,6 +6,10 @@ import type {ESLPanelGroup} from './esl-panel-group';
  * Used for TSX declaration
  */
 export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup> {
+
+  /** Child panels selector (Default `esl-panel`) */
+  'panel-sel'?: string;
+
   /**
    * Define rendering mode of the component (takes values from the list of supported modes; 'accordion' by default)
    * Supported values: `accordion|tabs`
