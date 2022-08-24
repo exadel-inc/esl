@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, jsonAttr, prop, listen, ESLBaseElement} from '../../esl-base-element/core';
+import {attr, jsonAttr, ESLBaseElement, listen, prop} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {format} from '../../esl-utils/misc/format';
 import {memoize} from '../../esl-utils/decorators/memoize';
