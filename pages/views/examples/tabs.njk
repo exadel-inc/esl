@@ -21,6 +21,11 @@ aside:
 <section>
   <h2>Simple Tabs</h2>
   <p>Minimum configuration example</p>
+  {% code 'html', 'code-block' %}
+    <esl-panel-group class="esl-d-tab-group"
+                     mode="tabs"
+                     mode-cls-target="::parent"/>
+  {% endcode %}
 
   <div class="esl-d-tabs">
     <esl-tabs class="esl-d-tab-control">
@@ -74,6 +79,13 @@ aside:
 <section>
   <h2>Tabs (with accordion transformation)</h2>
   <p>Example with a simple tab mode, transforms to single accordion on XS and SM</p>
+  {% code 'html', 'code-block' %}
+    <esl-panel-group class="esl-d-tab-group"
+                     mode="accordion | @+MD => tabs"
+                     max-open-items="1"
+                     refresh-strategy="last | @LG => initial"
+                     mode-cls-target="::parent"/>
+  {% endcode %}
 
   <div class="esl-d-tabs">
     <esl-tabs class="esl-d-tab-control">
@@ -142,6 +154,13 @@ aside:
 <section>
   <h2>Tabs (with accordion transformation, restore initial state)</h2>
   <p>Example with a simple tab mode, transforms to single accordion on XS and SM</p>
+  {% code 'html', 'code-block' %}
+    <esl-panel-group class="esl-d-tab-group"
+                     mode="accordion | @+MD => tabs"
+                     max-open-items="1"
+                     refresh-strategy="initial"
+                     mode-cls-target="::parent"/>
+  {% endcode %}
 
   <div class="esl-d-tabs">
     <esl-tabs class="esl-d-tab-control">
@@ -210,6 +229,15 @@ aside:
 <section>
   <h2>Tabs that transforms to multiple accordion on XS and SM</h2>
   <p>Accordion (refresh-strategy - last, max-open-items - all), tabs (refresh-strategy - initial)</p>
+  {% code 'html', 'code-block' %}
+    <esl-panel-group class="esl-d-tab-group"
+                     mode="@-SM => accordion | @+MD => tabs"
+                     min-open-items="1"
+                     max-open-items="@-SM => all | @+MD => 1"
+                     refresh-strategy="@-SM => last | @+MD => initial"
+                     mode-cls-target="::parent"/>
+  {% endcode %}
+
   <div class="esl-d-tabs">
     <esl-tabs class="esl-d-tab-control">
       <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
@@ -278,6 +306,13 @@ aside:
 <section>
   <h2>Tabs (with open state)</h2>
   <p>Example with a simple tab mode, transforms to default cards on XS and SM</p>
+  {% code 'html', 'code-block' %}
+    <esl-panel-group class="esl-d-tab-group"
+                     mode="accordion | @+MD => tabs"
+                     min-open-items="@-SM => all | @+MD => 1"
+                     max-open-items="@+MD => 1"
+                     mode-cls-target="::parent"/>
+  {% endcode %}
 
   <div class="esl-d-tabs">
     <esl-tabs class="esl-d-tab-control">
@@ -346,6 +381,12 @@ aside:
 <section>
   <h2>Tabs (scrollable, with accordion transformation)</h2>
   <p>Scrollable tabs component example. Transforms to accordion on XS and SM</p>
+  {% code 'html', 'code-block' %}
+    <esl-panel-group class="esl-d-tab-group"
+                     mode="tabs"
+                     mode-cls-target="::parent"/>
+  {% endcode %}
+
   <div class="esl-d-tabs">
     <esl-tabs class="esl-d-tab-control" scrollable>
       <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
@@ -449,6 +490,12 @@ aside:
 <section>
   <h2>Tabs (scrollable, center aligned, with accordion transformation)</h2>
   <p>Scrollable tabs component example. Transforms to accordion on XS and SM</p>
+  {% code 'html', 'code-block' %}
+    <esl-panel-group class="esl-d-tab-group"
+                     mode="tabs"
+                     mode-cls-target="::parent"/>
+  {% endcode %}
+
   <div class="esl-d-tabs">
     <esl-tabs class="esl-d-tab-control" scrollable="center">
       <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
@@ -549,10 +596,14 @@ aside:
   </div>
 </section>
 
-
 <section>
   <h2>Simple Tabs</h2>
   <p>Minimum configuration example</p>
+  {% code 'html', 'code-block' %}
+    <esl-panel-group class="esl-d-tab-group"
+                     mode="tabs"
+                     mode-cls-target="::parent"/>
+  {% endcode %}
 
   <div class="esl-d-tabs">
     <esl-tabs class="esl-d-tab-control">
