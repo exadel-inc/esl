@@ -53,7 +53,6 @@ export class UIPBoolSetting extends UIPSetting {
 
   protected connectedCallback() {
     super.connectedCallback();
-    this.$label.remove();
     this.insertBefore(this.$label, this.firstChild);
   }
 
@@ -130,9 +129,7 @@ export class UIPBoolSetting extends UIPSetting {
 
   protected setInconsistency(msg = WARNING_MSG.inconsistent): void {
     this.$field.checked = false;
-    this.$inconsistencyMarker.remove();
     this.$inconsistencyMarker.innerText = msg;
-    console.log(this.$inconsistencyMarker);
     this.append(this.$inconsistencyMarker);
   }
 
