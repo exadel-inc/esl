@@ -212,22 +212,16 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Resets to default state applicable to the current mode */
   public reset(): void {
-    const minItems = this.currentMinItems;
-    const maxItems = this.currentMaxItems;
     // $activePanels - collection of items to open (ideally, without normalization)
     const $activePanels = this.currentRefreshStrategy === 'last' ? this.$activePanels : this.$initialPanels;
-
-    // $extraPanels = non-active panels to reach the minimum of active panels
-    const $extraPanels = $activePanels.length < minItems ?
-      this.$panels.filter((item) => !$activePanels.includes(item)) :
-      [];
-
     // $orderedPanels = $activePanels U ($panels / $activePanels) - the list of ordered panels
-    const $orderedPanels = $activePanels.concat($extraPanels);
+    const $orderedPanels = $activePanels.concat(this.$panels.filter((item) => !$activePanels.includes(item)));
 
     const params = this.mergeActionParams(this.transformParams);
-    // Open all until max limit is reached
-    $orderedPanels.forEach((panel, index) => panel.toggle(index < maxItems, params));
+
+    // we use current open active panels count but normalized in range of minmax
+    const activeCount = Math.min(this.currentMaxItems, Math.max($activePanels.length, this.currentMinItems));
+    $orderedPanels.forEach((panel, index) => panel.toggle(index < activeCount, params));
   }
 
   /** Animates the height of the component */
