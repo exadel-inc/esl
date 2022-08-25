@@ -77,8 +77,8 @@ aside:
 </section>
 
 <section>
-  <h2>Tabs (with accordion transformation)</h2>
-  <p>Example with a simple tab mode, transforms to single accordion on XS and SM</p>
+  <h2>Tabs (with single accordion transformation)</h2>
+  <p>Example with a simple tab mode (restore initial state) that transforms to single accordion on XS and SM (last state)</p>
   {% code 'html', 'code-block' %}
     <esl-panel-group class="esl-d-tab-group"
                      mode="accordion | @+MD => tabs"
@@ -152,8 +152,8 @@ aside:
 </section>
 
 <section>
-  <h2>Tabs (with accordion transformation, restore initial state)</h2>
-  <p>Example with a simple tab mode, transforms to single accordion on XS and SM</p>
+  <h2>Tabs (with single accordion transformation, restore initial state)</h2>
+  <p>Example with a simple tab mode that transforms to single accordion on XS and SM</p>
   {% code 'html', 'code-block' %}
     <esl-panel-group class="esl-d-tab-group"
                      mode="accordion | @+MD => tabs"
@@ -227,8 +227,8 @@ aside:
 </section>
 
 <section>
-  <h2>Tabs that transforms to multiple accordion on XS and SM</h2>
-  <p>Accordion (refresh-strategy - last, max-open-items - all), tabs (refresh-strategy - initial)</p>
+  <h2>Tabs with multiple accordion transformation on XS and SM</h2>
+  <p>Accordion restores last state, tabs restores initial state</p>
   {% code 'html', 'code-block' %}
     <esl-panel-group class="esl-d-tab-group"
                      mode="@-SM => accordion | @+MD => tabs"
@@ -379,8 +379,8 @@ aside:
 </section>
 
 <section>
-  <h2>Tabs (scrollable, with accordion transformation)</h2>
-  <p>Scrollable tabs component example. Transforms to accordion on XS and SM</p>
+  <h2>Tabs (scrollable)</h2>
+  <p>Scrollable tabs component example</p>
   {% code 'html', 'code-block' %}
     <esl-panel-group class="esl-d-tab-group"
                      mode="tabs"
@@ -488,8 +488,8 @@ aside:
 </section>
 
 <section>
-  <h2>Tabs (scrollable, center aligned, with accordion transformation)</h2>
-  <p>Scrollable tabs component example. Transforms to accordion on XS and SM</p>
+  <h2>Tabs (scrollable, center aligned)</h2>
+  <p>Scrollable tabs component example</p>
   {% code 'html', 'code-block' %}
     <esl-panel-group class="esl-d-tab-group"
                      mode="tabs"
@@ -588,64 +588,6 @@ aside:
         </div>
       </esl-panel>
       <esl-panel class="esl-d-tab-panel tab-7" tabindex="0">
-        <div class="esl-d-tab-body">
-          {{ lorem.paragraphs(3) }}
-        </div>
-      </esl-panel>
-    </esl-panel-group>
-  </div>
-</section>
-
-<section>
-  <h2>Simple Tabs</h2>
-  <p>Minimum configuration example</p>
-  {% code 'html', 'code-block' %}
-    <esl-panel-group class="esl-d-tab-group"
-                     mode="tabs"
-                     mode-cls-target="::parent"/>
-  {% endcode %}
-
-  <div class="esl-d-tabs">
-    <esl-tabs class="esl-d-tab-control">
-      <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
-
-      <ul class="esl-d-tab-list esl-tab-container" role="tablist">
-        <li class="esl-d-tab-item">
-          <esl-tab class="h5"
-                   target="::parent(.esl-d-tabs)::find(.tab-1)">
-            Tab #1 Lorem ipsum
-          </esl-tab>
-        </li>
-        <li class="esl-d-tab-item">
-          <esl-tab class="h5"
-                   target="::parent(.esl-d-tabs)::find(.tab-2)">
-            Tab #2 Lorem ipsum
-          </esl-tab>
-        </li>
-        <li class="esl-d-tab-item">
-          <esl-tab class="h5"
-                   target="::parent(.esl-d-tabs)::find(.tab-3)">
-            Tab #3 Lorem ipsum
-          </esl-tab>
-        </li>
-      </ul>
-    </esl-tabs>
-
-    <esl-panel-group class="esl-d-tab-group"
-                     mode="tabs"
-                     mode-cls-target="::parent">
-      {% set testText = lorem.paragraphs(2) %}
-      <esl-panel class="esl-d-tab-panel tab-1" tabindex="0">
-        <div class="esl-d-tab-body">
-          {{ testText }}
-        </div>
-      </esl-panel>
-      <esl-panel open class="esl-d-tab-panel tab-2" tabindex="0">
-        <div class="esl-d-tab-body">
-          {{ testText }}
-        </div>
-      </esl-panel>
-      <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
         <div class="esl-d-tab-body">
           {{ lorem.paragraphs(3) }}
         </div>
