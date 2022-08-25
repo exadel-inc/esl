@@ -31,7 +31,7 @@ export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup
   /** Define minimum number of panels that could be opened ('1' by default, supported values: values: `0 | 1 | number | all`) */
   'min-open-items'?: string;
 
-  /** Define maximum number of panels that could be opened ('all' by default, supported values: values: `0 | 1 | all`) */
+  /** Define maximum number of panels that could be opened ('all' by default, supported values: values: `0 | 1 | number | all`) */
   'max-open-items'?: string;
 
   /** Define json of action params to pass into panels when executing reset action (happens when mode is changed) */

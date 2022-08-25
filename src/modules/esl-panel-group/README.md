@@ -17,6 +17,7 @@ ESLPanelGroup.register();
 
 ### ESLPanelGroup Attributes | Properties:
  
+- `panel-sel` - child panels selector ('esl-panel' by default)
 - `mode` - rendering mode of the component (takes values from list of supported modes; 'accordion' by default)
 - `mode-cls` - rendering mode class pattern (default: `esl-{mode}-view`). Uses ESLUtils `format` syntax for `mode` placeholder
 - `mode-cls-target` - Element [ESLTraversingQuery](../esl-traversing-query/README.md)  selector to add class that identifies mode (ESLPanelGroup itself by default)
@@ -26,7 +27,7 @@ ESLPanelGroup.register();
   * `initial` - activates initially opened panel(s)
   * `last` - maintain currently active panel(s) open
 - `min-open-items` - defines minimum number ('0 | 1 | number | all') of panels that could be opened ('1' by default)
-- `max-open-items` - defines maximum number ('0 | 1 | all') of panels that could be opened ('all' by default)
+- `max-open-items` - defines maximum number ('0 | 1 | number | all') of panels that could be opened ('all' by default)
 - `transform-params` - JSON of action params to pass into panels when executing reset action (happens when the mode is changed)
 
 ### Readonly attributes
