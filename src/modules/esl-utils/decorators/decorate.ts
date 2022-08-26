@@ -11,15 +11,30 @@ export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
   decorator: (fn: Fn, ...params: Args) => Fn,
   ...args: Args
 ) {
-  return function (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<Fn>): void {
+  return function (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<Fn>): TypedPropertyDescriptor<Fn> {
     if (!descriptor || typeof descriptor.value !== 'function') {
       throw new TypeError('Only class methods can be decorated');
     }
     const originalFn: Fn = descriptor.value;
-    descriptor.value = function BindDecoration(...selfArgs: Parameters<Fn>): ReturnType<Fn> {
-      const value: Fn = decorator(originalFn, ...args);
-      Object.defineProperty(this, propertyKey, {value, writable: true, configurable: true});
-      return value.apply(this, selfArgs);
-    } as Fn;
+
+    return {
+      enumerable: descriptor.enumerable,
+      configurable: true,
+
+      get(): Fn {
+        if (!Object.hasOwnProperty.call(this, propertyKey)) {
+          return this[propertyKey] = decorator(originalFn, ...args);
+        }
+        return originalFn;
+      },
+      set(value: Fn): void {
+        Object.defineProperty(this, propertyKey, {
+          value,
+          writable: descriptor.writable,
+          enumerable: descriptor.enumerable,
+          configurable: true,
+        });
+      }
+    };
   };
 }
