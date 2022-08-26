@@ -1,47 +1,31 @@
-const BINDINGS_STORE_KEY = '__fnBindings__';
 /** Decorator "bind" allows to bind prototype method context to class instance */
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function bind<T extends Function>(target: object,
-                                         propertyKey: string,
-                                         descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> {
+export function bind<Fn extends Function>(target: object,
+                                          propertyKey: string,
+                                          descriptor: TypedPropertyDescriptor<Fn>): TypedPropertyDescriptor<Fn> {
   // Validation check
   if (!descriptor || (typeof descriptor.value !== 'function')) {
     throw new TypeError('Only class methods can be decorated via @bind');
   }
   // Original function
-  const fn = descriptor.value;
+  const originalFn = descriptor.value;
 
   return {
     enumerable: descriptor.enumerable,
-    configurable: descriptor.configurable,
+    configurable: true,
 
-    get(): T {
-      // Accessing via prototype returns original function
-      // If the constructor property is in the context then it's not an instance
-      if (!this || this === target || Object.hasOwnProperty.call(this, 'constructor')) {
-        return fn;
+    get(): Fn {
+      if (!Object.hasOwnProperty.call(this, propertyKey)) {
+        return this[propertyKey] = originalFn.bind(this);
       }
-
-      // Bounded functions store
-      let bindings = this[BINDINGS_STORE_KEY];
-      if (!bindings) {
-        bindings = this[BINDINGS_STORE_KEY] = new WeakMap<T, T>();
-      }
-
-      // Store binding if it does not exist
-      if (!bindings.has(fn)) {
-        bindings.set(fn, fn.bind(this));
-      }
-
-      // Return binding
-      return bindings.get(fn);
+      return originalFn;
     },
-    set(value: T): void {
+    set(value: Fn): void {
       Object.defineProperty(this, propertyKey, {
-        writable: true,
-        enumerable: false,
+        value,
+        writable: descriptor.writable,
+        enumerable: descriptor.enumerable,
         configurable: true,
-        value
       });
     }
   };
