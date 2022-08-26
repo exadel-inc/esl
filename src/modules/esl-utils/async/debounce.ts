@@ -44,6 +44,7 @@ export function debounce<F extends AnyToAnyFnSignature>(fn: F, wait = 10, thisAr
     deferred = null;
   }
 
+  Object.setPrototypeOf(debouncedSubject, fn);
   Object.defineProperty(debouncedSubject, 'promise', {
     get: () => deferred ? deferred.promise : Promise.resolve()
   });

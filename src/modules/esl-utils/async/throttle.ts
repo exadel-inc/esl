@@ -42,6 +42,8 @@ export function throttle<F extends AnyToAnyFnSignature>(fn: F, threshold = 250, 
       deferred = null;
     }, threshold);
   }
+
+  Object.setPrototypeOf(throttledSubject, fn);
   Object.defineProperty(throttledSubject, 'promise', {
     get: () => deferred ? deferred.promise : Promise.resolve()
   });
