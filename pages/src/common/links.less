@@ -7,8 +7,7 @@
   font-size: 1rem;
   font-weight: 600;
 
-  &::after {
-    content: '';
+  &::after, &::before {
     display: inline-block;
     margin: 0 5px;
     width: 1em;
@@ -21,10 +20,35 @@
 
     background-color: @primary-blue;
   }
+
+  &::before {
+    transform: rotate(180deg);
+    transform-origin: center;
+  }
+
+  &::after {
+    content: '';
+  }
+
   &:hover {
     &::after {
       transform: translateX(5px);
       background-color: @link-hover-fg;
+    }
+
+    &::before {
+      transform: rotate(180deg) translateX(5px);
+      background-color: @link-hover-fg;
+    }
+  }
+
+  &.reverse {
+    &::after {
+      content: none;
+    }
+
+    &::before {
+      content: '';
     }
   }
 }
