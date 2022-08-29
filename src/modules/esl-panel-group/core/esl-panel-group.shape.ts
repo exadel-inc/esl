@@ -25,13 +25,13 @@ export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup
   /** Define a list of breakpoints to disable collapse/expand animation (for both Group and Panel animations)*/
   'no-animate'?: string;
 
-  /** Define active panel(s) behaviour in case of mode changing. Supported values: `last|initial`*/
+  /** Define active panel(s) behaviour in case of configuration change. Supported values: `last|initial`*/
   'refresh-strategy'?: string;
 
   /** Define minimum number of panels that could be opened ('1' by default, supported values: values: `0 | 1 | number | all`) */
   'min-open-items'?: string;
 
-  /** Define maximum number of panels that could be opened ('all' by default, supported values: values: `0 | 1 | number | all`) */
+  /** Define maximum number of panels that could be opened ('1' by default, supported values: values: `0 | 1 | number | all`) */
   'max-open-items'?: string;
 
   /** Define json of action params to pass into panels when executing reset action (happens when mode is changed) */

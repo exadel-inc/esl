@@ -2,6 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {defined} from '../../esl-utils/misc/object/utils';
 import {attr, jsonAttr, ESLBaseElement, listen, prop} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
+import {debounce} from '../../esl-utils/async/debounce';
 import {format} from '../../esl-utils/misc/format';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
@@ -11,6 +12,7 @@ import {ESLPanel} from '../../esl-panel/core';
 
 import type {PanelActionParams} from '../../esl-panel/core';
 
+/** Converts special 'all' value to positive infinity */
 const parseCount = (value: string): number => value === 'all' ? Number.POSITIVE_INFINITY : parseInt(value, 10);
 
 /**
@@ -51,12 +53,12 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Define minimum number of panels that could be opened */
   @attr({defaultValue: '1'}) public minOpenItems: string;
   /** Define maximum number of panels that could be opened */
-  @attr({defaultValue: 'all'}) public maxOpenItems: string;
+  @attr({defaultValue: '1'}) public maxOpenItems: string;
 
   /**
-   * Define active panel(s) behaviour in case of mode changing ('last' by default)
+   * Define active panel(s) behaviour in case of configuration change (mode, min-open-items, max-open-items)
+   * `last` (default) - try to preserve currently active panel(s)
    * `initial` - activates initially opened panel(s)
-   * `last` - try to preserve currently active panel(s)
    */
   @attr({defaultValue: 'last'}) public refreshStrategy: string;
 
@@ -151,7 +153,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** @returns current value of max-open-items */
   public get currentMaxItems(): number {
     const min = this.currentMinItems;
-    const val = defined(this.maxValueRules.activeValue, Number.POSITIVE_INFINITY);
+    const val = defined(this.maxValueRules.activeValue, 1);
     const max = this.currentMode === 'tabs' ? 1 : this.$panels.length;
     return Math.min(max, Math.max(min, val)); // minmax
   }
@@ -210,17 +212,16 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.$activePanels.forEach((el) => !excluded.includes(el) && el.hide(this.mergeActionParams(params)));
   }
 
-  /** Resets to default state applicable to the current mode */
+  /** Resets to default state applicable to the current panel group configuration */
   public reset(): void {
     // $activePanels - collection of items to open (ideally, without normalization)
     const $activePanels = this.currentRefreshStrategy === 'last' ? this.$activePanels : this.$initialPanels;
     // $orderedPanels = $activePanels U ($panels / $activePanels) - the list of ordered panels
     const $orderedPanels = $activePanels.concat(this.$panels.filter((item) => !$activePanels.includes(item)));
-
-    const params = this.mergeActionParams(this.transformParams);
-
     // we use current open active panels count but normalized in range of minmax
     const activeCount = Math.min(this.currentMaxItems, Math.max($activePanels.length, this.currentMinItems));
+
+    const params = this.mergeActionParams(this.transformParams);
     $orderedPanels.forEach((panel, index) => panel.toggle(index < activeCount, params));
   }
 
@@ -272,7 +273,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     const max = this.currentMaxItems;
     const params = this.mergeActionParams({event: e});
 
-    // All currently active except requested to be open
+    // All currently active except panel that requested to be open
     const $activePanels = this.$activePanels.filter((el) => el !== panel);
 
     // overflow = pretended to be active (current active + requested panel) - limit
@@ -304,7 +305,9 @@ export class ESLPanelGroup extends ESLBaseElement {
     const {target: panel, detail} = e;
     if (!this.includesPanel(panel)) return;
 
+    // Check if the hide event was produced by the show event
     const selfHandled = detail?.params?.event?.type === 'esl:before:show';
+    // activePanels = currentActivePanels - 1 (hide) + 1 if the event produced by 'before:show'
     const activeNumber = this.$activePanels.length - 1 + Number(selfHandled);
 
     if (activeNumber < this.currentMinItems) return e.preventDefault();
@@ -319,14 +322,16 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
-  /** Handles mode change */
-  // TODO: deduplicate call
+  /** Debounced instance of refresh method */
+  // TODO: @decorate
+  protected refreshDebounced = debounce(this.refresh, 0, this);
+  /** Handles configuration change */
   @listen({
     event: 'change',
     target: (group: ESLPanelGroup) => [group.modeRules, group.minValueRules, group.maxValueRules]
   })
   protected _onConfigChange(): void {
-    this.refresh();
+    this.refreshDebounced();
   }
 }
 
