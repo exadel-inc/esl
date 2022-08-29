@@ -29,11 +29,9 @@ export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
         const desc = getPropertyDescriptor(proto, propertyKey);
         // Return original function in case of prototype or super call
         if (!desc || desc.get !== getBound) return originalFn;
-        // @decorate binds context out of the box
-        const fn = decorator(originalFn.bind(this), ...args);
-        // TODO: fix side effect
-        Object.setPrototypeOf(fn, originalFn);
-        return this[propertyKey] = fn;
+        const decoratedFn = decorator(originalFn.bind(this), ...args);
+        Object.setPrototypeOf(decoratedFn, originalFn);
+        return this[propertyKey] = decoratedFn;
       },
       set(value: Fn): void {
         Object.defineProperty(this, propertyKey, {

@@ -36,8 +36,7 @@ export function listen(desc: string | ESLListenerDescriptorExt): ListenDecorator
     if (typeof fn !== 'function') {
       throw new TypeError('Only class methods can be decorated via listener decorator');
     }
-
-    if (isDescriptorFn(descriptor.value) && descriptor.value.event !== desc.event) {
+    if (isDescriptorFn(fn) && fn.event !== desc.event) {
       throw new TypeError(`Method ${propertyKey} already decorated as ESLListenerDescriptor`);
     }
 
