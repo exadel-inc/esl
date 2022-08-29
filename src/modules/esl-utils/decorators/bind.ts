@@ -19,7 +19,7 @@ export function bind<Fn extends Function>(target: object,
     get: function getBound(): Fn {
       const proto = Object.getPrototypeOf(this);
       const desc = getPropertyDescriptor(proto, propertyKey);
-      const isProtoCall = desc?.get !== getBound;
+      const isProtoCall = !desc || desc.get !== getBound;
       return isProtoCall ? originalFn : (this[propertyKey] = originalFn.bind(this));
     },
     set(value: Fn): void {
