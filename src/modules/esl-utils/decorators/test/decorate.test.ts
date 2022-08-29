@@ -52,7 +52,11 @@ describe('common @decorate decorator test', () => {
 
     class Child extends Parent {
       test(...args: any[]): symbol {
-        return Parent.prototype.test(...args);
+        return super.test(...args);
+      }
+
+      testSuper(): any {
+        return super.test;
       }
     }
 
@@ -71,8 +75,18 @@ describe('common @decorate decorator test', () => {
       () => expect(instance.test(arg1)).toBe(original)
     );
     test(
+      'Prototype method call run function without decoration',
+      () => expect(Parent.prototype.test()).toBe(original)
+    );
+    test(
       'Decoration does not happens on super access',
       () => expect(wrap).toBeCalledTimes(0)
+    );
+
+    const instance2 = new Child();
+    test(
+      'Call of super keyword returns original method',
+      () => expect(instance2.testSuper()).toBe(Parent.prototype.test)
     );
   });
 });

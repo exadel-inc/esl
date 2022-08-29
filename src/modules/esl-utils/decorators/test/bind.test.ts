@@ -54,12 +54,12 @@ describe('Common @bind decorator test', () => {
   });
 
   describe('Inheritance basic binding test', () => {
-    class TestPrent {
+    class TestParent {
       @bind getThis() {
         return this;
       }
     }
-    class TestChild extends TestPrent {
+    class TestChild extends TestParent {
     }
 
     const instance = new TestChild();
@@ -78,7 +78,7 @@ describe('Common @bind decorator test', () => {
     );
   });
 
-  describe('Inheritance prototype binding test', () => {
+  describe('Prototype access should return original method', () => {
     class Test {
       @bind getThis() {
         return this;
@@ -110,7 +110,7 @@ describe('Common @bind decorator test', () => {
     expect(instance1.getThis.call(null)).toBe(instance2);
   });
 
-  describe('Inheritance super keyword binding test', () => {
+  describe('Inheritance super keyword should return original method', () => {
     class TestParent {
       public postfix: string;
       @bind getThisName(): any {
@@ -147,13 +147,15 @@ describe('Common @bind decorator test', () => {
     instance2.postfix = '!';
 
     test(
-      'Instances accessing superclass methods use corect context',
+      'Instances accessing superclass methods use correct context',
       () => expect(instance2.getThisName()).toBe('Hello! world')
     );
-    // test(
-    //   'Instances accessing superclass methods use exact unbounded version from prototype',
-    //   () => expect(instance2.getThisSuperNameMethod()).toBe(TestParent.prototype.getThisName)
-    // );
+
+    const instance3 = new TestChild();
+    test(
+      'Instances accessing superclass methods use exact unbounded version from prototype',
+      () => expect(instance3.getThisSuperNameMethod()).toBe(TestParent.prototype.getThisName)
+    );
   });
 
   test('Decoration of illegal cass member throws error', () => {

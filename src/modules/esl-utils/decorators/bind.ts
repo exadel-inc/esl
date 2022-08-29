@@ -1,3 +1,5 @@
+import {getPropertyDescriptor} from '../misc/object/utils';
+
 /** Decorator "bind" allows to bind prototype method context to class instance */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function bind<Fn extends Function>(target: object,
@@ -14,11 +16,11 @@ export function bind<Fn extends Function>(target: object,
     enumerable: descriptor.enumerable,
     configurable: true,
 
-    get(): Fn {
-      if (!Object.hasOwnProperty.call(this, propertyKey)) {
-        return this[propertyKey] = originalFn.bind(this);
-      }
-      return originalFn;
+    get: function getBound(): Fn {
+      const proto = Object.getPrototypeOf(this);
+      const desc = getPropertyDescriptor(proto, propertyKey);
+      const isProtoCall = desc?.get !== getBound;
+      return isProtoCall ? originalFn : (this[propertyKey] = originalFn.bind(this));
     },
     set(value: Fn): void {
       Object.defineProperty(this, propertyKey, {

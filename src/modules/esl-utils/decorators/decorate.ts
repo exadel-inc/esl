@@ -1,3 +1,4 @@
+import {getPropertyDescriptor} from '../misc/object/utils';
 import type {AnyToAnyFnSignature} from '../misc/functions';
 
 /**
@@ -21,11 +22,11 @@ export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
       enumerable: descriptor.enumerable,
       configurable: true,
 
-      get(): Fn {
-        if (!Object.hasOwnProperty.call(this, propertyKey)) {
-          return this[propertyKey] = decorator(originalFn, ...args);
-        }
-        return originalFn;
+      get: function getBound(): Fn {
+        const proto = Object.getPrototypeOf(this);
+        const desc = getPropertyDescriptor(proto, propertyKey);
+        const isProtoCall = desc?.get !== getBound;
+        return isProtoCall ? originalFn : (this[propertyKey] = decorator(originalFn, ...args));
       },
       set(value: Fn): void {
         Object.defineProperty(this, propertyKey, {
