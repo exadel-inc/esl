@@ -1,4 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {defined} from '../../esl-utils/misc/object/utils';
 import {attr, jsonAttr, ESLBaseElement, listen, prop} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {format} from '../../esl-utils/misc/format';
@@ -10,21 +11,27 @@ import {ESLPanel} from '../../esl-panel/core';
 
 import type {PanelActionParams} from '../../esl-panel/core';
 
+const parseCount = (value: string): number => value === 'all' ? Number.POSITIVE_INFINITY : parseInt(value, 10);
+
 /**
  * ESLPanelGroup component
- * @author Julia Murashko
+ * @author Julia Murashko, Anastasia Lesun, Alexey Stsefanovich (ala'n)
  *
  * ESLPanelGroup is a custom element that is used as a container for a group of {@link ESLPanel}s
  */
 @ExportNs('PanelGroup')
 export class ESLPanelGroup extends ESLBaseElement {
   public static is = 'esl-panel-group';
-  public static observedAttributes = ['mode', 'accordion-group', 'refresh-strategy'];
+
+  public static observedAttributes = ['mode', 'refresh-strategy', 'min-open-items', 'max-open-items'];
   /** List of supported modes */
-  public static supportedModes = ['tabs', 'accordion', 'open'];
+  public static supportedModes = ['accordion', 'tabs'];
 
   /** Event that dispatched on instance mode change */
   @prop('esl:change:mode') public MODE_CHANGE_EVENT: string;
+
+  /** Child panels selector (Default `esl-panel`) */
+  @attr({defaultValue: ESLPanel.is}) public panelSel: string;
 
   /** Rendering mode of the component (takes values from the list of supported modes; 'accordion' by default) */
   @attr({defaultValue: 'accordion'}) public mode: string;
@@ -32,21 +39,27 @@ export class ESLPanelGroup extends ESLBaseElement {
   @attr({defaultValue: 'esl-{mode}-view'}) public modeCls: string;
   /** Element {@link TraversingQuery} selector to add class that identifies the rendering mode (ESLPanelGroup itself by default) */
   @attr({defaultValue: ''}) public modeClsTarget: string;
+
+  /**
+   * ESLMediaQuery string to define a list of media conditions
+   * to disable collapse/expand animation (for both Group and Panel animations)
+   */
+  @attr({defaultValue: 'not all'}) public noAnimate: string;
   /** Class(es) to be added during animation ('animate' by default) */
   @attr({defaultValue: 'animate'}) public animationClass: string;
-  /** List of breakpoints to disable collapse/expand animation (for both Group and Panel animations) */
-  @attr({defaultValue: 'not all'}) public noAnimate: string;
+
+  /** Define minimum number of panels that could be opened */
+  @attr({defaultValue: '1'}) public minOpenItems: string;
+  /** Define maximum number of panels that could be opened */
+  @attr({defaultValue: 'all'}) public maxOpenItems: string;
+
   /**
-   * Define accordion behavior
-   * `single` allows only one Panel to be open.
-   * `multiple` allows any number of open Panels.
-   * */
-  @attr({defaultValue: 'single'}) public accordionGroup: string;
-  /** Define active panel(s) behaviour in case of mode changing ('last' by default)
+   * Define active panel(s) behaviour in case of mode changing ('last' by default)
    * `initial` - activates initially opened panel(s)
    * `last` - try to preserve currently active panel(s)
-   * */
+   */
   @attr({defaultValue: 'last'}) public refreshStrategy: string;
+
   /** Action params to pass into panels when executing reset action (happens when mode is changed) */
   @jsonAttr({defaultValue: {noAnimate: true}}) public transformParams: PanelActionParams;
 
@@ -56,23 +69,18 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   protected connectedCallback(): void {
     super.connectedCallback();
-    this.updateMode();
+    this.refresh();
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
-    if (attrName === 'mode') {
-      this.$$off(this._onModeChange);
+    if (attrName === 'mode' || attrName === 'min-open-items' || attrName === 'max-open-items') {
+      this.$$off(this._onConfigChange);
       memoize.clear(this, 'modeRules');
-      this.$$on(this._onModeChange);
-      this.updateMode();
-    }
-    if (attrName === 'accordion-group') {
-      if (newVal !== 'single' && newVal !== 'multiple') {
-        this.accordionGroup = oldVal;
-        return;
-      }
-      this.reset();
+      memoize.clear(this, 'minValueRules');
+      memoize.clear(this, 'maxValueRules');
+      this.$$on(this._onConfigChange);
+      this.refresh();
     }
     if (attrName === 'refresh-strategy') {
       memoize.clear(this, 'refreshRules');
@@ -80,17 +88,15 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Updates element state according to current mode */
-  protected updateMode(): void {
+  protected refresh(): void {
     const prevMode = this.getAttribute('current-mode');
     const currentMode = this.currentMode;
     this.setAttribute('current-mode', currentMode);
 
     this.updateModeCls();
-    this.reset();
+    ESLPanel.registered.then(() => this.reset());
 
-    if (prevMode !== currentMode) {
-      this.$$fire(this.MODE_CHANGE_EVENT, {detail: {prevMode, currentMode}});
-    }
+    if (prevMode !== currentMode) this.$$fire(this.MODE_CHANGE_EVENT, {detail: {prevMode, currentMode}});
   }
 
   /** Updates mode class marker */
@@ -111,15 +117,22 @@ export class ESLPanelGroup extends ESLBaseElement {
     return ESLMediaRuleList.parse(this.mode);
   }
 
+  /** @returns ESLMediaRuleList instance of the min-open-items mapping */
+  @memoize()
+  public get minValueRules(): ESLMediaRuleList<number> {
+    return ESLMediaRuleList.parse(this.minOpenItems, parseCount);
+  }
+
+  /** @returns ESLMediaRuleList instance of the max-open-items mapping */
+  @memoize()
+  public get maxValueRules(): ESLMediaRuleList<number> {
+    return ESLMediaRuleList.parse(this.maxOpenItems, parseCount);
+  }
+
   /** @returns ESLMediaRuleList instance of the refresh-strategy mapping */
   @memoize()
   public get refreshRules(): ESLMediaRuleList<string> {
     return ESLMediaRuleList.parse(this.refreshStrategy);
-  }
-
-  /** @returns active refresh-strategy */
-  public get activeRefreshStrategy(): string {
-    return this.refreshRules.activeValue || 'last';
   }
 
   /** @returns current mode */
@@ -127,9 +140,30 @@ export class ESLPanelGroup extends ESLBaseElement {
     return this.modeRules.activeValue || '';
   }
 
+  /** @returns current value of min-open-items */
+  public get currentMinItems(): number {
+    const min = 0;
+    const val = defined(this.minValueRules.activeValue, 1);
+    const max = this.currentMode === 'tabs' ? 1 : this.$panels.length;
+    return Math.min(max, Math.max(min, val)); // minmax
+  }
+
+  /** @returns current value of max-open-items */
+  public get currentMaxItems(): number {
+    const min = this.currentMinItems;
+    const val = defined(this.maxValueRules.activeValue, Number.POSITIVE_INFINITY);
+    const max = this.currentMode === 'tabs' ? 1 : this.$panels.length;
+    return Math.min(max, Math.max(min, val)); // minmax
+  }
+
+  /** @returns active refresh-strategy */
+  public get currentRefreshStrategy(): string {
+    return this.refreshRules.activeValue || 'last';
+  }
+
   /** @returns panels that are processed by the current panel group */
   public get $panels(): ESLPanel[] {
-    const els = Array.from(this.querySelectorAll(ESLPanel.is));
+    const els = Array.from(this.querySelectorAll(this.panelSel));
     return els.filter((el) => this.includesPanel(el)) as ESLPanel[];
   }
 
@@ -175,23 +209,19 @@ export class ESLPanelGroup extends ESLBaseElement {
   public hideAll(excluded: ESLPanel[] = [], params: PanelActionParams = {}): void {
     this.$activePanels.forEach((el) => !excluded.includes(el) && el.hide(this.mergeActionParams(params)));
   }
-  /** Toggles all panels by predicate */
-  public toggleAllBy(shouldOpen: ((panel: ESLPanel) => boolean) | ESLPanel[], params: PanelActionParams = {}): void {
-    const predicate = (Array.isArray(shouldOpen)) ? (panel: ESLPanel): boolean => shouldOpen.includes(panel) : shouldOpen;
-    this.$panels.forEach((panel) => panel.toggle(predicate(panel), this.mergeActionParams(params)));
-  }
 
   /** Resets to default state applicable to the current mode */
   public reset(): void {
-    ESLPanel.registered.then(() => {
-      if (this.currentMode === 'open') {
-        this.toggleAllBy(() => true, this.transformParams);
-      } else {
-        const isSingle = this.currentMode === 'tabs' || (this.currentMode === 'accordion' && this.accordionGroup === 'single');
-        const $activePanels = this.activeRefreshStrategy === 'last' ? this.$activePanels : this.$initialPanels;
-        this.toggleAllBy(isSingle ? $activePanels.slice(0, 1) : $activePanels, this.transformParams);
-      }
-    });
+    // $activePanels - collection of items to open (ideally, without normalization)
+    const $activePanels = this.currentRefreshStrategy === 'last' ? this.$activePanels : this.$initialPanels;
+    // $orderedPanels = $activePanels U ($panels / $activePanels) - the list of ordered panels
+    const $orderedPanels = $activePanels.concat(this.$panels.filter((item) => !$activePanels.includes(item)));
+
+    const params = this.mergeActionParams(this.transformParams);
+
+    // we use current open active panels count but normalized in range of minmax
+    const activeCount = Math.min(this.currentMaxItems, Math.max($activePanels.length, this.currentMinItems));
+    $orderedPanels.forEach((panel, index) => panel.toggle(index < activeCount, params));
   }
 
   /** Animates the height of the component */
@@ -238,8 +268,19 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected _onBeforeShow(e: CustomEvent): void {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
-    if (this.currentMode === 'accordion' && this.accordionGroup === 'multiple') return;
-    this.hideAll([panel]);
+
+    const max = this.currentMaxItems;
+    const params = this.mergeActionParams({event: e});
+
+    // All currently active except requested to be open
+    const $activePanels = this.$activePanels.filter((el) => el !== panel);
+
+    // overflow = pretended to be active (current active + requested panel) - limit
+    const overflow = Math.max(0, $activePanels.length + 1 - max);
+    // close all extra active panels (not includes requested one)
+    $activePanels.slice(0, overflow).forEach((el) => el.hide(params));
+
+    if (max <= 0) return e.preventDefault();
   }
 
   /** Process {@link ESLPanel} show event */
@@ -260,13 +301,13 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Process {@link ESLPanel} pre-hide event */
   @listen('esl:before:hide')
   protected _onBeforeHide(e: CustomEvent): void {
-    const panel = e.target;
+    const {target: panel, detail} = e;
     if (!this.includesPanel(panel)) return;
-    if (this.currentMode === 'open') {
-      // TODO: refactor
-      e.preventDefault();
-      return;
-    }
+
+    const selfHandled = detail?.params?.event?.type === 'esl:before:show';
+    const activeNumber = this.$activePanels.length - 1 + Number(selfHandled);
+
+    if (activeNumber < this.currentMinItems) return e.preventDefault();
     this._previousHeight = this.clientHeight;
   }
 
@@ -279,12 +320,13 @@ export class ESLPanelGroup extends ESLBaseElement {
   }
 
   /** Handles mode change */
+  // TODO: deduplicate call
   @listen({
     event: 'change',
-    target: (group: ESLPanelGroup) => group.modeRules
+    target: (group: ESLPanelGroup) => [group.modeRules, group.minValueRules, group.maxValueRules]
   })
-  protected _onModeChange(): void {
-    this.updateMode();
+  protected _onConfigChange(): void {
+    this.refresh();
   }
 }
 
