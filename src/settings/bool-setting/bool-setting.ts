@@ -12,8 +12,6 @@ import {WARNING_MSG} from '../../utils/warning-msg';
  */
 export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';
-  /** CSS Class added when setting has inconsistent state. */
-  public static inconsistencyClass = 'inconsistency-marker';
 
   /** Setting's visible name. */
   @attr({defaultValue: ''}) public label: string;
@@ -38,18 +36,27 @@ export class UIPBoolSetting extends UIPSetting {
     return $field;
   }
 
-  protected connectedCallback() {
-    super.connectedCallback();
-
-    const label = document.createElement('label');
-    label.innerText = this.label;
-    label.appendChild(this.$field);
-
-    this.innerHTML = '';
-    this.appendChild(label);
+  @memoize()
+  protected get $label(): HTMLLabelElement {
+    const $label = document.createElement('label');
+    $label.innerText = this.label;
+    $label.append(this.$field);
+    return $label;
   }
 
-  applyTo(model: UIPStateModel) {
+  @memoize()
+  protected get $inconsistencyMarker(): HTMLElement {
+    const marker = document.createElement('div');
+    marker.classList.add('inconsistency-marker');
+    return marker;
+  }
+
+  protected connectedCallback() {
+    super.connectedCallback();
+    this.insertBefore(this.$label, this.firstChild);
+  }
+
+  applyTo(model: UIPStateModel): void {
     if (this.mode === 'replace') return super.applyTo(model);
 
     const cfg: ChangeAttrConfig = {
@@ -62,7 +69,7 @@ export class UIPBoolSetting extends UIPSetting {
     model.changeAttribute(cfg);
   }
 
-  transform(value: string | false,  attrValue: string | null) {
+  transform(value: string | false,  attrValue: string | null): string | null {
     if (!attrValue) return value || null;
 
     const attrTokens = TokenListUtils.remove(TokenListUtils.split(attrValue), this.value);
@@ -71,10 +78,14 @@ export class UIPBoolSetting extends UIPSetting {
     return TokenListUtils.join(attrTokens);
   }
 
-  updateFrom(model: UIPStateModel) {
+  updateFrom(model: UIPStateModel): void {
+    this.disabled = false;
     const attrValues = model.getAttribute(this.target, this.attribute);
 
-    if (!attrValues.length) return this.setInconsistency(WARNING_MSG.noTarget);
+    if (!attrValues.length) {
+      this.disabled = true;
+      return this.setInconsistency(WARNING_MSG.noTarget);
+    }
 
     this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
   }
@@ -113,18 +124,17 @@ export class UIPBoolSetting extends UIPSetting {
     } else {
       this.$field.checked = value !== null;
     }
-
-    this.querySelector(`.${UIPBoolSetting.inconsistencyClass}`)?.remove();
+    this.$inconsistencyMarker.remove();
   }
 
   protected setInconsistency(msg = WARNING_MSG.inconsistent): void {
     this.$field.checked = false;
-    this.querySelector(`.${UIPBoolSetting.inconsistencyClass}`)?.remove();
+    this.$inconsistencyMarker.innerText = msg;
+    this.append(this.$inconsistencyMarker);
+  }
 
-    const inconsistencyMarker = document.createElement('span');
-    inconsistencyMarker.classList.add(UIPBoolSetting.inconsistencyClass);
-    inconsistencyMarker.innerText = `(${msg})`;
-
-    this.appendChild(inconsistencyMarker);
+  set disabled(force: boolean) {
+    this.$inconsistencyMarker.classList.toggle('disabled', force);
+    this.$field.toggleAttribute('disabled', force);
   }
 }

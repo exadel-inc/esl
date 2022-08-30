@@ -78,4 +78,9 @@ export class UIPSliderSetting extends UIPSetting {
     this.$field.value = this.min;
     this.$fieldValue.textContent = msg;
   }
+
+  set disabled(force: boolean) {
+    this.$fieldValue.classList.toggle('disabled', force);
+    this.$field.toggleAttribute('disabled', force);
+  }
 }
