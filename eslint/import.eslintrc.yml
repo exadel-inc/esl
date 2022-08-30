@@ -22,3 +22,6 @@ rules:
 
   # Forbid a module from importing itself
   'import/no-self-import': error
+
+  # Deprecate cyclic dependencies
+  'import/no-cycle': error
