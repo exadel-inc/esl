@@ -1,5 +1,5 @@
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
-import {ESLImage} from './esl-image';
+import type {ESLImage} from './esl-image';
 
 let iObserver: IntersectionObserver;
 
@@ -17,8 +17,7 @@ export function getIObserver(): IntersectionObserver {
 }
 
 function handleViewport(entry: IntersectionObserverEntry): void {
-  const {target: image} = entry;
-  if (!(image instanceof ESLImage)) return;
+  const image = entry.target as ESLImage;
 
   // Check that entry is going to appear in the viewport area
   if (entry.isIntersecting || entry.intersectionRatio > 0) {
