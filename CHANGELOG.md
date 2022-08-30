@@ -1,3 +1,17 @@
+# [1.0.0-beta.13](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.12...v1.0.0-beta.13) (2022-08-30)
+
+
+### Bug Fixes
+
+* **bool-setting:** remove console.log ([72f3c8d](https://github.com/exadel-inc/ui-playground/commit/72f3c8d5740c7b7b426b4da8da12fa62b7418a6c))
+
+
+### Features
+
+* **setting:** disable setting when there are no targets ([7297748](https://github.com/exadel-inc/ui-playground/commit/72977488f37393e190218f7a0c913cf29eaa67fd))
+* **setting:** move disable logic to setter ([fd1b479](https://github.com/exadel-inc/ui-playground/commit/fd1b479aef5e59916ab7736edc2d58378f76ddfe))
+* **setting:** style disabled settings ([f769a18](https://github.com/exadel-inc/ui-playground/commit/f769a182ca1d3a151de5577f949f90429dbf273c))
+
 # [1.0.0-beta.12](https://github.com/exadel-inc/ui-playground/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2022-08-19)
 
 
