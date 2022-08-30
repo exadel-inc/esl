@@ -3,7 +3,7 @@ import {rafDecorator} from '../../../esl-utils/async/raf';
 import {bind} from '../../../esl-utils/decorators/bind';
 import {format} from '../../../esl-utils/misc/format';
 
-import {ESLSelect} from './esl-select';
+import type {ESLSelect} from './esl-select';
 
 /**
  * ESLSelectRenderer component
@@ -49,7 +49,8 @@ export class ESLSelectRenderer extends ESLBaseElement {
 
   /** ESLSelect owner */
   get owner(): ESLSelect | null {
-    return this.parentElement instanceof ESLSelect ? this.parentElement : null;
+    if (!this.parentElement || !this.parentElement.matches('esl-select')) return null;
+    return this.parentElement as ESLSelect;
   }
 
   protected connectedCallback(): void {
