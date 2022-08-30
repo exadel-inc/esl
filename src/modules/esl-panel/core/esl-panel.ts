@@ -4,8 +4,8 @@ import {bind} from '../../esl-utils/decorators/bind';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
 import {ESLToggleable} from '../../esl-toggleable/core';
-import {ESLPanelGroup} from '../../esl-panel-group/core';
 
+import type {ESLPanelGroup} from '../../esl-panel-group/core';
 import type {ToggleableActionParams} from '../../esl-toggleable/core';
 
 /** {@link ESLPanel} action params interface */
@@ -35,6 +35,9 @@ export class ESLPanel extends ESLToggleable {
   /** Class(es) to be added during animation after next render ('post-animate' by default) */
   @attr({defaultValue: 'post-animate'}) public postAnimateClass: string;
 
+  /** CSS selector of the parent group (default: 'esl-panel-group') */
+  @attr({defaultValue: 'esl-panel-group'}) public panelGroupSel: string;
+
   /** Initial params for current ESLPanel instance */
   @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init'}})
   public initialParams: PanelActionParams;
@@ -53,7 +56,7 @@ export class ESLPanel extends ESLToggleable {
   /** @returns Closest panel group or null if not presented */
   public get $group(): ESLPanelGroup | null {
     if (this.groupName === 'none' || this.groupName) return null;
-    return this.closest(ESLPanelGroup.is);
+    return this.closest(this.panelGroupSel);
   }
 
   protected bindEvents(): void {
