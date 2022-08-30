@@ -38,7 +38,7 @@ export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
           value,
           writable: descriptor.writable,
           enumerable: descriptor.enumerable,
-          configurable: true,
+          configurable: true
         });
       }
     };

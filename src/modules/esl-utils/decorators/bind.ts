@@ -27,7 +27,7 @@ export function bind<Fn extends Function>(target: object,
         value,
         writable: descriptor.writable,
         enumerable: descriptor.enumerable,
-        configurable: true,
+        configurable: true
       });
     }
   };
