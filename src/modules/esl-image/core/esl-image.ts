@@ -7,9 +7,9 @@ import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
 import {getIObserver} from './esl-image-iobserver';
-import {STRATEGIES} from './esl-image-strategies';
+import {EMPTY_IMAGE, STRATEGIES, isEmptyImage} from './esl-image-strategies';
 
-import type {ESLImageRenderStrategy, ESLImageStrategyMap} from './esl-image-strategies';
+import type {ESLImageRenderStrategy} from './esl-image-strategies';
 
 type LoadState = 'error' | 'loaded' | 'ready';
 const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);
@@ -28,13 +28,8 @@ export class ESLImage extends ESLBaseElement {
   /** Default container class value */
   public static DEFAULT_CONTAINER_CLS = 'img-container-loaded';
 
-  public static get STRATEGIES(): ESLImageStrategyMap {
-    return STRATEGIES;
-  }
-
-  public static get EMPTY_IMAGE(): string {
-    return 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-  }
+  public static readonly STRATEGIES = STRATEGIES;
+  public static readonly EMPTY_IMAGE = EMPTY_IMAGE;
 
   /** Event that represents ready state of {@link ESLImage} */
   @prop('ready') public READY_EVENT: string;
@@ -140,7 +135,7 @@ export class ESLImage extends ESLBaseElement {
   }
 
   public get empty(): boolean {
-    return !this._currentSrc || ESLImage.isEmptyImage(this._currentSrc);
+    return !this._currentSrc || isEmptyImage(this._currentSrc);
   }
 
   public get canUpdate(): boolean {
@@ -306,10 +301,6 @@ export class ESLImage extends ESLBaseElement {
 
     const targetEl = TraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
     targetEl && CSSClassUtils.toggle(targetEl, cls, state);
-  }
-
-  public static isEmptyImage(src: string): boolean {
-    return src === ESLImage.EMPTY_IMAGE;
   }
 }
 
