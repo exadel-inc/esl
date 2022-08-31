@@ -59,6 +59,8 @@ export class ESLPanelGroup extends ESLBaseElement {
    * Define active panel(s) behaviour in case of configuration change (mode, min-open-items, max-open-items)
    * `last` (default) - try to preserve currently active panel(s)
    * `initial` - activates initially opened panel(s)
+   * `open` - open max of available panels
+   * `close` - close all the panels (to the min of open items)
    */
   @attr({defaultValue: 'last'}) public refreshStrategy: string;
 
@@ -158,11 +160,6 @@ export class ESLPanelGroup extends ESLBaseElement {
     return Math.min(max, Math.max(min, val)); // minmax
   }
 
-  /** @returns active refresh-strategy */
-  public get currentRefreshStrategy(): string {
-    return this.refreshRules.activeValue || 'last';
-  }
-
   /** @returns panels that are processed by the current panel group */
   public get $panels(): ESLPanel[] {
     const els = Array.from(this.querySelectorAll(this.panelSel));
@@ -177,6 +174,16 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** @returns panels that was initially opened */
   public get $initialPanels(): ESLPanel[] {
     return this.$panels.filter((el: ESLPanel) => el.initiallyOpened);
+  }
+
+  /** @returns panels that requested to be opened on refresh */
+  public get $resetStatePanels(): ESLPanel[] {
+    switch (this.refreshRules.activeValue) {
+      case 'close': return [];
+      case 'open': return this.$panels;
+      case 'initial': return this.$initialPanels;
+      default: return this.$activePanels;
+    }
   }
 
   /** @returns whether the collapse/expand animation should be handheld by the breakpoints */
@@ -214,8 +221,8 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Resets to default state applicable to the current panel group configuration */
   public reset(): void {
-    // $activePanels - collection of items to open (ideally, without normalization)
-    const $activePanels = this.currentRefreshStrategy === 'last' ? this.$activePanels : this.$initialPanels;
+    // $activePanels - collection of items to open (ideally; without normalization)
+    const $activePanels = this.$resetStatePanels;
     // $orderedPanels = $activePanels U ($panels / $activePanels) - the list of ordered panels
     const $orderedPanels = $activePanels.concat(this.$panels.filter((item) => !$activePanels.includes(item)));
     // we use current open active panels count but normalized in range of minmax

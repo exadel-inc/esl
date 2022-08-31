@@ -26,6 +26,8 @@ ESLPanelGroup.register();
 - `refresh-strategy` - defines behaviour of active panel(s) in case of configuration change:
   * `initial` - activates initially opened panel(s)
   * `last` - maintain currently active panel(s) open
+  * `open` - open max of available panels
+  * `close` - close all the panels (to the min of open items)
 - `min-open-items` - defines minimum number ('0 | 1 | number | all') of panels that could be opened ('1' by default)
 - `max-open-items` - defines maximum number ('0 | 1 | number | all') of panels that could be opened ('1' by default)
 - `transform-params` - JSON of action params to pass into panels when executing reset action (happens when the mode is changed)
