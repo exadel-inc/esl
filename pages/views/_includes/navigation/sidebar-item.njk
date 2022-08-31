@@ -15,7 +15,7 @@
         <sup class="badge badge-sup badge-warning">beta</sup>
       {% endif %}
       {% if opt.new %}
-        <sup class="badge badge-sup badge-warning">new</sup>
+        <sup class="badge badge-sup badge-success">new</sup>
       {% endif %}
     </esl-trigger>
   </div>
@@ -30,12 +30,16 @@
       {% for item in items | sortByNameAndOrder %}
         {% set isActive = page.url === item.url %}
         {% set isDraft = [].concat(item.data.tags).includes('draft') %}
+        {% set isNew = [].concat(item.data.tags).includes('new') %}
         <li class="sidebar-nav-secondary-item {{ 'active' if isActive }} {{ 'draft' if isDraft }}"
             {% if isActive %}aria-selected="true"{% endif %}>
           <a class="sidebar-nav-secondary-link"
              {% if isActive %}aria-current="page"{% endif %}
              href="{{ item.url | url }}">
             {{ item.data.name }}
+            {% if isNew %}
+              <sup class="badge badge-sup badge-success">new</sup>
+            {% endif %}
           </a>
         </li>
       {% endfor %}
