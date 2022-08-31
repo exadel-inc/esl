@@ -31,6 +31,8 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Event that dispatched on instance mode change */
   @prop('esl:change:mode') public MODE_CHANGE_EVENT: string;
+  /** Inner event that dispatched after group-handled animation end */
+  @prop('esl:after:animate') public AFTER_ANIMATE_EVENT: string;
 
   /** Child panels selector (Default `esl-panel`) */
   @attr({defaultValue: ESLPanel.is}) public panelSel: string;
@@ -268,7 +270,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     CSSClassUtils.remove(this, this.animationClass);
 
     if (silent) return;
-    this.$activePanels.forEach((panel) => panel.$$fire('esl:after:show'));
+    this.$$fire(this.AFTER_ANIMATE_EVENT, {bubbles: false});
   }
 
   /** Process {@link ESLPanel} pre-show event */
