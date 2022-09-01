@@ -1,4 +1,5 @@
 {% set releasedBlogs = collections.blogs | released %}
+{% set blogs = landing.blogs | feed %}
 {% if releasedBlogs.length %}
 <div class="blogs container">
   <h2>{{ landing.blogs.title }}</h2>
@@ -13,6 +14,13 @@
         </div>
       </li>
     {% endfor %}
+    <div class="blogs-item esl-animate-slide-left">
+      <div class="blogs-content">
+        <h4 class="blogs-content-name">{{ blogs[0].title }}</h4>
+        <p class="blogs-content-text">{{ blogs[0].content  | text | trim(250) }}</p>
+        <a class="arrow-link btn-link btn-sm"  href="{{ blogs[0].link | url }}">{{ landing.blogs.cta.text  }}</a>
+      </div>
+    </div>
   </ul>
 </div>
 {% endif %}
