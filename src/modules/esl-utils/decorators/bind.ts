@@ -12,7 +12,7 @@ export function bind<Fn extends Function>(target: object,
   // Original function
   const originalFn = descriptor.value;
 
-  return {
+  return descriptor = {
     enumerable: descriptor.enumerable,
     configurable: true,
 
@@ -25,9 +25,9 @@ export function bind<Fn extends Function>(target: object,
     set(value: Fn): void {
       Object.defineProperty(this, propertyKey, {
         value,
-        writable: descriptor.writable,
-        enumerable: descriptor.enumerable,
-        configurable: true
+        writable: true,
+        configurable: true,
+        enumerable: descriptor.enumerable
       });
     }
   };

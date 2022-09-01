@@ -3,6 +3,7 @@ import {defined} from '../../esl-utils/misc/object/utils';
 import {attr, jsonAttr, ESLBaseElement, listen, prop} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {debounce} from '../../esl-utils/async/debounce';
+import {decorate} from '../../esl-utils/decorators/decorate';
 import {format} from '../../esl-utils/misc/format';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
@@ -331,16 +332,14 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
-  /** Debounced instance of refresh method */
-  // TODO: @decorate
-  protected refreshDebounced = debounce(this.refresh, 0, this);
   /** Handles configuration change */
   @listen({
     event: 'change',
     target: (group: ESLPanelGroup) => [group.modeRules, group.minValueRules, group.maxValueRules]
   })
+  @decorate(debounce, 0)
   protected _onConfigChange(): void {
-    this.refreshDebounced();
+    this.refresh();
   }
 }
 
