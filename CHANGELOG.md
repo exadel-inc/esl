@@ -1,3 +1,19 @@
+# [4.0.0-beta.17](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.16...v4.0.0-beta.17) (2022-09-01)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** fix animation process capturing by ESLPanel component ([9a5b3a5](https://github.com/exadel-inc/esl/commit/9a5b3a576d5cb4dbd47d113d944932586155c7f6))
+* **esl-utils:** ESLEventListener descriptors can't be declared trough prototype inheritance ([a055e71](https://github.com/exadel-inc/esl/commit/a055e71643a6b1f2d560dd1ff5c3152767c43bef))
+* **esl-utils:** fix `[@bind](https://github.com/bind)` decorator to save original function enumerable marker ([92c2086](https://github.com/exadel-inc/esl/commit/92c2086df610a5572143463302baf7aeea6174e9))
+* **esl-utils:** fix `[@decorate](https://github.com/decorate)` decorator to work properly with `[@listen](https://github.com/listen)` ([286ef57](https://github.com/exadel-inc/esl/commit/286ef579b61fbf43a793550fcf7dc8018bc15f54))
+
+
+### Features
+
+* **esl-panel-group:** extend esl-panel-group refresh strategies list with 'open' and 'close' strategy ([ee18c9d](https://github.com/exadel-inc/esl/commit/ee18c9d673361e53ecc3cd84f04d8d5650c79693))
+* **esl-utils:** add `skipOneRender` RAF utility ([ddc3227](https://github.com/exadel-inc/esl/commit/ddc322798e6f8cf447874896786fe6d368bbe5ef))
+
 # [4.0.0-beta.16](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.15...v4.0.0-beta.16) (2022-08-30)
 
 
