@@ -7,6 +7,7 @@ layout: content
   {% for item in collections[collection] | notHidden | released | sortByName %}
     {% set isDraft = [].concat(item.data.tags).includes('draft') %}
     {% set isBeta = [].concat(item.data.tags).includes('beta') %}
+    {% set isNew = [].concat(item.data.tags).includes('new') %}
     <li>
       <a class="collection-grid-item {{ 'draft' if isDraft }}"
          href="{{ item.url | url }}">
@@ -17,6 +18,9 @@ layout: content
             {% endif %}
             {% if isDraft %}
               <sup class="badge badge-sup badge-danger">draft</sup>
+            {% endif %}
+            {% if isNew %}
+              <sup class="badge badge-sup badge-success">new</sup>
             {% endif %}
           </span>
         </div>
