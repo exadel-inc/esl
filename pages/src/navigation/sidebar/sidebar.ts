@@ -1,8 +1,4 @@
-import {boolAttr} from '../../../../src/modules/esl-utils/decorators/bool-attr';
-import {listen} from '../../../../src/modules/esl-utils/decorators/listen';
-import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
-import {bind} from '../../../../src/modules/esl-utils/decorators/bind';
-import {ready} from '../../../../src/modules/esl-utils/decorators/ready';
+import {boolAttr, listen, prop, bind, ready} from '../../../../src/modules/esl-utils/decorators';
 import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
 import {ESLMediaQuery} from '../../../../src/modules/esl-media-query/core/esl-media-query';
 

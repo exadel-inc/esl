@@ -1,5 +1,5 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {attr} from '../../../esl-base-element/core';
+import {attr} from '../../../esl-utils/decorators';
 import {ESLCarousel} from '../core/esl-carousel';
 import {ESLCarouselPlugin} from './esl-carousel-plugin';
 

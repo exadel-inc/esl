@@ -1,6 +1,6 @@
 import {ESLBaseElement} from '../../../esl-base-element/core';
 import {EventUtils} from '../../../esl-utils/dom/events';
-import {bind} from '../../../esl-utils/decorators/bind';
+import {bind} from '../../../esl-utils/decorators';
 
 /** Interface for option definition */
 export interface ESLSelectOption {

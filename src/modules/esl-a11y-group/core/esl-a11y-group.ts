@@ -1,5 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr, boolAttr, listen} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
+import {attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP} from '../../esl-utils/dom/keys';
 
