@@ -1,7 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, boolAttr, prop, listen, ESLBaseElement} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
 import {setAttr} from '../../esl-utils/dom/attr';
-import {ready} from '../../esl-utils/decorators/ready';
+import {attr, boolAttr, prop, listen, ready} from '../../esl-utils/decorators';
 import {parseNumber} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ENTER, SPACE, ESC} from '../../esl-utils/dom/keys';
