@@ -1,7 +1,5 @@
-import {attr} from '../../../src/modules/esl-utils/decorators/attr';
-import {listen} from '../../../src/modules/esl-utils/decorators/listen';
+import {attr, listen, decorate} from '../../../src/modules/esl-utils/decorators';
 import {debounce} from '../../../src/modules/esl-utils/async/debounce';
-import {decorate} from '../../../src/modules/esl-utils/decorators/decorate';
 import {ESLBaseElement} from '../../../src/modules/esl-base-element/core/esl-base-element';
 import {TraversingQuery} from '../../../src/modules/esl-traversing-query/core/esl-traversing-query';
 
