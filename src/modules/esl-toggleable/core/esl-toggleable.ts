@@ -1,12 +1,12 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESC, SYSTEM_KEYS} from '../../esl-utils/dom/keys';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {bind} from '../../esl-utils/decorators/bind';
+import {bind, attr, jsonAttr, boolAttr} from '../../esl-utils/decorators';
 import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
 import {sequentialUID} from '../../esl-utils/misc/uid';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
-import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
 import {isMatches} from '../../esl-utils/dom/traversing';
 
 export interface ESLShowRequestDetails {
