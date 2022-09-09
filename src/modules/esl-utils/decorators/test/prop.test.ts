@@ -1,5 +1,5 @@
 import '../../../../polyfills/es5-target-shim';
-import {attr, boolAttr, jsonAttr} from '../../../esl-base-element/core';
+import {attr, boolAttr, jsonAttr} from '../../../esl-utils/decorators';
 import {prop} from '../prop';
 
 describe('Decorator: @prop', () => {
