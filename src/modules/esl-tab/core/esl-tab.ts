@@ -1,4 +1,4 @@
-import {attr} from '../../esl-utils/decorators/attr';
+import {attr} from '../../esl-utils/decorators';
 import {setAttr} from '../../esl-utils/dom/attr';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLTrigger} from '../../esl-trigger/core';
