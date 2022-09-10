@@ -1,4 +1,4 @@
-import {ESLEventListener} from '../listener';
+import {ESLEventListener} from '../core/listener';
 
 describe('dom/events: ESLEventListener', () => {
   describe('get', () => {

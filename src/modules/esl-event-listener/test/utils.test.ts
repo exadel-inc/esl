@@ -1,5 +1,5 @@
-import {EventUtils} from '../utils';
-import {ESLEventListener} from '../listener';
+import {EventUtils} from '../core/api';
+import {ESLEventListener} from '../core/listener';
 
 describe('dom/events: EventUtils', () => {
   describe('dispatch', () => {

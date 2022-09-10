@@ -1,4 +1,5 @@
-import {ExportNs} from '../../environment/export-ns';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
+
 import {ESLEventListener} from './listener';
 
 import type {

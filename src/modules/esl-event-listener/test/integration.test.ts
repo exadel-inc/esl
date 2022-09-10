@@ -1,4 +1,4 @@
-import {EventUtils} from '../utils';
+import {EventUtils} from '../core/api';
 
 describe('EventUtils: integration', () => {
   test('subscribe', ()  => {

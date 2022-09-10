@@ -2,7 +2,7 @@ import {ESLMixinElement} from '../../../src/modules/esl-mixin-element/ui/esl-mix
 import {listen} from '../../../src/modules/esl-utils/decorators/listen';
 import {afterNextRender} from '../../../src/modules/esl-utils/async/raf';
 import {memoize} from '../../../src/modules/esl-utils/decorators/memoize';
-import {EventUtils} from '../../../src/modules/esl-utils/dom/events/utils';
+import {EventUtils} from '../../../src/modules/esl-utils/dom/events';
 
 /**
  * Demo sample of anchor mixin

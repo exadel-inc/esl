@@ -1,11 +1,11 @@
-import {wrap} from '../../misc/array';
-import {sequentialUID} from '../../misc/uid';
-import {resolveProperty} from '../../misc/functions';
-import {memoize} from '../../decorators/memoize';
-import {isSimilar} from '../../misc/object/compare';
-import {TraversingQuery} from '../../../esl-traversing-query/core';
-import {isPassiveByDefault} from './misc';
-import type {PropertyProvider} from '../../misc/functions';
+import {wrap} from '../../esl-utils/misc/array';
+import {sequentialUID} from '../../esl-utils/misc/uid';
+import {resolveProperty} from '../../esl-utils/misc/functions';
+import {memoize} from '../../esl-utils/decorators/memoize';
+import {isSimilar} from '../../esl-utils/misc/object/compare';
+import {TraversingQuery} from '../../esl-traversing-query/core';
+import {isPassiveByDefault} from '../../esl-utils/dom/events/misc';
+import type {PropertyProvider} from '../../esl-utils/misc/functions';
 
 /** Describes callback handler */
 export type ESLListenerHandler<EType extends Event = Event> = (event: EType, listener?: ESLEventListener) => void;

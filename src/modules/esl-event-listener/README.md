@@ -1,3 +1,5 @@
+[//]: # (TODO: rewrite)
+
 # ESL Event Utils module
 
 <a name="intro"></a>
