@@ -115,4 +115,8 @@ describe('dom/events: misc', () => {
       });
     });
   });
+
+  describe('splitEvents', () => {
+    // TODO
+  });
 });

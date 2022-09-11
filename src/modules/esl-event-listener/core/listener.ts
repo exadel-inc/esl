@@ -4,9 +4,10 @@ import {resolveProperty} from '../../esl-utils/misc/functions';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {isSimilar} from '../../esl-utils/misc/object/compare';
 import {TraversingQuery} from '../../esl-traversing-query/core';
-import {isPassiveByDefault} from '../../esl-utils/dom/events/misc';
+import {isPassiveByDefault, splitEvents} from '../../esl-utils/dom/events/misc';
 
 import type {ESLListenerDefinition, ESLListenerDescriptor, ESLListenerEventMap} from './descriptor';
+
 
 /** Describes callback handler */
 export type ESLListenerHandler<EType extends Event = Event> = (event: EType, listener?: ESLEventListener) => void;
@@ -115,38 +116,29 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     if (!criteria.length) return listeners;
     return listeners.filter((listener) => criteria.every(listener.matches, listener));
   }
+  /** Adds listener to the listener store of the host object */
   protected static add(host: any, instance: ESLEventListener): void {
     if (!host) return;
     if (!Object.hasOwnProperty.call(host, STORE)) host[STORE] = [];
     host[STORE].push(instance);
   }
+  /** Removes listener from the listener store of the host object */
   protected static remove(host: any, instance: ESLEventListener): void {
     const listeners = ESLEventListener.get(host);
     const value = listeners.filter((listener) => listener !== instance);
     Object.defineProperty(host, STORE, {value, configurable: true});
   }
 
-  /** Creates event listeners by handler and descriptors */
+  /** Creates or resolve existing event listeners by handler and descriptors */
   public static createOrResolve(host: HTMLElement, handler: ESLListenerHandler, desc: ESLListenerDescriptor): ESLEventListener[] {
     const events = resolveProperty(desc.event, desc.context || host);
     if (!events.length) {
       console.warn('[ESL]: Can\'t create ESLEventListener with empty event type: %o %o', handler, desc);
     }
-    return ESLEventListener.splitEventQ(events).map((event) => {
+    return splitEvents(events).map((event) => {
       const spec = Object.assign({}, desc, {event}) as ESLListenerDefinition;
       const instance = ESLEventListener.get(host, handler, spec)[0];
       return instance || (new ESLEventListener(host, handler, spec));
-    });
-  }
-
-  /** Splits and deduplicate event query */
-  protected static splitEventQ(query: string): string[] {
-    const terms = (query || '').split(' ').map((term) => term.trim());
-    const deduplicate = new Set<string>();
-    return terms.filter((term) => {
-      if (!term || deduplicate.has(term)) return false;
-      deduplicate.add(term);
-      return true;
     });
   }
 }
