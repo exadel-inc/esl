@@ -2,12 +2,8 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 
 import {ESLEventListener} from './listener';
 
-import type {
-  ESLListenerHandler,
-  ESLListenerCriteria,
-  ESLListenerEventMap,
-  ESLListenerDescriptor
-} from './listener';
+import type {ESLListenerHandler, ESLListenerCriteria} from './listener';
+import type {ESLListenerDescriptor, ESLListenerEventMap} from './descriptor';
 
 /** Function decorated as {@link ESLListenerDescriptor} */
 export type ESLListenerDescriptorFn<EType extends keyof ESLListenerEventMap = string> =
@@ -51,7 +47,7 @@ export class EventUtils {
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners list
    */
   public static listeners(target: HTMLElement, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
-    return ESLEventListener.get(target).filter((listener) => !criteria.length || criteria.every(listener.matches, listener));
+    return ESLEventListener.get(target, ...criteria);
   }
 
   /** Subscribes decorated `handler` method of the `target` */
@@ -76,7 +72,7 @@ export class EventUtils {
     if (typeof handler !== 'function') return [];
     if (typeof eventDesc === 'string') eventDesc = {event: eventDesc};
     if (isDescriptorFn(handler) && eventDesc !== handler) eventDesc = Object.assign({}, handler, eventDesc);
-    const listeners = ESLEventListener.create(target, handler, eventDesc as ESLListenerDescriptor);
+    const listeners = ESLEventListener.createOrResolve(target, handler, eventDesc as ESLListenerDescriptor);
     listeners.forEach((listener) => listener.subscribe());
     return listeners;
   }

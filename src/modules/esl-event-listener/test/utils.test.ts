@@ -82,7 +82,7 @@ describe('dom/events: EventUtils', () => {
     test('decorated handler', () => {
       const host = {};
       const createMock =
-        jest.spyOn(ESLEventListener, 'create').mockImplementation((el, cb, desc) => [desc] as any);
+        jest.spyOn(ESLEventListener, 'createOrResolve').mockImplementation((el, cb, desc) => [desc] as any);
 
       EventUtils.subscribe(host as any, listener1);
       expect(listener1.subscribe).toBeCalled();
@@ -92,7 +92,7 @@ describe('dom/events: EventUtils', () => {
     test('decorated handler with empty override', () => {
       const host = {};
       const createMock =
-        jest.spyOn(ESLEventListener, 'create').mockImplementation((el, cb, desc) => [desc] as any);
+        jest.spyOn(ESLEventListener, 'createOrResolve').mockImplementation((el, cb, desc) => [desc] as any);
 
       EventUtils.subscribe(host as any, {}, listener1);
       expect(listener1.subscribe).toBeCalled();
@@ -102,7 +102,7 @@ describe('dom/events: EventUtils', () => {
     test('merge decorated handler', () => {
       const host = {};
       const createMock =
-        jest.spyOn(ESLEventListener, 'create').mockImplementation((el, cb, desc) => [desc] as any);
+        jest.spyOn(ESLEventListener, 'createOrResolve').mockImplementation((el, cb, desc) => [desc] as any);
 
       EventUtils.subscribe(host as any, {event: 'e2'}, listener1);
       expect(listener1.subscribe).toBeCalled();
@@ -116,7 +116,7 @@ describe('dom/events: EventUtils', () => {
       const desc = {event: 'test'};
       const listener = {subscribe: jest.fn()};
       const createMock =
-        jest.spyOn(ESLEventListener, 'create').mockImplementation(() => [listener] as any);
+        jest.spyOn(ESLEventListener, 'createOrResolve').mockImplementation(() => [listener] as any);
 
       EventUtils.subscribe(host as any, desc, fn);
       expect(listener.subscribe).toBeCalled();
@@ -128,7 +128,7 @@ describe('dom/events: EventUtils', () => {
       const fn = jest.fn();
       const listener = {subscribe: jest.fn()};
       const createMock =
-        jest.spyOn(ESLEventListener, 'create').mockImplementation(() => [listener] as any);
+        jest.spyOn(ESLEventListener, 'createOrResolve').mockImplementation(() => [listener] as any);
 
       EventUtils.subscribe(host as any, 'click', fn);
       expect(listener.subscribe).toBeCalled();

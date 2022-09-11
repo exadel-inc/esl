@@ -6,11 +6,6 @@ describe('dom/events: ESLEventListener', () => {
       expect(ESLEventListener.get()).toEqual([]);
       expect(ESLEventListener.get({})).toEqual([]);
     });
-    test('singleton', () => {
-      const obj = {};
-      const listeners = ESLEventListener.get(obj);
-      expect(ESLEventListener.get(obj)).toBe(listeners);
-    });
   });
 
   describe('create', () => {
@@ -19,7 +14,7 @@ describe('dom/events: ESLEventListener', () => {
 
       const host = document.createElement('div');
       const handler = jest.fn();
-      const result = ESLEventListener.create(host, handler, {event: ''});
+      const result = ESLEventListener.createOrResolve(host, handler, {event: ''});
 
       expect(result.length).toBe(0);
       expect(consoleSpy).toBeCalledTimes(1);
@@ -29,7 +24,7 @@ describe('dom/events: ESLEventListener', () => {
     test('one by string', () => {
       const host = document.createElement('div');
       const handler = jest.fn();
-      const result = ESLEventListener.create(host, handler, {event: 'click'});
+      const result = ESLEventListener.createOrResolve(host, handler, {event: 'click'});
 
       expect(result.length).toBe(1);
       expect(result[0].event).toBe('click');
@@ -40,7 +35,7 @@ describe('dom/events: ESLEventListener', () => {
       const host = document.createElement('div');
       const handler = jest.fn();
       const eventProvider = jest.fn(() => 'click');
-      const result = ESLEventListener.create(host, handler, {event: eventProvider});
+      const result = ESLEventListener.createOrResolve(host, handler, {event: eventProvider});
 
       expect(result.length).toBe(1);
       expect(result[0].event).toBe('click');
@@ -53,14 +48,14 @@ describe('dom/events: ESLEventListener', () => {
       const host = document.createElement('div');
       const handler = jest.fn();
       const eventProvider = jest.fn(() => 'click');
-      ESLEventListener.create(host, handler, {event: eventProvider, context});
+      ESLEventListener.createOrResolve(host, handler, {event: eventProvider, context});
       expect(eventProvider).lastCalledWith(context);
     });
 
     test('multiple by string', () => {
       const host = document.createElement('div');
       const handler = jest.fn();
-      const result = ESLEventListener.create(host, handler, {event: 'click keydown keypress'});
+      const result = ESLEventListener.createOrResolve(host, handler, {event: 'click keydown keypress'});
 
       expect(result.length).toBe(3);
       expect(result[0].handler).toBe(handler);
@@ -72,7 +67,7 @@ describe('dom/events: ESLEventListener', () => {
     test('one by desc', () => {
       const host = document.createElement('div');
       const handler = jest.fn();
-      const result = ESLEventListener.create(host, handler, {event: 'keypress', id: 'test'});
+      const result = ESLEventListener.createOrResolve(host, handler, {event: 'keypress', id: 'test'});
 
       expect(result.length).toBe(1);
       expect(result[0].handler).toBe(handler);
@@ -83,7 +78,7 @@ describe('dom/events: ESLEventListener', () => {
     test('multiple by desc', () => {
       const host = document.createElement('div');
       const handler = jest.fn();
-      const result = ESLEventListener.create(host, handler, {event: 'e1 e2', selector: 'button'});
+      const result = ESLEventListener.createOrResolve(host, handler, {event: 'e1 e2', selector: 'button'});
 
       expect(result.length).toBe(2);
       expect(result[0].handler).toBe(handler);
@@ -101,7 +96,7 @@ describe('dom/events: ESLEventListener', () => {
       const targetProvider = jest.fn(() => '::not(btn)');
       const selectorProvider = jest.fn(() => '.btn');
 
-      const [listener] = ESLEventListener.create(host, handler, {
+      const [listener] = ESLEventListener.createOrResolve(host, handler, {
         event: eventProvider,
         target: targetProvider,
         selector: selectorProvider
@@ -124,7 +119,7 @@ describe('dom/events: ESLEventListener', () => {
       const targetProvider = jest.fn(() => '::not(btn)');
       const selectorProvider = jest.fn(() => '.btn');
 
-      ESLEventListener.create(host, handler, {
+      ESLEventListener.createOrResolve(host, handler, {
         event: eventProvider,
         target: targetProvider,
         selector: selectorProvider,

@@ -5,57 +5,14 @@ import {memoize} from '../../esl-utils/decorators/memoize';
 import {isSimilar} from '../../esl-utils/misc/object/compare';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {isPassiveByDefault} from '../../esl-utils/dom/events/misc';
-import type {PropertyProvider} from '../../esl-utils/misc/functions';
+
+import type {ESLListenerDefinition, ESLListenerDescriptor, ESLListenerEventMap} from './descriptor';
 
 /** Describes callback handler */
 export type ESLListenerHandler<EType extends Event = Event> = (event: EType, listener?: ESLEventListener) => void;
 
-/** Extended event map with the custom event definition */
-export interface ESLListenerEventMap extends HTMLElementEventMap {
-  /** User custom event or group of events */
-  [e: string]: Event;
-}
-
-/** Descriptor to create {@link ESLEventListener} */
-export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = string> = {
-  /** A case-sensitive string (or provider function) representing the event type to listen for */
-  event: EType | PropertyProvider<EType>;
-  /**
-   * A boolean value indicating that events for this listener will be dispatched on the capture phase.
-   * @see AddEventListenerOptions.capture
-   */
-  capture?: boolean;
-  /**
-   * A boolean value that indicates that the function specified by listener will never call preventDefault()
-   * @see AddEventListenerOptions.passive
-   */
-  passive?: boolean;
-
-  /** A string (or provider function) representing CSS selector to check delegated event target (undefined (disabled) by default) */
-  selector?: string | PropertyProvider<string>;
-  /**
-   * A string (or provider function) selector to find the target or {@link EventTarget} object to subscribe the event listener to
-   * **Note**: string values are processed by the {@link TraversingQuery} syntax
-   * (e.g. `button` selects all buttons globally, while `::find(button)` selects only buttons inside current element)
-   */
-  target?: EventTarget | EventTarget[] | string | null | PropertyProvider<EventTarget | EventTarget[] | string | null>;
-
-  /** Identifier of the event listener. Can be used to group and unsubscribe listeners */
-  id?: string;
-  /**
-   * A reference to the component (mixin) that holds the event listener descriptor
-   * Used as a call context for the event listener handler if defined
-   */
-  context?: unknown;
-
-  /** A boolean value indicating that the listener should be automatically subscribed within connected callback */
-  auto?: boolean;
-  /** A boolean value indicating that the listener should be invoked at most once after being added */
-  once?: boolean;
-};
-
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
-export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLListenerHandler | Partial<ESLEventListener>;
+export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLListenerHandler | Partial<ESLListenerDefinition>;
 
 const STORE = '__listeners';
 
@@ -65,7 +22,7 @@ const STORE = '__listeners';
  *
  * Use Chrome console `getEventListeners` method to check subscribers details when debugging ESLEventListener subscriptions.
  * */
-export class ESLEventListener implements ESLListenerDescriptor, EventListenerObject {
+export class ESLEventListener implements ESLListenerDefinition, EventListenerObject {
   public readonly id: string;
   public readonly event: string;
   public readonly once?: boolean;
@@ -140,7 +97,7 @@ export class ESLEventListener implements ESLListenerDescriptor, EventListenerObj
     memoize.clear(this, '$targets');
     if (!this.$targets.length) return false;
     this.$targets.forEach((el: EventTarget) => el.addEventListener(this.event, this, {passive, capture}));
-    ESLEventListener.get(this.$host).push(this);
+    ESLEventListener.add(this.$host, this);
     return true;
   }
 
@@ -148,27 +105,37 @@ export class ESLEventListener implements ESLListenerDescriptor, EventListenerObj
   public unsubscribe(): void {
     const {capture} = this;
     this.$targets.forEach((el: EventTarget) => el.removeEventListener(this.event, this, {capture}));
-    const listeners = ESLEventListener.get(this.$host);
-    const value = listeners.filter((listener) => listener !== this);
-    Object.defineProperty(this.$host, STORE, {value, configurable: true});
+    ESLEventListener.remove(this.$host, this);
   }
 
   /** Gets stored listeners array the passed `host` object */
-  public static get(host?: any): ESLEventListener[] {
+  public static get(host?: any, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
     if (!host) return [];
+    const listeners = (host[STORE] || []) as ESLEventListener[];
+    if (!criteria.length) return listeners;
+    return listeners.filter((listener) => criteria.every(listener.matches, listener));
+  }
+  protected static add(host: any, instance: ESLEventListener): void {
+    if (!host) return;
     if (!Object.hasOwnProperty.call(host, STORE)) host[STORE] = [];
-    return host[STORE];
+    host[STORE].push(instance);
+  }
+  protected static remove(host: any, instance: ESLEventListener): void {
+    const listeners = ESLEventListener.get(host);
+    const value = listeners.filter((listener) => listener !== instance);
+    Object.defineProperty(host, STORE, {value, configurable: true});
   }
 
   /** Creates event listeners by handler and descriptors */
-  public static create(target: HTMLElement, handler: ESLListenerHandler, desc: ESLListenerDescriptor): ESLEventListener[] {
-    const events = resolveProperty(desc.event, desc.context || target);
+  public static createOrResolve(host: HTMLElement, handler: ESLListenerHandler, desc: ESLListenerDescriptor): ESLEventListener[] {
+    const events = resolveProperty(desc.event, desc.context || host);
     if (!events.length) {
       console.warn('[ESL]: Can\'t create ESLEventListener with empty event type: %o %o', handler, desc);
     }
     return ESLEventListener.splitEventQ(events).map((event) => {
-      const spec: ESLListenerDescriptor = Object.assign({}, desc, {event});
-      return new ESLEventListener(target, handler, spec);
+      const spec = Object.assign({}, desc, {event}) as ESLListenerDefinition;
+      const instance = ESLEventListener.get(host, handler, spec)[0];
+      return instance || (new ESLEventListener(host, handler, spec));
     });
   }
 

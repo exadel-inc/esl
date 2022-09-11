@@ -1,4 +1,5 @@
 import {EventUtils} from '../core/api';
+import {listen} from '../../esl-utils/decorators/listen';
 
 describe('EventUtils: integration', () => {
   test('subscribe', ()  => {
@@ -28,6 +29,43 @@ describe('EventUtils: integration', () => {
     expect(handle).toBeCalledTimes(1);
     span.click();
     expect(handle).toBeCalledTimes(1);
+  });
+
+  describe('subscription constraints', () => {
+    test('subscribe one event with the same handler does not leads to duplicate subscription', () => {
+      const host = document.createElement('div');
+      const fn = jest.fn();
+
+      EventUtils.subscribe(host, 'click', fn);
+      expect(EventUtils.listeners(host).length).toBe(1);
+      EventUtils.subscribe(host, 'click', fn);
+      expect(EventUtils.listeners(host).length).toBe(1);
+    });
+
+    test('subscribe one event with different handlers produces different subscriptions', () => {
+      const host = document.createElement('div');
+      const fn1 = jest.fn();
+      const fn2 = jest.fn();
+
+      EventUtils.subscribe(host, 'click', fn1);
+      expect(EventUtils.listeners(host).length).toBe(1);
+      EventUtils.subscribe(host, 'click', fn2);
+      expect(EventUtils.listeners(host).length).toBe(2);
+    });
+
+    test('subscribe of single descriptor multiple times does not leads to duplicate subscription', () => {
+      class TestEl extends HTMLElement {
+        @listen('click')
+        public onClick() {}
+      }
+      customElements.define('subscription-test-el', TestEl);
+
+      const $el = document.createElement('subscription-test-el') as TestEl;
+      EventUtils.subscribe($el, $el.onClick);
+      expect(EventUtils.listeners($el).length).toBe(1);
+      EventUtils.subscribe($el, $el.onClick);
+      expect(EventUtils.listeners($el).length).toBe(1);
+    });
   });
 
   describe('unsubscribe', () => {
