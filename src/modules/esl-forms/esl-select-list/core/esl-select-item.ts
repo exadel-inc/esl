@@ -1,4 +1,5 @@
-import {attr, boolAttr, ESLBaseElement} from '../../../esl-base-element/core';
+import {ESLBaseElement} from '../../../esl-base-element/core';
+import {attr, boolAttr} from '../../../esl-utils/decorators';
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 
 import type {ESLSelectOption} from './esl-select-wrapper';

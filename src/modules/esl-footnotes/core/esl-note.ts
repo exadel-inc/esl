@@ -1,8 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {ready} from '../../esl-utils/decorators/ready';
-import {memoize} from '../../esl-utils/decorators/memoize';
+import {ESLBaseElement} from '../../esl-base-element/core';
+import {bind, ready, attr, boolAttr, memoize} from '../../esl-utils/decorators';
 import {ESLTooltip} from '../../esl-tooltip/core';
 import {promisifyTimeout, repeatSequence} from '../../esl-utils/async/promise';
 import {EventUtils} from '../../esl-utils/dom/events';

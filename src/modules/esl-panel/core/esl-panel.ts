@@ -1,8 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {bind} from '../../esl-utils/decorators/bind';
+import {bind, attr, boolAttr, jsonAttr} from '../../esl-utils/decorators';
 import {afterNextRender, skipOneRender} from '../../esl-utils/async/raf';
-import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
 import {ESLToggleable} from '../../esl-toggleable/core';
 
 import type {ESLPanelGroup} from '../../esl-panel-group/core';
