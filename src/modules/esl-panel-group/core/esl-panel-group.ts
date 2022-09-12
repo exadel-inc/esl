@@ -1,11 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {defined} from '../../esl-utils/misc/object/utils';
-import {attr, jsonAttr, ESLBaseElement, listen, prop} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {debounce} from '../../esl-utils/async/debounce';
-import {decorate} from '../../esl-utils/decorators/decorate';
+import {decorate, memoize, attr, jsonAttr, prop, listen} from '../../esl-utils/decorators';
 import {format} from '../../esl-utils/misc/format';
-import {memoize} from '../../esl-utils/decorators/memoize';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaQuery, ESLMediaRuleList} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';

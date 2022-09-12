@@ -1,8 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {bind} from '../../esl-utils/decorators/bind';
-import {memoize} from '../../esl-utils/decorators/memoize';
+import {bind, memoize, attr} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async/debounce';
-import {ESLBaseElement, attr} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';

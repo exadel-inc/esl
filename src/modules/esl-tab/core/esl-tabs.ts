@@ -1,8 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
 import {rafDecorator} from '../../esl-utils/async/raf';
-import {bind} from '../../esl-utils/decorators/bind';
-import {memoize} from '../../esl-utils/decorators/memoize';
+import {bind, memoize, attr} from '../../esl-utils/decorators';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
 import {debounce} from '../../esl-utils/async/debounce';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
