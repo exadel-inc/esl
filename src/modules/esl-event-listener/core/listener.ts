@@ -24,7 +24,6 @@ const STORE = '__listeners';
  * Use Chrome console `getEventListeners` method to check subscribers details when debugging ESLEventListener subscriptions.
  * */
 export class ESLEventListener implements ESLListenerDefinition, EventListenerObject {
-  public readonly event: string;
   public readonly target?: ESLListenerTarget | PropertyProvider<ESLListenerTarget>;
   public readonly selector?: string;
   public readonly capture?: boolean;
@@ -36,13 +35,15 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
 
   protected constructor(
     public readonly $host: HTMLElement,
+    public readonly event: string,
     public readonly handler: ESLListenerHandler,
     desc: ESLListenerDescriptor
   ) {
-    Object.assign(this, {
+    const defaults = {
       capture: false,
-      passive: isPassiveByDefault(this.event)
-    }, desc);
+      passive: isPassiveByDefault(event)
+    };
+    Object.assign(this, defaults, desc, {event});
   }
 
   /** @returns target element to listen */
@@ -136,26 +137,19 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     Object.defineProperty(host, STORE, {value, configurable: true});
   }
 
-  /** Normalizes multiple event descriptor to array of single event descriptors */
-  protected static normalize(host: HTMLElement, desc: ESLListenerDescriptor): ESLListenerDefinition[] {
-    const eventString = resolveProperty(desc.event, desc.context || host);
-    const events = splitEvents(eventString);
-    return events.map((event: string) => Object.assign({}, desc, {event}) as ESLListenerDefinition);
-  }
-
   /** Creates or resolve existing event listeners by handler and descriptors */
   public static createOrResolve(host: HTMLElement, handler: ESLListenerHandler, desc: ESLListenerDescriptor): ESLEventListener[] {
-    const specs = ESLEventListener.normalize(host, desc);
+    const eventString = resolveProperty(desc.event, desc.context || host);
+
     const listeners: ESLEventListener[] = [];
-    for (const spec of specs) {
-      const existing = ESLEventListener.get(host, handler, {
-        event: spec.event,
-        target: spec.target,
-        selector: spec.selector,
-        capture: !!spec.capture
+    for (const event of splitEvents(eventString)) {
+      const subscribed = ESLEventListener.get(host, event, handler, {
+        target: desc.target,
+        selector: desc.selector,
+        capture: !!desc.capture
       });
-      if (existing.length) listeners.push(...existing);
-      else listeners.push(new ESLEventListener(host, handler, spec));
+      if (subscribed.length) listeners.push(...subscribed);
+      else listeners.push(new ESLEventListener(host, event, handler, desc));
     }
     return listeners;
   }

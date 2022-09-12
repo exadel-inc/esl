@@ -142,7 +142,7 @@ describe('dom/events: ESLEventListener', () => {
 
     test('simple subscribe', () => {
       const handler = jest.fn();
-      const listener = new ESLEventListener(host, handler, {event: 'click'});
+      const listener = ESLEventListener.createOrResolve(host, handler, {event: 'click'})[0];
       listener.subscribe();
 
       expect(handler).toBeCalledTimes(0);
@@ -152,7 +152,7 @@ describe('dom/events: ESLEventListener', () => {
 
     test('delegate subscribe', () => {
       const handler = jest.fn();
-      const listener = new ESLEventListener(host, handler, {event: 'click', selector: '.btn'});
+      const listener = ESLEventListener.createOrResolve(host, handler, {event: 'click', selector: '.btn'})[0];
       listener.subscribe();
 
       expect(handler).toBeCalledTimes(0);
@@ -166,7 +166,7 @@ describe('dom/events: ESLEventListener', () => {
 
     test('target subscribe', () => {
       const handler = jest.fn();
-      const listener = new ESLEventListener(host, handler, {event: 'click', target: '::find(#btn)'});
+      const listener = ESLEventListener.createOrResolve(host, handler, {event: 'click', target: '::find(#btn)'})[0];
       listener.subscribe();
 
       expect(handler).toBeCalledTimes(0);
