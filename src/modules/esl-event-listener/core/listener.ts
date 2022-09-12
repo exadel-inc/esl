@@ -6,8 +6,8 @@ import {isSimilar} from '../../esl-utils/misc/object/compare';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {isPassiveByDefault, splitEvents} from '../../esl-utils/dom/events/misc';
 
-import type {ESLListenerDefinition, ESLListenerDescriptor, ESLListenerEventMap} from './descriptor';
-
+import type {PropertyProvider} from '../../esl-utils/misc/functions';
+import type {ESLListenerTarget, ESLListenerDefinition, ESLListenerDescriptor, ESLListenerEventMap} from './descriptor';
 
 /** Describes callback handler */
 export type ESLListenerHandler<EType extends Event = Event> = (event: EType, listener?: ESLEventListener) => void;
@@ -15,6 +15,7 @@ export type ESLListenerHandler<EType extends Event = Event> = (event: EType, lis
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
 export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLListenerHandler | Partial<ESLListenerDefinition>;
 
+/** Key to store listeners on the host */
 const STORE = '__listeners';
 
 /**
@@ -26,12 +27,13 @@ const STORE = '__listeners';
 export class ESLEventListener implements ESLListenerDefinition, EventListenerObject {
   public readonly id: string;
   public readonly event: string;
+  public readonly target?: ESLListenerTarget | PropertyProvider<ESLListenerTarget>;
+  public readonly selector?: string;
+
   public readonly once?: boolean;
   public readonly auto?: boolean;
-  public readonly target?: string | EventTarget | EventTarget[];
   public readonly capture?: boolean;
   public readonly passive?: boolean;
-  public readonly selector?: string;
   public readonly context?: unknown;
 
   constructor(
@@ -39,23 +41,28 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     public readonly handler: ESLListenerHandler,
     desc: ESLListenerDescriptor
   ) {
-    desc = Object.assign({}, desc);
-    desc.id = desc.id || sequentialUID('esl.event');
-    desc.target = resolveProperty(desc.target, desc.context || $host);
-    desc.selector = resolveProperty(desc.selector, desc.context || $host);
     Object.assign(this, {
       capture: false,
       passive: isPassiveByDefault(this.event)
     }, desc);
+    if (!desc.id) {
+      desc.id = sequentialUID('esl.event');
+    }
   }
 
   /** @returns target element to listen */
   @memoize()
   public get $targets(): EventTarget[] {
-    if (typeof this.target === 'string') return TraversingQuery.all(this.target, this.$host);
-    if (typeof this.target === 'undefined') return [this.$host];
-    if (typeof this.target === 'object' && this.target) return wrap(this.target);
+    const target = resolveProperty(this.target, this.context || this.$host);
+    if (typeof target === 'undefined') return [this.$host];
+    if (typeof target === 'string') return TraversingQuery.all(target, this.$host);
+    if (typeof target === 'object' && target) return wrap(target);
     return [];
+  }
+
+  /** @returns resolved selector to check event target */
+  public get delegate(): string | undefined {
+    return resolveProperty(this.selector, this.context || this.$host);
   }
 
   /**
@@ -81,11 +88,12 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
 
   /** Checks if the passed event can be handled by the current event listener */
   protected isDelegatedTarget(e: Event): boolean {
-    if (typeof this.selector !== 'string') return true;
     const target = e.target;
     const current = e.currentTarget;
+    const delegate = this.delegate;
+    if (typeof delegate !== 'string') return true;
     if (!(target instanceof HTMLElement) || !(current instanceof HTMLElement)) return false;
-    return current.contains(target.closest(this.selector));
+    return current.contains(target.closest(delegate));
   }
 
   /**
@@ -129,16 +137,28 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     Object.defineProperty(host, STORE, {value, configurable: true});
   }
 
+  /** Normalizes multiple event descriptor to array of single event descriptors */
+  protected static normalize(host: HTMLElement, desc: ESLListenerDescriptor): ESLListenerDefinition[] {
+    const eventString = resolveProperty(desc.event, desc.context || host);
+    const events = splitEvents(eventString);
+    return events.map((event: string) => Object.assign({}, desc, {event}) as ESLListenerDefinition);
+  }
+
   /** Creates or resolve existing event listeners by handler and descriptors */
   public static createOrResolve(host: HTMLElement, handler: ESLListenerHandler, desc: ESLListenerDescriptor): ESLEventListener[] {
-    const events = resolveProperty(desc.event, desc.context || host);
-    if (!events.length) {
-      console.warn('[ESL]: Can\'t create ESLEventListener with empty event type: %o %o', handler, desc);
+    const specs = ESLEventListener.normalize(host, desc);
+    const listeners: ESLEventListener[] = [];
+    if (!specs.length) console.warn('[ESL]: Can\'t create ESLEventListener with empty event type: %o %o', handler, desc);
+    for (const spec of specs) {
+      const existing = ESLEventListener.get(host, handler, {
+        event: spec.event,
+        target: spec.target,
+        selector: spec.selector,
+        capture: !!spec.capture
+      });
+      if (existing.length) listeners.push(...existing);
+      else listeners.push(new ESLEventListener(host, handler, spec));
     }
-    return splitEvents(events).map((event) => {
-      const spec = Object.assign({}, desc, {event}) as ESLListenerDefinition;
-      const instance = ESLEventListener.get(host, handler, spec)[0];
-      return instance || (new ESLEventListener(host, handler, spec));
-    });
+    return listeners;
   }
 }

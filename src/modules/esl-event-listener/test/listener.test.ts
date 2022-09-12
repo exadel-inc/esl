@@ -89,11 +89,13 @@ describe('dom/events: ESLEventListener', () => {
       expect(result[1].selector).toBe('button');
     });
 
+    // TODO: rewrite dummy test
     test('option providers', () => {
       const host = document.createElement('div');
+      const target = document.createElement('div');
       const handler = jest.fn();
       const eventProvider = jest.fn(() => 'test');
-      const targetProvider = jest.fn(() => '::not(btn)');
+      const targetProvider = jest.fn(() => target);
       const selectorProvider = jest.fn(() => '.btn');
 
       const [listener] = ESLEventListener.createOrResolve(host, handler, {
@@ -102,29 +104,28 @@ describe('dom/events: ESLEventListener', () => {
         selector: selectorProvider
       });
 
-      expect(eventProvider).toBeCalledWith(host);
-      expect(targetProvider).toBeCalledWith(host);
-      expect(selectorProvider).toBeCalledWith(host);
-
       expect(listener.event).toBe(eventProvider());
-      expect(listener.target).toBe(targetProvider());
-      expect(listener.selector).toBe(selectorProvider());
+      expect(listener.$targets).toContain(targetProvider());
+      expect(listener.delegate).toBe(selectorProvider());
     });
 
+    // TODO: rewrite dummy test
     test('option providers vs context', () => {
       const context  = {};
       const host = document.createElement('div');
       const handler = jest.fn();
-      const eventProvider = jest.fn(() => 'test');
+      const eventProvider = jest.fn(() => 'click');
       const targetProvider = jest.fn(() => '::not(btn)');
       const selectorProvider = jest.fn(() => '.btn');
 
-      ESLEventListener.createOrResolve(host, handler, {
+      const listeners = ESLEventListener.createOrResolve(host, handler, {
         event: eventProvider,
         target: targetProvider,
         selector: selectorProvider,
         context
       });
+      listeners.forEach((l) => l.subscribe());
+      host.click();
 
       expect(eventProvider).toBeCalledWith(context);
       expect(targetProvider).toBeCalledWith(context);
