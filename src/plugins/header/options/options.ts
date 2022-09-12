@@ -17,23 +17,23 @@ export class UIPOptions extends UIPPlugin {
   protected static UIPOptionsConfig: OptionConfig[] = [
     {
       attrName: 'hide-theme',
-      rootControlledAttr: 'dark-theme',
+      optionValue: 'dark-theme',
       canActivate: (component) => !component.hasAttribute('hide-theme')
     },
     {
       attrName: 'hide-direction',
-      rootControlledAttr: 'rtl-direction',
+      optionValue: 'rtl-direction',
       canActivate: (component) => !component.hasAttribute('hide-direction')
     },
     {
       attrName: 'hide-settings',
-      rootControlledAttr: 'settings-collapsed',
+      optionValue: 'settings-collapsed',
       canActivate: (component) => !component.hasAttribute('hide-settings') &&
         !!component.root?.querySelector('uip-settings')
     },
     {
       attrName: 'hide-editor',
-      rootControlledAttr: 'editor-collapsed',
+      optionValue: 'editor-collapsed',
       canActivate: (component) => !component.hasAttribute('hide-editor') &&
         !!component.root?.querySelector('uip-editor')
     }
@@ -54,19 +54,19 @@ export class UIPOptions extends UIPPlugin {
 
     const config = UIPOptions.UIPOptionsConfig.find((elem) => elem.attrName === attrName);
     if (!config) return;
-    if (newVal === null) {
+    if (newVal === null) {  // add option icon
       this.render([config]);
-    } else {
-      const option = this.options.get(config.rootControlledAttr);
+    } else { // remove option icon
+      const option = this.options.get(config.optionValue);
       if (!option) return;
-      this.options.delete(config.rootControlledAttr);
+      this.options.delete(config.optionValue);
       option.remove();
     }
   }
 
   protected render(options = UIPOptions.UIPOptionsConfig) {
     options = options.filter(option => !option.canActivate || option.canActivate(this));
-    options.forEach((option) => this.options.set(option.rootControlledAttr, UIPOption.create(option)));
+    options.forEach((option) => this.options.set(option.optionValue, UIPOption.create(option)));
     this.options.forEach(option => this.append(option));
   }
 

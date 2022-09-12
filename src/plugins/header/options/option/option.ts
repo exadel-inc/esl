@@ -1,15 +1,16 @@
-import {attr, boolAttr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
+import {attr, ESLBaseElement} from '@exadel/esl/modules/esl-base-element/core';
 import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 import {ENTER, SPACE} from '@exadel/esl/modules/esl-utils/dom/keys';
 
 import type {UIPOptions} from '../options';
+import {UIPRoot} from '../../../../core/base/root';
 
 /** Config used to create options. */
 export type OptionConfig = {
   /** Attribute name used as absence marker of option icon */
   attrName: string;
   /** Controlled attribute to toggle on root. */
-  rootControlledAttr: string;
+  optionValue: string;
   /** Callback to indicate if option should be rendered. */
   canActivate?: (scope: UIPOptions) => boolean;
 };
@@ -18,18 +19,33 @@ export type OptionConfig = {
 export class UIPOption extends ESLBaseElement {
   static is = 'uip-option';
   @attr() public attribute: string;
-  @boolAttr() public active: boolean;
+  public _active: boolean;
+
+  protected $root: UIPRoot;
+  protected config: OptionConfig;
 
   static create(optionConfig: OptionConfig): UIPOption {
     const option = document.createElement('uip-option') as UIPOption;
-    option.setAttribute('attribute', optionConfig.rootControlledAttr);
+    option.setAttribute('attribute', optionConfig.optionValue);
+    option.config = optionConfig;
     return option;
   }
 
   protected connectedCallback() {
     super.connectedCallback();
+    this.$root = this.closest('.uip-root') as UIPRoot;
     this.classList.add(`${this.attribute}-option`);
     this.tabIndex = 0;
+    this.active = this.$root.hasAttribute(this.config.optionValue);
+  }
+
+  public get active(): boolean {
+    return this._active;
+  }
+
+  public set active(val: boolean) {
+    this._active = val;
+    this.$$cls('active', this._active);
   }
 
   @listen('click')
@@ -47,10 +63,9 @@ export class UIPOption extends ESLBaseElement {
 
   public toggleState(force?: boolean) {
     this.active = force === undefined ? !this.active : force;
-    this.$$cls('active', this.active);
   }
 
   protected disconnectedCallback() {
-      super.disconnectedCallback();
+    super.disconnectedCallback();
   }
 }
