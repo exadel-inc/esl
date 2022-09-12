@@ -83,7 +83,7 @@ export class EventUtils {
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners to remove
    */
   public static unsubscribe(target: HTMLElement, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
-    const listeners = EventUtils.listeners(target, ...criteria);
+    const listeners = ESLEventListener.get(target, ...criteria);
     listeners.forEach((listener) => listener.unsubscribe());
     return listeners;
   }

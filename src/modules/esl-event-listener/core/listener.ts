@@ -1,5 +1,4 @@
 import {wrap} from '../../esl-utils/misc/array';
-import {sequentialUID} from '../../esl-utils/misc/uid';
 import {resolveProperty} from '../../esl-utils/misc/functions';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {isSimilar} from '../../esl-utils/misc/object/compare';
@@ -25,14 +24,13 @@ const STORE = '__listeners';
  * Use Chrome console `getEventListeners` method to check subscribers details when debugging ESLEventListener subscriptions.
  * */
 export class ESLEventListener implements ESLListenerDefinition, EventListenerObject {
-  public readonly id: string;
   public readonly event: string;
   public readonly target?: ESLListenerTarget | PropertyProvider<ESLListenerTarget>;
   public readonly selector?: string;
+  public readonly capture?: boolean;
 
   public readonly once?: boolean;
   public readonly auto?: boolean;
-  public readonly capture?: boolean;
   public readonly passive?: boolean;
   public readonly context?: unknown;
 
@@ -45,9 +43,6 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
       capture: false,
       passive: isPassiveByDefault(this.event)
     }, desc);
-    if (!desc.id) {
-      desc.id = sequentialUID('esl.event');
-    }
   }
 
   /** @returns target element to listen */

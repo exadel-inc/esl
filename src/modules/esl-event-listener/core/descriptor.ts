@@ -33,8 +33,6 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
    */
   target?: ESLListenerTarget | PropertyProvider<ESLListenerTarget>;
 
-  /** Identifier of the event listener. Can be used to group and unsubscribe listeners */
-  id?: string;
   /**
    * A reference to the component (mixin) that holds the event listener descriptor
    * Used as a call context for the event listener handler if defined
