@@ -113,6 +113,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   /** Unsubscribes event listener instance */
   public unsubscribe(): void {
     const {capture} = this;
+    if (!memoize.has(this, '$targets')) return;
     this.$targets.forEach((el: EventTarget) => el.removeEventListener(this.event, this, {capture}));
     ESLEventListener.remove(this.$host, this);
   }
