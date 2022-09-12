@@ -9,7 +9,7 @@ import type {PropertyProvider} from '../../esl-utils/misc/functions';
 import type {ESLListenerTarget, ESLListenerDefinition, ESLListenerDescriptor, ESLListenerEventMap} from './descriptor';
 
 /** Describes callback handler */
-export type ESLListenerHandler<EType extends Event = Event> = (event: EType, listener?: ESLEventListener) => void;
+export type ESLListenerHandler<EType extends Event = Event> = (event: EType, listener: ESLEventListener) => void;
 
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
 export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLListenerHandler | Partial<ESLListenerDefinition>;
@@ -34,7 +34,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   public readonly passive?: boolean;
   public readonly context?: unknown;
 
-  constructor(
+  protected constructor(
     public readonly $host: HTMLElement,
     public readonly handler: ESLListenerHandler,
     desc: ESLListenerDescriptor
@@ -113,7 +113,10 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     ESLEventListener.remove(this.$host, this);
   }
 
-  /** Gets stored listeners array the passed `host` object */
+  /**
+   * Gets stored listeners array the passed `host` object
+   * Supports additional filtration criteria
+   */
   public static get(host?: any, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
     if (!host) return [];
     const listeners = (host[STORE] || []) as ESLEventListener[];
@@ -144,7 +147,6 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   public static createOrResolve(host: HTMLElement, handler: ESLListenerHandler, desc: ESLListenerDescriptor): ESLEventListener[] {
     const specs = ESLEventListener.normalize(host, desc);
     const listeners: ESLEventListener[] = [];
-    if (!specs.length) console.warn('[ESL]: Can\'t create ESLEventListener with empty event type: %o %o', handler, desc);
     for (const spec of specs) {
       const existing = ESLEventListener.get(host, handler, {
         event: spec.event,

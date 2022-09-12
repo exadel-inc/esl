@@ -72,9 +72,11 @@ export class EventUtils {
     if (typeof handler !== 'function') return [];
     if (typeof eventDesc === 'string') eventDesc = {event: eventDesc};
     if (isDescriptorFn(handler) && eventDesc !== handler) eventDesc = Object.assign({}, handler, eventDesc);
+
     const listeners = ESLEventListener.createOrResolve(target, handler, eventDesc as ESLListenerDescriptor);
-    listeners.forEach((listener) => listener.subscribe());
-    return listeners;
+    const subscribed = listeners.filter((listener) => listener.subscribe());
+    if (!subscribed.length) console.warn('[ESL]: Empty subscription %o for %o', eventDesc, handler);
+    return subscribed;
   }
 
   /**

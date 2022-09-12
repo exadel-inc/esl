@@ -10,15 +10,11 @@ describe('dom/events: ESLEventListener', () => {
 
   describe('create', () => {
     test('without event type', () => {
-      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => void 0);
-
       const host = document.createElement('div');
       const handler = jest.fn();
       const result = ESLEventListener.createOrResolve(host, handler, {event: ''});
 
       expect(result.length).toBe(0);
-      expect(consoleSpy).toBeCalledTimes(1);
-      consoleSpy.mockClear();
     });
 
     test('one by string', () => {
@@ -67,11 +63,10 @@ describe('dom/events: ESLEventListener', () => {
     test('one by desc', () => {
       const host = document.createElement('div');
       const handler = jest.fn();
-      const result = ESLEventListener.createOrResolve(host, handler, {event: 'keypress', id: 'test'});
+      const result = ESLEventListener.createOrResolve(host, handler, {event: 'keypress'});
 
       expect(result.length).toBe(1);
       expect(result[0].handler).toBe(handler);
-      expect(result[0].id).toBe('test');
       expect(result[0].event).toBe('keypress');
     });
 
