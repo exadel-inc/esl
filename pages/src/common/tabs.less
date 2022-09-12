@@ -2,12 +2,12 @@
 
 .esl-d-tab-group {
   &, & > .esl-d-tab-panel {
-    border-bottom-left-radius: calc(0.5rem - 1px);
-    border-bottom-right-radius: calc(0.5rem - 1px);
+    border-bottom-left-radius: calc(.5rem - 1px);
+    border-bottom-right-radius: calc(.5rem - 1px);
   }
 
   & > .esl-d-accordion-header {
-    border-radius: calc(0.5rem - 1px);
+    border-radius: calc(.5rem - 1px);
     transition: border-radius 0s linear.5s;
     &[active] {
       color: @primary-blue;
@@ -30,7 +30,7 @@
     border: 1px solid @secondary-blue;
     border-top: none;
 
-    margin-bottom: 0.5rem;
+    margin-bottom: .5rem;
   }
   > .esl-d-tab-group > .esl-d-accordion-header {
     display: block;
@@ -72,8 +72,8 @@
 
   border: 1px solid transparent;
   border-bottom: none;
-  border-top-left-radius: calc(0.5rem - 1px);
-  border-top-right-radius: calc(0.5rem - 1px);
+  border-top-left-radius: calc(.5rem - 1px);
+  border-top-right-radius: calc(.5rem - 1px);
 
   &:focus, &:hover {
     @inactive-color: mix(@secondary-blue, #ccc, 50);
