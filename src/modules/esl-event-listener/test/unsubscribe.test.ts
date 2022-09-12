@@ -1,23 +1,16 @@
-import {EventUtils} from '../core/api';
+import {EventUtils} from '../core';
 
 describe('EventUtils:unsubscribe successfully removes listener', () => {
   const handle = jest.fn();
   const div = document.createElement('div');
 
   beforeEach(() => {
-    EventUtils.subscribe(div, {id: 'test', event: 'click'}, handle);
+    EventUtils.subscribe(div, {event: 'click'}, handle);
   });
 
   test('all', ()  => {
     expect(EventUtils.listeners(div).length).toBe(1);
     EventUtils.unsubscribe(div);
-    expect(EventUtils.listeners(div).length).toBe(0);
-  });
-
-  test('by id', ()  => {
-    EventUtils.unsubscribe(div, {id: 'testic'});
-    expect(EventUtils.listeners(div).length).toBe(1);
-    EventUtils.unsubscribe(div, {id: 'test'});
     expect(EventUtils.listeners(div).length).toBe(0);
   });
 

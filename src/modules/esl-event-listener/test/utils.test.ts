@@ -1,4 +1,4 @@
-import {EventUtils} from '../core/api';
+import {EventUtils} from '../core';
 import {ESLEventListener} from '../core/listener';
 
 describe('dom/events: EventUtils', () => {
