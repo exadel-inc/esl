@@ -44,7 +44,7 @@ export const getOffsetPoint = (el: Element): Point => {
 };
 
 /**
- * Splits and deduplicate event string
+ * Splits and deduplicates event string
  * @returns array of unique events presented in events string
  */
 export const splitEvents = (events: string): string[] => {

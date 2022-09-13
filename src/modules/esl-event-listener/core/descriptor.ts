@@ -1,6 +1,6 @@
 import type {PropertyProvider} from '../../esl-utils/misc/functions';
 
-/** Sting CSS selector to find the target or {@link EventTarget} object or array of {@link EventTarget}s */
+/** String CSS selector to find the target or {@link EventTarget} object or array of {@link EventTarget}s */
 export type ESLListenerTarget = EventTarget | EventTarget[] | string | null;
 
 /** Extended event map with the custom event definition */
