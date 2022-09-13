@@ -21,7 +21,7 @@ EventUtils.dispatch(el: EventTarget, eventName: string, eventInit?: CustomEventI
 
 `eventName` - Name of the event;
 
-`eventInit` - An object that specifies characteristics about the event. This parameter can be used to everwrite the default behavior of bubbling and being cancelable.
+`eventInit` - An object that specifies characteristics about the event. This parameter can be used to overwrite the default behavior of bubbling and being cancelable.
 
 ### `EventUtils.descriptors`
 Method of the `EventUtils` interface that gathers descriptors from the passed object. See [ESLListenerDescriptorFn](#listenerDescFn).
@@ -60,7 +60,7 @@ EventUtils.subscribe(target: HTMLElement, eventDesc?: string | Partial<ESLListen
 
 `target` - An element to subsribe;
 
-`eventDesc` - Event type or obejct of evnt description data;
+`eventDesc` - Event type or object of event description data;
 
 `handler` - Callback handler. See [ESLListenerHandler](#listenerHandler).
 
