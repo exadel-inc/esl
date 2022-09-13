@@ -4,7 +4,7 @@
 
 <a name="intro"></a>
 
-ESL has built-in mechanism to work with DOM events.
+ESL has a built-in mechanism to work with DOM events.
 `ESLEventListener` instance is used as an 'inner' record to process subscriptions made by `EventUtils`.
 
 ## <a name="eUtils">`Event Utils` class</a>
