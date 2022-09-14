@@ -52,11 +52,11 @@ export class UIPOptions extends UIPPlugin {
   protected attributeChangedCallback(attrName: string, oldVal: string | null, newVal: string | null) {
     if (oldVal === newVal || !this.options) return;
 
-    const config = UIPOptions.UIPOptionsConfig.find((elem) => elem.attrName === attrName);
+    const config = UIPOptions.UIPOptionsConfig.find(elem => elem.attrName === attrName);
     if (!config) return;
-    if (newVal === null) {  // add option icon
-      this.render([config]);
-    } else { // remove option icon
+
+    if (newVal === null) this.render([config]); // add option icon
+    if (newVal !== null) { // remove option icon
       const option = this.options.get(config.optionValue);
       if (!option) return;
       this.options.delete(config.optionValue);

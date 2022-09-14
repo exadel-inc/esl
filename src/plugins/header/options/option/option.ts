@@ -40,12 +40,11 @@ export class UIPOption extends ESLBaseElement {
   }
 
   public get active(): boolean {
-    return this._active;
+    return this.$$cls('active');
   }
 
   public set active(val: boolean) {
-    this._active = val;
-    this.$$cls('active', this._active);
+    this.$$cls('active', val);
   }
 
   @listen('click')
@@ -63,9 +62,5 @@ export class UIPOption extends ESLBaseElement {
 
   public toggleState(force?: boolean) {
     this.active = force === undefined ? !this.active : force;
-  }
-
-  protected disconnectedCallback() {
-    super.disconnectedCallback();
   }
 }
