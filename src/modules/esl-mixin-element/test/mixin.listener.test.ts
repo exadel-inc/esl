@@ -1,0 +1,45 @@
+import {ESLMixinElement, listen} from '../core';
+import {EventUtils} from '../../esl-utils/dom/events';
+
+describe('ESLMixinElement: listeners', () => {
+  describe('ESLMixinElement auto subscribes to listener declarations', () => {
+    const mockHandler = jest.fn();
+    class TestElement extends ESLMixinElement {
+      static is = 'test-listen-mixin';
+
+      @listen('click')
+      public onClick(...args: any[]) { mockHandler(this, ...args); }
+    }
+    TestElement.register();
+
+    const el = document.createElement('div');
+    el.setAttribute(TestElement.is, '');
+
+    expect(EventUtils.listeners(el).length).toBe(0);
+
+    beforeAll(() => document.body.appendChild(el));
+
+    test('ESLMixinElement successfully auto subscribed', () => {
+      expect(EventUtils.listeners(el).length).toBe(1);
+      expect(EventUtils.listeners(el)[0].event).toBe('click');
+    });
+
+    test('ESLMixinElement subscription works correctly', () => {
+      mockHandler.mockReset();
+      el.click();
+      expect(mockHandler).toBeCalled();
+      expect(mockHandler).lastCalledWith(TestElement.get(el), expect.any(Event), expect.any(Object));
+    });
+
+    test('ESLMixinElement successfully auto unsubscribed', async () => {
+      document.body.removeChild(el);
+      await Promise.resolve(); // Wait for microtasks completed
+      expect(EventUtils.listeners(el).length).toBe(0);
+      return Promise.resolve();
+    });
+
+    afterAll(async () => el.parentElement && el.remove());
+  });
+
+  // TODO: $$on, $$off tests
+});
