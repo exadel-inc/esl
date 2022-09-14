@@ -6,13 +6,13 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 import {isPassiveByDefault, splitEvents} from '../../esl-utils/dom/events/misc';
 
 import type {PropertyProvider} from '../../esl-utils/misc/functions';
-import type {ESLListenerTarget, ESLListenerDefinition, ESLListenerDescriptor, ESLListenerEventMap} from './descriptor';
-
-/** Describes callback handler */
-export type ESLListenerHandler<EType extends Event = Event> = (event: EType, listener: ESLEventListener) => void;
-
-/** Condition (criteria) to find {@link ESLListenerDescriptor} */
-export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLListenerHandler | Partial<ESLListenerDefinition>;
+import type {
+  ESLListenerTarget,
+  ESLListenerDefinition,
+  ESLListenerDescriptor,
+  ESLListenerHandler,
+  ESLListenerCriteria
+} from './descriptor';
 
 /** Key to store listeners on the host */
 const STORE = '__listeners';

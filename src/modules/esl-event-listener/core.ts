@@ -1,5 +1,7 @@
 export * from './core/api';
 export type {
+  ESLListenerHandler,
+  ESLListenerCriteria,
   ESLListenerEventMap,
   ESLListenerDescriptor,
   ESLListenerTarget,
@@ -7,6 +9,4 @@ export type {
 } from './core/descriptor';
 export type {
   ESLEventListener,
-  ESLListenerHandler,
-  ESLListenerCriteria
 } from './core/listener';

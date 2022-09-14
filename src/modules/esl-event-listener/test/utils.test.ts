@@ -1,5 +1,4 @@
 import {EventUtils} from '../core';
-import {ESLEventListener} from '../core/listener';
 
 describe('dom/events: EventUtils', () => {
   describe('dispatch', () => {
@@ -45,92 +44,6 @@ describe('dom/events: EventUtils', () => {
 
       expect(EventUtils.descriptors(obj).length).toEqual(1);
       expect(EventUtils.descriptors(obj)[0]).toEqual(obj.onEvent);
-    });
-  });
-
-  describe('subscribe', () => {
-    const listener1 =
-      Object.assign(() => undefined, {auto: false, event: 'e1', subscribe: jest.fn()});
-
-    test('decorated handler', () => {
-      const host = {};
-      const createMock =
-        jest.spyOn(ESLEventListener, 'createOrResolve').mockImplementation((el, cb, desc) => [desc] as any);
-
-      EventUtils.subscribe(host as any, listener1);
-      expect(listener1.subscribe).toBeCalled();
-      expect(createMock).toBeCalledWith(host, expect.anything(), expect.anything());
-    });
-
-    test('decorated handler with empty override', () => {
-      const host = {};
-      const createMock =
-        jest.spyOn(ESLEventListener, 'createOrResolve').mockImplementation((el, cb, desc) => [desc] as any);
-
-      EventUtils.subscribe(host as any, {}, listener1);
-      expect(listener1.subscribe).toBeCalled();
-      expect(createMock).toBeCalledWith(host, expect.anything(), expect.anything());
-    });
-
-    test('merge decorated handler', () => {
-      const host = {};
-      const createMock =
-        jest.spyOn(ESLEventListener, 'createOrResolve').mockImplementation((el, cb, desc) => [desc] as any);
-
-      EventUtils.subscribe(host as any, {event: 'e2'}, listener1);
-      expect(listener1.subscribe).toBeCalled();
-      const expDesc = Object.assign({}, listener1, {event: 'e2'});
-      expect(createMock).toBeCalledWith(host, expect.anything(), expDesc);
-    });
-
-    test('manual descriptor', () => {
-      const host = {};
-      const fn = jest.fn();
-      const desc = {event: 'test'};
-      const listener = {subscribe: jest.fn()};
-      const createMock =
-        jest.spyOn(ESLEventListener, 'createOrResolve').mockImplementation(() => [listener] as any);
-
-      EventUtils.subscribe(host as any, desc, fn);
-      expect(listener.subscribe).toBeCalled();
-      expect(createMock).toBeCalledWith(host, fn, desc);
-    });
-
-    test('manual string descriptor', () => {
-      const host = {};
-      const fn = jest.fn();
-      const listener = {subscribe: jest.fn()};
-      const createMock =
-        jest.spyOn(ESLEventListener, 'createOrResolve').mockImplementation(() => [listener] as any);
-
-      EventUtils.subscribe(host as any, 'click', fn);
-      expect(listener.subscribe).toBeCalled();
-      expect(createMock).toBeCalledWith(host, fn, {event: 'click'});
-    });
-  });
-
-  describe('unsubscribe', () => {
-    const list = [
-      {matches: jest.fn(), unsubscribe: jest.fn()},
-      {matches: jest.fn(), unsubscribe: jest.fn()}
-    ];
-    const host = {__listeners: list};
-
-    beforeEach(() => list.forEach(({matches, unsubscribe}: any) => {
-      matches.mockReset();
-      unsubscribe.mockReset();
-    }));
-    test('all', () => {
-      EventUtils.unsubscribe(host as any);
-      expect(list[0].unsubscribe).toBeCalled();
-      expect(list[1].unsubscribe).toBeCalled();
-    });
-    test('criteria', () => {
-      list[0].matches.mockReturnValue(false);
-      list[1].matches.mockReturnValue(true);
-      EventUtils.unsubscribe(host as any, 'test');
-      expect(list[0].unsubscribe).not.toBeCalled();
-      expect(list[1].unsubscribe).toBeCalled();
     });
   });
 });

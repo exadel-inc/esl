@@ -2,12 +2,13 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 
 import {ESLEventListener} from './listener';
 
-import type {ESLListenerHandler, ESLListenerCriteria} from './listener';
-import type {ESLListenerDescriptor, ESLListenerEventMap} from './descriptor';
-
-/** Function decorated as {@link ESLListenerDescriptor} */
-export type ESLListenerDescriptorFn<EType extends keyof ESLListenerEventMap = string> =
-  ESLListenerHandler<ESLListenerEventMap[EType]> & ESLListenerDescriptor<EType>;
+import type {
+  ESLListenerHandler,
+  ESLListenerCriteria,
+  ESLListenerDescriptor,
+  ESLListenerEventMap,
+  ESLListenerDescriptorFn
+} from './descriptor';
 
 /** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
 export const isDescriptorFn = (obj: any): obj is ESLListenerDescriptorFn =>

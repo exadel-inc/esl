@@ -1,3 +1,4 @@
+import type {ESLEventListener} from './listener';
 import type {PropertyProvider} from '../../esl-utils/misc/functions';
 
 /** String CSS selector to find the target or {@link EventTarget} object or array of {@link EventTarget}s */
@@ -50,3 +51,13 @@ export interface ESLListenerDefinition<EType extends keyof ESLListenerEventMap =
   /** A case-sensitive string (or provider function) representing the event type to listen for */
   event: EType;
 }
+
+/** Describes callback handler */
+export type ESLListenerHandler<EType extends Event = Event> = (event: EType, listener: ESLEventListener) => void;
+
+/** Condition (criteria) to find {@link ESLListenerDescriptor} */
+export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLListenerHandler | Partial<ESLListenerDefinition>;
+
+/** Function decorated as {@link ESLListenerDescriptor} */
+export type ESLListenerDescriptorFn<EType extends keyof ESLListenerEventMap = string> =
+  ESLListenerHandler<ESLListenerEventMap[EType]> & ESLListenerDescriptor<EType>;
