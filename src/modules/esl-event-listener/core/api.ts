@@ -18,9 +18,9 @@ export class EventUtils {
   /**
    * Dispatches custom event.
    * Event bubbles and is cancelable by default, use `eventInit` to override that.
-   * @param el - element target
-   * @param eventName - event name
-   * @param eventInit - custom event init. See {@link CustomEventInit}
+   * @param el - EventTarget to dispatch event
+   * @param eventName - name of the event to dispatch
+   * @param eventInit - object that specifies characteristics of the event. See {@link CustomEventInit}
    */
   public static dispatch(el: EventTarget, eventName: string, eventInit?: CustomEventInit): boolean {
     const init = Object.assign({
@@ -42,30 +42,30 @@ export class EventUtils {
   }
 
   /**
-   * Gets currently subscribed listeners of the target
-   * @param target - host element (listeners context)
+   * Gets currently subscribed listeners of the host
+   * @param host - host element (listeners context)
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners list
    */
-  public static listeners(target: HTMLElement, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
-    return ESLEventListener.get(target, ...criteria);
+  public static listeners(host: HTMLElement, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
+    return ESLEventListener.get(host, ...criteria);
   }
 
   /** Subscribes decorated `handler` method of the `target` */
-  public static subscribe(target: HTMLElement, handler: ESLListenerHandler): ESLEventListener[];
+  public static subscribe(host: HTMLElement, handler: ESLListenerHandler): ESLEventListener[];
   /** Subscribes `handler` function with the passed event type */
   public static subscribe<EType extends keyof ESLListenerEventMap>(
-    target: HTMLElement,
+    host: HTMLElement,
     descriptor: EType | ESLListenerDescriptor<EType>,
     handler: ESLListenerHandler<ESLListenerEventMap[EType]>
   ): ESLEventListener[];
   /** Subscribes `handler` descriptor function with the passed additional descriptor data */
   public static subscribe<EType extends keyof ESLListenerEventMap>(
-    target: HTMLElement,
+    host: HTMLElement,
     descriptor: Partial<ESLListenerDescriptor>,
     handler: ESLListenerDescriptorFn<EType>
   ): ESLEventListener[];
   public static subscribe(
-    target: HTMLElement,
+    host: HTMLElement,
     eventDesc: string | Partial<ESLListenerDescriptor> | ESLListenerHandler,
     handler: ESLListenerHandler = eventDesc as ESLListenerDescriptorFn
   ): ESLEventListener[] {
@@ -73,7 +73,7 @@ export class EventUtils {
     if (typeof eventDesc === 'string') eventDesc = {event: eventDesc};
     if (isDescriptorFn(handler) && eventDesc !== handler) eventDesc = Object.assign({}, handler, eventDesc);
 
-    const listeners = ESLEventListener.createOrResolve(target, handler, eventDesc as ESLListenerDescriptor);
+    const listeners = ESLEventListener.createOrResolve(host, handler, eventDesc as ESLListenerDescriptor);
     const subscribed = listeners.filter((listener) => listener.subscribe());
     if (!subscribed.length) console.warn('[ESL]: Empty subscription %o for %o', eventDesc, handler);
     return subscribed;
@@ -81,11 +81,11 @@ export class EventUtils {
 
   /**
    * Unsubscribes {@link ESLEventListener}(s) from the object
-   * @param target - host element (listeners context)
+   * @param host - host element that stores subscriptions (listeners context)
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners to remove
    */
-  public static unsubscribe(target: HTMLElement, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
-    const listeners = ESLEventListener.get(target, ...criteria);
+  public static unsubscribe(host: HTMLElement, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
+    const listeners = ESLEventListener.get(host, ...criteria);
     listeners.forEach((listener) => listener.unsubscribe());
     return listeners;
   }
