@@ -1,9 +1,8 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ready} from '../../esl-utils/decorators/ready';
-import {memoize} from '../../esl-utils/decorators/memoize';
+import {ready, memoize, attr, boolAttr} from '../../esl-utils/decorators';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {parseNumber} from '../../esl-utils/misc/format';
-import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
 
 import {ESLAnimateService} from './esl-animate-service';
 

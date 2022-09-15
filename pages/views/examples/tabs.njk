@@ -22,6 +22,7 @@ aside:
   <h2>Simple Tabs</h2>
   <p>Minimum configuration example</p>
   {% code 'html', 'code-block' %}
+    <esl-tabs class="esl-d-tab-control"/>
     <esl-panel-group class="esl-d-tab-group"
                      mode="tabs"
                      mode-cls-target="::parent"/>
@@ -80,6 +81,7 @@ aside:
   <h2>Tabs (with single accordion transformation)</h2>
   <p>Example with a simple tab mode (restore initial state) that transforms to single accordion on XS and SM (last state)</p>
   {% code 'html', 'code-block' %}
+    <esl-tabs class="esl-d-tab-control"/>
     <esl-panel-group class="esl-d-tab-group"
                      mode="accordion | @+MD => tabs"
                      max-open-items="1"
@@ -155,6 +157,7 @@ aside:
   <h2>Tabs (with single accordion transformation, restore initial state)</h2>
   <p>Example with a simple tab mode that transforms to single accordion on XS and SM</p>
   {% code 'html', 'code-block' %}
+    <esl-tabs class="esl-d-tab-control"/>
     <esl-panel-group class="esl-d-tab-group"
                      mode="accordion | @+MD => tabs"
                      max-open-items="1"
@@ -230,6 +233,7 @@ aside:
   <h2>Tabs with multiple accordion transformation on XS and SM</h2>
   <p>Accordion restores last state, tabs restore initial state</p>
   {% code 'html', 'code-block' %}
+    <esl-tabs class="esl-d-tab-control"/>
     <esl-panel-group class="esl-d-tab-group"
                      mode="@-SM => accordion | @+MD => tabs"
                      min-open-items="1"
@@ -307,6 +311,7 @@ aside:
   <h2>Tabs (with open state)</h2>
   <p>Example with a simple tab mode, transforms to default cards on XS and SM</p>
   {% code 'html', 'code-block' %}
+    <esl-tabs class="esl-d-tab-control"/>
     <esl-panel-group class="esl-d-tab-group"
                      mode="accordion | @+MD => tabs"
                      min-open-items="@-SM => all | @+MD => 1"
@@ -382,6 +387,7 @@ aside:
   <h2>Tabs (scrollable)</h2>
   <p>Scrollable tabs component example</p>
   {% code 'html', 'code-block' %}
+    <esl-tabs class="esl-d-tab-control" scrollable/>
     <esl-panel-group class="esl-d-tab-group"
                      mode="tabs"
                      mode-cls-target="::parent"/>
@@ -491,6 +497,7 @@ aside:
   <h2>Tabs (scrollable, center aligned)</h2>
   <p>Scrollable tabs component example</p>
   {% code 'html', 'code-block' %}
+    <esl-tabs class="esl-d-tab-control" scrollable="center"/>
     <esl-panel-group class="esl-d-tab-group"
                      mode="tabs"
                      mode-cls-target="::parent"/>

@@ -1,8 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {bind} from '../../esl-utils/decorators/bind';
-import {afterNextRender} from '../../esl-utils/async/raf';
-import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
+import {bind, attr, boolAttr, jsonAttr} from '../../esl-utils/decorators';
+import {afterNextRender, skipOneRender} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 
 import type {ESLPanelGroup} from '../../esl-panel-group/core';
@@ -75,12 +74,8 @@ export class ESLPanel extends ESLToggleable {
     super.onShow(params);
 
     this.beforeAnimate();
-    if (params.noAnimate) {
-      if (params.capturedBy) return;
-      afterNextRender(() => this.afterAnimate());
-    } else {
-      this.onAnimate(0, this._initialHeight);
-    }
+    if (params.noAnimate) return this.postAnimate(params.capturedBy);
+    this.onAnimate(0, this._initialHeight);
   }
 
   /** Process hide action */
@@ -89,11 +84,8 @@ export class ESLPanel extends ESLToggleable {
     super.onHide(params);
 
     this.beforeAnimate();
-    if (params.noAnimate) {
-      afterNextRender(() => this.afterAnimate());
-    } else {
-      this.onAnimate(this._initialHeight, 0);
-    }
+    if (params.noAnimate) return this.postAnimate(null);
+    this.onAnimate(this._initialHeight, 0);
   }
 
   /** Pre-processing animation action */
@@ -101,6 +93,18 @@ export class ESLPanel extends ESLToggleable {
     this.toggleAttribute('animating', true);
     CSSClassUtils.add(this, this.animateClass);
     this.postAnimateClass && afterNextRender(() => CSSClassUtils.add(this, this.postAnimateClass));
+  }
+
+  /** Handles post animation process to initiate after animate step */
+  protected postAnimate(capturedBy?: ESLPanelGroup | null): void {
+    if (capturedBy) {
+      capturedBy.$$on({
+        event: capturedBy.AFTER_ANIMATE_EVENT,
+        once: true
+      }, () => this.afterAnimate());
+    } else {
+      skipOneRender(() => this.afterAnimate());
+    }
   }
 
   /** Process animation */

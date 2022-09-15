@@ -1,5 +1,5 @@
 import {setAttr} from '../../esl-utils/dom/attr';
-import {prop} from '../../esl-utils/decorators/prop';
+import {prop} from '../../esl-utils/decorators';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 

@@ -1,10 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {defined} from '../../esl-utils/misc/object/utils';
-import {attr, jsonAttr, ESLBaseElement, listen, prop} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {debounce} from '../../esl-utils/async/debounce';
+import {decorate, memoize, attr, jsonAttr, prop, listen} from '../../esl-utils/decorators';
 import {format} from '../../esl-utils/misc/format';
-import {memoize} from '../../esl-utils/decorators/memoize';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaQuery, ESLMediaRuleList} from '../../esl-media-query/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
@@ -31,6 +31,8 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Event that dispatched on instance mode change */
   @prop('esl:change:mode') public MODE_CHANGE_EVENT: string;
+  /** Inner event that dispatched after group-handled animation end */
+  @prop('esl:after:animate') public AFTER_ANIMATE_EVENT: string;
 
   /** Child panels selector (Default `esl-panel`) */
   @attr({defaultValue: ESLPanel.is}) public panelSel: string;
@@ -59,6 +61,8 @@ export class ESLPanelGroup extends ESLBaseElement {
    * Define active panel(s) behaviour in case of configuration change (mode, min-open-items, max-open-items)
    * `last` (default) - try to preserve currently active panel(s)
    * `initial` - activates initially opened panel(s)
+   * `open` - open max of available panels
+   * `close` - close all the panels (to the min of open items)
    */
   @attr({defaultValue: 'last'}) public refreshStrategy: string;
 
@@ -158,11 +162,6 @@ export class ESLPanelGroup extends ESLBaseElement {
     return Math.min(max, Math.max(min, val)); // minmax
   }
 
-  /** @returns active refresh-strategy */
-  public get currentRefreshStrategy(): string {
-    return this.refreshRules.activeValue || 'last';
-  }
-
   /** @returns panels that are processed by the current panel group */
   public get $panels(): ESLPanel[] {
     const els = Array.from(this.querySelectorAll(this.panelSel));
@@ -177,6 +176,16 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** @returns panels that was initially opened */
   public get $initialPanels(): ESLPanel[] {
     return this.$panels.filter((el: ESLPanel) => el.initiallyOpened);
+  }
+
+  /** @returns panels that requested to be opened on refresh */
+  public get $resetStatePanels(): ESLPanel[] {
+    switch (this.refreshRules.activeValue) {
+      case 'close': return [];
+      case 'open': return this.$panels;
+      case 'initial': return this.$initialPanels;
+      default: return this.$activePanels;
+    }
   }
 
   /** @returns whether the collapse/expand animation should be handheld by the breakpoints */
@@ -214,8 +223,8 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Resets to default state applicable to the current panel group configuration */
   public reset(): void {
-    // $activePanels - collection of items to open (ideally, without normalization)
-    const $activePanels = this.currentRefreshStrategy === 'last' ? this.$activePanels : this.$initialPanels;
+    // $activePanels - collection of items to open (ideally; without normalization)
+    const $activePanels = this.$resetStatePanels;
     // $orderedPanels = $activePanels U ($panels / $activePanels) - the list of ordered panels
     const $orderedPanels = $activePanels.concat(this.$panels.filter((item) => !$activePanels.includes(item)));
     // we use current open active panels count but normalized in range of minmax
@@ -261,7 +270,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     CSSClassUtils.remove(this, this.animationClass);
 
     if (silent) return;
-    this.$activePanels.forEach((panel) => panel.$$fire('esl:after:show'));
+    this.$$fire(this.AFTER_ANIMATE_EVENT, {bubbles: false});
   }
 
   /** Process {@link ESLPanel} pre-show event */
@@ -322,16 +331,14 @@ export class ESLPanelGroup extends ESLBaseElement {
     }
   }
 
-  /** Debounced instance of refresh method */
-  // TODO: @decorate
-  protected refreshDebounced = debounce(this.refresh, 0, this);
   /** Handles configuration change */
   @listen({
     event: 'change',
     target: (group: ESLPanelGroup) => [group.modeRules, group.minValueRules, group.maxValueRules]
   })
+  @decorate(debounce, 0)
   protected _onConfigChange(): void {
-    this.refreshDebounced();
+    this.refresh();
   }
 }
 

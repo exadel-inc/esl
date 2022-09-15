@@ -1,8 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, boolAttr} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {memoize} from '../../esl-utils/decorators/memoize';
+import {bind, memoize, attr, boolAttr} from '../../esl-utils/decorators';
 import {TAB} from '../../esl-utils/dom/keys';
 import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
 import {CSSClassUtils} from '../../esl-utils/dom/class';

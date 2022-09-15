@@ -16,9 +16,10 @@ export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
     if (!descriptor || typeof descriptor.value !== 'function') {
       throw new TypeError('Only class methods can be decorated');
     }
+
     const originalFn: Fn = descriptor.value;
 
-    return {
+    return descriptor = {
       enumerable: descriptor.enumerable,
       configurable: true,
 
@@ -29,16 +30,19 @@ export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
         const desc = getPropertyDescriptor(proto, propertyKey);
         // Return original function in case of prototype or super call
         if (!desc || desc.get !== getBound) return originalFn;
+        // Create a new decorated instance of function
         const decoratedFn = decorator(originalFn.bind(this), ...args);
-        Object.setPrototypeOf(decoratedFn, originalFn);
+        // Copy original function own keys
+        Object.assign(decoratedFn, originalFn);
+        // Defines own property with the decorated instance
         return this[propertyKey] = decoratedFn;
       },
       set(value: Fn): void {
         Object.defineProperty(this, propertyKey, {
           value,
-          writable: descriptor.writable,
-          enumerable: descriptor.enumerable,
-          configurable: true
+          writable: true,
+          configurable: true,
+          enumerable: descriptor.enumerable
         });
       }
     };

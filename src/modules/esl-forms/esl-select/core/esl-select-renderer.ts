@@ -1,6 +1,6 @@
-import {attr, boolAttr, ESLBaseElement} from '../../../esl-base-element/core';
+import {ESLBaseElement} from '../../../esl-base-element/core';
 import {rafDecorator} from '../../../esl-utils/async/raf';
-import {bind} from '../../../esl-utils/decorators/bind';
+import {bind, attr, boolAttr} from '../../../esl-utils/decorators';
 import {format} from '../../../esl-utils/misc/format';
 
 import type {ESLSelect} from './esl-select';
