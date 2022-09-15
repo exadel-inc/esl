@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-
+import {dispatchCustomEvent} from '../../esl-utils/dom/events/misc';
 import {ESLEventListener} from './listener';
 
 import type {
@@ -17,19 +17,11 @@ export const isDescriptorFn = (obj: any): obj is ESLListenerDescriptorFn =>
 @ExportNs('EventUtils')
 export class EventUtils {
   /**
-   * Dispatches custom event.
-   * Event bubbles and is cancelable by default, use `eventInit` to override that.
-   * @param el - EventTarget to dispatch event
-   * @param eventName - name of the event to dispatch
-   * @param eventInit - object that specifies characteristics of the event. See {@link CustomEventInit}
+   * Dispatches custom event. Alias for {@link dispatchCustomEvent}
+   * @see dispatchCustomEvent
    */
   public static dispatch(el: EventTarget, eventName: string, eventInit?: CustomEventInit): boolean {
-    const init = Object.assign({
-      bubbles: true,
-      composed: true,
-      cancelable: true
-    }, eventInit || {});
-    return el.dispatchEvent(new CustomEvent(eventName, init));
+    return dispatchCustomEvent(el, eventName, eventInit);
   }
 
   /** Gets descriptors from the passed object */
