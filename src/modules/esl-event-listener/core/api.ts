@@ -51,7 +51,7 @@ export class EventUtils {
     return ESLEventListener.get(host, ...criteria);
   }
 
-  /** Subscribes decorated `handler` method of the `target` */
+  /** Subscribes decorated `handler` method of the `host` */
   public static subscribe(host: HTMLElement, handler: ESLListenerHandler): ESLEventListener[];
   /** Subscribes `handler` function with the passed event type */
   public static subscribe<EType extends keyof ESLListenerEventMap>(

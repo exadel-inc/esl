@@ -5,7 +5,8 @@ import {
   isPassiveByDefault,
   getTouchPoint,
   getOffsetPoint,
-  getCompositeTarget, splitEvents
+  getCompositeTarget,
+  splitEvents
 } from '../misc';
 
 describe('dom/events: misc', () => {
