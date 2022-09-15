@@ -1,6 +1,5 @@
 import {ESLToggleable} from '../../../esl-toggleable/core/esl-toggleable';
-import {bind} from '../../../esl-utils/decorators/bind';
-import {prop} from '../../../esl-utils/decorators/prop';
+import {bind, prop} from '../../../esl-utils/decorators';
 import {TAB} from '../../../esl-utils/dom/keys';
 import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';

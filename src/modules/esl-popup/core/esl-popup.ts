@@ -1,10 +1,6 @@
 import {range} from '../../esl-utils/misc/array';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {memoize} from '../../esl-utils/decorators/memoize';
-import {ready} from '../../esl-utils/decorators/ready';
-import {prop} from '../../esl-utils/decorators/prop';
+import {bind, memoize, ready, prop, attr, boolAttr, jsonAttr} from '../../esl-utils/decorators';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';

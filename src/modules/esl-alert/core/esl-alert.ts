@@ -1,6 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {bind} from '../../esl-utils/decorators/bind';
-import {attr, jsonAttr} from '../../esl-base-element/core';
+import {bind, attr, jsonAttr} from '../../esl-utils/decorators';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
