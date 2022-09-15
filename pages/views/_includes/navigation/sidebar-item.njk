@@ -3,22 +3,22 @@
   {% set items = collections[collection] | released %}
 
   {% if items.length %}
-    <div class="sidebar-nav-item-heading {{ 'active' if isPrimaryActive }}">
-      <a class="sidebar-nav-item-link icon-link" href="{{ ('/' + collection) | url }}">
-        {% include icon %}
-      </a>
-      <esl-trigger class="sidebar-nav-item-trigger sidebar-nav-item-arrow"
-                   target="::parent::next"
-                   {% if isPrimaryActive %}active{% endif %}>
-        {{ title }}
-        {% if opt.beta %}
-          <sup class="badge badge-sup badge-warning">beta</sup>
-        {% endif %}
-        {% if opt.new %}
-          <sup class="badge badge-sup badge-success">new</sup>
-        {% endif %}
-      </esl-trigger>
-    </div>
+  <div class="sidebar-nav-item-heading {{ 'active' if isPrimaryActive }}">
+    <a class="sidebar-nav-item-link icon-link" href="{{ ('/' + collection) | url }}">
+      {% include icon %}
+    </a>
+    <esl-trigger class="sidebar-nav-item-trigger sidebar-nav-item-arrow"
+                 target="::parent::next"
+                 {% if isPrimaryActive %}active{% endif %}>
+      {{ title }}
+      {% if opt.beta %}
+        <sup class="badge badge-sup badge-warning">beta</sup>
+      {% endif %}
+      {% if opt.new %}
+        <sup class="badge badge-sup badge-success">new</sup>
+      {% endif %}
+    </esl-trigger>
+  </div>
 
   <esl-panel id="sidebar-{{ collection }}-menu"
              class="sidebar-nav-secondary {{ 'open' if isPrimaryActive }}"
