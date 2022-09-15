@@ -42,17 +42,3 @@ export const getOffsetPoint = (el: Element): Point => {
   const x = props.left + window.scrollX;
   return {x, y};
 };
-
-/**
- * Splits and deduplicates event string
- * @returns array of unique events presented in events string
- */
-export const splitEvents = (events: string): string[] => {
-  const terms = (events || '').split(' ').map((term) => term.trim());
-  const deduplicate = new Set<string>();
-  return terms.filter((term) => {
-    if (!term || deduplicate.has(term)) return false;
-    deduplicate.add(term);
-    return true;
-  });
-};
