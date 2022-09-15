@@ -33,7 +33,7 @@ describe('Decorator: @listen', () => {
     class Test extends HTMLElement {
       @listen({event: 'event1'})
       onEvent1() {}
-      @listen({event: 'event1', id: 'a'})
+      @listen({event: 'event1'})
       onEvent2() {}
     }
     customElements.define('test-listen-2', Test);
