@@ -44,15 +44,17 @@ export const getOffsetPoint = (el: Element): Point => {
 };
 
 /**
- * Splits and deduplicates event string
- * @returns array of unique events presented in events string
+ * Dispatches custom event.
+ * Event bubbles and is cancelable by default, use `eventInit` to override that.
+ * @param el - EventTarget to dispatch event
+ * @param eventName - name of the event to dispatch
+ * @param eventInit - object that specifies characteristics of the event. See {@link CustomEventInit}
  */
-export const splitEvents = (events: string): string[] => {
-  const terms = (events || '').split(' ').map((term) => term.trim());
-  const deduplicate = new Set<string>();
-  return terms.filter((term) => {
-    if (!term || deduplicate.has(term)) return false;
-    deduplicate.add(term);
-    return true;
-  });
+export const dispatchCustomEvent = (el: EventTarget, eventName: string, eventInit?: CustomEventInit): boolean => {
+  const init = Object.assign({
+    bubbles: true,
+    composed: true,
+    cancelable: true
+  }, eventInit || {});
+  return el.dispatchEvent(new CustomEvent(eventName, init));
 };
