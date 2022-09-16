@@ -4,7 +4,7 @@ layout: content
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
 
 <ul class="collection-grid unstyled-list {{ 'collection-grid-column' if list }}">
-  {% for item in collections[collection] | notHidden | released | sortByName %}
+  {% for item in collections[collection] | notHidden | released | sortByNameAndOrder %}
     {% set isDraft = [].concat(item.data.tags).includes('draft') %}
     {% set isBeta = [].concat(item.data.tags).includes('beta') %}
     {% set isNew = [].concat(item.data.tags).includes('new') %}
