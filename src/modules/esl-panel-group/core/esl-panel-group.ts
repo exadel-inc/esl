@@ -74,8 +74,10 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected _previousHeight: number = 0;
 
   protected connectedCallback(): void {
-    super.connectedCallback();
-    this.refresh();
+    ESLPanel.registered.then(() => {
+      super.connectedCallback();
+      this.refresh();
+    });
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
@@ -100,7 +102,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.setAttribute('current-mode', currentMode);
 
     this.updateModeCls();
-    ESLPanel.registered.then(() => this.reset());
+    this.reset();
 
     if (prevMode !== currentMode) this.$$fire(this.MODE_CHANGE_EVENT, {detail: {prevMode, currentMode}});
   }
