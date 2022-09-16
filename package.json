@@ -158,6 +158,10 @@
     {
       "name": "abarmina",
       "email": "abarmina@exadel.com"
+    },
+    {
+      "name": "alesun",
+      "email": "alesun@exadel.com"
     }
   ],
   "maintainers": [
@@ -180,6 +184,10 @@
     {
       "name": "abarmina",
       "email": "abarmina@exadel.com"
+    },
+    {
+      "name": "alesun",
+      "email": "alesun@exadel.com"
     }
   ]
 }
