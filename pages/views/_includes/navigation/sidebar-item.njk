@@ -44,9 +44,7 @@
               <sup class="badge badge-sup badge-warning badge-sidebar">beta</sup>
             {% endif %}
             {% if isDraft %}
-              <div class="badge-img badge-sidebar">
-                {% include 'static/assets/common/flask.svg' %}
-              </div>
+              <sup class="badge badge-sup badge-danger badge-sidebar">draft</sup>
             {% endif %}
             {{ item.data.name }}
           </a>
