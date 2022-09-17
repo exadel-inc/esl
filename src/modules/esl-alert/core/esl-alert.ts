@@ -90,8 +90,8 @@ export class ESLAlert extends ESLToggleable {
     }
   }
 
-  protected unbindEvents(): void {
-    super.unbindEvents();
+  protected disconnectedCallback(): void {
+    super.disconnectedCallback();
     this.unbindTargetEvents();
   }
 
