@@ -6,7 +6,7 @@ module.exports = (config) => {
   // Init all 11ty config modules
   const cfgFiles = fs.readdirSync('./11ty');
   for (const file of cfgFiles) {
-    if (file.startsWith('_')) continue;
+    if (file.startsWith('_') || !file.endsWith('.js')) continue;
     try {
       console.info(color.blue(`Initializing module: ${file}`));
       require('./11ty/' + file)(config);

@@ -1,0 +1,37 @@
+{% from './function.njk' import function %}
+{% import './common.njk' as common %}
+
+{% macro class(declaration) %}
+  <section class="border bg-white relative-block">
+    <h3 class="esl-doc-signature esl-doc-p">Class {{ declaration.name }}</h3>
+
+    <div class="esl-doc-p">
+      {{ common.comment(declaration.comment) }}
+
+      {% if (declaration.ctors.length) %}
+        <h4>Constructors</h4>
+        {{ function(declaration.ctors) }}
+      {% endif %}
+
+      {% if (declaration.properties.length) %}
+        <h4>Properties</h4>
+        {{ common.parameters(declaration.properties) }}
+      {% endif %}
+
+      {% if (declaration.getAccessors.length) %}
+        <h4>Getters</h4>
+        {{ function(declaration.getAccessors) }}
+      {% endif %}
+
+      {% if (declaration.setAccessors.length) %}
+        <h4>Setters</h4>
+        {{ function(declaration.setAccessors) }}
+      {% endif %}
+
+      {% if (declaration.methods.length) %}
+        <h4>Methods</h4>
+        {{ function(declaration.methods) }}
+      {% endif %}
+    <div>
+  </section>
+{% endmacro %}

@@ -1,0 +1,31 @@
+{% from './function.njk' import function %}
+{% from './alias.njk' import typeAlias %}
+{% from './class.njk' import class %}
+{% from './common.njk' import comment %}
+
+{% for declaration in declarations %}
+  <section id="{{ declaration.name }}" class="esl-doc esl-doc-p">
+    <h2>{{ declaration.type }} {{ declaration.name }} </h2>
+    {{ comment(declaration.commonComment) }}
+
+    {% if (declaration.type === "Function") %}
+      {{ function(declaration.declarations) }}
+    {% endif %}
+
+    {% if (declaration.type === "Function statement") %}
+      {{ function(declaration) }}
+    {% endif %}
+
+    {% if (declaration.type === "Function type") %}
+      {{ function(declaration) }}
+    {% endif %}
+
+    {% if (declaration.type === "Type alias") %}
+      {{ typeAlias(declaration) }}
+    {% endif %}
+
+    {% if (declaration.type === "Class") %}
+      {{ class(declaration) }}
+    {% endif %}
+  </section>
+{% endfor %}

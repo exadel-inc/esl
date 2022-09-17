@@ -1,0 +1,12 @@
+{% import './common.njk' as common %}
+
+{% macro typeAlias(declaration) %}
+  <div class="esl-d-accordion">
+    <h4 class="esl-doc-signature esl-doc-p">{{ declaration.signature }}</h4>
+    <div class="esl-doc-p">
+      {{ common.comment(declaration.comment) }}
+      {{ common.typeParameters(declaration.typeParameters) }}
+      {{ common.parameters(declaration.parameters) }}
+    </div>
+  </div>
+{% endmacro %}
