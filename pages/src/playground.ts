@@ -3,7 +3,7 @@ import {ESLImage} from '@exadel/esl/modules/esl-image/core';
 import {ESLScrollbar} from '@exadel/esl/modules/esl-scrollbar/core';
 import {ESLTrigger} from '@exadel/esl/modules/esl-trigger/core';
 import {ESLToggleable} from '@exadel/esl/modules/esl-toggleable/core';
-import {ESLAlert} from '@exadel/esl';
+import {ESLAlert} from '@exadel/esl/modules/esl-alert/core';
 
 import {init} from '../../src/registration';
 

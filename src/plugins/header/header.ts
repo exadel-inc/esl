@@ -1,4 +1,4 @@
-import {EventUtils} from '@exadel/esl';
+import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 import {UIPPlugin} from '../../core/base/plugin';
 import {UIPOptions, UIPSnippets} from '../registration';
