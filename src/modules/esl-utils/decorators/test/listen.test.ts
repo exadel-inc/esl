@@ -2,7 +2,7 @@ import '../../../../polyfills/es5-target-shim';
 
 import {listen} from '../listen';
 import {EventUtils} from '../../dom/events';
-import type {ESLListenerDescriptorFn} from '../../../esl-event-listener/core/descriptor';
+import type {ESLListenerDescriptorFn} from '../../dom/events';
 
 describe('Decorator: @listen', () => {
   test('Decorator listen should accept one argument call with an event type', () => {
