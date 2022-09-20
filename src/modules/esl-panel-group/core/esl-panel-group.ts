@@ -278,17 +278,18 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Process {@link ESLPanel} pre-show event */
   @listen('esl:before:show')
   protected _onBeforeShow(e: CustomEvent): void {
-    const panel = e.target;
+    const panel = e.detail?.params?.target || e.target;
     if (!this.includesPanel(panel)) return;
 
     const max = this.currentMaxItems;
     const params = this.mergeActionParams({event: e});
+    const hideInitiator = e.detail?.params?.event?.type === 'esl:before:hide';
 
     // All currently active except panel that requested to be open
     const $activePanels = this.$activePanels.filter((el) => el !== panel);
 
     // overflow = pretended to be active (current active + requested panel) - limit
-    const overflow = Math.max(0, $activePanels.length + 1 - max);
+    const overflow = Math.max(0, $activePanels.length + (hideInitiator ? 0 : 1) - max);
     // close all extra active panels (not includes requested one)
     $activePanels.slice(0, overflow).forEach((el) => el.hide(params));
 
@@ -321,7 +322,11 @@ export class ESLPanelGroup extends ESLBaseElement {
     // activePanels = currentActivePanels - 1 (hide) + 1 if the event produced by 'before:show'
     const activeNumber = this.$activePanels.length - 1 + Number(selfHandled);
 
-    if (activeNumber < this.currentMinItems) return e.preventDefault();
+    if (activeNumber < this.currentMinItems) {
+      if (this.currentMinItems === 1 || this.currentMinItems === this.$panels.length) return e.preventDefault();
+      this.$panels.find(($panel: ESLPanel) => !$panel.open && $panel.show(this.mergeActionParams({event: e, target: $panel})));
+    }
+
     this._previousHeight = this.clientHeight;
   }
 
