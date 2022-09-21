@@ -278,18 +278,18 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Process {@link ESLPanel} pre-show event */
   @listen('esl:before:show')
   protected _onBeforeShow(e: CustomEvent): void {
-    const panel = e.detail?.params?.target || e.target;
+    const panel = e.target;
     if (!this.includesPanel(panel)) return;
 
     const max = this.currentMaxItems;
     const params = this.mergeActionParams({event: e});
-    const hideInitiator = e.detail?.params?.event?.type === 'esl:before:hide';
+    const balanceMarker = e.detail?.params?.event?.type !== 'esl:before:hide';
 
     // All currently active except panel that requested to be open
     const $activePanels = this.$activePanels.filter((el) => el !== panel);
 
-    // overflow = pretended to be active (current active + requested panel) - limit
-    const overflow = Math.max(0, $activePanels.length + (hideInitiator ? 0 : 1) - max);
+    // overflow = pretended to be active (current active + balanceMarker (1 if nothing hides)) - limit
+    const overflow = Math.max(0, $activePanels.length + Number(balanceMarker) - max);
     // close all extra active panels (not includes requested one)
     $activePanels.slice(0, overflow).forEach((el) => el.hide(params));
 
@@ -317,14 +317,17 @@ export class ESLPanelGroup extends ESLBaseElement {
     const {target: panel, detail} = e;
     if (!this.includesPanel(panel)) return;
 
+    const min = this.currentMinItems;
     // Check if the hide event was produced by the show event
-    const selfHandled = detail?.params?.event?.type === 'esl:before:show';
+    const balanceMarker = detail?.params?.event?.type === 'esl:before:show';
     // activePanels = currentActivePanels - 1 (hide) + 1 if the event produced by 'before:show'
-    const activeNumber = this.$activePanels.length - 1 + Number(selfHandled);
+    const activeNumber = this.$activePanels.length - 1 + Number(balanceMarker);
 
-    if (activeNumber < this.currentMinItems) {
-      if (this.currentMinItems === 1 || this.currentMinItems === this.$panels.length) return e.preventDefault();
-      this.$panels.find(($panel: ESLPanel) => !$panel.open && $panel.show(this.mergeActionParams({event: e, target: $panel})));
+    if (activeNumber < min) {
+      const $firstInactive = this.$panels.find(($panel: ESLPanel) => !$panel.open);
+      if (min === 1 || !$firstInactive) return e.preventDefault();
+      const params = this.mergeActionParams({event: e});
+      $firstInactive.show(params);
     }
 
     this._previousHeight = this.clientHeight;
