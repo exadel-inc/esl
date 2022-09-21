@@ -329,7 +329,7 @@ export class ESLToggleable extends ESLBaseElement {
     if (e.type === this.SHOW_REQUEST_EVENT && typeof detail.delay === 'number') {
       Object.assign(params, {showDelay: detail.delay});
     }
-    if (e.type === this.HIDE_REQUEST_EVENT &&typeof detail.delay === 'number') {
+    if (e.type === this.HIDE_REQUEST_EVENT && typeof detail.delay === 'number') {
       Object.assign(params, {showDelay: detail.delay});
     }
     return params;
