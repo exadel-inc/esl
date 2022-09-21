@@ -3,7 +3,7 @@ import {resolveProperty} from '../../esl-utils/misc/functions';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {isSimilar} from '../../esl-utils/misc/object/compare';
 import {TraversingQuery} from '../../esl-traversing-query/core';
-import {isPassiveByDefault, splitEvents} from '../../esl-utils/dom/events/misc';
+import {isPassiveByDefault} from '../../esl-utils/dom/events/misc';
 
 import type {PropertyProvider} from '../../esl-utils/misc/functions';
 import type {
@@ -16,6 +16,20 @@ import type {
 
 /** Key to store listeners on the host */
 const STORE = '__esl_listeners';
+
+/**
+ * Splits and deduplicates event string
+ * @returns array of unique events presented in events string
+ */
+export const splitEvents = (events: string): string[] => {
+  const terms = (events || '').split(' ').map((term) => term.trim());
+  const deduplicate = new Set<string>();
+  return terms.filter((term) => {
+    if (!term || deduplicate.has(term)) return false;
+    deduplicate.add(term);
+    return true;
+  });
+};
 
 /**
  * `EventListener` instance, used as an 'inner' record to process subscriptions made by `EventUtils`
