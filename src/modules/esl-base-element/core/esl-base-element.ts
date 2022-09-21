@@ -114,4 +114,10 @@ export abstract class ESLBaseElement extends HTMLElement {
   public static get registered(): Promise<CustomElementConstructor> {
     return customElements.whenDefined(this.is);
   }
+
+  /** Shortcut for `const $el: MyEl = document.createElement(MyEl.is) as MyEl;` */
+  static create<T extends typeof ESLBaseElement>(this: T): InstanceType<T> {
+    return document.createElement(this.is) as InstanceType<T>;
+  }
+
 }

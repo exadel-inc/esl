@@ -29,7 +29,7 @@ describe('esl-trigger a11y attributes test', () => {
   describe(
     'a11yLabelActive attribute basic tests',
     () => {
-      const trigger = document.createElement(ESLTrigger.is) as ESLTrigger;
+      const trigger = ESLTrigger.create();
 
       beforeAll(() => {
         trigger.a11yLabelActive = 'active';
@@ -65,7 +65,7 @@ describe('esl-trigger a11y attributes test', () => {
   describe(
     'a11yLabelInactive attribute basic tests',
     () => {
-      const trigger = document.createElement(ESLTrigger.is) as ESLTrigger;
+      const trigger = ESLTrigger.create();
 
       beforeAll(() => {
         trigger.a11yLabelInactive = 'inactive';
@@ -102,7 +102,7 @@ describe('esl-trigger a11y attributes test', () => {
   describe(
     'a11yLabelActive and a11yLabelInactive are both present (+ initially active flow)',
     () => {
-      const trigger = document.createElement(ESLTrigger.is) as ESLTrigger;
+      const trigger = ESLTrigger.create();
 
       beforeAll(() => {
         trigger.a11yLabelActive = 'active';
@@ -138,7 +138,7 @@ describe('esl-trigger a11y attributes test', () => {
     'a11yLabelInactive and a11yLabelActive attributes are not specified',
     () => {
       const INIT_VAL = 'test-init-val';
-      const trigger = document.createElement(ESLTrigger.is) as ESLTrigger;
+      const trigger = ESLTrigger.create();
 
       beforeAll(() => {
         trigger.setAttribute(LABEL_ATTR, INIT_VAL);
