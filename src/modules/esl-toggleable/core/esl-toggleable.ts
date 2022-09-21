@@ -320,7 +320,7 @@ export class ESLToggleable extends ESLBaseElement {
     this.hide(Object.assign(baseParams, this.trackHoverParams));
   }
 
-  /** Prepare toggle request events param */
+  /** Prepares toggle request events param */
   protected buildRequestParams(e: CustomEvent<ESLToggleableRequestDetails>): ESLToggleableActionParams | null {
     const detail = e.detail || {};
     if (!isMatches(this, detail.match)) return null;

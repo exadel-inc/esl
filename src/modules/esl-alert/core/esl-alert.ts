@@ -1,5 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {attr, jsonAttr, prop, listen} from '../../esl-utils/decorators';
+import {isMatches} from '../../esl-utils/dom/traversing';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
@@ -8,7 +9,7 @@ import {TraversingQuery} from '../../esl-traversing-query/core';
 
 import type {ESLToggleableActionParams, ESLToggleableRequestDetails} from '../../esl-toggleable/core';
 
-export interface AlertActionParams extends ESLToggleableActionParams {
+export interface AlertActionParams extends ESLToggleableRequestDetails {
   /** text to be shown; passes empty string or null to hide */
   text?: string;
   /** html content */
@@ -129,18 +130,16 @@ export class ESLAlert extends ESLToggleable {
   }
 
   protected override buildRequestParams(e: CustomEvent<ESLToggleableRequestDetails>): AlertActionParams | null {
-    if (e.type === this.SHOW_REQUEST_EVENT) {
-      return Object.assign({}, e.detail, {force: true});
-    }
-    if (e.type === this.HIDE_REQUEST_EVENT) {
-      return Object.assign({hideDelay: 0}, e.detail, {force: true});
-    }
+    const detail = e.detail || {};
+    if (!isMatches(this, detail.match)) return null;
+    if (e.type === this.SHOW_REQUEST_EVENT) return Object.assign({}, detail, {force: true});
+    if (e.type === this.HIDE_REQUEST_EVENT) return Object.assign({hideDelay: 0}, detail, {force: true});
     return null;
   }
 
   @listen({inherit: true, target: (el: ESLAlert) => el.$target})
   protected override _onHideRequest(e: CustomEvent<ESLToggleableRequestDetails>): void {
-    super._onShowRequest(e);
+    super._onHideRequest(e);
     e.stopPropagation();
   }
 

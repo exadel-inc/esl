@@ -2,7 +2,7 @@ import {ESLToggleable} from '../core/esl-toggleable';
 import {EventUtils} from '../../esl-event-listener/core/api';
 import type {ESLToggleableRequestDetails} from '../core/esl-toggleable';
 
-describe('ESLToggleable show/hide request events', () => {
+describe('ESLToggleable: show/hide-request events', () => {
   beforeAll(() => ESLToggleable.register());
 
   describe('Direct events correctly caught by toggleable', () => {
