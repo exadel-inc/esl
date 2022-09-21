@@ -9,7 +9,7 @@ Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*
 ESLToggleable - a custom element, that is used as a base for "Popup-like" components creation.
 
 ESLToggleableDispatcher - plugin component, that prevents activation of multiple ESLToggleable instances in bounds of managed container.
-Usually (and by default) binds to `document.body`. Use native DOM events to manage controlled instances state.
+Usually (and by default) binds to `document.body`. Uses native DOM events to manage controlled instances state.
 
 Use `ESLToggleableDispatcher.init()` to initialize (and bind) ESLToggleableDispatcher.
 
