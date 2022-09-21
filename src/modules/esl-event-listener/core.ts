@@ -4,7 +4,6 @@ export type {
   ESLListenerCriteria,
   ESLListenerEventMap,
   ESLListenerDescriptor,
-  ESLListenerDescriptorFn,
   ESLListenerTarget,
   ESLListenerDefinition
 } from './core/descriptor';
