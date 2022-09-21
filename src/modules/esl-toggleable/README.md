@@ -1,6 +1,6 @@
 # [ESL](https://esl-ui.com/) Toggleable
 
-Version: *2.2.1*
+Version: *3.0.0*
 
 Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*
 
@@ -9,7 +9,7 @@ Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*
 ESLToggleable - a custom element, that is used as a base for "Popup-like" components creation.
 
 ESLToggleableDispatcher - plugin component, that prevents activation of multiple ESLToggleable instances in bounds of managed container.
-Usually (and by default) binds to document.body. Use native DOM events to manage controlled instances state.
+Usually (and by default) binds to `document.body`. Uses native DOM events to manage controlled instances state.
 
 Use `ESLToggleableDispatcher.init()` to initialize (and bind) ESLToggleableDispatcher.
 
@@ -39,6 +39,7 @@ Use `ESLToggleableDispatcher.init()` to initialize (and bind) ESLToggleableDispa
  - `toggle` - toggle element state
 
 ### Events
-
+- `esl:before:show` - thrown when toggleable change is going to be activated(open)
+- `esl:before:hide` - thrown when toggleable change is going to be deactivated
 - `esl:show` - thrown when toggleable change its state to active(open)
 - `esl:hide` - thrown when toggleable change its state to inactive

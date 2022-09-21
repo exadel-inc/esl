@@ -6,7 +6,7 @@ import {TraversingQuery} from '../../../../src/modules/esl-traversing-query/core
 import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core';
 import {requestGss} from '../../search/search-script';
 
-import type {ToggleableActionParams} from '../../../../src/modules/esl-toggleable/core';
+import type {ESLToggleableActionParams} from '../../../../src/modules/esl-toggleable/core';
 
 export class ESLDemoSearchBox extends ESLToggleable {
   static is = 'esl-d-search-box';
@@ -19,12 +19,12 @@ export class ESLDemoSearchBox extends ESLToggleable {
 
   @prop() public closeOnOutsideAction = true;
 
-  public onShow(params: ToggleableActionParams): void {
+  public onShow(params: ESLToggleableActionParams): void {
     CSSClassUtils.add(this, this.postCls);
     requestGss().then(() => this.showSearchElements(params));
   }
 
-  private showSearchElements(params: ToggleableActionParams): void {
+  private showSearchElements(params: ESLToggleableActionParams): void {
     afterNextRender(() => super.onShow(params));
     if (this.autofocus) {
       const $focusEl = TraversingQuery.first(this.firstFocusable, this) as HTMLElement;
@@ -37,7 +37,7 @@ export class ESLDemoSearchBox extends ESLToggleable {
     }
   }
 
-  public onHide(params: ToggleableActionParams): void {
+  public onHide(params: ESLToggleableActionParams): void {
     super.onHide(params);
     window.setTimeout(() => {
       CSSClassUtils.remove(this, this.postCls);

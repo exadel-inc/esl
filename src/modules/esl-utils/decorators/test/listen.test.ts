@@ -2,6 +2,7 @@ import '../../../../polyfills/es5-target-shim';
 
 import {listen} from '../listen';
 import {EventUtils} from '../../dom/events';
+
 import type {ESLListenerDescriptorFn} from '../../dom/events';
 
 describe('Decorator: @listen', () => {

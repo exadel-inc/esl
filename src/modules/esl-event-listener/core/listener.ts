@@ -15,7 +15,7 @@ import type {
 } from './descriptor';
 
 /** Key to store listeners on the host */
-const STORE = '__listeners';
+const STORE = '__esl_listeners';
 
 /**
  * Splits and deduplicates event string
@@ -102,7 +102,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     const current = e.currentTarget;
     const delegate = this.delegate;
     if (typeof delegate !== 'string') return true;
-    if (!(target instanceof HTMLElement) || !(current instanceof HTMLElement)) return false;
+    if (!delegate || !(target instanceof HTMLElement) || !(current instanceof HTMLElement)) return false;
     return current.contains(target.closest(delegate));
   }
 

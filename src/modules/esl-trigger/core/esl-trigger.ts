@@ -10,7 +10,7 @@ import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLToggleablePlaceholder} from '../../esl-toggleable/core';
 
-import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
+import type {ESLToggleable, ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
@@ -135,7 +135,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Merge params to pass to the toggleable */
-  protected mergeToggleableParams(this: ESLTrigger, ...params: ToggleableActionParams[]): ToggleableActionParams {
+  protected mergeToggleableParams(this: ESLTrigger, ...params: ESLToggleableActionParams[]): ESLToggleableActionParams {
     return Object.assign({
       initiator: 'trigger',
       activator: this
@@ -143,7 +143,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Show target toggleable with passed params */
-  public showTarget(params: ToggleableActionParams = {}): void {
+  public showTarget(params: ESLToggleableActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
       delay: parseNumber(this.showDelay)
     }, params);
@@ -152,7 +152,7 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
   /** Hide target toggleable with passed params */
-  public hideTarget(params: ToggleableActionParams = {}): void {
+  public hideTarget(params: ESLToggleableActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
       delay: parseNumber(this.hideDelay)
     }, params);
@@ -161,7 +161,7 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
   /** Toggles target toggleable with passed params */
-  public toggleTarget(params: ToggleableActionParams = {}, state: boolean = !this.active): void {
+  public toggleTarget(params: ESLToggleableActionParams = {}, state: boolean = !this.active): void {
     state ? this.showTarget(params) : this.hideTarget(params);
   }
 

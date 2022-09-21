@@ -1,14 +1,14 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {bind, attr, boolAttr, jsonAttr} from '../../esl-utils/decorators';
+import {attr, boolAttr, jsonAttr, listen} from '../../esl-utils/decorators';
 import {afterNextRender, skipOneRender} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 
 import type {ESLPanelGroup} from '../../esl-panel-group/core';
-import type {ToggleableActionParams} from '../../esl-toggleable/core';
+import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
 
 /** {@link ESLPanel} action params interface */
-export interface PanelActionParams extends ToggleableActionParams {
+export interface PanelActionParams extends ESLToggleableActionParams {
   /** Panel group */
   capturedBy?: ESLPanelGroup;
   /** Prevents collapsing/expanding animation */
@@ -56,16 +56,6 @@ export class ESLPanel extends ESLToggleable {
   public get $group(): ESLPanelGroup | null {
     if (this.groupName === 'none' || this.groupName) return null;
     return this.closest(this.panelGroupSel);
-  }
-
-  protected bindEvents(): void {
-    super.bindEvents();
-    this.addEventListener('transitionend', this._onTransitionEnd);
-  }
-
-  protected unbindEvents(): void {
-    super.unbindEvents();
-    this.removeEventListener('transitionend', this._onTransitionEnd);
   }
 
   /** Process show action */
@@ -132,7 +122,7 @@ export class ESLPanel extends ESLToggleable {
     this.clearAnimation();
     // Prevent fallback calls from being tracked
     if (!animating) return;
-    this.$$fire(this.open ? 'esl:after:show' : 'esl:after:hide');
+    this.$$fire(this.open ? this.AFTER_SHOW_EVENT : this.AFTER_HIDE_EVENT);
   }
 
   /** Clear animation properties */
@@ -144,7 +134,7 @@ export class ESLPanel extends ESLToggleable {
   }
 
   /** Catching CSS transition end event to start post-animate processing */
-  @bind
+  @listen('transitionend')
   protected _onTransitionEnd(e?: TransitionEvent): void {
     if (!e || (e.propertyName === 'max-height' && e.target === this)) {
       this.afterAnimate();
@@ -152,7 +142,7 @@ export class ESLPanel extends ESLToggleable {
   }
 
   /** Merge params that are used by panel group for actions */
-  protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
+  protected mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
     const stackConfig = this.$group?.panelConfig || {};
     return Object.assign({}, stackConfig, this.defaultParams, params || {});
   }
