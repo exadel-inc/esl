@@ -2,9 +2,9 @@ import {boolAttr, listen, prop, ready} from '../../../../src/modules/esl-utils/d
 import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
 import {ESLMediaQuery} from '../../../../src/modules/esl-media-query/core/esl-media-query';
 
-import type {ToggleableActionParams} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
+import type {ESLToggleableActionParams} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
 
-interface SidebarActionParams extends ToggleableActionParams {
+interface SidebarActionParams extends ESLToggleableActionParams {
   /** Change state without animation */
   immediate: boolean;
 }

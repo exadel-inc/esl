@@ -5,7 +5,7 @@ import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';
 
 import type {ESLSelect} from './esl-select';
-import type {ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
+import type {ESLToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
 
 /**
  * ESLSelectDropdown component
@@ -48,7 +48,7 @@ export class ESLSelectDropdown extends ESLToggleable {
     this.removeChild(this.$list);
   }
 
-  protected onShow(params: ToggleableActionParams): void {
+  protected onShow(params: ESLToggleableActionParams): void {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
@@ -62,7 +62,7 @@ export class ESLSelectDropdown extends ESLToggleable {
     focusable?.focus({preventScroll: true});
     this.updatePosition();
   }
-  protected onHide(params: ToggleableActionParams): void {
+  protected onHide(params: ESLToggleableActionParams): void {
     const select = this.activator;
     super.onHide(params);
     this._disposeTimeout = window.setTimeout(() => {

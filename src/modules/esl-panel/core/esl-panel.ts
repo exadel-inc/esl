@@ -5,10 +5,10 @@ import {afterNextRender, skipOneRender} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 
 import type {ESLPanelGroup} from '../../esl-panel-group/core';
-import type {ToggleableActionParams} from '../../esl-toggleable/core';
+import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
 
 /** {@link ESLPanel} action params interface */
-export interface PanelActionParams extends ToggleableActionParams {
+export interface PanelActionParams extends ESLToggleableActionParams {
   /** Panel group */
   capturedBy?: ESLPanelGroup;
   /** Prevents collapsing/expanding animation */
@@ -142,7 +142,7 @@ export class ESLPanel extends ESLToggleable {
   }
 
   /** Merge params that are used by panel group for actions */
-  protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
+  protected mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
     const stackConfig = this.$group?.panelConfig || {};
     return Object.assign({}, stackConfig, this.defaultParams, params || {});
   }

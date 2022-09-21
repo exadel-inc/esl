@@ -6,9 +6,9 @@ import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {createZIndexIframe} from '../../esl-utils/fixes/ie-fixes';
 import {TraversingQuery} from '../../esl-traversing-query/core';
 
-import type {ToggleableActionParams, ESLToggleableRequestDetails} from '../../esl-toggleable/core';
+import type {ESLToggleableActionParams, ESLToggleableRequestDetails} from '../../esl-toggleable/core';
 
-export interface AlertActionParams extends ToggleableActionParams {
+export interface AlertActionParams extends ESLToggleableActionParams {
   /** text to be shown; passes empty string or null to hide */
   text?: string;
   /** html content */
@@ -69,7 +69,7 @@ export class ESLAlert extends ESLToggleable {
     return alert;
   }
 
-  protected override mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
+  protected override mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
     const type = this.constructor as typeof ESLAlert;
     return Object.assign({}, type.defaultConfig, this.defaultParams || {}, params || {});
   }
