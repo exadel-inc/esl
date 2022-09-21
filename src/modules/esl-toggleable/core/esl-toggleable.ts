@@ -9,9 +9,9 @@ import {DelayedTask} from '../../esl-utils/async/delayed-task';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {isMatches} from '../../esl-utils/dom/traversing';
 
-export interface ESLShowRequestDetails {
-  // Selector to ignore or exact predicate to check if the target should process request
-  ignore?: string | ((target: Element) => boolean);
+export interface ESLToggleableRequestDetails {
+  // Selector to match or exact predicate to check if the target should process request
+  match?: string | ((target: Element) => boolean);
   // Delay to show targets
   delay?: number;
   // Custom params to pass
@@ -70,6 +70,11 @@ export class ESLToggleable extends ESLBaseElement {
   @prop('esl:after:show') public AFTER_SHOW_EVENT: string;
   /** Event to dispatch when toggleable has end deactivation process */
   @prop('esl:after:hide') public AFTER_HIDE_EVENT: string;
+
+  /** Event to activate toggleables on event way */
+  @prop('esl:show:request') public SHOW_REQUEST_EVENT: string;
+  /** Event to deactivate toggleables on event way */
+  @prop('esl:hide:request') public HIDE_REQUEST_EVENT: string;
 
   /** Event to dispatch when toggleable group has changed */
   @prop('esl:change:group') public GROUP_CHANGED_EVENT: string;
@@ -316,15 +321,31 @@ export class ESLToggleable extends ESLBaseElement {
     this.hide(Object.assign(baseParams, this.trackHoverParams));
   }
 
+  /** Prepare toggle request events param */
+  protected buildRequestParams(e: CustomEvent<ESLToggleableRequestDetails>): ToggleableActionParams | null {
+    const detail = e.detail || {};
+    if (!isMatches(this, detail.match)) return null;
+    const params: ToggleableActionParams = Object.assign({}, detail.params || {}, {event: e});
+    if (e.type === this.SHOW_REQUEST_EVENT && typeof detail.delay === 'number') {
+      Object.assign(params, {showDelay: detail.delay});
+    }
+    if (e.type === this.HIDE_REQUEST_EVENT &&typeof detail.delay === 'number') {
+      Object.assign(params, {showDelay: detail.delay});
+    }
+    return params;
+  }
+
   /** Actions to execute on show request */
-  @listen('esl:show:request')
-  protected _onShowRequest(e: CustomEvent<ESLShowRequestDetails>): void {
-    const detail = e.detail;
-    if (isMatches(this, detail?.ignore)) return;
-    const params = {event: e};
-    if (detail && typeof detail.delay === 'number') Object.assign(params, {showDelay: detail.delay});
-    if (detail && typeof detail.params === 'object') Object.assign(params, detail.params || {});
-    this.show(params);
+  @listen((el: ESLToggleable) => el.SHOW_REQUEST_EVENT)
+  protected _onShowRequest(e: CustomEvent<ESLToggleableRequestDetails>): void {
+    const params = this.buildRequestParams(e);
+    params && this.show(params);
+  }
+  /** Actions to execute on hide request */
+  @listen((el: ESLToggleable) => el.HIDE_REQUEST_EVENT)
+  protected _onHideRequest(e: CustomEvent<ESLToggleableRequestDetails>): void {
+    const params = this.buildRequestParams(e);
+    params && this.hide(params);
   }
 }
 
