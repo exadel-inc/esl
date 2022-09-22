@@ -116,7 +116,7 @@ export abstract class ESLBaseElement extends HTMLElement {
   }
 
   /** Shortcut for `const $el: MyEl = document.createElement(MyEl.is) as MyEl;` */
-  static create<T extends typeof ESLBaseElement>(this: T): InstanceType<T> {
+  public static create<T extends typeof ESLBaseElement>(this: T): InstanceType<T> {
     return document.createElement(this.is) as InstanceType<T>;
   }
 
