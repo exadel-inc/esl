@@ -1,8 +1,12 @@
-[//]: # (TODO)
-
 # ESL Event Listener module
 
+Version: *1.0.0*.
+
+Authors: *Alexey Stsefanovich (ala'n)*.
+
 <a name="intro"></a>
+
+[//]: # (TODO)
 
 ESL has a built-in mechanism to work with DOM events. 
 ESLEventListeners has more control and more advanced features than native DOM API.

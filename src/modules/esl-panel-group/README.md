@@ -2,7 +2,7 @@
 
 Version: *3.0.0*.  
 
-Authors: *Julia Murashko*
+Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*, *Anastasia Lesun*.
 
 <a name="intro"></a>
 

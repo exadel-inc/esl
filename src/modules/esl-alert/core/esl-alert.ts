@@ -22,8 +22,7 @@ export interface AlertActionParams extends ESLToggleableRequestDetails {
 
 /**
  * ESLAlert component
- *
- * @author Julia Murashko
+ * @author Julia Murashko, Alexey Stsefanovich (ala'n)
  *
  * ESLAlert is a component to show small notifications on your pages. ESLAlert can have multiple instances on the page.
  */

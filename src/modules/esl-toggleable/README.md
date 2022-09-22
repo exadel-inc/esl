@@ -1,8 +1,8 @@
 # [ESL](https://esl-ui.com/) Toggleable
 
-Version: *3.0.0*
+Version: *3.0.0*.
 
-Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*
+Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*.
 
 <a name="intro"></a>
 

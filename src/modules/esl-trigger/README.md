@@ -1,8 +1,8 @@
 # [ESL](../../../) Trigger
 
-Version: *2.0.0*
+Version: *2.0.0*.
 
-Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*
+Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 
 <a name="intro"></a>
 
