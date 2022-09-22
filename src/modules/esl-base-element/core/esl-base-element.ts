@@ -115,7 +115,7 @@ export abstract class ESLBaseElement extends HTMLElement {
     return customElements.whenDefined(this.is);
   }
 
-  /** Shortcut for `const $el: MyEl = document.createElement(MyEl.is) as MyEl;` */
+  /** Creates an instance of the current custom element */
   public static create<T extends typeof ESLBaseElement>(this: T): InstanceType<T> {
     return document.createElement(this.is) as InstanceType<T>;
   }
