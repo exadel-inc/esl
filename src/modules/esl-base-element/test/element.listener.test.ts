@@ -2,23 +2,43 @@ import '../../../polyfills/es5-target-shim';
 
 import {ESLBaseElement, listen} from '../core';
 import {randUID} from '../../esl-utils/misc/uid';
-import {EventUtils} from '../../esl-utils/dom/events/utils';
+import {EventUtils} from '../../esl-utils/dom/events';
 
 describe('ESLBaseElement: listeners', () => {
-  test('auto-subscribe', () => {
+  describe('ESLBaseElement auto subscribes to listener declarations', () => {
+    const mockHandler = jest.fn();
     class TestElement extends ESLBaseElement {
-      @listen('click')
-      public onClick() {}
-    }
-    TestElement.register('test-' + randUID());
-    const el = new TestElement();
+      static is = 'test-listen-element';
 
-    expect(EventUtils.listeners(el).length).toBe(0);
-    document.body.appendChild(el);
-    expect(EventUtils.listeners(el).length).toBe(1);
-    expect(EventUtils.listeners(el)[0].event).toBe('click');
-    document.body.removeChild(el);
-    expect(EventUtils.listeners(el).length).toBe(0);
+      @listen('click')
+      public onClick(...args: any[]) { mockHandler(this, ...args); }
+    }
+    TestElement.register();
+
+    const el = document.createElement(TestElement.is);
+
+    beforeAll(() => document.body.appendChild(el));
+
+    test('ESLBaseElement successfully auto subscribed', () => {
+      expect(EventUtils.listeners(el).length).toBe(1);
+      expect(EventUtils.listeners(el)[0].event).toBe('click');
+    });
+
+    test('ESLBaseElement subscription works correctly', () => {
+      mockHandler.mockReset();
+      el.click();
+      expect(mockHandler).toBeCalled();
+      expect(mockHandler).lastCalledWith(el, expect.any(Event), expect.any(Object));
+    });
+
+    test('ESLBaseElement successfully auto unsubscribed', async () => {
+      document.body.removeChild(el);
+      await Promise.resolve(); // Wait for microtasks completed
+      expect(EventUtils.listeners(el).length).toBe(0);
+      return Promise.resolve();
+    });
+
+    afterAll(async () => el.parentElement && el.remove());
   });
 
   describe('event accessors', () => {

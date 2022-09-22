@@ -1,8 +1,8 @@
 # [ESL](../../../) Alert
 
-Version: *1.0.0*
+Version: *2.0.0*.
 
-Authors: *Julia Murashko*
+Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*.
 
 <a name="intro"></a>
 

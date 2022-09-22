@@ -1,6 +1,6 @@
 import '../../../polyfills/es5-target-shim';
 import {SyntheticEventTarget} from '../../esl-utils/dom/events/target';
-import {EventUtils} from '../../esl-utils/dom/events/utils';
+import {EventUtils} from '../../esl-utils/dom/events';
 import {ESLTrigger} from '../core/esl-trigger';
 import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 

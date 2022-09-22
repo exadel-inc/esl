@@ -50,6 +50,7 @@ import {
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
+import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
 import {ESLDemoSearchPageWrapper} from './search/search';
@@ -64,9 +65,9 @@ ESLDemoMarquee.register();
 ESLDemoSearchBox.register();
 ESLDemoSearchPageWrapper.register();
 ESLDemoAnchorLink.register();
+ESLDemoBackLink.register();
 
 // Register ESL Components
-
 ESLImage.register();
 ESLMedia.register();
 

@@ -1,7 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {ready} from '../../esl-utils/decorators/ready';
+import {ESLBaseElement} from '../../esl-base-element/core';
+import {bind, ready, attr, boolAttr} from '../../esl-utils/decorators';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {isMouseEvent, isTouchEvent, getTouchPoint, getOffsetPoint} from '../../esl-utils/dom/events';
 import {isRelativeNode} from '../../esl-utils/dom/traversing';

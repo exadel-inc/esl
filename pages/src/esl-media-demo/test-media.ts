@@ -1,5 +1,6 @@
 import {TraversingQuery} from '../../../src/modules/esl-traversing-query/core';
-import {attr, ESLBaseElement, listen} from '../../../src/modules/esl-base-element/core';
+import {ESLBaseElement} from '../../../src/modules/esl-base-element/core';
+import {attr, listen} from '../../../src/modules/esl-utils/decorators';
 
 interface MediaTarget {
   play(): any;

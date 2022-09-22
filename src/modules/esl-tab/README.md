@@ -1,8 +1,8 @@
 # [ESL](h../../../) Tab & Tab Container
 
-Version: *1.0.0*
+Version: *2.0.0*.
 
-Authors: *Julia Murashko*
+Authors: *Julia Murashko*.
 
 <a name="intro"></a>
 

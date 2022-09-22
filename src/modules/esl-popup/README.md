@@ -2,7 +2,7 @@
 
 Version: *2.0.0-beta*.  
 
-Authors: *Alexey Stsefanovich (ala'n), Dmytro Shovchko*.
+Authors: *Alexey Stsefanovich (ala'n)*, *Dmytro Shovchko*.
 
 ***Important Notice: the component is under beta version, it is tested and ready to use but be aware of its potential critical API changes.***
 

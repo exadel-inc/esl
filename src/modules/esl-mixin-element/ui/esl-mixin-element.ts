@@ -1,5 +1,5 @@
 import {setAttr} from '../../esl-utils/dom/attr';
-import {prop} from '../../esl-utils/decorators/prop';
+import {prop} from '../../esl-utils/decorators';
 import {EventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMixinRegistry} from './esl-mixin-registry';
@@ -73,7 +73,7 @@ export class ESLMixinElement implements AttributeTarget {
     handler: ESLListenerHandler<ESLListenerEventMap[EType]>
   ): ESLEventListener[];
   public $$on(event: any, handler?: any): ESLEventListener[] {
-    event = Object.assign(typeof event === 'string' ? {event} : event, {subhost: this});
+    event = Object.assign(typeof event === 'string' ? {event} : event, {context: this});
     return EventUtils.subscribe(this.$host, event, handler);
   }
 

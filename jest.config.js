@@ -1,6 +1,10 @@
 module.exports = {
+  transform: {
+    '^.+\\.tsx?$': ['ts-jest', {
+      isolatedModules: true
+    }]
+  },
   testEnvironment: 'jsdom',
-  preset: 'ts-jest',
   roots: ['src/modules', 'src/polyfills'],
   testRegex: '/test/(.+)\\.test\\.ts$',
   moduleFileExtensions: ['ts', 'js', 'json'],
@@ -10,11 +14,6 @@ module.exports = {
     './src/modules/esl-utils/test/deviceDetector.mock.ts',
     './src/modules/esl-utils/test/matchMedia.mock.ts'
   ],
-  globals: {
-    'ts-jest': {
-      isolatedModules: true
-    }
-  },
   collectCoverageFrom: [
     'src/modules/**/*.ts',
     // test dir

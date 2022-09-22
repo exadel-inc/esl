@@ -1,13 +1,13 @@
 # [ESL](../../../) A11yGroup
 
-Version: _2.0.0_
+Version: *2.0.0*.
 
-Authors: _Julia Murashko_
+Authors: *Julia Murashko*.
 
 <a name="intro"></a>
 
-ESLA11yGroup - a helper custom element that adds a11y group behavior to targets.
-ESLA11yGroup tracks keyboard to loop focus of the targeting elements (with arrow keyboard keys navigation).
+ESLA11yGroup - a helper custom element that adds a11y group behavior to targets. 
+ESLA11yGroup tracks the keyboard to loop focus of the targeting elements (with arrow keyboard keys navigation).
 
 ### Attributes / Properties
 

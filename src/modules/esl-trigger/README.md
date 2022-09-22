@@ -1,8 +1,8 @@
 # [ESL](../../../) Trigger
 
-Version: *2.0.0*
+Version: *2.0.0*.
 
-Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*
+Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 
 <a name="intro"></a>
 
@@ -21,6 +21,8 @@ ESLTrigger - a custom element, that allows to trigger ESLToggleable instances st
 - `track-click` - [MediaQuery](../esl-media-query/README.md) to define allowed to track click event media. (Default: `all`)
   
 - `track-hover` - [MediaQuery](../esl-media-query/README.md) to define allowed to track hover event media. (Default: `not all`)
+
+- `ignore-esc` - to disallow handle ESC keyboard event to hide target element
 
 - `mode` - action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values (`toggle` by default)
 
