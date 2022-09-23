@@ -1,5 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {dispatchCustomEvent} from '../../esl-utils/dom/events/misc';
+import {extractValues} from '../../esl-utils/misc/object';
 import {ESLEventListener} from './listener';
 
 import type {
@@ -8,11 +9,8 @@ import type {
   ESLListenerDescriptor,
   ESLListenerEventMap,
   ESLListenerDescriptorFn
-} from './descriptor';
+} from './types';
 
-/** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
-export const isDescriptorFn = (obj: any): obj is ESLListenerDescriptorFn =>
-  typeof obj === 'function' && Object.hasOwnProperty.call(obj, 'event');
 
 @ExportNs('EventUtils')
 export class EventUtils {
@@ -24,14 +22,14 @@ export class EventUtils {
     return dispatchCustomEvent(el, eventName, eventInit);
   }
 
-  /** Gets descriptors from the passed object */
-  public static descriptors(target?: any, auto: boolean = true): ESLListenerDescriptorFn[] {
-    if (!target) return [];
-    const desc: ESLListenerDescriptorFn[] = [];
-    for (const key in target) {
-      if (isDescriptorFn(target[key]) && target[key].auto === auto) desc.push(target[key]);
-    }
-    return desc;
+  /** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
+  public static isEventDescriptor(obj: any): obj is ESLListenerDescriptorFn {
+    return typeof obj === 'function' && Object.hasOwnProperty.call(obj, 'event');
+  }
+
+  /** Gets {@link ESLListenerDescriptorFn}s of the passed object */
+  public static descriptors(target: any, auto: boolean = true): ESLListenerDescriptorFn[] {
+    return extractValues(target, (value) => EventUtils.isEventDescriptor(value) && value.auto === auto);
   }
 
   /**
@@ -64,7 +62,7 @@ export class EventUtils {
   ): ESLEventListener[] {
     if (typeof handler !== 'function') return [];
     if (typeof eventDesc === 'string') eventDesc = {event: eventDesc};
-    if (isDescriptorFn(handler) && eventDesc !== handler) eventDesc = Object.assign({}, handler, eventDesc);
+    if (EventUtils.isEventDescriptor(handler) && eventDesc !== handler) eventDesc = Object.assign({}, handler, eventDesc);
 
     const listeners = ESLEventListener.createOrResolve(host, handler, eventDesc as ESLListenerDescriptor);
     const subscribed = listeners.filter((listener) => listener.subscribe());
