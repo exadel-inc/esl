@@ -42,15 +42,14 @@ export class ESLMixinElement implements AttributeTarget {
       this._attr$$.observe(this.$host, {attributes: true, attributeFilter: constructor.observedAttributes});
     }
 
-    EventUtils.descriptors(this)
-      .forEach((desc) => EventUtils.subscribe(this.$host, {context: this}, desc));
+    EventUtils.descriptors(this).forEach((desc) => EventUtils.subscribe(this, desc));
   }
 
   /** Callback to execute on mixin instance destroy */
   public disconnectedCallback(): void {
     if (this._attr$$) this._attr$$.disconnect();
 
-    EventUtils.unsubscribe(this.$host, {context: this});
+    EventUtils.unsubscribe(this);
   }
 
   /** Callback to handle changing of additional attributes */
@@ -73,13 +72,12 @@ export class ESLMixinElement implements AttributeTarget {
     handler: ESLListenerHandler<ESLListenerEventMap[EType]>
   ): ESLEventListener[];
   public $$on(event: any, handler?: any): ESLEventListener[] {
-    event = Object.assign(typeof event === 'string' ? {event} : event, {context: this});
-    return EventUtils.subscribe(this.$host, event, handler);
+    return EventUtils.subscribe(this, event, handler);
   }
 
   /** Unsubscribes event listener */
   public $$off(...condition: ESLListenerCriteria[]): ESLEventListener[] {
-    return EventUtils.unsubscribe(this.$host, {context: this}, ...condition);
+    return EventUtils.unsubscribe(this, ...condition);
   }
 
   /**
