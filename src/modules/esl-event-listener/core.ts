@@ -7,7 +7,7 @@ export type {
   ESLListenerDescriptorFn,
   ESLListenerTarget,
   ESLListenerDefinition
-} from './core/descriptor';
+} from './core/types';
 export type {
   ESLEventListener,
 } from './core/listener';

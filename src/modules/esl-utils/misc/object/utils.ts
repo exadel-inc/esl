@@ -21,3 +21,15 @@ export function getPropertyDescriptor(o: any, prop: PropertyKey): PropertyDescri
     proto = Object.getPrototypeOf(proto);
   }
 }
+
+
+export function extractValues(obj: any, filter: (value: any, key: string | symbol) => boolean): any[];
+export function extractValues<T>(obj: any, filter: (value: any, key: string | symbol) => value is T): T[];
+export function extractValues(obj: any, filter: (value: any, key: string | symbol) => boolean): any[] {
+  if (!obj) return [];
+  const desc: any[] = [];
+  for (const key in obj) {
+    if (filter(obj[key], key)) desc.push(obj[key]);
+  }
+  return desc;
+}
