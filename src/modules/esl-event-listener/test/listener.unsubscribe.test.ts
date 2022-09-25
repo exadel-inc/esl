@@ -1,6 +1,6 @@
 import {ESLEventUtils} from '../core';
 
-describe('EventUtils:unsubscribe successfully removes listener', () => {
+describe('ESLEventUtils:unsubscribe successfully removes listener', () => {
   const handle = jest.fn();
   const div = document.createElement('div');
 

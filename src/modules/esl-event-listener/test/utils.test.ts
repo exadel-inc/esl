@@ -1,6 +1,6 @@
 import {ESLEventUtils} from '../core';
 
-describe('dom/events: EventUtils', () => {
+describe('dom/events: ESLEventUtils', () => {
   // TODO: extend tests + possibly move descriptor finding to separate module?
   describe('descriptors', () => {
     test('basic test 1', () => {

@@ -45,7 +45,7 @@ with a fixed set of thresholds defined.
 ESLAnimate (`<esl-animate>`) - custom element to automatically initialize ESLAnimateService from html
 
 ### Element API
-- `target` - target element or elements to animate, defined by [TraversingQuery](../esl-traversing-query/README.md)  
+- `target` - target element or elements to animate, defined by [ESLTraversingQuery](../esl-traversing-query/README.md)  
 Default: empty (animates itself)
 - `cls` - CSS class or classes to control animation (`in` by default)
 (supports ESL extended class definition syntax, [CSSClassUtil](../esl-utils/dom/class.ts))

@@ -1,6 +1,6 @@
 import {ESLEventUtils} from '../core/api';
 
-describe('EventUtils.subscribe subscribes single time', () => {
+describe('ESLEventUtils.subscribe subscribes single time', () => {
   test('subscribe one event with the same handler does not leads to duplicate subscription', () => {
     const host = document.createElement('div');
     const fn = jest.fn();

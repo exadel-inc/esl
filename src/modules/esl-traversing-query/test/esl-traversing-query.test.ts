@@ -50,7 +50,7 @@ describe('Traversing Query tests', () => {
       '::parent(body)',
       '::closest',
       '::closest(.btn)'
-    ])('Null check: TraversingQuery.all/one(%s, null)', (sel) => {
+    ])('Null check: ESLTraversingQuery.all/one(%s, null)', (sel) => {
       expect(ESLTraversingQuery.first(sel)).toBe(null);
       expect(ESLTraversingQuery.all(sel)).toEqual([]);
     });
@@ -64,7 +64,7 @@ describe('Traversing Query tests', () => {
       ['section', undefined, [root]],
       ['section > .row', undefined, [row1, row2]],
       ['section > .row:first-child', undefined, [row1]]
-    ])('Main check: TraversingQuery.el: %s, Base: %p.', traversingQueryWrap);
+    ])('Main check: ESLTraversingQuery.el: %s, Base: %p.', traversingQueryWrap);
   });
 
   describe('pseudo-selector ::next', () => {
@@ -84,7 +84,7 @@ describe('Traversing Query tests', () => {
       ['::prev(.btn)', article1, [btn5]],
       ['::prev(#btn2)', article1, [btn2]],
       ['::prev(#btn6)', article1, []]
-    ])('Main check: TraversingQuery: %s, Base: %p.', traversingQueryWrap);
+    ])('Main check: ESLTraversingQuery: %s, Base: %p.', traversingQueryWrap);
   });
 
   describe('pseudo-selector ::child', () => {
@@ -102,7 +102,7 @@ describe('Traversing Query tests', () => {
       ['::parent', root, [document.body]],
       ['::parent(.container)', btn1, [root]],
       ['::parent(.btn)', btn1, []]
-    ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
+    ])('Main check: ESLTraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
 
   describe('pseudo-selector ::closest', () => {
@@ -111,7 +111,7 @@ describe('Traversing Query tests', () => {
       ['::closest(.btn)', btn1, [btn1]],
       ['::closest(#row1)', btn1, [row1]],
       ['::closest(.btn)', row1, []],
-    ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
+    ])('Main check: ESLTraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
 
   describe('pseudo-selector ::find', () => {
@@ -120,7 +120,7 @@ describe('Traversing Query tests', () => {
       ['::find(.btn)', root, [btn1, btn2, btn3, btn4, btn5, btn6]],
       ['::find(.container)', root, []],
       ['::find(#row1 .btn)', root, [btn1, btn2, btn3, btn4, btn5]]
-    ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
+    ])('Main check: ESLTraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
 
   describe('postprocessors (::first, ::last, ::nth)', () => {
@@ -133,7 +133,7 @@ describe('Traversing Query tests', () => {
       ['::find(.btn)::nth', root, []],
       ['::find(.btn)::nth(8)', root, []],
       ['::find(.btn)::nth(bla bla)', root, []]
-    ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
+    ])('Main check: ESLTraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
 
   describe('filters (::filter, ::not)', () => {
@@ -144,7 +144,7 @@ describe('Traversing Query tests', () => {
       ['::find(.btn)::not([data-test])', root, [btn1, btn3, btn4]],
       ['::find(.btn)::filter(:first-child)', root, [btn1]],
       ['::find(.btn)::not(:first-child)', root, [btn2, btn3, btn4, btn5, btn6]]
-    ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
+    ])('Main check: ESLTraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
 
   describe('queries using several pseudo-selectors and plain selectors', () => {
@@ -155,14 +155,14 @@ describe('Traversing Query tests', () => {
       ['::parent(.container)::find(.btn)::last', btn5, [btn6]],
       ['::parent(.container)::child(.row)::last::find(.col-2)', article1, [article2]],
       ['::closest(.row)::find(.col-1)', btn1, [article1]]
-    ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
+    ])('Main check: ESLTraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
 
   describe('test cases when scope is defined', () => {
     test.each([
       ['#row1', null, root, [row1]],
       ['#row1', null, row2, []]
-    ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p., Scope: %p.', (sel, base, scope, expectedCollection) => {
+    ])('Main check: ESLTraversingQuery.all/one, Sel: %s, Base: %p., Scope: %p.', (sel, base, scope, expectedCollection) => {
       expect(ESLTraversingQuery.first(sel, base as Element | null, scope as Element))
         .toBe(expectedCollection.length > 0 ? expectedCollection[0] : null);
       expect(ESLTraversingQuery.all(sel, base as Element | null, scope as Element))
@@ -170,7 +170,7 @@ describe('Traversing Query tests', () => {
     });
   });
 
-  describe('TraversingQuery should support multiple queries separated by comma', () => {
+  describe('ESLTraversingQuery should support multiple queries separated by comma', () => {
     test.each([
       ['::parent,::next', btn1, [row1, btn2]],
       ['::next,  ::parent', btn1, [btn2, row1]],
@@ -178,10 +178,10 @@ describe('Traversing Query tests', () => {
       ['::find(button, article)::filter(:first-child)', row1, [btn1]],
       ['head::next, body', document.body, [document.body]],
       ['body, head', document.body, [document.body, document.head]]
-    ])('TraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
+    ])('ESLTraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
 
-  describe('TraversingQuery.splitQueries split string with query syntax in mind', () => {
+  describe('ESLTraversingQuery.splitQueries split string with query syntax in mind', () => {
     test.each([
       ['', ['']],
       ['(,)', ['(,)']],

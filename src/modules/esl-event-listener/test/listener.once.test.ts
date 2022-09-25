@@ -1,6 +1,6 @@
 import {ESLEventUtils} from '../core/api';
 
-describe('EventUtils.subscribe invokes with `once` attribute', () => {
+describe('ESLEventUtils.subscribe invokes with `once` attribute', () => {
   const host = document.createElement('a');
   const fn = jest.fn();
 

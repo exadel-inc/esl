@@ -32,7 +32,7 @@ export const splitEvents = (events: string): string[] => {
 };
 
 /**
- * `EventListener` instance, used as an 'inner' record to process subscriptions made by `EventUtils`
+ * `EventListener` instance, used as an 'inner' record to process subscriptions made by `ESLEventUtils`
  * Uses `EventListenerObject` interface to subscribe on event.
  *
  * Use Chrome console `getEventListeners` method to check subscribers details when debugging ESLEventListener subscriptions.

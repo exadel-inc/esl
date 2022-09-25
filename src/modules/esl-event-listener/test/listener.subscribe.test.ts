@@ -1,21 +1,21 @@
 import {ESLEventUtils} from '../core';
 
-describe('EventUtils:subscribe tests', () => {
-  test('EventUtils.subscribe successfully subscribes listener by descriptor', () => {
+describe('ESLEventUtils:subscribe tests', () => {
+  test('ESLEventUtils.subscribe successfully subscribes listener by descriptor', () => {
     const $host = document.createElement('div');
     const handle = jest.fn();
     ESLEventUtils.subscribe($host, {event: 'click'}, handle);
     expect(ESLEventUtils.listeners($host).length).toBe(1);
   });
 
-  test('EventUtils.subscribe successfully subscribes listener by event name', () => {
+  test('ESLEventUtils.subscribe successfully subscribes listener by event name', () => {
     const $host = document.createElement('div');
     const handle = jest.fn();
     ESLEventUtils.subscribe($host, 'click', handle);
     expect(ESLEventUtils.listeners($host).length).toBe(1);
   });
 
-  test('EventUtils.subscribe successfully subscribes listener by event provider', () => {
+  test('ESLEventUtils.subscribe successfully subscribes listener by event provider', () => {
     const $host = document.createElement('div');
     const provider = jest.fn(function () {
       expect(this).toBe($host);
@@ -27,7 +27,7 @@ describe('EventUtils:subscribe tests', () => {
     expect(provider).toBeCalledWith($host);
   });
 
-  test('EventUtils.subscribe successfully subscribes listeners by string with multiple events', () => {
+  test('ESLEventUtils.subscribe successfully subscribes listeners by string with multiple events', () => {
     const $host = document.createElement('div');
     const handle = jest.fn();
     ESLEventUtils.subscribe($host, 'click keydown', handle);
