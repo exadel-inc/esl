@@ -1,0 +1,32 @@
+import {ESLMixinElement} from '../ui/esl-mixin-element';
+import {EventUtils} from '../../esl-event-listener/core/api';
+
+describe('Shortcut helpers for EventUtils', () => {
+  class TestHelpersMixin extends ESLMixinElement {
+    static is = 'esl-test-helpers-mixin';
+
+    public onEvent = jest.fn();
+  }
+  TestHelpersMixin.register();
+  const $el = document.createElement('div');
+  $el.setAttribute(TestHelpersMixin.is, '');
+
+  beforeAll(() => document.body.appendChild($el));
+  afterAll(() => document.body.removeChild($el));
+
+  test('$$on call leads to correct subscribe call with mixin as a host', () => {
+    const mock = jest.spyOn(EventUtils, 'subscribe');
+    const mixin = TestHelpersMixin.get($el) as TestHelpersMixin;
+    const props = {event: 'test'};
+    mixin.$$on(props, mixin.onEvent);
+    expect(mock).lastCalledWith(mixin, props, mixin.onEvent);
+  });
+
+  test('$$on call leads to correct subscribe call with mixin as a host', () => {
+    const mock = jest.spyOn(EventUtils, 'unsubscribe');
+    const mixin = TestHelpersMixin.get($el) as TestHelpersMixin;
+    const props = {event: 'test'};
+    mixin.$$off(props, mixin.onEvent);
+    expect(mock).lastCalledWith(mixin, props, mixin.onEvent);
+  });
+});

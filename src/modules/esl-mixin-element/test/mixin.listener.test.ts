@@ -39,6 +39,4 @@ describe('ESLMixinElement: listeners', () => {
 
     afterAll(async () => el.parentElement && el.remove());
   });
-
-  // TODO: $$on, $$off tests
 });
