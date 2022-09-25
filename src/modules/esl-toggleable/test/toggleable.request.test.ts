@@ -1,5 +1,5 @@
 import {ESLToggleable} from '../core/esl-toggleable';
-import {EventUtils} from '../../esl-event-listener/core/api';
+import {ESLEventUtils} from '../../esl-event-listener/core/api';
 import type {ESLToggleableRequestDetails} from '../core/esl-toggleable';
 
 describe('ESLToggleable: show/hide-request events', () => {
@@ -41,19 +41,19 @@ describe('ESLToggleable: show/hide-request events', () => {
     afterAll(() => ($root.parentElement === document.body) && document.body.removeChild($root));
 
     test('Initial hide request passed for all toggleables in hierarchy', () => {
-      EventUtils.dispatch($button, ESLToggleable.prototype.HIDE_REQUEST_EVENT);
+      ESLEventUtils.dispatch($button, ESLToggleable.prototype.HIDE_REQUEST_EVENT);
       jest.advanceTimersByTime(1);
       expect($root.open).toBe(false);
       expect($childTbl.open).toBe(false);
     });
     test('Show request passed for all toggleables in hierarchy', () => {
-      EventUtils.dispatch($button, ESLToggleable.prototype.SHOW_REQUEST_EVENT);
+      ESLEventUtils.dispatch($button, ESLToggleable.prototype.SHOW_REQUEST_EVENT);
       jest.advanceTimersByTime(1);
       expect($root.open).toBe(true);
       expect($childTbl.open).toBe(true);
     });
     test('Hide request passed for all toggleables in hierarchy', () => {
-      EventUtils.dispatch($button, ESLToggleable.prototype.HIDE_REQUEST_EVENT);
+      ESLEventUtils.dispatch($button, ESLToggleable.prototype.HIDE_REQUEST_EVENT);
       jest.advanceTimersByTime(1);
       expect($root.open).toBe(false);
       expect($childTbl.open).toBe(false);
@@ -61,12 +61,12 @@ describe('ESLToggleable: show/hide-request events', () => {
 
     test('Show/hide request with filter processed correctly in toggleables in hierarchy', () => {
       const detail: ESLToggleableRequestDetails = {match: '.root'};
-      EventUtils.dispatch($button, ESLToggleable.prototype.SHOW_REQUEST_EVENT, {detail});
+      ESLEventUtils.dispatch($button, ESLToggleable.prototype.SHOW_REQUEST_EVENT, {detail});
       jest.advanceTimersByTime(1);
       expect($root.open).toBe(true);
       expect($childTbl.open).toBe(false);
 
-      EventUtils.dispatch($button, ESLToggleable.prototype.HIDE_REQUEST_EVENT, {detail});
+      ESLEventUtils.dispatch($button, ESLToggleable.prototype.HIDE_REQUEST_EVENT, {detail});
       jest.advanceTimersByTime(1);
       expect($root.open).toBe(false);
       expect($childTbl.open).toBe(false);

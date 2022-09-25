@@ -3,7 +3,7 @@ import {bind, memoize, attr} from '../../esl-utils/decorators';
 import {debounce} from '../../esl-utils/async/debounce';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {TraversingQuery} from '../../esl-traversing-query/core';
-import {EventUtils} from '../../esl-utils/dom/events';
+import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {sequentialUID} from '../../esl-utils/misc/uid';
 import {compileFootnotesGroupedList, compileFootnotesNongroupedList, sortFootnotes} from './esl-footnotes-data';
@@ -189,7 +189,7 @@ export class ESLFootnotes extends ESLBaseElement {
    * Sends a request to all notes, expecting to get a response from
    * the unlinked ones and link up with them */
   protected _notifyNotes(): void {
-    EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:request`);
+    ESLEventUtils.dispatch(this, `${ESLFootnotes.eventNs}:request`);
   }
 }
 

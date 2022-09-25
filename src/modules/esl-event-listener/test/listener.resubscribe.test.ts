@@ -1,4 +1,4 @@
-import {EventUtils} from '../core/api';
+import {ESLEventUtils} from '../core/api';
 
 describe('EventUtils.subscribe resubscribing event', () => {
   const $host = document.createElement('div');
@@ -7,17 +7,17 @@ describe('EventUtils.subscribe resubscribing event', () => {
   const targ2 = document.createElement('button');
   const target = jest.fn(() => targ1);
 
-  const listeners1 = EventUtils.subscribe($host, {event: 'click', target}, handle);
+  const listeners1 = ESLEventUtils.subscribe($host, {event: 'click', target}, handle);
   test('EventUtils.subscribe subscription correct first time', () => {
     expect(listeners1.length).toBe(1);
-    expect(EventUtils.listeners($host).length).toBe(1);
+    expect(ESLEventUtils.listeners($host).length).toBe(1);
   });
 
   target.mockImplementation(() => targ2);
-  const listeners2 = EventUtils.subscribe($host, {event: 'click', target}, handle);
+  const listeners2 = ESLEventUtils.subscribe($host, {event: 'click', target}, handle);
   test('EventUtils.subscribe subscription correct second time', () => {
     expect(listeners2.length).toBe(1);
-    expect(EventUtils.listeners($host).length).toBe(1);
+    expect(ESLEventUtils.listeners($host).length).toBe(1);
   });
 
   test('Resubscribed listener does not observe initial target', () => {

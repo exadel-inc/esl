@@ -1,5 +1,5 @@
 import {ESLBaseElement} from '../../../esl-base-element/core';
-import {EventUtils} from '../../../esl-utils/dom/events';
+import {ESLEventUtils} from '../../../esl-utils/dom/events';
 import {bind} from '../../../esl-utils/decorators';
 
 /** Interface for option definition */
@@ -114,7 +114,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
   public setSelected(value: string, state: boolean): void {
     const option = this.getOption(value);
     option && (option.selected = state);
-    EventUtils.dispatch(this.$select, 'change');
+    ESLEventUtils.dispatch(this.$select, 'change');
   }
   public isSelected(value: string): boolean {
     const opt = this.getOption(value);
@@ -131,7 +131,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
   public setAllSelected(state: boolean): void {
     if (!this.multiple) return;
     this.options.forEach((item: HTMLOptionElement) => item.selected = !item.disabled && state);
-    EventUtils.dispatch(this.$select, 'change');
+    ESLEventUtils.dispatch(this.$select, 'change');
   }
 
   // Proxy select methods and values

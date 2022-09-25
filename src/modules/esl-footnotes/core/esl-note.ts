@@ -3,7 +3,7 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {bind, ready, attr, boolAttr, memoize} from '../../esl-utils/decorators';
 import {ESLTooltip} from '../../esl-tooltip/core';
 import {promisifyTimeout, repeatSequence} from '../../esl-utils/async/promise';
-import {EventUtils} from '../../esl-utils/dom/events';
+import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {scrollIntoView} from '../../esl-utils/dom/scroll';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
@@ -144,7 +144,7 @@ export class ESLNote extends ESLBaseElement {
     if (ESLTooltip.open) {
       this.hideTooltip();
     }
-    EventUtils.dispatch(this, 'esl:show:request');
+    ESLEventUtils.dispatch(this, 'esl:show:request');
     // TODO: replace timeout with a more reliable mechanism to have time to show content with this note
     repeatSequence(() => {
       return promisifyTimeout((this.constructor as typeof ESLNote).activateTimeout)
@@ -293,7 +293,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Sends the response to footnotes */
   protected _sendResponseToFootnote(): void {
-    EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:response`);
+    ESLEventUtils.dispatch(this, `${ESLFootnotes.eventNs}:response`);
   }
 }
 
