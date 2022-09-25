@@ -8,7 +8,7 @@ import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {scrollIntoView} from '../../esl-utils/dom/scroll';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLFootnotes} from './esl-footnotes';
 
 import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
@@ -45,7 +45,7 @@ export class ESLNote extends ESLBaseElement {
   /** Hover event tracking media query. Default: `all` */
   @attr({defaultValue: 'all'}) public trackHover: string;
 
-  /** Target to container element {@link TraversingQuery} to define bounds of tooltip visibility (window by default) */
+  /** Target to container element {@link ESLTraversingQuery} to define bounds of tooltip visibility (window by default) */
   @attr() public container: string;
 
   /** margin around the element that is used as the viewport for checking the visibility of the note tooltip */
@@ -208,7 +208,7 @@ export class ESLNote extends ESLBaseElement {
   /** Merge params to pass to the toggleable */
   protected mergeToggleableParams(this: ESLNote, ...params: TooltipActionParams[]): TooltipActionParams {
     const container = this.getClosestRelatedAttr('container') || this.container;
-    const containerEl = container ? TraversingQuery.first(container, this) as HTMLElement : undefined;
+    const containerEl = container ? ESLTraversingQuery.first(container, this) as HTMLElement : undefined;
     return Object.assign({
       initiator: 'note',
       activator: this,

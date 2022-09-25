@@ -5,7 +5,7 @@ import {ESLToggleable} from '../../esl-toggleable/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {createZIndexIframe} from '../../esl-utils/fixes/ie-fixes';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import type {ESLToggleableActionParams, ESLToggleableRequestDetails} from '../../esl-toggleable/core';
 
@@ -43,7 +43,7 @@ export class ESLAlert extends ESLToggleable {
   @prop('esl:alert:hide') public override HIDE_REQUEST_EVENT: string;
 
   /**
-   * Defines the scope (using {@link TraversingQuery} syntax) element to listen for an activation event.
+   * Defines the scope (using {@link ESLTraversingQuery} syntax) element to listen for an activation event.
    * Parent element by default
    */
   @attr({defaultValue: '::parent'}) public target: string;
@@ -77,7 +77,7 @@ export class ESLAlert extends ESLToggleable {
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected) return;
     if (attrName === 'target') {
-      this.$target = TraversingQuery.first(this.target) as EventTarget;
+      this.$target = ESLTraversingQuery.first(this.target) as EventTarget;
     }
   }
 
@@ -90,7 +90,7 @@ export class ESLAlert extends ESLToggleable {
     this.appendChild(this.$content);
     if (DeviceDetector.isIE) this.appendChild(createZIndexIframe());
     if (this.target) {
-      this.$target = TraversingQuery.first(this.target, this) as EventTarget;
+      this.$target = ESLTraversingQuery.first(this.target, this) as EventTarget;
     }
   }
 

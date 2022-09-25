@@ -2,7 +2,7 @@ import {wrap} from '../../esl-utils/misc/array';
 import {resolveProperty} from '../../esl-utils/misc/functions';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {isSimilar} from '../../esl-utils/misc/object/compare';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {isPassiveByDefault} from '../../esl-utils/dom/events/misc';
 
 import type {PropertyProvider} from '../../esl-utils/misc/functions';
@@ -65,7 +65,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   public get $targets(): EventTarget[] {
     const target = resolveProperty(this.target, this.context || this.$host);
     if (typeof target === 'undefined') return [this.$host];
-    if (typeof target === 'string') return TraversingQuery.all(target, this.$host);
+    if (typeof target === 'string') return ESLTraversingQuery.all(target, this.$host);
     if (typeof target === 'object' && target) return wrap(target);
     return [];
   }

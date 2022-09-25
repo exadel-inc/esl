@@ -4,7 +4,7 @@ import {bind, ready, attr, boolAttr} from '../../esl-utils/decorators';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {isMouseEvent, isTouchEvent, getTouchPoint, getOffsetPoint} from '../../esl-utils/dom/events';
 import {isRelativeNode} from '../../esl-utils/dom/traversing';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
 
 /**
@@ -23,7 +23,7 @@ export class ESLScrollbar extends ESLBaseElement {
   /** Disable continuous scroll when the mouse pressed on scrollbar */
   @boolAttr() public noContinuousScroll: boolean;
 
-  /** Target element {@link TraversingQuery} selector. Parent element by default */
+  /** Target element {@link ESLTraversingQuery} selector. Parent element by default */
   @attr({defaultValue: '::parent'}) public target: string;
   /** Custom class for thumb element. 'scrollbar-thumb' by default */
   @attr({defaultValue: 'scrollbar-thumb'}) public thumbClass: string;
@@ -76,7 +76,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   protected findTarget(): void {
     this.$target = this.target ?
-      TraversingQuery.first(this.target, this) as HTMLElement :
+      ESLTraversingQuery.first(this.target, this) as HTMLElement :
       null;
   }
 

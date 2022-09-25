@@ -1,4 +1,4 @@
-import {TraversingQuery} from '../core';
+import {ESLTraversingQuery} from '../core';
 
 describe('Traversing Query tests', () => {
   document.body.innerHTML = `
@@ -32,9 +32,9 @@ describe('Traversing Query tests', () => {
   const article2 = document.querySelector('.col-2') as HTMLElement;
 
   const traversingQueryWrap = (sel: any, base: any, expectedCollection: any) => {
-    expect(TraversingQuery.first(sel, base as Element | null))
+    expect(ESLTraversingQuery.first(sel, base as Element | null))
       .toBe(expectedCollection.length > 0 ? expectedCollection[0] : null);
-    expect(TraversingQuery.all(sel, base as Element | null))
+    expect(ESLTraversingQuery.all(sel, base as Element | null))
       .toEqual(expectedCollection);
   };
 
@@ -51,8 +51,8 @@ describe('Traversing Query tests', () => {
       '::closest',
       '::closest(.btn)'
     ])('Null check: TraversingQuery.all/one(%s, null)', (sel) => {
-      expect(TraversingQuery.first(sel)).toBe(null);
-      expect(TraversingQuery.all(sel)).toEqual([]);
+      expect(ESLTraversingQuery.first(sel)).toBe(null);
+      expect(ESLTraversingQuery.all(sel)).toEqual([]);
     });
   });
 
@@ -163,9 +163,9 @@ describe('Traversing Query tests', () => {
       ['#row1', null, root, [row1]],
       ['#row1', null, row2, []]
     ])('Main check: TraversingQuery.all/one, Sel: %s, Base: %p., Scope: %p.', (sel, base, scope, expectedCollection) => {
-      expect(TraversingQuery.first(sel, base as Element | null, scope as Element))
+      expect(ESLTraversingQuery.first(sel, base as Element | null, scope as Element))
         .toBe(expectedCollection.length > 0 ? expectedCollection[0] : null);
-      expect(TraversingQuery.all(sel, base as Element | null, scope as Element))
+      expect(ESLTraversingQuery.all(sel, base as Element | null, scope as Element))
         .toEqual(expectedCollection);
     });
   });
@@ -196,7 +196,7 @@ describe('Traversing Query tests', () => {
       ['(a,b),c', ['(a,b)', 'c']],
     ])('%s -> %p', (inp: string, out: string[]) =>
     {
-      expect(TraversingQuery.splitQueries(inp)).toEqual(out);
+      expect(ESLTraversingQuery.splitQueries(inp)).toEqual(out);
     });
   });
 });
