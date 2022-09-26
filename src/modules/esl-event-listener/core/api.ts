@@ -82,5 +82,5 @@ export class ESLEventUtils {
   }
 }
 
-/** @deprecated alias for {@link ESLEventListener} */
-export const EventUtils = ESLEventListener;
+/** @deprecated alias for {@link ESLEventUtils} */
+export const EventUtils = ESLEventUtils;
