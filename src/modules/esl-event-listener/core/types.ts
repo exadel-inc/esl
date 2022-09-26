@@ -34,12 +34,6 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
    */
   target?: ESLListenerTarget | PropertyProvider<ESLListenerTarget>;
 
-  /**
-   * A reference to the component (mixin) that holds the event listener descriptor
-   * Used as a call context for the event listener handler if defined
-   */
-  context?: unknown;
-
   /** A boolean value indicating that the listener should be automatically subscribed within connected callback */
   auto?: boolean;
   /** A boolean value indicating that the listener should be invoked at most once after being added */

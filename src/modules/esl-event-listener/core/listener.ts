@@ -46,7 +46,6 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   public readonly once?: boolean;
   public readonly auto?: boolean;
   public readonly passive?: boolean;
-  public readonly context?: unknown;
 
   protected constructor(
     public readonly host: object,
@@ -96,7 +95,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   /** Handles caught event (used as callback for low-level subscriptions) */
   public handleEvent(e: Event): void {
     if (!this.isDelegatedTarget(e)) return;
-    this.handler.call(this.context ?? this.host, e, this);
+    this.handler.call(this.host, e, this);
     if (this.once) this.unsubscribe();
   }
 
