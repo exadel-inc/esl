@@ -22,7 +22,7 @@ describe('Shortcut helpers for EventUtils', () => {
     expect(mock).lastCalledWith(mixin, props, mixin.onEvent);
   });
 
-  test('$$on call leads to correct subscribe call with mixin as a host', () => {
+  test('$$off call leads to correct unsubscribe call with mixin as a host', () => {
     const mock = jest.spyOn(EventUtils, 'unsubscribe');
     const mixin = TestHelpersMixin.get($el) as TestHelpersMixin;
     const props = {event: 'test'};
