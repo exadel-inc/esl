@@ -12,7 +12,7 @@ import type {
   ESLListenerDescriptor,
   ESLListenerHandler,
   ESLListenerCriteria
-} from './descriptor';
+} from './types';
 
 /** Key to store listeners on the host */
 const STORE = '__esl_listeners';
