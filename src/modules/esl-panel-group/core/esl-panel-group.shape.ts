@@ -16,7 +16,7 @@ export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup
    */
   'mode'?: string;
 
-  /** Define element {@link TraversingQuery} selector to add class that identifies the rendering mode (ESLPanelGroup itself by default) */
+  /** Define element {@link ESLTraversingQuery} selector to add class that identifies the rendering mode (ESLPanelGroup itself by default) */
   'mode-cls-target'?: string;
 
   /** Define class(es) to be added during animation ('animate' by default) */

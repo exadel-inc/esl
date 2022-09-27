@@ -13,7 +13,7 @@ import type {
 
 
 @ExportNs('EventUtils')
-export class EventUtils {
+export class ESLEventUtils {
   /**
    * Dispatches custom event. Alias for {@link dispatchCustomEvent}
    * @see dispatchCustomEvent
@@ -29,7 +29,7 @@ export class EventUtils {
 
   /** Gets {@link ESLListenerDescriptorFn}s of the passed object */
   public static descriptors(host: unknown, auto: boolean = true): ESLListenerDescriptorFn[] {
-    return extractValues(host, (value) => EventUtils.isEventDescriptor(value) && value.auto === auto);
+    return extractValues(host, (value) => ESLEventUtils.isEventDescriptor(value) && value.auto === auto);
   }
 
   /**
@@ -62,7 +62,7 @@ export class EventUtils {
   ): ESLEventListener[] {
     if (typeof handler !== 'function') return [];
     if (typeof eventDesc === 'string') eventDesc = {event: eventDesc};
-    if (EventUtils.isEventDescriptor(handler) && eventDesc !== handler) eventDesc = Object.assign({}, handler, eventDesc);
+    if (ESLEventUtils.isEventDescriptor(handler) && eventDesc !== handler) eventDesc = Object.assign({}, handler, eventDesc);
 
     const listeners = ESLEventListener.createOrResolve(host, handler, eventDesc as ESLListenerDescriptor);
     const subscribed = listeners.filter((listener) => listener.subscribe());
@@ -81,3 +81,6 @@ export class EventUtils {
     return listeners;
   }
 }
+
+/** @deprecated alias for {@link ESLEventUtils} */
+export const EventUtils = ESLEventUtils;

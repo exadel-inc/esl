@@ -19,7 +19,7 @@ Then you can attach `<esl-alert>` component to the expected place in the documen
 
 ESL Alert listens to DOM events to control its state. 
 By default, the target to catch alerts is the `esl-alert` parent element. 
-Target can be changed using `target` attribute with the [TraversingQuery](../esl-traversing-query/README.md) support, 
+Target can be changed using `target` attribute with the [ESLTraversingQuery](../esl-traversing-query/README.md) support, 
 or through the `$target` property that accepts any EventTarget instance (including the window). 
 
 ESL Alert listens to the following events: 

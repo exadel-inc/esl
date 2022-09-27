@@ -1,7 +1,7 @@
 import {attr, listen, decorate} from '../../../src/modules/esl-utils/decorators';
 import {debounce} from '../../../src/modules/esl-utils/async/debounce';
 import {ESLBaseElement} from '../../../src/modules/esl-base-element/core/esl-base-element';
-import {TraversingQuery} from '../../../src/modules/esl-traversing-query/core/esl-traversing-query';
+import {ESLTraversingQuery} from '../../../src/modules/esl-traversing-query/core/esl-traversing-query';
 
 class ESLDemoMediaSource extends ESLBaseElement {
   static is = 'esl-d-media-source';
@@ -9,7 +9,7 @@ class ESLDemoMediaSource extends ESLBaseElement {
   @attr() public target: string;
 
   public get $targets(): HTMLElement[] {
-    return TraversingQuery.all(this.target, this) as HTMLElement[];
+    return ESLTraversingQuery.all(this.target, this) as HTMLElement[];
   }
 
   protected connectedCallback(): void {

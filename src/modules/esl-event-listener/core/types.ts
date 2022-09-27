@@ -29,7 +29,7 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
   selector?: string | PropertyProvider<string>;
   /**
    * An ESLEventTarget (or provider function) to subscribe the event listener to
-   * **Note**: string values are processed by the {@link TraversingQuery} syntax
+   * **Note**: string values are processed by the {@link ESLTraversingQuery} syntax
    * (e.g. `button` selects all buttons globally, while `::find(button)` selects only buttons inside current element)
    */
   target?: ESLListenerTarget | PropertyProvider<ESLListenerTarget>;

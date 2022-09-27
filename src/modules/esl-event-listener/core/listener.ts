@@ -3,7 +3,7 @@ import {resolveProperty} from '../../esl-utils/misc/functions';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {isObject} from '../../esl-utils/misc/object/types';
 import {isSimilar} from '../../esl-utils/misc/object/compare';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {isPassiveByDefault} from '../../esl-utils/dom/events/misc';
 
 import type {PropertyProvider} from '../../esl-utils/misc/functions';
@@ -33,7 +33,7 @@ export const splitEvents = (events: string): string[] => {
 };
 
 /**
- * `EventListener` instance, used as an 'inner' record to process subscriptions made by `EventUtils`
+ * `EventListener` instance, used as an 'inner' record to process subscriptions made by `ESLEventUtils`
  * Uses `EventListenerObject` interface to subscribe on event.
  *
  * Use Chrome console `getEventListeners` method to check subscribers details when debugging ESLEventListener subscriptions.
@@ -69,7 +69,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     const $host  = '$host' in this.host ? this.host.$host : this.host;
     if (!($host instanceof HTMLElement)) return [];
     if (typeof target === 'undefined') return [$host];
-    if (typeof target === 'string') return TraversingQuery.all(target, $host);
+    if (typeof target === 'string') return ESLTraversingQuery.all(target, $host);
     return [];
   }
 

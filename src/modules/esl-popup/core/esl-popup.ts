@@ -1,7 +1,7 @@
 import {range} from '../../esl-utils/misc/array';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind, memoize, ready, prop, attr, boolAttr, jsonAttr} from '../../esl-utils/decorators';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {Rect} from '../../esl-utils/dom/rect';
@@ -97,7 +97,7 @@ export class ESLPopup extends ESLToggleable {
    *  for RTL it is vice versa) */
   @attr({defaultValue: `${DEFAULT_OFFSET_ARROW}`}) public offsetArrow: string;
 
-  /** Target to container element {@link TraversingQuery} to define bounds of popups visibility (window by default) */
+  /** Target to container element {@link ESLTraversingQuery} to define bounds of popups visibility (window by default) */
   @attr() public container: string;
 
   /** Default params to merge into passed action params */
@@ -114,7 +114,7 @@ export class ESLPopup extends ESLToggleable {
   /** Container element that define bounds of popups visibility */
   @memoize()
   protected get $container(): HTMLElement | undefined {
-    return this.container ? TraversingQuery.first(this.container, this) as HTMLElement : this._containerEl;
+    return this.container ? ESLTraversingQuery.first(this.container, this) as HTMLElement : this._containerEl;
   }
 
   /** Get the size and position of the container */

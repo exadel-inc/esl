@@ -34,7 +34,7 @@ export interface ESLAnimateShape extends ESLBaseElementShape<ESLAnimate> {
   ratio?: string;
   /**
    * Define target(s) to observe and animate
-   * Uses {@link TraversingQuery} with multiple targets support
+   * Uses {@link ESLTraversingQuery} with multiple targets support
    * Default: ` ` - current element, `<esl-animate>` behave as a wrapper
    */
   target?: string;

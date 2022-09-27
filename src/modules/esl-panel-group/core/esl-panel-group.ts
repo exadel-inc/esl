@@ -7,7 +7,7 @@ import {decorate, memoize, attr, jsonAttr, prop, listen} from '../../esl-utils/d
 import {format} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaQuery, ESLMediaRuleList} from '../../esl-media-query/core';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLPanel} from '../../esl-panel/core';
 
 import type {PanelActionParams} from '../../esl-panel/core';
@@ -41,7 +41,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   @attr({defaultValue: 'accordion'}) public mode: string;
   /** Rendering mode class pattern. Uses {@link format} syntax for `mode` placeholder */
   @attr({defaultValue: 'esl-{mode}-view'}) public modeCls: string;
-  /** Element {@link TraversingQuery} selector to add class that identifies the rendering mode (ESLPanelGroup itself by default) */
+  /** Element {@link ESLTraversingQuery} selector to add class that identifies the rendering mode (ESLPanelGroup itself by default) */
   @attr({defaultValue: ''}) public modeClsTarget: string;
 
   /**
@@ -111,7 +111,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected updateModeCls(): void {
     const {modeCls, currentMode} = this;
     if (!modeCls) return;
-    const $target = TraversingQuery.first(this.modeClsTarget, this);
+    const $target = ESLTraversingQuery.first(this.modeClsTarget, this);
     if (!$target) return;
     ESLPanelGroup.supportedModes.forEach((mode) => {
       const className = format(modeCls, {mode});

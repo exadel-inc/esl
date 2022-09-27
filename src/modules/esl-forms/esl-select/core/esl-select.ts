@@ -2,7 +2,7 @@ import {bind, attr, boolAttr} from '../../../esl-utils/decorators';
 import {CSSClassUtils} from '../../../esl-utils/dom/class';
 import {ENTER, SPACE} from '../../../esl-utils/dom/keys';
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {EventUtils} from '../../../esl-utils/dom/events';
+import {ESLEventUtils} from '../../../esl-utils/dom/events';
 
 import {ESLSelectWrapper} from '../../esl-select-list/core/esl-select-wrapper';
 import {ESLSelectRenderer} from './esl-select-renderer';
@@ -94,7 +94,7 @@ export class ESLSelect extends ESLSelectWrapper {
     this._onUpdate();
     if (!valueChanged) return;
     // TODO: silent updates
-    EventUtils.dispatch(this, 'esl:change:value', {detail: {event: null}});
+    ESLEventUtils.dispatch(this, 'esl:change:value', {detail: {event: null}});
   }
 
   protected bindEvents(): void {
@@ -134,7 +134,7 @@ export class ESLSelect extends ESLSelectWrapper {
   @bind
   protected _onChange(event: Event): void {
     this._onUpdate();
-    EventUtils.dispatch(this, 'esl:change:value', {detail: {event}});
+    ESLEventUtils.dispatch(this, 'esl:change:value', {detail: {event}});
   }
 
   @bind
