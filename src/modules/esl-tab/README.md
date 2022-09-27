@@ -19,6 +19,8 @@ ESLToggleable or, usually, ESLPanel.
     - 'side' - scroll behavior is enabled, tab is side-aligned;
     - empty or unsupported value - scroll behavior is enabled, tab is side-aligned;
 
+NOTE: ESLTabs supports alignments: center (via 'center-alignment' class) and right ('right-alignment').
+
 ### Events
 
 - `esl:change:active` - thrown when tab changes its state
