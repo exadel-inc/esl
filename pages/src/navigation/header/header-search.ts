@@ -2,7 +2,7 @@ import {prop, attr, boolAttr} from '../../../../src/modules/esl-utils/decorators
 import {CSSClassUtils} from '../../../../src/modules/esl-utils/dom/class';
 import {afterNextRender} from '../../../../src/modules/esl-utils/async/raf';
 import {parseNumber} from '../../../../src/modules/esl-utils/misc/format';
-import {TraversingQuery} from '../../../../src/modules/esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../../../src/modules/esl-traversing-query/core';
 import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core';
 import {requestGss} from '../../search/search-script';
 
@@ -27,7 +27,7 @@ export class ESLDemoSearchBox extends ESLToggleable {
   private showSearchElements(params: ESLToggleableActionParams): void {
     afterNextRender(() => super.onShow(params));
     if (this.autofocus) {
-      const $focusEl = TraversingQuery.first(this.firstFocusable, this) as HTMLElement;
+      const $focusEl = ESLTraversingQuery.first(this.firstFocusable, this) as HTMLElement;
       $focusEl && window.setTimeout(() => $focusEl.focus(), parseNumber(this.postClsDelay));
     }
 

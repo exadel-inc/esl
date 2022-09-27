@@ -3,12 +3,12 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {bind, ready, attr, boolAttr, memoize} from '../../esl-utils/decorators';
 import {ESLTooltip} from '../../esl-tooltip/core';
 import {promisifyTimeout, repeatSequence} from '../../esl-utils/async/promise';
-import {EventUtils} from '../../esl-utils/dom/events';
+import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {scrollIntoView} from '../../esl-utils/dom/scroll';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLFootnotes} from './esl-footnotes';
 
 import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
@@ -45,7 +45,7 @@ export class ESLNote extends ESLBaseElement {
   /** Hover event tracking media query. Default: `all` */
   @attr({defaultValue: 'all'}) public trackHover: string;
 
-  /** Target to container element {@link TraversingQuery} to define bounds of tooltip visibility (window by default) */
+  /** Target to container element {@link ESLTraversingQuery} to define bounds of tooltip visibility (window by default) */
   @attr() public container: string;
 
   /** margin around the element that is used as the viewport for checking the visibility of the note tooltip */
@@ -144,7 +144,7 @@ export class ESLNote extends ESLBaseElement {
     if (ESLTooltip.open) {
       this.hideTooltip();
     }
-    EventUtils.dispatch(this, 'esl:show:request');
+    ESLEventUtils.dispatch(this, 'esl:show:request');
     // TODO: replace timeout with a more reliable mechanism to have time to show content with this note
     repeatSequence(() => {
       return promisifyTimeout((this.constructor as typeof ESLNote).activateTimeout)
@@ -208,7 +208,7 @@ export class ESLNote extends ESLBaseElement {
   /** Merge params to pass to the toggleable */
   protected mergeToggleableParams(this: ESLNote, ...params: TooltipActionParams[]): TooltipActionParams {
     const container = this.getClosestRelatedAttr('container') || this.container;
-    const containerEl = container ? TraversingQuery.first(container, this) as HTMLElement : undefined;
+    const containerEl = container ? ESLTraversingQuery.first(container, this) as HTMLElement : undefined;
     return Object.assign({
       initiator: 'note',
       activator: this,
@@ -293,7 +293,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Sends the response to footnotes */
   protected _sendResponseToFootnote(): void {
-    EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:response`);
+    ESLEventUtils.dispatch(this, `${ESLFootnotes.eventNs}:response`);
   }
 }
 

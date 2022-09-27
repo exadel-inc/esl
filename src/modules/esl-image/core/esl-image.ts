@@ -3,7 +3,7 @@ import {bind, prop, attr, boolAttr} from '../../esl-utils/decorators';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
-import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
 import {getIObserver} from './esl-image-iobserver';
 import {EMPTY_IMAGE, STRATEGIES, isEmptyImage} from './esl-image-strategies';
@@ -298,7 +298,7 @@ export class ESLImage extends ESLBaseElement {
     const cls = this.containerClass || (this.constructor as typeof ESLImage).DEFAULT_CONTAINER_CLS;
     const state = isLoadState(this.containerClassState) && this[this.containerClassState];
 
-    const targetEl = TraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
+    const targetEl = ESLTraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
     targetEl && CSSClassUtils.toggle(targetEl, cls, state);
   }
 }
