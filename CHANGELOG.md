@@ -1,3 +1,31 @@
+# [4.0.0-beta.18](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.17...v4.0.0-beta.18) (2022-09-27)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** fix ESLListenerDescriptorFn import ([69d81d7](https://github.com/exadel-inc/esl/commit/69d81d70f798902daf31423dbd4d6da3b772c75c))
+* **esl-event-listener:** fix event listener props resolving strategy and uniqueness constraint ([2ec70f2](https://github.com/exadel-inc/esl/commit/2ec70f2ac962463664a0026aaf48e6340c021d41))
+* **esl-event-listener:** fix multiple subscription by single descriptor ([3f80486](https://github.com/exadel-inc/esl/commit/3f804867dc8dd5b348442f66dee8e86a7b6bc755))
+* **esl-event-listener:** fix selector and Storage name of ESLEventListener ([ad2f9db](https://github.com/exadel-inc/esl/commit/ad2f9db0f40ce7c7804b292e0cd390ebd60e54d4))
+* **esl-panel-group:** change strategy of closing panels in case the max-open-items limit is reached ([4b21c34](https://github.com/exadel-inc/esl/commit/4b21c34d7878f394cafcd0e02a575bb23ec9a4c1))
+* **esl-panel-group:** fix initial reset of panel group leads to incorrect panel selection ([7b164dc](https://github.com/exadel-inc/esl/commit/7b164dc5d007a1723495e818c8c4b8ed045a88a8))
+* **esl-scrollbar:** remove unnecessary width ([6e18909](https://github.com/exadel-inc/esl/commit/6e18909c6768c259d76084b463404fe6b29c9af8))
+* **esl-tabs:** fix alignment behavoir ([b5ebd66](https://github.com/exadel-inc/esl/commit/b5ebd668de7b4d1eea7311ae7d734c02abb537cf))
+* **esl-utils:** make undefined condition truthy for `isMatches` helper ([efcd1c6](https://github.com/exadel-inc/esl/commit/efcd1c6dfa83946f66160508f7ee93808cb6d2a2))
+
+
+### Features
+
+* **esl-alert:** component reworked according ESLToggleable update ([f8a171f](https://github.com/exadel-inc/esl/commit/f8a171f1850efe3eea23dd8de6f372ba5f3cea8e))
+* **esl-base-element:** add `create` shortcut to create current custom element ([14f5706](https://github.com/exadel-inc/esl/commit/14f57063624b3ac20b8ae1868903f3ef2b2bcdfd))
+* **esl-panel:** migrate `esl-panel` to ESLEventListeners ([b8350a5](https://github.com/exadel-inc/esl/commit/b8350a54ca110756f35b891bc37c2c6110247f77))
+* **esl-select-dropdown:** fix `esl-alert` according `esl-togglable` update ([6e10aaa](https://github.com/exadel-inc/esl/commit/6e10aaab9a8055c1f3333d602b56e5d18b8decdd))
+* **esl-select-dropdown:** migrate `esl-select-dropdown` to ESLEventListeners ([76ca947](https://github.com/exadel-inc/esl/commit/76ca9479090546cdf092d1c9c3f5d993263f0581))
+* **esl-toggleable:** add ability to request hide of the toggleable, refactor toggle request API ([8a0928b](https://github.com/exadel-inc/esl/commit/8a0928b2f2bda63c6fbbaf5e9b6453d660091ec1))
+* **esl-toggleable:** migrate `esl-togglable` to ESLEventListeners ([7159429](https://github.com/exadel-inc/esl/commit/7159429f7237bea78ab80e1b05420594246ff84d))
+* **esl-utils:** create `extractValues` object utility ([8edd9e7](https://github.com/exadel-inc/esl/commit/8edd9e7b564b4ac78a4fc952ee58f76b6a54cf89))
+* **esl-utils:** create cumulative imports for esl-utils submodules ([2e9d6ad](https://github.com/exadel-inc/esl/commit/2e9d6ad8f327ede991feef4ebc7c76fdd55726af))
+
 # [4.0.0-beta.17](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.16...v4.0.0-beta.17) (2022-09-01)
 
 
