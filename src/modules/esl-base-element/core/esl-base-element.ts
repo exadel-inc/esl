@@ -28,8 +28,7 @@ export abstract class ESLBaseElement extends HTMLElement {
     this._connected = true;
     this.classList.add((this.constructor as typeof ESLBaseElement).is);
 
-    ESLEventUtils.descriptors(this)
-      .forEach((desc) => ESLEventUtils.subscribe(this, desc));
+    ESLEventUtils.descriptors(this).forEach((desc) => ESLEventUtils.subscribe(this, desc));
   }
   protected disconnectedCallback(): void {
     this._connected = false;

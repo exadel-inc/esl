@@ -18,8 +18,9 @@ describe('ESLMixinElement: listeners', () => {
     beforeAll(() => document.body.appendChild(el));
 
     test('ESLMixinElement successfully auto subscribed', () => {
-      expect(ESLEventUtils.listeners(el).length).toBe(1);
-      expect(ESLEventUtils.listeners(el)[0].event).toBe('click');
+      const host = TestElement.get(el);
+      expect(ESLEventUtils.listeners(host).length).toBe(1);
+      expect(ESLEventUtils.listeners(host)[0].event).toBe('click');
     });
 
     test('ESLMixinElement subscription works correctly', () => {
@@ -38,6 +39,4 @@ describe('ESLMixinElement: listeners', () => {
 
     afterAll(async () => el.parentElement && el.remove());
   });
-
-  // TODO: $$on, $$off tests
 });

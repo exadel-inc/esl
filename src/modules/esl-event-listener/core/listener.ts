@@ -1,6 +1,7 @@
 import {wrap} from '../../esl-utils/misc/array';
 import {resolveProperty} from '../../esl-utils/misc/functions';
 import {memoize} from '../../esl-utils/decorators/memoize';
+import {isObject} from '../../esl-utils/misc/object/types';
 import {isSimilar} from '../../esl-utils/misc/object/compare';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {isPassiveByDefault} from '../../esl-utils/dom/events/misc';
@@ -45,10 +46,9 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   public readonly once?: boolean;
   public readonly auto?: boolean;
   public readonly passive?: boolean;
-  public readonly context?: unknown;
 
   protected constructor(
-    public readonly $host: HTMLElement,
+    public readonly host: object,
     public readonly event: string,
     public readonly handler: ESLListenerHandler,
     desc: ESLListenerDescriptor
@@ -63,16 +63,19 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   /** @returns target element to listen */
   @memoize()
   public get $targets(): EventTarget[] {
-    const target = resolveProperty(this.target, this.context || this.$host);
-    if (typeof target === 'undefined') return [this.$host];
-    if (typeof target === 'string') return ESLTraversingQuery.all(target, this.$host);
-    if (typeof target === 'object' && target) return wrap(target);
+    if (!isObject(this.host)) return [];
+    const target = resolveProperty(this.target, this.host);
+    if (isObject(target)) return wrap(target);
+    const $host  = '$host' in this.host ? this.host.$host : this.host;
+    if (!($host instanceof HTMLElement)) return [];
+    if (typeof target === 'undefined') return [$host];
+    if (typeof target === 'string') return ESLTraversingQuery.all(target, $host);
     return [];
   }
 
   /** @returns resolved selector to check event target */
   public get delegate(): string | undefined {
-    return resolveProperty(this.selector, this.context || this.$host);
+    return resolveProperty(this.selector, this.host);
   }
 
   /**
@@ -92,7 +95,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   /** Handles caught event (used as callback for low-level subscriptions) */
   public handleEvent(e: Event): void {
     if (!this.isDelegatedTarget(e)) return;
-    this.handler.call(this.context ?? this.$host, e, this);
+    this.handler.call(this.host, e, this);
     if (this.once) this.unsubscribe();
   }
 
@@ -116,7 +119,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     memoize.clear(this, '$targets');
     if (!this.$targets.length) return false;
     this.$targets.forEach((el: EventTarget) => el.addEventListener(this.event, this, {passive, capture}));
-    ESLEventListener.add(this.$host, this);
+    ESLEventListener.add(this.host, this);
     return true;
   }
 
@@ -125,7 +128,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     const {capture} = this;
     if (!memoize.has(this, '$targets')) return;
     this.$targets.forEach((el: EventTarget) => el.removeEventListener(this.event, this, {capture}));
-    ESLEventListener.remove(this.$host, this);
+    ESLEventListener.remove(this.host, this);
   }
 
   /**
@@ -152,9 +155,9 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   }
 
   /** Creates or resolve existing event listeners by handler and descriptors */
-  public static createOrResolve(host: HTMLElement, handler: ESLListenerHandler, desc: ESLListenerDescriptor): ESLEventListener[] {
-    const eventString = resolveProperty(desc.event, desc.context || host);
-
+  public static createOrResolve(host: unknown, handler: ESLListenerHandler, desc: ESLListenerDescriptor): ESLEventListener[] {
+    if (!isObject(host)) return [];
+    const eventString = resolveProperty(desc.event, host);
     const listeners: ESLEventListener[] = [];
     for (const event of splitEvents(eventString)) {
       const subscribed = ESLEventListener.get(host, event, handler, {
