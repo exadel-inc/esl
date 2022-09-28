@@ -1,6 +1,5 @@
-import {ESLBaseElement} from '../../../esl-base-element/core';
+import {ESLBaseElement, listen} from '../../../esl-base-element/core';
 import {ESLEventUtils} from '../../../esl-utils/dom/events';
-import {bind} from '../../../esl-utils/decorators';
 
 /** Interface for option definition */
 export interface ESLSelectOption {
@@ -65,32 +64,38 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
 
   protected connectedCallback(): void {
     super.connectedCallback();
-    this.ownerDocument.addEventListener('reset', this._onReset);
   }
 
   protected disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.ownerDocument.removeEventListener('reset', this._onReset);
     this._mutationObserver.disconnect();
-    this._$select && this._$select.removeEventListener('change', this._onChange);
   }
 
+  @listen({
+    event: 'change',
+    target: (el: ESLSelectWrapper) => el.$select
+  })
   protected _onChange(event?: Event): void {}
+
   protected _onListChange(): void {}
+
   protected _onTargetChange(newTarget: HTMLSelectElement | undefined,
                             oldTarget: HTMLSelectElement | undefined): void {
-    if (oldTarget) oldTarget.removeEventListener('change', this._onChange);
-    if (newTarget) newTarget.addEventListener('change', this._onChange);
+    this.$$on(this._onChange);
     this._mutationObserver.disconnect();
     const type = (this.constructor as typeof ESLSelectWrapper);
     if (newTarget) this._mutationObserver.observe(newTarget, type.observationConfig);
   }
+
   protected _onTargetMutation(changes: MutationRecord[]): void {
     const isListChange = (change: MutationRecord): boolean => change.addedNodes.length + change.removedNodes.length > 0;
     changes.some(isListChange) ? this._onListChange() : this._onChange();
   }
 
-  @bind
+  @listen({
+    event: 'reset',
+    target: (el: ESLSelectWrapper) => el.ownerDocument
+  })
   protected _onReset(event: Event): void {
     if (!event.target || event.target !== this.form) return;
     setTimeout(() => this._onChange(event));
@@ -112,6 +117,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
   }
 
   public setSelected(value: string, state: boolean): void {
+    if (!this.$select) return;
     const option = this.getOption(value);
     option && (option.selected = state);
     ESLEventUtils.dispatch(this.$select, 'change');
@@ -129,7 +135,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
   }
 
   public setAllSelected(state: boolean): void {
-    if (!this.multiple) return;
+    if (!this.multiple || !this.$select) return;
     this.options.forEach((item: HTMLOptionElement) => item.selected = !item.disabled && state);
     ESLEventUtils.dispatch(this.$select, 'change');
   }
