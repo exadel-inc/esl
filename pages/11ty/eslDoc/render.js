@@ -1,10 +1,10 @@
 const fs = require('fs');
 const ts = require('typescript');
 const path = require('path');
-const eslDocFunction = require('./helpers/functions');
-const eslDocClass = require('./helpers/class');
-const eslDocCommon = require('./helpers/common');
-const eslDocType = require('./helpers/type');
+const {getFunction, getFunctionStatement} = require('./helpers/functions');
+const {getClass} = require('./helpers/class');
+const {isNodeExported} = require('./helpers/common');
+const {getAlias} = require('./helpers/type');
 
 class ESLDoc {
   static render (filePath) {
@@ -16,9 +16,9 @@ class ESLDoc {
       true
     );
   
-    const docOutput = [];
-    ts.forEachChild(node, (declaration) => visitChild(declaration, docOutput, filePath));
-    return docOutput;
+    const renderOutput = [];
+    ts.forEachChild(node, (declaration) => visitChild(declaration, renderOutput, filePath));
+    return renderOutput;
   }
 }
 
@@ -29,25 +29,25 @@ function visitChild (declaration, output, filePath) {
     return;
   }
 
-  if (!eslDocCommon.isNodeExported(declaration)) return;
+  if (!isNodeExported(declaration)) return;
 
   if (ts.isClassDeclaration(declaration)) {
-    output.push(eslDocClass.getClass(declaration));
+    output.push(getClass(declaration));
     return;
   }
 
   if (ts.isFunctionDeclaration(declaration)) {
-    eslDocFunction.getFunction(declaration, output);
+    getFunction(declaration, output);
     return;
   }
 
   if (ts.isTypeAliasDeclaration(declaration)) {
-    output.push(eslDocType.getAlias(declaration));
+    output.push(getAlias(declaration));
     return;
   }
 
   if (ts.isVariableStatement(declaration) && ts.isFunctionLike(declaration.declarationList.declarations[0].initializer)) {
-    output.push(eslDocFunction.getFunctionStatement(declaration));
+    output.push(getFunctionStatement(declaration));
     return;
   }
 }

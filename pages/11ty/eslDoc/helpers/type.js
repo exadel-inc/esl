@@ -1,19 +1,26 @@
 const ts = require('typescript');
-const eslDocCommon = require('./common');
+const {
+  getArgumentsList,
+  getArgumentsSignature,
+  getDeclarationName,
+  getJSDocFullText,
+  getGenericTypes,
+  getMemberList,
+  getTypeSignature
+} = require('./common');
 
 function getAlias(declaration) {
   if (ts.isTypeLiteralNode(declaration.type)) return getTypeLiteral(declaration);
-
   if (ts.isFunctionTypeNode(declaration.type)) return getFunctionType(declaration);
 }
 
 function getTypeLiteral(declaration) {
   const declarationObj = {
     type: 'Type alias',
-    name: eslDocCommon.getDeclarationName(declaration),
-    comment: eslDocCommon.getJSDocFullText(declaration),
-    typeParameters: eslDocCommon.getGenericTypes(declaration),
-    parameters: eslDocCommon.getMemberList(declaration.type)
+    name: getDeclarationName(declaration),
+    comment: getJSDocFullText(declaration),
+    typeParameters: getGenericTypes(declaration),
+    parameters: getMemberList(declaration.type)
   }
 
   const signature = getAliasSignature(declarationObj);
@@ -28,11 +35,11 @@ function getAliasSignature(declaration) {
 function getFunctionType(declaration) {
   const declarationObj = {
     type: 'Function type',
-    name: eslDocCommon.getDeclarationName(declaration),
-    comment: eslDocCommon.getJSDocFullText(declaration),
-    typeParameters: eslDocCommon.getGenericTypes(declaration),
-    parameters: eslDocCommon.getArgumentsList(declaration.type),
-    returnType: eslDocCommon.getTypeSignature(declaration.type)
+    name: getDeclarationName(declaration),
+    comment: getJSDocFullText(declaration),
+    typeParameters: getGenericTypes(declaration),
+    parameters: getArgumentsList(declaration.type),
+    returnType: getTypeSignature(declaration.type)
   }
 
   const signature = getFunctionTypeSignature(declarationObj);
@@ -41,10 +48,8 @@ function getFunctionType(declaration) {
 
 function getFunctionTypeSignature (declaration) {
   const {name, typeParameters, returnType} = declaration;
-  const parameters = eslDocCommon.getArgumentsSignature(declaration.parameters);
+  const parameters = getArgumentsSignature(declaration.parameters);
   return `type ${name}${typeParameters ? `<${typeParameters.signature}>` : ''}(${parameters || ''})${returnType ? `: ${returnType}` : ''}`;
 }
 
-module.exports = {
-  getAlias
-};
+module.exports = {getAlias};

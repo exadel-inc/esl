@@ -1,13 +1,20 @@
 const ts = require('typescript');
-const eslDocCommon = require('./common');
-const eslDocFunction = require('./functions');
+const {getFunctionDeclaration} = require('./functions');
+const {
+  getDeclarationName,
+  getJSDocFullText,
+  getModifiers,
+  getArgumentsSignature,
+  getArgumentsList,
+  getTypeSignature
+} = require('./common');
 
 function getClass(declaration) {
   const declarationObj = {
-    name: eslDocCommon.getDeclarationName(declaration),
+    name: getDeclarationName(declaration),
     type: 'Class',
-    comment: eslDocCommon.getJSDocFullText(declaration),
-    ...eslDocCommon.getModifiers(declaration),
+    comment: getJSDocFullText(declaration),
+    modifiers: getModifiers(declaration),
     ctors: [],
     methods: [],
     properties: [],
@@ -23,7 +30,7 @@ function getClass(declaration) {
     if (!(member.modifiers && ts.SyntaxKind[member.modifiers[0]?.kind] === 'PublicKeyword')) return;
 
     if (ts.isFunctionDeclaration(member) || ts.isMethodDeclaration(member)) {
-      declarationObj.methods.push(eslDocFunction.getFunctionDeclaration(member));
+      declarationObj.methods.push(getFunctionDeclaration(member));
       return;
     }
 
@@ -33,29 +40,33 @@ function getClass(declaration) {
     }
 
     if (ts.isGetAccessorDeclaration(member)) {
-      declarationObj.getAccessors.push(eslDocFunction.getFunctionDeclaration(member));
+      declarationObj.getAccessors.push(getFunctionDeclaration(member));
       return;
     }
 
     if (ts.isSetAccessorDeclaration(member)) {
-      declarationObj.setAccessors.push(eslDocFunction.getFunctionDeclaration(member));
+      declarationObj.setAccessors.push(getFunctionDeclaration(member));
       return;
     }
   });
 
   if (!declarationObj.ctors.length)
-    declarationObj.ctors.push({
-      name: declarationObj.name,
-      type: 'constructor',
-      parameters: [],
-      signature: `new ${declarationObj.name}(): ${declarationObj.name}`
-    })
+    declarationObj.ctors.push(getDefaultConstructor(declarationObj));
 
   return declarationObj;
 }
 
+function getDefaultConstructor(declaration) {
+  return {
+    name: declaration.name,
+    type: 'constructor',
+    parameters: [],
+    signature: `new ${declaration.name}(): ${declaration.name}`
+  };
+}
+
 function getConstructorSignature(ctor, name) {
-  const parameters = ctor?.parameters && eslDocCommon.getArgumentsSignature(ctor.parameters);
+  const parameters = ctor?.parameters && getArgumentsSignature(ctor.parameters);
   return `new ${name}(${parameters ?? ''}): ${name}`;
 }
 
@@ -63,8 +74,8 @@ function getConstRuctorDeclaration(declaration, name) {
   const ctor = {
     name,
     type: 'constructor',
-    ...eslDocCommon.getModifiers(declaration),
-    parameters: eslDocCommon.getArgumentsList(declaration)
+    modifiers: getModifiers(declaration),
+    parameters: getArgumentsList(declaration)
   }
   const signature = getConstructorSignature(ctor, name);
   return Object.assign(ctor, {signature});
@@ -72,15 +83,12 @@ function getConstRuctorDeclaration(declaration, name) {
 
 function getPropertyDeclaration(declaration) {
   return {
-    name: eslDocCommon.getDeclarationName(declaration),
-    type: eslDocCommon.getTypeSignature(declaration),
-    modifiers: eslDocCommon.getModifiers(declaration),
+    name: getDeclarationName(declaration),
+    type: getTypeSignature(declaration),
+    modifiers: getModifiers(declaration),
     defaultValue: declaration.initializer?.text,
-    comment: eslDocCommon.getJSDocFullText(declaration)
+    comment: getJSDocFullText(declaration)
   }
 }
 
-module.exports = {
-  getClass
-};
- 
+module.exports = {getClass};
