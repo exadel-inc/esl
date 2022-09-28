@@ -1,8 +1,7 @@
 import {ESLMixinElement} from '../../../src/modules/esl-mixin-element/ui/esl-mixin-element';
-import {listen} from '../../../src/modules/esl-utils/decorators/listen';
+import {listen, memoize} from '../../../src/modules/esl-utils/decorators';
 import {afterNextRender} from '../../../src/modules/esl-utils/async/raf';
-import {memoize} from '../../../src/modules/esl-utils/decorators/memoize';
-import {EventUtils} from '../../../src/modules/esl-utils/dom/events/utils';
+import {ESLEventUtils} from '../../../src/modules/esl-utils/dom/events';
 
 /**
  * Demo sample of anchor mixin
@@ -27,7 +26,7 @@ export class ESLDemoAnchorLink extends ESLMixinElement {
     const $target = this.anchorTarget;
     if (!$target) return console.warn('No anchor target found');
 
-    EventUtils.dispatch($target, 'esl:show:request');
+    ESLEventUtils.dispatch($target, 'esl:show:request');
     afterNextRender(() => {
       // TODO: replace with scroll ext version
       // scrollIntoView($target, {behavior: 'smooth'})

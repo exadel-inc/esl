@@ -1,4 +1,4 @@
-import {isDescriptorFn} from '../dom/events';
+import {ESLEventUtils} from '../../esl-event-listener/core';
 
 import type {PropertyProvider} from '../misc/functions';
 import type {ESLListenerHandler, ESLListenerEventMap, ESLListenerDescriptor} from '../dom/events';
@@ -30,17 +30,17 @@ export function listen(desc: string | ESLListenerDescriptorExt): ListenDecorator
                                                          descriptor: TypedPropertyDescriptor<T>): void {
     const superDesc = Object.getPrototypeOf(target)[propertyKey];
     desc = typeof desc === 'string' || typeof desc === 'function' ? {event: desc} : desc;
-    desc = Object.assign({auto: true}, desc.inherit && isDescriptorFn(superDesc) ? superDesc : {}, desc);
+    desc = Object.assign({auto: true}, desc.inherit && ESLEventUtils.isEventDescriptor(superDesc) ? superDesc : {}, desc);
 
-    if (!descriptor || typeof descriptor.value !== 'function') {
+    const fn = descriptor.value || descriptor.get && descriptor.get.call(target);
+    if (typeof fn !== 'function') {
       throw new TypeError('Only class methods can be decorated via listener decorator');
     }
-
-    if (isDescriptorFn(descriptor.value) && descriptor.value.event !== desc.event) {
+    if (ESLEventUtils.isEventDescriptor(fn) && fn.event !== desc.event) {
       throw new TypeError(`Method ${propertyKey} already decorated as ESLListenerDescriptor`);
     }
 
-    Object.assign(descriptor.value, desc);
+    Object.assign(fn, desc);
     // Allow collecting
     descriptor.enumerable = true;
   };

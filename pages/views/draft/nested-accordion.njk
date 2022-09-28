@@ -2,7 +2,7 @@
 layout: empty
 title: Nested Accordion & Anchors
 name: Nested Accordion & Anchors
-tags: [examples, draft]
+tags: [draft]
 icon: examples/accordion.svg
 scrollbar: true
 aside:
@@ -12,7 +12,7 @@ aside:
 ---
 
 {% import 'lorem.njk' as lorem %}
-
+<a esl-d-back-link class="arrow-link reverse">Back</a>
 <nav class="mb-1">
   <h2>Nested accordion anchors</h2>
   <ul class="mx-4">
@@ -46,7 +46,7 @@ aside:
 
 <section class="row">
   <div class="col-12">
-    <esl-panel-group class="accordion-group mb-4" accordion-group="multiple">
+    <esl-panel-group class="accordion-group mb-4" min-open-items="0" max-open-items="all">
       <div class="esl-d-accordion">
         <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
           Toggle Accordion #1

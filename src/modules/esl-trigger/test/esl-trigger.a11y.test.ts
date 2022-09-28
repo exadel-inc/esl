@@ -1,6 +1,6 @@
 import '../../../polyfills/es5-target-shim';
 import {SyntheticEventTarget} from '../../esl-utils/dom/events/target';
-import {EventUtils} from '../../esl-utils/dom/events/utils';
+import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {ESLTrigger} from '../core/esl-trigger';
 import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 
@@ -9,11 +9,11 @@ function createTargetMock(init: Partial<ESLToggleable> = {}): ESLToggleable {
   return Object.assign(et, {
     show: jest.fn(function () {
       this.open = true;
-      EventUtils.dispatch(this, 'esl:show');
+      ESLEventUtils.dispatch(this, 'esl:show');
     }),
     hide: jest.fn(function () {
       this.open = false;
-      EventUtils.dispatch(this, 'esl:hide');
+      ESLEventUtils.dispatch(this, 'esl:hide');
     }),
     open: false
   }, init) as any;
@@ -29,7 +29,7 @@ describe('esl-trigger a11y attributes test', () => {
   describe(
     'a11yLabelActive attribute basic tests',
     () => {
-      const trigger = document.createElement(ESLTrigger.is) as ESLTrigger;
+      const trigger = ESLTrigger.create();
 
       beforeAll(() => {
         trigger.a11yLabelActive = 'active';
@@ -65,7 +65,7 @@ describe('esl-trigger a11y attributes test', () => {
   describe(
     'a11yLabelInactive attribute basic tests',
     () => {
-      const trigger = document.createElement(ESLTrigger.is) as ESLTrigger;
+      const trigger = ESLTrigger.create();
 
       beforeAll(() => {
         trigger.a11yLabelInactive = 'inactive';
@@ -102,7 +102,7 @@ describe('esl-trigger a11y attributes test', () => {
   describe(
     'a11yLabelActive and a11yLabelInactive are both present (+ initially active flow)',
     () => {
-      const trigger = document.createElement(ESLTrigger.is) as ESLTrigger;
+      const trigger = ESLTrigger.create();
 
       beforeAll(() => {
         trigger.a11yLabelActive = 'active';
@@ -138,7 +138,7 @@ describe('esl-trigger a11y attributes test', () => {
     'a11yLabelInactive and a11yLabelActive attributes are not specified',
     () => {
       const INIT_VAL = 'test-init-val';
-      const trigger = document.createElement(ESLTrigger.is) as ESLTrigger;
+      const trigger = ESLTrigger.create();
 
       beforeAll(() => {
         trigger.setAttribute(LABEL_ATTR, INIT_VAL);

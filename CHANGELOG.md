@@ -1,3 +1,86 @@
+# [4.0.0-beta.18](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.17...v4.0.0-beta.18) (2022-09-27)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** fix ESLListenerDescriptorFn import ([69d81d7](https://github.com/exadel-inc/esl/commit/69d81d70f798902daf31423dbd4d6da3b772c75c))
+* **esl-event-listener:** fix event listener props resolving strategy and uniqueness constraint ([2ec70f2](https://github.com/exadel-inc/esl/commit/2ec70f2ac962463664a0026aaf48e6340c021d41))
+* **esl-event-listener:** fix multiple subscription by single descriptor ([3f80486](https://github.com/exadel-inc/esl/commit/3f804867dc8dd5b348442f66dee8e86a7b6bc755))
+* **esl-event-listener:** fix selector and Storage name of ESLEventListener ([ad2f9db](https://github.com/exadel-inc/esl/commit/ad2f9db0f40ce7c7804b292e0cd390ebd60e54d4))
+* **esl-panel-group:** change strategy of closing panels in case the max-open-items limit is reached ([4b21c34](https://github.com/exadel-inc/esl/commit/4b21c34d7878f394cafcd0e02a575bb23ec9a4c1))
+* **esl-panel-group:** fix initial reset of panel group leads to incorrect panel selection ([7b164dc](https://github.com/exadel-inc/esl/commit/7b164dc5d007a1723495e818c8c4b8ed045a88a8))
+* **esl-scrollbar:** remove unnecessary width ([6e18909](https://github.com/exadel-inc/esl/commit/6e18909c6768c259d76084b463404fe6b29c9af8))
+* **esl-tabs:** fix alignment behavoir ([b5ebd66](https://github.com/exadel-inc/esl/commit/b5ebd668de7b4d1eea7311ae7d734c02abb537cf))
+* **esl-utils:** make undefined condition truthy for `isMatches` helper ([efcd1c6](https://github.com/exadel-inc/esl/commit/efcd1c6dfa83946f66160508f7ee93808cb6d2a2))
+
+
+### Features
+
+* **esl-alert:** component reworked according ESLToggleable update ([f8a171f](https://github.com/exadel-inc/esl/commit/f8a171f1850efe3eea23dd8de6f372ba5f3cea8e))
+* **esl-base-element:** add `create` shortcut to create current custom element ([14f5706](https://github.com/exadel-inc/esl/commit/14f57063624b3ac20b8ae1868903f3ef2b2bcdfd))
+* **esl-panel:** migrate `esl-panel` to ESLEventListeners ([b8350a5](https://github.com/exadel-inc/esl/commit/b8350a54ca110756f35b891bc37c2c6110247f77))
+* **esl-select-dropdown:** fix `esl-alert` according `esl-togglable` update ([6e10aaa](https://github.com/exadel-inc/esl/commit/6e10aaab9a8055c1f3333d602b56e5d18b8decdd))
+* **esl-select-dropdown:** migrate `esl-select-dropdown` to ESLEventListeners ([76ca947](https://github.com/exadel-inc/esl/commit/76ca9479090546cdf092d1c9c3f5d993263f0581))
+* **esl-toggleable:** add ability to request hide of the toggleable, refactor toggle request API ([8a0928b](https://github.com/exadel-inc/esl/commit/8a0928b2f2bda63c6fbbaf5e9b6453d660091ec1))
+* **esl-toggleable:** migrate `esl-togglable` to ESLEventListeners ([7159429](https://github.com/exadel-inc/esl/commit/7159429f7237bea78ab80e1b05420594246ff84d))
+* **esl-utils:** create `extractValues` object utility ([8edd9e7](https://github.com/exadel-inc/esl/commit/8edd9e7b564b4ac78a4fc952ee58f76b6a54cf89))
+* **esl-utils:** create cumulative imports for esl-utils submodules ([2e9d6ad](https://github.com/exadel-inc/esl/commit/2e9d6ad8f327ede991feef4ebc7c76fdd55726af))
+
+# [4.0.0-beta.17](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.16...v4.0.0-beta.17) (2022-09-01)
+
+
+### Bug Fixes
+
+* **esl-panel-group:** fix animation process capturing by ESLPanel component ([9a5b3a5](https://github.com/exadel-inc/esl/commit/9a5b3a576d5cb4dbd47d113d944932586155c7f6))
+* **esl-utils:** ESLEventListener descriptors can't be declared trough prototype inheritance ([a055e71](https://github.com/exadel-inc/esl/commit/a055e71643a6b1f2d560dd1ff5c3152767c43bef))
+* **esl-utils:** fix `[@bind](https://github.com/bind)` decorator to save original function enumerable marker ([92c2086](https://github.com/exadel-inc/esl/commit/92c2086df610a5572143463302baf7aeea6174e9))
+* **esl-utils:** fix `[@decorate](https://github.com/decorate)` decorator to work properly with `[@listen](https://github.com/listen)` ([286ef57](https://github.com/exadel-inc/esl/commit/286ef579b61fbf43a793550fcf7dc8018bc15f54))
+
+
+### Features
+
+* **esl-panel-group:** extend esl-panel-group refresh strategies list with 'open' and 'close' strategy ([ee18c9d](https://github.com/exadel-inc/esl/commit/ee18c9d673361e53ecc3cd84f04d8d5650c79693))
+* **esl-utils:** add `skipOneRender` RAF utility ([ddc3227](https://github.com/exadel-inc/esl/commit/ddc322798e6f8cf447874896786fe6d368bbe5ef))
+
+# [4.0.0-beta.16](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.15...v4.0.0-beta.16) (2022-08-30)
+
+
+### Bug Fixes
+
+* **esl-image:** remove internal cyclic references in ESLImage modules ([977c32b](https://github.com/exadel-inc/esl/commit/977c32bdbd475f652948ec4d97ac9a9e42357ba1))
+* **esl-media:** remove cyclic reference of the ESLMedia internal IObserver to ESLMedia ([8a3d065](https://github.com/exadel-inc/esl/commit/8a3d065aba6a695451aacb9c3e9b90c6592d6a1e))
+* **esl-panel:** remove cyclic reference of the ESLPanel to ESLPanelGroup ([cffe91a](https://github.com/exadel-inc/esl/commit/cffe91aa57f3ec769cd286ee8f0bc149533bba1a))
+* **esl-select:** fix internal esl-select-renderer cyclic reference ([b97565e](https://github.com/exadel-inc/esl/commit/b97565eff2d7d31a736e6f3461aba62a6de50899))
+
+# [4.0.0-beta.15](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.14...v4.0.0-beta.15) (2022-08-30)
+
+
+### Bug Fixes
+
+* **esl-mixin-element:** incorrect context applied for listener applied trough `$$on` ([0c53d6a](https://github.com/exadel-inc/esl/commit/0c53d6a9afefc703c7c372a789ee92ec4280cebd))
+* **esl-panel-group:** change `no-animate` API ([dde3500](https://github.com/exadel-inc/esl/commit/dde35009268a92bae92a45f00d11cb29edee98fa))
+* **esl-utils:** allow `[@listen](https://github.com/listen)` decorator for decorated methods represented as a get accessor ([dcdc70b](https://github.com/exadel-inc/esl/commit/dcdc70b07c7b46dd37041eb87640ebff5e79d71a))
+* **esl-utils:** change descriptor definition condition (`event` no longer required as an own property) ([d17e256](https://github.com/exadel-inc/esl/commit/d17e2566652eca74f5b4e8634dc5499248fccbff))
+* **esl-utils:** fix `[@decorate](https://github.com/decorate)` decorator binding ([1cbb070](https://github.com/exadel-inc/esl/commit/1cbb0702cdd97520d82fae614825f21df550fb33))
+* **esl-utils:** update `decorate` decorator to allow to save context properly (on instance level) ([0ac1b0c](https://github.com/exadel-inc/esl/commit/0ac1b0cb9c90648ae1e0a18a16a936971c4b4ee9))
+
+
+### Features
+
+* **esl-panel-group:** add `refresh-strategy` attribute ([#1156](https://github.com/exadel-inc/esl/issues/1156)) ([36027ad](https://github.com/exadel-inc/esl/commit/36027ad2574c0c33df1b6370484448a6889a647a))
+* **esl-panel-group:** add ability to control min/max open panels per media condition ([67ca2ba](https://github.com/exadel-inc/esl/commit/67ca2ba16e3fc4ee4300d1c79ca2e5d0da845af7))
+* **esl-utils:** allow to pass array of targets to the `ESLEventListener` ([1d23db3](https://github.com/exadel-inc/esl/commit/1d23db3ea84ac4b31adce5d4a1575814ea3fdf54))
+
+
+### BREAKING CHANGES
+
+* **esl-panel-group:** `open` mode is no longer supported, it should be replaced with a `min-open-items="all"`
+BREAKING-CHANGE: `accordion-group="single"` attribute no longer supported, replaced with `max-open-items="1"`
+BREAKING-CHANGE: `accordion-group="single"` attribute no longer supported, replaced with `max-open-items="all"`
+* **esl-panel-group:** components inherited from `ESLPanelGroup` should use `@listen({inherit: true})` for proper subscription
+
+Co-authored-by: NastaLeo <alesun@exadel.com>
+
 # [4.0.0-beta.14](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.13...v4.0.0-beta.14) (2022-08-15)
 
 

@@ -49,7 +49,10 @@ describe('Common: dom/traversing helper tests', () => {
     test('returns false if element does not match passed selector or exact predicate function', () => {
       expect(isMatches(div, (el) => root === el)).toBeFalsy();
       expect(isMatches(div, 'span')).toBeFalsy();
-      expect(isMatches(div)).toBeFalsy();
+    });
+    test('returns true if second argument is not passed or undefined', () => {
+      expect(isMatches(div)).toBeTruthy();
+      expect(isMatches(div, undefined)).toBeTruthy();
     });
   });
 

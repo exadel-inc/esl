@@ -1,11 +1,9 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
 import {rafDecorator} from '../../esl-utils/async/raf';
-import {bind} from '../../esl-utils/decorators/bind';
-import {memoize} from '../../esl-utils/decorators/memoize';
+import {bind, memoize, attr} from '../../esl-utils/decorators';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
 import {debounce} from '../../esl-utils/async/debounce';
-import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaRuleList} from '../../esl-media-query/core/esl-media-rule-list';
 import {ESLTab} from './esl-tab';
 
@@ -184,10 +182,6 @@ export class ESLTabs extends ESLBaseElement {
 
   /** Update element state according to scrollable type */
   protected updateScrollableType(): void {
-    ESLTabs.supportedScrollableTypes.forEach((type) => {
-      CSSClassUtils.toggle(this, `${type}-alignment`, this.currentScrollableType === type);
-    });
-
     this._deferredFitToViewport(this.$current);
 
     if (this.currentScrollableType === 'disabled') {

@@ -1,6 +1,6 @@
 import {setAttr} from '../../esl-utils/dom/attr';
-import {prop} from '../../esl-utils/decorators/prop';
-import {EventUtils} from '../../esl-utils/dom/events';
+import {prop} from '../../esl-utils/decorators';
+import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 
 import type {
@@ -28,13 +28,12 @@ export abstract class ESLBaseElement extends HTMLElement {
     this._connected = true;
     this.classList.add((this.constructor as typeof ESLBaseElement).is);
 
-    EventUtils.descriptors(this)
-      .forEach((desc) => EventUtils.subscribe(this, desc));
+    ESLEventUtils.descriptors(this).forEach((desc) => ESLEventUtils.subscribe(this, desc));
   }
   protected disconnectedCallback(): void {
     this._connected = false;
 
-    EventUtils.unsubscribe(this);
+    ESLEventUtils.unsubscribe(this);
   }
 
   /** Check that the element is connected and `connectedCallback` has been executed */
@@ -50,12 +49,12 @@ export abstract class ESLBaseElement extends HTMLElement {
     handler: ESLListenerHandler<ESLListenerEventMap[EType]>
   ): ESLEventListener[];
   public $$on(event: any, handler?: any): ESLEventListener[] {
-    return EventUtils.subscribe(this, event, handler);
+    return ESLEventUtils.subscribe(this, event, handler);
   }
 
   /** Unsubscribes event listener */
   public $$off(...condition: ESLListenerCriteria[]): ESLEventListener[] {
-    return EventUtils.unsubscribe(this, ...condition);
+    return ESLEventUtils.unsubscribe(this, ...condition);
   }
 
   /**
@@ -89,7 +88,7 @@ export abstract class ESLBaseElement extends HTMLElement {
    * @param eventInit - custom event init. See {@link CustomEventInit}
    */
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
-    return EventUtils.dispatch(this, eventName, eventInit);
+    return ESLEventUtils.dispatch(this, eventName, eventInit);
   }
 
   /**
@@ -114,4 +113,10 @@ export abstract class ESLBaseElement extends HTMLElement {
   public static get registered(): Promise<CustomElementConstructor> {
     return customElements.whenDefined(this.is);
   }
+
+  /** Creates an instance of the current custom element */
+  public static create<T extends typeof ESLBaseElement>(this: T): InstanceType<T> {
+    return document.createElement(this.is) as InstanceType<T>;
+  }
+
 }

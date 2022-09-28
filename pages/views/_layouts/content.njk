@@ -13,9 +13,12 @@
           {{ title | safe }}
           {% if 'beta' in [].concat(tags) %}<span class="badge badge-sup badge-warning">Beta</span>{% endif %}
           {% if 'draft' in [].concat(tags) %}<span class="badge badge-sup badge-danger">Draft</span>{% endif %}
+          {% if 'new' in [].concat(tags) %}<span class="badge badge-sup badge-success">New</span>{% endif %}
         </h1>
       {% endif %}
-
+      {% if showBackLink %}
+        <a esl-d-back-link class="arrow-link reverse">Back</a>
+      {% endif %}
       {% if aside %}
         <aside class="aside">
           {% from 'navigation/related-links.njk' import related with context %}

@@ -1,16 +1,16 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, boolAttr, prop, listen, ESLBaseElement} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
 import {setAttr} from '../../esl-utils/dom/attr';
-import {ready} from '../../esl-utils/decorators/ready';
+import {attr, boolAttr, prop, listen, ready} from '../../esl-utils/decorators';
 import {parseNumber} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ENTER, SPACE, ESC} from '../../esl-utils/dom/keys';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLToggleablePlaceholder} from '../../esl-toggleable/core';
 
-import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
+import type {ESLToggleable, ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
@@ -27,13 +27,13 @@ export class ESLTrigger extends ESLBaseElement {
 
   /** CSS classes to set on active state */
   @attr({defaultValue: ''}) public activeClass: string;
-  /** Target element {@link TraversingQuery} selector to set `activeClass` */
+  /** Target element {@link ESLTraversingQuery} selector to set `activeClass` */
   @attr({defaultValue: ''}) public activeClassTarget: string;
 
   /** Selector for ignored inner elements */
   @attr({defaultValue: 'a[href]'}) public ignore: string;
 
-  /** Target Toggleable {@link TraversingQuery} selector. `::next` by default */
+  /** Target Toggleable {@link ESLTraversingQuery} selector. `::next` by default */
   @attr({defaultValue: '::next'}) public target: string;
   /** Action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values. `toggle` by default */
   @attr({defaultValue: 'toggle'}) public mode: string;
@@ -118,7 +118,7 @@ export class ESLTrigger extends ESLBaseElement {
   /** Update `$target` Toggleable  from `target` selector */
   public updateTargetFromSelector(): void {
     if (!this.target) return;
-    this.$target = TraversingQuery.first(this.target, this) as ESLToggleable;
+    this.$target = ESLTraversingQuery.first(this.target, this) as ESLToggleable;
 
     if (this.$target instanceof ESLToggleablePlaceholder && this.$target.$origin) {
       // change target if it is an instance of the placeholder element
@@ -135,7 +135,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Merge params to pass to the toggleable */
-  protected mergeToggleableParams(this: ESLTrigger, ...params: ToggleableActionParams[]): ToggleableActionParams {
+  protected mergeToggleableParams(this: ESLTrigger, ...params: ESLToggleableActionParams[]): ESLToggleableActionParams {
     return Object.assign({
       initiator: 'trigger',
       activator: this
@@ -143,7 +143,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Show target toggleable with passed params */
-  public showTarget(params: ToggleableActionParams = {}): void {
+  public showTarget(params: ESLToggleableActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
       delay: parseNumber(this.showDelay)
     }, params);
@@ -152,7 +152,7 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
   /** Hide target toggleable with passed params */
-  public hideTarget(params: ToggleableActionParams = {}): void {
+  public hideTarget(params: ESLToggleableActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
       delay: parseNumber(this.hideDelay)
     }, params);
@@ -161,7 +161,7 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
   /** Toggles target toggleable with passed params */
-  public toggleTarget(params: ToggleableActionParams = {}, state: boolean = !this.active): void {
+  public toggleTarget(params: ESLToggleableActionParams = {}, state: boolean = !this.active): void {
     state ? this.showTarget(params) : this.hideTarget(params);
   }
 
@@ -174,7 +174,7 @@ export class ESLTrigger extends ESLBaseElement {
     const wasActive = this.active;
 
     this.toggleAttribute('active', isActive);
-    const clsTarget = TraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
+    const clsTarget = ESLTraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
     clsTarget && CSSClassUtils.toggle(clsTarget, this.activeClass, isActive);
 
     this.updateA11y();

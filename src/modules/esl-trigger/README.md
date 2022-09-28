@@ -1,8 +1,8 @@
 # [ESL](../../../) Trigger
 
-Version: *2.0.0*
+Version: *2.0.0*.
 
-Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*
+Authors: *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 
 <a name="intro"></a>
 
@@ -14,9 +14,9 @@ ESLTrigger - a custom element, that allows to trigger ESLToggleable instances st
 
 - `active-class` - CSS classes to set on active state
 
-- `active-class-target` - target element TraversingQuery selector to set `active-class`
+- `active-class-target` - target element ESLTraversingQuery selector to set `active-class`
 
-- `target` - target Toggleable TraversingQuery selector (`next` by default)
+- `target` - target Toggleable ESLTraversingQuery selector (`next` by default)
 
 - `track-click` - [MediaQuery](../esl-media-query/README.md) to define allowed to track click event media. (Default: `all`)
   

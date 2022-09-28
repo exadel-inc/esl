@@ -1,5 +1,9 @@
 import {sanitize} from '../../esl-utils/dom/sanitize';
-import {ESLImage} from './esl-image';
+
+import type {ESLImage} from './esl-image';
+
+export const EMPTY_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+export const isEmptyImage = (src: string): boolean => src === EMPTY_IMAGE;
 
 /**
  * Describe mods configurations
@@ -22,7 +26,7 @@ export const STRATEGIES: ESLImageStrategyMap = {
   'cover': {
     apply(img, shadowImg): void {
       const src = shadowImg.src;
-      const isEmpty = !src || ESLImage.isEmptyImage(src);
+      const isEmpty = !src || isEmptyImage(src);
       img.style.backgroundImage = isEmpty ? '' : `url("${src}")`;
     },
     clear(img): void {
@@ -32,7 +36,7 @@ export const STRATEGIES: ESLImageStrategyMap = {
   'save-ratio': {
     apply(img, shadowImg): void {
       const src = shadowImg.src;
-      const isEmpty = !src || ESLImage.isEmptyImage(src);
+      const isEmpty = !src || isEmptyImage(src);
       img.style.backgroundImage = isEmpty ? '' : `url("${src}")`;
       if (shadowImg.width === 0) return;
       img.style.paddingTop = isEmpty ? '' : `${(shadowImg.height * 100 / shadowImg.width)}%`;

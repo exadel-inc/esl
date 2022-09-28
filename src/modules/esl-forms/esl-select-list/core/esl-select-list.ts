@@ -1,5 +1,4 @@
-import {attr, boolAttr} from '../../../esl-base-element/core';
-import {bind} from '../../../esl-utils/decorators/bind';
+import {bind, attr, boolAttr} from '../../../esl-utils/decorators';
 import {ARROW_DOWN, ARROW_UP, ENTER, SPACE} from '../../../esl-utils/dom/keys';
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {ESLScrollbar} from '../../../esl-scrollbar/core';

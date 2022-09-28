@@ -1,8 +1,8 @@
 # [ESL](h../../../) Tab & Tab Container
 
-Version: *1.0.0*
+Version: *2.0.0*.
 
-Authors: *Julia Murashko*
+Authors: *Julia Murashko*.
 
 <a name="intro"></a>
 
@@ -18,6 +18,8 @@ ESLToggleable or, usually, ESLPanel.
     - 'center' - scroll behavior is enabled, tab is center-aligned;
     - 'side' - scroll behavior is enabled, tab is side-aligned;
     - empty or unsupported value - scroll behavior is enabled, tab is side-aligned;
+
+NOTE: ESLTabs supports alignments: center (via 'center-alignment' class) and right ('right-alignment').
 
 ### Events
 
