@@ -6,6 +6,7 @@ describe('ESLEventUtils:subscribe tests', () => {
     const handle = jest.fn();
     ESLEventUtils.subscribe($host, {event: 'click'}, handle);
     expect(ESLEventUtils.listeners($host).length).toBe(1);
+    ESLEventUtils.unsubscribe($host);
   });
 
   test('ESLEventUtils.subscribe successfully subscribes listener by event name', () => {
@@ -13,6 +14,7 @@ describe('ESLEventUtils:subscribe tests', () => {
     const handle = jest.fn();
     ESLEventUtils.subscribe($host, 'click', handle);
     expect(ESLEventUtils.listeners($host).length).toBe(1);
+    ESLEventUtils.unsubscribe($host);
   });
 
   test('ESLEventUtils.subscribe successfully subscribes listener by event provider', () => {
@@ -25,6 +27,24 @@ describe('ESLEventUtils:subscribe tests', () => {
     ESLEventUtils.subscribe($host, {event: provider}, handle);
     expect(ESLEventUtils.listeners($host).length).toBe(1);
     expect(provider).toBeCalledWith($host);
+    ESLEventUtils.unsubscribe($host);
+  });
+
+  test('ESLEventListener subscribe successfully by global selector',  () => {
+    const host = {};
+    const handle = jest.fn();
+    ESLEventUtils.subscribe(host, {event: 'click', target: 'body'}, handle);
+    expect(ESLEventUtils.listeners(host).length).toBe(1);
+    ESLEventUtils.unsubscribe(host);
+  });
+
+  test('ESLEventListener subscribe successfully by target instance',  () => {
+    const host = {};
+    const el = document.createElement('div');
+    const handle = jest.fn();
+    ESLEventUtils.subscribe(host, {event: 'click', target: el}, handle);
+    expect(ESLEventUtils.listeners(host).length).toBe(1);
+    ESLEventUtils.unsubscribe(host);
   });
 
   test('ESLEventUtils.subscribe successfully subscribes listeners by string with multiple events', () => {
@@ -34,6 +54,7 @@ describe('ESLEventUtils:subscribe tests', () => {
     expect(ESLEventUtils.listeners($host).length).toBe(2);
     expect(ESLEventUtils.listeners($host, 'keydown').length).toBe(1);
     expect(ESLEventUtils.listeners($host, 'click').length).toBe(1);
+    ESLEventUtils.unsubscribe($host);
   });
 
   test('ESLEventListener observes target events', () => {
@@ -42,5 +63,14 @@ describe('ESLEventUtils:subscribe tests', () => {
     ESLEventUtils.subscribe($host, {event: 'click'}, handle);
     $host.click();
     expect(handle).toBeCalledTimes(1);
+    ESLEventUtils.unsubscribe($host);
+  });
+
+  test('ESLEventListener does not subscribe if no targets',  () => {
+    jest.spyOn(console, 'warn').mockImplementationOnce(() => {});
+    const host = {};
+    const handle = jest.fn();
+    ESLEventUtils.subscribe(host, {event: 'click'}, handle);
+    expect(ESLEventUtils.listeners(host).length).toBe(0);
   });
 });
