@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement} from '../../esl-base-element/core';
-import {bind, ready, attr, boolAttr, memoize} from '../../esl-utils/decorators';
+import {ESLBaseElement, prop} from '../../esl-base-element/core';
+import {ready, attr, boolAttr, memoize, listen} from '../../esl-utils/decorators';
 import {ESLTooltip} from '../../esl-tooltip/core';
 import {promisifyTimeout, repeatSequence} from '../../esl-utils/async/promise';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
@@ -9,8 +9,8 @@ import {scrollIntoView} from '../../esl-utils/dom/scroll';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
-import {ESLFootnotes} from './esl-footnotes';
 
+import type {ESLFootnotes} from './esl-footnotes';
 import type {TooltipActionParams} from '../../esl-tooltip/core/esl-tooltip';
 import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/media-query-base';
 
@@ -21,6 +21,11 @@ export class ESLNote extends ESLBaseElement {
 
   /** Timeout before activating note (to have time to show content with this note) */
   public static readonly activateTimeout = 100;
+
+  /** Event to request acknowledgment from {@link ESLNotes} instances */
+  @prop('esl:footnotes:request') public FOOTNOTE_REQUEST_EVENT: string;
+  /** Event to acknowledge {@link ESLFootnotes} instance about footnote */
+  @prop('esl:footnotes:response') public FOOTNOTE_RESPONSE_EVENT: string;
 
   /** Linked state marker */
   @boolAttr() public linked: boolean;
@@ -93,14 +98,12 @@ export class ESLNote extends ESLBaseElement {
   protected connectedCallback(): void {
     this.init();
     super.connectedCallback();
-    this.bindEvents();
     this._sendResponseToFootnote();
   }
 
   @ready
   protected disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.unbindEvents();
     this._$footnotes?.unlinkNote(this);
     this.restore();
   }
@@ -111,24 +114,9 @@ export class ESLNote extends ESLBaseElement {
       this._$footnotes?.turnOffHighlight(this);
     }
     if (attrName === 'ignore') {
-      this.updateQueryToIgnore();
-      this._onBPChange();
+      memoize.clear(this, 'queryToIgnore');
+      this.$$on(this._onBPChange);
     }
-  }
-
-  protected bindEvents(): void {
-    document.body.addEventListener(`${ESLFootnotes.eventNs}:request`, this._onFootnotesReady);
-    this.addEventListener('click', this._onClick);
-    this.addEventListener('keydown', this._onKeydown);
-    this.addEventListener('mouseenter', this._onMouseEnter);
-    this.addEventListener('mouseleave', this._onMouseLeave);
-  }
-  protected unbindEvents(): void {
-    document.body.removeEventListener(`${ESLFootnotes.eventNs}:request`, this._onFootnotesReady);
-    this.removeEventListener('click', this._onClick);
-    this.removeEventListener('keydown', this._onKeydown);
-    this.removeEventListener('mouseenter', this._onMouseEnter);
-    this.removeEventListener('mouseleave', this._onMouseLeave);
   }
 
   /** Gets attribute value from the closest element with group behavior settings */
@@ -179,19 +167,12 @@ export class ESLNote extends ESLBaseElement {
     this.standalone = !(this.linked && this.allowFootnotes);
   }
 
-  /** Brings up to date ignore query */
-  public updateQueryToIgnore(): void {
-    this.queryToIgnore.removeEventListener(this._onBPChange);
-    memoize.clear(this, 'queryToIgnore');
-    this.queryToIgnore.addEventListener(this._onBPChange);
-  }
-
   /** Initial initialization of the element during the connection to DOM */
   protected init(): void {
     if (!this.html) {
       this.html = this.innerHTML;
     }
-    this.updateQueryToIgnore();
+    memoize.clear(this, 'queryToIgnore');
     this.index = 0;
     this.linked = false;
     this.update();
@@ -240,7 +221,7 @@ export class ESLNote extends ESLBaseElement {
   }
 
   /** Handles `click` event */
-  @bind
+  @listen('click')
   protected _onClick(event: MouseEvent): void {
     if (!this.allowClick) return;
     event.preventDefault();
@@ -249,7 +230,7 @@ export class ESLNote extends ESLBaseElement {
   }
 
   /** Handles `keydown` event */
-  @bind
+  @listen('keydown')
   protected _onKeydown(event: KeyboardEvent): void {
     if (![ENTER, SPACE].includes(event.key)) return;
     event.preventDefault();
@@ -258,7 +239,7 @@ export class ESLNote extends ESLBaseElement {
   }
 
   /** Handles hover `mouseenter` event */
-  @bind
+  @listen('mouseenter')
   protected _onMouseEnter(event: MouseEvent): void {
     if (!this.allowHover) return;
     this.showTooltip({event});
@@ -266,7 +247,7 @@ export class ESLNote extends ESLBaseElement {
   }
 
   /** Handles hover `mouseleave` event */
-  @bind
+  @listen('mouseleave')
   protected _onMouseLeave(event: MouseEvent): void {
     if (!this.allowHover) return;
     this.hideTooltip({event, trackHover: true});
@@ -274,7 +255,10 @@ export class ESLNote extends ESLBaseElement {
   }
 
   /** Actions on breakpoint changing */
-  @bind
+  @listen({
+    event: 'change',
+    target: (el: ESLNote) => el.queryToIgnore
+  })
   protected _onBPChange(): void {
     if (ESLTooltip.open) {
       this.hideTooltip();
@@ -285,7 +269,10 @@ export class ESLNote extends ESLBaseElement {
   }
 
   /** Handles footnotes request event */
-  @bind
+  @listen({
+    event: (el: ESLNote) => el.FOOTNOTE_REQUEST_EVENT,
+    target: document.body
+  })
   protected _onFootnotesReady(e: CustomEvent): void {
     if (this.linked) return;
     this._sendResponseToFootnote();
@@ -293,7 +280,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Sends the response to footnotes */
   protected _sendResponseToFootnote(): void {
-    ESLEventUtils.dispatch(this, `${ESLFootnotes.eventNs}:response`);
+    ESLEventUtils.dispatch(this, this.FOOTNOTE_RESPONSE_EVENT);
   }
 }
 
