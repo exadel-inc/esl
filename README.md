@@ -133,15 +133,13 @@ big set of helpers.
 ## Roadmap
 <a name="roadmap"></a>
 
-- ESL Carousel component (v4.0.0)
-- More helpers and sugar of ESLBaseElement (event listener helpers and decorators) (v4.0.0)
+- ESL Carousel component (v4.1.0)
 - Migration to multi-package structure (v5.0.0)
-- Interactive Documentation and more demo site features
-- Sharable assets from demo site (styles components)
 - Demo pages [UI Playground](https://github.com/exadel-inc/ui-playground) integration
 - Stable version of ESL Footnotes and ESL Popup components
+- Interactive Documentation and more demo site features
+- Sharable assets from demo site (styles components)
 - Extension of esl-form elements (custom form base, helpers, validation and more)
-- Anchor Navigation component
 - More components in the library
 
 <a name="roadmap_end"></a>
