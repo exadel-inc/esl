@@ -6,12 +6,13 @@ Authors: *Julia Murashko*.
 
 <a name="intro"></a>
 
-**ESLTabs** is a container component for tabs trigger group. Uses `ESLTab` as an item. Each individual `ESLTab` can control
+**ESLTabs** is a container component for tabs trigger group. Uses `ESLTab` as an item. Each individual `ESLTab` can
+control
 `ESLToggleable` or, usually, `ESLPanel`.
 
 ### ESLTabs Attributes / Properties
 
-- `container` - inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable
+- `container` - inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable state.
 
 - `scrollable` - scrollable mode. Supported types for different breakpoints ('disabled' by default) :
     - 'disabled' or not defined -  scroll behavior is disabled;
