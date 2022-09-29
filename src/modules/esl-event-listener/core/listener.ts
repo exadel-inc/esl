@@ -67,9 +67,8 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     const target = resolveProperty(this.target, this.host);
     if (isObject(target)) return wrap(target);
     const $host  = '$host' in this.host ? this.host.$host : this.host;
-    if (!($host instanceof HTMLElement)) return [];
-    if (typeof target === 'undefined') return [$host];
     if (typeof target === 'string') return ESLTraversingQuery.all(target, $host);
+    if (typeof target === 'undefined' && $host instanceof HTMLElement) return [$host];
     return [];
   }
 
