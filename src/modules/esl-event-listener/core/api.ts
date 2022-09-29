@@ -66,7 +66,7 @@ export class ESLEventUtils {
 
     const listeners = ESLEventListener.createOrResolve(host, handler, eventDesc as ESLListenerDescriptor);
     const subscribed = listeners.filter((listener) => listener.subscribe());
-    if (!subscribed.length) console.warn('[ESL]: Empty subscription %o for %o', eventDesc, handler);
+    if (!subscribed.length) console.warn('[ESL]: Empty subscription %o', Object.assign({}, eventDesc, {handler}));
     return subscribed;
   }
 
