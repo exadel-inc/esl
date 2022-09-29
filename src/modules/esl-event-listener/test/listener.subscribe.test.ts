@@ -30,7 +30,7 @@ describe('ESLEventUtils:subscribe tests', () => {
     ESLEventUtils.unsubscribe($host);
   });
 
-  test('ESLEventListener subscribe successfully by global selector',  () => {
+  test('ESLEventListener subscribes successfully by global selector',  () => {
     const host = {};
     const handle = jest.fn();
     ESLEventUtils.subscribe(host, {event: 'click', target: 'body'}, handle);
@@ -38,7 +38,7 @@ describe('ESLEventUtils:subscribe tests', () => {
     ESLEventUtils.unsubscribe(host);
   });
 
-  test('ESLEventListener subscribe successfully by target instance',  () => {
+  test('ESLEventListener subscribes successfully by target instance',  () => {
     const host = {};
     const el = document.createElement('div');
     const handle = jest.fn();
