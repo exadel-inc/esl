@@ -198,6 +198,7 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   @listen({
+    auto: false,
     event: 'scroll',
     target: (el: ESLTabs) => el.$scrollableTarget
   })
