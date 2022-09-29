@@ -6,10 +6,8 @@ Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*, *Anastasia Lesun*.
 
 <a name="intro"></a>
 
-ESLPanelGroup is a custom element used as a container for a group of ESLPanels. 
-ESLPanelGroup provides group behavior, such as synchronized content state change.
-
-**Note:** ESLPanelGroup should be registered before ESLPanel.
+**ESLPanelGroup** is a custom element used as a container for a group of `ESLPanel`s. 
+`ESLPanelGroup` provides group behavior, such as synchronized content state change.
 
 ```js
 ESLPanelGroup.register();

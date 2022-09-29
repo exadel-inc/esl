@@ -6,16 +6,16 @@ Authors: *Alexey Stsefanovich (ala'n)*
 
 <a name="intro"></a>
 
-Provides the core for creating custom elements and TS (TypeScript) decorators to simplify components creation.
+Provides the core for creating custom elements and TS (TypeScript) decorators to simplify component creation.
 
 **ESLBaseElement** - base class for custom (tag) element declaration
 
 ### Base Element static API
 - `MyElement.is` - property that defines tag name
-- `MyElement.observedAttributes` - array of attributes to observe
+- `MyElement.observedAttributes` - an array of attributes to observe
 
 - `MyElement.register` - register component inside `customElements` registry
-- `MyElement.registered` - returns promise that will be resolved as soon as the component is registered
+- `MyElement.registered` - returns a promise that will be resolved as soon as the component is registered
 
 ### Base Element API
 Properties:
@@ -30,8 +30,8 @@ Attributes:
 - `$$attr` - check or change element attributes
 - `$$fire` - dispatch event
 
-- `$$on` - subscribe on event manually or subscribe decorated method
-- `$$off` - unsubscribe from event manually or unsubscribe decorated method
+- `$$on` - subscribe to the event manually or subscribe decorated method
+- `$$off` - unsubscribe from the event manually or unsubscribe decorated method
 
 ### Element decorators
 
@@ -40,10 +40,9 @@ Attributes:
  - `@jsonAttr` - to map object property to HTML attribute using JSON format to serialize / deserialize value
 
  - `@listen` - decorate method with `ESLListenerDescriptor` props
-
-Use the `@prop` decorator to override a property
-created via `@attr`, `@boolAttr` or `@jsonAttr` at the parent level
-with non-attribute accessor value.
+ - `@prop` - a decorator to create prototype level value definition.  
+   It also gives an ability to override a property created via `@attr`, `@boolAttr` or `@jsonAttr` at the parent level
+   with non-attribute accessor value.
 
 ### Base Example
 

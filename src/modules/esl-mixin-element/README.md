@@ -6,9 +6,10 @@ Authors: *Alexey Stsefanovich (ala'n)*
 
 <a name="intro"></a>
 
-Provides the core for creating custom attribute elements (mixins) and TS (TypeScript) decorators to simplify components creation.
+**ESLMixinElement** provides the core for creating custom attribute elements (mixins) and TS (TypeScript) decorators to
+simplify component creation.
 
-**ESLMixinElement** - base class to create a mixin element that attaches to the element via a custom attribute
+`ESLMixinElement` - base class to create a mixin element that attaches to the element via a custom attribute
 
 ### Mixin Element static API
 - `MyMixinElement.is` - property that defines connection attribute name
@@ -31,8 +32,8 @@ Attributes:
 - `$$attr` - check or change element attributes
 - `$$fire` - dispatch event
 
-- `$$on` - subscribe on event manually or subscribe decorated method
-- `$$off` - unsubscribe from event manually or unsubscribe decorated method
+- `$$on` - subscribe to the event manually or subscribe decorated method
+- `$$off` - unsubscribe from the event manually or unsubscribe decorated method
 
 ### Element decorators
 
@@ -42,8 +43,7 @@ Attributes:
 
 - `@listen` - decorate method with `ESLListenerDescriptor` props
 
-Use the `@prop` decorator to override a property
-created via `@attr`, `@boolAttr` or `@jsonAttr` at the parent level
+Use the `@prop` decorator to override a property created via `@attr`, `@boolAttr`, or `@jsonAttr` at the parent level
 with non-attribute accessor value.
 
 ### Mixin Element Example
