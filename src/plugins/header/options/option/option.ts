@@ -18,8 +18,8 @@ export class UIPOption extends ESLBaseElement {
   @attr() public attribute: string;
   @boolAttr() public active: boolean;
 
-  static create(optionConfig: OptionConfig): UIPOption {
-    const option = document.createElement('uip-option') as UIPOption;
+  static createEl(optionConfig: OptionConfig): UIPOption {
+    const option = document.createElement(this.is) as UIPOption;
     option.setAttribute('attribute', optionConfig.attribute);
     return option;
   }
@@ -49,6 +49,6 @@ export class UIPOption extends ESLBaseElement {
   }
 
   protected disconnectedCallback() {
-      super.disconnectedCallback();
+    super.disconnectedCallback();
   }
 }

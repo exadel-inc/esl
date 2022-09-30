@@ -45,7 +45,7 @@ export class UIPOptions extends UIPPlugin {
 
   protected render() {
     const options = UIPOptions.UIPOptionsConfig.filter(option => !option.canActivate || option.canActivate(this));
-    const entries: [string, UIPOption][] = options.map(option => [option.attribute, UIPOption.create(option)]);
+    const entries: [string, UIPOption][] = options.map(option => [option.attribute, UIPOption.createEl(option)]);
     this.options = new Map(entries);
     this.options.forEach(option => this.append(option));
   }
