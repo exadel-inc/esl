@@ -1,3 +1,35 @@
+# [4.0.0-beta.19](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.18...v4.0.0-beta.19) (2022-09-30)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** allow to subscribe listener by global selector without host instanceof HTMLElement ([fb17e6b](https://github.com/exadel-inc/esl/commit/fb17e6bb88e4fd054d2426511d12ba755c211760))
+* **esl-tooltip:** keyboard handling fix ([25d7dc6](https://github.com/exadel-inc/esl/commit/25d7dc658339d371b87db44c1fdf86c7be234725))
+
+
+### Code Refactoring
+
+* **esl-scrollbar:** migrate all `esl-scrollbar` listeners to ESLEventListener feature ([b5fd7a5](https://github.com/exadel-inc/esl/commit/b5fd7a54ec711298afdd070083958b9f25988bfa))
+* **esl-tabs:** migrate `esl-tabs` to ESLEventListeners ([f2d6157](https://github.com/exadel-inc/esl/commit/f2d6157bd6ace254c9de57653440875362e15602))
+
+
+### Features
+
+* **esl-footnotes:** `ESLFootnotes` migrated to use ESLEventListener standard ([13d9289](https://github.com/exadel-inc/esl/commit/13d9289ab4070cb01e6887113331641b03c5d21f))
+* **esl-footnotes:** `ESLNotes` migrated to use ESLEventListener standard ([6cd5502](https://github.com/exadel-inc/esl/commit/6cd55021f1287170294a0e166a9b0bce91d0ede9))
+* **esl-select:** `ESLSelect` and `ESLSelectList` migrated to ESLEventListeners ([df80759](https://github.com/exadel-inc/esl/commit/df80759326ad40524274bacc088135f879738184))
+
+
+### BREAKING CHANGES
+
+* **esl-tabs:** listeners extended from `ESLTabs` should now use `@listen` annotation to work correctly
+* **esl-scrollbar:** listeners extended from `ESLScrollbar` should now use `@listen` annotation to work correctly
+* **esl-select:** `_onChange` and `_onReset` methods of `ESLSelectWrapper` decorated via `@listen`
+* **esl-select:** internal handlers of `ESLSelect`, `ESLSelectRender`, `ESLSelectList` now decorated via `@listen`
+* **esl-footnotes:** `_onKeydown`, `_onNoteSubscribe` migrated to `@listen`
+* **esl-footnotes:** `_onClick` removed and replaced to `_onItemClick` (decorated by `@listen`)
+* **esl-footnotes:** `_onFootnotesReady`, `_onBPChange`, `_onMouseLeave`, `_onMouseEnter`, `_onKeydown`, `_onClick` migrated to `@listen`
+
 # [4.0.0-beta.18](https://github.com/exadel-inc/esl/compare/v4.0.0-beta.17...v4.0.0-beta.18) (2022-09-27)
 
 
