@@ -28,7 +28,7 @@ describe('ESLBaseElement: listeners', () => {
       mockHandler.mockReset();
       el.click();
       expect(mockHandler).toBeCalled();
-      expect(mockHandler).lastCalledWith(el, expect.any(Event), expect.any(Object));
+      expect(mockHandler).lastCalledWith(el, expect.any(Event));
     });
 
     test('ESLBaseElement successfully auto unsubscribed', async () => {
