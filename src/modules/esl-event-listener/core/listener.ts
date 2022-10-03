@@ -91,7 +91,10 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     return false;
   }
 
-  /** Returns exact bound handler (used as callback for low-level subscriptions) */
+  /**
+   * Memoized builder for bound and decorated low level subscription.
+   * Implements DOM API {@link EventListenerObject.handleEvent}
+   */
   @memoize()
   public get handleEvent(): EventListener {
     const handlerBound = this.handler.bind(this.host);
