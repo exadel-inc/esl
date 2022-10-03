@@ -18,7 +18,7 @@ containerCls: container markdown-container
 ### Structural changes:
   - Move attribute decorators to the `esl-utils`
   - All ESL modules migrated to `ESLEventListener`s
-  - Event names now defined on prototype level
+  - Event names now defined on a prototype level
 
 ### BREAKING CHANGES
   - `$$fire` no longer add 'esl:' prefix to the fired events
@@ -54,14 +54,15 @@ containerCls: container markdown-container
 
 ### Features:
   - ability to grow/shrink axis of the `Rect` ([1c58a1c](https://github.com/exadel-inc/esl/commit/1c58a1c19b0aa82abf7eb73c40781e9c4a4860ba))
-  - created `SyntheticEventTarget` implementation ([e4f3eb8](https://github.com/exadel-inc/esl/commit/e4f3eb89e0dd8227937d476a8d2090730342de64))
-  - simplify and extend `@prop` decorator ([fd6ede3](https://github.com/exadel-inc/esl/commit/fd6ede34b0a3c7496083cb58aa9b726d4a692085))
-  - create `extractValues` object utility ([8edd9e7](https://github.com/exadel-inc/esl/commit/8edd9e7b564b4ac78a4fc952ee58f76b6a54cf89))
-  - create cumulative imports for esl-utils submodules ([2e9d6ad](https://github.com/exadel-inc/esl/commit/2e9d6ad8f327ede991feef4ebc7c76fdd55726af))
+  - `SyntheticEventTarget` to implement `EventTarget` interface with more listeners control ([e4f3eb8](https://github.com/exadel-inc/esl/commit/e4f3eb89e0dd8227937d476a8d2090730342de64))
+  - simplify and extend `@prop` decorator API ([fd6ede3](https://github.com/exadel-inc/esl/commit/fd6ede34b0a3c7496083cb58aa9b726d4a692085))
   - add `skipOneRender` RAF utility ([ddc3227](https://github.com/exadel-inc/esl/commit/ddc322798e6f8cf447874896786fe6d368bbe5ef))
   - add ability to pass predicate to sequence finder ([dd8c3cb](https://github.com/exadel-inc/esl/commit/dd8c3cbb43ed529330c32459b9787949a0927a01))
+  - add `@decorate` decorator to bind and decorate method of the class
   - `@attr` extended with ability to pass Serializer/Parser ([012eb83](https://github.com/exadel-inc/esl/commit/012eb83ebcbba8315a2766af090239774c21234e))
   - create dom html sanitize method ([004642f](https://github.com/exadel-inc/esl/commit/004642f866ac1b2ed5278084963288d8c2fd17e0))
+  - create `extractValues` object utility ([8edd9e7](https://github.com/exadel-inc/esl/commit/8edd9e7b564b4ac78a4fc952ee58f76b6a54cf89))
+  - create cumulative imports for esl-utils submodules ([2e9d6ad](https://github.com/exadel-inc/esl/commit/2e9d6ad8f327ede991feef4ebc7c76fdd55726af))
 
 ### BREAKING CHANGES
   - `isMouseEvent`, `isTouchEvent` moved outside of `EventUtils`
@@ -77,32 +78,25 @@ containerCls: container markdown-container
   - make attr decorators correctly strict typed
   - `deepMerge` primitive values merging improved, undefined arguments now ignored ([5b7b730](https://github.com/exadel-inc/esl/commit/5b7b73003acd4d29250af12603ced5d58c40aff6))
   - fix `@bind` decorator to save original function enumerable marker ([92c2086](https://github.com/exadel-inc/esl/commit/92c2086df610a5572143463302baf7aeea6174e9))
-  - fix `@decorate` decorator binding ([1cbb070](https://github.com/exadel-inc/esl/commit/1cbb0702cdd97520d82fae614825f21df550fb33))
   - update `@decorate` decorator to allow to save context properly (on instance level) ([0ac1b0c](https://github.com/exadel-inc/esl/commit/0ac1b0cb9c90648ae1e0a18a16a936971c4b4ee9))
 
 ---
 
-## ESL Toggleable
+## ESL Toggleable and ESL Trigger
 
 ### Features:
-  - migrate `esl-togglable` to ESLEventListeners ([7159429](https://github.com/exadel-inc/esl/commit/7159429f7237bea78ab80e1b05420594246ff84d))
+  - migrate `esl-togglable` and `esl-trigger` to ESLEventListeners
   - `esl:show:request` additional data ([a121872](https://github.com/exadel-inc/esl/commit/a121872b6e69fd7fb7a71bdfa9058430e650f423))
   - support of `esl:hide:request` ([8a0928b](https://github.com/exadel-inc/esl/commit/8a0928b2f2bda63c6fbbaf5e9b6453d660091ec1))
-
-## ESL Trigger
-
-### Features:
-  - add support of aria-label ([5c18841](https://github.com/exadel-inc/esl/commit/5c188418720ad4a972caa7450563a29268d8ec97))
-  - add esc key event handler ([3dab6da](https://github.com/exadel-inc/esl/commit/3dab6dad39259f7e920c9a108757271cb58a216d))
-  - add `ignore-esc` attribute ([605b715](https://github.com/exadel-inc/esl/commit/605b715a29ef1a852e24ce5120ca30d394fc19c1))
+  - add support of dynamic `aria-label` for `esl-trigger` ([5c18841](https://github.com/exadel-inc/esl/commit/5c188418720ad4a972caa7450563a29268d8ec97))
+  - add esc key event handler for `esl-trigger` ([3dab6da](https://github.com/exadel-inc/esl/commit/3dab6dad39259f7e920c9a108757271cb58a216d))
+  - add `ignore-esc` attribute for `esl-trigger` ([605b715](https://github.com/exadel-inc/esl/commit/605b715a29ef1a852e24ce5120ca30d394fc19c1))
 
 
 ## ESL Panel and ESL Panel Group
 
 ### Features:
-  - migrate `esl-panel` to ESLEventListeners 
-  - migrate `esl-panel-group` to ESLEventListeners
-  - extend esl-panel-group refresh strategies list with 'open' and 'close' strategy ([ee18c9d](https://github.com/exadel-inc/esl/commit/ee18c9d673361e53ecc3cd84f04d8d5650c79693))
+  - migrate `esl-panel` and `esl-panel-group` to ESLEventListeners
   - add `refresh-strategy` attribute ([#1156](https://github.com/exadel-inc/esl/issues/1156)) ([36027ad](https://github.com/exadel-inc/esl/commit/36027ad2574c0c33df1b6370484448a6889a647a))
   - add ability to control min/max open panels per media condition ([67ca2ba](https://github.com/exadel-inc/esl/commit/67ca2ba16e3fc4ee4300d1c79ca2e5d0da845af7))
 
@@ -118,20 +112,31 @@ containerCls: container markdown-container
 
 ### Bugfixes
   - add `capturedBy` and fix 'after:show' dispatch ([9bdc98c](https://github.com/exadel-inc/esl/commit/9bdc98c98a2926fe42c7cd15007c31a19171027c))
-  - fix esl:before:hide bubbling from uncontrolled toggleables ([9212b6b](https://github.com/exadel-inc/esl/commit/9212b6beacd97d39d0410a464598e9e2e0bdb1c2))
-  - fix animation process capturing by ESLPanel component ([9a5b3a5](https://github.com/exadel-inc/esl/commit/9a5b3a576d5cb4dbd47d113d944932586155c7f6))
+  - fix `esl:before:hide` bubbling from uncontrolled toggleables ([9212b6b](https://github.com/exadel-inc/esl/commit/9212b6beacd97d39d0410a464598e9e2e0bdb1c2))
+  - fix animation process capturing by `ESLPanel` component ([9a5b3a5](https://github.com/exadel-inc/esl/commit/9a5b3a576d5cb4dbd47d113d944932586155c7f6))
   - change `no-animate` API ([dde3500](https://github.com/exadel-inc/esl/commit/dde35009268a92bae92a45f00d11cb29edee98fa))
 
 
 ## ESL Tab and ESLTabs
 
+### Features:
+  - migrate `esl-tab` and `esl-tabs` to ESLEventListeners
+
 ### Bugfixes:
   - fix alignment behavoir ([b5ebd66](https://github.com/exadel-inc/esl/commit/b5ebd668de7b4d1eea7311ae7d734c02abb537cf))
+
+### BREAKING CHANGES
+  - listeners extended from `ESLTab` should now use `@listen` annotation to work correctly
+  - listeners extended from `ESLTabs` should now use `@listen` annotation to work correctly
 
 ## ESL Alert
 
 ### Features:
-- component reworked according ESLToggleable update ([f8a171f](https://github.com/exadel-inc/esl/commit/f8a171f1850efe3eea23dd8de6f372ba5f3cea8e))
+  - `esl-alert` migrated to ESLEventListeners, inner API updates
+
+### BREAKING CHANGES
+  - listeners extended from `ESLAlert` should now use `@listen` annotation to work correctly
+  - `eventNs` no longer supported, event now defined directly on the prototype level
 
 
 ## ESL Popup
@@ -140,21 +145,39 @@ containerCls: container markdown-container
   - add configurable `rootMargin` for the popup activator observer ([5d647d6](https://github.com/exadel-inc/esl/commit/5d647d60673a65e7b27472c1b68a1e174fa40740))
   - add extended `offsetContainer` configuration ([63cbc0a](https://github.com/exadel-inc/esl/commit/63cbc0a996a8578549360dadaa3bb17c53884bfe))
 
+### BREAKING CHANGES
+  - listeners extended from `ESLPopup` should now use `@listen` annotation to work correctly
+
+
 ## ESL Footnotes
 
 ### Features:
+  - migrate `esl-notes` and `esl-footnotes` to ESLEventListeners
   - add configurable `intersectionMargin  for the note tooltip activator observer ([b9b1599](https://github.com/exadel-inc/esl/commit/b9b159942e3534965f43cac94c140d5680308548))
-  
+
+### BREAKING CHANGES
+  - listeners extended from `ESLNote` should now use `@listen` annotation to work correctly
+  - listeners extended from `ESLFootnote` should now use `@listen` annotation to work correctly
+  - `eventNs` no longer supported, event now defined directly on the prototype level
+
 ## ESL Image and ESL Media
 
 ### Bugfixes:
   - fix esl-image to prevent DOM XSS vulnerabilities ([4fd925d](https://github.com/exadel-inc/esl/commit/4fd925df8605994b0f7d345d77a425e0cdc487e8))
   - fix wrong error status on svg images in FF ([cad6b40](https://github.com/exadel-inc/esl/commit/cad6b40ccce01aaea8b1869b2cd7d542939a4fd4))
 
+
 ## ESL Scrollbar
+
+### Features:
+  - migrate `esl-scrollbar` to ESLEventListeners
 
 ### Bugfixes
   - remove unnecessary width ([6e18909](https://github.com/exadel-inc/esl/commit/6e18909c6768c259d76084b463404fe6b29c9af8))
+
+### BREAKING CHANGES
+  - listeners extended from `ESLScrollbar` should now use `@listen` annotation to work correctly
+
 
 ## ESL Select
 
