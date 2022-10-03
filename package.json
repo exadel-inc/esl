@@ -119,7 +119,7 @@
     "less": "^4.1.3",
     "lint-staged": "^13.0.3",
     "lintspaces-cli": "^0.7.1",
-    "postcss": "^8.4.16",
+    "postcss": "^8.4.17",
     "postcss-less": "^6.0.0",
     "prismjs": "^1.29.0",
     "promise-polyfill": "^8.2.3",
