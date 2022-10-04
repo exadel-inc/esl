@@ -47,6 +47,6 @@ Find all elements that describes a query:
 ```
 
 Params: 
-- `query` - query sting
+- `query` - query string
 - `base` - describes a base for relative query.
-- `scope` - define a scope to find global query (`document` by default)
+- `scope` - defines a scope to find global query (`document` by default)
