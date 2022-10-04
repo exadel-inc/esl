@@ -1,5 +1,5 @@
 import {
-  deepCompare,
+  isEqual,
   copy,
   defined,
   copyDefinedKeys,
@@ -21,7 +21,7 @@ import {
 // checking the availability of misc/object utilities
 describe('misc/object: availability', () => {
   test.each([
-    deepCompare,
+    isEqual,
     copy,
     defined,
     copyDefinedKeys,

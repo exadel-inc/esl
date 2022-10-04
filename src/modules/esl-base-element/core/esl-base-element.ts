@@ -1,28 +1,60 @@
 import {setAttr} from '../../esl-utils/dom/attr';
-import {EventUtils} from '../../esl-utils/dom/events';
+import {prop} from '../../esl-utils/decorators';
+import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 
+import type {
+  ESLEventListener,
+  ESLListenerHandler,
+  ESLListenerCriteria,
+  ESLListenerEventMap,
+  ESLListenerDescriptor
+} from '../../esl-utils/dom/events';
+
 /**
- * Base class for ESL custom elements.
- * Allows defining custom element with the optional custom tag name.
+ * Base class for ESL custom elements
+ * Allows defining custom element with the optional custom tag name
  */
 export abstract class ESLBaseElement extends HTMLElement {
   /** Custom element tag name */
   public static is = '';
+
+  /** Event to indicate component significant state change that may affect other components state */
+  @prop('esl:refresh') public REFRESH_EVENT: string;
 
   protected _connected: boolean = false;
 
   protected connectedCallback(): void {
     this._connected = true;
     this.classList.add((this.constructor as typeof ESLBaseElement).is);
+
+    ESLEventUtils.descriptors(this).forEach((desc) => ESLEventUtils.subscribe(this, desc));
   }
   protected disconnectedCallback(): void {
     this._connected = false;
+
+    ESLEventUtils.unsubscribe(this);
   }
 
   /** Check that the element is connected and `connectedCallback` has been executed */
   public get connected(): boolean {
     return this._connected;
+  }
+
+  /** Subscribes `handler` method marked with `@listen` decorator */
+  public $$on(handler: ESLListenerHandler): ESLEventListener[];
+  /** Subscribes `handler` function by the passed DOM event descriptor {@link ESLListenerDescriptor} or event name */
+  public $$on<EType extends keyof ESLListenerEventMap>(
+    event: EType | ESLListenerDescriptor<EType>,
+    handler: ESLListenerHandler<ESLListenerEventMap[EType]>
+  ): ESLEventListener[];
+  public $$on(event: any, handler?: any): ESLEventListener[] {
+    return ESLEventUtils.subscribe(this, event, handler);
+  }
+
+  /** Unsubscribes event listener */
+  public $$off(...condition: ESLListenerCriteria[]): ESLEventListener[] {
+    return ESLEventUtils.unsubscribe(this, ...condition);
   }
 
   /**
@@ -52,12 +84,11 @@ export abstract class ESLBaseElement extends HTMLElement {
 
   /**
    * Dispatches component custom event.
-   * Uses 'esl:' prefix for event name, overridable to customize event namespaces.
    * @param eventName - event name
    * @param eventInit - custom event init. See {@link CustomEventInit}
    */
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
-    return EventUtils.dispatch(this, 'esl:' + eventName, eventInit);
+    return ESLEventUtils.dispatch(this, eventName, eventInit);
   }
 
   /**
@@ -82,4 +113,13 @@ export abstract class ESLBaseElement extends HTMLElement {
   public static get registered(): Promise<CustomElementConstructor> {
     return customElements.whenDefined(this.is);
   }
+
+  /** Creates an instance of the current custom element */
+  public static create<T extends typeof ESLBaseElement>(this: T): InstanceType<T>;
+  /** General signature of {@link create} to allow simplified overrides of the method */
+  public static create(this: typeof ESLBaseElement): ESLBaseElement;
+  public static create<T extends typeof ESLBaseElement>(this: T): InstanceType<T> {
+    return document.createElement(this.is) as InstanceType<T>;
+  }
+
 }

@@ -133,15 +133,13 @@ big set of helpers.
 ## Roadmap
 <a name="roadmap"></a>
 
-- ESL Carousel component (v4.0.0)
-- More helpers and sugar of ESLBaseElement (event listener helpers and decorators) (v4.0.0)
+- ESL Carousel component (v4.1.0)
 - Migration to multi-package structure (v5.0.0)
-- Interactive Documentation and more demo site features
-- Sharable assets from demo site (styles components)
 - Demo pages [UI Playground](https://github.com/exadel-inc/ui-playground) integration
 - Stable version of ESL Footnotes and ESL Popup components
+- Interactive Documentation and more demo site features
+- Sharable assets from demo site (styles components)
 - Extension of esl-form elements (custom form base, helpers, validation and more)
-- Anchor Navigation component
 - More components in the library
 
 <a name="roadmap_end"></a>
@@ -168,34 +166,40 @@ you can find useful information about the project processes and agreements here:
 People who architect, maintain, and keep the idea of the ESL
 
 <table><tbody><tr>
-<td align="center" valign="top" width="20%">
+<td align="center" valign="top" width="16.6%">
     <a href="https://github.com/ala-n">
         <img src="https://github.com/ala-n.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Alexey Stsefanovich
     </a>
 </td>
-<td align="center" valign="top" width="20%">
+<td align="center" valign="top" width="16.6%">
     <a href="https://github.com/julia-murashko">
         <img src="https://github.com/julia-murashko.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Julia Murashko
     </a>
 </td>
-<td align="center" valign="top" width="20%">
+<td align="center" valign="top" width="16.6%">
     <a href="https://github.com/yadamskaya">
         <img src="https://github.com/yadamskaya.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Yuliya Adamskaya
     </a>
 </td>
-<td align="center" valign="top" width="20%">
+<td align="center" valign="top" width="16.6%">
     <a href="https://github.com/dshovchko">
         <img src="https://github.com/dshovchko.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Dmytro Shovchko
     </a>
 </td>
-<td align="center" valign="top" width="20%">
+<td align="center" valign="top" width="16.6%">
     <a href="https://github.com/abarmina">
         <img src="https://github.com/abarmina.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Anna Barmina
+    </a>
+</td>
+<td align="center" valign="top" width="16.6%">
+    <a href="https://github.com/NastaLeo">
+        <img src="https://github.com/NastaLeo.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
+        Anastasiya Lesun
     </a>
 </td>
 </tr></tbody></table>
@@ -209,13 +213,6 @@ People who are actively contributing to the ESL
     <a href="https://github.com/Anna-MariiaPetryk">
         <img src="https://github.com/Anna-MariiaPetryk.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Anna-Mariia Petryk
-    </a><br/>
-    Developer
-</td>
-<td align="center" valign="top" width="20%">
-    <a href="https://github.com/NastaLeo">
-        <img src="https://github.com/NastaLeo.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
-        Anastasiya Lesun
     </a><br/>
     Developer
 </td>
@@ -237,6 +234,13 @@ People who are actively contributing to the ESL
     <a href="https://github.com/YanaBr">
         <img src="https://github.com/YanaBr.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
         Yana Bernatskaya
+    </a><br/>
+    Developer
+</td>
+<td align="center" valign="top" width="20%">
+    <a href="https://github.com/Natalie-Smirnova">
+        <img src="https://github.com/Natalie-Smirnova.png?s=75" width="75" height="75" style="min-width: 75px"><br/>
+        Natalie Smirnova
     </a><br/>
     Developer
 </td>

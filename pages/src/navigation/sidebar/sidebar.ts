@@ -1,13 +1,10 @@
-import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
-import {bind} from '../../../../src/modules/esl-utils/decorators/bind';
-import {ready} from '../../../../src/modules/esl-utils/decorators/ready';
-import {attr} from '../../../../src/modules/esl-base-element/decorators/attr';
+import {boolAttr, listen, prop, ready} from '../../../../src/modules/esl-utils/decorators';
 import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
 import {ESLMediaQuery} from '../../../../src/modules/esl-media-query/core/esl-media-query';
 
-import type {ToggleableActionParams} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
+import type {ESLToggleableActionParams} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
 
-interface SidebarActionParams extends ToggleableActionParams {
+interface SidebarActionParams extends ESLToggleableActionParams {
   /** Change state without animation */
   immediate: boolean;
 }
@@ -21,7 +18,7 @@ export class ESLDemoSidebar extends ESLToggleable {
   @prop() public submenus: string = '.sidebar-nav-secondary';
   @prop() public activeMenuAttr: string = 'data-open';
 
-  @attr({name: 'animation'}) protected _animation: boolean;
+  @boolAttr({name: 'animation'}) protected _animation: boolean;
 
   public get $submenus(): ESLToggleable[] {
     return Array.from(this.querySelectorAll(this.submenus));
@@ -30,11 +27,6 @@ export class ESLDemoSidebar extends ESLToggleable {
   @ready
   protected connectedCallback(): void {
     super.connectedCallback();
-    ESLMediaQuery.for('@+MD').addListener(this.onBreakpointChange);
-  }
-  protected disconnectedCallback(): void {
-    super.disconnectedCallback();
-    ESLMediaQuery.for('@+MD').removeListener(this.onBreakpointChange);
   }
 
   protected storeState(): void {
@@ -51,10 +43,10 @@ export class ESLDemoSidebar extends ESLToggleable {
     this.$submenus.forEach((menu) => menu.hide({activator: this}));
   }
 
-  public expandActive(noCollapse: boolean = false): void {
+  public expandActive(noAnimate: boolean = false): void {
     this.$submenus
       .filter((menu) => menu.hasAttribute('data-open'))
-      .forEach((menu) => menu.show({noCollapse, activator: this}));
+      .forEach((menu) => menu.show({noAnimate, activator: this}));
   }
 
   protected updateA11y(): void {
@@ -80,14 +72,16 @@ export class ESLDemoSidebar extends ESLToggleable {
     }
   }
 
-  @bind
-  protected onBreakpointChange(): void {
-    const isDesktop = ESLMediaQuery.for('@+MD').matches;
+  @listen({
+    event: 'change',
+    target: ESLMediaQuery.for('@+MD')
+  })
+  protected onBreakpointChange({matches: isDesktop}: MediaQueryListEvent): void {
     const isStoredOpen = !localStorage.getItem('sidebar-collapsed');
     this.toggle(isDesktop && isStoredOpen, {force: true, initiator: 'bpchange', immediate: !isDesktop});
   }
 
-  @bind
+  @listen({inherit: true})
   protected _onOutsideAction(e: Event): void {
     if (ESLMediaQuery.for('@+MD').matches) return;
     super._onOutsideAction(e);

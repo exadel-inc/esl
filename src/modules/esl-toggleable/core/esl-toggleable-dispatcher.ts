@@ -1,6 +1,5 @@
-import {ESLBaseElement} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {EventUtils} from '../../esl-utils/dom/events';
+import {ESLBaseElement, listen} from '../../esl-base-element/core';
+import {getCompositeTarget} from '../../esl-utils/dom/events';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLToggleable} from './esl-toggleable';
 
@@ -26,41 +25,11 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
     root.insertAdjacentElement('afterbegin', document.createElement(tagName));
   }
 
-  protected _root: HTMLElement | null;
   protected _popups: Map<string, ESLToggleable> = new Map<string, ESLToggleable>();
-
-  protected connectedCallback(): void {
-    super.connectedCallback();
-    this.root = this.parentElement;
-  }
-  protected disconnectedCallback(): void {
-    super.disconnectedCallback();
-    this.root = null;
-  }
-
-  protected bindEvents(): void {
-    if (!this.root) return;
-    this.root.addEventListener('esl:before:show', this._onBeforeShow);
-    this.root.addEventListener('esl:show', this._onShow);
-    this.root.addEventListener('esl:hide', this._onHide);
-    this.root.addEventListener('esl:change:group', this._onChangeGroup);
-  }
-  protected unbindEvents(): void {
-    if (!this.root) return;
-    this.root.removeEventListener('esl:before:show', this._onBeforeShow);
-    this.root.removeEventListener('esl:show', this._onShow);
-    this.root.removeEventListener('esl:hide', this._onHide);
-    this.root.removeEventListener('esl:change:group', this._onChangeGroup);
-  }
 
   /** Observed element */
   public get root(): HTMLElement | null {
-    return this._root;
-  }
-  public set root(root: HTMLElement | null) {
-    this.unbindEvents();
-    this._root = root;
-    this.bindEvents();
+    return this.parentElement;
   }
 
   /** Guard-condition for targets */
@@ -69,7 +38,7 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
     return !!target.groupName && target.groupName !== 'none';
   }
 
-  /** Hide active element in group */
+  /** Hides active element in group */
   public hideActive(groupName: string, activator?: HTMLElement): void {
     const active = this.getActive(groupName);
     if (!active || active === activator) return;
@@ -80,54 +49,67 @@ export class ESLToggleableDispatcher extends ESLBaseElement {
     });
   }
 
-  /** Set active element in group */
+  /** Sets active element in group */
   public setActive(groupName: string, popup: ESLToggleable): void {
     if (!groupName) return;
     this.hideActive(groupName, popup);
     this._popups.set(groupName, popup);
   }
 
-  /** Get active element in group or undefined if group doesn't exist */
+  /** Gets active element in group or undefined if group doesn't exist */
   public getActive(groupName: string): ESLToggleable | undefined {
     return this._popups.get(groupName);
   }
 
-  /** Delete element from the group if passed element is currently active */
+  /** Deletes element from the group if passed element is currently active */
   public deleteActive(groupName: string, popup: ESLToggleable): void {
     if (this.getActive(groupName) !== popup) return;
     this._popups.delete(groupName);
   }
 
-  /** Hide active element before e.target will be shown */
-  @bind
+  /** Hides active element before e.target will be shown */
+  @listen({
+    event: ESLToggleable.prototype.BEFORE_SHOW_EVENT,
+    target: (host: ESLToggleableDispatcher) => host.root
+  })
   protected _onBeforeShow(e: CustomEvent): void {
-    const target = EventUtils.source(e);
+    const target = getCompositeTarget(e);
     if (!this.isAcceptable(target)) return;
+
     this.hideActive(target.groupName, target);
   }
 
-  /** Update active element after a new element is shown */
-  @bind
+  /** Updates active element after a new element is shown */
+  @listen({
+    event: ESLToggleable.prototype.SHOW_EVENT,
+    target: (host: ESLToggleableDispatcher) => host.root
+  })
   protected _onShow(e: CustomEvent): void {
-    const target = EventUtils.source(e);
+    const target = getCompositeTarget(e);
     if (!this.isAcceptable(target)) return;
 
     this.setActive(target.groupName, target);
   }
 
-  /** Update group state after active element is hidden */
-  @bind
+  /** Updates group state after active element is hidden */
+  @listen({
+    event: ESLToggleable.prototype.HIDE_EVENT,
+    target: (host: ESLToggleableDispatcher) => host.root
+  })
   protected _onHide(e: CustomEvent): void {
-    const target = EventUtils.source(e);
+    const target = getCompositeTarget(e);
     if (!this.isAcceptable(target)) return;
 
     this.deleteActive(target.groupName, target);
   }
 
-  /** Update active elements */
-  @bind
+  /** Updates active elements */
+  @listen({
+    event: ESLToggleable.prototype.GROUP_CHANGED_EVENT,
+    target: (host: ESLToggleableDispatcher) => host.root
+  })
   protected _onChangeGroup(e: CustomEvent): void {
-    const target = EventUtils.source(e);
+    const target = getCompositeTarget(e);
     if (!this.isAcceptable(target)) return;
 
     const {oldGroupName, newGroupName} = e.detail;

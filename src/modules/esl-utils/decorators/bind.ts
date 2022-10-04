@@ -1,47 +1,33 @@
-const BINDINGS_STORE_KEY = '__fnBindings__';
+import {getPropertyDescriptor} from '../misc/object/utils';
+
 /** Decorator "bind" allows to bind prototype method context to class instance */
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function bind<T extends Function>(target: object,
-                                         propertyKey: string,
-                                         descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> {
+export function bind<Fn extends Function>(target: object,
+                                          propertyKey: string,
+                                          descriptor: TypedPropertyDescriptor<Fn>): TypedPropertyDescriptor<Fn> {
   // Validation check
   if (!descriptor || (typeof descriptor.value !== 'function')) {
     throw new TypeError('Only class methods can be decorated via @bind');
   }
   // Original function
-  const fn = descriptor.value;
+  const originalFn = descriptor.value;
 
-  return {
+  return descriptor = {
     enumerable: descriptor.enumerable,
-    configurable: descriptor.configurable,
+    configurable: true,
 
-    get(): T {
-      // Accessing via prototype returns original function
-      // If the constructor property is in the context then it's not an instance
-      if (!this || this === target || Object.hasOwnProperty.call(this, 'constructor')) {
-        return fn;
-      }
-
-      // Bounded functions store
-      let bindings = this[BINDINGS_STORE_KEY];
-      if (!bindings) {
-        bindings = this[BINDINGS_STORE_KEY] = new WeakMap<T, T>();
-      }
-
-      // Store binding if it does not exist
-      if (!bindings.has(fn)) {
-        bindings.set(fn, fn.bind(this));
-      }
-
-      // Return binding
-      return bindings.get(fn);
+    get: function getBound(): Fn {
+      const proto = Object.getPrototypeOf(this);
+      const desc = getPropertyDescriptor(proto, propertyKey);
+      const isProtoCall = !desc || desc.get !== getBound;
+      return isProtoCall ? originalFn : (this[propertyKey] = originalFn.bind(this));
     },
-    set(value: T): void {
+    set(value: Fn): void {
       Object.defineProperty(this, propertyKey, {
+        value,
         writable: true,
-        enumerable: false,
         configurable: true,
-        value
+        enumerable: descriptor.enumerable
       });
     }
   };

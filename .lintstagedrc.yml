@@ -1,6 +1,6 @@
 "*.ts":
   - "eslint --max-warnings 3"
-  - "jest --silent --noStackTrace --bail --findRelatedTests"
+  - "jest --silent --noStackTrace --bail --passWithNoTests --findRelatedTests"
 "*.less":
   - "stylelint"
   - "lintspaces -n -t -d spaces"
@@ -8,4 +8,3 @@
   - "lintspaces -n -t -d spaces"
 "*.njk":
   - "lintspaces -n -t -d spaces"
-  

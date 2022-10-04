@@ -116,9 +116,6 @@ rules:
   # Sets preference level for triple slash directives versus ES6-style import declarations
   '@typescript-eslint/triple-slash-reference': warn
 
-  # Warns for any two overloads that could be unified into one by using a union or an optional/rest parameter
-  '@typescript-eslint/unified-signatures': warn
-
   # Warns if a type assertion does not change the type of an expression
   '@typescript-eslint/no-unnecessary-type-assertion': warn
 
@@ -127,6 +124,10 @@ rules:
 
   # Warns if missed return type on functions or class methods
   '@typescript-eslint/explicit-function-return-type': warn
+
+  # Ignores if two overloads could be unified into one by using a union or an optional/rest parameter
+  # Because of the possibility to separate TSDocs between different function/method overloads
+  '@typescript-eslint/unified-signatures': off
 
   # Allows the delete operator with computed key expressions
   '@typescript-eslint/no-dynamic-delete': off
@@ -263,3 +264,8 @@ overrides:
       '@typescript-eslint/no-namespace': off
       # Temporary of as false positive
       '@typescript-eslint/no-unnecessary-type-arguments': off
+
+  - files:
+    - '**/polyfills/**/*.ts'
+    rules:
+      'no-new-wrappers': off

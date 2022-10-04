@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl",
-  "version": "3.14.3",
+  "version": "4.0.0-beta.19",
   "private": false,
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
@@ -53,11 +53,11 @@
     "build:less:cpy": "copyfiles \"src/**/*.less\" \".\" --up 1 --all",
     "build:less:css": "foreach -x \"lessc #{path} #{dir}/#{name}.css\" -i \"**/*.mixin.less\" -g \"modules/{*,*/*,{draft,esl-utils,esl-forms}/*/*}.less\"",
     "build:docs": "copyfiles \"src/**/*.md\" \".\" --up 1 --all",
-    "clean-pages": "rimraf pages/dist/**",
-    "minify:css": "cleancss -o pages/dist/bundles/localdev.css pages/dist/bundles/localdev.css",
+    "clean-pages": "rimraf \"pages/dist/**\"",
+    "minify:css": "cleancss -o \"pages/dist/bundles/localdev.css\" \"pages/dist/bundles/localdev.css\"",
     "build-pages": "npm run clean-pages && concurrently \"npm run build-pages:ts\" \"npm run build-pages:less && npm run minify:css\" && npm run build-pages:eleventy",
     "build-pages:ts": "cd pages && webpack --mode=production",
-    "build-pages:less": "lessc pages/src/localdev.less pages/dist/bundles/localdev.css --source-map=pages/dist/bundles/localdev.css.map",
+    "build-pages:less": "lessc \"pages/src/localdev.less\" \"pages/dist/bundles/localdev.css\" --source-map=pages/dist/bundles/localdev.css.map",
     "build-pages:eleventy": "cd pages && npx @11ty/eleventy -- --env=production",
     "build-pages:analyzer": "cd pages && webpack --mode=production --profile --json ../.report/stats.json && webpack-bundle-analyzer ../.report/stats.json ../pages/dist/bundles -s gzip -m static -r ../.report/stats.html",
     "watch:ts": "cd pages && webpack --watch",
@@ -67,9 +67,9 @@
     "test:unit": "jest --silent --noStackTrace",
     "test:report": "jest --coverage",
     "lint": "concurrently \"npm run lint:js\" \"npm run lint:css\" \"npm run lint:spaces\" && node build/catlog.js \"Linting passed\"",
-    "lint:js": "eslint src/**/*.ts pages/src/**/*.ts --max-warnings 3",
-    "lint:css": "stylelint src/**/*.less pages/src/**/*.less",
-    "lint:spaces": "lintspaces ./pages/{src,views,controller}/**/*.{html,less,json} ./src/**/*.{less} -n -t -d spaces",
+    "lint:js": "eslint \"src/**/*.ts\" \"pages/src/**/*.ts\" --max-warnings 3",
+    "lint:css": "stylelint \"src/**/*.less\" \"pages/src/**/*.less\"",
+    "lint:spaces": "lintspaces \"./pages/{src,views,controller}/**/*.{html,njk,less,json}\" \"./src/**/*.{less}\" -n -t -d spaces",
     "prepare": "husky install && npm run build",
     "preversion": "npm test"
   },
@@ -94,10 +94,9 @@
     "@semantic-release/release-notes-generator": "^10.0.3",
     "@types/jest": "^29.1.1",
     "@types/smoothscroll-polyfill": "^0.3.1",
-    "@typescript-eslint/eslint-plugin": "^5.38.1",
-    "@typescript-eslint/parser": "^5.38.1",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
     "@webcomponents/custom-elements": "1.5.0",
-    "@webcomponents/webcomponents-platform": "1.0.1",
     "browser-sync": "^2.27.10",
     "chokidar-cli": "^3.0.0",
     "clean-css-cli": "^5.6.1",
@@ -159,6 +158,10 @@
     {
       "name": "abarmina",
       "email": "abarmina@exadel.com"
+    },
+    {
+      "name": "alesun",
+      "email": "alesun@exadel.com"
     }
   ],
   "maintainers": [
@@ -181,6 +184,10 @@
     {
       "name": "abarmina",
       "email": "abarmina@exadel.com"
+    },
+    {
+      "name": "alesun",
+      "email": "alesun@exadel.com"
     }
   ]
 }

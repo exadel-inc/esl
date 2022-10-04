@@ -1,12 +1,12 @@
 # [ESL](../../../) Image
 
-Version: *1.2.1*
+Version: *1.3.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*
 
 <a name="intro"></a>
 
-ESLImage - a custom element, that provides flexible ways to include images on web pages. 
+**ESLImage** - a custom element, that provides flexible ways to include images on web pages. 
 Was originally developed as an alternative to `<picture>` element, but with more features inside.
 
 --- 
@@ -63,7 +63,7 @@ In case `alt` is not provided then an empty value is used as a fallback.
 
 - **container-class-state** (optional) - image state in which the container will be marked with `container-class` (can be 'ready', 'loaded' or 'error')
 
-- **container-class-target** (optional) - [TraversingQuery](../esl-traversing-query/README.md) to find the target to add `container-class` to ('::parent' by default).
+- **container-class-target** (optional) - [ESLTraversingQuery](../esl-traversing-query/README.md) to find the target to add `container-class` to ('::parent' by default).
 
 NOTE: ESL Image supports `title` attribute like any HTML element, no additional reflection for that attribute is needed - it will work correctly according to HTML5.* REC
 
