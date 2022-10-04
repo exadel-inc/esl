@@ -18,7 +18,7 @@ containerCls: container markdown-container
 ### Structural changes:
   - Attribute decorators moved to the `esl-utils`
   - All ESL modules migrated to `ESLEventListener`s
-  - Event names now defined on a prototype level
+  - Event names are now defined on the prototype level
 
 ### BREAKING CHANGES
   - `$$fire` no longer adds 'esl:' prefix to the fired events
