@@ -28,12 +28,12 @@ Attributes:
 - `disconnectedCallback` - called when the element is disconnected from the DOM
 - `attributeChangeCallback` - called when the observable attribute is changed
 
-- `$$cls` - check or change element CSS classes (uses CSSClassUtils)
+- `$$cls` - checks or changes element CSS classes (uses CSSClassUtils)
 - `$$attr` - checks or changes element attributes
 - `$$fire` - dispatches event
 
-- `$$on` - subscribes to the event manually or subscribe decorated method
-- `$$off` - unsubscribes from the event manually or unsubscribe decorated method
+- `$$on` - subscribes to the event manually or subscribes decorated method
+- `$$off` - unsubscribes from the event manually or unsubscribes decorated method
 
 ### Element decorators
 
