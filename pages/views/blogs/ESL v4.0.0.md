@@ -16,12 +16,12 @@ containerCls: container markdown-container
     - `ESLBaseElement.create` shortcut to create current custom element
 
 ### Structural changes:
-  - Move attribute decorators to the `esl-utils`
+  - Attribute decorators moved to the `esl-utils`
   - All ESL modules migrated to `ESLEventListener`s
   - Event names now defined on a prototype level
 
 ### BREAKING CHANGES
-  - `$$fire` no longer add 'esl:' prefix to the fired events
+  - `$$fire` no longer adds 'esl:' prefix to the fired events
 
 ---
 
@@ -33,10 +33,10 @@ containerCls: container markdown-container
 
 ### BREAKING CHANGES
   - `ESLMediaRuleList.parseTuple` arguments order changed
-  - `ESLMediaRule` no longer supports default marker, now "default" is equal "all" query
+  - `ESLMediaRule` no longer supports default marker, now "default" is equal to "all" query
   - `ESLMediaRuleList` observation callback signature changed, now it should be `EventListener`
   - `ESLMediaRuleList.prototype.default` removed as no longer default rules
-  - `ESLMediaRuleList` no longer fire events on rule change, now it's based on active valuer change
+  - `ESLMediaRuleList` no longer fires events on rule change, now it's based on active value change
   - `ESLMediaRuleList` now uses merging of all active rules to define result value, however you were still able to get the last active rule value
   - `ESLMediaRuleList.prototype.active` now returns an array of active rules_
 
@@ -67,12 +67,12 @@ containerCls: container markdown-container
 ### BREAKING CHANGES
   - `isMouseEvent`, `isTouchEvent` moved outside of `EventUtils`
   - `normalizeTouchPoint` renamed to `touchPoint` and moved outside of `EventUtils`
-  - `normalizeCoordinates` removed `getOffsetPoint` introduced instead to be used in combination with `getTouchPoint`
-  - `@prop` signature changed `prop(value?: any, prototypeConfig: OverrideDecoratorConfig = {})`
-  - `ScrollUtils.lock` no longer accessible use `lockScroll(document.documentElement, {strategy: '...'})`
-  - `ScrollUtils.unlock` no longer accessible use `unlockScroll(document.documentElement, {strategy: '...'})`
-  - `ScrollUtils.lockRequest` no longer accessible use `lockScroll(document.documentElement, {strategy: '...', initiatior})`
-  - `ScrollUtils.unlockRequest` no longer accessible use `unlockScroll(document.documentElement, {strategy: '...', initiatior})`
+  - `normalizeCoordinates` removed. Use `getOffsetPoint` in combination with `getTouchPoint` instead
+  - `@prop` signature changed `prop(value?: any, prototypeConfig: OverrideDecoratorConfig = {})` instead
+  - `ScrollUtils.lock` no longer accessible. Use `lockScroll(document.documentElement, {strategy: '...'})` instead
+  - `ScrollUtils.unlock` no longer accessible. Use `unlockScroll(document.documentElement, {strategy: '...'})` instead
+  - `ScrollUtils.lockRequest` no longer accessible. Use `lockScroll(document.documentElement, {strategy: '...', initiatior})` instead
+  - `ScrollUtils.unlockRequest` no longer accessible. Use `unlockScroll(document.documentElement, {strategy: '...', initiatior})` instead
 
 ### Bugfixes
   - make attr decorators correctly strict typed
@@ -104,10 +104,10 @@ containerCls: container markdown-container
   - `ESLPanelGroup.noCollapse` (with related attribute) renamed to `ESLPanelGroup.noAnimate` (`no-animate` attribute)
   - `ESLPanelGroup.shouldCollapse` renamed to `ESLPanelGroup.shouldAnimate`
   - `PanelActionParams.noCollapse` renamed to `PanelActionParams.noAnimate`
-  - `ESLPanelGroup` `view` attribute no longer supported
+  - `ESLPanelGroup` `view` attribute is no longer supported
   - `open` mode of `ESLPanelGroup` is no longer supported, it should be replaced with a `min-open-items="all"`
-  - `accordion-group="single"` attribute of `ESLPanelGroup` no longer supported, replaced with `max-open-items="1"`
-  - `accordion-group="single"` attribute of `ESLPanelGroup` no longer supported, replaced with `max-open-items="all"`
+  - `accordion-group="single"` attribute of `ESLPanelGroup` is no longer supported, replaced with `max-open-items="1"`
+  - `accordion-group="single"` attribute of `ESLPanelGroup` is no longer supported, replaced with `max-open-items="all"`
   - components inherited from `ESLPanelGroup` should use `@listen({inherit: true})` for proper subscription
 
 ### Bugfixes
@@ -120,14 +120,14 @@ containerCls: container markdown-container
 ## ESL Tab and ESLTabs
 
 ### Features:
-  - migrate `esl-tab` and `esl-tabs` to ESLEventListeners
+  - `esl-tab` and `esl-tabs` migrated to ESLEventListeners
 
 ### Bugfixes:
   - fix alignment behavoir ([b5ebd66](https://github.com/exadel-inc/esl/commit/b5ebd668de7b4d1eea7311ae7d734c02abb537cf))
 
 ### BREAKING CHANGES
-  - listeners extended from `ESLTab` should now use `@listen` annotation to work correctly
-  - listeners extended from `ESLTabs` should now use `@listen` annotation to work correctly
+  - Listeners extended from `ESLTab` should now use `@listen` annotation to work correctly
+  - Listeners extended from `ESLTabs` should now use `@listen` annotation to work correctly
 
 ## ESL Alert
 
@@ -135,8 +135,8 @@ containerCls: container markdown-container
   - `esl-alert` migrated to ESLEventListeners, inner API updates
 
 ### BREAKING CHANGES
-  - listeners extended from `ESLAlert` should now use `@listen` annotation to work correctly
-  - `eventNs` no longer supported, event now defined directly on the prototype level
+  - Listeners extended from `ESLAlert` should now use `@listen` annotation to work correctly
+  - `eventNs` is no longer supported, event is now defined directly on the prototype level
 
 
 ## ESL Popup
@@ -146,19 +146,19 @@ containerCls: container markdown-container
   - add extended `offsetContainer` configuration ([63cbc0a](https://github.com/exadel-inc/esl/commit/63cbc0a996a8578549360dadaa3bb17c53884bfe))
 
 ### BREAKING CHANGES
-  - listeners extended from `ESLPopup` should now use `@listen` annotation to work correctly
+  - Listeners extended from `ESLPopup` should now use `@listen` annotation to work correctly
 
 
 ## ESL Footnotes
 
 ### Features:
   - migrate `esl-notes` and `esl-footnotes` to ESLEventListeners
-  - add configurable `intersectionMargin  for the note tooltip activator observer ([b9b1599](https://github.com/exadel-inc/esl/commit/b9b159942e3534965f43cac94c140d5680308548))
+  - add configurable `intersectionMargin`  for the note tooltip activator observer ([b9b1599](https://github.com/exadel-inc/esl/commit/b9b159942e3534965f43cac94c140d5680308548))
 
 ### BREAKING CHANGES
-  - listeners extended from `ESLNote` should now use `@listen` annotation to work correctly
-  - listeners extended from `ESLFootnote` should now use `@listen` annotation to work correctly
-  - `eventNs` no longer supported, event now defined directly on the prototype level
+  - Listeners extended from `ESLNote` should now use `@listen` annotation to work correctly
+  - Listeners extended from `ESLFootnote` should now use `@listen` annotation to work correctly
+  - `eventNs` is no longer supported, event is now defined directly on the prototype level
 
 ## ESL Image and ESL Media
 
@@ -176,7 +176,7 @@ containerCls: container markdown-container
   - remove unnecessary width ([6e18909](https://github.com/exadel-inc/esl/commit/6e18909c6768c259d76084b463404fe6b29c9af8))
 
 ### BREAKING CHANGES
-  - listeners extended from `ESLScrollbar` should now use `@listen` annotation to work correctly
+  - Listeners extended from `ESLScrollbar` should now use `@listen` annotation to work correctly
 
 
 ## ESL Select
