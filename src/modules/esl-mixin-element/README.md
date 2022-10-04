@@ -30,10 +30,10 @@ Attributes:
 
 - `$$cls` - check or change element CSS classes (uses CSSClassUtils)
 - `$$attr` - checks or changes element attributes
-- `$$fire` - dispatch event
+- `$$fire` - dispatches event
 
-- `$$on` - subscribe to the event manually or subscribe decorated method
-- `$$off` - unsubscribe from the event manually or unsubscribe decorated method
+- `$$on` - subscribes to the event manually or subscribe decorated method
+- `$$off` - unsubscribes from the event manually or unsubscribe decorated method
 
 ### Element decorators
 
