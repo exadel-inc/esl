@@ -27,11 +27,11 @@ Attributes:
 - `attributeChangeCallback` - called when the observable attribute is changed
 
 - `$$cls` - check or change element CSS classes (uses CSSClassUtils) 
-- `$$attr` - check or change element attributes
-- `$$fire` - dispatch event
+- `$$attr` - checks or change element attributes
+- `$$fire` - dispatches event
 
-- `$$on` - subscribe to the event manually or subscribe decorated method
-- `$$off` - unsubscribe from the event manually or unsubscribe decorated method
+- `$$on` - subscribes to the event manually or subscribe decorated method
+- `$$off` - unsubscribes from the event manually or unsubscribe decorated method
 
 ### Element decorators
 

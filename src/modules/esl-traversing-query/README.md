@@ -38,12 +38,12 @@ NOTE: Selectors that don't start from a plain selector will use passed base Elem
 
 Find one (first element that describes a query):
 ```typescript
-  ESLTraversingQuery.first(query: string, base?: Element, scope?: Element): Element | null;
+  ESLTraversingQuery.first(query: string, base?: Element, scope?: Element | Document): Element | null;
 ```
 
 Find all elements that describes a query:
 ```typescript
-  ESLTraversingQuery.all(query: string, base?: Element, scope?: Element): Element[];
+  ESLTraversingQuery.all(query: string, base?: Element, scope?: Element | Document): Element[];
 ```
 
 Params: 

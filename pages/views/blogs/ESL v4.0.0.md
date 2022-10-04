@@ -38,7 +38,7 @@ containerCls: container markdown-container
   - `ESLMediaRuleList.prototype.default` removed as no longer default rules
   - `ESLMediaRuleList` no longer fires events on rule change, now it's based on active value change
   - `ESLMediaRuleList` now uses merging of all active rules to define result value, however you were still able to get the last active rule value
-  - `ESLMediaRuleList.prototype.active` now returns an array of active rules_
+  - `ESLMediaRuleList.prototype.active` now returns an array of active rules
 
 ---
 
@@ -85,7 +85,7 @@ containerCls: container markdown-container
 ## ESL Toggleable and ESL Trigger
 
 ### Features:
-  - migrate `esl-togglable` and `esl-trigger` to ESLEventListeners
+  - migrate `esl-toggleable` and `esl-trigger` to ESLEventListeners
   - `esl:show:request` additional data ([a121872](https://github.com/exadel-inc/esl/commit/a121872b6e69fd7fb7a71bdfa9058430e650f423))
   - support of `esl:hide:request` ([8a0928b](https://github.com/exadel-inc/esl/commit/8a0928b2f2bda63c6fbbaf5e9b6453d660091ec1))
   - add support of dynamic `aria-label` for `esl-trigger` ([5c18841](https://github.com/exadel-inc/esl/commit/5c188418720ad4a972caa7450563a29268d8ec97))

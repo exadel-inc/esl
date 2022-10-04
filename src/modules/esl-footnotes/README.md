@@ -8,7 +8,7 @@ Authors: *Dmytro Shovchko*.
 
 <a name="intro"></a>
 
-**ESLFootnotes** is a custom element that is used to collect all ESLNote elements in bounds of the scope and output sorted and grouped list of collected notes.
+**ESLFootnotes** is a custom element that is used to collect all `ESLNote` elements in bounds of the scope and output sorted and grouped list of collected notes.
 
 **ESLNote** is a custom element that is used to show notification by the tooltip GUI element.
 
