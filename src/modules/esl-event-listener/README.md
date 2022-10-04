@@ -70,7 +70,7 @@ unsubscribe(
 Examples:
 - `ESLEventUtils.unsubscribe($host);` will unsubscribe everything bound to $host
 - `ESLEventUtils.unsubscribe($host, handlerFn);` will unsubscribe everything that is bound to $host and is handled by handlerFn
-- `ESLEventUtils.unsubscribe($host, 'click');` will unsubscribe everything bound to $host and process 'click'
+- `ESLEventUtils.unsubscribe($host, 'click');` will unsubscribe everything bound to $host and processes 'click' event
 - `ESLEventUtils.unsubscribe($host, 'click', handlerFn);` will unsubscribe everything that is bound to $host, processes 'click' event and handles handlerFn
 - There can be any number of criteria.
 
