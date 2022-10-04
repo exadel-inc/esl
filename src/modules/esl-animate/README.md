@@ -8,7 +8,7 @@ Authors: *Anna-Mariia Petryk*, *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 
 <a name="intro"></a>
 
-ESL Animate is a module to animate items on viewport intersecting.
+**ESLAnimate** is a module to animate items on viewport intersecting.
 
 Features:
 - Add class(es) when observed elements enter viewport area

@@ -6,7 +6,10 @@ Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*.
 
 <a name="intro"></a>
 
-ESLAlert is a component to show small notifications on your pages. ESLAlert can have multiple instances on the page.
+**ESLAlert** is a component to show small notifications on your pages. 
+
+The ESLAlert instances are controlled via DOM events dispatched on the observed target. 
+ESLAlert can have multiple instances on the page.
 
 ---
 

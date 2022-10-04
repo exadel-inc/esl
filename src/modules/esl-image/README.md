@@ -6,7 +6,7 @@ Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*
 
 <a name="intro"></a>
 
-ESLImage - a custom element, that provides flexible ways to include images on web pages. 
+**ESLImage** - a custom element, that provides flexible ways to include images on web pages. 
 Was originally developed as an alternative to `<picture>` element, but with more features inside.
 
 --- 

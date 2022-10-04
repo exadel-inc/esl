@@ -133,11 +133,11 @@ export class ESLTraversingQuery {
   }
 
   /** @returns first matching element reached via {@link ESLTraversingQuery} rules */
-  static first(query: string, base?: Element | null, scope?: Element): Element | null {
+  static first(query: string, base?: Element | null, scope?: Element | Document): Element | null {
     return ESLTraversingQuery.traverse(query, true, base, scope)[0] || null;
   }
   /** @returns Array of all matching elements reached via {@link ESLTraversingQuery} rules */
-  static all(query: string, base?: Element | null, scope?: Element): Element[] {
+  static all(query: string, base?: Element | null, scope?: Element | Document): Element[] {
     return ESLTraversingQuery.traverse(query, false, base, scope);
   }
 }
