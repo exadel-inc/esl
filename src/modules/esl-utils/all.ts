@@ -1,11 +1,8 @@
-// Miscellanies
-export * from './misc';
-
-// Memoization decorator
-export * from './misc/memoize';
-
 // Common
 export * from './abstract/observable';
+
+// Miscellanies
+export * from './misc';
 
 // Decorators
 export * from './decorators';
@@ -16,8 +13,8 @@ export * from './async';
 // DOM
 export * from './dom';
 
-// Device detection
-export * from './environment/device-detector';
+// Environment
+export * from './environment';
 
 // Fixes
 export * from './fixes';

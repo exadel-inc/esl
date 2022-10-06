@@ -29,7 +29,7 @@ export class ESLTabs extends ESLBaseElement {
    * - 'disabled' or not defined -  scroll behavior is disabled;
    * - 'center' - scroll behavior is enabled, tab is center-aligned;
    * - 'side' - scroll behavior is enabled, tab is side-aligned;
-   * - empty or unsupported value - scroll behavior is enabled, tab is side-aligned;
+   * - empty or unsupported value is equal to 'side' behavior;
    */
   @attr({defaultValue: 'disabled'}) public scrollable: string;
 

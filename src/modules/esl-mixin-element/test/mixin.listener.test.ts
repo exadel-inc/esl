@@ -27,7 +27,7 @@ describe('ESLMixinElement: listeners', () => {
       mockHandler.mockReset();
       el.click();
       expect(mockHandler).toBeCalled();
-      expect(mockHandler).lastCalledWith(TestElement.get(el), expect.any(Event), expect.any(Object));
+      expect(mockHandler).lastCalledWith(TestElement.get(el), expect.any(Event));
     });
 
     test('ESLMixinElement successfully auto unsubscribed', async () => {

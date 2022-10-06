@@ -91,11 +91,15 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     return false;
   }
 
-  /** Handles caught event (used as callback for low-level subscriptions) */
-  public handleEvent(e: Event): void {
-    if (!this.isDelegatedTarget(e)) return;
-    this.handler.call(this.host, e, this);
-    if (this.once) this.unsubscribe();
+  /**
+   * Memoized builder for bound and decorated low level subscription.
+   * Implements DOM API {@link EventListenerObject.handleEvent}
+   */
+  @memoize()
+  public get handleEvent(): EventListener {
+    const handlerBound = this.handler.bind(this.host);
+    const handlerFull = this.once ? ((e: Event): void => (handlerBound(e), this.unsubscribe())) : handlerBound;
+    return this.selector ? (e: Event): void => this.isDelegatedTarget(e) && handlerFull(e) : handlerFull;
   }
 
   /** Checks if the passed event can be handled by the current event listener */
@@ -116,6 +120,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     const {passive, capture} = this;
     this.unsubscribe();
     memoize.clear(this, '$targets');
+    memoize.clear(this, 'handleEvent');
     if (!this.$targets.length) return false;
     this.$targets.forEach((el: EventTarget) => el.addEventListener(this.event, this, {passive, capture}));
     ESLEventListener.add(this.host, this);

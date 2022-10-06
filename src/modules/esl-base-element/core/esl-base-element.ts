@@ -115,6 +115,9 @@ export abstract class ESLBaseElement extends HTMLElement {
   }
 
   /** Creates an instance of the current custom element */
+  public static create<T extends typeof ESLBaseElement>(this: T): InstanceType<T>;
+  /** General signature of {@link create} to allow simplified overrides of the method */
+  public static create(this: typeof ESLBaseElement): ESLBaseElement;
   public static create<T extends typeof ESLBaseElement>(this: T): InstanceType<T> {
     return document.createElement(this.is) as InstanceType<T>;
   }

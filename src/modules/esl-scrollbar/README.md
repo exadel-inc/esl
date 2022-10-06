@@ -6,7 +6,7 @@ Authors: *Yuliya Adamskaya*.
 
 <a name="intro"></a>
 
-ESLScrollbar is a reusable web component that replaces the browser's default scrollbar with 
+**ESLScrollbar** is a reusable web component that replaces the browser's default scrollbar with 
 a _custom scrollbar_ implementation.
 
 ESLScrollbar is entirely configurable and can be styled through CSS.
