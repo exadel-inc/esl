@@ -15,8 +15,8 @@
     width: 250px;
     border-left: 1px solid @section-border;
 
-    @media @mobile {
-      padding-right: 10px;
+    .esl-scrollbar {
+      padding-right: 0;
     }
   }
 
@@ -30,7 +30,7 @@
 
     &-inner {
       visibility: hidden;
-      transition:  visibility 0s .3s;
+      transition: visibility 0s .3s;
     }
   }
 
@@ -43,6 +43,8 @@
 
     &-inner {
       width: 100%;
+      padding-right: 10px;
+
       border-left: none;
       border-bottom: 1px solid @section-border;
 
