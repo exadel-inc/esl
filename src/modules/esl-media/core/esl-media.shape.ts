@@ -14,7 +14,7 @@ export type ESLMediaTagShape = ({
   /** Define media source path */
   'media-src': string;
   /** Define media player type */
-  'media-type': string;
+  'media-type'?: string;
 }) & {
   /** Define media player group */
   group?: string;

@@ -38,7 +38,7 @@ export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup
   'transform-params'?: string;
 
   /** Allowed children */
-  children: any;
+  children?: any;
 
   /** @deprecated fallback time no longer required */
   'fallback-duration'?: string | number;
