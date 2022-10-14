@@ -31,7 +31,8 @@ import {
   ESLNote,
   ESLFootnotes,
   ESLTooltip,
-  ESLAnimate
+  ESLAnimate,
+  ESLRelatedTarget
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -104,3 +105,6 @@ ESLCarouselPlugins.Dots.register();
 ESLCarouselPlugins.Link.register();
 ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
+
+// Register ESL Mixins
+ESLRelatedTarget.register();
