@@ -1,28 +1,33 @@
 import {jsonAttr, ESLMixinElement} from '../../esl-mixin-element/core';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ready} from '../../esl-utils/decorators/ready';
-import {memoize} from '../../esl-utils/decorators/memoize';
-import {parseNumber} from '../../esl-utils/misc/format';
 
 import {ESLAnimateService} from './esl-animate-service';
 
-interface AnimateOptions {
+/** ESLAnimateMixin animation options */
+export interface ESLAnimateMixinOptions {
   /**
    * Class(es) to add on viewport intersection
    * @see ESLAnimateConfig.cls
    */
-  cls: string;
+  cls?: string;
   /**
    * Re-animate item after its getting hidden
    * @see ESLAnimateConfig.repeat
    */
-  repeat: boolean;
+  repeat?: boolean;
   /**
    * Intersection ratio to consider element as visible.
    * Only 0.2 (20%), 0.4 (40%), 0.6 (60%), 0.8 (80%) values are allowed due to share of IntersectionObserver instance
    * with a fixed set of thresholds defined.
    */
-  ratio: string;
+  ratio?: number;
+}
+
+/** ESLAnimateMixin animation inner options */
+interface ESLAnimateMixinOptionsInner extends Required<ESLAnimateMixinOptions> {
+  /** Animate if class already presented */
+  force: boolean;
 }
 
 /**
@@ -37,14 +42,19 @@ interface AnimateOptions {
 export class ESLAnimateMixin extends ESLMixinElement {
   public static is = 'esl-animate';
 
+  public static defaultConfig: ESLAnimateMixinOptionsInner = {
+    force: true,
+    cls: 'in',
+    repeat: false,
+    ratio: 0.4
+  };
+
   @jsonAttr({name: ESLAnimateMixin.is})
-  public options: AnimateOptions;
+  public options?: ESLAnimateMixinOptions;
 
-  public static defaultConfig: Partial<AnimateOptions> = {cls: 'in'};
-
-  protected mergeDefaultParams(): AnimateOptions {
+  protected mergeDefaultParams(): ESLAnimateMixinOptionsInner {
     const type = this.constructor as typeof ESLAnimateMixin;
-    return Object.assign({}, type.defaultConfig, this.options);
+    return Object.assign({}, type.defaultConfig, this.options, {ratio: this.options?.ratio || type.defaultConfig.ratio});
   }
 
   @ready
@@ -61,9 +71,7 @@ export class ESLAnimateMixin extends ESLMixinElement {
 
   /** Reinitialize {@link ESLAnimateService} for targets */
   public reanimate(): void {
-    const {cls, ratio, repeat} = this.mergeDefaultParams();
     ESLAnimateService.unobserve(this.$host);
-    memoize.clear(this, '$targets');
-    ESLAnimateService.observe(this.$host, {force: true, cls, ratio: parseNumber(ratio, 0.4), repeat});
+    ESLAnimateService.observe(this.$host, this.mergeDefaultParams());
   }
 }
