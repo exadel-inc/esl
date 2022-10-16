@@ -47,7 +47,7 @@ export class ESLTabs extends ESLBaseElement {
 
   /** @returns current scrollable type */
   public get currentScrollableType(): string {
-    return this.scrollableTypeRules.activeValue || '';
+    return this.scrollableTypeRules.activeValue || 'side';
   }
 
   protected connectedCallback(): void {
