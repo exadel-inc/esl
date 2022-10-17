@@ -17,7 +17,7 @@ import type {ESLToggleableActionParams} from '../../esl-toggleable/core/esl-togg
 export class ESLRelatedTarget extends ESLMixinElement {
   static is = 'esl-related-target';
 
-  /** Selector to find target element */
+  /** Selector/query ({@link ESLTraversingQuery}) to find related ESLToggleable element */
   @attr({name: ESLRelatedTarget.is}) public selector: string;
 
   /** @returns related toggleable instance */
@@ -25,8 +25,7 @@ export class ESLRelatedTarget extends ESLMixinElement {
     const {selector} = this;
     if (!selector) return null;
     const target = ESLTraversingQuery.first(selector);
-    if (target instanceof ESLToggleable) return target;
-    return null;
+    return target instanceof ESLToggleable ? target : null;
   }
 
   /** Merges params that are used by toggleable for actions */
