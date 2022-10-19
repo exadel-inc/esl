@@ -1,3 +1,10 @@
+## [4.0.2](https://github.com/exadel-inc/esl/compare/v4.0.1...v4.0.2) (2022-10-19)
+
+
+### Bug Fixes
+
+* **esl-media-query:** fix missing Event type in `core.ts` bundle ([afe54f7](https://github.com/exadel-inc/esl/commit/afe54f7916b6e16c53322dfb492ed2d1ab5936c8))
+
 ## [4.0.1](https://github.com/exadel-inc/esl/compare/v4.0.0...v4.0.1) (2022-10-18)
 
 
