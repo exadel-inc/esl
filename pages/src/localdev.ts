@@ -31,7 +31,8 @@ import {
   ESLNote,
   ESLFootnotes,
   ESLTooltip,
-  ESLAnimate
+  ESLAnimate,
+  ESLTruncate
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -98,6 +99,8 @@ ESLNote.register();
 ESLTooltip.register();
 
 ESLAnimate.register();
+
+ESLTruncate.register();
 
 ESLCarousel.register();
 ESLCarouselPlugins.Dots.register();

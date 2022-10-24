@@ -39,3 +39,5 @@ export * from './esl-tooltip/core';
 
 // Animate
 export * from './esl-animate/core';
+
+export * from './esl-truncate/core';
