@@ -1,4 +1,3 @@
-import type {ESLEventListener} from './listener';
 import type {PropertyProvider} from '../../esl-utils/misc/functions';
 
 /** String CSS selector to find the target or {@link EventTarget} object or array of {@link EventTarget}s */
@@ -29,16 +28,10 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
   selector?: string | PropertyProvider<string>;
   /**
    * An ESLEventTarget (or provider function) to subscribe the event listener to
-   * **Note**: string values are processed by the {@link TraversingQuery} syntax
+   * **Note**: string values are processed by the {@link ESLTraversingQuery} syntax
    * (e.g. `button` selects all buttons globally, while `::find(button)` selects only buttons inside current element)
    */
   target?: ESLListenerTarget | PropertyProvider<ESLListenerTarget>;
-
-  /**
-   * A reference to the component (mixin) that holds the event listener descriptor
-   * Used as a call context for the event listener handler if defined
-   */
-  context?: unknown;
 
   /** A boolean value indicating that the listener should be automatically subscribed within connected callback */
   auto?: boolean;
@@ -53,7 +46,7 @@ export interface ESLListenerDefinition<EType extends keyof ESLListenerEventMap =
 }
 
 /** Describes callback handler */
-export type ESLListenerHandler<EType extends Event = Event> = (event: EType, listener: ESLEventListener) => void;
+export type ESLListenerHandler<EType extends Event = Event> = (event: EType) => void;
 
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
 export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLListenerHandler | Partial<ESLListenerDefinition>;

@@ -6,32 +6,23 @@ Authors: *Alexey Stsefanovich (ala'n)*.
 
 <a name="intro"></a>
 
-[//]: # (TODO)
-
-ESL has a built-in mechanism to work with DOM events. 
+Starting from the 4th release ESL has a built-in mechanism to work with DOM events. 
 ESLEventListeners has more control and more advanced features than native DOM API.
 In addition, ESLMixinElement and ESlBaseElement have even more syntax sugar 
 to make consumer's code super small and clean.
 
-## EventUtils class
+## `ESLEventUtils` class
 
-`EventUtils` is a root class for the event listener module, it contains ESL event listeners module API.
-One of the main advantages of `EventUtils` over the native addEventListener is the extended control of subscriptions.
+`ESLEventUtils` is a root class for the event listener module, it contains ESL event listeners module API.
+One of the main advantages of `ESLEventUtils` over the native addEventListener is the extended control of subscriptions.
 All ESL listeners are saved and associated with the host element, after that, 
 the listener can be unhooked at any time in a variety of ways. 
 And most importantly, you do not need the original callback handler for this.
 
-For example 
-- `EventUtils.unsubscribe($host);` will unsubscribe everything bound to $host
-- `EventUtils.unsubscribe($host, handlerFn);` will unsubscribe everything that is bound to $host and is handled by handlerFn
-- `EventUtils.unsubscribe($host, 'click');` will unsubscribe everything bound to $host and process 'click'
-- `EventUtils.unsubscribe($host, 'click', handlerFn);` will unsubscribe everything that is bound to $host, processes 'click' event and handles handlerFn
-- There can be any number of criteria.
 
+Here the `ESLEventUtils` API:
 
-Here the `EventUtils` API:
-
-### ⚡ `EventUtils.subscribe`
+### ⚡ `ESLEventUtils.subscribe`
 The main method to create ESLEventListener and subscribe to DOM events.
 
 ```typescript
@@ -54,16 +45,16 @@ subscribe<EType extends keyof ESLListenerEventMap>(
 - `handler` - Callback handler. See [ESLListenerHandler](#listenerHandler).
 
 Examples:
-- `EventUtils.subscribe($host, handlerFn);` - 
+- `ESLEventUtils.subscribe($host, handlerFn);` - 
 subscribes decorated `handlerFn` method to the `target`;
-- `EventUtils.subscribe($host, 'click', handlerFn);` - 
+- `ESLEventUtils.subscribe($host, 'click', handlerFn);` - 
 subscribes `handlerFn` function with the passed event type;
-- `EventUtils.subscribe($host, {event: 'scroll', target: window}, handlerFn);` - 
+- `ESLEventUtils.subscribe($host, {event: 'scroll', target: window}, handlerFn);` - 
 subscribes `handlerFn` function with the passed additional descriptor data.
 
 
-### ⚡ `EventUtils.unsubscribe`
-Method of the `EventUtils` interface that allows subscribing elements to DOM events.
+### ⚡ `ESLEventUtils.unsubscribe`
+Method of the `ESLEventUtils` interface that allows subscribing elements to DOM events.
 
 ```typescript
 unsubscribe(
@@ -76,12 +67,25 @@ unsubscribe(
 - `host` - An element to unsubsribe;
 - `criteria` - An optional set of criteria to filter listeners to remove.
 
+Examples:
+- `ESLEventUtils.unsubscribe($host);` will unsubscribe everything bound to $host
+- `ESLEventUtils.unsubscribe($host, handlerFn);` will unsubscribe everything that is bound to $host and is handled by handlerFn
+- `ESLEventUtils.unsubscribe($host, 'click');` will unsubscribe everything bound to $host and processes 'click' event
+- `ESLEventUtils.unsubscribe($host, 'click', handlerFn);` will unsubscribe everything that is bound to $host, processes 'click' event and handles handlerFn
+- There can be any number of criteria.
 
-### ⚡ `EventUtils.descriptors`
-Method of the `EventUtils` interface that gathers descriptors from the passed object. See [ESLListenerDescriptorFn](#listenerDescFn).
+### ⚡ `ESLEventUtils.isEventDescriptor`
+Predicate to check if the passed argument is a function decorated with `ESLEventListener` metadata (`ESLListenerDescriptorFn``).
 
 ```typescript
-EventUtils.descriptors(
+ESLEventUtils.isEventDescriptor(obj: any): obj is ESLListenerDescriptorFn;
+```
+
+### ⚡ `ESLEventUtils.descriptors`
+Method of the `ESLEventUtils` interface that gathers descriptors from the passed object. See [ESLListenerDescriptorFn](#listenerDescFn).
+
+```typescript
+ESLEventUtils.descriptors(
   target?: any, 
   auto: boolean = true
 ): ESLListenerDescriptorFn[]
@@ -92,27 +96,27 @@ EventUtils.descriptors(
 - `auto` - A boolean value indicating that the listener should be automatically subscribed within connected callback.
 
 
-### ⚡ `EventUtils.listeners`
-Method of the `EventUtils` interface that gathers listeners currently subscribed to the target.
+### ⚡ `ESLEventUtils.listeners`
+Method of the `ESLEventUtils` interface that gathers listeners currently subscribed to the target.
 
 ```typescript
-EventUtils.listeners(
+ESLEventUtils.listeners(
   target: HTMLElement,
   ...criteria: ESLListenerCriteria[]
 ): ESLEventListener[];
 ```
 
 **Parameters**:
-- `host` - An element which listeners to get;
-- `criteria` - An optional set of criteria to filter listeners list.
+- `host` - an object that stores and relates to the handlers;
+- `criteria` - an optional set of criteria to filter listeners list.
 
-### ⚡ `EventUtils.dispatch`
+### ⚡ `ESLEventUtils.dispatch`
 
-Method of the `EventUtils` interface that is used to dispatch custom events.
+Method of the `ESLEventUtils` interface that is used to dispatch custom events.
 The event that is being dispatched is bubbling and cancelable by default.
 
 ```typescript
-EventUtils.dispatch(
+ESLEventUtils.dispatch(
   el: EventTarget,
   eventName: string,
   eventInit?: CustomEventInit
@@ -126,7 +130,7 @@ EventUtils.dispatch(
   This parameter can be used to overwrite the default behavior of bubbling and being cancelable.
 
 
-## Listeners methods on ESLBaseElement / ESLMixinElement
+## Listeners methods on `ESLBaseElement` / `ESLMixinElement`
 All the inheritors of `ESLBaseElement` and `ESLMixinElement` now have `$$on` and `$$off` methods,
 which still have the same capabilities but only set the current element as the host.
 
@@ -176,7 +180,7 @@ class MyEl extends ESLBaseElement {
     this.$$on({target: 'body'}, this.onClick); // Manual subscription with parameters (will be merged)
     this.$$off(this.onClick); // The same behavior as in the examples above
 
-    EventUtils.subscribe($host, this.onClick); // Low-level API support
+    ESLEventUtils.subscribe($host, this.onClick); // Low-level API support
   }
 }
  ```

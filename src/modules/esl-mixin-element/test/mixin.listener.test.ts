@@ -1,5 +1,5 @@
 import {ESLMixinElement, listen} from '../core';
-import {EventUtils} from '../../esl-utils/dom/events';
+import {ESLEventUtils} from '../../esl-utils/dom/events';
 
 describe('ESLMixinElement: listeners', () => {
   describe('ESLMixinElement auto subscribes to listener declarations', () => {
@@ -18,26 +18,25 @@ describe('ESLMixinElement: listeners', () => {
     beforeAll(() => document.body.appendChild(el));
 
     test('ESLMixinElement successfully auto subscribed', () => {
-      expect(EventUtils.listeners(el).length).toBe(1);
-      expect(EventUtils.listeners(el)[0].event).toBe('click');
+      const host = TestElement.get(el);
+      expect(ESLEventUtils.listeners(host).length).toBe(1);
+      expect(ESLEventUtils.listeners(host)[0].event).toBe('click');
     });
 
     test('ESLMixinElement subscription works correctly', () => {
       mockHandler.mockReset();
       el.click();
       expect(mockHandler).toBeCalled();
-      expect(mockHandler).lastCalledWith(TestElement.get(el), expect.any(Event), expect.any(Object));
+      expect(mockHandler).lastCalledWith(TestElement.get(el), expect.any(Event));
     });
 
     test('ESLMixinElement successfully auto unsubscribed', async () => {
       document.body.removeChild(el);
       await Promise.resolve(); // Wait for microtasks completed
-      expect(EventUtils.listeners(el).length).toBe(0);
+      expect(ESLEventUtils.listeners(el).length).toBe(0);
       return Promise.resolve();
     });
 
     afterAll(async () => el.parentElement && el.remove());
   });
-
-  // TODO: $$on, $$off tests
 });

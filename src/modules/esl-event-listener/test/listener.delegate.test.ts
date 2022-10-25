@@ -1,4 +1,4 @@
-import {EventUtils} from '../core/api';
+import {ESLEventUtils} from '../core/api';
 
 describe('ESlEventListener subscription and delegation', () => {
   const host = document.createElement('section');
@@ -12,11 +12,11 @@ describe('ESlEventListener subscription and delegation', () => {
   const btnSpan = btn.querySelector('span') as HTMLSpanElement;
   const btn2 = host.querySelector('#btn') as HTMLButtonElement;
 
-  afterEach(() => EventUtils.unsubscribe(host));
+  afterEach(() => ESLEventUtils.unsubscribe(host));
 
   test('Simple click subscription catches click', () => {
     const handler = jest.fn();
-    EventUtils.subscribe(host, 'click', handler);
+    ESLEventUtils.subscribe(host, 'click', handler);
     expect(handler).toBeCalledTimes(0);
     btn.click();
     expect(handler).toBeCalledTimes(1);
@@ -26,7 +26,7 @@ describe('ESlEventListener subscription and delegation', () => {
 
   test('Subscription with selector catches click exact on selected target', () => {
     const handler = jest.fn();
-    EventUtils.subscribe(host, {event: 'click', selector: '.btn'}, handler);
+    ESLEventUtils.subscribe(host, {event: 'click', selector: '.btn'}, handler);
     expect(handler).toBeCalledTimes(0);
     btn.click();
     expect(handler).toBeCalledTimes(1);
@@ -36,7 +36,7 @@ describe('ESlEventListener subscription and delegation', () => {
 
   test('Subscription with selector catches click inside selected target', () => {
     const handler = jest.fn();
-    EventUtils.subscribe(host, {event: 'click', selector: '.btn'}, handler);
+    ESLEventUtils.subscribe(host, {event: 'click', selector: '.btn'}, handler);
     expect(handler).toBeCalledTimes(0);
     btnSpan.click();
     expect(handler).toBeCalledTimes(1);
@@ -44,7 +44,7 @@ describe('ESlEventListener subscription and delegation', () => {
 
   test('Subscription with target provided with query catches click', () => {
     const handler = jest.fn();
-    EventUtils.subscribe(host, {event: 'click', target: '::find(#btn)'}, handler);
+    ESLEventUtils.subscribe(host, {event: 'click', target: '::find(#btn)'}, handler);
     expect(handler).toBeCalledTimes(0);
     btnSpan.click();
     expect(handler).toBeCalledTimes(0);
@@ -55,7 +55,7 @@ describe('ESlEventListener subscription and delegation', () => {
   test('Subscription with target provided by instance', () => {
     const handler = jest.fn();
     const el = document.createElement('button');
-    EventUtils.subscribe(host, {event: 'click', target: el}, handler);
+    ESLEventUtils.subscribe(host, {event: 'click', target: el}, handler);
     expect(handler).toBeCalledTimes(0);
     btn.click();
     expect(handler).toBeCalledTimes(0);

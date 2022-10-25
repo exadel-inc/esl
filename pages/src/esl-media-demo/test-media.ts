@@ -1,4 +1,4 @@
-import {TraversingQuery} from '../../../src/modules/esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../../src/modules/esl-traversing-query/core';
 import {ESLBaseElement} from '../../../src/modules/esl-base-element/core';
 import {attr, listen} from '../../../src/modules/esl-utils/decorators';
 
@@ -40,7 +40,7 @@ class ESLDemoMediaControls extends ESLBaseElement {
   @attr({defaultValue: ESLDemoMediaControls.ACTIONS_ALL}) public actions: string;
 
   public get $targets(): HTMLElement[] {
-    return TraversingQuery.all(this.target, this) as HTMLElement[];
+    return ESLTraversingQuery.all(this.target, this) as HTMLElement[];
   }
 
   protected connectedCallback(): void {

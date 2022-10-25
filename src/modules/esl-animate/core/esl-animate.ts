@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ready, memoize, attr, boolAttr} from '../../esl-utils/decorators';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {parseNumber} from '../../esl-utils/misc/format';
 import {ESLBaseElement} from '../../esl-base-element/core';
 
@@ -53,7 +53,7 @@ export class ESLAnimate extends ESLBaseElement {
 
   /**
    * Define target(s) to observe and animate
-   * Uses {@link TraversingQuery} with multiple targets support
+   * Uses {@link ESLTraversingQuery} with multiple targets support
    * Default: ` ` - current element, `<esl-animate>` behave as a wrapper
    */
   @attr() public target: string;
@@ -61,7 +61,7 @@ export class ESLAnimate extends ESLBaseElement {
   /** Elements-targets found by target query */
   @memoize()
   public get $targets(): HTMLElement[] {
-    return TraversingQuery.all(this.target, this) as HTMLElement[];
+    return ESLTraversingQuery.all(this.target, this) as HTMLElement[];
   }
 
   protected attributeChangedCallback(): void {

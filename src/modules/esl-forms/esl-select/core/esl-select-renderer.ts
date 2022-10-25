@@ -1,7 +1,7 @@
 import {ESLBaseElement} from '../../../esl-base-element/core';
-import {rafDecorator} from '../../../esl-utils/async/raf';
-import {bind, attr, boolAttr} from '../../../esl-utils/decorators';
 import {format} from '../../../esl-utils/misc/format';
+import {rafDecorator} from '../../../esl-utils/async/raf';
+import {attr, boolAttr, decorate, listen} from '../../../esl-utils/decorators';
 
 import type {ESLSelect} from './esl-select';
 
@@ -25,8 +25,6 @@ export class ESLSelectRenderer extends ESLBaseElement {
   protected $rest: HTMLElement;
   protected $text: HTMLElement;
   protected $remove: HTMLButtonElement;
-
-  protected _deferredRerender = rafDecorator(() => this.render());
 
   constructor() {
     super();
@@ -57,32 +55,19 @@ export class ESLSelectRenderer extends ESLBaseElement {
     super.connectedCallback();
     this.appendChild(this.$container);
     this.appendChild(this.$remove);
-    this.bindEvents();
-
-    customElements.whenDefined(ESLSelectRenderer.is).then(() => this.render());
+    Promise.resolve().then(() => this.render());
   }
   protected disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeChild(this.$container);
     this.removeChild(this.$remove);
-    this.unbindEvents();
-  }
-
-  protected bindEvents(): void {
-    if (!this.owner) return;
-    this.owner.addEventListener('esl:change:value', this.render);
-    this.$remove.addEventListener('click', this._onClear);
-    window.addEventListener('resize', this._deferredRerender);
-  }
-  protected unbindEvents(): void {
-    if (!this.owner) return;
-    this.owner.removeEventListener('esl:change:value', this.render);
-    this.$remove.removeEventListener('click', this._onClear);
-    window.removeEventListener('resize', this._deferredRerender);
   }
 
   /** Rerender component with markers */
-  @bind
+  @listen({
+    event: 'esl:change:value',
+    target: (el: ESLSelectRenderer) => el.owner
+  })
   public render(): void {
     if (!this.owner) return;
     const selected = this.owner.selectedOptions;
@@ -113,12 +98,18 @@ export class ESLSelectRenderer extends ESLBaseElement {
   }
 
   /** Handle clear button click */
-  @bind
+  @listen({event: 'click', selector: '.esl-select-clear-btn'})
   protected _onClear(e: MouseEvent): void {
     if (!this.owner) return;
     this.owner.setAllSelected(false);
     e.stopPropagation();
     e.preventDefault();
+  }
+
+  @listen({event: 'resize', target: window})
+  @decorate(rafDecorator)
+  protected _onResize(): void {
+    this.render();
   }
 }
 
