@@ -39,3 +39,6 @@ export * from './esl-tooltip/core';
 
 // Animate
 export * from './esl-animate/core';
+
+// Share
+export * from './esl-share/core';
