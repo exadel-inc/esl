@@ -32,8 +32,7 @@ import {
   ESLFootnotes,
   ESLTooltip,
   ESLAnimate,
-  ESLShareIcon,
-  ESLShareTrigger
+  ESLShare
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -107,5 +106,4 @@ ESLCarouselPlugins.Link.register();
 ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
 
-ESLShareIcon.register();
-ESLShareTrigger.register();
+ESLShare.register();
