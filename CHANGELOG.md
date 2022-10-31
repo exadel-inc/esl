@@ -1,3 +1,19 @@
+## [4.0.2](https://github.com/exadel-inc/esl/compare/v4.0.1...v4.0.2) (2022-10-19)
+
+
+### Bug Fixes
+
+* **esl-media-query:** fix missing Event type in `core.ts` bundle ([afe54f7](https://github.com/exadel-inc/esl/commit/afe54f7916b6e16c53322dfb492ed2d1ab5936c8))
+
+## [4.0.1](https://github.com/exadel-inc/esl/compare/v4.0.0...v4.0.1) (2022-10-18)
+
+
+### Bug Fixes
+
+* **esl-media:** make `media-type` optional if `media-src` defined (auto-provider feature) ([029e368](https://github.com/exadel-inc/esl/commit/029e368bbafbdad7a4f8c648b96892d090663096))
+* **esl-tabs:** fix styles based on current scrollable type ([c8dd855](https://github.com/exadel-inc/esl/commit/c8dd855c95384d38ffe88c06c1b20c8088e6cc11))
+* fix `esl-tabs` and `esl-panel-group` shape `children` property ([6ad7582](https://github.com/exadel-inc/esl/commit/6ad7582e93406b92bb0f4a5b404978f62b310056))
+
 # [4.0.0](https://github.com/exadel-inc/esl/compare/v3.14.3...v4.0.0) (2022-10-04)
 
 ## ESL Core

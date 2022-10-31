@@ -24,7 +24,7 @@ export class ESLTabs extends ESLBaseElement {
   public static supportedScrollableTypes = ['disabled', 'side', 'center'];
 
   /**
-   * Scrollable mode.
+   * Scrollable mode (supports {@link ESLMediaRuleList}).
    * Supported types for different breakpoints ('disabled' by default):
    * - 'disabled' or not defined -  scroll behavior is disabled;
    * - 'center' - scroll behavior is enabled, tab is center-aligned;
@@ -47,7 +47,7 @@ export class ESLTabs extends ESLBaseElement {
 
   /** @returns current scrollable type */
   public get currentScrollableType(): string {
-    return this.scrollableTypeRules.activeValue || '';
+    return this.scrollableTypeRules.activeValue || 'side';
   }
 
   protected connectedCallback(): void {
@@ -166,6 +166,9 @@ export class ESLTabs extends ESLBaseElement {
 
   /** Update element state according to scrollable type */
   protected updateScrollableType(): void {
+    ESLTabs.supportedScrollableTypes.forEach((type) => {
+      this.$$cls(`scrollable-${type}`, this.currentScrollableType === type);
+    });
     this._deferredFitToViewport(this.$current);
 
     if (this.currentScrollableType === 'disabled') {

@@ -2,7 +2,7 @@
 <html lang="{{ lang or 'en' }}" {% if scrollbar %} class="esl-scrollable-content" {% endif %}>
 <head>
   <title>{{ seoTitle or title or site.description }}</title>
-  <link rel="canonical" href="{{page.url | canonical | url }}"/>
+  <link rel="canonical" href="{{ canonicalURL or page.url | canonical | url }}"/>
   {# Site meta information #}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
