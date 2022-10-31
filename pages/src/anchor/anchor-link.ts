@@ -29,7 +29,8 @@ export class ESLDemoAnchorLink extends ESLMixinElement {
     if (!$target) return console.warn('No anchor target found');
 
     EventUtils.dispatch($target, 'esl:show:request');
-    afterNextRender(() => scrollIntoView($target, {behavior: 'smooth', block: 'start', offsetTop: 60}));
+    ($target as HTMLElement).style.scrollMarginTop = '60px';
+    afterNextRender(() => scrollIntoView($target, {behavior: 'smooth', block: 'start'}));
   }
 
   @listen('click')
