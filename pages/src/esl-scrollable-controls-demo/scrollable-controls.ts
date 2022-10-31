@@ -10,9 +10,9 @@ export class ESLDemoScrollControls extends ESLBaseElement {
 
   protected connectedCallback(): void {
     TraversingQuery.all(this.target).forEach((el: HTMLElement) => {
-      const option = document.createElement('option');
       const scrollNameValue = el.getAttribute('scrollname');
       if (!scrollNameValue) return;
+      const option = document.createElement('option');
       option.innerHTML = scrollNameValue;
       const target = TraversingQuery.first('::find(#target)', this) as ESLSelect;
       target.appendChild(option);
@@ -20,8 +20,9 @@ export class ESLDemoScrollControls extends ESLBaseElement {
     super.connectedCallback();
   }
 
-  @listen({event: 'click', selector: '#scrollIntoView'})
-  private onClick(): void {
+  // @listen({event: 'click', selector: '#scrollIntoView'})
+  @listen({event: 'click', selector: '.esl-d-scroll-controls-button'})
+  private onClick(e: PointerEvent): void {
     const behaviorOptions = TraversingQuery.all('::find([name="scroll-behavior"])', this) as HTMLInputElement[];
     const behavior = behaviorOptions.find((radio) => radio.checked)!.value as ScrollBehavior;
 
@@ -31,23 +32,26 @@ export class ESLDemoScrollControls extends ESLBaseElement {
     const targetSelect = TraversingQuery.first('::find(#target)', this) as ESLSelect;
     const target = TraversingQuery.first(`[scrollname="${targetSelect.value?.toString()}"]`);
 
-    const offsetLeft = Number((TraversingQuery.first('::find(#offsetLeft)', this) as HTMLInputElement).value);
-    const offsetTop = Number((TraversingQuery.first('::find(#offsetTop)', this) as HTMLInputElement).value);
-
-    const scrollDuration = Number((TraversingQuery.first('::find(#scrollDuration)', this) as HTMLInputElement).value);
-    const scrollRepeatDuration = Number((TraversingQuery.first('::find(#scrollRepeatDuration)', this) as HTMLInputElement).value);
-    scrollIntoView(target!, {behavior, block, inline, offsetLeft, offsetTop, scrollRepeatDuration, scrollDuration})
-      .then(() => this.$$fire('esl:alert:show',
-        {detail: {
-          text: 'Sucessful scroll to given position',
-          cls: 'alert alert-info'
-        }})
-      )
-      .catch(() => this.$$fire('esl:alert:show',
-        {detail: {
-          text: 'Failed to scroll to given position',
-          cls: 'alert alert-danger'
-        }})
-      );
+    const offsetInline = Number((TraversingQuery.first('::find(#offsetInline)', this) as HTMLInputElement).value);
+    const offsetBlock = Number((TraversingQuery.first('::find(#offsetBlock)', this) as HTMLInputElement).value);
+    (target as HTMLElement).style.scrollMarginInline = `${offsetInline}px ${offsetInline}px`;
+    (target as HTMLElement).style.scrollMarginBlock = `${offsetBlock}px ${offsetBlock}px`;
+    if ((e.target as HTMLElement).id.includes('Native')) {
+      target?.scrollIntoView({behavior, block, inline});
+    } else {
+      scrollIntoView(target!, {behavior, block, inline})
+        .then(() => this.$$fire('esl:alert:show',
+          {detail: {
+            text: 'Sucessful scroll to given position',
+            cls: 'alert alert-info'
+          }})
+        )
+        .catch(() => this.$$fire('esl:alert:show',
+          {detail: {
+            text: 'Failed to scroll to given position',
+            cls: 'alert alert-danger'
+          }})
+        );
+    }
   }
 }

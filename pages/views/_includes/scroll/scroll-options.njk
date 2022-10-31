@@ -62,27 +62,18 @@
         </li>
 
         <li class="esl-d-scroll-controls-li">
-          <label>OffsetLeft</label>
-          <input type="text" class="form-control" id="offsetLeft" min="0" max="2000" value="0" size="3">
+          <label>OffsetBlock</label>
+          <input type="text" class="form-control" id="offsetBlock" min="0" max="2000" value="0" size="3">
         </li>
 
         <li class="esl-d-scroll-controls-li">
-          <label>OffsetTop</label>
-          <input type="text" class="form-control" id="offsetTop" min="0" max="2000" value="0" size="3">
-        </li>
-
-        <li class="esl-d-scroll-controls-li">
-          <label>Scroll Duration</label>
-          <input type="text" class="form-control" id="scrollDuration" min="0" max="10000" value="900" size="3">
-        </li>
-
-        <li class="esl-d-scroll-controls-li">
-          <label>Scroll Repeat Duration</label>
-          <input type="text" class="form-control" id="scrollRepeatDuration" min="0" max="10000" value="3000" size="3">
+          <label>OffsetInline</label>
+          <input type="text" class="form-control" id="offsetInline" min="0" max="2000" value="0" size="3">
         </li>
 
         <li class="menu-item" style="margin-left: auto">
-          <button type="button" class="btn btn-sec-orange esl-d-scroll-controls-button" id="scrollIntoView">Scroll</button>
+          <button type="button" class="btn btn-sec-orange esl-d-scroll-controls-button" id="scrollIntoViewNative">Native</button>
+          <button type="button" class="btn btn-sec-orange esl-d-scroll-controls-button" id="scrollIntoViewPonyfill">Ponyfill</button>
         </li>
       </ul>
     </form>
