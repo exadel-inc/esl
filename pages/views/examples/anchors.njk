@@ -13,14 +13,19 @@ aside:
 
 {% import 'lorem.njk' as lorem %}
 
+{% macro anchorNav() %}
+<ul class="mx-4">
+  <li><a esl-d-anchor class="btn-link" href="#II-1">Scroll to II - 1</a></li>
+  <li><a esl-d-anchor class="btn-link" href="#II-2">Scroll to II - 2</a></li>
+  <li><a esl-d-anchor class="btn-link" href="#II-3">Scroll to II - 3</a></li>
+  <li><a esl-d-anchor class="btn-link" href="#II-4">Scroll to II - 4</a></li>
+  <li><a esl-d-anchor class="btn-link" href="#II-11">Scroll to II - 11</a></li>
+</ul>
+{% endmacro %}
+
 <nav class="mb-1">
   <h2>Accordion Block anchors</h2>
-  <ul class="mx-4">
-    <li><a esl-d-anchor class="btn-link" href="#II-1">Scroll to II - 1</a></li>
-    <li><a esl-d-anchor class="btn-link" href="#II-2">Scroll to II - 2</a></li>
-    <li><a esl-d-anchor class="btn-link" href="#II-3">Scroll to II - 3</a></li>
-    <li><a esl-d-anchor class="btn-link" href="#II-4">Scroll to II - 4</a></li>
-  </ul>
+  {{ anchorNav() }}
 </nav>
 <section class="row">
   <div class="col-12">
@@ -45,6 +50,7 @@ aside:
           </div>
         </esl-panel>
       </div>
+      <h4 id="II-11">Lorem ipsum #11</h4>
       <div class="esl-d-accordion">
         <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
           Toggle Accordion #3
@@ -72,3 +78,6 @@ aside:
     {{ lorem.paragraphs(3) }}
   </div>
 </section>
+<nav class="mb-1">
+  {{ anchorNav() }}
+</nav>

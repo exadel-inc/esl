@@ -140,29 +140,67 @@ aside:
 
       <div class="esl-d-tabs mb-4">
         <h3>Tabs with notes</h3>
-        <esl-tabs class="esl-d-tab-control">
+        <esl-tabs class="esl-d-tab-control" scrollable="center">
           <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+          <div class="arrow-prev" data-tab-direction="left">
+            <span class="icon-arrow-prev"></span>
+          </div>
 
           <ul class="esl-d-tab-list esl-tab-container" role="tablist">
             <li class="esl-d-tab-item">
               <esl-tab class="h5"
                       target="::parent(.esl-d-tabs)::find(.tab-1)">
-                Tab #1 Lorem ipsum
+                Tab #1 Lorem <esl-note>ipsum</esl-note> dolor sit amet
               </esl-tab>
             </li>
             <li class="esl-d-tab-item">
               <esl-tab class="h5"
                       target="::parent(.esl-d-tabs)::find(.tab-2)">
-                Tab #2 Lorem ipsum
+                Tab #2 Euismod elementum nisi
               </esl-tab>
             </li>
             <li class="esl-d-tab-item">
               <esl-tab class="h5"
                       target="::parent(.esl-d-tabs)::find(.tab-3)">
-                Tab #3 Lorem ipsum
+                Tab #3 Tellus in metus
+              </esl-tab>
+            </li>
+            <li class="esl-d-tab-item">
+              <esl-tab class="h5"
+                      target="::parent(.esl-d-tabs)::find(.tab-4)">
+                Tab #4 Molestie a iaculis
+              </esl-tab>
+            </li>
+            <li class="esl-d-tab-item">
+              <esl-tab class="h5"
+                      target="::parent(.esl-d-tabs)::find(.tab-5)">
+                Tab #5 Semper feugiat nibh
+              </esl-tab>
+            </li>
+            <li class="esl-d-tab-item">
+              <esl-tab class="h5"
+                      target="::parent(.esl-d-tabs)::find(.tab-6)">
+                Tab #6 Varius duis at consectetur
+              </esl-tab>
+            </li>
+            <li class="esl-d-tab-item">
+              <esl-tab class="h5"
+                      target="::parent(.esl-d-tabs)::find(.tab-7)">
+                Tab #7 In eu mi bibendum
+              </esl-tab>
+            </li>
+            <li class="esl-d-tab-item">
+              <esl-tab class="h5"
+                      target="::parent(.esl-d-tabs)::find(.tab-8)">
+                Tab #8 Porta <esl-note>lorem</esl-note> mollis
               </esl-tab>
             </li>
           </ul>
+
+          <div class="arrow-next" data-tab-direction="right">
+            <span class="icon-arrow-next"></span>
+          </div>
         </esl-tabs>
 
         <esl-panel-group class="esl-d-tab-group"
@@ -183,9 +221,32 @@ aside:
           </esl-panel>
           <esl-panel class="esl-d-tab-panel tab-3" tabindex="0">
             <div class="esl-d-tab-body">
-              <p>Nam libero justo laoreet sit amet cursus. Nibh ipsum consequat nisl vel pretium. Elit sed vulputate mi sit amet. Urna condimentum <esl-note>I am note 5 from tabs</esl-note> mattis pellentesque id. Non nisi est sit amet facilisis magna etiam tempor. Arcu risus quis varius quam quisque. At auctor urna nunc id cursus metus aliquam eleifend. Dignissim suspendisse in est ante in nibh mauris cursus mattis. Phasellus vestibulum lorem sed risus ultricies tristique nulla. Cursus risus at ultrices mi tempus imperdiet nulla malesuada. Ultrices dui sapien eget mi proin sed libero. Quis risus sed vulputate odio ut enim. Morbi tristique senectus et netus. Tellus mauris a diam maecenas sed enim ut. Id leo in vitae turpis massa sed.</p>
-              {{ lorem.paragraphs(15) }}
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore aliqua. Donec massa sapien faucibus <esl-note>I am note 6 from tabs</esl-note> et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed. Nisl pretium fusce id velit. Quam id leo in vitae turpis massa sed. Mauris sit amet. Ut aliquam purus sit amet luctus venenatis lectus magna.</p>
+              {{ lorem.paragraphs(3) }}
+            </div>
+          </esl-panel>
+          <esl-panel class="esl-d-tab-panel tab-4" tabindex="0">
+            <div class="esl-d-tab-body">
+              {{ lorem.paragraphs(4) }}
+            </div>
+          </esl-panel>
+          <esl-panel class="esl-d-tab-panel tab-5" tabindex="0">
+            <div class="esl-d-tab-body">
+              {{ lorem.paragraphs(5) }}
+            </div>
+          </esl-panel>
+          <esl-panel class="esl-d-tab-panel tab-6" tabindex="0">
+            <div class="esl-d-tab-body">
+              {{ lorem.paragraphs(6) }}
+            </div>
+          </esl-panel>
+          <esl-panel class="esl-d-tab-panel tab-7" tabindex="0">
+            <div class="esl-d-tab-body">
+              {{ lorem.paragraphs(7) }}
+            </div>
+          </esl-panel>
+          <esl-panel class="esl-d-tab-panel tab-8" tabindex="0">
+            <div class="esl-d-tab-body">
+              {{ lorem.paragraphs(8) }}
             </div>
           </esl-panel>
         </esl-panel-group>
