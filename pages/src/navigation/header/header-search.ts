@@ -1,13 +1,12 @@
-import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
+import {prop, attr, boolAttr} from '../../../../src/modules/esl-utils/decorators';
 import {CSSClassUtils} from '../../../../src/modules/esl-utils/dom/class';
 import {afterNextRender} from '../../../../src/modules/esl-utils/async/raf';
 import {parseNumber} from '../../../../src/modules/esl-utils/misc/format';
-import {attr, boolAttr} from '../../../../src/modules/esl-base-element/core';
-import {TraversingQuery} from '../../../../src/modules/esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../../../src/modules/esl-traversing-query/core';
 import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core';
 import {requestGss} from '../../search/search-script';
 
-import type {ToggleableActionParams} from '../../../../src/modules/esl-toggleable/core';
+import type {ESLToggleableActionParams} from '../../../../src/modules/esl-toggleable/core';
 
 export class ESLDemoSearchBox extends ESLToggleable {
   static is = 'esl-d-search-box';
@@ -20,15 +19,15 @@ export class ESLDemoSearchBox extends ESLToggleable {
 
   @prop() public closeOnOutsideAction = true;
 
-  public onShow(params: ToggleableActionParams): void {
+  public onShow(params: ESLToggleableActionParams): void {
     CSSClassUtils.add(this, this.postCls);
     requestGss().then(() => this.showSearchElements(params));
   }
 
-  private showSearchElements(params: ToggleableActionParams): void {
+  private showSearchElements(params: ESLToggleableActionParams): void {
     afterNextRender(() => super.onShow(params));
     if (this.autofocus) {
-      const $focusEl = TraversingQuery.first(this.firstFocusable, this) as HTMLElement;
+      const $focusEl = ESLTraversingQuery.first(this.firstFocusable, this) as HTMLElement;
       $focusEl && window.setTimeout(() => $focusEl.focus(), parseNumber(this.postClsDelay));
     }
 
@@ -38,7 +37,7 @@ export class ESLDemoSearchBox extends ESLToggleable {
     }
   }
 
-  public onHide(params: ToggleableActionParams): void {
+  public onHide(params: ESLToggleableActionParams): void {
     super.onHide(params);
     window.setTimeout(() => {
       CSSClassUtils.remove(this, this.postCls);

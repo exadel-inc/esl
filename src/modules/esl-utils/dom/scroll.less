@@ -6,15 +6,17 @@
   }
 }
 
-body[esl-scroll-lock] {
+html[esl-scroll-lock] body {
   overflow: hidden !important;
-
-  max-width: 100vw !important;
-  max-height: 100vh !important;
 }
 
 html[esl-scroll-lock='native'] {
   overflow-y: scroll !important;
+
+  body {
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+  }
 }
 
 html[esl-scroll-lock='pseudo'] {
@@ -27,7 +29,6 @@ html[esl-scroll-lock='pseudo'] {
 
   body {
     flex: 1 1 100% !important;
-    max-height: 100vh !important;
   }
 
   &::before {

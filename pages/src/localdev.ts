@@ -48,6 +48,7 @@ import {
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
+import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
 import {ESLDemoScrollControls} from './esl-scrollable-controls-demo/scrollable-controls';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
@@ -64,9 +65,9 @@ ESLDemoSearchBox.register();
 ESLDemoSearchPageWrapper.register();
 ESLDemoScrollControls.register();
 ESLDemoAnchorLink.register();
+ESLDemoBackLink.register();
 
 // Register ESL Components
-
 ESLImage.register();
 ESLMedia.register();
 

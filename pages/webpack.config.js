@@ -20,7 +20,6 @@ module.exports = {
       loader: 'ts-loader',
       options: {
         compilerOptions: {
-          target: 'ES5',
           declaration: false
         }
       }

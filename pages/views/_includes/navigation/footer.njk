@@ -1,7 +1,7 @@
 {% from 'navigation/footer-menu.njk' import menu with context %}
 
 <div class="container footer-container">
-  <esl-panel-group mode="@+XS => accordion | @+MD => open">
+  <esl-panel-group mode="accordion" min-open-items="0 | @+MD => all" max-open-items="1 | @+MD => all" refresh-strategy="initial">
     <ul class="footer-accordion-container">
       <li class="footer-column">
         {{ menu ('Core', 'core') }}

@@ -34,8 +34,13 @@
         {% set releasedBlogs = collections.blogs | released %}
         {% if releasedBlogs.length %}
         <li class="sidebar-nav-item">
-          {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg', { new: true }) }}
+          {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg') }}
         </li>
+        {% endif %}
+        {% if env.isDev %}
+          <li class="sidebar-nav-item">
+            {{ navitem ('Drafts', 'draft', 'static/assets/common/flask.svg') }}
+          </li>
         {% endif %}
       </ul>
 

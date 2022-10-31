@@ -1,6 +1,6 @@
 import {createDeferred} from '../../async/promise';
-import {getListScrollParents} from '../scroll';
 import {getWindowRect} from '../window';
+import {getListScrollParents} from './parent';
 import type {Deferred} from '../../async/promise';
 
 interface ScrollIntoViewOptionsExtended extends ScrollIntoViewOptions {

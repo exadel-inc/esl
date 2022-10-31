@@ -9,7 +9,7 @@ export function getListScrollParents(element: Element, list: Element[] = []): El
   const scrollParent = getScrollParent(element);
   const isBody = scrollParent === element.ownerDocument?.body;
   const target = isBody
-    ? isScrollParent(scrollParent) ? scrollParent : []
+    ? isScrollable(scrollParent) ? scrollParent : []
     : scrollParent;
 
   const updatedList = list.concat(target);
@@ -27,7 +27,7 @@ export function getScrollParent(node: Element): Element {
     return node.ownerDocument?.body as Element;
   }
 
-  if (node instanceof HTMLElement && isScrollParent(node as Element)) {
+  if (node instanceof HTMLElement && isScrollable(node as Element)) {
     return node as Element;
   }
 
@@ -38,7 +38,7 @@ export function getScrollParent(node: Element): Element {
  * Check that element is scroll parent.
  * @param element - element for checking
  * */
-export function isScrollParent(element: Element): boolean {
+export function isScrollable(element: Element): boolean {
   // Firefox wants us to check `-x` and `-y` variations as well
   const {overflow, overflowX, overflowY} = getComputedStyle(element);
   return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
