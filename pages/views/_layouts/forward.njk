@@ -4,8 +4,9 @@
 {% set title = 'Redirecting...' %}
 
 {% block meta %}
-      <meta charset="utf-8"/>
-      <meta http-equiv="refresh" content="0;url={{ target | url }}"/>
+  <meta charset="utf-8"/>
+  <meta name="robots" content="noindex" />
+  <meta http-equiv="refresh" content="0;url={{ target | url }}"/>
 {% endblock meta %}
 {% block content %}
   {% include 'navigation/header.njk' %}
