@@ -4,8 +4,6 @@ on:
   schedule:
     # Automatic build runs at 0:00 UTC daily
     - cron: '0 0 * * *'
-  push: 
-    branches: [ main ]
   workflow_dispatch:
 
 env:
