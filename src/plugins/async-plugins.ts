@@ -6,4 +6,4 @@ function loadPlugin(selector: string, loadCallback: () => void): void {
 
 export const registerAsyncPlugins = () => {
   loadPlugin('uip-editor', () => import(/* webpackChunkName: "uip-editor" */ './editor/editor'));
-}
+};
