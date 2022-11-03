@@ -119,3 +119,5 @@ export class UIPEditor extends UIPPlugin {
     }
   }
 }
+
+UIPEditor.register();

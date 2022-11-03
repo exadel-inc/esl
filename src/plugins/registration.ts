@@ -1,14 +1,14 @@
-import {UIPEditor} from './editor/editor';
 import {UIPHeader} from './header/header';
 import {UIPOptions} from './header/options/options';
 import {UIPSnippets} from './header/snippets/snippets';
 import {UIPSettings} from './settings/settings';
 import {registeredSettings} from '../registration';
+import {registerAsyncPlugins} from './async-plugins';
 
-export {UIPEditor, UIPOptions, UIPSettings, UIPSnippets, UIPHeader};
+export {UIPOptions, UIPSettings, UIPSnippets, UIPHeader};
 
 export const registerPlugins = () => {
-  UIPEditor.register();
+  registerAsyncPlugins();
   UIPHeader.register();
   UIPOptions.register();
   UIPSnippets.register();
