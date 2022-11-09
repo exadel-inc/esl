@@ -5,7 +5,7 @@ export function triggerIntersection($el: Element, cfg: Partial<IntersectionObser
   ESLEventUtils.dispatch($el, 'intersection', {detail: cfg});
 }
 
-export class MockIntersectionObserver {
+export class IntersectionObserverMock {
 
   public callback: IntersectionObserverCallback;
 

@@ -1,14 +1,17 @@
 import {ESLAnimateService} from '../core';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {MockIntersectionObserver, triggerIntersection} from './intersectionObserver.mock';
+import {IntersectionObserverMock, triggerIntersection} from './intersectionObserver.mock';
 
 describe('ESLAnimateService', () => {
   beforeAll(() => {
-    window.IntersectionObserver = MockIntersectionObserver;
+    window.IntersectionObserver = jest.fn((cb) => new IntersectionObserverMock(cb));
     jest.useFakeTimers();
   });
 
-  afterAll(() => jest.useRealTimers());
+  afterAll(() => {
+    jest.clearAllMocks();
+    jest.useRealTimers();
+  });
 
   describe('Default ESLAnimateService config', () => {
     describe('Static class methods', () => {
