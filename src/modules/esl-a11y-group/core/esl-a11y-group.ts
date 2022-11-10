@@ -1,6 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr, boolAttr, listen} from '../../esl-base-element/core';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
+import {attr, boolAttr, listen} from '../../esl-utils/decorators';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP} from '../../esl-utils/dom/keys';
 
 /** Relative targeting type definition */
@@ -24,7 +25,7 @@ export class ESLA11yGroup extends ESLBaseElement {
     [ARROW_RIGHT]: 'next'
   };
 
-  /** Target elements multiple selector ({@link TraversingQuery} syntax) */
+  /** Target elements multiple selector ({@link ESLTraversingQuery} syntax) */
   @attr({defaultValue: '::child'}) public targets: string;
 
   /** Activates target (via click event) on selection */
@@ -39,7 +40,7 @@ export class ESLA11yGroup extends ESLBaseElement {
   /** @returns HTMLElement[] targets of the group */
   public get $targets(): HTMLElement[] {
     if (!this.$root) return [];
-    return TraversingQuery.all(this.targets, this.$root) as HTMLElement[];
+    return ESLTraversingQuery.all(this.targets, this.$root) as HTMLElement[];
   }
 
   @listen({

@@ -1,6 +1,6 @@
 import {setAttr} from '../../esl-utils/dom/attr';
-import {prop} from '../../esl-utils/decorators/prop';
-import {EventUtils} from '../../esl-utils/dom/events';
+import {prop} from '../../esl-utils/decorators';
+import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMixinRegistry} from './esl-mixin-registry';
 
@@ -42,15 +42,14 @@ export class ESLMixinElement implements AttributeTarget {
       this._attr$$.observe(this.$host, {attributes: true, attributeFilter: constructor.observedAttributes});
     }
 
-    EventUtils.descriptors(this)
-      .forEach((desc) => EventUtils.subscribe(this.$host, {context: this}, desc));
+    ESLEventUtils.descriptors(this).forEach((desc) => ESLEventUtils.subscribe(this, desc));
   }
 
   /** Callback to execute on mixin instance destroy */
   public disconnectedCallback(): void {
     if (this._attr$$) this._attr$$.disconnect();
 
-    EventUtils.unsubscribe(this.$host, {context: this});
+    ESLEventUtils.unsubscribe(this);
   }
 
   /** Callback to handle changing of additional attributes */
@@ -73,13 +72,12 @@ export class ESLMixinElement implements AttributeTarget {
     handler: ESLListenerHandler<ESLListenerEventMap[EType]>
   ): ESLEventListener[];
   public $$on(event: any, handler?: any): ESLEventListener[] {
-    event = Object.assign(typeof event === 'string' ? {event} : event, {context: this});
-    return EventUtils.subscribe(this.$host, event, handler);
+    return ESLEventUtils.subscribe(this, event, handler);
   }
 
   /** Unsubscribes event listener */
   public $$off(...condition: ESLListenerCriteria[]): ESLEventListener[] {
-    return EventUtils.unsubscribe(this.$host, {context: this}, ...condition);
+    return ESLEventUtils.unsubscribe(this, ...condition);
   }
 
   /**
@@ -114,7 +112,7 @@ export class ESLMixinElement implements AttributeTarget {
    * @param eventInit - custom event init. See {@link CustomEventInit}
    */
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
-    return EventUtils.dispatch(this.$host, eventName, eventInit);
+    return ESLEventUtils.dispatch(this.$host, eventName, eventInit);
   }
 
   /** Returns mixin instance by element */

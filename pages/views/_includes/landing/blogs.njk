@@ -2,6 +2,7 @@
 {% if releasedBlogs.length %}
 <div class="blogs container">
   <h2>{{ landing.blogs.title }}</h2>
+  {% if 'new' in [].concat(tags) %}<span class="badge badge-sup badge-success">New</span>{% endif %}
   <esl-animate target="::next::child" group></esl-animate>
   <ul class="blogs-container">
     {% for item in releasedBlogs | reverse | limit(3) %}

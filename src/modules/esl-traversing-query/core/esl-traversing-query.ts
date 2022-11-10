@@ -35,7 +35,7 @@ type CollectionProcessor = (els: Element[], sel: string) => Element[];
  * - `::find(.row)::last::parent` - find parent of the last element matching selector '.row' from the base element subtree
  */
 @ExportNs('TraversingQuery')
-export class TraversingQuery {
+export class ESLTraversingQuery {
   private static ELEMENT_PROCESSORS: Record<string, ElementProcessor> = {
     '::find': findAll,
     '::next': findNext,
@@ -116,7 +116,7 @@ export class TraversingQuery {
 
   protected static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
     const found: Element[] = [];
-    for (const part of TraversingQuery.splitQueries(query)) {
+    for (const part of ESLTraversingQuery.splitQueries(query)) {
       const els = this.traverseQuery(part, findFirst, base, scope);
       if (findFirst && els.length) return [els[0]];
       found.push(...els);
@@ -132,18 +132,21 @@ export class TraversingQuery {
     return this.traverseChain(initial, tuple(parts), findFirst);
   }
 
-  /** @returns first matching element reached via {@link TraversingQuery} rules */
-  static first(query: string, base?: Element | null, scope?: Element): Element | null {
-    return TraversingQuery.traverse(query, true, base, scope)[0] || null;
+  /** @returns first matching element reached via {@link ESLTraversingQuery} rules */
+  static first(query: string, base?: Element | null, scope?: Element | Document): Element | null {
+    return ESLTraversingQuery.traverse(query, true, base, scope)[0] || null;
   }
-  /** @returns Array of all matching elements reached via {@link TraversingQuery} rules */
-  static all(query: string, base?: Element | null, scope?: Element): Element[] {
-    return TraversingQuery.traverse(query, false, base, scope);
+  /** @returns Array of all matching elements reached via {@link ESLTraversingQuery} rules */
+  static all(query: string, base?: Element | null, scope?: Element | Document): Element[] {
+    return ESLTraversingQuery.traverse(query, false, base, scope);
   }
 }
 
+/** @deprecated alias for {@link ESLTraversingQuery} */
+export const TraversingQuery = ESLTraversingQuery;
+
 declare global {
   export interface ESLLibrary {
-    TraversingQuery: typeof TraversingQuery;
+    TraversingQuery: typeof ESLTraversingQuery;
   }
 }

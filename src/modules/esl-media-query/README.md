@@ -6,7 +6,7 @@ Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*
 
 <a name="intro"></a>
 
-`ESLMediaQuery` is an extended browser `MediaQueryList` object and related utils such as rule-value pairs 
+**ESLMediaQuery** is an extended browser `MediaQueryList` object and related utils such as rule-value pairs 
 called `ESLMediaRuleList`.
 
 In addition to native Media Features, `ESLMediaQuery` allows special *shortcuts* to simplify syntax and query usage.
