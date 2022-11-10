@@ -6,13 +6,17 @@ import type {ESLPanelGroup} from './esl-panel-group';
  * Used for TSX declaration
  */
 export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup> {
+
+  /** Child panels selector (Default `esl-panel`) */
+  'panel-sel'?: string;
+
   /**
    * Define rendering mode of the component (takes values from the list of supported modes; 'accordion' by default)
-   * Supported values: `accordion|tabs|open`
+   * Supported values: `accordion|tabs`
    */
   'mode'?: string;
 
-  /** Define element {@link TraversingQuery} selector to add class that identifies the rendering mode (ESLPanelGroup itself by default) */
+  /** Define element {@link ESLTraversingQuery} selector to add class that identifies the rendering mode (ESLPanelGroup itself by default) */
   'mode-cls-target'?: string;
 
   /** Define class(es) to be added during animation ('animate' by default) */
@@ -21,11 +25,20 @@ export interface ESLPanelGroupTagShape extends ESLBaseElementShape<ESLPanelGroup
   /** Define a list of breakpoints to disable collapse/expand animation (for both Group and Panel animations)*/
   'no-animate'?: string;
 
+  /** Define active panel(s) behaviour in case of configuration change. Supported values: `last|initial|close|open`*/
+  'refresh-strategy'?: string;
+
+  /** Define minimum number of panels that could be opened ('1' by default, supported values: values: `0 | 1 | number | all`) */
+  'min-open-items'?: string;
+
+  /** Define maximum number of panels that could be opened ('1' by default, supported values: values: `0 | 1 | number | all`) */
+  'max-open-items'?: string;
+
   /** Define json of action params to pass into panels when executing reset action (happens when mode is changed) */
   'transform-params'?: string;
 
   /** Allowed children */
-  children: any;
+  children?: any;
 
   /** @deprecated fallback time no longer required */
   'fallback-duration'?: string | number;

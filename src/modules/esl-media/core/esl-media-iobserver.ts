@@ -1,4 +1,4 @@
-import {ESLMedia} from './esl-media';
+import type {ESLMedia} from './esl-media';
 
 const RATIO_TO_ACTIVATE = 0.75; // TODO: customizable, at least global
 const RATIO_TO_DEACTIVATE = 0.20; // TODO: customizable, at least global
@@ -18,8 +18,7 @@ export function getIObserver(lazy: boolean = false): IntersectionObserver {
 }
 
 function handleViewport(entry: IntersectionObserverEntry): void {
-  const {target: video} = entry;
-  if (!(video instanceof ESLMedia)) return;
+  const video = entry.target as ESLMedia;
 
   // Videos that playing and out of min ratio RATIO_TO_DEACTIVATE should be stopped
   if (video.active && entry.intersectionRatio <= RATIO_TO_DEACTIVATE) {

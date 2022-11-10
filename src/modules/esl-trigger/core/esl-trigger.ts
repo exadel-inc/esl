@@ -1,35 +1,39 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
 import {setAttr} from '../../esl-utils/dom/attr';
-import {bind} from '../../esl-utils/decorators/bind';
-import {ready} from '../../esl-utils/decorators/ready';
+import {attr, boolAttr, prop, listen, ready} from '../../esl-utils/decorators';
 import {parseNumber} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ENTER, SPACE, ESC} from '../../esl-utils/dom/keys';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLToggleablePlaceholder} from '../../esl-toggleable/core';
 
-import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
+import type {ESLToggleable, ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
   public static is = 'esl-trigger';
   public static observedAttributes = ['target'];
 
+  /** Event that represents {@link ESLTrigger} state change */
+  @prop('esl:change:active') public CHANGE_EVENT: string;
+  /** Events to observe target {@link ESLToggleable} instance state */
+  @prop('esl:show esl:hide') public OBSERVED_EVENTS: string;
+
   /** @readonly Observed Toggleable active state marker */
   @boolAttr({readonly: true}) public active: boolean;
 
   /** CSS classes to set on active state */
   @attr({defaultValue: ''}) public activeClass: string;
-  /** Target element {@link TraversingQuery} selector to set `activeClass` */
+  /** Target element {@link ESLTraversingQuery} selector to set `activeClass` */
   @attr({defaultValue: ''}) public activeClassTarget: string;
 
   /** Selector for ignored inner elements */
   @attr({defaultValue: 'a[href]'}) public ignore: string;
 
-  /** Target Toggleable {@link TraversingQuery} selector. `::next` by default */
+  /** Target Toggleable {@link ESLTraversingQuery} selector. `::next` by default */
   @attr({defaultValue: '::next'}) public target: string;
   /** Action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values. `toggle` by default */
   @attr({defaultValue: 'toggle'}) public mode: string;
@@ -78,9 +82,9 @@ export class ESLTrigger extends ESLBaseElement {
     return this._$target;
   }
   public set $target(newPopupInstance: ESLToggleable | null) {
-    this.unbindEvents();
+    this.$$off(this._onTargetStateChange);
     this._$target = newPopupInstance;
-    this.bindEvents();
+    this.$$on(this._onTargetStateChange);
     this._onTargetStateChange();
   }
 
@@ -110,36 +114,11 @@ export class ESLTrigger extends ESLBaseElement {
     this.updateTargetFromSelector();
     this.initA11y();
   }
-  @ready
-  protected disconnectedCallback(): void {
-    this.unbindEvents();
-  }
-
-  protected bindEvents(): void {
-    if (!this.$target) return;
-    this.$target.addEventListener('esl:show', this._onTargetStateChange);
-    this.$target.addEventListener('esl:hide', this._onTargetStateChange);
-
-    this.addEventListener('click', this._onClick);
-    this.addEventListener('keydown', this._onKeydown);
-    this.addEventListener('mouseenter', this._onMouseEnter);
-    this.addEventListener('mouseleave', this._onMouseLeave);
-  }
-  protected unbindEvents(): void {
-    if (!this.$target) return;
-    this.$target.removeEventListener('esl:show', this._onTargetStateChange);
-    this.$target.removeEventListener('esl:hide', this._onTargetStateChange);
-
-    this.removeEventListener('click', this._onClick);
-    this.removeEventListener('keydown', this._onKeydown);
-    this.removeEventListener('mouseenter', this._onMouseEnter);
-    this.removeEventListener('mouseleave', this._onMouseLeave);
-  }
 
   /** Update `$target` Toggleable  from `target` selector */
-  protected updateTargetFromSelector(): void {
+  public updateTargetFromSelector(): void {
     if (!this.target) return;
-    this.$target = TraversingQuery.first(this.target, this) as ESLToggleable;
+    this.$target = ESLTraversingQuery.first(this.target, this) as ESLToggleable;
 
     if (this.$target instanceof ESLToggleablePlaceholder && this.$target.$origin) {
       // change target if it is an instance of the placeholder element
@@ -156,7 +135,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Merge params to pass to the toggleable */
-  protected mergeToggleableParams(this: ESLTrigger, ...params: ToggleableActionParams[]): ToggleableActionParams {
+  protected mergeToggleableParams(this: ESLTrigger, ...params: ESLToggleableActionParams[]): ESLToggleableActionParams {
     return Object.assign({
       initiator: 'trigger',
       activator: this
@@ -164,7 +143,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Show target toggleable with passed params */
-  public showTarget(params: ToggleableActionParams = {}): void {
+  public showTarget(params: ESLToggleableActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
       delay: parseNumber(this.showDelay)
     }, params);
@@ -173,7 +152,7 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
   /** Hide target toggleable with passed params */
-  public hideTarget(params: ToggleableActionParams = {}): void {
+  public hideTarget(params: ESLToggleableActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
       delay: parseNumber(this.hideDelay)
     }, params);
@@ -182,7 +161,7 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
   /** Toggles target toggleable with passed params */
-  public toggleTarget(params: ToggleableActionParams = {}, state: boolean = !this.active): void {
+  public toggleTarget(params: ESLToggleableActionParams = {}, state: boolean = !this.active): void {
     state ? this.showTarget(params) : this.hideTarget(params);
   }
 
@@ -195,7 +174,7 @@ export class ESLTrigger extends ESLBaseElement {
     const wasActive = this.active;
 
     this.toggleAttribute('active', isActive);
-    const clsTarget = TraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
+    const clsTarget = ESLTraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
     clsTarget && CSSClassUtils.toggle(clsTarget, this.activeClass, isActive);
 
     this.updateA11y();
@@ -204,15 +183,18 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Handles ESLToggleable state change */
-  @bind
+  @listen({
+    event: (that: ESLTrigger) => that.OBSERVED_EVENTS,
+    target: (that: ESLTrigger) => that.$target
+  })
   protected _onTargetStateChange(originalEvent?: Event): void {
     if (!this.updateState()) return;
     const detail = {active: this.active, originalEvent};
-    this.$$fire('esl:change:active', {detail});
+    this.$$fire(this.CHANGE_EVENT, {detail});
   }
 
   /** Handles `click` event */
-  @bind
+  @listen('click')
   protected _onClick(event: MouseEvent): void {
     if (!this.allowClick || this.isTargetIgnored(event.target)) return;
     event.preventDefault();
@@ -220,7 +202,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Handles `keydown` event */
-  @bind
+  @listen('keydown')
   protected _onKeydown(event: KeyboardEvent): void {
     if (![ENTER, SPACE, ESC].includes(event.key) || this.isTargetIgnored(event.target)) return;
     event.preventDefault();
@@ -245,7 +227,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Handles hover `mouseenter` event */
-  @bind
+  @listen('mouseenter')
   protected _onMouseEnter(event: MouseEvent): void {
     if (!this.allowHover) return;
     const delay = parseNumber(this.hoverShowDelay);
@@ -254,7 +236,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Handles hover `mouseleave` event */
-  @bind
+  @listen('mouseleave')
   protected _onMouseLeave(event: MouseEvent): void {
     if (!this.allowHover) return;
     if (this.mode === 'show' || this.mode === 'hide') return;

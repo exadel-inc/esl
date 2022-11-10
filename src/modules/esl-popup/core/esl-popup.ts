@@ -1,11 +1,7 @@
 import {range} from '../../esl-utils/misc/array';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {memoize} from '../../esl-utils/decorators/memoize';
-import {ready} from '../../esl-utils/decorators/ready';
-import {prop} from '../../esl-utils/decorators/prop';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {bind, memoize, ready, prop, attr, boolAttr, jsonAttr} from '../../esl-utils/decorators';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {Rect} from '../../esl-utils/dom/rect';
@@ -16,7 +12,7 @@ import {parseNumber} from '../../esl-utils/misc/format';
 import {calcPopupPosition, isMajorAxisHorizontal} from './esl-popup-position';
 import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 
-import type {ToggleableActionParams} from '../../esl-toggleable/core';
+import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
 import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
 
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
@@ -28,7 +24,7 @@ const parsePercent = (value: string | number, nanValue: number = 0): number => {
   return Math.max(0, Math.min(rawValue !== undefined ? rawValue : nanValue, 100));
 };
 
-export interface PopupActionParams extends ToggleableActionParams {
+export interface PopupActionParams extends ESLToggleableActionParams {
   /** popup position relative to trigger */
   position?: PositionType;
   /** popup behavior if it does not fit in the window */
@@ -101,7 +97,7 @@ export class ESLPopup extends ESLToggleable {
    *  for RTL it is vice versa) */
   @attr({defaultValue: `${DEFAULT_OFFSET_ARROW}`}) public offsetArrow: string;
 
-  /** Target to container element {@link TraversingQuery} to define bounds of popups visibility (window by default) */
+  /** Target to container element {@link ESLTraversingQuery} to define bounds of popups visibility (window by default) */
   @attr() public container: string;
 
   /** Default params to merge into passed action params */
@@ -118,7 +114,7 @@ export class ESLPopup extends ESLToggleable {
   /** Container element that define bounds of popups visibility */
   @memoize()
   protected get $container(): HTMLElement | undefined {
-    return this.container ? TraversingQuery.first(this.container, this) as HTMLElement : this._containerEl;
+    return this.container ? ESLTraversingQuery.first(this.container, this) as HTMLElement : this._containerEl;
   }
 
   /** Get the size and position of the container */

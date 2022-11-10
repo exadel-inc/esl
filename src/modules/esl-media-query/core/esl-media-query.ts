@@ -1,4 +1,4 @@
-import {memoize} from '../../esl-utils/decorators/memoize';
+import {memoize} from '../../esl-utils/decorators';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
 import {ESLScreenDPR} from './common/screen-dpr';

@@ -22,7 +22,7 @@ export const createSequenceFinder = (next: IteratorFn, includeSelf: boolean = fa
 export const isMatches = (el: Element, matcher?: string | ((el: Element) => boolean)): boolean => {
   if (typeof matcher === 'string') return el.matches(matcher);
   if (typeof matcher === 'function') return matcher(el);
-  return false;
+  return typeof matcher === 'undefined';
 };
 
 /** @returns first matching next sibling or null*/

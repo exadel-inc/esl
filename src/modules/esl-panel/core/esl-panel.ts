@@ -1,15 +1,14 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {bind} from '../../esl-utils/decorators/bind';
-import {afterNextRender} from '../../esl-utils/async/raf';
-import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
+import {attr, boolAttr, jsonAttr, listen} from '../../esl-utils/decorators';
+import {afterNextRender, skipOneRender} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
-import {ESLPanelGroup} from '../../esl-panel-group/core';
 
-import type {ToggleableActionParams} from '../../esl-toggleable/core';
+import type {ESLPanelGroup} from '../../esl-panel-group/core';
+import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
 
 /** {@link ESLPanel} action params interface */
-export interface PanelActionParams extends ToggleableActionParams {
+export interface PanelActionParams extends ESLToggleableActionParams {
   /** Panel group */
   capturedBy?: ESLPanelGroup;
   /** Prevents collapsing/expanding animation */
@@ -35,6 +34,9 @@ export class ESLPanel extends ESLToggleable {
   /** Class(es) to be added during animation after next render ('post-animate' by default) */
   @attr({defaultValue: 'post-animate'}) public postAnimateClass: string;
 
+  /** CSS selector of the parent group (default: 'esl-panel-group') */
+  @attr({defaultValue: 'esl-panel-group'}) public panelGroupSel: string;
+
   /** Initial params for current ESLPanel instance */
   @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init'}})
   public initialParams: PanelActionParams;
@@ -53,17 +55,7 @@ export class ESLPanel extends ESLToggleable {
   /** @returns Closest panel group or null if not presented */
   public get $group(): ESLPanelGroup | null {
     if (this.groupName === 'none' || this.groupName) return null;
-    return this.closest(ESLPanelGroup.is);
-  }
-
-  protected bindEvents(): void {
-    super.bindEvents();
-    this.addEventListener('transitionend', this._onTransitionEnd);
-  }
-
-  protected unbindEvents(): void {
-    super.unbindEvents();
-    this.removeEventListener('transitionend', this._onTransitionEnd);
+    return this.closest(this.panelGroupSel);
   }
 
   /** Process show action */
@@ -72,12 +64,8 @@ export class ESLPanel extends ESLToggleable {
     super.onShow(params);
 
     this.beforeAnimate();
-    if (params.noAnimate) {
-      if (params.capturedBy) return;
-      afterNextRender(() => this.afterAnimate());
-    } else {
-      this.onAnimate(0, this._initialHeight);
-    }
+    if (params.noAnimate) return this.postAnimate(params.capturedBy);
+    this.onAnimate(0, this._initialHeight);
   }
 
   /** Process hide action */
@@ -86,11 +74,8 @@ export class ESLPanel extends ESLToggleable {
     super.onHide(params);
 
     this.beforeAnimate();
-    if (params.noAnimate) {
-      afterNextRender(() => this.afterAnimate());
-    } else {
-      this.onAnimate(this._initialHeight, 0);
-    }
+    if (params.noAnimate) return this.postAnimate(null);
+    this.onAnimate(this._initialHeight, 0);
   }
 
   /** Pre-processing animation action */
@@ -98,6 +83,18 @@ export class ESLPanel extends ESLToggleable {
     this.toggleAttribute('animating', true);
     CSSClassUtils.add(this, this.animateClass);
     this.postAnimateClass && afterNextRender(() => CSSClassUtils.add(this, this.postAnimateClass));
+  }
+
+  /** Handles post animation process to initiate after animate step */
+  protected postAnimate(capturedBy?: ESLPanelGroup | null): void {
+    if (capturedBy) {
+      capturedBy.$$on({
+        event: capturedBy.AFTER_ANIMATE_EVENT,
+        once: true
+      }, () => this.afterAnimate());
+    } else {
+      skipOneRender(() => this.afterAnimate());
+    }
   }
 
   /** Process animation */
@@ -125,7 +122,7 @@ export class ESLPanel extends ESLToggleable {
     this.clearAnimation();
     // Prevent fallback calls from being tracked
     if (!animating) return;
-    this.$$fire(this.open ? 'esl:after:show' : 'esl:after:hide');
+    this.$$fire(this.open ? this.AFTER_SHOW_EVENT : this.AFTER_HIDE_EVENT);
   }
 
   /** Clear animation properties */
@@ -137,7 +134,7 @@ export class ESLPanel extends ESLToggleable {
   }
 
   /** Catching CSS transition end event to start post-animate processing */
-  @bind
+  @listen('transitionend')
   protected _onTransitionEnd(e?: TransitionEvent): void {
     if (!e || (e.propertyName === 'max-height' && e.target === this)) {
       this.afterAnimate();
@@ -145,7 +142,7 @@ export class ESLPanel extends ESLToggleable {
   }
 
   /** Merge params that are used by panel group for actions */
-  protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
+  protected mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
     const stackConfig = this.$group?.panelConfig || {};
     return Object.assign({}, stackConfig, this.defaultParams, params || {});
   }

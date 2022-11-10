@@ -1,7 +1,8 @@
 import '../../../../polyfills/es5-target-shim';
 
 import {listen} from '../listen';
-import {EventUtils} from '../../dom/events';
+import {ESLEventUtils} from '../../dom/events';
+
 import type {ESLListenerDescriptorFn} from '../../dom/events';
 
 describe('Decorator: @listen', () => {
@@ -13,8 +14,8 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-1', Test);
 
     const test = new Test();
-    expect(EventUtils.descriptors(test).length).toBe(1);
-    expect(EventUtils.descriptors(test)[0].event).toBe('click');
+    expect(ESLEventUtils.descriptors(test).length).toBe(1);
+    expect(ESLEventUtils.descriptors(test)[0].event).toBe('click');
   });
 
   test('Decorator listen should accept one argument call with an event type provider', () => {
@@ -25,21 +26,21 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-1-provider', Test);
 
     const test = new Test();
-    expect(EventUtils.descriptors(test).length).toBe(1);
-    expect(typeof EventUtils.descriptors(test)[0].event).toBe('function');
+    expect(ESLEventUtils.descriptors(test).length).toBe(1);
+    expect(typeof ESLEventUtils.descriptors(test)[0].event).toBe('function');
   });
 
   test('Multiple @listen declarations should be auto-subscribed correctly with a full event definition', () => {
     class Test extends HTMLElement {
       @listen({event: 'event1'})
       onEvent1() {}
-      @listen({event: 'event1', id: 'a'})
+      @listen({event: 'event1'})
       onEvent2() {}
     }
     customElements.define('test-listen-2', Test);
 
     const test = new Test();
-    expect(EventUtils.descriptors(test).length).toBe(2);
+    expect(ESLEventUtils.descriptors(test).length).toBe(2);
   });
 
   test('Event listener definitions from the superclass should be handled correctly', () => {
@@ -54,7 +55,7 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-3', TestInh);
 
     const test = new TestInh();
-    expect(EventUtils.descriptors(test).length).toBe(2);
+    expect(ESLEventUtils.descriptors(test).length).toBe(2);
   });
 
   test('Override event listener definition without decorator should exclude subscription', () => {
@@ -68,7 +69,7 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-4', TestInh);
 
     const test = new TestInh();
-    expect(EventUtils.descriptors(test).length).toBe(0);
+    expect(ESLEventUtils.descriptors(test).length).toBe(0);
   });
 
   test('Override event listener definition with a @listen({inherit: true}) inherits event description meta information', () => {
@@ -83,7 +84,7 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-5', TestInh);
 
     const test = new TestInh();
-    expect(EventUtils.descriptors(test).length).toBe(1);
+    expect(ESLEventUtils.descriptors(test).length).toBe(1);
     expect((test.onEvent as any as ESLListenerDescriptorFn).event).toBe('event1');
   });
 
@@ -99,7 +100,7 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-6', TestInh);
 
     const test = new TestInh();
-    expect(EventUtils.descriptors(test).length).toBe(1);
+    expect(ESLEventUtils.descriptors(test).length).toBe(1);
     expect((test.onEvent as any as ESLListenerDescriptorFn).event).toBe('event2');
     expect((test.onEvent as any as ESLListenerDescriptorFn).selector).toBe('e');
   });
@@ -116,7 +117,7 @@ describe('Decorator: @listen', () => {
     customElements.define('test-listen-7', TestInh);
 
     const test = new TestInh();
-    expect(EventUtils.descriptors(test).length).toBe(1);
+    expect(ESLEventUtils.descriptors(test).length).toBe(1);
     expect((test.onEvent as any as ESLListenerDescriptorFn).event).toBe('event2');
     expect((test.onEvent as any as ESLListenerDescriptorFn).selector).toBe(undefined);
   });
