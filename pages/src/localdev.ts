@@ -41,6 +41,10 @@ import '../../src/modules/esl-media/providers/html5/video-provider';
 import '../../src/modules/esl-media/providers/youtube-provider';
 import '../../src/modules/esl-media/providers/brightcove-provider';
 
+import {ESLShareCopyAction} from '../../src/modules/esl-share/actions/copy-action';
+import {ESLShareMediaAction} from '../../src/modules/esl-share/actions/media-action';
+import {ESLSharePrintAction} from '../../src/modules/esl-share/actions/print-action';
+
 import {
   ESLCarousel,
   ESLCarouselPlugins
@@ -107,3 +111,6 @@ ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
 
 ESLShare.register();
+ESLShareActionRegistry.instance.register(ESLShareCopyAction);
+ESLShareActionRegistry.instance.register(ESLShareMediaAction);
+ESLShareActionRegistry.instance.register(ESLSharePrintAction);

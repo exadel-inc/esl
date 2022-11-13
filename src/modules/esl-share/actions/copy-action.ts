@@ -4,7 +4,7 @@ import {ESLEventUtils} from '../../esl-utils/dom/events';
 import type {AlertActionParams} from '../../esl-alert/core';
 
 export class ESLShareCopyAction extends ESLShareBaseAction {
-  static readonly is: string = 'copy';
+  public static readonly is: string = 'copy';
 
   protected get alertIcon(): string {
     const $icon = this.$button.querySelector('.esl-share-icon');
