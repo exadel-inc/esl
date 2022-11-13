@@ -32,7 +32,8 @@ import {
   ESLFootnotes,
   ESLTooltip,
   ESLAnimate,
-  ESLShare
+  ESLShare,
+  ESLShareActionRegistry
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';

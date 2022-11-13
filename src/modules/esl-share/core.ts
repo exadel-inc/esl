@@ -1,3 +1,4 @@
 export * from './core/esl-share';
-export * from './core/esl-share-icon';
-export * from './core/esl-share-trigger';
+export * from './core/esl-share-action';
+export * from './core/esl-share-action-registry';
+export * from './core/esl-share-button';
