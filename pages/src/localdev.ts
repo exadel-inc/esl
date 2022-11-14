@@ -46,7 +46,6 @@ import {
 } from '../../src/modules/draft/all';
 
 import './esl-media-demo/test-media';
-import './esl-media-demo/test-media-source';
 
 import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
@@ -104,3 +103,6 @@ ESLCarouselPlugins.Dots.register();
 ESLCarouselPlugins.Link.register();
 ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
+
+// UI Playground
+import './ui-playground/ui-playground';
