@@ -8,7 +8,7 @@ jest.mock('../core/esl-animate-service', () => ({
 }));
 
 describe('ESLAnimate element', () => {
-  const $el = document.createElement(ESLAnimate.is) as ESLAnimate;
+  const $el = ESLAnimate.create();
   document.body.appendChild($el);
 
   beforeAll(() => {

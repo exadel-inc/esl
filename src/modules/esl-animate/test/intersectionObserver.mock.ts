@@ -7,11 +7,7 @@ export function triggerIntersection($el: Element, cfg: Partial<IntersectionObser
 
 export class IntersectionObserverMock {
 
-  public callback: IntersectionObserverCallback;
-
-  constructor(callback: IntersectionObserverCallback) {
-    this.callback = callback;
-  }
+  public constructor(public callback: IntersectionObserverCallback) {}
 
   public root: Document | Element | null = null;
 
