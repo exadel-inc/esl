@@ -10,7 +10,7 @@ export interface ShareButtonConfig {
   'iconBackground': string;
   'link': string;
   'name': string;
-  'name_en': string;
+  'title': string;
 }
 
 export class ESLShareButton extends ESLBaseElement {
@@ -19,27 +19,26 @@ export class ESLShareButton extends ESLBaseElement {
   public static DEFAULT_ICON_BG_COLOR: string = '#FFF';
 
   @attr() public action: string;
-  @attr() public netId: string;
-  @attr() public name: string;
-  @attr() public icon: string;
+  @attr() public buttonId: string;
   @attr() public link: string;
+  @attr() public name: string;
 
   public static build(cfg: ShareButtonConfig): ESLShareButton | null {
     if (!ESLShareActionRegistry.instance.has(cfg.action)) return null;
     const $button = ESLShareButton.create();
     $button.$$attr('action', cfg.action);
-    $button.$$attr('net-id', cfg.id);
+    $button.$$attr('button-id', cfg.id);
     $button.$$attr('link', cfg.link);
-    $button.$$attr('name', cfg['name_en']);
-    $button.$$attr('tabIndex', '0');
+    $button.$$attr('name', cfg.name);
+    $button.$$attr('tabindex', '0');
     $button.$$attr('role', 'button');
-    $button.$$attr('aria-label', cfg.name);
-    const wrapper = document.createElement('span');
-    wrapper.title = cfg.name;
-    wrapper.classList.add('esl-share-button-icon');
-    wrapper.innerHTML = cfg.icon;
-    wrapper.setAttribute('style', `background-color:${cfg.iconBackground || ESLShareButton.DEFAULT_ICON_BG_COLOR};`);
-    $button.appendChild(wrapper);
+    $button.$$attr('aria-label', cfg.title);
+    const $icon = document.createElement('span');
+    $icon.title = cfg.title;
+    $icon.classList.add('esl-share-icon');
+    $icon.innerHTML = cfg.icon;
+    $icon.setAttribute('style', `background-color:${cfg.iconBackground || ESLShareButton.DEFAULT_ICON_BG_COLOR};`);
+    $button.appendChild($icon);
     return $button;
   }
 
