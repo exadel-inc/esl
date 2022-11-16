@@ -32,8 +32,9 @@ import {
   ESLFootnotes,
   ESLTooltip,
   ESLAnimate,
-  ESLShare,
-  ESLShareActionRegistry
+  ESLShareList,
+  ESLShareActionRegistry,
+  ESLShareConfig
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -45,6 +46,7 @@ import '../../src/modules/esl-media/providers/brightcove-provider';
 import {ESLShareCopyAction} from '../../src/modules/esl-share/actions/copy-action';
 import {ESLShareMediaAction} from '../../src/modules/esl-share/actions/media-action';
 import {ESLSharePrintAction} from '../../src/modules/esl-share/actions/print-action';
+import {ESLShareFetchConfigProvider} from '../../src/modules/esl-share/config-providers/fetch-provider';
 
 import {
   ESLCarousel,
@@ -111,7 +113,10 @@ ESLCarouselPlugins.Link.register();
 ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
 
-ESLShare.register();
 ESLShareActionRegistry.instance.register(ESLShareCopyAction);
 ESLShareActionRegistry.instance.register(ESLShareMediaAction);
 ESLShareActionRegistry.instance.register(ESLSharePrintAction);
+ESLShareConfig.use(ESLShareFetchConfigProvider, {
+  url: '/assets/share/config.json'
+});
+ESLShareList.register();
