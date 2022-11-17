@@ -25,8 +25,12 @@ export class ESLShareList extends ESLBaseElement {
 
   protected _ready: Promise<void>;
 
+  public get alias(): string {
+    return (this.constructor as typeof ESLBaseElement).is;
+  }
+
   public get ready$(): Promise<void> {
-    return this._ready ? this._ready : Promise.reject('ESL Share is not defined');
+    return this._ready ? this._ready : Promise.reject(`[${this.alias}]: is not ready`);
   }
 
   @memoize()
@@ -37,12 +41,22 @@ export class ESLShareList extends ESLBaseElement {
   @memoize()
   public get buttonsConfig(): Promise<ShareButtonConfig[]> {
     return this.config.then((config) => {
-      const filterPredicate = this.getFilterPredicate(config);
-      return config.buttons.filter(filterPredicate);
+      const list = this.getList(config);
+      return list.length ? this.getButtons(config, list) : config.buttons;
     });
   }
 
-  protected getFilterPredicate(config: ShareConfig): (btn: ShareButtonConfig) => boolean {
+  protected getButtons(config: ShareConfig, idList: string[]): ShareButtonConfig[] {
+    const {buttons} = config;
+    const ret: ShareButtonConfig[] = [];
+    idList.forEach((buttonId) => {
+      const btnConfig = buttons.find((btn) => btn.id === buttonId);
+      btnConfig && ret.push(btnConfig);
+    });
+    return ret;
+  }
+
+  protected getList(config: ShareConfig): string[] {
     const {group} = this;
     let {list} = this;
     if (group) {
@@ -51,11 +65,7 @@ export class ESLShareList extends ESLBaseElement {
         list = groupCfg.list;
       }
     }
-    if (list) {
-      const buttons = list.split(',').map((id) => id.trim());
-      return (btn: ShareButtonConfig): boolean => buttons.includes(btn.id);
-    }
-    return (): boolean => true;
+    return list ? list.split(',').map((id) => id.trim()) : [];
   }
 
   public connectedCallback(): void {
@@ -68,7 +78,7 @@ export class ESLShareList extends ESLBaseElement {
   protected init(): void {
     this._ready = this.buttonsConfig.then(this.buildContent);
     this._ready.then(() => ESLEventUtils.dispatch(this, 'esl:share:ready'));
-    this._ready.catch((e) => console.error(`[${(this.constructor as typeof ESLBaseElement).is}]: ${e}`));
+    this._ready.catch((e) => console.error(`[${this.alias}]: ${e}`));
   }
 
   @bind
