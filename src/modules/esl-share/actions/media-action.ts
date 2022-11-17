@@ -17,9 +17,10 @@ export class ESLShareMediaAction extends ESLShareBaseAction {
   };
 
   protected get formatSource(): Record<string, string> {
+    const {shareData} = this.$button;
     return {
-      u: encodeURIComponent(window.location.href),
-      t: encodeURIComponent(document.title)
+      u: encodeURIComponent(shareData.url),
+      t: encodeURIComponent(shareData.title)
     };
   }
 

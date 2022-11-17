@@ -1,7 +1,9 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {attr, listen} from '../../esl-utils/decorators';
+import {attr, listen, memoize} from '../../esl-utils/decorators';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {ESLShareActionRegistry} from './esl-share-action-registry';
+
+import type {ESLShareList} from './esl-share-list';
 
 export interface ShareButtonConfig {
   'action': string;
@@ -11,6 +13,11 @@ export interface ShareButtonConfig {
   'link': string;
   'name': string;
   'title': string;
+}
+
+export interface ShareData {
+  url: string;
+  title: string;
 }
 
 export class ESLShareButton extends ESLBaseElement {
@@ -40,6 +47,24 @@ export class ESLShareButton extends ESLBaseElement {
     $icon.setAttribute('style', `background-color:${cfg.iconBackground || ESLShareButton.DEFAULT_ICON_BG_COLOR};`);
     $button.appendChild($icon);
     return $button;
+  }
+
+  protected static convertToAbsolutePath(path: string): string {
+    return new URL(path, document.baseURI).href;
+  }
+
+  @memoize()
+  public get host(): ESLShareList | null {
+    return this.closest('esl-share-list');
+  }
+
+  public get shareData(): ShareData {
+    const {host} = this;
+
+    return {
+      url: (host && host.url) ? ESLShareButton.convertToAbsolutePath(host.url) : window.location.href,
+      title: (host && host.title) ? host.title : document.title
+    };
   }
 
   protected beforeAction(): void {}

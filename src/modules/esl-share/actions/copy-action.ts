@@ -18,13 +18,14 @@ export class ESLShareCopyAction extends ESLShareBaseAction {
   protected get alertParams(): AlertActionParams {
     return {
       cls: 'esl-share-alert',
-      html: `${this.alertIcon} <span aria-label="${this.alertText}">${this.alertText}</span>`
+      html: `<span class="esl-share-icon">${this.alertIcon}</span> <span aria-label="${this.alertText}">${this.alertText}</span>`
     };
   }
 
   public do(): void {
     if (navigator.clipboard !== undefined) {
-      navigator.clipboard.writeText(window.location.href,);
+      const {shareData} = this.$button;
+      navigator.clipboard.writeText(shareData.url);
       this.showCopyAlert();
     }
   }
