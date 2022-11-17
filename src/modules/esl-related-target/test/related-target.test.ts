@@ -2,8 +2,8 @@ import {ESLRelatedTarget} from '../core/esl-related-target';
 import {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 
 describe('ESLRelatedTarget: show/hide depending on mixin element state', () => {
-  const $el = document.createElement(ESLToggleable.is) as ESLToggleable;
-  const $relatedEl = document.createElement(ESLToggleable.is) as ESLToggleable;
+  const $el = ESLToggleable.create();
+  const $relatedEl = ESLToggleable.create();
   $relatedEl.setAttribute('id', 'related-toggleable');
   $el.setAttribute(ESLRelatedTarget.is, '#related-toggleable');
 
