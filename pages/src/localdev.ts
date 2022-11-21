@@ -46,7 +46,6 @@ import {
 } from '../../src/modules/draft/all';
 
 import './esl-media-demo/test-media';
-import './esl-media-demo/test-media-source';
 
 import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
