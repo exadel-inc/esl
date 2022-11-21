@@ -2,60 +2,83 @@
 
 Version: *1.0.0*.
 
-Authors: *Anna-Mariia Petryk*, *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
-
-**_Important Notice: the component is under beta version, it is tested and ready to use but be aware of its potential critical API changes._**
+Authors: *Anna-Mariia Petryk*, *Feoktyst Shovchko*, *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 
 <a name="intro"></a>
 
-**ESLAnimate** is a module to animate items on viewport intersecting.
+`esl-animate` is a module for element animation on it's intersection with the viewport
 
-Features:
+### Module Features:
 - Add class(es) when observed elements enter viewport area
-- Support group animation that allows item delay its animation on the passed time after previously animated item
-- Support forward and backward animations directions
-- Support automatic re-animate after item exit viewport area
-- JS API (Service) + Custom Element - Plugin for simple initialization
-
-## ESLAnimateService
+- Group animation support, allowing to add animation delay for each next item in the intersection queue
+- Pre-defined animations
+  - `esl-animate-fade`
+  - `esl-animate-slide-left`
+  - `esl-animate-slide-right`
+  - `esl-animate-slide-up`
+  - `esl-animate-slide-down`
+- Automatic re-animation after item exits viewport area
+- JS API `ESLAnimateService` + Custom element `ESLAnimate` + Mixin element `ESLAnimateMixin` - Plugin for simple initialization
 ESLAnimateService is a core of esl-animate module. Element needs to be observed by ESLAnimateService 
 in order to be animated.
 
-### Service API:
+## ESLAnimateService
+
+**ESLAnimateService** provides a way to asynchronously add animation on the intersection of a target element with a viewport. It is based on [Intersection Observer Api](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) and serves as a core functionality for `ESLAnimate` and `ESLAnimateMixin` elements.
+
+### Service static API:
 - `ESLAnimateService.observe(els, config)` - method to start element observation
-  - `els` - Element or array of Elements to observe and animate
-  - `config` - an optional ESLAnimateConfig object to describe the behavior of the animation functionality
+  - `els` - element or array of elements to observe and animate
+  - `config` - optional ESLAnimateConfig object to describe the behavior of the animation functionality
 - `ESLAnimateService.unobserve(els)` - method to unsubscribe ESLAnimateService from observing elements
 - `ESLAnimateService.isObserved(el)` - check if element observed by ESLAnimateService
 
+Also you can create the animate service instance by calling its constructor:
+```js
+  const service = new ESLAnimateService();
+```
+
+### Service instance API:
+- `service.observe(el, config)` - method to start element observation
+  - `els` - element to observe and animate
+  - `config` - optional ESLAnimateConfig object to describe the behavior of the animation functionality
+- `service.unobserve(el)` - method to unsubscribe ESLAnimateService from observing elements
+
 ### ESLAnimateConfig (Configuration API)
-- `cls` - CSS class or classes to control animation (`in` by default)
-(supports ESL extended class definition syntax, [CSSClassUtil](../esl-utils/dom/class.ts))
-- `group` (boolean) - enable group animation for items 
+- `cls` (`in` by default) - CSS class(es) to control animation. The control class(es) will be added to observed element(s), after they had intersected with vieport area. Service supports ESL extended class definition syntax, [CSSClassUtils](../esl-utils/dom/class.ts)
+- `group` (boolean) - enable group animation for items, hence, take `groupDelay` value into account while performing animation
 (item will start animation with a delay after previous item animation start)
-- `groupDelay` - number of milliseconds to delay animation in group
+- `groupDelay` (`100` by default) - number of milliseconds animation delay in group
 - `repeat` (boolean) - refresh (re-animate) items when they became invisible (exit viewport)
-- `force` (boolean) - if true then allows to re-animate items when ESLAnimateService subscribed 
-on already animated item
-- `ratio` (0.2|0.4|0.6|0.8) - intersection ratio to consider element as visible.
+- `force` (boolean) - allows to re-animate items when ESLAnimateService subscribed 
+on already animated item if set to true
+- `ratio` (0.2|0.4|0.6|0.8) - intersection ratio to consider element as visible
 Only 0.2 (20%), 0.4 (40%), 0.6 (60%), 0.8 (80%) values are allowed due to share of IntersectionObserver instance
-with a fixed set of thresholds defined.
+with a fixed set of thresholds defined
 
 ## ESLAnimate
-ESLAnimate (`<esl-animate>`) - custom element to automatically initialize ESLAnimateService from html
 
-### Element API
-- `target` - target element or elements to animate, defined by [ESLTraversingQuery](../esl-traversing-query/README.md)  
-Default: empty (animates itself)
-- `cls` - CSS class or classes to control animation (`in` by default)
-(supports ESL extended class definition syntax, [CSSClassUtil](../esl-utils/dom/class.ts))
-- `group` (boolean) - enable group animation for items
+**ESLAnimate** is a custom element, which automatically initializes `ESLAnimateService` from html.
+
+To use ESLAnimate you need to include the following code:
+```js
+  ESLAnimate.register();
+```
+
+### ESLAnimate Attributes | Properties:
+- `target` - target element(s) to animate, defined by [ESLTraversingQuery](../esl-traversing-query/README.md). By default target value is empty, meaning component will animate itself
+- `cls` (`in` by default) - CSS class(es) to control animation. The control class(es) will be added to observed element(s), after they had intersected with vieport area. Service supports ESL extended class definition syntax, [CSSClassUtils](../esl-utils/dom/class.ts)
+- `group` (boolean) - enable group animation for items, hence, take `groupDelay` value into account while performing animation
 (item will start animation with a delay after previous item animation start)
-- `group-delay` - number of milliseconds to delay animation in group
+- `groupDelay` (`100` by default) - number of milliseconds animation delay in group
 - `repeat` (boolean) - refresh (re-animate) items when they became invisible (exit viewport)
-- `ratio` - number of intersection ratio to consider element as visible
+- `force` (boolean) - allows to re-animate items when ESLAnimateService subscribed 
+on already animated item if set to true
+- `ratio` (0.2|0.4|0.6|0.8) - intersection ratio to consider element as visible
 Only 0.2 (20%), 0.4 (40%), 0.6 (60%), 0.8 (80%) values are allowed due to share of IntersectionObserver instance
-with a fixed set of thresholds defined.
+with a fixed set of thresholds defined
+
+By default attributes `group`, `repeat` and `target` are observed, meaning animation sequence will restart once theese attributes are changed. Additionally, you can do the re-animation manually by calling instance method `reanimate()`.
 
 ### Use cases
 - plugin (target attribute defined)
@@ -67,11 +90,40 @@ with a fixed set of thresholds defined.
     ...
 </ul>
 ```
-Note: `<esl-animate>` hidden (`display: none`) by default when there is no content inside
+**Note: `<esl-animate>` hidden (`display: none`) by default when there is no content inside** 
 
 - wrapper (no target attribute defined)
 ```html
 <esl-animate class="esl-animate-fade" cls="in">
     ...HTML Content...
 </esl-animate>
+```
+
+## ESLAnimate mixin
+
+**ESLAnimate mixin** is a mixin attribute that automatically initializes `ESLAnimateService` from html, and it's more lightweight solution than `ESLAnimate` custom element.
+
+To use ESLAnimateMixin you need to include the following code:
+```js
+  ESLAnimateMixin.register();
+```
+
+### ESLAnimate mixin Attributes | Properties:
+- `options` - json attribute containing following properties:
+  - `cls` (`in` by default) - CSS class(es) to control animation. The control class(es) will be added to observed element(s), after they had intersected with vieport area. Service supports ESL extended class definition syntax, [CSSClassUtils](../esl-utils/dom/class.ts)
+  - `repeat` (boolean) - refresh (re-animate) items when they became invisible (exit viewport)
+  - `ratio` (0.2|0.4|0.6|0.8) - intersection ratio to consider element as visible
+  Only 0.2 (20%), 0.4 (40%), 0.6 (60%), 0.8 (80%) values are allowed due to share of IntersectionObserver instance
+  with a fixed set of thresholds defined
+
+Apart from `ESLAnimate` module mixin doesn't observe any of the element attributes. But you can do the re-animation manually by calling instance method `reanimate()`.
+
+### Use cases
+- default declaration
+```html
+<div esl-animate>...HTML Content...</div>
+```
+- custom config
+```html
+<div esl-animate options="{repeat: true, ratio: 0.2, cls: 'in'}">...HTML Content...</div>
 ```
