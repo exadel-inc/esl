@@ -1,42 +1,75 @@
 ---
 layout: content
 ---
+
+{% from 'badge.njk' import applyBadge with context %}
+
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
 
 <ul class="collection-grid unstyled-list {{ 'collection-grid-column' if list }}">
   {% for item in collections[collection] | notHidden | released | sortByNameAndOrder %}
+    {% set isList = item.data.collection %}
     {% set isDraft = [].concat(item.data.tags).includes('draft') %}
-    {% set isBeta = [].concat(item.data.tags).includes('beta') %}
-    {% set isNew = [].concat(item.data.tags).includes('new') %}
     <li>
-      <a class="collection-grid-item {{ 'draft' if isDraft }}"
-         href="{{ item.url | url }}">
-        <div class="collection-grid-title collection-grid-box">
-          <span>{{ item.data.name }}
-            {% if isBeta %}
-              <sup class="badge badge-sup badge-warning">beta</sup>
+      {% if not isList %}
+        <a class="collection-grid-item {{ 'draft' if isDraft }}"
+          href="{{ item.url | url }}">
+          <div class="collection-grid-title collection-grid-box">
+            <span>
+              {{ item.data.name }}
+              {{ applyBadge(item.data.tags) }}
+            </span>
+          </div>
+          <hr class="collection-grid-divider"/>
+          <div class="collection-grid-box collection-grid-svg">
+            {% if item.data.icon %}
+              {% include "static/assets/" + item.data.icon %}
+            {% elseif list %}
+              <span class="arrows-icon right"></span>
+            {% elseif item.data.iconAlt %}
+              <div class="collection-grid-alt {{ 'collection-grid-alt-small' if item.data.iconAlt.length >= 20 }}">
+                {{ item.data.iconAlt }}
+              </div>
             {% endif %}
-            {% if isDraft %}
-              <sup class="badge badge-sup badge-danger">draft</sup>
-            {% endif %}
-            {% if isNew %}
-              <sup class="badge badge-sup badge-success">new</sup>
-            {% endif %}
-          </span>
-        </div>
-        <hr class="collection-grid-divider"/>
-        <div class="collection-grid-box collection-grid-svg">
-          {% if item.data.icon %}
-            {% include "static/assets/" + item.data.icon %}
-          {% elseif list %}
-            <span class="arrows-icon right"></span>
-          {% elseif item.data.iconAlt %}
-            <div class="collection-grid-alt {{ 'collection-grid-alt-small' if item.data.iconAlt.length >= 20 }}">
-              {{ item.data.iconAlt }}
+          </div>
+        </a>
+      {% else %}
+      {% set subItems = collections[item.data.collection] | released %}
+        <div class="esl-d-accordion collection-grid-accordion-item">
+          <esl-trigger class="collection-grid-item {{ 'draft' if isDraft }}" target="::next">
+            <div class="collection-grid-title collection-grid-box">
+              <span>
+                {{ item.data.name }}
+                {{ applyBadge(item.data.tags) }}
+              </span>
             </div>
-          {% endif %}
+            <div class="collection-grid-box collection-grid-svg">
+                <span class="arrows-icon right"></span>
+            </div>
+          </esl-trigger>
+          <esl-panel class="esl-d-accordion-panel">
+            <ul class="collection-grid-item-list">
+              {% for subItem in subItems | sortByNameAndOrder %}
+              {% set isSubItemDraft = [].concat(subItem.data.tags).includes('draft') %}
+                <li>
+                  <a class="collection-grid-item {{ 'draft' if isDraft or isSubItemDraft }}"
+                    href="{{ subItem.url | url }}">
+                    <div class="collection-grid-title collection-grid-box">
+                      <span>
+                        {{ subItem.data.name }}
+                        {{ applyBadge(subItem.data.tags) }}
+                      </span>
+                    </div>
+                      <div class="collection-grid-box collection-grid-svg">
+                        <span class="arrows-icon right"></span>
+                    </div>
+                  </a>
+                <li>
+              {% endfor %}
+            </ul>
+          </esl-panel>
         </div>
-      </a>
+      {% endif %}
     </li>
   {% endfor %}
 </ul>

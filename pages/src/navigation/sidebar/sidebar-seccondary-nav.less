@@ -4,27 +4,46 @@ esl-d-sidebar {
   .sidebar-nav-secondary {
     width: 100%;
   }
-  .sidebar-nav-secondary-list {
-    padding: 2px 0;
+  .sidebar-nav-nested-list {
+    padding-top: 2px;
   }
-  .sidebar-nav-secondary-item {
-    display: block;
+  .sidebar-nav-secondary-item-heading,
+  .sidebar-nav-third-item-heading {
+    display: flex;
     position: relative;
     padding: 10px 35px 10px 70px;
-
-    @media @sm {
-      padding-left: 81px;
-    }
-    @media @md-xl {
-      padding-left: 66px;
-    }
 
     &.active {
       color: @nav-dark-selected;
       background: linear-gradient(to right, fade(@nav-dark-selected, 25%), fade(@nav-dark-selected, 0%));
     }
   }
-  .sidebar-nav-secondary-link {
+  .sidebar-nav-secondary-item-heading {
+    @media @sm {
+      padding-left: 81px;
+    }
+    @media @md-xl {
+      padding-left: 66px;
+    }
+  }
+  .sidebar-nav-third-item-heading {
+    padding-left: 90px;
+
+    @media @sm {
+      padding-left: 101px;
+    }
+  }
+  .sidebar-nav-secondary-item-trigger {
+    flex: 1 0 auto;
+
+    &[active] {
+      &.sidebar-nav-item-arrow::after {
+        transform: rotate(180deg);
+      }
+    }
+  }
+  .sidebar-nav-item-nested-link,
+  .sidebar-nav-secondary-item-trigger {
     display: block;
     font-size: 1rem;
     font-weight: 400;
