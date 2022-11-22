@@ -145,10 +145,7 @@ export class ESLAnimateService {
     CSSClassUtils.add(item, config.cls);
     this._entries.delete(item);
 
-    if (config._unsubscribe) {
-      this._io.unobserve(item);
-      this._configMap.delete(item);
-    }
+    if (config._unsubscribe) this.unobserve(item);
   }
 
   /** Returns config */
