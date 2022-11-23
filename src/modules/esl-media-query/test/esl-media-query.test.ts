@@ -1,5 +1,7 @@
 import {DDMock} from '../../esl-utils/test/deviceDetector.mock';
 import {ESLMediaQuery, ESLScreenBreakpoints, ESLScreenDPR} from '../core';
+import {getMatchMediaMock} from '../../esl-utils/test/matchMedia.mock';
+import {ESLMediaChangeEvent} from '../core/conditions/media-query-base';
 
 /**
  * ESL Media Query tests
@@ -199,6 +201,118 @@ describe('ESLMediaQuery', () => {
       ['@xs or @xl']
     ])('Apply tests for %p breakpoint', (query) => {
       expect(ESLMediaQuery.for(query)).toBe(ESLMediaQuery.for(query));
+    });
+  });
+
+  describe('EventTarget interface implementation', () => {
+    const mockLgMatchMedia = getMatchMediaMock(ESLScreenBreakpoints.get('lg')!.mediaQuery);
+    const mockXlMatchMedia = getMatchMediaMock(ESLScreenBreakpoints.get('xl')!.mediaQuery);
+
+    test('Methods availability', () => {
+      const mq = ESLMediaQuery.for('(max-width: 500px)');
+      expect(typeof mq.addEventListener).toBe('function');
+      expect(typeof mq.removeEventListener).toBe('function');
+      expect(typeof mq.dispatchEvent).toBe('function');
+    });
+
+    test('ESLMediaChangeEvent', () => {
+      const listener = jest.fn();
+
+      mockLgMatchMedia.matches = false;
+      ESLMediaQuery.for('@lg').addEventListener(listener);
+      expect(listener).not.toBeCalled();
+
+      mockLgMatchMedia.matches = true;
+      expect(listener).toBeCalledTimes(1);
+      expect(listener).lastCalledWith(expect.any(ESLMediaChangeEvent));
+      expect(listener).lastCalledWith(expect.objectContaining({
+        matches: true,
+        media: String(ESLMediaQuery.for('@lg')),
+        target:  ESLMediaQuery.for('@lg'),
+        currentTarget:  ESLMediaQuery.for('@lg')
+      }));
+
+      mockLgMatchMedia.matches = false;
+      expect(listener).toBeCalledTimes(2);
+      expect(listener).lastCalledWith(expect.any(ESLMediaChangeEvent));
+      expect(listener).lastCalledWith(expect.objectContaining({
+        matches: false,
+        media: String(ESLMediaQuery.for('@lg')),
+        target:  ESLMediaQuery.for('@lg'),
+        currentTarget:  ESLMediaQuery.for('@lg')
+      }));
+    });
+
+    test('Conjunction listener',  ()=> {
+      const fn1 = jest.fn();
+      const fn2 = jest.fn();
+
+      mockLgMatchMedia.matches = false;
+      mockXlMatchMedia.matches = false;
+
+      ESLMediaQuery.for('@lg and @xl').addEventListener(fn1);
+      ESLMediaQuery.for('@lg and @xl').addEventListener('change', fn2);
+
+      expect(ESLMediaQuery.for('@lg and @xl').matches).toBe(false);
+      expect(fn1).toBeCalledTimes(0);
+      expect(fn2).toBeCalledTimes(0);
+
+      mockLgMatchMedia.matches = true;
+      expect(ESLMediaQuery.for('@lg and @xl').matches).toBe(false);
+      expect(fn1).toBeCalledTimes(0);
+      expect(fn2).toBeCalledTimes(0);
+
+      mockXlMatchMedia.matches = true;
+      expect(ESLMediaQuery.for('@lg and @xl').matches).toBe(true);
+      expect(fn1).toBeCalledTimes(1);
+      expect(fn2).toBeCalledTimes(1);
+
+      ESLMediaQuery.for('@lg and @xl').removeEventListener(fn1);
+      mockXlMatchMedia.matches = false;
+      expect(fn1).toBeCalledTimes(1);
+      expect(fn2).toBeCalledTimes(2);
+
+      ESLMediaQuery.for('@lg and @xl').removeEventListener(fn2);
+      mockXlMatchMedia.matches = true;
+      expect(fn1).toBeCalledTimes(1);
+      expect(fn2).toBeCalledTimes(2);
+    });
+
+    test('Disjunction listener',  ()=> {
+      const fn1 = jest.fn();
+      const fn2 = jest.fn();
+
+      mockLgMatchMedia.matches = false;
+      mockXlMatchMedia.matches = false;
+
+      ESLMediaQuery.for('@lg or @xl').addEventListener(fn1);
+      ESLMediaQuery.for('@lg or @xl').addEventListener('change', fn2);
+
+      expect(ESLMediaQuery.for('@lg or @xl').matches).toBe(false);
+      expect(fn1).toBeCalledTimes(0);
+      expect(fn2).toBeCalledTimes(0);
+
+      mockLgMatchMedia.matches = true;
+      expect(ESLMediaQuery.for('@lg or @xl').matches).toBe(true);
+      expect(fn1).toBeCalledTimes(1);
+      expect(fn2).toBeCalledTimes(1);
+
+      mockXlMatchMedia.matches = true;
+      expect(ESLMediaQuery.for('@lg or @xl').matches).toBe(true);
+      expect(fn1).toBeCalledTimes(1);
+      expect(fn2).toBeCalledTimes(1);
+
+      ESLMediaQuery.for('@lg or @xl').removeEventListener(fn1);
+      mockLgMatchMedia.matches = false;
+      mockXlMatchMedia.matches = false;
+      expect(fn1).toBeCalledTimes(1);
+      expect(fn2).toBeCalledTimes(2);
+
+      ESLMediaQuery.for('@lg or @xl').removeEventListener(fn2);
+      mockLgMatchMedia.matches = true;
+      mockXlMatchMedia.matches = false;
+      expect(fn1).toBeCalledTimes(1);
+      expect(fn2).toBeCalledTimes(2);
     });
   });
 });

@@ -1,5 +1,6 @@
-import {TraversingQuery} from '../../../src/modules/esl-traversing-query/core';
-import {attr, ESLBaseElement, listen} from '../../../src/modules/esl-base-element/core';
+import {ESLTraversingQuery} from '../../../src/modules/esl-traversing-query/core';
+import {ESLBaseElement} from '../../../src/modules/esl-base-element/core';
+import {attr, listen} from '../../../src/modules/esl-utils/decorators';
 
 interface MediaTarget {
   play(): any;
@@ -16,7 +17,7 @@ interface TestMediaAction {
 class ESLDemoMediaControls extends ESLBaseElement {
   public static is = 'esl-d-media-controls';
 
-  public static ACTIONS: {[key: string]: TestMediaAction} = {
+  public static ACTIONS: Record<string, TestMediaAction> = {
     play: {
       title: 'Play',
       action: (target: any) => target.play(),
@@ -39,7 +40,7 @@ class ESLDemoMediaControls extends ESLBaseElement {
   @attr({defaultValue: ESLDemoMediaControls.ACTIONS_ALL}) public actions: string;
 
   public get $targets(): HTMLElement[] {
-    return TraversingQuery.all(this.target, this) as HTMLElement[];
+    return ESLTraversingQuery.all(this.target, this) as HTMLElement[];
   }
 
   protected connectedCallback(): void {

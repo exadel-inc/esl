@@ -1,9 +1,13 @@
-import {toKebabCase} from '../misc/format';
+import {identity} from '../misc/functions';
+import {parseString, toKebabCase} from '../misc/format';
 import {getAttr, setAttr} from '../dom/attr';
 import type {AttributeDecorator, AttributeTarget} from '../dom/attr';
 
+export type AttrParser<T> = (attr: string | null) => T;
+export type AttrSerializer<T> = (val: T) => null | boolean | string;
+
 /** HTML attribute mapping configuration */
-type AttrDescriptor = {
+type AttrDescriptor<T = string> = {
   /** HTML attribute name. Uses kebab-cased variable name by default */
   name?: string;
   /** Create getter only */
@@ -11,20 +15,12 @@ type AttrDescriptor = {
   /** Use data-* attribute */
   dataAttr?: boolean;
   /** Default property value. Used if no attribute is present on the element. Empty string by default. */
-  defaultValue?: string | boolean | null;
+  defaultValue?: T;
+  /** Parser from attribute value */
+  parser?: AttrParser<T>;
+  /** Serializer to transform passed value to attribute value */
+  serializer?: AttrSerializer<T>;
 };
-
-function buildSimpleDescriptor(attrName: string, readOnly: boolean, defaultValue: string | boolean | null | undefined): PropertyDescriptor {
-  function get(): string | boolean | null | undefined {
-    return getAttr(this, attrName, defaultValue);
-  }
-
-  function set(value: string | boolean | null | undefined): void {
-    setAttr(this, attrName, value);
-  }
-
-  return readOnly ? {get} : {get, set};
-}
 
 const buildAttrName =
   (propName: string, dataAttr: boolean): string => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
@@ -34,10 +30,19 @@ const buildAttrName =
  * Maps string type property.
  * @param config - mapping configuration. See {@link AttrDescriptor}
  */
-export const attr = (config: AttrDescriptor = {}): AttributeDecorator => {
-  config = Object.assign({defaultValue: ''}, config);
+export const attr = <T = string>(config: AttrDescriptor<T> = {}): AttributeDecorator => {
   return (target: Element | AttributeTarget, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
-    Object.defineProperty(target, propName, buildSimpleDescriptor(attrName, !!config.readonly, config.defaultValue));
+
+    function get(): T | null {
+      const val = getAttr(this, attrName);
+      if (val === null && 'defaultValue' in config) return config.defaultValue as T;
+      return (config.parser || parseString as AttrParser<any>)(val);
+    }
+    function set(value: T): void {
+      setAttr(this, attrName, (config.serializer as AttrSerializer<any> || identity)(value));
+    }
+
+    Object.defineProperty(target, propName, config.readonly ? {get} : {get, set});
   };
 };

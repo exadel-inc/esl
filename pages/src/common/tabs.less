@@ -2,12 +2,12 @@
 
 .esl-d-tab-group {
   &, & > .esl-d-tab-panel {
-    border-bottom-left-radius: calc(0.5rem - 1px);
-    border-bottom-right-radius: calc(0.5rem - 1px);
+    border-bottom-left-radius: calc(.5rem - 1px);
+    border-bottom-right-radius: calc(.5rem - 1px);
   }
 
   & > .esl-d-accordion-header {
-    border-radius: calc(0.5rem - 1px);
+    border-radius: calc(.5rem - 1px);
     transition: border-radius 0s linear.5s;
     &[active] {
       color: @primary-blue;
@@ -30,7 +30,7 @@
     border: 1px solid @secondary-blue;
     border-top: none;
 
-    margin-bottom: 0.5rem;
+    margin-bottom: .5rem;
   }
   > .esl-d-tab-group > .esl-d-accordion-header {
     display: block;
@@ -54,24 +54,6 @@
   }
 }
 
-.esl-d-tabs.esl-open-view {
-  > .esl-d-tab-control {
-    display: none;
-  }
-  > .esl-d-tab-group > .esl-d-accordion-header {
-    display: none;
-  }
-  > .esl-d-tab-group > .esl-d-tab-panel {
-    background: #fff;
-    border: 1px solid @secondary-blue;
-
-    border-top-left-radius: calc(0.5rem - 1px);
-    border-top-right-radius: calc(0.5rem - 1px);
-
-    margin-bottom: 0.5rem;
-  }
-}
-
 .esl-d-tab-list {
   margin: 0;
   > .esl-d-tab-item {
@@ -90,8 +72,8 @@
 
   border: 1px solid transparent;
   border-bottom: none;
-  border-top-left-radius: calc(0.5rem - 1px);
-  border-top-right-radius: calc(0.5rem - 1px);
+  border-top-left-radius: calc(.5rem - 1px);
+  border-top-right-radius: calc(.5rem - 1px);
 
   &:focus, &:hover {
     @inactive-color: mix(@secondary-blue, #ccc, 50);

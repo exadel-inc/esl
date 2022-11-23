@@ -1,17 +1,17 @@
 @import "../common/variables.less";
 
-html {
+html:not(.esl-scrollable-content) {
   width: 100%;
   height: 100%;
   overflow: hidden;
-}
 
-body {
-  width: 100%;
-  /* stylelint-disable */
-  height: 100vh;
-  height: var(--100vh, 100vh);
-  /* stylelint-enable */
+  body {
+    width: 100%;
+    /* stylelint-disable */
+    height: 100vh;
+    height: var(--100vh, 100vh);
+    /* stylelint-enable */
+  }
 }
 
 .page {
@@ -28,11 +28,21 @@ main {
   flex: 1 1 auto;
 }
 
+.page-title {
+  padding: 1rem 0;
+
+  svg {
+    max-height: 40px;
+    fill: black;
+    margin-bottom: 10px;
+  }
+}
+
 .main-scrollbar {
   z-index: 100;
 }
 
-.page-404 {
+.system-page {
   display: flex;
   align-items: center;
   justify-content: center;

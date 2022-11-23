@@ -5,4 +5,17 @@ esl-tabs {
     flex-direction: row;
     flex-wrap: nowrap;
   }
+
+  &.center-alignment > .esl-tab-container {
+    & > :first-child {
+      margin-left: auto;
+    }
+    & > :last-child {
+      margin-right: auto;
+    }
+  }
+
+  &.right-alignment > .esl-tab-container > :first-child {
+    margin-left: auto;
+  }
 }

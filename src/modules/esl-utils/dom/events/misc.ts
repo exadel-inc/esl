@@ -14,7 +14,7 @@ const PASSIVE_EVENTS = ['wheel', 'mousewheel', 'touchstart', 'touchmove'];
  */
 export const isPassiveByDefault = (event: string): boolean => PASSIVE_EVENTS.includes(event);
 
-/** Gets the original CustomEvent source */
+/** Gets the original CustomEvent source in case event bubbles from Shadow DOM */
 export const getCompositeTarget = (e: CustomEvent): EventTarget | null => {
   const targets = (e.composedPath && e.composedPath());
   return targets ? targets[0] : e.target;
@@ -41,4 +41,20 @@ export const getOffsetPoint = (el: Element): Point => {
   const y = props.top + window.scrollY;
   const x = props.left + window.scrollX;
   return {x, y};
+};
+
+/**
+ * Dispatches custom event.
+ * Event bubbles and is cancelable by default, use `eventInit` to override that.
+ * @param el - EventTarget to dispatch event
+ * @param eventName - name of the event to dispatch
+ * @param eventInit - object that specifies characteristics of the event. See {@link CustomEventInit}
+ */
+export const dispatchCustomEvent = (el: EventTarget, eventName: string, eventInit?: CustomEventInit): boolean => {
+  const init = Object.assign({
+    bubbles: true,
+    composed: true,
+    cancelable: true
+  }, eventInit || {});
+  return el.dispatchEvent(new CustomEvent(eventName, init));
 };

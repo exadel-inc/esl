@@ -1,4 +1,4 @@
-import {EventUtils} from '../../../src/modules/esl-utils/dom/events';
+import {ESLEventUtils} from '../../../src/modules/esl-utils/dom/events';
 import {onDocumentReady} from '../../../src/modules/esl-utils/dom/ready';
 
 import type {AlertActionParams} from '../../../src/modules/esl-alert/core/esl-alert';
@@ -20,5 +20,5 @@ onDocumentReady(() => {
     `,
     hideDelay: 15000
   };
-  EventUtils.dispatch(document.body, 'esl:alert:show', {detail});
+  ESLEventUtils.dispatch(document.body, 'esl:alert:show', {detail});
 });
