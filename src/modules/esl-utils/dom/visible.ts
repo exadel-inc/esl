@@ -1,6 +1,4 @@
 import {getNodeName, getParentNode} from './api';
-import {getListScrollParents} from './scroll';
-import type {Rect} from './rect';
 
 export interface VisibilityOptions {
   /** Element will be considered invisible if opacity set to '0' */
@@ -46,11 +44,5 @@ export function isVisible(el: HTMLElement, options: VisibilityOptions = {visibil
 
 function isInViewport(el: HTMLElement): boolean {
   const elrect = el.getBoundingClientRect();
-  if (!document.elementFromPoint(elrect.x, elrect.y)) return false;
-  return !getListScrollParents(el).some((parent: HTMLElement) => !isIntersecting(elrect, parent.getBoundingClientRect()));
-}
-
-function isIntersecting(rect1: Rect | DOMRect, rect2: Rect | DOMRect): boolean {
-  return (rect1.top <= rect2.bottom && rect1.top >= rect2.top || rect1.bottom <= rect2.bottom && rect1.bottom >= rect2.top) &&
-         (rect1.left <= rect2.right && rect1.left >= rect2.left || rect1.right <= rect2.right && rect1.right >= rect2.left);
+  return el.isSameNode(document.elementFromPoint(elrect.x, elrect.y));
 }
