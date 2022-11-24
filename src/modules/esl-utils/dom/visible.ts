@@ -1,7 +1,5 @@
 import {getNodeName, getParentNode} from './api';
 import {getListScrollParents} from './scroll';
-import {getWindowRect} from './window';
-
 import type {Rect} from './rect';
 
 export interface VisibilityOptions {
@@ -37,7 +35,7 @@ export function findParentByStyles(el: HTMLElement, matchStyles: Partial<CSSStyl
  */
 export function isVisible(el: HTMLElement, options: VisibilityOptions = {visibility: true, opacity: false, viewport: false, size: false}): boolean {
   if (!el.getClientRects().length) return false;
-  if (options.viewport && isInViewport(el)) return false;
+  if (options.viewport && !isInViewport(el)) return false;
   if (options.size && el.offsetHeight * el.offsetWidth === 0) return false;
 
   const {visibility, opacity} = options;
@@ -48,15 +46,8 @@ export function isVisible(el: HTMLElement, options: VisibilityOptions = {visibil
 
 function isInViewport(el: HTMLElement): boolean {
   const elrect = el.getBoundingClientRect();
-  const wndRect = getWindowRect();
-  return getListScrollParents(el).some((par: HTMLElement) => {
-    const parRect = par.getBoundingClientRect();
-    const top = Math.max(parRect.y, wndRect.y);
-    const left = Math.max(parRect.x, wndRect.x);
-    const bottom = Math.min(parRect.bottom, wndRect.bottom);
-    const right = Math.min(parRect.right, wndRect.right);
-    return !(isIntersecting(elrect, {top, left, bottom, right} as DOMRect));
-  });
+  if (!document.elementFromPoint(elrect.x, elrect.y)) return false;
+  return !getListScrollParents(el).some((parent: HTMLElement) => !isIntersecting(elrect, parent.getBoundingClientRect()));
 }
 
 function isIntersecting(rect1: Rect | DOMRect, rect2: Rect | DOMRect): boolean {
