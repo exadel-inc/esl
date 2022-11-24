@@ -103,6 +103,3 @@ ESLCarouselPlugins.Dots.register();
 ESLCarouselPlugins.Link.register();
 ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
-
-// UI Playground
-import './ui-playground/ui-playground';
