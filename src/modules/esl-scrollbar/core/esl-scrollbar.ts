@@ -105,7 +105,7 @@ export class ESLScrollbar extends ESLBaseElement {
   protected bindTargetEvents(): void {
     if (!this.$target) return;
     if (document.documentElement === this.$target) {
-      this.$$on(this._onScrollOrResize);
+      this.$$on({event: 'scroll', target: window}, this._onScrollOrResize);
     } else {
       this.$$on({event: 'scroll', target: this.$target}, this._onScrollOrResize);
       this._resizeObserver.observe(this.$target);
