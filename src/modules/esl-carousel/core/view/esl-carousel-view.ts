@@ -40,6 +40,8 @@ export abstract class ESLCarouselView {
   public onBind(): void {}
   /** Processes unbinding of defined view from the carousel {@link ESLCarousel}. */
   public onUnbind(): void {}
+  /** Processes drawing of the carousel {@link ESLCarousel}. */
+  public redraw(): void {}
 
   /** Pre-processing animation action. */
   public abstract onBeforeAnimate(index?: number, direction?: CarouselDirection): Promise<void>;

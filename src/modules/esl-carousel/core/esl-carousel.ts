@@ -81,6 +81,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   public readonly plugins = new Set<ESLCarouselPlugin>();
   protected _view: ESLCarouselView;
+  protected _resizeObserver = new ResizeObserver(this._onResize);
 
   /**  @returns marker if the carousel is in a loop. */
   public get loop(): boolean {
@@ -115,7 +116,9 @@ export class ESLCarousel extends ESLBaseElement {
 
   @bind
   protected _onResize(): void {
-    this.update(true);
+    if (!this._view) return;
+    this._view.redraw();
+    this.goTo(this.firstIndex);
   }
 
   private attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
@@ -145,23 +148,32 @@ export class ESLCarousel extends ESLBaseElement {
     this.update(true);
     this.goTo(this.firstIndex, {force: true});
 
-    ESLCarouselView.registry.addListener(this._onUpdate);
-    this.typeRule.addEventListener(this._onUpdate);
-    this.countRule.addEventListener(this._onUpdate);
-    this.loopRule.addEventListener(this._onUpdate);
-
-    window.addEventListener('resize', this._onResize);
-
     const ariaLabel = this.hasAttribute('aria-label');
     !ariaLabel && this.setAttribute('aria-label', 'Carousel');
+
+    this.bindEvents();
   }
 
   protected disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.unbindEvents();
+  }
+
+  protected bindEvents(): void {
+    ESLCarouselView.registry.addListener(this._onUpdate);
+    this.typeRule.addEventListener(this._onUpdate);
+    this.countRule.addEventListener(this._onUpdate);
+    this.loopRule.addEventListener(this._onUpdate);
+    this._resizeObserver.observe(this);
+
+  }
+
+  protected unbindEvents(): void {
     ESLCarouselView.registry.removeListener(this._onUpdate);
     this.typeRule.removeEventListener(this._onUpdate);
     this.countRule.removeEventListener(this._onUpdate);
     this.loopRule.removeEventListener(this._onUpdate);
+    this._resizeObserver.unobserve(this);
   }
 
   /** @returns list of active slide indexes. */

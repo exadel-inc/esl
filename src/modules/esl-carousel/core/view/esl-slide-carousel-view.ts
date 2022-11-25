@@ -12,6 +12,10 @@ export class ESLSlideCarouselView extends ESLCarouselView {
    */
   // TODO: check
   public onBind(): void {
+    this.redraw();
+  }
+
+  public redraw(): void {
     const {$slides, $slidesArea} = this.carousel;
     if (!$slidesArea || !$slides.length) return;
 
@@ -25,6 +29,10 @@ export class ESLSlideCarouselView extends ESLCarouselView {
    * Clear animation.
    */
   public onUnbind(): void {
+    this.clearAnimation();
+  }
+
+  public clearAnimation(): void {
     this.carousel.toggleAttribute('animate', false);
     this.carousel.toggleAttribute('direction', false);
     this.carousel.$slides.forEach((slide) => {

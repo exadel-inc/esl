@@ -30,15 +30,19 @@ export class ESLMultiCarouselView extends ESLCarouselView {
    * Prepare to view animation.
    */
   public onBind(): void {
+    this.redraw();
+
+    this.currentIndex = this.carousel.firstIndex;
+    this._setOrderFrom(this.currentIndex);
+  }
+
+  public redraw(): void {
     const {$slides, $slidesArea} = this.carousel;
     if (!$slidesArea || !$slides.length) return;
 
     const slidesAreaStyles = getComputedStyle($slidesArea);
     this.slideWidth = parseFloat(slidesAreaStyles.width) / this.carousel.count;
     $slides.forEach((slide) => slide.style.minWidth = this.slideWidth + 'px');
-
-    this.currentIndex = this.carousel.firstIndex;
-    this._setOrderFrom(this.currentIndex);
   }
 
   /**
@@ -52,6 +56,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     });
     this.carousel.$slidesArea!.style.removeProperty('transform');
     this.carousel.toggleAttribute('animate', false);
+    this.carousel.$slidesArea!.style.transform = 'translate3d(0px, 0px, 0px)';
   }
 
   /** Pre-processing animation action. */
@@ -104,18 +109,6 @@ export class ESLMultiCarouselView extends ESLCarouselView {
       this.carousel.$slidesArea?.addEventListener('transitionend', cb);
     });
   }
-
-  /** Processes animation of one slide. */
-  // protected async onStepAnimate(direction: CarouselDirection): Promise<void> {
-  //   // TODO: move from
-  //   // this.carousel.toggleAttribute('animate', true);
-  //
-  //   // TODO: take from before
-  //   const offsetIndex = direction === 'next' ? normalizeIndex(this.currentIndex + 1, this.size) : this.currentIndex;
-  //   const offset = this.carousel.$slides[offsetIndex].offsetLeft;
-  //
-  //   // TODO: !
-  // }
 
   /** Post-processing the transition animation of one slide. */
   protected async onAfterStepAnimate(direction: CarouselDirection): Promise<void> {
