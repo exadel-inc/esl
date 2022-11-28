@@ -334,7 +334,6 @@ export class ESLScrollbar extends ESLBaseElement {
    * Handler for scroll and resize events
    * @param event - instance of 'resize' or 'scroll' event
    */
-  @listen({event: 'resize scroll', passive: true, auto: false})
   protected _onScrollOrResize(event: Event): void {
     if (event.type === 'scroll' && this.dragging) return;
     this._deferredRefresh();
