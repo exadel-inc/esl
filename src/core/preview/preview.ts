@@ -7,6 +7,7 @@ import {UIPPlugin} from '../base/plugin';
  */
 export class UIPPreview extends UIPPlugin {
   static is = 'uip-preview';
+  static observedAttributes: string[] = ['resizable'];
 
   @bind
   protected _onRootStateChange(): void {
@@ -18,5 +19,19 @@ export class UIPPreview extends UIPPlugin {
   protected disconnectedCallback() {
     if (this.$inner.parentElement === this) this.removeChild(this.$inner);
     super.disconnectedCallback();
+  }
+
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+    if (attrName === 'resizable' && newVal === null) {
+      this.clearInlineSize();
+      this.$inner.classList.remove('resizable');
+    } else {
+      this.$inner.classList.add('resizable');
+    }
+  }
+
+  protected clearInlineSize() {
+    this.$inner.style.removeProperty('height');
+    this.$inner.style.removeProperty('width');
   }
 }
