@@ -105,7 +105,7 @@ export class ESLScrollbar extends ESLBaseElement {
   protected bindTargetEvents(): void {
     if (!this.$target) return;
     if (document.documentElement === this.$target) {
-      this.$$on(this._onScrollOrResize);
+      this.$$on({event: 'resize scroll', target: window}, this._onScrollOrResize);
     } else {
       this.$$on({event: 'scroll', target: this.$target}, this._onScrollOrResize);
       this._resizeObserver.observe(this.$target);
@@ -334,7 +334,6 @@ export class ESLScrollbar extends ESLBaseElement {
    * Handler for scroll and resize events
    * @param event - instance of 'resize' or 'scroll' event
    */
-  @listen({event: 'resize scroll', passive: true, auto: false})
   protected _onScrollOrResize(event: Event): void {
     if (event.type === 'scroll' && this.dragging) return;
     this._deferredRefresh();
