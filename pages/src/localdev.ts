@@ -34,7 +34,8 @@ import {
   ESLAnimate,
   ESLShareList,
   ESLShareActionRegistry,
-  ESLShareConfig
+  ESLShareConfig,
+  ESLRelatedTarget
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -120,3 +121,6 @@ ESLShareConfig.use(ESLShareFetchConfigProvider, {
   url: '/assets/share/config.json'
 });
 ESLShareList.register();
+
+// Register ESL Mixins
+ESLRelatedTarget.register();
