@@ -114,9 +114,9 @@ ESLCarouselPlugins.Link.register();
 ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
 
-ESLShareActionRegistry.instance.register(ESLShareCopyAction);
-ESLShareActionRegistry.instance.register(ESLShareMediaAction);
-ESLShareActionRegistry.instance.register(ESLSharePrintAction);
+ESLShareCopyAction.register();
+ESLShareMediaAction.register();
+ESLSharePrintAction.register();
 ESLShareConfig.use(ESLShareFetchConfigProvider, {
   url: '/assets/share/config.json'
 });

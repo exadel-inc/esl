@@ -1,9 +1,21 @@
+import {ESLShareActionRegistry} from './esl-share-action-registry';
+
 import type {ESLShareButton} from './esl-share-button';
 
 export type ActionType = (new($button: ESLShareButton) => ESLShareBaseAction) & typeof ESLShareBaseAction;
 
 export abstract class ESLShareBaseAction {
-  static readonly is: string;
+  public static readonly is: string;
+
+  /** Register this action. Can be used as a decorator */
+  public static register(this: ActionType): void;
+  public static register(this: unknown, action?: ActionType): void;
+  public static register(this: any, action?: ActionType): void {
+    action = action || this;
+    if (action === ESLShareBaseAction) throw new Error('`ESLShareBaseAction` can\'t be registered.');
+    if (!(action?.prototype instanceof ESLShareBaseAction)) throw new Error('Action should be instanceof `ESLShareBaseAction`');
+    ESLShareActionRegistry.instance.register(action);
+  }
 
   public constructor(protected $button: ESLShareButton) {}
 

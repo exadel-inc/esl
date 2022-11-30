@@ -3,6 +3,7 @@ import {ESLEventUtils} from '../../esl-utils/dom/events';
 
 import type {AlertActionParams} from '../../esl-alert/core';
 
+@ESLShareBaseAction.register
 export class ESLShareCopyAction extends ESLShareBaseAction {
   public static readonly is: string = 'copy';
 

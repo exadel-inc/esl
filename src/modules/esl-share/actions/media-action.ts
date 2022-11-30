@@ -1,6 +1,7 @@
 import {ESLShareBaseAction} from '../core/esl-share-action';
 import {format} from '../../esl-utils/misc/format';
 
+@ESLShareBaseAction.register
 export class ESLShareMediaAction extends ESLShareBaseAction {
   public static readonly is: string = 'media';
 
