@@ -146,7 +146,7 @@
     },
     {
       "id": "mail",
-      "action": "media",
+      "action": "mail",
       "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 28 28\"\u003e\u003cpath d\u003d\"M4.63 6.94v14.1h18.8V6.94H4.63zm2.44 1.78h13.9l-6.93 5.67-6.93-5.67zm14.6 1.72v8.82H6.47v-8.79l7.59 6.21 7.63-6.24z\"/\u003e\u003c/svg\u003e",
       "iconBackground": "#0b77b3",
       "link": "mailto:?subject\u003d{t}\u0026body\u003d{u}",

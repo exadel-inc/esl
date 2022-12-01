@@ -33,7 +33,6 @@ import {
   ESLTooltip,
   ESLAnimate,
   ESLShareList,
-  ESLShareActionRegistry,
   ESLShareConfig,
   ESLRelatedTarget
 } from '../../src/modules/all';
@@ -45,6 +44,7 @@ import '../../src/modules/esl-media/providers/youtube-provider';
 import '../../src/modules/esl-media/providers/brightcove-provider';
 
 import {ESLShareCopyAction} from '../../src/modules/esl-share/actions/copy-action';
+import {ESLShareMailAction} from '../../src/modules/esl-share/actions/mail-action';
 import {ESLShareMediaAction} from '../../src/modules/esl-share/actions/media-action';
 import {ESLSharePrintAction} from '../../src/modules/esl-share/actions/print-action';
 import {ESLShareFetchConfigProvider} from '../../src/modules/esl-share/config-providers/fetch-provider';
@@ -115,6 +115,7 @@ ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
 
 ESLShareCopyAction.register();
+ESLShareMailAction.register();
 ESLShareMediaAction.register();
 ESLSharePrintAction.register();
 ESLShareConfig.use(ESLShareFetchConfigProvider, {
