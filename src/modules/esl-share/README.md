@@ -10,8 +10,6 @@ Authors: *Dmytro Shovchko*.
 
 The ESL Share component allows the user to share the page on social media platforms.
 
-**ESLShareIcon** is a custom element that is used to show social media icons.
+**ESLShareButton** is a custom element that is used to show the "Share on social media" button.
 
-**ESLSharePopup** is a custom element that is used to show the popup GUI element containing social media icons.
-
-**ESLShareTrigger** is a custom element that is used to show/hide popups with share icons.
+**ESLShareList** is a custom element that is used to show the list of social media buttons.
