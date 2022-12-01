@@ -1,8 +1,7 @@
-import {ESLShareBaseAction} from '../core/esl-share-action';
-import {format} from '../../esl-utils/misc/format';
+import {ESLShareUrlGenericAction} from './url-generic-action';
 
-@ESLShareBaseAction.register
-export class ESLShareMediaAction extends ESLShareBaseAction {
+@ESLShareUrlGenericAction.register
+export class ESLShareMediaAction extends ESLShareUrlGenericAction {
   public static readonly is: string = 'media';
 
   public static FEATURES: Record<string, number> = {
@@ -17,23 +16,14 @@ export class ESLShareMediaAction extends ESLShareBaseAction {
     status: 0
   };
 
-  protected get formatSource(): Record<string, string> {
-    const {shareData} = this.$button;
-    return {
-      u: encodeURIComponent(shareData.url),
-      t: encodeURIComponent(shareData.title)
-    };
-  }
-
   protected get windowFeatures(): string {
     return Object.entries((this.constructor as typeof ESLShareMediaAction).FEATURES).map((key, value) => `${key}=${value}`).join(',');
   }
 
   public do(): void {
     const {link} = this.$button;
-    if (link) {
-      const URL = format(link, this.formatSource);
-      window.open(URL, '_blank', this.windowFeatures);
-    }
+    if (!link) return;
+
+    window.open(this.buildURL(link), '_blank', this.windowFeatures);
   }
 }
