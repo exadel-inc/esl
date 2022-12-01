@@ -7,11 +7,6 @@ import type {AlertActionParams} from '../../esl-alert/core';
 export class ESLShareCopyAction extends ESLShareBaseAction {
   public static readonly is: string = 'copy';
 
-  protected get alertIcon(): string {
-    const $icon = this.$button.querySelector('.esl-share-icon');
-    return $icon ? $icon.innerHTML : '';
-  }
-
   protected get alertText(): string {
     return 'Copied to clipboard';
   }
@@ -19,7 +14,7 @@ export class ESLShareCopyAction extends ESLShareBaseAction {
   protected get alertParams(): AlertActionParams {
     return {
       cls: 'esl-share-alert',
-      html: `<span class="esl-share-icon">${this.alertIcon}</span> <span aria-label="${this.alertText}">${this.alertText}</span>`
+      html: `<span aria-label="${this.alertText}">${this.alertText}</span>`
     };
   }
 
