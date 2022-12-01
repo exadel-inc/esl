@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "skipLibCheck": true,
     "experimentalDecorators": true,
     "allowJs": true,
     "alwaysStrict": true,
