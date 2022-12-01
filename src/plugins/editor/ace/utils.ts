@@ -1,0 +1,17 @@
+/** Config interface to define inner ACE editor settings. */
+export interface EditorConfig {
+  /** Editor's appearance theme. */
+  theme: string;
+  /** Position of the vertical line for wrapping. */
+  printMarginColumn: number;
+  /** Limit of characters before wrapping. */
+  wrap: number | boolean;
+}
+
+/** Enum to match themes to {@link https://github.com/ajaxorg/ace/tree/master/src/theme Ace styles}. */
+export enum Theme {
+  /** Light editor theme. */
+  Light = 'ace/theme/chrome',
+  /** Dark editor theme. */
+  Dark = 'ace/theme/tomorrow_night',
+};
