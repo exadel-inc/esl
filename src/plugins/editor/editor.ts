@@ -76,6 +76,8 @@ export class UIPEditor extends UIPPlugin {
     this.editor.setOption('useWorker', false);
     this.editor.setOption('mode', 'ace/mode/html');
     this.initEditorOptions();
+
+    this._handlePageResize();
   }
 
   protected initEditorOptions(): void {
@@ -104,6 +106,14 @@ export class UIPEditor extends UIPPlugin {
     this.editorConfig = editorConfig;
     this.initEditorOptions();
   }
+
+  /* prevents editor content from overflowing when toggling settings section or sidebar */
+  protected _handlePageResize() {
+    const obs = new ResizeObserver(debounce(() => this.editor.resize(),500));
+
+    obs.observe(this);
+  }
+
 
   /** Callback to catch theme changes from {@link UIPRoot}. */
   @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
