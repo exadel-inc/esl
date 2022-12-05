@@ -136,13 +136,14 @@ describe('Traversing Query tests', () => {
     ])('Main check: ESLTraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
 
-  describe('filters (::filter, ::not)', () => {
+  describe('filters (::filter, ::not, ::visible)', () => {
     test.each([
       ['::find(.btn)::filter(.un-existing)', root, []],
       ['::find(.btn)::not(button)', root, []],
       ['::find(.btn)::filter([data-test])', root, [btn2, btn5, btn6]],
       ['::find(.btn)::not([data-test])', root, [btn1, btn3, btn4]],
       ['::find(.btn)::filter(:first-child)', root, [btn1]],
+      ['::find(.btn)::filter(:first-child)::visible', root, []],
       ['::find(.btn)::not(:first-child)', root, [btn2, btn3, btn4, btn5, btn6]]
     ])('Main check: ESLTraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
