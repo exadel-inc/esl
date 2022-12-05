@@ -1,5 +1,5 @@
 import {defaultArgsHashFn, memoizeFn} from '../misc/memoize';
-import {isPrototype, getPropertyDescriptor, isArrayLike} from '../misc/object';
+import {isPrototype, getPropertyDescriptor} from '../misc/object';
 
 import type {MemoHashFn} from '../misc/memoize';
 import type {MethodTypedDecorator} from '../misc/functions';
@@ -63,8 +63,7 @@ function memoizeMethod(originalMethod: any, prop: string, hashFn: MemoHashFn) {
  * Clear utility has no 100% check to prevent modifying incorrect (not memoized) property keys
  */
 memoize.clear = function (target: any, property: string | string[]): void {
-  if (isArrayLike(property)) return (property as string[]).forEach((prop) => memoize.clear(target, prop));
-  property = property as string;
+  if (Array.isArray(property)) return property.forEach((prop) => memoize.clear(target, prop));
   const desc = getPropertyDescriptor(target, property);
   if (!desc) return;
   if (typeof desc.get === 'function' && typeof (desc.get as any).clear === 'function') return (desc.get as any).clear();
