@@ -1,4 +1,7 @@
-import {getNodeName, getParentNode} from './api';
+import {Rect} from './rect';
+import {getListScrollParents} from './scroll';
+import {getWindowRect} from './window';
+import {findParentByStyles} from './traversing';
 
 export interface VisibilityOptions {
   /** Element will be considered invisible if opacity set to '0' */
@@ -7,23 +10,6 @@ export interface VisibilityOptions {
   visibility?: boolean;
   /** Element will be considered invisible if it's not in viewport */
   viewport?: boolean;
-  /** Element will be considered invisible if it's height or width is '0' */
-  size?: boolean;
-}
-
-/**
- * Get the parent of the specified element with matching styles
- * @param el - element for which to get the parent
- * @param matchStyles - object of styles for comparing
- */
-export function findParentByStyles(el: HTMLElement, matchStyles: Partial<CSSStyleDeclaration>): HTMLElement | undefined {
-  const styleNames = Object.keys(matchStyles);
-  if (!styleNames.length) return undefined;
-
-  const elStyle = window.getComputedStyle(el);
-  if (styleNames.some((styleName: any) => elStyle[styleName] === matchStyles[styleName])) return el;
-  if (getNodeName(el) === 'html') return undefined;
-  return findParentByStyles(getParentNode(el) as HTMLElement, matchStyles);
 }
 
 /**
@@ -31,10 +17,9 @@ export function findParentByStyles(el: HTMLElement, matchStyles: Partial<CSSStyl
  * @param el - element to be checked
  * @param options - object of additional visibility options to include
  */
-export function isVisible(el: HTMLElement, options: VisibilityOptions = {visibility: true, opacity: false, viewport: false, size: false}): boolean {
+export function isVisible(el: HTMLElement, options: VisibilityOptions = {visibility: true}): boolean {
   if (!el.getClientRects().length) return false;
   if (options.viewport && !isInViewport(el)) return false;
-  if (options.size && el.offsetHeight * el.offsetWidth === 0) return false;
 
   const {visibility, opacity} = options;
   if (!(visibility || opacity)) return true;
@@ -43,6 +28,20 @@ export function isVisible(el: HTMLElement, options: VisibilityOptions = {visibil
 }
 
 function isInViewport(el: HTMLElement): boolean {
-  const elrect = el.getBoundingClientRect();
-  return el.isSameNode(document.elementFromPoint(elrect.x, elrect.y));
+  const wndIntersection = computeRectIntersection(getWindowRect(), el.getBoundingClientRect());
+  if (wndIntersection.height  <= 0 || wndIntersection.width <= 0) return false;
+  return !getListScrollParents(el).some((parent: HTMLElement) => {
+    const parIntersection = computeRectIntersection(parent.getBoundingClientRect(), wndIntersection);
+    return parIntersection.height <= 0 || parIntersection.width <= 0;
+  });
+}
+
+function computeRectIntersection(rect1: DOMRect | Rect, rect2: DOMRect | Rect): Rect {
+  const top = Math.max(rect1.top, rect2.top);
+  const left = Math.max(rect1.left, rect2.left);
+  const bottom = Math.min(rect1.bottom, rect2.bottom);
+  const right = Math.min(rect1.right, rect2.right);
+  const width = right - left;
+  const height = bottom - top;
+  return Rect.from({top, left, width, height});
 }

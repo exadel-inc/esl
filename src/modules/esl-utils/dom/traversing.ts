@@ -1,3 +1,4 @@
+import {getNodeName, getParentNode} from './api';
 import type {Predicate} from '../misc/functions';
 /** Check that `nodeA` and `nodeB` are from the same tree path */
 export const isRelativeNode = (nodeA: Node | null, nodeB: Node | null): boolean => {
@@ -55,6 +56,21 @@ export const findClosestBy = (node: Node | null, predicate: (node: Node) => bool
   }
   return null;
 };
+
+/**
+ * Get the parent of the specified element with matching styles
+ * @param el - element for which to get the parent
+ * @param matchStyles - object of styles for comparing
+ */
+export function findParentByStyles(el: Element, matchStyles: Partial<CSSStyleDeclaration>): Element | undefined {
+  const styleNames = Object.keys(matchStyles);
+  if (!styleNames.length) return;
+
+  const elStyle = window.getComputedStyle(el);
+  if (styleNames.every((styleName: any) => elStyle[styleName] === matchStyles[styleName])) return el;
+  if (getNodeName(el) === 'html') return;
+  return findParentByStyles(getParentNode(el) as Element, matchStyles);
+}
 
 /** @deprecated Cumulative traversing utility set */
 export abstract class TraversingUtils {
