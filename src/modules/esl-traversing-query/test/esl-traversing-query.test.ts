@@ -143,7 +143,7 @@ describe('Traversing Query tests', () => {
       ['::find(.btn)::filter([data-test])', root, [btn2, btn5, btn6]],
       ['::find(.btn)::not([data-test])', root, [btn1, btn3, btn4]],
       ['::find(.btn)::filter(:first-child)', root, [btn1]],
-      ['::find(.btn)::filter(:first-child)::visible', root, []],
+      ['::find(.btn)::visible', root, []],
       ['::find(.btn)::not(:first-child)', root, [btn2, btn3, btn4, btn5, btn6]]
     ])('Main check: ESLTraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });

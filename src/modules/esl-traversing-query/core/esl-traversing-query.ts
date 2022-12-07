@@ -53,7 +53,7 @@ export class ESLTraversingQuery {
       return wrap(list[index - 1]);
     },
     '::not': (list: Element[], sel?: string) => list.filter((el) => !el.matches(sel || '')),
-    '::visible': (list: Element[]) => list.filter((el) => isVisible(el as HTMLElement)),
+    '::visible': (list: Element[]) => list.filter((el) => (el instanceof HTMLElement) && isVisible(el)),
     '::filter': (list: Element[], sel?: string) => list.filter((el) => el.matches(sel || ''))
   };
 

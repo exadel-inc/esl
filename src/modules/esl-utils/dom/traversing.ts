@@ -1,4 +1,4 @@
-import {getNodeName, getParentNode} from './api';
+import {getNodeName, getParentNode, isShadowRoot} from './api';
 import type {Predicate} from '../misc/functions';
 /** Check that `nodeA` and `nodeB` are from the same tree path */
 export const isRelativeNode = (nodeA: Node | null, nodeB: Node | null): boolean => {
@@ -68,7 +68,7 @@ export function findParentByStyles(el: Element, matchStyles: Partial<CSSStyleDec
 
   const elStyle = window.getComputedStyle(el);
   if (styleNames.every((styleName: any) => elStyle[styleName] === matchStyles[styleName])) return el;
-  if (getNodeName(el) === 'html') return;
+  if (getNodeName(el) === 'html' || isShadowRoot(el)) return;
   return findParentByStyles(getParentNode(el) as Element, matchStyles);
 }
 

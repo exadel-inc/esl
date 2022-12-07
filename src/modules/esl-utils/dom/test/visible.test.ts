@@ -24,7 +24,7 @@ describe('Function isVisible', () => {
   });
 
   test('default dimensions check', () => {
-    jest.spyOn(btn, 'getClientRects').mockReturnValue([{}] as unknown as DOMRectList);
+    jest.spyOn(btn, 'getClientRects').mockReturnValue([{}] as any);
     expect(isVisible(btn)).toBe(true);
   });
 
@@ -50,24 +50,24 @@ describe('Function isVisible', () => {
   });
 
   test('failed additional check for viewport visibility', () => {
-    const boundingClientRect1 = {top: -20, bottom: -10, left: -10, right: -20} as DOMRect;
-    const boundingClientRect2 = {top: -200, bottom: 100, left: -10, right: 200} as DOMRect;
+    const boundingClientRect1 = Rect.from({top: -20, left: -10, height: 10, width: 10}) as any;
+    const boundingClientRect2 = Rect.from({top: -200, left: -10, height: 300, width: 400}) as any;
     jest.spyOn(btn, 'getBoundingClientRect').mockReturnValueOnce(boundingClientRect1);
     jest.spyOn(div, 'getBoundingClientRect').mockReturnValueOnce(boundingClientRect2);
     expect(isVisible(btn, {viewport: true})).toBe(false);
   });
 
   test('passed additional check for viewport visibility', () => {
-    const boundingClientRect1 = {top: 0, bottom: 10, left: 0, right: 20} as DOMRect;
-    const boundingClientRect2 = {top: -200, bottom: 100, left: -10, right: 200} as DOMRect;
+    const boundingClientRect1 = Rect.from({top: 0, left: 0, height: 10, width: 20}) as any;
+    const boundingClientRect2 = Rect.from({top: -200, left: -10, height: 300, width: 200}) as any;
     jest.spyOn(btn, 'getBoundingClientRect').mockReturnValueOnce(boundingClientRect1);
     jest.spyOn(div, 'getBoundingClientRect').mockReturnValueOnce(boundingClientRect2);
     expect(isVisible(btn, {viewport: true})).toBe(true);
   });
 
   test('additional check for viewport visibility with element dimensions set to 0', () => {
-    const boundingClientRect1 = {top: 0, bottom: 0, left: 0, right: 0} as DOMRect;
-    const boundingClientRect2 = {top: -200, bottom: 100, left: -10, right: 200} as DOMRect;
+    const boundingClientRect1 = Rect.from({top: 0, left: 0, height: 0, width: 0}) as any;
+    const boundingClientRect2 = Rect.from({top: -200, left: -10, height: 300, width: 200}) as any;
     jest.spyOn(btn, 'getBoundingClientRect').mockReturnValueOnce(boundingClientRect1);
     jest.spyOn(div, 'getBoundingClientRect').mockReturnValueOnce(boundingClientRect2);
     expect(isVisible(btn, {viewport: true})).toBe(false);

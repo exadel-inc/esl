@@ -28,6 +28,21 @@ export class Rect {
     return rect1.x === rect2.x && rect1.y === rect2.y && rect1.width === rect2.width && rect1.height === rect2.height;
   }
 
+  /**
+   * The static method returns intersection Rect of two Rect instances
+   * @param rect1 - first instance of Rect
+   * @param rect2 - second instance of Rect
+   */
+  public static intersect(rect1: Rect, rect2: Rect): Rect {
+    const y = Math.max(rect1.y, rect2.top);
+    const x = Math.max(rect1.x, rect2.x);
+    const bottom = Math.min(rect1.bottom, rect2.bottom);
+    const right = Math.min(rect1.right, rect2.right);
+    const width = right - x;
+    const height = bottom - y;
+    return Rect.from({x, y, width, height});
+  }
+
   public constructor(x?: number, y?: number, width?: number, height?: number) {
     this.x = x || 0;
     this.y = y || 0;
@@ -111,5 +126,12 @@ export class Rect {
   public shrink(decrementX: number, decrementY: number): Rect;
   public shrink(decrementX: number, decrementY: number = decrementX): Rect {
     return this.grow(-decrementX, -decrementY);
+  }
+
+  /**
+   * Method to check if element's area is bigger than zero
+   */
+  public isEmpty(): boolean {
+    return this.height <= 0 || this.width <= 0;
   }
 }
