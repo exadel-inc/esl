@@ -116,7 +116,7 @@ export class ESLScrollbar extends ESLBaseElement {
     Array.from(this.$target.children).forEach((el) => this._resizeObserver.observe(el));
   }
 
-  /** Resubscribes resize observer on child elements when container content change */
+  /** Resubscribes resize observer on child elements when container content changes */
   protected updateContentObserve(recs: MutationRecord[] = []): void {
     if (!this.$target) return;
     const contentChanges = recs.filter((rec) => rec.type === 'childList');
