@@ -19,6 +19,10 @@ interface EditorConfig {
   printMarginColumn?: number;
   /** Limit of characters before wrapping. */
   wrap?: number | boolean;
+  /** Editor's default amount of lines (height). */
+  minLines : number;
+  /** Editor's max amount of lines (height). */
+  maxLines : number;
 }
 
 /** Interface to represent {@link UIPEditor's} theme. */
@@ -38,6 +42,8 @@ export class UIPEditor extends UIPPlugin {
     theme: 'ace/theme/chrome',
     printMarginColumn: -1,
     wrap: true,
+    minLines: 8,
+    maxLines: 22,
   };
 
   /** Object to map dark/light themes to [Ace]{@link https://ace.c9.io/} themes. */
