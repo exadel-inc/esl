@@ -1,7 +1,9 @@
 module.exports = {
+  transform: {
+    '^.+\\.tsx?$': ['ts-jest']
+  },
   testEnvironment: 'jsdom',
-  preset: 'ts-jest',
-  roots: ['src/modules'],
+  roots: ['src/modules', 'src/polyfills'],
   testRegex: '/test/(.+)\\.test\\.ts$',
   moduleFileExtensions: ['ts', 'js', 'json'],
   coverageDirectory: '.report',

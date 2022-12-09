@@ -32,6 +32,7 @@ export function unwrap(value: any): any {
 
 /** Makes array values unique */
 export const uniq = <T> (arr: T[]): T[] => {
+  if (arr.length < 2) return arr.slice(0);
   const result: T[] = [];
   const set = new Set<T>();
   arr.forEach((item) => set.add(item));

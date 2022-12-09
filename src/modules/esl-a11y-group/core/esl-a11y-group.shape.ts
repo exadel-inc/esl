@@ -6,7 +6,7 @@ import type {ESLA11yGroup} from './esl-a11y-group';
  * Used for TSX declaration
  */
 export interface ESLA11yGroupTagShape extends ESLBaseElementShape<ESLA11yGroup> {
-  /** Define target elements multiple selector ({@link TraversingQuery} syntax) */
+  /** Define target elements multiple selector ({@link ESLTraversingQuery} syntax) */
   'targets'?: string;
 
   /** Enable activation target (via click event) on selection */
