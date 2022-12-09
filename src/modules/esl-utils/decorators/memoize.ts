@@ -62,7 +62,8 @@ function memoizeMethod(originalMethod: any, prop: string, hashFn: MemoHashFn) {
  * Note: be sure that you targeting memoized property or function.
  * Clear utility has no 100% check to prevent modifying incorrect (not memoized) property keys
  */
-memoize.clear = function (target: any, property: string): void {
+memoize.clear = function (target: any, property: string | string[]): void {
+  if (Array.isArray(property)) return property.forEach((prop) => memoize.clear(target, prop));
   const desc = getPropertyDescriptor(target, property);
   if (!desc) return;
   if (typeof desc.get === 'function' && typeof (desc.get as any).clear === 'function') return (desc.get as any).clear();
