@@ -1,3 +1,23 @@
+# [4.1.0](https://github.com/exadel-inc/esl/compare/v4.0.2...v4.1.0) (2022-12-09)
+
+
+### Bug Fixes
+
+* **esl-scrollbar:** add `resize` event ([36cd4c3](https://github.com/exadel-inc/esl/commit/36cd4c304feaa4d2279a04f860c478ba007004cc))
+* **esl-scrollbar:** change target on `window` for `scroll` event ([93a0560](https://github.com/exadel-inc/esl/commit/93a05606178180185f7085fe72e9c0defb55784f))
+* **esl-scrollbar:** fix visibility and size of scroll at start ([#1369](https://github.com/exadel-inc/esl/issues/1369)) ([3f58aac](https://github.com/exadel-inc/esl/commit/3f58aacda313cc0a55562a4085a4e15db8b1d480))
+* **esl-scrollbar:** remove meta declaration `[@listen](https://github.com/listen)` ([e105286](https://github.com/exadel-inc/esl/commit/e105286f3ae5013a9474a3d1a6a9c4ad816c88aa))
+* **gh-pages:** code refactoring ([4a8aefb](https://github.com/exadel-inc/esl/commit/4a8aefb3141013f204714264990de25a104b5180))
+* **gh-pages:** code refactoring ([b48eed0](https://github.com/exadel-inc/esl/commit/b48eed098c70bfa9767b0971d9c54df18f562d14))
+* **gh-pages:** create redirect links ([bd7228f](https://github.com/exadel-inc/esl/commit/bd7228fa68c24c1a02e908d0a5746146eb175df9))
+
+
+### Features
+
+* **esl-related-target:** add esl-related-target mixin ([97255b1](https://github.com/exadel-inc/esl/commit/97255b15e0f67eb74817cf87a2413d992a2af544))
+* **esl-utils:** add ability to pass multiple memoized props to clear at once ([3dca390](https://github.com/exadel-inc/esl/commit/3dca3905a49aed181b464a686536572e8c0b0d71))
+* **eslint:** move files to new `linting` folder ([a196683](https://github.com/exadel-inc/esl/commit/a1966832ae6fc7872ef464d6e4454185ea1be2c6))
+
 ## [4.0.2](https://github.com/exadel-inc/esl/compare/v4.0.1...v4.0.2) (2022-10-19)
 
 
