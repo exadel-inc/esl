@@ -31,6 +31,7 @@ plugins:
   - 'editorconfig'
   - '@typescript-eslint'
   - 'eslint-plugin-tsdoc'
+  - 'custom-rules'
 
 # Overall rules
 rules:
@@ -43,3 +44,6 @@ rules:
   'editorconfig/eol-last': warn
   # Require no trailing spaces
   'editorconfig/no-trailing-spaces': warn
+
+  # Require to replace deprecated aliases
+  'custom-rules/deprecated/traversing-query': warn

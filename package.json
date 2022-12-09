@@ -103,6 +103,7 @@
     "concurrently": "^7.6.0",
     "copyfiles": "^2.4.1",
     "eslint": "^8.29.0",
+    "eslint-plugin-custom-rules": "file:eslint",
     "eslint-plugin-editorconfig": "^4.0.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-sonarjs": "^0.17.0",
@@ -188,6 +189,13 @@
     {
       "name": "alesun",
       "email": "alesun@exadel.com"
+    }
+  ],
+  "eslint": [
+    {
+      "name": "eslint-plugin-custom-rules",
+      "version": "1.0.0",
+      "main": "index.js"
     }
   ]
 }
