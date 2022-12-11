@@ -1,7 +1,7 @@
 import {Rect} from './rect';
 import {getListScrollParents} from './scroll';
+import {findClosestBy, findHost} from './traversing';
 import {getWindowRect} from './window';
-import {findParentByStyles} from './traversing';
 
 export interface VisibilityOptions {
   /** Element will be considered invisible if opacity set to '0' */
@@ -19,12 +19,10 @@ export interface VisibilityOptions {
  */
 export function isVisible(el: HTMLElement, options: VisibilityOptions = {visibility: true}): boolean {
   if (!el.getClientRects().length) return false;
-  if (options.viewport && !isInViewport(el)) return false;
-
-  const {visibility, opacity} = options;
-  if (!(visibility || opacity)) return true;
-  const parentStyles = Object.assign({}, visibility && {visibility: 'hidden'}, opacity && {opacity: '0'}) as Partial<CSSStyleDeclaration>;
-  return !findParentByStyles(el, parentStyles);
+  if (options.visibility && findHost(el, (host) => getComputedStyle(host).visibility === 'hidden')) return false;
+  if (options.opacity &&
+    findClosestBy(el, (parent) => parent instanceof Element && getComputedStyle(parent).opacity === '0')) return false;
+  return !(options.viewport && !isInViewport(el));
 }
 
 function isInViewport(el: HTMLElement): boolean {

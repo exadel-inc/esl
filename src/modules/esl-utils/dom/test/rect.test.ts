@@ -32,7 +32,7 @@ describe('Rect static methods', () => {
 
   test.each([
     [[0, 0, 100, 100], [10, 10, 10, 10], [10, 10, 10, 10]],
-    [[0, 0, 100, 100], [-10, -10, 5, 5], [0, 0, -5, -5]],
+    [[0, 0, 100, 100], [-10, -10, 5, 5], [0, 0, 0, 0]],
     [[0, 0, 100, 100], [-10, -10, 10, 10], [0, 0, 0, 0]],
     [[0, 0, 100, 100], [-5, -5, 10, 10], [0, 0, 5, 5]]
   ])('Rect.intersect of %s and %p.', (rect1, rect2, expected) => {
@@ -85,10 +85,7 @@ describe('Rect instance methods', () => {
 
   test.each([
     [[0, 0, 10, 10], false],
-    [[0, 0, -10, 10], true],
-    [[0, 0, 10, -10], true],
-    [[0, 0, 0, 0], true],
-    [[0, 0, -10, -10], true]
+    [[0, 0, 0, 0], true]
   ])('isEmpty: %s', (coords, expected) => {
     expect(new Rect(...coords).isEmpty()).toBe(expected);
   });

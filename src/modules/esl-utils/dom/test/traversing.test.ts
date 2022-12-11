@@ -1,4 +1,4 @@
-import {isRelativeNode, findClosestBy, isMatches, findNext, findPrev, findParent, findClosest, findAll, findChildren, findParentByStyles} from '../traversing';
+import {isRelativeNode, findClosestBy, isMatches, findNext, findPrev, findParent, findClosest, findAll, findChildren} from '../traversing';
 
 describe('Common: dom/traversing helper tests', () => {
   document.body.innerHTML = `
@@ -129,30 +129,6 @@ describe('Common: dom/traversing helper tests', () => {
     });
     test('returns empty array if there are no children matching passed selector', () => {
       expect(findChildren(root, '.btn')).toStrictEqual([]);
-    });
-  });
-
-  describe('findParentByStyles', () => {
-    beforeAll(() => {
-      row1.style.opacity = '0';
-      row1.style.visibility = 'hidden';
-    });
-
-    afterAll(() => {
-      row1.style.opacity = '';
-      row1.style.visibility = '';
-    });
-
-    test('no css properties specified', () => expect(findParentByStyles(btn1, {})).toBe(undefined));
-
-    test('matching css properties', () => {
-      expect(findParentByStyles(btn1, {opacity: '0'})).toBe(row1);
-      expect(findParentByStyles(btn1, {opacity: '0', visibility: 'hidden'})).toBe(row1);
-    });
-
-    test('not matching css properties', () => {
-      expect(findParentByStyles(btn1, {opacity: '0.1'})).toBe(undefined);
-      expect(findParentByStyles(btn1, {opacity: '0', visibility: 'collapse'})).toBe(undefined);
     });
   });
 });

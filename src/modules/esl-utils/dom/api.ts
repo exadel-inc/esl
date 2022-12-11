@@ -20,15 +20,9 @@ export const getNodeName = (element?: Node | Window): string  => {
  */
 export const getParentNode = (element: Element | ShadowRoot): Node => {
   if (getNodeName(element) === 'html') return element;
-  return (isShadowRoot(element) ?
-    (element as ShadowRoot).host :
-    (element as Element).assignedSlot || element.parentNode) || getDocument(element as Element);
-};
-
-/**
- * Check if element is a shadow DOM root
- * @param element - element to check
- */
-export const isShadowRoot = (element: Element | ShadowRoot): boolean => {
-  return window.ShadowRoot && element instanceof ShadowRoot;
+  return (window.ShadowRoot
+    ? element instanceof ShadowRoot
+      ? element.host
+      : element.assignedSlot || element.parentNode
+    : element.parentNode) || getDocument(element as Element);
 };

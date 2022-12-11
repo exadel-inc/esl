@@ -34,13 +34,13 @@ export class Rect {
    * @param rect2 - second instance of Rect
    */
   public static intersect(rect1: Rect, rect2: Rect): Rect {
-    const y = Math.max(rect1.y, rect2.top);
-    const x = Math.max(rect1.x, rect2.x);
+    const top = Math.max(rect1.top, rect2.top);
+    const left = Math.max(rect1.left, rect2.left);
     const bottom = Math.min(rect1.bottom, rect2.bottom);
     const right = Math.min(rect1.right, rect2.right);
-    const width = right - x;
-    const height = bottom - y;
-    return Rect.from({x, y, width, height});
+    const width = Math.max(right - left, 0);
+    const height = Math.max(bottom - top, 0);
+    return Rect.from({top, left, width, height});
   }
 
   public constructor(x?: number, y?: number, width?: number, height?: number) {
@@ -132,6 +132,6 @@ export class Rect {
    * Method to check if element's area is bigger than zero
    */
   public isEmpty(): boolean {
-    return this.height <= 0 || this.width <= 0;
+    return this.height === 0 || this.width === 0;
   }
 }
