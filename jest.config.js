@@ -3,7 +3,7 @@ module.exports = {
     '^.+\\.tsx?$': ['ts-jest']
   },
   testEnvironment: 'jsdom',
-  roots: ['eslint'],
+  roots: ['src/modules', 'src/polyfills', 'eslint'],
   testRegex: '/test/(.+)\\.test\\.(ts|js)$',
   moduleFileExtensions: ['ts', 'js', 'json'],
   coverageDirectory: '.report',
