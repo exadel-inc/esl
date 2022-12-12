@@ -30,55 +30,64 @@
     <ul class="sidebar-nav-nested-list">
       <esl-a11y-group targets="::child(li)::find(.sidebar-nav-item-nested-link)"></esl-a11y-group>
       {% for item in items | sortByNameAndOrder %}
-        {% set isActive = page.url === item.url %}
-        {% set isSecondaryActive = functions.isActivePath(page.url, item.data.collection) %}
-        {% set isList = item.data.collection %}
-        <li class="sidebar-nav-secondary-item">
-          <div class="sidebar-nav-secondary-item-heading {{ 'active' if isActive or isSecondaryActive }}"
-            {% if isActive %}aria-selected="true"{% endif %}>
-            {% if not isList %}
-              <a class="sidebar-nav-item-nested-link"
-                {% if isActive %}aria-current="page"{% endif %}
-                href="{{ item.url | url }}">
-                {{ applyBadge (item.data.tags, isDraftCollection, 'sidebar') }}
-                {{ item.data.name }}
-              </a>
+      {% set isActive = page.url === item.url %}
+      {% set isSecondaryActive = functions.isActivePath(page.url, item.data.collection) %}
+      {% set isList = item.data.collection %}
+        {% if not isDraftCollection or item.data.parent !== 'draft' %}
+          {% if isSecondaryActive %}
+            {% if not isDraftCollection %}
+              {% set isNestedActive = true %}
+            {% elseif isList and item.data.collection.includes('draft') %}
+              {% set isNestedActive = true %}
             {% endif %}
-            {% if isList %}
-              <esl-trigger class="sidebar-nav-secondary-item-trigger sidebar-nav-item-arrow"
-                          target="::parent::next"
-                          {% if isSecondaryActive and not isDraftCollection %}active{% endif %}>
-                {{ applyBadge (item.data.tags, isDraftCollection, 'sidebar') }}
-                {{ item.data.name }}
-              </esl-trigger>
-            {% endif %}
-          </div>
-          {% if isList %}
-          {% set subItems = collections[item.data.collection] | released %}
-            <esl-panel id="sidebar-{{ item.data.collection }}-menu{% if isDraftCollection %}-draft{% endif %}"
-                      class="sidebar-nav-third {{ 'open' if isSecondaryActive and not isDraftCollection }}"
-                      {% if isSecondaryActive and not isDraftCollection %}data-open{% endif %}
-                      group="esl-nav-secondary">
-              <ul class="sidebar-nav-nested-list">
-                <esl-a11y-group targets="::child(li)::find(.sidebar-nav-item-nested-link)"></esl-a11y-group>
-                {% for subItem in subItems | sortByNameAndOrder %}
-                  {% set isThirdActive = page.url === subItem.url %}
-                  <li class="sidebar-nav-third-item">
-                    <div class="sidebar-nav-third-item-heading {{ 'active' if isThirdActive }}"
-                    {% if isThirdActive %}aria-selected="true"{% endif %}>
-                      <a class="sidebar-nav-item-nested-link"
-                        {% if isThirdActive %}aria-current="page"{% endif %}
-                        href="{{ subItem.url | url }}">
-                        {{ applyBadge (subItem.data.tags, isDraftCollection, 'sidebar') }}
-                        {{ subItem.data.name }}
-                      </a>
-                    </div>
-                  </li>
-                {% endfor %}
-              </ul>
-            </esl-panel>
           {% endif %}
-        </li>
+          <li class="sidebar-nav-secondary-item">
+            <div class="sidebar-nav-secondary-item-heading {{ 'active' if isActive or isSecondaryActive }}"
+              {% if isActive %}aria-selected="true"{% endif %}>
+              {% if not isList %}
+                <a class="sidebar-nav-item-nested-link"
+                  {% if isActive %}aria-current="page"{% endif %}
+                  href="{{ item.url | url }}">
+                  {{ applyBadge (item.data.tags, isDraftCollection, 'sidebar') }}
+                  {{ item.data.name }}
+                </a>
+              {% endif %}
+              {% if isList %}
+                <esl-trigger class="sidebar-nav-secondary-item-trigger sidebar-nav-item-arrow"
+                            target="::parent::next"
+                            {% if isNestedActive %}active{% endif %}>
+                  {{ applyBadge (item.data.tags, isDraftCollection, 'sidebar') }}
+                  {{ item.data.name }}
+                </esl-trigger>
+              {% endif %}
+            </div>
+            {% if isList %}
+            {% set subItems = collections[item.data.collection] | released %}
+              <esl-panel id="sidebar-{{ item.data.collection }}-menu{% if isDraftCollection %}-draft{% endif %}"
+                        class="sidebar-nav-third {{ 'open' if isNestedActive }}"
+                        {% if isNestedActive %}data-open{% endif %}
+                        group="esl-nav-secondary">
+                <ul class="sidebar-nav-nested-list">
+                  <esl-a11y-group targets="::child(li)::find(.sidebar-nav-item-nested-link)"></esl-a11y-group>
+                  {% for subItem in subItems | sortByNameAndOrder %}
+                    {% set isThirdActive = page.url === subItem.url %}
+                    <li class="sidebar-nav-third-item">
+                      <div class="sidebar-nav-third-item-heading {{ 'active' if isThirdActive }}"
+                      {% if isThirdActive %}aria-selected="true"{% endif %}>
+                        <a class="sidebar-nav-item-nested-link"
+                          {% if isThirdActive %}aria-current="page"{% endif %}
+                          href="{{ subItem.url | url }}">
+                          {{ applyBadge (subItem.data.tags, isDraftCollection, 'sidebar') }}
+                          {{ subItem.data.name }}
+                        </a>
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </esl-panel>
+            {% endif %}
+          </li>
+        {% endif %}
       {% endfor %}
     </ul>
   </esl-panel>
