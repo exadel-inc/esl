@@ -40,5 +40,8 @@ export * from './esl-tooltip/core';
 // Animate
 export * from './esl-animate/core';
 
+// Nested accordion Mixin
+export * from './esl-nested-accordion/core';
+
 // Related Target Mixin
 export * from './esl-related-target/core';

@@ -1,0 +1,37 @@
+<esl-panel-group max-open-items="all" min-open-items="0">
+<div class="esl-d-accordion">
+  <esl-trigger target="::next"/>
+  <esl-panel id="parent-panel" class="esl-d-accordion-panel" open>
+    <div class="esl-d-accordion-body">
+      <esl-panel-group class="accordion-group mb-4" max-open-items="all" min-open-items="0">
+        <div class="esl-d-accordion">
+          <esl-trigger target="::next"/>
+          <esl-panel class="esl-d-accordion-panel" open/>
+        </div>
+        <div class="esl-d-accordion">
+          <esl-trigger target="::next"/>
+          <esl-panel esl-nested-accordion class="esl-d-accordion-panel" open>
+            <esl-panel-group class="accordion-group mb-4" max-open-items="all" min-open-items="0">
+              <div class="esl-d-accordion">
+                <esl-trigger target="::next"/>
+                <esl-panel class="esl-d-accordion-panel" open>
+                  <esl-panel-group class="accordion-group mb-4" max-open-items="all" min-open-items="0">
+                    <div class="esl-d-accordion">
+                      <esl-trigger target="::next"/>
+                      <esl-panel class="esl-d-accordion-panel" open/>
+                      </div>
+                    </esl-panel-group>
+                  </esl-panel>
+                </div>
+              <div class="esl-d-accordion">
+                <esl-trigger target="::next"/>
+                <esl-panel class="esl-d-accordion-panel" open/>
+                </div>
+              </esl-panel-group>
+            </esl-panel>
+          </div>
+        </esl-panel-group>
+      </div>
+    </esl-panel>
+  </div>
+</esl-panel-group>
