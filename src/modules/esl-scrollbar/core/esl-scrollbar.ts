@@ -57,8 +57,8 @@ export class ESLScrollbar extends ESLBaseElement {
   @ready
   protected connectedCallback(): void {
     super.connectedCallback();
-    this.findTarget();
     this.render();
+    this.findTarget();
   }
 
   @ready
@@ -68,7 +68,7 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
-    if (!this.connected && oldVal === newVal) return;
+    if (!this.connected || oldVal === newVal) return;
     if (attrName === 'target') this.findTarget();
     if (attrName === 'horizontal') this.refresh();
   }
@@ -104,16 +104,19 @@ export class ESLScrollbar extends ESLBaseElement {
 
   protected bindTargetEvents(): void {
     if (!this.$target) return;
+    // Container resize/scroll observers/listeners
     if (document.documentElement === this.$target) {
-      this.$$on({event: 'resize scroll', target: window}, this._onScrollOrResize);
+      this.$$on({event: 'scroll resize', target: window}, this._onScrollOrResize);
     } else {
       this.$$on({event: 'scroll', target: this.$target}, this._onScrollOrResize);
       this._resizeObserver.observe(this.$target);
-      this._mutationObserver.observe(this.$target, {childList: true});
-      Array.from(this.$target.children).forEach((el) => this._resizeObserver.observe(el));
     }
+    // Subscribes to the child elements resizes
+    this._mutationObserver.observe(this.$target, {childList: true});
+    Array.from(this.$target.children).forEach((el) => this._resizeObserver.observe(el));
   }
 
+  /** Resubscribes resize observer on child elements when container content changes */
   protected updateContentObserve(recs: MutationRecord[] = []): void {
     if (!this.$target) return;
     const contentChanges = recs.filter((rec) => rec.type === 'childList');

@@ -12,11 +12,11 @@ extends:
   - 'plugin:@typescript-eslint/recommended'
 
   # Library base set
-  - './eslint/codestyle.eslintrc.yml'
-  - './eslint/coderules.eslintrc.yml'
-  - './eslint/import.eslintrc.yml'
-  - './eslint/sonarjs.eslintrc.yml'
-  - './eslint/tests.eslintrc.yml'
+  - './linting/codestyle.eslintrc.yml'
+  - './linting/coderules.eslintrc.yml'
+  - './linting/import.eslintrc.yml'
+  - './linting/sonarjs.eslintrc.yml'
+  - './linting/tests.eslintrc.yml'
 
 # TS configuration
 parser: '@typescript-eslint/parser'
