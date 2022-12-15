@@ -148,19 +148,37 @@
       "id": "mail",
       "action": "mail",
       "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 28 28\"\u003e\u003cpath d\u003d\"M4.63 6.94v14.1h18.8V6.94H4.63zm2.44 1.78h13.9l-6.93 5.67-6.93-5.67zm14.6 1.72v8.82H6.47v-8.79l7.59 6.21 7.63-6.24z\"/\u003e\u003c/svg\u003e",
-      "iconBackground": "#0b77b3",
-      "link": "mailto:?subject\u003d{t}\u0026body\u003d{u}",
+      "iconBackground": "#ff1493",
+      "link": "mailto:?subject\u003d{title}\u0026body\u003d{url}",
       "name": "Mail",
       "title": "Mail"
     },
     {
-      "action": "copy",
-      "name_en": "Copy",
-      "name": "Copy",
       "id": "copy",
+      "action": "copy",
+      "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 28 28\"\u003e\u003cpath d\u003d\"M17 9.69l-7.43 7.43 1.18 1.18 7.43-7.43L17 9.69z\"/\u003e\u003cpath d\u003d\"M4.31 17.8c-.481.481-.48 1.29.00138 1.77l4.02 4.02c.481.481 1.29.483 1.77.00138l4.95-4.95c.481-.481.481-1.29-7e-7-1.78l-4.02-4.02c-.481-.481-1.29-.481-1.78 0l-4.95 4.95zm1.47.887l4.36-4.36 3.44 3.44-4.36 4.36-3.44-3.44zm7-9.37c-.481.481-.481 1.29 2.8e-7 1.78l4.02 4.02c.481.481 1.29.481 1.78 0l4.95-4.95c.481-.481.48-1.29-.00138-1.77l-4.02-4.02c-.481-.481-1.29-.483-1.77-.00138l-4.95 4.95zm1.47.889l4.36-4.36 3.44 3.44-4.36 4.36-3.44-3.44z\"/\u003e\u003c/svg\u003e",
+      "iconBackground": "#a0522d",
       "link": "",
-      "iconBackground": "#3c5996",
-      "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 28 28\"\u003e\u003cpath d\u003d\"M17 9.69l-7.43 7.43 1.18 1.18 7.43-7.43L17 9.69z\"/\u003e\u003cpath d\u003d\"M4.31 17.8c-.481.481-.48 1.29.00138 1.77l4.02 4.02c.481.481 1.29.483 1.77.00138l4.95-4.95c.481-.481.481-1.29-7e-7-1.78l-4.02-4.02c-.481-.481-1.29-.481-1.78 0l-4.95 4.95zm1.47.887l4.36-4.36 3.44 3.44-4.36 4.36-3.44-3.44zm7-9.37c-.481.481-.481 1.29 2.8e-7 1.78l4.02 4.02c.481.481 1.29.481 1.78 0l4.95-4.95c.481-.481.48-1.29-.00138-1.77l-4.02-4.02c-.481-.481-1.29-.483-1.77-.00138l-4.95 4.95zm1.47.889l4.36-4.36 3.44 3.44-4.36 4.36-3.44-3.44z\"/\u003e\u003c/svg\u003e"
+      "name": "Copy",
+      "title": "Copy"
+    },
+    {
+      "id": "native",
+      "action": "native",
+      "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 24 24\"\u003e\u003cpath d\u003d\"m21.7 10.2-6.6-6c-.5-.5-1.1 0-1.1.8v3c-4.7 0-8.7 2.9-10.6 6.8-.7 1.3-1.1 2.7-1.4 4.1-.2 1 1.3 1.5 1.9.6C6.1 16 9.8 13.7 14 13.7V17c0 .8.6 1.3 1.1.8l6.6-6c.4-.4.4-1.2 0-1.6z\"/\u003e\u003c/svg\u003e",
+      "iconBackground": "#ff6347",
+      "link": "",
+      "name": "Share",
+      "title": "Share page"
+    },
+    {
+      "id": "print",
+      "action": "print",
+      "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 247.1 247.1\"\u003e\u003cpath d\u003d\"M75.4 175.5h97v6.5h-97zM75.4 194.9h97v6.5h-97z\"/\u003e\u003ccircle stroke-width\u003d\"2\" stroke-miterlimit\u003d\"10\" cx\u003d\"178.9\" cy\u003d\"117.3\" r\u003d\"6.5\"/\u003e\u003cpath d\u003d\"M198.3 84.9h-12.9V39.6c0-7.1-5.8-12.9-12.9-12.9h-97c-7.1 0-12.9 5.8-12.9 12.9v45.3H49.5c-11 0-19.4 8.4-19.4 19.4v58.2c0 11 8.4 19.4 19.4 19.4h12.9v25.9c0 7.1 5.8 12.9 12.9 12.9h97c7.1 0 12.9-5.8 12.9-12.9v-25.9h12.9c11 0 19.4-8.4 19.4-19.4v-58.2c.2-11-8.2-19.4-19.2-19.4zM68.9 39.6c0-3.2 2.6-6.5 6.5-6.5h97c3.2 0 6.5 2.6 6.5 6.5v45.3h-110V39.6zm110 168.2c0 3.2-2.6 6.5-6.5 6.5h-97c-3.2 0-6.5-2.6-6.5-6.5v-45.3h110v45.3zm32.3-45.3c0 7.1-5.8 12.9-12.9 12.9h-12.9V156h-123v19.4H49.5c-7.1 0-12.9-5.8-12.9-12.9v-58.2c0-7.1 5.8-12.9 12.9-12.9h148.8c7.1 0 12.9 5.8 12.9 12.9v58.2z\"/\u003e\u003c/svg\u003e",
+      "iconBackground": "#2f4f4f",
+      "link": "",
+      "name": "Print",
+      "title": "Print page"
     }
   ],
   "groups": [
