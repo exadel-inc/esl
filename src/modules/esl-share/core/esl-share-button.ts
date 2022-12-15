@@ -1,5 +1,5 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {attr, listen, memoize} from '../../esl-utils/decorators';
+import {attr, boolAttr, listen, memoize} from '../../esl-utils/decorators';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {ESLShareActionRegistry} from './esl-share-action-registry';
 
@@ -29,9 +29,13 @@ export class ESLShareButton extends ESLBaseElement {
   @attr() public buttonId: string;
   @attr() public link: string;
   @attr() public name: string;
+  @boolAttr() public unavailable: boolean;
 
   public static build(cfg: ShareButtonConfig): ESLShareButton | null {
-    if (!ESLShareActionRegistry.instance.has(cfg.action)) return null;
+    const shareAction = ESLShareActionRegistry.instance.get(cfg.action);
+    if (!shareAction) return null;
+
+    const {isAvailable} = shareAction;
     const $button = ESLShareButton.create();
     $button.$$attr('action', cfg.action);
     $button.$$attr('button-id', cfg.id);
@@ -40,6 +44,7 @@ export class ESLShareButton extends ESLBaseElement {
     $button.$$attr('tabindex', '0');
     $button.$$attr('role', 'button');
     $button.$$attr('aria-label', cfg.title);
+    $button.$$attr('unavailable', !isAvailable);
     const $icon = document.createElement('span');
     $icon.title = cfg.title;
     $icon.classList.add('esl-share-icon');
