@@ -1,5 +1,5 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {attr, boolAttr, listen, memoize} from '../../esl-utils/decorators';
+import {attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {ESLShareActionRegistry} from './esl-share-action-registry';
 
@@ -41,8 +41,6 @@ export class ESLShareButton extends ESLBaseElement {
     $button.$$attr('button-id', cfg.id);
     $button.$$attr('link', cfg.link);
     $button.$$attr('name', cfg.name);
-    $button.$$attr('tabindex', '0');
-    $button.$$attr('role', 'button');
     $button.$$attr('aria-label', cfg.title);
     $button.$$attr('unavailable', !isAvailable);
     const $icon = document.createElement('span');
@@ -58,7 +56,6 @@ export class ESLShareButton extends ESLBaseElement {
     return new URL(path, document.baseURI).href;
   }
 
-  @memoize()
   public get host(): ESLShareList | null {
     return this.closest('esl-share-list');
   }
@@ -70,6 +67,18 @@ export class ESLShareButton extends ESLBaseElement {
       url: (host && host.url) ? ESLShareButton.convertToAbsolutePath(host.url) : window.location.href,
       title: (host && host.title) ? host.title : document.title
     };
+  }
+
+  protected connectedCallback(): void {
+    super.connectedCallback();
+    this.initA11y();
+  }
+
+  public initA11y(): void {
+    if (!this.hasAttribute('role')) this.setAttribute('role', 'button');
+    if (this.getAttribute('role') === 'button' && !this.hasAttribute('tabindex')) {
+      this.setAttribute('tabindex', '0');
+    }
   }
 
   protected beforeAction(): void {}
