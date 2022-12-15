@@ -1,5 +1,4 @@
 import type {ShareButtonConfig} from './esl-share-button';
-import type {ESLShareBaseConfigProvider, ProviderOptions, ProviderType} from './esl-share-config-provider';
 
 export interface ShareGroupConfig {
   id: string;
@@ -12,13 +11,13 @@ export interface ShareConfig {
 }
 
 export class ESLShareConfig {
-  protected static provider: ESLShareBaseConfigProvider;
+  protected static provider: () => Promise<ShareConfig>;
 
-  public static use(provider: ProviderType, options?: ProviderOptions): ESLShareConfig {
-    return ESLShareConfig.provider = new provider(options);
+  public static use(provider: () => Promise<ShareConfig>): ESLShareConfig {
+    return ESLShareConfig.provider = provider;
   }
 
   public static get(): Promise<ShareConfig> {
-    return ESLShareConfig.provider.get();
+    return ESLShareConfig.provider();
   }
 }

@@ -48,7 +48,6 @@ import '../../src/modules/esl-share/actions/mail-action';
 import '../../src/modules/esl-share/actions/media-action';
 import '../../src/modules/esl-share/actions/native-action';
 import '../../src/modules/esl-share/actions/print-action';
-import {ESLShareFetchConfigProvider} from '../../src/modules/esl-share/config-providers/fetch-provider';
 
 import {
   ESLCarousel,
@@ -115,9 +114,7 @@ ESLCarouselPlugins.Link.register();
 ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
 
-ESLShareConfig.use(ESLShareFetchConfigProvider, {
-  url: '/assets/share/config.json'
-});
+ESLShareConfig.use(() => fetch('/assets/share/config.json').then((response) => response.json()));
 ESLShareList.register();
 
 // Register ESL Mixins
