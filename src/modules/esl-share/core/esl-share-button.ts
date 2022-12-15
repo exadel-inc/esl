@@ -15,11 +15,6 @@ export interface ShareButtonConfig {
   'title': string;
 }
 
-export interface ShareData {
-  url: string;
-  title: string;
-}
-
 export class ESLShareButton extends ESLBaseElement {
   public static is = 'esl-share-button';
 

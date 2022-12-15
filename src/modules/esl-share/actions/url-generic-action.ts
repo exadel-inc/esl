@@ -5,9 +5,13 @@ export abstract class ESLShareUrlGenericAction extends ESLShareBaseAction {
 
   protected get formatSource(): Record<string, string> {
     const {shareData} = this.$button;
+    const title = encodeURIComponent(shareData.title || '');
+    const url = encodeURIComponent(shareData.url || '');
     return {
-      u: encodeURIComponent(shareData.url),
-      t: encodeURIComponent(shareData.title)
+      u: url,
+      t: title,
+      url,
+      title
     };
   }
 

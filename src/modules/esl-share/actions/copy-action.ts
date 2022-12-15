@@ -28,7 +28,7 @@ export class ESLShareCopyAction extends ESLShareBaseAction {
     if (!(this.constructor as typeof ESLShareBaseAction).isAvailable) return;
 
     const {shareData} = this.$button;
-    navigator.clipboard.writeText(shareData.url);
+    navigator.clipboard.writeText(shareData.url || '');
     this.showCopyAlert();
   }
 
