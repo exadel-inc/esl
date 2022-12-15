@@ -46,6 +46,7 @@ import '../../src/modules/esl-media/providers/brightcove-provider';
 import '../../src/modules/esl-share/actions/copy-action';
 import '../../src/modules/esl-share/actions/mail-action';
 import '../../src/modules/esl-share/actions/media-action';
+import '../../src/modules/esl-share/actions/native-action';
 import '../../src/modules/esl-share/actions/print-action';
 import {ESLShareFetchConfigProvider} from '../../src/modules/esl-share/config-providers/fetch-provider';
 
