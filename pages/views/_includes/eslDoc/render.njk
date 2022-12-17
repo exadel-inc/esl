@@ -1,4 +1,4 @@
-{% from './function.njk' import function %}
+{% from './function.njk' import functionStatement %}
 {% from './alias.njk' import typeAlias %}
 {% from './class.njk' import class %}
 {% from './common.njk' import comment %}
@@ -9,15 +9,15 @@
     {{ comment(declaration.commonComment) }}
 
     {% if (declaration.type === "Function") %}
-      {{ function(declaration.declarations) }}
+      {{ functionStatement(declaration.declarations) }}
     {% endif %}
 
     {% if (declaration.type === "Function statement") %}
-      {{ function(declaration) }}
+      {{ functionStatement(declaration) }}
     {% endif %}
 
     {% if (declaration.type === "Function type") %}
-      {{ function(declaration) }}
+      {{ functionStatement(declaration) }}
     {% endif %}
 
     {% if (declaration.type === "Type alias") %}

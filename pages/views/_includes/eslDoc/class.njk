@@ -1,5 +1,4 @@
-{% from './function.njk' import function %}
-{% from './function.njk' import functionList %}
+{% import './function.njk' as function %}
 {% import './common.njk' as common %}
 
 {% macro class(declaration) %}
@@ -8,7 +7,7 @@
 
     {% if (declaration.ctors.length) %}
       <h3>Constructors</h3>
-      {{ function(declaration.ctors) }}
+      {{ function.functionStatement(declaration.ctors) }}
     {% endif %}
 
     {% if (declaration.properties.length) %}
@@ -18,17 +17,17 @@
 
     {% if (declaration.getAccessors.length) %}
       <h3>Getters</h3>
-      {{ function(declaration.getAccessors) }}
+      {{ function.functionStatement(declaration.getAccessors) }}
     {% endif %}
 
     {% if (declaration.setAccessors.length) %}
       <h3>Setters</h3>
-      {{ function(declaration.setAccessors) }}
+      {{ function.functionStatement(declaration.setAccessors) }}
     {% endif %}
 
     {% if (declaration.methods.length) %}
       <h3>Methods</h3>
-      {{ functionList(declaration.methods) }}
+      {{ function.functionList(declaration.methods) }}
     {% endif %}
   <div>
 {% endmacro %}

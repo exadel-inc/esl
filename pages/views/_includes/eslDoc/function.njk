@@ -16,15 +16,15 @@
 
 {% macro functionList(functions) %}
   <ul class="unstyled-list">
-    {% for func in functions %}
+    {% for function in functions %}
       <li >
-        {{function(func.declarations)}}
+        {{functionStatement(function.declarations)}}
       </li>
     {% endfor %}
   </ul>
 {% endmacro %}
 
-{% macro function(declarations) %}
+{% macro functionStatement(declarations) %}
   {% if declarations.length > 1 %}
 
   <esl-panel-group class="accordion-group mb-4">
