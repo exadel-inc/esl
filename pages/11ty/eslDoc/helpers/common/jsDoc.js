@@ -22,11 +22,11 @@ function getJSDocTags(jsDoc) {
 function getJSDocTag(tag) {
   const name = tag.tagName.escapedText;
   if (name === 'param') return;
-  const comments = tag.comment;
+  const comment = tag.comment;
   return {
     name,
     link: tag.name?.name.escapedText,
-    text: typeof comments === 'string' ? comments : comments?.map((comment) => comment.text).join('\n')
+    text: typeof comment === 'string' ? comment : comment?.map((comment) => comment.text).join('\n')
   };
 }
 

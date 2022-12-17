@@ -1,4 +1,4 @@
-const {ESLDoc} = require('./eslDoc/render');
+const {ESLDoc} = require('./eslDoc/eslDoc');
 const nunjucks = require('nunjucks');
 const path = require('path');
 

@@ -1,8 +1,8 @@
 const ts = require('typescript');
 
 function getDeclarationName(declaration) {
-  if (declaration.name) return declaration.name.escapedText;
-  else return `[${declaration.parameters.map((parameter) => parameter.getText()).join(', ')}]`;
+  return (declaration.name ? declaration.name.escapedText :
+    `[${declaration.parameters.map((parameter) => parameter.getText()).join(', ')}]`) || '';
 }
 
 function getModifiers(declaration) {
@@ -16,7 +16,7 @@ function getModifiers(declaration) {
 }
 
 function isNodeExported(declaration) {
-  return (ts.getCombinedModifierFlags(declaration) & ts.ModifierFlags.Export) !== 0
+  return (ts.getCombinedModifierFlags(declaration) & ts.ModifierFlags.Export) !== 0;
 }
 
 module.exports = {

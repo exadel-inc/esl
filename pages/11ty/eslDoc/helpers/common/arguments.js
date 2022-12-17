@@ -4,11 +4,11 @@ const {getDeclarationName} = require('./common');
 const {getTypeSignature} = require('./type');
 
 function getArgumentsList(declaration) {
-  return declaration.parameters?.map((parameter) => getArgument(parameter));
+  return declaration.parameters?.map((parameter) => getArgument(parameter)) || [];
 }
 
 function getMemberList(declaration) {
-  return declaration.members?.map((member) => getArgument(member));
+  return declaration.members?.map((member) => getArgument(member)) || [];
 }
 
 function getArgument(parameter) {
@@ -27,7 +27,7 @@ function getArgumentsSignature (parameters) {
   return parameters?.map((parameter) => {
     const {name, type, isRest, isOptional} = parameter;
     return `${isRest ? '...' : ''}${name}${isOptional ? '?' : ''}${type ? `: ${type}` : ''}`;
-  }).join(', ');
+  }).join(', ') || '';
 }
 
 module.exports = {

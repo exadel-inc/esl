@@ -1,5 +1,5 @@
 const ts = require('typescript');
-const {getFunctionDeclaration} = require('./functions');
+const {getFunctionDeclaration, addFunctionOverloads} = require('./functions');
 const {
   getDeclarationName,
   getJSDocFullText,
@@ -20,65 +20,27 @@ function getClass(declaration) {
     properties: [],
     getAccessors: [],
     setAccessors: []
-  }
+  };
 
   declaration.members.forEach((member) => {
-    if (ts.isConstructorDeclaration(member)) {
-      declarationObj.ctors.push(getConstRuctorDeclaration(member, declarationObj.name));
-      return;
-    }
+    if (ts.isConstructorDeclaration(member)) return declarationObj.ctors.push(getConstRuctorDeclaration(member, declarationObj.name));
+
     if (!(member.modifiers && ts.SyntaxKind[member.modifiers[0]?.kind] === 'PublicKeyword')) return;
-
-    if (ts.isFunctionDeclaration(member) || ts.isMethodDeclaration(member)) {
-      declarationObj.methods.push(getFunctionDeclaration(member));
-      return;
-    }
-
-    if (ts.isPropertyDeclaration(member)) {
-      declarationObj.properties.push(getPropertyDeclaration(member));
-      return;
-    }
-
-    if (ts.isGetAccessorDeclaration(member)) {
-      declarationObj.getAccessors.push(getFunctionDeclaration(member));
-      return;
-    }
-
-    if (ts.isSetAccessorDeclaration(member)) {
-      declarationObj.setAccessors.push(getFunctionDeclaration(member));
-      return;
-    }
+    if (ts.isPropertyDeclaration(member)) return declarationObj.properties.push(getPropertyDeclaration(member));
+    if (ts.isFunctionDeclaration(member) || ts.isMethodDeclaration(member)) return addFunctionOverloads(member, declarationObj.methods);
+    if (ts.isGetAccessorDeclaration(member)) return declarationObj.getAccessors.push(getFunctionDeclaration(member));
+    if (ts.isSetAccessorDeclaration(member)) return declarationObj.setAccessors.push(getFunctionDeclaration(member));
   });
-
-  if (!declarationObj.ctors.length)
-    declarationObj.ctors.push(getDefaultConstructor(declarationObj));
-
+  if (!declarationObj.ctors.length) declarationObj.ctors.push(getConstRuctorDeclaration(declaration));
   return declarationObj;
 }
 
-function getDefaultConstructor(declaration) {
-  return {
-    name: declaration.name,
-    type: 'constructor',
-    parameters: [],
-    signature: `new ${declaration.name}(): ${declaration.name}`
-  };
-}
-
-function getConstructorSignature(ctor, name) {
-  const parameters = ctor?.parameters && getArgumentsSignature(ctor.parameters);
-  return `new ${name}(${parameters ?? ''}): ${name}`;
-}
-
-function getConstRuctorDeclaration(declaration, name) {
-  const ctor = {
-    name,
-    type: 'constructor',
-    modifiers: getModifiers(declaration),
-    parameters: getArgumentsList(declaration)
-  }
-  const signature = getConstructorSignature(ctor, name);
-  return Object.assign(ctor, {signature});
+function getConstRuctorDeclaration(declaration, name = getDeclarationName(declaration)) {
+  const type = 'constructor';
+  const modifiers = getModifiers(declaration);
+  const parameters = getArgumentsList(declaration);
+  const signature = `new ${name}(${getArgumentsSignature(parameters)}): ${name}`;
+  return {name, type, signature, modifiers, parameters};
 }
 
 function getPropertyDeclaration(declaration) {
@@ -88,7 +50,7 @@ function getPropertyDeclaration(declaration) {
     modifiers: getModifiers(declaration),
     defaultValue: declaration.initializer?.text,
     comment: getJSDocFullText(declaration)
-  }
+  };
 }
 
 module.exports = {getClass};

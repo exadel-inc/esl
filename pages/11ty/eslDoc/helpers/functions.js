@@ -8,6 +8,22 @@ const {
   getTypeSignature
 } = require('./common');
 
+function addFunctionOverloads(declaration, output) {
+  const lastDeclaration = output[output.length - 1];
+  if (lastDeclaration && lastDeclaration.name === getDeclarationName(declaration)) {
+    return declaration.body ?
+      lastDeclaration.commonComment = getJSDocFullText(declaration) :
+      lastDeclaration.declarations.push(getFunctionDeclaration(declaration));
+  }
+
+  const functionDeclaration = getFunctionDeclaration(declaration);
+  output.push({
+    name: functionDeclaration.name,
+    type: functionDeclaration.type,
+    declarations: [functionDeclaration]
+  });
+}
+
 function getFunctionDeclaration(declaration) {
   const declarationObj = {
     type: 'Function',
@@ -18,29 +34,7 @@ function getFunctionDeclaration(declaration) {
     parameters: getArgumentsList(declaration),
     returnType: getTypeSignature(declaration),
   }
-
-  const signature = getFunctionSignature(declarationObj);
-  return Object.assign(declarationObj, {signature});
-}
-
-function getFunction(declaration, output) {
-  const lastDeclaration = output[output.length - 1];
-  if (lastDeclaration && lastDeclaration.name === getDeclarationName(declaration)) {
-    if (!declaration.body) {
-      lastDeclaration.declarations.push(getFunctionDeclaration(declaration));
-    } else {
-      lastDeclaration.commonComment = getJSDocFullText(declaration);
-    }
-    return;
-  }
-
-  const functionDeclaration = getFunctionDeclaration(declaration);
-  output.push({
-    name: functionDeclaration.name,
-    type: functionDeclaration.type,
-    declarations: [functionDeclaration]
-  });
-  return;
+  return Object.assign(declarationObj, {signature: getFunctionSignature(declarationObj)});
 }
 
 function getFunctionSignature (declaration) {
@@ -58,20 +52,19 @@ function getFunctionStatement(declaration) {
     typeParameters: getGenericTypes(statement.initializer),
     parameters: getArgumentsList(statement.initializer),
     returnType: getTypeSignature(statement.initializer)
-  }
-
+  };
   const signature = getFunctionStatementSignature(declarationObj);
   return Object.assign(declarationObj, {signature});
 }
 
 function getFunctionStatementSignature (declaration) {
   const {name, typeParameters, returnType} = declaration;
-  const parameters = getArgumentsSignature(declaration.parameters);
-  return `const ${name} = ${typeParameters ? `<${typeParameters.signature}>` : ''}(${parameters || ''}) => ${returnType || 'void'}`;
+  const args = getArgumentsSignature(declaration.parameters);
+  return `const ${name} = ${typeParameters ? `<${typeParameters.signature}>` : ''}(${args || ''}) => ${returnType || 'void'}`;
 }
 
 module.exports = {
-  getFunction,
+  addFunctionOverloads,
   getFunctionDeclaration,
   getFunctionStatement
 };

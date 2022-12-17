@@ -14,22 +14,32 @@
   </div>
 {% endmacro %}
 
+{% macro functionList(functions) %}
+  <ul class="unstyled-list">
+    {% for func in functions %}
+      <li >
+        {{function(func.declarations)}}
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
+
 {% macro function(declarations) %}
   {% if declarations.length > 1 %}
 
-    <esl-panel-group class="accordion-group mb-4">
-      {% for declaration in declarations %}
-        <div class="esl-d-accordion">
-          <esl-trigger class="esl-d-accordion-header h3" target="::next">
-            {{ declaration.signature }}
-          </esl-trigger>
+  <esl-panel-group class="accordion-group mb-4">
+    {% for declaration in declarations %}
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h3" target="::next">
+          {{ declaration.signature }}
+        </esl-trigger>
 
-          <esl-panel open class="esl-d-accordion-panel">
-            {{ functionBody(declaration) }}
-          </esl-panel>
-        </div>
-      {% endfor %}
-    </esl-panel-group>
+        <esl-panel open class="esl-d-accordion-panel">
+          {{ functionBody(declaration) }}
+        </esl-panel>
+      </div>
+    {% endfor %}
+  </esl-panel-group>
 
   {% else %}
     {% set declaration = (declarations[0] or declarations) %}
