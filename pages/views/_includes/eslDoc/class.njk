@@ -7,7 +7,7 @@
 
     {% if (declaration.ctors.length) %}
       <h3>Constructors</h3>
-      {{ function.functionStatement(declaration.ctors) }}
+      {{ function.functionList(declaration.ctors) }}
     {% endif %}
 
     {% if (declaration.properties.length) %}
@@ -17,12 +17,12 @@
 
     {% if (declaration.getAccessors.length) %}
       <h3>Getters</h3>
-      {{ function.functionStatement(declaration.getAccessors) }}
+      {{ function.functionList(declaration.getAccessors) }}
     {% endif %}
 
     {% if (declaration.setAccessors.length) %}
       <h3>Setters</h3>
-      {{ function.functionStatement(declaration.setAccessors) }}
+      {{ function.functionList(declaration.setAccessors) }}
     {% endif %}
 
     {% if (declaration.methods.length) %}
