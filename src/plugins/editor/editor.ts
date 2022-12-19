@@ -20,9 +20,9 @@ interface EditorConfig {
   /** Limit of characters before wrapping. */
   wrap?: number | boolean;
   /** Editor's default amount of lines (height). */
-  minLines : number;
+  minLines? : number;
   /** Editor's max amount of lines (height). */
-  maxLines : number;
+  maxLines? : number;
 }
 
 /** Interface to represent {@link UIPEditor's} theme. */
