@@ -184,3 +184,117 @@ aside:
     </esl-panel-group>
   </div>
 </section>
+<section class="row">
+  <div class="col-12">
+    <h2>Simple multiple accordion (panels 1 and 1.3 contain esl-related-target attribute)</h2>
+    {% code 'html', 'code-block' %}
+      <esl-panel-group class="accordion-group mb-4" min-open-items="0" max-open-items="all"></esl-panel-group>
+    {% endcode %}
+
+    <esl-panel-group class="accordion-group mb-4" min-open-items="0" max-open-items="all">
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #1 esl-related-target
+        </esl-trigger>
+        <esl-panel esl-related-target=".chosen-panel" esl-related-target-action="hide" class="esl-d-accordion-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(2) }}
+
+            <esl-panel-group class="accordion-group mb-4" max-open-items="all" min-open-items="0">
+              <div class="esl-d-accordion">
+                <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+                  Toggle Nested Accordion #1.1 chosen-panel
+                </esl-trigger>
+                <esl-panel class="esl-d-accordion-panel chosen-panel">
+                  <div class="esl-d-accordion-body">
+                    {{ lorem.paragraphs(3) }}
+                  </div>
+                </esl-panel>
+              </div>
+              <div class="esl-d-accordion">
+                <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+                  Toggle Nested Accordion #1.2
+                </esl-trigger>
+                <esl-panel class="esl-d-accordion-panel">
+                  <div class="esl-d-accordion-body">
+                    {{ lorem.paragraphs(2) }}
+                  </div>
+                </esl-panel>
+              </div>
+              <div class="esl-d-accordion">
+                <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+                  Toggle Nested Accordion #1.3
+                </esl-trigger>
+                <esl-panel class="esl-d-accordion-panel">
+                  <div class="esl-d-accordion-body">
+                    {{ lorem.paragraphs(2) }}
+
+                    <esl-panel-group class="accordion-group mb-4" max-open-items="all" min-open-items="0">
+                      <div class="esl-d-accordion">
+                        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+                          Toggle Nested Accordion #1.3.1 chosen-panel
+                        </esl-trigger>
+                        <esl-panel class="esl-d-accordion-panel chosen-panel">
+                          <div class="esl-d-accordion-body">
+                            {{ lorem.paragraphs(2) }}
+                          </div>
+                        </esl-panel>
+                      </div>
+                      <div class="esl-d-accordion">
+                        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+                          Toggle Nested Accordion #1.3.2
+                        </esl-trigger>
+                        <esl-panel class="esl-d-accordion-panel">
+                          <div class="esl-d-accordion-body">
+                            {{ lorem.paragraphs(2) }}
+                          </div>
+                        </esl-panel>
+                      </div>
+                      <div class="esl-d-accordion">
+                        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+                          Toggle Nested Accordion #1.3.3
+                        </esl-trigger>
+                        <esl-panel class="esl-d-accordion-panel">
+                          <div class="esl-d-accordion-body">
+                            {{ lorem.paragraphs(2) }}
+                          </div>
+                        </esl-panel>
+                      </div>
+                    </esl-panel-group>
+
+                    {{ lorem.paragraphs(2) }}
+                  </div>
+                </esl-panel>
+              </div>
+            </esl-panel-group>
+
+          </div>
+        </esl-panel>
+      </div>
+      <div class="esl-d-accordion">
+        <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+          Toggle Accordion #2 chosen-panel
+        </esl-trigger>
+        <esl-panel class="esl-d-accordion-panel chosen-panel">
+          <div class="esl-d-accordion-body">
+            {{ lorem.paragraphs(2) }}
+
+            <esl-panel-group class="accordion-group mb-4" max-open-items="all" min-open-items="0">
+              <div class="esl-d-accordion">
+                <esl-trigger class="esl-d-accordion-header h4 esl-d-accordion-header-arrow" target="::next">
+                  Toggle Nested Accordion #2.1
+                </esl-trigger>
+                <esl-panel class="esl-d-accordion-panel">
+                  <div class="esl-d-accordion-body">
+                    {{ lorem.paragraphs(3) }}
+                  </div>
+                </esl-panel>
+              </div>
+            </esl-panel-group>
+
+          </div>
+        </esl-panel>
+      </div>
+    </esl-panel-group>
+  </div>
+</section>
