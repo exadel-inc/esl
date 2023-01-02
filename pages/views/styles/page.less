@@ -30,8 +30,9 @@ a {
 .main {
   position: relative;
   display: flex;
+  height: 100%;
   flex-direction: column;
-  flex: 1 0 auto;
+  flex: 1 1 auto;
   background-color: #f9f9f9;
 
   &__title {
@@ -44,10 +45,6 @@ a {
 .content {
   flex: 1 0 auto;
   width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: 15px;
-  padding-left: 15px;
 
   &__title {
     margin: 10px auto;
@@ -60,8 +57,28 @@ a {
   }
 }
 
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 60px;
+  padding-left: 60px;
+
+  @media @mobile {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  @media @tablet {
+    padding-right: 45px;
+    padding-left: 45px;
+  }
+}
+
 .footer {
-  padding: 15px;
+  display: block;
+  margin-top: auto;
+  padding: 15px 0;
   color: #fff;
   background-color: @dark-bg;
 

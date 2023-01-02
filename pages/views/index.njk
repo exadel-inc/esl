@@ -1,48 +1,10 @@
 ---
 layout: basic
 ---
+<section class="main-container container">
+  <div class="main-content">
+    <h2 class="main__title">UIPlayground - is a UI library that allows consumers to present/demonstrate any other
+      library and its components</h2>
+  </div>
+</section>
 
-<ul class="uip-demo__list">
-  <h3 class="uip-demo__list-title">General information</h3>
-  {% for page in collections.general %}
-    <li class="uip-demo__list-item">
-      <a href="{{ page.url | url }}">{{ page.data.title }}</a>
-    </li>
-  {%- endfor %}
-</ul>
-
-<ul class="uip-demo__list">
-  <h3 class="uip-demo__list-title">Core</h3>
-  {% for plugin in collections.core %}
-    <li class="uip-demo__list-item">
-      <a href="{{ plugin.url | url }}">{{ plugin.data.title }}</a>
-    </li>
-  {%- endfor %}
-</ul>
-
-<ul class="uip-demo__list">
-  <h3 class="uip-demo__list-title">Plugins</h3>
-{% for plugin in collections.plugins %}
-  <li class="uip-demo__list-item">
-    <a href="{{ plugin.url | url }}">{{ plugin.data.title }}</a>
-  </li>
-  {% if plugin.data.title === 'Settings' %}
-    <ul class="uip-demo__sublist">
-      {% for setting in collections.setting %}
-        <li class="uip-demo__list-item">
-          <a href="{{ setting.url | url }}">{{ setting.data.title }}</a>
-        </li>
-      {%- endfor %}
-    </ul>
-  {%- endif %}
-{%- endfor %}
-</ul>
-
-<ul class="uip-demo__list">
-  <h3 class="uip-demo__list-title" href="{{ '/examples/example/' | url }}">Examples</h3>
-  {% for example in collections.example %}
-    <li class="uip-demo__list-item">
-      <a href="{{ example.url | url }}">{{ example.data.title }}</a>
-    </li>
-  {%- endfor %}
-</ul>

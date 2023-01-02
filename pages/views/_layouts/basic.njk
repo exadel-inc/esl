@@ -12,9 +12,7 @@
 {% endblock %}
 
 {% block body %}
-  <header class="header">
-    {% include 'header.njk' %}
-  </header>
+  {% include 'header.njk' %}
   {% include 'sidebar.njk' %}
 
   <main class="main esl-scrollable-content" role="main">
@@ -26,11 +24,9 @@
       {% endif %}
       {{ content | safe or 'No content.' }}
     </div>
+    {% include 'footer.njk' %}
   </main>
   <esl-scrollbar target="::prev" class="page-scrollbar"></esl-scrollbar>
-  <footer class="footer">
-    {% include 'footer.njk' %}
-  </footer>
 
   {% block extra_body %}{% endblock %}
 
