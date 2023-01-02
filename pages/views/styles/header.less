@@ -1,13 +1,21 @@
 @import '~@exadel/esl/modules/esl-trigger/core';
 
 .header {
-  height: @header-height;
-  padding: 10px;
+  height: @header-height-desktop;
   font-size: 20px;
   color: #fff;
   background-color: @dark-bg;
-  align-items: center;
-  display: flex;
+
+  @media @mobile {
+    height: @header-height-mobile;
+  }
+
+  &-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
 
   .uip-title, .header-nav-link {
     color: white;
@@ -16,7 +24,7 @@
   .uip-title {
     display: flex;
     align-items: center;
-    margin-left: 50px;
+    padding: 10px 0;
     font-weight: bold;
 
     &-text {
@@ -26,12 +34,21 @@
     @media @mobile {
       margin-left: 0;
     }
+
+    .uip-logo {
+      width: 64px;
+      height: 64px;
+
+      @media @mobile {
+        width: 48px;
+        height: 48px;
+      }
+    }
   }
 
   .header-nav {
     display: flex;
     margin-left: auto;
-    margin-right: 40px;
     align-items: center;
 
     @media @mobile {
@@ -59,7 +76,7 @@
     }
 
     .get-started {
-      padding: 5px 30px;
+      padding: 5px 16px;
       border: 1px solid white;
       border-radius: 10px;
       font-size: 18px;

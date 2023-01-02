@@ -116,7 +116,10 @@ a {
 }
 
 .esl-scrollbar.page-scrollbar {
-  top: @header-height;
+  top: @header-height-desktop;
+  @media @mobile {
+    top: @header-height-mobile;
+  }
 }
 
 @import "./header.less";
