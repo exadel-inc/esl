@@ -1,4 +1,4 @@
-import {ESLToggleable} from '../../../esl-toggleable/core/esl-toggleable';
+import {ESLPopup} from '../../../esl-popup/core';
 import {bind, prop, listen} from '../../../esl-utils/decorators';
 import {TAB} from '../../../esl-utils/dom/keys';
 import {rafDecorator} from '../../../esl-utils/async/raf';
@@ -14,7 +14,7 @@ import type {ESLToggleableActionParams} from '../../../esl-toggleable/core/esl-t
  * Auxiliary inner custom component to render {@link ESLSelect} dropdown section
  * Uses {@link ESLSelectList} to render the content
  */
-export class ESLSelectDropdown extends ESLToggleable {
+export class ESLSelectDropdown extends ESLPopup {
   public static override readonly is = 'esl-select-dropdown';
   public static override register(): void {
     ESLSelectList.register();
@@ -27,7 +27,7 @@ export class ESLSelectDropdown extends ESLToggleable {
   /** Inner ESLSelectList component */
   protected $list: ESLSelectList;
   protected _disposeTimeout: number;
-  protected _deferredUpdatePosition = rafDecorator(() => this.updatePosition());
+  protected _deferredUpdatePosition = rafDecorator(() => this.updateWidth());
 
   @prop() public override closeOnEsc = true;
   @prop() public override closeOnOutsideAction = true;
@@ -60,8 +60,9 @@ export class ESLSelectDropdown extends ESLToggleable {
     super.onShow(params);
     const focusable: HTMLElement | null = this.querySelector('[tabindex]');
     focusable?.focus({preventScroll: true});
-    this.updatePosition();
+    this.updateWidth();
   }
+
   protected override onHide(params: ESLToggleableActionParams): void {
     const select = this.activator;
     super.onHide(params);
@@ -93,14 +94,10 @@ export class ESLSelectDropdown extends ESLToggleable {
   }
 
   @bind
-  public updatePosition(): void {
-    if (!this.activator) return;
-    const windowY = window.scrollY || window.pageYOffset;
-    const rect = this.activator.getBoundingClientRect();
-
-    this.style.top = `${windowY + rect.top + rect.height}px`;
-    this.style.left = `${rect.left}px`;
-    this.style.width = `${rect.width}px`;
+  public updateWidth(): void {
+    const select = this.activator;
+    if (!select) return;
+    this.style.width = `${select.getBoundingClientRect().width}px`;
   }
 }
 
