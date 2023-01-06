@@ -1,17 +1,16 @@
 ---
 title: Examples
 ---
-<div class="container">
-  {% if title %}
+
+{% if title %}
   <h2 class="collection-title">
     {{ title | safe }}
   </h2>
-  {% endif %}
-  <ul class="collection-list">
-    {% for example in collections.example %}
+{% endif %}
+<ul class="collection-list">
+  {% for example in collections.example %}
     <li class="item">
       <a href="{{ example.url | url }}">{{ example.data.title }}</a>
     </li>
-    {%- endfor %}
-  </ul>
-</div>
+  {%- endfor %}
+</ul>
