@@ -35,22 +35,42 @@ a {
   flex: 1 1 auto;
   background-color: #f9f9f9;
 
-  &__title {
+  &-title {
     margin: 10px auto;
+    font-weight: 400;
+  }
+
+  &-desc {
+    font-size: 20px;
     font-weight: lighter;
-    text-align: center;
+  }
+
+  .main-container .uip-root {
+    margin-top: 20px;
+
+    .logo-content {
+      height: 100%;
+      text-align: center;
+
+      .blue-clr {
+        fill: #0082CA;
+      }
+
+      .gray-clr {
+        fill: #4e4e4e;
+      }
+
+      .white-clr {
+        fill: white;
+      }
+    }
   }
 }
 
 .content {
   flex: 1 0 auto;
   width: 100%;
-
-  &__title {
-    margin: 10px auto;
-    font-weight: lighter;
-    text-align: center;
-  }
+  padding-top: 30px;
 
   ul, ol {
     list-style-position: inside;
@@ -87,19 +107,22 @@ a {
   }
 }
 
-.uip-demo {
+.collection {
+  &-title {
+    font-weight: 500;
+  }
 
-  &__list {
-    margin: 20px auto;
-    width: 60%;
+  &-list {
+    margin: 20px 0;
+    width: 100%;
     list-style-type: none;
 
-    &-title {
+    .title {
       margin: 10px 0;
-      text-align: center;
+      font-weight: 500;
     }
 
-    &-item {
+    .item {
       margin-bottom: 10px;
       border-bottom: 1px solid #ebebeb;
 
@@ -109,7 +132,7 @@ a {
     }
   }
 
-  &__sublist {
+  &-sublist {
     margin-left: 20px;
     list-style-type: none;
   }
