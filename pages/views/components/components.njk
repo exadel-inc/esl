@@ -1,30 +1,36 @@
 ---
 title: Components
 ---
-
-<ul class="uip-demo__list">
-  <h3 class="uip-demo__list-title">Core</h3>
-  {% for plugin in collections.core %}
-    <li class="uip-demo__list-item">
+<div class="container">
+  {% if title %}
+  <h2 class="collection-title">
+    {{ title | safe }}
+  </h2>
+  {% endif %}
+  <ul class="collection-list">
+    <h3 class="title">Core</h3>
+    {% for plugin in collections.core %}
+    <li class="item">
       <a href="{{ plugin.url | url }}">{{ plugin.data.title }}</a>
     </li>
-  {%- endfor %}
-</ul>
+    {%- endfor %}
+  </ul>
 
-<ul class="uip-demo__list">
-  <h3 class="uip-demo__list-title">Plugins</h3>
-{% for plugin in collections.plugins %}
-  <li class="uip-demo__list-item">
-    <a href="{{ plugin.url | url }}">{{ plugin.data.title }}</a>
-  </li>
-  {% if plugin.data.title === 'Settings' %}
-    <ul class="uip-demo__sublist">
+  <ul class="collection-list">
+    <h3 class="title">Plugins</h3>
+    {% for plugin in collections.plugins %}
+    <li class="item">
+      <a href="{{ plugin.url | url }}">{{ plugin.data.title }}</a>
+    </li>
+    {% if plugin.data.title === 'Settings' %}
+    <ul class="collection-sublist">
       {% for setting in collections.setting %}
-        <li class="uip-demo__list-item">
-          <a href="{{ setting.url | url }}">{{ setting.data.title }}</a>
-        </li>
+      <li class="item">
+        <a href="{{ setting.url | url }}">{{ setting.data.title }}</a>
+      </li>
       {%- endfor %}
     </ul>
-  {%- endif %}
-{%- endfor %}
-</ul>
+    {%- endif %}
+    {%- endfor %}
+  </ul>
+</div>

@@ -1,11 +1,17 @@
 ---
 title: Examples
 ---
-
-<ul class="uip-demo__list">
-  {% for example in collections.example %}
-    <li class="uip-demo__list-item">
+<div class="container">
+  {% if title %}
+  <h2 class="collection-title">
+    {{ title | safe }}
+  </h2>
+  {% endif %}
+  <ul class="collection-list">
+    {% for example in collections.example %}
+    <li class="item">
       <a href="{{ example.url | url }}">{{ example.data.title }}</a>
     </li>
-  {%- endfor %}
-</ul>
+    {%- endfor %}
+  </ul>
+</div>
