@@ -1,101 +1,82 @@
 import {ESLRelatedTarget} from '../core/esl-related-target';
-import {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 import {ESLPanelGroup} from '../../esl-panel-group/core/esl-panel-group';
 import {ESLPanel} from '../../esl-panel/core/esl-panel';
-import {ESLTrigger} from '../../esl-trigger/core/esl-trigger';
+import {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
+
 // @ts-ignore
-import html from './nested-accordion-template.html';
+import accordionTestTemplate from './template.html';
 
-describe('', () => {
-
-  document.body.innerHTML = html;
-
+describe('ESLRelatedTarget (mixin): tests', () => {
   jest.useFakeTimers();
-  beforeAll(() =>  {
+
+  let initialContent: string;
+  let $panel: ESLPanel;
+  let $targetPanels: ESLPanel[];
+
+  beforeAll(() => {
     ESLPanelGroup.register();
-    ESLTrigger.register();
     ESLPanel.register();
-    ESLRelatedTarget.register();
-
-  });
-
-  const $panel = document.querySelector('[esl-related-target]') as ESLPanel;
-  const $chosenPanels = [...document.querySelectorAll('.chosen-panel')] as ESLPanel[];
-
-  describe('esl-related-target-action = all', () => {
-    test('Direct call ', () => {
-      $panel.setAttribute('esl-related-target-action', 'all');
-      $panel.show();
-      $chosenPanels.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(true));
-      $panel.hide();
-      $chosenPanels.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(false));
-    });
-  });
-
-  describe('esl-related-target-action=hide', () => {
-    test('call ', () => {
-      $panel.setAttribute('esl-related-target-action', 'hide');
-      $panel.hide();
-      $chosenPanels.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(false));
-    });
-  });
-
-  describe('Show all nested panels under esl-nested-accordion mixin', () => {
-    test('Direct call ', () => {
-      $panel.setAttribute('esl-related-target-action', 'show');
-      $panel.show();
-      $chosenPanels.forEach(($child: ESLPanel) => expect($child.open).toBe(true));
-    });
-  });
-});
-
-describe('ESLRelatedTarget: show/hide depending on mixin element state', () => {
-  const $el = ESLToggleable.create();
-  const $relatedEl = ESLToggleable.create();
-  $relatedEl.setAttribute('id', 'related-toggleable');
-  $el.setAttribute(ESLRelatedTarget.is, '#related-toggleable');
-
-  jest.useFakeTimers();
-  beforeAll(() =>  {
     ESLToggleable.register();
     ESLRelatedTarget.register();
-    document.body.appendChild($el);
-    document.body.appendChild($relatedEl);
+
+    initialContent = document.body.innerHTML;
+    document.body.innerHTML = accordionTestTemplate;
+    $panel = document.querySelector('[esl-related-target]') as ESLPanel;
+    $targetPanels = [...document.querySelectorAll('.chosen-panel')] as ESLPanel[];
   });
   afterAll(() => {
-    ($el.parentElement === document.body) && document.body.removeChild($el);
-    ($relatedEl.parentElement === document.body) && document.body.removeChild($relatedEl);
+    document.body.innerHTML = initialContent;
   });
 
-  describe('Synchronization of mixin and target states: SHOW_REQUEST on the current mixin element leads to show target element', () => {
-    beforeEach(() =>  $el.hide());
-    test('Direct call of show function', () => {
-      expect($relatedEl.open).toBe(false);
-      $el.show();
+  describe('ESLRelatedTarget: behaviour tests', () => {
+    const showRelationTest = () => {
+      $targetPanels.forEach((panel: ESLPanel, i) => panel.toggle(i % 2 === 0));
       jest.advanceTimersByTime(1);
-      expect($relatedEl.open).toBe(true);
-    });
-    test('SHOW_REQUEST_EVENT dispatching', () => {
-      expect($relatedEl.open).toBe(false);
-      $el.dispatchEvent(new CustomEvent($el.SHOW_REQUEST_EVENT));
+      $panel.show();
       jest.advanceTimersByTime(1);
-      expect($relatedEl.open).toBe(true);
-    });
-  });
+      $targetPanels.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(true));
+    };
+    const hideRelationTest = () => {
+      $targetPanels.forEach((panel: ESLPanel, i) => panel.toggle(i % 2 === 0));
+      jest.advanceTimersByTime(1);
+      $panel.hide();
+      jest.advanceTimersByTime(1);
+      $targetPanels.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(false));
+    };
 
-  describe('Synchronization of mixin and target states: HIDE_REQUEST on the current mixin element leads to show target element', () => {
-    beforeEach(() =>  $el.show());
-    test('Direct call of hide function', () => {
-      expect($relatedEl.open).toBe(true);
-      $el.hide();
-      jest.advanceTimersByTime(1);
-      expect($relatedEl.open).toBe(false);
+    test('ESLRelatedTarget with \'all\' action observation synchronize show state of toggleables', () => {
+      $panel.setAttribute('esl-related-target-action', 'all');
+      showRelationTest();
     });
-    test('HIDE_REQUEST_EVENT dispatching', () => {
-      expect($relatedEl.open).toBe(true);
-      $el.dispatchEvent(new CustomEvent($el.HIDE_REQUEST_EVENT));
+    test('ESLRelatedTarget with \'all\' action observation synchronize hide state of toggleables', () => {
+      $panel.setAttribute('esl-related-target-action', 'all');
+      hideRelationTest();
+    });
+    test('ESLRelatedTarget with \'show\' action observation synchronize show state of toggleables', () => {
+      $panel.setAttribute('esl-related-target-action', 'show');
+      showRelationTest();
+    });
+    test('ESLRelatedTarget with \'hide\' action observation synchronize hide state of toggleables', () => {
+      $panel.setAttribute('esl-related-target-action', 'hide');
+      hideRelationTest();
+    });
+
+    test('ESLRelatedTarget with \'hide\' action observation does not synchronize show state of toggleables', () => {
+      $panel.setAttribute('esl-related-target-action', 'hide');
+      $targetPanels.forEach((panel: ESLPanel) => panel.hide());
       jest.advanceTimersByTime(1);
-      expect($relatedEl.open).toBe(false);
+      $panel.show();
+      jest.advanceTimersByTime(1);
+      $targetPanels.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(false));
+    });
+
+    test('ESLRelatedTarget with \'show\' action observation does not synchronize hide state of toggleables', () => {
+      $panel.setAttribute('esl-related-target-action', 'show');
+      $targetPanels.forEach((panel: ESLPanel) => panel.show());
+      jest.advanceTimersByTime(1);
+      $panel.hide();
+      jest.advanceTimersByTime(1);
+      $targetPanels.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(true));
     });
   });
 });
