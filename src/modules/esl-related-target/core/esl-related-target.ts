@@ -34,8 +34,7 @@ export class ESLRelatedTarget extends ESLMixinElement {
     );
   }
 
-  /** Merges params that are used to initiate+-+
-   *  actions */
+  /** Merges params that are used to initiate actions */
   protected mergeParams(params: ESLToggleableActionParams): ESLToggleableActionParams {
     return Object.assign(copyDefinedKeys(params), {
       initiator: 'relatedToggleable',
