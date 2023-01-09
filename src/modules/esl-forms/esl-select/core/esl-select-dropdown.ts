@@ -1,7 +1,6 @@
 import {ESLPopup} from '../../../esl-popup/core';
 import {bind, prop, listen} from '../../../esl-utils/decorators';
 import {TAB} from '../../../esl-utils/dom/keys';
-import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';
 
 import type {ESLSelect} from './esl-select';
@@ -27,7 +26,6 @@ export class ESLSelectDropdown extends ESLPopup {
   /** Inner ESLSelectList component */
   protected $list: ESLSelectList;
   protected _disposeTimeout: number;
-  protected _deferredUpdatePosition = rafDecorator(() => this.updateWidth());
 
   @prop() public override closeOnEsc = true;
   @prop() public override closeOnOutsideAction = true;
@@ -60,7 +58,7 @@ export class ESLSelectDropdown extends ESLPopup {
     super.onShow(params);
     const focusable: HTMLElement | null = this.querySelector('[tabindex]');
     focusable?.focus({preventScroll: true});
-    this.updateWidth();
+    this._updatePosition();
   }
 
   protected override onHide(params: ESLToggleableActionParams): void {
@@ -94,10 +92,10 @@ export class ESLSelectDropdown extends ESLPopup {
   }
 
   @bind
-  public updateWidth(): void {
+  public _updatePosition(): void {
     const select = this.activator;
-    if (!select) return;
-    this.style.width = `${select.getBoundingClientRect().width}px`;
+    if (select) this.style.width = `${select.getBoundingClientRect().width}px`;
+    super._updatePosition();
   }
 }
 
