@@ -1,9 +1,11 @@
 import {ESLPopup} from '../../../esl-popup/core';
-import {bind, prop, listen} from '../../../esl-utils/decorators';
+import {prop, listen} from '../../../esl-utils/decorators';
 import {TAB} from '../../../esl-utils/dom/keys';
 import {ESLSelectList} from '../../esl-select-list/core';
+import {ESLTraversingQuery} from '../../../esl-traversing-query/core/esl-traversing-query';
 
 import type {ESLSelect} from './esl-select';
+import type {ESLSelectRenderer} from './esl-select-renderer';
 import type {ESLToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
 
 /**
@@ -46,7 +48,9 @@ export class ESLSelectDropdown extends ESLPopup {
     this.removeChild(this.$list);
   }
 
-  protected override onShow(params: ESLToggleableActionParams): void {
+  public override onShow(params: ESLToggleableActionParams): void {
+    this.activator = this.activator && ESLTraversingQuery.first('esl-select-renderer', null, this.activator) as ESLSelectRenderer | null;
+
     !this.connected && document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
@@ -85,14 +89,7 @@ export class ESLSelectDropdown extends ESLPopup {
     if (last && e.target === first && e.shiftKey) last.focus();
   }
 
-  @listen({event: 'resize', target: window})
-  protected _onResize(): void {
-    if (!this.activator) return;
-    this._deferredUpdatePosition();
-  }
-
-  @bind
-  public _updatePosition(): void {
+  protected _updatePosition(): void {
     const select = this.activator;
     if (select) this.style.width = `${select.getBoundingClientRect().width}px`;
     super._updatePosition();
