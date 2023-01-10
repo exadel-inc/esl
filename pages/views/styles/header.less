@@ -3,8 +3,8 @@
 .header {
   height: @header-height-desktop;
   font-size: 20px;
-  color: #fff;
-  background-color: @dark-bg;
+  color: @light-color;
+  background-color: @landing-dark-bg;
 
   @media @mobile {
     height: @header-height-mobile;
@@ -18,7 +18,7 @@
   }
 
   .uip-title, .header-nav-link {
-    color: white;
+    color: @light-color;
   }
 
   .uip-title {
@@ -80,8 +80,8 @@
       border: 1px solid white;
       border-radius: 10px;
       font-size: 18px;
-      background-color: white;
-      color: black;
+      background-color: @light-color;
+      color: @dark-text;
     }
 
     .header-nav-menu {
