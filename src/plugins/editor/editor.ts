@@ -61,10 +61,12 @@ export class UIPEditor extends UIPPlugin {
   protected connectedCallback() {
     super.connectedCallback();
     this.initEditor();
+    this.resizeObserver.observe(this);
   }
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
+    this.resizeObserver.unobserve(this);
   }
 
   /** Initialize [Ace]{@link https://ace.c9.io/} editor. */
@@ -76,8 +78,6 @@ export class UIPEditor extends UIPPlugin {
     this.editor.setOption('useWorker', false);
     this.editor.setOption('mode', 'ace/mode/html');
     this.initEditorOptions();
-
-    this._handlePageResize();
   }
 
   protected initEditorOptions(): void {
@@ -108,11 +108,7 @@ export class UIPEditor extends UIPPlugin {
   }
 
   /* prevents editor content from overflowing when toggling settings section or sidebar */
-  protected _handlePageResize() {
-    const obs = new ResizeObserver(debounce(() => this.editor.resize(),500));
-
-    obs.observe(this);
-  }
+  protected resizeObserver = new ResizeObserver(debounce(() => this.editor.resize(), 500));
 
 
   /** Callback to catch theme changes from {@link UIPRoot}. */
