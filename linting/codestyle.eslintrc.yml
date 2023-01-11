@@ -149,7 +149,10 @@ rules:
 
   # Require consistent spacing before and after keywords
   'keyword-spacing': off
-  '@typescript-eslint/keyword-spacing': warn
+  '@typescript-eslint/keyword-spacing':
+    - warn
+    - after: true
+      before: true
 
   # Allows an empty line between class members
   'lines-between-class-members': off
