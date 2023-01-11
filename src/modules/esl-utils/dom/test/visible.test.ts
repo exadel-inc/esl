@@ -26,6 +26,12 @@ describe('Function isVisible', () => {
     expect(isVisible(btn)).toBe(false);
   });
 
+  test('empty options object', () => {
+    expect(isVisible(btn, {})).toBe(false);
+    mockClientRects(btn);
+    expect(isVisible(btn, {})).toBe(true);
+  });
+
   test('default dimensions check', () => {
     mockClientRects(btn);
     expect(isVisible(btn)).toBe(true);
