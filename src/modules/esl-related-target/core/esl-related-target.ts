@@ -28,7 +28,7 @@ export class ESLRelatedTarget extends ESLMixinElement {
   public get $targets(): ESLToggleable[] {
     const {selector} = this;
     if (!selector) return [];
-    const targets = ESLTraversingQuery.all(selector);
+    const targets = ESLTraversingQuery.all(selector, this.$host);
     return targets.filter(
       (target: HTMLElement): target is ESLToggleable => target instanceof ESLToggleable && target !== this.$host
     );
