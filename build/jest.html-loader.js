@@ -3,5 +3,5 @@ module.exports = {
     return {
       code: `module.exports = ${JSON.stringify(sourceText)};`
     };
-  },
+  }
 };
