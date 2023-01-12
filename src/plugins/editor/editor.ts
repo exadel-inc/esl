@@ -10,6 +10,7 @@ import {jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
 
 import {UIPPlugin} from '../../core/registration';
 import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
+import { memoize } from '@exadel/esl';
 
 /** Config interface to define inner ACE editor settings. */
 interface EditorConfig {
@@ -108,8 +109,10 @@ export class UIPEditor extends UIPPlugin {
   }
 
   /* prevents editor content from overflowing when toggling settings section or sidebar */
-  protected resizeObserver = new ResizeObserver(debounce(() => this.editor.resize(), 500));
-
+  @memoize()
+  protected get resizeObserver(): ResizeObserver {
+    return new ResizeObserver(debounce(() => this.editor.resize(), 500));
+  }
 
   /** Callback to catch theme changes from {@link UIPRoot}. */
   @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
