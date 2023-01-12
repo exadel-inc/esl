@@ -16,6 +16,7 @@ NOTE: Selectors that don't start from a plain selector will use passed base Elem
  - `::parent`, `::closest` and `::child` pseudo-selectors
  - `::find` pseudo-selector
  - `::first`, `::last` and `:nth(#)` limitation pseudo-selectors
+ - `::visible` visible element pseudo-selector
 
 ---
 
