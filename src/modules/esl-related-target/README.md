@@ -15,7 +15,7 @@ Activation (set open state) or deactivation of the related target happens when t
 `esl:hide` DOM events are dispatched on the current host element.
 
 Mixin supports `esl-related-target-action` attribute to define required for synchronization actions:
- - `all` (default) - to synchronize both: show and hide events of observed toggleable.
+ - `all` (default) - to synchronize both: show and hide events of the observed toggleable
  - `hide` - to synchronize only hide events of the observed toggleable
  - `show` - to synchronize only show events of the observed toggleable
 
