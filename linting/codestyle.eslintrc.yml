@@ -35,6 +35,10 @@ rules:
     - warn
     - multi-line
 
+  'arrow-parens':
+    - warn
+    - always
+
   # Max 3 classes per file (ideally 1 per file)
   'max-classes-per-file':
     - warn
