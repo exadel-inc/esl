@@ -126,7 +126,7 @@ export class ESLPopup extends ESLToggleable {
   }
 
   @ready
-  public connectedCallback(): void {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.$arrow = this.querySelector('span.esl-popup-arrow');
     this.moveToBody();
@@ -170,7 +170,7 @@ export class ESLPopup extends ESLToggleable {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Adds CSS classes, update a11y and fire esl:refresh event by default.
    */
-  public onShow(params: PopupActionParams): void {
+  protected onShow(params: PopupActionParams): void {
     super.onShow(params);
 
     if (params.position) {
@@ -206,7 +206,7 @@ export class ESLPopup extends ESLToggleable {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Removes CSS classes and updates a11y by default.
    */
-  public onHide(params: PopupActionParams): void {
+  protected onHide(params: PopupActionParams): void {
     this.beforeOnHide();
     super.onHide(params);
 
