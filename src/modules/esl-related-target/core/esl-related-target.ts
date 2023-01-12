@@ -47,7 +47,7 @@ export class ESLRelatedTarget extends ESLMixinElement {
   protected onShow(e: CustomEvent): void {
     if (this.action === 'hide') return;
     const {params} = e.detail;
-    this.$targets.forEach(target => target.show({params: this.mergeParams(params)}));
+    this.$targets.forEach((target) => target.show({params: this.mergeParams(params)}));
   }
 
   /** Processes {@link ESLToggleable} hide event */
