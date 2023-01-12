@@ -19,7 +19,7 @@ Mixin supports `esl-related-target-action` attribute to define required for sync
  - `hide` - to synchronize only hide events of the observed toggleable
  - `show` - to synchronize only show events of the observed toggleable
 
-To make cross-reference (bidirectional binding) of toggleables you need to cross-reference both of the tooglables:
+To make cross-reference (bidirectional binding) of toggleables you need to cross-reference both of the toggleables:
 ```html
 <esl-toggleable class="first" esl-related-target=".second"></esl-toggleable>
 <esl-toggleable class="second" esl-related-target=".first"></esl-toggleable>
