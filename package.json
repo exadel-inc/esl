@@ -84,7 +84,7 @@
   "devDependencies": {
     "@11ty/eleventy": "^1.0.2",
     "@commitlint/cli": "^17.4.1",
-    "@commitlint/config-conventional": "^17.4.0",
+    "@commitlint/config-conventional": "^17.4.2",
     "@juggle/resize-observer": "^3.4.0",
     "@semantic-release/changelog": "^6.0.2",
     "@semantic-release/commit-analyzer": "^9.0.2",
