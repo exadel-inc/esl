@@ -1,3 +1,11 @@
+## [4.1.1](https://github.com/exadel-inc/esl/compare/v4.1.0...v4.1.1) (2023-01-11)
+
+
+### Bug Fixes
+
+* **esl-popup:** protected methods visibility ([f53af36](https://github.com/exadel-inc/esl/commit/f53af369e75e6fe902328b947348d94c3ae41627))
+* **redirect:** add permalink for ` /utils/esl-utils/` path ([bb3e01a](https://github.com/exadel-inc/esl/commit/bb3e01a1e65dd3ab65c18940bcdb03a57cf108ca))
+
 # [4.1.0](https://github.com/exadel-inc/esl/compare/v4.0.2...v4.1.0) (2022-12-09)
 
 
