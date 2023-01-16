@@ -2,6 +2,7 @@ import {ESLMixinElement} from '../../../src/modules/esl-mixin-element/ui/esl-mix
 import {listen, memoize} from '../../../src/modules/esl-utils/decorators';
 import {afterNextRender} from '../../../src/modules/esl-utils/async/raf';
 import {ESLEventUtils} from '../../../src/modules/esl-utils/dom/events';
+import {scrollIntoView} from '../../../src/modules/esl-utils/dom/scroll';
 
 /**
  * Demo sample of anchor mixin
@@ -27,12 +28,8 @@ export class ESLDemoAnchorLink extends ESLMixinElement {
     if (!$target) return console.warn('No anchor target found');
 
     ESLEventUtils.dispatch($target, 'esl:show:request');
-    afterNextRender(() => {
-      // TODO: replace with scroll ext version
-      // scrollIntoView($target, {behavior: 'smooth'})
-      //   .then(() => console.log('Scroll to successful: ', $target));
-      $target.scrollIntoView({behavior: 'smooth'});
-    });
+    ($target as HTMLElement).style.scrollMarginTop = '60px';
+    afterNextRender(() => scrollIntoView($target, {behavior: 'smooth', block: 'start'}));
   }
 
   @listen('click')

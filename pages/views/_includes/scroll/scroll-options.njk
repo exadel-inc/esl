@@ -1,0 +1,82 @@
+{% macro scrollControls(target) %}
+  <esl-d-scroll-controls target="{{ target }}">
+    <form style="width: inherit">
+      <ul class="esl-d-scroll-controls-ul">
+        <li class="esl-d-scroll-controls-li">
+          <label class="form-label">Behavior</label>
+
+          <ul class="esl-d-scroll-controls-behavior">
+            <li class="esl-d-scroll-controls-behavior-option">
+              <input type="radio" name="scroll-behavior" id="smooth" value="smooth">
+              <label class="form-label">Smooth</label>
+            </li>
+
+            <li class="esl-d-scroll-controls-behavior-option">
+              <input type="radio" name="scroll-behavior" id="auto" value="auto" checked>
+              <label class="form-label">Auto</label>
+            </li>
+          </ul>
+        </li>
+
+        <li class="esl-d-scroll-controls-li">
+          <label for="target" class="form-label">Target</label>
+          <esl-select style="display: block" placeholder="Target">
+            <select esl-select-target
+                    id="target"
+                    name="target"
+                    class="form-control">
+            </select>
+          </esl-select>
+        </li>
+
+        <li class="esl-d-scroll-controls-li">
+          <label for="options_block" class="form-label">Block</label>
+          <esl-select style="display: block"
+                      placeholder="Block"
+                      select-all-label="Block">
+            <select esl-select-target
+                    id="options_block"
+                    name="options_block"
+                    class="form-control">
+              <option>start</option>
+              <option>center</option>
+              <option>end</option>
+              <option>nearest</option>
+            </select>
+          </esl-select>
+        </li>
+
+        <li class="esl-d-scroll-controls-li">
+          <label for="options_inline" class="form-label">Inline</label>
+          <esl-select style="display: block" placeholder="Inline">
+            <select esl-select-target
+                    id="options_inline"
+                    name="options_inline"
+                    class="form-control">
+              <option>start</option>
+              <option>center</option>
+              <option>end</option>
+              <option>nearest</option>
+            </select>
+          </esl-select>
+        </li>
+
+        <li class="esl-d-scroll-controls-li">
+          <label>OffsetBlock</label>
+          <input type="text" class="form-control" id="offsetBlock" min="0" max="2000" value="0" size="3">
+        </li>
+
+        <li class="esl-d-scroll-controls-li">
+          <label>OffsetInline</label>
+          <input type="text" class="form-control" id="offsetInline" min="0" max="2000" value="0" size="3">
+        </li>
+
+        <li class="menu-item" style="margin-left: auto">
+          <button type="button" class="btn btn-sec-orange esl-d-scroll-controls-button" id="scrollIntoViewNative">Native</button>
+          <button type="button" class="btn btn-sec-orange esl-d-scroll-controls-button" id="scrollIntoViewPonyfill">Ponyfill</button>
+        </li>
+      </ul>
+    </form>
+    <esl-alert style="position: fixed"></esl-alert>
+  </esl-d-scroll-controls>
+{% endmacro %}

@@ -1,0 +1,64 @@
+@import (reference) "../common/variables.less";
+
+.scrollable-test {
+  &-lvl {
+    &-1 {
+      display: flex;
+      margin: 30px;
+      min-width: 200px;
+      height: 200px;
+
+      &-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        width: 1050px;
+        margin: 600px;
+      }
+    }
+
+    &-2 {
+      height: 600px;
+      width: 600px;
+
+      &-wrapper {
+        height: 600px;
+        width: 600px;
+        margin: 1000px 2000px;
+      }
+    }
+
+    &-3-wrapper {
+      background-color: @secondary-green;
+    }
+  }
+
+  &-dynamic {
+    background-color: @secondary-blue;
+    color: white;
+    padding: 30px;
+    font-size: 2rem;
+    text-align: center;
+    min-height: 200px;
+    margin-bottom: 40px;
+
+    &-expandable {
+      background-color: @secondary-green;
+      transition: min-height .9s ease;
+    }
+
+    &-expanded {
+      min-height: 1000px;
+    }
+
+    &-target {
+      background-color: @secondary-blue;
+    }
+  }
+
+  &-p {
+    color: white;
+    margin: auto;
+    font-size: 4em;
+  }
+}
