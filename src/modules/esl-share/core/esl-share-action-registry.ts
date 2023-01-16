@@ -12,11 +12,6 @@ export class ESLShareActionRegistry {
   }
 
   /** Register action */
-  public register2(action: ActionType): void {
-    if (!action.is) throw new Error('Action should have a name');
-    this.actionsMap.set(action.is, new action());
-  }
-
   public register(action: ActionType): void {
     if (!action.is) throw new Error('Action should have a name');
     this.actionsMap.set(action.is, new action());
@@ -33,9 +28,9 @@ export class ESLShareActionRegistry {
     return this.actionsMap.get(name.toLowerCase()) || null;
   }
 
-  /** Do action at passed Share button */
-  public doAction(button: ESLShareButton): void {
+  /** Do the share action at passed Share button */
+  public share(button: ESLShareButton): void {
     const action = this.get(button.action);
-    action && action.do(button.shareData, button);
+    action && action.share(button.shareData, button);
   }
 }

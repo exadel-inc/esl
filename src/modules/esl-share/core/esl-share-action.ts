@@ -21,5 +21,5 @@ export abstract class ESLShareBaseAction {
     return true;
   }
 
-  public abstract do(shareData: ShareData, $button: ESLShareButton): void;
+  public abstract share(shareData: ShareData, $button: ESLShareButton): void;
 }

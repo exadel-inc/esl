@@ -6,7 +6,7 @@ import type {ESLShareButton} from '../core/esl-share-button';
 export class ESLSharePrintAction extends ESLShareBaseAction {
   public static readonly is: string = 'print';
 
-  public do(shareData: ShareData, $button: ESLShareButton): void {
+  public share(shareData: ShareData, $button: ESLShareButton): void {
     window.print();
   }
 }

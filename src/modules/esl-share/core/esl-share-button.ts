@@ -76,19 +76,19 @@ export class ESLShareButton extends ESLBaseElement {
     }
   }
 
-  protected beforeAction(): void {}
+  protected onBeforeShare(): void {}
 
-  protected doAction(): void {
-    this.beforeAction();
-    ESLShareActionRegistry.instance.doAction(this);
-    this.afterAction();
+  public share(): void {
+    this.onBeforeShare();
+    ESLShareActionRegistry.instance.share(this);
+    this.onAfterShare();
   }
 
-  protected afterAction(): void {}
+  protected onAfterShare(): void {}
 
   @listen('click')
   protected onClick(e: MouseEvent): void {
-    this.doAction();
+    this.share();
   }
 
   @listen('keydown')

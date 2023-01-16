@@ -22,7 +22,7 @@ export class ESLShareMediaAction extends ESLShareUrlGenericAction {
     return Object.entries((this.constructor as typeof ESLShareMediaAction).FEATURES).map((key, value) => `${key}=${value}`).join(',');
   }
 
-  public do(shareData: ShareData, $button: ESLShareButton): void {
+  public share(shareData: ShareData, $button: ESLShareButton): void {
     const {link} = $button;
     if (!link) return;
 

@@ -6,7 +6,7 @@ import type {ESLShareButton} from '../core/esl-share-button';
 export class ESLShareMailAction extends ESLShareUrlGenericAction {
   public static readonly is: string = 'mail';
 
-  public do(shareData: ShareData, $button: ESLShareButton): void {
+  public share(shareData: ShareData, $button: ESLShareButton): void {
     const {link} = $button;
     if (!link) return;
 

@@ -25,7 +25,7 @@ export class ESLShareCopyAction extends ESLShareBaseAction {
     };
   }
 
-  public do(shareData: ShareData, $button: ESLShareButton): void {
+  public share(shareData: ShareData, $button: ESLShareButton): void {
     if (!this.isAvailable) return;
 
     navigator.clipboard.writeText(shareData.url || '');

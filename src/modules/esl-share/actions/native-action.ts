@@ -12,7 +12,7 @@ export class ESLShareNativeAction extends ESLShareBaseAction {
     return navigator.share !== undefined;
   }
 
-  public do(shareData: ShareData, $button: ESLShareButton): void {
+  public share(shareData: ShareData, $button: ESLShareButton): void {
     if (!this.isAvailable) return;
 
     navigator.share(shareData);
