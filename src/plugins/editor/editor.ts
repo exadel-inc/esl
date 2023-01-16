@@ -6,7 +6,7 @@ import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 import {UIPPlugin} from '../../core/registration';
 import {EditorConfig, AceTheme} from './ace/utils';
 import type {AceEditor} from './ace/ace-editor';
-import { decorate } from '@exadel/esl';
+import {decorate, memoize} from '@exadel/esl';
 
 /**
  * Editor UIPPlugin custom element definition.
@@ -16,6 +16,14 @@ import { decorate } from '@exadel/esl';
 export class UIPEditor extends UIPPlugin {
   public static is = 'uip-editor';
   private static collapsedAttribute = 'editor-collapsed';
+  /** Default [config]{@link EditorConfig} instance. */
+  public static defaultOptions: EditorConfig = {
+    theme: 'ace/theme/chrome',
+    printMarginColumn: -1,
+    wrap: true,
+    minLines: 8,
+    maxLines: 22,
+  };
 
   /** Editor's {@link EditorConfig config} passed through attribute. */
   @jsonAttr({defaultValue: {}})
@@ -35,6 +43,7 @@ export class UIPEditor extends UIPPlugin {
 
   protected disconnectedCallback(): void {
     this.editor.destroy();
+    this.resizeObserver.unobserve(this);
     super.disconnectedCallback();
   }
 
@@ -45,6 +54,7 @@ export class UIPEditor extends UIPPlugin {
     }
 
     return import(/* webpackChunkName: "ace-editor" */ './ace/ace-editor').then((Ace) => {
+      this.resizeObserver.observe(this);
       this.editor = new Ace.Editor(this.$inner);
       this._onRootStateChange();
       this.editor.setConfig(this.editorConfig);
@@ -79,7 +89,13 @@ export class UIPEditor extends UIPPlugin {
     this.editor?.setConfig(this.editorConfig);
   }
 
-  /** Callback to catch theme and collapse state changes from {@link UIPRoot}. */
+  /* prevents editor content from overflowing when toggling settings section or sidebar */
+  @memoize()
+  protected get resizeObserver(): ResizeObserver {
+    return new ResizeObserver(debounce(() => this.editor.resize(), 500));
+  }
+
+  /** Callback to catch theme changes from {@link UIPRoot}. */
   @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
   protected _onRootConfigChange(e: CustomEvent) {
     const attr = e.detail.attribute;

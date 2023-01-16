@@ -55,6 +55,11 @@ class AceEditor extends SyntheticEventTarget {
     return this.editor.getValue();
   }
 
+  /** Manual editor's resize. */
+  public resize(): void {
+    this.editor.resize();
+  }
+
   /** Manually cleanup internal event listeners. */
   public destroy(): void {
     this.editor.removeEventListener('change', this._onChange);

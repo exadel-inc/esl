@@ -5,7 +5,11 @@ export interface EditorConfig {
   /** Position of the vertical line for wrapping. */
   printMarginColumn: number;
   /** Limit of characters before wrapping. */
-  wrap: number | boolean;
+  wrap?: number | boolean;
+  /** Editor's default amount of lines (height). */
+  minLines? : number;
+  /** Editor's max amount of lines (height). */
+  maxLines? : number;
 }
 
 /** Enum to match themes to {@link https://github.com/ajaxorg/ace/tree/master/src/theme Ace styles}. */

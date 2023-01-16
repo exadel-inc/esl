@@ -17,17 +17,17 @@
   </header>
   {% include 'sidebar.njk' %}
 
-  <main class="main" role="main">
-    {% if title %}
-      <h2 class="main__title">
-        {{ title | safe }}
-      </h2>
-    {% endif %}
+  <main class="main esl-scrollable-content" role="main">
     <div class="content">
+      {% if title %}
+        <h2 class="main__title">
+          {{ title | safe }}
+        </h2>
+      {% endif %}
       {{ content | safe or 'No content.' }}
     </div>
   </main>
-
+  <esl-scrollbar target="::prev" class="page-scrollbar"></esl-scrollbar>
   <footer class="footer">
     {% include 'footer.njk' %}
   </footer>
