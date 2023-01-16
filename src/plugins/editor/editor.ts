@@ -10,6 +10,7 @@ import {jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
 
 import {UIPPlugin} from '../../core/registration';
 import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
+import { memoize } from '@exadel/esl';
 
 /** Config interface to define inner ACE editor settings. */
 interface EditorConfig {
@@ -61,10 +62,12 @@ export class UIPEditor extends UIPPlugin {
   protected connectedCallback() {
     super.connectedCallback();
     this.initEditor();
+    this.resizeObserver.observe(this);
   }
 
   protected disconnectedCallback() {
     super.disconnectedCallback();
+    this.resizeObserver.unobserve(this);
   }
 
   /** Initialize [Ace]{@link https://ace.c9.io/} editor. */
@@ -103,6 +106,12 @@ export class UIPEditor extends UIPPlugin {
   public setEditorConfig(editorConfig: EditorConfig): void {
     this.editorConfig = editorConfig;
     this.initEditorOptions();
+  }
+
+  /* prevents editor content from overflowing when toggling settings section or sidebar */
+  @memoize()
+  protected get resizeObserver(): ResizeObserver {
+    return new ResizeObserver(debounce(() => this.editor.resize(), 500));
   }
 
   /** Callback to catch theme changes from {@link UIPRoot}. */
