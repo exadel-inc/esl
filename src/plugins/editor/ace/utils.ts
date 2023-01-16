@@ -9,9 +9,9 @@ export interface EditorConfig {
 }
 
 /** Enum to match themes to {@link https://github.com/ajaxorg/ace/tree/master/src/theme Ace styles}. */
-export enum Theme {
+export enum AceTheme {
   /** Light editor theme. */
   Light = 'ace/theme/chrome',
   /** Dark editor theme. */
   Dark = 'ace/theme/tomorrow_night',
-};
+}

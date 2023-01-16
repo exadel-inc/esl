@@ -4,8 +4,9 @@ import {jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
 import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 
 import {UIPPlugin} from '../../core/registration';
-import {EditorConfig, Theme} from './ace/utils';
+import {EditorConfig, AceTheme} from './ace/utils';
 import type {AceEditor} from './ace/ace-editor';
+import { decorate } from '@exadel/esl';
 
 /**
  * Editor UIPPlugin custom element definition.
@@ -44,16 +45,18 @@ export class UIPEditor extends UIPPlugin {
     }
 
     return import(/* webpackChunkName: "ace-editor" */ './ace/ace-editor').then((Ace) => {
-      this.editor = new Ace.Editor(this.$inner, this.onChange);
+      this.editor = new Ace.Editor(this.$inner);
       this._onRootStateChange();
       this.editor.setConfig(this.editorConfig);
     });
   }
 
   /** Callback to call on editor's content changes. */
-  protected onChange = debounce(() => {
+  @listen('change')
+  @decorate(debounce, 1000)
+  private _onChange() {
     this.model!.setHtml(this.editor.getValue(), this);
-  }, 1000);
+  }
 
   @bind
   protected _onRootStateChange(): void {
@@ -84,7 +87,7 @@ export class UIPEditor extends UIPPlugin {
 
     switch (attr) {
       case 'dark-theme':
-        return this.updateEditorConfig({theme: value === null ? Theme.Light : Theme.Dark});
+        return this.updateEditorConfig({theme: value === null ? AceTheme.Light : AceTheme.Dark});
       case 'editor-collapsed':
         value === null && this.initEditor();
         return this.classList.toggle('collapsed', value !== null);

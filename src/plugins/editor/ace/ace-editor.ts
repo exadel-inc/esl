@@ -4,17 +4,17 @@ import 'ace-builds/src-min-noconflict/mode-html';
 import 'ace-builds/src-min-noconflict/theme-chrome';
 import 'ace-builds/src-min-noconflict/theme-tomorrow_night';
 
-import {EditorConfig, Theme} from './utils';
+import {EditorConfig, AceTheme} from './utils';
+import { SyntheticEventTarget } from '@exadel/esl/modules/esl-utils/dom/events/target';
+import { bind } from '@exadel/esl/modules/esl-utils/decorators/bind';
 
 /** {@link https://ace.c9.io/ Ace} editor wrapper. */
-class AceEditor {
+class AceEditor extends SyntheticEventTarget {
   /** Inner {@link https://ace.c9.io/ Ace} instance. */
   private editor: Ace.Editor;
-  /** Callback to run on editor's content changes. */
-  private changeCallback: Function;
   /** Default ace editor's options. */
   private static defaultConfig: EditorConfig = {
-    theme: Theme.Light,
+    theme: AceTheme.Light,
     printMarginColumn: -1,
     wrap: true,
   };
@@ -23,10 +23,10 @@ class AceEditor {
    * @param {HTMLElement} element - element to place editor inside.
    * @param {Function=} changeCallback - callback to run on editor's content changes.
    */
-  constructor(element: HTMLElement, changeCallback: Function = () => {}) {
+  constructor(element: HTMLElement) {
+    super();
     this.editor = edit(element);
-    this.changeCallback = changeCallback;
-    this.editor.addEventListener('change', changeCallback);  
+    this.editor.addEventListener('change', this._onChange);
     this.editor.setOption('useWorker', false);
     this.editor.setOption('mode', 'ace/mode/html');
   }
@@ -45,9 +45,9 @@ class AceEditor {
    * @param {string} value - text content to set.
    */
   public setValue(value: string): void {
-    this.editor.removeEventListener('change', this.changeCallback);
+    this.editor.removeEventListener('change', this._onChange);
     this.editor.setValue(js_beautify.html(value), -1);
-    this.editor.addEventListener('change', this.changeCallback);
+    this.editor.addEventListener('change', this._onChange);
   }
 
   /** @returns Editor's text content. */
@@ -57,7 +57,12 @@ class AceEditor {
 
   /** Manually cleanup internal event listeners. */
   public destroy(): void {
-    this.editor.removeEventListener('change', this.changeCallback);
+    this.editor.removeEventListener('change', this._onChange);
+  }
+
+  @bind
+  private _onChange() {
+    this.dispatchEvent(new CustomEvent('change'));
   }
 }
 
