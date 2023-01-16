@@ -14,7 +14,7 @@ This section describes the project structure and our development guidelines.
 
 ## Setup the project
 
-1.  To get started you will need Node.js version `>=14.17.0`.
+1.  To get started you will need Node.js version `>=18.13.0`.
 
 2.  After cloning the repo, run:
     ```commandline
