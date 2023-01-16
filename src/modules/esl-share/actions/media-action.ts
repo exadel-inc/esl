@@ -1,5 +1,7 @@
 import {ESLShareUrlGenericAction} from './url-generic-action';
 
+import type {ESLShareButton} from '../core/esl-share-button';
+
 @ESLShareUrlGenericAction.register
 export class ESLShareMediaAction extends ESLShareUrlGenericAction {
   public static readonly is: string = 'media';
@@ -20,10 +22,10 @@ export class ESLShareMediaAction extends ESLShareUrlGenericAction {
     return Object.entries((this.constructor as typeof ESLShareMediaAction).FEATURES).map((key, value) => `${key}=${value}`).join(',');
   }
 
-  public do(): void {
-    const {link} = this.$button;
+  public do(shareData: ShareData, $button: ESLShareButton): void {
+    const {link} = $button;
     if (!link) return;
 
-    window.open(this.buildURL(link), '_blank', this.windowFeatures);
+    window.open(this.buildURL(link, shareData), '_blank', this.windowFeatures);
   }
 }

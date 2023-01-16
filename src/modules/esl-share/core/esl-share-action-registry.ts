@@ -1,10 +1,10 @@
 import {memoize} from '../../esl-utils/decorators';
 
-import type {ActionType} from './esl-share-action';
+import type {ActionType, ESLShareBaseAction} from './esl-share-action';
 import type {ESLShareButton} from './esl-share-button';
 
 export class ESLShareActionRegistry {
-  private actionsMap: Map<string, ActionType> = new Map();
+  private actionsMap: Map<string, ESLShareBaseAction> = new Map();
 
   @memoize()
   public static get instance(): ESLShareActionRegistry {
@@ -12,9 +12,14 @@ export class ESLShareActionRegistry {
   }
 
   /** Register action */
+  public register2(action: ActionType): void {
+    if (!action.is) throw new Error('Action should have a name');
+    this.actionsMap.set(action.is, new action());
+  }
+
   public register(action: ActionType): void {
     if (!action.is) throw new Error('Action should have a name');
-    this.actionsMap.set(action.is, action);
+    this.actionsMap.set(action.is, new action());
   }
 
   /** Check that action is registered for passed name */
@@ -23,7 +28,7 @@ export class ESLShareActionRegistry {
   }
 
   /** Get action by name */
-  public get(name: string): ActionType | null {
+  public get(name: string): ESLShareBaseAction | null {
     if (!name) return null;
     return this.actionsMap.get(name.toLowerCase()) || null;
   }
@@ -31,6 +36,6 @@ export class ESLShareActionRegistry {
   /** Do action at passed Share button */
   public doAction(button: ESLShareButton): void {
     const action = this.get(button.action);
-    action && new action(button).do();
+    action && action.do(button.shareData, button);
   }
 }

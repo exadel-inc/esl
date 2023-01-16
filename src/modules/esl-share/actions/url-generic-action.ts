@@ -3,8 +3,7 @@ import {format} from '../../esl-utils/misc/format';
 
 export abstract class ESLShareUrlGenericAction extends ESLShareBaseAction {
 
-  protected get formatSource(): Record<string, string> {
-    const {shareData} = this.$button;
+  protected getFormatSource(shareData: ShareData): Record<string, string> {
     const title = encodeURIComponent(shareData.title || '');
     const url = encodeURIComponent(shareData.url || '');
     return {
@@ -15,7 +14,7 @@ export abstract class ESLShareUrlGenericAction extends ESLShareBaseAction {
     };
   }
 
-  protected buildURL(link: string): string {
-    return format(link, this.formatSource);
+  protected buildURL(link: string, shareData: ShareData): string {
+    return format(link, this.getFormatSource(shareData));
   }
 }

@@ -1,17 +1,11 @@
-import {memoize} from '../../esl-utils/decorators';
 import {ESLShareActionRegistry} from './esl-share-action-registry';
 
 import type {ESLShareButton} from './esl-share-button';
 
-export type ActionType = (new($button: ESLShareButton) => ESLShareBaseAction) & typeof ESLShareBaseAction;
+export type ActionType = (new() => ESLShareBaseAction) & typeof ESLShareBaseAction;
 
 export abstract class ESLShareBaseAction {
   public static readonly is: string;
-
-  @memoize()
-  public static get isAvailable(): boolean {
-    return true;
-  }
 
   /** Register this action. Can be used as a decorator */
   public static register(this: ActionType): void;
@@ -23,7 +17,9 @@ export abstract class ESLShareBaseAction {
     ESLShareActionRegistry.instance.register(action);
   }
 
-  public constructor(protected $button: ESLShareButton) {}
+  public get isAvailable(): boolean {
+    return true;
+  }
 
-  public abstract do(): void;
+  public abstract do(shareData: ShareData, $button: ESLShareButton): void;
 }
