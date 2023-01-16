@@ -72,7 +72,7 @@ export class ESLShareButton extends ESLBaseElement {
   public initA11y(): void {
     if (!this.hasAttribute('role')) this.setAttribute('role', 'button');
     if (this.getAttribute('role') === 'button' && !this.hasAttribute('tabindex')) {
-      this.setAttribute('tabindex', '0');
+      this.tabIndex = 0;
     }
   }
 
