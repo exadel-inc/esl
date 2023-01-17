@@ -40,6 +40,7 @@ export class ESLSelectDropdown extends ESLPopup {
   protected override setInitialState(): void {}
 
   protected override connectedCallback(): void {
+    this.position = 'bottom';
     super.connectedCallback();
     this.appendChild(this.$list);
   }
@@ -48,8 +49,11 @@ export class ESLSelectDropdown extends ESLPopup {
     this.removeChild(this.$list);
   }
 
-  public override onShow(params: ESLToggleableActionParams): void {
-    this.activator = this.activator && ESLTraversingQuery.first('esl-select-renderer', null, this.activator) as ESLSelectRenderer | null;
+  protected override onShow(params: ESLToggleableActionParams): void {
+    if (this.activator) {
+      const renderer = ESLTraversingQuery.first('esl-select-renderer', null, this.activator) as ESLSelectRenderer | null;
+      if (renderer) this.activator = renderer;
+    }
 
     !this.connected && document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
@@ -89,7 +93,7 @@ export class ESLSelectDropdown extends ESLPopup {
     if (last && e.target === first && e.shiftKey) last.focus();
   }
 
-  protected _updatePosition(): void {
+  protected override _updatePosition(): void {
     const select = this.activator;
     if (select) this.style.width = `${select.getBoundingClientRect().width}px`;
     super._updatePosition();
