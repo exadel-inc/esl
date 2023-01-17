@@ -74,6 +74,7 @@ with excellent performance.
 - ##### [ESL Panel](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-panel/README.md)
 - ##### [ESL Panel Group](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-panel-group/README.md)
 - ##### [ESL Popup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-popup/README.md) (beta)
+- ##### [ESL Related Target](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-related-target/README.md) (beta)
 - ##### [ESL Scrollbar](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-scrollbar/README.md)
 - ##### [ESL Select](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select/README.md) (beta)
 - ##### [ESL Select List](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select-list/README.md) (beta)
@@ -126,6 +127,7 @@ with excellent performance.
     *You can pass custom tag name to 'register' function, but use this option only in an exceptional situation.*
 
 ---
+
 ## Roadmap
 <a name="roadmap"></a>
 
