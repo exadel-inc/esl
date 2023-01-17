@@ -196,11 +196,15 @@ aside:
 <section class="row">
   <div class="col-12">
     <h2>Nested accordion with auto-closable nested panels (esl-related-target)</h2>
-    {#    {% code 'html', 'code-block' %} #}
-    {#      <esl-panel-group class="accordion-group mb-4" min-open-items="0" max-open-items="all"> #}
-    {#        #}
-    {#      </esl-panel-group> #}
-    {#    {% endcode %} #}
+        {% code 'html', 'code-block' %}
+          <esl-panel class="esl-d-accordion-panel"
+                     esl-related-target="::find(esl-panel)"
+                     esl-related-target-action="hide">
+            <esl-panel-group class="accordion-group mb-4">
+              <esl-panel .../> <esl-panel .../> <esl-panel .../>
+            </esl-panel-group>
+          </esl-panel>
+        {% endcode %}
 
     <esl-panel-group class="accordion-group mb-4" min-open-items="0" max-open-items="all">
       <div class="esl-d-accordion">
