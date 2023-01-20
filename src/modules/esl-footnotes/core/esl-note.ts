@@ -114,7 +114,7 @@ export class ESLNote extends ESLBaseElement {
       this._$footnotes?.turnOffHighlight(this);
     }
     if (attrName === 'ignore') {
-      this.updateIgnore();
+      this.updateIgnoredQuery();
     }
   }
 
