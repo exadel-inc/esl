@@ -3,7 +3,10 @@ title: Example with a playground that contains playground inside
 ---
 
 <uip-root>
-  <uip-header></uip-header>
+  <uip-header>
+    <uip-snippets></uip-snippets>
+    <uip-options hide-settings></uip-options>
+  </uip-header>
   <script type="text/html" uip-snippet label="Playground">
     <uip-root>
       <uip-header></uip-header>
@@ -45,7 +48,5 @@ title: Example with a playground that contains playground inside
     </div>
   </script>
   <uip-preview resizable></uip-preview>
-  <uip-settings target=".card-list">
-  </uip-settings>
   <uip-editor></uip-editor>
 </uip-root>
