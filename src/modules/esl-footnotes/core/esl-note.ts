@@ -119,7 +119,7 @@ export class ESLNote extends ESLBaseElement {
   }
 
   /** Revise the settings for ignoring the note */
-  public updateIgnore(): void {
+  public updateIgnoredQuery(): void {
     memoize.clear(this, 'queryToIgnore');
     this.$$on(this._onBPChange);
     this._onBPChange();
