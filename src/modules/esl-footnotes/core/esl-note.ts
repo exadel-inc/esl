@@ -114,9 +114,15 @@ export class ESLNote extends ESLBaseElement {
       this._$footnotes?.turnOffHighlight(this);
     }
     if (attrName === 'ignore') {
-      memoize.clear(this, 'queryToIgnore');
-      this.$$on(this._onBPChange);
+      this.updateIgnoredQuery();
     }
+  }
+
+  /** Revise the settings for ignoring the note */
+  public updateIgnoredQuery(): void {
+    memoize.clear(this, 'queryToIgnore');
+    this.$$on(this._onBPChange);
+    this._onBPChange();
   }
 
   /** Gets attribute value from the closest element with group behavior settings */
