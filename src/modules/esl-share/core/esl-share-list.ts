@@ -30,7 +30,7 @@ export class ESLShareList extends ESLBaseElement {
   }
 
   public get ready$(): Promise<void> {
-    return this._ready ? this._ready : Promise.reject(`[${this.alias}]: is not ready`);
+    return this._ready ?? Promise.reject(`[${this.alias}]: is not ready`);
   }
 
   @memoize()
