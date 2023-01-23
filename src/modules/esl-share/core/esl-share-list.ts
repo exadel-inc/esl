@@ -1,6 +1,5 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {attr, bind, boolAttr, memoize} from '../../esl-utils/decorators';
-import {ESLEventUtils} from '../../esl-utils/dom/events';
+import {attr, bind, boolAttr, memoize, prop} from '../../esl-utils/decorators';
 
 import {ESLShareConfig} from './esl-share-config';
 import {ESLShareButton} from './esl-share-button';
@@ -15,6 +14,9 @@ export class ESLShareList extends ESLBaseElement {
     ESLShareButton.register();
     super.register();
   }
+
+  /** Event to dispatch on ready state of {@link ESLShareList} */
+  @prop('esl:share:ready') public SHARE_READY_EVENT: string;
 
   @attr({readonly: true}) public list: string;
   @attr({readonly: true}) public group: string;
@@ -77,7 +79,7 @@ export class ESLShareList extends ESLBaseElement {
 
   protected init(): void {
     this._ready = this.buttonsConfig.then(this.buildContent);
-    this._ready.then(() => ESLEventUtils.dispatch(this, 'esl:share:ready'));
+    this._ready.then(() => this.$$fire(this.SHARE_READY_EVENT, {bubbles: false}));
     this._ready.catch((e) => console.error(`[${this.alias}]: ${e}`));
   }
 
