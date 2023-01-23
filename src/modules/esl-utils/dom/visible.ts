@@ -31,7 +31,7 @@ export function isVisible(el: HTMLElement, options: VisibilityOptions = {visibil
  */
 export function isInViewport(el: HTMLElement): boolean {
   const wndIntersection = Rect.intersect(getWindowRect(), Rect.from(el.getBoundingClientRect()));
-  if (wndIntersection.area=== 0) return false;
+  if (wndIntersection.area === 0) return false;
   return !getListScrollParents(el).some((parent: HTMLElement) =>
     Rect.intersect(wndIntersection, Rect.from(parent.getBoundingClientRect())).area === 0);
 }

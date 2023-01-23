@@ -84,9 +84,9 @@ describe('Rect instance methods', () => {
   });
 
   test.each([
-    [[0, 0, 10, 10], false],
-    [[0, 0, 0, 0], true]
+    [[0, 0, 10, 10], 100],
+    [[0, 0, 0, 0], 0]
   ])('isEmpty: %s', (coords, expected) => {
-    expect(new Rect(...coords).isEmpty()).toBe(expected);
+    expect(new Rect(...coords).area).toBe(expected);
   });
 });
