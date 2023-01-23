@@ -128,10 +128,8 @@ export class Rect {
     return this.grow(-decrementX, -decrementY);
   }
 
-  /**
-   * Method to check if element's area is bigger than zero
-   */
-  public isEmpty(): boolean {
-    return this.height === 0 || this.width === 0;
+  /** @returns the numeric value of rectangle area */
+  public get area(): number {
+    return this.height * this.width;
   }
 }

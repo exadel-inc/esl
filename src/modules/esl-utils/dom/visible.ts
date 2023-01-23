@@ -13,7 +13,7 @@ export interface VisibilityOptions {
 }
 
 /**
- * Check if specified element is visible
+ * Checks if the specified element is visible
  * @param el - element to be checked
  * @param options - object of additional visibility options to include
  */
@@ -25,9 +25,13 @@ export function isVisible(el: HTMLElement, options: VisibilityOptions = {visibil
   return !(options.viewport && !isInViewport(el));
 }
 
-function isInViewport(el: HTMLElement): boolean {
+/**
+ * Checks if the specified element is inside the viewport
+ * @param el - element to be checked
+ */
+export function isInViewport(el: HTMLElement): boolean {
   const wndIntersection = Rect.intersect(getWindowRect(), Rect.from(el.getBoundingClientRect()));
-  if (wndIntersection.isEmpty()) return false;
+  if (wndIntersection.area=== 0) return false;
   return !getListScrollParents(el).some((parent: HTMLElement) =>
-    Rect.intersect(wndIntersection, Rect.from(parent.getBoundingClientRect())).isEmpty());
+    Rect.intersect(wndIntersection, Rect.from(parent.getBoundingClientRect())).area === 0);
 }
