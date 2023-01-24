@@ -16,7 +16,7 @@ import type {
 } from './types';
 
 /** Key to store listeners on the host */
-const STORE = '__esl_listeners';
+const LISTENERS = (Symbol || String)('__esl_listeners');
 
 /**
  * Splits and deduplicates event string
@@ -141,21 +141,21 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
    */
   public static get(host?: any, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
     if (!host) return [];
-    const listeners = (host[STORE] || []) as ESLEventListener[];
+    const listeners = (host[LISTENERS] || []) as ESLEventListener[];
     if (!criteria.length) return listeners;
     return listeners.filter((listener) => criteria.every(listener.matches, listener));
   }
   /** Adds listener to the listener store of the host object */
   protected static add(host: any, instance: ESLEventListener): void {
     if (!host) return;
-    if (!Object.hasOwnProperty.call(host, STORE)) host[STORE] = [];
-    host[STORE].push(instance);
+    if (!Object.hasOwnProperty.call(host, LISTENERS)) host[LISTENERS] = [];
+    host[LISTENERS].push(instance);
   }
   /** Removes listener from the listener store of the host object */
   protected static remove(host: any, instance: ESLEventListener): void {
     const listeners = ESLEventListener.get(host);
     const value = listeners.filter((listener) => listener !== instance);
-    Object.defineProperty(host, STORE, {value, configurable: true});
+    Object.defineProperty(host, LISTENERS, {value, configurable: true});
   }
 
   /** Creates or resolve existing event listeners by handler and descriptors */
