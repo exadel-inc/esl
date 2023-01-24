@@ -41,7 +41,6 @@ export function listen(desc: string | ESLListenerDescriptorExt): ListenDecorator
     }
 
     Object.assign(fn, desc);
-    // Allow collecting
-    descriptor.enumerable = true;
+    if (desc.auto) ESLEventUtils.setAutoDescriptor(target, propertyKey);
   };
 }
