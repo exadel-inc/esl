@@ -27,7 +27,7 @@ export function getAutoDescriptors(host: unknown): ESLListenerDescriptorFn[] {
   if (!isObject(host)) return [];
   const keys = getDescriptorsKeysFor(host);
   const values = keys.map((key) => host[key]);
-  return values.filter(isEventDescriptor).filter((desc: ESLListenerDescriptorFn) => desc.auto === true);
+  return values.filter((desc: ESLListenerDescriptorFn) => isEventDescriptor(desc) && desc.auto === true);
 }
 
 /** Mark field, instanceof {@link ESLListenerDescriptorFn}, as collectable event descriptor */
