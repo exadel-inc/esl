@@ -90,6 +90,13 @@ export class ESLImage extends ESLBaseElement {
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (oldVal === newVal) return;
+    if (attrName === 'mode') {
+      this.syncImage(oldVal);
+      this.changeMode(oldVal, newVal);
+      return;
+    }
+
+    if (!this.connected) return;
     switch (attrName) {
       case 'aria-label':
         this.alt = newVal || '';
@@ -104,9 +111,6 @@ export class ESLImage extends ESLBaseElement {
         break;
       case 'data-src-base':
         this.refresh();
-        break;
-      case 'mode':
-        this.changeMode(oldVal, newVal);
         break;
       case 'lazy-triggered':
         this.lazyTriggered && this.update();
@@ -212,8 +216,8 @@ export class ESLImage extends ESLBaseElement {
     this.update(true);
   }
 
-  private syncImage(): void {
-    const strategy = STRATEGIES[this.mode];
+  private syncImage(mode: string = this.mode): void {
+    const strategy = STRATEGIES[mode];
     this._strategy = strategy;
     strategy && strategy.apply(this, this._shadowImg);
   }
