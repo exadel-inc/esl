@@ -1,7 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {dispatchCustomEvent} from '../../esl-utils/dom/events/misc';
 import {ESLEventListener} from './listener';
-import {getAutoDescriptors, setAutoDescriptor, isEventDescriptor} from './descriptors';
+import {getAutoDescriptors, setAutoDescriptor, isEventDescriptor, initDescriptor} from './descriptors';
 
 import type {
   ESLListenerHandler,
@@ -19,14 +19,19 @@ export class ESLEventUtils {
    */
   public static dispatch = dispatchCustomEvent;
 
+
   /** Gets {@link ESLListenerDescriptorFn}s of the passed object */
   public static descriptors = getAutoDescriptors;
+
+  /** Decorates passed `key` of the `host` as an {@link ESLListenerDescriptorFn} using `desc` meta information */
+  public static initDescriptor = initDescriptor;
 
   /** Mark field, instanceof {@link ESLListenerDescriptorFn}, as collectable event descriptor */
   public static setAutoDescriptor = setAutoDescriptor;
 
   /** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
   public static isEventDescriptor = isEventDescriptor;
+
 
   /**
    * Gets currently subscribed listeners of the host
