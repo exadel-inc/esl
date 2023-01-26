@@ -3,7 +3,7 @@
 **UIPSnippets** - custom element which contain snippets (component's templates).
 Extends [UIPPlugin](src/core/base/README.md#uip-plugin).
 
-## Description:
+## Description
 
 - Component's markup should be placed in **template** tags.
 - Templates should have *uip-snippet*, *label* attributes.
@@ -11,7 +11,7 @@ Extends [UIPPlugin](src/core/base/README.md#uip-plugin).
 
 **UIPSnippets** component produces [UIPStateModel](src/core/base/README.md#uip-state-model) changes, but it doesn't observe them.
 
-## Example:
+## Example
 
 ```html
 <uip-snippets label="Snippets">

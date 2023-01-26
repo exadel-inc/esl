@@ -1,8 +1,7 @@
 <a href="#uip-plugin" id="uip-plugin"></a>
 # UIP Plugin
 
-UIPPlugin - base class for all UIP elements. Extending it allows creating custom UIP
-components.
+**UIPPlugin** - base class for all UIP elements. Extending it allows creating custom UIP components.
 
 ## Description
 
@@ -25,9 +24,10 @@ import {UIPPlugin} from "./plugin";
 
 class UIPComponent extends UIPPlugin {
   protected _onRootStateChange(): void {
-      //...;
+      // ...
   }
 }
+
 ```
 
 You can find a way of getting current markup in [UIPStateModel](src/core/base/README.md#uip-state-model) section.
@@ -55,12 +55,12 @@ class UIPPreview extends UIPPlugin {
 
 **UIPRoot** - container for **UIPPlugin** components.
 
-## Description:
+## Description
 
 **UIPRoot** contains [UIPStateModel](src/core/base/README.md#uip-state-model) getter. It also allows **UIPPlugin** elements
 subscribing to model changes (or unsubscribing from them). More details can be found in [UIPPlugin](src/core/base/README.md#uip-plugin) section.
 
-## Example:
+## Example
 
 ```html
 <uip-root></uip-root>
@@ -85,16 +85,17 @@ import {UIPPlugin} from "./plugin";
 
 class UIPComponent extends UIPPlugin {
     protected _onComponentChange() {
-        //...
+        // ...
         this.model!.setHtml('New markup here!', this);
-        //...
+        // ...
     }
 }
+
 ```
 
 Markup's setter takes two arguments: *markup* and *modifier*. *Markup* stands for, surprisingly, new markup, and
 *modifier* is a **UIPPlugin** instance which triggers changes (it is needed to prevent extra triggers of
-**UIPStateModel**.
+**UIPStateModel**).
 
 
 **UIPStateModel** also has a getter for current markup:
@@ -104,17 +105,18 @@ import {UIPPlugin} from "./plugin";
 
 class UIPComponent extends UIPPlugin {
     protected processMarkup() {
-        //...
+        // ...
         const currentMarkup = this.model!.html;
-        //...
+        // ...
     }
 }
+
 ```
 
 ## Markup processing methods
 
 **UIPStateModel** has some methods to make markup processing easier. They are used inside
-[UIPSettings](src/plugins/settings/README.md) and [UIPSetting](src/settings/setting/README.md) plugins. These methods have the
+[UIPSettings](src/plugins/settings/README.md) and [UIPSetting](src/plugins/settings/README.md) plugins. These methods have the
 following signatures:
 
 ```typescript
@@ -124,6 +126,7 @@ class UIPStateModel extends Observable {
   public getAttribute(target: string, attr: string): (string | null)[] {};
   public changeAttribute(cfg: ChangeAttrConfig) {};
 }
+
 ```
 
 **getAttribute()** method returns attributes (*attr* field) values from targets.
@@ -152,5 +155,5 @@ Here *attribute* stands for attribute name and *target* - for target elements. *
 The last field can either be *value* (this value replaces current *attribute*'s value) or *transform* function (it maps
 current attribute value to the new one).
 
-Again, the examples of using this API can be found in [UIPSetting](src/settings/setting/README.md)
+Again, the examples of using this API can be found in [UIPSetting](src/plugins/settings/README.md)
 implementations (e.g. [UIPBoolSetting](src/settings/bool-setting/README.md)).

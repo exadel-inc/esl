@@ -1,9 +1,9 @@
 # UIP Bool Setting
 
 **UIPBoolSetting** - custom setting for adding/removing attributes or appending values to attribute.
-Extends [UIPSetting](src/settings/setting/README.md).
+Extends [UIPSetting](src/plugins/settings/README.md).
 
-## Description:
+## Description
 
 **UIPBoolSetting** represents a checkbox. It has **value** attribute for adding/removing this **value**
 from attributes.
@@ -17,7 +17,7 @@ If we define **value**, the setting sets **attribute** value to it.
 The idea of **append** mode is to add/discard **value** (must be specified for this mode) to the **attribute**.
 For example, it can be useful for adding css classes (see example below).
 
-### Example:
+## Example
 
 ```html
 <uip-settings label="Settings" target=".demo-img">

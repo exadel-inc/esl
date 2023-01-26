@@ -7,8 +7,7 @@ TBD
 UIP components are organized in the following way:
 
 1. Core components
-    - Base components
-        - [UIPRoot](src/core/base/README.md#uip-root)
+    - [UIPRoot](src/core/base/README.md#uip-root)
     - [UIPPreview](src/core/preview/README.md)
     - [UIPSnippets](src/plugins/header/snippets/README.md)
 2. Plugins

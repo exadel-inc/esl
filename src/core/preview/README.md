@@ -4,7 +4,7 @@
 
 **UIPPreview** element observes [UIPStateModel](src/core/base/README.md#uip-state-model) changes, but it doesn't produce them.
 
-## Example:
+## Example
 ```html
 <uip-preview></uip-preview>
 ```

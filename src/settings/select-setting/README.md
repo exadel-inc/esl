@@ -1,8 +1,8 @@
 # UIP Select Setting
 
-**UIPSelectSetting** - custom setting for selecting attribute's value. Extends [UIPSetting](src/settings/setting/README.md).
+**UIPSelectSetting** - custom setting for selecting attribute's value. Extends [UIPSetting](src/plugins/settings/README.md).
 
-## Description:
+## Description
 
 We render **UIPSelectSetting** as [ESLSelect](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-forms/esl-select)
 element.
@@ -12,7 +12,7 @@ value with selected, and the second one appends selected value to the attribute.
 
 **UIPSelectSetting** also supports **multiple** attribute to allow selecting multiple values.
 
-## Example:
+## Example
 
 ```html
 <uip-settings label="Settings">

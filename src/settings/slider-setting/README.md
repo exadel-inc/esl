@@ -1,9 +1,9 @@
 # UIP Slider Setting
 
 **UIPSliderSetting** - custom setting for changing attribute within range of values.
-Extends [UIPSetting](src/settings/setting/README.md).
+Extends [UIPSetting](src/plugins/settings/README.md).
 
-## Description:
+## Description
 
 Setting behaves like 'range' input with value displayed below. It has the
 following attributes:
@@ -12,7 +12,7 @@ following attributes:
 - *max* - maximum range value (default: 0).
 - *step* - step between range's values (default: 0).
 
-## Example:
+## Example
 
 ```html
 <uip-settings label="Settings">

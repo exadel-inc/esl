@@ -3,7 +3,7 @@
 **UIPOptions** - custom element which provides visual controls for changing UIP visual appearance.
 Extends [UIPPlugin](src/core/base/README.md#uip-plugin).
 
-## Description:
+## Description
 
 **UIPOptions** component supports four options:
 
@@ -19,11 +19,12 @@ These options can be manually set (and observed) with corresponding attributes:
 
 ```html
 <uip-root rtl-direction dark-theme></uip-root>
+
 ```
 
 **UIPOptions** element doesn't produce or observe UIPStateModel changes.
 
-## Example:
+## Example
 ```html
 <uip-options hide-theme hide-settings></uip-options>
 ```
