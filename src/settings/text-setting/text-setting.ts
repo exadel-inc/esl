@@ -5,16 +5,16 @@ import {UIPSetting} from '../../plugins/settings/setting';
 import {WARNING_MSG} from '../../utils/warning-msg';
 
 /**
- * Custom setting for inputting attribute's value.
+ * Custom setting for inputting attribute's value
  * @extends UIPSetting
  */
 export class UIPTextSetting extends UIPSetting {
   public static is = 'uip-text-setting';
 
-  /** Setting's visible name. */
+  /** Setting's visible name */
   @attr({defaultValue: ''}) public label: string;
 
-  /** Text input to change setting's value. */
+  /** Text input to change setting's value */
   @memoize()
   protected get $field(): HTMLInputElement {
     const $field = document.createElement('input');

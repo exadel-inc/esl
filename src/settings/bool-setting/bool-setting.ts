@@ -7,27 +7,27 @@ import TokenListUtils from '../../utils/token-list-utils';
 import {WARNING_MSG} from '../../utils/warning-msg';
 
 /**
- * Custom setting to add/remove attributes or append values to attribute.
+ * Custom setting to add/remove attributes or append values to attribute
  * @extends UIPSetting
  */
 export class UIPBoolSetting extends UIPSetting {
   public static is = 'uip-bool-setting';
 
-  /** Setting's visible name. */
+  /** Setting's visible name */
   @attr({defaultValue: ''}) public label: string;
   /**
-   * Value for updating [attribute's]{@link UIPSetting#attribute} value.
-   * If it's unset, setting adds/removes [attribute]{@link UIPSetting#attribute}.
+   * Value for updating [attribute's]{@link UIPSetting#attribute} value
+   * If it's unset, setting adds/removes [attribute]{@link UIPSetting#attribute}
    */
   @attr({defaultValue: ''}) public value: string;
   /**
-   * Attribute to set mode for setting.
-   * `replace` - replacing [attribute's]{@link UIPSetting#attribute} value with setting's value.
-   * `append` - appending [attribute's]{@link UIPSetting#attribute} value to attribute's value.
+   * Attribute to set mode for setting
+   * `replace` - replacing [attribute's]{@link UIPSetting#attribute} value with setting's value
+   * `append` - appending [attribute's]{@link UIPSetting#attribute} value to attribute's value
    */
   @attr({defaultValue: 'replace'}) public mode: 'replace' | 'append';
 
-  /** Checkbox field to change setting's value. */
+  /** Checkbox field to change setting's value */
   @memoize()
   protected get $field(): HTMLInputElement {
     const $field = document.createElement('input');
@@ -36,6 +36,7 @@ export class UIPBoolSetting extends UIPSetting {
     return $field;
   }
 
+  /** Label element for input */
   @memoize()
   protected get $label(): HTMLLabelElement {
     const $label = document.createElement('label');
@@ -44,6 +45,7 @@ export class UIPBoolSetting extends UIPSetting {
     return $label;
   }
 
+  /** Container element for displaying inconsistency message */
   @memoize()
   protected get $inconsistencyMarker(): HTMLElement {
     const marker = document.createElement('div');
@@ -69,6 +71,7 @@ export class UIPBoolSetting extends UIPSetting {
     model.changeAttribute(cfg);
   }
 
+  /** Function to transform(update) attribute value */
   transform(value: string | false,  attrValue: string | null): string | null {
     if (!attrValue) return value || null;
 
@@ -90,7 +93,7 @@ export class UIPBoolSetting extends UIPSetting {
     this.mode === 'replace' ? this.updateReplace(attrValues) : this.updateAppend(attrValues);
   }
 
-  /** Update setting's value for replace {@link mode}. */
+  /** Update setting's value for replace {@link mode} */
   protected updateReplace(attrValues: (string | null)[]): void {
     if (!TokenListUtils.hasSameElements(attrValues)) {
       return this.setInconsistency(WARNING_MSG.multiple);
@@ -99,7 +102,7 @@ export class UIPBoolSetting extends UIPSetting {
     return this.setValue((this.value && attrValues[0] !== this.value) ? null : attrValues[0]);
   }
 
-  /** Update setting's value for append {@link mode}. */
+  /** Update setting's value for append {@link mode} */
   protected updateAppend(attrValues: (string | null)[]): void {
     const containsFunction = (val: string | null) =>
       TokenListUtils.contains(TokenListUtils.split(val), [this.value]);

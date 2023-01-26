@@ -20,7 +20,7 @@ export class UIPSliderSetting extends UIPSetting {
   protected connectedCallback() {
     super.connectedCallback();
 
-    this.updateConfiguration();
+    this.$label.append(this.$field);
     this.append(this.$label);
     this.append(this.$fieldValue);
   }
@@ -30,6 +30,7 @@ export class UIPSliderSetting extends UIPSetting {
     super.disconnectedCallback();
   }
 
+  /** Range input to change setting's value */
   @memoize()
   protected get $field(): HTMLInputElement {
     const $field = document.createElement('input');
@@ -42,6 +43,7 @@ export class UIPSliderSetting extends UIPSetting {
     return $field;
   }
 
+  /** Label element for input */
   @memoize()
   protected get $label(): HTMLLabelElement {
     const $label = document.createElement('label');
@@ -49,10 +51,7 @@ export class UIPSliderSetting extends UIPSetting {
     return $label;
   }
 
-  protected updateConfiguration() {
-    this.$label.append(this.$field);
-  }
-
+  /** Container for current value */
   @memoize()
   protected get $fieldValue(): HTMLDivElement {
     const $fieldValue = document.createElement('div');
@@ -60,6 +59,7 @@ export class UIPSliderSetting extends UIPSetting {
     return $fieldValue;
   }
 
+  /** Handle `input` event to display its current value */
   @listen('input')
   protected updateSliderValue() {
     this.$fieldValue.textContent = `Value: ${this.$field.value}`;

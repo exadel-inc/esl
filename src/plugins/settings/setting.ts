@@ -9,24 +9,25 @@ import {WARNING_MSG} from '../../utils/warning-msg';
 import {getAttr, setAttr} from '@exadel/esl/modules/esl-utils/dom/attr';
 
 /**
- * Custom element for manipulating with elements attributes.
+ * Custom element for manipulating with elements attributes
  * Custom settings should extend this class
- * to become connected with {@link UIPSettings}.
+ * to become connected with {@link UIPSettings}
  */
 export abstract class UIPSetting extends ESLBaseElement {
   static is = 'uip-setting';
 
-  /** [Target's]{@link target} attribute which is changed by setting. */
+  /** {@link target Target's} attribute which is changed by setting */
   @attr() public attribute: string;
-  /** Target to which setting's changes are attached. */
+  /** Target to which setting's changes are attached */
   public get target(): string {
     return getAttr(this, 'target', this.$settings.target);
   }
-
+  /** Set target to which setting's changes are attached */
   public set target(target: string) {
     setAttr(this, 'target', target);
   }
 
+  /** Closest {@link UIPSettings} element */
   @memoize()
   public get $settings() {
     return this.closest(UIPSettings.is) as UIPSettings;
@@ -41,6 +42,10 @@ export abstract class UIPSetting extends ESLBaseElement {
     super.disconnectedCallback();
   }
 
+  /**
+   * Handle setting value change and
+   * dispatches `uip:change` event
+   */
   @listen('change')
   protected _onChange(e: Event): void {
     e.preventDefault();
@@ -63,7 +68,7 @@ export abstract class UIPSetting extends ESLBaseElement {
 
   /**
    * Update setting's value with
-   * active markup in {@link UIPStateModel}.
+   * active markup from {@link UIPStateModel}.
    */
   public updateFrom(model: UIPStateModel): void {
     this.disabled = false;
