@@ -71,6 +71,13 @@ export class ESLEventUtils {
     return subscribed;
   }
 
+  /** Subscribes all auto descriptors od the host */
+  public static subscribeAll(host: unknown): ESLEventListener[] {
+    return getAutoDescriptors(host).reduce((subscriptions: ESLEventListener[], desc: ESLListenerDescriptorFn) => {
+      return subscriptions.concat(ESLEventUtils.subscribe(host, desc));
+    }, []);
+  }
+
   /**
    * Unsubscribes {@link ESLEventListener}(s) from the object
    * @param host - host element that stores subscriptions (listeners context)
