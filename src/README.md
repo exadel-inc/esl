@@ -6,17 +6,17 @@ TBD
 
 UIP components are organized in the following way:
 
-1. Core components
-    - [UIPRoot](src/core/base/README.md#uip-root)
-    - [UIPPreview](src/core/preview/README.md)
-    - [UIPSnippets](src/plugins/header/snippets/README.md)
-2. Plugins
+  - [Core Elements](src/core/base/README.md#uip-root)
+  - Plugins
     - [UIPEditor](src/plugins/editor/README.md)
     - [UIPOptions](src/plugins/header/options/README.md)
     - [UIPSettings](src/plugins/settings/README.md)
         - [UIPBoolSetting](src/settings/bool-setting/README.md)
         - [UIPSelectSetting](src/settings/select-setting/README.md)
         - [UIPTextSetting](src/settings/text-setting/README.md)
+    - [UIPHeader](src/plugins/header/README.md)
+        - [UIPOptions](src/plugins/header/options/README.md)
+        - [UIPSnippets](src/plugins/header/snippets/README.md)
 
 Any playground must have at least **core** components. **Plugins** are
 optional, you can add them on your own free will. 
