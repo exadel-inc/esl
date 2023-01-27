@@ -65,7 +65,6 @@ export function initDescriptor<T extends object>(
   const superDesc = Object.getPrototypeOf(host)[key];
   desc = typeof desc === 'string' || typeof desc === 'function' ? {event: desc} : desc;
   desc = Object.assign({auto: true}, desc.inherit && isEventDescriptor(superDesc) ? superDesc : {}, desc);
-  if (isEventDescriptor(fn) && fn.event !== desc.event) throw new TypeError(`Method ${key} already decorated as ESLListenerDescriptor`);
 
   if (desc.auto) setAutoDescriptor(host, key);
   return Object.assign(fn, desc) as ESLListenerDescriptorFn;
