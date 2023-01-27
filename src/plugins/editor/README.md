@@ -1,7 +1,7 @@
 # UIP Editor
 
 **UIPEditor** - custom element, code editor for changing current markup. It allows user to manually configure
-the component inside [UIPPreview](src/core/preview/README.md). Extends [UIPPlugin](src/core/base/README.md#uip-plugin).
+the component inside [UIPPreview](src/core/README.md). Extends [UIPPlugin](src/core/README.md#uip-plugin).
 
 ## Description
 **UIPEditor** based on [ACE](https://ace.c9.io/) editor, which means you can use this editor's API for

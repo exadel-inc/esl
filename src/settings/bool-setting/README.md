@@ -1,7 +1,7 @@
 # UIP Bool Setting
 
 **UIPBoolSetting** - custom setting for adding/removing attributes or appending values to attribute.
-Extends [UIPSetting](src/settings/setting/README.md).
+Extends [UIPSetting](src/plugins/settings/README.md).
 
 ## Description:
 
