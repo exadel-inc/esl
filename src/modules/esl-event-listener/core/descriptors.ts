@@ -1,6 +1,5 @@
 import {isObject} from '../../esl-utils/misc/object/types';
 
-import type {PropertyProvider} from '../../esl-utils/misc/functions';
 import type {ESLListenerDescriptorExt, ESLListenerDescriptorFn} from './types';
 
 /** Key to store listeners on the host */
@@ -40,32 +39,35 @@ export function getAutoDescriptors(host: unknown): ESLListenerDescriptorFn[] {
   return values.filter((desc: ESLListenerDescriptorFn) => isEventDescriptor(desc) && desc.auto === true);
 }
 
-/** Mark field, instanceof {@link ESLListenerDescriptorFn}, as collectable event descriptor */
-function setAutoDescriptor(host: object, key: string): void {
-  const value = getOwnDescriptors(host, true);
-  if (!value.includes(key)) value.push(key);
-}
-
 /**
  * Decorates passed `key` of the `host` as an {@link ESLListenerDescriptorFn} using `desc` meta information
  * @param host - object holder of the function to decorate
  * @param key - string key of the function in holder object
- * @param desc - descriptor meta information to assign.
- * Supports shortcut for event only descriptor if string or string provider passed instead.
+ * @param desc - descriptor meta information to assign
  * @returns ESLListenerDescriptorFn created on the host
  */
 export function initDescriptor<T extends object>(
   host: T,
   key: keyof T & string,
-  desc: string | PropertyProvider<string> | ESLListenerDescriptorExt
+  desc: ESLListenerDescriptorExt
 ): ESLListenerDescriptorFn {
   const fn = host[key];
-  if (typeof fn !== 'function') throw new TypeError('ESL: only functions can be decorated as ESLListenerDescriptor');
+  if (typeof fn !== 'function') throw new TypeError(`[ESL] Init Descriptor: ${key} is not a function`);
 
-  const superDesc = Object.getPrototypeOf(host)[key];
-  desc = typeof desc === 'string' || typeof desc === 'function' ? {event: desc} : desc;
-  desc = Object.assign({auto: true}, desc.inherit && isEventDescriptor(superDesc) ? superDesc : {}, desc);
+  // Inherit event meta information from the prototype key
+  if (desc.inherit) {
+    const superDesc = Object.getPrototypeOf(host)[key];
+    if (!isEventDescriptor(superDesc)) throw new ReferenceError(`[ESL] Init Descriptor: no parent event descriptor found for ${key}`);
+    desc = Object.assign({auto: true}, superDesc, desc);
+  } else {
+    desc = Object.assign({auto: true}, desc);
+  }
 
-  if (desc.auto) setAutoDescriptor(host, key);
+  // Marks key to be auto-collectable
+  if (desc.auto) {
+    const value = getOwnDescriptors(host, true);
+    if (!value.includes(key)) value.push(key);
+  }
+
   return Object.assign(fn, desc) as ESLListenerDescriptorFn;
 }

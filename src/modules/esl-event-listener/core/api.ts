@@ -30,8 +30,7 @@ export class ESLEventUtils {
    * Decorates passed `key` of the `host` as an {@link ESLListenerDescriptorFn} using `desc` meta information
    * @param host - object holder of the function to decorate
    * @param key - string key of the function in holder object
-   * @param desc - descriptor meta information to assign.
-   * Supports shortcut for event only descriptor if string or string provider passed instead.
+   * @param desc - descriptor meta information to assign
    * @returns ESLListenerDescriptorFn created on the host
    */
   public static initDescriptor = initDescriptor;

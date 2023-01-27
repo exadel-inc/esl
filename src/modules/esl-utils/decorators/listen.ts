@@ -19,8 +19,11 @@ export function listen<K extends keyof ESLListenerEventMap>(event: K | PropertyP
  */
 export function listen<K extends keyof ESLListenerEventMap>(desc: ESLListenerDescriptorExt<K>): ListenDecorator<ESLListenerEventMap[K]>;
 
-export function listen(desc: string | ESLListenerDescriptorExt): ListenDecorator<Event> {
+export function listen(desc: string | PropertyProvider<string> | ESLListenerDescriptorExt): ListenDecorator<Event> {
   return function listener<Host extends object>(target: Host, propertyKey: keyof Host & string): void {
+    // Map short event or event provider value to descriptor object
+    desc = typeof desc === 'string' || typeof desc === 'function' ? {event: desc} : desc;
+
     ESLEventUtils.initDescriptor(target, propertyKey, desc);
   };
 }
