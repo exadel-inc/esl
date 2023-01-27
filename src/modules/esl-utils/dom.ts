@@ -9,6 +9,7 @@ export * from './dom/sanitize';
 export * from './dom/script';
 export * from './dom/scroll';
 export * from './dom/traversing';
+export * from './dom/visible';
 export * from './dom/window';
 export * from './dom/attr';
 export * from './dom/rect';

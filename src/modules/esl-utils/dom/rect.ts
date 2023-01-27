@@ -28,6 +28,21 @@ export class Rect {
     return rect1.x === rect2.x && rect1.y === rect2.y && rect1.width === rect2.width && rect1.height === rect2.height;
   }
 
+  /**
+   * The static method returns intersection Rect of two Rect instances
+   * @param rect1 - first instance of Rect
+   * @param rect2 - second instance of Rect
+   */
+  public static intersect(rect1: Rect, rect2: Rect): Rect {
+    const top = Math.max(rect1.top, rect2.top);
+    const left = Math.max(rect1.left, rect2.left);
+    const bottom = Math.min(rect1.bottom, rect2.bottom);
+    const right = Math.min(rect1.right, rect2.right);
+    const width = Math.max(right - left, 0);
+    const height = Math.max(bottom - top, 0);
+    return Rect.from({top, left, width, height});
+  }
+
   public constructor(x?: number, y?: number, width?: number, height?: number) {
     this.x = x || 0;
     this.y = y || 0;
@@ -111,5 +126,10 @@ export class Rect {
   public shrink(decrementX: number, decrementY: number): Rect;
   public shrink(decrementX: number, decrementY: number = decrementX): Rect {
     return this.grow(-decrementX, -decrementY);
+  }
+
+  /** @returns the numeric value of rectangle area */
+  public get area(): number {
+    return this.height * this.width;
   }
 }
