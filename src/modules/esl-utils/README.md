@@ -93,6 +93,8 @@ Even if you use the whole utils module, it is still tiny.
   
     - ##### <a href="./dom/traversing.ts" target="_blank">DOM Traversing</a> - a set of utils to find DOM elements or check their relations.
 
+    - ##### <a href="./dom/visible.ts" target="_blank">Visible</a> - utility to check whether an element is visible or not.
+
     - ##### <a href="./dom/window.ts" target="_blank">Window</a> - a browser window object utils.
   
 - #### Environment
