@@ -1,20 +1,30 @@
 import {isObject} from '../../esl-utils/misc/object/types';
 
+import type {PropertyProvider} from '../../esl-utils/misc/functions';
 import type {ESLListenerDescriptorExt, ESLListenerDescriptorFn} from './types';
 
 /** Key to store listeners on the host */
 const DESCRIPTORS = (Symbol || String)('__esl_descriptors');
 
-function getOwnDescriptors(host: object): string[] {
-  return Object.hasOwnProperty.call(host, DESCRIPTORS) ? (host as any)[DESCRIPTORS] : [];
+/**
+ * @param host - host object
+ * @param createIfNotExists - create keys store on the host if not exists
+ * @returns object own descriptors keys or an empty array
+ */
+function getOwnDescriptors(host: object, createIfNotExists = false): string[] {
+  if (Object.hasOwnProperty.call(host, DESCRIPTORS)) return (host as any)[DESCRIPTORS];
+  const value: string[]  = [];
+  if (createIfNotExists) Object.defineProperty(host, DESCRIPTORS, {value, configurable: true});
+  return value;
 }
 
+/** Collects descriptors key from the whole prototype chain */
 function getDescriptorsKeysFor<T extends object>(host: T): (keyof T)[] {
-  const keys: Set<keyof T> = new Set();
+  const store: Record<string, boolean> = {};
   for (let proto = host; proto && proto !== Object.prototype ; proto = Object.getPrototypeOf(proto)) {
-    getOwnDescriptors(proto).forEach((key) => keys.add(key as keyof T));
+    getOwnDescriptors(proto).forEach((key) => store[key] = true);
   }
-  return [...keys];
+  return Object.keys(store) as (keyof T)[];
 }
 
 /** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
@@ -32,16 +42,22 @@ export function getAutoDescriptors(host: unknown): ESLListenerDescriptorFn[] {
 
 /** Mark field, instanceof {@link ESLListenerDescriptorFn}, as collectable event descriptor */
 function setAutoDescriptor(host: object, key: string): void {
-  const value = getOwnDescriptors(host);
+  const value = getOwnDescriptors(host, true);
   if (!value.includes(key)) value.push(key);
-  Object.defineProperty(host, DESCRIPTORS, {value, configurable: true});
 }
 
-/** Decorates passed `key` of the `host` as an {@link ESLListenerDescriptorFn} using `desc` meta information */
+/**
+ * Decorates passed `key` of the `host` as an {@link ESLListenerDescriptorFn} using `desc` meta information
+ * @param host - object holder of the function to decorate
+ * @param key - string key of the function in holder object
+ * @param desc - descriptor meta information to assign.
+ * Supports shortcut for event only descriptor if string or string provider passed instead.
+ * @returns ESLListenerDescriptorFn created on the host
+ */
 export function initDescriptor<T extends object>(
   host: T,
   key: keyof T & string,
-  desc: string | ESLListenerDescriptorExt
+  desc: string | PropertyProvider<string> | ESLListenerDescriptorExt
 ): ESLListenerDescriptorFn {
   const fn = host[key];
   if (typeof fn !== 'function') throw new TypeError('ESL: only functions can be decorated as ESLListenerDescriptor');

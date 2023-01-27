@@ -26,7 +26,14 @@ export class ESLEventUtils {
   /** Gets {@link ESLListenerDescriptorFn}s of the passed object */
   public static getAutoDescriptors = getAutoDescriptors;
 
-  /** Decorates passed `key` of the `host` as an {@link ESLListenerDescriptorFn} using `desc` meta information */
+  /**
+   * Decorates passed `key` of the `host` as an {@link ESLListenerDescriptorFn} using `desc` meta information
+   * @param host - object holder of the function to decorate
+   * @param key - string key of the function in holder object
+   * @param desc - descriptor meta information to assign.
+   * Supports shortcut for event only descriptor if string or string provider passed instead.
+   * @returns ESLListenerDescriptorFn created on the host
+   */
   public static initDescriptor = initDescriptor;
 
   /** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
@@ -35,22 +42,36 @@ export class ESLEventUtils {
 
   /**
    * Gets currently subscribed listeners of the host
-   * @param host - host element (listeners context)
+   * @param host - host object (listeners context) to associate subscription
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners list
    */
   public static listeners(host: unknown, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
     return ESLEventListener.get(host, ...criteria);
   }
 
-  /** Subscribes decorated `handler` method of the `host` */
+  /**
+   * Subscribes decorated as an {@link ESLListenerDescriptorFn} `handler` function
+   * @param host - host object (listeners context) to associate subscription
+   * @param handler - handler function decorated as {@link ESLListenerDescriptorFn}
+   */
   public static subscribe(host: unknown, handler: ESLListenerHandler): ESLEventListener[];
-  /** Subscribes `handler` function with the passed event type */
+  /**
+   * Subscribes `handler` function with the passed event type or {@link ESLListenerDescriptor} with event type declared
+   * @param host - host object (listeners context) to associate subscription
+   * @param descriptor - event or {@link ESLListenerDescriptor} with defined event type
+   * @param handler - handler function to subscribe
+   */
   public static subscribe<EType extends keyof ESLListenerEventMap>(
     host: unknown,
     descriptor: EType | ESLListenerDescriptor<EType>,
     handler: ESLListenerHandler<ESLListenerEventMap[EType]>
   ): ESLEventListener[];
-  /** Subscribes `handler` descriptor function with the passed additional descriptor data */
+  /**
+   * Subscribes `handler` function decorated with {@link ESLListenerDescriptorFn} with the passed additional {@link ESLListenerDescriptor} data
+   * @param host - host object (listeners context) to associate subscription
+   * @param descriptor - {@link ESLListenerDescriptor} additional data
+   * @param handler - handler function decorated as {@link ESLListenerDescriptorFn}
+   */
   public static subscribe<EType extends keyof ESLListenerEventMap>(
     host: unknown,
     descriptor: Partial<ESLListenerDescriptor>,
@@ -71,7 +92,10 @@ export class ESLEventUtils {
     return subscribed;
   }
 
-  /** Subscribes all auto descriptors od the host */
+  /**
+   * Subscribes all auto descriptors of the host
+   * @param host - host object (listeners context) to find descriptors and associate subscription
+   * */
   public static subscribeAll(host: unknown): ESLEventListener[] {
     return getAutoDescriptors(host).reduce((subscriptions: ESLEventListener[], desc: ESLListenerDescriptorFn) => {
       return subscriptions.concat(ESLEventUtils.subscribe(host, desc));
