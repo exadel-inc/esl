@@ -31,14 +31,18 @@ export function getAutoDescriptors(host: unknown): ESLListenerDescriptorFn[] {
 }
 
 /** Mark field, instanceof {@link ESLListenerDescriptorFn}, as collectable event descriptor */
-export function setAutoDescriptor(host: object, key: string): void {
+function setAutoDescriptor(host: object, key: string): void {
   const value = getOwnDescriptors(host);
   if (!value.includes(key)) value.push(key);
   Object.defineProperty(host, DESCRIPTORS, {value, configurable: true});
 }
 
 /** Decorates passed `key` of the `host` as an {@link ESLListenerDescriptorFn} using `desc` meta information */
-export function initDescriptor<T extends object>(host: T, key: keyof T & string, desc: string | ESLListenerDescriptorExt): void {
+export function initDescriptor<T extends object>(
+  host: T,
+  key: keyof T & string,
+  desc: string | ESLListenerDescriptorExt
+): ESLListenerDescriptorFn {
   const fn = host[key];
   if (typeof fn !== 'function') throw new TypeError('ESL: only functions can be decorated as ESLListenerDescriptor');
 
@@ -47,6 +51,6 @@ export function initDescriptor<T extends object>(host: T, key: keyof T & string,
   desc = Object.assign({auto: true}, desc.inherit && isEventDescriptor(superDesc) ? superDesc : {}, desc);
   if (isEventDescriptor(fn) && fn.event !== desc.event) throw new TypeError(`Method ${key} already decorated as ESLListenerDescriptor`);
 
-  Object.assign(fn, desc);
   if (desc.auto) setAutoDescriptor(host, key);
+  return Object.assign(fn, desc) as ESLListenerDescriptorFn;
 }
