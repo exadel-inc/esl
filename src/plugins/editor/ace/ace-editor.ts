@@ -3,10 +3,10 @@ import {Ace, edit} from 'ace-builds';
 import 'ace-builds/src-min-noconflict/mode-html';
 import 'ace-builds/src-min-noconflict/theme-chrome';
 import 'ace-builds/src-min-noconflict/theme-tomorrow_night';
+import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {SyntheticEventTarget} from '@exadel/esl/modules/esl-utils/dom/events/target';
 
 import {EditorConfig, AceTheme} from './utils';
-import { SyntheticEventTarget } from '@exadel/esl/modules/esl-utils/dom/events/target';
-import { bind } from '@exadel/esl/modules/esl-utils/decorators/bind';
 
 /** {@link https://ace.c9.io/ Ace} editor wrapper. */
 class AceEditor extends SyntheticEventTarget {
@@ -21,7 +21,6 @@ class AceEditor extends SyntheticEventTarget {
 
   /**
    * @param {HTMLElement} element - element to place editor inside.
-   * @param {Function=} changeCallback - callback to run on editor's content changes.
    */
   constructor(element: HTMLElement) {
     super();
@@ -65,6 +64,7 @@ class AceEditor extends SyntheticEventTarget {
     this.editor.removeEventListener('change', this._onChange);
   }
 
+  /** Handle editor's content change. */
   @bind
   private _onChange() {
     this.dispatchEvent(new CustomEvent('change'));

@@ -1,12 +1,10 @@
-import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
 import {jsonAttr} from '@exadel/esl/modules/esl-base-element/core';
-import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
+import {bind, decorate, memoize, listen} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPlugin} from '../../core/registration';
 import {EditorConfig, AceTheme} from './ace/utils';
 import type {AceEditor} from './ace/ace-editor';
-import {decorate, memoize} from '@exadel/esl';
 
 /**
  * Editor UIPPlugin custom element definition.
@@ -18,7 +16,7 @@ export class UIPEditor extends UIPPlugin {
   private static collapsedAttribute = 'editor-collapsed';
   /** Default [config]{@link EditorConfig} instance. */
   public static defaultOptions: EditorConfig = {
-    theme: 'ace/theme/chrome',
+    theme: AceTheme.Light,
     printMarginColumn: -1,
     wrap: true,
     minLines: 8,
@@ -56,15 +54,15 @@ export class UIPEditor extends UIPPlugin {
     return import(/* webpackChunkName: "ace-editor" */ './ace/ace-editor').then((Ace) => {
       this.resizeObserver.observe(this);
       this.editor = new Ace.Editor(this.$inner);
-      this._onRootStateChange();
       this.editor.setConfig(this.editorConfig);
+      this._onRootStateChange();
     });
   }
 
   /** Callback to call on editor's content changes. */
   @listen('change')
   @decorate(debounce, 1000)
-  private _onChange() {
+  protected _onChange() {
     this.model!.setHtml(this.editor.getValue(), this);
   }
 
