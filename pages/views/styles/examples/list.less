@@ -1,16 +1,30 @@
-.user {
+.card {
   &-list {
-      display: flex;
-      justify-content: center;
+    display: flex;
+    justify-content: center;
   }
 
-  &-card {
+  &-item {
     width: 200px;
     height: 200px;
-    padding: 5px;
-    margin: 0 10px 20px 10px;
+    padding: 15px;
+    margin: 0 10px;
     text-align: center;
     overflow-wrap: break-word;
+
+    &.red {
+      background-color: red;
+      color: white;
+    }
+
+    &.green {
+      background-color: green;
+      color: white;
+    }
+
+    &.aqua {
+      background-color: aqua;
+    }
   }
 
   &-circle {
@@ -23,18 +37,4 @@
 
 [wrap-items] {
   flex-wrap: wrap;
-}
-
-.red-user {
-  background-color: red;
-  color: white;
-}
-
-.green-user {
-  background-color: green;
-  color: white;
-}
-
-.aqua-user {
-  background-color: aqua;
 }

@@ -1,51 +1,52 @@
 ---
-title: Example with playground
+title: Example with a playground that contains playground inside
 ---
 
 <uip-root>
-  <uip-header></uip-header>
+  <uip-header>
+    <uip-snippets></uip-snippets>
+    <uip-options hide-settings></uip-options>
+  </uip-header>
   <script type="text/html" uip-snippet label="Playground">
     <uip-root>
       <uip-header></uip-header>
-      <template uip-snippet label="Users list">
-        <div class="user-list">
-          <div class="user-card aqua-user">Alexander</div>
-          <div class="user-card aqua-user">Alexey</div>
-          <div class="user-card aqua-user">Marina</div>
+      <template uip-snippet label="List of aqua cards">
+        <div class="card-list">
+          <div class="card-item aqua">Card #1</div>
+          <div class="card-item aqua">Card #2</div>
+          <div class="card-item aqua">Card #3</div>
         </div>
       </template>
-      <template uip-snippet label="Long users list" wrap-items>
-        <div class="user-list">
-          <div class="user-card red-user">Anton</div>
-          <div class="user-card red-user">Dmitri</div>
-          <div class="user-card red-user">Alexandra</div>
-          <div class="user-card red-user">Artem</div>
-          <div class="user-card red-user">Marina</div>
-          <div class="user-card red-user">Alexander</div>
-          <div class="user-card red-user">Alexander</div>
+      <template uip-snippet label="Long list of red cards containing seven items" wrap-items>
+        <div class="card-list">
+          <div class="card-item red">Card #1</div>
+          <div class="card-item red">Card #2</div>
+          <div class="card-item red">Card #3</div>
+          <div class="card-item red">Card #4</div>
+          <div class="card-item red">Card #5</div>
+          <div class="card-item red">Card #6</div>
+          <div class="card-item red">Card #7</div>
         </div>
       </template>
       <uip-preview></uip-preview>
-      <uip-settings target=".user-list">
-        <uip-select-setting label="User color" target=".user-card" attribute="class" mode="append">
-          <option value="red-user">Red</option>
-          <option value="aqua-user">Aqua</option>
-          <option value="green-user">Green</option>
+      <uip-settings target=".card-list">
+        <uip-select-setting label="Card color:" target=".card-item" attribute="class" mode="append">
+          <option value="red">Red</option>
+          <option value="aqua">Aqua</option>
+          <option value="green">Green</option>
         </uip-select-setting>
         <uip-bool-setting label="Wrap items" attribute="wrap-items"></uip-bool-setting>
       </uip-settings>
       <uip-editor></uip-editor>
     </uip-root>
   </script>
-  <script type="text/html" uip-snippet label="Users aqua list">
-    <div class="user-list">
-      <div class="user-card aqua-user">Alexander</div>
-      <div class="user-card aqua-user">Alexey</div>
-      <div class="user-card aqua-user">Marina</div>
+  <script type="text/html" uip-snippet label="List of aqua cards">
+    <div class="card-list">
+      <div class="card-item aqua">Card #1</div>
+      <div class="card-item aqua">Card #2</div>
+      <div class="card-item aqua">Card #3</div>
     </div>
   </script>
   <uip-preview resizable></uip-preview>
-  <uip-settings target=".user-list">
-  </uip-settings>
   <uip-editor></uip-editor>
 </uip-root>
