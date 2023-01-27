@@ -108,6 +108,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-sonarjs": "^0.17.0",
     "eslint-plugin-tsdoc": "^0.2.17",
+    "eslint-traverse": "^1.0.0",
     "foreach-cli": "^1.8.1",
     "html-minifier": "^4.0.0",
     "husky": "^8.0.2",

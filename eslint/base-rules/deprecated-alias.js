@@ -1,4 +1,5 @@
 'use strict';
+const traverse = require('eslint-traverse');
 
 const meta = {
   type: 'suggestion',
@@ -21,55 +22,44 @@ const meta = {
  */
 
 /**
- * @param {string} alias - current name
- * @param {string} importedName - deprecated alias in node
- * @param {object} rangeId - range of deprecated alias in node
  * @param {object} context - element for which to get context
  * @param {object} node - element for which to get node
  */
 
-const reportAndFix = (importedName, rangeId, context, alias, node) => {
-  context.report({
-    node,
-    message: `[ESL Lint]: Deprecated alias ${importedName} for ${alias}`,
-    fix(fixer) {
-      return fixer.replaceTextRange(rangeId, alias);
-    }
-  });
-};
-
-/**
- * @param {string} deprecation - deprecated name
- * @param {string} name - current name
- */
-
 module.exports.buildRule = function buildRule({alias, deprecation}) {
-  function isDeprecated(node, name, context) {
-    const sourceCode = context.getSourceCode();
-    let currentNode = node.parent;
-    while (currentNode !== null) {
-      if (currentNode.type === "ImportDeclaration") {
-        return true;
-      } else if (currentNode.type === "Program") {
-        const importStatements = currentNode.body
-          .filter((item) => item.type === "ImportDeclaration")
-          .map((item) => sourceCode.text.substring(item.range[0], item.range[1]))
-          .filter((item) => item.includes(name));
-        return importStatements.length > 0;
-      }
-      currentNode = currentNode.parent;
+  function getIdentifierRanges(node, context) {
+    let root = node;
+    let identifierRanges = [];
+    while (root.parent !== null) {
+      root = root.parent;
     }
-    return false;
+    traverse(context, root, path => {
+      if (path.node.type === 'Identifier' && path.node.name === deprecation) {
+        const range = path.node.range;
+        if (path.node.parent && path.node.parent.type === 'VariableDeclarator') {
+          return false;
+        } else if (!identifierRanges.find(r => r[0] === range[0] || r[1] === range[1])) {
+          identifierRanges.push(range);
+          return traverse.SKIP;
+        }
+      }
+    });
+    return identifierRanges;
   }
   const create = (context) => ({
-    Identifier(node) {
-      if (node.name === deprecation) {
-        if (isDeprecated(node, node.name, context)) {
-          reportAndFix(node.name, node.range, context, alias, node);
-        }
-        return null;
+    ImportSpecifier(node) {
+      const importedValue = node.imported;
+      if (importedValue.name === deprecation) {
+        context.report({
+          node,
+          message: `[ESL Lint]: Deprecated alias ${deprecation} for ${alias}`,
+          fix(fixer) {
+            return getIdentifierRanges(node, context).map(range => fixer.replaceTextRange(range, alias));
+          }
+        });
       }
-    },
+      return null;
+    }
   });
   return {meta, create};
 };
