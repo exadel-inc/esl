@@ -1,6 +1,7 @@
+// TODO: rewrite for base rule
 'use strict';
 
-const rule = require('../rules/deprecated/traversing-query');
+const rule = require('../rules/4.0.0/deprecated.traversing-query');
 const RuleTester = require('eslint').RuleTester;
 
 const ruleTester = new RuleTester({
