@@ -29,7 +29,57 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
   });
 
   describe('ESLEventUtils.initDescriptor', () => {
-    // TODO: tests
+    test('ESLEventUtils.initDescriptor: missing key throws error', () => {
+      const host: any = {};
+      expect(() => ESLEventUtils.initDescriptor(host, 'fn', {event: 'event'})).toThrowError();
+    });
+
+    test('ESLEventUtils.initDescriptor: incorrect key type throws error', () => {
+      const host = {fn: null};
+      expect(() => ESLEventUtils.initDescriptor(host, 'fn', {event: 'event'})).toThrowError();
+    });
+
+    test('ESLEventUtils.initDescriptor: returns host key', () => {
+      const host = {fn: () => void 0};
+      const desc = ESLEventUtils.initDescriptor(host, 'fn', 'event');
+      expect(desc).toBe(host.fn);
+    });
+
+    test('ESLEventUtils.initDescriptor: creates descriptor by event name', () => {
+      const host = {fn: () => void 0};
+      const desc = ESLEventUtils.initDescriptor(host, 'fn', 'event');
+      expect(desc.event).toBe('event');
+    });
+
+    test('ESLEventUtils.initDescriptor: creates descriptor by event provider', () => {
+      const host = {fn: () => void 0};
+      const meta = {event: () => 'event'};
+      const desc = ESLEventUtils.initDescriptor(host, 'fn', meta);
+      expect(desc.event).toBe(meta.event);
+    });
+
+    describe('ESLEventUtils.initDescriptor: inheritance cases', () => {
+      const proto = {fn: () => void 0};
+      ESLEventUtils.initDescriptor(proto, 'fn', {event: 'event', selector: 'a'});
+
+      test('ESLEventUtils.initDescriptor: override creates new descriptor', () => {
+        const host = {fn: () => void 0};
+        Object.setPrototypeOf(host, proto);
+        const desc = ESLEventUtils.initDescriptor(host, 'fn', {event: 'event2'});
+        expect(desc).toBe(host.fn);
+        expect(desc.event).toBe('event2');
+        expect(desc.selector).toBeUndefined();
+      });
+
+      test('ESLEventUtils.initDescriptor: can inherit descriptor from prototype', () => {
+        const host = {fn: () => void 0};
+        Object.setPrototypeOf(host, proto);
+        const desc = ESLEventUtils.initDescriptor(host, 'fn', {inherit: true, selector: 'b'});
+        expect(desc).toBe(host.fn);
+        expect(desc.event).toBe('event');
+        expect(desc.selector).toBe('b');
+      });
+    });
   });
 
   describe('ESLEventUtils.getAutoDescriptors', () => {
