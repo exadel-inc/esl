@@ -3,7 +3,7 @@ import {isObject} from '../../esl-utils/misc/object/types';
 import type {ESLListenerDescriptorExt, ESLListenerDescriptorFn} from './types';
 
 /** Key to store listeners on the host */
-const DESCRIPTORS = (Symbol || String)('__esl_descriptors');
+const DESCRIPTORS = (window.Symbol || String)('__esl_descriptors');
 
 /**
  * @param host - host object

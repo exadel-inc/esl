@@ -16,7 +16,7 @@ import type {
 } from './types';
 
 /** Key to store listeners on the host */
-const LISTENERS = (Symbol || String)('__esl_listeners');
+const LISTENERS = (window.Symbol || String)('__esl_listeners');
 
 /**
  * Splits and deduplicates event string
