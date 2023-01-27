@@ -46,7 +46,7 @@ export class ESLMixinElement implements AttributeTarget {
       });
     }
 
-    ESLEventUtils.subscribeAll(this);
+    ESLEventUtils.subscribe(this);
   }
 
   /** Callback to execute on mixin instance destroy */

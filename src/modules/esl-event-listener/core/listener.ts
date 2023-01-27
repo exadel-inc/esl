@@ -11,6 +11,7 @@ import type {
   ESLListenerTarget,
   ESLListenerDefinition,
   ESLListenerDescriptor,
+  ESLListenerDescriptorFn,
   ESLListenerHandler,
   ESLListenerCriteria
 } from './types';
@@ -156,6 +157,23 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     const listeners = ESLEventListener.get(host);
     const value = listeners.filter((listener) => listener !== instance);
     Object.defineProperty(host, LISTENERS, {value, configurable: true});
+  }
+
+  /**
+   * Subscribes `handler` function with the passed event type or {@link ESLListenerDescriptor} with event type declared
+   * @param host - host object (listeners context) to associate subscription
+   * @param handler - handler function to subscribe
+   * @param descriptor - event or {@link ESLListenerDescriptor} with defined event type
+   */
+  public static subscribe(
+    host: unknown,
+    handler: ESLListenerHandler | ESLListenerDescriptorFn,
+    descriptor: ESLListenerDescriptor = handler as ESLListenerDescriptorFn
+  ): ESLEventListener[]  {
+    if (typeof handler !== 'function') return [];
+    const eventDesc = handler !== descriptor ? Object.assign({}, handler, descriptor) : descriptor;
+    const listeners = ESLEventListener.createOrResolve(host, handler, eventDesc);
+    return listeners.filter((listener) => listener.subscribe());
   }
 
   /** Creates or resolve existing event listeners by handler and descriptors */

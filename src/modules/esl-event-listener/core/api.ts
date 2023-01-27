@@ -49,6 +49,11 @@ export class ESLEventUtils {
   }
 
   /**
+   * Subscribes all auto descriptors of the host
+   * @param host - host object (listeners context) to find descriptors and associate subscription
+   * */
+  public static subscribe(host: unknown): ESLEventListener[];
+  /**
    * Subscribes decorated as an {@link ESLListenerDescriptorFn} `handler` function
    * @param host - host object (listeners context) to associate subscription
    * @param handler - handler function decorated as {@link ESLListenerDescriptorFn}
@@ -78,27 +83,21 @@ export class ESLEventUtils {
   ): ESLEventListener[];
   public static subscribe(
     host: unknown,
-    eventDesc: string | Partial<ESLListenerDescriptor> | ESLListenerHandler,
+    eventDesc?: string | Partial<ESLListenerDescriptor> | ESLListenerHandler,
     handler: ESLListenerHandler = eventDesc as ESLListenerDescriptorFn
   ): ESLEventListener[] {
-    if (typeof handler !== 'function') return [];
+    if (arguments.length === 1) {
+      const descriptors = getAutoDescriptors(host);
+      // TODO: flatMap when ES5 will be out of support list
+      return descriptors.reduce(
+        (acc, desc) => acc.concat(ESLEventListener.subscribe(host, desc)),
+        [] as ESLEventListener[]
+      );
+    }
     if (typeof eventDesc === 'string') eventDesc = {event: eventDesc};
-    if (isEventDescriptor(handler) && eventDesc !== handler) eventDesc = Object.assign({}, handler, eventDesc);
-
-    const listeners = ESLEventListener.createOrResolve(host, handler, eventDesc as ESLListenerDescriptor);
-    const subscribed = listeners.filter((listener) => listener.subscribe());
-    if (!subscribed.length) console.warn('[ESL]: Empty subscription %o', Object.assign({}, eventDesc, {handler}));
-    return subscribed;
-  }
-
-  /**
-   * Subscribes all auto descriptors of the host
-   * @param host - host object (listeners context) to find descriptors and associate subscription
-   * */
-  public static subscribeAll(host: unknown): ESLEventListener[] {
-    return getAutoDescriptors(host).reduce((subscriptions: ESLEventListener[], desc: ESLListenerDescriptorFn) => {
-      return subscriptions.concat(ESLEventUtils.subscribe(host, desc));
-    }, []);
+    const listeners = ESLEventListener.subscribe(host, handler, eventDesc as ESLListenerDescriptor);
+    if (!listeners.length) console.warn('[ESL]: Empty subscription %o', Object.assign({}, eventDesc, {handler}));
+    return listeners;
   }
 
   /**
