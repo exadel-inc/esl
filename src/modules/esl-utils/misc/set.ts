@@ -9,9 +9,9 @@ export function intersection<T>(a: T[], b: T[], ...rest: T[][]): T[] {
 /** Create an array with unique values from each of the passed arrays */
 export function union<T>(...rest: T[][]): T[]  {
   const set = new Set();
-  rest.forEach(item => item.forEach(i => set.add(i)));
+  rest.forEach((item) => item.forEach((i) => set.add(i)));
   const result: any[] = [];
-  set.forEach(value => result.push(value));
+  set.forEach((value) => result.push(value));
   return result;
 }
 
@@ -21,7 +21,7 @@ export function complement<T>(a: T[], b: T[], ...rest: T[][]): T[] | undefined {
   if (!b) return a ? a.slice() : [];
   if (rest.length > 1)  return complement(a, complement(b, ...rest));
   const setB = new Set(b);
-  return a.filter(element => !setB.has(element));
+  return a.filter((element) => !setB.has(element));
 }
 
 /**

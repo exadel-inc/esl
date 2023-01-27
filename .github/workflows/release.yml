@@ -9,7 +9,7 @@ on:
         description: 'Run in dry-run mode (no actual release)'
 
 env:
-  node-version: 16.x
+  node-version: 18.x
 
 jobs:
   release:
