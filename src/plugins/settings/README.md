@@ -1,18 +1,18 @@
 # UIP Settings
 
 **UIPSettings** - custom element which stores settings (**UIPSetting**).
-Extends [UIPPlugin](src/core/base/README.md#uip-plugin).
+Extends [UIPPlugin](src/core/README.md#uip-plugin).
 
 ## Description
 
 We use **UIPSettings** as a container for **UIPSetting** elements. It serves as a link between
 our standard UIP flow for change detection and settings updates.
 
-**UIPSettings** updates settings using current state ([UIPStateModel](src/core/base/README.md#uip-state-model))
-and vice versa
+**UIPSettings** updates settings using current state ([UIPStateModel](src/core/README.md#uip-state-model))
+and vice versa (more info can be found in **UIPSetting** docs)
 
 
-To get updates from inner settings we listen for *uip:change* event, then pass markup updates to [UIPRoot](src/core/base/README.md#uip-root).
+To get updates from inner settings we listen for *uip:change* event, then pass markup updates to [UIPRoot](src/core/README.md#uip-root).
 
 **UIPSettings** component has the following attributes:
 - **label** - settings section displayed name.
@@ -22,12 +22,12 @@ To get updates from inner settings we listen for *uip:change* event, then pass m
 # UIP Setting
 
 **UIPSetting** - custom element for manipulating with elements attributes. Custom settings should extend
-*UIPSetting* class if you want them to be connected with [UIPSettings] properly.
+*UIPSetting* class if you want them to be connected with [UIPSettings](src/plugins/settings/README.md) properly.
 
 ## Description
 
-- Processes markup to update own value via **updateFrom()** (uses [UIPStateModel](src/core/base/README.md#uip-state-model) by default).
-- Updates markup with **applyTo()** (uses [UIPStateModel](src/core/base/README.md#uip-state-model) by default).
+- Processes markup to update own value via **updateFrom()** (uses [UIPStateModel](src/core/README.md#uip-state-model) by default).
+- Updates markup with **applyTo()** (uses [UIPStateModel](src/core/README.md#uip-state-model) by default).
 - Dispatches **uip:change** event to let *UIPSettings* know about setting changes.
 
 These things have default implementation. Also, there are **isValid()** and **setInconsistency()** methods to deal with

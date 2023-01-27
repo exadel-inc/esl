@@ -6,10 +6,10 @@
 ## Description
 
 All UIP elements are **UIPPlugin** instances. Plugin automatically sets *uip-plugin* class to its elements,
-provides access to [UIPRoot](src/core/base/README.md#uip-root) and adds **_onRootStateChange()** method, which is a key part in components
+provides access to [UIPRoot](src/core/README.md#uip-root) and adds **_onRootStateChange()** method, which is a key part in components
 communication.
 
-After initialization **UIPPlugin** subscribes to [UIPStateModel](src/core/base/README.md#uip-state-model) changes and, after
+After initialization **UIPPlugin** subscribes to [UIPStateModel](src/core/README.md#uip-state-model) changes and, after
 destroying, automatically unsubscribes. **_onRootStateChange()** is called every time markup changes are detected.
 As you can see, the flow is quite similar to what we usually do in
 [Observable](https://en.wikipedia.org/wiki/Observer_pattern) pattern.
@@ -30,7 +30,7 @@ class UIPComponent extends UIPPlugin {
 
 ```
 
-You can find a way of getting current markup in [UIPStateModel](src/core/base/README.md#uip-state-model) section.
+You can find a way of getting current markup in [UIPStateModel](src/core/README.md#uip-state-model) section.
 
 To make the long story shorter: we implement "reaction" callback in **_onRootStateChange()** (using markup's getter
 mentioned earlier) and every time **UIPStateModel** produces markup updates, we "react" to them!
@@ -57,8 +57,8 @@ class UIPPreview extends UIPPlugin {
 
 ## Description
 
-**UIPRoot** contains [UIPStateModel](src/core/base/README.md#uip-state-model) getter. It also allows **UIPPlugin** elements
-subscribing to model changes (or unsubscribing from them). More details can be found in [UIPPlugin](src/core/base/README.md#uip-plugin) section.
+**UIPRoot** contains [UIPStateModel](src/core/README.md#uip-state-model) getter. It also allows **UIPPlugin** elements
+subscribing to model changes (or unsubscribing from them). More details can be found in [UIPPlugin](src/core/README.md#uip-plugin) section.
 
 ## Example
 
@@ -150,7 +150,7 @@ export type ChangeAttrConfig = {
 ```
 
 Here *attribute* stands for attribute name and *target* - for target elements. *Modifier* field represents the
-[UIPPlugin](src/core/base/README.md#uip-plugin) instance which triggers attribute's changes.
+[UIPPlugin](src/core/README.md#uip-plugin) instance which triggers attribute's changes.
 
 The last field can either be *value* (this value replaces current *attribute*'s value) or *transform* function (it maps
 current attribute value to the new one).
