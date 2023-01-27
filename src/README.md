@@ -20,7 +20,7 @@ UIP components are organized in the following way:
 Any playground must have at least **core** components. **Plugins** are
 optional, you can add them on your own free will. 
 
-To implement custom UIPPlayground components, see [UIPPlugin](src/core/base/README.md#uip-plugin).
+To implement custom UIPPlayground components, see [UIPPlugin](src/core/README.md#uip-plugin).
 
 # Modules/components imports
 Module's main parts lay inside modules folders. So importing the required
@@ -37,7 +37,7 @@ to import styles for all UIP component, you can import either
 *registration.less* or *registration.css* file.
 
 Before using UIP components, you also need to *register* them. For example,
-if you want to use [UIPRoot](src/core/base/README.md#uip-root) component, register it like that:
+if you want to use [UIPRoot](src/core/README.md#uip-root) component, register it like that:
 
 ```typescript
 import {UIPRoot} from './root';
