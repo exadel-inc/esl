@@ -6,18 +6,20 @@ TBD
 
 UIP components are organized in the following way:
 
-  - [Core Elements](src/core/README.md#uip-root)
-  - Plugins
-    - [UIPEditor](src/plugins/editor/README.md)
-    - [UIPSettings](src/plugins/settings/README.md)
-        - [UIPBoolSetting](src/settings/bool-setting/README.md)
-        - [UIPSelectSetting](src/settings/select-setting/README.md)
-        - [UIPTextSetting](src/settings/text-setting/README.md)
-    - [UIPHeader](src/plugins/header/README.md)
-        - [UIPOptions](src/header/options/README.md)
-        - [UIPSnippets](src/header/snippets/README.md)
+[Core Elements](src/core/README.md#uip-root)
 
-Any playground must have at least **core** components. **Plugins** are
+Plugins:
+  - [UIPEditor](src/plugins/editor/README.md)
+  - [UIPSettings](src/plugins/settings/README.md)
+      - [UIPBoolSetting](src/settings/bool-setting/README.md)
+      - [UIPSelectSetting](src/settings/select-setting/README.md)
+      - [UIPTextSetting](src/settings/text-setting/README.md)
+      - [UIPSliderSetting](src/settings/slider-setting/README.md)
+  - [UIPHeader](src/plugins/header/README.md)
+      - [UIPOptions](src/header/options/README.md)
+      - [UIPSnippets](src/header/snippets/README.md)
+
+Any playground must have at least **Сore** components. **Plugins** are
 optional, you can add them on your own free will. 
 
 To implement custom UIPPlayground components, see [UIPPlugin](src/core/README.md#uip-plugin).

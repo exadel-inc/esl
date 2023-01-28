@@ -8,7 +8,7 @@ We render **UIPSelectSetting** as [ESLSelect](https://github.com/exadel-inc/esl/
 element.
 
 Select setting has two modes: **replace** and **append**. The first one (is used by default) replaces the attribute
-value with selected, and the second one appends selected value to the attribute.
+*value* with selected, and the second one appends selected *value* to the attribute.
 
 **UIPSelectSetting** also supports **multiple** attribute to allow selecting multiple values.
 

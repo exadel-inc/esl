@@ -4,7 +4,7 @@
 
 ## Description
 
-This setting represents a text input for changing attribute's value.
+This setting represents a *text input* for changing attribute's value.
 
 ## Example
 
