@@ -49,7 +49,7 @@ export class ESLSelectDropdown extends ESLToggleable {
   }
 
   protected override onShow(params: ESLToggleableActionParams): void {
-    document.body.appendChild(this);
+    !this.connected && document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
     this.$$cls(this.$owner.dropdownClass, true);
