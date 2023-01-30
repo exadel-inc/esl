@@ -7,30 +7,30 @@ Authors: *Alexey Stsefanovich (ala'n)*.
 <a name="intro"></a>
 
 Starting from the 4th release ESL has a built-in mechanism to work with DOM events.
-ESLEventListeners has more control and more advanced features than native DOM API.
-In addition, ESLMixinElement and ESlBaseElement have even more pre-built syntax sugar
-to make the consumer's code super small and clean.
+ESL event listeners have more control and more advanced features than native DOM API has.
+Besides, the [`ESlBaseElement`](../esl-base-element/README.md) and [`ESLMixinElement`](../esl-mixin-element/README.md)
+have even more pre-built syntax sugar to make the consumer's code small and concise.
 
-One of the main advantages of ESL event listeners over the native DOM events API is the extended control of subscriptions.
-All ESL listeners are saved and associated with the host element, after that,
-the listener can be unhooked at any time in a variety of ways.
-And most importantly, you do not need the original callback handler for this.
+One of the main advantages of ESL listeners over the native DOM events API is the extended control of subscriptions.
+All ESL listeners and their declarations are saved and associated with the host element, so the
+ESL listeners can be created or unhooked at any time in a variety of ways.
+And most importantly, you do not need the original callback handler to do this.
 
 ## Basic concepts
-The ESL event listener module based on the following major terms and submodules:
+
+The ESL event listener module is based on the following major terms and classes:
 
 ### The `host`
 
-The `host` is any object that is used as a context to associate ESL event subscriptions with.  
-That's the only thing that is needed for the ESL event listener-based subscriptions.
-It's recommended to use the actual consumer of the subscriptions.
-The hast is the default target to apply a subscription (access native DOM Event API).
-Make sure you define the target explicitly for your subscriptions in case you use custom hosts
-(different from `HTMLElement`, `ESLBaseElement`, or `ESLMixinElement`).
+Everything that happens with ESL event listeners should be associated with the `host` object.
+The `host` object is not necessarily related to EventTarget, it's the object "owner"(consumer) of the subscription,
 
-NOTE: you can also define a `$host` property on your custom host to make ESL automatically associate it with some DOM element.
+The `host` is an EventTarget to subscribe by default (access native DOM Event API using host).
+But API has at least two options to change the target. First of all you can define the target explicitly.
+Another way is to specify the default DOM target of the host object by providing a special `$host` key
+(the same as `ESLMixinElement` does).
 
-The host is also a context to call the handler function of the subscription.
+The `host` object is also used as a context to call the handler function of the subscription.
 
 ### The `ESLEventListener` class and `subscription`
 The subscriptions created by the ESL event listener module are instances of `ESLEventListener` class.
@@ -70,7 +70,7 @@ See the usage of `ESLEventUtils.initDescriptor` and `@listen` decorator for more
 
 The units mentioned previously are mostly implementation details of the module.
 `ESLEventUtils` is a root class for the event listener module.
-It's a facade of all ESL event listeners module and collects all required public API.
+It's a facade of all ESL event listener module and collects all required public API.
 
 Here is the `ESLEventUtils` (as well as ESL event listener module) Public API:
 
@@ -91,7 +91,7 @@ Here is the `ESLEventUtils` (as well as ESL event listener module) Public API:
     ```
 - Subscribes `handler` function by `ESLEventDescriptor` meta
     ```
-    ESLEventUtils.subscribe(host: object, descriptorFn: ESLEventDescriptor, handler: ESLListenerHandler)
+    ESLEventUtils.subscribe(host: object, descriptor: ESLEventDescriptor, handler: ESLListenerHandler)
     ```
 - Subscribes `handler` type of `ESLEventDescriptorFn` with `ESLEventDescriptor` overriding meta-data
     ```
@@ -100,8 +100,10 @@ Here is the `ESLEventUtils` (as well as ESL event listener module) Public API:
 
 **Parameters**:
 - `host` - host element to store subscription (event target by default);
-- `eventDesc` - Event type or object of event description data;
-- `handler` - Callback handler. See [ESLListenerHandler](#listenerHandler).
+- `eventType` - string DOM event type;
+- `descriptor` - event description data (`ESLEventDescriptor`);
+- `descriptorFn` - an instance of decorated as a descriptor function `ESLEventDescriptorFn`;
+- `handler` - function callback handler.
 
 Examples:
 - `ESLEventUtils.subscribe($host);` -
@@ -141,7 +143,7 @@ ESLEventUtils.isEventDescriptor(obj: any): obj is ESLListenerDescriptorFn;
 ```
 
 ### ⚡ `ESLEventUtils.getAutoDescriptors`
-Method of the `ESLEventUtils` interface that gathers auto-subscribable(collectable) descriptors from the passed object.
+Method of the `ESLEventUtils` interface that gathers auto-subscribable(collectible) descriptors from the passed object.
 
 ```typescript
 ESLEventUtils.descriptors(host?: any): ESLListenerDescriptorFn[]
@@ -153,11 +155,29 @@ ESLEventUtils.descriptors(host?: any): ESLListenerDescriptorFn[]
 ### ⚡ `ESLEventUtils.descriptors`
 Deprecated alias for `ESLEventUtils.getAutoDescriptors`
 
+### ⚡ `ESLEventUtils.initDescriptor`
+
+`ESLEventUtils.initDescriptor` - decorate the passed key of the host object as `ESLEventDescriptorFn`
+
+```typescript
+ESLEventUtils.initDescriptor<T extends object>(
+  host: T, 
+  key: keyof T & string, 
+  desc: ESLEventDescriptor
+): ESLEventDescriptorFn;
+```
+
+**Parameters**:
+- `host` - host object holder of decorated function;
+- `key` - key of the `host` object that contains function to decorate;
+- `desc` - `ESLEventDescriptor` meta information to describe future subscriptions
+
+
 ### ⚡ `ESLEventUtils.listeners`
 Method of the `ESLEventUtils` interface that gathers listeners currently subscribed to the host.
 
 ```typescript
-ESLEventUtils.listeners(host: HTMLElement, ...criteria: ESLListenerCriteria[]): ESLEventListener[];
+ESLEventUtils.initDescriptor(host: object, ...criteria: ESLListenerCriteria[]): ESLEventListener[];
 ```
 
 **Parameters**:
