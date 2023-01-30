@@ -68,7 +68,7 @@ export class ESLImage extends ESLBaseElement {
     this.alt =
       this.alt || this.getAttribute('aria-label') || this.getAttribute('data-alt') || '';
     this.updateA11y();
-    this.srcRules.addEventListener(this._onMediaMatchChange);
+    this.srcRules = ESLMediaRuleList.parse(this.src);
     if (this.lazyObservable) {
       this.removeAttribute('lazy-triggered');
       getIObserver().observe(this);
@@ -81,22 +81,13 @@ export class ESLImage extends ESLBaseElement {
   }
 
   protected disconnectedCallback(): void {
+    this.clearImage();
     super.disconnectedCallback();
     this._detachLazyTrigger && this._detachLazyTrigger();
-    if (this._srcRules) {
-      this._srcRules.removeEventListener(this._onMediaMatchChange);
-    }
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
-    if (oldVal === newVal) return;
-    if (attrName === 'mode') {
-      this.syncImage(oldVal);
-      this.changeMode(oldVal, newVal);
-      return;
-    }
-
-    if (!this.connected) return;
+    if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
       case 'aria-label':
         this.alt = newVal || '';
@@ -111,6 +102,9 @@ export class ESLImage extends ESLBaseElement {
         break;
       case 'data-src-base':
         this.refresh();
+        break;
+      case 'mode':
+        this.changeMode(oldVal, newVal);
         break;
       case 'lazy-triggered':
         this.lazyTriggered && this.update();
