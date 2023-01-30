@@ -133,30 +133,30 @@ The `ESLBaseElment` and `ESLMixinElement` do it in the `connectedCallback` ootb.
 See the usage of [`ESLEventUtils.subscibe`](#-esleventutilssubscribe) for more details.
 
 
-## Public API - `ESLEventUtils`
+## Public API (`ESLEventUtils`)
 
 The units mentioned previously are mostly implementation details of the module.
-`ESLEventUtils` is a root class for the event listener module.
-It's a facade of all ESL event listener module and collects all required public API.
+`ESLEventUtils` is the root class for the event listener module.
+It's a facade for all ESL event listener module capabilities that represent all publicly available API.
 
-Here is the `ESLEventUtils` (as well as ESL event listener module) Public API:
+Here is the module Public API:
 
 ### ⚡ `ESLEventUtils.subscribe`
-`ESLEventUtils.subscribe` - the main method to create and subscribe ESLEventListener.
+`ESLEventUtils.subscribe` is the main method to create and subscribe `ESLEventListener`.
 
 - Subscribe all auto-collectable(subscribable) descriptors of the `host` object:
     ```
     ESLEventUtils.subscribe(host: object)
     ```
-- Subscribe handler function to the DOM event
+- Subscribe `handler` function to the DOM event declared by `eventType` string
     ```
     ESLEventUtils.subscribe(host: object, eventType: string, handler: ESLListenerHandler)
     ```
-- Subscribes `ESLEventDescriptorFn` by embedded meta-information
+- Subscribes `descriptorFn` type of `ESLEventDescriptorFn` by embedded meta-information
     ```
     ESLEventUtils.subscribe(host: object, descriptorFn: ESLEventDescriptorFn)
     ```
-- Subscribes `handler` function by `ESLEventDescriptor` meta
+- Subscribes `handler` function by `ESLEventDescriptor` passed data
     ```
     ESLEventUtils.subscribe(host: object, descriptor: ESLEventDescriptor, handler: ESLListenerHandler)
     ```
@@ -164,13 +164,6 @@ Here is the `ESLEventUtils` (as well as ESL event listener module) Public API:
     ```
     ESLEventUtils.subscribe(host: object, descriptorFn: ESLEventDescriptor, handler: ESLEventDescriptorFn)
     ```
-
-**Parameters**:
-- `host` - host element to store subscription (event target by default);
-- `eventType` - string DOM event type;
-- `descriptor` - event description data (`ESLEventDescriptor`);
-- `descriptorFn` - an instance of decorated as a descriptor function `ESLEventDescriptorFn`;
-- `handler` - function callback handler.
 
 Examples:
 - `ESLEventUtils.subscribe($host);` -
@@ -185,7 +178,7 @@ subscribes `handlerFn` function with the passed additional descriptor data.
 
 ### ⚡ `ESLEventUtils.unsubscribe`
 
-Method of the `ESLEventUtils` interface that allows unsubscribing existing subscriptions.
+Method of the `ESLEventUtils` interface that allows to unsubscribe existing subscriptions.
 
 ```typescript
 unsubscribe(host: HTMLElement, ...criteria: ESLListenerCriteria[]): ESLEventListener[];
@@ -201,6 +194,7 @@ Examples:
 - `ESLEventUtils.unsubscribe($host, 'click');` will unsubscribe everything bound to $host and processes 'click' event
 - `ESLEventUtils.unsubscribe($host, 'click', handlerFn);` will unsubscribe everything that is bound to $host, processes 'click' event and handles handlerFn
 - There can be any number of criteria.
+
 
 ### ⚡ `ESLEventUtils.isEventDescriptor`
 Predicate to check if the passed argument is type of `ESLListenerDescriptorFn = ESLEventHandler & Partial<ESLEventDescriptor>`.
@@ -222,6 +216,7 @@ ESLEventUtils.descriptors(host?: any): ESLListenerDescriptorFn[]
 ### ⚡ `ESLEventUtils.descriptors`
 Deprecated alias for `ESLEventUtils.getAutoDescriptors`
 
+
 ### ⚡ `ESLEventUtils.initDescriptor`
 
 `ESLEventUtils.initDescriptor` - decorate the passed key of the host object as `ESLEventDescriptorFn`
@@ -230,18 +225,29 @@ Deprecated alias for `ESLEventUtils.getAutoDescriptors`
 ESLEventUtils.initDescriptor<T extends object>(
   host: T, 
   key: keyof T & string, 
-  desc: ESLEventDescriptor
+  desc: ESLEventDescriptorExt
 ): ESLEventDescriptorFn;
 ```
 
 **Parameters**:
 - `host` - host object holder of decorated function;
 - `key` - key of the `host` object that contains function to decorate;
-- `desc` - `ESLEventDescriptor` meta information to describe future subscriptions
+- `desc` - `ESLEventDescriptor` (extended) meta information to describe future subscriptions
+
+The extended `ESLEventDescriptor` information allows to pass `inherit` marker to create new descriptor instance 
+based on descriptor declared in the prototype chain for the same key.
+Note: if such key will not found then the `ReferenceError` will thrown by `ESLEventUtils.initDescriptor` method.
+
+### ⚡ `@listen` decorator
+The `@listen` decorator (awailable under `esl-utils/decorators`) is a sugar above `ESLEventUtils.initDescriptor` method. 
+It allows you to declare class methods as an `ESLEventDescriptorFn` using TS `experimentalDecorators` feature.
+
+Listeners described by `@listen` are auto-subscribable by default if they are not inherited (than the type is inherited)
+or declared as manual explicitly (`{auto: false}`).
 
 
 ### ⚡ `ESLEventUtils.listeners`
-Method of the `ESLEventUtils` interface that gathers listeners currently subscribed to the host.
+Method of the `ESLEventUtils` interface, that gathers listeners currently subscribed to the passed `host` object.
 
 ```typescript
 ESLEventUtils.initDescriptor(host: object, ...criteria: ESLListenerCriteria[]): ESLEventListener[];
@@ -251,9 +257,10 @@ ESLEventUtils.initDescriptor(host: object, ...criteria: ESLListenerCriteria[]): 
 - `host` - an object that stores and relates to the handlers;
 - `criteria` - an optional set of criteria to filter the listeners list.
 
+
 ### ⚡ `ESLEventUtils.dispatch`
 
-Method of the `ESLEventUtils` interface that is used to dispatch custom DOM events.
+Method of the `ESLEventUtils` interface, that is used to dispatch custom DOM events.
 The event that is being dispatched is bubbling and cancelable by default.
 
 ```typescript
@@ -271,15 +278,7 @@ ESLEventUtils.dispatch(
   This parameter can be used to overwrite the default behavior of bubbling and being cancelable.
 
 
-### Decorator `@listen`
-The `@listen` decorator is a sugar above `ESLEventUtils.initDescriptor` method, it allows you to declare class methods 
-as an `ESLEventDescriptorFn`.
-
-Listeners described by `@listen` are auto-subscribable by default if they are not inherited (than the type is inherited) 
-or declared manual explicitly (`{auto: false}`).
-
-
-### Listeners Showcase Example
+### Listeners Full Showcase Example
 ```typescript
 class TestCases {
   bind() {
@@ -321,16 +320,18 @@ ESLEventUtils.initDescriptor(TestCases.prototype, 'onEventAutoDesc', {event: 'ev
 ESLEventUtils.initDescriptor(TestCases.prototype, 'onEventManualDesc', {event: 'event'});
 ```
 
-## Embedded behaviour of `ESLBaseElement` / `ESLMixinElement`
+## Embedded behavior of `ESLBaseElement` / `ESLMixinElement`
 
 ### Shortcuts
-All the inheritors of `ESLBaseElement` and `ESLMixinElement` contain the short aliases for `ESLEventUtils` methods.
-The host parameter of the shortcut methods are always targeting current element/mixin.
+
+All the inheritors of `ESLBaseElement` and `ESLMixinElement` contain the short aliases for some `ESLEventUtils` methods.
+The host parameter of the shortcut methods is always targeting current element/mixin.
 
 - `$$on` ~ `ESLEventUtils.subscribe(this, ...)`
 - `$$off` ~ `ESLEventUtils.unsubscribe(this, ...)`
 - `$$fire` ~ `ESLEventUtils.dispatch(this, ...)`
 
+Example:
 ```typescript
 this.$$on('click', this.onClick); // ESLEventUtils.subscribe(this, 'click', this.onClick)
 this.$$off('click'); // ESLEventUtils.unsubscribe(this, 'click')
@@ -360,7 +361,7 @@ class MyEl extends ESLBaseElement {
 }
  ```
 
-Full descriptor options are available with decorator
+Full list of descriptor options are available with `ESLEventDescriptor` object passed to decorator:
  ```typescript
 class MyEl extends ESLBaseElement {
   @listen({event: 'click', target: 'body', capture: true})
