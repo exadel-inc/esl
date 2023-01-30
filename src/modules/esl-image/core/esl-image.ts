@@ -84,6 +84,9 @@ export class ESLImage extends ESLBaseElement {
     this.clearImage();
     super.disconnectedCallback();
     this._detachLazyTrigger && this._detachLazyTrigger();
+    if (this._srcRules) {
+      this._srcRules.removeEventListener(this._onMediaMatchChange);
+    }
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
@@ -210,8 +213,8 @@ export class ESLImage extends ESLBaseElement {
     this.update(true);
   }
 
-  private syncImage(mode: string = this.mode): void {
-    const strategy = STRATEGIES[mode];
+  private syncImage(): void {
+    const strategy = STRATEGIES[this.mode];
     this._strategy = strategy;
     strategy && strategy.apply(this, this._shadowImg);
   }
