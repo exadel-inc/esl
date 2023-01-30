@@ -3,7 +3,10 @@ import {ESLEventUtils} from '../core';
 describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
   describe('ESLEventUtils.isEventDescriptor', () => {
     function fakeDesc() {}
-    descEvent.event = false;
+    fakeDesc.event = false;
+
+    function fakeDesc2() {}
+    fakeDesc2.event = {};
 
     function descEvent() {}
     descEvent.event = 'event';
@@ -19,6 +22,7 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
       [{event: ''}, false],
       [function noop() {}, false],
       [fakeDesc, false],
+      [fakeDesc2, false],
 
       [descEvent, true],
       [descEventProvider, true]

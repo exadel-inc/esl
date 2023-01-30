@@ -27,8 +27,9 @@ function getDescriptorsKeysFor<T extends object>(host: T): (keyof T)[] {
 }
 
 /** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
-export function isEventDescriptor(obj: unknown): obj is ESLListenerDescriptorFn {
-  return typeof obj === 'function' && Object.hasOwnProperty.call(obj, 'event');
+export function isEventDescriptor(obj: any): obj is ESLListenerDescriptorFn {
+  if (typeof obj !== 'function' || !Object.hasOwnProperty.call(obj, 'event')) return false;
+  return typeof obj.event === 'string' || typeof obj.event === 'function';
 }
 
 /** Gets {@link ESLListenerDescriptorFn}s of the passed object */
