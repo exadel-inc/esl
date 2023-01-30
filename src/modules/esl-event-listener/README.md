@@ -32,38 +32,105 @@ Another way is to specify the default DOM target of the host object by providing
 
 The `host` object is also used as a context to call the handler function of the subscription.
 
-### The `ESLEventListener` class and `subscription`
-The subscriptions created by the ESL event listener module are instances of `ESLEventListener` class.
-They are stored in the hidden property under the `host` object consists of the following major properties:
-- `event` - the event that the subscription is listening to
-- `handler` - reference for the function to call to handle the event
-- `host` - reference for holder `host` object
-- `target` - the definition of `EventTarget` element.
-  (Can be an exact element(s) or can be omitted or provided by the `TraversingQuery` to find it based on the `host`
-  object)
-- `selector` - CSS selector to use pre-build check capabilities to use event delegation. 
-- `capture` - the marker to use the capture phase of DOM event live-cycle
-- `once` - the marker to destroy the subscription after the first event catch
-- `auto` - the  marker for subscription created based on an auto-collectable definition of the host
-  (see the definition in the `Descriptors` section)
+### The `handler`
 
-The `ESLEventListener` as a class describes the subscription behavior as well as contains static method to create and mange subscriptions.
+`handler` is a function that is used to process subscription event.
+ESL declares a generic type to describe such functions - `ESLListenerHandler`;
+
+```typescript
+export type ESLListenerHandler<EType extends Event = Event> = (event: EType) => void;
+```
+
+### The `ESLEventListener` class and `subscription`
+
+The subscriptions created by the ESL event listener module are instances of `ESLEventListener` class.
+All active subscriptions are stored in the hidden property under the `host` object.
+All of them consists of the following major properties:
+- `event` - the event that the subscription is listening to;
+- `handler` - reference for the function to call to handle the event;
+- `host` - reference for holder `host` object;
+- `target` - the definition of `EventTarget` element
+  (Can be an exact element(s), or it can be omitted or provided by the `TraversingQuery` 
+   to find the target in DOM based on the `host` object);
+- `selector` - CSS selector to use pre-build check capabilities to use event delegation; 
+- `capture` - the marker to use the capture phase of the DOM event live-cycle;
+- `passive` - use passive (non blocking) subscription of the native event (if supported);
+- `once` - the marker to destroy the subscription after the first event catch;
+- `auto` - the  marker for subscription created based on an auto-collectable definition of the host
+  (see [Automatic (collectible) descriptors](#automatic-collectible-descriptors));
+
+All of the `ESLEventListener` instance fields are readonly, the subscription can't be changed when it's created. 
+
+The `ESLEventListener`, as a class, describes the subscription behavior as well as
+contains static methods to create and manage subscriptions.
 
 ### Descriptors (`ESLEventDesriptor`, `ESLEventDesriptorFn`)
 
 The event listener *Descriptor* is an object to describe future subscriptions.
 The ESL event listeners module has a couple of special details regarding such objects.
-A descriptor is an object that you should pass to API to create a subscription.
-It contains almost the same set of keys that the `ESLEventListener` instance does (except `host` and `handler`).
+
+A simple descriptor is an object that you should pass to API to create a subscription.
+It contains almost the same set of keys that the `ESLEventListener` instance does.
+
 In addition to that ESL allows you to combine the  `ESLEventDesriptor` data with the handler function.
 `ESLEventDesriptorFn` is a function handler that is decorated with the `ESLEventDesriptor` properties.
 
+Here is the list of supported keys of `ESLEventDesriptor`:
+- #### `event` key
+Type: `string | PropertyProvider<string>`  
+Description: the event type for subscription. 
+Can be provided as a string or via provider function that will be called in the runtime before exact subscription.
+
+The event sting (as literal or returned by `PropertyProvider`) can declare multiple event types separated by space symbol.
+ESL will create multiple subscriptions `ESLEventListener` object for each event separately in this case.
+
+- #### `target` key
+Type: `string | EventTarget | EventTarget[] | PropertyProvider<string | EventTarget | EventTarget[]>`
+Description: the key to declare exact EventTarget for subscription.
+As was mentioned previously by default subscription uses `host` object itself or `$host` key of the `host` object as an event target.
+In case the `target` key is a string then it considered as a [`TraversingQuery`](../esl-traversing-query/README.md) to find 
+a target relatively to `host | host.$host` object or absolutely in bounds of the active DOM tree.
+The `target` key is also supports an exact reference(s) for `EventTargets`. 
+Note: any `EventTarget` or event ESL `SynteticEventTarget` (including [`ESLMediaQuery`](../esl-media-query/README.md)) 
+can be a target for listener API.
+The `target` property can be declared via `PropertyProvider` as well.
+
+- #### `selector` key
+Type: `string | PropertyProvider<string>`
+Description: the css selector to check the event bubbling chain.
+The property to use ootb event delegation check of target.
+Supports `PropertyProvider` to declare the computed value as well. 
+
+- #### `capture` key
+Type: `boolean`
+Description: marker to use capturing phase of the DOM event to handle.
+
+- #### `passive` key
+Type: `boolean`
+Description: marker to use passive subscription to the native event.
+Note: ESL uses passive subscription by default for 'wheel', 'mousewheel', 'touchstart', 'touchmove' events.
+You need to declare `passive` key explicitly to override such behaviour.
+
+- #### `once` key
+Type: `boolean`
+Description: marker to unsubscribe listener with the first successful handling of the event.
+
+- #### `inherit` special key
+Type: `boolean`
+Description: available in extended version of `ESLEventDesriptor` that used in descriptor declaration API.
+Allows to inherit `ESLEventDesriptor` data from the `ESLEventDesriptorFn` declared with the same key in the property chain 
+of currently decorated  `ESLEventDesriptorFn` holder. See `initDescriptor` usages example.
+
+
 ### Automatic (collectible) descriptors
 
-If the `ESLEventDesriptorFn` declared with the `auto` marker of the associated definition it became auto-collectable
-for the ESL event listeners module. So you can make all auto-collectable descriptors to be subscribed at once.
+If the `ESLEventDesriptorFn` is declared with the `auto` marker of the associated definition 
+it became auto-collectable for the ESL event listeners module.
+AUto-collectable (or auto-subscribable) descriptors should be declared with `ESLEventUtils.initDescriptor` or
+`@listen` decorator as they are also stored under the special private collection of the holder object.
+That means you can make all auto-collectable descriptors to be subscribed at once in the future.
 The `ESLBaseElment` and `ESLMixinElement` do it in the `connectedCallback` ootb.
-See the usage of `ESLEventUtils.initDescriptor` and `@listen` decorator for more details.
+See the usage of [`ESLEventUtils.subscibe`](#-esleventutilssubscribe) for more details.
 
 
 ## Public API - `ESLEventUtils`
