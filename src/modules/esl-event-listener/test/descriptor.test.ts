@@ -54,6 +54,22 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
       expect(desc.selector).toBe('a');
     });
 
+    describe('ESLEventUtils.initDescriptor: auto-subscription management', () => {
+      test('ESLEventUtils.initDescriptor: simple subscription is not auto by default', () => {
+        const host = {fn: () => void 0};
+        const desc = ESLEventUtils.initDescriptor(host, 'fn', {event: 'event'});
+        expect(desc.auto).toBe(false);
+        expect(ESLEventUtils.getAutoDescriptors(host)).not.toContain(desc);
+      });
+
+      test('ESLEventUtils.initDescriptor: auto=true makes descriptor auto-subscribable', () => {
+        const host = {fn: () => void 0};
+        const desc = ESLEventUtils.initDescriptor(host, 'fn', {event: 'event', auto: true});
+        expect(desc.auto).toBe(true);
+        expect(ESLEventUtils.getAutoDescriptors(host)).toContain(desc);
+      });
+    });
+
     describe('ESLEventUtils.initDescriptor: inheritance cases', () => {
       const proto = {fn: () => void 0};
       ESLEventUtils.initDescriptor(proto, 'fn', {event: 'event', selector: 'a'});
@@ -81,6 +97,17 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
         Object.setPrototypeOf(host, proto);
         expect(() => ESLEventUtils.initDescriptor(host, 'fn2', {inherit: true, selector: 'b'})).toThrowError();
       });
+
+      test('ESLEventUtils.initDescriptor: inheriting of type (auto collectable) of the prototype', () => {
+        const parent = {fn: () => void 0};
+        const parentDesc = ESLEventUtils.initDescriptor(parent, 'fn', {event: 'event', auto: true});
+        const host = {fn: () => void 0};
+        Object.setPrototypeOf(host, parent);
+        const desc = ESLEventUtils.initDescriptor(host, 'fn', {inherit: true});
+        expect(parentDesc.auto).toBe(true);
+        expect(desc.auto).toBe(true);
+        expect(ESLEventUtils.getAutoDescriptors(host)).toContain(desc);
+      });
     });
   });
 
@@ -99,7 +126,7 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
 
     test('ESLEventUtils.getAutoDescriptors: catch prototype-level declared descriptor', () => {
       class Test { onEvent() {}}
-      ESLEventUtils.initDescriptor(Test.prototype, 'onEvent', {event: 'event'});
+      ESLEventUtils.initDescriptor(Test.prototype, 'onEvent', {event: 'event', auto: true});
 
       const instance = new Test();
       expect(ESLEventUtils.getAutoDescriptors(instance)).toEqual([Test.prototype.onEvent]);
@@ -115,7 +142,7 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
 
     describe('ESLEventUtils.getAutoDescriptors: handles deep inheritance cases', () => {
       class Base { onEvent() {}}
-      ESLEventUtils.initDescriptor(Base.prototype, 'onEvent', {event: 'event'});
+      ESLEventUtils.initDescriptor(Base.prototype, 'onEvent', {event: 'event', auto: true});
 
       test('ESLEventUtils.getAutoDescriptors: catch superclass level descriptor', () => {
         class Child extends Base {}
@@ -143,7 +170,7 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
 
     test('ESLEventUtils.getAutoDescriptors: low level API consumes own properties as well', () => {
       const obj = {onEvent: () => void 0};
-      ESLEventUtils.initDescriptor(obj, 'onEvent', {event: 'event'});
+      ESLEventUtils.initDescriptor(obj, 'onEvent', {event: 'event', auto: true});
       expect(ESLEventUtils.getAutoDescriptors(obj)).toEqual([obj.onEvent]);
     });
   });

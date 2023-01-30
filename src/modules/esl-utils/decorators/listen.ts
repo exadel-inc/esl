@@ -23,6 +23,8 @@ export function listen(desc: string | PropertyProvider<string> | ESLListenerDesc
   return function listener<Host extends object>(target: Host, propertyKey: keyof Host & string): void {
     // Map short event or event provider value to descriptor object
     desc = typeof desc === 'string' || typeof desc === 'function' ? {event: desc} : desc;
+    // Makes auto collectable/subscribable description if not inherited
+    desc = Object.assign(desc.inherit ? {} : {auto: true}, desc);
 
     ESLEventUtils.initDescriptor(target, propertyKey, desc);
   };

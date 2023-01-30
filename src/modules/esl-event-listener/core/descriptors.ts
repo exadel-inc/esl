@@ -58,9 +58,9 @@ export function initDescriptor<T extends object>(
   if (desc.inherit) {
     const superDesc = Object.getPrototypeOf(host)[key];
     if (!isEventDescriptor(superDesc)) throw new ReferenceError(`[ESL] Init Descriptor: no parent event descriptor found for ${key}`);
-    desc = Object.assign({auto: true}, superDesc, desc);
+    desc = Object.assign({auto: false}, superDesc, desc);
   } else {
-    desc = Object.assign({auto: true}, desc);
+    desc = Object.assign({auto: false}, desc);
   }
 
   // Marks key to be auto-collectable
