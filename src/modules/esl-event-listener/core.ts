@@ -5,6 +5,7 @@ export type {
   ESLListenerEventMap,
   ESLListenerDescriptor,
   ESLListenerDescriptorFn,
+  ESLListenerDescriptorExt,
   ESLListenerTarget,
   ESLListenerDefinition
 } from './core/types';
