@@ -140,20 +140,20 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
    * Gets stored listeners array the passed `host` object
    * Supports additional filtration criteria
    */
-  public static get(host?: any, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
-    if (!host) return [];
+  public static get(host?: object, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
+    if (!isObject(host)) return [];
     const listeners = (host[LISTENERS] || []) as ESLEventListener[];
     if (!criteria.length) return listeners;
     return listeners.filter((listener) => criteria.every(listener.matches, listener));
   }
   /** Adds listener to the listener store of the host object */
-  protected static add(host: any, instance: ESLEventListener): void {
-    if (!host) return;
+  protected static add(host: object, instance: ESLEventListener): void {
+    if (!isObject(host)) return;
     if (!Object.hasOwnProperty.call(host, LISTENERS)) host[LISTENERS] = [];
     host[LISTENERS].push(instance);
   }
   /** Removes listener from the listener store of the host object */
-  protected static remove(host: any, instance: ESLEventListener): void {
+  protected static remove(host: object, instance: ESLEventListener): void {
     const listeners = ESLEventListener.get(host);
     const value = listeners.filter((listener) => listener !== instance);
     Object.defineProperty(host, LISTENERS, {value, configurable: true});
@@ -166,7 +166,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
    * @param descriptor - event or {@link ESLListenerDescriptor} with defined event type
    */
   public static subscribe(
-    host: unknown,
+    host: object,
     handler: ESLListenerHandler | ESLListenerDescriptorFn,
     descriptor: ESLListenerDescriptor = handler as ESLListenerDescriptorFn
   ): ESLEventListener[]  {
@@ -177,7 +177,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   }
 
   /** Creates or resolve existing event listeners by handler and descriptors */
-  public static createOrResolve(host: unknown, handler: ESLListenerHandler, desc: ESLListenerDescriptor): ESLEventListener[] {
+  public static createOrResolve(host: object, handler: ESLListenerHandler, desc: ESLListenerDescriptor): ESLEventListener[] {
     if (!isObject(host)) return [];
     const eventString = resolveProperty(desc.event, host);
     const listeners: ESLEventListener[] = [];
