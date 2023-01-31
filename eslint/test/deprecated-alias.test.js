@@ -1,52 +1,57 @@
-// TODO: rewrite for base rule
 'use strict';
 
-const rule = require('../rules/4.0.0/deprecated.traversing-query');
+const alias = 'currentName';
+const deprecation = 'deprecatedName';
+
+const rule = require('../base-rules/deprecated-alias').buildRule({
+  alias: alias,
+  deprecation: deprecation,
+});
 const RuleTester = require('eslint').RuleTester;
 
 const ruleTester = new RuleTester({
   parser: require.resolve('@typescript-eslint/parser')
 });
 
-ruleTester.run('rules/deprecated/traversing-query', rule, {
+ruleTester.run('../base-rules/deprecated-alias', rule, {
   valid: [
-    {code: 'import {ESLTraversingQuery} from \'../../esl-traversing-query/core\';'},
-    {code: 'import {ESLTraversingQuery as FN}  from \'../../esl-traversing-query/core/esl-traversing-query\';\n'},
+    {code: `import {${alias}} from \'../rules/4.0.0/test\';`},
+    {code: `import {${alias} as FN}  from \'../rules/4.0.0/test\';`},
     {
-      code: 'if (ESLTraversingQuery.one() && FN.one(\'data\')) {\n' +
-        '  const TraversingQuery = \'data\';\n' +
-        '}\n'
+      code: `if (${alias}.one() && FN.one(\'data\')) { \n
+         const ${deprecation} = \'data\'; \n
+         } \n`
     },
     {
-      code: 'import {ESLTraversingQuery} from \'../../../src/modules/esl-traversing-query/core\';\n' +
-        'if (params) {\n' +
-        'const TraversingQuery = params.smth \n' +
-        'params.smth = new ESLTraversingQuery(); \n' +
-        '}',
+      code: `import ${alias} from \'../rules/4.0.0/test\'; \n
+        if (params) { \n
+        const ${deprecation} = params.smth \n
+        params.smth = new ${alias}(); \n
+        }`,
     }
   ],
   invalid: [
     {
-      code: 'import {TraversingQuery} from \'../../esl-traversing-query/core\';',
+      code: `import {${deprecation}} from \'../rules/4.0.0/test\';`,
       errors: [
-        '[ESL Lint]: Deprecated alias TraversingQuery for ESLTraversingQuery'
+        `[ESL Lint]: Deprecated alias ${deprecation} for ${alias}`
       ],
-      output: 'import {ESLTraversingQuery} from \'../../esl-traversing-query/core\';'
+      output: `import {${alias}} from \'../rules/4.0.0/test\';`
     },
     {
-      code: 'import {TraversingQuery} from \'../../../src/modules/esl-traversing-query/core\';\n' +
-        'if (params) {\n' +
-        'const TraversingQuery = params.smth \n' +
-        'params.smth = new TraversingQuery(); \n' +
-        '}',
+      code: `import {${deprecation}} from \'../rules/4.0.0/test\'; \n
+        if (params) { \n
+        const ${deprecation} = params.smth \n
+        params.smth = new ${deprecation}(); \n
+        }`,
       errors: [
-        '[ESL Lint]: Deprecated alias TraversingQuery for ESLTraversingQuery'
+        `[ESL Lint]: Deprecated alias ${deprecation} for ${alias}`
       ],
-      output: 'import {ESLTraversingQuery} from \'../../../src/modules/esl-traversing-query/core\';\n' +
-        'if (params) {\n' +
-        'const TraversingQuery = params.smth \n' +
-        'params.smth = new ESLTraversingQuery(); \n' +
-        '}'
+      output: `import {${alias}} from \'../rules/4.0.0/test\'; \n
+        if (params) { \n
+        const ${deprecation} = params.smth \n
+        params.smth = new ${alias}(); \n
+        }`
     },
   ]
 });
