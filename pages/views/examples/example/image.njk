@@ -7,28 +7,23 @@ title: Example with image
     <uip-snippets></uip-snippets>
     <uip-options hide-theme hide-direction></uip-options>
   </uip-header>
-  <script type="text/html" uip-snippet label="Image">
-    <img class="demo-img" alt="patrick" src="{{ '/assets/patrick.png' | url }}">
+  <script type="text/html" uip-snippet label="Example with image">
+    <img class="demo-img" alt="patrick" src="{{ '/assets/patrick.png' | url }}" height="500" width="500">
   </script>
-  <script type="text/html" uip-snippet label="link image">
+  <script type="text/html" uip-snippet label="Example with image link">
     <a class="img-link" href="https://www.google.com/">
-      <img class="demo-img img-256" alt="patrick" src="{{ '/assets/patrick.png' | url }}">
+      <img class="demo-img" alt="patrick" src="{{ '/assets/patrick.png' | url }}" height="500" width="500">
     </a>
   </script>
   <uip-preview></uip-preview>
   <uip-settings target=".demo-img">
-    <uip-text-setting label="Source" attribute="src"></uip-text-setting>
-    <uip-text-setting label="Alternative text" attribute="alt"></uip-text-setting>
-    <uip-slider-setting label="Height" attribute="height" min="0" max="1000"></uip-slider-setting>
-    <uip-slider-setting label="Width" attribute="width" min="0" max="1000"></uip-slider-setting>
-    <uip-select-setting label="Resolution" attribute="class" mode="append">
-      <option value="img-64">64x64</option>
-      <option value="img-128">128x128</option>
-      <option value="img-256">256x256</option>
-      <option value="">None</option>
-    </uip-select-setting>
-    <uip-text-setting label="Link" attribute="href" target=".img-link"></uip-text-setting>
-    <uip-bool-setting label="Open in new window" attribute="target" target=".img-link" value="_blank"></uip-bool-setting>
+    <uip-text-setting label="Source:" attribute="src"></uip-text-setting>
+    <uip-text-setting label="Alternative alt text:" attribute="alt"></uip-text-setting>
+    <uip-slider-setting label="Height:" attribute="Height" min="300" max="1000"></uip-slider-setting>
+    <uip-slider-setting label="Width:" attribute="Width" min="300" max="1000"></uip-slider-setting>
+    <uip-text-setting label="Link:" attribute="href" target=".img-link"></uip-text-setting>
+    <uip-bool-setting label="Open in new window" attribute="target" target=".img-link"
+                      value="_blank"></uip-bool-setting>
   </uip-settings>
   <uip-editor></uip-editor>
 </uip-root>

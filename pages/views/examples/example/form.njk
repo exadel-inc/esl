@@ -4,7 +4,7 @@ title: Example with form
 
 <uip-root>
   <uip-header></uip-header>
-  <script type="text/html" uip-snippet label="User form">
+  <script type="text/html" uip-snippet label="Example with form">
     <form class="demo-form">
       <div class="form-section">
         <label for="name">Name: </label>
@@ -12,7 +12,9 @@ title: Example with form
       </div>
       <div class="form-section">
         <label for="email">Email: </label>
-        <input type="email" pattern="^(([^<>()[\]\\.,;:\s@']+(\.[^<>()[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$" id="email" name="userEmail">
+        <input type="email"
+               pattern="^(([^<>()[\]\\.,;:\s@']+(\.[^<>()[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"
+               id="email" name="userEmail">
       </div>
       <div class="form-section">
         <label for="pass">Password: </label>
@@ -23,7 +25,8 @@ title: Example with form
   </script>
   <uip-preview class="centered-content" resizable></uip-preview>
   <uip-settings target=".demo-form">
-    <uip-bool-setting label="Email validation" target="#email" mode="append" attribute="class" value="validation-input"></uip-bool-setting>
+    <uip-bool-setting label="Email validation" target="#email" mode="append" attribute="class"
+                      value="validation-input"></uip-bool-setting>
   </uip-settings>
   <uip-editor></uip-editor>
 </uip-root>

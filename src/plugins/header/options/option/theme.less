@@ -1,16 +1,12 @@
 .uip-root {
-  background-color: @light-theme;
+  background-color: @light-color;
 
   & > .uip-plugin {
     color: @dark-text;
 
-    & > .uip-plugin-inner {
-      background-color: @light-theme-section;
-    }
-
     &.uip-header .snippets-dropdown {
       &-wrapper {
-        background-color: @light-theme;
+        background-color: @light-color;
       }
 
       &-control {
@@ -25,11 +21,7 @@
     background-color: @dark-theme;
 
     & > .uip-plugin {
-      color: @light-text;
-
-      & > .uip-plugin-inner {
-        background-color: @dark-theme-section;
-      }
+      color: @light-color;
 
       &.uip-header {
         .snippets-dropdown {
@@ -50,9 +42,10 @@
       }
 
       &.uip-settings {
-        accent-color: @light-text;
+        accent-color: @light-color;
+
         .uip-select-setting .esl-select .esl-select-renderer::after {
-          color: @light-text;
+          color: @light-color;
         }
       }
     }

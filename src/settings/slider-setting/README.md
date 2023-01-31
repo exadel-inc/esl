@@ -1,7 +1,7 @@
 # UIP Slider Setting
 
 **UIPSliderSetting** - custom setting for changing attribute within range of values.
-Extends [UIPSetting](src/settings/setting/README.md).
+Extends [UIPSetting](src/plugins/settings/README.md).
 
 ## Description:
 
