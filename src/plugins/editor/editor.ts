@@ -7,26 +7,19 @@ import {EditorConfig, AceTheme} from './ace/utils';
 import type {AceEditor} from './ace/ace-editor';
 
 /**
- * Editor UIPPlugin custom element definition.
- * Uses ACE UI code editor to provide an ability to modify UIP state markup.
+ * Editor {@link UIPPlugin} custom element definition
+ * Uses ACE UI code editor to provide an ability to modify UIP state markup
  * @extends UIPPlugin
  */
 export class UIPEditor extends UIPPlugin {
   public static is = 'uip-editor';
+  /** Attribute to trigger editor's collapsing */
   private static collapsedAttribute = 'editor-collapsed';
-  /** Default [config]{@link EditorConfig} instance. */
-  public static defaultOptions: EditorConfig = {
-    theme: AceTheme.Light,
-    printMarginColumn: -1,
-    wrap: true,
-    minLines: 8,
-    maxLines: 22,
-  };
 
-  /** Editor's {@link EditorConfig config} passed through attribute. */
+  /** Editor's {@link EditorConfig} passed through attribute */
   @jsonAttr({defaultValue: {}})
   public editorConfig: Partial<EditorConfig>;
-  /** Wrapped {@link https://ace.c9.io/ Ace} editor instance. */
+  /** Wrapped {@link https://ace.c9.io/ Ace} editor instance */
   protected editor: AceEditor;
 
   protected connectedCallback() {
@@ -40,12 +33,12 @@ export class UIPEditor extends UIPPlugin {
   }
 
   protected disconnectedCallback(): void {
-    this.editor.destroy();
+    this.editor?.destroy();
     this.resizeObserver.unobserve(this);
     super.disconnectedCallback();
   }
 
-  /** Initialize inner {@link https://ace.c9.io/ Ace} editor. */
+  /** Initialize inner {@link https://ace.c9.io/ Ace} editor */
   protected initEditor(): Promise<void> {
     if (this.editor) {
       return Promise.resolve();
@@ -59,13 +52,14 @@ export class UIPEditor extends UIPPlugin {
     });
   }
 
-  /** Callback to call on editor's content changes. */
+  /** Callback to call on editor's content changes */
   @listen('change')
   @decorate(debounce, 1000)
   protected _onChange() {
     this.model!.setHtml(this.editor.getValue(), this);
   }
 
+  /** Change editor's markup from markup state changes */
   @bind
   protected _onRootStateChange(): void {
     if (this.model!.lastModifier === this) return;
@@ -75,8 +69,8 @@ export class UIPEditor extends UIPPlugin {
   }
 
   /**
-   * Merges passed editorConfig with current editorConfig.
-   * @param {Partial<EditorConfig>} editorConfig - config to merge.
+   * Merge passed editorConfig with current editorConfig
+   * @param {Partial<EditorConfig>} editorConfig - config to merge
    */
   public updateEditorConfig(editorConfig: Partial<EditorConfig>): void {
     this.editorConfig = {
@@ -87,13 +81,16 @@ export class UIPEditor extends UIPPlugin {
     this.editor?.setConfig(this.editorConfig);
   }
 
-  /* prevents editor content from overflowing when toggling settings section or sidebar */
+  /**
+   * Observer to prevent editor's content from overflowing
+   * when toggling settings section or sidebar
+   */
   @memoize()
   protected get resizeObserver(): ResizeObserver {
     return new ResizeObserver(debounce(() => this.editor.resize(), 500));
   }
 
-  /** Callback to catch theme changes from {@link UIPRoot}. */
+  /** Callback to catch theme changes from {@link UIPRoot} */
   @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
   protected _onRootConfigChange(e: CustomEvent) {
     const attr = e.detail.attribute;

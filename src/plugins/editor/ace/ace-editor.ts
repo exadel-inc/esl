@@ -8,19 +8,21 @@ import {SyntheticEventTarget} from '@exadel/esl/modules/esl-utils/dom/events/tar
 
 import {EditorConfig, AceTheme} from './utils';
 
-/** {@link https://ace.c9.io/ Ace} editor wrapper. */
+/** {@link https://ace.c9.io/ Ace} editor wrapper */
 class AceEditor extends SyntheticEventTarget {
-  /** Inner {@link https://ace.c9.io/ Ace} instance. */
+  /** Inner {@link https://ace.c9.io/ Ace} instance */
   private editor: Ace.Editor;
-  /** Default ace editor's options. */
+  /** Default {@link EditorConfig} options */
   private static defaultConfig: EditorConfig = {
     theme: AceTheme.Light,
     printMarginColumn: -1,
     wrap: true,
+    minLines: 8,
+    maxLines: 22,
   };
 
   /**
-   * @param {HTMLElement} element - element to place editor inside.
+   * @param {HTMLElement} element - element to place editor inside
    */
   constructor(element: HTMLElement) {
     super();
@@ -30,8 +32,8 @@ class AceEditor extends SyntheticEventTarget {
     this.editor.setOption('mode', 'ace/mode/html');
   }
 
-  /** Update editor's options.
-   * @param {Partial<EditorConfig>} config - new options to set.
+  /** Merge config with the default one
+   * @param {Partial<EditorConfig>} config - new options to set
    */
   public setConfig(config: Partial<EditorConfig>): void {
     this.editor.setOptions({
@@ -40,8 +42,8 @@ class AceEditor extends SyntheticEventTarget {
     });
   }
 
-  /** Set editor's text content.
-   * @param {string} value - text content to set.
+  /** Set editor's text content
+   * @param {string} value - text content to set
    */
   public setValue(value: string): void {
     this.editor.removeEventListener('change', this._onChange);
@@ -49,22 +51,22 @@ class AceEditor extends SyntheticEventTarget {
     this.editor.addEventListener('change', this._onChange);
   }
 
-  /** @returns Editor's text content. */
+  /** @returns editor's text content */
   public getValue(): string {
     return this.editor.getValue();
   }
 
-  /** Manual editor's resize. */
+  /** Manually resize editor */
   public resize(): void {
     this.editor.resize();
   }
 
-  /** Manually cleanup internal event listeners. */
+  /** Cleanup internal event listeners */
   public destroy(): void {
     this.editor.removeEventListener('change', this._onChange);
   }
 
-  /** Handle editor's content change. */
+  /** Handle editor's content change */
   @bind
   private _onChange() {
     this.dispatchEvent(new CustomEvent('change'));
