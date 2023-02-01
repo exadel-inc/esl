@@ -16,13 +16,13 @@ import {getAttr, setAttr} from '@exadel/esl/modules/esl-utils/dom/attr';
 export abstract class UIPSetting extends ESLBaseElement {
   static is = 'uip-setting';
 
-  /** {@link target Target's} attribute which is changed by setting */
+  /** {@link target} attribute which is changed by setting */
   @attr() public attribute: string;
   /** Target to which setting's changes are attached */
   public get target(): string {
     return getAttr(this, 'target', this.$settings.target);
   }
-  /** Set target to which setting's changes are attached */
+  /** Sets target to which setting's changes are attached */
   public set target(target: string) {
     setAttr(this, 'target', target);
   }
@@ -43,7 +43,7 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   /**
-   * Handle setting value change and
+   * Handles setting value change and
    * dispatches `uip:change` event
    */
   @listen('change')
@@ -53,8 +53,8 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   /**
-   * Change markup in {@link UIPStateModel}
-   * with setting's value.
+   * Changes markup in {@link UIPStateModel}
+   * with setting's value
    */
   public applyTo(model: UIPStateModel): void {
     const cfg: ChangeAttrConfig = {
@@ -67,8 +67,8 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   /**
-   * Update setting's value with
-   * active markup from {@link UIPStateModel}.
+   * Updates setting's value with
+   * active markup from {@link UIPStateModel}
    */
   public updateFrom(model: UIPStateModel): void {
     this.disabled = false;
@@ -85,38 +85,38 @@ export abstract class UIPSetting extends ESLBaseElement {
   }
 
   /**
-   * Check whether setting's value is valid or not.
-   * Use for custom validation.
+   * Checks whether setting's value is valid or not
+   * Use for custom validation
    */
   protected isValid(): boolean {
     return true;
   }
 
   /**
-   * Indicate setting's incorrect state
-   * (e.g. multiple attribute values or no target provided).
+   * Indicates setting's incorrect state
+   * (e.g. multiple attribute values or no target provided)
    */
   protected setInconsistency(msg: string = WARNING_MSG.inconsistent): void {
     return;
   }
 
   /**
-   * Disable setting.
-   * By default is used when there are no setting's targets.
+   * Disable setting
+   * By default is used when there are no setting's targets
    */
   set disabled(force: boolean) {
     return;
   }
 
   /**
-   * Get setting's value
-   * to update markup in {@link UIPStateModel}.
+   * Gets setting's value
+   * to update markup in {@link UIPStateModel}
    */
   protected abstract getDisplayedValue(): string | boolean;
 
   /**
-   * Set setting's value
-   * after processing markup in {@link UIPStateModel}.
+   * Sets setting's value
+   * after processing markup in {@link UIPStateModel}
    */
   protected abstract setValue(value: string | null): void;
 }

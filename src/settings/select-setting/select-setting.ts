@@ -50,7 +50,7 @@ export class UIPSelectSetting extends UIPSetting {
     return $label;
   }
 
-  /** Collect all options' values */
+  /** Collects all options' values */
   @memoize()
   protected get settingOptions(): string[] {
     return this.$field.options.map(opt => opt.value);
@@ -112,7 +112,7 @@ export class UIPSelectSetting extends UIPSetting {
     this.mode === 'replace' ? this.replaceFrom(attrValues) : this.appendFrom(attrValues);
   }
 
-  /** Update setting's value for replace {@link mode} */
+  /** Updates setting's value for replace {@link mode} */
   protected replaceFrom(attrValues: (string | null)[]): void {
     if (!TokenListUtils.hasSameElements(attrValues)) return this.setInconsistency(WARNING_MSG.multiple);
 
@@ -124,7 +124,7 @@ export class UIPSelectSetting extends UIPSetting {
     return this.multiple ? this.setValue('') : this.setInconsistency(WARNING_MSG.noMatch);
   }
 
-  /** Update setting's value for {@link mode} = "append" */
+  /** Updates setting's value for {@link mode} = "append" */
   protected appendFrom(attrValues: (string | null)[]): void {
     // array of each attribute's value intersection with select options
     const valuesOptions = attrValues.map(val => TokenListUtils.intersection(this.settingOptions, TokenListUtils.split(val)));
@@ -162,7 +162,7 @@ export class UIPSelectSetting extends UIPSetting {
     this.$field.update();
   }
 
-  /** Handle setting `change` event to clear inconsistent value */
+  /** Handles setting `change` event to clear inconsistent value */
   @listen('change')
   protected clearInconsistency(): void {
     this.select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
@@ -170,7 +170,7 @@ export class UIPSelectSetting extends UIPSetting {
 
 
   /**
-   * Handle {@link UIPRoot root} `uip:configchange` event to
+   * Handles {@link UIPRoot} `uip:configchange` event to
    * manage dropdown theme
    */
   @listen({event: 'uip:configchange', target: `::parent(.${UIPRoot.is})`})
@@ -185,7 +185,7 @@ export class UIPSelectSetting extends UIPSetting {
     this.$field.toggleAttribute('disabled', force);
   }
 
-  /** Reset {@link $field select} value. */
+  /** Resets {@link $field} value. */
   protected reset(): void {
     this.disabled = false;
     this.$field.options.forEach(opt => opt.selected = false);

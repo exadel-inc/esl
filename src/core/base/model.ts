@@ -30,7 +30,7 @@ export type SnippetTemplate = HTMLTemplateElement | HTMLScriptElement;
 
 /**
  * State holder class to store current UIP markup state
- * Provides methods to modify the state.
+ * Provides methods to modify the state
  * @extends Observable
  */
 export class UIPStateModel extends Observable {
@@ -47,9 +47,9 @@ export class UIPStateModel extends Observable {
   private _activeSnippet: SnippetTemplate;
 
   /**
-   * Set current markup state to the passed one
+   * Sets current markup state to the passed one
    * @param markup - new state
-   * @param modifier - plugin, that initiate the change
+   * @param modifier - plugin, that initiates the change
    */
   public setHtml(markup: string, modifier: UIPPlugin | UIPRoot) {
     const root = new DOMParser().parseFromString(markup, 'text/html').body;
@@ -76,7 +76,7 @@ export class UIPStateModel extends Observable {
     return this._snippets;
   }
 
-  /** Set snippets template-holders */
+  /** Sets snippets template-holders */
   public set snippets(snippets: SnippetTemplate[]) {
     this._snippets = snippets;
   }
@@ -86,7 +86,7 @@ export class UIPStateModel extends Observable {
     return this._activeSnippet;
   }
 
-  /** Change current active snippet */
+  /** Changes current active snippet */
   public applySnippet(snippet: SnippetTemplate, modifier: UIPPlugin | UIPRoot) {
     if (!snippet) return;
     this._activeSnippet = snippet;
@@ -94,7 +94,7 @@ export class UIPStateModel extends Observable {
   }
 
   /**
-   * Get attribute values for the matched set of elements.
+   * Gets attribute values for the matched set of elements
    * @param target - CSS sector to define target elements
    * @param attr - attribute name
    * @returns array of matched elements attribute value (uses the element placement order)
@@ -103,7 +103,7 @@ export class UIPStateModel extends Observable {
     return Array.from(this._html.querySelectorAll(target)).map(el => el.getAttribute(attr));
   }
 
-  /** Apply change config to current markup. */
+  /** Applies change config to current markup */
   public changeAttribute(cfg: ChangeAttrConfig) {
     const {target, attribute, modifier} = cfg;
     const elements = Array.from(this._html.querySelectorAll(target));
@@ -114,7 +114,7 @@ export class UIPStateModel extends Observable {
     this.dispatchChange();
   }
 
-  /** Planes microtask to dispatch model change event */
+  /** Plans microtask to dispatch model change event */
   protected dispatchChange() {
     if (!this._isFired) {
       this._isFired = true;
@@ -126,7 +126,7 @@ export class UIPStateModel extends Observable {
   }
 
   /**
-   * Change element attribute according to `transform` argument
+   * Changes element attribute according to `transform` argument
    * @param elements - elements to apply changes
    * @param attr - attribute name
    * @param transform - value or function to change attribute value

@@ -8,8 +8,8 @@ import {SnippetTemplate, UIPStateModel} from './model';
 /**
  * UI Playground root custom element definition
  * Container element for {@link UIPPlugin} components
- * Define the bounds of UI Playground instance
- * Share the {@link UIPStateModel} instance between {@link UIPPlugin}-s
+ * Defines the bounds of UI Playground instance
+ * Shares the {@link UIPStateModel} instance between {@link UIPPlugin}-s
  */
 export class UIPRoot extends ESLBaseElement {
   public static is = 'uip-root';
@@ -33,7 +33,7 @@ export class UIPRoot extends ESLBaseElement {
     return new UIPStateModel();
   }
 
-  /** Collect snippets template-holders */
+  /** Collects snippets template-holders */
   public get $snippets(): SnippetTemplate[] {
     return Array.from(this.querySelectorAll(UIPRoot.SNIPPET_SEL));
   }
@@ -43,12 +43,12 @@ export class UIPRoot extends ESLBaseElement {
     this.initSnippets();
   }
 
-  /** Alias for {@link this.model.addListener}. */
+  /** Alias for {@link this.model.addListener} */
   public addStateListener(listener: AnyToVoidFnSignature) {
     this.model.addListener(listener);
   }
 
-  /** Alias for {@link this.model.removeListener}. */
+  /** Alias for {@link this.model.removeListener} */
   public removeStateListener(listener: AnyToVoidFnSignature) {
     this.model.removeListener(listener);
   }

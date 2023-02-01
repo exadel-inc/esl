@@ -9,7 +9,7 @@ import {UIPSetting} from './setting';
 
 /**
  * Settings {@link UIPPlugin} custom element definition
- * Container for {@link UIPSetting settings}
+ * Container for {@link UIPSetting}
  * @extends UIPPlugin
  */
 export class UIPSettings extends UIPPlugin {
@@ -35,7 +35,7 @@ export class UIPSettings extends UIPPlugin {
     this.updateInner();
   }
 
-  /** Initialize settings layout */
+  /** Initializes settings layout */
   protected updateInner() {
     const $settingsList = document.createElement('div');
     $settingsList.className = 'settings-list esl-scrollable-content';
@@ -52,7 +52,7 @@ export class UIPSettings extends UIPPlugin {
   }
 
   /**
-   * Handle `uip:change` event to
+   * Handles `uip:change` event to
    * apply changes to the state
    */
   @listen('uip:change')
@@ -62,19 +62,19 @@ export class UIPSettings extends UIPPlugin {
     (e.target as UIPSetting).applyTo(this.model);
   }
 
-  /** Collect all {@link UIPSetting} items */
+  /** Collects all {@link UIPSetting} items */
   protected get settings(): UIPSetting[] {
     return Array.from(this.getElementsByClassName(UIPSetting.is)) as UIPSetting[];
   }
 
-  /** Update {@link UIPSetting settings} values */
+  /** Updates {@link UIPSetting} values */
   @bind
   protected _onRootStateChange(): void {
     this.settings.forEach(setting => setting.updateFrom(this.model!));
   }
 
   /**
-   * Handle root `uip:configchange` event to
+   * Handles root `uip:configchange` event to
    * manage settings section presence
    */
   @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})

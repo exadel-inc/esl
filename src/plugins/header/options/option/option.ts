@@ -23,10 +23,11 @@ export class UIPOption extends ESLBaseElement {
   @attr() public attribute: string;
   public _active: boolean;
 
+  /** Closest playground {@link UIPRoot} element */
   protected $root: UIPRoot;
   protected config: OptionConfig;
 
-  /** Build option element from {@link OptionConfig config} */
+  /** Builds option element from {@link OptionConfig} */
   static createEl(optionConfig: OptionConfig): UIPOption {
     const option = document.createElement('uip-option') as UIPOption;
     option.setAttribute('attribute', optionConfig.optionValue);
@@ -42,7 +43,7 @@ export class UIPOption extends ESLBaseElement {
     this.active = this.$root.hasAttribute(this.config.optionValue);
   }
 
-  /** Check whether option is in its active state */
+  /** Checks whether option is in its active state */
   public get active(): boolean {
     return this.$$cls('active');
   }
@@ -52,14 +53,14 @@ export class UIPOption extends ESLBaseElement {
     this.$$cls('active', val);
   }
 
-  /** Handle option `click` event */
+  /** Handles option `click` event */
   @listen('click')
   protected _onClick() {
     this.toggleState();
     this.$$fire('uip:option:changed');
   }
 
-  /** Handle option `keydown` event */
+  /** Handles option `keydown` event */
   @listen('keydown')
   protected _onKeydown(e: KeyboardEvent) {
     if (ENTER !== e.key && SPACE !== e.key) return;
@@ -67,7 +68,7 @@ export class UIPOption extends ESLBaseElement {
     this.$$fire('uip:option:changed');
   }
 
-  /** Toggle option active state */
+  /** Toggles option active state */
   public toggleState(force?: boolean) {
     this.active = force === undefined ? !this.active : force;
   }

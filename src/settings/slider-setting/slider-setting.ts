@@ -59,7 +59,7 @@ export class UIPSliderSetting extends UIPSetting {
     return $fieldValue;
   }
 
-  /** Handle `input` event to display its current value */
+  /** Handles `input` event to display its current value */
   @listen('input')
   protected updateSliderValue() {
     this.$fieldValue.textContent = `Value: ${this.$field.value}`;

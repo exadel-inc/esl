@@ -67,7 +67,7 @@ export class UIPOptions extends UIPPlugin {
   }
 
   /**
-   * Render options from passed configs array or
+   * Renders options from passed configs array or
    * by default from {@link UIPOptions.UIPOptionsConfig}
    */
   protected render(optionsCfg = UIPOptions.UIPOptionsConfig) {
@@ -77,7 +77,7 @@ export class UIPOptions extends UIPPlugin {
   }
 
   /**
-   * Handle {@link UIPRoot root} `uip:configchange` event to
+   * Handles {@link UIPRoot root} `uip:configchange` event to
    * manage {@link UIPOption options} active state
    */
   @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
@@ -87,7 +87,7 @@ export class UIPOptions extends UIPPlugin {
   }
 
   /**
-   * Handle {@link UIPOption option} `click` event
+   * Handles {@link UIPOption option} `click` event
    * to manage {@link UIPRoot root} options attributes
    */
   @listen('click')

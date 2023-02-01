@@ -10,7 +10,7 @@ export class UIPPreview extends UIPPlugin {
   static is = 'uip-preview';
   static observedAttributes: string[] = ['resizable'];
 
-  /** Change preview markup from state changes */
+  /** Changes preview markup from state changes */
   @bind
   protected _onRootStateChange(): void {
     if (this.$inner.parentElement === this) this.removeChild(this.$inner);
@@ -32,7 +32,7 @@ export class UIPPreview extends UIPPlugin {
     }
   }
 
-  /** Reset element both inline height and width properties */
+  /** Resets element both inline height and width properties */
   protected clearInlineSize() {
     this.$inner.style.removeProperty('height');
     this.$inner.style.removeProperty('width');

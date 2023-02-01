@@ -7,16 +7,16 @@ import {SnippetTemplate} from '../../../core/base/model';
 
 /**
  * Snippets {@link UIPPlugin} custom element definition
- * Container class for snippets (component's templates).
+ * Container class for snippets (component's templates)
  * @extends UIPPlugin
  */
 export class UIPSnippets extends UIPPlugin {
   public static is = 'uip-snippets';
-  /** CSS Class for snippets list item. */
+  /** CSS Class for snippets list item */
   public static LIST_ITEM = 'snippets-list-item';
-  /** CSS Class added to active snippet. */
+  /** CSS Class added to active snippet */
   public static ACTIVE_ITEM = 'active';
-  /** Index of current snippet list item*/
+  /** Index of current snippet list item */
   public currentIndex = 0;
 
   /** Snippets container element */
@@ -87,7 +87,7 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   /**
-   * Handle `mouseup` event to
+   * Handles `mouseup` event to
    * manage dropdown open state
    */
   @listen({event: 'mouseup', target: document.body})
@@ -102,12 +102,12 @@ export class UIPSnippets extends UIPPlugin {
   public get $active(): HTMLElement | null {
     return this.$items.find(item => item.classList.contains(UIPSnippets.ACTIVE_ITEM)) || null;
   }
-  /** Set active snippet element */
+  /** Sets active snippet element */
   public set $active(snippet: HTMLElement | null) {
     this.$items.forEach((item) => item.classList.toggle(UIPSnippets.ACTIVE_ITEM, snippet === item));
   }
 
-  /** Initialize snippets layout */
+  /** Initializes snippets layout */
   protected render(): void {
     const snippets = this.model!.snippets;
     if (!snippets.length) return;
@@ -117,7 +117,7 @@ export class UIPSnippets extends UIPPlugin {
       : this.appendChild(this.$title);
   }
 
-  /** Render dropdown element for a case with multiple snippets */
+  /** Renders dropdown element for a case with multiple snippets */
   protected renderDropdown(snippets: SnippetTemplate[], title: HTMLElement) {
 
     snippets
@@ -135,7 +135,7 @@ export class UIPSnippets extends UIPPlugin {
     this.appendChild(this.$dropdown);
   }
 
-  /** Build snippets list item */
+  /** Builds snippets list item */
   protected buildListItem(snippet: SnippetTemplate) {
     const label = snippet.getAttribute('label');
     if (!label) return;
@@ -146,14 +146,14 @@ export class UIPSnippets extends UIPPlugin {
     return $li;
   }
 
-  /** Update dropdown title with the name of active snippet */
+  /** Updates dropdown title with the name of active snippet */
   protected updateTitleText(): void {
     if (this.model) {
       this.$title.textContent = `${this.model.activeSnippet.getAttribute('label')}`;
     }
   }
 
-  /** Handle `click` event to manage active snippet */
+  /** Handles `click` event to manage active snippet */
   @listen({event: 'click', selector: '.snippets-list-item'})
   protected _onItemClick(event: Event) {
     const target = event.target as HTMLElement;
@@ -171,7 +171,7 @@ export class UIPSnippets extends UIPPlugin {
   }
 
   /**
-   * Handle dropdown control `click` event to
+   * Handles dropdown control `click` event to
    * manage dropdown open state
    */
   @listen({event: 'click', selector: '.snippets-dropdown-control'})
@@ -179,7 +179,7 @@ export class UIPSnippets extends UIPPlugin {
     this.toggleDropdown();
   }
 
-  /** Toggle dropdown open state */
+  /** Toggles dropdown open state */
   public toggleDropdown(): void {
     this.classList.toggle('dropdown-open');
   }
