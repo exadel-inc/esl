@@ -22,7 +22,7 @@ And most importantly, you do not need the original callback handler to do this.
 
 The ESL event listener module is based on the following major terms and classes:
 
-### The `host`
+### <a name="the-host">The `host`</a>
 
 Everything that happens with ESL event listeners should be associated with a `host` object.
 The `host` is an object that "owns" (registers / deletes) the subscription.
@@ -35,7 +35,7 @@ Another way is to specify the default DOM target of the host object by providing
 
 The `host` object is also used as a context to call the handler function of the subscription.
 
-### The `handler`
+### <a name="the-handler">The `handler`</a>
 
 The `handler` is a function that is used to process the subscription event.
 ESL declares a generic type to describe such functions - `ESLListenerHandler`;
@@ -44,7 +44,7 @@ ESL declares a generic type to describe such functions - `ESLListenerHandler`;
 export type ESLListenerHandler<EType extends Event = Event> = (event: EType) => void;
 ```
 
-### The `ESLEventListener` class and *subscription*
+### <a name="the-esleventlistener-class-and-subscription">The `ESLEventListener` class and *subscription*</a>
 
 The subscriptions created by the ESL event listener module are instances of `ESLEventListener` class.
 All active subscriptions are stored in a hidden property of the `host` object.
@@ -64,7 +64,7 @@ All of the `ESLEventListener` instance fields are read-only; the subscription ca
 The `ESLEventListener`, as a class, describes the subscription behavior and
 contains static methods to create and manage subscriptions.
 
-### Descriptors (`ESLEventDesriptor`, `ESLEventDesriptorFn`)
+### <a name="descriptors-esleventdesriptor-esleventdesriptorfn">Descriptors (`ESLEventDesriptor`, `ESLEventDesriptorFn`)</a>
 
 The event listener *Descriptor* is an object to describe future subscriptions.
 The ESL event listeners module has a few special details regarding such objects.
@@ -172,6 +172,7 @@ The units mentioned earlier are mostly implementation details of the module.
 
 Here is the module Public API:
 
+<a name="-esleventutilssubscribe"></a>
 ### ⚡ `ESLEventUtils.subscribe`
 Creates and subscribes an `ESLEventListener`.
 
@@ -213,6 +214,7 @@ subscribes `handlerFn` function with the passed event type;
 subscribes `handlerFn` function with the passed additional descriptor data.
 
 
+<a name="-esleventutilsunsubscribe"></a>
 ### ⚡ `ESLEventUtils.unsubscribe`
 
 Allows unsubscribing existing subscriptions.
@@ -233,6 +235,7 @@ Examples:
 - There can be any number of criteria.
 
 
+<a name="-esleventutilsiseventdescriptor"></a>
 ### ⚡ `ESLEventUtils.isEventDescriptor`
 Predicate to check if the passed argument is a type of `ESLListenerDescriptorFn = ESLEventHandler & Partial<ESLEventDescriptor>`.
 
@@ -240,6 +243,7 @@ Predicate to check if the passed argument is a type of `ESLListenerDescriptorFn 
 ESLEventUtils.isEventDescriptor(obj: any): obj is ESLListenerDescriptorFn;
 ```
 
+<a name="-esleventutilsgetautodescriptors"></a>
 ### ⚡ `ESLEventUtils.getAutoDescriptors`
 Gathers auto-subscribable (collectable) descriptors from the passed object.
 
@@ -250,10 +254,12 @@ ESLEventUtils.descriptors(host?: any): ESLListenerDescriptorFn[]
 **Parameters**:
 - `host` - object to get auto-collectable descriptors from;
 
+<a name="-esleventutilsdescriptors"></a>
 ### ⚡ `ESLEventUtils.descriptors`
 Deprecated alias for `ESLEventUtils.getAutoDescriptors`
 
 
+<a name="-esleventutilsinitdescriptor"></a>
 ### ⚡ `ESLEventUtils.initDescriptor`
 
 Decorates the passed key of the host object as `ESLEventDescriptorFn`
@@ -320,6 +326,7 @@ class MyEl extends ESLBaseElement {
  ```
 
 
+<a name="-esleventutilslisteners"></a>
 ### ⚡ `ESLEventUtils.listeners`
 
 Gathers listeners currently subscribed to the passed `host` object.
@@ -333,6 +340,7 @@ ESLEventUtils.listeners(host: object, ...criteria: ESLListenerCriteria[]): ESLEv
 - `criteria` - optional set of criteria to filter the listeners list.
 
 
+<a name="-esleventutilsdispatch"></a>
 ### ⚡ `ESLEventUtils.dispatch`
 
 Dispatches custom DOM events.
@@ -396,7 +404,7 @@ ESLEventUtils.initDescriptor(TestCases.prototype, 'onEventManualDesc', {event: '
 
 ---
 
-## Embedded behavior of `ESLBaseElement` / `ESLMixinElement`
+## <a name="embedded-behavior-of-eslbaseelement-eslmixinelement">Embedded behavior of `ESLBaseElement` / `ESLMixinElement`</a>
 
 ### Shortcuts
 
