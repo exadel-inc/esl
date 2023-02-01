@@ -17,35 +17,11 @@ const meta = {
 };
 
 /**
- * @property {string} alias - current name
- * @property {string} deprecation - deprecated name
+ * @param {object} option
+ * @param {string} option.alias - current name
+ * @param {string} option.deprecation - deprecated name
  */
-
-/**
- * @param {object} context - element for which to get context
- * @param {object} node - element for which to get node
- */
-
 module.exports.buildRule = function buildRule({alias, deprecation}) {
-  function getIdentifierRanges(node, context) {
-    let root = node;
-    let identifierRanges = [];
-    while (root.parent !== null) {
-      root = root.parent;
-    }
-    traverse(context, root, path => {
-      if (path.node.type === 'Identifier' && path.node.name === deprecation) {
-        const range = path.node.range;
-        if (path.node.parent && path.node.parent.type === 'VariableDeclarator') {
-          return false;
-        } else if (!identifierRanges.find(r => r[0] === range[0] || r[1] === range[1])) {
-          identifierRanges.push(range);
-          return traverse.SKIP;
-        }
-      }
-    });
-    return identifierRanges;
-  }
   const create = (context) => ({
     ImportSpecifier(node) {
       const importedValue = node.imported;
@@ -53,9 +29,7 @@ module.exports.buildRule = function buildRule({alias, deprecation}) {
         context.report({
           node,
           message: `[ESL Lint]: Deprecated alias ${deprecation} for ${alias}`,
-          fix(fixer) {
-            return getIdentifierRanges(node, context).map(range => fixer.replaceTextRange(range, alias));
-          }
+          fix: buildFixer(node, context, alias)
         });
       }
       return null;
@@ -63,3 +37,44 @@ module.exports.buildRule = function buildRule({alias, deprecation}) {
   });
   return {meta, create};
 };
+
+/**
+ * @param {object} context - AST tree object
+ * @param {AST.Token.Node} node - import node to process
+ * @param {string} alias - current name
+ */
+function buildFixer(node, context, alias) {
+  return (fixer) => getIdentifierRanges(node, context).map(range => fixer.replaceTextRange(range, alias));
+}
+
+/**
+ * @param {object} context - AST tree object
+ * @param {object} importNode - import node to process
+ * @returns {[number, number][]}
+ */
+function getIdentifierRanges(importNode, context) {
+  const root = getRoot(importNode);
+  const ranges = [];
+  traverse(context, root, path => {
+    if (path.node.type !== 'Identifier' || path.node.name !== importNode.name) return traverse.SKIP;
+    if (path.node.parent && path.node.parent.type === 'VariableDeclarator' || path.node.parent.type === 'MemberExpression') return traverse.SKIP;
+    ranges.push(path.node.range);
+  });
+  return deduplicateRanges(ranges);
+}
+
+function getRoot(node) {
+  while (node.parent !== null) {
+    node = node.parent;
+  }
+  return node;
+}
+
+function deduplicateRanges(ranges) {
+  return ranges.reduce((uniqRanges, range) => {
+    if (!uniqRanges.some((item) => item[0] === range[0] && item[1] === range[1])) {
+      uniqRanges.push(range);
+    }
+    return uniqRanges;
+  }, []);
+}
