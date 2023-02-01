@@ -176,7 +176,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     return listeners.filter((listener) => listener.subscribe());
   }
 
-  /** Creates or resolve existing event listeners by handler and descriptors */
+  /** Creates or resolves existing event listeners by handler and descriptors */
   public static createOrResolve(host: object, handler: ESLListenerHandler, desc: ESLListenerDescriptor): ESLEventListener[] {
     if (!isObject(host)) return [];
     const eventString = resolveProperty(desc.event, host);
