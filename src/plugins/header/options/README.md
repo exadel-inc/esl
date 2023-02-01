@@ -1,7 +1,7 @@
 # UIP Options
 
 **UIPOptions** - custom element which provides visual controls for changing UIP visual appearance.
-Extends [UIPPlugin](src/core/base/README.md#uip-plugin).
+Extends [UIPPlugin](src/core/README.md#uip-plugin).
 
 ## Description:
 
@@ -9,7 +9,7 @@ Extends [UIPPlugin](src/core/base/README.md#uip-plugin).
 
 - **Theme** option toggles *light/dark* theme for UIP components. It uses root's *dark-theme* attribute and
 can be hidden with *hide-theme* options' attribute.
-- **Direction** option is used to change [UIPPreview](src/core/preview/README.md) content direction (*rtl/ltr*). It uses root's *rtl-direction* attribute and can be hidden with *hide-direction* options' attribute.
+- **Direction** option is used to change [UIPPreview](src/core/README.md) content direction (*rtl/ltr*). It uses root's *rtl-direction* attribute and can be hidden with *hide-direction* options' attribute.
 - **Settings** option collapses/expands [UIPSettings](src/plugins/settings/README.md) plugin. It uses root's *settings-collapsed*
 attribute and can be hidden with *hide-settings* options' attribute.
 - **Editor** option collapses/expands [UIPEditor](src/plugins/editor/README.md) plugin. It uses root's *editor-collapsed*

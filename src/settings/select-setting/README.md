@@ -1,6 +1,6 @@
 # UIP Select Setting
 
-**UIPSelectSetting** - custom setting for selecting attribute's value. Extends [UIPSetting](src/settings/setting/README.md).
+**UIPSelectSetting** - custom setting for selecting attribute's value. Extends [UIPSetting](src/plugins/settings/README.md).
 
 ## Description:
 
