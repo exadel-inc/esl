@@ -39,10 +39,14 @@ export class ESLMixinElement implements AttributeTarget {
     const constructor = this.constructor as typeof ESLMixinElement;
     if (constructor.observedAttributes.length) {
       this._attr$$ = new MutationObserver(this._onAttrMutation.bind(this));
-      this._attr$$.observe(this.$host, {attributes: true, attributeFilter: constructor.observedAttributes});
+      this._attr$$.observe(this.$host, {
+        attributes: true,
+        attributeFilter: constructor.observedAttributes,
+        attributeOldValue: true
+      });
     }
 
-    ESLEventUtils.descriptors(this).forEach((desc) => ESLEventUtils.subscribe(this, desc));
+    ESLEventUtils.subscribe(this);
   }
 
   /** Callback to execute on mixin instance destroy */
