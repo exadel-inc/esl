@@ -1,6 +1,5 @@
 const fs = require('fs');
 const color = require('kleur');
-const {isDev} = require('./11ty/env.config');
 
 module.exports = (config) => {
   // Init all 11ty config modules
@@ -26,14 +25,13 @@ module.exports = (config) => {
     'static/tools': '.'
   });
 
-  // Update BS observed directories
-  config.setBrowserSyncConfig({
-    files: [
+  config.setServerOptions({
+    domDiff: true,
+    watch: [
       'dist/bundles/*.js',
       'dist/bundles/*.css',
       'dist/bundles/*.map'
     ],
-    open: isDev
   });
 
   return {
