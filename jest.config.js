@@ -5,7 +5,7 @@ module.exports = {
   },
   testEnvironment: 'jsdom',
   roots: ['src/modules', 'src/polyfills', 'eslint'],
-  testRegex: '/test/(.+)\\.test\\.(ts|js)$',
+  testRegex: '/test/(.+)\\.test\\.ts$',
   moduleFileExtensions: ['ts', 'js', 'json', 'html'],
   coverageDirectory: '.report',
   coverageReporters: ['lcov', 'html'],
@@ -24,7 +24,7 @@ module.exports = {
     '!src/modules/beta/**',
     // libs exclude
     '!**/node_modules/**',
-    //
+    // migration lint rules
     'eslint/**'
   ]
 };
