@@ -125,7 +125,7 @@ describe('dom/events: ESLEventUtils: ESLListenerDescriptor Utils', () => {
         [{event: ''}],
         [{onEvent() {}}],
         [new (class Test {onEvent() {}})()]
-      ])('host = %p', (host) => expect(ESLEventUtils.getAutoDescriptors(host)).toEqual([]));
+      ])('host = %p', (host: any) => expect(ESLEventUtils.getAutoDescriptors(host)).toEqual([]));
     });
 
     test('ESLEventUtils.getAutoDescriptors: catch prototype-level declared descriptor', () => {
