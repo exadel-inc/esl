@@ -3,9 +3,9 @@ title: Components
 ---
 
 {% if title %}
-  <h2 class="collection-title">
+  <h1 class="collection-title">
     {{ title | safe }}
-  </h2>
+  </h1>
 {% endif %}
 
 <ul class="collection-list">
@@ -14,7 +14,7 @@ title: Components
       <a href="{{ plugin.url | url }}">{{ plugin.data.title }}</a>
     </li>
   {%- endfor %}
-  <h3 class="title">Plugins</h3>
+  <h2 class="title">Plugins</h2>
   {% for plugin in collections.plugins %}
     <li class="item">
       <a href="{{ plugin.url | url }}">{{ plugin.data.title }}</a>
