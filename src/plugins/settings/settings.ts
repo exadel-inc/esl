@@ -1,27 +1,30 @@
 import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
 import {attr} from '@exadel/esl/modules/esl-base-element/core';
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
+import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
+import type {ESLScrollbar} from '@exadel/esl/modules/esl-scrollbar/core/esl-scrollbar';
 
 import {UIPPlugin} from '../../core/base/plugin';
 import {UIPSetting} from './setting';
-import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 
 /**
- * Custom element, container for [settings]{@link UIPSetting}.
+ * Settings {@link UIPPlugin} custom element definition
+ * Container for {@link UIPSetting}
  * @extends UIPPlugin
  */
 export class UIPSettings extends UIPPlugin {
   public static is = 'uip-settings';
 
   /**
-   * Attribute to set all inner [settings']{@link UIPSetting}
-   * [targets]{@link UIPSetting#target}.
+   * Attribute to set all inner {@link UIPSetting settings'}
+   * {@link UIPSetting#target targets}
    */
   @attr() public target: string;
   @attr({defaultValue: 'Settings'}) public label: string;
 
+  /** {@link ESLScrollbar} scroll element */
   @memoize()
-  public get $scroll() {
+  public get $scroll(): ESLScrollbar {
     const $scroll = document.createElement('esl-scrollbar');
     $scroll.setAttribute('target', '::prev(.settings-list)');
     return $scroll;
@@ -32,7 +35,7 @@ export class UIPSettings extends UIPPlugin {
     this.updateInner();
   }
 
-  /** Initialize settings layout. */
+  /** Initializes settings layout */
   protected updateInner() {
     const $settingsList = document.createElement('div');
     $settingsList.className = 'settings-list esl-scrollable-content';
@@ -48,6 +51,10 @@ export class UIPSettings extends UIPPlugin {
     super.disconnectedCallback();
   }
 
+  /**
+   * Handles `uip:change` event to
+   * apply changes to the state
+   */
   @listen('uip:change')
   protected _onSettingChanged(e: any) {
     e.stopPropagation();
@@ -55,15 +62,21 @@ export class UIPSettings extends UIPPlugin {
     (e.target as UIPSetting).applyTo(this.model);
   }
 
+  /** Collects all {@link UIPSetting} items */
   protected get settings(): UIPSetting[] {
     return Array.from(this.getElementsByClassName(UIPSetting.is)) as UIPSetting[];
   }
 
+  /** Updates {@link UIPSetting} values */
   @bind
   protected _onRootStateChange(): void {
     this.settings.forEach(setting => setting.updateFrom(this.model!));
   }
 
+  /**
+   * Handles root `uip:configchange` event to
+   * manage settings section presence
+   */
   @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
   protected _onRootConfigChange(e: CustomEvent) {
     if (e.detail.attribute !== 'settings-collapsed') return false;
