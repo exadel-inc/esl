@@ -56,9 +56,12 @@ function getIdentifierRanges(importNode, context) {
   const root = getRoot(importNode);
   const ranges = [];
   traverse(context, root, path => {
-    if (path.node.type !== 'Identifier' || path.node.name !== importNode.name) return traverse.SKIP;
-    if (path.node.parent && path.node.parent.type === 'VariableDeclarator' || path.node.parent.type === 'MemberExpression') return traverse.SKIP;
+    if (path.node.type !== 'Identifier' || path.node.name && path.node.name !== importNode.imported.name) return;
+    if (path.node.parent && path.node.parent.type === 'VariableDeclarator' || path.node.parent.type === 'MemberExpression') {
+      return traverse.SKIP;
+    }
     ranges.push(path.node.range);
+    return traverse.SKIP;
   });
   return deduplicateRanges(ranges);
 }
