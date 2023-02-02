@@ -77,8 +77,8 @@ export class UIPOptions extends UIPPlugin {
   }
 
   /**
-   * Handles {@link UIPRoot root} `uip:configchange` event to
-   * manage {@link UIPOption options} active state
+   * Handles {@link UIPRoot} `uip:configchange` event to
+   * manage {@link UIPOption} active state
    */
   @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
   protected _onRootConfigChange(e: CustomEvent) {
@@ -87,8 +87,8 @@ export class UIPOptions extends UIPPlugin {
   }
 
   /**
-   * Handles {@link UIPOption option} `click` event
-   * to manage {@link UIPRoot root} options attributes
+   * Handles {@link UIPOption} `click` event
+   * to manage {@link UIPRoot} options attributes
    */
   @listen('click')
   protected _onOptionClick(e: Event) {
