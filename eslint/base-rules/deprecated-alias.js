@@ -44,7 +44,10 @@ module.exports.buildRule = function buildRule({alias, deprecation}) {
  * @param {string} alias - current name
  */
 function buildFixer(node, context, alias) {
-  return (fixer) => getIdentifierRanges(node, context).map(range => fixer.replaceTextRange(range, alias));
+  return (fixer) => {
+    const ranges = getIdentifierRanges(node, context);
+    return ranges.map(range => fixer.replaceTextRange(range, alias));
+  }
 }
 
 /**
@@ -54,30 +57,76 @@ function buildFixer(node, context, alias) {
  */
 function getIdentifierRanges(importNode, context) {
   const root = getRoot(importNode);
-  const ranges = [];
-  traverse(context, root, path => {
-    if (path.node.type !== 'Identifier' || path.node.name && path.node.name !== importNode.imported.name) return;
-    if (path.node.parent && path.node.parent.type === 'VariableDeclarator' || path.node.parent.type === 'MemberExpression') {
-      return traverse.SKIP;
+  const {name} = importNode.imported;
+  const identifiers = collectIdentifiers(context, root, name);
+
+  const overrides = [];
+  const occurrences = new Set();
+
+  for (const idNode of identifiers) {
+    const {parent} = idNode;
+    if (parent.type === 'MemberExpression') {
+      if (parent.object.name === name) occurrences.add(parent.object);
+    } else if (parent.type === 'VariableDeclarator') {
+      overrides.push(parent);
+    } else {
+      occurrences.add(idNode);
     }
-    ranges.push(path.node.range);
-    return traverse.SKIP;
-  });
-  return deduplicateRanges(ranges);
+  }
+
+  for (const declaration of overrides) {
+    const scope = getScopeNode(declaration);
+    if (!scope) continue;
+    const nestedNodes = collectIdentifiers(context, scope, name);
+    for (const node of nestedNodes) {
+      occurrences.delete(node);
+    }
+    const initExpNodes = collectIdentifiers(context, declaration.init, name);
+    for (const node of initExpNodes) {
+      occurrences.add(node);
+    }
+  }
+
+  return getRanges(occurrences);
 }
 
+function collectIdentifiers(context, root, alias) {
+  const identifiers = [];
+  traverse(context, root, (path) => {
+    if (path.node.type !== 'Identifier' || path.node.name && path.node.name !== alias) return;
+    identifiers.push(path.node);
+  });
+  return identifiers;
+}
+
+/** TODO: refactor */
+function getScopeNode(declaration) {
+  let node = declaration.parent;
+  if (!node) return null;
+  const isBlockScoped = node.kind === 'const' || node.kind === 'let';
+  while (node.parent !== null) {
+    node = node.parent;
+    if (node.type !== 'BlockStatement') continue;
+    if (isBlockScoped) return node;
+    if (node.parent && node.parent.type === 'FunctionExpression') return node;
+  }
+  return node;
+}
+
+function getRanges(nodes) {
+  const uniqNodes = [];
+  for (const node of nodes) {
+    if (!uniqNodes.some((item) => String(item.range) === String(node.range))) {
+      uniqNodes.push(node);
+    }
+  }
+  return uniqNodes.map((node) => node.range);
+}
+
+/** Find the root node in the tree */
 function getRoot(node) {
   while (node.parent !== null) {
     node = node.parent;
   }
   return node;
-}
-
-function deduplicateRanges(ranges) {
-  return ranges.reduce((uniqRanges, range) => {
-    if (!uniqRanges.some((item) => item[0] === range[0] && item[1] === range[1])) {
-      uniqRanges.push(range);
-    }
-    return uniqRanges;
-  }, []);
 }

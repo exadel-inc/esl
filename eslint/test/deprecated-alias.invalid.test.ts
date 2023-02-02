@@ -121,6 +121,42 @@ const INVALID_CASES = [
   {
     code: `
       import {DeprecatedClassName} from '../rules/4.0.0/test';
+      if (params) {
+        const DeprecatedClassName = Array;
+        const instance = new DeprecatedClassName;
+      }
+    `,
+    errors: [
+      `[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName`
+    ],
+    output: `
+      import {AllowedClassName} from '../rules/4.0.0/test';
+      if (params) {
+        const DeprecatedClassName = Array;
+        const instance = new DeprecatedClassName;
+      }
+    `
+  },
+  {
+    code: `
+      import {DeprecatedClassName} from '../rules/4.0.0/test';
+      if (DeprecatedClassName.test()) {
+         // Hi
+      }
+    `,
+    errors: [
+      `[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName`
+    ],
+    output: `
+      import {AllowedClassName} from '../rules/4.0.0/test';
+      if (AllowedClassName.test()) {
+         // Hi
+      }
+    `
+  },
+  {
+    code: `
+      import {DeprecatedClassName} from '../rules/4.0.0/test';
       function f(params) {
         const DeprecatedClassName = Array;
         const instance = new DeprecatedClassName;
