@@ -22,15 +22,6 @@
     padding: 0 5px;
   }
 
-  &.collapsed {
-    max-width: 0;
-
-    &-inner {
-      visibility: hidden;
-      transition: visibility 0s .3s;
-    }
-  }
-
   @media @mobile {
     width: 100%;
     max-width: 100%;
@@ -46,13 +37,6 @@
       border-bottom: 1px solid @section-border;
 
       .scrollbar-expanded();
-    }
-
-    &.collapsed {
-      max-height: 0;
-      max-width: 100%;
-
-      .scrollbar-collapsed();
     }
   }
 }

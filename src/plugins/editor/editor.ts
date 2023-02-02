@@ -96,14 +96,12 @@ export class UIPEditor extends UIPPlugin {
     const attr = e.detail.attribute;
     const value = e.detail.value;
 
-    switch (attr) {
-      case 'dark-theme':
-        return this.updateEditorConfig({theme: value === null ? AceTheme.Light : AceTheme.Dark});
-      case 'editor-collapsed':
-        value === null && this.initEditor();
-        return this.classList.toggle('collapsed', value !== null);
-      default:
-        return;
+    if (attr === 'dark-theme') {
+      return this.updateEditorConfig({
+        theme: value === null
+          ? AceTheme.Light
+          : AceTheme.Dark
+      });
     }
   }
 }
