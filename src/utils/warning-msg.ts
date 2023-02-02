@@ -1,6 +1,6 @@
 /**
  * Object with messages used to indicate
- * the type of warning.
+ * the type of warning
  */
 export const WARNING_MSG = {
   inconsistent: 'Inconsistent value',

@@ -5,8 +5,7 @@ import {UIPRoot} from './root';
 import {UIPStateModel} from './model';
 
 /**
- * Base class for UI Playground plugins.
- *
+ * Base class for UI Playground plugins
  * Implements basic relation and styles
  */
 export abstract class UIPPlugin extends ESLBaseElement {
@@ -15,16 +14,18 @@ export abstract class UIPPlugin extends ESLBaseElement {
   /** Visible label */
   @attr() public label: string;
 
-  /** @returns UIPRoot - playground root element */
+  /** Closest playground {@link UIPRoot} element */
   @memoize()
   protected get root(): UIPRoot | null {
     return this.closest(`${UIPRoot.is}`) as UIPRoot;
   }
 
+  /** Returns {@link UIPStateModel} from root instance */
   protected get model(): UIPStateModel | null {
     return this.root ? this.root.model : null;
   }
 
+  /** {@link UIPPlugin} section wrapper */
   @memoize()
   protected get $inner() {
     const $inner = document.createElement('div');
@@ -50,6 +51,6 @@ export abstract class UIPPlugin extends ESLBaseElement {
     if (attrName === 'label') this.setAttribute('aria-label', newVal);
   }
 
-  /** Handles root state change*/
+  /** Handles {@link UIPRoot} state changes */
   protected _onRootStateChange(): void {}
 }
