@@ -57,25 +57,56 @@ function memoizeMethod(originalMethod: any, prop: string, hashFn: MemoHashFn) {
 }
 
 /**
- * Clear memoization cache for passed target and property.
+ * Clear memoization cache for passed property of the target.
  * Accepts not own properties.
  * Note: be sure that you targeting memoized property or function.
  * Clear utility has no 100% check to prevent modifying incorrect (not memoized) property keys
+ *
+ * @param target - object instance that holds property
+ * @param property - property, key of target, to clear cache
  */
-memoize.clear = function (target: any, property: string | string[]): void {
+function clearMemo<T extends object>(target: T, property: keyof T | (keyof T)[]): void;
+/**
+ * Clear memoization cache for passed property of the target.
+ * Accepts not own properties.
+ * Note: be sure that you targeting memoized property or function.
+ * Clear utility has no 100% check to prevent modifying incorrect (not memoized) property keys
+ *
+ * @param target - object instance that holds property
+ * @param property - property, key of target, to clear cache
+ */
+function clearMemo(target: object, property: string | string[]): void;
+function clearMemo(target: any, property: string | string[]): void {
   if (Array.isArray(property)) return property.forEach((prop) => memoize.clear(target, prop));
   const desc = getPropertyDescriptor(target, property);
   if (!desc) return;
   if (typeof desc.get === 'function' && typeof (desc.get as any).clear === 'function') return (desc.get as any).clear();
   if (typeof desc.value === 'function' && typeof desc.value.clear === 'function') return desc.value.clear();
   if (Object.hasOwnProperty.call(target, property)) delete target[property];
-};
+}
+memoize.clear = clearMemo;
 
-/** Check if property has cache for the passed params */
-memoize.has = function (target: any, property: string, ...params: any[]): boolean {
+/**
+ * Check if property has cache for the passed params
+ *
+ * @param target - object instance that holds property
+ * @param property - property, key of target, to check cache
+ * @param params - additional params of original memoized method
+ */
+function hasMemo<T extends object>(target: T, property: keyof T, ...params: any[]): boolean;
+/**
+ * Check if property has cache for the passed params
+ *
+ * @param target - object instance that holds property
+ * @param property - property, key of target, to check cache
+ * @param params - additional params of original memoized method
+ */
+function hasMemo(target: object, property: string, ...params: any[]): boolean;
+function hasMemo(target: any, property: string, ...params: any[]): boolean {
   const desc = getPropertyDescriptor(target, property);
   if (!desc) return false;
   if (typeof desc.get === 'function' && typeof (desc.get as any).has === 'function') return (desc.get as any).has(...params);
   if (typeof desc.value === 'function' && typeof desc.value.has === 'function') return desc.value.has(...params);
   return Object.hasOwnProperty.call(target, property);
-};
+}
+memoize.has = hasMemo;
