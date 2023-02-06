@@ -1,11 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {ready} from '../../esl-utils/decorators/ready';
+import {ESLBaseElement} from '../../esl-base-element/core';
+import {bind, ready, attr, boolAttr, listen} from '../../esl-utils/decorators';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {isMouseEvent, isTouchEvent, getTouchPoint, getOffsetPoint} from '../../esl-utils/dom/events';
 import {isRelativeNode} from '../../esl-utils/dom/traversing';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {RTLUtils} from '../../esl-utils/dom/rtl';
 
 /**
@@ -17,13 +16,14 @@ import {RTLUtils} from '../../esl-utils/dom/rtl';
 @ExportNs('Scrollbar')
 export class ESLScrollbar extends ESLBaseElement {
   public static is = 'esl-scrollbar';
+  public static observedAttributes = ['target', 'horizontal'];
 
   /** Horizontal scroll orientation marker */
   @boolAttr() public horizontal: boolean;
   /** Disable continuous scroll when the mouse pressed on scrollbar */
   @boolAttr() public noContinuousScroll: boolean;
 
-  /** Target element {@link TraversingQuery} selector. Parent element by default */
+  /** Target element {@link ESLTraversingQuery} selector. Parent element by default */
   @attr({defaultValue: '::parent'}) public target: string;
   /** Custom class for thumb element. 'scrollbar-thumb' by default */
   @attr({defaultValue: 'scrollbar-thumb'}) public thumbClass: string;
@@ -54,33 +54,28 @@ export class ESLScrollbar extends ESLBaseElement {
   protected _resizeObserver = new ResizeObserver(this._deferredRefresh);
   protected _mutationObserver = new MutationObserver((rec) => this.updateContentObserve(rec));
 
-  static get observedAttributes(): string[] {
-    return ['target', 'horizontal'];
-  }
-
   @ready
   protected connectedCallback(): void {
     super.connectedCallback();
-    this.findTarget();
     this.render();
-    this.bindEvents();
+    this.findTarget();
   }
 
   @ready
   protected disconnectedCallback(): void {
-    this.unbindEvents();
+    this.unbindTargetEvents();
     this._scrollTimer && window.clearTimeout(this._scrollTimer);
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
-    if (!this.connected && oldVal === newVal) return;
+    if (!this.connected || oldVal === newVal) return;
     if (attrName === 'target') this.findTarget();
     if (attrName === 'horizontal') this.refresh();
   }
 
   protected findTarget(): void {
     this.$target = this.target ?
-      TraversingQuery.first(this.target, this) as HTMLElement :
+      ESLTraversingQuery.first(this.target, this) as HTMLElement :
       null;
   }
 
@@ -107,25 +102,21 @@ export class ESLScrollbar extends ESLBaseElement {
     this.appendChild(this.$scrollbarTrack);
   }
 
-  protected bindEvents(): void {
-    window.MouseEvent && this.addEventListener('mousedown', this._onPointerDown);
-    window.TouchEvent && this.addEventListener('touchstart', this._onPointerDown, {passive: true});
-    window.addEventListener('esl:refresh', this._onRefresh);
-  }
-
   protected bindTargetEvents(): void {
     if (!this.$target) return;
+    // Container resize/scroll observers/listeners
     if (document.documentElement === this.$target) {
-      window.addEventListener('resize', this._onRefresh, {passive: true});
-      window.addEventListener('scroll', this._onRefresh, {passive: true});
+      this.$$on({event: 'scroll resize', target: window}, this._onScrollOrResize);
     } else {
+      this.$$on({event: 'scroll', target: this.$target}, this._onScrollOrResize);
       this._resizeObserver.observe(this.$target);
-      this._mutationObserver.observe(this.$target, {childList: true});
-      Array.from(this.$target.children).forEach((el) => this._resizeObserver.observe(el));
-      this.$target.addEventListener('scroll', this._onRefresh, {passive: true});
     }
+    // Subscribes to the child elements resizes
+    this._mutationObserver.observe(this.$target, {childList: true});
+    Array.from(this.$target.children).forEach((el) => this._resizeObserver.observe(el));
   }
 
+  /** Resubscribes resize observer on child elements when container content changes */
   protected updateContentObserve(recs: MutationRecord[] = []): void {
     if (!this.$target) return;
     const contentChanges = recs.filter((rec) => rec.type === 'childList');
@@ -140,22 +131,12 @@ export class ESLScrollbar extends ESLBaseElement {
     if (contentChanges.length) this._deferredRefresh();
   }
 
-  protected unbindEvents(): void {
-    window.MouseEvent && this.removeEventListener('mousedown', this._onPointerDown);
-    window.TouchEvent && this.removeEventListener('touchstart', this._onPointerDown);
-    this.unbindTargetEvents();
-    window.removeEventListener('esl:refresh', this._onRefresh);
-  }
-
   protected unbindTargetEvents(): void {
     if (!this.$target) return;
-    if (document.documentElement === this.$target) {
-      window.removeEventListener('resize', this._onRefresh);
-      window.removeEventListener('scroll', this._onRefresh);
-    } else {
+    this.$$off(this._onScrollOrResize);
+    if (document.documentElement !== this.$target) {
       this._resizeObserver.disconnect();
       this._mutationObserver.disconnect();
-      this.$target.removeEventListener('scroll', this._onRefresh);
     }
   }
 
@@ -216,7 +197,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   /** Updates thumb size and position */
   public update(): void {
-    this.$$fire('change:scroll', {bubbles: false});
+    this.$$fire('esl:change:scroll', {bubbles: false});
     if (!this.$scrollbarThumb || !this.$scrollbarTrack) return;
     const thumbSize = this.trackOffset * this.thumbSize;
     const thumbPosition = (this.trackOffset - thumbSize) * this.position;
@@ -254,7 +235,7 @@ export class ESLScrollbar extends ESLBaseElement {
 
   // Event listeners
   /** Handles `mousedown` / `touchstart` event to manage thumb drag start and scroll clicks */
-  @bind
+  @listen('mousedown touchstart')
   protected _onPointerDown(event: MouseEvent | TouchEvent): void {
     this._initialPosition = this.position;
     this._pointerPosition = this.toPosition(event);
@@ -268,11 +249,11 @@ export class ESLScrollbar extends ESLBaseElement {
     }
 
     // Subscribes inverse handlers
-    isMouseEvent(event) && window.addEventListener('mouseup', this._onPointerUp);
-    isTouchEvent(event) && window.addEventListener('touchend', this._onPointerUp);
+    isMouseEvent(event) && this.$$on({event: 'mouseup', target: window}, this._onPointerUp);
+    isTouchEvent(event) && this.$$on({event: 'touchend', target: window}, this._onPointerUp);
 
     // Prevents default text selection, etc.
-    if (isMouseEvent(event)) event.preventDefault();
+    if (!isTouchEvent(event)) event.preventDefault();
   }
 
   /** Handles a scroll click / continuous scroll*/
@@ -294,9 +275,9 @@ export class ESLScrollbar extends ESLBaseElement {
     this.toggleAttribute('dragging', true);
     this.$target?.style.setProperty('scroll-behavior', 'auto');
     // Attaches drag listeners
-    window.addEventListener('click', this._onBodyClick, {capture: true});
-    isMouseEvent(event) && window.addEventListener('mousemove', this._onPointerMove);
-    isTouchEvent(event) && window.addEventListener('touchmove', this._onPointerMove, {passive: false});
+    this.$$on(this._onBodyClick);
+    isMouseEvent(event) && this.$$on({event: 'mousemove', target: window}, this._onPointerMove);
+    isTouchEvent(event) && this.$$on({event: 'touchmove', target: window}, this._onPointerMove);
   }
 
   /** Sets position on drag */
@@ -312,7 +293,6 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   /** `mousemove` document handler for thumb drag event. Active only if drag action is active */
-  @bind
   protected _onPointerMove(event: MouseEvent | TouchEvent): void {
     if (!this.dragging) return;
     // Request position update
@@ -323,40 +303,42 @@ export class ESLScrollbar extends ESLBaseElement {
   }
 
   /** `mouseup` short-time document handler for drag end action */
-  @bind
   protected _onPointerUp(event: MouseEvent | TouchEvent): void {
     this._scrollTimer && window.clearTimeout(this._scrollTimer);
     this.toggleAttribute('dragging', false);
     this.$target?.style.removeProperty('scroll-behavior');
 
     // Unbinds drag listeners
-    if (isMouseEvent(event)) {
-      window.removeEventListener('mousemove', this._onPointerMove);
-      window.removeEventListener('mouseup', this._onPointerUp);
-    }
-    if (isTouchEvent(event)) {
-      window.removeEventListener('touchmove', this._onPointerMove);
-      window.removeEventListener('touchend', this._onPointerUp);
-    }
+    this.$$off(this._onPointerMove);
+    this.$$off(this._onPointerUp);
   }
 
   /** Body `click` short-time handler to prevent clicks event on thumb drag. Handles capture phase */
-  @bind
+  @listen({auto: false, event: 'click', target: window, once: true, capture: true})
   protected _onBodyClick(event: MouseEvent): void {
     event.stopImmediatePropagation();
-
-    window.removeEventListener('click', this._onBodyClick, {capture: true});
   }
 
   /**
-   * Handler for refresh events to update the scroll.
-   * @param event - instance of 'resize' or 'scroll' or 'esl:refresh' event.
+   * Handler for refresh event
+   * @param event - instance of 'esl:refresh' event.
    */
-  @bind
+  @listen({
+    event: (el: ESLScrollbar) => el.REFRESH_EVENT,
+    target: window
+  })
   protected _onRefresh(event: Event): void {
-    const target = event.target as HTMLElement;
+    if (!(event.target instanceof Element)) return;
+    if (!isRelativeNode(event.target.parentNode, this.$target)) return;
+    this._deferredRefresh();
+  }
+
+  /**
+   * Handler for scroll and resize events
+   * @param event - instance of 'resize' or 'scroll' event
+   */
+  protected _onScrollOrResize(event: Event): void {
     if (event.type === 'scroll' && this.dragging) return;
-    if (event.type === 'esl:refresh' && !isRelativeNode(target.parentNode, this.$target)) return;
     this._deferredRefresh();
   }
 }

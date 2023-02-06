@@ -28,6 +28,21 @@ export class Rect {
     return rect1.x === rect2.x && rect1.y === rect2.y && rect1.width === rect2.width && rect1.height === rect2.height;
   }
 
+  /**
+   * The static method returns intersection Rect of two Rect instances
+   * @param rect1 - first instance of Rect
+   * @param rect2 - second instance of Rect
+   */
+  public static intersect(rect1: Rect, rect2: Rect): Rect {
+    const top = Math.max(rect1.top, rect2.top);
+    const left = Math.max(rect1.left, rect2.left);
+    const bottom = Math.min(rect1.bottom, rect2.bottom);
+    const right = Math.min(rect1.right, rect2.right);
+    const width = Math.max(right - left, 0);
+    const height = Math.max(bottom - top, 0);
+    return Rect.from({top, left, width, height});
+  }
+
   public constructor(x?: number, y?: number, width?: number, height?: number) {
     this.x = x || 0;
     this.y = y || 0;
@@ -78,24 +93,43 @@ export class Rect {
   }
 
   /**
-   * Grow the Rect by the specified increment in pixels.
+   * Method that accepts one argument and grows the Rect by the specified increment in pixels.
    * It increases the size of the Rect by moving each point on the edge of the Rect to a certain distance further away from the center of the Rect.
-   * @param increment - distance to grow in pixels
+   * @param increment - distance to grow in pixels for both X and Y-axis
    */
-  public grow(increment: number): Rect {
-    this.y -= increment;
-    this.x -= increment;
-    this.height += 2 * increment;
-    this.width += 2 * increment;
+  public grow(increment: number): Rect;
+  /**
+   * Method that accepts two arguments where each specified increment grows the rect in different axis in pixels.
+   * @param incrementX -  distance to grow in pixels for X-axis
+   * @param incrementY -  distance to grow in pixels for Y-axis
+   */
+  public grow(incrementX: number, incrementY: number): Rect;
+  public grow(incrementX: number, incrementY: number = incrementX): Rect {
+    this.y -= incrementY;
+    this.x -= incrementX;
+    this.height += 2 * incrementY;
+    this.width += 2 * incrementX;
     return this;
   }
 
   /**
-   * Shrink the Rect by the specified decrement in pixels.
+   * Method that accepts one argument and shrinks the Rect by the specified decrement in pixels.
    * It reduces the size of the Rect by moving each point on the edge of the Rect to a certain distance closer to the center of the Rect.
-   * @param decrement - distance to shrink in pixels
+   * @param decrement - distance to shrink in pixels for both X and Y-axis
    */
-  public shrink(decrement: number): Rect {
-    return this.grow(-decrement);
+  public shrink(decrement: number): Rect;
+  /**
+   * Method that accepts two arguments where each specified decrement shrinks the rect in different axis in pixels.
+   * @param decrementX -  distance to shrink in pixels for X-axis
+   * @param decrementY -  distance to shrink in pixels for Y-axis
+   */
+  public shrink(decrementX: number, decrementY: number): Rect;
+  public shrink(decrementX: number, decrementY: number = decrementX): Rect {
+    return this.grow(-decrementX, -decrementY);
+  }
+
+  /** @returns the numeric value of rectangle area */
+  public get area(): number {
+    return this.height * this.width;
   }
 }

@@ -14,7 +14,7 @@ This section describes the project structure and our development guidelines.
 
 ## Setup the project
 
-1.  To get started you will need Node.js version `>=14.17.0`.
+1.  To get started you will need Node.js version `>=18.13.0`.
 
 2.  After cloning the repo, run:
     ```commandline
@@ -106,7 +106,7 @@ ESL project consists of the following directories:
     - [📁 _layouts](../pages/views/_layouts) - 11ty pages layouts definitions
     - [📁 components](../pages/views/components) - ESL components articles
     - [📁 examples](../pages/views/examples) - examples articles
-    - [📁 utils](../pages/views/utils) - ESL utils articles
+    - [📁 core](../pages/views/core) - ESL core articles
   - [🔧 .eleventy.js](../pages/.eleventy.js) - main 11ty configuration file
   - [🔧 tsconfig.json](../pages/tsconfig.json) - TS config for demo pages scripts
   - [🔧 webpack.config.js](../pages/webpack.config.js) - webpack build file for demo pages

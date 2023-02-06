@@ -20,7 +20,7 @@ export interface ESLTabsTagShape extends ESLBaseElementShape<ESLTabs> {
   'scrollable-target'?: string;
 
   /** Allowed children */
-  children: any;
+  children?: any;
 }
 
 declare global {
