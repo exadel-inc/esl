@@ -1,4 +1,6 @@
-import {ALL, NOT_ALL} from './media-query-base';
+import {SyntheticEventTarget} from '../../../esl-utils/dom/events';
+import {ALL, NOT_ALL} from './media-query-const';
+import {ESLMediaChangeEvent} from './media-query-base';
 import type {IMediaQueryCondition} from './media-query-base';
 
 /**
@@ -7,31 +9,42 @@ import type {IMediaQueryCondition} from './media-query-base';
  *
  * Wraps matchMedia instance
  */
-export class MediaQueryCondition implements IMediaQueryCondition {
+export class MediaQueryCondition extends SyntheticEventTarget implements IMediaQueryCondition {
   protected readonly _inverted: boolean;
   protected readonly _mq: MediaQueryList;
 
   constructor(query: string, inverted = false) {
+    super();
     this._inverted = inverted;
     this._mq = matchMedia(query.trim() || 'all');
+    this._onChange = this._onChange.bind(this);
   }
 
   public get matches(): boolean {
     return this._inverted ? !this._mq.matches : this._mq.matches;
   }
 
-  public addListener(listener: VoidFunction): void {
+  public addEventListener(callback: EventListener): void;
+  public addEventListener(type: 'change', callback: EventListener): void;
+  public addEventListener(type: any, callback: EventListener = type): void {
+    super.addEventListener(type, callback);
+    if (this.hasEventListener(1)) return;
     if (typeof this._mq.addEventListener === 'function') {
-      this._mq.addEventListener('change', listener);
+      this._mq.addEventListener('change', this._onChange);
     } else {
-      this._mq.addListener(listener);
+      this._mq.addListener(this._onChange);
     }
   }
-  public removeListener(listener: VoidFunction): void {
+
+  public removeEventListener(callback: EventListener): void;
+  public removeEventListener(type: 'change', callback: EventListener): void;
+  public removeEventListener(type: any, callback: EventListener = type): void {
+    super.removeEventListener(type, callback);
+    if (this.hasEventListener()) return;
     if (typeof this._mq.removeEventListener === 'function') {
-      this._mq.removeEventListener('change', listener);
+      this._mq.removeEventListener('change', this._onChange);
     } else {
-      this._mq.removeListener(listener);
+      this._mq.removeListener(this._onChange);
     }
   }
 
@@ -47,5 +60,10 @@ export class MediaQueryCondition implements IMediaQueryCondition {
     const inverted = this._inverted;
     const complex = inverted && /\)[\s\w]+\(/.test(query);
     return (inverted ? 'not ' : '') + (complex ? `(${query})` : query);
+  }
+
+  /** Handles query change and dispatches it on top level in case result value is changed */
+  protected _onChange(): void {
+    this.dispatchEvent(new ESLMediaChangeEvent(this._mq.matches));
   }
 }

@@ -1,19 +1,11 @@
-import {ESLBaseElement, attr} from '../../../../src/modules/esl-base-element/core';
-import {bind} from '../../../../src/modules/esl-utils/decorators/bind';
-import {ready} from '../../../../src/modules/esl-utils/decorators/ready';
+import {ESLBaseElement} from '../../../../src/modules/esl-base-element/core';
+import {bind, ready, memoize, attr} from '../../../../src/modules/esl-utils/decorators';
 import {range} from '../../../../src/modules/esl-utils/misc/array';
-import {memoize} from '../../../../src/modules/esl-utils/decorators/memoize';
 import {isIE} from '../../../../src/modules/esl-utils/environment/device-detector';
 
 export class ESLDemoMarquee extends ESLBaseElement {
   static is = 'esl-d-marquee';
-  static STARS_SEL = [
-    '#esl-logo-shield-stars > path',
-    '#esl-logo-border-inner-stars > path',
-    '#esl-logo-border-outer-stars > path',
-    '#esl-logo-wrench-left-stars > path',
-    '#esl-logo-wrench-right-stars > path'
-  ].join(',');
+  static STARS_SEL = 'use';
 
   @attr({defaultValue: '4'}) public targetsNumber: string;
   @attr({defaultValue: '3000'}) public iterationTime: string;

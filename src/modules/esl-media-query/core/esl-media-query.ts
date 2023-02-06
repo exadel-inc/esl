@@ -1,11 +1,11 @@
-import {memoize} from '../../esl-utils/decorators/memoize';
+import {memoize} from '../../esl-utils/decorators';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 
 import {ESLScreenDPR} from './common/screen-dpr';
 import {ESLScreenBreakpoints} from './common/screen-breakpoint';
 import {ESLEnvShortcuts} from './common/env-shortcuts';
 
-import {ALL, NOT_ALL} from './conditions/media-query-base';
+import {ALL, NOT_ALL} from './conditions/media-query-const';
 import {MediaQueryCondition} from './conditions/media-query-condition';
 import {MediaQueryConjunction, MediaQueryDisjunction} from './conditions/media-query-containers';
 
@@ -17,6 +17,7 @@ export interface IMediaQueryPreprocessor {
 
 /**
  * ESL Media Query
+ * @implements EventTarget
  * Provides special media condition syntax - ESLMediaQuery
  * @author Alexey Stsefanovich (ala'n), Yuliya Adamskaya, Natallia Harshunova
  *
@@ -30,6 +31,7 @@ export interface IMediaQueryPreprocessor {
  * - `not` logic operation (can have multiple not operators before any term of the query)
  * - `or` or `,` logical operator (have a lowest priority)
  * - Query matching change listeners
+ * - Implements {@link EventTarget}, compatible with {@link ESLEventListener}
  *
  * Building query process:
  *
@@ -38,9 +40,9 @@ export interface IMediaQueryPreprocessor {
 @ExportNs('MediaQuery')
 export abstract class ESLMediaQuery implements IMediaQueryCondition {
   /** Always true condition */
-  public static readonly ALL: IMediaQueryCondition = ALL;
+  public static readonly ALL: ESLMediaQuery = ALL;
   /** Always false condition */
-  public static readonly NOT_ALL: IMediaQueryCondition = NOT_ALL;
+  public static readonly NOT_ALL: ESLMediaQuery = NOT_ALL;
 
   protected static readonly SHORTCUT_PATTERN = /@([a-z0-9.+-]+)/i;
   protected static readonly _preprocessors: IMediaQueryPreprocessor[] = [];
@@ -53,12 +55,12 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
 
   /** Cached method to create {@link ESLMediaQuery} condition instance from query string */
   @memoize()
-  public static for(query: string): IMediaQueryCondition {
+  public static for(query: string): ESLMediaQuery {
     return ESLMediaQuery.from(query);
   }
 
   /** Creates {@link ESLMediaQuery} condition instance from query string */
-  public static from(query: string): IMediaQueryCondition {
+  public static from(query: string): ESLMediaQuery {
     const conjunctions = query.split(/\sor\s|,/).map((term) => {
       const conditions = term.split(/\sand\s/).map(ESLMediaQuery.parseSimpleQuery);
       return new MediaQueryConjunction(conditions);
@@ -79,7 +81,7 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
   }
 
   /** Creates simple {@link ESLMediaQuery} condition */
-  protected static parseSimpleQuery(term: string): IMediaQueryCondition {
+  protected static parseSimpleQuery(term: string): ESLMediaQuery {
     const query = term.replace(/^\s*not\s+/, '');
     const queryInverted = query !== term;
     const processedQuery = ESLMediaQuery.preprocess(query);
@@ -94,10 +96,20 @@ export abstract class ESLMediaQuery implements IMediaQueryCondition {
 
   // Implements IESLMQCondition to allow use ESLMediaQuery as IESLMQCondition type alias
   public abstract matches: boolean;
-  public abstract optimize(): IMediaQueryCondition;
-  public abstract addListener(cb: () => void): void;
-  public abstract removeListener(cb: () => void): void;
+
+  public abstract optimize(): ESLMediaQuery;
+  public abstract dispatchEvent(event: Event): boolean;
   public abstract toString(): string;
+
+  public abstract addEventListener(callback: EventListener): void;
+  public abstract addEventListener(type: 'change', callback: EventListener): void;
+  public abstract removeEventListener(callback: EventListener): void;
+  public abstract removeEventListener(type: 'change', callback: EventListener): void;
+
+  /** @deprecated alias for `addEventListener` */
+  public abstract addListener(cb: EventListener): void;
+  /** @deprecated alias for `removeEventListener` */
+  public abstract removeListener(cb: EventListener): void;
 }
 
 // Register otb preprocessors

@@ -2,23 +2,43 @@ import '../../../polyfills/es5-target-shim';
 
 import {ESLBaseElement, listen} from '../core';
 import {randUID} from '../../esl-utils/misc/uid';
-import {EventUtils} from '../../esl-utils/dom/events/utils';
+import {ESLEventUtils} from '../../esl-utils/dom/events';
 
 describe('ESLBaseElement: listeners', () => {
-  test('auto-subscribe', () => {
+  describe('ESLBaseElement auto subscribes to listener declarations', () => {
+    const mockHandler = jest.fn();
     class TestElement extends ESLBaseElement {
-      @listen('click')
-      public onClick() {}
-    }
-    TestElement.register('test-' + randUID());
-    const el = new TestElement();
+      static is = 'test-listen-element';
 
-    expect(EventUtils.listeners(el).length).toBe(0);
-    document.body.appendChild(el);
-    expect(EventUtils.listeners(el).length).toBe(1);
-    expect(EventUtils.listeners(el)[0].event).toBe('click');
-    document.body.removeChild(el);
-    expect(EventUtils.listeners(el).length).toBe(0);
+      @listen('click')
+      public onClick(...args: any[]) { mockHandler(this, ...args); }
+    }
+    TestElement.register();
+
+    const el = document.createElement(TestElement.is);
+
+    beforeAll(() => document.body.appendChild(el));
+
+    test('ESLBaseElement successfully auto subscribed', () => {
+      expect(ESLEventUtils.listeners(el).length).toBe(1);
+      expect(ESLEventUtils.listeners(el)[0].event).toBe('click');
+    });
+
+    test('ESLBaseElement subscription works correctly', () => {
+      mockHandler.mockReset();
+      el.click();
+      expect(mockHandler).toBeCalled();
+      expect(mockHandler).lastCalledWith(el, expect.any(Event));
+    });
+
+    test('ESLBaseElement successfully auto unsubscribed', async () => {
+      document.body.removeChild(el);
+      await Promise.resolve(); // Wait for microtasks completed
+      expect(ESLEventUtils.listeners(el).length).toBe(0);
+      return Promise.resolve();
+    });
+
+    afterAll(async () => el.parentElement && el.remove());
   });
 
   describe('event accessors', () => {
@@ -29,7 +49,7 @@ describe('ESLBaseElement: listeners', () => {
     TestElement.register('test-' + randUID());
 
     test('$$on', () => {
-      const mock = jest.spyOn(EventUtils, 'subscribe').mockImplementation();
+      const mock = jest.spyOn(ESLEventUtils, 'subscribe').mockImplementation();
 
       const el = new TestElement();
       const desc = {event: 'click'};
@@ -45,7 +65,7 @@ describe('ESLBaseElement: listeners', () => {
     });
 
     test('$$off', () => {
-      const mock = jest.spyOn(EventUtils, 'unsubscribe').mockImplementation(() => []);
+      const mock = jest.spyOn(ESLEventUtils, 'unsubscribe').mockImplementation(() => []);
 
       const el = new TestElement();
       const desc = {event: 'click'};

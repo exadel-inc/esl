@@ -8,9 +8,9 @@ Authors: *Dmytro Shovchko*.
 
 <a name="intro"></a>
 
-ESLFootnotes is a custom element that is used to collect all ESLNote elements in bounds of the scope and output sorted and grouped list of collected notes.
+**ESLFootnotes** is a custom element that is used to collect all `ESLNote` elements in bounds of the scope and output sorted and grouped list of collected notes.
 
-ESLNote is a custom element that is used to show notification by the tooltip GUI element.
+**ESLNote** is a custom element that is used to show notification by the tooltip GUI element.
 
 The elements are interrelated and don't make sense on their own. This is because once the elements are added to the DOM, they establish the link between ESLFootnotes and each ESLNote.
 
@@ -21,7 +21,7 @@ ESLNote is a badge with a number or symbol. When it's hovered or clicked (user-d
 
 ### ESLFootnotes Attributes | Properties:
 
-- `scopeTarget` (string) - target element ([TraversingQuery](../esl-traversing-query/README.md) selector) to define scope of footnotes (`::parent` by default)
+- `scopeTarget` (string) - target element ([ESLTraversingQuery](../esl-traversing-query/README.md) selector) to define scope of footnotes (`::parent` by default)
 
 - `grouping` (string) - grouping note instances with identical content. Available options:
   -  `enable` - default, notes with identical content will be grouped
@@ -38,7 +38,7 @@ ESLNote is a badge with a number or symbol. When it's hovered or clicked (user-d
 
 - `tooltip-shown` - read-only marker which appears when note's tooltip is shown
 
-- `container` - defines container element ([TraversingQuery](../esl-traversing-query/README.md) selector) to determinate bounds of tooltip visibility (window by default)
+- `container` - defines container element ([ESLTraversingQuery](../esl-traversing-query/README.md) selector) to determinate bounds of tooltip visibility (window by default)
 
 - `ignore` - [MediaQuery](../esl-media-query/README.md) to specify device media conditions when footnotes must ignore current note (`not all` by default)
 

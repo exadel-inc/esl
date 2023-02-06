@@ -1,15 +1,14 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {bind} from '../../esl-utils/decorators/bind';
+import {bind, prop, attr, boolAttr} from '../../esl-utils/decorators';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
-import {EventUtils} from '../../esl-utils/dom/events';
+import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
-import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
 import {getIObserver} from './esl-image-iobserver';
-import {STRATEGIES} from './esl-image-strategies';
+import {EMPTY_IMAGE, STRATEGIES, isEmptyImage} from './esl-image-strategies';
 
-import type {ESLImageRenderStrategy, ESLImageStrategyMap} from './esl-image-strategies';
+import type {ESLImageRenderStrategy} from './esl-image-strategies';
 
 type LoadState = 'error' | 'loaded' | 'ready';
 const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);
@@ -23,21 +22,20 @@ const isLoadState = (state: string): state is LoadState => ['error', 'loaded', '
 @ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
   public static is = 'esl-image';
+  public static observedAttributes = ['alt', 'role', 'mode', 'aria-label', 'data-src', 'data-src-base', 'lazy-triggered'];
 
-  // Default container class value
+  /** Default container class value */
   public static DEFAULT_CONTAINER_CLS = 'img-container-loaded';
 
-  public static get STRATEGIES(): ESLImageStrategyMap {
-    return STRATEGIES;
-  }
+  public static readonly STRATEGIES = STRATEGIES;
+  public static readonly EMPTY_IMAGE = EMPTY_IMAGE;
 
-  static get EMPTY_IMAGE(): string {
-    return 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-  }
-
-  static get observedAttributes(): string[] {
-    return ['alt', 'role', 'mode', 'aria-label', 'data-src', 'data-src-base', 'lazy-triggered'];
-  }
+  /** Event that represents ready state of {@link ESLImage} */
+  @prop('ready') public READY_EVENT: string;
+  /** Event that represents successfully loaded state of {@link ESLImage} */
+  @prop('load') public LOAD_EVENT: string;
+  /** Event that represents error state of {@link ESLImage} */
+  @prop('error') public ERROR_EVENT: string;
 
   @attr() public alt: string;
   @attr({defaultValue: 'save-ratio'}) public mode: string;
@@ -70,7 +68,7 @@ export class ESLImage extends ESLBaseElement {
     this.alt =
       this.alt || this.getAttribute('aria-label') || this.getAttribute('data-alt') || '';
     this.updateA11y();
-    this.srcRules.addListener(this._onMediaMatchChange);
+    this.srcRules.addEventListener(this._onMediaMatchChange);
     if (this.lazyObservable) {
       this.removeAttribute('lazy-triggered');
       getIObserver().observe(this);
@@ -86,7 +84,7 @@ export class ESLImage extends ESLBaseElement {
     super.disconnectedCallback();
     this._detachLazyTrigger && this._detachLazyTrigger();
     if (this._srcRules) {
-      this._srcRules.removeListener(this._onMediaMatchChange);
+      this._srcRules.removeEventListener(this._onMediaMatchChange);
     }
   }
 
@@ -125,10 +123,10 @@ export class ESLImage extends ESLBaseElement {
 
   public set srcRules(rules: ESLMediaRuleList<string>) {
     if (this._srcRules) {
-      this._srcRules.removeListener(this._onMediaMatchChange);
+      this._srcRules.removeEventListener(this._onMediaMatchChange);
     }
     this._srcRules = rules;
-    this._srcRules.addListener(this._onMediaMatchChange);
+    this._srcRules.addEventListener(this._onMediaMatchChange);
   }
 
   public get currentSrc(): string {
@@ -136,7 +134,7 @@ export class ESLImage extends ESLBaseElement {
   }
 
   public get empty(): boolean {
-    return !this._currentSrc || ESLImage.isEmptyImage(this._currentSrc);
+    return !this._currentSrc || isEmptyImage(this._currentSrc);
   }
 
   public get canUpdate(): boolean {
@@ -263,7 +261,7 @@ export class ESLImage extends ESLBaseElement {
 
   protected get _shadowImgError(): boolean {
     if (!this._shadowImg.complete) return false;
-    if (this._shadowImg.src.substr(-4) === '.svg') return false;
+    if (this._shadowImg.src.slice(-4) === '.svg') return false;
     return this._shadowImg.naturalHeight <= 0;
   }
 
@@ -290,8 +288,9 @@ export class ESLImage extends ESLBaseElement {
     this.toggleAttribute('loaded', successful);
     this.toggleAttribute('error', !successful);
     this.toggleAttribute('ready', true);
-    this.$$fire(successful ? 'load' : 'error');
-    this.$$fire('ready');
+
+    this.$$fire(successful ? this.LOAD_EVENT : this.ERROR_EVENT, {bubbles: false});
+    this.$$fire(this.READY_EVENT, {bubbles: false});
   }
 
   public updateContainerClasses(): void {
@@ -299,16 +298,8 @@ export class ESLImage extends ESLBaseElement {
     const cls = this.containerClass || (this.constructor as typeof ESLImage).DEFAULT_CONTAINER_CLS;
     const state = isLoadState(this.containerClassState) && this[this.containerClassState];
 
-    const targetEl = TraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
+    const targetEl = ESLTraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
     targetEl && CSSClassUtils.toggle(targetEl, cls, state);
-  }
-
-  public $$fire(eventName: string, eventInit: CustomEventInit = {bubbles: false}): boolean {
-    return EventUtils.dispatch(this, eventName, eventInit);
-  }
-
-  public static isEmptyImage(src: string): boolean {
-    return src === ESLImage.EMPTY_IMAGE;
   }
 }
 

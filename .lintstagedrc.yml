@@ -1,0 +1,10 @@
+"*.ts":
+  - "eslint --max-warnings 3"
+  - "jest --silent --noStackTrace --bail --passWithNoTests --findRelatedTests"
+"*.less":
+  - "stylelint"
+  - "lintspaces -n -t -d spaces"
+"*.html":
+  - "lintspaces -n -t -d spaces"
+"*.njk":
+  - "lintspaces -n -t -d spaces"
