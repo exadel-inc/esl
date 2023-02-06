@@ -79,7 +79,9 @@ function getIdentifierRanges(importNode, context) {
     if (!scope) continue;
     const nestedNodes = collectIdentifiers(context, scope, name);
     for (const node of nestedNodes) {
-      occurrences.delete(node);
+      if(node.parent.type !== 'ImportSpecifier'){
+        occurrences.delete(node);
+      }
     }
     const initExpNodes = collectIdentifiers(context, declaration.init, name);
     for (const node of initExpNodes) {
