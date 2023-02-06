@@ -3,6 +3,7 @@ import {dispatchCustomEvent} from '../../esl-utils/dom/events/misc';
 import {ESLEventListener} from './listener';
 import {getAutoDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
 
+import {ESLEventTargetDecorator} from './targets/decorator.target';
 import {ESLResizeObserverTarget} from './targets/resize.adapter';
 
 import type {
@@ -12,6 +13,7 @@ import type {
   ESLListenerEventMap,
   ESLListenerDescriptorFn
 } from './types';
+
 
 @ExportNs('EventUtils')
 export class ESLEventUtils {
@@ -121,6 +123,9 @@ export class ESLEventUtils {
   public static resize(target: Element): ESLResizeObserverTarget {
     return new ESLResizeObserverTarget(target);
   }
+
+  // EventTarget utilities
+  public static decorate = ESLEventTargetDecorator.create;
 }
 
 /** @deprecated alias for {@link ESLEventUtils} */
