@@ -29,7 +29,7 @@
     color: @primary-blue;
     font-weight: 500;
     font-size: 1rem;
-    margin-left: 15px;
+    margin-left: 25px;
 
     @media @md-xl {
       display: block;
@@ -39,18 +39,17 @@
   &-link {
     display: inline-block;
     color: white;
-    padding: 10px 0;
+    padding: 10px;
     outline-offset: -2px;
     font-size: 1.125rem;
 
     &:hover {
       text-decoration: none;
       color: @secondary-blue;
-      text-shadow: 0 0 9px fadeout(@secondary-blue, 70%);
     }
 
     @media @md-xl {
-      font-size: .875rem;
+      font-size: 0.875rem;
     }
   }
 
@@ -170,10 +169,10 @@
   }
 
   &-common-links {
-    font-size: .9rem;
+    font-size: 0.9rem;
   }
   &-common-links &-link {
-    padding: 0;
+    padding: 0 10px;
     font-size: inherit;
     > svg {
       width: 25px;
@@ -181,6 +180,9 @@
     }
   }
 
+  &-copyright {
+    padding: 0 10px;
+  }
   &-copyright &-link {
     font-size: inherit;
     padding: 0;

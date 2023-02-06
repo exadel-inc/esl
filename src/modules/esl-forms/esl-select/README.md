@@ -6,7 +6,7 @@ Authors: *Alexey Stsefanovich (ala'n)*
 
 <a name="intro"></a>
 
-**ESLSelect** is a component on top of native select that brings more customization features.
+ESLSelect is a component on top of native select that brings more customization features.
 Uses "select with dropdown" view. Supports both single and multiple selection.
 
 ### Attributes / Properties
@@ -16,8 +16,6 @@ Uses "select with dropdown" view. Supports both single and multiple selection.
 - `has-value-class` - class(es) to mark not empty state
 
 - `has-focus-class` - class(es) for focused state. Select ia also focused if the dropdown list is opened
-
-- `dropdown-class` - class(es) for select dropdown
 
 - `select-all-label` - select all options text
 

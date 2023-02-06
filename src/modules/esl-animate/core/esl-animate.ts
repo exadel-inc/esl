@@ -1,8 +1,9 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ready, memoize, attr, boolAttr} from '../../esl-utils/decorators';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
+import {ready} from '../../esl-utils/decorators/ready';
+import {memoize} from '../../esl-utils/decorators/memoize';
+import {TraversingQuery} from '../../esl-traversing-query/core';
 import {parseNumber} from '../../esl-utils/misc/format';
-import {ESLBaseElement} from '../../esl-base-element/core';
+import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
 
 import {ESLAnimateService} from './esl-animate-service';
 
@@ -17,8 +18,7 @@ import {ESLAnimateService} from './esl-animate-service';
  */
 @ExportNs('Animate')
 export class ESLAnimate extends ESLBaseElement {
-  public static is = 'esl-animate';
-  public static observedAttributes = ['group', 'repeat', 'target'];
+  static is = 'esl-animate';
 
   /**
    * Class(es) to add on viewport intersection
@@ -53,15 +53,19 @@ export class ESLAnimate extends ESLBaseElement {
 
   /**
    * Define target(s) to observe and animate
-   * Uses {@link ESLTraversingQuery} with multiple targets support
+   * Uses {@link TraversingQuery} with multiple targets support
    * Default: ` ` - current element, `<esl-animate>` behave as a wrapper
    */
   @attr() public target: string;
 
+  static get observedAttributes(): string[] {
+    return ['group', 'repeat', 'target'];
+  }
+
   /** Elements-targets found by target query */
   @memoize()
   public get $targets(): HTMLElement[] {
-    return ESLTraversingQuery.all(this.target, this) as HTMLElement[];
+    return TraversingQuery.all(this.target, this) as HTMLElement[];
   }
 
   protected attributeChangedCallback(): void {

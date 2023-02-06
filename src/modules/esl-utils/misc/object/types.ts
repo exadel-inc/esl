@@ -1,5 +1,5 @@
 /** Checks that passed value is object, but not a callable-object (function) */
-export const isObject = (obj: any): obj is Record<string | symbol, any> => !!obj && typeof obj === 'object';
+export const isObject = (obj: any): obj is Record<string, any> => !!obj && typeof obj === 'object';
 /** Checks that passed value is an object or function */
 export const isObjectLike = (obj: any): boolean => isObject(obj) || typeof obj === 'function';
 /** Checks if the passed value is primitive */

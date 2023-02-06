@@ -1,7 +1,7 @@
-// import {afterNextRender, bind} from '../../all';
-import {afterNextRender, bind} from '../../esl-utils/all';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
+import {afterNextRender, bind} from '../../all';
+import {TraversingQuery} from '../../esl-traversing-query/core';
 import {ESLBaseElement, attr} from '../../esl-base-element/core';
+import {ready} from '../../esl-utils/decorators/ready';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLSortableItem} from './esl-sortable-item';
 
@@ -46,19 +46,21 @@ export class ESLSortable extends ESLBaseElement {
   private _$targetEl: ESLSortableItem | ESLSortable;
 
   private get childrens(): Element[] {
-    return ESLTraversingQuery.all('::child(ul)::child([esl-sortable-item])', this);
+    return TraversingQuery.all('::child(ul)::child([esl-sortable-item])', this);
   }
 
   private get list(): Element {
-    return ESLTraversingQuery.first('::child(ul)', this) || this.appendChild(document.createElement('ul'));
+    return TraversingQuery.first('::child(ul)', this) || this.appendChild(document.createElement('ul'));
   }
 
+  @ready
   protected connectedCallback(): void {
     ESLSortableItem.register();
     this.bindEvents();
     super.connectedCallback();
   }
 
+  @ready
   protected disconnectedCallback(): void {
     this.unbindEvents();
     super.disconnectedCallback();

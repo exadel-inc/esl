@@ -1,12 +1,12 @@
 # [ESL](../../../) Media
 
-Version: *1.3.0*
+Version: *1.2.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*, *Natallia Harshunova*
 
 <a name="intro"></a>
 
-**ESLMedia** is a custom element, that provides an ability to add and configure media (video / audio) 
+ESLMedia is a custom element, that provides an ability to add and configure media (video / audio) 
 using a single tag as well as work with external providers using simple native-like API.
 
 ---
@@ -43,7 +43,7 @@ using a single tag as well as work with external providers using simple native-l
  - `group` (optional) - group name, only one media player can be active in bounds of the group
  
  - `ready-class` - class to add when the resource is ready
- - `ready-class-target` - [ESLTraversingQuery](../esl-traversing-query/README.md) to define a target for `ready-class`
+ - `ready-class-target` - [TraversingQuery](../esl-traversing-query/README.md) to define a target for `ready-class`
 
  - `disabled` (boolean) - marker that prevents media api initialization
  
@@ -86,7 +86,7 @@ using a single tag as well as work with external providers using simple native-l
  - `esl:media:paused` - (bubbles) fires when esl-media is paused
  - `esl:media:ended` - (bubbles) fires when esl-media is ended
  - `esl:media:detach` - (bubbles) fires after esl-media provider is detached (reinitialized / disconnected from the DOM)
- - `esl:media:managedpause` - (bubbles) fires when media was paused by esl-media group restriction manager
+ - `esl:media:mangedpause` - (bubbles) fires when media was paused by esl-media group restriction manager
  
 ### Examples:
 ```html

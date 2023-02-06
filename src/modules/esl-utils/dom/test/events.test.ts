@@ -1,4 +1,4 @@
-import {ESLEventUtils, isMouseEvent, isTouchEvent, getOffsetPoint, getTouchPoint} from '../events';
+import {EventUtils, isMouseEvent, isTouchEvent, getOffsetPoint, getTouchPoint} from '../events';
 
 describe('dom/events: availability', () => {
   test.each([
@@ -7,9 +7,9 @@ describe('dom/events: availability', () => {
     getTouchPoint,
     getOffsetPoint,
 
-    ESLEventUtils.dispatch,
-    ESLEventUtils.listeners,
-    ESLEventUtils.subscribe,
-    ESLEventUtils.unsubscribe
+    EventUtils.dispatch,
+    EventUtils.listeners,
+    EventUtils.subscribe,
+    EventUtils.unsubscribe
   ])('%p is available', (fn) => expect(typeof fn).toBe('function'));
 });

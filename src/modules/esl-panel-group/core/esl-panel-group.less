@@ -23,7 +23,7 @@ esl-panel-group {
 }
 
 // fix a11y
-esl-panel-group:not(.animate) esl-panel:not(.animate):not(.open) {
+esl-panel-group:not(.animate):not([current-mode="open"]) esl-panel:not(.animate):not(.open) {
   * {
     visibility: hidden !important;
   }

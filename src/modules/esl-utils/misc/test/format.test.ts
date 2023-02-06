@@ -6,9 +6,7 @@ import {
   parseAspectRatio,
   evaluate,
   format,
-  parseNumber,
-  parseBoolean,
-  parseString
+  parseNumber
 } from '../format';
 
 describe('misc/format helper tests', () => {
@@ -96,34 +94,6 @@ describe('misc/format helper tests', () => {
     ])('\'%s\' using %p to \'%s\'', (tmp: string, source: any, res: string) => {
       expect(format(tmp, source)).toBe(res);
     });
-  });
-
-  describe('parseBoolean', () => {
-    test.each([
-      [null, false],
-      ['false', false],
-      ['', true],
-      ['true', true],
-      ['0', true],
-      ['1', true],
-      ['brr', true]
-    ])(
-      'args = %p, result: %p',
-      (args, exp) => expect(parseBoolean.call(null, args)).toBe(exp)
-    );
-  });
-
-  describe('parseString', () => {
-    test.each([
-      [undefined, ''],
-      [null, ''],
-      ['false', 'false'],
-      ['', ''],
-      ['true', 'true']
-    ])(
-      'args = %p, result: %p',
-      (args, exp) => expect(parseString.call(null, args)).toBe(exp)
-    );
   });
 
   describe('parseNumber', () => {

@@ -61,24 +61,4 @@ describe('misc/object: copy', () => {
       expect(omit(inp, keys)).toEqual(out);
     });
   });
-
-  test('prototype pollution via __proto__', () => {
-    const maliciousPayload = '{"a": 1, "__proto__": {"polluted": true}}';
-    const a: any = {};
-    const copied: any = copy(JSON.parse(maliciousPayload));
-
-    expect(({} as any).polluted).not.toBe(true); // safe Plain Old Javascript Object
-    expect(a.polluted).not.toBe(true); // safe a input
-    expect(copied.polluted).toBe(true);
-  });
-
-  test('prototype pollution via constructor.prototype', () => {
-    const maliciousPayload = '{"a": 1, "constructor": {"prototype": {"polluted": true}}}';
-    const a: any = {};
-    const copied: any = copy(JSON.parse(maliciousPayload));
-
-    expect(({} as any).polluted).not.toBe(true); // safe Plain Old Javascript Object
-    expect(a.polluted).not.toBe(true); // safe a input
-    expect(copied.constructor.prototype.polluted).toBe(true);
-  });
 });

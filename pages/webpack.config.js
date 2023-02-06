@@ -20,13 +20,11 @@ module.exports = {
       loader: 'ts-loader',
       options: {
         compilerOptions: {
+          target: 'ES5',
           declaration: false
         }
       }
     }]
-  },
-  optimization: {
-    concatenateModules: false,
   },
   output: {
     path: path.resolve(__dirname, 'dist/bundles'),

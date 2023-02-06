@@ -1,6 +1,6 @@
 # [ESL](https://exadel-inc.github.io/esl/) Animate
 
-Version: *1.0.0*.
+Version: _1.0.0-beta_.
 
 Authors: *Anna-Mariia Petryk*, *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 
@@ -8,7 +8,7 @@ Authors: *Anna-Mariia Petryk*, *Alexey Stsefanovich (ala'n)*, *Julia Murashko*.
 
 <a name="intro"></a>
 
-**ESLAnimate** is a module to animate items on viewport intersecting.
+ESL Animate is a module to animate items on viewport intersecting.
 
 Features:
 - Add class(es) when observed elements enter viewport area
@@ -45,7 +45,7 @@ with a fixed set of thresholds defined.
 ESLAnimate (`<esl-animate>`) - custom element to automatically initialize ESLAnimateService from html
 
 ### Element API
-- `target` - target element or elements to animate, defined by [ESLTraversingQuery](../esl-traversing-query/README.md)  
+- `target` - target element or elements to animate, defined by [TraversingQuery](../esl-traversing-query/README.md)  
 Default: empty (animates itself)
 - `cls` - CSS class or classes to control animation (`in` by default)
 (supports ESL extended class definition syntax, [CSSClassUtil](../esl-utils/dom/class.ts))

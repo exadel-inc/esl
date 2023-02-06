@@ -34,9 +34,9 @@ aside:
     </div>
     <p>Triggers</p>
     <div class="btn-container">
-      <esl-trigger target="#toggleable1" mode="toggle" a11y-label-active a11y-label-inactive="expand" class="btn btn-sec-blue">Toggle</esl-trigger>
-      <esl-trigger target="#toggleable1" mode="show" a11y-label-active="collapse" class="btn btn-sec-blue">Show</esl-trigger>
-      <esl-trigger target="#toggleable1" mode="hide" aria-label="hide" class="btn btn-sec-blue">Hide</esl-trigger>
+      <esl-trigger target="#toggleable1" mode="toggle" class="btn btn-sec-blue">Toggle</esl-trigger>
+      <esl-trigger target="#toggleable1" mode="show" class="btn btn-sec-blue">Show</esl-trigger>
+      <esl-trigger target="#toggleable1" mode="hide" class="btn btn-sec-blue">Hide</esl-trigger>
     </div>
   </div>
 </section>
@@ -244,38 +244,6 @@ aside:
       <esl-trigger target="#toggleable6" mode="toggle" class="btn btn-sec-blue" track-hover>Toggle 1</esl-trigger>
       <esl-trigger target="#toggleable7" mode="toggle" class="btn btn-sec-blue" track-hover>Toggle 2</esl-trigger>
       <esl-trigger target="#toggleable8" mode="toggle" class="btn btn-sec-blue" track-hover>Toggle 3</esl-trigger>
-    </div>
-  </div>
-</section>
-<hr/>
-
-<section>
-  <h4 style="margin-bottom: 30px;">Example with Related Target</h2>
-  <div class="row">
-    <div class="col-12" style="margin-bottom: 15px;">
-      <esl-trigger target="#toggleable10" mode="show" active-class-target="::parent(.col-12)" class="btn btn-sec-blue">Show</esl-trigger>
-      <esl-trigger target="#toggleable10" mode="hide" class="btn btn-sec-blue">Hide</esl-trigger>
-    </div>
-
-    <div class="col-6">
-      <p>Here is the main Toggleable shown</p>
-      <esl-toggleable class="border" style="padding: 15px;" id="toggleable10" esl-related-target="#toggleable11">
-        <div>
-        {{ lorem.paragraphs(1) }}
-        </div>
-      </esl-toggleable>
-    </div>
-
-    <div class="col-6">
-      <p>Here is the Related Target Toggleable shown</p>
-      <esl-toggleable class="border" style="padding: 15px;" id="toggleable11">
-        <div class="img-container img-container-4-3">
-          <esl-image mode="cover" lazy
-                     data-alt="Alt Text"
-                     data-src="nature/forest+clouds.jpg"
-                     data-src-base="/assets/"></esl-image>
-        </div>
-      </esl-toggleable>
     </div>
   </div>
 </section>

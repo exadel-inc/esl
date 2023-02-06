@@ -39,10 +39,10 @@ const normalize = (str) => {
   return lines.map((str) => str.substr(offset)).join('\n');
 };
 
-const highlightNormalized = (str, lang, containerCls = '') => {
+const highlightNormalized = (str, lang) => {
   const text = normalize(str);
   const code = highlight(text, lang);
-  return `<pre class="${containerCls}"><code class="language-${lang}">${code}</code></pre>`;
+  return `<pre><code class="language-${lang}">${code}</code></pre>`;
 };
 
 module.exports = (config) => {

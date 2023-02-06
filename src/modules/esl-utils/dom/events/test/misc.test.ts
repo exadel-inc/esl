@@ -5,8 +5,7 @@ import {
   isPassiveByDefault,
   getTouchPoint,
   getOffsetPoint,
-  getCompositeTarget,
-  dispatchCustomEvent
+  getCompositeTarget
 } from '../misc';
 
 describe('dom/events: misc', () => {
@@ -114,47 +113,6 @@ describe('dom/events: misc', () => {
         x:  (boundingClientRect.left + window.scrollX),
         y:  (boundingClientRect.top + window.scrollY)
       });
-    });
-  });
-
-  describe('dispatchCustomEvent works correctly', () => {
-    const el = document.createElement('div');
-    const mockDispatch = jest.spyOn(el, 'dispatchEvent');
-
-    beforeEach(() => mockDispatch.mockReset());
-
-    test('dispatchCustomEvent dispatches CustomEvent instance on the provided element', () => {
-      const eventName = `click${Math.random()}`;
-      const customEventInit = {detail: Math.random()};
-      dispatchCustomEvent(el, eventName, customEventInit);
-
-      expect(el.dispatchEvent).toHaveBeenCalled();
-
-      const event: CustomEvent = (el.dispatchEvent as jest.Mock).mock.calls[0][0];
-      expect(event.type).toBe(eventName);
-      expect(event.bubbles).toBe(true);
-      expect(event.cancelable).toBe(true);
-      expect((event as any).detail).toBe(customEventInit.detail);
-    });
-
-    test('dispatchCustomEvent dispatches CustomEvent instance with default params', () => {
-      const eventName = `click${Math.random()}`;
-      dispatchCustomEvent(el, eventName);
-
-      expect(el.dispatchEvent).toHaveBeenCalled();
-      const event: CustomEvent = (el.dispatchEvent as jest.Mock).mock.calls[0][0];
-      expect(event.bubbles).toBe(true);
-      expect(event.cancelable).toBe(true);
-    });
-
-    test('dispatchCustomEvent merge custom init before dispatching CustomEvent', () => {
-      const eventName = `click${Math.random()}`;
-      dispatchCustomEvent(el, eventName, {cancelable: false, bubbles: false});
-
-      expect(el.dispatchEvent).toHaveBeenCalled();
-      const event: CustomEvent = (el.dispatchEvent as jest.Mock).mock.calls[0][0];
-      expect(event.bubbles).toBe(false);
-      expect(event.cancelable).toBe(false);
     });
   });
 });

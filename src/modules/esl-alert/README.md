@@ -1,15 +1,12 @@
 # [ESL](../../../) Alert
 
-Version: *2.0.0*.
+Version: *1.0.0*
 
-Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*.
+Authors: *Julia Murashko*
 
 <a name="intro"></a>
 
-**ESLAlert** is a component to show small notifications on your pages. 
-
-The ESLAlert instances are controlled via DOM events dispatched on the observed target. 
-ESLAlert can have multiple instances on the page.
+ESLAlert is a component to show small notifications on your pages. ESLAlert can have multiple instances on the page.
 
 ---
 
@@ -22,7 +19,7 @@ Then you can attach `<esl-alert>` component to the expected place in the documen
 
 ESL Alert listens to DOM events to control its state. 
 By default, the target to catch alerts is the `esl-alert` parent element. 
-Target can be changed using `target` attribute with the [ESLTraversingQuery](../esl-traversing-query/README.md) support, 
+Target can be changed using `target` attribute with the [TraversingQuery](../esl-traversing-query/README.md) support, 
 or through the `$target` property that accepts any EventTarget instance (including the window). 
 
 ESL Alert listens to the following events: 

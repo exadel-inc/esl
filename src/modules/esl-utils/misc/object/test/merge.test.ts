@@ -45,48 +45,13 @@ describe('misc/object: deepMerge', () => {
   });
 
   test.each([
-    [null, null],
-    [null, {}, {}],
-    [null, [], []],
+    [null, {}], // ?? minor
     [{}, undefined, {}],
-    [{}, null, null],
-    [{}, 1, 1],
-    [{}, 1, [], []],
-    [{}, 'Hi', 'Hi'],
-    [{}, 'Hi', {a: 1}, {a: 1}]
+    [{}, null, {}],
+    [{}, 1, {}],
+    [{}, 'Hi', {}],
   ])('edge case: %p %p %p', (...args: any[]) => {
     const result = args.pop();
     expect(deepMerge(...args)).toEqual(result);
-  });
-
-  test.each([
-    [{a: undefined}, {a: 1}, {a: 1}],
-    [{a: 1}, {a: undefined}, {a: undefined}],
-    [{a: 1}, {a: null}, {a: null}],
-    [{a: {}}, {a: undefined}, {a: undefined}],
-    [{a: {b: {}}}, {a: {b: undefined}}, {a: {b: undefined}}]
-  ])('nested falsy: %p %p %p', (...args: any[]) => {
-    const result = args.pop();
-    expect(deepMerge(...args)).toEqual(result);
-  });
-
-  test('prototype pollution via __proto__', () => {
-    const maliciousPayload = '{"a": 1, "__proto__": {"polluted": true}}';
-    const a: any = {};
-    const merged: any = deepMerge({}, JSON.parse(maliciousPayload));
-
-    expect(({} as any).polluted).not.toBe(true); // safe Plain Old Javascript Object
-    expect(a.polluted).not.toBe(true); // safe a input
-    expect(merged.polluted).toBe(true);
-  });
-
-  test('prototype pollution via constructor.prototype', () => {
-    const maliciousPayload = '{"a": 1, "constructor": {"prototype": {"polluted": true}}}';
-    const a: any = {};
-    const merged: any = deepMerge({}, JSON.parse(maliciousPayload));
-
-    expect(({} as any).polluted).not.toBe(true); // safe Plain Old Javascript Object
-    expect(a.polluted).not.toBe(true); // safe a input
-    expect(merged.constructor.prototype.polluted).toBe(true);
   });
 });

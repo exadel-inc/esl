@@ -1,4 +1,4 @@
-name: GH Pages
+name: GH Pages Build and Deploy
 
 on:
   schedule:
@@ -7,17 +7,17 @@ on:
   workflow_dispatch:
 
 env:
-  node-version: 18.x
+  node-version: 16.x
 
 jobs:
   deploy-gh-pages:
-    name: Build and Deploy
+
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
@@ -26,7 +26,7 @@ jobs:
       - name: Build
         run: npm run build-pages
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           branch: gh-pages
           folder: pages/dist

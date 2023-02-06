@@ -1,39 +1,37 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement} from '../../esl-base-element/core';
-import {setAttr} from '../../esl-utils/dom/attr';
-import {attr, boolAttr, prop, listen, ready} from '../../esl-utils/decorators';
+import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
+import {bind} from '../../esl-utils/decorators/bind';
+import {ready} from '../../esl-utils/decorators/ready';
 import {parseNumber} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {ENTER, SPACE, ESC} from '../../esl-utils/dom/keys';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
+import {ENTER, SPACE} from '../../esl-utils/dom/keys';
+import {TraversingQuery} from '../../esl-traversing-query/core';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLToggleablePlaceholder} from '../../esl-toggleable/core';
 
-import type {ESLToggleable, ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
+import type {ESLToggleable, ToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
   public static is = 'esl-trigger';
-  public static observedAttributes = ['target'];
 
-  /** Event that represents {@link ESLTrigger} state change */
-  @prop('esl:change:active') public CHANGE_EVENT: string;
-  /** Events to observe target {@link ESLToggleable} instance state */
-  @prop('esl:show esl:hide') public OBSERVED_EVENTS: string;
+  static get observedAttributes(): string[] {
+    return ['target'];
+  }
 
   /** @readonly Observed Toggleable active state marker */
   @boolAttr({readonly: true}) public active: boolean;
 
   /** CSS classes to set on active state */
   @attr({defaultValue: ''}) public activeClass: string;
-  /** Target element {@link ESLTraversingQuery} selector to set `activeClass` */
+  /** Target element {@link TraversingQuery} selector to set `activeClass` */
   @attr({defaultValue: ''}) public activeClassTarget: string;
 
   /** Selector for ignored inner elements */
   @attr({defaultValue: 'a[href]'}) public ignore: string;
 
-  /** Target Toggleable {@link ESLTraversingQuery} selector. `::next` by default */
+  /** Target Toggleable {@link TraversingQuery} selector. `::next` by default */
   @attr({defaultValue: '::next'}) public target: string;
   /** Action to pass to the Toggleable. Supports `show`, `hide` and `toggle` values. `toggle` by default */
   @attr({defaultValue: 'toggle'}) public mode: string;
@@ -45,11 +43,6 @@ export class ESLTrigger extends ESLBaseElement {
 
   /** Selector of inner target element to place aria attributes. Uses trigger itself if blank */
   @attr({defaultValue: ''}) public a11yTarget: string;
-
-  /** Value of aria-label for active state */
-  @attr({defaultValue: null}) public a11yLabelActive: string | null;
-  /** Value of aria-label for inactive state */
-  @attr({defaultValue: null}) public a11yLabelInactive: string | null;
 
   /** Show delay value */
   @attr({defaultValue: 'none'}) public showDelay: string;
@@ -67,9 +60,6 @@ export class ESLTrigger extends ESLBaseElement {
    */
   @attr({defaultValue: '0'}) public hoverHideDelay: string;
 
-  /** Prevent ESC keyboard event handling for target element hiding */
-  @boolAttr() public ignoreEsc: boolean;
-
   protected _$target: ESLToggleable | null;
 
   protected attributeChangedCallback(attrName: string): void {
@@ -82,21 +72,15 @@ export class ESLTrigger extends ESLBaseElement {
     return this._$target;
   }
   public set $target(newPopupInstance: ESLToggleable | null) {
-    this.$$off(this._onTargetStateChange);
+    this.unbindEvents();
     this._$target = newPopupInstance;
-    this.$$on(this._onTargetStateChange);
+    this.bindEvents();
     this._onTargetStateChange();
   }
 
   /** Element target to setup aria attributes */
   public get $a11yTarget(): HTMLElement | null {
     return this.a11yTarget ? this.querySelector(this.a11yTarget) : this;
-  }
-
-  /** Value to setup aria-label */
-  public get a11yLabel(): string | null {
-    if (!this.$target) return null;
-    return (this.$target.open ? this.a11yLabelActive : this.a11yLabelInactive) || null;
   }
 
   /** Marker to allow track hover */
@@ -114,11 +98,36 @@ export class ESLTrigger extends ESLBaseElement {
     this.updateTargetFromSelector();
     this.initA11y();
   }
+  @ready
+  protected disconnectedCallback(): void {
+    this.unbindEvents();
+  }
+
+  protected bindEvents(): void {
+    if (!this.$target) return;
+    this.$target.addEventListener('esl:show', this._onTargetStateChange);
+    this.$target.addEventListener('esl:hide', this._onTargetStateChange);
+
+    this.addEventListener('click', this._onClick);
+    this.addEventListener('keydown', this._onKeydown);
+    this.addEventListener('mouseenter', this._onMouseEnter);
+    this.addEventListener('mouseleave', this._onMouseLeave);
+  }
+  protected unbindEvents(): void {
+    if (!this.$target) return;
+    this.$target.removeEventListener('esl:show', this._onTargetStateChange);
+    this.$target.removeEventListener('esl:hide', this._onTargetStateChange);
+
+    this.removeEventListener('click', this._onClick);
+    this.removeEventListener('keydown', this._onKeydown);
+    this.removeEventListener('mouseenter', this._onMouseEnter);
+    this.removeEventListener('mouseleave', this._onMouseLeave);
+  }
 
   /** Update `$target` Toggleable  from `target` selector */
-  public updateTargetFromSelector(): void {
+  protected updateTargetFromSelector(): void {
     if (!this.target) return;
-    this.$target = ESLTraversingQuery.first(this.target, this) as ESLToggleable;
+    this.$target = TraversingQuery.first(this.target, this) as ESLToggleable;
 
     if (this.$target instanceof ESLToggleablePlaceholder && this.$target.$origin) {
       // change target if it is an instance of the placeholder element
@@ -135,7 +144,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Merge params to pass to the toggleable */
-  protected mergeToggleableParams(this: ESLTrigger, ...params: ESLToggleableActionParams[]): ESLToggleableActionParams {
+  protected mergeToggleableParams(this: ESLTrigger, ...params: ToggleableActionParams[]): ToggleableActionParams {
     return Object.assign({
       initiator: 'trigger',
       activator: this
@@ -143,7 +152,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Show target toggleable with passed params */
-  public showTarget(params: ESLToggleableActionParams = {}): void {
+  public showTarget(params: ToggleableActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
       delay: parseNumber(this.showDelay)
     }, params);
@@ -152,7 +161,7 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
   /** Hide target toggleable with passed params */
-  public hideTarget(params: ESLToggleableActionParams = {}): void {
+  public hideTarget(params: ToggleableActionParams = {}): void {
     const actionParams = this.mergeToggleableParams({
       delay: parseNumber(this.hideDelay)
     }, params);
@@ -161,7 +170,7 @@ export class ESLTrigger extends ESLBaseElement {
     }
   }
   /** Toggles target toggleable with passed params */
-  public toggleTarget(params: ESLToggleableActionParams = {}, state: boolean = !this.active): void {
+  public toggleTarget(params: ToggleableActionParams = {}, state: boolean = !this.active): void {
     state ? this.showTarget(params) : this.hideTarget(params);
   }
 
@@ -174,7 +183,7 @@ export class ESLTrigger extends ESLBaseElement {
     const wasActive = this.active;
 
     this.toggleAttribute('active', isActive);
-    const clsTarget = ESLTraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
+    const clsTarget = TraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
     clsTarget && CSSClassUtils.toggle(clsTarget, this.activeClass, isActive);
 
     this.updateA11y();
@@ -183,39 +192,33 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Handles ESLToggleable state change */
-  @listen({
-    event: (that: ESLTrigger) => that.OBSERVED_EVENTS,
-    target: (that: ESLTrigger) => that.$target
-  })
+  @bind
   protected _onTargetStateChange(originalEvent?: Event): void {
     if (!this.updateState()) return;
     const detail = {active: this.active, originalEvent};
-    this.$$fire(this.CHANGE_EVENT, {detail});
+    this.$$fire('change:active', {detail});
   }
 
   /** Handles `click` event */
-  @listen('click')
+  @bind
   protected _onClick(event: MouseEvent): void {
     if (!this.allowClick || this.isTargetIgnored(event.target)) return;
     event.preventDefault();
-    this._onPrimaryEvent(event);
-  }
-
-  /** Handles `keydown` event */
-  @listen('keydown')
-  protected _onKeydown(event: KeyboardEvent): void {
-    if (![ENTER, SPACE, ESC].includes(event.key) || this.isTargetIgnored(event.target)) return;
-    event.preventDefault();
-    if (event.key === ESC) {
-      if (this.ignoreEsc) return;
-      this.hideTarget({event});
-    } else {
-      this._onPrimaryEvent(event);
+    switch (this.mode) {
+      case 'show':
+        return this.showTarget({event});
+      case 'hide':
+        return this.hideTarget({event});
+      default:
+        return this.toggleTarget({event});
     }
   }
 
-  /** Handles target primary (observed) event */
-  protected _onPrimaryEvent(event: Event): void {
+  /** Handles `keydown` event */
+  @bind
+  protected _onKeydown(event: KeyboardEvent): void {
+    if (![ENTER, SPACE].includes(event.key) || this.isTargetIgnored(event.target)) return;
+    event.preventDefault();
     switch (this.mode) {
       case 'show':
         return this.showTarget({event});
@@ -227,7 +230,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Handles hover `mouseenter` event */
-  @listen('mouseenter')
+  @bind
   protected _onMouseEnter(event: MouseEvent): void {
     if (!this.allowHover) return;
     const delay = parseNumber(this.hoverShowDelay);
@@ -236,7 +239,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Handles hover `mouseleave` event */
-  @listen('mouseleave')
+  @bind
   protected _onMouseLeave(event: MouseEvent): void {
     if (!this.allowHover) return;
     if (this.mode === 'show' || this.mode === 'hide') return;
@@ -259,12 +262,9 @@ export class ESLTrigger extends ESLBaseElement {
     const target = this.$a11yTarget;
     if (!target) return;
 
-    if (this.a11yLabelActive !== null || this.a11yLabelInactive !== null) {
-      setAttr(target, 'aria-label', this.a11yLabel);
-    }
-    setAttr(target, 'aria-expanded', String(this.active));
+    target.setAttribute('aria-expanded', String(this.active));
     if (this.$target && this.$target.id) {
-      setAttr(target, 'aria-controls', this.$target.id);
+      target.setAttribute('aria-controls', this.$target.id);
     }
   }
 }

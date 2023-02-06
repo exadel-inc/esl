@@ -7,7 +7,7 @@ import type {ESLAlert} from './esl-alert';
  */
 export interface ESLAlertShape extends ESLToggleableTagShape<ESLAlert> {
   /**
-   * Defines the scope (using {@link ESLTraversingQuery} syntax) element to listen for an activation event.
+   * Defines the scope (using {@link TraversingQuery} syntax) element to listen for an activation event.
    * Parent element by default
    */
   target?: string;

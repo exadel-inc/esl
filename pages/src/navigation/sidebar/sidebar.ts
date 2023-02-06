@@ -1,10 +1,13 @@
-import {boolAttr, listen, prop, ready} from '../../../../src/modules/esl-utils/decorators';
+import {attr} from '../../../../src/modules/esl-utils/decorators/attr';
+import {prop} from '../../../../src/modules/esl-utils/decorators/prop';
+import {bind} from '../../../../src/modules/esl-utils/decorators/bind';
+import {ready} from '../../../../src/modules/esl-utils/decorators/ready';
 import {ESLToggleable} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
 import {ESLMediaQuery} from '../../../../src/modules/esl-media-query/core/esl-media-query';
 
-import type {ESLToggleableActionParams} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
+import type {ToggleableActionParams} from '../../../../src/modules/esl-toggleable/core/esl-toggleable';
 
-interface SidebarActionParams extends ESLToggleableActionParams {
+interface SidebarActionParams extends ToggleableActionParams {
   /** Change state without animation */
   immediate: boolean;
 }
@@ -18,7 +21,7 @@ export class ESLDemoSidebar extends ESLToggleable {
   @prop() public submenus: string = '.sidebar-nav-secondary';
   @prop() public activeMenuAttr: string = 'data-open';
 
-  @boolAttr({name: 'animation'}) protected _animation: boolean;
+  @attr({name: 'animation'}) protected _animation: boolean;
 
   public get $submenus(): ESLToggleable[] {
     return Array.from(this.querySelectorAll(this.submenus));
@@ -27,6 +30,11 @@ export class ESLDemoSidebar extends ESLToggleable {
   @ready
   protected connectedCallback(): void {
     super.connectedCallback();
+    ESLMediaQuery.for('@+MD').addListener(this.onBreakpointChange);
+  }
+  protected disconnectedCallback(): void {
+    super.disconnectedCallback();
+    ESLMediaQuery.for('@+MD').removeListener(this.onBreakpointChange);
   }
 
   protected storeState(): void {
@@ -72,16 +80,14 @@ export class ESLDemoSidebar extends ESLToggleable {
     }
   }
 
-  @listen({
-    event: 'change',
-    target: ESLMediaQuery.for('@+MD')
-  })
-  protected onBreakpointChange({matches: isDesktop}: MediaQueryListEvent): void {
+  @bind
+  protected onBreakpointChange(): void {
+    const isDesktop = ESLMediaQuery.for('@+MD').matches;
     const isStoredOpen = !localStorage.getItem('sidebar-collapsed');
     this.toggle(isDesktop && isStoredOpen, {force: true, initiator: 'bpchange', immediate: !isDesktop});
   }
 
-  @listen({inherit: true})
+  @bind
   protected _onOutsideAction(e: Event): void {
     if (ESLMediaQuery.for('@+MD').matches) return;
     super._onOutsideAction(e);

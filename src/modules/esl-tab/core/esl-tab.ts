@@ -1,5 +1,4 @@
-import {attr} from '../../esl-utils/decorators';
-import {setAttr} from '../../esl-utils/dom/attr';
+import {attr} from '../../esl-utils/decorators/attr';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLTrigger} from '../../esl-trigger/core';
 
@@ -21,21 +20,17 @@ export class ESLTab extends ESLTrigger {
     const target = this.$a11yTarget;
     if (!target) return;
     if (target.hasAttribute('role')) return;
-    setAttr(target, 'role', 'tab');
+    target.setAttribute('role', 'tab');
   }
 
   public updateA11y(): void {
     const target = this.$a11yTarget;
     if (!target) return;
-
-    if (this.a11yLabelActive !== null || this.a11yLabelInactive !== null) {
-      setAttr(target, 'aria-label', this.a11yLabel);
-    }
-    setAttr(target, 'aria-selected', String(this.active));
-    setAttr(target, 'tabindex', this.active ? '0' : '-1');
+    target.setAttribute('aria-selected', String(this.active));
+    target.setAttribute('tabindex', this.active ? '0' : '-1');
 
     if (this.$target && this.$target.id) {
-      setAttr(target, 'aria-controls', this.$target.id);
+      this.setAttribute('aria-controls', this.$target.id);
     }
   }
 }

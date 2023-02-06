@@ -1,12 +1,9 @@
 module.exports = {
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest',
-    '^.+\\.html?$': './build/jest.html-loader.js'
-  },
   testEnvironment: 'jsdom',
-  roots: ['src/modules', 'src/polyfills'],
+  preset: 'ts-jest',
+  roots: ['src/modules'],
   testRegex: '/test/(.+)\\.test\\.ts$',
-  moduleFileExtensions: ['ts', 'js', 'json', 'html'],
+  moduleFileExtensions: ['ts', 'js', 'json'],
   coverageDirectory: '.report',
   coverageReporters: ['lcov', 'html'],
   setupFiles: [

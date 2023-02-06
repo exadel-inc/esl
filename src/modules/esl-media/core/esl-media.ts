@@ -1,13 +1,14 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement} from '../../esl-base-element/core';
-import {bind, prop, attr, boolAttr} from '../../esl-utils/decorators';
+import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
+import {bind} from '../../esl-utils/decorators/bind';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {debounce} from '../../esl-utils/async/debounce';
+import {EventUtils} from '../../esl-utils/dom/events';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
+import {TraversingQuery} from '../../esl-traversing-query/core';
 
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {getIObserver} from './esl-media-iobserver';
@@ -28,34 +29,7 @@ export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
 @ExportNs('Media')
 export class ESLMedia extends ESLBaseElement {
   public static is = 'esl-media';
-  public static observedAttributes = [
-    'disabled',
-    'load-condition',
-    'media-type',
-    'media-id',
-    'media-src',
-    'fill-mode',
-    'aspect-ratio',
-    'play-in-viewport',
-    'muted',
-    'loop',
-    'controls'
-  ];
-
-  /** Event to dispatch on ready state */
-  @prop('esl:media:ready') public READY_EVENT: string;
-  /** Event to dispatch on error state */
-  @prop('esl:media:error') public ERROR_EVENT: string;
-  /** Event to dispatch when player plays */
-  @prop('esl:media:play') public PLAY_EVENT: string;
-  /** Event to dispatch when player paused */
-  @prop('esl:media:paused') public PAUSED_EVENT: string;
-  /** Event to dispatch when player ended */
-  @prop('esl:media:ended') public ENDED_EVENT: string;
-  /** Event to dispatch when player detached */
-  @prop('esl:media:detached') public DETACHED_EVENT: string;
-  /** Event to dispatch when player paused by another instance in group */
-  @prop('esl:media:managedpause') public MANAGED_PAUSE_EVENT: string;
+  public static eventNs = 'esl:media:';
 
   /** Media resource identifier */
   @attr() public mediaId: string;
@@ -103,7 +77,7 @@ export class ESLMedia extends ESLBaseElement {
   @attr() public loadClsDeclined: string;
   /** Condition {@link ESLMediaQuery} to allow load of media resource. Default: `all` */
   @attr({defaultValue: 'all'}) public loadCondition: string;
-  /** Target element {@link ESLTraversingQuery} select to add accepted/declined classes */
+  /** Target element {@link TraversingQuery} select to add accepted/declined classes */
   @attr({defaultValue: '::parent'}) public loadClsTarget: string;
 
   /** @readonly Ready state marker */
@@ -126,6 +100,22 @@ export class ESLMedia extends ESLBaseElement {
    */
   static get PLAYER_STATES(): typeof PlayerStates {
     return PlayerStates;
+  }
+
+  static get observedAttributes(): string[] {
+    return [
+      'disabled',
+      'load-condition',
+      'media-type',
+      'media-id',
+      'media-src',
+      'fill-mode',
+      'aspect-ratio',
+      'play-in-viewport',
+      'muted',
+      'loop',
+      'controls'
+    ];
   }
 
   static supports(name: string): boolean {
@@ -174,8 +164,8 @@ export class ESLMedia extends ESLBaseElement {
           this.detachViewportConstraint();
         break;
       case 'load-condition':
-        ESLMediaQuery.for(oldVal).removeEventListener(this.deferredReinitialize);
-        ESLMediaQuery.for(newVal).addEventListener(this.deferredReinitialize);
+        ESLMediaQuery.for(oldVal).removeListener(this.deferredReinitialize);
+        ESLMediaQuery.for(newVal).addListener(this.deferredReinitialize);
         this.deferredReinitialize();
         break;
     }
@@ -183,20 +173,20 @@ export class ESLMedia extends ESLBaseElement {
 
   protected bindEvents(): void {
     ESLMediaProviderRegistry.instance.addListener(this._onRegistryStateChange);
-    this.conditionQuery.addEventListener(this.deferredReinitialize);
+    this.conditionQuery.addListener(this.deferredReinitialize);
     if (this.fillModeEnabled) {
       window.addEventListener('resize', this.deferredResize);
     }
-    window.addEventListener(this.REFRESH_EVENT, this._onRefresh);
+    window.addEventListener('esl:refresh', this._onRefresh);
     this.addEventListener('keydown', this._onKeydown);
   }
   protected unbindEvents(): void {
     ESLMediaProviderRegistry.instance.removeListener(this._onRegistryStateChange);
-    this.conditionQuery.removeEventListener(this.deferredReinitialize);
+    this.conditionQuery.removeListener(this.deferredReinitialize);
     if (this.fillModeEnabled) {
       window.removeEventListener('resize', this.deferredResize);
     }
-    window.removeEventListener(this.REFRESH_EVENT, this._onRefresh);
+    window.removeEventListener('esl:refresh', this._onRefresh);
     this.removeEventListener('keydown', this._onKeydown);
   }
 
@@ -224,7 +214,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public updateContainerMarkers(): void {
-    const targetEl = ESLTraversingQuery.first(this.loadClsTarget, this) as HTMLElement;
+    const targetEl = TraversingQuery.first(this.loadClsTarget, this) as HTMLElement;
     if (!targetEl) return;
 
     const active = this.canActivate();
@@ -277,14 +267,14 @@ export class ESLMedia extends ESLBaseElement {
     this.toggleAttribute('error', false);
     this.updateReadyClass();
     this.deferredResize();
-    this.$$fire(this.READY_EVENT);
+    this.$$fire('ready');
   }
 
   public _onError(detail?: any, setReadyState = true): void {
     this.toggleAttribute('ready', true);
     this.toggleAttribute('error', true);
-    this.$$fire(this.ERROR_EVENT, {detail});
-    setReadyState && this.$$fire(this.READY_EVENT);
+    this.$$fire('error', {detail});
+    setReadyState && this.$$fire('ready');
   }
 
   public _onDetach(): void {
@@ -292,7 +282,7 @@ export class ESLMedia extends ESLBaseElement {
     this.removeAttribute('ready');
     this.removeAttribute('played');
     this.updateReadyClass();
-    this.$$fire(this.DETACHED_EVENT);
+    this.$$fire('detach');
   }
 
   public _onPlay(): void {
@@ -300,19 +290,19 @@ export class ESLMedia extends ESLBaseElement {
     this.deferredResize();
     this.setAttribute('active', '');
     this.setAttribute('played', '');
-    this.$$fire(this.PLAY_EVENT);
+    this.$$fire('play');
     MediaGroupRestrictionManager.registerPlay(this);
   }
 
   public _onPaused(): void {
     this.removeAttribute('active');
-    this.$$fire(this.PAUSED_EVENT);
+    this.$$fire('paused');
     MediaGroupRestrictionManager.unregister(this);
   }
 
   public _onEnded(): void {
     this.removeAttribute('active');
-    this.$$fire(this.ENDED_EVENT);
+    this.$$fire('ended');
     MediaGroupRestrictionManager.unregister(this);
   }
 
@@ -357,7 +347,7 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Update ready class state */
   protected updateReadyClass(): void {
-    const target = ESLTraversingQuery.first(this.readyClassTarget, this) as HTMLElement;
+    const target = TraversingQuery.first(this.readyClassTarget, this) as HTMLElement;
     target && CSSClassUtils.toggle(target, this.readyClass, this.ready);
   }
 
@@ -410,6 +400,11 @@ export class ESLMedia extends ESLBaseElement {
   protected detachViewportConstraint(): void {
     const observer = getIObserver(true);
     observer && observer.unobserve(this);
+  }
+
+  public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
+    const ns = (this.constructor as typeof ESLMedia).eventNs;
+    return EventUtils.dispatch(this, ns + eventName, eventInit);
   }
 }
 

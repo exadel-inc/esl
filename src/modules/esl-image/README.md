@@ -1,12 +1,12 @@
 # [ESL](../../../) Image
 
-Version: *1.3.0*
+Version: *1.2.1*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*
 
 <a name="intro"></a>
 
-**ESLImage** - a custom element, that provides flexible ways to include images on web pages. 
+ESLImage - a custom element, that provides flexible ways to include images on web pages. 
 Was originally developed as an alternative to `<picture>` element, but with more features inside.
 
 --- 
@@ -17,7 +17,7 @@ Was originally developed as an alternative to `<picture>` element, but with more
    - `safe-ratio` - renders the image via `background-image` CSS property, but also sets height using `padding-top: {aspectRatio}%;` trick;
    - `fit` - renders the image using inner `<img>` element;
    - `origin` - renders the image using inner `<img>` element, sets width/height attributes using image's original size;
-   - `inner-svg` - renders svg content inside (the content is loaded via XHR request).
+   - `svg-inline` - renders svg content inside (the content is loaded via XHR request).
  - Lazy loading modes:
    - *none* - image starts loading immediately;
    - *manual* - starts loading image when a marker is provided manually;
@@ -49,7 +49,7 @@ In case `alt` is not provided then an empty value is used as a fallback.
   - `fit` - use inner `img`, but do not force its width;
   - `cover` - do not set self width/height; use 100% w/h of the container (use `background-image` for rendering);
   - `save-ratio` - fill 100% of container width and set the self height according to image ratio (use `background-image` for rendering);
-  - `inner-svg` - load an SVG content via XHR request and render it inside.
+  - `svg-inline` - load an SVG content via XHR request and render it inside.
 
 - **lazy** (optional) - enable lazy loading:
   - `auto` - IntersectionObserver mode: image starts loading as soon as it becomes visible in visual area
@@ -63,7 +63,7 @@ In case `alt` is not provided then an empty value is used as a fallback.
 
 - **container-class-state** (optional) - image state in which the container will be marked with `container-class` (can be 'ready', 'loaded' or 'error')
 
-- **container-class-target** (optional) - [ESLTraversingQuery](../esl-traversing-query/README.md) to find the target to add `container-class` to ('::parent' by default).
+- **container-class-target** (optional) - [TraversingQuery](../esl-traversing-query/README.md) to find the target to add `container-class` to ('::parent' by default).
 
 NOTE: ESL Image supports `title` attribute like any HTML element, no additional reflection for that attribute is needed - it will work correctly according to HTML5.* REC
 

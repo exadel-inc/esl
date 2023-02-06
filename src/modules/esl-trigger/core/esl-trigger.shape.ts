@@ -6,7 +6,7 @@ import type {ESLTrigger} from './esl-trigger';
  * Used for TSX declaration
  */
 export interface ESLTriggerTagShape<T extends ESLTrigger = ESLTrigger> extends ESLBaseElementShape<T> {
-  /** Define target Toggleable {@link ESLTraversingQuery} selector. `next` by default */
+  /** Define target Toggleable {@link TraversingQuery} selector. `next` by default */
   'target'?: string;
 
   /** Define an action to pass to the Toggleable */
@@ -14,7 +14,7 @@ export interface ESLTriggerTagShape<T extends ESLTrigger = ESLTrigger> extends E
 
   /** Define CSS classes to set on active state */
   'active-class'?: string;
-  /** Define target element {@link ESLTraversingQuery} selector to set `active-class` */
+  /** Define target element {@link TraversingQuery} selector to set `active-class` */
   'active-class-target'?: string;
 
   /** Define selector for ignored inner elements */
@@ -25,16 +25,8 @@ export interface ESLTriggerTagShape<T extends ESLTrigger = ESLTrigger> extends E
   /** Define hover event tracking media query */
   'track-hover'?: boolean | string;
 
-  /** Disallow handle ESC keyboard event to hide target element */
-  'ignore-esc'?: boolean;
-
   /** Define selector of inner target element to place aria attributes */
   'a11y-target'?: string;
-
-  /** Define value of aria-label for active state */
-  'a11y-label-active'?: string;
-  /** Define value of aria-label for inactive state */
-  'a11y-label-inactive'?: string;
 
   /** Define show delay value */
   'show-delay'?: string | number;

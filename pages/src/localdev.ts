@@ -32,8 +32,7 @@ import {
   ESLNote,
   ESLFootnotes,
   ESLTooltip,
-  ESLAnimate,
-  ESLRelatedTarget
+  ESLAnimate
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -50,12 +49,10 @@ import {
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
-import {ESLDemoBackLink} from './back-link/back-link';
+import {ESLDemoSidebar} from './navigation/navigation';
 import {ESLDemoMarquee} from './landing/landing';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
 import {ESLDemoSearchPageWrapper} from './search/search';
-import {ESLDemoSidebar} from './navigation/navigation';
-import {ESLDemoAnchorLink} from './anchor/anchor-link';
 
 ESLVSizeCSSProxy.observe();
 
@@ -64,10 +61,9 @@ ESLDemoSidebar.register();
 ESLDemoMarquee.register();
 ESLDemoSearchBox.register();
 ESLDemoSearchPageWrapper.register();
-ESLDemoAnchorLink.register();
-ESLDemoBackLink.register();
 
 // Register ESL Components
+
 ESLImage.register();
 ESLMedia.register();
 
@@ -108,6 +104,3 @@ ESLCarouselPlugins.Dots.register();
 ESLCarouselPlugins.Link.register();
 ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
-
-// Register ESL Mixins
-ESLRelatedTarget.register();

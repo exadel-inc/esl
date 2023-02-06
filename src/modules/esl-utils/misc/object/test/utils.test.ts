@@ -1,4 +1,4 @@
-import {defined, extractValues, getPropertyDescriptor} from '../utils';
+import {defined, getPropertyDescriptor} from '../utils';
 
 describe('misc/object: utils', () => {
   describe('getPropertyDescriptor', () => {
@@ -56,56 +56,6 @@ describe('misc/object: utils', () => {
       expect(defined(null, 'a')).toBe(null);
       const obj = {};
       expect(defined(obj, null)).toBe(obj);
-    });
-  });
-
-  describe('extractValues', () => {
-    test('extractValues collect all values from simple object', () => {
-      const obj = {a: 1, b: 2};
-      expect(extractValues(obj, () => true)).toEqual(Object.values(obj));
-    });
-
-    test('extractValues collect all values from object prototype', () => {
-      const obj = {a: 1, b: 2};
-      const proto = {c: 3, d: 4};
-      Object.setPrototypeOf(obj, proto);
-      expect(extractValues(obj, () => true)).toEqual(Object.values(obj).concat(Object.values(proto)));
-    });
-
-    test('extractValues does not duplicate keys from prototype', () => {
-      const obj = {a: 1, b: 2};
-      const proto = {b: 4};
-      Object.setPrototypeOf(obj, proto);
-      expect(extractValues(obj, () => true)).toEqual(Object.values(obj));
-    });
-
-    test('extractValues calls filter function for each key', () => {
-      const obj = {a: 1, b: 2};
-      const proto = {d: 4};
-      Object.setPrototypeOf(obj, proto);
-      const filter = jest.fn(() => true);
-      extractValues(obj, filter);
-
-      expect(filter).toBeCalledTimes(3);
-      for (const pair of Object.entries(obj).concat(Object.entries(proto))) {
-        expect(filter).toHaveBeenCalledWith(...pair.reverse());
-      }
-    });
-
-    test('extractValues returns empty array with falsy filter', () => {
-      const obj = {a: 1, b: 2};
-      const proto = {b: 4};
-      Object.setPrototypeOf(obj, proto);
-      expect(extractValues(obj, () => false)).toEqual([]);
-    });
-
-    test('extractValues filter keys properly', () => {
-      const obj = {a: 1, b: 2};
-      const proto = {b: 4};
-      Object.setPrototypeOf(obj, proto);
-      const filter = jest.fn(() => false);
-      filter.mockImplementationOnce(() => true);
-      expect(extractValues(obj, filter)).toEqual([1]);
     });
   });
 });

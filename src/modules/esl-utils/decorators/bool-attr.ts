@@ -1,4 +1,4 @@
-import {hasAttr, setAttr} from '../dom/attr';
+import {setAttr} from '../dom/attr';
 import {toKebabCase} from '../misc/format';
 import type {AttributeDecorator, AttributeTarget} from '../dom/attr';
 
@@ -14,7 +14,7 @@ type BoolAttrDescriptor = {
 
 function buildConditionalDescriptor(attrName: string, readOnly: boolean): PropertyDescriptor {
   function get(): boolean {
-    return hasAttr(this, attrName);
+    return this.hasAttribute(attrName);
   }
   function set(value: unknown): void {
     setAttr(this, attrName, !!value);

@@ -1,6 +1,7 @@
 import {wrap} from '../../esl-utils/misc/array';
+import {bind} from '../../esl-utils/decorators/bind';
 import {debounce} from '../../esl-utils/async/debounce';
-import {memoize, bind} from '../../esl-utils/decorators';
+import {memoize} from '../../esl-utils/decorators/memoize';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 

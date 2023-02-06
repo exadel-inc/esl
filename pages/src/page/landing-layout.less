@@ -6,33 +6,11 @@
   flex-direction: column;
 
   color: @landing-fg-color;
+  background-color: @landing-bg-color;
 
   main {
     height: 100%;
   }
-
-  background: @landing-bg-color url('/assets/common/stars.webp') repeat;
-  background-size: 50vw auto;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    background: url('/assets/common/fog.webp') repeat;
-    background-size: 100vw auto;
-    animation: slow-move-right 100s infinite linear;
-  }
-
-  @keyframes slow-move-right {
-    0% { background-position: 0 0; opacity: 1; }
-    50% { opacity: .75; }
-    100% { background-position: 100vw 0; opacity: 1; }
-  }
-
 
   .main-scroll {
     position: absolute;

@@ -1,21 +1,15 @@
 # [ESL](../../../) Media Query Utils
 
-Version: *3.0.0*
+Version: *2.1.0*
 
 Authors: *Alexey Stsefanovich (ala'n)*, *Yuliya Adamskaya*, *Julia Murashko*
 
 <a name="intro"></a>
 
-**ESLMediaQuery** is an extended browser `MediaQueryList` object and related utils such as rule-value pairs 
-called `ESLMediaRuleList`.
-
-In addition to native Media Features, `ESLMediaQuery` allows special *shortcuts* to simplify syntax and query usage.
-`ESLMediaQuery` is more tolerant to logical operations and allows using of multiple 'not' operators or 
+ESL Media Query is an extended browser MediaQueryList object and related utils.
+In addition to native Media Features, ESL Media Query allows special *shortcuts* to simplify syntax and query usage.
+ESLMediaQuery is more tolerant to logical operations and allows using of multiple 'not' operators or 
 having extra conditions inside the query (`all and all` still a valid condition).
-`ESLMediaRuleList` allows to map condition defined by `ESLMediaQuery` to the value, 
-it is serializable and supports multiple formats to parse.  
-Both `ESLMediaQuery` and `ESLMediaRuleList` implements `EventTarget` interface, 
-so they're compatible to use with DOM EventListeners, including `ESLEventListener` feature.
 
 <a name="features"></a>
 ### Supported ESL Media Query features
@@ -45,9 +39,6 @@ so they're compatible to use with DOM EventListeners, including `ESLEventListene
 - `or` operation alias in addition to "`,`" (`@xs or @mobile` is the same as `@xs, @mobile`)
 - Multiple `not` operators, that is not sensitive to position
   (e.g. `not @ie`, `not @xs and not @mobile`)
-- Implements `EventTarget` interface and compatible with `ESLEventListener`.  
-**Note**: `ESLMediaQuery` ignores event name passed to `EventTarget` interface methods
-
 ---
 
 <a name="breakpoints"></a>
@@ -85,9 +76,9 @@ Environment shortcuts can be removed with `ESLEnvShortcuts.remove` method.
 ---
 
 <a name="media-query"></a>
-### ESLMediaQuery API
+### ESLMediaQuery 
 
-`ESLMediaQuery` is a central API to create an extended Media Query conditions.
+ESLMediaQuery is a central API to create an extended Media Query conditions.
 
  - Use `ESLMediaQuery.for('query')` to create ESLMediaQuery condition.  
    Note: method `ESLMediaQuery.for` is memoized so multiple calls with the same query will return the same query 
@@ -108,32 +99,18 @@ Note: ESLMediaQuery has no real instances and represents `IMediaQueryConditionIn
 
 The `ESLMediaQuery`(`IMediaQueryConditionInterface`) instances provide the following set of properties and methods:
   - `matches` - boolean getter that returns if the current environment configuration is acceptable for current query condition
+  - `addListener(cb)` - to subscribe on condition state changes
+  - `removeListener(cb)` - to unsubscribe from condition state changes
   - `optimize` - inner method to rebuild condition tree, and provide static and logic expression optimization.
-
-Event Target methods:
-- `ESLMediaQuery.prototype.addEventListener(cb: EventListener)` or
-  `ESLMediaQuery.prototype.addEventListener('change', cb: EventListener)` - subscribes to condition state changes
-- `ESLMediaQuery.prototype.removeEventListener(cb: EventListener)` or
-  `ESLMediaQuery.prototype.removeEventListener('change', cb: EventListener)` - unsubscribes from condition state changes
-
-As the `ESLMediaQuery` implements `EventListenr` interface, you can use it in the following way:
-```ts
-class Test {
-  @listen({ event: 'change', target: ESlMediaQuery.for('@-sm') })
-  protected onQueryMatch(e: ESLMediaChangeEvent) {
-    // ...
-  }
-}
-```
 
 ---
 
 <a name="media-rule"></a>
 ### ESLMediaRule
 
-Pair of `ESLMediaQuery` and value (payload) associated with a query condition. 
-`ESLMediaRule` is used as an item for [ESLMediaRuleList](#eslmediarulelist).  
-`ESLMediaRule` can be parsed from `<ESL Media Query> => <value>` syntax string, 
+Pair of ESLMediaQuery and payload value. 
+ESLMediaRule is used as an item for [ESLMediaRuleList](#eslmediarulelist).  
+ESLMediaRule can be parsed from `<ESL Media Query> => <value>` syntax string, 
 e.g. `@XS => 1` (`1` is the payload) or `@+LG and @DESKTOP => desktop` (`'desktop'` is the payload).
 
 --- 
@@ -141,19 +118,16 @@ e.g. `@XS => 1` (`1` is the payload) or `@+LG and @DESKTOP => desktop` (`'deskto
 <a name="media-rule-list"></a>
 ### ESLMediaRuleList
 
-ESLMediaRuleList is an observable [ESLMediaRule](#eslmediarule) collection.
+ESLMediaRuleList is a [ESLMediaRule](#eslmediarule) collection.
 ESLMediaRuleList has methods to work with the whole rules list. 
-It implements `EventTarget` interface and compatible with `ESLEventListener`s, 
-so you can observe active value changes.
+It implements an observable interface, so you can observe active value changes.
 
-ESLMediaRuleList can be parsed from `<default_value> | <ESL Media Rule> | <ESL Media Rule>` string or 
-can be defined with a tuple of corteges with a queries and values.
+ESLMediaRuleList can be parsed from `<default_value> | <ESL Media Rule> | <ESL Media Rule>` string.
 
 ESLMediaRuleList should be generalized with the result value type and according payload parser.
 - `ESLMediaRuleList.STRING_PARSER` - out of the box string payload parser (you can use String constructor instead).
 - `ESLMediaRuleList.OBJECT_PARSER` - out of the box object payload parser (uses evaluation).
 
-Rule defined without query part will match any (`all`) environment.
 Queries Examples:
 - ` 1 | @XS => 2` - the RuleList result depends on environment and equals `'1'` on all screen breakpoints except XS, 
   on XS it changes to `'2'`.  
@@ -161,15 +135,8 @@ Queries Examples:
 - ` @XS => {option: 1} | @+SM => {option: 2}` - the RuleList result depends on environment and equals `{option: 1}` 
   on XS breakpoint, and equals `{option: 2}` on SM and upper breakpoints.
 
-If multiple rule queries satisfied, then the result `ESLMediaRuleList` value pill be computed 
-as merged value of all active rules.
-For primitive types of payload that means that the last active rule wins.
-For objects deep merge result will be used as a result.
-See `deepMerge` ESLUtils method for merge details. 
-`ESLMediaRuleList` use it independently of payload type.
-
-
 Parsing queries examples:
+
 ```typescript
 // Basic parsing
 ESLMediaRuleList.parse('1 | @XS => 2'); // first query from the sample above
@@ -179,28 +146,6 @@ ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', ESLMediaRuleL
 ESLMediaRuleList.parse('@XS => {option: 1} | @+SM => {option: 2}', evaluate); // the same as the sample above 
 
 // Tupple parsing
-ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5') // String payload example
-ESLMediaRuleList.parseTuple('@xs|@sm|@md|@lg|@xl', '1|2|3|4|5',  Number) // Numeric payload sample
+ESLMediaRuleList.parseTuple('1|2|3|4|5', '@xs|@sm|@md|@lg|@xl') // String payload example
+ESLMediaRuleList.parseTuple('1|2|3|4|5', '@xs|@sm|@md|@lg|@xl', Number) // Numeric payload sample
 ```
-
-### ESLMediaRuleList API
-
-- `ESLMediaRuleList.parse(ruleset: string)` - parse media ruleset defined with classic syntax mentioned in section above.
-Rules separated by `|` symbol, query and value separated by `=>` for each rule, query is optional.
-
-- `ESLMediaRuleList.parseTuple(queries: string, values: string)` - parse media ruleset from tuple of
-queries and values, all separated via `|` symbol
-
-- `ESLMediaRuleList.prototype.rules` - array of rules that defines `ESLMediaRuleList` object
-- `ESLMediaRuleList.prototype.active` - array of active (matched) rules 
-- `ESLMediaRuleList.prototype.activeValue` - payload of the last of active rules or `undefined` 
-- `ESLMediaRuleList.prototype.activeValues` - array of active rules payloads
-- `ESLMediaRuleList.prototype.value` - active (merged) value of `ESLMediaRuleList` object
-- `ESLMediaRuleList.prototype.computedValue` - always computed (non-cached) merged active value
-
-Event Target methods:
-- `ESLMediaRuleList.prototype.addEventListener(cb: EventListener)` or
-`ESLMediaRuleList.prototype.addEventListener('change', cb: EventListener)` - subscribes to `ESLMediaRuleList` object value changes 
-- `ESLMediaRuleList.prototype.removeEventListener(cb: EventListener)` or
-`ESLMediaRuleList.prototype.removeEventListener('change', cb: EventListener)` - unsubscribes from `ESLMediaRuleList` object value changes 
-

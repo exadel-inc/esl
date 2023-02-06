@@ -1,4 +1,5 @@
-import {bind, attr, boolAttr, listen} from '../../../esl-utils/decorators';
+import {attr, boolAttr} from '../../../esl-base-element/core';
+import {bind} from '../../../esl-utils/decorators/bind';
 import {ARROW_DOWN, ARROW_UP, ENTER, SPACE} from '../../../esl-utils/dom/keys';
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {ESLScrollbar} from '../../../esl-scrollbar/core';
@@ -14,7 +15,9 @@ import {ESLSelectWrapper} from './esl-select-wrapper';
 @ExportNs('SelectList')
 export class ESLSelectList extends ESLSelectWrapper {
   public static readonly is = 'esl-select-list';
-  public static observedAttributes = ['select-all-label', 'disabled'];
+  public static get observedAttributes(): string[] {
+    return ['select-all-label', 'disabled'];
+  }
 
   public static register(): void {
     ESLSelectItem.register();
@@ -64,6 +67,7 @@ export class ESLSelectList extends ESLSelectWrapper {
     this.appendChild(this.$scroll);
 
     this.bindSelect();
+    this.bindEvents();
 
     this._updateDisabled();
   }
@@ -73,12 +77,25 @@ export class ESLSelectList extends ESLSelectWrapper {
     this.appendChild(this.$selectAll);
     this.appendChild(this.$list);
     this.appendChild(this.$scroll);
+
+    this.unbindEvents();
   }
 
   protected bindSelect(): void {
     const target = this.querySelector('[esl-select-target]');
     if (!target || !(target instanceof HTMLSelectElement)) return;
     this.$select = target;
+  }
+
+  public bindEvents(): void {
+    if (!this.$select) return;
+    this.addEventListener('click', this._onClick);
+    this.addEventListener('keydown', this._onKeydown);
+  }
+  public unbindEvents(): void {
+    if (!this.$select) return;
+    this.removeEventListener('click', this._onClick);
+    this.removeEventListener('keydown', this._onKeydown);
   }
 
   protected _renderItems(): void {
@@ -119,9 +136,11 @@ export class ESLSelectList extends ESLSelectWrapper {
     super._onTargetChange(newTarget, oldTarget);
     this._updateSelectAll();
     this._renderItems();
+
+    this.bindEvents();
   }
 
-  @listen({inherit: true})
+  @bind
   public _onChange(): void {
     this._updateSelectAll();
     this.$items.forEach((item) => item.update());
@@ -132,7 +151,7 @@ export class ESLSelectList extends ESLSelectWrapper {
     this._renderItems();
   }
 
-  @listen('click')
+  @bind
   protected _onClick(e: MouseEvent | KeyboardEvent): void {
     if (this.disabled) return;
     const target = e.target;
@@ -144,7 +163,7 @@ export class ESLSelectList extends ESLSelectWrapper {
     }
   }
 
-  @listen('keydown')
+  @bind
   protected _onKeydown(e: KeyboardEvent): void {
     if ([ENTER, SPACE].includes(e.key)) {
       this._onClick(e);

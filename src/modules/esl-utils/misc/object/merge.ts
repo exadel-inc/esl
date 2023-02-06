@@ -26,15 +26,21 @@ export function deepMerge<T, U, V, W>(obj1: T, obj2: U, obj3: V, obj4: W): T & U
  */
 export function deepMerge(...objects: any[]): any;
 export function deepMerge(...objects: any[]): any {
-  return objects.reduce((res: any, obj: any) => {
-    if (typeof obj === 'undefined') return res;
-    if (typeof res === 'undefined') res = Array.isArray(obj) ? [] : {};
-    if (!isObject(obj) || !isObject(res)) return obj;
+  return objects.reduce((res: any, obj: any, index: number) => {
+    if (index === 0 && Array.isArray(obj)) res = [];
 
-    Object.keys(obj).forEach((key) => {
-      res[key] = isObject(obj[key]) ? deepMerge(res[key], obj[key]) : obj[key];
+    isObject(obj) && Object.keys(obj).forEach((key) => {
+      const resultVal = res[key];
+      const objectVal = obj[key];
+
+      let mergeResult = objectVal;
+      if (isObject(objectVal)) {
+        if (typeof resultVal === 'undefined') mergeResult = deepMerge(objectVal);
+        else if (isObject(resultVal)) mergeResult = deepMerge(resultVal, objectVal);
+      }
+      res[key] = mergeResult;
     });
 
     return res;
-  }, undefined);
+  }, {});
 }

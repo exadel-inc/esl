@@ -1,26 +1,23 @@
 # [ESL](h../../../) Tab & Tab Container
 
-Version: *2.0.0*.
+Version: *1.0.0*
 
-Authors: *Julia Murashko*.
+Authors: *Julia Murashko*
 
 <a name="intro"></a>
 
-**ESLTabs** is a container component for tabs trigger group. Uses `ESLTab` as an item. Each individual `ESLTab` can
-control
-`ESLToggleable` or, usually, `ESLPanel`.
+ESLTabs is a container component for Tabs trigger group. Uses ESLTab as an item. Each individual ESLTab can control
+ESLToggleable or, usually, ESLPanel.
 
 ### ESLTabs Attributes / Properties
 
-- `container` - inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable state.
+- `container` - inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable
 
 - `scrollable` - scrollable mode. Supported types for different breakpoints ('disabled' by default) :
     - 'disabled' or not defined -  scroll behavior is disabled;
-    - 'center' - scroll behavior is enabled, tabs are center-aligned;
-    - 'side' - scroll behavior is enabled, tabs are side-aligned;
-    - empty or unsupported value is equal to 'side' behavior;
-
-NOTE: ESLTabs supports alignments: center (via 'center-alignment' class) and right ('right-alignment').
+    - 'center' - scroll behavior is enabled, tab is center-aligned;
+    - 'side' - scroll behavior is enabled, tab is side-aligned;
+    - empty or unsupported value - scroll behavior is enabled, tab is side-aligned;
 
 ### Events
 

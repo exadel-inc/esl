@@ -1,6 +1,5 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {ESLBaseElement} from '../../../esl-base-element/core';
-import {attr} from '../../../esl-utils/decorators';
+import {ESLBaseElement, attr} from '../../../esl-base-element/core';
 import {isEqual} from '../../../esl-utils/misc/object';
 import {ESLMediaRuleList} from '../../../esl-media-query/core';
 import {ESLCarouselSlide} from './esl-carousel-slide';
@@ -118,7 +117,7 @@ export class ESLCarousel extends ESLBaseElement {
       }
     };
 
-    const approved = this.$$fire('esl:slide:change', eventDetails);
+    const approved = this.$$fire('slide:change', eventDetails);
 
     if (this._view && approved && this.firstIndex !== nextIndex) {
       this._view.goTo(nextIndex, direction);
@@ -141,7 +140,7 @@ export class ESLCarousel extends ESLBaseElement {
       }
     }
 
-    this.$$fire('esl:slide:changed', eventDetails);
+    this.$$fire('slide:changed', eventDetails);
   }
 
   public prev() {

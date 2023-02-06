@@ -1,57 +1,56 @@
-[esl-scroll-lock] {
-  overflow: hidden !important;
-
-  &:not(html[esl-scroll-lock='native'])::-webkit-scrollbar {
-    display: none !important;
-  }
-}
-
-html[esl-scroll-lock] body {
-  overflow: hidden !important;
-}
-
-html[esl-scroll-lock='native'] {
-  overflow-y: scroll !important;
-
+html.esl-disable-scroll {
+  // Simple scroll blocking
   body {
-    max-width: 100vw !important;
     max-height: 100vh !important;
-  }
-}
-
-html[esl-scroll-lock='pseudo'] {
-  display: flex !important;
-  align-items: stretch !important;
-
-  &:dir(rtl) {
-    flex-flow: row-reverse !important;
+    overflow: hidden !important;
   }
 
-  body {
-    flex: 1 1 100% !important;
+  // hide scroll
+  &:not(.esl-native-scroll) body::-webkit-scrollbar {
+    display: none; // Chrome, Safari
   }
 
-  &::before {
-    content: '';
-    overflow-y: scroll;
-    flex: 0 0 auto;
-    order: 2;
-    visibility: hidden;
+  // Shows page scroll
+  &.esl-native-scroll {
+    overflow-y: scroll !important;
   }
 
-  &::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    overflow-y: scroll;
-    // Pseudo scroll should be visible above the content
-    z-index: 999999;
-  }
+  // Show native like scroll in the content of the page
+  &.esl-pseudo-scroll {
+    display: flex !important;
+    align-items: stretch !important;
 
-  // hide analytics beacons and markers
-  & > img, & > iframe {
-    flex: 0 1 auto !important;
+    &[dir='rtl'] {
+      flex-flow: row-reverse !important;
+    }
+
+    body {
+      flex: 1 1 100% !important;
+      max-height: 100vh !important;
+    }
+
+    &::before {
+      content: '';
+      overflow-y: scroll;
+      flex: 0 0 auto;
+      order: 2;
+      visibility: hidden;
+    }
+
+    &::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      overflow-y: scroll;
+      // Pseudo scroll should be visible above the content
+      z-index: 999999;
+    }
+
+    // hide analytics beacons and markers
+    & > img, & > iframe {
+      flex: 0 1 auto !important;
+    }
   }
 }

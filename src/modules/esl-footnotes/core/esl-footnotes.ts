@@ -1,9 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {bind, memoize, attr, listen, prop} from '../../esl-utils/decorators';
+import {bind} from '../../esl-utils/decorators/bind';
+import {memoize} from '../../esl-utils/decorators/memoize';
 import {debounce} from '../../esl-utils/async/debounce';
-import {ESLBaseElement} from '../../esl-base-element/core';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
-import {ESLEventUtils} from '../../esl-utils/dom/events';
+import {ESLBaseElement, attr} from '../../esl-base-element/core';
+import {TraversingQuery} from '../../esl-traversing-query/core';
+import {EventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {sequentialUID} from '../../esl-utils/misc/uid';
 import {compileFootnotesGroupedList, compileFootnotesNongroupedList, sortFootnotes} from './esl-footnotes-data';
@@ -14,13 +15,9 @@ import type {FootnotesItem} from './esl-footnotes-data';
 @ExportNs('Footnotes')
 export class ESLFootnotes extends ESLBaseElement {
   static is = 'esl-footnotes';
+  static eventNs = 'esl:footnotes';
 
-  /** Event to request acknowledgment from {@link ESLNotes} instances */
-  @prop('esl:footnotes:request') public FOOTNOTE_REQUEST_EVENT: string;
-  /** Event to acknowledge {@link ESLFootnotes} instance about footnote */
-  @prop('esl:footnotes:response') public FOOTNOTE_RESPONSE_EVENT: string;
-
-  /** Target element {@link ESLTraversingQuery} to define scope */
+  /** Target element {@link TraversingQuery} to define scope */
   @attr({defaultValue: '::parent'}) public scopeTarget: string;
 
   /** Grouping note instances with identical content enable/disable */
@@ -35,7 +32,7 @@ export class ESLFootnotes extends ESLBaseElement {
   /** Scope element */
   @memoize()
   protected get scopeEl(): HTMLElement {
-    return ESLTraversingQuery.first(this.scopeTarget, this) as HTMLElement;
+    return TraversingQuery.first(this.scopeTarget, this) as HTMLElement;
   }
 
   /** Notes that are allowed to be processed by footnotes */
@@ -54,14 +51,31 @@ export class ESLFootnotes extends ESLBaseElement {
   protected connectedCallback(): void {
     super.connectedCallback();
 
+    this.bindEvents();
     this._notifyNotes();
   }
 
   protected disconnectedCallback(): void {
     super.disconnectedCallback();
 
+    this.unbindEvents();
     this._notes.forEach((el) => el.unlink());
     this._notes = [];
+  }
+
+  protected bindEvents(): void {
+    if (this.scopeEl) {
+      this.scopeEl.addEventListener(`${ESLFootnotes.eventNs}:response`, this._onNoteSubscribe);
+    }
+    this.addEventListener('click', this._onClick);
+    this.addEventListener('keydown', this._onKeydown);
+  }
+  protected unbindEvents(): void {
+    if (this.scopeEl) {
+      this.scopeEl.removeEventListener(`${ESLFootnotes.eventNs}:response`, this._onNoteSubscribe);
+    }
+    this.removeEventListener('click', this._onClick);
+    this.removeEventListener('keydown', this._onKeydown);
   }
 
   /** Adds the note to the footnotes list */
@@ -128,10 +142,7 @@ export class ESLFootnotes extends ESLBaseElement {
   }
 
   /** Handles `response` event from note */
-  @listen({
-    event: (el: ESLFootnotes) => el.FOOTNOTE_RESPONSE_EVENT,
-    target: (el: ESLFootnotes) => el.scopeEl
-  })
+  @bind
   protected _onNoteSubscribe(e: CustomEvent): void {
     const note = e.target as ESLNote;
     this.linkNote(note);
@@ -141,24 +152,20 @@ export class ESLFootnotes extends ESLBaseElement {
   }
 
   /** Handles `click` event */
-  @listen({
-    event: 'click',
-    selector: '.esl-footnotes-back-to-note'
-  })
-  protected _onItemClick(e: MouseEvent | KeyboardEvent): void {
+  @bind
+  protected _onClick(e: MouseEvent | KeyboardEvent): void {
     const target = e.target as HTMLElement;
-    const orderAttr = target.closest('.esl-footnotes-item')?.getAttribute('data-order');
-    const order = orderAttr?.split(',').map((item) => +item);
-    order && this._onBackToNote(order);
-
-    e.preventDefault();
-    e.stopPropagation();
+    if (target && target.classList.contains('esl-footnotes-back-to-note')) {
+      const orderAttr = target.closest('.esl-footnotes-item')?.getAttribute('data-order');
+      const order = orderAttr?.split(',').map((item) => +item);
+      order && this._onBackToNote(order);
+    }
   }
 
   /** Handles `keydown` event */
-  @listen('keydown')
+  @bind
   protected _onKeydown(event: KeyboardEvent): void {
-    if ([ENTER, SPACE].includes(event.key)) this._onItemClick(event);
+    if ([ENTER, SPACE].includes(event.key)) this._onClick(event);
   }
 
   /** Actions on back-to-note click  */
@@ -183,7 +190,7 @@ export class ESLFootnotes extends ESLBaseElement {
    * Sends a request to all notes, expecting to get a response from
    * the unlinked ones and link up with them */
   protected _notifyNotes(): void {
-    ESLEventUtils.dispatch(this, this.FOOTNOTE_REQUEST_EVENT);
+    EventUtils.dispatch(this, `${ESLFootnotes.eventNs}:request`);
   }
 }
 

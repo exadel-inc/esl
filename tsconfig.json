@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "skipLibCheck": true,
     "experimentalDecorators": true,
     "alwaysStrict": true,
     "strictNullChecks": true,

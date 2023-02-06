@@ -49,7 +49,6 @@ ESLEnvShortcuts.add('ios', DeviceDetector.isMobileIOS);
 ESLEnvShortcuts.add('ie', DeviceDetector.isIE);
 ESLEnvShortcuts.add('edge', DeviceDetector.isEdgeHTML);
 ESLEnvShortcuts.add('gecko', DeviceDetector.isGecko);
-ESLEnvShortcuts.add('webkit', DeviceDetector.isWebkit);
 ESLEnvShortcuts.add('blink', DeviceDetector.isBlink);
 ESLEnvShortcuts.add('safari', DeviceDetector.isSafari);
 ESLEnvShortcuts.add('safari-ios', DeviceDetector.isMobileSafari);

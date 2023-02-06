@@ -1,5 +1,4 @@
-import {ESLBaseElement} from '../../../esl-base-element/core';
-import {attr, boolAttr} from '../../../esl-utils/decorators';
+import {attr, boolAttr, ESLBaseElement} from '../../../esl-base-element/core';
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 
 import type {ESLSelectOption} from './esl-select-wrapper';
@@ -13,7 +12,10 @@ import type {ESLSelectOption} from './esl-select-wrapper';
 @ExportNs('SelectItem')
 export class ESLSelectItem extends ESLBaseElement {
   public static readonly is: string = 'esl-select-item';
-  public static observedAttributes = ['selected', 'disabled'];
+
+  public static get observedAttributes(): string[] {
+    return ['selected', 'disabled'];
+  }
 
   /** Option value */
   @attr() public value: string;

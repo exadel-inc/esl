@@ -1,16 +1,15 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESC, SYSTEM_KEYS} from '../../esl-utils/dom/keys';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {prop, attr, jsonAttr, boolAttr, listen} from '../../esl-utils/decorators';
+import {bind} from '../../esl-utils/decorators/bind';
 import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
 import {sequentialUID} from '../../esl-utils/misc/uid';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
-import {ESLBaseElement} from '../../esl-base-element/core';
-import {isMatches} from '../../esl-utils/dom/traversing';
+import {ESLBaseElement, attr, jsonAttr, boolAttr} from '../../esl-base-element/core';
 
 /** Default Toggleable action params type definition */
-export interface ESLToggleableActionParams {
+export interface ToggleableActionParams {
   /** Initiator string identifier */
   initiator?: string;
   /** Delay timeout for both show and hide actions */
@@ -34,14 +33,6 @@ export interface ESLToggleableActionParams {
   [key: string]: any;
 }
 
-export interface ESLToggleableRequestDetails extends ESLToggleableActionParams {
-  // Selector to match or exact predicate to check if the target should process request
-  match?: string | ((target: Element) => boolean);
-}
-
-/** @deprecated alias for ESLToggleableActionParams */
-export type ToggleableActionParams = ESLToggleableActionParams;
-
 const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap();
 
 /**
@@ -52,31 +43,10 @@ const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap(
  */
 @ExportNs('Toggleable')
 export class ESLToggleable extends ESLBaseElement {
-  public static is = 'esl-toggleable';
-  public static observedAttributes = ['open', 'group'];
-
-  /** Event to dispatch when toggleable is going to be activated */
-  @prop('esl:before:show') public BEFORE_SHOW_EVENT: string;
-  /** Event to dispatch when toggleable is going to be deactivated */
-  @prop('esl:before:hide') public BEFORE_HIDE_EVENT: string;
-
-  /** Event to dispatch when toggleable is activated */
-  @prop('esl:show') public SHOW_EVENT: string;
-  /** Event to dispatch when toggleable is deactivated */
-  @prop('esl:hide') public HIDE_EVENT: string;
-
-  /** Event to dispatch when toggleable has end activation process */
-  @prop('esl:after:show') public AFTER_SHOW_EVENT: string;
-  /** Event to dispatch when toggleable has end deactivation process */
-  @prop('esl:after:hide') public AFTER_HIDE_EVENT: string;
-
-  /** Event to activate toggleables on event way */
-  @prop('esl:show:request') public SHOW_REQUEST_EVENT: string;
-  /** Event to deactivate toggleables on event way */
-  @prop('esl:hide:request') public HIDE_REQUEST_EVENT: string;
-
-  /** Event to dispatch when toggleable group has changed */
-  @prop('esl:change:group') public GROUP_CHANGED_EVENT: string;
+  static is = 'esl-toggleable';
+  static get observedAttributes(): string[] {
+    return ['open', 'group'];
+  }
 
   /** CSS class to add on the body element */
   @attr() public bodyClass: string;
@@ -96,14 +66,14 @@ export class ESLToggleable extends ESLBaseElement {
   @boolAttr() public closeOnOutsideAction: boolean;
 
   /** Initial params to pass to show/hide action on the start */
-  @jsonAttr<ESLToggleableActionParams>({defaultValue: {force: true, initiator: 'init'}})
-  public initialParams: ESLToggleableActionParams;
+  @jsonAttr<ToggleableActionParams>({defaultValue: {force: true, initiator: 'init'}})
+  public initialParams: ToggleableActionParams;
   /** Default params to merge into passed action params */
-  @jsonAttr<ESLToggleableActionParams>({defaultValue: {}})
-  public defaultParams: ESLToggleableActionParams;
+  @jsonAttr<ToggleableActionParams>({defaultValue: {}})
+  public defaultParams: ToggleableActionParams;
   /** Hover params to pass from track hover listener */
-  @jsonAttr<ESLToggleableActionParams>({defaultValue: {}})
-  public trackHoverParams: ESLToggleableActionParams;
+  @jsonAttr<ToggleableActionParams>({defaultValue: {}})
+  public trackHoverParams: ToggleableActionParams;
 
   /** Marker of initially opened toggleable instance */
   public initiallyOpened: boolean;
@@ -125,11 +95,13 @@ export class ESLToggleable extends ESLBaseElement {
       this.id = sequentialUID(tag, tag + '-');
     }
     this.initiallyOpened = this.hasAttribute('open');
+    this.bindEvents();
     this.setInitialState();
   }
 
   protected disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.unbindEvents();
     activators.delete(this);
   }
 
@@ -141,7 +113,7 @@ export class ESLToggleable extends ESLBaseElement {
         this.toggle(this.open, {initiator: 'attribute', showDelay: 0, hideDelay: 0});
         break;
       case 'group':
-        this.$$fire(this.GROUP_CHANGED_EVENT,  {
+        this.$$fire('change:group',  {
           detail: {oldGroupName: oldVal, newGroupName: newVal}
         });
         break;
@@ -155,9 +127,30 @@ export class ESLToggleable extends ESLBaseElement {
     }
   }
 
+  protected bindEvents(): void {
+    this.addEventListener('click', this._onClick);
+    this.addEventListener('keydown', this._onKeyboardEvent);
+    this.addEventListener('esl:show:request', this._onShowRequest);
+  }
+
+  protected unbindEvents(): void {
+    this.removeEventListener('click', this._onClick);
+    this.removeEventListener('keydown', this._onKeyboardEvent);
+    this.removeEventListener('esl:show:request', this._onShowRequest);
+    this.bindOutsideEventTracking(false);
+    this.bindHoverStateTracking(false);
+  }
+
   /** Bind outside action event listeners */
   protected bindOutsideEventTracking(track: boolean): void {
-    track ? this.$$on(this._onOutsideAction) : this.$$off(this._onOutsideAction);
+    document.body.removeEventListener('keydown', this._onOutsideAction, true);
+    document.body.removeEventListener('mouseup', this._onOutsideAction, true);
+    document.body.removeEventListener('touchend', this._onOutsideAction, true);
+    if (track) {
+      document.body.addEventListener('keydown', this._onOutsideAction, true);
+      document.body.addEventListener('mouseup', this._onOutsideAction, true);
+      document.body.addEventListener('touchend', this._onOutsideAction, true);
+    }
   }
   /** Bind hover events listeners for the Toggleable itself */
   protected bindHoverStateTracking(track: boolean, hideDelay?: number | string): void {
@@ -166,22 +159,26 @@ export class ESLToggleable extends ESLBaseElement {
     if (this._trackHover === track) return;
     this._trackHover = track;
 
-    track ? this.$$on(this._onMouseEnter) : this.$$off(this._onMouseEnter);
-    track ? this.$$on(this._onMouseLeave) : this.$$off(this._onMouseLeave);
+    this.removeEventListener('mouseenter', this._onMouseEnter);
+    this.removeEventListener('mouseleave', this._onMouseLeave);
+    if (this._trackHover) {
+      this.addEventListener('mouseenter', this._onMouseEnter);
+      this.addEventListener('mouseleave', this._onMouseLeave);
+    }
   }
 
   /** Function to merge the result action params */
-  protected mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
+  protected mergeDefaultParams(params?: ToggleableActionParams): ToggleableActionParams {
     return Object.assign({}, this.defaultParams, copyDefinedKeys(params));
   }
 
   /** Toggle the element state */
-  public toggle(state: boolean = !this.open, params?: ESLToggleableActionParams): ESLToggleable {
+  public toggle(state: boolean = !this.open, params?: ToggleableActionParams): ESLToggleable {
     return state ? this.show(params) : this.hide(params);
   }
 
   /** Change the element state to active */
-  public show(params?: ESLToggleableActionParams): ESLToggleable {
+  public show(params?: ToggleableActionParams): ESLToggleable {
     params = this.mergeDefaultParams(params);
     this._task.put(this.showTask.bind(this, params), defined(params.showDelay, params.delay));
     this.bindOutsideEventTracking(this.closeOnOutsideAction);
@@ -189,7 +186,7 @@ export class ESLToggleable extends ESLBaseElement {
     return this;
   }
   /** Change the element state to inactive */
-  public hide(params?: ESLToggleableActionParams): ESLToggleable {
+  public hide(params?: ToggleableActionParams): ESLToggleable {
     params = this.mergeDefaultParams(params);
     this._task.put(this.hideTask.bind(this, params), defined(params.hideDelay, params.delay));
     this.bindOutsideEventTracking(false);
@@ -198,34 +195,34 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /** Actual show task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
-  protected showTask(params: ESLToggleableActionParams): void {
+  protected showTask(params: ToggleableActionParams): void {
     if (!params.force && this.open) return;
-    if (!params.silent && !this.$$fire(this.BEFORE_SHOW_EVENT, {detail: {params}})) return;
+    if (!params.silent && !this.$$fire('before:show', {detail: {params}})) return;
     this.activator = params.activator;
     this.open = true;
     this.onShow(params);
-    if (!params.silent) this.$$fire(this.SHOW_EVENT, {detail: {params}, cancelable: false});
+    if (!params.silent) this.$$fire('show', {detail: {params}, cancelable: false});
   }
   /** Actual hide task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
-  protected hideTask(params: ESLToggleableActionParams): void {
+  protected hideTask(params: ToggleableActionParams): void {
     if (!params.force && !this.open) return;
-    if (!params.silent && !this.$$fire(this.BEFORE_HIDE_EVENT, {detail: {params}})) return;
+    if (!params.silent && !this.$$fire('before:hide', {detail: {params}})) return;
     this.open = false;
     this.onHide(params);
     this.bindOutsideEventTracking(false);
-    if (!params.silent) this.$$fire(this.HIDE_EVENT, {detail: {params}, cancelable: false});
+    if (!params.silent) this.$$fire('hide', {detail: {params}, cancelable: false});
   }
 
   /**
    * Actions to execute on show toggleable.
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
-   * Adds CSS classes, update a11y and fire {@link ESLToggleable.REFRESH_EVENT} event by default.
+   * Adds CSS classes, update a11y and fire esl:refresh event by default.
    */
-  protected onShow(params: ESLToggleableActionParams): void {
+  protected onShow(params: ToggleableActionParams): void {
     CSSClassUtils.add(this, this.activeClass);
     CSSClassUtils.add(document.body, this.bodyClass, this);
     this.updateA11y();
-    this.$$fire(this.REFRESH_EVENT); // To notify other components about content change
+    this.$$fire('refresh'); // To notify other components about content change
   }
 
   /**
@@ -233,7 +230,7 @@ export class ESLToggleable extends ESLBaseElement {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Removes CSS classes and update a11y by default.
    */
-  protected onHide(params: ESLToggleableActionParams): void {
+  protected onHide(params: ToggleableActionParams): void {
     CSSClassUtils.remove(this, this.activeClass);
     CSSClassUtils.remove(document.body, this.bodyClass, this);
     this.updateA11y();
@@ -247,7 +244,7 @@ export class ESLToggleable extends ESLBaseElement {
     this.toggleAttribute('open', this._open = value);
   }
 
-  /** Last component that has activated the element. Uses {@link ESLToggleableActionParams.activator}*/
+  /** Last component that has activated the element. Uses {@link ToggleableActionParams.activator}*/
   public get activator(): HTMLElement | null | undefined {
     return activators.get(this);
   }
@@ -280,64 +277,45 @@ export class ESLToggleable extends ESLBaseElement {
     return !(e instanceof KeyboardEvent && SYSTEM_KEYS.includes(e.key));
   }
 
-  @listen({
-    event: 'click',
-    selector: (el: ESLToggleable) => el.closeTrigger || ''
-  })
-  protected _onCloseClick(e: MouseEvent): void {
-    this.hide({initiator: 'close', activator: e.target as HTMLElement, event: e});
+  @bind
+  protected _onClick(e: MouseEvent): void {
+    const target = e.target as HTMLElement;
+    if (this.closeTrigger && target.closest(this.closeTrigger)) {
+      this.hide({initiator: 'close', activator: target, event: e});
+    }
   }
 
-  @listen({
-    auto: false,
-    event: 'keydown mouseup touchend',
-    target: document.body,
-    capture: true
-  })
+  @bind
   protected _onOutsideAction(e: Event): void {
     if (!this.isOutsideAction(e)) return;
     // Used 0 delay to decrease priority of the request
     this.hide({initiator: 'outsideaction', hideDelay: 0, event: e});
   }
 
-  @listen('keydown')
+  @bind
   protected _onKeyboardEvent(e: KeyboardEvent): void {
     if (this.closeOnEsc && e.key === ESC) {
       this.hide({initiator: 'keyboard', event: e});
     }
   }
 
-  @listen({auto: false, event: 'mouseenter'})
+  @bind
   protected _onMouseEnter(e: MouseEvent): void {
     const hideDelay = this._trackHoverDelay;
-    const baseParams: ESLToggleableActionParams = {initiator: 'mouseenter', trackHover: true, activator: this.activator, event: e, hideDelay};
+    const baseParams: ToggleableActionParams = {initiator: 'mouseenter', trackHover: true, activator: this.activator, event: e, hideDelay};
     this.show(Object.assign(baseParams, this.trackHoverParams));
   }
-  @listen({auto: false, event: 'mouseleave'})
+  @bind
   protected _onMouseLeave(e: MouseEvent): void {
     const hideDelay = this._trackHoverDelay;
-    const baseParams: ESLToggleableActionParams = {initiator: 'mouseleave', trackHover: true, activator: this.activator, event: e, hideDelay};
+    const baseParams: ToggleableActionParams = {initiator: 'mouseleave', trackHover: true, activator: this.activator, event: e, hideDelay};
     this.hide(Object.assign(baseParams, this.trackHoverParams));
   }
 
-  /** Prepares toggle request events param */
-  protected buildRequestParams(e: CustomEvent<ESLToggleableRequestDetails>): ESLToggleableActionParams | null {
-    const detail = e.detail || {};
-    if (!isMatches(this, detail.match)) return null;
-    return Object.assign({}, detail, {event: e});
-  }
-
   /** Actions to execute on show request */
-  @listen((el: ESLToggleable) => el.SHOW_REQUEST_EVENT)
-  protected _onShowRequest(e: CustomEvent<ESLToggleableRequestDetails>): void {
-    const params = this.buildRequestParams(e);
-    params && this.show(params);
-  }
-  /** Actions to execute on hide request */
-  @listen((el: ESLToggleable) => el.HIDE_REQUEST_EVENT)
-  protected _onHideRequest(e: CustomEvent<ESLToggleableRequestDetails>): void {
-    const params = this.buildRequestParams(e);
-    params && this.hide(params);
+  @bind
+  protected _onShowRequest(): void {
+    this.show();
   }
 }
 

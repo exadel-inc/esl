@@ -23,25 +23,14 @@
           {{ navitem ('Introduction', 'introduction', 'static/assets/sidebar/intro.svg') }}
         </li>
         <li class="sidebar-nav-item">
-          {{ navitem ('Core', 'core', 'static/assets/sidebar/utils.svg') }}
+          {{ navitem ('Examples', 'examples', 'static/assets/sidebar/examples.svg') }}
         </li>
         <li class="sidebar-nav-item">
           {{ navitem ('Components', 'components', 'static/assets/sidebar/components.svg') }}
         </li>
         <li class="sidebar-nav-item">
-          {{ navitem ('Examples', 'examples', 'static/assets/sidebar/examples.svg') }}
+          {{ navitem ('Utils', 'utils', 'static/assets/sidebar/utils.svg') }}
         </li>
-        {% set releasedBlogs = collections.blogs | released %}
-        {% if releasedBlogs.length %}
-        <li class="sidebar-nav-item">
-          {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg') }}
-        </li>
-        {% endif %}
-        {% if env.isDev %}
-          <li class="sidebar-nav-item">
-            {{ navitem ('Drafts', 'draft', 'static/assets/common/flask.svg') }}
-          </li>
-        {% endif %}
       </ul>
 
       <esl-scrollbar class="sidebar-scrollbar" target="::prev"></esl-scrollbar>

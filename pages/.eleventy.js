@@ -18,7 +18,8 @@ module.exports = (config) => {
   }
 
   // Add MD files from the library sources
-  config.addWatchTarget('../**/*.md');
+  config.addWatchTarget('../src/**/*.md');
+  config.addWatchTarget('../docs/**/*.md');
 
   // Setup simple copy operations
   config.addPassthroughCopy({

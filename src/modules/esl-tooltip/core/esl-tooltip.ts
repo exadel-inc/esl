@@ -1,6 +1,8 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
+import {attr, boolAttr} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
-import {memoize, attr, boolAttr, listen} from '../../esl-utils/decorators';
+import {bind} from '../../esl-utils/decorators/bind';
+import {memoize} from '../../esl-utils/decorators/memoize';
 import {TAB} from '../../esl-utils/dom/keys';
 import {getKeyboardFocusableElements} from '../../esl-utils/dom/focus';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
@@ -141,7 +143,7 @@ export class ESLTooltip extends ESLPopup {
     this.activator?.focus({preventScroll: true});
   }
 
-  @listen({inherit: true})
+  @bind
   protected _onKeyboardEvent(e: KeyboardEvent): void {
     super._onKeyboardEvent(e);
     if (e.key === TAB) this._onTabKey(e);

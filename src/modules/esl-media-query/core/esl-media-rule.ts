@@ -11,38 +11,43 @@ export type RulePayloadParser<T> = (val: string) => T | undefined;
  * @see ESLMediaRuleList
  */
 export class ESLMediaRule<T = any> {
-  public readonly query: ESLMediaQuery;
-  public readonly payload: T;
+  private readonly _query: ESLMediaQuery;
+  private readonly _payload: T;
+  private readonly _default: boolean;
 
   constructor(payload: T, query: string = '') {
-    this.query = ESLMediaQuery.for(query);
-    this.payload = payload;
+    this._query = ESLMediaQuery.for(query);
+    this._default = !query;
+    this._payload = payload;
+  }
+
+  public toString(): string {
+    return `${this._query} => ${this._payload}`;
+  }
+
+  /** Subscribes on inner {@link ESLMediaQuery} changes */
+  public addListener(listener: () => void): void {
+    this._query.addListener(listener);
+  }
+  /** Unsubscribes from inner {@link ESLMediaQuery} changes */
+  public removeListener(listener: () => void): void {
+    this._query.removeListener(listener);
   }
 
   /** @returns if the inner {@link ESLMediaQuery} is matching current device configuration */
   public get matches(): boolean {
-    return this.query.matches;
+    return this._query.matches;
   }
-
-  /** Subscribes on inner {@link ESLMediaQuery} changes */
-  public addEventListener(callback: EventListener): void;
-  public addEventListener(type: 'change', callback: EventListener): void;
-  public addEventListener(type: any, callback: EventListener = type): void {
-    this.query.addEventListener(callback);
+  /** @returns wrapped payload value */
+  public get payload(): T {
+    return this._payload;
   }
-
-  /** Unsubscribes from inner {@link ESLMediaQuery} changes */
-  public removeEventListener(callback: EventListener): void;
-  public removeEventListener(type: 'change', callback: EventListener): void;
-  public removeEventListener(type: any, callback: EventListener = type): void {
-    this.query.removeEventListener(callback);
-  }
-
-  public toString(): string {
-    const val = typeof this.payload === 'object' ?
-      JSON.stringify(this.payload) :
-      String(this.payload);
-    return `${this.query} => ${val}`;
+  /**
+   * @returns if the rule was created with an empty query
+   * @see ESLMediaRuleList
+   */
+  public get default(): boolean {
+    return this._default;
   }
 
   /**
@@ -66,6 +71,10 @@ export class ESLMediaRule<T = any> {
   /** Shortcut to create always active {@link ESLMediaRule} with passed value */
   public static all<U>(payload: U): ESLMediaRule<U> {
     return new ESLMediaRule<U>(payload, 'all');
+  }
+  /** Shortcut to create condition-less {@link ESLMediaRule} */
+  public static default<U>(payload: U): ESLMediaRule<U> {
+    return new ESLMediaRule<U>(payload);
   }
   /** Shortcut to create always inactive {@link ESLMediaRule} */
   public static empty(): ESLMediaRule<undefined> {

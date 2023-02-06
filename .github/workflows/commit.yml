@@ -1,29 +1,29 @@
-name: Commits
+name: Lint Commit Messages
 
 on:
   pull_request:
 
 env:
-  node-version: 18.x
+  node-version: 16.x
 
 jobs:
   validate-commit:
-    name: Lint Messages
+
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
           cache: 'npm'
           node-version: ${{ env.node-version }}
       - name: Install NPM Dependencies
         run: npm ci
       - name: Run Commit Lint
-        uses: wagoid/commitlint-github-action@v5
+        uses: wagoid/commitlint-github-action@v4
         with:
           helpURL: 'https://github.com/exadel-inc/esl/blob/main/docs/COMMIT_CONVENTION.md'
         env:
