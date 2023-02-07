@@ -40,7 +40,7 @@ to meet your project needs.
 
 ESL is based solely on Web API and ECMAScript 6 features, which let our web UI components library work 
 well across all modern browsers such as Firefox, Chrome, Safari, Opera, and Edge. 
-ESL can also work on IE11 when the whole list of polyfills is provided (see [Browser support & Polyfills](https://github.com/exadel-inc/esl/blob/HEAD/docs/BROWSER_SUPPORT.md) for more details)
+ESL can also work on IE11 when the whole list of polyfills is provided (see [Browser support & Polyfills](https://github.com/exadel-inc/esl/blob/HEAD/docs/BROWSER_SUPPORT.md) for more details).
 
 ## Library Structure
 
@@ -57,7 +57,7 @@ controlling their life cycle.
 - ##### [ESL Mixin Element](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-mixin-element/README.md)
 - ##### [ESL Media Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media-query/README.md)
 - ##### [ESL Traversing Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-traversing-query/README.md)
-- ##### [ESL Event Lister](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-event-listener/README.md)
+- ##### [ESL Event Listener](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-event-listener/README.md)
 - ##### [ESL Utils](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-utils/README.md)
 
 ### Components
