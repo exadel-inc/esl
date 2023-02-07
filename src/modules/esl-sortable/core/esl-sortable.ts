@@ -1,5 +1,5 @@
-import {afterNextRender, bind} from '../../all';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {afterNextRender, bind} from '../../esl-utils/all';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLBaseElement, attr} from '../../esl-base-element/core';
 import {ready} from '../../esl-utils/decorators/ready';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
@@ -46,11 +46,11 @@ export class ESLSortable extends ESLBaseElement {
   private _$targetEl: ESLSortableItem | ESLSortable;
 
   private get childrens(): Element[] {
-    return TraversingQuery.all('::child(ul)::child([esl-sortable-item])', this);
+    return ESLTraversingQuery.all('::child(ul)::child([esl-sortable-item])', this);
   }
 
   private get list(): Element {
-    return TraversingQuery.first('::child(ul)', this) || this.appendChild(document.createElement('ul'));
+    return ESLTraversingQuery.first('::child(ul)', this) || this.appendChild(document.createElement('ul'));
   }
 
   @ready
