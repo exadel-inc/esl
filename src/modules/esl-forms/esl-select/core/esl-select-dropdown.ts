@@ -53,7 +53,7 @@ export class ESLSelectDropdown extends ESLPopup {
   protected onShow(params: ESLToggleableActionParams): void {
     this.activator = ESLTraversingQuery.first('esl-select-renderer', null, this.activator!) as ESLSelectRenderer;
 
-    !this.connected && document.body.appendChild(this);
+    document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
     this.$$cls(this.$owner.dropdownClass, true);
