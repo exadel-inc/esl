@@ -1,7 +1,9 @@
+{% from 'badge.njk' import applyBadge with context %}
+
 {% macro navitem(title, collection, icon, opt = {}) %}
   {% set isPrimaryActive = functions.isActivePath(page.url, collection) %}
   {% set items = collections[collection] | released %}
-  {% set isDraftCollection = collection == 'draft' %}
+  {% set isDraftCollection = collection === 'draft' %}
 
   {% if items.length %}
   <div class="sidebar-nav-item-heading {{ 'active' if isPrimaryActive }}">
@@ -24,31 +26,58 @@
   <esl-panel id="sidebar-{{ collection }}-menu"
              class="sidebar-nav-secondary {{ 'open' if isPrimaryActive }}"
              {% if isPrimaryActive %}data-open{% endif %}
-             group="esl-nav"
-             fallback-duration="400">
-    <ul class="sidebar-nav-secondary-list">
-      <esl-a11y-group targets="::child(li)::find(.sidebar-nav-secondary-link)"></esl-a11y-group>
+             group="esl-nav">
+    <ul class="sidebar-nav-nested-list">
+      <esl-a11y-group targets="::child(li)::find(.sidebar-nav-item-nested-link)"></esl-a11y-group>
       {% for item in items | sortByNameAndOrder %}
         {% set isActive = page.url === item.url %}
-        {% set isDraft = [].concat(item.data.tags).includes('draft') %}
-        {% set isNew = [].concat(item.data.tags).includes('new') %}
-        {% set isBeta = [].concat(item.data.tags).includes('beta') %}
-        <li class="sidebar-nav-secondary-item {{ 'active' if isActive }} {{ 'draft' if isDraft }}"
+        {% set isSecondaryActive = functions.isActivePath(page.url, item.data.collection) %}
+        {% set isList = item.data.collection %}
+        <li class="sidebar-nav-secondary-item">
+          <div class="sidebar-nav-secondary-item-heading {{ 'active' if isActive or isSecondaryActive }}"
             {% if isActive %}aria-selected="true"{% endif %}>
-          <a class="sidebar-nav-secondary-link"
-             {% if isActive %}aria-current="page"{% endif %}
-             href="{{ item.url | url }}">
-            {% if isNew %}
-              <sup class="badge badge-sup badge-success badge-sidebar">new</sup>
+            {% if not isList %}
+              <a class="sidebar-nav-item-nested-link"
+                {% if isActive %}aria-current="page"{% endif %}
+                href="{{ item.url | url }}">
+                {{ applyBadge (item.data.tags, isDraftCollection, 'sidebar') }}
+                {{ item.data.name }}
+              </a>
             {% endif %}
-            {% if isBeta %}
-              <sup class="badge badge-sup badge-warning badge-sidebar">beta</sup>
+            {% if isList %}
+              <esl-trigger class="sidebar-nav-secondary-item-trigger sidebar-nav-item-arrow"
+                          target="::parent::next"
+                          {% if isSecondaryActive and not isDraftCollection %}active{% endif %}>
+                {{ applyBadge (item.data.tags, isDraftCollection, 'sidebar') }}
+                {{ item.data.name }}
+              </esl-trigger>
             {% endif %}
-            {% if isDraft %}
-              <sup class="badge badge-sup badge-danger badge-sidebar" {% if isDraftCollection %}hidden{% endif %}>draft</sup>
-            {% endif %}
-            {{ item.data.name }}
-          </a>
+          </div>
+          {% if isList %}
+          {% set subItems = collections[item.data.collection] | released %}
+            <esl-panel id="sidebar-{{ item.data.collection }}-menu{% if isDraftCollection %}-draft{% endif %}"
+                      class="sidebar-nav-third {{ 'open' if isSecondaryActive and not isDraftCollection }}"
+                      {% if isSecondaryActive and not isDraftCollection %}data-open{% endif %}
+                      group="esl-nav-secondary">
+              <ul class="sidebar-nav-nested-list">
+                <esl-a11y-group targets="::child(li)::find(.sidebar-nav-item-nested-link)"></esl-a11y-group>
+                {% for subItem in subItems | sortByNameAndOrder %}
+                  {% set isThirdActive = page.url === subItem.url %}
+                  <li class="sidebar-nav-third-item">
+                    <div class="sidebar-nav-third-item-heading {{ 'active' if isThirdActive }}"
+                    {% if isThirdActive %}aria-selected="true"{% endif %}>
+                      <a class="sidebar-nav-item-nested-link"
+                        {% if isThirdActive %}aria-current="page"{% endif %}
+                        href="{{ subItem.url | url }}">
+                        {{ applyBadge (subItem.data.tags, isDraftCollection, 'sidebar') }}
+                        {{ subItem.data.name }}
+                      </a>
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            </esl-panel>
+          {% endif %}
         </li>
       {% endfor %}
     </ul>

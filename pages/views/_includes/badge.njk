@@ -1,0 +1,14 @@
+{% macro applyBadge(tags, isDraftCollection = false, location = '') %}
+  {% set isDraft = [].concat(tags).includes('draft') %}
+  {% set isNew = [].concat(tags).includes('new') %}
+  {% set isBeta = [].concat(tags).includes('beta') %}
+  {% if isNew %}
+    <sup class="badge badge-sup badge-success {% if location === 'sidebar' %}badge-sidebar{% endif %}">new</sup>
+  {% endif %}
+  {% if isBeta %}
+    <sup class="badge badge-sup badge-warning {% if location === 'sidebar' %}badge-sidebar{% endif %}">beta</sup>
+  {% endif %}
+  {% if isDraft %}
+    <sup class="badge badge-sup badge-danger {% if location === 'sidebar' %}badge-sidebar{% endif %}" {% if isDraftCollection %}hidden{% endif %}>draft</sup>
+  {% endif %}
+{% endmacro %}

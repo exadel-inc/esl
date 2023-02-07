@@ -84,6 +84,10 @@
 
   &-column {
     grid-template-columns: 1fr 1fr;
+
+    @media @xs {
+      grid-template-columns: 1fr;
+    }
   }
 
   &-column &-item {
@@ -133,5 +137,45 @@
   }
   .arrows-icon.right {
     transform: rotate(-45deg);
+    transition: transform .4s ease-in-out;
+  }
+
+  &-accordion-item {
+    margin: 0;
+    border: 1px solid #c8d6f0;
+    border-radius: .75rem;
+    transition: border-color .25s ease-in-out;
+
+    &:hover {
+      border-color: @primary-blue;
+    }
+
+    .collection-grid-item {
+      border: none;
+      background-color: transparent;
+    }
+
+    & > .collection-grid-item {
+      border-bottom: 1px solid transparent;
+      transition: border-bottom-color .4s ease-in-out, border-radius 0s .4s;
+
+      .arrows-icon.right {
+        display: block;
+      }
+
+      &:hover {
+        border-color: transparent;
+      }
+
+      &[active] {
+        border-bottom-color: #c8d6f0;
+        border-radius: .75rem .75rem 0 0;
+        transition: border-bottom-color .4s ease-in-out, border-radius 0s;
+
+        .arrows-icon.right {
+          transform: rotate(45deg);
+        }
+      }
+    }
   }
 }
