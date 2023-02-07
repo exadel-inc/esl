@@ -69,7 +69,7 @@ function clearMemo<T extends object>(target: T, property: keyof T | (keyof T)[])
 /**
  * Clear memoization cache for passed property of the target.
  * Accepts not own properties.
- * Note: be sure that you targeting memoized property or function.
+ * Note: be sure that you target memoized property or function.
  * Clear utility has no 100% check to prevent modifying incorrect (not memoized) property keys
  *
  * @param target - object instance that holds property
