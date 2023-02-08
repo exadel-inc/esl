@@ -79,7 +79,7 @@ function getIdentifierRanges(importNode, context) {
     if (!scope) continue;
     const nestedNodes = collectIdentifiers(context, scope, name);
     for (const node of nestedNodes) {
-      if(node.parent.type !== 'ImportSpecifier'){
+      if(node.parent.type !== 'ImportSpecifier') {
         occurrences.delete(node);
       }
     }
@@ -101,16 +101,13 @@ function collectIdentifiers(context, root, alias) {
   return identifiers;
 }
 
-/** TODO: refactor */
 function getScopeNode(declaration) {
   let node = declaration.parent;
   if (!node) return null;
-  const isBlockScoped = node.kind === 'const' || node.kind === 'let';
+  const isBlockScoped = node.kind && (node.kind === 'const' || node.kind === 'let');
   while (node.parent !== null) {
     node = node.parent;
-    if (node.type !== 'BlockStatement') continue;
-    if (isBlockScoped) return node;
-    if (node.parent && node.parent.type === 'FunctionExpression') return node;
+    if (node.type === 'BlockStatement' && (isBlockScoped || node?.parent?.type === 'FunctionExpression')) return node;
   }
   return node;
 }
