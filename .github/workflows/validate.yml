@@ -46,7 +46,7 @@ jobs:
         run: npm ci
       - name: Run Tests
         run: npm run test:unit
-          
+
   coverage:
     needs: [ test ]
     name: Coverage
@@ -66,5 +66,7 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
+          debug: true
+          verifyDownload: false
           coverageCommand: npm run test:ci
           coverageLocations: ${{github.workspace}}/.report/lcov.info:lcov
