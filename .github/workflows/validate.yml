@@ -3,7 +3,7 @@ name: Validate
 on:
   push:
     branches: [ main, main-beta, epic/* ]
-  pull_request:
+  pull_request_target:
     branches: [ main, main-beta, epic/* ]
   workflow_dispatch:
 
@@ -32,7 +32,7 @@ jobs:
         run: npm run lint:spaces
 
   test:
-    name: Unit Tests
+    name: Unit Tests & Coverage
     runs-on: ubuntu-latest
 
     steps:
@@ -45,26 +45,12 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
       - name: Run Tests
-        run: npm run test:unit
-
-  coverage:
-    name: Coverage
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node v${{ env.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          cache: 'npm'
-          node-version: ${{ env.node-version }}
-      - name: Install NPM Dependencies
-        run: npm ci
+        run: npm run test:ci
       - name: Collect and Publish coverage to Code Climate
         uses: paambaati/codeclimate-action@v3.2.0
+        continue-on-error: true
         env:
-          CC_TEST_REPORTER_ID: ${{vars.CC_REPORTER_ID}}
+          CC_TEST_REPORTER_ID: ${{secrets.CC_REPORTER_ID}}
         with:
           verifyDownload: false
-          coverageCommand: npm run test:ci
           coverageLocations: ${{github.workspace}}/.report/lcov.info:lcov
