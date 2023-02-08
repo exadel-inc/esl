@@ -13,6 +13,7 @@ env:
 jobs:
   lint:
     name: Linting
+    environment: ci
     runs-on: ubuntu-latest
 
     steps:
@@ -33,6 +34,7 @@ jobs:
 
   test:
     name: Unit Tests
+    environment: ci
     runs-on: ubuntu-latest
 
     steps:
@@ -48,8 +50,8 @@ jobs:
         run: npm run test:unit
 
   coverage:
-    needs: [ test ]
     name: Coverage
+    environment: ci
     runs-on: ubuntu-latest
 
     steps:
@@ -61,12 +63,10 @@ jobs:
           node-version: ${{ env.node-version }}
       - name: Install NPM Dependencies
         run: npm ci
-      - name: Debug
-        run: echo ${{ secrets.CC_TEST_REPORTER_ID }}
       - name: Collect and Publish coverage to Code Climate
         uses: paambaati/codeclimate-action@v3.2.0
         env:
-          CC_TEST_REPORTER_ID: 73fe58af2c0ef26596f90b9d83758ebf6e336d551dd3d7a5c023c1e8458f7472
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           verifyDownload: false
           coverageCommand: npm run test:ci
