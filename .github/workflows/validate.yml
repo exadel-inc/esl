@@ -45,10 +45,24 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
       - name: Run Tests
-        run: npm run test:ci
-      - name: Publish results to Code Climate
-        uses: paambaati/codeclimate-action@v3.2.0
-        env:
-          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        run: npm run test:unit
+          
+  coverage:
+    needs: [ test ]
+    name: Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node v${{ env.node-version }}
+        uses: actions/setup-node@v3
         with:
+          cache: 'npm'
+          node-version: ${{ env.node-version }}
+      - name: Install NPM Dependencies
+        run: npm ci
+      - name: Collect and Publish coverage to Code Climate
+        uses: paambaati/codeclimate-action@v3.2.0
+        with:
+          coverageCommand: npm run test:ci
           coverageLocations: ${{github.workspace}}/.report/lcov.info:lcov
