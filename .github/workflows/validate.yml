@@ -13,7 +13,6 @@ env:
 jobs:
   lint:
     name: Linting
-    environment: ci
     runs-on: ubuntu-latest
 
     steps:
@@ -34,7 +33,6 @@ jobs:
 
   test:
     name: Unit Tests
-    environment: ci
     runs-on: ubuntu-latest
 
     steps:
@@ -51,8 +49,8 @@ jobs:
 
   coverage:
     name: Coverage
-    environment: ci
     runs-on: ubuntu-latest
+    permissions: read-all
 
     steps:
       - uses: actions/checkout@v3
@@ -66,7 +64,7 @@ jobs:
       - name: Collect and Publish coverage to Code Climate
         uses: paambaati/codeclimate-action@v3.2.0
         env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+          CC_TEST_REPORTER_ID: ${{secrets.CC_REPORTER_ID}}
         with:
           verifyDownload: false
           coverageCommand: npm run test:ci
