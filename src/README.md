@@ -1,6 +1,9 @@
 # Installation 
 
-TBD
+Install UIPlayground [npm dependency](https://www.npmjs.com/package/@exadel/ui-playground):
+   ```bash
+   npm i @exadel/ui-playground --save
+   ```
 
 # Project structure
 
