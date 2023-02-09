@@ -10,7 +10,7 @@ const meta = {
   },
   settings: {
     'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.js']
+      '@typescript-eslint/parser': ['.ts', '.js', '.tsx', '.jsx']
     }
   },
   fixable: 'code'
