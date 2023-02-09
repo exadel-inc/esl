@@ -26,6 +26,7 @@ module.exports = (config) => {
   });
 
   config.setServerOptions({
+    port: 3005,
     domDiff: true,
     watch: [
       'dist/bundles/*.js',
