@@ -44,7 +44,7 @@ export class ESLEventUtils {
    * @param host - host object (listeners context) to associate subscription
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners list
    */
-  public static listeners(host: unknown, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
+  public static listeners(host: object, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
     return ESLEventListener.get(host, ...criteria);
   }
 
@@ -52,13 +52,13 @@ export class ESLEventUtils {
    * Subscribes all auto descriptors of the host
    * @param host - host object (listeners context) to find descriptors and associate subscription
    * */
-  public static subscribe(host: unknown): ESLEventListener[];
+  public static subscribe(host: object): ESLEventListener[];
   /**
    * Subscribes decorated as an {@link ESLListenerDescriptorFn} `handler` function
    * @param host - host object (listeners context) to associate subscription
    * @param handler - handler function decorated as {@link ESLListenerDescriptorFn}
    */
-  public static subscribe(host: unknown, handler: ESLListenerHandler): ESLEventListener[];
+  public static subscribe(host: object, handler: ESLListenerHandler): ESLEventListener[];
   /**
    * Subscribes `handler` function with the passed event type or {@link ESLListenerDescriptor} with event type declared
    * @param host - host object (listeners context) to associate subscription
@@ -66,7 +66,7 @@ export class ESLEventUtils {
    * @param handler - handler function to subscribe
    */
   public static subscribe<EType extends keyof ESLListenerEventMap>(
-    host: unknown,
+    host: object,
     descriptor: EType | ESLListenerDescriptor<EType>,
     handler: ESLListenerHandler<ESLListenerEventMap[EType]>
   ): ESLEventListener[];
@@ -77,12 +77,12 @@ export class ESLEventUtils {
    * @param handler - handler function decorated as {@link ESLListenerDescriptorFn}
    */
   public static subscribe<EType extends keyof ESLListenerEventMap>(
-    host: unknown,
+    host: object,
     descriptor: Partial<ESLListenerDescriptor>,
     handler: ESLListenerDescriptorFn<EType>
   ): ESLEventListener[];
   public static subscribe(
-    host: unknown,
+    host: object,
     eventDesc?: string | Partial<ESLListenerDescriptor> | ESLListenerHandler,
     handler: ESLListenerHandler = eventDesc as ESLListenerDescriptorFn
   ): ESLEventListener[] {
@@ -105,7 +105,7 @@ export class ESLEventUtils {
    * @param host - host element that stores subscriptions (listeners context)
    * @param criteria - optional set of criteria {@link ESLListenerCriteria} to filter listeners to remove
    */
-  public static unsubscribe(host: unknown, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
+  public static unsubscribe(host: object, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
     const listeners = ESLEventListener.get(host, ...criteria);
     listeners.forEach((listener) => listener.unsubscribe());
     return listeners;

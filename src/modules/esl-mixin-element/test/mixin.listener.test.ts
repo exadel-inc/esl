@@ -18,7 +18,7 @@ describe('ESLMixinElement: listeners', () => {
     beforeAll(() => document.body.appendChild(el));
 
     test('ESLMixinElement successfully auto subscribed', () => {
-      const host = TestElement.get(el);
+      const host = TestElement.get(el) as TestElement;
       expect(ESLEventUtils.listeners(host).length).toBe(1);
       expect(ESLEventUtils.listeners(host)[0].event).toBe('click');
     });

@@ -33,7 +33,7 @@ export function isEventDescriptor(obj: any): obj is ESLListenerDescriptorFn {
 }
 
 /** Gets {@link ESLListenerDescriptorFn}s of the passed object */
-export function getAutoDescriptors(host: unknown): ESLListenerDescriptorFn[] {
+export function getAutoDescriptors(host: object): ESLListenerDescriptorFn[] {
   if (!isObject(host)) return [];
   const keys = getDescriptorsKeysFor(host);
   const values = keys.map((key) => host[key]);
