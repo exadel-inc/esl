@@ -10,6 +10,7 @@ extends:
   - 'eslint:recommended'
   - 'plugin:import/typescript'
   - 'plugin:@typescript-eslint/recommended'
+  - 'plugin:@exadel/esl/default-4'
 
   # Library base set
   - './linting/codestyle.eslintrc.yml'
@@ -26,12 +27,12 @@ parserOptions:
 
 # Lint additional plugins
 plugins:
+  - 'tsdoc'
   - 'import'
   - 'sonarjs'
   - 'editorconfig'
   - '@typescript-eslint'
-  - 'eslint-plugin-tsdoc'
-  - 'esl'
+  - '@exadel/esl'
 
 # Overall rules
 rules:
@@ -44,11 +45,3 @@ rules:
   'editorconfig/eol-last': warn
   # Require no trailing spaces
   'editorconfig/no-trailing-spaces': warn
-
-  # Require to replace deprecated aliases
-  # todo: preset
-  'esl/deprecated/4.0.0/generate-uid': warn
-  'esl/deprecated/4.0.0/deep-compare': warn
-  'esl/deprecated/4.0.0/event-utils': warn
-  'esl/deprecated/4.0.0/traversing-query': warn
-  'esl/deprecated/4.0.0/toggleable-action-params': warn

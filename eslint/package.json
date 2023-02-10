@@ -1,0 +1,25 @@
+{
+  "name": "@exadel/eslint-plugin-esl",
+  "version": "4.2.0",
+  "license": "MIT",
+  "description": "ESL migration lint rule",
+  "main": "index.js",
+  "scripts": {
+    "test": "cd .. && jest \"eslint\""
+  },
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
+  },
+  "keywords": [
+    "eslint",
+    "eslint-plugin",
+    "esl"
+  ],
+  "eslint": [
+    {
+      "name": "@exadel/eslint-plugin-esl",
+      "version": "4.2.0",
+      "main": "index.js"
+    }
+  ]
+}

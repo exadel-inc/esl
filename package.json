@@ -86,6 +86,7 @@
     "@11ty/eleventy": "^1.0.2",
     "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^17.4.2",
+    "@exadel/eslint-plugin-esl": "file:eslint",
     "@juggle/resize-observer": "^3.4.0",
     "@semantic-release/changelog": "^6.0.2",
     "@semantic-release/commit-analyzer": "^9.0.2",
@@ -105,7 +106,6 @@
     "copyfiles": "^2.4.1",
     "eslint": "^8.33.0",
     "eslint-plugin-editorconfig": "^4.0.2",
-    "eslint-plugin-esl": "file:eslint",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-sonarjs": "^0.18.0",
     "eslint-plugin-tsdoc": "^0.2.17",
@@ -191,13 +191,6 @@
     {
       "name": "alesun",
       "email": "alesun@exadel.com"
-    }
-  ],
-  "eslint": [
-    {
-      "name": "eslint-plugin-esl",
-      "version": "4.1.1",
-      "main": "eslint/index.js"
     }
   ]
 }
