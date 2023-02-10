@@ -7,6 +7,9 @@
   "scripts": {
     "test": "cd .. && jest \"eslint\""
   },
+  "dependencies": {
+    "eslint-traverse": "^1.0.0"
+  },
   "peerDependencies": {
     "eslint": ">=8.0.0"
   },
