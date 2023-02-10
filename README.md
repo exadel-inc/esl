@@ -21,7 +21,7 @@ You can also manage Playground visual appearance by our options ([UIP Options](s
 
 Every element (except the *UIP Root*) isn't required, so you can combine them the way you want.
 
-![Example](docs/images/UIPexamplePNG.png)
+![Example](docs/images/UIPexample.jpg)
 <br/>
 ---
 ## Installation
