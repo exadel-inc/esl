@@ -1,5 +1,4 @@
 import {RuleTester} from 'eslint';
-// @ts-ignore
 import {buildRule} from '../base-rules/deprecated-alias';
 
 const INVALID_CASES = [
@@ -8,7 +7,7 @@ const INVALID_CASES = [
       import {DeprecatedClassName} from '../rules/4.0.0/test';
     `,
     errors: [
-      `[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName`
+      '[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName'
     ],
     output: `
       import {AllowedClassName} from '../rules/4.0.0/test';
@@ -19,7 +18,7 @@ const INVALID_CASES = [
       import {DeprecatedClassName as FN} from '../rules/4.0.0/test';
     `,
     errors: [
-      `[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName`
+      '[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName'
     ],
     output: `
       import {AllowedClassName as FN} from '../rules/4.0.0/test';
@@ -34,7 +33,7 @@ const INVALID_CASES = [
       }
     `,
     errors: [
-      `[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName`
+      '[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName'
     ],
     output: `
       import {AllowedClassName} from '../rules/4.0.0/test';
@@ -52,7 +51,7 @@ const INVALID_CASES = [
       }
     `,
     errors: [
-      `[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName`
+      '[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName'
     ],
     output: `
       import {AllowedClassName} from '../rules/4.0.0/test';
@@ -72,7 +71,7 @@ const INVALID_CASES = [
       }
     `,
     errors: [
-      `[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName`
+      '[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName'
     ],
     output: `
       import {AllowedClassName} from '../rules/4.0.0/test';
@@ -92,7 +91,7 @@ const INVALID_CASES = [
       }
     `,
     errors: [
-      `[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName`
+      '[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName'
     ],
     output: `
       import {AllowedClassName} from '../rules/4.0.0/test';
@@ -109,7 +108,7 @@ const INVALID_CASES = [
       }
     `,
     errors: [
-      `[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName`
+      '[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName'
     ],
     output: `
       import {AllowedClassName} from '../rules/4.0.0/test';
@@ -127,7 +126,7 @@ const INVALID_CASES = [
       }
     `,
     errors: [
-      `[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName`
+      '[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName'
     ],
     output: `
       import {AllowedClassName} from '../rules/4.0.0/test';
@@ -145,7 +144,7 @@ const INVALID_CASES = [
       }
     `,
     errors: [
-      `[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName`
+      '[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName'
     ],
     output: `
       import {AllowedClassName} from '../rules/4.0.0/test';
@@ -164,7 +163,7 @@ const INVALID_CASES = [
       }
     `,
     errors: [
-      `[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName`
+      '[ESL Lint]: Deprecated alias DeprecatedClassName for AllowedClassName'
     ],
     output: `
       import {AllowedClassName} from '../rules/4.0.0/test';

@@ -1,4 +1,5 @@
 'use strict';
+
 const traverse = require('eslint-traverse');
 
 const meta = {
@@ -17,6 +18,7 @@ const meta = {
 };
 
 /**
+ * Builds deprecation rule
  * @param {object} option
  * @param {string} option.alias - current name
  * @param {string} option.deprecation - deprecated name
