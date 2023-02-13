@@ -52,7 +52,7 @@ const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap(
  */
 @ExportNs('Toggleable')
 export class ESLToggleable extends ESLBaseElement {
-  public static is = 'esl-toggleable';
+  public static override is = 'esl-toggleable';
   public static observedAttributes = ['open', 'group'];
 
   /** Event to dispatch when toggleable is going to be activated */
@@ -118,7 +118,7 @@ export class ESLToggleable extends ESLBaseElement {
   /** Delay for track hover listeners actions */
   protected _trackHoverDelay: number | undefined;
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     if (!this.id && !this.noAutoId) {
       const tag = (this.constructor as typeof ESLToggleable).is;
@@ -128,7 +128,7 @@ export class ESLToggleable extends ESLBaseElement {
     this.setInitialState();
   }
 
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     activators.delete(this);
   }
