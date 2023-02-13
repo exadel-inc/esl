@@ -11,9 +11,9 @@ icon: examples/carousel.svg
 
 <section>
   <div esl-carousel-container>
-    <button class="arrow-prev icon-arrow-prev" data-slide-target="prev"></button>
+    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
 
-    <esl-carousel count="5" type="multi">
+    <esl-carousel count="5" type="multi" loop="true">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
       <div data-slides-area>
         {% for item in cards %}
@@ -35,7 +35,7 @@ icon: examples/carousel.svg
       </div>
     </esl-carousel>
 
-    <button class="arrow-next icon-arrow-next" data-slide-target="next"></button>
+    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
   </div>
   <div class="text-center">
     <esl-carousel-dots class="carousel-dots-wrapper" target="esl-carousel"></esl-carousel-dots>

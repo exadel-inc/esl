@@ -1,9 +1,10 @@
 import './esl-carousel.views';
 
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr, listen} from '../../esl-base-element/core';
+import {ESLBaseElement, attr} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {memoize} from '../../esl-utils/decorators/memoize';
+import {parseBoolean} from '../../esl-utils/misc/format';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 
 import {isEqual} from '../../esl-utils/misc/object/compare';
@@ -60,7 +61,7 @@ export class ESLCarousel extends ESLBaseElement {
   }
   @memoize()
   public get loopRule(): ESLMediaRuleList<boolean> {
-    return ESLMediaRuleList.parse(this.mediaCfg, this.loopCfg, Boolean);
+    return ESLMediaRuleList.parse(this.mediaCfg, this.loopCfg, parseBoolean);
   }
   @memoize()
   public get countRule(): ESLMediaRuleList<number> {
@@ -127,20 +128,20 @@ export class ESLCarousel extends ESLBaseElement {
     this.update();
   }
 
-  /** Handles `click` event. */
-  // TODO: focus disappear after click
-  @listen({
-    event: 'click',
-    target: '::parent([esl-carousel-container])',
-    selector: '[data-slide-target]'
-  })
-  protected _onClick(event: MouseEvent): void {
-    const eventTarget: HTMLElement = event.target as HTMLElement;
-    const markedTarget: HTMLElement | null = eventTarget.closest('[data-slide-target]');
-    if (markedTarget && markedTarget.dataset.slideTarget) {
-      this.goTo(markedTarget.dataset.slideTarget as CarouselSlideTarget);
-    }
-  }
+  // /** Handles `click` event. */
+  // // TODO: focus disappear after click
+  // @listen({
+  //   event: 'click',
+  //   target: '::parent([esl-carousel-container])',
+  //   selector: '[data-slide-target]'
+  // })
+  // protected _onClick(event: MouseEvent): void {
+  //   const eventTarget: HTMLElement = event.target as HTMLElement;
+  //   const markedTarget: HTMLElement | null = eventTarget.closest('[data-slide-target]');
+  //   if (markedTarget && markedTarget.dataset.slideTarget) {
+  //     this.goTo(markedTarget.dataset.slideTarget as CarouselSlideTarget);
+  //   }
+  // }
 
   protected connectedCallback(): void {
     super.connectedCallback();

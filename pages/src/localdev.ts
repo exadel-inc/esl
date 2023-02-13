@@ -35,6 +35,7 @@ import {
 
   ESLCarousel,
   ESLCarouselDotsPlugin,
+  ESLCarouselArrowPlugin,
   ESLCarouselLinkPlugin,
   ESLCarouselTouchPlugin,
   ESLCarouselAutoplayPlugin
@@ -101,6 +102,7 @@ ESLAnimate.register();
 
 ESLCarousel.register();
 ESLCarouselDotsPlugin.register();
+ESLCarouselArrowPlugin.register();
 ESLCarouselLinkPlugin.register();
 ESLCarouselTouchPlugin.register();
 ESLCarouselAutoplayPlugin.register();
