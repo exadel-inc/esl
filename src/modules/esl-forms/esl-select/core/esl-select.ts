@@ -17,10 +17,10 @@ import {ESLSelectDropdown} from './esl-select-dropdown';
  */
 @ExportNs('Select')
 export class ESLSelect extends ESLSelectWrapper {
-  public static readonly is = 'esl-select';
+  public static override readonly is = 'esl-select';
   public static observedAttributes = ['disabled', 'dropdown-class'];
 
-  public static register(): void {
+  public static override register(): void {
     ESLSelectDropdown.register();
     ESLSelectRenderer.register();
     super.register();
@@ -68,7 +68,7 @@ export class ESLSelect extends ESLSelectWrapper {
     }
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
 
     this.$select = this.querySelector('[esl-select-target]')!;
@@ -78,13 +78,13 @@ export class ESLSelect extends ESLSelectWrapper {
     this._updateDisabled();
     this._updateMarkers();
   }
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     this._dispose();
   }
 
   /** Catches the focus */
-  public focus(options?: FocusOptions): void {
+  public override focus(options?: FocusOptions): void {
     this.$select.focus(options);
   }
   /** Updates select component */
@@ -124,7 +124,7 @@ export class ESLSelect extends ESLSelectWrapper {
   }
 
   @listen({inherit: true})
-  protected _onChange(event: Event): void {
+  protected override _onChange(event: Event): void {
     this._updateMarkers();
     ESLEventUtils.dispatch(this, 'esl:change:value', {detail: {event}});
   }

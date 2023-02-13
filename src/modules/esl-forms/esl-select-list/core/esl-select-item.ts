@@ -12,7 +12,7 @@ import type {ESLSelectOption} from './esl-select-wrapper';
  */
 @ExportNs('SelectItem')
 export class ESLSelectItem extends ESLBaseElement {
-  public static readonly is: string = 'esl-select-item';
+  public static override readonly is: string = 'esl-select-item';
   public static observedAttributes = ['selected', 'disabled'];
 
   /** Option value */
@@ -25,7 +25,7 @@ export class ESLSelectItem extends ESLBaseElement {
   /** Original option */
   public original: ESLSelectOption;
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.tabIndex = 0;
     this.setAttribute('role', 'checkbox');

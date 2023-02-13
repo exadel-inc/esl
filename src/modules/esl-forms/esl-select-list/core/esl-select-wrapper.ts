@@ -62,11 +62,11 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
     this._onTargetChange(select, prev);
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
   }
 
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     this._mutationObserver.disconnect();
   }
