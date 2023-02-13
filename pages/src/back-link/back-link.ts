@@ -1,9 +1,9 @@
 import {ESLMixinElement} from '../../../src/modules/esl-mixin-element/core';
 
 export class ESLDemoBackLink extends ESLMixinElement {
-  static is = 'esl-d-back-link';
+  static override is = 'esl-d-back-link';
 
-  public connectedCallback(): void {
+  public override connectedCallback(): void {
     super.connectedCallback();
     if (!document.referrer) return;
     const refUrl = new URL(document.referrer);
