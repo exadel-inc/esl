@@ -7,10 +7,10 @@ import {HTMLMediaProvider} from './media-provider';
  */
 @BaseProvider.register
 export class VideoProvider extends HTMLMediaProvider {
-  static readonly providerName: string = 'video';
-  static readonly urlPattern = /\.(mp4|webm|ogv|mov)(\?|$)/;
+  static override readonly providerName: string = 'video';
+  static override readonly urlPattern = /\.(mp4|webm|ogv|mov)(\?|$)/;
 
-  protected _el: HTMLVideoElement;
+  protected override _el: HTMLVideoElement;
 
   protected createElement(): HTMLVideoElement {
     const el = document.createElement('video');
