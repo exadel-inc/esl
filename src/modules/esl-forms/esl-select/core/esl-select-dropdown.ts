@@ -2,10 +2,8 @@ import {ESLPopup} from '../../../esl-popup/core';
 import {prop, listen} from '../../../esl-utils/decorators';
 import {TAB} from '../../../esl-utils/dom/keys';
 import {ESLSelectList} from '../../esl-select-list/core';
-import {ESLTraversingQuery} from '../../../esl-traversing-query/core/esl-traversing-query';
 
 import type {ESLSelect} from './esl-select';
-import type {ESLSelectRenderer} from './esl-select-renderer';
 import type {ESLToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
 import type {PositionType} from '../../../esl-popup/core/esl-popup-position';
 
@@ -30,9 +28,9 @@ export class ESLSelectDropdown extends ESLPopup {
   protected $list: ESLSelectList;
   protected _disposeTimeout: number;
 
-  @prop() public override closeOnEsc = true;
-  @prop() public override closeOnOutsideAction = true;
-  @prop() public position = 'bottom' as PositionType;
+  @prop(true) public override closeOnEsc: boolean;
+  @prop(true) public override closeOnOutsideAction: boolean;
+  @prop('bottom') public override position: PositionType;
 
   constructor() {
     super();
@@ -41,7 +39,7 @@ export class ESLSelectDropdown extends ESLPopup {
 
   protected override setInitialState(): void {}
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.appendChild(this.$list);
   }
@@ -50,10 +48,8 @@ export class ESLSelectDropdown extends ESLPopup {
     this.removeChild(this.$list);
   }
 
-  protected onShow(params: ESLToggleableActionParams): void {
-    this.activator = ESLTraversingQuery.first('esl-select-renderer', null, this.activator!) as ESLSelectRenderer;
-
-    document.body.appendChild(this);
+  protected override onShow(params: ESLToggleableActionParams): void {
+    !this.connected && document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
     this.$$cls(this.$owner.dropdownClass, true);
