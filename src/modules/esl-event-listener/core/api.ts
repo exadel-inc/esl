@@ -3,6 +3,8 @@ import {dispatchCustomEvent} from '../../esl-utils/dom/events/misc';
 import {ESLEventListener} from './listener';
 import {getAutoDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
 
+import {ESLResizeObserverTarget} from './targets/resize.adapter';
+
 import type {
   ESLListenerHandler,
   ESLListenerCriteria,
@@ -109,6 +111,15 @@ export class ESLEventUtils {
     const listeners = ESLEventListener.get(host, ...criteria);
     listeners.forEach((listener) => listener.unsubscribe());
     return listeners;
+  }
+
+  // === EventTargets adapters ===
+  /**
+   * Creates an {@link EventTarget} adapter ({@link ESLResizeObserverTarget}) for {@link ResizeObserver}
+   * Note: the {@link ESLResizeObserverTarget} instances are unique for the related `targets`
+   */
+  public static resize(target: Element): ESLResizeObserverTarget {
+    return new ESLResizeObserverTarget(target);
   }
 }
 
