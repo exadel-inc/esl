@@ -6,6 +6,9 @@
 export class SyntheticEventTarget implements EventTarget {
   private readonly _listeners: Record<string, EventListenerOrEventListenerObject[]> = {};
 
+  /** Provides a target for EventTarget */
+  protected readonly target: EventTarget = this;
+
   public hasEventListener(): boolean;
   public hasEventListener(type: string | number): boolean;
   public hasEventListener(type: string, minCount: number): boolean;
@@ -36,7 +39,7 @@ export class SyntheticEventTarget implements EventTarget {
   }
 
   public dispatchEvent(e: Event): boolean {
-    const target = (): EventTarget => this; // use get due IE specific
+    const target = (): EventTarget => this.target;
     Object.defineProperty(e, 'target', {get: target, enumerable: true});
     Object.defineProperty(e, 'currentTarget', {get: target, enumerable: true});
     Object.defineProperty(e, 'srcElement', {get: target, enumerable: true});
