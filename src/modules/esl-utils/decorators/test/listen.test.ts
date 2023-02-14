@@ -64,7 +64,7 @@ describe('Decorator: @listen', () => {
       onEvent() {}
     }
     class TestInh extends Test {
-      onEvent() {}
+      override onEvent() {}
     }
     customElements.define('test-listen-4', TestInh);
 
@@ -79,7 +79,7 @@ describe('Decorator: @listen', () => {
     }
     class TestInh extends Test {
       @listen({inherit: true})
-      onEvent() {}
+      override onEvent() {}
     }
     customElements.define('test-listen-5', TestInh);
 
@@ -95,7 +95,7 @@ describe('Decorator: @listen', () => {
     }
     class TestInh extends Test {
       @listen({inherit: true, event: 'event2'})
-      onEvent() {}
+      override onEvent() {}
     }
     customElements.define('test-listen-6', TestInh);
 
@@ -112,7 +112,7 @@ describe('Decorator: @listen', () => {
     }
     class TestInh extends Test {
       @listen({event: 'event2'})
-      onEvent() {}
+      override onEvent() {}
     }
     customElements.define('test-listen-7', TestInh);
 
@@ -142,9 +142,9 @@ describe('Decorator: @listen', () => {
     }
     class TestChild extends Test {
       @listen({inherit: true})
-      onEventAuto() {}
+      override onEventAuto() {}
       @listen({inherit: true})
-      onEventManual() {}
+      override onEventManual() {}
     }
     customElements.define('test-listen-auto', Test);
     customElements.define('test-listen-auto-inherit', TestChild);
