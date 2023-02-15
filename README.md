@@ -77,8 +77,8 @@ Don't forget to import default styles from `node_modules/@exadel/ui-playground/e
   </script>
   <uip-preview></uip-preview>
   <uip-settings target=".demo-form">
-    <uip-text-setting label="Input pattern:" target="#email" attribute="pattern"></uip-text-setting>
-    <uip-bool-setting label="Email validation" target="#email" mode="append" attribute="class" value="validation-input"></uip-bool-setting>
+    <uip-text-setting label="Input pattern:" target="#demo" attribute="pattern"></uip-text-setting>
+    <uip-bool-setting label="Email validation" target="#demo" mode="append" attribute="class" value="validation-input"></uip-bool-setting>
     <uip-select-setting label="Form color:" attribute="class" mode="append">
       <option value="red">Red</option>
       <option value="aqua">Aqua</option>
