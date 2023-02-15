@@ -1,7 +1,7 @@
 # UIPlayground
 
 <p align="center">
-  <img width="300" height="300" src="https://github.com/exadel-inc/ui-playground/blob/main/docs/images/uip-logo.png?raw=true">
+  <img width="150" height="150" src="https://github.com/exadel-inc/ui-playground/blob/main/docs/images/uip-logo.png?raw=true">
 </p>
 
 <br/>
@@ -21,8 +21,6 @@ You can also manage Playground visual appearance by our options ([UIP Options](s
 
 Every element (except the *UIP Root*) isn't required, so you can combine them the way you want.
 
-![Example](docs/images/UIPexample.jpg)
-<br/>
 ---
 ## Installation
 
@@ -30,6 +28,18 @@ Install UIPlayground [npm dependency](https://www.npmjs.com/package/@exadel/ui-p
    ```bash
    npm i @exadel/ui-playground --save
    ```
+Run initialization function
+   ```javascript
+   import {init} from '@exadel/ui-playground/esm/registration.js';
+   init();
+   ```
+Import CSS styles
+   ```css
+   @import "@exadel/ui-playground/esm/registration.css"
+   ```
+or 
+
+Don't forget to import default styles from `node_modules/@exadel/ui-playground/esm/registration.css`
 
 ---
 ## UIP elements:
@@ -49,42 +59,32 @@ Install UIPlayground [npm dependency](https://www.npmjs.com/package/@exadel/ui-p
     - ##### [UIP Bool Setting](src/settings/bool-setting/README.md)
     - ##### [UIP Select Setting](src/settings/select-setting/README.md)
 ---
-## Example:
+## Example
+
+![Example](docs/images/UIPexamplePNG2.png)
+
 ```html
-<uip-root settings-collapsed>
+<uip-root>
   <uip-header>
     <uip-snippets></uip-snippets>
     <uip-options hide-theme hide-direction></uip-options>
   </uip-header>
-  <script type="text/html" uip-snippet label="Example with form">
+  <script type="text/html" uip-snippet label="Snippet name">
     <form class="demo-form">
-      <div class="form-section">
-        <label for="name">Name: </label>
-        <input type="text" id="name" name="userName">
-      </div>
-      <div class="form-section">
-        <label for="email">Email: </label>
-        <input type="email"
-               id="email" name="userEmail">
-      </div>
-      <div class="form-section">
-        <label for="pass">Password: </label>
-        <input type="password" id="pass" name="userPass">
-      </div>
-      <input type="submit" value="Send">
+      <label for="demo">Demo input</label>
+      <input type="text" id="demo" name="demo">
     </form>
   </script>
-  <uip-preview class="centered-content" resizable></uip-preview>
+  <uip-preview></uip-preview>
   <uip-settings target=".demo-form">
-    <uip-bool-setting label="Email validation" target="#email" mode="append" attribute="class"
-                      value="validation-input"></uip-bool-setting>
+    <uip-text-setting label="Input pattern:" target="#email" attribute="pattern"></uip-text-setting>
+    <uip-bool-setting label="Email validation" target="#email" mode="append" attribute="class" value="validation-input"></uip-bool-setting>
     <uip-select-setting label="Form color:" attribute="class" mode="append">
       <option value="red">Red</option>
       <option value="aqua">Aqua</option>
       <option value="green">Green</option>
     </uip-select-setting>
-    <uip-slider-setting label="Input width:" target="#name" attribute="test" min="300" max="1000"></uip-slider-setting>
-    <uip-text-setting label="Input name:" terget="#email" attribute="pattern"></uip-text-setting>
+    <uip-slider-setting label="Range test attibute" target="input" attribute="test" min="300" max="1000"></uip-slider-setting>
   </uip-settings>
   <uip-editor></uip-editor>
 </uip-root>
