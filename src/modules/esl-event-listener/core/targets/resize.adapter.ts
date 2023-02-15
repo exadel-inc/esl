@@ -14,7 +14,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     const adapter = this.mapping.get(detail.target);
     if (!adapter) return;
     const event = new CustomEvent('resize', {detail});
-    adapter.dispatchEvent(event);
+    adapter.dispatchEvent(event, adapter.target);
   }
 
   /**
@@ -23,7 +23,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
    */
   constructor(
     /** Observed {@link Element} of the {@link ESLResizeObserverTarget} instance */
-    public override readonly target: Element
+    public readonly target: Element
   ) {
     const instance = ESLResizeObserverTarget.mapping.get(target);
     if (instance) return instance;
