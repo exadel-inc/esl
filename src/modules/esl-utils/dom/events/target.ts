@@ -6,9 +6,6 @@
 export class SyntheticEventTarget implements EventTarget {
   private readonly _listeners: Record<string, EventListenerOrEventListenerObject[]> = {};
 
-  /** Provides a target for EventTarget */
-  protected readonly target: EventTarget = this;
-
   public hasEventListener(): boolean;
   public hasEventListener(type: string | number): boolean;
   public hasEventListener(type: string, minCount: number): boolean;
@@ -38,11 +35,12 @@ export class SyntheticEventTarget implements EventTarget {
     this._listeners[type] = this._listeners[type].filter((cb) => cb !== callback);
   }
 
-  public dispatchEvent(e: Event): boolean {
-    const target = (): EventTarget => this.target;
-    Object.defineProperty(e, 'target', {get: target, enumerable: true});
-    Object.defineProperty(e, 'currentTarget', {get: target, enumerable: true});
-    Object.defineProperty(e, 'srcElement', {get: target, enumerable: true});
+  public dispatchEvent(e: Event, target: EventTarget = this): boolean {
+    const targetDescriptor: PropertyDescriptor = {get: () => target, enumerable: true};
+    Object.defineProperty(e, 'target', targetDescriptor);
+    Object.defineProperty(e, 'currentTarget', targetDescriptor);
+    Object.defineProperty(e, 'srcElement', targetDescriptor);
+
     this._listeners[e.type]?.forEach((listener) => {
       if (typeof listener === 'function') listener.call(this, e);
       else listener.handleEvent.call(listener, e);
