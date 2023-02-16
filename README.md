@@ -24,7 +24,7 @@ Every element (except the *UIP Root*) isn't required, so you can combine them th
 ---
 ## Installation
 
-Install UIPlayground [npm dependency](https://www.npmjs.com/package/@exadel/ui-playground):
+Install UIPlayground [npm dependency](https://www.npmjs.com/package/@exadel/ui-playground)
    ```bash
    npm i @exadel/ui-playground --save
    ```
@@ -37,9 +37,6 @@ Import CSS styles
    ```css
    @import "@exadel/ui-playground/esm/registration.css"
    ```
-or 
-
-Don't forget to import default styles from `node_modules/@exadel/ui-playground/esm/registration.css`
 
 ---
 ## UIP elements:
