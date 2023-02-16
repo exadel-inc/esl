@@ -20,32 +20,43 @@ Plugins:
       - [UIPSnippets](src/header/snippets/README.md)
 
 Any playground must have at least **Сore** components. **Plugins** are
-optional, you can add them on your own free will. 
+optional, you can add them on your own free will.
 
 To implement custom UIPPlayground components, see [UIPPlugin](src/core/README.md#uip-plugin).
 
 # Modules/components imports
-Module's main parts lay inside modules folders. So importing the required
-module is really straightforward:
+To register all components, you can use the next callback:
 
 ```typescript
-import {UIPRoot} from './root';
-import {UIPEditor} from './editor';
-import {UIPBoolSetting} from './bool-setting';
+import {init} from '@exadel/ui-playground/esm/registration';
+init();
+```
+
+There is also an ability to register only Core/Plugins/Settings parts. To do this, call one of the functions below:
+
+```typescript
+import {registerCore, registerPlugins, registerSettings} from '@exadel/ui-playground/esm/registration';
+registerCore();
+registerPlugins();
+registerSettings();
+```
+
+Before using UIP components, you also need to *register* them. The callbacks above do this by themselves.
+But if you want to have a custom registration logic, there is a way to register components manually:
+
+```typescript
+import {UIPRoot} from '@exadel/ui-playground/esm/registration';
+UIPRoot.register();
 ```
 
 Every module has two versions of styles: *css* and *less*. If you want
 to import styles for all UIP component, you can import either
-*registration.less* or *registration.css* file.
+*registration.less* or *registration.css* file:
 
-Before using UIP components, you also need to *register* them. For example,
-if you want to use [UIPRoot](src/core/README.md#uip-root) component, register it like that:
-
-```typescript
-import {UIPRoot} from './root';
-UIPRoot.reguster();
+```less
+@import '@exadel/ui-playground/esm/registration.css';
 ```
 
 # Browser support
 
-UIPPlayground supports all modern browsers.
+UIPlayground supports all modern browsers.

@@ -1,6 +1,6 @@
 # UIP Options
 
-**UIPOptions** - custom element which provides visual controls for changing UIP visual appearance.
+**UIPOptions** - custom element to provide visual controls for changing UIPlayground appearance.
 Extends [UIPPlugin](src/core/README.md#uip-plugin).
 
 ## Description
