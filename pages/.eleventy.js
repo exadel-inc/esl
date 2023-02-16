@@ -1,6 +1,5 @@
 const fs = require('fs');
 const color = require('kleur');
-const {isDev} = require('./views/_data/env');
 
 module.exports = config => {
   // Init all 11ty config modules
@@ -17,19 +16,21 @@ module.exports = config => {
     }
   }
 
+  config.setServerOptions({
+    port: 3005,
+    domDiff: true,
+    liveReload: true,
+    watch: [
+      'dist/bundles/*.js',
+      'dist/bundles/*.css',
+      'dist/bundles/*.map',
+    ]
+  })
+
   config.addWatchTarget('../src/**/*.md');
   config.addPassthroughCopy({
     'static/assets': 'assets',
     '../static': '.'
-  });
-
-  config.setBrowserSyncConfig({
-    files: [
-      'dist/bundles/*.js',
-      'dist/bundles/*.css',
-      'dist/bundles/*.map',
-    ],
-    open: isDev,
   });
 
   return {
