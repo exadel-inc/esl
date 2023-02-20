@@ -17,7 +17,7 @@ import {ESLAnimateService} from './esl-animate-service';
  */
 @ExportNs('Animate')
 export class ESLAnimate extends ESLBaseElement {
-  public static is = 'esl-animate';
+  public static override is = 'esl-animate';
   public static observedAttributes = ['group', 'repeat', 'target'];
 
   /**
@@ -70,13 +70,13 @@ export class ESLAnimate extends ESLBaseElement {
   }
 
   @ready
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.reanimate();
   }
 
   @ready
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     ESLAnimateService.unobserve(this.$targets);
   }

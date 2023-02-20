@@ -15,7 +15,7 @@ import {RTLUtils} from '../../esl-utils/dom/rtl';
  */
 @ExportNs('Scrollbar')
 export class ESLScrollbar extends ESLBaseElement {
-  public static is = 'esl-scrollbar';
+  public static override is = 'esl-scrollbar';
   public static observedAttributes = ['target', 'horizontal'];
 
   /** Horizontal scroll orientation marker */
@@ -55,14 +55,14 @@ export class ESLScrollbar extends ESLBaseElement {
   protected _mutationObserver = new MutationObserver((rec) => this.updateContentObserve(rec));
 
   @ready
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.render();
     this.findTarget();
   }
 
   @ready
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     this.unbindTargetEvents();
     this._scrollTimer && window.clearTimeout(this._scrollTimer);
   }

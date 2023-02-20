@@ -17,7 +17,7 @@ export type ESLRelatedTargetActionType = 'all' | 'show' | 'hide';
  */
 @ExportNs('RelatedTarget')
 export class ESLRelatedTarget extends ESLMixinElement {
-  static is = 'esl-related-target';
+  static override is = 'esl-related-target';
 
   /** Selector/query ({@link ESLTraversingQuery}) to find related ESLToggleable element */
   @attr({name: ESLRelatedTarget.is}) public selector: string;

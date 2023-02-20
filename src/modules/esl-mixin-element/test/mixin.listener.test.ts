@@ -5,7 +5,7 @@ describe('ESLMixinElement: listeners', () => {
   describe('ESLMixinElement auto subscribes to listener declarations', () => {
     const mockHandler = jest.fn();
     class TestElement extends ESLMixinElement {
-      static is = 'test-listen-mixin';
+      static override is = 'test-listen-mixin';
 
       @listen('click')
       public onClick(...args: any[]) { mockHandler(this, ...args); }

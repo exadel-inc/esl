@@ -17,7 +17,7 @@ import {ESLTab} from './esl-tab';
  */
 @ExportNs('Tabs')
 export class ESLTabs extends ESLBaseElement {
-  public static is = 'esl-tabs';
+  public static override is = 'esl-tabs';
   public static observedAttributes = ['scrollable'];
 
   /** List of supported scrollable types */
@@ -50,7 +50,7 @@ export class ESLTabs extends ESLBaseElement {
     return this.scrollableTypeRules.activeValue || 'side';
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.updateScrollableType();
   }
