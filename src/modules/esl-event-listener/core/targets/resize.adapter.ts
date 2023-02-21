@@ -17,11 +17,16 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     adapter.dispatchEvent(event, adapter.target);
   }
 
+  /** Creates {@link ESLResizeObserverTarget} instance for the {@link Element} */
+  public static create(target: Element): ESLResizeObserverTarget {
+    return new ESLResizeObserverTarget(target);
+  }
+
   /**
    * Creates {@link ESLResizeObserverTarget} for the {@link Element}.
    * Note the {@link ESLResizeObserverTarget} instances are singletons relatively to the {@link Element}
    */
-  constructor(
+  protected constructor(
     /** Observed {@link Element} of the {@link ESLResizeObserverTarget} instance */
     public readonly target: Element
   ) {

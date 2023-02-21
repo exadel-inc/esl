@@ -3,7 +3,7 @@ import {dispatchCustomEvent} from '../../esl-utils/dom/events/misc';
 import {ESLEventListener} from './listener';
 import {getAutoDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
 
-import {ESLEventTargetDecorator} from './targets/decorator.target';
+import {ESLEventTargetDecorator} from './targets/decorated.target';
 import {ESLResizeObserverTarget} from './targets/resize.adapter';
 
 import type {
@@ -120,11 +120,12 @@ export class ESLEventUtils {
    * Creates an {@link EventTarget} adapter ({@link ESLResizeObserverTarget}) for {@link ResizeObserver}
    * Note: the {@link ESLResizeObserverTarget} instances are unique for the related `targets`
    */
-  public static resize(target: Element): ESLResizeObserverTarget {
-    return new ESLResizeObserverTarget(target);
-  }
+  public static resize = ESLResizeObserverTarget.create;
 
-  // EventTarget utilities
+  /**
+   * Creates an {@link ESLEventTargetDecorator} decorator for any {@link EventTarget}
+   * Decorated {@link EventTarget} produces event according provided handler decoration
+   */
   public static decorate = ESLEventTargetDecorator.create;
 }
 
