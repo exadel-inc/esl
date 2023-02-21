@@ -5,16 +5,70 @@ import {ESLEventUtils} from '../../core/api';
 describe('ESLEventUtils.decorate proxy', () => {
   const DEFAULT_TIMEOUT = 250;
 
-  jest.useFakeTimers();
+  describe('ESLEventUtils.decorate caching',  () => {
+    test('ESLEventUtils.decorate cached for target and fake fn', () => {
+      const fn = (arg: any) => arg;
+      expect(ESLEventUtils.decorate(window, fn) === ESLEventUtils.decorate(window, fn));
+      expect(ESLEventUtils.decorate(document, fn) !== ESLEventUtils.decorate(window, fn));
+    });
+
+    test('ESLEventUtils.decorate cached for target and debounce fn', () => {
+      expect(ESLEventUtils.decorate(window, debounce) === ESLEventUtils.decorate(window, debounce));
+      expect(ESLEventUtils.decorate(document, debounce) !== ESLEventUtils.decorate(window, debounce));
+    });
+
+    test('ESLEventUtils.decorate cached for target, fake fn and timeout', () => {
+      const fn = (arg: any) => arg;
+      expect(ESLEventUtils.decorate(window, fn, 100) === ESLEventUtils.decorate(window, fn, 100));
+      expect(ESLEventUtils.decorate(window, fn, 100) !== ESLEventUtils.decorate(window, fn, 150));
+    });
+
+    test('ESLEventUtils.decorate cached default timeout preprocessed', () => {
+      const fn = (arg: any) => arg;
+      expect(ESLEventUtils.decorate(window, fn) !== ESLEventUtils.decorate(window, fn, 100));
+      expect(ESLEventUtils.decorate(window, fn) === ESLEventUtils.decorate(window, fn, DEFAULT_TIMEOUT));
+    });
+  });
+
+  describe('ESLEventUtils.decorate attribute processing', () => {
+    const el = document.createElement('div');
+    const handler = jest.fn();
+    const dec = jest.fn(() => handler);
+    const decorated = ESLEventUtils.decorate(el, dec);
+
+    test('Creation does npt cause execution', () => expect(dec).not.toBeCalled());
+
+    test('Creation happens once on subscription', () => {
+      const fn = jest.fn();
+      decorated.addEventListener(fn);
+      expect(dec).toBeCalled();
+      expect(handler).not.toBeCalled();
+      decorated.removeEventListener(fn);
+    });
+
+    test('Event is passed to the handler', () => {
+      const fn = jest.fn();
+      const event = new Event('event');
+      decorated.addEventListener('event', fn);
+
+      el.dispatchEvent(event);
+      expect(handler).lastCalledWith(event);
+
+      decorated.removeEventListener(fn);
+    });
+  });
 
   describe('window.resize debouncing case', () => {
     const host = {};
     const fn = jest.fn();
 
-    beforeAll(() => ESLEventUtils.subscribe(host, {
-      event: 'resize',
-      target: ESLEventUtils.decorate(window, debounce)
-    }, fn));
+    beforeAll(() => {
+      ESLEventUtils.subscribe(host, {
+        event: 'resize',
+        target: ESLEventUtils.decorate(window, debounce)
+      }, fn);
+      jest.useFakeTimers();
+    });
     afterAll(() => ESLEventUtils.unsubscribe(host));
 
     beforeEach(() => fn.mockReset());
@@ -57,10 +111,13 @@ describe('ESLEventUtils.decorate proxy', () => {
     const host = {};
     const fn = jest.fn();
 
-    beforeAll(() => ESLEventUtils.subscribe(host, {
-      event: 'scroll',
-      target: ESLEventUtils.decorate(window, throttle)
-    }, fn));
+    beforeAll(() => {
+      ESLEventUtils.subscribe(host, {
+        event: 'scroll',
+        target: ESLEventUtils.decorate(window, throttle)
+      }, fn);
+      jest.useFakeTimers();
+    });
     afterAll(() => ESLEventUtils.unsubscribe(host));
 
     beforeEach(() => fn.mockReset());
