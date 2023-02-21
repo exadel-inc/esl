@@ -5,41 +5,41 @@ name: Animate
 tags: [examples, beta]
 icon: examples/animate.svg
 aside:
-  components:
-    - esl-animate
+components:
+- esl-animate
 ---
 
 <section>
-  <h2>Simple animation</h2>
+   <h2>Simple animation</h2>
 
-  <div class="simple-grid simple-grid-fw">
-    {% for i in range(0, 4) -%}
+   <div class="simple-grid simple-grid-fw">
+      {% for i in range(0, 4) -%}
       <esl-animate class="esl-animate-fade simple-grid-cell bg-green round">
-        esl-animate-fade
+         esl-animate-fade
       </esl-animate>
       <esl-animate class="esl-animate-slide-up simple-grid-cell bg-green round">
-        esl-animate-slide-up
+         esl-animate-slide-up
       </esl-animate>
       <esl-animate class="esl-animate-slide-left simple-grid-cell bg-green round">
-        esl-animate-slide-left
+         esl-animate-slide-left
       </esl-animate>
       <esl-animate class="esl-animate-slide-down simple-grid-cell bg-green round">
-        esl-animate-slide-down
+         esl-animate-slide-down
       </esl-animate>
       <esl-animate class="esl-animate-slide-right simple-grid-cell bg-green round">
-        esl-animate-slide-right
+         esl-animate-slide-right
       </esl-animate>
-    {%- endfor %}
-  </div>
+      {%- endfor %}
+   </div>
 </section>
 
 <section>
-  <h2>Grouped and repetitive animation</h2>
-  <ul class="round simple-grid">
-    <esl-animate target="::parent::child(li)" group repeat></esl-animate>
-    {% for i in range(0, 72) -%}
+   <h2>Grouped and repetitive animation</h2>
+   <ul class="round simple-grid">
+      <esl-animate target="::parent::child(li)" group repeat></esl-animate>
+      {% for i in range(0, 72) -%}
       <li class="bg-blue round esl-animate-slide-up simple-grid-cell {{ 'hide-xs' if i >= 12 }}"
-          is="my-comp my-com-2"></li>
-    {%- endfor %}
-  </ul>
+         is="my-comp my-com-2"></li>
+      {%- endfor %}
+   </ul>
 </section>

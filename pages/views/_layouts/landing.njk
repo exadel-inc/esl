@@ -2,19 +2,19 @@
 {% set baseClass = 'landing-layout' %}
 
 {% block content %}
-  {% include 'navigation/header.njk' %}
-  {% include 'navigation/sidebar.njk' %}
+{% include 'navigation/header.njk' %}
+{% include 'navigation/sidebar.njk' %}
 
-  <main class="esl-scrollable-content">
-    <div class="content">
+<main class="esl-scrollable-content">
+   <div class="content">
       {{ content | safe or 'No content.' }}
-    </div>
+   </div>
 
-    <footer class="footer">
+   <footer class="footer">
       {% include 'navigation/footer.njk' %}
-    </footer>
-  </main>
+   </footer>
+</main>
 
-  <esl-scrollbar target="::prev" class="main-scroll"></esl-scrollbar>
-  <div class="header-shadow"></div>
+<esl-scrollbar target="::prev" class="main-scroll"></esl-scrollbar>
+<div class="header-shadow"></div>
 {% endblock %}

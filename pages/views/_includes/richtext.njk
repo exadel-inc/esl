@@ -5,8 +5,8 @@ Usage:
 {{ text.render('Some rich text') }}
 #}
 {% macro render(text) %}
-  {% set textlines = [].concat(text) %}
-  {% for line in textlines %}
-    <p>{{ line }}</p>
-  {% endfor %}
+{% set textlines = [].concat(text) %}
+{% for line in textlines %}
+<p>{{ line }}</p>
+{% endfor %}
 {% endmacro %}

@@ -1,32 +1,38 @@
 <header class="header">
-  <nav class="header-container container">
-    <a class="header-link header-logo fill-light logo-animated" href="{{ '/' | url }}" aria-label="Landing page">
-      {% include 'static/assets/logo.svg' %}
-      <span class="header-short-name">esl</span>
-      <span class="header-long-name">{{ site.brand }}</span>
-    </a>
-    <ul class="header-nav">
-      <li class="header-nav-item"><a class="header-link" href="{{ '/core' | url }}">Core</a></li>
-      <li class="header-nav-item"><a class="header-link" href="{{ '/components' | url }}">Components</a></li>
-      <li class="header-nav-item"><a class="header-link" href="{{ '/examples' | url }}">Examples</a></li>
-      <li class="header-nav-item">
-        <a class="header-link icon-link" href="{{ site.github.url }}" target="_blank">
-          {% include 'static/assets/common/github.svg' %}
-        </a>
-      </li>
-      <li class="header-nav-item header-search">
-        <esl-d-search-box autofocus class="header-search-box" post-cls="visible" post-cls-delay="500">
-          <div class="animation-loading bg-white"></div>
-          <div class="gcse-searchbox-only" data-resultsUrl="{{ '/search.html' | url }}"></div>
-        </esl-d-search-box>
-        <esl-trigger active-class="active" class="header-link icon-link header-search-trigger" target="::prev">
-          {% include 'static/assets/common/header-search.svg' %}
-        </esl-trigger>
-      </li>
-    </ul>
-    <div class="header-utility">
-      <a class="header-btn btn btn-lg btn-sec-blue" href="{{ '/introduction' | url }}">Get started</a>
-      <esl-trigger class="header-hamburger" target="#sidebar" aria-label="Navigation Menu"></esl-trigger>
-    </div>
-  </nav>
+   <nav class="header-container container">
+      <a class="header-link header-logo fill-light logo-animated" href="{{ '/' | url }}" aria-label="Landing page">
+         {% include 'static/assets/logo.svg' %}
+         <span class="header-short-name">esl</span>
+         <span class="header-long-name">{{ site.brand }}</span>
+      </a>
+      <ul class="header-nav">
+         <li class="header-nav-item">
+            <a class="header-link" href="{{ '/core' | url }}">Core</a>
+         </li>
+         <li class="header-nav-item">
+            <a class="header-link" href="{{ '/components' | url }}">Components</a>
+         </li>
+         <li class="header-nav-item">
+            <a class="header-link" href="{{ '/examples' | url }}">Examples</a>
+         </li>
+         <li class="header-nav-item">
+            <a class="header-link icon-link" href="{{ site.github.url }}" target="_blank">
+               {% include 'static/assets/common/github.svg' %}
+            </a>
+         </li>
+         <li class="header-nav-item header-search">
+            <esl-d-search-box autofocus class="header-search-box" post-cls="visible" post-cls-delay="500">
+               <div class="animation-loading bg-white"></div>
+               <div class="gcse-searchbox-only" data-resultsUrl="{{ '/search.html' | url }}"></div>
+            </esl-d-search-box>
+            <esl-trigger active-class="active" class="header-link icon-link header-search-trigger" target="::prev">
+               {% include 'static/assets/common/header-search.svg' %}
+            </esl-trigger>
+         </li>
+      </ul>
+      <div class="header-utility">
+         <a class="header-btn btn btn-lg btn-sec-blue" href="{{ '/introduction' | url }}">Get started</a>
+         <esl-trigger class="header-hamburger" target="#sidebar" aria-label="Navigation Menu"></esl-trigger>
+      </div>
+   </nav>
 </header>

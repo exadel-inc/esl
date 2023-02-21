@@ -4,25 +4,26 @@
 {% set title = 'Redirecting...' %}
 
 {% block meta %}
-  <meta charset="utf-8"/>
-  <meta name="robots" content="noindex" />
-  <meta http-equiv="refresh" content="0;url={{ target | url }}"/>
+<meta charset="utf-8"/>
+<meta name="robots" content="noindex"/>
+<meta http-equiv="refresh" content="0;url={{ target | url }}"/>
 {% endblock meta %}
 {% block content %}
-  {% include 'navigation/header.njk' %}
-  {% include 'navigation/sidebar.njk' %}
+{% include 'navigation/header.njk' %}
+{% include 'navigation/sidebar.njk' %}
 
-  <main class="esl-scrollable-content">
-    <div class="content system-page">
+<main class="esl-scrollable-content">
+   <div class="content system-page">
       <div class="m-auto text-center">
-        <h1>🦆 301 🦆</h1>
-        <p class="h2 text-warning">This isn't here anymore!</p>
-        <p class="h4">The page was moved, if you aren't automatically redirected
-          <a href="{{ target | url }}">go here</a>.</p>
+         <h1>🦆 301 🦆</h1>
+         <p class="h2 text-warning">This isn't here anymore!</p>
+         <p class="h4">The page was moved, if you aren't automatically redirected
+            <a href="{{ target | url }}">go here</a>.
+         </p>
       </div>
-    </div>
-  </main>
+   </div>
+</main>
 
-  <esl-scrollbar target="::prev" class="main-scroll"></esl-scrollbar>
-  <div class="header-shadow"></div>
+<esl-scrollbar target="::prev" class="main-scroll"></esl-scrollbar>
+<div class="header-shadow"></div>
 {% endblock %}
