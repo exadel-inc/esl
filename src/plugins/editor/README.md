@@ -31,7 +31,7 @@ interface EditorConfig {
 - **Wrap** number sets the limit of characters before wrapping. Set to **0** to remove wrapping or **true** for wrapping
   on the container's width.
 - **MinLines** is a minimum number of lines to be displayed.
-- **MaxLines** is a maximum number of lines to be displayed. If the number of lines exceeds this limit, vertical scrool will appear.
+- **MaxLines** is a maximum number of lines to be displayed. If the number of lines exceeds this limit, vertical scroll will appear.
 
 We think that these options are the most common, so we made their configuration easier. All you need is to pass an object
 to the editor's attribute *editor-config*, like in the example below:

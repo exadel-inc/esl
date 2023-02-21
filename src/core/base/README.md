@@ -32,9 +32,6 @@ class UIPComponent extends UIPPlugin {
 
 You can find a way of getting current markup in [UIPStateModel](src/core/README.md#uip-state-model) section.
 
-To make the long story shorter: we implement "reaction" callback in *_onRootStateChange()* (using markup's getter
-mentioned earlier) and every time **UIPStateModel** produces markup updates, we "react" to them!
-
 ## Example
 
 ```typescript
@@ -59,7 +56,8 @@ class UIPPreview extends UIPPlugin {
 ## Description
 
 **UIPRoot** contains [UIPStateModel](src/core/README.md#uip-state-model) getter. It also allows **UIPPlugin** elements
-subscribing to model changes (or unsubscribing from them). More details can be found in [UIPPlugin](src/core/README.md#uip-plugin) section.
+to subscribe to model changes (or unsubscribe from them). More details can be found in
+[UIPPlugin](src/core/README.md#uip-plugin) section.
 
 ## Example
 

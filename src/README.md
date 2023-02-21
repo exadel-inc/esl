@@ -44,8 +44,8 @@ registerPlugins();
 registerSettings();
 ```
 
-Before using UIP components, you also need to *register* them. The callbacks above do this by themselves.
-But if you want to have a custom registration logic, there is a way to register components manually:
+The callbacks above register UIP components by themselves. But if you want to have a custom registration logic,
+there is a way to register components manually:
 
 ```typescript
 import {UIPRoot} from '@exadel/ui-playground/esm/registration';
