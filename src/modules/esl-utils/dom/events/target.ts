@@ -36,7 +36,11 @@ export class SyntheticEventTarget implements EventTarget {
   }
 
   public dispatchEvent(e: Event, target: EventTarget = this): boolean {
-    const targetDescriptor: PropertyDescriptor = {get: () => target, enumerable: true};
+    const targetDescriptor: PropertyDescriptor = {
+      get: () => target,
+      enumerable: true,
+      configurable: true
+    };
     Object.defineProperty(e, 'target', targetDescriptor);
     Object.defineProperty(e, 'currentTarget', targetDescriptor);
     Object.defineProperty(e, 'srcElement', targetDescriptor);
