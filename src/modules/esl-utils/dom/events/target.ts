@@ -4,6 +4,9 @@
  * Doesn't give explicit access to callback storage
  */
 export class SyntheticEventTarget implements EventTarget {
+  // Event type to use in the shortcuted calls
+  public static DEFAULT_EVENT = 'change';
+
   private readonly _listeners: Record<string, EventListenerOrEventListenerObject[]> = {};
 
   public hasEventListener(): boolean;
@@ -17,7 +20,7 @@ export class SyntheticEventTarget implements EventTarget {
   public addEventListener(callback: EventListenerOrEventListenerObject): void;
   public addEventListener(type: string, callback: EventListenerOrEventListenerObject): void;
   public addEventListener(type: string | EventListenerOrEventListenerObject, callback?: EventListenerOrEventListenerObject): void {
-    if (typeof type !== 'string') return this.addEventListener('change', type);
+    if (typeof type !== 'string') return this.addEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
     if (this._listeners[type] && this._listeners[type].includes(callback!)) return;
@@ -28,18 +31,19 @@ export class SyntheticEventTarget implements EventTarget {
   public removeEventListener(callback: EventListenerOrEventListenerObject): void;
   public removeEventListener(type: string, callback: EventListenerOrEventListenerObject): void;
   public removeEventListener(type: string | EventListenerOrEventListenerObject, callback?: EventListenerOrEventListenerObject): void {
-    if (typeof type !== 'string') return this.removeEventListener('change', type);
+    if (typeof type !== 'string') return this.removeEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
     if (!this._listeners[type]) return;
     this._listeners[type] = this._listeners[type].filter((cb) => cb !== callback);
   }
 
-  public dispatchEvent(e: Event): boolean {
-    const target = (): EventTarget => this; // use get due IE specific
-    Object.defineProperty(e, 'target', {get: target, enumerable: true});
-    Object.defineProperty(e, 'currentTarget', {get: target, enumerable: true});
-    Object.defineProperty(e, 'srcElement', {get: target, enumerable: true});
+  public dispatchEvent(e: Event, target: EventTarget = this): boolean {
+    const targetDescriptor: PropertyDescriptor = {get: () => target, enumerable: true};
+    Object.defineProperty(e, 'target', targetDescriptor);
+    Object.defineProperty(e, 'currentTarget', targetDescriptor);
+    Object.defineProperty(e, 'srcElement', targetDescriptor);
+
     this._listeners[e.type]?.forEach((listener) => {
       if (typeof listener === 'function') listener.call(this, e);
       else listener.handleEvent.call(listener, e);
