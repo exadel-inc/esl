@@ -18,15 +18,9 @@ describe('ESLEventUtils.decorate proxy', () => {
     });
 
     test('ESLEventUtils.decorate cached for target, fake fn and timeout', () => {
-      const fn = (arg: any) => arg;
+      const fn = (arg: any, num: number) => arg;
       expect(ESLEventUtils.decorate(window, fn, 100) === ESLEventUtils.decorate(window, fn, 100));
       expect(ESLEventUtils.decorate(window, fn, 100) !== ESLEventUtils.decorate(window, fn, 150));
-    });
-
-    test('ESLEventUtils.decorate cached default timeout preprocessed', () => {
-      const fn = (arg: any) => arg;
-      expect(ESLEventUtils.decorate(window, fn) !== ESLEventUtils.decorate(window, fn, 100));
-      expect(ESLEventUtils.decorate(window, fn) === ESLEventUtils.decorate(window, fn, DEFAULT_TIMEOUT));
     });
   });
 
@@ -65,7 +59,7 @@ describe('ESLEventUtils.decorate proxy', () => {
     beforeAll(() => {
       ESLEventUtils.subscribe(host, {
         event: 'resize',
-        target: ESLEventUtils.decorate(window, debounce)
+        target: ESLEventUtils.decorate(window, debounce, DEFAULT_TIMEOUT)
       }, fn);
       jest.useFakeTimers();
     });
@@ -114,7 +108,7 @@ describe('ESLEventUtils.decorate proxy', () => {
     beforeAll(() => {
       ESLEventUtils.subscribe(host, {
         event: 'scroll',
-        target: ESLEventUtils.decorate(window, throttle)
+        target: ESLEventUtils.decorate(window, throttle, DEFAULT_TIMEOUT)
       }, fn);
       jest.useFakeTimers();
     });
