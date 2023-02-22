@@ -19,7 +19,7 @@ export function memoizeFn<F extends AnyToAnyFnSignature>(fn: F, hashFn: MemoHash
   function memo(...args: Parameters<F>): any {
     const key = hashFn(...args);
     if (key !== null && typeof key !== 'string') {
-      console.warn(`Can't cache value for ${fn.name} call.`);
+      console.warn(`[ESL]: Can't cache value for ${fn.name} call.`);
       return fn.apply(this, args);
     }
     if (!memo.cache.has(key)) {
