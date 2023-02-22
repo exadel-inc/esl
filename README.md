@@ -68,13 +68,15 @@ Import CSS styles
   <script type="text/html" uip-snippet label="Logo">
     <div class="logo-content gray-clr">
       <img src="assets/uip-logo.png" alt="Logo">
-      <a class="get-started" href="{{ '/general/getting-started/' | url }}" data-test-msg="Get Started!"></a>
+      <a class="get-started" href="{{ '/general/getting-started/' | url }}">Get Started!</a>
     </div>
   </script>
   <uip-preview></uip-preview>
   <uip-settings target=".logo-content">
-    <uip-text-setting label="Alternative Button Text:" target=".get-started" attribute="data-test-msg"></uip-text-setting>
-    <uip-slider-setting label="Width:" target=".logo-content svg" attribute="width" min="100" max="500"></uip-slider-setting>
+    <uip-text-setting label="Alternative Button Text:" target=".get-started"
+                      attribute="data-test-msg"></uip-text-setting>
+    <uip-slider-setting label="Width:" target=".logo-content svg"
+                        attribute="width" min="100" max="500"></uip-slider-setting>
     <uip-select-setting label="Color:" attribute="class" mode="append">
       <option value="gray-clr">Dark gray</option>
       <option value="blue-clr">Blue</option>
