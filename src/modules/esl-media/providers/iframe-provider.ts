@@ -9,12 +9,12 @@ import type {MediaProviderConfig} from '../core/esl-media-provider';
  */
 @BaseProvider.register
 export class IframeBasicProvider extends BaseProvider {
-  static readonly providerName: string = 'iframe';
+  static override readonly providerName: string = 'iframe';
 
   private _state: PlayerStates = PlayerStates.UNINITIALIZED;
-  protected _el: HTMLIFrameElement;
+  protected override _el: HTMLIFrameElement;
 
-  static parseUrl(url: string): Partial<MediaProviderConfig> | null {
+  static override parseUrl(url: string): Partial<MediaProviderConfig> | null {
     try {
       if (!url) return null;
       const {protocol} = new URL(url);
@@ -57,17 +57,17 @@ export class IframeBasicProvider extends BaseProvider {
     this._ready.catch((e) => this.component._onError(e));
   }
 
-  public unbind(): void {
+  public override unbind(): void {
     this.component._onDetach();
     this._state = PlayerStates.UNINITIALIZED;
     super.unbind();
   }
 
-  get ready(): Promise<any> {
+  override get ready(): Promise<any> {
     return Promise.resolve();
   }
 
-  public focus(): void {
+  public override focus(): void {
     if (this._el && this._el.contentWindow) {
       this._el.contentWindow.focus();
     }

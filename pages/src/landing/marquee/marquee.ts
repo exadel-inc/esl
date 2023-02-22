@@ -4,7 +4,7 @@ import {range} from '../../../../src/modules/esl-utils/misc/array';
 import {isIE} from '../../../../src/modules/esl-utils/environment/device-detector';
 
 export class ESLDemoMarquee extends ESLBaseElement {
-  static is = 'esl-d-marquee';
+  static override is = 'esl-d-marquee';
   static STARS_SEL = 'use';
 
   @attr({defaultValue: '4'}) public targetsNumber: string;
@@ -14,12 +14,12 @@ export class ESLDemoMarquee extends ESLBaseElement {
   private _animateTimer: number = 0;
 
   @ready
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     if (isIE) return;
     this.startAnimation();
   }
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     this.stopAnimation();
     super.disconnectedCallback();
   }

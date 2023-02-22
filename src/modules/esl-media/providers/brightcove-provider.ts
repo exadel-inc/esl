@@ -19,7 +19,7 @@ export interface BCPlayerAccount {
  */
 @BaseProvider.register
 export class BrightcoveProvider extends BaseProvider {
-  static readonly providerName: string = 'brightcove';
+  static override readonly providerName: string = 'brightcove';
 
   protected videojsClasses = 'video-js vjs-default-skin video-js-brightcove';
 
@@ -116,20 +116,20 @@ export class BrightcoveProvider extends BaseProvider {
       .catch((e) => this.component._onError(e));
   }
 
-  public unbind(): void {
+  public override unbind(): void {
     this.component._onDetach();
     this._api && this._api.dispose();
     super.unbind();
   }
 
-  protected onConfigChange(param: ProviderObservedParams, value: boolean): void {
+  protected override onConfigChange(param: ProviderObservedParams, value: boolean): void {
     super.onConfigChange(param, value);
     if (typeof this._api[param] === 'function') {
       this._api[param](value);
     }
   }
 
-  public focus(): void {
+  public override focus(): void {
     this._api && this._api.focus();
   }
 
@@ -174,11 +174,11 @@ export class BrightcoveProvider extends BaseProvider {
   }
 
   // Overrides to set tech autoplay marker
-  public safePlay(): Promise<any> {
+  public override safePlay(): Promise<any> {
     this._autoplay = true;
     return super.safePlay();
   }
-  public safeStop(): Promise<any> {
+  public override safeStop(): Promise<any> {
     this._autoplay = true;
     return super.safeStop();
   }

@@ -9,14 +9,14 @@ Authors: *Alexey Stsefanovich (ala'n)*
 **ESLMixinElement** provides the core for creating custom attribute elements (mixins) and TS (TypeScript) decorators to
 simplify component creation.
 
-`ESLMixinElement` - base class to create a mixin element that attaches to the element via a custom attribute
+`ESLMixinElement` - base class to create a mixin that attaches to the DOM element via a custom attribute
 
 ### Mixin Element static API
 - `MyMixinElement.is` - property that defines connection attribute name
 - `MyMixinElement.observedAttributes` - array of additional attributes to observe
 
 - `MyMixinElement.register` - register component inside `ESLMixinRegistry`
-- `MyMixinElement.get` - returns an `ESLMixinRegistry` instance attached to passed element
+- `MyMixinElement.get` - returns an `ESLMixinRegistry` instance attached to the passed element
 
 ### Base Element API
 Properties:
@@ -26,7 +26,8 @@ Properties:
 Attributes:
 - `connectedCallback` - called when the element is appended to the DOM
 - `disconnectedCallback` - called when the element is disconnected from the DOM
-- `attributeChangeCallback` - called when the observable attribute is changed
+- `attributeChangedCallback` - called when the observable attribute is changed
+  (happens when the attribute is accessed for writing, independently of the actual value change)
 
 - `$$cls` - checks or changes element CSS classes (uses CSSClassUtils)
 - `$$attr` - checks or changes element attributes

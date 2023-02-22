@@ -9,14 +9,14 @@ import type {MediaProviderConfig, ProviderObservedParams} from '../../core/esl-m
 export abstract class HTMLMediaProvider extends BaseProvider {
   static readonly urlPattern: RegExp;
 
-  static parseUrl(mediaSrc: string): Partial<MediaProviderConfig> | null {
+  static override parseUrl(mediaSrc: string): Partial<MediaProviderConfig> | null {
     if (this.urlPattern.test(mediaSrc)) {
       return {mediaSrc};
     }
     return null;
   }
 
-  protected _el: HTMLMediaElement;
+  protected override _el: HTMLMediaElement;
 
   protected static applyElementSettings(el: HTMLMediaElement, cfg: MediaProviderConfig): HTMLMediaElement {
     el.classList.add('esl-media-inner');
@@ -32,7 +32,7 @@ export abstract class HTMLMediaProvider extends BaseProvider {
 
   protected abstract createElement(): HTMLMediaElement;
 
-  public onConfigChange(param: ProviderObservedParams, value: boolean): void {
+  public override onConfigChange(param: ProviderObservedParams, value: boolean): void {
     super.onConfigChange(param, value);
     HTMLMediaProvider.applyElementSettings(this._el, this.config);
   }
@@ -52,12 +52,12 @@ export abstract class HTMLMediaProvider extends BaseProvider {
     this._el.addEventListener('error', (e) => this.component._onError(e));
   }
 
-  public unbind(): void {
+  public override unbind(): void {
     this.component._onDetach();
     super.unbind();
   }
 
-  get ready(): Promise<any> {
+  override get ready(): Promise<any> {
     return Promise.resolve();
   }
 

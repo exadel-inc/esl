@@ -142,7 +142,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
    */
   public static get(host?: object, ...criteria: ESLListenerCriteria[]): ESLEventListener[] {
     if (!isObject(host)) return [];
-    const listeners = (host[LISTENERS] || []) as ESLEventListener[];
+    const listeners = ((host as any)[LISTENERS] || []) as ESLEventListener[];
     if (!criteria.length) return listeners;
     return listeners.filter((listener) => criteria.every(listener.matches, listener));
   }
@@ -168,7 +168,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   public static subscribe(
     host: object,
     handler: ESLListenerHandler | ESLListenerDescriptorFn,
-    descriptor: ESLListenerDescriptor = handler as ESLListenerDescriptorFn
+    descriptor: ESLListenerDescriptor | ESLListenerDescriptorFn = handler as ESLListenerDescriptorFn
   ): ESLEventListener[]  {
     if (typeof handler !== 'function') return [];
     const eventDesc = handler !== descriptor ? Object.assign({}, handler, descriptor) : descriptor;
