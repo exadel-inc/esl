@@ -1,19 +1,19 @@
 {% set releasedBlogs = collections.blogs | released %}
 {% if releasedBlogs.length %}
 <div class="blogs container">
-   <h2>{{ landing.blogs.title }}</h2>
-   {% if 'new' in [].concat(tags) %}<span class="badge badge-sup badge-success">New</span>{% endif %}
-   <esl-animate target="::next::child" group></esl-animate>
-   <ul class="blogs-container">
-      {% for item in releasedBlogs | reverse | limit(3) %}
+  <h2>{{ landing.blogs.title }}</h2>
+  {% if 'new' in [].concat(tags) %}<span class="badge badge-sup badge-success">New</span>{% endif %}
+  <esl-animate target="::next::child" group></esl-animate>
+  <ul class="blogs-container">
+    {% for item in releasedBlogs | reverse | limit(3) %}
       <li class="blogs-item esl-animate-slide-left">
-         <div class="blogs-content">
-            <h4 class="blogs-content-name">{{ item.data.name }}</h4>
-            <p class="blogs-content-text">{{ item.templateContent | text | truncate(250) }}</p>
-            <a class="arrow-link btn-link btn-sm" href="{{ item.url | url }}">{{ landing.blogs.cta.text }}</a>
-         </div>
+        <div class="blogs-content">
+          <h4 class="blogs-content-name">{{ item.data.name }}</h4>
+          <p class="blogs-content-text">{{ item.templateContent | text | truncate(250) }}</p>
+          <a class="arrow-link btn-link btn-sm"  href="{{ item.url | url }}">{{ landing.blogs.cta.text }}</a>
+        </div>
       </li>
-      {% endfor %}
-   </ul>
+    {% endfor %}
+  </ul>
 </div>
 {% endif %}

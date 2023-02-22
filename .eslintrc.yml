@@ -62,7 +62,6 @@ overrides:
       'max-lines': off
       '@html-eslint/require-closing-tags': off
       '@html-eslint/no-duplicate-attrs': off
-      '@html-eslint/indent': ["error", 3]
 
 
 # Overall rules
