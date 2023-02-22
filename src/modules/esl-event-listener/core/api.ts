@@ -126,7 +126,7 @@ export class ESLEventUtils {
    * Creates an {@link ESLEventTargetDecorator} decorator for any {@link EventTarget}
    * Decorated {@link EventTarget} produces event according provided handler decoration
    */
-  public static decorate = ESLEventTargetDecorator.create;
+  public static decorate = ESLEventTargetDecorator.cached;
 }
 
 /** @deprecated alias for {@link ESLEventUtils} */
