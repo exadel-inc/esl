@@ -56,7 +56,7 @@ export class UIPRoot extends ESLBaseElement {
   /** Initial initialization of snippets */
   protected initSnippets(): void {
     this.model.snippets = this.$snippets;
-    this.model.applySnippet(this.model.snippets[0], this);
+    this.model.applySnippet(this.model.activeSnippet, this);
   }
 
   protected attributeChangedCallback(attrName: string, oldVal: string | null, newVal: string | null) {

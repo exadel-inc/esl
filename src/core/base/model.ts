@@ -83,13 +83,23 @@ export class UIPStateModel extends Observable {
 
   /** Current active {@link SnippetTemplate} getter */
   public get activeSnippet(): SnippetTemplate {
+    if (!this._activeSnippet) {
+      this._activeSnippet = this.snippets
+        .find((snippet: SnippetTemplate) => snippet.hasAttribute('active')) || this.snippets[0];
+    }
     return this._activeSnippet;
+  }
+
+  public set activeSnippet(snippet: SnippetTemplate) {
+    this._activeSnippet.removeAttribute('active');
+    snippet.setAttribute('active', '');
+    this._activeSnippet = snippet;
   }
 
   /** Changes current active snippet */
   public applySnippet(snippet: SnippetTemplate, modifier: UIPPlugin | UIPRoot) {
     if (!snippet) return;
-    this._activeSnippet = snippet;
+    this.activeSnippet = snippet;
     this.setHtml(snippet.innerHTML, modifier);
   }
 

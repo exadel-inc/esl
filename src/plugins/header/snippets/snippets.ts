@@ -17,7 +17,7 @@ export class UIPSnippets extends UIPPlugin {
   /** CSS Class added to active snippet */
   public static ACTIVE_ITEM = 'active';
   /** Index of current snippet list item */
-  public currentIndex = 0;
+  public currentIndex: number;
 
   /** Snippets container element */
   @memoize()
@@ -77,7 +77,6 @@ export class UIPSnippets extends UIPPlugin {
   protected connectedCallback() {
     super.connectedCallback();
     this.render();
-    this.updateTitleText();
     // Initial update
     setTimeout(() => this.$active = this.$active || this.$items[0]);
   }
@@ -105,6 +104,7 @@ export class UIPSnippets extends UIPPlugin {
   /** Sets active snippet element */
   public set $active(snippet: HTMLElement | null) {
     this.$items.forEach((item) => item.classList.toggle(UIPSnippets.ACTIVE_ITEM, snippet === item));
+    this.updateTitleText();
   }
 
   /** Initializes snippets layout */
@@ -143,6 +143,7 @@ export class UIPSnippets extends UIPPlugin {
     const $li = document.createElement('li');
     $li.classList.add(UIPSnippets.LIST_ITEM);
     $li.textContent = label;
+    snippet === this.model?.activeSnippet && $li.classList.add(UIPSnippets.ACTIVE_ITEM);
     return $li;
   }
 
@@ -166,7 +167,6 @@ export class UIPSnippets extends UIPPlugin {
       this.model.applySnippet(this.model.snippets[index], this);
       this.$active = target;
       this.currentIndex = index;
-      this.updateTitleText();
     }
   }
 
