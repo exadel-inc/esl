@@ -2,12 +2,12 @@ import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 
 import {ESLEventListener} from '../listener';
 
-export type ESLEventListenerDecorator = (target: EventListener, timeout?: number) => EventListener;
+type ESLListenerDecorator<Args extends any[]> = (target: EventListener, ...args: Args) => EventListener;
 
 const cache = memoizeOne((target: EventTarget) => {
-  return memoizeOne((decorator: ESLEventListenerDecorator) => {
-    return memoizeOne((timeout?: number) => {
-      return new ESLEventTargetDecorator(target, decorator, timeout);
+  return memoizeOne(<Args extends [] | [any]> (decorator: ESLListenerDecorator<Args>) => {
+    return memoizeOne((...args: [] | [any]) => {
+      return ESLEventTargetDecorator.create(target, decorator, ...args);
     }, Map);
   }, WeakMap);
 }, WeakMap);
@@ -15,15 +15,23 @@ const cache = memoizeOne((target: EventTarget) => {
 /**
  * {@link EventTarget} proxy that decorates original target listening
  */
-export class ESLEventTargetDecorator extends SyntheticEventTarget {
-  public static create(target: EventTarget, decorator: ESLEventListenerDecorator, timeout: number = 250): ESLEventTargetDecorator {
-    return cache(target)(decorator)(timeout);
+export class ESLEventTargetDecorator<Args extends any[]> extends SyntheticEventTarget {
+  public static cached<Args extends [] | [any]>(target: EventTarget, decorator: ESLListenerDecorator<Args>, ...args: Args): ESLEventTargetDecorator<Args> {
+    if (args.length > 1) {
+      console.warn('[ESL]: Can\'t cache multi-argument decoration');
+      return this.create(target, decorator, ...args);
+    }
+    return cache(target)(decorator).call(null, ...args);
   }
 
-  constructor(
+  public static create<Args extends any[]>(target: EventTarget, decorator: ESLListenerDecorator<Args>, ...args: Args): ESLEventTargetDecorator<Args> {
+    return new this(target, decorator, args);
+  }
+
+  protected constructor(
     public readonly target: EventTarget,
-    public readonly decorator: ESLEventListenerDecorator,
-    public readonly timeout?: number
+    public readonly decorator: (target: EventListener, ...args: Args) => EventListener,
+    public readonly params: Args
   ) {
     super();
   }
@@ -53,7 +61,7 @@ export class ESLEventTargetDecorator extends SyntheticEventTarget {
 
   /** @returns debounced handler */
   protected get onResizeDebounced(): EventListener {
-    return this.decorator(this.dispatchEvent.bind(this), this.timeout);
+    return this.decorator(this.dispatchEvent.bind(this), ...this.params);
   }
 }
 
