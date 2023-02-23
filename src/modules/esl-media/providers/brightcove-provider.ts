@@ -59,7 +59,7 @@ export class BrightcoveProvider extends BaseProvider {
     el.toggleAttribute('controls', this.config.controls);
     el.setAttribute('aria-label', el.title);
     el.setAttribute('data-embed', 'default');
-    el.setAttribute('data-video-id', `ref:${this.config.mediaId}`);
+    el.setAttribute('data-video-id', this.config.mediaId || '');
     el.toggleAttribute('playsinline', this.config.playsinline);
     this._account.playerId && el.setAttribute('data-player', this._account.playerId);
     this._account.accountId && el.setAttribute('data-account', this._account.accountId);
@@ -80,7 +80,6 @@ export class BrightcoveProvider extends BaseProvider {
     if (typeof window.bc !== 'function' || typeof window.videojs !== 'function') {
       throw new Error('Brightcove API is not in the global scope');
     }
-    console.debug('ESL Media: Brightcove API init for ', this);
     this._api = window.bc(this._el);
     return new Promise((resolve, reject) => this._api ? this._api.ready(resolve) : reject());
   }
@@ -90,7 +89,6 @@ export class BrightcoveProvider extends BaseProvider {
    * Basic onAPIReady should be called to subscribe to API state
    */
   protected onAPIReady(): Promise<void> | void {
-    console.debug('ESL Media: Brightcove API is ready ', this);
     // Set autoplay though js because BC is unresponsive while processing it natively
     this._api.autoplay(this._autoplay || this.config.autoplay);
 
