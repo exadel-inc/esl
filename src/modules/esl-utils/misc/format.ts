@@ -58,7 +58,7 @@ export function evaluate(str: string, defaultValue?: any): any {
     // eslint-disable-next-line @typescript-eslint/no-implied-eval
     return str ? (new Function(`return ${str}`))() : defaultValue;
   } catch (e) {
-    console.warn('Cannot parse value ', str, e);
+    console.warn('[ESL]: Cannot parse value ', str, e);
     return defaultValue;
   }
 }
