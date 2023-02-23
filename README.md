@@ -39,7 +39,7 @@ Import CSS styles
    ```
 
 ---
-## UIP elements:
+## UIP elements
 - ### Core
   - #### [UIP Plugin](src/core/base/README.md#uip-plugin)
   - #### [UIP Root](src/core/base/README.md#uip-root)
