@@ -62,6 +62,7 @@ overrides:
       '@html-eslint/require-closing-tags': off
       '@html-eslint/no-duplicate-attrs': off
       '@html-eslint/indent': off
+      '@html-eslint/element-newline': off
 
 # Overall rules
 rules:
