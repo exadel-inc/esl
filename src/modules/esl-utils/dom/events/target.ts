@@ -4,7 +4,7 @@
  * Doesn't give explicit access to callback storage
  */
 export class SyntheticEventTarget implements EventTarget {
-  // Event type to use in the shortcuted calls
+  // Event type to use in the shortcutted calls
   public static DEFAULT_EVENT = 'change';
 
   private readonly _listeners: Record<string, EventListenerOrEventListenerObject[]> = {};
