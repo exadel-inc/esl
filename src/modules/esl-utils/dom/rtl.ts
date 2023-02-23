@@ -2,7 +2,7 @@
 /** RTL scroll browser behaviours */
 export type ScrollType = 'default' | 'negative' | 'reverse';
 
-/** Check if the element in a RTL direction context */
+/** Checks if the element in a RTL direction context */
 export const isRTL = (el?: HTMLElement | null): boolean => getComputedStyle(el || document.body).direction === 'rtl';
 
 /** Creates the dummy test element with a horizontal scroll presented */
