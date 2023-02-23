@@ -5,7 +5,7 @@ import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {Rect} from '../../esl-utils/dom/rect';
-import {RTLUtils} from '../../esl-utils/dom/rtl';
+import {isRTL} from '../../esl-utils/dom/rtl';
 import {getListScrollParents} from '../../esl-utils/dom/scroll';
 import {getWindowRect} from '../../esl-utils/dom/window';
 import {parseNumber} from '../../esl-utils/misc/format';
@@ -148,7 +148,7 @@ export class ESLPopup extends ESLToggleable {
   @memoize()
   protected get _offsetArrowRatio(): number {
     const ratio = parsePercent(this.offsetArrow, DEFAULT_OFFSET_ARROW) / 100;
-    return RTLUtils.isRtl(this) ? 1 - ratio : ratio;
+    return isRTL(this) ? 1 - ratio : ratio;
   }
 
   /** Moves popup into document.body */
