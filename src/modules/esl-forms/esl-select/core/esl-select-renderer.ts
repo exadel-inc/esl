@@ -12,7 +12,7 @@ import type {ESLSelect} from './esl-select';
  * Auxiliary inner custom element to render {@link ESLSelect} inline field
  */
 export class ESLSelectRenderer extends ESLBaseElement {
-  public static readonly is = 'esl-select-renderer';
+  public static override readonly is = 'esl-select-renderer';
 
   /** Attribute for empty text value */
   @attr() public emptyText: string;
@@ -51,13 +51,13 @@ export class ESLSelectRenderer extends ESLBaseElement {
     return this.parentElement as ESLSelect;
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.appendChild(this.$container);
     this.appendChild(this.$remove);
     Promise.resolve().then(() => this.render());
   }
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeChild(this.$container);
     this.removeChild(this.$remove);

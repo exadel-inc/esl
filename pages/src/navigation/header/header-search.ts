@@ -9,17 +9,17 @@ import {requestGss} from '../../search/search-script';
 import type {ESLToggleableActionParams} from '../../../../src/modules/esl-toggleable/core';
 
 export class ESLDemoSearchBox extends ESLToggleable {
-  static is = 'esl-d-search-box';
+  static override is = 'esl-d-search-box';
 
   @attr() public postCls: string;
   @attr() public postClsDelay: string;
   @attr({defaultValue: '::find(input)'}) public firstFocusable: string;
 
-  @boolAttr() public autofocus: boolean;
+  @boolAttr() public override autofocus: boolean;
 
-  @prop() public closeOnOutsideAction = true;
+  @prop() public override closeOnOutsideAction = true;
 
-  public onShow(params: ESLToggleableActionParams): void {
+  public override onShow(params: ESLToggleableActionParams): void {
     CSSClassUtils.add(this, this.postCls);
     requestGss().then(() => this.showSearchElements(params));
   }
@@ -37,7 +37,7 @@ export class ESLDemoSearchBox extends ESLToggleable {
     }
   }
 
-  public onHide(params: ESLToggleableActionParams): void {
+  public override onHide(params: ESLToggleableActionParams): void {
     super.onHide(params);
     window.setTimeout(() => {
       CSSClassUtils.remove(this, this.postCls);

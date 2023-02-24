@@ -4,7 +4,7 @@ import {ESLBaseElement} from '../../../src/modules/esl-base-element/core/esl-bas
 import {ESLTraversingQuery} from '../../../src/modules/esl-traversing-query/core/esl-traversing-query';
 
 class ESLDemoMediaSource extends ESLBaseElement {
-  static is = 'esl-d-media-source';
+  static override is = 'esl-d-media-source';
 
   @attr() public target: string;
 
@@ -12,7 +12,7 @@ class ESLDemoMediaSource extends ESLBaseElement {
     return ESLTraversingQuery.all(this.target, this) as HTMLElement[];
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.render();
     this.onChange();

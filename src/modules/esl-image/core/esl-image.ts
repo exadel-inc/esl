@@ -21,7 +21,7 @@ const isLoadState = (state: string): state is LoadState => ['error', 'loaded', '
  */
 @ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
-  public static is = 'esl-image';
+  public static override is = 'esl-image';
   public static observedAttributes = ['alt', 'role', 'mode', 'aria-label', 'data-src', 'data-src-base', 'lazy-triggered'];
 
   /** Default container class value */
@@ -63,7 +63,7 @@ export class ESLImage extends ESLBaseElement {
   private _detachLazyTrigger: () => void;
   private _shadowImageElement: HTMLImageElement;
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.alt =
       this.alt || this.getAttribute('aria-label') || this.getAttribute('data-alt') || '';
@@ -80,7 +80,7 @@ export class ESLImage extends ESLBaseElement {
     this.refresh();
   }
 
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     this.clearImage();
     super.disconnectedCallback();
     this._detachLazyTrigger && this._detachLazyTrigger();

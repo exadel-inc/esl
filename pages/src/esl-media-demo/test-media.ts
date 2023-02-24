@@ -15,7 +15,7 @@ interface TestMediaAction {
 }
 
 class ESLDemoMediaControls extends ESLBaseElement {
-  public static is = 'esl-d-media-controls';
+  public static override is = 'esl-d-media-controls';
 
   public static ACTIONS: Record<string, TestMediaAction> = {
     play: {
@@ -43,7 +43,7 @@ class ESLDemoMediaControls extends ESLBaseElement {
     return ESLTraversingQuery.all(this.target, this) as HTMLElement[];
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.render();
   }

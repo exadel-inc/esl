@@ -25,10 +25,10 @@ export interface PanelActionParams extends ESLToggleableActionParams {
  */
 @ExportNs('Panel')
 export class ESLPanel extends ESLToggleable {
-  public static is = 'esl-panel';
+  public static override is = 'esl-panel';
 
   /** Class(es) to be added for active state ('open' by default) */
-  @attr({defaultValue: 'open'}) public activeClass: string;
+  @attr({defaultValue: 'open'}) public override activeClass: string;
   /** Class(es) to be added during animation ('animate' by default) */
   @attr({defaultValue: 'animate'}) public animateClass: string;
   /** Class(es) to be added during animation after next render ('post-animate' by default) */
@@ -39,7 +39,7 @@ export class ESLPanel extends ESLToggleable {
 
   /** Initial params for current ESLPanel instance */
   @jsonAttr<PanelActionParams>({defaultValue: {force: true, initiator: 'init'}})
-  public initialParams: PanelActionParams;
+  public override initialParams: PanelActionParams;
 
   /** Active while animation in progress */
   @boolAttr({readonly: true}) public animating: boolean;
@@ -59,7 +59,7 @@ export class ESLPanel extends ESLToggleable {
   }
 
   /** Process show action */
-  protected onShow(params: PanelActionParams): void {
+  protected override onShow(params: PanelActionParams): void {
     this._initialHeight = this.scrollHeight;
     super.onShow(params);
 
@@ -69,7 +69,7 @@ export class ESLPanel extends ESLToggleable {
   }
 
   /** Process hide action */
-  protected onHide(params: PanelActionParams): void {
+  protected override onHide(params: PanelActionParams): void {
     this._initialHeight = this.scrollHeight;
     super.onHide(params);
 
@@ -142,7 +142,7 @@ export class ESLPanel extends ESLToggleable {
   }
 
   /** Merge params that are used by panel group for actions */
-  protected mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
+  protected override mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
     const stackConfig = this.$group?.panelConfig || {};
     return Object.assign({}, stackConfig, this.defaultParams, params || {});
   }

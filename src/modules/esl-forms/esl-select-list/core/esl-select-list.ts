@@ -13,10 +13,10 @@ import {ESLSelectWrapper} from './esl-select-wrapper';
  */
 @ExportNs('SelectList')
 export class ESLSelectList extends ESLSelectWrapper {
-  public static readonly is = 'esl-select-list';
+  public static override readonly is = 'esl-select-list';
   public static observedAttributes = ['select-all-label', 'disabled'];
 
-  public static register(): void {
+  public static override register(): void {
     ESLSelectItem.register();
     super.register();
   }
@@ -56,7 +56,7 @@ export class ESLSelectList extends ESLSelectWrapper {
     }
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
 
     this.appendChild(this.$selectAll);
@@ -67,7 +67,7 @@ export class ESLSelectList extends ESLSelectWrapper {
 
     this._updateDisabled();
   }
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
 
     this.appendChild(this.$selectAll);
@@ -115,20 +115,20 @@ export class ESLSelectList extends ESLSelectWrapper {
   }
 
   @bind
-  protected _onTargetChange(newTarget: HTMLSelectElement | undefined, oldTarget: HTMLSelectElement | undefined): void {
+  protected override _onTargetChange(newTarget: HTMLSelectElement | undefined, oldTarget: HTMLSelectElement | undefined): void {
     super._onTargetChange(newTarget, oldTarget);
     this._updateSelectAll();
     this._renderItems();
   }
 
   @listen({inherit: true})
-  public _onChange(): void {
+  public override _onChange(): void {
     this._updateSelectAll();
     this.$items.forEach((item) => item.update());
   }
 
   @bind
-  public _onListChange(): void {
+  public override _onListChange(): void {
     this._renderItems();
   }
 

@@ -28,8 +28,8 @@ export interface AlertActionParams extends ESLToggleableRequestDetails {
  */
 @ExportNs('Alert')
 export class ESLAlert extends ESLToggleable {
-  public static is = 'esl-alert';
-  public static observedAttributes = ['target'];
+  public static override is = 'esl-alert';
+  public static override observedAttributes = ['target'];
 
   /** Default show/hide params for all ESLAlert instances */
   public static defaultConfig: AlertActionParams = {
