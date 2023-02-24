@@ -1,3 +1,19 @@
+# [4.3.0-next.1](https://github.com/exadel-inc/esl/compare/v4.2.1...v4.3.0-next.1) (2023-02-24)
+
+
+### Bug Fixes
+
+* **esl-media:** `ref:` prefix is optional, user should be able to use internal id ([465fbec](https://github.com/exadel-inc/esl/commit/465fbecd9b45d5f1a5f2fabf8db5a62b5d0f1ba5))
+
+
+### Features
+
+* **esl-utils:** `SyntheticEventTarget` API extended with ability to choose target value and specify default event type ([3fc1f5d](https://github.com/exadel-inc/esl/commit/3fc1f5d5a7f87fe41d6f91737f7d217eedb5bb4e))
+* **eslint:** add `package-lock` ([83d5dec](https://github.com/exadel-inc/esl/commit/83d5dec0b39063bbdbfa93c7c948f3aba0d1187b))
+* **eslint:** code refactoring ([468b94a](https://github.com/exadel-inc/esl/commit/468b94a13319f00fb6d02b96d04d0d5d671bdfb3))
+* **eslint:** create custom rule for deprecated alias ([4f2bf3e](https://github.com/exadel-inc/esl/commit/4f2bf3edcfb6916fe8a6fffa7ef1860defe95983))
+* **eslint:** create deprecated aliases rules for `v4.0.0` ([5970503](https://github.com/exadel-inc/esl/commit/5970503ba103329a0060ea6404cb34efd4bf1dc6))
+
 ## [4.2.1](https://github.com/exadel-inc/esl/compare/v4.2.0...v4.2.1) (2023-02-20)
 
 
