@@ -87,6 +87,7 @@
     "@11ty/eleventy-dev-server": "^1.0.3",
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
+    "@exadel/eslint-plugin-esl": "file:eslint",
     "@juggle/resize-observer": "^3.4.0",
     "@semantic-release/changelog": "^6.0.2",
     "@semantic-release/commit-analyzer": "^9.0.2",

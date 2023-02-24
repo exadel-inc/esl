@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "include": [
+    "eslint",
     "pages/src",
     "src/modules",
     "src/polyfills"
