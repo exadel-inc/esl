@@ -44,7 +44,7 @@ export class ESLEventTargetDecorator<Args extends any[]> extends SyntheticEventT
 
     if (!this.hasEventListener(event, 1)) {
       const {target} = this;
-      ESLEventListener.subscribe(this, this.onResizeDebounced, {event, target});
+      ESLEventListener.subscribe(this, this.onEventDecorated, {event, target});
     }
   }
 
@@ -59,8 +59,8 @@ export class ESLEventTargetDecorator<Args extends any[]> extends SyntheticEventT
     }
   }
 
-  /** @returns debounced handler */
-  protected get onResizeDebounced(): EventListener {
+  /** @returns decorated handler */
+  protected get onEventDecorated(): EventListener {
     return this.decorator(this.dispatchEvent.bind(this), ...this.params);
   }
 }
