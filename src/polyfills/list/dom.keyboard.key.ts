@@ -1,6 +1,6 @@
 /**
  * Group: DOM API shims
- * Target Browsers: `IE11`, `Edge < 18`
+ * Target Browsers: `Edge < 18`
  * KeyboardEvent.prototype.key shim to normalize key values to W3C spec
  * Based on published shim https://www.npmjs.com/package/shim-keyboard-event-key
  */

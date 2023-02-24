@@ -1,6 +1,6 @@
 /**
  * Group: DOM polyfills
- * Target browsers: `IE11`, `Edge <= 18`
+ * Target browsers: `Edge <= 18`
  * Node.isConnected polyfill
  */
 if (!('isConnected' in Node.prototype)) {

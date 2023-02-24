@@ -1,6 +1,6 @@
 /**
  * Group: DOM API shims
- * Target Browsers: `IE11`, `Edge < 18`, `Safari < 13`
+ * Target Browsers: `Edge < 18`, `Safari < 13`
  * Element.toggleAttribute polyfill
  */
 if (!Element.prototype.toggleAttribute) {

@@ -1,6 +1,6 @@
 /**
  * Group: DOM API shims
- * Target Browsers: `IE11`, `Edge < 18`
+ * Target Browsers: `Edge < 18`
  * KeyboardEvent polyfill: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/KeyboardEvent
  */
 try {
