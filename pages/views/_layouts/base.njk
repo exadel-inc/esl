@@ -14,7 +14,7 @@
   {# Additional site meta information #}
   {% block meta %}{% endblock meta %}
   {# Site icon #}
-  <link rel="icon" type="image/png" href="{{ '/assets/logo-64x64.png' | url }}" />
+  <link rel="icon" type="image/png" href="{{ '/assets/logo-64x64.png' | url }}"/>
 
   {% if not env.isDev %}
     {% include 'analytics.njk' %}
@@ -23,7 +23,7 @@
     {% include 'polyfill.njk' %}
   {% endblock %}
   {% block headlib %}
-    <link rel="stylesheet" type="text/css" href="{{ '/bundles/localdev.css' | url }}" />
+    <link rel="stylesheet" type="text/css" href="{{ '/bundles/localdev.css' | url }}"/>
   {% endblock %}
 </head>
 <body>

@@ -10,7 +10,7 @@
         <div class="blogs-content">
           <h4 class="blogs-content-name">{{ item.data.name }}</h4>
           <p class="blogs-content-text">{{ item.templateContent | text | truncate(250) }}</p>
-          <a class="arrow-link btn-link btn-sm"  href="{{ item.url | url }}">{{ landing.blogs.cta.text }}</a>
+          <a class="arrow-link btn-link btn-sm" href="{{ item.url | url }}">{{ landing.blogs.cta.text }}</a>
         </div>
       </li>
     {% endfor %}
