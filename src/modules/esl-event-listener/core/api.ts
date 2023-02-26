@@ -119,12 +119,14 @@ export class ESLEventUtils {
   /**
    * Creates an {@link EventTarget} adapter ({@link ESLResizeObserverTarget}) for {@link ResizeObserver}
    * Note: the {@link ESLResizeObserverTarget} instances are unique for the related `targets`
+   * @deprecated it is an experimental functionality it can be changed in future releases
    */
   public static resize = ESLResizeObserverTarget.create;
 
   /**
    * Creates an {@link ESLEventTargetDecorator} decorator for any {@link EventTarget}
    * Decorated {@link EventTarget} produces event according provided handler decoration
+   * @deprecated it is an experimental functionality it can be changed in future releases
    */
   public static decorate = ESLEventTargetDecorator.cached;
 }

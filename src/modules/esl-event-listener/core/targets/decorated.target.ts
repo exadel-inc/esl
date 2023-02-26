@@ -1,6 +1,7 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 
 import {ESLEventListener} from '../listener';
+import {isObject} from '../../../esl-utils/misc/object/types';
 
 type ESLListenerDecorator<Args extends any[]> = (target: EventListener, ...args: Args) => EventListener;
 
@@ -17,8 +18,8 @@ const cache = memoizeOne((target: EventTarget) => {
  */
 export class ESLEventTargetDecorator<Args extends any[]> extends SyntheticEventTarget {
   public static cached<Args extends [] | [any]>(target: EventTarget, decorator: ESLListenerDecorator<Args>, ...args: Args): ESLEventTargetDecorator<Args> {
-    if (args.length > 1) {
-      console.warn('[ESL]: Can\'t cache multi-argument decoration');
+    if (args.length > 1 || isObject(args[0])) {
+      console.warn('[ESL]: Can\'t cache multi-argument decoration or decoration with object param');
       return this.create(target, decorator, ...args);
     }
     return cache(target)(decorator).call(null, ...args);
