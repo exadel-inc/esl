@@ -19,10 +19,6 @@ export class ESLEventUtils {
    */
   public static dispatch = dispatchCustomEvent;
 
-
-  /** @deprecated alias for {@link getAutoDescriptors} */
-  public static descriptors = getAutoDescriptors;
-
   /** Gets {@link ESLListenerDescriptorFn}s of the passed object */
   public static getAutoDescriptors = getAutoDescriptors;
 
@@ -111,6 +107,3 @@ export class ESLEventUtils {
     return listeners;
   }
 }
-
-/** @deprecated alias for {@link ESLEventUtils} */
-export const EventUtils = ESLEventUtils;

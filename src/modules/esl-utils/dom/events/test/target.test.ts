@@ -94,28 +94,6 @@ describe('dom/events: SyntheticEventTarget', () => {
       afterAll(() => jest.clearAllMocks());
     });
 
-    describe('Legacy functionality', () => {
-      const et = new SyntheticEventTarget();
-
-      const event1 = new CustomEvent('change');
-      const event2 = new CustomEvent('change');
-      const listener = jest.fn();
-      et.addListener(listener);
-
-      test('listener shoudn`t be called', () => expect(listener).toBeCalledTimes(0));
-
-      test('listener should be called once', () => {
-        et.dispatchEvent(event1);
-        expect(listener).toBeCalledWith(event1);
-      });
-
-      test('listener shouldn`t be called second time', () => {
-        et.removeListener(listener);
-        et.dispatchEvent(event2);
-        expect(listener).toBeCalledTimes(1);
-      });
-    });
-
     describe('API restriction', () => {
       const et = new SyntheticEventTarget();
       // @ts-ignore

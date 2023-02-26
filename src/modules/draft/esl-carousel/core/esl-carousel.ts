@@ -196,10 +196,10 @@ export class ESLCarousel extends ESLBaseElement {
 
   set configRules(rules: ESLMediaRuleList<CarouselConfig | null>) {
     if (this._configRules) {
-      this._configRules.removeListener(this._onMatchChange);
+      this._configRules.removeEventListener(this._onMatchChange);
     }
     this._configRules = rules;
-    this._configRules.addListener(this._onMatchChange);
+    this._configRules.addEventListener(this._onMatchChange);
   }
 
   private update(force: boolean = false) {
