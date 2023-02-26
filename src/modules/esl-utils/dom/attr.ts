@@ -3,8 +3,7 @@ export type AttributeDecorator = (target: Element | AttributeTarget, propName: s
 
 type ArgumentTarget = (Element | AttributeTarget)[] | Element | AttributeTarget | undefined | null;
 
-/** @returns if attribute presented
- */
+/** @returns true if attribute presented */
 export function hasAttr($el: ArgumentTarget, name: string): boolean {
   if (!$el) return false;
   if (Array.isArray($el)) return $el.every((element: Element) => hasAttr(element, name));
