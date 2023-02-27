@@ -11,14 +11,26 @@ describe('misc/object: compare', () => {
       [{a: null}, {a: null}],
       [{a: []}, {a: []}],
       [{c: NaN}, {c: NaN}],
-      [{a: 1, c: Infinity}, {a: 1, c: Infinity}],
+      [
+        {a: 1, c: Infinity},
+        {a: 1, c: Infinity}
+      ],
       [{a: {b: 1}}, {a: {b: 1}}],
       [{a: {b: {c: 1}}}, {a: {b: {c: 1}}}],
       [[], []],
       [[1], [1]],
-      [[1, 2, 3], [1, 2, 3]],
-      [[{}, {}], [{}, {}]],
-      [[{a: 1}, {b: ''}], [{a: 1}, {b: ''}]]
+      [
+        [1, 2, 3],
+        [1, 2, 3]
+      ],
+      [
+        [{}, {}],
+        [{}, {}]
+      ],
+      [
+        [{a: 1}, {b: ''}],
+        [{a: 1}, {b: ''}]
+      ]
     ])('%p should be equal to %p', (a: any, b: any) => expect(isEqual(a, b)).toBe(true));
 
     test.each([
@@ -35,8 +47,13 @@ describe('misc/object: compare', () => {
       [{a: {b: 1}}, {a: {a: 1, b: 1}}],
       [[], [1]],
       [[1], [1, 2]],
-      [[2, 1], [1, 2]]
-    ])('%p should not be equal to %p', (a: any, b: any) => expect(isEqual(a, b)).toBe(false));
+      [
+        [2, 1],
+        [1, 2]
+      ]
+    ])('%p should not be equal to %p', (a: any, b: any) =>
+      expect(isEqual(a, b)).toBe(false)
+    );
   });
 
   describe('isSimilar', () => {
@@ -56,8 +73,13 @@ describe('misc/object: compare', () => {
       [{a: 1, c: Infinity}, {c: Infinity}],
       [{a: {b: {c: 1}}}, {a: {b: {c: 1}}}],
       [[{a: 1}, {b: ''}], [{a: 1}]],
-      [[1, 2, 3, 4, 5], [3, 2]]
-    ])('%p should be deep similar to %p', (a: any, b: any) => expect(isSimilar(a, b)).toBe(true));
+      [
+        [1, 2, 3, 4, 5],
+        [3, 2]
+      ]
+    ])('%p should be deep similar to %p', (a: any, b: any) =>
+      expect(isSimilar(a, b)).toBe(true)
+    );
 
     test.each([
       [undefined, null],
@@ -72,7 +94,9 @@ describe('misc/object: compare', () => {
       [[3], 3],
       [[], [1]],
       [[1], [1, 2]]
-    ])('%p should not be deep similar to %p', (a: any, b: any) => expect(isSimilar(a, b)).toBe(false));
+    ])('%p should not be deep similar to %p', (a: any, b: any) =>
+      expect(isSimilar(a, b)).toBe(false)
+    );
 
     test.each([
       [null, null],
@@ -85,7 +109,9 @@ describe('misc/object: compare', () => {
       [{a: 1, c: Infinity}, {c: Infinity}],
 
       [[obj, {b: ''}], [obj]]
-    ])('%p should be flat similar to %p', (a: any, b: any) => expect(isSimilar(a, b, false)).toBe(true));
+    ])('%p should be flat similar to %p', (a: any, b: any) =>
+      expect(isSimilar(a, b, false)).toBe(true)
+    );
 
     test.each([
       [null, undefined],
@@ -98,6 +124,8 @@ describe('misc/object: compare', () => {
 
       [[{a: 1}, {b: ''}], [{a: 1}]],
       [[{a: {}}, {b: ''}], [{a: {}}]]
-    ])('%p should not be flat similar to %p', (a: any, b: any) => expect(isSimilar(a, b, false)).toBe(false));
+    ])('%p should not be flat similar to %p', (a: any, b: any) =>
+      expect(isSimilar(a, b, false)).toBe(false)
+    );
   });
 });

@@ -13,8 +13,8 @@ try {
     const event = document.createEvent('Event');
     event.initEvent(
       eventName,
-      (params.bubbles === void 0) ? false : params.bubbles,
-      (params.cancelable === void 0) ? false : params.cancelable
+      params.bubbles === void 0 ? false : params.bubbles,
+      params.cancelable === void 0 ? false : params.cancelable
     );
     return event;
   };
@@ -37,4 +37,3 @@ try {
     configurable: true
   });
 }
-

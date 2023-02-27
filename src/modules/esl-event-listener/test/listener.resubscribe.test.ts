@@ -30,5 +30,6 @@ describe('ESLEventUtils.subscribe resubscribing event', () => {
     expect(handle).toBeCalled();
   });
 
-  test('ESLEventUtils does not recreate instance', () => expect(listeners1[0]).toBe(listeners2[0]));
+  test('ESLEventUtils does not recreate instance', () =>
+    expect(listeners1[0]).toBe(listeners2[0]));
 });

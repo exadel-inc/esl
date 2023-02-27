@@ -3,12 +3,14 @@ import type {AnyToVoidFnSignature} from '../misc/functions';
 /**
  * Postpone action after next render
  */
-export const afterNextRender = (callback: () => void): number => requestAnimationFrame(() => requestAnimationFrame(callback));
+export const afterNextRender = (callback: () => void): number =>
+  requestAnimationFrame(() => requestAnimationFrame(callback));
 
 /**
  * Postpone action after a couple of renders
  */
-export const skipOneRender = (callback: () => void): number => requestAnimationFrame(() => afterNextRender(callback));
+export const skipOneRender = (callback: () => void): number =>
+  requestAnimationFrame(() => afterNextRender(callback));
 
 /**
  * Decorate function to schedule execution after next render

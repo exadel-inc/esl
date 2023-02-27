@@ -3,15 +3,16 @@
  * @param element - element for which to get the document element
  * */
 export const getDocument = (element: Element | Window = window): Element => {
-  return (element instanceof Window ? element.document : element.ownerDocument).documentElement;
+  return (element instanceof Window ? element.document : element.ownerDocument)
+    .documentElement;
 };
 
 /**
  * Get the name of node.
  * @param element - element for which to get the name
  */
-export const getNodeName = (element?: Node | Window): string  => {
-  return element && !(element instanceof Window) ? (element.nodeName).toLowerCase() : '';
+export const getNodeName = (element?: Node | Window): string => {
+  return element && !(element instanceof Window) ? element.nodeName.toLowerCase() : '';
 };
 
 /**
@@ -20,9 +21,11 @@ export const getNodeName = (element?: Node | Window): string  => {
  */
 export const getParentNode = (element: Element | ShadowRoot): Node => {
   if (getNodeName(element) === 'html') return element;
-  return (window.ShadowRoot
-    ? element instanceof ShadowRoot
-      ? element.host
-      : element.assignedSlot || element.parentNode
-    : element.parentNode) || getDocument(element as Element);
+  return (
+    (window.ShadowRoot
+      ? element instanceof ShadowRoot
+        ? element.host
+        : element.assignedSlot || element.parentNode
+      : element.parentNode) || getDocument(element as Element)
+  );
 };

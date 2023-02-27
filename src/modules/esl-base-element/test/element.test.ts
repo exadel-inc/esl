@@ -2,7 +2,6 @@ import '../../../polyfills/es5-target-shim';
 import {ESLBaseElement} from '../core';
 
 describe('ESLBaseElement', () => {
-
   class TestElement extends ESLBaseElement {
     public static eventNs = 'esl:test';
   }
@@ -32,13 +31,12 @@ describe('ESLBaseElement', () => {
     // Tag is not empty
     expect(() => TestElement2.register('')).toThrowError();
     TestElement2.register('test-test');
-    return customElements.whenDefined('test-test')
-      .then(() => {
-        expect(() => TestElement2.register('test-test')).not.toThrowError();
-        TestElement2.is = 'test-test-2';
-        // Tag inconsistency
-        expect(() => TestElement2.register('test-test')).toThrowError();
-      });
+    return customElements.whenDefined('test-test').then(() => {
+      expect(() => TestElement2.register('test-test')).not.toThrowError();
+      TestElement2.is = 'test-test-2';
+      // Tag inconsistency
+      expect(() => TestElement2.register('test-test')).toThrowError();
+    });
   });
 
   describe('ESLBaseElement prototype', () => {
@@ -77,17 +75,25 @@ describe('ESLBaseElement', () => {
     });
 
     test('$$fire', (done) => {
-      el.addEventListener('testevent', (e) => {
-        expect(e).toBeInstanceOf(CustomEvent);
-        done();
-      }, {once: true});
+      el.addEventListener(
+        'testevent',
+        (e) => {
+          expect(e).toBeInstanceOf(CustomEvent);
+          done();
+        },
+        {once: true}
+      );
       el.$$fire('testevent');
     }, 10);
     test('$$fire - bubbling', (done) => {
-      document.addEventListener('testevent', (e) => {
-        expect(e).toBeInstanceOf(CustomEvent);
-        done();
-      }, {once: true});
+      document.addEventListener(
+        'testevent',
+        (e) => {
+          expect(e).toBeInstanceOf(CustomEvent);
+          done();
+        },
+        {once: true}
+      );
       el.$$fire('testevent');
     }, 10);
   });

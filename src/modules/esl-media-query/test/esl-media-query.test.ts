@@ -58,7 +58,7 @@ describe('ESLMediaQuery', () => {
     test.each([
       ['not @small', 'not ((min-width: 100px) and (max-width: 200px))'],
       ['not @+sm', 'not (min-width: 768px)'],
-      ['not @-md', 'not (max-width: 1199px)'],
+      ['not @-md', 'not (max-width: 1199px)']
     ])('Inverted replacement %p', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
@@ -66,7 +66,7 @@ describe('ESLMediaQuery', () => {
     test.each([
       ['@+sm, @-md', '(min-width: 768px), (max-width: 1199px)'],
       ['@+sm or @-md', '(min-width: 768px), (max-width: 1199px)'],
-      ['@+sm and @-md', '(min-width: 768px) and (max-width: 1199px)'],
+      ['@+sm and @-md', '(min-width: 768px) and (max-width: 1199px)']
     ])('Inverted replacement %p', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
@@ -79,14 +79,14 @@ describe('ESLMediaQuery', () => {
       ['@01x', '(min-resolution: 96.0dpi)'],
       ['@.3x', '(min-resolution: 28.8dpi)'],
       ['@0.3x', '(min-resolution: 28.8dpi)'],
-      ['@1.6x', '(min-resolution: 153.6dpi)'],
+      ['@1.6x', '(min-resolution: 153.6dpi)']
     ])('Dpr %s replacement', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
 
     test.each([
       ['@1x', '(-webkit-min-device-pixel-ratio: 1)'],
-      ['@2.3x', '(-webkit-min-device-pixel-ratio: 2.3)'],
+      ['@2.3x', '(-webkit-min-device-pixel-ratio: 2.3)']
     ])('Dpr %s replacement', (query, expected) => {
       DDMock.isSafari = true;
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
@@ -112,7 +112,7 @@ describe('ESLMediaQuery', () => {
       ['@MOBILE', 'not all'],
       ['@desktop', 'all'],
       ['@Desktop', 'all'],
-      ['@DESKTOP', 'all'],
+      ['@DESKTOP', 'all']
     ])('Query check for %p', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
@@ -136,9 +136,7 @@ describe('ESLMediaQuery', () => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
 
-    test.each([
-      ['not @ie', 'all']
-    ])('Inverted query check for %p', (query, expected) => {
+    test.each([['not @ie', 'all']])('Inverted query check for %p', (query, expected) => {
       expect(ESLMediaQuery.from(query).toString()).toBe(expected);
     });
   });
@@ -162,31 +160,40 @@ describe('ESLMediaQuery', () => {
         ['@desktop and @2x', '(min-resolution: 192.0dpi)'],
         ['@1x and @+sm', '(min-resolution: 96.0dpi) and (min-width: 768px)'],
         ['@+sm and @desktop', '(min-width: 768px)'],
-        ['@2.5x and @desktop and @+sm', '(min-resolution: 240.0dpi) and (min-width: 768px)'],
-        ['@desktop and @+sm and @2.5x', '(min-width: 768px) and (min-resolution: 240.0dpi)'],
-        ['@+sm and @2.6x and @desktop', '(min-width: 768px) and (min-resolution: 249.6dpi)'],
+        [
+          '@2.5x and @desktop and @+sm',
+          '(min-resolution: 240.0dpi) and (min-width: 768px)'
+        ],
+        [
+          '@desktop and @+sm and @2.5x',
+          '(min-width: 768px) and (min-resolution: 240.0dpi)'
+        ],
+        [
+          '@+sm and @2.6x and @desktop',
+          '(min-width: 768px) and (min-resolution: 249.6dpi)'
+        ]
       ])('%s to %s', (query, expected) => {
         expect(ESLMediaQuery.from(query).toString()).toBe(expected);
       });
     });
 
-    describe('Disjunction', (() => {
+    describe('Disjunction', () => {
       test.each([
         ['@+xs, @+sm', '(min-width: 1px), (min-width: 768px)'],
         ['@1x, @2x', '(min-resolution: 96.0dpi), (min-resolution: 192.0dpi)'],
         ['@1x, @+sm', '(min-resolution: 96.0dpi), (min-width: 768px)'],
-        ['@+sm, @1x', '(min-width: 768px), (min-resolution: 96.0dpi)'],
+        ['@+sm, @1x', '(min-width: 768px), (min-resolution: 96.0dpi)']
       ])('%s to %s', (query, expected) => {
         expect(ESLMediaQuery.from(query).toString()).toBe(expected);
       });
-    }));
+    });
   });
 
   describe('Optimization', () => {
     describe('Conjunction', () => {
       test.each([
         ['@1x and @+sm and all', '(min-resolution: 96.0dpi) and (min-width: 768px)'],
-        ['@1x and @+sm, not all', '(min-resolution: 96.0dpi) and (min-width: 768px)'],
+        ['@1x and @+sm, not all', '(min-resolution: 96.0dpi) and (min-width: 768px)']
       ])('Combination %s', (query, expected) => {
         expect(ESLMediaQuery.from(query).toString()).toBe(expected);
       });
@@ -194,19 +201,21 @@ describe('ESLMediaQuery', () => {
   });
 
   describe('Cache test', () => {
-    test.each([
-      ['all'],
-      ['not all'],
-      ['@xs'],
-      ['@xs or @xl']
-    ])('Apply tests for %p breakpoint', (query) => {
-      expect(ESLMediaQuery.for(query)).toBe(ESLMediaQuery.for(query));
-    });
+    test.each([['all'], ['not all'], ['@xs'], ['@xs or @xl']])(
+      'Apply tests for %p breakpoint',
+      (query) => {
+        expect(ESLMediaQuery.for(query)).toBe(ESLMediaQuery.for(query));
+      }
+    );
   });
 
   describe('EventTarget interface implementation', () => {
-    const mockLgMatchMedia = getMatchMediaMock(ESLScreenBreakpoints.get('lg')!.mediaQuery);
-    const mockXlMatchMedia = getMatchMediaMock(ESLScreenBreakpoints.get('xl')!.mediaQuery);
+    const mockLgMatchMedia = getMatchMediaMock(
+      ESLScreenBreakpoints.get('lg')!.mediaQuery
+    );
+    const mockXlMatchMedia = getMatchMediaMock(
+      ESLScreenBreakpoints.get('xl')!.mediaQuery
+    );
 
     test('Methods availability', () => {
       const mq = ESLMediaQuery.for('(max-width: 500px)');
@@ -225,25 +234,29 @@ describe('ESLMediaQuery', () => {
       mockLgMatchMedia.matches = true;
       expect(listener).toBeCalledTimes(1);
       expect(listener).lastCalledWith(expect.any(ESLMediaChangeEvent));
-      expect(listener).lastCalledWith(expect.objectContaining({
-        matches: true,
-        media: String(ESLMediaQuery.for('@lg')),
-        target:  ESLMediaQuery.for('@lg'),
-        currentTarget:  ESLMediaQuery.for('@lg')
-      }));
+      expect(listener).lastCalledWith(
+        expect.objectContaining({
+          matches: true,
+          media: String(ESLMediaQuery.for('@lg')),
+          target: ESLMediaQuery.for('@lg'),
+          currentTarget: ESLMediaQuery.for('@lg')
+        })
+      );
 
       mockLgMatchMedia.matches = false;
       expect(listener).toBeCalledTimes(2);
       expect(listener).lastCalledWith(expect.any(ESLMediaChangeEvent));
-      expect(listener).lastCalledWith(expect.objectContaining({
-        matches: false,
-        media: String(ESLMediaQuery.for('@lg')),
-        target:  ESLMediaQuery.for('@lg'),
-        currentTarget:  ESLMediaQuery.for('@lg')
-      }));
+      expect(listener).lastCalledWith(
+        expect.objectContaining({
+          matches: false,
+          media: String(ESLMediaQuery.for('@lg')),
+          target: ESLMediaQuery.for('@lg'),
+          currentTarget: ESLMediaQuery.for('@lg')
+        })
+      );
     });
 
-    test('Conjunction listener',  ()=> {
+    test('Conjunction listener', () => {
       const fn1 = jest.fn();
       const fn2 = jest.fn();
 
@@ -278,7 +291,7 @@ describe('ESLMediaQuery', () => {
       expect(fn2).toBeCalledTimes(2);
     });
 
-    test('Disjunction listener',  ()=> {
+    test('Disjunction listener', () => {
       const fn1 = jest.fn();
       const fn2 = jest.fn();
 

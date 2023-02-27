@@ -15,7 +15,16 @@ export class Rect {
    * The static method creates a new Rect instance from a rect-like object.
    * @param rect - rect-like object
    */
-  public static from(rect: {x?: number, left?: number, y?: number, top?: number, width?: number, height?: number} = {}): Rect {
+  public static from(
+    rect: {
+      x?: number;
+      left?: number;
+      y?: number;
+      top?: number;
+      width?: number;
+      height?: number;
+    } = {}
+  ): Rect {
     return new this(rect.x || rect.left, rect.y || rect.top, rect.width, rect.height);
   }
 
@@ -25,7 +34,12 @@ export class Rect {
    * @param rect2 - second instance of Rect
    */
   public static isEqual(rect1: Rect, rect2: Rect): boolean {
-    return rect1.x === rect2.x && rect1.y === rect2.y && rect1.width === rect2.width && rect1.height === rect2.height;
+    return (
+      rect1.x === rect2.x &&
+      rect1.y === rect2.y &&
+      rect1.width === rect2.width &&
+      rect1.height === rect2.height
+    );
   }
 
   /**

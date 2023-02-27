@@ -71,7 +71,6 @@ export class ESLMedia extends ESLBaseElement {
   /** Strict aspect ratio definition */
   @attr() public aspectRatio: string;
 
-
   /** Disabled marker to prevent rendering */
   @boolAttr() public disabled: boolean;
   /** Autoplay resource marker */
@@ -150,7 +149,11 @@ export class ESLMedia extends ESLBaseElement {
     this._provider && this._provider.unbind();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected attributeChangedCallback(
+    attrName: string,
+    oldVal: string,
+    newVal: string
+  ): void {
     if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
       case 'disabled':
@@ -169,9 +172,9 @@ export class ESLMedia extends ESLBaseElement {
         this.deferredResize();
         break;
       case 'play-in-viewport':
-        this.playInViewport ?
-          this.attachViewportConstraint() :
-          this.detachViewportConstraint();
+        this.playInViewport
+          ? this.attachViewportConstraint()
+          : this.detachViewportConstraint();
         break;
       case 'load-condition':
         ESLMediaQuery.for(oldVal).removeEventListener(this.deferredReinitialize);
@@ -319,11 +322,18 @@ export class ESLMedia extends ESLBaseElement {
   public _onResize(): void {
     if (!this._provider) return;
     if (this.fillModeEnabled && this.actualAspectRatio > 0) {
-      let stretchVertically = this.offsetWidth / this.offsetHeight < this.actualAspectRatio;
+      let stretchVertically =
+        this.offsetWidth / this.offsetHeight < this.actualAspectRatio;
       if (this.fillMode === 'inscribe') stretchVertically = !stretchVertically; // Inscribe behaves inversely
-      stretchVertically ?
-        this._provider.setSize(this.actualAspectRatio * this.offsetHeight, this.offsetHeight) : // h
-        this._provider.setSize(this.offsetWidth, this.offsetWidth / this.actualAspectRatio);   // w
+      stretchVertically
+        ? this._provider.setSize(
+          this.actualAspectRatio * this.offsetHeight,
+          this.offsetHeight
+        ) // h
+        : this._provider.setSize(
+          this.offsetWidth,
+          this.offsetWidth / this.actualAspectRatio
+        ); // w
     } else {
       this._provider.setSize('auto', 'auto');
     }
@@ -383,7 +393,7 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Set current time of media resource */
   public set currentTime(time: number) {
-    (this._provider) && this._provider.safeSeekTo(time);
+    this._provider && this._provider.safeSeekTo(time);
   }
 
   /** ESLMediaQuery to limit ESLMedia loading */
@@ -398,7 +408,9 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Used resource aspect ratio forced by attribute or returned by provider */
   public get actualAspectRatio(): number {
-    if (this.aspectRatio && this.aspectRatio !== 'auto') return parseAspectRatio(this.aspectRatio);
+    if (this.aspectRatio && this.aspectRatio !== 'auto') {
+      return parseAspectRatio(this.aspectRatio);
+    }
     return this._provider ? this._provider.defaultAspectRatio : 0;
   }
 

@@ -151,19 +151,27 @@ describe('Decorator: @listen', () => {
 
     test('@listen creates auto-subscribable(collectable) descriptor by default', () => {
       const test = new Test();
-      expect(ESLEventUtils.getAutoDescriptors(test)).toContain(Test.prototype.onEventAuto);
+      expect(ESLEventUtils.getAutoDescriptors(test)).toContain(
+        Test.prototype.onEventAuto
+      );
     });
     test('@listen does not creates auto-subscribable(collectable) descriptor if auto passed as false', () => {
       const test = new Test();
-      expect(ESLEventUtils.getAutoDescriptors(test)).not.toContain(Test.prototype.onEventManual);
+      expect(ESLEventUtils.getAutoDescriptors(test)).not.toContain(
+        Test.prototype.onEventManual
+      );
     });
     test('@listen inherits positive subscribe-ability', () => {
       const test = new TestChild();
-      expect(ESLEventUtils.getAutoDescriptors(test)).toContain(TestChild.prototype.onEventAuto);
+      expect(ESLEventUtils.getAutoDescriptors(test)).toContain(
+        TestChild.prototype.onEventAuto
+      );
     });
     test('@listen inherits negative subscribe-ability', () => {
       const test = new TestChild();
-      expect(ESLEventUtils.getAutoDescriptors(test)).not.toContain(TestChild.prototype.onEventManual);
+      expect(ESLEventUtils.getAutoDescriptors(test)).not.toContain(
+        TestChild.prototype.onEventManual
+      );
     });
   });
 });

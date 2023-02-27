@@ -9,17 +9,31 @@ aside:
   components:
     - esl-scrollbar
 ---
+
 {% import 'lorem.njk' as lorem %}
 
-<section style="resize: both; overflow: hidden; max-width: 100%" class="border bg-white relative-block">
+<section
+  style="resize: both; overflow: hidden; max-width: 100%"
+  class="border bg-white relative-block"
+>
   <div style="max-width: 100%; max-height: 100%;" class="p-4 esl-scrollable-content">
     <div style="min-width: 50vw">
-      <h2>Scroll appears only if content is too long for the area (resize the section to see scrollbar in action)</h2>
+      <h2
+        >Scroll appears only if content is too long for the area (resize the section to
+        see scrollbar in action)</h2
+      >
       {{ lorem.paragraphs(4) }}
     </div>
   </div>
-  <esl-scrollbar class="scrollbar-blue" target="::prev(.esl-scrollable-content)"></esl-scrollbar>
-  <esl-scrollbar class="scrollbar-blue scrollbar-second" target="::prev(.esl-scrollable-content)" horizontal></esl-scrollbar>
+  <esl-scrollbar
+    class="scrollbar-blue"
+    target="::prev(.esl-scrollable-content)"
+  ></esl-scrollbar>
+  <esl-scrollbar
+    class="scrollbar-blue scrollbar-second"
+    target="::prev(.esl-scrollable-content)"
+    horizontal
+  ></esl-scrollbar>
 </section>
 
 <section class="border bg-white relative-block">

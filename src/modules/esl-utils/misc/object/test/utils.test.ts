@@ -5,7 +5,9 @@ describe('misc/object: utils', () => {
     test('simple', () => {
       const object = {
         a: 1,
-        get b() { return 2; }
+        get b() {
+          return 2;
+        }
       };
       expect(getPropertyDescriptor(object, 'a')).toBeTruthy();
       expect(getPropertyDescriptor(object, 'b')).toBeTruthy();
@@ -24,8 +26,12 @@ describe('misc/object: utils', () => {
     test('1 lvl', () => {
       class A {
         a = 1;
-        b() { return 2; }
-        get c() { return 3; }
+        b() {
+          return 2;
+        }
+        get c() {
+          return 3;
+        }
       }
       const obj = new A();
       expect(getPropertyDescriptor(obj, 'a')).toBeTruthy();
@@ -37,8 +43,12 @@ describe('misc/object: utils', () => {
 
     test('2 lvl', () => {
       class A {
-        a() { return 3; }
-        get b() { return 3; }
+        a() {
+          return 3;
+        }
+        get b() {
+          return 3;
+        }
       }
       class B extends A {}
       const obj = new B();
@@ -69,7 +79,9 @@ describe('misc/object: utils', () => {
       const obj = {a: 1, b: 2};
       const proto = {c: 3, d: 4};
       Object.setPrototypeOf(obj, proto);
-      expect(extractValues(obj, () => true)).toEqual(Object.values(obj).concat(Object.values(proto)));
+      expect(extractValues(obj, () => true)).toEqual(
+        Object.values(obj).concat(Object.values(proto))
+      );
     });
 
     test('extractValues does not duplicate keys from prototype', () => {

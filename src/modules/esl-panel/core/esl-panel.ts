@@ -82,16 +82,20 @@ export class ESLPanel extends ESLToggleable {
   protected beforeAnimate(): void {
     this.toggleAttribute('animating', true);
     CSSClassUtils.add(this, this.animateClass);
-    this.postAnimateClass && afterNextRender(() => CSSClassUtils.add(this, this.postAnimateClass));
+    this.postAnimateClass &&
+      afterNextRender(() => CSSClassUtils.add(this, this.postAnimateClass));
   }
 
   /** Handles post animation process to initiate after animate step */
   protected postAnimate(capturedBy?: ESLPanelGroup | null): void {
     if (capturedBy) {
-      capturedBy.$$on({
-        event: capturedBy.AFTER_ANIMATE_EVENT,
-        once: true
-      }, () => this.afterAnimate());
+      capturedBy.$$on(
+        {
+          event: capturedBy.AFTER_ANIMATE_EVENT,
+          once: true
+        },
+        () => this.afterAnimate()
+      );
     } else {
       skipOneRender(() => this.afterAnimate());
     }
@@ -142,7 +146,9 @@ export class ESLPanel extends ESLToggleable {
   }
 
   /** Merge params that are used by panel group for actions */
-  protected override mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
+  protected override mergeDefaultParams(
+    params?: ESLToggleableActionParams
+  ): ESLToggleableActionParams {
     const stackConfig = this.$group?.panelConfig || {};
     return Object.assign({}, stackConfig, this.defaultParams, params || {});
   }

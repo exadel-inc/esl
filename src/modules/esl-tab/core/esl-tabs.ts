@@ -55,7 +55,11 @@ export class ESLTabs extends ESLBaseElement {
     this.updateScrollableType();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected attributeChangedCallback(
+    attrName: string,
+    oldVal: string,
+    newVal: string
+  ): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'scrollable') {
       memoize.clear(this, 'scrollableTypeRules');
@@ -76,7 +80,7 @@ export class ESLTabs extends ESLBaseElement {
   /** Collection of inner {@link ESLTab} items */
   public get $tabs(): ESLTab[] {
     const els = this.querySelectorAll(ESLTab.is);
-    return els ? Array.from(els) as ESLTab[] : [];
+    return els ? (Array.from(els) as ESLTab[]) : [];
   }
 
   /** Active {@link ESLTab} item */
@@ -106,7 +110,10 @@ export class ESLTabs extends ESLBaseElement {
   }
 
   /** Scroll tab to the view */
-  protected fitToViewport($trigger: ESLTab | null, behavior: ScrollBehavior = 'smooth'): void {
+  protected fitToViewport(
+    $trigger: ESLTab | null,
+    behavior: ScrollBehavior = 'smooth'
+  ): void {
     this.updateMarkers();
 
     const $scrollableTarget = this.$scrollableTarget;
@@ -128,16 +135,21 @@ export class ESLTabs extends ESLBaseElement {
     const isReversedRTL = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'reverse';
 
     if (this.currentScrollableType === 'center') {
-      const shift = itemRect.left + itemRect.width / 2 - (areaRect.left + areaRect.width / 2);
+      const shift =
+        itemRect.left + itemRect.width / 2 - (areaRect.left + areaRect.width / 2);
       return isReversedRTL ? -shift : shift;
     }
 
     // item is out of area from the right side
     // else item out is of area from the left side
     if (itemRect.right > areaRect.right) {
-      return isReversedRTL ? Math.floor(areaRect.right - itemRect.right) : Math.ceil(itemRect.right - areaRect.right);
+      return isReversedRTL
+        ? Math.floor(areaRect.right - itemRect.right)
+        : Math.ceil(itemRect.right - areaRect.right);
     } else if (itemRect.left < areaRect.left) {
-      return isReversedRTL ? Math.ceil(areaRect.left - itemRect.left) : Math.floor(itemRect.left - areaRect.left);
+      return isReversedRTL
+        ? Math.ceil(areaRect.left - itemRect.left)
+        : Math.floor(itemRect.left - areaRect.left);
     }
   }
 
@@ -147,20 +159,25 @@ export class ESLTabs extends ESLBaseElement {
 
     const swapSides = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'default';
     const scrollStart = Math.abs($scrollableTarget.scrollLeft) > 1;
-    const scrollEnd = Math.abs($scrollableTarget.scrollLeft) + $scrollableTarget.clientWidth + 1 < $scrollableTarget.scrollWidth;
+    const scrollEnd =
+      Math.abs($scrollableTarget.scrollLeft) + $scrollableTarget.clientWidth + 1 <
+      $scrollableTarget.scrollWidth;
 
     const $rightArrow = this.querySelector('[data-tab-direction="right"]');
     const $leftArrow = this.querySelector('[data-tab-direction="left"]');
 
-    $leftArrow && $leftArrow.toggleAttribute('disabled', !(swapSides ? scrollEnd : scrollStart));
-    $rightArrow && $rightArrow.toggleAttribute('disabled', !(swapSides ? scrollStart : scrollEnd));
+    $leftArrow &&
+      $leftArrow.toggleAttribute('disabled', !(swapSides ? scrollEnd : scrollStart));
+    $rightArrow &&
+      $rightArrow.toggleAttribute('disabled', !(swapSides ? scrollStart : scrollEnd));
   }
 
   protected updateMarkers(): void {
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget) return;
 
-    const hasScroll = this.isScrollable && ($scrollableTarget.scrollWidth > this.clientWidth);
+    const hasScroll =
+      this.isScrollable && $scrollableTarget.scrollWidth > this.clientWidth;
     this.toggleAttribute('has-scroll', hasScroll);
   }
 

@@ -5,17 +5,18 @@ import type {ESLToggleable} from './esl-toggleable';
  * Tag declaration interface of {@link ESLToggleable} element
  * Used for TSX declaration
  */
-export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable> extends ESLBaseElementShape<T> {
+export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable>
+  extends ESLBaseElementShape<T> {
   /** Define CSS class to add on the body element */
   'body-class'?: string;
   /** Define CSS class to add when the Toggleable is active */
   'active-class'?: string;
 
   /** Open toggleable marker. Can be used to define initial state */
-  'open'?: boolean;
+  open?: boolean;
 
   /** Define Toggleable group meta information to organize groups */
-  'group'?: string;
+  group?: string;
 
   /** Disallow automatic id creation when it's empty */
   'no-auto-id'?: boolean;

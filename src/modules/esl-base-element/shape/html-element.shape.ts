@@ -69,8 +69,21 @@ export interface HTMLElementShape {
 }
 
 type StyleInput = string | CSSStyleDeclaration | (string | CSSStyleDeclaration)[];
-type ClassName = string | {[key: string]: boolean} | false | null | undefined | ClassName[];
+type ClassName =
+  | string
+  | {[key: string]: boolean}
+  | false
+  | null
+  | undefined
+  | ClassName[];
 type ClassNames = ClassName | DOMTokenList;
 
-type HTMLElementChild = HTMLElementChild[] | HTMLElement | string | number | boolean | undefined | null;
+type HTMLElementChild =
+  | HTMLElementChild[]
+  | HTMLElement
+  | string
+  | number
+  | boolean
+  | undefined
+  | null;
 export type HTMLElementChildren = HTMLElementChild | HTMLElementChild[];

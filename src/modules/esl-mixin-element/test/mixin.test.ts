@@ -36,7 +36,8 @@ describe('ESLMixinElement', () => {
     });
 
     afterAll(() => {
-      while (document.body.lastElementChild) document.body.removeChild(document.body.lastElementChild);
+      while (document.body.lastElementChild)
+      {document.body.removeChild(document.body.lastElementChild);}
     });
   });
 });

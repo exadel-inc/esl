@@ -12,14 +12,18 @@ export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
   decorator: (fn: Fn, ...params: Args) => Fn,
   ...args: Args
 ) {
-  return function (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<Fn>): TypedPropertyDescriptor<Fn> {
+  return function (
+    target: any,
+    propertyKey: string,
+    descriptor: TypedPropertyDescriptor<Fn>
+  ): TypedPropertyDescriptor<Fn> {
     if (!descriptor || typeof descriptor.value !== 'function') {
       throw new TypeError('Only class methods can be decorated');
     }
 
     const originalFn: Fn = descriptor.value;
 
-    return descriptor = {
+    return (descriptor = {
       enumerable: descriptor.enumerable,
       configurable: true,
 
@@ -35,7 +39,7 @@ export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
         // Copy original function own keys
         Object.assign(decoratedFn, originalFn);
         // Defines own property with the decorated instance
-        return this[propertyKey] = decoratedFn;
+        return (this[propertyKey] = decoratedFn);
       },
       set(value: Fn): void {
         Object.defineProperty(this, propertyKey, {
@@ -45,6 +49,6 @@ export function decorate<Args extends any[], Fn extends AnyToAnyFnSignature>(
           enumerable: descriptor.enumerable
         });
       }
-    };
+    });
   };
 }

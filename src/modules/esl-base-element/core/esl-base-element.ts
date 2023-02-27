@@ -100,7 +100,9 @@ export abstract class ESLBaseElement extends HTMLElement {
     if (!tagName) throw new Error('Can not define custom element');
     const constructor: any = customElements.get(tagName);
     if (constructor) {
-      if (constructor.is !== tagName) throw new Error('Element declaration tag inconsistency');
+      if (constructor.is !== tagName) {
+        throw new Error('Element declaration tag inconsistency');
+      }
       return;
     }
     if (this.is !== tagName) {
@@ -121,5 +123,4 @@ export abstract class ESLBaseElement extends HTMLElement {
   public static create<T extends typeof ESLBaseElement>(this: T): InstanceType<T> {
     return document.createElement(this.is) as InstanceType<T>;
   }
-
 }

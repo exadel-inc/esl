@@ -4,15 +4,16 @@ import {isArrayLike} from './object';
 type Tuple<T> = [T?, T?];
 
 /** Split array into tuples */
-export const tuple = <T>(arr: T[]): Tuple<T>[] => arr.reduce((acc: Tuple<T>[], el) => {
-  if (acc.length === 0 || acc[acc.length - 1].length >= 2) acc.push([]);
-  acc[acc.length - 1].push(el);
-  return acc;
-}, []);
+export const tuple = <T>(arr: T[]): Tuple<T>[] =>
+  arr.reduce((acc: Tuple<T>[], el) => {
+    if (acc.length === 0 || acc[acc.length - 1].length >= 2) acc.push([]);
+    acc[acc.length - 1].push(el);
+    return acc;
+  }, []);
 
 /** Flat array - unwraps one level of nested arrays */
 export const flat = <T>(arr: (null | T | T[])[]): T[] =>
-  arr.reduce((acc: T[], el) => el ? acc.concat(el) : acc, []) as T[];
+  arr.reduce((acc: T[], el) => (el ? acc.concat(el) : acc), []) as T[];
 
 /** Wraps passed object or primitive to array */
 export const wrap = <T>(arr: undefined | null | T | T[]): T[] => {
@@ -31,7 +32,7 @@ export function unwrap(value: any): any {
 }
 
 /** Makes array values unique */
-export const uniq = <T> (arr: T[]): T[] => {
+export const uniq = <T>(arr: T[]): T[] => {
   if (arr.length < 2) return arr.slice(0);
   const result: T[] = [];
   const set = new Set<T>();
@@ -54,10 +55,13 @@ export function range(n: number, filler: (i: number) => any = identity): any[] {
 /**
  * @returns object with a criteria value as a key and an array of original items that belongs to the current criteria value
  */
-export const groupBy = <T, V extends string | number>(array: T[], group: (item: T) => V): Record<V, T[]> => {
+export const groupBy = <T, V extends string | number>(
+  array: T[],
+  group: (item: T) => V
+): Record<V, T[]> => {
   return array.reduce((obj: Record<V, T[]>, el: T) => {
     const key = group(el);
-    obj[key] ? obj[key].push(el) : obj[key] = [el];
+    obj[key] ? obj[key].push(el) : (obj[key] = [el]);
     return obj;
   }, {} as Record<V, T[]>);
 };

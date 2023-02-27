@@ -15,7 +15,10 @@ export type MemoizedFn<T extends AnyToAnyFnSignature> = T & {
  * In case the hash function returns `undefined` value will not be memoized.
  * @see MemoHashFn Hash function signature.
  */
-export function memoizeFn<F extends AnyToAnyFnSignature>(fn: F, hashFn: MemoHashFn<F> = defaultArgsHashFn): MemoizedFn<F> {
+export function memoizeFn<F extends AnyToAnyFnSignature>(
+  fn: F,
+  hashFn: MemoHashFn<F> = defaultArgsHashFn
+): MemoizedFn<F> {
   function memo(...args: Parameters<F>): any {
     const key = hashFn(...args);
     if (key !== null && typeof key !== 'string') {
@@ -42,7 +45,9 @@ export function memoizeFn<F extends AnyToAnyFnSignature>(fn: F, hashFn: MemoHash
  * Hash function can return string or null as a hash result. Note: null is correct hash for arguments!
  * If the result is `undefined` - it means that the hash can not be generated.
  */
-export type MemoHashFn<F extends AnyToAnyFnSignature = AnyToAnyFnSignature> = (...args: Parameters<F>) => undefined | null | string;
+export type MemoHashFn<F extends AnyToAnyFnSignature = AnyToAnyFnSignature> = (
+  ...args: Parameters<F>
+) => undefined | null | string;
 
 /**
  * Default arguments hash function.
@@ -51,6 +56,12 @@ export type MemoHashFn<F extends AnyToAnyFnSignature = AnyToAnyFnSignature> = (.
 export function defaultArgsHashFn(...args: any[]): string | null | undefined {
   if (args.length === 0) return null;
   if (args.length > 1) return;
-  if (typeof args[0] !== 'string' && typeof args[0] !== 'number' && typeof args[0] !== 'boolean') return;
+  if (
+    typeof args[0] !== 'string' &&
+    typeof args[0] !== 'number' &&
+    typeof args[0] !== 'boolean'
+  ) {
+    return;
+  }
   return String(args[0]);
 }

@@ -59,7 +59,15 @@ export interface AriaAttributesShape {
   'aria-controls'?: string;
 
   /** Indicates the element that represents the current item within a container or set of related elements. */
-  'aria-current'?: 'true' | 'false' | 'page' | 'step' | 'location' | 'date' | 'time' | boolean;
+  'aria-current'?:
+  | 'true'
+  | 'false'
+  | 'page'
+  | 'step'
+  | 'location'
+  | 'date'
+  | 'time'
+  | boolean;
 
   /**
    * Identifies the element (or elements) that describes the object.
@@ -106,9 +114,16 @@ export interface AriaAttributesShape {
    */
   'aria-grabbed'?: 'true' | 'false' | boolean;
 
-
   /** Indicates the availability and type of interactive popup element, such as menu or dialog, that can be triggered by an element. */
-  'aria-haspopup'?: 'true' | 'false' | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog' | boolean;
+  'aria-haspopup'?:
+  | 'true'
+  | 'false'
+  | 'menu'
+  | 'listbox'
+  | 'tree'
+  | 'grid'
+  | 'dialog'
+  | boolean;
 
   /**
    * Indicates whether the element is exposed to an accessibility API.
@@ -248,85 +263,86 @@ export interface AriaAttributesShape {
 }
 
 type AriaRelevant =
-  'additions' |
-  'additions removals' |
-  'additions text' | 'all' |
-  'removals' |
-  'removals additions' |
-  'removals text' |
-  'text' |
-  'text additions' |
-  'text removals';
+  | 'additions'
+  | 'additions removals'
+  | 'additions text'
+  | 'all'
+  | 'removals'
+  | 'removals additions'
+  | 'removals text'
+  | 'text'
+  | 'text additions'
+  | 'text removals';
 
 // All the WAI-ARIA 1.1 role attribute values from https://www.w3.org/TR/wai-aria-1.1/#role_definitions
 type AriaRole =
-  'alert' |
-  'alertdialog' |
-  'application' |
-  'article' |
-  'banner' |
-  'button' |
-  'cell' |
-  'checkbox' |
-  'columnheader' |
-  'combobox' |
-  'complementary' |
-  'contentinfo' |
-  'definition' |
-  'dialog' |
-  'directory' |
-  'document' |
-  'feed' |
-  'figure' |
-  'form' |
-  'grid' |
-  'gridcell' |
-  'group' |
-  'heading' |
-  'img' |
-  'link' |
-  'list' |
-  'listbox' |
-  'listitem' |
-  'log' |
-  'main' |
-  'marquee' |
-  'math' |
-  'menu' |
-  'menubar' |
-  'menuitem' |
-  'menuitemcheckbox' |
-  'menuitemradio' |
-  'navigation' |
-  'none' |
-  'note' |
-  'option' |
-  'presentation' |
-  'progressbar' |
-  'radio' |
-  'radiogroup' |
-  'region' |
-  'row' |
-  'rowgroup' |
-  'rowheader' |
-  'scrollbar' |
-  'search' |
-  'searchbox' |
-  'separator' |
-  'slider' |
-  'spinbutton' |
-  'status' |
-  'switch' |
-  'tab' |
-  'table' |
-  'tablist' |
-  'tabpanel' |
-  'term' |
-  'textbox' |
-  'timer' |
-  'toolbar' |
-  'tooltip' |
-  'tree' |
-  'treegrid' |
-  'treeitem' |
-  string;
+  | 'alert'
+  | 'alertdialog'
+  | 'application'
+  | 'article'
+  | 'banner'
+  | 'button'
+  | 'cell'
+  | 'checkbox'
+  | 'columnheader'
+  | 'combobox'
+  | 'complementary'
+  | 'contentinfo'
+  | 'definition'
+  | 'dialog'
+  | 'directory'
+  | 'document'
+  | 'feed'
+  | 'figure'
+  | 'form'
+  | 'grid'
+  | 'gridcell'
+  | 'group'
+  | 'heading'
+  | 'img'
+  | 'link'
+  | 'list'
+  | 'listbox'
+  | 'listitem'
+  | 'log'
+  | 'main'
+  | 'marquee'
+  | 'math'
+  | 'menu'
+  | 'menubar'
+  | 'menuitem'
+  | 'menuitemcheckbox'
+  | 'menuitemradio'
+  | 'navigation'
+  | 'none'
+  | 'note'
+  | 'option'
+  | 'presentation'
+  | 'progressbar'
+  | 'radio'
+  | 'radiogroup'
+  | 'region'
+  | 'row'
+  | 'rowgroup'
+  | 'rowheader'
+  | 'scrollbar'
+  | 'search'
+  | 'searchbox'
+  | 'separator'
+  | 'slider'
+  | 'spinbutton'
+  | 'status'
+  | 'switch'
+  | 'tab'
+  | 'table'
+  | 'tablist'
+  | 'tabpanel'
+  | 'term'
+  | 'textbox'
+  | 'timer'
+  | 'toolbar'
+  | 'tooltip'
+  | 'tree'
+  | 'treegrid'
+  | 'treeitem'
+  | string;

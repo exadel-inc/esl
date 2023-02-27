@@ -21,14 +21,20 @@ export abstract class ESLScreenBreakpoints {
    * @param minWidth - min width for breakpoint
    * @param maxWidth - max width for breakpoint
    */
-  public static add(name: string, minWidth: number, maxWidth: number): ESLScreenBreakpoint | undefined {
+  public static add(
+    name: string,
+    minWidth: number,
+    maxWidth: number
+  ): ESLScreenBreakpoint | undefined {
     name = name.toLowerCase();
     if (ESLScreenBreakpoints.BP_NAME_REGEXP.test(name)) {
       const current = registry.get(name);
       registry.set(name, new ESLScreenBreakpoint(name, minWidth, maxWidth));
       return current;
     }
-    throw new Error('The shortcut should consist only of Latin characters and be at least one character long.');
+    throw new Error(
+      'The shortcut should consist only of Latin characters and be at least one character long.'
+    );
   }
 
   /** Removes screen breakpoint */

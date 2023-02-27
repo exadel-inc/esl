@@ -73,7 +73,6 @@ describe('async/delayed-task', () => {
     }, 10);
   });
 
-
   test('cancel / fn', (done) => {
     const fn1 = jest.fn();
 

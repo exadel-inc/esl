@@ -9,14 +9,23 @@ export class SyntheticEventTarget implements EventTarget {
   public hasEventListener(): boolean;
   public hasEventListener(type: string | number): boolean;
   public hasEventListener(type: string, minCount: number): boolean;
-  public hasEventListener(type: string | number = 'change', minCount: number = 0): boolean {
+  public hasEventListener(
+    type: string | number = 'change',
+    minCount: number = 0
+  ): boolean {
     if (typeof type !== 'string') return this.hasEventListener('change', type || 0);
     return this._listeners[type]?.length > minCount;
   }
 
   public addEventListener(callback: EventListenerOrEventListenerObject): void;
-  public addEventListener(type: string, callback: EventListenerOrEventListenerObject): void;
-  public addEventListener(type: string | EventListenerOrEventListenerObject, callback?: EventListenerOrEventListenerObject): void {
+  public addEventListener(
+    type: string,
+    callback: EventListenerOrEventListenerObject
+  ): void;
+  public addEventListener(
+    type: string | EventListenerOrEventListenerObject,
+    callback?: EventListenerOrEventListenerObject
+  ): void {
     if (typeof type !== 'string') return this.addEventListener('change', type);
 
     validateEventListenerType(callback);
@@ -26,8 +35,14 @@ export class SyntheticEventTarget implements EventTarget {
   }
 
   public removeEventListener(callback: EventListenerOrEventListenerObject): void;
-  public removeEventListener(type: string, callback: EventListenerOrEventListenerObject): void;
-  public removeEventListener(type: string | EventListenerOrEventListenerObject, callback?: EventListenerOrEventListenerObject): void {
+  public removeEventListener(
+    type: string,
+    callback: EventListenerOrEventListenerObject
+  ): void;
+  public removeEventListener(
+    type: string | EventListenerOrEventListenerObject,
+    callback?: EventListenerOrEventListenerObject
+  ): void {
     if (typeof type !== 'string') return this.removeEventListener('change', type);
 
     validateEventListenerType(callback);
@@ -58,7 +73,10 @@ export class SyntheticEventTarget implements EventTarget {
 }
 
 function validateEventListenerType(callback: any): void | never {
-  if (!callback || typeof callback !== 'function' && typeof callback.handleEvent !== 'function') {
+  if (
+    !callback ||
+    (typeof callback !== 'function' && typeof callback.handleEvent !== 'function')
+  ) {
     throw Error('Callback should be a function or EventListenerObject');
   }
 }

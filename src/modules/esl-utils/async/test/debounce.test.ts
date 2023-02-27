@@ -1,7 +1,7 @@
 import {debounce} from '../debounce';
 
 describe('async/debounce', () => {
-  beforeAll(() =>  jest.useFakeTimers());
+  beforeAll(() => jest.useFakeTimers());
   afterAll(() => jest.useRealTimers());
 
   test('basic scenario', () => {
@@ -18,7 +18,9 @@ describe('async/debounce', () => {
   });
 
   test('call context', () => {
-    const fn = function () { return this; };
+    const fn = function () {
+      return this;
+    };
     const debounced = debounce(fn, 0);
     const context = {};
     debounced.call(context);
@@ -28,7 +30,9 @@ describe('async/debounce', () => {
   });
 
   test('call context bind', () => {
-    const fn = function () { return this; };
+    const fn = function () {
+      return this;
+    };
     const context = {};
     const debounced = debounce(fn, 0, context);
     debounced.call({});

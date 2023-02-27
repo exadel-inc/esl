@@ -39,8 +39,7 @@ export class BrightcoveProvider extends BaseProvider {
 
   /** Loads player API according defined settings */
   protected static loadAPI(account: BCPlayerAccount): Promise<Event> {
-    const apiSrc =
-      `//players.brightcove.net/${account.accountId}/${account.playerId}_default/index.min.js`;
+    const apiSrc = `//players.brightcove.net/${account.accountId}/${account.playerId}_default/index.min.js`;
     const apiScript = document.getElementById(API_SCRIPT_ID);
     if (apiScript && apiScript.parentNode && apiScript.getAttribute('src') !== apiSrc) {
       apiScript.parentNode.removeChild(apiScript);
@@ -69,7 +68,9 @@ export class BrightcoveProvider extends BaseProvider {
   /** Utility method to convert api event to promise */
   protected $$fromEvent(eventName: string): Promise<void> {
     if (!this._api) return Promise.reject();
-    return new Promise((resolve, reject) => this._api ? this._api.one(eventName, resolve) : reject());
+    return new Promise((resolve, reject) =>
+      this._api ? this._api.one(eventName, resolve) : reject()
+    );
   }
 
   /**
@@ -82,7 +83,9 @@ export class BrightcoveProvider extends BaseProvider {
     }
     console.debug('ESL Media: Brightcove API init for ', this);
     this._api = window.bc(this._el);
-    return new Promise((resolve, reject) => this._api ? this._api.ready(resolve) : reject());
+    return new Promise((resolve, reject) =>
+      this._api ? this._api.ready(resolve) : reject()
+    );
   }
 
   /**
@@ -105,7 +108,7 @@ export class BrightcoveProvider extends BaseProvider {
   }
 
   public bind(): void {
-    const Provider = (this.constructor as typeof BrightcoveProvider);
+    const Provider = this.constructor as typeof BrightcoveProvider;
     this._account = Provider.getAccount(this.component);
     this._el = this.buildVideo();
     this.component.appendChild(this._el);

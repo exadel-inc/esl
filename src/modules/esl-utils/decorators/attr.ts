@@ -22,8 +22,8 @@ type AttrDescriptor<T = string> = {
   serializer?: AttrSerializer<T>;
 };
 
-const buildAttrName =
-  (propName: string, dataAttr: boolean): string => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
+const buildAttrName = (propName: string, dataAttr: boolean): string =>
+  dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 
 /**
  * Decorator to map current property to element attribute value.
@@ -37,10 +37,14 @@ export const attr = <T = string>(config: AttrDescriptor<T> = {}): AttributeDecor
     function get(): T | null {
       const val = getAttr(this, attrName);
       if (val === null && 'defaultValue' in config) return config.defaultValue as T;
-      return (config.parser || parseString as AttrParser<any>)(val);
+      return (config.parser || (parseString as AttrParser<any>))(val);
     }
     function set(value: T): void {
-      setAttr(this, attrName, (config.serializer as AttrSerializer<any> || identity)(value));
+      setAttr(
+        this,
+        attrName,
+        ((config.serializer as AttrSerializer<any>) || identity)(value)
+      );
     }
 
     Object.defineProperty(target, propName, config.readonly ? {get} : {get, set});

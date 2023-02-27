@@ -7,7 +7,10 @@ import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {createZIndexIframe} from '../../esl-utils/fixes/ie-fixes';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
-import type {ESLToggleableActionParams, ESLToggleableRequestDetails} from '../../esl-toggleable/core';
+import type {
+  ESLToggleableActionParams,
+  ESLToggleableRequestDetails
+} from '../../esl-toggleable/core';
 
 export interface AlertActionParams extends ESLToggleableRequestDetails {
   /** text to be shown; passes empty string or null to hide */
@@ -69,12 +72,18 @@ export class ESLAlert extends ESLToggleable {
     return alert;
   }
 
-  protected override mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
+  protected override mergeDefaultParams(
+    params?: ESLToggleableActionParams
+  ): ESLToggleableActionParams {
     const type = this.constructor as typeof ESLAlert;
     return Object.assign({}, type.defaultConfig, this.defaultParams || {}, params || {});
   }
 
-  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(
+    attrName: string,
+    oldVal: string,
+    newVal: string
+  ): void {
     if (!this.connected) return;
     if (attrName === 'target') {
       this.$target = ESLTraversingQuery.first(this.target) as EventTarget;
@@ -119,7 +128,7 @@ export class ESLAlert extends ESLToggleable {
 
   protected render({text, html, cls}: AlertActionParams): void {
     CSSClassUtils.remove(this, this.activeCls);
-    CSSClassUtils.add(this, this.activeCls = cls);
+    CSSClassUtils.add(this, (this.activeCls = cls));
     if (html) this.$content.innerHTML = html;
     if (text) this.$content.textContent = text;
   }
@@ -128,11 +137,17 @@ export class ESLAlert extends ESLToggleable {
     CSSClassUtils.remove(this, this.activeCls);
   }
 
-  protected override buildRequestParams(e: CustomEvent<ESLToggleableRequestDetails>): AlertActionParams | null {
+  protected override buildRequestParams(
+    e: CustomEvent<ESLToggleableRequestDetails>
+  ): AlertActionParams | null {
     const detail = e.detail || {};
     if (!isMatches(this, detail.match)) return null;
-    if (e.type === this.SHOW_REQUEST_EVENT) return Object.assign({}, detail, {force: true});
-    if (e.type === this.HIDE_REQUEST_EVENT) return Object.assign({hideDelay: 0}, detail, {force: true});
+    if (e.type === this.SHOW_REQUEST_EVENT) {
+      return Object.assign({}, detail, {force: true});
+    }
+    if (e.type === this.HIDE_REQUEST_EVENT) {
+      return Object.assign({hideDelay: 0}, detail, {force: true});
+    }
     return null;
   }
 

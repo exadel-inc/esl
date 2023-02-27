@@ -5,12 +5,13 @@ import type {ESLTrigger} from './esl-trigger';
  * Tag declaration interface of {@link ESLTrigger} element
  * Used for TSX declaration
  */
-export interface ESLTriggerTagShape<T extends ESLTrigger = ESLTrigger> extends ESLBaseElementShape<T> {
+export interface ESLTriggerTagShape<T extends ESLTrigger = ESLTrigger>
+  extends ESLBaseElementShape<T> {
   /** Define target Toggleable {@link ESLTraversingQuery} selector. `next` by default */
-  'target'?: string;
+  target?: string;
 
   /** Define an action to pass to the Toggleable */
-  'mode'?: 'show' | 'hide' | 'toggle';
+  mode?: 'show' | 'hide' | 'toggle';
 
   /** Define CSS classes to set on active state */
   'active-class'?: string;
@@ -18,7 +19,7 @@ export interface ESLTriggerTagShape<T extends ESLTrigger = ESLTrigger> extends E
   'active-class-target'?: string;
 
   /** Define selector for ignored inner elements */
-  'ignore'?: string;
+  ignore?: string;
 
   /** Define click event tracking media query */
   'track-click'?: boolean | string;

@@ -77,7 +77,11 @@ export abstract class CSSClassUtils {
    * Add all classes from the class token string to the element.
    * @see CSSClassUtils
    * */
-  public static add(els: Element | Element[], cls: string | null | undefined, locker?: Element): void {
+  public static add(
+    els: Element | Element[],
+    cls: string | null | undefined,
+    locker?: Element
+  ): void {
     const tokens = CSSClassUtils.splitTokens(cls);
     wrap(els).forEach((el) => tokens.forEach((className) => add(el, className, locker)));
   }
@@ -86,16 +90,27 @@ export abstract class CSSClassUtils {
    * Remove all classes from the class token string to the element.
    * @see CSSClassUtils
    * */
-  public static remove(els: Element | Element[], cls: string | null | undefined, locker?: Element): void {
+  public static remove(
+    els: Element | Element[],
+    cls: string | null | undefined,
+    locker?: Element
+  ): void {
     const tokens = CSSClassUtils.splitTokens(cls);
-    wrap(els).forEach((el) => tokens.forEach((className) => remove(el, className, locker)));
+    wrap(els).forEach((el) =>
+      tokens.forEach((className) => remove(el, className, locker))
+    );
   }
 
   /**
    * Toggle all classes from the class token string on the element to the passed state.
    * @see CSSClassUtils
    * */
-  public static toggle(els: Element | Element[], cls: string | null | undefined, state: boolean, locker?: Element): void {
+  public static toggle(
+    els: Element | Element[],
+    cls: string | null | undefined,
+    state: boolean,
+    locker?: Element
+  ): void {
     (state ? CSSClassUtils.add : CSSClassUtils.remove)(els, cls, locker);
   }
 

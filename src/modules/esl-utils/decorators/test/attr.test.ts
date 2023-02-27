@@ -3,7 +3,6 @@ import {attr} from '../attr';
 import {parseBoolean} from '../../misc/format';
 
 describe('Decorator: attr', () => {
-
   class TestElement extends HTMLElement {
     @attr()
     public fieldDefault: string | boolean;
@@ -87,7 +86,9 @@ describe('Decorator: attr', () => {
 
   test('Decorator: attr - readonly attr', () => {
     expect(el.readonlyField).toBe('');
-    expect(() => {el.readonlyField = '';}).toThrowError();
+    expect(() => {
+      el.readonlyField = '';
+    }).toThrowError();
     expect(el.readonlyField).toBe('');
     expect(el.hasAttribute('readonly-field')).toBeFalsy();
     el.setAttribute('readonly-field', '1');
@@ -118,7 +119,6 @@ describe('Decorator: attr', () => {
     el.attrNumber = null as any;
     expect(el.attrNumber).toBe(NaN);
   });
-
 
   test('Decorator: attr - boolean parser', () => {
     expect(el.attrBoolean).toBe(false);

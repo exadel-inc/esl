@@ -14,7 +14,9 @@ describe('sanitize', () => {
   });
 
   test('should clean dangerous script inside another elements', () => {
-    const html = sanitize('<div><div><script>alert(document.cookie)</script></div></div>');
+    const html = sanitize(
+      '<div><div><script>alert(document.cookie)</script></div></div>'
+    );
     expect(html).toBe('<div><div></div></div>');
   });
 
@@ -31,18 +33,24 @@ describe('sanitize', () => {
   });
 
   test('should clean dangerous src attribute with data-uri text/html content', () => {
-    const html = sanitize('<iframe src="data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K"></iframe>');
+    const html = sanitize(
+      '<iframe src="data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K"></iframe>'
+    );
     expect(html).toBe('<iframe></iframe>');
   });
 
   test('should clean dangerous data attribute with data-uri text/html content', () => {
-    const html = sanitize('<object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K"></object>');
+    const html = sanitize(
+      '<object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K"></object>'
+    );
     expect(html).toBe('<object></object>');
   });
 
   test('should clean dangerous xlink:href attributes with data-uri text/html content', () => {
     const markup = '<rect width="100" height="100"></rect>';
-    const html = sanitize(`<a xlink:href="data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K">${markup}</a>`);
+    const html = sanitize(
+      `<a xlink:href="data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K">${markup}</a>`
+    );
     expect(html).toBe(`<a>${markup}</a>`);
   });
 

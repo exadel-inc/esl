@@ -16,13 +16,17 @@ const createAsyncScript = (id: string, src: string): HTMLScriptElement => {
  */
 export function loadScript(id: string, src: string): Promise<Event> {
   return new Promise((resolve, reject) => {
-    const script: HTMLScriptElement =
-      (document.getElementById(id) || createAsyncScript(id, src)) as HTMLScriptElement;
+    const script: HTMLScriptElement = (document.getElementById(id) ||
+      createAsyncScript(id, src)) as HTMLScriptElement;
     const state = script.getAttribute('state');
 
     switch (state) {
-      case 'success': resolve(new Event('load')); break;
-      case 'error': reject(new Event('error')); break;
+      case 'success':
+        resolve(new Event('load'));
+        break;
+      case 'error':
+        reject(new Event('error'));
+        break;
       default:
         script.addEventListener('load', (e: Event) => {
           script.setAttribute('state', 'success');

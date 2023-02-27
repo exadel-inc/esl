@@ -44,7 +44,7 @@ describe('Function getScrollParent', () => {
   const target = document.createElement('div');
 
   describe('Element doesn`t have scrollable parent(s)', () => {
-    beforeAll(() => target.style.overflow = '');
+    beforeAll(() => (target.style.overflow = ''));
 
     test('scroll parent shouldn`t be found for specified element', () => {
       expect(getScrollParent(target)).toEqual($body);
@@ -68,7 +68,7 @@ describe('Function getScrollParent', () => {
     target.appendChild(firstLevelChild);
     firstLevelChild.appendChild(secondLevelChild);
 
-    beforeAll(() => target.style.overflow = 'auto');
+    beforeAll(() => (target.style.overflow = 'auto'));
 
     test('target element should be scrollable', () => {
       expect(getScrollParent(target)).toEqual(target);
@@ -118,6 +118,10 @@ describe('Function getListScrollParents', () => {
     target.appendChild(firstLevelChild);
     firstLevelChild.appendChild(secondLevelChild);
 
-    expect(getListScrollParents(thirdLevelChild)).toEqual([thirdLevelChild, firstLevelChild, $body]);
+    expect(getListScrollParents(thirdLevelChild)).toEqual([
+      thirdLevelChild,
+      firstLevelChild,
+      $body
+    ]);
   });
 });

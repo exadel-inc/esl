@@ -10,7 +10,10 @@ import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {ESLMediaQuery} from '../../esl-media-query/core';
 import {ESLToggleablePlaceholder} from '../../esl-toggleable/core';
 
-import type {ESLToggleable, ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
+import type {
+  ESLToggleable,
+  ESLToggleableActionParams
+} from '../../esl-toggleable/core/esl-toggleable';
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
@@ -135,33 +138,48 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   /** Merge params to pass to the toggleable */
-  protected mergeToggleableParams(this: ESLTrigger, ...params: ESLToggleableActionParams[]): ESLToggleableActionParams {
-    return Object.assign({
-      initiator: 'trigger',
-      activator: this
-    }, ...params);
+  protected mergeToggleableParams(
+    this: ESLTrigger,
+    ...params: ESLToggleableActionParams[]
+  ): ESLToggleableActionParams {
+    return Object.assign(
+      {
+        initiator: 'trigger',
+        activator: this
+      },
+      ...params
+    );
   }
 
   /** Show target toggleable with passed params */
   public showTarget(params: ESLToggleableActionParams = {}): void {
-    const actionParams = this.mergeToggleableParams({
-      delay: parseNumber(this.showDelay)
-    }, params);
+    const actionParams = this.mergeToggleableParams(
+      {
+        delay: parseNumber(this.showDelay)
+      },
+      params
+    );
     if (this.$target && typeof this.$target.show === 'function') {
       this.$target.show(actionParams);
     }
   }
   /** Hide target toggleable with passed params */
   public hideTarget(params: ESLToggleableActionParams = {}): void {
-    const actionParams = this.mergeToggleableParams({
-      delay: parseNumber(this.hideDelay)
-    }, params);
+    const actionParams = this.mergeToggleableParams(
+      {
+        delay: parseNumber(this.hideDelay)
+      },
+      params
+    );
     if (this.$target && typeof this.$target.hide === 'function') {
       this.$target.hide(actionParams);
     }
   }
   /** Toggles target toggleable with passed params */
-  public toggleTarget(params: ESLToggleableActionParams = {}, state: boolean = !this.active): void {
+  public toggleTarget(
+    params: ESLToggleableActionParams = {},
+    state: boolean = !this.active
+  ): void {
     state ? this.showTarget(params) : this.hideTarget(params);
   }
 
@@ -174,7 +192,10 @@ export class ESLTrigger extends ESLBaseElement {
     const wasActive = this.active;
 
     this.toggleAttribute('active', isActive);
-    const clsTarget = ESLTraversingQuery.first(this.activeClassTarget, this) as HTMLElement;
+    const clsTarget = ESLTraversingQuery.first(
+      this.activeClassTarget,
+      this
+    ) as HTMLElement;
     clsTarget && CSSClassUtils.toggle(clsTarget, this.activeClass, isActive);
 
     this.updateA11y();
@@ -204,7 +225,9 @@ export class ESLTrigger extends ESLBaseElement {
   /** Handles `keydown` event */
   @listen('keydown')
   protected _onKeydown(event: KeyboardEvent): void {
-    if (![ENTER, SPACE, ESC].includes(event.key) || this.isTargetIgnored(event.target)) return;
+    if (![ENTER, SPACE, ESC].includes(event.key) || this.isTargetIgnored(event.target)) {
+      return;
+    }
     event.preventDefault();
     if (event.key === ESC) {
       if (this.ignoreEsc) return;

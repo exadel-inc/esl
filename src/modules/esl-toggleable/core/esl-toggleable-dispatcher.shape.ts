@@ -5,7 +5,8 @@ import type {ESLToggleableDispatcher} from './esl-toggleable-dispatcher';
  * Tag declaration interface of {@link ESLToggleableDispatcher} element
  * Used for TSX declaration
  */
-export interface ESLToggleableDispatcherTagShape extends ESLBaseElementShape<ESLToggleableDispatcher> {
+export interface ESLToggleableDispatcherTagShape
+  extends ESLBaseElementShape<ESLToggleableDispatcher> {
   /** Children are not allowed for ESLToggleableDispatcher */
   children?: never[];
 }

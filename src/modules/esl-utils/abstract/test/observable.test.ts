@@ -28,10 +28,14 @@ describe('abstract/observable test', () => {
 
   test('safe check', () => {
     let logError = false;
-    jest.spyOn(console, 'error').mockImplementation(() => { logError = true; });
+    jest.spyOn(console, 'error').mockImplementation(() => {
+      logError = true;
+    });
 
     let logListener = false;
-    const listener = () => { logListener = true; };
+    const listener = () => {
+      logListener = true;
+    };
     const errorListener = () => {
       throw new Error('problem');
     };

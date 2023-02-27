@@ -6,9 +6,16 @@ describe('misc/array helper tests', () => {
     expect(tuple([1])).toEqual([[1]]);
     expect(tuple([1, 2])).toEqual([[1, 2]]);
     expect(tuple([1, 2, 3])).toEqual([[1, 2], [3]]);
-    expect(tuple([1, 2, 3, 4])).toEqual([[1, 2], [3, 4]]);
+    expect(tuple([1, 2, 3, 4])).toEqual([
+      [1, 2],
+      [3, 4]
+    ]);
     expect(tuple([1, 2, 3, 4, 5])).toEqual([[1, 2], [3, 4], [5]]);
-    expect(tuple([1, 2, 3, 4, 5, 6])).toEqual([[1, 2], [3, 4], [5, 6]]);
+    expect(tuple([1, 2, 3, 4, 5, 6])).toEqual([
+      [1, 2],
+      [3, 4],
+      [5, 6]
+    ]);
   });
 
   test('flat', () => {
@@ -16,7 +23,12 @@ describe('misc/array helper tests', () => {
     expect(flat([1])).toEqual([1]);
     expect(flat([1, 2])).toEqual([1, 2]);
     expect(flat([1, [2, 3]])).toEqual([1, 2, 3]);
-    expect(flat([[1, 2], [3, 4]])).toEqual([1, 2, 3, 4]);
+    expect(
+      flat([
+        [1, 2],
+        [3, 4]
+      ])
+    ).toEqual([1, 2, 3, 4]);
     expect(flat([[1], [2, 3, 4], [], [5]])).toEqual([1, 2, 3, 4, 5]);
     expect(flat([null, 1, 2, 3, [4, 5], null, [6]])).toEqual([1, 2, 3, 4, 5, 6]);
   });
@@ -52,31 +64,36 @@ describe('misc/array helper tests', () => {
     document.body.innerHTML = '<div>1</div><div>2</div>';
 
     test('NodeList to unwrap into first Node', () => {
-      expect(unwrap(document.querySelectorAll('div'))).toEqual(document.querySelector('div'));
+      expect(unwrap(document.querySelectorAll('div'))).toEqual(
+        document.querySelector('div')
+      );
     });
 
     test.each([
       [[1], 1],
       [[1, 2], 1],
-      [[[1, 2], 3], [1, 2]],
-      [[{a: 2}, {a: 2, b:3}, {a: 2, b:3}], {a: 2}]
+      [
+        [[1, 2], 3],
+        [1, 2]
+      ],
+      [[{a: 2}, {a: 2, b: 3}, {a: 2, b: 3}], {a: 2}]
     ])('array %p to unwrap into %o', (a: any, expected: any) => {
       expect(unwrap(a)).toEqual(expected);
     });
 
     test.each([
       [1, 1],
-      [{a: 1, b: 2}, {a: 1, b: 2}],
+      [
+        {a: 1, b: 2},
+        {a: 1, b: 2}
+      ],
       [{0: 1, 1: 2, length: 2}, 1],
       [{length: 2}, {length: 2}]
     ])('non-array value %p to unwrap into %o', (a: any, expected: any) => {
       expect(unwrap(a)).toEqual(expected);
     });
 
-    test.each([
-      [undefined],
-      [[]]
-    ])('value %p to unwrap into undefined', (a: any) => {
+    test.each([[undefined], [[]]])('value %p to unwrap into undefined', (a: any) => {
       expect(unwrap(a)).toEqual(undefined);
     });
 
@@ -89,7 +106,7 @@ describe('misc/array helper tests', () => {
     test.each([
       [
         [1, 2, 10, 4, 3],
-        (i: number) => i % 2 > 0 ? 'odd' : 'even',
+        (i: number) => (i % 2 > 0 ? 'odd' : 'even'),
         {odd: [1, 3], even: [2, 10, 4]}
       ],
       [
@@ -99,12 +116,12 @@ describe('misc/array helper tests', () => {
       ],
       [
         ['Fog', 'Tea', 'ocean', 'rain'],
-        (i: string) => i[0] === i[0].toUpperCase() ? 'uppercase' : 'lowercase',
+        (i: string) => (i[0] === i[0].toUpperCase() ? 'uppercase' : 'lowercase'),
         {uppercase: ['Fog', 'Tea'], lowercase: ['ocean', 'rain']}
       ],
       [
         [{a: 2, b: 1}, {b: 2}, {a: 1}, {}],
-        (i: Record<string, number>) => i['a'] ? i['a'] : 'undefined',
+        (i: Record<string, number>) => (i['a'] ? i['a'] : 'undefined'),
         {2: [{a: 2, b: 1}], undefined: [{b: 2}, {}], 1: [{a: 1}]}
       ],
       [
@@ -112,18 +129,27 @@ describe('misc/array helper tests', () => {
         (i: number) => String(i)[0],
         {'1': [100, 10, 101], '2': [20], '3': [300]}
       ],
+      [[], (i: any) => i, {}],
       [
-        [],
-        (i: any) => i,
-        {}
-      ],
-      [
-        [[5, 2], [1, 0], [5, 4]],
+        [
+          [5, 2],
+          [1, 0],
+          [5, 4]
+        ],
         (i: number[]) => i[0],
-        {5: [[5, 2], [5, 4]], 1: [[1, 0]]}
+        {
+          5: [
+            [5, 2],
+            [5, 4]
+          ],
+          1: [[1, 0]]
+        }
       ]
-    ])('array %p with criteria %p to transform into %o', (a: any[], b: (t: any) => V, expected: Record<V, any>) => {
-      expect(groupBy(a, b)).toEqual(expected);
-    });
+    ])(
+      'array %p with criteria %p to transform into %o',
+      (a: any[], b: (t: any) => V, expected: Record<V, any>) => {
+        expect(groupBy(a, b)).toEqual(expected);
+      }
+    );
   });
 });

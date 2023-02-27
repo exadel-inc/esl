@@ -3,7 +3,14 @@ import {defined} from '../../esl-utils/misc/object/utils';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {debounce} from '../../esl-utils/async/debounce';
-import {decorate, memoize, attr, jsonAttr, prop, listen} from '../../esl-utils/decorators';
+import {
+  decorate,
+  memoize,
+  attr,
+  jsonAttr,
+  prop,
+  listen
+} from '../../esl-utils/decorators';
 import {format} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaQuery, ESLMediaRuleList} from '../../esl-media-query/core';
@@ -13,7 +20,8 @@ import {ESLPanel} from '../../esl-panel/core';
 import type {PanelActionParams} from '../../esl-panel/core';
 
 /** Converts special 'all' value to positive infinity */
-const parseCount = (value: string): number => value === 'all' ? Number.POSITIVE_INFINITY : parseInt(value, 10);
+const parseCount = (value: string): number =>
+  value === 'all' ? Number.POSITIVE_INFINITY : parseInt(value, 10);
 
 /**
  * ESLPanelGroup component
@@ -25,7 +33,12 @@ const parseCount = (value: string): number => value === 'all' ? Number.POSITIVE_
 export class ESLPanelGroup extends ESLBaseElement {
   public static override is = 'esl-panel-group';
 
-  public static observedAttributes = ['mode', 'refresh-strategy', 'min-open-items', 'max-open-items'];
+  public static observedAttributes = [
+    'mode',
+    'refresh-strategy',
+    'min-open-items',
+    'max-open-items'
+  ];
   /** List of supported modes */
   public static supportedModes = ['accordion', 'tabs'];
 
@@ -69,7 +82,6 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Action params to pass into panels when executing reset action (happens when mode is changed) */
   @jsonAttr({defaultValue: {noAnimate: true}}) public transformParams: PanelActionParams;
 
-
   /** Height of previous active panel */
   protected _previousHeight: number = 0;
 
@@ -80,9 +92,17 @@ export class ESLPanelGroup extends ESLBaseElement {
     });
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected attributeChangedCallback(
+    attrName: string,
+    oldVal: string,
+    newVal: string
+  ): void {
     if (!this.connected || oldVal === newVal) return;
-    if (attrName === 'mode' || attrName === 'min-open-items' || attrName === 'max-open-items') {
+    if (
+      attrName === 'mode' ||
+      attrName === 'min-open-items' ||
+      attrName === 'max-open-items'
+    ) {
       this.$$off(this._onConfigChange);
       memoize.clear(this, 'modeRules');
       memoize.clear(this, 'minValueRules');
@@ -104,7 +124,9 @@ export class ESLPanelGroup extends ESLBaseElement {
     this.updateModeCls();
     this.reset();
 
-    if (prevMode !== currentMode) this.$$fire(this.MODE_CHANGE_EVENT, {detail: {prevMode, currentMode}});
+    if (prevMode !== currentMode) {
+      this.$$fire(this.MODE_CHANGE_EVENT, {detail: {prevMode, currentMode}});
+    }
   }
 
   /** Updates mode class marker */
@@ -183,10 +205,14 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** @returns panels that requested to be opened on refresh */
   public get $resetStatePanels(): ESLPanel[] {
     switch (this.refreshRules.activeValue) {
-      case 'close': return [];
-      case 'open': return this.$panels;
-      case 'initial': return this.$initialPanels;
-      default: return this.$activePanels;
+      case 'close':
+        return [];
+      case 'open':
+        return this.$panels;
+      case 'initial':
+        return this.$initialPanels;
+      default:
+        return this.$activePanels;
     }
   }
 
@@ -199,7 +225,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   public get panelConfig(): PanelActionParams {
     return {
       capturedBy: this.currentMode === 'tabs' ? this : undefined,
-      noAnimate: !this.shouldAnimate || (this.currentMode === 'tabs')
+      noAnimate: !this.shouldAnimate || this.currentMode === 'tabs'
     };
   }
 
@@ -216,11 +242,15 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Shows all panels besides excluded ones */
   public showAll(excluded: ESLPanel[] = [], params: PanelActionParams = {}): void {
-    this.$panels.forEach((el) => !excluded.includes(el) && el.show(this.mergeActionParams(params)));
+    this.$panels.forEach(
+      (el) => !excluded.includes(el) && el.show(this.mergeActionParams(params))
+    );
   }
   /** Hides all active panels besides excluded ones */
   public hideAll(excluded: ESLPanel[] = [], params: PanelActionParams = {}): void {
-    this.$activePanels.forEach((el) => !excluded.includes(el) && el.hide(this.mergeActionParams(params)));
+    this.$activePanels.forEach(
+      (el) => !excluded.includes(el) && el.hide(this.mergeActionParams(params))
+    );
   }
 
   /** Resets to default state applicable to the current panel group configuration */
@@ -228,9 +258,14 @@ export class ESLPanelGroup extends ESLBaseElement {
     // $activePanels - collection of items to open (ideally; without normalization)
     const $activePanels = this.$resetStatePanels;
     // $orderedPanels = $activePanels U ($panels / $activePanels) - the list of ordered panels
-    const $orderedPanels = $activePanels.concat(this.$panels.filter((item) => !$activePanels.includes(item)));
+    const $orderedPanels = $activePanels.concat(
+      this.$panels.filter((item) => !$activePanels.includes(item))
+    );
     // we use current open active panels count but normalized in range of minmax
-    const activeCount = Math.min(this.currentMaxItems, Math.max($activePanels.length, this.currentMinItems));
+    const activeCount = Math.min(
+      this.currentMaxItems,
+      Math.max($activePanels.length, this.currentMinItems)
+    );
 
     const params = this.mergeActionParams(this.transformParams);
     $orderedPanels.forEach((panel, index) => panel.toggle(index < activeCount, params));
@@ -344,7 +379,11 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Handles configuration change */
   @listen({
     event: 'change',
-    target: (group: ESLPanelGroup) => [group.modeRules, group.minValueRules, group.maxValueRules]
+    target: (group: ESLPanelGroup) => [
+      group.modeRules,
+      group.minValueRules,
+      group.maxValueRules
+    ]
   })
   @decorate(debounce, 0)
   protected _onConfigChange(): void {

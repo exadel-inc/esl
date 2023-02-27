@@ -8,7 +8,9 @@ describe('ESLMixinElement: listeners', () => {
       static override is = 'test-listen-mixin';
 
       @listen('click')
-      public onClick(...args: any[]) { mockHandler(this, ...args); }
+      public onClick(...args: any[]) {
+        mockHandler(this, ...args);
+      }
     }
     TestElement.register();
 

@@ -1,6 +1,9 @@
 import {BaseProvider, PlayerStates} from '../../core/esl-media-provider';
 
-import type {MediaProviderConfig, ProviderObservedParams} from '../../core/esl-media-provider';
+import type {
+  MediaProviderConfig,
+  ProviderObservedParams
+} from '../../core/esl-media-provider';
 
 /**
  * Simple Native Media API provider for {@link ESLMedia}
@@ -18,10 +21,13 @@ export abstract class HTMLMediaProvider extends BaseProvider {
 
   protected override _el: HTMLMediaElement;
 
-  protected static applyElementSettings(el: HTMLMediaElement, cfg: MediaProviderConfig): HTMLMediaElement {
+  protected static applyElementSettings(
+    el: HTMLMediaElement,
+    cfg: MediaProviderConfig
+  ): HTMLMediaElement {
     el.classList.add('esl-media-inner');
     el.autoplay = cfg.autoplay;
-    el.preload = cfg.preload || 'auto' ;
+    el.preload = cfg.preload || 'auto';
     el.loop = cfg.loop;
     el.muted = cfg.muted;
     el.controls = cfg.controls;

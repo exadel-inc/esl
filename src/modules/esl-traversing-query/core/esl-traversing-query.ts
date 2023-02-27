@@ -1,7 +1,14 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {tuple, wrap, uniq} from '../../esl-utils/misc/array';
 import {unwrapParenthesis} from '../../esl-utils/misc/format';
-import {findAll, findChildren, findNext, findParent, findClosest, findPrev} from '../../esl-utils/dom/traversing';
+import {
+  findAll,
+  findChildren,
+  findNext,
+  findParent,
+  findClosest,
+  findPrev
+} from '../../esl-utils/dom/traversing';
 import {isVisible} from '../../esl-utils/dom/visible';
 
 type ProcessorDescriptor = [string?, string?];
@@ -52,9 +59,12 @@ export class ESLTraversingQuery {
       const index = sel ? +sel : NaN;
       return wrap(list[index - 1]);
     },
-    '::not': (list: Element[], sel?: string) => list.filter((el) => !el.matches(sel || '')),
-    '::visible': (list: Element[]) => list.filter((el) => (el instanceof HTMLElement) && isVisible(el)),
-    '::filter': (list: Element[], sel?: string) => list.filter((el) => el.matches(sel || ''))
+    '::not': (list: Element[], sel?: string) =>
+      list.filter((el) => !el.matches(sel || '')),
+    '::visible': (list: Element[]) =>
+      list.filter((el) => el instanceof HTMLElement && isVisible(el)),
+    '::filter': (list: Element[], sel?: string) =>
+      list.filter((el) => el.matches(sel || ''))
   };
 
   /**
@@ -62,25 +72,37 @@ export class ESLTraversingQuery {
    * e.g. /(::parent|::closest|::child|::next|::prev)/
    */
   private static get PROCESSORS_REGEX(): RegExp {
-    const keys = Object.keys(this.ELEMENT_PROCESSORS).concat(Object.keys(this.COLLECTION_PROCESSORS));
+    const keys = Object.keys(this.ELEMENT_PROCESSORS).concat(
+      Object.keys(this.COLLECTION_PROCESSORS)
+    );
     return new RegExp(`(${keys.join('|')})`, 'g');
   }
 
   private static isCollectionProcessor([name]: ProcessorDescriptor): boolean {
-    return !!name && (name in this.COLLECTION_PROCESSORS);
+    return !!name && name in this.COLLECTION_PROCESSORS;
   }
-  private static processElement(el: Element, [name, selString]: ProcessorDescriptor): Element[] {
+  private static processElement(
+    el: Element,
+    [name, selString]: ProcessorDescriptor
+  ): Element[] {
     const sel = unwrapParenthesis(selString || '');
     if (!name || !(name in this.ELEMENT_PROCESSORS)) return [];
     return wrap(this.ELEMENT_PROCESSORS[name](el, sel));
   }
-  private static processCollection(els: Element[], [name, selString]: ProcessorDescriptor): Element[] {
+  private static processCollection(
+    els: Element[],
+    [name, selString]: ProcessorDescriptor
+  ): Element[] {
     const sel = unwrapParenthesis(selString || '');
     if (!name || !(name in this.COLLECTION_PROCESSORS)) return [];
     return wrap(this.COLLECTION_PROCESSORS[name](els, sel));
   }
 
-  private static traverseChain(collection: Element[], processors: ProcessorDescriptor[], findFirst: boolean): Element[] {
+  private static traverseChain(
+    collection: Element[],
+    processors: ProcessorDescriptor[],
+    findFirst: boolean
+  ): Element[] {
     if (!processors.length || !collection.length) return collection;
     const [processor, ...rest] = processors;
     if (this.isCollectionProcessor(processor)) {
@@ -90,7 +112,11 @@ export class ESLTraversingQuery {
     const result: Element[] = [];
     for (const target of collection) {
       const processedItem = this.processElement(target, processor);
-      const resultCollection: Element[] = this.traverseChain(processedItem, rest, findFirst);
+      const resultCollection: Element[] = this.traverseChain(
+        processedItem,
+        rest,
+        findFirst
+      );
       if (!resultCollection.length) continue;
       if (findFirst) return resultCollection.slice(0, 1);
       result.push(...resultCollection);
@@ -116,7 +142,12 @@ export class ESLTraversingQuery {
     return result;
   }
 
-  protected static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
+  protected static traverse(
+    query: string,
+    findFirst: boolean,
+    base?: Element | null,
+    scope: Element | Document = document
+  ): Element[] {
     const found: Element[] = [];
     for (const part of ESLTraversingQuery.splitQueries(query)) {
       const els = this.traverseQuery(part, findFirst, base, scope);
@@ -126,20 +157,35 @@ export class ESLTraversingQuery {
     return uniq(found);
   }
 
-  protected static traverseQuery(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
+  protected static traverseQuery(
+    query: string,
+    findFirst: boolean,
+    base?: Element | null,
+    scope: Element | Document = document
+  ): Element[] {
     const parts = query.split(this.PROCESSORS_REGEX).map((term) => term.trim());
     const rootSel = parts.shift();
     const baseCollection = base ? [base] : [];
-    const initial: Element[] = rootSel ? Array.from(scope.querySelectorAll(rootSel)) : baseCollection;
+    const initial: Element[] = rootSel
+      ? Array.from(scope.querySelectorAll(rootSel))
+      : baseCollection;
     return this.traverseChain(initial, tuple(parts), findFirst);
   }
 
   /** @returns first matching element reached via {@link ESLTraversingQuery} rules */
-  static first(query: string, base?: Element | null, scope?: Element | Document): Element | null {
+  static first(
+    query: string,
+    base?: Element | null,
+    scope?: Element | Document
+  ): Element | null {
     return ESLTraversingQuery.traverse(query, true, base, scope)[0] || null;
   }
   /** @returns Array of all matching elements reached via {@link ESLTraversingQuery} rules */
-  static all(query: string, base?: Element | null, scope?: Element | Document): Element[] {
+  static all(
+    query: string,
+    base?: Element | null,
+    scope?: Element | Document
+  ): Element[] {
     return ESLTraversingQuery.traverse(query, false, base, scope);
   }
 }

@@ -67,13 +67,13 @@
     "test:ci": "jest --coverage --silent --noStackTrace",
     "test:unit": "jest --silent --noStackTrace",
     "test:report": "jest --coverage",
-    "lint": "concurrently \"npm run lint:js\" \"npm run lint:css\" \"npm run lint:spaces\" && node build/catlog.js \"Linting passed\"",
+    "lint": "concurrently \"npm run lint:js\" \"npm run lint:css\"  && node build/catlog.js \"Linting passed\"",
     "lint:js": "eslint \"src/**/*.ts\" \"pages/src/**/*.ts\" --max-warnings 3",
     "lint:css": "stylelint \"src/**/*.less\" \"pages/src/**/*.less\"",
-    "lint:spaces": "lintspaces \"./pages/{src,views,controller}/**/*.{html,less,json}\" \"./src/**/*.{less}\" -n -t -d spaces",
     "prepare": "husky install && npm run build",
     "preversion": "npm test",
-    "prettier": "prettier --write \"pages/views/examples/*.njk\" \"src/**/*.ts\""
+    "prettier": "prettier --write \"pages/views/examples/*.njk\" \"src/**/*.ts\"",
+    "stylelint-check": "stylelint-config-prettier-check"
   },
   "engines": {
     "node": ">=14.17.0"
@@ -132,6 +132,7 @@
     "semantic-release": "^20.1.0",
     "smoothscroll-polyfill": "^0.4.4",
     "stylelint": "^15.2.0",
+    "stylelint-config-prettier": "^9.0.5",
     "ts-jest": "^29.0.5",
     "ts-loader": "^9.4.2",
     "typescript": "4.9.5",

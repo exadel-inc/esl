@@ -23,13 +23,17 @@ export interface Debounced<F extends AnyToAnyFnSignature> {
  * @param thisArg - optional context to call original function, use debounced method call context if not defined
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function debounce<F extends AnyToAnyFnSignature>(fn: F, wait = 10, thisArg?: object): Debounced<F> {
+export function debounce<F extends AnyToAnyFnSignature>(
+  fn: F,
+  wait = 10,
+  thisArg?: object
+): Debounced<F> {
   let timeout: number | null = null;
   let deferred: Deferred<ReturnType<F>> | null = null;
 
   function debouncedSubject(...args: any[]): void {
     deferred = deferred || createDeferred();
-    (typeof timeout === 'number') && clearTimeout(timeout);
+    typeof timeout === 'number' && clearTimeout(timeout);
     timeout = window.setTimeout(() => {
       timeout = null;
       // fn.apply to save call context
@@ -38,14 +42,14 @@ export function debounce<F extends AnyToAnyFnSignature>(fn: F, wait = 10, thisAr
     }, wait);
   }
   function cancel(): void {
-    (typeof timeout === 'number') && clearTimeout(timeout);
+    typeof timeout === 'number' && clearTimeout(timeout);
     timeout = null;
     deferred?.reject();
     deferred = null;
   }
 
   Object.defineProperty(debouncedSubject, 'promise', {
-    get: () => deferred ? deferred.promise : Promise.resolve()
+    get: () => (deferred ? deferred.promise : Promise.resolve())
   });
   Object.defineProperty(debouncedSubject, 'cancel', {
     writable: false,

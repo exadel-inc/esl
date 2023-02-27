@@ -10,4 +10,10 @@ export * as FunctionUtils from './misc/functions';
 export {sequentialUID, randUID} from './misc/uid';
 export {range, tuple, wrap, uniq} from './misc/array';
 export {isEqual, deepMerge, defined, copyDefinedKeys} from './misc/object';
-export {evaluate, format, parseNumber, unwrapParenthesis, parseAspectRatio} from './misc/format';
+export {
+  evaluate,
+  format,
+  parseNumber,
+  unwrapParenthesis,
+  parseAspectRatio
+} from './misc/format';

@@ -46,7 +46,11 @@ export class ESLSelectList extends ESLSelectWrapper {
     this.$selectAll.classList.add('esl-select-all-item');
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected attributeChangedCallback(
+    attrName: string,
+    oldVal: string,
+    newVal: string
+  ): void {
     if (!this.connected || newVal === oldVal) return;
     if (attrName === 'select-all-label') {
       this.$selectAll.textContent = newVal;
@@ -115,7 +119,10 @@ export class ESLSelectList extends ESLSelectWrapper {
   }
 
   @bind
-  protected override _onTargetChange(newTarget: HTMLSelectElement | undefined, oldTarget: HTMLSelectElement | undefined): void {
+  protected override _onTargetChange(
+    newTarget: HTMLSelectElement | undefined,
+    oldTarget: HTMLSelectElement | undefined
+  ): void {
     super._onTargetChange(newTarget, oldTarget);
     this._updateSelectAll();
     this._renderItems();

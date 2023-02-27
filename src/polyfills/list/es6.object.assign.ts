@@ -4,7 +4,9 @@
  * Object.assign polyfill
  */
 function toObject(value: any): any {
-  if (value === undefined || value === null) throw new TypeError('Cannot convert undefined or null to object');
+  if (value === undefined || value === null) {
+    throw new TypeError('Cannot convert undefined or null to object');
+  }
   if (typeof value === 'boolean') return new Boolean(value);
   if (typeof value === 'number') return new Number(value);
   if (typeof value === 'string') return new String(value);

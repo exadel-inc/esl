@@ -9,6 +9,4 @@ export type {
   ESLListenerTarget,
   ESLListenerDefinition
 } from './core/types';
-export type {
-  ESLEventListener,
-} from './core/listener';
+export type {ESLEventListener} from './core/listener';

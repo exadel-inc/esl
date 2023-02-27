@@ -10,7 +10,9 @@ import type {IMediaQueryCondition} from './media-query-base';
  *
  * Observe all child items. Dispatch changes when the whole condition result is changed
  */
-abstract class MediaQueryContainer extends SyntheticEventTarget implements IMediaQueryCondition {
+abstract class MediaQueryContainer
+  extends SyntheticEventTarget
+  implements IMediaQueryCondition {
   protected _matches: boolean;
 
   constructor(protected readonly items: IMediaQueryCondition[] = []) {
@@ -45,8 +47,8 @@ abstract class MediaQueryContainer extends SyntheticEventTarget implements IMedi
   /** Handles query change and dispatches it on top level in case result value is changed */
   protected _onChange(): void {
     const {matches} = this;
-    if (this._matches ===  matches) return;
-    this.dispatchEvent(new ESLMediaChangeEvent(this._matches = matches));
+    if (this._matches === matches) return;
+    this.dispatchEvent(new ESLMediaChangeEvent((this._matches = matches)));
   }
 }
 

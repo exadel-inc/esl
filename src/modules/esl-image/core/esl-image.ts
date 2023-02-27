@@ -11,7 +11,8 @@ import {EMPTY_IMAGE, STRATEGIES, isEmptyImage} from './esl-image-strategies';
 import type {ESLImageRenderStrategy} from './esl-image-strategies';
 
 type LoadState = 'error' | 'loaded' | 'ready';
-const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);
+const isLoadState = (state: string): state is LoadState =>
+  ['error', 'loaded', 'ready'].includes(state);
 
 /**
  * ESLImage - custom element, that provides flexible ways to include images on web pages.
@@ -22,7 +23,15 @@ const isLoadState = (state: string): state is LoadState => ['error', 'loaded', '
 @ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
   public static override is = 'esl-image';
-  public static observedAttributes = ['alt', 'role', 'mode', 'aria-label', 'data-src', 'data-src-base', 'lazy-triggered'];
+  public static observedAttributes = [
+    'alt',
+    'role',
+    'mode',
+    'aria-label',
+    'data-src',
+    'data-src-base',
+    'lazy-triggered'
+  ];
 
   /** Default container class value */
   public static DEFAULT_CONTAINER_CLS = 'img-container-loaded';
@@ -89,7 +98,11 @@ export class ESLImage extends ESLBaseElement {
     }
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected attributeChangedCallback(
+    attrName: string,
+    oldVal: string,
+    newVal: string
+  ): void {
     if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
       case 'aria-label':
@@ -230,8 +243,9 @@ export class ESLImage extends ESLBaseElement {
 
   public attachInnerImage(): HTMLImageElement {
     if (!this._innerImg) {
-      this._innerImg = this.querySelector(`img.${this.innerImageClass}`) ||
-        this._shadowImg.cloneNode() as HTMLImageElement;
+      this._innerImg =
+        this.querySelector(`img.${this.innerImageClass}`) ||
+        (this._shadowImg.cloneNode() as HTMLImageElement);
       this._innerImg.className = this.innerImageClass;
     }
     if (!this._innerImg.parentNode) {
@@ -296,10 +310,14 @@ export class ESLImage extends ESLBaseElement {
 
   public updateContainerClasses(): void {
     if (this.containerClass === null) return;
-    const cls = this.containerClass || (this.constructor as typeof ESLImage).DEFAULT_CONTAINER_CLS;
+    const cls =
+      this.containerClass || (this.constructor as typeof ESLImage).DEFAULT_CONTAINER_CLS;
     const state = isLoadState(this.containerClassState) && this[this.containerClassState];
 
-    const targetEl = ESLTraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
+    const targetEl = ESLTraversingQuery.first(
+      this.containerClassTarget,
+      this
+    ) as HTMLElement;
     targetEl && CSSClassUtils.toggle(targetEl, cls, state);
   }
 }

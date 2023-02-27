@@ -39,9 +39,10 @@ export class ESLMediaRule<T = any> {
   }
 
   public toString(): string {
-    const val = typeof this.payload === 'object' ?
-      JSON.stringify(this.payload) :
-      String(this.payload);
+    const val =
+      typeof this.payload === 'object'
+        ? JSON.stringify(this.payload)
+        : String(this.payload);
     return `${this.query} => ${val}`;
   }
 
@@ -49,14 +50,21 @@ export class ESLMediaRule<T = any> {
    * Creates the {@link ESLMediaRule} instance from payload string, query and valueParser.
    * If the payload parse result is undefined then rule will be undefined.
    */
-  public static create<U>(payload: string, query: string, parser: RulePayloadParser<U>): ESLMediaRule<U> | undefined {
+  public static create<U>(
+    payload: string,
+    query: string,
+    parser: RulePayloadParser<U>
+  ): ESLMediaRule<U> | undefined {
     const payloadValue = parser(payload.trim());
     if (typeof payloadValue === 'undefined') return undefined;
     return new ESLMediaRule<U>(payloadValue, query.trim());
   }
 
   /** Parses the rule string to the {@link ESLMediaRule} instance */
-  public static parse<U>(lex: string, parser: RulePayloadParser<U>): ESLMediaRule<U> | undefined {
+  public static parse<U>(
+    lex: string,
+    parser: RulePayloadParser<U>
+  ): ESLMediaRule<U> | undefined {
     const parts = lex.split('=>');
     const query = parts.length === 2 ? parts[0] : '';
     const payload = parts.length === 2 ? parts[1] : parts[0];

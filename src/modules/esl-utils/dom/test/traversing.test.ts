@@ -1,4 +1,14 @@
-import {isRelativeNode, findClosestBy, isMatches, findNext, findPrev, findParent, findClosest, findAll, findChildren} from '../traversing';
+import {
+  isRelativeNode,
+  findClosestBy,
+  isMatches,
+  findNext,
+  findPrev,
+  findParent,
+  findClosest,
+  findAll,
+  findChildren
+} from '../traversing';
 
 describe('Common: dom/traversing helper tests', () => {
   document.body.innerHTML = `
@@ -58,15 +68,30 @@ describe('Common: dom/traversing helper tests', () => {
 
   describe('closestBy', () => {
     test('finds closest parent node starting from the base element', () => {
-      expect(findClosestBy(null, (el: HTMLElement) => el.dataset.test === '1')).toBe(null);
-      expect(findClosestBy(document.createElement('div'), (el: HTMLElement) => el.dataset.test === '1')).toBe(null);
-      expect(findClosestBy(btn2, (el: HTMLElement) => el.classList.contains('btn'))).toBe(btn2);
-      expect(findClosestBy(btn2, (el: HTMLElement) => el.dataset.test === '1')).toBe(row1);
-      expect(findClosestBy(btn2, (el: HTMLElement) => el.tagName.toLowerCase() === 'section')).toBeTruthy();
+      expect(findClosestBy(null, (el: HTMLElement) => el.dataset.test === '1')).toBe(
+        null
+      );
+      expect(
+        findClosestBy(
+          document.createElement('div'),
+          (el: HTMLElement) => el.dataset.test === '1'
+        )
+      ).toBe(null);
+      expect(findClosestBy(btn2, (el: HTMLElement) => el.classList.contains('btn'))).toBe(
+        btn2
+      );
+      expect(findClosestBy(btn2, (el: HTMLElement) => el.dataset.test === '1')).toBe(
+        row1
+      );
+      expect(
+        findClosestBy(btn2, (el: HTMLElement) => el.tagName.toLowerCase() === 'section')
+      ).toBeTruthy();
       expect(findClosestBy(article1, () => false)).toBe(null);
     });
     test('finds closest parent node skipping the base element', () => {
-      expect(findClosestBy(btn2, (el: HTMLElement) => el.dataset.test === '1', true)).toBe(row1);
+      expect(
+        findClosestBy(btn2, (el: HTMLElement) => el.dataset.test === '1', true)
+      ).toBe(row1);
     });
   });
 

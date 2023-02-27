@@ -41,18 +41,26 @@ interface ESLAnimateConfigInner extends Required<ESLAnimateConfig> {
 /** Service to animate elements on viewport intersection */
 @ExportNs('AnimateService')
 export class ESLAnimateService {
-
   /** ESLAnimateService default animation configuration */
-  protected static DEFAULT_CONFIG: ESLAnimateConfig = {cls: 'in', groupDelay: 100, ratio: 0.4};
+  protected static DEFAULT_CONFIG: ESLAnimateConfig = {
+    cls: 'in',
+    groupDelay: 100,
+    ratio: 0.4
+  };
   /** ESLAnimationService IntersectionObserver properties */
-  protected static OPTIONS_OBSERVER: IntersectionObserverInit = {threshold: [0.001, 0.2, 0.4, 0.6, 0.8]};
+  protected static OPTIONS_OBSERVER: IntersectionObserverInit = {
+    threshold: [0.001, 0.2, 0.4, 0.6, 0.8]
+  };
 
   /**
    * Subscribe ESlAnimateService on element(s) to animate it on viewport intersection
    * @param target - element(s) or elements to observe and animate
    * @param config - optional animation configuration
    */
-  public static observe(target: Element | Element[], config: ESLAnimateConfig = {}): void {
+  public static observe(
+    target: Element | Element[],
+    config: ESLAnimateConfig = {}
+  ): void {
     wrap(target).forEach((item: Element) => this.instance.observe(item, config));
   }
 
@@ -71,7 +79,10 @@ export class ESLAnimateService {
     return new ESLAnimateService();
   }
 
-  protected _io = new IntersectionObserver(this.onIntersect, ESLAnimateService.OPTIONS_OBSERVER);
+  protected _io = new IntersectionObserver(
+    this.onIntersect,
+    ESLAnimateService.OPTIONS_OBSERVER
+  );
   protected _entries: Set<Element> = new Set();
   protected _configMap = new WeakMap<Element, ESLAnimateConfigInner>();
 
@@ -97,25 +108,27 @@ export class ESLAnimateService {
   /** Intersection observable callback */
   @bind
   protected onIntersect(entries: IntersectionObserverEntry[]): void {
-    entries.forEach(({target, intersectionRatio, isIntersecting}: IntersectionObserverEntry) => {
-      const config = this.getConfigFor(target);
-      if (!config) return;
+    entries.forEach(
+      ({target, intersectionRatio, isIntersecting}: IntersectionObserverEntry) => {
+        const config = this.getConfigFor(target);
+        if (!config) return;
 
-      // Item will be marked as visible in case it intersecting to the viewport with a ratio grater then passed visibleRatio
-      if (isIntersecting && intersectionRatio >= config.ratio) {
-        this._entries.add(target);
-      }
+        // Item will be marked as visible in case it intersecting to the viewport with a ratio grater then passed visibleRatio
+        if (isIntersecting && intersectionRatio >= config.ratio) {
+          this._entries.add(target);
+        }
 
-      // Item considered as invisible in case it is going to be intersected less then 1% of it's area
-      if (!isIntersecting && intersectionRatio <= 0.01) {
-        this._entries.delete(target);
+        // Item considered as invisible in case it is going to be intersected less then 1% of it's area
+        if (!isIntersecting && intersectionRatio <= 0.01) {
+          this._entries.delete(target);
 
-        if (config.repeat) {
-          CSSClassUtils.remove(target, config.cls);
-          config._timeout && clearTimeout(config._timeout);
+          if (config.repeat) {
+            CSSClassUtils.remove(target, config.cls);
+            config._timeout && clearTimeout(config._timeout);
+          }
         }
       }
-    });
+    );
     this.deferredOnAnimate();
   }
 
@@ -128,7 +141,7 @@ export class ESLAnimateService {
 
       if (config._timeout) window.clearTimeout(config._timeout);
       if (config.group) {
-        time = time === -1 ? 0 : (time + config.groupDelay);
+        time = time === -1 ? 0 : time + config.groupDelay;
         config._timeout = window.setTimeout(() => this.onAnimateItem(target), time);
       } else {
         this.onAnimateItem(target);
@@ -157,7 +170,11 @@ export class ESLAnimateService {
   }
   /** Returns config */
   protected setConfigFor(el: Element, config: ESLAnimateConfig): ESLAnimateConfigInner {
-    const cfg = Object.assign({}, ESLAnimateService.DEFAULT_CONFIG, config) as ESLAnimateConfigInner;
+    const cfg = Object.assign(
+      {},
+      ESLAnimateService.DEFAULT_CONFIG,
+      config
+    ) as ESLAnimateConfigInner;
     this._configMap.set(el, cfg);
     return cfg;
   }

@@ -21,4 +21,15 @@ export const ARROW_UP = 'ArrowUp';
 export const ARROW_RIGHT = 'ArrowRight';
 export const ARROW_DOWN = 'ArrowDown';
 
-export const SYSTEM_KEYS = [TAB, ALT, SHIFT, CONTROL, PAGE_UP, PAGE_DOWN, ARROW_LEFT, ARROW_UP, ARROW_RIGHT, ARROW_DOWN];
+export const SYSTEM_KEYS = [
+  TAB,
+  ALT,
+  SHIFT,
+  CONTROL,
+  PAGE_UP,
+  PAGE_DOWN,
+  ARROW_LEFT,
+  ARROW_UP,
+  ARROW_RIGHT,
+  ARROW_DOWN
+];

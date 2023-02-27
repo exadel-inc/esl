@@ -8,18 +8,30 @@ type IteratorFn = (el: Element) => Element | null;
 
 /** Create function that finds next dom element, that matches selector, in the sequence declared by `next` function */
 export const createSequenceFinder = (next: IteratorFn, includeSelf: boolean = false) => {
-  return function (base: Element, predicate: string | Predicate<Element>): Element | null {
+  return function (
+    base: Element,
+    predicate: string | Predicate<Element>
+  ): Element | null {
     if (!predicate) return includeSelf ? base : next(base);
-    for (let target: Element | null = includeSelf ? base : next(base); target; target = next(target)) {
+    for (
+      let target: Element | null = includeSelf ? base : next(base);
+      target;
+      target = next(target)
+    ) {
       if (typeof predicate === 'string' && target.matches(predicate)) return target;
-      if (typeof predicate === 'function' && predicate.call(target, target)) return target;
+      if (typeof predicate === 'function' && predicate.call(target, target)) {
+        return target;
+      }
     }
     return null;
   };
 };
 
 /** Checks if element matches passed selector or exact predicate function */
-export const isMatches = (el: Element, matcher?: string | ((el: Element) => boolean)): boolean => {
+export const isMatches = (
+  el: Element,
+  matcher?: string | ((el: Element) => boolean)
+): boolean => {
   if (typeof matcher === 'string') return el.matches(matcher);
   if (typeof matcher === 'function') return matcher(el);
   return typeof matcher === 'undefined';
@@ -36,7 +48,7 @@ export const findClosest = createSequenceFinder((el) => el.parentElement, true);
 /** @returns first matching host element starting from passed element*/
 export const findHost = createSequenceFinder((el) => {
   const root = el.getRootNode();
-  return (root instanceof ShadowRoot) ? root.host : null;
+  return root instanceof ShadowRoot ? root.host : null;
 }, true);
 
 /** @returns Array of all matching elements in subtree or empty array */
@@ -52,7 +64,11 @@ export const findChildren = (base: Element, sel: string): Element[] => {
  * Find closest parent node of `node` by `predicate`.
  * Optional `skipSelf` to skip initial node
  */
-export const findClosestBy = (node: Node | null, predicate: (node: Node) => boolean, skipSelf = false): Node | null => {
+export const findClosestBy = (
+  node: Node | null,
+  predicate: (node: Node) => boolean,
+  skipSelf = false
+): Node | null => {
   let current = skipSelf && node ? node.parentNode : node;
   while (current) {
     if (predicate(current)) return current;

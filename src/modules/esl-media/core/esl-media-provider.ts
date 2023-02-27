@@ -24,7 +24,11 @@ export interface MediaProviderConfig {
   playsinline?: boolean;
 }
 
-export type ProviderType = (new(component: ESLMedia, config: MediaProviderConfig) => BaseProvider) & typeof BaseProvider;
+export type ProviderType = (new (
+  component: ESLMedia,
+  config: MediaProviderConfig
+) => BaseProvider) &
+  typeof BaseProvider;
 
 export type ProviderObservedParams = 'loop' | 'muted' | 'controls';
 
@@ -39,7 +43,17 @@ export abstract class BaseProvider {
     return null;
   }
   static parseConfig(component: ESLMedia): MediaProviderConfig {
-    const {loop, muted, controls, autoplay, title, preload, playsinline, mediaId, mediaSrc} = component;
+    const {
+      loop,
+      muted,
+      controls,
+      autoplay,
+      title,
+      preload,
+      playsinline,
+      mediaId,
+      mediaSrc
+    } = component;
     const config = {loop, muted, controls, autoplay, title, preload, playsinline};
     if (mediaId) Object.assign(config, {mediaId});
     if (mediaSrc) Object.assign(config, {mediaSrc});
@@ -71,8 +85,9 @@ export abstract class BaseProvider {
 
   /** Unbind the provider instance from the component */
   public unbind(): void {
-    Array.from(this.component.querySelectorAll('.esl-media-inner'))
-      .forEach((el: Node) => el.parentNode && el.parentNode.removeChild(el));
+    Array.from(this.component.querySelectorAll('.esl-media-inner')).forEach(
+      (el: Node) => el.parentNode && el.parentNode.removeChild(el)
+    );
   }
 
   /** Provider name */
@@ -125,7 +140,11 @@ export abstract class BaseProvider {
    * If the player is PAUSED then it starts playing otherwise it pause playing
    */
   protected toggle(): void | Promise<any> {
-    if ([PlayerStates.PAUSED, PlayerStates.UNSTARTED, PlayerStates.VIDEO_CUED].includes(this.state)) {
+    if (
+      [PlayerStates.PAUSED, PlayerStates.UNSTARTED, PlayerStates.VIDEO_CUED].includes(
+        this.state
+      )
+    ) {
       return this.play();
     } else {
       return this.pause();
@@ -177,7 +196,9 @@ export abstract class BaseProvider {
   public static register(this: any, provider?: ProviderType): void {
     provider = provider || this;
     if (provider === BaseProvider) throw new Error('`BaseProvider` can\'t be registered.');
-    if (!(provider?.prototype instanceof BaseProvider)) throw new Error('Provider should be instanceof `BaseProvider`');
+    if (!(provider?.prototype instanceof BaseProvider)) {
+      throw new Error('Provider should be instanceof `BaseProvider`');
+    }
     ESLMediaProviderRegistry.instance.register(provider);
   }
 }

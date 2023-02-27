@@ -14,14 +14,18 @@ describe('dom/events: misc', () => {
     test('returns source for the event with non-empty composedPath', () => {
       const source = {detail: Math.random()};
 
-      expect(getCompositeTarget({
-        composedPath: () => [source]
-      } as any)).toBe(source);
+      expect(
+        getCompositeTarget({
+          composedPath: () => [source]
+        } as any)
+      ).toBe(source);
     });
     test('returns source for the event with empty composedPath', () => {
-      expect(getCompositeTarget({
-        composedPath: () => []
-      } as any)).toBe(undefined);
+      expect(
+        getCompositeTarget({
+          composedPath: () => []
+        } as any)
+      ).toBe(undefined);
     });
     test('returns source for the event with no composedPath', () => {
       const source = {detail: Math.random()};
@@ -78,10 +82,12 @@ describe('dom/events: misc', () => {
 
     test('returns normalized data from TouchEvent object', () => {
       const event = new TouchEvent('touch', {
-        changedTouches: [{
-          pageX,
-          pageY,
-        } as any]
+        changedTouches: [
+          {
+            pageX,
+            pageY
+          } as any
+        ]
       });
       expect(getTouchPoint(event)).toEqual({x: pageX, y: pageY});
     });
@@ -101,18 +107,18 @@ describe('dom/events: misc', () => {
       const elem = document.createElement('div');
       const boundingClientRect = {
         left: 10,
-        top: 20,
+        top: 20
       } as DOMRect;
       jest.spyOn(elem, 'getBoundingClientRect').mockReturnValue(boundingClientRect);
 
       Object.assign(window, {
         scrollX: 100,
-        scrollY: 200,
+        scrollY: 200
       });
 
       expect(getOffsetPoint(elem)).toEqual({
-        x:  (boundingClientRect.left + window.scrollX),
-        y:  (boundingClientRect.top + window.scrollY)
+        x: boundingClientRect.left + window.scrollX,
+        y: boundingClientRect.top + window.scrollY
       });
     });
   });

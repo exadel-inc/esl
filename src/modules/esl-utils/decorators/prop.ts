@@ -27,7 +27,7 @@ export function prop(value?: any, prototypeConfig: OverrideDecoratorConfig = {})
     Object.defineProperty(obj, name, {
       value,
       writable: !prototypeConfig.readonly,
-      enumerable:  !prototypeConfig.enumerable,
+      enumerable: !prototypeConfig.enumerable,
       configurable: true
     });
   };

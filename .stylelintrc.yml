@@ -3,6 +3,8 @@ plugins:
   - ./build/import.stylelint.js
 # Use LESS preprocessor
 customSyntax: postcss-less
+extends:
+  - stylelint-config-prettier
 
 rules:
   # Disallow unknown at-rules

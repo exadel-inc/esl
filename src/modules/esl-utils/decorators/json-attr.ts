@@ -14,7 +14,11 @@ interface JsonAttrDescriptor<T> {
   defaultValue?: T;
 }
 
-function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, defaultValue: T | null): PropertyDescriptor {
+function buildJsonAttrDescriptor<T>(
+  attrName: string,
+  readOnly: boolean,
+  defaultValue: T | null
+): PropertyDescriptor {
   function get(): T | null {
     const attrContent = getAttr(this, attrName, '').trim();
     return evaluate(attrContent, defaultValue);
@@ -32,8 +36,8 @@ function buildJsonAttrDescriptor<T>(attrName: string, readOnly: boolean, default
   return readOnly ? {get} : {get, set};
 }
 
-const buildAttrName =
-  (propName: string, dataAttr: boolean): string => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
+const buildAttrName = (propName: string, dataAttr: boolean): string =>
+  dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 
 /**
  * Decorator to map current property to element attribute value using JSON (de-)serialization rules.
@@ -44,6 +48,10 @@ export const jsonAttr = <T>(config: JsonAttrDescriptor<T> = {}): AttributeDecora
   config = Object.assign({defaultValue: {}}, config);
   return (target: Element | AttributeTarget, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
-    Object.defineProperty(target, propName, buildJsonAttrDescriptor(attrName, !!config.readonly, config.defaultValue));
+    Object.defineProperty(
+      target,
+      propName,
+      buildJsonAttrDescriptor(attrName, !!config.readonly, config.defaultValue)
+    );
   };
 };

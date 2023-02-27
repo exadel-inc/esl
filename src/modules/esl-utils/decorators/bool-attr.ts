@@ -12,7 +12,10 @@ type BoolAttrDescriptor = {
   dataAttr?: boolean;
 };
 
-function buildConditionalDescriptor(attrName: string, readOnly: boolean): PropertyDescriptor {
+function buildConditionalDescriptor(
+  attrName: string,
+  readOnly: boolean
+): PropertyDescriptor {
   function get(): boolean {
     return hasAttr(this, attrName);
   }
@@ -23,8 +26,8 @@ function buildConditionalDescriptor(attrName: string, readOnly: boolean): Proper
   return readOnly ? {get} : {get, set};
 }
 
-const buildAttrName =
-  (propName: string, dataAttr: boolean): string => dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
+const buildAttrName = (propName: string, dataAttr: boolean): string =>
+  dataAttr ? `data-${toKebabCase(propName)}` : toKebabCase(propName);
 
 /**
  * Decorator to map current property to element boolean (marker) attribute state.
@@ -34,6 +37,10 @@ const buildAttrName =
 export const boolAttr = (config: BoolAttrDescriptor = {}): AttributeDecorator => {
   return (target: Element | AttributeTarget, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
-    Object.defineProperty(target, propName, buildConditionalDescriptor(attrName, !!config.readonly));
+    Object.defineProperty(
+      target,
+      propName,
+      buildConditionalDescriptor(attrName, !!config.readonly)
+    );
   };
 };

@@ -73,8 +73,8 @@ describe('Decorator: @prop', () => {
     });
     test('override should not be writeable', () => {
       const el = new TestElement();
-      expect(() => el.field = 'hi').toThrowError();
-      expect(() => el.field2 = false).toThrowError();
+      expect(() => (el.field = 'hi')).toThrowError();
+      expect(() => (el.field2 = false)).toThrowError();
     });
     test('should have undefined as a default', () => {
       const el = new TestElement2();

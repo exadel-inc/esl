@@ -26,13 +26,13 @@
     Add: '+',
     Subtract: '-',
     Decimal: '.',
-    Divide: '/',
+    Divide: '/'
   };
 
   Object.defineProperty(KeyboardEventProto, 'key', {
     get() {
       const key = desc.get!.call(this);
       return Object.prototype.hasOwnProperty.call(keyMap, key) ? keyMap[key] : key;
-    },
+    }
   });
 })(KeyboardEvent.prototype);

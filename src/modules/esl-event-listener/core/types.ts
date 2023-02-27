@@ -40,7 +40,8 @@ export type ESLListenerDescriptor<EType extends keyof ESLListenerEventMap = stri
 };
 
 /** Resolved descriptor (definition) to create {@link ESLEventListener} */
-export interface ESLListenerDefinition<EType extends keyof ESLListenerEventMap = string> extends ESLListenerDescriptor<EType> {
+export interface ESLListenerDefinition<EType extends keyof ESLListenerEventMap = string>
+  extends ESLListenerDescriptor<EType> {
   /** A case-sensitive string (or provider function) representing the event type to listen for */
   event: EType;
 }
@@ -49,14 +50,19 @@ export interface ESLListenerDefinition<EType extends keyof ESLListenerEventMap =
 export type ESLListenerHandler<EType extends Event = Event> = (event: EType) => void;
 
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
-export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLListenerHandler | Partial<ESLListenerDefinition>;
+export type ESLListenerCriteria =
+  | undefined
+  | keyof ESLListenerEventMap
+  | ESLListenerHandler
+  | Partial<ESLListenerDefinition>;
 
 /** Function decorated as {@link ESLListenerDescriptor} */
 export type ESLListenerDescriptorFn<EType extends keyof ESLListenerEventMap = string> =
   ESLListenerHandler<ESLListenerEventMap[EType]> & ESLListenerDescriptor<EType>;
 
 /** Descriptor to create {@link ESLEventListener} based on class property */
-export type ESLListenerDescriptorExt<T extends keyof ESLListenerEventMap = string> = Partial<ESLListenerDescriptor<T>> & {
-  /** Defines if the listener metadata should be inherited from the method of the superclass */
-  inherit?: boolean;
-};
+export type ESLListenerDescriptorExt<T extends keyof ESLListenerEventMap = string> =
+  Partial<ESLListenerDescriptor<T>> & {
+    /** Defines if the listener metadata should be inherited from the method of the superclass */
+    inherit?: boolean;
+  };

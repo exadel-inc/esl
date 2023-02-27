@@ -119,10 +119,14 @@ describe('dom/events: SyntheticEventTarget', () => {
     describe('API restriction', () => {
       const et = new SyntheticEventTarget();
       // @ts-ignore
-      test('should fail without params', () => expect(() => et.addEventListener()).toThrowError());
-      test('should fail with null passed as param', () => expect(() => et.addEventListener(null as any)).toThrowError());
-      test('should fail with number passed as param', () => expect(() => et.addEventListener(1 as any)).toThrowError());
-      test('should fail with string passed as callback', () => expect(() => et.addEventListener('change', 'click' as any)).toThrowError());
+      test('should fail without params', () =>
+        expect(() => et.addEventListener()).toThrowError());
+      test('should fail with null passed as param', () =>
+        expect(() => et.addEventListener(null as any)).toThrowError());
+      test('should fail with number passed as param', () =>
+        expect(() => et.addEventListener(1 as any)).toThrowError());
+      test('should fail with string passed as callback', () =>
+        expect(() => et.addEventListener('change', 'click' as any)).toThrowError());
     });
   });
 
@@ -138,7 +142,8 @@ describe('dom/events: SyntheticEventTarget', () => {
       };
       et.addEventListener('change', listener);
 
-      test('listener event handler shoudn`t be called', () => expect(listener.handleEvent).toBeCalledTimes(0));
+      test('listener event handler shoudn`t be called', () =>
+        expect(listener.handleEvent).toBeCalledTimes(0));
 
       test('listener event handler should be called once', () => {
         et.dispatchEvent(event1);
@@ -166,7 +171,8 @@ describe('dom/events: SyntheticEventTarget', () => {
 
       test('listener event handler shoudn`t be called', () => {
         et.addEventListener(listener);
-        expect(listener.handleEvent).toBeCalledTimes(0);});
+        expect(listener.handleEvent).toBeCalledTimes(0);
+      });
 
       test('listener event handler should be called once', () => {
         et.dispatchEvent(event1);
@@ -180,7 +186,8 @@ describe('dom/events: SyntheticEventTarget', () => {
       });
     });
 
-    test('api restriction', () => expect(() => et.addEventListener({} as any)).toThrowError());
+    test('api restriction', () =>
+      expect(() => et.addEventListener({} as any)).toThrowError());
   });
 
   describe('PreventDefault', () => {
@@ -198,7 +205,9 @@ describe('dom/events: SyntheticEventTarget', () => {
 
     describe('Event action prevented', () => {
       const et = new SyntheticEventTarget();
-      const listener = jest.fn((e: Event) => {e.preventDefault();});
+      const listener = jest.fn((e: Event) => {
+        e.preventDefault();
+      });
       et.addEventListener('change', listener);
 
       test('preventDefault method should work correctly', () => {

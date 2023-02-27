@@ -6,7 +6,11 @@ import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {sequentialUID} from '../../esl-utils/misc/uid';
-import {compileFootnotesGroupedList, compileFootnotesNongroupedList, sortFootnotes} from './esl-footnotes-data';
+import {
+  compileFootnotesGroupedList,
+  compileFootnotesNongroupedList,
+  sortFootnotes
+} from './esl-footnotes-data';
 
 import type {ESLNote} from './esl-note';
 import type {FootnotesItem} from './esl-footnotes-data';
@@ -75,7 +79,7 @@ export class ESLFootnotes extends ESLBaseElement {
   /** Reindexes the list of notes */
   public reindex(): void {
     this._sortNotes();
-    this.notes.forEach((note, index) => note.index = index + 1);
+    this.notes.forEach((note, index) => (note.index = index + 1));
   }
 
   /** Removes the note from the footnotes list */
@@ -102,13 +106,17 @@ export class ESLFootnotes extends ESLBaseElement {
 
   /** Builds one item from footnotes list */
   protected buildItem(footnote: FootnotesItem): string {
-    const item = `${this.buildItemIndex(footnote)}${this.buildItemText(footnote)}${this.buildItemBack(footnote)}`;
+    const item = `${this.buildItemIndex(footnote)}${this.buildItemText(
+      footnote
+    )}${this.buildItemBack(footnote)}`;
     return `<li class="esl-footnotes-item" data-order="${footnote.index}">${item}</li>`;
   }
 
   /** Builds item index */
   protected buildItemIndex(footnote: FootnotesItem): string {
-    return `<span class="esl-footnotes-index">${footnote.renderedIndex.join(', ')}</span>`;
+    return `<span class="esl-footnotes-index">${footnote.renderedIndex.join(
+      ', '
+    )}</span>`;
   }
 
   /** Builds item text */

@@ -33,9 +33,12 @@ export const isBot = /Chrome-Lighthouse|Google Page Speed Insights/i.test(userAg
 
 // Mobile
 export const isAndroid = /Android/i.test(userAgent);
-export const isMobileIOS13 = /* iOS 13+ detection */ (platform === 'MacIntel' && window.navigator.maxTouchPoints > 1);
+export const isMobileIOS13 =
+  /* iOS 13+ detection */ platform === 'MacIntel' && window.navigator.maxTouchPoints > 1;
 export const isMobileIOS = /iPad|iPhone|iPod/.test(platform) || isMobileIOS13;
-export const isLegacyMobile = /webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+export const isLegacyMobile = /webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+  navigator.userAgent
+);
 
 export const isMobile = isMobileIOS || isAndroid || isLegacyMobile;
 export const isMobileSafari = isMobileIOS && isWebkit && /CriOS/i.test(userAgent);
@@ -44,7 +47,9 @@ export const isMobileSafari = isMobileIOS && isWebkit && /CriOS/i.test(userAgent
 export const isTouchDevice = ((): boolean => {
   const navApi: any = window.navigator;
   if (navApi.maxTouchPoints || navApi.msMaxTouchPoints) return true;
-  return ('ontouchstart' in window) || ('DocumentTouch' in window && document instanceof Touch);
+  return (
+    'ontouchstart' in window || ('DocumentTouch' in window && document instanceof Touch)
+  );
 })();
 
 // Hover check

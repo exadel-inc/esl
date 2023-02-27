@@ -18,8 +18,10 @@ jest.mock('../window', () => ({
   getWindowRect: () => Rect.from({x: 0, y: 0, width: 2000, height: 2000})
 }));
 
-const mockClientRects = (el: HTMLElement) => jest.spyOn(el, 'getClientRects').mockReturnValue([{}] as any);
-const mockBoundingRect = (el: HTMLElement, rect: Rect) => jest.spyOn(el, 'getBoundingClientRect').mockReturnValueOnce(rect as any);
+const mockClientRects = (el: HTMLElement) =>
+  jest.spyOn(el, 'getClientRects').mockReturnValue([{}] as any);
+const mockBoundingRect = (el: HTMLElement, rect: Rect) =>
+  jest.spyOn(el, 'getBoundingClientRect').mockReturnValueOnce(rect as any);
 
 describe('Function isVisible', () => {
   test('display set to `none`', () => {
@@ -78,7 +80,7 @@ describe('Function isVisible', () => {
     div.style.visibility = 'initial';
     div.style.opacity = '0';
     expect(isVisible(btn)).toBe(true);
-    expect(isVisible(btn, {opacity : true})).toBe(false);
+    expect(isVisible(btn, {opacity: true})).toBe(false);
   });
 
   describe('additional check for visibility in viewport', () => {
@@ -95,7 +97,7 @@ describe('Function isVisible', () => {
     });
 
     test('element is in parent`s and window`s bounds', () => {
-      mockBoundingRect(div, new Rect(-10, -200, 200, 300,));
+      mockBoundingRect(div, new Rect(-10, -200, 200, 300));
       mockBoundingRect(btn, new Rect(0, 0, 10, 10));
       expect(isVisible(btn, {viewport: true})).toBe(true);
     });

@@ -1,22 +1,26 @@
 /** Checks if the passed event is {@link MouseEvent} */
-export const isMouseEvent = (event: Event): event is MouseEvent => window.MouseEvent && event instanceof MouseEvent;
+export const isMouseEvent = (event: Event): event is MouseEvent =>
+  window.MouseEvent && event instanceof MouseEvent;
 
 /** Checks if the passed event is {@link TouchEvent} */
-export const isTouchEvent = (event: Event): event is TouchEvent => window.TouchEvent && event instanceof TouchEvent;
+export const isTouchEvent = (event: Event): event is TouchEvent =>
+  window.TouchEvent && event instanceof TouchEvent;
 
 /** Checks if the passed event is {@link PointerEvent} */
-export const isPointerEvent = (event: Event): event is PointerEvent => window.PointerEvent && event instanceof PointerEvent;
+export const isPointerEvent = (event: Event): event is PointerEvent =>
+  window.PointerEvent && event instanceof PointerEvent;
 
 const PASSIVE_EVENTS = ['wheel', 'mousewheel', 'touchstart', 'touchmove'];
 /**
  * @returns true if the passed event should be passive by default
  * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
  */
-export const isPassiveByDefault = (event: string): boolean => PASSIVE_EVENTS.includes(event);
+export const isPassiveByDefault = (event: string): boolean =>
+  PASSIVE_EVENTS.includes(event);
 
 /** Gets the original CustomEvent source in case event bubbles from Shadow DOM */
 export const getCompositeTarget = (e: CustomEvent): EventTarget | null => {
-  const targets = (e.composedPath && e.composedPath());
+  const targets = e.composedPath && e.composedPath();
   return targets ? targets[0] : e.target;
 };
 
@@ -50,11 +54,18 @@ export const getOffsetPoint = (el: Element): Point => {
  * @param eventName - name of the event to dispatch
  * @param eventInit - object that specifies characteristics of the event. See {@link CustomEventInit}
  */
-export const dispatchCustomEvent = (el: EventTarget, eventName: string, eventInit?: CustomEventInit): boolean => {
-  const init = Object.assign({
-    bubbles: true,
-    composed: true,
-    cancelable: true
-  }, eventInit || {});
+export const dispatchCustomEvent = (
+  el: EventTarget,
+  eventName: string,
+  eventInit?: CustomEventInit
+): boolean => {
+  const init = Object.assign(
+    {
+      bubbles: true,
+      composed: true,
+      cancelable: true
+    },
+    eventInit || {}
+  );
   return el.dispatchEvent(new CustomEvent(eventName, init));
 };

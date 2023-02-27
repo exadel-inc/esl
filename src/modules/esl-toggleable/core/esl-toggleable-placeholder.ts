@@ -13,7 +13,10 @@ export class ESLToggleablePlaceholder extends ESLBaseElement {
   public $origin: ESLToggleable | null;
 
   /** Сreates a placeholder for a given element of the toggleable's descendant */
-  public static from<T extends typeof ESLToggleablePlaceholder>(this: T, $el: ESLToggleable): InstanceType<T> {
+  public static from<T extends typeof ESLToggleablePlaceholder>(
+    this: T,
+    $el: ESLToggleable
+  ): InstanceType<T> {
     const $placeholder = document.createElement(this.is) as InstanceType<T>;
     $placeholder.$origin = $el;
     return $placeholder;

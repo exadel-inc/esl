@@ -152,8 +152,8 @@ export class ESLTooltip extends ESLPopup {
     const {firstFocusableElement, lastFocusableElement} = this;
     if (
       !lastFocusableElement ||
-      e.target === lastFocusableElement && !e.shiftKey ||
-      e.target === firstFocusableElement && e.shiftKey
+      (e.target === lastFocusableElement && !e.shiftKey) ||
+      (e.target === firstFocusableElement && e.shiftKey)
     ) {
       this.activator.focus();
       e.stopPropagation();

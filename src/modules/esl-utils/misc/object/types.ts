@@ -1,9 +1,13 @@
 /** Checks that passed value is object, but not a callable-object (function) */
-export const isObject = (obj: any): obj is Record<string | symbol, any> => !!obj && typeof obj === 'object';
+export const isObject = (obj: any): obj is Record<string | symbol, any> =>
+  !!obj && typeof obj === 'object';
 /** Checks that passed value is an object or function */
-export const isObjectLike = (obj: any): boolean => isObject(obj) || typeof obj === 'function';
+export const isObjectLike = (obj: any): boolean =>
+  isObject(obj) || typeof obj === 'function';
 /** Checks if the passed value is primitive */
-export const isPrimitive = (obj: any): obj is string | number | boolean | symbol | undefined | null =>
+export const isPrimitive = (
+  obj: any
+): obj is string | number | boolean | symbol | undefined | null =>
   obj === null ||
   typeof obj === 'undefined' ||
   typeof obj === 'string' ||
@@ -11,7 +15,8 @@ export const isPrimitive = (obj: any): obj is string | number | boolean | symbol
   typeof obj === 'boolean' ||
   typeof obj === 'symbol';
 /** Checks that passed object is prototype of some class */
-export const isPrototype = (obj: any): boolean => Object.hasOwnProperty.call(obj, 'constructor');
+export const isPrototype = (obj: any): boolean =>
+  Object.hasOwnProperty.call(obj, 'constructor');
 
 /** Array-like type definition */
 export type ArrayLike<T = any> = {

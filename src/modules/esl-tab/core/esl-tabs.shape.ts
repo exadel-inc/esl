@@ -14,7 +14,7 @@ export interface ESLTabsTagShape extends ESLBaseElementShape<ESLTabs> {
    * - 'side' - scroll behavior is enabled, tab is side-aligned;
    * - empty or unsupported value - scroll behavior is enabled, tab is side-aligned;
    */
-  'scrollable'?: string;
+  scrollable?: string;
 
   /** Defines inner element to contain {@link ESLTab} collection. Will be scrolled in a scrollable mode */
   'scrollable-target'?: string;

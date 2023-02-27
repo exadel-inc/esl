@@ -3,7 +3,10 @@ import {BaseProvider, PlayerStates} from '../core/esl-media-provider';
 import {randUID} from '../../esl-utils/misc/uid';
 import PlayerVars = YT.PlayerVars;
 
-import type {MediaProviderConfig, ProviderObservedParams} from '../core/esl-media-provider';
+import type {
+  MediaProviderConfig,
+  ProviderObservedParams
+} from '../core/esl-media-provider';
 
 const DEFAULT_ASPECT_RATIO = 16 / 9;
 
@@ -14,8 +17,10 @@ const DEFAULT_ASPECT_RATIO = 16 / 9;
 @BaseProvider.register
 export class YouTubeProvider extends BaseProvider {
   static override readonly providerName: string = 'youtube';
-  static readonly idRegexp = /(?:v\/|v=|vi=|vi\/|e\/|embed\/|user\/.*\/u\/\d+\/)([_0-9a-zA-Z-]+)/i;
-  static readonly providerRegexp = /^\s*(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be|youtube(-nocookie)?\.com)/i;
+  static readonly idRegexp =
+    /(?:v\/|v=|vi=|vi\/|e\/|embed\/|user\/.*\/u\/\d+\/)([_0-9a-zA-Z-]+)/i;
+  static readonly providerRegexp =
+    /^\s*(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be|youtube(-nocookie)?\.com)/i;
 
   protected override _el: HTMLDivElement | HTMLIFrameElement;
   protected _api: YT.Player;
@@ -37,8 +42,9 @@ export class YouTubeProvider extends BaseProvider {
         const cbOrigin = window.onYouTubeIframeAPIReady;
         window.onYouTubeIframeAPIReady = (): void => {
           try {
-            (typeof cbOrigin === 'function') && cbOrigin.apply(window);
-          } catch (err) { // eslint-disable-line
+            typeof cbOrigin === 'function' && cbOrigin.apply(window);
+          } catch (err) {
+            // eslint-disable-line
             // Do Nothing
           }
           return resolve(window.YT);
@@ -63,7 +69,9 @@ export class YouTubeProvider extends BaseProvider {
     };
   }
 
-  protected static buildIframe(sm: MediaProviderConfig): HTMLDivElement | HTMLIFrameElement {
+  protected static buildIframe(
+    sm: MediaProviderConfig
+  ): HTMLDivElement | HTMLIFrameElement {
     const el = document.createElement('div');
     el.id = 'esl-media-yt-' + randUID();
     el.className = 'esl-media-inner esl-media-youtube';

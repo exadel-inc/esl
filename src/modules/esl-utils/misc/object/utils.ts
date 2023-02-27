@@ -13,7 +13,10 @@ export function defined<T>(...params: T[]): T | undefined {
 }
 
 /** Finds the closest property descriptor */
-export function getPropertyDescriptor(o: any, prop: PropertyKey): PropertyDescriptor | undefined {
+export function getPropertyDescriptor(
+  o: any,
+  prop: PropertyKey
+): PropertyDescriptor | undefined {
   let proto = o;
   while (proto) {
     const desc = Object.getOwnPropertyDescriptor(proto, prop);
@@ -22,10 +25,18 @@ export function getPropertyDescriptor(o: any, prop: PropertyKey): PropertyDescri
   }
 }
 
-
-export function extractValues(obj: any, filter: (value: any, key: string | symbol) => boolean): any[];
-export function extractValues<T>(obj: any, filter: (value: any, key: string | symbol) => value is T): T[];
-export function extractValues(obj: any, filter: (value: any, key: string | symbol) => boolean): any[] {
+export function extractValues(
+  obj: any,
+  filter: (value: any, key: string | symbol) => boolean
+): any[];
+export function extractValues<T>(
+  obj: any,
+  filter: (value: any, key: string | symbol) => value is T
+): T[];
+export function extractValues(
+  obj: any,
+  filter: (value: any, key: string | symbol) => boolean
+): any[] {
   if (!obj) return [];
   const desc: any[] = [];
   for (const key in obj) {

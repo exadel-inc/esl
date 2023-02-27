@@ -2,12 +2,19 @@ import {get} from './object';
 
 /** Converts string to kebab-case notation */
 export const toKebabCase = (str: string): string => {
-  return str.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase();
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/[\s_]+/g, '-')
+    .toLowerCase();
 };
 
 /** Converts string to camelCase notation */
 export const toCamelCase = (str: string): string => {
-  return str.trim().replace(/[\s-,_]+([a-zA-Z0-9]?)/g, (match: string, word: string) => word.toUpperCase());
+  return str
+    .trim()
+    .replace(/[\s-,_]+([a-zA-Z0-9]?)/g, (match: string, word: string) =>
+      word.toUpperCase()
+    );
 };
 
 /** Makes the first non-indent (space, tab, newline) letter in the string capitalized */
@@ -19,20 +26,27 @@ export const capitalize = (str: string): string => {
 
 /** Unwraps string from parenthesis */
 export const unwrapParenthesis = (str: string): string => {
-  return str.trim().replace(/^\((.*)\)$/, '$1').trim();
+  return str
+    .trim()
+    .replace(/^\((.*)\)$/, '$1')
+    .trim();
 };
 
 /** Parses `null` and `undefined` as an empty string */
 export const parseString = (val: string | null): string => String(val ?? '');
 
 /** Parses string representation of the boolean value */
-export const parseBoolean = (val: string | null): boolean => val !== null && val !== 'false';
+export const parseBoolean = (val: string | null): boolean =>
+  val !== null && val !== 'false';
 
 /**
  * Parses number with the ability to pass an alternative fallback for NaN.
  * Note: falsy values except 0 are treated as NaN
  */
-export const parseNumber = (str: string | number, nanValue?: number | undefined): number | undefined => {
+export const parseNumber = (
+  str: string | number,
+  nanValue?: number | undefined
+): number | undefined => {
   if (str === 0) return 0;
   const value = +(str || NaN);
   return isNaN(value) ? nanValue : value;
@@ -56,7 +70,7 @@ export function parseAspectRatio(str: string): number {
 export function evaluate(str: string, defaultValue?: any): any {
   try {
     // eslint-disable-next-line @typescript-eslint/no-implied-eval
-    return str ? (new Function(`return ${str}`))() : defaultValue;
+    return str ? new Function(`return ${str}`)() : defaultValue;
   } catch (e) {
     console.warn('Cannot parse value ', str, e);
     return defaultValue;
@@ -67,7 +81,11 @@ export function evaluate(str: string, defaultValue?: any): any {
 export const DEF_FORMAT_MATCHER = /{[{%]?([\w.]+)[%}]?}/g;
 
 /** Replaces `{key}` patterns in the string from the source object */
-export function format(str: string, source: Record<string, any>, matcher: RegExp = DEF_FORMAT_MATCHER): string {
+export function format(
+  str: string,
+  source: Record<string, any>,
+  matcher: RegExp = DEF_FORMAT_MATCHER
+): string {
   return str.replace(matcher, (match, key) => {
     const val = get(source, key);
     return val === undefined ? match : val;

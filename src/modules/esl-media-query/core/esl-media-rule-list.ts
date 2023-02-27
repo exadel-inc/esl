@@ -49,7 +49,10 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    * @param query - query string
    * @param parser - value parser function
    */
-  public static parse<U>(query: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
+  public static parse<U>(
+    query: string,
+    parser: RulePayloadParser<U>
+  ): ESLMediaRuleList<U>;
   /**
    * Creates `ESLMediaRuleList` from two strings with conditions and values sequences
    *
@@ -74,13 +77,21 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    * ESLMediaRuleList.parseTuple('@XS|@SM|@MD|@LG|@XL', '1|2|3|4|5', Number)
    * ```
    */
-  public static parse<U>(mask: string, values: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
-  public static parse(query: string, ...common: (string | RulePayloadParser<any>)[]): ESLMediaRuleList {
-    const parser: RulePayloadParser<any> = typeof common[common.length - 1] === 'function' ? common.pop() as any : String;
+  public static parse<U>(
+    mask: string,
+    values: string,
+    parser: RulePayloadParser<U>
+  ): ESLMediaRuleList<U>;
+  public static parse(
+    query: string,
+    ...common: (string | RulePayloadParser<any>)[]
+  ): ESLMediaRuleList {
+    const parser: RulePayloadParser<any> =
+      typeof common[common.length - 1] === 'function' ? (common.pop() as any) : String;
     const value = common.pop();
-    return typeof value === 'string' ?
-      ESLMediaRuleList.parseTuple(query, value, parser) :
-      ESLMediaRuleList.parseQuery(query, parser);
+    return typeof value === 'string'
+      ? ESLMediaRuleList.parseTuple(query, value, parser)
+      : ESLMediaRuleList.parseQuery(query, parser);
   }
 
   /**
@@ -94,9 +105,16 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    * @param query - query string
    * @param parser - value parser function
    */
-  public static parseQuery<U>(query: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
-  public static parseQuery(query: string, parser: RulePayloadParser<any> = String): ESLMediaRuleList {
-    const rules = query.split('|')
+  public static parseQuery<U>(
+    query: string,
+    parser: RulePayloadParser<U>
+  ): ESLMediaRuleList<U>;
+  public static parseQuery(
+    query: string,
+    parser: RulePayloadParser<any> = String
+  ): ESLMediaRuleList {
+    const rules = query
+      .split('|')
       .map((lex: string) => ESLMediaRule.parse(lex, parser))
       .filter((rule: ESLMediaRule) => !!rule) as ESLMediaRule[];
     return new ESLMediaRuleList(rules);
@@ -126,13 +144,27 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
    * ESLMediaRuleList.parseTuple(@XS|@SM|@MD|@LG|@XL', '1|2|3|4|5', Number)
    * ```
    */
-  public static parseTuple<U>(mask: string, values: string, parser: RulePayloadParser<U>): ESLMediaRuleList<U>;
-  public static parseTuple(mask: string, values: string, parser: RulePayloadParser<any> = String): ESLMediaRuleList {
+  public static parseTuple<U>(
+    mask: string,
+    values: string,
+    parser: RulePayloadParser<U>
+  ): ESLMediaRuleList<U>;
+  public static parseTuple(
+    mask: string,
+    values: string,
+    parser: RulePayloadParser<any> = String
+  ): ESLMediaRuleList {
     const queries = mask.split('|');
     const valueList = values.split('|');
-    while (valueList.length < queries.length && valueList.length !== 0) valueList.push(valueList[valueList.length - 1]);
-    if (valueList.length !== queries.length) throw Error('Value doesn\'t correspond to mask');
-    const rules: (ESLMediaRule | undefined)[] = queries.map((query, i) => ESLMediaRule.create(valueList[i], query, parser));
+    while (valueList.length < queries.length && valueList.length !== 0) {
+      valueList.push(valueList[valueList.length - 1]);
+    }
+    if (valueList.length !== queries.length) {
+      throw Error('Value doesn\'t correspond to mask');
+    }
+    const rules: (ESLMediaRule | undefined)[] = queries.map((query, i) =>
+      ESLMediaRule.create(valueList[i], query, parser)
+    );
     const validRules = rules.filter((rule) => !!rule) as ESLMediaRule[];
     return new ESLMediaRuleList(validRules);
   }

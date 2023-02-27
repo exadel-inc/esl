@@ -1,4 +1,10 @@
-import {hasHorizontalScroll, hasVerticalScroll, isScrollLocked, lockScroll, unlockScroll} from '../utils';
+import {
+  hasHorizontalScroll,
+  hasVerticalScroll,
+  isScrollLocked,
+  lockScroll,
+  unlockScroll
+} from '../utils';
 
 const $html = document.documentElement;
 const $body = document.body;
@@ -46,13 +52,15 @@ describe('Function isScrollLocked', () => {
   target.style.overflow = 'auto';
   describe('Locked Scroll', () => {
     beforeAll(() => lockScroll(target));
-    test('lock attribute should be set', () => expect(target.hasAttribute('esl-scroll-lock')).toBe(true));
+    test('lock attribute should be set', () =>
+      expect(target.hasAttribute('esl-scroll-lock')).toBe(true));
     test('target should be locked', () => expect(isScrollLocked(target)).toBe(true));
   });
 
   describe('Unlocked Scroll', () => {
     beforeAll(() => unlockScroll(target));
-    test('lock attribute should be removed', () => expect(target.hasAttribute('esl-scroll-lock')).toBe(false));
+    test('lock attribute should be removed', () =>
+      expect(target.hasAttribute('esl-scroll-lock')).toBe(false));
     test('target should be locked', () => expect(isScrollLocked(target)).toBe(false));
   });
 });
@@ -85,7 +93,8 @@ describe('Function lockScroll', () => {
 
     lockScroll(target, {recursive: true});
     test('target should be locked', () => expect(isScrollLocked(target)).toBe(true));
-    test('target`s parent should be locked', () => expect(isScrollLocked($body)).toBe(true));
+    test('target`s parent should be locked', () =>
+      expect(isScrollLocked($body)).toBe(true));
   });
 
   describe('Lock with initiator', () => {
@@ -102,11 +111,13 @@ describe('Function lockScroll', () => {
     });
 
     describe('Lock with duplicate initiator', () => {
-      test('target should be locked initially', () => expect(isScrollLocked(target)).toBe(true));
+      test('target should be locked initially', () =>
+        expect(isScrollLocked(target)).toBe(true));
 
       test('target should be locked', () => {
         lockScroll(target, {initiator: 'init'});
-        expect(isScrollLocked(target)).toBe(true);});
+        expect(isScrollLocked(target)).toBe(true);
+      });
     });
 
     describe('Lock with initiator recursively', () => {
@@ -117,7 +128,8 @@ describe('Function lockScroll', () => {
       });
 
       test('target should be locked', () => expect(isScrollLocked(target)).toBe(true));
-      test('target`s parent should be locked', () => expect(isScrollLocked($body)).toBe(true));
+      test('target`s parent should be locked', () =>
+        expect(isScrollLocked($body)).toBe(true));
     });
   });
 
@@ -199,9 +211,12 @@ describe('Function unlockScroll', () => {
 
     unlockScroll(target, {recursive: true});
 
-    test('target element should be unlocked', () => expect(isScrollLocked(target)).toBe(false));
-    test('target`s parent element should be unlocked', () => expect(isScrollLocked($body)).toBe(false));
-    test('default element should be unlocked', () => expect(isScrollLocked($html)).toBe(false));
+    test('target element should be unlocked', () =>
+      expect(isScrollLocked(target)).toBe(false));
+    test('target`s parent element should be unlocked', () =>
+      expect(isScrollLocked($body)).toBe(false));
+    test('default element should be unlocked', () =>
+      expect(isScrollLocked($html)).toBe(false));
   });
 
   describe('Unlock scroll with initiator', () => {
@@ -229,7 +244,8 @@ describe('Function unlockScroll', () => {
     const second = document.createElement('div');
     target.style.overflow = 'auto';
 
-    test('target should initially be unlocked', () => expect(isScrollLocked(target)).toBe(false));
+    test('target should initially be unlocked', () =>
+      expect(isScrollLocked(target)).toBe(false));
 
     test('first initiator should lock the target', () => {
       lockScroll(target, {initiator: first});
@@ -243,10 +259,12 @@ describe('Function unlockScroll', () => {
 
     test('first initiator should attempt to unlock the target, but the target still locked by the second one', () => {
       unlockScroll(target, {initiator: first});
-      expect(isScrollLocked(target)).toBe(true);});
+      expect(isScrollLocked(target)).toBe(true);
+    });
 
     test('second initiator should completely unlock the target', () => {
       unlockScroll(target, {initiator: second});
-      expect(isScrollLocked(target)).toBe(false);});
+      expect(isScrollLocked(target)).toBe(false);
+    });
   });
 });

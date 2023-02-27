@@ -79,16 +79,19 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
 
   protected _onListChange(): void {}
 
-  protected _onTargetChange(newTarget: HTMLSelectElement | undefined,
-                            oldTarget: HTMLSelectElement | undefined): void {
+  protected _onTargetChange(
+    newTarget: HTMLSelectElement | undefined,
+    oldTarget: HTMLSelectElement | undefined
+  ): void {
     this.$$on(this._onChange);
     this._mutationObserver.disconnect();
-    const type = (this.constructor as typeof ESLSelectWrapper);
+    const type = this.constructor as typeof ESLSelectWrapper;
     if (newTarget) this._mutationObserver.observe(newTarget, type.observationConfig);
   }
 
   protected _onTargetMutation(changes: MutationRecord[]): void {
-    const isListChange = (change: MutationRecord): boolean => change.addedNodes.length + change.removedNodes.length > 0;
+    const isListChange = (change: MutationRecord): boolean =>
+      change.addedNodes.length + change.removedNodes.length > 0;
     changes.some(isListChange) ? this._onListChange() : this._onChange();
   }
 
@@ -136,7 +139,9 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
 
   public setAllSelected(state: boolean): void {
     if (!this.multiple || !this.$select) return;
-    this.options.forEach((item: HTMLOptionElement) => item.selected = !item.disabled && state);
+    this.options.forEach(
+      (item: HTMLOptionElement) => (item.selected = !item.disabled && state)
+    );
     ESLEventUtils.dispatch(this.$select, 'change');
   }
 

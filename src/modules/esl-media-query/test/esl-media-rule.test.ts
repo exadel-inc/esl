@@ -96,7 +96,10 @@ describe('ESLMediaRule', () => {
 
   describe('subscription', () => {
     const callback = () => void 0;
-    const testRule = ESLMediaRule.parse('all => 1', ESLMediaRuleList.STRING_PARSER) as ESLMediaRule<string>;
+    const testRule = ESLMediaRule.parse(
+      'all => 1',
+      ESLMediaRuleList.STRING_PARSER
+    ) as ESLMediaRule<string>;
 
     test('addEventListener', () => {
       const spyAdd = jest.spyOn(ESLMediaQuery.ALL, 'addEventListener');

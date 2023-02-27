@@ -68,7 +68,9 @@ describe('misc/format helper tests', () => {
   });
   test('evaluate', () => {
     let throwError = false;
-    jest.spyOn(console, 'warn').mockImplementation(() => { throwError = true; });
+    jest.spyOn(console, 'warn').mockImplementation(() => {
+      throwError = true;
+    });
     expect(evaluate('0')).toBe(0);
     expect(evaluate('true')).toBe(true);
     expect(evaluate('false')).toBe(false);
@@ -92,7 +94,7 @@ describe('misc/format helper tests', () => {
       ['{a}', {}, '{a}'],
       ['{a} - {b} - {c}', {a: 1, b: 2, c: 3}, '1 - 2 - 3'],
       ['{a.b}{b.c}', {a: {b: 'h'}, b: {c: 'i'}}, 'hi'],
-      ['abc{%foo%}-{{bar}}', {foo: 1, bar: 5}, 'abc1-5'],
+      ['abc{%foo%}-{{bar}}', {foo: 1, bar: 5}, 'abc1-5']
     ])('\'%s\' using %p to \'%s\'', (tmp: string, source: any, res: string) => {
       expect(format(tmp, source)).toBe(res);
     });
@@ -107,9 +109,8 @@ describe('misc/format helper tests', () => {
       ['0', true],
       ['1', true],
       ['brr', true]
-    ])(
-      'args = %p, result: %p',
-      (args, exp) => expect(parseBoolean.call(null, args)).toBe(exp)
+    ])('args = %p, result: %p', (args, exp) =>
+      expect(parseBoolean.call(null, args)).toBe(exp)
     );
   });
 
@@ -120,9 +121,8 @@ describe('misc/format helper tests', () => {
       ['false', 'false'],
       ['', ''],
       ['true', 'true']
-    ])(
-      'args = %p, result: %p',
-      (args, exp) => expect(parseString.call(null, args)).toBe(exp)
+    ])('args = %p, result: %p', (args, exp) =>
+      expect(parseString.call(null, args)).toBe(exp)
     );
   });
 
@@ -137,9 +137,8 @@ describe('misc/format helper tests', () => {
       [['def', 0], 0],
       [[''], undefined],
       [[false], undefined]
-    ])(
-      'args = %p, result: %p',
-      (args, exp) => expect(parseNumber.apply(null, args)).toBe(exp)
+    ])('args = %p, result: %p', (args, exp) =>
+      expect(parseNumber.apply(null, args)).toBe(exp)
     );
   });
 });

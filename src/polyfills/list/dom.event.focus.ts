@@ -14,11 +14,11 @@ try {
     // https://msdn.microsoft.com/en-us/library/ff975954(v=vs.85).aspx
     event.initFocusEvent(
       eventName,
-      (params.bubbles === void 0) ? false : params.bubbles,
-      (params.cancelable === void 0) ? false : params.cancelable,
-      (params.view === void 0) ? window : params.view,
-      (params.detail === void 0) ? {} : params.detail,
-      (params.relatedTarget === void 0) ? null : params.relatedTarget
+      params.bubbles === void 0 ? false : params.bubbles,
+      params.cancelable === void 0 ? false : params.cancelable,
+      params.view === void 0 ? window : params.view,
+      params.detail === void 0 ? {} : params.detail,
+      params.relatedTarget === void 0 ? null : params.relatedTarget
     );
 
     return event;

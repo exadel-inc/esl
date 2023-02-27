@@ -6,12 +6,15 @@ let iObserver: IntersectionObserver;
 /** ESL Image lazy loading IntersectionObserver instance */
 export function getIObserver(): IntersectionObserver {
   if (!iObserver) {
-    iObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(handleViewport);
-    }, {
-      threshold: [0.01], // 0 + 1 are not correctly handled by all browsers
-      rootMargin: DeviceDetector.isMobile ? '250px' : '500px' // rootMargin value for IntersectionObserver
-    });
+    iObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(handleViewport);
+      },
+      {
+        threshold: [0.01], // 0 + 1 are not correctly handled by all browsers
+        rootMargin: DeviceDetector.isMobile ? '250px' : '500px' // rootMargin value for IntersectionObserver
+      }
+    );
   }
   return iObserver;
 }

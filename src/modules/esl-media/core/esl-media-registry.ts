@@ -8,7 +8,9 @@ let evRegistryInstance: ESLMediaProviderRegistry | null = null;
  * ESLMediaProviderRegistry class to store media API providers
  * @author Yuliya Adamskaya, Natallia Harshunova
  */
-export class ESLMediaProviderRegistry extends Observable<(name: string, provider: ProviderType) => void> {
+export class ESLMediaProviderRegistry extends Observable<
+(name: string, provider: ProviderType) => void
+> {
   private providersMap: Map<string, ProviderType> = new Map();
 
   public static get instance(): ESLMediaProviderRegistry {
@@ -64,7 +66,11 @@ export class ESLMediaProviderRegistry extends Observable<(name: string, provider
   }
 
   /** Create provider instance for passed configuration */
-  private static _create(provider: ProviderType, media: ESLMedia, cfg = provider.parseUrl(media.mediaSrc)): BaseProvider {
+  private static _create(
+    provider: ProviderType,
+    media: ESLMedia,
+    cfg = provider.parseUrl(media.mediaSrc)
+  ): BaseProvider {
     const config = Object.assign({}, cfg || {}, provider.parseConfig(media));
     return new provider(media, config);
   }

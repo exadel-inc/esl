@@ -34,14 +34,18 @@ describe('ESLRelatedTarget (mixin): tests', () => {
       jest.advanceTimersByTime(1);
       $panel.show();
       jest.advanceTimersByTime(1);
-      $targetPanels.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(true));
+      $targetPanels.forEach(($chosenPanel: ESLPanel) =>
+        expect($chosenPanel.open).toBe(true)
+      );
     };
     const hideRelationTest = () => {
       $targetPanels.forEach((panel: ESLPanel, i) => panel.toggle(i % 2 === 0));
       jest.advanceTimersByTime(1);
       $panel.hide();
       jest.advanceTimersByTime(1);
-      $targetPanels.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(false));
+      $targetPanels.forEach(($chosenPanel: ESLPanel) =>
+        expect($chosenPanel.open).toBe(false)
+      );
     };
 
     test('ESLRelatedTarget with \'all\' action observation synchronize show state of toggleables', () => {
@@ -67,7 +71,9 @@ describe('ESLRelatedTarget (mixin): tests', () => {
       jest.advanceTimersByTime(1);
       $panel.show();
       jest.advanceTimersByTime(1);
-      $targetPanels.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(false));
+      $targetPanels.forEach(($chosenPanel: ESLPanel) =>
+        expect($chosenPanel.open).toBe(false)
+      );
     });
 
     test('ESLRelatedTarget with \'show\' action observation does not synchronize hide state of toggleables', () => {
@@ -76,7 +82,9 @@ describe('ESLRelatedTarget (mixin): tests', () => {
       jest.advanceTimersByTime(1);
       $panel.hide();
       jest.advanceTimersByTime(1);
-      $targetPanels.forEach(($chosenPanel: ESLPanel) => expect($chosenPanel.open).toBe(true));
+      $targetPanels.forEach(($chosenPanel: ESLPanel) =>
+        expect($chosenPanel.open).toBe(true)
+      );
     });
   });
 });

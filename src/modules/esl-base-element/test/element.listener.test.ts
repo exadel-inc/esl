@@ -11,7 +11,9 @@ describe('ESLBaseElement: listeners', () => {
       static override is = 'test-listen-element';
 
       @listen('click')
-      public onClick(...args: any[]) { mockHandler(this, ...args); }
+      public onClick(...args: any[]) {
+        mockHandler(this, ...args);
+      }
     }
     TestElement.register();
 

@@ -11,7 +11,7 @@ import {
 } from '../promise';
 
 describe('promise utils', () => {
-  beforeAll(() =>  jest.useFakeTimers());
+  beforeAll(() => jest.useFakeTimers());
   afterAll(() => jest.useRealTimers());
 
   describe('promise chain', () => {
@@ -103,7 +103,11 @@ describe('promise utils', () => {
   describe('tryUntil', () => {
     test.each([
       [(): any => undefined],
-      [(): any => {throw new Error();}]
+      [
+        (): any => {
+          throw new Error();
+        }
+      ]
     ])('successful ( %s )', (testFn) => {
       const observedFn = jest.fn(testFn);
       const successFn = jest.fn();

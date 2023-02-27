@@ -7,7 +7,10 @@ import {ESLEnvShortcuts} from './common/env-shortcuts';
 
 import {ALL, NOT_ALL} from './conditions/media-query-const';
 import {MediaQueryCondition} from './conditions/media-query-condition';
-import {MediaQueryConjunction, MediaQueryDisjunction} from './conditions/media-query-containers';
+import {
+  MediaQueryConjunction,
+  MediaQueryDisjunction
+} from './conditions/media-query-containers';
 
 import type {IMediaQueryCondition} from './conditions/media-query-base';
 

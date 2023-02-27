@@ -38,7 +38,7 @@ describe('CSSClassUtils tests:', () => {
     const lock1 = document.createElement('div');
     const lock2 = document.createElement('div');
 
-    afterEach(() => el.className = '');
+    afterEach(() => (el.className = ''));
 
     test('lock case', () => {
       CSSClassUtils.add(el, 'a', lock1);
@@ -72,8 +72,10 @@ describe('CSSClassUtils tests:', () => {
       expect(el.classList.contains('a')).toBeFalsy();
     });
 
-    const payloadSet = (new Array(100))
-      .fill('!a !b c !d !e !f !g !h !i !j !k !l !m !n !o !p !q !r !s !t !u !v !w !x !y !z')
+    const payloadSet = new Array(100)
+      .fill(
+        '!a !b c !d !e !f !g !h !i !j !k !l !m !n !o !p !q !r !s !t !u !v !w !x !y !z'
+      )
       .join(' ');
 
     test('payload test case', () => {
@@ -124,9 +126,7 @@ describe('CSSClassUtils tests:', () => {
   });
 
   describe('edge cases:', () => {
-    test.each([
-      [''], [' '], [null], [undefined]
-    ])('%p safe check', (val) => {
+    test.each([[''], [' '], [null], [undefined]])('%p safe check', (val) => {
       const el = document.createElement('div');
       expect(el.classList.length).toBe(0);
       CSSClassUtils.add(el, val);
@@ -144,7 +144,7 @@ describe('multiple targets', () => {
     document.createElement('div')
   ];
 
-  beforeEach(() => els.forEach((el) => el.className = ''));
+  beforeEach(() => els.forEach((el) => (el.className = '')));
   test('add', () => {
     CSSClassUtils.add(els, 'a b');
     for (const el of els) {
@@ -176,7 +176,7 @@ describe('multiple targets', () => {
     CSSClassUtils.remove(els[0], 'a');
     expect(CSSClassUtils.has(els, 'a')).toBe(false);
   });
-  test('trivial',  () => {
+  test('trivial', () => {
     expect(() => CSSClassUtils.add([], 'a')).not.toThrowError();
     expect(() => CSSClassUtils.remove([], 'a')).not.toThrowError();
   });

@@ -4,7 +4,7 @@
  * Array.prototype.includes polyfill
  */
 if (!Array.prototype.includes) {
-  Array.prototype.includes = function <T> (item: T, fromIndex?: number): boolean {
+  Array.prototype.includes = function <T>(item: T, fromIndex?: number): boolean {
     if (item !== item) {
       // NaN case
       return Array.prototype.slice.call(this, fromIndex).some((i: T) => i !== i);

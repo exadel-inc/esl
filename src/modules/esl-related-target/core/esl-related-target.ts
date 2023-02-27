@@ -22,7 +22,8 @@ export class ESLRelatedTarget extends ESLMixinElement {
   /** Selector/query ({@link ESLTraversingQuery}) to find related ESLToggleable element */
   @attr({name: ESLRelatedTarget.is}) public selector: string;
   /** Action to synchronize between toggleables */
-  @attr({name: ESLRelatedTarget.is + '-action', defaultValue: 'all'}) public action: ESLRelatedTargetActionType;
+  @attr({name: ESLRelatedTarget.is + '-action', defaultValue: 'all'})
+  public action: ESLRelatedTargetActionType;
 
   /** @returns related toggleable instances */
   public get $targets(): ESLToggleable[] {
@@ -30,7 +31,8 @@ export class ESLRelatedTarget extends ESLMixinElement {
     if (!selector) return [];
     const targets = ESLTraversingQuery.all(selector, this.$host);
     return targets.filter(
-      (target: HTMLElement): target is ESLToggleable => target instanceof ESLToggleable && target !== this.$host
+      (target: HTMLElement): target is ESLToggleable =>
+        target instanceof ESLToggleable && target !== this.$host
     );
   }
 

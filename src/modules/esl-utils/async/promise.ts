@@ -4,7 +4,11 @@ import type {AnyToAnyFnSignature} from '../misc/functions';
  * @returns Promise that will be resolved or rejected in `timeout` with an optional `payload`
  * If `isReject` is `true` the result promise will be rejected, otherwise (by default) the result promise will be resolved
  */
-export function promisifyTimeout<T>(timeout: number, payload?: T, isReject?: boolean): Promise<T> {
+export function promisifyTimeout<T>(
+  timeout: number,
+  payload?: T,
+  isReject?: boolean
+): Promise<T> {
   return new Promise<T>((resolve, reject) =>
     setTimeout((isReject ? reject : resolve).bind(null, payload), timeout)
   );
@@ -54,7 +58,11 @@ export function promisifyEvent(
  * @example
  * `const imgReady = promisifyMarker(eslImage, 'ready');`
  */
-export function promisifyMarker(target: HTMLElement, marker: string, event: string = marker): Promise<HTMLElement> {
+export function promisifyMarker(
+  target: HTMLElement,
+  marker: string,
+  event: string = marker
+): Promise<HTMLElement> {
   if ((target as any)[marker]) return Promise.resolve(target);
   return promisifyEvent(target, event).then(() => target);
 }
@@ -73,7 +81,7 @@ export function tryUntil<T>(callback: () => T, tryCount = 2, timeout = 100): Pro
         result = undefined;
       }
 
-      if (result || (tryCount--) < 0) {
+      if (result || tryCount-- < 0) {
         result ? resolve(result) : reject(new Error('Rejected by limit of tries'));
       } else {
         setTimeout(check, timeout);
@@ -120,8 +128,9 @@ export function createDeferred<T>(): Deferred<T> {
 }
 
 /** Creates function type with the same signature but with the result type wrapped into promise */
-export type PromisifyResultFn<F extends AnyToAnyFnSignature> =
-  ((...args: Parameters<F>) => Promise<ReturnType<F> | void>);
+export type PromisifyResultFn<F extends AnyToAnyFnSignature> = (
+  ...args: Parameters<F>
+) => Promise<ReturnType<F> | void>;
 
 /**
  * Safe wrap for Promise.resolve to use in Promise chain

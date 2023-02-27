@@ -31,12 +31,30 @@ describe('Rect static methods', () => {
   });
 
   test.each([
-    [[0, 0, 100, 100], [10, 10, 10, 10], [10, 10, 10, 10]],
-    [[0, 0, 100, 100], [-10, -10, 5, 5], [0, 0, 0, 0]],
-    [[0, 0, 100, 100], [-10, -10, 10, 10], [0, 0, 0, 0]],
-    [[0, 0, 100, 100], [-5, -5, 10, 10], [0, 0, 5, 5]]
+    [
+      [0, 0, 100, 100],
+      [10, 10, 10, 10],
+      [10, 10, 10, 10]
+    ],
+    [
+      [0, 0, 100, 100],
+      [-10, -10, 5, 5],
+      [0, 0, 0, 0]
+    ],
+    [
+      [0, 0, 100, 100],
+      [-10, -10, 10, 10],
+      [0, 0, 0, 0]
+    ],
+    [
+      [0, 0, 100, 100],
+      [-5, -5, 10, 10],
+      [0, 0, 5, 5]
+    ]
   ])('Rect.intersect of %s and %p.', (rect1, rect2, expected) => {
-    expect(Rect.intersect(new Rect(...rect1), new Rect(...rect2))).toStrictEqual(new Rect(...expected));
+    expect(Rect.intersect(new Rect(...rect1), new Rect(...rect2))).toStrictEqual(
+      new Rect(...expected)
+    );
   });
 });
 
@@ -64,7 +82,7 @@ describe('Rect instance methods', () => {
   });
 
   test('returns center X coordinate value of the Rect', () => {
-    expect(rect.cx).toEqual(rect.x + 3  / 2);
+    expect(rect.cx).toEqual(rect.x + 3 / 2);
   });
 
   test('returns center Y coordinate value of the Rect', () => {
@@ -73,14 +91,22 @@ describe('Rect instance methods', () => {
 
   test('returns Rect grown by passed increment', () => {
     const value = 2;
-    expect(rect.grow(value)).toEqual(new Rect(1 - value, 2 - value, 3 + 2 * value, 4 +  2 * value));
-    expect(rect.grow(value, value + 2)).toEqual(new Rect(value - 5, value - 6, 7 + 2 * value, 12 +  2 * value));
+    expect(rect.grow(value)).toEqual(
+      new Rect(1 - value, 2 - value, 3 + 2 * value, 4 + 2 * value)
+    );
+    expect(rect.grow(value, value + 2)).toEqual(
+      new Rect(value - 5, value - 6, 7 + 2 * value, 12 + 2 * value)
+    );
   });
 
   test('returns Rect shrunk by passed decrement', () => {
     const value = 2;
-    expect(rect.shrink(value)).toEqual(new Rect(1 + value, 2 + value, 3 + 2 * (-value), 4 +  2 * (-value)));
-    expect(rect.shrink(value + 1, value + 3)).toEqual(new Rect(4 + value, 7 + value, 2 * (-value) - 3, 2 * (-value) - 6));
+    expect(rect.shrink(value)).toEqual(
+      new Rect(1 + value, 2 + value, 3 + 2 * -value, 4 + 2 * -value)
+    );
+    expect(rect.shrink(value + 1, value + 3)).toEqual(
+      new Rect(4 + value, 7 + value, 2 * -value - 3, 2 * -value - 6)
+    );
   });
 
   test.each([

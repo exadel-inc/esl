@@ -147,7 +147,10 @@ export interface DOMEventsAttributesShape<T> {
   onTransitionEndCapture?: TransitionEventHandler<T>;
 }
 
-type EventHandler<E extends Event, T> = (this: T, event: E & {currentTarget: EventTarget & T}) => void;
+type EventHandler<E extends Event, T> = (
+  this: T,
+  event: E & {currentTarget: EventTarget & T}
+) => void;
 
 type GenericEventHandler<T = Element> = EventHandler<Event, T>;
 type ClipboardEventHandler<T = Element> = EventHandler<ClipboardEvent, T>;

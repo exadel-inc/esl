@@ -1,4 +1,10 @@
-import {ESLEventUtils, isMouseEvent, isTouchEvent, getOffsetPoint, getTouchPoint} from '../events';
+import {
+  ESLEventUtils,
+  isMouseEvent,
+  isTouchEvent,
+  getOffsetPoint,
+  getTouchPoint
+} from '../events';
 
 describe('dom/events: availability', () => {
   test.each([

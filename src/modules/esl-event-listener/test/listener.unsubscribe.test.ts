@@ -9,12 +9,12 @@ describe('ESLEventUtils:unsubscribe successfully removes listener', () => {
     ESLEventUtils.subscribe(div, {event: 'event'}, handle);
   });
 
-  test('all', ()  => {
+  test('all', () => {
     ESLEventUtils.unsubscribe(div);
     expect(ESLEventUtils.listeners(div).length).toBe(0);
   });
 
-  test('by event', ()  => {
+  test('by event', () => {
     ESLEventUtils.unsubscribe(div, {event: 'mousedown'});
     expect(ESLEventUtils.listeners(div).length).toBe(2);
     ESLEventUtils.unsubscribe(div, {event: 'click'});
@@ -23,7 +23,7 @@ describe('ESLEventUtils:unsubscribe successfully removes listener', () => {
     expect(ESLEventUtils.listeners(div).length).toBe(0);
   });
 
-  test('by event(string)', ()  => {
+  test('by event(string)', () => {
     ESLEventUtils.unsubscribe(div, 'test');
     expect(ESLEventUtils.listeners(div).length).toBe(2);
     ESLEventUtils.unsubscribe(div, 'click');
@@ -32,14 +32,14 @@ describe('ESLEventUtils:unsubscribe successfully removes listener', () => {
     expect(ESLEventUtils.listeners(div).length).toBe(0);
   });
 
-  test('by handler', ()  => {
+  test('by handler', () => {
     ESLEventUtils.unsubscribe(div, () => 1);
     expect(ESLEventUtils.listeners(div).length).toBe(2);
     ESLEventUtils.unsubscribe(div, handle);
     expect(ESLEventUtils.listeners(div).length).toBe(0);
   });
 
-  test('with multiple criteria', ()  => {
+  test('with multiple criteria', () => {
     ESLEventUtils.unsubscribe(div, handle, {event: 'key'});
     expect(ESLEventUtils.listeners(div).length).toBe(2);
     ESLEventUtils.unsubscribe(div, handle, {event: 'click'});

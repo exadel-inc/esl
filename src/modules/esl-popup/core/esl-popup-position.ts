@@ -47,8 +47,17 @@ export function isMajorAxisHorizontal(position: PositionType): boolean {
  * @param centerPosition - position of the center of the trigger on the minor axis
  * @param dimensionName - the name of dimension (height or width)
  */
-function calcPopupPositionByMinorAxis(cfg: PopupPositionConfig, centerPosition: number, dimensionName: 'height' | 'width'): number {
-  return centerPosition - cfg.arrow[dimensionName] / 2 - cfg.marginArrow - calcUsableSizeForArrow(cfg, dimensionName) * cfg.offsetArrowRatio;
+function calcPopupPositionByMinorAxis(
+  cfg: PopupPositionConfig,
+  centerPosition: number,
+  dimensionName: 'height' | 'width'
+): number {
+  return (
+    centerPosition -
+    cfg.arrow[dimensionName] / 2 -
+    cfg.marginArrow -
+    calcUsableSizeForArrow(cfg, dimensionName) * cfg.offsetArrowRatio
+  );
 }
 
 /**
@@ -97,30 +106,34 @@ function getOppositePosition(position: PositionType): PositionType {
  * @param rect - popup position rect
  * @param arrow - arrow position value
  * */
-function fitOnMajorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): PositionType {
+function fitOnMajorAxis(
+  cfg: PopupPositionConfig,
+  rect: Rect,
+  arrow: Point
+): PositionType {
   if (cfg.behavior !== 'fit' && cfg.behavior !== 'fit-on-major') return cfg.position;
 
   let isMirrored = false;
   const actionsToFit: Record<PositionType, () => void> = {
-    'bottom': () => {
+    bottom: () => {
       if (cfg.intersectionRatio.bottom || cfg.outer.bottom < rect.bottom) {
         rect.y = cfg.inner.y - cfg.element.height;
         isMirrored = true;
       }
     },
-    'left': () => {
+    left: () => {
       if (cfg.intersectionRatio.left || rect.x < cfg.outer.x) {
         rect.x = cfg.inner.right;
         isMirrored = true;
       }
     },
-    'right': () => {
+    right: () => {
       if (cfg.intersectionRatio.right || cfg.outer.right < rect.right) {
         rect.x = cfg.inner.x - cfg.element.width;
         isMirrored = true;
       }
     },
-    'top': () => {
+    top: () => {
       if (cfg.intersectionRatio.top || rect.y < cfg.outer.y) {
         rect.y = cfg.inner.bottom;
         isMirrored = true;
@@ -141,7 +154,13 @@ function fitOnMajorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): Pos
  * @param startingSide - is it starting side?
  * @returns adjustment value for the coordinates of the arrow and the popup
  */
-function adjustAlignmentBySide(elCoord: number, outerCoord: number, arrowCoord: number, arrowLimit: number, isStartingSide: boolean): number {
+function adjustAlignmentBySide(
+  elCoord: number,
+  outerCoord: number,
+  arrowCoord: number,
+  arrowLimit: number,
+  isStartingSide: boolean
+): number {
   let arrowAdjust = 0;
 
   if (isStartingSide ? elCoord < outerCoord : elCoord > outerCoord) {
@@ -180,22 +199,37 @@ function fitOnMinorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): voi
   const end = isHorizontal ? 'bottom' : 'right';
   const dimension = isHorizontal ? 'height' : 'width';
 
-  if (cfg.outer[dimension] < cfg.element[dimension] ||  // cancel fit mode if the popup size is greater than the outer limiter size
-      cfg.trigger[start] < cfg.outer[start] ||          // or the trigger is outside the outer limiting element
-      cfg.trigger[end] > cfg.outer[end]
-  ) return;
+  if (
+    cfg.outer[dimension] < cfg.element[dimension] || // cancel fit mode if the popup size is greater than the outer limiter size
+    cfg.trigger[start] < cfg.outer[start] || // or the trigger is outside the outer limiting element
+    cfg.trigger[end] > cfg.outer[end]
+  ) {
+    return;
+  }
 
   let coordAdjust = 0;
   // check the starting side of the axis
   let arrowLimit = cfg.marginArrow;
-  coordAdjust = adjustAlignmentBySide(rect[start], cfg.outer[start], arrow[start], arrowLimit, true);
+  coordAdjust = adjustAlignmentBySide(
+    rect[start],
+    cfg.outer[start],
+    arrow[start],
+    arrowLimit,
+    true
+  );
   if (coordAdjust) {
     rect[start] -= coordAdjust;
     arrow[start] += coordAdjust;
   }
   // check the final side of the axis
   arrowLimit += calcUsableSizeForArrow(cfg, dimension);
-  coordAdjust = adjustAlignmentBySide(rect[end], cfg.outer[end], arrow[start], arrowLimit, false);
+  coordAdjust = adjustAlignmentBySide(
+    rect[end],
+    cfg.outer[end],
+    arrow[start],
+    arrowLimit,
+    false
+  );
   if (coordAdjust) {
     rect[start] -= coordAdjust;
     arrow[start] += coordAdjust;
@@ -207,7 +241,10 @@ function fitOnMinorAxis(cfg: PopupPositionConfig, rect: Rect, arrow: Point): voi
  * @param cfg - popup position config
  * @param dimensionName - the name of dimension (height or width)
  */
-function calcUsableSizeForArrow(cfg: PopupPositionConfig, dimensionName: 'height' | 'width'): number {
+function calcUsableSizeForArrow(
+  cfg: PopupPositionConfig,
+  dimensionName: 'height' | 'width'
+): number {
   return cfg.element[dimensionName] - cfg.arrow[dimensionName] - 2 * cfg.marginArrow;
 }
 
@@ -216,8 +253,13 @@ function calcUsableSizeForArrow(cfg: PopupPositionConfig, dimensionName: 'height
  * @param cfg - popup position config
  * @param dimensionName - the name of dimension (height or width)
  */
-function calcArrowPosition(cfg: PopupPositionConfig, dimensionName: 'height' | 'width'): number {
-  return cfg.marginArrow + calcUsableSizeForArrow(cfg, dimensionName) * cfg.offsetArrowRatio;
+function calcArrowPosition(
+  cfg: PopupPositionConfig,
+  dimensionName: 'height' | 'width'
+): number {
+  return (
+    cfg.marginArrow + calcUsableSizeForArrow(cfg, dimensionName) * cfg.offsetArrowRatio
+  );
 }
 
 /**

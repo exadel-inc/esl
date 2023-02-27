@@ -41,7 +41,9 @@ describe('ESLAlert: events', () => {
   });
 
   test('Auto hide by hideTime & hideDelay ', () => {
-    const params: CustomEventInit<AlertActionParams> = {detail: {hideTime: 100, hideDelay: 100}};
+    const params: CustomEventInit<AlertActionParams> = {
+      detail: {hideTime: 100, hideDelay: 100}
+    };
     ESLEventUtils.dispatch($el, ESLAlert.prototype.SHOW_REQUEST_EVENT, params);
     jest.advanceTimersByTime(1);
     expect($el.open).toBe(true);
@@ -56,13 +58,17 @@ describe('ESLAlert: events', () => {
   });
 
   test('Add HTML params', () => {
-    const params: CustomEventInit<AlertActionParams> = {detail: {html: '<h2>esl-alert-html</h2>'}};
+    const params: CustomEventInit<AlertActionParams> = {
+      detail: {html: '<h2>esl-alert-html</h2>'}
+    };
     ESLEventUtils.dispatch($el, ESLAlert.prototype.SHOW_REQUEST_EVENT, params);
     expect('<h2>esl-alert-html</h2>').toEqual($el.children[0].innerHTML);
   });
 
   test('Add class params', () => {
-    const params: CustomEventInit<AlertActionParams> = {detail: {cls: 'esl-alert-cls',  text: 'esl-alert-text'}};
+    const params: CustomEventInit<AlertActionParams> = {
+      detail: {cls: 'esl-alert-cls', text: 'esl-alert-text'}
+    };
     ESLEventUtils.dispatch($el, ESLAlert.prototype.SHOW_REQUEST_EVENT, params);
     expect($el.className).toContain('esl-alert-cls');
   });

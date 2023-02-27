@@ -11,7 +11,10 @@ import {tryUntil} from '../../async/promise';
  * @param element - element to be made visible to the user
  * @param options - scrollIntoView options
  */
-export function scrollIntoView(element: Element, options?: boolean | ScrollIntoViewOptions | undefined): Promise<boolean> {
+export function scrollIntoView(
+  element: Element,
+  options?: boolean | ScrollIntoViewOptions | undefined
+): Promise<boolean> {
   let same = 0;
   let lastLeft: number;
   let lastTop: number;

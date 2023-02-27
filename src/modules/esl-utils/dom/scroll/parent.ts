@@ -8,9 +8,7 @@ import {getNodeName, getParentNode} from '../api';
 export function getListScrollParents(element: Element, list: Element[] = []): Element[] {
   const scrollParent = getScrollParent(element);
   const isBody = scrollParent === element.ownerDocument?.body;
-  const target = isBody
-    ? isScrollable(scrollParent) ? scrollParent : []
-    : scrollParent;
+  const target = isBody ? (isScrollable(scrollParent) ? scrollParent : []) : scrollParent;
 
   const updatedList = list.concat(target);
   return isBody

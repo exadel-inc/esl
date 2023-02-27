@@ -30,9 +30,7 @@ export class ESLMixinElement implements AttributeTarget {
   /** Additional attributes observer */
   private _attr$$: MutationObserver;
 
-  public constructor(
-    public readonly $host: HTMLElement
-  ) {}
+  public constructor(public readonly $host: HTMLElement) {}
 
   /** Callback of mixin instance initialization */
   public connectedCallback(): void {
@@ -60,7 +58,11 @@ export class ESLMixinElement implements AttributeTarget {
    * Callback to handle changing of additional attributes.
    * Happens when attribute accessed for writing independently of the actual value change
    */
-  public attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
+  public attributeChangedCallback(
+    name: string,
+    oldValue: string | null,
+    newValue: string | null
+  ): void {}
 
   /** Attribute change mutation record processor */
   private _onAttrMutation(records: MutationRecord[]): void {
@@ -123,13 +125,17 @@ export class ESLMixinElement implements AttributeTarget {
   }
 
   /** Returns mixin instance by element */
-  public static get<T extends typeof ESLMixinElement>(this: T, $el: HTMLElement): InstanceType<T> | null {
+  public static get<T extends typeof ESLMixinElement>(
+    this: T,
+    $el: HTMLElement
+  ): InstanceType<T> | null {
     return ESLMixinRegistry.get($el, this.is) as InstanceType<T>;
   }
   /** Register current mixin definition */
   public static register(): void {
-    (new ESLMixinRegistry()).register(this);
+    new ESLMixinRegistry().register(this);
   }
 }
 
-export type ConstructableESLMixin = typeof ESLMixinElement & (new($root: HTMLElement) => ESLMixinElement);
+export type ConstructableESLMixin = typeof ESLMixinElement &
+  (new ($root: HTMLElement) => ESLMixinElement);

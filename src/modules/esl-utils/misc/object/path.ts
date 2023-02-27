@@ -13,7 +13,7 @@ export type PathKeyDef = {
 export type PathKey = PathKeyDef | string | number;
 
 /** @returns PathKeyDef from the PathDef */
-const toKeyDef = (key: PathKey): PathKeyDef => typeof key === 'object' ? key : {key};
+const toKeyDef = (key: PathKey): PathKeyDef => (typeof key === 'object' ? key : {key});
 
 /** Parses path to full {@link PathKeyDef} array */
 export const parseKeys = (path: string | PathKey[]): PathKeyDef[] => {
@@ -27,15 +27,17 @@ const parseKeysPath = (path: string): PathKeyDef[] => {
   const parts: PathKeyDef[] = [];
 
   while (start < path.length) {
-    let end = start = start + +(path[start] === '.'); // skip initial '.'
-    if (path[start] === '[') { // handle index syntax
+    let end = (start = start + +(path[start] === '.')); // skip initial '.'
+    if (path[start] === '[') {
+      // handle index syntax
       end = ++start; // start bracket ignored
       while (end < path.length && path[end] !== ']') ++end;
       const key = path.substring(start, end);
       const isIndex = !key || Math.floor(+key) === +key;
       parts.push({key, isIndex});
       start = ++end; // skip end bracket
-    } else { // handle simple key
+    } else {
+      // handle simple key
       while (end < path.length && path[end] !== '[' && path[end] !== '.') ++end;
       const key = path.substring(start, end);
       parts.push({key});
@@ -62,7 +64,11 @@ const parseKeysPath = (path: string): PathKeyDef[] => {
  * @param defaultValue - default
  * @returns specified object property
  */
-export const getByPath = (data: any, path: string | PathKey[], defaultValue?: any): any => {
+export const getByPath = (
+  data: any,
+  path: string | PathKey[],
+  defaultValue?: any
+): any => {
   const keys = parseKeys(path);
   const result = keys.reduce((curr: any, {key}: PathKeyDef) => {
     if (isObjectLike(curr)) return curr[key];
@@ -75,7 +81,8 @@ export const getByPath = (data: any, path: string | PathKey[], defaultValue?: an
  * Gets object property using "path" with a keys separated by `.`
  * @see getByPath
  */
-export const get = (data: any, path: string, defaultValue?: any): any => getByPath(data, (path || '').split('.'), defaultValue);
+export const get = (data: any, path: string, defaultValue?: any): any =>
+  getByPath(data, (path || '').split('.'), defaultValue);
 
 /**
  * Sets object property using "path" key
@@ -102,7 +109,7 @@ export const setByPath = (target: any, path: string | PathKey[], value: any): an
     if (isIndex && !key) key = cur.length || 0; // a[] only
     if (pos !== depth && isObjectLike(cur[key])) return cur[key]; // key already presented
     if (isIndexed === undefined && pos !== depth) isIndexed = keys[pos + 1].isIndex;
-    return cur[key] = (pos === depth) ? value : (isIndexed ? [] : {});
+    return (cur[key] = pos === depth ? value : isIndexed ? [] : {});
   }, target);
   return target;
 };
@@ -111,4 +118,5 @@ export const setByPath = (target: any, path: string | PathKey[], value: any): an
  * Sets object property using "path" with a keys separated by `.`
  * @see setByPath
  */
-export const set = (target: any, path: string, value: any): any => setByPath(target, (path || '').split('.'), value);
+export const set = (target: any, path: string, value: any): any =>
+  setByPath(target, (path || '').split('.'), value);

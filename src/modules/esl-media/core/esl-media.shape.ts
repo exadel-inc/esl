@@ -5,17 +5,20 @@ import type {ESLMedia, ESLMediaFillMode} from './esl-media';
  * Tag declaration interface of ESLMedia element
  * Used for TSX declaration
  */
-export type ESLMediaTagShape = ({
-  /** Define media player id */
-  'media-id': string;
-  /** Define media player type */
-  'media-type': string;
-} | {
-  /** Define media source path */
-  'media-src': string;
-  /** Define media player type */
-  'media-type'?: string;
-}) & {
+export type ESLMediaTagShape = (
+  | {
+    /** Define media player id */
+    'media-id': string;
+    /** Define media player type */
+    'media-type': string;
+  }
+  | {
+    /** Define media source path */
+    'media-src': string;
+    /** Define media player type */
+    'media-type'?: string;
+  }
+) & {
   /** Define media player group */
   group?: string;
   /** Define media fill mode */
@@ -38,9 +41,9 @@ export type ESLMediaTagShape = ({
   /** Define viewport control marker */
   'play-in-viewport'?: boolean;
   /** Define preload media param */
-  'preload'?: 'none' | 'metadata' | 'auto' | '';
+  preload?: 'none' | 'metadata' | 'auto' | '';
   /** Allow play media inline */
-  'playsinline'?: boolean;
+  playsinline?: boolean;
 
   /** Optional BC provider player id */
   'data-player-id'?: string;

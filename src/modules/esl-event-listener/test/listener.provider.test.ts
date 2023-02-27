@@ -15,7 +15,7 @@ describe('ESlEventListener subscription with target or selector defined by provi
 
   test('Selector provider receives host in arg and context', () => {
     const handler = jest.fn();
-    const provider  = jest.fn(function () {
+    const provider = jest.fn(function () {
       expect(this).toBe(host);
       return 'button';
     });
@@ -26,7 +26,7 @@ describe('ESlEventListener subscription with target or selector defined by provi
 
   test('Selector defined with provider applies on fly', () => {
     const handler = jest.fn();
-    const provider  = jest.fn();
+    const provider = jest.fn();
     ESLEventUtils.subscribe(host, {event: 'click', selector: provider}, handler);
     expect(handler).toBeCalledTimes(0);
 
@@ -45,7 +45,7 @@ describe('ESlEventListener subscription with target or selector defined by provi
 
   test('Target provider receives host in arg and context', () => {
     const handler = jest.fn();
-    const provider  = jest.fn(function () {
+    const provider = jest.fn(function () {
       expect(this).toBe(host);
       return '';
     });
@@ -56,7 +56,7 @@ describe('ESlEventListener subscription with target or selector defined by provi
 
   test('Subscription use target provider value correctly', () => {
     const handler = jest.fn();
-    const provider  = jest.fn(() => '::find(.btn2)');
+    const provider = jest.fn(() => '::find(.btn2)');
     ESLEventUtils.subscribe(host, {event: 'click', target: provider}, handler);
     btn1.click();
     expect(handler).not.toBeCalled();
@@ -69,7 +69,11 @@ describe('ESlEventListener subscription with target or selector defined by provi
     const handler = jest.fn();
     const provider = jest.fn(() => null);
 
-    const listeners = ESLEventUtils.subscribe(host, {event: 'click', target: provider}, handler);
+    const listeners = ESLEventUtils.subscribe(
+      host,
+      {event: 'click', target: provider},
+      handler
+    );
     host.click();
     expect(listeners).toEqual([]);
     expect(provider).toBeCalled();

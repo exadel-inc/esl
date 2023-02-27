@@ -133,7 +133,11 @@ export class ESLToggleable extends ESLBaseElement {
     activators.delete(this);
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected attributeChangedCallback(
+    attrName: string,
+    oldVal: string,
+    newVal: string
+  ): void {
     if (!this.connected || newVal === oldVal) return;
     switch (attrName) {
       case 'open':
@@ -141,7 +145,7 @@ export class ESLToggleable extends ESLBaseElement {
         this.toggle(this.open, {initiator: 'attribute', showDelay: 0, hideDelay: 0});
         break;
       case 'group':
-        this.$$fire(this.GROUP_CHANGED_EVENT,  {
+        this.$$fire(this.GROUP_CHANGED_EVENT, {
           detail: {oldGroupName: oldVal, newGroupName: newVal}
         });
         break;
@@ -171,49 +175,74 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /** Function to merge the result action params */
-  protected mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
+  protected mergeDefaultParams(
+    params?: ESLToggleableActionParams
+  ): ESLToggleableActionParams {
     return Object.assign({}, this.defaultParams, copyDefinedKeys(params));
   }
 
   /** Toggle the element state */
-  public toggle(state: boolean = !this.open, params?: ESLToggleableActionParams): ESLToggleable {
+  public toggle(
+    state: boolean = !this.open,
+    params?: ESLToggleableActionParams
+  ): ESLToggleable {
     return state ? this.show(params) : this.hide(params);
   }
 
   /** Change the element state to active */
   public show(params?: ESLToggleableActionParams): ESLToggleable {
     params = this.mergeDefaultParams(params);
-    this._task.put(this.showTask.bind(this, params), defined(params.showDelay, params.delay));
+    this._task.put(
+      this.showTask.bind(this, params),
+      defined(params.showDelay, params.delay)
+    );
     this.bindOutsideEventTracking(this.closeOnOutsideAction);
-    this.bindHoverStateTracking(!!params.trackHover, defined(params.hideDelay, params.delay));
+    this.bindHoverStateTracking(
+      !!params.trackHover,
+      defined(params.hideDelay, params.delay)
+    );
     return this;
   }
   /** Change the element state to inactive */
   public hide(params?: ESLToggleableActionParams): ESLToggleable {
     params = this.mergeDefaultParams(params);
-    this._task.put(this.hideTask.bind(this, params), defined(params.hideDelay, params.delay));
+    this._task.put(
+      this.hideTask.bind(this, params),
+      defined(params.hideDelay, params.delay)
+    );
     this.bindOutsideEventTracking(false);
-    this.bindHoverStateTracking(!!params.trackHover, defined(params.hideDelay, params.delay));
+    this.bindHoverStateTracking(
+      !!params.trackHover,
+      defined(params.hideDelay, params.delay)
+    );
     return this;
   }
 
   /** Actual show task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected showTask(params: ESLToggleableActionParams): void {
     if (!params.force && this.open) return;
-    if (!params.silent && !this.$$fire(this.BEFORE_SHOW_EVENT, {detail: {params}})) return;
+    if (!params.silent && !this.$$fire(this.BEFORE_SHOW_EVENT, {detail: {params}})) {
+      return;
+    }
     this.activator = params.activator;
     this.open = true;
     this.onShow(params);
-    if (!params.silent) this.$$fire(this.SHOW_EVENT, {detail: {params}, cancelable: false});
+    if (!params.silent) {
+      this.$$fire(this.SHOW_EVENT, {detail: {params}, cancelable: false});
+    }
   }
   /** Actual hide task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected hideTask(params: ESLToggleableActionParams): void {
     if (!params.force && !this.open) return;
-    if (!params.silent && !this.$$fire(this.BEFORE_HIDE_EVENT, {detail: {params}})) return;
+    if (!params.silent && !this.$$fire(this.BEFORE_HIDE_EVENT, {detail: {params}})) {
+      return;
+    }
     this.open = false;
     this.onHide(params);
     this.bindOutsideEventTracking(false);
-    if (!params.silent) this.$$fire(this.HIDE_EVENT, {detail: {params}, cancelable: false});
+    if (!params.silent) {
+      this.$$fire(this.HIDE_EVENT, {detail: {params}, cancelable: false});
+    }
   }
 
   /**
@@ -244,7 +273,7 @@ export class ESLToggleable extends ESLBaseElement {
     return this._open;
   }
   public set open(value: boolean) {
-    this.toggleAttribute('open', this._open = value);
+    this.toggleAttribute('open', (this._open = value));
   }
 
   /** Last component that has activated the element. Uses {@link ESLToggleableActionParams.activator}*/
@@ -310,18 +339,32 @@ export class ESLToggleable extends ESLBaseElement {
   @listen({auto: false, event: 'mouseenter'})
   protected _onMouseEnter(e: MouseEvent): void {
     const hideDelay = this._trackHoverDelay;
-    const baseParams: ESLToggleableActionParams = {initiator: 'mouseenter', trackHover: true, activator: this.activator, event: e, hideDelay};
+    const baseParams: ESLToggleableActionParams = {
+      initiator: 'mouseenter',
+      trackHover: true,
+      activator: this.activator,
+      event: e,
+      hideDelay
+    };
     this.show(Object.assign(baseParams, this.trackHoverParams));
   }
   @listen({auto: false, event: 'mouseleave'})
   protected _onMouseLeave(e: MouseEvent): void {
     const hideDelay = this._trackHoverDelay;
-    const baseParams: ESLToggleableActionParams = {initiator: 'mouseleave', trackHover: true, activator: this.activator, event: e, hideDelay};
+    const baseParams: ESLToggleableActionParams = {
+      initiator: 'mouseleave',
+      trackHover: true,
+      activator: this.activator,
+      event: e,
+      hideDelay
+    };
     this.hide(Object.assign(baseParams, this.trackHoverParams));
   }
 
   /** Prepares toggle request events param */
-  protected buildRequestParams(e: CustomEvent<ESLToggleableRequestDetails>): ESLToggleableActionParams | null {
+  protected buildRequestParams(
+    e: CustomEvent<ESLToggleableRequestDetails>
+  ): ESLToggleableActionParams | null {
     const detail = e.detail || {};
     if (!isMatches(this, detail.match)) return null;
     return Object.assign({}, detail, {event: e});

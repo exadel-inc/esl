@@ -47,6 +47,7 @@ describe('ESLMixinElement: attribute mixins correctly reflect to the $host', () 
   });
 
   afterAll(() => {
-    while (document.body.lastElementChild) document.body.removeChild(document.body.lastElementChild);
+    while (document.body.lastElementChild)
+    {document.body.removeChild(document.body.lastElementChild);}
   });
 });

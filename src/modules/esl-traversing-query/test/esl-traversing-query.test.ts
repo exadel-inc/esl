@@ -32,10 +32,12 @@ describe('Traversing Query tests', () => {
   const article2 = document.querySelector('.col-2') as HTMLElement;
 
   const traversingQueryWrap = (sel: any, base: any, expectedCollection: any) => {
-    expect(ESLTraversingQuery.first(sel, base as Element | null))
-      .toBe(expectedCollection.length > 0 ? expectedCollection[0] : null);
-    expect(ESLTraversingQuery.all(sel, base as Element | null))
-      .toEqual(expectedCollection);
+    expect(ESLTraversingQuery.first(sel, base as Element | null)).toBe(
+      expectedCollection.length > 0 ? expectedCollection[0] : null
+    );
+    expect(ESLTraversingQuery.all(sel, base as Element | null)).toEqual(
+      expectedCollection
+    );
   };
 
   describe('test cases when base element is absent', () => {
@@ -110,7 +112,7 @@ describe('Traversing Query tests', () => {
       ['::closest', btn1, [btn1]],
       ['::closest(.btn)', btn1, [btn1]],
       ['::closest(#row1)', btn1, [row1]],
-      ['::closest(.btn)', row1, []],
+      ['::closest(.btn)', row1, []]
     ])('Main check: ESLTraversingQuery.all/one, Sel: %s, Base: %p.', traversingQueryWrap);
   });
 
@@ -163,12 +165,17 @@ describe('Traversing Query tests', () => {
     test.each([
       ['#row1', null, root, [row1]],
       ['#row1', null, row2, []]
-    ])('Main check: ESLTraversingQuery.all/one, Sel: %s, Base: %p., Scope: %p.', (sel, base, scope, expectedCollection) => {
-      expect(ESLTraversingQuery.first(sel, base as Element | null, scope as Element))
-        .toBe(expectedCollection.length > 0 ? expectedCollection[0] : null);
-      expect(ESLTraversingQuery.all(sel, base as Element | null, scope as Element))
-        .toEqual(expectedCollection);
-    });
+    ])(
+      'Main check: ESLTraversingQuery.all/one, Sel: %s, Base: %p., Scope: %p.',
+      (sel, base, scope, expectedCollection) => {
+        expect(
+          ESLTraversingQuery.first(sel, base as Element | null, scope as Element)
+        ).toBe(expectedCollection.length > 0 ? expectedCollection[0] : null);
+        expect(
+          ESLTraversingQuery.all(sel, base as Element | null, scope as Element)
+        ).toEqual(expectedCollection);
+      }
+    );
   });
 
   describe('ESLTraversingQuery should support multiple queries separated by comma', () => {
@@ -194,9 +201,8 @@ describe('Traversing Query tests', () => {
       ['a,b ,c ', ['a', 'b', 'c']],
       ['a,(b),c', ['a', '(b)', 'c']],
       ['a,(b, b),c', ['a', '(b, b)', 'c']],
-      ['(a,b),c', ['(a,b)', 'c']],
-    ])('%s -> %p', (inp: string, out: string[]) =>
-    {
+      ['(a,b),c', ['(a,b)', 'c']]
+    ])('%s -> %p', (inp: string, out: string[]) => {
       expect(ESLTraversingQuery.splitQueries(inp)).toEqual(out);
     });
   });

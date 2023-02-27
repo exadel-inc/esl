@@ -21,14 +21,20 @@ aside:
     <form class="form bg-white border p-4" action="javascript: void 0;">
       <div class="">
         <div class="form-group">
-          <label for="country_field" class="form-label">Please select your country: </label>
-          <esl-select style="display: block"
-                      placeholder="Country"
-                      select-all-label="Select All Countries">
-            <select esl-select-target
-                    id="country_field"
-                    name="country_field"
-                    class="form-control">
+          <label for="country_field" class="form-label"
+            >Please select your country:
+          </label>
+          <esl-select
+            style="display: block"
+            placeholder="Country"
+            select-all-label="Select All Countries"
+          >
+            <select
+              esl-select-target
+              id="country_field"
+              name="country_field"
+              class="form-control"
+            >
               <option>Afghanistan</option>
               <option>Albania</option>
               <option>Algeria</option>
@@ -228,17 +234,21 @@ aside:
           </esl-select>
         </div>
 
-        <esl-select class="form-group"
-                    style="display: block"
-                    pin-selected
-                    placeholder="Color"
-                    select-all-label="All Colors">
+        <esl-select
+          class="form-group"
+          style="display: block"
+          pin-selected
+          placeholder="Color"
+          select-all-label="All Colors"
+        >
           <label for="color_field" class="form-label">Color</label>
-          <select esl-select-target
-                  multiple
-                  id="color_field"
-                  name="color_field"
-                  class="form-control">
+          <select
+            esl-select-target
+            multiple
+            id="color_field"
+            name="color_field"
+            class="form-control"
+          >
             <option value="" disabled>Disabled</option>
             <option value="#0048BA">Absolute Zero</option>
             <option value="#B0BF1A">Acid green</option>
@@ -567,17 +577,21 @@ aside:
             <option value="#87421F">Fuzzy Wuzzy</option>
           </select>
         </esl-select>
-        <esl-select class="form-group"
-                    style="display: block"
-                    pin-selected
-                    placeholder="Color 2"
-                    select-all-label="All Colors">
+        <esl-select
+          class="form-group"
+          style="display: block"
+          pin-selected
+          placeholder="Color 2"
+          select-all-label="All Colors"
+        >
           <label for="color_field_2" class="form-label">Color 2</label>
-          <select esl-select-target
-                  multiple
-                  id="color_field_2"
-                  name="color_field_2"
-                  class="form-control">
+          <select
+            esl-select-target
+            multiple
+            id="color_field_2"
+            name="color_field_2"
+            class="form-control"
+          >
             <option value="#0048BA">Absolute Zero</option>
             <option value="#B0BF1A">Acid green</option>
             <option value="#7CB9E8">Aero</option>
@@ -641,15 +655,19 @@ aside:
             <option value="#E30022">Cadmium red</option>
           </select>
         </esl-select>
-        <esl-select class="form-group"
-                    style="display: block"
-                    pin-selected
-                    placeholder="Mood">
+        <esl-select
+          class="form-group"
+          style="display: block"
+          pin-selected
+          placeholder="Mood"
+        >
           <label for="mood_field" class="form-label">Select your mood</label>
-          <select esl-select-target
-                  id="mood_field"
-                  name="mood_field"
-                  class="form-control">
+          <select
+            esl-select-target
+            id="mood_field"
+            name="mood_field"
+            class="form-control"
+          >
             <option>Happy</option>
             <option>Tired</option>
             <option>Bored</option>
@@ -665,8 +683,7 @@ aside:
       </div>
     </form>
 
-    <div class="demo-info panel panel-info">
-    </div>
+    <div class="demo-info panel panel-info"> </div>
     <script>
       (function () {
         var form = document.querySelector('form');

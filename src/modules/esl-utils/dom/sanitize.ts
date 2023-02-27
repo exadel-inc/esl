@@ -1,8 +1,12 @@
 /** checks if the attribute is dangerous */
 const isDangerousAttribute = (name: string, value: string): boolean => {
   const val = value.replace(/\s+/g, '').toLowerCase();
-  if (['src', 'data', 'href', 'xlink:href'].includes(name)
-    && (val.includes('javascript:') || val.includes('data:text/html'))) return true;
+  if (
+    ['src', 'data', 'href', 'xlink:href'].includes(name) &&
+    (val.includes('javascript:') || val.includes('data:text/html'))
+  ) {
+    return true;
+  }
   return name.indexOf('on') === 0;
 };
 

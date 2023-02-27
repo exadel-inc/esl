@@ -12,9 +12,9 @@ try {
     const event = document.createEvent('CustomEvent');
     event.initCustomEvent(
       eventName,
-      (params.bubbles === void 0) ? false : params.bubbles,
-      (params.cancelable === void 0) ? false : params.cancelable,
-      (params.detail === void 0) ? {} : params.detail
+      params.bubbles === void 0 ? false : params.bubbles,
+      params.cancelable === void 0 ? false : params.cancelable,
+      params.detail === void 0 ? {} : params.detail
     );
     return event;
   };

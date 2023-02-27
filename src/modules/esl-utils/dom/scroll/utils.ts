@@ -39,7 +39,10 @@ export type ScrollLockOptions = {
  * @param target - scrollable element which will be blocked from scrolling
  * @param options - additional options to lock scroll
  * */
-export function lockScroll(target: Element = $html, options: ScrollLockOptions = {}): void {
+export function lockScroll(
+  target: Element = $html,
+  options: ScrollLockOptions = {}
+): void {
   const {initiator} = options;
   if (initiator) {
     const initiatorList = initiatorMap.get(target);
@@ -54,7 +57,9 @@ export function lockScroll(target: Element = $html, options: ScrollLockOptions =
 
   const scrollable = target === $html ? target : getScrollParent(target);
   scrollable.setAttribute('esl-scroll-lock', options.strategy || '');
-  if (options.recursive && scrollable.parentElement) lockScroll(scrollable.parentElement, options);
+  if (options.recursive && scrollable.parentElement) {
+    lockScroll(scrollable.parentElement, options);
+  }
 }
 
 /**
@@ -62,7 +67,10 @@ export function lockScroll(target: Element = $html, options: ScrollLockOptions =
  * @param target - scrollable element
  * @param options - additional options to unlock scroll
  */
-export function unlockScroll(target: Element = $html, options: ScrollLockOptions = {}): void {
+export function unlockScroll(
+  target: Element = $html,
+  options: ScrollLockOptions = {}
+): void {
   const {initiator} = options;
   if (initiator) {
     const initiatorList = initiatorMap.get(target);
@@ -76,5 +84,7 @@ export function unlockScroll(target: Element = $html, options: ScrollLockOptions
 
   const scrollable = target === $html ? target : getScrollParent(target);
   scrollable.removeAttribute('esl-scroll-lock');
-  if (options.recursive && scrollable.parentElement) unlockScroll(scrollable.parentElement, options);
+  if (options.recursive && scrollable.parentElement) {
+    unlockScroll(scrollable.parentElement, options);
+  }
 }

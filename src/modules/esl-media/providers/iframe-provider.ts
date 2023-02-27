@@ -90,7 +90,9 @@ export class IframeBasicProvider extends BaseProvider {
   }
 
   public seekTo(pos: number): void {
-    console.error('[ESLMedia] Unsupported action: can not execute seekTo on abstract iframe provider');
+    console.error(
+      '[ESLMedia] Unsupported action: can not execute seekTo on abstract iframe provider'
+    );
   }
 
   public play(): void {

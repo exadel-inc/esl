@@ -11,6 +11,7 @@ aside:
     - esl-panel
     - esl-toggleable
 ---
+
 {% import 'lorem.njk' as lorem %}
 
 <section class="row">
@@ -19,15 +20,20 @@ aside:
 
     <ul class="esl-example-menu">
       <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow"
-                     track-hover
-                     hover-hide-delay="400">
+        <esl-trigger
+          class="menu-item-btn menu-item-arrow"
+          track-hover
+          hover-hide-delay="400"
+        >
           Hover Menu 1
         </esl-trigger>
-        <esl-panel class="menu-container"
-                   group="test-nav-group"
-                   fallback-duration="400"
-                   close-on-esc close-on-outside-action>
+        <esl-panel
+          class="menu-container"
+          group="test-nav-group"
+          fallback-duration="400"
+          close-on-esc
+          close-on-outside-action
+        >
           <ul class="esl-example-sub-menu">
             <li>1</li>
             <li>2</li>
@@ -39,28 +45,38 @@ aside:
         </esl-panel>
       </li>
       <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow"
-                     track-hover
-                     hover-hide-delay="400">
+        <esl-trigger
+          class="menu-item-btn menu-item-arrow"
+          track-hover
+          hover-hide-delay="400"
+        >
           Hover Menu 2
         </esl-trigger>
-        <esl-panel class="menu-container"
-                   group="test-nav-group"
-                   fallback-duration="400"
-                   close-on-esc close-on-outside-action>
+        <esl-panel
+          class="menu-container"
+          group="test-nav-group"
+          fallback-duration="400"
+          close-on-esc
+          close-on-outside-action
+        >
           <div class="esl-example-menu-400">{{ lorem.paragraphs(1) }}</div>
         </esl-panel>
       </li>
       <li class="menu-item">
-        <esl-trigger class="menu-item-btn menu-item-arrow"
-                     track-hover
-                     hover-hide-delay="400">
+        <esl-trigger
+          class="menu-item-btn menu-item-arrow"
+          track-hover
+          hover-hide-delay="400"
+        >
           Hover Menu 3
         </esl-trigger>
-        <esl-panel class="menu-container"
-                   group="test-nav-group"
-                   fallback-duration="400"
-                   close-on-esc close-on-outside-action>
+        <esl-panel
+          class="menu-container"
+          group="test-nav-group"
+          fallback-duration="400"
+          close-on-esc
+          close-on-outside-action
+        >
           <ul class="esl-example-sub-menu">
             <li>1</li>
             <li>2</li>
@@ -86,10 +102,13 @@ aside:
     <ul class="esl-example-menu">
       <li class="menu-item">
         <esl-trigger class="menu-item-btn menu-item-arrow">Menu 1</esl-trigger>
-        <esl-panel class="menu-container"
-                   group="test-nav-group"
-                   fallback-duration="400"
-                   close-on-esc close-on-outside-action>
+        <esl-panel
+          class="menu-container"
+          group="test-nav-group"
+          fallback-duration="400"
+          close-on-esc
+          close-on-outside-action
+        >
           <ul class="esl-example-sub-menu">
             <li>1</li>
             <li>2</li>
@@ -102,19 +121,25 @@ aside:
       </li>
       <li class="menu-item">
         <esl-trigger class="menu-item-btn menu-item-arrow">Menu 2</esl-trigger>
-        <esl-panel class="menu-container"
-                   group="test-nav-group"
-                   fallback-duration="400"
-                   close-on-esc close-on-outside-action>
+        <esl-panel
+          class="menu-container"
+          group="test-nav-group"
+          fallback-duration="400"
+          close-on-esc
+          close-on-outside-action
+        >
           <div class="esl-example-menu-400">{{ lorem.paragraphs(1) }}</div>
         </esl-panel>
       </li>
       <li class="menu-item">
         <esl-trigger class="menu-item-btn menu-item-arrow">Menu 3</esl-trigger>
-        <esl-panel class="menu-container"
-                   group="test-nav-group"
-                   fallback-duration="400"
-                   close-on-esc close-on-outside-action>
+        <esl-panel
+          class="menu-container"
+          group="test-nav-group"
+          fallback-duration="400"
+          close-on-esc
+          close-on-outside-action
+        >
           <ul class="esl-example-sub-menu">
             <li>1</li>
             <li>2</li>

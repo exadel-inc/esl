@@ -5,25 +5,37 @@ import type {MemoHashFn} from '../misc/memoize';
 import type {MethodTypedDecorator} from '../misc/functions';
 
 export function memoize(): MethodDecorator;
-export function memoize<H extends MemoHashFn>(hashFn: H): MethodTypedDecorator<(...args: Parameters<H>) => any>;
+export function memoize<H extends MemoHashFn>(
+  hashFn: H
+): MethodTypedDecorator<(...args: Parameters<H>) => any>;
 /**
  * Memoization decorator helper.
  * @see memoizeFn Original memoizeFn function decorator.
  */
 export function memoize(hashFn: MemoHashFn = defaultArgsHashFn) {
-  return function (target: any, prop: string, descriptor: TypedPropertyDescriptor<any>): void {
+  return function (
+    target: any,
+    prop: string,
+    descriptor: TypedPropertyDescriptor<any>
+  ): void {
     if (!descriptor || typeof (descriptor.value || descriptor.get) !== 'function') {
-      throw new TypeError('Only get accessors or class methods can be decorated via @memoize');
+      throw new TypeError(
+        'Only get accessors or class methods can be decorated via @memoize'
+      );
     }
 
     if (isPrototype(target)) {
       // Object members
-      (typeof descriptor.get === 'function') && (descriptor.get = memoizeGetter(descriptor.get, prop));
-      (typeof descriptor.value === 'function') && (descriptor.value = memoizeMethod(descriptor.value, prop, hashFn));
+      typeof descriptor.get === 'function' &&
+        (descriptor.get = memoizeGetter(descriptor.get, prop));
+      typeof descriptor.value === 'function' &&
+        (descriptor.value = memoizeMethod(descriptor.value, prop, hashFn));
     } else {
       // Static members
-      (typeof descriptor.get === 'function') && (descriptor.get = memoizeFn(descriptor.get));
-      (typeof descriptor.value === 'function') && (descriptor.value = memoizeFn(descriptor.value, hashFn));
+      typeof descriptor.get === 'function' &&
+        (descriptor.get = memoizeFn(descriptor.get));
+      typeof descriptor.value === 'function' &&
+        (descriptor.value = memoizeFn(descriptor.value, hashFn));
     }
   };
 }
@@ -77,11 +89,17 @@ function clearMemo<T extends object>(target: T, property: keyof T | (keyof T)[])
  */
 function clearMemo(target: object, property: string | string[]): void;
 function clearMemo(target: any, property: string | string[]): void {
-  if (Array.isArray(property)) return property.forEach((prop) => memoize.clear(target, prop));
+  if (Array.isArray(property)) {
+    return property.forEach((prop) => memoize.clear(target, prop));
+  }
   const desc = getPropertyDescriptor(target, property);
   if (!desc) return;
-  if (typeof desc.get === 'function' && typeof (desc.get as any).clear === 'function') return (desc.get as any).clear();
-  if (typeof desc.value === 'function' && typeof desc.value.clear === 'function') return desc.value.clear();
+  if (typeof desc.get === 'function' && typeof (desc.get as any).clear === 'function') {
+    return (desc.get as any).clear();
+  }
+  if (typeof desc.value === 'function' && typeof desc.value.clear === 'function') {
+    return desc.value.clear();
+  }
   if (Object.hasOwnProperty.call(target, property)) delete target[property];
 }
 memoize.clear = clearMemo;
@@ -93,7 +111,11 @@ memoize.clear = clearMemo;
  * @param property - property, key of target, to check cache
  * @param params - additional params of original memoized method
  */
-function hasMemo<T extends object>(target: T, property: keyof T, ...params: any[]): boolean;
+function hasMemo<T extends object>(
+  target: T,
+  property: keyof T,
+  ...params: any[]
+): boolean;
 /**
  * Check if property has cache for the passed params
  *
@@ -105,8 +127,12 @@ function hasMemo(target: object, property: string, ...params: any[]): boolean;
 function hasMemo(target: any, property: string, ...params: any[]): boolean {
   const desc = getPropertyDescriptor(target, property);
   if (!desc) return false;
-  if (typeof desc.get === 'function' && typeof (desc.get as any).has === 'function') return (desc.get as any).has(...params);
-  if (typeof desc.value === 'function' && typeof desc.value.has === 'function') return desc.value.has(...params);
+  if (typeof desc.get === 'function' && typeof (desc.get as any).has === 'function') {
+    return (desc.get as any).has(...params);
+  }
+  if (typeof desc.value === 'function' && typeof desc.value.has === 'function') {
+    return desc.value.has(...params);
+  }
   return Object.hasOwnProperty.call(target, property);
 }
 memoize.has = hasMemo;

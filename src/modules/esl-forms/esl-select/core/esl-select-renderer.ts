@@ -93,7 +93,10 @@ export class ESLSelectRenderer extends ESLBaseElement {
     let size = 0;
     do {
       this.apply(items, ++size); // Render with extended limit while it not fits to the container
-    } while (size <= items.length && this.$container.scrollWidth <= this.$container.clientWidth);
+    } while (
+      size <= items.length &&
+      this.$container.scrollWidth <= this.$container.clientWidth
+    );
     this.apply(items, size - 1); // Render last limit that fits
   }
 

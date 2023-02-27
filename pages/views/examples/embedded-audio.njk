@@ -11,6 +11,7 @@ aside:
   examples:
     - embedded-video
 ---
+
 {% import 'lorem.njk' as lorem %}
 
 <div class="row">
@@ -18,10 +19,12 @@ aside:
     <div class="mb-1">
       <h2>Basic Audio Example</h2>
       <p>ESL Media supports simple HTML audio in mp3, wav or aac formats:</p>
-      <esl-media controls
-                 media-type="audio"
-                 media-src="{{ '/assets/media/audio.mp3' | url }}"
-                 tabindex="0">
+      <esl-media
+        controls
+        media-type="audio"
+        media-src="{{ '/assets/media/audio.mp3' | url }}"
+        tabindex="0"
+      >
       </esl-media>
     </div>
     <div class="btn-group-centered">

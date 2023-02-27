@@ -55,7 +55,9 @@ export class ESLMixinRegistry {
     if (!root) return;
     this.invalidateAll(root);
     if (!root.children || !root.children.length) return;
-    Array.prototype.forEach.call(root.children, (child: Element) => this.invalidateRecursive(child as HTMLElement));
+    Array.prototype.forEach.call(root.children, (child: Element) =>
+      this.invalidateRecursive(child as HTMLElement)
+    );
   }
 
   /** Invalidates all mixins on the element */
@@ -81,7 +83,10 @@ export class ESLMixinRegistry {
   }
 
   /** Destroys passed mixin on the element */
-  public destroy(el: HTMLElement, mixin: string | ConstructableESLMixin | undefined): void {
+  public destroy(
+    el: HTMLElement,
+    mixin: string | ConstructableESLMixin | undefined
+  ): void {
     if (typeof mixin === 'string') mixin = this.store.get(mixin);
     if (!mixin) return;
     const current = ESLMixinRegistry.get(el, mixin.is);
@@ -97,12 +102,18 @@ export class ESLMixinRegistry {
   /** Handles DOM mutation list */
   protected _onMutation(mutations: MutationRecord[]): void {
     mutations.forEach((record: MutationRecord) => {
-      if (record.type === 'attributes' && record.attributeName && this.store.has(record.attributeName)) {
+      if (
+        record.type === 'attributes' &&
+        record.attributeName &&
+        this.store.has(record.attributeName)
+      ) {
         this.invalidate(record.target as HTMLElement, record.attributeName);
       }
       if (record.type === 'childList') {
         record.addedNodes.forEach((node) => {
-          if (node.nodeType === Node.ELEMENT_NODE) this.invalidateRecursive(node as HTMLElement);
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            this.invalidateRecursive(node as HTMLElement);
+          }
         });
         record.removedNodes.forEach((node) => {
           if (node.nodeType === Node.ELEMENT_NODE) this.destroyAll(node as HTMLElement);
@@ -124,13 +135,18 @@ export class ESLMixinRegistry {
 
   /** Sets mixin instance to the element store */
   private static set(el: HTMLElement, mixin: ESLMixinElement): void {
-    if (!Object.hasOwnProperty.call(el, STORE)) Object.defineProperty(el, STORE, {value: {}, configurable: true});
+    if (!Object.hasOwnProperty.call(el, STORE)) {
+      Object.defineProperty(el, STORE, {value: {}, configurable: true});
+    }
     const store = (el as any)[STORE] as Record<string, ESLMixinElement>;
     store[(mixin.constructor as ConstructableESLMixin).is] = mixin;
   }
 
   /** Inits mixin instance on the element */
-  private static init(el: HTMLElement, Mixin: ConstructableESLMixin): ESLMixinElement | null {
+  private static init(
+    el: HTMLElement,
+    Mixin: ConstructableESLMixin
+  ): ESLMixinElement | null {
     if (this.has(el, Mixin.is)) return null;
     const instance = new Mixin(el);
     ESLMixinRegistry.set(el, instance);

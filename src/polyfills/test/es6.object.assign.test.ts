@@ -45,7 +45,16 @@ describe('Object.assign() polyfill', () => {
     125 is a number,it cannot has own enumerable properties;
     {a:'c'},{a:5} will override property a, the value should be 5.
     */
-    const result = Object.assign(target, '1a2c3', {a: 'c'}, undefined, {b: 6}, null, 125, {a: 5});
+    const result = Object.assign(
+      target,
+      '1a2c3',
+      {a: 'c'},
+      undefined,
+      {b: 6},
+      null,
+      125,
+      {a: 5}
+    );
     expect(Object.getOwnPropertyNames(result).length).toBe(7);
     expect(result.a).toBe(5);
     expect(result[0]).toBe('1');
@@ -178,7 +187,9 @@ describe('Object.assign() polyfill', () => {
   test('source - get attributes error', () => {
     // Errors thrown during retrieval of source object attributes
     const source = {
-      get attr() {throw new TestError();}
+      get attr() {
+        throw new TestError();
+      }
     };
     expect(() => Object.assign({}, source)).toThrow(TestError);
   });
@@ -195,21 +206,29 @@ describe('Object.assign() polyfill', () => {
 
   test('source - own property error', () => {
     // Invoked with a source whose own property descriptor cannot be retrieved
-    const source = new Proxy({
-      attr: null
-    }, {
-      getOwnPropertyDescriptor: () => {
-        throw new TestError();
+    const source = new Proxy(
+      {
+        attr: null
+      },
+      {
+        getOwnPropertyDescriptor: () => {
+          throw new TestError();
+        }
       }
-    });
+    );
     expect(() => Object.assign({}, source)).toThrow(TestError);
   });
 
   test('source - own property keys error', () => {
     // Invoked with a source whose own property keys cannot be retrieved
-    const source = new Proxy({}, {
-      ownKeys: () => { throw new TestError(); }
-    });
+    const source = new Proxy(
+      {},
+      {
+        ownKeys: () => {
+          throw new TestError();
+        }
+      }
+    );
     expect(() => Object.assign({}, source)).toThrow(TestError);
   });
 
@@ -222,19 +241,23 @@ describe('Object.assign() polyfill', () => {
 
     Object.defineProperty(source, sym1, {
       get: () => log.push('get sym(x)'),
-      enumerable: true, configurable: true,
+      enumerable: true,
+      configurable: true
     });
     Object.defineProperty(source, 'a', {
       get: () => log.push('get a'),
-      enumerable: true, configurable: true,
+      enumerable: true,
+      configurable: true
     });
     Object.defineProperty(source, sym2, {
       get: () => log.push('get sym(y)'),
-      enumerable: true, configurable: true,
+      enumerable: true,
+      configurable: true
     });
     Object.defineProperty(source, 'b', {
       get: () => log.push('get b'),
-      enumerable: true, configurable: true,
+      enumerable: true,
+      configurable: true
     });
 
     Object.assign({}, source);
@@ -245,7 +268,9 @@ describe('Object.assign() polyfill', () => {
     // [[Set]] to accessor property of frozen `target` succeeds.
     let value1 = 1;
     const target1 = {
-      set foo(val: any) { value1 = val; },
+      set foo(val: any) {
+        value1 = val;
+      }
     };
     Object.freeze(target1);
     Object.assign(target1, {foo: 2});
@@ -254,7 +279,9 @@ describe('Object.assign() polyfill', () => {
     const sym = Symbol();
     let value2 = 1;
     const target2 = Object.freeze({
-      set [sym](val: any) { value2 = val; },
+      set [sym](val: any) {
+        value2 = val;
+      }
     });
     Object.freeze(target2);
     Object.assign(target2, {[sym]: 2});
@@ -276,7 +303,9 @@ describe('Object.assign() polyfill', () => {
     // [[Set]] to existing accessor property of non-extensible `target` is successful.
     let value1 = 1;
     const target1 = Object.preventExtensions({
-      set foo(val: any) { value1 = val; },
+      set foo(val: any) {
+        value1 = val;
+      }
     });
     Object.assign(target1, {foo: 2});
     expect(value1).toBe(2);
@@ -284,7 +313,9 @@ describe('Object.assign() polyfill', () => {
     const sym = Symbol();
     let value2 = 1;
     const target2 = {
-      set [sym](val: any) { value2 = val; },
+      set [sym](val: any) {
+        value2 = val;
+      }
     };
     Object.preventExtensions(target2);
     Object.assign(target2, {[sym]: 2});
@@ -307,7 +338,13 @@ describe('Object.assign() polyfill', () => {
   test('target is non-extensible property creation throws', () => {
     // [[Set]] to non-existing property of non-extensible `target` fails with TypeError.
     const target1 = Object.preventExtensions({foo: 1});
-    expect(() => Object.assign(target1, {get bar() {return;}})).toThrow(TypeError);
+    expect(() =>
+      Object.assign(target1, {
+        get bar() {
+          return;
+        }
+      })
+    ).toThrow(TypeError);
 
     const target2 = {};
     Object.preventExtensions(target2);
@@ -318,7 +355,9 @@ describe('Object.assign() polyfill', () => {
     // [[Set]] to existing accessor property of sealed `target` is successful.
     let value1 = 1;
     const target1 = Object.seal({
-      set foo(val: any) { value1 = val; }
+      set foo(val: any) {
+        value1 = val;
+      }
     });
     Object.assign(target1, {foo: 2});
     expect(value1).toBe(2);
@@ -326,7 +365,9 @@ describe('Object.assign() polyfill', () => {
     const sym = Symbol();
     let value2 = 1;
     const target2 = {
-      set [sym](val: any) { value2 = val; }
+      set [sym](val: any) {
+        value2 = val;
+      }
     };
     Object.seal(target2);
     Object.assign(target2, {[sym]: 2});
@@ -349,7 +390,13 @@ describe('Object.assign() polyfill', () => {
   test('target is sealed property creation throws', () => {
     // [[Set]] to non-existing property of sealed `target` fails with TypeError.
     const target1 = Object.seal({foo: 1});
-    expect(() => Object.assign(target1, {get bar() {return;}})).toThrow(TypeError);
+    expect(() =>
+      Object.assign(target1, {
+        get bar() {
+          return;
+        }
+      })
+    ).toThrow(TypeError);
 
     const target2 = {};
     Object.seal(target2);
@@ -367,7 +414,9 @@ describe('Object.assign() polyfill', () => {
     // Errors thrown during definition of target object attributes
     const target = {};
     Object.defineProperty(target, 'attr', {
-      set: (_) => { throw new TestError(); }
+      set: (_) => {
+        throw new TestError();
+      }
     });
     expect(() => Object.assign(target, {attr: 1})).toThrow(TestError);
   });

@@ -2,7 +2,6 @@ import '../../../../polyfills/es5-target-shim';
 import {jsonAttr} from '../json-attr';
 
 describe('Decorator: jsonAttr', () => {
-
   class TestElement extends HTMLElement {
     @jsonAttr()
     public simple: any;
@@ -75,7 +74,9 @@ describe('Decorator: jsonAttr', () => {
 
   test('Decorator: jsonAttr - readonly attr', () => {
     expect(el.readonlyField).toEqual({});
-    expect(() => { el.readonlyField = {}; }).toThrowError();
+    expect(() => {
+      el.readonlyField = {};
+    }).toThrowError();
     expect(el.readonlyField).toEqual({});
     el.setAttribute('readonly-field', '{b: 2}');
     expect(el.readonlyField).toEqual({b: 2});
@@ -95,7 +96,9 @@ describe('Decorator: jsonAttr', () => {
 
   test('Decorator: jsonAttr - error test', () => {
     let throwError = false;
-    jest.spyOn(console, 'error').mockImplementation(() => {throwError = true;});
+    jest.spyOn(console, 'error').mockImplementation(() => {
+      throwError = true;
+    });
     el.simple = {};
     expect(el.simple).toEqual({});
     const t: any = {};
@@ -108,7 +111,9 @@ describe('Decorator: jsonAttr', () => {
 
   test('Decorator: jsonAttr - error test 2', () => {
     let throwError = false;
-    jest.spyOn(console, 'error').mockImplementation(() => {throwError = true;});
+    jest.spyOn(console, 'error').mockImplementation(() => {
+      throwError = true;
+    });
     el.simple = {};
     el.simple = NaN;
     expect(el.simple).toEqual({});
@@ -124,7 +129,9 @@ describe('Decorator: jsonAttr', () => {
 
   test('Decorator: jsonAttr - parse test', () => {
     let throwWarn = false;
-    jest.spyOn(console, 'warn').mockImplementation(() => {throwWarn = true;});
+    jest.spyOn(console, 'warn').mockImplementation(() => {
+      throwWarn = true;
+    });
     el.simple = {};
     expect(el.getAttribute('simple')).toBe('{}');
     el.setAttribute('simple', '{');

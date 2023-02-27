@@ -2,7 +2,8 @@ import {sanitize} from '../../esl-utils/dom/sanitize';
 
 import type {ESLImage} from './esl-image';
 
-export const EMPTY_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+export const EMPTY_IMAGE =
+  'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 export const isEmptyImage = (src: string): boolean => src === EMPTY_IMAGE;
 
 /**
@@ -23,7 +24,7 @@ export interface ESLImageStrategyMap {
 }
 
 export const STRATEGIES: ESLImageStrategyMap = {
-  'cover': {
+  cover: {
     apply(img, shadowImg): void {
       const src = shadowImg.src;
       const isEmpty = !src || isEmptyImage(src);
@@ -39,14 +40,16 @@ export const STRATEGIES: ESLImageStrategyMap = {
       const isEmpty = !src || isEmptyImage(src);
       img.style.backgroundImage = isEmpty ? '' : `url("${src}")`;
       if (shadowImg.width === 0) return;
-      img.style.paddingTop = isEmpty ? '' : `${(shadowImg.height * 100 / shadowImg.width)}%`;
+      img.style.paddingTop = isEmpty
+        ? ''
+        : `${(shadowImg.height * 100) / shadowImg.width}%`;
     },
     clear(img): void {
       img.style.paddingTop = '';
       img.style.backgroundImage = '';
     }
   },
-  'fit': {
+  fit: {
     apply(img, shadowImg): void {
       const innerImg = img.attachInnerImage();
       innerImg.src = shadowImg.src;
@@ -56,7 +59,7 @@ export const STRATEGIES: ESLImageStrategyMap = {
       img.removeInnerImage();
     }
   },
-  'origin': {
+  origin: {
     apply(img, shadowImg): void {
       const innerImg = img.attachInnerImage();
       innerImg.src = shadowImg.src;

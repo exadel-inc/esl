@@ -54,7 +54,7 @@ export class ESLNote extends ESLBaseElement {
   @attr() public container: string;
 
   /** margin around the element that is used as the viewport for checking the visibility of the note tooltip */
-  @attr({defaultValue: '0px'})  public intersectionMargin: string;
+  @attr({defaultValue: '0px'}) public intersectionMargin: string;
 
   protected _$footnotes: ESLFootnotes | null;
   protected _index: number;
@@ -108,7 +108,11 @@ export class ESLNote extends ESLBaseElement {
     this.restore();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected attributeChangedCallback(
+    attrName: string,
+    oldVal: string,
+    newVal: string
+  ): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'tooltip-shown' && newVal === null) {
       this._$footnotes?.turnOffHighlight(this);
@@ -193,22 +197,29 @@ export class ESLNote extends ESLBaseElement {
   }
 
   /** Merge params to pass to the toggleable */
-  protected mergeToggleableParams(this: ESLNote, ...params: TooltipActionParams[]): TooltipActionParams {
+  protected mergeToggleableParams(
+    this: ESLNote,
+    ...params: TooltipActionParams[]
+  ): TooltipActionParams {
     const container = this.getClosestRelatedAttr('container') || this.container;
-    const containerEl = container ? ESLTraversingQuery.first(container, this) as HTMLElement : undefined;
-    return Object.assign({
-      initiator: 'note',
-      activator: this,
-      containerEl,
-      html: this.html,
-      intersectionMargin: this.intersectionMargin
-    }, ...params);
+    const containerEl = container
+      ? (ESLTraversingQuery.first(container, this) as HTMLElement)
+      : undefined;
+    return Object.assign(
+      {
+        initiator: 'note',
+        activator: this,
+        containerEl,
+        html: this.html,
+        intersectionMargin: this.intersectionMargin
+      },
+      ...params
+    );
   }
 
   /** Shows tooltip with passed params */
   public showTooltip(params: TooltipActionParams = {}): void {
-    const actionParams = this.mergeToggleableParams({
-    }, params);
+    const actionParams = this.mergeToggleableParams({}, params);
     if (ESLTooltip.open) {
       this.hideTooltip();
     }
@@ -217,12 +228,14 @@ export class ESLNote extends ESLBaseElement {
   }
   /** Hides tooltip with passed params */
   public hideTooltip(params: TooltipActionParams = {}): void {
-    const actionParams = this.mergeToggleableParams({
-    }, params);
+    const actionParams = this.mergeToggleableParams({}, params);
     ESLTooltip.hide(actionParams);
   }
   /** Toggles tooltip with passed params */
-  public toggleTooltip(params: TooltipActionParams = {}, state: boolean = !this.tooltipShown): void {
+  public toggleTooltip(
+    params: TooltipActionParams = {},
+    state: boolean = !this.tooltipShown
+  ): void {
     state ? this.showTooltip(params) : this.hideTooltip(params);
   }
 

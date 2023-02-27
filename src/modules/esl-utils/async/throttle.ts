@@ -19,7 +19,11 @@ export interface Throttled<F extends AnyToAnyFnSignature> {
  * @param thisArg - optional context to call original function, use debounced method call context if not defined
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function throttle<F extends AnyToAnyFnSignature>(fn: F, threshold = 250, thisArg?: object): Throttled<F> {
+export function throttle<F extends AnyToAnyFnSignature>(
+  fn: F,
+  threshold = 250,
+  thisArg?: object
+): Throttled<F> {
   let last: number;
   let timeout: number | null = null;
   let deferred: Deferred<ReturnType<F>> | null = null;
@@ -33,7 +37,7 @@ export function throttle<F extends AnyToAnyFnSignature>(fn: F, threshold = 250, 
     }
 
     deferred = deferred || createDeferred();
-    (typeof timeout === 'number') && clearTimeout(timeout);
+    typeof timeout === 'number' && clearTimeout(timeout);
     timeout = window.setTimeout(() => {
       last = now;
       timeout = null;
@@ -43,7 +47,7 @@ export function throttle<F extends AnyToAnyFnSignature>(fn: F, threshold = 250, 
     }, threshold);
   }
   Object.defineProperty(throttledSubject, 'promise', {
-    get: () => deferred ? deferred.promise : Promise.resolve()
+    get: () => (deferred ? deferred.promise : Promise.resolve())
   });
   return throttledSubject as Throttled<F>;
 }

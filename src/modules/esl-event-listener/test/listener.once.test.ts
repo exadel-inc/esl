@@ -20,7 +20,7 @@ describe('ESLEventUtils.subscribe invokes with `once` attribute', () => {
     expect(ESLEventUtils.listeners(host, 'click').length).toBe(0);
     expect(ESLEventUtils.listeners(host, 'keydown').length).toBe(1);
 
-    host.dispatchEvent(new KeyboardEvent('keydown', {'key': 'a'}));
+    host.dispatchEvent(new KeyboardEvent('keydown', {key: 'a'}));
     expect(ESLEventUtils.listeners(host, 'keydown').length).toBe(0);
   });
 });

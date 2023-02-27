@@ -15,7 +15,7 @@ interface mockedXMLHttpRequest {
   responseText: string;
 }
 
-export function mockXMLHttpRequest(): mockXMLHttpRequestController  {
+export function mockXMLHttpRequest(): mockXMLHttpRequestController {
   // mocked properties
   let readyState = 4;
   let status = 200;
@@ -29,7 +29,11 @@ export function mockXMLHttpRequest(): mockXMLHttpRequestController  {
   });
 
   // set data to return on next request
-  function setData(newData: string, newStatus: number = 200, newReadyState: number = 4): void {
+  function setData(
+    newData: string,
+    newStatus: number = 200,
+    newReadyState: number = 4
+  ): void {
     responseText = newData;
     status = newStatus;
     readyState = newReadyState;
