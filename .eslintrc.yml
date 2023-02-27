@@ -11,6 +11,7 @@ extends:
   - 'plugin:import/typescript'
   - 'plugin:@typescript-eslint/recommended'
 
+
   # Library base set
   - './linting/codestyle.eslintrc.yml'
   - './linting/coderules.eslintrc.yml'
@@ -32,6 +33,7 @@ plugins:
   - '@typescript-eslint'
   - 'eslint-plugin-tsdoc'
 
+
 # Overall rules
 rules:
   # Enable TS Doc syntax check
@@ -43,3 +45,4 @@ rules:
   'editorconfig/eol-last': warn
   # Require no trailing spaces
   'editorconfig/no-trailing-spaces': warn
+

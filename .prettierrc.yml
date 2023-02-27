@@ -1,0 +1,22 @@
+arrowParens: always
+bracketSpacing: false
+embeddedLanguageFormatting: off
+insertPragma: false
+jsxBracketSameLine: false
+jsxSingleQuote: false
+printWidth: 90
+proseWrap: preserve
+quoteProps: as-needed
+requirePragma: false
+semi: true
+singleQuote: true
+tabWidth: 2
+trailingComma: none
+useTabs: false
+htmlWhitespaceSensitivity: ignore
+overrides:
+  - files: '*.njk'
+    options:
+      parser: html
+      singleQuote: false
+      htmlWhitespaceSensitivity: strict

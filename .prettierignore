@@ -1,0 +1,38 @@
+# IDE
+.idea
+*.iml
+*.ipr
+*.iws
+.DS_Store
+
+# Libs
+node_modules
+
+# Build output
+target
+pages/dist
+
+# Generated surces
+/modules
+/polyfills
+
+# Logs & Tmp
+npm-debug.log
+.gitconfig
+
+# Jest & Sonar
+/.report
+/.scannerwork
+
+# Common configuration
+jest.config.js
+
+# Common directories
+build
+node_modules
+
+# Generated surces
+/modules
+/polyfills
+
+/src/modules/draft
