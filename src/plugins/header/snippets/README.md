@@ -6,7 +6,7 @@
 
 - Snippets should be placed in *template*/*script* tags, which should be placed inside [UIPRoot](src/core/README.md#uip-root).
 - Script/template tags should have *uip-snippet* attribute and *label* attribute with a snippet's name.
-- The first snippet is displayed by default.
+- An active element can be chosen by adding class *active* to script/template, otherwise the first snippet is displayed by default.
 
 **UIPSnippets** component produces [UIPStateModel](src/core/README.md#uip-state-model) changes, but it doesn't observe them.
 
