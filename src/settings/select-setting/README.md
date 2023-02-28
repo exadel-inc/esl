@@ -1,21 +1,20 @@
 # UIP Select Setting
 
-**UIPSelectSetting** - custom setting for selecting attribute's value. Extends [UIPSetting](src/plugins/settings/README.md).
+**UIPSelectSetting** - custom setting to select attribute's value. Extends [UIPSetting](src/plugins/settings/README.md).
 
 ## Description
 
-We render **UIPSelectSetting** as [ESLSelect](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-forms/esl-select)
-element.
+We render **UIPSelectSetting** as [ESLSelect](https://github.com/exadel-inc/esl/tree/main/src/modules/esl-forms/esl-select) element.
 
 Select setting has two modes: **replace** and **append**. The first one (is used by default) replaces the attribute
-*value* with selected, and the second one appends selected *value* to the attribute.
+value with selected, and the second one appends selected value to the attribute.
 
 **UIPSelectSetting** also supports **multiple** attribute to allow selecting multiple values.
 
 ## Example
 
 ```html
-<uip-settings label="Settings">
+<uip-settings>
   <uip-select-setting label="Resolution" attribute="class" mode="append">
     <option value="img-64">64x64</option>
     <option value="img-128">128x128</option>

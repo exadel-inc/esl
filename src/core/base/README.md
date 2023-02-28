@@ -1,13 +1,13 @@
 <a href="#uip-plugin" id="uip-plugin"></a>
-# UIP Plugin
+
+# UIPPlugin
 
 **UIPPlugin** - base class for all UIP elements. Extending it allows creating custom UIP components.
 
 ## Description
 
 All UIP elements are **UIPPlugin** instances. Plugin automatically sets *uip-plugin* class to its elements,
-provides access to [UIPRoot](src/core/README.md#uip-root) and adds *_onRootStateChange()* method, which is a key part in components
-communication.
+provides access to [UIPRoot](src/core/README.md#uip-root) and adds *_onRootStateChange()* method, which is a key part in components communication.
 
 After initialization **UIPPlugin** subscribes to [UIPStateModel](src/core/README.md#uip-state-model) changes and, after
 destroying, automatically unsubscribes. *_onRootStateChange()* is called every time markup changes are detected.
@@ -32,9 +32,6 @@ class UIPComponent extends UIPPlugin {
 
 You can find a way of getting current markup in [UIPStateModel](src/core/README.md#uip-state-model) section.
 
-To make the long story shorter: we implement "reaction" callback in *_onRootStateChange()* (using markup's getter
-mentioned earlier) and every time **UIPStateModel** produces markup updates, we "react" to them!
-
 ## Example
 
 ```typescript
@@ -51,14 +48,16 @@ class UIPPreview extends UIPPlugin {
 
 ---
 <a href="#uip-root" id="uip-root"></a>
-# UIP Root
+
+# UIPRoot
 
 **UIPRoot** - container for **UIPPlugin** components.
 
 ## Description
 
 **UIPRoot** contains [UIPStateModel](src/core/README.md#uip-state-model) getter. It also allows **UIPPlugin** elements
-subscribing to model changes (or unsubscribing from them). More details can be found in [UIPPlugin](src/core/README.md#uip-plugin) section.
+to subscribe to model changes (or unsubscribe from them). More details can be found in
+[UIPPlugin](src/core/README.md#uip-plugin) section.
 
 ## Example
 
@@ -69,7 +68,8 @@ subscribing to model changes (or unsubscribing from them). More details can be f
 ---
 
 <a href="#uip-state-model" id="uip-state-model"></a>
-# UIP State Model
+
+# UIPStateModel
 
 **UIPStateModel** - state manager which contains current markup and provides methods for changing it.
 Implements [Observable](https://en.wikipedia.org/wiki/Observer_pattern) pattern through extending
@@ -93,9 +93,8 @@ class UIPComponent extends UIPPlugin {
 
 ```
 
-Markup's setter takes two arguments: *markup* and *modifier*. *Markup* stands for, surprisingly, new markup, and
-*modifier* is a **UIPPlugin** instance which triggers changes (it is needed to prevent extra triggers of
-**UIPStateModel**).
+Markup's setter takes two arguments: *markup* and *modifier*. *Markup* stands for the new markup, and
+*modifier* is a **UIPPlugin** instance which triggers changes.
 
 
 **UIPStateModel** also has a getter for current markup:
@@ -116,8 +115,7 @@ class UIPComponent extends UIPPlugin {
 ## Markup processing methods
 
 **UIPStateModel** has some methods to make markup processing easier. They are used inside
-[UIPSettings](src/plugins/settings/README.md) and [UIPSetting](src/plugins/settings/README.md) plugins. These methods have the
-following signatures:
+[UIPSettings](src/plugins/settings/README.md) and [UIPSetting](src/plugins/settings/README.md) plugins. These methods have the following signatures:
 
 ```typescript
 import {Observable} from "@exadel/esl";
