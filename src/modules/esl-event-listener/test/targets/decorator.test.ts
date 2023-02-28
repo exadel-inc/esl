@@ -30,7 +30,7 @@ describe('ESLEventUtils.decorate proxy', () => {
     const dec = jest.fn(() => handler);
     const decorated = ESLEventUtils.decorate(el, dec);
 
-    test('Creation does npt cause execution', () => expect(dec).not.toBeCalled());
+    test('Creation does not cause execution', () => expect(dec).not.toBeCalled());
 
     test('Creation happens once on subscription', () => {
       const fn = jest.fn();
@@ -68,7 +68,7 @@ describe('ESLEventUtils.decorate proxy', () => {
     beforeEach(() => fn.mockReset());
     afterEach(() => jest.runAllTimers());
 
-    test('Proxy resize receive the resize event',  ()=> {
+    test('Proxy resize receives the resize event',  ()=> {
       const event = new Event('resize');
       window.dispatchEvent(event);
       jest.advanceTimersByTime(DEFAULT_TIMEOUT);
@@ -117,7 +117,7 @@ describe('ESLEventUtils.decorate proxy', () => {
     beforeEach(() => fn.mockReset());
     afterEach(() => jest.runAllTimers());
 
-    test('Proxy scroll receive the scroll event',  ()=> {
+    test('Proxy scroll receives the scroll event',  ()=> {
       const event = new Event('scroll');
       window.dispatchEvent(event);
       jest.advanceTimersByTime(10);
