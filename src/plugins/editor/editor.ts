@@ -48,12 +48,12 @@ export class UIPEditor extends UIPPlugin {
       this.resizeObserver.observe(this);
       this.editor = new Ace.Editor(this.$inner);
       this.editor.setConfig(this.editorConfig);
+      this.editor.addEventListener('editor-change', this._onChange);
       this._onRootStateChange();
     });
   }
 
   /** Callback to call on editor's content changes */
-  @listen('change')
   @decorate(debounce, 1000)
   protected _onChange() {
     this.model!.setHtml(this.editor.getValue(), this);

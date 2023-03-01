@@ -69,7 +69,7 @@ class AceEditor extends SyntheticEventTarget {
   /** Handle editor's content change */
   @bind
   private _onChange() {
-    this.dispatchEvent(new CustomEvent('change'));
+    this.dispatchEvent(new CustomEvent('editor-change'));
   }
 }
 
