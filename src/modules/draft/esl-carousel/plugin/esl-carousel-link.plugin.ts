@@ -8,7 +8,7 @@ import {ESLCarouselPlugin} from './esl-carousel-plugin';
  */
 @ExportNs('CarouselPlugins.Link')
 export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
-  public static is = 'esl-carousel-link-plugin';
+  public static override is = 'esl-carousel-link-plugin';
 
   public static get observedAttributes() {
     return ['to', 'direction'];
@@ -24,7 +24,7 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
     this._onSlideChange = this._onSlideChange.bind(this);
   }
 
-  public bind() {
+  public override bind() {
     if (!this.target) {
       this.target = document.querySelector(this.to);
     }
@@ -38,7 +38,7 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
     }
   }
 
-  public unbind() {
+  public override unbind() {
     this.target && this.target.removeEventListener('esl:slide:changed', this._onSlideChange);
     this.carousel && this.carousel.removeEventListener('esl:slide:changed', this._onSlideChange);
   }

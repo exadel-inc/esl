@@ -51,7 +51,7 @@ describe('common @decorate decorator test', () => {
     }
 
     class Child extends Parent {
-      test(...args: any[]): symbol {
+      override test(...args: any[]): symbol {
         return super.test(...args);
       }
 

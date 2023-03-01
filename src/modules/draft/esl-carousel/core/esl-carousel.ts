@@ -20,7 +20,7 @@ interface CarouselConfig { // Registry
 export class ESLCarousel extends ESLBaseElement {
   public static Slide = ESLCarouselSlide;
 
-  public static is = 'esl-carousel';
+  public static override is = 'esl-carousel';
 
   static get observedAttributes() {
     return ['config'];
@@ -154,7 +154,7 @@ export class ESLCarousel extends ESLBaseElement {
     this.goTo((this.firstIndex + this.activeCount + this.count) % this.count, 'right');
   }
 
-  protected connectedCallback() {
+  protected override connectedCallback() {
     super.connectedCallback();
 
     this.update(true);
@@ -164,7 +164,7 @@ export class ESLCarousel extends ESLBaseElement {
     ESLCarouselViewRegistry.instance.addListener(this._onRegistryChange);
   }
 
-  protected disconnectedCallback() {
+  protected override disconnectedCallback() {
     super.disconnectedCallback();
     this._unbindEvents();
 
@@ -285,7 +285,7 @@ export class ESLCarousel extends ESLBaseElement {
     this._plugins.delete(plugin.key);
   }
 
-  public static register(tagName?: string) {
+  public static override register(tagName?: string) {
     ESLCarouselSlide.register((tagName || ESLCarousel.is) + '-slide');
     customElements.whenDefined(ESLCarouselSlide.is).then(() => super.register.call(this, tagName));
   }

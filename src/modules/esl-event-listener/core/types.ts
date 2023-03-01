@@ -54,3 +54,9 @@ export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLLis
 /** Function decorated as {@link ESLListenerDescriptor} */
 export type ESLListenerDescriptorFn<EType extends keyof ESLListenerEventMap = string> =
   ESLListenerHandler<ESLListenerEventMap[EType]> & ESLListenerDescriptor<EType>;
+
+/** Descriptor to create {@link ESLEventListener} based on class property */
+export type ESLListenerDescriptorExt<T extends keyof ESLListenerEventMap = string> = Partial<ESLListenerDescriptor<T>> & {
+  /** Defines if the listener metadata should be inherited from the method of the superclass */
+  inherit?: boolean;
+};

@@ -12,19 +12,19 @@ import {ESLTrigger} from '../../esl-trigger/core';
  */
 @ExportNs('Tab')
 export class ESLTab extends ESLTrigger {
-  public static is = 'esl-tab';
+  public static override is = 'esl-tab';
 
-  @attr({defaultValue: 'show'}) public mode: string;
-  @attr({defaultValue: 'active'}) public activeClass: string;
+  @attr({defaultValue: 'show'}) public override mode: string;
+  @attr({defaultValue: 'active'}) public override activeClass: string;
 
-  public initA11y(): void {
+  public override initA11y(): void {
     const target = this.$a11yTarget;
     if (!target) return;
     if (target.hasAttribute('role')) return;
     setAttr(target, 'role', 'tab');
   }
 
-  public updateA11y(): void {
+  public override updateA11y(): void {
     const target = this.$a11yTarget;
     if (!target) return;
 
