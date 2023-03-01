@@ -20,7 +20,7 @@ export class ESLShareMediaAction extends ESLShareUrlGenericAction {
 
   protected get windowFeatures(): string {
     const features = (this.constructor as typeof ESLShareMediaAction).FEATURES;
-    return Object.entries(features).map((key, value) => `${key}=${value}`).join(',');
+    return Object.entries(features).map(([key, value]) => `${key}=${value}`).join(',');
   }
 
   public share(shareData: ShareData, $button: ESLShareButton): void {
