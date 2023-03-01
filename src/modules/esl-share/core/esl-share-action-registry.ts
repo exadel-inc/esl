@@ -17,7 +17,7 @@ export class ESLShareActionRegistry {
     this.actionsMap.set(action.is, new action());
   }
 
-  /** Check if action is registered for passed name */
+  /** Checks if action is registered for passed name */
   public has(name: string): boolean {
     return this.actionsMap.has(name);
   }

@@ -87,12 +87,12 @@ export class ESLShareButton extends ESLBaseElement {
   protected onAfterShare(): void {}
 
   @listen('click')
-  protected onClick(e: MouseEvent): void {
+  protected _onClick(e: MouseEvent): void {
     this.share();
   }
 
   @listen('keydown')
-  protected onKeydown(e: KeyboardEvent): void {
+  protected _onKeydown(e: KeyboardEvent): void {
     if ([ENTER, SPACE].includes(e.key)) {
       this.click();
       e.preventDefault();

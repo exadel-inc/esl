@@ -19,7 +19,8 @@ export class ESLShareMediaAction extends ESLShareUrlGenericAction {
   };
 
   protected get windowFeatures(): string {
-    return Object.entries((this.constructor as typeof ESLShareMediaAction).FEATURES).map((key, value) => `${key}=${value}`).join(',');
+    const features = (this.constructor as typeof ESLShareMediaAction).FEATURES;
+    return Object.entries(features).map((key, value) => `${key}=${value}`).join(',');
   }
 
   public share(shareData: ShareData, $button: ESLShareButton): void {
