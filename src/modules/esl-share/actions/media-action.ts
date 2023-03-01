@@ -4,7 +4,7 @@ import type {ESLShareButton} from '../core/esl-share-button';
 
 @ESLShareUrlGenericAction.register
 export class ESLShareMediaAction extends ESLShareUrlGenericAction {
-  public static readonly is: string = 'media';
+  public static override readonly is: string = 'media';
 
   public static FEATURES: Record<string, number> = {
     scrollbars: 0,

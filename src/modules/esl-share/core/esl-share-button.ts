@@ -16,7 +16,7 @@ export interface ShareButtonConfig {
 }
 
 export class ESLShareButton extends ESLBaseElement {
-  public static is = 'esl-share-button';
+  public static override is = 'esl-share-button';
 
   public static DEFAULT_ICON_BG_COLOR: string = '#FFF';
 
@@ -64,7 +64,7 @@ export class ESLShareButton extends ESLBaseElement {
     };
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.initA11y();
   }

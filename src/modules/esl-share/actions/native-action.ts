@@ -4,9 +4,9 @@ import type {ESLShareButton} from '../core/esl-share-button';
 
 @ESLShareBaseAction.register
 export class ESLShareNativeAction extends ESLShareBaseAction {
-  public static readonly is: string = 'native';
+  public static override readonly is: string = 'native';
 
-  public get isAvailable(): boolean {
+  public override get isAvailable(): boolean {
     return navigator.share !== undefined;
   }
 

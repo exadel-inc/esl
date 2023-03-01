@@ -8,9 +8,9 @@ import type {ShareButtonConfig} from './esl-share-button';
 import type {ShareConfig} from './esl-share-config';
 
 export class ESLShareList extends ESLBaseElement {
-  public static is = 'esl-share-list';
+  public static override is = 'esl-share-list';
 
-  public static register(): void {
+  public static override register(): void {
     ESLShareButton.register();
     super.register();
   }
@@ -70,7 +70,7 @@ export class ESLShareList extends ESLBaseElement {
     return list ? list.split(',').map((id) => id.trim()) : [];
   }
 
-  public connectedCallback(): void {
+  public override connectedCallback(): void {
     super.connectedCallback();
     if (!this._ready) {
       this.init();

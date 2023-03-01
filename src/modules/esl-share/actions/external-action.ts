@@ -4,7 +4,7 @@ import type {ESLShareButton} from '../core/esl-share-button';
 
 @ESLShareUrlGenericAction.register
 export class ESLShareExternalAction extends ESLShareUrlGenericAction {
-  public static readonly is: string = 'external';
+  public static override readonly is: string = 'external';
 
   public share(shareData: ShareData, $button: ESLShareButton): void {
     const {link} = $button;

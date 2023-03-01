@@ -6,9 +6,9 @@ import type {AlertActionParams} from '../../esl-alert/core';
 
 @ESLShareBaseAction.register
 export class ESLShareCopyAction extends ESLShareBaseAction {
-  public static readonly is: string = 'copy';
+  public static override readonly is: string = 'copy';
 
-  public get isAvailable(): boolean {
+  public override get isAvailable(): boolean {
     return navigator.clipboard !== undefined;
   }
 
