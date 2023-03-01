@@ -1,4 +1,3 @@
-import {memoize} from '../../esl-utils/decorators';
 import {ESLShareBaseAction} from '../core/esl-share-action';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 
@@ -9,7 +8,6 @@ import type {AlertActionParams} from '../../esl-alert/core';
 export class ESLShareCopyAction extends ESLShareBaseAction {
   public static readonly is: string = 'copy';
 
-  @memoize()
   public get isAvailable(): boolean {
     return navigator.clipboard !== undefined;
   }
@@ -26,9 +24,10 @@ export class ESLShareCopyAction extends ESLShareBaseAction {
   }
 
   public share(shareData: ShareData, $button: ESLShareButton): void {
-    if (!this.isAvailable) return;
+    const {url} = shareData;
+    if (!this.isAvailable || !url) return;
 
-    navigator.clipboard.writeText(shareData.url || '');
+    navigator.clipboard.writeText(url);
     this.showCopyAlert();
   }
 

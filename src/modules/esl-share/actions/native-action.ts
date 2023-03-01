@@ -1,4 +1,3 @@
-import {memoize} from '../../esl-utils/decorators';
 import {ESLShareBaseAction} from '../core/esl-share-action';
 
 import type {ESLShareButton} from '../core/esl-share-button';
@@ -7,7 +6,6 @@ import type {ESLShareButton} from '../core/esl-share-button';
 export class ESLShareNativeAction extends ESLShareBaseAction {
   public static readonly is: string = 'native';
 
-  @memoize()
   public get isAvailable(): boolean {
     return navigator.share !== undefined;
   }
