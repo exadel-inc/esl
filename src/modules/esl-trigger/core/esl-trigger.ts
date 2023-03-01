@@ -14,7 +14,7 @@ import type {ESLToggleable, ESLToggleableActionParams} from '../../esl-toggleabl
 
 @ExportNs('Trigger')
 export class ESLTrigger extends ESLBaseElement {
-  public static is = 'esl-trigger';
+  public static override is = 'esl-trigger';
   public static observedAttributes = ['target'];
 
   /** Event that represents {@link ESLTrigger} state change */
@@ -109,7 +109,7 @@ export class ESLTrigger extends ESLBaseElement {
   }
 
   @ready
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.updateTargetFromSelector();
     this.initA11y();

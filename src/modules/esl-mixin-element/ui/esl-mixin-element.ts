@@ -56,7 +56,10 @@ export class ESLMixinElement implements AttributeTarget {
     ESLEventUtils.unsubscribe(this);
   }
 
-  /** Callback to handle changing of additional attributes */
+  /**
+   * Callback to handle changing of additional attributes.
+   * Happens when attribute accessed for writing independently of the actual value change
+   */
   public attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
   /** Attribute change mutation record processor */

@@ -11,7 +11,7 @@ import {ESLToggleable} from './esl-toggleable';
  */
 @ExportNs('ToggleableDispatcher')
 export class ESLToggleableDispatcher extends ESLBaseElement {
-  public static readonly is = 'esl-toggleable-dispatcher';
+  public static override readonly is = 'esl-toggleable-dispatcher';
 
   /**
    * Initialize ToggleableGroupDispatcher

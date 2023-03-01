@@ -10,12 +10,12 @@ import type {Point} from '../../../esl-utils/dom/events';
  */
 @ExportNs('CarouselPlugins.Touch')
 export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
-  public static is = 'esl-carousel-touch-plugin';
+  public static override is = 'esl-carousel-touch-plugin';
 
   private isTouchStarted = false;
   private startPoint: Point = {x: 0, y: 0};
 
-  public bind() {
+  public override bind() {
     const events = DeviceDetector.TOUCH_EVENTS;
 
     this.carousel.addEventListener(events.START, this.onTouchStart);
@@ -23,7 +23,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
     this.carousel.addEventListener(events.END, this.onTouchEnd);
   }
 
-  public unbind() {
+  public override unbind() {
     const events = DeviceDetector.TOUCH_EVENTS;
 
     this.carousel.removeEventListener(events.START, this.onTouchStart);

@@ -1,3 +1,11 @@
+## [4.2.1](https://github.com/exadel-inc/esl/compare/v4.2.0...v4.2.1) (2023-02-20)
+
+
+### Bug Fixes
+
+* **esl-image:** attribute callback before connect ([659fa20](https://github.com/exadel-inc/esl/commit/659fa2031577bba2ce19af32c6950c9403a2ef27))
+* **esl-utils:** `memoize.clear` and `memoize.has` signature types improved ([4068bfa](https://github.com/exadel-inc/esl/commit/4068bfaff2150cd2aeb389fcc230a07cd826466a))
+
 # [4.2.0](https://github.com/exadel-inc/esl/compare/v4.1.1...v4.2.0) (2023-02-02)
 
 
