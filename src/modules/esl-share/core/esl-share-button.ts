@@ -59,8 +59,8 @@ export class ESLShareButton extends ESLBaseElement {
     const {host} = this;
 
     return {
-      url: (host && host.url) ? ESLShareButton.convertToAbsolutePath(host.url) : window.location.href,
-      title: (host && host.title) ? host.title : document.title
+      url: (host && host.shareUrl) ? ESLShareButton.convertToAbsolutePath(host.shareUrl) : window.location.href,
+      title: (host && host.shareTitle) ? host.shareTitle : document.title
     };
   }
 

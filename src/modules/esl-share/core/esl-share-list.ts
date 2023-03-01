@@ -20,8 +20,8 @@ export class ESLShareList extends ESLBaseElement {
 
   @attr({readonly: true}) public list: string;
   @attr({readonly: true}) public group: string;
-  @attr({dataAttr: true}) public url: string;
-  @attr({dataAttr: true}) public title: string;
+  @attr({dataAttr: true}) public shareUrl: string;
+  @attr({dataAttr: true}) public shareTitle: string;
 
   @boolAttr({readonly: true}) public ready: boolean;
 
