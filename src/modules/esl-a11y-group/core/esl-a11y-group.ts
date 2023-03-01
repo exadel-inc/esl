@@ -15,7 +15,7 @@ export type GroupTarget = 'next' | 'prev' | 'current';
  */
 @ExportNs('A11yGroup')
 export class ESLA11yGroup extends ESLBaseElement {
-  public static is = 'esl-a11y-group';
+  public static override is = 'esl-a11y-group';
 
   /** Mapping of the keyboard keys to {@link GroupTarget} */
   public static KEY_MAP: Record<string, GroupTarget> = {

@@ -13,14 +13,14 @@ const DEFAULT_ASPECT_RATIO = 16 / 9;
  */
 @BaseProvider.register
 export class YouTubeProvider extends BaseProvider {
-  static readonly providerName: string = 'youtube';
+  static override readonly providerName: string = 'youtube';
   static readonly idRegexp = /(?:v\/|v=|vi=|vi\/|e\/|embed\/|user\/.*\/u\/\d+\/)([_0-9a-zA-Z-]+)/i;
   static readonly providerRegexp = /^\s*(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be|youtube(-nocookie)?\.com)/i;
 
-  protected _el: HTMLDivElement | HTMLIFrameElement;
+  protected override _el: HTMLDivElement | HTMLIFrameElement;
   protected _api: YT.Player;
 
-  static parseUrl(url: string): Partial<MediaProviderConfig> | null {
+  static override parseUrl(url: string): Partial<MediaProviderConfig> | null {
     if (this.providerRegexp.test(url)) {
       const [, id] = url.match(this.idRegexp) || [];
       return id ? {mediaId: id} : null;
@@ -109,7 +109,7 @@ export class YouTubeProvider extends BaseProvider {
     this.component._onReady();
   }
 
-  public unbind(): void {
+  public override unbind(): void {
     this.component._onDetach();
     this._api && this._api.destroy();
     super.unbind();
@@ -133,14 +133,14 @@ export class YouTubeProvider extends BaseProvider {
     }
   }
 
-  protected onConfigChange(param: ProviderObservedParams, value: boolean): void {
+  protected override onConfigChange(param: ProviderObservedParams, value: boolean): void {
     super.onConfigChange(param, value);
     if (param === 'muted') {
       value ? this._api.mute() : this._api.unMute();
     }
   }
 
-  public focus(): void {
+  public override focus(): void {
     if (this._el instanceof HTMLIFrameElement && this._el.contentWindow) {
       this._el.contentWindow.focus();
     }

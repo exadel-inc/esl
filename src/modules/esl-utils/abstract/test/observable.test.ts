@@ -1,7 +1,7 @@
 import {Observable} from '../observable';
 
 class TestObservable extends Observable {
-  public fire(test: number = -1) {
+  public override fire(test: number = -1) {
     super.fire(test);
   }
 }

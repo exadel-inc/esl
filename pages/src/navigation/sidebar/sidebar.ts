@@ -10,10 +10,10 @@ interface SidebarActionParams extends ESLToggleableActionParams {
 }
 
 export class ESLDemoSidebar extends ESLToggleable {
-  static is = 'esl-d-sidebar';
+  static override is = 'esl-d-sidebar';
 
-  @prop() public closeOnEsc = true;
-  @prop() public closeOnOutsideAction = true;
+  @prop() public override closeOnEsc = true;
+  @prop() public override closeOnOutsideAction = true;
 
   @prop() public submenus: string = '.sidebar-nav-secondary';
   @prop() public activeMenuAttr: string = 'data-open';
@@ -25,7 +25,7 @@ export class ESLDemoSidebar extends ESLToggleable {
   }
 
   @ready
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
   }
 
@@ -33,7 +33,7 @@ export class ESLDemoSidebar extends ESLToggleable {
     this.open ? localStorage.removeItem('sidebar-collapsed') : localStorage.setItem('sidebar-collapsed', 'true');
   }
 
-  protected setInitialState(): void {
+  protected override setInitialState(): void {
     const isDesktop = ESLMediaQuery.for('@+MD').matches;
     const isStoredOpen = !localStorage.getItem('sidebar-collapsed');
     this.toggle(isDesktop && isStoredOpen, {force: true, initiator: 'init', immediate: true});
@@ -49,13 +49,13 @@ export class ESLDemoSidebar extends ESLToggleable {
       .forEach((menu) => menu.show({noAnimate, activator: this}));
   }
 
-  protected updateA11y(): void {
+  protected override updateA11y(): void {
     const targetEl = this.$a11yTarget;
     if (!targetEl) return;
     targetEl.setAttribute('aria-expanded', String(this.open));
   }
 
-  protected onShow(params: SidebarActionParams): void {
+  protected override onShow(params: SidebarActionParams): void {
     this._animation = !params.immediate;
     super.onShow(params);
     this.expandActive(params.initiator === 'init');
@@ -63,7 +63,7 @@ export class ESLDemoSidebar extends ESLToggleable {
       this.storeState();
     }
   }
-  protected onHide(params: SidebarActionParams): void {
+  protected override onHide(params: SidebarActionParams): void {
     this._animation = !params.immediate;
     super.onHide(params);
     this.collapseAll();
@@ -82,7 +82,7 @@ export class ESLDemoSidebar extends ESLToggleable {
   }
 
   @listen({inherit: true})
-  protected _onOutsideAction(e: Event): void {
+  protected override _onOutsideAction(e: Event): void {
     if (ESLMediaQuery.for('@+MD').matches) return;
     super._onOutsideAction(e);
   }

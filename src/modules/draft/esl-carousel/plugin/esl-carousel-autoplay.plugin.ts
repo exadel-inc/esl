@@ -10,7 +10,7 @@ import {ESLCarouselPlugin} from './esl-carousel-plugin';
  */
 @ExportNs('CarouselPlugins.Autoplay')
 export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
-  public static is = 'esl-carousel-autoplay-plugin';
+  public static override is = 'esl-carousel-autoplay-plugin';
 
   @attr({defaultValue: 'next'}) public direction: string;
   @attr({defaultValue: '5000'}) public timeout: number;
@@ -28,7 +28,7 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
     return this._active;
   }
 
-  public bind(): void {
+  public override bind(): void {
     this.carousel.addEventListener('mouseover', this._onInteract);
     this.carousel.addEventListener('mouseout', this._onInteract);
     this.carousel.addEventListener('focusin', this._onInteract);
@@ -37,7 +37,7 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
     this.start();
     // console.log('Auto-advance plugin attached successfully to ', this.carousel);
   }
-  public unbind(): void {
+  public override unbind(): void {
     this.carousel.removeEventListener('mouseover', this._onInteract);
     this.carousel.removeEventListener('mouseout', this._onInteract);
     this.carousel.removeEventListener('focusin', this._onInteract);

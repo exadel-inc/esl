@@ -24,7 +24,8 @@ Properties:
 Attributes: 
 - `connectedCallback` - called when the element is appended to the DOM
 - `disconnectedCallback` - called when the element is disconnected from the DOM
-- `attributeChangeCallback` - called when the observable attribute is changed
+- `attributeChangedCallback` - called when the observable attribute is changed
+  (happens when the attribute is accessed for writing, independently of the actual value change)
 
 - `$$cls` - checks or changes element CSS classes (uses CSSClassUtils) 
 - `$$attr` - checks or changes element attributes
@@ -39,8 +40,8 @@ Attributes:
  - `@boolAttr` - to map boolean property to HTML boolean (marker) attribute state
  - `@jsonAttr` - to map object property to HTML attribute using JSON format to serialize / deserialize value
 
- - `@listen` - decorate method with `ESLListenerDescriptor` props
- - `@prop` - a decorator to create prototype level value definition.  
+ - `@listen` - decorate a method with `ESLListenerDescriptor` props
+ - `@prop` - a decorator to create prototype-level value definition.  
    It also gives an ability to override a property created via `@attr`, `@boolAttr` or `@jsonAttr` at the parent level
    with non-attribute accessor value.
 

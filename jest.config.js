@@ -20,8 +20,8 @@ module.exports = {
     // cumulative exclude
     '!src/modules/*.ts',
     '!src/modules/*/*.ts',
-    // beta modules exclude
-    '!src/modules/beta/**',
+    // draft modules exclude
+    '!src/modules/draft/**',
     // libs exclude
     '!**/node_modules/**'
   ]
