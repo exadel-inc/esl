@@ -1,3 +1,31 @@
+## [4.2.1](https://github.com/exadel-inc/esl/compare/v4.2.0...v4.2.1) (2023-02-20)
+
+
+### Bug Fixes
+
+* **esl-image:** attribute callback before connect ([659fa20](https://github.com/exadel-inc/esl/commit/659fa2031577bba2ce19af32c6950c9403a2ef27))
+* **esl-utils:** `memoize.clear` and `memoize.has` signature types improved ([4068bfa](https://github.com/exadel-inc/esl/commit/4068bfaff2150cd2aeb389fcc230a07cd826466a))
+
+# [4.2.0](https://github.com/exadel-inc/esl/compare/v4.1.1...v4.2.0) (2023-02-02)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** allow to redeclare function descriptor data ([e304726](https://github.com/exadel-inc/esl/commit/e304726ba00f65b70ac25a194703a21aa9ac5d5c))
+* **esl-event-listener:** fix `isEventDescriptor` check for incorrect type of event key ([729b486](https://github.com/exadel-inc/esl/commit/729b486e0a934820502ffa8696be28a4f1b1465a))
+* **esl-footnotes:** esl-note is not respond on "ignore" attribute change ([7e0f4b8](https://github.com/exadel-inc/esl/commit/7e0f4b8ea8802b93ca0dc9060cfa47a371d729be))
+* **esl-mixin-element:** fix oldValue argument of attributeChangedCallback ([36c8d0f](https://github.com/exadel-inc/esl/commit/36c8d0fd5c20ba04eeed6139bcf1688c740e0036))
+* **esl-utils:** fix `isObject` predicate signature to accept symbol keys ([c8f0611](https://github.com/exadel-inc/esl/commit/c8f0611ff916e15e8be028766baf6f98a5c9e2a4))
+
+
+### Features
+
+* **esl-event-listener:** IE safe private key for ESLEventListeners (now stores under Symbol in modern browsers) ([eb5e6c3](https://github.com/exadel-inc/esl/commit/eb5e6c3c37a224309ba3699f47ac75e01f9dbe9f))
+* **esl-event-listener:** simplified way to subscribe all auto descriptors ([e6c432b](https://github.com/exadel-inc/esl/commit/e6c432b542d7b9f74079fb5012e9b87373bf805f))
+* **esl-related-target:** make related target able to targeting multiple related togglable ([#1398](https://github.com/exadel-inc/esl/issues/1398)) ([9a4423c](https://github.com/exadel-inc/esl/commit/9a4423c63f34731a9708cd93aaca41e8f07690de))
+* **esl-utils:** `isVisible` predicate and `ESLTraversingQuery` filter created according to [#931](https://github.com/exadel-inc/esl/issues/931) spec ([#1341](https://github.com/exadel-inc/esl/issues/1341)) ([70ea8fb](https://github.com/exadel-inc/esl/commit/70ea8fbc134eb03ec2aba911600f7441ee953c93))
+* **esl-utils:** isVisible predicate ([510d396](https://github.com/exadel-inc/esl/commit/510d396e6393b907afc885f038684b421d2a7449))
+
 ## [4.1.1](https://github.com/exadel-inc/esl/compare/v4.1.0...v4.1.1) (2023-01-11)
 
 

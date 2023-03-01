@@ -7,7 +7,7 @@ import {ESLEventUtils} from '../../../src/modules/esl-utils/dom/events';
  * Demo sample of anchor mixin
  */
 export class ESLDemoAnchorLink extends ESLMixinElement {
-  static is = 'esl-d-anchor';
+  static override is = 'esl-d-anchor';
 
   @memoize()
   public get anchorHref(): string | null {

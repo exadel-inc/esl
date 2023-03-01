@@ -39,10 +39,14 @@ export class ESLMixinElement implements AttributeTarget {
     const constructor = this.constructor as typeof ESLMixinElement;
     if (constructor.observedAttributes.length) {
       this._attr$$ = new MutationObserver(this._onAttrMutation.bind(this));
-      this._attr$$.observe(this.$host, {attributes: true, attributeFilter: constructor.observedAttributes});
+      this._attr$$.observe(this.$host, {
+        attributes: true,
+        attributeFilter: constructor.observedAttributes,
+        attributeOldValue: true
+      });
     }
 
-    ESLEventUtils.descriptors(this).forEach((desc) => ESLEventUtils.subscribe(this, desc));
+    ESLEventUtils.subscribe(this);
   }
 
   /** Callback to execute on mixin instance destroy */
@@ -52,7 +56,10 @@ export class ESLMixinElement implements AttributeTarget {
     ESLEventUtils.unsubscribe(this);
   }
 
-  /** Callback to handle changing of additional attributes */
+  /**
+   * Callback to handle changing of additional attributes.
+   * Happens when attribute accessed for writing independently of the actual value change
+   */
   public attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
   /** Attribute change mutation record processor */

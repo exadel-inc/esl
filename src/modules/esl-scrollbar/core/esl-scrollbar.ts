@@ -5,7 +5,7 @@ import {rafDecorator} from '../../esl-utils/async/raf';
 import {isMouseEvent, isTouchEvent, getTouchPoint, getOffsetPoint} from '../../esl-utils/dom/events';
 import {isRelativeNode} from '../../esl-utils/dom/traversing';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
-import {RTLUtils} from '../../esl-utils/dom/rtl';
+import {isRTL, RTLScroll, normalizeScrollLeft} from '../../esl-utils/dom/rtl';
 
 /**
  * ESLScrollbar is a reusable web component that replaces the browser's default scrollbar with
@@ -15,7 +15,7 @@ import {RTLUtils} from '../../esl-utils/dom/rtl';
  */
 @ExportNs('Scrollbar')
 export class ESLScrollbar extends ESLBaseElement {
-  public static is = 'esl-scrollbar';
+  public static override is = 'esl-scrollbar';
   public static observedAttributes = ['target', 'horizontal'];
 
   /** Horizontal scroll orientation marker */
@@ -55,14 +55,14 @@ export class ESLScrollbar extends ESLBaseElement {
   protected _mutationObserver = new MutationObserver((rec) => this.updateContentObserve(rec));
 
   @ready
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.render();
     this.findTarget();
   }
 
   @ready
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     this.unbindTargetEvents();
     this._scrollTimer && window.clearTimeout(this._scrollTimer);
   }
@@ -170,7 +170,7 @@ export class ESLScrollbar extends ESLBaseElement {
   /** Relative position value (between 0.0 and 1.0) */
   public get position(): number {
     if (!this.$target) return 0;
-    const scrollOffset = this.horizontal ? RTLUtils.normalizeScrollLeft(this.$target) : this.$target.scrollTop;
+    const scrollOffset = this.horizontal ? normalizeScrollLeft(this.$target) : this.$target.scrollTop;
     return this.scrollableSize ? (scrollOffset / this.scrollableSize) : 0;
   }
 
@@ -182,8 +182,8 @@ export class ESLScrollbar extends ESLBaseElement {
   /** Normalizes position value (between 0.0 and 1.0) */
   protected normalizePosition(position: number): number {
     const relativePosition = Math.min(1, Math.max(0, position));
-    if (!RTLUtils.isRtl(this.$target) || !this.horizontal) return relativePosition;
-    return RTLUtils.scrollType === 'negative' ? (relativePosition - 1) : (1 - relativePosition);
+    if (!isRTL(this.$target) || !this.horizontal) return relativePosition;
+    return RTLScroll.type === 'negative' ? (relativePosition - 1) : (1 - relativePosition);
   }
 
   /** Scrolls target element to passed position */
