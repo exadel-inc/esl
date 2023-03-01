@@ -4,8 +4,8 @@ import {prop} from '../../esl-utils/decorators';
 import type {ESLNote} from './esl-note';
 
 export class ESLNoteIgnore extends ESLMixinElement {
-  static is = 'esl-note-ignore';
-  static observedAttributes: string[] = [ESLNoteIgnore.is];
+  public static override is = 'esl-note-ignore';
+  public static override observedAttributes: string[] = [ESLNoteIgnore.is];
 
   /** Selector to find all dependent ESLNote elements */
   @prop('esl-note') protected noteSelector: string;
