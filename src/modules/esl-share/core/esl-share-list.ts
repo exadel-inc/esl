@@ -51,8 +51,8 @@ export class ESLShareList extends ESLBaseElement {
   protected getButtons(config: ShareConfig, idList: string[]): ShareButtonConfig[] {
     const {buttons} = config;
     const ret: ShareButtonConfig[] = [];
-    idList.forEach((buttonId) => {
-      const btnConfig = buttons.find((btn) => btn.id === buttonId);
+    idList.forEach((name) => {
+      const btnConfig = buttons.find((btn) => btn.name === name);
       btnConfig && ret.push(btnConfig);
     });
     return ret;

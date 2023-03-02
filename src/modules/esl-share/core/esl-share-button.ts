@@ -7,7 +7,6 @@ import type {ESLShareList} from './esl-share-list';
 
 export interface ShareButtonConfig {
   'action': string;
-  'id': string;
   'icon': string;
   'iconBackground': string;
   'link': string;
@@ -19,7 +18,6 @@ export class ESLShareButton extends ESLBaseElement {
   public static override is = 'esl-share-button';
 
   @attr() public action: string;
-  @attr() public buttonId: string;
   @attr() public link: string;
   @attr() public name: string;
   @boolAttr() public unavailable: boolean;
@@ -32,10 +30,9 @@ export class ESLShareButton extends ESLBaseElement {
     const {isAvailable} = shareAction;
     const $button = ESLShareButton.create();
     $button.$$attr('action', cfg.action);
-    $button.$$attr('button-id', cfg.id);
     $button.$$attr('link', cfg.link);
     $button.$$attr('name', cfg.name);
-    $button.$$attr('aria-label', cfg.title);
+    $button.$$attr('title', cfg.title);
     $button.$$attr('unavailable', !isAvailable);
     const $icon = document.createElement('span');
     $icon.title = cfg.title;
