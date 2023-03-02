@@ -1,6 +1,8 @@
 import {hasAttr, setAttr} from '../dom/attr';
 import {toKebabCase} from '../misc/format';
-import type {AttributeDecorator, AttributeTarget} from '../dom/attr';
+
+import type {ESLAttributeDecorator} from '../dom/attr';
+import type {ESLDomElementTarget} from '../abstract/dom-target';
 
 /** HTML boolean (marker) attribute mapping configuration */
 type BoolAttrDescriptor = {
@@ -31,8 +33,8 @@ const buildAttrName =
  * Maps boolean type property.
  * @param config - mapping configuration. See {@link BoolAttrDescriptor}
  */
-export const boolAttr = (config: BoolAttrDescriptor = {}): AttributeDecorator => {
-  return (target: Element | AttributeTarget, propName: string): void => {
+export const boolAttr = (config: BoolAttrDescriptor = {}): ESLAttributeDecorator => {
+  return (target: ESLDomElementTarget, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildConditionalDescriptor(attrName, !!config.readonly));
   };
