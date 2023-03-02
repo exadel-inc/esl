@@ -1,5 +1,5 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {attr, boolAttr, listen} from '../../esl-utils/decorators';
+import {attr, boolAttr, listen, prop} from '../../esl-utils/decorators';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {ESLShareActionRegistry} from './esl-share-action-registry';
 
@@ -18,13 +18,12 @@ export interface ShareButtonConfig {
 export class ESLShareButton extends ESLBaseElement {
   public static override is = 'esl-share-button';
 
-  public static DEFAULT_ICON_BG_COLOR: string = '#FFF';
-
   @attr() public action: string;
   @attr() public buttonId: string;
   @attr() public link: string;
   @attr() public name: string;
   @boolAttr() public unavailable: boolean;
+  @prop('transparent') public defaultBackground: string;
 
   public static build(cfg: ShareButtonConfig): ESLShareButton | null {
     const shareAction = ESLShareActionRegistry.instance.get(cfg.action);
@@ -42,7 +41,7 @@ export class ESLShareButton extends ESLBaseElement {
     $icon.title = cfg.title;
     $icon.classList.add('esl-share-icon');
     $icon.innerHTML = cfg.icon;
-    $icon.setAttribute('style', `background-color:${cfg.iconBackground || ESLShareButton.DEFAULT_ICON_BG_COLOR};`);
+    $icon.setAttribute('style', `background-color:${cfg.iconBackground || $button.defaultBackground};`);
     $button.appendChild($icon);
     return $button;
   }
