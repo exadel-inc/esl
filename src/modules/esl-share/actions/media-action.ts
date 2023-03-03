@@ -23,10 +23,11 @@ export class ESLShareMediaAction extends ESLShareUrlGenericAction {
     return Object.entries(features).map(([key, value]) => `${key}=${value}`).join(',');
   }
 
-  public share(shareData: ShareData, $button: ESLShareButton): void {
+  public share($button: ESLShareButton): void {
     const {link} = $button;
     if (!link) return;
 
+    const shareData = this.getShareData($button);
     window.open(this.buildURL(link, shareData), '_blank', this.windowFeatures);
   }
 }

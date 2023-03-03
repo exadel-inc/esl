@@ -21,5 +21,12 @@ export abstract class ESLShareBaseAction {
     return true;
   }
 
-  public abstract share(shareData: ShareData, $button: ESLShareButton): void;
+  protected getShareData($button: ESLShareButton): ShareData {
+    return {
+      url: $button.urlToShare,
+      title: $button.titleToShare
+    };
+  }
+
+  public abstract share($button: ESLShareButton): void;
 }

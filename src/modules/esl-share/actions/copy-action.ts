@@ -23,7 +23,8 @@ export class ESLShareCopyAction extends ESLShareBaseAction {
     };
   }
 
-  public share(shareData: ShareData, $button: ESLShareButton): void {
+  public share($button: ESLShareButton): void {
+    const shareData = this.getShareData($button);
     const {url} = shareData;
     if (!this.isAvailable || !url) return;
 

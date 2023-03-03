@@ -31,6 +31,6 @@ export class ESLShareActionRegistry {
   /** Do the share action at passed Share button */
   public share(button: ESLShareButton): void {
     const action = this.get(button.action);
-    action && action.share(button.shareData, button);
+    action && action.share(button);
   }
 }

@@ -1,6 +1,7 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, boolAttr, listen, prop} from '../../esl-utils/decorators';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
+import {toAbsoluteUrl} from '../../esl-utils/misc/url';
 import {ESLShareActionRegistry} from './esl-share-action-registry';
 
 import type {ESLShareList} from './esl-share-list';
@@ -20,6 +21,8 @@ export class ESLShareButton extends ESLBaseElement {
   @attr() public action: string;
   @attr() public link: string;
   @attr() public name: string;
+  @attr({dataAttr: true}) public shareUrl: string;
+  @attr({dataAttr: true}) public shareTitle: string;
   @boolAttr() public unavailable: boolean;
   @prop('transparent') public defaultBackground: string;
 
@@ -27,13 +30,8 @@ export class ESLShareButton extends ESLBaseElement {
     const shareAction = ESLShareActionRegistry.instance.get(cfg.action);
     if (!shareAction) return null;
 
-    const {isAvailable} = shareAction;
     const $button = ESLShareButton.create();
-    $button.$$attr('action', cfg.action);
-    $button.$$attr('link', cfg.link);
-    $button.$$attr('name', cfg.name);
-    $button.$$attr('title', cfg.title);
-    $button.$$attr('unavailable', !isAvailable);
+    Object.assign($button, cfg, {'unavailable': !shareAction.isAvailable});
     const $icon = document.createElement('span');
     $icon.title = cfg.title;
     $icon.classList.add('esl-share-icon');
@@ -43,21 +41,24 @@ export class ESLShareButton extends ESLBaseElement {
     return $button;
   }
 
-  protected static convertToAbsolutePath(path: string): string {
-    return new URL(path, document.baseURI).href;
-  }
-
   public get host(): ESLShareList | null {
     return this.closest('esl-share-list');
   }
 
-  public get shareData(): ShareData {
-    const {host} = this;
+  public get titleToShare(): string {
+    return this.shareTitle.length
+      ? this.shareTitle
+      : this.host?.shareTitle.length
+        ? this.host?.shareTitle
+        : document.title;
+  }
 
-    return {
-      url: (host && host.shareUrl) ? ESLShareButton.convertToAbsolutePath(host.shareUrl) : window.location.href,
-      title: (host && host.shareTitle) ? host.shareTitle : document.title
-    };
+  public get urlToShare(): string {
+    return toAbsoluteUrl(this.shareUrl.length
+      ? this.shareUrl
+      : this.host?.shareUrl.length
+        ? this.host?.shareUrl
+        : window.location.href);
   }
 
   protected override connectedCallback(): void {
@@ -72,15 +73,9 @@ export class ESLShareButton extends ESLBaseElement {
     }
   }
 
-  protected onBeforeShare(): void {}
-
   public share(): void {
-    this.onBeforeShare();
     ESLShareActionRegistry.instance.share(this);
-    this.onAfterShare();
   }
-
-  protected onAfterShare(): void {}
 
   @listen('click')
   protected _onClick(e: MouseEvent): void {
