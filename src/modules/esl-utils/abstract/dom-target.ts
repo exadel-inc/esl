@@ -1,4 +1,4 @@
-/** An object tha relates to some DOM element e.g. controller or {@link ESLMixinElement} */
+/** An object that relates to some DOM element e.g. controller or {@link ESLMixinElement} */
 export type ESLDomElementRelated = {
   /** Related DOM element */
   $host: Element;
