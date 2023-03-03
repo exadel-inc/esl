@@ -33,7 +33,6 @@ import {
   ESLTooltip,
   ESLAnimate,
   ESLShareList,
-  ESLShareConfig,
   ESLRelatedTarget
 } from '../../src/modules/all';
 
@@ -114,7 +113,7 @@ ESLCarouselPlugins.Link.register();
 ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
 
-ESLShareConfig.use(() => fetch('/assets/share/config.json').then((response) => response.json()));
+ESLShareList.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
 ESLShareList.register();
 
 // Register ESL Mixins

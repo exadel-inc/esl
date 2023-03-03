@@ -1,12 +1,10 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {attr, bind, boolAttr, memoize, prop} from '../../esl-utils/decorators';
+import {attr, bind, boolAttr, prop} from '../../esl-utils/decorators';
 
-import {ESLShareConfig} from './esl-share-config';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareActionRegistry} from './esl-share-action-registry';
 
-import type {ShareConfig} from './esl-share-config';
-
+export type ESLShareConfigProviderType = () => Promise<ShareConfig>;
 
 export interface ShareButtonConfig {
   'action': string;
@@ -17,8 +15,19 @@ export interface ShareButtonConfig {
   'title': string;
 }
 
+export interface ShareGroupConfig {
+  id: string;
+  list: string;
+}
+
+export interface ShareConfig {
+  buttons: ShareButtonConfig[];
+  groups: ShareGroupConfig[];
+}
+
 export class ESLShareList extends ESLBaseElement {
   public static override is = 'esl-share-list';
+  protected static _config: Promise<ShareConfig> = Promise.reject('Configuration is not set');
 
   public static override register(): void {
     ESLShareButton.register();
@@ -35,24 +44,19 @@ export class ESLShareList extends ESLBaseElement {
 
   @boolAttr({readonly: true}) public ready: boolean;
 
-  protected _ready: Promise<void>;
-
   public get alias(): string {
     return (this.constructor as typeof ESLBaseElement).is;
   }
 
-  public get ready$(): Promise<void> {
-    return this._ready ?? Promise.reject(`[${this.alias}]: is not ready`);
+  public static config(provider?: ESLShareConfigProviderType): Promise<ShareConfig> {
+    if (provider) {
+      ESLShareList._config = provider();
+    }
+    return ESLShareList._config;
   }
 
-  @memoize()
-  public get config(): Promise<ShareConfig> {
-    return ESLShareConfig.get();
-  }
-
-  @memoize()
   public get buttonsConfig(): Promise<ShareButtonConfig[]> {
-    return this.config.then((config) => {
+    return (this.constructor as typeof ESLShareList).config().then((config) => {
       const list = this.getList(config);
       return list.length ? this.getButtons(config, list) : config.buttons;
     });
@@ -82,19 +86,19 @@ export class ESLShareList extends ESLBaseElement {
 
   public override connectedCallback(): void {
     super.connectedCallback();
-    if (!this._ready) {
+    if (!this.ready) {
       this.init();
     }
   }
 
   protected init(): void {
-    this._ready = this.buttonsConfig.then(this.buildContent);
-    this._ready.then(() => this.$$fire(this.SHARE_READY_EVENT, {bubbles: false}));
-    this._ready.catch((e) => console.error(`[${this.alias}]: ${e}`));
+    this.buttonsConfig.then(this.build)
+      .then(() => this.$$fire(this.SHARE_READY_EVENT, {bubbles: false}))
+      .catch((e) => console.error(`[${this.alias}]: ${e}`));
   }
 
   @bind
-  protected buildContent(config: ShareButtonConfig[]): void {
+  public build(config: ShareButtonConfig[]): void {
     this.innerHTML = '';
     config.forEach((btnCfg) => {
       const btn = this.buildButton(btnCfg);
