@@ -1,16 +1,19 @@
 esl-sortable {
-  display: flex;
-  flex-wrap: wrap;
-  position: relative;
+  [esl-sortable-item] {
+    cursor: move;
+  }
+}
+
+esl-draggable {
+  top: 0;
+  left: 0;
+  position: fixed;
+
+  list-style: none;
+  pointer-events: none;
 }
 
 .esl-sortable {
-  &-drag {
-    top: 0;
-    left: 0;
-    position: fixed;
-  }
-
   &-placeholder {
     opacity: 0;
   }
