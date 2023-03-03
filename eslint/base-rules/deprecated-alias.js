@@ -124,7 +124,7 @@ function getRanges(nodes) {
   return uniqNodes.map((node) => node.range);
 }
 
-/** Find the root node in the tree */
+/** Finds the root node in the tree */
 function getRoot(node) {
   while (node.parent !== null) {
     node = node.parent;
