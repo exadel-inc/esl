@@ -3,9 +3,19 @@ import {attr, bind, boolAttr, memoize, prop} from '../../esl-utils/decorators';
 
 import {ESLShareConfig} from './esl-share-config';
 import {ESLShareButton} from './esl-share-button';
+import {ESLShareActionRegistry} from './esl-share-action-registry';
 
-import type {ShareButtonConfig} from './esl-share-button';
 import type {ShareConfig} from './esl-share-config';
+
+
+export interface ShareButtonConfig {
+  'action': string;
+  'icon': string;
+  'iconBackground': string;
+  'link': string;
+  'name': string;
+  'title': string;
+}
 
 export class ESLShareList extends ESLBaseElement {
   public static override is = 'esl-share-list';
@@ -87,10 +97,25 @@ export class ESLShareList extends ESLBaseElement {
   protected buildContent(config: ShareButtonConfig[]): void {
     this.innerHTML = '';
     config.forEach((btnCfg) => {
-      const btn = ESLShareButton.build(btnCfg);
+      const btn = this.buildButton(btnCfg);
       btn && this.appendChild(btn);
     });
 
     this.toggleAttribute('ready', true);
+  }
+
+  protected buildButton(cfg: ShareButtonConfig): ESLShareButton | null {
+    const shareAction = ESLShareActionRegistry.instance.get(cfg.action);
+    if (!shareAction) return null;
+
+    const $button = ESLShareButton.create();
+    Object.assign($button, cfg, {'unavailable': !shareAction.isAvailable});
+    const $icon = document.createElement('span');
+    $icon.title = cfg.title;
+    $icon.classList.add('esl-share-icon');
+    $icon.innerHTML = cfg.icon;
+    $icon.setAttribute('style', `background-color:${cfg.iconBackground || $button.defaultBackground};`);
+    $button.appendChild($icon);
+    return $button;
   }
 }

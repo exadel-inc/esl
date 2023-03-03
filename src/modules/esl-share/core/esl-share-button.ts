@@ -6,15 +6,6 @@ import {ESLShareActionRegistry} from './esl-share-action-registry';
 
 import type {ESLShareList} from './esl-share-list';
 
-export interface ShareButtonConfig {
-  'action': string;
-  'icon': string;
-  'iconBackground': string;
-  'link': string;
-  'name': string;
-  'title': string;
-}
-
 export class ESLShareButton extends ESLBaseElement {
   public static override is = 'esl-share-button';
 
@@ -25,21 +16,6 @@ export class ESLShareButton extends ESLBaseElement {
   @attr({dataAttr: true}) public shareTitle: string;
   @boolAttr() public unavailable: boolean;
   @prop('transparent') public defaultBackground: string;
-
-  public static build(cfg: ShareButtonConfig): ESLShareButton | null {
-    const shareAction = ESLShareActionRegistry.instance.get(cfg.action);
-    if (!shareAction) return null;
-
-    const $button = ESLShareButton.create();
-    Object.assign($button, cfg, {'unavailable': !shareAction.isAvailable});
-    const $icon = document.createElement('span');
-    $icon.title = cfg.title;
-    $icon.classList.add('esl-share-icon');
-    $icon.innerHTML = cfg.icon;
-    $icon.setAttribute('style', `background-color:${cfg.iconBackground || $button.defaultBackground};`);
-    $button.appendChild($icon);
-    return $button;
-  }
 
   public get host(): ESLShareList | null {
     return this.closest('esl-share-list');
