@@ -97,7 +97,7 @@ function getIdentifierRanges(importNode, context) {
 function collectIdentifiers(context, root, alias) {
   const identifiers = [];
   traverse(context, root, (path) => {
-    if (path.node.type !== 'Identifier' || path.node.name && path.node.name !== alias) return;
+    if (path.node.type !== 'Identifier' || path.node?.name !== alias) return;
     identifiers.push(path.node);
   });
   return identifiers;
