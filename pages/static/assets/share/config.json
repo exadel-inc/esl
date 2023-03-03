@@ -142,7 +142,10 @@
       "iconBackground": "#a0522d",
       "link": "",
       "name": "copy",
-      "title": "Copy"
+      "title": "Copy",
+      "additional": {
+        "alertText": "Copied to clipboard"
+      }
     },
     {
       "action": "native",

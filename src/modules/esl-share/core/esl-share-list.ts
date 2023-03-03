@@ -13,6 +13,7 @@ export interface ShareButtonConfig {
   'link': string;
   'name': string;
   'title': string;
+  'additional'?: Record<string, any>;
 }
 
 export interface ShareGroupConfig {

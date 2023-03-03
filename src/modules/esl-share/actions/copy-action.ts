@@ -2,7 +2,6 @@ import {ESLShareBaseAction} from '../core/esl-share-action';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 
 import type {ESLShareButton} from '../core/esl-share-button';
-import type {AlertActionParams} from '../../esl-alert/core';
 
 @ESLShareBaseAction.register
 export class ESLShareCopyAction extends ESLShareBaseAction {
@@ -12,28 +11,21 @@ export class ESLShareCopyAction extends ESLShareBaseAction {
     return navigator.clipboard !== undefined;
   }
 
-  protected get alertText(): string {
-    return 'Copied to clipboard';
-  }
-
-  protected get alertParams(): AlertActionParams {
-    return {
-      cls: 'esl-share-alert',
-      html: `<span aria-label="${this.alertText}">${this.alertText}</span>`
-    };
-  }
-
   public share($button: ESLShareButton): void {
     const shareData = this.getShareData($button);
     const {url} = shareData;
     if (!this.isAvailable || !url) return;
 
     navigator.clipboard.writeText(url);
-    this.showCopyAlert();
+    this.showCopyAlert($button.additional?.alertText);
   }
 
-  protected showCopyAlert(): void {
-    const detail = this.alertParams;
+  protected showCopyAlert(alertText: string): void {
+    if (!alertText) return;
+    const detail = {
+      cls: 'esl-share-alert',
+      html: `<span>${alertText}</span>`
+    };
     ESLEventUtils.dispatch(document.body, 'esl:alert:show', {detail});
   }
 }
