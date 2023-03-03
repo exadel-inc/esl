@@ -1,10 +1,10 @@
-export type AttributeTarget = {$host: Element};
-export type AttributeDecorator = (target: Element | AttributeTarget, propName: string) => void;
+import type {ESLDomElementTarget} from '../abstract/dom-target';
 
-type ArgumentTarget = (Element | AttributeTarget)[] | Element | AttributeTarget | undefined | null;
+export type ESLAttributeTarget = undefined | null | ESLDomElementTarget | ESLDomElementTarget[];
+export type ESLAttributeDecorator = (target: ESLDomElementTarget, propName: string) => void;
 
 /** @returns true if attribute presented */
-export function hasAttr($el: ArgumentTarget, name: string): boolean {
+export function hasAttr($el: ESLAttributeTarget, name: string): boolean {
   if (!$el) return false;
   if (Array.isArray($el)) return $el.every((element: Element) => hasAttr(element, name));
   if ('$host' in $el) $el = $el.$host;
@@ -12,9 +12,9 @@ export function hasAttr($el: ArgumentTarget, name: string): boolean {
 }
 
 /** @returns attribute or passed fallback value. Identical to getAttribute by default */
-export function getAttr($el: ArgumentTarget, name: string): string | null;
-export function getAttr<T>($el: ArgumentTarget, name: string, fallback: T): string | T;
-export function getAttr($el: ArgumentTarget, name: string, fallback: string | null = null): string | null {
+export function getAttr($el: ESLAttributeTarget, name: string): string | null;
+export function getAttr<T>($el: ESLAttributeTarget, name: string, fallback: T): string | T;
+export function getAttr($el: ESLAttributeTarget, name: string, fallback: string | null = null): string | null {
   if (!$el) return null;
   if (Array.isArray($el)) return getAttr($el[0], name);
   if ('$host' in $el) $el = $el.$host;
@@ -23,7 +23,7 @@ export function getAttr($el: ArgumentTarget, name: string, fallback: string | nu
 }
 
 /** Sets attribute */
-export function setAttr($el: ArgumentTarget, name: string, value: undefined | null | boolean | string): void {
+export function setAttr($el: ESLAttributeTarget, name: string, value: undefined | null | boolean | string): void {
   if (!$el) return;
   if (Array.isArray($el)) {
     $el.forEach((element: Element) => setAttr(element, name, value));
