@@ -1,0 +1,157 @@
+---
+layout: content
+title: Sortable
+seoTitle: Custom scroll ui examples based on ESL web components
+name: Sortable
+tags: [examples, draft]
+icon: examples/scrollbar.svg
+---
+{% import 'lorem.njk' as lorem %}
+
+<section class="border bg-white relative-block">
+  <div class="p-4">
+    <h2>Vertical list</h2>
+    <esl-sortable>
+      <ul esl-sortable-target style="width: 100%; list-style-type: none;">
+        <li style="height:30px" class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">
+          <div>1</div>
+        </li>
+        <li style="height:40px" class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">
+          <div>2</div>
+        </li>
+        <li style="height:50px" class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">
+          <div>3</div>
+        </li>
+        <li style="height:60px" class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">
+          <div>4</div>
+        </li>
+        <li style="height:70px" class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">
+          <div>5</div>
+        </li>
+      </ul>
+    </esl-sortable>
+
+        <esl-sortable>
+      <ul esl-sortable-target style="width: 100%; list-style-type: none;">
+        {% for i in range(1, 6) -%}
+          <li class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">
+            <div>{{i}}</div>
+          </li>
+        {%- endfor %}
+      </ul>
+    </esl-sortable>
+  </div>
+</section>
+
+<section class="border bg-white relative-block">
+  <div class="p-4">
+    <h2>Vertical list</h2>
+    <esl-sortable group="esl-demo-group" animation="smooth">
+      <ul esl-sortable-target style="width: 100%; list-style-type: none;">
+        {% for i in range(1, 2) -%}
+          <li style="padding: 30px" class="border">
+            <div>{{i}}</div>
+            <esl-sortable group="esl-demo-group" animation="smooth">
+              <ul esl-sortable-target style="width: 100%; list-style-type: none;">
+                {% for i in range(1, 6) -%}
+                  <li class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">
+                    <div>{{i}}</div>
+                  </li>
+                {%- endfor %}
+                <li style="padding: 30px" class="border">
+                  <esl-sortable group="esl-demo-group" animation="smooth">
+                    <ul esl-sortable-target style="width: 100%; list-style-type: none;">
+                      {% for i in range(1, 6) -%}
+                        <li class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">
+                          <div>{{i}}</div>
+                        </li>
+                      {%- endfor %}
+                    </ul>
+                  </esl-sortable>
+                </li>
+              </ul>
+            </esl-sortable>
+          </li>
+          <li class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">
+            <div>2</div>
+          </li>
+                    <li class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">
+            <div>2</div>
+          </li>          <li class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">
+            <div>2</div>
+          </li>          <li class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">
+            <div>2</div>
+          </li>
+        {%- endfor %}
+      </ul>
+    </esl-sortable>
+  </div>
+</section>
+
+<section class="border bg-white relative-block">
+  <div class="p-4">
+    <h2>Active item default return animation</h2>
+    <esl-sortable style="min-height: 50px" group="esl-demo-group">
+      <ul style="width: 100%; list-style-type: none;">
+        {% for i in range(1, 3) -%}
+          <li esl-sortable-item class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">{{i}}</li>
+        {%- endfor %}
+      </ul>
+    </esl-sortable>
+    <h2>Active item smooth return animation</h2>
+    <esl-sortable style="min-height: 50px" group="esl-demo-group" animation="smooth">
+      <ul style="width: 100%; list-style-type: none;">
+        {% for i in range(3, 5) -%}
+          <li esl-sortable-item class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">{{i}}</li>
+        {%- endfor %}
+      </ul>
+    </esl-sortable>
+  </div>
+</section>
+
+<section class="border bg-white relative-block">
+  <div class="p-4">
+    <h2>Horizontal list</h2>
+    <esl-sortable style="min-height: 50px" group="esl-demo-group" animation="smooth">
+      <ul style="width: 100%; list-style-type: none; display: flex">
+        {% for i in range(1, 11) -%}
+          <li esl-sortable-item class="border esl-sortable-demo-child esl-sortable-demo-child-horizontal">{{i}}</li>
+        {%- endfor %}
+      </ul>
+    </esl-sortable>
+  </div>
+</section>
+
+<section>
+  <h2>Group of lists</h2>
+  <div class="border bg-white d-flex p-4">
+    <div style="width: 33%">
+      <h3>List 1</h3>
+      <esl-sortable style="min-height: 50px" group="esl-demo-group">
+        <ul style="width: 100%; list-style-type: none;">
+          {% for i in range(1, 6) -%}
+            <li esl-sortable-item class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">{{i}}</li>
+          {%- endfor %}
+        </ul>
+      </esl-sortable>
+    </div>
+
+    <div style="width: 33%">
+      <h3>List 2</h3>
+      <esl-sortable style="min-height: 50px" group="esl-demo-group" animation="smooth">
+        <ul style="width: 100%; list-style-type: none;">
+          {% for i in range(6, 11) -%}
+            <li esl-sortable-item class="border esl-sortable-demo-child esl-sortable-demo-child-vertical">{{i}}</li>
+          {%- endfor %}
+        </ul>
+      </esl-sortable>
+    </div>
+
+    <div style="width: 33%">
+      <h3>Empty List</h3>
+      <esl-sortable style="min-height: 50px" group="esl-demo-group" animation="2">
+        <ul esl-sortable-target style="width: 100%; height: 0px; margin: 0px; list-style-type: none;"></ul>
+      </esl-sortable>
+    </div>
+  </div>
+</section>
