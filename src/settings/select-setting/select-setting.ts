@@ -51,7 +51,6 @@ export class UIPSelectSetting extends UIPSetting {
   }
 
   /** Collects all options' values */
-  @memoize()
   protected get settingOptions(): string[] {
     return this.$field.options.map(opt => opt.value);
   }
