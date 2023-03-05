@@ -6,6 +6,11 @@ import {ESLShareActionRegistry} from './esl-share-action-registry';
 
 import type {ESLShareList} from './esl-share-list';
 
+function getProp<T>(name: string, targets: Record<string, any>[], fallback: T, predicate: (val: T) => boolean): T {
+  const find = targets.find((target) => predicate(target[name]));
+  return find ? find[name] : fallback;
+}
+
 export class ESLShareButton extends ESLBaseElement {
   public static override is = 'esl-share-button';
 
@@ -23,19 +28,11 @@ export class ESLShareButton extends ESLBaseElement {
   }
 
   public get titleToShare(): string {
-    return this.shareTitle.length
-      ? this.shareTitle
-      : this.host?.shareTitle.length
-        ? this.host?.shareTitle
-        : document.title;
+    return this._getPropFromRelatedEls('shareTitle', document.title);
   }
 
   public get urlToShare(): string {
-    return toAbsoluteUrl(this.shareUrl.length
-      ? this.shareUrl
-      : this.host?.shareUrl.length
-        ? this.host?.shareUrl
-        : window.location.href);
+    return toAbsoluteUrl(this._getPropFromRelatedEls('shareUrl', window.location.href));
   }
 
   protected override connectedCallback(): void {
@@ -52,6 +49,10 @@ export class ESLShareButton extends ESLBaseElement {
 
   public share(): void {
     ESLShareActionRegistry.instance.share(this);
+  }
+
+  protected _getPropFromRelatedEls(name: string, fallback: string): string {
+    return getProp(name, [this, this.host ?? {}], fallback, (val: string) => !!val.length);
   }
 
   @listen('click')
