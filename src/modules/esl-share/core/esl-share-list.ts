@@ -7,13 +7,13 @@ import {ESLShareActionRegistry} from './esl-share-action-registry';
 export type ESLShareConfigProviderType = () => Promise<ShareConfig>;
 
 export interface ShareButtonConfig {
-  'action': string;
-  'icon': string;
-  'iconBackground': string;
-  'link': string;
-  'name': string;
-  'title': string;
-  'additional'?: Record<string, any>;
+  action: string;
+  icon: string;
+  iconBackground: string;
+  link: string;
+  name: string;
+  title: string;
+  additional?: Record<string, any>;
 }
 
 export interface ShareGroupConfig {
@@ -65,12 +65,12 @@ export class ESLShareList extends ESLBaseElement {
 
   protected getButtons(config: ShareConfig, idList: string[]): ShareButtonConfig[] {
     const {buttons} = config;
-    const ret: ShareButtonConfig[] = [];
+    const res: ShareButtonConfig[] = [];
     idList.forEach((name) => {
       const btnConfig = buttons.find((btn) => btn.name === name);
-      btnConfig && ret.push(btnConfig);
+      btnConfig && res.push(btnConfig);
     });
-    return ret;
+    return res;
   }
 
   protected getList(config: ShareConfig): string[] {
