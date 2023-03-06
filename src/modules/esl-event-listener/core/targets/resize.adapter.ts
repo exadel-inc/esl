@@ -5,12 +5,15 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
   /** {@link ESLResizeObserverTarget} instances holder */
   protected static readonly mapping = new WeakMap<Element, ESLResizeObserverTarget>();
   /** {@link ResizeObserver} instance to observe DOM element related to {@link ESLResizeObserverTarget} */
-  protected static readonly observer$$ = new ResizeObserver(
-    (changes: ResizeObserverEntry[]) => changes.forEach(this.handleChange, this)
+  protected static readonly observer$$ = new ResizeObserver((changes: ResizeObserverEntry[]) =>
+    changes.forEach(this.handleChange, this)
   );
 
   /** Internal method to handle {@link ResizeObserver} entry change */
-  protected static handleChange(this: typeof ESLResizeObserverTarget, detail: ResizeObserverEntry): void {
+  protected static handleChange(
+    this: typeof ESLResizeObserverTarget,
+    detail: ResizeObserverEntry
+  ): void {
     const adapter = this.mapping.get(detail.target);
     if (!adapter) return;
     const event = new CustomEvent('resize', {detail});
