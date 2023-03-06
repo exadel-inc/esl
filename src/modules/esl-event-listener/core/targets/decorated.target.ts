@@ -6,7 +6,7 @@ import {isObject} from '../../../esl-utils/misc/object/types';
 type ESLListenerDecorator<Args extends any[]> = (target: EventListener, ...args: Args) => EventListener;
 
 const cache = memoizeOne((target: EventTarget) => {
-  return memoizeOne(<Args extends any[]> (decorator: ESLListenerDecorator<Args>) => {
+  return memoizeOne(<Args extends any[]>(decorator: ESLListenerDecorator<Args>) => {
     return memoizeOne((...args: any[]) => {
       return ESLEventTargetDecorator.create(target, decorator, ...args);
     }, Map);
@@ -17,7 +17,11 @@ const cache = memoizeOne((target: EventTarget) => {
  * {@link EventTarget} proxy that decorates original target listening
  */
 export class ESLEventTargetDecorator<Args extends any[]> extends SyntheticEventTarget {
-  public static cached<Args extends any[]>(target: EventTarget, decorator: ESLListenerDecorator<Args>, ...args: Args): ESLEventTargetDecorator<Args> {
+  public static cached<Args extends any[]>(
+    target: EventTarget,
+    decorator: ESLListenerDecorator<Args>,
+    ...args: Args
+  ): ESLEventTargetDecorator<Args> {
     if (args.length > 1 || isObject(args[0])) {
       console.debug('[ESL]: Can\'t cache multi-argument decoration or decoration with object param');
       return this.create(target, decorator, ...args);
@@ -25,7 +29,11 @@ export class ESLEventTargetDecorator<Args extends any[]> extends SyntheticEventT
     return cache(target)(decorator).call(null, ...args);
   }
 
-  public static create<Args extends any[]>(target: EventTarget, decorator: ESLListenerDecorator<Args>, ...args: Args): ESLEventTargetDecorator<Args> {
+  public static create<Args extends any[]>(
+    target: EventTarget,
+    decorator: ESLListenerDecorator<Args>,
+    ...args: Args
+  ): ESLEventTargetDecorator<Args> {
     return new this(target, decorator, args);
   }
 
@@ -56,7 +64,9 @@ export class ESLEventTargetDecorator<Args extends any[]> extends SyntheticEventT
     super.removeEventListener(event, callback);
 
     if (!this.hasEventListener(event)) {
-      ESLEventListener.get(this, event).forEach((listener: ESLEventListener) => listener.unsubscribe());
+      ESLEventListener.get(this, event).forEach((listener: ESLEventListener) =>
+        listener.unsubscribe()
+      );
     }
   }
 
@@ -67,10 +77,11 @@ export class ESLEventTargetDecorator<Args extends any[]> extends SyntheticEventT
 }
 
 // TODO: temporary before memoize update in bounds of 5th release
-export function memoizeOne<C extends (typeof Map | typeof WeakMap), T extends ((typeof WeakMap) extends C ? object : any), R>(
-  fn: (arg: T) => R,
-  Cache: C
-): (arg: T) => R {
+export function memoizeOne<
+  C extends typeof Map | typeof WeakMap,
+  T extends typeof WeakMap extends C ? object : any,
+  R
+>(fn: (arg: T) => R, Cache: C): (arg: T) => R {
   function memo(arg: T): any {
     if (!memo.cache.has(arg)) memo.cache.set(arg, fn.call(this, arg));
     return memo.cache.get(arg);
