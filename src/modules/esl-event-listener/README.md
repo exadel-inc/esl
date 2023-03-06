@@ -1,6 +1,6 @@
 # ESL Event Listener module
 
-Version: *2.0.0*.
+Version: *2.1.0*.
 
 Authors: *Alexey Stsefanovich (ala'n)*.
 
@@ -95,6 +95,8 @@ Here is the list of supported keys of `ESLEventDesriptor`:
 
   ⚠ Any `EventTarget` or even ESL `SynteticEventTarget` (including [`ESLMediaQuery`](../esl-media-query/README.md)) 
   can be a target for listener API.
+
+  ⚠ See special OOTB [event targets](#extended-event-targets) of ESL to know how to optimize frequent events handling.
   
   The `target` property can be declared via `PropertyProvider` as well.  
   
@@ -400,6 +402,123 @@ class TestCases {
 
 ESLEventUtils.initDescriptor(TestCases.prototype, 'onEventAutoDesc', {event: 'event', auto: true});
 ESLEventUtils.initDescriptor(TestCases.prototype, 'onEventManualDesc', {event: 'event'});
+```
+
+---
+## <a name="extended-event-targets">Extended `EventTarget`s and standard optimizations</a> <i class="badge badge-sup badge-warning">beta</i>
+
+<a name="-esleventutilsdecorate"></a>
+### ⚡ `ESLEventUtils.decorate` and `ESLEventTargetDecorator`
+
+In case the original event of the target happens too frequently to be handled every time,
+it might be useful to limit its processing. In purpose to do that ESL allows creating decorated`EventTargets`.
+The decorated target will process the original target events dispatching with the passed async call decoration function
+(such as debounce or throttle).
+
+The `ESLEventUtils.decorate` creates an instance of `ESLEventTargetDecorator` that decorates
+passed original `EventTarget` event emitting. The instances of `ESLEventTargetDecorator` are lazy
+and do not subscribe to the original event until they have their own subscriptions of the same event type.
+
+⚠ Note `ESLEventUtils.decorate` method is cached, so created instances will be reused if the inner cache does not 
+refuse additional arguments of the decorator. The cache does not handle multiple and non-primitive arguments.
+
+```typescript
+ESLEventUtils.decorate(
+  target: EventTarget, 
+  decorator: (fn: EventListener, ...args: any[]) => EventListener, 
+  ...args: any[]
+): ESLEventTargetDecorator;
+```
+
+**Parameters**:
+- `target` - original `EventTarget` to consume events;
+- `decorator` - decoration function to decorate original target `EventListener`s;
+- `args` - optional arguments to pass to `decorator`.
+
+#### Sharing of the decorated targets
+
+As was mentioned above, method `ESLEventUtils.decorate` (alias for `ESLEventTargetDecorator.cached`) comes with
+out of a cache for simple cases. But in some cases, we might be interested in creating wrappers with a complex
+param or we want to limit params usage across the project.
+
+It might sound obvious, but there is no any restrictions to sharing exact instances instead of using method cache.
+```typescript
+// shared-event-targets.ts
+export const DEBOUNCED_WINDOW = ESLEventUtils.decorate(window, debounce, 1000);
+```
+```typescript
+// module.ts
+class Component {
+  @listen({event: 'resize', target: DEBOUNCED_WINDOW})
+  onResize() {}
+}
+``` 
+
+#### Optimize `window.resize` handling with debouncing
+
+```typescript
+import {debounce} from '.../debounce';
+
+ESLEventUtils.subscribe(host, {
+  event: 'resize',
+  target: /* instead just window */ ESLEventUtils.decorate(window, debounce, 250)
+}, onResizeDebounced);
+```
+
+The sample above allows you to reuse debounced by 250 seconds version of the window,
+to receive fewer `resize` events
+(same as any other event types observed on debounced window version)
+
+#### Optimize `window.scroll` handling with throttling
+
+```typescript
+import {throttle} from '.../throttle';
+
+ESLEventUtils.subscribe(host, {
+  event: 'scroll',
+  target: /* instead just window */ ESLEventUtils.decorate(window, throttle, 250)
+}, onScrollThrottled);
+```
+
+The sample above allows you to reuse throttled by 250 seconds version of the window,
+to receive no more than one event per 250 seconds `scroll` events
+(same as any other event types observed on debounced window version)
+
+
+<a name="-esleventutilsresize"></a>
+### ⚡ `ESLEventUtils.resize` and `ESLResizeObserverTarget`
+
+When you deal with responsive interfaces, you might need to observe an element resizes instead of 
+responding to the whole window change. The native DOM API have a tool for that - ResizeObserver. 
+The only problem it does not uses events, while on practice we work with it in the same way.
+
+`ESLEventUtils.resize` creates cached `ResizeObserver` adaptation to `EventTarget` (`ESLResizeObserverTarget`)
+that allows you get `resize` events when the observed element changes its size.
+
+```typescript
+ESLEventUtils.resize(el: Element): ESLResizeObserverTarget;
+```
+
+**Parameters**:
+- `el` - `Element` to observe size changes.
+
+`ESLResizeObserverTarget` creates itself once for an observed object with a weak reference-based cache.
+So any way of creating `ESLResizeObserverTarget` will always produce the same instance.
+
+```ESLEventUtils.resize(el) /**always*/ === ESLEventUtils.resize(el)```
+So there is no reason to cache it manually.
+
+Usage example:
+```typescript
+ESLEventUtils.subscribe(host, {
+  event: 'resize',
+  target: ESLEventUtils.resize(el)
+}, onResize);
+// or
+ESLEventUtils.subscribe(host, {
+  event: 'resize',
+  target: (host) => ESLEventUtils.resize(host.el)
+}, onResize);
 ```
 
 ---
