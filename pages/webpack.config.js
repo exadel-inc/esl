@@ -5,7 +5,6 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     'localdev': './src/localdev.ts',
-    'polyfill-medium': './src/polyfill-medium.ts',
     'polyfill-light': './src/polyfill-light.ts'
   },
   resolve: {

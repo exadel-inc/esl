@@ -5,6 +5,12 @@
 Exadel Smart Library does not have dependencies but uses the following list of native browser features:
 
 - ECMAScript 6 features
+    - [Array.from](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from) (no Iterable Objects support required)
+    - [Array.prototype.find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find)
+    - [Array.prototype.findIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex)
+    - [Array.prototype.include](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes)
+    - [Object.is](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is)
+    - [Object.assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) (accurate polyfill required)
     - [ES6 Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 - Web API
     - [Event](https://developer.mozilla.org/en-US/docs/Web/API/Event) constructor + `preventDefault` polyfill
@@ -20,13 +26,6 @@ Exadel Smart Library does not have dependencies but uses the following list of n
 
 All of them are fully supported by modern browsers such as Chrome, Firefox, Safari or Edge (>43).
 
-In order to make ESL work in older browsers, you can use a "light" polyfills list of IntersectionObserver, ResizeObserver and Custom Elements (for older versions of Edge and Safari).
+In order to make ESL work in older browsers, you can use a "light" polyfills list (for older versions Safari).
 
 See more details on what polyfill approach might look like in the demo pages source code.
-
-Also, ESL has built-in polyfills for some of DOM and ES6 features. They are available under [polyfills](../src/polyfills) directory:
-  - ECMA Script 5: output shim (`HTMLElement` constructor call) - [es5-target-shim.ts](../src/polyfills/es5-target-shim.ts)
-  - ECMA Script 6: DOM - [polyfills.es6.ts](../src/polyfills/polyfills.es6.ts)
-    - `Node.isConnected` 
-    - `KeyboardKey.prototype.key` 
-    - `Element.prototype.toggleAttribute` 
