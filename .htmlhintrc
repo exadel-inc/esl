@@ -1,0 +1,17 @@
+{
+  "attr-value-not-empty": false,
+  "doctype-first": false,
+  "tags-check": true,
+  "spec-char-escape": false,
+  "attr-no-duplication": true,
+  "attr-value-single-quotes": false,
+  "tag-pair": true,
+  "src-not-empty": true,
+  "spec-char-escape": true,
+  "space-tab-mixed-disabled": space,
+  "id-unique": true,
+  "id-class-value": dash,
+  "empty-tag-not-self-closed": true,
+  "attr-unsafe-chars": true,
+  "alt-require": true
+}
