@@ -1,0 +1,71 @@
+---
+layout: content
+title: Share
+name: Share
+tags: [examples, beta]
+icon: examples/share.svg
+aside:
+  components:
+    - esl-share
+---
+{% import 'lorem.njk' as lorem %}
+
+<section>
+  <h2>Share example</h2>
+
+  <h3>Just a standalone share button</h3>
+  <esl-share-button action="media" link="//www.linkedin.com/sharing/share-offsite/?url={u}" name="linkedin" data-share-title="Standalone share button" data-share-url="/standalone.html" tabindex="0" role="button" title="LinkedIn">
+    <span title="Linkedin" class="esl-share-icon" style="background-color:#0b77b3;">
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 27.99 27.99"><path d="M6.37 11.33h3.25v10.45H6.37zM8 6.13A1.88 1.88 0 116.12 8 1.88 1.88 0 018 6.13M11.65 11.33h3.12v1.43h.05a3.4 3.4 0 013.07-1.69c3.29 0 3.9 2.17 3.9 5v5.73h-3.25v-5.11c0-1.21 0-2.77-1.69-2.77s-1.94 1.32-1.94 2.69v5.17h-3.25V11.33z"></path></svg>
+    </span>
+  </esl-share-button>
+  <hr>
+
+  <h3>Display list of share buttons of group 'demo'</h3>
+  <p>Shows buttons from a specified group.</p>
+  <esl-share-list group="demo"></esl-share-list>
+  <hr>
+
+  <h3>Display list of share buttons of group 'alternative'</h3>
+  <p>Shows buttons from a specified group.</p>
+  <esl-share-list group="alternative"></esl-share-list>
+  <hr>
+
+  <h3>Display list of share buttons on nonexistent group</h3>
+  <p>Shows buttons from a specified group. Displays all buttons from config when a nonexistent group is specified.</p>
+  <esl-share-list group="foo"></esl-share-list>
+  <hr>
+
+  <h3>Display list of share buttons via list of buttons id</h3>
+  <p>Shows specified buttons. Displays nothing in the case when specified wrong button id.</p>
+  <esl-share-list list="kakao,pusha,alladin,mix,myspace"></esl-share-list>
+  <hr>
+
+  <h3>List of share buttons which presents buttons with all action types</h3>
+  <p>This example shows a button with the native share mechanism on the device which will be inactive on the desktop browser.</p>
+  <esl-share-list list="copy,linkedin,mail,native-share,print"></esl-share-list>
+  <hr>
+
+  <h3>Display list of share buttons via incorrect list</h3>
+  <p>Shows buttons only with the correct id.</p>
+  <esl-share-list list="twittor , copi"></esl-share-list>
+  <hr>
+
+  <h3>Display list of share buttons (without group or list)</h3>
+  <p>Shows all buttons from config.</p>
+  <esl-share-list data-share-url="https://esl-ui.com/" data-share-title="Exadel Smart Library"></esl-share-list>
+  <hr>
+
+  <h3>Trigger icon with share popup</h3>
+  <p>Displays trigger icon. Hovering or clicking on the icon shows a popup with the list of share icons.</p>
+  <esl-trigger target="#demo-share-popup" mode="toggle" track-click track-hover style="display: inline-block; width: 40px; height: 40px;">
+    <svg viewBox="0 0 483 483" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g fill="#add1fa">
+        <path d="M395.72,0c-48.204,0-87.281,39.078-87.281,87.281c0,2.036,0.164,4.03,0.309,6.029l-161.233,75.674 c-15.668-14.971-36.852-24.215-60.231-24.215c-48.204,0.001-87.282,39.079-87.282,87.282c0,48.204,39.078,87.281,87.281,87.281 c15.206,0,29.501-3.907,41.948-10.741l69.789,58.806c-3.056,8.896-4.789,18.396-4.789,28.322c0,48.204,39.078,87.281,87.281,87.281 c48.205,0,87.281-39.078,87.281-87.281s-39.077-87.281-87.281-87.281c-15.205,0-29.5,3.908-41.949,10.74l-69.788-58.805 c3.057-8.891,4.789-18.396,4.789-28.322c0-2.035-0.164-4.024-0.308-6.029l161.232-75.674c15.668,14.971,36.852,24.215,60.23,24.215 c48.203,0,87.281-39.078,87.281-87.281C482.999,39.079,443.923,0,395.72,0z"/>
+      </g>
+    </svg>
+  </esl-trigger>
+  <esl-popup id="demo-share-popup" position="top" default-params="{hideDelay: 500}" close-on-esc close-on-outside-action>
+    <esl-share-list group="alternative" style="margin: 10px;"></esl-share-list><span class="esl-popup-arrow"></span>
+  </esl-popup>
+</section>
