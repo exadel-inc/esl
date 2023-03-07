@@ -434,7 +434,7 @@ ESLEventUtils.initDescriptor(TestCases.prototype, 'onEventManualDesc', {event: '
 ### ⚡ `ESLEventUtils.decorate` and `ESLEventTargetDecorator`
 
 In case where original event of the target happens too frequently to be handled every time,
-it might be useful to limit its processing. In purpose to do that ESL allows creating decorated`EventTargets`.
+it might be useful to limit its processing. In purpose to do that ESL allows creating decorated `EventTargets`.
 The decorated target will process the original target events dispatching with the passed async call decoration function
 (such as debounce or throttle).
 
@@ -516,7 +516,7 @@ to receive no more than one event per 250 milliseconds `scroll` events
 
 When you deal with responsive interfaces, you might need to observe an element resizes instead of
 responding to the whole window change. The native DOM API have a tool for that - the `ResizeObserver`.
-The only problem it does not uses events, while on practice we work with it in the same way.
+The only problem it does not use events, while on practice we work with it in the same way.
 
 `ESLEventUtils.resize` creates cached `ResizeObserver` adaptation to `EventTarget` (`ESLResizeObserverTarget`)
 that allows you get `resize` events when the observed element changes its size.
