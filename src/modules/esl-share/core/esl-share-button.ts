@@ -4,6 +4,7 @@ import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {toAbsoluteUrl} from '../../esl-utils/misc/url';
 import {ESLShareActionRegistry} from './esl-share-action-registry';
 
+import type {ESLShareBaseAction} from './esl-share-action';
 import type {ESLShareList} from './esl-share-list';
 
 function getProp<T>(name: string, targets: Record<string, any>[], fallback: T, predicate: (val: T) => boolean): T {
@@ -13,6 +14,7 @@ function getProp<T>(name: string, targets: Record<string, any>[], fallback: T, p
 
 export class ESLShareButton extends ESLBaseElement {
   public static override is = 'esl-share-button';
+  public static observedAttributes = ['action'];
 
   @attr() public action: string;
   @attr() public link: string;
@@ -22,6 +24,10 @@ export class ESLShareButton extends ESLBaseElement {
   @attr({dataAttr: true}) public shareTitle: string;
   @boolAttr() public unavailable: boolean;
   @prop('transparent') public defaultBackground: string;
+
+  protected get actionInstance(): ESLShareBaseAction | null {
+    return ESLShareActionRegistry.instance.get(this.action);
+  }
 
   public get host(): ESLShareList | null {
     return this.closest('esl-share-list');
@@ -35,9 +41,15 @@ export class ESLShareButton extends ESLBaseElement {
     return toAbsoluteUrl(this._getPropFromRelatedEls('shareUrl', window.location.href));
   }
 
+  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+    if (!this.connected || oldVal === newVal) return;
+    if (attrName === 'action') this.updateAction();
+  }
+
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.initA11y();
+    this.updateAction();
   }
 
   public initA11y(): void {
@@ -48,7 +60,11 @@ export class ESLShareButton extends ESLBaseElement {
   }
 
   public share(): void {
-    ESLShareActionRegistry.instance.share(this);
+    this.actionInstance?.share(this);
+  }
+
+  protected updateAction(): void {
+    this.$$attr('unavailable', !this.actionInstance?.isAvailable);
   }
 
   protected _getPropFromRelatedEls(name: string, fallback: string): string {

@@ -110,11 +110,11 @@ export class ESLShareList extends ESLBaseElement {
   }
 
   protected buildButton(cfg: ShareButtonConfig): ESLShareButton | null {
-    const shareAction = ESLShareActionRegistry.instance.get(cfg.action);
-    if (!shareAction) return null;
+    // const shareAction = ESLShareActionRegistry.instance.get(cfg.action);
+    // if (!shareAction) return null;
 
     const $button = ESLShareButton.create();
-    Object.assign($button, cfg, {'unavailable': !shareAction.isAvailable});
+    Object.assign($button, cfg);
     const $icon = document.createElement('span');
     $icon.title = cfg.title;
     $icon.classList.add('esl-share-icon');
