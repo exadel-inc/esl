@@ -2,7 +2,6 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, bind, boolAttr, prop} from '../../esl-utils/decorators';
 
 import {ESLShareButton} from './esl-share-button';
-import {ESLShareActionRegistry} from './esl-share-action-registry';
 
 export type ESLShareConfigProviderType = () => Promise<ShareConfig>;
 
@@ -110,16 +109,13 @@ export class ESLShareList extends ESLBaseElement {
   }
 
   protected buildButton(cfg: ShareButtonConfig): ESLShareButton | null {
-    // const shareAction = ESLShareActionRegistry.instance.get(cfg.action);
-    // if (!shareAction) return null;
-
     const $button = ESLShareButton.create();
     Object.assign($button, cfg);
     const $icon = document.createElement('span');
     $icon.title = cfg.title;
     $icon.classList.add('esl-share-icon');
     $icon.innerHTML = cfg.icon;
-    $icon.setAttribute('style', `background-color:${cfg.iconBackground || $button.defaultBackground};`);
+    $icon.setAttribute('style', `background-color:${cfg.iconBackground};`);
     $button.appendChild($icon);
     return $button;
   }

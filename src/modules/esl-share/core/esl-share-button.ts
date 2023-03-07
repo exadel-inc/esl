@@ -1,5 +1,5 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {attr, boolAttr, jsonAttr, listen, prop} from '../../esl-utils/decorators';
+import {attr, boolAttr, jsonAttr, listen} from '../../esl-utils/decorators';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {toAbsoluteUrl} from '../../esl-utils/misc/url';
 import {ESLShareActionRegistry} from './esl-share-action-registry';
@@ -23,7 +23,6 @@ export class ESLShareButton extends ESLBaseElement {
   @attr({dataAttr: true}) public shareUrl: string;
   @attr({dataAttr: true}) public shareTitle: string;
   @boolAttr() public unavailable: boolean;
-  @prop('transparent') public defaultBackground: string;
 
   protected get actionInstance(): ESLShareBaseAction | null {
     return ESLShareActionRegistry.instance.get(this.action);
