@@ -48,10 +48,9 @@ export class ESLShareList extends ESLBaseElement {
     return (this.constructor as typeof ESLBaseElement).is;
   }
 
-  public static config(provider?: ESLShareConfigProviderType): Promise<ShareConfig> {
-    if (provider) {
-      ESLShareList._config = provider();
-    }
+  public static config(provider?: ESLShareConfigProviderType | ShareConfig): Promise<ShareConfig> {
+    if (typeof provider === 'function') ESLShareList._config = provider();
+    if (typeof provider === 'object') ESLShareList._config = Promise.resolve(provider);
     return ESLShareList._config;
   }
 
