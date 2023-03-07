@@ -98,8 +98,8 @@ export class ESLEventUtils {
     if (typeof eventDesc === 'string') eventDesc = {event: eventDesc};
     const listeners = ESLEventListener.subscribe(host, handler, eventDesc as ESLListenerDescriptor);
     if (!listeners.length) {
-      const mergedObject = Object.assign({}, eventDesc, {handler});
-      console.warn('[ESL]: Empty subscription %o', mergedObject);
+      const mergedDesc = Object.assign({}, eventDesc, {handler});
+      console.warn('[ESL]: Empty subscription %o', mergedDesc);
     }
     return listeners;
   }

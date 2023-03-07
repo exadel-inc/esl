@@ -101,7 +101,7 @@ Here is the list of supported keys of `ESLEventDesriptor`:
   ⚠ Any `EventTarget` or even ESL `SynteticEventTarget` (including [`ESLMediaQuery`](../esl-media-query/README.md))
   can be a target for listener API.
 
-  ⚠ See [OOTB Extended Event Targets](#extended-event-targets) of ESL to know how to optimize frequent events handling.
+  ⚠ See [OOTB Extended Event Targets](#extended-event-targets) of ESL to know how to optimize handling of frequent events.
 
   The `target` property can be declared via `PropertyProvider` as well.
 
@@ -433,7 +433,7 @@ ESLEventUtils.initDescriptor(TestCases.prototype, 'onEventManualDesc', {event: '
 
 ### ⚡ `ESLEventUtils.decorate` and `ESLEventTargetDecorator`
 
-In case the original event of the target happens too frequently to be handled every time,
+In case where original event of the target happens too frequently to be handled every time,
 it might be useful to limit its processing. In purpose to do that ESL allows creating decorated`EventTargets`.
 The decorated target will process the original target events dispatching with the passed async call decoration function
 (such as debounce or throttle).
@@ -465,7 +465,7 @@ As was mentioned above, method `ESLEventUtils.decorate` (alias for `ESLEventTarg
 out of a cache for simple cases. But in some cases, we might be interested in creating wrappers with a complex
 param or we want to limit params usage across the project.
 
-It might sound obvious, but there is no any restrictions to sharing exact instances instead of using method cache.
+It might sound obvious, but there are no restrictions on sharing exact instances instead of using method cache.
 
 ```typescript
 // shared-event-targets.ts
@@ -491,7 +491,7 @@ ESLEventUtils.subscribe(host, {
 }, onResizeDebounced);
 ```
 
-The sample above allows you to reuse debounced by 250 seconds version of the window,
+The sample above allows you to reuse debounced by 250 milliseconds version of the window,
 to receive fewer `resize` events
 (same as any other event types observed on debounced window version)
 
@@ -506,8 +506,8 @@ ESLEventUtils.subscribe(host, {
 }, onScrollThrottled);
 ```
 
-The sample above allows you to reuse throttled by 250 seconds version of the window,
-to receive no more than one event per 250 seconds `scroll` events
+The sample above allows you to reuse throttled by 250 milliseconds version of the window,
+to receive no more than one event per 250 milliseconds `scroll` events
 (same as any other event types observed on debounced window version)
 
 <a name="-esleventutilsresize"></a>
@@ -515,7 +515,7 @@ to receive no more than one event per 250 seconds `scroll` events
 ### ⚡ `ESLEventUtils.resize` and `ESLResizeObserverTarget`
 
 When you deal with responsive interfaces, you might need to observe an element resizes instead of
-responding to the whole window change. The native DOM API have a tool for that - ResizeObserver.
+responding to the whole window change. The native DOM API have a tool for that - the `ResizeObserver`.
 The only problem it does not uses events, while on practice we work with it in the same way.
 
 `ESLEventUtils.resize` creates cached `ResizeObserver` adaptation to `EventTarget` (`ESLResizeObserverTarget`)
