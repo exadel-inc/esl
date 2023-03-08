@@ -49,7 +49,11 @@ export interface ESLListenerDefinition<EType extends keyof ESLListenerEventMap =
 export type ESLListenerHandler<EType extends Event = Event> = (event: EType) => void;
 
 /** Condition (criteria) to find {@link ESLListenerDescriptor} */
-export type ESLListenerCriteria = undefined | keyof ESLListenerEventMap | ESLListenerHandler | Partial<ESLListenerDefinition>;
+export type ESLListenerCriteria =
+  | undefined
+  | keyof ESLListenerEventMap
+  | ESLListenerHandler
+  | Partial<ESLListenerDefinition>;
 
 /** Function decorated as {@link ESLListenerDescriptor} */
 export type ESLListenerDescriptorFn<EType extends keyof ESLListenerEventMap = string> =
