@@ -515,11 +515,11 @@ to receive no more than one event per 250 milliseconds `scroll` events
 ### ⚡ `ESLEventUtils.resize` and `ESLResizeObserverTarget`
 
 When you deal with responsive interfaces, you might need to observe an element resizes instead of
-responding to the whole window change. The native DOM API have a tool for that - the `ResizeObserver`.
+responding to the whole window change. There is a tool for this in the native DOM API - `ResizeObserver'.
 The only problem it does not use events, while on practice we work with it in the same way.
 
 `ESLEventUtils.resize` creates cached `ResizeObserver` adaptation to `EventTarget` (`ESLResizeObserverTarget`)
-that allows you get `resize` events when the observed element changes its size.
+that allows you to get `resize` events when the observed element changes its size.
 
 ```typescript
 ESLEventUtils.resize(el: Element): ESLResizeObserverTarget;
