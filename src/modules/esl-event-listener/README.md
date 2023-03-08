@@ -433,8 +433,8 @@ ESLEventUtils.initDescriptor(TestCases.prototype, 'onEventManualDesc', {event: '
 
 ### ⚡ `ESLEventUtils.decorate` and `ESLEventTargetDecorator`
 
-In case where original event of the target happens too frequently to be handled every time,
-it might be useful to limit its processing. In purpose to do that ESL allows creating decorated `EventTargets`.
+In cases where the original event of the target happens too frequently to be handled every time,
+it might be helpful to limit its processing. In purpose to do that ESL allows the creation of decorated `EventTargets`.
 The decorated target will process the original target events dispatching with the passed async call decoration function
 (such as debounce or throttle).
 
@@ -461,11 +461,11 @@ ESLEventUtils.decorate(
 
 #### Sharing of the decorated targets
 
-As was mentioned above, method `ESLEventUtils.decorate` (alias for `ESLEventTargetDecorator.cached`) comes with
-out of a cache for simple cases. But in some cases, we might be interested in creating wrappers with a complex
-param or we want to limit params usage across the project.
+As was mentioned above, the method `ESLEventUtils.decorate` (alias for `ESLEventTargetDecorator.cached`) works with
+a cache for simple cases. But in some cases, we might be interested in creating wrappers with a complex
+param, or we want to limit params usage across the project.
 
-It might sound obvious, but there are no restrictions on sharing exact instances instead of using method cache.
+It might sound obvious, but there are no restrictions on sharing exact instances instead of using the method cache.
 
 ```typescript
 // shared-event-targets.ts
@@ -516,7 +516,7 @@ to receive no more than one event per 250 milliseconds `scroll` events
 
 When you deal with responsive interfaces, you might need to observe an element resizes instead of
 responding to the whole window change. There is a tool for this in the native DOM API - `ResizeObserver'.
-The only problem it does not use events, while on practice we work with it in the same way.
+The only problem is that it does not use events, while in practice, we work with it in the same way.
 
 `ESLEventUtils.resize` creates cached `ResizeObserver` adaptation to `EventTarget` (`ESLResizeObserverTarget`)
 that allows you to get `resize` events when the observed element changes its size.
