@@ -5,9 +5,9 @@ import type {ESLPopup} from './esl-popup';
 
 @ExportNs('PopupPlaceholder')
 export class ESLPopupPlaceholder extends ESLToggleablePlaceholder {
-  public static is = 'esl-popup-placeholder';
+  public static override is = 'esl-popup-placeholder';
 
-  public $origin: ESLPopup | null;
+  public override $origin: ESLPopup | null;
 }
 
 declare global {

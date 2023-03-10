@@ -16,7 +16,7 @@ import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/m
 
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
-  public static is = 'esl-note';
+  public static override is = 'esl-note';
   public static observedAttributes = ['tooltip-shown', 'ignore'];
 
   /** Timeout before activating note (to have time to show content with this note) */
@@ -95,14 +95,14 @@ export class ESLNote extends ESLBaseElement {
   }
 
   @ready
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     this.init();
     super.connectedCallback();
     this._sendResponseToFootnote();
   }
 
   @ready
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     this._$footnotes?.unlinkNote(this);
     this.restore();

@@ -3,7 +3,7 @@ name: Validate
 on:
   push:
     branches: [ main, main-beta, epic/* ]
-  pull_request:
+  pull_request_target:
     branches: [ main, main-beta, epic/* ]
   workflow_dispatch:
 
@@ -28,11 +28,9 @@ jobs:
         run: npm run lint:js
       - name: Run Linting CSS
         run: npm run lint:css
-      - name: Run Linting Format
-        run: npm run lint:spaces
 
   test:
-    name: Unit Tests
+    name: Unit Tests & Coverage
     runs-on: ubuntu-latest
 
     steps:
@@ -45,4 +43,12 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
       - name: Run Tests
-        run: npm run test:unit
+        run: npm run test:ci
+      - name: Collect and Publish coverage to Code Climate
+        uses: paambaati/codeclimate-action@v3.2.0
+        continue-on-error: true
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CC_REPORTER_ID}}
+        with:
+          verifyDownload: false
+          coverageLocations: ${{github.workspace}}/.report/lcov.info:lcov

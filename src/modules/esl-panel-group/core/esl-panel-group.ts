@@ -23,7 +23,7 @@ const parseCount = (value: string): number => value === 'all' ? Number.POSITIVE_
  */
 @ExportNs('PanelGroup')
 export class ESLPanelGroup extends ESLBaseElement {
-  public static is = 'esl-panel-group';
+  public static override is = 'esl-panel-group';
 
   public static observedAttributes = ['mode', 'refresh-strategy', 'min-open-items', 'max-open-items'];
   /** List of supported modes */
@@ -73,7 +73,7 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Height of previous active panel */
   protected _previousHeight: number = 0;
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     ESLPanel.registered.then(() => {
       super.connectedCallback();
       this.refresh();

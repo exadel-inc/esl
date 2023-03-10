@@ -3,7 +3,7 @@ import {attr, boolAttr, jsonAttr} from '../../esl-utils/decorators';
 
 describe('ESLMixinElement: attribute mixins correctly reflect to the $host', () => {
   class TestMixin extends ESLMixinElement {
-    static is = 'test-mixin-2';
+    static override is = 'test-mixin-2';
 
     @attr() public val: string | null;
 

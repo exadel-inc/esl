@@ -1,3 +1,55 @@
+## [4.3.1](https://github.com/exadel-inc/esl/compare/v4.3.0...v4.3.1) (2023-03-09)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** (HOTFIX) `[@listen](https://github.com/listen)` should not require host typeof `ESLDomElementTarget` ([01b84c3](https://github.com/exadel-inc/esl/commit/01b84c361100237a181a46595e0f6b67a5067353))
+
+# [4.3.0](https://github.com/exadel-inc/esl/compare/v4.2.1...v4.3.0) (2023-03-08)
+
+
+### Bug Fixes
+
+* **esl-event-utils:** fix `SyntheticEventTarget` event `target` descriptor configurability ([64a6a84](https://github.com/exadel-inc/esl/commit/64a6a8439a338c4fc2e26a9be6f7750d1487a5ae))
+* **esl-media:** `ref:` prefix is optional, user should be able to use internal id ([465fbec](https://github.com/exadel-inc/esl/commit/465fbecd9b45d5f1a5f2fabf8db5a62b5d0f1ba5))
+
+
+### Features
+
+* **esl-event-listener:** `SyntheticEventTarget` extended with ability to pass custom target to `dispatchEvent` method ([4982a45](https://github.com/exadel-inc/esl/commit/4982a45bf7c38304e3e360180d47152fce1db4ad))
+* **esl-event-listener:** create EventTarget decorator and window target utilities ([ca0f0de](https://github.com/exadel-inc/esl/commit/ca0f0de70adf180654afd50b06f78f8e74451f7f))
+* **esl-event-listener:** New `ESLEventUtils.resize` utility to create an adapter `EventTargets` for `ResizeObserver` ([e1de096](https://github.com/exadel-inc/esl/commit/e1de09611815d65bccceb91ae2771b870a70c345))
+* **esl-utils:** `SyntheticEventTarget` API extended with ability to choose target value and specify default event type ([3fc1f5d](https://github.com/exadel-inc/esl/commit/3fc1f5d5a7f87fe41d6f91737f7d217eedb5bb4e))
+* **esl-utils:** attr api extension ([07e3a9f](https://github.com/exadel-inc/esl/commit/07e3a9ffd1a54a9f83cf4e643e507568e730d84c))
+
+## [4.2.1](https://github.com/exadel-inc/esl/compare/v4.2.0...v4.2.1) (2023-02-20)
+
+
+### Bug Fixes
+
+* **esl-image:** attribute callback before connect ([659fa20](https://github.com/exadel-inc/esl/commit/659fa2031577bba2ce19af32c6950c9403a2ef27))
+* **esl-utils:** `memoize.clear` and `memoize.has` signature types improved ([4068bfa](https://github.com/exadel-inc/esl/commit/4068bfaff2150cd2aeb389fcc230a07cd826466a))
+
+# [4.2.0](https://github.com/exadel-inc/esl/compare/v4.1.1...v4.2.0) (2023-02-02)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** allow to redeclare function descriptor data ([e304726](https://github.com/exadel-inc/esl/commit/e304726ba00f65b70ac25a194703a21aa9ac5d5c))
+* **esl-event-listener:** fix `isEventDescriptor` check for incorrect type of event key ([729b486](https://github.com/exadel-inc/esl/commit/729b486e0a934820502ffa8696be28a4f1b1465a))
+* **esl-footnotes:** esl-note is not respond on "ignore" attribute change ([7e0f4b8](https://github.com/exadel-inc/esl/commit/7e0f4b8ea8802b93ca0dc9060cfa47a371d729be))
+* **esl-mixin-element:** fix oldValue argument of attributeChangedCallback ([36c8d0f](https://github.com/exadel-inc/esl/commit/36c8d0fd5c20ba04eeed6139bcf1688c740e0036))
+* **esl-utils:** fix `isObject` predicate signature to accept symbol keys ([c8f0611](https://github.com/exadel-inc/esl/commit/c8f0611ff916e15e8be028766baf6f98a5c9e2a4))
+
+
+### Features
+
+* **esl-event-listener:** IE safe private key for ESLEventListeners (now stores under Symbol in modern browsers) ([eb5e6c3](https://github.com/exadel-inc/esl/commit/eb5e6c3c37a224309ba3699f47ac75e01f9dbe9f))
+* **esl-event-listener:** simplified way to subscribe all auto descriptors ([e6c432b](https://github.com/exadel-inc/esl/commit/e6c432b542d7b9f74079fb5012e9b87373bf805f))
+* **esl-related-target:** make related target able to targeting multiple related togglable ([#1398](https://github.com/exadel-inc/esl/issues/1398)) ([9a4423c](https://github.com/exadel-inc/esl/commit/9a4423c63f34731a9708cd93aaca41e8f07690de))
+* **esl-utils:** `isVisible` predicate and `ESLTraversingQuery` filter created according to [#931](https://github.com/exadel-inc/esl/issues/931) spec ([#1341](https://github.com/exadel-inc/esl/issues/1341)) ([70ea8fb](https://github.com/exadel-inc/esl/commit/70ea8fbc134eb03ec2aba911600f7441ee953c93))
+* **esl-utils:** isVisible predicate ([510d396](https://github.com/exadel-inc/esl/commit/510d396e6393b907afc885f038684b421d2a7449))
+
 ## [4.1.1](https://github.com/exadel-inc/esl/compare/v4.1.0...v4.1.1) (2023-01-11)
 
 

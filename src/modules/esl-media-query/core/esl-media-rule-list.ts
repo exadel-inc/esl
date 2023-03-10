@@ -13,7 +13,7 @@ export class ESLMediaRuleListEvent<T = any> extends Event {
   /** Previous value of target {@link ESLMediaRuleList} instances */
   public readonly previous: T;
   /** Target {@link ESLMediaRuleList} instances */
-  public readonly target: ESLMediaRuleList<T>;
+  public override readonly target: ESLMediaRuleList<T>;
 
   constructor(current: T, previous: T) {
     super('change');
@@ -147,9 +147,9 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   }
 
   /** Subscribes to the instance active rule change */
-  public addEventListener(callback: EventListener): void;
-  public addEventListener(type: 'change', callback: EventListener): void;
-  public addEventListener(type: any, callback: EventListener = type): void {
+  public override addEventListener(callback: EventListener): void;
+  public override addEventListener(type: 'change', callback: EventListener): void;
+  public override addEventListener(type: any, callback: EventListener = type): void {
     super.addEventListener(type, callback);
     if (this.hasEventListener(1)) return;
     this._value = this.computedValue;
@@ -157,9 +157,9 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   }
 
   /** Unsubscribes from the instance active rule change */
-  public removeEventListener(callback: EventListener): void;
-  public removeEventListener(type: 'change', callback: EventListener): void;
-  public removeEventListener(type: any, callback: EventListener = type): void {
+  public override removeEventListener(callback: EventListener): void;
+  public override removeEventListener(type: 'change', callback: EventListener): void;
+  public override removeEventListener(type: any, callback: EventListener = type): void {
     super.removeEventListener(type, callback);
     if (this.hasEventListener()) return;
     delete this._value;
@@ -207,7 +207,7 @@ export class ESLMediaRuleList<T = any> extends SyntheticEventTarget {
   }
 
   /** @returns serialized {@link ESLMediaRuleList} object representation*/
-  public toString(): string {
+  public override toString(): string {
     return this.rules.join('|');
   }
 }

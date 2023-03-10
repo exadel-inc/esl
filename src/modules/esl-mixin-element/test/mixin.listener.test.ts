@@ -5,7 +5,7 @@ describe('ESLMixinElement: listeners', () => {
   describe('ESLMixinElement auto subscribes to listener declarations', () => {
     const mockHandler = jest.fn();
     class TestElement extends ESLMixinElement {
-      static is = 'test-listen-mixin';
+      static override is = 'test-listen-mixin';
 
       @listen('click')
       public onClick(...args: any[]) { mockHandler(this, ...args); }
@@ -18,7 +18,7 @@ describe('ESLMixinElement: listeners', () => {
     beforeAll(() => document.body.appendChild(el));
 
     test('ESLMixinElement successfully auto subscribed', () => {
-      const host = TestElement.get(el);
+      const host = TestElement.get(el) as TestElement;
       expect(ESLEventUtils.listeners(host).length).toBe(1);
       expect(ESLEventUtils.listeners(host)[0].event).toBe('click');
     });

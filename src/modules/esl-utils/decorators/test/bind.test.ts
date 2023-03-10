@@ -118,7 +118,8 @@ describe('Common @bind decorator test', () => {
       }
     }
     class TestChild extends TestParent {
-      @bind getThisName() {
+      @bind
+      override getThisName() {
         return super.getThisName() + ' world';
       }
       getThisSuperName() {

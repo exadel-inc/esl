@@ -4,7 +4,6 @@ import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMixinRegistry} from './esl-mixin-registry';
 
-import type {AttributeTarget} from '../../esl-utils/dom/attr';
 import type {
   ESLEventListener,
   ESLListenerCriteria,
@@ -12,13 +11,14 @@ import type {
   ESLListenerEventMap,
   ESLListenerHandler
 } from '../../esl-utils/dom/events';
+import type {ESLDomElementRelated} from '../../esl-utils/abstract/dom-target';
 
 /**
  * Base class for mixin elements.
  * Mixin elements attaches to the DOM element via attribute.
  * Allows multiple mixin elements per one DOM element
  */
-export class ESLMixinElement implements AttributeTarget {
+export class ESLMixinElement implements ESLDomElementRelated {
   /** Root attribute to identify mixin targets. Should contain dash in the name. */
   static is: string;
   /** Additional observed attributes */
@@ -46,7 +46,7 @@ export class ESLMixinElement implements AttributeTarget {
       });
     }
 
-    ESLEventUtils.descriptors(this).forEach((desc) => ESLEventUtils.subscribe(this, desc));
+    ESLEventUtils.subscribe(this);
   }
 
   /** Callback to execute on mixin instance destroy */
@@ -56,7 +56,10 @@ export class ESLMixinElement implements AttributeTarget {
     ESLEventUtils.unsubscribe(this);
   }
 
-  /** Callback to handle changing of additional attributes */
+  /**
+   * Callback to handle changing of additional attributes.
+   * Happens when attribute accessed for writing independently of the actual value change
+   */
   public attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
   /** Attribute change mutation record processor */
