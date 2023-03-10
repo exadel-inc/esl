@@ -24,6 +24,10 @@ export class ESLMixinElement implements ESLDomElementRelated {
   /** Additional observed attributes */
   static observedAttributes: string[] = [];
 
+  // @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  ['constructor']!: typeof ESLMixinElement & Function;
+
   /** Event to indicate component significant state change that may affect other components state */
   @prop('esl:refresh') public REFRESH_EVENT: string;
 
@@ -36,12 +40,12 @@ export class ESLMixinElement implements ESLDomElementRelated {
 
   /** Callback of mixin instance initialization */
   public connectedCallback(): void {
-    const constructor = this.constructor as typeof ESLMixinElement;
-    if (constructor.observedAttributes.length) {
+    const {observedAttributes} = this.constructor;
+    if (observedAttributes.length) {
       this._attr$$ = new MutationObserver(this._onAttrMutation.bind(this));
       this._attr$$.observe(this.$host, {
         attributes: true,
-        attributeFilter: constructor.observedAttributes,
+        attributeFilter: observedAttributes,
         attributeOldValue: true
       });
     }
