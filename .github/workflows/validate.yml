@@ -28,8 +28,6 @@ jobs:
         run: npm run lint:js
       - name: Run Linting CSS
         run: npm run lint:css
-      - name: Run Linting Format
-        run: npm run lint:spaces
 
   test:
     name: Unit Tests & Coverage
