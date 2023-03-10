@@ -55,7 +55,7 @@ export class ESLShareList extends ESLBaseElement {
   /** Event to dispatch on ready state of {@link ESLShareList} */
   @prop('esl:share:ready') public SHARE_READY_EVENT: string;
 
-  @attr({readonly: true}) public list: string;
+  @attr({readonly: true, defaultValue: 'all'}) public list: string;
   @attr({dataAttr: true}) public shareUrl: string;
   @attr({dataAttr: true}) public shareTitle: string;
 
@@ -73,8 +73,7 @@ export class ESLShareList extends ESLBaseElement {
 
   public get buttonsConfig(): Promise<ShareButtonConfig[]> {
     return (this.constructor as typeof ESLShareList).config().then((config) => {
-      const buttonsList = getButtonsList(config, this.list);
-      return buttonsList.length ? buttonsList : config.buttons;
+      return (this.list !== 'all') ? getButtonsList(config, this.list) : config.buttons;
     });
   }
 
