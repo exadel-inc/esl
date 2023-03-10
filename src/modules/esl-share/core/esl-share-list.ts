@@ -30,18 +30,17 @@ function getConfigSectionItem<T extends ShareButtonConfig | ShareGroupConfig>(se
 }
 
 function getButtonsList(config: ShareConfig, list: string): ShareButtonConfig[] {
-  let res: ShareButtonConfig[] = [];
-  list.split(' ').forEach((item) => {
+  return list.split(' ').reduce((res, item) => {
     const [btnName, groupName] = item.split('group:');
     if (groupName) {
       const groupConfig = getConfigSectionItem(config.groups, groupName);
-      groupConfig && (res = res.concat(getButtonsList(config, groupConfig.list)));
+      if (groupConfig) return res.concat(getButtonsList(config, groupConfig.list));
     } else {
       const btnConfig = getConfigSectionItem(config.buttons, btnName);
-      btnConfig && res.push(btnConfig);
+      if (btnConfig) res.push(btnConfig);
     }
-  });
-  return res;
+    return res;
+  }, []);
 }
 
 export class ESLShareList extends ESLBaseElement {
