@@ -32,17 +32,17 @@ aside:
   <hr>
 
   <h3>Displays list of share buttons of the mix of Facebook, the group 'alternative', and Twitter button</h3>
-  <p>Shows buttons from a specified group.</p>
+  <p>Shows a Facebook button, buttons from a specified group, and a Twitter button.</p>
   <esl-share-list list="facebook group:alternative twitter"></esl-share-list>
   <hr>
 
   <h3>Displays list of share buttons on nonexistent group</h3>
-  <p>Shows buttons from a specified group. Displays all buttons from config when a nonexistent group is specified.</p>
+  <p>Shows empty list when a nonexistent group is specified.</p>
   <esl-share-list list="group:foo"></esl-share-list>
   <hr>
 
   <h3>Displays list of share buttons via list of buttons id</h3>
-  <p>Shows specified buttons. Displays nothing in the case when specified wrong button id.</p>
+  <p>Shows specified buttons. Displays nothing in the case when specified wrong button name.</p>
   <esl-share-list list="kakao pusha alladin mix myspace"></esl-share-list>
   <hr>
 
@@ -51,13 +51,18 @@ aside:
   <esl-share-list list="copy linkedin mail native-share print"></esl-share-list>
   <hr>
 
+  <h3>Display list of share buttons with empty list</h3>
+  <p>Shows empty component without buttons.</p>
+  <esl-share-list list=""></esl-share-list>
+  <hr>
+
   <h3>Display list of share buttons via incorrect list</h3>
-  <p>Shows buttons only with the correct id.</p>
+  <p>Shows buttons only with the correct names.</p>
   <esl-share-list list="twittor  copi"></esl-share-list>
   <hr>
 
   <h3>Display list of share buttons (without group or list)</h3>
-  <p>Shows all buttons from config.</p>
+  <p>Shows all available buttons from config.</p>
   <esl-share-list data-share-url="https://esl-ui.com/" data-share-title="Exadel Smart Library"></esl-share-list>
   <hr>
 
