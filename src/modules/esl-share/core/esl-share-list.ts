@@ -40,7 +40,7 @@ function getButtonsList(config: ShareConfig, list: string): ShareButtonConfig[] 
       if (btnConfig) res.push(btnConfig);
     }
     return res;
-  }, []);
+  }, [] as ShareButtonConfig[]);
 }
 
 export class ESLShareList extends ESLBaseElement {
