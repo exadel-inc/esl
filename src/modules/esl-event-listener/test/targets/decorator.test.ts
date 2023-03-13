@@ -1,3 +1,4 @@
+import {identity} from '../../../esl-utils/misc/functions';
 import {debounce} from '../../../esl-utils/async/debounce';
 import {throttle} from '../../../esl-utils/async/throttle';
 import {ESLEventUtils} from '../../core/api';
@@ -21,6 +22,24 @@ describe('ESLEventUtils.decorate proxy', () => {
       const fn = (arg: any, num: number) => arg;
       expect(ESLEventUtils.decorate(window, fn, 100) === ESLEventUtils.decorate(window, fn, 100));
       expect(ESLEventUtils.decorate(window, fn, 100) !== ESLEventUtils.decorate(window, fn, 150));
+    });
+  });
+
+  describe('ESLEventUtils.decorate event target',  () => {
+    const et = document.createElement('div');
+    const dec = ESLEventUtils.decorate(et, identity);
+    const handler = jest.fn();
+
+    beforeEach(() => dec.addEventListener('click', handler));
+    afterEach(() => dec.removeEventListener('click', handler));
+
+    test('ESLEventUtils.decorate does not replace event.target', () => {
+      et.dispatchEvent(new Event('click'));
+      expect(handler).lastCalledWith(expect.objectContaining({target: et}));
+    });
+    test('ESLEventUtils.decorate does not replace event.target', () => {
+      et.dispatchEvent(new Event('click'));
+      expect(handler).lastCalledWith(expect.objectContaining({currentTarget: dec}));
     });
   });
 

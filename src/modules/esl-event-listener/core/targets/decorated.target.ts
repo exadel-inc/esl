@@ -72,7 +72,7 @@ export class ESLEventTargetDecorator<Args extends any[]> extends SyntheticEventT
 
   /** @returns decorated handler */
   protected createHandler(): EventListener {
-    return this.decorator((event: Event) => this.dispatchEvent(event, this.target), ...this.params);
+    return this.decorator(this.dispatchEvent.bind(this), ...this.params);
   }
 }
 
