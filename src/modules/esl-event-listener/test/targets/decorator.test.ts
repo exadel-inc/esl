@@ -37,7 +37,7 @@ describe('ESLEventUtils.decorate proxy', () => {
       et.dispatchEvent(new Event('click'));
       expect(handler).lastCalledWith(expect.objectContaining({target: et}));
     });
-    test('ESLEventUtils.decorate does not replace event.target', () => {
+    test('ESLEventUtils.decorate use ESLEventTargetDecorator instance as `event.currentTarget`', () => {
       et.dispatchEvent(new Event('click'));
       expect(handler).lastCalledWith(expect.objectContaining({currentTarget: dec}));
     });
