@@ -1,10 +1,12 @@
 import '../../../polyfills/es5-target-shim';
+
 import {SyntheticEventTarget} from '../../esl-utils/dom/events/target';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {ESLTrigger} from '../core/esl-trigger';
+
 import type {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
 
-function createTargetMock(init: Partial<ESLToggleable> = {}): ESLToggleable {
+function createTargetMock(init: any = {}): ESLToggleable {
   const et = new SyntheticEventTarget();
   return Object.assign(et, {
     show: jest.fn(function () {
@@ -16,7 +18,7 @@ function createTargetMock(init: Partial<ESLToggleable> = {}): ESLToggleable {
       ESLEventUtils.dispatch(this, 'esl:hide');
     }),
     open: false
-  }, init) as any;
+  }, init);
 }
 
 describe('esl-trigger a11y attributes test', () => {
