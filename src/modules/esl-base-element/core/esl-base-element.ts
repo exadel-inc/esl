@@ -19,6 +19,10 @@ export abstract class ESLBaseElement extends HTMLElement {
   /** Custom element tag name */
   public static is = '';
 
+  // @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  override ['constructor']!: typeof ESLBaseElement & Function;
+
   /** Event to indicate component significant state change that may affect other components state */
   @prop('esl:refresh') public REFRESH_EVENT: string;
 
@@ -26,7 +30,7 @@ export abstract class ESLBaseElement extends HTMLElement {
 
   protected connectedCallback(): void {
     this._connected = true;
-    this.classList.add((this.constructor as typeof ESLBaseElement).is);
+    this.classList.add(this.constructor.is);
 
     ESLEventUtils.subscribe(this);
   }
