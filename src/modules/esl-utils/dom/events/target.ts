@@ -9,12 +9,23 @@ export class SyntheticEventTarget implements EventTarget {
 
   private readonly _listeners: Record<string, EventListenerOrEventListenerObject[]> = {};
 
+  protected getEventListeners(): EventListenerOrEventListenerObject[];
+  protected getEventListeners(type: string): EventListenerOrEventListenerObject[];
+  protected getEventListeners(type?: string): EventListenerOrEventListenerObject[] {
+    if (!type) return Object.values(this._listeners).flat(1);
+    if (!this._listeners[type]) Object.assign(this._listeners, {[type]: []});
+    return this._listeners[type];
+  }
+
   public hasEventListener(): boolean;
+  public hasEventListener(type: string): boolean;
+  /** @deprecated alias for `addEventListener` */
   public hasEventListener(type: string | number): boolean;
+  /** @deprecated alias for `addEventListener` */
   public hasEventListener(type: string, minCount: number): boolean;
   public hasEventListener(type: string | number = 'change', minCount: number = 0): boolean {
-    if (typeof type !== 'string') return this.hasEventListener('change', type || 0);
-    return this._listeners[type]?.length > minCount;
+    if (typeof type !== 'string') return this.hasEventListener('change', type || 0); // TODO: remove in 5.0.0
+    return this.getEventListeners(type).length > minCount;
   }
 
   public addEventListener(callback: EventListenerOrEventListenerObject): void;
@@ -23,9 +34,9 @@ export class SyntheticEventTarget implements EventTarget {
     if (typeof type !== 'string') return this.addEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
-    if (this._listeners[type] && this._listeners[type].includes(callback!)) return;
-    if (this._listeners[type]) this._listeners[type].push(callback!);
-    else Object.assign(this._listeners, {[type]: [callback]});
+    const listeners = this.getEventListeners(type);
+    if (listeners.includes(callback!)) return;
+    listeners.push(callback!);
   }
 
   public removeEventListener(callback: EventListenerOrEventListenerObject): void;
@@ -34,8 +45,9 @@ export class SyntheticEventTarget implements EventTarget {
     if (typeof type !== 'string') return this.removeEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
-    if (!this._listeners[type]) return;
-    this._listeners[type] = this._listeners[type].filter((cb) => cb !== callback);
+    const listeners = this.getEventListeners(type);
+    const index = listeners.indexOf(callback!);
+    if (index >= 0) listeners.splice(index, 1);
   }
 
   public dispatchEvent(e: Event, target: EventTarget = this): boolean {
@@ -48,7 +60,7 @@ export class SyntheticEventTarget implements EventTarget {
     Object.defineProperty(e, 'currentTarget', targetDescriptor);
     Object.defineProperty(e, 'srcElement', targetDescriptor);
 
-    this._listeners[e.type]?.forEach((listener) => {
+    this.getEventListeners(e.type).forEach((listener) => {
       if (typeof listener === 'function') listener.call(this, e);
       else listener.handleEvent.call(listener, e);
     });
