@@ -14,7 +14,7 @@ export class SyntheticEventTarget implements EventTarget {
   protected getEventListeners(): EventListenerOrEventListenerObject[];
   protected getEventListeners(type: string): EventListenerOrEventListenerObject[];
   protected getEventListeners(type?: string): EventListenerOrEventListenerObject[] {
-    return uniq((!type && type !== '') ? flat(Object.values(this._listeners)) : (this._listeners[type] || []));
+    return uniq((typeof type !== 'string') ? flat(Object.values(this._listeners)) : (this._listeners[type] || []));
   }
 
   public hasEventListener(): boolean;
