@@ -49,6 +49,10 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
     characterData: true
   };
 
+  // @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  override ['constructor']!: typeof ESLSelectWrapper & Function;
+
   private _$select: HTMLSelectElement;
   private _mutationObserver = new MutationObserver(this._onTargetMutation.bind(this));
 
@@ -83,8 +87,7 @@ export abstract class ESLSelectWrapper extends ESLBaseElement implements ESLSele
                             oldTarget: HTMLSelectElement | undefined): void {
     this.$$on(this._onChange);
     this._mutationObserver.disconnect();
-    const type = (this.constructor as typeof ESLSelectWrapper);
-    if (newTarget) this._mutationObserver.observe(newTarget, type.observationConfig);
+    if (newTarget) this._mutationObserver.observe(newTarget, this.constructor.observationConfig);
   }
 
   protected _onTargetMutation(changes: MutationRecord[]): void {

@@ -35,6 +35,10 @@ export type ProviderObservedParams = 'loop' | 'muted' | 'controls';
 export abstract class BaseProvider {
   static readonly providerName: string;
 
+  // @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+  // eslint-disable-next-line @typescript-eslint/ban-types
+ ['constructor']!: typeof BaseProvider & Function;
+
   static parseUrl(url: string): Partial<MediaProviderConfig> | null {
     return null;
   }
@@ -77,7 +81,7 @@ export abstract class BaseProvider {
 
   /** Provider name */
   public get name(): string {
-    return (this.constructor as typeof BaseProvider).providerName;
+    return this.constructor.providerName;
   }
 
   /** @returns current state of the player */

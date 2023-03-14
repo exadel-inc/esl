@@ -14,11 +14,15 @@ export abstract class ESLCarouselPlugin extends ESLBaseElement {
    */
   public static freePlacement = false;
 
+  // @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  override ['constructor']!: typeof ESLCarouselPlugin & Function;
+
   /**
    * @returns carousel owner of the plugin
    */
   protected findCarouselOwner(): ESLCarousel | null {
-    if ((this.constructor as typeof ESLCarouselPlugin).freePlacement) {
+    if (this.constructor.freePlacement) {
       return this.closest(ESLCarousel.is);
     } else {
       return this.parentNode as ESLCarousel;

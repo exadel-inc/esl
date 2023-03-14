@@ -7,6 +7,10 @@ export class ESLDemoMarquee extends ESLBaseElement {
   static override is = 'esl-d-marquee';
   static STARS_SEL = 'use';
 
+  // @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  override ['constructor']!: typeof ESLDemoMarquee & Function;
+
   @attr({defaultValue: '4'}) public targetsNumber: string;
   @attr({defaultValue: '3000'}) public iterationTime: string;
 
@@ -26,7 +30,7 @@ export class ESLDemoMarquee extends ESLBaseElement {
 
   @memoize()
   public get $stars(): HTMLElement[] {
-    return Array.from(document.querySelectorAll((this.constructor as typeof ESLDemoMarquee).STARS_SEL));
+    return Array.from(document.querySelectorAll(this.constructor.STARS_SEL));
   }
   public get $randomStar(): HTMLElement {
     const index = Math.floor(Math.random() * this.$stars.length);

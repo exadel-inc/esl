@@ -25,6 +25,10 @@ export class ESLA11yGroup extends ESLBaseElement {
     [ARROW_RIGHT]: 'next'
   };
 
+  // @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  override ['constructor']!: typeof ESLA11yGroup & Function;
+
   /** Target elements multiple selector ({@link ESLTraversingQuery} syntax) */
   @attr({defaultValue: '::child'}) public targets: string;
 
@@ -51,7 +55,7 @@ export class ESLA11yGroup extends ESLBaseElement {
     const target = e.target as HTMLElement;
     if (!this.$targets.includes(target)) return;
 
-    const groupTarget = (this.constructor as typeof ESLA11yGroup).KEY_MAP[e.key];
+    const groupTarget = this.constructor.KEY_MAP[e.key];
     if (!groupTarget) return;
 
     this.goTo(groupTarget, target);

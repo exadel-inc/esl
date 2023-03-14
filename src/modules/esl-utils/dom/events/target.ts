@@ -7,6 +7,10 @@ export class SyntheticEventTarget implements EventTarget {
   // Event type to use in the shortcutted calls
   public static DEFAULT_EVENT = 'change';
 
+  // @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  ['constructor']!: typeof SyntheticEventTarget & Function;
+
   private readonly _listeners: Record<string, EventListenerOrEventListenerObject[]> = {};
 
   public hasEventListener(): boolean;
@@ -20,7 +24,7 @@ export class SyntheticEventTarget implements EventTarget {
   public addEventListener(callback: EventListenerOrEventListenerObject): void;
   public addEventListener(type: string, callback: EventListenerOrEventListenerObject): void;
   public addEventListener(type: string | EventListenerOrEventListenerObject, callback?: EventListenerOrEventListenerObject): void {
-    if (typeof type !== 'string') return this.addEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
+    if (typeof type !== 'string') return this.addEventListener(this.constructor.DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
     if (this._listeners[type] && this._listeners[type].includes(callback!)) return;
@@ -31,7 +35,7 @@ export class SyntheticEventTarget implements EventTarget {
   public removeEventListener(callback: EventListenerOrEventListenerObject): void;
   public removeEventListener(type: string, callback: EventListenerOrEventListenerObject): void;
   public removeEventListener(type: string | EventListenerOrEventListenerObject, callback?: EventListenerOrEventListenerObject): void {
-    if (typeof type !== 'string') return this.removeEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
+    if (typeof type !== 'string') return this.removeEventListener(this.constructor.DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
     if (!this._listeners[type]) return;

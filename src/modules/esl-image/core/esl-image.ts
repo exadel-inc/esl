@@ -27,6 +27,11 @@ export class ESLImage extends ESLBaseElement {
   /** Default container class value */
   public static DEFAULT_CONTAINER_CLS = 'img-container-loaded';
 
+  // @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  override ['constructor']!: typeof ESLImage & Function;
+
+
   public static readonly STRATEGIES = STRATEGIES;
   public static readonly EMPTY_IMAGE = EMPTY_IMAGE;
 
@@ -296,7 +301,7 @@ export class ESLImage extends ESLBaseElement {
 
   public updateContainerClasses(): void {
     if (this.containerClass === null) return;
-    const cls = this.containerClass || (this.constructor as typeof ESLImage).DEFAULT_CONTAINER_CLS;
+    const cls = this.containerClass || this.constructor.DEFAULT_CONTAINER_CLS;
     const state = isLoadState(this.containerClassState) && this[this.containerClassState];
 
     const targetEl = ESLTraversingQuery.first(this.containerClassTarget, this) as HTMLElement;

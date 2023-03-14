@@ -37,6 +37,10 @@ export class BrightcoveProvider extends BaseProvider {
     };
   }
 
+  // @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  override ['constructor']!: typeof BrightcoveProvider & Function;
+
   /** Loads player API according defined settings */
   protected static loadAPI(account: BCPlayerAccount): Promise<Event> {
     const apiSrc =
@@ -103,12 +107,11 @@ export class BrightcoveProvider extends BaseProvider {
   }
 
   public bind(): void {
-    const Provider = (this.constructor as typeof BrightcoveProvider);
-    this._account = Provider.getAccount(this.component);
+    this._account = this.constructor.getAccount(this.component);
     this._el = this.buildVideo();
     this.component.appendChild(this._el);
 
-    this._ready = Provider.loadAPI(this._account)
+    this._ready = this.constructor.loadAPI(this._account)
       .then(() => this.onAPILoaded())
       .then(() => this.onAPIReady())
       .catch((e) => this.component._onError(e));

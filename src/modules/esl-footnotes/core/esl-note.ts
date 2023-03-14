@@ -22,6 +22,10 @@ export class ESLNote extends ESLBaseElement {
   /** Timeout before activating note (to have time to show content with this note) */
   public static readonly activateTimeout = 100;
 
+  // @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  override ['constructor']!: typeof ESLNote & Function;
+
   /** Event to request acknowledgment from {@link ESLNotes} instances */
   @prop('esl:footnotes:request') public FOOTNOTE_REQUEST_EVENT: string;
   /** Event to acknowledge {@link ESLFootnotes} instance about footnote */
@@ -140,7 +144,7 @@ export class ESLNote extends ESLBaseElement {
     ESLEventUtils.dispatch(this, 'esl:show:request');
     // TODO: replace timeout with a more reliable mechanism to have time to show content with this note
     repeatSequence(() => {
-      return promisifyTimeout((this.constructor as typeof ESLNote).activateTimeout)
+      return promisifyTimeout(this.constructor.activateTimeout)
         .then(() => scrollIntoView(this, {behavior: 'smooth', block: 'center'}))
         .then(() => ESLTooltip.open || this.showTooltip());
     }, 3);

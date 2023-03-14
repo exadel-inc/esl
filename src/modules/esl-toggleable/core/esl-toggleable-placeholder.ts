@@ -10,6 +10,10 @@ export class ESLToggleablePlaceholder extends ESLBaseElement {
   /** List of attributes allowed to copy from origin to this element */
   public static readonly allowedAttrs: string[] = ['id', 'class'];
 
+  // @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  override ['constructor']!: typeof ESLToggleablePlaceholder & Function;
+
   public $origin: ESLToggleable | null;
 
   /** Сreates a placeholder for a given element of the toggleable's descendant */
@@ -34,7 +38,7 @@ export class ESLToggleablePlaceholder extends ESLBaseElement {
     const {$origin} = this;
     if (!$origin) return;
 
-    (this.constructor as typeof ESLToggleablePlaceholder).allowedAttrs.forEach((name) => {
+    this.constructor.allowedAttrs.forEach((name) => {
       const value = $origin.getAttribute(name);
       if (value) {
         this.setAttribute(this.buildAttrName(name), value);

@@ -37,6 +37,10 @@ export class ESLAlert extends ESLToggleable {
     hideDelay: 2500
   };
 
+  // @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  override ['constructor']!: typeof ESLAlert & Function;
+
   /** Event to show alert component */
   @prop('esl:alert:show') public override SHOW_REQUEST_EVENT: string;
   /** Event to hide alert component */
@@ -70,8 +74,7 @@ export class ESLAlert extends ESLToggleable {
   }
 
   protected override mergeDefaultParams(params?: ESLToggleableActionParams): ESLToggleableActionParams {
-    const type = this.constructor as typeof ESLAlert;
-    return Object.assign({}, type.defaultConfig, this.defaultParams || {}, params || {});
+    return Object.assign({}, this.constructor.defaultConfig, this.defaultParams || {}, params || {});
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
