@@ -1,3 +1,5 @@
+import {flat, uniq} from '../../misc/array';
+
 /**
  * Synthetic implementation of EventTarget
  * Replicates behavior of native event
@@ -12,9 +14,8 @@ export class SyntheticEventTarget implements EventTarget {
   protected getEventListeners(): EventListenerOrEventListenerObject[];
   protected getEventListeners(type: string): EventListenerOrEventListenerObject[];
   protected getEventListeners(type?: string): EventListenerOrEventListenerObject[] {
-    if (!type) return Object.values(this._listeners).flat(1);
-    if (!this._listeners[type]) Object.assign(this._listeners, {[type]: []});
-    return this._listeners[type];
+    if (!type && type !== '') return uniq(flat(Object.values(this._listeners)));
+    return this._listeners[type] || [];
   }
 
   public hasEventListener(): boolean;
@@ -34,9 +35,9 @@ export class SyntheticEventTarget implements EventTarget {
     if (typeof type !== 'string') return this.addEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
-    const listeners = this.getEventListeners(type);
-    if (listeners.includes(callback!)) return;
-    listeners.push(callback!);
+    if (this._listeners[type]?.includes(callback!)) return;
+    if (this._listeners[type]) this._listeners[type].push(callback!);
+    else Object.assign(this._listeners, {[type]: [callback]});
   }
 
   public removeEventListener(callback: EventListenerOrEventListenerObject): void;
@@ -45,9 +46,8 @@ export class SyntheticEventTarget implements EventTarget {
     if (typeof type !== 'string') return this.removeEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
-    const listeners = this.getEventListeners(type);
-    const index = listeners.indexOf(callback!);
-    if (index >= 0) listeners.splice(index, 1);
+    if (!this._listeners[type]) return;
+    this._listeners[type] = this._listeners[type].filter((cb) => cb !== callback);
   }
 
   public dispatchEvent(e: Event, target: EventTarget = this): boolean {
