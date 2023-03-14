@@ -16,13 +16,31 @@ export interface ShareButtonConfig {
 }
 
 export interface ShareGroupConfig {
-  id: string;
+  name: string;
   list: string;
 }
 
 export interface ShareConfig {
   buttons: ShareButtonConfig[];
   groups: ShareGroupConfig[];
+}
+
+function getConfigSectionItem<T extends ShareButtonConfig | ShareGroupConfig>(section: T[], name: string): T | undefined {
+  return section.find((item) => item.name === name);
+}
+
+function getButtonsList(config: ShareConfig, list: string): ShareButtonConfig[] {
+  return list.split(' ').reduce((res, item) => {
+    const [btnName, groupName] = item.split('group:');
+    if (groupName) {
+      const groupConfig = getConfigSectionItem(config.groups, groupName);
+      if (groupConfig) return res.concat(getButtonsList(config, groupConfig.list));
+    } else {
+      const btnConfig = getConfigSectionItem(config.buttons, btnName);
+      if (btnConfig) res.push(btnConfig);
+    }
+    return res;
+  }, [] as ShareButtonConfig[]);
 }
 
 export class ESLShareList extends ESLBaseElement {
@@ -37,8 +55,7 @@ export class ESLShareList extends ESLBaseElement {
   /** Event to dispatch on ready state of {@link ESLShareList} */
   @prop('esl:share:ready') public SHARE_READY_EVENT: string;
 
-  @attr({readonly: true}) public list: string;
-  @attr({readonly: true}) public group: string;
+  @attr({readonly: true, defaultValue: 'all'}) public list: string;
   @attr({dataAttr: true}) public shareUrl: string;
   @attr({dataAttr: true}) public shareTitle: string;
 
@@ -56,31 +73,8 @@ export class ESLShareList extends ESLBaseElement {
 
   public get buttonsConfig(): Promise<ShareButtonConfig[]> {
     return (this.constructor as typeof ESLShareList).config().then((config) => {
-      const list = this.getList(config);
-      return list.length ? this.getButtons(config, list) : config.buttons;
+      return (this.list !== 'all') ? getButtonsList(config, this.list) : config.buttons;
     });
-  }
-
-  protected getButtons(config: ShareConfig, idList: string[]): ShareButtonConfig[] {
-    const {buttons} = config;
-    const res: ShareButtonConfig[] = [];
-    idList.forEach((name) => {
-      const btnConfig = buttons.find((btn) => btn.name === name);
-      btnConfig && res.push(btnConfig);
-    });
-    return res;
-  }
-
-  protected getList(config: ShareConfig): string[] {
-    const {group} = this;
-    let {list} = this;
-    if (group) {
-      const groupCfg = config.groups.find((e) => e.id === group);
-      if (groupCfg) {
-        list = groupCfg.list;
-      }
-    }
-    return list ? list.split(',').map((id) => id.trim()) : [];
   }
 
   public override connectedCallback(): void {
