@@ -14,8 +14,7 @@ export class SyntheticEventTarget implements EventTarget {
   protected getEventListeners(): EventListenerOrEventListenerObject[];
   protected getEventListeners(type: string): EventListenerOrEventListenerObject[];
   protected getEventListeners(type?: string): EventListenerOrEventListenerObject[] {
-    if (!type && type !== '') return uniq(flat(Object.values(this._listeners)));
-    return this._listeners[type] || [];
+    return uniq((!type && type !== '') ? flat(Object.values(this._listeners)) : (this._listeners[type] || []));
   }
 
   public hasEventListener(): boolean;
@@ -35,8 +34,9 @@ export class SyntheticEventTarget implements EventTarget {
     if (typeof type !== 'string') return this.addEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
-    if (this._listeners[type]?.includes(callback!)) return;
-    if (this._listeners[type]) this._listeners[type].push(callback!);
+    const listeners = this._listeners[type];
+    if (listeners?.includes(callback!)) return;
+    if (listeners) listeners.push(callback!);
     else Object.assign(this._listeners, {[type]: [callback]});
   }
 
@@ -46,8 +46,9 @@ export class SyntheticEventTarget implements EventTarget {
     if (typeof type !== 'string') return this.removeEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
-    if (!this._listeners[type]) return;
-    this._listeners[type] = this._listeners[type].filter((cb) => cb !== callback);
+    const listeners = this._listeners[type];
+    if (!listeners) return;
+    this._listeners[type] = listeners.filter((cb) => cb !== callback);
   }
 
   public dispatchEvent(e: Event, target: EventTarget = this): boolean {
@@ -60,7 +61,7 @@ export class SyntheticEventTarget implements EventTarget {
     Object.defineProperty(e, 'currentTarget', targetDescriptor);
     Object.defineProperty(e, 'srcElement', targetDescriptor);
 
-    this.getEventListeners(e.type).forEach((listener) => {
+    this._listeners[e.type]?.forEach((listener) => {
       if (typeof listener === 'function') listener.call(this, e);
       else listener.handleEvent.call(listener, e);
     });
