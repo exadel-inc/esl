@@ -24,8 +24,6 @@ Exadel Smart Library does not have dependencies but uses the following list of n
     - [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
     - [Custom Elements](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements)
 
-All of them are fully supported by modern browsers such as Chrome, Firefox, Safari or Edge (>43).
+All of them are fully supported by modern browsers such as Chrome, Firefox, Safari (>13) or Edge (>43).
 
-In order to make ESL work in older browsers, you can use a "light" polyfills list (for older versions Safari).
-
-See more details on what polyfill approach might look like in the demo pages source code.
+In order to make ESL work in older browsers, you can use polyfill (for older versions of Safari).
