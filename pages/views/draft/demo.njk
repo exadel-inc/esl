@@ -1,0 +1,71 @@
+---
+layout: empty
+scrollbar: true
+containerCls: showcase-page
+name: Demo
+tags: [draft]
+---
+{% import 'lorem.njk' as lorem %}
+{% set imageSrcBase = '/assets/' | url %}
+
+<div class="top-banner banner">
+  <esl-image class="bg-content"
+             mode="cover" lazy
+             data-alt="Alt Text"
+             data-src="nature/forest+clouds.jpg"
+             data-src-base="{{ imageSrcBase }}"></esl-image>
+  <div class="banner-content">
+    <h1 style="margin-top: 170px; color:#5b6b72">Lorem ipsum dolor sit amet</h1>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      <esl-note>et dolore magna</esl-note>
+      aliqua. Donec massa sapien faucibus et molestie ac. Mi sit amet mauris commodo quis imperdiet massa. Viverra
+      nibh cras pulvinar mattis nunc sed blandit. In nisl nisi scelerisque eu. Vel turpis nunc eget lorem dolor sed.
+      Nisl pretium fusce id velit.
+      <esl-note>Quam</esl-note> id leo in vitae turpis massa sed. Mauris sit amet
+    </p>
+  </div>
+  <div class="shadow-banner"></div>
+</div>
+
+
+<div class="container d-flex justify-content-between row ">
+  <esl-animate class="esl-animate-slide-left simple-grid-cell bg-blue box-animated">
+    esl-animate-slide-left
+  </esl-animate>
+  <esl-animate class="esl-animate-slide-left simple-grid-cell bg-blue box-animated">
+    esl-animate-slide-left
+  </esl-animate>
+  <esl-animate class="esl-animate-slide-left simple-grid-cell bg-blue box-animated">
+    esl-animate-slide-left
+  </esl-animate>
+  <esl-animate class="esl-animate-slide-left simple-grid-cell bg-blue box-animated">
+    esl-animate-slide-left
+  </esl-animate>
+
+</div>
+<div class="container container-fluid d-flex justify-content-around box">
+  <esl-media class="box-media"
+             media-type="youtube"
+             media-id="##MEDIAID##"
+             title="Video Title"
+             [ group="mediaGroup" ]
+  ></esl-media>
+  <esl-select-list class="form-control box-select-list" select-all-label="Select All Colors">
+    <select esl-select-target
+            multiple
+            id="color_field"
+            name="color_field"
+            class="form-control">
+      <option value="#f00">Red</option>
+      <option value="#0f0">Green</option>
+      <option value="#00f">Blue</option>
+      <option value="#ff0">Yellow</option>
+      <option value="#0ff">Light Blue</option>
+      <option value="#f0f">Purple</option>
+    </select>
+  </esl-select-list>
+</div>
+
+<hr/>
+<esl-footnotes grouping="disable" back-to-note-label="Return to note"></esl-footnotes>

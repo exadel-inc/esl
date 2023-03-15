@@ -1,0 +1,28 @@
+// TODO: cleanup
+@import (reference) "../common/variables.less";
+@import "../page/base-layout.less";
+
+.demo-layout {
+  display: flex;
+  flex-direction: column;
+
+  color: @landing-fg-color
+}
+
+.box {
+  padding: 30px;
+  &-animated {
+    height: 300px;
+    width: 300px;
+  }
+  &-media {
+    height: 250px;
+    width: 450px;
+ }
+  &-select-list {
+    height: 200px;
+    width: 400px;
+  }
+}
+
+
