@@ -58,3 +58,24 @@ export const dispatchCustomEvent = (el: EventTarget, eventName: string, eventIni
   }, eventInit || {});
   return el.dispatchEvent(new CustomEvent(eventName, init));
 };
+
+/**
+ * Overrides {@link Event} `target` property
+ * @param event - {@link Event} to override
+ * @param key - {@link Event} property
+ * @param target - {@link EventTarget} to setup
+ * @returns original event
+ */
+export const overrideEvent = (
+  event: Event,
+  key: keyof Event,
+  target: null | EventTarget | (() => null | EventTarget)
+): Event => {
+  const provider = typeof target === 'function' ? target : ((): null | EventTarget => target);
+  Object.defineProperty(event, key, {
+    get: provider,
+    enumerable: true,
+    configurable: true
+  });
+  return event;
+};
