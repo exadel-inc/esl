@@ -121,7 +121,8 @@ export class ESLToggleable extends ESLBaseElement {
   protected override connectedCallback(): void {
     super.connectedCallback();
     if (!this.id && !this.noAutoId) {
-      this.id = sequentialUID(this.constructor.is, this.constructor.is + '-');
+      const tag = (this.constructor as typeof ESLToggleable).is;
+      this.id = sequentialUID(tag, tag + '-');
     }
     this.initiallyOpened = this.hasAttribute('open');
     this.setInitialState();
