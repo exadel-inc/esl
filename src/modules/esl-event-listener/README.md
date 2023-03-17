@@ -272,12 +272,6 @@ ESLEventUtils.descriptors(host?: any): ESLListenerDescriptorFn[]
 
 - `host` - object to get auto-collectable descriptors from;
 
-<a name="-esleventutilsdescriptors"></a>
-
-### ⚡ `ESLEventUtils.descriptors`
-
-Deprecated alias for `ESLEventUtils.getAutoDescriptors`
-
 <a name="-esleventutilsinitdescriptor"></a>
 
 ### ⚡ `ESLEventUtils.initDescriptor`

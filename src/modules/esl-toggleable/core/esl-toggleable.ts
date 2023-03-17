@@ -39,9 +39,6 @@ export interface ESLToggleableRequestDetails extends ESLToggleableActionParams {
   match?: string | ((target: Element) => boolean);
 }
 
-/** @deprecated alias for ESLToggleableActionParams */
-export type ToggleableActionParams = ESLToggleableActionParams;
-
 const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap();
 
 /**

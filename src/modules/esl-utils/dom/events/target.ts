@@ -54,15 +54,6 @@ export class SyntheticEventTarget implements EventTarget {
     });
     return e.defaultPrevented;
   }
-
-  /** @deprecated alias for `addEventListener` */
-  public addListener(cb: EventListener): void {
-    this.addEventListener(cb);
-  }
-  /** @deprecated alias for `removeEventListener` */
-  public removeListener(cb: EventListener): void {
-    this.removeEventListener(cb);
-  }
 }
 
 function validateEventListenerType(callback: any): void | never {
