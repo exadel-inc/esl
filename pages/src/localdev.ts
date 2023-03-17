@@ -1,7 +1,5 @@
 // Support for ES5 bundle target
 import '../../src/polyfills/es5-target-shim';
-// Builtin polyfills
-import '../../src/polyfills/polyfills.es6';
 // Validate environment
 import '../../src/polyfills/polyfills.validate';
 
