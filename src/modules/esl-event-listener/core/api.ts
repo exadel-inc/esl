@@ -3,6 +3,9 @@ import {dispatchCustomEvent} from '../../esl-utils/dom/events/misc';
 import {ESLEventListener} from './listener';
 import {getAutoDescriptors, isEventDescriptor, initDescriptor} from './descriptors';
 
+import {ESLEventTargetDecorator} from './targets/decorated.target';
+import {ESLResizeObserverTarget} from './targets/resize.adapter';
+
 import type {
   ESLListenerHandler,
   ESLListenerCriteria,
@@ -33,7 +36,6 @@ export class ESLEventUtils {
 
   /** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
   public static isEventDescriptor = isEventDescriptor;
-
 
   /**
    * Gets currently subscribed listeners of the host
@@ -92,7 +94,10 @@ export class ESLEventUtils {
     }
     if (typeof eventDesc === 'string') eventDesc = {event: eventDesc};
     const listeners = ESLEventListener.subscribe(host, handler, eventDesc as ESLListenerDescriptor);
-    if (!listeners.length) console.warn('[ESL]: Empty subscription %o', Object.assign({}, eventDesc, {handler}));
+    if (!listeners.length) {
+      const mergedDesc = Object.assign({}, eventDesc, {handler});
+      console.warn('[ESL]: Empty subscription %o', mergedDesc);
+    }
     return listeners;
   }
 
@@ -106,4 +111,19 @@ export class ESLEventUtils {
     listeners.forEach((listener) => listener.unsubscribe());
     return listeners;
   }
+
+  // === EventTargets adapters ===
+  /**
+   * Creates an {@link EventTarget} adapter ({@link ESLResizeObserverTarget}) for {@link ResizeObserver}
+   * Note: the {@link ESLResizeObserverTarget} instances are unique for the related `targets`
+   * @deprecated it is an experimental functionality it can be changed in future releases
+   */
+  public static resize = ESLResizeObserverTarget.create;
+
+  /**
+   * Creates an {@link ESLEventTargetDecorator} decorator for any {@link EventTarget}
+   * Decorated {@link EventTarget} produces event according provided handler decoration
+   * @deprecated it is an experimental functionality it can be changed in future releases
+   */
+  public static decorate = ESLEventTargetDecorator.cached;
 }

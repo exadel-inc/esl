@@ -4,7 +4,6 @@ import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMixinRegistry} from './esl-mixin-registry';
 
-import type {AttributeTarget} from '../../esl-utils/dom/attr';
 import type {
   ESLEventListener,
   ESLListenerCriteria,
@@ -12,13 +11,14 @@ import type {
   ESLListenerEventMap,
   ESLListenerHandler
 } from '../../esl-utils/dom/events';
+import type {ESLDomElementRelated} from '../../esl-utils/abstract/dom-target';
 
 /**
  * Base class for mixin elements.
  * Mixin elements attaches to the DOM element via attribute.
  * Allows multiple mixin elements per one DOM element
  */
-export class ESLMixinElement implements AttributeTarget {
+export class ESLMixinElement implements ESLDomElementRelated {
   /** Root attribute to identify mixin targets. Should contain dash in the name. */
   static is: string;
   /** Additional observed attributes */
@@ -36,12 +36,12 @@ export class ESLMixinElement implements AttributeTarget {
 
   /** Callback of mixin instance initialization */
   public connectedCallback(): void {
-    const constructor = this.constructor as typeof ESLMixinElement;
-    if (constructor.observedAttributes.length) {
+    const {observedAttributes} = this.constructor as typeof ESLMixinElement;
+    if (observedAttributes.length) {
       this._attr$$ = new MutationObserver(this._onAttrMutation.bind(this));
       this._attr$$.observe(this.$host, {
         attributes: true,
-        attributeFilter: constructor.observedAttributes,
+        attributeFilter: observedAttributes,
         attributeOldValue: true
       });
     }
