@@ -3,19 +3,42 @@
 .uip-root {
   background-color: transparent;
 
-  .uip-plugin {
-    color: inherit;
+  .uip-snippets {
+    .snippets-title {
+      font-size: 1.25rem;
+    }
+
+    .snippets-dropdown {
+      max-width: 100%;
+      font-size: 1.1rem;
+    }
+
+    .snippets-list {
+      padding-left: 35px;
+    }
   }
 
-  .uip-plugin .uip-plugin-inner {
-    background-color: transparent;
+  .uip-header {
+    justify-content: flex-end;
+  }
+
+  .uip-options {
+    width: auto;
   }
 
   .uip-settings {
     accent-color: @body-fg;
 
-    label {
-      display: block;
+    .esl-select {
+      background-color: #fff;
+    }
+  }
+
+  &.dark-theme {
+    .uip-settings {
+      .esl-select {
+        background-color: transparent;
+      }
     }
   }
 }
