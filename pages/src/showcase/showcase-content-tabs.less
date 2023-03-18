@@ -1,0 +1,15 @@
+@import (reference) "variables.less";
+
+.showcase-page .content-tabs {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: 50% 50%;
+
+  @media @xs-sm {
+    grid-template-columns: 100%;
+
+    .esl-d-tabs {
+      order: -1;
+    }
+  }
+}

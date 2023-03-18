@@ -166,6 +166,10 @@
   ],
   "groups": [
     {
+      "name": "site",
+      "list": "native facebook twitter linkedin"
+    },
+    {
       "name": "demo",
       "list": "facebook twitter linkedin wykop copy"
     },

@@ -1,0 +1,23 @@
+.showcase-page .grid-container {
+  .simple-grid-cell {
+    min-width: 300px;
+    min-height: 100px;
+    border-radius: .75rem;
+    overflow: hidden;
+  }
+
+  .simple-grid-cell::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background: rgba(255, 255, 255, .25);
+    transition: background-color .3s ease-in-out;
+  }
+  .simple-grid-cell:hover::after {
+    background: rgba(255, 255, 255, 0);
+  }
+}

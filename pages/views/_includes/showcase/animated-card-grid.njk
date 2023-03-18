@@ -1,0 +1,19 @@
+<div class="collection-grid unstyled-list m-4">
+  {% for i in range(0, 8) -%}
+    <esl-animate class="esl-animate-slide-left">
+      <div class="m-auto" style="width: 256px;height: 221px; border: 1px solid gray;">
+        <div class="collection-grid-item"><h5 class="m-1 showcase-page-text text-center">Donec massa sapien</h5>
+        </div>
+        <div class="d-flex">
+          <div class="img-container m-auto" style="width: 300px; height: 170px;">
+            <esl-image mode="cover" lazy
+                       class="bg-inscribe"
+                       data-alt="Alt Text"
+                       data-src="nature/volcano-md.jpg | @2x => nature/volcano.jpg"
+                       data-src-base="{{ imageSrcBase }}"></esl-image>
+          </div>
+        </div>
+      </div>
+    </esl-animate>
+  {%- endfor %}
+</div>
