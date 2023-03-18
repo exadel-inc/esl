@@ -5,24 +5,24 @@
 .demo-layout {
   display: flex;
   flex-direction: column;
-
   color: @landing-fg-color
 }
 
-.box {
-  padding: 30px;
-  &-animated {
-    height: 300px;
-    width: 300px;
-  }
-  &-media {
-    height: 250px;
-    width: 450px;
- }
-  &-select-list {
-    height: 200px;
-    width: 400px;
-  }
+.transparent {
+  background-color: #4a4d4f00;
 }
+
+.demo-form {
+  height: calc(1.5em + .75rem + 2px);
+  border: 1px solid @secondary-blue;
+  width: 100%;
+  border-radius: .25rem;
+  line-height: normal;
+}
+
+.diagonal-gradient {
+  background: linear-gradient(to bottom right, #617a7f, #d0dfe4);
+}
+
 
 
