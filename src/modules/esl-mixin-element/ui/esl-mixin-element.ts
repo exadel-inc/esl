@@ -36,12 +36,12 @@ export class ESLMixinElement implements ESLDomElementRelated {
 
   /** Callback of mixin instance initialization */
   public connectedCallback(): void {
-    const constructor = this.constructor as typeof ESLMixinElement;
-    if (constructor.observedAttributes.length) {
+    const {observedAttributes} = this.constructor as typeof ESLMixinElement;
+    if (observedAttributes.length) {
       this._attr$$ = new MutationObserver(this._onAttrMutation.bind(this));
       this._attr$$.observe(this.$host, {
         attributes: true,
-        attributeFilter: constructor.observedAttributes,
+        attributeFilter: observedAttributes,
         attributeOldValue: true
       });
     }

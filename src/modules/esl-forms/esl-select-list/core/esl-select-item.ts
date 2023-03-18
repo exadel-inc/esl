@@ -51,7 +51,7 @@ export class ESLSelectItem extends ESLBaseElement {
 
   /** Helper to create an option item */
   public static build(option: ESLSelectOption): ESLSelectItem {
-    const item = document.createElement(ESLSelectItem.is) as ESLSelectItem;
+    const item = ESLSelectItem.create();
     item.update(option);
     return item;
   }

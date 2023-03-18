@@ -24,9 +24,14 @@ export abstract class ESLBaseElement extends HTMLElement {
 
   protected _connected: boolean = false;
 
+  /** @returns custom element tag name */
+  public get baseTagName(): string {
+    return (this.constructor as typeof ESLBaseElement).is;
+  }
+
   protected connectedCallback(): void {
     this._connected = true;
-    this.classList.add((this.constructor as typeof ESLBaseElement).is);
+    this.classList.add(this.baseTagName);
 
     ESLEventUtils.subscribe(this);
   }

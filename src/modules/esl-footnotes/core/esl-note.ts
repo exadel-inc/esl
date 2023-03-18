@@ -127,8 +127,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Gets attribute value from the closest element with group behavior settings */
   protected getClosestRelatedAttr(attrName: string): string | null {
-    const tagName = (this.constructor as typeof ESLBaseElement).is;
-    const relatedAttrName = `${tagName}-${attrName}`;
+    const relatedAttrName = `${this.baseTagName}-${attrName}`;
     const $closest = this.closest(`[${relatedAttrName}]`);
     return $closest ? $closest.getAttribute(relatedAttrName) : null;
   }

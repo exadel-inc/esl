@@ -6,7 +6,7 @@ describe('ESLToggleable: show/hide-request events', () => {
   beforeAll(() => ESLToggleable.register());
 
   describe('Direct events correctly caught by toggleable', () => {
-    const $el = document.createElement(ESLToggleable.is) as ESLToggleable;
+    const $el = ESLToggleable.create();
     jest.useFakeTimers();
     beforeAll(() => document.body.appendChild($el));
     afterAll(() => ($el.parentElement === document.body) && document.body.removeChild($el));
@@ -29,8 +29,8 @@ describe('ESLToggleable: show/hide-request events', () => {
   });
 
   describe('ESLToggleables catch and filtering bubbling events', () => {
-    const $root = document.createElement(ESLToggleable.is) as ESLToggleable;
-    const $childTbl = document.createElement(ESLToggleable.is) as ESLToggleable;
+    const $root = ESLToggleable.create();
+    const $childTbl = ESLToggleable.create();
     const $button = document.createElement('button');
     $root.classList.add('root');
     $root.appendChild($childTbl);
