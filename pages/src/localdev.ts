@@ -32,7 +32,7 @@ import {
   ESLFootnotes,
   ESLTooltip,
   ESLAnimate,
-  ESLShare,
+  ESLShareList,
   ESLRelatedTarget
 } from '../../src/modules/all';
 
@@ -113,8 +113,8 @@ ESLCarouselPlugins.Link.register();
 ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
 
-ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
-ESLShare.register();
+ESLShareList.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
+ESLShareList.register();
 
 // Register ESL Mixins
 ESLRelatedTarget.register();

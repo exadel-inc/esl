@@ -3,17 +3,14 @@ import {ESLEventUtils} from '../../esl-utils/dom/events';
 
 import type {ESLShareButton} from '../core/esl-share-button';
 
-/** Copy to clipboard action class for share buttons {@link ESLShareButton} */
 @ESLShareBaseAction.register
 export class ESLShareCopyAction extends ESLShareBaseAction {
   public static override readonly is: string = 'copy';
 
-  /** Checks if this action is available on the user's device */
   public override get isAvailable(): boolean {
     return navigator.clipboard !== undefined;
   }
 
-  /** Does an action to share */
   public share($button: ESLShareButton): void {
     const shareData = this.getShareData($button);
     const {url} = shareData;
@@ -23,7 +20,6 @@ export class ESLShareCopyAction extends ESLShareBaseAction {
     this.showCopyAlert($button.additional?.alertText);
   }
 
-  /** Shows alert about the successful action completion */
   protected showCopyAlert(alertText: string): void {
     if (!alertText) return;
     const detail = {
