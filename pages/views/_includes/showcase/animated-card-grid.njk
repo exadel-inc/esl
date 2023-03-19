@@ -1,19 +1,11 @@
-<div class="collection-grid unstyled-list m-4">
-  {% for i in range(0, 8) -%}
-    <esl-animate class="esl-animate-slide-left">
-      <div class="m-auto" style="width: 256px;height: 221px; border: 1px solid gray;">
-        <div class="collection-grid-item"><h5 class="m-1 showcase-page-text text-center">Donec massa sapien</h5>
-        </div>
-        <div class="d-flex">
-          <div class="img-container m-auto" style="width: 300px; height: 170px;">
-            <esl-image mode="cover" lazy
-                       class="bg-inscribe"
-                       data-alt="Alt Text"
-                       data-src="nature/volcano-md.jpg | @2x => nature/volcano.jpg"
-                       data-src-base="{{ imageSrcBase }}"></esl-image>
-          </div>
-        </div>
-      </div>
+<div class="simple-grid grid-container simple-grid-bordered">
+  {% for item in collections['examples'] | notHidden | released | sortByNameAndOrder %}
+    <esl-animate class="simple-grid-cell esl-animate-slide-up" group="anim-card">
+      <a href="{{ item.url | url }}"
+         class="simple-grid-link" >
+        <div class="m-1" style='width: 50px'>{% include 'static/assets/logo.svg' %}</div>
+        <h5 class="m-1 showcase-page-text text-center">{{ item.data.name }}</h5>
+      </a>
     </esl-animate>
   {%- endfor %}
 </div>

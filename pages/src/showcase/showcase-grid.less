@@ -1,9 +1,17 @@
+@import (reference) "variables.less";
+
 .showcase-page .grid-container {
   .simple-grid-cell {
     min-width: 300px;
-    min-height: 100px;
+    min-height: 0;
     border-radius: .75rem;
     overflow: hidden;
+  }
+
+  .simple-grid-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
   }
 
   .simple-grid-cell::after {
@@ -16,8 +24,25 @@
 
     background: rgba(255, 255, 255, .25);
     transition: background-color .3s ease-in-out;
+    pointer-events: none;
   }
   .simple-grid-cell:hover::after {
     background: rgba(255, 255, 255, 0);
+  }
+
+  &.simple-grid-bordered {
+    .simple-grid-cell {
+      border: 2px solid transparent;
+      transition: transform 1s, opacity 1s, border-color .15s;
+    }
+    .simple-grid-cell:hover {
+      border-color: @sc-text-color;
+    }
+  }
+
+  .bg-content {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }
