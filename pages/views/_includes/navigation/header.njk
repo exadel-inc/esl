@@ -23,6 +23,20 @@
           {% include 'static/assets/common/header-search.svg' %}
         </esl-trigger>
       </li>
+      <li class="header-nav-item">
+        <esl-trigger target="::next" mode="toggle" track-click track-hover class="header-link icon-link">
+          {% include 'static/assets/common/header-share.svg' %}
+        </esl-trigger>
+        <esl-popup id="site-share-popup"
+                   class="header-share-popup"
+                   position="bottom"
+                   default-params="{hideDelay: 500}"
+                   close-on-esc
+                   close-on-outside-action>
+          <esl-share-list list="group:site"></esl-share-list>
+          <span class="esl-popup-arrow"></span>
+        </esl-popup>
+      </li>
     </ul>
     <div class="header-utility">
       <a class="header-btn btn btn-lg btn-sec-blue" href="{{ '/introduction' | url }}">Get started</a>
