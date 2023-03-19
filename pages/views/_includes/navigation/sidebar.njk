@@ -42,6 +42,12 @@
             {{ navitem ('Drafts', 'draft', 'static/assets/common/flask.svg') }}
           </li>
         {% endif %}
+        <li class="sidebar-nav-item sidebar-nav-item-share">
+          <div class='sidebar-nav-item-heading'>
+            <span>Share us with:</span>
+            <esl-share-list list="group:site"></esl-share-list>
+          </div>
+        </li>
       </ul>
 
       <esl-scrollbar class="sidebar-scrollbar" target="::prev"></esl-scrollbar>
