@@ -8,8 +8,8 @@ tags: [draft]
 {% import 'lorem.njk' as lorem %}
 {% set imageSrcBase = '/assets/' | url %}
 
-<nav class="container d-flex justify-content-between">
-  <ul class="nav-light-bg esl-example-menu mb-0">
+<nav class="showcase-nav container">
+  <ul class="esl-example-menu">
     <li class="menu-item">
       <esl-trigger class="menu-item-btn menu-item-arrow showcase-page-text"
                    track-hover
@@ -58,20 +58,20 @@ tags: [draft]
       </esl-panel>
     </li>
   </ul>
-  <ul class="nav-light-bg esl-example-menu mb-0">
-    <li class="menu-item mx-4">
+  <ul class="showcase-nav-anchors esl-example-menu">
+    <li class="menu-item">
       <a esl-d-anchor class="showcase-page-link" href="#accordion">To Accordion</a>
     </li>
-    <li class="menu-item mx-4">
+    <li class="menu-item">
       <a esl-d-anchor class="showcase-page-link" href="#tabs">To Tabs</a>
     </li>
-    <li class="menu-item mx-4">
+    <li class="menu-item">
       <a esl-d-anchor class="showcase-page-link" href="#animate-grid">To Gallery</a>
     </li>
-    <li class="menu-item mx-4">
+    <li class="menu-item">
       <a esl-d-anchor class="showcase-page-link" href="#footnotes">To Footnotes</a>
     </li>
-    <li class="menu-item mx-4">
+    <li class="menu-item">
       <esl-trigger target="#demo-share-popup" mode="toggle" track-click track-hover style="display: inline-block; width: 30px; height: 30px;">
         {% include 'static/assets/common/share-light.svg' %}
       </esl-trigger>

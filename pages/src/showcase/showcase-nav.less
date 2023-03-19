@@ -1,0 +1,23 @@
+@import (reference) "variables.less";
+
+.showcase-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  & &-anchors {
+    gap: 2rem;
+  }
+
+  > .esl-example-menu {
+    margin: 0;
+    padding: 0 1.5rem;
+    width: auto;
+    flex: 0 0 auto;
+    background-color: transparent;
+
+    .menu-item-arrow::after {
+      filter: brightness(.4);
+    }
+  }
+}
