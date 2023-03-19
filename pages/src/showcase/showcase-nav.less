@@ -11,10 +11,16 @@
 
   > .esl-example-menu {
     margin: 0;
-    padding: 0 1.5rem;
+    padding: 0 2rem;
     width: auto;
     flex: 0 0 auto;
     background-color: transparent;
+
+    .menu-item:first-child {
+      & > .menu-item-btn {
+        padding-left: 0;
+      }
+    }
 
     .menu-item-arrow::after {
       filter: brightness(.4);
