@@ -167,7 +167,7 @@
   "groups": [
     {
       "name": "site",
-      "list": "native facebook twitter linkedin"
+      "list": "facebook twitter linkedin telegram copy"
     },
     {
       "name": "demo",

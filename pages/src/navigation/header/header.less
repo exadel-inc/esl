@@ -15,12 +15,6 @@
     height: @header-height-desktop;
   }
 
-  @media @md-xl {
-    .landing-layout & {
-      background-color: transparent;
-    }
-  }
-
   &-container {
     display: flex;
     align-items: center;
@@ -87,6 +81,17 @@
           width: 150px;
         }
       }
+    }
+  }
+
+  &-share-popup.esl-popup {
+    &, & > .esl-popup-arrow {
+      background: @landing-bg-color;
+      border-color: gray;
+    }
+    > .esl-share-list {
+      margin: .75rem;
+      gap: .25rem;
     }
   }
 
