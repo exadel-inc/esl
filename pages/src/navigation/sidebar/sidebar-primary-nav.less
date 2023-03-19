@@ -13,6 +13,28 @@ esl-d-sidebar {
     margin-bottom: 5px;
   }
 
+  // Share item
+  .sidebar-nav-item-share {
+    margin-top: 20px;
+    @media @md-xl {
+      display: none;
+    }
+
+    .esl-share-list {
+      gap: 15px;
+    }
+    .esl-share-button {
+      width: 30px;
+      height: 30px;
+    }
+    .sidebar-nav-item-heading {
+      gap: 15px;
+      @media @sm {
+        flex-direction: column;
+      }
+    }
+  }
+
   // Primary Heading
   .sidebar-nav-item-heading {
     position: relative;
