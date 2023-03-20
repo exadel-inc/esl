@@ -1,13 +1,21 @@
 @import (reference) "variables.less";
 
 .showcase-page .content-tabs {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 30px;
-  grid-template-columns: 50% 50%;
+
+  @media @md-xl {
+    flex-direction: row;
+    align-items: flex-start;
+
+    .esl-d-tabs,
+    .content-column {
+      width: 50%;
+    }
+  }
 
   @media @xs-sm {
-    grid-template-columns: 100%;
-
     .esl-d-tabs {
       order: -1;
     }
