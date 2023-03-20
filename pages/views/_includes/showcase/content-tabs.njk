@@ -4,10 +4,7 @@
       <esl-media group="demo-media"
                  media-type="video"
                  media-src="{{ '/assets/media/video_1.mp4' | url }}"
-                 load-condition="(min-width: 320px)"
-                 load-cls-target="::parent(section)"
-                 load-cls-accepted="show-video"
-                 load-cls-declined="hide-video"
+                 play-in-viewport
                  controls
                  tabindex="0">
       </esl-media>
@@ -15,6 +12,7 @@
     <esl-panel class="ct-panel">
       <esl-media class="showcase-page-audio-demo"
                  controls
+                 play-in-viewport
                  media-type="audio"
                  media-src="{{ '/assets/media/audio.mp3' | url }}"
                  tabindex="0">
