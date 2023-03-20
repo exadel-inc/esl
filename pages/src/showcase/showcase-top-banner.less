@@ -1,0 +1,23 @@
+@import (reference) "variables.less";
+
+.top-banner {
+  position: relative;
+  height: calc(var(--100vh, 100vh) * .75);
+
+  .shadow-banner {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+
+    z-index: 2;
+    pointer-events: none;
+
+    background: linear-gradient(to top, fade(@sc-bg-color, 100%), fade(@sc-bg-color, 0%));
+  }
+
+  .banner-content {
+    background: radial-gradient(rgba(255, 255, 255, 40%), transparent 70%);
+  }
+}

@@ -1,0 +1,11 @@
+<div class="simple-grid grid-container simple-grid-bordered">
+  {% for item in collections['examples'] | notHidden | released | sortByNameAndOrder %}
+    <esl-animate class="simple-grid-cell esl-animate-slide-up" group="anim-card">
+      <a href="{{ item.url | url }}"
+         class="simple-grid-link" >
+        <div class="m-1" style='width: 50px'>{% include 'static/assets/logo.svg' %}</div>
+        <h5 class="m-1 showcase-page-text text-center">{{ item.data.name }}</h5>
+      </a>
+    </esl-animate>
+  {%- endfor %}
+</div>

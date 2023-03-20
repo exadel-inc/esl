@@ -38,8 +38,7 @@ aside:
   <ul class="round simple-grid">
     <esl-animate target="::parent::child(li)" group repeat></esl-animate>
     {% for i in range(0, 72) -%}
-      <li class="bg-blue round esl-animate-slide-up simple-grid-cell {{ 'hide-xs' if i >= 12 }}"
-          is="my-comp my-com-2"></li>
+      <li class="bg-blue round esl-animate-slide-up simple-grid-cell {{ 'hide-xs' if i >= 12 }}"></li>
     {%- endfor %}
   </ul>
 </section>

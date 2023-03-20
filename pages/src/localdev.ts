@@ -30,6 +30,7 @@ import {
   ESLFootnotes,
   ESLTooltip,
   ESLAnimate,
+  ESLShareList,
   ESLRelatedTarget
 } from '../../src/modules/all';
 
@@ -39,6 +40,12 @@ import '../../src/modules/esl-media/providers/html5/video-provider';
 import '../../src/modules/esl-media/providers/youtube-provider';
 import '../../src/modules/esl-media/providers/brightcove-provider';
 
+import '../../src/modules/esl-share/actions/copy-action';
+import '../../src/modules/esl-share/actions/external-action';
+import '../../src/modules/esl-share/actions/media-action';
+import '../../src/modules/esl-share/actions/native-action';
+import '../../src/modules/esl-share/actions/print-action';
+
 import {
   ESLCarousel,
   ESLCarouselPlugins
@@ -47,6 +54,7 @@ import {
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
+import {ESLDemoLazyMedia} from  './esl-media-demo/lazy-media-mixin';
 import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
@@ -63,6 +71,7 @@ ESLDemoSearchBox.register();
 ESLDemoSearchPageWrapper.register();
 ESLDemoAnchorLink.register();
 ESLDemoBackLink.register();
+ESLDemoLazyMedia.register();
 
 // Register ESL Components
 ESLImage.register();
@@ -103,6 +112,9 @@ ESLCarouselPlugins.Dots.register();
 ESLCarouselPlugins.Link.register();
 ESLCarouselPlugins.Touch.register();
 ESLCarouselPlugins.Autoplay.register();
+
+ESLShareList.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
+ESLShareList.register();
 
 // Register ESL Mixins
 ESLRelatedTarget.register();

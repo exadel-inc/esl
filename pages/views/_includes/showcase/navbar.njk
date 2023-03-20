@@ -1,0 +1,72 @@
+<nav class="container">
+  <esl-panel-group class="showcase-nav"
+                   min-open-items="all | @-sm => 0" >
+    <esl-trigger class="h5 showcase-nav-panel-trigger esl-d-accordion-header-arrow"
+                 track-click close-on-esc close-on-outside-action
+                 target="::next">Example Menu</esl-trigger>
+    <esl-panel class="showcase-nav-panel" close-on-esc close-on-outside-action>
+      <ul class="esl-example-menu">
+        <li class="menu-item">
+          <esl-trigger class="menu-item-btn menu-item-arrow showcase-page-text"
+                       track-click track-hover="@+md"
+                       hover-hide-delay="400">
+            Hover Menu 1
+          </esl-trigger>
+          <esl-panel class="showcase-nav-submenu menu-container"
+                     group="test-nav-group"
+                     close-on-esc close-on-outside-action>
+            <ul class="esl-example-sub-menu">
+              <li>1</li>
+              <li>2</li>
+              <li>3</li>
+            </ul>
+          </esl-panel>
+        </li>
+        <li class="menu-item">
+          <esl-trigger class="menu-item-btn menu-item-arrow showcase-page-text"
+                       track-click track-hover="@+md"
+                       hover-hide-delay="400">
+            Hover Menu 2
+          </esl-trigger>
+          <esl-panel class="showcase-nav-submenu menu-container"
+                     group="test-nav-group"
+                     close-on-esc close-on-outside-action>
+            <div class="esl-example-menu-400">{{ lorem.string(25) }}</div>
+          </esl-panel>
+        </li>
+      </ul>
+    </esl-panel>
+    <esl-trigger class="h5 showcase-nav-panel-trigger esl-d-accordion-header-arrow"
+                 track-click close-on-esc close-on-outside-action
+                 target="::next">Anchors Menu</esl-trigger>
+    <esl-panel class="showcase-nav-panel" close-on-esc close-on-outside-action>
+      <ul class="showcase-nav-anchors esl-example-menu">
+        <li class="menu-item">
+          <a esl-d-anchor class="showcase-nav-link" href="#accordion">To Accordion</a>
+        </li>
+        <li class="menu-item">
+          <a esl-d-anchor class="showcase-nav-link" href="#tabs">To Tabs</a>
+        </li>
+        <li class="menu-item">
+          <a esl-d-anchor class="showcase-nav-link" href="#animate-grid">To Gallery</a>
+        </li>
+        <li class="menu-item">
+          <a esl-d-anchor class="showcase-nav-link" href="#footnotes">To Footnotes</a>
+        </li>
+        <li class="menu-item">
+          <esl-trigger target="::next"
+                       class="showcase-nav-link showcase-nav-share"
+                       track-click track-hover>
+            <span class="showcase-nav-mobile-text">Share </span>
+            {% include 'static/assets/common/share-light.svg' %}
+          </esl-trigger>
+          <esl-popup id="demo-share-popup" position="bottom" default-params="{hideDelay: 500}" close-on-esc
+                     close-on-outside-action>
+            <esl-share-list list="group:site" style="margin: 10px;"></esl-share-list>
+            <span class="esl-popup-arrow"></span>
+          </esl-popup>
+        </li>
+      </ul>
+    </esl-panel>
+  </esl-panel-group>
+</nav>

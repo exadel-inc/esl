@@ -1,0 +1,153 @@
+<div class="content-tabs">
+  <esl-panel-group mode="tabs" class="content-column">
+    <esl-panel open class="ct-panel">
+      <div class='img-container img-container-16-9'>
+        <esl-image mode="cover" lazy
+                   data-alt="Alt Text"
+                   data-src="{{ '/assets/nature/volcano-md.jpg' | url }}"></esl-image>
+      </div>
+    </esl-panel>
+    <esl-panel open class="ct-panel">
+      <div class='img-container img-container-16-9'>
+        <esl-media esl-d-media-lazy disabled
+                   group="demo-media"
+                   media-src="https://youtu.be/uUVlhb4jevI"
+                   play-in-viewport
+                   controls
+                   tabindex="0">
+        </esl-media>
+      </div>
+    </esl-panel>
+    <esl-panel class="ct-panel">
+      <esl-media esl-d-media-lazy disabled
+                 class="showcase-page-audio-demo"
+                 controls
+                 play-in-viewport
+                 media-type="audio"
+                 media-src="{{ '/assets/media/audio.mp3' | url }}"
+                 tabindex="0">
+      </esl-media>
+    </esl-panel>
+    <esl-panel class="ct-panel">
+      <form class="p-2" action="javascript: alert('Hi!')">
+        <h3 class="text-center showcase-page-text">Some Form</h3>
+        <div class='form-group'>
+          <label for="form_name" class="form-label">Name:</label>
+          <input id="form_name" name="form_name" type="text" class="form-control" placeholder="Name..."/>
+        </div>
+        <esl-select class="form-group"
+                    placeholder="Lorem"
+                    style="width: 100%;">
+          <label for="form_single_sel" class="form-label">Single choose</label>
+          <select esl-select-target
+                  id="form_single_sel"
+                  name="form_single_sel"
+                  class="form-control">
+            <option value="#f00">{{ lorem.string(2) }}</option>
+            <option value="#0f0">{{ lorem.string(1) }}</option>
+            <option value="#00f">{{ lorem.string(4) }}</option>
+            <option value="#ff0">{{ lorem.string(3) }}</option>
+            <option value="#0ff">{{ lorem.string(2) }}</option>
+            <option value="#f0f">{{ lorem.string(4) }}</option>
+          </select>
+        </esl-select>
+        <esl-select class="form-group"
+                    pin-selected
+                    placeholder="Lorem"
+                    select-all-label="All Lorem"
+                    style="width: 100%;">
+          <label for="form_multiple_sel" class="form-label">Multiple choose</label>
+          <select esl-select-target
+                  multiple
+                  id="form_multiple_sel"
+                  name="form_multiple_sel"
+                  class="form-control">
+            <option value="#f00">{{ lorem.string(2) }}</option>
+            <option value="#0f0">{{ lorem.string(1) }}</option>
+            <option value="#00f">{{ lorem.string(4) }}</option>
+            <option value="#ff0">{{ lorem.string(3) }}</option>
+            <option value="#0ff">{{ lorem.string(2) }}</option>
+            <option value="#f0f">{{ lorem.string(4) }}</option>
+          </select>
+        </esl-select>
+
+        <div class='m-2 text-center'>
+          <button class='btn btn-sec-blue'>Submit</button>
+        </div>
+      </form>
+    </esl-panel>
+  </esl-panel-group>
+  <div class="esl-d-tabs">
+    <esl-tabs class="esl-d-tab-control center-alignment" scrollable="center">
+      <esl-a11y-group targets="::find(esl-tab)" activate-selected></esl-a11y-group>
+
+      <div class="arrow-prev" data-tab-direction="left">
+        <span class="icon-arrow-prev"></span>
+      </div>
+
+      <ul class="esl-d-tab-list esl-tab-container" role="tablist">
+        <li class="esl-d-tab-item">
+          <esl-tab class="h5 showcase-page-text"
+                   target="::parent(.esl-d-tabs)::find(.tab-1)">
+            Tab #1 Demo Image Content
+          </esl-tab>
+        </li>
+        <li class="esl-d-tab-item">
+          <esl-tab class="h5 showcase-page-text"
+                   target="::parent(.esl-d-tabs)::find(.tab-2)">
+            Tab #2 Demo Video Content
+          </esl-tab>
+        </li>
+        <li class="esl-d-tab-item">
+          <esl-tab class="h5 showcase-page-text"
+                   target="::parent(.esl-d-tabs)::find(.tab-3)">
+            Tab #3 Demo Audio Content
+          </esl-tab>
+        </li>
+        <li class="esl-d-tab-item">
+          <esl-tab class="h5 showcase-page-text"
+                   target="::parent(.esl-d-tabs)::find(.tab-4)">
+            Tab #4 Demo Form Content
+          </esl-tab>
+        </li>
+      </ul>
+      <div class="arrow-next" data-tab-direction="right">
+        <span class="icon-arrow-next"></span>
+      </div>
+    </esl-tabs>
+
+    <esl-panel-group class="esl-d-tab-group"
+                     mode="tabs"
+                     mode-cls-target="::parent">
+      <esl-panel open
+                 class="esl-d-tab-panel tab-1" tabindex="0"
+                 esl-related-target="::parent(.content-tabs)::find(.ct-panel)::nth(1)">
+        <div class="esl-d-tab-body">
+          {{ lorem.paragraphs(1) }}
+          Lorem ipsum dolor sit amet<esl-note>Footnote in Tab 1</esl-note>.
+        </div>
+      </esl-panel>
+      <esl-panel class="esl-d-tab-panel tab-2" tabindex="0"
+                 esl-related-target="::parent(.content-tabs)::find(.ct-panel)::nth(2)">
+        <div class="esl-d-tab-body">
+          {{ lorem.paragraphs(1) }}
+          Lorem ipsum dolor sit amet<esl-note>Footnote in Tab 2</esl-note>.
+        </div>
+      </esl-panel>
+      <esl-panel class="esl-d-tab-panel tab-3" tabindex="0"
+                 esl-related-target="::parent(.content-tabs)::find(.ct-panel)::nth(3)">
+        <div class="esl-d-tab-body">
+          {{ lorem.paragraphs(1) }}
+          Lorem ipsum dolor sit amet<esl-note>Footnote in Tab 3</esl-note>.
+        </div>
+      </esl-panel>
+      <esl-panel class="esl-d-tab-panel tab-4" tabindex="0"
+                 esl-related-target="::parent(.content-tabs)::find(.ct-panel)::nth(4)">
+        <div class="esl-d-tab-body">
+          {{ lorem.paragraphs(1) }}
+          Lorem ipsum dolor sit amet<esl-note>Footnote in Tab 4</esl-note>.
+        </div>
+      </esl-panel>
+    </esl-panel-group>
+  </div>
+</div>

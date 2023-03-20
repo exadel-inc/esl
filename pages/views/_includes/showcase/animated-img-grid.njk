@@ -1,0 +1,13 @@
+<ul class="simple-grid grid-container">
+  <esl-animate target="::parent::child(li)" group></esl-animate>
+  {% for i in range(0, 15) -%}
+    <li class="simple-grid-cell esl-animate-slide-up {{ 'hide-xs' if i >= 12 }}">
+      <div class="img-container img-container-16-9">
+        <esl-image lazy container-class
+                   mode="cover"
+                   data-src="cards/{{ i+1 }}.webp"
+                   data-src-base="{{ imageSrcBase }}"></esl-image>
+      </div>
+    </li>
+  {%- endfor %}
+</ul>

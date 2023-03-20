@@ -18,6 +18,7 @@ module.exports = (config) => {
 
   // Add MD files from the library sources
   config.addWatchTarget('../**/*.md');
+  config.addWatchTarget('static/**/*.svg');
 
   // Setup simple copy operations
   config.addPassthroughCopy({

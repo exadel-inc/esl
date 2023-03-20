@@ -1,0 +1,29 @@
+@import "variables.less";
+@import "showcase-nav.less";
+@import "showcase-grid.less";
+@import "showcase-top-banner.less";
+@import "showcase-content-tabs.less";
+@import "showcase-footnotes.less";
+
+.showcase-page {
+  background-color: @sc-bg-color;
+
+  &-text {
+    color: @sc-text-color;
+  }
+
+  &-btn {
+    border: 1px #5b6b72 solid;
+    border-radius: 0;
+  }
+
+  &-audio-demo {
+    @media @md-xl {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 21rem;
+      padding: 0 1rem;
+    }
+  }
+}

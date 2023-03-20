@@ -1,0 +1,46 @@
+---
+layout: empty
+scrollbar: true
+containerCls: showcase-page
+name: Adobe Summit 2023 Showcase
+tags: [draft]
+---
+{% import 'lorem.njk' as lorem %}
+{% set imageSrcBase = '/assets/' | url %}
+
+{% include 'showcase/navbar.njk'%}
+
+{% include 'showcase/top-banner.njk'%}
+
+<div class="container">
+  <h2 class="m-4 showcase-page-text text-center">Our components list</h2>
+  {% include 'showcase/animated-card-grid.njk'%}
+</div>
+
+<section id="accordion" class="container mb-4">
+  <h2 class="m-4 showcase-page-text text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h2>
+  {% include 'showcase/accordion.njk'%}
+</section>
+
+<div id="tabs" class="container">
+  <h2 class="m-4 showcase-page-text text-center">Nisl pretium fusce id velit</h2>
+  {% include 'showcase/content-tabs.njk'%}
+</div>
+
+<section id="animate-grid" class="container">
+  <h2 class="m-4 showcase-page-text text-center">Animated Gallery</h2>
+  {% include 'showcase/animated-img-grid.njk'%}
+</section>
+
+<div class="footnotes-container container">
+  <esl-footnotes id="footnotes"
+                 scope-target="::parent(.showcase-page)"
+                 grouping="disable"
+                 back-to-note-label="Return to note"></esl-footnotes>
+  <hr class="top-line"/>
+</div>
+
+<footer class="footer-compact container-fluid">
+  {% include 'navigation/footer-compact.njk' %}
+</footer>
+
