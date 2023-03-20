@@ -56,6 +56,7 @@ import {
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
+import {ESLDemoLazyMedia} from  './esl-media-demo/lazy-media-mixin';
 import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
@@ -72,6 +73,7 @@ ESLDemoSearchBox.register();
 ESLDemoSearchPageWrapper.register();
 ESLDemoAnchorLink.register();
 ESLDemoBackLink.register();
+ESLDemoLazyMedia.register();
 
 // Register ESL Components
 ESLImage.register();

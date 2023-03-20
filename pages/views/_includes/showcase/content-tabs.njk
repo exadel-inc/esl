@@ -1,16 +1,26 @@
 <div class="content-tabs">
   <esl-panel-group mode="tabs" class="content-column">
     <esl-panel open class="ct-panel">
-      <esl-media group="demo-media"
-                 media-type="video"
-                 media-src="{{ '/assets/media/video_1.mp4' | url }}"
-                 play-in-viewport
-                 controls
-                 tabindex="0">
-      </esl-media>
+      <div class='img-container img-container-16-9'>
+        <esl-image mode="cover" lazy
+                   data-alt="Alt Text"
+                   data-src="{{ '/assets/nature/volcano-md.jpg' | url }}"></esl-image>
+      </div>
+    </esl-panel>
+    <esl-panel open class="ct-panel">
+      <div class='img-container img-container-16-9'>
+        <esl-media esl-d-media-lazy disabled
+                   group="demo-media"
+                   media-src="https://youtu.be/uUVlhb4jevI"
+                   play-in-viewport
+                   controls
+                   tabindex="0">
+        </esl-media>
+      </div>
     </esl-panel>
     <esl-panel class="ct-panel">
-      <esl-media class="showcase-page-audio-demo"
+      <esl-media esl-d-media-lazy disabled
+                 class="showcase-page-audio-demo"
                  controls
                  play-in-viewport
                  media-type="audio"
@@ -79,19 +89,25 @@
         <li class="esl-d-tab-item">
           <esl-tab class="h5 showcase-page-text"
                    target="::parent(.esl-d-tabs)::find(.tab-1)">
-            Tab #1 Demo Video Content
+            Tab #1 Demo Image Content
           </esl-tab>
         </li>
         <li class="esl-d-tab-item">
           <esl-tab class="h5 showcase-page-text"
                    target="::parent(.esl-d-tabs)::find(.tab-2)">
-            Tab #2 Demo Audio Content
+            Tab #2 Demo Video Content
           </esl-tab>
         </li>
         <li class="esl-d-tab-item">
           <esl-tab class="h5 showcase-page-text"
                    target="::parent(.esl-d-tabs)::find(.tab-3)">
-            Tab #3 Demo Form Content
+            Tab #3 Demo Audio Content
+          </esl-tab>
+        </li>
+        <li class="esl-d-tab-item">
+          <esl-tab class="h5 showcase-page-text"
+                   target="::parent(.esl-d-tabs)::find(.tab-4)">
+            Tab #4 Demo Form Content
           </esl-tab>
         </li>
       </ul>
@@ -123,6 +139,13 @@
         <div class="esl-d-tab-body">
           {{ lorem.paragraphs(1) }}
           Lorem ipsum dolor sit amet<esl-note>Footnote in Tab 3</esl-note>.
+        </div>
+      </esl-panel>
+      <esl-panel class="esl-d-tab-panel tab-4" tabindex="0"
+                 esl-related-target="::parent(.content-tabs)::find(.ct-panel)::nth(4)">
+        <div class="esl-d-tab-body">
+          {{ lorem.paragraphs(1) }}
+          Lorem ipsum dolor sit amet<esl-note>Footnote in Tab 4</esl-note>.
         </div>
       </esl-panel>
     </esl-panel-group>
