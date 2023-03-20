@@ -1,6 +1,11 @@
 @import (reference) "variables.less";
 
 .showcase-page .grid-container {
+  gap: .5rem;
+  @media @md-xl {
+    gap: 2rem;
+  }
+
   .simple-grid-cell {
     min-width: 300px;
     min-height: 0;
@@ -12,6 +17,8 @@
     display: flex;
     align-items: center;
     text-decoration: none;
+
+    outline-offset: -.5rem;
   }
 
   .simple-grid-cell::after {
