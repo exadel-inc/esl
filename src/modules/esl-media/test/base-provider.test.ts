@@ -21,7 +21,7 @@ describe('ESLMedia: BaseProvider tests', () => {
 
   test('Test provider registered', () => {
     class TestProvider extends BaseProviderMock {
-      static readonly providerName = 'test-provider';
+      static override readonly providerName = 'test-provider';
     }
     expect(instance.has('test-provider')).toBe(false);
     expect(instance.findByName('test-provider')).toBe(null);
@@ -33,7 +33,7 @@ describe('ESLMedia: BaseProvider tests', () => {
   test('Test provider registered via decorator', () => {
     @BaseProvider.register
     class TestProvider extends BaseProviderMock {
-      static readonly providerName = 'test-provider-2';
+      static override readonly providerName = 'test-provider-2';
     }
     expect(instance.has('test-provider-2')).toBe(true);
     expect(instance.findByName('test-provider-2')).toBe(TestProvider);

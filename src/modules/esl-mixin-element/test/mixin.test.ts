@@ -4,7 +4,7 @@ import {ESLMixinElement} from '../core';
 describe('ESLMixinElement', () => {
   describe('register', () => {
     class TestMixin extends ESLMixinElement {
-      static is = 'test-mixin';
+      static override is = 'test-mixin';
     }
 
     test('init', async () => {

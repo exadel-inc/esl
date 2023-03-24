@@ -42,3 +42,6 @@ export * from './esl-animate/core';
 
 // Avatar
 export * from './esl-avatar/core';
+
+// Related Target Mixin
+export * from './esl-related-target/core';

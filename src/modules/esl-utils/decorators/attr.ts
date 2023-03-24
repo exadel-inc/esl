@@ -1,7 +1,9 @@
 import {identity} from '../misc/functions';
 import {parseString, toKebabCase} from '../misc/format';
 import {getAttr, setAttr} from '../dom/attr';
-import type {AttributeDecorator, AttributeTarget} from '../dom/attr';
+
+import type {ESLAttributeDecorator} from '../dom/attr';
+import type {ESLDomElementTarget} from '../abstract/dom-target';
 
 export type AttrParser<T> = (attr: string | null) => T;
 export type AttrSerializer<T> = (val: T) => null | boolean | string;
@@ -30,8 +32,8 @@ const buildAttrName =
  * Maps string type property.
  * @param config - mapping configuration. See {@link AttrDescriptor}
  */
-export const attr = <T = string>(config: AttrDescriptor<T> = {}): AttributeDecorator => {
-  return (target: Element | AttributeTarget, propName: string): void => {
+export const attr = <T = string>(config: AttrDescriptor<T> = {}): ESLAttributeDecorator => {
+  return (target: ESLDomElementTarget, propName: string): void => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
 
     function get(): T | null {

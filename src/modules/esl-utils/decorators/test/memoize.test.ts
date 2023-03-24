@@ -76,6 +76,39 @@ describe('common @memoize decorator test', () => {
     });
   });
 
+  describe('array clear', () => {
+    const fn = jest.fn();
+    class TestClass {
+      @memoize()
+      test1() {
+        return fn();
+      }
+
+      @memoize()
+      test2() {
+        return fn();
+      }
+    }
+    const instance = new TestClass();
+
+    test('cache / clear', () => {
+      fn.mockReturnValue('a');
+      expect(instance.test1()).toBe('a');
+      expect(instance.test2()).toBe('a');
+      expect(fn).toBeCalledTimes(2);
+
+      expect(memoize.has(instance, 'test1')).toBe(true);
+      expect(memoize.has(instance, 'test2')).toBe(true);
+      memoize.clear(instance, ['test1', 'test2']);
+      expect(memoize.has(instance, 'test1')).toBe(false);
+      expect(memoize.has(instance, 'test2')).toBe(false);
+
+      expect(instance.test1()).toBe('a');
+      expect(instance.test2()).toBe('a');
+      expect(fn).toBeCalledTimes(4);
+    });
+  });
+
   describe('static method', () => {
     const fn = jest.fn();
     class TestClass {

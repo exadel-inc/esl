@@ -15,8 +15,8 @@ import type {ESLToggleableActionParams} from '../../../esl-toggleable/core/esl-t
  * Uses {@link ESLSelectList} to render the content
  */
 export class ESLSelectDropdown extends ESLToggleable {
-  public static readonly is = 'esl-select-dropdown';
-  public static register(): void {
+  public static override readonly is = 'esl-select-dropdown';
+  public static override register(): void {
     ESLSelectList.register();
     super.register();
   }
@@ -29,26 +29,26 @@ export class ESLSelectDropdown extends ESLToggleable {
   protected _disposeTimeout: number;
   protected _deferredUpdatePosition = rafDecorator(() => this.updatePosition());
 
-  @prop() public closeOnEsc = true;
-  @prop() public closeOnOutsideAction = true;
+  @prop() public override closeOnEsc = true;
+  @prop() public override closeOnOutsideAction = true;
 
   constructor() {
     super();
     this.$list = document.createElement(ESLSelectList.is);
   }
 
-  protected setInitialState(): void {}
+  protected override setInitialState(): void {}
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.appendChild(this.$list);
   }
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeChild(this.$list);
   }
 
-  protected onShow(params: ESLToggleableActionParams): void {
+  protected override onShow(params: ESLToggleableActionParams): void {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
@@ -62,7 +62,7 @@ export class ESLSelectDropdown extends ESLToggleable {
     focusable?.focus({preventScroll: true});
     this.updatePosition();
   }
-  protected onHide(params: ESLToggleableActionParams): void {
+  protected override onHide(params: ESLToggleableActionParams): void {
     const select = this.activator;
     super.onHide(params);
     this._disposeTimeout = window.setTimeout(() => {
@@ -73,7 +73,7 @@ export class ESLSelectDropdown extends ESLToggleable {
   }
 
   @listen('keydown')
-  protected _onKeyboardEvent(e: KeyboardEvent): void {
+  protected override _onKeyboardEvent(e: KeyboardEvent): void {
     super._onKeyboardEvent(e);
     if (e.key === TAB) this._onTabKey(e);
   }

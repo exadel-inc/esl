@@ -3,7 +3,7 @@ import {ESLEventUtils} from '../../esl-event-listener/core/api';
 
 describe('Shortcut helpers for EventUtils', () => {
   class TestHelpersMixin extends ESLMixinElement {
-    static is = 'esl-test-helpers-mixin';
+    static override is = 'esl-test-helpers-mixin';
 
     public onEvent = jest.fn();
   }

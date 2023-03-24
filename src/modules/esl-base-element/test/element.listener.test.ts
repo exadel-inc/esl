@@ -8,14 +8,14 @@ describe('ESLBaseElement: listeners', () => {
   describe('ESLBaseElement auto subscribes to listener declarations', () => {
     const mockHandler = jest.fn();
     class TestElement extends ESLBaseElement {
-      static is = 'test-listen-element';
+      static override is = 'test-listen-element';
 
       @listen('click')
       public onClick(...args: any[]) { mockHandler(this, ...args); }
     }
     TestElement.register();
 
-    const el = document.createElement(TestElement.is);
+    const el = TestElement.create();
 
     beforeAll(() => document.body.appendChild(el));
 

@@ -9,17 +9,17 @@ import {ESLCarouselPlugin} from './esl-carousel-plugin';
  */
 @ExportNs('CarouselPlugins.Dots')
 export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
-  public static is = 'esl-carousel-dots';
-  public static freePlacement = true;
+  public static override is = 'esl-carousel-dots';
+  public static override freePlacement = true;
 
   private _onUpdate = () => this.rerender();
 
-  public bind() {
+  public override bind() {
     this.rerender();
     this.carousel.addEventListener('esl:slide:changed', this._onUpdate);
   }
 
-  public unbind() {
+  public override unbind() {
     this.innerHTML = '';
     this.carousel.removeEventListener('esl:slide:changed', this._onUpdate);
   }

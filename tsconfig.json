@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "skipLibCheck": true,
     "experimentalDecorators": true,
     "alwaysStrict": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
+    "noImplicitOverride": true,
     "esModuleInterop": true,
     "target": "ES6",
     "downlevelIteration": true,
