@@ -66,7 +66,11 @@ export class ESLShareList extends ESLBaseElement {
   /** Event to dispatch on ready state of {@link ESLShareList} */
   @prop('esl:share:ready') public SHARE_READY_EVENT: string;
 
-  /** @readonly List of social networks or groups of them to display (all by default) */
+  /**
+   * @readonly List of social networks or groups of them to display (all by default).
+   * The value - a string containing the names of the buttons or groups (specified with
+   * the prefix group:) separated by spaces. For example: "facebook reddit group:default"
+   * */
   @attr({readonly: true, defaultValue: 'all'}) public list: string;
   /** URL to share on social network (current page URL by default) */
   @attr({dataAttr: true}) public shareUrl: string;
