@@ -3,8 +3,10 @@ import {attr, bind, boolAttr, prop} from '../../esl-utils/decorators';
 
 import {ESLShareButton} from './esl-share-button';
 
+/** ShareConfig provider type definition */
 export type ESLShareConfigProviderType = () => Promise<ShareConfig>;
 
+/** ShareButtonConfig type definition */
 export interface ShareButtonConfig {
   action: string;
   icon: string;
@@ -15,11 +17,13 @@ export interface ShareButtonConfig {
   additional?: Record<string, any>;
 }
 
+/** ShareGroupConfig type definition */
 export interface ShareGroupConfig {
   name: string;
   list: string;
 }
 
+/** ShareConfig type definition */
 export interface ShareConfig {
   buttons: ShareButtonConfig[];
   groups: ShareGroupConfig[];
@@ -43,10 +47,17 @@ function getButtonsList(config: ShareConfig, list: string): ShareButtonConfig[] 
   }, [] as ShareButtonConfig[]);
 }
 
+/**
+ * ESLShareList
+ * @author Dmytro Shovchko
+ *
+ * ESLShareList is a custom element that is used to show the list of social media buttons.
+ */
 export class ESLShareList extends ESLBaseElement {
   public static override is = 'esl-share-list';
   protected static _config: Promise<ShareConfig> = Promise.reject('Configuration is not set');
 
+  /**  */
   public static override register(): void {
     ESLShareButton.register();
     super.register();
@@ -55,22 +66,29 @@ export class ESLShareList extends ESLBaseElement {
   /** Event to dispatch on ready state of {@link ESLShareList} */
   @prop('esl:share:ready') public SHARE_READY_EVENT: string;
 
+  /** @readonly List of social networks or groups of them to display (all by default) */
   @attr({readonly: true, defaultValue: 'all'}) public list: string;
+  /** URL to share on social network (current page URL by default) */
   @attr({dataAttr: true}) public shareUrl: string;
+  /** Title to share on social network (current document title by default) */
   @attr({dataAttr: true}) public shareTitle: string;
 
+  /** @readonly Ready state marker */
   @boolAttr({readonly: true}) public ready: boolean;
 
+  /** Returns element tag name */
   public get alias(): string {
     return (this.constructor as typeof ESLBaseElement).is;
   }
 
+  /** Sets config by a config object or a config provider function */
   public static config(provider?: ESLShareConfigProviderType | ShareConfig): Promise<ShareConfig> {
     if (typeof provider === 'function') ESLShareList._config = provider();
     if (typeof provider === 'object') ESLShareList._config = Promise.resolve(provider);
     return ESLShareList._config;
   }
 
+  /** Returns config of buttons specified by the list attribute */
   public get buttonsConfig(): Promise<ShareButtonConfig[]> {
     return (this.constructor as typeof ESLShareList).config().then((config) => {
       return (this.list !== 'all') ? getButtonsList(config, this.list) : config.buttons;
@@ -90,6 +108,7 @@ export class ESLShareList extends ESLBaseElement {
       .catch((e) => console.error(`[${this.alias}]: ${e}`));
   }
 
+  /** Builds content of component */
   @bind
   public build(config: ShareButtonConfig[]): void {
     this.innerHTML = '';
