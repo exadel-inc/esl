@@ -12,7 +12,7 @@ const DESCRIPTORS = (window.Symbol || String)('__esl_descriptors');
  */
 function getOwnDescriptors(host: object, createIfNotExists = false): string[] {
   if (Object.hasOwnProperty.call(host, DESCRIPTORS)) return (host as any)[DESCRIPTORS];
-  const value: string[]  = [];
+  const value: string[] = [];
   if (createIfNotExists) Object.defineProperty(host, DESCRIPTORS, {value, configurable: true});
   return value;
 }
@@ -20,8 +20,8 @@ function getOwnDescriptors(host: object, createIfNotExists = false): string[] {
 /** Collects descriptors key from the whole prototype chain */
 function getDescriptorsKeysFor<T extends object>(host: T): (keyof T)[] {
   const store: Record<string, boolean> = {};
-  for (let proto = host; proto && proto !== Object.prototype ; proto = Object.getPrototypeOf(proto)) {
-    getOwnDescriptors(proto).forEach((key) => store[key] = true);
+  for (let proto = host; proto; proto = Object.getPrototypeOf(proto)) {
+    getOwnDescriptors(proto).forEach((key) => (store[key] = true));
   }
   return Object.keys(store) as (keyof T)[];
 }

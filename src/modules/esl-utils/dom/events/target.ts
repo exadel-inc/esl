@@ -1,3 +1,5 @@
+import {overrideEvent} from './misc';
+
 /**
  * Synthetic implementation of EventTarget
  * Replicates behavior of native event
@@ -38,12 +40,14 @@ export class SyntheticEventTarget implements EventTarget {
     this._listeners[type] = this._listeners[type].filter((cb) => cb !== callback);
   }
 
-  public dispatchEvent(e: Event, target: EventTarget = this): boolean {
-    const targetDescriptor: PropertyDescriptor = {get: () => target, enumerable: true};
-    Object.defineProperty(e, 'target', targetDescriptor);
-    Object.defineProperty(e, 'currentTarget', targetDescriptor);
-    Object.defineProperty(e, 'srcElement', targetDescriptor);
-
+  public dispatchEvent(e: Event): boolean;
+  /** @deprecated use `overrideEvent` to declare `target` */
+  public dispatchEvent(e: Event, target?: EventTarget): boolean;
+  public dispatchEvent(e: Event, target?: EventTarget): boolean {
+    overrideEvent(e, 'currentTarget', this);
+    if (target) overrideEvent(e, 'target', target); // TODO: remove in 5.0.0
+    if (!e.target) overrideEvent(e, 'target', this);
+    if (!e.srcElement) overrideEvent(e, 'srcElement', e.target); // TODO: remove in 5.0.0
     this._listeners[e.type]?.forEach((listener) => {
       if (typeof listener === 'function') listener.call(this, e);
       else listener.handleEvent.call(listener, e);

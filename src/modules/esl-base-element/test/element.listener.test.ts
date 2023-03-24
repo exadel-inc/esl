@@ -15,7 +15,7 @@ describe('ESLBaseElement: listeners', () => {
     }
     TestElement.register();
 
-    const el = document.createElement(TestElement.is);
+    const el = TestElement.create();
 
     beforeAll(() => document.body.appendChild(el));
 
