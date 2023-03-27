@@ -1,30 +1,41 @@
 plugins:
   # Custom plugin to disallow absolute import paths
   - ./build/import.stylelint.js
+  - ./build/stylelint-custom-rules/declaration-colon-space-after.stylelint.js
+  - ./build/stylelint-custom-rules/block-opening-brace-space-before.stylelint.js
+  - ./build/stylelint-custom-rules/color-hex-case.stylelint.js
+  - ./build/stylelint-custom-rules/no-extra-semicolons.stylelint.js
+  - ./build/stylelint-custom-rules/number-leading-zero.stylelint.js
+  - ./build/stylelint-custom-rules/selector-list-comma-space-before.stylelint.js
+  - ./build/stylelint-custom-rules/selector-pseudo-class-case.stylelint.js
+  - ./build/stylelint-custom-rules/selector-pseudo-class-parentheses-space-inside.stylelint.js
+  - ./build/stylelint-custom-rules/selector-pseudo-element-case.stylelint.js
 # Use LESS preprocessor
 customSyntax: postcss-less
 
 rules:
   # Warn that require a single space before the opening brace of blocks
-  block-opening-brace-space-before:
+  esl-less/block-opening-brace-space-before:
     - always
     - severity: warning
   # Disallow uppercase for hex colors
-  color-hex-case: lower
-  # Warn that require a single space after the colon of declarations
-  esl-less/declaration-colon-space-after: true
+  esl-less/color-hex-case: lower
   # Disallow extra semicolons
-  no-extra-semicolons: true
+  esl-less/no-extra-semicolons: true
   # Disallow a leading zero for fractional numbers less than 1
-  number-leading-zero: never
+  esl-less/number-leading-zero: never
   # Disallow whitespace before the commas of selector lists
-  selector-list-comma-space-before: never
+  esl-less/selector-list-comma-space-before: never
   # Use lowercase for pseudo-class selectors
-  selector-pseudo-class-case: lower
+  esl-less/selector-pseudo-class-case: lower
   # Disallow whitespace on the inside of the parentheses within pseudo-class selectors
-  selector-pseudo-class-parentheses-space-inside: never
+  esl-less/selector-pseudo-class-parentheses-space-inside: never
   # Use lowercase for pseudo-element selectors
-  selector-pseudo-element-case: lower
+  esl-less/selector-pseudo-element-case: lower
+  # Warn that require a single space after the colon of declarations
+  esl-less/declaration-colon-space-after:
+    - always
+    - severity: warning
   # Disallow unknown at-rules
   at-rule-no-unknown: true
   # Warn about empty selectors
@@ -37,10 +48,6 @@ rules:
   color-no-invalid-hex: true
   # Disallow empty comments
   comment-no-empty: true
-  # Warn that require a single space after the colon of declarations
-  declaration-colon-space-after:
-    - always
-    - severity: warning
   # Disallow duplicate properties within declaration blocks
   declaration-block-no-duplicate-properties: true
   # Disallow absolute paths for imports in bounds of library files
