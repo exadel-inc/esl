@@ -67,7 +67,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
 
     super.addEventListener('resize', callback);
     if (this.hasEventListener('resize', 1)) return;
-    ESLResizeObserverTarget.observer$$.observe(ESLResizeObserverTarget.getActualTarget(this.target));
+    ESLResizeObserverTarget.observer$$.observe(this.target);
   }
 
   /** Unsubscribes from the observed target {@link Element} changes */
@@ -78,6 +78,6 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
 
     super.removeEventListener('resize', callback);
     if (this.hasEventListener('resize')) return;
-    ESLResizeObserverTarget.observer$$.unobserve(ESLResizeObserverTarget.getActualTarget(this.target));
+    ESLResizeObserverTarget.observer$$.unobserve(this.target);
   }
 }
