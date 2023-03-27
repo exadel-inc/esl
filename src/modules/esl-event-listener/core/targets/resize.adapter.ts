@@ -4,7 +4,7 @@ import {getPropertyDescriptor} from '../../../esl-utils/misc/object';
 
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 
-type ESLResizeTarget = Window | ESLDomElementTarget;
+export type ESLResizeTarget = Window | ESLDomElementTarget;
 
 /** Adapter class for {@link ResizeObserver} that implements {@link EventTarget} */
 export class ESLResizeObserverTarget extends SyntheticEventTarget {
