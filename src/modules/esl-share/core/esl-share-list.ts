@@ -89,9 +89,9 @@ export class ESLShareList extends ESLBaseElement {
    * */
   @attr({readonly: true, defaultValue: 'all'}) public list: string;
   /** URL to share (current page URL by default) */
-  @attr({dataAttr: true}) public shareUrl: string;
+  @attr() public shareUrl: string;
   /** Title to share (current document title by default) */
-  @attr({dataAttr: true}) public shareTitle: string;
+  @attr() public shareTitle: string;
 
   /** @readonly Ready state marker */
   @boolAttr({readonly: true}) public ready: boolean;
