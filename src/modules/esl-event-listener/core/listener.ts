@@ -113,7 +113,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     const current = e.currentTarget;
     const delegate = this.delegate;
     if (typeof delegate !== 'string') return true;
-    if (!delegate || !(target instanceof HTMLElement) || !(current instanceof HTMLElement)) return false;
+    if (!delegate || !(target instanceof Element) || !(current instanceof Element)) return false;
     return current.contains(target.closest(delegate));
   }
 
