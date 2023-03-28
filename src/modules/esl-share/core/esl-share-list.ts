@@ -6,14 +6,25 @@ import {ESLShareButton} from './esl-share-button';
 /** {@link ShareConfig} provider type definition */
 export type ESLShareConfigProviderType = () => Promise<ShareConfig>;
 
-/** ShareButtonConfig type definition */
+/** The definition of the sharing button */
 export interface ShareButtonConfig {
+  /** Name of the share action, which is performed after the button is pressed */
   action: string;
+  /** HTML content of the share icon */
   icon: string;
+  /** Color of the icon background (the value - CSS data type represents a color) */
   iconBackground: string;
+  /**
+   * URL link (with placeholders) to share. Can contain the next placeholders:
+   * - \{u\} or \{url\} - URL to share (shareUrl property on the {@link ESLShareButton} instance)
+   * - \{t\} or \{title\} - title to share (shareTitle property on the {@link ESLShareButton} instance)
+   */
   link: string;
+  /** String identifier of the button (no spaces) */
   name: string;
+  /** Button title */
   title: string;
+  /** Additional params to pass into a button */
   additional?: Record<string, any>;
 }
 
@@ -73,8 +84,8 @@ export class ESLShareList extends ESLBaseElement {
   /**
    * @readonly List of social networks or groups of them to display (all by default).
    * The value - a string containing the names of the buttons or groups (specified with
-   * the prefix group:) separated by spaces. 
-   * @example: "facebook reddit group:default"
+   * the prefix group:) separated by spaces.
+   * @example "facebook reddit group:default"
    * */
   @attr({readonly: true, defaultValue: 'all'}) public list: string;
   /** URL to share (current page URL by default) */
@@ -90,7 +101,7 @@ export class ESLShareList extends ESLBaseElement {
     return (this.constructor as typeof ESLBaseElement).is;
   }
 
-  /** 
+  /**
    * Gets or updates config with a promise of a new config object or using a config provider function.
    * @returns Promise of the current config
    */

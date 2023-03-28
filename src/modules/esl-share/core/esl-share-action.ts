@@ -9,8 +9,9 @@ export type ESLShareActionType = (new() => ESLShareBaseAction) & typeof ESLShare
 export abstract class ESLShareBaseAction {
   public static readonly is: string;
 
-  /** Registers this action. Can be used as a decorator */
+  /** Decorator to register action */
   public static register(this: ESLShareActionType): void;
+  /** Registers this action */
   public static register(this: unknown, action?: ESLShareActionType): void;
   public static register(this: any, action?: ESLShareActionType): void {
     action = action || this;

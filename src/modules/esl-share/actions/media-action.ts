@@ -7,7 +7,11 @@ import type {ESLShareButton} from '../core/esl-share-button';
 export class ESLShareMediaAction extends ESLShareUrlGenericAction {
   public static override readonly is: string = 'media';
 
-  /** window features */
+  /**
+   * Window features that apply to `window.open()`.
+   * These features include options such as the window's default size and position,
+   * whether or not to open a minimal popup window, and so forth.
+   * */
   public static FEATURES: Record<string, number> = {
     scrollbars: 0,
     resizable: 1,
