@@ -3,16 +3,16 @@ import {ESLShareActionRegistry} from './esl-share-action-registry';
 import type {ESLShareButton} from './esl-share-button';
 
 /** Action type definition */
-export type ActionType = (new() => ESLShareBaseAction) & typeof ESLShareBaseAction;
+export type ESLShareActionType = (new() => ESLShareBaseAction) & typeof ESLShareBaseAction;
 
 /** Base action class for actions of share buttons {@link ESLShareButton} */
 export abstract class ESLShareBaseAction {
   public static readonly is: string;
 
   /** Registers this action. Can be used as a decorator */
-  public static register(this: ActionType): void;
-  public static register(this: unknown, action?: ActionType): void;
-  public static register(this: any, action?: ActionType): void {
+  public static register(this: ESLShareActionType): void;
+  public static register(this: unknown, action?: ESLShareActionType): void;
+  public static register(this: any, action?: ESLShareActionType): void {
     action = action || this;
     if (action === ESLShareBaseAction) throw new Error('`ESLShareBaseAction` can\'t be registered.');
     if (!(action?.prototype instanceof ESLShareBaseAction)) throw new Error('Action should be instanceof `ESLShareBaseAction`');

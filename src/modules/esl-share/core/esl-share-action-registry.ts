@@ -1,6 +1,6 @@
 import {memoize} from '../../esl-utils/decorators';
 
-import type {ActionType, ESLShareBaseAction} from './esl-share-action';
+import type {ESLShareActionType, ESLShareBaseAction} from './esl-share-action';
 import type {ESLShareButton} from './esl-share-button';
 
 /**
@@ -17,7 +17,7 @@ export class ESLShareActionRegistry {
   }
 
   /** Registers action */
-  public register(action: ActionType): void {
+  public register(action: ESLShareActionType): void {
     if (!action.is) throw new Error('Action should have a name');
     this.actionsMap.set(action.is, new action());
   }
