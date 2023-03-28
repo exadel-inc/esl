@@ -44,6 +44,20 @@ An example of a description of the button configuration:
     "title": "Facebook"
 }
 ```
+or for example the configuration of the copy button
+```
+{
+    "action": "copy",
+    "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 28 28\"\u003e\u003cpath d\u003d\"M17 9.69l-7.43 7.43 1.18 1.18 7.43-7.43L17 9.69z\"/\u003e\u003cpath d\u003d\"M4.31 17.8c-.481.481-.48 1.29.00138 1.77l4.02 4.02c.481.481 1.29.483 1.77.00138l4.95-4.95c.481-.481.481-1.29-7e-7-1.78l-4.02-4.02c-.481-.481-1.29-.481-1.78 0l-4.95 4.95zm1.47.887l4.36-4.36 3.44 3.44-4.36 4.36-3.44-3.44zm7-9.37c-.481.481-.481 1.29 2.8e-7 1.78l4.02 4.02c.481.481 1.29.481 1.78 0l4.95-4.95c.481-.481.48-1.29-.00138-1.77l-4.02-4.02c-.481-.481-1.29-.483-1.77-.00138l-4.95 4.95zm1.47.889l4.36-4.36 3.44 3.44-4.36 4.36-3.44-3.44z\"/\u003e\u003c/svg\u003e",
+    "iconBackground": "#a0522d",
+    "link": "",
+    "name": "copy",
+    "title": "Copy",
+    "additional": {
+        "alertText": "Copied to clipboard"
+    }
+}
+```
 What the properties of the button description object mean:
  - `action` - the name of the action to be performed by clicking on the button (recall that the action must be registered, the import was executed)
  - `icon` - the HTML content of the share icon
@@ -53,6 +67,7 @@ What the properties of the button description object mean:
     - {t} or {title} - title to share on social network (shareTitle property on the ESLShareButton instance)
  - `name` - string identifier of the button (no spaces)
  - `title` - button title
+ - `additional` - additional params to pass into a button (can be used by share actions)
 
 The configuration object of the group is simple, consisting of two properties:
  - `name` - string identifier of the group (no spaces)
@@ -65,10 +80,25 @@ An example of a description of the group configuration:
     "list": "facebook twitter linkedin wykop copy"
 }
 ```
+The group may include another group. So this configuration describing nested groups will be valid:
+```
+{
+    "name": "tier0",
+    "list": "copy print"
+},
+{
+    "name": "tier1",
+    "list": "twitter linkedin group:tier0"
+},
+{
+    "name": "tier2",
+    "list": "facebook group:tier1"
+}
+```
 
 ### Setting the ESLShareList configuration
 
-Before registering an ESLShareList item, you must set the component configuration. To do this, use the static ESLShareList.config() method of the component, which either receives as an argument a config object or a provider function that returns a promise of a config object.
+Before registering an ESLShareList item, you must set the component configuration. To do this, use the static `ESLShareList.config()` method of the component, which either receives as an argument a config object or a provider function that returns a promise of a config object.
 
 For example:
 ```
@@ -82,8 +112,8 @@ ESLShareList.config(() => fetch('/assets/share/config.json').then((response) => 
  - `action` - name of share action that occurs after button click
  - `link` - link to share on a social network
  - `name` - social network identifier
- - `data-share-url` - URL to share on social network (current page URL by default)
- - `data-share-title` - title to share on social network (current document title by default)
+ - `share-url` - URL to share (current page URL by default)
+ - `share-title` - title to share (current document title by default)
  - `additional` - additional params to pass into a button (can be used by share actions)
  - `unavailable` - marker of availability of share button
 
@@ -95,9 +125,9 @@ ESLShareList.config(() => fetch('/assets/share/config.json').then((response) => 
 
 #### Attributes / Properties
 
- - `list` - list of social networks or groups of them to display (all by default). The value - a string containing the names of the buttons or groups (specified with the prefix group:) separated by spaces. For example: "facebook reddit group:default"
- - `data-share-url` - URL to share on social network (current page URL by default)
- - `data-share-title` - title to share on social network (current document title by default)
+ - `list` - list of social networks or groups of them to display (all by default). The value - a string containing the names of the buttons or groups (specified with the prefix group:) separated by spaces. For example: `"facebook reddit group:default"`
+ - `share-url` - URL to share (current page URL by default)
+ - `share-title` - title to share (current document title by default)
  - `ready` - ready state marker
 #### Public API
 
@@ -110,6 +140,6 @@ ESLShareList.config(() => fetch('/assets/share/config.json').then((response) => 
 
 ### ESLShareAction
 
-ShareAction is an interface that describes share actions. Custom user's actions realizing this interface should have next public methods:
+**ESLShareBaseAction** is an interface that describes share actions. Custom user's actions realizing this interface should have next public methods:
  - `isAvailable` - checks if this action is available on the user's device
  - `share` - performs an action to share
