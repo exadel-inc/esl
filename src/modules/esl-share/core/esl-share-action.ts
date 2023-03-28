@@ -24,7 +24,7 @@ export abstract class ESLShareBaseAction {
     return true;
   }
 
-  /** Returns ShareData object for button  */
+  /** @returns {@link ShareData} object for button  */
   protected getShareData($button: ESLShareButton): ShareData {
     return {
       url: $button.urlToShare,
