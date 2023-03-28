@@ -16,7 +16,7 @@ function getProp<T>(name: string, targets: Record<string, any>[], fallback: T, p
  * ESLShareButton
  * @author Dmytro Shovchko
  *
- * ESLShareButton is a custom element that is used to show the "Share on social media" button.
+ * ESLShareButton is a custom element to create a "Share on social media" button.
  */
 export class ESLShareButton extends ESLBaseElement {
   public static override is = 'esl-share-button';
@@ -44,17 +44,17 @@ export class ESLShareButton extends ESLBaseElement {
     return ESLShareActionRegistry.instance.get(this.action);
   }
 
-  /** Returns parent share list {@link ESLShareList} element if exists */
+  /** @returns parent share list {@link ESLShareList} element (if exists) */
   public get host(): ESLShareList | null {
     return this.closest('esl-share-list');
   }
 
-  /** Returns title to share on social network */
+  /** @returns title to share */
   public get titleToShare(): string {
     return this._getPropFromRelatedEls('shareTitle', document.title);
   }
 
-  /** Returns URL to share on social network */
+  /** @returns URL to share */
   public get urlToShare(): string {
     return toAbsoluteUrl(this._getPropFromRelatedEls('shareUrl', window.location.href));
   }
@@ -71,7 +71,7 @@ export class ESLShareButton extends ESLBaseElement {
   }
 
   /** Sets initial a11y attributes */
-  public initA11y(): void {
+  protected initA11y(): void {
     if (!this.hasAttribute('role')) this.setAttribute('role', 'button');
     if (this.getAttribute('role') === 'button' && !this.hasAttribute('tabindex')) {
       this.tabIndex = 0;

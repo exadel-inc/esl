@@ -3,7 +3,7 @@ import {attr, bind, boolAttr, prop} from '../../esl-utils/decorators';
 
 import {ESLShareButton} from './esl-share-button';
 
-/** ShareConfig provider type definition */
+/** {@link ShareConfig} provider type definition */
 export type ESLShareConfigProviderType = () => Promise<ShareConfig>;
 
 /** ShareButtonConfig type definition */
@@ -17,15 +17,19 @@ export interface ShareButtonConfig {
   additional?: Record<string, any>;
 }
 
-/** ShareGroupConfig type definition */
+/** The definition of share buttons groups (named sets of share buttons) */
 export interface ShareGroupConfig {
+  /** Name of the group. The group can be accessed with the `group:` prefix in the component configuration */
   name: string;
+  /** A list of button names separated by space */
   list: string;
 }
 
-/** ShareConfig type definition */
+/** The definition of `ESLShareList` component configuration */
 export interface ShareConfig {
+  /** List of sharing buttons configuration */
   buttons: ShareButtonConfig[];
+  /** List of share button groups configurations */
   groups: ShareGroupConfig[];
 }
 
@@ -51,13 +55,13 @@ function getButtonsList(config: ShareConfig, list: string): ShareButtonConfig[] 
  * ESLShareList
  * @author Dmytro Shovchko
  *
- * ESLShareList is a custom element that is used to show the list of social media buttons.
+ * ESLShareList is a custom element to dynamically draw {@link ESLShareButton}s using simplified shared config
  */
 export class ESLShareList extends ESLBaseElement {
   public static override is = 'esl-share-list';
   protected static _config: Promise<ShareConfig> = Promise.reject('Configuration is not set');
 
-  /**  */
+  /** Register {@link ESLShareList} component and dependent {@link ESLShareButton} */
   public static override register(): void {
     ESLShareButton.register();
     super.register();
@@ -69,30 +73,34 @@ export class ESLShareList extends ESLBaseElement {
   /**
    * @readonly List of social networks or groups of them to display (all by default).
    * The value - a string containing the names of the buttons or groups (specified with
-   * the prefix group:) separated by spaces. For example: "facebook reddit group:default"
+   * the prefix group:) separated by spaces. 
+   * @example: "facebook reddit group:default"
    * */
   @attr({readonly: true, defaultValue: 'all'}) public list: string;
-  /** URL to share on social network (current page URL by default) */
+  /** URL to share (current page URL by default) */
   @attr({dataAttr: true}) public shareUrl: string;
-  /** Title to share on social network (current document title by default) */
+  /** Title to share (current document title by default) */
   @attr({dataAttr: true}) public shareTitle: string;
 
   /** @readonly Ready state marker */
   @boolAttr({readonly: true}) public ready: boolean;
 
-  /** Returns element tag name */
+  /** @returns element tag name */
   public get alias(): string {
     return (this.constructor as typeof ESLBaseElement).is;
   }
 
-  /** Sets config by a config object or a config provider function */
+  /** 
+   * Gets or updates config with a promise of a new config object or using a config provider function.
+   * @returns Promise of the current config
+   */
   public static config(provider?: ESLShareConfigProviderType | ShareConfig): Promise<ShareConfig> {
     if (typeof provider === 'function') ESLShareList._config = provider();
     if (typeof provider === 'object') ESLShareList._config = Promise.resolve(provider);
     return ESLShareList._config;
   }
 
-  /** Returns config of buttons specified by the list attribute */
+  /** @returns config of buttons specified by the list attribute */
   public get buttonsConfig(): Promise<ShareButtonConfig[]> {
     return (this.constructor as typeof ESLShareList).config().then((config) => {
       return (this.list !== 'all') ? getButtonsList(config, this.list) : config.buttons;

@@ -10,9 +10,9 @@ Authors: *Dmytro Shovchko*.
 
 The ESL Share component provides the capability of integrating into a web page a sharing mechanism of the page on social media platforms, such as Facebook, Twitter, and Pinterest. The available share actions depend on the device but might include the clipboard, email applications, websites, social media, etc.
 
-**ESLShareButton** is a custom element that is used to show the "Share on social media" button. It is intended to share the page using the action specified on the button.
+**ESLShareButton** is a custom element that is used for displaying the "Share on social media" button. It is intended to share the page using the action specified on the button.
 
-**ESLShareList** is a custom element that is used to show the list of social media buttons. The content of the element (set of ESLShareButtons) is created automatically by specifying a list of networks or groups to display. Available social networks and their groups are listed in the configuration file.
+**ESLShareList** is a custom element that is used for showing the list of social media buttons. The content of the element (set of ESLShareButtons) is created automatically by specifying a list of networks or groups to display. Available social networks and their groups are listed in the configuration file.
 
 ### Usage
 
@@ -20,7 +20,7 @@ Make sure you register the share actions that you are going to use on your pages
 
 Next, you have two options for using the share component. The first option is to use only the ESLShareButton. In this case, you simply add this element to the markup and set the required configuration with the attributes. The element has to be registered with `ESLShareButton.register()`. And that's it.
 
-The second option to use the share component is to define the component configuration and bind the configuration to the ESLShareList component. After that, all you have to do is add an element with names or groups of social networks to the ESLShareList markup. The item content, consisting of a set of buttons, will be generated automatically. It's like you would add each button to the markup yourself and prescribe its configuration.
+The second option to use the share component is to define the component configuration and bind the configuration to the ESLShareList component. After that, all you have to do is to add an element with names or groups of social networks to the ESLShareList markup. The item content, consisting of a set of buttons, will be generated automatically. It's the same as you would add each button to the markup and prescribe its configuration manually.
 
 To use this option it is necessary to set the configuration for the list of buttons
 ```
@@ -31,7 +31,7 @@ and then register the item
 
 ### ESLShareList config
 
-Config is a javascript object that contains two properties. The first one is `buttons` describing the configuration of the buttons. The second is `groups` which configure the groups. Both properties are arrays containing objects describing buttons and groups respectively.
+Config is a javascript object that contains two properties. The first one is `buttons` describing the configuration of the buttons. The second is `groups` which configures the groups. Both properties are arrays containing objects describing buttons and groups respectively.
 
 An example of a description of the button configuration:
 ```
