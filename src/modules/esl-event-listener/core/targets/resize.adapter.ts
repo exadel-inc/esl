@@ -1,9 +1,8 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 import {overrideEvent} from '../../../esl-utils/dom/events/misc';
 
+import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
-
-export type ESLResizeTarget = ESLDomElementTarget | Window;
 
 /** Adapter class for {@link ResizeObserver} that implements {@link EventTarget} */
 export class ESLResizeObserverTarget extends SyntheticEventTarget {
@@ -14,7 +13,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     changes.forEach(this.handleChange, this)
   );
 
-  /** Observed {@link ESLResizeTarget} of the {@link ESLResizeObserverTarget} instance */
+  /** Observed {@link ESLDomElementTarget} or {@link Window} of the {@link ESLResizeObserverTarget} instance */
   public readonly target: Element | Window;
 
   /** Internal method to handle {@link ResizeObserver} entry change */
@@ -30,17 +29,17 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     adapter.dispatchEvent(event);
   }
 
-  /** Creates {@link ESLResizeObserverTarget} instance for the {@link ESLResizeTarget} */
-  public static create(target: ESLResizeTarget): ESLResizeObserverTarget {
+  /** Creates {@link ESLResizeObserverTarget} instance for the {@link ESLDomElementTarget} or {@link Window} */
+  public static create(target: ESLDomElementTarget | Window): ESLResizeObserverTarget {
     return new ESLResizeObserverTarget(target);
   }
 
   /**
-   * Creates {@link ESLResizeObserverTarget} for the {@link ESLResizeTarget}.
-   * Note the {@link ESLResizeObserverTarget} instances are singletons relatively to the {@link ESLResizeTarget}
+   * Creates {@link ESLResizeObserverTarget} for the {@link ESLDomElementTarget} or {@link Window}.
+   * Note the {@link ESLResizeObserverTarget} instances are singletons relatively to the {@link ESLDomElementTarget} or {@link Window}
    */
-  protected constructor(target: ESLResizeTarget) {
-    if (!(target instanceof Window || target instanceof Element)) target = target.$host;
+  protected constructor(target: ESLDomElementTarget | Window) {
+    target = resolveDomTarget(target);
     const instance = ESLResizeObserverTarget.mapping.get(target);
     if (instance) return instance;
     super();
@@ -61,7 +60,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     if (this.hasEventListener('resize', 1)) return;
 
     if (this.target instanceof Window) {
-      window.addEventListener('resize', (e: Event) => ESLResizeObserverTarget.handleChange(e));
+      window.addEventListener('resize', ESLResizeObserverTarget.handleChange.bind(ESLResizeObserverTarget));
     } else {
       ESLResizeObserverTarget.observer$$.observe(this.target);
     }
@@ -77,7 +76,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     if (this.hasEventListener('resize')) return;
 
     if (this.target instanceof Window) {
-      window.removeEventListener('resize', (e: Event) => ESLResizeObserverTarget.handleChange(e));
+      window.removeEventListener('resize', ESLResizeObserverTarget.handleChange.bind(ESLResizeObserverTarget));
     } else {
       ESLResizeObserverTarget.observer$$.unobserve(this.target);
     }
