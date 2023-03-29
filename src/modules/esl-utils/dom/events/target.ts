@@ -1,6 +1,9 @@
 import {flat, uniq} from '../../misc/array';
 import {overrideEvent} from './misc';
 
+/** Key to store listeners on the {@link SyntheticEventTarget} instance*/
+const LISTENERS = Symbol('_listeners');
+
 /**
  * Synthetic implementation of EventTarget
  * Replicates behavior of native event
@@ -10,12 +13,13 @@ export class SyntheticEventTarget implements EventTarget {
   // Event type to use in the shortcutted calls
   public static DEFAULT_EVENT = 'change';
 
-  private readonly _listeners: Record<string, EventListenerOrEventListenerObject[]> = {};
+  private readonly [LISTENERS]: Record<string, EventListenerOrEventListenerObject[]> = {};
 
   protected getEventListeners(): EventListenerOrEventListenerObject[];
   protected getEventListeners(type: string): EventListenerOrEventListenerObject[];
   protected getEventListeners(type?: string): EventListenerOrEventListenerObject[] {
-    return uniq((typeof type !== 'string') ? flat(Object.values(this._listeners)) : (this._listeners[type] || []));
+    if (typeof type !== 'string') return uniq(flat(Object.values(this[LISTENERS])));
+    return this[LISTENERS][type] || [];
   }
 
   public hasEventListener(): boolean;
@@ -35,10 +39,10 @@ export class SyntheticEventTarget implements EventTarget {
     if (typeof type !== 'string') return this.addEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
-    const listeners = this._listeners[type];
+    const listeners = this[LISTENERS][type];
     if (listeners?.includes(callback!)) return;
     if (listeners) listeners.push(callback!);
-    else Object.assign(this._listeners, {[type]: [callback]});
+    else Object.assign(this[LISTENERS], {[type]: [callback]});
   }
 
   public removeEventListener(callback: EventListenerOrEventListenerObject): void;
@@ -47,9 +51,9 @@ export class SyntheticEventTarget implements EventTarget {
     if (typeof type !== 'string') return this.removeEventListener((this.constructor as typeof SyntheticEventTarget).DEFAULT_EVENT, type);
 
     validateEventListenerType(callback);
-    const listeners = this._listeners[type];
+    const listeners = this[LISTENERS][type];
     if (!listeners) return;
-    this._listeners[type] = listeners.filter((cb) => cb !== callback);
+    this[LISTENERS][type] = listeners.filter((cb) => cb !== callback);
   }
 
   public dispatchEvent(e: Event): boolean;
@@ -60,7 +64,7 @@ export class SyntheticEventTarget implements EventTarget {
     if (target) overrideEvent(e, 'target', target); // TODO: remove in 5.0.0
     if (!e.target) overrideEvent(e, 'target', this);
     if (!e.srcElement) overrideEvent(e, 'srcElement', e.target); // TODO: remove in 5.0.0
-    this._listeners[e.type]?.forEach((listener) => {
+    this.getEventListeners(e.type).forEach((listener) => {
       if (typeof listener === 'function') listener.call(this, e);
       else listener.handleEvent.call(listener, e);
     });
