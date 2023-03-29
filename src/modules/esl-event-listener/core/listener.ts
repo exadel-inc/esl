@@ -68,7 +68,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     const target = resolveProperty(this.target, this.host);
     if (isObject(target)) return wrap(target);
     const $host = '$host' in this.host ? this.host.$host : this.host;
-    if (typeof target === 'string') return ESLTraversingQuery.all(target, $host);
+    if (typeof target === 'string') return ESLTraversingQuery.all(target, $host as any);
     if (typeof target === 'undefined' && $host instanceof HTMLElement) return [$host];
     return [];
   }
@@ -153,8 +153,8 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   /** Adds listener to the listener store of the host object */
   protected static add(host: object, instance: ESLEventListener): void {
     if (!isObject(host)) return;
-    if (!Object.hasOwnProperty.call(host, LISTENERS)) host[LISTENERS] = [];
-    host[LISTENERS].push(instance);
+    if (!Object.hasOwnProperty.call(host, LISTENERS)) (host as any)[LISTENERS] = [];
+    (host as any)[LISTENERS].push(instance);
   }
   /** Removes listener from the listener store of the host object */
   protected static remove(host: object, instance: ESLEventListener): void {
