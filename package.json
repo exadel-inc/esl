@@ -73,9 +73,6 @@
     "prepare": "husky install && npm run build",
     "preversion": "npm test"
   },
-  "engines": {
-    "node": ">=14.17.0"
-  },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.7",
     "@types/video.js": "7.3.51",
