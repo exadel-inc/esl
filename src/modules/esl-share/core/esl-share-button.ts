@@ -35,7 +35,7 @@ export class ESLShareButton extends ESLBaseElement {
   @attr() public shareTitle: string;
 
   /** Additional params to pass into a button (can be used by share actions) */
-  @jsonAttr({dataAttr: true}) public additional: Record<string, any>;
+  @jsonAttr() public additional: Record<string, any>;
 
   /** Marker of availability of share button */
   @boolAttr() public unavailable: boolean;
