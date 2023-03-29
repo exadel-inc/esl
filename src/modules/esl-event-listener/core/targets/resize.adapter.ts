@@ -1,33 +1,28 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 import {overrideEvent} from '../../../esl-utils/dom/events/misc';
-import {getPropertyDescriptor} from '../../../esl-utils/misc/object';
 
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
 
-export type ESLResizeTarget = Window | ESLDomElementTarget;
+export type ESLResizeTarget = ESLDomElementTarget | Window;
 
 /** Adapter class for {@link ResizeObserver} that implements {@link EventTarget} */
 export class ESLResizeObserverTarget extends SyntheticEventTarget {
   /** {@link ESLResizeObserverTarget} instances holder */
-  protected static readonly mapping = new WeakMap<Element, ESLResizeObserverTarget>();
+  protected static readonly mapping = new WeakMap<Element | EventTarget, ESLResizeObserverTarget>();
   /** {@link ResizeObserver} instance to observe DOM element related to {@link ESLResizeObserverTarget} */
   protected static readonly observer$$ = new ResizeObserver((changes: ResizeObserverEntry[]) =>
     changes.forEach(this.handleChange, this)
   );
 
-  public readonly target: Element;
-
-  private static getActualTarget(target: ESLResizeTarget): Element {
-    if (target instanceof Element) return target;
-    const host = getPropertyDescriptor(target, '$host') as Element;
-    return host || document.body;
-  }
+  /** Observed {@link ESLResizeTarget} of the {@link ESLResizeObserverTarget} instance */
+  public readonly target: Element | Window;
 
   /** Internal method to handle {@link ResizeObserver} entry change */
   protected static handleChange(
     this: typeof ESLResizeObserverTarget,
-    detail: ResizeObserverEntry
+    detail: ResizeObserverEntry | Event
   ): void {
+    if (!detail.target) return;
     const adapter = this.mapping.get(detail.target);
     if (!adapter) return;
     const event = new CustomEvent('resize', {detail});
@@ -44,11 +39,8 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
    * Creates {@link ESLResizeObserverTarget} for the {@link ESLResizeTarget}.
    * Note the {@link ESLResizeObserverTarget} instances are singletons relatively to the {@link ESLResizeTarget}
    */
-  protected constructor(
-    /** Observed {@link ESLResizeTarget} of the {@link ESLResizeObserverTarget} instance */
-    target: ESLResizeTarget
-  ) {
-    target = ESLResizeObserverTarget.getActualTarget(target);
+  protected constructor(target: ESLResizeTarget) {
+    if (!(target instanceof Window || target instanceof Element)) target = target.$host;
     const instance = ESLResizeObserverTarget.mapping.get(target);
     if (instance) return instance;
     super();
@@ -56,7 +48,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     ESLResizeObserverTarget.mapping.set(this.target, this);
   }
 
-  /** Subscribes to the observed target {@link Element} changes */
+  /** Subscribes to the observed target {@link Element} or {@link Window} changes */
   public override addEventListener(callback: EventListener): void;
   public override addEventListener(event: 'resize', callback: EventListener): void;
   public override addEventListener(event: any, callback: EventListener = event): void {
@@ -67,10 +59,15 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
 
     super.addEventListener('resize', callback);
     if (this.hasEventListener('resize', 1)) return;
-    ESLResizeObserverTarget.observer$$.observe(this.target);
+
+    if (this.target instanceof Window) {
+      window.addEventListener('resize', (e: Event) => ESLResizeObserverTarget.handleChange(e));
+    } else {
+      ESLResizeObserverTarget.observer$$.observe(this.target);
+    }
   }
 
-  /** Unsubscribes from the observed target {@link Element} changes */
+  /** Unsubscribes from the observed target {@link Element} or {@link Window} changes */
   public override removeEventListener(callback: EventListener): void;
   public override removeEventListener(event: 'resize', callback: EventListener): void;
   public override removeEventListener(event: any, callback: EventListener = event): void {
@@ -78,6 +75,11 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
 
     super.removeEventListener('resize', callback);
     if (this.hasEventListener('resize')) return;
-    ESLResizeObserverTarget.observer$$.unobserve(this.target);
+
+    if (this.target instanceof Window) {
+      window.removeEventListener('resize', (e: Event) => ESLResizeObserverTarget.handleChange(e));
+    } else {
+      ESLResizeObserverTarget.observer$$.unobserve(this.target);
+    }
   }
 }
