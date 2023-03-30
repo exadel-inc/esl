@@ -97,7 +97,7 @@
     "@webcomponents/custom-elements": "1.5.1",
     "chokidar-cli": "^3.0.0",
     "clean-css-cli": "^5.6.2",
-    "concurrently": "^7.6.0",
+    "concurrently": "^8.0.1",
     "copyfiles": "^2.4.1",
     "eslint": "^8.37.0",
     "eslint-plugin-editorconfig": "^4.0.2",
