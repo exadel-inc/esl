@@ -7,7 +7,8 @@
   width: 100%;
 
   .snippets-title {
-    font-size: 18px;
+    font-size: 1.2rem;
+    font-weight: @active-font-weight;
   }
 
   .snippets {
@@ -16,10 +17,11 @@
       position: absolute;
       top: 100%;
       left: 0;
-      width: auto;
-      min-width: 250px;
-      max-width: 50%;
       z-index: 10;
+      width: auto;
+      min-width: 50%;
+      max-width: 100%;
+      font-size: 1.1rem;
 
       // in case  playground contains playground inside
       .uip-root & {
@@ -53,9 +55,7 @@
         }
 
         &:hover {
-          .snippets-dropdown-title {
-            opacity: .7;
-          }
+          opacity: .8;
         }
       }
 
@@ -76,7 +76,7 @@
     &-list {
       width: 100%;
       margin-right: 20px;
-      padding-left: 10px;
+      padding: 5px 0 10px 35px;
       list-style-type: none;
 
       &-item {
