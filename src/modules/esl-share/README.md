@@ -131,7 +131,7 @@ ESLShareList.config(() => fetch('/assets/share/config.json').then((response) => 
  - `ready` - ready state marker
 #### Public API
 
- - `config` - static method to set config by a config object or a config provider function 
+ - `config` - static method to get or update config with a promise of a new config object or using a config provider function
  - `build` - builds content of component
 
 #### Events
