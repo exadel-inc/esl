@@ -96,11 +96,6 @@ export class ESLShareList extends ESLBaseElement {
   /** @readonly Ready state marker */
   @boolAttr({readonly: true}) public ready: boolean;
 
-  /** @returns element tag name */
-  public get alias(): string {
-    return (this.constructor as typeof ESLBaseElement).is;
-  }
-
   /**
    * Gets or updates config with a promise of a new config object or using a config provider function.
    * @returns Promise of the current config
@@ -128,7 +123,7 @@ export class ESLShareList extends ESLBaseElement {
   protected init(): void {
     this.buttonsConfig.then(this.build)
       .then(() => this.$$fire(this.SHARE_READY_EVENT, {bubbles: false}))
-      .catch((e) => console.error(`[${this.alias}]: ${e}`));
+      .catch((e) => console.error(`[${this.baseTagName}]: ${e}`));
   }
 
   /** Builds content of component */
