@@ -96,6 +96,17 @@ The group may include another group. So this configuration describing nested gro
 }
 ```
 
+### Share actions available for use
+
+ESLShare provides several actions available for you to use:
+ - `copy` - action for copying to the clipboard. It can use additional params `alertText` (with message text) to show a alert to indicate a successful operation
+ - `external` - action for sharing via an external application. It is used to produce actions via external applications linked via schema in URL (for example mailto:, news: or tel: )
+ - `media` - action for sharing via a link to share on a social media
+ - `native` - action for sharing that invokes the native sharing mechanism of Web Share API
+ - `print` - action for printing a page
+
+For using actions you should import the required actions before setting up the configuration and registering ESLShare components. When an unregistered action is specified for a button, the button will not be able to perform the share action and will be marked as 'unavailable'. The same behavior occurs if the action is unavailable on the user's device, e.g. native action on the user's desktop.
+
 ### Setting the ESLShareList configuration
 
 Before registering an ESLShareList item, you must set the component configuration. To do this, use the static `ESLShareList.config()` method of the component, which either receives as an argument a config object or a provider function that returns a promise of a config object.
