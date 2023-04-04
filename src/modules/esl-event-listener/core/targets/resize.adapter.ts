@@ -1,5 +1,5 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
-import {overrideEvent} from '../../../esl-utils/dom/events/misc';
+import {ESLElementResizeEvent} from './resize.adapter.event';
 
 /** Adapter class for {@link ResizeObserver} that implements {@link EventTarget} */
 export class ESLResizeObserverTarget extends SyntheticEventTarget {
@@ -13,13 +13,11 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
   /** Internal method to handle {@link ResizeObserver} entry change */
   protected static handleChange(
     this: typeof ESLResizeObserverTarget,
-    detail: ResizeObserverEntry
+    entry: ResizeObserverEntry
   ): void {
-    const adapter = this.mapping.get(detail.target);
+    const adapter = this.mapping.get(entry.target);
     if (!adapter) return;
-    const event = new CustomEvent('resize', {detail});
-    overrideEvent(event, 'target', adapter.target);
-    adapter.dispatchEvent(event);
+    adapter.dispatchEvent(ESLElementResizeEvent.fromEntry(entry));
   }
 
   /** Creates {@link ESLResizeObserverTarget} instance for the {@link Element} */

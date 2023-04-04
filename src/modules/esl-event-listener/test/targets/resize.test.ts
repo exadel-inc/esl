@@ -109,11 +109,15 @@ describe('ESLEventUtils: ResizeObserver EventTarget adapter', () => {
       expect(cb1_1).lastCalledWith(expect.objectContaining({type: 'resize'}));
     });
 
-    test('Dispatched change passed as a detail of event', () => {
+    test.each([
+      'contentRect',
+      'borderBoxSize',
+      'contentBoxSize',
+      'devicePixelContentBoxSize'
+    ])('Dispatched change contains correct %s', (name: keyof ResizeObserverEntry) => {
       const entry: ResizeObserverEntry = fakeEntry(el1);
-
       mock.callback.call(mock, [entry]);
-      expect(cb1_1).lastCalledWith(expect.objectContaining({detail: entry}));
+      expect(cb1_1).lastCalledWith(expect.objectContaining({[name]: entry[name]}));
     });
 
     test('Dispatched change produces correct event target', () => {
