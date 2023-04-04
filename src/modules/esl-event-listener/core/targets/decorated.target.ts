@@ -51,10 +51,9 @@ export class ESLEventTargetDecorator<Args extends any[]> extends SyntheticEventT
   public override addEventListener(event: any, callback: EventListener = event): void {
     super.addEventListener(event, callback);
 
-    if (!this.hasEventListener(event, 1)) {
-      const {target} = this;
-      ESLEventListener.subscribe(this, this.createHandler(), {event, target});
-    }
+    if (this.getEventListeners(event).length > 1) return;
+    const {target} = this;
+    ESLEventListener.subscribe(this, this.createHandler(), {event, target});
   }
 
   /** Unsubscribes from the instance active rule change */

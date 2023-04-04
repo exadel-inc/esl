@@ -51,7 +51,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     }
 
     super.addEventListener('resize', callback);
-    if (this.hasEventListener('resize', 1)) return;
+    if (this.getEventListeners('resize').length > 1) return;
     ESLResizeObserverTarget.observer$$.observe(this.target);
   }
 
