@@ -12,7 +12,7 @@ The ESL Share component provides the capability of integrating into a web page a
 
 `ESLShareButton` is a custom element that is used for displaying the "Share on social media" button. It is intended to share the page using the action specified on the button.
 
-`ESLShareList` is a custom element that is used for showing the list of social media buttons. The element's content (a set of `ESLShareButtons`) is created automatically by specifying a list of networks or groups to display. Available social networks and their groups are listed in the configuration file.
+`ESLShare` is a custom element that is used for showing the list of social media buttons. The element's content (a set of `ESLShareButtons`) is created automatically by specifying a list of networks or groups to display. Available social networks and their groups are listed in the configuration file.
 
 ### Usage
 
@@ -20,16 +20,16 @@ Make sure you register the share actions that you are going to use on your pages
 
 Next, you have two options for using the share component. The first option is to use only the ESLShareButton. In this case, you simply add this element to the markup and set the required configuration with the attributes. The element needs to be registered with `ESLShareButton.register()`. And that's it.
 
-The second option to use the share component is to define the component configuration and bind it to the ESLShareList. After that, all you have to do is to add an element with names or groups of social networks to the ESLShareList markup. The item content, consisting of a set of buttons, will be generated automatically. It's the same as you would add each button to the markup and prescribe its configuration manually.
+The second option to use the share component is to define the component configuration and bind it to the ESLShare. After that, all you have to do is to add an element with names or groups of social networks to the ESLShare markup. The item content, consisting of a set of buttons, will be generated automatically. It's the same as you would add each button to the markup and prescribe its configuration manually.
 
 To use this option it is necessary to set the configuration for the list of buttons
 ```
-ESLShareList.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
+ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
 ```
 and then register the item
-`ESLShareList.register();`
+`ESLShare.register();`
 
-### ESLShareList config
+### ESLShare config
 
 Config is a javascript object that contains two properties. The first one is `buttons` describing the configuration of the buttons. The second is `groups` which configures the groups. Both properties are arrays containing objects describing buttons and groups respectively.
 
@@ -107,13 +107,13 @@ ESLShare provides several actions available for you to use:
 
 For using actions you should import the required actions before setting up the configuration and registering ESLShare components. When an unregistered action is specified for a button, the button will not be able to perform the share action and will be marked as 'unavailable'. The same behavior occurs if the action is unavailable on the user's device, e.g. native action on the user's desktop.
 
-### Setting the ESLShareList configuration
+### Setting the ESLShare configuration
 
-Before registering an ESLShareList item, you must set the component configuration. To do this, use the static `ESLShareList.config()` method of the component, which either receives as an argument a config object or a provider function that returns a promise of a config object.
+Before registering an ESLShare item, you must set the component configuration. To do this, use the static `ESLShare.config()` method of the component, which either receives as an argument a config object or a provider function that returns a promise of a config object.
 
 For example:
 ```
-ESLShareList.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
+ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
 ```
 
 ### ESLShareButton
@@ -132,7 +132,7 @@ ESLShareList.config(() => fetch('/assets/share/config.json').then((response) => 
 
  - `share` - the same as clicking the button, i.e. perform the share action
 
-### ESLShareList
+### ESLShare
 
 #### Attributes / Properties
 
@@ -147,7 +147,7 @@ ESLShareList.config(() => fetch('/assets/share/config.json').then((response) => 
 
 #### Events
 
- - `esl:share:ready` - event to dispatch on ready state of ESLShareList
+ - `esl:share:ready` - event to dispatch on ready state of ESLShare
 
 ### ESLShareAction
 

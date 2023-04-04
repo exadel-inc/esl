@@ -5,7 +5,7 @@ import {toAbsoluteUrl} from '../../esl-utils/misc/url';
 import {ESLShareActionRegistry} from './esl-share-action-registry';
 
 import type {ESLShareBaseAction} from './esl-share-action';
-import type {ESLShareList} from './esl-share-list';
+import type {ESLShare} from './esl-share';
 
 function getProp<T>(name: string, targets: Record<string, any>[], fallback: T, predicate: (val: T) => boolean): T {
   const find = targets.find((target) => predicate(target[name]));
@@ -44,9 +44,9 @@ export class ESLShareButton extends ESLBaseElement {
     return ESLShareActionRegistry.instance.get(this.action);
   }
 
-  /** @returns parent share list {@link ESLShareList} element (if exists) */
-  public get host(): ESLShareList | null {
-    return this.closest('esl-share-list');
+  /** @returns parent share list {@link ESLShare} element (if exists) */
+  public get host(): ESLShare | null {
+    return this.closest('esl-share');
   }
 
   /** @returns title to share */
