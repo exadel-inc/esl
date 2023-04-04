@@ -1,6 +1,7 @@
 import {ESLShareBaseAction} from '../core/esl-share-action';
 import {format} from '../../esl-utils/misc/format';
 
+/** Base action class for URL-based actions of share buttons {@link ESLShareButton} */
 export abstract class ESLShareUrlGenericAction extends ESLShareBaseAction {
 
   protected getFormatSource(shareData: ShareData): Record<string, string> {
@@ -14,6 +15,7 @@ export abstract class ESLShareUrlGenericAction extends ESLShareBaseAction {
     };
   }
 
+  /** Builds URL to share on a social network */
   protected buildURL(link: string, shareData: ShareData): string {
     return format(link, this.getFormatSource(shareData));
   }
