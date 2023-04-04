@@ -15,9 +15,9 @@ export interface ShareButtonConfig {
   /** Color of the icon background (the value - CSS data type represents a color) */
   iconBackground: string;
   /**
-   * URL link (with placeholders) to share. Can contain the next placeholders:
-   * - \{u\} or \{url\} - URL to share (shareUrl property on the {@link ESLShareButton} instance)
-   * - \{t\} or \{title\} - title to share (shareTitle property on the {@link ESLShareButton} instance)
+   * URL link (with placeholders) to share. Can contain the following placeholders:
+   * - `{u}` or `{url}` - URL to share (`shareUrl` property on the {@link ESLShareButton} instance)
+   * - `{t}` or `{title}` - title to share (`shareTitle` property on the {@link ESLShareButton} instance)
    */
   link: string;
   /** String identifier of the button (no spaces) */
