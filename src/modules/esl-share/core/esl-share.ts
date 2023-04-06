@@ -36,7 +36,7 @@ export interface ShareGroupConfig {
   list: string;
 }
 
-/** The definition of `ESLShareList` component configuration */
+/** The definition of `ESLShare` component configuration */
 export interface ShareConfig {
   /** List of sharing buttons configuration */
   buttons: ShareButtonConfig[];
@@ -63,22 +63,22 @@ function getButtonsList(config: ShareConfig, list: string): ShareButtonConfig[] 
 }
 
 /**
- * ESLShareList
+ * ESLShare
  * @author Dmytro Shovchko
  *
- * ESLShareList is a custom element to dynamically draw {@link ESLShareButton}s using simplified shared config
+ * ESLShare is a custom element to dynamically draw {@link ESLShareButton}s using simplified shared config
  */
-export class ESLShareList extends ESLBaseElement {
-  public static override is = 'esl-share-list';
+export class ESLShare extends ESLBaseElement {
+  public static override is = 'esl-share';
   protected static _config: Promise<ShareConfig> = Promise.reject('Configuration is not set');
 
-  /** Register {@link ESLShareList} component and dependent {@link ESLShareButton} */
+  /** Register {@link ESLShare} component and dependent {@link ESLShareButton} */
   public static override register(): void {
     ESLShareButton.register();
     super.register();
   }
 
-  /** Event to dispatch on ready state of {@link ESLShareList} */
+  /** Event to dispatch on ready state of {@link ESLShare} */
   @prop('esl:share:ready') public SHARE_READY_EVENT: string;
 
   /**
@@ -92,6 +92,8 @@ export class ESLShareList extends ESLBaseElement {
   @attr() public shareUrl: string;
   /** Title to share (current document title by default) */
   @attr() public shareTitle: string;
+  /** Rendering mode of the share buttons ('list' by default) */
+  @attr() public mode: 'list';
 
   /** @readonly Ready state marker */
   @boolAttr({readonly: true}) public ready: boolean;
@@ -101,14 +103,14 @@ export class ESLShareList extends ESLBaseElement {
    * @returns Promise of the current config
    */
   public static config(provider?: ESLShareConfigProviderType | ShareConfig): Promise<ShareConfig> {
-    if (typeof provider === 'function') ESLShareList._config = provider();
-    if (typeof provider === 'object') ESLShareList._config = Promise.resolve(provider);
-    return ESLShareList._config;
+    if (typeof provider === 'function') ESLShare._config = provider();
+    if (typeof provider === 'object') ESLShare._config = Promise.resolve(provider);
+    return ESLShare._config;
   }
 
   /** @returns config of buttons specified by the list attribute */
   public get buttonsConfig(): Promise<ShareButtonConfig[]> {
-    return (this.constructor as typeof ESLShareList).config().then((config) => {
+    return (this.constructor as typeof ESLShare).config().then((config) => {
       return (this.list !== 'all') ? getButtonsList(config, this.list) : config.buttons;
     });
   }
@@ -121,6 +123,7 @@ export class ESLShareList extends ESLBaseElement {
   }
 
   protected init(): void {
+    if (!this.mode) this.mode = 'list';
     this.buttonsConfig.then(this.build)
       .then(() => this.$$fire(this.SHARE_READY_EVENT, {bubbles: false}))
       .catch((e) => console.error(`[${this.baseTagName}]: ${e}`));
