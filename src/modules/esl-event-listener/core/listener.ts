@@ -5,6 +5,7 @@ import {isObject} from '../../esl-utils/misc/object/types';
 import {isSimilar} from '../../esl-utils/misc/object/compare';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {isPassiveByDefault} from '../../esl-utils/dom/events/misc';
+import {resolveDomTarget} from '../../esl-utils/abstract/dom-target';
 
 import type {PropertyProvider} from '../../esl-utils/misc/functions';
 import type {
@@ -64,12 +65,11 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
   /** @returns target element to listen */
   @memoize()
   public get $targets(): EventTarget[] {
-    if (!isObject(this.host)) return [];
     const target = resolveProperty(this.target, this.host);
     if (isObject(target)) return wrap(target);
-    const $host = '$host' in this.host ? this.host.$host : this.host;
-    if (typeof target === 'string') return ESLTraversingQuery.all(target, $host as any);
-    if (typeof target === 'undefined' && $host instanceof HTMLElement) return [$host];
+    const $host = resolveDomTarget(this.host);
+    if (typeof target === 'string') return ESLTraversingQuery.all(target, $host);
+    if (typeof target === 'undefined' && $host instanceof Element) return [$host];
     return [];
   }
 
@@ -113,7 +113,7 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
     const current = e.currentTarget;
     const delegate = this.delegate;
     if (typeof delegate !== 'string') return true;
-    if (!delegate || !(target instanceof HTMLElement) || !(current instanceof HTMLElement)) return false;
+    if (!delegate || !(target instanceof Element) || !(current instanceof Element)) return false;
     return current.contains(target.closest(delegate));
   }
 

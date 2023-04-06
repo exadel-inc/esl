@@ -1,3 +1,5 @@
+import {isObject} from '../misc/object/types';
+
 /** An object that relates to some DOM element e.g. controller or {@link ESLMixinElement} */
 export type ESLDomElementRelated = {
   /** Related DOM element */
@@ -7,6 +9,15 @@ export type ESLDomElementRelated = {
 /** An {@link Element} or {@link ESLDomElementRelated} */
 export type ESLDomElementTarget = Element | ESLDomElementRelated;
 
-/** Resolves eligible object for a DOM target */
-export const resolveDomTarget = (target: ESLDomElementTarget | Window): Element | Window =>
-  target instanceof Window || target instanceof Element ? target : target.$host;
+/** Unwraps {@link ESLDomElementTarget} to {@link Element} */
+export function resolveDomTarget(obj: ESLDomElementTarget): Element;
+/**
+ * Resolves unknown object to {@link Element} if it is {@link ESLDomElementTarget}-like,
+ * other-vice returns `null`
+ */
+export function resolveDomTarget(obj: unknown): Element | null;
+export function resolveDomTarget(obj: unknown): Element | null {
+  if (obj instanceof Element) return obj;
+  if (isObject(obj) && obj.$host instanceof Element) return obj.$host;
+  return null;
+}
