@@ -141,6 +141,7 @@ describe('ESLEventUtils.decorate proxy', () => {
       window.dispatchEvent(event);
       jest.advanceTimersByTime(10);
       expect(fn).lastCalledWith(event);
+      jest.advanceTimersByTime(DEFAULT_TIMEOUT + 100);
     });
 
     test('Proxy scroll happens throttled (multiple events received once in bounds of threshold)',  ()=> {

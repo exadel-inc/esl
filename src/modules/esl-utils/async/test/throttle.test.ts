@@ -17,7 +17,7 @@ describe('async/throttle', () => {
     jest.advanceTimersByTime(100);
     expect(fn).toBeCalledTimes(2);
     expect(throttled()).toBeUndefined();
-    expect(fn).toBeCalledTimes(3);
+    expect(fn).toBeCalledTimes(2);
   });
 
   test('test context', () => {
