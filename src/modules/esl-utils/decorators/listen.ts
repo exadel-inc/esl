@@ -1,7 +1,7 @@
 import {ESLEventUtils} from '../../esl-event-listener/core';
 
 import type {PropertyProvider} from '../misc/functions';
-import type {ESLListenerHandler, ESLListenerEventMap, ESLListenerDescriptorExt} from '../dom/events';
+import type {ESLListenerHandler, ESLListenerDescriptorExt} from '../dom/events';
 
 type ListenDecorator<EType extends Event> =
   (target: any, property: string, descriptor: TypedPropertyDescriptor<ESLListenerHandler<EType>>) => void;

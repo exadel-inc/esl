@@ -2,7 +2,6 @@ export * from './core/api';
 export type {
   ESLListenerHandler,
   ESLListenerCriteria,
-  ESLListenerEventMap,
   ESLListenerDescriptor,
   ESLListenerDescriptorFn,
   ESLListenerDescriptorExt,
