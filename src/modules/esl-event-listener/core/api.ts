@@ -10,7 +10,6 @@ import type {
   ESLListenerHandler,
   ESLListenerCriteria,
   ESLListenerDescriptor,
-  ESLListenerEventMap,
   ESLListenerDescriptorFn
 } from './types';
 
