@@ -2,7 +2,7 @@ import type {ESLBaseElementShape} from '../../esl-base-element/core/esl-base-ele
 import type {ESLShare} from './esl-share';
 
 /**
- * Tag declaration interface of ESL Share List element
+ * Tag declaration interface of ESL Share element
  * Used for TSX declaration
  */
 export interface ESLShareTagShape extends ESLBaseElementShape<ESLShare> {
