@@ -8,7 +8,7 @@ type ESLListenerDecorator<Args extends any[]> = (target: EventListener, ...args:
 const cache = memoizeOne((target: EventTarget) => {
   return memoizeOne(<Args extends any[]>(decorator: ESLListenerDecorator<Args>) => {
     return memoizeOne((...args: any[]) => {
-      return ESLEventTargetDecorator.create(target, decorator, ...args);
+      return ESLDecoratedEventTarget.create(target, decorator, ...args);
     }, Map);
   }, WeakMap);
 }, WeakMap);
@@ -16,12 +16,12 @@ const cache = memoizeOne((target: EventTarget) => {
 /**
  * {@link EventTarget} proxy that decorates original target listening
  */
-export class ESLEventTargetDecorator<Args extends any[]> extends SyntheticEventTarget {
-  public static cached<Args extends any[]>(
+export class ESLDecoratedEventTarget<Args extends any[]> extends SyntheticEventTarget {
+  public static for<Args extends any[]>(
     target: EventTarget,
     decorator: ESLListenerDecorator<Args>,
     ...args: Args
-  ): ESLEventTargetDecorator<Args> {
+  ): ESLDecoratedEventTarget<Args> {
     if (args.length > 1 || isObject(args[0])) {
       console.debug('[ESL]: Can\'t cache multi-argument decoration or decoration with object param');
       return this.create(target, decorator, ...args);
@@ -33,7 +33,7 @@ export class ESLEventTargetDecorator<Args extends any[]> extends SyntheticEventT
     target: EventTarget,
     decorator: ESLListenerDecorator<Args>,
     ...args: Args
-  ): ESLEventTargetDecorator<Args> {
+  ): ESLDecoratedEventTarget<Args> {
     return new this(target, decorator, args);
   }
 

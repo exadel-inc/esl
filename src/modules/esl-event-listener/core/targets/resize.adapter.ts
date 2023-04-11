@@ -1,6 +1,8 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 import {ESLElementResizeEvent} from './resize.adapter.event';
 
+export {ESLElementResizeEvent};
+
 /** Adapter class for {@link ResizeObserver} that implements {@link EventTarget} */
 export class ESLResizeObserverTarget extends SyntheticEventTarget {
   /** {@link ESLResizeObserverTarget} instances holder */
@@ -21,7 +23,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
   }
 
   /** Creates {@link ESLResizeObserverTarget} instance for the {@link Element} */
-  public static create(target: Element): ESLResizeObserverTarget {
+  public static for(target: Element): ESLResizeObserverTarget {
     return new ESLResizeObserverTarget(target);
   }
 

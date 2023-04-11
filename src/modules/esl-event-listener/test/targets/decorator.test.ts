@@ -1,53 +1,53 @@
 import {identity} from '../../../esl-utils/misc/functions';
 import {debounce} from '../../../esl-utils/async/debounce';
 import {throttle} from '../../../esl-utils/async/throttle';
-import {ESLEventUtils} from '../../core/api';
+import {ESLEventUtils, ESLDecoratedEventTarget} from '../../core';
 
-describe('ESLEventUtils.decorate proxy', () => {
+describe('ESLDecoratedEventTarget proxy', () => {
   const DEFAULT_TIMEOUT = 250;
 
-  describe('ESLEventUtils.decorate caching',  () => {
-    test('ESLEventUtils.decorate cached for target and fake fn', () => {
+  describe('ESLDecoratedEventTarget.for caching',  () => {
+    test('ESLDecoratedEventTarget.for cached for target and fake fn', () => {
       const fn = (arg: any) => arg;
-      expect(ESLEventUtils.decorate(window, fn) === ESLEventUtils.decorate(window, fn));
-      expect(ESLEventUtils.decorate(document, fn) !== ESLEventUtils.decorate(window, fn));
+      expect(ESLDecoratedEventTarget.for(window, fn) === ESLDecoratedEventTarget.for(window, fn));
+      expect(ESLDecoratedEventTarget.for(document, fn) !== ESLDecoratedEventTarget.for(window, fn));
     });
 
-    test('ESLEventUtils.decorate cached for target and debounce fn', () => {
-      expect(ESLEventUtils.decorate(window, debounce) === ESLEventUtils.decorate(window, debounce));
-      expect(ESLEventUtils.decorate(document, debounce) !== ESLEventUtils.decorate(window, debounce));
+    test('ESLDecoratedEventTarget.for cached for target and debounce fn', () => {
+      expect(ESLDecoratedEventTarget.for(window, debounce) === ESLDecoratedEventTarget.for(window, debounce));
+      expect(ESLDecoratedEventTarget.for(document, debounce) !== ESLDecoratedEventTarget.for(window, debounce));
     });
 
-    test('ESLEventUtils.decorate cached for target, fake fn and timeout', () => {
+    test('ESLDecoratedEventTarget.for cached for target, fake fn and timeout', () => {
       const fn = (arg: any, num: number) => arg;
-      expect(ESLEventUtils.decorate(window, fn, 100) === ESLEventUtils.decorate(window, fn, 100));
-      expect(ESLEventUtils.decorate(window, fn, 100) !== ESLEventUtils.decorate(window, fn, 150));
+      expect(ESLDecoratedEventTarget.for(window, fn, 100) === ESLDecoratedEventTarget.for(window, fn, 100));
+      expect(ESLDecoratedEventTarget.for(window, fn, 100) !== ESLDecoratedEventTarget.for(window, fn, 150));
     });
   });
 
-  describe('ESLEventUtils.decorate event target',  () => {
+  describe('ESLDecoratedEventTarget.for event target',  () => {
     const et = document.createElement('div');
-    const dec = ESLEventUtils.decorate(et, identity);
+    const dec = ESLDecoratedEventTarget.for(et, identity);
     const handler = jest.fn();
 
     beforeEach(() => dec.addEventListener('click', handler));
     afterEach(() => dec.removeEventListener('click', handler));
 
-    test('ESLEventUtils.decorate does not replace event.target', () => {
+    test('ESLDecoratedEventTarget.for does not replace event.target', () => {
       et.dispatchEvent(new Event('click'));
       expect(handler).lastCalledWith(expect.objectContaining({target: et}));
     });
-    test('ESLEventUtils.decorate uses ESLEventTargetDecorator instance as `event.currentTarget`', () => {
+    test('ESLDecoratedEventTarget.for uses ESLDecoratedEventTarget instance as `event.currentTarget`', () => {
       et.dispatchEvent(new Event('click'));
       expect(handler).lastCalledWith(expect.objectContaining({currentTarget: dec}));
     });
   });
 
-  describe('ESLEventUtils.decorate attribute processing', () => {
+  describe('ESLDecoratedEventTarget.for attribute processing', () => {
     const el = document.createElement('div');
     const handler = jest.fn();
     const dec = jest.fn(() => handler);
-    const decorated = ESLEventUtils.decorate(el, dec);
+    const decorated = ESLDecoratedEventTarget.for(el, dec);
 
     test('Creation does not cause execution', () => expect(dec).not.toBeCalled());
 
@@ -78,7 +78,7 @@ describe('ESLEventUtils.decorate proxy', () => {
     beforeAll(() => {
       ESLEventUtils.subscribe(host, {
         event: 'resize',
-        target: ESLEventUtils.decorate(window, debounce, DEFAULT_TIMEOUT)
+        target: ESLDecoratedEventTarget.for(window, debounce, DEFAULT_TIMEOUT)
       }, fn);
       jest.useFakeTimers();
     });
@@ -127,7 +127,7 @@ describe('ESLEventUtils.decorate proxy', () => {
     beforeAll(() => {
       ESLEventUtils.subscribe(host, {
         event: 'scroll',
-        target: ESLEventUtils.decorate(window, throttle, DEFAULT_TIMEOUT)
+        target: ESLDecoratedEventTarget.for(window, throttle, DEFAULT_TIMEOUT)
       }, fn);
       jest.useFakeTimers();
     });
