@@ -1,3 +1,34 @@
+# [4.4.0](https://github.com/exadel-inc/esl/compare/v4.3.1...v4.4.0) (2023-04-12)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** fix `ESLEventTargetDecorator` dispatched event `target` ([8252988](https://github.com/exadel-inc/esl/commit/82529888e18e857a0fe86ff4fdd4faf4c746f26b))
+* **esl-event-listener:** fix target delegation checking ([b307ce6](https://github.com/exadel-inc/esl/commit/b307ce647c9efd3d7e639dcf873f7a428ecb1d85))
+* **esl-event-listener:** fix typechecking for TS5 ([d434275](https://github.com/exadel-inc/esl/commit/d434275d7db041c77329f01885dcadf3e53fdb3f))
+* **esl-media:** fix `iv_load_policy` param and small test regexp optimization in YouTube provider ([2deb64b](https://github.com/exadel-inc/esl/commit/2deb64b8ff2e6c564eba5f5b95746c2c285d9394))
+* **esl-utils:** `SynteticEventTarget` no longer mutate `event.target` without need; `event.currentTarget` fix to current instance ([d5e2c78](https://github.com/exadel-inc/esl/commit/d5e2c78a3c41341dffe46c7419aedff0f38ae1d1)), closes [#1534](https://github.com/exadel-inc/esl/issues/1534)
+
+
+### Code Refactoring
+
+* **esl-event-listener:** change API of extended EventTargets ([39b01cc](https://github.com/exadel-inc/esl/commit/39b01cc210672a6cd832b56a4bf5dfd0b9fb1b09))
+
+
+### Features
+
+* **esl-base-element:** `ESLBaseElement.prototype.baseTagName` shortcut ([c10fc6d](https://github.com/exadel-inc/esl/commit/c10fc6da0547658220693979c32d566ccea1637b))
+* **esl-core:** make `this.constructor` strictly typed for `ESLBaseElement` and `ESLMixinElement` ([824ca1c](https://github.com/exadel-inc/esl/commit/824ca1c86e8394ce99fe5f3d1aa5964490e01223))
+* **esl-event-listener:** improved `ESLResizeObserverTarget` API with a standardized `ESLElementResizeEvent` ([8e1d72e](https://github.com/exadel-inc/esl/commit/8e1d72e7f28ad6a1865ed092cbc0253709e5b9dd))
+* **esl-event-listener:** support for `ESLDomElementTarget` in `ESLResizeObserverTarget` ([#1573](https://github.com/exadel-inc/esl/issues/1573)) ([f177381](https://github.com/exadel-inc/esl/commit/f177381066024f5fc74704f86a16682f6b2346f8))
+* **esl-utils:** `getEventListeners()` method introduced for `SynteticEventTarget` ([#1548](https://github.com/exadel-inc/esl/issues/1548)) ([c293b61](https://github.com/exadel-inc/esl/commit/c293b61e61e913a7e299e76a2aad88c90bbc9a12))
+
+
+### BREAKING CHANGES
+
+* **esl-event-listener:** beta `ESLEventUtils.resize` replaced with `ESLResizeObserverTarget.for`
+* **esl-event-listener:** beta `ESLEventUtils.decorate` replaced with `ESLDecoratedEventTarget.for`
+
 ## [4.3.1](https://github.com/exadel-inc/esl/compare/v4.3.0...v4.3.1) (2023-03-09)
 
 
