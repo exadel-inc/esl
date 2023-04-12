@@ -18,13 +18,12 @@
 ### Features
 
 * **esl-base-element:** `ESLBaseElement.prototype.baseTagName` shortcut ([c10fc6d](https://github.com/exadel-inc/esl/commit/c10fc6da0547658220693979c32d566ccea1637b))
-* **esl-core:** make `this.constructor` strictly typed for `ESLBaseElement` and `ESLMixinElement` ([824ca1c](https://github.com/exadel-inc/esl/commit/824ca1c86e8394ce99fe5f3d1aa5964490e01223))
 * **esl-event-listener:** improved `ESLResizeObserverTarget` API with a standardized `ESLElementResizeEvent` ([8e1d72e](https://github.com/exadel-inc/esl/commit/8e1d72e7f28ad6a1865ed092cbc0253709e5b9dd))
 * **esl-event-listener:** support for `ESLDomElementTarget` in `ESLResizeObserverTarget` ([#1573](https://github.com/exadel-inc/esl/issues/1573)) ([f177381](https://github.com/exadel-inc/esl/commit/f177381066024f5fc74704f86a16682f6b2346f8))
 * **esl-utils:** `getEventListeners()` method introduced for `SynteticEventTarget` ([#1548](https://github.com/exadel-inc/esl/issues/1548)) ([c293b61](https://github.com/exadel-inc/esl/commit/c293b61e61e913a7e299e76a2aad88c90bbc9a12))
 
 
-### BREAKING CHANGES
+### BREAKING CHANGES (Beta)
 
 * **esl-event-listener:** beta `ESLEventUtils.resize` replaced with `ESLResizeObserverTarget.for`
 * **esl-event-listener:** beta `ESLEventUtils.decorate` replaced with `ESLDecoratedEventTarget.for`
