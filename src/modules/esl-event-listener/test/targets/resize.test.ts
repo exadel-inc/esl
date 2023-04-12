@@ -1,4 +1,4 @@
-import {ESLEventUtils} from '../../core/api';
+import {ESLResizeObserverTarget} from '../../core';
 import {getLastResizeObserverMock} from '../../../esl-utils/test/resizeObserver.mock';
 
 describe('ESLEventUtils: ResizeObserver EventTarget adapter', () => {
@@ -8,11 +8,11 @@ describe('ESLEventUtils: ResizeObserver EventTarget adapter', () => {
 
     test(
       'The same element produces the same event target',
-      () => expect(ESLEventUtils.resize(el1) === ESLEventUtils.resize(el1)).toBe(true)
+      () => expect(ESLResizeObserverTarget.for(el1) === ESLResizeObserverTarget.for(el1)).toBe(true)
     );
     test(
       'Different elements produces different event targets',
-      () => expect(ESLEventUtils.resize(el1) === ESLEventUtils.resize(el2)).toBe(false)
+      () => expect(ESLResizeObserverTarget.for(el1) === ESLResizeObserverTarget.for(el2)).toBe(false)
     );
   });
 
@@ -20,7 +20,7 @@ describe('ESLEventUtils: ResizeObserver EventTarget adapter', () => {
     describe('Element as a taget', () => {
       const mock = getLastResizeObserverMock();
       const el = document.createElement('div');
-      const target = ESLEventUtils.resize(el);
+      const target = ESLResizeObserverTarget.for(el);
 
       const cb1 = jest.fn();
       const cb2 = jest.fn();
@@ -56,8 +56,8 @@ describe('ESLEventUtils: ResizeObserver EventTarget adapter', () => {
       const mock = getLastResizeObserverMock();
       const el = document.createElement('div');
       const mixin = {$host: el};
-      const target = ESLEventUtils.resize(el);
-      const targetMixin = ESLEventUtils.resize(mixin);
+      const target = ESLResizeObserverTarget.for(el);
+      const targetMixin = ESLResizeObserverTarget.for(mixin);
 
       const cb1 = jest.fn();
       const cb2 = jest.fn();
@@ -104,19 +104,19 @@ describe('ESLEventUtils: ResizeObserver EventTarget adapter', () => {
     };
 
     const cb1_1 = jest.fn();
-    ESLEventUtils.resize(el1).addEventListener(cb1_1);
+    ESLResizeObserverTarget.for(el1).addEventListener(cb1_1);
     expect(cb1_1).not.toBeCalled();
 
     const cb1_2 = jest.fn();
-    ESLEventUtils.resize(el1).addEventListener(cb1_2);
+    ESLResizeObserverTarget.for(el1).addEventListener(cb1_2);
     expect(cb1_2).not.toBeCalled();
 
     const cb2_1 = jest.fn();
-    ESLEventUtils.resize(el2).addEventListener(cb2_1);
+    ESLResizeObserverTarget.for(el2).addEventListener(cb2_1);
     expect(cb2_1).not.toBeCalled();
 
     const cb3_1 = jest.fn();
-    ESLEventUtils.resize(mixin).addEventListener(cb3_1);
+    ESLResizeObserverTarget.for(mixin).addEventListener(cb3_1);
 
     const fakeEntry = (el: Element) => ({
       target: el,

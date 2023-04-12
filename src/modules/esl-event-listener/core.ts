@@ -1,4 +1,6 @@
 export * from './core/api';
+export * from './core/targets/resize.adapter';
+export * from './core/targets/decorated.target';
 export type {
   ESLListenerHandler,
   ESLListenerCriteria,

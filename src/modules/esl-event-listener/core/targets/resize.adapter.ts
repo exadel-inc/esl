@@ -1,8 +1,10 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
+import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
 import {ESLElementResizeEvent} from './resize.adapter.event';
 
-import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
+
+export {ESLElementResizeEvent};
 
 /** Adapter class for {@link ResizeObserver} that implements {@link EventTarget} */
 export class ESLResizeObserverTarget extends SyntheticEventTarget {
@@ -27,7 +29,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
   }
 
   /** Creates {@link ESLResizeObserverTarget} instance for the {@link ESLDomElementTarget} */
-  public static create(target: ESLDomElementTarget): ESLResizeObserverTarget {
+  public static for(target: ESLDomElementTarget): ESLResizeObserverTarget {
     return new ESLResizeObserverTarget(target);
   }
 
@@ -39,6 +41,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     target = resolveDomTarget(target);
     const instance = ESLResizeObserverTarget.mapping.get(target);
     if (instance) return instance;
+
     super();
     this.target = target;
     ESLResizeObserverTarget.mapping.set(this.target, this);
