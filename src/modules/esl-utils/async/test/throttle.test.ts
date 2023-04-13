@@ -10,6 +10,7 @@ describe('async/throttle', () => {
     const throttled = throttle(fn, 100);
 
     expect(throttled()).toBeUndefined();
+    jest.advanceTimersByTime(1);
     expect(fn).toBeCalledTimes(1);
     jest.advanceTimersByTime(50);
     expect(throttled()).toBeUndefined();
@@ -48,6 +49,7 @@ describe('async/throttle', () => {
 
     expect(throttled.promise).toBeInstanceOf(Promise);
     expect(throttled(1)).toBeUndefined();
+    jest.advanceTimersByTime(1);
     expect(throttled(2)).toBeUndefined();
     expect(throttled.promise).toBeInstanceOf(Promise);
     expect(throttled(4)).toBeUndefined();

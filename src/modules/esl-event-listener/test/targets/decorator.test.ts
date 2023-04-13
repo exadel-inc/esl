@@ -124,29 +124,31 @@ describe('ESLEventUtils.decorate proxy', () => {
     const host = {};
     const fn = jest.fn();
 
-    beforeAll(() => {
+    beforeEach(() => {
       ESLEventUtils.subscribe(host, {
         event: 'scroll',
         target: ESLEventUtils.decorate(window, throttle, DEFAULT_TIMEOUT)
       }, fn);
       jest.useFakeTimers();
+      fn.mockReset();
     });
-    afterAll(() => ESLEventUtils.unsubscribe(host));
 
-    beforeEach(() => fn.mockReset());
-    afterEach(() => jest.runAllTimers());
+    afterEach(() => {
+      jest.runAllTimers();
+      ESLEventUtils.unsubscribe(host);
+    });
 
     test('Proxy scroll receives the scroll event',  ()=> {
       const event = new Event('scroll');
       window.dispatchEvent(event);
       jest.advanceTimersByTime(10);
       expect(fn).lastCalledWith(event);
-      jest.advanceTimersByTime(DEFAULT_TIMEOUT + 100);
     });
 
     test('Proxy scroll happens throttled (multiple events received once in bounds of threshold)',  ()=> {
       expect(fn).toBeCalledTimes(0);
       window.dispatchEvent(new Event('scroll'));
+      jest.advanceTimersByTime(1);
       window.dispatchEvent(new Event('scroll'));
       window.dispatchEvent(new Event('scroll'));
       expect(fn).toBeCalledTimes(1);
