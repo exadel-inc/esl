@@ -1,4 +1,3 @@
-
 import {overrideEvent} from '../../../esl-utils/dom/events/misc';
 import {getWindowRect} from '../../../esl-utils/dom/window';
 
