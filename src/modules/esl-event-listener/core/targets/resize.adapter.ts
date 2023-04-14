@@ -77,7 +77,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     if (this.hasEventListener('resize')) return;
 
     if (this.target instanceof Window) {
-      ESLEventUtils.unsubscribe(this);
+      ESLEventUtils.unsubscribe(this, 'resize');
     } else {
       ESLResizeObserverTarget.observer$$.unobserve(this.target);
     }
