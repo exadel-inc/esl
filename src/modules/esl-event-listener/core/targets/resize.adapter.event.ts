@@ -1,4 +1,6 @@
+
 import {overrideEvent} from '../../../esl-utils/dom/events/misc';
+import {getWindowRect} from '../../../esl-utils/dom/window';
 
 import type {ESLResizeObserverTarget} from './resize.adapter';
 
@@ -33,7 +35,7 @@ export class ESLElementResizeEvent extends UIEvent implements ResizeObserverEntr
    */
   public readonly devicePixelContentBoxSize: readonly ResizeObserverSize[];
 
-  protected constructor(target: Element) {
+  protected constructor(target: EventTarget) {
     super('resize', {bubbles: false, cancelable: false});
     overrideEvent(this, 'target', target);
   }
@@ -52,10 +54,33 @@ export class ESLElementResizeEvent extends UIEvent implements ResizeObserverEntr
     return event;
   }
 
-  // /** Creates {@link ESLElementResizeEvent} from resize {@link Event} */
-  // public static fromEvent(event: UIEvent): ESLElementResizeEvent {
-  //   // TODO: converter
-  // }
+  /** Creates {@link ESLElementResizeEvent} from resize {@link Event} */
+  public static fromEvent(e: UIEvent): ESLElementResizeEvent | never {
+    const {target} = e;
+    if (!target) throw new Error('Event must be at object with a `target` property');
+    let borderBoxSize: ResizeObserverSize[];
+    let contentBoxSize: ResizeObserverSize[];
+
+    if (target instanceof Element) {
+      const rect = target.getBoundingClientRect();
+      contentBoxSize = [{inlineSize: target.clientWidth, blockSize: target.clientHeight}];
+      borderBoxSize = [{inlineSize: rect.width, blockSize: rect.height}];
+    } else if (target instanceof Window) {
+      const wndRect = getWindowRect();
+      contentBoxSize = [{inlineSize: wndRect.width, blockSize: wndRect.height}];
+      borderBoxSize = contentBoxSize;
+    } else throw new Error('Event target must be an element or window object');
+
+    const contentRect = new DOMRectReadOnly(0, 0, contentBoxSize[0].inlineSize, contentBoxSize[0].blockSize);
+    const devicePixelContentBoxSize = [{
+      inlineSize: contentBoxSize[0].inlineSize * window.devicePixelRatio,
+      blockSize: contentBoxSize[0].blockSize * window.devicePixelRatio
+    }];
+
+    const event = new ESLElementResizeEvent(target);
+    Object.assign(event, {contentRect, borderBoxSize, contentBoxSize, devicePixelContentBoxSize});
+    return event;
+  }
 }
 
 declare global {
