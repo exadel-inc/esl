@@ -3,6 +3,7 @@ import {prop} from '../../esl-utils/decorators';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMixinRegistry} from './esl-mixin-registry';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 
 import type {
   ESLEventListener,
@@ -17,6 +18,7 @@ import type {ESLDomElementRelated} from '../../esl-utils/abstract/dom-target';
  * Mixin elements attaches to the DOM element via attribute.
  * Allows multiple mixin elements per one DOM element
  */
+@ExportNs('Mixin')
 export class ESLMixinElement implements ESLDomElementRelated {
   /** Root attribute to identify mixin targets. Should contain dash in the name. */
   static is: string;
@@ -122,8 +124,11 @@ export class ESLMixinElement implements ESLDomElementRelated {
   }
 
   /** Returns mixin instance by element */
-  public static get<T extends typeof ESLMixinElement>(this: T, $el: HTMLElement): InstanceType<T> | null {
-    return ESLMixinRegistry.get($el, this.is) as InstanceType<T>;
+  public static get<T extends typeof ESLMixinElement>(this: T, $el: HTMLElement): InstanceType<T> | null;
+  /** Returns mixin instance by element and mixin name */
+  public static get($el: HTMLElement, name: string): ESLMixinElement | null;
+  public static get($el: HTMLElement, name = this.is): ESLMixinElement | null {
+    return ESLMixinRegistry.get($el, name);
   }
   /** Register current mixin definition */
   public static register(): void {
