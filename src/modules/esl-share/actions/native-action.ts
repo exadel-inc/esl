@@ -2,14 +2,17 @@ import {ESLShareBaseAction} from '../core/esl-share-action';
 
 import type {ESLShareButton} from '../core/esl-share-button';
 
+/** Native action class for share buttons {@link ESLShareButton} that invokes the native sharing mechanism of Web Share API */
 @ESLShareBaseAction.register
 export class ESLShareNativeAction extends ESLShareBaseAction {
   public static override readonly is: string = 'native';
 
+  /** Checks if this action is available on the user's device */
   public override get isAvailable(): boolean {
     return navigator.share !== undefined;
   }
 
+  /** Does an action to share */
   public share($button: ESLShareButton): void {
     if (!this.isAvailable) return;
 
