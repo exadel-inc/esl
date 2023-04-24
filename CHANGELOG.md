@@ -1,3 +1,25 @@
+# [4.5.0-beta.1](https://github.com/exadel-inc/esl/compare/v4.4.0...v4.5.0-beta.1) (2023-04-24)
+
+
+### Bug Fixes
+
+* **esl-utils:** incorrect throttle behaviour ([918944d](https://github.com/exadel-inc/esl/commit/918944d0255961651eb3df8f060a9b65fc1ca228))
+* **gh-pages:** add new favicon icons according to the favicons guide ([83d0ca4](https://github.com/exadel-inc/esl/commit/83d0ca44ac2640fed04023878c696399562b5bac))
+* **gh-pages:** add `esl-share` component to site nav ([69726e4](https://github.com/exadel-inc/esl/commit/69726e467b5ee19918ea51c93f3c6f9d925bf0dc))
+
+
+### Features
+
+* **esl-utils:** added URL utility with toAbsoluteUrl method ([ac5f7ed](https://github.com/exadel-inc/esl/commit/ac5f7ed181f75fa496e7e4521a779d25b2d4d8a4))
+
+### Components
+
+* **esl-share** (beta) ([2c67313](https://github.com/exadel-inc/esl/commit/2c67313c8d1d5bdb7ac179fcd7071d2b32e78f42))  
+  Beta version of `esl-share` component available  
+  Story: https://github.com/exadel-inc/esl/issues/1327  
+  Milestone: https://github.com/exadel-inc/esl/milestone/26  
+
+
 # [4.4.0](https://github.com/exadel-inc/esl/compare/v4.3.1...v4.4.0) (2023-04-12)
 
 
