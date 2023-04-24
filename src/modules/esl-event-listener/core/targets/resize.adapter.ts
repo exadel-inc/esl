@@ -1,6 +1,6 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
 import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
-import {ESLEventUtils} from '../api';
+import {ESLEventListener} from '../listener';
 import {ESLElementResizeEvent} from './resize.adapter.event';
 
 import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
@@ -22,11 +22,12 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
   /** Internal method to handle {@link ResizeObserver} entry change */
   protected static handleChange(
     this: typeof ESLResizeObserverTarget,
-    entry: ResizeObserverEntry | UIEvent
+    entry: ResizeObserverEntry | Event
   ): void {
-    const adapter = ESLResizeObserverTarget.mapping.get(entry.target as (Element | Window));
+    const adapter = (this instanceof ESLResizeObserverTarget ? (this.constructor as typeof ESLResizeObserverTarget) : this)
+      .mapping.get(entry.target as (Element | Window));
     if (!adapter) return;
-    adapter.dispatchEvent(entry instanceof UIEvent ? ESLElementResizeEvent.fromEvent(entry)! : ESLElementResizeEvent.fromEntry(entry));
+    adapter.dispatchEvent(entry instanceof Event ? ESLElementResizeEvent.fromEvent(entry)! : ESLElementResizeEvent.fromEntry(entry));
   }
 
   /** Creates {@link ESLResizeObserverTarget} instance for the {@link ESLDomElementTarget} */
@@ -61,7 +62,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     if (this.getEventListeners('resize').length > 1) return;
 
     if (this.target instanceof Window) {
-      ESLEventUtils.subscribe(this, {event: 'resize', target: window}, ESLResizeObserverTarget.handleChange);
+      ESLEventListener.subscribe(this, ESLResizeObserverTarget.handleChange, {event: 'resize', target: window});
     } else {
       ESLResizeObserverTarget.observer$$.observe(this.target);
     }
@@ -77,7 +78,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     if (this.hasEventListener('resize')) return;
 
     if (this.target instanceof Window) {
-      ESLEventUtils.unsubscribe(this, 'resize');
+      ESLEventListener.get(this, ESLResizeObserverTarget.handleChange, {event: 'resize', target: window}).forEach((listener) => listener.unsubscribe());
     } else {
       ESLResizeObserverTarget.observer$$.unobserve(this.target);
     }
