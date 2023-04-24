@@ -1,3 +1,39 @@
+# [4.5.0-beta.1](https://github.com/exadel-inc/esl/compare/v4.4.0...v4.5.0-beta.1) (2023-04-24)
+
+
+### Bug Fixes
+
+* **esl-share:** fix window.open features ([10698fd](https://github.com/exadel-inc/esl/commit/10698fd4d2b40121ffd1fa70752cf4d4b7a9c2d0))
+* **esl-utils:** incorrect throttle behaviour ([918944d](https://github.com/exadel-inc/esl/commit/918944d0255961651eb3df8f060a9b65fc1ca228))
+* **gh-pages:** add new favicon icons ([b2846be](https://github.com/exadel-inc/esl/commit/b2846bea077fe19a8c321349b795837a43cb78e6))
+* **gh-pages:** add new favicon icons according to the favicons guide ([83d0ca4](https://github.com/exadel-inc/esl/commit/83d0ca44ac2640fed04023878c696399562b5bac))
+
+
+### Features
+
+* **easl-share:** added additional param into config to pass extra data into actions ([9c8f763](https://github.com/exadel-inc/esl/commit/9c8f763d41c18521da39cb26cb7a8e933f1a0967))
+* **esl-share:** add action for native share mechanism on devices ([2830c46](https://github.com/exadel-inc/esl/commit/2830c46dbc43a0b86af407b15f9ad75fca14947b))
+* **esl-share:** add feature to mark button as unavailable depending on share actions availability ([477b71a](https://github.com/exadel-inc/esl/commit/477b71ae7dce192b0e92680e596ebc5140974dc7))
+* **esl-share:** add static register() method to register the action ([f38d402](https://github.com/exadel-inc/esl/commit/f38d40218263955aac68b6439cda1120b76a5e1b))
+* **esl-share:** add TSX shapes for `ESLShare` ([614c37c](https://github.com/exadel-inc/esl/commit/614c37c01c737889362a63aeda9511e623ec8e93))
+* **esl-share:** create abstract base action class ([8411343](https://github.com/exadel-inc/esl/commit/84113439a25d87b54f14f2a6d1bde87f8f47c17c))
+* **esl-share:** create abstract base config provider ([79c6ea2](https://github.com/exadel-inc/esl/commit/79c6ea236db5d41127aa87be4b1b59710b3c3bf4))
+* **esl-share:** create copy action ([40637cf](https://github.com/exadel-inc/esl/commit/40637cfd4fafa611cca7eb13339deac8b8ed9597))
+* **esl-share:** create esl-share component ([3e0a2b0](https://github.com/exadel-inc/esl/commit/3e0a2b0993ac634a015fba6ac3a3b77f6c7017e1))
+* **esl-share:** create esl-share-button initial implementation ([1e851d0](https://github.com/exadel-inc/esl/commit/1e851d00458242645bceef076e131f00c198669f))
+* **esl-share:** create esl-share-config ([258b1d3](https://github.com/exadel-inc/esl/commit/258b1d3b9d46981118a62cf5d6f6cb84884ed597))
+* **esl-share:** create esl-share-icon component ([6213f36](https://github.com/exadel-inc/esl/commit/6213f369f903b72932aa49850d1f3aa45977de7c))
+* **esl-share:** create esl-share-list ([6d3cbd2](https://github.com/exadel-inc/esl/commit/6d3cbd202a9b0268a76324dab5f458eb90ac62a6))
+* **esl-share:** create esl-share-trigger component ([9e0fb79](https://github.com/exadel-inc/esl/commit/9e0fb79415ea936dcd7e5221dfe58b8e261301ef))
+* **esl-share:** create fetch config provider ([aebc38a](https://github.com/exadel-inc/esl/commit/aebc38a1e02b4bc3351cecf4dd9e83c6dce443a8))
+* **esl-share:** create mail action ([c84855a](https://github.com/exadel-inc/esl/commit/c84855a142b983bb69328ef6fe7c4b72e28c8987))
+* **esl-share:** create media action ([11ee61a](https://github.com/exadel-inc/esl/commit/11ee61a5a0c8ba8306b6a55cdb9e00743c267f65))
+* **esl-share:** create print action ([9ed21fc](https://github.com/exadel-inc/esl/commit/9ed21fcf946c4cb3cdaa7594f690ee47e3ae897b))
+* **esl-share:** create share actions registry ([df36651](https://github.com/exadel-inc/esl/commit/df36651ccf2b0533f89b9f61841f39755ed19715))
+* **esl-share:** create URL generic action ([dbffaf3](https://github.com/exadel-inc/esl/commit/dbffaf3fba9ab080f94971b23d2e0b4b3ac966be))
+* **esl-share:** update all.ts and all.less files ([0ff835a](https://github.com/exadel-inc/esl/commit/0ff835a80fe6ead84855409405bfe2a4e8b55801))
+* **esl-utils:** added URL utility with toAbsoluteUrl method ([ac5f7ed](https://github.com/exadel-inc/esl/commit/ac5f7ed181f75fa496e7e4521a779d25b2d4d8a4))
+
 # [4.4.0](https://github.com/exadel-inc/esl/compare/v4.3.1...v4.4.0) (2023-04-12)
 
 
