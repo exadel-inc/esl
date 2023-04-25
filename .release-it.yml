@@ -1,0 +1,34 @@
+git:
+  tagName: "v${version}"
+  commitMessage: "chore(release): v${version} \n\n${changelog}"
+  requireCleanWorkingDir: false
+
+hooks:
+  "before:init":
+    - echo Release Process started
+    - npm run build
+    - npm run test
+    - echo Pre-release check passed
+  "before:github:release":
+    - mkdir -p target
+    - npm pack --pack-destination="./target"
+  "after:release":
+    - echo Successfully released ${name} v${version} to ${repo.repository}.
+
+plugins:
+  "@release-it/conventional-changelog":
+    infile: CHANGELOG.md
+    strictSemVer: true
+    preset: angular
+
+# Out
+github:
+  release: true
+  comments: true
+  assets:
+    - target/*.tgz
+    - CHANGELOG.md
+# TODO: Automate github issue labels
+
+npm:
+  publish: true
