@@ -51,7 +51,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: npx release-it --dry-run --ci
+        run: npx release-it --dry-run --changelog
 
       - name: Run Release
         if: ${{ inputs.type == 'release' }}
