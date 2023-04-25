@@ -25,6 +25,10 @@
     "type": "git",
     "url": "git+https://github.com/exadel-inc/esl.git"
   },
+  "publishConfig": {
+    "access": "public",
+    "scope": "@exadel"
+  },
   "files": [
     "modules/**/*",
     "polyfills/**/*",
