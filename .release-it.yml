@@ -10,8 +10,7 @@ hooks:
     - npm run test
     - echo "Pre-release check passed"
   "before:github:release":
-    - mkdir -p target
-    - npm pack --pack-destination="./target"
+    - npm pack
   "after:version":
     - echo "Changelog ready for v${version}"
   "after:release":
@@ -28,7 +27,7 @@ github:
   release: true
   comments: true
   assets:
-    - target/*.tgz
+    - ./*.tgz
     - CHANGELOG.md
 # TODO: Automate github issue labels
 

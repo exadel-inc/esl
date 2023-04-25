@@ -75,9 +75,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: npx release-it --preRelease=next --ci -V
 
-      - name: Run Release Fix
+      - name: Run Test Release
         if: ${{ inputs.type == 'release-fix' }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: npx release-it --no-npm --ci -V
+        run: npx release-it --ci -V

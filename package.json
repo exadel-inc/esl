@@ -1,6 +1,6 @@
 {
   "name": "@exadel/esl",
-  "version": "4.4.0",
+  "version": "4.4.1",
   "private": false,
   "description": "Exadel Smart Library (ESL) is the lightweight custom elements library that provide a set of super-flexible components",
   "license": "MIT",
@@ -76,6 +76,7 @@
     "lint:css": "stylelint \"src/**/*.less\" \"pages/src/**/*.less\"",
     "prepare": "husky install && npm run build",
     "preversion": "npm test",
+    "releaseit": "release-it",
     "releaseit:dry-run": "release-it --dry-run"
   },
   "dependencies": {
