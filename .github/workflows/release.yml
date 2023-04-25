@@ -3,10 +3,16 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      dryRun:
-        type: boolean
-        required: false
-        description: 'Run in dry-run mode (no actual release)'
+      type:
+        description: 'Release Type'
+        required: true
+        default: 'dry-run'
+        type: choice
+        options:
+          - dry-run
+          - release
+          - release-beta
+          - release-next
 
 env:
   node-version: 18.x
@@ -31,15 +37,29 @@ jobs:
         run: npm ci
 
       - name: Run Semantic Release in Dry Run mode
-        if: ${{ inputs.dryRun }}
+        if: ${{ inputs.type == 'dry-run' }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: npx semantic-release --dry-run
+        run: npx release-it --dry-run
 
       - name: Run Semantic Release
-        if: ${{ !inputs.dryRun }}
+        if: ${{ inputs.type == 'release' }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: npx semantic-release
+        run: npx release-it
+
+      - name: Run Semantic Release
+        if: ${{ inputs.type == 'release-beta' }}
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: npx release-it --preRelease=beta
+
+      - name: Run Semantic Release
+        if: ${{ inputs.type == 'release-next' }}
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: npx release-it --preRelease=next

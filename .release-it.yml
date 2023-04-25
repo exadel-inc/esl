@@ -20,7 +20,7 @@ plugins:
 
 # Out
 github:
-  release: false
+  release: true
   comments: true
   assets:
     - target/*.tgz
@@ -28,4 +28,4 @@ github:
 # TODO: Automate github issue labels
 
 npm:
-  publish: false
+  publish: true
