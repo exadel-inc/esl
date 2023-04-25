@@ -72,7 +72,6 @@
     "lint:css": "stylelint \"src/**/*.less\" \"pages/src/**/*.less\"",
     "prepare": "husky install && npm run build",
     "preversion": "npm test",
-    "releaseit": "release-it",
     "releaseit:dry-run": "release-it --dry-run"
   },
   "dependencies": {
