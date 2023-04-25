@@ -36,6 +36,16 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
 
+      - name: Git User Config
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+
+      - name: Provide NPM Token
+        run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Run Release in Dry Run mode
         if: ${{ inputs.type == 'dry-run' }}
         env:
