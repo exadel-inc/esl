@@ -5,15 +5,17 @@ git:
 
 hooks:
   "before:init":
-    - echo Release Process started
+    - echo "Release Process started"
     - npm run build
     - npm run test
-    - echo Pre-release check passed
+    - echo "Pre-release check passed"
   "before:github:release":
     - mkdir -p target
     - npm pack --pack-destination="./target"
+  "after:version":
+    - echo "Changelog ready for v${version}"
   "after:release":
-    - echo Successfully released ${name} v${version} to ${repo.repository}.
+    - echo "Successfully released ${name} v${version} to ${repo.repository}."
 
 plugins:
   "@release-it/conventional-changelog":
