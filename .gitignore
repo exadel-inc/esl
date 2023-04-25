@@ -16,6 +16,9 @@ pages/dist
 /modules
 /polyfills
 
+# NPM
+.npmrc
+
 # Logs & Tmp
 npm-debug.log
 .gitconfig
