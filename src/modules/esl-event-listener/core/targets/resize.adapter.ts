@@ -24,10 +24,9 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     this: typeof ESLResizeObserverTarget,
     entry: ResizeObserverEntry | Event
   ): void {
-    const adapter = (this instanceof ESLResizeObserverTarget ? (this.constructor as typeof ESLResizeObserverTarget) : this)
-      .mapping.get(entry.target as (Element | Window));
+    const adapter = this.mapping.get(entry.target as Element | Window);
     if (!adapter) return;
-    adapter.dispatchEvent(entry instanceof Event ? ESLElementResizeEvent.fromEvent(entry)! : ESLElementResizeEvent.fromEntry(entry));
+    adapter.dispatchEvent(entry instanceof Event ? ESLElementResizeEvent.fromEvent(entry) : ESLElementResizeEvent.fromEntry(entry));
   }
 
   /** Creates {@link ESLResizeObserverTarget} instance for the {@link ESLDomElementTarget} */
@@ -62,7 +61,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     if (this.getEventListeners('resize').length > 1) return;
 
     if (this.target instanceof Window) {
-      ESLEventListener.subscribe(this, ESLResizeObserverTarget.handleChange, {event: 'resize', target: window});
+      ESLEventListener.subscribe(this, (e: Event) => (this.constructor as typeof ESLResizeObserverTarget).handleChange(e), {event: 'resize', target: window});
     } else {
       ESLResizeObserverTarget.observer$$.observe(this.target);
     }
@@ -78,7 +77,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     if (this.hasEventListener('resize')) return;
 
     if (this.target instanceof Window) {
-      ESLEventListener.get(this, ESLResizeObserverTarget.handleChange, {event: 'resize', target: window}).forEach((listener) => listener.unsubscribe());
+      ESLEventListener.get(this, 'resize').forEach((listener) => listener.unsubscribe());
     } else {
       ESLResizeObserverTarget.observer$$.unobserve(this.target);
     }

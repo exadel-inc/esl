@@ -34,7 +34,7 @@ export class ESLElementResizeEvent extends UIEvent implements ResizeObserverEntr
    */
   public readonly devicePixelContentBoxSize: readonly ResizeObserverSize[];
 
-  protected constructor(target: EventTarget) {
+  protected constructor(target: Element | Window) {
     super('resize', {bubbles: false, cancelable: false});
     overrideEvent(this, 'target', target);
   }
@@ -56,7 +56,7 @@ export class ESLElementResizeEvent extends UIEvent implements ResizeObserverEntr
   /** Creates {@link ESLElementResizeEvent} from resize {@link Event} */
   public static fromEvent(e: Event): ESLElementResizeEvent | never {
     const {target} = e;
-    if (!target) throw new Error('Event must be at object with a `target` property');
+    if (!target) throw new Error('[ESLElementResizeEvent]: original event should have a `target`');
     let borderBoxSize: ResizeObserverSize[];
     let contentBoxSize: ResizeObserverSize[];
 
