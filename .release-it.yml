@@ -1,7 +1,7 @@
 git:
   tagName: "v${version}"
   commitMessage: "chore(release): v${version} \n\n${changelog}"
-  requireCleanWorkingDir: false
+#  requireCleanWorkingDir: false
 
 hooks:
   "before:init":

@@ -13,7 +13,7 @@ on:
           - release
           - release-beta
           - release-next
-          - release-fix
+          - release-test
 
 env:
   node-version: 18.x
@@ -39,8 +39,8 @@ jobs:
 
       - name: Git User Config
         run: |
-          git config user.name "Release Workflow"
-          git config user.email "astsefanovich@exadel.com"
+          git config --global user.name "ala-n"
+          git config --global user.email "astsefanovich@exadel.com"
 
       - name: Provide NPM Token
         run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
@@ -50,34 +50,29 @@ jobs:
       - name: Run Release in Dry Run mode
         if: ${{ inputs.type == 'dry-run' }}
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: npx release-it --dry-run -W -V --changelog
 
       - name: Run Release
         if: ${{ inputs.type == 'release' }}
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: npx release-it --ci -V
 
       - name: Run Beta Release
         if: ${{ inputs.type == 'release-beta' }}
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: npx release-it --preRelease=beta --ci -V
 
       - name: Run Next Release
         if: ${{ inputs.type == 'release-next' }}
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: npx release-it --preRelease=next --ci -V
 
       - name: Run Test Release
-        if: ${{ inputs.type == 'release-fix' }}
+        if: ${{ inputs.type == 'release-test' }}
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: npx release-it --ci -V
+        run: npx release-it --preRelease=test --ci -V
