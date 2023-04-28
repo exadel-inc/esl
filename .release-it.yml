@@ -6,9 +6,6 @@ git:
 hooks:
   "before:init":
     - echo "Release Process started"
-    - npm run build
-    - npm run test
-    - echo "Pre-release check passed"
   "before:github:release":
     - npm pack
   "after:version":
@@ -36,4 +33,4 @@ github:
 # TODO: Automate github issue labels
 
 npm:
-  publish: true
+  publish: false

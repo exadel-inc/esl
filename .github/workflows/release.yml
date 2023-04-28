@@ -36,6 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          token: ${{secrets.PERSONAL_ACCESS_TOKEN}}
           persist-credentials: false
 
       - name: Use Node v${{ env.node-version }}
@@ -85,4 +86,4 @@ jobs:
         if: ${{ inputs.type == 'release-test' }}
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: npx release-it --preRelease=test --ci -V --no-npm
+        run: npx release-it --preRelease=test --ci -V
