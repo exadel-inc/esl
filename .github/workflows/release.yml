@@ -3,10 +3,27 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      dryRun:
-        type: boolean
-        required: false
-        description: 'Run in dry-run mode (no actual release)'
+      type:
+        description: 'Release Type'
+        required: true
+        default: 'dry-run'
+        type: choice
+        options:
+          - dry-run
+          - release
+          - release-beta
+          - release-next
+          - release-test
+    permissions:
+      teams:
+        - '@exadel-inc/esl-core-team'
+    branches:
+      - main
+      - main-beta
+      - main-next
+      - main-test
+
+permissions: write-all
 
 env:
   node-version: 18.x
@@ -30,16 +47,42 @@ jobs:
       - name: Install NPM Dependencies
         run: npm ci
 
-      - name: Run Semantic Release in Dry Run mode
-        if: ${{ inputs.dryRun }}
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: npx semantic-release --dry-run
+      - name: Git User Config
+        run: |
+          git config --global user.name "ala-n"
+          git config --global user.email "astsefanovich@exadel.com"
 
-      - name: Run Semantic Release
-        if: ${{ !inputs.dryRun }}
+      - name: Provide NPM Token
+        run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Run Release in Dry Run mode
+        if: ${{ inputs.type == 'dry-run' }}
+        env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: npx semantic-release
+        run: npx release-it --dry-run -W -V --changelog
+
+      - name: Run Release
+        if: ${{ inputs.type == 'release' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: npx release-it --ci -V
+
+      - name: Run Beta Release
+        if: ${{ inputs.type == 'release-beta' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: npx release-it --preRelease=beta --ci -V
+
+      - name: Run Next Release
+        if: ${{ inputs.type == 'release-next' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: npx release-it --preRelease=next --ci -V
+
+      - name: Run Test Release
+        if: ${{ inputs.type == 'release-test' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: npx release-it --preRelease=test --ci -V --no-npm

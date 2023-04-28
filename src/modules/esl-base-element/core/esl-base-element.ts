@@ -7,7 +7,6 @@ import type {
   ESLEventListener,
   ESLListenerHandler,
   ESLListenerCriteria,
-  ESLListenerEventMap,
   ESLListenerDescriptor
 } from '../../esl-utils/dom/events';
 

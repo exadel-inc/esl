@@ -1,5 +1,10 @@
 import {SyntheticEventTarget} from '../../../esl-utils/dom/events/target';
-import {overrideEvent} from '../../../esl-utils/dom/events/misc';
+import {resolveDomTarget} from '../../../esl-utils/abstract/dom-target';
+import {ESLElementResizeEvent} from './resize.adapter.event';
+
+import type {ESLDomElementTarget} from '../../../esl-utils/abstract/dom-target';
+
+export {ESLElementResizeEvent};
 
 /** Adapter class for {@link ResizeObserver} that implements {@link EventTarget} */
 export class ESLResizeObserverTarget extends SyntheticEventTarget {
@@ -10,35 +15,36 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     changes.forEach(this.handleChange, this)
   );
 
+  /** Observed {@link Element} of the {@link ESLResizeObserverTarget} instance */
+  public readonly target: Element;
+
   /** Internal method to handle {@link ResizeObserver} entry change */
   protected static handleChange(
     this: typeof ESLResizeObserverTarget,
-    detail: ResizeObserverEntry
+    entry: ResizeObserverEntry
   ): void {
-    const adapter = this.mapping.get(detail.target);
+    const adapter = this.mapping.get(entry.target);
     if (!adapter) return;
-    const event = new CustomEvent('resize', {detail});
-    overrideEvent(event, 'target', adapter.target);
-    adapter.dispatchEvent(event);
+    adapter.dispatchEvent(ESLElementResizeEvent.fromEntry(entry));
   }
 
-  /** Creates {@link ESLResizeObserverTarget} instance for the {@link Element} */
-  public static create(target: Element): ESLResizeObserverTarget {
+  /** Creates {@link ESLResizeObserverTarget} instance for the {@link ESLDomElementTarget} */
+  public static for(target: ESLDomElementTarget): ESLResizeObserverTarget {
     return new ESLResizeObserverTarget(target);
   }
 
   /**
-   * Creates {@link ESLResizeObserverTarget} for the {@link Element}.
+   * Creates {@link ESLResizeObserverTarget} for the {@link ESLDomElementTarget}.
    * Note the {@link ESLResizeObserverTarget} instances are singletons relatively to the {@link Element}
    */
-  protected constructor(
-    /** Observed {@link Element} of the {@link ESLResizeObserverTarget} instance */
-    public readonly target: Element
-  ) {
+  protected constructor(target: ESLDomElementTarget) {
+    target = resolveDomTarget(target);
     const instance = ESLResizeObserverTarget.mapping.get(target);
     if (instance) return instance;
+
     super();
-    ESLResizeObserverTarget.mapping.set(target, this);
+    this.target = target;
+    ESLResizeObserverTarget.mapping.set(this.target, this);
   }
 
   /** Subscribes to the observed target {@link Element} changes */
@@ -51,7 +57,7 @@ export class ESLResizeObserverTarget extends SyntheticEventTarget {
     }
 
     super.addEventListener('resize', callback);
-    if (this.hasEventListener('resize', 1)) return;
+    if (this.getEventListeners('resize').length > 1) return;
     ESLResizeObserverTarget.observer$$.observe(this.target);
   }
 
