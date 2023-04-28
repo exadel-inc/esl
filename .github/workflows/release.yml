@@ -14,6 +14,16 @@ on:
           - release-beta
           - release-next
           - release-test
+    permissions:
+      teams:
+        - @exadel-inc/esl-core-team
+    branches:
+      - main
+      - main-beta
+      - main-next
+      - main-test
+
+permissions: write-all
 
 env:
   node-version: 18.x
