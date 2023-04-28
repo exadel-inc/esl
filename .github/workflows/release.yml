@@ -16,7 +16,7 @@ on:
           - release-test
     permissions:
       teams:
-        - @exadel-inc/esl-core-team
+        - '@exadel-inc/esl-core-team'
     branches:
       - main
       - main-beta
