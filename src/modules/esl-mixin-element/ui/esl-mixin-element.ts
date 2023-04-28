@@ -8,7 +8,6 @@ import type {
   ESLEventListener,
   ESLListenerCriteria,
   ESLListenerDescriptor,
-  ESLListenerEventMap,
   ESLListenerHandler
 } from '../../esl-utils/dom/events';
 import type {ESLDomElementRelated} from '../../esl-utils/abstract/dom-target';
