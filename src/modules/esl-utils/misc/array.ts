@@ -33,14 +33,8 @@ export function unwrap(value: any): any {
 }
 
 /** Makes array values unique */
-export const uniq = <T> (arr: T[]): T[] => {
-  if (arr.length < 2) return arr.slice(0);
-  const result: T[] = [];
-  const set = new Set<T>();
-  arr.forEach((item) => set.add(item));
-  set.forEach((item) => result.push(item));
-  return result;
-};
+export const uniq = <T> (arr: T[]): T[] =>
+  arr.length > 1 ? [...new Set<T>(arr)] : arr.slice(0);
 
 /** Create an array filled with the range [0,..,N-1] */
 export function range(n: number): number[];
