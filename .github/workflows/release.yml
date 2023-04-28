@@ -85,4 +85,4 @@ jobs:
         if: ${{ inputs.type == 'release-test' }}
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: npx release-it --preRelease=test --ci -V
+        run: npx release-it --preRelease=test --ci -V --no-npm
