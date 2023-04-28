@@ -31,6 +31,7 @@ github:
   assets:
     - ./*.tgz
     - CHANGELOG.md
+
 # TODO: Automate github issue labels
 
 npm:
