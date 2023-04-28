@@ -25,12 +25,14 @@ plugins:
 # Out
 github:
   release: true
+  draft: true
   comments:
     pr: ":rocket: _This pull request is included in v${version}. See [${releaseName}](${releaseUrl}) for release notes._"
     issue: ":rocket: _This issue has been resolved in v${version}. See [${releaseName}](${releaseUrl}) for release notes._"
   assets:
     - ./*.tgz
     - CHANGELOG.md
+
 # TODO: Automate github issue labels
 
 npm:
