@@ -1,7 +1,7 @@
 ---
 layout: content
 title: ESL Media
-seoTitle: ESL Media - custom element to embed video and audio with a different sources like MP4, YouTube, Brightcove, etc
+seoTitle: ESL Media - custom element to embed video and audio with a different sources like MP4, YouTube, Brightcove, etc.
 name: ESL Media
 tags: components
 aside:
@@ -16,22 +16,24 @@ aside:
 
 <section class="row justify-content-around">
   <section class="col-12 row" data-demo="0">
-    <uip-root>
+    <uip-root uip-snippets-active>
       <uip-header>
-        <uip-options hide-editor></uip-options>
+        <uip-snippets></uip-snippets>
+        <uip-options hide-theme hide-editor></uip-options>
+        <button title="copy markup" class="copy-icon"></button>
       </uip-header>
       <script type="text/html" uip-snippet label="ESL Media">
-          <h3 class="text-center">ESL Media</h3>
-          <div class="img-container img-container-16-9 img-container-loaded" style="border: solid black 1px;">
-            <esl-media group="demo-media" class="esl-media esl-media-demo-1" controls tabindex="0"></esl-media>
-          </div>
-          {# ESL Media Controls #}
-          <div class="esl-media-control">
-            <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').play()"> Play</button>
-            <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').pause()"> Pause
-            </button>
-            <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').stop()"> Stop</button>
-          </div>
+        <h3 class="text-center">ESL Media</h3>
+        <div class="img-container img-container-16-9 img-container-loaded" style="border: solid black 1px;">
+          <esl-media group="demo-media" class="esl-media esl-media-demo-1" controls tabindex="0"></esl-media>
+        </div>
+        {# ESL Media Controls #}
+        <div class="esl-media-control">
+          <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').play()"> Play</button>
+          <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').pause()"> Pause
+          </button>
+          <button class="btn btn-sec-blue" onclick="document.querySelector('.esl-media-demo-1').stop()"> Stop</button>
+        </div>
       </script>
       <uip-preview></uip-preview>
       <uip-settings target=".esl-media">
