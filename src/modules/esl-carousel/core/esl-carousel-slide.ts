@@ -11,7 +11,7 @@ export class ESLCarouselSlide extends ESLBaseElement {
   /** @returns if the slide is active */
   @boolAttr() public active: boolean;
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.setAttribute('role', 'group');
     this.setAttribute('aria-label', `slide ${this.index + 1}`);

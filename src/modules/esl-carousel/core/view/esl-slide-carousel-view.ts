@@ -4,18 +4,18 @@ import {ESLCarouselView} from './esl-carousel-view';
 import type {CarouselDirection} from '../esl-carousel-utils';
 
 export class ESLSlideCarouselView extends ESLCarouselView {
-  public static is = 'slide';
+  public static override is = 'slide';
 
   /**
    * Processes binding of defined view to the carousel {@link ESLCarousel}.
    * Prepare to view animation.
    */
   // TODO: check
-  public onBind(): void {
+  public override onBind(): void {
     this.redraw();
   }
 
-  public redraw(): void {
+  public override redraw(): void {
     const {$slides, $slidesArea} = this.carousel;
     if (!$slidesArea || !$slides.length) return;
 
@@ -28,7 +28,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
    * Processes unbinding of defined view from the carousel {@link ESLCarousel}.
    * Clear animation.
    */
-  public onUnbind(): void {
+  public override onUnbind(): void {
     this.clearAnimation();
   }
 

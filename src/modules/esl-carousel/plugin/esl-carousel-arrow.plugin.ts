@@ -10,8 +10,8 @@ import {listen, attr} from '../../esl-base-element/core';
  */
 @ExportNs('CarouselPlugins.Arrow')
 export class ESLCarouselArrowPlugin extends ESLCarouselPlugin {
-  public static is = 'esl-carousel-arrow';
-  public static DEFAULT_TARGET = '::parent([esl-carousel-container])::find(esl-carousel)';
+  public static override is = 'esl-carousel-arrow';
+  public static override DEFAULT_TARGET = '::parent([esl-carousel-container])::find(esl-carousel)';
 
   /** Horizontal scroll orientation marker */
   @attr({name: 'direction', defaultValue: 'next'}) public direction: string;

@@ -1,8 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
+import {bind, attr} from '../../esl-utils/decorators';
 import {ESLCarousel} from '../core/esl-carousel';
-import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
 import {ESLCarouselPlugin} from '../core/esl-carousel-plugin';
 
@@ -11,11 +10,8 @@ import {ESLCarouselPlugin} from '../core/esl-carousel-plugin';
  */
 @ExportNs('CarouselPlugins.Link')
 export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
-  public static is = 'esl-carousel-link-plugin';
-
-  public static get observedAttributes(): string[] {
-    return ['to', 'direction'];
-  }
+  public static override is = 'esl-carousel-link-plugin';
+  public static override observedAttributes = ['to', 'direction'];
 
   @attr() public to: string;
   @attr({defaultValue: 'both'}) public direction: string;
@@ -24,7 +20,7 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
 
   public bind(): void {
     if (!this.$target) {
-      this.$target = TraversingQuery.first(this.to) as ESLCarousel | null;
+      this.$target = ESLTraversingQuery.first(this.to) as ESLCarousel | null;
     }
     if (!(this.$target instanceof ESLCarousel)) return;
 
@@ -50,7 +46,7 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
     $target.goTo($source.firstIndex, e.detail.direction);
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     super.attributeChangedCallback(attrName, oldVal, newVal);
     if (this.carousel && oldVal !== newVal) {
       this.unbind();

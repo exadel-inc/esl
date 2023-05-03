@@ -1,6 +1,6 @@
 import {attr, ESLBaseElement} from '../../esl-base-element/core';
 import {memoize} from '../../esl-utils/decorators/memoize';
-import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
 import {ESLCarousel} from './esl-carousel';
 
@@ -20,17 +20,17 @@ export abstract class ESLCarouselPlugin extends ESLBaseElement {
   @memoize()
   public get carousel(): ESLCarousel {
     const sel = this.target || (this.constructor as typeof ESLCarouselPlugin).DEFAULT_TARGET;
-    return TraversingQuery.first(sel, this) as ESLCarousel;
+    return ESLTraversingQuery.first(sel, this) as ESLCarousel;
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     memoize.clear(this, 'carousel');
     if (!this.carousel) return;
     this.carousel.plugins.add(this);
     super.connectedCallback();
     this.bind();
   }
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     if (!this.carousel) return;
     this.unbind();
@@ -57,7 +57,7 @@ export abstract class ESLCarouselPlugin extends ESLBaseElement {
    */
   public abstract unbind(): void;
 
-  public static register(tagName?: string): void {
+  public static override register(tagName?: string): void {
     ESLCarousel.registered.then(() => super.register.call(this, tagName));
   }
 }

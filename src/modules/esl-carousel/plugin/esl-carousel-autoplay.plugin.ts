@@ -12,7 +12,7 @@ import {ESLCarouselPlugin} from '../core/esl-carousel-plugin';
  */
 @ExportNs('CarouselPlugins.Autoplay')
 export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
-  public static is = 'esl-carousel-autoplay-plugin';
+  public static override is = 'esl-carousel-autoplay-plugin';
 
   @attr({defaultValue: 'next'}) public direction: string;
   @attr({defaultValue: '5000'}) public timeout: number;

@@ -47,7 +47,7 @@ export interface CarouselActionParams {
 export class ESLCarousel extends ESLBaseElement {
   public static readonly Slide = ESLCarouselSlide;
 
-  public static is = 'esl-carousel';
+  public static override is = 'esl-carousel';
   public static observedAttributes = ['media', 'type', 'loop', 'count'];
 
   @attr({name: 'media', defaultValue: 'all'}) public mediaCfg: string;
@@ -124,7 +124,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   private attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected) return;
-    memoize.clear(this, `${attrName}Cfg`);
+    memoize.clear(this, `${attrName}Rule`);
     this.update();
   }
 
@@ -143,7 +143,7 @@ export class ESLCarousel extends ESLBaseElement {
   //   }
   // }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
 
     this.update(true);
@@ -155,7 +155,7 @@ export class ESLCarousel extends ESLBaseElement {
     this.bindEvents();
   }
 
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.unbindEvents();
   }
@@ -282,7 +282,7 @@ export class ESLCarousel extends ESLBaseElement {
    * Registers component in the {@link customElements} registry
    * @param tagName - custom tag name to register custom element
    */
-  public static register(tagName?: string): void {
+  public static override register(tagName?: string): void {
     ESLCarouselSlide.register((tagName || ESLCarousel.is) + '-slide');
     customElements.whenDefined(ESLCarouselSlide.is).then(() => super.register.call(this, tagName));
   }

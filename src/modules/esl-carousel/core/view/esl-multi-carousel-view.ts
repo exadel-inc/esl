@@ -8,7 +8,7 @@ import type {CarouselDirection} from '../esl-carousel-utils';
 
 
 export class ESLMultiCarouselView extends ESLCarouselView {
-  public static is = 'multi';
+  public static override is = 'multi';
 
   /** First index of active slides. */
   protected currentIndex: number = 0;
@@ -29,14 +29,14 @@ export class ESLMultiCarouselView extends ESLCarouselView {
    * Processes binding of defined view to the carousel {@link ESLCarousel}.
    * Prepare to view animation.
    */
-  public onBind(): void {
+  public override onBind(): void {
     this.redraw();
 
     this.currentIndex = this.carousel.firstIndex;
     this._setOrderFrom(this.currentIndex);
   }
 
-  public redraw(): void {
+  public override redraw(): void {
     const {$slides, $slidesArea} = this.carousel;
     if (!$slidesArea || !$slides.length) return;
 
@@ -49,7 +49,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
    * Processes unbinding of defined view from the carousel {@link ESLCarousel}.
    * Clear animation.
    */
-  public onUnbind(): void {
+  public override onUnbind(): void {
     this.carousel.$slides.forEach((el) => {
       el.toggleAttribute('visible', false);
       el.style.removeProperty('order');

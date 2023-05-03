@@ -1,10 +1,9 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {bind} from '../../esl-utils/decorators/bind';
+import {bind, listen} from '../../esl-utils/decorators';
 import {ARROW_LEFT, ARROW_RIGHT} from '../../esl-utils/dom/keys';
 import {findNextLooped, findPrevLooped} from '../../esl-utils/dom/traversing';
 
 import {ESLCarouselPlugin} from '../core/esl-carousel-plugin';
-import {listen} from '../../esl-utils/decorators/listen';
 
 /**
  * Slide Carousel Dots plugin
@@ -14,8 +13,8 @@ import {listen} from '../../esl-utils/decorators/listen';
  */
 @ExportNs('CarouselPlugins.Dots')
 export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
-  public static is = 'esl-carousel-dots';
-  public static DEFAULT_TARGET = '::parent([esl-carousel-container])::find(esl-carousel)';
+  public static override is = 'esl-carousel-dots';
+  public static override DEFAULT_TARGET = '::parent([esl-carousel-container])::find(esl-carousel)';
 
   public bind(): void {
     this.rerender();

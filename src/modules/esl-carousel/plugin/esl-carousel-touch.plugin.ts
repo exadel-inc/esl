@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {isMouseEvent, isTouchEvent, getTouchPoint} from '../../esl-utils/dom/events';
 import {bind} from '../../esl-utils/decorators/bind';
+import {isMouseEvent, isTouchEvent, getTouchPoint} from '../../esl-utils/dom/events';
 
 import {ESLCarouselPlugin} from '../core/esl-carousel-plugin';
 
@@ -11,7 +11,7 @@ import type {Point} from '../../esl-utils/dom/events';
  */
 @ExportNs('CarouselPlugins.Touch')
 export class ESLCarouselTouchPlugin extends ESLCarouselPlugin {
-  public static is = 'esl-carousel-touch-plugin';
+  public static override is = 'esl-carousel-touch-plugin';
 
   /** Point to start from. */
   protected startPoint: Point = {x: 0, y: 0};
