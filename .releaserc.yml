@@ -1,0 +1,69 @@
+# Stack trace is required
+debug: true
+
+# Tag format config
+tagFormat: "v${version}"
+
+# Branch release rules
+branches:
+  - main
+  - name: main-beta
+    channel: beta
+    prerelease: beta
+  - name: main-next
+    channel: next
+    prerelease: next
+
+# Release configuration
+plugins:
+  - - "@semantic-release/commit-analyzer"
+    - preset: angular
+      releaseRules:
+        - type: style
+          release: patch
+        - type: refactor
+          release: patch
+        - type: fix
+          message: "*MINOR VERSION*"
+          release: minor
+        - type: style
+          message: "*MINOR VERSION*"
+          release: minor
+        - type: refactor
+          message: "*MINOR VERSION*"
+          release: minor
+        - type: chore
+          scope: deps
+          release: patch
+        - type: chore
+          scope: patch
+          release: patch
+
+  - - "@semantic-release/release-notes-generator"
+    - preset: angular
+      parserOpts:
+        noteKeywords:
+          - BREAKING CHANGE
+          - BREAKING CHANGES
+          - BREAKING-CHANGE
+          - BREAKING
+
+  - - "@semantic-release/changelog"
+    - changelogFile: CHANGELOG.md
+
+  - - "@semantic-release/git"
+    - assets:
+        - CHANGELOG.md
+        - package.json
+        - package-lock.json
+      message: "chore(release): ${nextRelease.version} \n\n${nextRelease.notes}"
+
+  - - "@semantic-release/npm"
+    - tarballDir: target
+
+  - - "@semantic-release/github"
+    - assets:
+        - path: target/*.tgz
+          label: Released NPM Tarball
+        - path: CHANGELOG.md
+          label: Changelog
