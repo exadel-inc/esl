@@ -126,7 +126,7 @@
     "postcss-less": "^6.0.0",
     "prismjs": "^1.29.0",
     "promise-polyfill": "^8.3.0",
-    "release-it": "^15.10.1",
+    "release-it": "^15.10.3",
     "rimraf": "^5.0.0",
     "semantic-release": "^21.0.2",
     "smoothscroll-polyfill": "^0.4.4",
