@@ -1,0 +1,238 @@
+---
+layout: content
+title: Carousel
+seoTitle: Carousel UI examples based on ESL web components
+name: Carousel
+tags: [draft]
+icon: examples/carousel.svg
+---
+
+<section class="container-fluid">
+  <h2>Demo 1: </h2>
+  <p>The first slide is active (1 slide)</p>
+
+  <div class="row flex-column" esl-carousel-container>
+    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
+
+    <esl-carousel media="@-SM|@+MD" type="multi|slide" count="2|1">
+      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 16) %}
+        <esl-carousel-slide {{ active if i == 0}}>
+          <div class="card post-text" style="background: {{ functions.randomColor() }}">
+            <p><b>{{i + 1}}</b></p>
+          </div>
+        </esl-carousel-slide>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
+      </div>
+    </esl-carousel>
+    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
+  </div>
+</section>
+
+<section class="container-fluid">
+  <h2>Demo 2: </h2>
+  <p>The second slide is active (1 slide) !!!</p>
+
+  <div class="row flex-column" esl-carousel-container>
+
+    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
+    <esl-carousel media="@-SM|@+MD" count="2|1" type="multi|slide">
+      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 16) %}
+          <esl-carousel-slide {{ active if i == 1}}>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}">
+              <p><b>{{i + 1}}</b></p>
+            </div>
+          </esl-carousel-slide>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
+      </div>
+    </esl-carousel>
+
+    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
+  </div>
+</section>
+
+<section class="container-fluid">
+  <h2>Demo 1: </h2>
+  <p>5 slides with 3 active slides to check if RAF helps to animate first one</p>
+
+  <div class="row flex-column" esl-carousel-container>
+
+    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
+    <esl-carousel count="3" type="multi">
+      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 5) %}
+          <esl-carousel-slide {{ active if i < 3}}>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}">
+              <p><b>{{i + 1}}</b></p>
+            </div>
+          </esl-carousel-slide>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
+      </div>
+    </esl-carousel>
+
+    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
+  </div>
+</section>
+
+<section class="container-fluid">
+  <h2>Demo 1: </h2>
+  <p>3 slides with 2 active slides to check if RAF helps to animate first one</p>
+
+  <div class="row flex-column" esl-carousel-container>
+
+    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
+    <esl-carousel count="2" type="multi">
+      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 3) %}
+          <esl-carousel-slide {{ active if i > 0}}>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}">
+              <p><b>{{i + 1}}</b></p>
+            </div>
+          </esl-carousel-slide>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
+      </div>
+    </esl-carousel>
+
+    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
+  </div>
+</section>
+
+<section class="container-fluid">
+  <h2>Demo 2: </h2>
+  <p>11 slides with different count of active slides </p>
+
+  <div class="row flex-column" esl-carousel-container>
+
+    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
+    <esl-carousel media="all|@MD|@SM|@XS" count="5|4|3|1" type="multi">
+      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 13) %}
+          <esl-carousel-slide>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}">
+              <p><b>{{i + 1}}</b></p>
+            </div>
+          </esl-carousel-slide>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
+      </div>
+    </esl-carousel>
+
+    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
+  </div>
+</section>
+
+<section class="container-fluid">
+  <h2>Demo 3: </h2>
+  <p>11 slides with different count of active slides (4 slide is active)</p>
+
+  <div class="row flex-column" esl-carousel-container>
+
+    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
+    <esl-carousel id="second-carousel" media="all|@MD|@SM|@XS" count="5|4|3|1" type="multi">
+      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 13) %}
+          <esl-carousel-slide {{ active if i == 3}}>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}">
+              <p><b>{{i + 1}}</b></p>
+            </div>
+          </esl-carousel-slide>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
+      </div>
+    </esl-carousel>
+
+    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
+  </div>
+</section>
+
+<section class="container-fluid">
+  <h2>Linked carousel: </h2>
+
+  <div class="row flex-column" esl-carousel-container>
+
+    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
+    <esl-carousel media="@XL|@LG|@MD|@SM|@XS" count="6|5|4|3|1" type="multi">
+      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+      <esl-carousel-link-plugin to="#second-carousel"></esl-carousel-link-plugin>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 13) %}
+          <esl-carousel-slide {{ active if i < 3}}>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}">
+              <p><b>{{i + 1}}</b></p>
+            </div>
+          </esl-carousel-slide>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
+      </div>
+    </esl-carousel>
+
+    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
+  </div>
+</section>
+
+<section class="container-fluid">
+  <h2>Demo 4 (Autoscroll): </h2>
+  <a href="javascript:void 0" class="sr-only">Fake anchor</a>
+  <div class="row flex-column" esl-carousel-container>
+
+    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
+    <esl-carousel id="second-carousel" count="1" type="slide">
+      <esl-carousel-autoplay-plugin timeout="5000"></esl-carousel-autoplay-plugin>
+      <div data-slides-area>
+        <!-- CAROUSEL-ITEM -->
+        {% for i in range(0, 5) %}
+          <esl-carousel-slide {{ active if i == 0}}>
+            <div class="card post-text" style="background: {{ functions.randomColor() }}">
+              <p><b>{{i + 1}}</b></p>
+            </div>
+          </esl-carousel-slide>
+        {% endfor %}
+        <!-- /CAROUSEL-ITEM -->
+      </div>
+    </esl-carousel>
+
+    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
+    <div class="text-center">
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+    </div>
+  </div>
+</section>

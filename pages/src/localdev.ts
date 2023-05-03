@@ -32,6 +32,8 @@ import {
   ESLFootnotes,
   ESLTooltip,
   ESLAnimate,
+  ESLShare,
+  ESLRelatedTarget,
 
   ESLCarousel,
   ESLCarouselDotsPlugin,
@@ -47,9 +49,16 @@ import '../../src/modules/esl-media/providers/html5/video-provider';
 import '../../src/modules/esl-media/providers/youtube-provider';
 import '../../src/modules/esl-media/providers/brightcove-provider';
 
+import '../../src/modules/esl-share/actions/copy-action';
+import '../../src/modules/esl-share/actions/external-action';
+import '../../src/modules/esl-share/actions/media-action';
+import '../../src/modules/esl-share/actions/native-action';
+import '../../src/modules/esl-share/actions/print-action';
+
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
+import {ESLDemoBackLink} from './back-link/back-link';
 import {ESLDemoMarquee} from './landing/landing';
 import {ESLDemoSearchBox} from './navigation/header/header-search';
 import {ESLDemoSearchPageWrapper} from './search/search';
@@ -64,9 +73,9 @@ ESLDemoMarquee.register();
 ESLDemoSearchBox.register();
 ESLDemoSearchPageWrapper.register();
 ESLDemoAnchorLink.register();
+ESLDemoBackLink.register();
 
 // Register ESL Components
-
 ESLImage.register();
 ESLMedia.register();
 
@@ -106,3 +115,9 @@ ESLCarouselArrowPlugin.register();
 ESLCarouselLinkPlugin.register();
 ESLCarouselTouchPlugin.register();
 ESLCarouselAutoplayPlugin.register();
+
+ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
+ESLShare.register();
+
+// Register ESL Mixins
+ESLRelatedTarget.register();

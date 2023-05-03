@@ -1,9 +1,8 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ready} from '../../esl-utils/decorators/ready';
-import {memoize} from '../../esl-utils/decorators/memoize';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ready, memoize, attr, boolAttr} from '../../esl-utils/decorators';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {parseNumber} from '../../esl-utils/misc/format';
-import {attr, boolAttr, ESLBaseElement} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
 
 import {ESLAnimateService} from './esl-animate-service';
 
@@ -18,7 +17,7 @@ import {ESLAnimateService} from './esl-animate-service';
  */
 @ExportNs('Animate')
 export class ESLAnimate extends ESLBaseElement {
-  public static is = 'esl-animate';
+  public static override is = 'esl-animate';
   public static observedAttributes = ['group', 'repeat', 'target'];
 
   /**
@@ -54,7 +53,7 @@ export class ESLAnimate extends ESLBaseElement {
 
   /**
    * Define target(s) to observe and animate
-   * Uses {@link TraversingQuery} with multiple targets support
+   * Uses {@link ESLTraversingQuery} with multiple targets support
    * Default: ` ` - current element, `<esl-animate>` behave as a wrapper
    */
   @attr() public target: string;
@@ -62,7 +61,7 @@ export class ESLAnimate extends ESLBaseElement {
   /** Elements-targets found by target query */
   @memoize()
   public get $targets(): HTMLElement[] {
-    return TraversingQuery.all(this.target, this) as HTMLElement[];
+    return ESLTraversingQuery.all(this.target, this) as HTMLElement[];
   }
 
   protected attributeChangedCallback(): void {
@@ -71,13 +70,13 @@ export class ESLAnimate extends ESLBaseElement {
   }
 
   @ready
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.reanimate();
   }
 
   @ready
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     ESLAnimateService.unobserve(this.$targets);
   }

@@ -2,6 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {tuple, wrap, uniq} from '../../esl-utils/misc/array';
 import {unwrapParenthesis} from '../../esl-utils/misc/format';
 import {findAll, findChildren, findNext, findParent, findClosest, findPrev} from '../../esl-utils/dom/traversing';
+import {isVisible} from '../../esl-utils/dom/visible';
 
 type ProcessorDescriptor = [string?, string?];
 type ElementProcessor = (base: Element, sel: string) => Element | Element[] | null;
@@ -35,7 +36,7 @@ type CollectionProcessor = (els: Element[], sel: string) => Element[];
  * - `::find(.row)::last::parent` - find parent of the last element matching selector '.row' from the base element subtree
  */
 @ExportNs('TraversingQuery')
-export class TraversingQuery {
+export class ESLTraversingQuery {
   private static ELEMENT_PROCESSORS: Record<string, ElementProcessor> = {
     '::find': findAll,
     '::next': findNext,
@@ -52,6 +53,7 @@ export class TraversingQuery {
       return wrap(list[index - 1]);
     },
     '::not': (list: Element[], sel?: string) => list.filter((el) => !el.matches(sel || '')),
+    '::visible': (list: Element[]) => list.filter((el) => (el instanceof HTMLElement) && isVisible(el)),
     '::filter': (list: Element[], sel?: string) => list.filter((el) => el.matches(sel || ''))
   };
 
@@ -96,7 +98,35 @@ export class TraversingQuery {
     return uniq(result);
   }
 
-  static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
+  /** Split multiple queries separated by comma (respects query brackets) */
+  // This can be solved by RegEx /(?<!\([^\)]*),(?![^\(]*\))/g)/, when the WebKit browser implements this feature
+  public static splitQueries(str: string): string[] {
+    let last = 0;
+    let stack = 0;
+    const result = [];
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] === '(') stack++;
+      if (str[i] === ')') stack = Math.max(0, stack - 1);
+      if (str[i] === ',' && !stack) {
+        result.push(str.substring(last, i).trim());
+        last = i + 1;
+      }
+    }
+    result.push(str.substring(last).trim());
+    return result;
+  }
+
+  protected static traverse(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
+    const found: Element[] = [];
+    for (const part of ESLTraversingQuery.splitQueries(query)) {
+      const els = this.traverseQuery(part, findFirst, base, scope);
+      if (findFirst && els.length) return [els[0]];
+      found.push(...els);
+    }
+    return uniq(found);
+  }
+
+  protected static traverseQuery(query: string, findFirst: boolean, base?: Element | null, scope: Element | Document = document): Element[] {
     const parts = query.split(this.PROCESSORS_REGEX).map((term) => term.trim());
     const rootSel = parts.shift();
     const baseCollection = base ? [base] : [];
@@ -104,18 +134,21 @@ export class TraversingQuery {
     return this.traverseChain(initial, tuple(parts), findFirst);
   }
 
-  /** @returns first matching element reached via {@link TraversingQuery} rules */
-  static first(query: string, base?: Element | null, scope?: Element): Element | null {
-    return TraversingQuery.traverse(query, true, base, scope)[0] || null;
+  /** @returns first matching element reached via {@link ESLTraversingQuery} rules */
+  static first(query: string, base?: Element | null, scope?: Element | Document): Element | null {
+    return ESLTraversingQuery.traverse(query, true, base, scope)[0] || null;
   }
-  /** @returns Array of all matching elements reached via {@link TraversingQuery} rules */
-  static all(query: string, base?: Element | null, scope?: Element): Element[] {
-    return TraversingQuery.traverse(query, false, base, scope);
+  /** @returns Array of all matching elements reached via {@link ESLTraversingQuery} rules */
+  static all(query: string, base?: Element | null, scope?: Element | Document): Element[] {
+    return ESLTraversingQuery.traverse(query, false, base, scope);
   }
 }
 
+/** @deprecated alias for {@link ESLTraversingQuery} */
+export const TraversingQuery = ESLTraversingQuery;
+
 declare global {
   export interface ESLLibrary {
-    TraversingQuery: typeof TraversingQuery;
+    TraversingQuery: typeof ESLTraversingQuery;
   }
 }

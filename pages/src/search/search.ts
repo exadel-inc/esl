@@ -1,13 +1,13 @@
 import {ESLBaseElement} from '../../../src/modules/esl-base-element/core';
 import {CSSClassUtils} from '../../../src/modules/esl-utils/dom/class';
-import {ready} from '../../../src/modules/esl-utils/decorators/ready';
+import {ready} from '../../../src/modules/esl-utils/decorators';
 import {requestGss} from './search-script';
 
 export class ESLDemoSearchPageWrapper extends ESLBaseElement {
-  static is = 'esl-d-search-page-wrapper';
+  static override is = 'esl-d-search-page-wrapper';
 
   @ready
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     requestGss().then(() => this.afterSearchScriptLoad());
   }
 

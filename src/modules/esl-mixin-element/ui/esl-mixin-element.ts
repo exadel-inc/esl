@@ -1,24 +1,23 @@
 import {setAttr} from '../../esl-utils/dom/attr';
-import {prop} from '../../esl-utils/decorators/prop';
-import {EventUtils} from '../../esl-utils/dom/events';
+import {prop} from '../../esl-utils/decorators';
+import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMixinRegistry} from './esl-mixin-registry';
 
-import type {AttributeTarget} from '../../esl-utils/dom/attr';
 import type {
   ESLEventListener,
   ESLListenerCriteria,
   ESLListenerDescriptor,
-  ESLListenerEventMap,
   ESLListenerHandler
 } from '../../esl-utils/dom/events';
+import type {ESLDomElementRelated} from '../../esl-utils/abstract/dom-target';
 
 /**
  * Base class for mixin elements.
  * Mixin elements attaches to the DOM element via attribute.
  * Allows multiple mixin elements per one DOM element
  */
-export class ESLMixinElement implements AttributeTarget {
+export class ESLMixinElement implements ESLDomElementRelated {
   /** Root attribute to identify mixin targets. Should contain dash in the name. */
   static is: string;
   /** Additional observed attributes */
@@ -36,24 +35,30 @@ export class ESLMixinElement implements AttributeTarget {
 
   /** Callback of mixin instance initialization */
   public connectedCallback(): void {
-    const constructor = this.constructor as typeof ESLMixinElement;
-    if (constructor.observedAttributes.length) {
+    const {observedAttributes} = this.constructor as typeof ESLMixinElement;
+    if (observedAttributes.length) {
       this._attr$$ = new MutationObserver(this._onAttrMutation.bind(this));
-      this._attr$$.observe(this.$host, {attributes: true, attributeFilter: constructor.observedAttributes});
+      this._attr$$.observe(this.$host, {
+        attributes: true,
+        attributeFilter: observedAttributes,
+        attributeOldValue: true
+      });
     }
 
-    EventUtils.descriptors(this)
-      .forEach((desc) => EventUtils.subscribe(this.$host, {context: this}, desc));
+    ESLEventUtils.subscribe(this);
   }
 
   /** Callback to execute on mixin instance destroy */
   public disconnectedCallback(): void {
     if (this._attr$$) this._attr$$.disconnect();
 
-    EventUtils.unsubscribe(this.$host, {context: this});
+    ESLEventUtils.unsubscribe(this);
   }
 
-  /** Callback to handle changing of additional attributes */
+  /**
+   * Callback to handle changing of additional attributes.
+   * Happens when attribute accessed for writing independently of the actual value change
+   */
   public attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
   /** Attribute change mutation record processor */
@@ -73,13 +78,12 @@ export class ESLMixinElement implements AttributeTarget {
     handler: ESLListenerHandler<ESLListenerEventMap[EType]>
   ): ESLEventListener[];
   public $$on(event: any, handler?: any): ESLEventListener[] {
-    event = Object.assign(typeof event === 'string' ? {event} : event, {subhost: this});
-    return EventUtils.subscribe(this.$host, event, handler);
+    return ESLEventUtils.subscribe(this, event, handler);
   }
 
   /** Unsubscribes event listener */
   public $$off(...condition: ESLListenerCriteria[]): ESLEventListener[] {
-    return EventUtils.unsubscribe(this.$host, {context: this}, ...condition);
+    return ESLEventUtils.unsubscribe(this, ...condition);
   }
 
   /**
@@ -114,7 +118,7 @@ export class ESLMixinElement implements AttributeTarget {
    * @param eventInit - custom event init. See {@link CustomEventInit}
    */
   public $$fire(eventName: string, eventInit?: CustomEventInit): boolean {
-    return EventUtils.dispatch(this.$host, eventName, eventInit);
+    return ESLEventUtils.dispatch(this.$host, eventName, eventInit);
   }
 
   /** Returns mixin instance by element */

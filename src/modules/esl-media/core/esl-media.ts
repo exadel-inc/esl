@@ -1,14 +1,13 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {prop} from '../../esl-utils/decorators/prop';
+import {ESLBaseElement} from '../../esl-base-element/core';
+import {bind, prop, attr, boolAttr} from '../../esl-utils/decorators';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {debounce} from '../../esl-utils/async/debounce';
 import {parseAspectRatio} from '../../esl-utils/misc/format';
 
 import {ESLMediaQuery} from '../../esl-media-query/core';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 
 import {SPACE, PAUSE} from '../../esl-utils/dom/keys';
 import {getIObserver} from './esl-media-iobserver';
@@ -28,7 +27,7 @@ export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
  */
 @ExportNs('Media')
 export class ESLMedia extends ESLBaseElement {
-  public static is = 'esl-media';
+  public static override is = 'esl-media';
   public static observedAttributes = [
     'disabled',
     'load-condition',
@@ -78,7 +77,7 @@ export class ESLMedia extends ESLBaseElement {
   /** Autoplay resource marker */
   @boolAttr() public autoplay: boolean;
   /** Autofocus on play marker */
-  @boolAttr() public autofocus: boolean;
+  @boolAttr() public override autofocus: boolean;
   /** Mute resource marker */
   @boolAttr() public muted: boolean;
   /** Loop resource play */
@@ -104,7 +103,7 @@ export class ESLMedia extends ESLBaseElement {
   @attr() public loadClsDeclined: string;
   /** Condition {@link ESLMediaQuery} to allow load of media resource. Default: `all` */
   @attr({defaultValue: 'all'}) public loadCondition: string;
-  /** Target element {@link TraversingQuery} select to add accepted/declined classes */
+  /** Target element {@link ESLTraversingQuery} select to add accepted/declined classes */
   @attr({defaultValue: '::parent'}) public loadClsTarget: string;
 
   /** @readonly Ready state marker */
@@ -133,7 +132,7 @@ export class ESLMedia extends ESLBaseElement {
     return ESLMediaProviderRegistry.instance.has(name);
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'application');
@@ -144,7 +143,7 @@ export class ESLMedia extends ESLBaseElement {
     this.deferredReinitialize();
   }
 
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.unbindEvents();
     this.detachViewportConstraint();
@@ -225,7 +224,7 @@ export class ESLMedia extends ESLBaseElement {
   }
 
   public updateContainerMarkers(): void {
-    const targetEl = TraversingQuery.first(this.loadClsTarget, this) as HTMLElement;
+    const targetEl = ESLTraversingQuery.first(this.loadClsTarget, this) as HTMLElement;
     if (!targetEl) return;
 
     const active = this.canActivate();
@@ -358,7 +357,7 @@ export class ESLMedia extends ESLBaseElement {
 
   /** Update ready class state */
   protected updateReadyClass(): void {
-    const target = TraversingQuery.first(this.readyClassTarget, this) as HTMLElement;
+    const target = ESLTraversingQuery.first(this.readyClassTarget, this) as HTMLElement;
     target && CSSClassUtils.toggle(target, this.readyClass, this.ready);
   }
 

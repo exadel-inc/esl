@@ -6,16 +6,17 @@ Authors: *Alexey Stsefanovich (ala'n)*
 
 <a name="intro"></a>
 
-Provides the core for creating custom attribute elements (mixins) and TS (TypeScript) decorators to simplify components creation.
+**ESLMixinElement** provides the core for creating custom attribute elements (mixins) and TS (TypeScript) decorators to
+simplify component creation.
 
-**ESLMixinElement** - base class to create a mixin element that attaches to the element via a custom attribute
+`ESLMixinElement` - base class to create a mixin that attaches to the DOM element via a custom attribute
 
 ### Mixin Element static API
 - `MyMixinElement.is` - property that defines connection attribute name
 - `MyMixinElement.observedAttributes` - array of additional attributes to observe
 
 - `MyMixinElement.register` - register component inside `ESLMixinRegistry`
-- `MyMixinElement.get` - returns an `ESLMixinRegistry` instance attached to passed element
+- `MyMixinElement.get` - returns an `ESLMixinRegistry` instance attached to the passed element
 
 ### Base Element API
 Properties:
@@ -25,14 +26,15 @@ Properties:
 Attributes:
 - `connectedCallback` - called when the element is appended to the DOM
 - `disconnectedCallback` - called when the element is disconnected from the DOM
-- `attributeChangeCallback` - called when the observable attribute is changed
+- `attributeChangedCallback` - called when the observable attribute is changed
+  (happens when the attribute is accessed for writing, independently of the actual value change)
 
-- `$$cls` - check or change element CSS classes (uses CSSClassUtils)
-- `$$attr` - check or change element attributes
-- `$$fire` - dispatch event
+- `$$cls` - checks or changes element CSS classes (uses CSSClassUtils)
+- `$$attr` - checks or changes element attributes
+- `$$fire` - dispatches event
 
-- `$$on` - subscribe on event manually or subscribe decorated method
-- `$$off` - unsubscribe from event manually or unsubscribe decorated method
+- `$$on` - subscribes to the event manually or subscribes decorated method
+- `$$off` - unsubscribes from the event manually or unsubscribes decorated method
 
 ### Element decorators
 
@@ -42,8 +44,7 @@ Attributes:
 
 - `@listen` - decorate method with `ESLListenerDescriptor` props
 
-Use the `@prop` decorator to override a property
-created via `@attr`, `@boolAttr` or `@jsonAttr` at the parent level
+Use the `@prop` decorator to override a property created via `@attr`, `@boolAttr`, or `@jsonAttr` at the parent level
 with non-attribute accessor value.
 
 ### Mixin Element Example

@@ -24,11 +24,11 @@ export class MediaQueryCondition extends SyntheticEventTarget implements IMediaQ
     return this._inverted ? !this._mq.matches : this._mq.matches;
   }
 
-  public addEventListener(callback: EventListener): void;
-  public addEventListener(type: 'change', callback: EventListener): void;
-  public addEventListener(type: any, callback: EventListener = type): void {
+  public override addEventListener(callback: EventListener): void;
+  public override addEventListener(type: 'change', callback: EventListener): void;
+  public override addEventListener(type: any, callback: EventListener = type): void {
     super.addEventListener(type, callback);
-    if (this.hasEventListener(1)) return;
+    if (this.getEventListeners('change').length > 1) return;
     if (typeof this._mq.addEventListener === 'function') {
       this._mq.addEventListener('change', this._onChange);
     } else {
@@ -36,9 +36,9 @@ export class MediaQueryCondition extends SyntheticEventTarget implements IMediaQ
     }
   }
 
-  public removeEventListener(callback: EventListener): void;
-  public removeEventListener(type: 'change', callback: EventListener): void;
-  public removeEventListener(type: any, callback: EventListener = type): void {
+  public override removeEventListener(callback: EventListener): void;
+  public override removeEventListener(type: 'change', callback: EventListener): void;
+  public override removeEventListener(type: any, callback: EventListener = type): void {
     super.removeEventListener(type, callback);
     if (this.hasEventListener()) return;
     if (typeof this._mq.removeEventListener === 'function') {
@@ -55,7 +55,7 @@ export class MediaQueryCondition extends SyntheticEventTarget implements IMediaQ
     return this;
   }
 
-  public toString(): string {
+  public override toString(): string {
     const query = this._mq.media;
     const inverted = this._inverted;
     const complex = inverted && /\)[\s\w]+\(/.test(query);

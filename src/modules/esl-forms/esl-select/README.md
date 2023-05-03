@@ -6,7 +6,7 @@ Authors: *Alexey Stsefanovich (ala'n)*
 
 <a name="intro"></a>
 
-ESLSelect is a component on top of native select that brings more customization features.
+**ESLSelect** is a component on top of native select that brings more customization features.
 Uses "select with dropdown" view. Supports both single and multiple selection.
 
 ### Attributes / Properties

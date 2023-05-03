@@ -1,6 +1,5 @@
 const fs = require('fs');
 const color = require('kleur');
-const {isDev} = require('./11ty/env.config');
 
 module.exports = (config) => {
   // Init all 11ty config modules
@@ -18,8 +17,7 @@ module.exports = (config) => {
   }
 
   // Add MD files from the library sources
-  config.addWatchTarget('../src/**/*.md');
-  config.addWatchTarget('../docs/**/*.md');
+  config.addWatchTarget('../**/*.md');
 
   // Setup simple copy operations
   config.addPassthroughCopy({
@@ -27,14 +25,14 @@ module.exports = (config) => {
     'static/tools': '.'
   });
 
-  // Update BS observed directories
-  config.setBrowserSyncConfig({
-    files: [
+  config.setServerOptions({
+    port: 3005,
+    domDiff: true,
+    watch: [
       'dist/bundles/*.js',
       'dist/bundles/*.css',
       'dist/bundles/*.map'
     ],
-    open: isDev
   });
 
   return {

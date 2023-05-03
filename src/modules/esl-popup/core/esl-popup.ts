@@ -1,22 +1,18 @@
 import {range} from '../../esl-utils/misc/array';
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, boolAttr, jsonAttr} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {memoize} from '../../esl-utils/decorators/memoize';
-import {ready} from '../../esl-utils/decorators/ready';
-import {prop} from '../../esl-utils/decorators/prop';
-import {TraversingQuery} from '../../esl-traversing-query/core';
+import {bind, memoize, ready, prop, attr, boolAttr, jsonAttr} from '../../esl-utils/decorators';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {Rect} from '../../esl-utils/dom/rect';
-import {RTLUtils} from '../../esl-utils/dom/rtl';
+import {isRTL} from '../../esl-utils/dom/rtl';
 import {getListScrollParents} from '../../esl-utils/dom/scroll';
 import {getWindowRect} from '../../esl-utils/dom/window';
 import {parseNumber} from '../../esl-utils/misc/format';
 import {calcPopupPosition, isMajorAxisHorizontal} from './esl-popup-position';
 import {ESLPopupPlaceholder} from './esl-popup-placeholder';
 
-import type {ToggleableActionParams} from '../../esl-toggleable/core';
+import type {ESLToggleableActionParams} from '../../esl-toggleable/core';
 import type {PositionType, IntersectionRatioRect} from './esl-popup-position';
 
 const INTERSECTION_LIMIT_FOR_ADJACENT_AXIS = 0.7;
@@ -28,7 +24,7 @@ const parsePercent = (value: string | number, nanValue: number = 0): number => {
   return Math.max(0, Math.min(rawValue !== undefined ? rawValue : nanValue, 100));
 };
 
-export interface PopupActionParams extends ToggleableActionParams {
+export interface PopupActionParams extends ESLToggleableActionParams {
   /** popup position relative to trigger */
   position?: PositionType;
   /** popup behavior if it does not fit in the window */
@@ -62,7 +58,7 @@ export interface ActivatorObserver {
 
 @ExportNs('Popup')
 export class ESLPopup extends ESLToggleable {
-  public static is = 'esl-popup';
+  public static override is = 'esl-popup';
 
   public $arrow: HTMLElement | null;
   public $placeholder: ESLPopupPlaceholder | null;
@@ -101,7 +97,7 @@ export class ESLPopup extends ESLToggleable {
    *  for RTL it is vice versa) */
   @attr({defaultValue: `${DEFAULT_OFFSET_ARROW}`}) public offsetArrow: string;
 
-  /** Target to container element {@link TraversingQuery} to define bounds of popups visibility (window by default) */
+  /** Target to container element {@link ESLTraversingQuery} to define bounds of popups visibility (window by default) */
   @attr() public container: string;
 
   /** Default params to merge into passed action params */
@@ -110,15 +106,15 @@ export class ESLPopup extends ESLToggleable {
     offsetContainer: 15,
     intersectionMargin: '0px'
   }})
-  public defaultParams: PopupActionParams;
+  public override defaultParams: PopupActionParams;
 
-  @prop() public closeOnEsc = true;
-  @prop() public closeOnOutsideAction = true;
+  @prop() public override closeOnEsc = true;
+  @prop() public override closeOnOutsideAction = true;
 
   /** Container element that define bounds of popups visibility */
   @memoize()
   protected get $container(): HTMLElement | undefined {
-    return this.container ? TraversingQuery.first(this.container, this) as HTMLElement : this._containerEl;
+    return this.container ? ESLTraversingQuery.first(this.container, this) as HTMLElement : this._containerEl;
   }
 
   /** Get the size and position of the container */
@@ -130,7 +126,7 @@ export class ESLPopup extends ESLToggleable {
   }
 
   @ready
-  public connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.$arrow = this.querySelector('span.esl-popup-arrow');
     this.moveToBody();
@@ -152,7 +148,7 @@ export class ESLPopup extends ESLToggleable {
   @memoize()
   protected get _offsetArrowRatio(): number {
     const ratio = parsePercent(this.offsetArrow, DEFAULT_OFFSET_ARROW) / 100;
-    return RTLUtils.isRtl(this) ? 1 - ratio : ratio;
+    return isRTL(this) ? 1 - ratio : ratio;
   }
 
   /** Moves popup into document.body */
@@ -174,7 +170,7 @@ export class ESLPopup extends ESLToggleable {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Adds CSS classes, update a11y and fire esl:refresh event by default.
    */
-  public onShow(params: PopupActionParams): void {
+  protected override onShow(params: PopupActionParams): void {
     super.onShow(params);
 
     if (params.position) {
@@ -210,7 +206,7 @@ export class ESLPopup extends ESLToggleable {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Removes CSS classes and updates a11y by default.
    */
-  public onHide(params: PopupActionParams): void {
+  protected override onHide(params: PopupActionParams): void {
     this.beforeOnHide();
     super.onHide(params);
 

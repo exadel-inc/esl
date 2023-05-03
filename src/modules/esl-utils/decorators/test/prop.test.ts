@@ -1,5 +1,5 @@
 import '../../../../polyfills/es5-target-shim';
-import {attr, boolAttr, jsonAttr} from '../../../esl-base-element/core';
+import {attr, boolAttr, jsonAttr} from '../../../esl-utils/decorators';
 import {prop} from '../prop';
 
 describe('Decorator: @prop', () => {
@@ -19,11 +19,11 @@ describe('Decorator: @prop', () => {
   describe('Overriding @attr', () => {
     class TestElement extends TestBaseElement {
       @prop('test')
-      public field: string;
+      public override field: string;
       @prop()
-      public field4?: string;
+      public override field4?: string;
       @prop('test')
-      public readonlyField: string;
+      public override readonlyField: string;
     }
     customElements.define('attr-override-1', TestElement);
 
@@ -56,12 +56,12 @@ describe('Decorator: @prop', () => {
 
   describe('Overriding with a non writable', () => {
     class TestElement extends TestBaseElement {
-      @prop('test', {enumerable: true, readonly: true}) public field: string;
-      @prop(true, {enumerable: true, readonly: true}) public field2: boolean;
+      @prop('test', {enumerable: true, readonly: true}) public override field: string;
+      @prop(true, {enumerable: true, readonly: true}) public override field2: boolean;
     }
     class TestElement2 extends TestElement {
-      @prop() public field: string = 'test2';
-      @prop(false) public field2: boolean;
+      @prop() public override field: string = 'test2';
+      @prop(false) public override field2: boolean;
     }
     customElements.define('attr-writable-override-1', TestElement);
     customElements.define('attr-writable-override-2', TestElement2);
@@ -86,7 +86,7 @@ describe('Decorator: @prop', () => {
   describe('Overriding @boolAttr', () => {
     class TestElement extends TestBaseElement {
       @prop(true)
-      public field2: boolean;
+      public override field2: boolean;
     }
     customElements.define('bool-attr-override-1', TestElement);
 
@@ -108,7 +108,7 @@ describe('Decorator: @prop', () => {
   describe('Overriding @jsonAttr', () => {
     class TestElement extends TestBaseElement {
       @prop({a: 2})
-      public field3: {a: number};
+      public override field3: {a: number};
     }
     customElements.define('json-attr-override-1', TestElement);
 
@@ -130,7 +130,7 @@ describe('Decorator: @prop', () => {
   describe('Overridden property can be defined through ES initial value ', () => {
     class TestElement extends TestBaseElement {
       @prop()
-      public field: string = '123';
+      public override field: string = '123';
     }
     customElements.define('es-initial-attr-override-1', TestElement);
 

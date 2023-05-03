@@ -1,12 +1,11 @@
 import {ESLToggleable} from '../../../esl-toggleable/core/esl-toggleable';
-import {bind} from '../../../esl-utils/decorators/bind';
-import {prop} from '../../../esl-utils/decorators/prop';
+import {bind, prop, listen} from '../../../esl-utils/decorators';
 import {TAB} from '../../../esl-utils/dom/keys';
 import {rafDecorator} from '../../../esl-utils/async/raf';
 import {ESLSelectList} from '../../esl-select-list/core';
 
 import type {ESLSelect} from './esl-select';
-import type {ToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
+import type {ESLToggleableActionParams} from '../../../esl-toggleable/core/esl-toggleable';
 
 /**
  * ESLSelectDropdown component
@@ -16,8 +15,8 @@ import type {ToggleableActionParams} from '../../../esl-toggleable/core/esl-togg
  * Uses {@link ESLSelectList} to render the content
  */
 export class ESLSelectDropdown extends ESLToggleable {
-  public static readonly is = 'esl-select-dropdown';
-  public static register(): void {
+  public static override readonly is = 'esl-select-dropdown';
+  public static override register(): void {
     ESLSelectList.register();
     super.register();
   }
@@ -30,35 +29,26 @@ export class ESLSelectDropdown extends ESLToggleable {
   protected _disposeTimeout: number;
   protected _deferredUpdatePosition = rafDecorator(() => this.updatePosition());
 
-  @prop() public closeOnEsc = true;
-  @prop() public closeOnOutsideAction = true;
+  @prop() public override closeOnEsc = true;
+  @prop() public override closeOnOutsideAction = true;
 
   constructor() {
     super();
     this.$list = document.createElement(ESLSelectList.is);
   }
 
-  protected setInitialState(): void {}
+  protected override setInitialState(): void {}
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.appendChild(this.$list);
   }
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeChild(this.$list);
   }
 
-  protected bindEvents(): void {
-    super.bindEvents();
-    window.addEventListener('resize', this._deferredUpdatePosition);
-  }
-  protected unbindEvents(): void {
-    super.unbindEvents();
-    window.removeEventListener('resize', this._deferredUpdatePosition);
-  }
-
-  protected onShow(params: ToggleableActionParams): void {
+  protected override onShow(params: ESLToggleableActionParams): void {
     document.body.appendChild(this);
     this._disposeTimeout && window.clearTimeout(this._disposeTimeout);
 
@@ -72,7 +62,7 @@ export class ESLSelectDropdown extends ESLToggleable {
     focusable?.focus({preventScroll: true});
     this.updatePosition();
   }
-  protected onHide(params: ToggleableActionParams): void {
+  protected override onHide(params: ESLToggleableActionParams): void {
     const select = this.activator;
     super.onHide(params);
     this._disposeTimeout = window.setTimeout(() => {
@@ -82,8 +72,8 @@ export class ESLSelectDropdown extends ESLToggleable {
     select && setTimeout(() => select.focus({preventScroll: true}), 0);
   }
 
-  @bind
-  protected _onKeyboardEvent(e: KeyboardEvent): void {
+  @listen('keydown')
+  protected override _onKeyboardEvent(e: KeyboardEvent): void {
     super._onKeyboardEvent(e);
     if (e.key === TAB) this._onTabKey(e);
   }
@@ -94,6 +84,12 @@ export class ESLSelectDropdown extends ESLToggleable {
     const last = els[els.length - 1] as HTMLElement;
     if (first && e.target === last && !e.shiftKey) first.focus();
     if (last && e.target === first && e.shiftKey) last.focus();
+  }
+
+  @listen({event: 'resize', target: window})
+  protected _onResize(): void {
+    if (!this.activator) return;
+    this._deferredUpdatePosition();
   }
 
   @bind

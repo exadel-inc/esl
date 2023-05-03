@@ -34,9 +34,20 @@
         {% set releasedBlogs = collections.blogs | released %}
         {% if releasedBlogs.length %}
         <li class="sidebar-nav-item">
-          {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg', { new: true }) }}
+          {{ navitem ('Blogs', 'blogs', 'static/assets/sidebar/blogs.svg') }}
         </li>
         {% endif %}
+        {% if env.isDev %}
+          <li class="sidebar-nav-item">
+            {{ navitem ('Drafts', 'draft', 'static/assets/common/flask.svg') }}
+          </li>
+        {% endif %}
+        <li class="sidebar-nav-item sidebar-nav-item-share">
+          <div class='sidebar-nav-item-heading'>
+            <span>Share us with:</span>
+            <esl-share list="group:site"></esl-share>
+          </div>
+        </li>
       </ul>
 
       <esl-scrollbar class="sidebar-scrollbar" target="::prev"></esl-scrollbar>

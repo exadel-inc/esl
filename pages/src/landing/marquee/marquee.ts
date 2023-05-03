@@ -1,12 +1,10 @@
-import {ESLBaseElement, attr} from '../../../../src/modules/esl-base-element/core';
-import {bind} from '../../../../src/modules/esl-utils/decorators/bind';
-import {ready} from '../../../../src/modules/esl-utils/decorators/ready';
+import {ESLBaseElement} from '../../../../src/modules/esl-base-element/core';
+import {bind, ready, memoize, attr} from '../../../../src/modules/esl-utils/decorators';
 import {range} from '../../../../src/modules/esl-utils/misc/array';
-import {memoize} from '../../../../src/modules/esl-utils/decorators/memoize';
 import {isIE} from '../../../../src/modules/esl-utils/environment/device-detector';
 
 export class ESLDemoMarquee extends ESLBaseElement {
-  static is = 'esl-d-marquee';
+  static override is = 'esl-d-marquee';
   static STARS_SEL = 'use';
 
   @attr({defaultValue: '4'}) public targetsNumber: string;
@@ -16,12 +14,12 @@ export class ESLDemoMarquee extends ESLBaseElement {
   private _animateTimer: number = 0;
 
   @ready
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     if (isIE) return;
     this.startAnimation();
   }
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     this.stopAnimation();
     super.disconnectedCallback();
   }

@@ -43,10 +43,6 @@ rules:
   keyframe-declaration-no-important: true
   # Disallow duplicated at-rules
   no-duplicate-at-import-rules: true
-  # Warn about duplicate selectors within a stylesheet
-  no-duplicate-selectors:
-    - true
-    - severity: warning
   # Warn if empty sources
   no-empty-source:
     - true
@@ -56,6 +52,8 @@ rules:
   # Disallow double-slash comments `(//...)` for clear CSS, as they are not supported by CSS
   # and could lead to unexpected results
   no-invalid-double-slash-comments: true
+  # Disallow a leading zero for fractional numbers less than 1
+  number-leading-zero: never
   # Disallow unknown properties
   property-no-unknown: true
   # Disallow whitespace before the commas of selector lists

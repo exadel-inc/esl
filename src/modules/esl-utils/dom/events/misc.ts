@@ -42,3 +42,40 @@ export const getOffsetPoint = (el: Element): Point => {
   const x = props.left + window.scrollX;
   return {x, y};
 };
+
+/**
+ * Dispatches custom event.
+ * Event bubbles and is cancelable by default, use `eventInit` to override that.
+ * @param el - EventTarget to dispatch event
+ * @param eventName - name of the event to dispatch
+ * @param eventInit - object that specifies characteristics of the event. See {@link CustomEventInit}
+ */
+export const dispatchCustomEvent = (el: EventTarget, eventName: string, eventInit?: CustomEventInit): boolean => {
+  const init = Object.assign({
+    bubbles: true,
+    composed: true,
+    cancelable: true
+  }, eventInit || {});
+  return el.dispatchEvent(new CustomEvent(eventName, init));
+};
+
+/**
+ * Overrides {@link Event} `target` property
+ * @param event - {@link Event} to override
+ * @param key - {@link Event} property
+ * @param target - {@link EventTarget} to setup
+ * @returns original event
+ */
+export const overrideEvent = (
+  event: Event,
+  key: keyof Event,
+  target: null | EventTarget | (() => null | EventTarget)
+): Event => {
+  const provider = typeof target === 'function' ? target : ((): null | EventTarget => target);
+  Object.defineProperty(event, key, {
+    get: provider,
+    enumerable: true,
+    configurable: true
+  });
+  return event;
+};

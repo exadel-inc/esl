@@ -6,7 +6,8 @@
 [![npm](https://img.shields.io/npm/v/@exadel/esl?style=for-the-badge)](https://www.npmjs.com/package/@exadel/esl)
 [![npm Downloads](https://img.shields.io/npm/dt/@exadel/esl.svg?label=npm%20downloads&style=for-the-badge)](https://www.npmjs.com/package/@exadel/esl)
 [![version](https://img.shields.io/github/package-json/v/exadel-inc/esl?style=for-the-badge)](https://github.com/exadel-inc/esl/releases/latest)
-[![build](https://img.shields.io/github/workflow/status/exadel-inc/esl/validate/main?style=for-the-badge)](https://github.com/exadel-inc/esl/actions/workflows/validate.yml)
+[![build](https://img.shields.io/github/actions/workflow/status/exadel-inc/esl/validate.yml?style=for-the-badge)](https://github.com/exadel-inc/esl/actions/workflows/validate.yml)
+[![Tests Coverage](https://img.shields.io/codeclimate/coverage/exadel-inc/esl?style=for-the-badge)](https://codeclimate.com/github/exadel-inc/esl)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge)](./README.md)
 
 Exadel Smart Library (**ESL**) is an open-source **lightweight** and **flexible** UI component library based on web components.
@@ -40,7 +41,7 @@ to meet your project needs.
 
 ESL is based solely on Web API and ECMAScript 6 features, which let our web UI components library work 
 well across all modern browsers such as Firefox, Chrome, Safari, Opera, and Edge. 
-ESL can also work on IE11 when the whole list of polyfills is provided (see [Browser support & Polyfills](https://github.com/exadel-inc/esl/blob/HEAD/docs/BROWSER_SUPPORT.md) for more details)
+ESL can also work on IE11 when the whole list of polyfills is provided (see [Browser support & Polyfills](https://github.com/exadel-inc/esl/blob/HEAD/docs/BROWSER_SUPPORT.md) for more details).
 
 ## Library Structure
 
@@ -48,42 +49,39 @@ While building the UI component library, we included components, form components
 project architecture problems and comply with the DRY principle. 
 See the rundown of web components and read the specs.
 
-### Base Elements
+### Library Core
 
 With our UI component library, you get flexible syntax sugar meant for building on top of basic components and 
 controlling their life cycle.
 
 - ##### [ESL Base Element](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-base-element/README.md)
+- ##### [ESL Mixin Element](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-mixin-element/README.md)
+- ##### [ESL Media Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media-query/README.md)
+- ##### [ESL Traversing Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-traversing-query/README.md)
+- ##### [ESL Event Listener](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-event-listener/README.md)
+- ##### [ESL Utils](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-utils/README.md)
 
 ### Components
 
 Our HTML UI component library provides you with all the elements you’ll need to construct UX modules 
 with excellent performance.
 
-- ##### [ESL Image](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-image/README.md)
-- ##### [ESL Media](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media/README.md)
-- ##### [ESL Scrollbar](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-scrollbar/README.md)
-
-- ##### [ESL Toggleable](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-toggleable/README.md)
-- ##### [ESL Trigger](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-trigger/README.md)
-- ##### [ESL Panel and Panel Group](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-panel/README.md)
-- ##### [ESL Tab and Tabs](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-tab/README.md)
+- ##### [ESL A11yGroup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-a11y-group/README.md) (beta)
 - ##### [ESL Alert](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-alert/README.md)
 - ##### [ESL Animate](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-animate/README.md) (beta)
+- ##### [ESL Footnotes](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-footnotes/README.md) (beta)
+- ##### [ESL Image](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-image/README.md)
+- ##### [ESL Media](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media/README.md)
+- ##### [ESL Panel](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-panel/README.md)
+- ##### [ESL Panel Group](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-panel-group/README.md)
 - ##### [ESL Popup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-popup/README.md) (beta)
-
-- ##### [ESL Select](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select/README.md)
-- ##### [ESL Select List](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select-list/README.md)
-
-### Utilities
-
-Our web UI components library equips you with utilities to build components using simplifying syntax sugar and a 
-big set of helpers.
-
-- ##### [ESL A11yGroup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-a11y-group/README.md)
-- ##### [ESL Media Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media-query/README.md)
-- ##### [ESL Traversing Query](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-traversing-query/README.md)
-- ##### [ESL Utils](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-utils/README.md)
+- ##### [ESL Related Target](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-related-target/README.md) (beta)
+- ##### [ESL Scrollbar](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-scrollbar/README.md)
+- ##### [ESL Select](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select/README.md) (beta)
+- ##### [ESL Select List](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select-list/README.md) (beta)
+- ##### [ESL Tab and Tabs](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-tab/README.md)
+- ##### [ESL Toggleable](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-toggleable/README.md)
+- ##### [ESL Trigger](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-trigger/README.md)
 
 ---
 ## Installation Guide
@@ -130,18 +128,17 @@ big set of helpers.
     *You can pass custom tag name to 'register' function, but use this option only in an exceptional situation.*
 
 ---
+
 ## Roadmap
 <a name="roadmap"></a>
 
-- ESL Carousel component (v4.0.0)
-- More helpers and sugar of ESLBaseElement (event listener helpers and decorators) (v4.0.0)
+- ESL Carousel component (v4.1.0)
 - Migration to multi-package structure (v5.0.0)
-- Interactive Documentation and more demo site features
-- Sharable assets from demo site (styles components)
 - Demo pages [UI Playground](https://github.com/exadel-inc/ui-playground) integration
-- Stable version of ESL Footnotes and ESL Popup components
+- A stable version of ESL Footnotes and ESL Popup components
+- Interactive Documentation and more demo site features
+- Sharable assets from the demo site (styles components)
 - Extension of esl-form elements (custom form base, helpers, validation and more)
-- Anchor Navigation component
 - More components in the library
 
 <a name="roadmap_end"></a>

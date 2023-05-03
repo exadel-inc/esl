@@ -17,5 +17,5 @@ export function copyDefinedKeys<T>(obj?: T): Partial<T> {
 
 /** Omits copying provided properties from object */
 export function omit<T>(obj: T, keys: string[]): Partial<T> {
-  return copy(obj, key => !keys.includes(key));
+  return copy(obj, (key) => !keys.includes(key));
 }

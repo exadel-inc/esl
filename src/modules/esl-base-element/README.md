@@ -6,16 +6,16 @@ Authors: *Alexey Stsefanovich (ala'n)*
 
 <a name="intro"></a>
 
-Provides the core for creating custom elements and TS (TypeScript) decorators to simplify components creation.
+Provides the core for creating custom elements and TS (TypeScript) decorators to simplify component creation.
 
 **ESLBaseElement** - base class for custom (tag) element declaration
 
 ### Base Element static API
 - `MyElement.is` - property that defines tag name
-- `MyElement.observedAttributes` - array of attributes to observe
+- `MyElement.observedAttributes` - an array of attributes to observe
 
 - `MyElement.register` - register component inside `customElements` registry
-- `MyElement.registered` - returns promise that will be resolved as soon as the component is registered
+- `MyElement.registered` - returns a promise that will be resolved as soon as the component is registered
 
 ### Base Element API
 Properties:
@@ -24,14 +24,15 @@ Properties:
 Attributes: 
 - `connectedCallback` - called when the element is appended to the DOM
 - `disconnectedCallback` - called when the element is disconnected from the DOM
-- `attributeChangeCallback` - called when the observable attribute is changed
+- `attributeChangedCallback` - called when the observable attribute is changed
+  (happens when the attribute is accessed for writing, independently of the actual value change)
 
-- `$$cls` - check or change element CSS classes (uses CSSClassUtils) 
-- `$$attr` - check or change element attributes
-- `$$fire` - dispatch event
+- `$$cls` - checks or changes element CSS classes (uses CSSClassUtils) 
+- `$$attr` - checks or changes element attributes
+- `$$fire` - dispatches event
 
-- `$$on` - subscribe on event manually or subscribe decorated method
-- `$$off` - unsubscribe from event manually or unsubscribe decorated method
+- `$$on` - subscribes to the event manually or subscribes decorated method
+- `$$off` - unsubscribes from the event manually or unsubscribes decorated method
 
 ### Element decorators
 
@@ -39,11 +40,10 @@ Attributes:
  - `@boolAttr` - to map boolean property to HTML boolean (marker) attribute state
  - `@jsonAttr` - to map object property to HTML attribute using JSON format to serialize / deserialize value
 
- - `@listen` - decorate method with `ESLListenerDescriptor` props
-
-Use the `@prop` decorator to override a property
-created via `@attr`, `@boolAttr` or `@jsonAttr` at the parent level
-with non-attribute accessor value.
+ - `@listen` - decorate a method with `ESLListenerDescriptor` props
+ - `@prop` - a decorator to create prototype-level value definition.  
+   It also gives an ability to override a property created via `@attr`, `@boolAttr` or `@jsonAttr` at the parent level
+   with non-attribute accessor value.
 
 ### Base Example
 

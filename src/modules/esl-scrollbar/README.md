@@ -1,12 +1,12 @@
 # [ESL](../../../) Scrollbar
 
-Version: *2.0.0*
+Version: *2.0.0*.
 
-Authors: *Yuliya Adamskaya*
+Authors: *Yuliya Adamskaya*.
 
 <a name="intro"></a>
 
-ESLScrollbar is a reusable web component that replaces the browser's default scrollbar with 
+**ESLScrollbar** is a reusable web component that replaces the browser's default scrollbar with 
 a _custom scrollbar_ implementation.
 
 ESLScrollbar is entirely configurable and can be styled through CSS.
@@ -16,7 +16,7 @@ ESLScrollbar is entirely configurable and can be styled through CSS.
 - both scroll directions: `vertical` and `horizontal`.  
   Direction can be defined with the boolean `horizontal` attribute.
 
-- independent target scrollable element definition using [TraversingQuery](../esl-traversing-query/README.md)
+- independent target scrollable element definition using [ESLTraversingQuery](../esl-traversing-query/README.md)
 
 - complete customization from CSS
 
@@ -54,7 +54,7 @@ Use the full module path to import it
 
 - `horizontal` \[boolean] - horizontal scroll direction marker
 
-- `target` - [TraversingQuery](../esl-traversing-query/README.md) to find the container of scrollable content
+- `target` - [ESLTraversingQuery](../esl-traversing-query/README.md) to find the container of scrollable content
 
 - `thumb-class` (default `scrollbar-thumb`) - class(es) that will be added to the scroll thumb
 

@@ -5,7 +5,7 @@ import type {ESLToggleable} from '../../esl-toggleable/core';
 
 @ExportNs('ToggleablePlaceholder')
 export class ESLToggleablePlaceholder extends ESLBaseElement {
-  public static is = 'esl-toggleable-placeholder';
+  public static override is = 'esl-toggleable-placeholder';
 
   /** List of attributes allowed to copy from origin to this element */
   public static readonly allowedAttrs: string[] = ['id', 'class'];
@@ -19,7 +19,7 @@ export class ESLToggleablePlaceholder extends ESLBaseElement {
     return $placeholder;
   }
 
-  public connectedCallback(): void {
+  public override connectedCallback(): void {
     this.copyAttributesFromOrigin();
     super.connectedCallback();
   }

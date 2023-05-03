@@ -1,10 +1,10 @@
-import {attr, ESLMixinElement} from '../core';
+import {ESLMixinElement} from '../core';
 
 // TODO: exited with more cases
 describe('ESLMixinElement', () => {
   describe('register', () => {
     class TestMixin extends ESLMixinElement {
-      static is = 'test-mixin';
+      static override is = 'test-mixin';
     }
 
     test('init', async () => {
@@ -33,34 +33,6 @@ describe('ESLMixinElement', () => {
 
       await Promise.resolve(); // Wait for next microtask
       expect(TestMixin.get($el)).toBeInstanceOf(ESLMixinElement);
-    });
-
-    afterAll(() => {
-      while (document.body.lastElementChild) document.body.removeChild(document.body.lastElementChild);
-    });
-  });
-
-  describe('instance proxy', () => {
-    class TestMixin extends ESLMixinElement {
-      static is = 'test-mixin-2';
-
-      @attr() public val: string;
-    }
-
-    const $el = document.createElement('div');
-    $el.toggleAttribute(TestMixin.is, true);
-
-    beforeAll(() => {
-      document.body.appendChild($el);
-      TestMixin.register();
-    });
-
-    test('attr', async () => {
-      const mixin = TestMixin.get($el) as TestMixin;
-      expect($el.getAttribute('val')).toBe(null);
-
-      mixin.val = 'a';
-      expect($el.getAttribute('val')).toBe('a');
     });
 
     afterAll(() => {

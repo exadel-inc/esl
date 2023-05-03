@@ -1,15 +1,14 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {bind} from '../../esl-utils/decorators/bind';
-import {prop} from '../../esl-utils/decorators/prop';
+import {bind, prop, attr, boolAttr} from '../../esl-utils/decorators';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
-import {TraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
+import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
 import {getIObserver} from './esl-image-iobserver';
-import {STRATEGIES} from './esl-image-strategies';
+import {EMPTY_IMAGE, STRATEGIES, isEmptyImage} from './esl-image-strategies';
 
-import type {ESLImageRenderStrategy, ESLImageStrategyMap} from './esl-image-strategies';
+import type {ESLImageRenderStrategy} from './esl-image-strategies';
 
 type LoadState = 'error' | 'loaded' | 'ready';
 const isLoadState = (state: string): state is LoadState => ['error', 'loaded', 'ready'].includes(state);
@@ -22,19 +21,14 @@ const isLoadState = (state: string): state is LoadState => ['error', 'loaded', '
  */
 @ExportNs('Image')
 export class ESLImage extends ESLBaseElement {
-  public static is = 'esl-image';
+  public static override is = 'esl-image';
   public static observedAttributes = ['alt', 'role', 'mode', 'aria-label', 'data-src', 'data-src-base', 'lazy-triggered'];
 
   /** Default container class value */
   public static DEFAULT_CONTAINER_CLS = 'img-container-loaded';
 
-  public static get STRATEGIES(): ESLImageStrategyMap {
-    return STRATEGIES;
-  }
-
-  public static get EMPTY_IMAGE(): string {
-    return 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-  }
+  public static readonly STRATEGIES = STRATEGIES;
+  public static readonly EMPTY_IMAGE = EMPTY_IMAGE;
 
   /** Event that represents ready state of {@link ESLImage} */
   @prop('ready') public READY_EVENT: string;
@@ -69,12 +63,12 @@ export class ESLImage extends ESLBaseElement {
   private _detachLazyTrigger: () => void;
   private _shadowImageElement: HTMLImageElement;
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.alt =
       this.alt || this.getAttribute('aria-label') || this.getAttribute('data-alt') || '';
     this.updateA11y();
-    this.srcRules.addEventListener(this._onMediaMatchChange);
+    this.srcRules = ESLMediaRuleList.parse(this.src);
     if (this.lazyObservable) {
       this.removeAttribute('lazy-triggered');
       getIObserver().observe(this);
@@ -86,7 +80,8 @@ export class ESLImage extends ESLBaseElement {
     this.refresh();
   }
 
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
+    this.clearImage();
     super.disconnectedCallback();
     this._detachLazyTrigger && this._detachLazyTrigger();
     if (this._srcRules) {
@@ -140,7 +135,7 @@ export class ESLImage extends ESLBaseElement {
   }
 
   public get empty(): boolean {
-    return !this._currentSrc || ESLImage.isEmptyImage(this._currentSrc);
+    return !this._currentSrc || isEmptyImage(this._currentSrc);
   }
 
   public get canUpdate(): boolean {
@@ -304,12 +299,8 @@ export class ESLImage extends ESLBaseElement {
     const cls = this.containerClass || (this.constructor as typeof ESLImage).DEFAULT_CONTAINER_CLS;
     const state = isLoadState(this.containerClassState) && this[this.containerClassState];
 
-    const targetEl = TraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
+    const targetEl = ESLTraversingQuery.first(this.containerClassTarget, this) as HTMLElement;
     targetEl && CSSClassUtils.toggle(targetEl, cls, state);
-  }
-
-  public static isEmptyImage(src: string): boolean {
-    return src === ESLImage.EMPTY_IMAGE;
   }
 }
 
