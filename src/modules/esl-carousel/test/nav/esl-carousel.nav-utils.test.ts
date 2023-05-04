@@ -5,13 +5,13 @@ import {
   indexToGroup,
   resolveIndex,
   toIndex
-} from '../../core/nav/esl-carousel.nav-utils';
+} from '../../core/nav/esl-carousel.nav.utils';
 
 import type {
   ESLCarouselDirection,
   ESLCarouselSlideTarget,
   ESLCarouselState
-} from '../../core/nav/esl-carousel.nav-types';
+} from '../../core/nav/esl-carousel.nav.types';
 
 describe('ESLCarousel: Nav Utils', () => {
   describe('normalizeIndex', () => {

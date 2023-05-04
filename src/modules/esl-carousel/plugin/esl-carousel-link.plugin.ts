@@ -3,7 +3,7 @@ import {bind, attr} from '../../esl-utils/decorators';
 import {ESLCarousel} from '../core/esl-carousel';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
-import {ESLCarouselPlugin} from '../core/esl-carousel-plugin';
+import {ESLCarouselPlugin} from '../core/esl-carousel.plugin';
 
 /**
  * Slide Carousel Link plugin. Allows to bind carousel positions.

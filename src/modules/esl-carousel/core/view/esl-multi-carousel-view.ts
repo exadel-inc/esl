@@ -1,10 +1,10 @@
 import {promisifyEvent, repeatSequence, resolvePromise} from '../../../esl-utils/async/promise';
 
-import {calcDirection, normalizeIndex} from '../nav/esl-carousel.nav-utils';
+import {calcDirection, normalizeIndex} from '../nav/esl-carousel.nav.utils';
 import {ESLCarouselView} from './esl-carousel-view';
 
-import type {ESLCarouselSlide} from '../esl-carousel-slide';
-import type {ESLCarouselDirection} from '../nav/esl-carousel.nav-types';
+import type {ESLCarouselSlide} from '../esl-carousel.slide';
+import type {ESLCarouselDirection} from '../nav/esl-carousel.nav.types';
 
 
 export class ESLMultiCarouselView extends ESLCarouselView {

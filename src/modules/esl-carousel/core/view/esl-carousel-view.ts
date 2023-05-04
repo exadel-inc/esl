@@ -2,7 +2,7 @@ import {Observable} from '../../../esl-utils/abstract/observable';
 import {memoize} from '../../../esl-utils/decorators/memoize';
 
 import type {ESLCarousel} from '../esl-carousel';
-import type {ESLCarouselDirection} from '../nav/esl-carousel.nav-types';
+import type {ESLCarouselDirection} from '../nav/esl-carousel.nav.types';
 
 export abstract class ESLCarouselView {
   public static is = '';
@@ -74,6 +74,7 @@ export abstract class ESLCarouselView {
 }
 export type ESLCarouselViewConstructor = new(carousel: ESLCarousel) => ESLCarouselView;
 
+// TODO: target listener
 export class ESLCarouselViewRegistry extends Observable<(name: string, view: ESLCarouselViewConstructor) => void> {
   private store = new Map<string, ESLCarouselViewConstructor>();
 

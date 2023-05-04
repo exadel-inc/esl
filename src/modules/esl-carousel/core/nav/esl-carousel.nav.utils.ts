@@ -1,4 +1,4 @@
-import type {ESLCarouselDirection, ESLCarouselNavIndex, ESLCarouselSlideTarget, ESLCarouselState} from './esl-carousel.nav-types';
+import type {ESLCarouselDirection, ESLCarouselNavIndex, ESLCarouselSlideTarget, ESLCarouselState} from './esl-carousel.nav.types';
 
 /** @returns normalized slide index in bounds of [0, count] range */
 export function normalizeIndex(index: number, size: number): number {

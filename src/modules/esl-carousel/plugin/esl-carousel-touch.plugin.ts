@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {bind} from '../../esl-utils/decorators/bind';
 import {isMouseEvent, isTouchEvent, getTouchPoint} from '../../esl-utils/dom/events';
 
-import {ESLCarouselPlugin} from '../core/esl-carousel-plugin';
+import {ESLCarouselPlugin} from '../core/esl-carousel.plugin';
 
 import type {Point} from '../../esl-utils/dom/events';
 

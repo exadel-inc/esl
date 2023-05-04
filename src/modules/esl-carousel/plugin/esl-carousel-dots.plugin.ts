@@ -3,8 +3,8 @@ import {bind, listen} from '../../esl-utils/decorators';
 import {ARROW_LEFT, ARROW_RIGHT} from '../../esl-utils/dom/keys';
 import {findNextLooped, findPrevLooped} from '../../esl-utils/dom/traversing';
 
-import {ESLCarouselPlugin} from '../core/esl-carousel-plugin';
-import {indexToGroup} from '../core/nav/esl-carousel.nav-utils';
+import {ESLCarouselPlugin} from '../core/esl-carousel.plugin';
+import {indexToGroup} from '../core/nav/esl-carousel.nav.utils';
 
 /**
  * Slide Carousel Dots plugin

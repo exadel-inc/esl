@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLCarouselPlugin} from '../core/esl-carousel-plugin';
+import {ESLCarouselPlugin} from '../core/esl-carousel.plugin';
 import {listen, attr} from '../../esl-base-element/core';
 
 /**
@@ -49,21 +49,6 @@ export class ESLCarouselArrowPlugin extends ESLCarouselPlugin {
     }
     this.carousel.goTo(this.direction);
   }
-
-  // /** Handles `keydown` event. */
-  // @listen('keydown')
-  // protected _onKeydown(event: KeyboardEvent): void {
-  //   if (ARROW_LEFT === event.key) {
-  //     const $eventTarget: HTMLElement = event.target as HTMLElement;
-  //     const $nextDot = findPrevLooped($eventTarget, '.carousel-dot') as HTMLElement;
-  //     $nextDot.click();
-  //   }
-  //   if (ARROW_RIGHT === event.key) {
-  //     const $eventTarget: HTMLElement = event.target as HTMLElement;
-  //     const $nextDot = findNextLooped($eventTarget, '.carousel-dot') as HTMLElement;
-  //     $nextDot.click();
-  //   }
-  // }
 }
 
 declare global {

@@ -8,12 +8,12 @@ import {parseBoolean} from '../../esl-utils/misc/format';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 
 import {isEqual} from '../../esl-utils/misc/object/compare';
-import {normalizeIndex, toIndex, toDirection} from './nav/esl-carousel.nav-utils';
-import {ESLCarouselSlide} from './esl-carousel-slide';
+import {normalizeIndex, toIndex, toDirection} from './nav/esl-carousel.nav.utils';
+import {ESLCarouselSlide} from './esl-carousel.slide';
 import {ESLCarouselView} from './view/esl-carousel-view';
 
-import type {ESLCarouselPlugin} from './esl-carousel-plugin';
-import type {ESLCarouselState, ESLCarouselDirection, ESLCarouselSlideTarget} from './nav/esl-carousel.nav-types';
+import type {ESLCarouselPlugin} from './esl-carousel.plugin';
+import type {ESLCarouselState, ESLCarouselDirection, ESLCarouselSlideTarget} from './nav/esl-carousel.nav.types';
 
 /** Config to define behavior of ESLCarousel */
 interface CarouselConfig {
@@ -127,21 +127,6 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     memoize.clear(this, `${attrName}Rule`);
     this.update();
   }
-
-  // /** Handles `click` event. */
-  // // TODO: focus disappear after click
-  // @listen({
-  //   event: 'click',
-  //   target: '::parent([esl-carousel-container])',
-  //   selector: '[data-slide-target]'
-  // })
-  // protected _onClick(event: MouseEvent): void {
-  //   const eventTarget: HTMLElement = event.target as HTMLElement;
-  //   const markedTarget: HTMLElement | null = eventTarget.closest('[data-slide-target]');
-  //   if (markedTarget && markedTarget.dataset.slideTarget) {
-  //     this.goTo(markedTarget.dataset.slideTarget as ESLCarouselSlideTarget);
-  //   }
-  // }
 
   protected override connectedCallback(): void {
     super.connectedCallback();
