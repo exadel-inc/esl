@@ -211,14 +211,14 @@ describe('ESLCarousel: Nav Utils', () => {
         ['group: next', {size: 5, count: 1, firstIndex: 2}, 3],
         ['group: next', {size: 5, count: 2, firstIndex: 2}, 3],
         ['group: next', {size: 5, count: 1, firstIndex: 4}, 0],
-        ['group: next', {size: 5, count: 2, firstIndex: 4}, 0],
+        ['group: next', {size: 5, count: 2, firstIndex: 4}, 1],
         ['group: next', {size: 5, count: 3, firstIndex: 0}, 2],
 
         ['group: prev', {size: 5, count: 1, firstIndex: 2}, 1],
         ['group: prev', {size: 5, count: 2, firstIndex: 2}, 0],
         ['group: prev', {size: 5, count: 1, firstIndex: 0}, 4],
-        ['group: prev', {size: 5, count: 3, firstIndex: 1}, 0],
-        ['group: prev', {size: 5, count: 3, firstIndex: 4}, 0]
+        ['group: prev', {size: 5, count: 3, firstIndex: 1}, 2],
+        ['group: prev', {size: 5, count: 3, firstIndex: 4}, 1]
       ])(
         '(target = %s, cfg = %p) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg)).toBe(result)

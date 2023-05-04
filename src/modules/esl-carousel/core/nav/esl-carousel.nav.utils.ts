@@ -48,8 +48,8 @@ export function resolveIndex(index: string | ESLCarouselNavIndex, {firstIndex, s
 /** @returns normalized numeric index from string with absolute or relative group index */
 export function resolveGroupIndex(index: string | ESLCarouselNavIndex, {firstIndex, count, size}: ESLCarouselState): number {
   const {value, isRelative} = parseIndex(index);
-  const initial = isRelative ? indexToGroup(firstIndex, count, size) : 0;
-  return groupToIndex(initial + value, count, size);
+  if (!isRelative) return groupToIndex(value, count, size);
+  return Math.min(size - count, normalizeIndex(firstIndex + value * count, size));
 }
 
 /** @returns normalized index from target definition and current state */
