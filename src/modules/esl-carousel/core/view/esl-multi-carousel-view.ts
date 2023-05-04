@@ -1,10 +1,10 @@
 import {promisifyEvent, repeatSequence, resolvePromise} from '../../../esl-utils/async/promise';
 
-import {calcDirection, normalizeIndex} from '../esl-carousel-utils';
+import {calcDirection, normalizeIndex} from '../nav/esl-carousel.nav-utils';
 import {ESLCarouselView} from './esl-carousel-view';
 
 import type {ESLCarouselSlide} from '../esl-carousel-slide';
-import type {CarouselDirection} from '../esl-carousel-utils';
+import type {ESLCarouselDirection} from '../nav/esl-carousel.nav-types';
 
 
 export class ESLMultiCarouselView extends ESLCarouselView {
@@ -14,7 +14,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
   protected currentIndex: number = 0;
 
   /** Gets count of slides between active and passed considering given direction. */
-  protected getDistance(slide: ESLCarouselSlide | number, direction: CarouselDirection): number {
+  protected getDistance(slide: ESLCarouselSlide | number, direction: ESLCarouselDirection): number {
     if (typeof slide !== 'number') slide = slide.index;
     let count = 0;
     if (direction === 'prev') {
@@ -66,7 +66,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
   }
 
   /** Processes animation. */
-  public onAnimate(nextIndex: number, direction: CarouselDirection): Promise<void> {
+  public onAnimate(nextIndex: number, direction: ESLCarouselDirection): Promise<void> {
     this.currentIndex = this.carousel.firstIndex;
 
     const animateSlide = (): Promise<void> =>
@@ -82,7 +82,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
   }
 
   /** Pre-processing the transition animation of one slide. */
-  protected async onBeforeStepAnimate(direction: CarouselDirection): Promise<void> {
+  protected async onBeforeStepAnimate(direction: ESLCarouselDirection): Promise<void> {
     this.carousel.$slides.forEach((el) => el.toggleAttribute('visible'));
 
     const orderIndex = direction === 'next' ? this.currentIndex : normalizeIndex(this.currentIndex - 1, this.size);
@@ -111,7 +111,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
   }
 
   /** Post-processing the transition animation of one slide. */
-  protected async onAfterStepAnimate(direction: CarouselDirection): Promise<void> {
+  protected async onAfterStepAnimate(direction: ESLCarouselDirection): Promise<void> {
     // TODO: onAfterAnimate
     this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', false));
     this.carousel.$slidesArea!.style.transform = 'translate3d(0px, 0px, 0px)';

@@ -1,7 +1,8 @@
 import {promisifyEvent, resolvePromise} from '../../../esl-utils/async/promise';
 import {promisifyNextRender} from '../../../esl-utils/async/raf';
 import {ESLCarouselView} from './esl-carousel-view';
-import type {CarouselDirection} from '../esl-carousel-utils';
+
+import type {ESLCarouselDirection} from '../nav/esl-carousel.nav-types';
 
 export class ESLSlideCarouselView extends ESLCarouselView {
   public static override is = 'slide';
@@ -42,7 +43,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
   }
 
   /** Pre-processing animation action. */
-  public async onBeforeAnimate(index: number, direction: CarouselDirection): Promise<void> {
+  public async onBeforeAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {
     if (this.carousel.hasAttribute('animate')) return Promise.reject();
 
     const $activeSlide = this.carousel.$activeSlide;
@@ -57,7 +58,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
   }
 
   /** Processes animation. */
-  public async onAnimate(nextIndex: number, direction: CarouselDirection): Promise<void> {
+  public async onAnimate(nextIndex: number, direction: ESLCarouselDirection): Promise<void> {
     this.carousel.toggleAttribute('animate', true);
 
     // TODO: !

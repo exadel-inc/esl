@@ -2,7 +2,7 @@ import {Observable} from '../../../esl-utils/abstract/observable';
 import {memoize} from '../../../esl-utils/decorators/memoize';
 
 import type {ESLCarousel} from '../esl-carousel';
-import type {CarouselDirection} from '../esl-carousel-utils';
+import type {ESLCarouselDirection} from '../nav/esl-carousel.nav-types';
 
 export abstract class ESLCarouselView {
   public static is = '';
@@ -44,9 +44,9 @@ export abstract class ESLCarouselView {
   public redraw(): void {}
 
   /** Pre-processing animation action. */
-  public abstract onBeforeAnimate(index?: number, direction?: CarouselDirection): Promise<void>;
+  public abstract onBeforeAnimate(index?: number, direction?: ESLCarouselDirection): Promise<void>;
   /** Processes animation. */
-  public abstract onAnimate(index: number, direction: CarouselDirection): Promise<void>;
+  public abstract onAnimate(index: number, direction: ESLCarouselDirection): Promise<void>;
   /** Post-processing animation action. */
   public abstract onAfterAnimate(): Promise<void>;
 

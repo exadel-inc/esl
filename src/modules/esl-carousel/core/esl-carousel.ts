@@ -8,12 +8,12 @@ import {parseBoolean} from '../../esl-utils/misc/format';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 
 import {isEqual} from '../../esl-utils/misc/object/compare';
-import {normalizeIndex, toIndex, toDirection} from './esl-carousel-utils';
+import {normalizeIndex, toIndex, toDirection} from './nav/esl-carousel.nav-utils';
 import {ESLCarouselSlide} from './esl-carousel-slide';
 import {ESLCarouselView} from './view/esl-carousel-view';
 
 import type {ESLCarouselPlugin} from './esl-carousel-plugin';
-import type {CarouselDirection, CarouselSlideTarget} from './esl-carousel-utils';
+import type {ESLCarouselState, ESLCarouselDirection, ESLCarouselSlideTarget} from './nav/esl-carousel.nav-types';
 
 /** Config to define behavior of ESLCarousel */
 interface CarouselConfig {
@@ -30,7 +30,7 @@ interface CarouselConfig {
 /** {@link ESLCarousel} action params interface */
 export interface CarouselActionParams {
   /** Direction to move to. */
-  direction?: CarouselDirection;
+  direction?: ESLCarouselDirection;
   /** Force action independently of current state of the Carousel. */
   force?: boolean;
   // TODO: implement
@@ -44,7 +44,7 @@ export interface CarouselActionParams {
  * ESLCarousel - a slideshow component for cycling through slides {@link ESLCarouselSlide}.
  */
 @ExportNs('Carousel')
-export class ESLCarousel extends ESLBaseElement {
+export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
   public static readonly Slide = ESLCarouselSlide;
 
   public static override is = 'esl-carousel';
@@ -139,7 +139,7 @@ export class ESLCarousel extends ESLBaseElement {
   //   const eventTarget: HTMLElement = event.target as HTMLElement;
   //   const markedTarget: HTMLElement | null = eventTarget.closest('[data-slide-target]');
   //   if (markedTarget && markedTarget.dataset.slideTarget) {
-  //     this.goTo(markedTarget.dataset.slideTarget as CarouselSlideTarget);
+  //     this.goTo(markedTarget.dataset.slideTarget as ESLCarouselSlideTarget);
   //   }
   // }
 
@@ -166,7 +166,6 @@ export class ESLCarousel extends ESLBaseElement {
     this.countRule.addEventListener(this._onUpdate);
     this.loopRule.addEventListener(this._onUpdate);
     this._resizeObserver.observe(this);
-
   }
 
   protected unbindEvents(): void {
@@ -240,7 +239,7 @@ export class ESLCarousel extends ESLBaseElement {
 
   /** Goes to the target according to passed params. */
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  public async goTo(target: CarouselSlideTarget, params: CarouselActionParams = {}): Promise<void> {
+  public async goTo(target: ESLCarouselSlideTarget, params: CarouselActionParams = {}): Promise<void> {
     // TODO: ?
     if (this.dataset.isAnimated) return;
 

@@ -4,6 +4,7 @@ import {ARROW_LEFT, ARROW_RIGHT} from '../../esl-utils/dom/keys';
 import {findNextLooped, findPrevLooped} from '../../esl-utils/dom/traversing';
 
 import {ESLCarouselPlugin} from '../core/esl-carousel-plugin';
+import {indexToGroup} from '../core/nav/esl-carousel.nav-utils';
 
 /**
  * Slide Carousel Dots plugin
@@ -28,9 +29,10 @@ export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
 
   /** Renders dots according to the carousel state. */
   public rerender(): void {
+    const {firstIndex, count, size} = this.carousel;
     let html = '';
-    const activeDot = Math.floor(this.carousel.activeIndexes[this.carousel.count - 1] / this.carousel.count);
-    for (let i = 0; i < Math.ceil(this.carousel.size / this.carousel.count); ++i) {
+    const activeDot = indexToGroup(firstIndex, count, size);
+    for (let i = 0; i < Math.ceil(size / count); ++i) {
       html += this.buildDot(i, i === activeDot);
     }
     this.innerHTML = html;
@@ -39,7 +41,7 @@ export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
   /** Builds content of dots. */
   public buildDot(index: number, isActive: boolean): string {
     return `<button role="button"
-                data-group-index="${index + 1}"
+                data-group-index="group:${index}"
                 class="carousel-dot ${isActive ? 'active-dot' : ''}"
                 aria-current="${isActive ? 'true' : 'false'}"></button>`;
   }
@@ -54,8 +56,7 @@ export class ESLCarouselDotsPlugin extends ESLCarouselPlugin {
   protected _onClick(event: PointerEvent): void {
     const $target = (event.target as Element).closest('[data-group-index]');
     if (!$target) return;
-    const index = +($target.getAttribute('data-group-index') || '0');
-    this.carousel.goTo('g' + index);
+    this.carousel.goTo($target.getAttribute('data-group-index') || '');
   }
 
   /** Handles `keydown` event. */
