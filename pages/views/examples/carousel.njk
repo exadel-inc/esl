@@ -1,7 +1,7 @@
 ---
 layout: content
-title: Carousel Promo
-name: Carousel Promo
+title: Carousel Example
+name: Carousel Example
 tags: [examples, draft]
 icon: examples/carousel.svg
 ---
@@ -11,7 +11,8 @@ icon: examples/carousel.svg
 
 <section>
   <div esl-carousel-container>
-    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
+    <button class="arrow-prev icon-arrow-prev"
+            esl-carousel-nav="group:prev"><span class="sr-only">Previous Slide</span></button>
 
     <esl-carousel count="5" type="multi" loop="true">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
@@ -35,7 +36,8 @@ icon: examples/carousel.svg
       </div>
     </esl-carousel>
 
-    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
+    <button class="arrow-next icon-arrow-next"
+            esl-carousel-nav="group:next"><span class="sr-only">Next Slide</span></button>
   </div>
   <div class="text-center">
     <esl-carousel-dots class="carousel-dots-wrapper" target="esl-carousel"></esl-carousel-dots>
