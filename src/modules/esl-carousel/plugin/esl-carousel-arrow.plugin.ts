@@ -1,6 +1,6 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLCarouselPlugin} from '../core/esl-carousel.plugin';
 import {listen, attr} from '../../esl-base-element/core';
+import {ESLCarouselPluginElement} from '../core/plugin/esl-carousel.plugin.element';
 
 /**
  * Slide Carousel Arrow plugin
@@ -9,10 +9,13 @@ import {listen, attr} from '../../esl-base-element/core';
  * @author Julia Murashko
  */
 @ExportNs('CarouselPlugins.Arrow')
-export class ESLCarouselArrowPlugin extends ESLCarouselPlugin {
+export class ESLCarouselArrowPlugin extends ESLCarouselPluginElement {
   public static override is = 'esl-carousel-arrow';
-  public static override DEFAULT_TARGET = '::parent([esl-carousel-container])::find(esl-carousel)';
 
+  @attr({
+    defaultValue: '::parent([esl-carousel-container])::find(esl-carousel)'
+  })
+  public override target: string;
   /** Horizontal scroll orientation marker */
   @attr({name: 'direction', defaultValue: 'next'}) public direction: string;
 

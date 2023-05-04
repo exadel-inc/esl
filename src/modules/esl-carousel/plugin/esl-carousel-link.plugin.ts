@@ -3,15 +3,15 @@ import {bind, attr} from '../../esl-utils/decorators';
 import {ESLCarousel} from '../core/esl-carousel';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
-import {ESLCarouselPlugin} from '../core/esl-carousel.plugin';
+import {ESLCarouselPluginElement} from '../core/plugin/esl-carousel.plugin.element';
 
 /**
  * Slide Carousel Link plugin. Allows to bind carousel positions.
  */
 @ExportNs('CarouselPlugins.Link')
-export class ESLCarouselLinkPlugin extends ESLCarouselPlugin {
+export class ESLCarouselLinkPlugin extends ESLCarouselPluginElement {
   public static override is = 'esl-carousel-link-plugin';
-  public static override observedAttributes = ['to', 'direction'];
+  public static override observedAttributes = ['target', 'to', 'direction'];
 
   @attr() public to: string;
   @attr({defaultValue: 'both'}) public direction: string;

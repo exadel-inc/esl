@@ -1,26 +1,26 @@
-import {attr, ESLBaseElement} from '../../esl-base-element/core';
-import {memoize} from '../../esl-utils/decorators/memoize';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
+import {ESLBaseElement} from '../../../esl-base-element/core';
+import {attr, memoize} from '../../../esl-utils/decorators';
+import {ESLTraversingQuery} from '../../../esl-traversing-query/core/esl-traversing-query';
 
-import {ESLCarousel} from './esl-carousel';
+import {ESLCarousel} from '../esl-carousel';
+import type {ESLCarouselPlugin} from './esl-carousel.plugin.base';
 
 /**
  * {@link ESLCarousel} Plugin base class.
  * The ESL Carousel Plugin should have the dom representation so it's extends {@link ESLBaseElement}
  * Use the attributes to path the plugin options, the same as with any custom elements.
  */
-export abstract class ESLCarouselPlugin extends ESLBaseElement {
+export abstract class ESLCarouselPluginElement extends ESLBaseElement implements ESLCarouselPlugin {
   public static observedAttributes = ['target'];
-  public static DEFAULT_TARGET = '::parent(esl-carousel)';
 
   /** {@link TraversingQuery} to find target carousel instance */
-  @attr() public target: string;
+  @attr({defaultValue: '::parent(esl-carousel)'})
+  public target: string;
 
   /** @returns owner carousel of plugin */
   @memoize()
   public get carousel(): ESLCarousel {
-    const sel = this.target || (this.constructor as typeof ESLCarouselPlugin).DEFAULT_TARGET;
-    return ESLTraversingQuery.first(sel, this) as ESLCarousel;
+    return ESLTraversingQuery.first(this.target, this) as ESLCarousel;
   }
 
   protected override connectedCallback(): void {
@@ -37,7 +37,7 @@ export abstract class ESLCarouselPlugin extends ESLBaseElement {
     this.carousel.plugins.delete(this);
     memoize.clear(this, 'carousel');
   }
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (attrName === 'target' && this.isConnected) {
       this.unbind();
       memoize.clear(this, 'carousel');

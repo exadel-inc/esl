@@ -12,7 +12,7 @@ import {normalizeIndex, toIndex, toDirection} from './nav/esl-carousel.nav.utils
 import {ESLCarouselSlide} from './esl-carousel.slide';
 import {ESLCarouselView} from './view/esl-carousel-view';
 
-import type {ESLCarouselPlugin} from './esl-carousel.plugin';
+import type {ESLCarouselPlugin} from './plugin/esl-carousel.plugin.base';
 import type {ESLCarouselState, ESLCarouselDirection, ESLCarouselSlideTarget} from './nav/esl-carousel.nav.types';
 
 /** Config to define behavior of ESLCarousel */
@@ -122,7 +122,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     this.goTo(this.firstIndex);
   }
 
-  private attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected) return;
     memoize.clear(this, `${attrName}Rule`);
     this.update();
@@ -276,7 +276,6 @@ declare global {
   export interface ESLCarouselPlugins {}
   export interface ESLLibrary {
     Carousel: typeof ESLCarousel;
-    CarouselPlugin: typeof ESLCarouselPlugin;
   }
   export interface HTMLElementTagNameMap {
     'esl-carousel': ESLCarousel;

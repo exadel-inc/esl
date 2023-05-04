@@ -1,8 +1,7 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, boolAttr} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
+import {attr, bind, boolAttr} from '../../esl-utils/decorators';
 
-import {ESLCarouselPlugin} from '../core/esl-carousel.plugin';
+import {ESLCarouselPluginElement} from '../core/plugin/esl-carousel.plugin.element';
 
 /**
  * Slide Carousel Autoplay (Auto-Advance) plugin
@@ -11,7 +10,7 @@ import {ESLCarouselPlugin} from '../core/esl-carousel.plugin';
  * @author Alexey Stsefanovich (ala'n)
  */
 @ExportNs('CarouselPlugins.Autoplay')
-export class ESLCarouselAutoplayPlugin extends ESLCarouselPlugin {
+export class ESLCarouselAutoplayPlugin extends ESLCarouselPluginElement {
   public static override is = 'esl-carousel-autoplay-plugin';
 
   @attr({defaultValue: 'next'}) public direction: string;
