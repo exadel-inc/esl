@@ -67,7 +67,7 @@ export class ESLScrollbar extends ESLBaseElement {
     this._scrollTimer && window.clearTimeout(this._scrollTimer);
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'target') this.findTarget();
     if (attrName === 'horizontal') this.refresh();
