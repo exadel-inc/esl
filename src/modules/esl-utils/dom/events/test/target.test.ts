@@ -30,18 +30,6 @@ describe('dom/events: SyntheticEventTarget', () => {
         expect(listener).toHaveBeenLastCalledWith(event2);
       });
 
-      test('listener should be stored', () => {
-        expect(et.hasEventListener('change', 0)).toBe(true);
-      });
-
-      test('target shouldn`t have more listeners than it actually has', () => {
-        expect(et.hasEventListener('change', 1)).toBe(false);
-      });
-
-      test('listener shouldn`t be stored for wrong event type', () => {
-        expect(et.hasEventListener('change2', 0)).toBe(false);
-      });
-
       test('listener shouldn`t be called third time', () => {
         et.removeEventListener('change', listener);
         et.dispatchEvent(event3);
@@ -79,10 +67,6 @@ describe('dom/events: SyntheticEventTarget', () => {
 
       test('listener shouldn`t be stored for wrong event type', () => {
         expect(et.hasEventListener('change2')).toBe(false);
-      });
-
-      test('target shouldn`t have more listeners than it actually has', () => {
-        expect(et.hasEventListener(1)).toBe(false);
       });
 
       test('listener shouldn`t be called second time', () => {
@@ -184,21 +168,6 @@ describe('dom/events: SyntheticEventTarget', () => {
         expect(listener).toBeCalled();
         expect(result).toBe(true);
       });
-    });
-  });
-
-  describe('Listener duplicate subscription', () => {
-    const et = new SyntheticEventTarget();
-    const listener = jest.fn(() => {});
-
-    test('event should be subscribed', () => {
-      et.addEventListener('change', listener);
-      expect(et.hasEventListener(1)).toBe(false);
-    });
-
-    test('event shouldn`t be subscribed again', () => {
-      et.addEventListener('change', listener);
-      expect(et.hasEventListener(1)).toBe(false);
     });
   });
 });

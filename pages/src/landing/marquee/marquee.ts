@@ -1,7 +1,6 @@
 import {ESLBaseElement} from '../../../../src/modules/esl-base-element/core';
 import {bind, ready, memoize, attr} from '../../../../src/modules/esl-utils/decorators';
 import {range} from '../../../../src/modules/esl-utils/misc/array';
-import {isIE} from '../../../../src/modules/esl-utils/environment/device-detector';
 
 export class ESLDemoMarquee extends ESLBaseElement {
   static override is = 'esl-d-marquee';
@@ -16,7 +15,6 @@ export class ESLDemoMarquee extends ESLBaseElement {
   @ready
   protected override connectedCallback(): void {
     super.connectedCallback();
-    if (isIE) return;
     this.startAnimation();
   }
   protected override disconnectedCallback(): void {
