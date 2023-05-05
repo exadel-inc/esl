@@ -63,11 +63,33 @@
     }
   }
 
-  /*Accordion components*/
-
   &.dark-theme .uip-plugin, .uip-plugin {
     .accordion-group {
       color: @body-fg;
+    }
+  }
+
+  /*Scrollbar components*/
+  .scrollable-content-block {
+    &[resizable] {
+      max-width: 100%;
+      max-height: 100%;
+      overflow: hidden;
+      resize: both;
+      .esl-scrollable-content > div {
+        width: auto;
+        height: auto;
+      }
+    }
+  }
+  .scrollbar-vertical {
+    .esl-scrollable-content > div {
+      height: 250px;
+    }
+  }
+  .scrollbar-horizontal {
+    .esl-scrollable-content > div {
+      width: 2000px;
     }
   }
 }
