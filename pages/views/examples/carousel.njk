@@ -14,7 +14,7 @@ icon: examples/carousel.svg
     <button class="arrow-prev icon-arrow-prev"
             esl-carousel-nav="group:prev"><span class="sr-only">Previous Slide</span></button>
 
-    <esl-carousel count="5" type="multi" loop="true">
+    <esl-carousel media="@XS|@SM|@MD|@LG|@XL" count="1|2|3|4|5" type="multi" loop="true">
       <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
       <div data-slides-area>
         {% for item in cards %}
@@ -26,7 +26,7 @@ icon: examples/carousel.svg
                            data-alt="{{ 'Carousel slide ' + loop.index }}"
                            data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
               </div>
-              <div class="card-content">
+              <div class="card-content p-3">
                 <h5>{{ item.name }}</h5>
                 {{ lorem.string(12) }}
               </div>
@@ -36,10 +36,64 @@ icon: examples/carousel.svg
       </div>
     </esl-carousel>
 
-    <button class="arrow-next icon-arrow-next"
-            esl-carousel-nav="group:next"><span class="sr-only">Next Slide</span></button>
+      <button class="arrow-next icon-arrow-next"
+              esl-carousel-nav="group:next"><span class="sr-only">Next Slide</span></button>
+      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
   </div>
-  <div class="text-center">
-    <esl-carousel-dots class="carousel-dots-wrapper" target="esl-carousel"></esl-carousel-dots>
+
+</section>
+
+<h2>Demo 2: </h2>
+<section>
+  <div esl-carousel-container>
+     <button class="arrow-prev icon-arrow-prev" esl-carousel-nav="group:prev">
+        <span class="sr-only">Previous Slide</span>
+     </button>
+
+     <esl-carousel media="@XS|@SM|@MD|@LG|@XL" count="2|3|4|5|6" type="multi" loop="true">
+        <div data-slides-area>
+        {% for item in items %}
+           <esl-carousel-slide {{ 'active' if loop.first }}>
+              <div class="card" style="justify-content: center; background: {{item.background}}">
+                  <h4 class="text-center mb-0">{{ item.name }}</h4>
+              </div>
+           </esl-carousel-slide>
+        {% endfor %}
+        </div>
+     </esl-carousel>
+
+     <button class="arrow-next icon-arrow-next" esl-carousel-nav="group:next">
+        <span class="sr-only">Next Slide</span>
+     </button>
+     <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
+  </div>
+</section>
+
+<h2>Demo 3: </h2>
+<section>
+  <div esl-carousel-container>
+     <button class="arrow-prev icon-arrow-prev" esl-carousel-nav="group:prev">
+        <span class="sr-only">Previous Slide</span>
+     </button>
+
+     <esl-carousel type="multi">
+        <div data-slides-area>
+           <esl-carousel-slide>
+              <div class="card">
+                  <div class="img-container img-container-16-9">
+                      <esl-image mode="cover" lazy
+                                 data-alt="Alt Text Test"
+                                 data-src=" nature/volcano.jpg"
+                                 data-src-base="{{ '/assets/' | url }}"></esl-image>
+                  </div>
+              </div>
+           </esl-carousel-slide>
+        </div>
+     </esl-carousel>
+
+     <button class="arrow-next icon-arrow-next" esl-carousel-nav="group:next">
+        <span class="sr-only">Next Slide</span>
+     </button>
+     <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
   </div>
 </section>
