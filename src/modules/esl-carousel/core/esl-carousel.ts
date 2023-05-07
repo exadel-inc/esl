@@ -8,7 +8,7 @@ import {parseBoolean} from '../../esl-utils/misc/format';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 
 import {isEqual} from '../../esl-utils/misc/object/compare';
-import {normalizeIndex, toIndex, toDirection} from './nav/esl-carousel.nav.utils';
+import {normalizeIndex, toIndex, toDirection, canNavigate} from './nav/esl-carousel.nav.utils';
 import {ESLCarouselSlide} from './esl-carousel.slide';
 import {ESLCarouselView} from './view/esl-carousel-view';
 
@@ -255,6 +255,11 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
 
     this._view.setActive(index);
     this.$$fire('esl:slide:changed', eventDetails);
+  }
+
+  /** @returns if the passed slide target can be reached */
+  public canNavigate(target: ESLCarouselSlideTarget): boolean {
+    return canNavigate(target, this);
   }
 
   /** Gets slide by index. */

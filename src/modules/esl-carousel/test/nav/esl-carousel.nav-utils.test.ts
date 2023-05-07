@@ -217,7 +217,7 @@ describe('ESLCarousel: Nav Utils', () => {
         ['group: prev', {size: 5, count: 1, firstIndex: 2}, 1],
         ['group: prev', {size: 5, count: 2, firstIndex: 2}, 0],
         ['group: prev', {size: 5, count: 1, firstIndex: 0}, 4],
-        ['group: prev', {size: 5, count: 3, firstIndex: 1}, 2],
+        ['group: prev', {size: 5, count: 3, firstIndex: 1}, 0],
         ['group: prev', {size: 5, count: 3, firstIndex: 4}, 1]
       ])(
         '(target = %s, cfg = %p) = %d',

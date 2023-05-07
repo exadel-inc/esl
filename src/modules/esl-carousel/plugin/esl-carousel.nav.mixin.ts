@@ -41,12 +41,21 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     if (!this.$carousel) return;
     await customElements.whenDefined(this.$carousel.tagName.toLowerCase());
     super.connectedCallback();
-    this.$$attr('disabled', false);
+    this.onSlideChange();
   }
 
   public override disconnectedCallback(): void {
     super.disconnectedCallback();
     memoize.clear(this, '$carousel');
+  }
+
+  @listen({
+    event: 'esl:slide:changed',
+    target: ($nav: ESLCarouselNavMixin) => $nav.$carousel
+  })
+  protected onSlideChange(): void {
+    const canNavigate = this.$carousel && this.$carousel.canNavigate(this.target);
+    this.$$attr('disabled', !canNavigate);
   }
 
   @listen('click')

@@ -44,11 +44,12 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPluginElement {
   /** Processes `mousedown` and `touchstart` events. */
   @bind
   protected onPointerDown(event: TouchEvent | PointerEvent | MouseEvent): void {
-    if (this.carousel.hasAttribute('animate')) return;
+    if (this.isTouchStarted || this.carousel.hasAttribute('animate')) return;
 
     this.isTouchStarted = !this.isIgnoredEvent(event);
     if (!this.isTouchStarted) return;
 
+    this.carousel.$$attr('dragging', true);
     this.startPoint = getTouchPoint(event);
 
     isMouseEvent(event) && window.addEventListener('mousemove', this.onPointerMove);
@@ -78,6 +79,7 @@ export class ESLCarouselTouchPlugin extends ESLCarouselPluginElement {
     // ignore single click
     offset !== 0 && this.carousel?.view.commit(offset);
     this.isTouchStarted = false;
+    this.carousel.$$attr('dragging', false);
     // Unbind drag listeners
     if (isMouseEvent(event)) {
       window.removeEventListener('mousemove', this.onPointerMove);

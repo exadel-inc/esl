@@ -49,6 +49,7 @@ export function resolveIndex(index: string | ESLCarouselNavIndex, {firstIndex, s
 export function resolveGroupIndex(index: string | ESLCarouselNavIndex, {firstIndex, count, size}: ESLCarouselState): number {
   const {value, isRelative} = parseIndex(index);
   if (!isRelative) return groupToIndex(value, count, size);
+  if (value < 0 && firstIndex < count && firstIndex > 0) return 0;
   return Math.min(size - count, normalizeIndex(firstIndex + value * count, size));
 }
 
@@ -78,4 +79,9 @@ export function toDirection(target: ESLCarouselSlideTarget, nextIndex: number, {
   if ('-' === target[0]) return 'prev';
   if ('next' === target || 'prev' === target) return target;
   return calcDirection(firstIndex, nextIndex, size);
+}
+
+export function canNavigate(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): boolean {
+  const index = toIndex(target, cfg);
+  return index !== cfg.firstIndex;
 }
