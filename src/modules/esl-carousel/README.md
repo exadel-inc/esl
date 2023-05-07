@@ -20,7 +20,7 @@ The elements are interrelated and don't make sense on their own. This is because
 
 ### ESLCarouselConfig (Configuration API)
 
-- `view` (string) - a carousel rendering view
+- `type` (string) - a carousel rendering view
   - `slide` - default, one slide is active
   - `multi` - more than one slide can be active
 - `count` (number) - a total number of slides

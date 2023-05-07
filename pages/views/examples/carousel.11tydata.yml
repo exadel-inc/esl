@@ -31,3 +31,29 @@ cards:
     color: #f0f
   - name: Slide 16
     color: #f0f
+
+items:
+  - name: 1.Rome
+    background: '#FED6BC'
+  - name: 2.Paris
+    background: '#FFFADD'
+  - name: 3.Madrid
+    background: '#DEF7FE'
+  - name: 4.London
+    background: '#E7ECFF'
+  - name: 5.Berlin
+    background: '#C3FBD8'
+  - name: 6.Lisbon
+    background: '#FDEED9'
+  - name: 7.Barcelona
+    background: '#F6FFF8'
+  - name: 8.New York
+    background: '#B5F2EA'
+  - name: 9.Vena
+    background: '#C6D8FF'
+  - name: 10.Bern
+    background: '#F2E8C9'
+  - name: 11.Tokio
+    background: '#F5FFFA'
+  - name: 12.Warsaw
+    background: '#CCCCFF'
