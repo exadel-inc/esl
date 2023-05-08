@@ -278,9 +278,9 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
 }
 
 declare global {
-  export interface ESLCarouselPlugins {}
+  export interface ESLCarouselNS {}
   export interface ESLLibrary {
-    Carousel: typeof ESLCarousel;
+    Carousel: typeof ESLCarousel & ESLCarouselNS;
   }
   export interface HTMLElementTagNameMap {
     'esl-carousel': ESLCarousel;

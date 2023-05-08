@@ -36,8 +36,8 @@ import {
   ESLRelatedTarget,
 
   ESLCarousel,
+  ESLCarouselNavDots,
   ESLCarouselNavMixin,
-  ESLCarouselDotsPlugin,
   ESLCarouselLinkPlugin,
   ESLCarouselTouchPlugin,
   ESLCarouselAutoplayPlugin
@@ -110,8 +110,8 @@ ESLTooltip.register();
 ESLAnimate.register();
 
 ESLCarousel.register();
+ESLCarouselNavDots.register();
 ESLCarouselNavMixin.register();
-ESLCarouselDotsPlugin.register();
 ESLCarouselLinkPlugin.register();
 ESLCarouselTouchPlugin.register();
 ESLCarouselAutoplayPlugin.register();

@@ -1,9 +1,10 @@
-import {attr, listen, memoize} from '../../esl-utils/decorators';
-import {ESLMixinElement} from '../../esl-mixin-element/core';
-import {ESLTraversingQuery} from '../../esl-traversing-query/core';
+import {ExportNs} from '../../../esl-utils/environment/export-ns';
+import {attr, listen, memoize} from '../../../esl-utils/decorators';
+import {ESLMixinElement} from '../../../esl-mixin-element/core';
+import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
-import type {ESLCarousel} from '../core/esl-carousel';
-import type {ESLCarouselSlideTarget} from '../core/nav/esl-carousel.nav.types';
+import type {ESLCarousel} from '../../core/esl-carousel';
+import type {ESLCarouselSlideTarget} from '../../core/nav/esl-carousel.nav.types';
 
 /**
  * ESLCarousel navigation helper to define triggers for carousel navigation.
@@ -17,6 +18,7 @@ import type {ESLCarouselSlideTarget} from '../core/nav/esl-carousel.nav.types';
  * </div>
  * ```
  */
+@ExportNs('Carousel.Nav')
 export class ESLCarouselNavMixin extends ESLMixinElement {
   static override is = 'esl-carousel-nav';
 
@@ -41,7 +43,7 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     if (!this.$carousel) return;
     await customElements.whenDefined(this.$carousel.tagName.toLowerCase());
     super.connectedCallback();
-    this.onSlideChange();
+    this._onSlideChange();
   }
 
   public override disconnectedCallback(): void {
@@ -53,15 +55,21 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     event: 'esl:slide:changed',
     target: ($nav: ESLCarouselNavMixin) => $nav.$carousel
   })
-  protected onSlideChange(): void {
+  protected _onSlideChange(): void {
     const canNavigate = this.$carousel && this.$carousel.canNavigate(this.target);
     this.$$attr('disabled', !canNavigate);
   }
 
   @listen('click')
-  protected onClick(e: PointerEvent): void {
+  protected _onClick(e: PointerEvent): void {
     if (!this.$carousel || typeof this.$carousel.goTo !== 'function') return;
     this.$carousel.goTo(this.target);
     e.preventDefault();
+  }
+}
+
+declare global {
+  export interface ESLCarouselNS {
+    Nav: typeof ESLCarouselNavMixin;
   }
 }

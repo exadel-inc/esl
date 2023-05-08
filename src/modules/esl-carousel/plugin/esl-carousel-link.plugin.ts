@@ -66,7 +66,7 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPluginElement {
 }
 
 declare global {
-  export interface ESLCarouselPlugins {
+  export interface ESLCarouselNS {
     Link: typeof ESLCarouselLinkPlugin;
   }
   export interface HTMLElementTagNameMap {

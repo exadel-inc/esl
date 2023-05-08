@@ -77,7 +77,7 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPluginElement {
 }
 
 declare global {
-  export interface ESLCarouselPlugins {
+  export interface ESLCarouselNS {
     Autoplay: typeof ESLCarouselAutoplayPlugin;
   }
   export interface HTMLElementTagNameMap {
