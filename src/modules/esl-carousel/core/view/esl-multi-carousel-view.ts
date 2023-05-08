@@ -198,7 +198,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this.setActive(this.currentIndex);
 
     // TODO: change info
-    this.carousel.$$fire('slide:changed', {
+    this.carousel.$$fire('esl:slide:changed', {
       detail: {direction},
       bubbles: false
     });
