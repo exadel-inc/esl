@@ -3,7 +3,6 @@ import {
   calcDirection,
   groupToIndex,
   indexToGroup,
-  resolveIndex,
   toIndex
 } from '../../core/nav/esl-carousel.nav.utils';
 
@@ -87,32 +86,32 @@ describe('ESLCarousel: Nav Utils', () => {
     );
   });
 
-  describe('resolveIndex', () => {
-    describe('absolute index', () => {
-      test.each([
-        [0, {count: 2, size: 5, firstIndex: 0}, 0],
-        [1, {count: 2, size: 5, firstIndex: 0}, 1],
-        [5, {count: 2, size: 5, firstIndex: 0}, 0],
-        [6, {count: 2, size: 5, firstIndex: 0}, 1],
-        ['2', {count: 2, size: 5, firstIndex: 0}, 2]
-      ])(
-        '(index = %d, %o) => %d',
-        (index: string, cfg: ESLCarouselState, result: number) => expect(resolveIndex(index, cfg)).toBe(result)
-      );
-    });
-    describe('relative index', () => {
-      test.each([
-        ['-1', {count: 2, size: 5, firstIndex: 2}, 1],
-        ['+1', {count: 2, size: 5, firstIndex: 2}, 3],
-        ['-3', {count: 2, size: 5, firstIndex: 2}, 4],
-        ['+3', {count: 2, size: 5, firstIndex: 2}, 0]
-      ])(
-        '(relative index = %d, current = %d, count = %d) => %d',
-        (index: string, cfg: ESLCarouselState, result: number) =>
-          expect(resolveIndex(index, cfg)).toBe(result)
-      );
-    });
-  });
+  // describe('resolveIndex', () => {
+  //   describe('absolute index', () => {
+  //     test.each([
+  //       [0, {count: 2, size: 5, firstIndex: 0}, 0],
+  //       [1, {count: 2, size: 5, firstIndex: 0}, 1],
+  //       [5, {count: 2, size: 5, firstIndex: 0}, 0],
+  //       [6, {count: 2, size: 5, firstIndex: 0}, 1],
+  //       ['2', {count: 2, size: 5, firstIndex: 0}, 2]
+  //     ])(
+  //       '(index = %d, %o) => %d',
+  //       (index: string, cfg: ESLCarouselState, result: number) => expect(resolveIndex(index, cfg)).toBe(result)
+  //     );
+  //   });
+  //   describe('relative index', () => {
+  //     test.each([
+  //       ['-1', {count: 2, size: 5, firstIndex: 2}, 1],
+  //       ['+1', {count: 2, size: 5, firstIndex: 2}, 3],
+  //       ['-3', {count: 2, size: 5, firstIndex: 2}, 4],
+  //       ['+3', {count: 2, size: 5, firstIndex: 2}, 0]
+  //     ])(
+  //       '(relative index = %d, current = %d, count = %d) => %d',
+  //       (index: string, cfg: ESLCarouselState, result: number) =>
+  //         expect(resolveIndex(index, cfg)).toBe(result)
+  //     );
+  //   });
+  // });
 
   describe('toIndex', () => {
     describe('numeric input', () => {
@@ -123,7 +122,7 @@ describe('ESLCarousel: Nav Utils', () => {
         [6, {size: 5, count: 3, firstIndex: 1}, 1]
       ])(
         '(target = %s, cfg = %p) = %d',
-        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg)).toBe(result)
+        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
 
@@ -135,7 +134,7 @@ describe('ESLCarousel: Nav Utils', () => {
         [' 6 ', {size: 5, count: 3, firstIndex: 1}, 1]
       ])(
         '(target = %s, cfg = %p) = %d',
-        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg)).toBe(result)
+        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
 
@@ -145,7 +144,7 @@ describe('ESLCarousel: Nav Utils', () => {
         ['next', {size: 5, count: 2, firstIndex: 2}, 3]
       ])(
         '(target = %s, cfg = %p) = %d',
-        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg)).toBe(result)
+        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
 
@@ -157,7 +156,7 @@ describe('ESLCarousel: Nav Utils', () => {
         ['+3', {size: 5, count: 3, firstIndex: 2}, 0]
       ])(
         '(target = %s, cfg = %p) = %d',
-        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg)).toBe(result)
+        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
 
@@ -167,7 +166,7 @@ describe('ESLCarousel: Nav Utils', () => {
         ['slide:1', {size: 5, count: 2, firstIndex: 2}, 1]
       ])(
         '(target = %s, cfg = %p) = %d',
-        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg)).toBe(result)
+        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
 
@@ -179,7 +178,7 @@ describe('ESLCarousel: Nav Utils', () => {
         ['slide:+3', {size: 5, count: 3, firstIndex: 2}, 0]
       ])(
         '(target = %s, cfg = %p) = %d',
-        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg)).toBe(result)
+        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
 
@@ -190,7 +189,7 @@ describe('ESLCarousel: Nav Utils', () => {
         ['group: 2', {size: 8, count: 3, firstIndex: 2}, 5]
       ])(
         '(target = %s, cfg = %p) = %d',
-        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg)).toBe(result)
+        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
 
@@ -202,7 +201,7 @@ describe('ESLCarousel: Nav Utils', () => {
         ['group: -1', {size: 5, count: 2, firstIndex: 2}, 0]
       ])(
         '(target = %s, cfg = %p) = %d',
-        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg)).toBe(result)
+        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
 
@@ -221,7 +220,7 @@ describe('ESLCarousel: Nav Utils', () => {
         ['group: prev', {size: 5, count: 3, firstIndex: 4}, 1]
       ])(
         '(target = %s, cfg = %p) = %d',
-        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg)).toBe(result)
+        (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
       );
     });
   });

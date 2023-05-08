@@ -8,7 +8,7 @@ import {parseBoolean} from '../../esl-utils/misc/format';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 
 import {isEqual} from '../../esl-utils/misc/object/compare';
-import {normalizeIndex, toIndex, toDirection, canNavigate} from './nav/esl-carousel.nav.utils';
+import {normalizeIndex, toIndex, canNavigate} from './nav/esl-carousel.nav.utils';
 import {ESLCarouselSlide} from './esl-carousel.slide';
 import {ESLCarouselView} from './view/esl-carousel-view';
 
@@ -51,7 +51,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
   public static observedAttributes = ['media', 'type', 'loop', 'count'];
 
   @attr({name: 'media', defaultValue: 'all'}) public mediaCfg: string;
-  @attr({name: 'type', defaultValue: 'slide'}) public typeCfg: string;
+  @attr({name: 'type', defaultValue: 'multi'}) public typeCfg: string;
   @attr({name: 'loop', defaultValue: 'true'}) public loopCfg: string;
   @attr({name: 'count', defaultValue: '1'}) public countCfg: string;
 
@@ -230,10 +230,10 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
 
     const {firstIndex} = this;
 
-    const index = toIndex(target, this);
-    const direction = params.direction || toDirection(target, index, this);
+    const {index, dir} = toIndex(target, this);
+    const direction = params.direction || dir;
 
-    if (firstIndex === index && !params.force) return;
+    if (!direction || firstIndex === index && !params.force) return;
 
     // TODO: change info
     const eventDetails = {
