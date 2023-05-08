@@ -150,7 +150,7 @@ export class ESLMedia extends ESLBaseElement {
     this._provider && this._provider.unbind();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
       case 'disabled':

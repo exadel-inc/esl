@@ -39,7 +39,7 @@ export interface ESLToggleableRequestDetails extends ESLToggleableActionParams {
   match?: string | ((target: Element) => boolean);
 }
 
-/** @deprecated alias for ESLToggleableActionParams */
+/** @deprecated alias for ESLToggleableActionParams, will be removed in 5.0.0*/
 export type ToggleableActionParams = ESLToggleableActionParams;
 
 const activators: WeakMap<ESLToggleable, HTMLElement | undefined> = new WeakMap();
@@ -132,7 +132,7 @@ export class ESLToggleable extends ESLBaseElement {
     activators.delete(this);
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || newVal === oldVal) return;
     switch (attrName) {
       case 'open':
