@@ -10,6 +10,7 @@ import type {
   ESLListenerDescriptor,
   ESLListenerHandler
 } from '../../esl-utils/dom/events';
+import type {ESLBaseComponent} from '../../esl-utils/abstract/component';
 import type {ESLDomElementRelated} from '../../esl-utils/abstract/dom-target';
 
 /**
@@ -17,7 +18,7 @@ import type {ESLDomElementRelated} from '../../esl-utils/abstract/dom-target';
  * Mixin elements attaches to the DOM element via attribute.
  * Allows multiple mixin elements per one DOM element
  */
-export class ESLMixinElement implements ESLDomElementRelated {
+export class ESLMixinElement implements ESLBaseComponent, ESLDomElementRelated {
   /** Root attribute to identify mixin targets. Should contain dash in the name. */
   static is: string;
   /** Additional observed attributes */

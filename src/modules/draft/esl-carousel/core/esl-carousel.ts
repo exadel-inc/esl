@@ -171,7 +171,7 @@ export class ESLCarousel extends ESLBaseElement {
     ESLCarouselViewRegistry.instance.removeListener(this._onRegistryChange);
   }
 
-  private attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
     // TODO: change observed attributes
     if (attrName === 'config') {
       this.configRules = ESLMediaRuleList.parse<CarouselConfig>(this.config, ESLMediaRuleList.OBJECT_PARSER);
