@@ -34,7 +34,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
   }
 
   public clearAnimation(): void {
-    this.carousel.toggleAttribute('animate', false);
+    this.carousel.toggleAttribute('animating', false);
     this.carousel.toggleAttribute('direction', false);
     this.carousel.$slides.forEach((slide) => {
       slide.classList.remove('next');
@@ -44,7 +44,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
 
   /** Pre-processing animation action. */
   public async onBeforeAnimate(index: number, direction: ESLCarouselDirection): Promise<void> {
-    if (this.carousel.hasAttribute('animate')) return Promise.reject();
+    if (this.carousel.hasAttribute('animating')) return Promise.reject();
 
     const $activeSlide = this.carousel.$activeSlide;
     const $nextSlide = $activeSlide?.$nextCyclic;
@@ -59,7 +59,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
 
   /** Processes animation. */
   public async onAnimate(nextIndex: number, direction: ESLCarouselDirection): Promise<void> {
-    this.carousel.toggleAttribute('animate', true);
+    this.carousel.toggleAttribute('animating', true);
 
     // TODO: !
     return promisifyEvent(this.carousel.$slidesArea!, 'transitionend')
@@ -68,7 +68,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
 
   /** Post-processing animation action. */
   public async onAfterAnimate(): Promise<void> {
-    this.carousel.toggleAttribute('animate', false);
+    this.carousel.toggleAttribute('animating', false);
     this.carousel.toggleAttribute('direction', false);
     this.carousel.$slides.forEach((slide) => {
       slide.classList.remove('next');
@@ -105,7 +105,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     const $nextSlide = $activeSlide.$nextCyclic;
     const $prevSlide = $activeSlide.$prevCyclic;
 
-    this.carousel.toggleAttribute('animate', true);
+    this.carousel.toggleAttribute('animating', true);
 
     const sign = offset > 0 ? 1 : -1;
     this.carousel.$slidesArea!.style.transform = `translateX(${-$activeSlide.offsetLeft + sign * width}px)`;
@@ -118,7 +118,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
     $nextActiveSlide.active = true;
 
     this.carousel.$slidesArea!.style.transform = 'translateX(0px)';
-    this.carousel.toggleAttribute('animate', false);
+    this.carousel.toggleAttribute('animating', false);
     $prevSlide?.classList.remove('prev');
     $nextSlide?.classList.remove('next');
 

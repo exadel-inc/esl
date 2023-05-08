@@ -12,10 +12,9 @@ icon: examples/carousel.svg
   <p>The first slide is active (1 slide)</p>
 
   <div class="row flex-column" esl-carousel-container>
-    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
+    <button type="button" esl-carousel-nav="group:prev"></button>
 
-    <esl-carousel media="@-SM|@+MD" type="multi|slide" count="2|1">
-      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+    <esl-carousel esl-carousel-touch media="@-SM|@+MD" type="multi|slide" count="2|1">
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
         {% for i in range(0, 16) %}
@@ -28,10 +27,10 @@ icon: examples/carousel.svg
         <!-- /CAROUSEL-ITEM -->
       </div>
     </esl-carousel>
-    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
-    <div class="text-center">
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-    </div>
+
+    <button type="button" esl-carousel-nav="group:next"></button>
+
+    <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
   </div>
 </section>
 
@@ -40,10 +39,9 @@ icon: examples/carousel.svg
   <p>The second slide is active (1 slide) !!!</p>
 
   <div class="row flex-column" esl-carousel-container>
+    <button type="button" esl-carousel-nav="group:prev"></button>
 
-    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
-    <esl-carousel media="@-SM|@+MD" count="2|1" type="multi|slide">
-      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+    <esl-carousel esl-carousel-touch media="@-SM|@+MD" count="2|1" type="multi|slide">
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
         {% for i in range(0, 16) %}
@@ -57,10 +55,9 @@ icon: examples/carousel.svg
       </div>
     </esl-carousel>
 
-    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
-    <div class="text-center">
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-    </div>
+    <button type="button" esl-carousel-nav="group:next"></button>
+
+    <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
   </div>
 </section>
 
@@ -69,10 +66,9 @@ icon: examples/carousel.svg
   <p>5 slides with 3 active slides to check if RAF helps to animate first one</p>
 
   <div class="row flex-column" esl-carousel-container>
+    <button type="button" esl-carousel-nav="group:prev"></button>
 
-    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
-    <esl-carousel count="3" type="multi">
-      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+    <esl-carousel esl-carousel-touch count="3">
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
         {% for i in range(0, 5) %}
@@ -86,10 +82,9 @@ icon: examples/carousel.svg
       </div>
     </esl-carousel>
 
-    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
-    <div class="text-center">
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-    </div>
+    <button type="button" esl-carousel-nav="group:next"></button>
+
+    <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
   </div>
 </section>
 
@@ -99,9 +94,9 @@ icon: examples/carousel.svg
 
   <div class="row flex-column" esl-carousel-container>
 
-    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
-    <esl-carousel count="2" type="multi">
-      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+    <button type="button" esl-carousel-nav="group:prev"></button>
+
+    <esl-carousel esl-carousel-touch count="2">
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
         {% for i in range(0, 3) %}
@@ -115,22 +110,20 @@ icon: examples/carousel.svg
       </div>
     </esl-carousel>
 
-    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
-    <div class="text-center">
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-    </div>
+    <button type="button" esl-carousel-nav="group:prev"></button>
+
+    <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
   </div>
 </section>
 
 <section class="container-fluid">
   <h2>Demo 2: </h2>
-  <p>11 slides with different count of active slides </p>
+  <p>11 slides with different count of active slides, no loop</p>
 
   <div class="row flex-column" esl-carousel-container>
+    <button type="button" esl-carousel-nav="group:prev"></button>
 
-    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
-    <esl-carousel media="all|@MD|@SM|@XS" count="5|4|3|1" type="multi">
-      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+    <esl-carousel esl-carousel-touch media="all|@MD|@SM|@XS" count="5|4|3|1" loop="false">
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
         {% for i in range(0, 13) %}
@@ -144,22 +137,20 @@ icon: examples/carousel.svg
       </div>
     </esl-carousel>
 
-    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
-    <div class="text-center">
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-    </div>
+    <button type="button" esl-carousel-nav="group:next"></button>
+
+    <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
   </div>
 </section>
 
 <section class="container-fluid">
   <h2>Demo 3: </h2>
-  <p>11 slides with different count of active slides (4 slide is active)</p>
+  <p>11 slides with different count of active slides (5|4|3|1 slide is active for @+LG|@MD|@SM|@XS) + no loop</p>
 
   <div class="row flex-column" esl-carousel-container>
+    <button type="button" esl-carousel-nav="group:prev"></button>
 
-    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
-    <esl-carousel id="second-carousel" media="all|@MD|@SM|@XS" count="5|4|3|1" type="multi">
-      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+    <esl-carousel esl-carousel-touch id="second-carousel" media="all|@MD|@SM|@XS" count="5|4|3|1">
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
         {% for i in range(0, 13) %}
@@ -173,10 +164,9 @@ icon: examples/carousel.svg
       </div>
     </esl-carousel>
 
-    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
-    <div class="text-center">
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-    </div>
+    <button type="button" esl-carousel-nav="group:next"></button>
+
+    <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
   </div>
 </section>
 
@@ -184,10 +174,9 @@ icon: examples/carousel.svg
   <h2>Linked carousel: </h2>
 
   <div class="row flex-column" esl-carousel-container>
+    <button type="button" esl-carousel-nav="group:prev"></button>
 
-    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
-    <esl-carousel media="@XL|@LG|@MD|@SM|@XS" count="6|5|4|3|1" type="multi">
-      <esl-carousel-touch-plugin></esl-carousel-touch-plugin>
+    <esl-carousel esl-carousel-touch media="@XL|@LG|@MD|@SM|@XS" count="6|5|4|3|1">
       <esl-carousel-link-plugin to="#second-carousel"></esl-carousel-link-plugin>
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
@@ -202,19 +191,19 @@ icon: examples/carousel.svg
       </div>
     </esl-carousel>
 
-    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
-    <div class="text-center">
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-    </div>
+    <button type="button" esl-carousel-nav="group:next"></button>
+
+    <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
   </div>
 </section>
 
 <section class="container-fluid">
   <h2>Demo 4 (Autoscroll): </h2>
   <a href="javascript:void 0" class="sr-only">Fake anchor</a>
-  <div class="row flex-column" esl-carousel-container>
 
-    <esl-carousel-arrow direction="prev"></esl-carousel-arrow>
+  <div class="row flex-column" esl-carousel-container>
+    <button type="button" esl-carousel-nav="group:prev"></button>
+
     <esl-carousel id="second-carousel" count="1" type="slide">
       <esl-carousel-autoplay-plugin timeout="5000"></esl-carousel-autoplay-plugin>
       <div data-slides-area>
@@ -230,9 +219,8 @@ icon: examples/carousel.svg
       </div>
     </esl-carousel>
 
-    <esl-carousel-arrow direction="next"></esl-carousel-arrow>
-    <div class="text-center">
-      <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
-    </div>
+    <button type="button" esl-carousel-nav="group:next"></button>
+
+    <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
   </div>
 </section>

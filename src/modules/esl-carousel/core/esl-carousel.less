@@ -14,8 +14,13 @@ esl-carousel {
     z-index: 0;
     transform: translate3d(0px, 0px, 0px);
   }
-  &[animate] [data-slides-area],
+
   &[dragging] [data-slides-area] {
+    cursor: grabbing;
+  }
+
+  &[dragging] [data-slides-area],
+  &[animating] [data-slides-area] {
     user-select: none;
     touch-action: pan-y;
     pointer-events: none;

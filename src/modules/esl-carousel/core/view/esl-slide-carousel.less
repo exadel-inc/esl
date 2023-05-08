@@ -30,7 +30,7 @@ esl-carousel.slide-carousel {
     order: 2;
   }
 
-  &[animate] [data-slides-area] {
+  &[animating] [data-slides-area] {
     // animation
     transition: transform @SLIDE_CAROUSEL_ANIMATION;
   }
@@ -39,7 +39,7 @@ esl-carousel.slide-carousel {
     [data-slides-area] {
       transform: translateX(-100%);
     }
-    &[animate] [data-slides-area] {
+    &[animating] [data-slides-area] {
       transform: translateX(0);
     }
   }
@@ -47,7 +47,7 @@ esl-carousel.slide-carousel {
     [data-slides-area] {
       transform: translateX(-100%);
     }
-    &[animate] [data-slides-area] {
+    &[animating] [data-slides-area] {
       transform: translateX(-200%);
     }
   }

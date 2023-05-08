@@ -55,13 +55,13 @@ export class ESLMultiCarouselView extends ESLCarouselView {
       el.style.removeProperty('order');
     });
     this.carousel.$slidesArea!.style.removeProperty('transform');
-    this.carousel.toggleAttribute('animate', false);
+    this.carousel.toggleAttribute('animating', false);
     this.carousel.$slidesArea!.style.transform = 'translate3d(0px, 0px, 0px)';
   }
 
   /** Pre-processing animation action. */
   public async onBeforeAnimate(): Promise<void> {
-    if (this.carousel.hasAttribute('animate')) return Promise.reject('Already animating');
+    if (this.carousel.hasAttribute('animating')) return Promise.reject('Already animating');
     return Promise.resolve();
   }
 
@@ -95,7 +95,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
     this.carousel.$slidesArea!.style.transform = `translate3d(${shiftXBefore}px, 0px, 0px)`;
 
     +this.carousel.offsetLeft;
-    this.carousel.toggleAttribute('animate', true);
+    this.carousel.toggleAttribute('animating', true);
 
     const shiftXAfter = direction === 'next' ? -offset : 0;
     this.carousel.$slidesArea!.style.transform = `translate3d(${shiftXAfter}px, 0px, 0px)`;
@@ -121,7 +121,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
 
     this._setOrderFrom(this.currentIndex);
 
-    this.carousel.toggleAttribute('animate', false);
+    this.carousel.toggleAttribute('animating', false);
     +this.carousel.offsetLeft;
     return Promise.resolve();
   }
@@ -168,13 +168,13 @@ export class ESLMultiCarouselView extends ESLCarouselView {
       const shiftCount = Math.abs(offset) % this.slideWidth >= this.slideWidth / 4 ? 1 : 0;
       const stageOffset = offset < 0 ? -shiftCount * this.slideWidth : (shiftCount - 1) * this.slideWidth;
 
-      this.carousel.toggleAttribute('animate', true);
+      this.carousel.toggleAttribute('animating', true);
       this.carousel.$slidesArea!.style.transform = `translateX(${stageOffset}px)`;
       await promisifyEvent(this.carousel.$slidesArea!, 'transitionend').catch(resolvePromise);
     }
 
     // clear animation
-    this.carousel.toggleAttribute('animate', false);
+    this.carousel.toggleAttribute('animating', false);
     this.carousel.$slidesArea!.style.transform = 'translateX(0)';
     this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', false));
 

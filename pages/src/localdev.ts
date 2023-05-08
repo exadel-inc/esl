@@ -112,8 +112,9 @@ ESLAnimate.register();
 ESLCarousel.register();
 ESLCarouselNavDots.register();
 ESLCarouselNavMixin.register();
-ESLCarouselLinkPlugin.register();
 ESLCarouselTouchPlugin.register();
+
+ESLCarouselLinkPlugin.register();
 ESLCarouselAutoplayPlugin.register();
 
 ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));

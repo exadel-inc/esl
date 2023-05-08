@@ -47,4 +47,4 @@ export * from './esl-related-target/core';
 export * from './esl-share/core';
 
 // Carousel
-export * from './esl-carousel/all';
+export * from './esl-carousel/core';
