@@ -76,18 +76,21 @@
       max-height: 100%;
       overflow: hidden;
       resize: both;
+
       .esl-scrollable-content > div {
         width: auto;
         height: auto;
       }
     }
   }
-  .scrollbar-vertical {
+
+  .scrollbar-vertical:not([resizable]) {
     .esl-scrollable-content > div {
       height: 250px;
     }
   }
-  .scrollbar-horizontal {
+
+  .scrollbar-horizontal:not([resizable]) {
     .esl-scrollable-content > div {
       width: 2000px;
     }
