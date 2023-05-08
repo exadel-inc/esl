@@ -59,7 +59,7 @@ export class ESLShareButton extends ESLBaseElement {
     return toAbsoluteUrl(this._getPropFromRelatedEls('shareUrl', window.location.href));
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'action') this.updateAction();
   }
