@@ -10,9 +10,7 @@ icon: examples/carousel.svg
 <section class="container-fluid marquee-carousel">
 
   <div class="row flex-column main-carousel" esl-carousel-container>
-    <button class="arrow-prev icon-arrow-prev" esl-carousel-nav="group:prev"></button>
-
-    <esl-carousel type="slide" esl-carousel-touch>
+    <esl-carousel esl-carousel-touch>
       <esl-carousel-link-plugin to="#secondary-carousel"></esl-carousel-link-plugin>
       <div data-slides-area>
         {% for item in slides %}
@@ -27,14 +25,12 @@ icon: examples/carousel.svg
       </div>
     </esl-carousel>
 
-    <button class="arrow-next icon-arrow-next" esl-carousel-nav="group:next"></button>
-
     <esl-carousel-dots class="carousel-dots-wrapper"></esl-carousel-dots>
   </div>
 
 
   <div class="row flex-column marquee-nav-carousel" esl-carousel-container>
-    <button class="arrow-prev icon-arrow-prev" esl-carousel-nav="group:prev"></button>
+    <button class="esl-carousel-arrow inner icon-arrow-prev" esl-carousel-nav="slide:prev"></button>
 
     <esl-carousel esl-carousel-touch id="secondary-carousel" type="@+LG" count="5">
       <div data-slides-area>
@@ -50,7 +46,7 @@ icon: examples/carousel.svg
       </div>
     </esl-carousel>
 
-    <button class="arrow-next icon-arrow-next" esl-carousel-nav="group:next"></button>
+    <button class="esl-carousel-arrow inner icon-arrow-next" esl-carousel-nav="slide:next"></button>
   </div>
 
 </section>
