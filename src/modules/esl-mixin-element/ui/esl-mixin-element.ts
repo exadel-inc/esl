@@ -1,10 +1,11 @@
-import {setAttr} from '../../esl-utils/dom/attr';
 import {prop} from '../../esl-utils/decorators';
+import {setAttr} from '../../esl-utils/dom/attr';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {ExportNs} from '../../esl-utils/environment/export-ns';
 
 import {ESLMixinRegistry} from './esl-mixin-registry';
+import {ESLMixinAttributesObserver} from './esl-mixin-attr';
 
 import type {
   ESLEventListener,
@@ -30,32 +31,19 @@ export class ESLMixinElement implements ESLBaseComponent, ESLDomElementRelated {
   /** Event to indicate component significant state change that may affect other components state */
   @prop('esl:refresh') public REFRESH_EVENT: string;
 
-  /** Additional attributes observer */
-  private _attr$$: MutationObserver;
-
   public constructor(
     public readonly $host: HTMLElement
   ) {}
 
   /** Callback of mixin instance initialization */
   protected connectedCallback(): void {
-    const {observedAttributes} = this.constructor as typeof ESLMixinElement;
-    if (observedAttributes.length) {
-      this._attr$$ = new MutationObserver(this._onAttrMutation.bind(this));
-      this._attr$$.observe(this.$host, {
-        attributes: true,
-        attributeFilter: observedAttributes,
-        attributeOldValue: true
-      });
-    }
-
+    (new ESLMixinAttributesObserver()).observe(this);
     ESLEventUtils.subscribe(this);
   }
 
   /** Callback to execute on mixin instance destroy */
   protected disconnectedCallback(): void {
-    if (this._attr$$) this._attr$$.disconnect();
-
+    (new ESLMixinAttributesObserver()).unobserve(this);
     ESLEventUtils.unsubscribe(this);
   }
 
@@ -64,15 +52,6 @@ export class ESLMixinElement implements ESLBaseComponent, ESLDomElementRelated {
    * Happens when attribute accessed for writing independently of the actual value change
    */
   protected attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
-
-  /** Attribute change mutation record processor */
-  private _onAttrMutation(records: MutationRecord[]): void {
-    records.forEach(({attributeName, oldValue}: MutationRecord) => {
-      if (!attributeName) return;
-      const newValue = this.$$attr(attributeName);
-      this.attributeChangedCallback(attributeName, oldValue, newValue);
-    });
-  }
 
   /** Subscribes `handler` method marked with `@listen` decorator */
   public $$on(handler: ESLListenerHandler): ESLEventListener[];
