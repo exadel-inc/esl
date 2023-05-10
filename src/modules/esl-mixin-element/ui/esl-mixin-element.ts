@@ -37,13 +37,13 @@ export class ESLMixinElement implements ESLBaseComponent, ESLDomElementRelated {
 
   /** Callback of mixin instance initialization */
   protected connectedCallback(): void {
-    (new ESLMixinAttributesObserver()).observe(this);
+    ESLMixinAttributesObserver.observe(this);
     ESLEventUtils.subscribe(this);
   }
 
   /** Callback to execute on mixin instance destroy */
   protected disconnectedCallback(): void {
-    (new ESLMixinAttributesObserver()).unobserve(this);
+    ESLMixinAttributesObserver.unobserve(this);
     ESLEventUtils.unsubscribe(this);
   }
 
