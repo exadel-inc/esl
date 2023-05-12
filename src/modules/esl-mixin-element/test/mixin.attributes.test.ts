@@ -4,7 +4,6 @@ import MockedFn = jest.MockedFn;
 describe('ESLMixinElement: attribute observation', () => {
   class TestMixin extends ESLMixinElement {
     static override is = 'test-mixin-oattr';
-    static override observedAttributes = [TestMixin.is];
 
     override attributeChangedCallback: MockedFn<(name: string, oldV: string, newV: string) => void>;
     constructor(el: HTMLElement) {
@@ -40,7 +39,7 @@ describe('ESLMixinElement: attribute observation', () => {
       expect(TestMixin.get($host)).toBeInstanceOf(TestMixin);
     });
 
-    test('mixin initialized', async () => {
+    test('mixin new value handled correctly', async () => {
       const mixin = TestMixin.get($host)!;
       const oldValue = $host.getAttribute(TestMixin.is);
       mixin.attributeChangedCallback.mockReset();

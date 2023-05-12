@@ -1,7 +1,14 @@
 import {ESLMixinRegistry} from './esl-mixin-registry';
 import type {ESLMixinElement, ESLMixinElementInternal} from './esl-mixin-element';
 
+// Singleton cache for ESLMixinAttributesObserver instances
 const instances = new Map<string, ESLMixinAttributesObserver>();
+
+/**
+ * Internal {@link ESLMixinElement}s observedAttributes mutation listener.
+ * Creates a single instance per mixin type
+ * Ignores mixin primary attribute changes (they are observed by {@link ESLMixinRegistry} ootb)
+ */
 export class ESLMixinAttributesObserver {
   protected observer = new MutationObserver(
     (records: MutationRecord[]) => records.forEach(this.handleRecord, this)
@@ -12,6 +19,7 @@ export class ESLMixinAttributesObserver {
     instances.set(type, this);
   }
 
+  /** Process single mutation record */
   protected handleRecord(record: MutationRecord): void {
     const name = record.attributeName;
     const target = record.target as HTMLElement;
@@ -20,34 +28,40 @@ export class ESLMixinAttributesObserver {
     mixin && mixin.attributeChangedCallback(name, record.oldValue, target.getAttribute(name));
   }
 
+  /** Subscribe to the {@link ESLMixinElement} host instance mutations */
   public observe(mixin: ESLMixinElement): void {
-    const {observedAttributes} = mixin.constructor as typeof ESLMixinElement;
+    const {is, observedAttributes} = mixin.constructor as typeof ESLMixinElement;
+    const attributeFilter = observedAttributes.filter((name: string) => name !== is);
+    if (!attributeFilter.length) return;
     this.observer.observe(mixin.$host, {
       attributes: true,
-      attributeFilter: observedAttributes,
+      attributeFilter,
       attributeOldValue: true
     });
   }
 
+  /** Unsubscribes from the {@link ESLMixinElement} host instance mutations */
   public unobserve(mixin: ESLMixinElement): void {
     this.observer.observe(mixin.$host, {
       attributes: true,
-      attributeFilter: [],
-      attributeOldValue: true
+      attributeFilter: []
     });
   }
 
   private static instanceFor(mixin: ESLMixinElement): ESLMixinAttributesObserver | null {
-    const type = mixin.constructor as typeof ESLMixinElement;
-    if (!type.is || !type.observedAttributes || !type.observedAttributes.length) return null;
-    return new ESLMixinAttributesObserver(type.is);
+    const {is, observedAttributes} = mixin.constructor as typeof ESLMixinElement;
+    const attributes = (observedAttributes || []).filter((name: string) => name !== is);
+    if (!is || !attributes.length) return null;
+    return new ESLMixinAttributesObserver(is);
   }
 
+  /** Subscribe to the {@link ESLMixinElement} host instance mutations */
   public static observe(mixin: ESLMixinElement): void {
     const observer = this.instanceFor(mixin);
     observer && observer.observe(mixin);
   }
 
+  /** Unsubscribes from the {@link ESLMixinElement} host instance mutations */
   public static unobserve(mixin: ESLMixinElement): void {
     const observer = this.instanceFor(mixin);
     observer && observer.unobserve(mixin);

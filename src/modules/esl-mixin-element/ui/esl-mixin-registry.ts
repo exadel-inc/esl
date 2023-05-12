@@ -50,7 +50,8 @@ export class ESLMixinRegistry {
       subtree: true,
       childList: true,
       attributes: true,
-      attributeFilter: this.observedAttributes
+      attributeFilter: this.observedAttributes,
+      attributeOldValue: true
     });
   }
 
@@ -75,20 +76,23 @@ export class ESLMixinRegistry {
   }
 
   /** Invalidates passed mixin on the element */
-  public invalidate(el: HTMLElement, mixin: string): void {
-    if (el.hasAttribute(mixin)) {
-      const mixinType = this.store.get(mixin);
-      mixinType && ESLMixinRegistry.init(el, mixinType);
+  public invalidate(el: HTMLElement, name: string, oldValue: string | null): void {
+    const newValue = el.getAttribute(name);
+    if (newValue === null) return ESLMixinRegistry.destroy(el, name);
+    const instance = ESLMixinRegistry.get(el, name) as ESLMixinElementInternal;
+    if (instance) {
+      instance.attributeChangedCallback(name, oldValue, newValue);
     } else {
-      ESLMixinRegistry.destroy(el, mixin);
+      const type = this.store.get(name);
+      type && ESLMixinRegistry.init(el, type);
     }
   }
 
   /** Handles DOM mutation list */
   protected _onMutation(mutations: MutationRecord[]): void {
     mutations.forEach((record: MutationRecord) => {
-      if (record.type === 'attributes' && record.attributeName && this.store.has(record.attributeName)) {
-        this.invalidate(record.target as HTMLElement, record.attributeName);
+      if (record.type === 'attributes' && record.attributeName) {
+        this.invalidate(record.target as HTMLElement, record.attributeName, record.oldValue);
       }
       if (record.type === 'childList') {
         record.addedNodes.forEach((node) => {
