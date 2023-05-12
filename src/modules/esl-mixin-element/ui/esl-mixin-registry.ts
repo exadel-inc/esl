@@ -115,7 +115,7 @@ export class ESLMixinRegistry {
     return (store && store[mixin]) || null;
   }
 
-  /** @returns all mixins initialised on passe host element */
+  /** @returns all mixins initialized on passed host element */
   public static getAll(el: HTMLElement): ESLMixinElement[] {
     const store = (el as any)[STORE] as Record<string, ESLMixinElement> | undefined;
     return store ? Object.keys(store).map((key: string) => store[key]) : [];
