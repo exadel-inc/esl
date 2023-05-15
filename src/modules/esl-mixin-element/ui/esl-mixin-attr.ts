@@ -19,7 +19,7 @@ export class ESLMixinAttributesObserver {
     instances.set(type, this);
   }
 
-  /** Process single mutation record */
+  /** Processes single mutation record */
   protected handleRecord(record: MutationRecord): void {
     const name = record.attributeName;
     const target = record.target as HTMLElement;
@@ -28,7 +28,7 @@ export class ESLMixinAttributesObserver {
     mixin && mixin.attributeChangedCallback(name, record.oldValue, target.getAttribute(name));
   }
 
-  /** Subscribe to the {@link ESLMixinElement} host instance mutations */
+  /** Subscribes to the {@link ESLMixinElement} host instance mutations */
   public observe(mixin: ESLMixinElement): void {
     const {is, observedAttributes} = mixin.constructor as typeof ESLMixinElement;
     const attributeFilter = observedAttributes.filter((name: string) => name !== is);
@@ -55,7 +55,7 @@ export class ESLMixinAttributesObserver {
     return new ESLMixinAttributesObserver(is);
   }
 
-  /** Subscribe to the {@link ESLMixinElement} host instance mutations */
+  /** Subscribes to the {@link ESLMixinElement} host instance mutations */
   public static observe(mixin: ESLMixinElement): void {
     const observer = this.instanceFor(mixin);
     observer && observer.observe(mixin);

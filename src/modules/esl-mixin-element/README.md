@@ -60,7 +60,7 @@ import {ESLMixinElement, attr, boolAttr, jsonAttr, listen} from '@exadel/esl';
 class MyMixinComponent extends ESLMixinElement {
   static override is = 'my-mixin-attr';
   static override obserevedAttriutes = [
-    /* atribute to observe additionaly to mixin attribute */
+    /* attribute to observe additionally to mixin attribute */
   ];
 
   /** Reflects 'my-string-prop' attribute */
@@ -76,7 +76,7 @@ class MyMixinComponent extends ESLMixinElement {
   }
   
   attributeChangedCallback(attributeName: string, oldValue: string, newValue: string) {
-    // Called on attribute value cahnge
+    // Called on attribute value change
   }
 
   disconnectedCallback() {
