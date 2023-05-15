@@ -52,7 +52,7 @@
     "start": "npm run clean-pages && concurrently --kill-others \"npm run watch:eleventy\" \"npm run watch:ts\" \"npm run watch:less\"",
     "clean": "rimraf modules polyfills",
     "build": "npm run clean && concurrently \"npm run build:less\" \"npm run build:ts\" \"npm run build:docs\"",
-    "build:ts": "tsc --project tsconfig.json",
+    "build:ts": "tsc --project tsconfig.build.json",
     "build:less": "npm run build:less:cpy && npm run build:less:css",
     "build:less:cpy": "copyfiles \"src/**/*.less\" \".\" --up 1 --all",
     "build:less:css": "foreach -x \"lessc #{path} #{dir}/#{name}.css\" -i \"**/*.mixin.less\" -g \"modules/{*,*/*,{draft,esl-utils,esl-forms}/*/*}.less\"",
