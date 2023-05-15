@@ -3,7 +3,7 @@ import {attr, boolAttr, jsonAttr} from '../../esl-utils/decorators';
 
 describe('ESLMixinElement: attribute mixins correctly reflect to the $host', () => {
   class TestMixin extends ESLMixinElement {
-    static override is = 'test-mixin-2';
+    static override is = 'test-mixin-attr-decorators';
 
     @attr() public val: string | null;
 
@@ -21,7 +21,7 @@ describe('ESLMixinElement: attribute mixins correctly reflect to the $host', () 
   });
 
   test('@attr', async () => {
-    const mixin = TestMixin.get($el) as TestMixin;
+    const mixin = TestMixin.get($el)!;
     expect(mixin.val).toBe('');
     mixin.val = 'a';
     expect($el.getAttribute('val')).toBe('a');
