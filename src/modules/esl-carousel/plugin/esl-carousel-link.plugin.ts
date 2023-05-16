@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {bind, attr} from '../../esl-utils/decorators';
+import {attr, listen} from '../../esl-utils/decorators';
 import {ESLCarousel} from '../core/esl-carousel';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core/esl-traversing-query';
 
@@ -23,22 +23,24 @@ export class ESLCarouselLinkPlugin extends ESLCarouselPluginElement {
       this.$target = ESLTraversingQuery.first(this.to) as ESLCarousel | null;
     }
     if (!(this.$target instanceof ESLCarousel)) return;
-
-    if (this.direction === 'both' || this.direction === 'reverse') {
-      this.$target.addEventListener('esl:slide:changed', this._onSlideChange);
-    }
-    if (this.direction === 'both' || this.direction === 'target') {
-      this.carousel.addEventListener('esl:slide:changed', this._onSlideChange);
-    }
   }
 
   public unbind(): void {
-    this.$target && this.$target.removeEventListener('esl:slide:changed', this._onSlideChange);
-    this.carousel && this.carousel.removeEventListener('esl:slide:changed', this._onSlideChange);
+  }
+
+  public get $observedTargets(): ESLCarousel[] {
+    if (!this.$target) return [];
+    if (this.direction === 'both') return [this.$target, this.carousel];
+    if (this.direction === 'reverse') return [this.$target];
+    if (this.direction === 'target') return [this.carousel];
+    return [];
   }
 
   /** Handles event that fires when the carousel slides state is changed. */
-  @bind
+  @listen({
+    event: 'esl:slide:changed',
+    target: (that: ESLCarouselLinkPlugin) => that.$observedTargets
+  })
   protected _onSlideChange(e: CustomEvent): void {
     if (!this.$target || !this.carousel) return;
     const $target = e.target === this.carousel ? this.$target : this.carousel;

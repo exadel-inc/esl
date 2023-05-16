@@ -72,6 +72,7 @@ export abstract class ESLCarouselView {
     this.registry.register(this.is, this);
   }
 }
+
 export type ESLCarouselViewConstructor = new(carousel: ESLCarousel) => ESLCarouselView;
 
 // TODO: target listener

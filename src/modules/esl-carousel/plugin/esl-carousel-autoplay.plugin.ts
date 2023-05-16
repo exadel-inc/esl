@@ -1,5 +1,5 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {attr, bind, boolAttr} from '../../esl-utils/decorators';
+import {attr, bind, boolAttr, listen} from '../../esl-utils/decorators';
 
 import {ESLCarouselPluginElement} from '../core/plugin/esl-carousel.plugin.element';
 
@@ -21,19 +21,9 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPluginElement {
   private _timeout: number | null = null;
 
   public bind(): void {
-    this.carousel.addEventListener('mouseover', this._onInteract);
-    this.carousel.addEventListener('mouseout', this._onInteract);
-    this.carousel.addEventListener('focusin', this._onInteract);
-    this.carousel.addEventListener('focusout', this._onInteract);
-    this.carousel.addEventListener('esl:slide:changed', this._onInteract);
     this.start();
   }
   public unbind(): void {
-    this.carousel.removeEventListener('mouseover', this._onInteract);
-    this.carousel.removeEventListener('mouseout', this._onInteract);
-    this.carousel.removeEventListener('focusin', this._onInteract);
-    this.carousel.removeEventListener('focusout', this._onInteract);
-    this.carousel.removeEventListener('esl:slide:changed', this._onInteract);
     this.stop();
   }
 
@@ -58,7 +48,10 @@ export class ESLCarouselAutoplayPlugin extends ESLCarouselPluginElement {
     this.reset();
   }
 
-  @bind
+  @listen({
+    event: 'mouseover focusin focusout esl:slide:changed',
+    target: (that: ESLCarouselAutoplayPlugin) => that.carousel
+  })
   protected _onInteract(e: Event): void {
     switch (e.type) {
       case 'mouseover':

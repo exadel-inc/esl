@@ -1,12 +1,12 @@
 import './esl-carousel.views';
 
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr, boolAttr} from '../../esl-base-element/core';
+import {ESLBaseElement, attr, boolAttr, listen} from '../../esl-base-element/core';
 import {bind} from '../../esl-utils/decorators/bind';
 import {memoize} from '../../esl-utils/decorators/memoize';
 import {parseBoolean} from '../../esl-utils/misc/format';
 import {ESLMediaRuleList} from '../../esl-media-query/core';
-
+import {ESLResizeObserverTarget} from '../../esl-event-listener/core/targets/resize.adapter';
 import {isEqual} from '../../esl-utils/misc/object/compare';
 import {normalizeIndex, toIndex, canNavigate} from './nav/esl-carousel.nav.utils';
 import {ESLCarouselSlide} from './esl-carousel.slide';
@@ -84,6 +84,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
 
   public readonly plugins = new Set<ESLCarouselPlugin>();
   protected _view: ESLCarouselView;
+  // TODO:
   protected _resizeObserver = new ResizeObserver(this._onResize);
 
   /**  @returns marker if the carousel is in a loop. */
@@ -99,6 +100,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     return this._view;
   }
 
+  // TODO: check if it works
   /** Updates the config and the state that is associated with. */
   public update(force: boolean = false): void {
     if (!force && this._view && isEqual(this.config, this.activeConfig)) return;
@@ -117,11 +119,11 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     this.update();
   }
 
-  @bind
+  @listen({event: 'resize', target: ESLResizeObserverTarget.for})
   protected _onResize(): void {
     if (!this._view) return;
     this._view.redraw();
-    this.goTo(this.firstIndex);
+    this.goTo(this.firstIndex); // todo: move to media query
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
@@ -134,8 +136,8 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     super.connectedCallback();
 
     this.update(true);
-    this.goTo(this.firstIndex, {force: true});
 
+    // TODO: update a11y -> check a11y everywhere
     const ariaLabel = this.hasAttribute('aria-label');
     !ariaLabel && this.setAttribute('aria-label', 'Carousel');
 
@@ -149,6 +151,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
 
   protected bindEvents(): void {
     ESLCarouselView.registry.addListener(this._onUpdate);
+    // TODO: listen
     this.typeRule.addEventListener(this._onUpdate);
     this.countRule.addEventListener(this._onUpdate);
     this.loopRule.addEventListener(this._onUpdate);
@@ -157,6 +160,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
 
   protected unbindEvents(): void {
     ESLCarouselView.registry.removeListener(this._onUpdate);
+    // TODO: listen
     this.typeRule.removeEventListener(this._onUpdate);
     this.countRule.removeEventListener(this._onUpdate);
     this.loopRule.removeEventListener(this._onUpdate);
@@ -227,7 +231,11 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
   /** Goes to the target according to passed params. */
   // eslint-disable-next-line sonarjs/cognitive-complexity
   public async goTo(target: ESLCarouselSlideTarget, params: CarouselActionParams = {}): Promise<void> {
-    // TODO: ?
+    // TODO: go to last action (from console for example) and animate from
+    // 1) 1 slide is active, js goTo(2), goTo(3) -> goTo(3)
+    // 2) 1 slide is active, js goTo(2), goTo(3), goTo(2) -> goTo(2)
+    // 3) 1 slide is active, js goTo(2), setTimeout(goTo(1)) -> goTo(2), the active point -> goTo(1)
+    // Task Manager (Toggleable - different types of requests, read DelayedTask)
     if (this.dataset.isAnimated) return;
 
     const {firstIndex} = this;
