@@ -27,23 +27,18 @@ export function throttle<F extends AnyToAnyFnSignature>(fn: F, threshold = 250, 
   function throttledSubject(...args: any[]): void {
     const now = Date.now();
 
-    if (!last || now >= last + threshold) {
-      last = now;
-      fn.apply(this, args);
-    }
-
     deferred = deferred || createDeferred();
+
     (typeof timeout === 'number') && clearTimeout(timeout);
     timeout = window.setTimeout(() => {
-      last = now;
+      last = Date.now();
       timeout = null;
-      // fn.apply to save call context
       deferred!.resolve(fn.apply(thisArg || this, args));
       deferred = null;
-    }, threshold);
+    }, Math.max(last + threshold - now, 0));
   }
   Object.defineProperty(throttledSubject, 'promise', {
-    get: () => deferred ? deferred.promise : Promise.resolve()
+    get: () => (deferred = deferred || createDeferred()).promise
   });
   return throttledSubject as Throttled<F>;
 }
