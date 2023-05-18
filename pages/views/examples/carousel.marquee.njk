@@ -36,7 +36,7 @@ icon: examples/carousel.svg
       <div data-slides-area>
         {% for item in slides %}
         <esl-carousel-slide>
-          <div class="img-container">
+          <div class="img-container" esl-carousel-nav="slide:{{ loop.index - 1 }}">
             <esl-image mode="cover" lazy
                        data-alt="{{ 'Carousel slide ' + loop.index }}"
                        data-src="{{ '/assets/carousel/' + loop.index + '-sm.jpg'  | url }}"></esl-image>
