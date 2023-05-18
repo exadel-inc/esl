@@ -23,7 +23,7 @@ abstract class MediaQueryContainer extends SyntheticEventTarget implements IMedi
   public override addEventListener(type: 'change', callback: EventListener): void;
   public override addEventListener(type: any, callback: EventListener = type): void {
     super.addEventListener(type, callback);
-    if (this.hasEventListener(1)) return;
+    if (this.getEventListeners('change').length > 1) return;
     this.items.forEach((item) => item.addEventListener('change', this._onChange));
   }
 

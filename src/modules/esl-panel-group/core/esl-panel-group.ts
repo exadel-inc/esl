@@ -80,7 +80,7 @@ export class ESLPanelGroup extends ESLBaseElement {
     });
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'mode' || attrName === 'min-open-items' || attrName === 'max-open-items') {
       this.$$off(this._onConfigChange);

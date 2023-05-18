@@ -21,12 +21,11 @@
     "outDir": "./"
   },
   "include": [
+    "pages/src",
     "src/modules",
     "src/polyfills"
   ],
   "exclude": [
-    "*.test.ts",
-    "**/test/*.ts",
     "modules",
     "polyfills",
     "node_modules"

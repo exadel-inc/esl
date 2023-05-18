@@ -1,6 +1,6 @@
-export * from './object/utils';
 export * from './object/types';
-export * from './object/path';
-export * from './object/merge';
-export * from './object/copy';
-export * from './object/compare';
+export {defined, getPropertyDescriptor} from './object/utils';
+export {deepMerge} from './object/merge';
+export {copy, omit, copyDefinedKeys} from './object/copy';
+export {isEqual, isSimilar} from './object/compare';
+export {get, getByPath, set, setByPath} from './object/path';
