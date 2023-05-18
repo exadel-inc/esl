@@ -33,7 +33,14 @@ import {
   ESLTooltip,
   ESLAnimate,
   ESLShare,
-  ESLRelatedTarget
+  ESLRelatedTarget,
+
+  ESLCarousel,
+  ESLCarouselNavDots,
+  ESLCarouselNavMixin,
+  ESLCarouselLinkPlugin,
+  ESLCarouselTouchPlugin,
+  ESLCarouselAutoplayPlugin
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -47,11 +54,6 @@ import '../../src/modules/esl-share/actions/external-action';
 import '../../src/modules/esl-share/actions/media-action';
 import '../../src/modules/esl-share/actions/native-action';
 import '../../src/modules/esl-share/actions/print-action';
-
-import {
-  ESLCarousel,
-  ESLCarouselPlugins
-} from '../../src/modules/draft/all';
 
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
@@ -108,10 +110,12 @@ ESLTooltip.register();
 ESLAnimate.register();
 
 ESLCarousel.register();
-ESLCarouselPlugins.Dots.register();
-ESLCarouselPlugins.Link.register();
-ESLCarouselPlugins.Touch.register();
-ESLCarouselPlugins.Autoplay.register();
+ESLCarouselNavDots.register();
+ESLCarouselNavMixin.register();
+ESLCarouselTouchPlugin.register();
+
+ESLCarouselLinkPlugin.register();
+ESLCarouselAutoplayPlugin.register();
 
 ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
 ESLShare.register();

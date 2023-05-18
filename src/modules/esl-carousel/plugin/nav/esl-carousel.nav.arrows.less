@@ -1,0 +1,72 @@
+/** Arrow navigation styles */
+[esl-carousel-container] {
+  .esl-carousel-arrow {
+    display: flex;
+
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    transform: translateY(-50%);
+
+    background: none;
+    border: none;
+    cursor: pointer;
+    appearance: none;
+
+    &[disabled] {
+      opacity: .25;
+    }
+  }
+
+  // Positioning
+  .esl-carousel-arrow {
+    width: 3rem;
+    height: 3rem;
+    left: -2.5rem;
+
+    @media @xs-sm {
+      left: -2rem;
+      height: 100%;
+      top: 0;
+      transform: none;
+    }
+
+    &.inner {
+      left: 0;
+    }
+  }
+  esl-carousel + .esl-carousel-arrow {
+    left: auto;
+    right: -2.5rem;
+
+    @media @xs-sm {
+      left: auto;
+      right: -2rem;
+    }
+
+    &.inner {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  .icon-arrow-next::before,
+  .icon-arrow-prev::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    opacity: .75;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDUwIDUwIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MCA1MCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cG9seWdvbiBwb2ludHM9IjMxIDQwIDE2IDI1IDMxIDEwIDMzIDEyIDIwIDI1IDMzIDM4Ii8+PC9zdmc+) no-repeat;
+
+    filter: drop-shadow(0 0 4px #fff);
+
+    @media @xs-sm {
+      display: none;
+    }
+  }
+  .icon-arrow-next::before {
+    transform: scaleX(-1);
+  }
+}
