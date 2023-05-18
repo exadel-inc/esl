@@ -72,6 +72,9 @@ export class ESLPopup extends ESLToggleable {
   protected _intersectionRatio: IntersectionRatioRect = {};
   protected _updateLoopID: number;
 
+  /** Classname of popups arrow element */
+  @prop('esl-popup-arrow') public arrowClass: string;
+
   /**
    * Popup position relative to the trigger.
    * Currently supported: 'top', 'bottom', 'left', 'right' position types ('top' by default)
@@ -128,7 +131,7 @@ export class ESLPopup extends ESLToggleable {
   @ready
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.$arrow = this.querySelector('span.esl-popup-arrow');
+    this.$arrow = this.querySelector(`span.${this.arrowClass}`);
     this.moveToBody();
   }
 
@@ -163,6 +166,20 @@ export class ESLPopup extends ESLToggleable {
     this.$placeholder = ESLPopupPlaceholder.from(this);
     parentNode.replaceChild(this.$placeholder, this);
     document.body.appendChild(this);
+  }
+
+  /** Creates arrow element */
+  @memoize()
+  protected _createArrow(): HTMLElement {
+    const $arrow = document.createElement('span');
+    $arrow.className = this.arrowClass;
+    return $arrow;
+  }
+
+  /** Appends arrow to Popup */
+  public appendArrow(): void {
+    this.$arrow = this._createArrow();
+    this.appendChild(this.$arrow);
   }
 
   /**
