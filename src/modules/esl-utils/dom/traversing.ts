@@ -61,6 +61,18 @@ export const findClosestBy = (node: Node | null, predicate: (node: Node) => bool
   return null;
 };
 
+/**
+ * Find looped next element within parent circle
+ */
+export const findNextLooped =
+  createSequenceFinder((el) => el.nextElementSibling || (el.parentElement && el.parentElement.firstElementChild));
+
+/**
+ * Find looped previous element within parent circle (looped)
+ */
+export const findPrevLooped =
+  createSequenceFinder((el) => el.previousElementSibling || (el.parentElement && el.parentElement.lastElementChild));
+
 /** @deprecated Cumulative traversing utility set */
 export abstract class TraversingUtils {
   static isRelative = isRelativeNode;
