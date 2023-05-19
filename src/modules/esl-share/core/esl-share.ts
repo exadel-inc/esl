@@ -1,10 +1,10 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
-import {ESLTrigger} from '../../esl-trigger/core';
 import {sequentialUID} from '../../esl-utils/misc/uid';
 import {attr, boolAttr, prop} from '../../esl-utils/decorators';
 import {selectButtonsForList} from './esl-share-config';
 import {ESLShareButton} from './esl-share-button';
+import {ESLShareTrigger} from './esl-share-trigger';
 
 import type {ESLShareConfig, ESLShareButtonConfig} from './esl-share-config';
 
@@ -26,6 +26,7 @@ export class ESLShare extends ESLBaseElement {
   /** Register {@link ESLShare} component and dependent {@link ESLShareButton} */
   public static override register(): void {
     ESLShareButton.register();
+    ESLShareTrigger.register();
     super.register();
   }
 
@@ -112,7 +113,7 @@ export class ESLShare extends ESLBaseElement {
   }
 
   protected appendTrigger(target: string): void {
-    const $trigger = ESLTrigger.create();
+    const $trigger = ESLShareTrigger.create();
     Object.assign($trigger, {
       target,
       mode: 'toggle',
