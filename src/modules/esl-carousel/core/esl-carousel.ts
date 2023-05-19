@@ -12,7 +12,6 @@ import {normalizeIndex, toIndex, canNavigate} from './nav/esl-carousel.nav.utils
 import {ESLCarouselSlide} from './esl-carousel.slide';
 import {ESLCarouselView} from './view/esl-carousel-view';
 
-import type {ESLCarouselPlugin} from './plugin/esl-carousel.plugin.base';
 import type {ESLCarouselState, ESLCarouselDirection, ESLCarouselSlideTarget} from './nav/esl-carousel.nav.types';
 
 /** Config to define behavior of ESLCarousel */
@@ -84,7 +83,6 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     };
   }
 
-  public readonly plugins = new Set<ESLCarouselPlugin>();
   protected _view: ESLCarouselView;
   // TODO:
   protected _resizeObserver = new ResizeObserver(this._onResize);
