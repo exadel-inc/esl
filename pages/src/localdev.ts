@@ -38,7 +38,7 @@ import {
   ESLCarousel,
   ESLCarouselNavDots,
   ESLCarouselNavMixin,
-  ESLCarouselLinkPlugin,
+  ESLCarouselRelationMixin,
   ESLCarouselTouchPlugin,
   ESLCarouselAutoplayMixin
 } from '../../src/modules/all';
@@ -110,11 +110,10 @@ ESLTooltip.register();
 ESLAnimate.register();
 
 ESLCarousel.register();
+ESLCarouselTouchPlugin.register();
 ESLCarouselNavDots.register();
 ESLCarouselNavMixin.register();
-ESLCarouselTouchPlugin.register();
-
-ESLCarouselLinkPlugin.register();
+ESLCarouselRelationMixin.register();
 ESLCarouselAutoplayMixin.register();
 
 ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));

@@ -12,5 +12,5 @@ export * from './plugin/touch/esl-carousel.touch.mixin';
 // Autoplay
 export * from './plugin/autoplay/esl-carousel.autoplay.mixin';
 
-// Plugins
-export * from './plugin/esl-carousel-link.plugin';
+// Link Utility
+export * from './plugin/relation/esl-carousel.relation.mixin';

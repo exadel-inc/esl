@@ -176,8 +176,11 @@ icon: examples/carousel.svg
   <div class="row flex-column" esl-carousel-container>
     <button type="button" esl-carousel-nav="group:prev"></button>
 
-    <esl-carousel esl-carousel-touch media="@XL|@LG|@MD|@SM|@XS" count="6|5|4|3|1">
-      <esl-carousel-link-plugin to="#second-carousel"></esl-carousel-link-plugin>
+    <esl-carousel id="first-carousel"
+                  esl-carousel-touch
+                  esl-carousel-relate-to="#second-carousel"
+                  media="@XL|@LG|@MD|@SM|@XS"
+                  count="6|5|4|3|1">
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
         {% for i in range(0, 13) %}
@@ -204,8 +207,9 @@ icon: examples/carousel.svg
   <div class="row flex-column" esl-carousel-container>
     <button type="button" esl-carousel-nav="group:prev"></button>
 
-    <esl-carousel esl-carousel-autoplay="5000"
-                  id="second-carousel"
+    <esl-carousel id="second-carousel"
+                  esl-carousel-autoplay="5000"
+                  esl-carousel-relate-to="#first-carousel"
                   count="1">
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->

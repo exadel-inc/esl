@@ -29,6 +29,8 @@ interface CarouselConfig {
 
 /** {@link ESLCarousel} action params interface */
 export interface CarouselActionParams {
+  /** Element requester of the change */
+  activator?: any;
   /** Direction to move to. */
   direction?: ESLCarouselDirection;
   /** Force action independently of current state of the Carousel. */
@@ -242,12 +244,13 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
 
     const {index, dir} = toIndex(target, this);
     const direction = params.direction || dir;
+    const activator = params.activator;
 
     if (!direction || firstIndex === index && !params.force) return;
 
     // TODO: change info
     const eventDetails = {
-      detail: {direction},
+      detail: {direction, activator},
       bubbles: false
     };
 
