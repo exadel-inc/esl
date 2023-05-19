@@ -10,6 +10,25 @@ aside:
 ---
 {% import 'lorem.njk' as lorem %}
 
+{% macro triggerSVGicon(color) %}
+<svg class="demo-trigger-svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99 99" fill="{{color}}" stroke="{{color}}">
+  <path d="M75 20 l-50 30 50 30" fill="none" stroke-width="11"/>
+  <circle cx="25" cy="50" r="16"/>
+  <circle cx="75" cy="20" r="16"/>
+  <circle cx="75" cy="80" r="16"/>
+</svg>
+{% endmacro %}
+
+<style>
+  esl-share-trigger {
+    margin: 10px;
+  }
+  .demo-trigger-svg-icon {
+    width: 40px;
+    height: 40px;
+  }
+</style>
+
 <section>
   <h2>Share example</h2>
 
@@ -68,15 +87,6 @@ aside:
 
   <h3>Trigger icon with share popup</h3>
   <p>Displays trigger icon. Hovering or clicking on the icon shows a popup with the list of share icons.</p>
-  <esl-trigger target="#demo-share-popup" mode="toggle" track-click track-hover style="display: inline-block; width: 40px; height: 40px;">
-    <svg viewBox="0 0 483 483" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g fill="#add1fa">
-        <path d="M395.72,0c-48.204,0-87.281,39.078-87.281,87.281c0,2.036,0.164,4.03,0.309,6.029l-161.233,75.674 c-15.668-14.971-36.852-24.215-60.231-24.215c-48.204,0.001-87.282,39.079-87.282,87.282c0,48.204,39.078,87.281,87.281,87.281 c15.206,0,29.501-3.907,41.948-10.741l69.789,58.806c-3.056,8.896-4.789,18.396-4.789,28.322c0,48.204,39.078,87.281,87.281,87.281 c48.205,0,87.281-39.078,87.281-87.281s-39.077-87.281-87.281-87.281c-15.205,0-29.5,3.908-41.949,10.74l-69.788-58.805 c3.057-8.891,4.789-18.396,4.789-28.322c0-2.035-0.164-4.024-0.308-6.029l161.232-75.674c15.668,14.971,36.852,24.215,60.23,24.215 c48.203,0,87.281-39.078,87.281-87.281C482.999,39.079,443.923,0,395.72,0z"/>
-      </g>
-    </svg>
-  </esl-trigger>
-  <esl-popup id="demo-share-popup" position="top" default-params="{hideDelay: 500}" close-on-esc close-on-outside-action>
-    <esl-share list="group:alternative" style="margin: 10px;"></esl-share><span class="esl-popup-arrow"></span>
-  </esl-popup>
-  <esl-share mode="popup" share-url="https://esl-ui.com/" share-title="Exadel Smart Library">Share page</esl-share>
+  <esl-share mode="popup" list="group:demo">{{ triggerSVGicon('#00CED1') }}</esl-share>
+
 </section>
