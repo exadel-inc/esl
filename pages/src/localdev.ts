@@ -38,8 +38,8 @@ import {
   ESLCarousel,
   ESLCarouselNavDots,
   ESLCarouselNavMixin,
+  ESLCarouselTouchMixin,
   ESLCarouselRelationMixin,
-  ESLCarouselTouchPlugin,
   ESLCarouselAutoplayMixin
 } from '../../src/modules/all';
 
@@ -110,9 +110,9 @@ ESLTooltip.register();
 ESLAnimate.register();
 
 ESLCarousel.register();
-ESLCarouselTouchPlugin.register();
 ESLCarouselNavDots.register();
 ESLCarouselNavMixin.register();
+ESLCarouselTouchMixin.register();
 ESLCarouselRelationMixin.register();
 ESLCarouselAutoplayMixin.register();
 

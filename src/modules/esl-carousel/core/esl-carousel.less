@@ -19,14 +19,11 @@ esl-carousel {
     cursor: grabbing;
   }
 
-  &[animating] [data-slides-area] {
-    pointer-events: none;
-  }
-
   &[dragging] [data-slides-area],
   &[animating] [data-slides-area] {
     user-select: none;
     touch-action: pan-y;
+    pointer-events: none;
   }
 
   &-slide {
