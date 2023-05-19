@@ -69,6 +69,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
                 aria-current="${isActive ? 'true' : 'false'}"></button>`;
   }
 
+  /** Handles carousel state changes */
   @listen({
     event: 'esl:slide:changed',
     target: ($el: ESLCarouselNavDots) => $el.$carousel
@@ -78,6 +79,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     this.rerender();
   }
 
+  /** Handles `click` on the dots */
   @listen('click')
   protected _onClick(event: PointerEvent): void {
     if (!this.$carousel || typeof this.$carousel.goTo !== 'function') return;
@@ -86,7 +88,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     this.$carousel.goTo($target.getAttribute('data-nav-target')!);
   }
 
-  /** Handles `keydown` event. */
+  /** Handles `keydown` event */
   @listen('keydown')
   protected _onKeydown(event: KeyboardEvent): void {
     const $eventTarget: HTMLElement = event.target as HTMLElement;

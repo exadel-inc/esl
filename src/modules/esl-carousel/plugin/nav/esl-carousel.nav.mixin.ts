@@ -51,6 +51,7 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     memoize.clear(this, '$carousel');
   }
 
+  /** Handles carousel state changes */
   @listen({
     event: 'esl:slide:changed',
     target: ($nav: ESLCarouselNavMixin) => $nav.$carousel
@@ -60,6 +61,7 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
     this.$$attr('disabled', !canNavigate);
   }
 
+  /** Handles nat target clicks */
   @listen('click')
   protected _onClick(e: PointerEvent): void {
     if (!this.$carousel || typeof this.$carousel.goTo !== 'function') return;

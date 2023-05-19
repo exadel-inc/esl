@@ -4,7 +4,7 @@ import {attr, bind, listen} from '../../../esl-utils/decorators';
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 
 /**
- * Slide Carousel auto-play (auto-advance) plugin mixin
+ * {@link ESLCarousel} auto-play (auto-advance) plugin mixin
  * Automatically switch slides by timeout
  *
  * @author Alexey Stsefanovich (ala'n)
@@ -13,9 +13,11 @@ import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin {
   public static override is = 'esl-carousel-autoplay';
 
+  /** Timeout to send next command to the host carousel */
   @attr({defaultValue: '5000', name: ESLCarouselAutoplayMixin.is})
   public timeout: number;
 
+  /** Navigation command to send to the host carousel. Default: 'slide:next' */
   @attr({defaultValue: 'slide:next', name: ESLCarouselAutoplayMixin.is + '-command'})
   public command: string;
 
@@ -36,23 +38,27 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin {
     this.start();
   }
 
+  /** Activates the timer to send commands */
   public start(): void {
     this.stop();
     this._timeout = window.setTimeout(this._onInterval, this.timeout);
   }
 
+  /** Deactivates the timer to send commands */
   public stop(): void {
     if (typeof this._timeout === 'number') {
       window.clearTimeout(this._timeout);
     }
   }
 
+  /** Handles next timer interval */
   @bind
   protected _onInterval(): void {
     this.$host?.goTo(this.command);
     this._timeout = window.setTimeout(this._onInterval, this.timeout);
   }
 
+  /** Handles auxiliary events to pause/resume timer */
   @listen('mouseout mouseover focusin focusout esl:slide:changed')
   protected _onInteract(e: Event): void {
     if (['mouseover', 'focusin'].includes(e.type)) {

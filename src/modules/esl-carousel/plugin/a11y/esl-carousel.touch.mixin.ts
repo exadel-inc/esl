@@ -22,10 +22,13 @@ import type {Point} from '../../../esl-utils/dom/events';
 export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   public static override is = 'esl-carousel-touch';
 
+  /** Min distance in pixels to activate drugging mode */
   @prop(5) public tolerance: number;
+
+  /** {@link ESLMediaQuery} condition to have touch support active */
   @attr({name: ESLCarouselTouchMixin.is}) public media: string;
 
-  /** Point to start from. */
+  /** Point to start from */
   protected startPoint: Point = {x: 0, y: 0};
   /** Marker whether touch event is started */
   protected isTouchStarted = false;

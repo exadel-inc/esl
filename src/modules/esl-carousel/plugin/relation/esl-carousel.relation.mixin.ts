@@ -15,6 +15,7 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin {
   @attr({name: ESLCarouselRelateToMixin.is})
   public target: string;
 
+  /** @returns ESLCarousel target to share state changes */
   @memoize()
   public get $target(): ESLCarousel | null {
     const $target = ESLTraversingQuery.first(this.target);

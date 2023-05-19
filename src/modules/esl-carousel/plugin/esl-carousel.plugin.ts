@@ -1,8 +1,9 @@
 import {ESLMixinElement} from '../../esl-mixin-element/ui/esl-mixin-element';
 import {ESLCarousel} from '../core/esl-carousel';
 
+/** Base mixin plugin of {@link ESLCarousel} */
 export abstract class ESLCarouselPlugin extends ESLMixinElement {
-  /** Carousel target */
+  /** {@link ESLCarousel} host instance */
   public override $host: ESLCarousel;
 
   protected override connectedCallback(): boolean | void {

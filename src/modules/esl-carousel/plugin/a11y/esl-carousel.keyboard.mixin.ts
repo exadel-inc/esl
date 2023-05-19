@@ -5,7 +5,7 @@ import {attr, listen} from '../../../esl-utils/decorators';
 import {ARROW_LEFT, ARROW_RIGHT} from '../../../esl-utils/dom/keys';
 
 /**
- * Slide Carousel keyboard support
+ * {@link ESLCarousel} Keyboard arrow support
  *
  * @author Alexey Stsefanovich (ala'n)
  */
