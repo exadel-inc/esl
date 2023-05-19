@@ -39,7 +39,7 @@ import {
   ESLCarouselNavDots,
   ESLCarouselNavMixin,
   ESLCarouselTouchMixin,
-  ESLCarouselRelationMixin,
+  ESLCarouselRelateToMixin,
   ESLCarouselAutoplayMixin
 } from '../../src/modules/all';
 
@@ -113,7 +113,7 @@ ESLCarousel.register();
 ESLCarouselNavDots.register();
 ESLCarouselNavMixin.register();
 ESLCarouselTouchMixin.register();
-ESLCarouselRelationMixin.register();
+ESLCarouselRelateToMixin.register();
 ESLCarouselAutoplayMixin.register();
 
 ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));

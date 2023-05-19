@@ -8,11 +8,11 @@ import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 /**
  * Slide Carousel Link plugin mixin to bind carousel positions
  */
-@ExportNs('Carousel.Link')
-export class ESLCarouselRelationMixin extends ESLCarouselPlugin {
+@ExportNs('Carousel.RelateTo')
+export class ESLCarouselRelateToMixin extends ESLCarouselPlugin {
   public static override is = 'esl-carousel-relate-to';
 
-  @attr({name: ESLCarouselRelationMixin.is})
+  @attr({name: ESLCarouselRelateToMixin.is})
   public target: string;
 
   @memoize()
@@ -40,6 +40,6 @@ export class ESLCarouselRelationMixin extends ESLCarouselPlugin {
 
 declare global {
   export interface ESLCarouselNS {
-    Link: typeof ESLCarouselRelationMixin;
+    RelateTo: typeof ESLCarouselRelateToMixin;
   }
 }
