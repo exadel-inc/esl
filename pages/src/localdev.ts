@@ -40,7 +40,7 @@ import {
   ESLCarouselNavMixin,
   ESLCarouselLinkPlugin,
   ESLCarouselTouchPlugin,
-  ESLCarouselAutoplayPlugin
+  ESLCarouselAutoplayMixin
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -115,7 +115,7 @@ ESLCarouselNavMixin.register();
 ESLCarouselTouchPlugin.register();
 
 ESLCarouselLinkPlugin.register();
-ESLCarouselAutoplayPlugin.register();
+ESLCarouselAutoplayMixin.register();
 
 ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
 ESLShare.register();

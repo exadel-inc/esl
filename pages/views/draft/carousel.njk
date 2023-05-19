@@ -204,8 +204,9 @@ icon: examples/carousel.svg
   <div class="row flex-column" esl-carousel-container>
     <button type="button" esl-carousel-nav="group:prev"></button>
 
-    <esl-carousel id="second-carousel" count="1" type="slide">
-      <esl-carousel-autoplay-plugin timeout="5000"></esl-carousel-autoplay-plugin>
+    <esl-carousel esl-carousel-autoplay="5000"
+                  id="second-carousel"
+                  count="1">
       <div data-slides-area>
         <!-- CAROUSEL-ITEM -->
         {% for i in range(0, 5) %}

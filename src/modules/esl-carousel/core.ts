@@ -9,6 +9,8 @@ export * from './plugin/nav/esl-carousel.nav.dots';
 // Touch support
 export * from './plugin/touch/esl-carousel.touch.mixin';
 
+// Autoplay
+export * from './plugin/autoplay/esl-carousel.autoplay.mixin';
+
 // Plugins
 export * from './plugin/esl-carousel-link.plugin';
-export * from './plugin/esl-carousel-autoplay.plugin';
