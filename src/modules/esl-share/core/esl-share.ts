@@ -61,12 +61,12 @@ export class ESLShare extends ESLBaseElement {
 
   protected _content: string;
 
-  protected get $popup(): ESLPopup {
-    return popupStore.get(this.list) || this.buildPopup$();
+  protected get $popup(): ESLPopup | undefined {
+    return popupStore.get(this.list);
   }
 
-  protected set $popup(value: ESLPopup) {
-    popupStore.set(this.list, value);
+  protected set $popup(value: ESLPopup | undefined) {
+    value && popupStore.set(this.list, value);
   }
 
   /** @returns config of buttons specified by the list attribute */
@@ -86,24 +86,32 @@ export class ESLShare extends ESLBaseElement {
   protected init(): void {
     if (!this.mode) this.mode = 'list';
     if (!this._content) this._content = this.innerHTML;
-    this.build()
+    this.buildContent()
       .then(() => this.$$fire(this.SHARE_READY_EVENT, {bubbles: false}))
       .catch((e) => console.error(`[${this.baseTagName}]: ${e}`));
   }
 
-  protected async build(): Promise<void> {
+  protected async buildContent(): Promise<void> {
     this.innerHTML = '';
 
-    let $buttonsHost!: Element;
-    if (this.mode === 'popup') {
-      $buttonsHost = this.$popup;
-      this.buildTrigger(`#${$buttonsHost.id}`);
+    if (this.mode === 'list') {
+      this.appendButtonsTo(this);
+      return;
     }
 
-    return this.appendButtons($buttonsHost || this);
+    const $popup = this.$popup || await this.createPopup$();
+    this.appendTrigger(`#${$popup.id}`);
   }
 
-  protected buildTrigger(target: string): void {
+  protected async appendButtonsTo($el: Element): Promise<void> {
+    const buttonsConfig = await this.buttonsConfig;
+    buttonsConfig.forEach((cfg) => {
+      const btn = this.createButton$(cfg);
+      btn && $el.appendChild(btn);
+    });
+  }
+
+  protected appendTrigger(target: string): void {
     const $trigger = ESLTrigger.create();
     Object.assign($trigger, {
       target,
@@ -115,15 +123,7 @@ export class ESLShare extends ESLBaseElement {
     this.appendChild($trigger);
   }
 
-  protected async appendButtons($el: Element): Promise<void> {
-    const buttonsConfig = await this.buttonsConfig;
-    buttonsConfig.forEach((cfg) => {
-      const btn = this.buildButton(cfg);
-      btn && $el.appendChild(btn);
-    });
-  }
-
-  protected buildButton(cfg: ESLShareButtonConfig): ESLShareButton | null {
+  protected createButton$(cfg: ESLShareButtonConfig): ESLShareButton | null {
     const $button = ESLShareButton.create();
     Object.assign($button, cfg);
     const $icon = document.createElement('span');
@@ -135,17 +135,15 @@ export class ESLShare extends ESLBaseElement {
     return $button;
   }
 
-  protected buildPopup$(): ESLPopup {
-    const id = sequentialUID(this.baseTagName + '-');
-
+  protected async createPopup$(): Promise<ESLPopup> {
     const $popup = ESLPopup.create();
+    const id = sequentialUID(this.baseTagName + '-');
     Object.assign($popup, {id, position: 'top', defaultParams: {hideDelay: 500}});
-
-    const $arrow = document.createElement('span');
-    $arrow.classList.add('esl-popup-arrow');
-    $popup.appendChild($arrow); // TODO: consider the feature to append an arrow to popup: $popup.appendArrow()
+    $popup.appendArrow();
     document.body.appendChild($popup);
+    this.$popup = $popup;
 
-    return this.$popup = $popup;
+    await this.appendButtonsTo($popup);
+    return $popup;
   }
 }
