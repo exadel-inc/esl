@@ -1,18 +1,16 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {ESLMixinElement} from '../../../esl-mixin-element/core';
 import {attr, listen, memoize} from '../../../esl-utils/decorators';
 import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
 import {ESLCarousel} from '../../core/esl-carousel';
+import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 
 /**
  * Slide Carousel Link plugin mixin to bind carousel positions
  */
 @ExportNs('Carousel.Link')
-export class ESLCarouselRelationMixin extends ESLMixinElement {
+export class ESLCarouselRelationMixin extends ESLCarouselPlugin {
   public static override is = 'esl-carousel-relate-to';
-
-  public override $host: ESLCarousel;
 
   @attr({name: ESLCarouselRelationMixin.is})
   public target: string;
@@ -21,16 +19,6 @@ export class ESLCarouselRelationMixin extends ESLMixinElement {
   public get $target(): ESLCarousel | null {
     const $target = ESLTraversingQuery.first(this.target);
     return ($target instanceof ESLCarousel) ? $target : null;
-  }
-
-  protected override async connectedCallback(): Promise<void> {
-    const {$host} = this;
-    await ESLCarousel.registered;
-    if (($host as unknown) instanceof ESLCarousel) {
-      super.connectedCallback();
-    } else {
-      console.error('[ESL]: %o is not correct target for %o', $host, ESLCarouselRelationMixin.is);
-    }
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {

@@ -1,8 +1,7 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {attr, bind, listen} from '../../../esl-utils/decorators';
-import {ESLMixinElement} from '../../../esl-mixin-element/core';
 
-import {ESLCarousel} from '../../core/esl-carousel';
+import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 
 /**
  * Slide Carousel auto-play (auto-advance) plugin mixin
@@ -11,10 +10,8 @@ import {ESLCarousel} from '../../core/esl-carousel';
  * @author Alexey Stsefanovich (ala'n)
  */
 @ExportNs('Carousel.Autoplay')
-export class ESLCarouselAutoplayMixin extends ESLMixinElement {
+export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin {
   public static override is = 'esl-carousel-autoplay';
-
-  public override $host: ESLCarousel;
 
   @attr({defaultValue: '5000', name: ESLCarouselAutoplayMixin.is})
   public timeout: number;
@@ -24,14 +21,9 @@ export class ESLCarouselAutoplayMixin extends ESLMixinElement {
 
   private _timeout: number | null = null;
 
-  protected override async connectedCallback(): Promise<void> {
-    const {$host} = this;
-    await ESLCarousel.registered;
-    if (($host as unknown) instanceof ESLCarousel) {
-      super.connectedCallback();
+  protected override connectedCallback(): void {
+    if (super.connectedCallback()) {
       this.start();
-    } else {
-      console.error('[ESL]: %o is not correct target for %o', $host, ESLCarouselAutoplayMixin.is);
     }
   }
 

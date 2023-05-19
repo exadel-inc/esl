@@ -1,10 +1,9 @@
 import {ExportNs} from '../../../esl-utils/environment/export-ns';
-import {ESLMixinElement} from '../../../esl-mixin-element/core';
 import {attr, prop, listen} from '../../../esl-utils/decorators';
 import {getTouchPoint, isMouseEvent, isTouchEvent} from '../../../esl-utils/dom';
 import {ESLMediaQuery} from '../../../esl-media-query/core';
 
-import {ESLCarousel} from '../../core/esl-carousel';
+import {ESLCarouselPlugin} from '../esl-carousel.plugin';
 
 import type {Point} from '../../../esl-utils/dom/events';
 
@@ -20,11 +19,8 @@ import type {Point} from '../../../esl-utils/dom/events';
  * ```
  */
 @ExportNs('Carousel.Touch')
-export class ESLCarouselTouchMixin extends ESLMixinElement {
+export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   public static override is = 'esl-carousel-touch';
-
-  /** Carousel target */
-  public override $host: ESLCarousel;
 
   @prop(5) public tolerance: number;
   @attr({name: ESLCarouselTouchMixin.is}) public media: string;
@@ -33,16 +29,6 @@ export class ESLCarouselTouchMixin extends ESLMixinElement {
   protected startPoint: Point = {x: 0, y: 0};
   /** Marker whether touch event is started */
   protected isTouchStarted = false;
-
-  public override async connectedCallback(): Promise<void> {
-    const {$host} = this;
-    await ESLCarousel.registered;
-    if (($host as unknown) instanceof ESLCarousel) {
-      super.connectedCallback();
-    } else {
-      console.error('[ESL]: %o is not correct target for %o', $host, ESLCarouselTouchMixin.is);
-    }
-  }
 
   /** @returns marker whether the event should be ignored. */
   protected isIgnoredEvent(event: TouchEvent | PointerEvent | MouseEvent): boolean | undefined {
