@@ -5,12 +5,6 @@ import {toAbsoluteUrl} from '../../esl-utils/misc/url';
 import {ESLShareActionRegistry} from './esl-share-action-registry';
 
 import type {ESLShareBaseAction} from './esl-share-action';
-import type {ESLShare} from './esl-share';
-
-function getProp<T>(name: string, targets: Record<string, any>[], fallback: T, predicate: (val: T) => boolean): T {
-  const find = targets.find((target) => predicate(target[name]));
-  return find ? find[name] : fallback;
-}
 
 /**
  * ESLShareButton
@@ -44,19 +38,14 @@ export class ESLShareButton extends ESLBaseElement {
     return ESLShareActionRegistry.instance.get(this.action);
   }
 
-  /** @returns parent share list {@link ESLShare} element (if exists) */
-  public get host(): ESLShare | null {
-    return this.closest('esl-share');
-  }
-
   /** @returns title to share */
   public get titleToShare(): string {
-    return this._getPropFromRelatedEls('shareTitle', document.title);
+    return this.getShareAttr('share-title', document.title);
   }
 
   /** @returns URL to share */
   public get urlToShare(): string {
-    return toAbsoluteUrl(this._getPropFromRelatedEls('shareUrl', window.location.href));
+    return toAbsoluteUrl(this.getShareAttr('share-url', window.location.href));
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
@@ -87,8 +76,9 @@ export class ESLShareButton extends ESLBaseElement {
     this.$$attr('unavailable', !this.actionInstance?.isAvailable);
   }
 
-  protected _getPropFromRelatedEls(name: string, fallback: string): string {
-    return getProp(name, [this, this.host ?? {}], fallback, (val: string) => !!val.length);
+  protected getShareAttr(name: string, fallback: string): string {
+    const el = this.closest(`[${name}]`);
+    return (el && el.getAttribute(name)) || fallback;
   }
 
   @listen('click')
