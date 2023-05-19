@@ -39,6 +39,7 @@ import {
   ESLCarouselNavDots,
   ESLCarouselNavMixin,
   ESLCarouselTouchMixin,
+  ESLCarouselKeyboardMixin,
   ESLCarouselRelateToMixin,
   ESLCarouselAutoplayMixin
 } from '../../src/modules/all';
@@ -113,6 +114,7 @@ ESLCarousel.register();
 ESLCarouselNavDots.register();
 ESLCarouselNavMixin.register();
 ESLCarouselTouchMixin.register();
+ESLCarouselKeyboardMixin.register();
 ESLCarouselRelateToMixin.register();
 ESLCarouselAutoplayMixin.register();
 
