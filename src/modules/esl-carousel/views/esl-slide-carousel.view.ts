@@ -1,9 +1,10 @@
-import {promisifyEvent, resolvePromise} from '../../../esl-utils/async/promise';
-import {promisifyNextRender} from '../../../esl-utils/async/raf';
-import {ESLCarouselView} from './esl-carousel-view';
+import {promisifyEvent, resolvePromise} from '../../esl-utils/async/promise';
+import {promisifyNextRender} from '../../esl-utils/async/raf';
+import {ESLCarouselView} from '../core/esl-carousel.view';
 
-import type {ESLCarouselDirection} from '../nav/esl-carousel.nav.types';
+import type {ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
 
+@ESLCarouselView.register
 export class ESLSlideCarouselView extends ESLCarouselView {
   public static override is = 'slide';
 

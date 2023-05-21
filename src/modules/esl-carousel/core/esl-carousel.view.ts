@@ -1,8 +1,8 @@
-import {Observable} from '../../../esl-utils/abstract/observable';
-import {memoize} from '../../../esl-utils/decorators/memoize';
+import {memoize} from '../../esl-utils/decorators';
+import {SyntheticEventTarget} from '../../esl-utils/dom';
 
-import type {ESLCarousel} from '../esl-carousel';
-import type {ESLCarouselDirection} from '../nav/esl-carousel.nav.types';
+import type {ESLCarousel} from './esl-carousel';
+import type {ESLCarouselDirection} from './nav/esl-carousel.nav.types';
 
 export abstract class ESLCarouselView {
   public static is = '';
@@ -68,15 +68,14 @@ export abstract class ESLCarouselView {
   public static get registry(): ESLCarouselViewRegistry {
     return new ESLCarouselViewRegistry();
   }
-  public static register(this: typeof ESLCarouselView & ESLCarouselViewConstructor): void {
-    this.registry.register(this.is, this);
+  public static register(view: ESLCarouselViewConstructor): void {
+    ESLCarouselView.registry.register(view);
   }
 }
 
-export type ESLCarouselViewConstructor = new(carousel: ESLCarousel) => ESLCarouselView;
+export type ESLCarouselViewConstructor = (new(carousel: ESLCarousel) => ESLCarouselView) & typeof ESLCarouselView;
 
-// TODO: target listener
-export class ESLCarouselViewRegistry extends Observable<(name: string, view: ESLCarouselViewConstructor) => void> {
+export class ESLCarouselViewRegistry extends SyntheticEventTarget {
   private store = new Map<string, ESLCarouselViewConstructor>();
 
   public create(name: string, carousel: ESLCarousel): ESLCarouselView {
@@ -85,9 +84,12 @@ export class ESLCarouselViewRegistry extends Observable<(name: string, view: ESL
     return new View(carousel);
   }
 
-  public register(name: string, view: ESLCarouselViewConstructor): void {
-    if (this.store.has(name)) throw new Error(`View with name ${name} already defined`);
-    this.store.set(name, view);
-    this.fire(name, view);
+  public register(view: ESLCarouselViewConstructor): void {
+    if (!view || !view.is) throw Error('[ESL]: CarouselViewRegistry] incorrect registration request');
+    if (this.store.has(view.is)) throw Error(`View with name ${view.is} already defined`);
+    this.store.set(view.is, view);
+    const detail = {name: view.is, view};
+    const event = new CustomEvent('change', {detail});
+    this.dispatchEvent(event);
   }
 }

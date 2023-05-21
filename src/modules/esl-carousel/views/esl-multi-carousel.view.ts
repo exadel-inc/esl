@@ -1,12 +1,12 @@
-import {promisifyEvent, repeatSequence, resolvePromise} from '../../../esl-utils/async/promise';
+import {promisifyEvent, repeatSequence, resolvePromise} from '../../esl-utils/async/promise';
 
-import {calcDirection, normalizeIndex} from '../nav/esl-carousel.nav.utils';
-import {ESLCarouselView} from './esl-carousel-view';
+import {calcDirection, normalizeIndex} from '../core/nav/esl-carousel.nav.utils';
+import {ESLCarouselView} from '../core/esl-carousel.view';
 
-import type {ESLCarouselSlide} from '../esl-carousel.slide';
-import type {ESLCarouselDirection} from '../nav/esl-carousel.nav.types';
+import type {ESLCarouselSlide} from '../core/esl-carousel.slide';
+import type {ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
 
-
+@ESLCarouselView.register
 export class ESLMultiCarouselView extends ESLCarouselView {
   public static override is = 'multi';
 

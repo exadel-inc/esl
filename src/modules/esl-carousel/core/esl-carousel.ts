@@ -1,16 +1,16 @@
-import './esl-carousel.views';
-
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr, boolAttr, listen} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {memoize} from '../../esl-utils/decorators/memoize';
+import {ESLBaseElement} from '../../esl-base-element/core';
+import {attr, boolAttr, listen, memoize} from '../../esl-utils/decorators';
 import {parseBoolean} from '../../esl-utils/misc/format';
-import {ESLMediaRuleList} from '../../esl-media-query/core';
-import {ESLResizeObserverTarget} from '../../esl-event-listener/core/targets/resize.adapter';
 import {isEqual} from '../../esl-utils/misc/object/compare';
+
+import {ESLMediaRuleList} from '../../esl-media-query/core';
+import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
+
 import {normalizeIndex, toIndex, canNavigate} from './nav/esl-carousel.nav.utils';
+
+import {ESLCarouselView} from './esl-carousel.view';
 import {ESLCarouselSlide} from './esl-carousel.slide';
-import {ESLCarouselView} from './view/esl-carousel-view';
 
 import type {ESLCarouselState, ESLCarouselDirection, ESLCarouselSlideTarget} from './nav/esl-carousel.nav.types';
 
@@ -35,7 +35,7 @@ export interface CarouselActionParams {
   /** Force action independently of current state of the Carousel. */
   force?: boolean;
   // TODO: implement
-  noAnimation?: boolean;
+  // noAnimation?: boolean;
 }
 
 /**
@@ -46,8 +46,6 @@ export interface CarouselActionParams {
  */
 @ExportNs('Carousel')
 export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
-  public static readonly Slide = ESLCarouselSlide;
-
   public static override is = 'esl-carousel';
   public static observedAttributes = ['media', 'type', 'loop', 'count'];
 
@@ -84,8 +82,6 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
   }
 
   protected _view: ESLCarouselView;
-  // TODO:
-  protected _resizeObserver = new ResizeObserver(this._onResize);
 
   /**  @returns marker if the carousel is in a loop. */
   public get loop(): boolean {
@@ -110,12 +106,23 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     this._view = ESLCarouselView.registry.create(this.config.type, this);
     if (!this._view) return;
 
-    this._view && this._view.bind();
+    this._view.bind();
     this.goTo(this.firstIndex, {force: true});
   }
 
-  @bind
-  protected _onUpdate(): void {
+  @listen({
+    event: 'change',
+    target: ({typeRule, countRule, loopRule}: ESLCarousel) => [typeRule, countRule, loopRule]
+  })
+  protected _onRuleUpdate(): void {
+    this.update();
+  }
+
+  @listen({
+    event: 'change',
+    target: ESLCarouselView.registry
+  })
+  protected _onRegistryUpdate(): void {
     this.update();
   }
 
@@ -123,7 +130,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
   protected _onResize(): void {
     if (!this._view) return;
     this._view.redraw();
-    this.goTo(this.firstIndex); // todo: move to media query
+    // this.goTo(this.firstIndex); // todo: move to media query
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
@@ -140,41 +147,6 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     // TODO: update a11y -> check a11y everywhere
     const ariaLabel = this.hasAttribute('aria-label');
     !ariaLabel && this.setAttribute('aria-label', 'Carousel');
-
-    this.bindEvents();
-  }
-
-  protected override disconnectedCallback(): void {
-    super.disconnectedCallback();
-    this.unbindEvents();
-  }
-
-  protected bindEvents(): void {
-    ESLCarouselView.registry.addListener(this._onUpdate);
-    // TODO: listen
-    this.typeRule.addEventListener(this._onUpdate);
-    this.countRule.addEventListener(this._onUpdate);
-    this.loopRule.addEventListener(this._onUpdate);
-    this._resizeObserver.observe(this);
-  }
-
-  protected unbindEvents(): void {
-    ESLCarouselView.registry.removeListener(this._onUpdate);
-    // TODO: listen
-    this.typeRule.removeEventListener(this._onUpdate);
-    this.countRule.removeEventListener(this._onUpdate);
-    this.loopRule.removeEventListener(this._onUpdate);
-    this._resizeObserver.unobserve(this);
-  }
-
-  /** @returns list of active slide indexes. */
-  public get activeIndexes(): number[] {
-    return this.$slides.reduce((activeIndexes: number[], el, index) => {
-      if (el.active) {
-        activeIndexes.push(index);
-      }
-      return activeIndexes;
-    }, []);
   }
 
   /** @returns slides that are processed by the current carousel. */
@@ -226,6 +198,13 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
   /** @returns index of first active slide. */
   public get firstIndex(): number {
     return this.$activeSlide?.index || 0;
+  }
+  /** @returns list of active slide indexes. */
+  public get activeIndexes(): number[] {
+    return this.$slides.reduce((activeIndexes: number[], el, index) => {
+      if (el.active) activeIndexes.push(index);
+      return activeIndexes;
+    }, []);
   }
 
   /** Goes to the target according to passed params. */

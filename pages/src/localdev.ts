@@ -56,6 +56,8 @@ import '../../src/modules/esl-share/actions/media-action';
 import '../../src/modules/esl-share/actions/native-action';
 import '../../src/modules/esl-share/actions/print-action';
 
+import '../../src/modules/esl-carousel/views/esl-multi-carousel.view';
+
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
 
