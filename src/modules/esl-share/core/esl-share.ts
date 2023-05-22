@@ -11,8 +11,6 @@ import type {ESLShareConfig, ESLShareButtonConfig} from './esl-share-config';
 /** {@link ShareConfig} provider type definition */
 export type ESLShareConfigProviderType = () => Promise<ESLShareConfig>;
 
-const popupStore = new Map<string, ESLPopup>();
-
 /**
  * ESLShare
  * @author Dmytro Shovchko
@@ -21,7 +19,8 @@ const popupStore = new Map<string, ESLPopup>();
  */
 export class ESLShare extends ESLBaseElement {
   public static override is = 'esl-share';
-  protected static _config: Promise<ESLShareConfig> = Promise.reject('Configuration is not set');
+  protected static _config: Promise<ESLShareConfig>;
+  protected static _popupStore: Map<string, ESLPopup> = new Map<string, ESLPopup>();
 
   /** Register {@link ESLShare} component and dependent {@link ESLShareButton} */
   public static override register(): void {
@@ -37,7 +36,7 @@ export class ESLShare extends ESLBaseElement {
   public static config(provider?: ESLShareConfigProviderType | ESLShareConfig): Promise<ESLShareConfig> {
     if (typeof provider === 'function') ESLShare._config = provider();
     if (typeof provider === 'object') ESLShare._config = Promise.resolve(provider);
-    return ESLShare._config;
+    return ESLShare._config ?? Promise.reject('Configuration is not set');
   }
 
   /** Event to dispatch on ready state of {@link ESLShare} */
@@ -62,14 +61,6 @@ export class ESLShare extends ESLBaseElement {
 
   protected _content: string;
 
-  protected get $popup(): ESLPopup | undefined {
-    return popupStore.get(this.list);
-  }
-
-  protected set $popup(value: ESLPopup | undefined) {
-    value && popupStore.set(this.list, value);
-  }
-
   /** @returns config of buttons specified by the list attribute */
   public get buttonsConfig(): Promise<ESLShareButtonConfig[]> {
     return (this.constructor as typeof ESLShare).config().then((config) => {
@@ -79,9 +70,8 @@ export class ESLShare extends ESLBaseElement {
 
   public override connectedCallback(): void {
     super.connectedCallback();
-    if (!this.ready) {
-      this.init();
-    }
+    if (this.ready) return;
+    this.init();
   }
 
   protected init(): void {
@@ -100,7 +90,7 @@ export class ESLShare extends ESLBaseElement {
       return;
     }
 
-    const $popup = this.$popup || await this.createPopup$();
+    const $popup = this.getStoredPopup() || await this.createPopup$();
     this.appendTrigger(`#${$popup.id}`);
   }
 
@@ -142,9 +132,17 @@ export class ESLShare extends ESLBaseElement {
     Object.assign($popup, {id, position: 'top', defaultParams: {hideDelay: 500}});
     $popup.appendArrow();
     document.body.appendChild($popup);
-    this.$popup = $popup;
+    this.storePopup($popup);
 
     await this.appendButtonsTo($popup);
     return $popup;
+  }
+
+  protected getStoredPopup(): ESLPopup | undefined {
+    return (this.constructor as typeof ESLShare)._popupStore.get(this.list);
+  }
+
+  protected storePopup(value: ESLPopup): void {
+    (this.constructor as typeof ESLShare)._popupStore.set(this.list, value);
   }
 }
