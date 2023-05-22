@@ -51,10 +51,10 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   /** Renders dots according to the carousel state. */
   public rerender(): void {
     if (!this.$carousel) return;
-    const {firstIndex, count, size} = this.$carousel;
+    const {activeIndex, count, size} = this.$carousel;
     this.$$attr('disabled', size < 2);
     let html = '';
-    const activeDot = indexToGroup(firstIndex, count, size);
+    const activeDot = indexToGroup(activeIndex, count, size);
     for (let i = 0; i < Math.ceil(size / count); ++i) {
       html += this.buildDot(i, i === activeDot);
     }

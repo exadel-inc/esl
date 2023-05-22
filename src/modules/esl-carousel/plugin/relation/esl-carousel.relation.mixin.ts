@@ -31,7 +31,7 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin {
   protected _onSlideChange(e: CustomEvent): void {
     if (!this.$target) return;
     if (e.detail.activator !== this) {
-      this.$target.goTo(this.$host.firstIndex, {
+      this.$target.goTo(this.$host.activeIndex, {
         direction: e.detail.direction,
         activator: this
       });

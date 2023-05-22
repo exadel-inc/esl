@@ -107,7 +107,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     if (!this._renderer) return;
 
     this._renderer.bind();
-    this.goTo(this.firstIndex, {force: true});
+    this.goTo(this.activeIndex, {force: true});
   }
 
   @listen({
@@ -130,7 +130,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
   protected _onResize(): void {
     if (!this._renderer) return;
     this._renderer.redraw();
-    // this.goTo(this.firstIndex); // todo: move to media query
+    // this.goTo(this.activeIndex); // todo: move to media query
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
@@ -196,7 +196,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
   }
 
   /** @returns index of first active slide. */
-  public get firstIndex(): number {
+  public get activeIndex(): number {
     return this.$activeSlide?.index || 0;
   }
   /** @returns list of active slide indexes. */
@@ -217,13 +217,13 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     // Task Manager (Toggleable - different types of requests, read DelayedTask)
     if (this.dataset.isAnimated) return;
 
-    const {firstIndex} = this;
+    const {activeIndex} = this;
 
     const {index, dir} = toIndex(target, this);
     const direction = params.direction || dir;
     const activator = params.activator;
 
-    if (!direction || firstIndex === index && !params.force) return;
+    if (!direction || activeIndex === index && !params.force) return;
 
     // TODO: change info
     const eventDetails = {
@@ -233,7 +233,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
 
     if (!this.$$fire('esl:slide:change', eventDetails)) return;
 
-    if (this._renderer && firstIndex !== index) {
+    if (this._renderer && activeIndex !== index) {
       try {
         await this._renderer.onBeforeAnimate(index, direction);
         await this._renderer.onAnimate(index, direction);

@@ -30,10 +30,10 @@ export function indexToGroup(index: number, count: number, size: number): number
   return Math.ceil(value / count);
 }
 
-function indexToDirection(index: number, {firstIndex, size, loop}: ESLCarouselState): ESLCarouselDirection | null {
-  if (loop) return calcDirection(firstIndex, index, size);
-  if (firstIndex < index) return 'next';
-  if (firstIndex > index) return 'prev';
+function indexToDirection(index: number, {activeIndex, size, loop}: ESLCarouselState): ESLCarouselDirection | null {
+  if (loop) return calcDirection(activeIndex, index, size);
+  if (activeIndex < index) return 'next';
+  if (activeIndex > index) return 'prev';
   return null;
 }
 
@@ -61,7 +61,7 @@ function parseIndex(index: string | ESLCarouselNavIndex): {value: number, isRela
 /** @returns normalized numeric index from string with absolute or relative index */
 function resolveSlideIndex(indexStr: string | ESLCarouselNavIndex, cfg: ESLCarouselState): {index: number, dir: ESLCarouselDirection | null} {
   const {value, isRelative, dir} = parseIndex(indexStr);
-  const index = normalizeIndex(value + (isRelative ? cfg.firstIndex : 0), cfg.size);
+  const index = normalizeIndex(value + (isRelative ? cfg.activeIndex : 0), cfg.size);
   return {index, dir: dir || indexToDirection(index, cfg)};
 }
 
@@ -73,13 +73,13 @@ function resolveGroupIndex(indexStr: string | ESLCarouselNavIndex, cfg: ESLCarou
     return {index, dir: indexToDirection(index, cfg)};
   }
   // TODO: extend navigation boundaries
-  if (value === -1 && cfg.firstIndex < cfg.count && cfg.firstIndex > 0) {
+  if (value === -1 && cfg.activeIndex < cfg.count && cfg.activeIndex > 0) {
     return {index: 0, dir: dir || 'prev'};
   }
-  if (value === 1 && normalizeIndex(cfg.firstIndex + cfg.count, cfg.size) > cfg.size - cfg.count) {
+  if (value === 1 && normalizeIndex(cfg.activeIndex + cfg.count, cfg.size) > cfg.size - cfg.count) {
     return {index: cfg.size - cfg.count, dir: dir || 'next'};
   }
-  const index = normalizeIndex(cfg.firstIndex + value * cfg.count, cfg.size);
+  const index = normalizeIndex(cfg.activeIndex + value * cfg.count, cfg.size);
   return {index, dir: dir || indexToDirection(index, cfg)};
 }
 
@@ -87,17 +87,17 @@ function resolveGroupIndex(indexStr: string | ESLCarouselNavIndex, cfg: ESLCarou
 export function toIndex(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): {index: number, dir: ESLCarouselDirection | null} {
   if (typeof target === 'number') {
     const index = normalizeIndex(target, cfg.size);
-    return {index, dir: calcDirection(cfg.firstIndex, index, cfg.size)};
+    return {index, dir: calcDirection(cfg.activeIndex, index, cfg.size)};
   }
   const {type, index} = splitTarget(target);
   if (type === 'group') return resolveGroupIndex(index, cfg);
   if (type === 'slide') return resolveSlideIndex(index, cfg);
-  return {index: cfg.firstIndex, dir: null};
+  return {index: cfg.activeIndex, dir: null};
 }
 
 export function canNavigate(target: ESLCarouselSlideTarget, cfg: ESLCarouselState): boolean {
   const {dir, index} = toIndex(target, cfg);
-  if (!cfg.loop && index > cfg.firstIndex && dir === 'prev') return false;
-  if (!cfg.loop && index < cfg.firstIndex && dir === 'next') return false;
-  return !!dir && index !== cfg.firstIndex;
+  if (!cfg.loop && index > cfg.activeIndex && dir === 'prev') return false;
+  if (!cfg.loop && index < cfg.activeIndex && dir === 'next') return false;
+  return !!dir && index !== cfg.activeIndex;
 }

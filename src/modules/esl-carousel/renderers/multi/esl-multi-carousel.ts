@@ -18,9 +18,9 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     if (typeof slide !== 'number') slide = slide.index;
     let count = 0;
     if (direction === 'prev') {
-      count = normalizeIndex(this.carousel.firstIndex - slide, this.size);
+      count = normalizeIndex(this.carousel.activeIndex - slide, this.size);
     } else if (direction === 'next') {
-      count = normalizeIndex(slide - this.carousel.firstIndex, this.size);
+      count = normalizeIndex(slide - this.carousel.activeIndex, this.size);
     }
     return count;
   }
@@ -32,7 +32,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
   public override onBind(): void {
     this.redraw();
 
-    this.currentIndex = this.carousel.firstIndex;
+    this.currentIndex = this.carousel.activeIndex;
     this._setOrderFrom(this.currentIndex);
   }
 
@@ -67,7 +67,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
 
   /** Processes animation. */
   public onAnimate(nextIndex: number, direction: ESLCarouselDirection): Promise<void> {
-    this.currentIndex = this.carousel.firstIndex;
+    this.currentIndex = this.carousel.activeIndex;
 
     const animateSlide = (): Promise<void> =>
       this.onBeforeStepAnimate(direction).then(() => this.onAfterStepAnimate(direction));
@@ -132,7 +132,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
 
     const sign = offset < 0 ? 1 : -1;
     const count = Math.floor(Math.abs(offset) / this.slideWidth);
-    const currentIndex = normalizeIndex(this.carousel.firstIndex + count * sign, this.size);
+    const currentIndex = normalizeIndex(this.carousel.activeIndex + count * sign, this.size);
 
     if (!this._checkNonLoop(offset)) return;
 
@@ -147,8 +147,8 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
   protected _checkNonLoop(offset: number): boolean {
     const sign = offset < 0 ? 1 : -1;
     const count = Math.floor(Math.abs(offset) / this.slideWidth);
-    const nextIndex = this.carousel.firstIndex + count * sign;
-    const currentIndex = normalizeIndex(this.carousel.firstIndex + count * sign, this.size);
+    const nextIndex = this.carousel.activeIndex + count * sign;
+    const currentIndex = normalizeIndex(this.carousel.activeIndex + count * sign, this.size);
 
     if (this.carousel.loop) return true;
     // check non-loop state
@@ -181,7 +181,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     const sign = offset < 0 ? 1 : -1;
     const count = Math.abs(offset) % this.slideWidth >= this.slideWidth / 4 ?
       Math.ceil(Math.abs(offset) / this.slideWidth) : Math.floor(Math.abs(offset) / this.slideWidth);
-    const nextIndex = this.carousel.firstIndex + count * sign;
+    const nextIndex = this.carousel.activeIndex + count * sign;
 
     if (!this.carousel.loop && offset > 0 && nextIndex - 1 < 0) {
       this.currentIndex = 0;
@@ -192,7 +192,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     }
 
     let direction = offset > 0 ? 'prev' : 'next';
-    direction = direction || calcDirection(this.carousel.firstIndex, this.currentIndex, this.size);
+    direction = direction || calcDirection(this.carousel.activeIndex, this.currentIndex, this.size);
     this._setOrderFrom(this.currentIndex);
 
     this.setActive(this.currentIndex);
