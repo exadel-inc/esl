@@ -14,7 +14,7 @@ export class ESLCarouselKeyboardMixin extends ESLCarouselPlugin {
   public static override is = 'esl-carousel-keyboard';
 
   /** Prefix to request next/prev navigation */
-  @attr({defaultValue: 'slide'}) public type: 'slide' | 'group';
+  @attr({defaultValue: 'slide', name: ESLCarouselKeyboardMixin.is}) public type: 'slide' | 'group';
 
   /** Handles `keydown` event */
   @listen('keydown')

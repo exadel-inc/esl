@@ -6,9 +6,11 @@ export * from './core/esl-carousel.slide';
 export * from './plugin/nav/esl-carousel.nav.mixin';
 export * from './plugin/nav/esl-carousel.nav.dots';
 
-// A11y support
-export * from './plugin/a11y/esl-carousel.touch.mixin';
-export * from './plugin/a11y/esl-carousel.keyboard.mixin';
+// Touch support
+export * from './plugin/touch/esl-carousel.touch.mixin';
+
+// Keyboard support
+export * from './plugin/keyboard/esl-carousel.keyboard.mixin';
 
 // Autoplay
 export * from './plugin/autoplay/esl-carousel.autoplay.mixin';
