@@ -48,7 +48,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
   /** Handles `mousedown` / `touchstart` event to manage thumb drag start and scroll clicks */
   @listen('mousedown touchstart')
   protected _onPointerDown(event: MouseEvent | TouchEvent): void {
-    if (this.isTouchStarted || !this.$host.view || this.$host.animating) return;
+    if (this.isTouchStarted || !this.$host.renderer || this.$host.animating) return;
 
     this.isTouchStarted = !this.isIgnoredEvent(event);
     if (!this.isTouchStarted) return;
@@ -74,7 +74,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
 
     event.preventDefault();
     // ignore single click
-    offset !== 0 && this.$host.view.onMove(offset);
+    offset !== 0 && this.$host.renderer.onMove(offset);
   }
 
   /** Processes `mouseup` and `touchend` events. */
@@ -90,7 +90,7 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
       const point = getTouchPoint(event);
       const offset = point.x - this.startPoint.x;
       // ignore single click
-      offset !== 0 && this.$host.view.commit(offset);
+      offset !== 0 && this.$host.renderer.commit(offset);
     }
   }
 }

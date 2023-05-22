@@ -4,7 +4,7 @@ import {SyntheticEventTarget} from '../../esl-utils/dom';
 import type {ESLCarousel} from './esl-carousel';
 import type {ESLCarouselDirection} from './nav/esl-carousel.nav.types';
 
-export abstract class ESLCarouselView {
+export abstract class ESLCarouselRenderer {
   public static is = '';
 
   protected readonly carousel: ESLCarousel;
@@ -15,7 +15,7 @@ export abstract class ESLCarouselView {
   }
 
   public get type(): string {
-    return (this.constructor as typeof ESLCarouselView).is;
+    return (this.constructor as typeof ESLCarouselRenderer).is;
   }
 
   /**  @returns count of carousel slides. */
@@ -24,21 +24,21 @@ export abstract class ESLCarouselView {
   }
 
   public bind(): void {
-    const type = this.constructor as typeof ESLCarouselView;
+    const type = this.constructor as typeof ESLCarouselRenderer;
     this.carousel.classList.add(`${type.is}-carousel`);
 
     this.onBind();
   }
   public unbind(): void {
-    const type = this.constructor as typeof ESLCarouselView;
+    const type = this.constructor as typeof ESLCarouselRenderer;
     this.carousel.classList.remove(`${type.is}-carousel`);
 
     this.onUnbind();
   }
 
-  /** Processes binding of defined view to the carousel {@link ESLCarousel}. */
+  /** Processes binding of defined renderer to the carousel {@link ESLCarousel}. */
   public onBind(): void {}
-  /** Processes unbinding of defined view from the carousel {@link ESLCarousel}. */
+  /** Processes unbinding of defined renderer from the carousel {@link ESLCarousel}. */
   public onUnbind(): void {}
   /** Processes drawing of the carousel {@link ESLCarousel}. */
   public redraw(): void {}
@@ -65,27 +65,27 @@ export abstract class ESLCarouselView {
 
   // Register API
   @memoize()
-  public static get registry(): ESLCarouselViewRegistry {
-    return new ESLCarouselViewRegistry();
+  public static get registry(): ESLCarouselRendererRegistry {
+    return new ESLCarouselRendererRegistry();
   }
-  public static register(view: ESLCarouselViewConstructor): void {
-    ESLCarouselView.registry.register(view);
+  public static register(view: ESLCarouselRendererConstructor): void {
+    ESLCarouselRenderer.registry.register(view);
   }
 }
 
-export type ESLCarouselViewConstructor = (new(carousel: ESLCarousel) => ESLCarouselView) & typeof ESLCarouselView;
+export type ESLCarouselRendererConstructor = (new(carousel: ESLCarousel) => ESLCarouselRenderer) & typeof ESLCarouselRenderer;
 
-export class ESLCarouselViewRegistry extends SyntheticEventTarget {
-  private store = new Map<string, ESLCarouselViewConstructor>();
+export class ESLCarouselRendererRegistry extends SyntheticEventTarget {
+  private store = new Map<string, ESLCarouselRendererConstructor>();
 
-  public create(name: string, carousel: ESLCarousel): ESLCarouselView {
-    let View = this.store.get(name);
-    if (!View) [View] = this.store.values(); // take first View in store
-    return new View(carousel);
+  public create(name: string, carousel: ESLCarousel): ESLCarouselRenderer {
+    let Renderer = this.store.get(name);
+    if (!Renderer) [Renderer] = this.store.values(); // take first Renderer in store
+    return new Renderer(carousel);
   }
 
-  public register(view: ESLCarouselViewConstructor): void {
-    if (!view || !view.is) throw Error('[ESL]: CarouselViewRegistry] incorrect registration request');
+  public register(view: ESLCarouselRendererConstructor): void {
+    if (!view || !view.is) throw Error('[ESL]: CarouselRendererRegistry] incorrect registration request');
     if (this.store.has(view.is)) throw Error(`View with name ${view.is} already defined`);
     this.store.set(view.is, view);
     const detail = {name: view.is, view};

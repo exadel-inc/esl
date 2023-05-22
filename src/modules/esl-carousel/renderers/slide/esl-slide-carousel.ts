@@ -1,16 +1,16 @@
-import {promisifyEvent, resolvePromise} from '../../esl-utils/async/promise';
-import {promisifyNextRender} from '../../esl-utils/async/raf';
-import {ESLCarouselView} from '../core/esl-carousel.view';
+import {promisifyEvent, resolvePromise} from '../../../esl-utils/async/promise';
+import {promisifyNextRender} from '../../../esl-utils/async/raf';
+import {ESLCarouselRenderer} from '../../core/esl-carousel.renderer';
 
-import type {ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
+import type {ESLCarouselDirection} from '../../core/nav/esl-carousel.nav.types';
 
-@ESLCarouselView.register
-export class ESLSlideCarouselView extends ESLCarouselView {
+@ESLCarouselRenderer.register
+export class ESLSlideCarouselRenderer extends ESLCarouselRenderer {
   public static override is = 'slide';
 
   /**
-   * Processes binding of defined view to the carousel {@link ESLCarousel}.
-   * Prepare to view animation.
+   * Processes binding of defined renderer to the carousel {@link ESLCarousel}.
+   * Prepare to renderer animation.
    */
   // TODO: check
   public override onBind(): void {
@@ -27,7 +27,7 @@ export class ESLSlideCarouselView extends ESLCarouselView {
   }
 
   /**
-   * Processes unbinding of defined view from the carousel {@link ESLCarousel}.
+   * Processes unbinding of defined renderer from the carousel {@link ESLCarousel}.
    * Clear animation.
    */
   public override onUnbind(): void {

@@ -1,13 +1,13 @@
-import {promisifyEvent, repeatSequence, resolvePromise} from '../../esl-utils/async/promise';
+import {promisifyEvent, repeatSequence, resolvePromise} from '../../../esl-utils/async/promise';
 
-import {calcDirection, normalizeIndex} from '../core/nav/esl-carousel.nav.utils';
-import {ESLCarouselView} from '../core/esl-carousel.view';
+import {calcDirection, normalizeIndex} from '../../core/nav/esl-carousel.nav.utils';
+import {ESLCarouselRenderer} from '../../core/esl-carousel.renderer';
 
-import type {ESLCarouselSlide} from '../core/esl-carousel.slide';
-import type {ESLCarouselDirection} from '../core/nav/esl-carousel.nav.types';
+import type {ESLCarouselSlide} from '../../core/esl-carousel.slide';
+import type {ESLCarouselDirection} from '../../core/nav/esl-carousel.nav.types';
 
-@ESLCarouselView.register
-export class ESLMultiCarouselView extends ESLCarouselView {
+@ESLCarouselRenderer.register
+export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
   public static override is = 'multi';
 
   /** First index of active slides. */
@@ -26,8 +26,8 @@ export class ESLMultiCarouselView extends ESLCarouselView {
   }
 
   /**
-   * Processes binding of defined view to the carousel {@link ESLCarousel}.
-   * Prepare to view animation.
+   * Processes binding of defined renderer to the carousel {@link ESLCarousel}.
+   * Prepare to renderer animation.
    */
   public override onBind(): void {
     this.redraw();
@@ -46,7 +46,7 @@ export class ESLMultiCarouselView extends ESLCarouselView {
   }
 
   /**
-   * Processes unbinding of defined view from the carousel {@link ESLCarousel}.
+   * Processes unbinding of defined renderer from the carousel {@link ESLCarousel}.
    * Clear animation.
    */
   public override onUnbind(): void {
