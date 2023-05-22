@@ -8,14 +8,10 @@ aside:
   components:
     - esl-share
 ---
-{% import 'lorem.njk' as lorem %}
 
 {% macro triggerSVGicon(color, text) %}
 <svg class="demo-trigger-svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99 99" fill="{{color}}" stroke="{{color}}">
-  <path d="M75 20 l-50 30 50 30" fill="none" stroke-width="11"/>
-  <circle cx="25" cy="50" r="16"/>
-  <circle cx="75" cy="20" r="16"/>
-  <circle cx="75" cy="80" r="16"/>
+  <path d="M75 20 25 50l50 30" fill="none" stroke-width="11"/><circle cx="25" cy="50" r="16"/><circle cx="75" cy="20" r="16"/><circle cx="75" cy="80" r="16"/>
   <text x="1" y="98" font-size="32" fill="#FF1493" stroke="#FF1493">{{text}}</text>
 </svg>
 {% endmacro %}
@@ -36,6 +32,41 @@ aside:
 
 <section>
   <h2>Share</h2>
+
+  <h3>Displays list of share buttons without list attribute</h3>
+  <p>Shows all available buttons from config.</p>
+  <esl-share></esl-share>
+  <hr>
+
+  <h3>Displays list of share buttons with list="all"</h3>
+  <p>Shows all available buttons from config.</p>
+  <esl-share list="all"></esl-share>
+  <hr>
+
+  <h3>Displays list of share buttons with empty list (list="")</h3>
+  <p>Shows empty component without buttons.</p>
+  <esl-share list=""></esl-share>
+  <hr>
+
+  <h3>Displays list of share buttons on nonexistent group</h3>
+  <p>Shows empty list when a nonexistent group is specified.</p>
+  <esl-share list="group:foo"></esl-share>
+  <hr>
+
+  <h3>Displays list of share buttons only existent groups or buttons</h3>
+  <p>Shows specified buttons. Displays nothing in the case when specifying the wrong button or group name. (should display LinkedIn, Facebook, Twitter, LinkedIn, Wykop and Copy buttons)</p>
+  <esl-share list="linkedin alladin group:alladin group:demo"></esl-share>
+  <hr>
+
+  <h3>Displays list of share buttons with repeating buttons</h3>
+  <p>Shows component with repeating buttons. (should display 3 buttons LinkedIn)</p>
+  <esl-share list="linkedin linkedin linkedin"></esl-share>
+  <hr>
+
+  <h3>Displays list of share buttons via incorrect list</h3>
+  <p>Shows buttons only with the correct names. (should display only LinkedIn button)</p>
+  <esl-share list="twittor  copi group:exsampl linkedin rint"></esl-share>
+  <hr>
 
   <h3>Trigger madness</h3>
   <p>Displays a row of share triggers related to three variations of the popup. The purpose is to check that popup is consistently following the active trigger.</p>
