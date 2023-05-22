@@ -1,3 +1,16 @@
+# [4.6.0](https://github.com/exadel-inc/esl/compare/v4.5.0...v4.6.0) (2023-05-22)
+
+
+### Bug Fixes
+
+* **esl-utils:** fix `unwrap` method signature types ([ee16641](https://github.com/exadel-inc/esl/commit/ee16641844fb7d10f845eb26ff54264c799833ac))
+* **esl-utils:** make ts decorators work with babel ([05462da](https://github.com/exadel-inc/esl/commit/05462daf52d1471a9d7676abae2862d2f8e5556a))
+
+
+### Features
+
+* **🚩esl-share:** beta version of esl-share([#1327](https://github.com/exadel-inc/esl/issues/1327)) component released ([#1660](https://github.com/exadel-inc/esl/issues/1660)) ([be7aa83](https://github.com/exadel-inc/esl/commit/be7aa830c47ddc0b8e70cd593718e90709e9d3f5))
+
 # [4.5.0](https://github.com/exadel-inc/esl/compare/v4.4.1...v4.5.0) (2023-05-15)
 
 
