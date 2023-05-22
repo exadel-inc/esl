@@ -23,11 +23,6 @@ export class ESLShareButton extends ESLBaseElement {
   /** String social network identifier (no spaces) */
   @attr() public name: string;
 
-  /** URL to share (current page URL by default) */
-  @attr() public shareUrl: string;
-  /** Title to share (current document title by default) */
-  @attr() public shareTitle: string;
-
   /** Additional params to pass into a button (can be used by share actions) */
   @jsonAttr() public additional: Record<string, any>;
 
