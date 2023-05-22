@@ -71,6 +71,8 @@ export class ESLShareButton extends ESLBaseElement {
     this.$$attr('unavailable', !this.actionInstance?.isAvailable);
   }
 
+  /** Gets attribute from the element or closest parent,
+   *  returns fallback value in the case when an element with attribute not found */
   protected getShareAttr(name: string, fallback: string): string {
     const el = this.closest(`[${name}]`);
     return (el && el.getAttribute(name)) || fallback;
