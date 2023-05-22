@@ -10,7 +10,6 @@ export * as ObjectUtils from './misc/object';
 export * as FormatUtils from './misc/format';
 /** @deprecated `misc/functions` is going to be exported as it is without wrapper object */
 export * as FunctionUtils from './misc/functions';
-export * as UrlUtils from './misc/url';
 
 export * from './misc/uid';
 export * from './misc/array';
@@ -18,3 +17,4 @@ export * from './misc/object';
 export * from './misc/format';
 export * from './misc/functions';
 export * from './misc/memoize';
+export * from './misc/url';
