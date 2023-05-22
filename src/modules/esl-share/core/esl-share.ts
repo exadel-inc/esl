@@ -6,6 +6,7 @@ import {selectButtonsForList} from './esl-share-config';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareTrigger} from './esl-share-trigger';
 
+import type {PopupActionParams} from '../../esl-popup/core';
 import type {ESLShareConfig, ESLShareButtonConfig} from './esl-share-config';
 
 /** {@link ShareConfig} provider type definition */
@@ -41,6 +42,14 @@ export class ESLShare extends ESLBaseElement {
 
   /** Event to dispatch on ready state of {@link ESLShare} */
   @prop('esl:share:ready') public SHARE_READY_EVENT: string;
+
+  /** Default initial params to pass into the newly created popup */
+  @prop({
+    position: 'top',
+    defaultParams: {
+      hideDelay: 200
+    }
+  }) public popupInitialParams: PopupActionParams;
 
   /**
    * List of social networks or groups of them to display (all by default).
@@ -129,7 +138,7 @@ export class ESLShare extends ESLBaseElement {
   protected async createPopup$(): Promise<ESLPopup> {
     const $popup = ESLPopup.create();
     const id = sequentialUID(this.baseTagName + '-');
-    Object.assign($popup, {id, position: 'top', defaultParams: {hideDelay: 500}});
+    Object.assign($popup, {id, ...this.popupInitialParams});
     $popup.appendArrow();
     document.body.appendChild($popup);
     this.storePopup($popup);
