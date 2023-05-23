@@ -28,5 +28,5 @@ export type ESLCarouselStaticState = {
 
 /** Object describing carousel current configuration (contains active slide data) */
 export type ESLCarouselState = ESLCarouselStaticState & {
-  firstIndex: number;
+  activeIndex: number;
 };

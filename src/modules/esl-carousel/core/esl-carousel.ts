@@ -1,22 +1,22 @@
-import './esl-carousel.views';
-
 import {ExportNs} from '../../esl-utils/environment/export-ns';
-import {ESLBaseElement, attr, boolAttr, listen} from '../../esl-base-element/core';
-import {bind} from '../../esl-utils/decorators/bind';
-import {memoize} from '../../esl-utils/decorators/memoize';
+import {ESLBaseElement} from '../../esl-base-element/core';
+import {attr, boolAttr, listen, memoize} from '../../esl-utils/decorators';
 import {parseBoolean} from '../../esl-utils/misc/format';
-import {ESLMediaRuleList} from '../../esl-media-query/core';
-import {ESLResizeObserverTarget} from '../../esl-event-listener/core/targets/resize.adapter';
 import {isEqual} from '../../esl-utils/misc/object/compare';
+
+import {ESLMediaRuleList} from '../../esl-media-query/core';
+import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
+
 import {normalizeIndex, toIndex, canNavigate} from './nav/esl-carousel.nav.utils';
+
+import {ESLCarouselRenderer} from './esl-carousel.renderer';
 import {ESLCarouselSlide} from './esl-carousel.slide';
-import {ESLCarouselView} from './view/esl-carousel-view';
 
 import type {ESLCarouselState, ESLCarouselDirection, ESLCarouselSlideTarget} from './nav/esl-carousel.nav.types';
 
 /** Config to define behavior of ESLCarousel */
 interface CarouselConfig {
-  /** Defines carousel rendering view. */
+  /** Defines carousel rendering renderer. */
   type: string;
   /** Defines the total number of slides. */
   count: number;
@@ -35,7 +35,7 @@ export interface CarouselActionParams {
   /** Force action independently of current state of the Carousel. */
   force?: boolean;
   // TODO: implement
-  noAnimation?: boolean;
+  // noAnimation?: boolean;
 }
 
 /**
@@ -46,8 +46,6 @@ export interface CarouselActionParams {
  */
 @ExportNs('Carousel')
 export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
-  public static readonly Slide = ESLCarouselSlide;
-
   public static override is = 'esl-carousel';
   public static observedAttributes = ['media', 'type', 'loop', 'count'];
 
@@ -83,9 +81,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     };
   }
 
-  protected _view: ESLCarouselView;
-  // TODO:
-  protected _resizeObserver = new ResizeObserver(this._onResize);
+  protected _renderer: ESLCarouselRenderer;
 
   /**  @returns marker if the carousel is in a loop. */
   public get loop(): boolean {
@@ -96,34 +92,45 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     return this.config.count;
   }
 
-  public get view(): ESLCarouselView {
-    return this._view;
+  public get renderer(): ESLCarouselRenderer {
+    return this._renderer;
   }
 
   // TODO: check if it works
   /** Updates the config and the state that is associated with. */
   public update(force: boolean = false): void {
-    if (!force && this._view && isEqual(this.config, this.activeConfig)) return;
-    this._view?.unbind();
+    if (!force && this._renderer && isEqual(this.config, this.activeConfig)) return;
+    this._renderer?.unbind();
 
     memoize.clear(this, 'config');
-    this._view = ESLCarouselView.registry.create(this.config.type, this);
-    if (!this._view) return;
+    this._renderer = ESLCarouselRenderer.registry.create(this.config.type, this);
+    if (!this._renderer) return;
 
-    this._view && this._view.bind();
-    this.goTo(this.firstIndex, {force: true});
+    this._renderer.bind();
+    this.goTo(this.activeIndex, {force: true});
   }
 
-  @bind
-  protected _onUpdate(): void {
+  @listen({
+    event: 'change',
+    target: ({typeRule, countRule, loopRule}: ESLCarousel) => [typeRule, countRule, loopRule]
+  })
+  protected _onRuleUpdate(): void {
+    this.update();
+  }
+
+  @listen({
+    event: 'change',
+    target: ESLCarouselRenderer.registry
+  })
+  protected _onRegistryUpdate(): void {
     this.update();
   }
 
   @listen({event: 'resize', target: ESLResizeObserverTarget.for})
   protected _onResize(): void {
-    if (!this._view) return;
-    this._view.redraw();
-    this.goTo(this.firstIndex); // todo: move to media query
+    if (!this._renderer) return;
+    this._renderer.redraw();
+    // this.goTo(this.activeIndex); // todo: move to media query
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
@@ -140,41 +147,6 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     // TODO: update a11y -> check a11y everywhere
     const ariaLabel = this.hasAttribute('aria-label');
     !ariaLabel && this.setAttribute('aria-label', 'Carousel');
-
-    this.bindEvents();
-  }
-
-  protected override disconnectedCallback(): void {
-    super.disconnectedCallback();
-    this.unbindEvents();
-  }
-
-  protected bindEvents(): void {
-    ESLCarouselView.registry.addListener(this._onUpdate);
-    // TODO: listen
-    this.typeRule.addEventListener(this._onUpdate);
-    this.countRule.addEventListener(this._onUpdate);
-    this.loopRule.addEventListener(this._onUpdate);
-    this._resizeObserver.observe(this);
-  }
-
-  protected unbindEvents(): void {
-    ESLCarouselView.registry.removeListener(this._onUpdate);
-    // TODO: listen
-    this.typeRule.removeEventListener(this._onUpdate);
-    this.countRule.removeEventListener(this._onUpdate);
-    this.loopRule.removeEventListener(this._onUpdate);
-    this._resizeObserver.unobserve(this);
-  }
-
-  /** @returns list of active slide indexes. */
-  public get activeIndexes(): number[] {
-    return this.$slides.reduce((activeIndexes: number[], el, index) => {
-      if (el.active) {
-        activeIndexes.push(index);
-      }
-      return activeIndexes;
-    }, []);
   }
 
   /** @returns slides that are processed by the current carousel. */
@@ -224,8 +196,15 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
   }
 
   /** @returns index of first active slide. */
-  public get firstIndex(): number {
+  public get activeIndex(): number {
     return this.$activeSlide?.index || 0;
+  }
+  /** @returns list of active slide indexes. */
+  public get activeIndexes(): number[] {
+    return this.$slides.reduce((activeIndexes: number[], el, index) => {
+      if (el.active) activeIndexes.push(index);
+      return activeIndexes;
+    }, []);
   }
 
   /** Goes to the target according to passed params. */
@@ -238,13 +217,13 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     // Task Manager (Toggleable - different types of requests, read DelayedTask)
     if (this.dataset.isAnimated) return;
 
-    const {firstIndex} = this;
+    const {activeIndex} = this;
 
     const {index, dir} = toIndex(target, this);
     const direction = params.direction || dir;
     const activator = params.activator;
 
-    if (!direction || firstIndex === index && !params.force) return;
+    if (!direction || activeIndex === index && !params.force) return;
 
     // TODO: change info
     const eventDetails = {
@@ -254,17 +233,17 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
 
     if (!this.$$fire('esl:slide:change', eventDetails)) return;
 
-    if (this._view && firstIndex !== index) {
+    if (this._renderer && activeIndex !== index) {
       try {
-        await this._view.onBeforeAnimate(index, direction);
-        await this._view.onAnimate(index, direction);
-        await this._view.onAfterAnimate();
+        await this._renderer.onBeforeAnimate(index, direction);
+        await this._renderer.onAnimate(index, direction);
+        await this._renderer.onAfterAnimate();
       } catch (e: unknown) {
         console.error(e);
       }
     }
 
-    this._view.setActive(index);
+    this._renderer.setActive(index);
     this.$$fire('esl:slide:changed', eventDetails);
   }
 
