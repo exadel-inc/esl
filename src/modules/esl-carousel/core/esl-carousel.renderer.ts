@@ -5,7 +5,7 @@ import type {ESLCarousel} from './esl-carousel';
 import type {ESLCarouselDirection} from './nav/esl-carousel.nav.types';
 
 export abstract class ESLCarouselRenderer {
-  public static is = '';
+  public static is: string;
 
   protected readonly carousel: ESLCarousel;
   protected slideWidth: number = 0;
