@@ -1,4 +1,5 @@
 import type {ESLCarousel} from './esl-carousel';
+import type {ESLCarouselSlide} from './esl-carousel.slide';
 import type {ESLCarouselDirection} from './nav/esl-carousel.nav.types';
 
 interface ESLCarouselSlideEventInit {
@@ -37,6 +38,8 @@ export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEven
 
 interface ESLCarouselChangeEventInit {
   prop: string;
+  addedSlide?: ESLCarouselSlide;
+  removedSlide?: ESLCarouselSlide;
 }
 
 export class ESLCarouselChangeEvent extends Event implements ESLCarouselChangeEventInit {

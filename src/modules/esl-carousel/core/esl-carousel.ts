@@ -2,7 +2,6 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {attr, boolAttr, listen, memoize} from '../../esl-utils/decorators';
 import {parseBoolean} from '../../esl-utils/misc/format';
-
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 
@@ -90,10 +89,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     super.connectedCallback();
 
     this.update(true);
-
-    // TODO: update a11y -> check a11y everywhere
-    const ariaLabel = this.hasAttribute('aria-label');
-    !ariaLabel && this.setAttribute('aria-label', 'Carousel');
+    this.updateA11y();
   }
 
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
@@ -124,6 +120,23 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     this.goTo(this.activeIndex, {force: true});
   }
 
+  protected updateA11y(): void {
+    // TODO: update a11y -> check a11y everywhere
+    const ariaLabel = this.hasAttribute('aria-label');
+    !ariaLabel && this.setAttribute('aria-label', 'Carousel');
+  }
+
+  public updateSlide(slide: ESLCarouselSlide): void {
+    memoize.clear(this, '$slides');
+    this.renderer && this.renderer.redraw();
+    const isAdded = this.$slides.includes(slide);
+    this.dispatchEvent(ESLCarouselChangeEvent.create({
+      prop: 'slides',
+      addedSlide: isAdded ? slide : undefined,
+      removedSlide: isAdded ? undefined : slide
+    }));
+  }
+
   @listen({
     event: 'change',
     target: ({typeRule, countRule, loopRule}: ESLCarousel) => [typeRule, countRule, loopRule]
@@ -145,8 +158,8 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
   /** @returns slides that are processed by the current carousel. */
   @memoize()
   public get $slides(): ESLCarouselSlide[] {
-    const els = this.$slidesArea && this.$slidesArea.querySelectorAll(ESLCarouselSlide.is);
-    return els ? Array.from(els) as ESLCarouselSlide[] : [];
+    const els = this.$slidesArea ? [...this.$slidesArea.children] : [];
+    return els.filter((slide): slide is ESLCarouselSlide  => slide.matches(ESLCarouselSlide.is));
   }
 
   /** @returns slides carousel area. */
