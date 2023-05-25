@@ -2,6 +2,7 @@ import {promisifyEvent, repeatSequence, resolvePromise} from '../../../esl-utils
 
 import {calcDirection, normalizeIndex} from '../../core/nav/esl-carousel.nav.utils';
 import {ESLCarouselRenderer} from '../../core/esl-carousel.renderer';
+import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
 import type {ESLCarouselSlide} from '../../core/esl-carousel.slide';
 import type {ESLCarouselDirection} from '../../core/nav/esl-carousel.nav.types';
@@ -162,6 +163,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
   /** Ends current transition and make permanent all changes performed in the transition. */
   // eslint-disable-next-line sonarjs/cognitive-complexity
   public async commit(offset: number): Promise<void> {
+    const activeIndex = this.carousel.activeIndex;
     const achieveBorders = this._checkNonLoop(offset);
     if (achieveBorders) {
       // calculate offset to move to
@@ -191,17 +193,19 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
       this.currentIndex = normalizeIndex(nextIndex, this.size);
     }
 
-    let direction = offset > 0 ? 'prev' : 'next';
+    let direction: ESLCarouselDirection = offset > 0 ? 'prev' : 'next';
     direction = direction || calcDirection(this.carousel.activeIndex, this.currentIndex, this.size);
     this._setOrderFrom(this.currentIndex);
 
     this.setActive(this.currentIndex);
 
-    // TODO: change info
-    this.carousel.$$fire('esl:slide:changed', {
-      detail: {direction},
-      bubbles: false
-    });
+    if (activeIndex !== this.currentIndex) {
+      this.carousel.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', {
+        direction,
+        current: this.currentIndex,
+        related: activeIndex
+      }));
+    }
   }
 
   /** Sets order style property for slides starting at index */

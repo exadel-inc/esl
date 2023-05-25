@@ -27,7 +27,7 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin {
   }
 
   /** Handles event that fires when the carousel slides state is changed. */
-  @listen('esl:slide:changed')
+  @listen('esl:change:slide')
   protected _onSlideChange(e: CustomEvent): void {
     if (!this.$target) return;
     if (e.detail.activator !== this) {
