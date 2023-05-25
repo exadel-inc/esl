@@ -1,8 +1,11 @@
-import {setAttr} from '../../esl-utils/dom/attr';
 import {prop} from '../../esl-utils/decorators';
+import {setAttr} from '../../esl-utils/dom/attr';
+import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
+
 import {ESLMixinRegistry} from './esl-mixin-registry';
+import {ESLMixinAttributesObserver} from './esl-mixin-attr';
 
 import type {
   ESLEventListener,
@@ -10,6 +13,7 @@ import type {
   ESLListenerDescriptor,
   ESLListenerHandler
 } from '../../esl-utils/dom/events';
+import type {ESLBaseComponent} from '../../esl-utils/abstract/component';
 import type {ESLDomElementRelated} from '../../esl-utils/abstract/dom-target';
 
 /**
@@ -17,7 +21,8 @@ import type {ESLDomElementRelated} from '../../esl-utils/abstract/dom-target';
  * Mixin elements attaches to the DOM element via attribute.
  * Allows multiple mixin elements per one DOM element
  */
-export class ESLMixinElement implements ESLDomElementRelated {
+@ExportNs('Mixin')
+export class ESLMixinElement implements ESLBaseComponent, ESLDomElementRelated {
   /** Root attribute to identify mixin targets. Should contain dash in the name. */
   static is: string;
   /** Additional observed attributes */
@@ -26,32 +31,19 @@ export class ESLMixinElement implements ESLDomElementRelated {
   /** Event to indicate component significant state change that may affect other components state */
   @prop('esl:refresh') public REFRESH_EVENT: string;
 
-  /** Additional attributes observer */
-  private _attr$$: MutationObserver;
-
   public constructor(
     public readonly $host: HTMLElement
   ) {}
 
   /** Callback of mixin instance initialization */
-  public connectedCallback(): void {
-    const {observedAttributes} = this.constructor as typeof ESLMixinElement;
-    if (observedAttributes.length) {
-      this._attr$$ = new MutationObserver(this._onAttrMutation.bind(this));
-      this._attr$$.observe(this.$host, {
-        attributes: true,
-        attributeFilter: observedAttributes,
-        attributeOldValue: true
-      });
-    }
-
+  protected connectedCallback(): void {
+    ESLMixinAttributesObserver.observe(this);
     ESLEventUtils.subscribe(this);
   }
 
   /** Callback to execute on mixin instance destroy */
-  public disconnectedCallback(): void {
-    if (this._attr$$) this._attr$$.disconnect();
-
+  protected disconnectedCallback(): void {
+    ESLMixinAttributesObserver.unobserve(this);
     ESLEventUtils.unsubscribe(this);
   }
 
@@ -59,16 +51,7 @@ export class ESLMixinElement implements ESLDomElementRelated {
    * Callback to handle changing of additional attributes.
    * Happens when attribute accessed for writing independently of the actual value change
    */
-  public attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
-
-  /** Attribute change mutation record processor */
-  private _onAttrMutation(records: MutationRecord[]): void {
-    records.forEach(({attributeName, oldValue}: MutationRecord) => {
-      if (!attributeName) return;
-      const newValue = this.$$attr(attributeName);
-      this.attributeChangedCallback(attributeName, oldValue, newValue);
-    });
-  }
+  protected attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
   /** Subscribes `handler` method marked with `@listen` decorator */
   public $$on(handler: ESLListenerHandler): ESLEventListener[];
@@ -121,14 +104,20 @@ export class ESLMixinElement implements ESLDomElementRelated {
     return ESLEventUtils.dispatch(this.$host, eventName, eventInit);
   }
 
-  /** Returns mixin instance by element */
-  public static get<T extends typeof ESLMixinElement>(this: T, $el: HTMLElement): InstanceType<T> | null {
-    return ESLMixinRegistry.get($el, this.is) as InstanceType<T>;
-  }
   /** Register current mixin definition */
   public static register(): void {
     (new ESLMixinRegistry()).register(this);
   }
+
+  // Public Registry API
+  public static readonly get = ESLMixinRegistry.get;
+  public static readonly getAll = ESLMixinRegistry.getAll;
 }
 
-export type ConstructableESLMixin = typeof ESLMixinElement & (new($root: HTMLElement) => ESLMixinElement);
+export type ESLMixinElementInternal = ESLMixinElement & {
+  connectedCallback(): void;
+  disconnectedCallback(): void;
+  attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void;
+};
+
+export type ESLMixinElementConstructable = typeof ESLMixinElement & (new($root: HTMLElement) => ESLMixinElement);

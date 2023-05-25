@@ -64,7 +64,7 @@ export class ESLAnimate extends ESLBaseElement {
     return ESLTraversingQuery.all(this.target, this) as HTMLElement[];
   }
 
-  protected attributeChangedCallback(): void {
+  protected override attributeChangedCallback(): void {
     if (!this.connected) return;
     this.reanimate();
   }

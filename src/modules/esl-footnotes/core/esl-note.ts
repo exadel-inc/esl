@@ -108,7 +108,7 @@ export class ESLNote extends ESLBaseElement {
     this.restore();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'tooltip-shown' && newVal === null) {
       this._$footnotes?.turnOffHighlight(this);

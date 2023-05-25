@@ -34,8 +34,9 @@ const buildAttrName =
  * @param config - mapping configuration. See {@link BoolAttrDescriptor}
  */
 export const boolAttr = (config: BoolAttrDescriptor = {}): ESLAttributeDecorator => {
-  return (target: ESLDomElementTarget, propName: string): void => {
+  return (target: ESLDomElementTarget, propName: string): any => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildConditionalDescriptor(attrName, !!config.readonly));
+    return {};
   };
 };
