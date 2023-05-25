@@ -1,10 +1,9 @@
 import {promisifyEvent, repeatSequence, resolvePromise} from '../../../esl-utils/async/promise';
 
-import {calcDirection, normalizeIndex} from '../../core/nav/esl-carousel.nav.utils';
+import {calcDirection, normalizeIndex, getDistance} from '../../core/nav/esl-carousel.nav.utils';
 import {ESLCarouselRenderer} from '../../core/esl-carousel.renderer';
 import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
-import type {ESLCarouselSlide} from '../../core/esl-carousel.slide';
 import type {ESLCarouselDirection} from '../../core/nav/esl-carousel.nav.types';
 
 @ESLCarouselRenderer.register
@@ -14,36 +13,18 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
   /** First index of active slides. */
   protected currentIndex: number = 0;
 
-  /** Gets count of slides between active and passed considering given direction. */
-  protected getDistance(slide: ESLCarouselSlide | number, direction: ESLCarouselDirection): number {
-    if (typeof slide !== 'number') slide = slide.index;
-    let count = 0;
-    if (direction === 'prev') {
-      count = normalizeIndex(this.carousel.activeIndex - slide, this.size);
-    } else if (direction === 'next') {
-      count = normalizeIndex(slide - this.carousel.activeIndex, this.size);
-    }
-    return count;
-  }
-
   /**
    * Processes binding of defined renderer to the carousel {@link ESLCarousel}.
    * Prepare to renderer animation.
    */
   public override onBind(): void {
-    this.redraw();
-
     this.currentIndex = this.carousel.activeIndex;
-    this._setOrderFrom(this.currentIndex);
+    this.redraw();
   }
 
   public override redraw(): void {
-    const {$slides, $slidesArea} = this.carousel;
-    if (!$slidesArea || !$slides.length) return;
-
-    const slidesAreaStyles = getComputedStyle($slidesArea);
-    this.slideWidth = parseFloat(slidesAreaStyles.width) / this.carousel.count;
-    $slides.forEach((slide) => slide.style.minWidth = this.slideWidth + 'px');
+    this.resize();
+    this.reindex();
   }
 
   /**
@@ -73,7 +54,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     const animateSlide = (): Promise<void> =>
       this.onBeforeStepAnimate(direction).then(() => this.onAfterStepAnimate(direction));
 
-    return repeatSequence(animateSlide, this.getDistance(nextIndex, direction));
+    return repeatSequence(animateSlide, getDistance(nextIndex, direction, this.carousel));
   }
 
   /** Post-processing animation action. */
@@ -87,7 +68,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     this.carousel.$slides.forEach((el) => el.toggleAttribute('visible'));
 
     const orderIndex = direction === 'next' ? this.currentIndex : normalizeIndex(this.currentIndex - 1, this.size);
-    this._setOrderFrom(orderIndex);
+    this.reindex(orderIndex);
 
     // TODO: reflow
     const offsetIndex = direction === 'next' ? normalizeIndex(this.currentIndex + 1, this.size) : this.currentIndex;
@@ -120,7 +101,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     this.currentIndex = direction === 'next' ? this.currentIndex + 1 : this.currentIndex - 1;
     this.currentIndex = normalizeIndex(this.currentIndex, this.size);
 
-    this._setOrderFrom(this.currentIndex);
+    this.reindex(this.currentIndex);
 
     this.carousel.toggleAttribute('animating', false);
     +this.carousel.offsetLeft;
@@ -138,7 +119,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     if (!this._checkNonLoop(offset)) return;
 
     const orderIndex = offset < 0 ? currentIndex : normalizeIndex(currentIndex - 1, this.size);
-    this._setOrderFrom(orderIndex);
+    this.reindex(orderIndex);
     this.currentIndex = currentIndex;
 
     const stageOffset = offset < 0 ? offset + count * this.slideWidth : offset - (count + 1) * this.slideWidth;
@@ -195,7 +176,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
 
     let direction: ESLCarouselDirection = offset > 0 ? 'prev' : 'next';
     direction = direction || calcDirection(this.carousel.activeIndex, this.currentIndex, this.size);
-    this._setOrderFrom(this.currentIndex);
+    this.reindex(this.currentIndex);
 
     this.setActive(this.currentIndex);
 
@@ -209,13 +190,21 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
   }
 
   /** Sets order style property for slides starting at index */
-  protected _setOrderFrom(index: number): void {
-    if (index < 0 || index > this.carousel.size) return;
+  protected resize(): void {
+    const {count, $slides, $slidesArea} = this.carousel;
+    if (!$slidesArea || !$slides.length) return;
+    const slidesAreaStyles = getComputedStyle($slidesArea);
+    this.slideWidth =  parseFloat(slidesAreaStyles.width) / count;
+    $slides.forEach((slide) => slide.style.minWidth = this.slideWidth + 'px');
+  }
 
-    let $slide = this.carousel.$slides[index];
-    for (let order = 0; order < this.carousel.size; order++) {
-      $slide.style.order = String(order);
-      $slide = $slide.$nextCyclic;
+  /** Sets order style property for slides starting at index */
+  protected reindex(index: number = this.currentIndex): void {
+    if (index < 0 || index > this.carousel.size) return;
+    const {size, $slides} = this.carousel;
+    if (!$slides.length) return;
+    for (let i = 0; i < size; ++i) {
+      $slides[i].style.order = String((size + i - index) % size);
     }
   }
 }

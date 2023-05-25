@@ -5,6 +5,13 @@ export function normalizeIndex(index: number, size: number): number {
   return (size + (index % size)) % size;
 }
 
+/** Gets count of slides between active and passed considering given direction. */
+export function getDistance(from: number, direction: ESLCarouselDirection, {activeIndex, size}: ESLCarouselState): number {
+  if (direction === 'prev') return normalizeIndex(activeIndex - from, size);
+  if (direction === 'next') return normalizeIndex(from - activeIndex, size);
+  return 0;
+}
+
 /** @returns closest direction to move from slide `from` to slide `to` */
 export function calcDirection(from: number, to: number, size: number): ESLCarouselDirection {
   const abs = Math.abs(from - to) % size;
