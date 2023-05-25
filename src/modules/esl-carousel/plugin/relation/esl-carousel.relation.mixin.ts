@@ -4,6 +4,7 @@ import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
 import {ESLCarousel} from '../../core/esl-carousel';
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
+import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
 /**
  * Slide Carousel Link plugin mixin to bind carousel positions
@@ -27,12 +28,12 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin {
   }
 
   /** Handles event that fires when the carousel slides state is changed. */
-  @listen('esl:change:slide')
-  protected _onSlideChange(e: CustomEvent): void {
+  @listen(ESLCarouselSlideEvent.AFTER)
+  protected _onSlideChange(e: ESLCarouselSlideEvent): void {
     if (!this.$target) return;
-    if (e.detail.activator !== this) {
+    if (e.activator !== this) {
       this.$target.goTo(this.$host.activeIndex, {
-        direction: e.detail.direction,
+        direction: e.direction,
         activator: this
       });
     }

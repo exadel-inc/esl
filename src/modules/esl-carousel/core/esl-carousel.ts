@@ -234,8 +234,8 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     if (!this.dispatchEvent(ESLCarouselSlideEvent.create('BEFORE', {
       direction,
       activator,
-      current: index,
-      related: activeIndex
+      current: activeIndex,
+      related: index
     }))) return;
 
     if (activeIndex !== index) {
@@ -253,8 +253,8 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     this.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', {
       direction,
       activator,
-      current: activeIndex,
-      related: index
+      current: index,
+      related: activeIndex
     }));
   }
 
