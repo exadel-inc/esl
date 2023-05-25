@@ -165,6 +165,11 @@ export class ESLPopup extends ESLToggleable {
     document.body.appendChild(this);
   }
 
+  /** @returns whether the hide task should be executed for the open state during the show task executing */
+  protected override shouldHideWhenOpen(params: ESLToggleableActionParams): boolean {
+    return params.activator !== this.activator;
+  }
+
   /**
    * Actions to execute on show popup.
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
