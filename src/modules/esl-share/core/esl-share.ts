@@ -96,7 +96,7 @@ export class ESLShare extends ESLBaseElement {
       return;
     }
 
-    const $popup = this.getStoredPopup() || await this.createPopup$();
+    const $popup = this.getStoredPopup() || await this.createPopup();
     this.appendTrigger(`#${$popup.id}`);
   }
 
@@ -104,7 +104,7 @@ export class ESLShare extends ESLBaseElement {
   protected async appendButtonsTo($el: Element): Promise<void> {
     const buttonsConfig = await this.buttonsConfig;
     buttonsConfig.forEach((cfg) => {
-      const btn = this.createButton$(cfg);
+      const btn = this.createButton(cfg);
       btn && $el.appendChild(btn);
     });
   }
@@ -114,7 +114,6 @@ export class ESLShare extends ESLBaseElement {
     const $trigger = ESLShareTrigger.create();
     Object.assign($trigger, {
       target,
-      mode: 'toggle',
       trackClick: true,
       trackHover: true
     });
@@ -123,7 +122,7 @@ export class ESLShare extends ESLBaseElement {
   }
 
   /** Creates share button. */
-  protected createButton$(cfg: ESLShareButtonConfig): ESLShareButton | null {
+  protected createButton(cfg: ESLShareButtonConfig): ESLShareButton | null {
     const $button = ESLShareButton.create();
     Object.assign($button, cfg);
     const $icon = document.createElement('span');
@@ -136,7 +135,7 @@ export class ESLShare extends ESLBaseElement {
   }
 
   /** Creates popup element with share buttons. */
-  protected async createPopup$(): Promise<ESLPopup> {
+  protected async createPopup(): Promise<ESLPopup> {
     const $popup = ESLPopup.create();
     const id = sequentialUID(this.baseTagName + '-');
     Object.assign($popup, {id, ...this.popupInitialParams});

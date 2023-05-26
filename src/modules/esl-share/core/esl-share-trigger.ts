@@ -19,7 +19,7 @@ export class ESLShareTrigger extends ESLTrigger {
   @prop(['share-title', 'share-url']) public forwardedAttrs: string[];
 
   /** @returns parent share {@link ESLShare} element (if exists) */
-  public get $host(): ESLShare | null {
+  public get $share(): ESLShare | null {
     return this.closest('esl-share');
   }
 
@@ -32,8 +32,8 @@ export class ESLShareTrigger extends ESLTrigger {
 
   /** Forwards share attributes from the host to the trigger target */
   protected forwardHostAttributes(): void {
-    if (!this.$host) return;
+    if (!this.$share) return;
 
-    this.forwardedAttrs.forEach((name) => this.$target?.$$attr(name, this.$host!.$$attr(name)));
+    this.forwardedAttrs.forEach((name) => this.$target?.$$attr(name, this.$share!.$$attr(name)));
   }
 }
