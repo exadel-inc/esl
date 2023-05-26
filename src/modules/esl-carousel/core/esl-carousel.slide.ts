@@ -1,5 +1,8 @@
-import {boolAttr, ESLBaseElement} from '../../esl-base-element/core';
+import {ESLBaseElement} from '../../esl-base-element/core';
+import {boolAttr, memoize} from '../../esl-utils/decorators';
 import {findNext, findPrev, findNextLooped, findPrevLooped} from '../../esl-utils/dom/traversing';
+
+import type {ESLCarousel} from './esl-carousel';
 
 /**
  * ESLCarouselSlide component
@@ -11,10 +14,25 @@ export class ESLCarouselSlide extends ESLBaseElement {
   /** @returns if the slide is active */
   @boolAttr() public active: boolean;
 
+  @memoize()
+  public get $carousel(): ESLCarousel | undefined {
+    const carouselTag = this.baseTagName.replace('-slide', '');
+    return this.closest(carouselTag) as ESLCarousel | undefined;
+  }
+
   protected override connectedCallback(): void {
     super.connectedCallback();
+    this.$carousel?.updateSlide && this.$carousel.updateSlide(this);
     this.setAttribute('role', 'group');
-    this.setAttribute('aria-label', `slide ${this.index + 1}`);
+    if (!this.hasAttribute('aria-label')) {
+      this.setAttribute('aria-label', `slide ${this.index + 1}`);
+    }
+  }
+
+  protected override disconnectedCallback(): void {
+    this.$carousel?.updateSlide && this.$carousel.updateSlide(this);
+    memoize.clear(this, '$carousel');
+    super.disconnectedCallback();
   }
 
   /** @returns index of the slide in the carousel. */

@@ -7,6 +7,7 @@ import {ESLBaseElement} from '../../../esl-base-element/core';
 import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
 import {indexToGroup} from '../../core/nav/esl-carousel.nav.utils';
+import {ESLCarouselChangeEvent, ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
 import type {ESLCarousel} from '../../core/esl-carousel';
 
@@ -71,7 +72,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
 
   /** Handles carousel state changes */
   @listen({
-    event: 'esl:slide:changed',
+    event: `${ESLCarouselSlideEvent.AFTER} ${ESLCarouselChangeEvent.TYPE}`,
     target: ($el: ESLCarouselNavDots) => $el.$carousel
   })
   protected _onSlideChange(e: Event): void {

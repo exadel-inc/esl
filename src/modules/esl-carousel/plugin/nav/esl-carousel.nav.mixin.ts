@@ -3,6 +3,8 @@ import {attr, listen, memoize} from '../../../esl-utils/decorators';
 import {ESLMixinElement} from '../../../esl-mixin-element/core';
 import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
+import {ESLCarouselChangeEvent, ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
+
 import type {ESLCarousel} from '../../core/esl-carousel';
 import type {ESLCarouselSlideTarget} from '../../core/nav/esl-carousel.nav.types';
 
@@ -53,7 +55,7 @@ export class ESLCarouselNavMixin extends ESLMixinElement {
 
   /** Handles carousel state changes */
   @listen({
-    event: 'esl:slide:changed',
+    event: `${ESLCarouselSlideEvent.AFTER} ${ESLCarouselChangeEvent.TYPE}`,
     target: ($nav: ESLCarouselNavMixin) => $nav.$carousel
   })
   protected _onSlideChange(): void {

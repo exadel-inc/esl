@@ -48,6 +48,22 @@ export function promisifyEvent(
   });
 }
 
+/** Utility to promisify transition observation */
+export function promisifyTransition(
+  $el: Element,
+  props: string | string[]
+): Promise<void> {
+  props = ([] as string[]).concat(props);
+  return new Promise((resolve) => {
+    function transitionCallback(e: TransitionEvent): void {
+      if (!props.includes(e.propertyName)) return;
+      $el.removeEventListener('transitionend', transitionCallback);
+      resolve();
+    }
+    $el.addEventListener('transitionend', transitionCallback);
+  });
+}
+
 /**
  * Short helper to make Promise from element state marker
  * @returns Promise that will be resolved if the target `marker` property is truthful or `event` is dispatched
