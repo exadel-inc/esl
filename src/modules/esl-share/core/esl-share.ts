@@ -1,7 +1,7 @@
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
 import {sequentialUID} from '../../esl-utils/misc/uid';
-import {attr, boolAttr, prop} from '../../esl-utils/decorators';
+import {attr, bind, boolAttr, prop} from '../../esl-utils/decorators';
 import {selectButtonsForList} from './esl-share-config';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareTrigger} from './esl-share-trigger';
@@ -82,28 +82,29 @@ export class ESLShare extends ESLBaseElement {
     if (this.ready) return;
     if (!this.mode) this.mode = 'list';
     if (!this._content) this._content = this.innerHTML;
-    this.buildContent()
+    this.buttonsConfig
+      .then(this.buildContent)
       .then(() => this.$$fire(this.SHARE_READY_EVENT, {bubbles: false}))
       .catch((e) => console.error(`[${this.baseTagName}]: ${e}`));
   }
 
   /** Builds content of the component. */
-  protected async buildContent(): Promise<void> {
+  @bind
+  protected buildContent(btnConfig: ESLShareButtonConfig[]): void {
     this.innerHTML = '';
 
     if (this.mode === 'list') {
-      this.appendButtonsTo(this);
+      this.appendButtonsTo(this, btnConfig);
       return;
     }
 
-    const $popup = this.getStoredPopup() || await this.createPopup();
+    const $popup = this.getStoredPopup() || this.createPopup(btnConfig);
     this.appendTrigger(`#${$popup.id}`);
   }
 
-  /** Appends button to the passed element. */
-  protected async appendButtonsTo($el: Element): Promise<void> {
-    const buttonsConfig = await this.buttonsConfig;
-    buttonsConfig.forEach((cfg) => {
+  /** Appends buttons to the passed element. */
+  protected appendButtonsTo($el: Element, btnConfig: ESLShareButtonConfig[]): void {
+    btnConfig.forEach((cfg) => {
       const btn = this.createButton(cfg);
       btn && $el.appendChild(btn);
     });
@@ -135,7 +136,7 @@ export class ESLShare extends ESLBaseElement {
   }
 
   /** Creates popup element with share buttons. */
-  protected async createPopup(): Promise<ESLPopup> {
+  protected createPopup(btnConfig: ESLShareButtonConfig[]): ESLPopup {
     const $popup = ESLPopup.create();
     const id = sequentialUID(this.baseTagName + '-');
     Object.assign($popup, {id, ...this.popupInitialParams});
@@ -143,7 +144,7 @@ export class ESLShare extends ESLBaseElement {
     document.body.appendChild($popup);
     this.storePopup($popup);
 
-    await this.appendButtonsTo($popup);
+    this.appendButtonsTo($popup, btnConfig);
     return $popup;
   }
 
