@@ -1,4 +1,4 @@
-import {promisifyEvent, repeatSequence, resolvePromise} from '../../../esl-utils/async/promise';
+import {promisifyEvent, promisifyTransition, repeatSequence, resolvePromise} from '../../../esl-utils/async/promise';
 
 import {calcDirection, normalizeIndex, getDistance} from '../../core/nav/esl-carousel.nav.utils';
 import {ESLCarouselRenderer} from '../../core/esl-carousel.renderer';
@@ -25,6 +25,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
   public override redraw(): void {
     this.resize();
     this.reindex();
+    this.setActive(this.currentIndex);
   }
 
   /**
@@ -82,14 +83,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     const shiftXAfter = direction === 'next' ? -offset : 0;
     this.carousel.$slidesArea!.style.transform = `translate3d(${shiftXAfter}px, 0px, 0px)`;
 
-    return new Promise((resolve) => {
-      const cb = (e: TransitionEvent): void => {
-        if (e.propertyName !== 'transform') return;
-        this.carousel.$slidesArea?.removeEventListener('transitionend', cb);
-        resolve();
-      };
-      this.carousel.$slidesArea?.addEventListener('transitionend', cb);
-    });
+    return promisifyTransition(this.carousel.$slidesArea!, 'transform');
   }
 
   /** Post-processing the transition animation of one slide. */

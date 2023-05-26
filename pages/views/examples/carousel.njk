@@ -17,6 +17,7 @@ icon: examples/carousel.svg
                   esl-carousel-keyboard
                   tabindex="0"
                   media="@XS|@SM|@MD|@LG|@XL"
+                  loop="true"
                   count="1|2|3|4|5">
       <div data-slides-area>
         {% for item in cards %}
@@ -53,7 +54,7 @@ icon: examples/carousel.svg
         <span class="sr-only">Previous Slide</span>
      </button>
 
-     <esl-carousel media="@XS|@SM|@MD|@LG|@XL" count="2|3|4|5|6">
+     <esl-carousel media="@XS|@SM|@MD|@LG|@XL" count="2|3|4|5|6" loop="true">
         <div data-slides-area>
         {% for item in items %}
            <esl-carousel-slide {{ 'active' if loop.first }}>
@@ -80,7 +81,7 @@ icon: examples/carousel.svg
       <span class="sr-only">Previous Slide</span>
     </button>
 
-    <esl-carousel media="@XS|@SM|@MD|@LG|@XL" count="2|3|4|5|6" loop="false">
+    <esl-carousel media="@XS|@SM|@MD|@LG|@XL" count="2|3|4|5|6">
       <div data-slides-area>
         {% for item in items %}
           <esl-carousel-slide {{ 'active' if loop.first }}>
@@ -107,7 +108,7 @@ icon: examples/carousel.svg
         <span class="sr-only">Previous Slide</span>
      </button>
 
-     <esl-carousel esl-carousel-touch="@-md">
+     <esl-carousel esl-carousel-touch="@-md" loop="true">
         <div data-slides-area>
           {% for i in range(0, 4) -%}
            <esl-carousel-slide>

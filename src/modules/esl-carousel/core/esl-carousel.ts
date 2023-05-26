@@ -15,13 +15,11 @@ import type {ESLCarouselState, ESLCarouselDirection, ESLCarouselSlideTarget} fro
 
 
 /** {@link ESLCarousel} action params interface */
-export interface CarouselActionParams {
+export interface ESLCarouselActionParams {
   /** Element requester of the change */
   activator?: any;
   /** Direction to move to. */
   direction?: ESLCarouselDirection;
-  /** Force action independently of current state of the Carousel. */
-  force?: boolean;
   // TODO: implement
   // noAnimation?: boolean;
 }
@@ -42,7 +40,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
   /** Renderer type name (`multi` by default). Supports {@link ESLMediaRuleList} syntax */
   @attr({name: 'type', defaultValue: 'multi'}) public typeCfg: string;
   /** Marker to enable loop mode for carousel (`true` by default). Supports {@link ESLMediaRuleList} syntax */
-  @attr({name: 'loop', defaultValue: 'true'}) public loopCfg: string;
+  @attr({name: 'loop', defaultValue: 'false'}) public loopCfg: string;
   /** Count of slides to show on the screen (`1` by default). Supports {@link ESLMediaRuleList} syntax */
   @attr({name: 'count', defaultValue: '1'}) public countCfg: string;
 
@@ -110,14 +108,13 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
 
     if (force || typeChanged || cfgChanged) {
       memoize.clear(this, ['loop', 'count']);
-      this.renderer.redraw();
 
       this.dispatchEvent(ESLCarouselChangeEvent.create({
         prop: 'config'
       }));
     }
 
-    this.goTo(this.activeIndex, {force: true});
+    this.renderer.redraw();
   }
 
   protected updateA11y(): void {
@@ -168,14 +165,12 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     return this.querySelector('[data-slides-area]');
   }
 
-  // TODO: discuss null
   /** @returns first active slide. */
-  public get $activeSlide(): ESLCarouselSlide {
+  public get $activeSlide(): ESLCarouselSlide | null {
     const actives = this.$slides.filter((el) => el.active);
-    // if (actives.length === 0) return null;
+    if (actives.length === 0) return null;
     if (actives.length === this.$slides.length) return this.$slides[0];
 
-    // TODO try to make the same as activeSlides
     for (const slide of actives) {
       const prevIndex = normalizeIndex(slide.index - 1, this.size);
       if (!this.$slides[prevIndex].active) return slide;
@@ -213,59 +208,22 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     }, []);
   }
 
-  /** Goes to the target according to passed params. */
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  public async goTo(target: ESLCarouselSlideTarget, params: CarouselActionParams = {}): Promise<void> {
-    // TODO: go to last action (from console for example) and animate from
-    // 1) 1 slide is active, js goTo(2), goTo(3) -> goTo(3)
-    // 2) 1 slide is active, js goTo(2), goTo(3), goTo(2) -> goTo(2)
-    // 3) 1 slide is active, js goTo(2), setTimeout(goTo(1)) -> goTo(2), the active point -> goTo(1)
-    // Task Manager (Toggleable - different types of requests, read DelayedTask)
-    if (!this.renderer || this.dataset.isAnimated) return;
-
-    const {activeIndex} = this;
-
+  /** Goes to the target according to passed params */
+  public goTo(target: ESLCarouselSlideTarget, params: ESLCarouselActionParams = {}): void {
+    if (!this.renderer) return;
     const {index, dir} = toIndex(target, this);
-    const direction = params.direction || dir;
-    const activator = params.activator;
+    const direction = params.direction || dir || 'next';
+    this.renderer.navigate(index, direction, params);
+  }
 
-    if (!direction || activeIndex === index && !params.force) return;
-
-    if (!this.dispatchEvent(ESLCarouselSlideEvent.create('BEFORE', {
-      direction,
-      activator,
-      current: activeIndex,
-      related: index
-    }))) return;
-
-    if (activeIndex !== index) {
-      try {
-        await this.renderer.onBeforeAnimate(index, direction);
-        await this.renderer.onAnimate(index, direction);
-        await this.renderer.onAfterAnimate();
-      } catch (e: unknown) {
-        console.error(e);
-      }
-    }
-
-    this.renderer.setActive(index);
-
-    this.dispatchEvent(ESLCarouselSlideEvent.create('AFTER', {
-      direction,
-      activator,
-      current: index,
-      related: activeIndex
-    }));
+  /** @returns side by index (supports not normalized indexes) */
+  public slideAt(index: number): ESLCarouselSlide {
+    return this.$slides[normalizeIndex(index, this.$slides.length)];
   }
 
   /** @returns if the passed slide target can be reached */
   public canNavigate(target: ESLCarouselSlideTarget): boolean {
     return canNavigate(target, this);
-  }
-
-  /** Gets slide by index. */
-  public slideAt(index: number): ESLCarouselSlide {
-    return this.$slides[normalizeIndex(index, this.size)];
   }
 
   /**
