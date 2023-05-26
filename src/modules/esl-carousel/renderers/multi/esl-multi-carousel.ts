@@ -1,6 +1,6 @@
-import {promisifyEvent, promisifyTransition, repeatSequence, resolvePromise} from '../../../esl-utils/async/promise';
+import {promisifyEvent, promisifyTransition, resolvePromise} from '../../../esl-utils/async/promise';
 
-import {calcDirection, normalizeIndex, getDistance} from '../../core/nav/esl-carousel.nav.utils';
+import {calcDirection, normalizeIndex} from '../../core/nav/esl-carousel.nav.utils';
 import {ESLCarouselRenderer} from '../../core/esl-carousel.renderer';
 import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
@@ -36,38 +36,40 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     this.carousel.$slides.forEach((el) => {
       el.toggleAttribute('visible', false);
       el.style.removeProperty('order');
+      el.style.removeProperty('width');
     });
     this.carousel.$slidesArea!.style.removeProperty('transform');
-    this.carousel.toggleAttribute('animating', false);
     this.carousel.$slidesArea!.style.transform = 'translate3d(0px, 0px, 0px)';
+    this.carousel.toggleAttribute('animating', false);
   }
 
   /** Pre-processing animation action. */
   public async onBeforeAnimate(): Promise<void> {
     if (this.carousel.hasAttribute('animating')) return Promise.reject('Already animating');
+    this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', true));
     return Promise.resolve();
   }
 
   /** Processes animation. */
-  public onAnimate(nextIndex: number, direction: ESLCarouselDirection): Promise<void> {
-    this.currentIndex = this.carousel.activeIndex;
-
-    const animateSlide = (): Promise<void> =>
-      this.onBeforeStepAnimate(direction).then(() => this.onAfterStepAnimate(direction));
-
-    return repeatSequence(animateSlide, getDistance(nextIndex, direction, this.carousel));
+  public async onAnimate(nextIndex: number, direction: ESLCarouselDirection): Promise<void> {
+    const {activeIndex, $slidesArea} =  this.carousel;
+    this.currentIndex = activeIndex;
+    if (!$slidesArea) return;
+    while (this.currentIndex !== nextIndex) {
+      await this.onBeforeStepAnimate(direction);
+      await this.onAfterStepAnimate(direction);
+    }
   }
 
   /** Post-processing animation action. */
   public async onAfterAnimate(): Promise<void> {
     this.carousel.$slidesArea!.style.transform = 'translate3d(0px, 0px, 0px)';
+    this.carousel.$slides.forEach((el) => el.removeAttribute('visible'));
     return Promise.resolve();
   }
 
   /** Pre-processing the transition animation of one slide. */
   protected async onBeforeStepAnimate(direction: ESLCarouselDirection): Promise<void> {
-    this.carousel.$slides.forEach((el) => el.toggleAttribute('visible'));
-
     const orderIndex = direction === 'next' ? this.currentIndex : normalizeIndex(this.currentIndex - 1, this.size);
     this.reindex(orderIndex);
 
@@ -89,7 +91,6 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
   /** Post-processing the transition animation of one slide. */
   protected async onAfterStepAnimate(direction: ESLCarouselDirection): Promise<void> {
     // TODO: onAfterAnimate
-    this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', false));
     this.carousel.$slidesArea!.style.transform = 'translate3d(0px, 0px, 0px)';
 
     this.currentIndex = direction === 'next' ? this.currentIndex + 1 : this.currentIndex - 1;
