@@ -33,7 +33,6 @@ export class ESLCarouselRelateToMixin extends ESLCarouselPlugin {
     if (!this.$target) return;
     if (e.activator !== this) {
       this.$target.goTo(this.$host.activeIndex, {
-        direction: e.direction,
         activator: this
       });
     }
