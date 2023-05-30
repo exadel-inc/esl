@@ -165,9 +165,14 @@ export class ESLPopup extends ESLToggleable {
     document.body.appendChild(this);
   }
 
-  /** @returns whether the hide task should be executed for the open state during the show task executing */
-  protected override shouldHideIfOpen(params: ESLToggleableActionParams): boolean {
-    return params.activator !== this.activator;
+  /**
+   * Actions to execute on show task when popup is in the open state.
+   * @returns whether the show task should be run to the end.
+   */
+  protected override onParamsUpdate(params: ESLToggleableActionParams): boolean | void {
+    this.afterOnHide();
+    this.activator = params.activator;
+    this.afterOnShow();
   }
 
   /**
@@ -214,15 +219,7 @@ export class ESLPopup extends ESLToggleable {
   protected override onHide(params: PopupActionParams): void {
     this.beforeOnHide();
     super.onHide(params);
-
-    this._stopUpdateLoop();
-    this.activator && this._removeActivatorObserver(this.activator);
-
-    // clear all memoize data
-    memoize.clear(this, '_isMajorAxisHorizontal');
-    memoize.clear(this, '_isMajorAxisVertical');
-    memoize.clear(this, '_offsetArrowRatio');
-    memoize.clear(this, '$container');
+    this.afterOnHide();
   }
 
   /**
@@ -239,6 +236,16 @@ export class ESLPopup extends ESLToggleable {
    * Actions to execute before hiding of popup.
    */
   protected beforeOnHide(): void {}
+
+  /**
+   * Actions to execute after hiding of popup.
+   */
+  protected afterOnHide(): void {
+    this._stopUpdateLoop();
+    this.activator && this._removeActivatorObserver(this.activator);
+
+    memoize.clear(this, ['_isMajorAxisHorizontal', '_isMajorAxisVertical', '_offsetArrowRatio', '$container']);
+  }
 
   /**
    * Checks activator intersection for adjacent axis.
