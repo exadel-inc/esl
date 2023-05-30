@@ -9,19 +9,27 @@ export abstract class ESLCarouselRenderer {
   public static is: string;
 
   protected readonly carousel: ESLCarousel;
-  protected slideWidth: number = 0;
 
   constructor(carousel: ESLCarousel) {
     this.carousel = carousel; // TODO: unsafe while lifecycle is not clear
   }
 
+  /** @returns renderer type name */
   public get type(): string {
     return (this.constructor as typeof ESLCarouselRenderer).is;
   }
 
-  /**  @returns count of carousel slides. */
+  /** @returns count of carousel slides */
   public get size(): number {
     return this.carousel.size;
+  }
+  /** @returns count of visible carousel slides */
+  public get count(): number {
+    return this.carousel.config.count;
+  }
+  /** @returns if the carousel is in a loop mode */
+  public get loop(): boolean {
+    return this.carousel.config.loop;
   }
 
   public bind(): void {
@@ -45,9 +53,9 @@ export abstract class ESLCarouselRenderer {
   public redraw(): void {}
   /** Process slide change process */
   public async navigate(index: number, direction: ESLCarouselDirection, {activator}: ESLCarouselActionParams): Promise<void> {
-    const {activeIndex, activeIndexes, count} = this.carousel;
+    const {activeIndex, activeIndexes} = this.carousel;
 
-    if (activeIndex === index && activeIndexes.length === count) return;
+    if (activeIndex === index && activeIndexes.length === this.count) return;
     if (!this.carousel.dispatchEvent(ESLCarouselSlideEvent.create('BEFORE', {
       direction,
       activator,
@@ -88,7 +96,7 @@ export abstract class ESLCarouselRenderer {
   /** Sets active slides from passed index **/
   public setActive(from: number): void {
     this.carousel.$slides.forEach((el) => el.active = false);
-    for (let i = 0; i < this.carousel.count; i++) {
+    for (let i = 0; i < this.count; i++) {
       this.carousel.slideAt(from + i).active = true;
     }
   }

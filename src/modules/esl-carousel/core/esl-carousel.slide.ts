@@ -22,20 +22,19 @@ export class ESLCarouselSlide extends ESLBaseElement {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.$carousel?.updateSlide && this.$carousel.updateSlide(this);
+    this.$carousel?.addSlide && this.$carousel.addSlide(this);
     this.updateA11y();
   }
 
   protected override disconnectedCallback(): void {
-    this.$carousel?.updateSlide && this.$carousel.updateSlide(this);
+    this.$carousel?.removeSlide && this.$carousel.removeSlide(this);
     memoize.clear(this, '$carousel');
     super.disconnectedCallback();
   }
 
   /** @returns index of the slide in the carousel. */
   public get index(): number {
-    if (!this.parentNode) return -1;
-    // TODO: refactor (check type of Element)
+    if (!this.parentNode) return NaN;
     return Array.prototype.indexOf.call(this.parentNode.children, this);
   }
 
@@ -57,7 +56,7 @@ export class ESLCarouselSlide extends ESLBaseElement {
     return findPrevLooped(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
   }
 
-  protected updateA11y() {
+  protected updateA11y(): void {
     this.setAttribute('role', 'group');
     if (!this.hasAttribute('aria-roledescription')) {
       this.setAttribute('aria-roledescription', 'slide');

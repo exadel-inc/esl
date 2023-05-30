@@ -23,7 +23,7 @@ export type ESLCarouselSlideTarget = string | ESLCarouselNavIndex | `slide:${ESL
 export type ESLCarouselStaticState = {
   size: number;
   count: number;
-  loop?: boolean;
+  loop: boolean;
 };
 
 /** Object describing carousel current configuration (contains active slide data) */
