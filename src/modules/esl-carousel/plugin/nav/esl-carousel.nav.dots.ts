@@ -42,6 +42,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     await customElements.whenDefined(this.$carousel.tagName.toLowerCase());
     super.connectedCallback();
     this.rerender();
+    this.updateA11y();
   }
 
   public override disconnectedCallback(): void {
@@ -65,9 +66,18 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   /** Builds content of dots. */
   public buildDot(index: number, isActive: boolean): string {
     return `<button role="button"
+                aria-label="Show group ${index  + 1}"
+                aria-disabled="${isActive}"
                 data-nav-target="group:${index}"
                 class="carousel-dot ${isActive ? 'active-dot' : ''}"
                 aria-current="${isActive ? 'true' : 'false'}"></button>`;
+  }
+
+  protected updateA11y(): void {
+    this.setAttribute('role', 'group');
+    if (!this.hasAttribute('aria-label')) {
+      this.setAttribute('aria-label', 'Carousel dots');
+    }
   }
 
   /** Handles carousel state changes */
