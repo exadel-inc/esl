@@ -73,7 +73,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
                 aria-current="${isActive ? 'true' : 'false'}"></button>`;
   }
 
-  protected updateA11y() {
+  protected updateA11y(): void {
     this.setAttribute('role', 'group');
     if (!this.hasAttribute('aria-label')) {
       this.setAttribute('aria-label', 'Carousel dots');
