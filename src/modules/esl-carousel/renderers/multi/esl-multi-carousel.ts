@@ -10,6 +10,8 @@ import type {ESLCarouselDirection} from '../../core/nav/esl-carousel.nav.types';
 export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
   public static override is = 'multi';
 
+  /** SLide width cached value */
+  protected slideWidth: number = 0;
   /** First index of active slides. */
   protected currentIndex: number = 0;
 
@@ -127,13 +129,13 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     const nextIndex = this.carousel.activeIndex + count * sign;
     const currentIndex = normalizeIndex(this.carousel.activeIndex + count * sign, this.size);
 
-    if (this.carousel.loop) return true;
+    if (this.loop) return true;
     // check non-loop state
     if (nextIndex >= this.carousel.size || nextIndex < 0) return false;
     // check left border of non-loop state
     if (offset > 0 && currentIndex - 1 < 0) return false;
     // check right border of non-loop state
-    return !(offset < 0 && currentIndex + 1 + this.carousel.count > this.carousel.size);
+    return !(offset < 0 && currentIndex + 1 + this.count > this.carousel.size);
   }
 
   /** Ends current transition and make permanent all changes performed in the transition. */
@@ -161,10 +163,10 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
       Math.ceil(Math.abs(offset) / this.slideWidth) : Math.floor(Math.abs(offset) / this.slideWidth);
     const nextIndex = this.carousel.activeIndex + count * sign;
 
-    if (!this.carousel.loop && offset > 0 && nextIndex - 1 < 0) {
+    if (!this.loop && offset > 0 && nextIndex - 1 < 0) {
       this.currentIndex = 0;
-    } else if (!this.carousel.loop && offset < 0 && nextIndex + this.carousel.count >= this.carousel.size) {
-      this.currentIndex = this.carousel.size - this.carousel.count;
+    } else if (!this.loop && offset < 0 && nextIndex + this.count >= this.carousel.size) {
+      this.currentIndex = this.carousel.size - this.count;
     } else {
       this.currentIndex = normalizeIndex(nextIndex, this.size);
     }
@@ -186,10 +188,10 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
 
   /** Sets order style property for slides starting at index */
   protected resize(): void {
-    const {count, $slides, $slidesArea} = this.carousel;
+    const {$slides, $slidesArea} = this.carousel;
     if (!$slidesArea || !$slides.length) return;
     const slidesAreaStyles = getComputedStyle($slidesArea);
-    this.slideWidth =  parseFloat(slidesAreaStyles.width) / count;
+    this.slideWidth =  parseFloat(slidesAreaStyles.width) / this.count;
     $slides.forEach((slide) => slide.style.minWidth = this.slideWidth + 'px');
   }
 

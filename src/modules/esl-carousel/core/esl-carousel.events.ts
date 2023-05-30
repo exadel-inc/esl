@@ -1,16 +1,24 @@
 import type {ESLCarousel} from './esl-carousel';
 import type {ESLCarouselSlide} from './esl-carousel.slide';
-import type {ESLCarouselDirection} from './nav/esl-carousel.nav.types';
+import type {ESLCarouselDirection, ESLCarouselStaticState} from './nav/esl-carousel.nav.types';
 
+/** {@link ESLCarouselSlideEvent} init object */
 interface ESLCarouselSlideEventInit {
+  /** Current slide index */
   current: number;
+  /** Related slide index (target on pre-event, current on post-event) */
   related: number;
+  /** Direction of slide animation */
   direction: ESLCarouselDirection;
+  /** Auxiliary request attribute that represents object that initiate slide change */
   activator?: any;
 }
 
+/** {@link ESLCarousel} event that represents slide change event */
 export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEventInit {
+  /** {@link ESLCarouselSlideEvent} event type dispatched before slide change (pre-event) */
   public static readonly BEFORE = 'esl:before:slide:change';
+  /** {@link ESLCarouselSlideEvent} event type dispatched after slide change (post-event) */
   public static readonly AFTER = 'esl:slide:change';
 
   public override readonly target: ESLCarousel;
@@ -36,17 +44,28 @@ export class ESLCarouselSlideEvent extends Event implements ESLCarouselSlideEven
   }
 }
 
+/** {@link ESLCarouselChangeEvent} init object */
 interface ESLCarouselChangeEventInit {
-  prop: string;
-  addedSlide?: ESLCarouselSlide;
-  removedSlide?: ESLCarouselSlide;
+  /** Current {@link ESLCarousel} instance config */
+  config: ESLCarouselStaticState;
+  /** Previous {@link ESLCarousel} instance config */
+  oldConfig?: ESLCarouselStaticState;
+  /** A list of {@link ESLCarouselSlide}s that have added to the current carousel instance */
+  added: ESLCarouselSlide[];
+  /** A list of {@link ESLCarouselSlide}s that have removed from the current carousel instance */
+  removed: ESLCarouselSlide[];
 }
 
+/** {@link ESLCarousel} event that represents slide configuration change */
 export class ESLCarouselChangeEvent extends Event implements ESLCarouselChangeEventInit {
+  /** {@link ESLCarouselSlideEvent} event type dispatched on carousel config changes */
   public static readonly TYPE = 'esl:carousel:change';
 
   public override readonly target: ESLCarousel;
-  public readonly prop: string;
+  public readonly config: ESLCarouselStaticState;
+  public readonly oldConfig?: ESLCarouselStaticState;
+  public readonly added: ESLCarouselSlide[] = [];
+  public readonly removed: ESLCarouselSlide[] = [];
 
   protected constructor(init: ESLCarouselChangeEventInit) {
     super(ESLCarouselChangeEvent.TYPE, {

@@ -1,7 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
-import {attr, boolAttr, listen, memoize} from '../../esl-utils/decorators';
-import {parseBoolean} from '../../esl-utils/misc/format';
+import {attr, boolAttr, decorate, listen, memoize} from '../../esl-utils/decorators';
+
+import {microtask} from '../../esl-utils/async';
+import {parseBoolean, isEqual} from '../../esl-utils/misc';
+
 import {ESLMediaRuleList} from '../../esl-media-query/core';
 import {ESLResizeObserverTarget} from '../../esl-event-listener/core';
 
@@ -9,10 +12,9 @@ import {normalizeIndex, toIndex, canNavigate} from './nav/esl-carousel.nav.utils
 
 import {ESLCarouselSlide} from './esl-carousel.slide';
 import {ESLCarouselRenderer} from './esl-carousel.renderer';
-import {ESLCarouselChangeEvent, ESLCarouselSlideEvent} from './esl-carousel.events';
+import {ESLCarouselChangeEvent} from './esl-carousel.events';
 
-import type {ESLCarouselState, ESLCarouselDirection, ESLCarouselSlideTarget} from './nav/esl-carousel.nav.types';
-
+import type {ESLCarouselState, ESLCarouselDirection, ESLCarouselSlideTarget, ESLCarouselStaticState} from './nav/esl-carousel.nav.types';
 
 /** {@link ESLCarousel} action params interface */
 export interface ESLCarouselActionParams {
@@ -31,7 +33,7 @@ export interface ESLCarouselActionParams {
  * ESLCarousel - a slideshow component for cycling through slides {@link ESLCarouselSlide}.
  */
 @ExportNs('Carousel')
-export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
+export class ESLCarousel extends ESLBaseElement {
   public static override is = 'esl-carousel';
   public static observedAttributes = ['media', 'type', 'loop', 'count'];
 
@@ -63,15 +65,21 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     return ESLMediaRuleList.parse(this.mediaCfg, this.countCfg, parseInt);
   }
 
-  /** @returns if the carousel is in a loop mode */
+  /** Carousel instance current {@link ESLCarouselStaticState} */
   @memoize()
-  public get loop(): boolean {
-    return this.loopRule.value || false;
+  public get config(): ESLCarouselStaticState {
+    return {
+      size: this.$slides.length,
+      count: this.countRule.value || 1,
+      loop: !!this.loopRule.value
+    };
   }
-  /** @returns count of active (visible) slides */
-  @memoize()
-  public get count(): number {
-    return this.countRule.value || 1;
+
+  /** Carousel instance current {@link ESLCarouselState} */
+  public get state(): ESLCarouselState {
+    return Object.assign({}, this.config, {
+      activeIndex: this.activeIndex
+    });
   }
 
   /** @returns currently active renderer */
@@ -79,14 +87,13 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
   public get renderer(): ESLCarouselRenderer {
     const type = this.typeRule.value || 'multi';
     const renderer = ESLCarouselRenderer.registry.create(type, this);
-    renderer && renderer.bind();
+    renderer && renderer.bind(); // TODO: small small - getter side effect
     return renderer;
   }
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-
-    this.update(true);
+    this.update();
     this.updateA11y();
   }
 
@@ -96,42 +103,45 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
     this.update();
   }
 
-  /** Updates the config and the state that is associated with. */
-  public update(force: boolean = false): void {
-    const cfgChanged = this.count !== this.countRule.value || this.loop !== this.loopRule.value;
-    const typeChanged = this.renderer?.type !== this.typeRule.value;
+  /** Updates the config and the state that is associated with */
+  @decorate(microtask)
+  public update(): void {
+    const oldType = this.renderer.type;
+    const oldConfig = this.config;
+    const $oldSlides = this.$slides;
 
-    if (typeChanged) {
+    memoize.clear(this, ['config', '$slides']);
+    if (oldType !== this.typeRule.value) {
       this.renderer && this.renderer.unbind();
       memoize.clear(this, 'renderer');
     }
-
-    if (force || typeChanged || cfgChanged) {
-      memoize.clear(this, ['loop', 'count']);
-
-      this.dispatchEvent(ESLCarouselChangeEvent.create({
-        prop: 'config'
-      }));
-    }
-
     this.renderer.redraw();
+
+    const added = this.$slides.filter((slide) => !$oldSlides.includes(slide));
+    const removed = $oldSlides.filter((slide) => !this.$slides.includes(slide));
+    const config = this.config;
+
+    if (!added.length && !removed.length && isEqual(config, oldConfig)) return;
+    this.dispatchEvent(ESLCarouselChangeEvent.create({added, removed, config, oldConfig}));
+  }
+
+  /** Appends slide instance to the current carousel */
+  public addSlide(slide: ESLCarouselSlide): void {
+    if (slide.parentNode !== this.$slidesArea) this.$slidesArea?.appendChild(slide);
+    this.update();
+  }
+
+  /** Remove slide instance from the current carousel */
+  public removeSlide(slide: ESLCarouselSlide): void {
+    if (slide.parentNode === this.$slidesArea) this.$slidesArea?.removeChild(slide);
+    this.update();
   }
 
   protected updateA11y(): void {
     // TODO: update a11y -> check a11y everywhere
-    const ariaLabel = this.hasAttribute('aria-label');
-    !ariaLabel && this.setAttribute('aria-label', 'Carousel');
-  }
-
-  public updateSlide(slide: ESLCarouselSlide): void {
-    memoize.clear(this, '$slides');
-    this.renderer && this.renderer.redraw();
-    const isAdded = this.$slides.includes(slide);
-    this.dispatchEvent(ESLCarouselChangeEvent.create({
-      prop: 'slides',
-      addedSlide: isAdded ? slide : undefined,
-      removedSlide: isAdded ? undefined : slide
-    }));
+    // this.$slidesArea?.setAttribute('aria-live', 'polite');
+    // const ariaLabel = this.hasAttribute('aria-label');
+    // !ariaLabel && this.setAttribute('aria-label', 'Carousel');
   }
 
   @listen({
@@ -211,7 +221,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
   /** Goes to the target according to passed params */
   public goTo(target: ESLCarouselSlideTarget, params: ESLCarouselActionParams = {}): void {
     if (!this.renderer) return;
-    const {index, dir} = toIndex(target, this);
+    const {index, dir} = toIndex(target, this.state);
     const direction = params.direction || dir || 'next';
     this.renderer.navigate(index, direction, params);
   }
@@ -223,7 +233,7 @@ export class ESLCarousel extends ESLBaseElement implements ESLCarouselState {
 
   /** @returns if the passed slide target can be reached */
   public canNavigate(target: ESLCarouselSlideTarget): boolean {
-    return canNavigate(target, this);
+    return canNavigate(target, this.state);
   }
 
   /**
