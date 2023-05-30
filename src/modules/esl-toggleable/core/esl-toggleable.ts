@@ -197,13 +197,13 @@ export class ESLToggleable extends ESLBaseElement {
   }
 
   /** @returns whether the hide task should be executed for the open state during the show task executing */
-  protected shouldHideWhenOpen(params: ESLToggleableActionParams): boolean {
+  protected shouldHideIfOpen(params: ESLToggleableActionParams): boolean {
     return false;
   }
 
   /** Actual show task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected showTask(params: ESLToggleableActionParams): void {
-    const shouldHide = this.shouldHideWhenOpen(params);
+    const shouldHide = this.shouldHideIfOpen(params);
     if (!params.force && !shouldHide && this.open) return;
     if (shouldHide && this.open) this.hideTask(params);
     if (!params.silent && !this.$$fire(this.BEFORE_SHOW_EVENT, {detail: {params}})) return;

@@ -166,7 +166,7 @@ export class ESLPopup extends ESLToggleable {
   }
 
   /** @returns whether the hide task should be executed for the open state during the show task executing */
-  protected override shouldHideWhenOpen(params: ESLToggleableActionParams): boolean {
+  protected override shouldHideIfOpen(params: ESLToggleableActionParams): boolean {
     return params.activator !== this.activator;
   }
 
