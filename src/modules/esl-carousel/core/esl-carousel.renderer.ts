@@ -27,7 +27,7 @@ export abstract class ESLCarouselRenderer {
   public get count(): number {
     return this.carousel.config.count;
   }
-  /** @returns count of carousel slides */
+  /** @returns if the carousel is in a loop mode */
   public get loop(): boolean {
     return this.carousel.config.loop;
   }

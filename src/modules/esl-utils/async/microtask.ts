@@ -1,5 +1,5 @@
 /**
- * A utility decorator to postpone callback execution once after the main task execution
+ * A decorator utility to postpone callback execution once after the main task execution
  * (as a microtask produced with Promise)
  */
 export function microtask<T>(fn: (...arg: [T?]) => void, thisArg?: object): (arg?: T) => void {

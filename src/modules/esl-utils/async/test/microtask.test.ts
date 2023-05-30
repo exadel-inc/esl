@@ -1,7 +1,7 @@
 import {microtask} from '../microtask';
 
 describe('sync/microtask', () => {
-  test('Decorated as microtask callback does not leads to original function executioner the macrotask execution', () => {
+  test('Decorated as microtask callback call does not lead to original function immediate execution', () => {
     const fn = jest.fn();
     const decorated = microtask(fn);
     for (let i = 0; i < 5; i++) decorated();
@@ -14,7 +14,7 @@ describe('sync/microtask', () => {
     await Promise.resolve();
     expect(fn).toBeCalledTimes(1);
   });
-  test('Decorated as microtask callback receive a list of call arguments', async () => {
+  test('Decorated as microtask callback receives a list of call arguments', async () => {
     const fn = jest.fn();
     const decorated = microtask(fn);
     const params = [Symbol('Arg 1'), Symbol('Arg 2'), Symbol('Arg 3')];
