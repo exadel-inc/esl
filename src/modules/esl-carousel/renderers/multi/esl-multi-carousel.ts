@@ -10,7 +10,9 @@ import type {ESLCarouselDirection} from '../../core/nav/esl-carousel.nav.types';
 export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
   public static override is = 'multi';
 
-  /** SLide width cached value */
+  /** Slides gap width */
+  protected gapWidth: number = 0;
+  /** Slide width cached value */
   protected slideWidth: number = 0;
   /** First index of active slides. */
   protected currentIndex: number = 0;
@@ -110,7 +112,8 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     this.carousel.$slides.forEach((el) => el.toggleAttribute('visible', true));
 
     const sign = offset < 0 ? 1 : -1;
-    const count = Math.floor(Math.abs(offset) / this.slideWidth);
+    const slideWidth = this.slideWidth + this.gapWidth;
+    const count = Math.floor(Math.abs(offset) / slideWidth);
     const currentIndex = normalizeIndex(this.carousel.activeIndex + count * sign, this.size);
 
     if (!this._checkNonLoop(offset)) return;
@@ -119,13 +122,13 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     this.reindex(orderIndex);
     this.currentIndex = currentIndex;
 
-    const stageOffset = offset < 0 ? offset + count * this.slideWidth : offset - (count + 1) * this.slideWidth;
+    const stageOffset = offset < 0 ? offset + count * slideWidth : offset - (count + 1) * slideWidth;
     this.carousel.$slidesArea!.style.transform = `translateX(${stageOffset}px)`;
   }
 
   protected _checkNonLoop(offset: number): boolean {
     const sign = offset < 0 ? 1 : -1;
-    const count = Math.floor(Math.abs(offset) / this.slideWidth);
+    const count = Math.floor(Math.abs(offset) / (this.slideWidth + this.gapWidth));
     const nextIndex = this.carousel.activeIndex + count * sign;
     const currentIndex = normalizeIndex(this.carousel.activeIndex + count * sign, this.size);
 
@@ -191,7 +194,8 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     const {$slides, $slidesArea} = this.carousel;
     if (!$slidesArea || !$slides.length) return;
     const slidesAreaStyles = getComputedStyle($slidesArea);
-    this.slideWidth =  parseFloat(slidesAreaStyles.width) / this.count;
+    this.gapWidth = parseFloat(slidesAreaStyles.columnGap);
+    this.slideWidth = (parseFloat(slidesAreaStyles.width) - this.gapWidth * (this.count - 1)) / this.count;
     $slides.forEach((slide) => slide.style.minWidth = this.slideWidth + 'px');
   }
 
