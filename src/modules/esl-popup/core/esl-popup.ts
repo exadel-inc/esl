@@ -116,7 +116,7 @@ export class ESLPopup extends ESLToggleable {
   /** Arrow element */
   @memoize()
   public get $arrow(): HTMLElement | null {
-    return this.querySelector(`span.${this.arrowClass}`) || this.appendArrow();
+    return this.querySelector(`.${this.arrowClass}`) || this.appendArrow();
   }
 
   /** Container element that define bounds of popups visibility */
