@@ -22,7 +22,7 @@ export class ESLCarouselSlide extends ESLBaseElement {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
-    this.$carousel?.updateSlide && this.$carousel.updateSlide(this);
+    this.$carousel?.addSlide && this.$carousel.addSlide(this);
     this.setAttribute('role', 'group');
     if (!this.hasAttribute('aria-label')) {
       this.setAttribute('aria-label', `slide ${this.index + 1}`);
@@ -30,15 +30,14 @@ export class ESLCarouselSlide extends ESLBaseElement {
   }
 
   protected override disconnectedCallback(): void {
-    this.$carousel?.updateSlide && this.$carousel.updateSlide(this);
+    this.$carousel?.removeSlide && this.$carousel.removeSlide(this);
     memoize.clear(this, '$carousel');
     super.disconnectedCallback();
   }
 
   /** @returns index of the slide in the carousel. */
   public get index(): number {
-    if (!this.parentNode) return -1;
-    // TODO: refactor (check type of Element)
+    if (!this.parentNode) return NaN;
     return Array.prototype.indexOf.call(this.parentNode.children, this);
   }
 
