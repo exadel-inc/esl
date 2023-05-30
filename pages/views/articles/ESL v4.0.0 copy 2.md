@@ -1,16 +1,15 @@
 ---
 layout: content
-name: Blog3
-title: Blog3
-tags: [blogs, draft, new]
-date: 2022-10-01
+name: Article1
+title: Article1
+tags: [articles, New]
+date: 2022-06-01
 containerCls: container markdown-container
 ---
 
 ## ESL Core
-
 ### Features:
-  - `ESLEventListener`s  functionality introduced
+  - `ESLEventListener`s currency_exchange :currency_exchange: functionality introduced
   - `ESLMixinElement`s functionality introduced
   - `ESLBaseElement` extended API 
     - `ESLBaseElement.create` shortcut to create current custom element

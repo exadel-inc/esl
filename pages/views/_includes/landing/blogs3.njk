@@ -1,0 +1,31 @@
+{% set releasedBlogs = collections.news | released %}
+{% if releasedBlogs.length %}
+<div class="blogs3 container">
+  <h2>{{ collections.news.title }}</h2>
+  <esl-animate target="::next::child" group></esl-animate>
+  <ul class="blogs3-container">
+    {% for item in releasedBlogs | reverse | limit(6) %}
+      <li class="blogs3-item esl-animate-slide-down">
+        <div class="blogs3-content">
+          {% set found = false %}
+          {% for tag in item.data.tags %}
+            {% if tag === 'articles' %}{% set found = true %}{% endif %}
+          {% endfor %}
+
+          <h4 class="blogs3-content-name">
+            {% if found %} 🚩
+            {% else %} ⚡️ 
+            {% endif %}
+            {{ item.data.name }}
+            <span style="float: right; font-size: 0.5em;">({{item.date | date}})</span>
+          </h4>
+          <p class="blogs3-content-text">{{ item.templateContent | text | truncate(250) }} <a class="arrow-link btn-link btn-sm"  href="{{ item.url | url }}">{{ landing.blogs.cta.text }}</a></p>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+  {# <div class="blogs2-more">
+    <a class="arrow-link btn-link arrow-link2" style="text-align: center" href="{{ item.url | url }}">Load More</a>
+  </div> #}
+</div>
+{% endif %}

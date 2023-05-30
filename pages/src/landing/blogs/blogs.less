@@ -48,3 +48,158 @@
     font-size: 1rem;
   }
 }
+
+.blogs2 {
+  position: relative;
+  margin-bottom: 2rem;
+
+  &-item {
+    display: flex;
+    flex: 1 0 0px;
+    align-items: center;
+    padding: 10px 45px;
+    list-style: none;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 1px;
+      height: 100%;
+      border-left: 3px solid #cfcfcf;
+    }
+  }
+
+  &-container {
+    // padding-bottom: 35px;
+    margin-bottom: 0;
+  }
+
+  &-content-name {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+
+  &-content-text {
+    margin-bottom: 20px;
+    font-size: 1rem;
+  }
+
+  &-more {
+    text-align: center;
+    padding-bottom: 20px;
+
+    /* &::before {
+      content: '';
+      position: absolute;
+      left: calc(37.5%);
+      bottom: 1px;
+
+      width: 25%;
+      border-bottom: 3px solid #cfcfcf;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: calc(50% - 10px);
+      bottom: -11px;
+
+      transform: rotate(45deg);
+
+      width: 20px;
+      height: 20px;
+      border-right: 3px solid #cfcfcf;
+      border-bottom: 3px solid #cfcfcf;
+    }*/
+  }
+}
+
+.blogs3 {
+  position: relative;
+  margin-bottom: 2rem;
+
+  &-item {
+    display: flex;
+    flex: 1 0 0px;
+    align-items: center;
+    padding: 30px 45px;
+    list-style: none;
+
+    @media @sm-xl {
+      display: block;
+    }
+    @media @sm {
+      min-width: 300px;
+      max-width: 350px;
+    }
+    @media @md-lg {
+      min-width: 540px;
+      max-width: 700px;
+    }
+    @media @xl {
+      min-width: 600px;
+      max-width: 700px;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 1px;
+      height: 100%;
+      border-left: 3px solid #cfcfcf;
+    }
+  }
+
+  &-container {
+    padding-bottom: 35px;
+
+    @media @sm-xl {
+      padding-bottom: 50px;
+      display: flex;
+      flex-direction: column;
+      max-height: 700px;
+      flex-wrap: wrap;
+    }
+  }
+
+  &-content-name {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+
+  &-content-text {
+    margin-bottom: 20px;
+    font-size: 1rem;
+  }
+
+  &-more {
+    text-align: center;
+    padding-bottom: 20px;
+
+    /* &::before {
+      content: '';
+      position: absolute;
+      left: calc(37.5%);
+      bottom: 1px;
+
+      width: 25%;
+      border-bottom: 3px solid #cfcfcf;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: calc(50% - 10px);
+      bottom: -11px;
+
+      transform: rotate(45deg);
+
+      width: 20px;
+      height: 20px;
+      border-right: 3px solid #cfcfcf;
+      border-bottom: 3px solid #cfcfcf;
+    }*/
+  }
+}

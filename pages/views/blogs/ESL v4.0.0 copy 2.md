@@ -1,8 +1,8 @@
 ---
 layout: content
-name: Blog3
-title: Blog3
-tags: [blogs, draft, new]
+name: Blog1
+title: Blog1
+tags: [blogs, new]
 date: 2022-10-01
 containerCls: container markdown-container
 ---
