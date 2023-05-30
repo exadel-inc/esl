@@ -72,11 +72,9 @@ export class ESLTooltip extends ESLPopup {
   }
 
   public override connectedCallback(): void {
-    if (!this.disableArrow) {
-      this.appendArrow();
-    }
     super.connectedCallback();
     this.classList.add(ESLPopup.is);
+    this.classList.toggle('disable-arrow', this.disableArrow);
     this.tabIndex = 0;
   }
 

@@ -116,7 +116,7 @@ export class ESLPopup extends ESLToggleable {
   /** Arrow element */
   @memoize()
   public get $arrow(): HTMLElement | null {
-    return this.querySelector(`span.${this.arrowClass}`);
+    return this.querySelector(`span.${this.arrowClass}`) || this.appendArrow();
   }
 
   /** Container element that define bounds of popups visibility */
@@ -137,6 +137,11 @@ export class ESLPopup extends ESLToggleable {
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.moveToBody();
+  }
+
+  protected override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    memoize.clear(this, '$arrow');
   }
 
   /** Checks that the position along the horizontal axis */
@@ -173,11 +178,12 @@ export class ESLPopup extends ESLToggleable {
   }
 
   /** Appends arrow to Popup */
-  public appendArrow(): void {
+  public appendArrow(): HTMLElement {
     const $arrow = document.createElement('span');
     $arrow.className = this.arrowClass;
     this.appendChild($arrow);
     memoize.clear(this, '$arrow');
+    return $arrow;
   }
 
   /**
