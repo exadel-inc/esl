@@ -23,10 +23,7 @@ export class ESLCarouselSlide extends ESLBaseElement {
   protected override connectedCallback(): void {
     super.connectedCallback();
     this.$carousel?.updateSlide && this.$carousel.updateSlide(this);
-    this.setAttribute('role', 'group');
-    if (!this.hasAttribute('aria-label')) {
-      this.setAttribute('aria-label', `slide ${this.index + 1}`);
-    }
+    this.updateA11y();
   }
 
   protected override disconnectedCallback(): void {
@@ -58,5 +55,15 @@ export class ESLCarouselSlide extends ESLBaseElement {
   /** @returns previous slide sibling (uses cyclic find). */
   public get $prevCyclic(): ESLCarouselSlide {
     return findPrevLooped(this, (this.constructor as typeof ESLCarouselSlide).is) as ESLCarouselSlide;
+  }
+
+  protected updateA11y() {
+    this.setAttribute('role', 'group');
+    if (!this.hasAttribute('aria-roledescription')) {
+      this.setAttribute('aria-roledescription', 'slide');
+    }
+    if (!this.hasAttribute('aria-label')) {
+      this.setAttribute('aria-label', `carousel item ${this.index + 1}`);
+    }
   }
 }
