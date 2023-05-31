@@ -206,7 +206,7 @@ export class ESLToggleable extends ESLBaseElement {
 
   /** Actual show task to execute by toggleable task manger ({@link DelayedTask} out of the box) */
   protected showTask(params: ESLToggleableActionParams): void {
-    if (!params.force && this.open && !this.onParamsUpdate(params)) return;
+    if (this.open && !(this.onParamsUpdate(params) || params.force)) return;
     if (!params.silent && !this.$$fire(this.BEFORE_SHOW_EVENT, {detail: {params}})) return;
     this.activator = params.activator;
     this.open = true;

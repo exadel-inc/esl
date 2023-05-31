@@ -172,6 +172,7 @@ export class ESLPopup extends ESLToggleable {
   protected override onParamsUpdate(params: ESLToggleableActionParams): boolean | void {
     this.afterOnHide();
     this.activator = params.activator;
+    if (params.force) return; // the show task will be forced to run so the next steps are unnecessary
     this.afterOnShow();
   }
 
