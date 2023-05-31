@@ -35,8 +35,15 @@ export function groupToIndex(group: number, count: number, size: number): number
 /** @returns numeric group index from slide index */
 export function indexToGroup(index: number, count: number, size: number): number {
   const value = normalizeIndex(index, size);
-  if (value > size - count) return Math.ceil(size / count) - 1;
-  return Math.ceil(value / count);
+  const groupCount = Math.ceil(size / count);
+  const firstGroupIndex = value + count >= size ? groupCount - 1 : Math.floor(value / count);
+  const secondGroupIndex = (firstGroupIndex + 1) % groupCount;
+  // candidate groups have common slides
+  const isGroupIntersected = size - count + 1 < value + count && value + count <= size;
+  const commonCount = isGroupIntersected ? groupCount * count - size : 0;
+  const firstGroupCount = Math.min(size, (firstGroupIndex + 1) * count) - value;
+  const secondGroupCount = count - firstGroupCount + commonCount;
+  return (firstGroupCount >= secondGroupCount) ? firstGroupIndex : secondGroupIndex;
 }
 
 export function indexToDirection(index: number, {activeIndex, size, loop}: ESLCarouselState): ESLCarouselDirection | null {
