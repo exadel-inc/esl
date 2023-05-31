@@ -158,40 +158,15 @@ describe('ESLCarousel: Nav Utils', () => {
     );
   });
 
-  // describe('resolveIndex', () => {
-  //   describe('absolute index', () => {
-  //     test.each([
-  //       [0, {count: 2, size: 5, activeIndex: 0}, 0],
-  //       [1, {count: 2, size: 5, activeIndex: 0}, 1],
-  //       [5, {count: 2, size: 5, activeIndex: 0}, 0],
-  //       [6, {count: 2, size: 5, activeIndex: 0}, 1],
-  //       ['2', {count: 2, size: 5, activeIndex: 0}, 2]
-  //     ])(
-  //       '(index = %d, %o) => %d',
-  //       (index: string, cfg: ESLCarouselState, result: number) => expect(resolveIndex(index, cfg)).toBe(result)
-  //     );
-  //   });
-  //   describe('relative index', () => {
-  //     test.each([
-  //       ['-1', {count: 2, size: 5, activeIndex: 2}, 1],
-  //       ['+1', {count: 2, size: 5, activeIndex: 2}, 3],
-  //       ['-3', {count: 2, size: 5, activeIndex: 2}, 4],
-  //       ['+3', {count: 2, size: 5, activeIndex: 2}, 0]
-  //     ])(
-  //       '(relative index = %d, current = %d, count = %d) => %d',
-  //       (index: string, cfg: ESLCarouselState, result: number) =>
-  //         expect(resolveIndex(index, cfg)).toBe(result)
-  //     );
-  //   });
-  // });
-
   describe('toIndex', () => {
     describe('numeric input', () => {
       test.each([
-        [0, {size: 5, count: 1, activeIndex: 2}, 0],
-        [1, {size: 5, count: 2, activeIndex: 2}, 1],
-        [5, {size: 5, count: 1, activeIndex: 0}, 0],
-        [6, {size: 5, count: 3, activeIndex: 1}, 1]
+        [0, {size: 5, count: 1, activeIndex: 2, loop: false}, 0],
+        [1, {size: 5, count: 2, activeIndex: 2, loop: false}, 1],
+        [5, {size: 5, count: 1, activeIndex: 0, loop: false}, 4],
+        [6, {size: 5, count: 3, activeIndex: 1, loop: false}, 2],
+        [5, {size: 5, count: 1, activeIndex: 0, loop: true}, 0],
+        [6, {size: 5, count: 3, activeIndex: 1, loop: true}, 1]
       ])(
         '(target = %s, cfg = %p) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
@@ -200,10 +175,14 @@ describe('ESLCarousel: Nav Utils', () => {
 
     describe('numeric string input', () => {
       test.each([
-        ['0', {size: 5, count: 1, activeIndex: 2}, 0],
-        ['1', {size: 5, count: 2, activeIndex: 2}, 1],
-        [' 5', {size: 5, count: 1, activeIndex: 0}, 0],
-        [' 6 ', {size: 5, count: 3, activeIndex: 1}, 1]
+        [' 0', {size: 5, count: 1, activeIndex: 2, loop: false}, 0],
+        [' 1 ', {size: 5, count: 2, activeIndex: 2, loop: false}, 1],
+        ['5', {size: 5, count: 1, activeIndex: 0, loop: false}, 4],
+        [' 6 ', {size: 5, count: 3, activeIndex: 1, loop: false}, 2],
+        [' 0', {size: 5, count: 1, activeIndex: 2, loop: true}, 0],
+        [' 1 ', {size: 5, count: 2, activeIndex: 2, loop: true}, 1],
+        ['5', {size: 5, count: 1, activeIndex: 0, loop: true}, 0],
+        [' 6 ', {size: 5, count: 3, activeIndex: 1, loop: true}, 1]
       ])(
         '(target = %s, cfg = %p) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
@@ -222,10 +201,12 @@ describe('ESLCarousel: Nav Utils', () => {
 
     describe('relative slide target', () => {
       test.each([
-        ['-1', {size: 5, count: 1, activeIndex: 2}, 1],
-        ['+1', {size: 5, count: 2, activeIndex: 2}, 3],
-        ['-3', {size: 5, count: 1, activeIndex: 2}, 4],
-        ['+3', {size: 5, count: 3, activeIndex: 2}, 0]
+        ['-1', {size: 5, count: 1, activeIndex: 2, loop: false}, 1],
+        ['+1', {size: 5, count: 2, activeIndex: 2, loop: false}, 3],
+        ['-3', {size: 5, count: 1, activeIndex: 2, loop: false}, 0],
+        ['+3', {size: 5, count: 3, activeIndex: 2, loop: false}, 2],
+        ['-3', {size: 5, count: 1, activeIndex: 2, loop: true}, 4],
+        ['+3', {size: 5, count: 3, activeIndex: 2, loop: true}, 0]
       ])(
         '(target = %s, cfg = %p) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)
@@ -244,10 +225,12 @@ describe('ESLCarousel: Nav Utils', () => {
 
     describe('slide target relative full', () => {
       test.each([
-        ['slide:-1', {size: 5, count: 1, activeIndex: 2}, 1],
-        ['slide:+1', {size: 5, count: 2, activeIndex: 2}, 3],
-        ['slide:-3', {size: 5, count: 1, activeIndex: 2}, 4],
-        ['slide:+3', {size: 5, count: 3, activeIndex: 2}, 0]
+        ['slide:-1', {size: 5, count: 1, activeIndex: 2, loop: false}, 1],
+        ['slide:+1', {size: 5, count: 2, activeIndex: 2, loop: false}, 3],
+        ['slide:-3', {size: 5, count: 1, activeIndex: 2, loop: true}, 4],
+        ['slide:+3', {size: 5, count: 3, activeIndex: 2, loop: true}, 0],
+        ['slide:-3', {size: 5, count: 1, activeIndex: 2, loop: false}, 0],
+        ['slide:+3', {size: 5, count: 3, activeIndex: 2, loop: false}, 2]
       ])(
         '(target = %s, cfg = %p) = %d',
         (target: ESLCarouselSlideTarget, cfg: ESLCarouselState, result: number) => expect(toIndex(target, cfg).index).toBe(result)

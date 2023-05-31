@@ -1,6 +1,7 @@
 // Core
-export * from './core/esl-carousel';
-export * from './core/esl-carousel.slide';
+export * from './core/esl-carousel.events';
+export {ESLCarousel} from './core/esl-carousel';
+export {ESLCarouselSlide} from './core/esl-carousel.slide';
 
 // Navigation
 export * from './plugin/nav/esl-carousel.nav.mixin';

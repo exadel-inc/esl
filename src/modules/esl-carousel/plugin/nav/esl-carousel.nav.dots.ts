@@ -7,6 +7,7 @@ import {ESLBaseElement} from '../../../esl-base-element/core';
 import {ESLTraversingQuery} from '../../../esl-traversing-query/core';
 
 import {indexToGroup} from '../../core/nav/esl-carousel.nav.utils';
+import {ESLCarouselChangeEvent, ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
 import type {ESLCarousel} from '../../core/esl-carousel';
 
@@ -41,6 +42,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
     await customElements.whenDefined(this.$carousel.tagName.toLowerCase());
     super.connectedCallback();
     this.rerender();
+    this.updateA11y();
   }
 
   public override disconnectedCallback(): void {
@@ -51,7 +53,7 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   /** Renders dots according to the carousel state. */
   public rerender(): void {
     if (!this.$carousel) return;
-    const {activeIndex, count, size} = this.$carousel;
+    const {activeIndex, count, size} = this.$carousel.state;
     this.$$attr('disabled', size < 2);
     let html = '';
     const activeDot = indexToGroup(activeIndex, count, size);
@@ -64,14 +66,23 @@ export class ESLCarouselNavDots extends ESLBaseElement {
   /** Builds content of dots. */
   public buildDot(index: number, isActive: boolean): string {
     return `<button role="button"
+                aria-label="Show group ${index  + 1}"
+                aria-disabled="${isActive}"
                 data-nav-target="group:${index}"
                 class="carousel-dot ${isActive ? 'active-dot' : ''}"
                 aria-current="${isActive ? 'true' : 'false'}"></button>`;
   }
 
+  protected updateA11y(): void {
+    this.setAttribute('role', 'group');
+    if (!this.hasAttribute('aria-label')) {
+      this.setAttribute('aria-label', 'Carousel dots');
+    }
+  }
+
   /** Handles carousel state changes */
   @listen({
-    event: 'esl:slide:changed',
+    event: `${ESLCarouselSlideEvent.AFTER} ${ESLCarouselChangeEvent.TYPE}`,
     target: ($el: ESLCarouselNavDots) => $el.$carousel
   })
   protected _onSlideChange(e: Event): void {

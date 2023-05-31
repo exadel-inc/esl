@@ -2,6 +2,7 @@ import {ExportNs} from '../../../esl-utils/environment/export-ns';
 import {attr, bind, listen} from '../../../esl-utils/decorators';
 
 import {ESLCarouselPlugin} from '../esl-carousel.plugin';
+import {ESLCarouselSlideEvent} from '../../core/esl-carousel.events';
 
 /**
  * {@link ESLCarousel} auto-play (auto-advance) plugin mixin
@@ -59,7 +60,7 @@ export class ESLCarouselAutoplayMixin extends ESLCarouselPlugin {
   }
 
   /** Handles auxiliary events to pause/resume timer */
-  @listen('mouseout mouseover focusin focusout esl:slide:changed')
+  @listen(`mouseout mouseover focusin focusout ${ESLCarouselSlideEvent.AFTER}`)
   protected _onInteract(e: Event): void {
     if (['mouseover', 'focusin'].includes(e.type)) {
       this.stop();
