@@ -9,7 +9,7 @@ export type Deferred<T> = {
 };
 
 /**
- * Create Deferred Object that wraps promise and its resolve and reject callbacks
+ * Creates Deferred Object that wraps promise and its resolve and reject callbacks
  */
 export function createDeferred<T>(): Deferred<T> {
   let reject: any;
