@@ -1,4 +1,4 @@
-import {tryUntil} from '../../async/promise';
+import {tryUntil} from '../../async';
 
 /**
  * This is a promise-based version of scrollIntoView().
