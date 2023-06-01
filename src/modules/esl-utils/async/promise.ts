@@ -1,5 +1,6 @@
 import {createDeferred} from './promise/defered';
 import {promisifyTimeout} from './promise/timeout';
+import {promisifyTransition} from './promise/animation';
 import {promisifyEvent, promisifyMarker} from './promise/event';
 import {promisifiedTry, tryUntil} from './promise/try-until';
 import {promisifyNextRender} from './promise/raf';
@@ -11,7 +12,7 @@ import type {Deferred} from './promise/defered';
 export type PromisifyResultFn<F extends AnyToAnyFnSignature> = ((...args: Parameters<F>) => Promise<ReturnType<F> | void>);
 export type {Deferred};
 
-export {promisifyTimeout, promisifyEvent, promisifyMarker, promisifyNextRender, promisifiedTry};
+export {promisifyTimeout, promisifyEvent, promisifyMarker, promisifyNextRender, promisifiedTry, promisifyTransition};
 export {tryUntil};
 
 /**

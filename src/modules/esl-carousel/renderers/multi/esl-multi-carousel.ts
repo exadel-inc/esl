@@ -1,4 +1,4 @@
-import {promisifyEvent, promisifyTransition, resolvePromise} from '../../../esl-utils/async/promise';
+import {promisifyEvent, promisifyTransition, resolvePromise} from '../../../esl-utils/async';
 
 import {calcDirection, normalizeIndex} from '../../core/nav/esl-carousel.nav.utils';
 import {ESLCarouselRenderer} from '../../core/esl-carousel.renderer';
