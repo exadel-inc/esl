@@ -44,8 +44,6 @@
     "modules/esl-share/actions/**/*.js",
     "src/modules/esl-media/providers/**/*.ts",
     "src/modules/esl-share/actions/**/*.ts",
-    "modules/draft/esl-carousel/core/view/*.js",
-    "src/modules/draft/esl-carousel/core/view/*.ts",
     "polyfills/**/*.js",
     "src/polyfills/**/*.ts",
     "pages/src/**/*.ts"
@@ -57,7 +55,7 @@
     "build:ts": "tsc --project tsconfig.build.json",
     "build:less": "npm run build:less:cpy && npm run build:less:css",
     "build:less:cpy": "copyfiles \"src/**/*.less\" \".\" --up 1 --all",
-    "build:less:css": "foreach -x \"lessc #{path} #{dir}/#{name}.css\" -i \"**/*.mixin.less\" -g \"modules/{*,*/*,{draft,esl-utils,esl-forms}/*/*}.less\"",
+    "build:less:css": "foreach -x \"lessc #{path} #{dir}/#{name}.css\" -i \"**/*.mixin.less\" -g \"modules/{*,*/*,{esl-utils,esl-forms}/*/*}.less\"",
     "build:docs": "copyfiles \"src/**/*.md\" \".\" --up 1 --all",
     "clean-pages": "rimraf \"pages/dist\"",
     "minify:css": "cleancss -o \"pages/dist/bundles/localdev.css\" \"pages/dist/bundles/localdev.css\"",
@@ -134,8 +132,8 @@
     "ts-jest": "^29.1.0",
     "ts-loader": "^9.4.3",
     "typescript": "5.0.4",
-    "webpack": "^5.84.1",
-    "webpack-bundle-analyzer": "^4.8.0",
+    "webpack": "^5.85.0",
+    "webpack-bundle-analyzer": "^4.9.0",
     "webpack-cli": "^5.1.1"
   },
   "browserslist": [
