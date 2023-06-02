@@ -103,6 +103,11 @@ export class ESLCarousel extends ESLBaseElement {
     this.update();
   }
 
+  protected override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    memoize.clear(this, ['$container', '$slides', '$slidesArea']);
+  }
+
   /** Updates the config and the state that is associated with */
   @decorate(microtask)
   public update(): void {
@@ -115,6 +120,7 @@ export class ESLCarousel extends ESLBaseElement {
       this.renderer && this.renderer.unbind();
       memoize.clear(this, 'renderer');
     }
+    this.updateContainer();
     this.renderer.redraw();
 
     const added = this.$slides.filter((slide) => !$oldSlides.includes(slide));
@@ -123,6 +129,13 @@ export class ESLCarousel extends ESLBaseElement {
 
     if (!added.length && !removed.length && isEqual(config, oldConfig)) return;
     this.dispatchEvent(ESLCarouselChangeEvent.create({added, removed, config, oldConfig}));
+  }
+
+  public updateContainer(): void {
+    if (!this.$container) return;
+    this.$container.toggleAttribute('empty', this.size === 0);
+    this.$container.toggleAttribute('single', this.size === 1);
+    this.$container.toggleAttribute('incomplete', this.size <= this.config.count);
   }
 
   /** Appends slide instance to the current carousel */
@@ -176,13 +189,24 @@ export class ESLCarousel extends ESLBaseElement {
     return els.filter((slide): slide is ESLCarouselSlide  => slide.matches(ESLCarouselSlide.is));
   }
 
-  /** @returns slides carousel area. */
+  /** @returns carousel container */
   @memoize()
-  public get $slidesArea(): HTMLElement | null {
-    return this.querySelector('[data-slides-area]');
+  public get $container(): HTMLElement | null {
+    return this.closest(`[${ESLCarousel.is}-container]`);
   }
 
-  /** @returns first active slide. */
+  /** @returns slides carousel area */
+  @memoize()
+  public get $slidesArea(): HTMLElement {
+    const $provided = this.querySelector('[data-slides-area]');
+    if ($provided) return $provided as HTMLElement;
+    const $container = document.createElement('div');
+    $container.setAttribute('data-slides-area', '');
+    this.appendChild($container);
+    return $container ;
+  }
+
+  /** @returns first active slide */
   public get $activeSlide(): ESLCarouselSlide | null {
     const actives = this.$slides.filter((el) => el.active);
     if (actives.length === 0) return null;

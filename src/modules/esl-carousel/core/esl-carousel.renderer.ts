@@ -95,8 +95,9 @@ export abstract class ESLCarouselRenderer {
 
   /** Sets active slides from passed index **/
   public setActive(from: number): void {
+    const count = Math.min(this.count, this.size);
     this.carousel.$slides.forEach((el) => el.active = false);
-    for (let i = 0; i < this.count; i++) {
+    for (let i = 0; i < count; i++) {
       this.carousel.slideAt(from + i).active = true;
     }
   }
