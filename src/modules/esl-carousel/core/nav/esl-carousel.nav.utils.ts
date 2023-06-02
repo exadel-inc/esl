@@ -1,6 +1,9 @@
 import type {ESLCarouselDirection, ESLCarouselNavIndex, ESLCarouselSlideTarget, ESLCarouselState} from './esl-carousel.nav.types';
 
-const boundIndex = (value: number, max: number): number => Math.max(0, Math.min(max, value));
+/** @returns bounded slide index in bounds of [0, count] range */
+export function boundIndex(value: number, max: number): number {
+  return Math.max(0, Math.min(max, value));
+}
 
 /** @returns normalized slide index in bounds of [0, count] range */
 export function normalizeIndex(index: number, size: number): number {

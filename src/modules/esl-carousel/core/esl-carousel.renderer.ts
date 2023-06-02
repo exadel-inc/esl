@@ -32,6 +32,11 @@ export abstract class ESLCarouselRenderer {
     return this.carousel.config.loop;
   }
 
+  /** @returns {@link ESLCarousel} `$slideArea` */
+  public get $area(): HTMLElement {
+    return this.carousel.$slidesArea;
+  }
+
   public bind(): void {
     const type = this.constructor as typeof ESLCarouselRenderer;
     this.carousel.classList.add(`${type.is}-carousel`);
