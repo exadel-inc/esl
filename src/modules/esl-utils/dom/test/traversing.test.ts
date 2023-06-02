@@ -1,4 +1,16 @@
-import {isRelativeNode, findClosestBy, isMatches, findNext, findPrev, findParent, findClosest, findAll, findChildren} from '../traversing';
+import {
+  isMatches,
+  isRelativeNode,
+  findClosestBy,
+  findNext,
+  findPrev,
+  findParent,
+  findClosest,
+  findAll,
+  findChildren,
+  findNextLooped,
+  findPrevLooped
+} from '../traversing';
 
 describe('Common: dom/traversing helper tests', () => {
   document.body.innerHTML = `
@@ -90,6 +102,34 @@ describe('Common: dom/traversing helper tests', () => {
       expect(findPrev(btn2, '#btn3')).toBe(null);
       expect(findPrev(btn2, '#btn2')).toBe(null);
     });
+  });
+
+  describe('findNextLooped', () => {
+    test('returns first next sibling that matches passed selector', () => {
+      expect(findNextLooped(btn1, '#btn4')).toBe(btn4);
+      expect(findNextLooped(btn1, 'button')).toBe(btn2);
+      expect(findNextLooped(btn2, 'button')).toBe(btn3);
+    }, 100);
+    test('returns first next sibling in loop (if no direct next sibling) that matches passed selector', () => {
+      expect(findNextLooped(btn5, 'button')).toBe(btn1);
+    }, 100);
+    test('returns null if there are no next siblings matching passed selector', () => {
+      expect(findNextLooped(btn2, 'time')).toBe(null);
+    }, 100);
+  });
+
+  describe('findPrevLooped', () => {
+    test('returns first previous sibling that matches passed selector', () => {
+      expect(findPrevLooped(btn3, '#btn1')).toBe(btn1);
+      expect(findPrevLooped(btn2, 'button')).toBe(btn1);
+      expect(findPrevLooped(btn3, 'button')).toBe(btn2);
+    }, 100);
+    test('returns first previous sibling in loop (if no direct next sibling) that matches passed selector', () => {
+      expect(findPrevLooped(btn1, 'button')).toBe(btn5);
+    }, 100);
+    test('returns null if there are no previous siblings matching passed selector', () => {
+      expect(findPrevLooped(btn2, 'time')).toBe(null);
+    }, 100);
   });
 
   describe('findParent', () => {
