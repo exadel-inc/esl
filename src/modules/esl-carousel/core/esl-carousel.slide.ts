@@ -3,6 +3,7 @@ import {boolAttr, memoize} from '../../esl-utils/decorators';
 import {findNext, findPrev, findNextLooped, findPrevLooped} from '../../esl-utils/dom/traversing';
 
 import type {ESLCarousel} from './esl-carousel';
+import {success} from 'concurrently/dist/src/defaults';
 
 /**
  * ESLCarouselSlide component
@@ -64,5 +65,12 @@ export class ESLCarouselSlide extends ESLBaseElement {
     if (!this.hasAttribute('aria-label')) {
       this.setAttribute('aria-label', `carousel item ${this.index + 1}`);
     }
+  }
+
+  /** Creates slide element, use passed content as slide inner */
+  public static override create(content?: HTMLElement | DocumentFragment): ESLCarouselSlide {
+    const $slide = super.create() as ESLCarouselSlide;
+    if (content) $slide.appendChild(content);
+    return $slide;
   }
 }

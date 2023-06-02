@@ -126,13 +126,20 @@ export class ESLCarousel extends ESLBaseElement {
   }
 
   /** Appends slide instance to the current carousel */
-  public addSlide(slide: ESLCarouselSlide): void {
-    if (slide.parentNode !== this.$slidesArea) this.$slidesArea?.appendChild(slide);
+  public addSlide(slide: HTMLElement | ESLCarouselSlide): void {
+    if (!slide) return;
+    if (!(slide instanceof ESLCarouselSlide)) return this.addSlide(ESLCarouselSlide.create(slide));
+    if (slide.parentNode !== this.$slidesArea) {
+      slide.remove();
+      this.$slidesArea?.appendChild(slide);
+    }
     this.update();
   }
 
   /** Remove slide instance from the current carousel */
-  public removeSlide(slide: ESLCarouselSlide): void {
+  public removeSlide(slide: HTMLElement | ESLCarouselSlide): void {
+    if (!slide) return;
+    if (!(slide instanceof ESLCarouselSlide)) return this.removeSlide(slide.closest(ESLCarouselSlide.is)!);
     if (slide.parentNode === this.$slidesArea) this.$slidesArea?.removeChild(slide);
     this.update();
   }
