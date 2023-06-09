@@ -107,9 +107,9 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
       : handlerFull;
   }
 
-  /** Executes handler if the passed event accepted by the selector */
+  /** Executes handler if the passed event is accepted by the selector */
   protected handleDelegation(e: Event, handler: EventListener): void {
-    const delegate = this.delegate;
+    const {delegate} = this;
     const target = e.target;
     const current = e.currentTarget;
 

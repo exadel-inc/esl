@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-/** Event containing a delegated event target */
+/** Extended event with a delegated event target */
 export type DelegatedEvent<EventType extends Event> = EventType & {
   $delegate: Element | null;
 };
