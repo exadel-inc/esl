@@ -18,7 +18,8 @@
       "DOM.Iterable"
     ],
     "rootDir": "src",
-    "outDir": "./esm"
+    "outDir": "./esm",
+    "jsx": "react"
   },
   "include": [
     "src"

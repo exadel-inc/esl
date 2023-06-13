@@ -10,12 +10,12 @@ module.exports = {
   resolve: {
     modules: ['../node_modules'],
     roots: [],
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js', '.tsx']
   },
   module: {
     rules: [
     {
-      test: /\.ts$/,
+      test: /\.(tsx?)$/,
       loader: 'ts-loader',
       options: {
         compilerOptions: {
