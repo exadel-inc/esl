@@ -13,6 +13,7 @@ export type OptionConfig = {
   optionValue: string;
   /** Callback to indicate if option should be rendered */
   canActivate?: (scope: UIPOptions) => boolean;
+  svg: HTMLElement;
 };
 
 /** Custom element to toggle {@link UIPRoot} attributes */
@@ -31,6 +32,7 @@ export class UIPOption extends ESLBaseElement {
   static createEl(optionConfig: OptionConfig): UIPOption {
     const option = document.createElement('uip-option') as UIPOption;
     option.setAttribute('attribute', optionConfig.optionValue);
+    option.append(optionConfig.svg);
     option.config = optionConfig;
     return option;
   }
