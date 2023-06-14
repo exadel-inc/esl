@@ -95,10 +95,9 @@ export class UIPOptions extends UIPPlugin {
    * Handles {@link UIPOption} `click` event
    * to manage {@link UIPRoot} options attributes
    */
-  @listen({event: 'click'})
+  @listen({event: 'click', selector: '.uip-option'})
   protected _onOptionClick(e: Event) {
-    e.stopPropagation();
-    const option = (e.target as HTMLElement).closest('uip-option') as UIPOption;
+    const option = e.target as UIPOption;
     this.root?.toggleAttribute(option.attribute, option.active);
   }
 
