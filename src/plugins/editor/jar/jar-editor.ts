@@ -1,9 +1,10 @@
+import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
+import {SyntheticEventTarget} from '@exadel/esl/modules/esl-utils/dom/events/target';
+
 import {CodeJar} from 'codejar';
 import {withLineNumbers} from 'codejar/linenumbers';
 import Prism from 'prismjs';
 import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
-import {bind} from '@exadel/esl/modules/esl-utils/decorators/bind';
-import {SyntheticEventTarget} from '@exadel/esl/modules/esl-utils/dom/events/target';
 
 export class JarEditor extends SyntheticEventTarget {
   private editor: CodeJar;
