@@ -24,14 +24,14 @@ export function promisifyEvent(
   options?: boolean | AddEventListenerOptions
 ): Promise<Event> {
   return new Promise((resolve, reject) => {
-    function eventCallback(e: Event): void {
+    function eventCallback(e?: Event): void {
       target.removeEventListener(event, eventCallback, options);
-      resolve(e);
+      e ? resolve(e) : reject(new Error('Rejected by timeout'));
     }
 
     target.addEventListener(event, eventCallback, options);
     if (typeof timeout === 'number' && timeout >= 0) {
-      setTimeout(() => reject(new Error('Rejected by timeout')), timeout);
+      setTimeout(eventCallback, timeout);
     }
   });
 }
