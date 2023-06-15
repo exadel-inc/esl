@@ -12,7 +12,7 @@ import type {Deferred} from './promise/defered';
 export type PromisifyResultFn<F extends AnyToAnyFnSignature> = ((...args: Parameters<F>) => Promise<ReturnType<F> | void>);
 export type {Deferred};
 
-export {promisifyTimeout, promisifyEvent, promisifyMarker, promisifyNextRender, promisifiedTry, promisifyTransition};
+export {createDeferred, promisifyTimeout, promisifyEvent, promisifyMarker, promisifyNextRender, promisifiedTry, promisifyTransition};
 export {tryUntil};
 
 /**
