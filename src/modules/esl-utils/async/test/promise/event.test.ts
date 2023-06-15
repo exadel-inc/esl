@@ -11,11 +11,31 @@ describe('async/promise/event', () => {
       el.dispatchEvent(new CustomEvent('test'));
       return expect(promise$.then((e) => e.type)).resolves.toBe('test');
     });
+    test('Resolved converter unsubscribes from target', async () => {
+      const el = document.createElement('div');
+      const spy = jest.spyOn(el, 'removeEventListener');
+      const promise$ = promisifyEvent(el, 'test');
+      el.dispatchEvent(new CustomEvent('test'));
+      await promise$;
+      return expect(spy).toBeCalledWith('test', expect.any(Function), undefined);
+    });
+
     test('Rejected by timeout if it is exceeded', () => {
       const el = document.createElement('div');
       const promise$ = promisifyEvent(el, 'test', 10);
       jest.advanceTimersByTime(100);
       return expect(promise$).rejects.toBeInstanceOf(Error);
+    });
+    test('Listener unsubscribed if promise was rejected by timeout', async () => {
+      const el = document.createElement('div');
+      const spy = jest.spyOn(el, 'removeEventListener');
+      const promise$ = promisifyEvent(el, 'test', 10);
+      jest.advanceTimersByTime(100);
+      try {
+        await promise$;
+      } catch {
+        expect(spy).toBeCalledWith('test', expect.any(Function), undefined);
+      }
     });
   });
 
