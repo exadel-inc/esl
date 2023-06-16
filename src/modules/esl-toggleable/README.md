@@ -1,6 +1,6 @@
 # [ESL](https://esl-ui.com/) Toggleable
 
-Version: *3.0.0*.
+Version: *3.1.0*.
 
 Authors: *Julia Murashko*, *Alexey Stsefanovich (ala'n)*.
 
@@ -18,8 +18,16 @@ Use `ESLToggleableDispatcher.init()` to initialize (and bind) `ESLToggleableDisp
 ### Toggleable Attributes / Properties
  - `open` - active state marker
 
- - `body-class` - CSS class to add on the body element
- - `active-class` - CSS class to add when the Toggleable is active
+ - `active-class` - CSS class(es) (supports CSSClassUtils syntax) to add
+   when the Toggleable is active (and remove when inactive)
+ - `body-class` - CSS class(es) (supports CSSClassUtils syntax) to add on the body element (removes when inactive).
+   *DEPRECATED* use `container-active-class` instead with `container-active-class-target="body"`
+ - `container-active-class` - CSS class(es) (supports CSSClassUtils syntax) to add
+   when the Toggleable is active (and remove when inactive) to/from 'container' element defined
+   by `container-active-class-target`.
+ - `container-active-class-target` - selector for the closest parent element to add/remove classes
+   from `container-active-class` to. The default value is `*` (direct parent).
+
  - `group` (`groupName`) - Toggleable group meta information to organize groups
  - `no-auto-id` - Disallow automatic id creation when it's empty
  - `close-on` (`closeTrigger`) - Selector to mark inner close triggers
