@@ -159,9 +159,6 @@ export class ESLCarousel extends ESLBaseElement {
 
   protected updateA11y(): void {
     // TODO: update a11y -> check a11y everywhere
-    // this.$slidesArea?.setAttribute('aria-live', 'polite');
-    // const ariaLabel = this.hasAttribute('aria-label');
-    // !ariaLabel && this.setAttribute('aria-label', 'Carousel');
   }
 
   @listen({

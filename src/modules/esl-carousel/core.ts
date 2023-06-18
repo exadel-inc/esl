@@ -18,3 +18,6 @@ export * from './plugin/autoplay/esl-carousel.autoplay.mixin';
 
 // Link Utility
 export * from './plugin/relation/esl-carousel.relation.mixin';
+
+// Renderer Default
+import './renderers/multi/esl-multi-carousel';

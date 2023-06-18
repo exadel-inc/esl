@@ -3,7 +3,6 @@ import {boolAttr, memoize} from '../../esl-utils/decorators';
 import {findNext, findPrev, findNextLooped, findPrevLooped} from '../../esl-utils/dom/traversing';
 
 import type {ESLCarousel} from './esl-carousel';
-import {success} from 'concurrently/dist/src/defaults';
 
 /**
  * ESLCarouselSlide component

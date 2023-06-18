@@ -44,6 +44,8 @@
     "src/modules/esl-media/providers/**/*.ts",
     "modules/esl-share/actions/**/*.js",
     "src/modules/esl-share/actions/**/*.ts",
+    "modules/esl-carousel/core.js",
+    "src/modules/esl-carousel/core.ts",
     "modules/esl-carousel/renderers/**/*.js",
     "src/modules/esl-carousel/renderers/**/*.ts",
     "polyfills/**/*.js",
