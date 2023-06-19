@@ -64,4 +64,18 @@ describe('ESlEventListener subscription and delegation', () => {
     el.click();
     expect(handler).toBeCalledTimes(1);
   });
+
+  test('Click on the target element leads to correct delegate information', () => {
+    const handler = jest.fn();
+    ESLEventUtils.subscribe(host, {event: 'click', selector: '.btn'}, handler);
+    btn.click();
+    expect(handler).toBeCalledWith(expect.objectContaining({$delegate: btn}));
+  });
+
+  test('Click inside the target element leads to correct delegate information', () => {
+    const handler = jest.fn();
+    ESLEventUtils.subscribe(host, {event: 'click', selector: '.btn'}, handler);
+    btnSpan.click();
+    expect(handler).toBeCalledWith(expect.objectContaining({$delegate: btn}));
+  });
 });

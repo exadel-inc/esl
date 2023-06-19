@@ -44,8 +44,9 @@ const buildAttrName =
  */
 export const jsonAttr = <T>(config: JsonAttrDescriptor<T> = {}): ESLAttributeDecorator => {
   config = Object.assign({defaultValue: {}}, config);
-  return (target: ESLDomElementTarget, propName: string): void => {
+  return (target: ESLDomElementTarget, propName: string): any => {
     const attrName = buildAttrName(config.name || propName, !!config.dataAttr);
     Object.defineProperty(target, propName, buildJsonAttrDescriptor(attrName, !!config.readonly, config.defaultValue));
+    return {};
   };
 };

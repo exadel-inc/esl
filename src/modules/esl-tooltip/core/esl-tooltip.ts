@@ -72,30 +72,14 @@ export class ESLTooltip extends ESLPopup {
   }
 
   public override connectedCallback(): void {
-    if (!this.disableArrow) {
-      this._appendArrow();
-    }
     super.connectedCallback();
     this.classList.add(ESLPopup.is);
+    this.classList.toggle('disable-arrow', this.disableArrow);
     this.tabIndex = 0;
   }
 
   /** Sets initial state of the Tooltip */
   protected override setInitialState(): void {}
-
-  /** Creates arrow at Tooltip */
-  @memoize()
-  protected _createArrow(): HTMLElement {
-    const arrow = document.createElement('span');
-    arrow.className = 'esl-popup-arrow';
-    return arrow;
-  }
-
-  /** Appends arrow to Tooltip */
-  protected _appendArrow(): void {
-    this.$arrow = this._createArrow();
-    this.appendChild(this.$arrow);
-  }
 
   /** Actions to execute on show Tooltip. */
   public override onShow(params: TooltipActionParams): void {

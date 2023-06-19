@@ -8,6 +8,11 @@ declare global {
   }
 }
 
+/** Extended event with a delegated event target */
+export type DelegatedEvent<EventType extends Event> = EventType & {
+  $delegate: Element | null;
+};
+
 /** String CSS selector to find the target or {@link EventTarget} object or array of {@link EventTarget}s */
 export type ESLListenerTarget = EventTarget | EventTarget[] | string | null;
 
