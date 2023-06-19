@@ -1,0 +1,20 @@
+{% set releasedBlogs = collections.news | released %}
+{% if releasedBlogs.length %}
+  <div class="news container">
+    <h2>{{ landing.news.title }}</h2>
+    <esl-animate target="::next::child" group></esl-animate>
+    <ul class="news-container">
+      {% for item in releasedBlogs | reverse | limit(3) %}
+        <li class="esl-animate-slide-down news-item">
+          <a class="news-content" href="{{ item.url | url }}">
+            <h4 class="news-content-name">{{ item.data.emoji }}{{ item.data.name }}</h4>
+            <div class="news-content-date">{{item.date | date}}</div>
+            <p class="news-content-text">{{ item.templateContent | text | truncate(250) }}
+              <span class="news-content-cta">{{ landing.news.cta.text }}</span>
+            </p>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}

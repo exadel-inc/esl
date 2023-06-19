@@ -4,6 +4,7 @@ name: Blog3
 title: Blog3
 tags: [blogs, draft, new]
 date: 2022-10-01
+emoji: ⚡️
 containerCls: container markdown-container
 ---
 
