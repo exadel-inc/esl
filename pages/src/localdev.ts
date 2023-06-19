@@ -33,7 +33,15 @@ import {
   ESLTooltip,
   ESLAnimate,
   ESLShare,
-  ESLRelatedTarget
+  ESLRelatedTarget,
+
+  ESLCarousel,
+  ESLCarouselNavDots,
+  ESLCarouselNavMixin,
+  ESLCarouselTouchMixin,
+  ESLCarouselKeyboardMixin,
+  ESLCarouselRelateToMixin,
+  ESLCarouselAutoplayMixin
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -101,6 +109,14 @@ ESLNote.register();
 ESLTooltip.register();
 
 ESLAnimate.register();
+
+ESLCarousel.register();
+ESLCarouselNavDots.register();
+ESLCarouselNavMixin.register();
+ESLCarouselTouchMixin.register();
+ESLCarouselKeyboardMixin.register();
+ESLCarouselRelateToMixin.register();
+ESLCarouselAutoplayMixin.register();
 
 ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
 ESLShare.register();
