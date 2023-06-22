@@ -24,7 +24,7 @@ export interface IMediaQueryCondition extends EventTarget {
 export class ESLMediaChangeEvent extends Event {
   /** `true` if the query is matched device conditions when event was dispatched */
   public readonly matches: boolean;
-  public readonly target: IMediaQueryCondition;
+  public override readonly target: IMediaQueryCondition;
 
   constructor(matches: boolean) {
     super('change');

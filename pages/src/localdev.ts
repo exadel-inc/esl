@@ -32,7 +32,9 @@ import {
   ESLFootnotes,
   ESLTooltip,
   ESLAnimate,
-  ESLAnimateMixin
+  ESLAnimateMixin,
+  ESLShare,
+  ESLRelatedTarget
 } from '../../src/modules/all';
 
 import '../../src/modules/esl-media/providers/iframe-provider';
@@ -41,10 +43,11 @@ import '../../src/modules/esl-media/providers/html5/video-provider';
 import '../../src/modules/esl-media/providers/youtube-provider';
 import '../../src/modules/esl-media/providers/brightcove-provider';
 
-import {
-  ESLCarousel,
-  ESLCarouselPlugins
-} from '../../src/modules/draft/all';
+import '../../src/modules/esl-share/actions/copy-action';
+import '../../src/modules/esl-share/actions/external-action';
+import '../../src/modules/esl-share/actions/media-action';
+import '../../src/modules/esl-share/actions/native-action';
+import '../../src/modules/esl-share/actions/print-action';
 
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
@@ -101,8 +104,8 @@ ESLTooltip.register();
 ESLAnimate.register();
 ESLAnimateMixin.register();
 
-ESLCarousel.register();
-ESLCarouselPlugins.Dots.register();
-ESLCarouselPlugins.Link.register();
-ESLCarouselPlugins.Touch.register();
-ESLCarouselPlugins.Autoplay.register();
+ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
+ESLShare.register();
+
+// Register ESL Mixins
+ESLRelatedTarget.register();

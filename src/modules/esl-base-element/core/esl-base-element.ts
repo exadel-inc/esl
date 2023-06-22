@@ -7,15 +7,15 @@ import type {
   ESLEventListener,
   ESLListenerHandler,
   ESLListenerCriteria,
-  ESLListenerEventMap,
   ESLListenerDescriptor
 } from '../../esl-utils/dom/events';
+import type {ESLBaseComponent} from '../../esl-utils/abstract/component';
 
 /**
  * Base class for ESL custom elements
  * Allows defining custom element with the optional custom tag name
  */
-export abstract class ESLBaseElement extends HTMLElement {
+export abstract class ESLBaseElement extends HTMLElement implements ESLBaseComponent {
   /** Custom element tag name */
   public static is = '';
 
@@ -24,17 +24,28 @@ export abstract class ESLBaseElement extends HTMLElement {
 
   protected _connected: boolean = false;
 
+  /** @returns custom element tag name */
+  public get baseTagName(): string {
+    return (this.constructor as typeof ESLBaseElement).is;
+  }
+
   protected connectedCallback(): void {
     this._connected = true;
-    this.classList.add((this.constructor as typeof ESLBaseElement).is);
+    this.classList.add(this.baseTagName);
 
-    ESLEventUtils.descriptors(this).forEach((desc) => ESLEventUtils.subscribe(this, desc));
+    ESLEventUtils.subscribe(this);
   }
   protected disconnectedCallback(): void {
     this._connected = false;
 
     ESLEventUtils.unsubscribe(this);
   }
+
+  /**
+   * Callback to handle changing of element attributes.
+   * Happens when attribute accessed for writing independently of the actual value change
+   */
+  protected attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {}
 
   /** Check that the element is connected and `connectedCallback` has been executed */
   public get connected(): boolean {

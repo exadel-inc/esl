@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, prop} from '../../esl-base-element/core';
 import {ready, attr, boolAttr, memoize, listen} from '../../esl-utils/decorators';
 import {ESLTooltip} from '../../esl-tooltip/core';
-import {promisifyTimeout, repeatSequence} from '../../esl-utils/async/promise';
+import {promisifyTimeout, repeatSequence} from '../../esl-utils/async';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {scrollIntoView} from '../../esl-utils/dom/scroll';
@@ -16,7 +16,7 @@ import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/m
 
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
-  public static is = 'esl-note';
+  public static override is = 'esl-note';
   public static observedAttributes = ['tooltip-shown', 'ignore'];
 
   /** Timeout before activating note (to have time to show content with this note) */
@@ -95,34 +95,39 @@ export class ESLNote extends ESLBaseElement {
   }
 
   @ready
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     this.init();
     super.connectedCallback();
     this._sendResponseToFootnote();
   }
 
   @ready
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     this._$footnotes?.unlinkNote(this);
     this.restore();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'tooltip-shown' && newVal === null) {
       this._$footnotes?.turnOffHighlight(this);
     }
     if (attrName === 'ignore') {
-      memoize.clear(this, 'queryToIgnore');
-      this.$$on(this._onBPChange);
+      this.updateIgnoredQuery();
     }
+  }
+
+  /** Revise the settings for ignoring the note */
+  public updateIgnoredQuery(): void {
+    memoize.clear(this, 'queryToIgnore');
+    this.$$on(this._onBPChange);
+    this._onBPChange();
   }
 
   /** Gets attribute value from the closest element with group behavior settings */
   protected getClosestRelatedAttr(attrName: string): string | null {
-    const tagName = (this.constructor as typeof ESLBaseElement).is;
-    const relatedAttrName = `${tagName}-${attrName}`;
+    const relatedAttrName = `${this.baseTagName}-${attrName}`;
     const $closest = this.closest(`[${relatedAttrName}]`);
     return $closest ? $closest.getAttribute(relatedAttrName) : null;
   }

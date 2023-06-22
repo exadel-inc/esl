@@ -1,24 +1,34 @@
-export type AttributeTarget = {$host: Element};
-export type AttributeDecorator = (target: Element | AttributeTarget, propName: string) => void;
+import {resolveDomTarget} from '../abstract/dom-target';
 
-/** @returns if attribute presented */
-export function hasAttr($el: Element | AttributeTarget, name: string): boolean {
-  if ('$host' in $el) $el = $el.$host;
+import type {ESLDomElementTarget} from '../abstract/dom-target';
+
+export type ESLAttributeTarget = undefined | null | ESLDomElementTarget | ESLDomElementTarget[];
+export type ESLAttributeDecorator = (target: ESLDomElementTarget, propName: string) => void;
+
+/** @returns true if attribute presented */
+export function hasAttr($el: ESLAttributeTarget, name: string): boolean {
+  if (Array.isArray($el)) return $el.every((element: Element) => hasAttr(element, name));
+  if (!($el = resolveDomTarget($el))) return false;
   return $el.hasAttribute(name);
 }
 
 /** @returns attribute or passed fallback value. Identical to getAttribute by default */
-export function getAttr($el: Element | AttributeTarget, name: string): string | null;
-export function getAttr<T>($el: Element | AttributeTarget, name: string, fallback: T): string | T;
-export function getAttr($el: Element | AttributeTarget, name: string, fallback: string | null = null): string | null {
-  if ('$host' in $el) $el = $el.$host;
+export function getAttr($el: ESLAttributeTarget, name: string): string | null;
+export function getAttr<T>($el: ESLAttributeTarget, name: string, fallback: T): string | T;
+export function getAttr($el: ESLAttributeTarget, name: string, fallback: string | null = null): string | null {
+  if (Array.isArray($el)) return getAttr($el[0], name);
+  if (!($el = resolveDomTarget($el))) return null;
   const value = $el.getAttribute(name);
   return value === null ? fallback : value;
 }
 
-/** Set attribute */
-export function setAttr($el: Element | AttributeTarget, name: string, value: undefined | null | boolean | string): void {
-  if ('$host' in $el) $el = $el.$host;
+/** Sets attribute */
+export function setAttr($el: ESLAttributeTarget, name: string, value: undefined | null | boolean | string): void {
+  if (Array.isArray($el)) {
+    $el.forEach((element: Element) => setAttr(element, name, value));
+    return;
+  }
+  if (!($el = resolveDomTarget($el))) return;
   if (value === undefined || value === null || value === false) {
     $el.removeAttribute(name);
   } else {

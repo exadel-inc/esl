@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {rafDecorator} from '../../esl-utils/async/raf';
 import {memoize, attr, listen, decorate} from '../../esl-utils/decorators';
-import {RTLUtils} from '../../esl-utils/dom/rtl';
+import {isRTL, RTLScroll} from '../../esl-utils/dom/rtl';
 import {debounce} from '../../esl-utils/async/debounce';
 import {ESLMediaRuleList} from '../../esl-media-query/core/esl-media-rule-list';
 import {ESLTab} from './esl-tab';
@@ -17,14 +17,14 @@ import {ESLTab} from './esl-tab';
  */
 @ExportNs('Tabs')
 export class ESLTabs extends ESLBaseElement {
-  public static is = 'esl-tabs';
+  public static override is = 'esl-tabs';
   public static observedAttributes = ['scrollable'];
 
   /** List of supported scrollable types */
   public static supportedScrollableTypes = ['disabled', 'side', 'center'];
 
   /**
-   * Scrollable mode.
+   * Scrollable mode (supports {@link ESLMediaRuleList}).
    * Supported types for different breakpoints ('disabled' by default):
    * - 'disabled' or not defined -  scroll behavior is disabled;
    * - 'center' - scroll behavior is enabled, tab is center-aligned;
@@ -47,15 +47,15 @@ export class ESLTabs extends ESLBaseElement {
 
   /** @returns current scrollable type */
   public get currentScrollableType(): string {
-    return this.scrollableTypeRules.activeValue || '';
+    return this.scrollableTypeRules.activeValue || 'side';
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     this.updateScrollableType();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'scrollable') {
       memoize.clear(this, 'scrollableTypeRules');
@@ -99,7 +99,7 @@ export class ESLTabs extends ESLBaseElement {
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget) return;
     let left = $scrollableTarget.offsetWidth;
-    left = RTLUtils.isRtl(this) && RTLUtils.scrollType !== 'reverse' ? -left : left;
+    left = isRTL(this) && RTLScroll.type !== 'reverse' ? -left : left;
     left = direction === 'left' ? -left : left;
 
     $scrollableTarget.scrollBy({left, behavior});
@@ -125,7 +125,7 @@ export class ESLTabs extends ESLBaseElement {
 
   /** Get scroll offset position from the selected item rectangle */
   protected calcScrollOffset(itemRect: DOMRect, areaRect: DOMRect): number | undefined {
-    const isReversedRTL = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'reverse';
+    const isReversedRTL = isRTL(this) && RTLScroll.type === 'reverse';
 
     if (this.currentScrollableType === 'center') {
       const shift = itemRect.left + itemRect.width / 2 - (areaRect.left + areaRect.width / 2);
@@ -145,7 +145,7 @@ export class ESLTabs extends ESLBaseElement {
     const $scrollableTarget = this.$scrollableTarget;
     if (!$scrollableTarget) return;
 
-    const swapSides = RTLUtils.isRtl(this) && RTLUtils.scrollType === 'default';
+    const swapSides = isRTL(this) && RTLScroll.type === 'default';
     const scrollStart = Math.abs($scrollableTarget.scrollLeft) > 1;
     const scrollEnd = Math.abs($scrollableTarget.scrollLeft) + $scrollableTarget.clientWidth + 1 < $scrollableTarget.scrollWidth;
 
@@ -166,6 +166,9 @@ export class ESLTabs extends ESLBaseElement {
 
   /** Update element state according to scrollable type */
   protected updateScrollableType(): void {
+    ESLTabs.supportedScrollableTypes.forEach((type) => {
+      this.$$cls(`scrollable-${type}`, this.currentScrollableType === type);
+    });
     this._deferredFitToViewport(this.$current);
 
     if (this.currentScrollableType === 'disabled') {

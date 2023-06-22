@@ -27,7 +27,7 @@ export type ESLMediaFillMode = 'cover' | 'inscribe' | '';
  */
 @ExportNs('Media')
 export class ESLMedia extends ESLBaseElement {
-  public static is = 'esl-media';
+  public static override is = 'esl-media';
   public static observedAttributes = [
     'disabled',
     'load-condition',
@@ -77,7 +77,7 @@ export class ESLMedia extends ESLBaseElement {
   /** Autoplay resource marker */
   @boolAttr() public autoplay: boolean;
   /** Autofocus on play marker */
-  @boolAttr() public autofocus: boolean;
+  @boolAttr() public override autofocus: boolean;
   /** Mute resource marker */
   @boolAttr() public muted: boolean;
   /** Loop resource play */
@@ -132,7 +132,7 @@ export class ESLMedia extends ESLBaseElement {
     return ESLMediaProviderRegistry.instance.has(name);
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'application');
@@ -143,14 +143,14 @@ export class ESLMedia extends ESLBaseElement {
     this.deferredReinitialize();
   }
 
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.unbindEvents();
     this.detachViewportConstraint();
     this._provider && this._provider.unbind();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     switch (attrName) {
       case 'disabled':

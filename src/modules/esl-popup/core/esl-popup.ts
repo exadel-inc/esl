@@ -5,7 +5,7 @@ import {ESLTraversingQuery} from '../../esl-traversing-query/core';
 import {afterNextRender, rafDecorator} from '../../esl-utils/async/raf';
 import {ESLToggleable} from '../../esl-toggleable/core';
 import {Rect} from '../../esl-utils/dom/rect';
-import {RTLUtils} from '../../esl-utils/dom/rtl';
+import {isRTL} from '../../esl-utils/dom/rtl';
 import {getListScrollParents} from '../../esl-utils/dom/scroll';
 import {getWindowRect} from '../../esl-utils/dom/window';
 import {parseNumber} from '../../esl-utils/misc/format';
@@ -58,9 +58,8 @@ export interface ActivatorObserver {
 
 @ExportNs('Popup')
 export class ESLPopup extends ESLToggleable {
-  public static is = 'esl-popup';
+  public static override is = 'esl-popup';
 
-  public $arrow: HTMLElement | null;
   public $placeholder: ESLPopupPlaceholder | null;
 
   protected _containerEl?: HTMLElement;
@@ -71,6 +70,9 @@ export class ESLPopup extends ESLToggleable {
   protected _intersectionMargin: string;
   protected _intersectionRatio: IntersectionRatioRect = {};
   protected _updateLoopID: number;
+
+  /** Classname of popups arrow element */
+  @attr({defaultValue: 'esl-popup-arrow'}) public arrowClass: string;
 
   /**
    * Popup position relative to the trigger.
@@ -106,10 +108,16 @@ export class ESLPopup extends ESLToggleable {
     offsetContainer: 15,
     intersectionMargin: '0px'
   }})
-  public defaultParams: PopupActionParams;
+  public override defaultParams: PopupActionParams;
 
-  @prop() public closeOnEsc = true;
-  @prop() public closeOnOutsideAction = true;
+  @prop() public override closeOnEsc = true;
+  @prop() public override closeOnOutsideAction = true;
+
+  /** Arrow element */
+  @memoize()
+  public get $arrow(): HTMLElement | null {
+    return this.querySelector(`.${this.arrowClass}`) || this.appendArrow();
+  }
 
   /** Container element that define bounds of popups visibility */
   @memoize()
@@ -126,10 +134,14 @@ export class ESLPopup extends ESLToggleable {
   }
 
   @ready
-  public connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
-    this.$arrow = this.querySelector('span.esl-popup-arrow');
     this.moveToBody();
+  }
+
+  protected override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    memoize.clear(this, '$arrow');
   }
 
   /** Checks that the position along the horizontal axis */
@@ -148,7 +160,7 @@ export class ESLPopup extends ESLToggleable {
   @memoize()
   protected get _offsetArrowRatio(): number {
     const ratio = parsePercent(this.offsetArrow, DEFAULT_OFFSET_ARROW) / 100;
-    return RTLUtils.isRtl(this) ? 1 - ratio : ratio;
+    return isRTL(this) ? 1 - ratio : ratio;
   }
 
   /** Moves popup into document.body */
@@ -165,12 +177,21 @@ export class ESLPopup extends ESLToggleable {
     document.body.appendChild(this);
   }
 
+  /** Appends arrow to Popup */
+  public appendArrow(): HTMLElement {
+    const $arrow = document.createElement('span');
+    $arrow.className = this.arrowClass;
+    this.appendChild($arrow);
+    memoize.clear(this, '$arrow');
+    return $arrow;
+  }
+
   /**
    * Actions to execute on show popup.
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Adds CSS classes, update a11y and fire esl:refresh event by default.
    */
-  public onShow(params: PopupActionParams): void {
+  protected override onShow(params: PopupActionParams): void {
     super.onShow(params);
 
     if (params.position) {
@@ -206,7 +227,7 @@ export class ESLPopup extends ESLToggleable {
    * Inner state and 'open' attribute are not affected and updated before `onShow` execution.
    * Removes CSS classes and updates a11y by default.
    */
-  public onHide(params: PopupActionParams): void {
+  protected override onHide(params: PopupActionParams): void {
     this.beforeOnHide();
     super.onHide(params);
 

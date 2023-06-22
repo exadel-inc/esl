@@ -45,6 +45,12 @@
       margin-top: @popupArrowShift;
     }
   }
+
+  &.disable-arrow {
+    .@{arrowClassName} {
+      display: none;
+    }
+  }
 }
 
 .esl-popup-init(@className: esl-popup,

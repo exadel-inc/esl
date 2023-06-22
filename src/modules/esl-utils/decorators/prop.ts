@@ -20,7 +20,7 @@ export type OverrideDecoratorConfig = {
  * @param prototypeConfig - prototype property configuration
  */
 export function prop(value?: any, prototypeConfig: OverrideDecoratorConfig = {}) {
-  return function (obj: any, name: string): void {
+  return function (obj: any, name: string): any {
     if (Object.hasOwnProperty.call(obj, name)) {
       throw new TypeError('Can\'t override own property');
     }
@@ -30,5 +30,6 @@ export function prop(value?: any, prototypeConfig: OverrideDecoratorConfig = {})
       enumerable:  !prototypeConfig.enumerable,
       configurable: true
     });
+    return {};
   };
 }

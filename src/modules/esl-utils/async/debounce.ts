@@ -1,7 +1,7 @@
-import {createDeferred} from './promise';
+import {createDeferred} from './promise/defered';
 
 import type {AnyToAnyFnSignature} from '../misc/functions';
-import type {Deferred} from './promise';
+import type {Deferred} from './promise/defered';
 
 /** Debounced<F> is a function wrapper type for a function decorated via debounce */
 export interface Debounced<F extends AnyToAnyFnSignature> {

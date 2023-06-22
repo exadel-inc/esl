@@ -4,22 +4,48 @@ import {ESLMixinElement} from '../core';
 describe('ESLMixinElement', () => {
   describe('register', () => {
     class TestMixin extends ESLMixinElement {
-      static is = 'test-mixin';
+      static override is = 'test-mixin';
     }
 
-    test('init', async () => {
+    test('Existing ESLMixinElement attribute handled on registration', () => {
       const $el = document.createElement('div');
       $el.toggleAttribute(TestMixin.is, true);
       document.body.appendChild($el);
       TestMixin.register();
       expect(TestMixin.get($el)).toBeInstanceOf(ESLMixinElement);
+    });
 
+    test('ESLMixinElement appears on new element with attribute', async () => {
+      TestMixin.register();
+      const $el = document.createElement('div');
+      $el.toggleAttribute(TestMixin.is, true);
+      document.body.appendChild($el);
+      await Promise.resolve(); // Wait for next microtask
+      expect(TestMixin.get($el)).toBeInstanceOf(ESLMixinElement);
+    });
+
+    test('ESLMixinElement removed when attribute is removed on new element with attribute', async () => {
+      TestMixin.register();
+      const $el = document.createElement('div');
+      $el.toggleAttribute(TestMixin.is, true);
+      document.body.appendChild($el);
+      await Promise.resolve(); // Wait for next microtask
+      expect(TestMixin.get($el)).toBeInstanceOf(ESLMixinElement);
       $el.toggleAttribute(TestMixin.is, false);
       await Promise.resolve(); // Wait for next microtask
       expect(TestMixin.get($el)).toBe(null);
       $el.toggleAttribute(TestMixin.is, true);
       await Promise.resolve(); // Wait for next microtask
       expect(TestMixin.get($el)).toBeInstanceOf(ESLMixinElement);
+    });
+
+    test('ESLMixinElement can be resolved by mixin name', async () => {
+      const $el = document.createElement('div');
+      $el.toggleAttribute(TestMixin.is, true);
+      document.body.appendChild($el);
+      TestMixin.register();
+      await Promise.resolve(); // Wait for next microtask
+      expect(ESLMixinElement.get($el, TestMixin.is)).toBe(TestMixin.get($el));
     });
 
     test('init child', async () => {
@@ -35,7 +61,7 @@ describe('ESLMixinElement', () => {
       expect(TestMixin.get($el)).toBeInstanceOf(ESLMixinElement);
     });
 
-    afterAll(() => {
+    afterEach(() => {
       while (document.body.lastElementChild) document.body.removeChild(document.body.lastElementChild);
     });
   });

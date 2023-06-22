@@ -13,7 +13,7 @@ import type {FootnotesItem} from './esl-footnotes-data';
 
 @ExportNs('Footnotes')
 export class ESLFootnotes extends ESLBaseElement {
-  static is = 'esl-footnotes';
+  static override is = 'esl-footnotes';
 
   /** Event to request acknowledgment from {@link ESLNotes} instances */
   @prop('esl:footnotes:request') public FOOTNOTE_REQUEST_EVENT: string;
@@ -51,13 +51,13 @@ export class ESLFootnotes extends ESLBaseElement {
       : compileFootnotesGroupedList(this._notes);
   }
 
-  protected connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
 
     this._notifyNotes();
   }
 
-  protected disconnectedCallback(): void {
+  protected override disconnectedCallback(): void {
     super.disconnectedCallback();
 
     this._notes.forEach((el) => el.unlink());
