@@ -40,7 +40,7 @@ interface ESLAnimateMixinOptionsInner extends Required<ESLAnimateMixinOptions> {
  */
 @ExportNs('AnimateMixin')
 export class ESLAnimateMixin extends ESLMixinElement {
-  public static is = 'esl-animate';
+  public static override is = 'esl-animate';
 
   public static defaultConfig: ESLAnimateMixinOptionsInner = {
     force: true,
@@ -58,13 +58,13 @@ export class ESLAnimateMixin extends ESLMixinElement {
   }
 
   @ready
-  public connectedCallback(): void {
+  public override connectedCallback(): void {
     super.connectedCallback();
     this.reanimate();
   }
 
   @ready
-  public disconnectedCallback(): void {
+  public override disconnectedCallback(): void {
     super.disconnectedCallback();
     ESLAnimateService.unobserve(this.$host);
   }
