@@ -2,7 +2,7 @@
 layout: content
 name: ESL v4.0.0
 title: ESL v4.0.0
-tags: [blogs, draft]
+tags: [blogs, news, draft]
 date: 2022-10-01
 emoji: ⚡️
 containerCls: container markdown-container

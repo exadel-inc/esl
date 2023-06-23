@@ -1,6 +1,6 @@
 @import (reference) "../../common/variables.less";
 
-.news {
+.newsline {
   position: relative;
   margin: 5rem auto;
 
@@ -12,6 +12,7 @@
   }
 
   &-content {
+    width: 100%;
     padding: 10px 45px;
     color: white;
     background-size: 0% 100%;
@@ -28,6 +29,7 @@
     }
 
     &-cta {
+      display: inline-block;
       color: @nav-dark-hover;
       font-weight: bold;
 
@@ -36,16 +38,33 @@
     }
 
     &-date {
-      padding: 5px 0 15px;
       font-size: .7em;
     }
 
     &-name {
+      padding-bottom: 5px;
       font-size: 1.5rem;
     }
 
     &-text {
       font-size: 1rem;
+
+      h1, .h1 {
+        font-size: 1.6rem;
+      }
+      h2, .h2 {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+      }
+      h3, .h3 {
+        font-size: 1.3rem;
+      }
+      h4, .h4 {
+        font-size: 1.2rem;
+      }
+      h5, .h5 {
+        font-size: 1.1rem;
+      }
     }
 
     &:hover {
@@ -61,7 +80,7 @@
         border-color: @nav-dark-accent;
       }
 
-      .news-content {
+      .newsline-content {
         &-cta {
           opacity: 1;
         }

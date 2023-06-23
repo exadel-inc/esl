@@ -1,0 +1,22 @@
+{% set releasedNews = collections.news | released %}
+{% if releasedNews.length %}
+  <div class="newsline container">
+    <h2>{{ landing.news.title }}</h2>
+    <esl-animate target="::next::child" group></esl-animate>
+    <ul class="newsline-container">
+      {% for item in releasedNews | reverse | limit(3) %}
+        <li class="esl-animate-slide-down newsline-item">
+          <a class="newsline-content" href="{{ item.data.link or (item.url | url) }}">
+            <h4 class="newsline-content-name">{{ item.data.emoji }}{{ item.data.name }}</h4>
+            {% if item.data.date %}
+              <p class="newsline-content-date">{{ item.date | date }}</p>
+            {% endif %}
+            <div class="newsline-content-text">
+              {% mdRenderTruncate item.templateContent %}
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
