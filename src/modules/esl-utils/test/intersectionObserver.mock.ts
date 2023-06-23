@@ -14,10 +14,12 @@ export class IntersectionObserverMock implements IntersectionObserver {
     return [];
   }
 
-  public takeRecords(): any {}
+  public takeRecords(): IntersectionObserverEntry[] {
+    return [];
+  }
 
   @bind
-  private _onObserve(e: any): void {
+  private _onObserve(e: CustomEvent): void {
     const {intersectionRatio, isIntersecting} = e.detail;
     this.callback([{intersectionRatio, target: e.target, isIntersecting}] as IntersectionObserverEntry[], this);
   }
