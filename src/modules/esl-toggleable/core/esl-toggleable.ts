@@ -238,7 +238,7 @@ export class ESLToggleable extends ESLBaseElement {
     CSSClassUtils.add(document.body, this.bodyClass, this);
     if (this.containerActiveClass) {
       const $container = findParent(this, this.containerActiveClassTarget);
-      $container && CSSClassUtils.add($container, this.containerActiveClass);
+      $container && CSSClassUtils.add($container, this.containerActiveClass, this);
     }
 
     this.updateA11y();
@@ -255,7 +255,7 @@ export class ESLToggleable extends ESLBaseElement {
     CSSClassUtils.remove(document.body, this.bodyClass, this);
     if (this.containerActiveClass) {
       const $container = findParent(this, this.containerActiveClassTarget);
-      $container && CSSClassUtils.remove($container, this.containerActiveClass);
+      $container && CSSClassUtils.remove($container, this.containerActiveClass, this);
     }
     this.updateA11y();
   }

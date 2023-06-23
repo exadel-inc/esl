@@ -21,12 +21,11 @@ Use `ESLToggleableDispatcher.init()` to initialize (and bind) `ESLToggleableDisp
  - `active-class` - CSS class(es) (supports CSSClassUtils syntax) to add
    when the Toggleable is active (and remove when inactive)
  - `body-class` - CSS class(es) (supports CSSClassUtils syntax) to add on the body element (removes when inactive).
-   *DEPRECATED* use `container-active-class` instead with `container-active-class-target="body"`
  - `container-active-class` - CSS class(es) (supports CSSClassUtils syntax) to add
    when the Toggleable is active (and remove when inactive) to/from 'container' element defined
    by `container-active-class-target`.
  - `container-active-class-target` - selector for the closest parent element to add/remove classes
-   from `container-active-class` to. The default value is `*` (direct parent).
+   from `container-active-class`. The default value is `*` (direct parent).
 
  - `group` (`groupName`) - Toggleable group meta information to organize groups
  - `no-auto-id` - Disallow automatic id creation when it's empty

@@ -6,10 +6,7 @@ import type {ESLToggleable} from './esl-toggleable';
  * Used for TSX declaration
  */
 export interface ESLToggleableTagShape<T extends ESLToggleable = ESLToggleable> extends ESLBaseElementShape<T> {
-  /**
-   * Define CSS class to add on the body element
-   * @deprecated use 'related-active-class' instead
-   */
+  /** Define CSS class to add on the body element */
   'body-class'?: string;
   /** Define CSS class to add when the Toggleable is active */
   'active-class'?: string;
