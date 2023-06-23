@@ -18,7 +18,7 @@ describe('ESLAnimate element', () => {
 
   afterAll(() => jest.useRealTimers());
 
-  afterEach(() => jest.clearAllMocks());
+  afterEach(() => jest.resetAllMocks());
 
   test('ESLAnimate instance', () => expect($el).toBeInstanceOf(ESLAnimate));
 

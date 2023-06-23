@@ -17,19 +17,19 @@ describe('ESLAnimateMixin', () => {
   document.body.appendChild($el);
 
   ESLAnimateMixin.register();
-  const mixin = ESLAnimateMixin.get($el) as ESLAnimateMixin;
+  const mixin: ESLAnimateMixin = ESLAnimateMixin.get($el)!;
 
-  afterEach(() => jest.clearAllMocks());
+  afterEach(() => jest.resetAllMocks());
 
   test('ESLAnimateMixin instance', () => {
     expect(mixin).toBeInstanceOf(ESLAnimateMixin);
-    expect(ESLAnimateService.observe).toBeCalledWith($el, {cls: 'in', force: true, ratio: 0.4, repeat: false});
+    expect(ESLAnimateService.observe).toBeCalledWith($el, {force: true});
   });
 
   test('manual reanimate call', () => {
     mixin.options = {repeat: true};
     mixin.reanimate();
-    expect(ESLAnimateService.observe).toBeCalledWith($el, {cls: 'in', force: true, ratio: 0.4, repeat: true});
+    expect(ESLAnimateService.observe).toBeCalledWith($el, {force: true, repeat: true});
   });
 
   test('disconnected callback', async () => {
