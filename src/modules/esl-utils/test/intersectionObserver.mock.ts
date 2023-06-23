@@ -1,11 +1,8 @@
 import {ESLEventUtils} from '../../esl-event-listener/core/api';
-import {bind} from '../../esl-utils/decorators';
+import {bind} from '../decorators/bind';
 
-export function triggerIntersection($el: Element, cfg: Partial<IntersectionObserverEntryInit>): void {
-  ESLEventUtils.dispatch($el, 'intersection', {detail: cfg});
-}
-
-export class IntersectionObserverMock {
+let original: typeof IntersectionObserver;
+export class IntersectionObserverMock implements IntersectionObserver {
 
   public constructor(public callback: IntersectionObserverCallback) {}
 
@@ -34,4 +31,16 @@ export class IntersectionObserverMock {
   }
 
   public disconnect = jest.fn();
+
+  public static trigger($el: Element, cfg: Partial<IntersectionObserverEntryInit>): void {
+    ESLEventUtils.dispatch($el, 'intersection', {detail: cfg});
+  }
+
+  public static mock(): void {
+    original = window.IntersectionObserver;
+    window.IntersectionObserver = jest.fn((cb) => new IntersectionObserverMock(cb));
+  }
+  public static unmock(): void {
+    window.IntersectionObserver = original;
+  }
 }
