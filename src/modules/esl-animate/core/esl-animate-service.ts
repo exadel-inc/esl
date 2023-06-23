@@ -68,7 +68,7 @@ export class ESLAnimateService {
 
   /** @returns if service observing target */
   public static isObserved(target: Element): boolean {
-    return !!this.instance._configMap.get(target);
+    return this.instance.isObserved(target);
   }
 
   @memoize()
@@ -98,6 +98,11 @@ export class ESLAnimateService {
   public unobserve(el: Element): void {
     this._io.unobserve(el);
     this._configMap.delete(el);
+  }
+
+  /** @returns if service observing target */
+  public isObserved(target: Element): boolean {
+    return !!this._configMap.get(target);
   }
 
   /** Intersection observable callback */

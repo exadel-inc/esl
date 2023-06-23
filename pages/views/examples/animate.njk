@@ -13,7 +13,7 @@ aside:
   <h2>Simple animation</h2>
 
   <div class="simple-grid simple-grid-fw">
-    {% for i in range(0, 4) -%}
+    {% for i in range(0, 2) -%}
       <esl-animate repeat class="esl-animate-fade simple-grid-cell bg-green round text-white h3 text-center p-4">
         esl-animate-fade
       </esl-animate>
@@ -37,9 +37,18 @@ aside:
   <h2>Grouped and repetitive animation</h2>
   <ul class="round simple-grid">
     <esl-animate target="::parent::child(li)" group repeat></esl-animate>
-    {% for i in range(0, 72) -%}
-      <li class="bg-blue round esl-animate-slide-up simple-grid-cell {{ 'hide-xs' if i >= 12 }}"
-          is="my-comp my-com-2"></li>
+    {% for i in range(0, 36) -%}
+      <li class="bg-blue round esl-animate-slide-up simple-grid-cell {{ 'hide-xs' if i >= 12 }}"></li>
+    {%- endfor %}
+  </ul>
+</section>
+
+<section>
+  <h2>Grouped animation with custom delay by mixin</h2>
+  <ul class="round simple-grid">
+    {% for i in range(0, 36) -%}
+      <li class="bg-orange round esl-animate-slide-left simple-grid-cell {{ 'hide-xs' if i >= 12 }}"
+          esl-animate="{group: true, groupDelay: 50}"></li>
     {%- endfor %}
   </ul>
 </section>

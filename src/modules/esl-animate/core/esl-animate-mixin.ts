@@ -27,7 +27,7 @@ export class ESLAnimateMixin extends ESLMixinElement {
 
   protected mergeDefaultParams(): ESLAnimateConfig {
     const type = this.constructor as typeof ESLAnimateMixin;
-    return Object.assign({}, type.defaultConfig, this.options, {ratio: this.options?.ratio || type.defaultConfig.ratio});
+    return Object.assign({}, type.defaultConfig, this.options);
   }
 
   @ready

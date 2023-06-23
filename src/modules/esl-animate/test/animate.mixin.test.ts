@@ -11,7 +11,7 @@ jest.mock('../../esl-utils/dom/ready', () => ({
   onDocumentReady: (cb: any) => cb()
 }));
 
-describe('ESLAnimateMixin', () => {
+describe('ESLAnimateMixin mixin', () => {
   const $el = document.createElement('div');
   $el.toggleAttribute(ESLAnimateMixin.is, true);
   document.body.appendChild($el);
