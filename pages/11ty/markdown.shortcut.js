@@ -106,7 +106,6 @@ class MDRenderer {
 }
 
 module.exports = (config) => {
-  console.log(config)
   config.addNunjucksAsyncShortcode('mdRender', MDRenderer.render);
   config.addNunjucksAsyncShortcode('mdRenderTruncate', MDRenderer.renderTruncate);
 };
