@@ -29,6 +29,8 @@ it moves itself to the `document.body` and leaves an `ESLPopupPlaceholder` eleme
 - `container` - defines container element ([ESLTraversingQuery](../esl-traversing-query/README.md) selector) to determinate bounds of popup visibility (window by default)
   
 - `disable-activator-observation` (boolean) - disable hiding the popup depending on the visibility of the activator
+
+- `arrow-class` - the class name of the element that is the popup's arrow (`esl-popup-arrow` by default)
   
 - `margin-arrow` - margins on the edges of the arrow. This is the value in pixels that will be between the edge of the popup and the arrow at extreme positions of the arrow when offsetArrow is set to 0 or 100 (5 by default)
   
