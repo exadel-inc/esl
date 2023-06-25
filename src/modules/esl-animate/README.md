@@ -33,7 +33,7 @@ animated.
   - `els` - element or array of elements to observe and animate
   - `config` - optional ESLAnimateConfig object to describe the behavior of the animation functionality
 - `ESLAnimateService.unobserve(els)` - method to unsubscribe ESLAnimateService from observing elements
-- `ESLAnimateService.isObserved(el)` - check if the element observed by ESLAnimateService
+- `ESLAnimateService.isObserved(el)` - check if the element is observed by ESLAnimateService
 
 You can also create a separate (from global) `ESLAnimateService` instance by calling its constructor.
 

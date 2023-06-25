@@ -42,7 +42,7 @@ export class ESLAnimateMixin extends ESLMixinElement {
     ESLAnimateService.unobserve(this.$host);
   }
 
-  /** Reinitialize {@link ESLAnimateService} for targets */
+  /** Reinitialize {@link ESLAnimateService} for target */
   public reanimate(): void {
     ESLAnimateService.unobserve(this.$host);
     ESLAnimateService.observe(this.$host, this.mergeDefaultParams());
