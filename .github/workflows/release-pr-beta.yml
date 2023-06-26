@@ -25,7 +25,7 @@ jobs:
           versioning-strategy: default
           release-type: node
           command: release-pr
-          prerelease: pre-release
+          prerelease: true
           changelog-types: '[
             {"type":"feat", "section":"Features", "hidden":false},
             {"type":"fix", "section":"Bug Fixes", "hidden":false},
