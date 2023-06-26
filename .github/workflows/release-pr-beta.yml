@@ -1,4 +1,4 @@
-name: Release PR
+name: Release PR Beta
 
 on:
   push:
