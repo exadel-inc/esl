@@ -59,6 +59,19 @@
 * **esl-mixin-element:** mixin primary attribute observed unconditionally by mixin manager ([c6741a4](https://github.com/exadel-inc/esl/commit/c6741a4dddafc11a5017b8bad9cfbf0408aa2ab2))
 
 
+## [4.8.0](https://github.com/exadel-inc/esl/compare/v4.7.1...v4.8.0) (2023-06-26)
+
+
+### Features
+
+* **esl-toggleable:** ability to set up state class to any related element ([#1728](https://github.com/exadel-inc/esl/issues/1728)) ([648b114](https://github.com/exadel-inc/esl/commit/648b1149b1dc336779350fdea25f1cd90f4837f7)), closes [#1727](https://github.com/exadel-inc/esl/issues/1727)
+
+
+### Refactoring
+
+* **esl-animate:** refactor mixin implementation and types ([0fdbaf3](https://github.com/exadel-inc/esl/commit/0fdbaf3f2eab7440d2291628c5f1b9f2991f705a))
+* **esl-animate:** refactor service implementation ([89403e1](https://github.com/exadel-inc/esl/commit/89403e15101735a0523fe5eeb5e435e3e3bcdfd1))
+
 ## [4.4.1](https://github.com/exadel-inc/esl/compare/v4.4.0...v4.4.1) (2023-04-25)
 
 
