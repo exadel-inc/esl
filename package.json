@@ -85,7 +85,7 @@
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
     "@11ty/eleventy-dev-server": "^1.0.4",
-    "@commitlint/cli": "^17.6.5",
+    "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
     "@juggle/resize-observer": "^3.4.0",
     "@semantic-release/changelog": "^6.0.3",
