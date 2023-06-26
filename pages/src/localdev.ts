@@ -32,6 +32,7 @@ import {
   ESLFootnotes,
   ESLTooltip,
   ESLAnimate,
+  ESLAnimateMixin,
   ESLShare,
   ESLRelatedTarget,
 
@@ -109,6 +110,7 @@ ESLNote.register();
 ESLTooltip.register();
 
 ESLAnimate.register();
+ESLAnimateMixin.register();
 
 ESLCarousel.register();
 ESLCarouselNavDots.register();

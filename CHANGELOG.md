@@ -11,6 +11,14 @@
 * **esl-utils:** introduce `promisifyTransition` utility ([9dbabfc](https://github.com/exadel-inc/esl/commit/9dbabfc982f97c8fe3ef04f9f35e66877ab04531))
 * **esl-utils:** utility to postpone execution to microtask ([2a4c8c5](https://github.com/exadel-inc/esl/commit/2a4c8c59cbdc36a31c7dc370944abce1713b21b2))
 
+# [4.8.0](https://github.com/exadel-inc/esl/compare/v4.7.1...v4.8.0) (2023-06-26)
+
+
+### Features
+
+* **esl-animate:** animate mixin element ([9f9c156](https://github.com/exadel-inc/esl/commit/9f9c156c098df5d4de61e7cc7d13753e38a0391f))
+* **esl-toggleable:** ability to set up state class to any related element ([#1728](https://github.com/exadel-inc/esl/issues/1728)) ([648b114](https://github.com/exadel-inc/esl/commit/648b1149b1dc336779350fdea25f1cd90f4837f7)), closes [#1727](https://github.com/exadel-inc/esl/issues/1727)
+
 ## [4.7.1](https://github.com/exadel-inc/esl/compare/v4.7.0...v4.7.1) (2023-06-15)
 
 
