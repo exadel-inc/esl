@@ -6,7 +6,7 @@
   <esl-animate target="::next::child" group></esl-animate>
   <ul class="blogs-container">
     {% for item in releasedBlogs | reverse | limit(3) %}
-      <li class="blogs-item esl-animate-slide-left">
+      <li class="blogs-item esl-animate-slide left">
         <div class="blogs-content">
           <h4 class="blogs-content-name">{{ item.data.name }}</h4>
           <p class="blogs-content-text">{{ item.templateContent | text | truncate(250) }}</p>
