@@ -30,7 +30,7 @@ jobs:
             {"type":"fix", "section":"Bug Fixes", "hidden":false},
             {"type":"refactor", "section":"Refactoring", "hidden":false}
           ]'
-          pull-request-title-pattern: 'chore${scope}: release ${component} ${version}'
+          pull-request-title-pattern: 'chore${scope}: release ${component} v${version}'
           labels: 'release: processed'
           release-labels: 'released'
 
