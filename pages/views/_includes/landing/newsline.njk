@@ -9,7 +9,7 @@
           <a class="newsline-content" href="{{ item.data.link or (item.url | url) }}">
             <h4 class="newsline-content-name">{{ item.data.emoji }}{{ item.data.name }}</h4>
             {% if item.data.date %}
-              <p class="newsline-content-date">{{ item.date | date }}</p>
+              <time class="newsline-content-date">{{ item.date | date }}</time>
             {% endif %}
             <div class="newsline-content-text">
               {% mdWrap item.templateContent %}
