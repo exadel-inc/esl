@@ -37,6 +37,9 @@ export class ESLNote extends ESLBaseElement {
   /** Media query to specify that footnotes must ignore this note. Default: `not all` */
   @attr({defaultValue: 'not all'}) public ignore: string;
 
+  /** Media query to specify that footnotes must be in the print version. Default: `all` */
+  @attr({defaultValue: 'all'}) public print: string;
+
   /** Tooltip content */
   @attr() public html: string;
   /**
@@ -73,13 +76,18 @@ export class ESLNote extends ESLBaseElement {
     return !this.queryToIgnore.matches;
   }
 
+  /** Marker to allow print version of this note */
+  public get allowPrint(): boolean {
+    return this.queryToPrint.matches;
+  }
+
   /** Note index in the scope content */
   public get index(): number {
     return this._index;
   }
   public set index(value: number) {
     this._index = value;
-    this.innerHTML = this.renderedIndex;
+    this.innerHTML = this.renderedHTML;
   }
 
   /** Note index in the displayed list of footnotes */
@@ -87,11 +95,24 @@ export class ESLNote extends ESLBaseElement {
     return this.allowFootnotes ? `${this._index}` : this.standaloneLabel;
   }
 
+  /** Note markup */
+  protected get renderedHTML(): string {
+    const index = this.renderedIndex;
+    return this.allowPrint && this.allowFootnotes ? this.wrap(index) : index;
+  }
+
   /** Query to describe conditions to ignore note by footnotes  */
   @memoize()
   public get queryToIgnore(): IMediaQueryCondition {
     const ignore = this.getClosestRelatedAttr('ignore') || this.ignore;
     return ESLMediaQuery.for(ignore);
+  }
+
+  /** Query to describe conditions to display print version of note */
+  @memoize()
+  public get queryToPrint(): IMediaQueryCondition {
+    const print = this.getClosestRelatedAttr('print') || this.print;
+    return ESLMediaQuery.for(print);
   }
 
   @ready
@@ -130,6 +151,11 @@ export class ESLNote extends ESLBaseElement {
     const relatedAttrName = `${this.baseTagName}-${attrName}`;
     const $closest = this.closest(`[${relatedAttrName}]`);
     return $closest ? $closest.getAttribute(relatedAttrName) : null;
+  }
+
+  /** Wraps node index with an anchor to allow linking in print version PDF */
+  protected wrap(index: string): string {
+    return `<a class="esl-note-link" href="#esl-footnote-${index}" tabindex="-1">${index}</a>`;
   }
 
   /** Activates note */
@@ -268,7 +294,7 @@ export class ESLNote extends ESLBaseElement {
     if (ESLTooltip.open) {
       this.hideTooltip();
     }
-    this.innerHTML = this.renderedIndex;
+    this.innerHTML = this.renderedHTML;
     this.update();
     this._$footnotes?.update();
   }

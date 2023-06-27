@@ -108,7 +108,12 @@ export class ESLFootnotes extends ESLBaseElement {
 
   /** Builds item index */
   protected buildItemIndex(footnote: FootnotesItem): string {
-    return `<span class="esl-footnotes-index">${footnote.renderedIndex.join(', ')}</span>`;
+    return `<span class="esl-footnotes-index">${footnote.renderedIndex.map(this.buildWrappedItemIndex).join(', ')}</span>`;
+  }
+
+  /** Builds item index wrapped with span related to esl-note by id */
+  protected buildWrappedItemIndex(index: string): string {
+    return `<span id="esl-footnote-${index}">${index}</span>`;
   }
 
   /** Builds item text */
