@@ -1,8 +1,6 @@
 module.exports = (config) => {
-  const date = (timestamp) => {
-    const date = new Date(timestamp);
-    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-  };
+  const date = (timestamp) => 
+    new Intl.DateTimeFormat('UTC', { month: 'long', day: '2-digit', year: 'numeric' }).format(new Date(timestamp));
 
   config.addFilter('date', date);
 };

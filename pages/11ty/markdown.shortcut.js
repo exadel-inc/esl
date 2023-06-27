@@ -37,38 +37,6 @@ class MDRenderer {
     }
   }
 
-  static async renderTruncate(content, maxLength = 250) {
-    try {
-      const {body} = new JSDOM(content).window.document;
-
-      let limitReached = false;
-      let index = 0;
-    
-      const nodeHandler = (node) => {
-        if (limitReached) {
-          node.remove();
-          return;
-        }
-    
-        const childNodes = Array.from(node.childNodes);
-        if (childNodes.length) {
-          childNodes.forEach((childNode) => nodeHandler(childNode));
-        } else {
-          index += node.textContent.length;
-          if (index < maxLength) return;
-          limitReached = true;
-          node.textContent += `${node.textContent.slice(0, -(index - maxLength))}... `;
-          node.parentNode.insertAdjacentHTML('beforeend', `<p class="news-content-cta">Read more</p>`);
-        }
-      };
-    
-      nodeHandler(body);
-      return MDRenderer.renderContent(body);
-    } catch (e) {
-      return `Rendering error: ${e}`;
-    }
-  }
-
   /** Read file and render markdown */
   static async parseFile(filePath) {
     const absolutePath = path.resolve(__dirname, '../../', filePath);
@@ -84,7 +52,11 @@ class MDRenderer {
   }
 
   static renderContent(content) {
-    return `<div class="markdown-container">${content.innerHTML}</div>`;
+    return MDRenderer.renderContentString(content.innerHTML);
+  }
+
+  static renderContentString(str) {
+    return `<div class="markdown-container">${str}</div>`;
   }
 
   static resolveLinks(dom, basePath) {
@@ -107,6 +79,6 @@ class MDRenderer {
 
 module.exports = (config) => {
   config.addNunjucksAsyncShortcode('mdRender', MDRenderer.render);
-  config.addNunjucksAsyncShortcode('mdRenderTruncate', MDRenderer.renderTruncate);
+  config.addNunjucksShortcode('mdWrap', MDRenderer.renderContentString);
 };
 module.exports.MDRenderer = MDRenderer;

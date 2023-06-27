@@ -12,7 +12,7 @@
               <p class="newsline-content-date">{{ item.date | date }}</p>
             {% endif %}
             <div class="newsline-content-text">
-              {% mdRenderTruncate item.templateContent %}
+              {% mdWrap item.templateContent %}
             </div>
           </a>
         </li>
