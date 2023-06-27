@@ -32,6 +32,7 @@ import {
   ESLFootnotes,
   ESLTooltip,
   ESLAnimate,
+  ESLAnimateMixin,
   ESLShare,
   ESLRelatedTarget
 } from '../../src/modules/all';
@@ -47,11 +48,6 @@ import '../../src/modules/esl-share/actions/external-action';
 import '../../src/modules/esl-share/actions/media-action';
 import '../../src/modules/esl-share/actions/native-action';
 import '../../src/modules/esl-share/actions/print-action';
-
-import {
-  ESLCarousel,
-  ESLCarouselPlugins
-} from '../../src/modules/draft/all';
 
 import './esl-media-demo/test-media';
 import './esl-media-demo/test-media-source';
@@ -106,12 +102,7 @@ ESLNote.register();
 ESLTooltip.register();
 
 ESLAnimate.register();
-
-ESLCarousel.register();
-ESLCarouselPlugins.Dots.register();
-ESLCarouselPlugins.Link.register();
-ESLCarouselPlugins.Touch.register();
-ESLCarouselPlugins.Autoplay.register();
+ESLAnimateMixin.register();
 
 ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
 ESLShare.register();
