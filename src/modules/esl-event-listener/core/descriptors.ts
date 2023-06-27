@@ -7,21 +7,28 @@ const DESCRIPTORS = (window.Symbol || String)('__esl_descriptors');
 
 /**
  * @param host - host object
- * @param createIfNotExists - create keys store on the host if not exists
  * @returns object own descriptors keys or an empty array
  */
-function getOwnDescriptors(host: object, createIfNotExists = false): string[] {
-  if (Object.hasOwnProperty.call(host, DESCRIPTORS)) return (host as any)[DESCRIPTORS];
-  const value: string[]  = [];
-  if (createIfNotExists) Object.defineProperty(host, DESCRIPTORS, {value, configurable: true});
-  return value;
+function getOwnDescriptorsKeys(host: object): string[] {
+  return Object.hasOwnProperty.call(host, DESCRIPTORS) ? (host as any)[DESCRIPTORS] : [];
+}
+
+/**
+ * Marks host own key to be auto-collectable
+ * @param host - host object
+ * @param key - descriptor own key
+ */
+function addDescriptorKey(host: object, key: string): void {
+  const value = getOwnDescriptorsKeys(host);
+  if (!value.includes(key)) value.push(key);
+  Object.defineProperty(host, DESCRIPTORS, {value, configurable: true});
 }
 
 /** Collects descriptors key from the whole prototype chain */
 function getDescriptorsKeysFor<T extends object>(host: T): (keyof T)[] {
   const store: Record<string, boolean> = {};
-  for (let proto = host; proto && proto !== Object.prototype ; proto = Object.getPrototypeOf(proto)) {
-    getOwnDescriptors(proto).forEach((key) => store[key] = true);
+  for (let proto = host; proto; proto = Object.getPrototypeOf(proto)) {
+    getOwnDescriptorsKeys(proto).forEach((key) => (store[key] = true));
   }
   return Object.keys(store) as (keyof T)[];
 }
@@ -64,11 +71,6 @@ export function initDescriptor<T extends object>(
     desc = Object.assign({auto: false}, desc);
   }
 
-  // Marks key to be auto-collectable
-  if (desc.auto) {
-    const value = getOwnDescriptors(host, true);
-    if (!value.includes(key)) value.push(key);
-  }
-
+  if (desc.auto) addDescriptorKey(host, key);
   return Object.assign(fn, desc) as ESLListenerDescriptorFn;
 }

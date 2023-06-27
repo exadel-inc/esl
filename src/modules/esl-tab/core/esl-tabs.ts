@@ -55,7 +55,7 @@ export class ESLTabs extends ESLBaseElement {
     this.updateScrollableType();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'scrollable') {
       memoize.clear(this, 'scrollableTypeRules');

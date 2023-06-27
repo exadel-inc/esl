@@ -7,7 +7,6 @@ import type {
   ESLListenerHandler,
   ESLListenerCriteria,
   ESLListenerDescriptor,
-  ESLListenerEventMap,
   ESLListenerDescriptorFn
 } from './types';
 
@@ -18,7 +17,6 @@ export class ESLEventUtils {
    * @see dispatchCustomEvent
    */
   public static dispatch = dispatchCustomEvent;
-
 
   /** @deprecated alias for {@link getAutoDescriptors} */
   public static descriptors = getAutoDescriptors;
@@ -37,7 +35,6 @@ export class ESLEventUtils {
 
   /** Type guard to check if the passed function is typeof {@link ESLListenerDescriptorFn} */
   public static isEventDescriptor = isEventDescriptor;
-
 
   /**
    * Gets currently subscribed listeners of the host
@@ -96,7 +93,10 @@ export class ESLEventUtils {
     }
     if (typeof eventDesc === 'string') eventDesc = {event: eventDesc};
     const listeners = ESLEventListener.subscribe(host, handler, eventDesc as ESLListenerDescriptor);
-    if (!listeners.length) console.warn('[ESL]: Empty subscription %o', Object.assign({}, eventDesc, {handler}));
+    if (!listeners.length) {
+      const mergedDesc = Object.assign({}, eventDesc, {handler});
+      console.warn('[ESL]: Empty subscription %o', mergedDesc);
+    }
     return listeners;
   }
 

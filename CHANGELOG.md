@@ -1,3 +1,144 @@
+# [4.8.0](https://github.com/exadel-inc/esl/compare/v4.7.1...v4.8.0) (2023-06-26)
+
+
+### Features
+
+* **esl-animate:** animate mixin element ([9f9c156](https://github.com/exadel-inc/esl/commit/9f9c156c098df5d4de61e7cc7d13753e38a0391f))
+* **esl-toggleable:** ability to set up state class to any related element ([#1728](https://github.com/exadel-inc/esl/issues/1728)) ([648b114](https://github.com/exadel-inc/esl/commit/648b1149b1dc336779350fdea25f1cd90f4837f7)), closes [#1727](https://github.com/exadel-inc/esl/issues/1727)
+
+## [4.7.1](https://github.com/exadel-inc/esl/compare/v4.7.0...v4.7.1) (2023-06-15)
+
+
+### Bug Fixes
+
+* **esl-utils:** fix missing export of `createDeferred` method under `esl-utils/async/promise` ([756440e](https://github.com/exadel-inc/esl/commit/756440e8840e131a03d0ed7f82c9bd93caa3ba59))
+* **esl-utils:** fix unsubscription if `promisifiedEvent` rejected by timeout ([#1698](https://github.com/exadel-inc/esl/issues/1698)) ([#1724](https://github.com/exadel-inc/esl/issues/1724)) ([b675793](https://github.com/exadel-inc/esl/commit/b675793079c2650f243b1dac580f0666e801a732))
+
+# [4.7.0](https://github.com/exadel-inc/esl/compare/v4.6.0...v4.7.0) (2023-06-09)
+
+
+### Bug Fixes
+
+* **esl-utils:** fix sequence finder behaviour in case step function leads to loop ([c23e2c2](https://github.com/exadel-inc/esl/commit/c23e2c2622bec1e894ba97ba068d198d6dd53a4e))
+
+
+### Code Refactoring
+
+* **esl-carousel:** remove legacy esl-carousel implementation ([b31599a](https://github.com/exadel-inc/esl/commit/b31599ab101afb14081c4e2d8619ce9ee390571a))
+
+
+### Features
+
+* **esl-event-listener:** add the ability to get the current delegated event target ([#1675](https://github.com/exadel-inc/esl/issues/1675)) ([8b4b089](https://github.com/exadel-inc/esl/commit/8b4b089ca8d63ae7df0f39e4434ff7b2b38f5e59))
+* **esl-popup:** change the logic of auto injection of arrow ([a7ba04c](https://github.com/exadel-inc/esl/commit/a7ba04c2f9f16caab992566354a98376fca1672f))
+* **esl-utils:** add `findNextLooped` and `findPrevLooped` common traversing utility ([80a4e67](https://github.com/exadel-inc/esl/commit/80a4e67324301665b16b3780f6f81e03bcc27914))
+* **esl-utils:** add `promisifyNextRender` common utility ([3a93887](https://github.com/exadel-inc/esl/commit/3a938876791201e38919af33646d8fb28d248e45))
+* **esl-utils:** introduce `promisifyTransition` utility ([68d0556](https://github.com/exadel-inc/esl/commit/68d0556d56624728ff57a77e5f6cead568ab14f3))
+* **esl-utils:** utility to postpone execution to microtask ([4f4f637](https://github.com/exadel-inc/esl/commit/4f4f6374741d2534547e650bf59d39596008f25b))
+
+
+### BREAKING CHANGES
+
+* **esl-carousel:** `draft/esl-carousel` no longer available
+
+# [4.6.0](https://github.com/exadel-inc/esl/compare/v4.5.0...v4.6.0) (2023-05-22)
+
+
+### Bug Fixes
+
+* **esl-utils:** fix `unwrap` method signature types ([ee16641](https://github.com/exadel-inc/esl/commit/ee16641844fb7d10f845eb26ff54264c799833ac))
+* **esl-utils:** make ts decorators work with babel ([05462da](https://github.com/exadel-inc/esl/commit/05462daf52d1471a9d7676abae2862d2f8e5556a))
+
+
+### Features
+
+* **🚩esl-share:** beta version of esl-share([#1327](https://github.com/exadel-inc/esl/issues/1327)) component released ([#1660](https://github.com/exadel-inc/esl/issues/1660)) ([be7aa83](https://github.com/exadel-inc/esl/commit/be7aa830c47ddc0b8e70cd593718e90709e9d3f5))
+
+# [4.5.0](https://github.com/exadel-inc/esl/compare/v4.4.1...v4.5.0) (2023-05-15)
+
+
+### Features
+
+* `ESLBaseComponent` interface shared between `ESLMixinElement` and `ESLBaseElement` ([507dfe8](https://github.com/exadel-inc/esl/commit/507dfe88e9473555f8f0d50c1ea32b0415413e72))
+* **esl-mixin-element:** `ESLMixinElement` API updates: **IMPORTANT !** hooks methods now have protected visibility modifier ([2be1b44](https://github.com/exadel-inc/esl/commit/2be1b4438d7d47af573b83546085475d4e512322))
+* **esl-mixin-element:** add `getAll` public utility method ([2be1b44](https://github.com/exadel-inc/esl/commit/2be1b4438d7d47af573b83546085475d4e512322))
+* **esl-mixin-element:** add the ability to get mixin by name by `ESLMixinElement` ([7365e13](https://github.com/exadel-inc/esl/commit/7365e13d563b1f56daab5be4149a4e6475e1ec3f))
+* **esl-mixin-element:** improve observation mechanism of mixin's observed attributes ([e7ed2ab](https://github.com/exadel-inc/esl/commit/e7ed2ab93493e15e22fbf1c37f3baf310e3651e9))
+* **esl-mixin-element:** mixin primary attribute observed unconditionally by mixin manager ([c6741a4](https://github.com/exadel-inc/esl/commit/c6741a4dddafc11a5017b8bad9cfbf0408aa2ab2))
+
+
+## [4.4.1](https://github.com/exadel-inc/esl/compare/v4.4.0...v4.4.1) (2023-04-25)
+
+
+### Bug Fixes
+
+* **esl-utils:** incorrect throttle behaviour ([918944d](https://github.com/exadel-inc/esl/commit/918944d0255961651eb3df8f060a9b65fc1ca228))
+* **gh-pages:** add new favicon icons ([b2846be](https://github.com/exadel-inc/esl/commit/b2846bea077fe19a8c321349b795837a43cb78e6))
+* **gh-pages:** add new favicon icons according to the favicons guide ([83d0ca4](https://github.com/exadel-inc/esl/commit/83d0ca44ac2640fed04023878c696399562b5bac))
+
+## [4.4.1](https://github.com/exadel-inc/esl/compare/v4.4.0...v4.4.1) (2023-04-25)
+
+
+### Bug Fixes
+
+* **esl-utils:** incorrect throttle behaviour ([918944d](https://github.com/exadel-inc/esl/commit/918944d0255961651eb3df8f060a9b65fc1ca228))
+* **gh-pages:** add new favicon icons ([b2846be](https://github.com/exadel-inc/esl/commit/b2846bea077fe19a8c321349b795837a43cb78e6))
+* **gh-pages:** add new favicon icons according to the favicons guide ([83d0ca4](https://github.com/exadel-inc/esl/commit/83d0ca44ac2640fed04023878c696399562b5bac))
+
+# [4.4.0](https://github.com/exadel-inc/esl/compare/v4.3.1...v4.4.0) (2023-04-12)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** fix `ESLEventTargetDecorator` dispatched event `target` ([8252988](https://github.com/exadel-inc/esl/commit/82529888e18e857a0fe86ff4fdd4faf4c746f26b))
+* **esl-event-listener:** fix target delegation checking ([b307ce6](https://github.com/exadel-inc/esl/commit/b307ce647c9efd3d7e639dcf873f7a428ecb1d85))
+* **esl-event-listener:** fix typechecking for TS5 ([d434275](https://github.com/exadel-inc/esl/commit/d434275d7db041c77329f01885dcadf3e53fdb3f))
+* **esl-media:** fix `iv_load_policy` param and small test regexp optimization in YouTube provider ([2deb64b](https://github.com/exadel-inc/esl/commit/2deb64b8ff2e6c564eba5f5b95746c2c285d9394))
+* **esl-utils:** `SynteticEventTarget` no longer mutate `event.target` without need; `event.currentTarget` fix to current instance ([d5e2c78](https://github.com/exadel-inc/esl/commit/d5e2c78a3c41341dffe46c7419aedff0f38ae1d1)), closes [#1534](https://github.com/exadel-inc/esl/issues/1534)
+
+
+### Code Refactoring
+
+* **esl-event-listener:** change API of extended EventTargets ([39b01cc](https://github.com/exadel-inc/esl/commit/39b01cc210672a6cd832b56a4bf5dfd0b9fb1b09))
+
+
+### Features
+
+* **esl-base-element:** `ESLBaseElement.prototype.baseTagName` shortcut ([c10fc6d](https://github.com/exadel-inc/esl/commit/c10fc6da0547658220693979c32d566ccea1637b))
+* **esl-event-listener:** improved `ESLResizeObserverTarget` API with a standardized `ESLElementResizeEvent` ([8e1d72e](https://github.com/exadel-inc/esl/commit/8e1d72e7f28ad6a1865ed092cbc0253709e5b9dd))
+* **esl-event-listener:** support for `ESLDomElementTarget` in `ESLResizeObserverTarget` ([#1573](https://github.com/exadel-inc/esl/issues/1573)) ([f177381](https://github.com/exadel-inc/esl/commit/f177381066024f5fc74704f86a16682f6b2346f8))
+* **esl-utils:** `getEventListeners()` method introduced for `SynteticEventTarget` ([#1548](https://github.com/exadel-inc/esl/issues/1548)) ([c293b61](https://github.com/exadel-inc/esl/commit/c293b61e61e913a7e299e76a2aad88c90bbc9a12))
+
+
+### BREAKING CHANGES (Beta)
+
+* **esl-event-listener:** beta `ESLEventUtils.resize` replaced with `ESLResizeObserverTarget.for`
+* **esl-event-listener:** beta `ESLEventUtils.decorate` replaced with `ESLDecoratedEventTarget.for`
+
+## [4.3.1](https://github.com/exadel-inc/esl/compare/v4.3.0...v4.3.1) (2023-03-09)
+
+
+### Bug Fixes
+
+* **esl-event-listener:** (HOTFIX) `[@listen](https://github.com/listen)` should not require host typeof `ESLDomElementTarget` ([01b84c3](https://github.com/exadel-inc/esl/commit/01b84c361100237a181a46595e0f6b67a5067353))
+
+# [4.3.0](https://github.com/exadel-inc/esl/compare/v4.2.1...v4.3.0) (2023-03-08)
+
+
+### Bug Fixes
+
+* **esl-event-utils:** fix `SyntheticEventTarget` event `target` descriptor configurability ([64a6a84](https://github.com/exadel-inc/esl/commit/64a6a8439a338c4fc2e26a9be6f7750d1487a5ae))
+* **esl-media:** `ref:` prefix is optional, user should be able to use internal id ([465fbec](https://github.com/exadel-inc/esl/commit/465fbecd9b45d5f1a5f2fabf8db5a62b5d0f1ba5))
+
+
+### Features
+
+* **esl-event-listener:** `SyntheticEventTarget` extended with ability to pass custom target to `dispatchEvent` method ([4982a45](https://github.com/exadel-inc/esl/commit/4982a45bf7c38304e3e360180d47152fce1db4ad))
+* **esl-event-listener:** create EventTarget decorator and window target utilities ([ca0f0de](https://github.com/exadel-inc/esl/commit/ca0f0de70adf180654afd50b06f78f8e74451f7f))
+* **esl-event-listener:** New `ESLEventUtils.resize` utility to create an adapter `EventTargets` for `ResizeObserver` ([e1de096](https://github.com/exadel-inc/esl/commit/e1de09611815d65bccceb91ae2771b870a70c345))
+* **esl-utils:** `SyntheticEventTarget` API extended with ability to choose target value and specify default event type ([3fc1f5d](https://github.com/exadel-inc/esl/commit/3fc1f5d5a7f87fe41d6f91737f7d217eedb5bb4e))
+* **esl-utils:** attr api extension ([07e3a9f](https://github.com/exadel-inc/esl/commit/07e3a9ffd1a54a9f83cf4e643e507568e730d84c))
+
 ## [4.2.1](https://github.com/exadel-inc/esl/compare/v4.2.0...v4.2.1) (2023-02-20)
 
 

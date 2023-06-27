@@ -13,6 +13,7 @@ updates:
     schedule:
       interval: "daily"
     reviewers:
-      - "@exadel-inc/esl-core-team"
+      - "@exadel-inc/esl-core-maintainers"
     assignees:
       - "ala-n"
+      - "abarmina"

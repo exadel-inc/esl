@@ -21,7 +21,7 @@ extends:
 # TS configuration
 parser: '@typescript-eslint/parser'
 parserOptions:
-  project: 'tsconfig.eslint.json'
+  project: 'tsconfig.json'
   sourceType: module
 
 # Lint additional plugins

@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement, prop} from '../../esl-base-element/core';
 import {ready, attr, boolAttr, memoize, listen} from '../../esl-utils/decorators';
 import {ESLTooltip} from '../../esl-tooltip/core';
-import {promisifyTimeout, repeatSequence} from '../../esl-utils/async/promise';
+import {promisifyTimeout, repeatSequence} from '../../esl-utils/async';
 import {ESLEventUtils} from '../../esl-utils/dom/events';
 import {ENTER, SPACE} from '../../esl-utils/dom/keys';
 import {scrollIntoView} from '../../esl-utils/dom/scroll';
@@ -108,7 +108,7 @@ export class ESLNote extends ESLBaseElement {
     this.restore();
   }
 
-  protected attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
+  protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || oldVal === newVal) return;
     if (attrName === 'tooltip-shown' && newVal === null) {
       this._$footnotes?.turnOffHighlight(this);
@@ -127,8 +127,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Gets attribute value from the closest element with group behavior settings */
   protected getClosestRelatedAttr(attrName: string): string | null {
-    const tagName = (this.constructor as typeof ESLBaseElement).is;
-    const relatedAttrName = `${tagName}-${attrName}`;
+    const relatedAttrName = `${this.baseTagName}-${attrName}`;
     const $closest = this.closest(`[${relatedAttrName}]`);
     return $closest ? $closest.getAttribute(relatedAttrName) : null;
   }
