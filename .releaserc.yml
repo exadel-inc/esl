@@ -4,6 +4,9 @@ debug: true
 # Tag format config
 tagFormat: "v${version}"
 
+# Repository
+repositoryUrl: "https://github.com/exadel-inc/esl"
+
 # Branch release rules
 branches:
   - main
