@@ -34,6 +34,8 @@
   
   &[settings-collapsed] > .uip-settings {
     max-width: 0;
+    max-height: 0;
+    transition: max-width .3s ease-in-out, max-height 0s .3s;
 
     &-inner {
       visibility: hidden;
@@ -41,8 +43,8 @@
     }
 
     @media @mobile {
-      max-height: 0;
       max-width: 100%;
+      transition: max-height .3s ease-in-out;
 
       .scrollbar-collapsed();
     }
