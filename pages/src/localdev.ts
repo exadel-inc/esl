@@ -35,6 +35,7 @@ import {
   ESLAnimate,
   ESLAnimateMixin,
   ESLShare,
+  ESLModal,
   ESLRelatedTarget
 } from '../../src/modules/all';
 
@@ -105,6 +106,8 @@ ESLTooltip.register();
 
 ESLAnimate.register();
 ESLAnimateMixin.register();
+
+ESLModal.register();
 
 ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
 ESLShare.register();

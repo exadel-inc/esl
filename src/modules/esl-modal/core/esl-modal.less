@@ -1,0 +1,64 @@
+esl-modal {
+  display: none;
+}
+
+.esl-modal {
+  position: fixed;
+  z-index: 1000000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: var(--100vh, 100vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+
+  &:not(.open) {
+    display: none;
+  }
+
+  &::before, &::after {
+    content: '';
+    flex: 1 0 30px;
+  }
+
+  .esl-modal-container {
+    flex: 0 0 auto;
+    position: relative;
+    padding: 50px;
+    max-width: 100%;
+    width: 80%;
+    background-color: #fff;
+    overflow: auto;
+  }
+
+  .close-btn {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width: 20px;
+    height: 20px;
+    font-size: 19px;
+    line-height: 19px;
+
+    &::before {
+      content: '\2715';
+    }
+  }
+}
+
+.esl-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  transition: all .3s ease-in;
+
+  &.active {
+    background: rgba(0, 0, 0, .4);
+    z-index: 999999;
+  }
+}
