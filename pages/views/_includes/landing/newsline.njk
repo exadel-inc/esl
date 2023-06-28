@@ -1,9 +1,9 @@
-{% set releasedNews = collections.news | released %}
+{% set releasedNews = collections.news | released | sortByDateStrict | reverse %}
 {% if releasedNews.length %}
   <div class="newsline container">
     <h2>{{ landing.news.title }}</h2>
     <ul class="newsline-list">
-      {% for item in releasedNews | reverse | limit(3) %}
+      {% for item in releasedNews | limit(3) %}
         {% set isArticle = [].concat(item.data.tags).includes('blogs') %}
         {% set isHighlighted = [].concat(item.data.tags).includes('highlight') %}
 
