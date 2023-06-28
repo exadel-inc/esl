@@ -52,11 +52,7 @@ class MDRenderer {
   }
 
   static renderContent(content) {
-    return MDRenderer.renderContentString(content.innerHTML);
-  }
-
-  static renderContentString(str) {
-    return `<div class="markdown-container">${str}</div>`;
+    return `<div class="markdown-container">${content.innerHTML}</div>`;
   }
 
   static resolveLinks(dom, basePath) {
@@ -79,6 +75,5 @@ class MDRenderer {
 
 module.exports = (config) => {
   config.addNunjucksAsyncShortcode('mdRender', MDRenderer.render);
-  config.addNunjucksShortcode('mdWrap', MDRenderer.renderContentString);
 };
 module.exports.MDRenderer = MDRenderer;
