@@ -7,7 +7,7 @@
         {% set isArticle = [].concat(item.data.tags).includes('blogs') %}
         {% set isHighlighted = [].concat(item.data.tags).includes('highlight') %}
 
-        <li class="esl-animate-slide right newsline-item {{ 'newsline-item-highlighted' if isHighlighted }}"
+        <li class="esl-animate-slide up newsline-item {{ 'newsline-item-highlighted' if isHighlighted }}"
             esl-animate="{group: true}">
           {% if item.data.link or isArticle %}
             <a class="newsline-link"

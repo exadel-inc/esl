@@ -32,6 +32,7 @@ import {
   ESLFootnotes,
   ESLTooltip,
   ESLAnimate,
+  ESLAnimateMixin,
   ESLShare,
   ESLRelatedTarget
 } from '../../src/modules/all';
@@ -101,6 +102,7 @@ ESLNote.register();
 ESLTooltip.register();
 
 ESLAnimate.register();
+ESLAnimateMixin.register();
 
 ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
 ESLShare.register();
