@@ -48,3 +48,9 @@ export class ESLAnimateMixin extends ESLMixinElement {
     ESLAnimateService.observe(this.$host, this.mergeDefaultParams());
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    AnimateMixin: typeof ESLAnimateMixin;
+  }
+}
