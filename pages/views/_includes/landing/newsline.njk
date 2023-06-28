@@ -2,17 +2,31 @@
 {% if releasedNews.length %}
   <div class="newsline container">
     <h2>{{ landing.news.title }}</h2>
-    <esl-animate target="::next::child" group></esl-animate>
-    <ul class="newsline-container">
+    <ul class="newsline-list">
       {% for item in releasedNews | reverse | limit(3) %}
-        <li class="esl-animate-slide-down newsline-item">
-          <a class="newsline-content" href="{{ item.data.link or (item.url | url) }}">
-            <h4 class="newsline-content-name">{{ item.data.emoji }}{{ item.data.name }}</h4>
+        {% set isArticle = [].concat(item.data.tags).includes('blogs') %}
+        {% set isHighlighted = [].concat(item.data.tags).includes('highlight') %}
+
+        <li class="esl-animate-slide right newsline-item {{ 'newsline-item-highlighted' if isHighlighted }}"
+            esl-animate="{group: true}">
+          {% if item.data.link or isArticle %}
+            <a class="newsline-link"
+               aria-describedby="newsline-item-{{ loop.index }}"
+               href="{{ item.data.link or (item.url | url) }}"></a>
+          {% endif %}
+          <div id="newsline-item-{{ loop.index }}" class="newsline-content">
+            <h3 class="newsline-content-title"><span class="newsline-content-emoji" aria-hidden="true">{{ item.data.emoji }}</span>{{ item.data.title or item.data.name }}</h3>
+
+            {% if isArticle %}
+              <div class="newsline-content-text markdown-container">{{ item.templateContent | text | truncate(250) }}</div>
+            {% else %}
+              <div class="newsline-content-text markdown-container">{{ item.templateContent | safe }}</div>
+            {% endif %}
+
             {% if item.data.date %}
               <time class="newsline-content-date" datetime="{{ item.date.toISOString() }}">{{ item.date | date }}</time>
             {% endif %}
-            <div class="newsline-content-text markdown-container">{{ item.templateContent | safe }}</div>
-          </a>
+          </div>
         </li>
       {% endfor %}
     </ul>
