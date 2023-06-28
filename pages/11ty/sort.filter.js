@@ -1,7 +1,7 @@
 module.exports = (config) => {
   /** Generic sort njk filter */
   const createSortFilter = (comparer) => (values) => {
-    if (!values || !Array.isArray(values)) {
+    if (!Array.isArray(values)) {
       console.error(`Unexpected values for sort filter: ${values}`);
       return values;
     }
@@ -24,11 +24,8 @@ module.exports = (config) => {
   /** Date metadata comparer (will not use file creation date) */
   const dateComparerStrict = (a, b) => resoleDateStrict(a) - resoleDateStrict(b);
 
-  // Composed compares
-  const nameAndOrderComparer = compose(orderComparer, nameComparer);
-
   config.addFilter('sortByName', createSortFilter(nameComparer));
-  config.addFilter('sortByNameAndOrder', createSortFilter(nameAndOrderComparer));
+  config.addFilter('sortByNameAndOrder', createSortFilter(compose(orderComparer, nameComparer)));
   config.addFilter('sortByDate', createSortFilter(dateComparer));
   config.addFilter('sortByDateStrict', createSortFilter(dateComparerStrict));
 };
