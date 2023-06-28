@@ -24,7 +24,10 @@
   }
 
   &-content {
-    padding: 1.5rem 5rem;
+    padding: 1.5rem 1rem 1.5rem 3rem;
+    @media @sm-xl {
+      padding: 1.5rem 5rem;
+    }
 
     color: white;
     border-left: 3px solid white;
@@ -51,7 +54,10 @@
     & &-emoji {
       position: absolute;
       transform: translateX(-100%);
-      margin-left: -.8rem;
+      margin-left: -.4rem;
+      @media @sm-xl {
+        margin-left: -.8rem;
+      }
     }
     & &-date {
       display: block;
