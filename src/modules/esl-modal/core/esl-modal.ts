@@ -20,7 +20,9 @@ export class ESLModal extends ESLToggleable {
   @attr({defaultValue: '[data-modal-close]'})
   public override closeTrigger: string;
 
-  /** Define option to lock scroll {@see ScrollLockOptions} */
+  /** Define option to lock scroll
+   * @see ScrollLockOptions}
+   * */
   @attr({defaultValue: 'pseudo'})
   public scrollLockStrategy: ScrollLockStrategies;
 
