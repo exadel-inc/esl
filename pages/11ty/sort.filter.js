@@ -9,8 +9,8 @@ module.exports = (config) => {
   };
 
   // Utils
-  const resoleDate = (item) => new Date(item.date).getTime();
-  const resoleDateStrict = (item) => item.data.date ? new Date(item.date).getTime() : Number.POSITIVE_INFINITY;
+  const resolveDate = (item) => new Date(item.date).getTime();
+  const resolveMetaDate = (item) => item.data.date ? new Date(item.date).getTime() : Number.POSITIVE_INFINITY;
 
   /** Comparer composer */
   const compose = (...cmps) => (a, b) => cmps.reduce((res, cmp) => res || cmp(a, b), 0);
@@ -20,9 +20,9 @@ module.exports = (config) => {
   /** Order metadata comparer */
   const orderComparer = (a, b) => (a.data.order || 0) - (b.data.order || 0);
   /** Date metadata comparer */
-  const dateComparer = (a, b) => resoleDate(a) - resoleDate(b);
+  const dateComparer = (a, b) => resolveDate(a) - resolveDate(b);
   /** Date metadata comparer (will not use file creation date) */
-  const dateComparerStrict = (a, b) => resoleDateStrict(a) - resoleDateStrict(b);
+  const dateComparerStrict = (a, b) => resolveMetaDate(a) - resolveMetaDate(b);
 
   config.addFilter('sortByName', createSortFilter(nameComparer));
   config.addFilter('sortByNameAndOrder', createSortFilter(compose(orderComparer, nameComparer)));
