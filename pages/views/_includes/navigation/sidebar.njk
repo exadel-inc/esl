@@ -11,11 +11,13 @@
       <ul class="sidebar-nav-list esl-scrollable-content">
         <li class="sidebar-nav-item">
           <div class="sidebar-nav-item-heading {{ 'active' if functions.isActivePath(page.url, 'search') }}">
-            <a class="sidebar-nav-item-link icon-link" href="{{ '/search.html' | url }}">
-              {% include 'static/assets/sidebar/search.svg' %}
-            </a>
-            <a class="sidebar-nav-item-trigger" href="{{ '/search.html' | url }}">
-              Search
+            <a class="sidebar-nav-item-heading-inner"
+               href="{{ '/search.html' | url }}"
+               aria-label="Site search">
+              <span class="sidebar-nav-item-link icon-link" aria-hidden='true'>
+                {% include 'static/assets/sidebar/search.svg' %}
+              </span>
+              <span class="sidebar-nav-item-trigger">Search</span>
             </a>
           </div>
         </li>
