@@ -6,7 +6,9 @@ import {withLineNumbers} from 'codejar/linenumbers';
 import Prism from 'prismjs';
 import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
 
+/** {@link https://medv.io/codejar/ Codejar} editor wrapper */
 export class JarEditor extends SyntheticEventTarget {
+  /** Inner {@link https://medv.io/codejar/ Codejar} instance */
   private editor: CodeJar;
 
   /**
@@ -14,7 +16,13 @@ export class JarEditor extends SyntheticEventTarget {
    */
   constructor(element: HTMLElement) {
     super();
-    this.editor = CodeJar(element, withLineNumbers(Prism.highlightElement as any), {tab: '\t'});
+    this.editor = CodeJar(
+      element,
+      withLineNumbers(Prism.highlightElement as any, {
+        color: '#C9BFBF'
+      }),
+      { tab: '\t' }
+    );
     this.editor.onUpdate(this._onChange);
   }
 
@@ -36,6 +44,7 @@ export class JarEditor extends SyntheticEventTarget {
     this.editor.destroy();
   }
 
+  /** Normalize markup indents */
   private normalize(markup: string): string {
     return Prism.plugins.NormalizeWhitespace.normalize(markup);
   }

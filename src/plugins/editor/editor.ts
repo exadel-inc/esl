@@ -1,16 +1,17 @@
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
-import {bind, decorate, listen} from '@exadel/esl/modules/esl-utils/decorators';
+import {bind, decorate} from '@exadel/esl/modules/esl-utils/decorators';
 
 import {UIPPlugin} from '../../core/registration';
-import {EditorConfig, AceTheme} from './jar/utils';
 import {JarEditor} from './jar/jar-editor';
 
 /**
  * Editor {@link UIPPlugin} custom element definition
+ * Uses Codejar code editor to provide an ability to modify UIP state markup
  * @extends UIPPlugin
  */
 export class UIPEditor extends UIPPlugin {
   public static is = 'uip-editor';
+  /** Wrapped {@link https://medv.io/codejar/ Codejar} editor instance */
   protected editor: JarEditor;
 
   protected connectedCallback() {
@@ -21,10 +22,12 @@ export class UIPEditor extends UIPPlugin {
   }
 
   protected disconnectedCallback(): void {
+    this.editor.removeEventListener(this._onChange);
     this.editor?.destroy();
     super.disconnectedCallback();
   }
 
+  /** Initialize inner {@link https://medv.io/codejar/ Codejar} editor */
   protected initEditor(): void {
     const codeBlock = document.createElement('pre');
     codeBlock.classList.add('language-html');
@@ -48,23 +51,5 @@ export class UIPEditor extends UIPPlugin {
     if (this.model!.lastModifier === this) return;
     const markup = this.model!.html;
     setTimeout(() => this.editor?.setValue(markup));
-  }
-
-  /**
-   * Merge passed editorConfig with current editorConfig
-   * @param {Partial<EditorConfig>} editorConfig - config to merge
-   */
-  public updateEditorConfig(editorConfig: Partial<EditorConfig>): void {
-  }
-
-  /** Callback to catch theme changes from {@link UIPRoot} */
-  @listen({event: 'uip:configchange', target: '::parent(.uip-root)'})
-  protected _onRootConfigChange(e: CustomEvent) {
-    const attr = e.detail.attribute;
-    const value = e.detail.value;
-
-    if (attr === 'dark-theme') {
-      return this.updateEditorConfig({theme: value === null ? AceTheme.Light : AceTheme.Dark});
-    }
   }
 }
