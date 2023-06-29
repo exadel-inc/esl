@@ -98,7 +98,9 @@ export class ESLNote extends ESLBaseElement {
   /** Note markup */
   protected get renderedHTML(): string {
     const index = this.renderedIndex;
-    return this.allowPrint && this.allowFootnotes ? this.wrap(index) : index;
+    if (!(this._$footnotes && this.allowPrint)) return index;
+    const footnotesIndexId = `${this._$footnotes.id}-${index}`;
+    return `<a class="esl-note-link" href="#${footnotesIndexId}" tabindex="-1">${index}</a>`;
   }
 
   /** Query to describe conditions to ignore note by footnotes  */
@@ -161,11 +163,6 @@ export class ESLNote extends ESLBaseElement {
     const relatedAttrName = `${this.baseTagName}-${attrName}`;
     const $closest = this.closest(`[${relatedAttrName}]`);
     return $closest ? $closest.getAttribute(relatedAttrName) : null;
-  }
-
-  /** Wraps node index with an anchor to allow linking in print version PDF */
-  protected wrap(index: string): string {
-    return `<a class="esl-note-link" href="#esl-footnote-${index}" tabindex="-1">${index}</a>`;
   }
 
   /** Activates note */
