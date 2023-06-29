@@ -11,7 +11,7 @@
             esl-animate="{group: true}">
           {% if item.data.link or isArticle %}
             <a class="newsline-link"
-               aria-describedby="newsline-item-{{ loop.index }}"
+               aria-labelledby="newsline-item-{{ loop.index }}"
                href="{{ item.data.link or (item.url | url) }}"></a>
           {% endif %}
           <div id="newsline-item-{{ loop.index }}" class="newsline-content">
