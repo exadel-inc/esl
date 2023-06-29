@@ -1,0 +1,34 @@
+{% set releasedNews = collections.news | released | sortByDateStrict | reverse %}
+{% if releasedNews.length %}
+  <div class="newsline container">
+    <h2>{{ landing.news.title }}</h2>
+    <ul class="newsline-list">
+      {% for item in releasedNews | limit(3) %}
+        {% set isArticle = [].concat(item.data.tags).includes('blogs') %}
+        {% set isHighlighted = [].concat(item.data.tags).includes('highlight') %}
+
+        <li class="esl-animate-slide up newsline-item {{ 'newsline-item-highlighted' if isHighlighted }}"
+            esl-animate="{group: true}">
+          {% if item.data.link or isArticle %}
+            <a class="newsline-link"
+               aria-describedby="newsline-item-{{ loop.index }}"
+               href="{{ item.data.link or (item.url | url) }}"></a>
+          {% endif %}
+          <div id="newsline-item-{{ loop.index }}" class="newsline-content">
+            <h3 class="newsline-content-title"><span class="newsline-content-emoji" aria-hidden="true">{{ item.data.emoji }}</span>{{ item.data.title or item.data.name }}</h3>
+
+            {% if isArticle %}
+              <div class="newsline-content-text markdown-container">{{ item.templateContent | text | truncate(250) }}</div>
+            {% else %}
+              <div class="newsline-content-text markdown-container">{{ item.templateContent | safe }}</div>
+            {% endif %}
+
+            {% if item.data.date %}
+              <time class="newsline-content-date" datetime="{{ item.date.toISOString() }}">{{ item.date | date }}</time>
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}

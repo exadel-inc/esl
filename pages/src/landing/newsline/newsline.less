@@ -1,0 +1,100 @@
+@import (reference) "../../common/variables.less";
+
+.newsline {
+  position: relative;
+  margin: 0 auto 10rem;
+
+  &-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-item {
+    position: relative;
+    list-style: none;
+  }
+
+  &-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  &-content {
+    padding: 1.5rem 1rem 1.5rem 3rem;
+    @media @sm-xl {
+      padding: 1.5rem 5rem;
+    }
+
+    color: white;
+    border-left: 3px solid white;
+    transition: border-color .25s ease-in-out;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(to right, fade(@nav-dark-selected, 25%), fade(@nav-dark-selected, 0%));
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .25s ease-in-out;
+    }
+
+    & &-title {
+      font-size: 1.5rem;
+      margin-left: -1px;
+      margin-bottom: 1rem;
+    }
+    & &-emoji {
+      position: absolute;
+      transform: translateX(-100%);
+      margin-left: -.4rem;
+      @media @sm-xl {
+        margin-left: -.8rem;
+      }
+    }
+    & &-date {
+      display: block;
+      font-size: .85rem;
+      margin-top: .4rem;
+      opacity: .75;
+    }
+
+    & &-text {
+      font-size: 1rem;
+
+      a[href] {
+        position: relative;
+        z-index: 2;
+      }
+
+      // h1-h3 are not allowed in content of the newsline
+      h1, h2, h3 { display: none; }
+
+      h4, .h4 {
+        font-size: 1.2rem;
+      }
+      h5, .h5 {
+        font-size: 1.1rem;
+      }
+      p {
+        margin-bottom: .2rem;
+      }
+    }
+  }
+
+  &-item-highlighted &-content {
+    color: #fbf9a2;
+  }
+
+  &-item &-link:hover + &-content {
+    border-color: @nav-dark-accent;
+    &::before { opacity: 1; }
+  }
+}
