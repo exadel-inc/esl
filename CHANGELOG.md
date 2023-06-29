@@ -32,6 +32,23 @@
 * **esl-animate:** animate mixin element ([9f9c156](https://github.com/exadel-inc/esl/commit/9f9c156c098df5d4de61e7cc7d13753e38a0391f))
 * **esl-toggleable:** ability to set up state class to any related element ([#1728](https://github.com/exadel-inc/esl/issues/1728)) ([648b114](https://github.com/exadel-inc/esl/commit/648b1149b1dc336779350fdea25f1cd90f4837f7)), closes [#1727](https://github.com/exadel-inc/esl/issues/1727)
 
+## [5.0.0-beta.1](https://github.com/exadel-inc/esl/compare/v4.9.0-beta.1...v5.0.0-beta.1) (2023-06-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* **esl-animate:** default esl-animate module class `esl-animate-slide-right` replaced with `esl-animate-slide right`
+
+### Bug Fixes
+
+* **esl-animate:** missing types for `esl-animate` module ([2000e04](https://github.com/exadel-inc/esl/commit/2000e041f882a7f22af620285b52ff5e5caf3b19))
+
+
+### Refactoring
+
+* Draft version of release please workflow for beta channel (test) ([a4ce964](https://github.com/exadel-inc/esl/commit/a4ce9648f35e156cfae569272ef89ac3ad085f36))
+* **esl-animate:** rework default animation classes ([69ef3af](https://github.com/exadel-inc/esl/commit/69ef3af0927e5cf2e283326e86bc134f8999a477))
+
 ## [4.7.1](https://github.com/exadel-inc/esl/compare/v4.7.0...v4.7.1) (2023-06-15)
 
 
