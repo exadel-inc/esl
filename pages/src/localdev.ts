@@ -32,10 +32,10 @@ import {
   ESLNoteIgnore,
   ESLFootnotes,
   ESLTooltip,
+  ESLModal,
   ESLAnimate,
   ESLAnimateMixin,
   ESLShare,
-  ESLModal,
   ESLRelatedTarget
 } from '../../src/modules/all';
 
@@ -104,10 +104,10 @@ ESLNote.register();
 ESLNoteIgnore.register();
 ESLTooltip.register();
 
+ESLModal.register();
+
 ESLAnimate.register();
 ESLAnimateMixin.register();
-
-ESLModal.register();
 
 ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
 ESLShare.register();
