@@ -1,3 +1,5 @@
+@import "./variables.less";
+
 .markdown-container {
   & ul,
   & ol {
@@ -14,10 +16,10 @@
 
   a[href] {
     color: inherit;
-    text-decoration: underline @primary-blue;
+    text-decoration: solid underline @primary-blue 1px;
 
     &:hover {
-      text-decoration: underline lightgreen;
+      text-decoration: solid underline @success 2px;
     }
   }
 }
