@@ -17,7 +17,7 @@ import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/m
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
   public static override is = 'esl-note';
-  public static observedAttributes = ['tooltip-shown', 'ignore'];
+  public static observedAttributes = ['tooltip-shown', 'ignore', 'print'];
 
   /** Timeout before activating note (to have time to show content with this note) */
   public static readonly activateTimeout = 100;
@@ -38,7 +38,7 @@ export class ESLNote extends ESLBaseElement {
   @attr({defaultValue: 'not all'}) public ignore: string;
 
   /** Media query to specify that footnotes must be in the print version. Default: `all` */
-  @attr({defaultValue: 'all'}) public print: string;
+  @attr({defaultValue: 'print'}) public print: string;
 
   /** Tooltip content */
   @attr() public html: string;
@@ -137,13 +137,23 @@ export class ESLNote extends ESLBaseElement {
     if (attrName === 'ignore') {
       this.updateIgnoredQuery();
     }
+    if (attrName === 'print') {
+      this.updatePrintedQuery();
+    }
   }
 
-  /** Revise the settings for ignoring the note */
+  /** Revises the settings for ignoring the note */
   public updateIgnoredQuery(): void {
     memoize.clear(this, 'queryToIgnore');
     this.$$on(this._onBPChange);
     this._onBPChange();
+  }
+
+  /** Revises the settings for the print version of note */
+  public updatePrintedQuery(): void {
+    memoize.clear(this, 'queryToPrint');
+    this.$$on(this._onPrintChange);
+    this._onPrintChange();
   }
 
   /** Gets attribute value from the closest element with group behavior settings */
@@ -297,6 +307,18 @@ export class ESLNote extends ESLBaseElement {
     this.innerHTML = this.renderedHTML;
     this.update();
     this._$footnotes?.update();
+  }
+
+  /** Actions on print version changing */
+  @listen({
+    event: 'change',
+    target: (el: ESLNote) => el.queryToPrint
+  })
+  protected _onPrintChange(): void {
+    if (ESLTooltip.open) {
+      this.hideTooltip();
+    }
+    this.innerHTML = this.renderedHTML;
   }
 
   /** Handles footnotes request event */
