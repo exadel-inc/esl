@@ -17,7 +17,7 @@ import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/m
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
   public static override is = 'esl-note';
-  public static observedAttributes = ['tooltip-shown', 'ignore'];
+  public static observedAttributes = ['tooltip-shown', 'ignore', 'print'];
 
   /** Timeout before activating note (to have time to show content with this note) */
   public static readonly activateTimeout = 100;
@@ -36,6 +36,9 @@ export class ESLNote extends ESLBaseElement {
 
   /** Media query to specify that footnotes must ignore this note. Default: `not all` */
   @attr({defaultValue: 'not all'}) public ignore: string;
+
+  /** Media query to specify that footnotes must be in the print version. Default: `all` */
+  @attr({defaultValue: 'print'}) public print: string;
 
   /** Tooltip content */
   @attr() public html: string;
@@ -73,13 +76,18 @@ export class ESLNote extends ESLBaseElement {
     return !this.queryToIgnore.matches;
   }
 
+  /** Marker to allow print version of this note */
+  public get allowPrint(): boolean {
+    return this.queryToPrint.matches;
+  }
+
   /** Note index in the scope content */
   public get index(): number {
     return this._index;
   }
   public set index(value: number) {
     this._index = value;
-    this.innerHTML = this.renderedIndex;
+    this.innerHTML = this.renderedHTML;
   }
 
   /** Note index in the displayed list of footnotes */
@@ -87,11 +95,26 @@ export class ESLNote extends ESLBaseElement {
     return this.allowFootnotes ? `${this._index}` : this.standaloneLabel;
   }
 
+  /** Note markup */
+  protected get renderedHTML(): string {
+    const index = this.renderedIndex;
+    if (!(this._$footnotes && this.allowPrint)) return index;
+    const footnotesIndexId = `${this._$footnotes.id}-${index}`;
+    return `<a class="esl-note-link" href="#${footnotesIndexId}" tabindex="-1">${index}</a>`;
+  }
+
   /** Query to describe conditions to ignore note by footnotes  */
   @memoize()
   public get queryToIgnore(): IMediaQueryCondition {
     const ignore = this.getClosestRelatedAttr('ignore') || this.ignore;
     return ESLMediaQuery.for(ignore);
+  }
+
+  /** Query to describe conditions to display print version of note */
+  @memoize()
+  public get queryToPrint(): IMediaQueryCondition {
+    const print = this.getClosestRelatedAttr('print') || this.print;
+    return ESLMediaQuery.for(print);
   }
 
   @ready
@@ -116,13 +139,23 @@ export class ESLNote extends ESLBaseElement {
     if (attrName === 'ignore') {
       this.updateIgnoredQuery();
     }
+    if (attrName === 'print') {
+      this.updatePrintedQuery();
+    }
   }
 
-  /** Revise the settings for ignoring the note */
+  /** Revises the settings for ignoring the note */
   public updateIgnoredQuery(): void {
     memoize.clear(this, 'queryToIgnore');
     this.$$on(this._onBPChange);
     this._onBPChange();
+  }
+
+  /** Revises the settings for the print version of note */
+  public updatePrintedQuery(): void {
+    memoize.clear(this, 'queryToPrint');
+    this.$$on(this._onPrintChange);
+    this._onPrintChange();
   }
 
   /** Gets attribute value from the closest element with group behavior settings */
@@ -268,9 +301,21 @@ export class ESLNote extends ESLBaseElement {
     if (ESLTooltip.open) {
       this.hideTooltip();
     }
-    this.innerHTML = this.renderedIndex;
+    this.innerHTML = this.renderedHTML;
     this.update();
     this._$footnotes?.update();
+  }
+
+  /** Actions on print version changing */
+  @listen({
+    event: 'change',
+    target: (el: ESLNote) => el.queryToPrint
+  })
+  protected _onPrintChange(): void {
+    if (ESLTooltip.open) {
+      this.hideTooltip();
+    }
+    this.innerHTML = this.renderedHTML;
   }
 
   /** Handles footnotes request event */
