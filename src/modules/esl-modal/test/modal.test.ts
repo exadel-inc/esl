@@ -18,19 +18,19 @@ describe('ESLModal presence in the body', () => {
   });
 
   describe('ESLModal with move to body option', () => {
+    test('Initial state of modal is hidden', () => expect($modal.open).toBe(false));
+    test('Modal is not in body', () => expect(inBody()).toBeFalsy());
     test('Call of show function leads to move modal window to body', () => {
-      expect($modal.open).toBe(false);
-      expect(inBody()).toBeFalsy();
       $modal.show();
       jest.advanceTimersByTime(1);
-      expect($modal.open).toBe(true);
       expect(inBody()).toBeTruthy();
     });
-    test('Call of hide function leads to remove modal window from body', () => {
+    test('Show request leads to open modal', () => expect($modal.open).toBe(true));
+    test('Hide request leads to hide modal', () => {
       $modal.hide();
       jest.advanceTimersByTime(1);
       expect($modal.open).toBe(false);
-      expect(inBody()).toBeFalsy();
     });
+    test('Call of hide function leads to remove modal window from body', () => expect(inBody()).toBeFalsy());
   });
 });
