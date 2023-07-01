@@ -7,12 +7,15 @@
 
   color: @landing-fg-color;
 
-  main {
-    height: 100%;
+  @media screen {
+    main {
+      height: 100%;
+    }
   }
 
   background: @landing-bg-color url('/assets/common/stars.webp') repeat;
   background-size: 50vw auto;
+
 
   &::before {
     content: '';
@@ -25,6 +28,10 @@
     background: url('/assets/common/fog.webp') repeat;
     background-size: 100vw auto;
     animation: slow-move-right 100s infinite linear;
+
+    @media print {
+     display: none;
+    }
   }
 
   @keyframes slow-move-right {
