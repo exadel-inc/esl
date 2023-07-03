@@ -1,5 +1,5 @@
 import {ESLPopup} from '../../../esl-popup/core';
-import {prop, listen} from '../../../esl-utils/decorators';
+import {prop, listen, memoize} from '../../../esl-utils/decorators';
 import {TAB} from '../../../esl-utils/dom/keys';
 import {ESLSelectList} from '../../esl-select-list/core';
 
@@ -24,17 +24,17 @@ export class ESLSelectDropdown extends ESLPopup {
   /** Owner ESLSelect instance */
   public $owner: ESLSelect;
 
-  /** Inner ESLSelectList component */
-  protected $list: ESLSelectList;
+  /** Inner delay timer to dispose popup with list */
   protected _disposeTimeout: number;
 
   @prop(true) public override closeOnEsc: boolean;
   @prop(true) public override closeOnOutsideAction: boolean;
   @prop('bottom') public override position: PositionType;
 
-  constructor() {
-    super();
-    this.$list = document.createElement(ESLSelectList.is);
+  /** Inner ESLSelectList component */
+  @memoize()
+  protected get $list(): ESLSelectList {
+    return ESLSelectList.create();
   }
 
   protected override setInitialState(): void {}
