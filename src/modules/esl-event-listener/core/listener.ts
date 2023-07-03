@@ -103,18 +103,21 @@ export class ESLEventListener implements ESLListenerDefinition, EventListenerObj
       ? (e: Event): void => (handlerBound(e), this.unsubscribe())
       : handlerBound;
     return this.selector
-      ? (e: Event): void => this.isDelegatedTarget(e) && handlerFull(e)
+      ? (e: Event): void => this.handleDelegation(e, handlerFull)
       : handlerFull;
   }
 
-  /** Checks if the passed event can be handled by the current event listener */
-  protected isDelegatedTarget(e: Event): boolean {
+  /** Executes handler if the passed event is accepted by the selector */
+  protected handleDelegation(e: Event, handler: EventListener): void {
+    const {delegate} = this;
     const target = e.target;
     const current = e.currentTarget;
-    const delegate = this.delegate;
-    if (typeof delegate !== 'string') return true;
-    if (!delegate || !(target instanceof Element) || !(current instanceof Element)) return false;
-    return current.contains(target.closest(delegate));
+
+    if (typeof delegate !== 'string' || !delegate) return;
+    if (!(target instanceof Element) || !(current instanceof Element)) return;
+
+    const $delegate = target.closest(delegate);
+    if (current.contains($delegate)) handler(Object.assign(e, {$delegate}));
   }
 
   /**
