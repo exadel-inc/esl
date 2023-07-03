@@ -1,4 +1,3 @@
-import {prop} from '../../esl-utils/decorators';
 import {ESLTrigger} from '../../esl-trigger/core';
 
 import type {ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
@@ -16,7 +15,7 @@ export class ESLShareTrigger extends ESLTrigger {
   public static override is = 'esl-share-trigger';
 
   /** List of attributes to forward from the host to the trigger target */
-  @prop(['share-title', 'share-url']) public forwardedAttrs: string[];
+  public static forwardedAttrs = ['share-title', 'share-url'];
 
   /** @returns parent share {@link ESLShare} element (if exists) */
   public get $share(): ESLShare | null {
@@ -32,8 +31,9 @@ export class ESLShareTrigger extends ESLTrigger {
 
   /** Forwards share attributes from the host to the trigger target */
   protected forwardHostAttributes(): void {
-    if (!this.$share) return;
+    const {$share} = this;
+    if (!$share) return;
 
-    this.forwardedAttrs.forEach((name) => this.$target?.$$attr(name, this.$share!.$$attr(name)));
+    ESLShareTrigger.forwardedAttrs.forEach((name) => this.$target?.$$attr(name, $share.$$attr(name)));
   }
 }
