@@ -58,6 +58,10 @@ export class ESLShare extends ESLBaseElement {
    * @example "facebook reddit group:default"
    * */
   @attr({defaultValue: 'all'}) public list: string;
+  /** URL to share (current page URL by default) */
+  @attr() public shareUrl: string;
+  /** Title to share (current document title by default) */
+  @attr() public shareTitle: string;
   /** Rendering mode of the share buttons ('list' by default) */
   @attr() public mode: 'list' | 'popup';
 
