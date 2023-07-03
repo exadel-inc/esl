@@ -61,6 +61,22 @@ describe('ESLMixinElement', () => {
       expect(TestMixin.get($el)).toBeInstanceOf(ESLMixinElement);
     });
 
+    test('registration does not prevent appearing mixin from handling', async () => {
+      class ATestMixin extends ESLMixinElement {
+        static override is = 'a-test';
+      }
+      class BTestMixin extends ESLMixinElement {
+        static override is = 'b-test';
+      }
+      const root = document.createElement('div');
+      document.body.appendChild(root);
+      // Scenario:
+      ATestMixin.register(); // First mixin registered and handled existing nodes
+      root.setAttribute(ATestMixin.is, ''); // add mixin attribute to node (initialization planned)
+      BTestMixin.register(); // Register for a second mixin (causing MutationObserver flush)
+      expect(ATestMixin.get(root)).toBeInstanceOf(ATestMixin); // Check if the flush handled correctly
+    });
+
     afterEach(() => {
       while (document.body.lastElementChild) document.body.removeChild(document.body.lastElementChild);
     });
