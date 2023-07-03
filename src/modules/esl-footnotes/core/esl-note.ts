@@ -81,7 +81,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Marker to allow anchor on this note */
   public get allowAnchor(): boolean {
-    return this.queryToAnchor.matches;
+    return this.anchorQuery.matches;
   }
 
   /** Note index in the scope content */
@@ -115,7 +115,7 @@ export class ESLNote extends ESLBaseElement {
 
   /** Query to describe conditions to display anchor inside of a note */
   @memoize()
-  public get queryToAnchor(): IMediaQueryCondition {
+  public get anchorQuery(): IMediaQueryCondition {
     const anchor = this.getClosestRelatedAttr('anchor') || this.anchor;
     return ESLMediaQuery.for(anchor);
   }
@@ -143,22 +143,22 @@ export class ESLNote extends ESLBaseElement {
       this.updateIgnoredQuery();
     }
     if (attrName === 'anchor') {
-      this.updateAnchoredQuery();
+      this.updateAnchorQuery();
     }
   }
 
   /** Revises the settings for ignoring the note */
   public updateIgnoredQuery(): void {
     memoize.clear(this, 'queryToIgnore');
-    this.$$on(this._onBPChange);
-    this._onBPChange();
+    this.$$on(this._onIgnoreConditionChange);
+    this._onIgnoreConditionChange();
   }
 
   /** Revises the settings for displaying anchor inside of a note */
-  public updateAnchoredQuery(): void {
-    memoize.clear(this, 'queryToAnchor');
-    this.$$on(this._onAnchorChange);
-    this._onAnchorChange();
+  public updateAnchorQuery(): void {
+    memoize.clear(this, 'anchorQuery');
+    this.$$on(this._onAnchorConditionChange);
+    this._onAnchorConditionChange();
   }
 
   /** Gets attribute value from the closest element with group behavior settings */
@@ -300,7 +300,7 @@ export class ESLNote extends ESLBaseElement {
     event: 'change',
     target: (el: ESLNote) => el.queryToIgnore
   })
-  protected _onBPChange(): void {
+  protected _onIgnoreConditionChange(): void {
     if (ESLTooltip.open) {
       this.hideTooltip();
     }
@@ -312,9 +312,9 @@ export class ESLNote extends ESLBaseElement {
   /** Actions on anchors media query changing */
   @listen({
     event: 'change',
-    target: (el: ESLNote) => el.queryToAnchor
+    target: (el: ESLNote) => el.anchorQuery
   })
-  protected _onAnchorChange(): void {
+  protected _onAnchorConditionChange(): void {
     if (ESLTooltip.open) {
       this.hideTooltip();
     }
