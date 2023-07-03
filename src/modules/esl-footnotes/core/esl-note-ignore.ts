@@ -3,9 +3,11 @@ import {prop} from '../../esl-utils/decorators';
 
 import type {ESLNote} from './esl-note';
 
+/**
+ * Optional mixin element to support esl-note-ignore attribute dynamic changes
+ */
 export class ESLNoteIgnore extends ESLMixinElement {
   public static override is = 'esl-note-ignore';
-  public static override observedAttributes: string[] = [ESLNoteIgnore.is];
 
   /** Selector to find all dependent ESLNote elements */
   @prop('esl-note') protected noteSelector: string;
