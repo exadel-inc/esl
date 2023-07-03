@@ -1,51 +1,65 @@
 # Installation 
 
-TBD
+Install UIPlayground [npm dependency](https://www.npmjs.com/package/@exadel/ui-playground):
+   ```bash
+   npm i @exadel/ui-playground --save
+   ```
 
 # Project structure
 
 UIP components are organized in the following way:
 
-1. Core components
-    - Base components
-        - [UIPRoot](src/core/base/README.md#uip-root)
-    - [UIPPreview](src/core/preview/README.md)
-    - [UIPSnippets](src/plugins/header/snippets/README.md)
-2. Plugins
-    - [UIPEditor](src/plugins/editor/README.md)
-    - [UIPOptions](src/plugins/header/options/README.md)
-    - [UIPSettings](src/plugins/settings/README.md)
-        - [UIPBoolSetting](src/settings/bool-setting/README.md)
-        - [UIPSelectSetting](src/settings/select-setting/README.md)
-        - [UIPTextSetting](src/settings/text-setting/README.md)
+[Core Elements](src/core/README.md#uip-root)
 
-Any playground must have at least **core** components. **Plugins** are
-optional, you can add them on your own free will. 
+Plugins:
+  - [UIPEditor](src/plugins/editor/README.md)
+  - [UIPSettings](src/plugins/settings/README.md)
+      - [UIPBoolSetting](src/settings/bool-setting/README.md)
+      - [UIPSelectSetting](src/settings/select-setting/README.md)
+      - [UIPTextSetting](src/settings/text-setting/README.md)
+      - [UIPSliderSetting](src/settings/slider-setting/README.md)
+  - [UIPHeader](src/plugins/header/README.md)
+      - [UIPOptions](src/header/options/README.md)
+      - [UIPSnippets](src/header/snippets/README.md)
 
-To implement custom UIPPlayground components, see [UIPPlugin](src/core/base/README.md#uip-plugin).
+Any playground must have at least **Сore** components. **Plugins** are
+optional, you can add them on your own free will.
+
+To implement custom UIPPlayground components, see [UIPPlugin](src/core/README.md#uip-plugin).
 
 # Modules/components imports
-Module's main parts lay inside modules folders. So importing the required
-module is really straightforward:
+To register all components, you can use the next callback:
 
 ```typescript
-import {UIPRoot} from './root';
-import {UIPEditor} from './editor';
-import {UIPBoolSetting} from './bool-setting';
+import {init} from '@exadel/ui-playground/esm/registration';
+init();
+```
+
+There is also an ability to register only Core/Plugins/Settings parts. To do this, call one of the functions below:
+
+```typescript
+import {registerCore, registerPlugins, registerSettings} from '@exadel/ui-playground/esm/registration';
+registerCore();
+registerPlugins();
+registerSettings();
+```
+
+The callbacks above register UIP components by themselves. But if you want to have a custom registration logic,
+there is a way to register components manually:
+
+```typescript
+import {UIPRoot} from '@exadel/ui-playground/esm/registration';
+UIPRoot.register();
 ```
 
 Every module has two versions of styles: *css* and *less*. If you want
 to import styles for all UIP component, you can import either
-*registration.less* or *registration.css* file.
+*registration.less* or *registration.css* file:
 
-Before using UIP components, you also need to *register* them. For example,
-if you want to use [UIPRoot](src/core/base/README.md#uip-root) component, register it like that:
-
-```typescript
-import {UIPRoot} from './root';
-UIPRoot.reguster();
+```less
+@import '@exadel/ui-playground/esm/registration.css';
 ```
 
 # Browser support
 
-UIPPlayground supports all modern browsers.
+UIPlayground supports all modern browsers.

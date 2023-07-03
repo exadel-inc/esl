@@ -3,70 +3,69 @@ title: Example with multiple playgrounds
 ---
 <div>
   <section class="component-section">
-    <h1 class="component-title">USER CARD</h1>
-    <p class="component-description">
-      User card is a component for displaying user's info.
-      Can be in rectangle/rounded styles with multiple
-      colors supported.
+    <h2 class="title">Single card</h2>
+    <p class="desc">
+      Single card is a component for displaying card's info.
+      Can be in rectangle/rounded styles with multiple colors supported.
     </p>
-  </section>
 
-  <uip-root>
-    <uip-header></uip-header>
-    <script type="text/html" uip-snippet label="Rectangle user card">
-        <div class="user-card user-block aqua-user">Alexander</div>
-    </script>
-    <script type="text/html" uip-snippet label="Circle user card" wrap-items>
-        <div class="user-card user-circle aqua-user">Alexander</div>
-    </script>
-    <uip-preview></uip-preview>
-    <uip-settings target=".user-card">
-      <uip-select-setting label="User color" attribute="class" mode="append">
-        <option value="red-user">Red</option>
-        <option value="aqua-user">Aqua</option>
-        <option value="green-user">Green</option>
-      </uip-select-setting>
-    </uip-settings>
-    <uip-editor></uip-editor>
-  </uip-root>
+    <uip-root>
+      <uip-header></uip-header>
+      <script type="text/html" uip-snippet label="Rectangle card">
+        <div class="card-item aqua">Single card</div>
+      </script>
+      <script type="text/html" uip-snippet label="Circle card" wrap-items>
+        <div class="card-item card-circle aqua">Single card</div>
+      </script>
+      <uip-preview></uip-preview>
+      <uip-settings target=".card-item">
+        <uip-select-setting label="Card color:" attribute="class" mode="append">
+          <option value="red">Red</option>
+          <option value="aqua">Aqua</option>
+          <option value="green">Green</option>
+        </uip-select-setting>
+      </uip-settings>
+      <uip-editor></uip-editor>
+    </uip-root>
+  </section>
 
   <section class="component-section">
-    <h1 class="component-title">USER LIST</h1>
-    <p class="component-description">
-      User list is a component for displaying multiple users' info.
+    <h2 class="title">List of cards</h2>
+    <p class="desc">
+      Card list is a component for displaying multiple card's info.
       Can manually wrap list items on new lines.
     </p>
-  </section>
 
-  <uip-root>
-    <uip-header></uip-header>
-    <script type="text/html" uip-snippet label="Users aqua list">
-      <div class="user-list">
-        <div class="user-card aqua-user">Alexander</div>
-        <div class="user-card user-circle aqua-user">Alexey</div>
-        <div class="user-card aqua-user">Marina</div>
-      </div>
-    </script>
-    <script type="text/html" uip-snippet label="Long red users list containing seven items" wrap-items>
-      <div class="user-list">
-        <div class="user-card red-user">Anton</div>
-        <div class="user-card red-user">Dmitri</div>
-        <div class="user-card red-user">Alexandra</div>
-        <div class="user-card red-user">Artem</div>
-        <div class="user-card red-user">Marina</div>
-        <div class="user-card red-user">Alexander</div>
-        <div class="user-card red-user">Alexander</div>
-      </div>
-    </script>
-    <uip-preview></uip-preview>
-    <uip-settings target=".user-list">
-      <uip-select-setting label="User color" target=".user-card" attribute="class" mode="append">
-        <option value="red-user">Red</option>
-        <option value="aqua-user">Aqua</option>
-        <option value="green-user">Green</option>
-      </uip-select-setting>
-      <uip-bool-setting label="Wrap items" attribute="wrap-items"></uip-bool-setting>
-    </uip-settings>
-    <uip-editor></uip-editor>
-  </uip-root>
+    <uip-root>
+      <uip-header></uip-header>
+      <script type="text/html" uip-snippet label="List of aqua cards">
+        <div class="card-list">
+          <div class="card-item aqua">Card #1</div>
+          <div class="card-item card-circle aqua">Card #2</div>
+          <div class="card-item aqua">Card #3</div>
+        </div>
+      </script>
+      <script type="text/html" uip-snippet label="Long list of red cards containing seven items" wrap-items>
+        <div class="card-list">
+          <div class="card-item red">Card #1</div>
+          <div class="card-item red">Card #2</div>
+          <div class="card-item red">Card #3</div>
+          <div class="card-item red">Card #4</div>
+          <div class="card-item red">Card #5</div>
+          <div class="card-item red">Card #6</div>
+          <div class="card-item red">Card #7</div>
+        </div>
+      </script>
+      <uip-preview></uip-preview>
+      <uip-settings target=".card-list">
+        <uip-select-setting label="Card color:" target=".card-item" attribute="class" mode="append">
+          <option value="red">Red</option>
+          <option value="aqua">Aqua</option>
+          <option value="green">Green</option>
+        </uip-select-setting>
+        <uip-bool-setting label="Wrap items" attribute="wrap-items"></uip-bool-setting>
+      </uip-settings>
+      <uip-editor></uip-editor>
+    </uip-root>
+  </section>
 </div>

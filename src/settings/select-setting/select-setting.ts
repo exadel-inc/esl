@@ -1,7 +1,7 @@
 import {attr, boolAttr, listen} from '@exadel/esl/modules/esl-base-element/core';
-import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 import {randUID} from '@exadel/esl/modules/esl-utils/misc/uid';
 import {memoize} from '@exadel/esl/modules/esl-utils/decorators/memoize';
+import type {ESLSelect} from '@exadel/esl/modules/esl-forms/esl-select/core';
 
 import {UIPSetting} from '../../plugins/settings/setting';
 import {ChangeAttrConfig, UIPStateModel} from '../../core/base/model';
@@ -11,26 +11,27 @@ import {UIPRoot} from '../../registration';
 
 
 /**
- * Custom setting for selecting attribute's value.
+ * Custom setting for selecting attribute's value
  * @extends UIPSetting
  */
 export class UIPSelectSetting extends UIPSetting {
   public static is = 'uip-select-setting';
-  /** Option displayed when setting has inconsistent state. */
+  /** Option displayed when setting has inconsistent state */
   public static inconsistentValue = 'inconsistent';
+  /** CSS selector for dropdown element */
   private static dropdownClass = 'uip-select-dropdown';
 
-  /** Setting's visible name. */
+  /** Setting's visible name */
   @attr({defaultValue: ''}) public label: string;
   /**
-   * Attribute to set mode for setting.
-   * `replace` - replacing [attribute's]{@link UIPSetting#attribute} value with setting's value.
-   * `append` - appending [attribute's]{@link UIPSetting#attribute} value to attribute's value.
+   * Attribute to set mode for setting
+   * `replace` - replacing [attribute's]{@link UIPSetting#attribute} value with setting's value
+   * `append` - appending [attribute's]{@link UIPSetting#attribute} value to attribute's value
    */
   @attr({defaultValue: 'replace'}) public mode: 'replace' | 'append';
-  /** Indicates whether setting supports multiple values selected or not. */
+  /** Indicates whether setting supports multiple values selected or not */
   @boolAttr() public multiple: boolean;
-  /** Select field to change setting's value. */
+  /** Select field to change setting's value */
   @memoize()
   protected get $field(): ESLSelect {
     const $field = document.createElement('esl-select');
@@ -41,6 +42,7 @@ export class UIPSelectSetting extends UIPSetting {
     return $field;
   }
 
+  /** Label element for input */
   @memoize()
   protected get $label(): HTMLLabelElement {
     const $label = document.createElement('label');
@@ -48,12 +50,12 @@ export class UIPSelectSetting extends UIPSetting {
     return $label;
   }
 
-  @memoize()
+  /** Collects all options' values */
   protected get settingOptions(): string[] {
     return this.$field.options.map(opt => opt.value);
   }
 
-  /** Initialization of {@link ESLSelect}. */
+  /** Initialization of {@link ESLSelect} */
   @memoize()
   protected get select(): HTMLSelectElement {
     const select = document.createElement('select');
@@ -86,6 +88,7 @@ export class UIPSelectSetting extends UIPSetting {
     model.changeAttribute(cfg);
   }
 
+  /** Function to transform(update) attribute value */
   transformValue(value: string, attrValue: string | null ) {
     if (!attrValue) return value || null;
 
@@ -108,7 +111,7 @@ export class UIPSelectSetting extends UIPSetting {
     this.mode === 'replace' ? this.replaceFrom(attrValues) : this.appendFrom(attrValues);
   }
 
-  /** Update setting's value for replace {@link mode}. */
+  /** Updates setting's value for replace {@link mode} */
   protected replaceFrom(attrValues: (string | null)[]): void {
     if (!TokenListUtils.hasSameElements(attrValues)) return this.setInconsistency(WARNING_MSG.multiple);
 
@@ -120,7 +123,7 @@ export class UIPSelectSetting extends UIPSetting {
     return this.multiple ? this.setValue('') : this.setInconsistency(WARNING_MSG.noMatch);
   }
 
-  /** Update setting's value for {@link mode} = "append". */
+  /** Updates setting's value for {@link mode} = "append" */
   protected appendFrom(attrValues: (string | null)[]): void {
     // array of each attribute's value intersection with select options
     const valuesOptions = attrValues.map(val => TokenListUtils.intersection(this.settingOptions, TokenListUtils.split(val)));
@@ -158,11 +161,17 @@ export class UIPSelectSetting extends UIPSetting {
     this.$field.update();
   }
 
+  /** Handles setting `change` event to clear inconsistent value */
   @listen('change')
   protected clearInconsistency(): void {
     this.select.remove(this.settingOptions.indexOf(UIPSelectSetting.inconsistentValue));
   }
 
+
+  /**
+   * Handles {@link UIPRoot} `uip:configchange` event to
+   * manage dropdown theme
+   */
   @listen({event: 'uip:configchange', target: `::parent(.${UIPRoot.is})`})
   protected onRootThemeChange(e: CustomEvent): void {
     if (e.detail.attribute !== 'dark-theme') return;
@@ -175,7 +184,7 @@ export class UIPSelectSetting extends UIPSetting {
     this.$field.toggleAttribute('disabled', force);
   }
 
-  /** Reset [select]{@link $field} value. */
+  /** Resets {@link $field} value. */
   protected reset(): void {
     this.disabled = false;
     this.$field.options.forEach(opt => opt.selected = false);

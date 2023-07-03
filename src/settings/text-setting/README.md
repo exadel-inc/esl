@@ -1,15 +1,15 @@
 # UIP Text Setting
 
-**UIPTextSetting** - custom setting for inputting attribute's value. Extends [UIPSetting](src/settings/setting/README.md)
+**UIPTextSetting** - custom setting to input attribute's value. Extends [UIPSetting](src/plugins/settings/README.md)
 
-## Description:
+## Description
 
-This setting represents a text input for changing attribute's value.
+This setting represents a *text input* for changing attribute's value.
 
-## Example:
+## Example
 
 ```html
-<uip-settings label="Settings">
+<uip-settings>
   <uip-text-setting label="Link" attribute="href" target=".img-link"></uip-text-setting>
 </uip-settings>
 ```

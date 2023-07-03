@@ -5,32 +5,27 @@
   <link rel="icon" type="image/png" href="{{ '/assets/uip-logo.png' | url }}" />
   <link rel="stylesheet" type="text/css" href="{{ '/bundles/playground.css' | url }}" />
 
-    <!-- IE preview staff -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.2.8/es6-promise.min.js"></script>-->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.5.0/webcomponents-bundle.js"></script>-->
   {% block extra_head %}{% endblock %}
 {% endblock %}
 
 {% block body %}
-  <header class="header">
-    {% include 'header.njk' %}
-  </header>
+  {% include 'header.njk' %}
   {% include 'sidebar.njk' %}
 
-  <main class="main" role="main">
-    {% if title %}
-      <h2 class="main__title">
-        {{ title | safe }}
-      </h2>
-    {% endif %}
+  <main class="main esl-scrollable-content" role="main">
     <div class="content">
-      {{ content | safe or 'No content.' }}
+      {% if isLandingPage %}
+        {{ content | safe or 'No content.' }}
+      {% endif %}
+      {% if not isLandingPage %}
+        <div class="container">
+          {{ content | safe or 'No content.' }}
+        </div>
+      {% endif %}
     </div>
-  </main>
-
-  <footer class="footer">
     {% include 'footer.njk' %}
-  </footer>
+  </main>
+  <esl-scrollbar target="::prev" class="page-scrollbar"></esl-scrollbar>
 
   {% block extra_body %}{% endblock %}
 

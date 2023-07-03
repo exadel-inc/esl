@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "skipLibCheck": true,
     "experimentalDecorators": true,
     "allowJs": true,
     "alwaysStrict": true,
@@ -9,7 +10,7 @@
     "esModuleInterop": true,
     "target": "ES6",
     "downlevelIteration": true,
-    "module": "ES2015",
+    "module": "ES2020",
     "moduleResolution": "Node",
     "lib": [
       "ES2015",
@@ -17,7 +18,8 @@
       "DOM.Iterable"
     ],
     "rootDir": "src",
-    "outDir": "./esm"
+    "outDir": "./esm",
+    "jsx": "react"
   },
   "include": [
     "src"

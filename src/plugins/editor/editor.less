@@ -1,22 +1,12 @@
 .uip-editor {
   grid-area: editor;
   display: block;
-  height: 300px;
-  max-height: 300px;
+  max-height: 325px;
   overflow: hidden;
   transition: max-height 0.3s ease-in-out;
 
   &-inner {
     height: 100%;
     border-top: 1px solid @section-border;
-  }
-
-  &.collapsed {
-    max-height: 0;
-
-    &-inner {
-      visibility: hidden;
-      transition:  visibility 0s .3s;
-    }
   }
 }

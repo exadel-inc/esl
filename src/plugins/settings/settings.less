@@ -5,29 +5,21 @@
   overflow: hidden;
   transition: max-width 0.3s ease-in-out;
   accent-color: @dark-text;
-  // grid-column-start: 2;
-  // grid-row-start: 2;
-  // grid-row-end: span 3;
 
   &-inner {
     position: relative;
     height: 100%;
     width: 250px;
     border-left: 1px solid @section-border;
+
+    .esl-scrollbar {
+      padding-right: 0;
+    }
   }
 
   .settings-list {
     height: 100%;
     padding: 0 5px;
-  }
-
-  &.collapsed {
-    max-width: 0;
-
-    &-inner {
-      visibility: hidden;
-      transition:  visibility 0s .3s;
-    }
   }
 
   @media @mobile {
@@ -39,17 +31,12 @@
 
     &-inner {
       width: 100%;
+      padding: 15px 10px 20px 0;
+
       border-left: none;
       border-bottom: 1px solid @section-border;
 
       .scrollbar-expanded();
-    }
-
-    &.collapsed {
-      max-height: 0;
-      max-width: 100%;
-
-      .scrollbar-collapsed();
     }
   }
 }

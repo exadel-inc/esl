@@ -6,16 +6,30 @@
   height: 100%;
   width: 100%;
 
+  .snippets-title {
+    font-size: 1.2rem;
+    font-weight: @active-font-weight;
+  }
+
   .snippets {
     &-dropdown {
       display: block;
       position: absolute;
       top: 100%;
       left: 0;
-      width: auto;
-      min-width: 200px;
-      max-width: 50%;
       z-index: 10;
+      width: auto;
+      min-width: 50%;
+      max-width: 100%;
+      font-size: 1.1rem;
+
+      // in case  playground contains playground inside
+      .uip-root & {
+        .rtl-direction & {
+          left: auto;
+          right: 0;
+        }
+      }
 
       @media @mobile {
         min-width: 100%;
@@ -32,6 +46,7 @@
           display: block;
           min-width: 20px;
           min-height: 8px;
+          margin: 0 5px;
           transform-origin: center;
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9' xml:space='preserve'%3E%3Cpolyline points='0,0 8,8 16,0' fill='none' stroke='black' stroke-width='2'%3E%3C/polyline%3E%3C/svg%3E");
           background-repeat: no-repeat;
@@ -40,9 +55,7 @@
         }
 
         &:hover {
-          .snippets-dropdown-title {
-            opacity: .7;
-          }
+          opacity: .8;
         }
       }
 
@@ -50,7 +63,7 @@
         position: relative;
         display: flex;
         max-height: 0;
-        background-color: @light-theme-section;
+        background-color: @light-color;
         overflow: hidden;
         visibility: hidden;
         border: 1px solid @section-border;
@@ -63,7 +76,7 @@
     &-list {
       width: 100%;
       margin-right: 20px;
-      padding-left: 10px;
+      padding: 5px 0 10px 35px;
       list-style-type: none;
 
       &-item {
