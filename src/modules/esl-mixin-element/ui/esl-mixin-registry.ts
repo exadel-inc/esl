@@ -30,7 +30,7 @@ export class ESLMixinRegistry {
     return attrs;
   }
 
-  /** Register mixin definition using {@link ESLMixinElement} constructor */
+  /** Registers mixin definition using {@link ESLMixinElement} constructor */
   public register(mixin: ESLMixinElementConstructable): void {
     if (!mixin.is || mixin.is.indexOf('-') === -1) {
       throw new DOMException(`[ESL]: Illegal mixin attribute name "${mixin.is}"`, 'NotSupportedError');
