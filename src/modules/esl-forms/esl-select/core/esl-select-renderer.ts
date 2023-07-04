@@ -25,7 +25,7 @@ export class ESLSelectRenderer extends ESLBaseElement {
   @memoize()
   protected get $container(): HTMLElement {
     const $container = document.createElement('div');
-    $container.classList.add('esl-select-text-container');
+    $container.className = 'esl-select-text-container';
     $container.appendChild(this.$text);
     $container.appendChild(this.$rest);
     return $container;
@@ -37,8 +37,7 @@ export class ESLSelectRenderer extends ESLBaseElement {
     const $remove = document.createElement('button');
     $remove.type = 'button';
     $remove.setAttribute('aria-label', 'Clear');
-    $remove.classList.add('esl-select-clear-btn');
-    $remove.classList.add('icon-nav-close-menu');
+    $remove.className = 'esl-select-clear-btn icon-nav-close-menu';
     return $remove;
   }
 
@@ -46,7 +45,7 @@ export class ESLSelectRenderer extends ESLBaseElement {
   @memoize()
   protected get $text(): HTMLElement {
     const $text = document.createElement('span');
-    $text.classList.add('esl-select-text');
+    $text.className = 'esl-select-text';
     return $text;
   }
 
@@ -54,7 +53,7 @@ export class ESLSelectRenderer extends ESLBaseElement {
   @memoize()
   protected get $rest(): HTMLElement {
     const $rest = document.createElement('span');
-    $rest.classList.add('esl-select-text');
+    $rest.className = 'esl-select-text';
     return $rest;
   }
 

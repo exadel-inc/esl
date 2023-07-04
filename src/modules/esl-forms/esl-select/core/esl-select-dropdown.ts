@@ -58,19 +58,19 @@ export class ESLSelectDropdown extends ESLPopup {
     this.$list.$select = this.$owner.$select;
 
     super.onShow(params);
-    const focusable: HTMLElement | null = this.querySelector('[tabindex]');
-    focusable?.focus({preventScroll: true});
+    const $focusable: HTMLElement | null = this.querySelector('[tabindex]');
+    $focusable?.focus({preventScroll: true});
     this._updatePosition();
   }
 
   protected override onHide(params: ESLToggleableActionParams): void {
-    const select = this.activator;
+    const $select = this.activator;
     super.onHide(params);
     this._disposeTimeout = window.setTimeout(() => {
       if (this.parentNode !== document.body) return;
       document.body.removeChild(this);
     }, 1000);
-    select && setTimeout(() => select.focus({preventScroll: true}), 0);
+    $select && setTimeout(() => $select.focus({preventScroll: true}), 0);
   }
 
   @listen('keydown')
@@ -80,16 +80,16 @@ export class ESLSelectDropdown extends ESLPopup {
   }
 
   protected _onTabKey(e: KeyboardEvent): void {
-    const els = this.querySelectorAll('[tabindex]');
-    const first = els[0] as HTMLElement;
-    const last = els[els.length - 1] as HTMLElement;
-    if (first && e.target === last && !e.shiftKey) first.focus();
-    if (last && e.target === first && e.shiftKey) last.focus();
+    const $els = this.querySelectorAll('[tabindex]');
+    const $first = $els[0] as HTMLElement;
+    const $last = $els[$els.length - 1] as HTMLElement;
+    if ($first && e.target === $last && !e.shiftKey) $first.focus();
+    if ($last && e.target === $first && e.shiftKey) $last.focus();
   }
 
   protected override _updatePosition(): void {
-    const select = this.activator;
-    if (select) this.style.width = `${select.getBoundingClientRect().width}px`;
+    const $select = this.activator;
+    if ($select) this.style.width = `${$select.getBoundingClientRect().width}px`;
     super._updatePosition();
   }
 }
