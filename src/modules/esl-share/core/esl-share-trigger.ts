@@ -1,7 +1,6 @@
 import {ESLTrigger} from '../../esl-trigger/core';
 
 import type {ESLToggleableActionParams} from '../../esl-toggleable/core/esl-toggleable';
-import type {ESLShare} from './esl-share';
 
 /**
  * ESLShareTrigger component
@@ -17,23 +16,22 @@ export class ESLShareTrigger extends ESLTrigger {
   /** List of attributes to forward from the host to the trigger target */
   public static forwardedAttrs = ['share-title', 'share-url'];
 
-  /** @returns parent share {@link ESLShare} element (if exists) */
-  public get $share(): ESLShare | null {
-    return this.closest('esl-share');
-  }
-
   /** Show target toggleable with passed params */
   public override showTarget(params: ESLToggleableActionParams = {}): void {
     super.showTarget(params);
 
-    this.forwardHostAttributes();
+    this.forwardAttributes();
   }
 
-  /** Forwards share attributes from the host to the trigger target */
-  protected forwardHostAttributes(): void {
-    const {$share} = this;
-    if (!$share) return;
-
-    ESLShareTrigger.forwardedAttrs.forEach((name) => this.$target?.$$attr(name, $share.$$attr(name)));
+  /**
+   * Forwards share attributes from the host (or its parents) to the trigger target.
+   * Doesn't do anything when share attributes are missing from the host and its parent elements.
+   */
+  protected forwardAttributes(): void {
+    ESLShareTrigger.forwardedAttrs.forEach((name) => {
+      const el = this.closest(`[${name}]`);
+      const value = el && el.getAttribute(name);
+      if (value) this.$target?.$$attr(name, value);
+    });
   }
 }
