@@ -42,7 +42,7 @@ ESLNote is a badge with a number or symbol. When it's hovered or clicked (user-d
 
 - `ignore` - [MediaQuery](../esl-media-query/README.md) to specify device media conditions when footnotes must ignore current note (`not all` by default)
 
-- `print` - [MediaQuery](../esl-media-query/README.md) to specify device media conditions when the note should have an anchor relationship between note and footnote for print version (`print` by default)
+- `anchor` - [MediaQuery](../esl-media-query/README.md) to specify device media conditions when the note should have an anchor relationship between note and footnote (for print version for example) (`print` by default)
 
 - `html` - content of note tooltip. If not present, it fills with innerHTML of ESLNote
 

@@ -17,7 +17,7 @@ import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/m
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
   public static override is = 'esl-note';
-  public static observedAttributes = ['tooltip-shown', 'ignore', 'print'];
+  public static observedAttributes = ['tooltip-shown', 'ignore', 'anchor'];
 
   /** Timeout before activating note (to have time to show content with this note) */
   public static readonly activateTimeout = 100;
@@ -37,8 +37,11 @@ export class ESLNote extends ESLBaseElement {
   /** Media query to specify that footnotes must ignore this note. Default: `not all` */
   @attr({defaultValue: 'not all'}) public ignore: string;
 
-  /** Media query to specify that footnotes must be in the print version. Default: `all` */
-  @attr({defaultValue: 'print'}) public print: string;
+  /**
+   * Media query to specify that footnotes must be in the mode with anchors
+   * (for the print version for example). Default: `print`
+   */
+  @attr({defaultValue: 'print'}) public anchor: string;
 
   /** Tooltip content */
   @attr() public html: string;
@@ -76,9 +79,9 @@ export class ESLNote extends ESLBaseElement {
     return !this.queryToIgnore.matches;
   }
 
-  /** Marker to allow print version of this note */
-  public get allowPrint(): boolean {
-    return this.queryToPrint.matches;
+  /** Marker to allow anchor on this note */
+  public get allowAnchor(): boolean {
+    return this.anchorQuery.matches;
   }
 
   /** Note index in the scope content */
@@ -98,7 +101,7 @@ export class ESLNote extends ESLBaseElement {
   /** Note markup */
   protected get renderedHTML(): string {
     const index = this.renderedIndex;
-    if (!(this._$footnotes && this.allowPrint)) return index;
+    if (!(this._$footnotes && this.allowAnchor)) return index;
     const footnotesIndexId = `${this._$footnotes.id}-${index}`;
     return `<a class="esl-note-link" href="#${footnotesIndexId}" tabindex="-1">${index}</a>`;
   }
@@ -110,11 +113,11 @@ export class ESLNote extends ESLBaseElement {
     return ESLMediaQuery.for(ignore);
   }
 
-  /** Query to describe conditions to display print version of note */
+  /** Query to describe conditions to display anchor inside of a note */
   @memoize()
-  public get queryToPrint(): IMediaQueryCondition {
-    const print = this.getClosestRelatedAttr('print') || this.print;
-    return ESLMediaQuery.for(print);
+  public get anchorQuery(): IMediaQueryCondition {
+    const anchor = this.getClosestRelatedAttr('anchor') || this.anchor;
+    return ESLMediaQuery.for(anchor);
   }
 
   @ready
@@ -139,23 +142,23 @@ export class ESLNote extends ESLBaseElement {
     if (attrName === 'ignore') {
       this.updateIgnoredQuery();
     }
-    if (attrName === 'print') {
-      this.updatePrintedQuery();
+    if (attrName === 'anchor') {
+      this.updateAnchorQuery();
     }
   }
 
   /** Revises the settings for ignoring the note */
   public updateIgnoredQuery(): void {
     memoize.clear(this, 'queryToIgnore');
-    this.$$on(this._onBPChange);
-    this._onBPChange();
+    this.$$on(this._onIgnoreConditionChange);
+    this._onIgnoreConditionChange();
   }
 
-  /** Revises the settings for the print version of note */
-  public updatePrintedQuery(): void {
-    memoize.clear(this, 'queryToPrint');
-    this.$$on(this._onPrintChange);
-    this._onPrintChange();
+  /** Revises the settings for displaying anchor inside of a note */
+  public updateAnchorQuery(): void {
+    memoize.clear(this, 'anchorQuery');
+    this.$$on(this._onAnchorConditionChange);
+    this._onAnchorConditionChange();
   }
 
   /** Gets attribute value from the closest element with group behavior settings */
@@ -297,7 +300,7 @@ export class ESLNote extends ESLBaseElement {
     event: 'change',
     target: (el: ESLNote) => el.queryToIgnore
   })
-  protected _onBPChange(): void {
+  protected _onIgnoreConditionChange(): void {
     if (ESLTooltip.open) {
       this.hideTooltip();
     }
@@ -306,12 +309,12 @@ export class ESLNote extends ESLBaseElement {
     this._$footnotes?.update();
   }
 
-  /** Actions on print version changing */
+  /** Actions on anchors media query changing */
   @listen({
     event: 'change',
-    target: (el: ESLNote) => el.queryToPrint
+    target: (el: ESLNote) => el.anchorQuery
   })
-  protected _onPrintChange(): void {
+  protected _onAnchorConditionChange(): void {
     if (ESLTooltip.open) {
       this.hideTooltip();
     }
