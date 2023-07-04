@@ -138,7 +138,7 @@ export class ESLSelect extends ESLSelectWrapper {
   protected _onClick(): void {
     if (this.disabled) return;
     this.$dropdown.toggle(!this.$dropdown.open, {
-      activator: this,
+      activator: this.$renderer,
       initiator: 'select'
     });
   }
