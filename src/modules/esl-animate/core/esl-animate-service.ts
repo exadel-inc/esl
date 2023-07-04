@@ -159,3 +159,9 @@ export class ESLAnimateService {
     if (config._unsubscribe) this.unobserve(item);
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    AnimateService: typeof ESLAnimateService;
+  }
+}
