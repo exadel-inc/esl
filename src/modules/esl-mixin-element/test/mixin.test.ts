@@ -24,6 +24,26 @@ describe('ESLMixinElement', () => {
       expect(TestMixin.get($el)).toBeInstanceOf(ESLMixinElement);
     });
 
+    test('Multiple call of the same mixin registration ignored', () => {
+      expect(() => {
+        TestMixin.register();
+        TestMixin.register();
+      }).not.toThrow();
+    });
+
+    test('Incorrect mixin name throws an error', () => {
+      expect(() => (class Some extends ESLMixinElement {
+        static override is = 'a';
+      }).register()).toThrow(DOMException);
+    });
+
+    test('Redeclaration of mixin with another definition throws error', () => {
+      TestMixin.register();
+      expect(() => (class Some extends ESLMixinElement {
+        static override is = TestMixin.is;
+      }).register()).toThrow(DOMException);
+    });
+
     test('ESLMixinElement removed when attribute is removed on new element with attribute', async () => {
       TestMixin.register();
       const $el = document.createElement('div');

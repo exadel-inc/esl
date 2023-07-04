@@ -33,15 +33,17 @@ export class ESLMixinRegistry {
   /** Register mixin definition using {@link ESLMixinElement} constructor */
   public register(mixin: ESLMixinElementConstructable): void {
     if (!mixin.is || mixin.is.indexOf('-') === -1) {
-      throw Error(`[ESL]: Illegal mixin attribute name "${mixin.is}"`);
+      throw new DOMException(`[ESL]: Illegal mixin attribute name "${mixin.is}"`, 'NotSupportedError');
     }
-    if (this.store.has(mixin.is) && this.store.get(mixin.is) !== mixin) {
-      throw Error(`[ESL]: Attribute ${mixin.is} is already occupied by another mixin`);
+    const registered = this.store.get(mixin.is);
+    if (registered && registered !== mixin) {
+      throw new DOMException(`[ESL]: Attribute ${mixin.is} is already occupied by another mixin`, 'InUseAttributeError');
     }
-    this.store.set(mixin.is, mixin);
-    // Invalidate
-    this.invalidateRecursive(document.documentElement, mixin.is);
-    this.resubscribe();
+    if (!registered) {
+      this.store.set(mixin.is, mixin);
+      this.invalidateRecursive(document.documentElement, mixin.is);
+      this.resubscribe();
+    }
   }
 
   /** Resubscribes DOM observer */
