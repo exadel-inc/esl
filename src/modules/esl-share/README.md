@@ -130,7 +130,7 @@ ESLShare.config(() => fetch('/assets/share/config.json').then((response) => resp
 
 #### Attributes cascading
 
-If you need to use URL and title overrides within any parts of the page to share using the `share-url` and `share-title` attributes, you don't need to write these attributes on each button. You can write them once on the root element of the part for which these values are valid. You can do this on the body of the document if you want to override the values for the entire document.
+If you want to utilize URL and title overrides within any parts of the page to share using the `share-url` and `share-title` attributes, there's no need to write these attributes on each button. You can write them once on the root element of the part for which these values are valid. Alternatively, if you want to override the values for the entire document, you can set them on the body of the HTML document.
 
 The principle of cascading is similar to CSS variables. The value is searched from the element and up the tree to the document body itself. If the attribute is not found in parent elements, the default value is used.
 
@@ -154,7 +154,7 @@ There are two modes available to render buttons.
 
 In `list` mode, the buttons are drawn inside the component as a list. Nothing special.
 
-When `popup` mode is specified, the buttons are created inside a [ESLPopup](../esl-popup/README.md) element, which is built directly into the document's body. If a [ESLPopup](../esl-popup/README.md) element with the desired set of buttons already exists in the document body, the existing one will be reused. A trigger element is created inside the ESLShare component to activate the popup with share buttons, which will activate the popup when you hover over it. Also, one additional activity of the ESLShareTrigger is to forward the `share-title` and `share-url` attributes from the root ESLShare component to the popup. So it's possible for components with the same set of buttons but different URLs and title to share to use the same popup.
+When `popup` mode is specified, the buttons are created inside of a [ESLPopup](../esl-popup/README.md) element, which is built directly into the document's body. If a [ESLPopup](../esl-popup/README.md) element with the desired set of buttons already exists in the document body, the existing one will be reused. A trigger element is created inside the ESLShare component to activate the popup with share buttons, which will activate the popup when you hover over it. Also, one additional activity of the ESLShareTrigger is to forward the `share-title` and `share-url` attributes from the root ESLShare component to the popup. So it's possible for components with the same set of buttons but different URLs and title to share to use the same popup.
 
 #### Public API
 
