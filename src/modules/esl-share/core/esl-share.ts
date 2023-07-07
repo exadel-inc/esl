@@ -49,7 +49,7 @@ export class ESLShare extends ESLBaseElement {
     defaultParams: {
       hideDelay: 200
     }
-  }) public popupInitialParams: PopupActionParams;
+  }) protected popupInitialParams: PopupActionParams;
 
   /**
    * List of social networks or groups of them to display (all by default).
