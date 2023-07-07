@@ -15,3 +15,10 @@ esl-panel {
     transition: max-height @animationTime ease-in-out, visibility 0s linear;
   }
 }
+
+@media print {
+  esl-panel:not(.print-closed) {
+    visibility: visible;
+    max-height: none;
+  }
+}

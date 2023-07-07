@@ -24,6 +24,26 @@ describe('ESLMixinElement', () => {
       expect(TestMixin.get($el)).toBeInstanceOf(ESLMixinElement);
     });
 
+    test('Multiple call of the same mixin registration ignored', () => {
+      expect(() => {
+        TestMixin.register();
+        TestMixin.register();
+      }).not.toThrow();
+    });
+
+    test('Incorrect mixin name throws an error', () => {
+      expect(() => (class Some extends ESLMixinElement {
+        static override is = 'a';
+      }).register()).toThrow(DOMException);
+    });
+
+    test('Redeclaration of mixin with another definition throws error', () => {
+      TestMixin.register();
+      expect(() => (class Some extends ESLMixinElement {
+        static override is = TestMixin.is;
+      }).register()).toThrow(DOMException);
+    });
+
     test('ESLMixinElement removed when attribute is removed on new element with attribute', async () => {
       TestMixin.register();
       const $el = document.createElement('div');
@@ -59,6 +79,22 @@ describe('ESLMixinElement', () => {
 
       await Promise.resolve(); // Wait for next microtask
       expect(TestMixin.get($el)).toBeInstanceOf(ESLMixinElement);
+    });
+
+    test('registration does not prevent appearing mixin from handling', async () => {
+      class ATestMixin extends ESLMixinElement {
+        static override is = 'a-test';
+      }
+      class BTestMixin extends ESLMixinElement {
+        static override is = 'b-test';
+      }
+      const root = document.createElement('div');
+      document.body.appendChild(root);
+      // Scenario:
+      ATestMixin.register(); // First mixin registered and handled existing nodes
+      root.setAttribute(ATestMixin.is, ''); // add mixin attribute to node (initialization planned)
+      BTestMixin.register(); // Register for a second mixin (causing MutationObserver flush)
+      expect(ATestMixin.get(root)).toBeInstanceOf(ATestMixin); // Check if the flush handled correctly
     });
 
     afterEach(() => {

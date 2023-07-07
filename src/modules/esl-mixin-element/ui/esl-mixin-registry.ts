@@ -30,21 +30,27 @@ export class ESLMixinRegistry {
     return attrs;
   }
 
-  /** Register mixin definition */
+  /** Registers mixin definition using {@link ESLMixinElement} constructor */
   public register(mixin: ESLMixinElementConstructable): void {
     if (!mixin.is || mixin.is.indexOf('-') === -1) {
-      throw Error(`[ESL]: Illegal mixin attribute name "${mixin.is}"`);
+      throw new DOMException(`[ESL]: Illegal mixin attribute name "${mixin.is}"`, 'NotSupportedError');
     }
-    if (this.store.has(mixin.is) && this.store.get(mixin.is) !== mixin) {
-      throw Error(`[ESL]: Attribute ${mixin.is} is already occupied by another mixin`);
+    const registered = this.store.get(mixin.is);
+    if (registered && registered !== mixin) {
+      throw new DOMException(`[ESL]: Attribute ${mixin.is} is already occupied by another mixin`, 'InUseAttributeError');
     }
-    this.store.set(mixin.is, mixin);
-    this.invalidateRecursive();
-    this.resubscribe();
+    if (!registered) {
+      this.store.set(mixin.is, mixin);
+      this.invalidateRecursive(document.documentElement, mixin.is);
+      this.resubscribe();
+    }
   }
 
   /** Resubscribes DOM observer */
-  public resubscribe(root: Element = document.body): void {
+  public resubscribe(root: Element = document.documentElement): void {
+    // Don't let flushed changes from being unhandled
+    this._onMutation(this.mutation$$.takeRecords());
+    // Resubscribe for all observed attributes
     this.mutation$$.disconnect();
     this.mutation$$.observe(root, {
       subtree: true,
@@ -55,15 +61,22 @@ export class ESLMixinRegistry {
     });
   }
 
-  /** Invalidates all mixins on the element and subtree */
-  public invalidateRecursive(root: HTMLElement = document.body): void {
+  /**
+   * Invalidates all mixins on the element and subtree
+   * @param root - root HTMLElement to start traversing
+   * @param name - optional filter for mixin name
+   */
+  public invalidateRecursive(root: HTMLElement = document.body, name?: string): void {
     if (!root) return;
-    this.invalidateAll(root);
+    name ? this.invalidate(root, name) : this.invalidateAll(root);
     if (!root.children || !root.children.length) return;
-    Array.prototype.forEach.call(root.children, (child: Element) => this.invalidateRecursive(child as HTMLElement));
+    Array.prototype.forEach.call(root.children, (child: Element) => this.invalidateRecursive(child as HTMLElement, name));
   }
 
-  /** Invalidates all mixins on the element */
+  /**
+   * Invalidates all mixins on the element
+   * @param el - host element to invalidate mixins
+   */
   public invalidateAll(el: HTMLElement): void {
     const hasStore = Object.hasOwnProperty.call(el, STORE);
     this.store.forEach((mixin: ESLMixinElementConstructable, name: string) => {
@@ -75,8 +88,13 @@ export class ESLMixinRegistry {
     });
   }
 
-  /** Invalidates passed mixin on the element */
-  public invalidate(el: HTMLElement, name: string, oldValue: string | null): void {
+  /**
+   * Invalidates passed mixin name on the element
+   * @param el - host element to invalidate mixin
+   * @param name - mixin name to invalidate
+   * @param oldValue - optional previous value of mixins attribute
+   */
+  public invalidate(el: HTMLElement, name: string, oldValue: string | null = null): void {
     const newValue = el.getAttribute(name);
     if (newValue === null) return ESLMixinRegistry.destroy(el, name);
     const instance = ESLMixinRegistry.get(el, name) as ESLMixinElementInternal;
@@ -88,7 +106,7 @@ export class ESLMixinRegistry {
     }
   }
 
-  /** Handles DOM mutation list */
+  /** Handles DOM {@link MutationRecord} list */
   protected _onMutation(mutations: MutationRecord[]): void {
     mutations.forEach((record: MutationRecord) => {
       if (record.type === 'attributes' && record.attributeName) {

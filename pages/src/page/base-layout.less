@@ -1,22 +1,29 @@
 @import "../common/variables.less";
 
-html:not(.esl-scrollable-content) {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-
-  body {
-    width: 100%;
-    /* stylelint-disable */
-    height: 100vh;
-    height: var(--100vh, 100vh);
-    /* stylelint-enable */
-  }
+@page {
+  size: a4 portrait;
+  margin: 2rem;
 }
 
-.page {
-  width: 100%;
-  height: 100%;
+@media screen {
+  html:not(.esl-scrollable-content) {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    body {
+      width: 100%;
+      /* stylelint-disable */
+      height: 100vh;
+      height: var(--100vh, 100vh);
+      /* stylelint-enable */
+    }
+  }
+
+  .page {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 header {
