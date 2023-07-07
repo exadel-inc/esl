@@ -1,3 +1,10 @@
+## [4.9.1](https://github.com/exadel-inc/esl/compare/v4.9.0...v4.9.1) (2023-07-07)
+
+
+### Bug Fixes
+
+* hotfix for writeable `is` field short initialization syntax ([e46461b](https://github.com/exadel-inc/esl/commit/e46461bf69335993f7005efd55b8fd55dbe0f152))
+
 # [4.9.0](https://github.com/exadel-inc/esl/compare/v4.8.0...v4.9.0) (2023-07-07)
 
 
