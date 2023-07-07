@@ -5,6 +5,9 @@
   @footer-gradient: linear-gradient(to right, #131A2E, @footer-primary,@footer-primary, #ffffff, #131A2E) 47% 0%;
 
   display: block;
+  @media print {
+    display: none;
+  }
   @media @md-xl {
     display: flex;
     flex-direction: column;
