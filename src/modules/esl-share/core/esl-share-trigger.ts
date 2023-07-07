@@ -6,17 +6,17 @@ import type {ESLToggleableActionParams} from '../../esl-toggleable/core/esl-togg
  * ESLShareTrigger component
  * @author Dmytro Shovchko
  *
- * ESLShareTrigger usually used in conjunction with a {@link ESLPopup}.
- * Can control any {@link ESLToggleable} instance and is used to forward the sharing attributes
- * from the parent share {@link ESLShare} component to its associated instance of {@link ESLToggleable}.
+ * ESLShareTrigger is an extension of {@link ESLTrigger} that
+ * - controls an internal popup of {@link ESLShare} module in `popup` rendering mode.
+ * - forwards the sharing attributes from the parent share {@link ESLShare} component to its associated instance of {@link ESLPopup}
  */
 export class ESLShareTrigger extends ESLTrigger {
   public static override is = 'esl-share-trigger';
 
-  /** List of attributes to forward from the host to the trigger target */
+  /** List of attributes to forward from the host to the target share {@link ESLPopup} */
   public static forwardedAttrs = ['share-title', 'share-url'];
 
-  /** Show target toggleable with passed params */
+  /** Shows the target {@link ESLPopup} with a passed params */
   public override showTarget(params: ESLToggleableActionParams = {}): void {
     super.showTarget(params);
 
@@ -24,8 +24,8 @@ export class ESLShareTrigger extends ESLTrigger {
   }
 
   /**
-   * Forwards share attributes from the host (or its parents) to the trigger target.
-   * Doesn't do anything when share attributes are missing from the host and its parent elements.
+   * Forwards share attributes from the host (or its parents) to the target share {@link ESLPopup} instance.
+   * Skips empty attributes
    */
   protected forwardAttributes(): void {
     ESLShareTrigger.forwardedAttrs.forEach((name) => {

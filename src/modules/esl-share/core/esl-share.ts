@@ -92,7 +92,7 @@ export class ESLShare extends ESLBaseElement {
       .catch((e) => console.error(`[${this.baseTagName}]: ${e}`));
   }
 
-  /** Builds content of the component. */
+  /** Builds component's content from received `ESLShareButtonConfig` list */
   @bind
   protected buildContent(btnConfig: ESLShareButtonConfig[]): void {
     this.innerHTML = '';
