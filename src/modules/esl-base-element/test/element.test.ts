@@ -39,6 +39,19 @@ describe('ESLBaseElement', () => {
     expect(TestElement2.is).toBe('test-test');
   });
 
+  test('ESLBaseElement register validate (inheritance case)', () => {
+    expect(() => {
+      class TestIBase extends TestElement {
+        static override is = 'test-base-inh';
+      }
+      TestIBase.register();
+      class TestInherited extends TestElement {
+        static override is = 'test-child-inh';
+      }
+      TestInherited.register();
+    }).not.toThrowError();
+  });
+
   describe('ESLBaseElement prototype', () => {
     test('ESLBaseElement $attr', () => {
       const attrName = 'test-attr';

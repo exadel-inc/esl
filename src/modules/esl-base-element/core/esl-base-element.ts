@@ -108,16 +108,23 @@ export abstract class ESLBaseElement extends HTMLElement implements ESLBaseCompo
    */
   public static register(this: typeof ESLBaseElement, tagName?: string): void {
     tagName = tagName || this.is;
-    if (!tagName) {
-      throw new DOMException('[ESL]: Incorrect tag name', 'NotSupportedError');
-    }
+    if (!tagName) throw new DOMException('[ESL]: Incorrect tag name', 'NotSupportedError');
+    const current = this; // eslint-disable-line @typescript-eslint/no-this-alias
     const constructor: any = customElements.get(tagName);
-    if (constructor && (constructor !== this || constructor.is !== tagName)) {
+    if (constructor && (constructor !== current || constructor.is !== tagName)) {
       throw new DOMException('[ESL]: Element tag already occupied or inconsistent', 'NotSupportedError');
     }
     if (constructor) return;
     customElements.define(tagName, this as any as CustomElementConstructor);
-    Object.defineProperty(this, 'is', {value: tagName, writable: false});
+    Object.defineProperty(this, 'is', {
+      get() {
+        return tagName;
+      },
+      set(value) {
+        if (this === current) throw Error(`[ESL]: Cannot override ${current.name}.is property, the class is already registered`);
+        Object.defineProperty(this, 'is', {value, writable: true, configurable: true});
+      }
+    });
   }
 
   /** Shortcut for `customElements.whenDefined(currentCustomElement)` */
