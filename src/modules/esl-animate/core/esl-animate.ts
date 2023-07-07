@@ -95,3 +95,13 @@ export class ESLAnimate extends ESLBaseElement {
     });
   }
 }
+
+declare global {
+  export interface ESLLibrary {
+    Animate: typeof ESLAnimate;
+  }
+  export interface HTMLElementTagNameMap {
+    'esl-animate': ESLAnimate;
+  }
+}
+

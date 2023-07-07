@@ -1,20 +1,39 @@
+@import "./variables.less";
+
 .simple-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  --col-grid: 1;
+  @media @sm {
+    --col-grid: 2;
+  }
+  @media @md {
+    --col-grid: 3;
+  }
+  @media @lg {
+    --col-grid: 4;
+  }
+  @media @xl {
+    --col-grid: 5;
+  }
+
+  &-compact {
+    --col-grid: 1;
+    @media @md-xl {
+      --col-grid: 2;
+    }
+  }
+
+  &-list {
+    --col-grid: 1;
+  }
+
+  display: grid;
+  grid-template-columns: repeat(var(--col-grid), 1fr);
 
   margin: 30px 0;
-  padding: 20px;
+  gap: 30px;
 
   & > &-cell {
     list-style-type: none;
-    flex: 1 1 0px;
-    margin: 20px;
-    min-width: 200px;
-    height: 200px;
-  }
-
-  &-fw > &-cell {
-    flex: 1 1 100%;
+    min-height: 200px;
   }
 }

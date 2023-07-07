@@ -18,10 +18,10 @@ animated.
 - Automatic re-animation after the item exits the viewport area
 - Pre-defined CSS animations
   - `esl-animate-fade`
-  - `esl-animate-slide-left`
-  - `esl-animate-slide-right`
-  - `esl-animate-slide-up`
-  - `esl-animate-slide-down`
+  - `esl-animate-slide left`
+  - `esl-animate-slide right`
+  - `esl-animate-slide up`
+  - `esl-animate-slide down`
 
 ## `ESLAnimateService`
 
