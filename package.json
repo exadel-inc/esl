@@ -21,6 +21,9 @@
     "embedded-video",
     "scrollbar"
   ],
+  "bugs": {
+    "url": "https://github.com/exadel-inc/esl/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/exadel-inc/esl.git"
