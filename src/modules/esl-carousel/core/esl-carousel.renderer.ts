@@ -32,6 +32,11 @@ export abstract class ESLCarouselRenderer {
     return this.carousel.config.loop;
   }
 
+  /** @returns {@link ESLCarousel} `$slideArea` */
+  public get $area(): HTMLElement {
+    return this.carousel.$slidesArea;
+  }
+
   public bind(): void {
     const type = this.constructor as typeof ESLCarouselRenderer;
     this.carousel.classList.add(`${type.is}-carousel`);
@@ -95,8 +100,9 @@ export abstract class ESLCarouselRenderer {
 
   /** Sets active slides from passed index **/
   public setActive(from: number): void {
+    const count = Math.min(this.count, this.size);
     this.carousel.$slides.forEach((el) => el.active = false);
-    for (let i = 0; i < this.count; i++) {
+    for (let i = 0; i < count; i++) {
       this.carousel.slideAt(from + i).active = true;
     }
   }

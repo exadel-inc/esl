@@ -65,4 +65,11 @@ export class ESLCarouselSlide extends ESLBaseElement {
       this.setAttribute('aria-label', `carousel item ${this.index + 1}`);
     }
   }
+
+  /** Creates slide element, use passed content as slide inner */
+  public static override create(content?: HTMLElement | DocumentFragment): ESLCarouselSlide {
+    const $slide = super.create() as ESLCarouselSlide;
+    if (content) $slide.appendChild(content);
+    return $slide;
+  }
 }

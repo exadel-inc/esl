@@ -35,6 +35,8 @@ export class ESLCarouselTouchMixin extends ESLCarouselPlugin {
 
   /** @returns marker whether the event should be ignored. */
   protected isIgnoredEvent(event: TouchEvent | PointerEvent | MouseEvent): boolean | undefined {
+    // No nav required
+    if (this.$host.size <= this.$host.config.count) return true;
     // Check for media condition
     if (!ESLMediaQuery.for(this.media).matches) return true;
     // Multi-touch gesture

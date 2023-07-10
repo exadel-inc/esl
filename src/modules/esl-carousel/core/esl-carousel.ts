@@ -103,6 +103,11 @@ export class ESLCarousel extends ESLBaseElement {
     this.update();
   }
 
+  protected override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    memoize.clear(this, ['$container', '$slides', '$slidesArea']);
+  }
+
   /** Updates the config and the state that is associated with */
   @decorate(microtask)
   public update(): void {
@@ -115,6 +120,7 @@ export class ESLCarousel extends ESLBaseElement {
       this.renderer && this.renderer.unbind();
       memoize.clear(this, 'renderer');
     }
+    this.updateContainer();
     this.renderer.redraw();
 
     const added = this.$slides.filter((slide) => !$oldSlides.includes(slide));
@@ -125,23 +131,34 @@ export class ESLCarousel extends ESLBaseElement {
     this.dispatchEvent(ESLCarouselChangeEvent.create({added, removed, config, oldConfig}));
   }
 
+  public updateContainer(): void {
+    if (!this.$container) return;
+    this.$container.toggleAttribute('empty', this.size === 0);
+    this.$container.toggleAttribute('single', this.size === 1);
+    this.$container.toggleAttribute('incomplete', this.size <= this.config.count);
+  }
+
   /** Appends slide instance to the current carousel */
-  public addSlide(slide: ESLCarouselSlide): void {
-    if (slide.parentNode !== this.$slidesArea) this.$slidesArea?.appendChild(slide);
+  public addSlide(slide: HTMLElement | ESLCarouselSlide): void {
+    if (!slide) return;
+    if (!(slide instanceof ESLCarouselSlide)) return this.addSlide(ESLCarouselSlide.create(slide));
+    if (slide.parentNode !== this.$slidesArea) {
+      slide.remove();
+      this.$slidesArea?.appendChild(slide);
+    }
     this.update();
   }
 
   /** Remove slide instance from the current carousel */
-  public removeSlide(slide: ESLCarouselSlide): void {
+  public removeSlide(slide: HTMLElement | ESLCarouselSlide): void {
+    if (!slide) return;
+    if (!(slide instanceof ESLCarouselSlide)) return this.removeSlide(slide.closest(ESLCarouselSlide.is)!);
     if (slide.parentNode === this.$slidesArea) this.$slidesArea?.removeChild(slide);
     this.update();
   }
 
   protected updateA11y(): void {
     // TODO: update a11y -> check a11y everywhere
-    // this.$slidesArea?.setAttribute('aria-live', 'polite');
-    // const ariaLabel = this.hasAttribute('aria-label');
-    // !ariaLabel && this.setAttribute('aria-label', 'Carousel');
   }
 
   @listen({
@@ -169,13 +186,24 @@ export class ESLCarousel extends ESLBaseElement {
     return els.filter((slide): slide is ESLCarouselSlide  => slide.matches(ESLCarouselSlide.is));
   }
 
-  /** @returns slides carousel area. */
+  /** @returns carousel container */
   @memoize()
-  public get $slidesArea(): HTMLElement | null {
-    return this.querySelector('[data-slides-area]');
+  public get $container(): HTMLElement | null {
+    return this.closest(`[${ESLCarousel.is}-container]`);
   }
 
-  /** @returns first active slide. */
+  /** @returns slides carousel area */
+  @memoize()
+  public get $slidesArea(): HTMLElement {
+    const $provided = this.querySelector('[data-slides-area]');
+    if ($provided) return $provided as HTMLElement;
+    const $container = document.createElement('div');
+    $container.setAttribute('data-slides-area', '');
+    this.appendChild($container);
+    return $container ;
+  }
+
+  /** @returns first active slide */
   public get $activeSlide(): ESLCarouselSlide | null {
     const actives = this.$slides.filter((el) => el.active);
     if (actives.length === 0) return null;

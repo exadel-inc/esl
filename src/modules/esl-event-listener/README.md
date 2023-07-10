@@ -111,6 +111,18 @@ Here is the list of supported keys of `ESLEventDesriptor`:
   <u>Default Value:</u> `null`  
   <u>Description:</u> the CSS selector to filter event targets for event delegation mechanism.
 
+  ⚠ If you want to get the currently delegated event target, you can access the `$delegate` key under the received event 
+  instance. In order to have access to `$delegate` strictly typed use the `DelegatedEvent<EventType>` type decorator.
+
+  E.g.:
+  ```typescript
+  @listen({ event: 'click', selector: 'button' })
+  onClick(e: DelegatedEvent<MouseEvent> /* instead of MouseEvent */) {
+    const delegate = e.$delegate; //instaead of e.target && e.target.closest('button');
+    ...
+  }
+  ```
+
   Supports `PropertyProvider` to declare the computed value as well.
 
 - #### `capture` key
