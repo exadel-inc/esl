@@ -149,7 +149,7 @@ export class ESLMultiCarouselRenderer extends ESLCarouselRenderer {
     if (achieveBorders) {
       // calculate offset to move to
       const shiftCount = Math.abs(offset) % this.slideWidth >= this.slideWidth / 4 ? 1 : 0;
-      const stageOffset = offset < 0 ? -shiftCount * this.slideWidth : (shiftCount - 1) * this.slideWidth;
+      const stageOffset = offset < 0 ? -shiftCount * this.slideWidth : (shiftCount - 1) * this.slideWidth - this.gapWidth;
 
       this.carousel.toggleAttribute('animating', true);
       this.carousel.$slidesArea!.style.transform = `translateX(${stageOffset}px)`;
