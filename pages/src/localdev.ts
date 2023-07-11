@@ -29,9 +29,11 @@ import {
   ESLSelect,
   ESLSelectList,
   ESLNote,
+  ESLNoteIgnore,
   ESLFootnotes,
   ESLTooltip,
   ESLAnimate,
+  ESLAnimateMixin,
   ESLShare,
   ESLRelatedTarget,
 
@@ -106,9 +108,11 @@ ESLSelect.register();
 
 ESLFootnotes.register();
 ESLNote.register();
+ESLNoteIgnore.register();
 ESLTooltip.register();
 
 ESLAnimate.register();
+ESLAnimateMixin.register();
 
 ESLCarousel.register();
 ESLCarouselNavDots.register();

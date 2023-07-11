@@ -53,6 +53,9 @@ export class ESLFootnotes extends ESLBaseElement {
 
   protected override connectedCallback(): void {
     super.connectedCallback();
+    if (!this.id) {
+      this.id = sequentialUID(this.baseTagName, this.baseTagName + '-');
+    }
 
     this._notifyNotes();
   }
@@ -108,7 +111,13 @@ export class ESLFootnotes extends ESLBaseElement {
 
   /** Builds item index */
   protected buildItemIndex(footnote: FootnotesItem): string {
-    return `<span class="esl-footnotes-index">${footnote.renderedIndex.join(', ')}</span>`;
+    return `<span class="esl-footnotes-index">${footnote.renderedIndex.map(this.buildWrappedItemIndex).join(', ')}</span>`;
+  }
+
+  /** Builds item index wrapped with span related to esl-note by id */
+  @bind
+  protected buildWrappedItemIndex(index: string): string {
+    return `<span id="${this.id}-${index}">${index}</span>`;
   }
 
   /** Builds item text */

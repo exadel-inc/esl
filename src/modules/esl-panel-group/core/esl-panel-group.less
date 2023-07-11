@@ -23,8 +23,10 @@ esl-panel-group {
 }
 
 // fix a11y
-esl-panel-group:not(.animate) esl-panel:not(.animate):not(.open) {
-  * {
-    visibility: hidden !important;
+@media screen {
+  esl-panel-group:not(.animate) esl-panel:not(.animate):not(.open) {
+    * {
+      visibility: hidden !important;
+    }
   }
 }
