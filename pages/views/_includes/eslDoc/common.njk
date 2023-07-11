@@ -1,0 +1,88 @@
+{% macro comment(comment) %}
+  {% if comment %}
+    {% if comment is string %}
+      {{ comment }}
+    {% else %}
+      <div>
+        {% if comment.text %}
+          <p class="esl-doc-comment">{{ comment.text }}</p>
+        {% endif %}
+
+        {% for tag in comment.tags %}
+          <h5>{{ tag.name }}</h5>
+          <p>
+            {% if tag.link %}
+              {% set link = tag.link %}
+              <a href="#{{ link }}">{{ link }}</a>
+            {% endif %}
+            <span>{{ tag.text }}</span>
+          </p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endif %}
+{% endmacro %}
+
+{% macro parameters(parameters) %}
+  {% if parameters.length > 0 %}
+    <div>
+      <h4>Parameters</h4>
+      {{ parameterList(parameters) }}
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro classProperties(properties) %}
+  {% if properties.length > 0 %}
+    {{ parameterList(properties) }}
+  {% endif %}
+{% endmacro %}
+
+{% macro parameterList(parameters) %}
+  <ul class="esl-doc-ul">
+    {% for parameter in parameters %}
+      <li>
+        <div>
+          <p>
+            <b>{{ parameter.name }}: </b>
+            <span>{{ parameter.type or 'any' }}</span>
+
+            {% if parameter.defaultValue %}
+              <span> = {{ parameter.defaultValue }}</span>
+            {% endif %}
+
+            {% if (parameter.isOptional or parameter.defaultValue) %}
+              <sup class="badge badge-warning">optional</sup>
+            {% endif %}
+
+            {% if (parameter.isRest) %}
+              <sup class="badge badge-warning">rest</sup>
+            {% endif %}
+          </p>
+
+          {% if parameter.comment %}
+            <p>{{ comment(parameter.comment) }}</p>
+          {% endif %}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
+
+{% macro typeParameters(typeParameters) %}
+  {% if typeParameters %}
+    <div>
+      <h4>Type parameters</h4>
+      <ul class="esl-doc-ul">
+        {% for param in typeParameters.parameters %}
+          <li>
+            <p>
+              <b>{{ param.name }}</b>
+              <span>{{ param.signature }}</span>
+            </p>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+{% endmacro %}

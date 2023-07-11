@@ -1,5 +1,5 @@
 const fs = require('fs');
-const path =require('path')
+const path = require('path');
 const yaml = require('js-yaml');
 
 const content = fs.readFileSync(path.resolve(__dirname, '../site.yml'), 'utf8');

@@ -1,0 +1,33 @@
+{% import './function.njk' as function %}
+{% import './common.njk' as common %}
+
+{% macro class(declaration) %}
+  <div>
+    {{ common.comment(declaration.comment) }}
+
+    {% if (declaration.ctors.length) %}
+      <h3>Constructors</h3>
+      {{ function.functionList(declaration.ctors) }}
+    {% endif %}
+
+    {% if (declaration.properties.length) %}
+      <h3>Properties</h3>
+      {{ common.classProperties(declaration.properties) }}
+    {% endif %}
+
+    {% if (declaration.getAccessors.length) %}
+      <h3>Getters</h3>
+      {{ function.functionList(declaration.getAccessors) }}
+    {% endif %}
+
+    {% if (declaration.setAccessors.length) %}
+      <h3>Setters</h3>
+      {{ function.functionList(declaration.setAccessors) }}
+    {% endif %}
+
+    {% if (declaration.methods.length) %}
+      <h3>Methods</h3>
+      {{ function.functionList(declaration.methods) }}
+    {% endif %}
+  <div>
+{% endmacro %}

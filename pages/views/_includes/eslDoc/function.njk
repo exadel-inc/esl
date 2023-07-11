@@ -1,0 +1,50 @@
+{% import './common.njk' as common %}
+
+{% macro functionBody(declaration) %}
+  <div class="esl-doc-p">
+
+    {{ common.comment(declaration.comment) }}
+    {{ common.typeParameters(declaration.typeParameters) }}
+    {{ common.parameters(declaration.parameters) }}
+
+    <section class="m-0">
+      <h4>Returns</h4>
+      <p class="m-0">{{declaration.returnType or (declaration.name if declaration.type === 'constructor' else 'void')}}</p>
+    </section>
+  </div>
+{% endmacro %}
+
+{% macro functionList(functions) %}
+  <ul class="unstyled-list">
+    {% for function in functions %}
+      <li >
+        {% set declaration = (function.declarations or function) %}
+        {{functionStatement(declaration)}}
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
+
+{% macro functionStatement(declarations) %}
+  {% if declarations.length > 1 %}
+    <esl-panel-group class="accordion-group mb-4">
+      {% for declaration in declarations %}
+        <div class="esl-d-accordion">
+          <esl-trigger class="esl-d-accordion-header h3" target="::next">
+            {{ declaration.signature }}
+          </esl-trigger>
+
+          <esl-panel open class="esl-d-accordion-panel">
+            {{ functionBody(declaration) }}
+          </esl-panel>
+        </div>
+      {% endfor %}
+    </esl-panel-group>
+  {% else %}
+    {% set declaration = (declarations[0] or declarations) %}
+    <div class="esl-d-accordion">
+      <h4 class="esl-doc-signature esl-doc-p">{{ declaration.signature }}</h4>
+      {{ functionBody(declaration) }}
+    </div>
+  {% endif %}
+{% endmacro %}
