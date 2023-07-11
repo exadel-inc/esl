@@ -1,7 +1,7 @@
 import {ESLBaseElement} from '../../../esl-base-element/core';
 import {format} from '../../../esl-utils/misc/format';
 import {rafDecorator} from '../../../esl-utils/async/raf';
-import {attr, boolAttr, decorate, listen} from '../../../esl-utils/decorators';
+import {attr, boolAttr, decorate, listen, memoize} from '../../../esl-utils/decorators';
 
 import type {ESLSelect} from './esl-select';
 
@@ -21,28 +21,40 @@ export class ESLSelectRenderer extends ESLBaseElement {
   /** Marker attribute to reflect filled state */
   @boolAttr() public hasValue: boolean;
 
-  protected $container: HTMLDivElement;
-  protected $rest: HTMLElement;
-  protected $text: HTMLElement;
-  protected $remove: HTMLButtonElement;
+  /** Internal container */
+  @memoize()
+  protected get $container(): HTMLElement {
+    const $container = document.createElement('div');
+    $container.className = 'esl-select-text-container';
+    $container.appendChild(this.$text);
+    $container.appendChild(this.$rest);
+    return $container;
+  }
 
-  constructor() {
-    super();
+  /** Inner remove button */
+  @memoize()
+  protected get $remove(): HTMLElement {
+    const $remove = document.createElement('button');
+    $remove.type = 'button';
+    $remove.setAttribute('aria-label', 'Clear');
+    $remove.className = 'esl-select-clear-btn icon-nav-close-menu';
+    return $remove;
+  }
 
-    this.$remove = document.createElement('button');
-    this.$remove.type = 'button';
-    this.$remove.setAttribute('aria-label', 'Clear');
-    this.$remove.classList.add('esl-select-clear-btn');
-    this.$remove.classList.add('icon-nav-close-menu');
+  /** Inner text element */
+  @memoize()
+  protected get $text(): HTMLElement {
+    const $text = document.createElement('span');
+    $text.className = 'esl-select-text';
+    return $text;
+  }
 
-    this.$container = document.createElement('div');
-    this.$container.classList.add('esl-select-text-container');
-    this.$text = document.createElement('span');
-    this.$text.classList.add('esl-select-text');
-    this.$container.appendChild(this.$text);
-    this.$rest = document.createElement('span');
-    this.$rest.classList.add('esl-select-text');
-    this.$container.appendChild(this.$rest);
+  /** Inner rest label element */
+  @memoize()
+  protected get $rest(): HTMLElement {
+    const $rest = document.createElement('span');
+    $rest.className = 'esl-select-text';
+    return $rest;
   }
 
   /** ESLSelect owner */

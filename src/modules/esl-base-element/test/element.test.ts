@@ -28,17 +28,28 @@ describe('ESLBaseElement', () => {
     }, 0);
   }, 100);
 
-  test('ESLBaseElement register validate', () => {
+  test('ESLBaseElement register validate', async () => {
     // Tag is not empty
     expect(() => TestElement2.register('')).toThrowError();
     TestElement2.register('test-test');
-    return customElements.whenDefined('test-test')
-      .then(() => {
-        expect(() => TestElement2.register('test-test')).not.toThrowError();
-        TestElement2.is = 'test-test-2';
-        // Tag inconsistency
-        expect(() => TestElement2.register('test-test')).toThrowError();
-      });
+    await customElements.whenDefined('test-test');
+    expect(() => TestElement2.register('test-test')).not.toThrowError();
+    expect(() => TestElement2.register('test-test-2')).toThrowError();
+    try {TestElement2.is = 'test-test-2';} catch { /* empty */ }
+    expect(TestElement2.is).toBe('test-test');
+  });
+
+  test('ESLBaseElement register validate (inheritance case)', () => {
+    expect(() => {
+      class TestIBase extends TestElement {
+        static override is = 'test-base-inh';
+      }
+      TestIBase.register();
+      class TestInherited extends TestElement {
+        static override is = 'test-child-inh';
+      }
+      TestInherited.register();
+    }).not.toThrowError();
   });
 
   describe('ESLBaseElement prototype', () => {
