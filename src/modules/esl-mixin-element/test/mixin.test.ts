@@ -101,4 +101,80 @@ describe('ESLMixinElement', () => {
       while (document.body.lastElementChild) document.body.removeChild(document.body.lastElementChild);
     });
   });
+
+  describe('ESLMixinElement prototype', () => {
+    class CTestMixin extends ESLMixinElement {
+      static override is = 'c-test';
+    }
+
+    const $host = document.createElement('div');
+    $host.toggleAttribute(CTestMixin.is, true);
+    CTestMixin.register();
+
+    beforeAll(() => document.body.appendChild($host));
+
+    test('ESLMixinElement $attr', () => {
+      const $el = CTestMixin.get($host) as CTestMixin;
+
+      const attrName = 'test-attr';
+      const val = $host.getAttribute(attrName);
+      expect($el.$$attr(attrName)).toBe(val);
+      expect($el.$$attr(attrName, 'test')).toBe(val);
+      expect($el.$$attr(attrName)).toBe('test');
+    });
+
+    test('ESLMixinElement $attr - boolean', () => {
+      const el = CTestMixin.get($host) as CTestMixin;
+
+      const attrName = 'test-attr-bool';
+      const val = $host.getAttribute(attrName);
+      expect(el.$$attr(attrName)).toBe(val);
+      expect(el.$$attr(attrName, true)).toBe(val);
+      expect(el.$$attr(attrName)).toBe('');
+      expect(el.$$attr(attrName, false)).toBe('');
+      expect(el.$$attr(attrName)).toBe(null);
+    });
+
+    test('ESLMixinElement $cls - get', () => {
+      const $el = CTestMixin.get($host) as CTestMixin;
+
+      $host.className = '';
+      expect($el.$$cls('a')).toBe(false);
+      $host.className = 'a b';
+      expect($el.$$cls('a')).toBe(true);
+      expect($el.$$cls('a b')).toBe(true);
+    });
+
+    test('ESLMixinElement $cls - set', () => {
+      const $el = CTestMixin.get($host) as CTestMixin;
+
+      $host.className = '';
+      expect($el.$$cls('a', true)).toBe(true);
+      expect($host.className).toBe('a');
+      expect($el.$$cls('b', true)).toBe(true);
+      expect($host.className).toBe('a b');
+      expect($el.$$cls('a b', false)).toBe(false);
+      expect($host.className).toBe('');
+    });
+
+    test('ESLMixinElement $$fire', (done) => {
+      const $el = CTestMixin.get($host) as CTestMixin;
+
+      $host.addEventListener('testevent', (e) => {
+        expect(e).toBeInstanceOf(CustomEvent);
+        done();
+      }, {once: true});
+      $el.$$fire('testevent');
+    }, 10);
+
+    test('ESLMixinElement $$fire - bubbling', (done) => {
+      const $el = CTestMixin.get($host) as CTestMixin;
+
+      document.addEventListener('testevent', (e) => {
+        expect(e).toBeInstanceOf(CustomEvent);
+        done();
+      }, {once: true});
+      $el.$$fire('testevent');
+    }, 10);
+  });
 });
