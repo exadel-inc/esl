@@ -17,7 +17,7 @@ import type {IMediaQueryCondition} from '../../esl-media-query/core/conditions/m
 @ExportNs('Note')
 export class ESLNote extends ESLBaseElement {
   public static override is = 'esl-note';
-  public static observedAttributes = ['tooltip-shown', 'ignore', 'anchor'];
+  public static observedAttributes = ['tooltip-shown', 'ignore'];
 
   /** Timeout before activating note (to have time to show content with this note) */
   public static readonly activateTimeout = 100;
@@ -36,12 +36,6 @@ export class ESLNote extends ESLBaseElement {
 
   /** Media query to specify that footnotes must ignore this note. Default: `not all` */
   @attr({defaultValue: 'not all'}) public ignore: string;
-
-  /**
-   * Media query to specify that footnotes must be in the mode with anchors
-   * (for the print version for example). Default: `print`
-   */
-  @attr({defaultValue: 'print'}) public anchor: string;
 
   /** Tooltip content */
   @attr() public html: string;
@@ -79,11 +73,6 @@ export class ESLNote extends ESLBaseElement {
     return !this.queryToIgnore.matches;
   }
 
-  /** Marker to allow anchor on this note */
-  public get allowAnchor(): boolean {
-    return this.anchorQuery.matches;
-  }
-
   /** Note index in the scope content */
   public get index(): number {
     return this._index;
@@ -101,7 +90,7 @@ export class ESLNote extends ESLBaseElement {
   /** Note markup */
   protected get renderedHTML(): string {
     const index = this.renderedIndex;
-    if (!(this._$footnotes && this.allowAnchor)) return index;
+    if (!this._$footnotes) return index;
     const footnotesIndexId = `${this._$footnotes.id}-${index}`;
     return `<a class="esl-note-link" href="#${footnotesIndexId}" tabindex="-1">${index}</a>`;
   }
@@ -111,13 +100,6 @@ export class ESLNote extends ESLBaseElement {
   public get queryToIgnore(): IMediaQueryCondition {
     const ignore = this.getClosestRelatedAttr('ignore') || this.ignore;
     return ESLMediaQuery.for(ignore);
-  }
-
-  /** Query to describe conditions to display anchor inside of a note */
-  @memoize()
-  public get anchorQuery(): IMediaQueryCondition {
-    const anchor = this.getClosestRelatedAttr('anchor') || this.anchor;
-    return ESLMediaQuery.for(anchor);
   }
 
   @ready
@@ -142,9 +124,6 @@ export class ESLNote extends ESLBaseElement {
     if (attrName === 'ignore') {
       this.updateIgnoredQuery();
     }
-    if (attrName === 'anchor') {
-      this.updateAnchorQuery();
-    }
   }
 
   /** Revises the settings for ignoring the note */
@@ -152,13 +131,6 @@ export class ESLNote extends ESLBaseElement {
     memoize.clear(this, 'queryToIgnore');
     this.$$on(this._onIgnoreConditionChange);
     this._onIgnoreConditionChange();
-  }
-
-  /** Revises the settings for displaying anchor inside of a note */
-  public updateAnchorQuery(): void {
-    memoize.clear(this, 'anchorQuery');
-    this.$$on(this._onAnchorConditionChange);
-    this._onAnchorConditionChange();
   }
 
   /** Gets attribute value from the closest element with group behavior settings */
@@ -307,18 +279,6 @@ export class ESLNote extends ESLBaseElement {
     this.innerHTML = this.renderedHTML;
     this.update();
     this._$footnotes?.update();
-  }
-
-  /** Actions on anchors media query changing */
-  @listen({
-    event: 'change',
-    target: (el: ESLNote) => el.anchorQuery
-  })
-  protected _onAnchorConditionChange(): void {
-    if (ESLTooltip.open) {
-      this.hideTooltip();
-    }
-    this.innerHTML = this.renderedHTML;
   }
 
   /** Handles footnotes request event */
