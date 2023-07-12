@@ -1,3 +1,10 @@
+## [4.9.2](https://github.com/exadel-inc/esl/compare/v4.9.1...v4.9.2) (2023-07-12)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** remove the possibility of setup esl-note anchor markup conditionally ([a26a3ed](https://github.com/exadel-inc/esl/commit/a26a3eda139eabc5db2094b89028b4c3cd0db8cb))
+
 ## [4.9.1](https://github.com/exadel-inc/esl/compare/v4.9.0...v4.9.1) (2023-07-07)
 
 
