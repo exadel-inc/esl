@@ -2,6 +2,7 @@ import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 
 import {UIPPlugin} from '../../../core/base/plugin';
 import {OptionConfig, UIPOption} from './option/option';
+import {UIPOptionIcons} from './OptionIcons';
 
 /**
  * Options {@link UIPPlugin} custom element definition
@@ -20,24 +21,28 @@ export class UIPOptions extends UIPPlugin {
     {
       attrName: 'hide-theme',
       optionValue: 'dark-theme',
-      canActivate: (component) => !component.hasAttribute('hide-theme')
+      canActivate: (component) => !component.hasAttribute('hide-theme'),
+      svg: UIPOptionIcons.themeSVG
     },
     {
       attrName: 'hide-direction',
       optionValue: 'rtl-direction',
-      canActivate: (component) => !component.hasAttribute('hide-direction')
+      canActivate: (component) => !component.hasAttribute('hide-direction'),
+      svg: UIPOptionIcons.rtlDirectionSVG
     },
     {
       attrName: 'hide-settings',
       optionValue: 'settings-collapsed',
       canActivate: (component) => !component.hasAttribute('hide-settings') &&
-        !!component.root?.querySelector('uip-settings')
+        !!component.root?.querySelector('uip-settings'),
+      svg: UIPOptionIcons.settingsCollapsedSVG
     },
     {
       attrName: 'hide-editor',
       optionValue: 'editor-collapsed',
       canActivate: (component) => !component.hasAttribute('hide-editor') &&
-        !!component.root?.querySelector('uip-editor')
+        !!component.root?.querySelector('uip-editor'),
+      svg: UIPOptionIcons.editorCollapsedSVG
     }
   ];
 

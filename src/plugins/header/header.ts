@@ -1,7 +1,7 @@
 import {EventUtils} from '@exadel/esl/modules/esl-utils/dom/events';
 import {listen} from '@exadel/esl/modules/esl-utils/decorators/listen';
 import {UIPPlugin} from '../../core/base/plugin';
-import {UIPOptions, UIPSnippets} from '../registration';
+import {UIPOptionIcons, UIPOptions, UIPSnippets} from '../registration';
 
 /**
  * Header {@link UIPPlugin} custom element definition
@@ -42,6 +42,7 @@ export class UIPHeader extends UIPPlugin {
     const icon = document.createElement('button');
     icon.title = 'copy markup';
     icon.classList.add('copy-icon');
+    icon.append(UIPOptionIcons.copySVG);
     this.append(icon);
   }
 

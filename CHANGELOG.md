@@ -1,3 +1,16 @@
+# [1.1.0-beta.1](https://github.com/exadel-inc/ui-playground/compare/v1.0.0...v1.1.0-beta.1) (2023-07-03)
+
+
+### Bug Fixes
+
+* **options:** specify click event target ([be10ce9](https://github.com/exadel-inc/ui-playground/commit/be10ce9ba45e67eb079f081382f2e69c05094ac3))
+
+
+### Features
+
+* add copy svg to OptionIcons class, fix click events ([c0438fb](https://github.com/exadel-inc/ui-playground/commit/c0438fb9c8c17d5f13ceb7b3b55f406dc0ae9379))
+* create OptionIcons class, update options config and styles ([f906155](https://github.com/exadel-inc/ui-playground/commit/f9061557650bf32e2337f47a6322d31589b553be))
+
 # 1.0.0 (2023-03-06)
 
 
