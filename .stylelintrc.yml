@@ -1,12 +1,16 @@
-extends:
-  - stylelint-prettier/recommended
 plugins:
+  - stylelint-prettier
   # Custom plugin to disallow absolute import paths
   - ./build/import.stylelint.js
 # Use LESS preprocessor
 customSyntax: postcss-less
 
 rules:
+  # Prettier integration
+  prettier/prettier:
+    - true
+    - severity: warning
+
   # Disallow unknown at-rules
   at-rule-no-unknown: true
   # Warn about empty selectors
