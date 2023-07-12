@@ -79,7 +79,7 @@
     "lint:css": "stylelint \"src/**/*.less\" \"pages/src/**/*.less\"",
     "prepare": "husky install && npm run build",
     "preversion": "npm test",
-    "prettier": "prettier --write \"**/*.less\""
+    "fix:less": "stylelint --fix \"**/*.less\""
   },
   "dependencies": {
     "@types/resize-observer-browser": "0.1.7",
