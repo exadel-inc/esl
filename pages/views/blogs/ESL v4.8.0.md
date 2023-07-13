@@ -1,4 +1,5 @@
 ---
+layout: content
 name: ESL v4.8.0
 title: ESL v4.8.0 Released
 tags: [news, draft]

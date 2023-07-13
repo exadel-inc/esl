@@ -11,6 +11,9 @@ export class ESLDemoBanner extends ESLToggleable {
   @attr({defaultValue: 7, parser: parseInt})
   public cookieTime: number;
 
+  @prop({initiator: 'initial', showDelay: 5000})
+  public override initialParams: ESLToggleableActionParams;
+
   @prop(true) public override closeOnEsc: boolean;
 
   /** Check if the coolie {@link cookieName} is active */

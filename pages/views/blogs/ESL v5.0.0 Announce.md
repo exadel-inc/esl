@@ -1,4 +1,5 @@
 ---
+layout: content
 name: ESL v5.0.0 Announce
 title: Our plans for July
 tags: [news, draft]
