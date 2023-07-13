@@ -1,3 +1,4 @@
+{% if banner.title and not banner.disabled %}
 <esl-d-banner class="container" close-on=".close-button" cookie-name="{{banner.cookie or ''}}">
   <div class="banner small esl-animate-slide up" esl-animate>
     <h5 class="banner-title">{{ banner.title }}</h5>
@@ -8,3 +9,4 @@
     </button>
   </div>
 </esl-d-banner>
+{% endif %}

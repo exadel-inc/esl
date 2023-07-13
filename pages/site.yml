@@ -9,6 +9,7 @@ github:
   srcUrl: "https://github.com/exadel-inc/esl/tree/main/"
 
 rewriteRules:
+  "CONTRIBUTING.md": "/introduction/contributing"
   "docs/INSTALLATION_GUIDE.md": "/introduction"
   "docs/BROWSER_SUPPORT.md": "/introduction/browser-support"
   "src/modules/esl-base-element/README.md": "/core/esl-base-element"

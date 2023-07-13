@@ -1,13 +1,15 @@
 # Contributing to ESL
 
+<a name="intro"></a>
+
 Hello potential ESL contributor. We are really glad you are going to support ESL.
 But before submitting your contribution, please make sure to take a moment and read through the following guidelines:
-  - [🔗 Code Of Conduct](CODE_OF_CONDUCT.md)
-  - [🔗 Contributor Licence Agreement](CLA.md)  
+  - [🔗 Code Of Conduct](https://github.com/exadel-inc/esl/blob/HEAD/CODE_OF_CONDUCT.md)
+  - [🔗 Contributor Licence Agreement](https://github.com/exadel-inc/esl/blob/HEAD/CLA.md)  
   - [Creating an issue](#creating-an-issue)
   - [Creating a Pull Request](#creating-a-pull-request)
-    - [🔗 Development Guide ❕🔥](docs/DEVELOPMENT.md)
-    - [🔗 Commit Convention ❕🔥](docs/COMMIT_CONVENTION.md)
+    - [🔗 Development Guide ❕🔥](https://github.com/exadel-inc/esl/blob/HEAD/docs/DEVELOPMENT.md)
+    - [🔗 Commit Convention ❕🔥](https://github.com/exadel-inc/esl/blob/HEAD/docs/COMMIT_CONVENTION.md)
     - [Outside Contributors Process](#outside-contributors-process) 
     - [Project Branches and Releases](#project-branches-and-releases)  
   - [Contributing to ESL Documentation](#contributing-to-esl-documentation)
@@ -42,36 +44,36 @@ to keep polite and constructive discussions within the project.
   Use one of the `feat/*`, `feature/*`, `fix/*`, `bugfix/*`, `docs/*`, `tech/*` prefixes for the branch.
   Use `main` or if you require the next release updates `main-beta` branch as a base to cut your branch.
 - Make sure your commits correspond to the project 
-  [commit convention](docs/COMMIT_CONVENTION.md).
+  [commit convention](https://github.com/exadel-inc/esl/blob/HEAD/docs/COMMIT_CONVENTION.md).
 - Make sure that all tests and linter checks are passed
 - Create a pull request from your fork branch to the original ESL repository.  
   _**It's strongly recommended to use `main-beta` branch as a target**_.  
-  Please rely on ESL maintainer to rebase PR if it's approved to be merged to the `main` (for 
+  Please rely on the ESL maintainers to rebase PR if it's approved to be merged to the `main` (for
   the very next ESL version) or to be moved under the proper project's "epic".
-- Please use [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md) and be sure to add @exadel-inc/esl-core-team for review.
+- Please use [Pull Request Template](https://github.com/exadel-inc/esl/blob/HEAD/.github/PULL_REQUEST_TEMPLATE.md) and be sure to add @exadel-inc/esl-core-team for review.
 - Don't forget to agree on the project CLA. The CLA bot will automatically reply to you in the comments. 
   We can not use your contribution to the project until you do that.
 
 ### Project Branches and Releases
 
-ESL internal branches flow is described on the scheme below
-![branches flow](./docs/images/branches-process.png)
+ESL internal branches flow is described on the scheme below  
+![branches flow](https://github.com/exadel-inc/esl/blob/HEAD/docs/images/branches-process.png?raw=true)
 
+The following branches are used in the project:
 - `main` - branch has an actual stable release of the library
-- `main-beta` - branch for next minor and major releases ot the library
-- `epic/*` (e.g `epic/new-big-feature`) - a branch for massive functionality or group of related features
+- `main-beta` - branch for next minor and major releases of the library
+- `epic/*` (e.g `epic/new-big-feature`) - a branch for massive functionality or a group of related features
 - `feat/*` or `feature/*` - a branch for a feature implementation
 - `fix/*` or `bugfix/*` - a branch for a bugfix implementation
 - `docs/*` - branch with the documentation or demo content updates (TS Docs, GHPages content, README, etc.)
-- `tech/*` - common updates regarding build process, configuration, linters and other technical changes 
-that are not affecting library output (npm package) 
+- `tech/*` - common updates regarding the build process, configuration, linters and other technical changes
+  that are not affecting library output (npm package)
 
 The following merge flow can be done by all ESL official collaborators:
 - `main` -> `main-beta`
 - `main` -> `epic/*`
-- `main-beta` -> `epic/*` (if epic is not going to be part of current stable major release)
+- `main-beta` -> `epic/*` (if epic is not going to be part of the current stable major release)
 
-**The merge into `main` branch is a part of release processes and allowed for maintainers (@exadel-inc/esl-core-team) only.**
 
 <a name="contributing-to-esl-documentation"></a>
 ## Contribute to ESL documentation
@@ -87,7 +89,7 @@ Use the following steps to quickly suggest an updates for ESL documentation:
 2. Click on the "Edit this file" link with a pencil icon in the top right corner of the page
 3. Make a fork of the repository and create a new branch for your changes
 4. Make your changes and check the preview
-5. Click on the "Commit changes" button and crete a fork branch
+5. Click on the "Commit changes" button and create a fork branch
 6. Fill commit message and description
 7. Make sure commit name starts with `docs: ` (or  `docs(esl-*changed module*): `) prefix
 8. Click on the "Propose changes" button
