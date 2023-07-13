@@ -10,7 +10,9 @@ But before submitting your contribution, please make sure to take a moment and r
     - [🔗 Commit Convention ❕🔥](docs/COMMIT_CONVENTION.md)
     - [Outside Contributors Process](#outside-contributors-process) 
     - [Project Branches and Releases](#project-branches-and-releases)  
-    
+  - [Contributing to ESL Documentation](#contributing-to-esl-documentation)
+
+<a name="creating-an-issue"></a>
 ##  Creating an issue
 
 In case you are going to create a new issue for a bug or feature request, 
@@ -25,6 +27,7 @@ Please don't be shy to suggest new features, improvements or notify us about the
 We are open mind to all suggestions and will do our best to keep project bugs free 
 (in bounds of our abilities and plans, of course :) ).
 
+<a name="creating-a-pull-request"></a>
 ## Creating a Pull Request
 
 If you are going to contribute to the project with the code changes please be familiar with our 
@@ -69,3 +72,24 @@ The following merge flow can be done by all ESL official collaborators:
 - `main-beta` -> `epic/*` (if epic is not going to be part of current stable major release)
 
 **The merge into `main` branch is a part of release processes and allowed for maintainers (@exadel-inc/esl-core-team) only.**
+
+<a name="contributing-to-esl-documentation"></a>
+## Contribute to ESL documentation
+
+Find a typo or just want to improve ESL documentation?
+Feel free to create a PR with your changes.
+You don't need to have a piece of special knowledge or even an open IDE for that.
+All ESL documentation is written in markdown and available in the module directory as the `src/module/esl-*/README.md`
+file.
+
+Use the following steps to quickly suggest an updates for ESL documentation:
+1. Find the right markdown file on GitHub
+2. Click on the "Edit this file" link with a pencil icon in the top right corner of the page
+3. Make a fork of the repository and create a new branch for your changes
+4. Make your changes and check the preview
+5. Click on the "Commit changes" button and crete a fork branch
+6. Fill commit message and description
+7. Make sure commit name starts with `docs: ` (or  `docs(esl-*changed module*): `) prefix
+8. Click on the "Propose changes" button
+9. Confirm your CLA agreement (you will be asked to do that if you haven't done that before
+10. You really helped us to improve ESL documentation. Thank you!
