@@ -1,25 +1,39 @@
 @import (reference) "../common/variables.less";
 
 .banner {
-  &-alert {
-    width: 80%;
-    right: 10%;
-    @media @md-xl {
-      width: 60%;
-      right: 20%;
-    }
+  position: relative;
+  padding: .5rem 2rem;
+  border: 2px solid @primary-green;
+  border-radius: 1rem;
+  color: @primary-green-dark;
+
+  text-align: center;
+  font-weight: 400;
+
+  p:last-child {
+    margin-bottom: 0;
   }
 
-  &-text {
-    text-align: center;
-    font-weight: 500;
+  .close {
+    position: absolute;
+    top: .5rem;
+    right: 1rem;
+    color: inherit;
+  }
+}
 
-    p {
-      margin: .05rem;
-    }
+esl-d-banner {
+  display: none;
+}
+.esl-d-banner {
+  display: block;
+  visibility: hidden;
+  max-height: 0;
+  transition: visibility .25s, max-height .5s ease-in-out;
 
-    @media @xs-sm {
-      font-size: .85rem;
-    }
+  &.open {
+    visibility: visible;
+    max-height: 300px;
+    transition: visibility 0s, max-height .5s ease-in-out;
   }
 }
