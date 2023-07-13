@@ -107,56 +107,45 @@ describe('ESLMixinElement', () => {
       static override is = 'c-test';
     }
 
+    let $el: CTestMixin;
+
     const $host = document.createElement('div');
     $host.toggleAttribute(CTestMixin.is, true);
-    CTestMixin.register();
 
-    beforeAll(() => document.body.appendChild($host));
+    beforeAll(async () => {
+      document.body.appendChild($host);
+      CTestMixin.register();
+
+      await Promise.resolve();
+      $el = CTestMixin.get($host) as CTestMixin;
+    });
 
     describe('ESLMixinElement $attr', () => {
-      let $el: CTestMixin;
       const attrName = 'test-attr';
+      const attrNameBool = 'test-attr-bool';
 
-      beforeAll(() => $el = CTestMixin.get($host) as CTestMixin);
-
-      test('should return the attribute value', () => {
+      test('should return the initial attribute value', () => {
         const val = $host.getAttribute(attrName);
         expect($el.$$attr(attrName)).toBe(val);
       });
 
-      test('should set the attribute value and return the new value', () => {
+      test('should set the attribute value and return the previous value', () => {
         expect($el.$$attr(attrName, 'test')).toBe(null);
         expect($el.$$attr(attrName)).toBe('test');
       });
-    });
-
-    describe('ESLMixinElement $attr - boolean', () => {
-      let el: CTestMixin;
-      const attrName = 'test-attr-bool';
-
-      beforeAll(() => el = CTestMixin.get($host) as CTestMixin);
-
-      test('should return the initial attribute value', () => {
-        const val = $host.getAttribute(attrName);
-        expect(el.$$attr(attrName)).toBe(val);
-      });
 
       test('should set and return an empty string for boolean true', () => {
-        expect(el.$$attr(attrName, true)).toBe(null);
-        expect(el.$$attr(attrName)).toBe('');
+        expect($el.$$attr(attrNameBool, true)).toBe(null);
+        expect($el.$$attr(attrNameBool)).toBe('');
       });
 
       test('should set and return null for removed attribute', () => {
-        expect(el.$$attr(attrName, false)).toBe('');
-        expect(el.$$attr(attrName)).toBe(null);
+        expect($el.$$attr(attrNameBool, false)).toBe('');
+        expect($el.$$attr(attrNameBool)).toBe(null);
       });
     });
 
-    describe('ESLMixinElement $cls - get', () => {
-      let $el: CTestMixin;
-
-      beforeAll(() => $el = CTestMixin.get($host) as CTestMixin);
-
+    describe('ESLMixinElement $cls', () => {
       test('should return false when class does not exist', () => expect($el.$$cls('a')).toBe(false));
 
       test('should return true when class exists', () => {
@@ -164,12 +153,6 @@ describe('ESLMixinElement', () => {
         expect($el.$$cls('a')).toBe(true);
         expect($el.$$cls('a b')).toBe(true);
       });
-    });
-
-    describe('ESLMixinElement $cls - set', () => {
-      let $el: CTestMixin;
-
-      beforeAll(() => $el = CTestMixin.get($host) as CTestMixin);
 
       test('should add the class when setting to true', () => {
         $host.className = '';
@@ -185,24 +168,16 @@ describe('ESLMixinElement', () => {
       });
     });
 
-    test('ESLMixinElement $$fire', (done) => {
-      const $el = CTestMixin.get($host) as CTestMixin;
+    test('ESLMixinElement $$fire', () => {
+      const eventName = 'testevent';
+      $host.dispatchEvent = jest.fn();
+      $el.$$fire(eventName);
 
-      $host.addEventListener('testevent', (e) => {
-        expect(e).toBeInstanceOf(CustomEvent);
-        done();
-      }, {once: true});
-      $el.$$fire('testevent');
-    }, 10);
-
-    test('ESLMixinElement $$fire - bubbling', (done) => {
-      const $el = CTestMixin.get($host) as CTestMixin;
-
-      document.addEventListener('testevent', (e) => {
-        expect(e).toBeInstanceOf(CustomEvent);
-        done();
-      }, {once: true});
-      $el.$$fire('testevent');
-    }, 10);
+      const event: CustomEvent = ($host.dispatchEvent as jest.Mock).mock.calls[0][0];
+      expect(event).toBeInstanceOf(CustomEvent);
+      expect(event.type).toBe(eventName);
+      expect(event.bubbles).toBe(true);
+      expect(event.cancelable).toBe(true);
+    });
   });
 });
