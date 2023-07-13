@@ -1,3 +1,5 @@
+import React from 'jsx-dom';
+
 import {debounce} from '@exadel/esl/modules/esl-utils/async/debounce';
 import {bind, decorate} from '@exadel/esl/modules/esl-utils/decorators';
 
@@ -29,9 +31,7 @@ export class UIPEditor extends UIPPlugin {
 
   /** Initialize inner {@link https://medv.io/codejar/ Codejar} editor */
   protected initEditor(): void {
-    const codeBlock = document.createElement('pre');
-    codeBlock.classList.add('language-html');
-    codeBlock.append(document.createElement('code'));
+    const codeBlock = (<pre class='language-html editor-content'><code/></pre>) as HTMLPreElement;
     this.$inner.append(codeBlock);
 
     this.editor = new JarEditor(codeBlock);

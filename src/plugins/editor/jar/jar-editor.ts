@@ -18,7 +18,7 @@ export class JarEditor extends SyntheticEventTarget {
     super();
     this.editor = CodeJar(
       element,
-      withLineNumbers(Prism.highlightElement as any, {
+      withLineNumbers(Prism.highlightElement, {
         color: '#C9BFBF'
       }),
       { tab: '\t' }
