@@ -102,6 +102,17 @@ export class ESLNote extends ESLBaseElement {
     return ESLMediaQuery.for(ignore);
   }
 
+  /** The text writing directionality of the element */
+  protected get currentDir(): string {
+    return getComputedStyle(this).direction;
+  }
+
+  /** The base language of the element */
+  protected get currentLang(): string {
+    const el = this.closest('[lang]');
+    return (el) ? (el as HTMLElement).lang : '';
+  }
+
   @ready
   protected override connectedCallback(): void {
     this.init();
@@ -208,6 +219,8 @@ export class ESLNote extends ESLBaseElement {
       activator: this,
       containerEl,
       html: this.html,
+      dir: this.currentDir,
+      lang: this.currentLang,
       intersectionMargin: this.intersectionMargin
     }, ...params);
   }
