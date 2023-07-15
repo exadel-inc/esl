@@ -1,0 +1,11 @@
+useTabs: false
+tabWidth: 2
+semi: true
+singleQuote: true
+arrowParens: always
+bracketSpacing: false
+bracketSameLine: true
+insertPragma: false
+proseWrap: preserve
+quoteProps: consistent
+trailingComma: none

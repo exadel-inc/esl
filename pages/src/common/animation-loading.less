@@ -1,4 +1,4 @@
-@import "./common/colors.less";
+@import './common/colors.less';
 
 .animation-loading {
   position: relative;
@@ -12,8 +12,8 @@
   }
 }
 
-
-.animation-loading::before, .animation-loading::after {
+.animation-loading::before,
+.animation-loading::after {
   content: '';
   display: inline-block;
   position: absolute;
@@ -36,7 +36,7 @@
   border-radius: 5px;
   background-color: inherit;
   animation: animationLoadingAfter 1s infinite ease-in;
-  animation-delay: .5s;
+  animation-delay: 0.5s;
 }
 
 @keyframes animationLoadingBefore {

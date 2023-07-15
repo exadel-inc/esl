@@ -4,7 +4,9 @@
                       @popupBorderColor: #DBDBDB,
                       @popupBorderWidth: 1px) {
   @popupArrowHalf: (@popupArrowSize / 2);
-  @popupArrowShift: (@popupArrowSize * .2071 - @popupBorderWidth);  // 0.2071 = (sqrt(2) - 1) / 2  (Don't ask why, it's an axiom)
+  @popupArrowShift: (
+    @popupArrowSize * 0.2071 - @popupBorderWidth
+  ); // 0.2071 = (sqrt(2) - 1) / 2  (Don't ask why, it's an axiom)
 
   .@{arrowClassName} {
     position: absolute;
@@ -20,7 +22,7 @@
     background: @popupBackgroundColor;
   }
 
-  &[placed-at=top] {
+  &[placed-at='top'] {
     .@{arrowClassName} {
       top: auto;
       bottom: (-@popupArrowHalf - @popupBorderWidth);
@@ -28,7 +30,7 @@
     }
   }
 
-  &[placed-at=left] {
+  &[placed-at='left'] {
     .@{arrowClassName} {
       right: (-@popupArrowHalf - @popupBorderWidth);
       left: auto;
@@ -37,7 +39,7 @@
     }
   }
 
-  &[placed-at=right] {
+  &[placed-at='right'] {
     .@{arrowClassName} {
       left: (-@popupArrowHalf - @popupBorderWidth - @popupArrowShift);
       right: auto;
@@ -67,9 +69,9 @@
     display: block;
     opacity: 0;
     visibility: hidden;
-    transition: visibility .5s .2s;
+    transition: visibility 0.5s 0.2s;
     box-sizing: border-box;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, .2);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
     border: @borderWidth solid @borderColor;
     background: @backgroundColor;
     cursor: default;
@@ -79,7 +81,9 @@
       z-index: @zIndex;
       opacity: 1;
       visibility: visible;
-      transition: opacity .15s, transform .2s;
+      transition:
+        opacity 0.15s,
+        transform 0.2s;
     }
 
     &:not([open]) {
