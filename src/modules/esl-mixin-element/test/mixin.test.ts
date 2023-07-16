@@ -173,11 +173,7 @@ describe('ESLMixinElement', () => {
       $host.dispatchEvent = jest.fn();
       $el.$$fire(eventName);
 
-      const event: CustomEvent = ($host.dispatchEvent as jest.Mock).mock.calls[0][0];
-      expect(event).toBeInstanceOf(CustomEvent);
-      expect(event.type).toBe(eventName);
-      expect(event.bubbles).toBe(true);
-      expect(event.cancelable).toBe(true);
+      expect($host.dispatchEvent).lastCalledWith(expect.objectContaining({type: eventName, cancelable: true, bubbles: true}));
     });
   });
 });
