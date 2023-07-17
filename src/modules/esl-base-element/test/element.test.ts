@@ -2,11 +2,12 @@ import '../../../polyfills/es5-target-shim';
 import {ESLBaseElement} from '../core';
 
 describe('ESLBaseElement', () => {
-
   class TestElement extends ESLBaseElement {
     public static eventNs = 'esl:test';
   }
-  class TestElement2 extends ESLBaseElement {}
+
+  class TestElement2 extends ESLBaseElement {
+  }
 
   TestElement.register('test-el-basic');
   const el = new TestElement();
@@ -35,7 +36,10 @@ describe('ESLBaseElement', () => {
     await customElements.whenDefined('test-test');
     expect(() => TestElement2.register('test-test')).not.toThrowError();
     expect(() => TestElement2.register('test-test-2')).toThrowError();
-    try {TestElement2.is = 'test-test-2';} catch { /* empty */ }
+    try {
+      TestElement2.is = 'test-test-2';
+    } catch { /* empty */
+    }
     expect(TestElement2.is).toBe('test-test');
   });
 
@@ -44,12 +48,31 @@ describe('ESLBaseElement', () => {
       class TestIBase extends TestElement {
         static override is = 'test-base-inh';
       }
+
       TestIBase.register();
+
       class TestInherited extends TestElement {
         static override is = 'test-child-inh';
       }
+
       TestInherited.register();
     }).not.toThrowError();
+  });
+
+  describe('ESLBaseElement has correct tag name on connected callback', () => {
+    const customName = 'test-base-inh-livecycle-1';
+
+    class TestEl extends TestElement {
+      static override is = 'test-base-inh-livecycle';
+      protected override connectedCallback(): void {
+        super.connectedCallback();
+        expect(this.baseTagName).toBe(customName);
+      }
+    }
+
+    beforeAll(() => document.body.append(document.createElement(customName)));
+    afterAll(() => [...document.body.querySelectorAll(customName)].forEach((node) => node.parentElement?.removeChild(node)));
+    test('Register an element with custom tag name', () => expect(() => TestEl.register(customName)).not.toThrowError());
   });
 
   describe('ESLBaseElement prototype', () => {

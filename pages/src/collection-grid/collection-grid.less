@@ -1,4 +1,4 @@
-@import (reference) "../common/variables.less";
+@import (reference) '../common/variables.less';
 
 // TODO: refactor
 .collection-grid {
@@ -7,7 +7,6 @@
   justify-content: space-around;
   grid-gap: 15px 30px;
 
-
   &-item {
     display: flex;
     flex-direction: column;
@@ -15,7 +14,9 @@
     width: 100%;
     max-width: 310px;
     border: 1px solid #c8d6f0;
-    transition: color .25s ease-in-out, border-color .25s ease-in-out;
+    transition:
+      color 0.25s ease-in-out,
+      border-color 0.25s ease-in-out;
 
     &:hover {
       text-decoration: none;
@@ -39,16 +40,20 @@
     font-weight: 600;
     color: black;
     padding: 5px 15px;
-    transition: color .25s ease-in-out;
+    transition: color 0.25s ease-in-out;
   }
 
   &-item.draft &-box {
-    opacity: .3;
-    transition: opacity .25s ease-in-out, color .1s linear;
+    opacity: 0.3;
+    transition:
+      opacity 0.25s ease-in-out,
+      color 0.1s linear;
   }
   &-item.draft:hover &-box {
     opacity: 1;
-    transition: opacity .25s ease-in-out, color .1s linear;
+    transition:
+      opacity 0.25s ease-in-out,
+      color 0.1s linear;
   }
 
   &-divider {
@@ -74,8 +79,11 @@
 
     color: white;
     -webkit-text-stroke: 1px @nav-dark-selected;
-    text-shadow: -1px -1px 0 @nav-dark-selected, 1px -1px 0 @nav-dark-selected,
-    -1px 1px 0 @nav-dark-selected, 1px 1px 0 @nav-dark-selected;
+    text-shadow:
+      -1px -1px 0 @nav-dark-selected,
+      1px -1px 0 @nav-dark-selected,
+      -1px 1px 0 @nav-dark-selected,
+      1px 1px 0 @nav-dark-selected;
   }
 
   &-alt-small {
@@ -88,7 +96,7 @@
 
   &-column &-item {
     background-color: white;
-    border-radius: .75rem;
+    border-radius: 0.75rem;
     border: 1px solid #c8d6f0;
     max-width: 100%;
     height: 100%;
