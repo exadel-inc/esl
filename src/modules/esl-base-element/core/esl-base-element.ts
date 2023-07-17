@@ -125,8 +125,8 @@ export abstract class ESLBaseElement extends HTMLElement implements ESLBaseCompo
       throw new DOMException('[ESL]: Element tag already occupied or inconsistent', 'NotSupportedError');
     }
     if (constructor) return;
-    customElements.define(tagName, this as any as CustomElementConstructor);
     finalize(this, tagName);
+    customElements.define(tagName, this as any as CustomElementConstructor);
   }
 
   /** Shortcut for `customElements.whenDefined(currentCustomElement)` */
