@@ -12,14 +12,19 @@
     --esl-animation-offset-x: 0;
     --esl-animation-offset-y: 0;
 
-
     opacity: 0;
-    transform: translate3d(var(--esl-animation-offset-x), var(--esl-animation-offset-y), 0);
+    transform: translate3d(
+      var(--esl-animation-offset-x),
+      var(--esl-animation-offset-y),
+      0
+    );
 
     &.in {
       opacity: 1;
       transform: translate3d(0, 0, 0);
-      transition: transform 1s, opacity 1s;
+      transition:
+        transform 1s,
+        opacity 1s;
     }
 
     &:not(.in) {

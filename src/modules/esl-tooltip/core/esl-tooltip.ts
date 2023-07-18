@@ -13,6 +13,10 @@ export interface TooltipActionParams extends PopupActionParams {
   text?: string;
   /** html content to be shown */
   html?: string;
+  /** text directionality of tooltips content */
+  dir?: string;
+  /** language of tooltips text content */
+  lang?: string;
   /** tooltip without arrow */
   disableArrow?: boolean;
 }
@@ -92,6 +96,8 @@ export class ESLTooltip extends ESLPopup {
     if (params.html) {
       this.innerHTML = params.html;
     }
+    this.dir = params.dir || '';
+    this.lang = params.lang || '';
     if (params.extraClass) {
       CSSClassUtils.add(this, params.extraClass);
     }

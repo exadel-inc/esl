@@ -3,7 +3,7 @@
 // Normalization of HTML elements, manually forked from Normalize.css to remove
 // styles targeting irrelevant browsers while applying new styles.
 
-@import "./variables.less";
+@import './variables.less';
 
 *,
 *::before,
@@ -22,18 +22,24 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   text-align: left;
 }
 
-footer, header, main, nav, section {
+footer,
+header,
+main,
+nav,
+section {
   display: block;
 }
 
-[tabindex="-1"]:focus:not(:focus-visible) {
+[tabindex='-1']:focus:not(:focus-visible) {
   outline: 0 !important;
 }
 
@@ -45,7 +51,7 @@ hr {
   margin-top: 1rem;
   margin-bottom: 1rem;
   border: 0;
-  border-top: 1px solid rgba(0, 0, 0, .1);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 section {
@@ -64,7 +70,7 @@ svg {
 
 label {
   display: inline-block;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 input,
@@ -91,20 +97,20 @@ select {
 }
 
 button,
-[type="button"],
-[type="reset"] {
+[type='button'],
+[type='reset'] {
   -webkit-appearance: button;
 }
 
 button:not(:disabled),
-[type="button"]:not(:disabled),
-[type="reset"]:not(:disabled) {
+[type='button']:not(:disabled),
+[type='reset']:not(:disabled) {
   cursor: pointer;
 }
 
 button::-moz-focus-inner,
-[type="button"]::-moz-focus-inner,
-[type="reset"]::-moz-focus-inner {
+[type='button']::-moz-focus-inner,
+[type='reset']::-moz-focus-inner {
   padding: 0;
   border-style: none;
 }
@@ -121,7 +127,7 @@ button {
   border-radius: 0;
 }
 
-input[type="radio"] {
+input[type='radio'] {
   box-sizing: border-box;
   padding: 0;
 }
@@ -139,6 +145,6 @@ fieldset {
 
 audio {
   &::-webkit-media-controls-enclosure {
-    border: 1px solid rgba(0, 0, 0, .6);
+    border: 1px solid rgba(0, 0, 0, 0.6);
   }
 }
