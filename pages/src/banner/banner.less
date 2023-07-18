@@ -1,8 +1,8 @@
-@import (reference) "../common/variables.less";
+@import (reference) '../common/variables.less';
 
 .banner {
   position: relative;
-  padding: .5rem 2rem;
+  padding: 0.5rem 2rem;
   border: 2px solid @primary-green;
   border-radius: 1rem;
   color: @primary-green-dark;
@@ -20,7 +20,7 @@
 
   .close {
     position: absolute;
-    top: .5rem;
+    top: 0.5rem;
     right: 1rem;
     color: inherit;
   }
@@ -33,12 +33,16 @@ esl-d-banner {
   display: block;
   visibility: hidden;
   max-height: 0;
-  transition: visibility .25s, max-height .5s ease-in-out;
+  transition:
+    visibility 0.25s,
+    max-height 0.5s ease-in-out;
 
   &.open {
     visibility: visible;
     max-height: 300px;
-    transition: visibility 0s, max-height .5s ease-in-out;
+    transition:
+      visibility 0s,
+      max-height 0.5s ease-in-out;
   }
 
   & .banner {

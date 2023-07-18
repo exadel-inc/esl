@@ -1,5 +1,5 @@
 esl-panel-group {
-  @animationTime: .5s;
+  @animationTime: 0.5s;
 
   display: block;
   box-sizing: content-box;
@@ -12,11 +12,17 @@ esl-panel-group {
   &[current-mode='tabs'] {
     > esl-panel {
       opacity: 0;
-      transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime, opacity @animationTime ease-in-out;
+      transition:
+        max-height @animationTime ease-in-out,
+        visibility 0s linear @animationTime,
+        opacity @animationTime ease-in-out;
 
       &.open {
         opacity: 1;
-        transition: max-height @animationTime ease-in-out, visibility 0s linear, opacity @animationTime ease-in-out;
+        transition:
+          max-height @animationTime ease-in-out,
+          visibility 0s linear,
+          opacity @animationTime ease-in-out;
       }
     }
   }

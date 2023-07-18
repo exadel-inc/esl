@@ -1,4 +1,4 @@
-@import (reference) "../../common/variables.less";
+@import (reference) '../../common/variables.less';
 
 esl-d-sidebar {
   .sidebar-nav-list {
@@ -50,7 +50,11 @@ esl-d-sidebar {
 
     &.active {
       color: @nav-dark-selected;
-      background: linear-gradient(to right, fade(@nav-dark-selected, 25%), fade(@nav-dark-selected, 0%));
+      background: linear-gradient(
+        to right,
+        fade(@nav-dark-selected, 25%),
+        fade(@nav-dark-selected, 0%)
+      );
 
       &::before {
         content: '';
@@ -89,7 +93,7 @@ esl-d-sidebar {
     font-size: 1.125rem;
     font-weight: 500;
 
-    transition: opacity .5s ease-in;
+    transition: opacity 0.5s ease-in;
 
     &:hover {
       color: @nav-dark-hover;
@@ -118,7 +122,7 @@ esl-d-sidebar {
 
     transform: rotate(0deg);
     transform-origin: center;
-    transition: transform .5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
   }
   .sidebar-nav-item-trigger[active] {
     &.sidebar-nav-item-arrow::after {
