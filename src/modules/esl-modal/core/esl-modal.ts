@@ -1,9 +1,10 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLToggleable} from '../../esl-toggleable/core/esl-toggleable';
-import {prop, boolAttr, attr, memoize, listen} from '../../esl-utils/decorators';
+import {boolAttr, attr, memoize, listen} from '../../esl-utils/decorators';
 import {hasAttr, setAttr} from '../../esl-utils/dom/attr';
 import {getKeyboardFocusableElements, handleFocusChain} from '../../esl-utils/dom/focus';
 import {lockScroll, unlockScroll} from '../../esl-utils/dom/scroll/utils';
+import {parseBoolean} from '../../esl-utils/misc/format';
 import {TAB} from '../../esl-utils/dom/keys';
 
 import type {ScrollLockOptions} from '../../esl-utils/dom/scroll/utils';
@@ -20,26 +21,30 @@ export class ESLModal extends ESLToggleable {
   @attr({defaultValue: '[data-modal-close]'})
   public override closeTrigger: string;
 
-  /** Define option to lock scroll
-   * @see ScrollLockOptions}
-   * */
+  /**
+   * Define option to lock scroll
+   * @see ScrollLockOptions
+   */
   @attr({defaultValue: 'pseudo'})
   public scrollLockStrategy: ScrollLockStrategies;
 
   @boolAttr() public noBackdrop: boolean;
   @boolAttr() public bodyInject: boolean;
 
-  @prop(true) public override closeOnEsc: boolean;
-  @prop(true) public override closeOnOutsideAction: boolean;
+  @attr({defaultValue: true, parser: parseBoolean})
+  public override closeOnEsc: boolean;
+
+  @attr({defaultValue: true, parser: parseBoolean})
+  public override closeOnOutsideAction: boolean;
 
   @memoize()
-  protected static get $backdrop(): any {
+  protected static get $backdrop(): HTMLElement {
     const $backdrop = document.createElement('esl-modal-backdrop');
     $backdrop.classList.add('esl-modal-backdrop');
     return $backdrop;
   }
 
-  public override connectedCallback(): void {
+  protected override connectedCallback(): void {
     super.connectedCallback();
     if (!hasAttr(this, 'role')) setAttr(this, 'role', 'dialog');
     if (!hasAttr(this, 'tabindex')) setAttr(this, 'tabIndex', '-1');
@@ -47,7 +52,6 @@ export class ESLModal extends ESLToggleable {
 
   public override onShow(params: ModalActionParams): void {
     this.bodyInject && this.inject();
-    this.activator = params.activator;
     this.showBackdrop();
     super.onShow(params);
     this.focus();

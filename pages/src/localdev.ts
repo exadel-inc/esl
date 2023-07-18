@@ -77,6 +77,8 @@ ESLMedia.register();
 
 ESLToggleableDispatcher.init();
 ESLToggleable.register();
+ESLRelatedTarget.register();
+
 ESLPopup.register();
 ESLPopupPlaceholder.register();
 
@@ -111,6 +113,3 @@ ESLAnimateMixin.register();
 
 ESLShare.config(() => fetch('/assets/share/config.json').then((response) => response.json()));
 ESLShare.register();
-
-// Register ESL Mixins
-ESLRelatedTarget.register();
