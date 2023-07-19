@@ -57,7 +57,7 @@ landing:
     title: News & Articles
     cta:
       text: Read more
-  
+
   support:
     title: Browser Support
     text:
@@ -92,3 +92,5 @@ footer:
       url: https://exadel.com
     - text: Our Solutions
       url: https://exadel.com/services/marketing-technology/
+    - text: Next ESL Releases
+      url: https://github.com/exadel-inc/esl/milestones

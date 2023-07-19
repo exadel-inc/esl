@@ -4,7 +4,6 @@ name: ESL v5.0.0 Announce
 title: Our plans for July
 tags: [news, draft]
 date: 2023-07-01
-emoji: ⚡️
 containerCls: container markdown-container
 ---
 
