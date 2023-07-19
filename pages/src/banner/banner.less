@@ -2,26 +2,33 @@
 
 .banner {
   position: relative;
-  padding: 0.5rem 2rem;
+  padding: 2rem;
   border: 2px solid @primary-green;
   border-radius: 1rem;
-  color: @primary-green-dark;
+  box-shadow: 0 0 10px @primary-green;
+  background-color: #fff;
 
   text-align: center;
-  font-weight: 400;
+  font-weight: 500;
+  color: mix(@primary-green-dark, #fff, 75%);
+
+  .banner-title {
+    font-weight: 600;
+    color: @primary-green-dark;
+  }
 
   p:last-child {
     margin-bottom: 0;
   }
 
   a[href] {
-    text-underline-color: @primary-green-dark;
+    text-decoration-color: @primary-green-dark;
   }
 
   .close {
     position: absolute;
-    top: 0.5rem;
-    right: 1rem;
+    top: 0.75rem;
+    right: 1.1rem;
     color: inherit;
   }
 }
@@ -31,22 +38,33 @@ esl-d-banner {
 }
 .esl-d-banner {
   display: block;
+  position: fixed;
+  right: 2.5rem;
+  bottom: 2.5rem;
+  width: 40rem;
+  max-width: 100%;
+
   visibility: hidden;
-  max-height: 0;
   transition:
-    visibility 0.25s,
-    max-height 0.5s ease-in-out;
+    visibility 1s,
+    transform 1s,
+    opacity 1s;
+  opacity: 0;
+  transform: translate3d(4rem, 0, 0);
+  pointer-events: none;
+
+  &:not(.open) .banner {
+    display: none;
+  }
 
   &.open {
     visibility: visible;
-    max-height: 300px;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
     transition:
       visibility 0s,
-      max-height 0.5s ease-in-out;
-  }
-
-  & .banner {
-    overflow: hidden;
-    max-height: 100%;
+      transform 1s,
+      opacity 1s;
+    pointer-events: all;
   }
 }
