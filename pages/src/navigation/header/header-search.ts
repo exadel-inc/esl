@@ -1,4 +1,4 @@
-import {prop, attr, boolAttr} from '../../../../src/modules/esl-utils/decorators';
+import {prop, attr, boolAttr, listen} from '../../../../src/modules/esl-utils/decorators';
 import {CSSClassUtils} from '../../../../src/modules/esl-utils/dom/class';
 import {afterNextRender} from '../../../../src/modules/esl-utils/async/raf';
 import {parseNumber} from '../../../../src/modules/esl-utils/misc/format';
@@ -43,5 +43,15 @@ export class ESLDemoSearchBox extends ESLToggleable {
       CSSClassUtils.remove(this, this.postCls);
       this.activator?.focus({preventScroll: true});
     }, parseNumber(this.postClsDelay));
+  }
+
+  @listen({
+    event: 'focusout',
+    target: '::parent(.header-search)'
+  })
+  protected onFocusOut(e: FocusEvent): void {
+    if (!e.relatedTarget || !e.currentTarget || (e.currentTarget as Node).contains(e.relatedTarget as Node)) return;
+    this.hide({hideDelay: 100});
+    this.activator = e.relatedTarget as HTMLElement;
   }
 }
