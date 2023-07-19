@@ -57,7 +57,7 @@ to keep polite and constructive discussions within the project.
 ### Project Branches and Releases
 
 ESL internal branches flow is described on the scheme below  
-![branches flow](https://github.com/exadel-inc/esl/blob/HEAD/docs/images/branches-process.png?raw=true)
+![branches flow](./docs/images/branches-process.png)
 
 The following branches are used in the project:
 - `main` - branch has an actual stable release of the library

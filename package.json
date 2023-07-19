@@ -115,6 +115,7 @@
     "foreach-cli": "^1.8.1",
     "html-minifier": "^4.0.0",
     "husky": "^8.0.3",
+    "image-size": "^1.0.2",
     "intersection-observer": "^0.12.2",
     "jest": "^29.6.1",
     "jest-environment-jsdom": "^29.6.1",
