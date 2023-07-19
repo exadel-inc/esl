@@ -97,36 +97,42 @@ describe('ESLToggleable: show/hide-request events', () => {
     expect($el.dispatchEvent).not.toHaveBeenCalledWith(expect.objectContaining({type: ESLToggleable.prototype.SHOW_EVENT}));
   });
 
-  test('Before event', () => {
+  describe('Before event', () => {
     const $el = ESLToggleable.create();
     $el.dispatchEvent = jest.fn();
     document.body.appendChild($el);
 
-    $el.show();
-    $el.addEventListener(ESLToggleable.prototype.BEFORE_SHOW_EVENT, () => {
-      expect($el.open).toBe(false);
-      jest.advanceTimersByTime(1);
-      expect($el.open).toBe(true);
+    test('show event', () => {
+      $el.show();
+      $el.addEventListener(ESLToggleable.prototype.BEFORE_SHOW_EVENT, () => {
+        expect($el.open).toBe(false);
+        jest.advanceTimersByTime(1);
+        expect($el.open).toBe(true);
+      });
     });
 
-    $el.hide();
-    $el.addEventListener(ESLToggleable.prototype.BEFORE_HIDE_EVENT, () => {
-      expect($el.open).toBe(true);
-      jest.advanceTimersByTime(1);
-      expect($el.open).toBe(false);
+    test('hide event', () => {
+      $el.hide();
+      $el.addEventListener(ESLToggleable.prototype.BEFORE_HIDE_EVENT, () => {
+        expect($el.open).toBe(true);
+        jest.advanceTimersByTime(1);
+        expect($el.open).toBe(false);
+      });
     });
   });
 
   describe('trackHover parameter', () => {
-    test('should enable hover tracking', () => {
-      const $el = ESLToggleable.create();
+    let $el: ESLToggleable;
+
+    beforeEach(() => {
+      $el = ESLToggleable.create();
       $el.setAttribute('open', '');
       $el.defaultParams = {trackHover: true};
       document.body.appendChild($el);
-
       jest.advanceTimersByTime(1);
-      expect($el.open).toBe(true);
+    });
 
+    test('should enable hover tracking', () => {
       ESLEventUtils.dispatch($el, 'mouseleave');
       jest.advanceTimersByTime(1);
       expect($el.open).toBe(false);
@@ -137,14 +143,6 @@ describe('ESLToggleable: show/hide-request events', () => {
     });
 
     test('should disable hover tracking', () => {
-      const $el = ESLToggleable.create();
-      $el.setAttribute('open', '');
-      $el.defaultParams = {trackHover: true};
-      document.body.appendChild($el);
-
-      jest.advanceTimersByTime(1);
-      expect($el.open).toBe(true);
-
       $el.trackHoverParams = {trackHover: false};
       ESLEventUtils.dispatch($el, 'mouseleave');
       jest.advanceTimersByTime(1);
@@ -157,49 +155,53 @@ describe('ESLToggleable: show/hide-request events', () => {
   });
 
   describe('Outside action', () => {
+    const $toggleable = ESLToggleable.create();
+    const $button = document.createElement('button');
+    const $siblingBtn = document.createElement('button');
+    const $parentBtn = document.createElement('button');
+
+    $toggleable.setAttribute('open', '');
+    $toggleable.closeOnOutsideAction = true;
+    $toggleable.appendChild($button);
+
+    $parentBtn.appendChild($toggleable);
+    document.body.appendChild($parentBtn);
+    document.body.appendChild($siblingBtn);
+
     test('event came from outside scope element', () => {
-      const $host = ESLToggleable.create();
-      $host.setAttribute('open', '');
-      $host.closeOnOutsideAction = true;
-
-      document.body.appendChild($host);
-
       ESLEventUtils.dispatch(document.body, 'mouseup');
       jest.advanceTimersByTime(1);
-      expect($host.open).toBe(false);
+      expect($toggleable.open).toBe(false);
     });
 
     test('event came from child element', () => {
-      const $root = ESLToggleable.create();
-      $root.setAttribute('open', '');
-      $root.closeOnOutsideAction = true;
-      const $button = document.createElement('button');
-
-      $root.appendChild($button);
-      document.body.appendChild($root);
-
-      expect($root.open).toBe(true);
+      $toggleable.show();
       jest.advanceTimersByTime(1);
+      expect($toggleable.open).toBe(true);
 
       ESLEventUtils.dispatch($button, 'mouseup');
       jest.advanceTimersByTime(1);
-      expect($root.open).toBe(true);
+      expect($toggleable.open).toBe(true);
     });
 
-    test('event came from activator', () => {
-      const $root = document.createElement('button');
-      const $togglable = ESLToggleable.create();
-      $togglable.closeOnOutsideAction = true;
-
-      $root.appendChild($togglable);
-      document.body.appendChild($root);
-
-      $togglable.show({activator: $root});
+    test('event came from valid activator', () => {
+      $toggleable.show({activator: $parentBtn});
       jest.advanceTimersByTime(1);
+      expect($toggleable.open).toBe(true);
 
-      ESLEventUtils.dispatch($root, 'mouseup');
+      ESLEventUtils.dispatch($siblingBtn, 'mouseup');
       jest.advanceTimersByTime(1);
-      expect($togglable.open).toBe(true);
+      expect($toggleable.open).toBe(false);
+    });
+
+    test('event came from invalid activator', () => {
+      $toggleable.show({activator: $siblingBtn});
+      jest.advanceTimersByTime(1);
+      expect($toggleable.open).toBe(true);
+
+      ESLEventUtils.dispatch($siblingBtn, 'mouseup');
+      jest.advanceTimersByTime(1);
+      expect($toggleable.open).toBe(true);
     });
   });
 
@@ -207,7 +209,6 @@ describe('ESLToggleable: show/hide-request events', () => {
     const $root = ESLToggleable.create();
     $root.setAttribute('open', '');
     $root.setAttribute('close-on', '.test-button');
-    $root.closeOnOutsideAction = true;
     const $button = document.createElement('button');
     $button.className = 'test-button';
 
