@@ -24,7 +24,6 @@ their tech stack.
 - [Overview](#overview)
 - [Library Structure](#library-structure)
 - [Installation Guide](#installation-guide)
-- [Roadmap](#roadmap)
 - [Development Information for Contributors](#development-information-for-contributors)
 
 ## Overview
@@ -68,7 +67,7 @@ with excellent performance.
 
 - ##### [ESL A11yGroup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-a11y-group/README.md) (beta)
 - ##### [ESL Alert](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-alert/README.md)
-- ##### [ESL Animate](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-animate/README.md) (beta)
+- ##### [ESL Animate](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-animate/README.md)
 - ##### [ESL Footnotes](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-footnotes/README.md) (beta)
 - ##### [ESL Image](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-image/README.md)
 - ##### [ESL Media](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-media/README.md)
@@ -77,6 +76,7 @@ with excellent performance.
 - ##### [ESL Popup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-popup/README.md) (beta)
 - ##### [ESL Related Target](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-related-target/README.md) (beta)
 - ##### [ESL Scrollbar](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-scrollbar/README.md)
+- ##### [ESL Share](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-share/README.md) (beta)
 - ##### [ESL Select](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select/README.md) (beta)
 - ##### [ESL Select List](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select-list/README.md) (beta)
 - ##### [ESL Tab and Tabs](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-tab/README.md)
@@ -126,22 +126,6 @@ with excellent performance.
     ESLImage.register();
     ```
     *You can pass custom tag name to 'register' function, but use this option only in an exceptional situation.*
-
----
-
-## Roadmap
-<a name="roadmap"></a>
-
-- ESL Carousel component (v4.1.0)
-- Migration to multi-package structure (v5.0.0)
-- Demo pages [UI Playground](https://github.com/exadel-inc/ui-playground) integration
-- A stable version of ESL Footnotes and ESL Popup components
-- Interactive Documentation and more demo site features
-- Sharable assets from the demo site (styles components)
-- Extension of esl-form elements (custom form base, helpers, validation and more)
-- More components in the library
-
-<a name="roadmap_end"></a>
 
 ---
 <a name="contributing"></a>
