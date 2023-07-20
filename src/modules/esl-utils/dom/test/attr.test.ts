@@ -8,7 +8,9 @@ describe('Attribute', () => {
   describe('hasAttr', () => {
     test('false when attribute is not present', () => expect(hasAttr(document.createElement('div'), attrName)).toBe(false));
 
-    test('false for non-valid element', () => expect(hasAttr(null as any as Element, attrName)).toBe(false));
+    test('false for non-valid element', () => expect(hasAttr(null as any, attrName)).toBe(false));
+
+    test('false for non-valid host element', () => expect(hasAttr({$host: null} as any, attrName)).toBe(false));
 
     test('true when attribute is present', () => {
       const $el = document.createElement('div');
@@ -45,7 +47,9 @@ describe('Attribute', () => {
 
     test('null when attribute is not present', () => expect(getAttr(document.createElement('div'), attrName)).toBe(null));
 
-    test('null for non-element even with fallback value', () => expect(getAttr(null as any as Element, attrName, attrFallback)).toBe(null));
+    test('null for non-valid host', () => expect(getAttr({$host: null} as any, attrName)).toBe(null));
+
+    test('null for non-valid element with fallback value', () => expect(getAttr(null as any, attrName, attrFallback)).toBe(null));
 
     test('fallback value when attribute is not present', () => expect(getAttr(document.createElement('div'), attrName, attrFallback)).toBe(attrFallback));
 
@@ -99,13 +103,9 @@ describe('Attribute', () => {
       expect($el.getAttribute(attrName)).toBe('');
     });
 
-    test('shouldn`t throw any type errors for non-valid element', () => {
-      try {
-        setAttr(null as any as Element, attrName, true);
-      } catch (e) {
-        expect(e.message).not.toBe('Cannot read properties of null (reading \'setAttribute\')');
-      }
-    });
+    test('shouldn`t throw any type errors for non-valid host', () => expect(() => setAttr({$host: null} as any, attrName, true)).not.toThrowError());
+
+    test('shouldn`t throw any type errors for non-valid element', () => expect(() => setAttr(null as any, attrName, true)).not.toThrowError());
 
     test('sets attribute for array of elements', () => {
       const $el1 = document.createElement('div');
