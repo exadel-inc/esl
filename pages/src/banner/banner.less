@@ -2,7 +2,6 @@
 
 .banner {
   position: relative;
-  padding: 2rem;
   border: 2px solid @primary-green;
   border-radius: 1rem;
   box-shadow: 0 0 10px @primary-green;
@@ -11,6 +10,11 @@
   text-align: center;
   font-weight: 500;
   color: mix(@primary-green-dark, #fff, 75%);
+
+  padding: 1rem;
+  @media @sm-xl {
+    padding: 2rem;
+  }
 
   .banner-title {
     font-weight: 600;
@@ -39,10 +43,17 @@ esl-d-banner {
 .esl-d-banner {
   display: block;
   position: fixed;
-  right: 2.5rem;
-  bottom: 2.5rem;
+
+  right: 1.5rem;
+  bottom: 1.5rem;
   width: 40rem;
-  max-width: 100%;
+  max-width: calc(100% - 3rem);
+
+  @media @sm-xl {
+    right: 2.5rem;
+    bottom: 2.5rem;
+    max-width: calc(100% - 5rem);
+  }
 
   visibility: hidden;
   transition:
