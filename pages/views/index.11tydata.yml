@@ -54,7 +54,8 @@ landing:
           utilities and framework-agnostic web components that work with any tech stack.
 
   news:
-    title: News & Articles
+    title: Our News
+    limit: 1
     cta:
       text: Read more
 

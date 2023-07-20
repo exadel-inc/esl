@@ -3,7 +3,7 @@
   <div class="newsline container">
     <h2>{{ landing.news.title }}</h2>
     <ul class="newsline-list">
-      {% for item in releasedNews | limit(3) %}
+      {% for item in releasedNews | limit(landing.news.limit) %}
         {% set isArticle = [].concat(item.data.tags).includes('blogs') %}
 
         <li class="esl-animate-slide up newsline-item"
