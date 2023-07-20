@@ -15,7 +15,7 @@ const renderImage = (attrs) => {
   const {src, alt, width, height} = attrs;
   const style = width * height ? `aspect-ratio: ${width} / ${height};` : '';
   return `<div class="img-container" style="${style}">
-    <esl-image lazy container-class alt="${alt}" data-src="${src}"></esl-image>
+    <esl-image lazy container-class mode="fit" alt="${alt}" data-src="${src}"></esl-image>
   </div>`;
 };
 
