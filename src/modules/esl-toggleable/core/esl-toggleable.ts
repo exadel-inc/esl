@@ -148,12 +148,12 @@ export class ESLToggleable extends ESLBaseElement {
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || newVal === oldVal) return;
     switch (attrName) {
-      case 'open':
-        // eslint-disable-next-line no-case-declarations
+      case 'open': {
         const isOpen = this.hasAttribute('open');
         if (this.open === isOpen) return;
         this.toggle(isOpen, {initiator: 'attribute', showDelay: 0, hideDelay: 0});
         break;
+      }
       case 'group':
         this.$$fire(this.GROUP_CHANGED_EVENT, {
           detail: {oldGroupName: oldVal, newGroupName: newVal}
