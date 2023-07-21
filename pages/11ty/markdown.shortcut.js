@@ -27,6 +27,9 @@ class MDRenderer {
         endAnchorElement.remove();
       }
 
+      //Add headers ids
+      MDRenderer.generateHeadersIds(window.document.body);
+
       // Resolve content links
       MDRenderer.resolveLinks(window.document.body, filePath);
 
@@ -71,6 +74,41 @@ class MDRenderer {
     }
     return github.srcUrl + linkPath;
   }
+
+  static generateHeadersIds(content) {
+    const headerTags = ['h1', 'h2', 'h3', 'h4'];
+    const idLengthLimit = 20;
+
+    headerTags.forEach(tag => {
+      const headers = content.getElementsByTagName(tag);
+
+      for (let header of headers) {
+        const text = header.textContent;
+        const id = text
+          .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => (index === 0 ? word.toLowerCase() : word.toUpperCase()))
+          .replace(/[^\w\s]|_/g, "").replace(/\s+/g, "")
+          .substring(0, idLengthLimit);
+
+        header.setAttribute('id', id);
+
+        this.generateAnchors(content, text, `#${id}`)
+      }
+    });
+    return content;
+  }
+
+  static generateAnchors(content, text, link) {
+    const matches = Array.from(content.querySelectorAll('*'))
+      .filter(element => element.textContent.includes(text) || element.textContent.includes(text.replace(/_/g, " ")));
+    const regex = new RegExp(`(^|\\s)${text}(\\s|[,\\.])`, 'g');
+
+    matches.forEach(match => {
+      if (!['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(match.tagName)) {
+        match.innerHTML = match.innerHTML.replace(regex, `$1<a href="${link}">${text}</a>$2`);
+      }
+    });
+  }
+
 }
 
 module.exports = (config) => {
