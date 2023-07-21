@@ -30,6 +30,9 @@ class MDRenderer {
       //Add headers ids
       MDRenderer.generateHeadersIds(window.document.body);
 
+      // Add globally defined terms links
+      MDRenderer.generateGloballyDefinedTermsLinks(window.document.body);
+
       // Resolve content links
       MDRenderer.resolveLinks(window.document.body, filePath);
 
@@ -95,6 +98,18 @@ class MDRenderer {
       }
     });
     return content;
+  }
+
+  static generateGloballyDefinedTermsLinks (content) {
+    const globallyDefinedTerms = {
+      ESL_Base_Element: 'https://esl-ui.com/core/esl-base-element/',
+      ESL_Mixin_Element: 'https://esl-ui.com/core/esl-mixin-element/'
+      // Add other globally defined terms as needed
+    };
+
+    Object.keys(globallyDefinedTerms).forEach(term => {
+      this.generateAnchors(content, term.replace(/_/g, " "), globallyDefinedTerms[term]);
+    });
   }
 
   static generateAnchors(content, text, link) {
