@@ -3,36 +3,23 @@
 esl-d-sidebar {
   .sidebar-nav-list {
     flex: 1 1 0px;
+    display: flex;
+    flex-direction: column;
   }
 
   // Nav Item Container
   .sidebar-nav-item {
+    flex: 0 0 auto;
     display: block;
     overflow: hidden;
     max-width: 100%;
     margin-bottom: 5px;
   }
 
-  // Share item
-  .sidebar-nav-item-share {
-    margin-top: 20px;
-    @media @md-xl {
-      display: none;
-    }
-
-    .esl-share-list {
-      gap: 15px;
-    }
-    .esl-share-button {
-      width: 30px;
-      height: 30px;
-    }
-    .sidebar-nav-item-heading {
-      gap: 15px;
-      @media @sm {
-        flex-direction: column;
-      }
-    }
+  .sidebar-nav-item-divider {
+    margin: 20px 40px 15px 25px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
   }
 
   // Primary Heading
