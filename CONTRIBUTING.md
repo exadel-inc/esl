@@ -31,8 +31,8 @@ We are open to all suggestions and will do our best to keep the project bug-free
 ## Creating a Pull Request
 
 If you are going to contribute to the project with the code changes, check out our 
-[Development Guide](docs/DEVELOPMENT.md) and 
-[Commit Message Convention](docs/COMMIT_CONVENTION.md).
+[Development Guide](https://github.com/exadel-inc/esl/blob/HEAD/docs/DEVELOPMENT.md) and 
+[Commit Message Convention](https://github.com/exadel-inc/esl/blob/HEAD/docs/COMMIT_CONVENTION.md).
 
 <a name="outside-contributions-process"></a>
 ### Outside Contributions Process
