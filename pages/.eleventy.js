@@ -21,6 +21,7 @@ module.exports = (config) => {
 
   // Setup simple copy operations
   config.addPassthroughCopy({
+    '../docs/images': 'assets/docs-images',
     'static/assets': 'assets',
     'static/tools': '.'
   });

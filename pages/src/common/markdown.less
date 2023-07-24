@@ -1,3 +1,5 @@
+@import './variables.less';
+
 .markdown-container {
   & ul,
   & ol {
@@ -10,5 +12,19 @@
     p:only-child {
       margin-bottom: 0;
     }
+  }
+
+  a[href] {
+    color: inherit;
+    text-decoration: solid underline @primary-blue 1px;
+
+    transition: text-decoration-thickness 0.2s linear;
+    &:hover {
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  .img-container {
+    max-width: min(100%, 1200px);
   }
 }
