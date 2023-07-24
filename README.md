@@ -75,10 +75,10 @@ with excellent performance.
 - ##### [ESL Panel Group](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-panel-group/README.md)
 - ##### [ESL Popup](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-popup/README.md) (beta)
 - ##### [ESL Related Target](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-related-target/README.md) (beta)
-- ##### [ESL Share](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-share/README.md) (beta)
 - ##### [ESL Scrollbar](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-scrollbar/README.md)
 - ##### [ESL Select](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select/README.md) (beta)
 - ##### [ESL Select List](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-forms/esl-select-list/README.md) (beta)
+- ##### [ESL Share](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-share/README.md) (beta)
 - ##### [ESL Tab and Tabs](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-tab/README.md)
 - ##### [ESL Toggleable](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-toggleable/README.md)
 - ##### [ESL Trigger](https://github.com/exadel-inc/esl/blob/HEAD/src/modules/esl-trigger/README.md)
@@ -90,7 +90,7 @@ with excellent performance.
 0. Preconditions:
    - Make sure you have all needed polyfills to support browsers from your browser-support list.
    See [Browser support & Polyfills](https://github.com/exadel-inc/esl/blob/HEAD/docs/BROWSER_SUPPORT.md) for details.
-   - Use bundler to build your project. Currently, only ES6 modules are available for consumption.
+   - Use a bundler to build your project. Currently, only ES6 modules are available for consumption.
 
 1. Install [esl npm dependency](https://www.npmjs.com/package/@exadel/esl):
     ```
