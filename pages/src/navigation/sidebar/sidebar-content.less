@@ -39,13 +39,21 @@ esl-d-sidebar {
 
   .sidebar-title {
     flex: 1 0 auto;
-    padding-left: 15px;
+    padding-left: 2px;
     overflow: hidden;
 
     font-size: 0.95rem;
     font-weight: 600;
     line-height: 20px;
+    text-align: center;
     text-transform: uppercase;
+
+    opacity: 1;
+    transition: opacity 0.25s ease-in-out 0.25s;
+  }
+  &:not(.open) .sidebar-title {
+    opacity: 0;
+    transition-delay: 0s;
   }
 
   .sidebar-content {
