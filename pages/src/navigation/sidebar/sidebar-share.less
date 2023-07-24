@@ -15,15 +15,18 @@ esl-d-sidebar {
     @media @sm-xl {
       margin-top: auto;
       margin-bottom: 0;
-      padding: 20px 25px 0;
+      padding: 30px 40px 0 21px;
+    }
+    @media @sm {
+      padding-left: 36px;
     }
 
     .esl-share {
       max-width: 100%;
       flex: 0 0 auto;
-      gap: 2rem;
+      margin: 0 -5px; // Offset for facebook icon
+      gap: 1.75rem;
       @media @sm-xl {
-        margin: 0;
         gap: 0.65rem;
       }
 
