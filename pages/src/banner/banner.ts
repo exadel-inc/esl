@@ -26,7 +26,7 @@ export class ESLDemoBanner extends ESLToggleable {
 
   @memoize()
   public get $focusable(): HTMLElement | undefined {
-    return this.querySelector('a, button') as HTMLElement | undefined;
+    return this.querySelector('.banner') as HTMLElement | undefined;
   }
 
   /** Store cookie {@link cookieName} for {@link cookieTime} period */

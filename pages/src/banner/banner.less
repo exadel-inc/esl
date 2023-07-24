@@ -4,7 +4,7 @@
   position: relative;
   border: 2px solid @primary-green;
   border-radius: 1rem;
-  box-shadow: 0 0 10px @primary-green;
+  box-shadow: 0 0 6px @primary-green;
   background-color: #fff;
 
   text-align: center;
@@ -34,6 +34,12 @@
     top: 0.75rem;
     right: 1.1rem;
     color: inherit;
+  }
+
+  &:focus,
+  &:focus-within {
+    outline: none;
+    box-shadow: 0 0 10px @primary-green;
   }
 }
 

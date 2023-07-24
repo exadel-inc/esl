@@ -3,7 +3,7 @@
               cookie-name="{{banner.cookie or ''}}"
               role="note"
               aria-live="polite">
-  <div class="banner">
+  <div class="banner" tabindex="-1">
     <h5 class="banner-title h4">{{ banner.title }}</h5>
     <div class="markdown-container">{% markdown %} {{ banner.content }} {% endmarkdown %}</div>
 
