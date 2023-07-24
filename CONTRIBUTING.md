@@ -73,25 +73,23 @@ The following merge flows can be done by all ESL official collaborators:
 - `main` -> `main-beta`
 - `main` -> `epic/*`
 - `main-beta` -> `epic/*` (if the epic is not going to be a part of the current stable major release)
-
-
 <a name="contributing-to-esl-documentation"></a>
 ## Contribute to ESL documentation
 
 Found a typo or just want to improve ESL documentation?
 Feel free to create a PR with your changes.
-You don't need to have special knowledge or even an open IDE for this.
+You don't need special knowledge or even an open IDE to do this.
 All ESL documentation is written in markdown and available in the module directory in `src/module/esl-*/README.md`
 files.
 
-Use the following steps to quickly suggest an update for ESL documentation:
+Use the following steps to suggest an update for ESL documentation quickly:
 1. Find the right markdown file on GitHub
 2. Click the "Edit this file" link with a pencil icon in the top right corner of the page
 3. Make a fork of the repository and create a new branch for your changes
 4. Make your changes and check the preview
-5. Click on the "Commit changes" button and create a fork branch
+5. Click on the "Commit changes" button and create a fork of the branch
 6. Fill commit message and description
-7. Make sure commit name starts with `docs: ` (or `docs(esl-*changed module*): `) prefix
+7. Make sure the commit name starts with `docs: ` (or `docs(esl-*changed module*): `) prefix
 8. Click the "Propose changes" button
 9. Confirm your CLA agreement (you will be asked to do this the first time you contribute to the project)
 10. You have really helped us to improve ESL documentation. Thank you!
