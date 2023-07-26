@@ -2,7 +2,7 @@ import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {setAttr} from '../../esl-utils/dom/attr';
 import {attr, boolAttr, prop, listen, ready} from '../../esl-utils/decorators';
-import {parseNumber} from '../../esl-utils/misc/format';
+import {parseBoolean, parseNumber, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ENTER, SPACE, ESC} from '../../esl-utils/dom/keys';
 import {ESLTraversingQuery} from '../../esl-traversing-query/core';
@@ -68,7 +68,7 @@ export class ESLTrigger extends ESLBaseElement {
   @attr({defaultValue: '0'}) public hoverHideDelay: string;
 
   /** Prevent ESC keyboard event handling for target element hiding */
-  @boolAttr() public ignoreEsc: boolean;
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public ignoreEsc: boolean;
 
   protected _$target: ESLToggleable | null;
 
