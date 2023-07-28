@@ -1,3 +1,5 @@
+@import (reference) './variables.less';
+
 pre,
 code {
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
@@ -7,7 +9,7 @@ code {
 
 code {
   font-size: 87.5%;
-  color: #dd4a68;
+  color: #0077b7;
   word-wrap: break-word;
 }
 
@@ -15,9 +17,11 @@ pre {
   display: block;
   font-size: 87.5%;
   color: #212529;
-  margin-top: 0;
-  margin-bottom: 1rem;
   overflow: auto;
+  background: #131a2e;
+  padding: 1em;
+  margin: 0.5em 0;
+  border-radius: 0.5em;
 
   code {
     font-size: inherit;
@@ -33,7 +37,6 @@ pre {
   color: #000;
   border: 1px solid #bbb;
   border-radius: 0.25rem;
-  background-color: #eee;
 
   font-weight: bolder;
 }
