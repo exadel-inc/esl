@@ -1,4 +1,17 @@
-@import (reference) './variables.less';
+@import (inline) '@exadel/ui-playground/esm/registration.css';
+@import (reference) '../common/variables.less';
+
+uip-settings:not(.uip-settings) {
+  display: none;
+}
+
+uip-root {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  &.uip-root {
+    opacity: 1;
+  }
+}
 
 .uip-root {
   background-color: transparent;
