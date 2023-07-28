@@ -21,7 +21,7 @@ ESLNote is a badge with a number or symbol. When it's hovered or clicked (user-d
 
 ### ESLFootnotes Attributes | Properties:
 
-- `scopeTarget` (string) - target element ([ESLTraversingQuery](../esl-traversing-query/README.md) selector) to define scope of footnotes (`::parent` by default)
+- `scope-target` (string) - target element ([ESLTraversingQuery](../esl-traversing-query/README.md) selector) to define scope of footnotes (`::parent` by default)
 
 - `grouping` (string) - grouping note instances with identical content. Available options:
   -  `enable` - default, notes with identical content will be grouped
@@ -42,8 +42,6 @@ ESLNote is a badge with a number or symbol. When it's hovered or clicked (user-d
 
 - `ignore` - [MediaQuery](../esl-media-query/README.md) to specify device media conditions when footnotes must ignore current note (`not all` by default)
 
-- `anchor` - [MediaQuery](../esl-media-query/README.md) to specify device media conditions when the note should have an anchor relationship between note and footnote (for print version for example) (`print` by default)
-
 - `html` - content of note tooltip. If not present, it fills with innerHTML of ESLNote
 
 - `standalone-label` - note's label in the standalone mode (detached from footnotes), in the connected mode it is a numeric index that is calculated automatically. (`*` by default)
@@ -51,3 +49,11 @@ ESLNote is a badge with a number or symbol. When it's hovered or clicked (user-d
 - `track-click` - [MediaQuery](../esl-media-query/README.md) to define allowed to track click event media. (`all` by default)
   
 - `track-hover` - [MediaQuery](../esl-media-query/README.md) to define allowed to track hover event media. (`all` by default)
+
+#### Ignoring the group of notes
+
+If you want the current note to be ignored by the footnote component using the `ignore` attribute, there is no need to write this attribute on each note. You can write the `esl-note-ignore` attribute once on the root element of the part for which these values are valid.
+
+It should be noted that for the `esl-note-ignore` attribute, the principle of cascading applies. The principle of cascading is similar to CSS variables. The value is searched from the element and up the tree to the document body itself. If the attribute is not found in parent elements, the value of the `ignore` attribute from the note is used.
+
+In other words, if it turns out that both the `ignore` attribute is set on the note and group ignore is present on the parent elements, then `esl-note-ignore` wins. And if there are several parent elements with group ignore, the one closest to the note will win.

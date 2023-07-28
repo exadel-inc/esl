@@ -1,5 +1,5 @@
 esl-panel {
-  @animationTime: .5s;
+  @animationTime: 0.5s;
 
   display: block;
   height: auto;
@@ -7,12 +7,16 @@ esl-panel {
 
   visibility: hidden;
   max-height: 0;
-  transition: max-height @animationTime ease-in-out, visibility 0s linear @animationTime;
+  transition:
+    max-height @animationTime ease-in-out,
+    visibility 0s linear @animationTime;
 
   &.open {
     visibility: visible;
     max-height: none;
-    transition: max-height @animationTime ease-in-out, visibility 0s linear;
+    transition:
+      max-height @animationTime ease-in-out,
+      visibility 0s linear;
   }
 }
 

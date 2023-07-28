@@ -1,3 +1,68 @@
+## [4.9.4](https://github.com/exadel-inc/esl/compare/v4.9.3...v4.9.4) (2023-07-17)
+
+
+### Bug Fixes
+
+* **esl-base-element:** fix redefine tag feature (existing component receives incorrect tag name) ([6c17690](https://github.com/exadel-inc/esl/commit/6c17690e9c332927df91bd7c87e93cb0732ba8bf)), closes [#1804](https://github.com/exadel-inc/esl/issues/1804)
+
+## [4.9.3](https://github.com/exadel-inc/esl/compare/v4.9.2...v4.9.3) (2023-07-13)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** fix esl-tooltip related to the note does not perceive dir and lang of original content ([e506d0d](https://github.com/exadel-inc/esl/commit/e506d0dbf6504197032e384139115433b8d1a414))
+
+## [4.9.2](https://github.com/exadel-inc/esl/compare/v4.9.1...v4.9.2) (2023-07-12)
+
+
+### Bug Fixes
+
+* **esl-footnotes:** remove the possibility of setup esl-note anchor markup conditionally ([a26a3ed](https://github.com/exadel-inc/esl/commit/a26a3eda139eabc5db2094b89028b4c3cd0db8cb))
+
+## [4.9.1](https://github.com/exadel-inc/esl/compare/v4.9.0...v4.9.1) (2023-07-07)
+
+
+### Bug Fixes
+
+* hotfix for writeable `is` field short initialization syntax ([e46461b](https://github.com/exadel-inc/esl/commit/e46461bf69335993f7005efd55b8fd55dbe0f152))
+
+# [4.9.0](https://github.com/exadel-inc/esl/compare/v4.8.0...v4.9.0) (2023-07-07)
+
+
+### Bug Fixes
+
+* **esl-animate:** default print styles for esl-animate ootb animation ([3d4ea2a](https://github.com/exadel-inc/esl/commit/3d4ea2a52cb5c5de019bf5aedc94d182fbf7dfc8))
+* **esl-animate:** missing types for `esl-animate` module ([2000e04](https://github.com/exadel-inc/esl/commit/2000e041f882a7f22af620285b52ff5e5caf3b19))
+* **esl-base-element:** more accurate check for element redeclaration (detects both: tag and class inconsistency) ([66266a9](https://github.com/exadel-inc/esl/commit/66266a9996d52245c3c094edfb8397066e1d6895))
+* **esl-mixin-element:** remove mixin store invalidate on re-requesting registration + more accurate exceptions ([86b7620](https://github.com/exadel-inc/esl/commit/86b7620a3e18408701f7bde3234bc7781abfff9a))
+* **esl-mixin-element:** significant improvement for mixin registration process (scope DOM invalidation to changes records and registered mixin type ) ([06bd2ff](https://github.com/exadel-inc/esl/commit/06bd2ff1d32337af86fbe7d43b4ecc327b17110c))
+* **esl-panel-group:** default print styles for esl-panel-group ([9a2fc28](https://github.com/exadel-inc/esl/commit/9a2fc281d06b2070a90679cbdf758d606dd9aa0b))
+* **esl-panel:** default print styles for esl-panel ([68cf512](https://github.com/exadel-inc/esl/commit/68cf512f709d51686c03797066e382f1f4b38080))
+* **esl-select:** activator lost on dropdown hide ([02de9dd](https://github.com/exadel-inc/esl/commit/02de9ddb7fd6a3e590b4201890565a9321221162))
+* **gh-pages:** default print styles for gh-pages ([bb8a0ab](https://github.com/exadel-inc/esl/commit/bb8a0ab98ac85502af179d43a521dbeee32666cc))
+
+
+### Code Refactoring
+
+* **esl-animate:** rework default animation classes ([69ef3af](https://github.com/exadel-inc/esl/commit/69ef3af0927e5cf2e283326e86bc134f8999a477))
+
+
+### Features
+
+* **esl-footnotes:** add support of the anchor relationship between note and footnote for the print version ([d30c662](https://github.com/exadel-inc/esl/commit/d30c6629729071db724bd377681863dbf260947b))
+* **esl-footnotes:** create esl-note-ignore mixin ([3caa0d5](https://github.com/exadel-inc/esl/commit/3caa0d52ef260876009bb04c961ebc5fbba11a10))
+* **esl-select:** internal `esl-select-dropdown` is migrated to `esl-popup` ([#1393](https://github.com/exadel-inc/esl/issues/1393)) ([5f0009c](https://github.com/exadel-inc/esl/commit/5f0009cdefb341aa3cd0f5ea7e95e84633148a27))
+* **esl-share:** create esl-share-trigger component ([75a84f6](https://github.com/exadel-inc/esl/commit/75a84f6eb29e971b5bd2095af809ad9149c3c078))
+* **esl-share:** create popup mode for esl-share component ([0df4116](https://github.com/exadel-inc/esl/commit/0df41165e9f5aee54709f2c3c68609412aa5d6bb))
+
+
+### BREAKING CHANGES
+
+* **esl-animate:** default esl-animate module class `esl-animate-slide-up` replaced with `esl-animate-slide up`
+* **esl-animate:** default esl-animate module class `esl-animate-slide-down` replaced with `esl-animate-slide down`
+* **esl-animate:** default esl-animate module class `esl-animate-slide-left` replaced with `esl-animate-slide left`
+* **esl-animate:** default esl-animate module class `esl-animate-slide-right` replaced with `esl-animate-slide right`
+
 # [4.8.0](https://github.com/exadel-inc/esl/compare/v4.7.1...v4.8.0) (2023-06-26)
 
 
