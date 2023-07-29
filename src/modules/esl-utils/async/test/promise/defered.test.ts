@@ -28,7 +28,7 @@ describe('async/promise/deferred', () => {
     return def$$.promise.catch((n) => expect(n).toBe(1));
   });
 
-  describe('Rejected Deferred does not leads to uncaught in promise', () => {
+  describe('Rejected Deferred doesn`t lead to uncaught in promise', () => {
     const throwFn = jest.fn((reason) => {throw reason;});
 
     beforeAll(() => {
@@ -40,7 +40,7 @@ describe('async/promise/deferred', () => {
       process.off('unhandledRejection', throwFn);
     });
 
-    test('Deferred does not leads to uncaught', async () => {
+    test('Deferred doesn`t lead to uncaught', async () => {
       const def$$ = createDeferred();
       def$$.reject(1);
       await promisifyTimeout(0);
