@@ -1,3 +1,4 @@
+/** Deferred object represents promise with it's resolve/reject methods */
 export type Deferred<T> = {
   /** Wrapped promise */
   promise: Promise<T>;
