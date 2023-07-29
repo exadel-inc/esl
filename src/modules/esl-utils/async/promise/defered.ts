@@ -1,44 +1,51 @@
-/** Deferred object represents promise with it's resolve/reject methods */
-export type Deferred<T> = {
-  /** Wrapped promise */
-  promise: Promise<T>;
-  /** Function that resolves wrapped promise */
-  resolve: (arg: T) => void;
-  /** Function that rejects wrapped promise */
-  reject: (arg?: any) => void;
+type PromiseAction<T> = {
+  type: 'resolve';
+  arg: T;
+} | {
+  type: 'reject';
+  arg?: any;
 };
 
 /**
- * LazyDeferred represents a promise with its resolve/reject methods.
+ * Deferred represents a promise with its resolve/reject methods.
  * The underlying Promise is created lazily when accessed.
  */
-class LazyDeferred<T> implements Deferred<T> {
+export class Deferred<T> implements Deferred<T> {
   private _promise: Promise<T>;
   private _resolve: (value: T) => void;
   private _reject: (reason?: any) => void;
 
-  private _promiseRequested: Promise<void>;
-  private _resolveRequested: () => void;
+  private _promiseCallback?: PromiseAction<T>;
+  private _promiseRequested = false;
 
   constructor() {
     this._promise = new Promise<T>((resolve, reject) => {
       this._resolve = resolve;
       this._reject = reject;
     });
-    this._promiseRequested = new Promise<void>((resolve) => this._resolveRequested = resolve);
   }
 
+  /** Wrapped promise */
   public get promise(): Promise<T> {
-    this._resolveRequested();
+    const {_promiseCallback} = this;
+    if (!this._promiseRequested && _promiseCallback) {
+      const {arg, type} = _promiseCallback;
+      type === 'resolve' ? this._resolve(arg) : this._reject(arg);
+    }
+    this._promiseRequested = true;
     return this._promise;
   }
 
+  /** Function that resolves wrapped promise */
   public resolve(arg: T): void {
-    this._promiseRequested.then(() => this._resolve(arg));
+    this._promiseRequested && this._resolve(arg);
+    if (!this._promiseCallback) this._promiseCallback = {type: 'resolve', arg};
   }
 
+  /** Function that rejects wrapped promise */
   public reject(arg?: any): void {
-    this._promiseRequested.then(() => this._reject(arg));
+    this._promiseRequested && this._reject(arg);
+    if (!this._promiseCallback) this._promiseCallback = {type: 'reject', arg};
   }
 }
 
@@ -46,5 +53,5 @@ class LazyDeferred<T> implements Deferred<T> {
  * Creates Deferred Object that wraps promise and its resolve and reject callbacks
  */
 export function createDeferred<T>(): Deferred<T> {
-  return new LazyDeferred<T>();
+  return new Deferred();
 }

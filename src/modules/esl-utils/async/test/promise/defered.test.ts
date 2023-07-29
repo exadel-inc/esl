@@ -1,41 +1,50 @@
 import {createDeferred} from '../../promise/defered';
+import {promisifyTimeout} from '../../promise/timeout';
 
 describe('async/promise/deferred', () => {
-  test('Should not reject promise if it wasn`t requested', async () => {
-    const deferred = createDeferred();
-    const value = 'test-error';
-
-    deferred.reject(value);
-
-    await Promise.resolve();
-    expect.assertions(0);
-  });
-
-  test('Should reject promise if it was requested', async () => {
-    const deferred = createDeferred();
-    const value = 'test-error';
-
-    deferred.reject(value);
-    expect.assertions(1);
-
-    try {
-      await deferred.promise;
-    } catch (error) {
-      expect(error).toEqual(value);
-    }
-  });
-
-  test('Deferred resolves promise when it`s resolved and promise', () => {
+  test('Resolve of Deferred produces resolved promise', () => {
     const def$$ = createDeferred();
-    const value = 'test-success';
-    def$$.resolve(value);
-    expect(def$$.promise).resolves.toBe(value);
+    def$$.resolve(1);
+    return def$$.promise.then((n) => expect(n).toBe(1));
   });
 
-  test('Deferred rejected promise when it`s rejected and promise', () => {
+  test('Rejected Deferred produces rejected promise', () => {
     const def$$ = createDeferred();
-    const value = 'test-error';
-    def$$.reject(value);
-    expect(def$$.promise).rejects.toBe(value);
+    def$$.reject(1);
+    return def$$.promise.catch((n) => expect(n).toBe(1));
+  });
+
+  test('Deferred resolves initially requested promise when resolved', () => {
+    const def$$ = createDeferred();
+    def$$.promise;
+    def$$.resolve(1);
+    return def$$.promise.then((n) => expect(n).toBe(1));
+  });
+
+  test('Deferred rejects initially requested promise when rejected', () => {
+    const def$$ = createDeferred();
+    def$$.promise;
+    def$$.reject(1);
+    return def$$.promise.catch((n) => expect(n).toBe(1));
+  });
+
+  describe('Rejected Deferred does not leads to uncaught in promise', () => {
+    const throwFn = jest.fn((reason) => {throw reason;});
+
+    beforeAll(() => {
+      process.env.LISTENING_TO_UNHANDLED_REJECTION = String(true);
+      process.on('unhandledRejection', throwFn);
+    });
+
+    afterAll(() => {
+      process.off('unhandledRejection', throwFn);
+    });
+
+    test('Deferred does not leads to uncaught', async () => {
+      const def$$ = createDeferred();
+      def$$.reject(1);
+      await promisifyTimeout(0);
+      expect(throwFn).not.toBeCalled();
+    });
   });
 });
