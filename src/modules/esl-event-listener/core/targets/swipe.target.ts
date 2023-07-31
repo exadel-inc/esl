@@ -20,9 +20,9 @@ interface SwipeEventTargetConfig {
 }
 
 export class SwipeEventTarget extends SyntheticEventTarget {
-  protected xDown: number | null;
-  protected yDown: number | null;
-  protected timeDown: number | null;
+  protected xDown: number;
+  protected yDown: number;
+  protected timeDown: number;
   protected startEl: HTMLElement | null;
   protected startEvent: PointerEvent;
   protected config: SwipeEventTargetConfig;
@@ -103,9 +103,6 @@ export class SwipeEventTarget extends SyntheticEventTarget {
     }
 
     // reset values
-    this.xDown = null;
-    this.yDown = null;
-    this.timeDown = null;
     this.startEl = null;
   }
 
@@ -134,6 +131,8 @@ export class SwipeEventTarget extends SyntheticEventTarget {
     if (Math.abs(yDiff) > swipeThreshold && timeDiff < this.config.timeout) {
       return yDiff > 0 ? 'up' : 'down';
     }
+
+    return 'left';
   }
 
   /** Unsubscribes from the observed target {@link Element} changes */
