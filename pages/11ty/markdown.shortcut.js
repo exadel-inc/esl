@@ -5,13 +5,15 @@ const color = require('kleur');
 const {JSDOM} = require('jsdom');
 const {markdown} = require('./markdown.lib');
 
-const {github, rewriteRules, urlPrefix} = require('./site.config');
+const {github, rewriteRules, urlPrefix, globalTerms} = require('./site.config');
 
 class MDRenderer {
   static async render(filePath, startAnchor, endAnchor) {
     try {
       const content = await MDRenderer.parseFile(filePath);
       const {window} = new JSDOM(content);
+      const localTerms = MDRenderer.generateHeadersIds(window.document.body);
+      const terms = Object.assign({}, globalTerms, localTerms);
 
       // Exclude part before start anchor
       if (startAnchor) {
@@ -27,11 +29,8 @@ class MDRenderer {
         endAnchorElement.remove();
       }
 
-      //Add headers ids
-      MDRenderer.generateHeadersIds(window.document.body);
-
-      // Add globally defined terms links
-      MDRenderer.generateGloballyDefinedTermsLinks(window.document.body);
+      // Add anchors and globally defined terms links
+      MDRenderer.fillReferenceLinks(window.document,window.document.body, terms);
 
       // Resolve content links
       MDRenderer.resolveLinks(window.document.body, filePath);
@@ -79,51 +78,53 @@ class MDRenderer {
   }
 
   static generateHeadersIds(content) {
-    const headerTags = ['h1', 'h2', 'h3', 'h4'];
-    const idLengthLimit = 20;
+    const headers = [...content.querySelectorAll('h1, h2, h3, h4')];
+    const localTerms = new Map();
+    for (let header of headers) {
+      const text = header.textContent;
+      const id = MDRenderer.createIDFromText(text)
+      header.setAttribute('id', id);
+      let anchor = `#${id}`
+      localTerms.set(text, anchor);
+    }
+    return localTerms
+  }
+  static createIDFromText(text, idLengthLimit = 20) {
+    return text
+      .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => (index === 0 ? word.toLowerCase() : word.toUpperCase()))
+      .replace(/[^\w\s]|_/g, "").replace(/\s+/g, "")
+      .substring(0, idLengthLimit);
+  }
 
-    headerTags.forEach(tag => {
-      const headers = content.getElementsByTagName(tag);
+  static findTextNodes(root) {
+    let all = [];
+    for (let node = root.firstChild; node; node = node.nextSibling) {
+      if (node.nodeType === 3) all.push(node);
+      else all = all.concat(MDRenderer.findTextNodes(node));
+    }
+    return all
+  }
 
-      for (let header of headers) {
-        const text = header.textContent;
-        const id = text
-          .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => (index === 0 ? word.toLowerCase() : word.toUpperCase()))
-          .replace(/[^\w\s]|_/g, "").replace(/\s+/g, "")
-          .substring(0, idLengthLimit);
+  static fillReferenceLinks(document, content, terms) {
+    const nodes = MDRenderer.findTextNodes(content)
+      .filter((node) => !node.parentElement.closest('h1, h2, h3, h4, h5, h6'))
 
-        header.setAttribute('id', id);
+    for (const [text, link] of Object.entries(terms)) {
 
-        this.generateAnchors(content, text, `#${id}`)
+      for (const node of nodes) {
+        if (node.textContent.includes(text)) {
+          MDRenderer.replaceTextNode(document, node, text, link)
+        }
       }
-    });
-    return content;
+    }
   }
 
-  static generateGloballyDefinedTermsLinks (content) {
-    const globallyDefinedTerms = {
-      ESL_Base_Element: 'https://esl-ui.com/core/esl-base-element/',
-      ESL_Mixin_Element: 'https://esl-ui.com/core/esl-mixin-element/'
-      // Add other globally defined terms as needed
-    };
-
-    Object.keys(globallyDefinedTerms).forEach(term => {
-      this.generateAnchors(content, term.replace(/_/g, " "), globallyDefinedTerms[term]);
-    });
+  static replaceTextNode(document, node, text, link) {
+    const wrapper = document.createElement('span');
+    const regex = new RegExp(`(^|\\s)${text}(,?\\s|\\.?\\s)`, 'g');
+    wrapper.innerHTML = node.textContent.replace(regex, `$1<a href="${link}">${text}</a>$2`);
+    return node.replaceWith(...wrapper.childNodes);
   }
-
-  static generateAnchors(content, text, link) {
-    const matches = Array.from(content.querySelectorAll('*'))
-      .filter(element => element.textContent.includes(text) || element.textContent.includes(text.replace(/_/g, " ")));
-    const regex = new RegExp(`(^|\\s)${text}(\\s|[,\\.])`, 'g');
-
-    matches.forEach(match => {
-      if (!['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(match.tagName)) {
-        match.innerHTML = match.innerHTML.replace(regex, `$1<a href="${link}">${text}</a>$2`);
-      }
-    });
-  }
-
 }
 
 module.exports = (config) => {
