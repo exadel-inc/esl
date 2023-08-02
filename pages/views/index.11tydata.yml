@@ -53,10 +53,12 @@ landing:
           Our UI component library doesn't introduce any additional restrictions — only benefits, as it offers
           utilities and framework-agnostic web components that work with any tech stack.
 
-  blogs:
-    title: Articles
+  news:
+    title: Our News
+    limit: 1
     cta:
-      text: Read More
+      text: Read more
+
   support:
     title: Browser Support
     text:
@@ -91,3 +93,5 @@ footer:
       url: https://exadel.com
     - text: Our Solutions
       url: https://exadel.com/services/marketing-technology/
+    - text: Next ESL Releases
+      url: https://github.com/exadel-inc/esl/milestones

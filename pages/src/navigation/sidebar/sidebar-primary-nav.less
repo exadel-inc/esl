@@ -1,38 +1,25 @@
-@import (reference) "../../common/variables.less";
+@import (reference) '../../common/variables.less';
 
 esl-d-sidebar {
   .sidebar-nav-list {
     flex: 1 1 0px;
+    display: flex;
+    flex-direction: column;
   }
 
   // Nav Item Container
   .sidebar-nav-item {
+    flex: 0 0 auto;
     display: block;
     overflow: hidden;
     max-width: 100%;
     margin-bottom: 5px;
   }
 
-  // Share item
-  .sidebar-nav-item-share {
-    margin-top: 20px;
-    @media @md-xl {
-      display: none;
-    }
-
-    .esl-share-list {
-      gap: 15px;
-    }
-    .esl-share-button {
-      width: 30px;
-      height: 30px;
-    }
-    .sidebar-nav-item-heading {
-      gap: 15px;
-      @media @sm {
-        flex-direction: column;
-      }
-    }
+  .sidebar-nav-item-divider {
+    margin: 20px 40px 15px 25px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
   }
 
   // Primary Heading
@@ -50,7 +37,11 @@ esl-d-sidebar {
 
     &.active {
       color: @nav-dark-selected;
-      background: linear-gradient(to right, fade(@nav-dark-selected, 25%), fade(@nav-dark-selected, 0%));
+      background: linear-gradient(
+        to right,
+        fade(@nav-dark-selected, 25%),
+        fade(@nav-dark-selected, 0%)
+      );
 
       &::before {
         content: '';
@@ -61,6 +52,11 @@ esl-d-sidebar {
         border-left: 3px solid @nav-dark-accent;
       }
     }
+  }
+
+  .sidebar-nav-item-heading-inner {
+    flex: 1 0 auto;
+    display: flex;
   }
 
   .sidebar-nav-item-link {
@@ -84,13 +80,14 @@ esl-d-sidebar {
     font-size: 1.125rem;
     font-weight: 500;
 
-    transition: opacity .5s ease-in;
+    transition: opacity 0.5s ease-in;
 
     &:hover {
       color: @nav-dark-hover;
     }
   }
-  a.sidebar-nav-item-trigger {
+  .sidebar-nav-item-trigger,
+  .sidebar-nav-item-heading-inner {
     color: @nav-dark-fg;
     text-decoration: none;
   }
@@ -113,7 +110,7 @@ esl-d-sidebar {
 
     transform: rotate(0deg);
     transform-origin: center;
-    transition: transform .5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
   }
   .sidebar-nav-item-trigger[active] {
     &.sidebar-nav-item-arrow::after {

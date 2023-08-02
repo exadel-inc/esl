@@ -1,8 +1,9 @@
 import {ExportNs} from '../../esl-utils/environment/export-ns';
 import {ESC, SYSTEM_KEYS} from '../../esl-utils/dom/keys';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
-import {prop, attr, jsonAttr, boolAttr, listen} from '../../esl-utils/decorators';
+import {prop, attr, jsonAttr, listen} from '../../esl-utils/decorators';
 import {defined, copyDefinedKeys} from '../../esl-utils/misc/object';
+import {parseBoolean, toBooleanAttribute} from '../../esl-utils/misc/format';
 import {sequentialUID} from '../../esl-utils/misc/uid';
 import {DeviceDetector} from '../../esl-utils/environment/device-detector';
 import {DelayedTask} from '../../esl-utils/async/delayed-task';
@@ -102,11 +103,11 @@ export class ESLToggleable extends ESLBaseElement {
   @attr({name: 'close-on'}) public closeTrigger: string;
 
   /** Disallow automatic id creation when it's empty */
-  @boolAttr() public noAutoId: boolean;
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public noAutoId: boolean;
   /** Close the Toggleable on ESC keyboard event */
-  @boolAttr() public closeOnEsc: boolean;
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public closeOnEsc: boolean;
   /** Close the Toggleable on a click/tap outside */
-  @boolAttr() public closeOnOutsideAction: boolean;
+  @attr({parser: parseBoolean, serializer: toBooleanAttribute}) public closeOnOutsideAction: boolean;
 
   /** Initial params to pass to show/hide action on the start */
   @jsonAttr<ESLToggleableActionParams>({defaultValue: {force: true, initiator: 'init'}})
@@ -148,10 +149,12 @@ export class ESLToggleable extends ESLBaseElement {
   protected override attributeChangedCallback(attrName: string, oldVal: string, newVal: string): void {
     if (!this.connected || newVal === oldVal) return;
     switch (attrName) {
-      case 'open':
-        if (this.open === this.hasAttribute('open')) return;
-        this.toggle(this.open, {initiator: 'attribute', showDelay: 0, hideDelay: 0});
+      case 'open': {
+        const isOpen = this.hasAttribute('open');
+        if (this.open === isOpen) return;
+        this.toggle(isOpen, {initiator: 'attribute', showDelay: 0, hideDelay: 0});
         break;
+      }
       case 'group':
         this.$$fire(this.GROUP_CHANGED_EVENT, {
           detail: {oldGroupName: oldVal, newGroupName: newVal}

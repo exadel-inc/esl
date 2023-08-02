@@ -1,6 +1,6 @@
 // TODO: review after base styles creation
 // TODO: share with core ?
-@import (reference) "./variables.less";
+@import (reference) './variables.less';
 
 .esl-example-menu {
   display: flex;
@@ -9,7 +9,7 @@
   min-height: 3.5rem;
   background-color: @primary-blue;
   border-radius: 8px;
-  padding: 0 .5rem;
+  padding: 0 0.5rem;
 
   .menu-item {
     position: relative;
@@ -30,10 +30,14 @@
     font-weight: 400;
     line-height: 1.5;
     border: 1px solid transparent;
-    border-radius: .25rem;
-    padding: .375rem .75rem;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
 
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    transition:
+      color 0.15s ease-in-out,
+      background-color 0.15s ease-in-out,
+      border-color 0.15s ease-in-out,
+      box-shadow 0.15s ease-in-out;
   }
 
   .menu-item-arrow::after {
@@ -58,13 +62,17 @@
 
     color: black;
     border-radius: 8px;
-    box-shadow: 2px 2px 6px rgba(161, 160, 160, .4);
+    box-shadow: 2px 2px 6px rgba(161, 160, 160, 0.4);
     background-color: #fff;
-    transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
 
-    transition: max-height .3s ease-in-out, visibility 0s linear .3s;
+    transition:
+      max-height 0.3s ease-in-out,
+      visibility 0s linear 0.3s;
     &.open {
-      transition: max-height .3s ease-in-out, visibility 0s linear;
+      transition:
+        max-height 0.3s ease-in-out,
+        visibility 0s linear;
     }
 
     &.animate.open {
