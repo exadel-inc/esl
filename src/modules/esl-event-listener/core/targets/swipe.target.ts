@@ -33,11 +33,17 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
     timeout: 500
   };
 
-  protected constructor(public readonly target: HTMLElement, threshold?: string, timeout?: number) {
+  protected constructor(public readonly target: Element, threshold?: string, timeout?: number) {
     super();
     this.config = this.getConfig(threshold, timeout);
   }
 
+  /**
+   * Passes threshold into number and units, creates config from passed threshold and distance values or uses default ones.
+   * @param threshold - the distance threshold (px, vh, vw supported) that must be traveled before a swipe event is triggered.
+   * @param timeout - the time in milliseconds that must elapse between pointerdown and pointerup events before a wipe event is triggered.
+   * @returns ESLSwipeEventTarget configuration {@link SwipeEventTargetConfig}.
+   */
   protected getConfig(threshold?: string, timeout?: number): SwipeEventTargetConfig {
     const config = ESLSwipeEventTarget.defaultConfig;
 
@@ -55,12 +61,22 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
     return config;
   }
 
-  public static for($el: HTMLElement | ESLMixinElement, threshold?: string, timeout?: number): ESLSwipeEventTarget {
+  /**
+   * @param $el - the element to listen for swipe events on
+   * @param threshold - the distance threshold (px, vh, vw supported) that must be traveled before a swipe event is triggered. Optional. Defaults to 20px
+   * @param timeout - the time in milliseconds that must elapse between pointerdown and pointerup events before a wipe event is triggered. Optional.
+   * Defaults to 500.
+   * @returns Returns the instance of ESLSwipeEventTarget {@link ESLSwipeEventTarget}.
+   */
+  public static for($el: Element | ESLMixinElement, threshold?: string, timeout?: number): ESLSwipeEventTarget {
     if ($el instanceof ESLMixinElement) return ESLSwipeEventTarget.for($el.$host, threshold, timeout);
 
     return new ESLSwipeEventTarget($el, threshold, timeout);
   }
 
+  /**
+   * Subscribes to pointerup and pointerdown event
+   */
   public override addEventListener(callback: EventListener): void;
   public override addEventListener(event: SwipeEventName, callback: EventListener): void;
   public override addEventListener(event: any, callback: EventListener = event): void {
@@ -71,6 +87,10 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
     this.target.addEventListener('pointerup', this.handleEnd.bind(this), false);
   }
 
+  /**
+   * Saves swipe start event target, time when swipe started, pointerdown event and coordinates.
+   * @param e - pointer event
+   */
   protected handleStart(e: PointerEvent): void {
     this.startEl = e.target as HTMLElement;
     this.timeDown = e.timeStamp;
@@ -79,6 +99,10 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
     this.yDown = e.clientY;
   }
 
+  /**
+   * Triggers swipe event {@link SwipeEventName} with details {@link SwipeEvent} when pointerup event occurred and threshold and distance match configuration
+   * @param e - pointer event
+   */
   protected handleEnd(e: PointerEvent): void {
     // if the user released on a different target, cancel!
     if (this.startEl !== e.target) return;
@@ -106,6 +130,9 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
     this.startEl = null;
   }
 
+  /**
+   * @returns threshold based on number and units
+   */
   protected resolveSwipeThreshold(): number {
     let swipeThreshold = this.config.threshold;
 
@@ -119,6 +146,11 @@ export class ESLSwipeEventTarget extends SyntheticEventTarget {
     return swipeThreshold;
   }
 
+  /**
+   * Returns swipe direction based on distance between swipe start and end points
+   * @param e - pointer event
+   * @returns direction of swipe {@link SwipeDirection}
+   */
   protected resolveDirection(e: PointerEvent): SwipeDirection {
     const xDiff = this.xDown - e.clientX;
     const yDiff = this.yDown - e.clientY;
