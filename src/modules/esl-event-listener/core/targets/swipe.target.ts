@@ -19,7 +19,7 @@ interface SwipeEventTargetConfig {
   timeout: number;
 }
 
-export class SwipeEventTarget extends SyntheticEventTarget {
+export class ESLSwipeEventTarget extends SyntheticEventTarget {
   protected xDown: number;
   protected yDown: number;
   protected timeDown: number;
@@ -39,13 +39,13 @@ export class SwipeEventTarget extends SyntheticEventTarget {
   }
 
   protected getConfig(threshold?: string, timeout?: number): SwipeEventTargetConfig {
-    const config = SwipeEventTarget.defaultConfig;
+    const config = ESLSwipeEventTarget.defaultConfig;
 
     if (threshold) {
-      SwipeEventTarget.unitsAvailable.forEach((unit: string) => {
+      ESLSwipeEventTarget.unitsAvailable.forEach((unit: string) => {
         if (threshold.indexOf(unit) > 0) {
           config.units = unit;
-          config.threshold = parseInt(threshold.replace(unit, ''), 10) || SwipeEventTarget.defaultConfig.threshold;
+          config.threshold = parseInt(threshold.replace(unit, ''), 10) || ESLSwipeEventTarget.defaultConfig.threshold;
         }
       });
     }
@@ -55,10 +55,10 @@ export class SwipeEventTarget extends SyntheticEventTarget {
     return config;
   }
 
-  public static for($el: HTMLElement | ESLMixinElement, threshold?: string, timeout?: number): SwipeEventTarget {
-    if ($el instanceof ESLMixinElement) return SwipeEventTarget.for($el.$host, threshold, timeout);
+  public static for($el: HTMLElement | ESLMixinElement, threshold?: string, timeout?: number): ESLSwipeEventTarget {
+    if ($el instanceof ESLMixinElement) return ESLSwipeEventTarget.for($el.$host, threshold, timeout);
 
-    return new SwipeEventTarget($el, threshold, timeout);
+    return new ESLSwipeEventTarget($el, threshold, timeout);
   }
 
   public override addEventListener(callback: EventListener): void;
