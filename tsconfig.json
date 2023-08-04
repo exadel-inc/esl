@@ -18,7 +18,8 @@
       "DOM.Iterable"
     ],
     "rootDir": "src",
-    "outDir": "./"
+    "outDir": "./",
+    "resolveJsonModule": true
   },
   "include": [
     "pages/src",
