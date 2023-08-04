@@ -80,11 +80,11 @@ class MDRenderer {
   static generateHeadersIds(content) {
     const headers = [...content.querySelectorAll('h1, h2, h3, h4')];
     const localTerms = new Map();
-    for (let header of headers) {
+    for (const header of headers) {
       const text = header.textContent;
       const id = MDRenderer.createIDFromText(text)
       header.setAttribute('id', id);
-      let anchor = `#${id}`
+      const anchor = `#${id}`
       localTerms.set(text, anchor);
     }
     return localTerms
@@ -97,10 +97,10 @@ class MDRenderer {
   }
 
   static findTextNodes(root) {
-    let all = [];
+    const all = [];
     for (let node = root.firstChild; node; node = node.nextSibling) {
       if (node.nodeType === 3) all.push(node);
-      else all = all.concat(MDRenderer.findTextNodes(node));
+      else all.push(...MDRenderer.findTextNodes(node));
     }
     return all
   }
@@ -113,13 +113,13 @@ class MDRenderer {
 
       for (const node of nodes) {
         if (node.textContent.includes(text)) {
-          MDRenderer.replaceTextNode(document, node, text, link)
+          MDRenderer.wrapTextNode(document, node, text, link)
         }
       }
     }
   }
 
-  static replaceTextNode(document, node, text, link) {
+  static wrapTextNode(document, node, text, link) {
     const wrapper = document.createElement('span');
     const regex = new RegExp(`(^|\\s)${text}(,?\\s|\\.?\\s)`, 'g');
     wrapper.innerHTML = node.textContent.replace(regex, `$1<a href="${link}">${text}</a>$2`);
