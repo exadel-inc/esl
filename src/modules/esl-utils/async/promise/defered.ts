@@ -1,57 +1,43 @@
-type PromiseAction<T> = {
-  type: 'resolve';
-  arg: T;
-} | {
-  type: 'reject';
-  arg?: any;
-};
+import {memoize} from '../../decorators/memoize';
 
-/**
- * Deferred represents a promise with its resolve/reject methods.
- * The underlying Promise is created lazily when accessed.
- */
-export class Deferred<T> implements Deferred<T> {
-  private _promise: Promise<T>;
-  private _resolve: (value: T) => void;
-  private _reject: (reason?: any) => void;
+/** A deferred object represents promise with it's resolve/reject methods */
+export class Deferred<T> {
+  protected _status: 'pending' | 'resolved' | 'rejected' = 'pending';
+  protected _value: T | undefined;
+  protected _callbacks: [(arg: T) => void, (arg?: any) => void];
 
-  private _promiseCallback?: PromiseAction<T>;
-  private _promiseRequested = false;
-
-  constructor() {
-    this._promise = new Promise<T>((resolve, reject) => {
-      this._resolve = resolve;
-      this._reject = reject;
+  /** @returns promise based on {@link Deferred} state*/
+  @memoize()
+  public get promise(): Promise<T> {
+    if (this._status === 'resolved') return Promise.resolve(this._value as T);
+    if (this._status === 'rejected') return Promise.reject(this._value);
+    return new Promise<T>((res, rej) => {
+      this._callbacks = [res, rej];
     });
   }
 
-  /** Wrapped promise */
-  public get promise(): Promise<T> {
-    const {_promiseCallback} = this;
-    if (!this._promiseRequested && _promiseCallback) {
-      const {arg, type} = _promiseCallback;
-      type === 'resolve' ? this._resolve(arg) : this._reject(arg);
+  /** Resolves deferred promise */
+  public resolve(arg: T): Deferred<T> {
+    if (this._status === 'pending') {
+      this._value = arg;
+      this._status = 'resolved';
+      this._callbacks && this._callbacks[0](arg);
     }
-    this._promiseRequested = true;
-    return this._promise;
+    return this;
   }
 
-  /** Function that resolves wrapped promise */
-  public resolve(arg: T): void {
-    this._promiseRequested && this._resolve(arg);
-    if (!this._promiseCallback) this._promiseCallback = {type: 'resolve', arg};
-  }
-
-  /** Function that rejects wrapped promise */
-  public reject(arg?: any): void {
-    this._promiseRequested && this._reject(arg);
-    if (!this._promiseCallback) this._promiseCallback = {type: 'reject', arg};
+  /** Rejects deferred promise */
+  public reject(arg?: any): Deferred<T> {
+    if (this._status === 'pending') {
+      this._value = arg;
+      this._status = 'rejected';
+      this._callbacks && this._callbacks[1](arg);
+    }
+    return this;
   }
 }
 
-/**
- * Creates Deferred Object that wraps promise and its resolve and reject callbacks
- */
+/** Creates Deferred Object that wraps promise and its resolve and reject callbacks */
 export function createDeferred<T>(): Deferred<T> {
   return new Deferred();
 }

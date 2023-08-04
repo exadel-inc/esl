@@ -47,4 +47,31 @@ describe('async/promise/deferred', () => {
       expect(throwFn).not.toBeCalled();
     });
   });
+
+  describe('Resolved/rejected Deferred is finalized', () => {
+    test('Resolved Deferred can not be re-resolved', () => {
+      const def$$ = createDeferred();
+      def$$.resolve(1);
+      def$$.resolve(2);
+      expect(def$$.promise).resolves.toBe(1);
+    });
+    test('Resolved Deferred can not be rejected', () => {
+      const def$$ = createDeferred();
+      def$$.resolve(1);
+      def$$.reject();
+      expect(def$$.promise).resolves.toBe(1);
+    });
+    test('Rejected Deferred can not be re-resolved', () => {
+      const def$$ = createDeferred();
+      def$$.reject(1);
+      def$$.reject(2);
+      expect(def$$.promise).rejects.toBe(1);
+    });
+    test('Rejected Deferred can not be rejected', () => {
+      const def$$ = createDeferred();
+      def$$.reject(1);
+      def$$.resolve(2);
+      expect(def$$.promise).rejects.toBe(1);
+    });
+  });
 });
