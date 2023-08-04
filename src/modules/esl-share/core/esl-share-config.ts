@@ -1,5 +1,7 @@
-/** {@link ESLShareConfig} provider type definition */
-export type ESLShareConfigProviderType = () => Promise<ESLShareConfig>;
+import {ESLShareConfigButtons} from './esl-share-config-buttons';
+
+/** {@link ESLShareConfigShape} provider type definition */
+export type ESLShareConfigProviderType = () => Promise<ESLShareConfigShape>;
 
 /** The definition of the sharing button */
 export interface ESLShareButtonConfig {
@@ -31,32 +33,38 @@ export interface ESLShareGroupConfig {
   list: string;
 }
 
+function createConfigButtons(cfg: ESLShareConfigShape): ESLShareConfigButtons {
+  return new ESLShareConfigButtons(cfg);
+}
+
 /** The definition of `ESLShare` component configuration */
-export interface ESLShareConfig {
+export interface ESLShareConfigShape {
   /** List of sharing buttons configuration */
   buttons: ESLShareButtonConfig[];
   /** List of share button groups configurations */
   groups: ESLShareGroupConfig[];
 }
 
-function getConfigSectionItem<T extends ESLShareButtonConfig | ESLShareGroupConfig>(section: T[], name: string): T | undefined {
-  return section.find((item) => item.name === name);
+export class ESLShareConfig {
+  protected static _config: Promise<ESLShareConfigButtons>;
+
+  /**
+   * Gets promise with buttons config instance.
+   * @returns Promise of the current config instance
+   */
+  public static get(): Promise<ESLShareConfigButtons> {
+    return ESLShareConfig._config ?? Promise.reject('Configuration is not set');
+  }
+
+  /**
+   * Sets config with a promise of a new config object or using a config provider function.
+   * @returns Promise of the current config
+   */
+  public static set(provider?: ESLShareConfigProviderType | ESLShareConfigShape): Promise<ESLShareConfigButtons> {
+    if (typeof provider === 'function') ESLShareConfig._config = provider().then(createConfigButtons);
+    if (typeof provider === 'object') ESLShareConfig._config = Promise.resolve(provider).then(createConfigButtons);
+    return ESLShareConfig.get();
+  }
 }
 
-/**
- * Selects the buttons for the given list and returns their configuration.
- * @returns config of buttons
- */
-export function selectButtonsForList(config: ESLShareConfig, list: string): ESLShareButtonConfig[] {
-  return list.split(' ').reduce((res, item) => {
-    const [btnName, groupName] = item.split('group:');
-    if (groupName) {
-      const groupConfig = getConfigSectionItem(config.groups, groupName);
-      if (groupConfig) return res.concat(selectButtonsForList(config, groupConfig.list));
-    } else {
-      const btnConfig = getConfigSectionItem(config.buttons, btnName);
-      if (btnConfig) res.push(btnConfig);
-    }
-    return res;
-  }, [] as ESLShareButtonConfig[]);
-}
+export * from './esl-share-config-buttons';

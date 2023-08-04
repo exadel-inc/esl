@@ -2,15 +2,12 @@ import {ESLBaseElement} from '../../esl-base-element/core';
 import {ESLPopup} from '../../esl-popup/core';
 import {sequentialUID} from '../../esl-utils/misc/uid';
 import {attr, bind, boolAttr, prop} from '../../esl-utils/decorators';
-import {selectButtonsForList} from './esl-share-config';
 import {ESLShareButton} from './esl-share-button';
 import {ESLShareTrigger} from './esl-share-trigger';
+import {ESLShareConfig} from './esl-share-config';
 
 import type {PopupActionParams} from '../../esl-popup/core';
-import type {ESLShareConfig, ESLShareButtonConfig} from './esl-share-config';
-
-/** {@link ShareConfig} provider type definition */
-export type ESLShareConfigProviderType = () => Promise<ESLShareConfig>;
+import type {ESLShareConfigShape, ESLShareButtonConfig, ESLShareConfigButtons, ESLShareConfigProviderType} from './esl-share-config';
 
 /**
  * ESLShare
@@ -20,7 +17,6 @@ export type ESLShareConfigProviderType = () => Promise<ESLShareConfig>;
  */
 export class ESLShare extends ESLBaseElement {
   public static override is = 'esl-share';
-  protected static _config: Promise<ESLShareConfig>;
   protected static _popupStore: Map<string, ESLPopup> = new Map<string, ESLPopup>();
 
   /** Register {@link ESLShare} component and dependent {@link ESLShareButton} */
@@ -32,12 +28,10 @@ export class ESLShare extends ESLBaseElement {
 
   /**
    * Gets or updates config with a promise of a new config object or using a config provider function.
-   * @returns Promise of the current config
+   * @returns Promise of the current config {@link ESLShareConfigButtons}
    */
-  public static config(provider?: ESLShareConfigProviderType | ESLShareConfig): Promise<ESLShareConfig> {
-    if (typeof provider === 'function') ESLShare._config = provider();
-    if (typeof provider === 'object') ESLShare._config = Promise.resolve(provider);
-    return ESLShare._config ?? Promise.reject('Configuration is not set');
+  public static config(provider?: ESLShareConfigProviderType | ESLShareConfigShape): Promise<ESLShareConfigButtons> {
+    return ESLShareConfig.set(provider);
   }
 
   /** Event to dispatch on ready state of {@link ESLShare} */
@@ -73,7 +67,7 @@ export class ESLShare extends ESLBaseElement {
   /** @returns config of buttons specified by the list attribute */
   public get buttonsConfig(): Promise<ESLShareButtonConfig[]> {
     return (this.constructor as typeof ESLShare).config().then((config) => {
-      return (this.list !== 'all') ? selectButtonsForList(config, this.list) : config.buttons;
+      return (this.list !== 'all') ? config.getList(this.list) : config.buttons;
     });
   }
 
