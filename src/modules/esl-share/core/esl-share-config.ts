@@ -1,3 +1,4 @@
+import defaultConfig from '../config/default.json';
 import {ESLShareConfigButtons} from './esl-share-config-buttons';
 
 /** {@link ESLShareConfigShape} provider type definition */
@@ -46,14 +47,14 @@ export interface ESLShareConfigShape {
 }
 
 export class ESLShareConfig {
-  protected static _config: Promise<ESLShareConfigButtons>;
+  protected static _config: Promise<ESLShareConfigButtons> = Promise.resolve(createConfigButtons(defaultConfig));
 
   /**
    * Gets promise with buttons config instance.
    * @returns Promise of the current config instance
    */
   public static get(): Promise<ESLShareConfigButtons> {
-    return ESLShareConfig._config ?? Promise.reject('Configuration is not set');
+    return ESLShareConfig._config;
   }
 
   /**
@@ -62,7 +63,7 @@ export class ESLShareConfig {
    */
   public static set(provider?: ESLShareConfigProviderType | ESLShareConfigShape): Promise<ESLShareConfigButtons> {
     if (typeof provider === 'function') ESLShareConfig._config = provider().then(createConfigButtons);
-    if (typeof provider === 'object') ESLShareConfig._config = Promise.resolve(provider).then(createConfigButtons);
+    if (typeof provider === 'object') ESLShareConfig._config = Promise.resolve(createConfigButtons(provider));
     return ESLShareConfig.get();
   }
 }

@@ -1,0 +1,53 @@
+{
+  "buttons": [
+    {
+      "action": "media",
+      "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 27.99 28\"\u003e\u003cpath d\u003d\"M23 17.11l.55-4.24h-4.2v-2.71c0-1.23.34-2.06 2.1-2.06h2.25V4.29a31.62 31.62 0 00-3.28-.16c-3.24 0-5.46 2-5.46 5.61v3.13h-3.63v4.24H15V28h4.39V17.11z\"/\u003e\u003c/svg\u003e",
+      "iconBackground": "#3c5996",
+      "link": "//www.facebook.com/sharer.php?u\u003d{u}",
+      "name": "facebook",
+      "title": "Facebook"
+    },
+    {
+      "action": "media",
+      "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 27.99 27.99\"\u003e\u003cpath d\u003d\"M6.37 11.33h3.25v10.45H6.37zM8 6.13A1.88 1.88 0 116.12 8 1.88 1.88 0 018 6.13M11.65 11.33h3.12v1.43h.05a3.4 3.4 0 013.07-1.69c3.29 0 3.9 2.17 3.9 5v5.73h-3.25v-5.11c0-1.21 0-2.77-1.69-2.77s-1.94 1.32-1.94 2.69v5.17h-3.25V11.33z\"/\u003e\u003c/svg\u003e",
+      "iconBackground": "#0b77b3",
+      "link": "//www.linkedin.com/sharing/share-offsite/?url\u003d{u}",
+      "name": "linkedin",
+      "title": "LinkedIn"
+    },
+    {
+      "action": "media",
+      "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 27.99 27.99\"\u003e\u003cpath d\u003d\"M21.84 9.14a6.34 6.34 0 01-1.84.51 3.25 3.25 0 001.4-1.78 6.22 6.22 0 01-2 .78 3.22 3.22 0 00-5.57 2.2 2.92 2.92 0 00.09.73 9.11 9.11 0 01-6.67-3.36 3.16 3.16 0 00-.43 1.62 3.21 3.21 0 001.43 2.68 3.25 3.25 0 01-1.46-.41 3.23 3.23 0 002.58 3.16 3 3 0 01-.84.11 3 3 0 01-.61-.05 3.22 3.22 0 003 2.23 6.39 6.39 0 01-4 1.38 6.19 6.19 0 01-.76-.05 9.14 9.14 0 0014.08-7.71v-.41a6.36 6.36 0 001.6-1.63z\"/\u003e\u003c/svg\u003e",
+      "iconBackground": "#26a1ef",
+      "link": "//twitter.com/intent/tweet?text\u003d{t}\u0026url\u003d{u}",
+      "name": "twitter",
+      "title": "Twitter"
+    },
+    {
+      "action": "media",
+      "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 455.731 455.731\"\u003e\u003cpath d\u003d\"M358.844 100.6 54.091 219.359c-9.871 3.847-9.273 18.012.888 21.012l77.441 22.868 28.901 91.706c3.019 9.579 15.158 12.483 22.185 5.308l40.039-40.882 78.56 57.665c9.614 7.057 23.306 1.814 25.747-9.859l52.031-248.76c2.548-12.185-9.44-22.337-21.039-17.817zm-38.208 55.206L179.08 280.984c-1.411 1.248-2.309 2.975-2.519 4.847l-5.45 48.448c-.178 1.58-2.389 1.789-2.861.271l-22.423-72.253c-1.027-3.308.312-6.892 3.255-8.717l167.163-103.676c3.844-2.386 7.78 2.906 4.391 5.902z\"/\u003e\u003c/svg\u003e",
+      "iconBackground": "#61a8de",
+      "link": "//t.me/share/url?url\u003d{u}\u0026text\u003d{t}",
+      "name": "telegram",
+      "title": "Telegram"
+    },
+    {
+      "action": "copy",
+      "icon": "\u003csvg xmlns\u003d\"http://www.w3.org/2000/svg\" aria-hidden\u003d\"true\" focusable\u003d\"false\" role\u003d\"presentation\" viewBox\u003d\"0 0 28 28\"\u003e\u003cpath d\u003d\"M17 9.69l-7.43 7.43 1.18 1.18 7.43-7.43L17 9.69z\"/\u003e\u003cpath d\u003d\"M4.31 17.8c-.481.481-.48 1.29.00138 1.77l4.02 4.02c.481.481 1.29.483 1.77.00138l4.95-4.95c.481-.481.481-1.29-7e-7-1.78l-4.02-4.02c-.481-.481-1.29-.481-1.78 0l-4.95 4.95zm1.47.887l4.36-4.36 3.44 3.44-4.36 4.36-3.44-3.44zm7-9.37c-.481.481-.481 1.29 2.8e-7 1.78l4.02 4.02c.481.481 1.29.481 1.78 0l4.95-4.95c.481-.481.48-1.29-.00138-1.77l-4.02-4.02c-.481-.481-1.29-.483-1.77-.00138l-4.95 4.95zm1.47.889l4.36-4.36 3.44 3.44-4.36 4.36-3.44-3.44z\"/\u003e\u003c/svg\u003e",
+      "iconBackground": "#a0522d",
+      "link": "",
+      "name": "copy",
+      "title": "Copy",
+      "additional": {
+        "alertText": "Copied to clipboard"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "default",
+      "list": "facebook twitter linkedin telegram copy"
+    }
+  ]
+}
