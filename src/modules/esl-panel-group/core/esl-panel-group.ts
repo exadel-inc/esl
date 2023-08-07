@@ -238,19 +238,17 @@ export class ESLPanelGroup extends ESLBaseElement {
 
   /** Animates the height of the component */
   protected onAnimate(from: number, to: number): void {
-    const hasCurrent = this.style.height && this.style.height !== 'auto';
-    if (hasCurrent) {
+    // Override initial value if animation is currently in progress
+    if (from < 0 || this.style.height && this.style.height !== 'auto') {
+      from = this.clientHeight;
+    }
+    // set initial height
+    this.style.height = `${from}px`;
+    // make sure that browser applies initial height to animate
+    afterNextRender(() => {
       this.style.height = `${to}px`;
       this.fallbackAnimate();
-    } else {
-      // set initial height
-      this.style.height = `${from}px`;
-      // make sure that browser applies initial height to animate
-      afterNextRender(() => {
-        this.style.height = `${to}px`;
-        this.fallbackAnimate();
-      });
-    }
+    });
   }
 
   /** Checks if transition happens and runs afterAnimate step if transition is not presented */
@@ -294,18 +292,21 @@ export class ESLPanelGroup extends ESLBaseElement {
     $activePanels.slice(0, overflow).forEach((el) => el.hide(params));
 
     if (max <= 0) return e.preventDefault();
+
+    this._previousHeight = this.clientHeight;
   }
 
   /** Process {@link ESLPanel} show event */
-  @listen('esl:show')
-  protected _onShow(e: CustomEvent): void {
+  @listen('esl:show esl:hide')
+  protected _onStateChanged(e: CustomEvent): void {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
     if (this.currentMode !== 'tabs') return;
 
+    const targetHeight = panel.open ? panel.initialHeight : 0;
     this.beforeAnimate();
     if (this.shouldAnimate) {
-      this.onAnimate(this._previousHeight, panel.initialHeight);
+      this.onAnimate(this._previousHeight, targetHeight);
     } else {
       afterNextRender(() => this.afterAnimate(true));
     }
