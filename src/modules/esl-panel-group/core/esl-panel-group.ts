@@ -3,7 +3,7 @@ import {defined} from '../../esl-utils/misc/object/utils';
 import {ESLBaseElement} from '../../esl-base-element/core';
 import {afterNextRender} from '../../esl-utils/async/raf';
 import {debounce} from '../../esl-utils/async/debounce';
-import {decorate, memoize, attr, jsonAttr, prop, listen} from '../../esl-utils/decorators';
+import {decorate, memoize, attr, boolAttr, jsonAttr, prop, listen} from '../../esl-utils/decorators';
 import {format} from '../../esl-utils/misc/format';
 import {CSSClassUtils} from '../../esl-utils/dom/class';
 import {ESLMediaQuery, ESLMediaRuleList} from '../../esl-media-query/core';
@@ -69,6 +69,8 @@ export class ESLPanelGroup extends ESLBaseElement {
   /** Action params to pass into panels when executing reset action (happens when mode is changed) */
   @jsonAttr({defaultValue: {noAnimate: true}}) public transformParams: PanelActionParams;
 
+  /** Readonly attribute that indicates whether the panel group has opened panels */
+  @boolAttr({readonly: true}) public hasOpened: boolean;
 
   /** Height of previous active panel */
   protected _previousHeight: number = 0;
@@ -103,6 +105,7 @@ export class ESLPanelGroup extends ESLBaseElement {
 
     this.updateModeCls();
     this.reset();
+    this.toggleAttribute('has-opened', this.$activePanels.length > 0);
 
     if (prevMode !== currentMode) this.$$fire(this.MODE_CHANGE_EVENT, {detail: {prevMode, currentMode}});
   }
@@ -301,6 +304,8 @@ export class ESLPanelGroup extends ESLBaseElement {
   protected _onStateChanged(e: CustomEvent): void {
     const panel = e.target;
     if (!this.includesPanel(panel)) return;
+    this.toggleAttribute('has-opened', panel.open);
+
     if (this.currentMode !== 'tabs') return;
 
     const targetHeight = panel.open ? panel.initialHeight : 0;
